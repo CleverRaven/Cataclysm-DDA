@@ -18,6 +18,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "bodypart.h"
@@ -6717,7 +6718,7 @@ static const std::unordered_map<description_affix, std::string> description_affi
     { description_affix::DESCRIPTION_AFFIX_COVERED_IN, translate_marker( " covered in %s" ) },
     { description_affix::DESCRIPTION_AFFIX_ON, translate_marker( " on %s" ) },
     { description_affix::DESCRIPTION_AFFIX_UNDER, translate_marker( " under %s" ) },
-    { description_affix::DESCRIPTION_AFFIX_ILLUMINTED_BY, translate_marker( " in %s" ) },
+    { description_affix::DESCRIPTION_AFFIX_ILLUMINATED_BY, translate_marker( " in %s" ) },
 };
 
 static std::string colorized_field_description_at( const tripoint &point )
@@ -6780,10 +6781,10 @@ static std::string colorized_ter_name_flags_at( const tripoint &point,
     if( ter_whitelist.empty() && flags.empty() ) {
         return name;
     }
-    if( !ter->open.is_null() || ( ter->examine != iexamine::none &&
-                                  ter->examine != iexamine::fungus &&
-                                  ter->examine != iexamine::water_source &&
-                                  ter->examine != iexamine::dirtmound ) ) {
+    if( !ter->open.is_null() || ( ter->has_examine( iexamine::none ) &&
+                                  ter->has_examine( iexamine::fungus ) &&
+                                  ter->has_examine( iexamine::water_source ) &&
+                                  ter->has_examine( iexamine::dirtmound ) ) ) {
         return name;
     }
     for( const ter_str_id &ter_good : ter_whitelist ) {

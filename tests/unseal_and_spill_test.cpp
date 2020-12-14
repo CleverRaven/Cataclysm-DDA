@@ -472,7 +472,7 @@ void test_scenario::run()
     guy.handle_contents_changed( liquid_and_food_containers );
 
     // check final state
-    // wether the outermost container will spill. inner containers will always spill.
+    // whether the outermost container will spill. inner containers will always spill.
     bool will_spill_outer = false;
     switch( cur_container_loc ) {
         case container_location::inventory:

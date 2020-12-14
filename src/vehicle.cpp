@@ -95,7 +95,7 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
 
-static const proficiency_id proficiency_aircraft_mechanic( "aircraft_mechanic" );
+static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
 
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
@@ -851,7 +851,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     int turn_x = get_turn_from_angle( angle, vehpos, target );
     int accel_y = 0;
     // best to cruise around at a safe velocity or 40mph, whichever is lowest
-    // accelerate when it dosnt need to turn.
+    // accelerate when it doesn't need to turn.
     // when following player, take distance to player into account.
     // we really want to avoid running the player over.
     // If its a helicopter, we dont need to worry about airborne obstacles so much
@@ -1156,7 +1156,7 @@ void vehicle::backfire( const int e ) const
     const int power = part_vpower_w( engines[e], true );
     const tripoint pos = global_part_pos3( engines[e] );
     sounds::sound( pos, 40 + power / 10000, sounds::sound_t::movement,
-                   // single space after the exclaimation mark because it does not end the sentence
+                   // single space after the exclamation mark because it does not end the sentence
                    //~ backfire sound
                    string_format( _( "a loud BANG! from the %s" ), // NOLINT(cata-text-style)
                                   parts[ engines[ e ] ].name() ), true, "vehicle", "engine_backfire" );
@@ -4119,7 +4119,7 @@ bool vehicle::can_float() const
     return draft_m < hull_height;
 }
 
-// apologies for the imperial measurements, theyll get converted before used finally in the vehicle speed at the end of the function.
+// apologies for the imperial measurements, they'll get converted before used finally in the vehicle speed at the end of the function.
 // sources for the equations to calculate rotor lift thrust were only available in imperial, and the constants used are designed for that.
 // r= radius or d = diameter of rotor blades.
 // area A [ft^2] = Pi * r^2 -or- A [ft^2] = (Pi/4) * D^2
@@ -4178,7 +4178,7 @@ bool vehicle::would_install_prevent_flyable( const vpart_info &vpinfo, Character
 {
     if( flyable && !rotors.empty() && !( vpinfo.has_flag( "SIMPLE_PART" ) ||
                                          vpinfo.has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) ) {
-        return !pc.has_proficiency( proficiency_aircraft_mechanic );
+        return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
     } else {
         return false;
     }
@@ -4193,7 +4193,7 @@ bool vehicle::would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) co
                                                    index_of_part( const_cast<vehicle_part *>( &vp ) ) );
             return !vppos.is_inside();
         } else {
-            return !pc.has_proficiency( proficiency_aircraft_mechanic );
+            return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
         }
     } else {
         return false;
@@ -4203,7 +4203,7 @@ bool vehicle::would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) co
 bool vehicle::would_removal_prevent_flyable( vehicle_part &vp, Character &pc ) const
 {
     if( flyable && !rotors.empty() && !vp.info().has_flag( "SIMPLE_PART" ) ) {
-        return !pc.has_proficiency( proficiency_aircraft_mechanic );
+        return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
     } else {
         return false;
     }
@@ -5169,7 +5169,7 @@ void vehicle::idle( bool on_map )
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
         }
-        // helicopters use basicaly nearly all of their power just to hover.
+        // helicopters use basically nearly all of their power just to hover.
         // it becomes more efficient the closer they reach their safe cruise speed.
         if( is_rotorcraft() && is_flying_in_air() ) {
             idle_rate = 1000;
@@ -5941,7 +5941,7 @@ void vehicle::do_towing_move()
     }
     vehicle *towed_veh = tow_data.get_towed();
     if( !towed_veh ) {
-        debugmsg( "tried to do towing move, but towed vehicle dosnt exist." );
+        debugmsg( "tried to do towing move, but towed vehicle doesn't exist." );
         invalidate_towing();
         return;
     }
@@ -6481,8 +6481,7 @@ void vehicle::shift_parts( const point &delta )
     pivot_anchor[0] -= delta;
     refresh();
     //Need to also update the map after this
-    get_map().clear_all_vehicle_caches( sm_pos.z );
-    get_map().build_all_vehicle_caches( sm_pos.z );
+    get_map().rebuild_vehicle_level_caches();
 }
 
 /**

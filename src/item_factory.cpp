@@ -282,7 +282,7 @@ void Item_factory::finalize_pre( itype &obj )
         }
     }
 
-    // Migrate compataible magazines
+    // Migrate compatible magazines
     for( auto kv : obj.magazines ) {
         for( auto mag_it = kv.second.begin(); mag_it != kv.second.end(); ) {
             auto maybe_migrated = migrated_magazines.find( *mag_it );
@@ -3239,6 +3239,18 @@ bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string
     return result;
 }
 
+template<typename T>
+bool load_str_arr( std::vector<T> &arr, const JsonObject &obj, const std::string &name )
+{
+    if( obj.has_array( name ) ) {
+        for( const std::string str : obj.get_array( name ) ) {
+            arr.emplace_back( str );
+        }
+        return true;
+    }
+    return false;
+}
+
 bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const JsonObject &obj,
                                  const std::string &name, const Item_group &parent )
 {
@@ -3373,6 +3385,7 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
     use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
+    use_modifier |= load_str_arr( modifier.snippets, obj, "snippets" );
     if( obj.has_member( "sealed" ) ) {
         modifier.sealed = obj.get_bool( "sealed" );
         use_modifier = true;

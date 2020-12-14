@@ -376,7 +376,7 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_80" ],
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -397,7 +397,7 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 10,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -460,7 +460,7 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 50,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",
@@ -481,7 +481,7 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON-FOULING" ]
+    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON_FOULING" ]
   },
   {
     "type": "AMMO",

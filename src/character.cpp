@@ -15,6 +15,7 @@
 #include <type_traits>
 
 #include "action.h"
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "anatomy.h"
@@ -1145,7 +1146,7 @@ bool Character::check_mount_is_spooked()
     }
     // chance to spook per monster nearby:
     // base 1% per turn.
-    // + 1% per square closer than 15 distanace. (1% - 15%)
+    // + 1% per square closer than 15 distance. (1% - 15%)
     // * 2 if hostile monster is bigger than or same size as mounted creature.
     // -0.25% per point of dexterity (low -1%, average -2%, high -3%, extreme -3.5%)
     // -0.1% per point of strength ( low -0.4%, average -0.8%, high -1.2%, extreme -1.4% )
@@ -3970,8 +3971,9 @@ std::vector<std::string> Character::get_overlay_ids() const
     }
 
     if( !is_walking() ) {
-        rval.push_back( move_mode->name() );
+        rval.push_back( move_mode.str() );
     }
+
     return rval;
 }
 
@@ -6395,9 +6397,9 @@ void Character::update_bodytemp()
         double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
                                     get_part_temp_cur( bp ) );
         // Produces a smooth curve between 30.0 and 60.0.
-        double homeostasis_adjustement = 30.0 * ( 1.0 + scaled_temperature );
-        int clothing_warmth_adjustement = static_cast<int>( homeostasis_adjustement * warmth( bp ) );
-        int clothing_warmth_adjusted_bonus = static_cast<int>( homeostasis_adjustement * bonus_item_warmth(
+        double homeostasis_adjustment = 30.0 * ( 1.0 + scaled_temperature );
+        int clothing_warmth_adjustment = static_cast<int>( homeostasis_adjustment * warmth( bp ) );
+        int clothing_warmth_adjusted_bonus = static_cast<int>( homeostasis_adjustment * bonus_item_warmth(
                 bp ) );
         // WINDCHILL
 
@@ -6426,7 +6428,7 @@ void Character::update_bodytemp()
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
         set_part_temp_conv( bp, BODYTEMP_NORM + adjusted_temp + windchill * 100 +
-                            clothing_warmth_adjustement );
+                            clothing_warmth_adjustment );
         // HUNGER / STARVATION
         mod_part_temp_conv( bp, hunger_warmth );
         // FATIGUE
@@ -6553,10 +6555,7 @@ void Character::update_bodytemp()
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
             // Spread the morale bonus in time.
             if( comfortable_warmth > 0 &&
-                // TODO: make this simpler and use time_duration/time_point
-                to_turn<int>( calendar::turn ) % to_turns<int>( 1_minutes ) == to_turns<int>
-                ( 1_minutes * bp->token ) / to_turns<int>( 1_minutes * num_bp ) &&
-                get_effect_int( effect_cold ) == 0 &&
+                calendar::once_every( 1_minutes ) && get_effect_int( effect_cold ) == 0 &&
                 get_effect_int( effect_hot ) == 0 &&
                 get_part_temp_conv( bp ) > BODYTEMP_COLD && get_part_temp_conv( bp ) <= BODYTEMP_NORM ) {
                 add_morale( MORALE_COMFY, 1, 10, 2_minutes, 1_minutes, true );
@@ -8013,51 +8012,78 @@ float Character::get_bmi() const
 
 std::string Character::get_weight_string() const
 {
+    std::pair<std::string, nc_color> weight_pair = get_weight_description();
+    return colorize( weight_pair.first, weight_pair.second );
+}
+
+std::pair<std::string, nc_color> Character::get_weight_description() const
+{
     const float bmi = get_bmi();
+    std::string weight_string;
+    nc_color weight_color = c_light_gray;
     if( get_option<bool>( "CRAZY" ) ) {
         if( bmi > character_weight_category::morbidly_obese + 10.0f ) {
-            return colorize( _( "AW HELL NAH" ), c_red );
+            weight_string = translate_marker( "AW HELL NAH" );
+            weight_color = c_red;
         } else if( bmi > character_weight_category::morbidly_obese + 5.0f ) {
-            return colorize( _( "DAYUM" ), c_red );
+            weight_string = translate_marker( "DAYUM" );
+            weight_color = c_red;
         } else if( bmi > character_weight_category::morbidly_obese ) {
-            return colorize( _( "Fluffy" ), c_red );
+            weight_string = translate_marker( "Fluffy" );
+            weight_color = c_red;
         } else if( bmi > character_weight_category::very_obese ) {
-            return colorize( _( "Husky" ), c_red );
+            weight_string = translate_marker( "Husky" );
+            weight_color = c_red;
         } else if( bmi > character_weight_category::obese ) {
-            return colorize( _( "Healthy" ), c_light_red );
+            weight_string = translate_marker( "Healthy" );
+            weight_color = c_light_red;
         } else if( bmi > character_weight_category::overweight ) {
-            return colorize( _( "Big" ), c_yellow );
+            weight_string = translate_marker( "Big" );
+            weight_color = c_yellow;
         } else if( bmi > character_weight_category::normal ) {
-            return _( "Normal" );
+            weight_string = translate_marker( "Normal" );
+            weight_color = c_light_gray;
         } else if( bmi > character_weight_category::underweight ) {
-            return colorize( _( "Bean Pole" ), c_yellow );
+            weight_string = translate_marker( "Bean Pole" );
+            weight_color = c_yellow;
         } else if( bmi > character_weight_category::emaciated ) {
-            return colorize( _( "Emaciated" ), c_light_red );
+            weight_string = translate_marker( "Emaciated" );
+            weight_color = c_light_red;
         } else {
-            return colorize( _( "Spooky Scary Skeleton" ), c_red );
+            weight_string = translate_marker( "Spooky Scary Skeleton" );
+            weight_color = c_red;
         }
     } else {
         if( bmi > character_weight_category::morbidly_obese ) {
-            return colorize( _( "Morbidly Obese" ), c_red );
+            weight_string = translate_marker( "Morbidly Obese" );
+            weight_color = c_red;
         } else if( bmi > character_weight_category::very_obese ) {
-            return colorize( _( "Very Obese" ), c_red );
+            weight_string = translate_marker( "Very Obese" );
+            weight_color = c_red;
         } else if( bmi > character_weight_category::obese ) {
-            return colorize( _( "Obese" ), c_light_red );
+            weight_string = translate_marker( "Obese" );
+            weight_color = c_light_red;
         } else if( bmi > character_weight_category::overweight ) {
-            return colorize( _( "Overweight" ), c_yellow );
+            weight_string = translate_marker( "Overweight" );
+            weight_color = c_yellow;
         } else if( bmi > character_weight_category::normal ) {
-            return _( "Normal" );
+            weight_string = translate_marker( "Normal" );
+            weight_color = c_light_gray;
         } else if( bmi > character_weight_category::underweight ) {
-            return colorize( _( "Underweight" ), c_yellow );
+            weight_string = translate_marker( "Underweight" );
+            weight_color = c_yellow;
         } else if( bmi > character_weight_category::emaciated ) {
-            return colorize( _( "Emaciated" ), c_light_red );
+            weight_string = translate_marker( "Emaciated" );
+            weight_color = c_light_red;
         } else {
-            return colorize( _( "Skeletal" ), c_red );
+            weight_string = translate_marker( "Skeletal" );
+            weight_color = c_red;
         }
     }
+    return std::make_pair( _( weight_string ), weight_color );
 }
 
-std::string Character::get_weight_description() const
+std::string Character::get_weight_long_description() const
 {
     const float bmi = get_bmi();
     if( bmi > character_weight_category::morbidly_obese ) {
@@ -9042,7 +9068,7 @@ void Character::vomit()
                 stomach.contains() ) / 21, dummy_nausea.get_int_dur_factor() ) );
     }
 
-    moves -= 100;
+    mod_moves( -100 );
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             auto &it = _effect_it.second;
@@ -9184,10 +9210,9 @@ void Character::drench_mut_calc()
                 good += wp_iter->second.z;
             }
         }
-
-        mut_drench[bp->token][WT_GOOD] = good;
-        mut_drench[bp->token][WT_NEUTRAL] = neutral;
-        mut_drench[bp->token][WT_IGNORED] = ignored;
+        set_part_mut_drench( bp, { WT_GOOD, good } );
+        set_part_mut_drench( bp, { WT_NEUTRAL, neutral } );
+        set_part_mut_drench( bp, { WT_IGNORED, ignored } );
     }
 }
 
@@ -11262,7 +11287,7 @@ int Character::heartrate_bpm() const
         temperature_modifier = 0.005f;
     }
     average_heartbeat *= 1 + ( ( player_local_temp - 65 ) * temperature_modifier );
-    //Limit avg from below with 20, arbitary
+    //Limit avg from below with 20, arbitrary
     average_heartbeat = std::max( 20, average_heartbeat );
     const float stamina_level = static_cast<float>( get_stamina() ) / get_stamina_max();
     float stamina_effect = 0.0f;
@@ -11301,10 +11326,10 @@ int Character::heartrate_bpm() const
     //health effect that can make things better or worse is applied in the end.
     //Based on get_max_healthy that already has bmi factored
     const int healthy = get_max_healthy();
-    //a bit arbitary formula that can use some love
+    //a bit arbitrary formula that can use some love
     float healthy_modifier = -0.05f * std::round( healthy / 20.0f );
     heartbeat += average_heartbeat * healthy_modifier;
-    //Pain simply adds 2% per point after it reaches 5 (that's arbitary)
+    //Pain simply adds 2% per point after it reaches 5 (that's arbitrary)
     const int cur_pain = get_perceived_pain();
     float pain_modifier = 0.0f;
     if( cur_pain > 5 ) {

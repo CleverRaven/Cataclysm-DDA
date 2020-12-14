@@ -21,5 +21,16 @@
     "neutral": "herbivore",
     "by_mood": [ "insect", "small_animal", "player" ],
     "hate": "zombie"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "moxie",
+    "neutral": "bio_machine",
+    "hate": [ "small_animal", "herbivore", "insect", "player" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "bio_machine",
+    "neutral": [ "moxie", "small_animal", "herbivore", "insect", "player" ]
   }
 ]

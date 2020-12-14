@@ -5763,6 +5763,7 @@ bool mattack::zombie_fuse( monster *z )
             && critter != z && critter->get_size() <= z->get_size() ) {
             break;
         }
+        critter = nullptr;
     }
 
     if( critter == nullptr || ( z->has_effect( effect_grown_of_fuse ) &&

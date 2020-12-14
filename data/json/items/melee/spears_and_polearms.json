@@ -599,7 +599,7 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "NONCONDUCTIVE" ]
   },
   {
     "id": "poleaxe",
