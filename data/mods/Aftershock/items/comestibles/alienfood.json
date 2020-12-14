@@ -459,7 +459,7 @@
   {
     "type": "COMESTIBLE",
     "id": "alien_lard",
-    "name": "alien lard",
+    "name": { "str_sp": "alien lard" },
     "copy-from": "alien_tallow",
     "description": "A smooth white block of dry-rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
   },
