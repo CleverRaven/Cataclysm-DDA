@@ -201,7 +201,7 @@
     "spoils_in": "1 day",
     "type": "COMESTIBLE",
     "name": { "str_sp": "cooked alien flesh" },
-    "description": "This is a chunk of freshly cooked alien meat.  It's filling and nutritious, but you have worries.",
+    "description": "This is a chunk of freshly cooked alien meat.  It's could be either filling and nutritious, or poisonous and lethal.",
     "price": 750,
     "price_postapoc": 100,
     "parasites": 0,
