@@ -149,7 +149,7 @@
     "id": "frost_human_lard",
     "name": { "str_sp": "freezerburned human lard" },
     "copy-from": "frost_human_tallow",
-    "description": "A smooth light green block of dry-rendered human fat.  It's very frostburnt,  and while it will remain edible for a very long time, it's not the most appetizing."
+    "description": "A smooth light green block of dry-rendered human fat.  It's very frostburnt, and while it will remain edible for a very long time, it's not the most appetizing."
   },
   {
     "type": "COMESTIBLE",
@@ -347,7 +347,7 @@
     "copy-from": "alien_lung",
     "looks_like": "offal",
     "name": "raw alien kidney",
-    "description": "You are guessing here, but this is likely the kidney of the animal. The ammonia smell was the biggest hint.",
+    "description": "You are guessing here, but this is likely the kidney of the animal.  The ammonia smell was the biggest hint.",
     "color": "brown",
     "healthy": -8,
     "price_postapoc": 25,
@@ -375,7 +375,7 @@
     "copy-from": "alien_lung",
     "looks_like": "offal",
     "name": "raw alien sweetbread",
-    "description": "You got this chunk of meat from the throat of the animal; it looks... different?",
+    "description": "You got this chunk of meat from the throat of the animal; it looks...  different?",
     "color": "brown",
     "healthy": 0,
     "price_postapoc": 25,

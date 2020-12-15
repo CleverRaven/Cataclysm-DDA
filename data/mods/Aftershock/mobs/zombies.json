@@ -634,7 +634,7 @@
     "id": "mon_moxphore_emetic",
     "type": "MONSTER",
     "name": { "str": "Moxphore Emetic" },
-    "description": "Unidentifiable walking remains, hunched  and wandering in apparent pain.   An alien plant peeks meekly from its open mouth, leaking green liquid as its host stumbles.",
+    "description": "Unidentifiable walking remains, hunched  and wandering in apparent pain.  An alien plant peeks meekly from its open mouth, leaking green liquid as its host stumbles.",
     "default_faction": "moxie",
     "bodytype": "human",
     "species": [ "MOXIE" ],

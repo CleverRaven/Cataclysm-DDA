@@ -138,7 +138,7 @@
     "type": "furniture",
     "id": "f_geo_mox",
     "name": "geothermal bladder",
-    "description": "Black veins support a large formation of bleached coral as it grows around the rim of this geothermal vent.   Above it, red and purple tentacles caress a balloon-shaped organ as it breathes.",
+    "description": "Black veins support a large formation of bleached coral as it grows around the rim of this geothermal vent.  Above it, red and purple tentacles caress a balloon-shaped organ as it breathes.",
     "symbol": "^",
     "color": "light_gray",
     "move_cost_mod": -1,
