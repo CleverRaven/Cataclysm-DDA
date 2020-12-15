@@ -312,7 +312,8 @@
     "name": "spider",
     "base_faction": "insect",
     "neutral": [ "centipede", "bee", "wasp", "zombie" ],
-    "hate": [ "insect", "animal" ]
+    "hate": [ "insect", "animal" ],
+	"by_mood": "spider"
   },
   {
     "type": "MONSTER_FACTION",
