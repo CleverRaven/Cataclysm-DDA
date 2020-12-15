@@ -525,11 +525,11 @@ class comestible_inventory_preset : public inventory_selector_preset
             append_cell( []( const item_location & loc ) {
                 const int health = loc->is_comestible() ? loc->get_comestible()->healthy : 0;
                 if( health > 0 ) {
-                    return "<good>healthy</good>";
+                    return _( "<good>healthy</good>" );
                 } else if( health < -5 ) {
-                    return "<bad>dangerous</bad>";
+                    return _( "<bad>dangerous</bad>" );
                 } else if( health < 0 ) {
-                    return "<bad>unhealthy</bad>";
+                    return _( "<bad>unhealthy</bad>" );
                 } else if( loc->is_medication() ) {
                     return "";
                 } else {
