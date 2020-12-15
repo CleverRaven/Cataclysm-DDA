@@ -533,7 +533,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 } else if( loc->is_medication() ) {
                     return "";
                 } else {
-                    return "no effect";
+                    return _( "no effect" );
                 }
             }, _( "HEALTH" ) );
 
