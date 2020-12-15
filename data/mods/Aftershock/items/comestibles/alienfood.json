@@ -283,7 +283,7 @@
     "copy-from": "alien_lung",
     "looks_like": "offal_cooked",
     "name": { "str": "cooked piece of alien lung", "str_pl": "cooked pieces of alien lung" },
-    "description": "The organ no longer leaks out a strange liquid, and has faded to a light blue color. It looks chewy, and has an unpleasant smell.",
+    "description": "The organ no longer leaks out a strange liquid, and has faded to a light blue color.  It looks chewy, and has an unpleasant smell.",
     "parasites": 0,
     "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
@@ -293,7 +293,7 @@
     "copy-from": "alien_lung",
     "looks_like": "offal",
     "name": "raw alien liver",
-    "description": "A porous hard organ. Hazarding a guess from all the large blood vessels going in and out, this is the liver.  It smells rancid.",
+    "description": "A porous hard organ.  Hazarding a guess from all the large blood vessels going in and out, this is the liver.  It smells rancid.",
     "price_postapoc": 25,
     "quench": -4,
     "calories": 92,
