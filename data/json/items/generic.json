@@ -2338,6 +2338,7 @@
     "price_postapoc": 10,
     "material": [ "cotton" ],
     "weight": "514 g",
+	"container": "pillowcase",
     "volume": "1 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
