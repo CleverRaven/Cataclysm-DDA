@@ -318,7 +318,7 @@
     "copy-from": "alien_lung",
     "looks_like": "offal",
     "name": { "str_sp": "raw alien brains" },
-    "description": "Yep, definitely a brain.",
+    "description": "A brain butchered from an alien organism.  It looks somewhat similar to its earthly analogues, barring its light-blue coloration and gland riddled frontal lobe.",
     "color": "light_gray",
     "healthy": -15,
     "price_postapoc": 10,
