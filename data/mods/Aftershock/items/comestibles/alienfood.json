@@ -283,7 +283,7 @@
     "copy-from": "alien_lung",
     "looks_like": "offal_cooked",
     "name": { "str": "cooked piece of alien lung", "str_pl": "cooked pieces of alien lung" },
-    "description": "The organ no longer leaks out a strange liquid, and has faded to a light blue color. It is chewy, bitter, and bad-smelling.",
+    "description": "The organ no longer leaks out a strange liquid, and has faded to a light blue color. It looks chewy, and has an unpleasant smell.",
     "parasites": 0,
     "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
