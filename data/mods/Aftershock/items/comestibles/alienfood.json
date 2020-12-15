@@ -375,7 +375,7 @@
     "copy-from": "alien_lung",
     "looks_like": "offal",
     "name": "raw alien sweetbread",
-    "description": "You got this chunk of meat from the throat of the animal; it looks… different?",
+    "description": "You got this chunk of meat from the throat of the animal; it looks different?",
     "color": "brown",
     "healthy": 0,
     "price_postapoc": 25,
