@@ -771,7 +771,7 @@ class inventory_iuse_selector : public inventory_multiselector
 
     protected:
         stats get_raw_stats() const override;
-        std::vector<alignment> get_stats_aligment() const ;
+        std::vector<alignment> get_stats_alignment() const override;
 
         void set_chosen_count( inventory_entry &entry, size_t count );
 

@@ -1686,15 +1686,15 @@ inventory_selector::stats inventory_selector::get_raw_stats() const
 
 std::vector<alignment> inventory_selector::get_stats_alignment() const
 {
-    return {alignment::RIGHT,   // Caption
-            alignment::LEFT,    // ' '
-            alignment::RIGHT,   // Units
-            alignment::LEFT,    // ' '
-            alignment::RIGHT,   // 'Caption'
-            alignment::LEFT,    // ' '
-            alignment::RIGHT,   // Units
-            alignment::LEFT,    // '/'
-            alignment::LEFT};   // 'Units'
+    return {alignment::RIGHT,   // <Caption>
+            alignment::LEFT,    // " "
+            alignment::RIGHT,   // <Units>
+            alignment::LEFT,    // " "
+            alignment::RIGHT,   // <Caption>
+            alignment::LEFT,    // " "
+            alignment::RIGHT,   // <Units>
+            alignment::LEFT,    // "/"
+            alignment::LEFT};   // <Units>
 }
 
 std::vector<std::string> inventory_selector::get_stats() const
@@ -2441,16 +2441,16 @@ inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
     if( get_stats ) {
         return get_stats( to_use );
     }
-    return stats{{ stat{{ "", "", "", "" }}, stat{{ "", "", "", "" }} }};
+    return stats{{ stat{{ "", "", "", "", "" }}, stat{{ "", "", "", "", "" }} }};
 }
 
-std::vector<alignment> inventory_iuse_selector::get_stats_aligment() const
+std::vector<alignment> inventory_iuse_selector::get_stats_alignment() const
 {
-    return {alignment::RIGHT,   // 'Caption'
-            alignment::LEFT,    // ' '
-            alignment::RIGHT,   // Units
-            alignment::LEFT,    // '/'
-            alignment::LEFT};   // 'Units'
+    return {alignment::RIGHT,   // <Caption>
+            alignment::LEFT,    // " "
+            alignment::RIGHT,   // <Units>
+            alignment::LEFT,    // "/"
+            alignment::LEFT};   // <Units>
 }
 
 inventory_drop_selector::inventory_drop_selector( Character &p,
@@ -2697,30 +2697,30 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
 
     stat &weight_stats = drop_stats.front();
     weight_stats.push_back( " -> " );
-    weight_stats.push_back( colorize( string_format( "%.1f",
+    weight_stats.push_back( colorize( string_format( "-%.1f",
                                       round_up( convert_weight( drop_weight_volume.first ), 1 ) ), c_light_gray ) );
 
     stat &volume_stats = drop_stats.back();
     volume_stats.push_back( " -> " );
-    volume_stats.push_back( colorize( format_volume( drop_weight_volume.second ), c_light_gray ) );
+    volume_stats.push_back( colorize( "-" + format_volume( drop_weight_volume.second ),
+                                      c_light_gray ) );
 
     return drop_stats;
 }
 
 std::vector<alignment> inventory_drop_selector::get_stats_alignment() const
 {
-    // <Caption>," ",<Units>,"/",<Units>," -> ",<Units>
-    return {alignment::RIGHT,   // Caption
-            alignment::LEFT,    // ' '
-            alignment::RIGHT,   // Units
-            alignment::LEFT,    // ' '
-            alignment::RIGHT,
-            alignment::LEFT,
-            alignment::RIGHT,
-            alignment::LEFT,
-            alignment::LEFT,
-            alignment::LEFT,
-            alignment::RIGHT};
+    return {alignment::RIGHT,   // <Caption>
+            alignment::LEFT,    // " "
+            alignment::RIGHT,   // <Units>
+            alignment::LEFT,    // " "
+            alignment::RIGHT,   // <Caption>
+            alignment::LEFT,    // " "
+            alignment::RIGHT,   // <Units>
+            alignment::LEFT,    // "/"
+            alignment::LEFT,    // <Units>
+            alignment::LEFT,    // " -> "
+            alignment::RIGHT};  // <Units>
 }
 
 std::pair<units::mass, units::volume> inventory_drop_selector::get_drop_weight_volume() const
