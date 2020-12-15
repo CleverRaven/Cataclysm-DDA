@@ -8639,7 +8639,7 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                          c_red ) ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "Bleeding involves severing the carotid arteries and jugular "
-                                          "veins, or the blood vessels from which they arise. "
+                                          "veins, or the blood vessels from which they arise.  "
                                           "You need skill and an appropriately sharp and precise knife "
                                           "to do a good job." ),
                                        msgFactor ) );
