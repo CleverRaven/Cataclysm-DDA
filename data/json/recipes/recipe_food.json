@@ -1091,7 +1091,7 @@
     "skills_required": [ "survival", 2 ],
     "book_learn": [
       [ "pocket_survival", 1 ],
-      [ "manual_survival", 1 ],
+      [ "manual_survival", 1 ]
     ],
     "time": "24 m",
     "autolearn": true,
