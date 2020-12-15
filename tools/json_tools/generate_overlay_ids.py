@@ -118,9 +118,9 @@ if __name__ == '__main__':
         if datum_type == 'vehicle_part':
             variable_suffix = datum.get('symbols', {}).keys()
             if datum.get('standard_symbols', False):
-                variable_suffix = VP_STANDARD_SYMBOLS.keys()
+                variable_suffix = ['', ] + list(VP_STANDARD_SYMBOLS.keys())
             if variable_suffix:
-                variable_suffix = [f'_{s}' for s in variable_suffix]
+                variable_suffix = ['', ] + [f'_{s}' for s in variable_suffix]
             else:
                 variable_suffix = ('',)
 
