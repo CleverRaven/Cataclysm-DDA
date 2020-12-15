@@ -288,9 +288,6 @@ class target_ui
         // Calculates distance from 'src'. For consistency, prefer using this over rl_dist.
         int dist_fn( const tripoint &p );
 
-        // Checks if player can see target. For consistency, prefer using this over pc.sees()
-        bool pl_can_target( const Creature *cr );
-
         // Set creature (or tile) under cursor as player's last target
         void set_last_target();
 
@@ -1389,11 +1386,20 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     return line_number;
 }
 
+// Whether player character knows creature's position and can roughly track it with the aim cursor
+static bool pl_sees( const Creature &cr )
+{
+    Character &u = get_player_character();
+    return u.sees( cr ) || u.sees_with_infrared( cr ) || u.sees_with_specials( cr );
+}
+
 // Handle capping aim level when the player cannot see the target tile or there is nothing to aim at.
 static double calculate_aim_cap( const player &p, const tripoint &target )
 {
     double min_recoil = 0.0;
     const Creature *victim = g->critter_at( target, true );
+    // No p.sees_with_specials() here because special senses are not precise enough
+    // to give creature's exact size & position, only which tile it occupies
     if( victim == nullptr || ( !p.sees( *victim ) && !p.sees_with_infrared( *victim ) ) ) {
         const int range = rl_dist( p.pos(), target );
         // Get angle of triangle that spans the target square.
@@ -2372,7 +2378,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     // Cache creature under cursor
     if( src != dst ) {
         Creature *cr = g->critter_at( dst, true );
-        if( cr && pl_can_target( cr ) ) {
+        if( cr && pl_sees( *cr ) ) {
             dst_critter = cr;
         } else {
             dst_critter = nullptr;
@@ -2437,7 +2443,7 @@ tripoint target_ui::choose_initial_target()
 {
     // Try previously targeted creature
     shared_ptr_fast<Creature> cr = you->last_target.lock();
-    if( cr && pl_can_target( &*cr ) && dist_fn( cr->pos() ) <= range ) {
+    if( cr && pl_sees( *cr ) && dist_fn( cr->pos() ) <= range ) {
         return cr->pos();
     }
 
@@ -2466,7 +2472,7 @@ bool target_ui::try_reacquire_target( bool critter, tripoint &new_dst )
     if( critter ) {
         // Try to re-acquire the creature
         shared_ptr_fast<Creature> cr = you->last_target.lock();
-        if( cr && pl_can_target( &*cr ) && dist_fn( cr->pos() ) <= range ) {
+        if( cr && pl_sees( *cr ) && dist_fn( cr->pos() ) <= range ) {
             new_dst = cr->pos();
             return true;
         }
@@ -2521,11 +2527,6 @@ void target_ui::update_status()
 int target_ui::dist_fn( const tripoint &p )
 {
     return static_cast<int>( std::round( rl_dist_exact( src, p ) ) );
-}
-
-bool target_ui::pl_can_target( const Creature *cr )
-{
-    return you->sees( *cr ) || you->sees_with_infrared( *cr );
 }
 
 void target_ui::set_last_target()
@@ -2593,7 +2594,7 @@ std::vector<weak_ptr_fast<Creature>> target_ui::list_friendlies_in_lof()
     for( const tripoint &p : traj ) {
         if( p != dst && p != src ) {
             Creature *cr = g->critter_at( p, true );
-            if( cr && pl_can_target( cr ) ) {
+            if( cr && pl_sees( *cr ) ) {
                 Creature::Attitude a = cr->attitude_to( *this->you );
                 if(
                     ( cr->is_npc() && a != Creature::Attitude::HOSTILE ) ||
