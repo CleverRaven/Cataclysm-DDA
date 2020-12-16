@@ -529,7 +529,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                     return pgettext( "Good food/drink/drug", "<good>healthy</good>" );
                 } else if( health < -5 ) {
                     //~This is dangerous food/drink/drug, really bad for your hidden health stat.
-                    return pgettext( "Really bad food/dring/drug", "<bad>dangerous</bad>" );
+                    return pgettext( "Really bad food/drink/drug", "<bad>dangerous</bad>" );
                 } else if( health < 0 ) {
                     //~This is bad food/drink/drug as it is negative for your hidden health stat.
                     return pgettext( "Bad food/drink/drug", "<bad>unhealthy</bad>" );
