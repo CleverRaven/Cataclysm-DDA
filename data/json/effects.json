@@ -494,7 +494,7 @@
       "hurt_amount": [ 5, 0 ],
       "hurt_min": [ 2, 1 ],
       "hurt_chance": [ 13, 100 ],
-      "hurt_tick": [ 30 ]
+      "hurt_tick": [ 36 ]
     },
     "scaling_mods": { "pain_min": [ 0.05, 0.01 ], "pain_chance": [ -0.15, -0.8 ], "hurt_chance": [ -0.11, -0.81 ] }
   },
