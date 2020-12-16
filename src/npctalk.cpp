@@ -66,6 +66,7 @@
 #include "string_id.h"
 #include "string_input_popup.h"
 #include "talker.h"
+#include "talker_monster.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
@@ -1803,6 +1804,20 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
     };
 }
 
+void talk_effect_fun_t::set_open_dialogue()
+{
+    function = []( const dialogue & d ) {
+        //if (!d.alpha->get_character()->is_avatar()) {//only open a dialog if the avatar is alpha
+        //    return;
+        //}else if (d.beta->get_character() != nullptr) {
+        //    get_avatar().talk_to( get_talker_for( d.beta->get_character() ) );
+        //} else if (d.beta->get_creature() != nullptr){
+        get_avatar().add_msg_if_player( "yo" );
+        get_avatar().talk_to( get_talker_for( d.beta->get_creature() ) );
+        //}
+    };
+}
+
 void talk_effect_fun_t::set_mod_pain( const JsonObject &jo, const std::string &member,
                                       bool is_npc )
 {
@@ -1876,13 +1891,6 @@ void talk_effect_fun_t::set_mod_stored_kcal( const JsonObject &jo, const std::st
     int amount = jo.get_int( member );
     function = [is_npc, amount]( const dialogue & d ) {
         d.actor( is_npc )->mod_stored_kcal( amount );
-    };
-}
-
-void talk_effect_fun_t::set_lightning( const JsonObject &, const std::string & )
-{
-    function = []( const dialogue & ) {
-        get_weather().lightning_active = true;
     };
 }
 
@@ -2807,6 +2815,12 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
     if( effect_id == "npc_gets_item" || effect_id == "npc_gets_item_to_use" ) {
         bool to_use = effect_id == "npc_gets_item_to_use";
         subeffect_fun.set_npc_gets_item( to_use );
+        set_effect( subeffect_fun );
+        return;
+    }
+
+    if( effect_id == "open_dialogue" ) {
+        subeffect_fun.set_open_dialogue();
         set_effect( subeffect_fun );
         return;
     }

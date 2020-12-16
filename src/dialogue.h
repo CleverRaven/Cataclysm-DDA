@@ -104,6 +104,7 @@ struct talk_effect_fun_t {
         void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_lose_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_message( const JsonObject &jo, const std::string &member );
+        void set_open_dialogue();
         void set_mod_pain( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_add_wet( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_mod_fatigue( const JsonObject &jo, const std::string &member, bool is_npc );
@@ -112,7 +113,6 @@ struct talk_effect_fun_t {
         void set_mod_healthy( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_mod_sleep_deprivation( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_mod_stored_kcal( const JsonObject &jo, const std::string &member, bool is_npc );
-        void set_lightning( const JsonObject &, const std::string & );
         void set_weather( const JsonObject &jo, const std::string &member );
         void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );

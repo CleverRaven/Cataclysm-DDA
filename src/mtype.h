@@ -304,7 +304,7 @@ struct mtype {
         std::vector<effect_on_condition_id> death_eocs; //effect on conditions to be used on monster death
 
         std::vector<mon_action_death>  dies;       // What happens when this monster dies
-
+        std::vector<std::string> chat_topics;      // What it has to say.
         // This monster's special "defensive" move that may trigger when the monster is attacked.
         // Note that this can be anything, and is not necessarily beneficial to the monster
         mon_action_defend sp_defense;

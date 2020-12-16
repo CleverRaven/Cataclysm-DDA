@@ -69,6 +69,7 @@ Monsters may also have any of these optional properties:
 | `death_drops`            | (string or item group) Item group to spawn when the monster dies
 | `death_function`         | (array of strings) How the monster behaves on death. See [JSON_FLAGS.md](JSON_FLAGS.md)
 | `death_eocs`             | (array of strings) An array of effect_on_conditions to be activated when this monster dies. See [EFFECT_ON_CONDITION.md](EFFECT_ON_CONDITION.md)
+| `chat_topics`            | (array of strings) Conversation topics if dialog is opened with the monster
 | `emit_field`             | (array of objects) What field the monster emits, and how frequently
 | `regenerates`            | (integer) Number of hit points the monster regenerates per turn
 | `regenerates_in_dark`    | (boolean) True if monster regenerates quickly in the dark

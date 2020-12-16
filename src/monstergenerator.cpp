@@ -872,7 +872,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             remove_special_attacks( tmp, "special_attacks", src );
         }
     }
-
+    optional( jo, was_loaded, "chat_topics", chat_topics );
     optional( jo, was_loaded, "special_attack_eocs", special_attack_eocs );
     optional( jo, was_loaded, "special_attack_eoc_range", special_attack_eoc_range, 1 );
     optional( jo, was_loaded, "death_eocs", death_eocs );

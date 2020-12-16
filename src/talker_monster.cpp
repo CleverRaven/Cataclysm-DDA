@@ -4,6 +4,7 @@
 #include "magic.h"
 #include "monster.h"
 #include "pimpl.h"
+#include "player.h"
 #include "point.h"
 #include "talker_monster.h"
 #include "vehicle.h"
@@ -97,4 +98,17 @@ void talker_monster::remove_value( const std::string &var_name )
 std::string talker_monster::short_description() const
 {
     return me_mon->type->get_description();
+}
+
+std::vector<std::string> talker_monster::get_topics( bool radio_contact )
+{
+    return me_mon->type->chat_topics;
+}
+
+bool talker_monster::will_talk_to_u( const player &u, bool force )
+{
+    if( u.is_dead_state() ) {
+        return false;
+    }
+    return true;
 }
