@@ -122,7 +122,7 @@
     "id": "afs_freeze_gauntlet",
     "type": "GENERIC",
     "name": { "str": "psychrophile handling gloves" },
-    "description": "These gloves are designed for handling organisms that live in extremely cold temperature.  Today they can be used to freeze your foes to death.",
+    "description": "These gloves are designed for handling organisms that live in extremely cold temperatures.  They can also be used to freeze your foes to death.",
     "weight": "3778 g",
     "volume": "2 L",
     "price": 10000000,
