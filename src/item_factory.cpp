@@ -3051,6 +3051,16 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     if( def.magazines.empty() ) {
         migrate_mag_from_pockets( def );
     }
+    if( def.magazine && def.magazine->capacity == 0 ) {
+        int largest = 0;
+        for( pocket_data &pocket : def.pockets ) {
+            for( const ammotype &atype : def.magazine->type ) {
+                int current = pocket.ammo_restriction[atype];
+                largest = largest < current ? current : largest;
+            }
+        }
+        def.magazine->capacity = largest;
+    }
 
     // snippet_category should be loaded after def.id is determined
     if( jo.has_array( "snippet_category" ) ) {
