@@ -1671,10 +1671,10 @@ inventory_selector::stats inventory_selector::get_weight_and_volume_stats(
         std::make_move_iterator( volume_stat.end() )
     );
 
-    return {
+    return {{
         std::move( first_row ),
         std::move( second_row )
-    };
+    }};
 }
 
 inventory_selector::stats inventory_selector::get_raw_stats() const
