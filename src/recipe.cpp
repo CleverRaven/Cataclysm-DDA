@@ -617,16 +617,18 @@ static std::string profstring( const prof_penalty &prof,
     }
 
     if( prof.time_mult == 1.0f ) {
-        return string_format( _( "<color_%s>%s</color> (<color_%s>%gx\u00a0failure</color>%s)" ),
-                              name_color, prof.id->name(), color, prof.failure_mult, mitigated_str );
+        return string_format(
+                   _( "<color_%s>%s</color> (<color_%s>%.2fx\u00a0failure</color>%s)" ),
+                   name_color, prof.id->name(), color, ( 1.0f / prof.failure_mult ), mitigated_str );
     } else if( prof.failure_mult == 1.0f ) {
-        return string_format( _( "<color_%s>%s</color> (<color_%s>%gx\u00a0time</color>%s)" ),
-                              name_color, prof.id->name(), color, prof.time_mult, mitigated_str );
+        return string_format( _( "<color_%s>%s</color> (<color_%s>%.2fx\u00a0time</color>%s)" ),
+                              name_color, prof.id->name(), color, ( 1.0f / prof.time_mult ), mitigated_str );
     }
 
     return string_format(
-               _( "<color_%s>%s</color> (<color_%s>%gx\u00a0time, %gx\u00a0failure</color>%s)" ),
-               name_color, prof.id->name(), color, prof.time_mult, prof.failure_mult, mitigated_str );
+               _( "<color_%s>%s</color> (<color_%s>%.2fx\u00a0time, %.2fx\u00a0failure</color>%s)" ),
+               name_color, prof.id->name(), color, ( 1.0f / prof.time_mult ), ( 1.0f / prof.failure_mult ),
+               mitigated_str );
 }
 
 std::string recipe::used_proficiencies_string( const Character *c ) const
@@ -644,7 +646,7 @@ std::string recipe::used_proficiencies_string( const Character *c ) const
         }
     }
 
-    std::string color = "light_gray";
+    std::string color = "light_green";
     std::string used = enumerate_as_string( used_profs.begin(),
     used_profs.end(), [&]( const prof_penalty & prof ) {
         return profstring( prof, color );
@@ -679,7 +681,7 @@ std::string recipe::missing_proficiencies_string( Character *c ) const
         }
     }
 
-    std::string color = "yellow";
+    std::string color = "dark_gray";
     std::string missing = enumerate_as_string( missing_profs.begin(),
     missing_profs.end(), [&]( const prof_penalty & prof ) {
         return profstring( prof, color, c->has_prof_prereqs( prof.id ) ? "cyan" : "red" );
@@ -733,6 +735,24 @@ std::set<proficiency_id> recipe::assist_proficiencies() const
         }
     }
     return ret;
+}
+
+float recipe::max_time_malus() const
+{
+    float malus = 1.0f;
+    for( const recipe_proficiency &prof : proficiencies ) {
+        malus *= prof.time_multiplier;
+    }
+    return malus;
+}
+
+float recipe::max_fail_malus() const
+{
+    float malus = 1.0f;
+    for( const recipe_proficiency &prof : proficiencies ) {
+        malus *= prof.fail_multiplier;
+    }
+    return malus;
 }
 
 float recipe::proficiency_time_maluses( Character &guy ) const
