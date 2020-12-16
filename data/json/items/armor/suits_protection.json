@@ -103,6 +103,14 @@
     "flags": [ "STURDY" ]
   },
   {
+    "id": "xl_armor_chitin",
+    "type": "ARMOR",
+    "name": { "str": "oversized chitinous armor" },
+    "copy-from": "armor_chitin",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "STURDY", "OVERSIZE" ]
+  },
+  {
     "id": "armor_acidchitin",
     "copy-from": "armor_chitin",
     "looks_like": "armor_chitin",
@@ -115,6 +123,14 @@
     "price_postapoc": 3500,
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
     "relative": { "bashing": 1 }
+  },
+  {
+    "id": "xl_armor_acidchitin",
+    "type": "ARMOR",
+    "name": { "str": "oversized chitin armor" },
+    "copy-from": "armor_acidchitin",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "STURDY", "OVERSIZE" ]
   },
   {
     "id": "armor_farmor",
@@ -146,6 +162,14 @@
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "xl_armor_farmor",
+    "type": "ARMOR",
+    "name": { "str": "oversized fur armor" },
+    "copy-from": "armor_farmor",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OVERSIZE" ]
+  },
+  {
     "id": "armor_larmor",
     "type": "ARMOR",
     "category": "armor",
@@ -175,6 +199,14 @@
     "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
   },
   {
+    "id": "xl_armor_larmor",
+    "type": "ARMOR",
+    "name": { "str": "oversized leather armor" },
+    "copy-from": "armor_larmor",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OVERSIZE" ]
+  },
+  {
     "id": "armor_lightplate",
     "type": "ARMOR",
     "category": "armor",
@@ -196,6 +228,14 @@
     "warmth": 20,
     "material_thickness": 4,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+  },
+  {
+    "id": "xl_armor_lightplate",
+    "type": "ARMOR",
+    "name": { "str": "oversized light plate armor" },
+    "copy-from": "armor_lightplate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "armor_nomad",
@@ -302,6 +342,14 @@
     "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
   },
   {
+    "id": "xl_armor_plarmor",
+    "type": "ARMOR",
+    "name": { "str": "oversized plated leather armor" },
+    "copy-from": "armor_plarmor",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "OVERSIZE" ]
+  },
+  {
     "id": "armor_plate",
     "type": "ARMOR",
     "category": "armor",
@@ -323,6 +371,14 @@
     "warmth": 20,
     "material_thickness": 5,
     "flags": [ "VARSIZE", "OUTER", "FANCY" ]
+  },
+  {
+    "id": "xl_armor_plate",
+    "type": "ARMOR",
+    "name": { "str": "oversized ornamental plate armor" },
+    "copy-from": "armor_plate",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "OUTER", "FANCY", "OVERSIZE" ]
   },
   {
     "id": "armor_riot",
@@ -479,6 +535,14 @@
     "flags": [ "VARSIZE", "STURDY" ]
   },
   {
+    "id": "xl_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "oversized chainmail hauberk" },
+    "copy-from": "chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
+  },
+  {
     "id": "chainmail_suit",
     "type": "ARMOR",
     "category": "armor",
@@ -499,6 +563,14 @@
     "warmth": 30,
     "material_thickness": 6,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
+  },
+  {
+    "id": "xl_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "oversized chainmail armor" },
+    "copy-from": "chainmail_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
   },
   {
     "id": "chainmail_suit_faraday",
@@ -564,6 +636,14 @@
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER" ]
   },
   {
+    "id": "xl_entry_suit",
+    "type": "ARMOR",
+    "name": { "str": "oversized entry suit" },
+    "copy-from": "entry_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OVERSIZE" ]
+  },
+  {
     "id": "fsurvivor_suit",
     "type": "ARMOR",
     "category": "armor",
@@ -598,6 +678,14 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ]
   },
   {
+    "id": "xl_fsurvivor_suit",
+    "type": "ARMOR",
+    "name": { "str": "oversized fire survivor suit" },
+    "copy-from": "fsurvivor_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "POCKETS", "STURDY", "OVERSIZE" ]
+  },
+  {
     "id": "gambeson",
     "type": "ARMOR",
     "name": { "str": "gambeson" },
@@ -618,6 +706,14 @@
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "xl_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "oversized gambeson" },
+    "copy-from": "gambeson",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "hazmat_suit",
@@ -702,6 +798,14 @@
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
   {
+    "id": "xl_lsurvivor_suit",
+    "type": "ARMOR",
+    "name": { "str": "xl light survivor suit" },
+    "copy-from": "lsurvivor_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
+  },
+  {
     "id": "nomex_suit",
     "type": "ARMOR",
     "name": { "str": "flame-resistant suit" },
@@ -722,6 +826,14 @@
     "material_thickness": 2,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
+  },
+  {
+    "id": "xl_nomex_suit",
+    "type": "ARMOR",
+    "name": { "str": "xl nomex suit" },
+    "copy-from": "nomex_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "robofac_enviro_suit",
@@ -926,6 +1038,14 @@
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "xl_wsurvivor_suit",
+    "type": "ARMOR",
+    "name": { "str": "oversized winter survivor suit" },
+    "copy-from": "wsurvivor_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "xlsurvivor_suit",

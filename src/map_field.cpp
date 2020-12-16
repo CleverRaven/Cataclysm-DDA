@@ -908,7 +908,7 @@ void map::process_fields_in_submap( submap *const current_submap,
 bool map::process_fire_field_in_submap( maptile &map_tile, const tripoint &p, field_entry &cur,
                                         const oter_id &om_ter )
 {
-    const field_type_id fd_fire( "fd_fire" );
+    const field_type_id fd_fire = ::fd_fire;
 
     bool breaks_loop = false;
     field_entry *tmpfld = nullptr;
@@ -1546,7 +1546,7 @@ void map::player_in_field( player &u )
                     }
 
                     int total_damage = 0;
-                    for( const bodypart_id part_burned : parts_burned ) {
+                    for( const bodypart_id &part_burned : parts_burned ) {
                         const dealt_damage_instance dealt = u.deal_damage( nullptr, part_burned,
                                                             damage_instance( damage_type::HEAT, rng( burn_min, burn_max ) ) );
                         total_damage += dealt.type_damage( damage_type::HEAT );

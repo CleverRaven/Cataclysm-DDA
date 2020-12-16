@@ -256,7 +256,7 @@ class bodypart
         int get_damage_disinfected() const;
         int get_drench_capacity() const;
         int get_wetness() const;
-        int get_frotbite_timer() const;
+        int get_frostbite_timer() const;
         int get_temp_cur() const;
         int get_temp_conv() const;
 

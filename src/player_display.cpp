@@ -67,7 +67,7 @@ static bool should_combine_bps( const player &p, const bodypart_id &l, const bod
 
     return l != r && // are different parts
            l ==  r->opposite_part && r == l->opposite_part && // are complementary parts
-           // same encumberance & temperature
+           // same encumbrance & temperature
            enc_l == enc_r &&
            temperature_print_rescaling( p.get_part_temp_conv( l ) ) == temperature_print_rescaling(
                p.get_part_temp_conv( r ) ) &&
@@ -513,7 +513,7 @@ static void draw_stats_info( const catacurses::window &w_info,
                                              " which in turn shows how prepared you are to survive for a time without food."
                                              "  Having too much, or too little, can be unhealthy." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
-                        you.get_weight_description() );
+                        you.get_weight_long_description() );
     } else if( line == 5 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
@@ -533,7 +533,8 @@ static void draw_stats_info( const catacurses::window &w_info,
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         string_format( _( "Blood type: %s" ), io::enum_to_string( you.my_blood_type ) ) );
         fold_and_print( w_info, point( 1, 2 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
-                        string_format( _( "Rh factor: %s" ), you.blood_rh_factor ? "positive (+)" : "negative (-)" ) );
+                        string_format( _( "Rh factor: %s" ),
+                                       you.blood_rh_factor ? _( "positive (+)" ) : _( "negative (-)" ) ) );
     }
     wnoutrefresh( w_info );
 }

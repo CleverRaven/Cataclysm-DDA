@@ -10,6 +10,7 @@
 #include <utility>
 
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "inventory.h"
 #include "item.h"

@@ -218,14 +218,14 @@
     "id": "SCROLL_ITEM_INFO_UP",
     "category": "PICKUP",
     "name": "Scroll item info up",
-    "bindings": [ { "input_method": "keyboard_any", "key": "<" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "SCROLL_ITEM_INFO_DOWN",
     "category": "PICKUP",
     "name": "Scroll item info down",
-    "bindings": [ { "input_method": "keyboard_any", "key": ">" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -666,14 +666,14 @@
     "id": "SCROLL_ITEM_INFO_UP",
     "category": "CRAFTING",
     "name": "Scroll item info up",
-    "bindings": [ { "input_method": "keyboard_any", "key": "<" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "SCROLL_ITEM_INFO_DOWN",
     "category": "CRAFTING",
     "name": "Scroll item info down",
-    "bindings": [ { "input_method": "keyboard_any", "key": ">" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -1299,14 +1299,14 @@
     "id": "SCROLL_SKILL_INFO_UP",
     "category": "NEW_CHAR_SKILLS",
     "name": "Scroll description up",
-    "bindings": [ { "input_method": "keyboard_any", "key": "<" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "SCROLL_SKILL_INFO_DOWN",
     "category": "NEW_CHAR_SKILLS",
     "name": "Scroll description down",
-    "bindings": [ { "input_method": "keyboard_any", "key": ">" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -1456,14 +1456,14 @@
     "id": "SCROLL_STAGE_UP",
     "category": "CONSTRUCTION",
     "name": "Scroll to previous stage",
-    "bindings": [ { "input_method": "keyboard_any", "key": "<" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "SCROLL_STAGE_DOWN",
     "category": "CONSTRUCTION",
     "name": "Scroll to next stage",
-    "bindings": [ { "input_method": "keyboard_any", "key": ">" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -2245,7 +2245,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle Panel Admin",
+    "name": "Sidebar Options",
     "category": "DEFAULTMODE",
     "id": "toggle_panel_adm",
     "bindings": [ { "input_method": "keyboard_char", "key": "}" }, { "input_method": "keyboard_code", "key": "]", "mod": [ "shift" ] } ]
@@ -2456,14 +2456,14 @@
     "id": "SCROLL_ITEM_INFO_UP",
     "category": "LIST_ITEMS",
     "name": "Scroll item info up",
-    "bindings": [ { "input_method": "keyboard_any", "key": "<" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "SCROLL_ITEM_INFO_DOWN",
     "category": "LIST_ITEMS",
     "name": "Scroll item info down",
-    "bindings": [ { "input_method": "keyboard_any", "key": ">" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

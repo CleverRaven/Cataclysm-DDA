@@ -7,7 +7,7 @@
     "points": 1,
     "start_name": "Scavenger Bunker",
     "allowed_locs": [ "sloc_scavenger_bunker" ],
-    "flags": [ "SUM_START" ],
+    "custom_initial_date": { "season": "summer" },
     "professions": [ "rookie", "novice" ]
   }
 ]

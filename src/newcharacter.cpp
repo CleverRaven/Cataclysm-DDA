@@ -1116,8 +1116,8 @@ tab_direction set_traits( avatar &u, points_left &points )
         for( int i = 0; i < 3; i++ ) {
             // Shift start position to avoid iterating beyond end
             int total = static_cast<int>( traits_size[i] );
-            int heigth = static_cast<int>( iContentHeight );
-            iStartPos[i] = std::min( iStartPos[i], std::max( 0, total - heigth ) );
+            int height = static_cast<int>( iContentHeight );
+            iStartPos[i] = std::min( iStartPos[i], std::max( 0, total - height ) );
         }
     };
     init_windows( ui );
@@ -2094,18 +2094,37 @@ tab_direction set_scenario( avatar &u, points_left &points,
     catacurses::window w_profession;
     catacurses::window w_location;
     catacurses::window w_vehicle;
+    catacurses::window w_initial_date;
     catacurses::window w_flags;
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - 10;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_description = catacurses::newwin( 4, TERMX - 2, point( 1, TERMY - 5 ) );
-        w_sorting = catacurses::newwin( 2, ( TERMX / 2 ) - 1, point( TERMX / 2, 5 ) );
-        w_profession = catacurses::newwin( 4, ( TERMX / 2 ) - 1, point( TERMX / 2, 7 ) );
-        w_location = catacurses::newwin( 3, ( TERMX / 2 ) - 1, point( TERMX / 2, 11 ) );
-        w_vehicle = catacurses::newwin( 3, ( TERMX / 2 ) - 1, point( TERMX / 2, 14 ) );
-        // 11 = 2 + 4 + 3 + 3, so we use rest of space for flags
-        w_flags = catacurses::newwin( iContentHeight - 14, ( TERMX / 2 ) - 1,
-                                      point( TERMX / 2, 17 ) );
+        const int second_column_w =  TERMX / 2 - 1;
+        point origin = point( second_column_w + 1, 5 );
+        const int w_sorting_h = 2;
+        const int w_profession_h = 4;
+        const int w_location_h = 3;
+        const int w_vehicle_h = 3;
+        const int w_initial_date_h = 6;
+        const int w_flags_h = iContentHeight -
+                              ( w_sorting_h + w_profession_h + w_location_h + w_vehicle_h + w_initial_date_h );
+        w_sorting = catacurses::newwin( w_sorting_h, second_column_w, origin );
+        origin += point( 0, w_sorting_h );
+
+        w_profession = catacurses::newwin( w_profession_h, second_column_w, origin );
+        origin += point( 0, w_profession_h );
+
+        w_location = catacurses::newwin( w_location_h, second_column_w, origin );
+        origin += point( 0, w_location_h );
+
+        w_vehicle = catacurses::newwin( w_vehicle_h, second_column_w, origin );
+        origin += point( 0, w_vehicle_h );
+
+        w_initial_date = catacurses::newwin( w_initial_date_h, second_column_w, origin );
+        origin += point( 0, w_initial_date_h );
+
+        w_flags = catacurses::newwin( w_flags_h, second_column_w, origin );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -2245,6 +2264,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
         werase( w_profession );
         werase( w_location );
         werase( w_vehicle );
+        werase( w_initial_date );
         werase( w_flags );
 
         if( cur_id_is_valid ) {
@@ -2282,25 +2302,31 @@ tab_direction set_scenario( avatar &u, points_left &points,
                 wprintz( w_vehicle, c_light_gray, "%s", sorted_scens[cur_id]->vehicle()->name );
             }
 
+            mvwprintz( w_initial_date, point_zero, COL_HEADER, _( "Scenario calendar:" ) );
+            wprintz( w_initial_date, c_light_gray, ( "\n" ) );
+            if( sorted_scens[cur_id]->custom_initial_date() ) {
+                wprintz( w_initial_date, c_light_gray,
+                         _( sorted_scens[cur_id]->is_random_year() ? "Year:   Random" : "Year:   %s" ),
+                         sorted_scens[cur_id]->initial_year() );
+                wprintz( w_initial_date, c_light_gray, ( "\n" ) );
+                wprintz( w_initial_date, c_light_gray, _( "Season: %s" ),
+                         calendar::name_season( sorted_scens[cur_id]->initial_season() ) );
+                wprintz( w_initial_date, c_light_gray, ( "\n" ) );
+                wprintz( w_initial_date, c_light_gray,
+                         _( sorted_scens[cur_id]->is_random_day() ? "Day:    Random" : "Day:    %d" ),
+                         sorted_scens[cur_id]->initial_day() );
+                wprintz( w_initial_date, c_light_gray, ( "\n" ) );
+                wprintz( w_initial_date, c_light_gray,
+                         _( sorted_scens[cur_id]->is_random_hour() ? "Hour:   Random" : "Hour:   %d" ),
+                         sorted_scens[cur_id]->initial_hour() );
+                wprintz( w_initial_date, c_light_gray, ( "\n" ) );
+            } else {
+                wprintz( w_initial_date, c_light_gray, _( "Default" ) );
+                wprintz( w_initial_date, c_light_gray, ( "\n" ) );
+            }
+
             mvwprintz( w_flags, point_zero, COL_HEADER, _( "Scenario Flags:" ) );
             wprintz( w_flags, c_light_gray, ( "\n" ) );
-
-            if( sorted_scens[cur_id]->has_flag( "SPR_START" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Spring start" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
-            } else if( sorted_scens[cur_id]->has_flag( "SUM_START" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Summer start" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
-            } else if( sorted_scens[cur_id]->has_flag( "AUT_START" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Autumn start" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
-            } else if( sorted_scens[cur_id]->has_flag( "WIN_START" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Winter start" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
-            } else if( sorted_scens[cur_id]->has_flag( "SUM_ADV_START" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Next summer start" ) );
-                wprintz( w_flags, c_light_gray, ( "\n" ) );
-            }
 
             if( sorted_scens[cur_id]->has_flag( "INFECTED" ) ) {
                 wprintz( w_flags, c_light_gray, _( "Infected player" ) );
@@ -2339,6 +2365,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
         wnoutrefresh( w_profession );
         wnoutrefresh( w_location );
         wnoutrefresh( w_vehicle );
+        wnoutrefresh( w_initial_date );
         wnoutrefresh( w_flags );
     } );
 

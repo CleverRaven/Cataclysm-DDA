@@ -65,7 +65,7 @@ cd Cataclysm-DDA
 
 **Note**: This will compile release version with Sound, Tiles and Localization support (language files won't be automatically compiled).
 
-3. Building Cataclysm with Visual Studio is very simple. Just build it like a normal Visual C++ project. The process may takes a long period of time, so you'd better prepare a cup of coffee and some books in front of your computer :)
+3. Building Cataclysm with Visual Studio is very simple. Just build it like a normal Visual C++ project. The process may take a long period of time, so you'd better prepare a cup of coffee and some books in front of your computer :)
 
 4. If you need localization support, execute the bash script `lang/compile_mo.sh` inside Git Bash GUI just like on a UNIX-like system. This will compile the language files that were not automatically compiled in step 2 above.
 

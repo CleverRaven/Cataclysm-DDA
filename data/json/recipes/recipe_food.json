@@ -175,7 +175,8 @@
         [ "soysauce", 1 ],
         [ "seasoning_salt", 1 ],
         [ "pepper", 2 ],
-        [ "chem_saltpetre", 1 ]
+        [ "chem_saltpetre", 1 ],
+        [ "chem_black_powder", 47 ]
       ],
       [ [ "sugar_standard", 1, "LIST" ] ],
       [ [ "porkbelly", 1 ] ]
@@ -185,6 +186,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "bacon",
+    "id_suffix": "hand_smoked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -195,12 +197,13 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 15 ] ], [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "raw_cured_meat", 1 ] ] ]
+    "components": [ [ [ "raw_cured_fatty_meat", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "bacon",
+    "id_suffix": "from_uncut_bacon",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -376,6 +379,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "mutant_lard",
     "copy-from": "lard",
+    "byproducts": [ [ "mutant_cracklins" ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "mutant_fat", 2 ] ] ]
@@ -393,6 +397,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "mutant_human_lard",
+    "byproducts": [ [ "mutant_human_cracklins" ] ],
     "copy-from": "lard",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
@@ -856,7 +861,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 10 ] ] ],
     "components": [
-      [ [ "meat_red", 2, "LIST" ], [ "liver", 10 ] ],
+      [ [ "meat_red", 2, "LIST" ], [ "liver", 10 ], [ "canned_liver", 10 ] ],
       [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
       [
         [ "salt", 4 ],
@@ -910,7 +915,7 @@
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "components": [
-      [ [ "meat_red", 2, "LIST" ], [ "liver", 10 ] ],
+      [ [ "meat_red", 2, "LIST" ], [ "liver", 10 ], [ "canned_liver", 10 ] ],
       [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
       [
         [ "salt", 4 ],
@@ -975,7 +980,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "human_lard",
-    "byproducts": [ [ "cracklins" ] ],
+    "byproducts": [ [ "human_cracklins" ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -1545,6 +1550,36 @@
   },
   {
     "type": "recipe",
+    "result": "herbal_tea",
+    "id_suffix": "from_tea_bag",
+    "activity_level": "NO_EXERCISE",
+    "copy-from": "tea",
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "herbal_tea_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dandelion_tea",
+    "id_suffix": "from_tea_bag",
+    "activity_level": "NO_EXERCISE",
+    "copy-from": "tea",
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "tea_bag_dandelion", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chamomile_tea",
+    "id_suffix": "from_tea_bag",
+    "activity_level": "NO_EXERCISE",
+    "copy-from": "tea",
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "tea_bag_chamomile", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "herbal_tea",
     "category": "CC_FOOD",
@@ -1556,7 +1591,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "wild_herbs", 10 ], [ "herbal_tea_bag", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "wild_herbs", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1799,6 +1834,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "coffee",
+    "id_suffix": "using_instant_coffee",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -2248,7 +2284,8 @@
         [ "soysauce", 1 ],
         [ "seasoning_salt", 1 ],
         [ "pepper", 2 ],
-        [ "chem_saltpetre", 1 ]
+        [ "chem_saltpetre", 1 ],
+        [ "chem_black_powder", 47 ]
       ],
       [ [ "meat_red_raw", 1, "LIST" ] ]
     ]
@@ -4483,6 +4520,33 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "bread_flour",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "5 m",
+    "charges": 20,
+    "autolearn": true,
+    "batch_time_factors": [ 50, 10 ],
+    "flags": [ "BLIND_EASY" ],
+    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
+    "components": [
+      [ [ "flour", 1 ] ],
+      [
+        [ "wheat", 1 ],
+        [ "buckwheat", 1 ],
+        [ "barley", 1 ],
+        [ "acorns_cooked", 2 ],
+        [ "oats", 4 ],
+        [ "starch", 1 ],
+        [ "dry_rice", 5 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cornmeal",
     "charges": 3,
     "category": "CC_FOOD",
@@ -6483,6 +6547,7 @@
         [ "saline", 8 ],
         [ "salt", 4 ],
         [ "chem_saltpetre", 2 ],
+        [ "chem_black_powder", 94 ],
         [ "soysauce", 2 ],
         [ "seasoning_italian", 4 ],
         [ "wild_herbs", 4 ],
@@ -6529,6 +6594,7 @@
         [ "saline", 8 ],
         [ "salt", 4 ],
         [ "chem_saltpetre", 2 ],
+        [ "chem_black_powder", 94 ],
         [ "soysauce", 2 ],
         [ "seasoning_italian", 4 ],
         [ "wild_herbs", 4 ],
@@ -7013,7 +7079,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "demihuman_lard",
-    "byproducts": [ [ "cracklins" ] ],
+    "byproducts": [ [ "demihuman_cracklins" ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",

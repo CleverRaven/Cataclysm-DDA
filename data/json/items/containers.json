@@ -162,6 +162,32 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
+    "id": "bag_paper_powder_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small powder paper bag" },
+    "looks_like": "bag_plastic",
+    "description": "A small but sturdy paper bag.  Rock solid when packed full with powder.",
+    "weight": "5 g",
+    "volume": "10 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": -1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": false,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "moves": 200
+      }
+    ],
+    "material": [ "paper" ],
+    "symbol": ")",
+    "color": "white",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "bag_zipper",
     "type": "GENERIC",
     "category": "container",
@@ -1454,7 +1480,7 @@
     "looks_like": "30l_barrel",
     "description": "Traditionally made of white oak; these vessels are known for delivering delicious whiskey to the future.  It has a capacity of 100 liters.",
     "weight": "42408 g",
-    "volume": "101 L",
+    "volume": "110 L",
     "price": 12000,
     "price_postapoc": 250,
     "to_hit": -5,
@@ -1462,7 +1488,15 @@
     "material": [ "wood", "steel" ],
     "symbol": ")",
     "color": "brown",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "watertight": true, "max_contains_volume": "100 L", "max_contains_weight": "200 kg" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "100 L",
+        "max_contains_weight": "200 kg"
+      }
+    ],
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
@@ -1637,7 +1671,7 @@
     "id": "1st_aid_box",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "first aid kit box" },
+    "name": { "str": "first aid kit box", "str_pl": "first aid kit boxes" },
     "looks_like": "1st_aid",
     "description": "A plastic box that used to contain a first aid kit.",
     "weight": "50 g",
@@ -1662,7 +1696,7 @@
     "id": "ifak_pouch",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "IFAK pouch" },
+    "name": { "str": "IFAK pouch", "str_pl": "IFAK pouches" },
     "looks_like": "1st_aid",
     "description": "A fabric pouch that used to contain an IFAK.",
     "weight": "5 g",

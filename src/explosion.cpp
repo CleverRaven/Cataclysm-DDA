@@ -420,7 +420,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
             frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
             // dealt_dam.total_damage() == 0 means armor block
             // dealt_dam.total_damage() > 0 means took damage
-            // Need to diffentiate target among player, npc, and monster
+            // Need to differentiate target among player, npc, and monster
             // Do we even print monster damage?
             int damage_taken = 0;
             int damaging_hits = 0;
@@ -501,6 +501,11 @@ void explosion( const tripoint &p, float power, float factor, bool fire,
 }
 
 void explosion( const tripoint &p, const explosion_data &ex )
+{
+    _explosions.emplace_back( p, ex );
+}
+
+void _make_explosion( const tripoint &p, const explosion_data &ex )
 {
     const int noise = ex.power * ( ex.fire ? 2 : 10 );
     if( noise >= 30 ) {
@@ -859,6 +864,14 @@ void resonance_cascade( const tripoint &p )
     }
 }
 
+void process_explosions()
+{
+    for( const queued_explosion &ex : _explosions ) {
+        _make_explosion( ex.first, ex.second );
+    }
+    _explosions.clear();
+}
+
 } // namespace explosion_handler
 
 // This is only ever used to zero the cloud values, which is what makes it work.
@@ -912,8 +925,8 @@ fragment_cloud accumulate_fragment_cloud( const fragment_cloud &cumulative_cloud
         const fragment_cloud &current_cloud, const int &distance )
 {
     // Velocity is the cumulative and continuous decay of speed,
-    // so it is accumulated the same way as light attentuation.
-    // Density is the accumulation of discrete attenuaton events encountered in the traversed squares,
+    // so it is accumulated the same way as light attenuation.
+    // Density is the accumulation of discrete attenuation events encountered in the traversed squares,
     // so each term is added to the series via multiplication.
     return fragment_cloud( ( ( distance - 1 ) * cumulative_cloud.velocity + current_cloud.velocity ) /
                            distance,

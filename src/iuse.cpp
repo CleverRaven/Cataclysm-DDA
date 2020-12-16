@@ -18,6 +18,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "bodypart.h"
@@ -6717,7 +6718,7 @@ static const std::unordered_map<description_affix, std::string> description_affi
     { description_affix::DESCRIPTION_AFFIX_COVERED_IN, translate_marker( " covered in %s" ) },
     { description_affix::DESCRIPTION_AFFIX_ON, translate_marker( " on %s" ) },
     { description_affix::DESCRIPTION_AFFIX_UNDER, translate_marker( " under %s" ) },
-    { description_affix::DESCRIPTION_AFFIX_ILLUMINTED_BY, translate_marker( " in %s" ) },
+    { description_affix::DESCRIPTION_AFFIX_ILLUMINATED_BY, translate_marker( " in %s" ) },
 };
 
 static std::string colorized_field_description_at( const tripoint &point )
@@ -6780,10 +6781,10 @@ static std::string colorized_ter_name_flags_at( const tripoint &point,
     if( ter_whitelist.empty() && flags.empty() ) {
         return name;
     }
-    if( !ter->open.is_null() || ( ter->examine != iexamine::none &&
-                                  ter->examine != iexamine::fungus &&
-                                  ter->examine != iexamine::water_source &&
-                                  ter->examine != iexamine::dirtmound ) ) {
+    if( !ter->open.is_null() || ( ter->has_examine( iexamine::none ) &&
+                                  ter->has_examine( iexamine::fungus ) &&
+                                  ter->has_examine( iexamine::water_source ) &&
+                                  ter->has_examine( iexamine::dirtmound ) ) ) {
         return name;
     }
     for( const ter_str_id &ter_good : ter_whitelist ) {
@@ -8012,24 +8013,17 @@ static void sendRadioSignal( player &p, const flag_id &signal )
                 if( it.has_flag( flag_RADIO_INVOKE_PROC ) ) {
                     // Invoke to transform a radio-modded explosive into its active form
                     it.type->invoke( p, it, loc );
-                    it.ammo_unset();
                 }
-            } else if( it.has_flag( flag_RADIO_CONTAINER ) && !it.contents.empty() ) {
+            } else if( !it.contents.empty_container() ) {
                 item *itm = it.contents.get_item_with( [&signal]( const item & c ) {
                     return c.has_flag( signal );
                 } );
 
                 if( itm != nullptr ) {
                     sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
-                    // Invoke twice: first to transform, then later to proc
+                    // Invoke to transform a radio-modded explosive into its active form
                     if( itm->has_flag( flag_RADIO_INVOKE_PROC ) ) {
                         itm->type->invoke( p, *itm, loc );
-                        itm->ammo_unset();
-                        // The type changed
-                    }
-                    if( itm->has_flag( flag_BOMB ) ) {
-                        itm->type->invoke( p, *itm, loc );
-                        it.contents.clear_items();
                     }
                 }
             }

@@ -433,5 +433,41 @@
     "harvest": "choc_cows",
     "starting_ammo": { "milk_raw_choc": 40 },
     "reproduction": { "baby_monster": "mon_cow_calf_choc", "baby_count": 1, "baby_timer": 343 }
+  },
+  {
+    "id": "mon_licorice_snake",
+    "type": "MONSTER",
+    "name": { "str": "licorice snake" },
+    "description": "A Snake whose body is made out of Licorice, at least it's the red type.",
+    "default_faction": "licorice_snakes",
+    "bodytype": "snake",
+    "species": [ "LICORICE" ],
+    "volume": "230 ml",
+    "weight": "1000 g",
+    "hp": 65,
+    "speed": 45,
+    "material": [ "sugar" ],
+    "reproduction": { "baby_monster": "mon_licorice_snake_hatchling", "baby_count": 20, "baby_timer": 245 },
+    "symbol": "~",
+    "color": "red",
+    "morale": 100,
+    "melee_skill": 1,
+    "melee_dice": 3,
+    "melee_dice_sides": 5,
+    "dodge": 6,
+    "vision_day": 23,
+    "vision_night": 50,
+    "harvest": "licorice_snake",
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES" ]
+  },
+  {
+    "id": "mon_licorice_snake_hatchling",
+    "type": "MONSTER",
+    "name": { "str": "Licorice Snake Hatchling" },
+    "description": "A baby snake made entirely out of licorice, possibly the children of the larger Licorice Snakes.",
+    "copy-from": "mon_licorice_snake",
+    "harvest": "licorice_snake",
+    "upgrades": { "age_grow": 200, "into": "mon_licorice_snake" }
   }
 ]

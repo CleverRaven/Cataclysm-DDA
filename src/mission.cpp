@@ -333,10 +333,24 @@ void mission::wrap_up()
         }
         break;
 
-        case MGOAL_FIND_ITEM:
-            comps.push_back( item_comp( type->item_id, item_count ) );
-            player_character.consume_items( comps );
-            break;
+        case MGOAL_FIND_ITEM: {
+            const item item_sought( type->item_id );
+            if( item_sought.is_software() ) {
+                int consumed = 0;
+                while( consumed < item_count ) {
+                    if( player_character.consume_software_container( type->item_id ) ) {
+                        consumed++;
+                    } else {
+                        debugmsg( "Tried to consume more software %s than available", type->item_id.c_str() );
+                        break;
+                    }
+                }
+            } else {
+                comps.push_back( item_comp( type->item_id, item_count ) );
+                player_character.consume_items( comps );
+            }
+        }
+        break;
         case MGOAL_FIND_ANY_ITEM:
             player_character.remove_mission_items( uid );
             break;
@@ -399,10 +413,19 @@ bool mission::is_complete( const character_id &_npc_id ) const
             map &here = get_map();
             int found_quantity = 0;
             bool charges = item_sought.count_by_charges();
-            auto count_items = [this, &found_quantity, &player_character, charges]( item_stack && items ) {
+            bool software = item_sought.is_software();
+            auto count_items = [this, &found_quantity, &player_character, charges, software]( item_stack &&
+            items ) {
                 for( const item &i : items ) {
                     if( !i.is_owned_by( player_character, true ) ) {
                         continue;
+                    }
+                    if( software ) {
+                        for( const item *soft : i.softwares() ) {
+                            if( soft->typeId() == type->item_id ) {
+                                found_quantity ++;
+                            }
+                        }
                     }
                     if( charges ) {
                         found_quantity += i.charges_of( type->item_id, item_count - found_quantity );
@@ -424,6 +447,9 @@ bool mission::is_complete( const character_id &_npc_id ) const
                         break;
                     }
                 }
+            }
+            if( software ) {
+                found_quantity += player_character.count_softwares( type->item_id );
             }
             if( charges ) {
                 return player_character.charges_of( type->item_id ) + found_quantity >= item_count;
@@ -525,7 +551,7 @@ void mission::get_all_item_group_matches( std::vector<item *> &items,
             }
         }
 
-        //recursivly check item contents for target
+        //recursively check item contents for target
         if( itm->is_container() && !itm->is_container_empty() ) {
             std::list<item *> content_list = itm->contents.all_items_top();
             std::vector<item *> content = std::vector<item *>();

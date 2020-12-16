@@ -183,9 +183,6 @@ class player : public Character
          */
         int fire_gun( const tripoint &target, int shots, item &gun );
 
-        /** Handles reach melee attacks */
-        void reach_attack( const tripoint &p );
-
         /**
          * Checks both the neighborhoods of from and to for climbable surfaces,
          * returns move cost of climbing from `from` to `to`.
@@ -355,29 +352,6 @@ class player : public Character
         void on_worn_item_transform( const item &old_it, const item &new_it );
 
         void process_items();
-        /**
-         * Remove charges from a specific item.
-         * The item must exist and it must be counted by charges.
-         * @param it A pointer to the item, it *must* exist.
-         * @param quantity The number of charges to remove, must not be larger than
-         * the current charges of the item.
-         * @return An item that contains the removed charges, it's effectively a
-         * copy of the item with the proper charges.
-         */
-        item reduce_charges( item *it, int quantity );
-
-        /**
-        * Check whether player has a bionic power armor interface.
-        * @return true if player has an active bionic capable of powering armor, false otherwise.
-        */
-        bool can_interface_armor() const;
-
-        bool has_mission_item( int mission_id ) const; // Has item with mission_id
-        /**
-         * Check whether the player has a gun that uses the given type of ammo.
-         */
-        bool has_gun_for_ammo( const ammotype &at ) const;
-        bool has_magazine_for_ammo( const ammotype &at ) const;
 
         // ---------------VALUES-----------------
         tripoint view_offset;
@@ -431,13 +405,6 @@ class player : public Character
 
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
-
-        /**
-         * Try to disarm the NPC. May result in fail attempt, you receiving the wepon and instantly wielding it,
-         * or the weapon falling down on the floor nearby. NPC is always getting angry with you.
-         * @param target Target NPC to disarm
-         */
-        void disarm( npc &target );
 
     protected:
 

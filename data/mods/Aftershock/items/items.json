@@ -15,6 +15,21 @@
     "material": [ "plastic" ]
   },
   {
+    "type": "GENERIC",
+    "id": "afs_radiobeacon",
+    "name": { "str": "orbital distress beacon" },
+    "description": "A distress radio beacon that automatically engages in the event of a crash.  You could plant it outside of the pod to attract rescuers, or more likely, bandits.  Alternatively, you could disassemble it for scrap.",
+    "weight": "340 g",
+    "volume": "1 L",
+    "price": 0,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "bashing": 6,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "yellow"
+  },
+  {
     "id": "afs_basin",
     "type": "GENERIC",
     "name": { "ctxt": "container", "str": "basin" },

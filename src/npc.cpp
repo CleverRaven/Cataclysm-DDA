@@ -1083,7 +1083,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
-        for( const bodypart_id bp : get_all_body_parts() ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
             if( !it.covers( bp ) ) {
                 continue;
             }
@@ -1604,17 +1604,14 @@ bool npc::wants_to_sell( const item &it ) const
 
 bool npc::wants_to_sell( const item &it, int at_price, int market_price ) const
 {
-    if( mission == NPC_MISSION_SHOPKEEP ) {
-        // Keep items that we never want to trade.
-        if( it.has_flag( flag_TRADER_KEEP ) ) {
-            return false;
-        }
-        // Also ones we don't want to trade while in use.
-        return !( it.has_flag( flag_TRADER_KEEP_EQUIPPED ) && ( is_worn( it ) || is_wielding( it ) ) );
+    if( will_exchange_items_freely() ) {
+        return true;
     }
 
-    if( is_player_ally() ) {
-        return true;
+    // Keep items that we never want to trade and the ones we don't want to trade while in use.
+    if( it.has_flag( flag_TRADER_KEEP ) ||
+        ( it.has_flag( flag_TRADER_KEEP_EQUIPPED ) && ( is_worn( it ) || is_wielding( it ) ) ) ) {
+        return false;
     }
 
     // TODO: Base on inventory
@@ -1627,10 +1624,14 @@ bool npc::wants_to_buy( const item &it ) const
     return wants_to_buy( it, value( it, market_price ), market_price );
 }
 
-bool npc::wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const
+bool npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) const
 {
-    if( is_player_ally() ) {
+    if( will_exchange_items_freely() ) {
         return true;
+    }
+
+    if( it.has_flag( flag_TRADER_AVOID ) ) {
+        return false;
     }
 
     // TODO: Base on inventory

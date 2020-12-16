@@ -151,6 +151,24 @@
     "copy-from": "schematics_generic"
   },
   {
+    "id": "afs_landfall_kit_2_instructions",
+    "type": "BOOK",
+    "name": { "str": "landfall survival manual" },
+    "description": "A small folio indicating how to best utilize the equipment of your landfall survival kit during an emergency.  Its first page urges you to remain calm, and to consult your escape pod's control console for further instructions.",
+    "weight": "120 g",
+    "volume": "500 ml",
+    "price": 0,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "file",
+    "color": "light_green",
+    "skill": "survival",
+    "max_level": 2,
+    "intelligence": 9,
+    "fun": -1,
+    "time": "20 m"
+  },
+  {
     "id": "cyrus'_notes",
     "type": "BOOK",
     "name": { "str": "Cyrus Whateley's Notes on Repurposing mi-go victims", "str_pl": "copies of Cyrus Whateley's Notes" },

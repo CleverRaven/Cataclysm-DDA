@@ -191,7 +191,6 @@ needs_plural = {
     "BOOK",
     "COMESTIBLE",
     "ENGINE",
-    "event_statistic",
     "GENERIC",
     "GUN",
     "GUNMOD",
@@ -202,6 +201,11 @@ needs_plural = {
     "TOOLMOD",
     "TOOL_ARMOR",
     "WHEEL",
+}
+
+# These objects use a plural form in their description
+needs_plural_desc = {
+    "event_statistic"
 }
 
 # these objects can be automatically converted, but use format strings
@@ -1220,8 +1224,9 @@ def extract(item, infilename):
             c = "Description for {}".format(name)
         else:
             c = None
-        if object_type in needs_plural:
-            writestr(outfile, item["description"], comment=c, pl_fmt=True, **kwargs)
+        if object_type in needs_plural_desc:
+            writestr(outfile, item["description"], comment=c, pl_fmt=True,
+                     **kwargs)
         else:
             writestr(outfile, item["description"], comment=c, **kwargs)
         wrote = True

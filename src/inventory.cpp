@@ -511,7 +511,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
         // kludge that can probably be done better to check specifically for toilet water to use in
         // crafting
-        if( m.furn( p ).obj().examine == &iexamine::toilet ) {
+        if( m.furn( p )->has_examine( iexamine::toilet ) ) {
             // get water charges at location
             map_stack toilet = m.i_at( p );
             auto water = toilet.end();
@@ -527,7 +527,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
 
         // keg-kludge
-        if( m.furn( p ).obj().examine == &iexamine::keg ) {
+        if( m.furn( p )->has_examine( iexamine::keg ) ) {
             map_stack liq_contained = m.i_at( p );
             for( auto &i : liq_contained ) {
                 if( i.made_of( phase_id::LIQUID ) ) {

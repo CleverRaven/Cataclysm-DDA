@@ -2082,7 +2082,7 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
 
             //Message offset: multiple impacts in the same direction in short order overriding prior messages (mostly turrets)
             for( auto &iter : vSCT ) {
-                if( iter.getDirecton() == p_oDir && ( iter.getStep() + iter.getStepOffset() ) == iCurStep ) {
+                if( iter.getDirection() == p_oDir && ( iter.getStep() + iter.getStepOffset() ) == iCurStep ) {
                     ++iCurStep;
                     iter.advanceStepOffset();
                 }
@@ -2093,7 +2093,7 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
         } else {
             //Message offset: this time in reverse.
             for( std::vector<cSCT>::reverse_iterator iter = vSCT.rbegin(); iter != vSCT.rend(); ++iter ) {
-                if( iter->getDirecton() == p_oDir && ( iter->getStep() + iter->getStepOffset() ) == iCurStep ) {
+                if( iter->getDirection() == p_oDir && ( iter->getStep() + iter->getStepOffset() ) == iCurStep ) {
                     ++iCurStep;
                     iter->advanceStepOffset();
                 }

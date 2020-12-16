@@ -49,6 +49,13 @@
     "flags": [ "RADIO_CONTAINER" ],
     "pocket_data": [
       {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "flag_restriction": [ "RADIOCARITEM" ]
+      },
+      {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "holster": true,

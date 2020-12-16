@@ -196,6 +196,8 @@ class item_contents
         // spill items that don't fit in the container
         void overflow( const tripoint &pos );
         void clear_items();
+        // clears all items from magazine type pockets
+        void clear_magazines();
         void update_open_pockets();
 
         /**

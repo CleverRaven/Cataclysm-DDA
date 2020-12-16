@@ -341,6 +341,32 @@
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
   },
   {
+    "id": "spacer_jumpsuit",
+    "repairs_like": "jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "jumpsuit",
+    "name": { "str": "crew jumpsuit" },
+    "description": "A lightweight cloth jumpsuit adorned with the faded corporate regalia of some freight hauling association or another.  This one is a standard design favored by spacers, with ample, easy access pockets.",
+    "color": "brown"
+  },
+  {
+    "id": "spacer_cap",
+    "repairs_like": "hat_cotton",
+    "type": "ARMOR",
+    "copy-from": "hat_cotton",
+    "material": [ "plastic", "cotton" ],
+    "looks_like": "powered_earmuffs",
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "PARTIAL_DEAF" ],
+    "name": { "str": "communications cap" },
+    "description": "A padded cotton cap built around an augmented reality headset.  During normal operation it would provide visual information about a ship subsystems and a communications link with the rest of the crew, but severed from a spaceship, only their hearing protection function retains any utility.",
+    "armor_portion_data": [
+      { "covers": [ "eyes" ], "coverage": 33, "encumbrance": 0 },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 2 }
+    ],
+    "color": "brown"
+  },
+  {
     "id": "afs_herc_rig",
     "type": "ARMOR",
     "name": { "str": "HERC rig" },

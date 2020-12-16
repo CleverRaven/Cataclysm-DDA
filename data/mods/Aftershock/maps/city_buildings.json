@@ -12,5 +12,14 @@
       { "point": [ 1, 0, 2 ], "overmap": "afs_urban_aquaponicsw_n3_north" }
     ],
     "locations": [ "land" ]
+  },
+  {
+    "type": "city_building",
+    "id": "afs_astrobiology_lab",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_astrobiology_lab_n1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_astrobiology_lab_n2_north" }
+    ],
+    "locations": [ "land" ]
   }
 ]

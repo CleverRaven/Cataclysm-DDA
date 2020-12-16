@@ -417,7 +417,7 @@
     "cancels": [ "THINSKIN" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 1,
         "bash": 1
       }
@@ -1080,7 +1080,7 @@
     "cancels": [ "THICKSKIN" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": -1,
         "bash": -1
       }
@@ -1865,7 +1865,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "cut": 1,
         "bash": 2
       }
@@ -1900,7 +1900,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "cut": 2,
         "bash": 3
       }
@@ -1934,7 +1934,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "cut": 3,
         "bash": 5
       }
@@ -1968,7 +1968,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 2
       }
     ]
@@ -2000,7 +2000,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 4
       }
     ],
@@ -2032,7 +2032,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 1
       }
     ]
@@ -2064,7 +2064,7 @@
     "category": [ "BIRD" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 1
       }
     ]
@@ -2115,7 +2115,7 @@
     "category": [ "BEAST", "CATTLE", "RAT" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 1
       }
     ]
@@ -2135,7 +2135,7 @@
     "category": [ "URSINE" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 1
       }
     ]
@@ -2155,7 +2155,7 @@
     "category": [ "LUPINE" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 1
       }
     ]
@@ -2214,7 +2214,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 2,
         "cut": 2
       }
@@ -2248,7 +2248,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 4,
         "cut": 4
       }
@@ -2295,7 +2295,7 @@
     "restricts_gear": [ "head" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 8,
         "cut": 8,
         "bullet": 1
@@ -2319,7 +2319,7 @@
     "changes_to": [ "CHITIN_FUR2" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 2,
         "cut": 2
       }
@@ -2341,7 +2341,7 @@
     "changes_to": [ "CHITIN_FUR3", "CHITIN3" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 4,
         "cut": 4
       }
@@ -2376,7 +2376,7 @@
     "restricts_gear": [ "head" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 8,
         "cut": 8,
         "bullet": 1
@@ -2456,7 +2456,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 1
       }
     ],
@@ -2487,7 +2487,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 2
       }
     ]
@@ -3279,13 +3279,32 @@
     "id": "EATHEALTH",
     "name": { "str": "Hyper-Metabolism" },
     "points": 15,
-    "description": "You metabolize nutrients so rapidly that you can convert food directly into useful tissue.  Excess nutrition will convert to HP, rather than being wasted.  Activate to skip prompt for overeating.",
+    "description": "Your particular metabolism allows you to burn calories at a prodigious rate to regenerate tissues in a matter of minutes, this is however a very wasteful process.  Activate to start healing.",
     "prereqs": [ "HUNGER3" ],
     "types": [ "METABOLISM" ],
     "threshreq": [ "THRESH_CHIMERA" ],
     "category": [ "CHIMERA" ],
     "valid": false,
-    "active": true
+    "active": true,
+    "transform": {
+      "target": "EATHEALTH_active",
+      "msg_transform": "Your hyper-metabolism starts burning up calories.",
+      "active": true,
+      "moves": 0
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "EATHEALTH_active",
+    "name": { "str": "Hyper-Metabolism: burning" },
+    "description": "You're burning calories like crazy to heal your wounds.",
+    "copy-from": "EATHEALTH",
+    "cost": 1,
+    "time": 1,
+    "hunger": true,
+    "healing_awake": 300.0,
+    "healing_resting": 350.0,
+    "transform": { "target": "EATHEALTH", "msg_transform": "Your hyper-metabolism slows down.", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
@@ -4115,7 +4134,7 @@
     "movecost_swim_modifier": 0.95,
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 1
       }
     ],
@@ -4390,7 +4409,7 @@
     "category": [ "SLIME" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "bash": -3
       }
     ]
@@ -5374,7 +5393,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "acid": 2
       }
     ]
@@ -5396,7 +5415,7 @@
     "category": [ "SLIME" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "bash": 4
       }
     ],

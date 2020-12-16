@@ -506,3 +506,22 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature *tar
         spell_lvl.cast_all_effects( caster, trg_crtr.pos() );
     }
 }
+
+bool operator==( const enchantment &source_enchantment, const enchantment &target_enchantment )
+{
+    bool is_the_same = true;
+    is_the_same &= source_enchantment.id == target_enchantment.id;
+    is_the_same &= source_enchantment.get_mutations() == target_enchantment.get_mutations();
+    is_the_same &= source_enchantment.values_multiply.size() ==
+                   target_enchantment.values_multiply.size();
+    is_the_same &= source_enchantment.values_add.size() == target_enchantment.values_add.size();
+    if( is_the_same ) {
+        for( auto mod : source_enchantment.values_multiply ) {
+            is_the_same &= mod.second == target_enchantment.values_multiply.at( mod.first );
+        }
+        for( auto mod : source_enchantment.values_add ) {
+            is_the_same &= mod.second == target_enchantment.values_add.at( mod.first );
+        }
+    }
+    return is_the_same;
+}

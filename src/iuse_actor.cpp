@@ -12,6 +12,7 @@
 #include <sstream>
 
 #include "action.h"
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "assign.h"
@@ -1084,6 +1085,7 @@ int deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) con
     }
 
     here.furn_set( pnt, furn_type );
+    it.spill_contents( pnt );
     p.mod_moves( to_turns<int>( 2_seconds ) );
     return 1;
 }
@@ -2541,16 +2543,28 @@ std::unique_ptr<iuse_actor> repair_item_actor::clone() const
     return std::make_unique<repair_item_actor>( *this );
 }
 
+std::set<itype_id> repair_item_actor::get_valid_repair_materials( const item &fix ) const
+{
+    std::set<itype_id> valid_entries;
+    for( const auto &mat : materials ) {
+        if( fix.made_of( mat ) ) {
+            const itype_id &component_id = mat.obj().repaired_with();
+            // Certain (different!) materials are repaired with the same components (steel, iron, hard steel use scrap metal).
+            // This checks avoids adding the same component twice, which is annoying to the user.
+            if( valid_entries.find( component_id ) != valid_entries.end() ) {
+                continue;
+            }
+            valid_entries.insert( component_id );
+        }
+    }
+    return valid_entries;
+}
+
 bool repair_item_actor::handle_components( player &pl, const item &fix,
         bool print_msg, bool just_check ) const
 {
     // Entries valid for repaired items
-    std::set<material_id> valid_entries;
-    for( const auto &mat : materials ) {
-        if( fix.made_of( mat ) ) {
-            valid_entries.insert( mat );
-        }
-    }
+    std::set<itype_id> valid_entries = get_valid_repair_materials( fix );
 
     if( valid_entries.empty() ) {
         if( print_msg ) {
@@ -2587,15 +2601,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
 
     // Go through all discovered repair items and see if we have any of them available
     std::vector<item_comp> comps;
-    for( const auto &entry : valid_entries ) {
-        const itype_id &component_id = entry.obj().repaired_with();
-        // Certain (different!) materials are repaired with the same components (steel, iron, hard steel use scrap metal).
-        // This checks avoids adding the same component twice, which is annoying to the user.
-        if( std::find_if( comps.begin(), comps.end(), [&]( const item_comp & ic ) {
-        return ic.type == component_id;
-    } ) != comps.end() ) {
-            continue;
-        }
+    for( const auto &component_id : valid_entries ) {
         if( item::count_by_charges( component_id ) ) {
             if( crafting_inv.has_charges( component_id, items_needed ) ) {
                 comps.emplace_back( component_id, items_needed );
@@ -2607,8 +2613,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
 
     if( comps.empty() ) {
         if( print_msg ) {
-            for( const auto &entry : valid_entries ) {
-                const auto &mat_comp = entry.obj().repaired_with();
+            for( const auto &mat_comp : valid_entries ) {
                 pl.add_msg_if_player( m_info,
                                       _( "You don't have enough %s to do that.  Have: %d, need: %d" ),
                                       item::nname( mat_comp, 2 ),
@@ -3783,8 +3788,8 @@ int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) con
 {
     if( p.can_install_bionics( *it.type, p, false ) ) {
         if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
-            p.consume_installation_requirment( it.type->bionic->id );
-            p.consume_anesth_requirment( *it.type, p );
+            p.consume_installation_requirement( it.type->bionic->id );
+            p.consume_anesth_requirement( *it.type, p );
         }
         return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
     } else {

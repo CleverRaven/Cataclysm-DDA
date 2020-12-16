@@ -612,12 +612,12 @@ item &item::ammo_unset()
         if( is_money() ) { // charges are set wrong on cash cards.
             charges = 0;
         }
-        contents.clear_items();
+        contents.clear_magazines();
     } else if( magazine_integral() ) {
         curammo = nullptr;
         charges = 0;
         if( is_gun() ) {
-            contents.clear_items();
+            contents.clear_magazines();
         }
     } else if( magazine_current() ) {
         magazine_current()->ammo_unset();
@@ -945,7 +945,7 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     if( type != rhs.type ) {
         return false;
     }
-    if( is_relic() ) {
+    if( is_relic() && !( *relic_data == *rhs.relic_data ) ) {
         return false;
     }
     if( charges != 0 && rhs.charges != 0 && is_money() ) {
@@ -1264,7 +1264,7 @@ item::sizing item::get_sizing( const Character &p ) const
         const bool big = p.get_size() == creature_size::huge;
 
         // due to the iterative nature of these features, something can fit and be undersized/oversized
-        // but that is fine because we have separate logic to adjust encumberance per each. One day we
+        // but that is fine because we have separate logic to adjust encumbrance per each. One day we
         // may want to have fit be a flag that only applies if a piece of clothing is sized for you as there
         // is a bit of cognitive dissonance when something 'fits' and is 'oversized' and the same time
         const bool undersize = has_flag( flag_UNDERSIZE );
@@ -2775,7 +2775,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                   piece.second.portion.max_encumber ) );
 
                         info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
-                                                  iteminfo::lower_is_better,
+                                                  iteminfo::no_flags,
                                                   piece.second.portion.coverage ) );
                     }
                 }
@@ -4496,7 +4496,8 @@ void item::on_damage( int, damage_type )
 
 }
 
-std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate ) const
+std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int truncate,
+                         bool with_contents ) const
 {
     int dirt_level = get_var( "dirt", 0 ) / 2000;
     std::string dirt_symbol;
@@ -4574,6 +4575,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 
     std::string maintext;
+    std::string contents_suffix_text;
+
     if( is_corpse() || typeId() == itype_blood || item_vars.find( "name" ) != item_vars.end() ) {
         maintext = type_name( quantity );
     } else if( is_gun() || is_tool() || is_magazine() ) {
@@ -4587,8 +4590,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         if( amt ) {
             maintext += string_format( "+%d", amt );
         }
-    } else if( is_armor() && has_clothing_mod() ) {
-        maintext = label( quantity ) + "+1";
     } else if( is_craft() ) {
         maintext = string_format( _( "in progress %s" ), craft_data_->making->result_name() );
         if( charges > 1 ) {
@@ -4596,23 +4597,29 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
         const int percent_progress = item_counter / 100000;
         maintext += string_format( " (%d%%)", percent_progress );
-    } else if( contents.num_item_stacks() == 1 ) {
-        const item &contents_item = contents.only_item();
-        const unsigned contents_count =
-            ( ( contents_item.made_of( phase_id::LIQUID ) || contents_item.is_food() ) &&
-              contents_item.charges > 1 )
-            ? contents_item.charges
-            : quantity;
-        maintext = string_format( pgettext( "item name", "%2$s (%1$s)" ), label( quantity ),
-                                  contents_item.tname( contents_count, with_prefix ) );
-    } else if( !contents.empty() ) {
-        maintext = string_format( npgettext( "item name",
-                                             //~ %1$s: item name, %2$zd: content size
-                                             "%1$s with %2$zd item",
-                                             "%1$s with %2$zd items", contents.num_item_stacks() ),
-                                  label( quantity ), contents.num_item_stacks() );
     } else {
-        maintext = label( quantity );
+        maintext = label( quantity ) + ( is_armor() && has_clothing_mod() ? "+1" : "" );
+
+        /* only expand full contents name if with_contents == true */
+        if( with_contents && contents.num_item_stacks() == 1 ) {
+            const item &contents_item = contents.only_item();
+            const unsigned contents_count =
+                ( ( contents_item.made_of( phase_id::LIQUID ) ||
+                    contents_item.is_food() || contents_item.count_by_charges() ) &&
+                  contents_item.charges > 1 )
+                ? contents_item.charges
+                : 1;
+            contents_suffix_text = string_format( pgettext( "item name",
+                                                  //~ [container item name] " > [inner item  name]"
+                                                  " > %1$s" ),
+                                                  /* with_contents=false for nested items to prevent excessively long names */
+                                                  contents_item.tname( contents_count, true, 0, false ) );
+        } else if( !contents.empty() ) {
+            contents_suffix_text = string_format( npgettext( "item name",
+                                                  //~ [container item name] " > [count] item"
+                                                  " > %1$zd item", " > %1$zd items",
+                                                  contents.num_item_stacks() ), contents.num_item_stacks() );
+        }
     }
 
     Character &player_character = get_player_character();
@@ -4744,9 +4751,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
     }
 
-    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (poor fit)").
-    std::string ret = string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s" ), damtext, burntext, modtext,
-                                     vehtext, maintext, tagtext );
+    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (e.g. "bruised"). %2$s: burn adjectives (e.g. "burnt"). %3$s: tool modifier text (e.g. "atomic"). %4$s: vehicle part text (e.g. "3.8-Liter"). $5$s: main item text (e.g. "apple"). %6s: tags (e.g. "(wet) (poor fit)").%7s: inner contents suffix (e.g. " > rock" or " > 5 items").
+    std::string ret = string_format( _( "%1$s%2$s%3$s%4$s%5$s%6$s%7$s" ), damtext, burntext, modtext,
+                                     vehtext, maintext, tagtext, contents_suffix_text );
 
     if( truncate != 0 ) {
         ret = utf8_truncate( ret, truncate + truncate_override );
@@ -5002,7 +5009,7 @@ units::mass item::weight( bool, bool integral ) const
             ret *= 0.85;
         }
 
-    } else if( magazine_integral() && !is_magazine() ) {
+    } else if( magazine_integral() && ( !is_magazine() || is_gun() ) ) {
         if( ammo_current() == itype_plut_cell ) {
             ret += ammo_remaining() * find_type( ammotype(
                     *ammo_types().begin() )->default_ammotype() )->weight / PLUTONIUM_CHARGES;
@@ -5030,6 +5037,9 @@ units::mass item::weight( bool, bool integral ) const
     if( is_gun() ) {
         for( const item *elem : gunmods() ) {
             ret += elem->weight( true, true );
+        }
+        if( magazine_current() ) {
+            ret += magazine_current()->weight();
         }
     } else {
         ret += contents.item_weight_modifier();
@@ -5524,7 +5534,7 @@ int item::get_comestible_fun() const
     }
 
     if( has_flag( flag_MUSHY ) ) {
-        return std::min( -5, fun ); // defrosted MUSHY food is practicaly tastless or tastes off
+        return std::min( -5, fun ); // defrosted MUSHY food is practically tasteless or tastes off
     }
 
     return fun;
@@ -6825,6 +6835,11 @@ bool item::is_container() const
 item_pocket *item::contained_where( const item &contained )
 {
     return contents.contained_where( contained );
+}
+
+const item_pocket *item::contained_where( const item &contained ) const
+{
+    return const_cast<item *>( this )->contained_where( contained );
 }
 
 bool item::is_watertight_container() const
@@ -8803,10 +8818,11 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
 
         if( e->is_tool() ) {
             if( e->typeId() == what ) {
-                int n = std::min( e->ammo_remaining(), qty );
-                qty -= n;
+                if( ( e->is_magazine() || e->magazine_current() != nullptr )
+                    && e->ammo_current() != itype_id::NULL_ID() ) {
 
-                if( e->is_magazine() || e->magazine_current() != nullptr ) {
+                    int n = std::min( e->ammo_remaining(), qty );
+                    qty -= n;
                     item temp( *e );
                     temp.ammo_set( e->ammo_current(), n );
                     used.push_back( temp );
@@ -9695,6 +9711,7 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     bool submerged = false;
     bool precipitation = false;
     bool windtoostrong = false;
+    bool in_veh = carrier != nullptr && carrier->in_vehicle;
     w_point weatherPoint = *get_weather().weather_precise;
     int windpower = get_weather().windspeed;
     switch( get_weather().weather_id->precip ) {
@@ -9711,11 +9728,11 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
             break;
     }
     map &here = get_map();
-    if( in_inv && here.has_flag( flag_DEEP_WATER, pos ) ) {
+    if( in_inv && !in_veh && here.has_flag( flag_DEEP_WATER, pos ) ) {
         extinguish = true;
         submerged = true;
     }
-    if( ( !in_inv && here.has_flag( flag_LIQUID, pos ) ) ||
+    if( ( !in_inv && here.has_flag( flag_LIQUID, pos ) && !here.veh_at( pos ) ) ||
         ( precipitation && !g->is_sheltered( pos ) ) ) {
         extinguish = true;
     }

@@ -11,6 +11,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "assign.h"
 #include "avatar.h"
@@ -1652,7 +1653,7 @@ void Character::process_bionic( const int b )
     } else if( bio.id == bio_nanobots ) {
         if( get_power_level() >= 40_J ) {
             std::forward_list<bodypart_id> bleeding_bp_parts;
-            for( const bodypart_id bp : get_all_body_parts() ) {
+            for( const bodypart_id &bp : get_all_body_parts() ) {
                 if( has_effect( effect_bleed, bp.id() ) ) {
                     bleeding_bp_parts.push_front( bp );
                 }
@@ -1946,7 +1947,7 @@ bool Character::has_enough_anesth( const itype &cbm )
     return true;
 }
 
-void Character::consume_anesth_requirment( const itype &cbm, player &patient )
+void Character::consume_anesth_requirement( const itype &cbm, player &patient )
 {
     const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
     const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
@@ -1960,7 +1961,7 @@ void Character::consume_anesth_requirment( const itype &cbm, player &patient )
     invalidate_crafting_inventory();
 }
 
-bool Character::has_installation_requirment( const bionic_id &bid )
+bool Character::has_installation_requirement( const bionic_id &bid )
 {
     if( bid->installation_requirement.is_empty() ) {
         return false;
@@ -1978,7 +1979,7 @@ bool Character::has_installation_requirment( const bionic_id &bid )
     return true;
 }
 
-void Character::consume_installation_requirment( const bionic_id &bid )
+void Character::consume_installation_requirement( const bionic_id &bid )
 {
     for( const auto &e : bid->installation_requirement->get_components() ) {
         as_player()->consume_items( e, 1, is_crafting_component );
@@ -2031,15 +2032,11 @@ int Character::bionics_pl_skill( bool autodoc, int skill_level ) const
     // Medical residents have some idea what they're doing
     if( has_trait( trait_PROF_MED ) ) {
         pl_skill += 3;
-        add_msg_player_or_npc( m_neutral, _( "You prep to begin surgery." ),
-                               _( "<npcname> prepares for surgery." ) );
     }
 
     // People trained in bionics gain an additional advantage towards using it
     if( has_trait( trait_PROF_AUTODOC ) ) {
         pl_skill += 7;
-        add_msg( m_neutral, _( "A lifetime of augmentation has taught %s a thing or two…" ),
-                 disp_name() );
     }
     return pl_skill;
 }
@@ -2310,7 +2307,7 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
     // if we're doing self install
     if( !autodoc && installer.is_avatar() ) {
         return installer.has_enough_anesth( type ) &&
-               installer.has_installation_requirment( bioid );
+               installer.has_installation_requirement( bioid );
     }
 
     int chance_of_success = bionic_success_chance( autodoc, skill_level, difficult, installer );

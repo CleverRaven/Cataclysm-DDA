@@ -163,7 +163,7 @@ static std::vector<firing_statistics> firing_test( const dispersion_sources &dis
         const int range, const std::vector< Threshold > &thresholds )
 {
     std::vector<firing_statistics> firing_stats;
-    for( const Threshold pear : thresholds ) {
+    for( const Threshold &pear : thresholds ) {
         firing_stats.push_back( firing_test( dispersion, range, pear ) );
     }
     return firing_stats;

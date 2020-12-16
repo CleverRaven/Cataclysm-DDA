@@ -108,6 +108,14 @@
     "components": [ [ [ "chitin_piece", 72 ] ] ]
   },
   {
+    "result": "xl_armor_chitin",
+    "type": "recipe",
+    "copy-from": "armor_chitin",
+    "time": "3 h",
+    "using": [ [ "cordage", 3 ] ],
+    "components": [ [ [ "chitin_piece", 96 ] ] ]
+  },
+  {
     "result": "armor_acidchitin",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -130,6 +138,14 @@
     "components": [ [ [ "acidchitin_piece", 72 ] ] ]
   },
   {
+    "result": "xl_armor_acidchitin",
+    "type": "recipe",
+    "copy-from": "armor_acidchitin",
+    "time": "5 h",
+    "using": [ [ "cordage", 3 ] ],
+    "components": [ [ [ "acidchitin_piece", 96 ] ] ]
+  },
+  {
     "result": "armor_farmor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -145,6 +161,14 @@
     "components": [ [ [ "fur", 48 ], [ "tanned_pelt", 8 ] ] ]
   },
   {
+    "result": "xl_armor_farmor",
+    "type": "recipe",
+    "copy-from": "armor_farmor",
+    "time": "5 h",
+    "using": [ [ "sewing_standard", 96 ] ],
+    "components": [ [ [ "fur", 72 ], [ "tanned_pelt", 12 ] ] ]
+  },
+  {
     "result": "armor_larmor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -158,6 +182,14 @@
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [ [ [ "leather", 30 ], [ "tanned_hide", 5 ], [ "fur", 30 ], [ "tanned_pelt", 5 ] ] ]
+  },
+  {
+    "result": "xl_armor_larmor",
+    "type": "recipe",
+    "copy-from": "armor_larmor",
+    "time": "5 h",
+    "using": [ [ "sewing_standard", 76 ] ],
+    "components": [ [ [ "leather", 42 ], [ "tanned_hide", 7 ], [ "fur", 42 ], [ "tanned_pelt", 7 ] ] ]
   },
   {
     "result": "armor_lightplate",
@@ -183,6 +215,14 @@
     "components": [ [ [ "fur", 20 ], [ "tanned_pelt", 3 ], [ "leather", 20 ], [ "tanned_hide", 3 ] ] ]
   },
   {
+    "result": "xl_armor_lightplate",
+    "type": "recipe",
+    "copy-from": "armor_lightplate",
+    "time": "14 h",
+    "using": [ [ "blacksmithing_standard", 110 ], [ "steel_standard", 32 ] ],
+    "components": [ [ [ "fur", 32 ], [ "tanned_pelt", 5 ], [ "leather", 32 ], [ "tanned_hide", 5 ] ] ]
+  },
+  {
     "result": "armor_lightplate",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -201,6 +241,14 @@
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }
     ],
     "components": [ [ [ "cuirass_lightplate", 1 ] ], [ [ "armguard_lightplate", 1 ] ], [ [ "legguard_lightplate", 1 ] ] ]
+  },
+  {
+    "result": "xl_armor_lightplate",
+    "type": "recipe",
+    "id_suffix": "assembly",
+    "time": "20 m",
+    "using": [ [ "blacksmithing_standard", 110 ], [ "steel_standard", 32 ] ],
+    "components": [ [ [ "xl_cuirass_lightplate", 1 ] ], [ [ "xl_armguard_lightplate", 1 ] ], [ [ "xl_legguard_lightplate", 1 ] ] ]
   },
   {
     "result": "armor_lorica",
@@ -224,6 +272,14 @@
       { "proficiency": "prof_articulation" }
     ],
     "components": [ [ [ "fur", 12 ], [ "tanned_pelt", 2 ], [ "leather", 12 ], [ "tanned_hide", 2 ] ] ]
+  },
+  {
+    "result": "xl_armor_lorica",
+    "type": "recipe",
+    "copy-from": "armor_lorica",
+    "time": "10 h",
+    "using": [ [ "forging_standard", 7 ], [ "steel_standard", 7 ] ],
+    "components": [ [ [ "fur", 18 ], [ "tanned_pelt", 3 ], [ "leather", 18 ], [ "tanned_hide", 3 ] ] ]
   },
   {
     "result": "armor_nomad",
@@ -300,6 +356,14 @@
     "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "armor_larmor", 1 ] ], [ [ "armguard_larmor", 1 ] ] ]
   },
   {
+    "result": "xl_armor_plarmor",
+    "type": "recipe",
+    "copy-from": "armor_plarmor",
+    "time": "3 h",
+    "using": [ [ "sewing_standard", 38 ] ],
+    "components": [ [ [ "steel_chunk", 8 ], [ "scrap", 24 ] ], [ [ "xl_armor_larmor", 1 ] ], [ [ "xl_armguard_larmor", 1 ] ] ]
+  },
+  {
     "result": "armor_plate",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
@@ -321,6 +385,14 @@
       { "proficiency": "prof_articulation" }
     ],
     "components": [ [ [ "fur", 16 ], [ "tanned_pelt", 3 ], [ "leather", 16 ], [ "tanned_hide", 3 ] ] ]
+  },
+  {
+    "result": "xl_armor_plate",
+    "type": "recipe",
+    "copy-from": "armor_plate",
+    "time": "3 h",
+    "using": [ [ "blacksmithing_standard", 160 ], [ "steel_standard", 45 ] ],
+    "components": [ [ [ "fur", 24 ], [ "tanned_pelt", 5 ], [ "leather", 24 ], [ "tanned_hide", 5 ] ] ]
   },
   {
     "result": "armor_samurai",
@@ -424,6 +496,18 @@
     "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ], [ [ "gambeson", 1 ] ] ]
   },
   {
+    "result": "xl_chainmail_hauberk",
+    "type": "recipe",
+    "copy-from": "chainmail_hauberk",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_chainmail_vest", 1 ] ],
+      [ [ "xl_chainmail_arms", 1 ] ],
+      [ [ "xl_chainmail_legs", 1 ] ],
+      [ [ "xl_gambeson", 1 ] ]
+    ]
+  },
+  {
     "result": "chainmail_suit",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -445,6 +529,19 @@
     ]
   },
   {
+    "result": "xl_chainmail_suit",
+    "type": "recipe",
+    "copy-from": "chainmail_suit",
+    "time": "20 m",
+    "components": [
+      [ [ "xl_chainmail_hood", 1 ] ],
+      [ [ "xl_chainmail_vest", 1 ] ],
+      [ [ "xl_chainmail_arms", 1 ] ],
+      [ [ "xl_chainmail_legs", 1 ] ],
+      [ [ "xl_gambeson", 1 ] ]
+    ]
+  },
+  {
     "result": "chainmail_suit",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -462,6 +559,21 @@
       { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
     ],
     "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_hauberk", 1 ] ] ]
+  },
+  {
+    "result": "xl_chainmail_suit",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "id_suffix": "hauberk",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "2 m",
+    "reversible": true,
+    "autolearn": true,
+    "flags": [ "NO_RESIZE" ],
+    "components": [ [ [ "xl_chainmail_hood", 1 ] ], [ [ "xl_chainmail_hauberk", 1 ] ] ]
   },
   {
     "result": "chainmail_suit_faraday",
@@ -576,6 +688,20 @@
     ]
   },
   {
+    "result": "xl_entry_suit",
+    "type": "recipe",
+    "copy-from": "entry_suit",
+    "time": "3 h",
+    "using": [ [ "sewing_standard", 300 ] ],
+    "tools": [ [ [ "welder", 45 ], [ "welder_crude", 90 ], [ "soldering_iron", 90 ], [ "toolset", 90 ] ] ],
+    "components": [
+      [ [ "nomex", 60 ] ],
+      [ [ "sheet_kevlar_layered", 12 ] ],
+      [ [ "duct_tape", 300 ], [ "superglue", 7 ] ],
+      [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "swat_armor", 2 ], [ "sheet_kevlar_layered", 48 ] ]
+    ]
+  },
+  {
     "result": "fsurvivor_suit",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -615,6 +741,32 @@
     ]
   },
   {
+    "result": "xl_fsurvivor_suit",
+    "type": "recipe",
+    "copy-from": "fsurvivor_suit",
+    "time": "3 h",
+    "using": [ [ "sewing_standard", 300 ] ],
+    "tools": [ [ [ "welder", 45 ], [ "welder_crude", 90 ], [ "soldering_iron", 90 ], [ "toolset", 90 ] ] ],
+    "components": [
+      [ [ "rag", 8 ] ],
+      [ [ "nomex_suit", 2 ], [ "entry_suit", 2 ], [ "nomex", 40 ] ],
+      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
+      [
+        [ "tacvest", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 6 ],
+        [ "leather_pouch", 4 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
+      [ [ "duct_tape", 300 ] ],
+      [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "swat_armor", 2 ], [ "sheet_kevlar_layered", 48 ] ]
+    ]
+  },
+  {
     "result": "gambeson",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -627,6 +779,14 @@
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "rag", 26 ] ] ]
+  },
+  {
+    "result": "xl_gambeson",
+    "type": "recipe",
+    "copy-from": "gambeson",
+    "time": "2 h",
+    "using": [ [ "sewing_standard", 45 ] ],
+    "components": [ [ [ "rag", 62 ] ] ]
   },
   {
     "result": "h20survivor_suit",
@@ -799,6 +959,31 @@
     ]
   },
   {
+    "result": "xl_lsurvivor_suit",
+    "type": "recipe",
+    "copy-from": "lsurvivor_suit",
+    "time": "5 h",
+    "using": [ [ "sewing_standard", 150 ] ],
+    "tools": [ [ [ "welder", 36 ], [ "welder_crude", 58 ], [ "soldering_iron", 58 ], [ "toolset", 58 ] ] ],
+    "components": [
+      [ [ "rag", 30 ] ],
+      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
+      [
+        [ "tacvest", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 6 ],
+        [ "leather_pouch", 4 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
+      [ [ "duct_tape", 300 ] ],
+      [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "swat_armor", 2 ], [ "sheet_kevlar_layered", 48 ] ]
+    ]
+  },
+  {
     "result": "nomex_suit",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -815,6 +1000,14 @@
       { "proficiency": "prof_polymerworking" }
     ],
     "components": [ [ [ "nomex", 18 ] ] ]
+  },
+  {
+    "result": "xl_nomex_suit",
+    "copy-from": "nomex_suit",
+    "type": "recipe",
+    "time": "2 h",
+    "using": [ [ "sewing_standard", 80 ] ],
+    "components": [ [ [ "nomex", 36 ] ] ]
   },
   {
     "result": "shark_suit_faraday",
@@ -1036,6 +1229,33 @@
       ],
       [ [ "duct_tape", 300 ] ],
       [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "sheet_kevlar_layered", 24 ] ]
+    ]
+  },
+  {
+    "result": "xl_wsurvivor_suit",
+    "copy-from": "wsurvivor_suit",
+    "time": "8 h",
+    "type": "recipe",
+    "using": [ [ "sewing_standard", 300 ] ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 104 ], [ "soldering_iron", 104 ], [ "toolset", 104 ] ] ],
+    "components": [
+      [ [ "rag", 20 ] ],
+      [ [ "leather", 30 ], [ "tanned_hide", 6 ] ],
+      [ [ "fur", 30 ], [ "tanned_pelt", 6 ] ],
+      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
+      [
+        [ "tacvest", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 6 ],
+        [ "leather_pouch", 4 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
+      [ [ "duct_tape", 400 ] ],
+      [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "swat_armor", 2 ], [ "sheet_kevlar_layered", 48 ] ]
     ]
   },
   {

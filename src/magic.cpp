@@ -1964,7 +1964,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     // One line for damage / healing / spawn / summon effect
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, damage_string );
 
-    // todo: damage over time here, when it gets implemeted
+    // todo: damage over time here, when it gets implemented
 
     // Show duration for spells that endure
     if( sp.duration() > 0 || sp.has_flag( spell_flag::PERMANENT ) ) {

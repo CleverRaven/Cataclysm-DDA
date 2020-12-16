@@ -1,4 +1,5 @@
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 
 #include <array>
 #include <cmath>
@@ -676,11 +677,13 @@ static hack_type get_hack_type( const tripoint &examp )
     map &here = get_map();
     const furn_t &xfurn_t = here.furn( examp ).obj();
     const ter_t &xter_t = here.ter( examp ).obj();
-    if( xter_t.examine == &iexamine::pay_gas || xfurn_t.examine == &iexamine::pay_gas ) {
+    if( xter_t.has_examine( iexamine::pay_gas ) || xfurn_t.has_examine( iexamine::pay_gas ) ) {
         type = hack_type::GAS;
-    } else if( xter_t.examine == &iexamine::cardreader || xfurn_t.examine == &iexamine::cardreader ) {
+    } else if( xter_t.has_examine( iexamine::cardreader ) ||
+               xfurn_t.has_examine( iexamine::cardreader ) ) {
         type = hack_type::DOOR;
-    } else if( xter_t.examine == &iexamine::gunsafe_el || xfurn_t.examine == &iexamine::gunsafe_el ) {
+    } else if( xter_t.has_examine( iexamine::gunsafe_el ) ||
+               xfurn_t.has_examine( iexamine::gunsafe_el ) ) {
         type = hack_type::SAFE;
     }
     return type;
@@ -1812,13 +1815,13 @@ void workout_activity_actor::start( player_activity &act, Character &who )
         _( "Physical effort determines workout efficiency, but also rate of exhaustion." );
     workout_query.title = _( "Choose training intensity:" );
     workout_query.addentry_desc( 1, true, 'l', pgettext( "training intensity", "Light" ),
-                                 _( "Light excercise comparable in intensity to walking, but more focused and methodical." ) );
+                                 _( "Light exercise comparable in intensity to walking, but more focused and methodical." ) );
     workout_query.addentry_desc( 2, true, 'm', pgettext( "training intensity", "Moderate" ),
-                                 _( "Moderate excercise without excessive exertion, but with enough effort to break a sweat." ) );
+                                 _( "Moderate exercise without excessive exertion, but with enough effort to break a sweat." ) );
     workout_query.addentry_desc( 3, true, 'a', pgettext( "training intensity", "Active" ),
-                                 _( "Active excercise with full involvement.  Strenuous, but in a controlled manner." ) );
+                                 _( "Active exercise with full involvement.  Strenuous, but in a controlled manner." ) );
     workout_query.addentry_desc( 4, true, 'h', pgettext( "training intensity", "High" ),
-                                 _( "High intensity excercise with maximum effort and full power.  Exhausting in the long run." ) );
+                                 _( "High intensity exercise with maximum effort and full power.  Exhausting in the long run." ) );
     workout_query.query();
     switch( workout_query.ret ) {
         case UILIST_CANCEL:
@@ -1881,7 +1884,7 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
             who.mod_thirst( 1 );
         }
         if( calendar::once_every( 16_minutes / intensity_modifier ) ) {
-            //~ heavy breathing when excercising
+            //~ heavy breathing when exercising
             std::string huff = _( "yourself huffing and puffing!" );
             sounds::sound( location + tripoint_east, 2 * intensity_modifier, sounds::sound_t::speech, huff,
                            true );
@@ -2032,6 +2035,15 @@ static std::list<item> obtain_activity_items(
 
         who.mod_moves( -consumed_moves );
 
+        // Take off the item or remove it from the player's inventory
+        if( who.is_worn( *loc ) ) {
+            who.as_player()->takeoff( *loc, &res );
+        } else if( loc->count_by_charges() ) {
+            res.push_back( who.as_player()->reduce_charges( &*loc, it->count() ) );
+        } else {
+            res.push_back( who.i_rem( &*loc ) );
+        }
+
         // If item is inside another (container/pocket), unseal it, and update encumbrance
         if( loc.has_parent() ) {
             item_location parent = loc.parent_item();
@@ -2053,14 +2065,6 @@ static std::list<item> obtain_activity_items(
             // when parent's encumbrance cannot be marked as dirty,
             // mark character's encumbrance as dirty instead (correctness over performance)
             who.set_check_encumbrance( true );
-        }
-        // Take off the item or remove it from the player's inventory
-        if( who.is_worn( *loc ) ) {
-            who.as_player()->takeoff( *loc, &res );
-        } else if( loc->count_by_charges() ) {
-            res.push_back( who.as_player()->reduce_charges( &*loc, it->count() ) );
-        } else {
-            res.push_back( who.i_rem( &*loc ) );
         }
     }
 

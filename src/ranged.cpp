@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "ballistics.h"
 #include "bodypart.h"
@@ -648,7 +649,7 @@ bool player::handle_gun_damage( item &it )
             // Don't return false in this case; this shot happens, follow-up ones won't.
         }
         // These are the dirtying/fouling mechanics
-        if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( flag_NON_FOULING ) ) {
+        if( !curammo_effects.count( "NON_FOULING" ) && !it.has_flag( flag_NON_FOULING ) ) {
             if( dirt < static_cast<int>( dirt_max_dbl ) ) {
                 dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - firing.blackpowder_tolerance *
                             2 );

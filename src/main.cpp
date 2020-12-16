@@ -657,6 +657,8 @@ int main( int argc, const char *argv[] )
 
     game_ui::init_ui();
 
+    // I have no clue what this comment is on about
+    // Any value works well enough for debugging at least
     catacurses::curs_set( 0 ); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 
 #if !defined(_WIN32)

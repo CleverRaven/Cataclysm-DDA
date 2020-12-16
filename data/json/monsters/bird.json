@@ -331,5 +331,33 @@
     "special_attacks": [ [ "SHRIEK", 10 ], [ "LUNGE", 8 ], { "type": "leap", "cooldown": 10, "max_range": 3 } ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM" ]
+  },
+  {
+    "id": "mon_pigeon",
+    "type": "MONSTER",
+    "name": { "str": "pigeon" },
+    "description": "Pigeons are gentle, plump, small-billed birds with a skin saddle (cere) between the bill and forehead.  All pigeons strut about with a characteristic bobbing of the head.  Because of their long wings and powerful flight muscles, they are strong, swift fliers.",
+    "bodytype": "bird",
+    "default_faction": "small_animal",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "BIRD" ],
+    "volume": "1 L",
+    "weight": "360 g",
+    "hp": 4,
+    "speed": 150,
+    "material": [ "flesh" ],
+    "symbol": "v",
+    "color": "dark_gray",
+    "aggression": -99,
+    "morale": 10,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "melee_cut": 0,
+    "dodge": 4,
+    "harvest": "bird_tiny",
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
+    "death_function": [ "NORMAL" ],
+    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 4 },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "FEATHER", "SWARMS", "BIRDFOOD" ]
   }
 ]

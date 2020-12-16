@@ -26,6 +26,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "gun", 1 ],
+    "time": "1 h 30 m",
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 1 ] ],
@@ -36,7 +37,6 @@
     "id_suffix": "from leather",
     "copy-from": "ammo_satchel",
     "type": "recipe",
-    "time": "1 h 30 m",
     "using": [ [ "strap_small", 1 ], [ "tailoring_leather_small", 2 ], [ "fastener_small", 1 ] ],
     "extend": { "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ] }
   },
@@ -96,6 +96,14 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
+    "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
+  },
+  {
+    "result": "xl_chestrig",
+    "type": "recipe",
+    "copy-from": "chestrig",
+    "time": "3 h",
+    "using": [ [ "tailoring_cotton_patchwork", 4 ], [ "strap_small", 1 ], [ "clasps", 3 ] ],
     "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
   },
   {
@@ -398,6 +406,14 @@
       { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_leatherworking_basic" }
     ],
+    "components": [ [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ], [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ] ]
+  },
+  {
+    "result": "xl_tacvest",
+    "type": "recipe",
+    "copy-from": "tacvest",
+    "time": "13 h",
+    "using": [ [ "tailoring_cotton", 7 ], [ "plastic_molding", 3 ] ],
     "components": [ [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ], [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ] ]
   },
   {
@@ -1007,6 +1023,14 @@
       { "proficiency": "prof_leatherworking" }
     ],
     "components": [ [ [ "rag", 6 ] ], [ [ "holster", 1 ], [ "sholster", 1 ] ], [ [ "leather_pouch", 3 ] ], [ [ "duct_tape", 50 ] ] ]
+  },
+  {
+    "result": "xl_survivor_vest",
+    "type": "recipe",
+    "copy-from": "survivor_vest",
+    "time": "16 h",
+    "using": [ [ "sewing_standard", 150 ], [ "tailoring_leather_small", 9 ], [ "fastener_large", 2 ] ],
+    "components": [ [ [ "rag", 8 ] ], [ [ "holster", 1 ], [ "sholster", 1 ] ], [ [ "leather_pouch", 3 ] ], [ [ "duct_tape", 80 ] ] ]
   },
   {
     "result": "swag_bag",
