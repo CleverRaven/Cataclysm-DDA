@@ -104,7 +104,7 @@ static const efftype_id effect_iodine( "iodine" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_operating( "operating" );
-static const efftype_id effect_paralyzepoison( "paralysepoison" );
+static const efftype_id effect_paralysepoison( "paralysepoison" );
 static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill_l( "pkill_l" );
 static const efftype_id effect_pkill1( "pkill1" );
