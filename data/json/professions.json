@@ -2124,7 +2124,7 @@
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "kasaya", "pants", "flip_flops", "holy_symbol", "holybook_sutras" ],
+        "items": [ "pants", "kasaya", "flip_flops", "holy_symbol", "holybook_sutras" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
