@@ -350,6 +350,9 @@ class overmap
         std::map<tripoint, std::bitset<six_cardinal_directions.size()>> electric_grid_connections;
     public:
 
+        void set_electric_grid_connections( const tripoint &p,
+                                            const std::bitset<six_cardinal_directions.size()> &connections );
+
         // TODO: make private
         std::vector<radio_tower> radios;
         std::map<int, om_vehicle> vehicles;

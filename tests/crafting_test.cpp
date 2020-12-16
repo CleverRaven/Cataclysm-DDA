@@ -12,6 +12,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catch/catch.hpp"
+#include "coordinate_conversions.h"
 #include "crafting.h"
 #include "game.h"
 #include "item.h"
@@ -19,6 +20,8 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -544,6 +547,40 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+TEST_CASE( "oven electric grid test", "[crafting][overmap][grids]" )
+{
+    constexpr tripoint start_pos = tripoint( 60, 60, 0 );
+    g->u.setpos( start_pos );
+    clear_avatar();
+    clear_map();
+    GIVEN( "player is near an oven on a charged electric grid" ) {
+        auto om = overmap_buffer.get_om_global( sm_to_omt_copy( g->m.getabs( g->u.pos() ) ) );
+        om.om->set_electric_grid_connections( om.local, {} );
+        g->m.furn_set( start_pos + point( 10, 0 ), furn_str_id( "f_battery" ) );
+        // TODO: Make the battery charged here!!!
+        g->m.furn_set( start_pos + point( 1, 0 ), furn_str_id( "f_oven" ) );
+        const inventory &crafting_inv = g->u.crafting_inventory();
+        WHEN( "crafting inventory is built" ) {
+            const inventory &crafting_inv = g->u.crafting_inventory();
+            THEN( "it contains an oven item with >0 charges" ) {
+                REQUIRE( crafting_inv.has_charges( itype_id( "oven" ), 1 ) );
+            }
+        }
+
+        WHEN( "the player is near a pot and a bottle of water" ) {
+            g->m.add_item( g->u.pos(), item( "pot" ) );
+            g->m.add_item( g->u.pos(), item( "water" ).in_its_container() );
+            THEN( "clean water can be crafted" ) {
+                const recipe &r = *recipe_id( "water_clean" );
+                const inventory &crafting_inv = g->u.crafting_inventory();
+                bool can_craft = r.deduped_requirements().can_make_with_inventory(
+                                     crafting_inv, r.get_component_filter() );
+                REQUIRE( can_craft );
             }
         }
     }

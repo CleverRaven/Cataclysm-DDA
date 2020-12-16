@@ -4710,6 +4710,19 @@ bool overmap::is_omt_generated( const tripoint &loc ) const
     return is_generated;
 }
 
+void overmap::set_electric_grid_connections( const tripoint &p,
+        const std::bitset<six_cardinal_directions.size()> &connections )
+{
+    electric_grid_connections[p] = connections;
+    for( size_t i = 0; i < six_cardinal_directions.size(); i++ ) {
+        tripoint other_p = p + six_cardinal_directions[i];
+        tripoint other_p_global = omt_to_sm_copy( other_p ) + om_to_sm_copy( tripoint( pos(), other_p.z ) );
+        overmap_with_local_coords other = overmap_buffer.get_om_global( other_p_global );
+        size_t opposite_direction = i + ( ( i % 2 ) ? -1 : 1 );
+        other.om->electric_grid_connections[other.local][opposite_direction] = connections[i];
+    }
+}
+
 overmap_special_id overmap_specials::create_building_from( const string_id<oter_type_t> &base )
 {
     // TODO: Get rid of the hard-coded ids.
