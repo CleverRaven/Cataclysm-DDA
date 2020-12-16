@@ -703,6 +703,11 @@
     "info": "This item provides comfort during sleep."
   },
   {
+    "id": "SLEEP_AID_CONTAINER",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
     "id": "REVIVE_SPECIAL",
     "type": "json_flag",
     "context": [ "GENERIC" ]

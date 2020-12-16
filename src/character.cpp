@@ -6841,6 +6841,26 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                         comfort_response.aid = &items_it;
                         break; // prevents using more than 1 sleep aid
                     }
+                    if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
+                        bool found = false;
+                        if( items_it.contents.size() > 1 ) {
+                            // Only one item is allowed, so we don't fill our pillowcase with nails
+                            continue;
+                        }
+                        for( const item *it : items_it.contents.all_items_top() ) {
+                            if( it->has_flag( flag_SLEEP_AID ) ) {
+                                // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                                comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                                comfort_response.aid = &items_it;
+                                found = true;
+                                break; // prevents using more than 1 sleep aid
+                            }
+                        }
+                        // Only 1 sleep aid
+                        if( found ) {
+                            break;
+                        }
+                    }
                 }
             }
             if( board ) {
@@ -6877,6 +6897,26 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                     comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
                     comfort_response.aid = &items_it;
                     break; // prevents using more than 1 sleep aid
+                }
+                if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
+                    bool found = false;
+                    if( items_it.contents.size() > 1 ) {
+                        // Only one item is allowed, so we don't fill our pillowcase with nails
+                        continue;
+                    }
+                    for( const item *it : items_it.contents.all_items_top() ) {
+                        if( it->has_flag( flag_SLEEP_AID ) ) {
+                            // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                            comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                            comfort_response.aid = &items_it;
+                            found = true;
+                            break; // prevents using more than 1 sleep aid
+                        }
+                    }
+                    // Only 1 sleep aid
+                    if( found ) {
+                        break;
+                    }
                 }
             }
         }
