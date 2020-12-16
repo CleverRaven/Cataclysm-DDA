@@ -2784,6 +2784,29 @@ void acc_data::load( const JsonObject &jo )
 // *INDENT-ON*
 } // namespace io
 
+static void migrate_mag_from_pockets( itype &def )
+{
+    for( const pocket_data &pocket : def.pockets ) {
+        if( pocket.type == item_pocket::pocket_type::MAGAZINE_WELL ) {
+            if( def.gun ) {
+                for( const ammotype &atype : def.gun->ammo ) {
+                    def.magazine_default.emplace( atype, pocket.default_magazine );
+                }
+            }
+            if( def.magazine ) {
+                for( const ammotype &atype : def.magazine->type ) {
+                    def.magazine_default.emplace( atype, pocket.default_magazine );
+                }
+            }
+            if( def.tool ) {
+                for( const ammotype &atype : def.tool->ammo_id ) {
+                    def.magazine_default.emplace( atype, pocket.default_magazine );
+                }
+            }
+        }
+    }
+}
+
 void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std::string &src )
 {
     bool strict = src == "dda";
@@ -3023,6 +3046,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.read( "abstract", def.id, true );
     } else {
         jo.read( "id", def.id, true );
+    }
+
+    if( def.magazines.empty() ) {
+        migrate_mag_from_pockets( def );
     }
 
     // snippet_category should be loaded after def.id is determined
