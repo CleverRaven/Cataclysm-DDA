@@ -2123,10 +2123,7 @@
     "points": 0,
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
-      "both": {
-        "items": [ "pants", "kasaya", "flip_flops", "holy_symbol", "holybook_sutras" ],
-        "entries": [ { "group": "charged_cell_phone" } ]
-      },
+      "both": { "items": [ "kasaya", "flip_flops", "holy_symbol", "holybook_sutras" ] },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
