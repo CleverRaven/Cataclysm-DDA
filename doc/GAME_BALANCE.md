@@ -206,8 +206,10 @@ Everywhere else   | Predominately 9mm and 223. Always with standard magazine  | 
 Bow damage is based on the momentum achieved in the projectile.  Since arrows and bolts have sharp cutting surfaces, the penetration and therefore damage achieved is based on the projectile's capacity for slicing through tissues.  The arrow has a modifier based on construction, material and design, most critically centered around the effectiveness of the head.  Base damage is calculated from momentum by taking momentum in Slug-foot-seconds, multiplying by 150 and subtracting 32. This was arrived at by taking well-regarded bowhunting guidelines and determining the damage numbers necessary for a kill of various game on a critical hit, see tests/archery_damage_test.cpp for details.
 
 ## Ammo stats
-The damage (**Dmg**) of firearm ammunition is the square root of a round's muzzle energy in joules (**Energy, J**) rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts. A similar system for calculating recoil is planned but not currently being worked on. The figures used to calculate stats and any other relevant information are presented in table below.
+### Base Damage
+The damage (**Dmg**) of firearm ammunition starts with the square root of a round's muzzle energy in joules (**Energy, J**) rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics. These numbers are modified depending on certain criteria (see Adjustment Criteria, below). Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts. A similar system for calculating recoil is planned but not currently being worked on. The figures used to calculate stats and any other relevant information are presented in table below.
 
+### Base Barrel Length
 Each cartridge also has a Base Barrel Length (**Base Brl**) listed; this determines the damage for the connected guns. A firearm has its damage modifier determined by it's real life barrel length; for every three inches between it and the listed baseline here, the gun takes a 1 point bonus or penalty, rounding to the nearest modifier. For example, a .45 ACP gun with a 7 inch barrel would get a +1 bonus (against a baseline of 5 inches).
 
 Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | Applied Modifiers / Comments |
@@ -264,6 +266,15 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .50 BMG M33 Ball   | 706.7gr bullet              | 18013     | 134 | 45in     |                              |
 .50 BMG M903 SLAP  | 355gr tungsten AP bullet    | 17083     | 131 | 45in     |  Can't be used with M107A1   |
 .410 000 shot      | 5 000 pellets               | 1530      | 39  | 18in     |                              |
+
+###Adjustment Criteria
+If the resulting base damage is below specific thresholds, apply one of three multipliers. If the base damage is less than 20, the multiplier is 1.333. Else, if the base damage less than 30, the multiplier is 1.222. Else, if the base damage is less than 40, the multiplier is 1.111. Ammunition with damage of 40 or higher will generally have no arbitrary multiplier given to its basic variant.
+
+As for terminal ballistics, hollowpoints variant should be at least 25% more effective against a completely unarmored target, in order for the difference to be considered relevant. Conversely, the base FMJ variation should ideally be at least 25% more effective against a reasonable level of armor for that ammunition to encounter. This recommendation will inform how much armor penetration the two variants should have.
+
+For ammunition that would not be expected to defeat soft body armor (i.e. kevlar), test the difference in damage against both 8 and 16 armor. For reference, 16 is the current cut protection a kevlar vest offers. In at least one of these contexts, preferably both, the standard FMJ should have 25% or higher damage than the hollowpoint version.
+
+For ammunition expected to defeat soft body armor but not hard body armor (i.e. ballistic vest with ceramic plates), perform the same tests against armor values of 23 and 45. For reference, the latter number is the current cut protection of a ceramic-plated MBR vest, and the latter is half that (rounded up). Again, at least one of those scenarios, preferably both, should involve a high enough difference in armor penetration for the FMJ variant to perform at least 25% better than the JHP variant.
 
 # LIQUIDS:
 Multi-charge items are weighed by the charge/use.  If you have an item that contains 40 uses, it'll weigh 40x as much (when found in-game) as you entered in the JSON. Liquids are priced by the 250mL unit, but handled in containers.  This can cause problems if you create something that comes in (say) a gallon jug (15 charges) and price it at the cost of a jug's worth: it'll be 15x as expensive as intended.

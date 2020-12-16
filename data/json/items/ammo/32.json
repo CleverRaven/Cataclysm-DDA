@@ -17,7 +17,8 @@
     "ammo_type": "32",
     "casing": "32_casing",
     "range": 12,
-    "damage": { "damage_type": "stab", "amount": 16 },
+    "//": "Base muzzle energy of ~256 joules, balance increase of one-third.",
+    "damage": { "damage_type": "stab", "amount": 21, "armor_penetration": 7 },
     "dispersion": 70,
     "recoil": 150,
     "effects": [ "COOKOFF" ]

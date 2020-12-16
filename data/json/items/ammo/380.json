@@ -17,7 +17,8 @@
     "ammo_type": "380",
     "casing": "380_casing",
     "range": 13,
-    "damage": { "damage_type": "stab", "amount": 16, "armor_penetration": 2 },
+    "//": "Base muzzle energy of ~256 joules, balance increase of one-third.",
+    "damage": { "damage_type": "stab", "amount": 21, "armor_penetration": 8 },
     "dispersion": 60,
     "recoil": 300,
     "effects": [ "COOKOFF" ]
@@ -28,7 +29,8 @@
     "type": "AMMO",
     "name": { "str": ".380 ACP JHP" },
     "description": ".380 ACP ammunition with a 95gr jacketed hollow point bullet.  It is a popular round for small concealable backup pistols, and often the weakest recommended defensive caliber.  One should be careful not to chamber it in 9x18mm Makarov or 9x19mm firearms.",
-    "relative": { "damage": { "damage_type": "stab", "amount": 2, "armor_penetration": -2 } }
+    "//": "Hollowpoint damage increase of 25%",
+    "damage": { "damage_type": "stab", "amount": 26, "armor_penetration": 0 }
   },
   {
     "id": "380_p",
@@ -40,7 +42,8 @@
     "price_postapoc": 1500,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 25,
-    "relative": { "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 2 }, "dispersion": -15 },
+    "damage": { "damage_type": "stab", "amount": 24, "armor_penetration": 4 },
+    "relative": { "dispersion": -15 },
     "proportional": { "recoil": 1.1 }
   },
   {
