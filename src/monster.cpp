@@ -1294,8 +1294,8 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         effect == effect_venom_dmg ||
         effect == effect_venom_weaken ||
         effect == effect_poison ) {
-        return !has_flag( MF_WARM ) ||
-               ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) );
+        return type->in_species(species_ZOMBIE) ||
+			   !made_of_any( Creature::cmat_flesh);
     }
 
     if( effect == effect_stunned ) {
