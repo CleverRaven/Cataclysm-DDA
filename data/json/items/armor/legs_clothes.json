@@ -1,5 +1,26 @@
 [
   {
+    "id": "antarvasa",
+    "repairs_like": "tshirt",
+    "type": "ARMOR",
+    "name": { "str": "antarvasa" },
+    "description": "A traditional, ankle-length Buddhist skirt. The bottom protrudes, and appears in the rough shape of a triangle.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": 6500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "kilt",
+    "color": "brown",
+    "covers": [ "leg_l", "leg_r" ],
+    "coverage": 90,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "warmth": 8,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE" ]
+  },
+  {
     "id": "b_shorts",
     "repairs_like": "jeans",
     "type": "ARMOR",
