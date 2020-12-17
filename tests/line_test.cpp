@@ -339,9 +339,6 @@ static void line_to_comparison( const int iterations )
     REQUIRE( trig_dist( point_zero, point_zero ) == 0 );
     REQUIRE( trig_dist( point_zero, point_east ) == 1 );
 
-    const int seed = time( nullptr );
-    std::srand( seed );
-
     for( int i = 0; i < RANDOM_TEST_NUM; ++i ) {
         const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
         const int y1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
