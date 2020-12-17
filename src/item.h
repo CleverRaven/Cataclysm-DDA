@@ -720,7 +720,7 @@ class item : public visitable<item>
          */
         void update_modified_pockets();
         // for pocket update stuff, which pocket is @contained in?
-        // returns a nullptr if the item is not contaiend, and prints a debug message
+        // returns a nullptr if the item is not contained, and prints a debug message
         item_pocket *contained_where( const item &contained );
         const item_pocket *contained_where( const item &contained ) const;
         /** Whether this is a container which can be used to store liquids. */
@@ -1666,10 +1666,10 @@ class item : public visitable<item>
          * item provides when worn. See @ref player::get_env_resist. Higher values are better.
          * For non-armor it returns 0.
          *
-         * @param override_base_resist Pass this to artifically increase the
+         * @param override_base_resist Pass this to artificially increase the
          * base resistance, so that the function can take care of other
          * modifications to resistance for you. Note that this parameter will
-         * never decrease base resistnace.
+         * never decrease base resistance.
          */
         int get_env_resist( int override_base_resist = 0 ) const;
         /**
@@ -1821,6 +1821,9 @@ class item : public visitable<item>
         const itype *ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
         itype_id ammo_current() const;
+        /** Get currently loaded ammo, if any.
+         * @return item reference or null item if not loaded. */
+        const item &loaded_ammo() const;
         /** Ammo type of an ammo item
          *  @return ammotype of ammo item or a null id if the item is not ammo */
         ammotype ammo_type() const;

@@ -12,6 +12,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "ammo.h"
 #include "avatar.h"
@@ -1511,14 +1512,20 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
         for( item_location &ammo : find_ammo( *e, empty, ammo_search_range ) ) {
 
             itype_id id = ammo->typeId();
+            bool speedloader = false;
             if( e->can_reload_with( id ) ) {
+                // Record that there's a matching ammo type,
+                // even if something is preventing reloading at the moment.
                 ammo_match_found = true;
             } else if( ammo->has_flag( flag_SPEEDLOADER ) && e->allows_speedloader( id ) &&
                        ammo->ammo_remaining() > 1 && e->ammo_remaining() < 1 ) {
                 id = ammo->ammo_current();
+                // Again, this is "are they compatible", later check handles "can we do it now".
                 ammo_match_found = e->can_reload_with( id );
+                speedloader = true;
             }
-            if( can_reload( *e, id ) || e->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+            if( can_reload( *e, id ) && ( speedloader || e->ammo_remaining() == 0 ||
+                                          e->loaded_ammo().stacks_with( *ammo ) ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
             }
         }
@@ -1538,7 +1545,7 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
                                    base.tname() );
 
             } else if( ammo_match_found ) {
-                add_msg_if_player( m_info, _( "Nothing to reload!" ) );
+                add_msg_if_player( m_info, _( "You can't reload anything with the ammo you have on hand" ) );
             } else {
                 std::string name;
                 if( base.ammo_data() ) {

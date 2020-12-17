@@ -358,7 +358,7 @@ class Creature : public location, public viewer
         /**
          * For fake-players (turrets, mounted turrets) this functions
          * chooses a target. This is for creatures that are friendly towards
-         * the player and therefor choose a target that is hostile
+         * the player and therefore choose a target that is hostile
          * to the player.
          *
          * @param range The maximal range to look for monsters, anything
@@ -393,7 +393,7 @@ class Creature : public location, public viewer
         virtual int deal_melee_attack( Creature *source, int hitroll );
 
         // modifies the damage dealt based on the creature's enchantments
-        // since creatures currently don't have enchantmnts, this is just virtual
+        // since creatures currently don't have enchantments, this is just virtual
         virtual damage_instance modify_damage_dealt_with_enchantments( const damage_instance &dam ) const;
         // completes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
@@ -673,6 +673,8 @@ class Creature : public location, public viewer
         int get_part_temp_conv( const bodypart_id &id ) const;
         int get_part_frostbite_timer( const bodypart_id &id )const;
 
+        std::array<int, NUM_WATER_TOLERANCE> get_part_mut_drench( const bodypart_id &id ) const;
+
         float get_part_wetness_percentage( const bodypart_id &id ) const;
 
         const encumbrance_data &get_part_encumbrance_data( const bodypart_id &id )const;
@@ -689,6 +691,8 @@ class Creature : public location, public viewer
         void set_part_temp_cur( const bodypart_id &id, int set );
         void set_part_temp_conv( const bodypart_id &id, int set );
         void set_part_frostbite_timer( const bodypart_id &id, int set );
+
+        void set_part_mut_drench( const bodypart_id &id, std::pair<water_tolerance, int> set );
 
         void mod_part_hp_cur( const bodypart_id &id, int mod );
         void mod_part_hp_max( const bodypart_id &id, int mod );

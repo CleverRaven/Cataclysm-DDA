@@ -2,6 +2,7 @@
 #include "player_helpers.h"
 #include "map_helpers.h"
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "catch/catch.hpp"
 

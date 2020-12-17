@@ -1264,7 +1264,7 @@ item::sizing item::get_sizing( const Character &p ) const
         const bool big = p.get_size() == creature_size::huge;
 
         // due to the iterative nature of these features, something can fit and be undersized/oversized
-        // but that is fine because we have separate logic to adjust encumberance per each. One day we
+        // but that is fine because we have separate logic to adjust encumbrance per each. One day we
         // may want to have fit be a flag that only applies if a piece of clothing is sized for you as there
         // is a bit of cognitive dissonance when something 'fits' and is 'oversized' and the same time
         const bool undersize = has_flag( flag_UNDERSIZE );
@@ -5534,7 +5534,7 @@ int item::get_comestible_fun() const
     }
 
     if( has_flag( flag_MUSHY ) ) {
-        return std::min( -5, fun ); // defrosted MUSHY food is practicaly tastless or tastes off
+        return std::min( -5, fun ); // defrosted MUSHY food is practically tasteless or tastes off
     }
 
     return fun;
@@ -7668,6 +7668,31 @@ itype_id item::ammo_current() const
     }
 
     return itype_id::NULL_ID();
+}
+
+const item &item::loaded_ammo() const
+{
+    const item *mag = magazine_current();
+    if( mag ) {
+        return mag->loaded_ammo();
+    }
+
+    if( is_magazine() ) {
+        return !contents.empty() ? contents.first_ammo() : null_item_reference();
+    }
+
+    auto mods = is_gun() ? gunmods() : toolmods();
+    for( const item *e : mods ) {
+        const item &mod_ammo = e->loaded_ammo();
+        if( !mod_ammo.is_null() ) {
+            return mod_ammo;
+        }
+    }
+
+    if( is_gun() && ammo_remaining() != 0 ) {
+        return contents.first_ammo();
+    }
+    return null_item_reference();
 }
 
 std::set<ammotype> item::ammo_types( bool conversion ) const

@@ -1470,6 +1470,7 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> hunger_pair = u.get_hunger_description();
     std::pair<std::string, nc_color> thirst_pair = u.get_thirst_description();
     std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
+    std::pair<std::string, nc_color> weight_pair = u.get_weight_description();
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1485,6 +1486,8 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 30, 1 ), hunger_pair.second, hunger_pair.first );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Heat :" ) );
     mvwprintz( w, point( 8, 2 ), temp_pair.first, temp_pair.second );
+    mvwprintz( w, point( 23, 2 ), c_light_gray, _( "Weight:" ) );
+    mvwprintz( w, point( 30, 2 ), weight_pair.second, weight_pair.first );
     wnoutrefresh( w );
 }
 
@@ -1733,18 +1736,19 @@ static void draw_armor_padding( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 2 ), color, _( "Arms :" ) );
     mvwprintz( w, point( 1, 3 ), color, _( "Legs :" ) );
     mvwprintz( w, point( 1, 4 ), color, _( "Feet :" ) );
-
-    unsigned int max_length = getmaxx( w ) - 8;
-    print_colored_text( w, point( 8, 0 ), color, color, get_armor( u, bodypart_id( "head" ),
-                        max_length ) );
-    print_colored_text( w, point( 8, 1 ), color, color, get_armor( u, bodypart_id( "torso" ),
-                        max_length ) );
-    print_colored_text( w, point( 8, 2 ), color, color, get_armor( u, bodypart_id( "arm_r" ),
-                        max_length ) );
-    print_colored_text( w, point( 8, 3 ), color, color, get_armor( u, bodypart_id( "leg_r" ),
-                        max_length ) );
-    print_colored_text( w, point( 8, 4 ), color, color, get_armor( u, bodypart_id( "foot_r" ),
-                        max_length ) );
+    const int heading_length = std::max( {utf8_width( _( "Head :" ) ), utf8_width( _( "Torso:" ) ), utf8_width( _( "Arms :" ) ), utf8_width( _( "Legs :" ) ), utf8_width( _( "Feet :" ) )} )
+                               + 2;
+    const int max_length = getmaxx( w ) - heading_length;
+    trim_and_print( w, point( heading_length, 0 ), max_length, color, get_armor( u,
+                    bodypart_id( "head" ) ) );
+    trim_and_print( w, point( heading_length, 1 ), max_length, color, get_armor( u,
+                    bodypart_id( "torso" ) ) );
+    trim_and_print( w, point( heading_length, 2 ), max_length, color, get_armor( u,
+                    bodypart_id( "arm_r" ) ) );
+    trim_and_print( w, point( heading_length, 3 ), max_length, color, get_armor( u,
+                    bodypart_id( "leg_r" ) ) );
+    trim_and_print( w, point( heading_length, 4 ), max_length, color, get_armor( u,
+                    bodypart_id( "foot_r" ) ) );
     wnoutrefresh( w );
 }
 
@@ -1758,18 +1762,19 @@ static void draw_armor( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 0, 2 ), color, _( "Arms :" ) );
     mvwprintz( w, point( 0, 3 ), color, _( "Legs :" ) );
     mvwprintz( w, point( 0, 4 ), color, _( "Feet :" ) );
-
-    unsigned int max_length = getmaxx( w ) - 7;
-    print_colored_text( w, point( 7, 0 ), color, color, get_armor( u, bodypart_id( "head" ),
-                        max_length ) );
-    print_colored_text( w, point( 7, 1 ), color, color, get_armor( u, bodypart_id( "torso" ),
-                        max_length ) );
-    print_colored_text( w, point( 7, 2 ), color, color, get_armor( u, bodypart_id( "arm_r" ),
-                        max_length ) );
-    print_colored_text( w, point( 7, 3 ), color, color, get_armor( u, bodypart_id( "leg_r" ),
-                        max_length ) );
-    print_colored_text( w, point( 7, 4 ), color, color, get_armor( u, bodypart_id( "foot_r" ),
-                        max_length ) );
+    const int heading_length = std::max( {utf8_width( _( "Head :" ) ), utf8_width( _( "Torso:" ) ), utf8_width( _( "Arms :" ) ), utf8_width( _( "Legs :" ) ), utf8_width( _( "Feet :" ) )} )
+                               + 1;
+    const int max_length = getmaxx( w ) - heading_length;
+    trim_and_print( w, point( heading_length, 0 ), max_length, color, get_armor( u,
+                    bodypart_id( "head" ) ) );
+    trim_and_print( w, point( heading_length, 1 ), max_length, color, get_armor( u,
+                    bodypart_id( "torso" ) ) );
+    trim_and_print( w, point( heading_length, 2 ), max_length, color, get_armor( u,
+                    bodypart_id( "arm_r" ) ) );
+    trim_and_print( w, point( heading_length, 3 ), max_length, color, get_armor( u,
+                    bodypart_id( "leg_r" ) ) );
+    trim_and_print( w, point( heading_length, 4 ), max_length, color, get_armor( u,
+                    bodypart_id( "foot_r" ) ) );
     wnoutrefresh( w );
 }
 

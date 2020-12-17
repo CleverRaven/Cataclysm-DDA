@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
@@ -669,7 +670,7 @@ static item *set_item_inventory( Character &p, item &newit )
 
 /**
  * Helper for @ref set_item_map_or_vehicle
- * This is needed to still get a vaild item_location if overflow occurs
+ * This is needed to still get a valid item_location if overflow occurs
  */
 static item_location set_item_map( const tripoint &loc, item &newit )
 {
@@ -1870,7 +1871,7 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
     return selected;
 }
 
-bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_craft )
+bool Character::craft_consume_tools( item &craft, int multiplier, bool start_craft )
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_consume_tools() called on non-craft '%s.' Aborting.", craft.tname() );
@@ -1880,7 +1881,7 @@ bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_cra
         return true;
     }
 
-    const auto calc_charges = [&craft, &start_craft, &mulitplier]( int charges ) {
+    const auto calc_charges = [&craft, &start_craft, &multiplier]( int charges ) {
         int ret = charges;
 
         if( ret <= 0 ) {
@@ -1894,7 +1895,7 @@ bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_cra
         ret /= 20;
 
         // In case more than 5% progress was accomplished in one turn
-        ret *= mulitplier;
+        ret *= multiplier;
 
         // If just starting consume the remainder as well
         if( start_craft ) {

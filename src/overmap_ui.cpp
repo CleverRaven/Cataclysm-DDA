@@ -1115,7 +1115,7 @@ void create_note( const tripoint_abs_omt &curs )
     std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n\n",
                               _( "Type GLYPH<color_yellow>:</color>TEXT to set a custom glyph." ),
                               _( "Type COLOR<color_yellow>;</color>TEXT to set a custom color." ),
-                              // NOLINTNEXTLINE(cata-text-style): literal exclaimation mark
+                              // NOLINTNEXTLINE(cata-text-style): literal exclamation mark
                               _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
     color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(),
                                        helper_text );

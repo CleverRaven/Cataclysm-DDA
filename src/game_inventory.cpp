@@ -862,7 +862,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
                                  ? p.has_charges( comest->tool, 1 )
                                  : p.has_amount( comest->tool, 1 );
                 if( !has && !( comest->tool == itype_syringe && p.has_bionic( bio_syringe ) ) ) {
-                    return _( "You need a %s to consume that!" ), item::nname( comest->tool );
+                    return string_format( _( "You need a %s to consume that!" ), item::nname( comest->tool ) );
                 }
             }
 

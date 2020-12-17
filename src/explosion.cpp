@@ -420,7 +420,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
             frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
             // dealt_dam.total_damage() == 0 means armor block
             // dealt_dam.total_damage() > 0 means took damage
-            // Need to diffentiate target among player, npc, and monster
+            // Need to differentiate target among player, npc, and monster
             // Do we even print monster damage?
             int damage_taken = 0;
             int damaging_hits = 0;
@@ -925,8 +925,8 @@ fragment_cloud accumulate_fragment_cloud( const fragment_cloud &cumulative_cloud
         const fragment_cloud &current_cloud, const int &distance )
 {
     // Velocity is the cumulative and continuous decay of speed,
-    // so it is accumulated the same way as light attentuation.
-    // Density is the accumulation of discrete attenuaton events encountered in the traversed squares,
+    // so it is accumulated the same way as light attenuation.
+    // Density is the accumulation of discrete attenuation events encountered in the traversed squares,
     // so each term is added to the series via multiplication.
     return fragment_cloud( ( ( distance - 1 ) * cumulative_cloud.velocity + current_cloud.velocity ) /
                            distance,

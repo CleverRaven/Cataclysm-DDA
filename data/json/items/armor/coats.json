@@ -835,6 +835,28 @@
     "flags": [ "VARSIZE" ]
   },
   {
+    "id": "kasaya",
+    "repairs_like": "trenchcoat",
+    "type": "ARMOR",
+    "name": { "str": "kasaya" },
+    "description": "A traditional, ankle-length Buddhist robe, stitched together from three large rectangular pieces of saffron dyed cloth.",
+    "weight": "1200 g",
+    "volume": "5000 ml",
+    "price": 20000,
+    "price_postapoc": 50,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "kimono",
+    "color": "brown",
+    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
+    "coverage": 90,
+    "encumbrance": 2,
+    "warmth": 20,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE" ]
+  },
+  {
     "id": "keikogi",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",

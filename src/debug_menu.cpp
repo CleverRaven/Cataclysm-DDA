@@ -1317,7 +1317,11 @@ void debug()
     };
     bool should_disable_achievements = action && !non_cheaty_options.count( *action );
     if( should_disable_achievements && achievements.is_enabled() ) {
-        if( query_yn( _( "Using this will disable achievements.  Proceed?" ) ) ) {
+        static const std::string query(
+            translate_marker(
+                "Using this will disable achievements.  Proceed?"
+                "\nThey can be reenabled in the 'game' section of the menu." ) );
+        if( query_yn( _( query ) ) ) {
             achievements.set_enabled( false );
         } else {
             action = cata::nullopt;
@@ -1813,7 +1817,7 @@ void debug()
             g->display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
             break;
         case debug_menu_index::DISPLAY_REACHABILITY_ZONES:
-            g->display_reahability_zones();
+            g->display_reachability_zones();
             break;
         case debug_menu_index::HOUR_TIMER:
             g->toggle_debug_hour_timer();

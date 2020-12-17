@@ -28,6 +28,7 @@
 #include "achievement.h"
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "auto_note.h"
@@ -2139,7 +2140,7 @@ static hint_rating rate_action_wield( const avatar &you, const item &it )
 int game::inventory_item_menu( item_location locThisItem,
                                const std::function<int()> &iStartX,
                                const std::function<int()> &iWidth,
-                               const inventory_item_menu_positon position )
+                               const inventory_item_menu_position position )
 {
     int cMenu = static_cast<int>( '+' );
 
@@ -3594,6 +3595,17 @@ void game::draw()
     wnoutrefresh( w_terrain );
 
     draw_panels( true );
+
+    // This breaks stuff in the SDL port, see
+    // https://github.com/CleverRaven/Cataclysm-DDA/issues/45910
+#if !defined(TILES)
+    // Ensure that the cursor lands on the character when everything is drawn.
+    // This allows screen readers to describe the area around the player, making it
+    // much easier to play with them
+    // (e.g. for blind players)
+    wmove( w_terrain, -u.view_offset.xy() + point{POSX, POSY} );
+    wnoutrefresh( w_terrain );
+#endif
 }
 
 void game::draw_panels( bool force_draw )
@@ -3730,8 +3742,6 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         draw_veh_dir_indicator( false );
         draw_veh_dir_indicator( true );
     }
-    // Place the cursor over the player as is expected by screen readers.
-    wmove( w_terrain, -center.xy() + get_player_character().pos().xy() + point( POSX, POSY ) );
 }
 
 cata::optional<tripoint> game::get_veh_dir_indicator_location( bool next ) const
@@ -4656,6 +4666,7 @@ void game::overmap_npc_move()
             travelling_npcs.push_back( npc_to_add );
         }
     }
+    bool npcs_need_reload = false;
     for( auto &elem : travelling_npcs ) {
         if( elem->has_omt_destination() ) {
             if( !elem->omt_path.empty() && rl_dist( elem->omt_path.back(), elem->global_omt_location() ) > 2 ) {
@@ -4664,6 +4675,9 @@ void game::overmap_npc_move()
             }
             if( elem->omt_path.empty() ) {
                 elem->omt_path = overmap_buffer.get_npc_path( elem->global_omt_location(), elem->goal );
+                if( elem->omt_path.empty() ) { // goal is unreachable, reset it
+                    elem->goal = npc::no_goal_point;
+                }
             } else {
                 if( elem->omt_path.back() == elem->global_omt_location() ) {
                     elem->omt_path.pop_back();
@@ -4671,9 +4685,15 @@ void game::overmap_npc_move()
                 // TODO: fix point types
                 elem->travel_overmap(
                     project_to<coords::sm>( elem->omt_path.back() ).raw() );
+                npcs_need_reload = true;
             }
-            reload_npcs();
+        } else if( calendar::once_every( 1_hours ) && one_in( 3 ) ) {
+            // travelling destination is reached/not set, try different one
+            elem -> set_omt_destination();
         }
+    }
+    if( npcs_need_reload ) {
+        reload_npcs();
     }
 }
 
@@ -5936,7 +5956,7 @@ void game::examine( const tripoint &examp )
     } else {
         if( !u.is_mounted() ) {
             xter_t.examine( u, examp );
-        } else if( u.is_mounted() && xter_t.examine == &iexamine::none ) {
+        } else if( u.is_mounted() && !xter_t.can_examine() ) {
             xter_t.examine( u, examp );
         } else {
             add_msg( m_warning, _( "You cannot do that while mounted." ) );
@@ -5950,7 +5970,7 @@ void game::examine( const tripoint &examp )
     }
 
     bool none = true;
-    if( xter_t.examine != &iexamine::none || xfurn_t.examine != &iexamine::none ) {
+    if( xter_t.can_examine() || xfurn_t.can_examine() ) {
         none = false;
     }
 
@@ -5982,8 +6002,8 @@ void game::examine( const tripoint &examp )
             m.has_flag( "CONTAINER", examp ) && none ) {
             add_msg( _( "It is empty." ) );
         } else if( ( m.has_flag( TFLAG_FIRE_CONTAINER, examp ) &&
-                     xfurn_t.examine == &iexamine::fireplace ) ||
-                   xfurn_t.examine == &iexamine::workbench ) {
+                     xfurn_t.has_examine( iexamine::fireplace ) ) ||
+                   xfurn_t.has_examine( iexamine::workbench ) ) {
             return;
         } else {
             sounds::process_sound_markers( &u );
@@ -7217,7 +7237,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             }
         } else if( action == "display_reachability_zones" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
-                display_reahability_zones();
+                display_reachability_zones();
             }
         } else if( action == "debug_radiation" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
@@ -9928,25 +9948,25 @@ point game::place_player( const tripoint &dest_loc )
         const std::string forage_type = get_option<std::string>( "AUTO_FORAGING" );
         if( forage_type != "off" ) {
             const auto forage = [&]( const tripoint & pos ) {
-                const auto &xter_t = m.ter( pos ).obj().examine;
-                const auto &xfurn_t = m.furn( pos ).obj().examine;
+                const ter_t &xter_t = *m.ter( pos );
+                const furn_t &xfurn_t = *m.furn( pos );
                 const bool forage_everything = forage_type == "both";
                 const bool forage_bushes = forage_everything || forage_type == "bushes";
                 const bool forage_trees = forage_everything || forage_type == "trees";
-                if( xter_t == &iexamine::none ) {
+                if( !xter_t.can_examine() ) {
                     return;
-                } else if( ( forage_bushes && xter_t == &iexamine::shrub_marloss ) ||
-                           ( forage_bushes && xter_t == &iexamine::shrub_wildveggies ) ||
-                           ( forage_bushes && xter_t == &iexamine::harvest_ter_nectar ) ||
-                           ( forage_trees && xter_t == &iexamine::tree_marloss ) ||
-                           ( forage_trees && xter_t == &iexamine::harvest_ter ) ||
-                           ( forage_trees && xter_t == &iexamine::harvest_ter_nectar )
+                } else if( ( forage_bushes && xter_t.has_examine( iexamine::shrub_marloss ) ) ||
+                           ( forage_bushes && xter_t.has_examine( iexamine::shrub_wildveggies ) ) ||
+                           ( forage_bushes && xter_t.has_examine( iexamine::harvest_ter_nectar ) ) ||
+                           ( forage_trees && xter_t.has_examine( iexamine::tree_marloss ) ) ||
+                           ( forage_trees && xter_t.has_examine( iexamine::harvest_ter ) ) ||
+                           ( forage_trees && xter_t.has_examine( iexamine::harvest_ter_nectar ) )
                          ) {
-                    xter_t( u, pos );
-                } else if( ( forage_everything && xfurn_t == &iexamine::harvest_furn ) ||
-                           ( forage_everything && xfurn_t == &iexamine::harvest_furn_nectar )
+                    xter_t.examine( u, pos );
+                } else if( ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn ) ) ||
+                           ( forage_everything && xfurn_t.has_examine( iexamine::harvest_furn_nectar ) )
                          ) {
-                    xfurn_t( u, pos );
+                    xfurn_t.examine( u, pos );
                 }
             };
 
@@ -10135,11 +10155,10 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest )
     }
     const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : m.get_abs_sub().z;
     const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : m.get_abs_sub().z;
-    m.clear_all_vehicle_caches( m.get_abs_sub().z );
     for( int z = minz; z <= maxz; z++ ) {
         m.clear_vehicle_list( z );
     }
-    m.build_all_vehicle_caches( m.get_abs_sub().z );
+    m.rebuild_vehicle_level_caches();
     m.access_cache( m.get_abs_sub().z ).map_memory_seen_cache.reset();
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
@@ -11259,7 +11278,6 @@ void game::vertical_shift( const int z_after )
     const tripoint abs_sub = m.get_abs_sub();
     const int z_before = abs_sub.z;
     if( !m.has_zlevels() ) {
-        m.clear_all_vehicle_caches( z_before );
         m.access_cache( z_before ).vehicle_list.clear();
         m.access_cache( z_before ).zone_vehicles.clear();
         m.access_cache( z_before ).map_memory_seen_cache.reset();
@@ -11269,7 +11287,7 @@ void game::vertical_shift( const int z_after )
         m.load( tripoint_abs_sm( point_abs_sm( abs_sub.xy() ), z_after ), true );
         shift_monsters( tripoint( 0, 0, z_after - z_before ) );
         reload_npcs();
-        m.build_all_vehicle_caches( z_after );
+        m.rebuild_vehicle_level_caches();
     } else {
         // Shift the map itself
         m.vertical_shift( z_after );
@@ -11944,8 +11962,8 @@ void game::display_transparency()
     }
 }
 
-// Debug menu: askes which reachability cache to display
-void game::display_reahability_zones()
+// Debug menu: asks which reachability cache to display
+void game::display_reachability_zones()
 {
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_REACHABILITY_ZONES );
@@ -12051,41 +12069,19 @@ void game::autosave()
 
 void game::start_calendar()
 {
-    if( scen->custom_initial_date() ) {
-        // Configured starting date overridden by scenario, calendar::start is left as Spring 1
-        calendar::start_of_cataclysm = calendar::turn_zero + 1_hours * scen->initial_hour();
-        calendar::start_of_game = calendar::turn_zero + 1_hours * scen->initial_hour();
-        calendar::initial_season = scen->initial_season();
-        calendar::start_of_game += calendar::season_length() * (
-                                       static_cast<int>( scen->initial_season() ) +
-                                       static_cast<int>( season_type::NUM_SEASONS ) * scen->initial_year() );
-    } else {
-        // No scenario, so use the starting date+time configured in world options
-        int initial_days = get_option<int>( "INITIAL_DAY" );
-        if( initial_days == -1 ) {
-            // 0 - 363 for a 91 day season
-            initial_days = rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
-        }
-        calendar::start_of_cataclysm = calendar::turn_zero + 1_days * initial_days;
-
-        // Determine the season based off how long the seasons are set to be
-        // First take the number of season elapsed up to the starting date, then mod by 4 to get the season of the current year
-        const int season_number = ( initial_days / get_option<int>( "SEASON_LENGTH" ) ) % 4;
-        if( season_number == 0 ) {
-            calendar::initial_season = SPRING;
-        } else if( season_number == 1 ) {
-            calendar::initial_season = SUMMER;
-        } else if( season_number == 2 ) {
-            calendar::initial_season = AUTUMN;
-        } else {
-            calendar::initial_season = WINTER;
-        }
-
-        calendar::start_of_game = calendar::start_of_cataclysm
-                                  + 1_hours * get_option<int>( "INITIAL_TIME" )
-                                  + 1_days * get_option<int>( "SPAWN_DELAY" );
+    int initial_days = get_option<int>( "INITIAL_DAY" );
+    if( initial_days == -1 ) {
+        // 0 - 363 for a 91 day season
+        initial_days = rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
     }
-
+    calendar::start_of_cataclysm = calendar::turn_zero + 1_days * initial_days;
+    // Configured starting date overridden by scenario, calendar::start is left as Spring 1
+    calendar::start_of_game = calendar::turn_zero
+                              + 1_hours * scen->initial_hour()
+                              + 1_days * scen->initial_day()
+                              + get_option<int>( "SEASON_LENGTH" ) * 1_days * scen->initial_season()
+                              + 4 * get_option<int>( "SEASON_LENGTH" ) * 1_days * ( scen->initial_year() - 1 )
+                              + 1_days * get_option<int>( "SPAWN_DELAY" );
     calendar::turn = calendar::start_of_game;
 }
 

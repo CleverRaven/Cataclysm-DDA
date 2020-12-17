@@ -528,7 +528,7 @@ class game
         void catch_a_monster( monster *fish, const tripoint &pos, player *p,
                               const time_duration &catch_duration );
         /**
-         * Get the contiguous fishable locations starting at fish_pos, out to the specificed distance.
+         * Get the contiguous fishable locations starting at fish_pos, out to the specified distance.
          * @param distance Distance around the fish_pos to examine for contiguous fishable locations.
          * @param fish_pos The location being fished.
          * @return A set of locations representing the valid contiguous fishable locations.
@@ -592,7 +592,7 @@ class game
 
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
 
-        enum inventory_item_menu_positon {
+        enum inventory_item_menu_position {
             RIGHT_TERMINAL_EDGE,
             LEFT_OF_INFO,
             RIGHT_OF_INFO,
@@ -605,7 +605,7 @@ class game
         const std::function<int()> &width = []() {
             return 50;
         },
-        inventory_item_menu_positon position = RIGHT_OF_INFO );
+        inventory_item_menu_position position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( const item_filter &filter, const std::string &title, int radius = 0,
@@ -976,7 +976,7 @@ class game
                 bool r_cache_vertical;
                 reachability_cache_quadrant quadrant;
         } debug_rz_display = {};
-        void display_reahability_zones(); // Displays reachability zones
+        void display_reachability_zones(); // Displays reachability zones
 
         spell_events &spell_events_subscriber();
 

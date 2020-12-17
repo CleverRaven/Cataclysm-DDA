@@ -92,8 +92,8 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
 std::vector<item_pricing> npc_trading::init_selling( npc &np )
 {
     std::vector<item_pricing> result;
-    const auto inv_all = np.items_with( []( const item & ) {
-        return true;
+    const std::vector<item *> inv_all = np.items_with( []( const item & it ) {
+        return !it.made_of( phase_id::LIQUID );
     } );
     for( item *i : inv_all ) {
         item &it = *i;
@@ -161,6 +161,11 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
             return;
         }
         item &it = *loc;
+
+        // Don't sell items that are loose liquid
+        if( it.made_of( phase_id::LIQUID ) ) {
+            return;
+        }
 
         // Don't sell items we don't own.
         if( !it.is_owned_by( seller ) ) {

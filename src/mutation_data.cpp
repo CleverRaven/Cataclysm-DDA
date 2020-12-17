@@ -376,7 +376,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         transform->load( jo, "transform" );
     }
 
-    optional( jo, was_loaded, "triggers", triger_list );
+    optional( jo, was_loaded, "triggers", trigger_list );
 
     optional( jo, was_loaded, "initial_ma_styles", initial_ma_styles );
 

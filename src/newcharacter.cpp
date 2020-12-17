@@ -1116,8 +1116,8 @@ tab_direction set_traits( avatar &u, points_left &points )
         for( int i = 0; i < 3; i++ ) {
             // Shift start position to avoid iterating beyond end
             int total = static_cast<int>( traits_size[i] );
-            int heigth = static_cast<int>( iContentHeight );
-            iStartPos[i] = std::min( iStartPos[i], std::max( 0, total - heigth ) );
+            int height = static_cast<int>( iContentHeight );
+            iStartPos[i] = std::min( iStartPos[i], std::max( 0, total - height ) );
         }
     };
     init_windows( ui );
@@ -2305,35 +2305,21 @@ tab_direction set_scenario( avatar &u, points_left &points,
             mvwprintz( w_initial_date, point_zero, COL_HEADER, _( "Scenario calendar:" ) );
             wprintz( w_initial_date, c_light_gray, ( "\n" ) );
             if( sorted_scens[cur_id]->custom_initial_date() ) {
-                if( !sorted_scens[cur_id]->random_initial_year() ) {
-                    wprintz( w_initial_date, c_light_gray, _( "Year:   %d" ), sorted_scens[cur_id]->initial_year() );
-                    wprintz( w_initial_date, c_light_gray, ( "\n" ) );
-                } else {
-                    wprintz( w_initial_date, c_light_gray, _( "Year:   Random" ) );
-                    wprintz( w_initial_date, c_light_gray, ( "\n" ) );
-                }
-                if( !sorted_scens[cur_id]->random_initial_season() ) {
-                    wprintz( w_initial_date, c_light_gray, _( "Season: %s" ),
-                             calendar::name_season( sorted_scens[cur_id]->initial_season() ) );
-                    wprintz( w_initial_date, c_light_gray, ( "\n" ) );
-                } else {
-                    wprintz( w_initial_date, c_light_gray, _( "Season: Random" ) );
-                    wprintz( w_initial_date, c_light_gray, ( "\n" ) );
-                }
-                if( !sorted_scens[cur_id]->random_initial_day() ) {
-                    wprintz( w_initial_date, c_light_gray, _( "Day:    %d" ), sorted_scens[cur_id]->initial_day() );
-                    wprintz( w_initial_date, c_light_gray, ( "\n" ) );
-                } else {
-                    wprintz( w_initial_date, c_light_gray, _( "Day:    Random" ) );
-                    wprintz( w_initial_date, c_light_gray, ( "\n" ) );
-                }
-                if( !sorted_scens[cur_id]->random_initial_hour() ) {
-                    wprintz( w_initial_date, c_light_gray, _( "Hour:   %d" ), sorted_scens[cur_id]->initial_hour() );
-                    wprintz( w_initial_date, c_light_gray, ( "\n" ) );
-                } else {
-                    wprintz( w_initial_date, c_light_gray, _( "Hour:   Random" ) );
-                    wprintz( w_initial_date, c_light_gray, ( "\n" ) );
-                }
+                wprintz( w_initial_date, c_light_gray,
+                         _( sorted_scens[cur_id]->is_random_year() ? "Year:   Random" : "Year:   %s" ),
+                         sorted_scens[cur_id]->initial_year() );
+                wprintz( w_initial_date, c_light_gray, ( "\n" ) );
+                wprintz( w_initial_date, c_light_gray, _( "Season: %s" ),
+                         calendar::name_season( sorted_scens[cur_id]->initial_season() ) );
+                wprintz( w_initial_date, c_light_gray, ( "\n" ) );
+                wprintz( w_initial_date, c_light_gray,
+                         _( sorted_scens[cur_id]->is_random_day() ? "Day:    Random" : "Day:    %d" ),
+                         sorted_scens[cur_id]->initial_day() );
+                wprintz( w_initial_date, c_light_gray, ( "\n" ) );
+                wprintz( w_initial_date, c_light_gray,
+                         _( sorted_scens[cur_id]->is_random_hour() ? "Hour:   Random" : "Hour:   %d" ),
+                         sorted_scens[cur_id]->initial_hour() );
+                wprintz( w_initial_date, c_light_gray, ( "\n" ) );
             } else {
                 wprintz( w_initial_date, c_light_gray, _( "Default" ) );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
