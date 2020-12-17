@@ -140,7 +140,7 @@
         { "item": "forge_vault_money", "chance": 95, "repeat": [ 1, 3 ] }
       ]
     },
-    "traps": { "9": "tr_forge_vault2", "$": [ [ "tr_forge_vault1" ], [ "tr_null" ] ] }
+    "traps": { "9": "tr_forge_vault2", "$": "tr_forge_vault1", 12 }
   },
   {
     "type": "overmap_special",
