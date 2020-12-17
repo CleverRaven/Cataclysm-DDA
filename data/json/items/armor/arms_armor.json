@@ -51,7 +51,7 @@
     "copy-from": "armguard_chitin",
     "looks_like": "armguard_chitin",
     "type": "ARMOR",
-    "name": { "str": "pair of xl chitin arm guards", "str_pl": "pairs of xl chitin arm guards" },
+    "name": { "str": "pair of XL chitin arm guards", "str_pl": "pairs of XL chitin arm guards" },
     "description": "A pair of arm guards made from the exoskeletons of insects.  Light and durable.  Larger than average.",
     "proportional": { "weight": 1.25, "volume": 1.23 },
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "OVERSIZE" ]
@@ -72,7 +72,7 @@
     "id": "xl_armguard_acidchitin",
     "copy-from": "armguard_acidchitin",
     "type": "ARMOR",
-    "name": { "str": "pair of xl biosilicified chitin arm guards", "str_pl": "pairs of xl biosilicified chitin arm guards" },
+    "name": { "str": "pair of XL biosilicified chitin arm guards", "str_pl": "pairs of XL biosilicified chitin arm guards" },
     "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable and sized for the largest of survivors.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.25, "volume": 1.25 },
@@ -257,7 +257,7 @@
   {
     "id": "xl_armguard_scrap",
     "type": "ARMOR",
-    "name": { "str": "pair of xl scrap armguards", "str_pl": "pairs of xl scrap armguards" },
+    "name": { "str": "pair of XL scrap armguards", "str_pl": "pairs of XL scrap armguards" },
     "description": "A pair of oversized arm guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "weight": "3412 g",
     "volume": "6 L",
@@ -290,7 +290,7 @@
   {
     "id": "xl_armguard_soft",
     "type": "ARMOR",
-    "name": { "str": "pair of xl neoprene arm sleeves", "str_pl": "pairs of xl neoprene arm sleeves" },
+    "name": { "str": "pair of XL neoprene arm sleeves", "str_pl": "pairs of XL neoprene arm sleeves" },
     "description": "A pair of extra large soft neoprene arm sleeves.  Often used in contact sports, by giants.",
     "weight": "330 g",
     "volume": "1750 ml",
@@ -321,7 +321,7 @@
   {
     "id": "xl_chainmail_arms",
     "type": "ARMOR",
-    "name": { "str": "pair of xl chainmail sleeves", "str_pl": "pairs of xl chainmail sleeves" },
+    "name": { "str": "pair of XL chainmail sleeves", "str_pl": "pairs of XL chainmail sleeves" },
     "description": "Customized chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are oversized.",
     "weight": "3212 g",
     "volume": "1050 ml",
@@ -374,7 +374,7 @@
   {
     "id": "xl_vambrace_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of xl leather vambraces", "str_pl": "pairs of xl leather vambraces" },
+    "name": { "str": "pair of XL leather vambraces", "str_pl": "pairs of XL leather vambraces" },
     "description": "Customized oversized leather vambraces, made for archery.",
     "weight": "531 g",
     "volume": "1250 ml",

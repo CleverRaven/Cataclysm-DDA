@@ -274,7 +274,7 @@
     "id": "xl_legguard_metal",
     "type": "ARMOR",
     "copy-from": "legguard_metal",
-    "name": { "str": "pair of xl iron greaves", "str_pl": "pairs of xl iron greaves" },
+    "name": { "str": "pair of XL iron greaves", "str_pl": "pairs of XL iron greaves" },
     "description": "A pair of extra larger iron leg guards with a simple leather lining.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE" ]
@@ -433,7 +433,7 @@
     "id": "xl_pants_survivor",
     "type": "ARMOR",
     "copy-from": "pants_survivor",
-    "name": { "str_sp": "xl survivor cargo pants" },
+    "name": { "str_sp": "XL survivor cargo pants" },
     "description": "A pair of oversized Kevlar armored pants covered with pouches and pockets.  Custom-built to be durable, comfortable, and easy to wear.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "STURDY", "OVERSIZE" ]
