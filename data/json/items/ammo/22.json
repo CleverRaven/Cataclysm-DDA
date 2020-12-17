@@ -28,7 +28,7 @@
     "ammo_type": "22",
     "casing": "22_casing",
     "range": 13,
-    "//": "Base muzzle energy of ~144 joules, balance increase of one-third.",
+    "//": "Base damage of 12, balance increase of one-third.",
     "damage": { "damage_type": "stab", "amount": 16, "armor_penetration": 7 },
     "dispersion": 60,
     "recoil": 150,

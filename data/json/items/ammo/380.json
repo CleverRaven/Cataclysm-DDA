@@ -17,7 +17,7 @@
     "ammo_type": "380",
     "casing": "380_casing",
     "range": 13,
-    "//": "Base muzzle energy of ~256 joules, balance increase of one-third.",
+    "//": "Base damage of 16, balance increase of one-third.",
     "damage": { "damage_type": "stab", "amount": 21, "armor_penetration": 8 },
     "dispersion": 60,
     "recoil": 300,
@@ -42,9 +42,9 @@
     "price_postapoc": 1500,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 25,
-    "damage": { "damage_type": "stab", "amount": 24, "armor_penetration": 4 },
+    "damage": { "damage_type": "stab", "amount": 30, "armor_penetration": 0 },
     "relative": { "dispersion": -15 },
-    "proportional": { "recoil": 1.1 }
+    "proportional": { "recoil": 2.0 }
   },
   {
     "id": "bp_380_FMJ",
