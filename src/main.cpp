@@ -30,7 +30,7 @@
 #include "game_ui.h"
 #include "input.h"
 #include "loading_ui.h"
-#include "main.h"
+#include "runtime_handlers.h"
 #include "main_menu.h"
 #include "mapsharing.h"
 #include "options.h"
@@ -819,12 +819,3 @@ void printHelpMessage( const arg_handler *first_pass_arguments,
     }
 }
 }  // namespace
-
-[[ noreturn ]]
-void exit_handler( int status )
-{
-    deinitDebug();
-    g.reset();
-    catacurses::endwin();
-    exit( status );
-}

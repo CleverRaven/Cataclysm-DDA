@@ -45,7 +45,7 @@
 #include "get_version.h"
 #include "hash_utils.h"
 #include "input.h"
-#include "main.h"
+#include "runtime_handlers.h"
 #include "json.h"
 #include "optional.h"
 #include "options.h"
