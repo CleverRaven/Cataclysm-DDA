@@ -820,6 +820,7 @@ void printHelpMessage( const arg_handler *first_pass_arguments,
 }
 }  // namespace
 
+[[ noreturn ]]
 void exit_handler( int status )
 {
     deinitDebug();
