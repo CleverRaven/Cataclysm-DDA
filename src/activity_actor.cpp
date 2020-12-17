@@ -2357,7 +2357,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     // We want to avoid this because items will be deleted on a save/load.
     if( loc.where() == item_location::type::container &&
         loc.held_by( who ) ) {
-        item_pocket pocket = reloadable.get_containing_pocket( who );
+        item_pocket pocket = *loc.parent_item()->contained_where(reloadable);
         if( pocket.remaining_volume() < units::volume() ||
             pocket.remaining_weight() < units::mass() ) {
             if( !who.is_armed() ) {
