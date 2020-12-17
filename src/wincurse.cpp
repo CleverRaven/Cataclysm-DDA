@@ -16,7 +16,7 @@
 #include "get_version.h"
 #include "init.h"
 #include "input.h"
-#include "main.h"
+#include "runtime_handlers.h"
 #include "path_info.h"
 #include "filesystem.h"
 #include "debug.h"
