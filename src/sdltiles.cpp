@@ -45,6 +45,7 @@
 #include "get_version.h"
 #include "hash_utils.h"
 #include "input.h"
+#include "main.h"
 #include "json.h"
 #include "optional.h"
 #include "options.h"
@@ -2794,8 +2795,7 @@ static void CheckMessages()
         try_sdl_update();
     }
     if( quit ) {
-        catacurses::endwin();
-        exit( 0 );
+        exit_handler( 0 );
     }
 }
 

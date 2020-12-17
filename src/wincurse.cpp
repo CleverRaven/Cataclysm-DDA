@@ -16,6 +16,7 @@
 #include "get_version.h"
 #include "init.h"
 #include "input.h"
+#include "main.h"
 #include "path_info.h"
 #include "filesystem.h"
 #include "debug.h"
@@ -398,9 +399,8 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
             ValidateRect( WindowHandle, nullptr );
             return 0;
 
-        case WM_DESTROY:
-            // A messy exit, but easy way to escape game loop
-            exit( 0 );
+        case WM_CLOSE:
+            exit_handler( 0 );
     }
 
     return DefWindowProcW( hWnd, Msg, wParam, lParam );
