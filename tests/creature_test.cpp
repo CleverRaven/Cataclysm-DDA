@@ -8,6 +8,7 @@
 #include "mtype.h"
 #include "test_statistics.h"
 #include "bodypart.h"
+#include "rng.h"
 
 float expected_weights_base[][12] = { { 20, 0,   0,   0, 15, 15, 0, 0, 25, 25, 0, 0 },
     { 33.33, 2.33, 0.33, 0, 20, 20, 0, 0, 12, 12, 0, 0 },
@@ -57,7 +58,7 @@ static void calculate_bodypart_distribution( const enum m_size asize, const enum
 
 TEST_CASE( "Check distribution of attacks to body parts for same sized opponents." )
 {
-    srand( 4242424242 );
+    rng_set_engine_seed( 4242424242 );
 
     calculate_bodypart_distribution( MS_SMALL, MS_SMALL, 0, expected_weights_base[1] );
     calculate_bodypart_distribution( MS_SMALL, MS_SMALL, 1, expected_weights_base[1] );
@@ -66,7 +67,7 @@ TEST_CASE( "Check distribution of attacks to body parts for same sized opponents
 
 TEST_CASE( "Check distribution of attacks to body parts for smaller attacker." )
 {
-    srand( 4242424242 );
+    rng_set_engine_seed( 4242424242 );
 
     calculate_bodypart_distribution( MS_SMALL, MS_MEDIUM, 0, expected_weights_base[0] );
     calculate_bodypart_distribution( MS_SMALL, MS_MEDIUM, 1, expected_weights_base[0] );
@@ -75,7 +76,7 @@ TEST_CASE( "Check distribution of attacks to body parts for smaller attacker." )
 
 TEST_CASE( "Check distribution of attacks to body parts for larger attacker." )
 {
-    srand( 4242424242 );
+    rng_set_engine_seed( 4242424242 );
 
     calculate_bodypart_distribution( MS_MEDIUM, MS_SMALL, 0, expected_weights_base[2] );
     calculate_bodypart_distribution( MS_MEDIUM, MS_SMALL, 1, expected_weights_base[2] );

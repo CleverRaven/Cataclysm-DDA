@@ -57,8 +57,7 @@ static const skill_id skill_throw = skill_id( "throw" );
 
 static void reset_player( player &p, const throw_test_pstats &pstats, const tripoint &pos )
 {
-    p.reset();
-    p.set_stamina( p.get_stamina_max() );
+    clear_character( p );
     CHECK( !p.in_vehicle );
     p.setpos( pos );
     p.str_max = pstats.str;
@@ -67,9 +66,6 @@ static void reset_player( player &p, const throw_test_pstats &pstats, const trip
     p.set_str_bonus( 0 );
     p.set_per_bonus( 0 );
     p.set_dex_bonus( 0 );
-    p.worn.clear();
-    p.inv.clear();
-    p.remove_weapon();
     p.set_skill_level( skill_throw, pstats.skill_lvl );
 }
 

@@ -286,7 +286,6 @@ int main( int argc, const char *argv[] )
     // Set the seed for mapgen (the seed will also be reset before each test)
     const unsigned int seed = session.config().rngSeed();
     if( seed ) {
-        srand( seed );
         rng_set_engine_seed( seed );
     }
 
@@ -322,6 +321,11 @@ int main( int argc, const char *argv[] )
     printf( "Ended test at %sThe test took %.3f seconds\n", std::ctime( &end_time ),
             elapsed_seconds.count() );
 
+    if( seed ) {
+        // Also print the seed at the end so it can be easily found
+        DebugLog( D_INFO, DC_ALL ) << "Randomness seeded to: " << seed;
+    }
+
     if( error_during_initialization ) {
         printf( "\nTreating result as failure due to error logged during initialization.\n" );
         printf( "Randomness seeded to: %u\n", seed );
@@ -333,6 +337,8 @@ int main( int argc, const char *argv[] )
         printf( "Randomness seeded to: %u\n", seed );
         return 1;
     }
+
+    printf( "\n" );
 
     return result;
 }
