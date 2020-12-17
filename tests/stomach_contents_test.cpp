@@ -240,6 +240,7 @@ TEST_CASE( "Eating food fills up stomach calories", "[stomach]" )
     reset_time();
     clear_stomach( dummy );
     dummy.set_stored_kcal( 100 );
+    dummy.set_thirst( 500 );
     item food( "protein_drink", 0, 10 );
     REQUIRE( dummy.compute_effective_nutrients( food ).kcal == 100 );
     int attempts = 10;
