@@ -343,6 +343,7 @@
       "describe": "-",
       "offer": "So, we found the lighthouse.  Now, I need to clean it.  Want to help me with it?",
       "accepted": "Great.  Let's do it together.  I'll be right behind you.  We will clean floor by floor.  If you decide that the floor is clean, tell me about it, and we will move on to the next, and so on to the very top.",
+      "rejected": "Well, it's your choice.",
       "advice": "Be <very> careful.  These <name_b>s are most dangerous in tight spaces.",
       "inquire": "<its_safe>",
       "success": "Great, <very> great.  All that remains is to wash all the floors…",
@@ -442,7 +443,7 @@
       "rejected": "Well, it's your choice.",
       "advice": "I'm sure that not all burned in flames of <the_cataclysm> and you can find someone suitable.",
       "inquire": "Well, have you fixed it?",
-      "success": Splendid, <name_g>!  We can only wait now…",
+      "success": "Splendid, <name_g>!  We can only wait now…",
       "success_lie": "-",
       "failure": "-"
     }
