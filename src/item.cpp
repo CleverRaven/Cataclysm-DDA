@@ -3808,7 +3808,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else if( has_flag( flag_RADIOSIGNAL_2 ) ) {
             signame = _( "<color_c_blue>blue</color> radio signal" );
         } else if( has_flag( flag_RADIOSIGNAL_3 ) ) {
-            signame = "<color_c_green>green</color> radio signal";
+            signame = _( "<color_c_green>green</color> radio signal" );
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION_CHANNEL ) ) {
             info.emplace_back( "DESCRIPTION",
