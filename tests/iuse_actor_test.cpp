@@ -10,22 +10,10 @@
 #include "monster.h"
 #include "mtype.h"
 #include "player.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "string_id.h"
 #include "type_id.h"
-
-static player &get_sanitized_player( )
-{
-    player &dummy = g->u;
-
-    // Remove first worn item until there are none left.
-    std::list<item> temp;
-    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
-    dummy.inv.clear();
-    dummy.remove_weapon();
-
-    return dummy;
-}
 
 static monster *find_adjacent_monster( const tripoint &pos )
 {
@@ -45,7 +33,8 @@ static monster *find_adjacent_monster( const tripoint &pos )
 
 TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 {
-    player &dummy = get_sanitized_player();
+    clear_avatar();
+    player &dummy = g->u;
 
     g->clear_zombies();
     item &test_item = dummy.i_add( item( "bot_manhack", 0, item::default_charges_tag{} ) );
