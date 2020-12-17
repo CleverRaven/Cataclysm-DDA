@@ -14,6 +14,8 @@ bool remove_file( const std::string &path );
 bool remove_directory( const std::string &path );
 // Rename a file, overriding the target!
 bool rename_file( const std::string &old_path, const std::string &new_path );
+// Check if can write to the given directory
+bool can_write_to_dir( const std::string &dir_path );
 
 namespace cata_files
 {
