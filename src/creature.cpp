@@ -1695,6 +1695,9 @@ float Creature::get_part_wetness_percentage( const bodypart_id &id ) const
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
     set_part_helper( *this, id, &bodypart::set_hp_cur, set );
+    if( is_avatar() && as_character()->is_limb_broken( id ) ) {
+        get_event_bus().send<event_type::broken_bone>( as_character()->getID(), id );
+    }
 }
 
 void Creature::set_part_hp_max( const bodypart_id &id, int set )
@@ -1750,6 +1753,9 @@ void Creature::set_part_mut_drench( const bodypart_id &id, std::pair<water_toler
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
     set_part_helper( *this, id, &bodypart::mod_hp_cur, mod );
+    if( is_avatar() && as_character()->is_limb_broken( id ) ) {
+        get_event_bus().send<event_type::broken_bone>( as_character()->getID(), id );
+    }
 }
 
 void Creature::mod_part_hp_max( const bodypart_id &id, int mod )
