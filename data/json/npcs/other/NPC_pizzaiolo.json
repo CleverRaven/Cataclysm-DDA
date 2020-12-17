@@ -92,7 +92,7 @@
     "value": 10000,
     "has_generic_rewards": false,
     "start": {
-      "effect": [ "follow_only", { "npc_first_topic": "MISSION_BURNER" } ],
+      "effect": [ "follow_only", { "npc_first_topic": "MISSION_PYROMANIAC" } ],
       "assign_mission_target": { "om_terrain": "s_restaurant", "min_distance": 5, "z": 0 }
     },
     "end": {
@@ -100,7 +100,7 @@
         { "npc_first_topic": "TALK_pizzaiolo_1" },
         "stop_following",
         { "u_consume_item": "gasoline", "count": 200 },
-        { "mapgen_update": "MISSION_BURNER_BURN" }
+        { "mapgen_update": "MISSION_PYROMANIAC_BURN" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -219,22 +219,23 @@
     }
   },
   {
+    "//": "MISSION_PYROMANIAC mission set this topic as starting topic for mission giver.",
     "type": "talk_topic",
-    "id": "MISSION_BURNER",
-    "dynamic_line": "Are we there yet?  I can't wait to burn that <swear> building!",
+    "id": "MISSION_PYROMANIAC",
+    "dynamic_line": "Are we there yet, <name_g>?  I can't wait to burn that building!",
     "responses": [
       {
-        "text": "We're here.  Let's do it, <name_g>!",
+        "text": "We're here.  Let's do it!",
         "topic": "TALK_MISSION_INQUIRE",
-        "condition": { "and": [ "mission_complete", { "u_has_item": "gasoline", "count": 200 } ] }
+        "condition": { "and": [ "mission_complete", { "u_has_items": { "item": "gasoline", "count": 200 } } ] }
       },
-      { "text": "Be patient.  We'll be there soon, <name_g>.", "topic": "TALK_DONE" }
+      { "text": "Be patient, <name_g>, we're getting there soon.", "topic": "TALK_DONE" }
     ]
   },
   {
-    "//": "For MISSION_BURNER. Will spawn fire on tile where PC is standing.",
+    "//": "For MISSION_PYROMANIAC. Will spawn fire on tile where PC is standing.",
     "type": "mapgen",
-    "update_mapgen_id": "MISSION_BURNER_BURN",
+    "update_mapgen_id": "MISSION_PYROMANIAC_BURN",
     "method": "json",
     "object": {
       "place_liquids": [ { "liquid": "gasoline", "x": [ 5, 20 ], "y": [ 5, 20 ], "amount": 5, "repeat": 40 } ],
