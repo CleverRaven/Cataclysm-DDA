@@ -840,7 +840,7 @@
     "type": "ARMOR",
     "name": { "str": "kasaya" },
     "description": "A traditional, ankle-length Buddhist robe, stitched together from three pieces of traditional saffron dyed cloth.",
-    "weight": "1200 g",
+    "weight": "1550 g",
     "volume": "5000 ml",
     "price": 20000,
     "price_postapoc": 50,
@@ -854,7 +854,7 @@
     "encumbrance": 2,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "FANCY" ]
   },
   {
     "id": "keikogi",
@@ -1038,7 +1038,7 @@
     "name": { "str": "samghati" },
     "description": "A traditional, double layered Buddhist coat, used as an outer cloak for various occasions.",
     "weight": "800 g",
-    "volume": "4000 ml",
+    "volume": "2250 ml",
     "price": 6500,
     "price_postapoc": 50,
     "to_hit": -5,
@@ -1051,7 +1051,7 @@
     "encumbrance": 2,
     "warmth": 12,
     "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "FANCY" ]
   },
   {
     "id": "ski_jacket",

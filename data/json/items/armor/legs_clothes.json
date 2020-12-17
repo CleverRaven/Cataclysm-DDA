@@ -1,11 +1,11 @@
 [
   {
     "id": "antarvasa",
-    "repairs_like": "tshirt",
+    "repairs_like": "pants",
     "type": "ARMOR",
     "name": { "str": "antarvasa" },
     "description": "A traditional, ankle-length Buddhist skirt. The bottom protrudes, and appears in the rough shape of a triangle.",
-    "weight": "150 g",
+    "weight": "500 g",
     "volume": "250 ml",
     "price": 6500,
     "price_postapoc": 50,
@@ -15,10 +15,17 @@
     "color": "brown",
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 90,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "encumbrance": 7,
+    "max_encumbrance": 11,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+    ],
     "warmth": 8,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "POCKETS", "FANCY" ]
   },
   {
     "id": "b_shorts",
