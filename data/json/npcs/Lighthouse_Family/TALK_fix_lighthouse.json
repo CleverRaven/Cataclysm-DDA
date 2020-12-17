@@ -26,10 +26,7 @@
         "condition": { "npc_at_om_location": "lighthouse_z4" },
         "effect": [ "leave", "assign_guard" ]
       },
-      {
-        "text": "Can you repair the mechanism of the lighthouse?",
-        "topic": "TALK_ENG_LIGHTHOUSE_1"
-      },
+      { "text": "Can you repair the mechanism of the lighthouse?", "topic": "TALK_ENG_LIGHTHOUSE_1" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" }
     ]
   },
