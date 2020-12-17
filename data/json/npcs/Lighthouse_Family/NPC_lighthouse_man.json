@@ -95,7 +95,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_lighthouse_man_Background",
-    "dynamic_line": "I'm just a simple man from a simple family.  Before <the_cataclysm> I had a fishing boat, and I went to sea on it, to catch fish and other marine life. This is how my grandfather lived, my father lived, and I began to live like that.  I had a large family, 7 children, but not many survived, only my wife and daughter remained…"
+    "dynamic_line": "I'm just a simple man from a simple family.  Before <the_cataclysm> I had a fishing boat, and I went to sea on it, to catch fish and other marine life.  This is how my grandfather lived, my father lived, and I began to live like that.  I had a large family, 7 children, but not many survived, only my wife and daughter remained…"
   },
   {
     "type": "talk_topic",
@@ -334,7 +334,7 @@
       "effect": [
         "stop_following",
         { "npc_first_topic": "TALK_lighthouse_man_1" },
-        { "npc_lose_var": "lighthouse_man", "type": "count", "context": "cleaning", "value": "6" }
+        { "npc_lose_var": "lighthouse_man", "type": "count", "context": "cleaning" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

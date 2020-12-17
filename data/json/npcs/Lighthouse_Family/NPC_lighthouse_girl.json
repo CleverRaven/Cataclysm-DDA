@@ -91,7 +91,7 @@
     "type": "mission_definition",
     "has_generic_rewards": false,
     "name": { "str": "Protect fisherman's daughter" },
-    "description": "She looks like a nice girl. Maybe you should not let her die?",
+    "description": "She looks like a nice girl.  Maybe you should not let her die?",
     "goal": "MGOAL_CONDITION",
     "goal_condition": { "npc_has_var": "-", "type": "-", "context": "-", "value": "-" },
     "difficulty": 0,
