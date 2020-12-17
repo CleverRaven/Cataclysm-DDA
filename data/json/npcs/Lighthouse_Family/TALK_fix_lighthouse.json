@@ -18,16 +18,16 @@
   {
     "type": "talk_topic",
     "id": "TALK_ENG_LIGHTHOUSE",
-    "dynamic_line": "Да, было дело.  К чему спрашиваешь?",
+    "dynamic_line": "I did, actually.  Why are you asking?",
     "responses": [
       {
-        "text": "Мы на месте.  Готов приступать?",
+        "text": "We're here.  Ready to start?",
         "topic": "TALK_ENG_LIGHTHOUSE_2",
         "condition": { "npc_at_om_location": "lighthouse_z4" },
         "effect": [ "leave", "assign_guard" ]
       },
       {
-        "text": "Ты сможешь починить механизм маяка?",
+        "text": "Can you repair the mechanism of the lighthouse?",
         "topic": "TALK_ENG_LIGHTHOUSE_1"
       },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" }
@@ -36,16 +36,16 @@
   {
     "type": "talk_topic",
     "id": "TALK_ENG_LIGHTHOUSE_1",
-    "dynamic_line": "Да без проблем, boss.  Отведи меня туда и через несколько дней он будет как новый.",
+    "dynamic_line": "Sure thing, boss.  Take me there and in a few days it will be like new.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ENG_LIGHTHOUSE_2",
-    "dynamic_line": "Хмм, выглядит паршиво.  Сделаю всё, что смогу.",
+    "dynamic_line": "Hmm, looks <shitty>.  I'll do my best.",
     "responses": [
       {
-        "text": "Начинай работать.",
+        "text": "Start working.",
         "topic": "TALK_DONE",
         "effect": [
           { "npc_first_topic": "TALK_ENG_LIGHTHOUSE_WORKING" },
@@ -65,11 +65,12 @@
       "time": "2 days",
       "yes": {
         "npc_has_trait": "Exp_Eng_Electrical1Fake2",
-        "yes": "Boss, тут такое дело… только не злись, пожалуйста.  Я соврал, что хорош в этом… я думал, что смогу разобраться, но это выше моего понимания.  Извини.",
+        "yes": "Boss, here's the thing… just don't be mad, please.  I lied that I'm good at this… I thought I could figure it out, but it's far beyond my comprehension.  I'm sorry.",
         "no": {
           "npc_has_trait": "Exp_Eng_Electrical0Fake2",
-          "yes": "Boss, тут такое дело… только не злись, пожалуйста.  Я соврал, что разбираюсь в этом… я пытался что-то сделать, но у меня ничего не получилось.  Извини.",
-          "no": "Всё готово, boss.  Иди к рыбаку, будем запускать эту хреновину."
+          "yes": "Boss, here's the thing… just don't be mad, please.  I lied that I'm good at this… I thought I could figure it out, but it's far beyond my comprehension.  I'm sorry.
+          Boss, тут такое дело… только не злись, пожалуйста.  I lied, I don't know anything about this… I tried to do something, but couldn't.  I'm sorry.",
+          "no": "All done, boss.  Tell that fisherman to try it in action."
         }
       },
       "no": "I'm still working, boss."

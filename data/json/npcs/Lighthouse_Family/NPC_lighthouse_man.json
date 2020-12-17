@@ -60,7 +60,7 @@
       { "text": "About that job…", "condition": "has_assigned_mission", "topic": "TALK_MISSION_INQUIRE" },
       { "text": "<BGSS_intro_question>", "topic": "TALK_lighthouse_man_Background" },
       {
-        "text": "Как ты?",
+        "text": "How are you?",
         "topic": "TALK_lighthouse_man_hay",
         "condition": { "npc_has_var": "helped_lighthouse_man", "type": "flag", "context": "help", "value": "yes" }
       },
@@ -72,7 +72,7 @@
         "effect": "start_trade"
       },
       {
-        "text": "Приходил кто-нибудь?",
+        "text": "Has anyone come recently?",
         "condition": { "u_has_var": "lighthouse_fixed", "type": "global", "context": "safe_space", "value": "yes" },
         "trial": {
           "type": "CONDITION",
@@ -95,12 +95,12 @@
   {
     "type": "talk_topic",
     "id": "TALK_lighthouse_man_Background",
-    "dynamic_line": "Да я простой парень из простой семьи.  До <the_cataclysm> у меня был рыболовное судно, на нём же и ходил в море, добывать рыбу и прочую морскую живность.  Так жили мой дед, мой отец, да и я стал так жить.  У меня была большая семья, 7 человек, но выжили не многие, остались только жена да дочь…"
+    "dynamic_line": "I'm just a simple man from a simple family.  Before <the_cataclysm> I had a fishing boat, and I went to sea on it, to catch fish and other marine life. This is how my grandfather lived, my father lived, and I began to live like that.  I had a large family, 7 children, but not many survived, only my wife and daughter remained…"
   },
   {
     "type": "talk_topic",
     "id": "TALK_lighthouse_man_hay",
-    "dynamic_line": "Ты знаешь, очень даже хорошо.  Здесь уютно, много места, а главное безопасно.  Мы даже начали считать это место своим новым домом.  Кстати, я пока рыбачил, к острову приплыла бутылка с бумажкой внутри.  Вот, посмотри.\", он дал тебе какой-то лист бумаги, на нём написано: '0030045-0030045-35321700', и рядом нарисована оранжевая молния.  \"Интересно, чтобы это могло значить…"
+    "dynamic_line": "You know, <very> good.  It is cozy here, there is a lot of space, and most importantly, its safe.  We even started considering this place as our new home.  By the way, while I was fishing, a bottle with a piece of paper came to the shore of our island.  Here, take a look.\", he gave you a piece of paper, something was written on it: '0030045-0030045-35321700', with something similar to lightning scribbled nearby.  \"I wonder what it could mean…"
   },
   {
     "type": "talk_topic",
@@ -201,6 +201,17 @@
           ]
         },
         "effect": { "npc_adjust_var": "lighthouse_man", "type": "count", "context": "cleaning", "adjustment": 1 },
+        "topic": "TALK_lighthouse_man_cleaned_done"
+      },
+      {
+        "text": "Looks like that's over.",
+        "condition": {
+          "and": [
+            { "npc_has_var": "lighthouse_man", "type": "count", "context": "cleaning", "value": "6" },
+            "at_safe_space",
+            { "npc_at_om_location": "lighthouse_ground" }
+          ]
+        },
         "topic": "TALK_MISSION_INQUIRE"
       },
       { "text": "Not yet.", "topic": "TALK_DONE" }
@@ -210,6 +221,12 @@
     "type": "talk_topic",
     "id": "TALK_lighthouse_man_cleaned",
     "dynamic_line": "<its_safe>  Let's clean the next floor.",
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_lighthouse_man_cleaned_done",
+    "dynamic_line": "<its_safe>  Let's return to the first floor.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
@@ -266,7 +283,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_lighthouse_man_fail",
-    "dynamic_line": "<name_g>… я доверил тебе самое ценное, что у меня осталось, а ты…",
+    "dynamic_line": "<name_g>… I entrusted you with the most valuable thing that I have left, and you…",
     "responses": [ { "text": "I'm sorry…", "topic": "TALK_DONE", "effect": "end_conversation" } ]
   },
   {
@@ -286,12 +303,12 @@
     "followup": "MISSION_lighthouse_man_2",
     "dialogue": {
       "describe": "-",
-      "offer": "Мы уже давно странствуем с моей семьёй по штату после <the_cataclysm>, и я понял, что самое безопасное укрытие - остров.  Я оставил свою семью в убежище, а сам пошёл обследовать местность, в поисках какого-нибудь островка рядом, в озере или в океане.  И знаешь, я нашёл морскую карту с пометкой навигационных маяков недалеко отсюда.  Если хочешь, можешь помочь мне добраться до одного такого и хорошенько там всё осмотреть.",
+      "offer": "We've been wandering around the state with my family for a long time since <the_cataclysm>, and I realized that the safest hideout is the island.  I left my family in a shelter, and went to explore the area, looking for some island nearby, in a lake or in the ocean.  And you know, I found a sea map marked with navigational beacons near here.  If you want, you can help me get to one of these and take a good look at it.",
       "accepted": "Good.  I'll be right behind you.",
-      "rejected": "Ну, как хочешь.",
-      "advice": "Сначала нам нужно найти транспорт, чтобы добраться туда.",
-      "inquire": "Наконец-то добрались.",
-      "success": "Выглядит отлично, <name_g>.  Теперь, мне нужно как-то очистить это место от <zombies>…",
+      "rejected": "Well, it's your choice.",
+      "advice": "First we need to find a transport to get there.",
+      "inquire": "Finally reached it.",
+      "success": "Looks nice, <name_g>.  Now I need to clean it from <zombies> somehow…",
       "success_lie": "-",
       "failure": "-"
     }
@@ -324,12 +341,11 @@
     "followup": "MISSION_lighthouse_man_3",
     "dialogue": {
       "describe": "-",
-      "offer": "Так, маяк мы нашли.  Теперь, нужно его зачистить.  Хочешь помочь мне в этом?",
-      "accepted": "Отлично.  Сделаем это вместе.  Я буду прямо за тобой.  Будем чистить этаж за этажом.  Если решишь, что этаж чист, скажи мне об этом, и мы перейдём к следующему, и так до самого верха.",
-      "rejected": "Ну, как хочешь.",
-      "advice": "Будь <very> аккуратен.  В тесных помещениях эти <name_b>s опаснее всего.",
+      "offer": "So, we found the lighthouse.  Now, I need to clean it.  Want to help me with it?",
+      "accepted": "Great.  Let's do it together.  I'll be right behind you.  We will clean floor by floor.  If you decide that the floor is clean, tell me about it, and we will move on to the next, and so on to the very top.",
+      "advice": "Be <very> careful.  These <name_b>s are most dangerous in tight spaces.",
       "inquire": "<its_safe>",
-      "success": "Отлично, просто отлично.  Осталось только отмыть все полы…",
+      "success": "Great, <very> great.  All that remains is to wash all the floors…",
       "success_lie": "-",
       "failure": "-"
     }
@@ -357,12 +373,12 @@
     "followup": "MISSION_lighthouse_man_4",
     "dialogue": {
       "describe": "-",
-      "offer": "Маяк найден и очищен от <zombies>.  Теперь, мне нужно привести сюда мою семью.  Можно тебя попросить об услуге,  Поскольку мы приплыли на твоём транспорте, можешь вернуться назад, найти мою семью и привести их сюда?",
-      "accepted": "Ты мой спаситель.  Я пока осмотрюсь тут, подготовлю здесь всё к их приезду.",
-      "rejected": "Ну, как хочешь.",
-      "advice": "Пожалуйста, будь очень осторожен.  Я не хочу потерять и их.",
+      "offer": "We found The lighthouse and cleared it of <zombies>.  Now, I need to bring my family here.  May I ask you for a favor?  Since you bring me here, can you go back, find my family and bring them here?",
+      "accepted": "You are my savior!  I'll take a look around here for a while, prepare everything here for their arrival.",
+      "rejected": "Well, it's your choice.",
+      "advice": "Please be very careful.  I don't want to lose them…",
       "inquire": "-",
-      "success": "Я даже не знаю, как тебя отблагодарить, <name_g>.  Я в вечном долгу перед тобой.",
+      "success": "I don't even know how to thank you, <name_g>.  I am in eternal debt to you.",
       "success_lie": "-",
       "failure": "-"
     }
@@ -388,12 +404,12 @@
     "followup": "MISSION_lighthouse_man_5",
     "dialogue": {
       "describe": "-",
-      "offer": "Здание очищено от <zombies>, моя семья здесь, всё складывается как нельзя лучше.  Осталось лишь обеспечить себя едой, транспортом и о будущем можно не волноваться.  Ты так помог мне и моей семье, может, поможешь нам ещё кое с чем?  Мне нужна лодка для рыбалки, ну и просто чтобы осматривать окрестности.  Поможешь мне сделать лодку?",
-      "accepted": "Спасибо, <name_g>.  Мне нужно всего ничего: 250 nails.  Доски я найду, остальные инструменты тоже, а вот с гвоздями беда.  Многовато для одной лодки, но я хочу иметь ресурсов про запас, на всякий случай.",
-      "rejected": "Ну, как хочешь.",
-      "advice": "Пожалуйста, если можешь, не нужно разбирать здесь мебель.  Она ещё может пригодиться.",
-      "inquire": "Нашёл?",
-      "success": "<very> good, <name_g>, thank you!  Теперь нам не страшны ни голод, ни дождь, ни прочая погода, хе-хе.  Кстати, у меня есть небольшой запас рыбы, снастей, приманок да удилищ.  Если интересно, могу поделиться с тобой.",
+      "offer": "The building has been cleared of <zombies>, my family is here, everything is going very well.  It remains only to provide ourselves with food, transport and we can not worry about the future.  You helped me and my family so much, can you help us with something else?  I need a boat for fishing, or just to explore the area.  Can you help me make a boat?",
+      "accepted": "Thank you, <name_g>.  I need only 250 nails.  I'll find the planks, the rest of the tools too, but the main problem is the nails.  Too much for one boat, but I want to have resources in reserve, just in case.",
+      "rejected": "Well, it's your choice.",
+      "advice": "Please, if you can, don't disassemble furniture here.  It can still be useful.",
+      "inquire": "Did you find it?",
+      "success": "<very> good, <name_g>, thank you!  Now we are not afraid of hunger, rain, or other bad weather, he-he.  By the way, I have a small supply of fish, tackle, baits and rods.  If you are interested, I can share some with you.",
       "success_lie": "-",
       "failure": "-"
     }
@@ -421,12 +437,12 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "-",
-      "offer": "Моя семья в сборе, у нас есть запас еды, воды, транспорт и надёжная крыша над головой, и всё это благодаря тебе, <name_g>.  Теперь, я тоже хочу помочь другим выжившим.  Я вот что подумал: если мне удастся запустить этот старый маяк, другие выжившие увидят его свет издалека.  Если они его увидят, подумают, что здесь есть живые, и попробуют доплыть сюда.  Поможешь починить его?",
-      "accepted": "Я знал что ты не откажешь!  Правда, есть одна проблема: я понятия не имею как его починить.  Может, если ты встретишь кого-нибудь, у кого есть experience in electrical engineering, мы сможем разобраться, как запустить эту старую рухлядь.",
-      "rejected": "Ну, как хочешь.",
-      "advice": "Я уверен, что не все сгорели в пламени <the_cataclysm> и ты сможешь найти подходящего человека.",
-      "inquire": "Получилось?",
-      "success": "Здорово, <name_g>!  Остаётся только ждать…",
+      "offer": "My family is here, we have food, water, boat and a roof over our heads, all thanks to you, <name_g>.  Now, I also want to help other survivors.  Here's what I thought: if I can get this old lighthouse up and running, other survivors will see its light from afar.  If they see it, they will think that there are living people here, and will try to get here.  Can you help me fix it?",
+      "accepted": "I knew you wouldn't refuse!  But there is one problem: I have no idea how to fix it.  Maybe if you met someone who have experience in electrical engineering, we can figure out how to start this old junk.",
+      "rejected": "Well, it's your choice.",
+      "advice": "I'm sure that not all burned in flames of <the_cataclysm> and you can find someone suitable.",
+      "inquire": "Well, have you fixed it?",
+      "success": Splendid, <name_g>!  We can only wait now…",
       "success_lie": "-",
       "failure": "-"
     }

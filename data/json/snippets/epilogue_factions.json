@@ -47,6 +47,11 @@
       {
         "id": "epilogue_faction_hells_raiders_150",
         "text": "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to overthrow the last strongholds of the Old Guard.  The costly victories brought the warlords abundant territory and slaves but little in the way of stability.  Within weeks, infighting led to civil war as tribes vied for leadership of the faction.  When only one warlord finally secured control, there was nothing left to fight for… just endless cities full of the dead."
+      },
+      { "id": "epilogue_fisherman_family_0", "text": "    Something bad happened with Fisherman family…" },
+      {
+        "id": "epilogue_fisherman_family_150",
+        "text": "    Something bad happened with Fisherman family, but later…"
       }
     ]
   }
