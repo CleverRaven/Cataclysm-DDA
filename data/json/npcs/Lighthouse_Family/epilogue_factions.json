@@ -1,0 +1,16 @@
+[
+  {
+    "type": "snippet",
+    "category": "epilogue_factions",
+    "text": [
+      {
+        "id": "epilogue_fisherman_family_0",
+        "text": "    Something bad happened with Fisherman family…"
+      },
+      {
+        "id": "epilogue_fisherman_family_150",
+        "text": "    Something bad happened with Fisherman family, but later…"
+      }
+    ]
+  }
+]

@@ -1,0 +1,39 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lake_dock_small" ],
+    "weight": 7500000,
+    "object": {
+      "predecessor_mapgen": "lake_surface",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      dddddddddddd      ",
+        "      dddddddddddd      ",
+        "      dddddddddddd      "
+      ],
+      "palettes": [ "dock_small" ],
+      "place_nested": [ { "chunks":  [ "NPC_lighthouse_man_spawn" ], "x": 12, "y": 21 } ]
+    }
+  }
+]
