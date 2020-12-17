@@ -480,13 +480,23 @@
     "id": "any_tallow",
     "type": "requirement",
     "//": "Any type of tallow.",
-    "components": [ [ [ "edible_tallow", 1, "LIST" ], [ "tallow_tainted", 1 ] ] ]
+    "components": [ [ [ "edible_tallow", 1, "LIST" ], [ "tallow_tainted", 1 ], [ "alien_tallow", 1 ], [ "frost_human_tallow", 1 ] ] ]
   },
   {
     "id": "edible_lard",
     "type": "requirement",
     "//": "Lard that is safe for consumption.",
-    "components": [ [ [ "lard", 1 ], [ "mutant_lard", 1 ], [ "human_lard", 1 ], [ "mutant_human_lard", 1 ], [ "demihuman_lard", 1 ] ] ]
+    "components": [
+      [
+        [ "lard", 1 ],
+        [ "mutant_lard", 1 ],
+        [ "human_lard", 1 ],
+        [ "mutant_human_lard", 1 ],
+        [ "demihuman_lard", 1 ],
+        [ "frost_human_lard", 1 ],
+        [ "alien_lard", 1 ]
+      ]
+    ]
   },
   {
     "id": "edible_tallow_lard",
