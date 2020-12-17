@@ -59,7 +59,7 @@
         "type": "general",
         "context": "meeting",
         "value": "yes",
-        "yes": "Air temperature, precipitation, but what about…  Oh, I'm sorry, I didn't notice you.  Hello.",
+        "yes": "Air temperature, precipitation, but what about… oh, I'm sorry, I didn't notice you.  Hello.",
         "no": "I have not seen living people for a long time.  Glad to see another survivor.  Greetings, <name_g>."
       }
     },
@@ -160,7 +160,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_meteorologist_Background",
-    "dynamic_line": "I'm just a regular meteorologist.  In recent years I have worked at a weather station, monitored the weather, state of air, read and wrote reports, drew up schedules…  In general, complete boredom.  In my free time I was studying electronics and radio engineering, making various devices, some for work, some just for fun.  When the first riots began, I gathered all my things that I managed to take with me and settled here.  Since then I've been sitting here, wasting my time doing all sorts of nonsense.",
+    "dynamic_line": "I'm just a regular meteorologist.  In recent years I have worked at a weather station, monitored the weather, state of air, read and wrote reports, drew up schedules… in general, complete boredom.  In my free time I was studying electronics and radio engineering, making various devices, some for work, some just for fun.  When the first riots began, I gathered all my things that I managed to take with me and settled here.  Since then I've been sitting here, wasting my time doing all sorts of nonsense.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" } ]
   },
   {
@@ -203,7 +203,7 @@
     "followup": "MISSION_meteorologist_3",
     "dialogue": {
       "describe": "We need batteries to assemble a drone…",
-      "offer": "Well, what's next on the list…  Yeah, batteries.  6 medium batteries would be enough.",
+      "offer": "Well, what's next on the list… yeah, batteries.  6 medium batteries would be enough.",
       "accepted": "I'm waiting for you.",
       "rejected": "Maybe another time…",
       "advice": "Try looking for some battery-powered trinkets and take them apart.",
@@ -228,7 +228,7 @@
     "followup": "MISSION_meteorologist_4",
     "dialogue": {
       "describe": "We need high quality lenses for our drone…",
-      "offer": "Well, what's next on the list…  Yeah, lenses.  5 small high-quality lenses would be enough.",
+      "offer": "Well, what's next on the list… yeah, lenses.  5 small high-quality lenses would be enough.",
       "accepted": "I'm waiting for you.",
       "rejected": "Maybe another time…",
       "advice": "Try looking for cameras to dismantle.  Telescopes or microscopes would also work.",
@@ -258,7 +258,7 @@
     "followup": "MISSION_meteorologist_5",
     "dialogue": {
       "describe": "We need an RC to assemble a drone…",
-      "offer": "Well, what's next on the list…  Yeah, radio control.  Any kind will do, but the simplest one is better, so I can easily reconfigure it for my drone.",
+      "offer": "Well, what's next on the list… yeah, radio control.  Any kind will do, but the simplest one is better, so I can easily reconfigure it for my drone.",
       "accepted": "I'm waiting for you.",
       "rejected": "Maybe another time…",
       "advice": "I advise you to search in a store, such as electronics or toy store.",
@@ -298,12 +298,12 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I've lost the drone, we should find out what happened…",
-      "offer": "I'm glad that you are alive and that you haven't forgot about me.  The drone turned out to be great, it managed to take off and even was able to fly several hundred meters!  Unfortunately, after that, I lost control of it…  I don't know what happened to it, though.  Maybe you can check?  I'm a little afraid to go out there…",
+      "offer": "I'm glad that you are alive and that you haven't forgot about me.  The drone turned out to be great, it managed to take off and even was able to fly several hundred meters!  Unfortunately, after that, I lost control of it… I don't know what happened to it, though.  Maybe you can check?  I'm a little afraid to go out there…",
       "accepted": "I'm waiting for you.",
       "rejected": "Maybe another time…",
       "advice": "I don't know quite what happened.  Maybe something noticed my drone and tried to bring it down.  Be careful.",
       "inquire": "How's it going?",
-      "success": "Hmm, I see that the drone is not with you.  Maybe at least the memory module remains?  Okay, show it to me … \nHmm, situation is worse than I expected, much, much worse… \nI'm not feeling good.  I don't feel safe in this place anymore.  I have to run, run somewhere.  But where to run if these <monster>s are everywhere…",
+      "success": "Hmm, I see that the drone is not with you.  Maybe at least the memory module remains?  Okay, show it to me… hmm, situation is worse than I expected, much, much worse… I'm not feeling good.  I don't feel safe in this place anymore.  I have to run, run somewhere.  But where to run if these <monster>s are everywhere…",
       "success_lie": "Why do you say that?",
       "failure": "…"
     }
