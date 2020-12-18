@@ -2031,7 +2031,11 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             // checks whether the item is already on correct loot zone or not
             // if it is, we can skip such item, if not we move the item to correct pile
             // think empty bag on food pile, after you ate the content
-            if( mgr.has( id, src ) ) {
+            if( id != zone_type_id( "LOOT_CUSTOM" ) && mgr.has( id, src ) ) {
+                continue;
+            }
+
+            if( id == zone_type_id( "LOOT_CUSTOM" ) && mgr.custom_loot_has( src, &thisitem ) ) {
                 continue;
             }
 
