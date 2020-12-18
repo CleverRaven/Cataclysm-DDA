@@ -761,11 +761,6 @@
   },
   {
     "type": "item_action",
-    "id": "PROPHYLACTIC_ANTIVENOM",
-    "name": { "str": "Take" }
-  },
-  {
-    "type": "item_action",
     "id": "PROZAC",
     "name": { "str": "Take" }
   },
