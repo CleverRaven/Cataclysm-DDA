@@ -2357,7 +2357,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     if( loc.volume_capacity() < units::volume() ||
         loc.weight_capacity() < units::mass() ) {
         // In player inventory and player is wielding nothing.
-        if( loc.where() == item_location::type::container && !who.is_armed() && loc.held_by( who ) ) {
+        if( !who.is_armed() && loc.held_by( who ) ) {
             add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
                      reloadable_name );
             who.wield( reloadable );
