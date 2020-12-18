@@ -169,9 +169,6 @@ Cataclysm.id*
 Cataclysm.til
 Cataclysm.nam
 
-# Transifex Client
-.tx/
-
 # Snapcraft build directories
 prime
 snap
