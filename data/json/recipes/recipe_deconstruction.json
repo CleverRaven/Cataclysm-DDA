@@ -2843,7 +2843,8 @@
     "result": "stick_long",
     "type": "uncraft",
     "time": "10 s",
-    "components": [ [ [ "stick", 2 ] ] ]
+    "components": [ [ [ "stick", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "straw_basket",
