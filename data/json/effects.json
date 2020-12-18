@@ -1342,6 +1342,15 @@
   },
   {
     "type": "effect_type",
+    "id": "prophylactic_antivenom",
+    "name": [ "Antivenom Resistance" ],
+    "desc": [ "You are temporarily resistant to venoms." ],
+    "blocks_effects": [ "venom_dmg", "venom_weaken", "paralyzepoison" ],
+    "rating": "good",
+    "blood_analysis_description": "Prophylactic antivenom"
+  },
+  {
+    "type": "effect_type",
     "id": "took_antiasthmatic",
     "name": [ "Took antiasthmatic drugs" ],
     "desc": [ "You have taken an antiasthmatic drug recently." ],
