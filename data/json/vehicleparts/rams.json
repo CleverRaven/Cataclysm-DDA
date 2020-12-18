@@ -167,7 +167,7 @@
     "description": "A mattress, strapped onto the vehicle.  It could serve to blunt any impact.",
     "breaks_into": [ { "item": "rag", "count": [ 40, 55 ] } ],
     "requirements": { 
-		"install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "rope_natural_short", 2 ] ] } 
+		"install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "rope_natural_short", 2 ] ] },
 		"removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [  ] }
 	},
     "damage_reduction": { "bash": 20 },
