@@ -9328,7 +9328,13 @@ bool Character::has_fire( const int quantity ) const
     } else if( has_item_with_flag( "FIRESTARTER" ) ) {
         auto firestarters = all_items_with_flag( "FIRESTARTER" );
         for( auto &i : firestarters ) {
-            if( has_charges( i->typeId(), quantity ) ) {
+            if( !i->type->can_have_charges() ) {
+                const use_function *usef = i->type->get_use( "firestarter" );
+                const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+                if( actor->can_use( *this->as_character(), *i, false, tripoint_zero ).success() ) {
+                    return true;
+                }
+            } else if( has_charges( i->typeId(), quantity ) ) {
                 return true;
             }
         }
