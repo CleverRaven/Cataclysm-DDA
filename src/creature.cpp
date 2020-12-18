@@ -211,7 +211,8 @@ bool Creature::sees( const Creature &critter ) const
     }
 
     map &here = get_map();
-    if( !here.has_potential_los( pos(), critter.pos() ) ) {
+    // player can use mirrors, so `has_potential_los` cannot be used
+    if( !is_player() && !here.has_potential_los( pos(), critter.pos() ) ) {
         return false;
     }
 
