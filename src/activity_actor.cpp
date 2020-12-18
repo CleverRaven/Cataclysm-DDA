@@ -2352,47 +2352,28 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         add_msg( m_neutral, _( "You reload the %1$s with %2$s." ), reloadable_name, ammo_name );
     }
     item_location loc = reload_targets[0];
-    tripoint point = loc.position();
-    // Reload may have caused the item to increase in size more than the pocket can contain.
+    // Reload may have caused the item to increase in size more than the pocket/location can contain.
     // We want to avoid this because items will be deleted on a save/load.
-    if( loc.where() == item_location::type::container &&
-        loc.held_by( who ) ) {
-        item_pocket pocket = *loc.parent_item()->contained_where(reloadable);
-        if( pocket.remaining_volume() < units::volume() ||
-            pocket.remaining_weight() < units::mass() ) {
-            if( !who.is_armed() ) {
-                add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
-                         reloadable_name );
-                who.wield( reloadable );
-            } else {
-                item replace = reloadable;
-                who.remove_item( reloadable );
+    if( loc.volume_capacity() < units::volume() ||
+        loc.weight_capacity() < units::mass() ) {
+        // In player inventory and player is wielding nothing.
+        if( loc.where() == item_location::type::container && !who.is_armed() && loc.held_by( who ) ) {
+            add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
+                     reloadable_name );
+            who.wield( reloadable );
+        } else {
+            item replace = reloadable;
+            // In player inventory and player is wielding something.
+            if( loc.held_by( who ) ) {
                 add_msg( m_neutral, _( "The %s no longer fits in your inventory so you drop it instead." ),
                          reloadable_name );
-                get_map().add_item_or_charges( point, replace );
+                // Default handling message.
+            } else {
+                add_msg( m_neutral, _( "The %s no longer fits its location so you drop it instead." ),
+                         reloadable_name );
             }
-        }
-        // Check if in a vehicle.
-    } else if( loc.where() == item_location::type::vehicle ) {
-        const cata::optional<vpart_position> vp = get_map().veh_at( point );
-        const cata::optional<vpart_reference> vp_cargo = vp->part_with_feature( "CARGO", true );
-        units::volume capacity = vp->vehicle().free_volume( vp_cargo->part_index() );
-        if( capacity < units::volume() ) {
-            item replace = *loc.get_item();
+            get_map().add_item_or_charges( loc.position(), replace );
             loc.remove_item();
-            add_msg( m_neutral, _( "The %s no longer fits in the storage compartment so you drop it instead." ),
-                     replace.tname() );
-            get_map().add_item_or_charges( point, replace );
-        }
-        // Check the map.
-    } else if( !loc.held_by( who ) ) {
-        map_stack stack = get_map().i_at( point );
-        if( stack.free_volume() < units::volume() ) {
-            item replace = reloadable;
-            get_map().i_rem( point, &reloadable );
-            add_msg( m_neutral, _( "The %s no longer fits its location so you drop it instead." ),
-                     replace.tname() );
-            get_map().add_item_or_charges( point, replace );
         }
     }
 }
