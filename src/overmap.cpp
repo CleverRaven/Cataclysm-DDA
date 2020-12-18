@@ -4257,14 +4257,14 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         place_specials_pass( truly_mandatory_batch, sectors, false, false );
         // Add instances_placed from truly mandatory batch to regular batch, to avoid double placement
         // But only if they exist in both - we don't want endgame specials to be pushed to neighbor OMs
-        for( auto iter_true = truly_mandatory_batch.begin(); iter_true != truly_mandatory_batch.end(); ) {
-            const overmap_special_id &special_id = iter_true->special_details->id;
+        for( const overmap_special_placement &truly_mandatory_placement : truly_mandatory_batch ) {
+            const overmap_special_id &special_id = truly_mandatory_placement.special_details->id;
             auto iter_normal = std::find_if( enabled_specials.begin(),
             enabled_specials.end(), [special_id]( const overmap_special_placement & pl ) {
                 return pl.special_details->id == special_id;
             } );
             if( iter_normal != enabled_specials.end() ) {
-                iter_normal->instances_placed += iter_true->instances_placed;
+                iter_normal->instances_placed += truly_mandatory_placement.instances_placed;
             }
         }
 
