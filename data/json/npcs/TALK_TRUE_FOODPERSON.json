@@ -558,7 +558,7 @@
     "dynamic_line": "Umm, I'm not sure I'm following you…",
     "responses": [
       {
-        "text": "You know what, <name_b>, I don't want to talk to you anymore. <kill_npc> <name_b>!",
+        "text": "You know what, <name_b>, I don't want to talk to you anymore.  <kill_npc> <name_b>!",
         "topic": "TALK_DONE",
         "effect": "insult_combat"
       }
