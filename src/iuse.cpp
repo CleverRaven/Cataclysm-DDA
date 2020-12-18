@@ -942,7 +942,6 @@ int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
 
 int iuse::prophylactic_antivenom( player *p, item *it, bool, const tripoint & )
 {
-    p->add_msg_if_player( _( "You take the prophylactic antivenom." ) );
     p->add_msg_if_player( m_good,
                           _( "You feel resistant to venoms." ) );
     p->add_effect( effect_took_prophylactic_antivenom, 1_weeks, true );
