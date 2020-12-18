@@ -1085,6 +1085,23 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "roasted_cattail_rhizome",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "skills_required": [ "survival", 2 ],
+    "book_learn": [ [ "pocket_survival", 1 ], [ "manual_survival", 1 ] ],
+    "time": "24 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 3 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [ [ [ "cattail_rhizome", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "morel_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -4513,6 +4530,7 @@
         [ "acorns_cooked", 2 ],
         [ "oats", 4 ],
         [ "starch", 1 ],
+        [ "roasted_cattail_rhizome", 2 ],
         [ "dry_rice", 5 ]
       ]
     ]
@@ -6351,6 +6369,7 @@
         [ "acorns_cooked", 2 ],
         [ "oats", 4 ],
         [ "starch", 1 ],
+        [ "roasted_cattail_rhizome", 2 ],
         [ "dry_rice", 5 ]
       ]
     ]
