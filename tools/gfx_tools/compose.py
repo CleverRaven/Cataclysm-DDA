@@ -49,9 +49,6 @@ ERROR_LOGGED = False
 
 
 def write_to_json(pathname, data):
-    if not os.access(pathname, os.W_OK):
-        sys.exit(f'Error: cannot write to {pathname}')
-
     with open(pathname, "w") as fp:
         json.dump(data, fp)
 
