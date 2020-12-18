@@ -436,7 +436,7 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
 
     obj.read( "targeting_volume", targeting_volume );
 
-    obj.get_bool( "laser_lock", laser_lock );
+    laser_lock = obj.get_bool( "laser_lock", false );
 
     obj.read( "require_sunlight", require_sunlight );
 }
@@ -511,8 +511,8 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
             z.add_effect( effect_targeted, time_duration::from_turns( targeting_timeout ) );
         }
         if( not_laser_locked ) {
-            target.add_effect( effect_laserlocked, 5_turns );
-            target.add_effect( effect_was_laserlocked, 5_turns );
+            target.add_effect( effect_laserlocked, time_duration::from_turns( targeting_timeout ) );
+            target.add_effect( effect_was_laserlocked, time_duration::from_turns( targeting_timeout ) );
             target.add_msg_if_player( m_warning,
                                       _( "You're not sure why you've got a laser dot on you…" ) );
         }
