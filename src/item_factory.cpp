@@ -954,7 +954,6 @@ void Item_factory::init()
     add_iuse( "POISON", &iuse::poison );
     add_iuse( "PORTABLE_GAME", &iuse::portable_game );
     add_iuse( "PORTAL", &iuse::portal );
-    add_iuse( "PROPHYLACTIC_ANTIVENOM", &iuse::prophylactic_antivenom );
     add_iuse( "PROZAC", &iuse::prozac );
     add_iuse( "PURIFIER", &iuse::purifier );
     add_iuse( "PURIFY_IV", &iuse::purify_iv );
