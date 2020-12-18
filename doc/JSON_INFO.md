@@ -2240,7 +2240,7 @@ See also VEHICLE_JSON.md
 "explosion": {                               // Physical explosion data
     "power": 10,                             // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
     "distance_factor": 0.9,                  // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
-    "max_noise": 25,                         // Maximum amount of auditory noise the explosion might produce.
+    "max_noise": 25,                         // Maximum amount of (auditory) noise the explosion might produce.
     "fire": true,                            // Should the explosion leave fire
     "shrapnel": 200,                         // Total mass of casing, rest of fragmentation variables set to reasonable defaults.
     "shrapnel": {

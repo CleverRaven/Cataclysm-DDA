@@ -225,7 +225,7 @@
     "copy-from": "broken_advbot_disarmed",
     "color": "magenta",
     "name": "broken Wraitheon Irradiant",
-    "description": "The irreparably broken remains of an Irradian weapons plataform.  Its mounted plasma cannon self-destructed when the robot was rendered inoperable,  but its remains could still be dissasembled for some valuable parts."
+    "description": "The irreparably broken remains of an Irradiant weapons platform.  Its mounted plasma cannon self-destructed when the robot was rendered inoperable,  but its remains could still be disassembled for some valuable parts."
   },
   {
     "type": "GENERIC",
