@@ -31,7 +31,7 @@
     "id": "ALLOWS_REMOTE_USE",
     "type": "json_flag",
     "context": [ "TOOL" ],
-    "info": "This item can be activated or reloaded from adjacent tile without picking it up."
+    "info": "This item can be activated or reloaded from an adjacent tile without picking it up."
   },
   {
     "id": "AURA",
