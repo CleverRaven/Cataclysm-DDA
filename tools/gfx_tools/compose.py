@@ -45,10 +45,13 @@ FALLBACK = {
     ]
 }
 
-error_logged = False
+ERROR_LOGGED = False
 
 
 def write_to_json(pathname, data):
+    if not os.access(pathname, os.W_OK):
+        sys.exit(f'Error: cannot write to {pathname}')
+
     with open(pathname, "w") as fp:
         json.dump(data, fp)
 
@@ -66,29 +69,30 @@ def find_or_make_dir(pathname):
 
 
 class PngRefs(object):
-    def __init__(self, tileset_dirname):
+    '''
+    Sprites handling and referenced images memory
+    '''
+    def __init__(self, source_dir, output_dir):
         # dict of pngnames to png numbers; used to control uniqueness
         self.pngname_to_pngnum = {"null_image": 0}
         # dict of png absolute numbers to png names
         self.pngnum_to_pngname = {0: "null_image"}
         self.pngnum = 0
         self.referenced_pngnames = []
-        self.tileset_pathname = tileset_dirname
-        if self.tileset_pathname.endswith("/"):
-            self.tileset_pathname = self.tileset_pathname[:-1]
+        self.source_dir = source_dir
+        self.output_dir = output_dir
 
-        try:
-            os.stat(self.tileset_pathname)
-        except KeyError:
-            print("Error: cannot find a directory {}".format(
-                self.tileset_pathname))
-            sys.exit(1)
+        if not os.access(self.source_dir, os.R_OK) \
+                or not os.path.isdir(self.source_dir):
+            sys.exit(f'Error: cannot open directory {self.source_dir}')
 
         self.processed_ids = []
-        tileset_info_path = self.tileset_pathname + "/tile_info.json"
+        tileset_info_path = os.path.join(self.source_dir, 'tile_info.json')
         self.tileset_width = 16
         self.tileset_height = 16
         self.tileset_info = [{}]
+        if not os.access(tileset_info_path, os.R_OK):
+            sys.exit(f'Error: cannot open {tileset_info_path}')
         with open(tileset_info_path, "r") as fp:
             self.tileset_info = json.load(fp)
             self.tileset_width = self.tileset_info[0].get("width")
@@ -106,8 +110,8 @@ class PngRefs(object):
                 print("Error: sprite id '{}'".format(sprite_id) +
                       " has no matching PNG file."
                       " It will not be added to tile_config.json")
-                global error_logged
-                error_logged = True
+                global ERROR_LOGGED
+                ERROR_LOGGED = True
         return False
 
     def convert_pngname_to_pngnum(self, index):
@@ -140,6 +144,9 @@ class PngRefs(object):
         return new_index
 
     def convert_tile_entry(self, tile_entry, prefix, is_filler):
+        '''
+        Compile input JSON into objects for the output JSON config
+        '''
         tile_id = tile_entry.get("id")
         id_as_prefix = None
         if tile_id:
@@ -168,8 +175,8 @@ class PngRefs(object):
             except Exception:
                 print("Error: Cannot find bg" +
                       " for tile with id {}".format(tile_id))
-                global error_logged
-                error_logged = True
+                global ERROR_LOGGED
+                ERROR_LOGGED = True
 
         add_tile_entrys = tile_entry.get("additional_tiles", [])
         for add_tile_entry in add_tile_entrys:
@@ -183,7 +190,10 @@ class PngRefs(object):
             return tile_entry
         return None  # TODO: option to warn
 
-    def verify(self, use_all=False):
+    def find_unused(self, use_all=False):
+        '''
+        Find unused images and either warn about them or return the list
+        '''
         unused = dict()
         for pngname, pngnum in self.pngname_to_pngnum.items():
             if pngnum and pngname not in self.referenced_pngnames:
@@ -198,6 +208,9 @@ class PngRefs(object):
 
 
 class TilesheetData(object):
+    '''
+    Tilesheet reading and compositing
+    '''
     def __init__(self, subdir_index, refs):
         ts_all = refs.tileset_info[subdir_index]
         self.ts_specs = {}
@@ -205,7 +218,7 @@ class TilesheetData(object):
             self.ts_specs = ts_spec
             self.ts_name = ts_name
             break
-        self.ts_path = refs.tileset_pathname + "/" + self.ts_name
+        self.output = os.path.join(refs.output_dir, self.ts_name)
         self.tile_entries = []
         self.row_num = 0
         self.width = self.ts_specs.get("sprite_width", refs.tileset_width)
@@ -215,7 +228,7 @@ class TilesheetData(object):
         subdir_name = (
             self.ts_name.split(".png")[0] +
             "_{}x{}".format(self.width, self.height))
-        self.subdir_path = refs.tileset_pathname + "/pngs_" + subdir_name
+        self.subdir_path = os.path.join(refs.source_dir, 'pngs_' + subdir_name)
         self.offset_x = self.ts_specs.get("sprite_offset_x", 0)
         self.offset_y = self.ts_specs.get("sprite_offset_y", 0)
         self.null_image = Vips.Image.grey(self.width, self.height)
@@ -230,11 +243,19 @@ class TilesheetData(object):
             return
 
     def set_first_index(self, refs):
+        '''
+        Increment global index and set local indexes.
+        Global index can be decremented later if tilesheet does not contain
+        any output images.
+        '''
         refs.pngnum += 1
         self.first_index = refs.pngnum
         self.max_index = refs.pngnum
 
-    def standard(self, refs):
+    def is_standard(self, refs):
+        '''
+        Check whether output object needs a non-standard size or offset config
+        '''
         if self.offset_x or self.offset_y:
             return False
         if self.width != refs.tileset_width:
@@ -277,8 +298,8 @@ class TilesheetData(object):
                           " tilesheet may be resized.")
                     print("\tAll sprites in a tilesheet directory" +
                           " should have the same dimensions.")
-                    global error_logged
-                    error_logged = True
+                    global ERROR_LOGGED
+                    ERROR_LOGGED = True
                 in_list.append(vips_image)
         for i in range(0, spacer):
             in_list.append(self.null_image)
@@ -288,10 +309,8 @@ class TilesheetData(object):
     def walk_dirs(self, refs):
         tmp_merged_pngs = []
         for subdir_fpath, dirnames, filenames in os.walk(self.subdir_path):
-            # print("{} has dirs {} and files {}".format(
-            #    subdir_fpath, dirnames, filenames))
             for filename in filenames:
-                filepath = subdir_fpath + "/" + filename
+                filepath = os.path.join(subdir_fpath, filename)
                 if filename.endswith(".png"):
                     pngname = filename.split(".png")[0]
                     if (pngname in refs.pngname_to_pngnum or
@@ -327,27 +346,35 @@ class TilesheetData(object):
             tmp_merged_pngs += merged
         return tmp_merged_pngs
 
-    def finalize_merges(self, merge_pngs):
+    def create_sheet(self, merge_pngs):
+        '''
+        Compose and save tilesheet PNG
+        '''
         if merge_pngs:
             out_image = Vips.Image.arrayjoin(merge_pngs, across=16)
-            out_image.pngsave(self.ts_path)
+            out_image.pngsave(self.output)
 
 
 if __name__ == '__main__':
+    # read arguments and initialize objects
     arg_parser = argparse.ArgumentParser(description=__doc__)
     arg_parser.add_argument(
-        "tileset_dir", action="store",
-        help="local name of the tileset directory")
+        'source_dir',
+        help='Tileset source files directory path')
     arg_parser.add_argument(
-        "--use-all",
-        dest='use_all', action='store_true',
-        help="Add unused images with id being their basename")
+        'output_dir', nargs='?',
+        help='Output directory path')
+    arg_parser.add_argument(
+        '--use-all', dest='use_all', action='store_true',
+        help='Add unused images with id being their basename')
     args_dict = vars(arg_parser.parse_args())
 
-    tileset_dirname = args_dict.get("tileset_dir", "")
+    source_dir = args_dict.get('source_dir')
+    output_dir = args_dict.get('output_dir', source_dir)
+    tileset_confpath = os.path.join(output_dir, 'tile_config.json')
     use_all = args_dict.get('use_all', False)
 
-    refs = PngRefs(tileset_dirname)
+    refs = PngRefs(source_dir, output_dir)
 
     typed_ts_data = {
         "main": [],
@@ -356,6 +383,8 @@ if __name__ == '__main__':
     }
     fallback_name = "fallback.png"
 
+    # loop through tilesheets and parse all configs in subdirectories,
+    #
     for subdir_index in range(1, len(refs.tileset_info)):
         ts_data = TilesheetData(subdir_index, refs)
         ts_data.set_first_index(refs)
@@ -377,20 +406,18 @@ if __name__ == '__main__':
                 refs.pngnum -= 1
                 continue
 
-            ts_data.finalize_merges(tmp_merged_pngs)
+            # write output PNGs
+            ts_data.create_sheet(tmp_merged_pngs)
 
             ts_data.max_index = refs.pngnum
 
         typed_ts_data[ts_type].append(ts_data)
 
+    # combine config data in correct order
     all_ts_data = typed_ts_data["main"] + typed_ts_data["filler"] \
         + typed_ts_data["fallback"]
 
-    # print("pngname to pngnum {}".format(json.dumps(
-    #    refs.pngname_to_pngnum, indent=2)))
-    # print("pngnum to pngname {}".format(
-    #    json.dumps(refs.pngnum_to_pngname, sort_keys=True, indent=2)))
-
+    # preparing "tiles-new", but remembering max index of each sheet in keys
     tiles_new_dict = dict()
 
     for ts_data in all_ts_data:
@@ -398,27 +425,30 @@ if __name__ == '__main__':
             fallback_name = ts_data.ts_name
             continue
         ts_tile_entries = []
+
         for tile_entry in ts_data.tile_entries:
             converted_tile_entry = refs.convert_tile_entry(
                 tile_entry, "", ts_data.filler)
             if converted_tile_entry:
                 ts_tile_entries.append(converted_tile_entry)
+
         ts_conf = {
             "file": ts_data.ts_name,
             "tiles": ts_tile_entries,
             "//": "range {} to {}".format(
                 ts_data.first_index, ts_data.max_index)
         }
-        if not ts_data.standard(refs):
+
+        if not ts_data.is_standard(refs):
             ts_conf["sprite_width"] = ts_data.width
             ts_conf["sprite_height"] = ts_data.height
             ts_conf["sprite_offset_x"] = ts_data.offset_x
             ts_conf["sprite_offset_y"] = ts_data.offset_y
 
-        # print("\tfinalizing tilesheet {}".format(ts_data.ts_name))
         tiles_new_dict[ts_data.max_index] = ts_conf
 
-    unused = refs.verify(use_all)
+    # fing unused images
+    unused = refs.find_unused(use_all)
 
     # unused list must be empty without use_all
     for bare_png in unused:
@@ -432,6 +462,7 @@ if __name__ == '__main__':
                 break
             previous_max = ts_max_index
 
+    # finalizing "tiles-new" config
     tiles_new = [v for v in tiles_new_dict.values()]
 
     FALLBACK["file"] = fallback_name
@@ -443,9 +474,9 @@ if __name__ == '__main__':
         }],
         "tiles-new": tiles_new
     }
-    tileset_confpath = refs.tileset_pathname + "/" + "tile_config.json"
 
+    # save the config
     write_to_json(tileset_confpath, conf_data)
 
-    if error_logged:
+    if ERROR_LOGGED:
         sys.exit(1)
