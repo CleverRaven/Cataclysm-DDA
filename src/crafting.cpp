@@ -2154,15 +2154,17 @@ bool Character::disassemble( item_location target, bool interactive )
 
     if( activity.id() != ACT_DISASSEMBLE ) {
         if( num_dis != 0 ) {
-            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves( *this,
-                             recipe_time_flag::ignore_proficiencies ) * num_dis );
+            assign_activity( player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
+                                              recipe_time_flag::ignore_proficiencies ) * num_dis ) ) );
         } else {
-            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves( *this,
-                             recipe_time_flag::ignore_proficiencies ) );
+            assign_activity( player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
+                                              recipe_time_flag::ignore_proficiencies ) ) ) );
         }
     } else if( activity.moves_left <= 0 ) {
         activity.moves_left = r.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
     }
+
+    //transform item to inprogress
 
     // index is used as a bool that indicates if we want recursive uncraft.
     activity.index = false;
@@ -2177,7 +2179,7 @@ bool Character::disassemble( item_location target, bool interactive )
 void Character::disassemble_all( bool one_pass )
 {
     // Reset all the activity values
-    assign_activity( ACT_DISASSEMBLE, 0 );
+    assign_activity( player_activity( disassemble_activity_actor( 0 ) ), true );
 
     bool found_any = false;
     for( item &it : get_map().i_at( pos() ) ) {

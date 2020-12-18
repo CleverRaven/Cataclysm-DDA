@@ -847,4 +847,29 @@ class milk_activity_actor : public activity_actor
         std::vector<std::string> string_values {};
 };
 
+class disassemble_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+
+    public:
+        disassemble_activity_actor( int moves_total ) :
+            moves_total( moves_total ) {}
+        activity_id get_type() const override {
+            return activity_id( "ACT_DISASSEMBLE" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<disassemble_activity_actor>( *this );
+        }
+
+        std::string get_progress_message( const player_activity &act ) const override;
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
