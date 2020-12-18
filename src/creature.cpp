@@ -186,7 +186,7 @@ bool Creature::is_ranged_attacker() const
         return true;
     }
 
-    for( const std::pair<std::string, mtype_special_attack> &attack :
+    for( const std::pair<const std::string, mtype_special_attack> &attack :
          as_monster()->type->special_attacks ) {
         if( attack.second->id == "gun" ) {
             return true;
