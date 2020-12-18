@@ -95,7 +95,7 @@
     "id": "THICKSKIN2",
     "name": { "str": "Tough-Skinned" },
     "description": "Your skin is getting tougher.  Cutting and bash damage are more reduced for you.  Makes you slower though.",
-    "prereqs" "THICKSKIN"
+    "prereqs": "THICKSKIN",
     "cancels": "THINSKIN",
     "category": [ "STEGO", "TYRANT" ],
     "armor": [
@@ -113,9 +113,9 @@
     "id": "THICKSKIN3",
     "name": { "str": "Diamond-Skinned" },
     "description": "Your skin is developing kevlar like qualities.",
-    "prereqs" "THICKSKIN2"
+    "prereqs": "THICKSKIN2",
     "cancels": "THINSKIN",
-    "threshreq" "THRESH_STEGO",
+    "threshreq": "THRESH_STEGO",
     "category": [ "STEGO" ],
     "armor": [
       {
@@ -133,7 +133,7 @@
     "description": "You are capable of carrying inhuman amounts more than someone with similar strength could.  Your maximum weight carried is increased by 70%.",
     "prereqs": "STRONGBACK",
     "cancels": [ "BADBACK" ],
-    "weight_capacity_modifier": 1.70,
+    "weight_capacity_modifier": 1.7,
     "category": [ "STEGO", "TYRANT" ]
   },
   {
@@ -297,7 +297,7 @@
     "description": "You have a long, thick, tail with sharp pointed horns.  It helps you balance a bit but also makes a heavy bludgeon.  Prevents wearing non-fabric pants.",
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_CLUB" ],
-    "threshreq": [ "THRESH_STEGO"],
+    "threshreq": [ "THRESH_STEGO" ],
     "category": [ "STEGO" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
     "allow_soft_gear": true,
@@ -368,7 +368,7 @@
     "type": "mutation",
     "id": "LARGE_OK",
     "copy-from": "LARGE_OK",
-    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [  "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "STEGO", "TYRANT" ] }
   },
   {
     "type": "mutation",
@@ -380,7 +380,7 @@
     "type": "mutation",
     "id": "HUGE_OK",
     "copy-from": "HUGE_OK",
-    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [  "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "STEGO", "TYRANT" ] }
   },
   {
     "type": "mutation",
@@ -416,6 +416,6 @@
     "type": "mutation",
     "id": "COLDBLOOD4",
     "copy-from": "COLDBLOOD4",
-    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [  "STEGO", "TYRANT" ] }
-  },
+    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "STEGO", "TYRANT" ] }
+  }
 ]
