@@ -135,6 +135,8 @@
     "type": "snippet",
     "category": "<bug_harvest_general_deeper>",
     "text": [
+      "Spaced evenly across the entire body you find small sacs of eggs in different stages of growth",
+      "Its intestines grew into a labyrinthe tangle, like so many worms devouring each other",
       "Inside, half-formed organs press against spongy meat that doesn't look anything like raw arthropod meat from normal creatures",
       "You find a collection of hooked spines beneath that seem to have been clasping it on somehow",
       "Inside is a complex, still-squirming mess of strange appendages and organs that bear only a passing resemblance to any natural creature",
@@ -160,6 +162,54 @@
   },
   {
     "type": "snippet",
+    "category": "<bug_harvest_centipede_chitin>",
+    "text": [
+      "Its legs contain no muscles, just sinews hanging in yellow-green ichor",
+      "The legs fall off easily, leaving the main body looking like an armored worm",
+      "Each pair of legs is slightly different.  These end in hooks, the next in talons like a bird's, there's a pair of chitinous tentacles",
+      "The mandibles keep snapping, and acrid-smelling venom wets the soil.  You decide to begin your work at its tail",
+      "You're startled as its antenna whips out and briefly coils on your arm",
+      "Underneath the surface, there are small plates of chitin dotted about, much harder than the rest",
+      "On its tail end the segments get smaller and smaller, until they terminate in a small copy of the head, looking backwards",
+      "The chitin of the head is caked in old blood and lymph of its previous victims"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_centipede_descriptive>",
+    "text": [
+      "You find vacuoles filled with its venom in the most unexpected nooks, forcing you to work carefully",
+      "The indescribable stench of the remains of its last meal make you question your decision to butcher it",
+      "On some organs you see the same swollen ulcers as around your own wounds.  It seems not all of it is venom-proof",
+      "This one's very blood stinks like its venom, and even the slightest drop makes your skin itch",
+      "There is order to the chaos in this one.  Each segment's insides is a perfect copy of the last, down to each sinew",
+      "This one smells disturbingly appetizing, like a memory of a childhood meal whose details you forgot"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_centipede_mom>",
+    "text": [
+      "By the time you reach the rear of the matriarch, most of its offspring have disappeared into the grass.  Some stuck around feeding on their unhatched siblings, unwilling to give up the easy meal until the last moment",
+      "The moment the matriarch grows still the last third of its body flops to the ground, letting go of dozens of eggs and small centipedes",
+      "After cleaning away the rotten meat and mess of eggs shrouding the matriarchs' hind segments you find its carapace chewed open, and much of its flesh already eaten by its ever-hungry young",
+      "As if they noticed the death of their mother, the dozens of centipedes still clinging to it attack each other with a sudden frenzy.  You decide to give them time to disperse before continuing"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_centipede_mega>",
+    "text": [
+      "Since your tools barely have purchase on its carapace you decide to dig the meat and viscera out from your first cut.  At times, you disappear up to your waist in its armored insides",
+      "As you cut more and more meat away, some of the resilient chitin plates fall away with a loud squelch",
+      "To bypass the armor you had to start your work by its mandibles, inches away from its venom-coated fangs and the remains of chitin, bones, and strands of Kevlar stuck between their points",
+      "This feels more like scrapping a car than butchering an animal.  Instead of veins and legs you find yourself thinking about joints, panels, and cabling",
+      "On closer inspection, the head's armor is pocked by finger-sized holes with jagged edges, reminiscent of the creature's fangs",
+      "In a hidden organ without an obvious connection to the outside world, you find a seemingly forgotten handful of glistening eggs"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<bug_harvest_flying_chitin>",
     "text": [
       "The wings of this creature break apart upon the slightest touch into myriad identical rainbow crystals",
@@ -175,8 +225,6 @@
     "type": "snippet",
     "category": "<bug_harvest_flying_deeper>",
     "text": [
-      "Spaced evenly across the entire body you find small sacs of eggs in different stages of growth",
-      "Its intestines grew into a labyrinthe tangle, like so many worms devouring each other",
       "The wings are held in place by stiff muscles, reaching into the deep",
       "Underneath the chitin you find bundles of small, floating pearls, each held in place by a single strand of sinew",
       "Near its wings you find a black, bubbling organ still periodically emitting a bundle of floating bubbles",
@@ -234,6 +282,25 @@
       "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.",
       "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.  <bug_harvest_general_descriptive>."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "<centipede_harvest>",
+    "text": [
+      "<bug_harvest_centipede_chitin>.",
+      "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.",
+      "<bug_harvest_centipede_chitin>.  <bug_harvest_general_deeper>.  <bug_harvest_centipede_descriptive>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<centipede_mom_harvest>",
+    "text": [ "<centipede_harvest>", "<centipede_harvest>  <bug_harvest_centipede_mom>." ]
+  },
+  {
+    "type": "snippet",
+    "category": "<centipede_mega_harvest>",
+    "text": [ "<centipede_harvest>", "<centipede_harvest>  <bug_harvest_centipede_mega>." ]
   },
   {
     "type": "snippet",
