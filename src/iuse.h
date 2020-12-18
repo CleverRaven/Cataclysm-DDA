@@ -58,7 +58,6 @@ int meth( player *, item *, bool, const tripoint & );
 int mycus( player *, item *, bool, const tripoint & );
 int plantblech( player *, item *, bool, const tripoint & );
 int poison( player *, item *, bool, const tripoint & );
-int prophylactic_antivenom( player *, item *, bool, const tripoint & );
 int prozac( player *, item *, bool, const tripoint & );
 int purifier( player *, item *, bool, const tripoint & );
 int purify_iv( player *, item *, bool, const tripoint & );
