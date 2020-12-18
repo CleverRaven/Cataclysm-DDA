@@ -328,4 +328,94 @@
     "copy-from": "MUT_TOUGH3",
     "extend": { "category": [ "STEGO" ], "threshreq": [ "STEGO" ] }
   },
+  {
+    "type": "mutation",
+    "id": "PRED1",
+    "copy-from": "PRED1",
+    "extend": { "category": [ "TYRANT" ], "threshreq": [ "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PRED2",
+    "copy-from": "PRED2",
+    "extend": { "category": [ "TYRANT" ], "threshreq": [ "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PRED3",
+    "copy-from": "PRED3",
+    "extend": { "category": [ "TYRANT" ], "threshreq": [ "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PRED4",
+    "copy-from": "PRED4",
+    "extend": { "category": [ "TYRANT" ], "threshreq": [ "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SAPIOVORE",
+    "copy-from": "SAPIOVORE",
+    "extend": { "category": [ "TYRANT" ], "threshreq": [ "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LARGE",
+    "copy-from": "LARGE",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "LARGE_OK",
+    "copy-from": "LARGE_OK",
+    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [  "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HUGE",
+    "copy-from": "HUGE",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "HUGE_OK",
+    "copy-from": "HUGE_OK",
+    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [  "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SLIT_NOSTRILS",
+    "copy-from": "SLIT_NOSTRILS",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEFORMED2",
+    "copy-from": "DEFORMED2",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THIRST3",
+    "copy-from": "THIRST3",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PONDEROUS2",
+    "copy-from": "PONDEROUS2",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "COLDBLOOD2",
+    "copy-from": "COLDBLOOD2",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "COLDBLOOD4",
+    "copy-from": "COLDBLOOD4",
+    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [  "STEGO", "TYRANT" ] }
+  },
 ]
