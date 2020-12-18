@@ -1,0 +1,131 @@
+[
+  {
+    "type": "mutation_category",
+    "id": "TYRANT",
+    "name": "Tyrant",
+    "threshold_mut": "THRESH_TYRANT",
+    "mutagen_message": "The gnashing of teeth and rending of flesh calls to you.",
+    "iv_message": "You feel additional teeth working their way into your mouth.",
+    "memorial_message": "Struck by a rogue asteroid."
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_TYRANT",
+    "name": { "str": "Killophant" },
+    "points": 1,
+    "description": "Your species was created as the ultimate shock troop.  Inherit the earth, pedigree your ancestors, crush the foe.",
+    "valid": false,
+    "profession": true,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation_category",
+    "id": "STEGO",
+    "name": "Stego",
+    "threshold_mut": "THRESH_STEGO",
+    "mutagen_message": "You feel a desire to trumpet and toot.",
+    "iv_message": "You heart races, and you glance around for poachers.",
+    "memorial_message": "Went extinct."
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_STEGO",
+    "name": { "str": "Killophant" },
+    "points": 1,
+    "description": "Your species was created as the ultimate shock troop.  Inherit the earth, pedigree your ancestors, crush the foe.",
+    "valid": false,
+    "profession": true,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "RUMINANT",
+    "copy-from": "RUMINANT",
+    "extend": { "category": [ "STEGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "GRAZER",
+    "copy-from": "GRAZER",
+    "extend": { "category": [ "STEGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FASTHEALER",
+    "copy-from": "FASTHEALER",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PAINRESIST",
+    "copy-from": "PAINRESIST",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TOUGH_FEET",
+    "copy-from": "TOUGH_FEET",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TOUGH3DINO",
+    "copy-from": "TOUGH3",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THICKSKIN2",
+    "name": { "str": "Tough-Skinned" },
+    "description": "Your skin is getting tougher.  Cutting and bash damage are more reduced for you.  Stacks with Thickskin.",
+    "prereqs" "THICKSKIN"
+    "cancels": "THINSKIN",
+    "category": [ "STEGO", "TYRANT" ],
+    "armor": [
+      {
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
+        "cut": 4,
+        "bash": 4,
+        "bullet": 1
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "THICKSKIN3",
+    "name": { "str": "Diamond-Skinned" },
+    "description": "Your skin is developing kevlar like qualities.",
+    "prereqs" "THICKSKIN2"
+    "cancels": "THINSKIN",
+    "threshreq" "THRESH_STEGO",
+    "category": [ "STEGO" ],
+    "armor": [
+      {
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
+        "cut": 6,
+        "bash": 6,
+        "bullet": 6
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "TOUGH4DINO",
+    "name": { "str": "Cretaceous Endurance" },
+    "copy-from": "TOUGH4",
+    "extend": { "category": [ "STEGO", "TYRANT" ] },
+    "threshreq": [ "THRESH_TYRANT", "THRESH_STEGO" ]
+  },
+  {
+    "type": "mutation",
+    "id": "STRONGBACKDINO",
+    "points": 2,
+    "description": "You are capable of carrying inhuman amounts more than someone with similar strength could.  Your maximum weight carried is increased by 70%.",
+    "prereqs": "STRONGBACK",
+    "cancels": [ "BADBACK" ],
+    "weight_capacity_modifier": 1.70,
+    "category": [ "STEGO", "TYRANT" ]
+  },
+]
