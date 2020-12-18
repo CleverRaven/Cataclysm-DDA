@@ -86,7 +86,7 @@
       { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 90 },
       { "item": "quikclot", "prob": 60 },
       { "collection": [ { "item": "morphine" }, { "item": "syringe" } ], "prob": 30 },
-      { "item": "prophylactic_antivenom", "prob": 10 },
+      { "item": "prophylactic_antivenom", "prob": 10 }
     ]
   },
   {
@@ -461,7 +461,7 @@
       { "item": "bfipowder", "prob": 15 },
       { "item": "quikclot", "prob": 10 },
       { "item": "weak_antibiotic", "prob": 40 },
-      { "item": "prophylactic_antivenom", "prob": 5 },
+      { "item": "prophylactic_antivenom", "prob": 5 }
     ]
   },
   {
