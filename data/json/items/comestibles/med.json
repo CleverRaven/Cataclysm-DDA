@@ -1420,7 +1420,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some prophylactic antivenom pills.",
-      "effects": [ { "id": "prophylactic_antivenom", "duration": "10080 m" } ]
+      "effects": [ { "id": "prophylactic_antivenom", "duration": "7200 m" } ]
     },
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
   },
