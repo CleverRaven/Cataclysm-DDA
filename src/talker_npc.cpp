@@ -396,6 +396,11 @@ int talker_npc::cash_to_favor( const int value ) const
     return npc_trading::cash_to_favor( *me_npc, value );
 }
 
+int talker_npc::value( const item &it ) const
+{
+    return me_npc->value( it );
+}
+
 enum consumption_result {
     REFUSED = 0,
     CONSUMED_SOME, // Consumption didn't fail, but don't delete the item
