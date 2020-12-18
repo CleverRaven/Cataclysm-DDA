@@ -2386,7 +2386,7 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 12 },
     "baby_flags": [ "WINTER", "AUTUMN" ],
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_MOUNTABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
     "id": "mon_reindeer_fawn",
