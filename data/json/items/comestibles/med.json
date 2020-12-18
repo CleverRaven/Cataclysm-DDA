@@ -1403,6 +1403,24 @@
     "use_action": [ "FLUSLEEP" ]
   },
   {
+    "id": "prophylactic_antivenom",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "prophylactic antivenom pill" },
+    "description": "A potent, cutting-edge antivenom in the form of some waxy white pills, designed to be taken in anticipation of venom exposure.  It was developed in top secret by the military in response to the advent of biological warfare.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": 10000,
+    "price_postapoc": 50000,
+    "charges": 20,
+    "stack_size": 200,
+    "symbol": "!",
+    "color": "white",
+    "healthy": -1,
+    "use_action": [ "PROPHYLACTIC_ANTIVENOM" ],
+    "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
+  },
+  {
     "id": "prozac",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
