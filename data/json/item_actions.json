@@ -1066,11 +1066,6 @@
   },
   {
     "type": "item_action",
-    "id": "BREAK_STICK",
-    "name": { "str": "Break stick" }
-  },
-  {
-    "type": "item_action",
     "id": "WEAK_ANTIBIOTIC",
     "name": { "str": "Take" }
   },

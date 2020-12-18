@@ -2842,8 +2842,7 @@
   {
     "result": "stick_long",
     "type": "uncraft",
-    "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "time": "10 s",
     "components": [ [ [ "stick", 2 ] ] ]
   },
   {

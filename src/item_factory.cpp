@@ -921,7 +921,6 @@ void Item_factory::init()
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "WEED_CAKE", &iuse::weed_cake );
     add_iuse( "XANAX", &iuse::xanax );
-    add_iuse( "BREAK_STICK", &iuse::break_stick );
     // Legacy
     add_iuse( "HOTPLATE", &iuse::cauterize_hotplate );
 

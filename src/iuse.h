@@ -197,7 +197,6 @@ class iuse
         int wash_items( player *p, bool soft_items, bool hard_items );
         int solarpack( player *, item *, bool, const tripoint & );
         int solarpack_off( player *, item *, bool, const tripoint & );
-        int break_stick( player *, item *, bool, const tripoint & );
         int weak_antibiotic( player *, item *, bool, const tripoint & );
         int strong_antibiotic( player *, item *, bool, const tripoint & );
         int melatonin_tablet( player *, item *, bool, const tripoint & );

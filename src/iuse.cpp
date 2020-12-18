@@ -9530,40 +9530,6 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
     return 0;
 }
 
-int iuse::break_stick( player *p, item *it, bool, const tripoint & )
-{
-    p->moves -= to_moves<int>( 2_seconds );
-    p->mod_stamina( static_cast<int>( 0.05f * get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
-
-    if( p->get_str() < 5 ) {
-        p->add_msg_if_player( _( "You are too weak to even try." ) );
-        return 0;
-    } else if( p->get_str() <= rng( 5, 11 ) ) {
-        p->add_msg_if_player(
-            _( "You use all your strength, but the stick won't break.  Perhaps try again?" ) );
-        return 0;
-    }
-    std::vector<item_comp> comps;
-    comps.push_back( item_comp( it->typeId(), 1 ) );
-    p->consume_items( comps, 1, is_crafting_component );
-    int chance = rng( 0, 100 );
-    if( chance <= 20 ) {
-        p->add_msg_if_player( _( "You try to break the stick in two, but it shatters into splinters." ) );
-        g->m.spawn_item( p->pos(), "splinter", 2 );
-        return 1;
-    } else if( chance <= 40 ) {
-        p->add_msg_if_player( _( "The stick breaks clean into two parts." ) );
-        g->m.spawn_item( p->pos(), "stick", 2 );
-        return 1;
-    } else if( chance <= 100 ) {
-        p->add_msg_if_player( _( "You break the stick, but one half shatters into splinters." ) );
-        g->m.spawn_item( p->pos(), "stick", 1 );
-        g->m.spawn_item( p->pos(), "splinter", 1 );
-        return 1;
-    }
-    return 0;
-}
-
 int iuse::weak_antibiotic( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You take some %s." ), it->tname() );

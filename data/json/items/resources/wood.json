@@ -63,7 +63,6 @@
     "looks_like": "stick",
     "bashing": 18,
     "to_hit": -1,
-    "use_action": "BREAK_STICK",
     "category": "spare_parts"
   },
   {
