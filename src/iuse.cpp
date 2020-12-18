@@ -192,6 +192,7 @@ static const efftype_id effect_music( "music" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_pet( "pet" );
+static const efftype_id effect_prophylactic_antivenom ( "prophylactic_antivenom" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
@@ -936,6 +937,15 @@ int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
+    return it->type->charges_to_use();
+}
+
+int iuse::prophylactic_antivenom( player *p, item *it, bool, const tripoint & )
+{
+    p->add_msg_if_player( _( "You take the prophylactic antivenom." ) );
+    p->add_msg_if_player( m_good,
+                          _( "You feel resistant to venoms." ) );
+    p->add_effect( effect_took_prophylactic_antivenom, 1_weeks, true );
     return it->type->charges_to_use();
 }
 
