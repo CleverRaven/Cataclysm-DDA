@@ -1417,7 +1417,11 @@
     "symbol": "!",
     "color": "white",
     "healthy": -1,
-    "use_action": [ "PROPHYLACTIC_ANTIVENOM" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You take some prophylactic antivenom pills.",
+      "effects": [ { "id": "prophylactic_antivenom", "duration": "1 w" } ]
+    }
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
   },
   {
