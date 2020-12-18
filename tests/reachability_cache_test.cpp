@@ -65,24 +65,23 @@ static void test_reachability( std::vector<std::string> setup, bool up )
 
     // at least some lookups should be rejected by reachability cache
     CHECK( rejected_cnt > 100 );
-    WARN( "rejected count: " << rejected_cnt );
 }
 
 
 TEST_CASE( "reachability_horizontal", "[map][cache][vision][los][reachability]" )
 {
     test_reachability( {{
-            ".............",
-            ".............",
-            "...####......",
-            "...#..#......",
-            "...#..####...",
-            "...#..X..#...",
-            "...#.....#...",
-            "...#..#..#...",
-            "...#######...",
-            ".............",
-            "............."
+            ".............", // NOLINT(cata-text-style)
+            ".............", // NOLINT(cata-text-style)
+            "...####......", // NOLINT(cata-text-style)
+            "...#..#......", // NOLINT(cata-text-style)
+            "...#..####...", // NOLINT(cata-text-style)
+            "...#..X..#...", // NOLINT(cata-text-style)
+            "...#.....#...", // NOLINT(cata-text-style)
+            "...#..#..#...", // NOLINT(cata-text-style)
+            "...#######...", // NOLINT(cata-text-style)
+            ".............", // NOLINT(cata-text-style)
+            "............." // NOLINT(cata-text-style)
         }
     }, /*up*/ false );
 }
@@ -93,17 +92,17 @@ TEST_CASE( "reachability_vertical", "[map][cache][vision][los][reachability]" )
     fov_3d = true;
 
     test_reachability( {{
-            ".............",
-            ".............",
-            "...####......",
-            "...#^^#......",
-            "...#..####...",
-            "...#..X..#...",
-            "...#^^...#...",
-            "...#^^#..#...",
-            "...#######...",
-            "...^^^.......",
-            "............."
+            ".............", // NOLINT(cata-text-style)
+            ".............", // NOLINT(cata-text-style)
+            "...####......", // NOLINT(cata-text-style)
+            "...#^^#......", // NOLINT(cata-text-style)
+            "...#..####...", // NOLINT(cata-text-style)
+            "...#..X..#...", // NOLINT(cata-text-style)
+            "...#^^...#...", // NOLINT(cata-text-style)
+            "...#^^#..#...", // NOLINT(cata-text-style)
+            "...#######...", // NOLINT(cata-text-style)
+            "...^^^.......", // NOLINT(cata-text-style)
+            "............." // NOLINT(cata-text-style)
         }
     }, /*up*/ true );
 }
