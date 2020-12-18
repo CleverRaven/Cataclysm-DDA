@@ -1412,7 +1412,7 @@
     "volume": "250 ml",
     "price": 10000,
     "price_postapoc": 50000,
-    "charges": 20,
+    "charges": 12,
     "stack_size": 200,
     "symbol": "!",
     "color": "white",
