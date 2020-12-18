@@ -392,6 +392,13 @@ class Creature : public location, public viewer
         // returns hit - dodge (>=0 = hit, <0 = miss)
         virtual int deal_melee_attack( Creature *source, int hitroll );
 
+        // Distance == 1 and on the same z-level or with a clear shot up/down.
+        // If allow_zlev is false, don't allow attacking up/down at all.
+        // If allow_zlev is true, also allow distance == 1 and on different z-level
+        // as long as floor/ceiling doesn't exist.
+        // Also check other factors, like vehicle separating deep water/air
+        bool is_adjacent( Creature *target, bool allow_z_levels ) const;
+
         // modifies the damage dealt based on the creature's enchantments
         // since creatures currently don't have enchantments, this is just virtual
         virtual damage_instance modify_damage_dealt_with_enchantments( const damage_instance &dam ) const;
