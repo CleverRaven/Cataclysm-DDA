@@ -233,6 +233,7 @@ class uistatedata
             jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
             jo.read( "adv_inv_container_type", adv_inv_container_type );
             jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
+            jo.read( "editmap_nsa_viewmode", editmap_nsa_viewmode );
             jo.read( "overmap_blinking", overmap_blinking );
             jo.read( "overmap_show_overlays", overmap_show_overlays );
             jo.read( "overmap_show_map_notes", overmap_show_map_notes );
