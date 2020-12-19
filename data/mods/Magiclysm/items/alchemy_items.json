@@ -273,14 +273,14 @@
     "description": "A gemstone created by alchemy. You can feel it attract surrounding mana.",
     "material": [ "gemstone" ],
     "weight": "120 g",
-    "volume": "250 ml"
+    "volume": "60 ml"
   },
   {
     "type": "GENERIC",
     "id": "enchanted_wood",
     "symbol": "/",
     "color": "blue",
-    "name": { "str_sp": "enchanted wood"},
+    "name": { "str_sp": "enchanted wood" },
     "description": "Wood that has been infused with mana.",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
