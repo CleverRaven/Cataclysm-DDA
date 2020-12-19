@@ -1159,6 +1159,7 @@ void zone_data::serialize( JsonOut &json ) const
 void zone_data::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     data.read( "name", name );
     data.read( "type", type );
     if( data.has_member( "faction" ) ) {

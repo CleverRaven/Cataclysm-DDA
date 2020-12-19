@@ -225,6 +225,7 @@ class uistatedata
         template<typename JsonStream>
         void deserialize( JsonStream &jsin ) {
             auto jo = jsin.get_object();
+            jo.allow_omitted_members();
 
             transfer_save.deserialize( jo, "transfer_save_" );
             // the rest
