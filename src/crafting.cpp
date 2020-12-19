@@ -940,86 +940,107 @@ void Character::craft_proficiency_gain( const item &craft, const time_duration &
     }
 }
 
-double Character::crafting_success_roll( const recipe &making ) const
+float Character::get_recipe_weighted_skill_average( const recipe &making )
 {
-    int secondary_dice = 0;
-    int secondary_difficulty = 0;
-    for( const auto &pr : making.required_skills ) {
-        secondary_dice += get_skill_level( pr.first );
-        secondary_difficulty += pr.second;
+    int secondary_skill_total = 0;
+    int secondary_difficulty = 0; 
+    for( const auto &count_secondaries : making.required_skills ) {
+        // the difficulty of each secondary skill, count_secondaries.second, adds weight: 
+        // skills required at a higher level count more.
+        secondary_skill_total += get_skill_level( count_secondaries.first ) * count_secondaries.second;
+        secondary_difficulty += count_secondaries.second;
     }
-
-    // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
-    int skill_dice;
-    if( secondary_difficulty > 0 ) {
-        skill_dice = get_skill_level( making.skill_used ) * 3 + secondary_dice;
-    } else {
-        skill_dice = get_skill_level( making.skill_used ) * 4;
-    }
-
-    for( const npc *np : get_crafting_helpers() ) {
-        if( np->get_skill_level( making.skill_used ) >=
-            get_skill_level( making.skill_used ) ) {
-            // NPC assistance is worth half a skill level
-            skill_dice += 2;
-            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->name );
-            break;
-        }
-    }
+    // The primary required skill counts extra compared to the secondary skills, before factoring in the
+    // weight added by the required level.
+    const float weighted_skill_average = 
+        ( ( 2.0f * making.difficulty * get_skill_level( making.skill_used ) ) + secondary_skill_total ) / 
+        ( 2.0f * making.difficulty + secondary_difficulty );
+        
+    float total_skill_modifiers = 0.0f;
 
     // farsightedness can impose a penalty on electronics and tailoring success
-    // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
+    // This should be changed to a json-defined penalty by skill (vision_penalty) in skills.json
     if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
         !has_effect( effect_contacts ) ) {
-        int main_rank_penalty = 0;
+        float vision_penalty = 0.0f;
         if( making.skill_used == skill_electronics ) {
-            main_rank_penalty = 2;
+            vision_penalty = 2.0f;
         } else if( making.skill_used == skill_tailor ) {
-            main_rank_penalty = 1;
+            vision_penalty = 1.0f;
         }
-        skill_dice -= main_rank_penalty * 4;
+        total_skill_modifiers -= vision_penalty;
     }
 
-    // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
-    // not inability to see what you're doing
+    // Mutations can define specific skill bonuses and penalties.  Gotta include those.
     for( const trait_id &mut : get_mutations() ) {
-        for( const std::pair<const skill_id, int> &skib : mut->craft_skill_bonus ) {
-            if( making.skill_used == skib.first ) {
-                skill_dice += skib.second;
+        for( const std::pair<const skill_id, int> &skill_bonuses : mut->craft_skill_bonus ) {
+            if( making.skill_used == skill_bonuses.first ) {
+                total_skill_modifiers += skill_bonuses.second * 1.0f;
             }
         }
     }
-
-    // Sides on dice is 16 plus your current intelligence
-    ///\EFFECT_INT increases crafting success chance
-    const int skill_sides = 16 + int_cur;
-
-    int diff_dice;
-    if( secondary_difficulty > 0 ) {
-        diff_dice = making.difficulty * 3 + secondary_difficulty;
-    } else {
-        // Since skill level is * 4 also
-        diff_dice = making.difficulty * 4;
-    }
-
-    const int diff_sides = 24; // 16 + 8 (default intelligence)
-
-    const double skill_roll = dice( skill_dice, skill_sides );
-    const double diff_roll = dice( diff_dice, diff_sides );
-
-    if( diff_roll == 0 ) {
-        // Automatic success
-        return 2;
-    }
-
-    float prof_multiplier = 1.0f;
+    
+    // Focus has a role. If it is below 100, it is a penalty to success.  Over 100, it is a bonus. 
+    // Every 50 points of focus give a +/- 1.
+    total_skill_modifiers += ( focus_pool() - 100 ) /  50.0f;
+    
+    // TO DO: Attribute role should also be data-driven either in skills.json or in the recipe itself.
+    // For now let's just use Intelligence.  For the average intelligence of 8, this gives a +2.
+    // That means that if all your skills are at the requirement and you have average intelligence,
+    // that gives a roughly 1 in 6 chance of failure.
+    total_skill_modifiers += int_cur / 4.0f;
+    
     for( const recipe_proficiency &recip : making.proficiencies ) {
         if( !recip.required && !has_proficiency( recip.id ) ) {
-            prof_multiplier *= recip.fail_multiplier;
+            total_skill_modifiers -= ( recip.fail_multiplier - 1.0f );
         }
     }
+    
+    return weighted_skill_average + total_skill_modifiers;
+}
 
-    return ( skill_roll / diff_roll ) * prof_multiplier;
+double Character::crafting_success_roll( const recipe &making ) const
+{
+    // We're going to use a sqrt( sum of squares ) method here to give diminishing returns for more low level helpers.
+    const float player_weighted_skill_average = get_recipe_weighted_skill_average( making )^2;
+    
+    float npc_helpers_weighted_average = 0.0f;
+    for( const npc *np : get_crafting_helpers() ) {
+        // can the NPC actually craft this recipe?
+        bool has_all_skills = np->get_skill_level( making.skill_used ) >= making.difficulty;
+        if( has_all_skills ) {
+           for( const std::pair<const skill_id, int> &secondary_skills : making.required_skills ) {
+               if( np->get_skill_level( secondary_skills.first ) < secondary_skills.second ) {
+                   has_all_skills = false;
+               }
+           }
+        }
+        if( has_all_skills && !making.character_has_required_proficiencies( np ) ){
+            has_all_skills = false;
+        }
+        if( has_all_skills ) {
+            npc_helpers_weighted_average += np->get_recipe_weighted_skill_average( making ) ^ 2;
+            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->name );
+        }
+    }
+    
+    // Use a sum of squares to determine the final weighted average. 
+    float weighted_skill_average = sqrt( player_weighted_skill_average + npc_helpers_weighted_average );
+    
+    // in the future we might want to make the standard deviation vary depending on some feature of the recipe.
+    float craft_roll = normal_roll( weighted_skill_average, 2 );
+    
+    int secondary_difficulty = 0; 
+    int secondary_count = 0;
+    for( const auto &count_secondaries : making.required_skills ) {
+        secondary_count += 1;
+        secondary_difficulty += count_secondaries.second;
+    }
+    const float final_difficulty = 
+        ( 2.0f * making.difficulty + 1.0f * secondary_difficulty ) / 
+        ( 2.0f * making.difficulty + 1.0f * secondary_count );
+    
+    return skill_roll / final_difficulty;
 }
 
 int item::get_next_failure_point() const
