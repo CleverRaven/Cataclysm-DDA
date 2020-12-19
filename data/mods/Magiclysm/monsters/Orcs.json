@@ -26,12 +26,12 @@
     "death_drops": {
       "subtype": "collection",
       "items": [
-        { "item": "helmet_orc", "prob": 20 },
-        { "item": "legguard_orc", "prob": 20 },
-        { "item": "boots_orc", "prob": 20 },
-        { "item": "armguard_orc", "prob": 20 },
-        { "item": "cuirass_orc", "prob": 10 },
-        { "item": "club", "prob": 100 }
+        { "item": "helmet_scrap", "prob": 20 },
+        { "item": "legguard_scrap", "prob": 20 },
+        { "item": "boots_scrap", "prob": 20 },
+        { "item": "armguard_scrap", "prob": 20 },
+        { "item": "cuirass_scrap", "prob": 10 },
+        { "item": "longsword", "prob": 100 }
       ]
     },
     "death_function": [ "NORMAL" ],
@@ -47,15 +47,15 @@
     "death_drops": {
       "subtype": "collection",
       "items": [
-        { "item": "helmet_orc", "prob": 40 },
-        { "item": "legguard_orc", "prob": 40 },
-        { "item": "boots_orc", "prob": 40 },
-        { "item": "armguard_orc", "prob": 40 },
-        { "item": "cuirass_orc", "prob": 40 },
-        { "item": "Orcish Bow", "prob": 95 }
+        { "item": "helmet_scrap", "prob": 40 },
+        { "item": "legguard_scrap", "prob": 40 },
+        { "item": "boots_scrap", "prob": 40 },
+        { "item": "armguard_scrap", "prob": 40 },
+        { "item": "cuirass_scrap", "prob": 40 },
+        { "item": "Longbow", "prob": 95 }
       ]
     },
-    "starting_ammo": { "Orcish Arrow": 30 },
+    "starting_ammo": { "Arrow": 75 },
     "extend": {
       "special_attacks": [
         {
@@ -88,11 +88,11 @@
     "death_drops": {
       "subtype": "collection",
       "items": [
-        { "item": "helmet_orc", "prob": 20 },
-        { "item": "legguard_orc", "prob": 10 },
-        { "item": "boots_orc", "prob": 10 },
-        { "item": "armguard_orc", "prob": 30 },
-        { "item": "cuirass_orc", "prob": 20 },
+        { "item": "helmet_scrap", "prob": 20 },
+        { "item": "legguard_scrap", "prob": 10 },
+        { "item": "boots_scrap", "prob": 10 },
+        { "item": "armguard_scrap", "prob": 30 },
+        { "item": "cuirass_scrap", "prob": 20 },
         { "group": "melee", "prob": 100 }
       ]
     }
