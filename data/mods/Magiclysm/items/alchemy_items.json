@@ -281,7 +281,7 @@
     "symbol": "/",
     "color": "blue",
     "name": { "str": "enchanted wood", "str_pl": "enchanted woods" },
-    "description": "A wood who have been infused with mana.",
+    "description": "Wood that has been infused with mana.",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIREWOOD" ],
