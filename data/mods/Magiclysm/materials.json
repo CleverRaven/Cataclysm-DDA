@@ -93,7 +93,7 @@
     "type": "material",
     "id": "mithril_metal",
     "name": "Mithril",
-    "density": 20,
+    "density": 13,
     "bash_resist": 13,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
