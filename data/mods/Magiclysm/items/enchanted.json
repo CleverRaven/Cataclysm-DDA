@@ -35,7 +35,7 @@
     "category": "weapons",
     "to_hit": 3
   },
-    {
+  {
     "id": "magi_staff_lesser",
     "type": "GENERIC",
     "symbol": "/",
@@ -55,7 +55,7 @@
     "category": "weapons",
     "to_hit": 3
   },
-      {
+  {
     "id": "magi_staff_greater",
     "type": "GENERIC",
     "symbol": "/",

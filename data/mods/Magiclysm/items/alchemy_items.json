@@ -263,7 +263,7 @@
     "material": [ "powder" ],
     "volume": "100 ml",
     "flags": [ "ZERO_WEIGHT" ]
-  }, 
+  },
   {
     "id": "mana_pearl",
     "type": "GENERIC",
