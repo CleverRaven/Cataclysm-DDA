@@ -43,10 +43,7 @@
     "type": "snippet",
     "category": "charsheet",
     "text": [
-      {
-        "id": "charsheet_1",
-        "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a fighter."
-      },
+      { "id": "charsheet_1", "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a fighter." },
       {
         "id": "charsheet_2",
         "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a bard."
