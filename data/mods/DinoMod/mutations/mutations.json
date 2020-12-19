@@ -94,7 +94,8 @@
     "type": "mutation",
     "id": "THICKSKIN2",
     "name": { "str": "Tough-Skinned" },
-    "description": "Your skin is getting tougher.  Cutting and bash damage are more reduced for you.  Makes you slower though.",
+    "points": 3,
+    "description": "Your skin is getting tougher.  Cutting and bash damage are more reduced for you.  Makes you less dextrous though.",
     "prereqs": "THICKSKIN",
     "cancels": "THINSKIN",
     "category": [ "STEGO", "TYRANT" ],
@@ -106,13 +107,14 @@
         "bullet": 1
       }
     ],
-    "passive_mods": { "speed": -20 }
+    "passive_mods": { "dexterity": -1 }
   },
   {
     "type": "mutation",
     "id": "THICKSKIN3",
     "name": { "str": "Diamond-Skinned" },
-    "description": "Your skin is developing kevlar like qualities.",
+    "points": 4,
+    "description": "Your skin is developing kevlar like qualities.  Makes you slower though.",
     "prereqs": "THICKSKIN2",
     "cancels": "THINSKIN",
     "threshreq": "THRESH_STEGO",
@@ -124,7 +126,8 @@
         "bash": 6,
         "bullet": 6
       }
-    ]
+    ],
+    "passive_mods": { "speed": -10 }
   },
   {
     "type": "mutation",
@@ -248,7 +251,7 @@
     "type": "mutation",
     "id": "TYRANT_TEETH",
     "name": { "str": "Serrated Teeth" },
-    "points": -2,
+    "points": 3,
     "visibility": 10,
     "ugliness": 8,
     "mixed_effect": true,
@@ -291,7 +294,7 @@
     "type": "mutation",
     "id": "TAIL_HORNED",
     "name": { "str": "Horned Tail" },
-    "points": 1,
+    "points": 2,
     "visibility": 8,
     "ugliness": 4,
     "description": "You have a long, thick, tail with sharp pointed horns.  It helps you balance a bit but also makes a heavy bludgeon.  Prevents wearing non-fabric pants.",
