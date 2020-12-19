@@ -367,7 +367,7 @@ if __name__ == '__main__':
     args_dict = vars(arg_parser.parse_args())
 
     source_dir = args_dict.get('source_dir')
-    output_dir = args_dict.get('output_dir', source_dir)
+    output_dir = args_dict.get('output_dir') or source_dir
     tileset_confpath = os.path.join(output_dir, 'tile_config.json')
     use_all = args_dict.get('use_all', False)
 
