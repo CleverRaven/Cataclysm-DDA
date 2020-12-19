@@ -2,7 +2,7 @@
   {
     "id": "BGSS_pizzaiolo_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I was just a regular pizzaiolo.  My father was a pizzaiolo, my grandfather was a pizzaiolo and I also became a pizzaiolo.  I was making pizza my whole life, until some american <name_b>s ruined my business!  I couldn't do anything about this, but now, with <the_cataclysm> and <zombies> around, I have a chance to get my revenge!  And I got my revenge, thanks to special someone.",
+    "dynamic_line": "I was just a regular pizzaiolo.  My father was a pizzaiolo, my grandfather was a pizzaiolo and I also became a pizzaiolo.  I was making pizza my whole life, until some american <name_b>s ruined my business!  I couldn't do anything about this, but now, with <the_cataclysm> and <zombies> around, I have a chance to get my revenge!  And I got my revenge, thanks to a special someone.",
     "responses": [
       { "text": "He-he, that was a fun ride, <name_g>.", "topic": "BGSS_pizzaiolo_STORY2" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
