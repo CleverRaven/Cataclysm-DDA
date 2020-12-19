@@ -97,6 +97,7 @@ explosion_data load_explosion_data( const JsonObject &jo )
     jo.read( "power", ret.power );
     // Rest isn't
     ret.distance_factor = jo.get_float( "distance_factor", 0.8f );
+    ret.max_noise = jo.get_int( "max_noise", 90000000 );
     ret.fire = jo.get_bool( "fire", false );
     if( jo.has_int( "shrapnel" ) ) {
         ret.shrapnel.casing_mass = jo.get_int( "shrapnel" );
@@ -507,7 +508,8 @@ void explosion( const tripoint &p, const explosion_data &ex )
 
 void _make_explosion( const tripoint &p, const explosion_data &ex )
 {
-    const int noise = ex.power * ( ex.fire ? 2 : 10 );
+    int noise = ex.power * ( ex.fire ? 2 : 10 );
+    noise = ( noise > ex.max_noise ) ? ex.max_noise : noise;
     if( noise >= 30 ) {
         sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ), false, "explosion",
                        "huge" );
