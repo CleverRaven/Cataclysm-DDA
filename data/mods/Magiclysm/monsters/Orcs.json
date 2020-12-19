@@ -1,50 +1,104 @@
+
 [
   {
-    "type": "MONSTER",
     "id": "mon_orc_warrior",
-    "name":	{ "str": "orc warrior" },
+    "type": "MONSTER",
+    "name": { "str": "Orc Warrior" },
     "description": "This green brute is a orc warrior, it stares at you menacingly, club in hand.",
     "default_faction": "orcs",
+    "bodytype": "human",
+    "species": [ "Orcs" ],
     "volume": "60 L",
     "weight": "70 kg",
     "hp": 82,
+    "speed": 110,
+    "material": [ "flesh" ],
     "symbol": "o",
     "color": "green",
-    "bodytype": "human",
-    "speed": 110
-  }
-]
-[
-  {
-    "type": "MONSTER",
-    "id": "mon_orc_blood_warrior",
-    "name":	{ "str": "orc blood warrior" },
-    "description": "This green brute is a orc warrior, it stares at you menacingly, club in hand, this one seems to have bathed himself in the blood of his enemies.",
-    "default_faction": "orcs",
-    "volume": "70 L",
-    "weight": "120 kg",
-    "hp": 97,
-    "symbol": "O",
-    "color": "red",
-    "bodytype": "human",
-    "speed": 113
+    "aggression": 200,
+    "morale": 110,
+    "melee_skill": 5,
+    "melee_dice": 6,
+    "melee_dice_sides": 4,
+    "dodge": 13,
+    "harvest": "orc",
+    "vision_day": 13,
+    "vision_night": 5,
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "helmet_orc", "prob": 20 },
+        { "item": "legguard_orc", "prob": 20 },
+        { "item": "boots_orc", "prob": 20 },
+        { "item": "armguard_orc", "prob": 20 },
+        { "item": "cuirass_orc", "prob": 10 },
+        { "item": "club", "prob": 100 }
+      ]
+    },
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_2" ]
   },
-]
-[
   {
     "type": "MONSTER",
     "id": "mon_orc_archer",
-    "name":	{ "str": "orc archer" },
-    "description": "This green brute is a orc archer, it looks at you with a bow in hand and smiles silently as it aims at you",
-    "default_faction": "orcs",
-    "volume": "70 L",
-    "weight": "123 kg",
-    "hp": 102,
-    "symbol": "O",
-    "color": "brown",
-    "bodytype": "human",
-    "speed": 190
+    "name": { "str": "orc archer" },
+    "description": "This green brute is a orc archer, it looks at you with a bow in hand and smiles silently as it aims at you.",
+    "copy-from": "mon_orc_warrior",
+    "melee_skill": 2,
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "helmet_orc", "prob": 40 },
+        { "item": "legguard_orc", "prob": 40 },
+        { "item": "boots_orc", "prob": 40 },
+        { "item": "armguard_orc", "prob": 40 },
+        { "item": "cuirass_orc", "prob": 40 },
+        { "item": "Orcish Bow", "prob": 95 }
+      ]
+    },
+    "starting_ammo": { "Orcish Arrow": 30 },
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "gun",
+          "cooldown": 10,
+          "move_cost": 93,
+          "gun_type": "bow",
+          "ammo_type": "arrow",
+          "fake_skills": [ [ "gun", 6 ], [ "rifle", 7 ] ],
+          "fake_dex": 9,
+          "fake_per": 5,
+          "require_targeting_player": false,
+          "description": "The orc shoots you with laser accuracy",
+          "ranges": [ [ 12, 13, "DEFAULT" ] ],
+          "no_ammo_sound": "grunting"
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_orc_blood_warrior",
+    "type": "MONSTER",
+    "copy-from": "mon_orc_warrior",
+    "name": { "str": "Blood Orc" },
+    "description": "This green brute is a orc warrior, it stares at you menacingly, club in hand, this one seems to have bathed himself in the blood of his enemies.",
+    "hp": 97,
+    "dodge": 3,
+    "melee_dice_sides": 8,
+    "melee_cut": 5,
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "helmet_orc", "prob": 20 },
+        { "item": "legguard_orc", "prob": 10 },
+        { "item": "boots_orc", "prob": 10 },
+        { "item": "armguard_orc", "prob": 30 },
+        { "item": "cuirass_orc", "prob": 20 },
+        { "group": "melee_orc", "prob": 100 }
+      ]
+    }
   }
+  {
 ]
 
 
