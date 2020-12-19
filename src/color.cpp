@@ -182,9 +182,9 @@ nc_color color_manager::highlight_from_names( const std::string &name,
         const std::string &bg_name ) const
 {
     /*
-    //             Base Name      Highlight      Red BG              White BG            Green BG            Yellow BG
-    add_hightlight("c_black",     "h_black",     "",                 "c_black_white",    "c_black_green",    "c_black_yellow",   "c_black_magenta",      "c_black_cyan");
-    add_hightlight("c_white",     "h_white",     "c_white_red",      "c_white_white",    "c_white_green",    "c_white_yellow",   "c_white_magenta",      "c_white_cyan");
+    //            Base Name      Highlight      Red BG              White BG            Green BG            Yellow BG
+    add_highlight("c_black",     "h_black",     "",                 "c_black_white",    "c_black_green",    "c_black_yellow",   "c_black_magenta",      "c_black_cyan");
+    add_highlight("c_white",     "h_white",     "c_white_red",      "c_white_white",    "c_white_green",    "c_white_yellow",   "c_white_magenta",      "c_white_cyan");
     etc.
     */
 

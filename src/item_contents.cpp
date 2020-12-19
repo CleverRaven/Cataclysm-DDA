@@ -170,7 +170,13 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
 
         return true;
     } else if( cat_id ) {
-        const std::vector<item_category> &all_cat = item_category::get_all();
+        // Get all categories and sort by name
+        std::vector<item_category> all_cat = item_category::get_all();
+        std::sort( all_cat.begin(), all_cat.end(), []( const item_category & lhs,
+        const item_category & rhs ) {
+            return localized_compare( lhs.name(), rhs.name() );
+        } );
+
         for( const item_category &cat : all_cat ) {
             selector_menu.addentry( cat.name() );
         }
@@ -818,6 +824,15 @@ void item_contents::clear_items()
 {
     for( item_pocket &pocket : contents ) {
         pocket.clear_items();
+    }
+}
+
+void item_contents::clear_magazines()
+{
+    for( item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ) {
+            pocket.clear_items();
+        }
     }
 }
 

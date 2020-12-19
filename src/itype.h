@@ -253,7 +253,7 @@ struct islot_armor {
      */
     int warmth = 0;
     /**
-    * Factor modifiying weight capacity
+    * Factor modifying weight capacity
     */
     float weight_capacity_modifier = 1.0f;
     /**
@@ -994,6 +994,9 @@ struct itype {
 
         // used for generic_factory for copy-from
         bool was_loaded = false;
+
+        // itemgroup used to generate the recipes within nanofabricator templates.
+        item_group_id nanofab_template_group;
 
     private:
         /** Can item be combined with other identical items? */

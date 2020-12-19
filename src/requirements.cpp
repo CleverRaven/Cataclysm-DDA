@@ -798,8 +798,16 @@ bool tool_comp::has(
     } else {
         int charges_required = count * batch * item::find_type( type )->charge_factor();
 
-        if( ( flags & craft_flags::start_only ) != craft_flags::none ) {
-            charges_required = charges_required / 20 + charges_required % 20;
+        // The `type->tool` check excludes items counted by charge used as tools,
+        // such as water purification tablets.
+        if( ( flags & craft_flags::start_only ) != craft_flags::none && type->tool ) {
+            // See Character::craft_consume_tools. In theory only
+            // `charges_required / 20 + charges_required % 20` charges are
+            // consumed during the first 5% progress, however that equation
+            // sometimes decreases when the batch size increases, so we take
+            // the largest remainder value 19 to make this function return
+            // false consistently for large batch sizes.
+            charges_required = std::min( charges_required, charges_required / 20 + 19 );
         }
 
         int charges_found = crafting_inv.charges_of( type, charges_required, filter, visitor );
@@ -810,7 +818,7 @@ bool tool_comp::has(
 nc_color tool_comp::get_color( bool has_one, const inventory &crafting_inv,
                                const std::function<bool( const item & )> &filter, int batch ) const
 {
-    if( available == available_status::a_insufficent ) {
+    if( available == available_status::a_insufficient ) {
         return c_brown;
     } else if( has( crafting_inv, filter, batch ) ) {
         return c_green;
@@ -836,7 +844,7 @@ bool item_comp::has(
 nc_color item_comp::get_color( bool has_one, const inventory &crafting_inv,
                                const std::function<bool( const item & )> &filter, int batch ) const
 {
-    if( available == available_status::a_insufficent ) {
+    if( available == available_status::a_insufficient ) {
         return c_brown;
     } else if( has( crafting_inv, filter, batch ) ) {
         return c_green;
@@ -905,7 +913,7 @@ bool requirement_data::check_enough_materials( const item_comp &comp, const inve
         const tool_comp t_tmp( comp.type, -( cnt + tc ) ); // not by charges!
         // batch factor is explicitly 1, because it's already included in the count.
         if( !i_tmp.has( crafting_inv, filter, 1 ) && !t_tmp.has( crafting_inv, filter, 1 ) ) {
-            comp.available = available_status::a_insufficent;
+            comp.available = available_status::a_insufficient;
         }
     }
     const itype *it = item::find_type( comp.type );
@@ -917,7 +925,7 @@ bool requirement_data::check_enough_materials( const item_comp &comp, const inve
         // This item can be used for the quality requirement, same as above for specific
         // tools applies.
         if( !crafting_inv.has_quality( qr->type, qr->level, qr->count + std::abs( comp.count ) ) ) {
-            comp.available = available_status::a_insufficent;
+            comp.available = available_status::a_insufficient;
         }
     }
     return comp.available == available_status::a_true;

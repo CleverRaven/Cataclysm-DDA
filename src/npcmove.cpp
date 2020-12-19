@@ -4084,40 +4084,40 @@ void npc::set_omt_destination()
     // We need that, otherwise find_closest won't work properly
     surface_omt_loc.z() = 0;
 
-    // also, don't bother looking if the CITY_SIZE is 0, just go somewhere at random
-    const int city_size = get_option<int>( "CITY_SIZE" );
-    if( city_size == 0 ) {
-        goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
-        return;
-    }
-
     decide_needs();
     if( needs.empty() ) { // We don't need anything in particular.
         needs.push_back( need_none );
+
+        // also, don't bother looking if the CITY_SIZE is 0, just go somewhere at random
+        const int city_size = get_option<int>( "CITY_SIZE" );
+        if( city_size == 0 ) {
+            goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
+            return;
+        }
     }
 
     std::string dest_type;
     for( const auto &fulfill : needs ) {
-        // look for the closest occurence of any of that locations terrain types
-        std::vector<oter_type_id> loc_list = get_location_for( fulfill )->get_all_terrains();
-        std::shuffle( loc_list.begin(), loc_list.end(), rng_get_engine() );
+        // look for the closest occurrence of any of that locations terrain types
         omt_find_params find_params;
-        std::vector<std::pair<std::string, ot_match_type>> temp_types;
-        for( const oter_type_id &elem : loc_list ) {
+        for( const oter_type_str_id &elem : get_location_for( fulfill )->get_all_terrains() ) {
             std::pair<std::string, ot_match_type> temp_pair;
-            temp_pair.first = elem.id().str();
+            temp_pair.first = elem.str();
             temp_pair.second = ot_match_type::type;
-            temp_types.push_back( temp_pair );
+            find_params.types.push_back( temp_pair );
         }
+        // note: no shuffle of `find_params.types` is needed, because `find_closest`
+        // disregards `types` order anyway, and already returns random result among
+        // those having equal minimal distance
         find_params.search_range = 75;
-        find_params.types = temp_types;
         find_params.existing_only = false;
         goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
-        omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+        omt_path.clear();
         if( goal != overmap::invalid_tripoint ) {
             omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
         }
         if( !omt_path.empty() ) {
+            dest_type = overmap_buffer.ter( goal )->get_type_id().str();
             break;
         }
     }

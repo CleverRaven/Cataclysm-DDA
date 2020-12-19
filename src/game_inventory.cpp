@@ -67,6 +67,9 @@ static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
+static const bionic_id bio_syringe( "bio_syringe" );
+
+static const itype_id itype_syringe( "syringe" );
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -852,6 +855,16 @@ class activatable_inventory_preset : public pickup_inventory_preset
         std::string get_denial( const item_location &loc ) const override {
             const item &it = *loc;
             const auto &uses = it.type->use_methods;
+
+            auto &comest = it.get_comestible();
+            if( comest && !comest->tool.is_null() ) {
+                const bool has = item::count_by_charges( comest->tool )
+                                 ? p.has_charges( comest->tool, 1 )
+                                 : p.has_amount( comest->tool, 1 );
+                if( !has && !( comest->tool == itype_syringe && p.has_bionic( bio_syringe ) ) ) {
+                    return string_format( _( "You need a %s to consume that!" ), item::nname( comest->tool ) );
+                }
+            }
 
             if( uses.size() == 1 ) {
                 const auto ret = uses.begin()->second.can_call( p, it, false, p.pos() );

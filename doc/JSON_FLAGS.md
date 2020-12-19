@@ -73,7 +73,7 @@
 
 ## Notes
 
-- Some flags (items, effects, vehicle parts) have to be defined in `flags.json` or `vp_flags.json` (with type: `json_flag`) to work correctly. 
+- Some flags (items, effects, vehicle parts) have to be defined in `flags.json` or `vp_flags.json` (with type: `json_flag`) to work correctly.
 - Many of the flags intended for one category or item type, can be used in other categories or item types. Experiment to see where else flags can be used.
 - Offensive and defensive flags can be used on any item type that can be wielded.
 
@@ -203,6 +203,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```STREAM``` Leaves a trail of fire fields.
 - ```TRAIL``` Creates a trail of smoke.
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
+- ```NON_FOULING``` This ammo does not cause dirtying or blackpowder fouling on the gun when fired.
 
 
 ## Armor
@@ -367,7 +368,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PHEROMONE``` Makes zombies ignore you.
 - ```PICK_LOCK``` Pick a lock on a door. Speed and success chance are determined by skill, 'LOCKPICK' item quality and 'PERFECT_LOCKPICK' item flag
 - ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
-- ```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
+- ```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead chooses randomly.
 - ```PORTABLE_GAME``` Play games.
 - ```PORTAL``` Create portal traps.
 - ```RADIO_OFF``` Turn the radio on.
@@ -538,7 +539,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```DIGGABLE``` Digging monsters, seeding monster, digging with shovel, etc.
 - ```DOOR``` Can be opened (used for NPC path-finding).
 - ```EASY_DECONSTRUCT``` Player can deconstruct this without tools.
-- ```EMITTER``` This furniture will emit fields automatically as defined by its emissions entry
 - ```FIRE_CONTAINER``` Stops fire from spreading (brazier, wood stove, etc.)
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
 - ```FLAMMABLE_HARD``` Harder to light on fire, but still possible.
@@ -566,6 +566,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NO_FLOOR``` Things should fall when placed on this tile
 - ```NO_SIGHT``` Creature on this tile have their sight reduced to one tile
 - ```NO_SCENT``` This tile cannot have scent values, which prevents scent diffusion through this tile
+- ```NO_SHOOT``` Terrain with this flag cannot be damaged by ranged attacks, and ranged attacks will not pass through it.
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```PAINFUL``` May cause a small amount of pain.
 - ```PERMEABLE``` Permeable for gases.
@@ -588,7 +589,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - ```SIGN``` Show written message on examine.
 - ```SMALL_PASSAGE``` This terrain or furniture is too small for large or huge creatures to pass through.
-- ```SUN_ROOF_ABOVE``` This furniture (terrain is not supported currently) has a "fake roof" above, that blocks sunlight. Special hack for #44421, to be removed later. 
+- ```SUN_ROOF_ABOVE``` This furniture (terrain is not supported currently) has a "fake roof" above, that blocks sunlight. Special hack for #44421, to be removed later.
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
 - ```SUPPRESS_SMOKE``` Prevents smoke from fires; used by ventilated wood stoves, etc.
 - ```SWIMMABLE``` Player and monsters can swim through it.
@@ -740,6 +741,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```STR_RELOAD``` Reload speed is affected by strength.
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
 - ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
+- ```NON_FOULING``` Gun does not become dirty or blackpowder fouled.
 
 ### Firing modes
 
@@ -855,7 +857,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```FRIEND_ATTACKED``` A monster of the same type was attacked.
 - ```FRIEND_DIED``` A monster of the same type died.
 - ```HURT``` The monster is hurt.
-- ```MEAT``` Meat or a corpse is nearby.
+- ```MEAT``` Meat or a corpse is nearby. - Currently nonfunctional!
 - ```NULL``` Source use only?
 - ```PLAYER_CLOSE``` The player gets within a few tiles distance.
 - ```PLAYER_WEAK``` The player is hurt.
@@ -927,7 +929,7 @@ Other monster flags.
 - ```CBM_SUBS``` May produce a CBM or two from bionics_subs and a power CBM when butchered.
 - ```CBM_TECH``` May produce a CBM or two from 'bionics_tech' item group and a power CBM when butchered.
 - ```CHITIN``` May produce chitin when butchered.
-- ```CLIMBS``` Can climb.
+- ```CLIMBS``` Can climb over fences or similar obstacles quickly.
 - ```COLDROOF``` Immune to cold damage.
 - ```CURRENT``` this water is flowing.
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
@@ -938,7 +940,6 @@ Other monster flags.
 - ```ELECTRIC``` Shocks unarmed attackers.
 - ```ELECTRONIC``` e.g. A Robot; affected by emp blasts and other stuff.
 - ```FAT``` May produce fat when butchered.
-- ```FEATHER``` May produce feathers when butchered.
 - ```FILTHY``` Any clothing it drops will be filthy.  The squeamish trait prevents wearing clothing with this flag, one can't craft anything from filthy components, and wearing filthy clothes may result in infection if hit in melee.
 - ```FIREPROOF``` Immune to fire.
 - ```FIREY``` Burns stuff and is immune to fire.
@@ -962,7 +963,7 @@ Other monster flags.
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
 - ```LEATHER``` May produce leather when butchered.
-- ```LOUDMOVES``` Mkes move noises as if ~2 sizes louder, even if flying.
+- ```LOUDMOVES``` Makes move noises as if ~2 sizes louder, even if flying.
 - ```MECH_RECON_VISION``` This mech grants you night-vision and enhanced overmap sight radius when piloted.
 - ```MECH_DEFENSIVE``` This mech can protect you thoroughly when piloted.
 - ```MILITARY_MECH``` Is a military-grade mech.
@@ -1060,7 +1061,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```FUNGUS``` Releases fungal spores and attempts to infect the player.
 - ```GENERATOR``` Regenerates health.
 - ```GENE_STING``` Shoot a dart at the player that causes a mutation if it connects.
-- ```GRAB``` GRAB the target, and drag it around.
+- ```GRAB_DRAG``` GRAB the target, and drag it around.
 - ```GRAB``` Grabs the player, slowing on hit, making movement and dodging impossible and blocking harder.
 - ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`.
 - ```GROW_VINE``` Grows creeper vines.
@@ -1222,7 +1223,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BLIND_EASY``` Easy to craft with little to no light.
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult.
 - ```SECRET``` Not automatically learned at character creation time based on high skill levels.
-- ```UNCRAFT_BY_QUANTITY``` Supresses the per-charge handling of uncraft recipes.
+- ```UNCRAFT_BY_QUANTITY``` Suppresses the per-charge handling of uncraft recipes.
 - ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
 - ```NEED_FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.
@@ -1233,9 +1234,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 
 ### Flags
 
-- ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start.
 - ```BAD_DAY``` Player starts the game drunk, depressed and sick with the flu.
-- ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors).
 - ```CHALLENGE``` Game won't choose this scenario in random game types.
 - ```CITY_START``` Scenario is available only when city size value in world options is more than 0.
 - ```FIRE_START``` Player starts the game with fire nearby.
@@ -1243,17 +1242,16 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```INFECTED``` Player starts the game infected.
 - ```FUNGAL_INFECTION``` Player starts the game with fungal infection.
 - ```LONE_START``` If starting NPC spawn option is switched to "Scenario-based", this scenario won't spawn a fellow NPC on game start.
-- ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
 - ```SUR_START``` Surrounded start, zombies outside the starting location.
 
-#### Season Flags
+#### Profession Flags
 
-- ```AUT_START``` ... start in autumn.
-- ```SPR_START``` ... start in spring.
-- ```SUM_ADV_START``` ... start second summer after Cataclysm.
-- ```SUM_START``` ... start in summer.
-- ```WIN_START``` ... start in winter.
+- ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
 
+#### Starting Location Flags
+
+- ```ALLOW_OUTSIDE``` Allows placing player outside of building, useful for outdoor start.
+- ```BOARDED``` Start in boarded building (windows and doors are boarded, movable furniture is moved to windows and doors).
 
 ## Skills
 
@@ -1291,7 +1289,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```FISH_POOR``` When used for fishing, it's a poor tool (requires that the matching use_action has been set).
 - ```HAS_RECIPE``` Used by the E-Ink tablet to indicates it's currently showing a recipe.
 - ```IS_UPS``` Item is Unified Power Supply. Used in active item processing
-- ```LIGHT_[X]``` Illuminates the area with light intensity `[X]` where `[X]` is an intensity value. (e.x. `LIGHT_4` or `LIGHT_100`). Note: this flags sets `itype::light_emission` field and then is removed (can't be found using `has_flag`); 
+- ```LIGHT_[X]``` Illuminates the area with light intensity `[X]` where `[X]` is an intensity value. (e.x. `LIGHT_4` or `LIGHT_100`). Note: this flags sets `itype::light_emission` field and then is removed (can't be found using `has_flag`);
 - ```MC_MOBILE```, ```MC_RANDOM_STUFF```, ```MC_SCIENCE_STUFF```, ```MC_USED```, ```MC_HAS_DATA``` Memory card related flags, see `iuse.cpp`
 - ```NO_DROP``` Item should never exist on map tile as a discrete item (must be contained by another item)
 - ```NO_UNLOAD``` Cannot be unloaded.
@@ -1317,7 +1315,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 
 These flags **do not apply to item types**.
 
-Those flags are added by the game code to specific items (for example, that specific thingamabob, not *all* thingamabob).  These flags are **not** assigned in JSON by content contributors, they are set programatically.
+Those flags are added by the game code to specific items (for example, that specific thingamabob, not *all* thingamabob).  These flags are **not** assigned in JSON by content contributors, they are set programmatically.
 
 - ```COLD``` Item is cold (see EATEN_COLD).
 - ```DIRTY``` Item (liquid) was dropped on the ground and is now irreparably dirty.
@@ -1383,7 +1381,6 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```E_HEATER``` Is an engine and has a heater to warm internal vehicle items when on.
 - ```E_HIGHER_SKILL``` Is an engine that is more difficult to install as more engines are installed.
 - ```E_STARTS_INSTANTLY``` Is an engine that starts instantly, like food pedals.
-- ```EMITTER``` Is a part has emission (defined in ```emissions```).
 - ```FLAT_SURF``` Part with a flat hard surface (e.g. table).
 - ```FOLDABLE```
 - ```FREEZER``` Can freeze items in below zero degrees Celsius temperature.
@@ -1404,7 +1401,7 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```NOINSTALL``` Cannot be installed.
 - ```NO_INSTALL_PLAYER``` Cannot be installed by a player, but can be installed on vehicles.
 - ```NO_MODIFY_VEHICLE``` Installing a part with this flag on a vehicle will mean that it can no longer be modified. Parts with this flag should not be installable by players.
-- ```NO_UNINSTALL``` Cannot be unintalled
+- ```NO_UNINSTALL``` Cannot be uninstalled
 - ```NO_REPAIR``` Cannot be repaired
 - ```NO_JACK```
 - ```OBSTACLE``` Cannot walk through part, unless the part is also ```OPENABLE```.
@@ -1431,7 +1428,7 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```SEAT``` A seat where the player can sit or sleep.
 - ```SECURITY```
 - ```SHARP``` Striking a monster with this part does cutting damage instead of bashing damage, and prevents stunning the monster.
-- ```SHOCK_ABSORBER``` This part protects non-frame parts on the same tile from shock damage from collisions.  It doesn't provide protect against diret impacts or other attacks.
+- ```SHOCK_ABSORBER``` This part protects non-frame parts on the same tile from shock damage from collisions.  It doesn't provide protect against direct impacts or other attacks.
 - ```SIMPLE_PART``` This part can be installed or removed from that otherwise prevent modification.
 - ```SMASH_REMOVE``` When you remove this part, instead of getting the item back, you will get the bash results.
 - ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
@@ -1492,8 +1489,8 @@ General fault flag:
 
 Vehicle fault flags:
 - ```NO_ALTERNATOR_CHARGE``` The alternator connected to this engine does not work.
-- ```BAD_COLD_START``` The engine starts as if the themperature was 20 F colder. Does not stack with multiples of itself.
-- ```IMMOBILIZER``` Prevents engine from starting and makes it beeb.
+- ```BAD_COLD_START``` The engine starts as if the temperature was 20 F colder. Does not stack with multiples of itself.
+- ```IMMOBILIZER``` Prevents engine from starting and makes it beep.
 - ```BAD_FUEL_PUMP``` Prevents engine from starting and makes it stutter.
 - ```BAD_STARTER``` Prevents engine from starting and makes click noise.
 - ```DOUBLE_FUEL_CONSUMPTION``` Doubles fuel consumption of the engine. Does not stack with multiples of itself.

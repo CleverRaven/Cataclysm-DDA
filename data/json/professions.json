@@ -629,8 +629,8 @@
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "throw" } ],
     "items": {
       "both": {
-        "items": [ "tank_top", "jersey", "b_shorts", "socks_ankle", "sneakers", "basketball", "sports_drink", "runner_bag" ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "items": [ "tank_top", "b_shorts", "socks_ankle", "sneakers", "basketball", "sports_drink", "runner_bag" ],
+        "entries": [ { "item": "jersey", "snippets": [ "basin" ] }, { "group": "charged_cell_phone" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "panties" ]
@@ -1815,7 +1815,7 @@
     "description": "After many late nights with friends watching anime and eating snacks, you decided to make the trip to the premier anime convention in the Northeast.  Now zombies are eating everyone, and even worse, the convention is cancelled!  At least you were ready in case your costume tore.",
     "points": 1,
     "skills": [ { "level": 1, "name": "tailor" } ],
-    "proficiencies": [ "prof_closures", "prof_leatherworking" ],
+    "proficiencies": [ "prof_closures", "prof_leatherworking_basic" ],
     "items": {
       "both": {
         "items": [
@@ -2109,6 +2109,22 @@
     "items": {
       "both": {
         "items": [ "kariginu", "eboshi", "pants", "tabi_dress", "geta", "holy_symbol", "holybook_kojiki" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bhikkhu",
+    "name": { "male": "Bhikkhu", "female": "Bhikkhuni" },
+    "description": "Your life was simple at the Vihara, doing household chores and meditating.  Your Sangha wanted to attain liberation from suffering, now their rotting corpses will suffer forever.",
+    "points": 0,
+    "skills": [ { "level": 3, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [ "kasaya", "pants", "flip_flops", "holy_symbol", "holybook_sutras" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],

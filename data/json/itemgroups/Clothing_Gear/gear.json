@@ -166,6 +166,10 @@
     "subtype": "collection",
     "entries": [
       { "distribution": [ { "item": "c_fishspear", "prob": 50 }, { "item": "m_fishspear", "prob": 50 } ], "prob": 65 },
+      {
+        "distribution": [ { "item": "fitness_band", "prob": 50 }, { "item": "diving_watch", "prob": 50 } ],
+        "prob": 100
+      },
       { "group": "swimmer_head", "prob": 100 },
       { "group": "swimmer_torso", "prob": 100 },
       { "group": "swimmer_pants", "prob": 100 },
@@ -184,11 +188,14 @@
         "prob": 65
       },
       {
-        "collection": [ { "item": "small_scuba_tank", "prob": 40 }, { "item": "scuba_tank", "prob": 60 } ],
+        "collection": [
+          { "item": "small_scuba_tank", "prob": 40, "charges": [ 5, 20 ] },
+          { "item": "scuba_tank", "prob": 60, "charges": [ 10, 60 ] }
+        ],
         "prob": 85
       },
       {
-        "collection": [ { "item": "rebreather_filter", "prob": 50 }, { "item": "rebreather", "prob": 90 } ],
+        "collection": [ { "item": "rebreather_filter", "prob": 50 }, { "item": "rebreather", "prob": 90, "charges": [ 10, 60 ] } ],
         "prob": 20
       }
     ]

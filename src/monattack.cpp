@@ -275,37 +275,6 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
     }
 }
 
-// Distance == 1 and on the same z-level or with a clear shot up/down.
-// If allow_zlev is false, don't allow attacking up/down at all.
-// If allow_zlev is true, also allow distance == 1 and on different z-level
-// as long as floor/ceiling doesn't exist.
-static bool is_adjacent( const monster *z, const Creature *target, const bool allow_zlev )
-{
-    if( target == nullptr ) {
-        return false;
-    }
-
-    if( rl_dist( z->pos(), target->pos() ) != 1 ) {
-        return false;
-    }
-
-    if( z->posz() == target->posz() ) {
-        return true;
-    }
-
-    if( !allow_zlev ) {
-        return false;
-    }
-
-    // The square above must have no floor (currently only open air).
-    // The square below must have no ceiling (i.e. be outside).
-    const bool target_above = target->posz() > z->posz();
-    const tripoint &up   = target_above ? target->pos() : z->pos();
-    const tripoint &down = target_above ? z->pos() : target->pos();
-    map &here = get_map();
-    return here.ter( up ) == t_open_air && here.is_outside( down );
-}
-
 static npc make_fake_npc( monster *z, int str, int dex, int inte, int per )
 {
     npc tmp;
@@ -646,7 +615,7 @@ bool mattack::acid_barf( monster *z )
 
     // Let it be used on non-player creatures
     Creature *target = z->attack_target();
-    if( target == nullptr || !is_adjacent( z, target, false ) ) {
+    if( target == nullptr || !z->is_adjacent( target, false ) ) {
         return false;
     }
 
@@ -1083,7 +1052,7 @@ bool mattack::resurrect( monster *z )
 
 void mattack::smash_specific( monster *z, Creature *target )
 {
-    if( target == nullptr || !is_adjacent( z, target, false ) ) {
+    if( target == nullptr || !z->is_adjacent( target, false ) ) {
         return;
     }
     if( z->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -1100,7 +1069,7 @@ bool mattack::smash( monster *z )
     }
 
     Creature *target = z->attack_target();
-    if( target == nullptr || !is_adjacent( z, target, false ) ) {
+    if( target == nullptr || !z->is_adjacent( target, false ) ) {
         return false;
     }
 
@@ -1869,7 +1838,7 @@ bool mattack::fungus_bristle( monster *z )
     }
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        !is_adjacent( z, target, true ) ||
+        !z->is_adjacent( target, true ) ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -2090,7 +2059,7 @@ bool mattack::impale( monster *z )
         return false;
     }
     Creature *target = z->attack_target();
-    if( target == nullptr || !is_adjacent( z, target, false ) ) {
+    if( target == nullptr || !z->is_adjacent( target, false ) ) {
         return false;
     }
 
@@ -2146,7 +2115,7 @@ bool mattack::dermatik( monster *z )
 
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        !is_adjacent( z, target, true ) ||
+        !z->is_adjacent( target, true ) ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -2687,7 +2656,7 @@ bool mattack::grab( monster *z )
         return false;
     }
     Creature *target = z->attack_target();
-    if( target == nullptr || !is_adjacent( z, target, false ) ) {
+    if( target == nullptr || !z->is_adjacent( target, false ) ) {
         return false;
     }
 
@@ -3284,7 +3253,7 @@ bool mattack::photograph( monster *z )
 bool mattack::tazer( monster *z )
 {
     Creature *target = z->attack_target();
-    if( target == nullptr || !is_adjacent( z, target, false ) ) {
+    if( target == nullptr || !z->is_adjacent( target, false ) ) {
         return false;
     }
 
@@ -3768,7 +3737,7 @@ bool mattack::copbot( monster *z )
     bool sees_u = foe != nullptr && z->sees( *foe );
     bool cuffed = foe != nullptr && foe->weapon.typeId() == itype_e_handcuffs;
     // Taze first, then ask questions (simplifies later checks for non-humans)
-    if( !cuffed && is_adjacent( z, target, true ) ) {
+    if( !cuffed && z->is_adjacent( target, true ) ) {
         taze( z, target );
         return true;
     }
@@ -4219,7 +4188,7 @@ bool mattack::flesh_golem( monster *z )
         }
         return false;
     }
-    if( !is_adjacent( z, target, true ) ) {
+    if( !z->is_adjacent( target, true ) ) {
         // No attacking through floor, even if we can see the target somehow
         return false;
     }
@@ -4341,7 +4310,7 @@ bool mattack::lunge( monster *z )
         return false;
     }
 
-    if( !is_adjacent( z, target, false ) ) {
+    if( !z->is_adjacent( target, false ) ) {
         // No attacking up or down - lunging requires contact
         // There could be a lunge down attack, though
         return false;
@@ -4413,7 +4382,7 @@ bool mattack::longswipe( monster *z )
         }
     }
 
-    if( !is_adjacent( z, target, true ) ) {
+    if( !z->is_adjacent( target, true ) ) {
         if( one_in( 5 ) ) {
 
             z->moves -= 150;
@@ -4645,7 +4614,7 @@ bool mattack::thrown_by_judo( monster *z )
 {
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        !is_adjacent( z, target, false ) ||
+        !z->is_adjacent( target, false ) ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -4743,7 +4712,7 @@ bool mattack::riotbot( monster *z )
                        z->type->id.str() );
 
         //we need to come closer and arrest
-        if( !is_adjacent( z, foe, false ) ) {
+        if( !z->is_adjacent( foe, false ) ) {
             return true;
         }
 
@@ -4896,7 +4865,7 @@ bool mattack::evolve_kill_strike( monster *z )
 {
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        !is_adjacent( z, target, false ) ||
+        !z->is_adjacent( target, false ) ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -5120,7 +5089,7 @@ bool mattack::bio_op_random_biojutsu( monster *z )
 
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        !is_adjacent( z, target, false ) ||
+        !z->is_adjacent( target, false ) ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -5162,7 +5131,7 @@ bool mattack::bio_op_takedown( monster *z )
     Creature *target = z->attack_target();
     // TODO: Allow drop-takedown form above
     if( target == nullptr ||
-        !is_adjacent( z, target, false ) ||
+        !z->is_adjacent( target, false ) ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -5256,7 +5225,7 @@ bool mattack::bio_op_impale( monster *z )
 
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        !is_adjacent( z, target, false ) ||
+        !z->is_adjacent( target, false ) ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -5337,7 +5306,7 @@ bool mattack::bio_op_disarm( monster *z )
 
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        !is_adjacent( z, target, false ) ||
+        !z->is_adjacent( target, false ) ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -5763,6 +5732,7 @@ bool mattack::zombie_fuse( monster *z )
             && critter != z && critter->get_size() <= z->get_size() ) {
             break;
         }
+        critter = nullptr;
     }
 
     if( critter == nullptr || ( z->has_effect( effect_grown_of_fuse ) &&

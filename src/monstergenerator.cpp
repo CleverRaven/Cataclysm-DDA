@@ -116,7 +116,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_FUR: return "FUR";
         case MF_LEATHER: return "LEATHER";
         case MF_WOOL: return "WOOL";
-        case MF_FEATHER: return "FEATHER";
         case MF_CBM_CIV: return "CBM_CIV";
         case MF_BONES: return "BONES";
         case MF_FAT: return "FAT";

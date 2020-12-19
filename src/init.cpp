@@ -616,7 +616,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Constructions" ), &finalize_constructions },
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
-            { _( "Martial arts" ), &finialize_martial_arts },
+            { _( "Martial arts" ), &finalize_martial_arts },
             { _( "NPC classes" ), &npc_class::finalize_all },
             { _( "Missions" ), &mission_type::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
@@ -717,7 +717,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Statistics" ), &event_statistic::check_consistency },
             { _( "Scent types" ), &scent_type::check_scent_consistency },
             { _( "Scores" ), &score::check_consistency },
-            { _( "Achivements" ), &achievement::check_consistency },
+            { _( "Achievements" ), &achievement::check_consistency },
             { _( "Disease types" ), &disease_type::check_disease_consistency },
             { _( "Factions" ), &faction_template::check_consistency },
         }

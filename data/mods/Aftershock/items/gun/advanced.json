@@ -16,13 +16,14 @@
     "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   },
   {
-    "id": "plasma_ejector",
+    "id": "irradiant_gun",
     "type": "GUN",
     "copy-from": "plasma_gun",
-    "name": "integral plasma ejector",
+    "name": "mounted 1kg plasma railgun",
+    "ranged_damage": { "damage_type": "bullet", "amount": 2500, "armor_penetration": 400 },
+    "ammo_effects": [ "PLASMA", "EMP", "LOW_RANGE_VAPORIZATION" ],
     "skill": "rifle",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ],
-    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "STREAM_BIG", "WIDE", "FLAME" ]
+    "ups_charges": 0
   },
   {
     "id": "railgun",

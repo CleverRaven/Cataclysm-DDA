@@ -14,6 +14,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "cached_options.h"
@@ -339,8 +340,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
     bool fromSwimmable = m.has_flag( flag_SWIMMABLE, you.pos() );
     bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, you.pos() );
-    bool fromBoat = veh0 != nullptr && veh0->is_in_water();
-    bool toBoat = veh1 != nullptr && veh1->is_in_water();
+    bool fromBoat = veh0 != nullptr && veh0->is_in_water( fromDeepWater );
+    bool toBoat = veh1 != nullptr && veh1->is_in_water( toDeepWater );
     if( is_riding ) {
         if( !you.check_mount_will_move( dest_loc ) ) {
             if( you.is_auto_moving() ) {
@@ -889,7 +890,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     }
 
     // make a copy and get the original.
-    // the copy is thrown and has its and the originals charges set appropiately
+    // the copy is thrown and has its and the originals charges set appropriately
     // or deleted from inventory if its charges(1) or not stackable.
     item *orig = loc.get_item();
     item thrown = *orig;

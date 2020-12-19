@@ -7,7 +7,7 @@ As one of its main  goals, Aftershock allows the crafting of miscellaneous, high
 
 ### Current Scrap Categories
 
-The following table lists the currently planned/implemented scrap categories and their tiers. 
+The following table lists the currently planned/implemented scrap categories and their tiers.
 
 |     Category      |     Tier 1           |    Tier 2                |     Tier 3                 |     Tier 4                |     Tier 5                           |
 | ----------------- | -------------------- | ------------------------ | -------------------------- | ------------------------- | ------------------------------------ |
@@ -19,6 +19,7 @@ The following table lists the currently planned/implemented scrap categories and
 | `Optics  `        |                      | Laser Optics             | Phased Array Optics        | Nano-optics               |                                      |
 | `Neural I/O`      | peripheral electrode | neural electrode         | Brain implant prod         | Synthetic Neural Tissue   | neurosynaptic interface matrix       |
 | `Biomaterial`     | monomeric slurry     | micellular growth medium | artificial muscle fibers   | self healing polymers     | autologous totipotent tissue culture |
+| `Heat Transfer`   | conductive thermoplastic | supercritical coolant | carbon-lattice heatsink   | fermionic nanoribbon   | maxwellian entropic chirality generator |
 
 Note that more categories can be added, and that it inst necessary for a category to encompass the five tiers, although its better if they do.
 
@@ -30,8 +31,8 @@ Tier 1 scrap is plentiful, and can be easily found even when you aren't specific
 
 - Makeshift ammunition of all kinds, that might risk damaging your gun.
 - Weak grenades with very limited range.
- 
-### Tier 2 
+
+### Tier 2
 
 Tier 2 scrap remains common, but requires some measure of effort to acquire. Perhaps it spawns only in certain locations or requires specialized tools and skills to extract.  This scrap might be used to craft disposable tools and weapons or to make decent quality ammunition and explosives. For example:
 
@@ -47,7 +48,7 @@ Much like tier 2 above, this type of scrap is common, but is only meant to spawn
 - Non relaodable charge packs for Laser Weapons
 - Shoddy laser Rifle
 
-### Tier 4 
+### Tier 4
 
 This tier of scrap is properly uncommon, it spawns should be limited to the 'boss rooms' of mid-game and to end-game dungeons, and should prove challenging to acquire.  It might be used to craft tools that provide great convenience in the non combat aspects of the game, single use items that grant very powerful abilities and good quality weapons. For Example
 
@@ -64,4 +65,3 @@ Very rare loot occasionally dropped by endgame threats and dungeons, extracting 
 - Rechargeable Spell Casters
 - CBMs that interact with space-time
 - Most combat bionics.
-

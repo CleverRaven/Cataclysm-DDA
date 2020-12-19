@@ -125,7 +125,7 @@ class recipe
         std::function<bool( const item & )> get_component_filter(
             recipe_filter_flags = recipe_filter_flags::none ) const;
 
-        /** Prevent this recipe from ever being added to the player's learned recipies ( used for special NPC crafting ) */
+        /** Prevent this recipe from ever being added to the player's learned recipes ( used for special NPC crafting ) */
         bool never_learn = false;
 
         /** If recipe can be used for disassembly fetch the combined requirements */
@@ -240,7 +240,7 @@ class recipe
 
         bool hot_result() const;
 
-        // Returns the ammount or charges recipe will produce.
+        // Returns the amount or charges recipe will produce.
         int makes_amount() const;
 
     private:
