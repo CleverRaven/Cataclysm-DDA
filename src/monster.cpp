@@ -1287,7 +1287,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     if( effect == effect_bleed ) {
         return !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) );
     }
-	
+
     if( effect == effect_venom_dmg ) {
         return !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) );
     }
