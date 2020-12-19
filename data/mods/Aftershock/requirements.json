@@ -1,0 +1,36 @@
+[
+  {
+    "id": "bone_sturdy",
+    "type": "requirement",
+    "//": "Any kind of bones, human or not.  Tainted bones are too brittle and won't work for this purpose.",
+    "components": [ [ [ "frost_bone_human", 1 ], [ "alien_bone", 1 ] ] ]
+  },
+  {
+    "id": "bone_any",
+    "type": "requirement",
+    "//": "Any kind of bones.  May possibly be poisonous to eat, or fragile.",
+    "components": [ [ [ "frost_bone_human", 1 ], [ "alien_bone", 1 ] ] ]
+  },
+  {
+    "id": "any_tallow",
+    "type": "requirement",
+    "//": "Any type of tallow.",
+    "components": [ [ [ "edible_tallow", 1, "LIST" ], [ "tallow_tainted", 1 ], [ "alien_tallow", 1 ], [ "frost_human_tallow", 1 ] ] ]
+  },
+  {
+    "id": "edible_lard",
+    "type": "requirement",
+    "//": "Lard that is safe for consumption.",
+    "components": [
+      [
+        [ "lard", 1 ],
+        [ "mutant_lard", 1 ],
+        [ "human_lard", 1 ],
+        [ "mutant_human_lard", 1 ],
+        [ "demihuman_lard", 1 ],
+        [ "frost_human_lard", 1 ],
+        [ "alien_lard", 1 ]
+      ]
+    ]
+  }
+]

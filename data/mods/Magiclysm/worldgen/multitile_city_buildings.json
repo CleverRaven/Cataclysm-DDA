@@ -14,11 +14,11 @@
     "id": "wizard_tower_1",
     "locations": [ "land" ],
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "wizardtower1_ground_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "wizardtower1_living_north" },
-      { "point": [ 0, 0, 2 ], "overmap": "wizardtower1_golems_north" },
-      { "point": [ 0, 0, 3 ], "overmap": "wizardtower1_study_north" },
-      { "point": [ 0, 0, 4 ], "overmap": "wizardtower1_roof_north" }
+      { "point": [ 0, 0, 0 ], "overmap": "wizardtower1_ground_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "wizardtower1_living_south" },
+      { "point": [ 0, 0, 2 ], "overmap": "wizardtower1_golems_south" },
+      { "point": [ 0, 0, 3 ], "overmap": "wizardtower1_study_south" },
+      { "point": [ 0, 0, 4 ], "overmap": "wizardtower1_roof_south" }
     ]
   },
   {
@@ -58,6 +58,21 @@
       { "point": [ 0, 0, 7 ], "overmap": "magic_academy_8th_north" },
       { "point": [ 0, 0, 8 ], "overmap": "magic_academy_roof_north" },
       { "point": [ 0, 0, -1 ], "overmap": "magic_academy_basement_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_technomancer",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_technomancer_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "house_technomancer_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_technomancer_3_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "house_technomancer_4_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "house_technomancer_5_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "house_technomancer_6_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "house_technomancer_7_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "house_technomancer_8_north" }
     ]
   }
 ]

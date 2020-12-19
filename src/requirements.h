@@ -32,7 +32,7 @@ template <typename E> struct enum_traits;
 enum class available_status : int {
     a_true = +1, // yes, it's available
     a_false = -1, // no, it's not available
-    a_insufficent = 0, // nearly, but not enough for tool+component
+    a_insufficient = 0, // nearly, but not enough for tool+component
 };
 
 enum class component_type : int {
@@ -75,8 +75,9 @@ struct component {
     }
     // lexicographic comparison
     bool operator<( const component &rhs ) const {
-        return std::forward_as_tuple( type, requirement, count, recoverable )
-               < std::forward_as_tuple( rhs.type, rhs.requirement, rhs.count, rhs.recoverable );
+        //TODO change to use localized sorting
+        return std::forward_as_tuple( type.str(), requirement, count, recoverable )
+               < std::forward_as_tuple( rhs.type.str(), rhs.requirement, rhs.count, rhs.recoverable );
     }
 
     component() = default;
@@ -283,6 +284,7 @@ struct requirement_data {
          */
         static void save_requirement( const requirement_data &req,
                                       const requirement_id &id = requirement_id::NULL_ID() );
+        static std::vector<requirement_data> get_all();
         /**
          * Serialize custom created requirement objects for fetch activities
          */
@@ -366,7 +368,7 @@ struct requirement_data {
         void consolidate();
 
         /**
-         * Compares if two requiremen_data are the same, but does not compare the requirement ids.
+         * Compares if two requirement_data are the same, but does not compare the requirement ids.
          * The order inside requirement vectors does not matter.
          */
         bool has_same_requirements_as( const requirement_data &that ) const;

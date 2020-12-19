@@ -126,10 +126,6 @@ bool mtype::in_species( const species_id &spec ) const
     return species.count( spec ) > 0;
 }
 
-bool mtype::in_species( const species_type &spec ) const
-{
-    return species_ptrs.count( &spec ) > 0;
-}
 std::vector<std::string> mtype::species_descriptions() const
 {
     std::vector<std::string> ret;
@@ -143,12 +139,9 @@ std::vector<std::string> mtype::species_descriptions() const
 
 bool mtype::same_species( const mtype &other ) const
 {
-    for( const species_type *s : species_ptrs ) {
-        if( other.in_species( *s ) ) {
-            return true;
-        }
-    }
-    return false;
+    return std::any_of( species.begin(), species.end(), [&]( const species_id & s ) {
+        return other.in_species( s );
+    } );
 }
 
 field_type_id mtype::bloodType() const
@@ -240,10 +233,15 @@ std::string mtype::get_description() const
     return description.translated();
 }
 
+ascii_art_id mtype::get_picture_id() const
+{
+    return picture_id;
+}
+
 std::string mtype::get_footsteps() const
 {
-    for( const species_id &s : species ) {
-        return s.obj().get_footsteps();
+    if( !species.empty() ) {
+        return species.begin()->obj().get_footsteps();
     }
     return _( "footsteps." );
 }

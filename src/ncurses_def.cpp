@@ -20,6 +20,7 @@
 #include <stdexcept>
 #include <string>
 
+#include "cached_options.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -255,6 +256,11 @@ void catacurses::init_interface()
 // ignoring preferred keyboard mode
 input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyboard_mode*/ )
 {
+    if( test_mode ) {
+        // input should be skipped in caller's code
+        throw std::runtime_error( "input_manager::get_input_event called in test mode" );
+    }
+
     int key = ERR;
     input_event rval;
     do {

@@ -16,148 +16,6 @@
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
-// Check if text ends with suffix
-static bool ends_with( const std::string &text, const std::string &suffix )
-{
-    return text.length() >= suffix.length() &&
-           strcasecmp( text.c_str() + text.length() - suffix.length(), suffix.c_str() ) == 0;
-}
-
-static void font_folder_list( std::ostream &fout, const std::string &path,
-                              std::set<std::string> &bitmap_fonts )
-{
-    for( const std::string &f : get_files_from_path( "", path, true, false ) ) {
-        TTF_Font_Ptr fnt( TTF_OpenFont( f.c_str(), 12 ) );
-        if( !fnt ) {
-            continue;
-        }
-        // TTF_FontFaces returns a long, so use that
-        // NOLINTNEXTLINE(cata-no-long)
-        long nfaces = 0;
-        nfaces = TTF_FontFaces( fnt.get() );
-        fnt.reset();
-
-        // NOLINTNEXTLINE(cata-no-long)
-        for( long i = 0; i < nfaces; i++ ) {
-            const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), 12, i ) );
-            if( !fnt ) {
-                continue;
-            }
-
-            // Add font family
-            char *fami = TTF_FontFaceFamilyName( fnt.get() );
-            if( fami != nullptr ) {
-                fout << fami;
-            } else {
-                continue;
-            }
-
-            // Add font style
-            char *style = TTF_FontFaceStyleName( fnt.get() );
-            bool isbitmap = ends_with( f, ".fon" );
-            if( style != nullptr && !isbitmap && strcasecmp( style, "Regular" ) != 0 ) {
-                fout << " " << style;
-            }
-            if( isbitmap ) {
-                std::set<std::string>::iterator it;
-                it = bitmap_fonts.find( std::string( fami ) );
-                if( it == bitmap_fonts.end() ) {
-                    // First appearance of this font family
-                    bitmap_fonts.insert( fami );
-                } else { // Font in set. Add filename to family string
-                    size_t start = f.find_last_of( "/\\" );
-                    size_t end = f.find_last_of( '.' );
-                    if( start != std::string::npos && end != std::string::npos ) {
-                        fout << " [" << f.substr( start + 1, end - start - 1 ) + "]";
-                    } else {
-                        dbg( D_INFO ) << "Skipping wrong font file: \"" << f << "\"";
-                    }
-                }
-            }
-            fout << std::endl;
-
-            // Add filename and font index
-            fout << f << std::endl;
-            fout << i << std::endl;
-
-            // We use only 1 style in bitmap fonts.
-            if( isbitmap ) {
-                break;
-            }
-        }
-    }
-}
-
-static void save_font_list()
-{
-    try {
-        std::set<std::string> bitmap_fonts;
-        write_to_file( PATH_INFO::fontlist(), [&]( std::ostream & fout ) {
-            font_folder_list( fout, PATH_INFO::user_font(), bitmap_fonts );
-            font_folder_list( fout, PATH_INFO::fontdir(), bitmap_fonts );
-
-#if defined(_WIN32)
-            constexpr UINT max_dir_len = 256;
-            char buf[max_dir_len];
-            const UINT dir_len = GetSystemWindowsDirectory( buf, max_dir_len );
-            if( dir_len == 0 ) {
-                throw std::runtime_error( "GetSystemWindowsDirectory failed" );
-            } else if( dir_len >= max_dir_len ) {
-                throw std::length_error( "GetSystemWindowsDirectory failed due to insufficient buffer" );
-            }
-            font_folder_list( fout, buf + std::string( "\\fonts" ), bitmap_fonts );
-#elif defined(_APPLE_) && defined(_MACH_)
-            /*
-            // Well I don't know how osx actually works ....
-            font_folder_list(fout, "/System/Library/Fonts", bitmap_fonts);
-            font_folder_list(fout, "/Library/Fonts", bitmap_fonts);
-
-            wordexp_t exp;
-            wordexp("~/Library/Fonts", &exp, 0);
-            font_folder_list(fout, exp.we_wordv[0], bitmap_fonts);
-            wordfree(&exp);*/
-#else // Other POSIX-ish systems
-            font_folder_list( fout, "/usr/share/fonts", bitmap_fonts );
-            font_folder_list( fout, "/usr/local/share/fonts", bitmap_fonts );
-            char *home;
-            if( ( home = getenv( "HOME" ) ) ) {
-                std::string userfontdir = home;
-                userfontdir += "/.fonts";
-                font_folder_list( fout, userfontdir, bitmap_fonts );
-            }
-#endif
-        } );
-    } catch( const std::exception &err ) {
-        // This is called during startup, the UI system may not be initialized (because that
-        // needs the font file in order to load the font for it).
-        dbg( D_ERROR ) << "Faied to create fontlist file \"" << PATH_INFO::fontlist() << "\": " <<
-                       err.what();
-    }
-}
-
-static cata::optional<std::string> find_system_font( const std::string &name, int &faceIndex )
-{
-    const std::string fontlist_path = PATH_INFO::fontlist();
-    std::ifstream fin( fontlist_path.c_str() );
-    if( !fin.is_open() ) {
-        // Write out fontlist to the new location.
-        save_font_list();
-    }
-    if( fin.is_open() ) {
-        std::string fname;
-        std::string fpath;
-        std::string iline;
-        while( getline( fin, fname ) && getline( fin, fpath ) && getline( fin, iline ) ) {
-            if( 0 == strcasecmp( fname.c_str(), name.c_str() ) ) {
-                faceIndex = atoi( iline.c_str() );
-                return fpath;
-            }
-        }
-    }
-
-    return cata::nullopt;
-}
-
 // bitmap font size test
 // return face index that has this size or below
 static int test_face_size( const std::string &f, int size, int faceIndex )
@@ -190,21 +48,27 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
                                        const palette_array &palette,
                                        const bool fontblending )
 {
-    if( ends_with( typeface, ".bmp" ) || ends_with( typeface, ".png" ) ) {
+    if( string_ends_with( typeface, ".bmp" ) || string_ends_with( typeface, ".png" ) ) {
         // Seems to be an image file, not a font.
         // Try to load as bitmap font from user font dir, then from font dir.
         try {
             return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, width, height,
                                           palette,
-                                          PATH_INFO::user_font() + typeface ) );
+                                          typeface ) );
         } catch( std::exception & ) {
             try {
                 return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, width, height,
                                               palette,
-                                              PATH_INFO::fontdir() + typeface ) );
-            } catch( std::exception &err ) {
-                dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
-                // Continue to load as truetype font
+                                              PATH_INFO::user_font() + typeface ) );
+            } catch( std::exception & ) {
+                try {
+                    return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, width, height,
+                                                  palette,
+                                                  PATH_INFO::fontdir() + typeface ) );
+                } catch( std::exception &err ) {
+                    dbg( D_ERROR ) << "Failed to load font " << typeface << ": " << err.what();
+                    // Continue to load as truetype font
+                }
             }
         }
     }
@@ -213,7 +77,7 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
         return std::unique_ptr<Font>( std::make_unique<CachedTTFFont>( width, height,
                                       palette, typeface, fontsize, fontblending ) );
     } catch( std::exception &err ) {
-        dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
+        dbg( D_ERROR ) << "Failed to load font " << typeface << ": " << err.what();
     }
     return nullptr;
 }
@@ -323,30 +187,82 @@ CachedTTFFont::CachedTTFFont(
     : Font( w, h, palette )
     , fontblending( fontblending )
 {
-    const std::string original_typeface = typeface;
     int faceIndex = 0;
-    if( const cata::optional<std::string> sysfnt = find_system_font( typeface, faceIndex ) ) {
-        typeface = *sysfnt;
-        dbg( D_INFO ) << "Using font [" + typeface + "] found in the system.";
+    std::vector<std::string> typefaces;
+    std::vector<std::string> known_suffixes = { ".ttf", ".otf", ".ttc", ".fon" };
+    bool add_suffix = true;
+    for( const std::string &ks : known_suffixes ) {
+        if( string_ends_with( typeface, ks ) ) {
+            add_suffix = false;
+            break;
+        }
     }
-    if( !file_exist( typeface ) ) {
-        faceIndex = 0;
-        typeface = PATH_INFO::user_font() + original_typeface + ".ttf";
-        dbg( D_INFO ) << "Using compatible font [" + typeface + "] found in user font dir.";
+    bool add_prefix = true;
+    std::vector<std::string> known_prefixes = {
+        PATH_INFO::user_font(), PATH_INFO::fontdir()
+    };
+
+#if defined(_WIN32)
+    constexpr UINT max_dir_len = 256;
+    char buf[max_dir_len];
+    const UINT dir_len = GetSystemWindowsDirectory( buf, max_dir_len );
+    if( dir_len == 0 ) {
+        throw std::runtime_error( "GetSystemWindowsDirectory failed" );
+    } else if( dir_len >= max_dir_len ) {
+        throw std::length_error( "GetSystemWindowsDirectory failed due to insufficient buffer" );
     }
-    //make fontdata compatible with wincurse
-    if( !file_exist( typeface ) ) {
-        faceIndex = 0;
-        typeface = PATH_INFO::fontdir() + original_typeface + ".ttf";
-        dbg( D_INFO ) << "Using compatible font [" + typeface + "] found in font dir.";
+    known_prefixes.emplace_back( buf + std::string( "\\fonts\\" ) );
+#elif defined(_APPLE_) && defined(_MACH_)
+    /*
+    // Well I don't know how osx actually works ....
+    known_prefixes.emplace_back( "/System/Library/Fonts/" );
+    known_prefixes.emplace_back( "/Library/Fonts/" );
+    wordexp_t exp;
+    wordexp( "~/Library/Fonts/", &exp, 0 );
+    known_prefixes.emplace_back( exp.we_wordv[0] );
+    wordfree( &exp );
+    */
+#else // Other POSIX-ish systems
+    known_prefixes.emplace_back( "/usr/share/fonts/" );
+    known_prefixes.emplace_back( "/usr/local/share/fonts/" );
+    char *home;
+    if( ( home = getenv( "HOME" ) ) ) {
+        std::string userfontdir = home;
+        userfontdir += "/.fonts/";
+        known_prefixes.emplace_back( userfontdir );
     }
-    //different default font with wincurse
-    if( !file_exist( typeface ) ) {
-        faceIndex = 0;
-        typeface = PATH_INFO::fontdir() + "unifont.ttf";
-        dbg( D_INFO ) << "Using fallback font [" + typeface + "] found in font dir.";
+#endif
+
+    for( const std::string &kp : known_prefixes ) {
+        if( string_starts_with( typeface, kp ) ) {
+            add_prefix = false;
+            break;
+        }
     }
-    dbg( D_INFO ) << "Loading truetype font [" + typeface + "].";
+
+    for( const std::string &ks : known_suffixes ) {
+        for( const std::string &kp : known_prefixes ) {
+            if( add_prefix ) {
+                typefaces.emplace_back( kp + typeface + ( add_suffix ? ks : "" ) );
+            }
+            typefaces.emplace_back( typeface + ( add_suffix ? ks : "" ) );
+        }
+    }
+    if( add_suffix ) {
+        typefaces.emplace_back( typeface );
+    }
+    ensure_unifont_loaded( typefaces );
+
+    for( const std::string &tf : typefaces ) {
+        if( !file_exist( tf ) ) {
+            dbg( D_INFO ) << "Not found " << tf;
+            continue;
+        }
+        dbg( D_INFO ) << "Loading truetype font " << tf;
+        typeface = tf;
+        break;
+    }
+
     if( fontsize <= 0 ) {
         fontsize = height - 1;
     }

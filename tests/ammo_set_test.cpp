@@ -74,14 +74,19 @@ TEST_CASE( "ammo_set", "[ammo_set][magazine][ammo]" )
                     CHECK( cz75mag_20rd.ammo_current().str() == ammo9mmfmj_id.str() );
                 }
             }
-            // WHEN( "set 308 ammo in the 9mm magazine" ) {
-            //     itype_id ammo308_id( "308" );
-            //     cz75mag_20rd.ammo_set( ammo308_id, 15 );
-            //     THEN( "magazine has 0 round of null" ) {
-            //         CHECK( cz75mag_20rd.ammo_remaining() == 0 );
-            //         CHECK( cz75mag_20rd.ammo_current().is_null() );
-            //     }
-            // }
+            WHEN( "set 308 ammo in the 9mm magazine" ) {
+                itype_id ammo308_id( "308" );
+                std::string dmsg = capture_debugmsg_during( [&cz75mag_20rd, &ammo308_id]() {
+                    cz75mag_20rd.ammo_set( ammo308_id, 15 );
+                } );
+                THEN( "get debugmsg with \"Tried to set invalid ammo of 308 for cz75mag_20rd\"" ) {
+                    CHECK_THAT( dmsg, Catch::EndsWith( "Tried to set invalid ammo of 308 for cz75mag_20rd" ) );
+                    AND_THEN( "magazine has 0 round of null" ) {
+                        CHECK( cz75mag_20rd.ammo_remaining() == 0 );
+                        CHECK( cz75mag_20rd.ammo_current().is_null() );
+                    }
+                }
+            }
         }
         GIVEN( "empty M24 gun with capacity of 5 .308 rounds" ) {
             item m24( "M24" );
@@ -151,14 +156,19 @@ TEST_CASE( "ammo_set", "[ammo_set][magazine][ammo]" )
                     CHECK( m24.ammo_current().str() == ammo762_51_id.str() );
                 }
             }
-            // WHEN( "set 9mm ammo in  ammo in the .308 gun" ) {
-            //     itype_id ammo9mm_id( "9mm" );
-            //     m24.ammo_set( ammo9mm_id, 2 );
-            //     THEN( "gun has 0 round of null" ) {
-            //         CHECK( m24.ammo_remaining() == 0 );
-            //         CHECK( m24.ammo_current().is_null() );
-            //     }
-            // }
+            WHEN( "set 9mm ammo in  ammo in the .308 gun" ) {
+                itype_id ammo9mm_id( "9mm" );
+                std::string dmsg = capture_debugmsg_during( [&m24, &ammo9mm_id]() {
+                    m24.ammo_set( ammo9mm_id, 2 );
+                } );
+                THEN( "get debugmsg with \"Tried to set invalid ammo of 9mm for M24\"" ) {
+                    CHECK_THAT( dmsg, Catch::EndsWith( "Tried to set invalid ammo of 9mm for M24" ) );
+                    AND_THEN( "gun has 0 round of null" ) {
+                        CHECK( m24.ammo_remaining() == 0 );
+                        CHECK( m24.ammo_current().is_null() );
+                    }
+                }
+            }
         }
     }
     SECTION( "ammo_set items with MAGAZINE_WELL pockets" ) {
@@ -253,14 +263,19 @@ TEST_CASE( "ammo_set", "[ammo_set][magazine][ammo]" )
                     CHECK( cz75.magazine_current()->ammo_current().str() == ammo9mmfmj_id.str() );
                 }
             }
-            // WHEN( "set 308 ammo in the 9mm gun with magazine" ) {
-            //     itype_id ammo308_id( "308" );
-            //     cz75.ammo_set( ammo308_id, 15 );
-            //     THEN( "gun has 0 round of null" ) {
-            //         CHECK( cz75.ammo_remaining() == 0 );
-            //         CHECK( cz75.ammo_current().is_null() );
-            //     }
-            // }
+            WHEN( "set 308 ammo in the 9mm gun with magazine" ) {
+                itype_id ammo308_id( "308" );
+                std::string dmsg = capture_debugmsg_during( [&cz75, &ammo308_id]() {
+                    cz75.ammo_set( ammo308_id, 15 );
+                } );
+                THEN( "get debugmsg with \"Tried to set invalid ammo of 308 for cz75\"" ) {
+                    CHECK_THAT( dmsg, Catch::EndsWith( "Tried to set invalid ammo of 308 for cz75" ) );
+                    AND_THEN( "gun has 0 round of null" ) {
+                        CHECK( cz75.ammo_remaining() == 0 );
+                        CHECK( cz75.ammo_current().is_null() );
+                    }
+                }
+            }
         }
         GIVEN( "CZ 75 B 9mm gun w/o magazine" ) {
             item cz75( "cz75" );
@@ -324,35 +339,45 @@ TEST_CASE( "ammo_set", "[ammo_set][magazine][ammo]" )
                     CHECK( cz75.magazine_current()->ammo_current().str() == ammo9mm_id.str() );
                 }
             }
-            // WHEN( "set 308 ammo in the 9mm gun w/o magazine 2 quantity" ) {
-            //     itype_id ammo308_id( "308", 2 );
-            //     cz75.ammo_set( ammo308_id );
-            //     THEN( "gun w/o magazine has 0 round of null" ) {
-            //         CHECK( cz75.ammo_remaining() == 0 );
-            //         CHECK( cz75.ammo_current().is_null() );
-            //         CHECK( cz75.magazine_current() == nullptr );
-            //     }
-            // }
+            WHEN( "set 308 ammo in the 9mm gun w/o magazine 2 quantity" ) {
+                itype_id ammo308_id( "308" );
+                std::string dmsg = capture_debugmsg_during( [&cz75, &ammo308_id]() {
+                    cz75.ammo_set( ammo308_id, 2 );
+                } );
+                THEN( "get debugmsg with \"Tried to set invalid ammo of 308 for cz75\"" ) {
+                    REQUIRE( !dmsg.empty() );
+                    CHECK_THAT( dmsg, Catch::EndsWith( "Tried to set invalid ammo of 308 for cz75" ) );
+                    AND_THEN( "gun w/o magazine has 0 round of null" ) {
+                        CHECK( cz75.ammo_remaining() == 0 );
+                        CHECK( cz75.ammo_current().is_null() );
+                        CHECK( cz75.magazine_current() == nullptr );
+                    }
+                }
+            }
         }
     }
-    // this test shows, that !std::any_of != std::none_of for magazine_compatible
-    // SECTION( "ammo_set items with CONTAINER pockets" ) {
-    //     GIVEN( "small box" ) {
-    //         item box( "box_small" );
-    //         REQUIRE_FALSE( box.is_gun() );
-    //         REQUIRE_FALSE( box.is_magazine() );
-    //         REQUIRE( box.is_container_empty() );
-    //         REQUIRE( box.magazine_current() == nullptr );
-    //         REQUIRE( box.magazine_compatible().size() == 0 );
-    //         itype_id ammo9mm_id( "9mm" );
-    //         WHEN( "set 9mm ammo in the small box" ) {
-    //             box.ammo_set( ammo9mm_id, 10 );
-    //             THEN( "small box still empty" ) {
-    //                 REQUIRE_FALSE( box.is_gun() );
-    //                 REQUIRE_FALSE( box.is_magazine() );
-    //                 CHECK( box.is_container_empty() );
-    //             }
-    //         }
-    //     }
-    // }
+    SECTION( "ammo_set items with CONTAINER pockets" ) {
+        GIVEN( "small box" ) {
+            item box( "box_small" );
+            REQUIRE_FALSE( box.is_gun() );
+            REQUIRE_FALSE( box.is_magazine() );
+            REQUIRE( box.is_container_empty() );
+            REQUIRE( box.magazine_current() == nullptr );
+            REQUIRE( box.magazine_compatible().empty() );
+            itype_id ammo9mm_id( "9mm" );
+            WHEN( "set 9mm ammo in the small box" ) {
+                std::string dmsg = capture_debugmsg_during( [&box, &ammo9mm_id]() {
+                    box.ammo_set( ammo9mm_id, 10 );
+                } );
+                THEN( "get debugmsg with \"Tried to set invalid ammo of 9mm for box_small\"" ) {
+                    CHECK_THAT( dmsg, Catch::EndsWith( "Tried to set invalid ammo of 9mm for box_small" ) );
+                    AND_THEN( "small box still empty" ) {
+                        REQUIRE_FALSE( box.is_gun() );
+                        REQUIRE_FALSE( box.is_magazine() );
+                        CHECK( box.is_container_empty() );
+                    }
+                }
+            }
+        }
+    }
 }

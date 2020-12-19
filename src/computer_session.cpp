@@ -799,7 +799,7 @@ void computer_session::action_download_software()
             return;
         }
         get_player_character().moves -= 30;
-        item software( miss->get_item_id(), 0 );
+        item software( miss->get_item_id(), calendar::turn_zero );
         software.mission_id = comp.mission_id;
         usb->contents.clear_items();
         usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
@@ -816,7 +816,7 @@ void computer_session::action_blood_anal()
     player_character.moves -= 70;
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 2 ) ) {
-        if( here.ter( dest ) == t_centrifuge ) {
+        if( here.furn( dest ) == furn_str_id( "f_centrifuge" ) ) {
             map_stack items = here.i_at( dest );
             if( items.empty() ) {
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
@@ -840,7 +840,7 @@ void computer_session::action_blood_anal()
                     print_line( _( "Pathogen bonded to erythrocytes and leukocytes." ) );
                     if( query_bool( _( "Download data?" ) ) ) {
                         if( item *const usb = pick_usb() ) {
-                            item software( "software_blood_data", 0 );
+                            item software( "software_blood_data", calendar::turn_zero );
                             usb->contents.clear_items();
                             usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
                             print_line( _( "Software downloaded." ) );
@@ -1448,7 +1448,7 @@ void computer_session::failure_destroy_blood()
     print_error( _( "ERROR: Disruptive Spin" ) );
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( get_player_character().pos(), 2 ) ) {
-        if( here.ter( dest ) == t_centrifuge ) {
+        if( here.furn( dest ) == furn_str_id( "f_centrifuge" ) ) {
             map_stack items = here.i_at( dest );
             if( items.empty() ) {
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );

@@ -93,8 +93,8 @@ class item_pocket
                 void blacklist_category( const item_category_id &id );
                 void clear_category( const item_category_id &id );
 
-                // essentially operator> but needs extra input. checks if *this is better
-                bool is_better_favorite( const item &it, const favorite_settings &rhs ) const;
+                /** Whether an item passes the current whitelist and blacklist filters. */
+                bool accepts_item( const item &it ) const;
 
                 void info( std::vector<iteminfo> &info ) const;
 
@@ -124,6 +124,8 @@ class item_pocket
         bool rigid() const;
         bool watertight() const;
         bool airtight() const;
+        // is this speedloader compatible with this pocket (if any speedloaders are whitelisted)
+        bool allows_speedloader( const itype_id &speedloader_id ) const;
 
         // is this pocket one of the standard types?
         // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.
@@ -146,6 +148,8 @@ class item_pocket
         ret_val<contain_code> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
+
+        units::length max_containable_length() const;
 
         // combined volume of contained items
         units::volume contains_volume() const;
@@ -188,6 +192,7 @@ class item_pocket
         // returns all allowable ammotypes
         std::set<ammotype> ammo_types() const;
         int ammo_capacity( const ammotype &ammo ) const;
+        int remaining_ammo_capacity( const ammotype &ammo ) const;
         void casings_handle( const std::function<bool( item & )> &func );
         bool use_amount( const itype_id &it, int &quantity, std::list<item> &used );
         bool will_explode_in_a_fire() const;
@@ -284,7 +289,12 @@ class item_pocket
         /** same as above, except returns the stack where input item was placed */
         item *restack( /*const*/ item *it );
         bool has_item_stacks_with( const item &it ) const;
-        // returns true if @rhs is a better pocket than this
+
+        /**
+         * Whether another pocket is a better fit for an item.
+         *
+         * This assumes that both pockets are able to and allowed to contain the item.
+         */
         bool better_pocket( const item_pocket &rhs, const item &it ) const;
 
         bool operator==( const item_pocket &rhs ) const;
@@ -310,7 +320,7 @@ class item_pocket
  */
 struct sealable_data {
     // required for generic_factory
-    bool was_loaded;
+    bool was_loaded = false;
     /** multiplier for spoilage rate of contained items when sealed */
     float spoil_multiplier = 1.0f;
 
@@ -321,6 +331,8 @@ struct sealable_data {
 class pocket_data
 {
     public:
+        using FlagsSetType = std::set<flag_id>;
+
         bool was_loaded = false;
 
         pocket_data() = default;
@@ -366,13 +378,17 @@ class pocket_data
         cata::value_ptr<sealable_data> sealed_data;
         // allows only items with at least one of the following flags to be stored inside
         // empty means no restriction
-        std::vector<std::string> flag_restriction;
+        const FlagsSetType &get_flag_restrictions() const;
+        // flag_restrictions are not supposed to be modifiable, but sometimes there is a need to
+        // add some, i.e. for tests.
+        void add_flag_restriction( const flag_id &flag );
         // items stored are restricted to these ammo types:
         // the pocket can only contain one of them since the amount is also defined for each ammotype
         std::map<ammotype, int> ammo_restriction;
         // items stored are restricted to these item ids.
         // this takes precedence over the other two restrictions
         cata::flat_set<itype_id> item_id_restriction;
+        cata::flat_set<itype_id> allowed_speedloaders;
         // the first in the json array for item_id_restriction when loaded
         itype_id default_magazine = itype_id::NULL_ID();
         // container's size and encumbrance does not change based on contents.
@@ -386,11 +402,14 @@ class pocket_data
 
         void load( const JsonObject &jo );
         void deserialize( JsonIn &jsin );
+    private:
+
+        FlagsSetType flag_restrictions;
 };
 
 template<>
 struct enum_traits<item_pocket::pocket_type> {
-    static constexpr auto last = item_pocket::pocket_type::LAST;
+    static constexpr item_pocket::pocket_type last = item_pocket::pocket_type::LAST;
 };
 
 template<>

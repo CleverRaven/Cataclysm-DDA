@@ -156,7 +156,7 @@ nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
  * @anchor color_tags
  * @name color tags
  *
- * Most print function have only one color parameter (or none at all), therefor they would
+ * Most print function have only one color parameter (or none at all), therefore they would
  * print the whole text in one color. To print some parts of a text in a different color,
  * one would have to write separate calls to the print functions.
  *
@@ -274,7 +274,7 @@ inline int fold_and_print( const catacurses::window &w, const point &begin,
 /**
  * Like @ref fold_and_print, but starts the output with the N-th line of the folded string.
  * This can be used for scrolling large texts. Parameters have the same meaning as for
- * @ref fold_and_print, the function therefor handles @ref color_tags correctly.
+ * @ref fold_and_print, the function therefore handles @ref color_tags correctly.
  *
  * @param w Window we are printing in
  * @param begin The (row,column) index on which to start.
@@ -328,6 +328,7 @@ int right_print( const catacurses::window &w, int line, int right_indent,
 void insert_table( const catacurses::window &w, int pad, int line, int columns,
                    const nc_color &FG, const std::string &divider, bool r_align,
                    const std::vector<std::string> &data );
+std::string satiety_bar( int calpereffv );
 void scrollable_text( const std::function<catacurses::window()> &init_window,
                       const std::string &title, const std::string &text );
 std::string name_and_value( const std::string &name, int value, int field_width );
@@ -596,8 +597,6 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
  * @param extra_resolution Double the resolution of displayed values with \ symbols.
  * @param colors A vector containing N colors with which to color the bar at different values
  */
-// The last color is used for an empty bar
-// extra_resolution
 std::pair<std::string, nc_color> get_bar( float cur, float max, int width = 5,
         bool extra_resolution = true,
         const std::vector<nc_color> &colors = { c_green, c_light_green, c_yellow, c_light_red, c_red } );
@@ -706,7 +705,7 @@ std::string enumerate_as_string( const _Container &values,
  * @param conj Choose how to separate the last elements.
  */
 template<typename _FIter, typename F>
-std::string enumerate_as_string( _FIter first, _FIter last, F string_for,
+std::string enumerate_as_string( _FIter first, _FIter last, F &&string_for,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     std::vector<std::string> values;
@@ -718,6 +717,13 @@ std::string enumerate_as_string( _FIter first, _FIter last, F string_for,
         }
     }
     return enumerate_as_string( values, conj );
+}
+
+template<typename Container, typename F>
+std::string enumerate_as_string( const Container &cont, F &&string_for,
+                                 enumeration_conjunction conj = enumeration_conjunction::and_ )
+{
+    return enumerate_as_string( cont.begin(), cont.end(), std::forward<F>( string_for ), conj );
 }
 
 /**
@@ -915,7 +921,7 @@ class scrollingcombattext
                 }
                 int getPosX() const;
                 int getPosY() const;
-                direction getDirecton() const {
+                direction getDirection() const {
                     return oDir;
                 }
                 int getInitPosX() const {

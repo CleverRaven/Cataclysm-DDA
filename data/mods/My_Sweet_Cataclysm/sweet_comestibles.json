@@ -10,7 +10,7 @@
     "color": "magenta",
     "comestible_type": "FOOD",
     "material": [ "junk" ],
-    "description": "The corpse of a necco, now it really looks like a giant necco wafer.  Surely a bite wouldn't hurt, right?",
+    "description": "The corpse of a necco.  Now it really looks like a giant necco wafer.  Surely a bite wouldn't hurt, right?",
     "price": 4000,
     "charges": 40,
     "quench": -1,
@@ -39,7 +39,7 @@
     "symbol": "%",
     "container": "null",
     "copy-from": "smores",
-    "description": "A pair of graham crackers with some chocolate and a marshmallow between them.  Warms radiates from it, as if it was… alive?",
+    "description": "A pair of graham crackers with some chocolate and a marshmallow between them.  Warmth radiates from it as if it is… alive?",
     "rot_spawn": "GROUP_EGG_SMORES",
     "rot_spawn_chance": 100,
     "spoils_in": "15 days"
@@ -48,7 +48,7 @@
     "type": "COMESTIBLE",
     "id": "candy3",
     "name": { "str": "chewy candy", "str_pl": "chewy candies" },
-    "description": "A handful of colorful fruit-flavored chewy candy.  They're warm to the touch and you can feel a slow beat coming from them.  How odd…",
+    "description": "A handful of colorful fruit-flavored chewy candy.  They feel warm to the touch and you can almost feel a slow beat coming from them.  How odd…",
     "symbol": "%",
     "container": "null",
     "copy-from": "candy3",
@@ -103,5 +103,64 @@
     "rot_spawn": "GROUP_EGG_CAFFGUM",
     "rot_spawn_chance": 100,
     "spoils_in": "7 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "cow_candy",
+    "name": "candy cattle",
+    "description": "A handful of chocolate candies shaped like cows.  They're really warm, enough to make you wonder how they haven't melted.",
+    "symbol": "*",
+    "copy-from": "cow_candy",
+    "color": "brown",
+    "rot_spawn": "GROUP_EGG_CHOC_COW",
+    "rot_spawn_chance": 100,
+    "spoils_in": "10 days"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_raw_choc",
+    "name": { "str_sp": "raw chocolate milk" },
+    "copy-from": "milk_raw",
+    "color": "brown",
+    "description": "This is raw, unhomogenized and unpasteurized chocolate milk from a chocolate cow.  It couldn't be any fresher unless you drank it straight from the cow, which might upset it.  Depending on your dietary sensibilities, you might want to pasteurize or even boil this before drinking."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_choc",
+    "name": { "str_sp": "chocolate milk" },
+    "copy-from": "milk_choc",
+    "description": "Baby chocolate cow food, appropriated for adult humans.  Spoils rapidly."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_reconstituted_choc",
+    "name": { "str_sp": "reconstituted chocolate milk" },
+    "//": "Not in base game because people don't seem to do this IRL, with chocolate cows they might.",
+    "copy-from": "milk_reconstituted",
+    "color": "brown",
+    "description": "Baby chocolate cow food, appropriated for adult humans.  This milk has been reconstituted from a processed milk.  Spoils rapidly."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_powder_choc",
+    "name": { "str_sp": "powdered chocolate milk" },
+    "//": "Not in base game because people don't seem to do this IRL, with chocolate cows they might.",
+    "copy-from": "milk_powder",
+    "color": "brown",
+    "calories": 152,
+    "description": "Dehydrated chocolate milk powder.  Mix with water to make drinkable milk.",
+    "fun": -1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "licorice",
+    "name": "licorice",
+    "symbol": "%",
+    "copy-from": "licorice",
+    "rot_spawn": "GROUP_EGG_LICORICE",
+    "rot_spawn_chance": 100,
+    "container": "null",
+    "color": "red",
+    "description": "A swirly confectionary treat in strings of sweet tasting candy.  You think you've seen them wriggle a bit.  How strange…"
   }
 ]

@@ -29,11 +29,19 @@ The format is this:
     "id": "<some name>",
     "ammo": <some number>,
     "magazine": <some number>,
+    "container-item": "<container-item-id>",
+    "on_overflow": "<discard|spill>",
     "entries": [ ... ]
 }
 ```
 
 `subtype` is optional. It can be `collection` or `distribution`. If unspecified, it defaults to `old`, which denotes that this item group uses the old format (which is technically a distribution).
+
+`container-item` causes all the items of the group to spawn in a container,
+rather than as separate top-level items.  If the items might not all fit in the
+container you must specify how to deal with the overflow by setting
+`on_overflow` to either `discard` to discard items at random until they fit, or
+`spill` to have the excess items be spawned alongside the container.
 
 There are [some caveats](#ammo-and-magazines) to watch out for when using `ammo` or `magazine`.
 
@@ -83,7 +91,6 @@ Each entry can have more values (shown above as `...`). They allow further prope
 "contents-group": "<group-id>" (can be a string or an array of strings),
 "ammo-item": "<ammo-item-id>",
 "ammo-group": "<group-id>",
-"container-item": "<container-item-id>",
 "container-group": "<group-id>",
 "sealed": <boolean>
 "artifact": <object>

@@ -33,7 +33,7 @@ class editmap;
 
 struct editmap_hilight {
     std::vector<bool> blink_interval;
-    int cur_blink;
+    int cur_blink = 0;
     nc_color color;
     std::map<tripoint, char> points;
     nc_color( *getbg )( const nc_color & );

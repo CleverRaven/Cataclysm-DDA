@@ -31,6 +31,7 @@
 #include "faction_camp.h"
 #include "game.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "help.h"
 #include "input.h"
 #include "item.h"
@@ -54,6 +55,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "recipe.h"
+#include "recipe_groups.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -94,11 +96,9 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-int topic_category( const talk_topic &the_topic );
+static int topic_category( const talk_topic &the_topic );
 
-const talk_topic &special_talk( const std::string &action );
-
-std::string give_item_to( npc &p, bool allow_use );
+static const talk_topic &special_talk( const std::string &action );
 
 std::string talk_trial::name() const
 {
@@ -746,7 +746,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool text_only, bool ra
     d_win.open_dialogue( text_only );
     // Main dialogue loop
     do {
-        d.beta->update_missions( d.missions_assigned, getID() );
+        d.beta->update_missions( d.missions_assigned );
         const talk_topic next = d.opt( d_win, name, d.topic_stack.back() );
         if( next.id == "TALK_NONE" ) {
             int cat = topic_category( d.topic_stack.back() );
@@ -805,6 +805,13 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_DEAF_ANGRY" ) {
         return string_format(
                    _( "&You are deaf and can't talk.  When you don't respond, %s becomes angry!" ),
+                   beta->disp_name() );
+    } else if( topic == "TALK_MUTE" ) {
+        return _( "&You are mute and can't talk." );
+
+    } else if( topic == "TALK_MUTE_ANGRY" ) {
+        return string_format(
+                   _( "&You are mute and can't talk.  When you don't respond, %s becomes angry!" ),
                    beta->disp_name() );
     }
     avatar &player_character = get_avatar();
@@ -875,7 +882,11 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         if( alpha->is_deaf() ) {
             return _( "&You yell, but can't hear yourself." );
         } else {
-            return _( "&You yell." );
+            if( alpha->is_mute() ) {
+                return _( "&You yell, but can't form words." );
+            } else {
+                return _( "&You yell." );
+            }
         }
     } else if( topic == "TALK_SIZE_UP" ) {
         return beta->evaluation_by( *alpha );
@@ -1507,7 +1518,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
                 evt = response_hotkeys.empty() ? input_event() : response_hotkeys.back();
             }
             d_win.handle_scrolling( action );
-            auto st = special_talk( action );
+            talk_topic st = special_talk( action );
             if( st.id != "TALK_NONE" ) {
                 return st;
             }
@@ -1668,7 +1679,8 @@ void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::strin
     };
 }
 
-void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
 {
     const std::string var_name = get_talk_varname( jo, member );
     const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
@@ -2024,7 +2036,8 @@ void talk_effect_fun_t::set_npc_first_topic( const std::string &chat_topic )
     };
 }
 
-void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con )
+void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
+        dialogue_consequence con )
 {
     effects.push_back( fun );
     guaranteed_consequence = std::max( guaranteed_consequence, con );
@@ -2545,7 +2558,8 @@ static std::string translate_gendered_line(
     return gettext_gendered( gender_map, line );
 }
 
-dynamic_line_t dynamic_line_t::from_member( const JsonObject &jo, const std::string &member_name )
+dynamic_line_t dynamic_line_t::from_member( const JsonObject &jo,
+        const std::string &member_name )
 {
     if( jo.has_array( member_name ) ) {
         return dynamic_line_t( jo.get_array( member_name ) );
@@ -2601,13 +2615,23 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
             d.reason.clear();
             return tmp;
         };
+    } else if( jo.get_bool( "list_faction_camp_sites", false ) ) {
+        function = [&]( const dialogue & ) {
+            const auto &sites = recipe_group::get_recipes_by_id( "all_faction_base_types", "ANY" );
+            if( sites.empty() ) {
+                return std::string( _( "I can't think of a single place I can build a camp." ) );
+            }
+            std::string tmp = "I can start a new camp as a ";
+            tmp += enumerate_as_string( sites.begin(), sites.end(),
+            []( const std::pair<recipe_id, translation> site ) {
+                return site.second.translated();
+            },
+            enumeration_conjunction::or_ );
+            return tmp;
+        };
     } else if( jo.has_string( "gendered_line" ) ) {
-        const std::string line = jo.get_string( "gendered_line" );
-        if( test_mode ) {
-            // HACK: check text style by reading it as a translation object
-            translation dummy;
-            jo.read( "gendered_line", dummy );
-        }
+        std::string line;
+        mandatory( jo, false, "gendered_line", line, text_style_check_reader() );
         if( !jo.has_array( "relevant_genders" ) ) {
             jo.throw_error(
                 R"(dynamic line with "gendered_line" must also have "relevant_genders")" );
@@ -2681,7 +2705,8 @@ dynamic_line_t::dynamic_line_t( const JsonArray &ja )
     };
 }
 
-json_dynamic_line_effect::json_dynamic_line_effect( const JsonObject &jo, const std::string &id )
+json_dynamic_line_effect::json_dynamic_line_effect( const JsonObject &jo,
+        const std::string &id )
 {
     std::function<bool( const dialogue & )> tmp_condition;
     read_condition<dialogue>( jo, "condition", tmp_condition, true );
@@ -2774,7 +2799,7 @@ bool json_talk_topic::gen_responses( dialogue &d ) const
             const auto items_with = actor->items_with( [category_id,
             include_containers]( const item & it ) {
                 if( include_containers ) {
-                    return it.get_category().get_id() == category_id;
+                    return it.get_category_of_contents().get_id() == category_id;
                 }
                 return it.type && it.type->category_force == category_id;
             } );
@@ -2862,7 +2887,7 @@ bool npc::item_name_whitelisted( const std::string &to_match )
     }
 
     auto &wlist = *rules.pickup_whitelist;
-    const auto rule = wlist.check_item( to_match );
+    const rule_state rule = wlist.check_item( to_match );
     if( rule == rule_state::WHITELISTED ) {
         return true;
     }

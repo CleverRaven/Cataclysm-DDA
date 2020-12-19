@@ -159,8 +159,8 @@ static void check_quadrants( std::bitset<MAPSIZE *SEEX *MAPSIZE *SEEY> &test_cac
     }
 }
 
-constexpr size_t first_twelve = SEEX;
-constexpr size_t last_twelve = ( SEEX *MAPSIZE ) - SEEX;
+static constexpr size_t first_twelve = SEEX;
+static constexpr size_t last_twelve = ( SEEX *MAPSIZE ) - SEEX;
 
 TEST_CASE( "shift_map_memory_seen_cache" )
 {

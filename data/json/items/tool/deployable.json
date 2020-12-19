@@ -75,6 +75,24 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_camp_chair" }
   },
   {
+    "id": "xedra_antenna",
+    "type": "TOOL",
+    "name": { "str": "deployable antenna" },
+    "description": "A directional antenna and accompanying tripod, folded into a shape vaguely resembling an umbrella.",
+    "weight": "3200 g",
+    "volume": "10 L",
+    "longest_side": "90 cm",
+    "price": 5000,
+    "price_postapoc": 100,
+    "to_hit": -3,
+    "bashing": 3,
+    "looks_like": "directional_antenna",
+    "material": [ "steel" ],
+    "symbol": "i",
+    "color": "light_gray",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_xedra_antenna" }
+  },
+  {
     "id": "cot",
     "type": "TOOL",
     "name": { "str": "cot" },

@@ -21,6 +21,7 @@
 #else
 #include <csignal>
 #endif
+#include "cached_options.h"
 #include "color.h"
 #include "crash.h"
 #include "cursesdef.h"
@@ -629,6 +630,8 @@ int main( int argc, const char *argv[] )
 
     rng_set_engine_seed( cli.seed );
 
+    game_ui::init_ui();
+
     g = std::make_unique<game>();
     // First load and initialize everything that does not
     // depend on the mods.
@@ -654,8 +657,8 @@ int main( int argc, const char *argv[] )
 
     // Now we do the actual game.
 
-    game_ui::init_ui();
-
+    // I have no clue what this comment is on about
+    // Any value works well enough for debugging at least
     catacurses::curs_set( 0 ); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 
 #if !defined(_WIN32)
@@ -686,6 +689,7 @@ int main( int argc, const char *argv[] )
         set_language();
     }
 #endif
+    replay_buffered_debugmsg_prompts();
 
     while( true ) {
         if( !cli.world.empty() ) {

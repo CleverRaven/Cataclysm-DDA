@@ -18,6 +18,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_pocket.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
 #include "monster.h"
@@ -149,7 +150,7 @@ static int has_quality_from_vpart( const vehicle &veh, int part, const quality_i
 {
     int qty = 0;
 
-    auto pos = veh.cpart( part ).mount;
+    point pos = veh.cpart( part ).mount;
     for( const auto &n : veh.parts_at_relative( pos, true ) ) {
 
         // only unbroken parts can provide tool qualities
@@ -243,7 +244,7 @@ static int max_quality_from_vpart( const vehicle &veh, int part, const quality_i
 {
     int res = INT_MIN;
 
-    auto pos = veh.cpart( part ).mount;
+    point pos = veh.cpart( part ).mount;
     for( const auto &n : veh.parts_at_relative( pos, true ) ) {
 
         // only unbroken parts can provide tool qualities
@@ -578,7 +579,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
 
     for( auto stack = inv->items.begin(); stack != inv->items.end() && count > 0; ) {
         std::list<item> &istack = *stack;
-        const auto original_invlet = istack.front().invlet;
+        const char original_invlet = istack.front().invlet;
 
         for( auto istack_iter = istack.begin(); istack_iter != istack.end() && count > 0; ) {
             if( filter( *istack_iter ) ) {
@@ -803,7 +804,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                 if( e->typeId() == id ) {
                     // includes charges from any included magazine.
                     qty = sum_no_wrap( qty, e->ammo_remaining() );
-                    if( e->has_flag( "USE_UPS" ) ) {
+                    if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
                         found_tool_with_UPS = true;
                     }
                 }
@@ -912,8 +913,8 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e ) {
-        if( ( id.str() == "any" || e->typeId() == id ) && filter( *e ) && ( pseudo ||
-                !e->has_flag( "PSEUDO" ) ) ) {
+        if( ( id.str() == "any" || e->typeId() == id ) && filter( *e ) &&
+            ( pseudo || !e->has_flag( STATIC( flag_id( "PSEUDO" ) ) ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
         return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;

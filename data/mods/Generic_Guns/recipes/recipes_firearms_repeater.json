@@ -2,6 +2,7 @@
   {
     "result": "pistol_pipe_smg",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
@@ -27,6 +28,7 @@
   {
     "result": "pistol_magnum_pipe_levergun",
     "type": "recipe",
+    "activity_level": "fake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
@@ -58,6 +60,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "black_powder_revolver",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",

@@ -22,8 +22,7 @@
           { "group": "textbooks", "prob": 25 }
         ]
       },
-      { "item": "id_science", "prob": 5 },
-      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 }
+      { "group": "wallets_science", "damage": [ 1, 4 ], "prob": 5 }
     ]
   },
   {
@@ -87,7 +86,7 @@
       { "group": "underwear", "damage": [ 1, 4 ] },
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
-      { "item": "cash_card", "charges-min": 0, "charges-max": 15000 }
+      { "group": "wallets", "damage": [ 1, 4 ] }
     ]
   },
   {
@@ -106,5 +105,19 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [ [ "dress_shirt", 50 ], [ "technician_shirt_gray", 45 ], [ "jacket_windbreaker", 40 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "phase_zombie_death_drops",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "broken_dimensional_anchor", "count": 1, "damage": [ 1, 4 ], "prob": 19 },
+          { "item": "dimensional_anchor", "count": 1, "prob": 1 }
+        ]
+      },
+      { "group": "hazmat_full", "damage": [ 1, 4 ] }
+    ]
   }
 ]

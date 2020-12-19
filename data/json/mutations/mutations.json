@@ -417,7 +417,7 @@
     "cancels": [ "THINSKIN" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 1,
         "bash": 1
       }
@@ -461,7 +461,7 @@
     "name": { "str": "Rigid Table Manners" },
     "points": -1,
     "consume_time_modifier": 1.5,
-    "description": "You've been taught proper table manners from your early childhood on.  Now you can't even think about eating without a table or not taking your time.  Eating without it frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
+    "description": "You've been taught proper table manners from your early childhood on.  Now you can't even think about eating without being seated at a table and taking your time.  Eating without a table and chair frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
     "starting_trait": true,
     "valid": false
   },
@@ -472,6 +472,7 @@
     "points": 1,
     "description": "You are less likely to throw up from food poisoning, alcohol, etc.  If you throw up nevertheless, you won't suffer a residual nausea.",
     "starting_trait": true,
+    "vomit_multiplier": 0.5,
     "changes_to": [ "NAUSEA" ],
     "//": "nope.  This does NOT lead to EATPOISON.  Stomach problems are part of the GI upgrades--one advantage to not having Robust Genetics.",
     "cancels": [ "WEAKSTOMACH" ]
@@ -527,7 +528,8 @@
     "starting_trait": true,
     "category": [ "MOUSE", "LUPINE" ],
     "valid": false,
-    "active": true
+    "active": true,
+    "stomach_size_multiplier": 2.0
   },
   {
     "type": "mutation",
@@ -714,7 +716,7 @@
     "id": "STRICT_HUMANITARIAN",
     "name": { "str": "Strict Humanitarian" },
     "points": 1,
-    "description": "You'd never eat people, but these things that look vaguely human from elsewhere are definitely not people.",
+    "description": "You're convinced that these things that look vaguely human from elsewhere are definitely not people.  Therefore it's okay to eat them, right?",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
@@ -1078,7 +1080,7 @@
     "cancels": [ "THICKSKIN" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": -1,
         "bash": -1
       }
@@ -1281,7 +1283,7 @@
     "id": "SCHIZOPHRENIC",
     "name": { "str": "Kaluptic Psychosis" },
     "points": -3,
-    "description": "Ever since the sky first broke you have felt unwell, with your head split by alien thoughts.  You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of Thorazine.",
+    "description": "Ever since the sky first broke you have felt unwell, with your head split by alien thoughts.  You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of antipsychotics.",
     "starting_trait": true,
     "valid": false,
     "category": [ "MEDICAL" ]
@@ -1311,7 +1313,7 @@
     "id": "JITTERY",
     "name": { "str": "Jittery" },
     "points": -3,
-    "description": "During moments of great stress or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your Dexterity.",
+    "description": "When very hungry or under the effects of stimulants, you may find your hands shaking uncontrollably, severely reducing your Dexterity.",
     "starting_trait": true,
     "valid": false,
     "category": [ "MEDICAL", "MOUSE" ]
@@ -1372,6 +1374,7 @@
     "points": -1,
     "description": "You are more likely to throw up from food poisoning, alcohol, etc.",
     "starting_trait": true,
+    "vomit_multiplier": 2,
     "changes_to": [ "NAUSEA" ],
     "cancels": [ "STRONGSTOMACH" ]
   },
@@ -1862,7 +1865,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "cut": 1,
         "bash": 2
       }
@@ -1897,7 +1900,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "cut": 2,
         "bash": 3
       }
@@ -1931,7 +1934,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "cut": 3,
         "bash": 5
       }
@@ -1965,7 +1968,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 2
       }
     ]
@@ -1997,7 +2000,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 4
       }
     ],
@@ -2029,7 +2032,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 1
       }
     ]
@@ -2061,7 +2064,7 @@
     "category": [ "BIRD" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 1
       }
     ]
@@ -2112,7 +2115,7 @@
     "category": [ "BEAST", "CATTLE", "RAT" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 1
       }
     ]
@@ -2132,7 +2135,7 @@
     "category": [ "URSINE" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 1
       }
     ]
@@ -2152,7 +2155,7 @@
     "category": [ "LUPINE" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 1
       }
     ]
@@ -2211,7 +2214,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 2,
         "cut": 2
       }
@@ -2245,7 +2248,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 4,
         "cut": 4
       }
@@ -2292,7 +2295,7 @@
     "restricts_gear": [ "head" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 8,
         "cut": 8,
         "bullet": 1
@@ -2316,7 +2319,7 @@
     "changes_to": [ "CHITIN_FUR2" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 2,
         "cut": 2
       }
@@ -2338,7 +2341,7 @@
     "changes_to": [ "CHITIN_FUR3", "CHITIN3" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 4,
         "cut": 4
       }
@@ -2373,7 +2376,7 @@
     "restricts_gear": [ "head" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 8,
         "cut": 8,
         "bullet": 1
@@ -2453,7 +2456,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 1
       }
     ],
@@ -2484,7 +2487,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 2
       }
     ]
@@ -3077,7 +3080,7 @@
     "type": "mutation",
     "id": "HOOVES",
     "name": { "str": "Hooves" },
-    "points": -4,
+    "points": -1,
     "visibility": 2,
     "ugliness": 2,
     "mixed_effect": true,
@@ -3160,6 +3163,7 @@
     "description": "You seem to get full faster now, and food goes through you more rapidly as well.",
     "valid": false,
     "purifiable": false,
+    "stomach_size_multiplier": 0.9,
     "prereqs": [ "BEAK", "BEAK_PECK", "BEAK_HUM" ],
     "prereqs2": [ "LIGHTEATER" ],
     "threshreq": [ "THRESH_BIRD" ],
@@ -3275,13 +3279,32 @@
     "id": "EATHEALTH",
     "name": { "str": "Hyper-Metabolism" },
     "points": 15,
-    "description": "You metabolize nutrients so rapidly that you can convert food directly into useful tissue.  Excess nutrition will convert to HP, rather than being wasted.  Activate to skip prompt for overeating.",
+    "description": "Your particular metabolism allows you to burn calories at a prodigious rate to regenerate tissues in a matter of minutes, this is however a very wasteful process.  Activate to start healing.",
     "prereqs": [ "HUNGER3" ],
     "types": [ "METABOLISM" ],
     "threshreq": [ "THRESH_CHIMERA" ],
     "category": [ "CHIMERA" ],
     "valid": false,
-    "active": true
+    "active": true,
+    "transform": {
+      "target": "EATHEALTH_active",
+      "msg_transform": "Your hyper-metabolism starts burning up calories.",
+      "active": true,
+      "moves": 0
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "EATHEALTH_active",
+    "name": { "str": "Hyper-Metabolism: burning" },
+    "description": "You're burning calories like crazy to heal your wounds.",
+    "copy-from": "EATHEALTH",
+    "cost": 1,
+    "time": 1,
+    "hunger": true,
+    "healing_awake": 300.0,
+    "healing_resting": 350.0,
+    "transform": { "target": "EATHEALTH", "msg_transform": "Your hyper-metabolism slows down.", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
@@ -3415,6 +3438,7 @@
     "wet_protection": [ { "part": "leg_l", "good": 3 }, { "part": "leg_r", "good": 3 } ],
     "movecost_swim_modifier": 0.75,
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true
   },
   {
@@ -3430,6 +3454,7 @@
     "changes_to": [ "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE", "TAIL_RAT" ],
     "category": [ "FELINE" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "dodge_modifier": 2
   },
@@ -3445,6 +3470,7 @@
     "prereqs": [ "TAIL_LONG" ],
     "category": [ "CATTLE" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "dodge_modifier": 1
   },
@@ -3460,6 +3486,7 @@
     "prereqs": [ "TAIL_LONG", "TAIL_STUB" ],
     "category": [ "RAT", "MOUSE" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "dodge_modifier": 2
   },
@@ -3476,6 +3503,7 @@
     "changes_to": [ "TAIL_CLUB" ],
     "category": [ "LIZARD" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You whap %s with your tail",
@@ -3497,6 +3525,7 @@
     "prereqs": [ "TAIL_STUB" ],
     "category": [ "RAPTOR" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "dodge_modifier": 3
   },
@@ -3511,6 +3540,7 @@
     "prereqs": [ "TAIL_LONG" ],
     "category": [ "BEAST", "LUPINE" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "social_modifiers": { "lie": -20, "persuade": 10 },
     "dodge_modifier": 4
@@ -3526,6 +3556,7 @@
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_LONG" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You sting %s with your tail",
@@ -3546,6 +3577,7 @@
     "prereqs": [ "TAIL_THICK" ],
     "category": [ "CHIMERA" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You club %s with your tail",
@@ -3566,7 +3598,8 @@
     "threshreq": [ "THRESH_URSINE" ],
     "category": [ "URSINE" ],
     "active": true,
-    "cost": 0
+    "cost": 0,
+    "stomach_size_multiplier": 3.0
   },
   {
     "type": "mutation",
@@ -4110,7 +4143,7 @@
     "movecost_swim_modifier": 0.95,
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 1
       }
     ],
@@ -4131,6 +4164,7 @@
     "changes_to": [ "LARGE_OK", "HUGE" ],
     "category": [ "URSINE", "CATTLE", "LIZARD" ],
     "passive_mods": { "str_mod": 2 },
+    "stomach_size_multiplier": 1.5,
     "weight_capacity_modifier": 1.05
   },
   {
@@ -4148,6 +4182,7 @@
     "leads_to": [ "MUT_TOUGH" ],
     "category": [ "URSINE", "CATTLE", "LIZARD" ],
     "passive_mods": { "str_mod": 2 },
+    "stomach_size_multiplier": 1.5,
     "weight_capacity_modifier": 1.05
   },
   {
@@ -4169,6 +4204,7 @@
     "fatigue_modifier": 0.15,
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
+    "stomach_size_multiplier": 2.0,
     "weight_capacity_modifier": 1.1
   },
   {
@@ -4189,6 +4225,7 @@
     "passive_mods": { "str_mod": 4 },
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
+    "stomach_size_multiplier": 2.0,
     "weight_capacity_modifier": 1.1
   },
   {
@@ -4381,7 +4418,7 @@
     "category": [ "SLIME" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "bash": -3
       }
     ]
@@ -4486,6 +4523,7 @@
     "cancels": [ "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "changes_to": [ "SMALL2" ],
     "category": [ "MOUSE" ],
+    "stomach_size_multiplier": 0.5,
     "hp_modifier": -0.05,
     "dodge_modifier": 1,
     "weight_capacity_modifier": 0.8
@@ -4502,6 +4540,7 @@
     "cancels": [ "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "changes_to": [ "SMALL_OK" ],
     "category": [ "MOUSE" ],
+    "stomach_size_multiplier": 0.5,
     "hp_modifier": -0.3,
     "dodge_modifier": 2,
     "weight_capacity_modifier": 0.5,
@@ -4520,6 +4559,7 @@
     "purifiable": false,
     "threshreq": [ "THRESH_MOUSE" ],
     "category": [ "MOUSE" ],
+    "stomach_size_multiplier": 0.5,
     "hp_modifier": -0.25,
     "dodge_modifier": 2,
     "weight_capacity_modifier": 0.7,
@@ -4899,6 +4939,7 @@
     "name": { "str": "Nausea" },
     "points": -2,
     "description": "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.  You can, if desired, think yourself into vomiting, too.",
+    "vomit_multiplier": 3,
     "prereqs": [ "WEAKSTOMACH" ],
     "changes_to": [ "VOMITOUS", "EATPOISON" ],
     "category": [ "ALPHA" ],
@@ -4910,6 +4951,7 @@
     "name": { "str": "Vomitous" },
     "points": -3,
     "description": "You have a major digestive disorder.  Though it causes you to vomit frequently, you have found that you can trigger your vomit reflex on demand, too.",
+    "vomit_multiplier": 3,
     "prereqs": [ "NAUSEA" ],
     "changes_to": [ "EATPOISON" ],
     "category": [ "SLIME", "RAT", "MEDICAL", "ELFA" ],
@@ -5360,7 +5402,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "acid": 2
       }
     ]
@@ -5382,7 +5424,7 @@
     "category": [ "SLIME" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "bash": 4
       }
     ],
@@ -5398,6 +5440,7 @@
     "description": "Your body is more or less one consistent whole: a single, giant, omni-cell that alters itself as needed.",
     "valid": false,
     "purifiable": false,
+    "stomach_size_multiplier": 3,
     "prereqs": [ "INT_SLIME" ],
     "prereqs2": [ "PER_SLIME_OK" ],
     "threshreq": [ "THRESH_SLIME" ],
@@ -6741,15 +6784,6 @@
   },
   {
     "type": "mutation",
-    "id": "DEBUG_STORAGE",
-    "name": { "str": "Debug Very Strong Back" },
-    "points": 99,
-    "valid": false,
-    "description": "Lets you carry 15 bugs worth of your body weight in your mandibles.",
-    "debug": true
-  },
-  {
-    "type": "mutation",
     "id": "DEBUG_BIONICS",
     "name": { "str": "Debug Bionic Installation" },
     "points": 99,
@@ -6810,9 +6844,7 @@
     "name": { "str": "mute" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes it impossible to say anything.  It is a bug if you have it.",
-    "player_display": false,
-    "threshold": true
+    "description": "Trait that makes it impossible to say anything."
   },
   {
     "type": "mutation",

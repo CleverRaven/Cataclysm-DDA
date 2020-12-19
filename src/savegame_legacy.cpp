@@ -199,8 +199,8 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id( "ACT_PULP" ),
         activity_id( "ACT_VIBE" ),
         activity_id::NULL_ID(), // ACT_MAKE_ZLAVE is deprecated
-        activity_id( "ACT_DROP" ),
-        activity_id( "ACT_STASH" ),
+        activity_id::NULL_ID(), // ACT_DROP is an actor now
+        activity_id::NULL_ID(), // ACT_STASH is an actor now
         activity_id( "ACT_PICKUP" ),
         activity_id( "ACT_MOVE_ITEMS" ),
         activity_id( "ACT_ADV_INVENTORY" ),

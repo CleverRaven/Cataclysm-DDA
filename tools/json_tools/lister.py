@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
-"""Run this script with -h for usage info and docs.
+"""Make a distinct list of keys from JSON input.
+
+Main purpose to take output from other scripts, which will be JSON
+dictionaries or lists of JSON dictionaries and get a distinct set of
+keys from all the items.
+
+Can be used to answer questions like, "What types of material are on
+the items?" when all you want to know is types, not counts.
+
+Example usages:
+
+    values.py -k material | %(prog)s
+
 """
 
 import argparse
@@ -9,34 +21,26 @@ import json
 import sys
 from util import ui_values_to_columns
 
+parser = argparse.ArgumentParser(
+    description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
 
-parser = argparse.ArgumentParser(description="""Make a distinct list of keys from JSON input.
-Main purpose to take output from other scripts, which will be JSON dictionaries or lists
-of JSON dictionaries and get a distinct set of keys from all the items.
-
-Can be used to answer questions like, "What types of material are on the items?" when
-all you want to know is types, not counts.
-
-Example usages:
-
-    values.py -k material | %(prog)s
-
-""", formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument(
     "--human",
     action="store_true",
-    help="if set, makes output human readable. default is to return output in JSON.")
+    help="if set, makes output human readable. default is JSON output.")
 
 
 if __name__ == "__main__":
     args = parser.parse_args()
 
     # Saw this trick here:
-    # http://stackoverflow.com/questions/13442574/how-do-i-determine-if-sys-stdin-is-redirected-from-a-file-vs-piped-from-another
+    # http://stackoverflow.com/questions/13442574/how-do-i-determine-if-
+    #     sys-stdin-is-redirected-from-a-file-vs-piped-from-another
     mode = os.fstat(0).st_mode
     if not stat.S_ISFIFO(mode) and not stat.S_ISREG(mode):
         # input is terminal, not what we want
-        print("Redirect data to stdin, please (e.g. with a pipe). -h for usage.")
+        print("Redirect data to stdin, please (e.g. with a pipe)."
+              " Run with -h for usage.")
         sys.exit(1)
 
     try:

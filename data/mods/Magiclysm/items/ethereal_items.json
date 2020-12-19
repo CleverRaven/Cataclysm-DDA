@@ -172,6 +172,7 @@
     "max_damage": 0,
     "effect": "spawn_item",
     "effect_str": "stormglove",
+    "shape": "blast",
     "energy_source": "MANA",
     "difficulty": 2,
     "max_level": 20,
@@ -228,6 +229,40 @@
       "MAGIC_FOCUS"
     ],
     "cutting": 30,
+    "category": "weapons"
+  },
+  {
+    "id": "flarewhip",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "light_blue",
+    "name": "flarewhip",
+    "description": "A long whip made of blue-hot magical flames.  The heat is horrendous when touching an enemy.",
+    "weight": "60 g",
+    "volume": "1500 ml",
+    "material": [  ],
+    "techniques": [ "PRECISE", "WIDE", "SWEEP" ],
+    "flags": [
+      "REACH_ATTACK",
+      "REACH3",
+      "WHIP",
+      "STURDY",
+      "TRADER_AVOID",
+      "UNARMED_WEAPON",
+      "UNBREAKABLE_MELEE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS",
+      "FIRESTARTER",
+      "LIGHT_8",
+      "FLAMING",
+      "FIRE"
+    ],
+    "cutting": 6,
+    "to_hit": 3,
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 30 } ] } ]
+    },
     "category": "weapons"
   },
   {
@@ -293,8 +328,7 @@
       "ONLY_ONE",
       "NO_REPAIR",
       "NO_SALVAGE",
-      "NO_UNLOAD",
-      "NO_AMMO"
+      "NO_UNLOAD"
     ],
     "skill": "archery",
     "min_strength": 9,
@@ -468,7 +502,7 @@
   {
     "id": "thorns_electric",
     "type": "ARMOR",
-    "name": "aura of repelling arc",
+    "name": { "str": "aura of repelling arc", "str_pl": "auras of repelling arc" },
     "description": "An invisible aura that strikes melee attackers with arcs of electricity.",
     "weight": "1 g",
     "volume": "1 ml",
@@ -574,16 +608,7 @@
     "description": "A leather sling, quivering with energy when in your palm to the point of almost tearing.  A pebble appears when you begin spinning it.",
     "price": 150,
     "material": [ "leather" ],
-    "flags": [
-      "NEVER_JAMS",
-      "PRIMITIVE_RANGED_WEAPON",
-      "BELT_CLIP",
-      "FIRE_TWOHAND",
-      "TRADER_AVOID",
-      "NO_AMMO",
-      "NO_UNLOAD",
-      "NO_REPAIR"
-    ],
+    "flags": [ "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP", "FIRE_TWOHAND", "TRADER_AVOID", "NO_UNLOAD", "NO_REPAIR" ],
     "weight": "86 g",
     "volume": "250 ml",
     "skill": "throw",
@@ -661,6 +686,62 @@
           ]
         }
       ]
+    }
+  },
+  {
+    "id": "dragon_shell_black",
+    "type": "ARMOR",
+    "name": "Black Dragon Shell",
+    "description": "An aura of black and green draconic energy, swirling around your body protecting you and punishing those who strike you.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "steel" ],
+    "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "symbol": "o",
+    "color": "green",
+    "coverage": 100,
+    "encumbrance": 0,
+    "warmth": 0,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "hit_me_effect": [ { "id": "dragon_shell_retaliation_black", "hit_self": false } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "subzero_talons",
+    "type": "GENERIC",
+    "name": { "str_sp": "subzero talons" },
+    "description": "Claws made from ice, able to freeze on contact while mauling foes.  You, however, feel only a slight chill on your hands.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": 1,
+    "bashing": 6,
+    "cutting": 12,
+    "material": [ "superalloy" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "flags": [
+      "UNARMED_WEAPON",
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_UNWIELD",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_SALVAGE"
+    ],
+    "techniques": [ "WBLOCK_2", "RAPID" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 6 } ] } ]
     }
   }
 ]

@@ -39,7 +39,8 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     player &player_character = get_avatar();
 
     g->clear_zombies();
-    item &test_item = player_character.i_add( item( "bot_manhack", 0, item::default_charges_tag{} ) );
+    item &test_item = player_character.i_add( item( "bot_manhack", calendar::turn_zero,
+                      item::default_charges_tag{} ) );
 
     REQUIRE( player_character.has_item( test_item ) );
 
@@ -57,7 +58,6 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     REQUIRE( new_manhack->type->id == mtype_id( "mon_manhack" ) );
     g->clear_zombies();
 }
-
 
 TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
 {

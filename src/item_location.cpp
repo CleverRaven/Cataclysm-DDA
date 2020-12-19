@@ -80,6 +80,8 @@ class item_location::impl
         virtual tripoint position() const = 0;
         virtual std::string describe( const Character * ) const = 0;
         virtual item_location obtain( Character &, int ) = 0;
+        virtual units::volume volume_capacity() const = 0;
+        virtual units::mass weight_capacity() const = 0;
         virtual int obtain_cost( const Character &, int ) const = 0;
         virtual void remove_item() = 0;
         virtual void on_contents_changed() = 0;
@@ -161,6 +163,14 @@ class item_location::impl::nowhere : public item_location::impl
             js.member( "type", "null" );
             js.end_object();
         }
+
+        units::volume volume_capacity() const override {
+            return units::volume();
+        }
+
+        units::mass weight_capacity() const override {
+            return units::mass();
+        }
 };
 
 class item_location::impl::item_on_map : public item_location::impl
@@ -240,6 +250,15 @@ class item_location::impl::item_on_map : public item_location::impl
 
         void on_contents_changed() override {
             target()->on_contents_changed();
+        }
+
+        units::volume volume_capacity() const override {
+            map_stack stack = get_map().i_at( cur );
+            return stack.free_volume();
+        }
+
+        units::mass weight_capacity() const override {
+            return units::mass_max;
         }
 };
 
@@ -388,6 +407,14 @@ class item_location::impl::item_on_person : public item_location::impl
             ensure_unpacked();
             return !!what && !!who;
         }
+
+        units::volume volume_capacity() const override {
+            return units::volume_max;
+        }
+
+        units::mass weight_capacity() const override {
+            return units::mass_max;
+        }
 };
 
 class item_location::impl::item_on_vehicle : public item_location::impl
@@ -485,6 +512,14 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         void on_contents_changed() override {
             target()->on_contents_changed();
             cur.veh.invalidate_mass();
+        }
+
+        units::volume volume_capacity() const override {
+            return cur.veh.free_volume( cur.part );
+        }
+
+        units::mass weight_capacity() const override {
+            return units::mass_max;
         }
 };
 
@@ -619,6 +654,14 @@ class item_location::impl::item_in_container : public item_location::impl
             }
             return primary_cost + parent_obtain_cost;
         }
+
+        units::volume volume_capacity() const override {
+            return container->contained_where( *target() )->remaining_volume();
+        }
+
+        units::mass weight_capacity() const override {
+            return container->contained_where( *target() )->remaining_weight();
+        }
 };
 
 const item_location item_location::nowhere;
@@ -680,7 +723,7 @@ void item_location::serialize( JsonOut &js ) const
 
 void item_location::deserialize( JsonIn &js )
 {
-    auto obj = js.get_object();
+    JsonObject obj = js.get_object();
     auto type = obj.get_string( "type" );
 
     int idx = -1;
@@ -762,6 +805,20 @@ bool item_location::parents_can_contain_recursive( item *it ) const
     return false;
 }
 
+int item_location::max_charges_by_parent_recursive( const item &it ) const
+{
+    if( !has_parent() ) {
+        return item::INFINITE_CHARGES;
+    }
+
+    item_location parent = parent_item();
+    item_pocket *pocket = parent->contents.contained_where( *get_item() );
+
+    return std::min( { it.charges_per_volume( pocket->remaining_volume() ),
+                       it.charges_per_weight( pocket->remaining_weight() ),
+                       pocket->rigid() ? item::INFINITE_CHARGES : parent.max_charges_by_parent_recursive( it ) } );
+}
+
 item_location::type item_location::where() const
 {
     return ptr->where();
@@ -833,4 +890,14 @@ bool item_location::held_by( Character &who ) const
         return parent_item().held_by( who );
     }
     return false;
+}
+
+units::volume item_location::volume_capacity() const
+{
+    return ptr->volume_capacity();
+}
+
+units::mass item_location::weight_capacity() const
+{
+    return ptr->weight_capacity();
 }

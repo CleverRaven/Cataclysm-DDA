@@ -139,7 +139,7 @@ struct trap {
         // a valid overmap id, for map_regen action traps
         std::string map_regen;
         trap_function act;
-        std::string name_;
+        translation name_;
         /**
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */
@@ -204,7 +204,7 @@ struct trap {
         bool is_trivial_to_spot() const;
 
         /**
-         * Some traps are part of the terrain (e.g. pits) and can therefor not be disarmed
+         * Some traps are part of the terrain (e.g. pits) and can therefore not be disarmed
          * via the usual mechanics. They can be "disarmed" by changing the terrain they are part of.
          */
         bool can_not_be_disarmed() const;

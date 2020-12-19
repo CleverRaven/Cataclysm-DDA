@@ -20,6 +20,7 @@
 #include "item_pocket.h"
 #include "iteminfo_query.h"
 #include "itype.h"
+#include "make_static.h"
 #include "map.h"
 #include "output.h"
 #include "point.h"
@@ -89,7 +90,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
                         c_light_gray, format_item_info( info, {} ) );
     }
 
-    wrefresh( menu->window );
+    wnoutrefresh( menu->window );
 }
 
 static std::string keys_text()
@@ -169,7 +170,13 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
 
         return true;
     } else if( cat_id ) {
-        const std::vector<item_category> &all_cat = item_category::get_all();
+        // Get all categories and sort by name
+        std::vector<item_category> all_cat = item_category::get_all();
+        std::sort( all_cat.begin(), all_cat.end(), []( const item_category & lhs,
+        const item_category & rhs ) {
+            return localized_compare( lhs.name(), rhs.name() );
+        } );
+
         for( const item_category &cat : all_cat ) {
             selector_menu.addentry( cat.name() );
         }
@@ -320,8 +327,8 @@ void item_contents::combine( const item_contents &read_input, const bool convert
                 const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it );
                 if( !inserted.success() ) {
                     uninserted_items.push_back( *it );
-                    debugmsg( "error: tried to put an item into a pocket that can't fit into it while loading.  err: %s",
-                              inserted.str() );
+                    debugmsg( "error: item %s cannot fit into pocket while loading: %s",
+                              it->typeId().str(), inserted.str() );
                 }
             }
 
@@ -384,7 +391,8 @@ struct item_contents::item_contents_helper {
         }
 
         if( failure_messages.empty() ) {
-            return ret_val<my_pocket_type *>::make_failure( null_pocket, _( "is not a container" ) );
+            return ret_val<my_pocket_type *>::make_failure( null_pocket, _( "pocket with type (%s) not found" ),
+                    io::enum_to_string( pk_type ) );
         }
         std::sort( failure_messages.begin(), failure_messages.end(), localized_compare );
         failure_messages.erase(
@@ -440,14 +448,14 @@ ret_val<bool> item_contents::insert_item( const item &it, item_pocket::pocket_ty
 
     ret_val<item_pocket *> pocket = find_pocket_for( it, pk_type );
     if( pocket.value() == nullptr ) {
-        return ret_val<bool>::make_failure( "Found no suitable pocket for item" );
+        return ret_val<bool>::make_failure( pocket.str() );
     }
 
     ret_val<item_pocket::contain_code> pocket_contain_code = pocket.value()->insert_item( it );
     if( pocket_contain_code.success() ) {
         return ret_val<bool>::make_success();
     }
-    return ret_val<bool>::make_failure( "Failed to insert into pocket" );
+    return ret_val<bool>::make_failure( pocket.str() );
 }
 
 void item_contents::force_insert_item( const item &it, item_pocket::pocket_type pk_type )
@@ -492,10 +500,18 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             // that needs to be something a player explicitly does
             continue;
         }
-        if( ( ret.second == nullptr && pocket.can_contain( it ).success() ) ||
-            ( pocket.can_contain( it ).success() && ret.second->better_pocket( pocket, it ) ) ) {
+        if( !pocket.can_contain( it ).success() ) {
+            continue;
+        }
+        if( !pocket.settings.accepts_item( it ) ) {
+            // Item forbidden by whitelist / blacklist
+            continue;
+        }
+        if( ret.second == nullptr || ret.second->better_pocket( pocket, it ) ) {
+            // this pocket is the new candidate for "best"
             ret.first = parent;
             ret.second = &pocket;
+            // check all pockets within to see if they are better
             for( item *contained : all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                 std::pair<item_location, item_pocket *> internal_pocket =
                     contained->contents.best_pocket( it, parent, true );
@@ -516,6 +532,37 @@ item_pocket *item_contents::contained_where( const item &contained )
         }
     }
     return nullptr;
+}
+
+units::length item_contents::max_containable_length() const
+{
+    units::length ret = 0_mm;
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        units::length candidate = pocket.max_containable_length();
+        if( candidate > ret ) {
+            ret = candidate;
+        }
+    }
+    return ret;
+}
+
+units::volume item_contents::max_containable_volume() const
+{
+    units::volume ret = 0_ml;
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        units::volume candidate = pocket.remaining_volume();
+        if( candidate > ret ) {
+            ret = candidate;
+        }
+
+    }
+    return ret;
 }
 
 ret_val<bool> item_contents::can_contain_rigid( const item &it ) const
@@ -639,9 +686,9 @@ int item_contents::ammo_consume( int qty, const tripoint &pos )
             item &mag = pocket.front();
             const int res = mag.ammo_consume( qty, pos );
             if( res && mag.ammo_remaining() == 0 ) {
-                if( mag.has_flag( "MAG_DESTROY" ) ) {
+                if( mag.has_flag( STATIC( flag_id( "MAG_DESTROY" ) ) ) ) {
                     pocket.remove_item( mag );
-                } else if( mag.has_flag( "MAG_EJECT" ) ) {
+                } else if( mag.has_flag( STATIC( flag_id( "MAG_EJECT" ) ) ) ) {
                     get_map().add_item( pos, mag );
                     pocket.remove_item( mag );
                 }
@@ -720,9 +767,17 @@ const item &item_contents::first_ammo() const
         if( !pocket.is_type( item_pocket::pocket_type::MAGAZINE ) || pocket.empty() ) {
             continue;
         }
+        static const flag_id json_flag_CASING( "CASING" );
+        if( pocket.front().has_flag( json_flag_CASING ) ) {
+            for( const item *i : pocket.all_items_top() ) {
+                if( !i->has_flag( json_flag_CASING ) ) {
+                    return *i;
+                }
+            }
+            continue;
+        }
         return pocket.front();
     }
-    debugmsg( "Error: Tried to get first ammo in container not containing ammo" );
     return null_item_reference();
 }
 
@@ -769,6 +824,15 @@ void item_contents::clear_items()
 {
     for( item_pocket &pocket : contents ) {
         pocket.clear_items();
+    }
+}
+
+void item_contents::clear_magazines()
+{
+    for( item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ) {
+            pocket.clear_items();
+        }
     }
 }
 
@@ -1102,6 +1166,16 @@ std::vector<const item *> item_contents::gunmods() const
     return mods;
 }
 
+bool item_contents::allows_speedloader( const itype_id &speedloader_id ) const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ) {
+            return pocket.allows_speedloader( speedloader_id );
+        }
+    }
+    return false;
+}
+
 std::vector<const item *> item_contents::mods() const
 {
     std::vector<const item *> mods;
@@ -1241,6 +1315,24 @@ ret_val<std::vector<const item_pocket *>> item_contents::get_all_contained_pocke
         return ret_val<std::vector<const item_pocket *>>::make_success( pockets );
     } else {
         return ret_val<std::vector<const item_pocket *>>::make_failure( pockets );
+    }
+}
+
+ret_val<std::vector<item_pocket *>> item_contents::get_all_contained_pockets()
+{
+    std::vector<item_pocket *> pockets;
+    bool found = false;
+
+    for( item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            found = true;
+            pockets.push_back( &pocket );
+        }
+    }
+    if( found ) {
+        return ret_val<std::vector<item_pocket *>>::make_success( pockets );
+    } else {
+        return ret_val<std::vector<item_pocket *>>::make_failure( pockets );
     }
 }
 

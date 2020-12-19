@@ -414,6 +414,7 @@
     "color": "brown",
     "spoils_in": "10 days 19 hours",
     "container": "bottle_plastic",
+    "sealed": false,
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 10,

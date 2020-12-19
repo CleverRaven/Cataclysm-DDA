@@ -148,6 +148,7 @@
     "volume": "250 ml",
     "stack_size": 4,
     "flags": [ "MYCUS_OK" ],
+    "vitamins": [ [ "vitA", 25 ], [ "vitB", 25 ], [ "vitC", 25 ], [ "calcium", 25 ], [ "iron", 25 ] ],
     "fun": 30
   },
   {
@@ -825,7 +826,38 @@
     "type": "COMESTIBLE",
     "name": { "str": "herbal tea bag" },
     "copy-from": "tea_bag",
-    "color": "green",
-    "description": "Paper sachet with dried wild herbs inside.  Put it into boiling water to make some healthy warm drink."
+    "calories": 9,
+    "description": "A paper sachet with dried wild herbs inside.  Put it into boiling water to make a cup of herbal tea."
+  },
+  {
+    "id": "tea_bag_dandelion",
+    "type": "COMESTIBLE",
+    "name": { "str": "dandelion tea bag" },
+    "copy-from": "tea_bag",
+    "calories": 26,
+    "description": "A paper sachet with dried dandelion roots inside.  Put it into boiling water to make a cup of dandelion tea."
+  },
+  {
+    "id": "tea_bag_chamomile",
+    "type": "COMESTIBLE",
+    "name": { "str": "chamomile tea bag" },
+    "copy-from": "tea_bag",
+    "description": "A paper sachet with dried chamomile inside.  Put it into boiling water to make a cup of chamomile tea."
+  },
+  {
+    "id": "instant_coffee",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "instant coffee mix" },
+    "looks_like": "coffee_raw",
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "INEDIBLE" ],
+    "weight": "5 g",
+    "volume": "10 ml",
+    "color": "brown",
+    "symbol": ",",
+    "material": [ "plastic" ],
+    "price": 50,
+    "price_postapoc": 200,
+    "description": "A small packet of commercial instant coffee powder.  No creamer or sweetener added."
   }
 ]

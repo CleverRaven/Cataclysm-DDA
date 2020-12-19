@@ -49,7 +49,7 @@
     "price_postapoc": 1500,
     "material": [ "paper" ],
     "bashing": 1,
-    "flags": [ "FLAMMABLE" ],
+    "flags": [  ],
     "copy-from": "book_fict_tpl"
   },
   {
@@ -140,7 +140,7 @@
     "weight": "600 g",
     "price": 1000,
     "price_postapoc": 5000,
-    "flags": [ "TINDER", "FLAMMABLE" ],
+    "flags": [ "TINDER" ],
     "skill": "dodge",
     "intelligence": 4,
     "time": "10 m",
@@ -212,7 +212,7 @@
     "symbol": "?",
     "looks_like": "story_book",
     "color": "dark_gray",
-    "flags": [ "TINDER", "FLAMMABLE" ],
+    "flags": [ "TINDER" ],
     "intelligence": 6,
     "time": "35 m",
     "chapters": 30,
@@ -312,6 +312,7 @@
     "type": "BOOK",
     "name": "News Magazine Template",
     "description": "template for news magazine",
+    "looks_like": "flyer",
     "copy-from": "book_nonf_zine",
     "time": "11 m",
     "relative": { "intelligence": 1 }
@@ -341,6 +342,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
+    "looks_like": "manual_gun",
     "use_action": [ "MA_MANUAL" ],
     "intelligence": 9,
     "time": "10 m"

@@ -76,7 +76,7 @@ void mdefense::zapback( monster &m, Creature *const source,
     }
 
     if( get_player_view().sees( source->pos() ) ) {
-        const auto msg_type = source->is_avatar() ? m_bad : m_info;
+        const game_message_type msg_type = source->is_avatar() ? m_bad : m_info;
         add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
                  m.name(), source->disp_name() );
     }

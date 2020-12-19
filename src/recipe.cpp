@@ -8,6 +8,7 @@
 #include <sstream>
 
 #include "assign.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -15,6 +16,7 @@
 #include "construction.h"
 #include "debug.h"
 #include "enum_traits.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game_constants.h"
 #include "generic_factory.h"
@@ -29,6 +31,7 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "string_id_utils.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
@@ -36,8 +39,6 @@
 #include "value_ptr.h"
 
 static const itype_id itype_hotplate( "hotplate" );
-
-extern bool test_mode;
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -135,6 +136,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     abstract = jo.has_string( "abstract" );
 
+    const std::string type = jo.get_string( "type" );
+
     if( abstract ) {
         ident_ = recipe_id( jo.get_string( "abstract" ) );
     } else {
@@ -142,8 +145,20 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         ident_ = recipe_id( result_.str() );
     }
 
+    if( type == "recipe" && jo.has_string( "id_suffix" ) ) {
+        if( abstract ) {
+            jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
+        }
+        ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
+    }
+
     if( jo.has_bool( "obsolete" ) ) {
         assign( jo, "obsolete", obsolete );
+    }
+
+    // If it's an obsolete recipe, we don't need any more data, skip loading
+    if( obsolete ) {
+        return;
     }
 
     if( jo.has_int( "time" ) ) {
@@ -162,7 +177,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     assign( jo, "sealed", sealed, strict );
 
     if( jo.has_array( "batch_time_factors" ) ) {
-        auto batch = jo.get_array( "batch_time_factors" );
+        JsonArray batch = jo.get_array( "batch_time_factors" );
         batch_rscale = batch.get_int( 0 ) / 100.0;
         batch_rsize  = batch.get_int( 1 );
     }
@@ -173,7 +188,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     assign( jo, "skill_used", skill_used, strict );
 
     if( jo.has_member( "skills_required" ) ) {
-        auto sk = jo.get_array( "skills_required" );
+        JsonArray sk = jo.get_array( "skills_required" );
         required_skills.clear();
 
         if( sk.empty() ) {
@@ -203,6 +218,19 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             autolearn_requirements[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
         }
     }
+
+    // Mandatory: This recipe's exertion level
+    // TODO: Make this mandatory, no default or 'fake' exception
+    std::string exert = jo.get_string( "activity_level", "MODERATE_EXERCISE" );
+    // For making scripting that needs to be broken up over multiple PRs easier
+    if( exert == "fake" ) {
+        exert = "MODERATE_EXERCISE";
+    }
+    const auto it = activity_levels.find( exert );
+    if( it == activity_levels.end() ) {
+        jo.throw_error( string_format( "Invalid activity level %s", exert ), "activity_level" );
+    }
+    exertion = it->second;
 
     // Never let the player have a debug or NPC recipe
     if( jo.has_bool( "never_learn" ) ) {
@@ -237,7 +265,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "delete_flags" ) ) {
-        flags_to_delete = jo.get_tags( "delete_flags" );
+        flags_to_delete = jo.get_tags<flag_id>( "delete_flags" );
     }
 
     // recipes not specifying any external requirements inherit from their parent recipe (if any)
@@ -251,8 +279,6 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         }
     }
 
-    const std::string type = jo.get_string( "type" );
-
     // inline requirements are always replaced (cannot be inherited)
     reqs_internal.clear();
 
@@ -262,12 +288,6 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     blueprint_reqs.reset();
 
     if( type == "recipe" ) {
-        if( jo.has_string( "id_suffix" ) ) {
-            if( abstract ) {
-                jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
-            }
-            ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
-        }
 
         assign( jo, "category", category, strict );
         assign( jo, "subcategory", subcategory, strict );
@@ -374,12 +394,12 @@ void recipe::finalize()
 
     std::set<proficiency_id> required;
     std::set<proficiency_id> used;
-    for( const recipe_proficiency &rpof : proficiencies ) {
+    for( recipe_proficiency &rpof : proficiencies ) {
         if( !rpof.id.is_valid() ) {
             debugmsg( "proficiency %s does not exist in recipe %s", rpof.id.str(), ident_.str() );
         }
 
-        if( rpof.required && rpof.time_multiplier != 1.0f ) {
+        if( rpof.required && rpof.time_multiplier != 0.0f ) {
             debugmsg( "proficiencies in recipes cannot be both required and provide a malus in %s",
                       rpof.id.str(), ident_.str() );
         }
@@ -388,13 +408,22 @@ void recipe::finalize()
                       ident_.str() );
         }
 
-        if( rpof.time_multiplier < 1.0f ) {
-            debugmsg( "proficiency %s provides a bonus for not being known in recipe %s", rpof.id.str(),
-                      ident_.str() );
+        if( rpof.time_multiplier < 1.0f && rpof.id->default_time_multiplier() < 1.0f ) {
+            debugmsg( "proficiency %s provides a time bonus for not being known in recipe %s.  Time multiplier: %s Default multiplier: %s",
+                      rpof.id.str(), ident_.str(), rpof.time_multiplier, rpof.id->default_time_multiplier() );
         }
-        if( rpof.fail_multiplier < 1.0f ) {
-            debugmsg( "proficiency %s provides a bonus for not being known in recipe %s", rpof.id.str(),
-                      ident_.str() );
+
+        if( rpof.time_multiplier == 0.0f ) {
+            rpof.time_multiplier = rpof.id->default_time_multiplier();
+        }
+
+        if( rpof.fail_multiplier == 0.0f ) {
+            rpof.fail_multiplier = rpof.id->default_fail_multiplier();
+        }
+
+        if( rpof.fail_multiplier < 1.0f && rpof.id->default_fail_multiplier() < 1.0f ) {
+            debugmsg( "proficiency %s provides a fail bonus for not being known in recipe %s  Fail multiplier: %s Default multiplier: %s",
+                      rpof.id.str(), ident_.str(), rpof.fail_multiplier, rpof.id->default_fail_multiplier() );
         }
 
         // Now that we've done the error checking, log that a proficiency with this id is used
@@ -481,7 +510,7 @@ item recipe::create_result() const
     if( !newit.craft_has_charges() ) {
         newit.charges = 0;
     } else if( result_mult != 1 ) {
-        // TODO: Make it work for charge-less items
+        // TODO: Make it work for charge-less items (update makes amount)
         newit.charges *= result_mult;
     }
 
@@ -522,8 +551,8 @@ std::vector<item> recipe::create_byproducts( int batch ) const
     std::vector<item> bps;
     for( const auto &e : byproducts ) {
         item obj( e.first, calendar::turn, item::default_charges_tag{} );
-        if( obj.has_flag( "VARSIZE" ) ) {
-            obj.item_tags.insert( "FIT" );
+        if( obj.has_flag( flag_VARSIZE ) ) {
+            obj.set_flag( flag_FIT );
         }
 
         if( obj.count_by_charges() ) {
@@ -547,24 +576,21 @@ bool recipe::has_byproducts() const
     return !byproducts.empty();
 }
 
-std::string recipe::required_proficiencies_string( const Character &c ) const
+std::string recipe::required_proficiencies_string( const Character *c ) const
 {
     std::vector<proficiency_id> required_profs;
-    std::vector<std::pair<proficiency_id, float>> used_profs;
 
     for( const recipe_proficiency &rec : proficiencies ) {
         if( rec.required ) {
             required_profs.push_back( rec.id );
-        } else {
-            used_profs.push_back( { rec.id, rec.time_multiplier } );
         }
     }
     std::string required = enumerate_as_string( required_profs.begin(),
     required_profs.end(), [&]( const proficiency_id & id ) {
         nc_color color;
-        if( c.has_proficiency( id ) ) {
+        if( c != nullptr && c->has_proficiency( id ) ) {
             color = c_green;
-        } else if( helpers_have_proficiencies( c, id ) ) {
+        } else if( c != nullptr && helpers_have_proficiencies( *c, id ) ) {
             color = c_yellow;
         } else {
             color = c_red;
@@ -572,21 +598,92 @@ std::string recipe::required_proficiencies_string( const Character &c ) const
         return colorize( id->name(), color );
     } );
 
-    std::string used = enumerate_as_string( used_profs.begin(),
-    used_profs.end(), [&]( const std::pair<proficiency_id, float> &pair ) {
-        std::string color;
-        if( c.has_proficiency( pair.first ) ||
-            helpers_have_proficiencies( c, pair.first ) ) {
-            color = "white";
-        } else {
-            color = "yellow";
-        }
-        return string_format( "<color_cyan>%s</color> <color_%s>%gx</color>", pair.first->name(), color,
-                              pair.second );
-    } );
-    used = string_format( _( "Proficiencies Used: %s" ), used );
+    return required;
+}
 
-    return string_format( "%s\n%s", required, used );
+struct prof_penalty {
+    proficiency_id id;
+    float time_mult;
+    float failure_mult;
+};
+
+static std::string profstring( const prof_penalty &prof,
+                               std::string &color )
+{
+    if( prof.time_mult == 1.0f ) {
+        return string_format( _( "<color_cyan>%s</color> (<color_%s>%gx\u00a0failure</color>)" ),
+                              prof.id->name(), color, prof.failure_mult );
+    } else if( prof.failure_mult == 1.0f ) {
+        return string_format( _( "<color_cyan>%s</color> (<color_%s>%gx\u00a0time</color>)" ),
+                              prof.id->name(), color, prof.time_mult );
+    }
+
+    return string_format(
+               _( "<color_cyan>%s</color> (<color_%s>%gx\u00a0time, %gx\u00a0failure</color>)" ),
+               prof.id->name(), color, prof.time_mult, prof.failure_mult );
+}
+
+std::string recipe::used_proficiencies_string( const Character *c ) const
+{
+    if( c == nullptr ) {
+        return { };
+    }
+    std::vector<prof_penalty> used_profs;
+
+    for( const recipe_proficiency &rec : proficiencies ) {
+        if( !rec.required ) {
+            if( c->has_proficiency( rec.id ) || helpers_have_proficiencies( *c, rec.id ) )  {
+                used_profs.push_back( { rec.id, rec.time_multiplier, rec.fail_multiplier } );
+            }
+        }
+    }
+
+    std::string color = "light_gray";
+    std::string used = enumerate_as_string( used_profs.begin(),
+    used_profs.end(), [&]( const prof_penalty & prof ) {
+        return profstring( prof, color );
+    } );
+
+    return used;
+}
+
+std::string recipe::missing_proficiencies_string( const Character *c ) const
+{
+    if( c == nullptr ) {
+        return { };
+    }
+    std::vector<prof_penalty> missing_profs;
+
+    for( const recipe_proficiency &rec : proficiencies ) {
+        if( !rec.required ) {
+            if( !( c->has_proficiency( rec.id ) || helpers_have_proficiencies( *c, rec.id ) ) )  {
+                missing_profs.push_back( { rec.id, rec.time_multiplier, rec.fail_multiplier } );
+            }
+        }
+    }
+
+    std::string color = "yellow";
+    std::string missing = enumerate_as_string( missing_profs.begin(),
+    missing_profs.end(), [&]( const prof_penalty & prof ) {
+        return profstring( prof, color );
+    } );
+
+    return missing;
+}
+
+std::string recipe::recipe_proficiencies_string() const
+{
+    std::vector<proficiency_id> profs;
+
+    for( const recipe_proficiency &rec : proficiencies ) {
+        profs.push_back( rec.id );
+    }
+    std::string list = enumerate_as_string( profs.begin(),
+    profs.end(), [&]( const proficiency_id & id ) {
+        return id->name();
+    } );
+
+    return list;
 }
 
 std::set<proficiency_id> recipe::required_proficiencies() const
@@ -621,7 +718,7 @@ std::set<proficiency_id> recipe::assist_proficiencies() const
     return ret;
 }
 
-float recipe::proficiency_maluses( const Character &guy ) const
+float recipe::proficiency_time_maluses( const Character &guy ) const
 {
     float malus = 1.0f;
     for( const recipe_proficiency &prof : proficiencies ) {
@@ -631,6 +728,23 @@ float recipe::proficiency_maluses( const Character &guy ) const
         }
     }
     return malus;
+}
+
+float recipe::proficiency_failure_maluses( const Character &guy ) const
+{
+    float malus = 1.0f;
+    for( const recipe_proficiency &prof : proficiencies ) {
+        if( !guy.has_proficiency( prof.id ) &&
+            !helpers_have_proficiencies( guy, prof.id ) ) {
+            malus *= prof.fail_multiplier;
+        }
+    }
+    return malus;
+}
+
+float recipe::exertion_level() const
+{
+    return exertion;
 }
 
 // Format a std::pair<skill_id, int> for the crafting menu.
@@ -685,31 +799,22 @@ std::string recipe::primary_skill_string( const Character *c, bool print_skill_l
 std::string recipe::required_skills_string( const Character *c, bool include_primary_skill,
         bool print_skill_level ) const
 {
-    // There is no primary skill used or it shouldn't be included then we can just use the required_skills directly.
-    if( skill_used.is_null() || !include_primary_skill ) {
-        return required_skills_as_string( required_skills.begin(), required_skills.end(), c,
-                                          print_skill_level );
+    std::vector<std::pair<skill_id, int>> skillList = sorted_lex( required_skills );
+
+    // There is primary skill used and it should be included: add it to the beginning
+    if( !skill_used.is_null() && include_primary_skill ) {
+        skillList.insert( skillList.begin(), std::pair<skill_id, int>( skill_used, difficulty ) );
     }
-
-    std::vector< std::pair<skill_id, int> > skillList;
-    skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
-    std::copy( required_skills.begin(), required_skills.end(),
-               std::back_inserter<std::vector<std::pair<skill_id, int> > >( skillList ) );
-
     return required_skills_as_string( skillList.begin(), skillList.end(), c, print_skill_level );
 }
 
 std::string recipe::required_all_skills_string() const
 {
-    // There is no primary skill used, we can just use the required_skills directly.
-    if( skill_used.is_null() ) {
-        return required_skills_as_string( required_skills.begin(), required_skills.end() );
+    std::vector<std::pair<skill_id, int>> skillList = sorted_lex( required_skills );
+    // There is primary skill used, add it to the front
+    if( !skill_used.is_null() ) {
+        skillList.insert( skillList.begin(), std::pair<skill_id, int>( skill_used, difficulty ) );
     }
-
-    std::vector< std::pair<skill_id, int> > skillList;
-    skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
-    std::copy( required_skills.begin(), required_skills.end(), std::back_inserter( skillList ) );
-
     return required_skills_as_string( skillList.begin(), skillList.end() );
 }
 
@@ -771,14 +876,14 @@ std::function<bool( const item & )> recipe::get_component_filter(
     std::function<bool( const item & )> frozen_filter = return_true<item>;
     if( result.is_food() && !hot_result() ) {
         frozen_filter = []( const item & component ) {
-            return !component.has_flag( "FROZEN" ) || component.has_flag( "EDIBLE_FROZEN" );
+            return !component.has_flag( flag_FROZEN ) || component.has_flag( flag_EDIBLE_FROZEN );
         };
     }
 
     // Disallow usage of non-full magazines as components
     // This is primarily used to require a fully charged battery, but works for any magazine.
     std::function<bool( const item & )> magazine_filter = return_true<item>;
-    if( has_flag( "FULL_MAGAZINE" ) ) {
+    if( has_flag( "NEED_FULL_MAGAZINE" ) ) {
         magazine_filter = []( const item & component ) {
             if( component.ammo_remaining() == 0 ) {
                 return false;
@@ -872,9 +977,11 @@ void recipe::check_blueprint_requirements()
 
         jsout.end_object();
 
-        debugmsg( "Specified blueprint requirements of %1$s does not match calculated requirements.  "
-                  "Specify \"check_blueprint_needs\": false to disable the check or "
-                  "Update \"blueprint_needs\" to the following value (you can use tools/update_blueprint_needs.py):\n"
+        debugmsg( "Specified blueprint requirements of %1$s does not match calculated requirements.\n"
+                  "Make one of the following changes to resolve this issue:\n"
+                  "- Specify \"check_blueprint_needs\": false to disable the check.\n"
+                  "- Remove \"blueprint_needs\" from the recipe json to have the requirements be autocalculated.\n"
+                  "- Update \"blueprint_needs\" to the following value (you can use tools/update_blueprint_needs.py):\n"
                   // mark it for the auto-update python script
                   "~~~ auto-update-blueprint: %1$s\n"
                   "%2$s\n"
@@ -908,6 +1015,18 @@ bool recipe::hot_result() const
         }
     }
     return false;
+}
+
+int recipe::makes_amount() const
+{
+    int makes;
+    if( charges.has_value() ) {
+        makes = charges.value();
+    } else {
+        makes = item::find_type( result_ )->charges_default();
+    }
+    // return either charges * mult or 1
+    return makes ? makes * result_mult : 1 ;
 }
 
 void recipe::incorporate_build_reqs()

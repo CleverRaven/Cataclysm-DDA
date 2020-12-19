@@ -497,9 +497,9 @@ struct npc_follower_rules {
     aim_rule aim = aim_rule::WHEN_CONVENIENT;
     cbm_recharge_rule cbm_recharge = cbm_recharge_rule::CBM_RECHARGE_SOME;
     cbm_reserve_rule cbm_reserve = cbm_reserve_rule::CBM_RESERVE_SOME;
-    ally_rule flags;
-    ally_rule override_enable;
-    ally_rule overrides;
+    ally_rule flags = ally_rule::DEFAULT;
+    ally_rule override_enable = ally_rule::DEFAULT;
+    ally_rule overrides = ally_rule::DEFAULT;
 
     pimpl<auto_pickup::npc_settings> pickup_whitelist;
 
@@ -527,8 +527,8 @@ struct npc_follower_rules {
 
 struct dangerous_sound {
     tripoint abs_pos;
-    sounds::sound_t type;
-    int volume;
+    sounds::sound_t type = sounds::sound_t::_LAST;
+    int volume = 0;
 };
 
 const direction npc_threat_dir[8] = { direction::NORTHWEST, direction::NORTH, direction::NORTHEAST, direction::EAST,
@@ -841,7 +841,7 @@ class npc : public player
         /**
          * Proficiencies we know that the character doesn't
          */
-        std::vector < proficiency_id> proficiencies_offered_to( const Character &guy ) const;
+        std::vector<proficiency_id> proficiencies_offered_to( const Character &guy ) const;
         /**
          * Martial art styles that we known, but the player p doesn't.
          */
@@ -858,7 +858,10 @@ class npc : public player
         bool is_following() const;
         bool is_obeying( const Character &p ) const;
 
-        bool is_hallucination() const override; // true if the NPC isn't actually real
+        // true if the NPC isn't actually real
+        bool is_hallucination() const override {
+            return hallucination;
+        }
 
         // Ally of or traveling with p
         bool is_friendly( const Character &p ) const;
@@ -926,6 +929,9 @@ class npc : public player
         bool has_identified( const itype_id & ) const override {
             return true;
         }
+        void identify( const item & ) override {
+            // Do nothing
+        }
         /**
          * Is the item safe or does the NPC trust you enough?
          * Is not recursive, only checks the item that is the parameter.
@@ -973,7 +979,6 @@ class npc : public player
         /*
          *  CBM management functions
          */
-        void adjust_power_cbms();
         void activate_combat_cbms();
         void deactivate_combat_cbms();
         // find items that can be used to fuel CBM rechargers
@@ -1040,6 +1045,7 @@ class npc : public player
         float evaluate_enemy( const Creature &target ) const;
 
         void assess_danger();
+        bool is_safe() const;
         // Functions which choose an action for a particular goal
         npc_action method_of_fleeing();
         npc_action method_of_attack();
@@ -1228,7 +1234,7 @@ class npc : public player
         cata::optional<tripoint_abs_omt> assigned_camp = cata::nullopt;
 
     private:
-        npc_attitude attitude; // What we want to do to the player
+        npc_attitude attitude = NPCATT_NULL; // What we want to do to the player
         npc_attitude previous_attitude = NPCATT_NULL;
         bool known_to_u = false; // Does the player know this NPC?
         /**
@@ -1296,7 +1302,7 @@ class npc : public player
         time_point
         companion_mission_time_ret; //When you are expected to return for calculated/variable mission returns
         inventory companion_mission_inv; //Inventory that is added and dropped on mission
-        npc_mission mission;
+        npc_mission mission = NPC_MISSION_NULL;
         npc_mission previous_mission = NPC_MISSION_NULL;
         npc_personality personality;
         npc_opinion op_of_u;
@@ -1353,7 +1359,7 @@ class npc : public player
         // the index of the bionics for the fake gun;
         int cbm_weapon_index = -1;
 
-        bool dead;  // If true, we need to be cleaned up
+        bool dead = false;  // If true, we need to be cleaned up
 
         bool sees_dangerous_field( const tripoint &p ) const;
         bool could_move_onto( const tripoint &p ) const;
@@ -1387,7 +1393,7 @@ class npc_template
             male,
             female
         };
-        gender gender_override;
+        gender gender_override = gender::random;
 
         static void load( const JsonObject &jsobj );
         static void reset();

@@ -45,8 +45,16 @@ class item_contents
           */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
                 bool nested );
-        ret_val<bool> can_contain_rigid( const item &it ) const;
+
+        units::length max_containable_length() const;
+        units::volume max_containable_volume() const;
+        /**
+         * returns whether an item can be physically stored within these item contents.
+         * Fails if all pockets are MOD, CORPSE, SOFTWARE, or MIGRATION type, as they are not
+         * physical pockets.
+         */
         ret_val<bool> can_contain( const item &it ) const;
+        ret_val<bool> can_contain_rigid( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
         // does not ignore mods
         bool empty_real() const;
@@ -85,6 +93,8 @@ class item_contents
         std::vector<item *> gunmods();
         /** gets all gunmods in the item */
         std::vector<const item *> gunmods() const;
+        // checks the pockets if this speedloader is compatible
+        bool allows_speedloader( const itype_id &speedloader_id ) const;
 
         std::vector<const item *> mods() const;
 
@@ -128,6 +138,7 @@ class item_contents
 
         // gets all pockets contained in this item
         ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
+        ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
 
         // gets the number of charges of liquid that can fit into the rest of the space
         int remaining_capacity_for_liquid( const item &liquid ) const;
@@ -148,6 +159,19 @@ class item_contents
         int obtain_cost( const item &it ) const;
         // what will the move cost be of storing @it into this container? (CONTAINER pocket type)
         int insert_cost( const item &it ) const;
+
+        /**
+         * Attempts to insert an item into these item contents, stipulating that it must go into a
+         * pocket of the given type.  Fails if the contents have no pocket with that type.
+         *
+         * With CONTAINER, MAGAZINE, or MAGAZINE_WELL pocket types, items must fit the pocket's
+         * volume, length, weight, ammo type, and all other physical restrictions.  This is
+         * synonymous with the success of item_contents::can_contain with that item.
+         *
+         * For the MOD, CORPSE, SOFTWARE, and MIGRATION pocket types, if contents have such a
+         * pocket, items will be successfully inserted without regard to volume, length, or any
+         * other restrictions, since these pockets are not considered to be normal "containers".
+         */
         ret_val<bool> insert_item( const item &it, item_pocket::pocket_type pk_type );
         void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
         // fills the contents to the brim of this item
@@ -172,6 +196,8 @@ class item_contents
         // spill items that don't fit in the container
         void overflow( const tripoint &pos );
         void clear_items();
+        // clears all items from magazine type pockets
+        void clear_magazines();
         void update_open_pockets();
 
         /**
@@ -202,7 +228,9 @@ class item_contents
         // gets the first ammo in all magazine pockets
         // does not support multiple magazine pockets!
         const item &first_ammo() const;
-        // spills all liquid from the container. removing liquid from a magazine requires unload logic.
+        // spills liquid and other contents from the container. contents may remain
+        // in the container if the player cancels spilling. removing liquid from
+        // a magazine requires unload logic.
         void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
         // returns true if any of the pockets will spill if placed into a pocket
         bool will_spill() const;

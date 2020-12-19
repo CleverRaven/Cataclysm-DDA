@@ -15,6 +15,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "make_static.h"
 #include "mapgen.h"
 #include "optional.h"
 #include "output.h"
@@ -144,12 +145,11 @@ std::vector<const recipe *> recipe_subset::recent() const
 
     return res;
 }
-std::vector<const recipe *> recipe_subset::search( const std::string &txt,
-        const search_type key ) const
+std::vector<const recipe *> recipe_subset::search(
+    const std::string &txt, const search_type key,
+    const std::function<void( size_t, size_t )> &progress_callback ) const
 {
-    std::vector<const recipe *> res;
-
-    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+    auto predicate = [&]( const recipe * r ) {
         if( !*r || r->obsolete ) {
             return false;
         }
@@ -184,10 +184,25 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
                 return lcmatch( remove_color_tags( result.info( true ) ), txt );
             }
 
+            case search_type::proficiency:
+                return lcmatch( r->recipe_proficiencies_string(), txt );
+
             default:
                 return false;
         }
-    } );
+    };
+
+    std::vector<const recipe *> res;
+    size_t i = 0;
+    for( const recipe *r : recipes ) {
+        if( progress_callback ) {
+            progress_callback( i, recipes.size() );
+        }
+        if( predicate( r ) ) {
+            res.push_back( r );
+        }
+        ++i;
+    }
 
     return res;
 }
@@ -199,9 +214,11 @@ recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const 
     }
 }
 
-recipe_subset recipe_subset::reduce( const std::string &txt, const search_type key ) const
+recipe_subset recipe_subset::reduce(
+    const std::string &txt, const search_type key,
+    const std::function<void( size_t, size_t )> &progress_callback ) const
 {
-    return recipe_subset( *this, search( txt, key ) );
+    return recipe_subset( *this, search( txt, key, progress_callback ) );
 }
 recipe_subset recipe_subset::intersection( const recipe_subset &subset ) const
 {
@@ -373,7 +390,7 @@ void recipe_dictionary::find_items_on_loops()
     items_on_loops.clear();
     std::unordered_map<itype_id, std::vector<itype_id>> potential_components_of;
     for( const itype *i : item_controller->all() ) {
-        if( !i->comestible || i->item_tags.count( "NUTRIENT_OVERRIDE" ) ) {
+        if( !i->comestible || i->has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) ) ) {
             continue;
         }
         std::vector<itype_id> &potential_components = potential_components_of[i->get_id()];
@@ -429,7 +446,7 @@ void recipe_dictionary::finalize()
             const itype *booktype = item::find_type( bk.first );
             int req = bk.second.skill_req > 0 ? bk.second.skill_req : std::max( booktype->book->req,
                       r.difficulty );
-            islot_book::recipe_with_description_t desc{ &r, req, bk.second.alt_name.has_value() ? bk.second.alt_name.value().translated() : r.result_name(), bk.second.hidden };
+            islot_book::recipe_with_description_t desc{ &r, req, bk.second.alt_name, bk.second.hidden };
             const_cast<islot_book &>( *booktype->book ).recipes.insert( desc );
         }
 

@@ -1,0 +1,1117 @@
+[
+  {
+    "type": "construction_group",
+    "id": "add_mattress_to_bed_frame",
+    "name": "Add Mattress to Bed Frame"
+  },
+  {
+    "type": "construction_group",
+    "id": "armor_reinforced_window",
+    "name": "Armor Reinforced Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "board_up_window",
+    "name": "Board Up Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "board_up_wood_door",
+    "name": "Board Up Wood Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_a_bellow",
+    "name": "Build a bellow"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_a_drop_hammer",
+    "name": "Build a drop hammer"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_a_radio_tower",
+    "name": "Build a radio tower"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_a_radio_tower_console",
+    "name": "Build a radio tower console"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_arc_furnace",
+    "name": "Build Arc Furnace"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_armchair",
+    "name": "Build Armchair"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_bar_door",
+    "name": "Build Bar Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_barbed_wire_fence",
+    "name": "Build Barbed Wire Fence"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_beaded_curtain",
+    "name": "Build Beaded Curtain"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_bed_frame",
+    "name": "Build Bed Frame"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_bed_from_scratch",
+    "name": "Build Bed from Scratch"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_bench",
+    "name": "Build Bench"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_bookcase",
+    "name": "Build Bookcase"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_brick_wall",
+    "name": "Build Brick Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_brick_wall_from_adobe",
+    "name": "Build Brick Wall from Adobe"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_bulletin_board",
+    "name": "Build Bulletin Board"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_bunk_bed",
+    "name": "Build Bunk Bed"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_butchering_rack",
+    "name": "Build Butchering Rack"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_cardboard_fort",
+    "name": "Build Cardboard Fort"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_chainlink_fence",
+    "name": "Build Chainlink Fence"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_chainlink_gate",
+    "name": "Build Chainlink Gate"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_chair",
+    "name": "Build Chair"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_charcoal_kiln",
+    "name": "Build Charcoal Kiln"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_chickenwire_fence",
+    "name": "Build Chickenwire Fence"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_chickenwire_gate",
+    "name": "Build Chickenwire Gate"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_clay_kiln",
+    "name": "Build Clay Kiln"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_coat_rack",
+    "name": "Build Coat Rack"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_coffee_table",
+    "name": "Build Coffee Table"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_coffin",
+    "name": "Build Coffin"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_concrete_column",
+    "name": "Build Concrete Column"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_concrete_floor",
+    "name": "Build Concrete Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_concrete_roof",
+    "name": "Build Concrete Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_counter",
+    "name": "Build Counter"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_counter_gate",
+    "name": "Build Counter Gate"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_crate",
+    "name": "Build Crate"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_cupboard",
+    "name": "Build Cupboard"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_decorative_tree",
+    "name": "Build Decorative Tree"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_deep_river_dock",
+    "name": "Build Deep River Dock"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_desk",
+    "name": "Build Desk"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_diagonal_small_railroad_track",
+    "name": "Build Diagonal Small Railroad Track"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_door",
+    "name": "Build Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_door_curtain",
+    "name": "Build Door Curtain"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_double_glazed_glass_window",
+    "name": "Build Double Glazed Glass Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_dresser",
+    "name": "Build Dresser"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_dry_stone_wall",
+    "name": "Build Dry Stone Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_dumpster",
+    "name": "Build Dumpster"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_earthbag_wall",
+    "name": "Build Earthbag Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_entertainment_center",
+    "name": "Build Entertainment Center"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_fence",
+    "name": "Build Fence"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_fence_gate",
+    "name": "Build Fence Gate"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_fence_posts",
+    "name": "Build Fence Posts"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_fermenting_vat",
+    "name": "Build Fermenting Vat"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_fire_ring",
+    "name": "Build Fire Ring"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_high_end_of_a_concrete_ramp",
+    "name": "Build High End of a Concrete Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_improvised_shelter",
+    "name": "Build Improvised Shelter"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_junk_metal_barrier",
+    "name": "Build Junk Metal Barrier"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_junk_metal_floor",
+    "name": "Build Junk Metal Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_large_metal_support",
+    "name": "Build Large Metal Support"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_locker",
+    "name": "Build Locker"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_log_sod_roof",
+    "name": "Build Log & Sod Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_log_stool",
+    "name": "Build Log Stool"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_log_wall",
+    "name": "Build Log Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_low_end_of_a_concrete_ramp",
+    "name": "Build Low End of a Concrete Ramp"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_mailbox",
+    "name": "Build Mailbox"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_makeshift_bed",
+    "name": "Build Makeshift Bed"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_makeshift_door",
+    "name": "Build Makeshift Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_bars",
+    "name": "Build Metal Bars"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_charcoal_kiln",
+    "name": "Build Metal Charcoal Kiln"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_door",
+    "name": "Build Metal Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_grate_over_a_window",
+    "name": "Build Metal Grate Over a Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_grate_over_a_window_without_glass",
+    "name": "Build Metal Grate Over a Window Without Glass"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_rack",
+    "name": "Build Metal Rack"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_roof",
+    "name": "Build Metal Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_wall",
+    "name": "Build Metal Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_palisade_gate",
+    "name": "Build Palisade Gate"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_palisade_wall",
+    "name": "Build Palisade Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_pile_of_leaves",
+    "name": "Build Pile of Leaves"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_pillow_fort",
+    "name": "Build Pillow Fort"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_pine_lean_to",
+    "name": "Build Pine Lean-To"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_planter",
+    "name": "Build Planter"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_plastic_window",
+    "name": "Build Plastic Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_pontoon_bridge",
+    "name": "Build Pontoon Bridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_pony_wall",
+    "name": "Build Pony Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_privacy_fence",
+    "name": "Build Privacy Fence"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_privacy_fence_gate",
+    "name": "Build Privacy Fence Gate"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_quadruple_glazed_glass_window",
+    "name": "Build Quadruple Glazed Glass Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_rammed_earth_wall",
+    "name": "Build Rammed Earth Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_reinforced_concrete_roof",
+    "name": "Build Reinforced Concrete Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_reinforced_concrete_wall",
+    "name": "Build Reinforced Concrete Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_reinforced_double_glazed_glass_window",
+    "name": "Build Reinforced Double Glazed Glass Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_reinforced_glass_window",
+    "name": "Build Reinforced Glass Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_reinforced_plastic_window",
+    "name": "Build Reinforced Plastic Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_reinforced_quadruple_glazed_glass_window",
+    "name": "Build Reinforced Quadruple Glazed Glass Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_reinforced_single_glazed_glass_window",
+    "name": "Build Reinforced Single Glazed Glass Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_reinforced_triple_glazed_glass_window",
+    "name": "Build Reinforced Triple Glazed Glass Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_river_bridge",
+    "name": "Build River Bridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_river_dock_shallow_bridge",
+    "name": "Build River Dock/Shallow Bridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_road_barricade",
+    "name": "Build Road Barricade"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_rock_forge",
+    "name": "Build Rock Forge"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_roof",
+    "name": "Build Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_roof_over_dirt_floor",
+    "name": "Build Roof Over Dirt Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_root_cellar",
+    "name": "Build Root Cellar"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_rope_fence",
+    "name": "Build Rope Fence"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_rope_pulley_system",
+    "name": "Build Rope & Pulley System"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_safe",
+    "name": "Build Safe"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_sand_castle",
+    "name": "Build Sand Castle"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_sandbag_wall",
+    "name": "Build Sandbag Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_scrap_metal_bench",
+    "name": "Build Scrap Metal Bench"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_scrap_metal_bridge_using_bolts",
+    "name": "Build Scrap Metal Bridge Using Bolts"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_scrap_metal_bridge_using_welder",
+    "name": "Build Scrap Metal Bridge Using Welder"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_scrap_metal_table",
+    "name": "Build Scrap Metal Table"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_screen_door",
+    "name": "Build Screen Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_screen_mesh_wall",
+    "name": "Build Screen Mesh Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_shallow_temporary_bridge",
+    "name": "Build Shallow Temporary Bridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_sign",
+    "name": "Build Sign"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_simple_concrete_wall",
+    "name": "Build Simple Concrete Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_single_glazed_glass_window",
+    "name": "Build Single Glazed Glass Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_sky_light",
+    "name": "Build Sky Light"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_sky_light_frame",
+    "name": "Build Sky Light Frame"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_small_metal_support",
+    "name": "Build Small Metal Support"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_smoking_rack",
+    "name": "Build Smoking Rack"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_sofa",
+    "name": "Build Sofa"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_split_rail_fence",
+    "name": "Build Split Rail Fence"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_split_rail_fence_gate",
+    "name": "Build Split Rail Fence Gate"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_standing_tank",
+    "name": "Build Standing Tank"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_stone_fireplace",
+    "name": "Build Stone Fireplace"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_stone_wall",
+    "name": "Build Stone Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_stool",
+    "name": "Build Stool"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_straight_small_railroad_track",
+    "name": "Build Straight Small Railroad Track"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_straw_bed",
+    "name": "Build Straw Bed"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_table",
+    "name": "Build Table"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_tarp_lean_to",
+    "name": "Build Tarp Lean-To"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_thatched_roof",
+    "name": "Build Thatched Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_triple_glazed_glass_window",
+    "name": "Build Triple Glazed Glass Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_wardrobe",
+    "name": "Build Wardrobe"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_warehouse_shelf",
+    "name": "Build Warehouse Shelf"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_water_well",
+    "name": "Build Water Well"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_wattle_and_daub_wall",
+    "name": "Build Wattle-and-Daub Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_window",
+    "name": "Build Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_window_from_tempered_glass",
+    "name": "Build Window from Tempered Glass"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_wire_fence",
+    "name": "Build Wire Fence"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_wood_stove",
+    "name": "Build Wood Stove"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_wood_wall",
+    "name": "Build Wood Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_wooden_floor",
+    "name": "Build Wooden Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_wooden_keg",
+    "name": "Build Wooden Keg"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_wooden_rack",
+    "name": "Build Wooden Rack"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_wooden_railing",
+    "name": "Build Wooden Railing"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_wooden_staircase",
+    "name": "Build Wooden Staircase"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_workbench",
+    "name": "Build Workbench"
+  },
+  {
+    "type": "construction_group",
+    "id": "carpet_floor_green",
+    "name": "Carpet Floor Green"
+  },
+  {
+    "type": "construction_group",
+    "id": "carpet_floor_purple",
+    "name": "Carpet Floor Purple"
+  },
+  {
+    "type": "construction_group",
+    "id": "carpet_floor_red",
+    "name": "Carpet Floor Red"
+  },
+  {
+    "type": "construction_group",
+    "id": "carpet_floor_yellow",
+    "name": "Carpet Floor Yellow"
+  },
+  {
+    "type": "construction_group",
+    "id": "chop_tree_trunk_into_planks",
+    "name": "Chop Tree Trunk Into Planks"
+  },
+  {
+    "type": "construction_group",
+    "id": "clean_broken_window",
+    "name": "Clean Broken Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "cover_manhole",
+    "name": "Cover Manhole"
+  },
+  {
+    "type": "construction_group",
+    "id": "cut_grass",
+    "name": "Cut Grass"
+  },
+  {
+    "type": "construction_group",
+    "id": "deconstruct_furniture",
+    "name": "Deconstruct Furniture"
+  },
+  {
+    "type": "construction_group",
+    "id": "deconstruct_simple_furniture",
+    "name": "Deconstruct Simple Furniture"
+  },
+  {
+    "type": "construction_group",
+    "id": "dig_a_deep_pit",
+    "name": "Dig a Deep Pit"
+  },
+  {
+    "type": "construction_group",
+    "id": "dig_a_shallow_pit",
+    "name": "Dig a Shallow Pit"
+  },
+  {
+    "type": "construction_group",
+    "id": "dig_downstair",
+    "name": "Dig Downstair"
+  },
+  {
+    "type": "construction_group",
+    "id": "dig_grave_and_bury_sealed_coffin",
+    "name": "Dig Grave and Bury Sealed Coffin"
+  },
+  {
+    "type": "construction_group",
+    "id": "extract_clay",
+    "name": "Extract Clay"
+  },
+  {
+    "type": "construction_group",
+    "id": "extract_sand",
+    "name": "Extract Sand"
+  },
+  {
+    "type": "construction_group",
+    "id": "extrude_resin_floor_and_roof",
+    "name": "Extrude Resin Floor and Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "extrude_resin_floor_no_roof",
+    "name": "Extrude Resin Floor (no roof)"
+  },
+  {
+    "type": "construction_group",
+    "id": "extrude_resin_lattice",
+    "name": "Extrude Resin Lattice"
+  },
+  {
+    "type": "construction_group",
+    "id": "extrude_resin_wall",
+    "name": "Extrude Resin Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "fill_pit_with_dirt",
+    "name": "Fill Pit With Dirt"
+  },
+  {
+    "type": "construction_group",
+    "id": "fill_salt_water_with_dirt",
+    "name": "Fill Salt Water With Dirt"
+  },
+  {
+    "type": "construction_group",
+    "id": "fill_shallow_water_with_dirt",
+    "name": "Fill Shallow Water With Dirt"
+  },
+  {
+    "type": "construction_group",
+    "id": "glass_pit",
+    "name": "Glass Pit"
+  },
+  {
+    "type": "construction_group",
+    "id": "hang_hanging_meathook",
+    "name": "Hang Hanging Meathook"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_bars_onto_window",
+    "name": "Install Bars Onto Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "lay_down_decorative_ground_cable",
+    "name": "Lay down decorative ground cable"
+  },
+  {
+    "type": "construction_group",
+    "id": "make_crafting_spot",
+    "name": "Make crafting spot"
+  },
+  {
+    "type": "construction_group",
+    "id": "make_gravel_floor",
+    "name": "Make Gravel Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "make_woodchip_floor",
+    "name": "Make Woodchip Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "mark_firewood_source",
+    "name": "Mark firewood source"
+  },
+  {
+    "type": "construction_group",
+    "id": "mark_practice_target",
+    "name": "Mark practice target"
+  },
+  {
+    "type": "construction_group",
+    "id": "mine_downstair",
+    "name": "Mine Downstair"
+  },
+  {
+    "type": "construction_group",
+    "id": "mine_upstair",
+    "name": "Mine Upstair"
+  },
+  {
+    "type": "construction_group",
+    "id": "paint_grass_white",
+    "name": "Paint Grass White"
+  },
+  {
+    "type": "construction_group",
+    "id": "paint_pavement_yellow",
+    "name": "Paint Pavement Yellow"
+  },
+  {
+    "type": "construction_group",
+    "id": "paint_wall_blue",
+    "name": "Paint Wall Blue"
+  },
+  {
+    "type": "construction_group",
+    "id": "paint_wall_green",
+    "name": "Paint Wall Green"
+  },
+  {
+    "type": "construction_group",
+    "id": "paint_wall_purple",
+    "name": "Paint Wall Purple"
+  },
+  {
+    "type": "construction_group",
+    "id": "paint_wall_red",
+    "name": "Paint Wall Red"
+  },
+  {
+    "type": "construction_group",
+    "id": "paint_wall_white",
+    "name": "Paint Wall White"
+  },
+  {
+    "type": "construction_group",
+    "id": "paint_wall_yellow",
+    "name": "Paint Wall Yellow"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_forge",
+    "name": "Place Forge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_hay_bale",
+    "name": "Place Hay Bale"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_still",
+    "name": "Place Still"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_table",
+    "name": "Place Table"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_water_mill",
+    "name": "Place Water Mill"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_wind_mill",
+    "name": "Place Wind Mill"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_workbench",
+    "name": "Place Workbench"
+  },
+  {
+    "type": "construction_group",
+    "id": "reinforce_boarded_window",
+    "name": "Reinforce Boarded Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "reinforce_junk_metal_wall_using_bolts",
+    "name": "Reinforce Junk Metal Wall using bolts"
+  },
+  {
+    "type": "construction_group",
+    "id": "reinforce_junk_metal_wall_using_spot_welds",
+    "name": "Reinforce Junk Metal Wall using spot-welds"
+  },
+  {
+    "type": "construction_group",
+    "id": "reinforce_wood_door",
+    "name": "Reinforce Wood Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_grass",
+    "name": "Remove Grass"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_tape_from_window",
+    "name": "Remove Tape from Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_wax_from_floor",
+    "name": "Remove Wax From Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "repair_log_wall",
+    "name": "Repair Log Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "repair_wattle_and_daub_wall",
+    "name": "Repair Wattle-and-Daub Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "repair_wood_door",
+    "name": "Repair Wood Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "repair_wood_wall",
+    "name": "Repair Wood Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "repair_wooden_staircase",
+    "name": "Repair Wooden Staircase"
+  },
+  {
+    "type": "construction_group",
+    "id": "seal_coffin",
+    "name": "Seal Coffin"
+  },
+  {
+    "type": "construction_group",
+    "id": "seal_crate",
+    "name": "Seal Crate"
+  },
+  {
+    "type": "construction_group",
+    "id": "spike_pit",
+    "name": "Spike Pit"
+  },
+  {
+    "type": "construction_group",
+    "id": "start_vehicle_construction",
+    "name": "Start Vehicle Construction"
+  },
+  {
+    "type": "construction_group",
+    "id": "take_paint_off_pavement",
+    "name": "Take Paint Off Pavement"
+  },
+  {
+    "type": "construction_group",
+    "id": "take_paint_off_wall",
+    "name": "Take Paint Off Wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "tape_up_window",
+    "name": "Tape Up Window"
+  },
+  {
+    "type": "construction_group",
+    "id": "wax_floor",
+    "name": "Wax Floor"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_gravel",
+    "name": "Remove Gravel"
+  }
+]

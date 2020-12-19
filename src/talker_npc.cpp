@@ -19,6 +19,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "magic.h"
+#include "make_static.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
@@ -168,6 +169,15 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
             add_topics.push_back( "TALK_DEAF" );
         }
     }
+    if( player_character.is_mute() ) {
+        if( add_topics.back() == "TALK_MUG" ||
+            add_topics.back() == "TALK_STRANGER_AGGRESSIVE" ) {
+            me_npc->make_angry();
+            add_topics.push_back( "TALK_MUTE_ANGRY" );
+        } else {
+            add_topics.push_back( "TALK_MUTE" );
+        }
+    }
 
     if( me_npc->has_trait( trait_PROF_FOODP ) &&
         !( me_npc->is_wearing( itype_id( "foodperson_mask_on" ) ) ||
@@ -184,15 +194,8 @@ void talker_npc::check_missions()
     me_npc->chatbin.check_missions();
 }
 
-void talker_npc::update_missions( const std::vector<mission *> &missions_assigned,
-                                  const character_id &charID )
+void talker_npc::update_missions( const std::vector<mission *> &missions_assigned )
 {
-    if( me_npc->chatbin.mission_selected != nullptr ) {
-        if( me_npc->chatbin.mission_selected->get_assigned_player_id() != charID ) {
-            // Don't talk about a mission that is assigned to someone else.
-            me_npc->chatbin.mission_selected = nullptr;
-        }
-    }
     if( me_npc->chatbin.mission_selected == nullptr ) {
         // if possible, select a mission to talk about
         if( !me_npc->chatbin.missions.empty() ) {
@@ -484,8 +487,10 @@ std::string talker_npc::give_item_to( const bool to_use )
     }
     item &given = *loc;
 
-    if( ( &given == &player_character.weapon && given.has_flag( "NO_UNWIELD" ) ) ||
-        ( player_character.is_worn( given ) && given.has_flag( "NO_TAKEOFF" ) ) ) {
+    if( ( &given == &player_character.weapon &&
+          given.has_flag( STATIC( flag_id( "NO_UNWIELD" ) ) ) ) ||
+        ( player_character.is_worn( given ) &&
+          given.has_flag( STATIC( flag_id( "NO_TAKEOFF" ) ) ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }
@@ -537,9 +542,9 @@ std::string talker_npc::give_item_to( const bool to_use )
                 }
             }
         } else {
-            reason += string_format( _( "My current weapon is better than this.\n"
-                                        "(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
-                                     cur_weapon_value );
+            reason += " " + string_format( _( "My current weapon is better than this.\n"
+                                              "(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
+                                           cur_weapon_value );
         }
     } else {//allow_use is false so try to carry instead
         if( me_npc->can_pickVolume( given ) && me_npc->can_pickWeight( given ) ) {
@@ -550,7 +555,7 @@ std::string talker_npc::give_item_to( const bool to_use )
             if( !me_npc->can_pickVolume( given ) ) {
                 const units::volume free_space = me_npc->volume_capacity() -
                                                  me_npc->volume_carried();
-                reason += "\n" + std::string( _( "I have no space to store it." ) ) + "\n";
+                reason += " " + std::string( _( "I have no space to store it." ) ) + " ";
                 if( free_space > 0_ml ) {
                     reason += string_format( _( "I can only store %s %s more." ),
                                              format_volume( free_space ), volume_units_long() );
@@ -559,7 +564,7 @@ std::string talker_npc::give_item_to( const bool to_use )
                 }
             }
             if( !me_npc->can_pickWeight( given ) ) {
-                reason += std::string( "\n" ) + _( "It is too heavy for me to carry." );
+                reason += std::string( " " ) + _( "It is too heavy for me to carry." );
             }
         }
     }
@@ -878,4 +883,9 @@ bool talker_npc::enslave_mind()
 void talker_npc::set_first_topic( const std::string &chat_topic )
 {
     me_npc->chatbin.first_topic = chat_topic;
+}
+
+bool talker_npc::is_safe() const
+{
+    return me_npc->is_safe();
 }

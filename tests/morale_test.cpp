@@ -178,9 +178,9 @@ TEST_CASE( "player_morale_fancy_clothes", "[player_morale]" )
     player_morale m;
 
     GIVEN( "a set of super fancy bride's clothes" ) {
-        const item dress_wedding( "dress_wedding", 0 ); // legs, torso | 8 + 2 | 10
-        const item veil_wedding( "veil_wedding", 0 );   // eyes, mouth | 4 + 2 | 6
-        const item heels( "heels", 0 );                 // feet        | 1 + 2 | 3
+        const item dress_wedding( "dress_wedding", calendar::turn_zero ); // legs, torso | 8 + 2 | 10
+        const item veil_wedding( "veil_wedding", calendar::turn_zero );   // eyes, mouth | 4 + 2 | 6
+        const item heels( "heels", calendar::turn_zero );                 // feet        | 1 + 2 | 3
 
         m.on_item_wear( dress_wedding );
         m.on_item_wear( veil_wedding );
@@ -218,7 +218,7 @@ TEST_CASE( "player_morale_fancy_clothes", "[player_morale]" )
                 }
             }
             AND_WHEN( "tries to be even fancier" ) {
-                const item watch( "sf_watch", 0 );
+                const item watch( "sf_watch", calendar::turn_zero );
                 m.on_item_wear( watch );
                 THEN( "there's a limit" ) {
                     CHECK( m.get_level() == 20 );
@@ -266,49 +266,49 @@ TEST_CASE( "player_morale_masochist", "[player_morale]" )
 
         WHEN( "in minimal pain" ) {
             m.on_stat_change( "perceived_pain", 10 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == 10 );
         }
 
         WHEN( "in mind pain" ) {
             m.on_stat_change( "perceived_pain", 20 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == 20 );
         }
 
         WHEN( "in moderate pain" ) {
             m.on_stat_change( "perceived_pain", 30 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == 10 );
         }
 
         WHEN( "in distracting pain" ) {
             m.on_stat_change( "perceived_pain", 40 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == 0 );
         }
 
         WHEN( "in distressing pain" ) {
             m.on_stat_change( "perceived_pain", 50 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == -10 );
         }
 
         WHEN( "in unmanagable pain" ) {
             m.on_stat_change( "perceived_pain", 60 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == -20 );
         }
 
         WHEN( "in intense pain" ) {
             m.on_stat_change( "perceived_pain", 70 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == -30 );
         }
 
         WHEN( "in severe pain" ) {
             m.on_stat_change( "perceived_pain", 80 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == -40 );
         }
     }
@@ -352,7 +352,7 @@ TEST_CASE( "player_morale_plant", "[player_morale]" )
         CHECK( m.has( MORALE_PERM_CONSTRAINED ) == 0 );
 
         WHEN( "wearing a hat" ) {
-            const item hat( "tinfoil_hat", 0 );
+            const item hat( "tinfoil_hat", calendar::turn_zero );
 
             m.on_item_wear( hat );
             THEN( "the flowers need sunlight" ) {
@@ -366,7 +366,7 @@ TEST_CASE( "player_morale_plant", "[player_morale]" )
         }
 
         WHEN( "wearing a legpouch" ) {
-            item legpouch( "legpouch", 0 );
+            item legpouch( "legpouch", calendar::turn_zero );
             legpouch.set_side( side::LEFT );
 
             m.on_item_wear( legpouch );
@@ -376,7 +376,7 @@ TEST_CASE( "player_morale_plant", "[player_morale]" )
         }
 
         WHEN( "wearing a pair of boots" ) {
-            const item boots( "boots", 0 );
+            const item boots( "boots", calendar::turn_zero );
 
             m.on_item_wear( boots );
             THEN( "all of the roots are suffering" ) {
@@ -384,7 +384,7 @@ TEST_CASE( "player_morale_plant", "[player_morale]" )
             }
 
             AND_WHEN( "even more constrains" ) {
-                const item hat( "tinfoil_hat", 0 );
+                const item hat( "tinfoil_hat", calendar::turn_zero );
 
                 m.on_item_wear( hat );
                 THEN( "it can't be worse" ) {

@@ -30,6 +30,8 @@ class window;
 
 extern std::unique_ptr<cata_tiles> tilecontext;
 extern std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
+extern int fontheight;
+extern int fontwidth;
 
 void load_tileset();
 void rescale_tileset( int size );

@@ -17,9 +17,9 @@ struct projectile {
         damage_instance impact;
         // how hard is it to dodge? essentially rolls to-hit,
         // bullets have arbitrarily high values but thrown objects have dodgeable values.
-        int speed;
-        int range;
-        float critical_multiplier;
+        int speed = 0;
+        int range = 0;
+        float critical_multiplier = 0.0f;
 
         std::set<std::string> proj_effects;
 

@@ -419,7 +419,7 @@
         "rigid": true,
         "max_contains_volume": "10 L",
         "max_contains_weight": "20 kg",
-        "max_item_length": "50 cm",
+        "max_item_length": "65 cm",
         "moves": 200
       }
     ],
@@ -957,6 +957,34 @@
     ],
     "warmth": 10,
     "material_thickness": 2,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "net_backpack",
+    "type": "ARMOR",
+    "name": { "str": "net backpack" },
+    "description": "A bag woven together from strings, with straps to wear it on back.  Lighter than a standard backpack, but more awkward to carry when loaded and unable to hold small or heavy items.",
+    "weight": "192 g",
+    "volume": "750 ml",
+    "price": 1000,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "green",
+    "covers": [ "torso" ],
+    "coverage": 20,
+    "encumbrance": 1,
+    "max_encumbrance": 25,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "100 ml",
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "40 cm",
+        "moves": 300
+      }
+    ],
+    "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -1555,6 +1583,35 @@
     "flags": [ "VARSIZE" ]
   },
   {
+    "id": "wicker_backpack",
+    "type": "ARMOR",
+    "name": { "str": "wicker backpack" },
+    "description": "A large handmade straw basket with a lid and shoulder straps to wear it like a backpack.  Less comfortable than a proper backpack, but will do the job.",
+    "weight": "712 g",
+    "volume": "15004 ml",
+    "longest_side": "42 cm",
+    "price": 1000,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "color": "green",
+    "covers": [ "torso" ],
+    "coverage": 25,
+    "encumbrance": 5,
+    "max_encumbrance": 20,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "35 cm",
+        "moves": 300
+      }
+    ],
+    "material_thickness": 2,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "debug_backpack",
     "type": "ARMOR",
     "name": { "str": "debug pocket universe" },
@@ -1612,6 +1669,269 @@
     ],
     "warmth": 8,
     "material_thickness": 2,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "rifle_case_soft",
+    "type": "ARMOR",
+    "name": { "str": "rifle case" },
+    "description": "A long soft rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.",
+    "weight": "454 g",
+    "volume": "2 L",
+    "price": 18000,
+    "price_postapoc": 800,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "slingpack",
+    "color": "green",
+    "covers": [ "torso" ],
+    "coverage": 10,
+    "encumbrance": 2,
+    "max_encumbrance": 6,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "6000 ml",
+        "max_contains_weight": "12000 g",
+        "max_item_length": "133 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "5000 g",
+        "max_item_length": "20 cm",
+        "magazine_well": "500 ml",
+        "moves": 80
+      }
+    ],
+    "warmth": 1,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "rifle_case_soft_leather",
+    "type": "ARMOR",
+    "name": { "str": "leather rifle case" },
+    "description": "A long soft leather rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.",
+    "weight": "454 g",
+    "volume": "2 L",
+    "price": 18000,
+    "price_postapoc": 800,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "slingpack",
+    "color": "brown",
+    "covers": [ "torso" ],
+    "coverage": 10,
+    "encumbrance": 2,
+    "max_encumbrance": 6,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "6000 ml",
+        "max_contains_weight": "12000 g",
+        "max_item_length": "133 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "5000 g",
+        "max_item_length": "20 cm",
+        "magazine_well": "500 ml",
+        "moves": 80
+      }
+    ],
+    "warmth": 1,
+    "material_thickness": 2,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "rifle_case_soft_2",
+    "type": "ARMOR",
+    "name": { "str": "double rifle case" },
+    "description": "A long soft rifle case.  Provides storage for 2 long arms and rifles.  Includes 3 accessory pockets and a strap.",
+    "weight": "454 g",
+    "volume": "2 L",
+    "price": 18000,
+    "price_postapoc": 800,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "slingpack",
+    "color": "green",
+    "covers": [ "torso" ],
+    "coverage": 15,
+    "encumbrance": 2,
+    "max_encumbrance": 14,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "12000 ml",
+        "max_contains_weight": "22000 g",
+        "max_item_length": "133 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "750 ml",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "25 cm",
+        "magazine_well": "500 ml",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "25 cm",
+        "magazine_well": "500 ml",
+        "moves": 120
+      }
+    ],
+    "warmth": 1,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "rifle_case_soft_leather_2",
+    "type": "ARMOR",
+    "name": { "str": "leather double rifle case" },
+    "description": "A long soft leather rifle case.  Provides storage for 2 long arms and rifles.  Includes 3 accessory pockets and a strap.",
+    "weight": "600 g",
+    "volume": "2 L",
+    "price": 18000,
+    "price_postapoc": 800,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "slingpack",
+    "color": "brown",
+    "covers": [ "torso" ],
+    "coverage": 15,
+    "encumbrance": 2,
+    "max_encumbrance": 14,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "12000 ml",
+        "max_contains_weight": "22000 g",
+        "max_item_length": "133 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "750 ml",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "25 cm",
+        "magazine_well": "500 ml",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "25 cm",
+        "magazine_well": "500 ml",
+        "moves": 120
+      }
+    ],
+    "warmth": 1,
+    "material_thickness": 2,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "rifle_case_xl_soft_leather",
+    "type": "ARMOR",
+    "name": { "str": "long leather rifle case" },
+    "description": "An extra long soft leather rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.",
+    "weight": "600 g",
+    "volume": "2 L",
+    "price": 18000,
+    "price_postapoc": 800,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "slingpack",
+    "color": "brown",
+    "covers": [ "torso" ],
+    "coverage": 15,
+    "encumbrance": 2,
+    "max_encumbrance": 6,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "12 L",
+        "max_contains_weight": "15875 g",
+        "max_item_length": "146 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "5000 g",
+        "max_item_length": "20 cm",
+        "magazine_well": "500 ml",
+        "moves": 80
+      }
+    ],
+    "warmth": 1,
+    "material_thickness": 2,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "camera_bag",
+    "repairs_like": "backpack",
+    "type": "ARMOR",
+    "name": { "str": "camera bag" },
+    "description": "A simple bag used to hold a camera, with a small pocket on the side for accessories.  Comes with a carry strap.",
+    "weight": "600 g",
+    "volume": "7000 ml",
+    "price": 5500,
+    "price_postapoc": 700,
+    "bashing": 1,
+    "material": [ "cotton", "plastic" ],
+    "symbol": "[",
+    "looks_like": "slingpack",
+    "color": "yellow",
+    "covers": [ "torso" ],
+    "coverage": 25,
+    "encumbrance": 3,
+    "max_encumbrance": 5,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3750 ml",
+        "max_contains_weight": "16 kg",
+        "max_item_length": "26 cm",
+        "magazine_well": "2 L",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "23 cm",
+        "magazine_well": "500 ml",
+        "moves": 115
+      }
+    ],
+    "warmth": 2,
+    "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   }
 ]

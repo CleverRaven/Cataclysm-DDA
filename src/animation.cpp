@@ -3,6 +3,7 @@
 #include <ctime>
 
 #include "avatar.h"
+#include "cached_options.h"
 #include "character.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -109,7 +110,7 @@ bool is_layer_visible( const std::map<tripoint, explosion_tile> &layer )
 }
 
 //! Get p relative to u's current position and view
-tripoint relative_view_pos( const player &u, const tripoint &p ) noexcept
+tripoint relative_view_pos( const avatar &u, const tripoint &p ) noexcept
 {
     return p - u.view_offset + tripoint( POSX - u.posx(), POSY - u.posy(), -u.posz() );
 }
@@ -514,7 +515,7 @@ namespace
 {
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 // cTile is a UTF-8 strings, and must be a single cell wide!
-void hit_animation( const player &u, const tripoint &center, nc_color cColor,
+void hit_animation( const avatar &u, const tripoint &center, nc_color cColor,
                     const std::string &cTile )
 {
     const tripoint init_pos = relative_view_pos( u, center );
@@ -537,7 +538,7 @@ void hit_animation( const player &u, const tripoint &center, nc_color cColor,
     }
 }
 
-void draw_hit_mon_curses( const tripoint &center, const monster &m, const player &u,
+void draw_hit_mon_curses( const tripoint &center, const monster &m, const avatar &u,
                           const bool dead )
 {
     hit_animation( u, center, red_background( m.type->color ), dead ? "%" : m.symbol() );
@@ -927,8 +928,9 @@ void game::draw_item_override( const tripoint &, const itype_id &, const mtype_i
 #endif
 
 #if defined(TILES)
-void game::draw_vpart_override( const tripoint &p, const vpart_id &id, const int part_mod,
-                                const int veh_dir, const bool hilite, const point &mount )
+void game::draw_vpart_override(
+    const tripoint &p, const vpart_id &id, const int part_mod, const units::angle veh_dir,
+    const bool hilite, const point &mount )
 {
     if( use_tiles ) {
         tilecontext->init_draw_vpart_override( p, id, part_mod, veh_dir, hilite, mount );
@@ -936,7 +938,7 @@ void game::draw_vpart_override( const tripoint &p, const vpart_id &id, const int
 }
 #else
 void game::draw_vpart_override( const tripoint &, const vpart_id &, const int,
-                                const int, const bool, const point & )
+                                const units::angle, const bool, const point & )
 {
 }
 #endif

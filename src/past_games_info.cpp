@@ -27,7 +27,7 @@ past_game_info::past_game_info( JsonIn &jsin )
         jo.read( "log", log_ );
         stats_ = std::make_unique<stats_tracker>();
         jo.read( "stats", *stats_ );
-        achievements_ = std::make_unique<achievements_tracker>( *stats_, no_op, no_op );
+        achievements_ = std::make_unique<achievements_tracker>( *stats_, no_op, no_op, false );
         jo.read( "achievements", *achievements_ );
         jo.read( "scores", scores_ );
     } else {

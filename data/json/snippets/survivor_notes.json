@@ -165,10 +165,6 @@
       { "id": "note_58", "text": "\"Are they still human inside?\"" },
       { "id": "note_59", "text": "\"the eye it watches me it follows me everywhere help\"" },
       { "id": "note_60", "text": "\"tHE Portal it's so COld\"" },
-      {
-        "id": "note_61",
-        "text": "\"They build modern bullets fuckin crazy.  Set some on fire and they all goes like a lil grenade.  Need kindling first.\""
-      },
       { "id": "note_62", "text": "\"GOD CAN'T SAVE US\"" },
       { "id": "note_63", "text": "\"SHOOT YOURSELF, LET IT END QUICKLY\"" },
       {
@@ -436,7 +432,6 @@
         "id": "note_168",
         "text": "\"I've heard it's safer across the Mississippi.  Going to start driving today.  If you're reading this, pray for me\""
       },
-      { "id": "note_169", "text": "\"Mi-go is friend!  Go with Mi-go to friend dimension!  On the Friend Team!!\"" },
       { "id": "note_170", "text": "\"We have Landed our Comet.  The Sky is Ablaze.\"" },
       {
         "id": "note_171",
@@ -584,6 +579,10 @@
       {
         "id": "note_224",
         "text": "\"…damn those hybrid cars are efficient.  Wish I was smart enough to finagle that engine controller out of it…  heard Scrapper Joe put one in his deathmobile and now doesn't need gas at all…  then again, Joe is full of shit…\""
+      },
+      {
+        "id": "note_225",
+        "text": "\"⋯bioluminescent, 5' diameter⋯  appears to be an immense disembodied eyeball, capable of flight and [illegible] thought\""
       }
     ]
   }

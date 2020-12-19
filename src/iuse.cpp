@@ -1,4 +1,4 @@
-﻿#include "iuse.h"
+#include "iuse.h"
 
 #include <algorithm>
 #include <array>
@@ -18,6 +18,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "bodypart.h"
@@ -39,6 +40,7 @@
 #include "explosion.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -104,6 +106,7 @@
 #include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
+#include "veh_interact.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "viewer.h"
@@ -306,10 +309,13 @@ static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_lockpick( "lockpick" );
+static const skill_id skill_traps( "traps" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
+
+static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
+static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -368,13 +374,10 @@ static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_tools( "bio_tools" );
 
-static const std::string flag_EATEN_COLD( "EATEN_COLD" );
-static const std::string flag_ACID( "ACID" );
+// terrain/furn flags
 static const std::string flag_CURRENT( "CURRENT" );
 static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_FISHABLE( "FISHABLE" );
-static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
-static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 
@@ -438,25 +441,25 @@ static const std::vector<ter_str_id> camera_ter_whitelist_types = {
 
 void remove_radio_mod( item &it, Character &p )
 {
-    if( !it.has_flag( "RADIO_MOD" ) ) {
+    if( !it.has_flag( flag_RADIO_MOD ) ) {
         return;
     }
     p.add_msg_if_player( _( "You remove the radio modification from your %s!" ), it.tname() );
     item mod( "radio_mod" );
     p.i_add_or_drop( mod, 1 );
-    it.item_tags.erase( "RADIO_ACTIVATION" );
-    it.item_tags.erase( "RADIO_MOD" );
-    it.item_tags.erase( "RADIOSIGNAL_1" );
-    it.item_tags.erase( "RADIOSIGNAL_2" );
-    it.item_tags.erase( "RADIOSIGNAL_3" );
-    it.item_tags.erase( "RADIOCARITEM" );
+    it.unset_flag( flag_RADIO_ACTIVATION );
+    it.unset_flag( flag_RADIO_MOD );
+    it.unset_flag( flag_RADIOSIGNAL_1 );
+    it.unset_flag( flag_RADIOSIGNAL_2 );
+    it.unset_flag( flag_RADIOSIGNAL_3 );
+    it.unset_flag( flag_RADIOCARITEM );
 }
 
 // Checks that the player does not have an active item with LITCIG flag.
 static bool check_litcig( player &u )
 {
     auto cigs = u.items_with( []( const item & it ) {
-        return it.active && it.has_flag( "LITCIG" );
+        return it.active && it.has_flag( flag_LITCIG );
     } );
     if( cigs.empty() ) {
         return true;
@@ -952,7 +955,7 @@ int iuse::poison( player *p, item *it, bool, const tripoint & )
 
     // NPCs have a magical sense of what is inedible
     // Players can abuse the crafting menu instead...
-    if( !it->has_flag( "HIDDEN_POISON" ) &&
+    if( !it->has_flag( flag_HIDDEN_POISON ) &&
         ( p->is_npc() ||
           !p->query_yn( _( "Are you sure you want to eat this?  It looks poisonous…" ) ) ) ) {
         return 0;
@@ -1587,7 +1590,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
     } else if( p->has_trait( trait_THRESH_MYCUS ) &&
                !p->has_trait( trait_M_DEPENDENT ) ) { // OK, now set the hook.
         if( !one_in( 3 ) ) {
-            p->mutate_category( "MYCUS" );
+            p->mutate_category( mutation_category_id( "MYCUS" ) );
             p->mod_stored_nutr( 10 );
             p->mod_thirst( 10 );
             p->mod_fatigue( 5 );
@@ -1741,7 +1744,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
     }
 
     auto filter = []( const item & itm ) {
-        return itm.has_flag( "RADIO_MODABLE" );
+        return itm.has_flag( flag_RADIO_MODABLE );
     };
 
     // note: if !p->is_npc() then p is avatar
@@ -1758,26 +1761,26 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
         _( "\"Red\"" ), _( "\"Blue\"" ), _( "\"Green\"" )
     } );
 
-    std::string newtag;
+    flag_id newtag;
     std::string colorname;
     switch( choice ) {
         case 0:
-            newtag = "RADIOSIGNAL_1";
+            newtag = flag_RADIOSIGNAL_1;
             colorname = _( "\"Red\"" );
             break;
         case 1:
-            newtag = "RADIOSIGNAL_2";
+            newtag = flag_RADIOSIGNAL_2;
             colorname = _( "\"Blue\"" );
             break;
         case 2:
-            newtag = "RADIOSIGNAL_3";
+            newtag = flag_RADIOSIGNAL_3;
             colorname = _( "\"Green\"" );
             break;
         default:
             return 0;
     }
 
-    if( modded.has_flag( "RADIO_MOD" ) && modded.has_flag( newtag ) ) {
+    if( modded.has_flag( flag_RADIO_MOD ) && modded.has_flag( newtag ) ) {
         p->add_msg_if_player( _( "This item has been modified this way already." ) );
         return 0;
     }
@@ -1787,10 +1790,10 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
     p->add_msg_if_player(
         _( "You modify your %1$s to listen for %2$s activation signal on the radio." ),
         modded.tname(), colorname );
-    modded.item_tags.insert( "RADIO_ACTIVATION" );
-    modded.item_tags.insert( "RADIOCARITEM" );
-    modded.item_tags.insert( "RADIO_MOD" );
-    modded.item_tags.insert( newtag );
+    modded.set_flag( flag_RADIO_ACTIVATION )
+    .set_flag( flag_RADIOCARITEM )
+    .set_flag( flag_RADIO_MOD )
+    .set_flag( newtag );
     return 1;
 }
 
@@ -1830,7 +1833,7 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
     return 0;
 }
 
-static bool good_fishing_spot( tripoint pos, player *p )
+static bool good_fishing_spot( const tripoint &pos, player *p )
 {
     std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
     std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
@@ -2122,7 +2125,7 @@ int iuse::unpack_item( player *p, item *it, bool, const tripoint & )
 int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
 {
     item_location bionic = g->inv_map_splice( []( const item & e ) {
-        return e.is_bionic() && e.has_flag( "NO_PACKED" );
+        return e.is_bionic() && e.has_flag( flag_NO_PACKED );
     }, _( "Choose CBM to pack" ), PICKUP_RANGE, _( "You don't have any CBMs." ) );
 
     if( !bionic ) {
@@ -2138,7 +2141,7 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
     const int success = p->get_skill_level( skill_firstaid ) - rng( 0, 6 );
     if( success > 0 ) {
         p->add_msg_if_player( m_good, _( "You carefully prepare the CBM for sterilization." ) );
-        bionic.get_item()->unset_flag( "NO_PACKED" );
+        bionic.get_item()->unset_flag( flag_NO_PACKED );
     } else {
         p->add_msg_if_player( m_bad, _( "You fail to properly prepare the CBM." ) );
     }
@@ -2267,7 +2270,7 @@ int iuse::directional_antenna( player *p, item *it, bool, const tripoint & )
     }
     const item radio = *radios.front();
     // Find the radio station its tuned to (if any)
-    const auto tref = overmap_buffer.find_radio_station( radio.frequency );
+    const radio_tower_reference tref = overmap_buffer.find_radio_station( radio.frequency );
     if( !tref ) {
         p->add_msg_if_player( m_info, _( "You can't find the direction if your radio isn't tuned." ) );
         return 0;
@@ -2285,7 +2288,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
     if( t ) {
         // Normal use
         std::string message = _( "Radio: Kssssssssssssh." );
-        const auto tref = overmap_buffer.find_radio_station( it->frequency );
+        const radio_tower_reference tref = overmap_buffer.find_radio_station( it->frequency );
         if( tref ) {
             const radio_tower *selected_tower = tref.tower;
             if( selected_tower->type == radio_type::MESSAGE_BROADCAST ) {
@@ -2337,7 +2340,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
                 const radio_tower *lowest_tower = nullptr;
                 const radio_tower *lowest_larger_tower = nullptr;
                 for( auto &tref : overmap_buffer.find_all_radio_stations() ) {
-                    const auto new_frequency = tref.tower->frequency;
+                    const int new_frequency = tref.tower->frequency;
                     if( new_frequency == old_frequency ) {
                         continue;
                     }
@@ -2804,7 +2807,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     // Modify the number of moves based on the help.
     // TODO: this block of code is all over the place and could probably be consolidated.
     const int helpersize = p->get_num_crafting_helpers( 3 );
-    moves = moves * ( 1 - ( helpersize / 10 ) );
+    moves *= ( 1.0f - ( helpersize / 10.0f ) );
 
     ter_id result_terrain;
     if( channel ) {
@@ -3037,11 +3040,10 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    const int helpersize = p->get_num_crafting_helpers( 3 );
-    moves = moves * ( 1 - ( helpersize / 10 ) );
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
+    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
+    moves *= ( 1.0f - ( helpersize / 10.0f ) );
+    for( std::size_t i = 0; i < helpersize; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
     p->assign_activity( ACT_FILL_PIT, moves, -1, p->get_item_position( it ) );
     p->activity.placement = pnt;
@@ -3084,14 +3086,12 @@ int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
         break;
     }
     const int helpersize = p->get_num_crafting_helpers( 3 );
-    const int moves = to_moves<int>( 30_seconds ) * ( 1 - ( helpersize / 10 ) );
+    const int moves = to_moves<int>( 30_seconds ) * ( 1.0f - ( helpersize / 10.0f ) );
     player_activity act( ACT_CLEAR_RUBBLE, moves / bonus, bonus );
     p->assign_activity( act );
     p->activity.placement = pnt;
     return it->type->charges_to_use();
 }
-
-void act_vehicle_siphon( vehicle * ); // veh_interact.cpp
 
 int iuse::siphon( player *p, item *it, bool, const tripoint & )
 {
@@ -3195,7 +3195,7 @@ int iuse::chainsaw_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level() > 5 && !p->is_underwater(),
                            20, _( "With a roar, the chainsaw leaps to life!" ),
                            _( "You yank the cord, but nothing happens." ) );
 }
@@ -3204,7 +3204,7 @@ int iuse::elec_chainsaw_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level() > 5 && !p->is_underwater(),
                            20, _( "With a roar, the electric chainsaw leaps to life!" ),
                            _( "You flip the switch, but nothing happens." ) );
 }
@@ -3213,7 +3213,7 @@ int iuse::cs_lajatang_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
                            40, _( "With a roar, the chainsaws leap to life!" ),
                            _( "You yank the cords, but nothing happens." ) );
 }
@@ -3222,7 +3222,7 @@ int iuse::ecs_lajatang_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
+                           rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
                            40, _( "With a buzz, the chainsaws leap to life!" ),
                            _( "You flip the on switch, but nothing happens." ) );
 }
@@ -3240,7 +3240,7 @@ int iuse::trimmer_off( player *p, item *it, bool, const tripoint & )
 {
     return toolweapon_off( *p, *it,
                            false,
-                           rng( 0, 10 ) - it->damage_level( 4 ) > 3,
+                           rng( 0, 10 ) - it->damage_level() > 3,
                            15, _( "With a roar, the hedge trimmer leaps to life!" ),
                            _( "You yank the cord, but nothing happens." ) );
 }
@@ -3388,11 +3388,10 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
     }
 
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    const int helpersize = p->get_num_crafting_helpers( 3 );
-    moves *= ( 1 - ( helpersize / 10 ) );
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
+    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
+    moves *= ( 1.0f - ( helpersize / 10.0f ) );
+    for( std::size_t i = 0; i < helpersize; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
 
     p->assign_activity( ACT_JACKHAMMER, moves, -1, p->get_item_position( it ) );
@@ -3430,17 +3429,27 @@ int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
 
     /** @EFFECT_DEX speeds up door lock picking */
     /** @EFFECT_LOCKPICK speeds up door lock picking */
-    int duration;
-    if( it->has_flag( flag_PERFECT_LOCKPICK ) ) {
-        duration = to_moves<int>( 5_seconds );
-    } else {
-        duration = std::max( to_moves<int>( 10_seconds ),
-                             to_moves<int>( 10_minutes - time_duration::from_minutes( qual ) ) - ( you.dex_cur +
-                                     you.get_skill_level( skill_lockpick ) ) * 2300 );
+    int duration_proficiency_factor = 10;
+
+    if( you.has_proficiency( proficiency_prof_lockpicking ) ) {
+        duration_proficiency_factor = 5;
+    }
+    if( you.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
+        duration_proficiency_factor = 1;
+    }
+    time_duration duration = 5_seconds;
+    if( !it->has_flag( flag_PERFECT_LOCKPICK ) ) {
+        duration = std::max( 30_seconds,
+                             ( 10_minutes - time_duration::from_minutes( qual + you.dex_cur / 4 +
+                                     you.get_skill_level( skill_traps ) ) ) * duration_proficiency_factor );
     }
 
-    you.assign_activity( lockpick_activity_actor::use_item( duration, item_location( you, it ),
+    you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
+                         item_location( you, it ),
                          get_map().getabs( *target ) ) );
+    you.practice_proficiency( proficiency_prof_lockpicking, duration / duration_proficiency_factor );
+    you.practice_proficiency( proficiency_prof_lockpicking_expert,
+                              duration / duration_proficiency_factor );
     return it->type->charges_to_use();
 }
 
@@ -3486,11 +3495,10 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
     }
 
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    const int helpersize = p->get_num_crafting_helpers( 3 );
-    moves *= ( 1 - ( helpersize / 10 ) );
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
+    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
+    moves *= ( 1.0f - ( helpersize / 10.0f ) );
+    for( std::size_t i = 0; i < helpersize; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
 
     p->assign_activity( ACT_PICKAXE, moves, -1 );
@@ -3541,10 +3549,7 @@ int iuse::burrow( player *p, item *it, bool, const tripoint &pos )
         // We're breaking up some flat surface like pavement, which is much easier
         moves /= 2;
     }
-    p->assign_activity( ACT_BURROW, moves, -1, 0 );
-    p->activity.placement = pnt;
-    p->add_msg_if_player( _( "You start tearing into the %1$s with your %2$s." ),
-                          here.tername( pnt ), it->tname() );
+    p->assign_activity( player_activity( burrow_activity_actor( moves, pnt,  it->tname() ) ) );
     return 0; // handled when the activity finishes
 }
 
@@ -3607,14 +3612,14 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
             const tripoint &pnt = *pnt_;
             if( pnt == p->pos() ) {
                 p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->get_rad(),
-                                      p->leak_level( "RADIOACTIVE" ) );
+                                      p->leak_level( flag_RADIOACTIVE ) );
                 break;
             }
             if( npc *const person_ = g->critter_at<npc>( pnt ) ) {
                 npc &person = *person_;
                 p->add_msg_if_player( m_info, _( "%s's radiation level: %d mSv (%d mSv from items)" ),
                                       person.name, person.get_rad(),
-                                      person.leak_level( "RADIOACTIVE" ) );
+                                      person.leak_level( flag_RADIOACTIVE ) );
             }
             break;
         }
@@ -3727,7 +3732,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
         int explosion_radius = 3;
         int effect_roll = rng( 1, 5 );
         auto buff_stat = [&]( int &current_stat, int modify_by ) {
-            auto modified_stat = current_stat + modify_by;
+            int modified_stat = current_stat + modify_by;
             current_stat = std::max( current_stat, std::min( 15, modified_stat ) );
         };
         avatar &player_character = get_avatar();
@@ -4190,7 +4195,7 @@ int iuse::tazer2( player *p, item *it, bool b, const tripoint &pos )
     if( it->ammo_remaining() >= 100 ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
-        item fake( "tazer", 0 );
+        item fake( "tazer", calendar::turn_zero );
         fake.charges = 100;
         return tazer( p, &fake, b, pos );
     } else {
@@ -4452,7 +4457,7 @@ int iuse::solarpack( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     // no doubled sources of power
-    if( p->worn_with_flag( "SOLARPACK_ON" ) ) {
+    if( p->worn_with_flag( flag_SOLARPACK_ON ) ) {
         p->add_msg_if_player( m_neutral, _( "You cannot use the %1$s with another of it's kind." ),
                               it->tname() );
         return 0;
@@ -4541,7 +4546,7 @@ int iuse::portable_game( player *p, item *it, bool active, const tripoint & )
     if( p->has_trait( trait_ILLITERATE ) ) {
         p->add_msg_if_player( m_info, _( "You're illiterate!" ) );
         return 0;
-    } else if( it->ammo_remaining() < 15 ) {
+    } else if( it->units_remaining( *p ) < it->ammo_required() ) {
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return 0;
     } else {
@@ -4588,7 +4593,7 @@ int iuse::portable_game( player *p, item *it, bool active, const tripoint & )
         if( loaded_software == "null" ) {
             p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
                                 p->get_item_position( it ), "gaming" );
-            return it->type->charges_to_use();
+            return 0;
         }
         p->assign_activity( ACT_GAME, moves, -1, 0, "gaming" );
         p->activity.targets.push_back( item_location( *p, it ) );
@@ -4614,7 +4619,7 @@ int iuse::portable_game( player *p, item *it, bool active, const tripoint & )
         }
 
     }
-    return it->type->charges_to_use();
+    return 0;
 }
 
 int iuse::fitness_check( player *p, item *it, bool, const tripoint & )
@@ -4670,7 +4675,7 @@ int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     item *magazine = it->magazine_current();
-    if( magazine && magazine->has_flag( "RECHARGE" ) ) {
+    if( magazine && magazine->has_flag( flag_RECHARGE ) ) {
         // 1600 minutes. It shouldn't ever run this long, but it's an upper bound.
         // expectation is it runs until the player is too tired.
         int moves = to_moves<int>( 1600_minutes );
@@ -4958,11 +4963,11 @@ static int chop_moves( player *p, item *it )
     const int quality = it->get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
-    const int attr = it->has_flag( "POWERED" ) ? p->dex_cur : p->str_cur;
+    const int attr = it->has_flag( flag_POWERED ) ? p->dex_cur : p->str_cur;
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = p->get_num_crafting_helpers( 3 );
-    moves = moves * ( 1 - ( helpersize / 10 ) );
+    moves *= ( 1.0f - ( helpersize / 10.0f ) );
     return moves;
 }
 
@@ -5246,7 +5251,8 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
     }
     const std::set<ter_id> allowed_ter_id {
         t_chaingate_l,
-        t_chainfence
+        t_chainfence,
+        t_fence_barbed
     };
     map &here = get_map();
     const std::function<bool( const tripoint & )> f =
@@ -5287,6 +5293,13 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
         sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ), true, "tool",
                        "boltcutters" );
         here.spawn_item( pnt, "wire", 20 );
+    } else if( type == t_fence_barbed ) {
+        p->moves -= to_moves<int>( 10_seconds );
+        here.ter_set( pnt, t_fence_post );
+        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ), true, "tool",
+                       "boltcutters" );
+        here.spawn_item( pnt, "wire_barbed", 2 );
+
     } else {
         return 0;
     }
@@ -5425,9 +5438,9 @@ int iuse::handle_ground_graffiti( Character &p, item *it, const std::string &pre
  */
 static bool heat_item( player &p )
 {
-    auto loc = g->inv_map_splice( []( const item & itm ) {
+    item_location loc = g->inv_map_splice( []( const item & itm ) {
         const item *food = itm.get_food();
-        return food && !food->item_tags.count( "HOT" );
+        return food && !food->has_own_flag( flag_HOT );
     }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -5440,7 +5453,7 @@ static bool heat_item( player &p )
     // this is x2 to simulate larger delta temperature of frozen food in relation to
     // heating non-frozen food (x1); no real life physics here, only aproximations
     int duration = to_turns<int>( time_duration::from_seconds( to_gram( target->weight() ) ) ) * 10;
-    if( target->item_tags.count( "FROZEN" ) && !target->has_flag( flag_EATEN_COLD ) ) {
+    if( target->has_own_flag( flag_FROZEN ) && !target->has_flag( flag_EATEN_COLD ) ) {
         duration *= 2;
     }
     p.add_msg_if_player( m_info, _( "You start heating up the food." ) );
@@ -5524,7 +5537,7 @@ int iuse::towel_common( Character *p, item *it, bool t )
     const std::string name = it ? it->tname() : _( "towel" );
 
     // can't use an already wet towel!
-    if( it && it->has_flag( "WET" ) ) {
+    if( it && it->has_flag( flag_WET ) ) {
         p->add_msg_if_player( m_info, _( "That %s is too wet to soak up any more liquid!" ),
                               it->tname() );
         // clean off the messes first, more important
@@ -5570,7 +5583,7 @@ int iuse::towel_common( Character *p, item *it, bool t )
             }
 
             // WET, active items have their timer decremented every turn
-            it->item_tags.insert( "WET" );
+            it->set_flag( flag_WET );
             it->active = true;
         }
     }
@@ -5588,7 +5601,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     map &here = get_map();
-    vehicle *veh = here.add_vehicle( vproto_id( "none" ), p->pos(), 0, 0, 0, false );
+    vehicle *veh = here.add_vehicle( vproto_id( "none" ), p->pos(), 0_degrees, 0, 0, false );
     if( veh == nullptr ) {
         p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return 0;
@@ -5806,7 +5819,7 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "That isn't a firearm!" ) );
         return 0;
     }
-    if( fix.has_flag( "NO_REPAIR" ) ) {
+    if( fix.has_flag( flag_NO_REPAIR ) ) {
         p->add_msg_if_player( m_info, _( "You cannot repair your %s." ), fix.tname() );
         return 0;
     }
@@ -5863,16 +5876,30 @@ int iuse::gunmod_attach( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    auto loc = game_menus::inv::gun_to_modify( *p, *it );
+    do {
+        item_location loc = game_menus::inv::gun_to_modify( *p, *it );
 
-    if( !loc ) {
-        add_msg( m_info, _( "Never mind." ) );
+        if( !loc ) {
+            add_msg( m_info, _( "Never mind." ) );
+            return 0;
+        }
+
+        if( !loc->is_gunmod_compatible( *it ).success() ) {
+            return 0;
+        }
+
+        const item mod_copy( *it );
+        item modded_gun( *loc );
+
+        modded_gun.put_in( mod_copy, item_pocket::pocket_type::MOD );
+
+        if( !game_menus::inv::compare_items( *loc, modded_gun, _( "Attach modification?" ) ) ) {
+            continue;
+        }
+
+        p->gunmod_add( *loc, *it );
         return 0;
-    }
-
-    p->gunmod_add( *loc, *it );
-
-    return 0;
+    } while( true );
 }
 
 int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
@@ -5888,9 +5915,9 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
 
     auto filter = [&it]( const item & e ) {
         // don't allow ups battery mods on a UPS or UPS-powered tools
-        if( it->has_flag( "USE_UPS" ) &&
+        if( it->has_flag( flag_USE_UPS ) &&
             ( e.typeId() == itype_UPS_off || e.typeId() == itype_adv_UPS_off ||
-              e.has_flag( "USE_UPS" ) ) ) {
+              e.has_flag( flag_USE_UPS ) ) ) {
             return false;
         }
 
@@ -5906,8 +5933,8 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
         } );
     };
 
-    auto loc = g->inv_map_splice( filter, _( "Select tool to modify" ), 1,
-                                  _( "You don't have compatible tools." ) );
+    item_location loc = g->inv_map_splice( filter, _( "Select tool to modify" ), 1,
+                                           _( "You don't have compatible tools." ) );
 
     if( !loc ) {
         add_msg( m_info, _( "Never mind." ) );
@@ -5931,10 +5958,11 @@ int iuse::bell( player *p, item *it, bool, const tripoint & )
         sounds::sound( p->pos(), 12, sounds::sound_t::music, _( "Clank!  Clank!" ), true, "misc",
                        "cow_bell" );
         if( !p->is_deaf() ) {
-            const int cow_factor = 1 + ( p->mutation_category_level.find( "CATTLE" ) ==
-                                         p->mutation_category_level.end() ?
+            auto cattle_level =
+                p->mutation_category_level.find( mutation_category_id( "CATTLE" ) );
+            const int cow_factor = 1 + ( cattle_level == p->mutation_category_level.end() ?
                                          0 :
-                                         ( p->mutation_category_level.find( "CATTLE" )->second ) / 8
+                                         ( cattle_level->second ) / 8
                                        );
             if( x_in_y( cow_factor, 1 + cow_factor ) ) {
                 p->add_morale( MORALE_MUSIC, 1, 15 * ( cow_factor > 10 ? 10 : cow_factor ) );
@@ -5964,8 +5992,12 @@ bool iuse::robotcontrol_can_target( player *p, const monster &m )
            && rl_dist( p->pos(), m.pos() ) <= 10;
 }
 
-int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
+int iuse::robotcontrol( player *p, item *it, bool active, const tripoint & )
 {
+    if( active ) {
+        // To avoid multi-usage conflicts.
+        return 0;
+    }
     if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( _( "The %s's batteries are dead." ), it->tname() );
         return 0;
@@ -6076,20 +6108,20 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
 
 static void init_memory_card_with_random_stuff( item &it )
 {
-    if( it.has_flag( "MC_MOBILE" ) && ( it.has_flag( "MC_RANDOM_STUFF" ) ||
-                                        it.has_flag( "MC_SCIENCE_STUFF" ) ) && !( it.has_flag( "MC_USED" ) ||
-                                                it.has_flag( "MC_HAS_DATA" ) ) ) {
+    if( it.has_flag( flag_MC_MOBILE ) && ( it.has_flag( flag_MC_RANDOM_STUFF ) ||
+                                           it.has_flag( flag_MC_SCIENCE_STUFF ) ) && !( it.has_flag( flag_MC_USED ) ||
+                                                   it.has_flag( flag_MC_HAS_DATA ) ) ) {
 
-        it.item_tags.insert( "MC_HAS_DATA" );
+        it.set_flag( flag_MC_HAS_DATA );
 
         bool encrypted = false;
 
-        if( it.has_flag( "MC_MAY_BE_ENCRYPTED" ) && one_in( 8 ) ) {
+        if( it.has_flag( flag_MC_MAY_BE_ENCRYPTED ) && one_in( 8 ) ) {
             it.convert( itype_id( it.typeId().str() + "_encrypted" ) );
         }
 
         //some special cards can contain "MC_ENCRYPTED" flag
-        if( it.has_flag( "MC_ENCRYPTED" ) ) {
+        if( it.has_flag( flag_MC_ENCRYPTED ) ) {
             encrypted = true;
         }
 
@@ -6143,7 +6175,7 @@ static void init_memory_card_with_random_stuff( item &it )
             it.set_var( "MC_RECIPE", "SIMPLE" );
         }
 
-        if( it.has_flag( "MC_SCIENCE_STUFF" ) ) {
+        if( it.has_flag( flag_MC_SCIENCE_STUFF ) ) {
             it.set_var( "MC_RECIPE", "SCIENCE" );
         }
     }
@@ -6215,17 +6247,17 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
                 something_downloaded = true;
                 eink.set_var( "EIPC_RECIPES", "," + rident.str() + "," );
 
-                p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
+                p.add_msg_if_player( m_good, _( "You download a recipe for %s into the memory." ),
                                      r->result_name() );
             } else {
                 if( old_recipes.find( "," + rident.str() + "," ) == std::string::npos ) {
                     something_downloaded = true;
                     eink.set_var( "EIPC_RECIPES", old_recipes + rident.str() + "," );
 
-                    p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
+                    p.add_msg_if_player( m_good, _( "You download a recipe for %s into the memory." ),
                                          r->result_name() );
                 } else {
-                    p.add_msg_if_player( m_good, _( "Your tablet already has a recipe for %s." ),
+                    p.add_msg_if_player( m_good, _( "The recipe for %s is already stored in the memory." ),
                                          r->result_name() );
                 }
             }
@@ -6289,7 +6321,7 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         }
     }
 
-    if( mc.has_flag( "MC_TURN_USED" ) ) {
+    if( mc.has_flag( flag_MC_TURN_USED ) ) {
         mc.clear_vars();
         mc.unset_flags();
         mc.convert( itype_mobile_memory_card_used );
@@ -6380,7 +6412,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( !it->get_var( "EIPC_RECIPES" ).empty() ) {
-            amenu.addentry( ei_recipe, true, 'r', _( "View recipes on E-ink screen" ) );
+            amenu.addentry( ei_recipe, true, 'r', _( "List stored recipes" ) );
         }
 
         if( !it->get_var( "EIPC_EXTENDED_PHOTOS" ).empty() ) {
@@ -6555,7 +6587,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         avatar *you = p->as_avatar();
         item_location loc;
         auto filter = []( const item & it ) {
-            return it.has_flag( "MC_MOBILE" );
+            return it.has_flag( flag_MC_MOBILE );
         };
         const std::string title = _( "Insert memory card" );
 
@@ -6572,18 +6604,18 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             }
             item &mc = *loc;
 
-            if( !mc.has_flag( "MC_MOBILE" ) ) {
+            if( !mc.has_flag( flag_MC_MOBILE ) ) {
                 p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
                 return it->type->charges_to_use();
             }
 
             init_memory_card_with_random_stuff( mc );
 
-            if( mc.has_flag( "MC_ENCRYPTED" ) ) {
+            if( mc.has_flag( flag_MC_ENCRYPTED ) ) {
                 p->add_msg_if_player( m_info, _( "This memory card is encrypted." ) );
                 return it->type->charges_to_use();
             }
-            if( !mc.has_flag( "MC_HAS_DATA" ) ) {
+            if( !mc.has_flag( flag_MC_HAS_DATA ) ) {
                 p->add_msg_if_player( m_info, _( "This memory card does not contain any new data." ) );
                 return it->type->charges_to_use();
             }
@@ -6604,14 +6636,14 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             }
             item &mc = *loc;
 
-            if( !mc.has_flag( "MC_MOBILE" ) ) {
+            if( !mc.has_flag( flag_MC_MOBILE ) ) {
                 p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
                 return it->type->charges_to_use();
             }
 
             init_memory_card_with_random_stuff( mc );
 
-            if( !mc.has_flag( "MC_ENCRYPTED" ) ) {
+            if( !mc.has_flag( flag_MC_ENCRYPTED ) ) {
                 p->add_msg_if_player( m_info, _( "This memory card is not encrypted." ) );
                 return it->type->charges_to_use();
             }
@@ -6678,6 +6710,14 @@ static std::string colorized_trap_name_at( const tripoint &point )
     return name;
 }
 
+static const std::unordered_map<description_affix, std::string> description_affixes = {
+    { description_affix::DESCRIPTION_AFFIX_IN, translate_marker( " in %s" ) },
+    { description_affix::DESCRIPTION_AFFIX_COVERED_IN, translate_marker( " covered in %s" ) },
+    { description_affix::DESCRIPTION_AFFIX_ON, translate_marker( " on %s" ) },
+    { description_affix::DESCRIPTION_AFFIX_UNDER, translate_marker( " under %s" ) },
+    { description_affix::DESCRIPTION_AFFIX_ILLUMINATED_BY, translate_marker( " in %s" ) },
+};
+
 static std::string colorized_field_description_at( const tripoint &point )
 {
     std::string field_text;
@@ -6738,10 +6778,10 @@ static std::string colorized_ter_name_flags_at( const tripoint &point,
     if( ter_whitelist.empty() && flags.empty() ) {
         return name;
     }
-    if( !ter->open.is_null() || ( ter->examine != iexamine::none &&
-                                  ter->examine != iexamine::fungus &&
-                                  ter->examine != iexamine::water_source &&
-                                  ter->examine != iexamine::dirtmound ) ) {
+    if( !ter->open.is_null() || ( ter->has_examine( iexamine::none ) &&
+                                  ter->has_examine( iexamine::fungus ) &&
+                                  ter->has_examine( iexamine::water_source ) &&
+                                  ter->has_examine( iexamine::dirtmound ) ) ) {
         return name;
     }
     for( const ter_str_id &ter_good : ter_whitelist ) {
@@ -6819,32 +6859,36 @@ static std::string effects_description_for_creature( Creature *const creature, s
             status( status ), intensity_lower_limit( 0 ) {}
     };
     static const std::unordered_map<efftype_id, ef_con> vec_effect_status = {
-        { effect_onfire, ef_con( to_translation( " is on <color_red>fire</color>. " ) ) },
-        { effect_bleed, ef_con( to_translation( " is <color_red>bleeding</color>. " ), 1 ) },
-        { effect_happy, ef_con( to_translation( " looks <color_green>happy</color>. " ), 13 ) },
+        { effect_onfire, ef_con( to_translation( " is on <color_red>fire</color>.  " ) ) },
+        { effect_bleed, ef_con( to_translation( " is <color_red>bleeding</color>.  " ), 1 ) },
+        { effect_happy, ef_con( to_translation( " looks <color_green>happy</color>.  " ), 13 ) },
         { effect_downed, ef_con( translation(), to_translation( "downed" ) ) },
         { effect_in_pit, ef_con( translation(), to_translation( "stuck" ) ) },
-        { effect_stunned, ef_con( to_translation( " is <color_blue>stunned</color>. " ) ) },
-        { effect_dazed, ef_con( to_translation( " is <color_blue>dazed</color>. " ) ) },
-        { effect_beartrap, ef_con( to_translation( " is stuck in beartrap. " ) ) },
-        { effect_laserlocked, ef_con( to_translation( " have tiny <color_red>red dot</color> on body. " ) ) },
-        { effect_boomered, ef_con( to_translation( " is covered in <color_magenta>bile</color>. " ) ) },
-        { effect_glowing, ef_con( to_translation( " is covered in <color_yellow>glowing goo</color>. " ) ) },
-        { effect_slimed, ef_con( to_translation( " is covered in <color_green>thick goo</color>. " ) ) },
-        { effect_corroding, ef_con( to_translation( " is covered in <color_light_green>acid</color>. " ) ) },
-        { effect_sap, ef_con( to_translation( " is coated in <color_brown>sap</color>. " ) ) },
-        { effect_webbed, ef_con( to_translation( " is covered in <color_dark_gray>webs</color>. " ) ) },
-        { effect_spores, ef_con( to_translation( " is covered in <color_green>spores</color>. " ), 1 ) },
-        { effect_crushed, ef_con( to_translation( " lies under <color_dark_gray>collapsed debris</color>. " ), to_translation( "lies" ) ) },
-        { effect_lack_sleep, ef_con( to_translation( " looks <color_dark_gray>very tired</color>. " ) ) },
-        { effect_lying_down, ef_con( to_translation( " is <color_dark_blue>sleeping</color>. " ), to_translation( "lies" ) ) },
-        { effect_sleep, ef_con( to_translation( " is <color_dark_blue>sleeping</color>. " ), to_translation( "lies" ) ) },
-        { effect_haslight, ef_con( to_translation( " is <color_yellow>lit</color>. " ) ) },
-        { effect_monster_saddled, ef_con( to_translation( " is <color_dark_gray>saddled</color>. " ) ) },
-        { effect_harnessed, ef_con( to_translation( " is being <color_dark_gray>harnessed</color> by a vehicle. " ) ) },
-        { effect_monster_armor, ef_con( to_translation( " is <color_dark_gray>wearing armor</color>. " ) ) },
-        { effect_has_bag, ef_con( to_translation( " have <color_dark_gray>bag</color> attached. " ) ) },
-        { effect_tied, ef_con( to_translation( " is <color_dark_gray>tied</color>. " ) ) },
+        { effect_stunned, ef_con( to_translation( " is <color_blue>stunned</color>.  " ) ) },
+        { effect_dazed, ef_con( to_translation( " is <color_blue>dazed</color>.  " ) ) },
+        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
+        { effect_beartrap, ef_con( to_translation( " is stuck in beartrap.  " ) ) },
+        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
+        { effect_laserlocked, ef_con( to_translation( " have tiny <color_red>red dot</color> on body.  " ) ) },
+        { effect_boomered, ef_con( to_translation( " is covered in <color_magenta>bile</color>.  " ) ) },
+        { effect_glowing, ef_con( to_translation( " is covered in <color_yellow>glowing goo</color>.  " ) ) },
+        { effect_slimed, ef_con( to_translation( " is covered in <color_green>thick goo</color>.  " ) ) },
+        { effect_corroding, ef_con( to_translation( " is covered in <color_light_green>acid</color>.  " ) ) },
+        { effect_sap, ef_con( to_translation( " is coated in <color_brown>sap</color>.  " ) ) },
+        { effect_webbed, ef_con( to_translation( " is covered in <color_dark_gray>webs</color>.  " ) ) },
+        { effect_spores, ef_con( to_translation( " is covered in <color_green>spores</color>.  " ), 1 ) },
+        { effect_crushed, ef_con( to_translation( " lies under <color_dark_gray>collapsed debris</color>.  " ), to_translation( "lies" ) ) },
+        { effect_lack_sleep, ef_con( to_translation( " looks <color_dark_gray>very tired</color>.  " ) ) },
+        { effect_lying_down, ef_con( to_translation( " is <color_dark_blue>sleeping</color>.  " ), to_translation( "lies" ) ) },
+        { effect_sleep, ef_con( to_translation( " is <color_dark_blue>sleeping</color>.  " ), to_translation( "lies" ) ) },
+        { effect_haslight, ef_con( to_translation( " is <color_yellow>lit</color>.  " ) ) },
+        { effect_monster_saddled, ef_con( to_translation( " is <color_dark_gray>saddled</color>.  " ) ) },
+        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
+        { effect_harnessed, ef_con( to_translation( " is being <color_dark_gray>harnessed</color> by a vehicle.  " ) ) },
+        { effect_monster_armor, ef_con( to_translation( " is <color_dark_gray>wearing armor</color>.  " ) ) },
+        // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
+        { effect_has_bag, ef_con( to_translation( " have <color_dark_gray>bag</color> attached.  " ) ) },
+        { effect_tied, ef_con( to_translation( " is <color_dark_gray>tied</color>.  " ) ) },
         { effect_bouldering, ef_con( translation(), to_translation( "balancing" ) ) }
     };
 
@@ -6863,26 +6907,26 @@ static std::string effects_description_for_creature( Creature *const creature, s
         if( creature->has_effect( effect_sad ) ) {
             int intensity = creature->get_effect_int( effect_sad );
             if( intensity > 500 && intensity <= 950 ) {
-                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>sad</color>. " );
+                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>sad</color>.  " );
             } else if( intensity > 950 ) {
-                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>depressed</color>. " );
+                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>depressed</color>.  " );
             }
         }
         float pain = creature->get_pain() / 10.f;
         if( pain > 3 ) {
-            figure_effects += pronoun_sex + pgettext( "Someone", " is writhing in <color_red>pain</color>. " );
+            figure_effects += pronoun_sex + pgettext( "Someone", " is writhing in <color_red>pain</color>.  " );
         }
         if( creature->has_effect( effect_riding ) ) {
             pose = _( "rides" );
             monster *const mon = g->critter_at<monster>( creature->pos(), false );
-            figure_effects += pronoun_sex + string_format( _( " is riding %s. " ),
+            figure_effects += pronoun_sex + string_format( _( " is riding %s.  " ),
                               colorize( mon->name(), c_light_blue ) );
         }
         if( creature->has_effect( effect_glowy_led ) ) {
-            figure_effects += _( "A bionic LED is <color_yellow>glowing</color> softly. " );
+            figure_effects += _( "A bionic LED is <color_yellow>glowing</color> softly.  " );
         }
     }
-    if( !figure_effects.empty() && figure_effects.back() == ' ' ) { // remove last space
+    while( !figure_effects.empty() && figure_effects.back() == ' ' ) { // remove last spaces
         figure_effects.erase( figure_effects.end() - 1 );
     }
     return figure_effects;
@@ -7509,7 +7553,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             if( mon || guy || trajectory_point == aim_point ) {
                 int dist = rl_dist( p->pos(), trajectory_point );
 
-                int camera_bonus = it->has_flag( "CAMERA_PRO" ) ? 10 : 0;
+                int camera_bonus = it->has_flag( flag_CAMERA_PRO ) ? 10 : 0;
                 int photo_quality = 20 - rng( dist, dist * 2 ) * 2 + rng( camera_bonus / 2, camera_bonus );
                 if( photo_quality > 5 ) {
                     photo_quality = 5;
@@ -7685,7 +7729,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         item_location loc;
         if( you != nullptr ) {
             loc = game_menus::inv::titled_filter_menu( []( const item & it ) {
-                return it.has_flag( "MC_MOBILE" );
+                return it.has_flag( flag_MC_MOBILE );
             }, *you, _( "Insert memory card" ) );
         }
         if( !loc ) {
@@ -7694,19 +7738,19 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         }
         item &mc = *loc;
 
-        if( !mc.has_flag( "MC_MOBILE" ) ) {
+        if( !mc.has_flag( flag_MC_MOBILE ) ) {
             p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
             return it->type->charges_to_use();
         }
 
         init_memory_card_with_random_stuff( mc );
 
-        if( mc.has_flag( "MC_ENCRYPTED" ) ) {
+        if( mc.has_flag( flag_MC_ENCRYPTED ) ) {
             if( !query_yn( _( "This memory card is encrypted.  Format and clear data?" ) ) ) {
                 return it->type->charges_to_use();
             }
         }
-        if( mc.has_flag( "MC_HAS_DATA" ) ) {
+        if( mc.has_flag( flag_MC_HAS_DATA ) ) {
             if( !query_yn( _( "Are you sure you want to clear the old data on the card?" ) ) ) {
                 return it->type->charges_to_use();
             }
@@ -7715,7 +7759,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         mc.convert( itype_mobile_memory_card );
         mc.clear_vars();
         mc.unset_flags();
-        mc.item_tags.insert( "MC_HAS_DATA" );
+        mc.set_flag( flag_MC_HAS_DATA );
 
         mc.set_var( "MC_MONSTER_PHOTOS", it->get_var( "CAMERA_MONSTER_PHOTOS" ) );
         mc.set_var( "MC_EXTENDED_PHOTOS", it->get_var( "CAMERA_EXTENDED_PHOTOS" ) );
@@ -7734,7 +7778,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
     if( t ) {
 
         if( get_map().has_flag( "SWIMMABLE", pos.xy() ) ) {
-            it->item_tags.erase( "NO_UNWIELD" );
+            it->unset_flag( flag_NO_UNWIELD );
             it->ammo_unset();
             it->active = false;
             add_msg( m_good, _( "%s automatically turned off!" ), it->tname() );
@@ -7744,7 +7788,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
         if( it->charges == 0 ) {
 
             sounds::sound( pos, 2, sounds::sound_t::combat, "Click.", true, "tools", "handcuffs" );
-            it->item_tags.erase( "NO_UNWIELD" );
+            it->unset_flag( flag_NO_UNWIELD );
             it->active = false;
 
             if( p->has_item( *it ) && p->weapon.typeId() == itype_e_handcuffs ) {
@@ -7759,7 +7803,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
                 one_in( 5 ) ) {
                 p->mod_power_level( -2_kJ );
 
-                it->item_tags.erase( "NO_UNWIELD" );
+                it->unset_flag( flag_NO_UNWIELD );
                 it->ammo_unset();
                 it->active = false;
                 add_msg( m_good, _( "The %s crackle with electricity from your bionic, then come off your hands!" ),
@@ -7826,6 +7870,11 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::foodperson( player *p, item *it, bool t, const tripoint &pos )
 {
+    // Prevent crash if battery was somehow removed.
+    if( !it->magazine_current() ) {
+        return 0;
+    }
+
     if( t ) {
         if( calendar::once_every( 1_minutes ) ) {
             const SpeechBubble &speech = get_speech( "foodperson_mask" );
@@ -7847,7 +7896,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
 {
     int choice = -1;
     item *bomb_it = it->contents.get_item_with( []( const item & c ) {
-        return c.has_flag( "RADIOCARITEM" );
+        return c.has_flag( flag_RADIOCARITEM );
     } );
     if( bomb_it == nullptr ) {
         choice = uilist( _( "Using RC car:" ), {
@@ -7884,7 +7933,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
             item_location loc;
             if( you != nullptr ) {
                 loc = game_menus::inv::titled_filter_menu( []( const item & it ) {
-                    return it.has_flag( "RADIOCARITEM" );
+                    return it.has_flag( flag_RADIOCARITEM );
                 }, *you, _( "Arm what?" ) );
             }
             if( !loc ) {
@@ -7893,13 +7942,13 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
             }
             item &put = *loc;
 
-            if( put.has_flag( "RADIOCARITEM" ) && ( put.volume() <= 1250_ml ||
-                                                    ( put.weight() <= 2_kilogram ) ) ) {
+            if( put.has_flag( flag_RADIOCARITEM ) && ( put.volume() <= 1250_ml ||
+                    ( put.weight() <= 2_kilogram ) ) ) {
                 p->moves -= to_moves<int>( 3_seconds );
                 p->add_msg_if_player( _( "You armed your RC car with %s." ),
                                       put.tname() );
                 it->put_in( p->i_rem( &put ), item_pocket::pocket_type::CONTAINER );
-            } else if( !put.has_flag( "RADIOCARITEM" ) ) {
+            } else if( !put.has_flag( flag_RADIOCARITEM ) ) {
                 p->add_msg_if_player( _( "RC car with %s?  How?" ),
                                       put.tname() );
             } else {
@@ -7951,34 +8000,27 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-static void sendRadioSignal( player &p, const std::string &signal )
+static void sendRadioSignal( player &p, const flag_id &signal )
 {
     map &here = get_map();
     for( const tripoint &loc : here.points_in_radius( p.pos(), 30 ) ) {
         for( item &it : here.i_at( loc ) ) {
-            if( it.has_flag( "RADIO_ACTIVATION" ) && it.has_flag( signal ) ) {
+            if( it.has_flag( flag_RADIO_ACTIVATION ) && it.has_flag( signal ) ) {
                 sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
-                if( it.has_flag( "RADIO_INVOKE_PROC" ) ) {
+                if( it.has_flag( flag_RADIO_INVOKE_PROC ) ) {
                     // Invoke to transform a radio-modded explosive into its active form
                     it.type->invoke( p, it, loc );
-                    it.ammo_unset();
                 }
-            } else if( it.has_flag( "RADIO_CONTAINER" ) && !it.contents.empty() ) {
+            } else if( !it.contents.empty_container() ) {
                 item *itm = it.contents.get_item_with( [&signal]( const item & c ) {
                     return c.has_flag( signal );
                 } );
 
                 if( itm != nullptr ) {
                     sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
-                    // Invoke twice: first to transform, then later to proc
-                    if( itm->has_flag( "RADIO_INVOKE_PROC" ) ) {
+                    // Invoke to transform a radio-modded explosive into its active form
+                    if( itm->has_flag( flag_RADIO_INVOKE_PROC ) ) {
                         itm->type->invoke( p, *itm, loc );
-                        itm->ammo_unset();
-                        // The type changed
-                    }
-                    if( itm->has_flag( "BOMB" ) ) {
-                        itm->type->invoke( p, *itm, loc );
-                        it.contents.clear_items();
                     }
                 }
             }
@@ -8024,7 +8066,7 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
             tripoint rc_item_location = {999, 999, 999};
             // TODO: grab the closest car or similar?
             for( auto &rc_pairs_rc_pair : rc_pairs ) {
-                if( rc_pairs_rc_pair.second->has_flag( "RADIOCAR" ) &&
+                if( rc_pairs_rc_pair.second->has_flag( flag_RADIOCAR ) &&
                     rc_pairs_rc_pair.second->active ) {
                     rc_item_location = rc_pairs_rc_pair.first;
                 }
@@ -8044,11 +8086,11 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
             }
         }
     } else if( choice > 0 ) {
-        const std::string signal = "RADIOSIGNAL_" + std::to_string( choice );
+        const flag_id signal( "RADIOSIGNAL_" + std::to_string( choice ) );
 
         auto item_list = p->get_radio_items();
         for( auto &elem : item_list ) {
-            if( elem->has_flag( "BOMB" ) && elem->has_flag( signal ) ) {
+            if( elem->has_flag( flag_BOMB ) && elem->has_flag( signal ) ) {
                 p->add_msg_if_player( m_warning,
                                       _( "The %s in your inventory would explode on this signal.  Place it down before sending the signal." ),
                                       elem->display_name() );
@@ -8057,13 +8099,13 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
         }
 
         std::vector<item *> radio_containers = p->items_with( []( const item & itm ) {
-            return itm.has_flag( "RADIO_CONTAINER" );
+            return itm.has_flag( flag_RADIO_CONTAINER );
         } );
 
         if( !radio_containers.empty() ) {
             for( item *items : radio_containers ) {
                 item *itm = items->contents.get_item_with( [&]( const item & c ) {
-                    return c.has_flag( "BOMB" ) && c.has_flag( signal );
+                    return c.has_flag( flag_BOMB ) && c.has_flag( signal );
                 } );
 
                 if( itm != nullptr ) {
@@ -8318,7 +8360,7 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
             add_msg( m_bad, _( "The autoclave ran out of battery and stopped before completing its cycle." ) );
             it->active = false;
             it->erase_var( "CYCLETIME" );
-            it->unset_flag( "NO_UNLOAD" );
+            it->unset_flag( flag_NO_UNLOAD );
             return 0;
         }
 
@@ -8327,11 +8369,11 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
         if( Cycle_time <= 0 ) {
             it->active = false;
             it->erase_var( "CYCLETIME" );
-            it->unset_flag( "NO_UNLOAD" );
+            it->unset_flag( flag_NO_UNLOAD );
             item *cbm = it->contents.get_item_with( []( const item & it ) {
-                return it.is_bionic() && !it.has_flag( "NO_PACKED" );
+                return it.is_bionic() && !it.has_flag( flag_NO_PACKED );
             } );
-            cbm->unset_flag( "NO_STERILE" );
+            cbm->unset_flag( flag_NO_STERILE );
         } else {
             it->set_var( "CYCLETIME", Cycle_time );
         }
@@ -8377,7 +8419,7 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( query_yn( _( "Start the autoclave?" ) ) ) {
-            auto reqs = *requirement_id( "autoclave_item" );
+            requirement_data reqs = *requirement_id( "autoclave_item" );
             for( const auto &e : reqs.get_components() ) {
                 p->consume_items( e, 1, is_crafting_component );
             }
@@ -8394,7 +8436,7 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
 
             it->activate();
             it->set_var( "CYCLETIME", to_seconds<int>( 90_minutes ) ); // one cycle
-            it->set_flag( "NO_UNLOAD" );
+            it->set_flag( flag_NO_UNLOAD );
             return it->type->charges_to_use();
         }
     } else {
@@ -8474,7 +8516,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             }
         }
 
-        if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( "FIX_FARSIGHT" ) &&
+        if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
             !p->has_effect( effect_contacts ) ) {
             p->add_msg_if_player( m_info,
                                   _( "You'll need to put on reading glasses before you can see the screen." ) );
@@ -8538,11 +8580,11 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
         if( mc_take == choice ) {
             item &dish = *dish_it;
-            if( dish.has_flag( "FROZEN" ) ) {
+            if( dish.has_flag( flag_FROZEN ) ) {
                 dish.cold_up();  //don't know how to check if the dish is frozen liquid and prevent extraction of it into inventory...
             }
             const std::string dish_name = dish.tname( dish.charges, false );
-            const bool is_delicious = dish.has_flag( "HOT" ) && dish.has_flag( "EATEN_HOT" );
+            const bool is_delicious = dish.has_flag( flag_HOT ) && dish.has_flag( flag_EATEN_HOT );
             if( dish.made_of( phase_id::LIQUID ) ) {
                 if( !p->check_eligible_containers_for_crafting( *recipe_id( it->get_var( "RECIPE" ) ), 1 ) ) {
                     p->add_msg_if_player( m_info, _( "You don't have a suitable container to store your %s." ),
@@ -8577,11 +8619,16 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             std::vector<const recipe *> dishes;
 
             inventory crafting_inv = p->crafting_inventory();
-            //add some tools and qualities. we can't add this qualities to json, because multicook must be used only by activating, not as component other crafts.
-            crafting_inv.push_back( item( "hotplate", 0 ) ); //hotplate inside
-            crafting_inv.push_back( item( "tongs", 0 ) ); //some recipes requires tongs
-            crafting_inv.push_back( item( "toolset", 0 ) ); //toolset with CUT and other qualities inside
-            crafting_inv.push_back( item( "pot", 0 ) ); //good COOK, BOIL, CONTAIN qualities inside
+            // add some tools and qualities. we can't add this qualities to
+            // json, because multicook must be used only by activating, not as
+            // component other crafts.
+            crafting_inv.push_back( item( "hotplate", calendar::turn_zero ) ); //hotplate inside
+            // some recipes requires tongs
+            crafting_inv.push_back( item( "tongs", calendar::turn_zero ) );
+            // toolset with CUT and other qualities inside
+            crafting_inv.push_back( item( "toolset", calendar::turn_zero ) );
+            // good COOK, BOIL, CONTAIN qualities inside
+            crafting_inv.push_back( item( "pot", calendar::turn_zero ) );
 
             int counter = 0;
 
@@ -8730,7 +8777,7 @@ int iuse::tow_attach( player *p, item *it, bool, const tripoint & )
     const auto set_cable_active = []( player * p, item * it, const std::string & state ) {
         it->set_var( "state", state );
         it->active = true;
-        it->process( p, p->pos(), false );
+        it->process( p, p->pos() );
         p->moves -= 15;
     };
     map &here = get_map();
@@ -8853,8 +8900,8 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
 {
     std::string initial_state = it->get_var( "state", "attach_first" );
     const bool has_bio_cable = !p->get_remote_fueled_bionic().is_empty();
-    const bool has_solar_pack = p->worn_with_flag( "SOLARPACK" );
-    const bool has_solar_pack_on = p->worn_with_flag( "SOLARPACK_ON" );
+    const bool has_solar_pack = p->worn_with_flag( flag_SOLARPACK );
+    const bool has_solar_pack_on = p->worn_with_flag( flag_SOLARPACK_ON );
     const bool wearing_solar_pack = has_solar_pack || has_solar_pack_on;
     const bool has_ups = p->has_charges( itype_UPS_off, 1 ) || p->has_charges( itype_adv_UPS_off, 1 );
 
@@ -8862,7 +8909,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
     avatar *you = p->as_avatar();
 
     auto filter = [&]( const item & itm ) {
-        return itm.has_flag( "IS_UPS" );
+        return itm.has_flag( flag_IS_UPS );
     };
 
     const std::string choose_ups = _( "Choose UPS:" );
@@ -8872,7 +8919,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
         const std::string prev_state = it->get_var( "state" );
         it->set_var( "state", state );
         it->active = true;
-        it->process( p, p->pos(), false );
+        it->process( p, p->pos() );
         p->moves -= 15;
 
         if( !prev_state.empty() && ( prev_state == "cable_charger" || ( prev_state != "attach_first" &&
@@ -8934,7 +8981,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( _( "There's no vehicle there." ) );
             return 0;
         } else {
-            const auto abspos = here.getabs( posp );
+            const tripoint abspos = here.getabs( posp );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
             it->set_var( "source_z", here.get_abs_sub().z );
@@ -9044,7 +9091,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( _( "There's no vehicle there." ) );
             return 0;
         } else if( cable_cbm ) {
-            const auto abspos = here.getabs( vpos );
+            const tripoint abspos = here.getabs( vpos );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
             it->set_var( "source_z", here.get_abs_sub().z );
@@ -9124,13 +9171,13 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
     const w_point weatherPoint = *g->weather.weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const auto player_local_temp = g->weather.get_temperature( p->pos() );
+    const int player_local_temp = g->weather.get_temperature( p->pos() );
 
     if( it->typeId() == itype_weather_reader ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
                               it->tname() );
     }
-    if( it->has_flag( "THERMOMETER" ) ) {
+    if( it->has_flag( flag_THERMOMETER ) ) {
         if( it->typeId() == itype_thermometer ) {
             p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
                                   print_temperature( player_local_temp ) );
@@ -9139,7 +9186,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
                                   print_temperature( player_local_temp ) );
         }
     }
-    if( it->has_flag( "HYGROMETER" ) ) {
+    if( it->has_flag( flag_HYGROMETER ) ) {
         if( it->typeId() == itype_hygrometer ) {
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
@@ -9152,7 +9199,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
                                                     g->is_sheltered( p->pos() ) ) ) );
         }
     }
-    if( it->has_flag( "BAROMETER" ) ) {
+    if( it->has_flag( flag_BAROMETER ) ) {
         if( it->typeId() == itype_barometer ) {
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
@@ -9224,7 +9271,7 @@ int iuse::capture_monster_veh( player *p, item *it, bool, const tripoint &pos )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    if( !it->has_flag( "VEHICLE" ) ) {
+    if( !it->has_flag( flag_VEHICLE ) ) {
         p->add_msg_if_player( m_info, _( "The %s must be installed in a vehicle before being loaded." ),
                               it->tname() );
         return 0;
@@ -9286,7 +9333,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             // It's been activated somewhere where there isn't a player or monster, good.
             return 0;
         }
-        if( it->has_flag( "PLACE_RANDOMLY" ) ) {
+        if( it->has_flag( flag_PLACE_RANDOMLY ) ) {
             if( it->release_monster( p->pos(), 1 ) ) {
                 return 0;
             }
@@ -9477,7 +9524,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
                                        crafting_inv.charges_of( itype_detergent ) );
 
     const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
-        return location->has_flag( "FILTHY" ) && ( ( soft_items && location->is_soft() ) ||
+        return location->has_flag( flag_FILTHY ) && ( ( soft_items && location->is_soft() ) ||
                 ( hard_items && !location->is_soft() ) );
     } );
     auto make_raw_stats = [available_water, available_cleanser](
@@ -9502,9 +9549,9 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
                 display_stat( _( "Cleanser" ), required.cleanser, available_cleanser, to_string )
             }};
     };
-    // TODO: this should also search surrounding area, not just player inventory.
     inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
     inv_s.add_character_items( *p );
+    inv_s.add_nearby_items( PICKUP_RANGE );
     inv_s.set_title( _( "Multiclean" ) );
     inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
     if( inv_s.empty() ) {
@@ -9540,11 +9587,10 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
         return 0;
     }
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    const int helpersize = p->get_num_crafting_helpers( 3 );
-    required.time = required.time * ( 1 - ( helpersize / 10 ) );
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
+    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
+    required.time *= ( 1.0f - ( helpersize / 10.0f ) );
+    for( std::size_t i = 0; i < helpersize; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
     // Assign the activity values.
     p->assign_activity( ACT_WASH, required.time );
@@ -9737,7 +9783,7 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
 
     p->add_msg_if_player( m_info, _( "You ask the %s, then flip it." ), it->tname() );
     int rn = rng( 0, tab.size() - 1 );
-    auto color = ( rn >= BALL8_BAD ? m_bad : rn >= BALL8_UNK ? m_info : m_good );
+    game_message_type color = ( rn >= BALL8_BAD ? m_bad : rn >= BALL8_UNK ? m_info : m_good );
     p->add_msg_if_player( color, _( "The %s says: %s" ), it->tname(), _( tab[rn] ) );
     return 0;
 }

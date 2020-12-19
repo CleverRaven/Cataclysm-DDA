@@ -14,7 +14,7 @@
     "type": "effect_type",
     "id": "ridden",
     "name": [ "Ridden" ],
-    "desc": [ "AI tag for when critter is being ridden. This is a bug if you have it." ]
+    "desc": [ "AI tag for when critter is being ridden.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
@@ -26,7 +26,7 @@
     "type": "effect_type",
     "id": "harnessed",
     "name": [ "Harnessed" ],
-    "desc": [ "AI tag for when critter is being harnessed by a vehicle. This is a bug if you have it." ]
+    "desc": [ "AI tag for when critter is being harnessed by a vehicle.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
@@ -317,6 +317,15 @@
   },
   {
     "type": "effect_type",
+    "id": "sensor_stun",
+    "name": [ "Sensor scrambling" ],
+    "desc": [ "Your artificial senses are scrambled and report false readings." ],
+    "apply_message": "You're stunned!",
+    "rating": "bad",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "dazed",
     "name": [ "Dazed" ],
     "desc": [ "You're visibly shaken up, and are having a hard time focusing on what's going on around you." ],
@@ -459,6 +468,70 @@
     "blood_analysis_description": "Poison"
   },
   {
+    "id": "venom_dmg",
+    "type": "effect_type",
+    "name": [ "Poisoned Wound" ],
+    "desc": [ "The wound swells visibly and burns like hell." ],
+    "apply_message": "Ow, that stings!",
+    "remove_message": "The burning pain subsides, but the damage is done.",
+    "show_intensity": false,
+    "rating": "bad",
+    "resist_traits": [ "POISRESIST" ],
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "main_parts_only": true,
+    "max_intensity": 125,
+    "max_effective_intensity": 100,
+    "int_dur_factor": 18,
+    "max_duration": 2250,
+    "//": "30 m to max, 7,5 m overhead, dmg chance scales from 1/13 to 1/3, Pain from 1/20 to 1/5",
+    "base_mods": {
+      "pain_amount": [ 5, 2 ],
+      "pain_min": [ 0, -4 ],
+      "pain_chance": [ 20, 100 ],
+      "pain_max_val": [ 60, 20 ],
+      "hurt_amount": [ 5, 0 ],
+      "hurt_min": [ 2, 1 ],
+      "hurt_chance": [ 13, 100 ],
+      "hurt_tick": [ 30 ]
+    },
+    "scaling_mods": { "pain_min": [ 0.05, 0.01 ], "pain_chance": [ -0.15, -0.8 ], "hurt_chance": [ -0.11, -0.81 ] }
+  },
+  {
+    "id": "venom_weaken",
+    "type": "effect_type",
+    "name": [ "Weakening Poison" ],
+    "desc": [ "You feel feeble." ],
+    "apply_message": "The sting itself barely hurt, but suddenly you feel exhausted.",
+    "remove_message": "The weight on your chest lessens.",
+    "rating": "bad",
+    "resist_traits": [ "POISRESIST" ],
+    "max_intensity": 125,
+    "max_effective_intensity": 100,
+    "max_duration": 18000,
+    "int_dur_factor": 144,
+    "dur_add_perc": 500,
+    "show_intensity": false,
+    "//": "4h to max, 1h overhead; Str/Dex to -6/3; Stam chance 0,25-0,5 / 0,1-0,2; Vomit ~1 per max duration",
+    "base_mods": {
+      "str_mod": [ -2, 0 ],
+      "dex_mod": [ -2, 0 ],
+      "stamina_amount": [ -2000, -1000 ],
+      "stamina_min": [ -5 ],
+      "stamina_chance": [ 4.5, 10 ],
+      "speed_mod": [ -10, 0 ],
+      "vomit_chance": [ 15, 150 ],
+      "vomit_tick": [ 1200 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ -0.05, -0.04 ],
+      "dex_mod": [ -0.05, -0.04 ],
+      "stamina_min": [ -0.351, -0.151 ],
+      "stamina_chance": [ -0.021, -0.051 ],
+      "speed_mod": [ -0.31, -0.21 ]
+    }
+  },
+  {
     "type": "effect_type",
     "id": "foodpoison",
     "name": [ "Food Poisoning" ],
@@ -579,7 +652,6 @@
     "name": [ "Laser-targeted" ],
     "desc": [ "A laser sight is targeting you!" ],
     "apply_message": "",
-    "max_duration": "5 s",
     "rating": "bad"
   },
   {
@@ -588,7 +660,6 @@
     "name": [ "" ],
     "desc": [ "" ],
     "apply_message": "",
-    "max_duration": "5 s",
     "rating": "bad"
   },
   {
@@ -621,7 +692,7 @@
     "type": "effect_type",
     "id": "boomered",
     "name": [ "Boomered" ],
-    "desc": [ "Range of Sight: 1;  You are covered in magenta bile!" ],
+    "desc": [ "Range of Sight: 1; You are covered in magenta bile!" ],
     "apply_message": "You're covered in bile!",
     "rating": "bad",
     "base_mods": { "per_mod": [ -3 ], "vomit_chance": [ 500 ] }
@@ -660,7 +731,7 @@
     "type": "effect_type",
     "id": "took_xanax_visible",
     "name": [ "Took Xanax" ],
-    "desc": [ "You took Xanax some time ago and you might still be under its influence." ]
+    "desc": [ "You took a fast-acting sedative some time ago and you might still be under its influence." ]
   },
   {
     "type": "effect_type",
@@ -676,7 +747,7 @@
     "type": "effect_type",
     "id": "took_prozac_visible",
     "name": [ "Took Prozac" ],
-    "desc": [ "You took Prozac some time ago and you might still be under its influence." ]
+    "desc": [ "You took an antidepressant some time ago and you might still be under its influence." ]
   },
   {
     "type": "effect_type",
@@ -699,7 +770,7 @@
     "type": "effect_type",
     "id": "took_thorazine_visible",
     "name": [ "Took Thorazine" ],
-    "desc": [ "You took Thorazine some time ago and you might still be under its influence." ]
+    "desc": [ "You took an antipsychotic some time ago and you might still be under its influence." ]
   },
   {
     "type": "effect_type",
@@ -756,12 +827,23 @@
   },
   {
     "type": "effect_type",
+    "id": "sludged",
+    "name": [ "sludged" ],
+    "desc": [ "You're standing in sludge!" ],
+    "apply_message": "You're stepped into some sludge!",
+    "rating": "bad",
+    "miss_messages": [ [ "The sludge constricts your movement.", 4 ] ],
+    "max_intensity": 3,
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "bite",
     "name": [ "Bite", "Painful Bite" ],
     "desc": [ "You have a nasty bite wound." ],
     "apply_memorial_log": "Received a deep bite wound.",
     "remove_memorial_log": "Recovered from a bite wound.",
-    "apply_message": "The bite wound feels really deep...",
+    "apply_message": "The bite wound feels really deep…",
     "resist_traits": [ "INFRESIST" ],
     "main_parts_only": true,
     "rating": "bad",
@@ -835,12 +917,13 @@
     "type": "effect_type",
     "id": "bandaged",
     "name": [ "Bandaged" ],
-    "desc": [ "Your wounds are bandaged." ],
+    "desc": [ "The wounds on your %s are bandaged." ],
     "main_parts_only": true,
     "rating": "good",
     "int_dur_factor": "6 h",
     "max_intensity": 16,
     "max_effective_intensity": 8,
+    "part_descs": true,
     "max_duration": "4 d",
     "base_mods": { "healing_rate": [ 2 ], "healing_head": [ 50 ], "healing_torso": [ 150 ] },
     "scaling_mods": { "healing_rate": [ 2 ] }
@@ -849,12 +932,13 @@
     "type": "effect_type",
     "id": "disinfected",
     "name": [ "Disinfected" ],
-    "desc": [ "Your wounds are disinfected." ],
+    "desc": [ "The wounds on your %s are disinfected." ],
     "main_parts_only": true,
     "rating": "good",
     "int_dur_factor": "6 h",
     "max_intensity": 16,
     "max_effective_intensity": 8,
+    "part_descs": true,
     "max_duration": "4 d",
     "base_mods": { "healing_rate": [ 2 ], "healing_head": [ 50 ], "healing_torso": [ 150 ] },
     "scaling_mods": { "healing_rate": [ 2 ] }
@@ -1200,7 +1284,7 @@
     "desc": [ "You have contracted the 'Common Cold'.  Symptoms can be alleviated by medication (cough syrup)." ],
     "apply_memorial_log": "Caught a cold.",
     "remove_memorial_log": "Got over the cold.",
-    "apply_message": "You feel a cold coming on...",
+    "apply_message": "You feel a cold coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
     "miss_messages": [ [ "You're too stuffed up to fight effectively.", 1 ] ],
@@ -1226,7 +1310,7 @@
     ],
     "apply_memorial_log": "Caught the flu.",
     "remove_memorial_log": "Got over the flu.",
-    "apply_message": "You feel a flu coming on...",
+    "apply_message": "You feel a flu coming on…",
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
     "base_mods": {
@@ -1274,6 +1358,8 @@
       "tapeworm",
       "blind",
       "poison",
+      "venom_dmg",
+      "venom_weaken",
       "stung",
       "badpoison",
       "foodpoison",
@@ -1310,7 +1396,7 @@
     "rating": "good",
     "max_intensity": 2,
     "int_dur_factor": "50 s",
-    "removes_effects": [ "infected", "bite", "bleed", "fungus", "dermatik", "winded" ],
+    "removes_effects": [ "infected", "bite", "bleed", "fungus", "dermatik", "winded", "poison", "badpoison", "venom_dmg", "venom_weaken" ],
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -2 ], "per_mod": [ -2 ], "int_mod": [ -1 ] },
     "scaling_mods": { "str_mod": [ 2 ], "dex_mod": [ 3 ], "per_mod": [ 3 ], "int_mod": [ 1 ] },
     "blood_analysis_description": "Healing Medication"
@@ -1378,7 +1464,7 @@
     ],
     "apply_message": "Mycal wrath fills our fibers, and we grow turgid.",
     "rating": "good",
-    "decay_messages": [ [ "We require repose; our fibers are nearly spent...", "bad" ] ],
+    "decay_messages": [ [ "We require repose; our fibers are nearly spent…", "bad" ] ],
     "max_intensity": 2,
     "int_dur_factor": "150 s",
     "base_mods": {
@@ -1498,7 +1584,7 @@
   {
     "type": "effect_type",
     "id": "amigara",
-    "apply_message": "You can't look away from the faultline...",
+    "apply_message": "You can't look away from the faultline…",
     "rating": "bad"
   },
   {
@@ -1647,7 +1733,7 @@
   {
     "type": "effect_type",
     "id": "lying_down",
-    "apply_message": "You lie down to go to sleep...",
+    "apply_message": "You lie down to go to sleep…",
     "rating": "neutral",
     "max_duration": "50 m"
   },
@@ -1898,8 +1984,8 @@
     "desc": [
       "You've lost some blood and look somewhat pale.",
       "You've lost large amount of blood, and you're not feeling well.",
-      "You've lost an awful lot of blood, and your condition is severe. Seek medical attention.",
-      "You've lost tremendous amount of blood, and you're standing on death's door. Transfusion might save you."
+      "You've lost an awful lot of blood, and your condition is severe.  Seek medical attention.",
+      "You've lost tremendous amount of blood, and you're standing on death's door.  Transfusion might save you."
     ],
     "apply_message": "You have lost lot of blood, and your condition worsens.",
     "remove_message": "You are no longer in shock.",
@@ -2104,7 +2190,7 @@
     "type": "effect_type",
     "id": "panacea",
     "name": [ "Panacea" ],
-    "desc": [ "You feel incredible! You could take on the world!" ],
+    "desc": [ "You feel incredible!  You could take on the world!" ],
     "max_duration": "10 s",
     "base_mods": { "speed_mod": [ 20 ], "str_mod": [ 2 ], "dex_mod": [ 2 ], "int_mod": [ 2 ], "per_mod": [ 2 ] }
   },
@@ -2146,7 +2232,7 @@
     "type": "effect_type",
     "id": "grown_of_fuse",
     "name": [ "Grown of Fusion" ],
-    "desc": [ "AI effect to increase stats after fusing with another critter. 1 stack means one absorbed max_hp." ],
+    "desc": [ "AI effect to increase stats after fusing with another critter.  1 stack means one absorbed max_hp." ],
     "//": "stats modified by the zombie_fuse special attack.",
     "//1": "scaling:",
     "//2": "/48 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
@@ -2239,6 +2325,58 @@
   },
   {
     "type": "effect_type",
+    "id": "weary_0"
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_1",
+    "name": [ "Lightly Weary" ],
+    "desc": [ "You've been pretty active for a while, operating at the highest levels of activity will be impaired." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_2",
+    "name": [ "Moderately Weary" ],
+    "desc": [ "You've been quite active for a while, operating at higher levels of activity will be impaired." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_3",
+    "name": [ "Weary" ],
+    "desc": [ "You've been very active for a while, and need to slow down for a bit." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_4",
+    "name": [ "Very Weary" ],
+    "desc": [ "You've been extremely active for a while, and need to slow down." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_5",
+    "name": [ "Extremely Weary" ],
+    "desc": [ "You've been extremely active for a while, and can't take much more activity." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_6",
+    "name": [ "Extremely Weary" ],
+    "desc": [ "You've been extremely active for a while, and really need to get some rest." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_7",
+    "name": [ "Extremely Weary" ],
+    "desc": [ "You've been extremely active for a while, it's time to stop." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "weary_8",
+    "name": [ "Extremely Weary" ],
+    "desc": [ "You've been extremely active for a while, and can no longer keep pushing." ]
+  },
+  {
+    "type": "effect_type",
     "id": "hunger_full",
     "name": [ "Full" ],
     "desc": [ "You feel quite full, and a bit sluggish." ],
@@ -2250,8 +2388,8 @@
     "type": "effect_type",
     "id": "hunger_engorged",
     "name": [ "Engorged" ],
-    "desc": [ "Your stomach is full to bursting. This was a mistake." ],
-    "apply_message": "Your stomach is full to bursting. This was a mistake.",
+    "desc": [ "Your stomach is full to bursting.  This was a mistake." ],
+    "apply_message": "Your stomach is full to bursting.  This was a mistake.",
     "rating": "bad",
     "base_mods": { "speed_mod": [ -10 ], "fatigue_amount": [ 2 ], "vomit_chance": [ 500 ], "vomit_tick": [ 10 ], "pain_amount": [ 3 ] }
   },

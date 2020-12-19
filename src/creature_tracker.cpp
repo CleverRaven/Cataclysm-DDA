@@ -97,10 +97,10 @@ void Creature_tracker::add_to_faction_map( const shared_ptr_fast<monster> &critt
 
     // Only 1 faction per mon at the moment.
     if( critter.friendly == 0 ) {
-        monster_faction_map_[ critter.faction ].insert( critter_ptr );
+        monster_faction_map_[ critter.faction ][critter_ptr->pos().z].insert( critter_ptr );
     } else {
         static const mfaction_str_id playerfaction( "player" );
-        monster_faction_map_[ playerfaction ].insert( critter_ptr );
+        monster_faction_map_[ playerfaction ][critter_ptr->pos().z].insert( critter_ptr );
     }
 }
 
@@ -182,11 +182,12 @@ void Creature_tracker::remove( const monster &critter )
     }
 
     for( auto &pair : monster_faction_map_ ) {
-        const auto fac_iter = pair.second.find( *iter );
-        if( fac_iter != pair.second.end() ) {
+        const int zpos = critter.pos().z;
+        const auto fac_iter = pair.second[zpos].find( *iter );
+        if( fac_iter != pair.second[zpos].end() ) {
             // Need to do this manually because the shared pointer containing critter is kept valid
             // within removed_ and so the weak pointer in monster_faction_map_ is also valid.
-            pair.second.erase( fac_iter );
+            pair.second[zpos].erase( fac_iter );
             break;
         }
     }

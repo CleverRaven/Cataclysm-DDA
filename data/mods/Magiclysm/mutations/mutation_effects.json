@@ -1,0 +1,41 @@
+[
+  {
+    "type": "effect_type",
+    "id": "dragon_terror_debuff",
+    "name": [ "Dragon Terror" ],
+    "desc": [ "You are uneasy and fearful from a Dragon's mighty presence" ],
+    "rating": "bad",
+    "max_intensity": 20,
+    "base_mods": { "speed_mod": [ -20 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "dragon_boost",
+    "name": [ "Dragon Boost" ],
+    "desc": [ "You are filled with the power of Dragons." ],
+    "apply_message": "You let out a mighty roar as you are filled with the power of Dragons!",
+    "remove_message": "The Draconic energy fades from within you.",
+    "rating": "good",
+    "base_mods": { "str_mod": [ 4 ], "speed_mod": [ 10 ], "stamina_min": [ 20 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "dragon_acidburn",
+    "name": [ "Dragon Acid burn" ],
+    "desc": [ "Burned with a black dragon's acid" ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "base_mods": { "speed_mod": [ -20 ], "pain_amount": [ 20 ], "hurt_amount": [ 3 ] },
+    "scaling_mods": { "speed_mod": [ -10 ], "pain_amount": [ 10 ], "hurt_amount": [ 1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "lesser_dragon_acidburn",
+    "name": [ "Lesser Dragon Acid burn" ],
+    "desc": [ "Burned with a less potent version of a black dragon's acid" ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "base_mods": { "speed_mod": [ -10 ], "pain_amount": [ 10 ], "hurt_amount": [ 1 ] },
+    "scaling_mods": { "speed_mod": [ -5 ], "pain_amount": [ 5 ], "hurt_amount": [ 1 ] }
+  }
+]

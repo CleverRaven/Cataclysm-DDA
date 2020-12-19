@@ -302,16 +302,10 @@ endif
 # enable optimizations. slow to build
 ifeq ($(RELEASE), 1)
   ifeq ($(NATIVE), osx)
-    ifdef OSXCROSS
-      OPTLEVEL = -O0
-    else ifeq ($(shell expr $(OSX_MIN) \<= 10.11), 1)
-      OPTLEVEL = -O0
+    ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
+      OPTLEVEL = -Os
     else
-      ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
-        OPTLEVEL = -Os
-      else
-        OPTLEVEL = -O3
-      endif
+      OPTLEVEL = -O3
     endif
   else
     # MXE ICE Workaround
@@ -648,9 +642,7 @@ ifeq ($(TILES), 1)
       endif
     endif
   else # not osx
-    CXXFLAGS += $(shell $(PKG_CONFIG) sdl2 --cflags)
-    CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_image --cflags)
-    CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --cflags)
+    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags sdl2 SDL2_image SDL2_ttf)
 
     ifeq ($(STATIC), 1)
       LDFLAGS += $(shell $(PKG_CONFIG) sdl2 --static --libs)
@@ -672,8 +664,7 @@ ifeq ($(TILES), 1)
       # These differ depending on what SDL2 is configured to use.
       ifneq (,$(findstring mingw32,$(CROSS)))
         # We use pkg-config to find out which libs are needed with MXE
-        LDFLAGS += $(shell $(PKG_CONFIG) SDL2_image --libs)
-        LDFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --libs)
+        LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_image SDL2_ttf)
       else
         ifeq ($(MSYS2),1)
           LDFLAGS += -Wl,--start-group -lharfbuzz -lfreetype -Wl,--end-group -lgraphite2 -lpng -lz -ltiff -lbz2 -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
@@ -927,7 +918,7 @@ $(CHKJSON_BIN): $(CHKJSON_SOURCES)
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
-clean: clean-tests
+clean: clean-tests clean-object_creator
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
@@ -1162,6 +1153,9 @@ $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
 	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Itools/format -Isrc \
 	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
 
+python-check:
+	flake8
+
 tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests
 
@@ -1170,6 +1164,12 @@ check: version $(BUILD_PREFIX)cataclysm.a
 
 clean-tests:
 	$(MAKE) -C tests clean
+
+object_creator: version $(BUILD_PREFIX)cataclysm.a
+	$(MAKE) -C object_creator
+
+clean-object_creator:
+	$(MAKE) -C object_creator clean
 
 validate-pr:
 ifneq ($(CYGWIN),1)

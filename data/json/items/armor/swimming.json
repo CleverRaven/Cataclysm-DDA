@@ -1,5 +1,24 @@
 [
   {
+    "id": "bikini_bottom",
+    "type": "ARMOR",
+    "name": { "str": "bikini bottom" },
+    "description": "A simple bikini bottom.",
+    "weight": "32 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 50,
+    "material": [ "lycra" ],
+    "symbol": "[",
+    "looks_like": "panties",
+    "color": "light_red",
+    "covers": [ "leg_l", "leg_r" ],
+    "coverage": 15,
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "trunks",
     "repairs_like": "shorts",
     "type": "ARMOR",

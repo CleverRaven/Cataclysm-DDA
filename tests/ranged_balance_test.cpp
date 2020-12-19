@@ -82,8 +82,9 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
                          const std::string &ammo_type = "" )
 {
     shooter.remove_weapon();
-    if( !shooter.is_wearing( itype_id( "backpack" ) ) ) {
-        shooter.worn.push_back( item( "backpack" ) );
+    // XL so arrows can fit.
+    if( !shooter.is_wearing( itype_id( "debug_backpack" ) ) ) {
+        shooter.worn.push_back( item( "debug_backpack" ) );
     }
 
     const itype_id &gun_id{ itype_id( gun_type ) };
@@ -132,8 +133,6 @@ static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel
     }
 }
 
-std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, accuracy_goodhit, accuracy_critical, accuracy_headshot }};
-
 static firing_statistics firing_test( const dispersion_sources &dispersion,
                                       const int range, const Threshold &threshold )
 {
@@ -164,7 +163,7 @@ static std::vector<firing_statistics> firing_test( const dispersion_sources &dis
         const int range, const std::vector< Threshold > &thresholds )
 {
     std::vector<firing_statistics> firing_stats;
-    for( const Threshold pear : thresholds ) {
+    for( const Threshold &pear : thresholds ) {
         firing_stats.push_back( firing_test( dispersion, range, pear ) );
     }
     return firing_stats;

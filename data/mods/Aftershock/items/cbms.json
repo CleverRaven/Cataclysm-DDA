@@ -47,6 +47,26 @@
     "difficulty": 8
   },
   {
+    "id": "afs_bio_melee_counteraction",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Counteractive Reflexes CBM" },
+    "description": "Cybernetic stimulators installed across your nervous system boost your reflexes whenever you are hit in melee, granting you an extra action.  This bionic must be active to function.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 9
+  },
+  {
+    "id": "afs_bio_melee_optimization_unit",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Melee Optimization Unit CBM" },
+    "description": "An implanted AI executes the optimal followup for each of your melee strikes, allowing you to chain them with unnatural speed and grace.  This bionic must be active to function.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 10
+  },
+  {
     "id": "afs_bio_neurosoft_aeronautics",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
