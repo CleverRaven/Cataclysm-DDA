@@ -3,13 +3,7 @@
     "id": "bone_sturdy",
     "type": "requirement",
     "//": "Any kind of bones, human or not.  Tainted bones are too brittle and won't work for this purpose.",
-    "components": [ [ [ "frost_bone_human", 1 ], [ "alien_bone", 1 ] ] ]
-  },
-  {
-    "id": "bone_any",
-    "type": "requirement",
-    "//": "Any kind of bones.  May possibly be poisonous to eat, or fragile.",
-    "components": [ [ [ "frost_bone_human", 1 ], [ "alien_bone", 1 ] ] ]
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_demihuman", 1 ], [ "frost_bone_human", 1 ], [ "alien_bone", 1 ] ] ]
   },
   {
     "id": "any_tallow",
