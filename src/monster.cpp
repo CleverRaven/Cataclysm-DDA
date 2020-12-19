@@ -1291,21 +1291,9 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 
     if( effect == effect_paralyzepoison ||
         effect == effect_badpoison ||
-        effect == effect_venom_dmg ||
-        effect == effect_venom_weaken ||
         effect == effect_poison ) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return type->in_species( species_ZOMBIE ) ||
-               !made_of_any( Creature::cmat_flesh );
-=======
         return !has_flag( MF_WARM ) ||
                ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) );
->>>>>>> parent of a33ddb8832... Actually make it work
-=======
-        return type->in_species(species_ZOMBIE) ||
-			   !made_of_any( Creature::cmat_flesh);
->>>>>>> parent of b7820bd880... Astyle
     }
 
     if( effect == effect_stunned ) {
