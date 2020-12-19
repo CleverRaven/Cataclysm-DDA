@@ -18,5 +18,10 @@
     "type": "SPECIES",
     "id": "GOBLIN",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "ORC",
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
   }
 ]
