@@ -88,6 +88,8 @@ static const efftype_id effect_run( "run" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_venom_dmg( "venom_dmg" );
+static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_webbed( "webbed" );
 
 static const itype_id itype_corpse( "corpse" );
@@ -1289,9 +1291,11 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 
     if( effect == effect_paralyzepoison ||
         effect == effect_badpoison ||
+        effect == effect_venom_dmg ||
+        effect == effect_venom_weaken ||
         effect == effect_poison ) {
-        return !has_flag( MF_WARM ) ||
-               ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) );
+        return type->in_species( species_ZOMBIE ) ||
+               !made_of_any( Creature::cmat_flesh );
     }
 
     if( effect == effect_stunned ) {
@@ -1362,16 +1366,15 @@ void monster::melee_attack( Creature &target )
 
 void monster::melee_attack( Creature &target, float accuracy )
 {
-    // Note: currently this method must consume move even if attack hasn't actually happen
-    // otherwise infinite loop will happen
+    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
     mod_moves( -type->attack_cost );
-    if( /*This happens sometimes*/ this == &target || !is_adjacent( &target, true ) ) {
+    if( type->melee_dice == 0 ) {
+        // We don't attack, so just return
         return;
     }
 
-    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
-    if( type->melee_dice == 0 ) {
-        // We don't attack, so just return
+    if( this == &target ) {
+        // This happens sometimes
         return;
     }
 
