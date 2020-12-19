@@ -64,7 +64,6 @@
     "special_attacks": [ [ "TACKLE", 43 ] ],
     "fear_triggers": [ "NONE" ],
     "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZORC_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   }
 ]
