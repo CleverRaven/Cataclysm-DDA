@@ -32,9 +32,7 @@
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOLF_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
-  }
-]
-[
+  },
   {
     "id": "mon_zorc",
     "type": "MONSTER",
@@ -63,7 +61,7 @@
     "armor_bullet": 45,
     "vision_night": 12,
     "harvest": "flesh",
-    "special_attacks": [ [ "Shieldcharge", 43 ] ],
+    "special_attacks": [ [ "TACKLE", 43 ] ],
     "fear_triggers": [ "NONE" ],
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZORC_UPGRADE" },
