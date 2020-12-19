@@ -100,7 +100,7 @@
     "enchantments": [ "protect_cold" ],
     "act_cost": "1 kJ",
     "react_cost": "1 kJ",
-    "time": 1000
+    "time": 10
   },
   {
     "type": "bionic",
