@@ -80,39 +80,69 @@
     "object": {
       "place_nested": [
         {
-          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ],
-          "x": 19,
-          "y": 2
+          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 100 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 50 ] ],
+          "x": 9,
+          "y": 6
         },
         {
-          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ],
-          "x": 12,
-          "y": 8
+          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 100 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 50 ] ],
+          "x": 14,
+          "y": 11
         },
         {
-          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ],
-          "x": 4,
-          "y": 2
+          "chunks": [
+            [ "open_cryo_pod1", 5 ],
+            [ "open_cryo_pod2", 100 ],
+            [ "open_cryo_pod3", 10 ],
+            [ "open_cryo_pod4", 5 ],
+            [ "null", 50 ]
+          ],
+          "x": 8,
+          "y": 7
         },
         {
-          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ],
-          "x": 12,
-          "y": 19
+          "chunks": [
+            [ "open_cryo_pod1", 5 ],
+            [ "open_cryo_pod2", 100 ],
+            [ "open_cryo_pod3", 5 ],
+            [ "open_cryo_pod4", 10 ],
+            [ "null", 100 ]
+          ],
+          "x": 15,
+          "y": 12
         },
         {
-          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ],
-          "x": 13,
-          "y": 20
+          "chunks": [
+            [ "open_cryo_pod1", 5 ],
+            [ "open_cryo_pod2", 100 ],
+            [ "open_cryo_pod3", 5 ],
+            [ "open_cryo_pod4", 5 ],
+            [ "null", 100 ]
+          ],
+          "x": 8,
+          "y": 11
         },
         {
-          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ],
-          "x": 4,
-          "y": 3
+          "chunks": [
+            [ "open_cryo_pod1", 5 ],
+            [ "open_cryo_pod2", 100 ],
+            [ "open_cryo_pod3", 5 ],
+            [ "open_cryo_pod4", 5 ],
+            [ "null", 100 ]
+          ],
+          "x": 15,
+          "y": 16
         },
         {
-          "chunks": [ [ "open_cryo_pod1", 5 ], [ "open_cryo_pod2", 50 ], [ "open_cryo_pod3", 5 ], [ "open_cryo_pod4", 5 ], [ "null", 90 ] ],
-          "x": 24,
-          "y": 27
+          "chunks": [
+            [ "open_cryo_pod1", 5 ],
+            [ "open_cryo_pod2", 100 ],
+            [ "open_cryo_pod3", 5 ],
+            [ "open_cryo_pod4", 5 ],
+            [ "null", 100 ]
+          ],
+          "x": 9,
+          "y": 12
         }
       ]
     }
