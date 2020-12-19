@@ -9,6 +9,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "avatar.h"
 #include "character.h"
@@ -1942,7 +1943,7 @@ void vehicle::use_bike_rack( int part )
     if( success ) {
         map &here = get_map();
         here.invalidate_map_cache( here.get_abs_sub().z );
-        here.reset_vehicle_cache( here.get_abs_sub().z );
+        here.rebuild_vehicle_level_caches();
     }
 }
 

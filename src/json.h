@@ -1253,7 +1253,7 @@ inline JsonArray::const_iterator JsonArray::end() const
     return const_iterator( *this, size() );
 }
 /**
- * Represents a member of a @ref JsonObject. This is retured when one iterates over
+ * Represents a member of a @ref JsonObject. This is returned when one iterates over
  * a JsonObject.
  * It *is* @ref JsonValue, which is the value of the member, which allows one to write:
 <code>

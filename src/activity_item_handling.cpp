@@ -1790,7 +1790,7 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
             }
         }
     }
-    // if we got here, then the fetch failed for reasons that werent predicted before setting it.
+    // if we got here, then the fetch failed for reasons that weren't predicted before setting it.
     // nothing was moved or picked up, and nothing can be moved or picked up
     // so call the whole thing off to stop it looping back to this point ad nauseum.
     p.set_moves( 0 );
@@ -2031,7 +2031,11 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             // checks whether the item is already on correct loot zone or not
             // if it is, we can skip such item, if not we move the item to correct pile
             // think empty bag on food pile, after you ate the content
-            if( mgr.has( id, src ) ) {
+            if( id != zone_type_id( "LOOT_CUSTOM" ) && mgr.has( id, src ) ) {
+                continue;
+            }
+
+            if( id == zone_type_id( "LOOT_CUSTOM" ) && mgr.custom_loot_has( src, &thisitem ) ) {
                 continue;
             }
 
@@ -2103,7 +2107,7 @@ static int chop_moves( player &p, item *it )
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = p.get_num_crafting_helpers( 3 );
-    moves = moves * ( 1 - ( helpersize / 10 ) );
+    moves *= ( 1.0f - ( helpersize / 10.0f ) );
     return moves;
 }
 
@@ -2745,7 +2749,7 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
         }
         if( !check_only ) {
             if( !generic_multi_activity_do( p, activity_to_restore, act_info, src, src_loc ) ) {
-                // if the activity was succesful
+                // if the activity was successful
                 // then a new activity was assigned
                 // and the backlog was given the multi-act
                 return false;

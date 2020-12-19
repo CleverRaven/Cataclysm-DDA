@@ -596,6 +596,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 
     JsonIn config_json( config_file );
     JsonObject config = config_json.get_object();
+    config.allow_omitted_members();
 
     // "tile_info" section must exist.
     if( !config.has_member( "tile_info" ) ) {
@@ -928,6 +929,8 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
                     curr_subtile.height_3d = t_h3d;
                     curr_tile.available_subtiles.push_back( s_id );
                 }
+            } else if( entry.has_array( "additional_tiles" ) ) {
+                entry.throw_error( "Additional tiles defined, but 'multitile' is not true." );
             }
             // write the information of the base tile to curr_tile
             curr_tile.multitile = t_multi;
@@ -3494,7 +3497,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
                                            iter->getStep() >= SCT.iMaxSteps / 2 );
 
             if( use_font ) {
-                const direction direction = iter->getDirecton();
+                const direction direction = iter->getDirection();
                 // Compensate for string length offset added at SCT creation
                 // (it will be readded using font size and proper encoding later).
                 const int direction_offset = ( -direction_XY( direction ).x + 1 ) *

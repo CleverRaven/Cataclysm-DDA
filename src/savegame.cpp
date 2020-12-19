@@ -366,6 +366,16 @@ void overmap::convert_terrain(
             }
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
+        } else if( old.compare( 0, 23, "office_tower_1_entrance" ) == 0 ) {
+            ter_set( pos, oter_id( "office_tower_ne_north" ) );
+            ter_set( pos + point_west, oter_id( "office_tower_nw_north" ) );
+            ter_set( pos + point_south, oter_id( "office_tower_se_north" ) );
+            ter_set( pos + point_south_west, oter_id( "office_tower_sw_north" ) );
+        } else if( old.compare( 0, 23, "office_tower_b_entrance" ) == 0 ) {
+            ter_set( pos, oter_id( "office_tower_underground_ne_north" ) );
+            ter_set( pos + point_west, oter_id( "office_tower_underground_nw_north" ) );
+            ter_set( pos + point_south, oter_id( "office_tower_underground_se_north" ) );
+            ter_set( pos + point_south_west, oter_id( "office_tower_underground_sw_north" ) );
         }
 
         for( const auto &conv : nearby ) {
@@ -1067,7 +1077,9 @@ void mongroup::io( Archive &archive )
 
 void mongroup::deserialize( JsonIn &data )
 {
-    io::JsonObjectInputArchive archive( data );
+    JsonObject jo = data.get_object();
+    jo.allow_omitted_members();
+    io::JsonObjectInputArchive archive( jo );
     io( archive );
 }
 

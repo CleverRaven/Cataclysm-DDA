@@ -2,7 +2,7 @@
   {
     "id": "mon_dragonfly_small",
     "type": "MONSTER",
-    "name": { "str": "huge dragonfly" },
+    "name": { "str": "huge dragonfly", "str_pl": "huge dragonflies" },
     "description": "A brightly colored, winged mutant dragonfly the size of a cat with sharp fangs.",
     "copy-from": "mon_dragonfly_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -834,87 +834,6 @@
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
   {
-    "id": "wheel_steerable",
-    "categories": [ "movement" ],
-    "copy-from": "wheel",
-    "type": "vehicle_part",
-    "name": { "str": "wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
-  },
-  {
-    "id": "wheel_slick_steerable",
-    "categories": [ "movement" ],
-    "copy-from": "wheel_slick",
-    "type": "vehicle_part",
-    "name": { "str": "racing slick (steerable)" },
-    "item": "wheel_slick",
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
-  },
-  {
-    "id": "wheel_armor_steerable",
-    "categories": [ "movement" ],
-    "copy-from": "wheel_armor",
-    "type": "vehicle_part",
-    "name": { "str": "armored wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
-  },
-  {
-    "id": "wheel_bicycle_steerable",
-    "categories": [ "movement" ],
-    "copy-from": "wheel_bicycle",
-    "type": "vehicle_part",
-    "name": { "str": "bicycle wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
-  },
-  {
-    "id": "wheel_bicycle_or_steerable",
-    "categories": [ "movement" ],
-    "copy-from": "wheel_bicycle_or",
-    "type": "vehicle_part",
-    "name": { "str": "off-road bicycle wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
-  },
-  {
-    "id": "wheel_motorbike_steerable",
-    "categories": [ "movement" ],
-    "copy-from": "wheel_motorbike",
-    "type": "vehicle_part",
-    "name": { "str": "motorbike wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
-  },
-  {
-    "id": "wheel_motorbike_or_steerable",
-    "categories": [ "movement" ],
-    "copy-from": "wheel_motorbike_or",
-    "type": "vehicle_part",
-    "name": { "str": "off-road motorbike wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
-  },
-  {
-    "id": "wheel_small_steerable",
-    "categories": [ "movement" ],
-    "copy-from": "wheel_small",
-    "type": "vehicle_part",
-    "name": { "str": "small wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
-  },
-  {
-    "id": "wheel_wide_steerable",
-    "categories": [ "movement" ],
-    "copy-from": "wheel_wide",
-    "type": "vehicle_part",
-    "name": { "str": "wide wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
-  },
-  {
-    "id": "wheel_wide_or_steerable",
-    "categories": [ "movement" ],
-    "copy-from": "wheel_wide_or",
-    "type": "vehicle_part",
-    "name": { "str": "off-road wide wheel (steerable)" },
-    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
-  },
-  {
     "type": "mutation",
     "id": "INCONSPICUOUS",
     "name": { "str": "Inconspicuous" },
@@ -1685,5 +1604,40 @@
     "description": "Deprecated.",
     "display_category": "none",
     "obsolete": true
+  },
+  {
+    "id": "toolbox_workshop",
+    "type": "TOOL",
+    "name": { "str": "workshop toolbox", "str_pl": "workshop toolboxes" },
+    "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities, as well as additional tools used in workshops for advanced fabrication jobs.",
+    "looks_like": "toolbox",
+    "weight": "3994 g",
+    "volume": "2500 ml",
+    "price": 14099,
+    "price_postapoc": 3250,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "red",
+    "qualities": [
+      [ "CUT", 1 ],
+      [ "HAMMER", 3 ],
+      [ "SAW_M", 2 ],
+      [ "SAW_W", 2 ],
+      [ "AXE", 1 ],
+      [ "WRENCH", 2 ],
+      [ "SCREW", 1 ],
+      [ "PRY", 1 ],
+      [ "HAMMER_FINE", 1 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "SCREW_FINE", 1 ],
+      [ "BUTCHER", 11 ],
+      [ "FILE", 2 ],
+      [ "REAM", 2 ],
+      [ "VISE", 1 ]
+    ],
+    "use_action": [ "HAMMER", "CROWBAR" ]
   }
 ]

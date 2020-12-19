@@ -174,11 +174,11 @@ static float addiction_scaling( float at_min, float at_max, float add_lvl )
     return lerp( at_min, at_max, ( add_lvl - MIN_ADDICTION_LEVEL ) / MAX_ADDICTION_LEVEL );
 }
 
-void Character::suffer_water_damage( const mutation_branch &mdata )
+void Character::suffer_water_damage( const trait_id &mut_id )
 {
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         const float wetness_percentage = elem.second.get_wetness_percentage();
-        const int dmg = mdata.weakness_to_water * wetness_percentage;
+        const int dmg = mut_id->weakness_to_water * wetness_percentage;
         if( dmg > 0 ) {
             apply_damage( nullptr, elem.first, dmg );
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
@@ -193,50 +193,48 @@ void Character::suffer_water_damage( const mutation_branch &mdata )
     }
 }
 
-void Character::suffer_mutation_power( const mutation_branch &mdata,
-                                       Character::trait_data &tdata )
+void Character::suffer_mutation_power( const trait_id &mut_id )
 {
-    if( tdata.powered && tdata.charge > 0 ) {
-        // Already-on units just lose a bit of charge
-        tdata.charge--;
+    if( get_cost_timer( mut_id ) > 0 ) {
+        // Not ready to consume cost yet, the timer ticks on
+        mod_cost_timer( mut_id, -1 );
     } else {
-        // Not-on units, or those with zero charge, have to pay the power cost
-        if( mdata.cooldown > 0 ) {
-            tdata.powered = true;
-            tdata.charge = mdata.cooldown - 1;
+        // Ready to consume cost: pay the power cost and reset timer
+        if( mut_id->cooldown > 0 ) {
+            set_cost_timer( mut_id, mut_id->cooldown - 1 );
         }
-        if( mdata.hunger ) {
-            // does not directly modify hunger, but burns kcal
-            mod_stored_nutr( mdata.cost );
+        if( mut_id->hunger ) {
             if( get_bmi() < character_weight_category::underweight ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too malnourished to keep your %s going." ),
-                                   mdata.name() );
-                tdata.powered = false;
+                                   mut_id->name() );
+                deactivate_mutation( mut_id );
+            } else {
+                // does not directly modify hunger, but burns kcal
+                mod_stored_nutr( mut_id->cost );
             }
         }
-        if( mdata.thirst ) {
-            mod_thirst( mdata.cost );
+        if( mut_id->thirst ) {
             // Well into Dehydrated
             if( get_thirst() >= 260 ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too dehydrated to keep your %s going." ),
-                                   mdata.name() );
-                tdata.powered = false;
+                                   mut_id->name() );
+                deactivate_mutation( mut_id );
+            } else {
+                mod_thirst( mut_id->cost );
             }
         }
-        if( mdata.fatigue ) {
-            mod_fatigue( mdata.cost );
+        if( mut_id->fatigue ) {
             // Exhausted
             if( get_fatigue() >= fatigue_levels::EXHAUSTED ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too exhausted to keep your %s going." ),
-                                   mdata.name() );
-                tdata.powered = false;
+                                   mut_id->name() );
+                deactivate_mutation( mut_id );
+            } else {
+                mod_fatigue( mut_id->cost );
             }
-        }
-        if( !tdata.powered ) {
-            apply_mods( mdata.id, false );
         }
     }
 }
@@ -1519,9 +1517,8 @@ void Character::suffer()
     const int current_stim = get_stim();
     // TODO: Remove this section and encapsulate hp_cur
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        if( elem.second.get_hp_cur() <= 0 ) {
+        if( is_limb_broken( elem.first ) ) {
             add_effect( effect_disabled, 1_turns, elem.first.id(), true );
-            get_event_bus().send<event_type::broken_bone>( getID(), elem.first );
         }
     }
 
@@ -1529,14 +1526,12 @@ void Character::suffer()
         process_bionic( i );
     }
 
-    for( std::pair<const trait_id, Character::trait_data> &mut : my_mutations ) {
-        const mutation_branch &mdata = mut.first.obj();
+    for( const trait_id &mut_id : get_mutations() ) {
         if( calendar::once_every( 1_minutes ) ) {
-            suffer_water_damage( mdata );
+            suffer_water_damage( mut_id );
         }
-        Character::trait_data &tdata = mut.second;
-        if( tdata.powered ) {
-            suffer_mutation_power( mdata, tdata );
+        if( has_active_mutation( mut_id ) ) {
+            suffer_mutation_power( mut_id );
         }
     }
 
@@ -1872,7 +1867,7 @@ void Character::apply_wetness_morale( int temperature )
             continue;
         }
 
-        const auto &part_arr = mut_drench[bp->token];
+        const std::array<int, NUM_WATER_TOLERANCE> &part_arr = get_part_mut_drench( bp );
         const int part_ignored = part_arr[WT_IGNORED];
         const int part_neutral = part_arr[WT_NEUTRAL];
         const int part_good    = part_arr[WT_GOOD];

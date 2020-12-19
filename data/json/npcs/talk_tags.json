@@ -18,7 +18,7 @@
   {
     "type": "snippet",
     "category": "<yes_to_lsd>",
-    "//": "Hallucinatry NPCs say these things to encourage the avatar to extend the hallucination",
+    "//": "Hallucinatory NPCs say these things to encourage the avatar to extend the hallucination",
     "text": [
       "Pink tablets!  I love those!",
       "Hey there's some pink tablets, take some!",
@@ -1508,6 +1508,16 @@
     "type": "snippet",
     "category": "<ally_rule_follow_distance_2_false_text>",
     "text": "<mypronoun> will follow you at about four paces."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_follow_distance_request_2_text>",
+    "text": "Follow me at about two paces."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_follow_distance_request_4_text>",
+    "text": "Follow me at about four paces."
   },
   {
     "type": "snippet",

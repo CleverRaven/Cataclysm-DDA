@@ -31,7 +31,7 @@
     "coverage": 30,
     "required_str": -1,
     "light_emitted": 3,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT" ],
     "emissions": [ "emit_hot_air_migo_seep" ],
     "bash": {
       "str_min": 13,
@@ -52,7 +52,7 @@
     "move_cost_mod": 6,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT" ],
     "emissions": [ "emit_migo_atmosphere", "emit_hot_air_migo_blast" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
     "bash": {
@@ -74,7 +74,7 @@
     "move_cost_mod": 4,
     "coverage": 20,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT" ],
     "emissions": [ "emit_glimmer", "emit_shock_burst" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
     "bash": { "str_min": 30, "str_max": 60, "sound": "splorch!", "sound_fail": "whump!", "furn_set": "f_alien_scar" }
@@ -89,7 +89,7 @@
     "move_cost_mod": 6,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT" ],
     "emissions": [ "emit_hot_air_migo_seep", "emit_shock_burst" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
     "bash": {
@@ -195,7 +195,7 @@
     "type": "furniture",
     "id": "f_exodii_botrack",
     "name": "rack of robots",
-    "looks_like": "f_server_stack",
+    "looks_like": "f_server",
     "description": "This is a wire cage containing a number of robot parts, from chassis to limbs, firmly clamped on to sturdy hanging rods.  It looks like it would be exceptionally difficult to open it and get at them without damaging them, probably by design.",
     "symbol": "E",
     "color": "light_gray",

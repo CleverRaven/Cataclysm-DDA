@@ -2573,7 +2573,7 @@ class colony : private element_allocator_type
                 // For all subsequent groups, we follow this logic:
                 // 1. If distance is larger than the total number of non-erased elements in a group, we skip that group and subtract the number of elements in that group from distance
                 // 2. If distance is smaller than the total number of non-erased elements in a group, then:
-                //    a. if there're no erased elements in the group we simply add distance to group->elements to find the new location for the iterator
+                //    a. if there are no erased elements in the group we simply add distance to group->elements to find the new location for the iterator
                 //    b. if there are erased elements in the group, we manually iterate and subtract 1 from distance on each iteration, until the new iterator location is found ie. distance = 0
 
                 // Note: incrementing element_pointer is avoided until necessary to avoid needless calculations
@@ -3037,7 +3037,7 @@ class colony : private element_allocator_type
 
                 // Process initial group:
                 if( iterator1.group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) {
-                    // If no prior erasures have occured in this group we can do simple addition
+                    // If no prior erasures have occurred in this group we can do simple addition
                     distance += static_cast<diff_type>( iterator1.group_pointer->last_endpoint -
                                                         iterator1.element_pointer );
                 } else if( iterator1.element_pointer == iterator1.group_pointer->elements ) {

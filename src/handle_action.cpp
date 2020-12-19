@@ -8,6 +8,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "advanced_inv.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
@@ -293,7 +294,7 @@ input_context game::get_player_input( std::string &action )
 
                 //Check for creatures on all drawing positions and offset if necessary
                 for( auto iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter ) {
-                    const direction oCurDir = iter->getDirecton();
+                    const direction oCurDir = iter->getDirection();
                     const int width = utf8_width( iter->getText() );
                     for( int i = 0; i < width; ++i ) {
                         tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_map().get_abs_sub().z );
@@ -303,7 +304,7 @@ input_context game::get_player_input( std::string &action )
                             i = -1;
                             int iPos = iter->getStep() + iter->getStepOffset();
                             for( auto iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2 ) {
-                                if( iter2->getDirecton() == oCurDir &&
+                                if( iter2->getDirection() == oCurDir &&
                                     iter2->getStep() + iter2->getStepOffset() <= iPos ) {
                                     if( iter2->getType() == "hp" ) {
                                         iter2->advanceStepOffset();
@@ -2556,7 +2557,7 @@ bool game::handle_action()
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger
                 }
-                display_reahability_zones();
+                display_reachability_zones();
                 break;
 
             case ACTION_TOGGLE_DEBUG_MODE:

@@ -1126,14 +1126,14 @@ int related_menu_fill( uilist &rmenu,
         std::vector<const recipe *> current_part = available.search_result( p.first );
         if( !current_part.empty() ) {
 
-            bool defferent_recipes = false;
+            bool different_recipes = false;
 
             // 1st pass: check if we need to add group
             for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
                 if( current_part[recipe_n]->result_name() != recipe_name ) {
                     // add group
                     rmenu.addentry( ++np_last, false, -1, recipe_name );
-                    defferent_recipes = true;
+                    different_recipes = true;
                     break;
                 } else if( recipe_n == current_part.size() - 1 ) {
                     // only one result
@@ -1141,9 +1141,9 @@ int related_menu_fill( uilist &rmenu,
                 }
             }
 
-            if( defferent_recipes ) {
+            if( different_recipes ) {
                 std::string prev_item_name;
-                // 2nd pass: add defferent recipes
+                // 2nd pass: add different recipes
                 for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
                     std::string cur_item_name = current_part[recipe_n]->result_name();
                     if( cur_item_name != prev_item_name ) {

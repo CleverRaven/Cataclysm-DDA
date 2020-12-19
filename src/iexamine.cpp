@@ -12,6 +12,7 @@
 #include <utility>
 
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "ammo.h"
 #include "avatar.h"
@@ -2723,14 +2724,14 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
     }
 
     if( !fuel_present ) {
-        add_msg( _( "This furance is empty.  Fill it with powdered coke and lime mix, and try again." ) );
+        add_msg( _( "This furnace is empty.  Fill it with powdered coke and lime mix, and try again." ) );
         return;
     }
 
     ///\EFFECT_FABRICATION decreases loss when firing a furnace
     const int skill = p.get_skill_level( skill_fabrication );
     int loss = 60 - 2 *
-               skill; // Inefficency is still fine, coal and limestone is abundant
+               skill; // Inefficiency is still fine, coal and limestone is abundant
 
     // Burn stuff that should get charred, leave out the rest
     units::volume total_volume = 0_ml;
@@ -2741,7 +2742,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
     const itype *char_type = item::find_type( itype_unfinished_cac2 );
     int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
     if( char_charges < 1 ) {
-        add_msg( _( "The batch in this furance is too small to yield usable calcium carbide." ) );
+        add_msg( _( "The batch in this furnace is too small to yield usable calcium carbide." ) );
         return;
     }
     //arc furnaces require a huge amount of current, so 1 full storage battery would work as a stand in
@@ -3541,7 +3542,7 @@ static item_location maple_tree_sap_container()
     const item maple_sap = item( "maple_sap", calendar::turn_zero );
     return g->inv_map_splice( [&]( const item & it ) {
         return it.get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
-    }, _( "Which container?" ), PICKUP_RANGE );
+    }, _( "Use which container to collect sap?" ), PICKUP_RANGE );
 }
 
 void iexamine::tree_maple( player &p, const tripoint &examp )
@@ -3572,13 +3573,14 @@ void iexamine::tree_maple( player &p, const tripoint &examp )
     p.mod_moves( -to_moves<int>( 20_seconds ) );
     map &here = get_map();
     here.ter_set( examp, t_tree_maple_tapped );
+    add_msg( m_info, _( "You drill the maple tree crust and tap a spile into the prepared hole." ) );
 
     item_location cont_loc = maple_tree_sap_container();
 
     item *container = cont_loc.get_item();
     if( container ) {
         here.add_item_or_charges( examp, *container, false );
-
+        add_msg( m_info, _( "You hang the %s under the spile to collect sap." ), container->tname( 1 ) );
         cont_loc.remove_item();
     } else {
         add_msg( m_info, _( "No container added.  The sap will just spill on the ground." ) );
@@ -3656,7 +3658,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
             container = cont_loc.get_item();
             if( container ) {
                 here.add_item_or_charges( examp, *container, false );
-
+                add_msg( m_info, _( "You hang the %s under the spile to collect sap." ), container->tname( 1 ) );
                 cont_loc.remove_item();
             } else {
                 add_msg( m_info, _( "No container added.  The sap will just spill on the ground." ) );
@@ -3948,7 +3950,7 @@ void trap::examine( const tripoint &examp ) const
                 player_character.practice( skill_traps, 2 * difficulty );
             }
         }
-        //Picking up bubblewrap continously could powerlevel trap proficiencies, with no risk involved.
+        //Picking up bubblewrap continuously could powerlevel trap proficiencies, with no risk involved.
         if( difficulty != 0 ) {
             player_character.practice_proficiency( proficiency_prof_traps, 5_minutes );
             // Disarming a trap gives you a token bonus to learning to set them properly.
@@ -4576,7 +4578,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         }
         if( amount_money ) {
             add_msg( m_info, _( "All cash cards at maximum capacity." ) );
-            // all fuel already removed from pump, so remaning amount_money simply ignored
+            // all fuel already removed from pump, so remaining amount_money simply ignored
         }
         add_msg( m_info, _( "Your cash cards now hold %s." ),
                  format_money( p.charges_of( itype_cash_card ) ) );
@@ -5131,7 +5133,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
             if( patient.leak_level( flag_RADIOACTIVE ) ) {
-                popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's posession.  Urgent decontamination procedures highly recommended." ),
+                popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's possession.  Urgent decontamination procedures highly recommended." ),
                        patient.leak_level( flag_RADIOACTIVE ) );
             }
             break;

@@ -282,7 +282,7 @@ void Item_factory::finalize_pre( itype &obj )
         }
     }
 
-    // Migrate compataible magazines
+    // Migrate compatible magazines
     for( auto kv : obj.magazines ) {
         for( auto mag_it = kv.second.begin(); mag_it != kv.second.end(); ) {
             auto maybe_migrated = migrated_magazines.find( *mag_it );
@@ -2784,6 +2784,29 @@ void acc_data::load( const JsonObject &jo )
 // *INDENT-ON*
 } // namespace io
 
+static void migrate_mag_from_pockets( itype &def )
+{
+    for( const pocket_data &pocket : def.pockets ) {
+        if( pocket.type == item_pocket::pocket_type::MAGAZINE_WELL ) {
+            if( def.gun ) {
+                for( const ammotype &atype : def.gun->ammo ) {
+                    def.magazine_default.emplace( atype, pocket.default_magazine );
+                }
+            }
+            if( def.magazine ) {
+                for( const ammotype &atype : def.magazine->type ) {
+                    def.magazine_default.emplace( atype, pocket.default_magazine );
+                }
+            }
+            if( def.tool ) {
+                for( const ammotype &atype : def.tool->ammo_id ) {
+                    def.magazine_default.emplace( atype, pocket.default_magazine );
+                }
+            }
+        }
+    }
+}
+
 void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std::string &src )
 {
     bool strict = src == "dda";
@@ -2908,6 +2931,10 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         }
     }
 
+    if( jo.has_string( "nanofab_template_group" ) ) {
+        def.nanofab_template_group = item_group_id( jo.get_string( "nanofab_template_group" ) );
+    }
+
     JsonArray jarr = jo.get_array( "min_skills" );
     if( !jarr.empty() ) {
         def.min_skills.clear();
@@ -3023,6 +3050,20 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.read( "abstract", def.id, true );
     } else {
         jo.read( "id", def.id, true );
+    }
+
+    if( def.magazines.empty() ) {
+        migrate_mag_from_pockets( def );
+    }
+    if( def.magazine && def.magazine->capacity == 0 ) {
+        int largest = 0;
+        for( pocket_data &pocket : def.pockets ) {
+            for( const ammotype &atype : def.magazine->type ) {
+                int current = pocket.ammo_restriction[atype];
+                largest = largest < current ? current : largest;
+            }
+        }
+        def.magazine->capacity = largest;
     }
 
     // snippet_category should be loaded after def.id is determined
@@ -3239,6 +3280,18 @@ bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string
     return result;
 }
 
+template<typename T>
+bool load_str_arr( std::vector<T> &arr, const JsonObject &obj, const std::string &name )
+{
+    if( obj.has_array( name ) ) {
+        for( const std::string str : obj.get_array( name ) ) {
+            arr.emplace_back( str );
+        }
+        return true;
+    }
+    return false;
+}
+
 bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const JsonObject &obj,
                                  const std::string &name, const Item_group &parent )
 {
@@ -3373,6 +3426,7 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
     use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
+    use_modifier |= load_str_arr( modifier.snippets, obj, "snippets" );
     if( obj.has_member( "sealed" ) ) {
         modifier.sealed = obj.get_bool( "sealed" );
         use_modifier = true;

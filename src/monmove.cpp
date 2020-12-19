@@ -136,7 +136,11 @@ bool monster::will_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( has_flag( MF_AQUATIC ) && !here.has_flag( "SWIMMABLE", p ) ) {
+    if( has_flag( MF_AQUATIC ) && (
+            !here.has_flag( "SWIMMABLE", p ) ||
+            // AQUATIC (confined to water) monster avoid vehicles, unless they are already underneath one
+            ( here.veh_at( p ) && !here.veh_at( pos() ) )
+        ) ) {
         return false;
     }
 
@@ -1604,8 +1608,12 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     }
 
     //Check for moving into/out of water
-    bool was_water = here.is_divable( pos() );
-    bool will_be_water = on_ground && can_submerge() && here.is_divable( destination );
+    bool was_water = underwater;
+    bool will_be_water =
+        on_ground && (
+            // AQUATIC monsters always "swim under" the vehicles, while other swimming monsters are forced to surface
+            has_flag( MF_AQUATIC ) || ( can_submerge() && !here.veh_at( destination ) )
+        ) && here.is_divable( destination );
 
     //Birds and other flying creatures flying over the deep water terrain
     if( was_water && flies() ) {

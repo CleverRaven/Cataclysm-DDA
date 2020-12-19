@@ -3560,6 +3560,15 @@
   },
   {
     "type": "overmap_special",
+    "id": "Hot Springs",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hot_springs_north" } ],
+    "locations": [ "field" ],
+    "city_distance": [ 1, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "basin",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pond_forest_north" } ],
     "locations": [ "forest" ],
