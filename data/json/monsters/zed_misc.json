@@ -1083,7 +1083,7 @@
     "id": "mon_zombie_smoker",
     "type": "MONSTER",
     "name": { "str": "smoker zombie" },
-    "description": "A blackened and twisted naked human body. Strips of flesh hang from its frame, and it emits a constant haze of thick black smoke.",
+    "description": "A blackened and twisted naked human body.  Strips of flesh hang from its frame, and it emits a constant haze of thick black smoke.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
