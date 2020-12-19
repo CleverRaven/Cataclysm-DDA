@@ -93,7 +93,7 @@
         { "item": "boots_orc", "prob": 10 },
         { "item": "armguard_orc", "prob": 30 },
         { "item": "cuirass_orc", "prob": 20 },
-        { "group": "melee_orc", "prob": 100 }
+        { "group": "melee", "prob": 100 }
       ]
     }
   }
