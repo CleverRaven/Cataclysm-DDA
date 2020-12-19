@@ -73,7 +73,7 @@
     "category": "spare_parts",
     "name": { "str": "lump of mithril", "str_pl": "lumps of mithril" },
     "description": "A lump of raw mithril.  Needs to be reformed into an ingot to be useful.",
-    "weight": "250 g",
+    "weight": "675 g",
     "volume": "250 ml",
     "price": 2500,
     "bashing": 12,
