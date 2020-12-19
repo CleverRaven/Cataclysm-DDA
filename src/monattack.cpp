@@ -317,6 +317,10 @@ bool mattack::eat_food( monster *z )
         if( g->m.has_flag( "PLANT", p ) ) {
             continue;
         }
+        // Don't snap up food RIGHT under the player's nose.
+        if( z->friendly && rl_dist( g->u.pos(), p ) <= 2 ) {
+            continue;
+        }
         auto items = g->m.i_at( p );
         for( auto &item : items ) {
             //Fun limit prevents scavengers from eating feces
