@@ -1287,10 +1287,13 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     if( effect == effect_bleed ) {
         return !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) );
     }
+	
+    if( effect == effect_venom_dmg ) {
+        return !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) );
+    }
 
     if( effect == effect_paralyzepoison ||
         effect == effect_badpoison ||
-        effect == effect_venom_dmg ||
         effect == effect_venom_weaken ||
         effect == effect_poison ) {
         return type->in_species( species_ZOMBIE ) ||
