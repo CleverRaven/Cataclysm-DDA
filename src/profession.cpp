@@ -578,6 +578,7 @@ void json_item_substitution::load( const JsonObject &jo )
     };
 
     if( jo.has_member( "item" ) ) {
+        // items mode
         if( check_duplicate_item( itype_id( jo.get_string( "item" ) ) ) ) {
             jo.throw_error( "Duplicate definition of item" );
         }
@@ -592,6 +593,7 @@ void json_item_substitution::load( const JsonObject &jo )
             substitutions[itype_id( jo.get_string( "item" ) )].push_back( s );
         }
     } else if( jo.has_member( "trait" ) ) {
+        // traits mode
         for( const JsonObject sub : jo.get_array( "sub" ) ) {
             substitution s;
             itype_id old_it;
@@ -606,6 +608,7 @@ void json_item_substitution::load( const JsonObject &jo )
             substitutions[old_it].push_back( s );
         }
     } else if( jo.has_member( "bonus" ) ) {
+        // bonuses mode
         const item_group_id &bonus_items = item_group::load_item_group( jo.get_member( "group" ),
                                            "collection", "bonus items" );
         bonuses.emplace_back( bonus_items, trait_requirements( jo.get_object( "bonus" ) ) );
