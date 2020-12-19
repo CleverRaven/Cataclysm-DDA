@@ -394,7 +394,7 @@ void monster::plan()
         return;
     }
 
-    int valid_targets = ( target == nullptr ) ? 1 : 0;
+    int valid_targets = ( target == nullptr ) ? 0 : 1;
     for( npc &who : g->all_npcs() ) {
         mf_attitude faction_att = faction.obj().attitude( who.get_monster_faction() );
         if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
@@ -791,7 +791,8 @@ void monster::move()
     optional_vpart_position vp = here.veh_at( pos() );
     bool harness_part = static_cast<bool>( here.veh_at( pos() ).part_with_feature( "ANIMAL_CTRL",
                                            true ) );
-    if( vp && vp->vehicle().is_moving() && vp->vehicle().get_pet( vp->part_index() ) ) {
+    if( friendly != 0 && vp && vp->vehicle().is_moving() &&
+        vp->vehicle().get_pet( vp->part_index() ) ) {
         moves = 0;
         return;
         // Don't move if harnessed, even if vehicle is stationary
