@@ -88,8 +88,6 @@ static const efftype_id effect_run( "run" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
-static const efftype_id effect_venom_dmg( "venom_dmg" );
-static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_webbed( "webbed" );
 
 static const itype_id itype_corpse( "corpse" );
@@ -1291,8 +1289,6 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 
     if( effect == effect_paralyzepoison ||
         effect == effect_badpoison ||
-        effect == effect_venom_dmg ||
-        effect == effect_venom_weaken ||
         effect == effect_poison ) {
         return type->in_species( species_ZOMBIE ) ||
                !made_of_any( Creature::cmat_flesh );
