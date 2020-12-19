@@ -88,8 +88,6 @@ static const efftype_id effect_run( "run" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
-static const efftype_id effect_venom_dmg( "venom_dmg" );
-static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_webbed( "webbed" );
 
 static const itype_id itype_corpse( "corpse" );
