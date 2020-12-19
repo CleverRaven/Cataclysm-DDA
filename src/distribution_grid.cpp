@@ -27,7 +27,7 @@ bool distribution_grid::empty() const
 
 void distribution_grid::update( time_point to )
 {
-    for( const std::pair<tripoint, std::vector<tile_location>> &c : contents ) {
+    for( const std::pair<const tripoint, std::vector<tile_location>> &c : contents ) {
         submap *sm = MAPBUFFER.lookup_submap( c.first );
         if( sm == nullptr ) {
             return;
@@ -48,7 +48,7 @@ void distribution_grid::update( time_point to )
 
 int distribution_grid::mod_resource( int amt )
 {
-    for( const std::pair<tripoint, std::vector<tile_location>> &c : contents ) {
+    for( const std::pair<const tripoint, std::vector<tile_location>> &c : contents ) {
         if( amt == 0 ) {
             return 0;
         }
@@ -68,7 +68,7 @@ int distribution_grid::mod_resource( int amt )
 int distribution_grid::get_resource() const
 {
     int res = 0;
-    for( const std::pair<tripoint, std::vector<tile_location>> &c : contents ) {
+    for( const std::pair<const tripoint, std::vector<tile_location>> &c : contents ) {
         submap *sm = MAPBUFFER.lookup_submap( c.first );
         if( sm == nullptr ) {
             continue;
