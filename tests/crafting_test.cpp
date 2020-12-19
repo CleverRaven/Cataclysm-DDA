@@ -14,6 +14,7 @@
 #include "catch/catch.hpp"
 #include "coordinate_conversions.h"
 #include "crafting.h"
+#include "distribution_grid.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -552,35 +553,47 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
     }
 }
 
-TEST_CASE( "oven electric grid test", "[crafting][overmap][grids]" )
+#include "output.h"
+TEST_CASE( "oven electric grid test", "[crafting][overmap][grids][slow]" )
 {
     constexpr tripoint start_pos = tripoint( 60, 60, 0 );
     g->u.setpos( start_pos );
     clear_avatar();
     clear_map();
-    GIVEN( "player is near an oven on a charged electric grid" ) {
+    GIVEN( "player is near an oven on an electric grid with a battery on it" ) {
         auto om = overmap_buffer.get_om_global( sm_to_omt_copy( g->m.getabs( g->u.pos() ) ) );
+        // TODO: That's a lot of setup, implying barely testable design
         om.om->set_electric_grid_connections( om.local, {} );
+        // Mega ugly
+        g->load_map( g->m.get_abs_sub() );
         g->m.furn_set( start_pos + point( 10, 0 ), furn_str_id( "f_battery" ) );
-        // TODO: Make the battery charged here!!!
         g->m.furn_set( start_pos + point( 1, 0 ), furn_str_id( "f_oven" ) );
-        const inventory &crafting_inv = g->u.crafting_inventory();
-        WHEN( "crafting inventory is built" ) {
-            const inventory &crafting_inv = g->u.crafting_inventory();
-            THEN( "it contains an oven item with >0 charges" ) {
-                REQUIRE( crafting_inv.has_charges( itype_id( "oven" ), 1 ) );
-            }
-        }
 
-        WHEN( "the player is near a pot and a bottle of water" ) {
-            g->m.add_item( g->u.pos(), item( "pot" ) );
-            g->m.add_item( g->u.pos(), item( "water" ).in_its_container() );
-            THEN( "clean water can be crafted" ) {
-                const recipe &r = *recipe_id( "water_clean" );
+        distribution_grid &grid = g->m.distribution_grid_at( start_pos + point( 10, 0 ) );
+        REQUIRE( &grid == &g->m.distribution_grid_at( start_pos + point( 1, 0 ) ) );
+        WHEN( "the grid is charged with 10 units of power" ) {
+            REQUIRE( grid.get_resource() == 0 );
+            grid.mod_resource( 10 );
+            REQUIRE( grid.get_resource() == 10 );
+            AND_WHEN( "crafting inventory is built" ) {
+                g->u.invalidate_crafting_inventory();
                 const inventory &crafting_inv = g->u.crafting_inventory();
-                bool can_craft = r.deduped_requirements().can_make_with_inventory(
-                                     crafting_inv, r.get_component_filter() );
-                REQUIRE( can_craft );
+                THEN( "it contains an oven item with 10 charges" ) {
+                    REQUIRE( crafting_inv.has_charges( itype_id( "fake_oven" ), 10 ) );
+                }
+            }
+
+            AND_WHEN( "the player is near a pot and a bottle of water" ) {
+                g->u.invalidate_crafting_inventory();
+                g->m.add_item( g->u.pos(), item( "pot" ) );
+                g->m.add_item( g->u.pos(), item( "water" ).in_its_container() );
+                THEN( "clean water can be crafted" ) {
+                    const recipe &r = *recipe_id( "water_clean" );
+                    const inventory &crafting_inv = g->u.crafting_inventory();
+                    bool can_craft = r.deduped_requirements().can_make_with_inventory(
+                                         crafting_inv, r.get_component_filter() );
+                    REQUIRE( can_craft );
+                }
             }
         }
     }
