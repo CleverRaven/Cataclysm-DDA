@@ -175,7 +175,7 @@
     "id": "enchantment_basic",
     "type": "BOOK",
     "name": { "str": "The art of Enchantment", "str_pl": "copies of The art of Enchantment" },
-    "description": "A paperback tome for the art of altering item to give them magic propeties.",
+    "description": "A paperback tome on the art of imbuing items with magic properties.",
     "weight": "1 kg",
     "volume": "750 ml",
     "price": 7900,
