@@ -1007,7 +1007,7 @@ If the JSON objects contains a "trait" member, it defines a replacement for mult
     { "item": "hat_hunting", "new": [ { "item": "hat_cotton", "ratio": 2 } ] }
   ]
 }
-```C++
+```
 This defines characters with the WOOLALLERGY trait get some items replaced:
 - "blazer" is converted into "jacket_leather_red",
 - each "hat_hunting" is converted into *two* "hat_cotton" items.
@@ -1035,8 +1035,7 @@ If the JSON objects contains a "bonus" member, it defines which items will be re
     "absent": [ "HYPEROPIC" ]
   }
 }
-
-```C++
+```
 
 ### Professions
 
