@@ -1078,7 +1078,10 @@ monster_attitude monster::attitude( const Character *u ) const
 
     if( u != nullptr ) {
         // Those are checked quite often, so avoiding string construction is a good idea
+        static const string_id<monfaction> faction_acid_ant( "acid_ant" );
+        static const string_id<monfaction> faction_ant( "ant" );
         static const string_id<monfaction> faction_bee( "bee" );
+        static const string_id<monfaction> faction_wasp( "wasp" );
         if( faction == faction_bee ) {
             if( u->has_trait( trait_BEE ) ) {
                 return MATT_FRIEND;
@@ -1093,8 +1096,12 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         if( effective_anger >= 10 &&
-            ( ( type->in_species( species_MAMMAL ) && u->has_trait( trait_PHEROMONE_MAMMAL ) ) ||
-              ( type->in_species( species_INSECT ) && u->has_trait( trait_PHEROMONE_INSECT ) ) ) ) {
+            type->in_species( species_MAMMAL ) && u->has_trait( trait_PHEROMONE_MAMMAL ) ) {
+            effective_anger -= 20;
+        }
+
+        if( ( faction == faction_acid_ant || faction == faction_ant || faction == faction_bee ||
+              faction == faction_wasp ) && effective_anger >= 10 && u->has_trait( trait_PHEROMONE_INSECT ) ) {
             effective_anger -= 20;
         }
 
