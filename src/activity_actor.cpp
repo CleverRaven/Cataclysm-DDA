@@ -81,6 +81,16 @@ static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
+std::string activity_actor::get_progress_message( const player_activity &act ) const
+{
+    if( act.moves_total > 0 ) {
+        const int pct = ( ( act.moves_total - act.moves_left ) * 100 ) / act.moves_total;
+        return string_format( "%d%%", pct );
+    } else {
+        return std::string();
+    }
+}
+
 aim_activity_actor::aim_activity_actor()
 {
     initial_view_offset = get_avatar().view_offset;
@@ -397,12 +407,6 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
-std::string dig_activity_actor::get_progress_message( const player_activity &act ) const
-{
-    const int pct = ( ( act.moves_total - act.moves_left ) * 100 ) / act.moves_total;
-    return string_format( "%d%%", pct );
-}
-
 void dig_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -468,12 +472,6 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
                            here.ter( location ).obj().name() );
 
     act.set_to_null();
-}
-
-std::string dig_channel_activity_actor::get_progress_message( const player_activity &act ) const
-{
-    const int pct = ( ( act.moves_total - act.moves_left ) * 100 ) / act.moves_total;
-    return string_format( "%d%%", pct );
 }
 
 void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
@@ -2467,16 +2465,6 @@ void disassemble_activity_actor::start( player_activity &act, Character & )
 void disassemble_activity_actor::finish( player_activity &act, Character &who )
 {
     who.complete_disassemble();
-}
-
-std::string disassemble_activity_actor::get_progress_message( const player_activity &act ) const
-{
-    if( act.moves_total != 0 ) {
-        const int pct = ( ( act.moves_total - act.moves_left ) * 100 ) / act.moves_total;
-        return string_format( "%d%%", pct );
-    } else {
-        return "";
-    }
 }
 
 void disassemble_activity_actor::serialize( JsonOut &jsout ) const

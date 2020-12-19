@@ -82,7 +82,9 @@ class aim_activity_actor : public activity_actor
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<aim_activity_actor>( *this );
         }
-
+        std::string get_progress_message( const player_activity & ) const override {
+            return std::string();
+        }
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 
@@ -148,8 +150,6 @@ class dig_activity_actor : public activity_actor
             return std::make_unique<dig_activity_actor>( *this );
         }
 
-        std::string get_progress_message( const player_activity &act ) const override;
-
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
@@ -209,8 +209,6 @@ class dig_channel_activity_actor : public activity_actor
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<dig_channel_activity_actor>( *this );
         }
-
-        std::string get_progress_message( const player_activity &act ) const override;
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
@@ -272,6 +270,9 @@ class hacking_activity_actor : public activity_actor
             return std::make_unique<hacking_activity_actor>( *this );
         }
 
+        std::string get_progress_message( const player_activity & ) const override {
+            return std::string();
+        }
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
@@ -338,6 +339,10 @@ class move_items_activity_actor : public activity_actor
             return std::make_unique<move_items_activity_actor>( *this );
         }
 
+        std::string get_progress_message( const player_activity & ) const override {
+            return std::string();
+        }
+
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
@@ -373,6 +378,10 @@ class pickup_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<pickup_activity_actor>( *this );
+        }
+
+        std::string get_progress_message( const player_activity & ) const override {
+            return std::string();
         }
 
         void serialize( JsonOut &jsout ) const override;
@@ -441,6 +450,10 @@ class migration_cancel_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<migration_cancel_activity_actor>( *this );
+        }
+
+        std::string get_progress_message( const player_activity & ) const override {
+            return std::string();
         }
 
         void serialize( JsonOut &jsout ) const override;
@@ -558,6 +571,10 @@ class try_sleep_activity_actor : public activity_actor
             return std::make_unique<try_sleep_activity_actor>( *this );
         }
 
+        std::string get_progress_message( const player_activity & ) const override {
+            return std::string();
+        }
+
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
@@ -661,6 +678,10 @@ class workout_activity_actor : public activity_actor
             return std::make_unique<workout_activity_actor>( *this );
         }
 
+        std::string get_progress_message( const player_activity & ) const override {
+            return std::string();
+        }
+
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
@@ -709,6 +730,10 @@ class drop_activity_actor : public activity_actor
             return std::make_unique<drop_activity_actor>( *this );
         }
 
+        std::string get_progress_message( const player_activity & ) const override {
+            return std::string();
+        }
+
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 
@@ -738,6 +763,10 @@ class stash_activity_actor: public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<stash_activity_actor>( *this );
+        }
+
+        std::string get_progress_message( const player_activity & ) const override {
+            return std::string();
         }
 
         void serialize( JsonOut &jsout ) const override;
@@ -866,8 +895,6 @@ class disassemble_activity_actor : public activity_actor
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<disassemble_activity_actor>( *this );
         }
-
-        std::string get_progress_message( const player_activity &act ) const override;
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
