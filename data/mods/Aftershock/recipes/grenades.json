@@ -14,7 +14,7 @@
     "components": [ [ [ "afs_energy_storage_2", 1 ] ], [ [ "afs_material_1", 2 ] ] ]
   },
   {
-    "result": "grenade_nuclear_detonator",
+    "result": "grenade_cryo",
     "type": "recipe",
     "activity_level": "fake",
     "category": "CC_WEAPON",

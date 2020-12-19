@@ -393,7 +393,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 5000 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
     "material": [ "superalloy" ],
-    "flags": [ "LEAK_DAM", "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ]
   },
   {
     "id": "nano_pseudo_forge",
@@ -428,7 +428,7 @@
     "to_hit": -2,
     "bashing": 5,
     "material": [ "superalloy" ],
-    "flags": [ "LEAK_DAM", "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ]
   },
   {
     "id": "pseudo_diamond_press",
