@@ -1053,8 +1053,12 @@ static void accumulate_ma_buff_effects( const C &container, F f )
 {
     for( auto &elem : container ) {
         for( auto &eff : elem.second ) {
-            if( auto buff = ma_buff::from_effect( eff.second ) ) {
-                f( *buff, eff.second );
+            const effect &e = eff.second;
+            if( e.is_removed() ) {
+                continue;
+            }
+            if( auto buff = ma_buff::from_effect( e ) ) {
+                f( *buff, e );
             }
         }
     }
@@ -1065,8 +1069,12 @@ static bool search_ma_buff_effect( const C &container, F f )
 {
     for( auto &elem : container ) {
         for( auto &eff : elem.second ) {
-            if( auto buff = ma_buff::from_effect( eff.second ) ) {
-                if( f( *buff, eff.second ) ) {
+            const effect &e = eff.second;
+            if( e.is_removed() ) {
+                continue;
+            }
+            if( auto buff = ma_buff::from_effect( e ) ) {
+                if( f( *buff, e ) ) {
                     return true;
                 }
             }
