@@ -34,3 +34,39 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   }
 ]
+[
+  {
+    "id": "mon_zorc",
+    "type": "MONSTER",
+    "name": { "str": "undead orc" },
+    "description": " This unholy amalgamation looks at you with a piercing stare so strong it scares your soul away.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "categories": [ "CLASSIC" ],
+    "species": [ "ZOMBIE" ],
+    "volume": "67 L",
+    "weight": "200 kg",
+    "hp": 260,
+    "speed": 200,
+    "material": [ "flesh" ],
+    "symbol": "O",
+    "color": "yellow",
+    "aggression": 200,
+    "morale": 120,
+    "melee_skill": 7,
+    "melee_dice": 4,
+    "melee_dice_sides": 6,
+    "melee_cut": 6,
+    "dodge": 12,
+    "armor_bash": 42,
+    "armor_cut": 32,
+    "armor_bullet": 45,
+    "vision_night": 12,
+    "harvest": "flesh",
+    "special_attacks": [ [ "Shieldcharge", 43 ] ],
+    "fear_triggers": [ "NONE" ],
+    "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 28, "into_group": "GROUP_ZORC_UPGRADE" },
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+  }
+]
