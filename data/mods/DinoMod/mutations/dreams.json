@@ -25,10 +25,7 @@
   },
   {
     "type": "dream",
-    "messages": [
-      "So close, you can taste the rebirth of a glorious past.",
-      "King, nay not a king.  A god among beasts."
-    ],
+    "messages": [ "So close, you can taste the rebirth of a glorious past.", "King, nay not a king.  A god among beasts." ],
     "category": "TYRANT",
     "strength": 4
   },
