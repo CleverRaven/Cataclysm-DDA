@@ -8,8 +8,6 @@
 #include "mtype.h"
 #include "type_id.h"
 
-static const species_id species_ZOMBIE( "ZOMBIE" );
-
 // Test effect methods from `Creature` class on both `monster` and `player`
 
 // Functions covered:
@@ -354,52 +352,50 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
     const efftype_id effect_poison( "poison" );
     const efftype_id effect_badpoison( "badpoison" );
     const efftype_id effect_paralyzepoison( "paralyzepoison" );
-    const efftype_id effect_venom_dmg( "venom_dmg" );
-    const efftype_id effect_venom_weaken( "venom_weaken" );
 
     // TODO: Monster may be immune to:
     // - onfire (if is_immune_damage DT_HEAT, made_of LIQUID, has_flag MF_FIREY)
     // - stunned (if has_flag MF_STUN_IMMUNE)
 
-    WHEN( "monster is made of flesh and is not zombified" ) {
-        // Cow - fleshy and alive
-        monster cow( mtype_id( "mon_cow" ) );
-        cow.clear_effects();
-        REQUIRE( cow.made_of_any( Creature::cmat_flesh ) );
-        REQUIRE_FALSE( cow.type->in_species( species_ZOMBIE ) );
-
-        THEN( "they can bleed" ) {
-            CHECK_FALSE( cow.is_immune_effect( effect_bleed ) );
-        }
-        THEN( "they can be poisoned" ) {
-            CHECK_FALSE( cow.is_immune_effect( effect_poison ) );
-            CHECK_FALSE( cow.is_immune_effect( effect_badpoison ) );
-            CHECK_FALSE( cow.is_immune_effect( effect_paralyzepoison ) );
-            CHECK_FALSE( cow.is_immune_effect( effect_venom_dmg ) );
-            CHECK_FALSE( cow.is_immune_effect( effect_venom_weaken ) );
-        }
-
-    }
-    WHEN( "monster is made of flesh but is zombified" ) {
-        // Zombie - fleshy zombie
+    WHEN( "monster is made of flesh and is warm-blooded" ) {
+        // Regular zombie - fleshy and warm
         monster zed( mtype_id( "mon_zombie" ) );
         zed.clear_effects();
-        REQUIRE( zed.made_of_any( Creature::cmat_flesh ) );
-        REQUIRE( zed.type->in_species( species_ZOMBIE ) );
+        REQUIRE( zed.made_of( material_id( "flesh" ) ) );
+        REQUIRE( zed.has_flag( MF_WARM ) );
 
         THEN( "they can bleed" ) {
             CHECK_FALSE( zed.is_immune_effect( effect_bleed ) );
         }
-        THEN( "they can't be poisoned" ) {
-            CHECK( zed.is_immune_effect( effect_poison ) );
-            CHECK( zed.is_immune_effect( effect_badpoison ) );
-            CHECK( zed.is_immune_effect( effect_paralyzepoison ) );
-            CHECK( zed.is_immune_effect( effect_venom_dmg ) );
-            CHECK( zed.is_immune_effect( effect_venom_weaken ) );
+        THEN( "they can be poisoned" ) {
+            CHECK_FALSE( zed.is_immune_effect( effect_bleed ) );
+            CHECK_FALSE( zed.is_immune_effect( effect_poison ) );
+            CHECK_FALSE( zed.is_immune_effect( effect_badpoison ) );
+            CHECK_FALSE( zed.is_immune_effect( effect_paralyzepoison ) );
         }
     }
 
-    WHEN( "monster is made of flesh, but shouldn't bleed yet" ) {
+    WHEN( "monster is not not made of flesh and not warm-blooded" ) {
+        // Skeleton - no flesh, not warm-blooded
+        monster skelly( mtype_id( "mon_skeleton" ) );
+        skelly.clear_effects();
+        REQUIRE_FALSE( skelly.made_of( material_id( "flesh" ) ) );
+        REQUIRE_FALSE( skelly.made_of( material_id( "iflesh" ) ) );
+        REQUIRE_FALSE( skelly.has_flag( MF_WARM ) );
+
+        THEN( "they are immune to the bleed effect" ) {
+            CHECK( skelly.is_immune_effect( effect_bleed ) );
+        }
+
+        THEN( "they are immune to all poison effects" ) {
+            CHECK( skelly.is_immune_effect( effect_bleed ) );
+            CHECK( skelly.is_immune_effect( effect_poison ) );
+            CHECK( skelly.is_immune_effect( effect_badpoison ) );
+            CHECK( skelly.is_immune_effect( effect_paralyzepoison ) );
+        }
+    }
+
+    WHEN( "monster is made of flesh, but not warm-blooded" ) {
         // Razorclaw - fleshy, with arthropod blood
         monster razorclaw( mtype_id( "mon_razorclaw" ) );
         razorclaw.clear_effects();
@@ -410,33 +406,11 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
             CHECK( razorclaw.is_immune_effect( effect_bleed ) );
         }
 
-        THEN( "they can be poisoned" ) {
-            CHECK_FALSE( razorclaw.is_immune_effect( effect_poison ) );
-            CHECK_FALSE( razorclaw.is_immune_effect( effect_badpoison ) );
-            CHECK_FALSE( razorclaw.is_immune_effect( effect_paralyzepoison ) );
-            CHECK_FALSE( razorclaw.is_immune_effect( effect_venom_dmg ) );
-            CHECK_FALSE( razorclaw.is_immune_effect( effect_venom_weaken ) );
-        }
-    }
-
-    WHEN( "monster is not made of flesh or iflesh" ) {
-        // Fungaloid - veggy
-        monster fungaloid( mtype_id( "mon_fungaloid" ) );
-        fungaloid.clear_effects();
-        REQUIRE_FALSE( fungaloid.made_of( material_id( "flesh" ) ) );
-        REQUIRE_FALSE( fungaloid.made_of( material_id( "iflesh" ) ) );
-        REQUIRE_FALSE( fungaloid.has_flag( MF_WARM ) );
-
-        THEN( "they are immune to the bleed effect" ) {
-            CHECK( fungaloid.is_immune_effect( effect_bleed ) );
-        }
-
-        THEN( "they can't be poisoned" ) {
-            CHECK( fungaloid.is_immune_effect( effect_poison ) );
-            CHECK( fungaloid.is_immune_effect( effect_badpoison ) );
-            CHECK( fungaloid.is_immune_effect( effect_paralyzepoison ) );
-            CHECK( fungaloid.is_immune_effect( effect_venom_dmg ) );
-            CHECK( fungaloid.is_immune_effect( effect_venom_weaken ) );
+        THEN( "they are immune to all poison effects" ) {
+            CHECK( razorclaw.is_immune_effect( effect_bleed ) );
+            CHECK( razorclaw.is_immune_effect( effect_poison ) );
+            CHECK( razorclaw.is_immune_effect( effect_badpoison ) );
+            CHECK( razorclaw.is_immune_effect( effect_paralyzepoison ) );
         }
     }
 }
