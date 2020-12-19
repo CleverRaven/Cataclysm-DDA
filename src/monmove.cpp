@@ -792,7 +792,7 @@ void monster::move()
     bool harness_part = static_cast<bool>( here.veh_at( pos() ).part_with_feature( "ANIMAL_CTRL",
                                            true ) );
     if( friendly != 0 && vp && vp->vehicle().is_moving() &&
-        vp->vehicle().get_pet( vp->part_index() ) ) {
+        vp->vehicle().get_monster( vp->part_index() ) ) {
         moves = 0;
         return;
         // Don't move if harnessed, even if vehicle is stationary
