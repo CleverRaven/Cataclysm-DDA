@@ -198,8 +198,6 @@ class game
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
     public:
-        /** Initializes the UI. */
-        void init_ui( bool resized = false );
         void setup();
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
@@ -1029,7 +1027,6 @@ class game
         safe_mode_type safe_mode;
 
         //pixel minimap management
-        int pixel_minimap_option = 0;
         time_duration turnssincelastmon = 0_turns; // needed for auto run mode
 
         weather_manager weather;
