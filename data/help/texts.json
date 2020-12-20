@@ -29,7 +29,7 @@
     "name": "<c|C>: Viewing",
     "messages": [
       "The player can often see more than can be displayed on the screen at a time.  Pressing <press_look> enters \"look around mode\", which allows you to scroll around using the movement keys and view items on the map as well as monsters and their stance toward the character.  Pressing <press_listitems> provides a list of nearby visible items, though items shut away in crates, cupboards, refrigerators and the like won't be displayed until you are close enough.  Pressing Shift+vikeys (h,j,k,l,y,u,b,n) will scroll the view persistently, allowing you to keep an eye on things as you move around.",
-      "Places outside of your view but seen previously and memorized can be visualized, but they will be covered by the \"fog of war\"."
+      "Places outside of your view but seen previously and still memorized can be visualized, but they will be covered by the \"fog of war\"."
     ]
   },
   {
