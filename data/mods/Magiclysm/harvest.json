@@ -360,7 +360,7 @@
     ]
   },
   {
-    "id": "orcs",
+    "id": "orc",
     "type": "harvest",
     "entries": [
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
