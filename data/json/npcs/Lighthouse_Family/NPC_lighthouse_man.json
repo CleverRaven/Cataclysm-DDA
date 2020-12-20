@@ -299,6 +299,7 @@
       "assign_mission_target": { "om_terrain": "lighthouse_ground", "reveal_radius": 10 },
       "effect": [ "follow_only", { "npc_first_topic": "TALK_lighthouse_man_lighthouse" } ]
     },
+    "end": { "opinion": { "trust": 3, "value": 3 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_lighthouse_man_2",
     "dialogue": {
@@ -331,6 +332,7 @@
       ]
     },
     "end": {
+      "opinion": { "trust": 3, "value": 3 },
       "effect": [
         "stop_following",
         { "npc_first_topic": "TALK_lighthouse_man_1" },
@@ -369,7 +371,10 @@
         ]
       }
     },
-    "end": { "effect": { "u_add_var": "lighthouse_family_safe", "type": "flag", "context": "help", "value": "yes" } },
+    "end": {
+      "opinion": { "trust": 6, "value": 6 },
+      "effect": { "u_add_var": "lighthouse_family_safe", "type": "flag", "context": "help", "value": "yes" }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_lighthouse_man_4",
     "dialogue": {
@@ -395,6 +400,7 @@
     "difficulty": 0,
     "value": 10000,
     "end": {
+      "opinion": { "trust": 3, "value": 3 },
       "update_mapgen": {
         "om_terrain": "lighthouse_ground",
         "place_vehicles": [ { "vehicle": "canoe", "x": 3, "y": 3, "rotation": 0, "status": 0 } ]
@@ -426,6 +432,7 @@
     "difficulty": 0,
     "value": 100000,
     "end": {
+      "opinion": { "trust": 3, "value": 3 },
       "update_mapgen": {
         "om_terrain": "lighthouse_z5",
         "place_terrain": [ { "ter": "t_floor_olight", "x": 11, "y": 12 }, { "ter": "t_floor_olight", "x": 13, "y": 13 } ]
