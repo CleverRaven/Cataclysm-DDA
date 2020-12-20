@@ -740,7 +740,7 @@ std::set<point> vehicle::immediate_path( const units::angle &rotate )
     return points_to_check;
 }
 
-static int get_turn_from_angle( const units::angle angle, const tripoint &vehpos,
+static int get_turn_from_angle( const units::angle &angle, const tripoint &vehpos,
                                 const tripoint &target, bool reverse = false )
 {
     if( angle > 10.0_degrees && angle <= 45.0_degrees ) {

@@ -2058,7 +2058,7 @@ float map::vehicle_wheel_traction( const vehicle &veh,
 }
 
 units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
-                                 const units::angle direction )
+                                 const units::angle &direction )
 {
     const int d_vel = std::abs( veh.velocity - velocity_before ) / 100;
 

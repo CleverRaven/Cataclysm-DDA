@@ -658,7 +658,7 @@ class map
                                          const std::vector<veh_collision> &collisions );
         // Throws vehicle passengers about the vehicle, possibly out of it
         // Returns change in vehicle orientation due to lost control
-        units::angle shake_vehicle( vehicle &veh, int velocity_before, units::angle direction );
+        units::angle shake_vehicle( vehicle &veh, int velocity_before, const units::angle &direction );
 
         // Actually moves the vehicle
         // Unlike displace_vehicle, this one handles collisions

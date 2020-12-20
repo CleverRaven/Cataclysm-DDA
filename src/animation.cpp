@@ -929,7 +929,7 @@ void game::draw_item_override( const tripoint &, const itype_id &, const mtype_i
 
 #if defined(TILES)
 void game::draw_vpart_override(
-    const tripoint &p, const vpart_id &id, const int part_mod, const units::angle veh_dir,
+    const tripoint &p, const vpart_id &id, const int part_mod, const units::angle &veh_dir,
     const bool hilite, const point &mount )
 {
     if( use_tiles ) {
@@ -938,7 +938,7 @@ void game::draw_vpart_override(
 }
 #else
 void game::draw_vpart_override( const tripoint &, const vpart_id &, const int,
-                                const units::angle, const bool, const point & )
+                                const units::angle &, const bool, const point & )
 {
 }
 #endif

@@ -286,7 +286,7 @@ class bodypart
 
         void set_encumbrance_data( const encumbrance_data &set );
 
-        void set_mut_drench( std::pair<water_tolerance, int> set );
+        void set_mut_drench( const std::pair<water_tolerance, int> &set );
 
         void mod_hp_cur( int mod );
         void mod_hp_max( int mod );
