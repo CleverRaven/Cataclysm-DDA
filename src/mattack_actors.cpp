@@ -154,17 +154,12 @@ std::unique_ptr<mattack_actor> mon_spellcasting_actor::clone() const
 
 void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::string & )
 {
-    fake_spell intermediate;
-    mandatory( obj, was_loaded, "spell_data", intermediate );
-    self = intermediate.self;
+    mandatory( obj, was_loaded, "spell_data", spell_data );
     translation monster_message;
     optional( obj, was_loaded, "monster_message", monster_message,
               //~ "<Monster Display name> cast <Spell Name> on <Target name>!"
               to_translation( "%1$s casts %2$s at %3$s!" ) );
-    spell_data = intermediate.get_spell();
-    spell_data.set_message( monster_message );
-    avatar fake_player;
-    move_cost = spell_data.casting_time( fake_player, true );
+    spell_data.trigger_message = monster_message;
 }
 
 bool mon_spellcasting_actor::call( monster &mon ) const
@@ -178,10 +173,12 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         return false;
     }
 
-    const tripoint target = self ? mon.pos() : mon.attack_target()->pos();
+    const tripoint target = spell_data.self ? mon.pos() : mon.attack_target()->pos();
+    spell spell_instance = spell_data.get_spell();
+    spell_instance.set_message( spell_data.trigger_message );
 
     // Bail out if the target is out of range.
-    if( !self && rl_dist( mon.pos(), target ) > spell_data.range() ) {
+    if( !spell_data.self && rl_dist( mon.pos(), target ) > spell_instance.range() ) {
         return false;
     }
 
@@ -190,10 +187,12 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         target_name = target_monster->disp_name();
     }
 
-    add_msg_if_player_sees( target, spell_data.message(), mon.disp_name(),
-                            spell_data.name(), target_name );
+    add_msg_if_player_sees( target, spell_instance.message(), mon.disp_name(),
+                            spell_instance.name(), target_name );
 
-    spell_data.cast_all_effects( mon, target );
+    avatar fake_player;
+    mon.moves -= spell_instance.casting_time( fake_player, true );
+    spell_instance.cast_all_effects( mon, target );
 
     return true;
 }
