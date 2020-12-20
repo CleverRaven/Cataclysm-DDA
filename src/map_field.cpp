@@ -1721,7 +1721,7 @@ void map::player_in_field( player &u )
                 ( static_cast<npc *>( &u ) )->complain_about( std::get<1>( npc_complain_data ),
                         std::get<2>( npc_complain_data ),
                         std::get<3>( npc_complain_data ) );
-            };
+            }
         }
     }
 }
