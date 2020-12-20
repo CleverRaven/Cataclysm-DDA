@@ -652,7 +652,6 @@
     "name": [ "Laser-targeted" ],
     "desc": [ "A laser sight is targeting you!" ],
     "apply_message": "",
-    "max_duration": "5 s",
     "rating": "bad"
   },
   {
@@ -661,7 +660,6 @@
     "name": [ "" ],
     "desc": [ "" ],
     "apply_message": "",
-    "max_duration": "5 s",
     "rating": "bad"
   },
   {

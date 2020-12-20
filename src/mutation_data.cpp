@@ -560,6 +560,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         restricts_gear.insert( bodypart_str_id( line ) );
     }
 
+    for( const std::string line : jo.get_array( "allowed_items" ) ) {
+        allowed_items.insert( flag_id( line ) );
+    }
+
     for( JsonObject ao : jo.get_array( "armor" ) ) {
         const resistances res = load_resistances_instance( ao );
 

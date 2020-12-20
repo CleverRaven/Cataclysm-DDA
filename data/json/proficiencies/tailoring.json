@@ -64,6 +64,16 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_weaving",
+    "name": { "str": "Weaving" },
+    "description": "You've learned how to use a loom to produce sheets of fabric from thread.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 4,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_millinery",
     "name": { "str": "Millinery" },
     "description": "Like a solitary mouse, you've learned how to construct hats by hand.",

@@ -211,7 +211,8 @@ bool Creature::sees( const Creature &critter ) const
     }
 
     map &here = get_map();
-    if( !here.has_potential_los( pos(), critter.pos() ) ) {
+    // player can use mirrors, so `has_potential_los` cannot be used
+    if( !is_player() && !here.has_potential_los( pos(), critter.pos() ) ) {
         return false;
     }
 
@@ -505,6 +506,36 @@ int Creature::size_melee_penalty() const
 
     debugmsg( "Invalid target size %d", get_size() );
     return 0;
+}
+
+bool Creature::is_adjacent( Creature *target, const bool allow_z_levels ) const
+{
+    if( target == nullptr ) {
+        return false;
+    }
+
+    if( rl_dist( pos(), target->pos() ) != 1 ) {
+        return false;
+    }
+
+    map &here = get_map();
+    if( posz() == target->posz() ) {
+        return
+            /* either target or attacker are underwater and separated by vehicle tiles */
+            !( underwater != target->underwater &&
+               here.veh_at( pos() ) && here.veh_at( target->pos() ) );
+    }
+
+    if( !allow_z_levels ) {
+        return false;
+    }
+
+    // The square above must have no floor (currently only open air).
+    // The square below must have no ceiling (i.e. be outside).
+    const bool target_above = target->posz() > posz();
+    const tripoint &up   = target_above ? target->pos() : pos();
+    const tripoint &down = target_above ? pos() : target->pos();
+    return here.ter( up ) == t_open_air && here.is_outside( down );
 }
 
 int Creature::deal_melee_attack( Creature *source, int hitroll )
@@ -2424,4 +2455,37 @@ void Creature::load_hit_range( const JsonObject &jo )
     if( jo.has_array( "even_good" ) ) {
         jo.read( "even_good", dispersion_for_even_chance_of_good_hit );
     }
+}
+
+void Creature::describe_infrared( std::vector<std::string> &buf ) const
+{
+    std::string size_str;
+    switch( get_size() ) {
+        case creature_size::tiny:
+            size_str = pgettext( "infrared size", "tiny" );
+            break;
+        case creature_size::small:
+            size_str = pgettext( "infrared size", "small" );
+            break;
+        case creature_size::medium:
+            size_str = pgettext( "infrared size", "medium" );
+            break;
+        case creature_size::large:
+            size_str = pgettext( "infrared size", "large" );
+            break;
+        case creature_size::huge:
+            size_str = pgettext( "infrared size", "huge" );
+            break;
+        case creature_size::num_sizes:
+            debugmsg( "Creature has invalid size class." );
+            size_str = "invalid";
+            break;
+    }
+    buf.push_back( _( "You see a figure radiating heat." ) );
+    buf.push_back( string_format( _( "It is %s in size." ), size_str ) );
+}
+
+void Creature::describe_specials( std::vector<std::string> &buf ) const
+{
+    buf.push_back( _( "You sense a creature here." ) );
 }

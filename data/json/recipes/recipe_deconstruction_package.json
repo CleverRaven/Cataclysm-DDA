@@ -488,5 +488,24 @@
       [ [ "hacksaw", 1 ] ],
       [ [ "hammer", 1 ] ]
     ]
+  },
+  {
+    "//": "Until 0.F, allow disassembling legacy workshop toolboxes",
+    "result": "survivor_belt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [
+      [ [ "toolbox_workshop_empty", 1 ] ],
+      [ [ "pockknife", 1 ] ],
+      [ [ "screwdriver_set", 1 ] ],
+      [ [ "hacksaw", 1 ] ],
+      [ [ "wrench", 1 ] ],
+      [ [ "saw", 1 ] ],
+      [ [ "hammer", 1 ] ],
+      [ [ "metal_file", 1 ] ],
+      [ [ "pin_reamer", 1 ] ],
+      [ [ "clamp", 1 ] ]
+    ]
   }
 ]

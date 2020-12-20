@@ -713,7 +713,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     if( corpse_item.has_flag( flag_QUARTERED ) ) {
         time_to_cut /= 4;
     }
-    time_to_cut = time_to_cut * ( 1 - ( get_player_character().get_num_crafting_helpers( 3 ) / 10 ) );
+    time_to_cut *= ( 1.0f - ( get_player_character().get_num_crafting_helpers( 3 ) / 10.0f ) );
     return time_to_cut;
 }
 

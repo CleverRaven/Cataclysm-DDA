@@ -279,7 +279,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
 
     if( has_flag( flag_NANOFAB_TEMPLATE ) ) {
         itype_id nanofab_recipe =
-            item_group::item_from( item_group_id( "nanofab_recipes" ) ).typeId();
+            item_group::item_from( type->nanofab_template_group ).typeId();
         set_var( "NANOFAB_ITEM_ID", nanofab_recipe.str() );
     }
 
@@ -703,7 +703,7 @@ bool item::is_null() const
 
 bool item::is_unarmed_weapon() const
 {
-    return has_flag( flag_UNARMED_WEAPON ) || is_null();
+    return is_null() || has_flag( flag_UNARMED_WEAPON );
 }
 
 bool item::is_frozen_liquid() const
@@ -979,7 +979,7 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     if( type != rhs.type ) {
         return false;
     }
-    if( is_relic() && !( *relic_data == *rhs.relic_data ) ) {
+    if( is_relic() && rhs.is_relic() && !( *relic_data == *rhs.relic_data ) ) {
         return false;
     }
     if( charges != 0 && rhs.charges != 0 && is_money() ) {

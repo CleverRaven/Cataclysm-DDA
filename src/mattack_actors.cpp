@@ -44,16 +44,6 @@ static const efftype_id effect_was_laserlocked( "was_laserlocked" );
 
 static const trait_id trait_TOXICFLESH( "TOXICFLESH" );
 
-// Simplified version of the function in monattack.cpp
-static bool is_adjacent( const monster &z, const Creature &target )
-{
-    if( rl_dist( z.pos(), target.pos() ) != 1 ) {
-        return false;
-    }
-
-    return z.posz() == target.posz();
-}
-
 void leap_actor::load_internal( const JsonObject &obj, const std::string & )
 {
     // Mandatory:
@@ -265,7 +255,7 @@ Creature *melee_actor::find_target( monster &z ) const
     }
 
     Creature *target = z.attack_target();
-    if( target == nullptr || !is_adjacent( z, *target ) ) {
+    if( target == nullptr || !z.is_adjacent( target, false ) ) {
         return nullptr;
     }
 
@@ -436,7 +426,7 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
 
     obj.read( "targeting_volume", targeting_volume );
 
-    obj.get_bool( "laser_lock", laser_lock );
+    laser_lock = obj.get_bool( "laser_lock", false );
 
     obj.read( "require_sunlight", require_sunlight );
 }
@@ -511,8 +501,8 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
             z.add_effect( effect_targeted, time_duration::from_turns( targeting_timeout ) );
         }
         if( not_laser_locked ) {
-            target.add_effect( effect_laserlocked, 5_turns );
-            target.add_effect( effect_was_laserlocked, 5_turns );
+            target.add_effect( effect_laserlocked, time_duration::from_turns( targeting_timeout ) );
+            target.add_effect( effect_was_laserlocked, time_duration::from_turns( targeting_timeout ) );
             target.add_msg_if_player( m_warning,
                                       _( "You're not sure why you've got a laser dot on you…" ) );
         }

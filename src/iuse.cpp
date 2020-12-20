@@ -2807,7 +2807,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     // Modify the number of moves based on the help.
     // TODO: this block of code is all over the place and could probably be consolidated.
     const int helpersize = p->get_num_crafting_helpers( 3 );
-    moves = moves * ( 1 - ( helpersize / 10 ) );
+    moves *= ( 1.0f - ( helpersize / 10.0f ) );
 
     ter_id result_terrain;
     if( channel ) {
@@ -3040,11 +3040,10 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    const int helpersize = p->get_num_crafting_helpers( 3 );
-    moves = moves * ( 1 - ( helpersize / 10 ) );
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
+    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
+    moves *= ( 1.0f - ( helpersize / 10.0f ) );
+    for( std::size_t i = 0; i < helpersize; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
     p->assign_activity( ACT_FILL_PIT, moves, -1, p->get_item_position( it ) );
     p->activity.placement = pnt;
@@ -3087,7 +3086,7 @@ int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
         break;
     }
     const int helpersize = p->get_num_crafting_helpers( 3 );
-    const int moves = to_moves<int>( 30_seconds ) * ( 1 - ( helpersize / 10 ) );
+    const int moves = to_moves<int>( 30_seconds ) * ( 1.0f - ( helpersize / 10.0f ) );
     player_activity act( ACT_CLEAR_RUBBLE, moves / bonus, bonus );
     p->assign_activity( act );
     p->activity.placement = pnt;
@@ -3389,11 +3388,10 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
     }
 
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    const int helpersize = p->get_num_crafting_helpers( 3 );
-    moves *= ( 1 - ( helpersize / 10 ) );
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
+    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
+    moves *= ( 1.0f - ( helpersize / 10.0f ) );
+    for( std::size_t i = 0; i < helpersize; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
 
     p->assign_activity( ACT_JACKHAMMER, moves, -1, p->get_item_position( it ) );
@@ -3497,11 +3495,10 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
     }
 
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    const int helpersize = p->get_num_crafting_helpers( 3 );
-    moves *= ( 1 - ( helpersize / 10 ) );
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
+    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
+    moves *= ( 1.0f - ( helpersize / 10.0f ) );
+    for( std::size_t i = 0; i < helpersize; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
 
     p->assign_activity( ACT_PICKAXE, moves, -1 );
@@ -4970,7 +4967,7 @@ static int chop_moves( player *p, item *it )
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = p->get_num_crafting_helpers( 3 );
-    moves = moves * ( 1 - ( helpersize / 10 ) );
+    moves *= ( 1.0f - ( helpersize / 10.0f ) );
     return moves;
 }
 
@@ -9590,11 +9587,10 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
         return 0;
     }
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    const int helpersize = p->get_num_crafting_helpers( 3 );
-    required.time = required.time * ( 1 - ( helpersize / 10 ) );
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
+    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
+    required.time *= ( 1.0f - ( helpersize / 10.0f ) );
+    for( std::size_t i = 0; i < helpersize; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
     // Assign the activity values.
     p->assign_activity( ACT_WASH, required.time );

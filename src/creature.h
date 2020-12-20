@@ -392,6 +392,13 @@ class Creature : public location, public viewer
         // returns hit - dodge (>=0 = hit, <0 = miss)
         virtual int deal_melee_attack( Creature *source, int hitroll );
 
+        // Distance == 1 and on the same z-level or with a clear shot up/down.
+        // If allow_zlev is false, don't allow attacking up/down at all.
+        // If allow_zlev is true, also allow distance == 1 and on different z-level
+        // as long as floor/ceiling doesn't exist.
+        // Also check other factors, like vehicle separating deep water/air
+        bool is_adjacent( Creature *target, bool allow_z_levels ) const;
+
         // modifies the damage dealt based on the creature's enchantments
         // since creatures currently don't have enchantments, this is just virtual
         virtual damage_instance modify_damage_dealt_with_enchantments( const damage_instance &dam ) const;
@@ -790,6 +797,12 @@ class Creature : public location, public viewer
          * call without creating empty lines or overwriting lines.
          */
         virtual int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const = 0;
+
+        /** Describe this creature as seen by the avatar via infrared vision. */
+        void describe_infrared( std::vector<std::string> &buf ) const;
+
+        /** Describe this creature as detected by the avatar's special senses. */
+        void describe_specials( std::vector<std::string> &buf ) const;
 
         // Message related stuff
         virtual void add_msg_if_player( const std::string &/*msg*/ ) const {}
