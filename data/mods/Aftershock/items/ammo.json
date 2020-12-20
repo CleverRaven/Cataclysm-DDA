@@ -55,7 +55,7 @@
     "longest_side": "76 cm",
     "bashing": 1,
     "ammo_type": "arrow",
-    "damage": { "damage_type": "stab", "constant_damage_multiplier": 2.75 },
+    "damage": { "damage_type": "stab", "constant_damage_multiplier": 3.75 },
     "range": 6,
     "dispersion": 20,
     "loudness": 0,
