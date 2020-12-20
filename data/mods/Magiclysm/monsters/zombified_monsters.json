@@ -37,7 +37,7 @@
     "id": "mon_zorc",
     "type": "MONSTER",
     "name": { "str": "undead orc" },
-    "description": " This unholy amalgamation looks at you with a piercing stare so strong it scares your soul away.",
+    "description": " This unholy amalgamation looks at you with a piercing stare so strong it might scare your soul away.",
     "default_faction": "zombie",
     "bodytype": "human",
     "categories": [ "CLASSIC" ],
