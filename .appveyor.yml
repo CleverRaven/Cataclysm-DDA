@@ -4,12 +4,15 @@ configuration: Release
 platform: x64
 shallow_clone: true
 clone_folder: C:\Projects\Cataclysm-DDA
+cache:
+  - c:\tools\vcpkg\installed
+  - c:\Users\appveyor\AppData\Local\vcpkg\
 install:
-  - cmd: vcpkg --triplet x64-windows-static install sdl2 sdl2-image sdl2-mixer sdl2-ttf gettext
-cache: c:\tools\vcpkg\installed\
+ - cmd: vcpkg install yasm-tool:x86-windows
+ - cmd: vcpkg install mpg123:x64-windows-static
 build:
   project: /msvc-full-features/Cataclysm-vcpkg-static.sln
   parallel: true
   verbosity: minimal
 test_script:
-  - cmd: Cataclysm-test-vcpkg-static-Release-x64.exe --rng-seed time
+  - cmd: Cataclysm-test-vcpkg-static-Release-x64.exe --rng-seed time --min-duration 0.2

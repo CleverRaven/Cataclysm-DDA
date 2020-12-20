@@ -434,8 +434,7 @@ class time_point
     public:
         time_point();
         // TODO: make private
-        // TODO: make explicit
-        constexpr time_point( const int t ) : turn_( t ) { }
+        explicit constexpr time_point( const int t ) : turn_( t ) { }
 
     public:
         // TODO: remove this, nobody should need it, one should use a constant `time_point`

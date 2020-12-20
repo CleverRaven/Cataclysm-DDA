@@ -45,7 +45,7 @@
     "material": [ "cotton" ],
     "symbol": "^",
     "color": "light_blue",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 50,
     "encumbrance": 12,
     "warmth": 7,
@@ -68,9 +68,44 @@
           "has": "WIELD",
           "condition": "ALWAYS",
           "hit_you_effect": [ { "id": "fireball" } ],
-          "hit_me_effect": [ { "id": "light_healing" } ]
+          "hit_me_effect": [ { "id": "light_healing", "hit_self": true } ]
         }
       ]
     }
+  },
+  {
+    "id": "cloak_morthylla",
+    "type": "ARMOR",
+    "copy-from": "cloak_wool",
+    "name": { "str": "Cloak of Morthylla the Lamia", "str_pl": "Cloaks of Morthylla the Lamia" },
+    "description": "This cloak seems to absorb light except for the pinpricks of stars that move across its surface.",
+    "price": 1500000,
+    "price_postapoc": 360000,
+    "material": [ "black_dragon_hide" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ],
+    "coverage": 85,
+    "encumbrance": 4,
+    "warmth": 30,
+    "material_thickness": 3,
+    "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY", "TRADER_KEEP_EQUIPPED" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] }
+  },
+  {
+    "id": "wolfshead_cufflinks",
+    "copy-from": "ruby_silver_cufflinks",
+    "type": "ARMOR",
+    "weight": "20 g",
+    "price_postapoc": "1200 USD",
+    "name": { "str": "pair of wolfshead cufflinks", "str_pl": "pairs of wolfshead cufflinks" },
+    "description": "A pair of silver cufflinks with a wolf's head engraved into them.  Each cufflink has a bright ruby eye and pearl teeth.  They appear to be growling.  There is an inscription, 'When the moon shines.  I become alive.'",
+    "relic_data": {
+      "charge_info": { "recharge_type": "periodic", "time": "144 h", "regenerate_ammo": true },
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
+    },
+    "use_action": { "type": "cast_spell", "spell_id": "lupercalia", "no_fail": true, "level": 1, "need_worn": true },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "crystallized_mana": 1 } } ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   }
 ]

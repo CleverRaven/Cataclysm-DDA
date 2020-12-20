@@ -19,6 +19,7 @@
 #include "action.h"
 #include "calendar.h"
 #include "character_id.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -32,9 +33,12 @@
 #include "type_id.h"
 #include "weather.h"
 
+class Character;
 class Creature_tracker;
 class item;
+class location;
 class spell_events;
+class viewer;
 
 static constexpr int DEFAULT_TILESET_ZOOM = 16;
 
@@ -46,17 +50,10 @@ static const std::string SAVE_EXTENSION_LOG( ".log" );
 static const std::string SAVE_EXTENSION_WEATHER( ".weather" );
 static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
 
-extern bool test_mode;
-
 // The reference to the one and only game instance.
 class game;
 
 extern std::unique_ptr<game> g;
-
-extern bool use_tiles;
-extern bool fov_3d;
-extern int fov_3d_z_range;
-extern bool tile_iso;
 
 extern const int core_version;
 
@@ -87,10 +84,7 @@ enum safe_mode_type {
     SAFE_MODE_STOP = 2, // New monsters spotted, no movement allowed
 };
 
-enum body_part : int;
 enum action_id : int;
-
-struct special_game;
 
 class achievements_tracker;
 class avatar;
@@ -105,20 +99,21 @@ class player;
 class save_t;
 class scenario;
 class stats_tracker;
-template<typename Tripoint>
-class tripoint_range;
 class vehicle;
 struct WORLD;
+struct special_game;
+template<typename Tripoint>
+class tripoint_range;
 
 using WORLDPTR = WORLD *;
 class live_view;
 class loading_ui;
 class overmap;
 class scent_map;
+class static_popup;
 class timed_event_manager;
-struct visibility_variables;
-
 class ui_adaptor;
+struct visibility_variables;
 
 using item_filter = std::function<bool ( const item & )>;
 
@@ -149,10 +144,20 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
+        friend achievements_tracker &get_achievements();
+        friend event_bus &get_event_bus();
         friend map &get_map();
         friend Character &get_player_character();
         friend avatar &get_avatar();
+        friend location &get_player_location();
+        friend viewer &get_player_view();
         friend weather_manager &get_weather();
+        friend const scenario *get_scenario();
+        friend void set_scenario( const scenario *new_scenario );
+        friend stats_tracker &get_stats();
+        friend scent_map &get_scent();
+        friend timed_event_manager &get_timed_events();
+        friend memorial_logger &get_memorial();
     public:
         game();
         ~game();
@@ -176,16 +181,6 @@ class game
         /** Loads core data and mods from the active world. May throw. */
         void load_world_modfiles( loading_ui &ui );
         /**
-         * Base path for saving player data. Just add a suffix (unique for
-         * the thing you want to save) and use the resulting path.
-         * Example: `save_ui_data(get_player_base_save_path()+".ui")`
-         */
-        std::string get_player_base_save_path() const;
-        /**
-         * Base path for saving world data. This yields a path to a folder.
-         */
-        std::string get_world_base_save_path() const;
-        /**
          *  Load content packs
          *  @param msg string to display whilst loading prompt
          *  @param packs content packs to load in correct dependent order
@@ -203,8 +198,6 @@ class game
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
     public:
-        /** Initializes the UI. */
-        void init_ui( bool resized = false );
         void setup();
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
@@ -529,13 +522,11 @@ class game
         void validate_linked_vehicles();
         /** validate camps to ensure they are on the overmap list */
         void validate_camps();
-        /** process vehicles that are following the player */
-        void autopilot_vehicles();
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
         void catch_a_monster( monster *fish, const tripoint &pos, player *p,
                               const time_duration &catch_duration );
         /**
-         * Get the contiguous fishable locations starting at fish_pos, out to the specificed distance.
+         * Get the contiguous fishable locations starting at fish_pos, out to the specified distance.
          * @param distance Distance around the fish_pos to examine for contiguous fishable locations.
          * @param fish_pos The location being fished.
          * @return A set of locations representing the valid contiguous fishable locations.
@@ -550,7 +541,8 @@ class game
         std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
 
         /** Flings the input creature in the given direction. */
-        void fling_creature( Creature *c, const int &dir, float flvel, bool controlled = false );
+        void fling_creature( Creature *c, const units::angle &dir, float flvel,
+                             bool controlled = false );
 
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
@@ -566,10 +558,6 @@ class game
         point update_map( Character &p );
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
-
-        void process_artifact( item &it, player &p );
-        void add_artifact_messages( const std::vector<art_effect_passive> &effects );
-        void add_artifact_dreams( );
 
         void peek();
         void peek( const tripoint &p );
@@ -602,7 +590,7 @@ class game
 
         void draw_trail_to_square( const tripoint &t, bool bDrawX );
 
-        enum inventory_item_menu_positon {
+        enum inventory_item_menu_position {
             RIGHT_TERMINAL_EDGE,
             LEFT_OF_INFO,
             RIGHT_OF_INFO,
@@ -615,7 +603,7 @@ class game
         const std::function<int()> &width = []() {
             return 50;
         },
-        inventory_item_menu_positon position = RIGHT_OF_INFO );
+        inventory_item_menu_position position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( const item_filter &filter, const std::string &title, int radius = 0,
@@ -643,17 +631,10 @@ class game
         bool take_screenshot( const std::string &file_path ) const;
 
         /**
-         * The top left corner of the reality bubble (in submaps coordinates). This is the same
-         * as @ref map::abs_sub of the @ref m map.
-         */
-        int get_levx() const;
-        int get_levy() const;
-        int get_levz() const;
-        /**
          * Load the main map at given location, see @ref map::load, in global, absolute submap
          * coordinates.
          */
-        void load_map( const tripoint &pos_sm );
+        void load_map( const tripoint_abs_sm &pos_sm );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
@@ -706,9 +687,10 @@ class game
         void draw_graffiti_override( const tripoint &p, bool has );
         void draw_trap_override( const tripoint &p, const trap_id &id );
         void draw_field_override( const tripoint &p, const field_type_id &id );
-        void draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid, bool hilite );
-        void draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod, int veh_dir,
-                                  bool hilite, const point &mount );
+        void draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid,
+                                 bool hilite );
+        void draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
+                                  units::angle veh_dir, bool hilite, const point &mount );
         void draw_below_override( const tripoint &p, bool draw );
         void draw_monster_override( const tripoint &p, const mtype_id &id, int count,
                                     bool more, Creature::Attitude att );
@@ -751,8 +733,9 @@ class game
 
         // Handle phasing through walls, returns true if it handled the move
         bool phasing_move( const tripoint &dest, bool via_ramp = false );
+        bool can_move_furniture( tripoint fdest, const tripoint &dp );
         // Regular movement. Returns false if it failed for any reason
-        bool walk_move( const tripoint &dest, bool via_ramp = false );
+        bool walk_move( const tripoint &dest, bool via_ramp = false, bool furniture_move = false );
         void on_move_effects();
     private:
         // Game-start procedures
@@ -769,8 +752,6 @@ class game
         void reset_npc_dispositions();
         void serialize_master( std::ostream &fout );
         // returns false if saving failed for whatever reason
-        bool save_artifacts();
-        // returns false if saving failed for whatever reason
         bool save_maps();
 #if defined(__ANDROID__)
         void save_shortcuts( std::ostream &fout );
@@ -779,8 +760,9 @@ class game
         void init_autosave();     // Initializes autosave parameters
         void create_starting_npcs(); // Creates NPCs that start near you
         // create vehicle nearby, for example; for a profession vehicle.
-        vehicle *place_vehicle_nearby( const vproto_id &id, const point &origin, int min_distance,
-                                       int max_distance, const std::vector<std::string> &omt_search_types = {} );
+        vehicle *place_vehicle_nearby(
+            const vproto_id &id, const point_abs_omt &origin, int min_distance,
+            int max_distance, const std::vector<std::string> &omt_search_types = {} );
         // V Menu Functions and helpers:
         void list_items_monsters(); // Called when you invoke the `V`-menu
 
@@ -799,9 +781,8 @@ class game
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
         // Handle pushing during move, returns true if it handled the move
-        bool grabbed_move( const tripoint &dp );
+        bool grabbed_move( const tripoint &dp, bool via_ramp );
         bool grabbed_veh_move( const tripoint &dp );
-        bool grabbed_furn_move( const tripoint &dp );
 
         void control_vehicle(); // Use vehicle controls  '^'
         void examine( const tripoint &p ); // Examine nearby terrain  'e'
@@ -818,12 +799,15 @@ class game
 
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
+        int grabbed_furn_move_time( const tripoint &dp );
+        bool grabbed_furn_move( const tripoint &dp );
+
         void reload_item(); // Reload an item
         void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
-        void place_player_overmap( const tripoint &om_dest );
+        void place_player_overmap( const tripoint_abs_omt &om_dest );
 
         unsigned int get_seed() const;
 
@@ -934,22 +918,27 @@ class game
         void disp_NPC_epilogues();  // Display NPC endings
 
         /* Debug functions */
-        // overlays flags (on / off)
-        std::map<action_id, bool> displaying_overlays{
-            { ACTION_DISPLAY_SCENT, false },
-            { ACTION_DISPLAY_SCENT_TYPE, false },
-            { ACTION_DISPLAY_TEMPERATURE, false },
-            { ACTION_DISPLAY_VEHICLE_AI, false },
-            { ACTION_DISPLAY_VISIBILITY, false },
-            { ACTION_DISPLAY_LIGHTING, false },
-            { ACTION_DISPLAY_RADIATION, false },
-        };
+        // currently displayed overlay (none is displayed if empty)
+        cata::optional<action_id> displaying_overlays;
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
         void display_vehicle_ai(); // Displays vehicle autopilot AI overlay
         void display_visibility(); // Displays visibility map
         void display_lighting(); // Displays lighting conditions heat map
         void display_radiation(); // Displays radiation map
+        void display_transparency(); // Displays transparency map
+
+        // prints the IRL time in ms of the last full in-game hour
+        class debug_hour_timer
+        {
+            public:
+                using IRLTimeMs = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+                void toggle();
+                void print_time();
+            private:
+                bool enabled = false;
+                cata::optional<IRLTimeMs> start_time = cata::nullopt;
+        } debug_hour_timer;
 
         Creature *is_hostile_within( int distance );
 
@@ -972,15 +961,24 @@ class game
         pimpl<spell_events> spell_events_ptr;
 
         map &m;
-    public:
         avatar &u;
         scent_map &scent;
-        timed_event_manager &timed_events;
+        const scenario *scen = nullptr;
 
         event_bus &events();
         stats_tracker &stats();
+        timed_event_manager &timed_events;
         achievements_tracker &achievements();
         memorial_logger &memorial();
+    public:
+        // setting that specifies which reachability zone cache to display
+        struct debug_reachability_zones_display {
+            public:
+                bool r_cache_vertical;
+                reachability_cache_quadrant quadrant;
+        } debug_rz_display = {};
+        void display_reachability_zones(); // Displays reachability zones
+
         spell_events &spell_events_subscriber();
 
         pimpl<Creature_tracker> critter_tracker;
@@ -991,7 +989,6 @@ class game
         /** True if the game has just started or loaded, else false. */
         bool new_game = false;
 
-        const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz = 0;
 
@@ -1015,6 +1012,8 @@ class game
         void display_toggle_overlay( action_id );
         // Get the state of an overlay (on/off).
         bool display_overlay_state( action_id );
+        // toggles the timing of in-game hours
+        void toggle_debug_hour_timer();
         /** Creature for which to display the visibility map */
         Creature *displaying_visibility_creature;
         /** Type of lighting condition overlay to display */
@@ -1028,8 +1027,7 @@ class game
         safe_mode_type safe_mode;
 
         //pixel minimap management
-        int pixel_minimap_option = 0;
-        int turnssincelastmon = 0; // needed for auto run mode
+        time_duration turnssincelastmon = 0_turns; // needed for auto run mode
 
         weather_manager weather;
 
@@ -1089,6 +1087,8 @@ class game
                 const tripoint &last, bool iso );
 
         weak_ptr_fast<ui_adaptor> main_ui_adaptor;
+
+        std::unique_ptr<static_popup> wait_popup;
     public:
         /** Used to implement mouse "edge scrolling". Returns a
          *  tripoint which is a vector of the resulting "move", i.e.

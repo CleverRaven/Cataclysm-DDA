@@ -6,13 +6,18 @@
 #include <string>
 #include <vector>
 
-#include "event_bus.h"
+#include "calendar.h"
+#include "event_subscriber.h"
+#include "optional.h"
 #include "string_formatter.h"
+#include "type_id.h"
 
 namespace cata
 {
 class event;
 }  // namespace cata
+class JsonIn;
+class JsonOut;
 
 class memorial_log_entry
 {
@@ -74,5 +79,7 @@ class memorial_logger : public event_subscriber
     private:
         std::vector<memorial_log_entry> log;
 };
+
+memorial_logger &get_memorial();
 
 #endif // CATA_SRC_MEMORIAL_LOGGER_H

@@ -8,10 +8,12 @@
 #include <string>
 #include <vector>
 
-class avatar;
+#include "coordinates.h"
+#include "translations.h"
+
 class JsonIn;
 class JsonOut;
-
+class avatar;
 struct point;
 struct tripoint;
 
@@ -30,7 +32,7 @@ enum face_type : int {
 namespace overmap_ui
 {
 void draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
-                         const tripoint &global_omt, const point &start, int width,
+                         const tripoint_abs_omt &global_omt, const point &start, int width,
                          int height );
 } // namespace overmap_ui
 
@@ -39,15 +41,16 @@ bool default_render();
 class window_panel
 {
     public:
-        window_panel( std::function<void( avatar &, const catacurses::window & )> draw_func,
-                      const std::string &nm, int ht, int wd, bool default_toggle_,
-                      std::function<bool()> render_func = default_render, bool force_draw = false );
+        window_panel( const std::function<void( avatar &, const catacurses::window & )> &draw_func,
+                      const std::string &id, const translation &nm, int ht, int wd, bool default_toggle_,
+                      const std::function<bool()> &render_func = default_render, bool force_draw = false );
 
         std::function<void( avatar &, const catacurses::window & )> draw;
         std::function<bool()> render;
 
         int get_height() const;
         int get_width() const;
+        const std::string &get_id() const;
         std::string get_name() const;
         bool toggle;
         bool always_draw;
@@ -55,8 +58,22 @@ class window_panel
     private:
         int height;
         int width;
-        bool default_toggle;
-        std::string name;
+        std::string id;
+        translation name;
+};
+
+class panel_layout
+{
+    public:
+        panel_layout( const translation &_name,
+                      const std::vector<window_panel> &_panels );
+
+        std::string name() const;
+        const std::vector<window_panel> &panels() const;
+        std::vector<window_panel> &panels();
+    private:
+        translation _name;
+        std::vector<window_panel> _panels;
 };
 
 class panel_manager
@@ -74,7 +91,7 @@ class panel_manager
             return single_instance;
         }
 
-        std::vector<window_panel> &get_current_layout();
+        panel_layout &get_current_layout();
         std::string get_current_layout_id() const;
         int get_width_right();
         int get_width_left();
@@ -95,7 +112,7 @@ class panel_manager
         int width_right = 0;
         int width_left = 0;
         std::string current_layout_id;
-        std::map<std::string, std::vector<window_panel>> layouts;
+        std::map<std::string, panel_layout> layouts;
 
 };
 

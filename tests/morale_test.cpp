@@ -1,4 +1,5 @@
 #include "catch/catch.hpp"
+
 #include "bodypart.h"
 #include "item.h"
 #include "morale.h"
@@ -6,17 +7,22 @@
 #include "calendar.h"
 #include "type_id.h"
 
-TEST_CASE( "player_morale" )
-{
-    static const efftype_id effect_cold( "cold" );
-    static const efftype_id effect_hot( "hot" );
-    static const efftype_id effect_took_prozac( "took_prozac" );
+static const efftype_id effect_cold( "cold" );
+static const efftype_id effect_hot( "hot" );
+static const efftype_id effect_took_prozac( "took_prozac" );
 
+TEST_CASE( "player_morale_empty", "[player_morale]" )
+{
     player_morale m;
 
     GIVEN( "an empty morale" ) {
         CHECK( m.get_level() == 0 );
     }
+}
+
+TEST_CASE( "player_morale_decay", "[player_morale]" )
+{
+    player_morale m;
 
     GIVEN( "temporary morale (food)" ) {
         m.add( MORALE_FOOD_GOOD, 20, 40, 20_turns, 10_turns );
@@ -87,6 +93,11 @@ TEST_CASE( "player_morale" )
             CHECK( m.get_level() == 0 );
         }
     }
+}
+
+TEST_CASE( "player_morale_persistent", "[player_morale]" )
+{
+    player_morale m;
 
     GIVEN( "persistent morale" ) {
         m.set_permanent( MORALE_PERM_MASOCHIST, 5 );
@@ -101,6 +112,11 @@ TEST_CASE( "player_morale" )
             }
         }
     }
+}
+
+TEST_CASE( "player_morale_optimist", "[player_morale]" )
+{
+    player_morale m;
 
     GIVEN( "OPTIMISTIC trait" ) {
         m.on_mutation_gain( trait_id( "OPTIMISTIC" ) );
@@ -113,6 +129,11 @@ TEST_CASE( "player_morale" )
             CHECK( m.get_level() == 0 );
         }
     }
+}
+
+TEST_CASE( "player_morale_bad_temper", "[player_morale]" )
+{
+    player_morale m;
 
     GIVEN( "BADTEMPER trait" ) {
         m.on_mutation_gain( trait_id( "BADTEMPER" ) );
@@ -125,6 +146,11 @@ TEST_CASE( "player_morale" )
             CHECK( m.get_level() == 0 );
         }
     }
+}
+
+TEST_CASE( "player_morale_killed_innocent", "[player_morale]" )
+{
+    player_morale m;
 
     GIVEN( "killed an innocent" ) {
         m.add( MORALE_KILLED_INNOCENT, -100 );
@@ -145,11 +171,16 @@ TEST_CASE( "player_morale" )
             }
         }
     }
+}
+
+TEST_CASE( "player_morale_fancy_clothes", "[player_morale]" )
+{
+    player_morale m;
 
     GIVEN( "a set of super fancy bride's clothes" ) {
-        const item dress_wedding( "dress_wedding", 0 ); // legs, torso | 8 + 2 | 10
-        const item veil_wedding( "veil_wedding", 0 );   // eyes, mouth | 4 + 2 | 6
-        const item heels( "heels", 0 );                 // feet        | 1 + 2 | 3
+        const item dress_wedding( "dress_wedding", calendar::turn_zero ); // legs, torso | 8 + 2 | 10
+        const item veil_wedding( "veil_wedding", calendar::turn_zero );   // eyes, mouth | 4 + 2 | 6
+        const item heels( "heels", calendar::turn_zero );                 // feet        | 1 + 2 | 3
 
         m.on_item_wear( dress_wedding );
         m.on_item_wear( veil_wedding );
@@ -187,7 +218,7 @@ TEST_CASE( "player_morale" )
                 }
             }
             AND_WHEN( "tries to be even fancier" ) {
-                const item watch( "sf_watch", 0 );
+                const item watch( "sf_watch", calendar::turn_zero );
                 m.on_item_wear( watch );
                 THEN( "there's a limit" ) {
                     CHECK( m.get_level() == 20 );
@@ -199,6 +230,11 @@ TEST_CASE( "player_morale" )
             }
         }
     }
+}
+
+TEST_CASE( "player_morale_masochist", "[player_morale]" )
+{
+    player_morale m;
 
     GIVEN( "masochist trait" ) {
         m.on_mutation_gain( trait_id( "MASOCHIST" ) );
@@ -230,52 +266,57 @@ TEST_CASE( "player_morale" )
 
         WHEN( "in minimal pain" ) {
             m.on_stat_change( "perceived_pain", 10 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == 10 );
         }
 
         WHEN( "in mind pain" ) {
             m.on_stat_change( "perceived_pain", 20 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == 20 );
         }
 
         WHEN( "in moderate pain" ) {
             m.on_stat_change( "perceived_pain", 30 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == 10 );
         }
 
         WHEN( "in distracting pain" ) {
             m.on_stat_change( "perceived_pain", 40 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == 0 );
         }
 
         WHEN( "in distressing pain" ) {
             m.on_stat_change( "perceived_pain", 50 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == -10 );
         }
 
         WHEN( "in unmanagable pain" ) {
             m.on_stat_change( "perceived_pain", 60 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == -20 );
         }
 
         WHEN( "in intense pain" ) {
             m.on_stat_change( "perceived_pain", 70 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == -30 );
         }
 
         WHEN( "in severe pain" ) {
             m.on_stat_change( "perceived_pain", 80 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_percieved_pain() > 20 ? m.get_percieved_pain() -
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == -40 );
         }
     }
+}
+
+TEST_CASE( "player_morale_cenobite", "[player_morale]" )
+{
+    player_morale m;
 
     GIVEN( "cenobite trait" ) {
         m.on_mutation_gain( trait_id( "CENOBITE" ) );
@@ -297,6 +338,11 @@ TEST_CASE( "player_morale" )
             }
         }
     }
+}
+
+TEST_CASE( "player_morale_plant", "[player_morale]" )
+{
+    player_morale m;
 
     GIVEN( "a humanoid plant" ) {
         m.on_mutation_gain( trait_id( "PLANT" ) );
@@ -306,7 +352,7 @@ TEST_CASE( "player_morale" )
         CHECK( m.has( MORALE_PERM_CONSTRAINED ) == 0 );
 
         WHEN( "wearing a hat" ) {
-            const item hat( "tinfoil_hat", 0 );
+            const item hat( "tinfoil_hat", calendar::turn_zero );
 
             m.on_item_wear( hat );
             THEN( "the flowers need sunlight" ) {
@@ -320,7 +366,7 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "wearing a legpouch" ) {
-            item legpouch( "legpouch", 0 );
+            item legpouch( "legpouch", calendar::turn_zero );
             legpouch.set_side( side::LEFT );
 
             m.on_item_wear( legpouch );
@@ -330,7 +376,7 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "wearing a pair of boots" ) {
-            const item boots( "boots", 0 );
+            const item boots( "boots", calendar::turn_zero );
 
             m.on_item_wear( boots );
             THEN( "all of the roots are suffering" ) {
@@ -338,7 +384,7 @@ TEST_CASE( "player_morale" )
             }
 
             AND_WHEN( "even more constrains" ) {
-                const item hat( "tinfoil_hat", 0 );
+                const item hat( "tinfoil_hat", calendar::turn_zero );
 
                 m.on_item_wear( hat );
                 THEN( "it can't be worse" ) {
@@ -347,21 +393,26 @@ TEST_CASE( "player_morale" )
             }
         }
     }
+}
+
+TEST_CASE( "player_morale_tough_temperature", "[player_morale]" )
+{
+    player_morale m;
 
     GIVEN( "tough temperature conditions" ) {
         WHEN( "chilly" ) {
-            m.on_effect_int_change( effect_cold, 1, bp_torso );
-            m.on_effect_int_change( effect_cold, 1, bp_head );
-            m.on_effect_int_change( effect_cold, 1, bp_eyes );
-            m.on_effect_int_change( effect_cold, 1, bp_mouth );
-            m.on_effect_int_change( effect_cold, 1, bp_arm_l );
-            m.on_effect_int_change( effect_cold, 1, bp_arm_r );
-            m.on_effect_int_change( effect_cold, 1, bp_leg_l );
-            m.on_effect_int_change( effect_cold, 1, bp_leg_r );
-            m.on_effect_int_change( effect_cold, 1, bp_hand_l );
-            m.on_effect_int_change( effect_cold, 1, bp_hand_r );
-            m.on_effect_int_change( effect_cold, 1, bp_foot_l );
-            m.on_effect_int_change( effect_cold, 1, bp_foot_r );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "torso" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "head" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "eyes" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "mouth" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "arm_l" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "arm_r" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "leg_l" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "leg_r" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "hand_l" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "hand_r" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "foot_l" ) );
+            m.on_effect_int_change( effect_cold, 1, bodypart_id( "foot_r" ) );
 
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
@@ -385,18 +436,18 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "cold" ) {
-            m.on_effect_int_change( effect_cold, 2, bp_torso );
-            m.on_effect_int_change( effect_cold, 2, bp_head );
-            m.on_effect_int_change( effect_cold, 2, bp_eyes );
-            m.on_effect_int_change( effect_cold, 2, bp_mouth );
-            m.on_effect_int_change( effect_cold, 2, bp_arm_l );
-            m.on_effect_int_change( effect_cold, 2, bp_arm_r );
-            m.on_effect_int_change( effect_cold, 2, bp_leg_l );
-            m.on_effect_int_change( effect_cold, 2, bp_leg_r );
-            m.on_effect_int_change( effect_cold, 2, bp_hand_l );
-            m.on_effect_int_change( effect_cold, 2, bp_hand_r );
-            m.on_effect_int_change( effect_cold, 2, bp_foot_l );
-            m.on_effect_int_change( effect_cold, 2, bp_foot_r );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "torso" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "head" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "eyes" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "mouth" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "arm_l" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "arm_r" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "leg_l" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "leg_r" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "hand_l" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "hand_r" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "foot_l" ) );
+            m.on_effect_int_change( effect_cold, 2, bodypart_id( "foot_r" ) );
 
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
@@ -418,18 +469,18 @@ TEST_CASE( "player_morale" )
                 CHECK( m.get_level() == -20 );
             }
             AND_WHEN( "warmed up afterwards" ) {
-                m.on_effect_int_change( effect_cold, 0, bp_torso );
-                m.on_effect_int_change( effect_cold, 0, bp_head );
-                m.on_effect_int_change( effect_cold, 0, bp_eyes );
-                m.on_effect_int_change( effect_cold, 0, bp_mouth );
-                m.on_effect_int_change( effect_cold, 0, bp_arm_l );
-                m.on_effect_int_change( effect_cold, 0, bp_arm_r );
-                m.on_effect_int_change( effect_cold, 0, bp_leg_l );
-                m.on_effect_int_change( effect_cold, 0, bp_leg_r );
-                m.on_effect_int_change( effect_cold, 0, bp_hand_l );
-                m.on_effect_int_change( effect_cold, 0, bp_hand_r );
-                m.on_effect_int_change( effect_cold, 0, bp_foot_l );
-                m.on_effect_int_change( effect_cold, 0, bp_foot_r );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "torso" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "head" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "eyes" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "mouth" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "arm_l" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "arm_r" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "leg_l" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "leg_r" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "hand_l" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "hand_r" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "foot_l" ) );
+                m.on_effect_int_change( effect_cold, 0, bodypart_id( "foot_r" ) );
 
                 m.decay( 1_minutes );
                 CHECK( m.get_level() == 0 );
@@ -437,18 +488,18 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "warm" ) {
-            m.on_effect_int_change( effect_hot, 1, bp_torso );
-            m.on_effect_int_change( effect_hot, 1, bp_head );
-            m.on_effect_int_change( effect_hot, 1, bp_eyes );
-            m.on_effect_int_change( effect_hot, 1, bp_mouth );
-            m.on_effect_int_change( effect_hot, 1, bp_arm_l );
-            m.on_effect_int_change( effect_hot, 1, bp_arm_r );
-            m.on_effect_int_change( effect_hot, 1, bp_leg_l );
-            m.on_effect_int_change( effect_hot, 1, bp_leg_r );
-            m.on_effect_int_change( effect_hot, 1, bp_hand_l );
-            m.on_effect_int_change( effect_hot, 1, bp_hand_r );
-            m.on_effect_int_change( effect_hot, 1, bp_foot_l );
-            m.on_effect_int_change( effect_hot, 1, bp_foot_r );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "torso" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "head" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "eyes" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "mouth" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "arm_l" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "arm_r" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "leg_l" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "leg_r" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "hand_l" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "hand_r" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "foot_l" ) );
+            m.on_effect_int_change( effect_hot, 1, bodypart_id( "foot_r" ) );
 
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
@@ -472,18 +523,18 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "hot" ) {
-            m.on_effect_int_change( effect_hot, 2, bp_torso );
-            m.on_effect_int_change( effect_hot, 2, bp_head );
-            m.on_effect_int_change( effect_hot, 2, bp_eyes );
-            m.on_effect_int_change( effect_hot, 2, bp_mouth );
-            m.on_effect_int_change( effect_hot, 2, bp_arm_l );
-            m.on_effect_int_change( effect_hot, 2, bp_arm_r );
-            m.on_effect_int_change( effect_hot, 2, bp_leg_l );
-            m.on_effect_int_change( effect_hot, 2, bp_leg_r );
-            m.on_effect_int_change( effect_hot, 2, bp_hand_l );
-            m.on_effect_int_change( effect_hot, 2, bp_hand_r );
-            m.on_effect_int_change( effect_hot, 2, bp_foot_l );
-            m.on_effect_int_change( effect_hot, 2, bp_foot_r );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "torso" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "head" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "eyes" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "mouth" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "arm_l" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "arm_r" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "leg_l" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "leg_r" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "hand_l" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "hand_r" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "foot_l" ) );
+            m.on_effect_int_change( effect_hot, 2, bodypart_id( "foot_r" ) );
 
             AND_WHEN( "no time has passed" ) {
                 CHECK( m.get_level() == 0 );
@@ -505,24 +556,29 @@ TEST_CASE( "player_morale" )
                 CHECK( m.get_level() == -20 );
             }
             AND_WHEN( "cooled afterwards" ) {
-                m.on_effect_int_change( effect_hot, 0, bp_torso );
-                m.on_effect_int_change( effect_hot, 0, bp_head );
-                m.on_effect_int_change( effect_hot, 0, bp_eyes );
-                m.on_effect_int_change( effect_hot, 0, bp_mouth );
-                m.on_effect_int_change( effect_hot, 0, bp_arm_l );
-                m.on_effect_int_change( effect_hot, 0, bp_arm_r );
-                m.on_effect_int_change( effect_hot, 0, bp_leg_l );
-                m.on_effect_int_change( effect_hot, 0, bp_leg_r );
-                m.on_effect_int_change( effect_hot, 0, bp_hand_l );
-                m.on_effect_int_change( effect_hot, 0, bp_hand_r );
-                m.on_effect_int_change( effect_hot, 0, bp_foot_l );
-                m.on_effect_int_change( effect_hot, 0, bp_foot_r );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "torso" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "head" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "eyes" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "mouth" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "arm_l" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "arm_r" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "leg_l" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "leg_r" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "hand_l" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "hand_r" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "foot_l" ) );
+                m.on_effect_int_change( effect_hot, 0, bodypart_id( "foot_r" ) );
 
                 m.decay( 1_minutes );
                 CHECK( m.get_level() == 0 );
             }
         }
     }
+}
+
+TEST_CASE( "player_morale_stacking", "[player_morale]" )
+{
+    player_morale m;
 
     GIVEN( "stacking of bonuses" ) {
         m.add( MORALE_FOOD_GOOD, 10, 40, 20_turns, 10_turns );

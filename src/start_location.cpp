@@ -2,15 +2,12 @@
 
 #include <algorithm>
 #include <climits>
-#include <memory>
 
-#include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
-#include "coordinate_conversions.h"
+#include "character.h"
+#include "coordinates.h"
 #include "debug.h"
-#include "enum_conversions.h"
-#include "field_type.h"
-#include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "int_id.h"
@@ -23,7 +20,6 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "string_id.h"
@@ -40,6 +36,13 @@ template<>
 const start_location &string_id<start_location>::obj() const
 {
     return all_start_locations.obj( *this );
+}
+
+/** @relates int_id */
+template<>
+int_id<start_location> string_id<start_location>::id() const
+{
+    return all_start_locations.convert( *this, int_id<start_location>( -1 ) );
 }
 
 /** @relates string_id */
@@ -195,29 +198,30 @@ void start_location::prepare_map( tinymap &m ) const
     }
 }
 
-tripoint start_location::find_player_initial_location() const
+tripoint_abs_omt start_location::find_player_initial_location() const
 {
     // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
     const int radius = 3;
-    for( const point &omp : closest_points_first( point_zero, radius ) ) {
+    for( const point_abs_om &omp : closest_points_first( point_abs_om(), radius ) ) {
         overmap &omap = overmap_buffer.get( omp );
-        const tripoint omtstart = omap.find_random_omt( random_target() );
-        if( omtstart != overmap::invalid_tripoint ) {
-            return omtstart + point( omp.x * OMAPX, omp.y * OMAPY );
+        const tripoint_om_omt omtstart = omap.find_random_omt( random_target() );
+        if( omtstart.raw() != tripoint_min ) {
+            return project_combine( omp, omtstart );
         }
     }
     // Should never happen, if it does we messed up.
-    popup( _( "Unable to generate a valid starting location, please report this failure." ) );
+    popup( _( "Unable to generate a valid starting location %s [%s] in a radius of %d overmaps, please report this failure." ),
+           name(), id.str(), radius );
     return overmap::invalid_tripoint;
 }
 
-void start_location::prepare_map( const tripoint &omtstart ) const
+void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
 {
     // Now prepare the initial map (change terrain etc.)
-    const point player_location = omt_to_sm_copy( omtstart.xy() );
+    const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap player_start;
-    player_start.load( tripoint( player_location, omtstart.z ), false );
+    player_start.load( player_location, false );
     prepare_map( player_start );
     player_start.save();
 }
@@ -236,6 +240,7 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.impassable( p ) ||
+        m.is_divable( p ) ||
         checked[p.x][p.y] > 0 ) {
         return 0;
     }
@@ -293,7 +298,7 @@ void start_location::place_player( player &u ) const
     // Start us off somewhere in the center of the map
     u.setx( HALF_MAPSIZE_X );
     u.sety( HALF_MAPSIZE_Y );
-    u.setz( g->get_levz() );
+    u.setz( here.get_abs_sub().z );
     here.invalidate_map_cache( here.get_abs_sub().z );
     here.build_map_cache( here.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
@@ -350,9 +355,10 @@ void start_location::place_player( player &u ) const
     }
 }
 
-void start_location::burn( const tripoint &omtstart, const size_t count, const int rad ) const
+void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
+                           const int rad ) const
 {
-    const tripoint player_location = omt_to_sm_copy( omtstart );
+    const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap m;
     m.load( player_location, false );
     m.build_outside_cache( m.get_abs_sub().z );
@@ -376,20 +382,22 @@ void start_location::burn( const tripoint &omtstart, const size_t count, const i
     m.save();
 }
 
-void start_location::add_map_extra( const tripoint &omtstart, const std::string &map_extra ) const
+void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
+                                    const std::string &map_extra ) const
 {
-    const tripoint player_location = omt_to_sm_copy( omtstart );
+    const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap m;
     m.load( player_location, false );
 
-    MapExtras::apply_function( map_extra, m, player_location );
+    // TODO: fix point types
+    MapExtras::apply_function( map_extra, m, player_location.raw() );
 
     m.save();
 }
 
 void start_location::handle_heli_crash( player &u ) const
 {
-    for( const bodypart_id &bp : u.get_all_body_parts() ) {
+    for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::only_main ) ) {
         if( bp == bodypart_id( "head" ) || bp == bodypart_id( "torso" ) ) {
             continue;// Skip head + torso for balance reasons.
         }
@@ -398,7 +406,7 @@ void start_location::handle_heli_crash( player &u ) const
             // Damage + Bleed
             case 1:
             case 2:
-                u.make_bleed( bp, 6_minutes );
+                u.make_bleed( effect_source::empty(), bp, 6_minutes );
             /* fallthrough */
             case 3:
             case 4:
@@ -417,9 +425,10 @@ void start_location::handle_heli_crash( player &u ) const
     }
 }
 
-static void add_monsters( const tripoint &omtstart, const mongroup_id &type, float expected_points )
+static void add_monsters( const tripoint_abs_omt &omtstart, const mongroup_id &type,
+                          float expected_points )
 {
-    const tripoint spawn_location = omt_to_sm_copy( omtstart );
+    const tripoint_abs_sm spawn_location = project_to<coords::sm>( omtstart );
     tinymap m;
     m.load( spawn_location, false );
     // map::place_spawns internally multiplies density by rng(10, 50)
@@ -428,10 +437,10 @@ static void add_monsters( const tripoint &omtstart, const mongroup_id &type, flo
     m.save();
 }
 
-void start_location::surround_with_monsters( const tripoint &omtstart, const mongroup_id &type,
-        float expected_points ) const
+void start_location::surround_with_monsters(
+    const tripoint_abs_omt &omtstart, const mongroup_id &type, float expected_points ) const
 {
-    for( const tripoint &p : points_in_radius( omtstart, 1 ) ) {
+    for( const tripoint_abs_omt &p : points_in_radius( omtstart, 1 ) ) {
         if( p != omtstart ) {
             add_monsters( p, type, roll_remainder( expected_points / 8.0f ) );
         }

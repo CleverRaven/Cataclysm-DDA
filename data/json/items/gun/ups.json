@@ -35,7 +35,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "id": "gatling_mech_laser",
@@ -63,16 +63,7 @@
     "reload": 0,
     "modes": [ [ "DEFAULT", "3 rd.", 3 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "high auto", 15 ] ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
-    "flags": [
-      "NO_UNLOAD",
-      "NEVER_JAMS",
-      "MECH_WEAPON",
-      "NO_UNWIELD",
-      "NO_SALVAGE",
-      "NO_REPAIR",
-      "UNBREAKABLE_MELEE",
-      "NON-FOULING"
-    ]
+    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON_FOULING" ]
   },
   {
     "id": "recon_mech_laser",
@@ -102,12 +93,11 @@
     "flags": [
       "NO_UNLOAD",
       "NEVER_JAMS",
-      "MECH_WEAPON",
       "NO_UNWIELD",
       "NO_SALVAGE",
       "NO_REPAIR",
       "UNBREAKABLE_MELEE",
-      "NON-FOULING",
+      "NON_FOULING",
       "NEEDS_NO_LUBE"
     ]
   },
@@ -148,7 +138,19 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
+  },
+  {
+    "id": "hm12",
+    "type": "GUN",
+    "copy-from": "laser_rifle",
+    "name": { "str": "hm12 dazzle rifle" },
+    "description": "This prototype 'energy weapon' was apparently manufactured by Hub 01.  It somewhat resembles an oversize radar gun, mounted on a rectangular frame of white sheet metal.  It will temporarily stun robots, if you manage to hit their sensors in a clean shot.",
+    "price_postapoc": 15000,
+    "ranged_damage": { "damage_type": "pure", "amount": 1 },
+    "ups_charges": 1,
+    "ammo_effects": [ "LASER", "ROBOT_DAZZLE" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "id": "v29",
@@ -185,6 +187,6 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   }
 ]

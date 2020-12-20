@@ -1,16 +1,16 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm> //std::min
 #include <cstddef>
 #include <memory>
 #include <unordered_map>
 
+#include "avatar.h"
+#include "color.h"
 #include "enums.h"
-#include "game.h"
 #include "input.h"
 #include "inventory.h"
 #include "mutation.h"
 #include "output.h"
+#include "player.h" // IWYU pragma: associated
 #include "popup.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -18,7 +18,7 @@
 #include "ui_manager.h"
 
 // '!' and '=' are uses as default bindings in the menu
-const invlet_wrapper
+static const invlet_wrapper
 mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );
 
 static void draw_exam_window( const catacurses::window &win, const int border_y )
@@ -29,7 +29,7 @@ static void draw_exam_window( const catacurses::window &win, const int border_y 
     mvwputch( win, point( width - 1, border_y ), BORDER_COLOR, LINE_XOXX );
 }
 
-const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
+static const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
 {
     return string_format( comment, string_format( "[<color_yellow>%s</color>]", keys ) );
 };
@@ -68,13 +68,8 @@ static void show_mutations_titlebar( const catacurses::window &window,
     wnoutrefresh( window );
 }
 
-void player::power_mutations()
+void avatar::power_mutations()
 {
-    if( !is_player() ) {
-        // TODO: Implement NPCs activating mutations
-        return;
-    }
-
     std::vector<trait_id> passive;
     std::vector<trait_id> active;
     for( std::pair<const trait_id, trait_data> &mut : my_mutations ) {
@@ -170,7 +165,7 @@ void player::power_mutations()
     } );
     ui.mark_resize();
 
-    input_context ctxt( "MUTATIONS" );
+    input_context ctxt( "MUTATIONS", keyboard_mode::keychar );
     ctxt.register_updown();
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "TOGGLE_EXAMINE" );
@@ -276,7 +271,7 @@ void player::power_mutations()
         bool handled = false;
         const std::string action = ctxt.handle_input();
         const input_event evt = ctxt.get_raw_input();
-        if( evt.type == input_event_t::keyboard && !evt.sequence.empty() ) {
+        if( evt.type == input_event_t::keyboard_char && !evt.sequence.empty() ) {
             const int ch = evt.get_first_input();
             const trait_id mut_id = trait_by_invlet( ch );
             if( !mut_id.is_null() ) {
@@ -286,6 +281,7 @@ void player::power_mutations()
                         query_popup pop;
                         pop.message( _( "%s; enter new letter." ),
                                      mutation_branch::get_name( mut_id ) )
+                        .preferred_keyboard_mode( keyboard_mode::keychar )
                         .context( "POPUP_WAIT" )
                         .allow_cancel( true )
                         .allow_anykey( true );
@@ -294,7 +290,7 @@ void player::power_mutations()
                         while( !pop_exit ) {
                             const query_popup::result ret = pop.query();
                             bool pop_handled = false;
-                            if( ret.evt.type == input_event_t::keyboard && !ret.evt.sequence.empty() ) {
+                            if( ret.evt.type == input_event_t::keyboard_char && !ret.evt.sequence.empty() ) {
                                 const int newch = ret.evt.get_first_input();
                                 if( mutation_chars.valid( newch ) ) {
                                     const trait_id other_mut_id = trait_by_invlet( newch );
@@ -311,7 +307,7 @@ void player::power_mutations()
                                 if( ret.action == "QUIT" ) {
                                     pop_exit = true;
                                 } else if( ret.action != "HELP_KEYBINDINGS" &&
-                                           ret.evt.type == input_event_t::keyboard ) {
+                                           ret.evt.type == input_event_t::keyboard_char ) {
                                     popup( _( "Invalid mutation letter.  Only those characters are valid:\n\n%s" ),
                                            mutation_chars.get_allowed_chars() );
                                 }

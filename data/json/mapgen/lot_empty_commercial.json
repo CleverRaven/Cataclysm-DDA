@@ -58,7 +58,7 @@
         "P": "t_chainfence_v",
         "|": "t_chainfence_v"
       },
-      "place_signs": [ { "signage": "Empty lot, great for your small business! Call <full_name> at 555-2117!", "x": 9, "y": 3 } ]
+      "place_signs": [ { "signage": "Empty lot, great for your small business!  Call <full_name> at 555-2117!", "x": 9, "y": 3 } ]
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",
@@ -227,7 +227,7 @@
         "__________d________d____"
       ],
       "terrain": { "+": "t_chaingate_l", ".": "t_concrete", "P": "t_chainfence_v", "_": "t_grass", "d": "t_dirt", "|": "t_chainfence_v" },
-      "place_signs": [ { "signage": "Lot for sale!", "x": 7, "y": 2 }, { "signage": "Call for more info. 555-7723", "x": 8, "y": 2 } ]
+      "place_signs": [ { "signage": "Lot for sale!", "x": 7, "y": 2 }, { "signage": "Call for more info.  555-7723", "x": 8, "y": 2 } ]
     },
     "om_terrain": "emptycommerciallot",
     "type": "mapgen",

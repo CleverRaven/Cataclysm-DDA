@@ -17,26 +17,11 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "church_steeple",
+    "id": [ "church_steeple", "church_steeple_end", "church_steeple_roof" ],
     "copy-from": "generic_city_building",
     "name": "church steeple",
     "sym": "C",
-    "color": "light_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "church_steeple_end",
-    "copy-from": "generic_city_building",
-    "name": "church steeple",
-    "sym": "C",
-    "color": "light_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "church_steeple_roof",
-    "copy-from": "generic_city_building",
-    "name": "church steeple",
-    "sym": "C",
+    "extras": "none",
     "color": "light_red"
   },
   {
@@ -113,7 +98,51 @@
       "hospital_6",
       "hospital_7",
       "hospital_8",
-      "hospital_9"
+      "hospital_9",
+      "hospital_1_roof",
+      "hospital_2_roof",
+      "hospital_3_roof",
+      "hospital_4_roof",
+      "hospital_5_roof",
+      "hospital_6_roof",
+      "hospital_7_roof",
+      "hospital_8_roof",
+      "hospital_9_roof",
+      "urban_35_1",
+      "urban_35_2",
+      "urban_35_3",
+      "urban_35_4",
+      "urban_35_5",
+      "urban_35_6",
+      "urban_35_7",
+      "urban_35_8",
+      "urban_35_9",
+      "urban_35_10",
+      "urban_35_11",
+      "urban_35_12",
+      "urban_35_13",
+      "urban_35_14",
+      "urban_35_15",
+      "urban_35_16",
+      "urban_35_17",
+      "urban_35_18",
+      "urban_35_19",
+      "urban_35_20",
+      "urban_35_21",
+      "urban_35_22",
+      "urban_35_23",
+      "urban_35_24",
+      "urban_35_25",
+      "urban_35_26",
+      "urban_35_27",
+      "urban_35_28",
+      "urban_35_29",
+      "urban_35_30",
+      "urban_35_31",
+      "urban_35_32",
+      "urban_35_33",
+      "urban_35_34",
+      "urban_35_35"
     ],
     "copy-from": "generic_hospital"
   },
@@ -356,5 +385,20 @@
     "color": "light_blue",
     "see_cost": 2,
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "sealab_small_surface",
+      "sealab_small_-1",
+      "sealab_small_-2",
+      "sealab_small_-3",
+      "sealab_small_-4",
+      "sealab_small_-5"
+    ],
+    "name": "freshwater research station",
+    "sym": "~",
+    "color": "yellow",
+    "see_cost": 1
   }
 ]

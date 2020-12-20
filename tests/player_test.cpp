@@ -1,47 +1,43 @@
-#include <string>
-#include <array>
-#include <list>
-#include <memory>
-
 #include "catch/catch.hpp"
+
+#include <array>
+#include <string>
+
 #include "character.h"
-#include "weather.h"
-#include "bodypart.h"
-#include "calendar.h"
 #include "item.h"
+#include "type_id.h"
+#include "weather.h"
 
 // Set the stage for a particular ambient and target temperature and run update_bodytemp() until
 // core body temperature settles.
 static void temperature_check( Character *p, const int ambient_temp, const int target_temp )
 {
+    p->set_body();
     get_weather().temperature = ambient_temp;
-    for( int i = 0 ; i < num_bp; i++ ) {
-        p->temp_cur[i] = BODYTEMP_NORM;
-    }
-    for( int i = 0 ; i < num_bp; i++ ) {
-        p->temp_conv[i] = BODYTEMP_NORM;
-    }
+    p->set_all_parts_temp_cur( BODYTEMP_NORM );
+    p->set_all_parts_temp_conv( BODYTEMP_NORM );
 
     int prev_temp = 0;
     int prev_diff = 0;
     for( int i = 0; i < 10000; i++ ) {
-        if( prev_diff != prev_temp - p->temp_cur[0] ) {
-            prev_diff = prev_temp - p->temp_cur[0];
-        } else if( prev_temp == p->temp_cur[0] ) {
+        const int torso_temp_cur = p->get_part_temp_cur( bodypart_id( "torso" ) );
+        if( prev_diff != prev_temp - torso_temp_cur ) {
+            prev_diff = prev_temp - torso_temp_cur;
+        } else if( prev_temp == torso_temp_cur ) {
             break;
         }
-        prev_temp = p->temp_cur[0];
+        prev_temp = torso_temp_cur;
         p->update_bodytemp();
     }
     int high = target_temp + 100;
     int low = target_temp - 100;
-    CHECK( low < p->temp_cur[0] );
-    CHECK( high > p->temp_cur[0] );
+    CHECK( low < p->get_part_temp_cur( bodypart_id( "torso" ) ) );
+    CHECK( high > p->get_part_temp_cur( bodypart_id( "torso" ) ) );
 }
 
 static void equip_clothing( Character *p, const std::string &clothing )
 {
-    const item article( clothing, 0 );
+    const item article( clothing, calendar::turn_zero );
     p->wear_item( article );
 }
 

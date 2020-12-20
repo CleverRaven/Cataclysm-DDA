@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "ascii_art.h"
 #include "behavior.h"
 #include "calendar.h"
 #include "color.h"
@@ -19,6 +20,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 
 class Creature;
 class monster;
@@ -26,7 +28,6 @@ struct dealt_projectile_attack;
 struct species_type;
 template <typename E> struct enum_traits;
 
-enum body_part : int;
 enum class creature_size : int;
 
 using mon_action_death  = void ( * )( monster & );
@@ -56,7 +57,7 @@ enum class mon_trigger : int {
 
 template<>
 struct enum_traits<mon_trigger> {
-    static constexpr auto last = mon_trigger::_LAST;
+    static constexpr mon_trigger last = mon_trigger::_LAST;
 };
 
 // Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!
@@ -105,7 +106,6 @@ enum m_flag : int {
     MF_FUR,                 // May produce fur when butchered
     MF_LEATHER,             // May produce leather when butchered
     MF_WOOL,                // May produce wool when butchered
-    MF_FEATHER,             // May produce feather when butchered
     MF_BONES,               // May produce bones and sinews when butchered; if combined with POISON flag, tainted bones, if combined with HUMAN, human bones
     MF_FAT,                 // May produce fat when butchered; if combined with POISON flag, tainted fat
     MF_CONSOLE_DESPAWN,     // Despawns when a nearby console is properly hacked
@@ -167,7 +167,7 @@ enum m_flag : int {
     MF_SHEARABLE,           // This monster is shearable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
-    MF_DRIPS_NAPALM,        // This monster ocassionally drips napalm on move
+    MF_DRIPS_NAPALM,        // This monster occasionally drips napalm on move
     MF_DRIPS_GASOLINE,      // This monster occasionally drips gasoline on move
     MF_ELECTRIC_FIELD,      // This monster is surrounded by an electrical field that ignites flammable liquids near it
     MF_LOUDMOVES,           // This monster makes move noises as if ~2 sizes louder, even if flying.
@@ -187,11 +187,11 @@ struct mon_effect_data {
     efftype_id id;
     int duration;
     bool affect_hit_bp;
-    body_part bp;
+    bodypart_str_id bp;
     bool permanent;
     int chance;
 
-    mon_effect_data( const efftype_id &nid, int dur, bool ahbp, body_part nbp, bool perm,
+    mon_effect_data( const efftype_id &nid, int dur, bool ahbp, bodypart_str_id nbp, bool perm,
                      int nchance ) :
         id( nid ), duration( dur ), affect_hit_bp( ahbp ), bp( nbp ), permanent( perm ),
         chance( nchance ) {}
@@ -203,7 +203,7 @@ struct mtype {
         translation name;
         translation description;
 
-        std::set< const species_type * > species_ptrs;
+        ascii_art_id picture_id;
 
         enum_bitset<m_flag> flags;
 
@@ -226,7 +226,7 @@ struct mtype {
 
         std::map<itype_id, int> starting_ammo; // Amount of ammo the monster spawns with.
         // Name of item group that is used to create item dropped upon death, or empty.
-        std::string death_drops;
+        item_group_id death_drops;
 
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
@@ -238,7 +238,7 @@ struct mtype {
         std::string sym;
         /** hint for tilesets that don't have a tile for this monster */
         std::string looks_like;
-        mfaction_id default_faction;
+        mfaction_str_id default_faction;
         bodytype_id bodytype;
         nc_color color = c_white;
         creature_size size;
@@ -262,7 +262,7 @@ struct mtype {
         bool regen_morale = false;
 
         // mountable ratio for rider weight vs. mount weight, default 0.2
-        float mountable_weight_ratio = 0.2;
+        float mountable_weight_ratio = 0.2f;
 
         int attack_cost = 100;  /** moves per regular attack */
         int melee_skill = 0;    /** melee hit skill, 20 is superhuman hitting abilities */
@@ -377,7 +377,6 @@ struct mtype {
         bool has_placate_trigger( mon_trigger trigger ) const;
         bool in_category( const std::string &category ) const;
         bool in_species( const species_id &spec ) const;
-        bool in_species( const species_type &spec ) const;
         std::vector<std::string> species_descriptions() const;
         //Used for corpses.
         field_type_id bloodType() const;
@@ -387,6 +386,7 @@ struct mtype {
         itype_id get_meat_itype() const;
         int get_meat_chunks_count() const;
         std::string get_description() const;
+        ascii_art_id get_picture_id() const;
         std::string get_footsteps() const;
         void set_strategy();
         void add_goal( const std::string &goal_id );

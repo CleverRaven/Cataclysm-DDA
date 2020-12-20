@@ -15,7 +15,7 @@
     "symbol": "[",
     "looks_like": "arm_splint",
     "color": "brown",
-    "covers": [ "ARMS" ],
+    "covers": [ "arm_l", "arm_r" ],
     "coverage": 75,
     "encumbrance": 25,
     "warmth": 5,
@@ -38,13 +38,23 @@
     "symbol": "[",
     "looks_like": "armguard_hard",
     "color": "green",
-    "covers": [ "ARMS" ],
+    "covers": [ "arm_l", "arm_r" ],
     "coverage": 90,
     "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "xl_armguard_chitin",
+    "copy-from": "armguard_chitin",
+    "looks_like": "armguard_chitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL chitin arm guards", "str_pl": "pairs of XL chitin arm guards" },
+    "description": "A pair of arm guards made from the exoskeletons of insects.  Light and durable.  Larger than average.",
+    "proportional": { "weight": 1.25, "volume": 1.23 },
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "armguard_acidchitin",
@@ -57,6 +67,17 @@
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
     "relative": { "material_thickness": 1 }
+  },
+  {
+    "id": "xl_armguard_acidchitin",
+    "copy-from": "armguard_acidchitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL biosilicified chitin arm guards", "str_pl": "pairs of XL biosilicified chitin arm guards" },
+    "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable and sized for the largest of survivors.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "relative": { "material_thickness": 1 },
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "armguard_hard",
@@ -72,13 +93,23 @@
     "material": [ "plastic", "neoprene" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "ARMS" ],
+    "covers": [ "arm_l", "arm_r" ],
     "coverage": 80,
     "encumbrance": 5,
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
+  },
+  {
+    "id": "xl_armguard_hard",
+    "type": "ARMOR",
+    "name": { "str": "pair of oversized hard arm guards", "str_pl": "pairs of oversized hard arm guards" },
+    "description": "A pair of neoprene arm sleeves covered with molded plastic sheaths.  Epic sized.",
+    "weight": "550 g",
+    "volume": "4 L",
+    "copy-from": "armguard_hard",
+    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN", "OVERSIZE" ]
   },
   {
     "id": "armguard_larmor",
@@ -95,13 +126,23 @@
     "symbol": "[",
     "looks_like": "arm_warmers",
     "color": "brown",
-    "covers": [ "ARMS" ],
+    "covers": [ "arm_l", "arm_r" ],
     "coverage": 90,
     "encumbrance": 10,
     "warmth": 25,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "xl_armguard_larmor",
+    "type": "ARMOR",
+    "name": { "str": "pair of gigantic leather arm guards", "str_pl": "pairs of gigantic leather arm guards" },
+    "description": "A pair of gigantic leather arm guards.  Heavy but comfortable.",
+    "weight": "730 g",
+    "volume": "3 L",
+    "copy-from": "armguard_larmor",
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "armguard_lightplate",
@@ -118,12 +159,22 @@
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_gray",
-    "covers": [ "ARMS" ],
+    "covers": [ "arm_l", "arm_r" ],
     "coverage": 95,
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
     "flags": [ "VARSIZE", "BELTED", "STURDY", "BLOCK_WHILE_WORN" ]
+  },
+  {
+    "id": "xl_armguard_lightplate",
+    "type": "ARMOR",
+    "name": { "str": "pair of huge steel arm guards", "str_pl": "pairs of huge steel arm guards" },
+    "description": "A full assembly of medieval arm protection, made for Jotun.  Rerebraces, couters, and vambraces, with leather straps to secure each piece and connect it as part of a set.",
+    "weight": "3243 g",
+    "volume": "7 L",
+    "copy-from": "armguard_lightplate",
+    "flags": [ "VARSIZE", "BELTED", "STURDY", "BLOCK_WHILE_WORN", "OVERSIZE" ]
   },
   {
     "id": "armguard_metal",
@@ -140,12 +191,22 @@
     "symbol": "[",
     "looks_like": "armguard_hard",
     "color": "light_gray",
-    "covers": [ "ARMS" ],
+    "covers": [ "arm_l", "arm_r" ],
     "coverage": 80,
     "encumbrance": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "xl_armguard_metal",
+    "type": "ARMOR",
+    "name": { "str": "pair of oversize metal arm guards", "str_pl": "pairs of oversize metal arm guards" },
+    "description": "A pair of arm guards hammered out from metal.  Perfect for the Post-Apocalyptic Warrior look.  Larger than average.",
+    "weight": "1380 g",
+    "volume": "3250 ml",
+    "copy-from": "armguard_metal",
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "armguard_paper",
@@ -162,7 +223,7 @@
     "symbol": "[",
     "looks_like": "armguard_larmor",
     "color": "blue",
-    "covers": [ "ARMS" ],
+    "covers": [ "arm_l", "arm_r" ],
     "coverage": 80,
     "encumbrance": 10,
     "warmth": 5,
@@ -186,12 +247,22 @@
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_gray",
-    "covers": [ "ARMS" ],
+    "covers": [ "arm_l", "arm_r" ],
     "coverage": 80,
     "encumbrance": 18,
     "warmth": 20,
     "material_thickness": 2,
     "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
+  },
+  {
+    "id": "xl_armguard_scrap",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL scrap armguards", "str_pl": "pairs of XL scrap armguards" },
+    "description": "A pair of oversized arm guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": "3412 g",
+    "volume": "6 L",
+    "copy-from": "armguard_scrap",
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "OVERSIZE" ]
   },
   {
     "id": "armguard_soft",
@@ -208,13 +279,23 @@
     "symbol": "[",
     "looks_like": "arm_warmers",
     "color": "light_red",
-    "covers": [ "ARMS" ],
+    "covers": [ "arm_l", "arm_r" ],
     "coverage": 70,
     "encumbrance": 5,
     "warmth": 20,
     "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "xl_armguard_soft",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL neoprene arm sleeves", "str_pl": "pairs of XL neoprene arm sleeves" },
+    "description": "A pair of extra large soft neoprene arm sleeves.  Often used in contact sports, by giants.",
+    "weight": "330 g",
+    "volume": "1750 ml",
+    "copy-from": "armguard_soft",
+    "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "chainmail_arms",
@@ -231,11 +312,21 @@
     "symbol": "[",
     "looks_like": "armguard_metal",
     "color": "light_red",
-    "covers": [ "ARMS" ],
+    "covers": [ "arm_l", "arm_r" ],
     "coverage": 95,
     "encumbrance": 20,
     "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "xl_chainmail_arms",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL chainmail sleeves", "str_pl": "pairs of XL chainmail sleeves" },
+    "description": "Customized chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are oversized.",
+    "weight": "3212 g",
+    "volume": "1050 ml",
+    "copy-from": "chainmail_arms",
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "elbow_pads",
@@ -252,7 +343,7 @@
     "symbol": "[",
     "looks_like": "armguard_hard",
     "color": "dark_gray",
-    "covers": [ "ARMS" ],
+    "covers": [ "arm_l", "arm_r" ],
     "coverage": 30,
     "material_thickness": 5,
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
@@ -272,7 +363,7 @@
     "symbol": "[",
     "looks_like": "armguard_larmor",
     "color": "brown",
-    "covers": [ "ARMS" ],
+    "covers": [ "arm_l", "arm_r" ],
     "coverage": 50,
     "encumbrance": 8,
     "warmth": 10,
@@ -281,7 +372,18 @@
     "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ]
   },
   {
+    "id": "xl_vambrace_larmor",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL leather vambraces", "str_pl": "pairs of XL leather vambraces" },
+    "description": "Customized oversized leather vambraces, made for archery.",
+    "weight": "531 g",
+    "volume": "1250 ml",
+    "copy-from": "vambrace_larmor",
+    "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY", "OVERSIZE" ]
+  },
+  {
     "id": "armguard_cut_resistant",
+    "repairs_like": "armguard_soft",
     "type": "ARMOR",
     "name": { "str": "pair of cut-resistant arm sleeves", "str_pl": "pairs of cut-resistant arm sleeves" },
     "description": "A long pair of cut resistant sleeves, with thumbholes.  Useful for chainsaw protection.",

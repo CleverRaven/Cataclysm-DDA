@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "Graphical_Overmap_Urban_Development",
+    "id": "Graphical_Overmap_Urban_Development",
     "name": "Graphical Overmap Urban Development",
     "authors": [ "Kilvoctu" ],
     "maintainers": [ "Kilvoctu" ],

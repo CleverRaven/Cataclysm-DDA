@@ -6,6 +6,8 @@
 #include <utility>
 #include <vector>
 
+#include "units_fwd.h"
+
 class Character;
 class Creature;
 class JsonObject;
@@ -84,7 +86,7 @@ extern bool sound_enabled;
 
 template<>
 struct enum_traits<sounds::sound_t> {
-    static constexpr auto last = sounds::sound_t::_LAST;
+    static constexpr sounds::sound_t last = sounds::sound_t::_LAST;
 };
 
 namespace sfx
@@ -131,8 +133,8 @@ enum class group : int {
 void load_sound_effects( const JsonObject &jsobj );
 void load_sound_effect_preload( const JsonObject &jsobj );
 void load_playlist( const JsonObject &jsobj );
-void play_variant_sound( const std::string &id, const std::string &variant, int volume, int angle,
-                         double pitch_min = -1.0, double pitch_max = -1.0 );
+void play_variant_sound( const std::string &id, const std::string &variant, int volume,
+                         units::angle angle, double pitch_min = -1.0, double pitch_max = -1.0 );
 void play_variant_sound( const std::string &id, const std::string &variant, int volume );
 void play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
                                  channel channel, int fade_in_duration, double pitch = -1.0, int loops = -1 );
@@ -145,7 +147,7 @@ void do_hearing_loss( int turns = -1 );
 void remove_hearing_loss();
 void do_projectile_hit( const Creature &target );
 int get_heard_volume( const tripoint &source );
-int get_heard_angle( const tripoint &source );
+units::angle get_heard_angle( const tripoint &source );
 void do_footstep();
 void do_danger_music();
 void do_ambient();

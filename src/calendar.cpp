@@ -2,11 +2,11 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cmath>
 #include <cstddef>
 #include <limits>
 
+#include "cata_assert.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "options.h"
@@ -110,7 +110,7 @@ time_point sunrise( const time_point &p )
 
     static const std::array<int, 4> start_hours = { { sunrise_equinox, sunrise_summer, sunrise_equinox, sunrise_winter, } };
     const size_t season = static_cast<size_t>( season_of_year( p ) );
-    assert( season < start_hours.size() );
+    cata_assert( season < start_hours.size() );
 
     const double start_hour = start_hours[season];
     const double end_hour = start_hours[( season + 1 ) % 4];
@@ -130,7 +130,7 @@ time_point sunset( const time_point &p )
 
     static const std::array<int, 4> start_hours = { { sunset_equinox, sunset_summer, sunset_equinox, sunset_winter, } };
     const size_t season = static_cast<size_t>( season_of_year( p ) );
-    assert( season < start_hours.size() );
+    cata_assert( season < start_hours.size() );
 
     const double start_hour = start_hours[season];
     const double end_hour = start_hours[( season + 1 ) % 4];
@@ -460,7 +460,7 @@ weekdays day_of_week( const time_point &p )
      * <wito> Oh, I thought we were talking about week day numbering in general.
      * <wito> Day 5 is a thursday, I think.
      * <wito> Nah, Day 5 feels like a thursday. :P
-     * <wito> Which would put the apocalpyse on a saturday?
+     * <wito> Which would put the apocalypse on a saturday?
      * <Starfyre> must be a thursday.  I was never able to get the hang of those.
      * <ZChris13> wito: seems about right to me
      * <wito> kevingranade: add four for thursday. ;)

@@ -1,7 +1,7 @@
 [
   {
     "type": "profession",
-    "ident": "mma_battle_angel",
+    "id": "mma_battle_angel",
     "name": "Battle Angel",
     "description": "A combat-ready cyborg once salvaged from an obscure junkyard…",
     "points": 8,

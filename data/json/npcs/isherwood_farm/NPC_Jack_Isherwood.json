@@ -97,7 +97,7 @@
       { "item": "cheese_hard", "prob": 50 },
       { "item": "vinegar", "prob": 55 },
       { "item": "veggy_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "jar_sauerkraut_pickled", "prob": 50 },
+      { "item": "sauerkraut", "prob": 50, "charges": 4, "container-item": "jar_glass_sealed" },
       { "item": "meat_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "fish_pickled", "prob": 60, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "meat_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
@@ -123,14 +123,14 @@
     "responses": [
       {
         "text": "Yes, I'm a marshal.",
-        "topic": "TALK_LEAVE_NOW",
+        "topic": "TALK_LEAVE_NOW_MARSHAL_JACK",
         "effect": "hostile",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
         "text": "…",
-        "topic": "TALK_LEAVE_NOW",
+        "topic": "TALK_LEAVE_NOW_MARSHAL_JACK",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
@@ -251,7 +251,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_LEAVE_NOW",
+    "id": "TALK_LEAVE_NOW_MARSHAL_JACK",
     "dynamic_line": "You should get off my land, the government proved its incompetence with this catastrophe.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
@@ -311,7 +311,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
-    "item": "jar_3l_glass",
+    "item": "jar_3l_glass_sealed",
     "count": 10,
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,

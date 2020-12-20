@@ -1,29 +1,29 @@
 #include "veh_utils.h"
 
 #include <algorithm>
-#include <map>
 #include <cmath>
 #include <list>
-#include <memory>
+#include <map>
 #include <string>
 #include <utility>
-#include <vector>
 
 #include "calendar.h"
-#include "map.h"
-#include "player.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vpart_range.h"
 #include "character.h"
+#include "color.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
-#include "requirements.h"
-#include "translations.h"
-#include "color.h"
+#include "map.h"
+#include "player.h"
 #include "point.h"
+#include "requirements.h"
+#include "string_id.h"
+#include "translations.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
 namespace veh_utils
 {
@@ -67,6 +67,10 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
             continue;
         }
 
+        if( veh.would_repair_prevent_flyable( vpr.part(), who ) ) {
+            continue;
+        }
+
         if( vpr.part().is_broken() ) {
             if( info.install_requirements().can_make_with_inventory( inv, is_crafting_component ) ) {
                 repairable_cache[ &vpr.part()] = repairable_status::need_replacement;
@@ -76,7 +80,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
         }
 
         if( info.is_repairable() &&
-            ( info.repair_requirements() * vpr.part().damage_level( 4 ) ).can_make_with_inventory( inv,
+            ( info.repair_requirements() * vpr.part().damage_level() ).can_make_with_inventory( inv,
                     is_crafting_component ) ) {
             repairable_cache[ &vpr.part()] = repairable_status::repairable;
         }
@@ -109,12 +113,12 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     // TODO: Get rid of this cast after moving relevant functions down to Character
     player &who = static_cast<player &>( who_c );
     int part_index = veh.index_of_part( &pt );
-    auto &vp = pt.info();
+    const vpart_info &vp = pt.info();
 
     // TODO: Expose base part damage somewhere, don't recalculate it here
-    const auto reqs = pt.is_broken() ?
-                      vp.install_requirements() :
-                      vp.repair_requirements() * pt.damage_level( 4 );
+    const requirement_data reqs = pt.is_broken() ?
+                                  vp.install_requirements() :
+                                  vp.repair_requirements() * pt.damage_level();
 
     const inventory &inv = who.crafting_inventory( who.pos(), PICKUP_RANGE, !who.is_npc() );
     inventory map_inv;
@@ -129,11 +133,11 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     }
 
     // consume items extracting any base item (which we will need if replacing broken part)
-    item base( vp.item );
+    item base( vp.base_item );
     for( const auto &e : reqs.get_components() ) {
         for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1,
                                             is_crafting_component ) ) {
-            if( obj.typeId() == vp.item ) {
+            if( obj.typeId() == vp.base_item ) {
                 base = obj;
             }
         }
@@ -155,7 +159,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
                                         pt.get_base().damage_color() );
     bool wasbroken = pt.is_broken();
     if( wasbroken ) {
-        const int dir = pt.direction;
+        const units::angle dir = pt.direction;
         point loc = pt.mount;
         auto replacement_id = pt.info().get_id();
         get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );

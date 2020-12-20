@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "classic_zombies",
+    "id": "classic_zombies",
     "name": "Dark Days of the Dead",
     "authors": [ "Hirmuolio" ],
     "maintainers": [ "I-am-Erk" ],

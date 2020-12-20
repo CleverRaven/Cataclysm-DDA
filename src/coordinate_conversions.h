@@ -5,38 +5,13 @@
 #include "point.h"
 
 /**
- * Coordinate systems used here are:
- * overmap (om): the position of an overmap. Each overmap stores
- * this as overmap::loc (access with overmap::pos()).
- * There is a unique overmap for each overmap coordinate.
+ * This file defines legacy coordinate conversion functions.  We should be
+ * migrating to the new functions defined in coordinates.h.
  *
- * segment (seg): A segment is a unit of terrain saved to a directory.
- * Each segment contains SEG_SIZExSEG_SIZE overmap terrains, and is used only for
- * saving/loading submaps, see mapbuffer.cpp.
- * Translation from omt to seg:
- * om.x /= SEG_SIZE
- * om.y /= SEG_SIZE
- * (with special handling for negative values).
+ * For documentation on coordinate systems in general see
+ * doc/POINTS_COORDINATES.md.
  *
- * overmap terrain (omt): the position of a overmap terrain (oter_id).
- * Each overmap contains (OMAPX * OMAPY) overmap terrains.
- * Translation from omt to om:
- * om.x /= OMAPX
- * om.y /= OMAPY
- * (with special handling for negative values).
- *
- * Z-components are never considered and simply copied.
- *
- * submap (sm): each overmap terrain contains (2*2) submaps.
- * Translating from sm to omt coordinates:
- * sm.x /= 2
- * sm.y /= 2
- *
- * map square (ms): used by @ref map, each map square may contain a single
- * piece of furniture, it has a terrain (ter_t).
- * There are SEEX*SEEY map squares in each submap.
- *
- * The class provides static translation functions, named like this:
+ * This file provides static translation functions, named like this:
 @code
     static point <from>_to_<to>_copy(int x, int y);
     static point <from>_to_<to>_copy(const point& p);

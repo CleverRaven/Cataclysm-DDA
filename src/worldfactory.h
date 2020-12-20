@@ -76,7 +76,6 @@ struct WORLD {
 
         void load_options( JsonIn &jsin );
         bool load_options();
-        void load_legacy_options( std::istream &fin );
 };
 
 class mod_manager;
@@ -154,7 +153,7 @@ class worldfactory
         pimpl<mod_ui> mman_ui;
 
         using worldgen_display = std::function<int ( const catacurses::window &, WORLDPTR,
-                                 const std::function<bool()> )>;
+                                 std::function<bool()> )>;
 
         std::vector<worldgen_display> tabs;
 };

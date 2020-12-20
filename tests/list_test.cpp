@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm> // std::find
 #include <cstdio> // log redirection
 #include <functional> // std::greater
@@ -6,7 +8,6 @@
 #include <utility> // std::move
 #include <vector> // range-insert testing
 
-#include "catch/catch.hpp"
 #include "colony_list_test_helpers.h"
 #include "list.h"
 

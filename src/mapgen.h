@@ -3,12 +3,14 @@
 #define CATA_SRC_MAPGEN_H
 
 #include <cstddef>
+#include <map>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "coordinates.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "regional_settings.h"
@@ -37,7 +39,7 @@ class mapgen_function
     public:
         virtual ~mapgen_function() = default;
         virtual void setup() { } // throws
-        virtual void check( const std::string & /*oter_name*/ ) const { }
+        virtual void check() const { }
         virtual void generate( mapgendata & ) = 0;
 };
 
@@ -118,12 +120,12 @@ struct jmapgen_setmap {
         x( ix ), y( iy ), x2( ix2 ), y2( iy2 ), op( iop ), val( ival ), chance( ione_in ),
         repeat( irepeat ), rotation( irotation ),
         fuel( ifuel ), status( istatus ) {}
-    bool apply( mapgendata &dat, const point &offset ) const;
+    bool apply( const mapgendata &dat, const point &offset ) const;
     /**
      * checks if applying these objects to data would cause cause a collision with vehicles
      * on the same map
      **/
-    bool has_vehicle_collision( mapgendata &dat, const point &offset ) const;
+    bool has_vehicle_collision( const mapgendata &dat, const point &offset ) const;
 };
 
 struct spawn_data {
@@ -157,12 +159,13 @@ class jmapgen_piece
         jmapgen_piece() : repeat( 1, 1 ) { }
     public:
         /** Sanity-check this piece */
-        virtual void check( const std::string &/*oter_name*/ ) const { }
+        virtual void check( const std::string &/*context*/ ) const { }
         /** Place something on the map from mapgendata &dat, at (x,y). */
-        virtual void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const = 0;
+        virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
+                          ) const = 0;
         virtual ~jmapgen_piece() = default;
         jmapgen_int repeat;
-        virtual bool has_vehicle_collision( mapgendata &/*dat*/, const point &/*offset*/ ) const {
+        virtual bool has_vehicle_collision( const mapgendata &, const point &/*offset*/ ) const {
             return false;
         }
 };
@@ -232,7 +235,9 @@ class mapgen_palette
          * member_name is the name of an optional object / array in the json object jsi.
          */
         void load_place_mapings( const JsonObject &jo, const std::string &member_name,
-                                 placing_map &format_placings );
+                                 placing_map &format_placings, const std::string &context );
+
+        void check();
         /**
          * Loads a palette object and returns it. Doesn't save it anywhere.
          */
@@ -248,6 +253,7 @@ class mapgen_palette
          */
         static const mapgen_palette &get( const palette_id &id );
 
+        static void check_definitions();
     private:
         static mapgen_palette load_internal( const JsonObject &jo, const std::string &src, bool require_id,
                                              bool allow_recur );
@@ -274,25 +280,26 @@ struct jmapgen_objects {
          * them in @ref objects.
          */
         template<typename PieceType>
-        void load_objects( const JsonArray &parray );
+        void load_objects( const JsonArray &parray, const std::string &context );
 
         /**
          * Loads the mapgen objects from the array inside of jsi. If jsi has no member of that name,
          * nothing is loaded and the function just returns.
          */
         template<typename PieceType>
-        void load_objects( const JsonObject &jsi, const std::string &member_name );
+        void load_objects( const JsonObject &jsi, const std::string &member_name,
+                           const std::string &context );
 
-        void check( const std::string &oter_name ) const;
+        void check( const std::string &context ) const;
 
-        void apply( mapgendata &dat ) const;
-        void apply( mapgendata &dat, const point &offset ) const;
+        void apply( const mapgendata &dat ) const;
+        void apply( const mapgendata &dat, const point &offset ) const;
 
         /**
          * checks if applying these objects to data would cause cause a collision with vehicles
          * on the same map
          **/
-        bool has_vehicle_collision( mapgendata &dat, const point &offset ) const;
+        bool has_vehicle_collision( const mapgendata &dat, const point &offset ) const;
 
     private:
         /**
@@ -309,13 +316,14 @@ class mapgen_function_json_base
     public:
         bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y, const JsonObject &jso ) const;
         size_t calc_index( const point &p ) const;
-        bool has_vehicle_collision( mapgendata &dat, const point &offset ) const;
+        bool has_vehicle_collision( const mapgendata &dat, const point &offset ) const;
 
     private:
         std::string jdata;
+        std::string context_;
 
     protected:
-        mapgen_function_json_base( const std::string &s );
+        mapgen_function_json_base( const std::string &s, const std::string &context );
         virtual ~mapgen_function_json_base();
 
         void setup_common();
@@ -325,7 +333,7 @@ class mapgen_function_json_base
         virtual bool setup_internal( const JsonObject &jo ) = 0;
         virtual void setup_setmap_internal() { }
 
-        void check_common( const std::string &oter_name ) const;
+        void check_common() const;
 
         void formatted_set_incredibly_simple( map &m, const point &offset ) const;
 
@@ -344,9 +352,9 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
 {
     public:
         void setup() override;
-        void check( const std::string &oter_name ) const override;
+        void check() const override;
         void generate( mapgendata & ) override;
-        mapgen_function_json( const std::string &s, int w,
+        mapgen_function_json( const std::string &s, int w, const std::string &context,
                               const point &grid_offset = point_zero );
         ~mapgen_function_json() override = default;
 
@@ -363,15 +371,15 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
 class update_mapgen_function_json : public mapgen_function_json_base
 {
     public:
-        update_mapgen_function_json( const std::string &s );
+        update_mapgen_function_json( const std::string &s, const std::string &context );
         ~update_mapgen_function_json() override = default;
 
         void setup();
         bool setup_update( const JsonObject &jo );
-        void check( const std::string &oter_name ) const;
-        bool update_map( const tripoint &omt_pos, const point &offset,
+        void check() const;
+        bool update_map( const tripoint_abs_omt &omt_pos, const point &offset,
                          mission *miss, bool verify = false ) const;
-        bool update_map( mapgendata &md, const point &offset = point_zero,
+        bool update_map( const mapgendata &md, const point &offset = point_zero,
                          bool verify = false ) const;
 
     protected:
@@ -383,11 +391,11 @@ class mapgen_function_json_nested : public mapgen_function_json_base
 {
     public:
         void setup();
-        void check( const std::string &oter_name ) const;
-        mapgen_function_json_nested( const std::string &s );
+        void check() const;
+        mapgen_function_json_nested( const std::string &s, const std::string &context );
         ~mapgen_function_json_nested() override = default;
 
-        void nest( mapgendata &dat, const point &offset ) const;
+        void nest( const mapgendata &dat, const point &offset ) const;
     protected:
         bool setup_internal( const JsonObject &jo ) override;
 
@@ -419,6 +427,10 @@ int register_mapgen_function( const std::string &key );
  * Check that @p key is present in @ref oter_mapgen.
  */
 bool has_mapgen_for( const std::string &key );
+/**
+ * Check whether @p key is a valid update_mapgen id.
+ */
+bool has_update_mapgen_for( const std::string &key );
 /*
  * Sets the above after init, and initializes mapgen_function_json instances as well
  */
@@ -470,5 +482,10 @@ void circle( map *m, const ter_id &type, double x, double y, double rad );
 void circle( map *m, const ter_id &type, const point &, int rad );
 void circle_furn( map *m, const furn_id &type, const point &, int rad );
 void add_corpse( map *m, const point & );
+
+extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
+        nested_mapgen;
+extern std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> >
+        update_mapgen;
 
 #endif // CATA_SRC_MAPGEN_H

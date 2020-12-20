@@ -148,8 +148,8 @@
     "price_postapoc": 500,
     "material": [ "flesh" ],
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 5 ], [ "vitB", 39 ] ],
+    "flags": [ "EATEN_HOT", "SMOKED" ],
+    "vitamins": [ [ "calcium", 0 ], [ "iron", 2 ] ],
     "fun": 5
   },
   {
@@ -197,6 +197,37 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 4
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "human_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "copy-from": "cracklins",
+    "material": [ "hflesh" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutant_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "copy-from": "cracklins",
+    "material": [ "flesh" ],
+    "vitamins": [ [ "mutant_toxin", 52 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutant_human_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "copy-from": "cracklins",
+    "material": [ "hflesh" ],
+    "vitamins": [ [ "mutant_toxin", 52 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "demihuman_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "copy-from": "cracklins",
+    "material": [ "flesh" ],
+    "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
     "type": "COMESTIBLE",
@@ -1290,7 +1321,7 @@
     "weight": "151 g",
     "color": "light_red",
     "spoils_in": "2 days",
-    "container": "can_food",
+    "container": "can_medium",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 300,

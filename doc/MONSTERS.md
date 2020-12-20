@@ -23,6 +23,7 @@ These properties are required for all monsters:
 | ---               | ---
 | `name`            | (string or object) Monster name, and optional plural name and translation context
 | `description`     | (string) In-game description of the monster, in one or two sentences
+| `ascii_picture`   | (string) Id of the asci_art used for this monster
 | `hp`              | (integer) Hit points
 | `volume`          | (string) Volume of the creature's body, as an integer with metric units, ex. `"35 L"` or `"1500 ml"`
 | `weight`          | (string) Monster weight, as an integer with metric units, ex. `"12 kg"` or `"7500 g"`
@@ -121,12 +122,12 @@ In-game description for the monster.
 ## "categories"
 (array of strings, optional)
 
-Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode.  One can add or remove entries in mods via "add:flags" and "remove:flags".
+Monster categories. Can be NULL, CLASSIC (only mobs found in classic zombie movies) or WILDLIFE (natural animals). If they are not CLASSIC or WILDLIFE, they will not spawn in classic mode.
 
 ## "species"
 (array of strings, optional)
 
-A list of species ids. One can add or remove entries in mods via "add:species" and "remove:species", see Modding below. Properties (currently only triggers) from species are added to the properties of each monster that belong to the species.
+A list of species ids. Properties (currently only triggers) from species are added to the properties of each monster that belong to the species.
 
 In mainline game it can be HUMAN, ROBOT, ZOMBIE, MAMMAL, BIRD, FISH, REPTILE, WORM, MOLLUSK, AMPHIBIAN, INSECT, SPIDER, FUNGUS, PLANT, NETHER, MUTANT, BLOB, HORROR, ABERRATION, HALLUCINATION and UNKNOWN.
 
@@ -169,7 +170,7 @@ Size flag, see [JSON_FLAGS.md](JSON_FLAGS.md).
 ## "material"
 (array of strings, optional)
 
-The materials the monster is primarily composed of. Must contain valid material ids. An empty array (which is the default) is also allowed, the monster is made of no specific material. One can add or remove entries in mods via "add:material" and "remove:material".
+The materials the monster is primarily composed of. Must contain valid material ids. An empty array (which is the default) is also allowed, the monster is made of no specific material.
 
 ## "phase"
 (string, optional)
@@ -270,7 +271,7 @@ List of damage instances added to die roll on monster melee attack.
 
 | field               | description
 | ---                 | ---
-| `damage_type`       | one of "true", "biological", "bash", "cut", "acid", "stab", "heat", "cold", "electric"
+| `damage_type`       | one of "pure", "biological", "bash", "cut", "acid", "stab", "heat", "cold", "electric"
 | `amount`            | amount of damage
 | `armor_penetration` | how much of the armor the damage instance ignores
 | `armor_multiplier`  | multiplier on `armor_penetration`
@@ -333,7 +334,7 @@ An item group that is used to spawn items when the monster dies. This can be an 
 ## "death_function"
 (array of strings, optional)
 
-How the monster behaves on death. See [JSON_FLAGS.md](JSON_FLAGS.md) for a list of possible functions. One can add or remove entries in mods via "add:death_function" and "remove:death_function".
+How the monster behaves on death. See [JSON_FLAGS.md](JSON_FLAGS.md) for a list of possible functions.
 
 ## "emit_field"
 (array of objects of emit_id and time_duration, optional)
@@ -356,45 +357,10 @@ Monster regenerates very quickly in poorly lit tiles.
 
 Will stop fleeing if at max hp, and regen anger and morale.
 
-## "special_attacks"
-(array of special attack definitions, optional)
-
-Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
-
-The old style array should contain 2 elements: the id of the attack (see [JSON_FLAGS.md](JSON_FLAGS.md) for a list) and the cooldown for that attack. Example (grab attack every 10 turns):
-
-```JSON
-"special_attacks": [ [ "GRAB", 10 ] ]
-```
-
-The new style object should contain at least a "type" member (string) and "cooldown" member (integer). It may contain additional members as required by the specific type. Possible types are listed below. Example:
-
-```JSON
-"special_attacks": [
-    { "type": "leap", "cooldown": 10, "max_range": 4 }
-]
-```
-
-"special_attacks" may contain any mixture of old and new style entries:
-
-```JSON
-"special_attacks": [
-    [ "GRAB", 10 ],
-    { "type": "leap", "cooldown": 10, "max_range": 4 }
-]
-```
-
-One can add entries with "add:death_function", which takes the same content as the "special_attacks" member and remove entries with "remove:death_function", which requires an array of attack types. Example:
-
-```JSON
-"remove:special_attacks": [ "GRAB" ],
-"add:special_attacks": [ [ "SHRIEK", 20 ] ]
-```
-
 ## "flags"
 (array of strings, optional)
 
-Monster flags. See [JSON_FLAGS.md](JSON_FLAGS.md) for a full list. One can add or remove entries in mods via "add:flags" and "remove:flags".
+Monster flags. See [JSON_FLAGS.md](JSON_FLAGS.md) for a full list.
 
 ## "fear_triggers", "anger_triggers", "placate_triggers"
 (array of strings, optional)
@@ -502,44 +468,76 @@ Each element of the array should be an object containing the following members:
 | `allow_climb_stairs` | (bool, default true) Monster may climb stairs
 | `avoid_sharp`        | (bool, default false) Monster may avoid sharp things like barbed wire
 
+## "special_attacks"
+(array of special attack definitions, optional)
 
-# Modding
+Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
 
-Monster types can be overridden or modified in mods. To do so, one has to add an "edit-mode" member, which can contain either:
-- "create" (the default if the member does not exist), an error will be shown if a type with the given id already exists.
-- "override", an existing type (if any) with the given id will be removed and the new data will be loaded as a completely new type.
-- "modify", an existing type will be modified. If there is no type with the given id, an error will be shown.
-
-Mandatory properties (all that are not marked as optional) are only required if edit mode is "create" or "override".
-
-Example (rename the zombie monster, leaves all other properties untouched):
+The old style array should contain 2 elements: the id of the attack (see [JSON_FLAGS.md](JSON_FLAGS.md) for a list) and the cooldown for that attack. Example (grab attack every 10 turns):
 
 ```JSON
-{
-    "type": "MONSTER",
-    "edit-mode": "modify",
-    "id": "mon_zombie",
-    "name": "clown"
-}
+"special_attacks": [ [ "GRAB", 10 ] ]
 ```
-The default edit mode ("create") is suitable for new types, if their id conflicts with the types from other mods or from the core data, an error will be shown. The edit mode "override" is suitable for re-defining a type from scratch, it ensures that all mandatory members are listed and leaves no traces of the previous definitions. Edit mode "modify" is for small changes, like adding a flag or removing a special attack.
 
-Modifying a type overrides the properties with the new values, this example sets the special attacks to contain *only* the "SHRIEK" attack:
+The new style object can contain a "type" member (string) - "cooldown" member (integer) pair for the three types listed below, the "id" of an explicitly defined monster attack (from monster_attacks.json) or a spell (see MAGIC.md). It may contain additional members as required by the specific attack. Possible types are listed below. Example:
 
 ```JSON
-{
-    "type": "MONSTER",
-    "edit-mode": "modify",
-    "id": "mon_zombie",
-    "special_attacks": [ [ "SHRIEK", 20 ] ]
-}
+"special_attacks": [
+    { "type": "leap", "cooldown": 10, "max_range": 4 }
+]
 ```
-Some properties allow adding and removing entries, as documented above, usually via members with the "add:"/"remove:" prefix.
+In the case of separately defined attacks the object has to contain at least an "id" member. In this case the attack will use the default attack data defined in monster_attacks.json, if a field is additionally defined it will overwrite those defaults. These attacks have the common "type": "monster_attack", see below for possible fields. Example:
+
+```JSON
+"special_attacks": [
+    { "id": "impale" }
+]
+```
 
 
+"special_attacks" may contain any mixture of old and new style entries:
+
+```JSON
+"special_attacks": [
+    [ "GRAB", 10 ],
+    { "type": "leap", "cooldown": 10, "max_range": 4 }
+]
+```
 
 # Monster special attack types
 The listed attack types can be as monster special attacks (see "special_attacks").
+
+## "monster_attack"
+
+The common type for JSON-defined attacks. Note, you don't have to declare it in the monster attack data, use the "id" of the desired attack instead.
+
+| field                 | description
+| ---                   | ---
+| `cooldown`			| Integer, amount of turns between uses.
+| `damage_max_instance` | Array of objects, see ## "melee_damage" 
+| `min_mul`, `max_mul`  | Sets the bounds on the range of damage done. For each attack, the above defined amount of damage will be multiplied by a 
+|						| randomly rolled mulltiplier between the values min_mul and max_mul. 
+| `move_cost`           | Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
+| `accuracy`            | Integer, if defined the attack will use a different accuracy from monster's regular melee attack.
+| `body_parts`			| List, If empty the regular melee roll body part selection is used. If non-empty, a body part is selected from the map to be
+|						| targeted.
+|						| with a chance proportional to the value.
+| `effects`				| Array, defines additional effects for the attack to add.
+| `miss_msg_u`			| String, message for missed attack against the player.
+| `miss_msg_npc`		| String, message for missed attack against an NPC.
+| `hit_dmg_u`			| String, message for succesful attack against the player.
+| `hit_dmg_npc`			| String, message for succesful attack against an NPC.
+| `no_dmg_msg_u`		| String, message for a 0-damage attack against the player.
+| `no_dmg_msg_npc`		| String, message for a 0-damage attack against an NPC.
+
+## "bite"
+
+Makes monster use teeth to bite opponent, uses the same fields as "monster_attack" attacks. Monster bites can give infections if the target is grabbed at the same time.
+
+| field                 | description
+| ---                   | ---
+| `no_infection_chance` | Chance to not give infection. The exact chance to infect is 1-in-( no_infection_chance - damage dealt). 
+
 
 ## "leap"
 
@@ -553,19 +551,6 @@ Makes the monster leap a few tiles. It supports the following additional propert
 | `move_cost`          | Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
 | `min_consider_range` | Minimal range to consider for using specific attack.
 | `max_consider_range` | Maximal range to consider for using specific attack.
-
-
-## "bite"
-
-Makes monster use teeth to bite opponent. Some monsters can give infection by doing so.
-
-| field                 | description
-| ---                   | ---
-| `damage_max_instance` | Max damage it can deal on one bite.
-| `min_mul`, `max_mul`  | How hard is to get free of bite without killing attacker.
-| `move_cost`           | Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
-| `accuracy`            | (Integer) How accurate it is. Not many monsters use it though.
-| `no_infection_chance` | Chance to not give infection.
 
 
 ## "gun"

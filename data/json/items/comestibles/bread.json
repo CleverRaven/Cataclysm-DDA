@@ -32,7 +32,7 @@
     "price_postapoc": 10,
     "bashing": 8,
     "material": [ "glass", "wheat" ],
-    "looks_like": "jar_glass",
+    "looks_like": "jar_glass_sealed",
     "symbol": "%",
     "color": "white",
     "use_action": {
@@ -56,7 +56,7 @@
     "price_postapoc": 10,
     "bashing": 8,
     "material": [ "glass", "wheat" ],
-    "looks_like": "jar_glass",
+    "looks_like": "jar_glass_sealed",
     "symbol": "%",
     "color": "white",
     "use_action": {
@@ -75,7 +75,7 @@
     "name": { "str": "sourdough starter" },
     "description": "This jar contains a precious mix of flour, water, molds and bacteria from the air.  When you add flour and water to it, after a few hours it froths and rises.",
     "weight": "52 g",
-    "looks_like": "jar_glass",
+    "looks_like": "jar_glass_sealed",
     "volume": "250 ml",
     "price": 50,
     "price_postapoc": 10,
@@ -281,5 +281,27 @@
     "fun": -1,
     "vitamins": [ [ "calcium", 12 ] ],
     "//": "this item will generally inherit its values, so it is essentially a copy of bread"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "brown_bread",
+    "name": { "str_sp": "brown bread" },
+    "weight": "45 g",
+    "color": "brown",
+    "spoils_in": "10 days",
+    "container": "bag_plastic",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": 1,
+    "calories": 74,
+    "description": "A sweet bread, like cake.",
+    "price": "272 cent",
+    "price_postapoc": "4 USD",
+    "material": [ "wheat" ],
+    "volume": "48 ml",
+    "charges": 10,
+    "flags": [ "EATEN_HOT", "EATEN_COLD" ],
+    "fun": 3,
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
   }
 ]

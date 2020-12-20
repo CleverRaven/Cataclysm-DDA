@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+#include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "character.h"
 #include "colony.h"
@@ -23,14 +25,15 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "optional.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 
 // Gates namespace
@@ -100,12 +103,11 @@ void gate_data::load( const JsonObject &jo, const std::string & )
 
 void gate_data::check() const
 {
-    static const iexamine_function controls_gate( iexamine_function_from_string( "controls_gate" ) );
     const ter_str_id winch_tid( id.str() );
 
     if( !winch_tid.is_valid() ) {
         debugmsg( "Gates \"%s\" have no terrain of the same name, working as a winch.", id.c_str() );
-    } else if( winch_tid->examine != controls_gate ) {
+    } else if( !winch_tid->has_examine( iexamine::controls_gate ) ) {
         debugmsg( "Terrain \"%s\" can't control gates, but gates \"%s\" depend on it.",
                   winch_tid.c_str(), id.c_str() );
     }
@@ -218,7 +220,7 @@ void gates::open_gate( const tripoint &pos )
         }
     }
 
-    if( get_player_character().sees( pos ) ) {
+    if( get_player_view().sees( pos ) ) {
         if( open ) {
             add_msg( gate.open_message );
         } else if( close ) {
@@ -231,7 +233,7 @@ void gates::open_gate( const tripoint &pos )
     }
 }
 
-void gates::open_gate( const tripoint &pos, player &p )
+void gates::open_gate( const tripoint &pos, Character &p )
 {
     const gate_id gid = get_gate_id( pos );
 
@@ -251,7 +253,7 @@ void gates::open_gate( const tripoint &pos, player &p )
 
 // Doors namespace
 
-void doors::close_door( map &m, Character &who, const tripoint &closep )
+void doors::close_door( map &m, Creature &who, const tripoint &closep )
 {
     bool didit = false;
     const bool inside = !m.is_outside( who.pos() );

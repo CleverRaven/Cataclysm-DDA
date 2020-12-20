@@ -1,9 +1,14 @@
 #include "catch/catch.hpp"
-
-#include "item.h"
 #include "item_contents.h"
 
-#include <sstream>
+#include <string>
+
+#include "item.h"
+#include "item_pocket.h"
+#include "point.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "units.h"
 
 TEST_CASE( "item_contents" )
 {

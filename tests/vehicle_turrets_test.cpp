@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -5,14 +7,12 @@
 #include <vector>
 
 #include "ammo.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
 #include "map.h"
 #include "point.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -38,7 +38,7 @@ static const vpart_info *biggest_tank( const ammotype &ammo )
 
     for( const auto &e : vpart_info::all() ) {
         const auto &vp = e.second;
-        if( !item( vp.item ).is_watertight_container() ) {
+        if( !item( vp.base_item ).is_watertight_container() ) {
             continue;
         }
 
@@ -62,26 +62,28 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
 {
     map &here = get_map();
     Character &player_character = get_player_character();
-    for( auto e : turret_types() ) {
+    for( const vpart_info *e : turret_types() ) {
         SECTION( e->name() ) {
-            vehicle *veh = here.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270, 0, 0 );
+            vehicle *veh = here.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270_degrees, 0,
+                                             0 );
             REQUIRE( veh );
 
-            const int idx = veh->install_part( point_zero, e->get_id(), true );
+            const int idx = veh->install_part( point_zero, e->get_id(), "", true );
             REQUIRE( idx >= 0 );
 
-            REQUIRE( veh->install_part( point_zero, vpart_id( "storage_battery" ), true ) >= 0 );
+            REQUIRE( veh->install_part( point_zero, vpart_id( "storage_battery" ), "",
+                                        true ) >= 0 );
             veh->charge_battery( 10000 );
 
             auto ammo =
                 ammotype( veh->turret_query( veh->part( idx ) ).base()->ammo_default().str() );
 
             if( veh->part_flag( idx, "USE_TANKS" ) ) {
-                auto *tank = biggest_tank( ammo );
+                const auto *tank = biggest_tank( ammo );
                 REQUIRE( tank );
                 INFO( tank->get_id().str() );
 
-                auto tank_idx = veh->install_part( point_zero, tank->get_id(), true );
+                int tank_idx = veh->install_part( point_zero, tank->get_id(), "", true );
                 REQUIRE( tank_idx >= 0 );
                 REQUIRE( veh->part( tank_idx ).ammo_set( ammo->default_ammotype() ) );
 
@@ -89,7 +91,7 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
                 veh->part( idx ).ammo_set( ammo->default_ammotype() );
             }
 
-            auto qry = veh->turret_query( veh->part( idx ) );
+            turret_data qry = veh->turret_query( veh->part( idx ) );
             REQUIRE( qry );
 
             REQUIRE( qry.query() == turret_data::status::ready );

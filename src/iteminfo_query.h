@@ -33,6 +33,7 @@ enum class iteminfo_parts : size_t {
     MED_CONSUME_TIME,
 
     FOOD_NUTRITION,
+    FOOD_SATIATION,
     FOOD_QUENCH,
     FOOD_JOY,
     FOOD_PORTIONS,
@@ -59,6 +60,7 @@ enum class iteminfo_parts : size_t {
     AMMO_DAMAGE_DISPERSION,
     AMMO_DAMAGE_RECOIL,
     AMMO_FX_RECYCLED,
+    AMMO_FX_RECOVER,
     AMMO_FX_BLACKPOWDER,
     AMMO_FX_CANTMISSFIRE,
     AMMO_FX_INCENDIARY,

@@ -1,9 +1,8 @@
-#include "vehicle.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <memory>
 
 #include "avatar.h"
+#include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -21,6 +20,7 @@
 #include "ui.h"
 #include "value_ptr.h"
 #include "veh_type.h"
+#include "vehicle.h" // IWYU pragma: associated
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -33,8 +33,9 @@ std::vector<vehicle_part *> vehicle::turrets()
 {
     std::vector<vehicle_part *> res;
 
-    for( auto &e : parts ) {
-        if( !e.is_broken() && e.base.is_gun() ) {
+    for( int index : turret_locations ) {
+        vehicle_part &e = parts[index];
+        if( !e.is_broken() && e.is_turret() ) {
             res.push_back( &e );
         }
     }
@@ -248,7 +249,7 @@ turret_data::status turret_data::query() const
         }
     }
 
-    auto ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
+    int ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
     if( ups > veh->fuel_left( fuel_type_battery ) ) {
         return status::no_power;
     }
@@ -267,7 +268,7 @@ void turret_data::prepare_fire( player &p )
 
     // set fuel tank fluid as ammo, if appropriate
     if( part->info().has_flag( "USE_TANKS" ) ) {
-        auto mode = base()->gun_current_mode();
+        gun_mode mode = base()->gun_current_mode();
         int qty  = mode->ammo_required();
         int fuel_left = veh->fuel_left( ammo_current() );
         mode->ammo_set( ammo_current(), std::min( qty * mode.qty, fuel_left ) );
@@ -280,7 +281,7 @@ void turret_data::post_fire( player &p, int shots )
     p.remove_effect( effect_on_roof );
     p.recoil = cached_recoil;
 
-    auto mode = base()->gun_current_mode();
+    gun_mode mode = base()->gun_current_mode();
 
     // handle draining of vehicle tanks and UPS charges, if applicable
     if( part->info().has_flag( "USE_TANKS" ) ) {
@@ -297,7 +298,7 @@ int turret_data::fire( Character &c, const tripoint &target )
         return 0;
     }
     int shots = 0;
-    auto mode = base()->gun_current_mode();
+    gun_mode mode = base()->gun_current_mode();
     player *player_character = c.as_player();
     if( player_character == nullptr ) {
         return 0;
@@ -620,8 +621,8 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     shots = gun.fire( cpu, targ );
 
-    if( shots && u_see && !player_character.sees( targ ) ) {
-        add_msg( _( "The %1$s fires its %2$s!" ), name, pt.name() );
+    if( shots && u_see ) {
+        add_msg_if_player_sees( targ, _( "The %1$s fires its %2$s!" ), name, pt.name() );
     }
 
     return shots;

@@ -25,6 +25,7 @@
       { "item": "manual_shotgun", "prob": 30 },
       { "item": "manual_smg", "prob": 10 },
       { "item": "pocket_firearms", "prob": 100 },
+      { "item": "text_gunsmith", "prob": 75 },
       { "item": "recipe_bullets", "prob": 80 }
     ]
   },
@@ -79,6 +80,7 @@
       { "group": "book_martial", "prob": 100 },
       { "item": "manual_bashing", "prob": 40 },
       { "item": "manual_knives", "prob": 40 },
+      { "item": "manual_swords", "prob": 40 },
       { "item": "manual_launcher", "prob": 20 },
       { "item": "manual_melee", "prob": 70 },
       { "item": "manual_pankration", "prob": 1 },
@@ -100,13 +102,16 @@
     "subtype": "distribution",
     "entries": [
       { "item": "atomic_survival", "prob": 12 },
+      { "item": "plastics_book", "prob": 20 },
       { "item": "fun_survival", "prob": 33 },
       { "item": "mag_dude", "prob": 100 },
       { "item": "mag_survival", "prob": 100 },
       { "item": "manual_survival", "prob": 33 },
       { "item": "pocket_survival", "prob": 50 },
       { "item": "survival_book", "prob": 12 },
-      { "item": "textbook_survival", "prob": 17 }
+      { "item": "textbook_survival", "prob": 17 },
+      { "item": "textbook_botany", "prob": 5 },
+      { "item": "textbook_arthropod", "prob": 5 }
     ]
   },
   {
@@ -313,12 +318,14 @@
       { "item": "manual_cutting", "prob": 12 },
       { "item": "manual_stabbing", "prob": 6 },
       { "item": "manual_knives", "prob": 8 },
+      { "item": "manual_swords", "prob": 8 },
       { "item": "manual_gun", "prob": 8 },
       { "item": "manual_shotgun", "prob": 6 },
       { "item": "manual_rifle", "prob": 6 },
       { "item": "manual_pistol", "prob": 4 },
       { "item": "manual_smg", "prob": 2 },
       { "item": "manual_launcher", "prob": 1 },
+      { "item": "text_gunsmith", "prob": 1 },
       { "item": "recipe_bullets", "prob": 2 },
       { "item": "howto_traps", "prob": 10 },
       { "item": "preserving_juice", "prob": 10 },
@@ -381,12 +388,14 @@
       { "group": "textbooks_school", "prob": 228 },
       { "item": "textbook_gaswarfare", "prob": 5 },
       { "item": "recipe_bullets", "prob": 8 },
+      { "item": "text_gunsmith", "prob": 4 },
       { "item": "pocket_firearms", "prob": 2 },
       { "item": "textbook_traps", "prob": 4 },
       { "item": "reference_cooking", "prob": 2 },
       { "item": "reference_fabrication1", "prob": 6 },
       { "item": "reference_firstaid1", "prob": 2 },
-      { "item": "reference_firstaid2", "prob": 1 }
+      { "item": "reference_firstaid2", "prob": 1 },
+      { "item": "textbook_toxicology", "prob": 2 }
     ]
   },
   {
@@ -417,6 +426,7 @@
       { "item": "textbook_fabrication", "prob": 12 },
       { "item": "welding_book", "prob": 2 },
       { "item": "glassblowing_book", "prob": 2 },
+      { "item": "plastics_book", "prob": 4 },
       { "item": "concrete_book", "prob": 2 },
       { "item": "textbook_tailor", "prob": 12 },
       { "item": "recipe_fauxfur", "prob": 4 },
@@ -441,7 +451,9 @@
       { "item": "book_lockpick", "prob": 2 },
       { "item": "basic_chemistry", "prob": 5 },
       { "item": "fermenting_book", "prob": 8 },
-      { "item": "distilling_cookbook", "prob": 8 }
+      { "item": "distilling_cookbook", "prob": 8 },
+      { "item": "textbook_arthropod", "prob": 5 },
+      { "item": "textbook_botany", "prob": 5 }
     ]
   },
   {
@@ -454,12 +466,15 @@
       { "item": "recipe_augs", "prob": 5 },
       { "item": "howto_computer", "prob": 10 },
       { "item": "textbook_robots", "prob": 5 },
+      { "item": "text_gunsmith", "prob": 5 },
       { "item": "SICP", "prob": 4 },
       { "item": "textbook_chemistry", "prob": 11 },
+      { "item": "plastics_book", "prob": 5 },
       { "item": "adv_chemistry", "prob": 10 },
       { "item": "textbook_extraction", "prob": 10 },
       { "item": "brewing_cookbook", "prob": 3 },
       { "item": "textbook_firstaid", "prob": 8 },
+      { "item": "textbook_toxicology", "prob": 5 },
       { "item": "pocket_firstaid", "prob": 4 },
       { "item": "textbook_computer", "prob": 4 },
       { "item": "computer_science", "prob": 8 },
@@ -477,7 +492,9 @@
       { "item": "collector_book", "prob": 2 },
       { "group": "religious_books", "prob": 40 },
       { "group": "textbooks", "prob": 1 },
-      { "group": "manuals", "prob": 1 }
+      { "group": "manuals", "prob": 1 },
+      { "item": "textbook_arthropod", "prob": 5 },
+      { "item": "textbook_botany", "prob": 5 }
     ]
   },
   {
@@ -519,7 +536,9 @@
       { "item": "textbook_armeast", "prob": 15 },
       { "item": "textbook_armschina", "prob": 15 },
       { "item": "textbook_gaswarfare", "prob": 15 },
+      { "item": "text_gunsmith", "prob": 10 },
       { "item": "glassblowing_book", "prob": 12 },
+      { "item": "plastics_book", "prob": 12 },
       { "item": "cookbook_human", "prob": 10 },
       { "item": "collector_book", "prob": 10 },
       { "item": "brewing_cookbook", "prob": 24 },
@@ -534,6 +553,8 @@
       { "item": "scots_cookbook", "prob": 30 },
       { "item": "textbook_biodiesel", "prob": 18 },
       { "item": "jewelry_book", "prob": 15 },
+      { "item": "textbook_arthropod", "prob": 5 },
+      { "item": "textbook_botany", "prob": 5 },
       { "item": "manual_tai_chi", "prob": 5 },
       { "item": "manual_fencing", "prob": 4 },
       { "item": "manual_aikido", "prob": 3 },
@@ -619,11 +640,12 @@
       { "item": "adv_chemistry", "prob": 200 },
       { "item": "emergency_book", "prob": 200 },
       { "item": "record_patient", "prob": 100 },
-      { "item": "recipe_medicalmut", "prob": 50 },
+      { "item": "recipe_medicalmut", "prob": 10 },
       { "item": "recipe_serum", "prob": 10 },
       { "item": "recipe_labchem", "prob": 100 },
       { "item": "recipe_augs", "prob": 100 },
-      { "item": "reference_firstaid1", "prob": 15 }
+      { "item": "reference_firstaid1", "prob": 15 },
+      { "item": "textbook_toxicology", "prob": 15 }
     ]
   },
   {

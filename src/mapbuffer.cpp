@@ -1,7 +1,6 @@
 #include "mapbuffer.h"
 
 #include <algorithm>
-#include <exception>
 #include <functional>
 #include <set>
 #include <sstream>
@@ -17,6 +16,7 @@
 #include "json.h"
 #include "map.h"
 #include "output.h"
+#include "path_info.h"
 #include "popup.h"
 #include "string_formatter.h"
 #include "submap.h"
@@ -33,7 +33,7 @@ static std::string find_quad_path( const std::string &dirname, const tripoint &o
 static std::string find_dirname( const tripoint &om_addr )
 {
     const tripoint segment_addr = omt_to_seg_copy( om_addr );
-    return string_format( "%s/maps/%d.%d.%d", g->get_world_base_save_path(), segment_addr.x,
+    return string_format( "%s/maps/%d.%d.%d", PATH_INFO::world_base_save_path(), segment_addr.x,
                           segment_addr.y, segment_addr.z );
 }
 
@@ -104,7 +104,7 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
 
 void mapbuffer::save( bool delete_after_save )
 {
-    assure_dir_exist( g->get_world_base_save_path() + "/maps" );
+    assure_dir_exist( PATH_INFO::world_base_save_path() + "/maps" );
 
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
@@ -118,16 +118,18 @@ void mapbuffer::save( bool delete_after_save )
     // A set of already-saved submaps, in global overmap coordinates.
     std::set<tripoint> saved_submaps;
     std::list<tripoint> submaps_to_delete;
-    int next_report = 0;
+    static constexpr std::chrono::milliseconds update_interval( 500 );
+    auto last_update = std::chrono::steady_clock::now();
+
     for( auto &elem : submaps ) {
-        if( num_total_submaps > 100 && num_saved_submaps >= next_report ) {
+        auto now = std::chrono::steady_clock::now();
+        if( last_update + update_interval < now ) {
             popup.message( _( "Please wait as the map saves [%d/%d]" ),
                            num_saved_submaps, num_total_submaps );
             ui_manager::redraw();
             refresh_display();
-            next_report += std::max( 100, num_total_submaps / 20 );
+            last_update = now;
         }
-
         // Whatever the coordinates of the current submap are,
         // we're saving a 2x2 quad of submaps at a time.
         // Submaps are generated in quads, so we know if we have one member of a quad,
@@ -147,7 +149,7 @@ void mapbuffer::save( bool delete_after_save )
 
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
-        const bool zlev_del = !map_has_zlevels && om_addr.z != g->get_levz();
+        const bool zlev_del = !map_has_zlevels && om_addr.z != get_map().get_abs_sub().z;
         save_quad( dirname, quad_path, om_addr, submaps_to_delete,
                    delete_after_save || zlev_del ||
                    om_addr.x < map_origin.x || om_addr.y < map_origin.y ||

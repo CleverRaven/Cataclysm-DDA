@@ -2,14 +2,25 @@
 #ifndef CATA_SRC_TRANSLATIONS_H
 #define CATA_SRC_TRANSLATIONS_H
 
+#include <cstddef>
 #include <map>
 #include <ostream>
 #include <string>
-#include <vector>
+#include <tuple>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "optional.h"
+#include "value_ptr.h"
+
+constexpr int INVALID_LANGUAGE_VERSION = 0;
+
+namespace detail
+{
+// returns current language generation/version
+int get_current_language_version();
+} // namespace detail
 
 #if !defined(translate_marker)
 /**
@@ -48,15 +59,85 @@
 #  define ATTRIBUTE_FORMAT_ARG(a)
 #endif
 
-const char *_( const char *msg ) ATTRIBUTE_FORMAT_ARG( 1 );
-inline const char *_( const char *msg )
+namespace detail
+{
+// same as _(), but without local cache
+const char *_translate_internal( const char *msg ) ATTRIBUTE_FORMAT_ARG( 1 );
+
+inline const char *_translate_internal( const char *msg )
 {
     return msg[0] == '\0' ? msg : gettext( msg );
 }
-inline std::string _( const std::string &msg )
+
+// same as _(), but without local cache
+inline std::string _translate_internal( const std::string &msg )
 {
-    return _( msg.c_str() );
+    return _translate_internal( msg.c_str() );
 }
+
+template<typename T>
+class local_translation_cache;
+
+template<>
+class local_translation_cache<std::string>
+{
+    private:
+        int cached_lang_version = INVALID_LANGUAGE_VERSION;
+        std::string cached_arg;
+        std::string cached_translation;
+    public:
+        const std::string &operator()( const std::string &arg ) {
+            if( cached_lang_version != get_current_language_version() || cached_arg != arg ) {
+                cached_lang_version = get_current_language_version();
+                cached_arg = arg;
+                cached_translation = _translate_internal( arg );
+            }
+            return cached_translation;
+        }
+};
+
+template<>
+class local_translation_cache<const char *>
+{
+    private:
+        std::string cached_arg;
+        int cached_lang_version = INVALID_LANGUAGE_VERSION;
+        bool same_as_arg = false;
+        const char *cached_translation = nullptr;
+    public:
+        const char *operator()( const char *arg ) {
+            if( cached_lang_version != get_current_language_version() || cached_arg != arg ) {
+                cached_lang_version = get_current_language_version();
+                cached_translation = _translate_internal( arg );
+                same_as_arg = cached_translation == arg;
+                cached_arg = arg;
+            }
+            // mimic gettext() behavior: return `arg` if no translation is found
+            // `same_as_arg` is needed to ensure that the current `arg` is returned (not a cached one)
+            return same_as_arg ? arg : cached_translation;
+        }
+};
+
+// these getters are used to work around the MSVC bug that happened with using decltype in lambda
+// see build log: https://gist.github.com/Aivean/e76a70edce0a1589c76bcf754ffb016b
+static inline local_translation_cache<const char *> get_local_translation_cache( const char * )
+{
+    return local_translation_cache<const char *>();
+}
+static inline local_translation_cache<std::string> get_local_translation_cache(
+    const std::string & )
+{
+    return local_translation_cache<std::string>();
+}
+
+} // namespace detail
+
+// Note: in case of std::string argument, the result is copied, this is intended (for safety)
+#define _( msg ) \
+    ( ( []( const auto & arg ) { \
+        static auto cache = detail::get_local_translation_cache( arg ); \
+        return cache( arg ); \
+    } )( msg ) )
 
 // ngettext overload taking an unsigned long long so that people don't need
 // to cast at call sites.  This is particularly relevant on 64-bit Windows where
@@ -85,6 +166,19 @@ const char *npgettext( const char *context, const char *msgid, const char *msgid
 
 #define _(STRING) (STRING)
 
+namespace detail
+{
+// _translate_internal avoids static cache
+inline const char *_translate_internal( const char *msg )
+{
+    return msg;
+}
+inline std::string _translate_internal( const std::string &msg )
+{
+    return msg;
+}
+} // namespace detail
+
 #define ngettext(STRING1, STRING2, COUNT) (COUNT < 2 ? _(STRING1) : _(STRING2))
 #define pgettext(STRING1, STRING2) _(STRING2)
 #define npgettext(STRING0, STRING1, STRING2, COUNT) ngettext(STRING1, STRING2, COUNT)
@@ -107,6 +201,7 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
 
 bool isValidLanguage( const std::string &lang );
 std::string getLangFromLCID( const int &lcid );
+std::string locale_dir();
 void select_language();
 void set_language();
 
@@ -120,7 +215,11 @@ class translation
     public:
         struct plural_tag {};
 
-        translation();
+        // need to have user-defined constructor to work around clang 3.8 bug
+        // translation() = default doesn't work!
+        // see: https://stackoverflow.com/a/47368753/1349366
+        // NOLINTNEXTLINE default constructor
+        translation() {}
         /**
          * Same as `translation()`, but with plural form enabled.
          **/
@@ -215,10 +314,14 @@ class translation
         struct no_translation_tag {};
         translation( const std::string &str, no_translation_tag );
 
-        cata::optional<std::string> ctxt;
+        cata::value_ptr<std::string> ctxt = nullptr;
         std::string raw;
-        cata::optional<std::string> raw_pl;
+        cata::value_ptr<std::string> raw_pl = nullptr;
         bool needs_translation = false;
+        // translation cache. For "plural" translation only latest `num` is optimistically cached
+        mutable int cached_language_version = INVALID_LANGUAGE_VERSION;
+        mutable int cached_num = 0; // `num`, which `cached_translation` corresponds to
+        mutable cata::value_ptr<std::string> cached_translation;
 };
 
 /**
@@ -284,6 +387,7 @@ struct localized_comparator {
 
     bool operator()( const std::string &, const std::string & ) const;
     bool operator()( const std::wstring &, const std::wstring & ) const;
+    bool operator()( const translation &, const translation & ) const;
 
     template<typename Head, typename... Tail, size_t... Ints>
     auto tie_tail( const std::tuple<Head, Tail...> &t, std::index_sequence<Ints...> ) const {

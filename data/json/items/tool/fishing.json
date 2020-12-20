@@ -52,6 +52,7 @@
     "description": "'Fishing rod' might be a bit too charitable of a description.  In truth, this is a stick with a piece of string and a hook.",
     "weight": "1700 g",
     "volume": "1250 ml",
+    "longest_side": "90 cm",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -3,
@@ -61,7 +62,7 @@
     "color": "brown",
     "use_action": [ "FISH_ROD" ],
     "qualities": [ [ "FISHING", 1 ] ],
-    "flags": [ "FISH_POOR" ]
+    "flags": [ "FISH_POOR", "SHEATH_SPEAR" ]
   },
   {
     "id": "fishing_rod_professional",
@@ -70,6 +71,7 @@
     "description": "A professional fishing rod with a matching set of weights.  With this you should be able to catch 'em all.",
     "weight": "1000 g",
     "volume": "1250 ml",
+    "longest_side": "200 cm",
     "price": 20000,
     "price_postapoc": 1500,
     "to_hit": 2,
@@ -79,6 +81,47 @@
     "color": "brown",
     "use_action": [ "FISH_ROD" ],
     "qualities": [ [ "FISHING", 2 ] ],
+    "flags": [ "FISH_GOOD", "SHEATH_SPEAR" ]
+  },
+  {
+    "id": "plastichoboreel",
+    "type": "TOOL",
+    "looks_like": "baton",
+    "//": "based on the ka-bar kaster",
+    "name": { "str": "plastic hand fishing reel" },
+    "description": "A commercial version of what is often known as a 'hobo fishing reel'.  It is a short rod with a section on one end with fishing line wrapped around it, with a rotating guard around that.  It is not as effective as a normal fishing pole, but is much more compact than them.",
+    "weight": "400 g",
+    "volume": "400 ml",
+    "longest_side": "158 mm",
+    "price": 1300,
+    "price_postapoc": 20000,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "plastic" ],
+    "symbol": "/",
+    "color": "black",
+    "use_action": [ "FISH_ROD" ],
+    "qualities": [ [ "FISHING", 1 ] ],
     "flags": [ "FISH_GOOD" ]
+  },
+  {
+    "id": "hoboreel",
+    "type": "TOOL",
+    "looks_like": "pointy_stick",
+    "name": { "str": "hobo hand fishing reel" },
+    "description": "What is often known as a 'hobo fishing reel'.  It is a short wooden rod with a section on one end with fishing line wrapped around it, with a notch to put the string to help pull in fish.  It is not as effective as a normal fishing pole, but is much more compact than them.",
+    "weight": "500 g",
+    "volume": "380 ml",
+    "longest_side": "150 mm",
+    "price": 3500,
+    "price_postapoc": 15000,
+    "to_hit": -1,
+    "bashing": 5,
+    "material": [ "wood" ],
+    "symbol": "/",
+    "color": "brown",
+    "use_action": [ "FISH_ROD" ],
+    "qualities": [ [ "FISHING", 1 ] ],
+    "flags": [ "FISH_POOR" ]
   }
 ]

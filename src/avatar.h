@@ -3,33 +3,45 @@
 #define CATA_SRC_AVATAR_H
 
 #include <cstddef>
+#include <list>
+#include <map>
+#include <memory>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "enums.h"
-#include "item.h"
+#include "game_constants.h"
 #include "magic_teleporter_list.h"
 #include "map_memory.h"
 #include "memory_fast.h"
 #include "player.h"
 #include "point.h"
-
-class faction;
-
-class advanced_inv_listitem;
-class advanced_inv_area;
-class advanced_inventory_pane;
+#include "string_id.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class advanced_inv_area;
+class advanced_inv_listitem;
+class advanced_inventory_pane;
+class faction;
+class item;
+class item_location;
 class mission;
 class monster;
+class nc_color;
 class npc;
 class talker;
+namespace catacurses
+{
+class window;
+} // namespace catacurses
+enum class character_type : int;
 
 namespace debug_menu
 {
@@ -50,8 +62,8 @@ struct monster_visible_info {
     std::vector<npc *> unique_types[9];
     std::vector<const mtype *> unique_mons[9];
 
-    // If the moster visible in this direction is dangerous
-    bool dangerous[8];
+    // If the monster visible in this direction is dangerous
+    bool dangerous[8] = {};
 };
 
 class avatar : public player
@@ -112,7 +124,7 @@ class avatar : public player
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
         /** Resets all missions before saving character to template */
-        void reset_all_misions();
+        void reset_all_missions();
 
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;
@@ -125,7 +137,7 @@ class avatar : public player
          * Returns the target of the active mission or @ref overmap::invalid_tripoint if there is
          * no active mission.
          */
-        tripoint get_active_mission_target() const;
+        tripoint_abs_omt get_active_mission_target() const;
         /**
          * Set which mission is active. The mission must be listed in @ref active_missions.
          */
@@ -143,6 +155,13 @@ class avatar : public player
         // Dialogue and bartering--see npctalk.cpp
         void talk_to( std::unique_ptr<talker> talk_with, bool text_only = false,
                       bool radio_contact = false );
+
+        /**
+         * Try to disarm the NPC. May result in fail attempt, you receiving the weapon and instantly wielding it,
+         * or the weapon falling down on the floor nearby. NPC is always getting angry with you.
+         * @param target Target NPC to disarm
+         */
+        void disarm( npc &target );
 
         /**
          * Helper function for player::read.
@@ -168,6 +187,8 @@ class avatar : public player
         void do_read( item &book );
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const override;
+        void identify( const item &item ) override;
+        void clear_identified();
 
         void wake_up();
         // Grab furniture / vehicle
@@ -175,7 +196,7 @@ class avatar : public player
         object_type get_grab_type() const;
         /** Handles player vomiting effects */
         void vomit();
-
+        void add_pain_msg( int val, const bodypart_id &bp ) const;
         /**
          * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
          * notices your steal attempt and getting angry with you, and you successfully stealing the item.
@@ -195,10 +216,16 @@ class avatar : public player
         int free_upgrade_points() const;
         // how much "kill xp" you have
         int kill_xp() const;
+        void power_bionics() override;
+        void power_mutations() override;
+        /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
+        bionic *bionic_by_invlet( int ch );
 
         faction *get_faction() const override;
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
+        // Preferred aim mode - ranged.cpp aim mode defaults to this if possible
+        std::string preferred_aiming_mode;
 
         void set_movement_mode( const move_mode_id &mode ) override;
 
@@ -230,32 +257,51 @@ class avatar : public player
         }
 
         struct daily_calories {
-            int spent;
-            int gained;
+            int spent = 0;
+            int gained = 0;
             int total() const {
                 return gained - spent;
             }
+            std::map<float, int> activity_levels;
 
             void serialize( JsonOut &json ) const {
                 json.start_object();
 
                 json.member( "spent", spent );
                 json.member( "gained", gained );
+                save_activity( json );
 
                 json.end_object();
-            };
+            }
             void deserialize( JsonIn &jsin ) {
                 JsonObject data = jsin.get_object();
 
                 data.read( "spent", spent );
                 data.read( "gained", gained );
-            };
+                if( data.has_member( "activity" ) ) {
+                    read_activity( data );
+                }
+            }
+
+            daily_calories() {
+                activity_levels.emplace( NO_EXERCISE, 0 );
+                activity_levels.emplace( LIGHT_EXERCISE, 0 );
+                activity_levels.emplace( MODERATE_EXERCISE, 0 );
+                activity_levels.emplace( BRISK_EXERCISE, 0 );
+                activity_levels.emplace( ACTIVE_EXERCISE, 0 );
+                activity_levels.emplace( EXTRA_EXERCISE, 0 );
+            }
+
+            void save_activity( JsonOut &json ) const;
+            void read_activity( JsonObject &data );
+
         };
         // called once a day; adds a new daily_calories to the
         // front of the list and pops off the back if there are more than 30
         void advance_daily_calories();
         void add_spent_calories( int cal ) override;
         void add_gained_calories( int cal ) override;
+        void log_activity_level( float level ) override;
         std::string total_daily_calories_string() const;
 
     private:
@@ -284,7 +330,7 @@ class avatar : public player
          */
         mission *active_mission;
         /**
-         * The amont of calories spent and gained per day for the last 30 days.
+         * The amount of calories spent and gained per day for the last 30 days.
          * the back is popped off and a new one added to the front at midnight each day
          */
         std::list<daily_calories> calorie_diary;

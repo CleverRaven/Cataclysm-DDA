@@ -2,18 +2,23 @@
 #ifndef CATA_SRC_TALKER_AVATAR_H
 #define CATA_SRC_TALKER_AVATAR_H
 
-#include "talker.h"
+#include <string>
+#include <vector>
+
 #include "talker_character.h"
+#include "type_id.h"
 
 class avatar;
+class talker;
+class translation;
+
 /*
  * Talker wrapper class for avatar.
  */
 class talker_avatar: public talker_character
 {
     public:
-        talker_avatar( avatar *new_me ) : talker_character( new_me ) {
-        }
+        talker_avatar( avatar *new_me );
         ~talker_avatar() override = default;
 
         // mandatory functions for starting a dialogue

@@ -1,11 +1,23 @@
-#include "character.h"
+#include <algorithm>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
 
+#include "character.h"
+#include "inventory.h"
+#include "item.h"
 #include "itype.h"
-#include "recipe_dictionary.h"
-#include "recipe.h"
-#include "skill.h"
-#include "player.h"
 #include "npc.h"
+#include "pimpl.h"
+#include "recipe.h"
+#include "recipe_dictionary.h"
+#include "skill.h"
+#include "string_id.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 int Character::has_recipe( const recipe *r, const inventory &crafting_inv,
                            const std::vector<npc *> &helpers ) const
@@ -18,7 +30,7 @@ int Character::has_recipe( const recipe *r, const inventory &crafting_inv,
         return r->difficulty;
     }
 
-    const auto available = get_available_recipes( crafting_inv, &helpers );
+    const recipe_subset available = get_available_recipes( crafting_inv, &helpers );
     return available.contains( r ) ? available.get_custom_difficulty( r ) : -1;
 }
 
@@ -56,7 +68,7 @@ bool Character::studied_all_recipes( const itype &book ) const
     if( !book.book ) {
         return true;
     }
-    for( auto &elem : book.book->recipes ) {
+    for( const auto &elem : book.book->recipes ) {
         if( !knows_recipe( elem.recipe ) ) {
             return false;
         }
@@ -104,7 +116,7 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
     if( helpers != nullptr ) {
         for( npc *np : *helpers ) {
             // Directly form the helper's inventory
-            res.include( get_recipes_from_books( np->inv ) );
+            res.include( get_recipes_from_books( *np->inv ) );
             // Being told what to do
             res.include_if( np->get_learned_recipes(), [ this ]( const recipe & r ) {
                 return get_skill_level( r.skill_used ) >= static_cast<int>( r.difficulty *
@@ -121,9 +133,9 @@ std::set<itype_id> Character::get_books_for_recipe( const inventory &crafting_in
 {
     std::set<itype_id> book_ids;
     const int skill_level = get_skill_level( r->skill_used );
-    for( auto &book_lvl : r->booksets ) {
+    for( const auto &book_lvl : r->booksets ) {
         itype_id book_id = book_lvl.first;
-        int required_skill_level = book_lvl.second;
+        int required_skill_level = book_lvl.second.skill_req;
         // NPCs don't need to identify books
         if( !has_identified( book_id ) ) {
             continue;

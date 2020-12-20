@@ -1,5 +1,4 @@
 #include "explosion.h" // IWYU pragma: associated
-#include "fragment_cloud.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
@@ -11,12 +10,14 @@
 #include <queue>
 #include <random>
 #include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "color.h"
 #include "creature.h"
 #include "damage.h"
@@ -24,6 +25,7 @@
 #include "enums.h"
 #include "field_type.h"
 #include "flat_set.h"
+#include "fragment_cloud.h" // IWYU pragma: associated
 #include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -32,11 +34,10 @@
 #include "itype.h"
 #include "json.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "material.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -62,9 +63,6 @@ static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teleglow( "teleglow" );
 
-static const std::string flag_BLIND( "BLIND" );
-static const std::string flag_FLASH_PROTECTION( "FLASH_PROTECTION" );
-
 static const itype_id fuel_type_none( "null" );
 
 static const itype_id itype_battery( "battery" );
@@ -84,13 +82,13 @@ static const bionic_id bio_sunglasses( "bio_sunglasses" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
-float fragment_mass = 0.0001;
+static float fragment_mass = 0.0001f;
 // Cross-sectional area in cm^2
-float fragment_area = 0.00001;
+static float fragment_area = 0.00001f;
 // Minimum velocity resulting in skin perforation according to https://www.ncbi.nlg->m.nih.gov/pubmed/7304523
-constexpr float MIN_EFFECTIVE_VELOCITY = 70.0;
+static constexpr float MIN_EFFECTIVE_VELOCITY = 70.0f;
 // Pretty arbitrary minimum density.  1/1,000 change of a fragment passing through the given square.
-constexpr float MIN_FRAGMENT_DENSITY = 0.0001;
+static constexpr float MIN_FRAGMENT_DENSITY = 0.0001f;
 
 explosion_data load_explosion_data( const JsonObject &jo )
 {
@@ -99,13 +97,14 @@ explosion_data load_explosion_data( const JsonObject &jo )
     jo.read( "power", ret.power );
     // Rest isn't
     ret.distance_factor = jo.get_float( "distance_factor", 0.8f );
+    ret.max_noise = jo.get_int( "max_noise", 90000000 );
     ret.fire = jo.get_bool( "fire", false );
     if( jo.has_int( "shrapnel" ) ) {
         ret.shrapnel.casing_mass = jo.get_int( "shrapnel" );
         ret.shrapnel.recovery = 0;
         ret.shrapnel.drop = fuel_type_none;
     } else if( jo.has_object( "shrapnel" ) ) {
-        auto shr = jo.get_object( "shrapnel" );
+        JsonObject shr = jo.get_object( "shrapnel" );
         ret.shrapnel = load_shrapnel_data( shr );
     }
 
@@ -136,9 +135,9 @@ static int ballistic_damage( float velocity, float mass )
 static float mass_to_area( const float mass )
 {
     // Density of steel in g/cm^3
-    constexpr float steel_density = 7.85;
+    constexpr float steel_density = 7.85f;
     float fragment_volume = ( mass / 1000.0 ) / steel_density;
-    float fragment_radius = std::cbrt( ( fragment_volume * 3.0 ) / ( 4.0 * M_PI ) );
+    float fragment_radius = std::cbrt( ( fragment_volume * 3.0f ) / ( 4.0f * M_PI ) );
     return fragment_radius * fragment_radius * M_PI;
 }
 
@@ -257,7 +256,7 @@ static void do_blast( const tripoint &p, const float power,
 
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
-    for( auto &pt : closed ) {
+    for( const tripoint &pt : closed ) {
         if( here.impassable( pt ) ) {
             continue;
         }
@@ -303,7 +302,8 @@ static void do_blast( const tripoint &p, const float power,
 
         if( const optional_vpart_position vp = here.veh_at( pt ) ) {
             // TODO: Make this weird unit used by vehicle::damage more sensible
-            vp->vehicle().damage( vp->part_index(), force, fire ? DT_HEAT : DT_BASH, false );
+            vp->vehicle().damage( vp->part_index(), force, fire ? damage_type::HEAT : damage_type::BASH,
+                                  false );
         }
 
         Creature *critter = g->critter_at( pt, true );
@@ -311,7 +311,7 @@ static void do_blast( const tripoint &p, const float power,
             continue;
         }
 
-        add_msg( m_debug, "Blast hits %s with force %.1f", critter->disp_name(), force );
+        add_msg_debug( "Blast hits %s with force %.1f", critter->disp_name(), force );
 
         Character *pl = critter->as_character();
         if( pl == nullptr ) {
@@ -320,7 +320,7 @@ static void do_blast( const tripoint &p, const float power,
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
             critter->apply_damage( nullptr, bodypart_id( "torso" ), actual_dmg );
             critter->check_dead_state();
-            add_msg( m_debug, "Blast hits %s for %d damage", critter->disp_name(), actual_dmg );
+            add_msg_debug( "Blast hits %s for %d damage", critter->disp_name(), actual_dmg );
             continue;
         }
 
@@ -349,11 +349,12 @@ static void do_blast( const tripoint &p, const float power,
         for( const auto &blp : blast_parts ) {
             const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
             const std::string hit_part_name = body_part_name_accusative( blp.bp );
-            const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, blp.armor_mul );
-            const auto result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
+            const damage_instance dmg_instance = damage_instance( damage_type::BASH, part_dam, 0,
+                                                 blp.armor_mul );
+            const dealt_damage_instance result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();
 
-            add_msg( m_debug, "%s for %d raw, %d actual", hit_part_name, part_dam, res_dmg );
+            add_msg_debug( "%s for %d raw, %d actual", hit_part_name, part_dam, res_dmg );
             if( res_dmg > 0 ) {
                 pl->add_msg_if_player( m_bad, _( "Your %s is hit for %d damage!" ), hit_part_name, res_dmg );
             }
@@ -410,7 +411,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
         }
         distrib.emplace_back( target );
         int damage = ballistic_damage( cloud.velocity, fragment_mass );
-        auto critter = g->critter_at( target );
+        Creature *critter = g->critter_at( target );
         if( damage > 0 && critter && !critter->is_dead_state() ) {
             std::poisson_distribution<> d( cloud.density );
             int hits = d( rng_get_engine() );
@@ -420,7 +421,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
             frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
             // dealt_dam.total_damage() == 0 means armor block
             // dealt_dam.total_damage() > 0 means took damage
-            // Need to diffentiate target among player, npc, and monster
+            // Need to differentiate target among player, npc, and monster
             // Do we even print monster damage?
             int damage_taken = 0;
             int damaging_hits = 0;
@@ -434,10 +435,10 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                 } else {
                     non_damaging_hits++;
                 }
-                add_msg( m_debug, "Shrapnel hit %s at %d m/s at a distance of %d",
-                         critter->disp_name(),
-                         frag.proj.speed, rl_dist( src, target ) );
-                add_msg( m_debug, "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
+                add_msg_debug( "Shrapnel hit %s at %d m/s at a distance of %d",
+                               critter->disp_name(),
+                               frag.proj.speed, rl_dist( src, target ) );
+                add_msg_debug( "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
                 if( critter->is_dead_state() ) {
                     break;
                 }
@@ -502,7 +503,13 @@ void explosion( const tripoint &p, float power, float factor, bool fire,
 
 void explosion( const tripoint &p, const explosion_data &ex )
 {
-    const int noise = ex.power * ( ex.fire ? 2 : 10 );
+    _explosions.emplace_back( p, ex );
+}
+
+void _make_explosion( const tripoint &p, const explosion_data &ex )
+{
+    int noise = ex.power * ( ex.fire ? 2 : 10 );
+    noise = ( noise > ex.max_noise ) ? ex.max_noise : noise;
     if( noise >= 30 ) {
         sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ), false, "explosion",
                        "huge" );
@@ -572,11 +579,11 @@ void flashbang( const tripoint &p, bool player_immune )
             } else if( player_character.has_bionic( bio_sunglasses ) ||
                        player_character.is_wearing( itype_rm13_armor_on ) ) {
                 flash_mod = 6;
-            } else if( player_character.worn_with_flag( flag_BLIND ) ||
-                       player_character.worn_with_flag( flag_FLASH_PROTECTION ) ) {
+            } else if( player_character.worn_with_flag( STATIC( flag_id( "BLIND" ) ) ) ||
+                       player_character.worn_with_flag( STATIC( flag_id( "FLASH_PROTECTION" ) ) ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
-            player_character.add_env_effect( effect_blind, bp_eyes, ( 12 - flash_mod - dist ) / 2,
+            player_character.add_env_effect( effect_blind, bodypart_id( "eyes" ), ( 12 - flash_mod - dist ) / 2,
                                              time_duration::from_turns( 10 - dist ) );
         }
     }
@@ -653,27 +660,25 @@ void scrambler_blast( const tripoint &p )
 
 void emp_blast( const tripoint &p )
 {
-    // TODO: Implement z part
-    point p2( p.xy() );
     Character &player_character = get_player_character();
     const bool sight = player_character.sees( p );
     map &here = get_map();
-    if( here.has_flag( "CONSOLE", p2 ) ) {
+    if( here.has_flag( "CONSOLE", p ) ) {
         if( sight ) {
-            add_msg( _( "The %s is rendered non-functional!" ), here.tername( p2 ) );
+            add_msg( _( "The %s is rendered non-functional!" ), here.tername( p ) );
         }
-        here.furn_set( p2, furn_str_id( "f_machinery_electronic" ) );
+        here.furn_set( p, furn_str_id( "f_machinery_electronic" ) );
         return;
     }
     // TODO: More terrain effects.
-    if( here.ter( p2 ) == t_card_science || here.ter( p2 ) == t_card_military ||
-        here.ter( p2 ) == t_card_industrial ) {
+    if( here.ter( p ) == t_card_science || here.ter( p ) == t_card_military ||
+        here.ter( p ) == t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
                 add_msg( _( "The card reader is rendered non-functional." ) );
             }
-            here.ter_set( p2, t_card_reader_broken );
+            here.ter_set( p, t_card_reader_broken );
         }
         if( rn > 80 ) {
             if( sight ) {
@@ -681,8 +686,8 @@ void emp_blast( const tripoint &p )
             }
             for( int i = -3; i <= 3; i++ ) {
                 for( int j = -3; j <= 3; j++ ) {
-                    if( here.ter( p2 + point( i, j ) ) == t_door_metal_locked ) {
-                        here.ter_set( p2 + point( i, j ), t_floor );
+                    if( here.ter( p + tripoint( i, j, 0 ) ) == t_door_metal_locked ) {
+                        here.ter_set( p + tripoint( i, j, 0 ), t_floor );
                     }
                 }
             }
@@ -749,7 +754,8 @@ void emp_blast( const tripoint &p )
             add_msg( _( "The %s is unaffected by the EMP blast." ), critter.name() );
         }
     }
-    if( player_character.posx() == p2.x && player_character.posy() == p2.y ) {
+    if( player_character.posx() == p.x && player_character.posy() == p.y &&
+        player_character.posz() == p.z ) {
         if( player_character.get_power_level() > 0_kJ ) {
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
             int max_drain = ( player_character.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
@@ -759,7 +765,7 @@ void emp_blast( const tripoint &p )
         // TODO: More effects?
         //e-handcuffs effects
         if( player_character.weapon.typeId() == itype_e_handcuffs && player_character.weapon.charges > 0 ) {
-            player_character.weapon.item_tags.erase( "NO_UNWIELD" );
+            player_character.weapon.unset_flag( STATIC( flag_id( "NO_UNWIELD" ) ) );
             player_character.weapon.charges = 0;
             player_character.weapon.active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
@@ -767,7 +773,7 @@ void emp_blast( const tripoint &p )
         }
     }
     // Drain any items of their battery charge
-    for( item &it : here.i_at( p2 ) ) {
+    for( item &it : here.i_at( p ) ) {
         if( it.is_tool() && it.ammo_current() == itype_battery ) {
             it.charges = 0;
         }
@@ -860,6 +866,14 @@ void resonance_cascade( const tripoint &p )
     }
 }
 
+void process_explosions()
+{
+    for( const queued_explosion &ex : _explosions ) {
+        _make_explosion( ex.first, ex.second );
+    }
+    _explosions.clear();
+}
+
 } // namespace explosion_handler
 
 // This is only ever used to zero the cloud values, which is what makes it work.
@@ -888,11 +902,11 @@ fragment_cloud shrapnel_calc( const fragment_cloud &initial,
                               const int &distance )
 {
     // SWAG coefficient of drag.
-    constexpr float Cd = 0.5;
+    constexpr float Cd = 0.5f;
     fragment_cloud new_cloud;
     new_cloud.velocity = initial.velocity * std::exp( -cloud.velocity * ( (
                              Cd * fragment_area * distance ) /
-                         ( 2.0 * fragment_mass ) ) );
+                         ( 2.0f * fragment_mass ) ) );
     // Two effects, the accumulated proportion of blocked fragments,
     // and the inverse-square dilution of fragments with distance.
     new_cloud.density = ( initial.density * cloud.density ) / ( distance * distance / 2.5 );
@@ -913,8 +927,8 @@ fragment_cloud accumulate_fragment_cloud( const fragment_cloud &cumulative_cloud
         const fragment_cloud &current_cloud, const int &distance )
 {
     // Velocity is the cumulative and continuous decay of speed,
-    // so it is accumulated the same way as light attentuation.
-    // Density is the accumulation of discrete attenuaton events encountered in the traversed squares,
+    // so it is accumulated the same way as light attenuation.
+    // Density is the accumulation of discrete attenuation events encountered in the traversed squares,
     // so each term is added to the series via multiplication.
     return fragment_cloud( ( ( distance - 1 ) * cumulative_cloud.velocity + current_cloud.velocity ) /
                            distance,

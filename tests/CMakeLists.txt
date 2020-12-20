@@ -2,6 +2,9 @@ IF(BUILD_TESTING)
 	FILE(GLOB CATACLYSM_DDA_TEST_SOURCES
 		${CMAKE_SOURCE_DIR}/tests/*.cpp)
 
+	# Enabling benchmarks
+ 	ADD_DEFINITIONS(-DCATCH_CONFIG_ENABLE_BENCHMARKING)
+
 	IF(TILES)
 		add_executable(cata_test-tiles ${CATACLYSM_DDA_TEST_SOURCES})
 		target_link_libraries(cata_test-tiles cataclysm-tiles-common)

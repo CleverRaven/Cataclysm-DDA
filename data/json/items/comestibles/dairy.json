@@ -53,6 +53,7 @@
     "color": "white",
     "spoils_in": "2 d",
     "container": "bottle_plastic",
+    "sealed": false,
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 20,

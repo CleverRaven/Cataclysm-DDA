@@ -1,13 +1,25 @@
 #include "catch/catch.hpp"
+#include "projectile.h"
+
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
 
 #include "ballistics.h"
 #include "character.h"
+#include "damage.h"
 #include "dispersion.h"
 #include "game.h"
+#include "item.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "projectile.h"
+#include "point.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 static tripoint projectile_end_point( const std::vector<tripoint> &range, const item &gun,
                                       int speed, int proj_range )

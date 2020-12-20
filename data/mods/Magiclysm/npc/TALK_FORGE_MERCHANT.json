@@ -1,0 +1,94 @@
+[
+  {
+    "type": "npc",
+    "id": "forge_lord_merchant",
+    "//": "The Lord of the Forge of Wonders.",
+    "name_unique": "Valzain of Psiom",
+    "name_suffix": "Forge Lord",
+    "class": "NC_FORGE_LORD",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_FORGE_LORD",
+    "faction": "forge_lords"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_FORGE_LORD",
+    "name": { "str": "Wondrous Dreamer" },
+    "job_description": "I created this place from dreams and magic.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "//": "This is a unique NPC who doesn't get randomly selected background traits",
+    "common": false,
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": "NC_FORGE_LORD_STORE",
+    "worn_override": "NC_FORGE_LORD_clothes",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "one_in": 2 } },
+      { "skill": "computer", "bonus": { "one_in": 2 } },
+      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "barter", "bonus": { "rng": [ 3, 5 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FORGE_LORD_clothes",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mbelt_pockets_greater", "prob": 100 },
+      { "item": "cloak_morthylla", "prob": 100 },
+      { "item": "mboots_escape", "prob": 100 },
+      { "item": "breeches", "prob": 100 },
+      { "item": "polo_shirt", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "NC_FORGE_LORD_STORE",
+    "items": [
+      { "group": "enchanted_combat_items", "count": [ 3, 8 ], "prob": 40 },
+      { "group": "enchanted_misc", "count": [ 1, 3 ], "prob": 50 },
+      { "group": "enchanted_rings_unusual", "count": [ 1, 2 ], "prob": 20 },
+      { "group": "enchanted_rings_rare", "count": [ 1, 2 ], "prob": 30 },
+      { "group": "enchanted_wands_greater", "count": [ 1, 2 ], "prob": 30 },
+      { "group": "enchanted_wands_lesser", "count": [ 5, 8 ], "prob": 20 },
+      { "group": "lair_black_dragon_treasure", "count": [ 1, 3 ], "prob": 5 },
+      { "group": "enchanted_melee_weapons_plus2", "prob": 20 },
+      { "group": "demon_spider_lair_treasure", "prob": 10 }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": [
+        "The government doesn't subsidize your purchases here anymore.",
+        "Do you have any tales of adventure I could write down?",
+        "In case you were wondering, we no longer respect any pre-existing weapon laws."
+      ],
+      "no": [ "Welcome to the Forge of Wonders.", "Here to trade, I hope?", "Bring me tales and we can trade." ]
+    },
+    "responses": [
+      { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_FORGE_LORD" },
+      { "text": "What are you doing here?", "topic": "TALK_FORGE_LORD_DOING" },
+      { "text": "Well, bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DOING",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "Well here and now I am the law, and the law here is that people purchase my goods, they take them out into the world and they die; or they return to buy more of my goods.  Either way, I write poetry about them.",
+      "no": "Once I was lost in the throes of love, now I've built an empire of material goods."
+    },
+    "responses": [ { "text": "Good day, sir.", "topic": "TALK_FORGE_LORD" } ]
+  }
+]

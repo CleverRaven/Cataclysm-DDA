@@ -1,6 +1,5 @@
 #include "gamemode_tutorial.h" // IWYU pragma: associated
 
-#include <array>
 #include <cstdlib>
 #include <memory>
 #include <string>
@@ -8,7 +7,8 @@
 #include "action.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "coordinate_conversions.h"
+#include "character.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "game.h"
 #include "game_constants.h"
@@ -22,16 +22,15 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
-#include "pldata.h"
+#include "pimpl.h"
 #include "point.h"
 #include "profession.h"
 #include "scent_map.h"
+#include "string_id.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "units.h"
 #include "weather.h"
 
 static const itype_id itype_cig( "cig" );
@@ -111,8 +110,8 @@ bool tutorial_game::init()
     // Start at noon
     calendar::turn = calendar::turn_zero + 12_hours;
     tutorials_seen.clear();
-    g->scent.reset();
-    g->weather.temperature = 65;
+    get_scent().reset();
+    get_weather().temperature = 65;
     // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
     // middle of the "real" game world
     avatar &player_character = get_avatar();
@@ -129,11 +128,13 @@ bool tutorial_game::init()
     player_character.name = _( "John Smith" );
     player_character.prof = profession::generic();
     // overmap terrain coordinates
-    const tripoint lp( 50, 50, 0 );
-    auto &starting_om = overmap_buffer.get( point_zero );
+    const tripoint_om_omt lp( 50, 50, 0 );
+    // Assume overmap zero
+    const tripoint_abs_omt lp_abs = project_combine( point_abs_om(), lp );
+    auto &starting_om = overmap_buffer.get( point_abs_om() );
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
-            tripoint p( i, j, 0 );
+            tripoint_om_omt p( i, j, 0 );
             starting_om.ter_set( p + tripoint_below, rock );
             // Start with the overmap revealed
             starting_om.seen( p ) = true;
@@ -144,12 +145,12 @@ bool tutorial_game::init()
     starting_om.clear_mon_groups();
 
     player_character.toggle_trait( trait_QUICK );
-    item lighter( "lighter", 0 );
+    item lighter( "lighter", calendar::turn_zero );
     lighter.invlet = 'e';
-    player_character.inv.add_item( lighter, true, false );
+    player_character.inv->add_item( lighter, true, false );
     player_character.set_skill_level( skill_gun, 5 );
     player_character.set_skill_level( skill_melee, 5 );
-    g->load_map( omt_to_sm_copy( lp ) );
+    g->load_map( project_to<coords::sm>( lp_abs ) );
     player_character.setx( 2 );
     player_character.sety( 4 );
 
@@ -278,7 +279,7 @@ void tutorial_game::post_action( action_id act )
             break;
 
         case ACTION_WEAR: {
-            item it( player_character.last_item, 0 );
+            item it( player_character.last_item, calendar::turn_zero );
             if( it.is_armor() ) {
                 if( it.get_avg_coverage() >= 2 || it.get_thickness() >= 2 ) {
                     add_message( tut_lesson::LESSON_WORE_ARMOR );
@@ -300,7 +301,7 @@ void tutorial_game::post_action( action_id act )
             add_message( tut_lesson::LESSON_INTERACT );
         /* fallthrough */
         case ACTION_PICKUP: {
-            item it( player_character.last_item, 0 );
+            item it( player_character.last_item, calendar::turn_zero );
             if( it.is_armor() ) {
                 add_message( tut_lesson::LESSON_GOT_ARMOR );
             } else if( it.is_gun() ) {

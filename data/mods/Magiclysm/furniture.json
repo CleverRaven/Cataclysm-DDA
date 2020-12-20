@@ -172,7 +172,7 @@
     "coverage": 75,
     "required_str": -1,
     "looks_like": "f_boulder_large",
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT" ],
     "emissions": [ "emit_glimmer" ],
     "light_emitted": 12,
     "bash": {
@@ -197,7 +197,28 @@
     "coverage": 40,
     "required_str": 30,
     "flags": [ "BASHABLE" ],
-    "description": "This is big stone altar.  Most commonly used in morally questionable rituals.",
+    "description": "This is a big stone altar.  Most commonly used in morally questionable rituals.",
+    "bash": {
+      "str_min": 30,
+      "str_max": 160,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 5, 15 ] }, { "item": "sharp_rock", "count": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_attunement_altar",
+    "name": "attunement altar",
+    "move_cost_mod": 10,
+    "symbol": "H",
+    "color": "light_gray",
+    "coverage": 40,
+    "looks_like": "t_pedestal_temple",
+    "required_str": 30,
+    "flags": [ "BASHABLE" ],
+    "examine_action": "attunement_altar",
+    "description": "An ancient stone plinth covered in symbols that appear to be combinations and variations of the eight magic classes.  Eight depressions are on the top with the original symbols of the classes, each look as though they can hold an item.",
     "bash": {
       "str_min": 30,
       "str_max": 160,
@@ -217,15 +238,32 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "demon_forge",
-    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "deconstruct": { "items": [ { "item": "demon_chitin_plate", "count": 14 }, { "item": "char_forge", "count": 1 } ] },
+    "flags": [ "SEALED", "CONTAINER", "NOITEM" ],
     "examine_action": "reload_furniture",
     "bash": {
-      "str_min": 20,
-      "str_max": 50,
+      "str_min": 80,
+      "str_max": 120,
       "sound": "crash!",
       "sound_fail": "whump.",
       "items": [ { "item": "demon_chitin_piece", "count": [ 20, 30 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_everburning_candelabra",
+    "name": "candelabra of everlasting candles",
+    "description": "A candelabra, strangely the candles never seem to burn down.  Smashing it doesn't seem like it'd produce any worthwhile salvage.",
+    "symbol": ".",
+    "color": "white",
+    "move_cost_mod": -1,
+    "required_str": 12,
+    "light_emitted": 40,
+    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "bash": {
+      "sound": "SMASH!",
+      "str_min": 20,
+      "str_max": 40,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
     }
   }
 ]

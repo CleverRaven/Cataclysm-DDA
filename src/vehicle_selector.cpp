@@ -1,7 +1,6 @@
 #include "vehicle_selector.h"
 
 #include <algorithm>
-#include <memory>
 
 #include "map.h"
 #include "optional.h"

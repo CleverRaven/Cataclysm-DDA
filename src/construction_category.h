@@ -6,8 +6,9 @@
 #include <string>
 #include <vector>
 
-#include "type_id.h"
+#include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 
 class JsonObject;
 

@@ -1,19 +1,13 @@
-#include <array>
-#include <list>
 #include <memory>
 
 #include "behavior.h"
-#include "character_oracle.h"
-#include "bodypart.h"
 #include "character.h"
-#include "inventory.h"
+#include "character_oracle.h"
 #include "item.h"
 #include "itype.h"
-#include "ret_val.h"
-#include "value_ptr.h"
+#include "make_static.h"
+#include "type_id.h"
 #include "weather.h"
-
-static const std::string flag_FIRESTARTER( "FIRESTARTER" );
 
 namespace behavior
 {
@@ -24,8 +18,8 @@ namespace behavior
 status_t character_oracle_t::needs_warmth_badly( const std::string & ) const
 {
     // Use player::temp_conv to predict whether the Character is "in trouble".
-    for( const body_part bp : all_body_parts ) {
-        if( subject->temp_conv[ bp ] <= BODYTEMP_VERY_COLD ) {
+    for( const bodypart_id &bp : subject->get_all_body_parts() ) {
+        if( subject->get_part_temp_conv( bp ) <= BODYTEMP_VERY_COLD ) {
             return status_t::running;
         }
     }
@@ -67,7 +61,7 @@ status_t character_oracle_t::can_make_fire( const std::string & ) const
     bool tool = false;
     bool fuel = false;
     bool found_fire_stuff = subject->has_item_with( [&tool, &fuel]( const item & candidate ) {
-        if( candidate.has_flag( flag_FIRESTARTER ) ) {
+        if( candidate.has_flag( STATIC( flag_id( "FIRESTARTER" ) ) ) ) {
             tool = true;
             if( fuel ) {
                 return true;

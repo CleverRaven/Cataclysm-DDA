@@ -7,8 +7,8 @@ import re
 import os
 
 args = argparse.ArgumentParser(
-    description=
-    "Generate a json definition for a vehicle in a Cataclysm DDA save file.")
+    description="Generate a json definition for a vehicle "
+    "in a Cataclysm DDA save file.")
 args.add_argument(
     "save", action="store", help="specify save file containing vehicle")
 args.add_argument(
@@ -33,7 +33,7 @@ def getVehicleTemplates():
     allTemplates = []
     for vehicle in vehicles:
         vehicleDef = buildVehicleDef(vehicle)
-        if not vehicleDef in allTemplates:
+        if vehicleDef not in allTemplates:
             allTemplates.append(vehicleDef)
 
     return allTemplates
@@ -45,7 +45,7 @@ def getVehicleInstances(mapPath):
         mapData = json.load(mapFile)
         for i in range(0, len(mapData)):
             for vehicle in mapData[i]["vehicles"]:
-                if argsDict["vehicle"] != None:
+                if argsDict["vehicle"] is not None:
                     if argsDict["vehicle"] == vehicle["name"]:
                         vehicles.append(vehicle)
                         print(f"Found \"{vehicle['name']}\"")
@@ -76,11 +76,11 @@ def buildVehicleDef(vehicle):
 
     frames = [
         p for p in partsDef
-        if re.match(r'(xl|hd|folding_)?frame', p["part"]) != None
+        if re.match(r'(xl|hd|folding_)?frame', p["part"]) is not None
     ]
     everythingElse = [
         p for p in partsDef
-        if re.match(r'(xl|hd|folding_)?frame', p["part"]) == None
+        if re.match(r'(xl|hd|folding_)?frame', p["part"]) is None
     ]
 
     frames = sortFrames(frames)

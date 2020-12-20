@@ -1,11 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 '''Tool to combine ascii map cells with json templates.
 
 Original design and implementation: acidia (https://github.com/acidia)
 Current design and implementation: wormingdead (https://github.com/wormingdead)
 '''
-
-from __future__ import division
 
 import argparse
 import copy
@@ -60,8 +58,8 @@ def get_map_cells(infile, cell_size):
         line = line[:-1]
 
         assert len(line) % cell_size == 0, \
-            "Map {infile} does not have colums equal to a multiple of the " \
-            "map cell size. Error occured on line {line_no}.".format(
+            "Map {infile} does not have columns equal to a multiple of the " \
+            "map cell size. Error occurred on line {line_no}.".format(
                 infile=infile.name,
                 line_no=line_no)
 
@@ -72,7 +70,7 @@ def get_map_cells(infile, cell_size):
         else:
             assert cells_per_line == len(line) // cell_size, \
                 "Map {infile} starts new cells before finishing cells " \
-                "{cell_begin} to {cell_end}. Error occured on line " \
+                "{cell_begin} to {cell_end}. Error occurred on line " \
                 "{line_no}.".format(
                     infile=infile.name,
                     cell_begin=len(all_cells) + 1,
@@ -267,6 +265,6 @@ def main(parser):
                                 file_name=json_template.name,
                                 json_err=str(val_err)))
 
+
 if __name__ == "__main__":
     main(cli_interface())
-

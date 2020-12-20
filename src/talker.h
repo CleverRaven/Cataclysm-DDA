@@ -50,8 +50,8 @@ class talker
         virtual int posx() const = 0;
         virtual int posy() const = 0;
         virtual int posz() const = 0;
-        virtual tripoint pos() const  = 0;
-        virtual tripoint global_omt_location() const = 0;
+        virtual tripoint pos() const = 0;
+        virtual tripoint_abs_omt global_omt_location() const = 0;
         virtual std::string distance_to_goal() const {
             return "";
         }
@@ -64,7 +64,7 @@ class talker
             return {};
         }
         virtual void check_missions() {}
-        virtual void update_missions( const std::vector<mission *> &, const character_id & ) {}
+        virtual void update_missions( const std::vector<mission *> & ) {}
         virtual bool check_hostile_response( int ) const {
             return false;
         }
@@ -89,7 +89,7 @@ class talker
             return 0;
         }
         virtual int get_skill_level( const skill_id & ) const {
-            return false;
+            return 0;
         }
         virtual bool has_trait( const trait_id & ) const {
             return false;
@@ -114,10 +114,19 @@ class talker
         virtual bool knows_spell( const spell_id & ) const {
             return false;
         }
+        virtual bool knows_proficiency( const proficiency_id & ) const {
+            return false;
+        }
         virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
             return {};
         }
         virtual std::string skill_training_text( const talker &, const skill_id & ) const {
+            return {};
+        }
+        virtual std::vector<proficiency_id> proficiencies_offered_to( const talker & ) const {
+            return {};
+        }
+        virtual std::string proficiency_training_text( const talker &, const proficiency_id & ) const {
             return {};
         }
         virtual std::vector<matype_id> styles_offered_to( const talker & ) const {
@@ -133,7 +142,7 @@ class talker
             return {};
         }
         virtual void store_chosen_training( const skill_id &, const matype_id &,
-                                            const spell_id & ) {
+                                            const spell_id &, const proficiency_id & ) {
         }
 
         // effects and values
@@ -141,6 +150,9 @@ class talker
             return false;
         }
         virtual bool is_deaf() const {
+            return false;
+        }
+        virtual bool is_mute() const {
             return false;
         }
         virtual void add_effect( const efftype_id &, const time_duration &, bool ) {}
@@ -170,7 +182,7 @@ class talker
         virtual std::list<item> use_amount( const itype_id &, int ) {
             return {};
         }
-        virtual int value( const item & ) {
+        virtual int value( const item & ) const {
             return 0;
         }
         virtual int cash() const {
@@ -182,7 +194,7 @@ class talker
         virtual void add_debt( int ) {}
         virtual std::vector<item *> items_with( const std::function<bool( const item & )> & ) const {
             return {};
-        };
+        }
         virtual void i_add( const item & ) {}
         virtual void remove_items_with( const std::function<bool( const item & )> & ) {}
         virtual bool unarmed_attack() const {
@@ -298,5 +310,9 @@ class talker
         }
         virtual void add_opinion( int /*trust*/, int /*fear*/, int /*value*/, int /*anger*/,
                                   int /*debt*/ ) {}
+        virtual void set_first_topic( const std::string & ) {}
+        virtual bool is_safe() const {
+            return true;
+        }
 };
 #endif // CATA_SRC_TALKER_H

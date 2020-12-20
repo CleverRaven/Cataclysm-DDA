@@ -11,6 +11,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "morale_types.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;
@@ -58,8 +59,8 @@ class player_morale
         int get_total_positive_value() const;
         int get_total_negative_value() const;
 
-        /** Returns percieved pain. Only used in morale_test.cpp*/
-        int get_percieved_pain() const;
+        /** Returns perceived pain. Only used in morale_test.cpp*/
+        int get_perceived_pain() const;
 
         void on_mutation_gain( const trait_id &mid );
         void on_mutation_loss( const trait_id &mid );
@@ -68,7 +69,8 @@ class player_morale
         void on_item_takeoff( const item &it );
         void on_worn_item_transform( const item &old_it, const item &new_it );
         void on_worn_item_washed( const item &it );
-        void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp );
+        void on_effect_int_change( const efftype_id &eid, int intensity,
+                                   const bodypart_id &bp = bodypart_id( "bp_null" ) );
 
         void store( JsonOut &jsout ) const;
         void load( const JsonObject &jsin );
@@ -109,7 +111,7 @@ class player_morale
                           time_duration new_decay_start, bool new_cap );
                 void decay( const time_duration &ticks = 1_turns );
                 /*
-                 *contribution should be bettween [0,100] (inclusive)
+                 *contribution should be between [0,100] (inclusive)
                  */
                 void set_percent_contribution( double contribution );
                 double get_percent_contribution() const;
@@ -183,19 +185,17 @@ class player_morale
                 mutation_data() = default;
                 mutation_data( const mutation_handler &on_gain_and_loss ) :
                     on_gain( on_gain_and_loss ),
-                    on_loss( on_gain_and_loss ),
-                    active( false ) {}
+                    on_loss( on_gain_and_loss ) {}
                 mutation_data( const mutation_handler &on_gain, const mutation_handler &on_loss ) :
                     on_gain( on_gain ),
-                    on_loss( on_loss ),
-                    active( false ) {}
+                    on_loss( on_loss ) {}
                 void set_active( player_morale *sender, bool new_active );
                 bool get_active() const;
                 void clear();
             private:
                 mutation_handler on_gain;
                 mutation_handler on_loss;
-                bool active;
+                bool active = false;
         };
         std::map<trait_id, mutation_data> mutations;
 

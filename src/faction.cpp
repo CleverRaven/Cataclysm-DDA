@@ -11,6 +11,8 @@
 
 #include "avatar.h"
 #include "basecamp.h"
+#include "character.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "faction_camp.h"
@@ -20,13 +22,11 @@
 #include "item.h"
 #include "json.h"
 #include "line.h"
-#include "memory_fast.h"
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -100,12 +100,12 @@ faction_template::faction_template( const JsonObject &jsobj )
     , respects_u( jsobj.get_int( "respects_u" ) )
     , known_by_u( jsobj.get_bool( "known_by_u" ) )
     , id( faction_id( jsobj.get_string( "id" ) ) )
-    , desc( jsobj.get_string( "description" ) )
     , size( jsobj.get_int( "size" ) )
     , power( jsobj.get_int( "power" ) )
     , food_supply( jsobj.get_int( "food_supply" ) )
     , wealth( jsobj.get_int( "wealth" ) )
 {
+    jsobj.get_member( "description" ).read( desc );
     if( jsobj.has_string( "currency" ) ) {
         jsobj.read( "currency", currency, true );
     } else {
@@ -113,7 +113,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     }
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );
-    mon_faction = jsobj.get_string( "mon_faction", "human" );
+    mon_faction = mfaction_str_id( jsobj.get_string( "mon_faction", "human" ) );
     for( const JsonObject jao : jsobj.get_array( "epilogues" ) ) {
         epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
                                jao.get_int( "power_max", std::numeric_limits<int>::max() ),
@@ -123,7 +123,7 @@ faction_template::faction_template( const JsonObject &jsobj )
 
 std::string faction::describe() const
 {
-    std::string ret = _( desc );
+    std::string ret = desc.translated();
     return ret;
 }
 
@@ -464,15 +464,16 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
 {
     int y = 2;
     const nc_color col = c_white;
-    const tripoint player_abspos = g->u.global_omt_location();
-    tripoint camp_pos = camp_omt_pos();
+    Character &player_character = get_player_character();
+    const tripoint_abs_omt player_abspos = player_character.global_omt_location();
+    tripoint_abs_omt camp_pos = camp_omt_pos();
     std::string direction = direction_name( direction_from( player_abspos, camp_pos ) );
     mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Press enter to rename this camp" ) );
     if( direction != "center" ) {
         mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Direction: to the " ) + direction );
     }
-    mvwprintz( fac_w, point( width, ++y ), col, _( "Location: (%d, %d)" ), camp_pos.x, camp_pos.y );
-    faction *yours = g->u.get_faction();
+    mvwprintz( fac_w, point( width, ++y ), col, _( "Location: %s" ), camp_pos.to_string() );
+    faction *yours = player_character.get_faction();
     std::string food_text = string_format( _( "Food Supply: %s %d calories" ),
                                            yours->food_supply_text(), yours->food_supply );
     nc_color food_col = yours->food_supply_color();
@@ -489,7 +490,8 @@ void faction::faction_display( const catacurses::window &fac_w, const int width 
     int y = 2;
     mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Attitude to you:           %s" ),
                fac_ranking_text( likes_u ) );
-    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_light_gray, _( desc ) );
+    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_light_gray,
+                    "%s", desc );
 }
 
 int npc::faction_display( const catacurses::window &fac_w, const int width ) const
@@ -497,14 +499,15 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     int retval = 0;
     int y = 2;
     const nc_color col = c_white;
-    const tripoint player_abspos = g->u.global_omt_location();
+    Character &player_character = get_player_character();
+    const tripoint_abs_omt player_abspos = player_character.global_omt_location();
 
     //get NPC followers, status, direction, location, needs, weapon, etc.
     mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Press enter to talk to this follower " ) );
     std::string mission_string;
     if( has_companion_mission() ) {
         std::string dest_string;
-        cata::optional<tripoint> dest = get_mission_destination();
+        cata::optional<tripoint_abs_omt> dest = get_mission_destination();
         if( dest ) {
             basecamp *dest_camp;
             cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( dest->xy() );
@@ -512,7 +515,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                 dest_camp = *temp_camp;
                 dest_string = _( "traveling to: " ) + dest_camp->camp_name();
             } else {
-                dest_string = string_format( _( "traveling to: (%d, %d)" ), dest->x, dest->y );
+                dest_string = string_format( _( "traveling to: %s" ), dest->to_string() );
             }
             mission_string = _( "Current Mission: " ) + dest_string;
         } else {
@@ -522,7 +525,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         }
     }
     fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_string );
-    tripoint guy_abspos = global_omt_location();
+    tripoint_abs_omt guy_abspos = global_omt_location();
     basecamp *temp_camp = nullptr;
     if( assigned_camp ) {
         cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
@@ -538,23 +541,24 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         mvwprintz( fac_w, point( width, ++y ), col, _( "Direction: Nearby" ) );
     }
     if( is_stationed ) {
-        mvwprintz( fac_w, point( width, ++y ), col, _( "Location: (%d, %d), at camp: %s" ), guy_abspos.x,
-                   guy_abspos.y, temp_camp->camp_name() );
+        mvwprintz( fac_w, point( width, ++y ), col, _( "Location: %s, at camp: %s" ),
+                   guy_abspos.to_string(), temp_camp->camp_name() );
     } else {
-        mvwprintz( fac_w, point( width, ++y ), col, _( "Location: (%d, %d)" ), guy_abspos.x,
-                   guy_abspos.y );
+        mvwprintz( fac_w, point( width, ++y ), col, _( "Location: %s" ), guy_abspos.to_string() );
     }
     std::string can_see;
     nc_color see_color;
-    bool u_has_radio = g->u.has_item_with_flag( "TWO_WAY_RADIO", true );
-    bool guy_has_radio = has_item_with_flag( "TWO_WAY_RADIO", true );
+
+    static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
+    bool u_has_radio = player_character.has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
+    bool guy_has_radio = has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     // is the NPC even in the same area as the player?
     if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
-        ( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) ) {
+        ( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos() ) ) ) {
         if( u_has_radio && guy_has_radio ) {
             // TODO: better range calculation than just elevation.
             int max_range = 200;
-            max_range *= ( 1 + ( g->u.pos().z * 0.1 ) );
+            max_range *= ( 1 + ( player_character.pos().z * 0.1 ) );
             max_range *= ( 1 + ( pos().z * 0.1 ) );
             if( is_stationed ) {
                 // if camp that NPC is at, has a radio tower
@@ -564,15 +568,16 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             }
             // if camp that player is at, has a radio tower
             cata::optional<basecamp *> player_camp =
-                overmap_buffer.find_camp( g->u.global_omt_location().xy() );
+                overmap_buffer.find_camp( player_character.global_omt_location().xy() );
             if( const cata::optional<basecamp *> player_camp = overmap_buffer.find_camp(
-                        g->u.global_omt_location().xy() ) ) {
+                        player_character.global_omt_location().xy() ) ) {
                 if( ( *player_camp )->has_provides( "radio_tower" ) ) {
                     max_range *= 5;
                 }
             }
-            if( ( ( g->u.pos().z >= 0 && pos().z >= 0 ) || ( g->u.pos().z == pos().z ) ) &&
-                square_dist( g->u.global_sm_location(), global_sm_location() ) <= max_range ) {
+            if( ( ( player_character.pos().z >= 0 && pos().z >= 0 ) ||
+                  ( player_character.pos().z == pos().z ) ) &&
+                square_dist( player_character.global_sm_location(), global_sm_location() ) <= max_range ) {
                 retval = 2;
                 can_see = _( "Within radio range" );
                 see_color = c_light_green;
@@ -815,10 +820,11 @@ void faction_manager::display() const
         wnoutrefresh( w_missions );
     } );
 
+    avatar &player_character = get_avatar();
     while( true ) {
         // create a list of NPCs, visible and the ones on overmapbuffer
         followers.clear();
-        for( auto &elem : g->get_follower_list() ) {
+        for( const auto &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;
@@ -839,7 +845,7 @@ void faction_manager::display() const
         camp = nullptr;
         // create a list of faction camps
         camps.clear();
-        for( auto elem : g->u.camps ) {
+        for( tripoint_abs_omt elem : player_character.camps ) {
             cata::optional<basecamp *> p = overmap_buffer.find_camp( elem.xy() );
             if( !p ) {
                 continue;
@@ -894,16 +900,16 @@ void faction_manager::display() const
             } else {
                 selection--;
             }
-        } else if( action == "CONFIRM" && guy ) {
-            if( guy->has_companion_mission() ) {
-                guy->reset_companion_mission();
-                popup( _( "%s returns from their mission" ), guy->disp_name() );
-            } else {
-                if( tab == tab_mode::TAB_FOLLOWERS && guy && ( interactable || radio_interactable ) ) {
-                    g->u.talk_to( get_talker_for( *guy ), false, radio_interactable );
-                } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
-                    camp->query_new_name();
+        } else if( action == "CONFIRM" ) {
+            if( tab == tab_mode::TAB_FOLLOWERS && guy ) {
+                if( guy->has_companion_mission() ) {
+                    guy->reset_companion_mission();
+                    popup( _( "%s returns from their mission" ), guy->disp_name() );
+                } else if( interactable || radio_interactable ) {
+                    player_character.talk_to( get_talker_for( *guy ), false, radio_interactable );
                 }
+            } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
+                camp->query_new_name();
             }
         } else if( action == "QUIT" ) {
             break;

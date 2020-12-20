@@ -47,8 +47,10 @@
       "S": "f_sink",
       "e": "f_oven",
       "F": "f_fridge",
+      "Я": "f_standing_tank",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
     },
+    "liquids": { "Я": { "liquid": "water_clean", "amount": [ 0, 300 ] } },
     "toilets": { "T": {  } }
   }
 ]

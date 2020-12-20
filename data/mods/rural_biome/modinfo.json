@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "ruralbiome",
+    "id": "ruralbiome",
     "name": "Rural-Only Mapgen",
     "authors": [ "I-am-Erk" ],
     "description": "Play in the boonies: nothing but farms, forests, and villages.  Recommended city size set to 1 and spacing set to 8.",

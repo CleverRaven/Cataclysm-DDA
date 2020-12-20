@@ -51,7 +51,6 @@
 #define LIST_DEALLOCATE(the_allocator, allocator_instance, location, size)      std::allocator_traits<the_allocator>::deallocate(allocator_instance, location, size)
 
 #include <algorithm> // std::sort
-#include <cassert>  // assert
 #include <cstring>  // memmove, memcpy
 #include <initializer_list>
 #include <iterator>     // std::bidirectional_iterator_tag
@@ -59,6 +58,8 @@
 #include <memory>   // std::uninitialized_copy, std::allocator
 #include <type_traits> // std::is_trivially_destructible, etc
 #include <utility> // std::move
+
+#include "cata_assert.h"
 
 namespace cata
 {
@@ -781,7 +782,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
 
                 inline LIST_FORCE_INLINE list_iterator &operator++() noexcept {
-                    assert( node_pointer != nullptr ); // covers uninitialized list_iterator
+                    cata_assert( node_pointer != nullptr ); // covers uninitialized list_iterator
                     node_pointer = node_pointer->next;
                     return *this;
                 }
@@ -793,7 +794,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
 
                 inline LIST_FORCE_INLINE list_iterator &operator--() noexcept {
-                    assert( node_pointer != nullptr ); // covers uninitialized list_iterator
+                    cata_assert( node_pointer != nullptr ); // covers uninitialized list_iterator
                     node_pointer = node_pointer->previous;
                     return *this;
                 }
@@ -885,7 +886,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
 
                 inline LIST_FORCE_INLINE list_reverse_iterator &operator++() noexcept {
-                    assert( node_pointer != nullptr ); // covers uninitialized list_reverse_iterator
+                    cata_assert( node_pointer != nullptr ); // covers uninitialized list_reverse_iterator
                     node_pointer = node_pointer->previous;
                     return *this;
                 }
@@ -897,7 +898,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 }
 
                 inline LIST_FORCE_INLINE list_reverse_iterator &operator--() noexcept {
-                    assert( node_pointer != nullptr );
+                    cata_assert( node_pointer != nullptr );
                     node_pointer = node_pointer->next;
                     return *this;
                 }
@@ -1156,22 +1157,22 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         }
 
         inline reference front() {
-            assert( begin_iterator.node_pointer != &end_node );
+            cata_assert( begin_iterator.node_pointer != &end_node );
             return begin_iterator.node_pointer->element;
         }
 
         inline const_reference front() const {
-            assert( begin_iterator.node_pointer != &end_node );
+            cata_assert( begin_iterator.node_pointer != &end_node );
             return begin_iterator.node_pointer->element;
         }
 
         inline reference back() {
-            assert( end_node.previous != &end_node );
+            cata_assert( end_node.previous != &end_node );
             return end_node.previous->element;
         }
 
         inline const_reference back() const {
-            assert( end_node.previous != &end_node );
+            cata_assert( end_node.previous != &end_node );
             return end_node.previous->element;
         }
 
@@ -1694,9 +1695,9 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         // Single erase:
         // if uninitialized/invalid iterator supplied, function could generate an exception, hence no noexcept
         iterator erase( const const_iterator it ) {
-            assert( node_pointer_allocator_pair.total_number_of_elements != 0 );
-            assert( it.node_pointer != nullptr );
-            assert( it.node_pointer != end_iterator.node_pointer );
+            cata_assert( node_pointer_allocator_pair.total_number_of_elements != 0 );
+            cata_assert( it.node_pointer != nullptr );
+            cata_assert( it.node_pointer != end_iterator.node_pointer );
 
             if LIST_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
                 LIST_DESTROY( element_allocator_type, ( *this ),
@@ -1814,7 +1815,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         }
 
         inline list &operator=( const list &source ) {
-            assert( &source != this );
+            cata_assert( &source != this );
 
             clear();
             reserve( source.node_pointer_allocator_pair.total_number_of_elements );
@@ -1825,7 +1826,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
         // Move assignment
         list &operator=( list &&source ) LIST_NOEXCEPT_MOVE_ASSIGNMENT( allocator_type ) {
-            assert( &source != this );
+            cata_assert( &source != this );
 
             // Move source values across:
             groups.destroy_all_data( last_endpoint );
@@ -1848,7 +1849,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
         }
 
         bool operator==( const list &rh ) const noexcept {
-            assert( this != &rh );
+            cata_assert( this != &rh );
 
             if( node_pointer_allocator_pair.total_number_of_elements !=
                 rh.node_pointer_allocator_pair.total_number_of_elements ) {
@@ -2083,7 +2084,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     --number_of_full_groups;
                 }
             } else if( reserve_amount != 0 ) {
-                // Create a group at least as large as the last group - may allocate more than necessary, but better solution than creating a veyr small group in the middle of the group vector, I think:
+                // Create a group at least as large as the last group - may allocate more than necessary, but better solution than creating a very small group in the middle of the group vector, I think:
                 const group_size_type last_endpoint_group_capacity = static_cast<group_size_type>
                         ( groups.last_endpoint_group->beyond_end - groups.last_endpoint_group->nodes );
                 groups.add_new( static_cast<group_size_type>( ( reserve_amount < last_endpoint_group_capacity ) ?
@@ -2156,7 +2157,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
     public:
 
         void splice( iterator position, list &source ) {
-            assert( &source != this );
+            cata_assert( &source != this );
 
             if( source.node_pointer_allocator_pair.total_number_of_elements == 0 ) {
                 return;
@@ -2181,14 +2182,14 @@ template <class element_type, class element_allocator_type = std::allocator<elem
 
         template <class comparison_function>
         void merge( list &source, comparison_function compare ) {
-            assert( &source != this );
+            cata_assert( &source != this );
             splice( ( source.node_pointer_allocator_pair.total_number_of_elements >=
                       node_pointer_allocator_pair.total_number_of_elements ) ? end_iterator : begin_iterator, source );
             sort( compare );
         }
 
         void merge( list &source ) {
-            assert( &source != this );
+            cata_assert( &source != this );
 
             if( source.node_pointer_allocator_pair.total_number_of_elements == 0 ) {
                 return;

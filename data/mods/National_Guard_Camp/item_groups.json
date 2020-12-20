@@ -7,7 +7,7 @@
       [ "weeks_old_newspaper", 25 ],
       [ "newest_newspaper", 25 ],
       [ "survnote", 5 ],
-      [ "rag_bloody", 20 ],
+      { "item": "rag", "prob": 20, "custom-flags": [ "FILTHY" ] },
       [ "rag", 20 ],
       [ "bag_plastic", 30 ],
       [ "necropolis_leaflet", 1 ]
@@ -27,7 +27,7 @@
       [ "sm_extinguisher", 10 ],
       [ "flashlight", 20 ],
       [ "hat_hard", 50 ],
-      [ "toolbox", 5 ],
+      { "group": "tools_toolbox", "prob": 5 },
       [ "textbook_chemistry", 20 ],
       [ "iodine", 20 ],
       [ "prussian_blue", 20 ],
@@ -49,7 +49,7 @@
       { "item": "water", "prob": 20, "container-item": "55gal_drum", "charges-min": 350, "charges-max": 800 },
       { "item": "plut_cell", "prob": 30, "container-item": "30gal_drum", "charges-min": 5, "charges-max": 25 },
       { "item": "plut_cell", "prob": 10, "charges-min": 1, "charges-max": 5 },
-      [ "toolbox", 5 ]
+      { "group": "tools_toolbox", "prob": 5 }
     ]
   },
   {
@@ -94,8 +94,8 @@
       [ "hotplate", 10 ],
       [ "software_medical", 10 ],
       [ "funnel", 10 ],
-      [ "jar_glass", 30 ],
-      [ "jar_3l_glass", 15 ],
+      [ "jar_glass_sealed", 30 ],
+      [ "jar_3l_glass_sealed", 15 ],
       [ "pur_tablets", 20 ],
       [ "lye_powder", 20 ],
       [ "oxy_powder", 10 ],
@@ -119,31 +119,14 @@
     ]
   },
   {
-    "id": "virology_lab_fridge",
-    "type": "item_group",
-    "items": [
-      [ "blood", 300 ],
-      [ "vacutainer", 100 ],
-      [ "jar_glass", 30 ],
-      [ "jar_3l_glass", 15 ],
-      [ "hygrometer", 3 ],
-      [ "chem_nitric_acid", 15 ],
-      [ "denat_alcohol", 100 ],
-      [ "thermometer", 50 ],
-      [ "vaccine_shot", 50 ],
-      [ "flu_shot", 50 ],
-      [ "disinfectant", 35 ]
-    ]
-  },
-  {
     "id": "rocketry_lab",
     "type": "item_group",
     "items": [
       [ "funnel", 10 ],
-      [ "jar_glass", 30 ],
+      [ "jar_glass_sealed", 30 ],
       [ "adv_chemistry", 25 ],
       [ "radio", 10 ],
-      [ "toolbox", 10 ],
+      { "group": "tools_toolbox", "prob": 10 },
       [ "textbook_chemistry", 20 ],
       [ "gunpowder", 40 ],
       [ "incendiary", 10 ],

@@ -2,6 +2,7 @@
   {
     "abstract": "ram_blaze",
     "type": "vehicle_part",
+    "categories": [ "warfare" ],
     "location": "structure",
     "symbol": "X",
     "broken_symbol": "*",
@@ -165,7 +166,10 @@
     "durability": 40,
     "description": "A mattress, strapped onto the vehicle.  It could serve to blunt any impact.",
     "breaks_into": [ { "item": "rag", "count": [ 40, 55 ] } ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "rope_natural_short", 2 ] ] } },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [ [ "rope_natural_short", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "5 m", "using": [  ] }
+    },
     "damage_reduction": { "bash": 20 },
     "flags": [ "PROTRUSION", "OBSTACLE", "OPAQUE" ]
   },
@@ -177,6 +181,7 @@
     "location": "structure",
     "symbol": "*",
     "broken_symbol": "x",
+    "categories": [ "warfare" ],
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "durability": 450,

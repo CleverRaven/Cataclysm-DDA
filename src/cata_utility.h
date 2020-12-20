@@ -2,15 +2,13 @@
 #ifndef CATA_SRC_CATA_UTILITY_H
 #define CATA_SRC_CATA_UTILITY_H
 
-#include <fstream>
+#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
-#include <algorithm>
-#include <type_traits>
-
-#include "units.h"
 
 class JsonIn;
 class JsonOut;
@@ -72,16 +70,6 @@ template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::t
 T divide_round_up( T num, T den )
 {
     return ( num + den - 1 ) / den;
-}
-
-/** Divide @p num by @p den, rounding up
- *
- * @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
- */
-template<typename T, typename U>
-T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
-{
-    return divide_round_up( num.value(), den.value() );
 }
 
 int divide_round_down( int a, int b );
@@ -185,36 +173,6 @@ int bound_mod_to_vals( int val, int mod, int max, int min );
 const char *velocity_units( units_type vel_units );
 
 /**
- * Create a units label for a weight value.
- *
- * Gives the name of the weight unit in the user selected unit system, either
- * "kgs" or "lbs".  Used to add unit labels to the output of @ref convert_weight.
- *
- * @return name of unit
- */
-const char *weight_units();
-
-/**
- * Create an abbreviated units label for a volume value.
- *
- * Returns the abbreviated name for the volume unit for the user selected unit system,
- * i.e. "c", "L", or "qt". Used to add unit labels to the output of @ref convert_volume.
- *
- * @return name of unit.
- */
-const char *volume_units_abbr();
-
-/**
- * Create a units label for a volume value.
- *
- * Returns the abbreviated name for the volume unit for the user selected unit system,
- * ie "cup", "liter", or "quart". Used to add unit labels to the output of @ref convert_volume.
- *
- * @return name of unit.
- */
-const char *volume_units_long();
-
-/**
  * Convert internal velocity units to units defined by user.
  *
  * @param velocity A velocity value in internal units.
@@ -224,41 +182,6 @@ const char *volume_units_long();
  *          units for the object being measured.
  */
 double convert_velocity( int velocity, units_type vel_units );
-
-/**
- * Convert weight in grams to units defined by user (kg or lbs)
- *
- * @param weight to be converted.
- *
- * @returns Weight converted to user selected unit
- */
-double convert_weight( const units::mass &weight );
-
-/**
- * converts length to largest unit available
- * 1000 mm = 1 meter for example
- * assumed to be used in conjunction with unit string functions
- * also works for imperial units
- */
-int convert_length( const units::length &length );
-std::string length_units( const units::length &length );
-
-/** convert a mass unit to a string readable by a human */
-std::string weight_to_string( const units::mass &weight );
-
-/**
- * Convert volume from ml to units defined by user.
- */
-double convert_volume( int volume );
-
-/**
- * Convert volume from ml to units defined by user,
- * optionally returning the units preferred scale.
- */
-double convert_volume( int volume, int *out_scale );
-
-/** convert a volume unit to a string readable by a human */
-std::string vol_to_string( const units::volume &vol );
 
 /**
  * Convert a temperature from degrees Fahrenheit to degrees Celsius.
@@ -411,43 +334,6 @@ bool read_from_file_optional_json( const std::string &path,
                                    const std::function<void( JsonIn & )> &reader );
 bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
 /**@}*/
-/**
- * Wrapper around std::ofstream that handles error checking and throws on errors.
- *
- * Use like a normal ofstream: the stream is opened in the constructor and
- * closed via @ref close. Both functions check for success and throw std::exception
- * upon any error (e.g. when opening failed or when the stream is in an error state when
- * being closed).
- * Use @ref stream (or the implicit conversion) to access the output stream and to write
- * to it.
- *
- * @note: The stream is closed in the destructor, but no exception is throw from it. To
- * ensure all errors get reported correctly, you should always call `close` explicitly.
- *
- * @note: This uses exclusive I/O.
- */
-class ofstream_wrapper
-{
-    private:
-        std::ofstream file_stream;
-        std::string path;
-        std::string temp_path;
-
-        void open( std::ios::openmode mode );
-
-    public:
-        ofstream_wrapper( const std::string &path, std::ios::openmode mode );
-        ~ofstream_wrapper();
-
-        std::ostream &stream() {
-            return file_stream;
-        }
-        operator std::ostream &() {
-            return file_stream;
-        }
-
-        void close();
-};
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
 
@@ -472,7 +358,7 @@ std::string obscure_message( const std::string &str, const std::function<char()>
  *
  * The functions here provide a way to (de)serialize objects without actually
  * including "json.h". The `*_wrapper` function create the JSON stream instances
- * and therefor require "json.h", but the caller doesn't. Callers should just
+ * and therefore require "json.h", but the caller doesn't. Callers should just
  * forward the stream reference to the actual (de)serialization function.
  *
  * The inline function do this by calling `T::(de)serialize` (which is assumed
@@ -509,9 +395,31 @@ inline void deserialize( T &obj, const std::string &data )
 bool string_starts_with( const std::string &s1, const std::string &s2 );
 
 /**
+ * Returns true iff s1 starts with s2.
+ * This version accepts constant string literals and is ≈1.5 times faster than std::string version.
+ * Note: N is (size+1) for null-terminated strings.
+ */
+template <std::size_t N>
+inline bool string_starts_with( const std::string &s1, const char( &s2 )[N] )
+{
+    return s1.compare( 0, N - 1, s2, N - 1 ) == 0;
+}
+
+/**
  * \brief Returns true iff s1 ends with s2
  */
 bool string_ends_with( const std::string &s1, const std::string &s2 );
+
+/**
+ *  Returns true iff s1 ends with s2.
+ *  This version accepts constant string literals and is ≈1.5 times faster than std::string version.
+ *  Note: N is (size+1) for null-terminated strings.
+ */
+template <std::size_t N>
+inline bool string_ends_with( const std::string &s1, const char( &s2 )[N] )
+{
+    return s1.size() >= N - 1 && s1.compare( s1.size() - ( N - 1 ), std::string::npos, s2, N - 1 ) == 0;
+}
 
 /** Used as a default filter in various functions */
 template<typename T>
@@ -524,6 +432,75 @@ bool return_true( const T & )
  * Joins a vector of `std::string`s into a single string with a delimiter/joiner
  */
 std::string join( const std::vector<std::string> &strings, const std::string &joiner );
+
+/**
+ * Erases elements from a set that match given predicate function.
+ * Will work on vector, albeit not optimally performance-wise.
+ * @return true if set was changed
+ */
+//bool erase_if( const std::function<bool( const value_type & )> &predicate ) {
+template<typename Col, class Pred>
+bool erase_if( Col &set, Pred predicate )
+{
+    bool ret = false;
+    auto iter = set.begin();
+    for( ; iter != set.end(); ) {
+        if( predicate( *iter ) ) {
+            iter = set.erase( iter );
+            ret = true;
+        } else {
+            ++iter;
+        }
+    }
+    return ret;
+}
+
+/**
+ * Checks if two sets are equal, ignoring specified elements.
+ * Works as if `ignored_elements` were temporarily erased from both sets before comparison.
+ * @tparam Set type of the set (must be ordered, i.e. std::set, cata::flat_set)
+ * @param set first set to compare
+ * @param set2 second set to compare
+ * @param ignored_elements elements from both sets to ignore
+ * @return true, if sets without ignored elements are equal, false otherwise
+ */
+template<typename Set, typename T = std::decay_t<decltype( *std::declval<const Set &>().begin() )>>
+bool equal_ignoring_elements( const Set &set, const Set &set2, const Set &ignored_elements )
+{
+    // general idea: splits both sets into the ranges bounded by elements from `ignored_elements`
+    // and checks that these ranges are equal
+
+    // traverses ignored elements in
+    if( ignored_elements.empty() ) {
+        return set == set2;
+    }
+
+    using Iter = typename Set::iterator;
+    Iter end = ignored_elements.end();
+    Iter cur = ignored_elements.begin();
+    Iter prev = cur;
+    cur++;
+
+    // first comparing the sets range [set.begin() .. ignored_elements.begin()]
+    if( !std::equal( set.begin(), set.lower_bound( *prev ),
+                     set2.begin(), set2.lower_bound( *prev ) ) ) {
+        return false;
+    }
+
+    // compare ranges bounded by two elements: [`prev` .. `cur`]
+    while( cur != end ) {
+        if( !std::equal( set.upper_bound( *prev ), set.lower_bound( *cur ),
+                         set2.upper_bound( *prev ), set2.lower_bound( *cur ) ) ) {
+            return false;
+        }
+        prev = cur;
+        cur++;
+    }
+
+    // compare the range after the last element of ignored_elements: [ignored_elements.back() .. set.end()]
+    return static_cast<bool>( std::equal( set.upper_bound( *prev ), set.end(),
+                                          set2.upper_bound( *prev ), set2.end() ) );
+}
 
 int modulo( int v, int m );
 

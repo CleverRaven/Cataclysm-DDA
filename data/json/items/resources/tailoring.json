@@ -1,5 +1,18 @@
 [
   {
+    "type": "GENERIC",
+    "id": "grass_yarn",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "grass yarn" },
+    "category": "spare_parts",
+    "description": "Some primitive yarn made from coarse plant fibers like straw or grass.  Too thick to sew with, but could be woven into a crude sheet of fabric.",
+    "price": 10,
+    "material": [ "dry_plant" ],
+    "weight": "100 g",
+    "volume": "250 ml"
+  },
+  {
     "id": "scrap_cotton",
     "type": "AMMO",
     "category": "other",
@@ -231,7 +244,7 @@
     "type": "TOOL",
     "category": "spare_parts",
     "name": "rigid kevlar plate",
-    "description": "This is a compressed panel of kevlar treated with epoxy or other adhesive.  It could be used to repair items made of Kevlar.",
+    "description": "This is a compressed panel of Kevlar treated with epoxy or other adhesive.  It could be used to repair items made of Kevlar.",
     "weight": "300 g",
     "volume": "250 ml",
     "price": 1000,

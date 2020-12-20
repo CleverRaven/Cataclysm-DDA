@@ -1,18 +1,22 @@
-#include <memory>
+#include "catch/catch.hpp"
+
+#include <set>
 #include <string>
 
-#include "avatar.h"
-#include "catch/catch.hpp"
-#include "player_helpers.h"
+#include "character.h"
+#include "flag.h"
 #include "flat_set.h"
-#include "game.h"
 #include "item.h"
+#include "item_pocket.h"
+#include "player_helpers.h"
+#include "ret_val.h"
 #include "type_id.h"
 
 TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 {
+    Character &player_character = get_player_character();
     GIVEN( "player is a normal size" ) {
-        g->u.clear_mutations();
+        player_character.clear_mutations();
 
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
@@ -30,12 +34,12 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.item_tags.insert( "UNDERSIZE" );
-            i.item_tags.insert( "FIT" );
+            i.set_flag( flag_UNDERSIZE );
+            i.set_flag( flag_FIT );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
-                const item::sizing sizing_level = i.get_sizing( g->u );
+                const item::sizing sizing_level = i.get_sizing( player_character );
                 CHECK( sizing_level == item::sizing::small_sized_human_char );
             }
 
@@ -47,8 +51,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
     }
 
     GIVEN( "player is a huge size" ) {
-        g->u.clear_mutations();
-        g->u.toggle_trait( trait_id( "HUGE_OK" ) );
+        player_character.clear_mutations();
+        player_character.toggle_trait( trait_id( "HUGE_OK" ) );
 
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
@@ -66,12 +70,12 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.item_tags.insert( "UNDERSIZE" );
-            i.item_tags.insert( "FIT" );
+            i.set_flag( flag_UNDERSIZE );
+            i.set_flag( flag_FIT );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
-                const item::sizing sizing_level = i.get_sizing( g->u );
+                const item::sizing sizing_level = i.get_sizing( player_character );
                 CHECK( sizing_level == item::sizing::small_sized_big_char );
             }
 
@@ -83,8 +87,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
     }
 
     GIVEN( "player is a small size" ) {
-        g->u.clear_mutations();
-        g->u.toggle_trait( trait_id( "SMALL_OK" ) );
+        player_character.clear_mutations();
+        player_character.toggle_trait( trait_id( "SMALL_OK" ) );
 
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
@@ -102,12 +106,12 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 
         WHEN( "the item is undersized" ) {
             item i = item( "tunic" );
-            i.item_tags.insert( "UNDERSIZE" );
-            i.item_tags.insert( "FIT" );
+            i.set_flag( flag_UNDERSIZE );
+            i.set_flag( flag_FIT );
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
-                const item::sizing sizing_level = i.get_sizing( g->u );
+                const item::sizing sizing_level = i.get_sizing( player_character );
                 CHECK( sizing_level == item::sizing::small_sized_small_char );
             }
 
@@ -122,7 +126,7 @@ TEST_CASE( "display name includes item contents", "[item][display_name][contents
 {
     clear_avatar();
 
-    item arrow( "test_arrow_wood", 0, item::default_charges_tag{} );
+    item arrow( "test_arrow_wood", calendar::turn_zero, item::default_charges_tag{} );
     // Arrows are ammo with a default count of 10
     REQUIRE( arrow.is_ammo() );
     REQUIRE( arrow.count() == 10 );
@@ -146,6 +150,6 @@ TEST_CASE( "display name includes item contents", "[item][display_name][contents
     CHECK( quiver.ammo_remaining() == 10 );
     CHECK( quiver.display_name() ==
            "<color_c_light_green>||\u00A0</color>"
-           "test quiver with test wooden broadhead arrow (10)" );
+           "test quiver > test wooden broadhead arrows (10)" );
 }
 

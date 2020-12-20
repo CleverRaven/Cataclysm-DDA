@@ -1,11 +1,16 @@
+#include "catch/catch.hpp"
+
+#include <algorithm>
+#include <set>
 #include <sstream>
 
-#include "catch/catch.hpp"
 #include "json.h"
 #include "magic.h"
 #include "magic_spell_effect_helpers.h"
 #include "npc.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 TEST_CASE( "line_attack", "[magic]" )
 {
@@ -19,7 +24,8 @@ TEST_CASE( "line_attack", "[magic]" )
         "    \"damage_type\": \"none\",\n"
         "    \"min_range\": 5,\n"
         "    \"max_range\": 5,\n"
-        "    \"effect\": \"line_attack\",\n"
+        "    \"effect\": \"attack\",\n"
+        "    \"shape\": \"line\","
         "    \"min_aoe\": 0,\n"
         "    \"max_aoe\": 0,\n"
         "    \"flags\": [ \"VERBAL\", \"NO_HANDS\", \"NO_LEGS\" ]\n"
@@ -43,8 +49,7 @@ TEST_CASE( "line_attack", "[magic]" )
     SECTION( "aoe=0" ) {
         const std::set<tripoint> reference( { tripoint_east * 1, tripoint_east * 2, tripoint_east * 3, tripoint_east * 4, tripoint_east * 5 } );
 
-        std::set<tripoint> targets = calculate_spell_effect_area( sp, target,
-                                     spell_effect::spell_effect_line, c, true );
+        std::set<tripoint> targets = calculate_spell_effect_area( sp, target, c );
 
         CHECK( reference == targets );
     }

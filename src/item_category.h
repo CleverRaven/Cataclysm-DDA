@@ -8,6 +8,7 @@
 
 #include "flat_set.h"
 #include "optional.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -20,7 +21,7 @@ struct zone_priority_data {
     bool was_loaded = false;
     zone_type_id id;
     bool filthy = false;
-    cata::flat_set<std::string> flags;
+    cata::flat_set<flag_id> flags;
 
     void deserialize( JsonIn &jsin );
     void load( JsonObject &jo );

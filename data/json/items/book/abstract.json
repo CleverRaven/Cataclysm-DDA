@@ -49,7 +49,7 @@
     "price_postapoc": 1500,
     "material": [ "paper" ],
     "bashing": 1,
-    "flags": [ "FLAMMABLE" ],
+    "flags": [  ],
     "copy-from": "book_fict_tpl"
   },
   {
@@ -140,7 +140,7 @@
     "weight": "600 g",
     "price": 1000,
     "price_postapoc": 5000,
-    "flags": [ "TINDER", "FLAMMABLE" ],
+    "flags": [ "TINDER" ],
     "skill": "dodge",
     "intelligence": 4,
     "time": "10 m",
@@ -155,7 +155,7 @@
     "fun": 1,
     "time": "36 m",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "price": 500, "price_post": -2500, "intelligence": 3 }
+    "relative": { "price": 500, "price_postapoc": -2500, "intelligence": 3 }
   },
   {
     "abstract": "book_nonf_soft_phil_tpl",
@@ -165,7 +165,7 @@
     "fun": 1,
     "time": "36 m",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "price": 400, "price_post": -2600, "intelligence": 3 }
+    "relative": { "price": 400, "price_postapoc": -2600, "intelligence": 3 }
   },
   {
     "abstract": "book_nonf_hard_sports_tpl",
@@ -212,7 +212,7 @@
     "symbol": "?",
     "looks_like": "story_book",
     "color": "dark_gray",
-    "flags": [ "TINDER", "FLAMMABLE" ],
+    "flags": [ "TINDER" ],
     "intelligence": 6,
     "time": "35 m",
     "chapters": 30,
@@ -229,7 +229,7 @@
     "volume": "400 ml",
     "copy-from": "book_fict_soft_tpl",
     "time": "11 m",
-    "relative": { "price": -351, "price_post": -800, "chapters": -8, "intelligence": -1 }
+    "relative": { "price": -351, "price_postapoc": -800, "chapters": -8, "intelligence": -1 }
   },
   {
     "abstract": "paperback_romance_lnl",
@@ -237,7 +237,7 @@
     "name": "Lorn and Loan Romance Novel",
     "description": "Lorn and Loan Press marketed romance paperbacks to a variety of alt demographics, especially those with a penchant for eyeliner.  The books are billed as \"provocative,\" but words like \"malingering\" and \"turgid\" also come to mind.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_post": -400, "intelligence": 1, "fun": -1 }
+    "relative": { "price_postapoc": -400, "intelligence": 1, "fun": -1 }
   },
   {
     "abstract": "paperback_romance_vanilla",
@@ -245,7 +245,7 @@
     "name": "Vanilla Romance Novel",
     "description": "Vanilla Media is a mainstream publisher providing romantic literature to everyday readers of taste.  These stories contain explicit details only in the odd chapters, and invariably end with a conventionally uplifting moral.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_post": -100, "intelligence": -1 }
+    "relative": { "price_postapoc": -100, "intelligence": -1 }
   },
   {
     "abstract": "paperback_western_em",
@@ -253,7 +253,7 @@
     "name": "The Everyman Library",
     "description": "The Everyman Library is an imprint of Vanilla Media that publishes stories about private eyes, cowboys, quarterbacks, and mobsters.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_post": -100, "intelligence": -1 }
+    "relative": { "price_postapoc": -100, "intelligence": -1 }
   },
   {
     "abstract": "book_fict_soft_ya_vanilla",
@@ -261,7 +261,7 @@
     "name": "Tween Topics",
     "description": "Tween Topics is an imprint of Vanilla Media that publishes stories that appeal to the youth of today.  Or, failing that, the parents of said youth.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_post": -400, "intelligence": -1, "fun": -1 }
+    "relative": { "price_postapoc": -400, "intelligence": -1, "fun": -1 }
   },
   {
     "abstract": "book_fict_soft_ya_quiddity",
@@ -269,7 +269,7 @@
     "name": "Quiddity Books",
     "description": "Quiddity publishes books for young adults.  They offer stories about self-discovery, personal identity, and contemporary trends.",
     "copy-from": "book_fict_soft_tpl",
-    "relative": { "price_post": -400, "chapters": 7 }
+    "relative": { "price_postapoc": -400, "chapters": 7 }
   },
   {
     "abstract": "book_fict_hard_ya_quiddity",
@@ -280,7 +280,7 @@
     "volume": "1014 ml",
     "longest_side": "22 cm",
     "copy-from": "book_fict_hard_tpl",
-    "relative": { "price_post": -400, "chapters": 10 }
+    "relative": { "price_postapoc": -400, "chapters": 10 }
   },
   {
     "abstract": "book_fict_soft_satire_tpl",
@@ -312,6 +312,7 @@
     "type": "BOOK",
     "name": "News Magazine Template",
     "description": "template for news magazine",
+    "looks_like": "flyer",
     "copy-from": "book_nonf_zine",
     "time": "11 m",
     "relative": { "intelligence": 1 }
@@ -333,8 +334,7 @@
   },
   {
     "abstract": "book_martial",
-    "type": "GENERIC",
-    "category": "books",
+    "type": "BOOK",
     "name": { "str": "martial art manual" },
     "weight": "150 g",
     "volume": "250 ml",
@@ -342,7 +342,9 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
+    "looks_like": "manual_gun",
     "use_action": [ "MA_MANUAL" ],
-    "book_data": { "time": "10 m", "intelligence": 9 }
+    "intelligence": 9,
+    "time": "10 m"
   }
 ]

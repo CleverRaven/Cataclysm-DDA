@@ -1,19 +1,19 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <cstdio>
-#include <memory>
 #include <utility>
 #include <vector>
 
 #include "character.h"
-#include "catch/catch.hpp"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
+#include "make_static.h"
+#include "output.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "stomach.h"
-#include "string_id.h"
 #include "test_statistics.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -125,7 +125,7 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
         const recipe &recipe_obj = recipe_pair.first.obj();
         item res_it = food_or_food_container( recipe_obj.create_result() );
         const bool is_food = res_it.is_food();
-        const bool has_override = res_it.has_flag( "NUTRIENT_OVERRIDE" );
+        const bool has_override = res_it.has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) );
         if( is_food && !has_override ) {
             // Collection of kcal values of all ingredient permutations
             all_stats mystats = run_stats(
@@ -177,4 +177,91 @@ TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
 
     CHECK( default_nutrition.kcal == predicted_nutrition.first.kcal );
     CHECK( default_nutrition.kcal == predicted_nutrition.second.kcal );
+}
+
+// The Character::compute_effective_food_volume_ratio function returns a floating-point ratio
+// used as a multiplier for the food volume when it is eaten, based on the energy density
+// (kcal/gram) of the food, as follows:
+//
+// - low-energy food     (0.0 < kcal/gram < 1.0)  returns 1.0
+// - medium-energy food  (1.0 < kcal/gram < 3.0)  returns (kcal/gram)
+// - high-energy food    (3.0 < kcal/gram)        returns sqrt( 3 * kcal/gram )
+//
+// The Character::compute_calories_per_effective_volume function returns a dimensionless integer
+// representing the "satiety" of the food, with higher numbers being more calorie-dense, and lower
+// numbers being less so.
+//
+TEST_CASE( "effective food volume and satiety", "[character][food][satiety]" )
+{
+    const Character &u = get_player_character();
+    double expect_ratio;
+
+    // Apple: 95 kcal / 200 g (1 serving)
+    const item apple( "test_apple" );
+    const nutrients apple_nutr = u.compute_effective_nutrients( apple );
+    REQUIRE( apple.count() == 1 );
+    REQUIRE( apple.weight() == 200_gram );
+    REQUIRE( apple.volume() == 250_ml );
+    REQUIRE( apple_nutr.kcal == 95 );
+    // If kcal per gram < 1.0, return 1.0
+    CHECK( u.compute_effective_food_volume_ratio( apple ) == Approx( 1.0f ).margin( 0.01f ) );
+    CHECK( u.compute_calories_per_effective_volume( apple ) == 500 );
+    CHECK( satiety_bar( 500 ) == "<color_c_yellow>||\\</color>.." );
+
+    // Egg: 80 kcal / 40 g (1 serving)
+    const item egg( "test_egg" );
+    const nutrients egg_nutr = u.compute_effective_nutrients( egg );
+    REQUIRE( egg.count() == 1 );
+    REQUIRE( egg.weight() == 40_gram );
+    REQUIRE( egg.volume() == 50_ml );
+    REQUIRE( egg_nutr.kcal == 80 );
+    // If kcal per gram > 1.0 but less than 3.0, return ( kcal / gram )
+    CHECK( u.compute_effective_food_volume_ratio( egg ) == Approx( 2.0f ).margin( 0.01f ) );
+    CHECK( u.compute_calories_per_effective_volume( egg ) == 2000 );
+    CHECK( satiety_bar( 2000 ) == "<color_c_green>|||||</color>" );
+
+    // Pine nuts: 202 kcal / 30 g (4 servings)
+    const item nuts( "test_pine_nuts" );
+    const nutrients nuts_nutr = u.compute_effective_nutrients( nuts );
+    // If food count > 1, total weight is divided by count before computing kcal/gram
+    REQUIRE( nuts.count() == 4 );
+    REQUIRE( nuts.weight() == 120_gram );
+    REQUIRE( nuts.volume() == 250_ml );
+    REQUIRE( nuts_nutr.kcal == 202 );
+    // If kcal per gram > 3.0, return sqrt( 3 * kcal / gram )
+    expect_ratio = std::sqrt( 3.0f * 202 / 30 );
+    CHECK( u.compute_effective_food_volume_ratio( nuts ) == Approx( expect_ratio ).margin( 0.01f ) );
+    CHECK( u.compute_calories_per_effective_volume( nuts ) == 1498 );
+    CHECK( satiety_bar( 1498 ) == "<color_c_green>||||\\</color>" );
+}
+
+// satiety_bar returns a colorized string indicating a satiety level, similar to hit point bars
+// where "....." is minimum (~ 0) and "|||||" is maximum (~ 1500)
+//
+TEST_CASE( "food satiety bar", "[character][food][satiety]" )
+{
+    // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
+    CHECK( satiety_bar( 0 ) == "<color_c_red></color>....." );
+    // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
+    CHECK( satiety_bar( 1 ) == "<color_c_red>:</color>...." );
+    // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
+    CHECK( satiety_bar( 50 ) == "<color_c_red>\\</color>...." );
+    // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
+    CHECK( satiety_bar( 100 ) == "<color_c_light_red>|</color>...." );
+    // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
+    CHECK( satiety_bar( 200 ) == "<color_c_light_red>|\\</color>..." );
+    // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
+    CHECK( satiety_bar( 300 ) == "<color_c_yellow>||</color>..." );
+    CHECK( satiety_bar( 400 ) == "<color_c_yellow>||\\</color>.." );
+    CHECK( satiety_bar( 500 ) == "<color_c_yellow>||\\</color>.." );
+    CHECK( satiety_bar( 600 ) == "<color_c_light_green>|||</color>.." );
+    CHECK( satiety_bar( 700 ) == "<color_c_light_green>|||</color>.." );
+    CHECK( satiety_bar( 800 ) == "<color_c_light_green>|||\\</color>." );
+    CHECK( satiety_bar( 900 ) == "<color_c_light_green>|||\\</color>." );
+    CHECK( satiety_bar( 1000 ) == "<color_c_green>||||</color>." );
+    CHECK( satiety_bar( 1100 ) == "<color_c_green>||||</color>." );
+    CHECK( satiety_bar( 1200 ) == "<color_c_green>||||</color>." );
+    CHECK( satiety_bar( 1300 ) == "<color_c_green>||||\\</color>" );
+    CHECK( satiety_bar( 1400 ) == "<color_c_green>||||\\</color>" );
+    CHECK( satiety_bar( 1500 ) == "<color_c_green>|||||</color>" );
 }

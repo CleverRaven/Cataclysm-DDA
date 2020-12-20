@@ -19,6 +19,7 @@
 #include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "item.h"
 #include "mtype.h"
@@ -26,7 +27,7 @@
 #include "pldata.h"
 #include "point.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 
 class Character;
@@ -101,7 +102,6 @@ class monster : public Creature
         const monster *as_monster() const override {
             return this;
         }
-
 
         void poly( const mtype_id &id );
         bool can_upgrade();
@@ -318,8 +318,8 @@ class monster : public Creature
         void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
                                      bool print_messages = true ) override;
-        void deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
-                                      int &pain ) override;
+        void deal_damage_handle_type( const effect_source &source, const damage_unit &du, bodypart_id bp,
+                                      int &damage, int &pain ) override;
         void apply_damage( Creature *source, bodypart_id bp, int dam,
                            bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
@@ -347,10 +347,7 @@ class monster : public Creature
         /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
-        /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
-        void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
-                         bool permanent = false,
-                         int intensity = 0, bool force = false, bool deferred = false ) override;
+
         /** Returns a std::string containing effects for descriptions */
         std::string get_effect_status() const;
 
@@ -489,7 +486,9 @@ class monster : public Creature
         int fish_population = 1;
 
         void setpos( const tripoint &p ) override;
-        const tripoint &pos() const override;
+        inline const tripoint &pos() const override {
+            return position;
+        }
         inline int posx() const override {
             return position.x;
         }
@@ -560,11 +559,12 @@ class monster : public Creature
         bool biosignatures = false;
         cata::optional<time_point> biosig_timer;
         time_point udder_timer;
-        monster_horde_attraction horde_attraction;
+        monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
         std::bitset<NUM_MEFF> effect_cache;
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
+        int turns_since_target = 0;
 
         player *find_dragged_foe();
         void nursebot_operate( player *dragged_foe );

@@ -12,11 +12,15 @@
 #include "bonuses.h"
 #include "calendar.h"
 #include "input.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 
-enum damage_type : int;
+class input_context;
+struct input_event;
+
+enum class damage_type : int;
 class Character;
 class JsonObject;
 class effect;
@@ -38,12 +42,12 @@ struct ma_requirements {
     std::vector<std::pair<skill_id, int>> min_skill;
 
     /** Minimum amount of given damage type on the weapon
-     *  Note: DT_FIRE currently won't work, not even on flaming weapons!
+     *  Note: damage_type::FIRE currently won't work, not even on flaming weapons!
      */
     std::vector<std::pair<damage_type, int>> min_damage;
 
     std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
-    std::set<std::string> req_flags; // any item flags required for this technique
+    std::set<flag_id> req_flags; // any item flags required for this technique
 
     ma_requirements() {
         unarmed_allowed = false;
@@ -70,9 +74,9 @@ class ma_technique
 
         matec_id id;
         bool was_loaded = false;
-        std::string name;
+        translation name;
 
-        std::string description;
+        translation description;
         std::string get_description() const;
 
         std::string goal; // the melee goal this achieves
@@ -83,8 +87,8 @@ class ma_technique
         std::set<std::string> flags;
 
         // message to be displayed when Character or npc uses the technique
-        std::string avatar_message;
-        std::string npc_message;
+        translation avatar_message;
+        translation npc_message;
 
         bool defensive = false;
         bool side_switch = false; // moves the target behind user
@@ -175,8 +179,8 @@ class ma_buff
 
         mabuff_id id;
         bool was_loaded = false;
-        std::string name;
-        std::string description;
+        translation name;
+        translation description;
         std::string get_description( bool passive = false ) const;
 
         ma_requirements reqs;
@@ -246,7 +250,7 @@ class martialart
         bool was_loaded = false;
         translation name;
         translation description;
-        std::vector<std::string> initiate;
+        std::vector<translation> initiate;
         std::vector<std::pair<std::string, int>> autolearn_skills;
         skill_id primary_skill;
         int learn_difficulty = 0;
@@ -293,7 +297,7 @@ void load_technique( const JsonObject &jo, const std::string &src );
 void load_martial_art( const JsonObject &jo, const std::string &src );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
-void finialize_martial_arts();
+void finalize_martial_arts();
 std::string martialart_difficulty( const matype_id &mstyle );
 
 std::vector<matype_id> all_martialart_types();

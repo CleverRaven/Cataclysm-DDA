@@ -1,22 +1,29 @@
-#include <memory>
+#include "catch/catch.hpp"
+#include "stats_tracker.h"
+
+#include <algorithm>
+#include <functional>
+#include <map>
 #include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "achievement.h"
-#include "avatar.h"
 #include "calendar.h"
 #include "cata_variant.h"
-#include "catch/catch.hpp"
+#include "character.h"
 #include "character_id.h"
 #include "event.h"
 #include "event_bus.h"
 #include "event_statistics.h"
-#include "game.h"
+#include "event_subscriber.h"
+#include "game_constants.h"
+#include "json.h"
 #include "optional.h"
-#include "stats_tracker.h"
-#include "string_id.h"
-#include "stringmaker.h"
-#include "type_id.h"
 #include "options_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 static const move_mode_id move_mode_walk( "walk" );
 static const move_mode_id move_mode_run( "run" );
@@ -28,7 +35,7 @@ TEST_CASE( "stats_tracker_count_events", "[stats]" )
     event_bus b;
     b.subscribe( &s );
 
-    const character_id u_id = g->u.getID();
+    const character_id u_id = get_player_character().getID();
     const mtype_id mon1( "mon_zombie" );
     const mtype_id mon2( "mon_zombie_brute" );
     const cata::event kill1 = cata::event::make<event_type::character_kills_monster>( u_id, mon1 );
@@ -54,7 +61,7 @@ TEST_CASE( "stats_tracker_total_events", "[stats]" )
     event_bus b;
     b.subscribe( &s );
 
-    const character_id u_id = g->u.getID();
+    const character_id u_id = get_player_character().getID();
     character_id other_id = u_id;
     ++other_id;
     const cata::event::data_type damage_to_any{};
@@ -83,7 +90,6 @@ TEST_CASE( "stats_tracker_minimum_events", "[stats]" )
     event_bus b;
     b.subscribe( &s );
 
-    const cata::event::data_type min_z_any {};
     const mtype_id no_monster;
     const ter_id t_null( "t_null" );
     constexpr event_type am = event_type::avatar_moves;
@@ -111,7 +117,6 @@ TEST_CASE( "stats_tracker_maximum_events", "[stats]" )
     event_bus b;
     b.subscribe( &s );
 
-    const cata::event::data_type max_z_any {};
     const mtype_id no_monster;
     const ter_id t_null( "t_null" );
     constexpr event_type am = event_type::avatar_moves;
@@ -139,7 +144,7 @@ TEST_CASE( "stats_tracker_event_time_bounds", "[stats]" )
     event_bus b;
     b.subscribe( &s );
 
-    const character_id u_id = g->u.getID();
+    const character_id u_id = get_player_character().getID();
     constexpr event_type ctd = event_type::character_takes_damage;
 
     const time_point start = calendar::turn;
@@ -265,8 +270,8 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         CHECK( score_swam_underwater->value( s ).get<int>() == 1 );
     }
 
+    const character_id u_id = get_player_character().getID();
     SECTION( "kills" ) {
-        const character_id u_id = g->u.getID();
         character_id other_id = u_id;
         ++other_id;
         const mtype_id mon_zombie( "mon_zombie" );
@@ -301,7 +306,6 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
     }
 
     SECTION( "damage" ) {
-        const character_id u_id = g->u.getID();
         const cata::event avatar_2_damage =
             cata::event::make<event_type::character_takes_damage>( u_id, 2 );
         const string_id<score> damage_taken( "score_damage_taken" );
@@ -313,7 +317,6 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
     }
 
     SECTION( "first_last_events" ) {
-        const character_id u_id = g->u.getID();
         const oter_id field( "field" );
         const itype_id crowbar( "crowbar" );
         const itype_id pipe( "pipe" );
@@ -339,6 +342,29 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         b.send<event_type::character_wields_item>( u_id, crowbar );
         CHECK( first_omt->value( s ) == cata_variant( tripoint_zero ) );
         CHECK( last_wielded->value( s ) == cata_variant( crowbar ) );
+    }
+
+    SECTION( "invalid_values_filtered_out" ) {
+        const oter_id field( "field" );
+        const oter_type_str_id field_type( "field" );
+        const cata_variant invalid_oter_id =
+            cata_variant::from_string( cata_variant_type::oter_id, "XXXXXX" );
+        const string_id<event_statistic> last_entered( "last_oter_type_avatar_entered" );
+
+        send_game_start( b, u_id );
+        CHECK( last_entered->value( s ) == cata_variant() );
+
+        b.send<event_type::avatar_enters_omt>( tripoint_zero, field );
+        CHECK( last_entered->value( s ) == cata_variant( field_type ) );
+
+        const cata::event invalid_event(
+            event_type::avatar_enters_omt, calendar::turn,
+        cata::event::data_type{
+            { "pos", cata_variant( tripoint_below ) },
+            { "oter_id", invalid_oter_id }
+        } );
+        b.send( invalid_event );
+        CHECK( last_entered->value( s ) == cata_variant( field_type ) );
     }
 }
 
@@ -468,8 +494,8 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
         CHECK( swam_underwater_watcher.value == cata_variant( 1 ) );
     }
 
+    const character_id u_id = get_player_character().getID();
     SECTION( "kills" ) {
-        const character_id u_id = g->u.getID();
         character_id other_id = u_id;
         ++other_id;
         const mtype_id mon_zombie( "mon_zombie" );
@@ -502,7 +528,6 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
     }
 
     SECTION( "damage" ) {
-        const character_id u_id = g->u.getID();
         const cata::event avatar_2_damage =
             cata::event::make<event_type::character_takes_damage>( u_id, 2 );
         const string_id<event_statistic> damage_taken( "avatar_damage_taken" );
@@ -517,7 +542,7 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
     }
 }
 
-TEST_CASE( "achievments_tracker", "[stats]" )
+TEST_CASE( "achievements_tracker", "[stats]" )
 {
     override_option opt( "24_HOUR", "military" );
 
@@ -531,10 +556,10 @@ TEST_CASE( "achievments_tracker", "[stats]" )
     },
     [&]( const achievement * a, bool /*achievements_enabled*/ ) {
         achievements_failed.emplace( a->id, a );
-    } );
+    }, true );
     b.subscribe( &a );
 
-    const character_id u_id = g->u.getID();
+    const character_id u_id = get_player_character().getID();
 
     SECTION( "time" ) {
         calendar::turn = calendar::start_of_game;
@@ -641,11 +666,11 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         send_game_start( b, u_id );
 
         CHECK( a.ui_text_for( &*a_kill_zombie ) ==
-               "<color_c_yellow>One down, billions to go…</color>\n"
+               "<color_c_white>One down, billions to go…</color>\n"
                "  <color_c_yellow>0/1 zombie killed</color>\n" );
         if( time_since_game_start < 1_minutes ) {
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
-                   "<color_c_yellow>Rude awakening</color>\n"
+                   "<color_c_white>Rude awakening</color>\n"
                    "  <color_c_light_green>Within 1 minute of start of game (30 seconds remaining)</color>\n"
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         } else {
@@ -852,10 +877,10 @@ TEST_CASE( "achievments_tracker", "[stats]" )
 
 TEST_CASE( "stats_tracker_in_game", "[stats]" )
 {
-    g->stats().clear();
+    get_stats().clear();
     cata::event e = cata::event::make<event_type::awakes_dark_wyrms>();
-    g->events().send( e );
-    CHECK( g->stats().get_events( e.type() ).count( e.data() ) == 1 );
+    get_event_bus().send( e );
+    CHECK( get_stats().get_events( e.type() ).count( e.data() ) == 1 );
 }
 
 struct test_subscriber : public event_subscriber {
@@ -871,17 +896,18 @@ struct test_subscriber : public event_subscriber {
 
 TEST_CASE( "achievements_tracker_in_game", "[stats]" )
 {
-    g->achievements().clear();
+    get_stats().clear();
+    get_achievements().clear();
     test_subscriber sub;
-    g->events().subscribe( &sub );
+    get_event_bus().subscribe( &sub );
 
-    const character_id u_id = g->u.getID();
-    send_game_start( g->events(), u_id );
+    const character_id u_id = get_player_character().getID();
+    send_game_start( get_event_bus(), u_id );
 
     const mtype_id mon_zombie( "mon_zombie" );
     const cata::event avatar_zombie_kill =
         cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
-    g->events().send( avatar_zombie_kill );
+    get_event_bus().send( avatar_zombie_kill );
 
     achievement_id c_pacifist( "conduct_zero_kills" );
     achievement_id a_kill_zombie( "achievement_kill_zombie" );

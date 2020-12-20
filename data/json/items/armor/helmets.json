@@ -14,7 +14,7 @@
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "light_gray",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 55,
     "encumbrance": 50,
     "warmth": 5,
@@ -37,7 +37,7 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "red",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 75,
     "encumbrance": 20,
     "warmth": 10,
@@ -62,7 +62,7 @@
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "green",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 85,
     "encumbrance": 20,
     "warmth": 20,
@@ -87,9 +87,11 @@
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "dark_gray",
-    "covers": [ "HEAD", "EYES", "MOUTH" ],
-    "coverage": 100,
-    "encumbrance": 30,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 10 }
+    ],
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 2,
@@ -113,7 +115,7 @@
     "symbol": "[",
     "looks_like": "tac_fullhelmet",
     "color": "dark_gray",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 95,
     "encumbrance": 15,
     "warmth": 10,
@@ -138,7 +140,7 @@
     "symbol": "[",
     "looks_like": "cowboy_hat",
     "color": "yellow",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 75,
     "encumbrance": 40,
     "warmth": 15,
@@ -163,7 +165,7 @@
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "blue",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 95,
     "encumbrance": 20,
     "warmth": 15,
@@ -186,13 +188,23 @@
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "light_gray",
-    "covers": [ "HEAD", "EYES" ],
-    "coverage": 90,
-    "encumbrance": 30,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },
+      { "covers": [ "eyes", "mouth" ], "coverage": 65, "encumbrance": 0 }
+    ],
     "warmth": 10,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "xl_helmet_barbute",
+    "type": "ARMOR",
+    "copy-from": "helmet_barbute",
+    "name": { "str": "oversized barbute helm" },
+    "description": "A medieval helmet that provides excellent protection for the head, with a Y shaped opening for the face.  This one is ogre sized.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "helmet_bike",
@@ -210,7 +222,7 @@
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "dark_gray",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 75,
     "encumbrance": 15,
     "warmth": 15,
@@ -233,13 +245,23 @@
     "symbol": "[",
     "looks_like": "helmet_larmor",
     "color": "green",
-    "covers": [ "HEAD", "EYES", "MOUTH" ],
-    "coverage": 90,
-    "encumbrance": 10,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 90, "encumbrance": 10 },
+      { "covers": [ "mouth", "eyes" ], "coverage": 90, "encumbrance": 5 }
+    ],
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 4,
     "flags": [ "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "xl_helmet_chitin",
+    "type": "ARMOR",
+    "copy-from": "helmet_chitin",
+    "name": { "str": "oversized chitinous helm" },
+    "description": "A helmet made from giant insects for giant humanoids.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "flags": [ "WATERPROOF", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "helmet_conical",
@@ -256,13 +278,22 @@
     "symbol": "[",
     "looks_like": "helmet_barbute",
     "color": "brown",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 90,
     "encumbrance": 20,
     "warmth": 35,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "xl_helmet_conical",
+    "type": "ARMOR",
+    "copy-from": "helmet_conical",
+    "name": { "str": "oversized conical helm" },
+    "description": "A helmet made for a giant Mongolian warrior from a pulp novel.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "helmet_acidchitin",
@@ -273,8 +304,17 @@
     "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers the entire head; acid-resistant and very durable.",
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
     "relative": { "bashing": 1, "material_thickness": 1 }
+  },
+  {
+    "id": "xl_helmet_acidchitin",
+    "type": "ARMOR",
+    "copy-from": "helmet_acidchitin",
+    "name": { "str": "oversized biosilicified chitin helmet" },
+    "description": "A helmet made from giant acidic insects for giant humanoids.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "flags": [ "WATERPROOF", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "helmet_football",
@@ -291,9 +331,11 @@
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "yellow",
-    "covers": [ "HEAD" ],
-    "coverage": 85,
-    "encumbrance": 50,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 95, "encumbrance": 50 },
+      { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "coverage": 85, "encumbrance": 0 }
+    ],
     "warmth": 10,
     "material_thickness": 4,
     "flags": [ "WATER_FRIENDLY" ]
@@ -313,13 +355,20 @@
     "symbol": "[",
     "looks_like": "helmet_barbute",
     "color": "light_gray",
-    "covers": [ "HEAD" ],
-    "coverage": 85,
-    "encumbrance": 10,
+    "armor_portion_data": [ { "covers": [ "head" ], "coverage": 90, "encumbrance": 10 } ],
     "warmth": 10,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "xl_helmet_galea",
+    "type": "ARMOR",
+    "copy-from": "helmet_galea",
+    "name": { "str": "galea XL", "str_pl": "galeae XL" },
+    "description": "An Imperial Roman helmet, with distinct projections protecting the sides of the head built for a Titan.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "helmet_kabuto",
@@ -337,14 +386,25 @@
     "symbol": "[",
     "looks_like": "helmet_barbute",
     "color": "dark_gray",
-    "covers": [ "HEAD", "EYES", "MOUTH" ],
-    "coverage": 95,
-    "encumbrance": 20,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },
+      { "covers": [ "eyes" ], "coverage": 35, "encumbrance": 0 },
+      { "covers": [ "mouth" ], "coverage": 95, "encumbrance": 10 }
+    ],
     "warmth": 25,
     "material_thickness": 4,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY" ]
+  },
+  {
+    "id": "xl_helmet_kabuto",
+    "type": "ARMOR",
+    "copy-from": "helmet_kabuto",
+    "name": { "str": "kabuto XL" },
+    "description": "A medieval Japanese helmet with a scowling facemask, fit for an Oni.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "flags": [ "STURDY", "OVERSIZE" ]
   },
   {
     "id": "helmet_larmor",
@@ -360,13 +420,22 @@
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "brown",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 85,
     "encumbrance": 20,
     "warmth": 10,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ]
+  },
+  {
+    "id": "xl_helmet_larmor",
+    "type": "ARMOR",
+    "copy-from": "helmet_larmor",
+    "name": { "str": "oversized leather armor helmet" },
+    "description": "A thick leather helmet that provides excellent protection for the head.  This one is quite large.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "helmet_skull",
@@ -380,7 +449,7 @@
     "material": [ "leather", "bone" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 85,
     "encumbrance": 26,
     "material_thickness": 3,
@@ -402,7 +471,7 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "green",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 100,
     "warmth": 30,
     "material_thickness": 2,
@@ -425,9 +494,11 @@
     "symbol": "[",
     "looks_like": "helmet_barbute",
     "color": "light_gray",
-    "covers": [ "HEAD" ],
-    "coverage": 98,
-    "encumbrance": 20,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 98, "encumbrance": 20 },
+      { "covers": [ "eyes" ], "coverage": 65, "encumbrance": 0 },
+      { "covers": [ "mouth" ], "coverage": 40, "encumbrance": 0 }
+    ],
     "warmth": 20,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
@@ -449,9 +520,11 @@
     "material": [ "plastic", "nomex" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "HEAD", "MOUTH" ],
-    "coverage": 100,
-    "encumbrance": 25,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 25 },
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
+    ],
     "warmth": 30,
     "material_thickness": 6,
     "environmental_protection": 1,
@@ -473,13 +546,23 @@
     "symbol": "[",
     "looks_like": "helmet_barbute",
     "color": "light_gray",
-    "covers": [ "HEAD", "EYES" ],
-    "coverage": 80,
-    "encumbrance": 10,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 85, "encumbrance": 10 },
+      { "covers": [ "eyes" ], "coverage": 25, "encumbrance": 0 }
+    ],
     "warmth": 10,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "xl_helmet_nasal",
+    "type": "ARMOR",
+    "copy-from": "helmet_nasal",
+    "name": { "str": "oversized nasal helm" },
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Jotunn gear, unlike the stereotypical horned helm.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "helmet_nomad",
@@ -495,13 +578,23 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "white",
-    "covers": [ "HEAD", "EYES", "MOUTH" ],
-    "coverage": 95,
-    "encumbrance": 20,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },
+      { "covers": [ "eyes", "mouth" ], "coverage": 95, "encumbrance": 5 }
+    ],
     "warmth": 35,
     "material_thickness": 3,
     "environmental_protection": 4,
     "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES" ]
+  },
+  {
+    "id": "xl_helmet_nomad",
+    "type": "ARMOR",
+    "copy-from": "helmet_nomad",
+    "name": { "str": "nomad cowl XL" },
+    "description": "A makeshift cowl with protection for the eyes from rain and sun, designed for long travels.  Designed for a gigantic wanderer.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "SUN_GLASSES", "OVERSIZE" ]
   },
   {
     "id": "helmet_plate",
@@ -518,14 +611,25 @@
     "symbol": "[",
     "looks_like": "helmet_barbute",
     "color": "light_gray",
-    "covers": [ "HEAD", "EYES", "MOUTH" ],
-    "coverage": 100,
-    "encumbrance": 40,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 40 },
+      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 },
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 20 }
+    ],
     "warmth": 10,
     "material_thickness": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
+  },
+  {
+    "id": "xl_helmet_plate",
+    "type": "ARMOR",
+    "copy-from": "helmet_plate",
+    "name": { "str": "gigantic great helm", "str_pl": "gigantic great helmets" },
+    "description": "A medieval helmet that provides excellent protection to the entire head, at the cost of great encumbrance.  Larger than average.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "flags": [ "VARSIZE", "HELMET_COMPAT", "OVERSIZE" ]
   },
   {
     "id": "helmet_scavenger",
@@ -541,13 +645,23 @@
     "symbol": "[",
     "looks_like": "mask_gas",
     "color": "white",
-    "covers": [ "HEAD", "EYES", "MOUTH" ],
-    "coverage": 100,
-    "encumbrance": 23,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 23 },
+      { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 5 }
+    ],
     "warmth": 40,
     "material_thickness": 3,
     "environmental_protection": 7,
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES" ]
+  },
+  {
+    "id": "xl_helmet_scavenger",
+    "type": "ARMOR",
+    "copy-from": "helmet_scavenger",
+    "name": { "str": "scavenger cowl" },
+    "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection.  For oversized dangerous scavenging ventures.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES", "OVERSIZE" ]
   },
   {
     "id": "helmet_scrap",
@@ -566,12 +680,22 @@
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "light_gray",
-    "covers": [ "HEAD", "EYES", "MOUTH" ],
-    "coverage": 80,
-    "encumbrance": 35,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 80, "encumbrance": 35 },
+      { "covers": [ "eyes", "mouth" ], "coverage": 80, "encumbrance": 10 }
+    ],
     "warmth": 20,
     "material_thickness": 2,
     "flags": [ "OUTER" ]
+  },
+  {
+    "id": "xl_helmet_scrap",
+    "type": "ARMOR",
+    "copy-from": "helmet_scrap",
+    "name": { "str": "extra large scrap helmet" },
+    "description": "A oversized helmet made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "flags": [ "OUTER", "OVERSIZE" ]
   },
   {
     "id": "helmet_skid",
@@ -589,7 +713,7 @@
     "symbol": "[",
     "looks_like": "helmet_bike",
     "color": "dark_gray",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 65,
     "encumbrance": 20,
     "warmth": 10,
@@ -614,7 +738,7 @@
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "dark_gray",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 70,
     "encumbrance": 20,
     "warmth": 15,
@@ -636,13 +760,24 @@
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "yellow",
-    "covers": [ "HEAD", "EYES", "MOUTH" ],
-    "coverage": 90,
-    "encumbrance": 30,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 95, "encumbrance": 30 },
+      { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 0 },
+      { "covers": [ "mouth" ], "coverage": 75, "encumbrance": 0 }
+    ],
     "warmth": 10,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "xl_helmet_corinthian",
+    "type": "ARMOR",
+    "copy-from": "helmet_corinthian",
+    "name": { "str": "Corinthian helm" },
+    "description": "An ancient Greek bronze helmet that provides excellent protection for the head, with slits for the eyes and mouth.  Of godlike proportions.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "pot_xlhelmet",
@@ -659,7 +794,7 @@
     "symbol": "[",
     "looks_like": "pot_helmet",
     "color": "light_gray",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 55,
     "encumbrance": 50,
     "warmth": 5,

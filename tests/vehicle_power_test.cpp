@@ -1,10 +1,10 @@
+#include "catch/catch.hpp"
+
+#include <cmath>
 #include <cstdlib>
-#include <memory>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -12,6 +12,7 @@
 #include "type_id.h"
 #include "vehicle.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
@@ -25,7 +26,7 @@ static void reset_player()
     REQUIRE( !player_character.in_vehicle );
     player_character.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    player_character.add_effect( effect_blind, 1_turns, num_bp, true );
+    player_character.add_effect( effect_blind, 1_turns, true );
 }
 
 TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
@@ -37,7 +38,8 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
     SECTION( "vehicle with reactor" ) {
         const tripoint reactor_origin = tripoint( 10, 10, 0 );
-        vehicle *veh_ptr = here.add_vehicle( vproto_id( "reactor_test" ), reactor_origin, 0, 0, 0 );
+        vehicle *veh_ptr = here.add_vehicle( vproto_id( "reactor_test" ), reactor_origin,
+                                             0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
 
         REQUIRE( !veh_ptr->reactors.empty() );
@@ -65,7 +67,8 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
     SECTION( "vehicle with solar panels" ) {
         const tripoint solar_origin = tripoint( 5, 5, 0 );
-        vehicle *veh_ptr = here.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin, 0, 0, 0 );
+        vehicle *veh_ptr = here.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin,
+                                             0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
 
         GIVEN( "it is 3 hours after sunrise, with sunny weather" ) {
@@ -130,7 +133,7 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
 
     GIVEN( "a scooter with combustion engine and charged battery" ) {
         const tripoint origin = tripoint( 10, 0, 0 );
-        vehicle *veh_ptr = here.add_vehicle( vproto_id( "scooter_test" ), origin, 0, 0, 0 );
+        vehicle *veh_ptr = here.add_vehicle( vproto_id( "scooter_test" ), origin, 0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         veh_ptr->charge_battery( 500 );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 500 );
@@ -155,7 +158,8 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
 
     GIVEN( "a scooter with an electric motor and charged battery" ) {
         const tripoint origin = tripoint( 15, 0, 0 );
-        vehicle *veh_ptr = here.add_vehicle( vproto_id( "scooter_electric_test" ), origin, 0, 0, 0 );
+        vehicle *veh_ptr = here.add_vehicle( vproto_id( "scooter_electric_test" ), origin,
+                                             0_degrees, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         veh_ptr->charge_battery( 5000 );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 5000 );

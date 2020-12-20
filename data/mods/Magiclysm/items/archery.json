@@ -16,7 +16,7 @@
     "weight": "740 g",
     "volume": "5 L",
     "bashing": 14,
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 14 },
+    "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 14 },
     "reload_noise_volume": 2,
     "loudness": 5,
     "ranged_damage": { "damage_type": "stab", "amount": 15 },

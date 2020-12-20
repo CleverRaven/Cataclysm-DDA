@@ -1,6 +1,11 @@
+#include <algorithm>
+#include <memory>
+
 #include "avatar.h"
+#include "calendar.h"
+#include "character.h"
+#include "enums.h"
 #include "game.h"
-#include "game_constants.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -8,12 +13,11 @@
 #include "npctrade.h"
 #include "output.h"
 #include "player.h"
+#include "talker.h"
 #include "talker_avatar.h"
 
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pet( "pet" );
-
-static const skill_id skill_speech( "speech" );
 
 static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
 static const bionic_id bio_deformity( "bio_deformity" );
@@ -21,6 +25,11 @@ static const bionic_id bio_face_mask( "bio_face_mask" );
 static const bionic_id bio_voice( "bio_voice" );
 
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
+
+talker_avatar::talker_avatar( avatar *new_me )
+{
+    me_chr = new_me;
+}
 
 std::vector<std::string> talker_avatar::get_topics( bool )
 {
@@ -103,16 +112,16 @@ void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
     for( int i = 0; i < count; i++ ) {
         monster *const mon_ptr = g->place_critter_around( mtype, me_chr->pos(), 3 );
         if( !mon_ptr ) {
-            add_msg( m_debug, "Cannot place u_buy_monster, no valid placement locations." );
+            add_msg_debug( "Cannot place u_buy_monster, no valid placement locations." );
             break;
         }
         monster &tmp = *mon_ptr;
         // Our monster is always a pet.
         tmp.friendly = -1;
-        tmp.add_effect( effect_pet, 1_turns, num_bp, true );
+        tmp.add_effect( effect_pet, 1_turns, true );
 
         if( pacified ) {
-            tmp.add_effect( effect_pacified, 1_turns, num_bp, true );
+            tmp.add_effect( effect_pacified, 1_turns, true );
         }
 
         if( !name.empty() ) {

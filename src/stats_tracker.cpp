@@ -1,11 +1,12 @@
 #include "stats_tracker.h"
 
 #include <algorithm>
-#include <cassert>
 #include <map>
 #include <utility>
 
 #include "calendar.h"
+#include "cata_assert.h"
+#include "debug.h"
 #include "event_statistics.h"
 #include "json.h"
 #include "optional.h"
@@ -77,7 +78,7 @@ void event_summary::deserialize( JsonIn &jsin )
 void event_multiset::set_type( event_type type )
 {
     // Used during stats_tracker deserialization to set the type
-    assert( type_ == event_type::num_event_types );
+    cata_assert( type_ == event_type::num_event_types );
     type_ = type;
 }
 
@@ -359,7 +360,7 @@ void stats_tracker::notify( const cata::event &e )
     }
 
     if( e.type() == event_type::game_start ) {
-        assert( initial_scores.empty() );
+        cata_assert( initial_scores.empty() );
         for( const score &scr : score::get_all() ) {
             initial_scores.insert( scr.id );
         }

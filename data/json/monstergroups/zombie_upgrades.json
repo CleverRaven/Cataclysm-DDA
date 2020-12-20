@@ -1,14 +1,128 @@
 [
   {
     "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_UPGRADE",
+    "default": "mon_zombie_tough",
+    "//": "Masters pick from here when upgrading; no dogs, bionics, or profession-types.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "monsters": [
+      { "monster": "mon_zombie_grabber", "freq": 30, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_grappler", "freq": 90, "cost_multiplier": 7 },
+      { "monster": "mon_zombie_hunter", "freq": 60, "cost_multiplier": 5 },
+      { "monster": "mon_skeleton", "freq": 80, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_smoker", "freq": 30, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_shady", "freq": 30, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_gasbag", "freq": 30, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_biter", "freq": 30, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_shrieker", "freq": 90, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_acidic", "freq": 80, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_necro", "freq": 15, "cost_multiplier": 25 },
+      { "monster": "mon_zombie_necro_boomer", "freq": 12, "cost_multiplier": 27 },
+      { "monster": "mon_boomer", "freq": 90, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_brute", "freq": 45, "cost_multiplier": 15 },
+      { "monster": "mon_zombie_master", "freq": 3, "cost_multiplier": 30 },
+      { "monster": "mon_zombie_hollow", "freq": 5, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_thorny", "freq": 30, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_static", "freq": 50, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_winged", "freq": 60, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_pupa", "freq": 15, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_pupa_decoy", "freq": 15, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_CRAWLER_UPGRADE",
+    "default": "mon_zombie_crawler",
+    "//": "crawling zombie upgrades",
+    "monsters": [
+      { "monster": "mon_zombie_crawler_pupa", "freq": 500, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_crawler_pupa_decoy", "freq": 500, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_FAT",
+    "default": "mon_zombie_gasbag",
+    "//": "fat zombie upgrades",
+    "monsters": [
+      { "monster": "mon_zombie_gasbag", "freq": 20, "cost_multiplier": 0 },
+      { "monster": "mon_boomer", "freq": 480, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_pupa", "freq": 150, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_pupa_decoy", "freq": 150, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_necro_boomer", "freq": 1, "cost_multiplier": 27 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_SOLDIER_UPGRADE",
     "default": "mon_zombie_kevlar_1",
-    "//": "Masters pick from here when upgrading.",
+    "//": "Masters pick from here when upgrading.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
-      { "monster": "mon_zombie_soldier_blackops_1", "freq": 20, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier_acid_1", "freq": 10, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_soldier_acid_2", "freq": 15, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_kevlar_1", "freq": 25, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_soldier_blackops_1", "freq": 250, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier_acid_1", "freq": 200, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_soldier_acid_2", "freq": 250, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_kevlar_1", "freq": 200, "cost_multiplier": 2 },
+      { "monster": "mon_boomer", "freq": 25, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_hollow", "freq": 25, "cost_multiplier": 1 },
+      { "monster": "mon_skeleton", "freq": 50, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_BRUTE",
+    "default": "mon_zombie_brute",
+    "//": "Brute upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "monsters": [
+      { "monster": "mon_zombie_brute_grappler", "freq": 330, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_brute_ninja", "freq": 265, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_hulk", "freq": 265, "cost_multiplier": 50 },
+      { "monster": "mon_gas_zombie", "freq": 140, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CHILD_ZOMBIE_UPGRADE",
+    "default": "mon_zombie_shriekling",
+    "//": "this is a sub-group of mutated zombie types that can only evolve from zombified human children.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "monsters": [
+      { "monster": "mon_zombie_anklebiter", "freq": 50, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_sproglodyte", "freq": 100, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_shriekling", "freq": 300, "cost_multiplier": 7 },
+      { "monster": "mon_zombie_creepy", "freq": 50, "cost_multiplier": 7 },
+      { "monster": "mon_zombie_snotgobbler", "freq": 300, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_waif", "freq": 200, "cost_multiplier": 7 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_ELECTRIC_UPGRADE",
+    "default": "mon_null",
+    "//": "Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "monsters": [
+      { "monster": "mon_zombie_nullfield", "freq": 400, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_brute_shocker", "freq": 300, "cost_multiplier": 2 },
+      { "monster": "mon_skeleton_electric", "freq": 300, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_RAPTOR_UPGRADES",
+    "default": "mon_spawn_raptor",
+    "//": "Raptor upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "monsters": [
+      { "monster": "mon_spawn_raptor_shady", "freq": 330, "cost_multiplier": 10 },
+      { "monster": "mon_spawn_raptor_electric", "freq": 330, "cost_multiplier": 10 },
+      { "monster": "mon_spawn_raptor_unstable", "freq": 330, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_SHADY_UPGRADES",
+    "default": "mon_zombie_shady",
+    "//": "Shady upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "monsters": [
+      { "monster": "mon_zombie_brute_ninja", "freq": 500, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_pupa_decoy_shady", "freq": 250, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_pupa_shady", "freq": 250, "cost_multiplier": 10 }
     ]
   }
 ]

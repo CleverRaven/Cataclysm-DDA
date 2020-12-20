@@ -71,7 +71,7 @@
   {
     "type": "GENERIC",
     "id": "exodii_computer",
-    "name": { "str": "unfamiliar electronic thingy" },
+    "name": { "str": "unfamiliar electronic thingy", "str_pl": "unfamiliar electronic thingies" },
     "description": "The wiring and general shape suggest to you that this is a computer, or at least some sort of electronic device, but what it is and what role it serves is lost on you.  It's heavy and sturdy in construction.",
     "symbol": "p",
     "color": "dark_gray",

@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_AUTO_PICKUP_H
 #define CATA_SRC_AUTO_PICKUP_H
 
+#include <algorithm>
 #include <functional>
 #include <iosfwd>
 #include <string>
@@ -65,8 +66,6 @@ class rule_list : public std::vector<rule>
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
-        void load_legacy_rules( std::istream &fin );
-
         void refresh_map_items( cache &map_items ) const;
 
         void create_rule( cache &map_items, const std::string &to_match );
@@ -117,7 +116,6 @@ class player_settings : public base_settings
     private:
         void load( bool bCharacter );
         bool save( bool bCharacter );
-        bool load_legacy( bool bCharacter );
 
         rule_list global_rules;
         rule_list character_rules;

@@ -445,6 +445,31 @@
   },
   {
     "type": "terrain",
+    "id": "t_wall_bulkhead",
+    "name": "bulkhead",
+    "description": "An industrially fabricated thick sheet carefully positioned, this wall is capable of resisting extreme elements as well as hostile forces.",
+    "symbol": "LINE_OXOX",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "looks_like": "t_wall_metal",
+    "roof": "t_metal_flat_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 200,
+      "str_max": 600,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_sconc_wall",
     "name": "simple concrete wall",
     "looks_like": "t_concrete_wall",

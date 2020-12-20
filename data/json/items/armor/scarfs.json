@@ -13,7 +13,7 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "white",
-    "covers": [ "MOUTH" ],
+    "covers": [ "mouth" ],
     "coverage": 70,
     "encumbrance": 20,
     "warmth": 40,
@@ -35,7 +35,7 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "yellow",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 70,
     "encumbrance": 4,
     "warmth": 7,
@@ -56,7 +56,7 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "white",
-    "covers": [ "MOUTH" ],
+    "covers": [ "mouth" ],
     "coverage": 85,
     "encumbrance": 10,
     "warmth": 30,
@@ -72,6 +72,6 @@
     "name": { "str": "cyan scarf" },
     "description": "A simple cloth scarf worn by Marloss Voices.  Wherever the Voices go, long sought peace soon follows, for better or for worse.",
     "color": "cyan",
-    "covers": [ "MOUTH" ]
+    "covers": [ "mouth" ]
   }
 ]

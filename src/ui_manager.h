@@ -4,6 +4,7 @@
 
 #include <functional>
 
+#include "cuboid_rectangle.h"
 #include "point.h"
 
 namespace catacurses
@@ -64,7 +65,7 @@ class ui_adaptor
         // Reset all callbacks and dimensions
         void reset();
 
-        static void invalidate( const rectangle &rect );
+        static void invalidate( const rectangle<point> &rect, bool reenable_uis_below );
         static void redraw();
         static void redraw_invalidated();
         static void screen_resized();
@@ -72,7 +73,7 @@ class ui_adaptor
         static void invalidation_consistency_and_optimization();
 
         // pixel dimensions in tiles, console cell dimensions in curses
-        rectangle dimensions;
+        rectangle<point> dimensions;
         redraw_callback_t redraw_cb;
         screen_resize_callback_t screen_resized_cb;
 
@@ -96,8 +97,14 @@ class background_pane
 namespace ui_manager
 {
 // rect is the pixel dimensions in tiles or console cell dimensions in curses
-void invalidate( const rectangle &rect );
-// invalidate the top window and redraw all invalidated windows
+void invalidate( const rectangle<point> &rect, bool reenable_uis_below );
+/*
+ * Invalidate the top window and redraw all invalidated windows.
+ * Note that `ui_manager` may redraw multiple times when the game window is
+ * resized or the system requests a redraw during input calls, so any drawing
+ * code and other code that generates non-persistent UI info should be called
+ * inside the redraw callbacks of `ui_adaptor`, instead of being called directly.
+ */
 void redraw();
 // redraw all invalidated windows without invalidating the top window
 void redraw_invalidated();

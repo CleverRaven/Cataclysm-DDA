@@ -15,6 +15,8 @@ bool remove_directory( const std::string &path );
 // Rename a file, overriding the target!
 bool rename_file( const std::string &old_path, const std::string &new_path );
 
+std::string read_entire_file( const std::string &path );
+
 namespace cata_files
 {
 const char *eol();

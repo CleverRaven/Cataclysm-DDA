@@ -9,5 +9,16 @@
     "mission": 0,
     "chat": "TALK_PrepNet_gardener_1",
     "faction": "Prepnet_Phyle"
+  },
+  {
+    "type": "npc",
+    "id": "whately_cousin",
+    "//": "Abomination.  Change the chat if this loads.",
+    "name_suffix": "Cousin",
+    "class": "whately_cousin",
+    "attitude": 1,
+    "mission": 0,
+    "chat": "TALK_WHATELY_1",
+    "faction": "whately_family"
   }
 ]

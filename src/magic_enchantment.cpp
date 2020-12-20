@@ -1,7 +1,6 @@
 #include "magic_enchantment.h"
 
 #include <cstdlib>
-#include <memory>
 #include <set>
 
 #include "character.h"
@@ -40,6 +39,7 @@ namespace io
         case enchantment::condition::ALWAYS: return "ALWAYS";
         case enchantment::condition::UNDERGROUND: return "UNDERGROUND";
         case enchantment::condition::UNDERWATER: return "UNDERWATER";
+        case enchantment::condition::ACTIVE: return "ACTIVE";
         case enchantment::condition::NUM_CONDITION: break;
         }
         debugmsg( "Invalid enchantment::condition" );
@@ -161,11 +161,14 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
         return false;
     }
 
-    return is_active( guy );
+    return is_active( guy, parent.active );
 }
 
-bool enchantment::is_active( const Character &guy ) const
+bool enchantment::is_active( const Character &guy, const bool active ) const
 {
+    if( active_conditions.second == condition::ACTIVE ) {
+        return active;
+    }
 
     if( active_conditions.second == condition::ALWAYS ) {
         return true;
@@ -227,6 +230,8 @@ void enchantment::load( const JsonObject &jo, const std::string & )
         ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }
 
+    optional( jo, was_loaded, "mutations", mutations );
+
     if( jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
@@ -272,15 +277,13 @@ void enchantment::serialize( JsonOut &jsout ) const
         jsout.member( "intermittent_activation" );
         jsout.start_object();
         for( const std::pair<time_duration, std::vector<fake_spell>> pair : intermittent_activation ) {
-            jsout.member( "duration", pair.first );
-            jsout.start_array( "effects" );
-            for( const fake_spell &sp : pair.second ) {
-                sp.serialize( jsout );
-            }
-            jsout.end_array();
+            jsout.member( "frequency", pair.first );
+            jsout.member( "spell_effects", pair.second );
         }
         jsout.end_object();
     }
+
+    jsout.member( "mutations", mutations );
 
     jsout.member( "values" );
     jsout.start_array();
@@ -337,6 +340,10 @@ void enchantment::force_add( const enchantment &rhs )
 
     if( rhs.emitter ) {
         emitter = rhs.emitter;
+    }
+
+    for( const trait_id &branch : rhs.mutations ) {
+        mutations.emplace( branch );
     }
 
     for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
@@ -442,7 +449,7 @@ void enchantment::activate_passive( Character &guy ) const
         get_map().emit_field( guy.pos(), *emitter );
     }
     for( const std::pair<efftype_id, int> eff : ench_effects ) {
-        guy.add_effect( eff.first, 1_seconds, num_bp, false, eff.second );
+        guy.add_effect( eff.first, 1_seconds, false, eff.second );
     }
     for( const std::pair<const time_duration, std::vector<fake_spell>> &activation :
          intermittent_activation ) {
@@ -498,4 +505,12 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature *tar
 
         spell_lvl.cast_all_effects( caster, trg_crtr.pos() );
     }
+}
+
+bool enchantment::operator==( const enchantment &rhs ) const
+{
+    return this->id == rhs.id &&
+           this->get_mutations() == rhs.get_mutations() &&
+           this->values_multiply == rhs.values_multiply &&
+           this->values_add == rhs.values_add;
 }

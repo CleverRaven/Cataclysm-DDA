@@ -3,8 +3,11 @@
 #include "behavior.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "monster.h"
 #include "monster_oracle.h"
+
+struct tripoint;
 
 namespace behavior
 {
