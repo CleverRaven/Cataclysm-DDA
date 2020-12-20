@@ -1407,7 +1407,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "prophylactic antivenom pill" },
-    "description": "An experimental, cutting-edge antivenom in the form of some small amber vials, designed to be injected a few hours before venom exposure.  It was developed in top secret by the military in response to the advent of biological warfare.",
+    "description": "An experimental, cutting-edge antivenom in the form of some small amber vials, designed to be injected a few hours before venom exposure.  It was developed in top secret by the military in response to increasing biological/chemical warfare.",
     "weight": "40 g",
     "volume": "250 ml",
     "price": 10000,
