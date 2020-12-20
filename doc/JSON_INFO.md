@@ -1007,10 +1007,35 @@ If the JSON objects contains a "trait" member, it defines a replacement for mult
     { "item": "hat_hunting", "new": [ { "item": "hat_cotton", "ratio": 2 } ] }
   ]
 }
-```C++
+```
 This defines characters with the WOOLALLERGY trait get some items replaced:
 - "blazer" is converted into "jacket_leather_red",
 - each "hat_hunting" is converted into *two* "hat_cotton" items.
+
+If the JSON objects contains a "bonus" member, it defines which items will be received, like this:
+```C++
+{
+  "type": "profession_item_substitutions",
+  "group": {
+    "items": [ "winter_pants_army", "undershirt", "socks", "sweatshirt", "boots_hiking", "knife_folding", "wristwatch" ],
+    "entries": [
+      { "group": "charged_two_way_radio" },
+      { "group": "charged_matches" },
+      { "item": "ear_plugs" },
+      { "item": "water_clean", "container-item": "canteen" },
+      { "item": "m1911", "ammo-item": "45_acp", "charges": 7, "container-item": "holster" },
+      { "item": "45_acp", "charges": 23 },
+      { "item": "garand", "ammo-item": "3006", "charges": 8, "contents-item": "shoulder_strap" },
+      { "item": "3006", "charges": 8, "container-item": "garandclip" },
+      { "item": "3006", "charges": 4 }
+    ]
+  },
+  "bonus": {
+    "present": [ "ALBINO" ],
+    "absent": [ "HYPEROPIC" ]
+  }
+}
+```
 
 ### Professions
 
