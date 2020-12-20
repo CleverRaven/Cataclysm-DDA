@@ -111,7 +111,8 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "install_time": "20 m"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID" ],
@@ -128,7 +129,8 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "install_time": "20 m"
     },
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
@@ -192,7 +194,8 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "install_time": "20 m"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID", "WBLOCK_1" ],
@@ -244,9 +247,9 @@
     "type": "TOOL",
     "name": { "str": "makeshift knife", "str_pl": "makeshift knives" },
     "description": "A knife consisting of a long, somewhat sharpened, spike and a tightly wrapped rag as a handle.  It makes a good melee weapon.",
-    "weight": "550 g",
-    "volume": "251 ml",
-    "longest_side": "20 cm",
+    "weight": "575 g",
+    "volume": "260 ml",
+    "longest_side": "7 cm",
     "price": 0,
     "price_postapoc": 50,
     "to_hit": -1,
@@ -828,7 +831,8 @@
     "gunmod_data": {
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "install_time": "20 m"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
@@ -1368,6 +1372,7 @@
     "bashing": 5,
     "cutting": 31,
     "material": [ "steel" ],
+    "ascii_picture": "katana",
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "RAPID", "WBLOCK_2" ],
@@ -1384,6 +1389,7 @@
     "price": 5000,
     "price_postapoc": 50,
     "material": [ "aluminum" ],
+    "ascii_picture": "katana",
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "weight": "753 g",
@@ -1404,6 +1410,7 @@
     "price": 98000,
     "price_postapoc": 250,
     "material": [ "budget_steel" ],
+    "ascii_picture": "katana",
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD" ],
     "weight": "1133 g",
@@ -1429,7 +1436,7 @@
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "weight": "3176 g",
     "volume": "3250 ml",
-    "longest_side": "200 cm",
+    "longest_side": "180 cm",
     "bashing": 17,
     "cutting": 3,
     "to_hit": 2,
@@ -1449,7 +1456,7 @@
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL", "SWEEP" ],
     "weight": "3176 g",
     "volume": "3250 ml",
-    "longest_side": "200 cm",
+    "longest_side": "180 cm",
     "bashing": 33,
     "cutting": 10,
     "to_hit": 1,
@@ -1618,7 +1625,7 @@
     "charges_per_use": 5,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": [ "CS_LAJATANG_OFF" ],
-    "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "cs_lajatang_on",
@@ -1634,7 +1641,7 @@
     "turns_per_charge": 1,
     "charges_per_use": 0,
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -250 ] ],
-    "flags": [ "MESSY", "HURT_WHEN_PULLED", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "ecs_lajatang_off",
@@ -1655,7 +1662,7 @@
     "charges_per_use": 5,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": [ "ECS_LAJATANG_OFF" ],
-    "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "ALWAYS_TWOHAND" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1680,7 +1687,7 @@
     "charges_per_use": 0,
     "revert_to": "ecs_lajatang_off",
     "use_action": [ "ECS_LAJATANG_ON" ],
-    "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "cutlass",
@@ -1709,7 +1716,7 @@
     "symbol": "/",
     "color": "brown",
     "name": { "str": "lajatang" },
-    "description": "An exotic weapon comprised of a long pole of wood with curved blades on each end.  It can be deadly in skilled hands.",
+    "description": "An impractical exotic weapon comprised of a long pole of wood with curved blades on each end.",
     "price": 12000,
     "price_postapoc": 1250,
     "material": [ "wood", "iron" ],

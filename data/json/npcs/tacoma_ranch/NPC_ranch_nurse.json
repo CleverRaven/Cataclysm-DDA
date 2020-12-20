@@ -310,29 +310,6 @@
     }
   },
   {
-    "id": "MISSION_RANCH_NURSE_10",
-    "type": "mission_definition",
-    "name": { "str": "Find a Flu Shot" },
-    "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
-    "item": "flu_shot",
-    "start": "ranch_nurse_9",
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_NURSE_11",
-    "dialogue": {
-      "describe": "We need help…",
-      "offer": "The doctor has some ideas on how to recreate a vaccination program for the common flu.  If you come across an unused flu shot please bring it to me.  We haven't had any fatalities from the flu yet but it is only a matter of time until one of the older or younger members of the outpost gets a bad case.",
-      "accepted": "I'm counting on you.",
-      "rejected": "Come back when you get a chance.  We need skilled survivors.",
-      "advice": "Hospitals or clinics might have a few that haven't been used.",
-      "inquire": "Do you have the flu shot?",
-      "success": "Thank you for your assistance.",
-      "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways…"
-    }
-  },
-  {
     "id": "MISSION_RANCH_NURSE_11",
     "type": "mission_definition",
     "name": { "str": "Find 10 Syringes" },
@@ -341,6 +318,7 @@
     "value": 50000,
     "item": "syringe",
     "count": 3,
+    "start": "ranch_nurse_9",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_NULL",
     "dialogue": {

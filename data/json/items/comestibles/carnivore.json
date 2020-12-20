@@ -46,7 +46,8 @@
     "type": "COMESTIBLE",
     "name": "human stomach",
     "description": "The stomach of a human.  It is surprisingly durable.",
-    "material": [ "hflesh" ]
+    "material": [ "hflesh" ],
+    "delete": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
     "id": "hstomach_large",
@@ -88,7 +89,8 @@
     "cooks_like": "human_cooked",
     "name": { "str": "human flesh", "str_pl": "human fleshes" },
     "description": "Freshly butchered from a human body.",
-    "material": [ "hflesh" ]
+    "material": [ "hflesh" ],
+    "delete": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
     "id": "human_cooked",
@@ -118,8 +120,86 @@
     "fun": -10,
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "vitB", 778 ] ],
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
+  },
+  {
+    "id": "porkbelly",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": { "str": "chunk of porkbelly", "str_pl": "chunks of porkbelly" },
+    "description": "Fatty cut of pork from the belly, popular in some cuisine.  With proper technique, can be used to create bacon.  Not safe to consume in its current raw form.",
+    "weight": "296 g",
+    "volume": "250 ml",
+    "price": 650,
+    "price_postapoc": 150,
+    "spoils_in": "1 day",
+    "calories": 1300,
+    "healthy": -1,
+    "fun": -10,
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "vitB", 0 ] ],
+    "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
+    "smoking_result": "meat_smoked"
+  },
+  {
+    "id": "raw_cured_fatty_meat",
+    "type": "COMESTIBLE",
+    "copy-from": "flesh",
+    "name": { "str": "slab of raw cured porkbelly", "str_pl": "slabs of raw cured porkbelly" },
+    "description": "Porkbelly that has been preserved and flavored with salt & sugar in order to withdraw the moisture from the first layer.  Still raw, it is ready for smoking into bacon.",
+    "weight": "250 g",
+    "volume": "250ml",
+    "calories": 1556,
+    "price": 650,
+    "price_postapoc": 300,
+    "spoils_in": "14 days",
+    "healthy": -5,
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ],
+    "flags": [ "SMOKABLE", "RAW" ],
+    "smoking_result": "bacon_uncut"
+  },
+  {
+    "id": "bacon_uncut",
+    "type": "COMESTIBLE",
+    "copy-from": "meat_cooked",
+    "name": { "str": "large slab of uncut bacon", "str_pl": "large slabs of uncut bacon" },
+    "description": "A huge slab of uncut smoked bacon.  You can eat as is, but it would be more efficient to cut it into smaller portions with a knife.",
+    "volume": "250ml",
+    "calories": 1566,
+    "price": 2000,
+    "price_postapoc": 3000,
+    "//": "High price to reflect the rarity and value of bacon. Note that this is three pieces of it.",
+    "spoils_in": "24 days",
+    "healthy": -1,
+    "fun": 5,
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 1 ], [ "iron", 3 ] ],
+    "flags": [ "EATEN_HOT", "SMOKED" ]
+  },
+  {
+    "id": "raw_curing_fatty_meat",
+    "type": "COMESTIBLE",
+    "copy-from": "flesh",
+    "name": { "str": "slab of raw curing porkbelly", "str_pl": "slices of raw curing porkbelly" },
+    "description": "Porkbelly in the process of becoming fully cured with salt & sugar, capable of becoming bacon.  The flavor is slowly developing at this stage, and is significantly unpleasant with the residue salt.  Activate it once completed to make use of the final product.",
+    "weight": "296 g",
+    "volume": "250ml",
+    "calories": 1556,
+    "price": 500,
+    "price_postapoc": 250,
+    "spoils_in": "14 days",
+    "healthy": -5,
+    "fun": -15,
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "vitB", 0 ] ],
+    "flags": [  ],
+    "use_action": {
+      "target": "raw_cured_fatty_meat",
+      "msg": "You pat off a bit of extra brine from the slice, this piece of meat is now fully cured.",
+      "moves": 150,
+      "type": "delayed_transform",
+      "transform_age": 4800,
+      "not_ready_msg": "The meat isn't fully cured yet.",
+      "//": "8 hours"
+    }
   },
   {
     "id": "meat_scrap",
@@ -143,7 +223,7 @@
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 26 ], [ "vitB", 389 ], [ "mutant_toxin", 25 ] ],
-    "flags": [ "SMOKABLE", "BAD_TASTE", "RAW" ]
+    "flags": [ "SMOKABLE", "BAD_TASTE", "RAW", "PREDATOR_FUN" ]
   },
   {
     "id": "mutant_meat_scrap",
@@ -216,6 +296,25 @@
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
+    "id": "meat_fatty_cooked",
+    "copy-from": "flesh",
+    "weight": "296 g",
+    "volume": "250 ml",
+    "spoils_in": "1 day",
+    "type": "COMESTIBLE",
+    "name": "cooked fatty meat",
+    "description": "This is a chunk of freshly cooked fatty meat.  Although absent of vitamins, it is very filling and delightfully greasy.",
+    "calories": 1300,
+    "price": 900,
+    "price_postapoc": 300,
+    "//": "Luxury good.",
+    "healthy": -1,
+    "fun": 2,
+    "parasites": 0,
+    "vitamins": [  ],
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
     "id": "meat_scrap_cooked",
     "copy-from": "meat_scrap",
     "type": "COMESTIBLE",
@@ -285,7 +384,8 @@
     "description": "These organs came from a giant mutant bug.",
     "looks_like": "offal",
     "proportional": { "price": 0.1, "calories": 0.65 },
-    "extend": { "flags": [ "BAD_TASTE" ], "vitamins": [ [ "mutant_toxin", 25 ] ] }
+    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "extend": { "flags": [ "BAD_TASTE" ] }
   },
   {
     "id": "offal_pickled",
@@ -315,7 +415,7 @@
     "stack_size": 2,
     "parasites": 0,
     "healthy": 1,
-    "container": "can_food",
+    "container": "can_medium",
     "fun": -2,
     "delete": { "flags": [ "RAW" ] }
   },
@@ -333,7 +433,8 @@
     "calories": 60,
     "quench": 1,
     "healthy": -1,
-    "fun": -15
+    "fun": -15,
+    "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
     "id": "stomach_large",
@@ -434,7 +535,8 @@
     "quench": 2,
     "fun": -10,
     "calories": 50,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "vitB", 22 ] ]
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "vitB", 22 ] ],
+    "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
     "id": "lung_cooked",
@@ -444,7 +546,7 @@
     "name": { "str": "cooked piece of lung", "str_pl": "cooked pieces of lung" },
     "description": " Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
     "parasites": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
     "id": "mutant_bug_lungs",
@@ -455,8 +557,9 @@
     "description": "You're pretty sure this is lung tissue.",
     "looks_like": "lung",
     "cooks_like": "lung_cooked",
-    "proportional": { "price": 0.1, "calories": 0.65 },
-    "extend": { "flags": [ "BAD_TASTE" ], "vitamins": [ [ "mutant_toxin", 25 ] ] }
+    "proportional": { "price_postapoc": 0.1, "calories": 0.65 },
+    "vitamins": [ [ "mutant_toxin", 25 ] ],
+    "extend": { "flags": [ "BAD_TASTE" ] }
   },
   {
     "id": "liver",
@@ -481,7 +584,7 @@
     "price_postapoc": 50,
     "fun": -2,
     "healthy": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
     "id": "brain",
@@ -510,7 +613,7 @@
     "parasites": 0,
     "healthy": -2,
     "fun": -8,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
     "id": "kidney",
@@ -538,7 +641,7 @@
     "quench": -2,
     "fun": -3,
     "parasites": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
     "id": "sweetbread",
@@ -551,8 +654,8 @@
     "healthy": 0,
     "price_postapoc": 25,
     "quench": 0,
-    "calories": 164,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 2 ], [ "vitB", 12 ] ]
+    "calories": 133,
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 32 ], [ "calcium", 0 ], [ "iron", 6 ], [ "vitB", 20 ] ]
   },
   {
     "id": "sweetbread_cooked",
@@ -561,10 +664,10 @@
     "looks_like": "meat_cooked",
     "name": "cooked sweetbread",
     "price_postapoc": 50,
-    "fun": -4,
+    "fun": -1,
     "description": "Normally a delicacy, it needs a little… something.",
     "parasites": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -634,7 +737,7 @@
     "symbol": "%",
     "quench": -10,
     "healthy": -1,
-    "calories": 992,
+    "calories": 496,
     "description": "A smooth white block of cleaned and rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
     "price": 500,
     "price_postapoc": 800,
@@ -958,7 +1061,8 @@
     "material": [ "flesh" ],
     "volume": "500 ml",
     "fun": -25,
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": false }
+    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": false },
+    "flags": [ "PREDATOR_FUN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -977,7 +1081,8 @@
     "material": [ "flesh" ],
     "volume": "1 L",
     "fun": -25,
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": true }
+    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": true },
+    "flags": [ "PREDATOR_FUN" ]
   },
   {
     "type": "COMESTIBLE",

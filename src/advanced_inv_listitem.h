@@ -7,6 +7,7 @@
 
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 
 // see item_factory.h
 class item;

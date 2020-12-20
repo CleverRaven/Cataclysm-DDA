@@ -1,14 +1,12 @@
 #include "mondeath.h"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
 #include <cstdlib>
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -23,13 +21,13 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
+#include "int_id.h"
 #include "item.h"
 #include "item_stack.h"
 #include "itype.h"
-#include "iuse.h"
-#include "iuse_actor.h"
 #include "kill_tracker.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mattack_actors.h"
@@ -38,7 +36,6 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "sounds.h"
@@ -48,8 +45,9 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
-#include "weighted_list.h"
+#include "viewer.h"
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_boomered( "boomered" );
@@ -60,7 +58,6 @@ static const efftype_id effect_no_ammo( "no_ammo" );
 static const efftype_id effect_rat( "rat" );
 
 static const itype_id itype_processor( "processor" );
-static const itype_id itype_ruined_chunks( "ruined_chunks" );
 
 static const species_id species_SLIME( "SLIME" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -217,16 +214,17 @@ void mdeath::splatter( monster &z )
             }
         }
         if( gibbed_weight > 0 ) {
+            const itype_id &leftover_id = z.type->id->harvest->leftovers;
             const int chunk_amount =
-                gibbed_weight / to_gram( ( item::find_type( itype_ruined_chunks ) )->weight );
-            scatter_chunks( itype_ruined_chunks, chunk_amount, z, gib_distance,
+                gibbed_weight / to_gram( ( item::find_type( leftover_id ) )->weight );
+            scatter_chunks( leftover_id, chunk_amount, z, gib_distance,
                             chunk_amount / ( gib_distance + 1 ) );
         }
         // add corpse with gib flag
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
-        corpse.set_flag( "GIBBED" );
+        corpse.set_flag( STATIC( flag_id( "GIBBED" ) ) );
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
@@ -283,8 +281,8 @@ void mdeath::boomer_glow( monster &z )
         if( Creature *const critter = g->critter_at( dest ) ) {
             critter->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
-                body_part bp = random_body_part();
-                critter->add_env_effect( effect_glowing, convert_bp( bp ).id(), 4, 4_minutes );
+                const bodypart_id &bp = critter->random_body_part();
+                critter->add_env_effect( effect_glowing, bp, 4, 4_minutes );
                 if( critter->has_effect( effect_glowing ) ) {
                     break;
                 }
@@ -483,7 +481,7 @@ void mdeath::blobsplit( monster &z )
         if( z.type->dies.size() == 1 ) {
             add_msg( m_good, _( "The %s splits in two!" ), z.name() );
         } else {
-            add_msg( m_bad, _( "Two small blobs slither out of the corpse." ) );
+            add_msg( m_bad, _( "Two small slimes slither out of the corpse." ) );
         }
     }
 
@@ -573,6 +571,9 @@ void mdeath::explode( monster &z )
         case creature_size::huge:
             size = 26;
             break;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Invalid Creature size class." );
+            break;
     }
     explosion_handler::explosion( z.pos(), size );
 }
@@ -641,11 +642,8 @@ void mdeath::broken( monster &z )
                     if( attack.second->id == "gun" ) {
                         item gun = item( dynamic_cast<const gun_actor *>( attack.second.get() )->gun_type );
                         bool same_ammo = false;
-                        for( const ammotype &at : gun.ammo_types() ) {
-                            if( at == item( ammo_entry.first ).ammo_type() ) {
-                                same_ammo = true;
-                                break;
-                            }
+                        if( gun.typeId()->magazine_default.count( item( ammo_entry.first ).ammo_type() ) ) {
+                            same_ammo = true;
                         }
                         const bool uses_mags = !gun.magazine_compatible().empty();
                         if( same_ammo && uses_mags ) {
@@ -731,7 +729,7 @@ void mdeath::jabberwock( monster &z )
     Character *ch = dynamic_cast<Character *>( z.get_killer() );
 
     bool vorpal = ch && ch->is_player() &&
-                  ch->weapon.has_flag( "DIAMOND" ) &&
+                  ch->weapon.has_flag( STATIC( flag_id( "DIAMOND" ) ) ) &&
                   ch->weapon.volume() > 750_ml;
 
     if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {

@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <array>
 #include <bitset>
-#include <cassert>
 #include <cctype>
 #include <cerrno>
 #include <cfloat>
@@ -47,8 +46,8 @@
 #include <string>
 #include <system_error>
 #include <tuple>
-#include <typeinfo>
 #include <type_traits>
+#include <typeinfo>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>

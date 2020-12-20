@@ -306,7 +306,7 @@
     "looks_like": "t_card_science",
     "name": "card reader",
     "description": "This looks like the console controlling the security door, there's a pretty big reading surface on it.  You can see \"Fp\" soberly printed above the reader.  You have no idea what could open it.",
-    "//": "FoodPlace",
+    "//": "Foodplace",
     "symbol": "6",
     "color": "pink",
     "move_cost": 0,

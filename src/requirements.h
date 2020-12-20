@@ -6,15 +6,18 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <numeric>
 #include <string>
 #include <tuple>
 #include <utility>
 #include <vector>
 
 #include "crafting.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
+class Character;
 class JsonArray;
 class JsonIn;
 class JsonObject;
@@ -24,11 +27,12 @@ class inventory;
 class item;
 class nc_color;
 class player;
+template <typename E> struct enum_traits;
 
 enum class available_status : int {
     a_true = +1, // yes, it's available
     a_false = -1, // no, it's not available
-    a_insufficent = 0, // nearly, but not enough for tool+component
+    a_insufficient = 0, // nearly, but not enough for tool+component
 };
 
 enum class component_type : int {
@@ -71,8 +75,9 @@ struct component {
     }
     // lexicographic comparison
     bool operator<( const component &rhs ) const {
-        return std::forward_as_tuple( type, requirement, count, recoverable )
-               < std::forward_as_tuple( rhs.type, rhs.requirement, rhs.count, rhs.recoverable );
+        //TODO change to use localized sorting
+        return std::forward_as_tuple( type.str(), requirement, count, recoverable )
+               < std::forward_as_tuple( rhs.type.str(), rhs.requirement, rhs.count, rhs.recoverable );
     }
 
     component() = default;
@@ -219,6 +224,21 @@ struct requirement_data {
                           const alter_item_comp_vector &components ) : tools( tools ), qualities( qualities ),
             components( components ) {}
 
+        template <
+            typename Container,
+            typename = std::enable_if_t <
+                std::is_same <
+                    typename Container::value_type, std::pair<requirement_id, int >>::value ||
+                std::is_same <
+                    typename Container::value_type, std::pair<const requirement_id, int >>::value
+                >
+            >
+        requirement_data( const Container &cont ) :
+            requirement_data(
+                std::accumulate(
+                    cont.begin(), cont.end(), requirement_data() ) )
+        {}
+
         const requirement_id &id() const {
             return id_;
         }
@@ -242,6 +262,11 @@ struct requirement_data {
 
         /** Combines two sets of requirements */
         requirement_data operator+( const requirement_data &rhs ) const;
+        /** Incorporate data from an id and integer.
+         * This is helpful when building requirement_data objects from maps
+         * loaded from JSON */
+        requirement_data operator+( const std::pair<const requirement_id, int> &rhs ) const;
+        requirement_data operator+( const std::pair<requirement_id, int> &rhs ) const;
 
         /**
          * Load @ref tools, @ref qualities and @ref components from
@@ -259,6 +284,7 @@ struct requirement_data {
          */
         static void save_requirement( const requirement_data &req,
                                       const requirement_id &id = requirement_id::NULL_ID() );
+        static std::vector<requirement_data> get_all();
         /**
          * Serialize custom created requirement objects for fetch activities
          */
@@ -342,7 +368,7 @@ struct requirement_data {
         void consolidate();
 
         /**
-         * Compares if two requiremen_data are the same, but does not compare the requirement ids.
+         * Compares if two requirement_data are the same, but does not compare the requirement ids.
          * The order inside requirement vectors does not matter.
          */
         bool has_same_requirements_as( const requirement_data &that ) const;

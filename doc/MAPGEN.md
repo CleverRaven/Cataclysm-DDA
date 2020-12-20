@@ -497,10 +497,10 @@ be used by `map::place_spawns`. Each monster generated from the monster group wi
 location within the rectangle. The values in the above example will produce a rectangle for `map::place_spawns` from (
 13, 15 ) to ( 15, 15 ) inclusive.
 
-The optional "density" is a floating-point multipier to the "chance" value. If the result is bigger than 100% it
-gurantees one spawn point for every 100% and the rest is evaluated by chance (one added or not). Then the monsters are
+The optional "density" is a floating-point multiplier to the "chance" value. If the result is bigger than 100% it
+guarantees one spawn point for every 100% and the rest is evaluated by chance (one added or not). Then the monsters are
 spawned according to their spawn-point cost "cost_multiplier" defined in the monster groups. Additionally all overmap
-densities within a square of raduis 3 (7x7 around player - exact value in mapgen.cpp/MON_RADIUS macro) are added to
+densities within a square of radius 3 (7x7 around player - exact value in mapgen.cpp/MON_RADIUS macro) are added to
 this. The "pack_size" modifier in monstergroups is a random multiplier to the rolled spawn point amount.
 
 
@@ -569,7 +569,7 @@ Example:
 ]
 ```
 
-This places "mon_secubot" at random coordinate (7-18, 7-18). The monster is placed with 30% probablity. The placement is
+This places "mon_secubot" at random coordinate (7-18, 7-18). The monster is placed with 30% probability. The placement is
 repeated by random number of times `[1-3]`. The monster will spawn with 20-30 5.56x45mm rounds.
 
 
@@ -592,6 +592,7 @@ Example:
 | amount | (required) Number of items to spawn. Single integer, or range `[ a, b ]` for a random value in that range.
 | chance | (optional) One-in-N chance to spawn item.
 | repeat | (optional) Value: `[ n1, n2 ]`. Spawn item randomly between `n1` and `n2` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - repeat 1-3 times.
+| custom-flags | (optional) Value: `[ "flag1", "flag2" ]`. Spawn item with specific flags.
 
 
 ## Extra map features with specials
@@ -680,7 +681,7 @@ Example with mapping (the characters `"O"` and `";"` should appear in the rows a
 }
 ```
 
-The amount of water to be placed in toilets is optional, an empty entry is therefor completely valid.
+The amount of water to be placed in toilets is optional, an empty entry is therefore completely valid.
 
 Example with coordinates:
 

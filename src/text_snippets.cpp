@@ -1,5 +1,6 @@
 #include "text_snippets.h"
 
+#include <algorithm>
 #include <cstddef>
 #include <random>
 #include <utility>
@@ -160,7 +161,7 @@ cata::optional<translation> snippet_library::random_from_category( const std::st
     const size_t count = it->second.ids.size() + it->second.no_id.size();
     // uniform_int_distribution always returns zero when the random engine is
     // cata_default_random_engine aka std::minstd_rand0 and the seed is small,
-    // so std::mt19937 is used instead. This engine is deterministcally seeded,
+    // so std::mt19937 is used instead. This engine is deterministically seeded,
     // so acceptable.
     // NOLINTNEXTLINE(cata-determinism)
     std::mt19937 generator( seed );

@@ -13,7 +13,11 @@
 #include "json.h"
 #include "optional.h"
 #include "point.h"
+#include "string_id.h"
 #include "type_id.h"
+
+struct point;
+struct tripoint;
 
 static constexpr int SCENT_MAP_Z_REACH = 1;
 
@@ -77,6 +81,7 @@ class scent_map
         void set_unsafe( const tripoint &p, int value, const scenttype_id &type = scenttype_id() );
         int get_unsafe( const tripoint &p ) const;
 
+        scenttype_id get_type() const;
         scenttype_id get_type( const tripoint &p ) const;
 
         bool inbounds( const tripoint &p ) const;

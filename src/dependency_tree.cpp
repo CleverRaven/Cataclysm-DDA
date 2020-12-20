@@ -10,7 +10,7 @@
 #include "output.h"
 #include "string_id.h"
 
-std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "" }};
+static std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "" }};
 
 // dependency_node
 dependency_node::dependency_node(): index( -1 ), lowlink( -1 ), on_stack( false )

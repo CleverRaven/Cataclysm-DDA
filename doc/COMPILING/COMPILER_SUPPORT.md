@@ -40,3 +40,7 @@ work to that end is welcome.
 ## Visual Studio
 
 We also support [Visual Studio](COMPILING-VS-VCPKG.md) 2015 Update 3 and above.
+
+## XCode
+
+We've encountered a really bizarre polymorphic dispatch bug with XCode 10.1, so the minimum good version is 10.2.

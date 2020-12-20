@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "charcoal",
     "id_suffix": "npc",
     "category": "CC_OTHER",
@@ -13,6 +14,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "sheet_metal",
     "id_suffix": "npc_drop",
     "category": "CC_OTHER",
@@ -28,6 +30,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "chain",
     "id_suffix": "npc_drop",
     "category": "CC_OTHER",
@@ -43,6 +46,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "nail",
     "id_suffix": "npc_drop",
     "category": "CC_OTHER",
@@ -58,6 +62,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "wire",
     "id_suffix": "npc_drop",
     "category": "CC_OTHER",
@@ -73,6 +78,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "pipe",
     "id_suffix": "npc_drop",
     "category": "CC_OTHER",
@@ -88,6 +94,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "rebar",
     "id_suffix": "npc_drop",
     "category": "CC_OTHER",

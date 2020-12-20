@@ -64,7 +64,7 @@
     "symbol": "+",
     "color": "cyan",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "THIN_OBSTACLE", "BURROWABLE" ],
+    "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "PICKABLE", "THIN_OBSTACLE", "BURROWABLE" ],
     "connects_to": "CHAINFENCE",
     "examine_action": "locked_object_pickable",
     "bash": {
@@ -399,7 +399,11 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_null",
-      "items": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "pipe_fittings", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 3, 6 ] }
+      ]
     }
   },
   {
@@ -424,7 +428,7 @@
       "str_max": 12,
       "sound": "metal rattling!",
       "sound_fail": "whack!",
-      "ter_set": "t_fence_post",
+      "ter_set": "t_chickenwire_fence_post",
       "items": [ { "item": "wire", "count": [ 5, 10 ] } ]
     }
   },
@@ -784,7 +788,7 @@
       "sound": "whump!",
       "sound_fail": "whack!",
       "ter_set": "t_fence_post",
-      "items": [ { "item": "2x4", "count": [ 4, 10 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
+      "items": [ { "item": "2x4", "count": [ 4, 10 ] } ]
     }
   },
   {

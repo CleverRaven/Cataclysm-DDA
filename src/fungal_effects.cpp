@@ -5,9 +5,9 @@
 #include <ostream>
 #include <string>
 
-#include "avatar.h"
-#include "bodypart.h"
 #include "calendar.h"
+#include "character.h"
+#include "colony.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -21,7 +21,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
-#include "player.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"

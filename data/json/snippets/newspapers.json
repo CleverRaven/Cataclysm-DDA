@@ -61,7 +61,7 @@
       },
       {
         "id": "many_years_old_news_15",
-        "text": "TANK SUIT!  In a press conference on Tuesday, General Ariel Dabrowski was proud to unveil the new military \"tank suit\", a powered exoskeleton capable of resisting small arms fire and most heavy weapons.  \"Tank suits have been used in limited deployment in Afghanistan for several months now,\" General Partoski informed the gathered press.  \"We're proud to be at a point where we can formally introduce them to the public.  These suits are just the first stage in a new generation of mechanized infantry.\""
+        "text": "TANK SUIT!  In a press conference on Tuesday, General Ariel Dabrowski was proud to unveil the new military \"tank suit\", a powered exoskeleton capable of resisting small arms fire and most heavy weapons.  \"Tank suits have been used in limited deployment in Afghanistan for several months now,\" General Dabrowski informed the gathered press.  \"We're proud to be at a point where we can formally introduce them to the public.  These suits are just the first stage in a new generation of mechanized infantry.\""
       },
       {
         "id": "many_years_old_news_16",
@@ -70,6 +70,13 @@
       {
         "id": "many_years_old_news_17",
         "text": "REAL AI IN THE PALM OF YOUR HAND.  [Photograph: Dania Tang holds a new-generation heuristic processor, weighing a mere seventy grams.]  Engineers at MIT, working in conjunction with a funding grant from entrepreneur Elton Moosek, have unveiled a next-generation deep learning heuristic processor.  \"I'm hesitant to call it an artificial intelligence,\" spokesperson Dania Tang said of the new device, \"but it's the closest we've yet achieved.  It's able to instantly analyze dozens of possible outcomes of a future action and choose the best one, much like a human uses deductive reasoning.\"  Under a new startup, MindStone, the processors are reputedly already being contracted for military use."
+      },
+      {
+        "id": "many_years_old_news_18",
+        "text": {
+          "str": "GENERAL PROMOTED ONBOARD OLD IRONSIDES.  The USS Constitution was the site of a promotion ceremony held by the Massachusetts National Guard at the Charlestown Navy Yard.  Col. Ariel Dabrowski was promoted to the rank of brigadier general in the Massachusetts National Guard in front of a crowd massed on the deck of the historic ship.  General Carlsberg officiated the promotion ceremony, and Maj. Gen. Michael Baker administered the oath of office.",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       }
     ]
   },
@@ -198,6 +205,14 @@
       {
         "id": "one_year_old_news_17",
         "text": "IT CAME FROM BEYOND.  [Pictured: Margaret Antwerp holds the fragment of alien satellite that landed in her rose garden.]  It was a normal day for Margaret.  Normal, that is, until a thundering crash in her front yard nearly knocked her house over.  \"This damn thing fell right out of space, I tell you,\" she told investigative journalists from our Paranormal Investigations department.  \"It was glowing red hot, and it had burnt my prize-winning roses to a crisp.\"  The US government and air force have declined to comment, as usual."
+      },
+      {
+        "id": "one_year_old_news_18",
+        "text": "MENDING FENCES.  Growing international tensions have prompted President Oswald to call for unprecedented funding increases for security revitalization.  The president is calling for new \"precision micro\" military installations to be built across the nation, with thousands to be constructed in New England alone.  These come alongside similarly ambitious budget increases for FEMA and scientific research.  A coalition of civil rights orgs, neighborhood associations, and environmental advocates have denounced the initiative."
+      },
+      {
+        "id": "one_year_old_news_19",
+        "text": "BIGGER BEES.  State biologists are unable to explain the emergence of bees that are two and three times normal size.  Authorities say that bees larger than golf balls are being reported across the state.  As of this time, there have been no reports of increased aggression or other behavioral changes in the oversized insects.  \"I'm glad to see the resurgence in the bee population,\" said Dr. Melissus \"Mel\" Versed, an entomologist at Tufts University.  He added, \"while Anthophila this large are unprecedented in New England, there is nothing particularly harmful about the phenomena.  Think of the honey yields!\""
       }
     ]
   },
@@ -276,6 +291,10 @@
       {
         "id": "months_old_news_18",
         "text": "EDITORIAL: FORGET DRUGS OR FRIENDFACE, THESE ARE THE GAMER RIOTS.  I can't believe how many idiots are wasting their time blaming social media or drugs on the riots we're facing when the answer is obvious: this is the result of letting our kids fall to the moral iniquity of video games.  Just last week I saw my kid playing one of those stupid bleep-bloop games, all letters and numbers and symbols.  When I asked him what he was doing it was absolutely appalling.  Violence.  Cannibalism.  Humans as cattle.  Mermaid abuse.  Yesterday, he was arrested for participating in the riots.  Coincidence?  Pretty obviously not.  Our government is in the pocket of these video game developers, and we're all paying the price."
+      },
+      {
+        "id": "months_old_news_19",
+        "text": "MORE ORDAINED MINISTERS NEEDED.  Wedlock is down, but last minute nuptials, elopements, vow-renewals and 'micromonies' have been on the rise, supposedly in response to many of the recent events and uneasing developments as more people are feeling less secure about dating in these troubled times, therefore rushing to the alter in preparation for the worst, or to cross items off the bucket list before it's too late.  As a result, the nation is experiencing a shortage of marriage officiants.  Luckily, now more than ever, since the beginning of the 21st century it's become increasingly easier to become qualified to help couples of all kinds celebrate their commitment to each other.  However, not enough people are rising to the occasion."
       }
     ]
   },
@@ -350,6 +369,10 @@
       {
         "id": "weeks_old_news_17",
         "text": "LOCAL EVACUATION ORDERS.  FEMA has announced small-scale evacuations of select centers where rioting is most intense.  \"This is a preventive measure,\" Spokesperson Linda Garrison told our correspondent.  \"We expect to have people home in a few days, but it's best we play it safe until then.\""
+      },
+      {
+        "id": "weeks_old_news_18",
+        "text": "COPS IN CRISIS.  Law enforcement officials report increasing numbers of officers are calling in sick, have resigned, or are just not showing up to duty.  A lack of sufficient personnel exacerbates the dangers police on-duty face.  In some cases officers are refusing to respond to dispatches in areas with high levels of violence.  A spokesperson for the Worcester County Sheriff's Office confirmed \"It is no longer feasible for us to jeopardize officer lives in some circumstances.  Instead we can continue to rely upon our state-of-the-art AI-powered robotic units.\""
       }
     ]
   },

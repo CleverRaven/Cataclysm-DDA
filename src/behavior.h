@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_BEHAVIOR_H
 #define CATA_SRC_BEHAVIOR_H
 
+#include <algorithm>
 #include <functional>
 #include <string>
 #include <utility>
@@ -14,8 +15,8 @@ class JsonObject;
 namespace behavior
 {
 
-class oracle_t;
 class node_t;
+class oracle_t;
 class strategy_t;
 
 enum class status_t : char { running, success, failure };

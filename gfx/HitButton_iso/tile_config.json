@@ -288,7 +288,7 @@
           "fg": 82
         },
         {
-          "id": ["vp_frame_cover", "vp_frame_cross", "vp_frame_horizontal", "vp_frame_horizontal_2", "vp_frame_ne", "vp_frame_nw", "vp_frame_se", "vp_frame_sw", "vp_frame_vertical", "vp_frame_vertical_2", "frame", "generic_folded_vehicle", "vp_folding_frame" ],
+          "id": ["vp_frame_cover", "vp_frame_cross", "vp_frame_horizontal", "vp_frame_horizontal_front", "vp_frame_horizontal_rear", "vp_frame_horizontal_2", "vp_frame_horizontal_2_front", "vp_frame_horizontal_2_rear", "vp_frame_ne", "vp_frame_nw", "vp_frame_se", "vp_frame_sw", "vp_frame_vertical", "vp_frame_vertical_left", "vp_frame_vertical_right", "vp_frame_vertical_2", "vp_frame_vertical_2_left", "vp_frame_vertical_2_right", "frame", "generic_folded_vehicle", "vp_folding_frame" ],
           "multitile": true,
           "height_3d": 2,
           "fg": 83,
@@ -300,7 +300,7 @@
           ]
         },
         {
-          "id": ["vp_frame_wood_cover", "vp_frame_wood_cross", "vp_frame_wood_horizontal", "vp_frame_wood_horizontal_2", "vp_frame_wood_ne", "vp_frame_wood_nw", "vp_frame_wood_se", "vp_frame_wood_sw", "vp_frame_wood_vertical", "vp_frame_wood_vertical_2", "vp_frame_wood_light_cover", "vp_frame_wood_light_cross", "vp_frame_wood_light_horizontal", "vp_frame_wood_light_horizontal_2", "vp_frame_wood_light_ne", "vp_frame_wood_light_nw", "vp_frame_wood_light_se", "vp_frame_wood_light_sw", "vp_frame_wood_light_vertical", "vp_frame_wood_light_vertical_2", "frame_wood", "frame_wood_light", "foldwoodframe", "vp_folding_wooden_frame" ],
+          "id": ["vp_frame_wood_cover", "vp_frame_wood_cross", "vp_frame_wood_horizontal", "vp_frame_wood_horizontal_front", "vp_frame_wood_horizontal_rear", "vp_frame_wood_horizontal_2", "vp_frame_wood_horizontal_2_front", "vp_frame_wood_horizontal_2_rear", "vp_frame_wood_ne", "vp_frame_wood_nw", "vp_frame_wood_se", "vp_frame_wood_sw", "vp_frame_wood_vertical", "vp_frame_wood_vertical_left", "vp_frame_wood_vertical_right", "vp_frame_wood_vertical_2", "vp_frame_wood_vertical_2_left", "vp_frame_wood_vertical_2_right", "vp_frame_wood_light_cover", "vp_frame_wood_light_cross", "vp_frame_wood_light_horizontal", "vp_frame_wood_light_horizontal_front", "vp_frame_wood_light_horizontal_rear", "vp_frame_wood_light_horizontal_2", "vp_frame_wood_light_horizontal_2_front", "vp_frame_wood_light_horizontal_2_rear", "vp_frame_wood_light_ne", "vp_frame_wood_light_nw", "vp_frame_wood_light_se", "vp_frame_wood_light_sw", "vp_frame_wood_light_vertical", "vp_frame_wood_light_vertical_left", "vp_frame_wood_light_vertical_right", "vp_frame_wood_light_vertical_2", "vp_frame_wood_light_vertical_2_left", "vp_frame_wood_light_vertical_2_right", "frame_wood", "frame_wood_light", "foldwoodframe", "vp_folding_wooden_frame" ],
           "multitile": true,
           "height_3d": 2,
           "fg": 84,
@@ -312,7 +312,7 @@
           ]
         },
         {
-          "id": ["vp_hdframe_cover", "vp_hdframe_cross", "vp_hdframe_horizontal", "vp_hdframe_horizontal_2", "vp_hdframe_ne", "vp_hdframe_nw", "vp_hdframe_se", "vp_hdframe_sw", "vp_hdframe_vertical", "vp_hdframe_vertical_2", "hdframe" ],
+          "id": ["vp_hdframe_cover", "vp_hdframe_cross", "vp_hdframe_horizontal", "vp_hdframe_horizontal_front", "vp_hdframe_horizontal_rear", "vp_hdframe_horizontal_2", "vp_hdframe_horizontal_2_front", "vp_hdframe_horizontal_2_rear", "vp_hdframe_ne", "vp_hdframe_nw", "vp_hdframe_se", "vp_hdframe_sw", "vp_hdframe_vertical", "vp_hdframe_vertical_left", "vp_hdframe_vertical_right", "vp_hdframe_vertical_2", "vp_hdframe_vertical_2_left", "vp_hdframe_vertical_2_right", "hdframe" ],
           "multitile": true,
           "height_3d": 2,
           "fg": 85,
@@ -324,7 +324,7 @@
           ]
         },
         {
-          "id": ["vp_xlframe_cover", "vp_xlframe_cross", "vp_xlframe_horizontal", "vp_xlframe_horizontal_2", "vp_xlframe_ne", "vp_xlframe_nw", "vp_xlframe_se", "vp_xlframe_sw", "vp_xlframe_vertical", "vp_xlframe_vertical_2", "xlframe", "foldframe" ],
+          "id": ["vp_xlframe_cover", "vp_xlframe_cross", "vp_xlframe_horizontal", "vp_xlframe_horizontal_front", "vp_xlframe_horizontal_rear", "vp_xlframe_horizontal_2", "vp_xlframe_horizontal_2_front", "vp_xlframe_horizontal_2_rear", "vp_xlframe_ne", "vp_xlframe_nw", "vp_xlframe_se", "vp_xlframe_sw", "vp_xlframe_vertical", "vp_xlframe_vertical_left", "vp_xlframe_vertical_right", "vp_xlframe_vertical_2", "vp_xlframe_vertical_2_left", "vp_xlframe_vertical_2_right", "xlframe", "foldframe" ],
           "multitile": true,
           "height_3d": 2,
           "fg": 86,
@@ -360,7 +360,7 @@
           ]
         },
         {
-          "id": ["vp_cargo_space", "cargo_rack" ],
+          "id": ["vp_cargo_space", "cargo_rack", "vp_cargo_space_external" ],
           "multitile": true,
           "height_3d": 2,
           "fg": [ 89 , 90 ],
@@ -384,7 +384,7 @@
           ]
         },
         {
-          "id": ["vp_stowboard_vertical" ],
+          "id": ["vp_stowboard_vertical", "vp_stowboard_vertical_left", "vp_stowboard_vertical_right", "vp_hdstowboard_vertical", "vp_hdstowboard_vertical_left", "vp_hdstowboard_vertical_right" ],
           "multitile": true,
           "fg": [ 93 , 94 ],
           "additional_tiles": [
@@ -395,7 +395,7 @@
           ]
         },
         {
-          "id": ["vp_stowboard_horizontal" ],
+          "id": ["vp_stowboard_horizontal", "vp_stowboard_horizontal_front", "vp_stowboard_horizontal_rear", "vp_hdstowboard_horizontal", "vp_hdstowboard_horizontal_front", "vp_hdstowboard_horizontal_rear" ],
           "multitile": true,
           "fg": [ 94 , 93 ],
           "additional_tiles": [
@@ -406,7 +406,7 @@
           ]
         },
         {
-          "id": ["vp_veh_table", "vp_veh_table_wood", "f_table", "v_table", "w_table" ],
+          "id": ["vp_veh_table", "vp_veh_table_wood", "f_table", "v_table", "w_table", "vp_workbench" ],
           "multitile": true,
           "height_3d": 3,
           "fg": 95,
@@ -418,7 +418,7 @@
           ]
         },
         {
-          "id": ["vp_board_vertical", "vp_board_vertical_2", "vp_woodboard_vertical", "vp_woodboard_vertical_2" ],
+          "id": ["vp_board_vertical", "vp_board_vertical_left", "vp_board_vertical_right", "vp_board_vertical_2", "vp_board_vertical_2_left", "vp_board_vertical_2_right", "vp_woodboard_vertical", "vp_woodboard_vertical_left", "vp_woodboard_vertical_right", "vp_woodboard_vertical_2", "vp_woodboard_vertical_2_left", "vp_woodboard_vertical_2_right" ],
           "multitile": true,
           "fg": [ 96, 97 ],
           "additional_tiles": [
@@ -429,7 +429,7 @@
           ]
         },
         {
-          "id": ["vp_board_horizontal", "vp_board_horizontal_2", "vp_woodboard_horizontal", "vp_woodboard_horizontal_2" ],
+          "id": ["vp_board_horizontal", "vp_board_horizontal_front", "vp_board_horizontal_rear", "vp_board_horizontal_2", "vp_board_horizontal_2_front", "vp_board_horizontal_2_rear", "vp_woodboard_horizontal", "vp_woodboard_horizontal_front", "vp_woodboard_horizontal_rear", "vp_woodboard_horizontal_2", "vp_woodboard_horizontal_2_front", "vp_woodboard_horizontal_2_rear" ],
           "multitile": true,
           "fg": [ 97, 96 ],
           "additional_tiles": [
@@ -484,7 +484,7 @@
           ]
         },
         {
-          "id": ["vp_halfboard_vertical", "vp_halfboard_vertical_2", "vp_xlhalfboard_vertical", "vp_xlhalfboard_vertical_2", "vp_woodhalfboard_vertical", "vp_woodhalfboard_vertical_2" ],
+          "id": ["vp_halfboard_vertical", "vp_halfboard_vertical_left", "vp_halfboard_vertical_right", "vp_halfboard_vertical_2", "vp_halfboard_vertical_2_left", "vp_halfboard_vertical_2_right", "vp_xlhalfboard_vertical", "vp_xlhalfboard_vertical_left", "vp_xlhalfboard_vertical_right", "vp_xlhalfboard_vertical_2", "vp_xlhalfboard_vertical_2_left", "vp_xlhalfboard_vertical_2_right", "vp_woodhalfboard_vertical", "vp_woodhalfboard_vertical_left", "vp_woodhalfboard_vertical_right", "vp_woodhalfboard_vertical_2", "vp_woodhalfboard_vertical_2_left", "vp_woodhalfboard_vertical_2_right" ],
           "multitile": true,
           "fg": [ 102, 103 ],
           "additional_tiles": [
@@ -495,7 +495,7 @@
           ]
         },
         {
-          "id": ["vp_halfboard_horizontal", "vp_halfboard_horizontal_2", "vp_halfboard_cover", "vp_xlhalfboard_horizontal", "vp_xlhalfboard_horizontal_2", "vp_woodhalfboard_horizontal", "vp_woodhalfboard_horizontal_2" ],
+          "id": ["vp_halfboard_horizontal", "vp_halfboard_horizontal_front", "vp_halfboard_horizontal_rear", "vp_halfboard_horizontal_2", "vp_halfboard_horizontal_2_front", "vp_halfboard_horizontal_2_rear", "vp_xlhalfboard_horizontal", "vp_xlhalfboard_horizontal_front", "vp_xlhalfboard_horizontal_rear", "vp_xlhalfboard_horizontal_2", "vp_xlhalfboard_horizontal_2_front", "vp_xlhalfboard_horizontal_2_rear", "vp_woodhalfboard_horizontal", "vp_woodhalfboard_horizontal_front", "vp_woodhalfboard_horizontal_rear", "vp_woodhalfboard_horizontal_2", "vp_woodhalfboard_horizontal_2_front", "vp_woodhalfboard_horizontal_2_rear", "vp_halfboard_cover" ],
           "multitile": true,
           "fg": [ 103, 102 ],
           "additional_tiles": [
@@ -550,7 +550,7 @@
           ]
         },
         {
-          "id": ["vp_door", "vp_door_sliding", "vp_door_trunk", "vp_hatch", "vp_hdhatch" ],
+          "id": ["vp_door", "vp_door_front", "vp_door_rear", "vp_door_left", "vp_door_right", "vp_door_sliding", "vp_door_sliding_front", "vp_door_sliding_rear", "vp_door_sliding_left", "vp_door_sliding_right", "vp_door_trunk", "vp_door_trunk_front", "vp_door_trunk_rear", "vp_door_trunk_left", "vp_door_trunk_right", "vp_hatch", "vp_hatch_front", "vp_hatch_rear", "vp_hatch_left", "vp_hatch_right" ],
           "fg": 108,
           "multitile": true,
           "height_3d": 1,
@@ -566,7 +566,7 @@
           ]
         },
         {
-          "id": ["vp_door_opaque", "vp_door_internal" ],
+          "id": ["vp_door_opaque", "vp_door_opaque_front", "vp_door_opaque_rear", "vp_door_opaque_left", "vp_door_opaque_right", "vp_door_internal", "vp_door_internal_front", "vp_door_internal_rear", "vp_door_internal_left", "vp_door_internal_right" ],
           "fg": 109,
           "multitile": true,
           "additional_tiles": [
@@ -581,7 +581,7 @@
           ]
         },
         {
-          "id": ["vp_door_shutter" ],
+          "id": ["vp_door_shutter", "vp_door_shutter_front", "vp_door_shutter_rear", "vp_door_shutter_left", "vp_door_shutter_right" ],
           "fg": 109,
           "multitile": true,
           "additional_tiles": [
@@ -657,6 +657,38 @@
           ]
         },
         {
+          "id": ["vp_hddoor", "vp_hddoor_front", "vp_hddoor_rear", "vp_hddoor_left", "vp_hddoor_right", "vp_hdhatch", "vp_hdhatch_front", "vp_hdhatch_rear", "vp_hdhatch_left", "vp_hdhatch_right" ],
+          "fg": 2526,
+          "height_3d": 1,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "open",
+              "fg": 2528
+            },
+            {
+                "id":"broken",
+                "fg": 236
+            }
+          ]
+        },
+        {
+          "id": ["vp_hddoor_opaque", "vp_hddoor_opaque_front", "vp_hddoor_opaque_rear", "vp_hddoor_opaque_left", "vp_hddoor_opaque_right" ],
+          "fg": 2527,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "open",
+              "fg": 2528
+            },
+            {
+              "id": "broken",
+              "fg": 236
+            }
+          ]
+        },
+
+        {
           "id": ["vp_basketlg", "vp_basketlg_folding", "basket", "folding_basket" ],
           "multitile": true,
           "height_3d": 6,
@@ -692,7 +724,7 @@
           ]
         },
         {
-          "id": ["vp_minifridge", "minifridge" ],
+          "id": ["vp_minifridge", "minifridge", "vp_minifreezer", "minifreezer" ],
           "multitile": true,
           "fg": 127,
           "additional_tiles": [
@@ -708,7 +740,7 @@
           "fg": [ 128, 129, 130, 131 ]
         },
         {
-          "id": ["vp_hdboard_vertical", "vp_hdboard_vertical_2" ],
+          "id": ["vp_hdboard_vertical", "vp_hdboard_vertical_left", "vp_hdboard_vertical_right", "vp_hdboard_vertical_2", "vp_hdboard_vertical_2_left", "vp_hdboard_vertical_2_right" ],
           "multitile": true,
           "fg": [ 132, 133 ],
           "additional_tiles": [
@@ -719,7 +751,7 @@
           ]
         },
         {
-          "id": ["vp_hdboard_horizontal", "vp_hdboard_horizontal_2" ],
+          "id": ["vp_hdboard_horizontal", "vp_hdboard_horizontal_front", "vp_hdboard_horizontal_rear", "vp_hdboard_horizontal_2", "vp_hdboard_horizontal_2_front", "vp_hdboard_horizontal_2_rear" ],
           "multitile": true,
           "fg": [ 133, 132 ],
           "additional_tiles": [
@@ -774,7 +806,7 @@
           ]
         },
         {
-          "id": ["vp_hdhalfboard_vertical", "vp_hdhalfboard_vertical_2" ],
+          "id": ["vp_hdhalfboard_vertical", "vp_hdhalfboard_vertical_left", "vp_hdhalfboard_vertical_right", "vp_hdhalfboard_vertical_2", "vp_hdhalfboard_vertical_2_left", "vp_hdhalfboard_vertical_2_right" ],
           "multitile": true,
           "fg": [ 138, 139 ],
           "additional_tiles": [
@@ -785,7 +817,7 @@
           ]
         },
         {
-          "id": ["vp_hdhalfboard_horizontal", "vp_hdhalfboard_horizontal_2", "vp_hdhalfboard_cover" ],
+          "id": ["vp_hdhalfboard_horizontal", "vp_hdhalfboard_horizontal_front", "vp_hdhalfboard_horizontal_rear", "vp_hdhalfboard_horizontal_2", "vp_hdhalfboard_horizontal_2_front", "vp_hdhalfboard_horizontal_2_rear", "vp_hdhalfboard_cover" ],
           "multitile": true,
           "fg": [ 139, 138 ],
           "additional_tiles": [
@@ -972,7 +1004,7 @@
           "fg": [ 172, 173, 174 , 175 ]
         },
         {
-          "id": ["vp_blade_vertical", "vp_spike", "vp_spike_wood", "vp_plow" ],
+          "id": ["vp_blade_vertical", "vp_spike", "vp_spike_wood", "vp_plow", "vp_ram_blaze", "vp_ram_alloy", "vp_ram_hardsteel", "vp_ram_military_horizontal", "vp_ram_steel", "vp_ram_wood", "vp_ram_chitin", "vp_ram_acidchitin", "vp_ram_spiked" ],
           "multitile": true,
           "fg": [ 176, 177, 178, 179 ]
         },
@@ -1007,7 +1039,12 @@
           "fg": [ 190, 191 ]
         },
         {
-          "id": ["vp_kitchen_unit", "kitchen_unit" ],
+          "id": ["vp_afs_roof_external_tank", "vp_afs_small_roof_external_tank" ],
+          "multitile": true,
+          "fg": [ 2530, 2531 ]
+        },
+        {
+          "id": ["vp_kitchen_unit", "kitchen_unit", "vp_afs_kitchen_rig", "afs_kitchen_rig", "vp_afs_cooking_rig", "afs_cooking_rig" ],
           "multitile": true,
           "fg": 192,
           "additional_tiles": [
@@ -1051,7 +1088,7 @@
           ]
         },
         {
-          "id": ["vp_veh_forge", "forgerig" ],
+          "id": ["vp_veh_forge", "forgerig", "vp_afs_metal_rig", "afs_metal_rig" ],
           "multitile": true,
           "fg": 196,
           "additional_tiles": [
@@ -1130,7 +1167,7 @@
           ]
         },
         {
-          "id": ["vp_funnel" ],
+          "id": ["vp_funnel", "vp_makeshift_funnel", "fp_leather_funnel", "vp_metal_funnel" ],
           "fg": 227
         },
         {
@@ -2368,7 +2405,6 @@
         },
         {
           "id": [ "t_sandmound" ],
-          "height3d": 2,
           "fg": 701
         },
         {
@@ -5217,11 +5253,11 @@
           "fg": 1617
         },
         {
-          "id": ["javelin_iron", "spear_knife", "scythe_war", "pike", "shaft_metal" ],
+          "id": ["javelin_iron", "spear_knife", "scythe_war", "pike", "shaft_metal", "naginata" ],
           "fg": 1618
         },
         {
-          "id": ["overlay_wielded_javelin_iron", "overlay_wielded_spear_knife", "overlay_wielded_scythe_war", "overlay_wielded_pike" ],
+          "id": ["overlay_wielded_javelin_iron", "overlay_wielded_spear_knife", "overlay_wielded_scythe_war", "overlay_wielded_pike", "overlay_wielded_naginata" ],
           "fg": 1619
         },
         {
@@ -6212,7 +6248,7 @@
           "fg": 1874
         },
         {
-          "id": ["5x50_hull", "9mm_casing", "9x18mm_casing", "22_casing", "22_casing_new", "38_casing", "40_casing", "44_casing", "45_casing", "454_casing", "500_casing", "57mm_casing", "46mm_casing", "762_casing", "762_51_casing", "545_casing", "223_casing", "3006_casing", "308_casing", "50_casing", "300_casing", "762R_casing", "32_casing" ],
+          "id": ["5x50_hull", "9mm_casing", "9x18mm_casing", "22_casing", "22_casing_new", "38_casing", "40_casing", "44_casing", "45_casing", "454_casing", "500_casing", "57mm_casing", "46mm_casing", "762_casing", "762_51_casing", "545_casing", "223_casing", "3006_casing", "308_casing", "50_casing", "300_casing", "762R_casing", "762_54R_casing", "32_casing" ],
           "fg": 1875
         },
         {
@@ -6993,7 +7029,7 @@
           "fg": 2074
         },
         {
-          "id": ["funnel", "makeshift_funnel", "tr_funnel", "tr_makeshift_funnel" ],
+          "id": ["funnel", "makeshift_funnel", "tr_funnel", "tr_makeshift_funnel", "metal_funnel", "tr_metal_funnel" ],
           "fg": 2075
         },
         {

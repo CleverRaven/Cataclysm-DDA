@@ -20,6 +20,13 @@ struct StringMaker<string_id<T>> {
     }
 };
 
+template<typename T>
+struct StringMaker<int_id<T>> {
+    static std::string convert( const int_id<T> &i ) {
+        return string_format( "int_id( \"%s\" )", i.id().str() );
+    }
+};
+
 template<>
 struct StringMaker<item> {
     static std::string convert( const item &i ) {

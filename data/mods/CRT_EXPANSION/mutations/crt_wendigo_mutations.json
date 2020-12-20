@@ -69,7 +69,7 @@
       {
         "attack_text_u": "You tear into %s with your blades",
         "attack_text_npc": "%1$s tears into %2$s with their blades",
-        "body_part": "TORSO",
+        "body_part": "torso",
         "chance": 33,
         "base_damage": { "damage_type": "cut", "amount": 10 },
         "strength_damage": { "damage_type": "biological", "amount": 0.25 }
@@ -83,7 +83,7 @@
     "points": 5,
     "visibility": 5,
     "ugliness": 6,
-    "description": "Spurs of bone have erupted all across your arms. A thick, biological secretion oozes out of them promising extra harm to enemies.",
+    "description": "Spurs of bone have erupted all across your arms.  A thick, biological secretion oozes out of them promising extra harm to enemies.",
     "valid": false,
     "purifiable": false,
     "threshreq": [ "THRESH_WENDIGO" ],
@@ -93,7 +93,7 @@
       {
         "attack_text_u": "You ravage %s with your arms",
         "attack_text_npc": "%1$s ravages %2$s with their arm spurs",
-        "body_part": "ARM_R",
+        "body_part": "arm_r",
         "chance": 10,
         "base_damage": { "damage_type": "stab", "amount": 2 },
         "strength_damage": { "damage_type": "biological", "amount": 0.25 }
@@ -105,7 +105,7 @@
     "id": "MONSTROUSCARDIO",
     "name": "Persistent Body",
     "points": 2,
-    "description": "As you move, the world seems to breath life and energy into your limbs. You simply rarely tire less readily than others.  Your maximum stamina is 50% higher than usual.",
+    "description": "As you move, the world seems to breath life and energy into your limbs.  You simply rarely tire less readily than others.  Your maximum stamina is 50% higher than usual.",
     "valid": false,
     "purifiable": false,
     "threshreq": [ "THRESH_WENDIGO" ],

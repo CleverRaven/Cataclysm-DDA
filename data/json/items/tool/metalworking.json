@@ -73,7 +73,7 @@
   {
     "id": "rock_forge_pseudo",
     "type": "TOOL",
-    "name": { "str": "Rock Forge" },
+    "name": { "str": "rock forge" },
     "copy-from": "char_forge",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 40000 } } ]
   },

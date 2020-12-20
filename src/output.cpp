@@ -1,23 +1,24 @@
 #include "output.h"
 
-#include <cerrno>
-#include <cctype>
-#include <cstdio>
 #include <algorithm>
+#include <array>
+#include <cctype>
+#include <cerrno>
+#include <cmath>
 #include <cstdarg>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <map>
+#include <memory>
 #include <sstream>
 #include <stack>
 #include <stdexcept>
 #include <string>
-#include <vector>
-#include <array>
-#include <memory>
 #include <type_traits>
-#include <cmath>
+#include <vector>
 
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -28,14 +29,13 @@
 #include "line.h"
 #include "name.h"
 #include "options.h"
+#include "point.h"
 #include "popup.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "ui_manager.h"
-#include "units.h"
 #include "units_utility.h"
-#include "point.h"
 #include "wcwidth.h"
 
 #if defined(__ANDROID__)
@@ -62,10 +62,6 @@ int OVERMAP_LEGEND_WIDTH;
 static std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
 
 scrollingcombattext SCT;
-extern bool tile_iso;
-extern bool use_tiles;
-
-extern bool test_mode;
 
 // utf8 version
 std::vector<std::string> foldstring( const std::string &str, int width, const char split )
@@ -266,7 +262,7 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
     const size_t wwidth = getmaxx( w );
     const auto text_lines = foldstring( text, wwidth );
     size_t wheight = getmaxy( w );
-    const auto print_scroll_msg = text_lines.size() > wheight;
+    const bool print_scroll_msg = text_lines.size() > wheight;
     if( print_scroll_msg && !scroll_msg.empty() ) {
         // keep the last line free for a message to the player
         wheight--;
@@ -1140,6 +1136,12 @@ std::string trim_punctuation_marks( const std::string &s )
 using char_t = std::string::value_type;
 std::string to_upper_case( const std::string &s )
 {
+    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
+        const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+        std::wstring wstr = utf8_to_wstr( s );
+        f.toupper( &wstr[0], &wstr[0] + wstr.size() );
+        return wstr_to_utf8( wstr );
+    }
     std::string res;
     std::transform( s.begin(), s.end(), std::back_inserter( res ), []( char_t ch ) {
         return std::use_facet<std::ctype<char_t>>( std::locale() ).toupper( ch );
@@ -1328,7 +1330,7 @@ void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab
                 const std::string &current_tab )
 {
     auto it = std::find( tab_texts.begin(), tab_texts.end(), current_tab );
-    assert( it != tab_texts.end() );
+    cata_assert( it != tab_texts.end() );
     draw_tabs( w, tab_texts, it - tab_texts.begin() );
 }
 
@@ -1839,10 +1841,17 @@ get_bar( float cur, float max, int width, bool extra_resolution,
     status = status < 0 ? 0 : status;
     float sw = status * width;
 
-    nc_color col = colors[static_cast<int>( ( 1 - status ) * colors.size() )];
-    if( status == 0 ) {
-        col = colors.back();
-    } else if( ( sw < 0.5 ) && ( sw > 0 ) ) {
+    nc_color col;
+    if( !std::isfinite( status ) || colors.empty() ) {
+        col = c_red_red;
+    } else {
+        int ind = static_cast<int>( ( 1 - status ) * colors.size() );
+        ind = clamp<int>( ind, 0, colors.size() - 1 );
+        col = colors[ind];
+    }
+    if( !std::isfinite( sw ) || sw <= 0 ) {
+        result.clear();
+    } else if( sw < 0.5 ) {
         result = ":";
     } else {
         result += std::string( sw, '|' );
@@ -1963,6 +1972,25 @@ void insert_table( const catacurses::window &w, int pad, int line, int columns,
     wattroff( w, FG );
 }
 
+std::string satiety_bar( const int calpereffv )
+{
+    // Arbitrary max value we will cap our vague display to. Will be lower than the actual max value, but scaling fixes that.
+    constexpr float max_cal_per_effective_vol = 1500.0f;
+    // Scaling the values.
+    const float scaled_max = std::sqrt( max_cal_per_effective_vol );
+    const float scaled_cal = std::sqrt( calpereffv );
+    const std::pair<std::string, nc_color> nourishment_bar = get_bar(
+                scaled_cal, scaled_max, 5, true );
+    // Colorize the bar.
+    std::string result = colorize( nourishment_bar.first, nourishment_bar.second );
+    // Pad to 5 characters with dots.
+    const int width = utf8_width( nourishment_bar.first );
+    if( width < 5 ) {
+        result += std::string( 5 - width, '.' );
+    }
+    return result;
+}
+
 scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
                                  const std::string &p_sText, const game_message_type p_gmt,
                                  const std::string &p_sText2, const game_message_type p_gmt2,
@@ -2054,7 +2082,7 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
 
             //Message offset: multiple impacts in the same direction in short order overriding prior messages (mostly turrets)
             for( auto &iter : vSCT ) {
-                if( iter.getDirecton() == p_oDir && ( iter.getStep() + iter.getStepOffset() ) == iCurStep ) {
+                if( iter.getDirection() == p_oDir && ( iter.getStep() + iter.getStepOffset() ) == iCurStep ) {
                     ++iCurStep;
                     iter.advanceStepOffset();
                 }
@@ -2065,7 +2093,7 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
         } else {
             //Message offset: this time in reverse.
             for( std::vector<cSCT>::reverse_iterator iter = vSCT.rbegin(); iter != vSCT.rend(); ++iter ) {
-                if( iter->getDirecton() == p_oDir && ( iter->getStep() + iter->getStepOffset() ) == iCurStep ) {
+                if( iter->getDirection() == p_oDir && ( iter->getStep() + iter->getStepOffset() ) == iCurStep ) {
                     ++iCurStep;
                     iter->advanceStepOffset();
                 }

@@ -2,26 +2,25 @@
 
 #include <algorithm>
 #include <bitset>
-#include <cmath> // pow
+#include <cmath> // IWYU pragma: keep
 #include <cstdint>
 #include <cstdio>
-#include <cstdlib> // strtoul
+#include <cstdlib> // strtoul: keep
 #include <cstring> // strcmp
 #include <exception>
 #include <iterator>
 #include <limits>
 #include <locale> // ensure user's locale doesn't interfere with output
 #include <set>
-#include <sstream>
+#include <sstream> // IWYU pragma: keep
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "string_formatter.h"
-
-extern bool test_mode;
 
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
@@ -109,17 +108,16 @@ void JsonObject::mark_visited( const std::string &name ) const
 void JsonObject::report_unvisited() const
 {
 #ifndef CATA_IN_TOOL
-    if( test_mode && report_unvisited_members && !reported_unvisited_members &&
+    if( report_unvisited_members && !reported_unvisited_members &&
         !std::uncaught_exception() ) {
         reported_unvisited_members = true;
         for( const std::pair<const std::string, int> &p : positions ) {
             const std::string &name = p.first;
-            if( !visited_members.count( name ) && !string_starts_with( name, "//" ) &&
-                name != "blueprint" ) {
+            if( !visited_members.count( name ) && !string_starts_with( name, "//" ) ) {
                 try {
                     throw_error( string_format( "Failed to visit member %s in JsonObject", name ), name );
                 } catch( const JsonError &e ) {
-                    debugmsg( "\n%s", e.what() );
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
             }
         }
@@ -149,6 +147,15 @@ void JsonObject::allow_omitted_members() const
 {
 #ifndef CATA_IN_TOOL
     report_unvisited_members = false;
+#endif
+}
+
+void JsonObject::copy_visited_members( const JsonObject &rhs ) const
+{
+#ifndef CATA_IN_TOOL
+    visited_members = rhs.visited_members;
+#else
+    static_cast<void>( rhs );
 #endif
 }
 
@@ -202,6 +209,7 @@ std::string JsonObject::str() const
 
 void JsonObject::throw_error( const std::string &err, const std::string &name ) const
 {
+    mark_visited( name );
     if( !jsin ) {
         throw JsonError( err );
     }
@@ -222,7 +230,7 @@ void JsonArray::throw_error( const std::string &err, int idx )
     if( !jsin ) {
         throw JsonError( err );
     }
-    if( idx >= 0 && size_t( idx ) < positions.size() ) {
+    if( idx >= 0 && static_cast<size_t>( idx ) < positions.size() ) {
         jsin->seek( positions[idx] );
     }
     jsin->error( err );
@@ -942,86 +950,186 @@ std::string JsonIn::get_member_name()
     return s;
 }
 
-std::string JsonIn::get_string()
+static bool get_escaped_or_unicode( std::istream &stream, std::string &s, std::string &err )
 {
-    std::string s;
-    char ch;
-    bool backslash = false;
-    char unihex[5] = "0000";
-    eat_whitespace();
-    int startpos = tell();
-    // the first character had better be a '"'
-    stream->get( ch );
-    if( ch != '"' ) {
-        std::stringstream err;
-        err << "expecting string but got '" << ch << "'";
-        error( err.str(), -1 );
+    if( !stream.good() ) {
+        err = "stream not good";
+        return false;
     }
-    // add chars to the string, one at a time, converting:
-    // \", \\, \/, \b, \f, \n, \r, \t and \uxxxx according to JSON spec.
-    while( stream->good() ) {
-        stream->get( ch );
-        if( ch == '\\' ) {
-            if( backslash ) {
+    char ch;
+    stream.get( ch );
+    if( !stream.good() ) {
+        err = "read operation failed";
+        return false;
+    }
+    if( ch == '\\' ) {
+        // converting \", \\, \/, \b, \f, \n, \r, \t and \uxxxx according to JSON spec.
+        stream.get( ch );
+        if( !stream.good() ) {
+            err = "read operation failed";
+            return false;
+        }
+        switch( ch ) {
+            case '\\':
                 s += '\\';
-                backslash = false;
-            } else {
-                backslash = true;
-                continue;
-            }
-        } else if( backslash ) {
-            backslash = false;
-            if( ch == '"' ) {
+                break;
+            case '"':
                 s += '"';
-            } else if( ch == '/' ) {
+                break;
+            case '/':
                 s += '/';
-            } else if( ch == 'b' ) {
+                break;
+            case 'b':
                 s += '\b';
-            } else if( ch == 'f' ) {
+                break;
+            case 'f':
                 s += '\f';
-            } else if( ch == 'n' ) {
+                break;
+            case 'n':
                 s += '\n';
-            } else if( ch == 'r' ) {
+                break;
+            case 'r':
                 s += '\r';
-            } else if( ch == 't' ) {
+                break;
+            case 't':
                 s += '\t';
-            } else if( ch == 'u' ) {
-                // get the next four characters as hexadecimal
-                stream->get( unihex, 5 );
-                // insert the appropriate unicode character in utf8
-                // TODO: verify that unihex is in fact 4 hex digits.
-                char **endptr = nullptr;
-                uint32_t u = static_cast<uint32_t>( strtoul( unihex, endptr, 16 ) );
-                try {
-                    s += utf16_to_utf8( u );
-                } catch( const std::exception &err ) {
-                    error( err.what() );
+                break;
+            case 'u': {
+                    uint32_t u = 0;
+                    for( int i = 0; i < 4; ++i ) {
+                        stream.get( ch );
+                        if( !stream.good() ) {
+                            err = "read operation failed";
+                            return false;
+                        }
+                        if( ch >= '0' && ch <= '9' ) {
+                            u = ( u << 4 ) | ( ch - '0' );
+                        } else if( ch >= 'a' && ch <= 'f' ) {
+                            u = ( u << 4 ) | ( ch - 'a' + 10 );
+                        } else if( ch >= 'A' && ch <= 'F' ) {
+                            u = ( u << 4 ) | ( ch - 'A' + 10 );
+                        } else {
+                            err = "expected hex digit";
+                            return false;
+                        }
+                    }
+                    try {
+                        s += utf16_to_utf8( u );
+                    } catch( const std::exception &e ) {
+                        err = e.what();
+                        return false;
+                    }
                 }
-            } else {
-                // for anything else, just add the character, i suppose
-                s += ch;
-            }
-        } else if( ch == '"' ) {
-            // end of the string
-            end_value();
-            return s;
-        } else if( ch == '\r' || ch == '\n' ) {
-            error( "reached end of line without closing string", -1 );
-        } else if( static_cast<unsigned char>( ch ) < 0x20 ) {
-            error( "invalid character inside string", -1 );
+                break;
+            default:
+                err = "invalid escape sequence";
+                return false;
+        }
+    } else if( ch == '\r' || ch == '\n' ) {
+        err = "reached end of line without closing string";
+        return false;
+    } else if( ch == '"' ) {
+        // the caller is supposed to handle the ending quote
+        err = "unexpected ending quote";
+        return false;
+    } else if( static_cast<unsigned char>( ch ) < 0x20 ) {
+        err = "invalid character inside string";
+        return false;
+    } else {
+        unsigned char uc = static_cast<unsigned char>( ch );
+        uint32_t unicode = 0;
+        int n = 0;
+        if( uc >= 0xFC ) {
+            unicode = uc & 0x01;
+            n = 5;
+        } else if( uc >= 0xF8 ) {
+            unicode = uc & 0x03;
+            n = 4;
+        } else if( uc >= 0xF0 ) {
+            unicode = uc & 0x07;
+            n = 3;
+        } else if( uc >= 0xE0 ) {
+            unicode = uc & 0x0f;
+            n = 2;
+        } else if( uc >= 0xC0 ) {
+            unicode = uc & 0x1f;
+            n = 1;
+        } else if( uc >= 0x80 ) {
+            err = "invalid utf8 sequence";
+            return false;
         } else {
+            unicode = uc;
+            n = 0;
+        }
+        s += ch;
+        for( ; n > 0; --n ) {
+            stream.get( ch );
+            if( !stream.good() ) {
+                err = "read operation failed";
+                return false;
+            }
+            uc = static_cast<unsigned char>( ch );
+            if( uc < 0x80 || uc >= 0xC0 ) {
+                err = "invalid utf8 sequence";
+                return false;
+            }
+            unicode = ( unicode << 6 ) | ( uc & 0x3f );
             s += ch;
         }
+        if( unicode > 0x10FFFF ) {
+            err = "invalid unicode codepoint";
+            return false;
+        }
     }
-    // if we get to here, probably hit a premature EOF?
+    return true;
+}
+
+std::string JsonIn::get_string()
+{
+    eat_whitespace();
+    std::string s;
+    char ch;
+    std::string err;
+    bool success = false;
+    do {
+        // the first character had better be a '"'
+        stream->get( ch );
+        if( !stream->good() ) {
+            err = "read operation failed";
+            break;
+        }
+        if( ch != '"' ) {
+            err = "expected string but got '" + std::string( 1, ch ) + "'";
+            break;
+        }
+        // add chars to the string, one at a time
+        do {
+            ch = stream->peek();
+            if( !stream->good() ) {
+                err = "read operation failed";
+                break;
+            }
+            if( ch == '"' ) {
+                stream->ignore();
+                success = true;
+                break;
+            }
+            if( !get_escaped_or_unicode( *stream, s, err ) ) {
+                break;
+            }
+        } while( stream->good() );
+    } while( false );
+    if( success ) {
+        end_value();
+        return s;
+    }
     if( stream->eof() ) {
-        stream->clear();
-        seek( startpos );
         error( "couldn't find end of string, reached EOF." );
     } else if( stream->fail() ) {
-        throw JsonError( "stream failure while reading string." );
+        error( "stream failure while reading string." );
+    } else {
+        error( err, -1 );
     }
-    throw JsonError( "something went wrong D:" );
 }
 
 // These functions get -INT_MIN and -INT64_MIN while very carefully avoiding any overflow.
@@ -1521,19 +1629,21 @@ bool JsonIn::read( JsonDeserializer &j, bool throw_on_error )
 // WARNING: for occasional use only.
 std::string JsonIn::line_number( int offset_modifier )
 {
-    if( !stream || stream->fail() ) {
-        return "???";
-    }
-    if( stream->eof() ) {
-        return "EOF";
+    if( stream && stream->eof() ) {
+        return name + ":EOF";
+    } else if( !stream || stream->fail() ) {
+        return name + ":???";
     } // else stream is fine
     int pos = tell();
     int line = 1;
     int offset = 1;
     char ch;
     seek( 0 );
-    for( int i = 0; i < pos; ++i ) {
+    for( int i = 0; i < pos + offset_modifier; ++i ) {
         stream->get( ch );
+        if( !stream->good() ) {
+            break;
+        }
         if( ch == '\r' ) {
             offset = 1;
             ++line;
@@ -1548,15 +1658,16 @@ std::string JsonIn::line_number( int offset_modifier )
             ++offset;
         }
     }
+    seek( pos );
     std::stringstream ret;
-    ret << "line " << line << ":" << ( offset + offset_modifier );
+    ret << name << ":" << line << ":" << offset;
     return ret.str();
 }
 
 void JsonIn::error( const std::string &message, int offset )
 {
     std::ostringstream err;
-    err << line_number( offset ) << ": " << message;
+    err << "Json error: " << line_number( offset ) << ": " << message;
     // if we can't get more info from the stream don't try
     if( !stream->good() ) {
         throw JsonError( err.str() );
@@ -1591,7 +1702,7 @@ void JsonIn::error( const std::string &message, int offset )
     startpos = tell();
     err << '\n';
     if( pos > startpos ) {
-        err << std::string( pos - startpos - 1, ' ' );
+        err << std::string( pos - startpos, ' ' );
     }
     err << "^\n";
     seek( pos );
@@ -1603,8 +1714,8 @@ void JsonIn::error( const std::string &message, int offset )
         }
     } else if( ch == '\n' ) {
         // pass
-    } else if( peek() != '\r' && peek() != '\n' ) {
-        for( size_t i = 0; i < pos - startpos; ++i ) {
+    } else if( peek() != '\r' && peek() != '\n' && !stream->eof() ) {
+        for( size_t i = 0; i < pos - startpos + 1; ++i ) {
             err << ' ';
         }
     }
@@ -1633,6 +1744,22 @@ void JsonIn::error( const std::string &message, int offset )
     throw JsonError( msg );
 }
 
+void JsonIn::string_error( const std::string &message, const int offset )
+{
+    if( test_string() ) {
+        // skip quote mark
+        stream->ignore();
+        std::string s;
+        std::string err;
+        for( int i = 0; i < offset; ++i ) {
+            if( !get_escaped_or_unicode( *stream, s, err ) ) {
+                break;
+            }
+        }
+    }
+    error( message, -1 );
+}
+
 bool JsonIn::error_or_false( bool throw_, const std::string &message, int offset )
 {
     if( throw_ ) {
@@ -1659,19 +1786,27 @@ void JsonIn::rewind( int max_lines, int max_chars )
             ++lines_found;
             if( tellpos > 0 ) {
                 stream->seekg( -1, std::istream::cur );
-                // note: does not update tellpos or count a character
                 if( peek() != '\r' ) {
-                    continue;
+                    stream->seekg( 1, std::istream::cur );
+                } else {
+                    --tellpos;
                 }
             }
         } else if( peek() == '\r' ) {
             ++lines_found;
         }
-        if( tellpos == 0 ) {
-            break;
-        } else if( lines_found == max_lines ) {
+        if( lines_found == max_lines ) {
             // don't include the last \n or \r
-            stream->seekg( 1, std::istream::cur );
+            if( peek() == '\n' ) {
+                stream->seekg( 1, std::istream::cur );
+            } else if( peek() == '\r' ) {
+                stream->seekg( 1, std::istream::cur );
+                if( peek() == '\n' ) {
+                    stream->seekg( 1, std::istream::cur );
+                }
+            }
+            break;
+        } else if( tellpos == 0 ) {
             break;
         }
         stream->seekg( -1, std::istream::cur );
@@ -1729,7 +1864,7 @@ void JsonOut::write_separator()
     }
     stream->put( ',' );
     if( pretty_print ) {
-        // Wrap after seperator between objects and between members of top-level objects.
+        // Wrap after separator between objects and between members of top-level objects.
         if( indent_level < 2 || need_wrap.back() ) {
             stream->put( '\n' );
             write_indent();
@@ -1935,7 +2070,7 @@ JsonValue JsonObject::get_member( const std::string &name ) const
 {
     const auto iter = positions.find( name );
     if( !jsin || iter == positions.end() ) {
-        throw_error( "requested non-existing member \"" + name + "\"" );
+        throw_error( "requested non-existing member \"" + name + "\" in " + str() );
     }
     mark_visited( name );
     return JsonValue( *jsin, iter->second );

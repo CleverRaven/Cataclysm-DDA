@@ -1,8 +1,12 @@
 #include "catch/catch.hpp"
 
+#include <string>
+
 #include "avatar.h"
-#include "creature.h"
+#include "calendar.h"
 #include "monster.h"
+#include "mtype.h"
+#include "type_id.h"
 
 // Test effect methods from `Creature` class on both `monster` and `player`
 
@@ -29,7 +33,7 @@
 // - If already have same effect, modify duration and intensity
 // - Otherwise, add effect, and check if it is blocked by another effect
 
-// Characters have effects on separate body parts, or no particular part (indicated by `num_bp`)
+// Characters have effects on separate body parts, or no particular part (indicated by `bp_null`)
 TEST_CASE( "character add_effect", "[creature][character][effect][add]" )
 {
     avatar dummy;
@@ -216,7 +220,7 @@ TEST_CASE( "has_effect", "[creature][effect][has]" )
     const efftype_id effect_grabbed( "grabbed" );
     const efftype_id effect_invisibility( "invisibility" );
 
-    // For monster, has_effect is not body-part-specific (uses num_bp)
+    // For monster, has_effect is not body-part-specific (uses bp_null)
     SECTION( "monster has_effect" ) {
         monster mummy( mtype_id( "debug_mon" ) );
 
@@ -282,7 +286,6 @@ TEST_CASE( "has_effect", "[creature][effect][has]" )
                 CHECK_FALSE( dummy.has_effect( effect_grabbed, right_arm.id() ) );
             }
             THEN( "has_effect is true when body part is not specified" ) {
-                // num_bp (default) is any/all body parts
                 CHECK( dummy.has_effect( effect_grabbed ) );
                 CHECK( dummy.has_effect( effect_grabbed ) );
             }
@@ -311,7 +314,7 @@ TEST_CASE( "has_effect_with_flag", "[creature][effect][has][flag]" )
 {
     const efftype_id effect_downed( "downed" );
     const efftype_id effect_invisibility( "invisibility" );
-    const std::string invisibility_flag = "EFFECT_INVISIBLE";
+    const flag_id invisibility_flag( "EFFECT_INVISIBLE" );
 
     monster mummy( mtype_id( "debug_mon" ) );
 

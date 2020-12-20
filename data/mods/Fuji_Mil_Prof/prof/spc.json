@@ -25,7 +25,8 @@
           "socks",
           "boots_combat",
           "gloves_tactical",
-          "diving_watch"
+          "diving_watch",
+          "ballistic_vest_esapi"
         ],
         "entries": [
           {
@@ -35,7 +36,7 @@
             "contents-item": [ "shoulder_strap", "acog_scope", "grip", "suppressor" ]
           },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "modularvestceramic", "contents-group": "army_mags_300blk" },
+          { "item": "tacvest", "contents-group": "army_mags_300blk" },
           { "item": "knife_rambo", "container-item": "scabbard" },
           { "item": "holster", "contents-group": "holster_supp_MEU" },
           { "item": "legpouch_large", "contents-group": "army_mags_1911" }
@@ -181,11 +182,20 @@
     ],
     "items": {
       "both": {
-        "items": [ "anbc_suit", "pants_cargo", "longshirt", "dump_pouch", "socks", "gloves_rubber", "diving_watch" ],
+        "items": [
+          "anbc_suit",
+          "pants_cargo",
+          "longshirt",
+          "dump_pouch",
+          "socks",
+          "gloves_rubber",
+          "diving_watch",
+          "ballistic_vest_esapi"
+        ],
         "entries": [
           { "item": "hk_mp5", "ammo-item": "9mm", "charges": 30, "contents-item": [ "shoulder_strap", "suppressor" ] },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "modularvestkevlar", "contents-group": "army_mags_mp5" },
+          { "item": "tacvest", "contents-group": "army_mags_mp5" },
           { "item": "holster", "contents-group": "holster_supp_MEU" },
           { "item": "legpouch_large", "contents-group": "army_mags_1911" }
         ]

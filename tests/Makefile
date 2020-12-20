@@ -13,7 +13,10 @@ CATA_LIB=../$(BUILD_PREFIX)cataclysm.a
 # built with BUILD_PREFIX set, you must set it for this invocation as well.
 ODIR ?= obj
 
-LDFLAGS += -L.
+LDFLAGS += -lpthread -L.
+
+# Enabling benchmarks
+DEFINES += -DCATCH_CONFIG_ENABLE_BENCHMARKING
 
 # Allow use of any header files from cataclysm.
 # Catch sections throw unused variable warnings.
@@ -63,13 +66,16 @@ check: $(TEST_TARGET)
 clean:
 	rm -rf *obj *objwin
 	rm -f *cata_test
-	rm -f pch/pch.hpp.{gch,pch}
+	rm -f pch/*pch.hpp.gch
+	rm -f pch/*pch.hpp.pch
+	rm -f pch/*pch.hpp.d
 
 #Unconditionally create object directory on invocation.
 $(shell mkdir -p $(ODIR))
 
+# Adding ../tests/ so that the directory appears in __FILE__ for log messages
 $(ODIR)/%.o: %.cpp $(PCH_P)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
 
 .PHONY: clean check tests precompile_header
 

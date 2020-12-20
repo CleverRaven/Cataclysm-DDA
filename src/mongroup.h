@@ -2,16 +2,19 @@
 #ifndef CATA_SRC_MONGROUP_H
 #define CATA_SRC_MONGROUP_H
 
+#include <algorithm>
 #include <map>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "coordinates.h"
 #include "io_tags.h"
 #include "mapgen.h"
 #include "monster.h"
 #include "point.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;

@@ -3,7 +3,10 @@
 #define CATA_SRC_SDLTILES_H
 
 #include <array>
+
 #include "point.h"
+
+struct point;
 
 namespace catacurses
 {
@@ -12,8 +15,8 @@ class window;
 
 #if defined(TILES)
 
-#include <string>
 #include <memory>
+#include <string>
 
 #include "color_loader.h"
 #include "sdl_wrappers.h"
@@ -27,6 +30,8 @@ class window;
 
 extern std::unique_ptr<cata_tiles> tilecontext;
 extern std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
+extern int fontheight;
+extern int fontwidth;
 
 void load_tileset();
 void rescale_tileset( int size );

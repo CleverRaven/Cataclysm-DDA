@@ -2,13 +2,14 @@
 #ifndef CATA_SRC_ADVANCED_INV_AREA_H
 #define CATA_SRC_ADVANCED_INV_AREA_H
 
-#include "point.h"
-#include "units.h"
-
 #include <array>
 #include <list>
 #include <string>
 #include <vector>
+
+#include "point.h"
+#include "units.h"
+#include "units_fwd.h"
 
 enum aim_location : char {
     AIM_INVENTORY = 0,
@@ -75,7 +76,7 @@ class advanced_inv_area
         int max_size = 0;
         // appears as part of the legend at the top right
         const std::string minimapname;
-        // user commant that corresponds to this location
+        // user command that corresponds to this location
         const std::string actionname;
         // used for isometric view
         const aim_location relative_location;

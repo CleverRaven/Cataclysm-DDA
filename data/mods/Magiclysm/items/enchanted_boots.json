@@ -39,16 +39,15 @@
     "name": { "str_sp": "escape boots" },
     "looks_like": "boots_hiking",
     "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, these boots can be activated once a day to escape from nasty situations, teleporting you a good distance in a random direction.",
-    "initial_charges": 24,
-    "max_charges": 24,
-    "charges_per_use": 24,
-    "artifact_data": { "charge_type": "ARTC_TIME" },
+    "charges_per_use": 1,
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "crystallized_mana": 1 } } ],
     "use_action": { "type": "cast_spell", "spell_id": "magus_escape", "no_fail": true, "level": 10, "need_worn": true },
     "encumbrance": 8,
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "WATERPROOF", "STURDY" ]
+    "flags": [ "WATERPROOF", "STURDY", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "mboots_freerunner",

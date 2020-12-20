@@ -3,19 +3,22 @@
 #define CATA_SRC_FACTION_CAMP_H
 
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "basecamp.h"
+#include "coordinates.h"
+
+template <typename E> struct enum_traits;
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
 class npc;
+struct mission_entry;
 struct point;
 struct tripoint;
-struct mission_entry;
 
 enum class farm_ops : int {
     plow = 1,

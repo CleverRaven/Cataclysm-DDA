@@ -1,39 +1,32 @@
-#include "game.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cmath>
-#include <exception>
 #include <iostream>
 #include <iterator>
 #include <set>
 #include <utility>
 
-#include "bodypart.h"
 #include "character.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "damage.h"
 #include "flat_set.h"
+#include "game.h" // IWYU pragma: associated
 #include "init.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "loading_ui.h"
-#include "material.h"
+#include "make_static.h"
 #include "npc.h"
 #include "output.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
-#include "ret_val.h"
 #include "skill.h"
-#include "stomach.h"
 #include "translations.h"
 #include "units.h"
-#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
-
-static const std::string flag_VARSIZE( "VARSIZE" );
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
@@ -106,14 +99,15 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         header = {
             "Name", "Encumber (fit)", "Warmth", "Weight", "Coverage", "Bash", "Cut", "Bullet", "Acid", "Fire"
         };
-        body_part bp = opts.empty() ? num_bp : get_body_part_token( opts.front() );
+        const bodypart_id bp_null( "bp_null" );
+        bodypart_id bp = opts.empty() ? bp_null : bodypart_id( opts.front() );
         auto dump = [&rows, &bp]( const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
-            r.push_back( to_string( obj.get_encumber( get_player_character(), convert_bp( bp ).id() ) ) );
+            r.push_back( to_string( obj.get_encumber( get_player_character(),  bp ) ) );
             r.push_back( to_string( obj.get_warmth() ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
-            r.push_back( to_string( obj.get_coverage( convert_bp( bp ).id() ) ) );
+            r.push_back( to_string( obj.get_coverage( bp ) ) );
             r.push_back( to_string( obj.bash_resist() ) );
             r.push_back( to_string( obj.cut_resist() ) );
             r.push_back( to_string( obj.bullet_resist() ) );
@@ -125,9 +119,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         for( const itype *e : item_controller->all() ) {
             if( e->armor ) {
                 item obj( e );
-                if( bp == num_bp || obj.covers( convert_bp( bp ).id() ) ) {
-                    if( obj.has_flag( flag_VARSIZE ) ) {
-                        obj.item_tags.insert( "FIT" );
+                if( bp == bp_null || obj.covers( bp ) ) {
+                    if( obj.has_flag( STATIC( flag_id( "VARSIZE" ) ) ) ) {
+                        obj.set_flag( STATIC( flag_id( "FIT" ) ) );
                     }
                     dump( obj );
                 }
@@ -282,8 +276,8 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             "Aerodynamics coeff", "Rolling coeff", "Static Drag", "Offroad %"
         };
         auto dump = [&rows]( const vproto_id & obj ) {
-            auto veh_empty = vehicle( obj, 0, 0 );
-            auto veh_fueled = vehicle( obj, 100, 0 );
+            vehicle veh_empty = vehicle( obj, 0, 0 );
+            vehicle veh_fueled = vehicle( obj, 100, 0 );
 
             std::vector<std::string> r;
             r.push_back( veh_empty.name );
@@ -311,7 +305,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             std::vector<std::string> r;
             r.push_back( obj.name() );
             r.push_back( obj.location );
-            r.push_back( to_string( static_cast<int>( std::ceil( to_gram( item( obj.item ).weight() ) /
+            r.push_back( to_string( static_cast<int>( std::ceil( to_gram( item( obj.base_item ).weight() ) /
                                     1000.0 ) ) ) );
             r.push_back( to_string( obj.size / units::legacy_volume_factor ) );
             rows.push_back( r );

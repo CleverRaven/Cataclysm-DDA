@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+#include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "character.h"
 #include "colony.h"
@@ -29,7 +31,9 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 
 // Gates namespace
@@ -99,12 +103,11 @@ void gate_data::load( const JsonObject &jo, const std::string & )
 
 void gate_data::check() const
 {
-    static const iexamine_function controls_gate( iexamine_function_from_string( "controls_gate" ) );
     const ter_str_id winch_tid( id.str() );
 
     if( !winch_tid.is_valid() ) {
         debugmsg( "Gates \"%s\" have no terrain of the same name, working as a winch.", id.c_str() );
-    } else if( winch_tid->examine != controls_gate ) {
+    } else if( !winch_tid->has_examine( iexamine::controls_gate ) ) {
         debugmsg( "Terrain \"%s\" can't control gates, but gates \"%s\" depend on it.",
                   winch_tid.c_str(), id.c_str() );
     }

@@ -10,6 +10,7 @@
 #include "calendar.h"
 #include "json.h"
 #include "optional.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class disease_type
@@ -27,7 +28,7 @@ class disease_type
         int min_intensity = 1;
         int max_intensity = 1;
         /**Affected body parts*/
-        std::set<body_part> affected_bodyparts;
+        std::set<bodypart_str_id> affected_bodyparts;
         /**If not empty this sets the health threshold above which you're immune to the disease*/
         cata::optional<int> health_threshold;
         /**effect applied by this disease*/

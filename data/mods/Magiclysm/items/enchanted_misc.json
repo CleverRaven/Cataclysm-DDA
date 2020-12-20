@@ -14,12 +14,11 @@
     "bashing": 8,
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "ALLOWS_REMOTE_USE", "FIRE" ],
-    "initial_charges": 60,
-    "max_charges": 60,
+    "flags": [ "ALLOWS_REMOTE_USE", "FIRE", "NO_UNLOAD" ],
     "charges_per_use": 1,
     "sub": "hotplate",
-    "artifact_data": { "charge_type": "ARTC_TIME" },
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 60 } } ],
     "use_action": [
       "HOTPLATE",
       "HEAT_FOOD",
@@ -62,7 +61,7 @@
     "max_charges": 5,
     "charges_per_use": 1,
     "qualities": [ [ "LOCKPICK", 50 ] ],
-    "flags": [ "ARTC_TIME", "PERFECT_LOCKPICK" ],
+    "flags": [ "PERFECT_LOCKPICK" ],
     "use_action": [ "PICK_LOCK" ]
   },
   {
@@ -133,10 +132,9 @@
     "description": "This is a high quality, engraved steel kit with a variety of needles, some plastic spools for thread, some small scissors, even a small heating element for melting and joining plastic.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.  It also contains one of those magic spiders that constantly, if slowly, makes new thread.",
     "price": 100000,
     "material": [ "steel" ],
-    "initial_charges": 500,
-    "max_charges": 1000,
     "charges_per_use": 1,
-    "artifact_data": { "charge_type": "ARTC_TIME" },
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 1000 } } ],
     "sub": "sewing_kit",
     "use_action": [
       {
@@ -150,6 +148,7 @@
           "faux_fur",
           "nomex",
           "kevlar",
+          "kevlar_layered",
           "neoprene",
           "gutskin",
           "black_dragon_hide",
@@ -167,7 +166,7 @@
         "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD" ]
   },
   {
     "id": "mspider_box",
@@ -184,6 +183,25 @@
     "ammo": [ "thread" ],
     "initial_charges": 500,
     "max_charges": 1000,
-    "artifact_data": { "charge_type": "ARTC_TIME" }
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 1000 } } ]
+  },
+  {
+    "id": "borealmosin_clip",
+    "looks_like": "762R_clip",
+    "type": "MAGAZINE",
+    "name": { "str": "91/30 Boreal clip" },
+    "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load a bolt-action rifle.",
+    "weight": "40 g",
+    "volume": "50ml",
+    "price": 1000,
+    "price_postapoc": 50,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "308" ],
+    "capacity": 5,
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 5 } } ]
   }
 ]

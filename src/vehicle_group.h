@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_VEHICLE_GROUP_H
 #define CATA_SRC_VEHICLE_GROUP_H
 
+#include <algorithm>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -54,18 +56,18 @@ class VehicleGroup
 struct VehicleFacings {
     VehicleFacings( const JsonObject &jo, const std::string &key );
 
-    int pick() const {
+    units::angle pick() const {
         return random_entry( values );
     }
 
-    std::vector<int> values;
+    std::vector<units::angle> values;
 };
 
 struct VehicleLocation {
     VehicleLocation( const jmapgen_int &x, const jmapgen_int &y, const VehicleFacings &facings )
         : x( x ), y( y ), facings( facings ) {}
 
-    int pick_facing() const {
+    units::angle pick_facing() const {
         return facings.pick();
     }
 

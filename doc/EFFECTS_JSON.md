@@ -78,10 +78,18 @@ all of the listed effects to the player. The effects are added one after another
 
 ### Max intensity
 ```C++
-    "max_intensity": 3          - Used for many later fields, defaults to 1
-    "max_effective_intensity"   - How many intensity levels will apply effects.
-                                  Other intensity levels will only increase duration.
+    "max_intensity": 6,             - Used for many later fields, defaults to 1
+    "max_effective_intensity": 3    - Maximum intensity level that will accumulate effects.
+                                      Other intensity levels will only increase duration.
 ```
+
+Each effect has an intensity that describes how strong or severe the effect currently is.  Intensity
+levels above 1 can be assigned different names, and multiply any "scaling_mods" (see below).
+
+The "max_intensity" field tells the absolute maximum value intensity can reach.  The related
+"max_effective_intensity" field limits the multiplier effect of "scaling_mods".  By default, the
+multipliers will be applied all the way up to "max_intensity".
+
 
 ### Name
 ```C++
@@ -294,7 +302,7 @@ and hurt effects triggering. "harmful_cough" means that the coughs caused by thi
 ### Flags
 
 "EFFECT_INVISIBLE" Character affected by an effect with this flag are invisible.
-"EFFECT_IMPEDING" Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strenght check: `x_in_y( get_str(), 6 * get_effect_int( eff_id )`
+"EFFECT_IMPEDING" Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( get_str(), 6 * get_effect_int( eff_id )`
 
 ### Effect effects
 ```C++

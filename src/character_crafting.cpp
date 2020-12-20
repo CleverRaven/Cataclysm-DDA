@@ -1,11 +1,23 @@
-#include "character.h"
+#include <algorithm>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
 
+#include "character.h"
+#include "inventory.h"
+#include "item.h"
 #include "itype.h"
-#include "recipe_dictionary.h"
-#include "recipe.h"
-#include "skill.h"
-#include "player.h"
 #include "npc.h"
+#include "pimpl.h"
+#include "recipe.h"
+#include "recipe_dictionary.h"
+#include "skill.h"
+#include "string_id.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 int Character::has_recipe( const recipe *r, const inventory &crafting_inv,
                            const std::vector<npc *> &helpers ) const
@@ -18,7 +30,7 @@ int Character::has_recipe( const recipe *r, const inventory &crafting_inv,
         return r->difficulty;
     }
 
-    const auto available = get_available_recipes( crafting_inv, &helpers );
+    const recipe_subset available = get_available_recipes( crafting_inv, &helpers );
     return available.contains( r ) ? available.get_custom_difficulty( r ) : -1;
 }
 

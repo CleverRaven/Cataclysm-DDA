@@ -1,0 +1,8 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_dinoexhibit",
+    "name": "Dinosaur exhibit",
+    "terrain": [ "dinoexhibit" ]
+  }
+]

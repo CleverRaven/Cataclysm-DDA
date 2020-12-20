@@ -59,8 +59,8 @@ static const std::string COSMETICS_SIGNAGE( "SIGNAGE" );
 static const std::string STRING_EMPTY;
 
 struct cosmetic_find_result {
-    bool result;
-    int ndx;
+    bool result = false;
+    int ndx = 0;
 };
 static cosmetic_find_result make_result( bool b, int ndx )
 {
@@ -87,7 +87,7 @@ bool submap::has_graffiti( const point &p ) const
 
 const std::string &submap::get_graffiti( const point &p ) const
 {
-    const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
+    const cosmetic_find_result fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
     if( fresult.result ) {
         return cosmetics[ fresult.ndx ].str;
     }
@@ -98,7 +98,7 @@ void submap::set_graffiti( const point &p, const std::string &new_graffiti )
 {
     is_uniform = false;
     // Find signage at p if available
-    const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
+    const cosmetic_find_result fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
     if( fresult.result ) {
         cosmetics[ fresult.ndx ].str = new_graffiti;
     } else {
@@ -109,7 +109,7 @@ void submap::set_graffiti( const point &p, const std::string &new_graffiti )
 void submap::delete_graffiti( const point &p )
 {
     is_uniform = false;
-    const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
+    const cosmetic_find_result fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
     if( fresult.result ) {
         cosmetics[ fresult.ndx ] = cosmetics.back();
         cosmetics.pop_back();
@@ -126,7 +126,7 @@ bool submap::has_signage( const point &p ) const
 std::string submap::get_signage( const point &p ) const
 {
     if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
-        const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
+        const cosmetic_find_result fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
         if( fresult.result ) {
             return cosmetics[ fresult.ndx ].str;
         }
@@ -138,7 +138,7 @@ void submap::set_signage( const point &p, const std::string &s )
 {
     is_uniform = false;
     // Find signage at p if available
-    const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
+    const cosmetic_find_result fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
     if( fresult.result ) {
         cosmetics[ fresult.ndx ].str = s;
     } else {
@@ -148,7 +148,7 @@ void submap::set_signage( const point &p, const std::string &s )
 void submap::delete_signage( const point &p )
 {
     is_uniform = false;
-    const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
+    const cosmetic_find_result fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
     if( fresult.result ) {
         cosmetics[ fresult.ndx ] = cosmetics.back();
         cosmetics.pop_back();
@@ -259,7 +259,7 @@ void submap::rotate( int turns )
 
         for( int j = 0, je = SEEY / 2; j < je; ++j ) {
             for( int i = j, ie = SEEX - j - 1; i < ie; ++i ) {
-                auto p = point{ i, j };
+                point p = point{ i, j };
 
                 swap_soa_tile( p, tmp );
 
@@ -282,12 +282,12 @@ void submap::rotate( int turns )
     }
 
     for( auto &elem : vehicles ) {
-        const auto new_pos = rotate_point( elem->pos );
+        const point new_pos = rotate_point( elem->pos );
 
         elem->pos = new_pos;
         // turn the steering wheel, vehicle::turn does not actually
         // move the vehicle.
-        elem->turn( turns * 90 );
+        elem->turn( turns * 90_degrees );
         // The facing direction and recalculate the positions of the parts
         elem->face = elem->turn_dir;
         elem->precalc_mounts( 0, elem->turn_dir, elem->pivot_anchor[0] );

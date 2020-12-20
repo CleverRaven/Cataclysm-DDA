@@ -2,18 +2,23 @@
 #ifndef CATA_SRC_PROFICIENCY_H
 #define CATA_SRC_PROFICIENCY_H
 
+#include <set>
+#include <string>
+#include <vector>
+
 #include "calendar.h"
 #include "color.h"
 #include "flat_set.h"
 #include "json.h"
+#include "optional.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
+struct display_proficiency;
+struct learning_proficiency;
 template<typename T>
 class generic_factory;
-
-struct learning_proficiency;
-struct display_proficiency;
 
 class proficiency
 {
@@ -22,10 +27,13 @@ class proficiency
         proficiency_id id;
         bool was_loaded = false;
 
-        bool _can_learn;
+        bool _can_learn = false;
 
         translation _name;
         translation _description;
+
+        float _default_time_multiplier = 2.0f;
+        float _default_fail_multiplier = 2.0f;
 
         time_duration _time_to_learn = 9999_hours;
         std::set<proficiency_id> _required;
@@ -34,10 +42,16 @@ class proficiency
         static void load_proficiencies( const JsonObject &jo, const std::string &src );
         static void reset();
         void load( const JsonObject &jo, const std::string &src );
+        static const std::vector<proficiency> &get_all();
 
         bool can_learn() const;
+        proficiency_id prof_id() const;
         std::string name() const;
         std::string description() const;
+
+        float default_time_multiplier() const;
+        float default_fail_multiplier() const;
+
         time_duration time_to_learn() const;
         std::set<proficiency_id> required_proficiencies() const;
 };
@@ -56,10 +70,14 @@ class proficiency_set
     public:
         std::vector<display_proficiency> display() const;
         // True if the proficiency is learned;
-        bool practice( const proficiency_id &practicing, time_duration amount,
-                       cata::optional<time_duration> max );
+        bool practice( const proficiency_id &practicing, const time_duration &amount,
+                       const cata::optional<time_duration> &max );
         void learn( const proficiency_id &learned );
         void remove( const proficiency_id &lost );
+
+        // Ignore requirements, made for debugging
+        void direct_learn( const proficiency_id &learned );
+        void direct_remove( const proficiency_id &lost );
 
         // Do we know this proficiency?
         bool has_learned( const proficiency_id &query ) const;
@@ -83,7 +101,7 @@ struct learning_proficiency {
     time_duration practiced;
 
     learning_proficiency() = default;
-    learning_proficiency( const proficiency_id &id, const time_duration practiced ) : id( id ),
+    learning_proficiency( const proficiency_id &id, const time_duration &practiced ) : id( id ),
         practiced( practiced ) {}
 
     void serialize( JsonOut &jsout ) const;
@@ -98,13 +116,13 @@ struct display_proficiency {
     nc_color color;
 
     // What percentage we are towards knowing it
-    float practice;
+    float practice = 0.0f;
 
     // How much time we've spent practicing it
-    time_duration spent;
+    time_duration spent = 0_turns;
 
     // If we already know it
-    bool known;
+    bool known = false;
 };
 
 #endif // CATA_SRC_PROFICIENCY_H

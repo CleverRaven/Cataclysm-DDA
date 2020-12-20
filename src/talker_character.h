@@ -2,15 +2,25 @@
 #ifndef CATA_SRC_TALKER_CHARACTER_H
 #define CATA_SRC_TALKER_CHARACTER_H
 
-#include "talker.h"
+#include <functional>
+#include <list>
+#include <string>
+#include <vector>
 
-class player;
+#include "coordinates.h"
+#include "talker.h"
+#include "type_id.h"
+
+class character_id;
 class faction;
 class item;
 class mission;
 class npc;
-struct tripoint;
+class player;
+class time_duration;
 class vehicle;
+struct tripoint;
+
 /*
  * Talker wrapper class for Character.  well, ideally, but since Character is such a mess,
  * it's the wrapper class for player
@@ -61,6 +71,7 @@ class talker_character: public talker
         // effects and values
         bool has_effect( const efftype_id &effect_id ) const override;
         bool is_deaf() const override;
+        bool is_mute() const override;
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
                          bool permanent ) override;
         void remove_effect( const efftype_id &old_effect ) override;
@@ -99,6 +110,7 @@ class talker_character: public talker
         void shout( const std::string &speech = "", bool order = false ) override;
 
     protected:
+        talker_character() = default;
         player *me_chr;
 };
 #endif // CATA_SRC_TALKER_CHARACTER_H

@@ -8,6 +8,7 @@
     "description": "A large flamethrower with substantial gas reserves.  Very menacing and deadly.",
     "weight": "1587 g",
     "volume": "4 L",
+    "longest_side": "100 cm",
     "price": 80000,
     "price_postapoc": 6000,
     "to_hit": -1,
@@ -57,7 +58,7 @@
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "rail", 1 ], [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "extend": { "flags": [ "FIRE_20", "MODE_BURST", "NON-FOULING" ] },
+    "extend": { "flags": [ "FIRE_20", "MODE_BURST", "NON_FOULING" ] },
     "delete": { "flags": [ "FIRE_100" ] },
     "pocket_data": [
       {

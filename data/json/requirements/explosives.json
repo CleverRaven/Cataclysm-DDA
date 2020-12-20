@@ -46,14 +46,14 @@
     "//": "This should contain all the explosives you can set off with only a fuse, 10g tnt equivalent.",
     "components": [
       [
-        [ "chem_black_powder", 18 ],
-        [ "gunpowder", 9 ],
+        [ "chem_black_powder", 90 ],
+        [ "gunpowder", 90 ],
         [ "chem_match_head_powder", 37 ],
-        [ "gunpowder_pistol", 9 ],
-        [ "gunpowder_shotgun", 9 ],
-        [ "gunpowder_magnum_pistol", 8 ],
-        [ "gunpowder_artillery", 9 ],
-        [ "gunpowder_rifle", 7 ],
+        [ "gunpowder_pistol", 90 ],
+        [ "gunpowder_shotgun", 90 ],
+        [ "gunpowder_magnum_pistol", 80 ],
+        [ "gunpowder_artillery", 90 ],
+        [ "gunpowder_rifle", 70 ],
         [ "chem_hmtd", 14 ]
       ]
     ]

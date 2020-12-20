@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_BIONICS_H
 #define CATA_SRC_BIONICS_H
 
+#include <algorithm>
 #include <cstddef>
 #include <map>
 #include <set>
@@ -14,15 +15,18 @@
 #include "flat_set.h"
 #include "magic.h"
 #include "optional.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 
+class avatar;
+class Character;
 class JsonIn;
 class JsonObject;
 class JsonOut;
-class Character;
 class player;
 
 enum class character_stat : char;
@@ -50,7 +54,7 @@ struct bionic_data {
     * If true, this bionic is included with another.
     */
     bool included = false;
-    /**Factor modifiying weight capacity*/
+    /**Factor modifying weight capacity*/
     float weight_capacity_modifier = 1.0f;
     /**Bonus to weight capacity*/
     units::mass weight_capacity_bonus = 0_gram;
@@ -59,7 +63,7 @@ struct bionic_data {
     /**This bionic draws power through a cable*/
     bool is_remote_fueled = false;
     /**Fuel types that can be used by this bionic*/
-    std::vector<itype_id> fuel_opts;
+    std::vector<material_id> fuel_opts;
     /**How much fuel this bionic can hold*/
     int fuel_capacity = 0;
     /**Fraction of fuel energy converted to bionic power*/
@@ -72,7 +76,7 @@ struct bionic_data {
     bool exothermic_power_gen = false;
     /**Type of field emitted by this bionic when it produces energy*/
     emit_id power_gen_emission = emit_id::NULL_ID();
-    /**Amount of environemental protection offered by this bionic*/
+    /**Amount of environmental protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> env_protec;
 
     /**Amount of bash protection offered by this bionic*/
@@ -158,7 +162,7 @@ struct bionic {
         bool        powered = false;
         /* Ammunition actually loaded in this bionic gun in deactivated state */
         itype_id    ammo_loaded = itype_id::NULL_ID();
-        /* Ammount of ammo actually held inside by this bionic gun in deactivated state */
+        /* Amount of ammo actually held inside by this bionic gun in deactivated state */
         unsigned int         ammo_count = 0;
         /* An amount of time during which this bionic has been rendered inoperative. */
         time_duration        incapacitated_time;
@@ -166,7 +170,7 @@ struct bionic {
             : id( "bio_batteries" ), incapacitated_time( 0_turns ) {
         }
         bionic( bionic_id pid, char pinvlet )
-            : id( std::move( pid ) ), invlet( pinvlet ), incapacitated_time( 0_turns ) { }
+            : id( pid ), invlet( pinvlet ), incapacitated_time( 0_turns ) { }
 
         const bionic_data &info() const {
             return *id;
@@ -178,7 +182,7 @@ struct bionic {
 
         int get_quality( const quality_id &quality ) const;
 
-        bool is_this_fuel_powered( const itype_id &this_fuel ) const;
+        bool is_this_fuel_powered( const material_id &this_fuel ) const;
         void toggle_safe_fuel_mod();
         void toggle_auto_start_mod();
 
@@ -211,7 +215,7 @@ std::vector<bodypart_id> get_occupied_bodyparts( const bionic_id &bid );
 
 void reset_bionics();
 
-char get_free_invlet( player &p );
+char get_free_invlet( Character &p );
 std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                bool each_bp_on_new_line = true );
 

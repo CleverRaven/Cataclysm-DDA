@@ -1,6 +1,5 @@
 #include "catch/catch.hpp"
 
-#include <array>
 #include <cstddef>
 #include <functional>
 #include <list>
@@ -15,15 +14,12 @@
 #include "avatar.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
-#include "itype.h"
-#include "optional.h"
-#include "pldata.h"
+#include "pimpl.h"
 #include "profession.h"
-#include "ret_val.h"
 #include "scenario.h"
-#include "string_id.h"
+#include "string_formatter.h"
 #include "type_id.h"
+#include "visitable.h"
 
 static std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
 {
@@ -55,14 +51,16 @@ static bool try_set_traits( const std::vector<trait_id> &traits )
     avatar &player_character = get_avatar();
     player_character.clear_mutations();
     player_character.add_traits(); // mandatory prof/scen traits
+    std::vector<trait_id> oked_traits;
     for( const trait_id &tr : traits ) {
         if( player_character.has_conflicting_trait( tr ) ||
             !get_scenario()->traitquery( tr ) ) {
             return false;
         } else if( !player_character.has_trait( tr ) ) {
-            player_character.set_mutation( tr );
+            oked_traits.push_back( tr );
         }
     }
+    player_character.set_mutations( oked_traits );
     return true;
 }
 

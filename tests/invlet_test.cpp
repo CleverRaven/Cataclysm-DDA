@@ -8,8 +8,9 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
-#include <vector>
 
+#include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "inventory.h"
 #include "item.h"
@@ -18,13 +19,12 @@
 #include "map_helpers.h"
 #include "map_selector.h"
 #include "options_helpers.h"
+#include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
 #include "visitable.h"
-
-static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 
 enum inventory_location {
     GROUND,
@@ -380,14 +380,14 @@ static void move_item( player &p, const int id, const inventory_location from,
                     FAIL( "unimplemented" );
                     break;
                 case WORN:
-                    p.wear( item_at( p, id, from ), false );
+                    p.wear( item_location( *p.as_character(), &item_at( p, id, from ) ), false );
                     break;
                 case WIELDED_OR_WORN:
                     if( p.weapon.is_null() ) {
                         p.wield( item_at( p, id, from ) );
                     } else {
                         // since we can only wield one item, wear the item instead
-                        p.wear( item_at( p, id, from ), false );
+                        p.wear( item_location( *p.as_character(), &item_at( p, id, from ) ), false );
                     }
                     break;
             }
@@ -448,12 +448,13 @@ static void invlet_test( player &dummy, const inventory_location from, const inv
     // iterate through all permutations of test actions
     for( int id = 0; id < INVLET_STATE_NUM * INVLET_STATE_NUM * TEST_ACTION_NUM; ++id ) {
         // how to assign invlet to the first item
-        const invlet_state first_invlet_state = invlet_state( id % INVLET_STATE_NUM );
+        const invlet_state first_invlet_state = static_cast<invlet_state>( id % INVLET_STATE_NUM );
         // how to assign invlet to the second item
-        const invlet_state second_invlet_state = invlet_state( id / INVLET_STATE_NUM % INVLET_STATE_NUM );
+        const invlet_state second_invlet_state = static_cast<invlet_state>( id / INVLET_STATE_NUM %
+                INVLET_STATE_NUM );
         // the test steps
-        const test_action action = test_action( id / INVLET_STATE_NUM / INVLET_STATE_NUM %
-                                                TEST_ACTION_NUM );
+        const test_action action = static_cast<test_action>( id / INVLET_STATE_NUM / INVLET_STATE_NUM %
+                                   TEST_ACTION_NUM );
 
         // the final expected invlet state of the two items
         invlet_state expected_first_invlet_state = second_invlet_state == NONE ? first_invlet_state : NONE;
@@ -668,9 +669,9 @@ static void merge_invlet_test( player &dummy, inventory_location from )
 
     for( int id = 0; id < INVLET_STATE_NUM * INVLET_STATE_NUM; ++id ) {
         // how to assign invlet to the first item
-        invlet_state first_invlet_state = invlet_state( id % INVLET_STATE_NUM );
+        invlet_state first_invlet_state = static_cast<invlet_state>( id % INVLET_STATE_NUM );
         // how to assign invlet to the second item
-        invlet_state second_invlet_state = invlet_state( id / INVLET_STATE_NUM );
+        invlet_state second_invlet_state = static_cast<invlet_state>( id / INVLET_STATE_NUM );
         // what the invlet should be for the merged stack
         invlet_state expected_merged_invlet_state = first_invlet_state != NONE ? first_invlet_state :
                 second_invlet_state;
@@ -756,9 +757,6 @@ TEST_CASE( "Inventory letter test", "[.invlet]" )
     dummy.setpos( spot );
     get_map().ter_set( spot, ter_id( "t_dirt" ) );
     get_map().furn_set( spot, furn_id( "f_null" ) );
-    if( !dummy.has_trait( trait_DEBUG_STORAGE ) ) {
-        dummy.set_mutation( trait_DEBUG_STORAGE );
-    }
 
     invlet_test_autoletter_off( "Picking up items from the ground", dummy, GROUND, INVENTORY );
     invlet_test_autoletter_off( "Wearing items from the ground", dummy, GROUND, WORN );

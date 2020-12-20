@@ -1,3 +1,231 @@
+# 0.F (2020-09-01)
+
+## Features:
+Added option to randomize INITIAL_DAY.
+Allow vehicles with autopilot to follow you.
+Monster factions can unconditionally hate other factions.
+Allows mutations to cast spells via enchantments.
+Mining multi-activity for NPCs and players.
+Basecamp job rework - wandering/sitting/job priorities.
+Auto eat and drink from auto-zones during long activities/waiting.
+Flyable Helicopters.
+Towing vehicles.
+User defined height and age.
+Add support for json-defined achievements to provide more goals to strive for.
+Lock picking overhaul.
+Rot items away in reality bubble.
+Display holiday on main menu screen based on system time.
+Separate bullet damage type from cut/stab.
+Makes consuming items take time.
+Implement damage over time spell infrastructure.
+Nested Container system.
+Add support for conducts (self-imposed play constraints tracked by the game).
+Custom achievement/conduct requirement descriptions.
+[Magiclysm] Add spell level and number of spells known achievements.
+Allow event_statistic to be defined as first and last events in an event stream.
+Enable mouse input for inventory.
+Worn gloves count as unarmed weapons when no weapon is held.
+Any corpse can rise again as a zombie.
+Added ability to stop bleeding, disinfect wounds, and inject antibiotics in case of infected wounds or tetanus to an autodoc.
+Allow randomizing scenario and profession in new character menu.
+Workout and exercise.
+Vehicles: ground vehicle z-level transitions and z+1 bridges.
+Remove static/random NPC options, adjust random NPC rates.
+Blood and blood loss overhaul.
+Artifact procgen - artifacts that spawn use the new relic data.
+Grappling hooks can be deployed for climbing, just like ladders.
+Add proficiencies, representing specific knowledge in a certain area not covered by normal skills.
+Add facing to vehicle parts and tiles for better vehicle rendering.
+Add activation abilities and charges to relics.
+Tiles: improve furniture rotation and connections.
+Show which achievements have been completed in past games.
+Artifacts regenerate ammo option.
+
+## Content:
+Gun volume and weight audit.
+Move most urban development houses to vanilla.
+Add Survivor RV and car.
+Populate rooftops with monsters.
+Large addition of chemicals, chemistry tools and recipes.
+Mi-go, masters, and necromancers can open doors.
+Adds a bulk shipping crate possibility to the supplydrop map extra.
+New zombie: necro-boomer.
+Overhaul the mall.
+Allow the of use grappling hooks on ledges.
+Make bugs much more mutated.
+Reformats the 'chat with a friend' feature in NPCs to be more flexible, and to provide some more lore insights.
+Adds 'What the hell happened' stories to NPCs, keyed off backgrounds.
+Feral Humans with blob psychosis.
+Allow plank and branch bundles to be made from cordage, vines, or wire.
+Microlabs can contain artifacts in containment.
+Add NPC_class and NPC json templates and instructions.
+Adapts almost all vehicle definitions to use directional parts (most of the work by Curstwist).
+Update UltiCa tileset and make it default.
+Add a number of flying zombies.
+
+## Interface:
+Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
+Crafting GUI - Highlight hidden recipe info.
+Overhaul target selection and aiming UI.
+Display missing and obsolete mods for current world.
+Require grenades and other explosives to be wielded before activation.
+Add bigger mini-maps to all sidebar layouts.
+Add keycode support to uilist.
+
+## Mods:
+[Magiclysm] Manatouched mutation tree.
+Add Dark Skies Above, a partial conversion mod based around an alien invasion rather than a zombie apocalypse.
+Overhaul Blazemod and split into seperate mods.
+[MMA] Add Ki Strike trait.
+Polymorph spells to transform your foes.
+Spells using components system.
+Aftershock: Add autodoc tiers and augmentation clinics.
+
+## Balance:
+Large item price audit.
+Large scale melee weapon damage audit.
+melee: make polearms do less damage against adjacent targets.
+Hide irradiated effect from the player, forces use of existing tools to detect radiation levels.
+More complex satiety calculations.
+NPCs to use ranged weapons against all enemies, and automatic fire against dangerous enemies.
+Antifungal drugs work over time.
+Don't damage hands when smashing but use your most armored part instead.
+
+## Bugfixes:
+Prevents possible negative damage from explosions.
+Removes scent diffusion over water by implementing NO_SCENT flag.
+Give electric motors equal power in both forward and reverse.
+Fix wield action costing double than it should.
+Fix spells not gaining levels on cast.
+Fix for light sources rendering player invisible at certain ranges.
+Fix crash when NPC gives player equipment.
+Fix "Unable to find and assign mission target" message when accepting mission.
+No more floor items when trading with follower NPCs.
+Fix crash by not accessing null basecamp.
+Helicopters: Allow descending into open air while moving, and disallow roof teleporting.
+Fix cold item rotting in freezer and add more rotting tests.
+Place cursor at highlighted item name in construction and crafting menus as expected by screen readers.
+Spawn regular ants under regular anthills.
+melee: Make sure that melee weapon accuracy improves hit rates.
+Reduce level of vehicle heater/cooler as its now too much after 1-second turns.
+Wake up player if too cold due to hypothermia.
+Fixes a segfault during initializing crafts.
+fixes segfault when attempting to siphon from vehicle with multiple tanks.
+Fix creatures blocking descend even if they can be displaced.
+Fix OnGetHit effects not triggering if player cannot block.
+Refactor monster spawning code to avoid crash.
+Reset game mode before loading normal saves.
+Minimize UI flickering on curses.
+Fix crash upon examining vehicles containing minireactor.
+Fix segfault on harvest.
+Fix loading of legacy characters without bodies.
+Fix explosions not affecting terrain.
+Do not process held item twice.
+Fix crash when trying to reloading item inside advanced inventory
+Blobs are slimes. name them such.
+Fix freezing to death when wet.
+Fix weapon techniques not triggering.
+Prevent some obscure crashes by adding nullptr checks to unsafe pointer accesses.
+Vehicles: make sure going in reverse isn't more efficient than going forward.
+Fix doubled artifact effects on stats.
+Containers can't hold too large items contained in other containers.
+Prevent temperature being 0 after loading a save.
+Consume components in nested containers when crafting.
+Fix stuck joystick on Android.
+Adjust sunlight casting to illuminate exterior walls.
+Fixed limb blocking not triggering.
+Vehicles: make shock absorbers actually absorb shock damage.
+Fix NPC dying immediately on accepting inhaler mission
+Fix crash when attempting to butcher a corpse.
+Fix gear getting damaged when weather has no damaging effects.
+
+## Performance:
+Add option to enable batching when it is available in SDL.
+Skip unnecessary weather calculations for root cellar.
+Cache drop_invalid_inventory and weight_carried.
+Check for safemode emptiness before calling monster check.
+
+## Infrastructure:
+Add basic infrastructure for diseases.
+Allow for specialization of activity parameters.
+Improved event transformations and statistic tracking.
+Jsonize Autodoc quality.
+Add tests for character BMI / kcal / weight.
+Jsonize body parts.
+Jsonize mood modifier from bodyparts.
+Allow multiple overmap terrains in start location.
+Make test failures from other platforms more easily reproducible.
+Enforce a standard header guard format.
+Add clang-tidy check to catch incorrect use of RNGs.
+Adds guide to pricing items to doc folder.
+Add enchantments to bionics.
+Add test for health effect on healing rate.
+Add tests for BMI effect on speed.
+Update Catch2 to v2.12.0 (from 2.9.1).
+Achievements have better up-front checking to detect definition errors.
+Tests use a different config directory by default.
+Migrate ACT_PICKUP to the activity actor system.
+Integrate behavior tree implementation into monster AI.
+Move ascii arts to their own file to avoid bloat.
+Enforce that functions should not have separate x, y parameters.
+Add tests for sun-related functions.
+Jsonize Anatomy: replace enum body_part with bodypart_id.
+Implement installation requirement for CBMs.
+Fields can now override local light levels.
+Convert itype_id to string_id<itype>.
+Test and refactor item info display functions.
+Milling products can be defined in JSON.
+Add a Clang Build Analyzer build step to CI.
+Refactor rectangle and box types.
+Mutations can be reflexively triggered without player input.
+Enforce use of points as local variables.
+Add table.py to make tables of JSON data.
+Add a guide for intermediate mapgen help.
+Options: remove the option to not use z-levels.
+Provide point types with coordinate system type safety.
+Move weather from being hardcoded into json.
+Update Catch2 to 2.13.0.
+Changes some awkward terrains into furnitures for better layering.
+Create a machine-readable memorial file at game over.
+Dialogue: create an talker API for speakers in a dialogue.
+Make rectangle and cuboid generic with respect to point type.
+Configure GitHub build matrix to permit more C++ build testing to happen there.
+Check for zero weight items.
+All .py scripts ported to Python 3 and checked with PEP8 on moderate settings.
+table.py partial object-oriented redesign.
+Script to list what IDs are present in a tileset.
+Revamp vehicle parts shapes to allow chirality - left/right/front/rear.
+Remove old artifact code.
+Script that generates a list of possible overlay ids.
+Add error-checking of recipe (sub)categories.
+Unblacklist most remaining blacklisted mods for automated consistency checking.
+Report log messages for failed tests.
+Reinstate blueprint autocalc.
+Add a compiler error problem matcher.
+
+## Build:
+Create a GitHub workflow for running clang-tidy.
+Remove Travis clang-tidy job.
+Add -fsigned-char to CMakeLists.txt.
+Makes json linter feedback more readable.
+Fix clang-tidy header guard check on Windows.
+Progress feedback for JSON formatting script.
+Set 'disable MS telemetry' flag in VCPKG setup guide.
+Automatic handling of vcpkg dependencies.
+Vehicles: Update doc/JSON_INFO.md for all fields in vehicle_part.
+Improve use of precompiled headers.
+compose.py: allow default sized tilesheets to specify offsets.
+Enable compiling an Android build under Windows.
+Tools: add a Python script to reformat vehicles to use parts arrays.
+
+## I18N and A11Y:
+Fix translation of martial art initate message and computer translation.
+Add support for specifying identical singular and plural forms using `str_sp`.
+Remove name_plural and replace it with str_pl.
+Add helper for localized sorting.
+Record locales in debug.log to assist with i18n debugging.
+Add translator glossary and explain etymology of Exodii.
+
 # 0.E (Ellison)
 
 ## Highlights:
@@ -989,7 +1217,7 @@ Include/Exclude filter for overmap search.
 Carrion can now eat adjacent crops or food.
 Allow place_monster to optionally place a randomized monster using a weighted list.
 Adds firewood source that automatically adds fuel to fire when it is 2/3s consumed.
-Make chickens and other small domestic birds tamable (Chickenfeed)
+Make chickens and other small domestic birds tameable (Chickenfeed)
 Vehicles: Open all doors.
 Implement player faction base.
 Artifact dreams.
@@ -2164,7 +2392,7 @@ Support loading worlds from CLI.
 Always require RFC 4627 compliant JSON.
 Include numeric to fix OSX compile.
 Add a switch to retain debug symbols for profiling.
-Update MXE ICE workaround to blacklist anything targetting x86_64-w64-mingw32.static
+Update MXE ICE workaround to blacklist anything targeting x86_64-w64-mingw32.static
 Don't keep _GLIBCXX_DEBUG when DEBUG_SYMBOLS is set.
 Allow installation in a path with whitespaces.
 Add a compile mode that checks for printf format errors.

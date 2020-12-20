@@ -44,7 +44,7 @@
     "copy-from": "mon_w11b10",
     "type": "MONSTER",
     "name": "W11B10B4",
-    "description": "Wraitheon (11B) Infantry 20 Level (B4) Sniper.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.  ",
+    "description": "Wraitheon (11B) Infantry 20 Level (B4) Sniper.  Part of Wraitheon's series of one-to-one auxiliaries designed to seamlessly integrate with more traditional forces.",
     "color": "green",
     "vision_night": 10,
     "special_attacks": [

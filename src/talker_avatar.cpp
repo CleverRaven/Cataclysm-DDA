@@ -1,6 +1,11 @@
+#include <algorithm>
+#include <memory>
+
 #include "avatar.h"
+#include "calendar.h"
+#include "character.h"
+#include "enums.h"
 #include "game.h"
-#include "game_constants.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -8,6 +13,7 @@
 #include "npctrade.h"
 #include "output.h"
 #include "player.h"
+#include "talker.h"
 #include "talker_avatar.h"
 
 static const efftype_id effect_pacified( "pacified" );
@@ -19,6 +25,11 @@ static const bionic_id bio_face_mask( "bio_face_mask" );
 static const bionic_id bio_voice( "bio_voice" );
 
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
+
+talker_avatar::talker_avatar( avatar *new_me )
+{
+    me_chr = new_me;
+}
 
 std::vector<std::string> talker_avatar::get_topics( bool )
 {
@@ -101,7 +112,7 @@ void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
     for( int i = 0; i < count; i++ ) {
         monster *const mon_ptr = g->place_critter_around( mtype, me_chr->pos(), 3 );
         if( !mon_ptr ) {
-            add_msg( m_debug, "Cannot place u_buy_monster, no valid placement locations." );
+            add_msg_debug( "Cannot place u_buy_monster, no valid placement locations." );
             break;
         }
         monster &tmp = *mon_ptr;

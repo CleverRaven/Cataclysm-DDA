@@ -1,6 +1,5 @@
 #include "gamemode_tutorial.h" // IWYU pragma: associated
 
-#include <array>
 #include <cstdlib>
 #include <memory>
 #include <string>
@@ -8,7 +7,8 @@
 #include "action.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "coordinate_conversions.h"
+#include "character.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "game.h"
 #include "game_constants.h"
@@ -22,16 +22,15 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
-#include "pldata.h"
+#include "pimpl.h"
 #include "point.h"
 #include "profession.h"
 #include "scent_map.h"
+#include "string_id.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "units.h"
 #include "weather.h"
 
 static const itype_id itype_cig( "cig" );
@@ -146,7 +145,7 @@ bool tutorial_game::init()
     starting_om.clear_mon_groups();
 
     player_character.toggle_trait( trait_QUICK );
-    item lighter( "lighter", 0 );
+    item lighter( "lighter", calendar::turn_zero );
     lighter.invlet = 'e';
     player_character.inv->add_item( lighter, true, false );
     player_character.set_skill_level( skill_gun, 5 );
@@ -280,7 +279,7 @@ void tutorial_game::post_action( action_id act )
             break;
 
         case ACTION_WEAR: {
-            item it( player_character.last_item, 0 );
+            item it( player_character.last_item, calendar::turn_zero );
             if( it.is_armor() ) {
                 if( it.get_avg_coverage() >= 2 || it.get_thickness() >= 2 ) {
                     add_message( tut_lesson::LESSON_WORE_ARMOR );
@@ -302,7 +301,7 @@ void tutorial_game::post_action( action_id act )
             add_message( tut_lesson::LESSON_INTERACT );
         /* fallthrough */
         case ACTION_PICKUP: {
-            item it( player_character.last_item, 0 );
+            item it( player_character.last_item, calendar::turn_zero );
             if( it.is_armor() ) {
                 add_message( tut_lesson::LESSON_GOT_ARMOR );
             } else if( it.is_gun() ) {

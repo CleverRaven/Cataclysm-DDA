@@ -1,12 +1,5 @@
 [
   {
-    "id": "mx_null",
-    "type": "map_extra",
-    "name": { "str": "Nothing" },
-    "description": "Nothing of interest is here.",
-    "generator": { "generator_method": "null", "generator_id": "mx_null" }
-  },
-  {
     "id": "mx_crater",
     "type": "map_extra",
     "name": { "str": "Crater" },
@@ -209,7 +202,7 @@
   {
     "id": "mx_shrubbery",
     "type": "map_extra",
-    "name": { "str": "Shrubberry" },
+    "name": { "str": "Shrubbery" },
     "description": "This area is covered with a single type of shrubs.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_shrubbery" },
     "sym": "s",
@@ -398,5 +391,152 @@
     "name": { "str": "Reed" },
     "description": "Water vegetation.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_reed" }
+  },
+  {
+    "id": "mx_sewer_round",
+    "type": "map_extra",
+    "name": { "str": "Sewer Roundabout" },
+    "description": "Sewer roundabout.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_round" }
+  },
+  {
+    "id": "mx_sewer_grid",
+    "type": "map_extra",
+    "name": { "str": "Sewer Grid" },
+    "description": "Sewer grid.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grid" }
+  },
+  {
+    "id": "mx_sewer_grid2",
+    "type": "map_extra",
+    "name": { "str": "Sewer Grid" },
+    "description": "Sewer grid.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grid2" }
+  },
+  {
+    "id": "mx_sewer_mntE",
+    "type": "map_extra",
+    "name": { "str": "Sewer Maintenance" },
+    "description": "Sewer maintenance.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_mntE" }
+  },
+  {
+    "id": "mx_sewer_mntW",
+    "type": "map_extra",
+    "name": { "str": "Sewer Maintenance" },
+    "description": "Sewer maintenance.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_mntW" }
+  },
+  {
+    "id": "mx_sewer_mntN",
+    "type": "map_extra",
+    "name": { "str": "Sewer Maintenance" },
+    "description": "Sewer maintenance.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_mntN" }
+  },
+  {
+    "id": "mx_sewer_mntS",
+    "type": "map_extra",
+    "name": { "str": "Sewer Maintenance" },
+    "description": "Sewer maintenance.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_mntS" }
+  },
+  {
+    "id": "mx_sewer_grateE",
+    "type": "map_extra",
+    "name": { "str": "Sewer Grate" },
+    "description": "Sewer grate.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grateE" }
+  },
+  {
+    "id": "mx_sewer_grateW",
+    "type": "map_extra",
+    "name": { "str": "Sewer Grate" },
+    "description": "Sewer grate.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grateW" }
+  },
+  {
+    "id": "mx_sewer_grateN",
+    "type": "map_extra",
+    "name": { "str": "Sewer Grate" },
+    "description": "Sewer grate.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grateN" }
+  },
+  {
+    "id": "mx_sewer_grateS",
+    "type": "map_extra",
+    "name": { "str": "Sewer Grate" },
+    "description": "Sewer grate.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_grateS" }
+  },
+  {
+    "id": "mx_sewer_pipesA",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesA" }
+  },
+  {
+    "id": "mx_sewer_pipesB",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesB" }
+  },
+  {
+    "id": "mx_sewer_pipesC",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesC" }
+  },
+  {
+    "id": "mx_sewer_pipesD",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesD" }
+  },
+  {
+    "id": "mx_sewer_pipesE",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesE" }
+  },
+  {
+    "id": "mx_sewer_pipesF",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesF" }
+  },
+  {
+    "id": "mx_sewer_pipesG",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesG" }
+  },
+  {
+    "id": "mx_sewer_pipesH",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesH" }
+  },
+  {
+    "id": "mx_sewer_pipesI",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesI" }
+  },
+  {
+    "id": "mx_sewer_pipesJ",
+    "type": "map_extra",
+    "name": { "str": "Sewer Pipes" },
+    "description": "Sewer pipes and pumps.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesJ" }
   }
 ]

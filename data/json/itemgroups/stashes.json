@@ -27,6 +27,7 @@
       { "item": "sauerkraut", "prob": 20, "charges": 4, "container-item": "jar_glass_sealed" },
       [ "con_milk", 10 ],
       [ "milk_evap", 10 ],
+      [ "instant_coffee", 25 ],
       { "item": "fish_pickled", "prob": 26, "charges": 2, "container-item": "jar_glass_sealed" },
       [ "lutefisk", 1 ],
       [ "pemmican", 10 ],

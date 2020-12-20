@@ -1,16 +1,16 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm> //std::min
 #include <cstddef>
 #include <memory>
 #include <unordered_map>
 
+#include "avatar.h"
+#include "color.h"
 #include "enums.h"
-#include "game.h"
 #include "input.h"
 #include "inventory.h"
 #include "mutation.h"
 #include "output.h"
+#include "player.h" // IWYU pragma: associated
 #include "popup.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -18,7 +18,7 @@
 #include "ui_manager.h"
 
 // '!' and '=' are uses as default bindings in the menu
-const invlet_wrapper
+static const invlet_wrapper
 mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );
 
 static void draw_exam_window( const catacurses::window &win, const int border_y )
@@ -29,7 +29,7 @@ static void draw_exam_window( const catacurses::window &win, const int border_y 
     mvwputch( win, point( width - 1, border_y ), BORDER_COLOR, LINE_XOXX );
 }
 
-const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
+static const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
 {
     return string_format( comment, string_format( "[<color_yellow>%s</color>]", keys ) );
 };
@@ -68,13 +68,8 @@ static void show_mutations_titlebar( const catacurses::window &window,
     wnoutrefresh( window );
 }
 
-void player::power_mutations()
+void avatar::power_mutations()
 {
-    if( !is_player() ) {
-        // TODO: Implement NPCs activating mutations
-        return;
-    }
-
     std::vector<trait_id> passive;
     std::vector<trait_id> active;
     for( std::pair<const trait_id, trait_data> &mut : my_mutations ) {

@@ -10,6 +10,7 @@
 #include "inventory_ui.h"
 #include "item_location.h"
 
+class Character;
 struct tripoint;
 
 namespace cata
@@ -70,6 +71,15 @@ void reassign_letter( player &p, item &it );
 void swap_letters( player &p );
 
 /**
+* Compares two items, if confirm_message isn't empty then it will be printed
+* to the screen and function return value will be true if confirm button was
+* pressed, false for "quit" input.
+* @return False if confirm_message is empty or QUIT input was pressed.
+*/
+bool compare_items( const item &first, const item &second,
+                    const std::string &confirm_message = "" );
+
+/**
  * Select items to drop.
  * @return A list of pairs of item_location, quantity.
  */
@@ -104,7 +114,7 @@ void insert_items( avatar &you, item_location &holster );
 /** Choosing a gun to saw down it's barrel. */
 item_location saw_barrel( player &p, item &tool );
 /** Choose item to wear. */
-item_location wear( player &p );
+item_location wear( player &p, const bodypart_id &bp = bodypart_id( "bp_null" ) );
 /** Choose item to take off. */
 item_location take_off( avatar &you );
 /** Item cut up menu. */
@@ -113,8 +123,6 @@ item_location salvage( player &p, const salvage_actor *actor );
 item_location repair( player &p, const repair_item_actor *actor, const item *main_tool );
 /** Bionic install menu. */
 item_location install_bionic( player &p, player &patient, bool surgeon = false );
-/** Bionic uninstall menu. */
-item_location uninstall_bionic( player &p, player &patient );
 /**Autoclave sterilize menu*/
 item_location sterilize_cbm( player &p );
 /*@}*/

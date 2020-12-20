@@ -3,6 +3,8 @@
 // input.h must be include *before* the ncurses header. The latter has some macro
 // defines that clash with the constants defined in input.h (e.g. KEY_UP).
 #include "input.h"
+#include "point.h"
+#include "translations.h"
 
 // ncurses can define some functions as macros, but we need those identifiers
 // to be unchanged by the preprocessor, as we use them as function names.
@@ -14,11 +16,14 @@
 #endif
 
 #include <langinfo.h>
+#include <memory>
 #include <stdexcept>
+#include <string>
 
-#include "cursesdef.h"
+#include "cached_options.h"
 #include "catacharset.h"
 #include "color.h"
+#include "cursesdef.h"
 #include "game_ui.h"
 #include "output.h"
 #include "ui_manager.h"
@@ -251,6 +256,11 @@ void catacurses::init_interface()
 // ignoring preferred keyboard mode
 input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyboard_mode*/ )
 {
+    if( test_mode ) {
+        // input should be skipped in caller's code
+        throw std::runtime_error( "input_manager::get_input_event called in test mode" );
+    }
+
     int key = ERR;
     input_event rval;
     do {

@@ -1,5 +1,3 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <array>
 #include <cstddef>
@@ -8,41 +6,30 @@
 #include <string>
 #include <vector>
 
-#include "cata_utility.h"
+#include "bodypart.h"
 #include "catacharset.h" // used for utf8_width()
 #include "character.h"
+#include "color.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
+#include "flat_set.h"
 #include "game_inventory.h"
 #include "input.h"
+#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "line.h"
 #include "output.h"
+#include "pimpl.h"
+#include "player.h" // IWYU pragma: associated
+#include "player_activity.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"
 #include "units_utility.h"
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
-
-static const std::string flag_AURA( "AURA" );
-static const std::string flag_BELTED( "BELTED" );
-static const std::string flag_FANCY( "FANCY" );
-static const std::string flag_FIT( "FIT" );
-static const std::string flag_FLOTATION( "FLOTATION" );
-static const std::string flag_HOOD( "HOOD" );
-static const std::string flag_OUTER( "OUTER" );
-static const std::string flag_OVERSIZE( "OVERSIZE" );
-static const std::string flag_PERSONAL( "PERSONAL" );
-static const std::string flag_POCKETS( "POCKETS" );
-static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
-static const std::string flag_SKINTIGHT( "SKINTIGHT" );
-static const std::string flag_SUPER_FANCY( "SUPER_FANCY" );
-static const std::string flag_SWIM_GOGGLES( "SWIM_GOGGLES" );
-static const std::string flag_WAIST( "WAIST" );
-static const std::string flag_WATER_FRIENDLY( "WATER_FRIENDLY" );
-static const std::string flag_WATERPROOF( "WATERPROOF" );
 
 namespace
 {
@@ -148,7 +135,7 @@ std::string body_part_names( const std::vector<bodypart_id> &parts )
     for( size_t i = 0; i < parts.size(); ++i ) {
         const bodypart_id &part = parts[i];
         if( i + 1 < parts.size() &&
-            parts[i + 1] == convert_bp( static_cast<body_part>( bp_aiOther[part->token] ) ).id() ) {
+            parts[i + 1] == part->opposite_part ) {
             // Can combine two body parts (e.g. arms)
             names.push_back( body_part_name_accusative( part, 2 ) );
             ++i;
@@ -340,7 +327,7 @@ std::vector<std::string> clothing_flags_description( const item &worn_item )
 
     if( worn_item.has_flag( flag_FIT ) ) {
         description_stack.push_back( _( "It fits you well." ) );
-    } else if( worn_item.has_flag( "VARSIZE" ) ) {
+    } else if( worn_item.has_flag( flag_VARSIZE ) ) {
         description_stack.push_back( _( "It could be refitted." ) );
     }
 
@@ -389,7 +376,7 @@ struct layering_item_info {
     bool operator ==( const layering_item_info &o ) const {
         // This is used to merge e.g. both arms into one entry when their items
         // are equivalent.  For that purpose we don't care about the exact
-        // penalities because they will list different body parts; we just
+        // penalties because they will list different body parts; we just
         // check that the badness is the same (which is all that matters for
         // rendering the right-hand list).
         return this->penalties.badness() == o.penalties.badness() &&
@@ -439,7 +426,7 @@ void player::sort_armor()
     * + 3 - horizontal lines;
     * + 1 - caption line;
     * + 2 - innermost/outermost string lines;
-    * + num_bp - sub-categories (torso, head, eyes, etc.);
+    * + num_of_parts - sub-categories (torso, head, eyes, etc.);
     * + 1 - gap;
     * number of lines required for displaying all items is calculated dynamically,
     * because some items can have multiple entries (i.e. cover a few parts of body).
@@ -453,8 +440,8 @@ void player::sort_armor()
         armor_cat.insert( it );
     }
     armor_cat.insert( bodypart_id( "bp_null" ) );
-
-    int req_right_h = 3 + 1 + 2 + body_part::num_bp + 1;
+    const int num_of_parts = get_all_body_parts().size();
+    int req_right_h = 3 + 1 + 2 + num_of_parts + 1;
     for( const bodypart_id &cover : armor_cat ) {
         for( const item &elem : worn ) {
             if( elem.covers( cover ) ) {
@@ -468,9 +455,9 @@ void player::sort_armor()
     * + 1 - caption line;
     * + 8 - general properties
     * + 13 - ASSUMPTION: max possible number of flags @ item
-    * + num_bp+1 - warmth & enc block
+    * + num_of_parts+1 - warmth & enc block
     */
-    const int req_mid_h = 3 + 1 + 8 + 13 + body_part::num_bp + 1;
+    const int req_mid_h = 3 + 1 + 8 + 13 + num_of_parts + 1;
 
     int win_h = 0;
     int win_w = 0;
@@ -481,8 +468,8 @@ void player::sort_armor()
     int right_w  = 0;
     int middle_w = 0;
 
-    int tabindex = body_part::num_bp;
-    const int tabcount = body_part::num_bp + 1;
+    int tabindex = 0;
+    const int tabcount = num_of_parts + 1;
 
     int leftListIndex  = 0;
     int leftListOffset = 0;
@@ -518,12 +505,12 @@ void player::sort_armor()
         w_sort_armor = catacurses::newwin( win_h, win_w, win );
         w_sort_cat = catacurses::newwin( 1, win_w - 4, win + point( 2, 1 ) );
         w_sort_left = catacurses::newwin( cont_h, left_w, win + point( 1, 3 ) );
-        w_sort_middle = catacurses::newwin( cont_h - body_part::num_bp - 1, middle_w,
+        w_sort_middle = catacurses::newwin( cont_h - num_of_parts - 1, middle_w,
                                             win + point( 2 + left_w, 3 ) );
         w_sort_right = catacurses::newwin( cont_h, right_w,
                                            win + point( 3 + left_w + middle_w, 3 ) );
-        w_encumb = catacurses::newwin( body_part::num_bp + 1, middle_w,
-                                       win + point( 2 + left_w, -1 + 3 + cont_h - body_part::num_bp ) );
+        w_encumb = catacurses::newwin( num_of_parts + 1, middle_w,
+                                       win + point( 2 + left_w, -1 + 3 + cont_h - num_of_parts ) );
         ui.position_from_window( w_sort_armor );
     } );
     ui.mark_resize();
@@ -665,7 +652,7 @@ void player::sort_armor()
         cata::flat_set<bodypart_id> rl;
         // Right list
         rightListSize = 0;
-        for( const bodypart_id cover : armor_cat ) {
+        for( const bodypart_id &cover : armor_cat ) {
             if( !combine_bp( cover ) || rl.count( cover.obj().opposite_part ) == 0 ) {
                 rightListSize += items_cover_bp( *this, cover ).size() + 1;
                 rl.insert( cover );
@@ -677,7 +664,7 @@ void player::sort_armor()
             rightListOffset = rightListSize - rightListLines;
         }
         int pos = 1, curr = 0;
-        for( const bodypart_id cover : rl ) {
+        for( const bodypart_id &cover : rl ) {
             if( cover == bodypart_id( "bp_null" ) ) {
                 continue;
             }
@@ -836,10 +823,10 @@ void player::sort_armor()
             if( loc ) {
                 // wear the item
                 cata::optional<std::list<item>::iterator> new_equip_it =
-                    wear( *loc.obtain( *this ) );
+                    wear( loc.obtain( *this ) );
                 if( new_equip_it ) {
                     const bodypart_id &bp = armor_cat[ tabindex ];
-                    if( tabindex == num_bp || ( **new_equip_it ).covers( bp ) ) {
+                    if( tabindex == num_of_parts || ( **new_equip_it ).covers( bp ) ) {
                         // Set ourselves up to be pointing at the new item
                         // TODO: This doesn't work yet because we don't save our
                         // state through other activities, but that's a thing
@@ -847,7 +834,7 @@ void player::sort_armor()
                         leftListIndex =
                             std::count_if( worn.begin(), *new_equip_it,
                         [&]( const item & i ) {
-                            return tabindex == num_bp || i.covers( bp );
+                            return tabindex == num_of_parts || i.covers( bp );
                         } );
                     }
                 } else if( is_npc() ) {
@@ -857,13 +844,14 @@ void player::sort_armor()
             }
         } else if( action == "EQUIP_ARMOR_HERE" ) {
             // filter inventory for all items that are armor/clothing
-            item_location loc = game_menus::inv::wear( *this );
+            item_location loc = game_menus::inv::wear( *this, armor_cat[tabindex] );
 
             // only equip if something valid selected!
             if( loc ) {
                 // wear the item
-                if( cata::optional<std::list<item>::iterator> new_equip_it =
-                        wear( *loc.obtain( *this ) ) ) {
+                cata::optional<std::list<item>::iterator> new_equip_it =
+                    wear( loc.obtain( *this ) );
+                if( new_equip_it ) {
                     // save iterator to cursor's position
                     std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
                     // reorder `worn` vector to place new item at cursor

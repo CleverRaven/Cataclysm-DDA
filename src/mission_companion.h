@@ -3,6 +3,7 @@
 #define CATA_SRC_MISSION_COMPANION_H
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 

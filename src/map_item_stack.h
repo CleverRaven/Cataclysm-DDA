@@ -18,10 +18,11 @@ class map_item_stack
             public:
                 tripoint pos;
                 int count;
+                const item *it;
 
                 //only expected to be used for things like lists and vectors
                 item_group();
-                item_group( const tripoint &p, int arg_count );
+                item_group( const tripoint &p, int arg_count, const item *itm );
         };
     public:
         const item *example; //an example item for showing stats, etc.

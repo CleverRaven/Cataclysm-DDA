@@ -155,7 +155,6 @@
     "vision_day": 100,
     "luminance": 4,
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
-    "zombify_into": "mon_zimorphodon_bio_op",
     "description": "A feathered flying reptile with short wings dotted with crackling bionics and a colorful glowing beak.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "harvest": "CBM_DINO_FEATHER"

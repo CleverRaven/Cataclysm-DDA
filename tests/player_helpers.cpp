@@ -1,5 +1,4 @@
 #include "catch/catch.hpp"
-
 #include "player_helpers.h"
 
 #include <cstddef>
@@ -15,15 +14,16 @@
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
-#include "material.h"
 #include "npc.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
-#include "string_id.h"
+#include "ret_val.h"
+#include "stomach.h"
 #include "type_id.h"
 
 int get_remaining_charges( const std::string &tool_id )
@@ -50,7 +50,7 @@ bool player_has_item_of_type( const std::string &type )
     return !matching_items.empty();
 }
 
-void clear_character( player &dummy, bool debug_storage )
+void clear_character( player &dummy )
 {
     dummy.set_body();
     dummy.normalize(); // In particular this clears martial arts style
@@ -62,17 +62,16 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.remove_weapon();
     dummy.clear_mutations();
 
-    // Prevent spilling, but don't cause encumbrance
-    if( debug_storage && !dummy.has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
-        dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
-    }
-
     // Clear stomach and then eat a nutritious meal to normalize stomach
     // contents (needs to happen before clear_morale).
     dummy.stomach.empty();
     dummy.guts.empty();
     item food( "debug_nutrition" );
     dummy.consume( food );
+
+    // This sets HP to max, clears addictions and morale,
+    // and sets hunger, thirst, fatigue and such to zero
+    dummy.environmental_revert_effect();
 
     dummy.empty_skills();
     dummy.martial_arts_data->clear_styles();
@@ -84,6 +83,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.reset_bonuses();
     dummy.set_speed_base( 100 );
     dummy.set_speed_bonus( 0 );
+    dummy.set_sleep_deprivation( 0 );
 
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
@@ -102,10 +102,6 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.set_dex_bonus( 0 );
     dummy.set_int_bonus( 0 );
     dummy.set_per_bonus( 0 );
-    dummy.reset_bonuses();
-    dummy.set_speed_base( 100 );
-    dummy.set_speed_bonus( 0 );
-    dummy.set_all_parts_hp_to_max();
 
     dummy.cash = 0;
 
@@ -113,9 +109,10 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.setpos( spot );
 }
 
-void clear_avatar( bool debug_storage )
+void clear_avatar()
 {
-    clear_character( get_avatar(), debug_storage );
+    clear_character( get_avatar() );
+    get_avatar().clear_identified();
 }
 
 void process_activity( player &dummy )
@@ -164,7 +161,7 @@ void give_and_activate_bionic( player &p, bionic_id const &bioid )
 
     // turn on if possible
     if( bio.id->has_flag( "BIONIC_TOGGLED" ) && !bio.powered ) {
-        const std::vector<itype_id> fuel_opts = bio.info().fuel_opts;
+        const std::vector<material_id> fuel_opts = bio.info().fuel_opts;
         if( !fuel_opts.empty() ) {
             p.set_value( fuel_opts.front().str(), "2" );
         }

@@ -33,8 +33,10 @@
     "id": "book_fict_soft_pulp_nogod",
     "type": "BOOK",
     "name": { "str": "No God From a Corpse", "str_pl": "copies of No God" },
-    "description": "This is a weatherworn paperback written by some skirt named \"Lee Racket.\"  It tells how rage and jealousy can turn a man, or a woman, into a monster.  This story is hard-boiled enough to break a spoon.",
-    "//translator": "'Hard-boiled enough to break a spoon' means melodramatic, exaggerated, emotional but simple, and possessing a general lack of literary pretense. Weatherworn means damaged by age.  Skirt means woman.",
+    "description": {
+      "str": "This is a weatherworn paperback written by some skirt named \"Lee Racket.\"  It tells how rage and jealousy can turn a man, or a woman, into a monster.  This story is hard-boiled enough to break a spoon.",
+      "//~": "'Hard-boiled enough to break a spoon' means melodramatic, exaggerated, emotional but simple, and possessing a general lack of literary pretense.  Weatherworn means damaged by age.  Skirt means woman."
+    },
     "//isbn13": 9781627551144,
     "weight": "225 g",
     "volume": "408 ml",
@@ -45,8 +47,10 @@
     "id": "book_fict_soft_pulp_ddive",
     "type": "BOOK",
     "name": { "str": "The Deep Dive", "str_pl": "copies of Deep Dive" },
-    "description": "This dimestore short story about space travel is written by a broad named \"Lee Racket.\"",
-    "//translator": "Broad is a dismissive and outdated term that simply means \"woman.\"  The term is used because it evokes the (decidedly misogynistic) era in which the pulp genre gained popularity within the United States.",
+    "description": {
+      "str": "This dimestore short story about space travel is written by a broad named \"Lee Racket.\"",
+      "//~": "Broad is a dismissive and outdated term that simply means \"woman.\"  The term is used because it evokes the (decidedly misogynistic) era in which the pulp genre gained popularity within the United States."
+    },
     "//isbn13": 9781612420530,
     "//genre": "this is also scifi",
     "weight": "154 g",
