@@ -35,5 +35,9 @@
   {
     "type": "MONSTER_FACTION",
     "name": "orcs"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ogre"
   }
 ]
