@@ -63,6 +63,7 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_tied( "tied" );
 
 static const itype_id itype_bone_human( "bone_human" );
+static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
@@ -2455,16 +2456,73 @@ std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
     return actor.clone();
 }
 
-
-void disassemble_activity_actor::start( player_activity &act, Character & )
+static bool check_if_disassemble_okay( item_location target, Character &who )
 {
-    act.moves_left = moves_total;
+    item *disassembly = target.get_item();
+
+    // item_location::get_item() will return nullptr if the item is lost
+    if( !disassembly ) {
+        who.add_msg_player_or_npc(
+            _( "You no longer have the in progress disassembly in your possession.  "
+               "You stop disassembling.  "
+               "Reactivate the in progress disassembly to continue disassembling." ),
+            _( "<npcname> no longer has the in progress disassembly in their possession.  "
+               "<npcname> stops disassembling." ) );
+        return false;
+    }
+    return true;
+}
+
+void disassemble_activity_actor::start( player_activity &act, Character &who )
+{
+    if( act.targets.empty() ) {
+        act.set_to_null();
+        return;
+    }
+
+    if( act.targets.back()->typeId() != itype_disassembly ) {
+        target = who.create_in_progress_disassembly( act.targets.back() );
+    } else {
+        target = act.targets.back();
+    }
+    act.targets.pop_back();
+
+    if( !check_if_disassemble_okay( target, who ) ) {
+        act.set_to_null();
+        return;
+    }
+
+    // We already checked if this is nullptr above
+    item *craft = target.get_item();
+    double counter = craft->item_counter;
+
+    act.moves_left = moves_total - ( counter / 10'000'000.0 ) * moves_total;
     act.moves_total = moves_total;
+}
+
+void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( !check_if_disassemble_okay( target, who ) ) {
+        act.set_to_null();
+        return;
+    }
+
+    // We already checked if this is nullptr above
+    item *craft = target.get_item();
+
+    double moves_left = act.moves_left;
+    double moves_total = act.moves_total;
+    // Current progress as a percent of base_total_moves to 2 decimal places
+    craft->item_counter = std::round( ( moves_total - moves_left ) / moves_total * 10'000'000.0 );
 }
 
 void disassemble_activity_actor::finish( player_activity &act, Character &who )
 {
-    who.complete_disassemble();
+    if( !check_if_disassemble_okay( target, who ) ) {
+        act.set_to_null();
+        return;
+    }
+    who.complete_disassemble( target );
 }
 
 void disassemble_activity_actor::serialize( JsonOut &jsout ) const

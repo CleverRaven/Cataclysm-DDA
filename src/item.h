@@ -201,6 +201,9 @@ class item : public visitable<item>
         /** For constructing in-progress crafts */
         item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
 
+        /** For constructing in-progress disassemblies */
+        item( const recipe *rec, item component );
+
         // Legacy constructor for constructing from string rather than itype_id
         // TODO: remove this and migrate code using it.
         template<typename... Args>

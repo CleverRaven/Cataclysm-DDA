@@ -882,6 +882,8 @@ class disassemble_activity_actor : public activity_actor
         int moves_total;
 
     public:
+        item_location target;
+
         disassemble_activity_actor( int moves_total ) :
             moves_total( moves_total ) {}
         activity_id get_type() const override {
@@ -889,7 +891,7 @@ class disassemble_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character & ) override;
-        void do_turn( player_activity &, Character & ) override {}
+        void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
