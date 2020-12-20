@@ -6,7 +6,7 @@
     "description": "Green beast known for living in swamps and eating humans, it will kill anything it gets its hands on.",
     "default_faction": "ogres",
     "bodytype": "human",
-    "species": [ "Ogre" ],
+    "species": [ "OGRE" ],
     "volume": "100 L",
     "weight": "130 kg",
     "hp": 140,
