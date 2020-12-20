@@ -1792,7 +1792,7 @@ class jmapgen_zone : public jmapgen_piece
     public:
         zone_type_id zone_type;
         faction_id faction;
-        std::string name = "";
+        std::string name;
         jmapgen_zone( const JsonObject &jsi, const std::string &/*context*/ ) {
             if( jsi.has_string( "faction" ) && jsi.has_string( "type" ) ) {
                 std::string fac_id = jsi.get_string( "faction" );
