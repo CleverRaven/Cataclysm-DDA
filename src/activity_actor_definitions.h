@@ -873,7 +873,6 @@ class reload_activity_actor : public activity_actor
         bool can_reload() const;
         static void make_reload_sound( Character &who, item &reloadable );
 
-
 };
 
 class milk_activity_actor : public activity_actor

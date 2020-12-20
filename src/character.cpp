@@ -13141,7 +13141,6 @@ static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
-
 bool Character::fun_to_read( const item &book ) const
 {
     return book_fun_for( book, *this ) > 0;

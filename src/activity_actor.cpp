@@ -2613,7 +2613,6 @@ std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
     data.read( "monster_coords", actor.monster_coords );
     data.read( "string_values", actor.string_values );
 
-
     return actor.clone();
 }
 

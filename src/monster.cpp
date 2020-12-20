@@ -652,7 +652,6 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
     return std::make_pair( damage_info, col );
 }
 
-
 static std::pair<std::string, nc_color> speed_description( float mon_speed_rating,
         bool immobile = false )
 {
