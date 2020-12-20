@@ -41,7 +41,7 @@
     "type": "MONSTER",
     "id": "mon_orc_archer",
     "name": { "str": "orc archer" },
-    "description": "This green brute is a orc archer, it looks at you with a bow in hand and smiles silently as it aims at you.",
+    "description": "This green brute is a orc archer. It looks at you with a bow in hand and smiles silently as it aims at you.",
     "copy-from": "mon_orc_warrior",
     "melee_skill": 2,
     "death_drops": {
