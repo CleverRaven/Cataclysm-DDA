@@ -86,7 +86,7 @@
     "name": "<h|H>: Morale and learning",
     "messages": [
       "Your character has a morale level, which affects you in many ways.  The depressing post-apocalypse world is tough to deal with, and your mood will naturally decrease very slowly.",
-      "There are lots of options for increasing morale; reading an entertaining book, eating delicious food, and taking recreational drugs are but a few options.  Most morale-boosting activities can only elevate your mood to a certain level before they grow boring.",
+      "There are lots of options for increasing morale: reading an entertaining book, eating delicious food, listening to music, and taking recreational drugs are but a few options.  However, most morale-boosting activities can only elevate your mood to a certain level before they grow boring.",
       "There are also lots of ways for your morale to decrease, beyond its natural decay.  Eating disgusting food, reading a boring technical book, killing a friendly NPC, or going through drug withdrawal are some prominent examples.",
       "Low morale will make you sluggish and unmotivated.  If your morale drops very low, you won't be able to perform crafting at all.  If you become sufficiently depressed, you will suffer stat penalties.  Very high morale fills you with gusto and energy, and you will find yourself moving faster.  At extremely high levels, you will receive stat bonuses.",
       "Morale is also responsible for ensuring you can learn effectively, via a mechanic referred to as 'focus'.  Your focus level is a measure of how effectively you can learn.  The natural level is 100, which indicates normal learning potential.  Higher or lower focus levels make it easier or harder to learn from practical experience.",
