@@ -485,7 +485,7 @@ bool talk_function::display_and_choose_opts(
         int name_index = 0;
         // Are we so far down the list that we bump into the end?
         bool last_section = folded_names_lines < info_height ||
-                            folded_names_lines - info_height <= size_t( name_offset );
+                            folded_names_lines - info_height <= static_cast<size_t>( name_offset );
 
         // Translate back from desired line index to the corresponding entry, making sure to round up
         // near the end to ensure the last line gets included.
