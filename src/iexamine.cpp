@@ -4148,7 +4148,7 @@ void iexamine::sign( player &p, const tripoint &examp )
     if( p.has_trait( trait_ILLITERATE ) ) {
         popup( _( "You're illiterate, and can't read the message on the sign." ) );
     } else if( previous_signage_exists ) {
-        popup( existing_signage.c_str() );
+        popup( existing_signage );
     } else {
         p.add_msg_if_player( m_neutral, _( "Nothing legible on the sign." ) );
     }
