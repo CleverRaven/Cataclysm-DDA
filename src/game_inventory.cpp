@@ -896,7 +896,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
             const item &it = *loc;
             const auto &uses = it.type->use_methods;
 
-            auto &comest = it.get_comestible();
+            const auto &comest = it.get_comestible();
             if( comest && !comest->tool.is_null() ) {
                 const bool has = item::count_by_charges( comest->tool )
                                  ? p.has_charges( comest->tool, 1 )
