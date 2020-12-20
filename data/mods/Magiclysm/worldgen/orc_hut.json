@@ -25,4 +25,6 @@
         "h": { "item": "bed", "chance": 40, "repeat": [ 1, 2 ] },
         "%": { "item": "trash", "chance": 40, "repeat": [ 1, 2 ] }
       },
+      "place_monsters": [
+        { "monster": "GROUP_ORC", "x": [ 10, 45 ], "y": [ 12, 46 ], "density": 0.2, "repeat": [ 1, 3 ] },
  
