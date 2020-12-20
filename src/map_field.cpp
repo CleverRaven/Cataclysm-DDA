@@ -1152,10 +1152,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     create_hot_air( p, cur.get_field_intensity() );
                 }
-                if( cur_fd_type_id == fd_rubble ) {
-                    // Legacy Stuff
-                    make_rubble( p );
-                }
                 if( cur_fd_type_id == fd_fungicidal_gas ) {
                     // Check the terrain and replace it accordingly to simulate the fungus dieing off
                     const ter_t &ter = map_tile.get_ter_t();

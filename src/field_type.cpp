@@ -322,7 +322,6 @@ field_type_id fd_null,
               fd_sap,
               fd_sludge,
               fd_fire,
-              fd_rubble,
               fd_smoke,
               fd_toxic_gas,
               fd_tear_gas,
@@ -379,7 +378,6 @@ void field_types::set_field_type_ids()
     fd_sap = field_type_id( "fd_sap" );
     fd_sludge = field_type_id( "fd_sludge" );
     fd_fire = field_type_id( "fd_fire" );
-    fd_rubble = field_type_id( "fd_rubble" );
     fd_smoke = field_type_id( "fd_smoke" );
     fd_toxic_gas = field_type_id( "fd_toxic_gas" );
     fd_tear_gas = field_type_id( "fd_tear_gas" );

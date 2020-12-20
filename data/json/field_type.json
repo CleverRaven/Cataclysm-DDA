@@ -240,18 +240,6 @@
     "display_field": true
   },
   {
-    "id": "fd_rubble",
-    "type": "field_type",
-    "legacy_enum_id": 11,
-    "intensity_levels": [ { "name": "legacy rubble", "sym": "#", "color": "dark_gray" } ],
-    "description_affix": "covered_in",
-    "half_life": "1 turns",
-    "phase": "solid",
-    "display_items": false,
-    "display_field": true,
-    "looks_like": "f_rubble"
-  },
-  {
     "id": "fd_smoke",
     "type": "field_type",
     "legacy_enum_id": 12,
