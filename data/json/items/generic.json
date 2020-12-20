@@ -1940,7 +1940,7 @@
     "id": "lotus",
     "name": { "str": "lotus flower" },
     "description": "A lovely flower that grows on the surface of bodies of freshwater.  Traditionally connected with many Eastern cultures.",
-    "weight": "50 g",
+    "weight": "20 g",
     "color": "white",
     "symbol": ",",
     "material": [ "veggy" ],
