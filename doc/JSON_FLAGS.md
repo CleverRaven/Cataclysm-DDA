@@ -456,7 +456,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```POISON``` Adds diseases `poison` and `foodpoison`.
 - ```PROZAC``` Adds disease `took_prozac` if not currently present, otherwise acts as a minor stimulant. Rarely has the `took_prozac_bad` adverse effect.
 - ```PURIFIER``` Removes negative mutations.
-- ```ROYAL_JELLY``` Previously alleviated many negative conditions and diseases - currently appears to be nonfunctional.
 - ```SEWAGE``` Causes vomiting and a chance to mutate.
 - ```SLEEP``` Greatly increases fatigue.
 - ```THORAZINE``` Removes diseases `hallu`, `visuals`, `high`. Additionally removes disease `formication` if disease `dermatik` isn't also present. Has a chance of a negative reaction which increases fatigue.
