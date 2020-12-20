@@ -101,7 +101,7 @@
     "ammo": [ "battery" ],
     "skill": "rifle",
     "range": 10,
-    "ranged_damage": { "damage_type": "heat", "amount": 10 },
+    "ranged_damage": { "damage_type": "heat", "amount": 6 },
     "dispersion": 150,
     "durability": 10,
     "loudness": 8,
