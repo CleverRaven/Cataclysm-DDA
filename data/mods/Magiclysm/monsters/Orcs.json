@@ -6,7 +6,7 @@
     "description": "This green brute is a orc warrior, it stares at you menacingly, club in hand.",
     "default_faction": "orcs",
     "bodytype": "human",
-    "species": [ "Orcs" ],
+    "species": [ "ORCS" ],
     "volume": "60 L",
     "weight": "70 kg",
     "hp": 82,
