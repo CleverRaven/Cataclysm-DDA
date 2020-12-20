@@ -79,7 +79,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "board_trap",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
