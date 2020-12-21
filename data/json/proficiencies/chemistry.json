@@ -12,7 +12,7 @@
   {
     "type": "proficiency",
     "id": "prof_chemical",
-    "name": { "str": "Chemical Production" },
+    "name": { "str": "Complex Chemical Synthesis" },
     "description": "The proper understanding of safe chemical synthesization and how to clean your tools used for the next batch.",
     "can_learn": true,
     "default_time_multiplier": 2,
