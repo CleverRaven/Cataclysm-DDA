@@ -270,7 +270,7 @@
     "symbol": "*",
     "color": "blue",
     "name": "mana pearl",
-    "description": "A gemstone created by alchemy. You can feel it attract surrounding mana.",
+    "description": "A gemstone created by alchemy.  You can feel it attract surrounding mana.",
     "material": [ "gemstone" ],
     "weight": "120 g",
     "volume": "60 ml"
