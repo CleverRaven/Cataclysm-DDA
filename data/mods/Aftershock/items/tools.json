@@ -450,7 +450,7 @@
     "id": "alien_battery",
     "type": "MAGAZINE",
     "category": "spare_parts",
-    "name": { "str": "alien cell", "str_pl": "alien cells" },
+    "name": { "str": "alien cell" },
     "description": "A conical device salvaged from an alien artifact.  Grooves etched on its circular face slowly pulse with purple light.",
     "weight": "1000 g",
     "volume": "1225ml",
