@@ -17,6 +17,7 @@
     "can_learn": true,
     "default_time_multiplier": 2,
     "default_fail_multiplier": 2.5,
+    "required_proficiencies": [ "prof_intro_chemical" ],
     "time_to_learn": "16 h"
   },
   {
@@ -31,62 +32,12 @@
   },
   {
     "type": "proficiency",
-    "id": "prof_mutagen",
-    "name": { "str": "Mutagen Production" },
-    "description": "Knowledge on the production of general mutagens.",
-    "can_learn": true,
-    "default_time_multiplier": 1.5,
-    "default_fail_multiplier": 2.5,
-    "time_to_learn": "12 h"
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_serum",
-    "name": { "str": "Serum Production" },
-    "description": "Knowledge on the synthesization of the key to the perfect self.",
-    "can_learn": true,
-    "default_time_multiplier": 2.5,
-    "default_fail_multiplier": 5,
-    "time_to_learn": "6 h"
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_fuel",
-    "name": { "str": "Fuel Production" },
-    "description": "Knowledge on how to produce and synthesize fuels, unfortunately this won't help make gasoline.",
+    "id": "prof_pharmaceutical"
+    "name": { "str": "Pharmaceutical Production." },
+    "description": "An understanding of how to produce various natural and chemical substances pure enough for human consumption."
     "can_learn": true,
     "default_time_multiplier": 2,
     "default_fail_multiplier": 2.5,
-    "time_to_learn": "6 h"
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_upper",
-    "name": { "str": "Stimulant Production" },
-    "description": "An understanding of how to produce both natural and synthetic stimulants.",
-    "can_learn": true,
-    "default_time_multiplier": 2.5,
-    "default_fail_multiplier": 2.5,
     "time_to_learn": "8 h"
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_downer",
-    "name": { "str": "Depressant Production" },
-    "description": "An understanding of how to produce natural and synthetic depressants.",
-    "can_learn": true,
-    "default_time_multiplier": 2.5,
-    "default_fail_multiplier": 2.5,
-    "time_to_learn": "8 h"
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_adhesive",
-    "name": { "str": "Adhesive Production" },
-    "description": "You know how to produce adhesive and better yet, how to make sure it doesn't stick to you.",
-    "can_learn": true,
-    "default_time_multiplier": 3,
-    "default_fail_multiplier": 2.5,
-    "time_to_learn": "6 h"
   }
 ]
