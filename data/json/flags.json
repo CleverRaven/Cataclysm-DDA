@@ -1897,21 +1897,6 @@
     "context": [  ]
   },
   {
-    "id": "FIRE_100",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_50",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_20",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
     "id": "MODE_BURST",
     "type": "json_flag",
     "context": [  ]

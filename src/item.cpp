@@ -7573,16 +7573,10 @@ int item::ammo_required() const
     if( is_gun() ) {
         if( type->gun->ammo.empty() ) {
             return 0;
-        } else if( has_flag( flag_FIRE_100 ) ) {
-            return 100;
-        } else if( has_flag( flag_FIRE_50 ) ) {
-            return 50;
-        } else if( has_flag( flag_FIRE_20 ) ) {
-            return 20;
         } else {
-            return 1;
+            return type->gun->ammo_to_fire;
         }
-    }
+    } 
 
     return 0;
 }
