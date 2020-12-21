@@ -8,9 +8,13 @@ cache:
   - c:\tools\vcpkg\installed
   #- c:\Users\appveyor\AppData\Local\vcpkg\
 install:
+ - cd c:\tools\vcpkg
+ - git pull
+ - .\bootstrap-vcpkg.bat
+ - cd %APPVEYOR_BUILD_FOLDER%
  - cmd: vcpkg install yasm-tool:x86-windows
  - cmd: vcpkg --triplet x64-windows-static install sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
- - cmd: cd c:\tools\vcpkg
+ - cd c:\tools\vcpkg
  - cmd: vcpkg integrate install
 build:
   project: /msvc-full-features/Cataclysm-vcpkg-static.sln
