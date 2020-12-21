@@ -2,7 +2,7 @@
   {
     "type": "proficiency",
     "id": "prof_intro_chemical",
-    "name": { "str": "Principles of Chemical Production" },
+    "name": { "str": "Principles of Chemical Synthesis" },
     "description": "You're beginning to grasp the basics of chemical production.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
