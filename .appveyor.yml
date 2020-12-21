@@ -8,7 +8,7 @@ cache:
   - c:\tools\vcpkg\installed
   - c:\Users\appveyor\AppData\Local\vcpkg\
 install:
- - cmd: git pull
+ - cmd: vcpkg upgrade
  - cmd: vcpkg install yasm-tool:x86-windows
  - cmd: vcpkg install mpg123:x64-windows-static
 build:
