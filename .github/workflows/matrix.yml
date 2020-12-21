@@ -40,6 +40,9 @@ jobs:
       with:
         fetch-depth: 10
         submodules: true
+    - name: pull latest submodule commits
+      run: |
+        git submodule foreach git pull --depth 1 --force origin main
     - name: install dependencies
       run: |
           sudo apt-get update
