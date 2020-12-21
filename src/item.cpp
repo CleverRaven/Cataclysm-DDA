@@ -4224,7 +4224,11 @@ nc_color item::color_in_inventory() const
                 ret = c_cyan;
 
                 // Show perishables as a separate color
-                if( food->goes_bad() ) {
+                if( food->is_going_bad() ) {
+                    ret = c_yellow;
+                }
+                // Show old items as yellow
+                else if( food->goes_bad() ) {
                     ret = c_light_cyan;
                 }
 
