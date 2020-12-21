@@ -263,7 +263,7 @@
     "messages": [
       "MAP SYMBOLS:",
       "<color_brown>.</color>           Field - Empty grassland with occasional wild fruit.",
-      "<color_green>F</color>           Forest - May be dense or sparse.  Movement will be slowed. You might be able to forage for food here.",
+      "<color_green>F</color>           Forest - May be dense or sparse.  Movement will be slowed.  You might be able to forage for food here.",
       "<color_dark_gray>│─└┌┐┘├┴┤┬┼</color> Road - Safe from burrowing animals.",
       "<color_dark_gray>H=</color>          Highway - Like roads, but lined with guard rails.",
       "<color_dark_gray>|-</color>          Bridge - Helps you cross rivers.",
