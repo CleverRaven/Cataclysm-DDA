@@ -1,5 +1,7 @@
 # TILESETS
-A tileset provides graphic images for the game.  Each tileset has one or more tilesheets of image sprites and a `tile_config.json` file that describes how to map the contents of the sprite sheets to various entities in the game.  It also has a `tileset.txt` file that provides metadata.
+A tileset is a package of graphic images for the game.
+
+One image that represents a game entity is called a sprite. Sprites with the same size and offset are combined together into tilesheets. They are all described further in `tile_config.json` file that describes how to map the contents of the sheets to various entities in the game.  Finally, a tileset also requires a `tileset.txt` file that provides metadata.
 
 ## Compositing Tilesets
 Prior October 2019, tilesets had to be submitted to the repo with each tilesheet fully composited and the sprite indices in `tile_config.json` calculated by hand.  After October 2019, tilesets can be submitted to repos as directories of individual sprite files and tile entry JSON files that used sprite file names, and a Python script that runs at compile time would merge the sprite images into tilesheets, convert the files names into sprite indices for the tile entries, and merge the tile entries into a `tile_config.json`.
