@@ -1,17 +1,26 @@
 # TILESETS
-A tileset is a package of graphic images for the game.
 
-One image that represents a game entity is called a sprite. Sprites with the same size and offset are combined together into tilesheets. They are all described further in `tile_config.json` file that describes how to map the contents of the sheets to various entities in the game.  Finally, a tileset also requires a `tileset.txt` file that provides metadata.
+## Terminology
+
+* tileset - a package of graphic images for the game.
+
+* sprite - an image that represents one game entity.
+
+* tilesheet - a collection of sprites with the same size and offset combined into one image file.
+
+* `tile_config.json` - file that describes how to map the contents of tilesheets to game entities in a machine-readable way.
+
+* `tileset.txt` - file that contains tileset metadata.
 
 ## Compositing Tilesets
-Prior October 2019, tilesets had to be submitted to the repo with each tilesheet fully composited and the sprite indices in `tile_config.json` calculated by hand.  After October 2019, tilesets can be submitted to repos as directories of individual sprite files and tile entry JSON files that used sprite file names, and a Python script that runs at compile time would merge the sprite images into tilesheets, convert the files names into sprite indices for the tile entries, and merge the tile entries into a `tile_config.json`.
+Prior to October 2019, tilesets had to be submitted to the repo with each tilesheet fully composited and the sprite indices in `tile_config.json` calculated by hand.  After October 2019, tilesets can be submitted to repos as directories of individual sprite files and tile entry JSON files that used sprite file names, and a Python script that runs at compile time would merge the sprite images into tilesheets, convert the files names into sprite indices for the tile entries, and merge the tile entries into a `tile_config.json`.
 
 For the rest of this document, tilesets that are submitted as fully composited tilesheets are called legacy tilesets, and tilesets that submitted as individual sprite image files are compositing tilesets.
 
 ### tools/gfx_tools/decompose.py
-This is a Python script that will convert a legacy tileset into a compositing tileset.  It reads the `tile_config.json` and assigns semi-arbitrary file names to each sprite index.  Then it changes all the sprite indexes references to the file names.  Then it breaks up `tile_config.json` into many small tile_entry JSON files with arbitrary file names, and pulls out each sprite and writes it to aseparate file.
+This is a Python script that will convert a legacy tileset into a compositing tileset.  It reads the `tile_config.json` and assigns semi-arbitrary file names to each sprite index.  Then it changes all sprite index references to file names, breaks up `tile_config.json` into many small tile_entry JSON files with arbitrary file names, and writes each sprite into a separate file.
 
-It requires pyvips to do the image processing.
+It requires `pyvips` module to do image processing.
 
 It takes a single mandatory argument, which is the path to the tileset directory.  For example:
 `python3 tools/gfx_tools/decompose.py gfx/ChestHole16Tileset` will convert the legacy ChestHole16 tileset to a compositing tileset.
@@ -21,14 +30,14 @@ decompose.py creates a sufficient directory hierarchy and file names for a tiles
 It shouldn't be necessary to run decompose.py very often.  Legacy tilesets should only need to be converted to composite tilesets one time.
 
 ### tools/gfx_tools/compose.py
-This is a Python script that creates the tilesheets for a compositing tileset.  It reads all of the directories in a tileset's directory with names that start with `pngs_` for sprite files and `tile_entry` JSON files, creates mappings of sprite file names to indices, merges the sprite files into tilesheets, changes all of the sprite file name references in the `tile_entries` to indices, and merges the `tile_entries` into a `tile_config.json`.
+This is a Python script that creates the tilesheets for a compositing tileset.  It searches tileset subdirectories with names that start with `pngs_` for sprite files and `tile_entry` JSON files, creates mappings of sprite file names to indices, merges the sprite files into tilesheets, changes all sprite file name references in the `tile_entries` to indices, and compiles `tile_entries` into a `tile_config.json`.
 
 Like decompose.py, it requires pyvips to the image processing.
 
 The original sprite files and `tile_entry` JSON files are preserved.
 
 ### directory structure
-Each compositing tileset has one or more directories in it with a name that starts with `pngs_`, such as `pngs_tree_32x40` or `pngs_overlay`.  These are the image directories.  All of the sprites in an image directory must have the same height and width and will be merged into a single tilesheet.
+Each compositing tileset has one or more directories in it with a name that starts with `pngs_`, such as `pngs_tree_32x40` or `pngs_overlay`.  These are the image directories.  All sprites in an image directory must have the same height and width and will be merged into a single tilesheet.
 
 It is recommended that tileset developers include the sprite dimensions in the image directory name, but this is not required.  `pngs_overlay_24x24` is preferred over `pngs_overlay` but both are allowed.  As each image directory creates its own tilesheet, and tilesheets should be as large as possible for performance reasons, tileset developers are strongly encouraged to minimize the number of image directories.
 
@@ -69,7 +78,7 @@ The special prefixes `overlay_wielded_`, `overlay_female_wielded_`, `overlay_mal
     ],
 ```
 
-`"multitle"` is an *optional* field.  If it is present and `true`, there must be an `additional_tiles` list with 1 or more dictionaries for entities and sprites associated with this tile, such as broken versions of an item or wall connections.  Each dictionary in the list has an `"id`" field, as above, and a `"fg"` field, which can be a single filename, a list of filenames, or a list of dictionaries as above.
+`"multitile"` is an *optional* field.  If it is present and `true`, there must be an `additional_tiles` list with 1 or more dictionaries for entities and sprites associated with this tile, such as broken versions of an item or wall connections.  Each dictionary in the list has an `"id`" field, as above, and a `"fg"` field, which can be a single filename, a list of filenames, or a list of dictionaries as above.
 
 Each `tile_entry.json` file can have a single object in it, or a list of 1 or more objects like so:
 ```C++
@@ -122,9 +131,9 @@ Each compositing tileset *must* have a `tile_info.json`, laid out like so:
 ```
 The first dictionary is mandatory, and gives the default sprite width and sprite height for all tilesheets in the tileset.  Each of the image directories must have a separate dictionary, containing the tilesheet png name as its key.  If the tilesheet has the default sprite dimensions and no special offsets, it can have an empty dictionary as the value for the tilesheet name key.  Otherwise, it should have a dictionary of the sprite offsets, height, and width.
 
-A special key is `"fallback"` which should be `true` if present.  If a tilesheet is designated as fallback, it will be treated as a tilesheet of fallback ASCII characters.  `compose.py` will also compose the fallback tilesheet to the end of the tileset, and will add a "fallback.png" to `tile_config.json` if there is no `"fallback"` entry in `tile_info.json`.
+`"fallback"` is a special key which should be `true` if present.  If a tilesheet is designated as fallback, it will be treated as a tilesheet of fallback ASCII characters.  `compose.py` will also compose the fallback tilesheet to the end of the tileset, and will add a "fallback.png" to `tile_config.json` if there is no `"fallback"` entry in `tile_info.json`.
 
-A special is `"filler"` which should be `true` if present.  If a tilesheet is designated as filler, entries from its directory will be ignored if an entry from a non-filler directory has already defined the same id.  Entries will also be ignored if the id was already defined by in the filler directory.  Also, pngs from a filler directory will be ignored if they share a name with a png  from a non-filler directory.  A filler tilesheet is useful when upgrading the art in a tileset: old, low-quality art can be placed on filler tilesheet and will be automatically replaced as better images are added to the non-filler tilesheets.
+`"filler"` is another special key that should be `true` if present.  If a tilesheet is designated as filler, entries from its directory will be ignored if an entry from a non-filler directory has already defined the same id.  Entries will also be ignored if the id was already defined by in the filler directory.  Also, pngs from a filler directory will be ignored if they share a name with a png  from a non-filler directory.  A filler tilesheet is useful when upgrading the art in a tileset: old, low-quality art can be placed on filler tilesheet and will be automatically replaced as better images are added to the non-filler tilesheets.
 
 ## Legacy tilesets
 ### tilesheets
