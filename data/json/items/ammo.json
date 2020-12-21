@@ -102,7 +102,7 @@
     "description": "Compressed medical oxygen.",
     "weight": "1 mg",
     "volume": "1 ml",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
     "phase": "gas",
     "ammo_type": "oxygen"
   },
