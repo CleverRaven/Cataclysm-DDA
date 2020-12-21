@@ -43,8 +43,7 @@
     "update_mapgen_id": "forge_trap2",
     "method": "json",
     "object": {
-      "place_terrain": [ { "ter": "t_lava", "x": 12, "y": 6 } ],
-      "place_monsters": [ { "furn": "f_beaded_door", "x": 12, "y": 6 } ]
+      "place_monsters": [ { "monster": "GROUP_FORGEDEMONS", "x": [ 4, 23 ], "y": [ 2, 23 ], "density": 0.05, "repeat": [ 1, 3 ] } ]
     }
   },
   {
@@ -52,8 +51,7 @@
     "update_mapgen_id": "forge_trap1",
     "method": "json",
     "object": {
-      "place_terrain": [ { "ter": "t_lava", "x": 12, "y": 6 } ],
-      "place_monsters": [ { "furn": "f_beaded_door", "x": 12, "y": 6 } ]
+      "place_monsters": [ { "monster": "GROUP_FORGEDEMONS", "x": [ 4, 23 ], "y": [ 2, 23 ], "density": 0.05, "repeat": [ 1, 3 ] } ]
     }
   }
 ]
