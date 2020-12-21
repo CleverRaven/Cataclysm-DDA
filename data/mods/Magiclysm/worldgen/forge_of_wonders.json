@@ -273,23 +273,5 @@
         "description": "See the Forge of Wonders"
       }
     ]
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "forge_trap2",
-    "method": "json",
-    "object": {
-      "place_terrain": [ { "ter": "t_lava", "x": [ 44, 55 ], "y": [ 6, 8 ] }, { "ter": "t_lava", "x": [ 64, 71 ], "y": [ 15, 17 ] } ],
-      "place_monster": [
-        { "monster": "mon_forgedemons", "x": [ 68, 71 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 },
-        { "monster": "mon_forgedemons", "x": [ 72, 74 ], "y": [ 7, 18 ], "chance": 30, "repeat": 4 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "forge_trap1",
-    "method": "json",
-    "object": { "place_monster": [ { "monster": "mon_forgedemons", "x": [ 96, 117 ], "y": [ 5, 21 ], "chance": 30, "repeat": 4 } ] }
   }
 ]
