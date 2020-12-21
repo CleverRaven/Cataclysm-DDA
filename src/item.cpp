@@ -4214,13 +4214,20 @@ nc_color item::color_in_inventory() const
         // Dark gray: inedible
         // Red: morale penalty
         // Yellow: will rot soon
-        // Cyan: will rot eventually
+        // Cyan: edible
+        // Light Cyan: will rot eventually
         const ret_val<edible_rating> rating = player_character.will_eat( *food );
         // TODO: More colors
         switch( rating.value() ) {
             case EDIBLE:
             case TOO_FULL:
                 ret = c_cyan;
+
+                // Show perishables as a separate color
+                if (food->goes_bad()) {
+                    ret = c_light_cyan;
+                }
+
                 break;
             case INEDIBLE:
             case INEDIBLE_MUTATION:
