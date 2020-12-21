@@ -1597,6 +1597,11 @@ void options_manager::add_options_interface()
          false
        );
 
+    add( "MESSAGE_LOG_WIDTH", "interface", to_translation( "Full screen message log" ),
+         to_translation( "If true, message log will fit full screen, otherwise it will leave sidebar visible." ),
+         false
+       );
+
     add_empty_line();
 
     add( "MOVE_VIEW_OFFSET", "interface", to_translation( "Move view offset" ),
