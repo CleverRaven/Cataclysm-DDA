@@ -1002,7 +1002,7 @@ float Character::get_recipe_weighted_skill_average( const recipe &making )
 double Character::crafting_success_roll( const recipe &making ) const
 {
     // We're going to use a sqrt( sum of squares ) method here to give diminishing returns for more low level helpers.
-    const float player_weighted_skill_average = get_recipe_weighted_skill_average( making )^2;
+    const float player_weighted_skill_average = std::pow(get_recipe_weighted_skill_average( making ),2);
     
     float npc_helpers_weighted_average = 0.0f;
     for( const npc *np : get_crafting_helpers() ) {
@@ -1019,7 +1019,7 @@ double Character::crafting_success_roll( const recipe &making ) const
             has_all_skills = false;
         }
         if( has_all_skills ) {
-            npc_helpers_weighted_average += np->get_recipe_weighted_skill_average( making ) ^ 2;
+            npc_helpers_weighted_average += std::pow( np->get_recipe_weighted_skill_average( making ), 2 );
             add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->name );
         }
     }
