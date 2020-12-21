@@ -6,7 +6,7 @@
     "description": "You're beginning to grasp the basics of chemical production.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_fail_multiplier": 1.5,
+    "default_fail_multiplier": 5,
     "time_to_learn": "12 h"
   },
   {
