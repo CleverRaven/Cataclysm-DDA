@@ -7576,7 +7576,7 @@ int item::ammo_required() const
         } else {
             return type->gun->ammo_to_fire;
         }
-    } 
+    }
 
     return 0;
 }
