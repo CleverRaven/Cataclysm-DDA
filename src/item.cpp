@@ -411,13 +411,13 @@ item::item( const recipe *rec, item component )
         }
     }
 
-    for( item &component : components ) {
-        for( const flag_id &f : component.get_flags() ) {
+    for( item &comp : components ) {
+        for( const flag_id &f : comp.get_flags() ) {
             if( f->craft_inherit() ) {
                 set_flag( f );
             }
         }
-        for( const flag_id &f : component.type->get_flags() ) {
+        for( const flag_id &f : comp.type->get_flags() ) {
             if( f->craft_inherit() ) {
                 set_flag( f );
             }
