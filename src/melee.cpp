@@ -91,6 +91,8 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_venom_dmg( "venom_dmg" );
+static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_venom_player1( "venom_player1" );
 static const efftype_id effect_venom_player2( "venom_player2" );
 
@@ -645,11 +647,22 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
                         dealt_dam.type_damage( damage_type::STAB ) > 0 ) ) ) {
                 if( has_trait( trait_POISONOUS ) ) {
                     add_msg_if_player( m_good, _( "You poison %s!" ), t.disp_name() );
-                    t.add_effect( effect_venom_player1, 1_minutes );
+                    if( t.is_monster() ) {
+                        t.add_effect( effect_venom_player1, 1_minutes );
+                    } else {
+                        t.add_effect( effect_venom_dmg, 10_minutes );
+                        t.add_effect( effect_stunned, 1_turns );
+                    }
                 } else if( has_trait( trait_POISONOUS2 ) ) {
                     add_msg_if_player( m_good, _( "You inject your venom into %s!" ),
                                        t.disp_name() );
-                    t.add_effect( effect_venom_player2, 1_minutes );
+                    if( t.is_monster() ) {
+                        t.add_effect( effect_venom_player2, 1_minutes );
+                        t.add_effect( effect_stunned, 2_turns );
+                    } else {
+                        t.add_effect( effect_venom_dmg, 15_minutes );
+                        t.add_effect( effect_venom_weaken, 5_minutes );
+                    }
                 }
             }
 
