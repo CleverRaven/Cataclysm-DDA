@@ -1,0 +1,3 @@
+[submodule "gfx/UltimateCataclysm"]
+	path = gfx/UltimateCataclysm
+	url = git@github.com:CDDA-Tilesets/UltimateCataclysm.git
