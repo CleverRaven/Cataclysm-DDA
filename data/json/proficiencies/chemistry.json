@@ -21,16 +21,6 @@
   },
   {
     "type": "proficiency",
-    "id": "prof_chem_boiling",
-    "name": { "str": "Applied Boiling" },
-    "description": "You understand the many methods of boiling and that boiling with the purpose of speed isn't always good.",
-    "can_learn": true,
-    "default_time_multiplier": 2,
-    "default_fail_multiplier": 2,
-    "time_to_learn": "6 h"
-  },
-  {
-    "type": "proficiency",
     "id": "prof_metallurgy",
     "name": { "str": "Metallurgy" },
     "description": "An understanding of the chemistry of metalworking and alloys.",
