@@ -1078,7 +1078,8 @@ void complete_construction( player *p )
         here.spawn_items( p->pos(), item_group::items_from( *built.byproduct_item_group, calendar::turn ) );
     }
 
-    add_msg( m_info, _( "%s finished construction: %s." ), p->disp_name(), built.group->name() );
+    add_msg( m_info, _( "%s finished construction: %s." ), p->disp_name( false, true ),
+             built.group->name() );
     // clear the activity
     p->activity.set_to_null();
 
