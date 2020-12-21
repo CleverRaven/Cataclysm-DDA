@@ -8,10 +8,8 @@ cache:
   - c:\tools\vcpkg\installed
   - c:\Users\appveyor\AppData\Local\vcpkg\
 install:
- - cmd: cd c:/tools/vcpkg/installed
- - cmd: git pull
  - cmd: vcpkg install yasm-tool:x86-windows
- - cmd: vcpkg install mpg123:x64-windows-static
+ - cmd: vcpkg --triplet x64-windows-static install sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
 build:
   project: /msvc-full-features/Cataclysm-vcpkg-static.sln
   parallel: true
