@@ -392,7 +392,7 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
     }
 }
 
-item::item( const recipe *rec, item component )
+item::item( const recipe *rec, item &component )
     : item( "disassembly", calendar::turn )
 {
     craft_data_ = cata::make_value<craft_data>();
