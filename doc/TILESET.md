@@ -13,26 +13,15 @@
 * `tileset.txt` - file that contains tileset metadata.
 
 ## Compositing Tilesets
-Prior to October 2019, tilesets had to be submitted to the repo with each tilesheet fully composited and the sprite indices in `tile_config.json` calculated by hand.  After October 2019, tilesets can be submitted to repos as directories of individual sprite files and tile entry JSON files that used sprite file names, and a Python script that runs at compile time would merge the sprite images into tilesheets, convert the files names into sprite indices for the tile entries, and merge the tile entries into a `tile_config.json`.
+Since October 2019 tilesets can be stored as directories of individual sprite files and JSON config files that use sprite file names without `.png` extensions as IDs thanks to the `tools/gfx_tools/compose.py`, a Python script that combines sprites into tilesheets and compiles a `tile_config.json` for all of them. It:
 
-For the rest of this document, tilesets that are submitted as fully composited tilesheets are called legacy tilesets, and tilesets that submitted as individual sprite image files are compositing tilesets.
+1. Searches tileset `pngs_*` subdirectories for sprite files and JSON configuration files which contain `tile_entries`.
+2. Creates mappings of sprite file names to indices.
+3. Merges these sprite files into tilesheets.
+4. Changes all sprite file name references in the `tile_entries` to indices.
+5. And compiles a `tile_config.json` for these tilesheets.
 
-### tools/gfx_tools/decompose.py
-This is a Python script that will convert a legacy tileset into a compositing tileset.  It reads the `tile_config.json` and assigns semi-arbitrary file names to each sprite index.  Then it changes all sprite index references to file names, breaks up `tile_config.json` into many small tile_entry JSON files with arbitrary file names, and writes each sprite into a separate file.
-
-It requires `pyvips` module to do image processing.
-
-It takes a single mandatory argument, which is the path to the tileset directory.  For example:
-`python3 tools/gfx_tools/decompose.py gfx/ChestHole16Tileset` will convert the legacy ChestHole16 tileset to a compositing tileset.
-
-decompose.py creates a sufficient directory hierarchy and file names for a tileset to be compositing, but it is machine generated and badly organized.  New compositing tilesets should use more sensible file names and a better organization.
-
-It shouldn't be necessary to run decompose.py very often.  Legacy tilesets should only need to be converted to composite tilesets one time.
-
-### tools/gfx_tools/compose.py
-This is a Python script that creates the tilesheets for a compositing tileset.  It searches tileset subdirectories with names that start with `pngs_` for sprite files and `tile_entry` JSON files, creates mappings of sprite file names to indices, merges the sprite files into tilesheets, changes all sprite file name references in the `tile_entries` to indices, and compiles `tile_entries` into a `tile_config.json`.
-
-Like decompose.py, it requires pyvips to the image processing.
+It requires `pyvips` module.
 
 The original sprite files and `tile_entry` JSON files are preserved.
 
@@ -136,6 +125,9 @@ The first dictionary is mandatory, and gives the default sprite width and sprite
 `"filler"` is another special key that should be `true` if present.  If a tilesheet is designated as filler, entries from its directory will be ignored if an entry from a non-filler directory has already defined the same id.  Entries will also be ignored if the id was already defined by in the filler directory.  Also, pngs from a filler directory will be ignored if they share a name with a png  from a non-filler directory.  A filler tilesheet is useful when upgrading the art in a tileset: old, low-quality art can be placed on filler tilesheet and will be automatically replaced as better images are added to the non-filler tilesheets.
 
 ## Legacy tilesets
+
+Prior to October 2019 sprite indices in `tile_config.json` had to be calculated by hand. Following is a description for them.
+
 ### tilesheets
 Each tilesheet contains 1 or more sprites with the same width and height.  Each tilesheet contains one or more rows of exactly 16 sprites.  Sprite index 0 is special and the first sprite of the first tilesheet in a tileset should be blank.  Indices run sequentially through each sheet and continue incrementing for each new sheet without resetting, so index 32 is the first sprite in the third row of the first sheet.  If the first sheet has 320 sprites in it, index 352 would be the first sprite of the third row of the second sheet.
 
@@ -251,3 +243,15 @@ Each legacy tileset has a `tile_config.json` describing how to map the contents 
     ]
   }
 ```
+
+### tools/gfx_tools/decompose.py
+This is a Python script that will convert a legacy tileset into a compositing tileset.  It reads the `tile_config.json` and assigns semi-arbitrary file names to each sprite index.  Then it changes all sprite index references to file names, breaks up `tile_config.json` into many small tile_entry JSON files with arbitrary file names, and writes each sprite into a separate file.
+
+It requires `pyvips` module to do image processing.
+
+It takes a single mandatory argument, which is the path to the tileset directory.  For example:
+`python3 tools/gfx_tools/decompose.py gfx/ChestHole16Tileset` will convert the legacy ChestHole16 tileset to a compositing tileset.
+
+decompose.py creates a sufficient directory hierarchy and file names for a tileset to be compositing, but it is machine generated and badly organized.  New compositing tilesets should use more sensible file names and a better organization.
+
+It shouldn't be necessary to run decompose.py very often.  Legacy tilesets should only need to be converted to composite tilesets one time.
