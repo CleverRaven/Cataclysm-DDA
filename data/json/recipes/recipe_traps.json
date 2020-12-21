@@ -84,7 +84,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
     "skill_used": "fabrication",
-    "proficiencies": [ { "prof_carpentry_basic" } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
