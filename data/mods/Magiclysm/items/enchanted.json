@@ -21,7 +21,7 @@
     "symbol": "/",
     "color": "brown",
     "name": { "str": "minor staff of the magi", "str_pl": "minor staves of the magi" },
-    "description": "A simple carved staff, made of wood.  It faintly glows with magic when you cast spells. Wielding it slightly increases your mana regeneration",
+    "description": "A simple carved staff, made of wood.  It faintly glows with magic when you cast spells.  Wielding it slightly increases your mana regeneration",
     "price": 10000,
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
