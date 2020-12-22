@@ -1992,7 +1992,7 @@
     "remove_message": "You are no longer in shock.",
     "decay_messages": [
       [ "Your blood volume increases, and you feel better; but still, you look pale.", "good" ],
-      [ "Your feel stronger as your blood levels starts to improve.", "good" ],
+      [ "You feel stronger as your blood volume starts to improve.", "good" ],
       [ "You're not dying from lack of blood, but you're not out of the woods yet.", "good" ]
     ],
     "max_intensity": 4,
