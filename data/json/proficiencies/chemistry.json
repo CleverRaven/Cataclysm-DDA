@@ -86,7 +86,7 @@
   },
   {
     "type": "proficiency",
-    "id": "prof_chemical",
+    "id": "prof_chem_synth",
     "name": { "str": "Complex Chemical Synthesis" },
     "description": "The proper understanding of safe chemical synthesization and how to clean your tools used for the next batch.",
     "can_learn": true,
