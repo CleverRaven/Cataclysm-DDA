@@ -257,7 +257,7 @@
     "id": "legpouch",
     "type": "ARMOR",
     "name": { "str": "ankle ammo pouch", "str_pl": "ankle ammo pouches" },
-    "description": "A small fabric ammo pouch that can be strapped to your ankle, and is capable of holding a single small magazine close at hand.",
+    "description": "A small fabric ammo pouch that can be strapped to your ankle and hold a single small magazine close at hand.",
     "volume": "250 ml",
     "weight": "60 g",
     "price": 2000,
