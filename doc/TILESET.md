@@ -80,11 +80,11 @@ Special suffixes `_season_spring`, `_season_summer`, `_season_autumn`, and `_sea
 
 #### Rotations
 
-You can add `"rotates": true` for sprites to be rotated by the game automatically. Alternatively, `"fg"` and `"bg"` can be a list of 2 or 4 pre-rotated variants, like `"fg": ["mon_dog_left", "mon_dog_right"]` or `"bg": ["t_wall_n", "t_wall_e", "t_wall_s", "t_wall_w"]`.
+You can add `"rotates": true` for sprites to be rotated by the game automatically. Alternatively, `"fg"` and `"bg"` can be an array of 2 or 4 pre-rotated variants, like `"fg": ["mon_dog_left", "mon_dog_right"]` or `"bg": ["t_wall_n", "t_wall_e", "t_wall_s", "t_wall_w"]`.
 
 #### Random variations
 
-`"fg"` and `"bg"` can also be a list of dictionaries of weighted, randomly chosen options, any of which can also be a rotated list:
+`"fg"` and `"bg"` can also be an array of objects of weighted, randomly chosen options, any of which can also be an array of rotations:
 ```C++
     "fg": [
         { "weight": 50, "sprite": "t_dirt_brown"},       // appears approximately 50 times in 53 tiles
@@ -96,7 +96,7 @@ You can add `"rotates": true` for sprites to be rotated by the game automaticall
 
 #### Multitile
 
-`"multitile": true` signifies that there is an `additional_tiles` object with 1 or more dictionaries for entities and sprites associated with this tile, such as broken versions of an item or wall connections.  Each dictionary in the list has an `"id`" field, as above, and a `"fg"` field, which can be a single filename, a list of filenames, or a list of dictionaries as above. `"rotates": true` is implied with it and can be omitted.
+`"multitile": true` signifies that there is an `additional_tiles` object with 1 or more objects for entities and sprites associated with this tile, such as broken versions of an item or wall connections.  Each object in the array has an `"id`" field, as above, and a `"fg"` field, which can be a single basename, an array of basenames, or an array of objects as above. `"rotates": true` is implied with it and can be omitted.
 
 #### Multiple tile entries in the same file
 
