@@ -27,7 +27,7 @@
     "bashing": 22,
     "to_hit": 3,
     "use_action": {
-      "menu_text": "Extend",
+      "menu_text": "Activate",
       "type": "transform",
       "target": "afs_energy_saber_on",
       "msg": "You activate the claw, and its bludgeoning surface slowly flattens into an edge as it begins to glow red-hot",
