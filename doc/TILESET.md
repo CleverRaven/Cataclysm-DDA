@@ -3,41 +3,41 @@
 ## Terminology
 
 ##### Tileset
-a package of images for the game.
+A package of images for the game.
 
 ##### Sprite 
-a single image that represents either one game entity or a common background
+A single image that represents either an individual game entity or a common background
 
-##### Basename
-file name without an extension.
+##### Base name
+File name without an extension.
 
 ##### Tile
-a unit square in the game world with certain coordinates where entities can exist and on which sprites are drawn. Sometimes used [incorrectly] in place of "sprite".
+A unit square in the game world with certain coordinates, where entities can exist and on which sprites are drawn. Sometimes used (incorrectly) in place of "sprite".
 
 ##### Tilesheet
-a collection of sprites with identical size and offset composited into one image file that the game will read.
+A collection of sprites with identical sizes and offsets composited into one image file that the game will read.
 
 ##### `tile_config.json` file
-machine-readable description mapping the contents of tilesheets to game entities.
+Machine-readable description mapping the contents of tilesheets to game entities.
 
 ##### `tileset.txt` file
-tileset metadata.
+A collection of tileset metadata.
 
 ##### Tile entry
-JSON configuration object that describes what sprites are used for what game entities and how.
+JSON configuration object that describes which sprites are used for which game entities and how.
 
 ##### Compositing Tileset
-tileset that is stored as directories of individual sprites and tile entries.
+A tileset that is stored as directories of individual sprites and tile entries.
 
 ##### `compose.py` script
-creates a package suitable for the game from a compositing tileset.
+This creates a package suitable for the game from a compositing tileset.
 
 ##### Tilesheet directory
-compositing tileset subdirectory containing sprites and tile entries.
+Compositing tileset subdirectory containing sprites and tile entries.
 
 ##### `tile_info.json` file
 
-describes tilesheet directories for `compose.py`
+Describes tilesheet directories for `compose.py`
 
 ## JSON Schema
 
@@ -52,11 +52,11 @@ describes tilesheet directories for `compose.py`
 
 Sprites can be referenced across tilesheet directories, but they must be stored in a tilesheet directory with their size and offset.
 
-`"id"` can be an array of multiple game entity IDs sharing the same sprite configuration, like `"id": ["vp_door", "vp_hddoor"]`.  `"id"` game values that are used as is include terrain, furniture, items (except corpses), monsters, fields, traps.
+`"id"` can be an array of multiple game entity IDs sharing the same sprite configuration, like `"id": ["vp_door", "vp_hddoor"]`.  `"id"` game values that are used as-is include terrain, furniture, items (except corpses), monsters, fields, traps.
 
 #### Hardcoded IDs
 
-The special ID `"unknown"` provides a sprite that is displayed when an entity has no other sprite. Other hardcoded IDs also exist and most of them are referenced in [`src/cata_tiles.cpp`](/src/cata_tiles.cpp). Full list of hardcoded IDs _may_ be present in [`tools/json_tools/generate_overlay_ids.py`](/tools/json_tools/generate_overlay_ids.py) stored as `CPP_IDS` but it's updated manually and may lag behind.
+The special ID `"unknown"` provides a sprite that is displayed when an entity has no other sprite. Other hardcoded IDs also exist, and most of them are referenced in [`src/cata_tiles.cpp`](/src/cata_tiles.cpp). A full list of hardcoded IDs _may_ be present in [`tools/json_tools/generate_overlay_ids.py`](/tools/json_tools/generate_overlay_ids.py) stored as `CPP_IDS` but it's updated manually and may lag behind.
 
 #### Complex IDs
 
@@ -64,15 +64,15 @@ Special prefixes that are used include:
 
 `overlay_effect_` for effects.
 
-`overlay_mutation_` for both mutations and bionics, can include `active_` at the start.
+`overlay_mutation_` for both mutations and bionics; can include `active_` at the start.
 
-`overlay_worn_` and `overlay_wielded_` for items being worn or wielded by the PC or NPC.
+`overlay_worn_` and `overlay_wielded_` for items being worn or wielded by the PC or an NPC.
 
 `corpse_` for corpses.
 
 `overlay_` for movement modes.
 
-`vp_` for vehicle parts, see also [`symbols` and `standard_symbols` JSON keys](JSON_INFO.md#symbols-and-variants) that are used as suffixes.
+`vp_` for vehicle parts (see also [`symbols` and `standard_symbols` JSON keys](JSON_INFO.md#symbols-and-variants)) that are used as suffixes.
 
 All prefixes that start with `overlay_` can have a `_female` or `_male` gender part added: `overlay_female_` or `overlay_male_`. The decision to use them is up to sprite authors.
 
@@ -80,7 +80,7 @@ Special suffixes `_season_spring`, `_season_summer`, `_season_autumn`, and `_sea
 
 #### Rotations
 
-You can add `"rotates": true` for sprites to be rotated by the game automatically. Alternatively, `"fg"` and `"bg"` can be an array of 2 or 4 pre-rotated variants, like `"fg": ["mon_dog_left", "mon_dog_right"]` or `"bg": ["t_wall_n", "t_wall_e", "t_wall_s", "t_wall_w"]`.
+You can add `"rotates": true` to allow sprites to be rotated by the game automatically. Alternatively, `"fg"` and `"bg"` can be an array of 2 or 4 pre-rotated variants, like `"fg": ["mon_dog_left", "mon_dog_right"]` or `"bg": ["t_wall_n", "t_wall_e", "t_wall_s", "t_wall_w"]`.
 
 #### Random variations
 
@@ -88,7 +88,7 @@ You can add `"rotates": true` for sprites to be rotated by the game automaticall
 ```C++
     "fg": [
         { "weight": 50, "sprite": "t_dirt_brown"},       // appears approximately 50 times in 53 tiles
-        { "weight": 1, "sprite": "t_dirt_black_specks"}, // 1 time in 53 tiles
+        { "weight": 1, "sprite": "t_dirt_black_specks"}, // appears 1 time in 53 tiles
         { "weight": 1, "sprite": "t_dirt_specks_gray"},
         { "weight": 1, "sprite": "t_patchy_grass"}       // file names are arbitrary, but see `--use-all` option
     ],
@@ -96,11 +96,11 @@ You can add `"rotates": true` for sprites to be rotated by the game automaticall
 
 #### Multitile
 
-`"multitile": true` signifies that there is an `additional_tiles` object with 1 or more objects that define sprites for game entities associated with this tile, such as broken versions of an item or wall connections.  Each object in the array has an `"id`" field, as above, and a `"fg"` field, which can be a single basename, an array of basenames, or an array of objects as above. `"rotates": true` is implied with it and can be omitted.
+`"multitile": true` signifies that there is an `additional_tiles` object with one or more objects that define sprites for game entities associated with this tile, such as broken versions of an item, or wall connections.  Each object in the array has an `"id`" field, as above, and an `"fg"` field, which can be a single basename, an array of basenames, or an array of objects as above. `"rotates": true` is implied with it and can be omitted.
 
 #### Multiple tile entries in the same file
 
-Each JSON file can have either a single object or an array of 1 or more objects:
+Each JSON file can have either a single object or an array of one or more objects:
 ```C++
 [
     { "id": "mon_zombie", "fg": "mon_zombie", "bg": "mon_zombie_bg" },
@@ -142,19 +142,19 @@ Each JSON file can have either a single object or an array of 1 or more objects:
 
 The first object defines the default sprite size.
 
-Each tilesheet directory must have a corresponding object with single key being the tilesheet output filename.  Empty object as value here means that the tilesheet has default sprite size and no offsets. It can have overriding values under `sprite_width`, `sprite_height`, `sprite_offset_x`, `sprite_offset_y` keys.
+Each tilesheet directory must have a corresponding object with a single key, which must be the tilesheet output filename.  Passing an empty object as the value here means that the tilesheet uses the default sprite size and has no offsets. It can have overriding values under `sprite_width`, `sprite_height`, `sprite_offset_x`, `sprite_offset_y` keys.
 
-Tilesheet directories are expected to be named by `pngs_{tilesheet_basename}_{sprite_width}x{sprite_height}` template, such as `pngs_tiles_32x32`, `pngs_expan_32x32`, `pngs_tree_64x80`, etc. Their number should be minimized for better performance.
+Tilesheet directories are expected to us the following format: `pngs_{tilesheet_basename}_{sprite_width}x{sprite_height}` - such as `pngs_tiles_32x32`, `pngs_expan_32x32`, `pngs_tree_64x80`, etc. To improve performance, keep the number of separate directories to a minimum.
 
-`"filler": true` means the tilesheet is a filler, tile entries within it will be used only if IDs in them were not mentioned in any preceding tile entry.  Sprites within a filler directory will be ignored if another one with the same name was already encountered.  A filler tilesheet is useful when upgrading the art in a tileset: old, low-quality art can be placed on filler tilesheet and will be automatically replaced as better images are added to the non-filler tilesheets.
+`"filler": true` means the tilesheet is a filler; tile entries within it will be used only if IDs in them were not mentioned in any preceding tile entry.  Sprites within a filler directory will be ignored if another one with the same name was already encountered.  A filler tilesheet is useful when upgrading the art in a tileset: old, low-quality art can be placed on filler tilesheet and will be automatically replaced as better images are added to the non-filler tilesheets.
 
-`"fallback": true` means the tilesheet is a fallback, it will be treated as a source of fallback ASCII character sprites.  `compose.py` will also compose the fallback tilesheet to the end of the tileset, and will add a "fallback.png" to `tile_config.json` if there is no `"fallback"` entry in `tile_info.json`.
+`"fallback": true` means the tilesheet is a fallback; it will be treated as a source of fallback ASCII character sprites.  `compose.py` will also append the fallback tilesheet to the end of the tileset, and will add a "fallback.png" to `tile_config.json` if there is no `"fallback"` entry in `tile_info.json`.
 
 You can add other keys like `source` but they should be ignored by `compose.py` and are meant as comments only.
 
 ### Expansion tile entries
 
-Tilesheets can have expansion tilesheets, which are tilesheets from mods.  Each expansion tilesheet is a single `"id"` value, `"rotates": false"`, and `"fg": 0`.  Expansion tile entry JSON are the only tile entry JSONs that use an integer value for `"fg"` and that value must be 0.  Expansion tile entry JSONs must be located at the top layer of each tilesheet directory.
+Tilesheets can have expansion tilesheets, which are tilesheets from mods.  Each expansion tilesheet is a single `"id"` value, where the `"rotates": false"`, and `"fg": 0` flags are set.  Expansion tile entry JSONs are the only tile entry JSONs that may use an integer value for `"fg"`, and that value must be 0.  Expansion tile entry JSONs must be located at the top layer of each tilesheet directory.
 
 ## `compose.py`
 
@@ -164,11 +164,11 @@ Tilesheets can have expansion tilesheets, which are tilesheets from mods.  Each 
 
 `compose.py [-h] [--use-all] source_dir [output_dir]`
 
-`source_dir` the composing tileset directory.
+`source_dir` - the composing tileset directory.
 
 `output_dir` will be set to the `source_dir` unless provided separately. Expected to have `tileset.txt` and `fallback.png`.
 
-`--use-all` instead of warning about unused sprites will treat their basename as the `"id"` value to use them as `"fg"` for.
+`--use-all` instead of warning about unused sprites, will treat their basename as the `"id"` value to use them as `"fg"` for.
 
 Requires `pyvips` module.
 
@@ -177,14 +177,14 @@ Requires `pyvips` module.
 - Download Python https://www.python.org/downloads/
 - Download `libvips` https://libvips.github.io/libvips/install.html
 - Add both to your `PATH` environment variable
-- Press `Windows key + r` to open RUN dialogue
+- Press `Windows key + r` to open the "Run" dialog box
 - type `cmd` to get the console
 - run: `pip install --user pyvips`
 - run: `py -m pip install --upgrade pip`
 
 ## Legacy tilesets
 
-Prior to October 2019 when `compose.py` was made sprite indices in `tile_config.json` had to be calculated by hand. Following is a description for them.
+Prior to October 2019, when `compose.py` was made, sprite indices in `tile_config.json` had to be calculated by hand. Following is a description for them.
 
 ### tilesheets
 Each tilesheet contains 1 or more sprites with the same width and height.  Each tilesheet contains one or more rows of exactly 16 sprites.  Sprite index 0 is special and the first sprite of the first tilesheet in a tileset should be blank.  Indices run sequentially through each sheet and continue incrementing for each new sheet without resetting, so index 32 is the first sprite in the third row of the first sheet.  If the first sheet has 320 sprites in it, index 352 would be the first sprite of the third row of the second sheet.
@@ -308,11 +308,11 @@ Each legacy tileset has a `tile_config.json` describing how to map the contents 
 
 This is a Python script that will convert a legacy tileset into a compositing tileset.  It reads the `tile_config.json` and assigns semi-arbitrary file names to each sprite index.  Then it changes all sprite index references to file names, breaks up `tile_config.json` into many small tile entry JSON files with arbitrary file names, and writes each sprite into a separate file.
 
-It requires `pyvips` module to do image processing.
+It requires the `pyvips` module to perform the image processing.
 
 It takes a single mandatory argument, which is the path to the tileset directory.  For example:
 `python3 tools/gfx_tools/decompose.py gfx/ChestHole16Tileset` will convert the legacy ChestHole16 tileset to a compositing tileset.
 
-decompose.py creates a sufficient directory hierarchy and file names for a tileset to be compositing, but it is machine generated and badly organized.  New compositing tilesets should use more sensible file names and a better organization.
+decompose.py creates a sufficient directory hierarchy and file names for a tileset to be compositing, but it is machine-generated and will be badly organized.  New compositing tilesets should use more sensible file names and a better organization.
 
 It shouldn't be necessary to run decompose.py very often.  Legacy tilesets should only need to be converted to composite tilesets one time.
