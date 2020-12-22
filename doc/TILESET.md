@@ -30,7 +30,7 @@ JSON configuration object that describes what sprites are used for what game ent
 tileset that is stored as directories of individual sprites and tile entries.
 
 ##### `compose.py` script
-creates a package suitable for game from a compositing tileset. Requires `pyvips` module.
+creates a package suitable for game from a compositing tileset.
 
 ##### Image directory
 compositing tileset subdirectory containing sprites and tile entries.
@@ -44,7 +44,7 @@ describes image directories for `compose.py`
 ### tile entry
 ```C++
 {                                           // The simplest version
-    "id": "mon_cat",                        // a game entity id, can be a list of values that will all have the same following configuration
+    "id": "mon_cat",                        // a game entity ID, can be a list of values that will all have the same following configuration
     "fg": "mon_cat_black",                  // a sprite basename that will be put on foreground
     "bg": "shadow_bg_1"                     // another sprite basename that will be the background; can be empty for no background
 }
@@ -68,7 +68,7 @@ Special prefixes that are used include:
 
 `overlay_` for movement modes.
 
-`vp_` for vehicle parts, see also `symbols` and `standard_symbols` JSON keys that are used as suffixes. TODO: link
+`vp_` for vehicle parts, see also [`symbols` and `standard_symbols` JSON keys](JSON_INFO.md#symbols-and-variants) that are used as suffixes.
 
 All prefixes that start with `overlay_` can have a `_female` or `_male` gender part added: `overlay_female_` or `overlay_male_`. The decision to use them is up to sprite authors.
 
@@ -86,7 +86,7 @@ You can add `"rotates": true` for sprites to be rotated by the game automaticall
         { "weight": 50, "sprite": "t_dirt_brown"},       // appears approximately 50 times in 53 tiles
         { "weight": 1, "sprite": "t_dirt_black_specks"}, // 1 time in 53 tiles
         { "weight": 1, "sprite": "t_dirt_specks_gray"},
-        { "weight": 1, "sprite": "t_patchy_grass"}       // file names are arbitrary, but see `--use-all` option TODO: link
+        { "weight": 1, "sprite": "t_patchy_grass"}       // file names are arbitrary, but see `--use-all` option
     ],
 ```
 
@@ -152,7 +152,21 @@ You can add other keys like `source` but they should be ignored by `compose.py` 
 
 Tilesheets can have expansion tilesheets, which are tilesheets from mods.  Each expansion tilesheet is a single `"id"` value, `"rotates": false"`, and `"fg": 0`.  Expansion tile entry JSON are the only tile entry JSONs that use an integer value for `"fg"` and that value must be 0.  Expansion tile entry JSONs must be located at the top layer of each image directory.
 
-# Installing pyvips on Windows
+## `compose.py`
+
+### Usage
+
+`compose.py [-h] [--use-all] source_dir [output_dir]`
+
+`source_dir` the composing tileset directory.
+
+`output_dir` will be set to the `source_dir` unless provided separately. Expected to have `tileset.txt` and `fallback.png`.
+
+`--use-all` instead of warning about unused sprites will treat their basename as the `"id"` value to use them as `"fg"` for.
+
+Requires `pyvips` module.
+
+### Installing pyvips on Windows
 
 - Download Python https://www.python.org/downloads/
 - Download `libvips` https://libvips.github.io/libvips/install.html
@@ -187,7 +201,7 @@ Each legacy tileset has a `tile_config.json` describing how to map the contents 
         "file": "tiles.png",                      // file containing sprites in a grid
         "tiles": [                                // array with one entry per tile
           {
-            "id": "10mm",                         // id is how the game maps things to sprites
+            "id": "10mm",                         // ID is how the game maps things to sprites
             "fg": 1,                              //   lack of prefix mostly indicates items
             "bg": 632,                            // fg and bg can be sprite indexes in the image
             "rotates": false
