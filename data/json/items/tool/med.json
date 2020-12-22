@@ -138,7 +138,7 @@
     ],
     "max_charges": 12,
     "charges_per_use": 1,
-    "flags": [ "NO_RELOAD" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "OXYGEN_BOTTLE" ]
   },
   {
@@ -192,7 +192,7 @@
     ],
     "max_charges": 24,
     "charges_per_use": 1,
-    "flags": [ "NO_RELOAD" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "OXYGEN_BOTTLE" ]
   },
   {
