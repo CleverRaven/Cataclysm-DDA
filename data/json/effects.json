@@ -536,7 +536,7 @@
     "id": "foodpoison",
     "name": [ "Food Poisoning" ],
     "desc": [ "Your stomach is extremely upset, and you are quite nauseated." ],
-    "//": "In formal usage, 'nauseous' technically means 'to cause nausea [in others],' not 'feeling sick.'"
+    "//": "In formal usage, 'nauseous' technically means 'to cause nausea [in others],' not 'feeling sick.'",
     "miss_messages": [ [ "Your stomach bothers you.", 1 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
