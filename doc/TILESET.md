@@ -12,7 +12,7 @@ an image that represents one game entity.
 file name without an extension.
 
 ##### Tile
-a unit square in the game world with certain coordinates where entities can exist and on which sprites are drawn.
+a unit square in the game world with certain coordinates where entities can exist and on which sprites are drawn. Sometimes used [incorrectly] in place of "sprite".
 
 ##### Tilesheet
 a collection of sprites with identical size and offset composited into one image file that the game will read.
@@ -96,7 +96,7 @@ You can add `"rotates": true` for sprites to be rotated by the game automaticall
 
 #### Multitile
 
-`"multitile": true` signifies that there is an `additional_tiles` object with 1 or more objects for entities and sprites associated with this tile, such as broken versions of an item or wall connections.  Each object in the array has an `"id`" field, as above, and a `"fg"` field, which can be a single basename, an array of basenames, or an array of objects as above. `"rotates": true` is implied with it and can be omitted.
+`"multitile": true` signifies that there is an `additional_tiles` object with 1 or more objects that define sprites for game entities associated with this tile, such as broken versions of an item or wall connections.  Each object in the array has an `"id`" field, as above, and a `"fg"` field, which can be a single basename, an array of basenames, or an array of objects as above. `"rotates": true` is implied with it and can be omitted.
 
 #### Multiple tile entries in the same file
 
