@@ -34,7 +34,6 @@ tileset subdirectory named by `pngs_{tilesheet_name}_{sprite_width}x{sprite_heig
 
 ## JSON Schema
 
-### `tile_entry` JSON
 Each `tile_entry` JSON is a dictionary that describes how to map one or more game entities to one or more sprites.  The simplest version has a single game entity, a single foreground sprite, an *optional* background sprite, and a rotation value.  For instance:
 ```C++
 {                                           // this is an object and doesn't require a list
@@ -118,6 +117,17 @@ The first dictionary is mandatory, and gives the default sprite width and sprite
 `"fallback"` is a special key which should be `true` if present.  If a tilesheet is designated as fallback, it will be treated as a tilesheet of fallback ASCII characters.  `compose.py` will also compose the fallback tilesheet to the end of the tileset, and will add a "fallback.png" to `tile_config.json` if there is no `"fallback"` entry in `tile_info.json`.
 
 `"filler"` is another special key that should be `true` if present.  If a tilesheet is designated as filler, entries from its directory will be ignored if an entry from a non-filler directory has already defined the same id.  Entries will also be ignored if the id was already defined by in the filler directory.  Also, pngs from a filler directory will be ignored if they share a name with a png  from a non-filler directory.  A filler tilesheet is useful when upgrading the art in a tileset: old, low-quality art can be placed on filler tilesheet and will be automatically replaced as better images are added to the non-filler tilesheets.
+
+# Installing pyvips on Windows
+
+- Download Python https://www.python.org/downloads/
+- Add it to your `PATH` environment variable
+- Download `libvips` https://libvips.github.io/libvips/install.html
+- Add it to `PATH` too
+- Press `Windows key + r` to open RUN dialogue
+- type `cmd` to get the console
+- run: `pip install --user pyvips`
+- run: `py -m pip install --upgrade pip`
 
 ## Legacy tilesets
 

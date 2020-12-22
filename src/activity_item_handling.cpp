@@ -2743,6 +2743,7 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
         // but now we are here, we check
         if( activity_to_restore != ACT_TIDY_UP &&
             activity_to_restore != ACT_MOVE_LOOT &&
+            activity_to_restore != ACT_FETCH_REQUIRED &&
             p.fine_detail_vision_mod( p.pos() ) > 4.0 ) {
             p.add_msg_if_player( m_info, _( "It is too dark to work here." ) );
             return false;
