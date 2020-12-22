@@ -2770,9 +2770,11 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                   iteminfo::no_newline | iteminfo::lower_is_better,
                                                   piece.second.portion.encumber ) );
 
-                        info.push_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
-                                                  iteminfo::no_newline | iteminfo::lower_is_better,
-                                                  piece.second.portion.max_encumber ) );
+                        if( piece.second.portion.encumber != piece.second.portion.max_encumber ) {
+                            info.push_back( iteminfo( "ARMOR", space + _( "When full:" ) + space, "",
+                                                      iteminfo::no_newline | iteminfo::lower_is_better,
+                                                      piece.second.portion.max_encumber ) );
+                        }
 
                         info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
                                                   iteminfo::no_flags,
