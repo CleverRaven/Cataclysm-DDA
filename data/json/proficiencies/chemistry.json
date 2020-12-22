@@ -34,7 +34,7 @@
     "type": "proficiency",
     "id": "prof_inorganic_chemistry",
     "name": { "str": "Inorganic Chemistry" },
-    "description": "Knowledge on the branch of chemistry which studies and uses substances that lacks carbon-containing compounds.",
+    "description": "Knowledge of the branch of chemistry that studies and uses compounds not containing carbon.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_fail_multiplier": 2.5, 
