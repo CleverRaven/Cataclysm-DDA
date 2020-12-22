@@ -23,7 +23,7 @@
     "type": "proficiency",
     "id": "prof_organic_chemistry",
     "name": { "str": "Organic Chemistry" },
-    "description": "Knowledge on the branch of chemistry which studies and uses substances with carbon-containing compounds.",
+    "description": "Knowledge of the branch of chemistry that studies and uses carbon-containing compounds.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_fail_multiplier": 2.5,
