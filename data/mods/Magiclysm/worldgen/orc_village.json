@@ -32,7 +32,7 @@
     "terrain": {
       "3": "t_door_makeshift_c",
       "1": "t_wall_rammed_earth",
-      ".": "t_dirtfloor",
+      ".": "t_dirtfloor"
     }
   }
     ]
