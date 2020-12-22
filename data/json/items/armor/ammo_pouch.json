@@ -104,7 +104,7 @@
     "id": "chestpouch",
     "type": "ARMOR",
     "name": { "str": "chest ammo pouch", "str_pl": "chest ammo pouches" },
-    "description": "A fabric ammo pouch that can be strapped to your chest, and is capable of holding a single magazine close at hand.",
+    "description": "A fabric ammo pouch that can be strapped to your chest and hold a single magazine close at hand.",
     "weight": "140 g",
     "volume": "250 ml",
     "price": 1250,
