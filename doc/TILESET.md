@@ -33,7 +33,7 @@ tileset that is stored as directories of individual sprites and tile entries.
 creates a package suitable for game from a compositing tileset. Requires `pyvips` module.
 
 ##### Image directory
-compositing tileset subdirectory named by `pngs_{tilesheet_name}_{sprite_width}x{sprite_height}` template, such as `pngs_tree_32x40` or `pngs_overlay_32x32`. Their number should be minimized for better performance. Only tile entries for expansion tilesheets must be at the top level of the image directory, otherwise there are no specific requirements to placement of sprites and other tile entries within an image directory.
+compositing tileset subdirectory containing sprites and tile entries.
 
 ##### `tile_info.json` file
 
@@ -118,10 +118,10 @@ Each JSON file can have either a single object or an array of 1 or more objects:
     "expan.png": {}
   }, {
     "tree.png": {
-      "sprite_offset_x": -16,
-      "sprite_offset_y": -48,
+      "sprite_width": 64,
       "sprite_height": 80,
-      "sprite_width": 64
+      "sprite_offset_x": -16,
+      "sprite_offset_y": -48
     }
   }, {
     "fillerhoder.png": { 
@@ -136,7 +136,11 @@ Each JSON file can have either a single object or an array of 1 or more objects:
 ]
 ```
 
-The first object defines the default sprite size. Each image directory must have a corresponding object with single key being the tilesheet output filename.  Empty object as value here means that the tilesheet has default sprite size and no offsets. It can have overriding values under `sprite_width`, `sprite_height`, `sprite_offset_x`, `sprite_offset_y` keys.
+The first object defines the default sprite size.
+
+Each image directory must have a corresponding object with single key being the tilesheet output filename.  Empty object as value here means that the tilesheet has default sprite size and no offsets. It can have overriding values under `sprite_width`, `sprite_height`, `sprite_offset_x`, `sprite_offset_y` keys.
+
+Image directories are expected to be named by `pngs_{tilesheet_basename}_{sprite_width}x{sprite_height}` template, such as `pngs_tiles_32x32`, `pngs_expan_32x32`, `pngs_tree_64x80`, etc. Their number should be minimized for better performance.
 
 `"filler": true` means the tilesheet is a filler, tile entries within it will be used only if IDs in them were not mentioned in any preceding tile entry.  Sprites within a filler directory will be ignored if another one with the same name was already encountered.  A filler tilesheet is useful when upgrading the art in a tileset: old, low-quality art can be placed on filler tilesheet and will be automatically replaced as better images are added to the non-filler tilesheets.
 
