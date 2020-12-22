@@ -83,6 +83,7 @@
     "default_time_multiplier": 1.5,
     "default_fail_multiplier": 5,
     "required_proficiencies": [ "prof_intro_chemistry" ],
+    "required_proficiencies": [ "prof_intro_chemistry" ],
     "time_to_learn": "12 h"
   },
   {
