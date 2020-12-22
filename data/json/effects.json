@@ -1988,7 +1988,7 @@
       "You've lost an awful lot of blood, and your condition is severe.  Seek medical attention.",
       "You've lost tremendous amount of blood, and you're standing on death's door.  Transfusion might save you."
     ],
-    "apply_message": "You have lost lot of blood, and your condition worsens.",
+    "apply_message": "You have lost a lot of blood, and your condition worsens.",
     "remove_message": "You are no longer in shock.",
     "decay_messages": [
       [ "Your blood levels increase, and you feel better; but still, you look pale.", "good" ],
