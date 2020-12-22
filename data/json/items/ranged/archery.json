@@ -489,7 +489,7 @@
     "copy-from": "compbow",
     "type": "GUN",
     "name": { "str": "compound hunting bow (low)", "str_pl": "compound hunting bows (low)" },
-    "description": "A high-poweredd bow with shaped cams and extra cables for high-velocity shots that can be used effectively by average archers.  Currently set to a low weight, making it much easier to draw.",
+    "description": "A high-powered bow with shaped cams and extra cables for high-velocity shots that can be used effectively by average archers.  Currently set to a low weight, making it much easier to draw.",
     "//": "40 lb draw weight, efficient, 0.45 slugs of momentum with a 30g arrow.",
     "min_strength": 7,
     "ranged_damage": { "damage_type": "stab", "amount": 7 },
