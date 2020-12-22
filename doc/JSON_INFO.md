@@ -1618,16 +1618,17 @@ See also VEHICLE_JSON.md
 ],
 "explode_in_fire": true,                     // Should the item explode if set on fire
 "explosion": {                               // Physical explosion data
-    "power": 10,                             // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
-    "distance_factor": 0.9,                  // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
-    "fire": true,                            // Should the explosion leave fire
-    "shrapnel": 200,                         // Total mass of casing, rest of fragmentation variables set to reasonable defaults.
-    "shrapnel": {
-        "casing_mass": 200,                  // Total mass of casing, casing/power ratio determines fragment velocity.
-        "fragment_mass": 0.05,               // Mass of each fragment in grams. Large fragments hit harder, small fragments hit more often.
-        "recovery": 10,                      // Percentage chance to drop an item at landing point.
-        "drop": "nail"                       // Which item to drop at landing point.
+  "damage": 10,                              // Damage the explosion deals to player at epicenter. Damage is halved above 50% radius.
+  "radius": 8,                               // Radius of the explosion. 0 means only the epicenter is affected.
+  "fire": true,                              // Should the explosion leave fire
+  "fragment": {                              // Projectile data of "shrapnel". This projectile will hit every target in its range and field of view exactly once.
+    "damage": {                              // Damage data of the shrapnel projectile.
+      "damage_type": "acid",                 // Type of damage dealt.
+      "amount": 10                           // Amount of damage dealt.
+      "armor_penetration": 4                 // Amount of armor ignored. Applied per armor piece, not in total.
+      "armor_multiplier": 2.5                // Multiplier on effective armor value. Applied after armor penetration.
     }
+  }
 },
 ```
 
