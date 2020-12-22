@@ -46,17 +46,30 @@ compositing tileset subdirectory named by `pngs_{tilesheet_name}_{sprite_width}x
 }
 ```
 
-The values in `"id"`, `"fg"`, and `"bg"` can be repeated within an image directory or in different image directories.  `"fg"` and `"bg"` sprite images can be referenced across image directories, but the sprites must be stored in an image directory with other sprites of the same height and width.
+Sprites can be referenced across image directories, but they must be stored in an image directory with their size and offset.
 
-`"id"` can also be a list of multiple game entities sharing the same sprite, like `"id": ["vp_door"], ["vp_hddoor"]`.  `"id"` can be any vehicle part, terrain, furniture, item, or monster in the game.  The special ids `"player_female", "player_male", "npc_female", "npc_male"` are used to identify the sprites for the player avatar and NPCs.  The special id `"unknown"` provides a sprite that is displayed when an entity has no other sprite.
+`"id"` can be an array of multiple game entities sharing the same sprite, like `"id": ["vp_door", "vp_hddoor"]`.  `"id"` game values that are used as is include terrain, furniture, items (except corpses), monsters, fields, traps. The special ID `"unknown"` provides a sprite that is displayed when an entity has no other sprite. Other hardcoded IDs also exist and most of them are referenced in `src/cata_tiles.cpp`. Full list of hardcoded IDs _may_ be present in `tools/json_tools/generate_overlay_ids.py` stored as `CPP_IDS` but it's updated manually and may lag behind.
 
-The special suffixes `_season_spring`, `_season_summer`, `_season_autumn`, and `_season_winter` can be applied to any entity id to create a seasonal variant for that entity that will be displayed in the appropriate season like this `"id": "mon_wolf_season_winter"`.
+The special suffixes `_season_spring`, `_season_summer`, `_season_autumn`, and `_season_winter` can be added to any entity ID to create a seasonal variant for that entity that will be displayed in the appropriate season, for example `"id": "mon_wolf_season_winter"`.
 
-The special prefixes `overlay_mutation_`, `overlay_female_mutation_`, `overlay_male_mutation_` can prefix any trait or bionic in the game to specify an overlay image that will be laid over the player and NPC sprites to indicate they have that mutation or bionic.
+#### Complex IDs
 
-The special prefixes `overlay_worn_`, `overlay_female_worn_`, `overlay_male_worn_` can prefix any item in the game to specify an overlay image that will be laid over the player and NPC sprites to indicate they are wearing that item.
+Special prefixes that are used include:
 
-The special prefixes `overlay_wielded_`, `overlay_female_wielded_`, `overlay_male_wielded_` can prefix any item in the game to specify an overlay image that will be laid over the player and NPC sprites to indicate they are holding that item.
+`overlay_effect_` for effects.
+
+`overlay_mutation_` for both mutations and bionics, can include `active_` at the start.
+
+`overlay_worn_` and `overlay_wielded_` for items being worn or wielded by the PC or NPC.
+
+`corpse_` for corpses.
+
+`overlay_` for movement modes.
+
+`vp_` for vehicle parts, see also `symbols` and `standard_symbols` JSON keys. TODO: link
+
+All prefixes that start with `overlay_` can have a `_female` or `_male` gender part added: `overlay_female_` or `overlay_male_`. The decision to use them is up to sprite authors.
+
 
 `"fg"` and `"bg"` can also be a list of 2 or 4 pre-rotated rotational variants, like `"bg": ["t_wall_n", "t_wall_e", "t_wall_s", "t_wall_w"]` or `"fg": ["mon_dog_left", "mon_dog_right"]`.
 
@@ -118,7 +131,7 @@ Each compositing tileset *must* have a `tile_info.json`, laid out like so:
   }
 ]
 ```
-The first dictionary is mandatory, and gives the default sprite width and sprite height for all tilesheets in the tileset.  Each of the image directories must have a separate dictionary, containing the tilesheet png name as its key.  If the tilesheet has the default sprite dimensions and no special offsets, it can have an empty dictionary as the value for the tilesheet name key.  Otherwise, it should have a dictionary of the sprite offsets, height, and width.
+The first dictionary is mandatory, and gives the default sprite width and sprite height for all tilesheets in the tileset.  Each of the image directories must have a separate dictionary, containing the tilesheet png name as its key.  If the tilesheet has the default sprite size and no special offsets, it can have an empty dictionary as the value for the tilesheet name key.  Otherwise, it should have a dictionary of the sprite offsets, height, and width.
 
 `"fallback"` is a special key which should be `true` if present.  If a tilesheet is designated as fallback, it will be treated as a tilesheet of fallback ASCII characters.  `compose.py` will also compose the fallback tilesheet to the end of the tileset, and will add a "fallback.png" to `tile_config.json` if there is no `"fallback"` entry in `tile_info.json`.
 
