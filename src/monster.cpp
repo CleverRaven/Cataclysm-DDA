@@ -101,8 +101,10 @@ static const itype_id itype_milk_raw( "milk_raw" );
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_INSECT( "INSECT" );
+static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MOLLUSK( "MOLLUSK" );
+static const species_id species_NETHER( "NETHER" );
 static const species_id species_ROBOT( "ROBOT" );
 static const species_id species_SPIDER( "SPIDER" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -1292,16 +1294,17 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 
     if( effect == effect_venom_dmg ||
         effect == effect_venom_player1 ||
-        effect == effect_venom_player2) {
-        return !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) );
+        effect == effect_venom_player2 ) {
+        return ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) ) ||
+               type->in_species( species_NETHER ) || type->in_species( species_LEECH_PLANT );
     }
 
     if( effect == effect_paralyzepoison ||
         effect == effect_badpoison ||
         effect == effect_venom_weaken ||
-        effect == effect_poison  ) {
-        return type->in_species( species_ZOMBIE ) ||
-               !made_of_any( Creature::cmat_flesh );
+        effect == effect_poison ) {
+        return type->in_species( species_ZOMBIE ) || type->in_species( species_NETHER ) ||
+               !made_of_any( Creature::cmat_flesh ) || type->in_species( species_LEECH_PLANT );
     }
 
     if( effect == effect_stunned ) {

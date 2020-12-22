@@ -8,6 +8,7 @@
 #include "mtype.h"
 #include "type_id.h"
 
+static const species_id species_NETHER( "NETHER" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 // Test effect methods from `Creature` class on both `monster` and `player`
@@ -407,13 +408,34 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
         }
     }
 
+    WHEN( "monster is not made of flesh, but it's weird nether stuff" ) {
+        // Mi-Go, flesh but Nether species
+        monster migo( mtype_id( "mon_mi_go" ) );
+        migo.clear_effects();
+        REQUIRE( migo.made_of( material_id( "flesh" ) ) );
+        REQUIRE_FALSE( migo.made_of( material_id( "iflesh" ) ) );
+        REQUIRE( migo.type->in_species( species_NETHER ) );
+
+        THEN( "they can still bleed" ) {
+            CHECK_FALSE( migo.is_immune_effect( effect_bleed ) );
+        }
+
+        THEN( "they can't be poisoned" ) {
+            CHECK( migo.is_immune_effect( effect_poison ) );
+            CHECK( migo.is_immune_effect( effect_badpoison ) );
+            CHECK( migo.is_immune_effect( effect_paralyzepoison ) );
+            CHECK( migo.is_immune_effect( effect_venom_dmg ) );
+            CHECK( migo.is_immune_effect( effect_venom_player1 ) );
+            CHECK( migo.is_immune_effect( effect_venom_player2 ) );
+            CHECK( migo.is_immune_effect( effect_venom_weaken ) );
+        }
+    }
     WHEN( "monster is not made of flesh or iflesh" ) {
         // Fungaloid - veggy
         monster fungaloid( mtype_id( "mon_fungaloid" ) );
         fungaloid.clear_effects();
         REQUIRE_FALSE( fungaloid.made_of( material_id( "flesh" ) ) );
         REQUIRE_FALSE( fungaloid.made_of( material_id( "iflesh" ) ) );
-        REQUIRE_FALSE( fungaloid.has_flag( MF_WARM ) );
 
         THEN( "they are immune to the bleed effect" ) {
             CHECK( fungaloid.is_immune_effect( effect_bleed ) );
