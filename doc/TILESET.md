@@ -30,7 +30,7 @@ JSON configuration object that describes what sprites are used for what game ent
 tileset that is stored as directories of individual sprites and tile entries.
 
 ##### `compose.py` script
-creates a package suitable for game from a compositing tileset.
+creates a package suitable for the game from a compositing tileset.
 
 ##### Image directory
 compositing tileset subdirectory containing sprites and tile entries.
@@ -44,7 +44,7 @@ describes image directories for `compose.py`
 ### tile entry
 ```C++
 {                                           // The simplest version
-    "id": "mon_cat",                        // a game entity ID, can be a list of values that will all have the same following configuration
+    "id": "mon_cat",                        // a game entity ID
     "fg": "mon_cat_black",                  // a sprite basename that will be put on foreground
     "bg": "shadow_bg_1"                     // another sprite basename that will be the background; can be empty for no background
 }
@@ -52,7 +52,11 @@ describes image directories for `compose.py`
 
 Sprites can be referenced across image directories, but they must be stored in an image directory with their size and offset.
 
-`"id"` can be an array of multiple game entities sharing the same sprite, like `"id": ["vp_door", "vp_hddoor"]`.  `"id"` game values that are used as is include terrain, furniture, items (except corpses), monsters, fields, traps. The special ID `"unknown"` provides a sprite that is displayed when an entity has no other sprite. Other hardcoded IDs also exist and most of them are referenced in [`src/cata_tiles.cpp`](/src/cata_tiles.cpp). Full list of hardcoded IDs _may_ be present in [`tools/json_tools/generate_overlay_ids.py`](/tools/json_tools/generate_overlay_ids.py) stored as `CPP_IDS` but it's updated manually and may lag behind.
+`"id"` can be an array of multiple game entity IDs sharing the same sprite configuration, like `"id": ["vp_door", "vp_hddoor"]`.  `"id"` game values that are used as is include terrain, furniture, items (except corpses), monsters, fields, traps.
+
+#### Hardcoded IDs
+
+The special ID `"unknown"` provides a sprite that is displayed when an entity has no other sprite. Other hardcoded IDs also exist and most of them are referenced in [`src/cata_tiles.cpp`](/src/cata_tiles.cpp). Full list of hardcoded IDs _may_ be present in [`tools/json_tools/generate_overlay_ids.py`](/tools/json_tools/generate_overlay_ids.py) stored as `CPP_IDS` but it's updated manually and may lag behind.
 
 #### Complex IDs
 
