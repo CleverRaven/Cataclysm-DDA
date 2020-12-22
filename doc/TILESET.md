@@ -2,37 +2,39 @@
 
 ## Terminology
 
-* tileset - a package of graphic images for the game.
+### Tileset
+a package of images for the game.
 
-* sprite - an image that represents one game entity.
+### Sprite 
+an image that represents one game entity.
 
-* tilesheet - a collection of sprites with the same size and offset combined into one image file.
+### Tile
+TODO
 
-* `tile_config.json` - file that describes how to map the contents of tilesheets to game entities in a machine-readable way.
+### Tilesheet
+a collection of sprites with identical size and offset composited into one image file that the game will read.
 
-* `tileset.txt` - file that contains tileset metadata.
+### `tile_config.json` file
+machine-readable description mapping the contents of tilesheets to game entities.
 
-## Compositing Tilesets
-Since October 2019 tilesets can be stored as directories of individual sprite files and JSON config files that use sprite file names without `.png` extensions as IDs thanks to the `tools/gfx_tools/compose.py`, a Python script that combines sprites into tilesheets and compiles a `tile_config.json` for all of them. It:
+### `tileset.txt` file
+tileset metadata.
 
-1. Searches tileset `pngs_*` subdirectories for sprite files and JSON configuration files which contain `tile_entries`.
-2. Creates mappings of sprite file names to indices.
-3. Merges these sprite files into tilesheets.
-4. Changes all sprite file name references in the `tile_entries` to indices.
-5. And compiles a `tile_config.json` for these tilesheets.
+### Tile entry
+JSON description that describes what sprites are used for what game entities and how.
 
-It requires `pyvips` module.
+### Compositing Tileset
+tileset that is stored as directories of individual sprites and tile entries.
 
-The original sprite files and `tile_entry` JSON files are preserved.
+### compose.py
+a Python script that creates a package suitable for game from a compositing tileset. Requires `pyvips` module.
 
-### directory structure
-Each compositing tileset has one or more directories in it with a name that starts with `pngs_`, such as `pngs_tree_32x40` or `pngs_overlay`.  These are the image directories.  All sprites in an image directory must have the same height and width and will be merged into a single tilesheet.
+### Image directory
+tileset subdirectory named by `pngs_{tilesheet_name}_{sprite_width}x{sprite_height}` template, such as `pngs_tree_32x40` or `pngs_overlay_32x32`. Their number should be minimized for better performance. Only tile entries for expansion tilesheets must be at the top level of the image directory, otherwise there are no specific requirements to placement of sprites and other tile entries within an image directory.
 
-It is recommended that tileset developers include the sprite dimensions in the image directory name, but this is not required.  `pngs_overlay_24x24` is preferred over `pngs_overlay` but both are allowed.  As each image directory creates its own tilesheet, and tilesheets should be as large as possible for performance reasons, tileset developers are strongly encouraged to minimize the number of image directories.
+## JSON Schema
 
-Each image directory contains a hierarchy of subdirectories, `tile_entry` JSON files, and sprite files.  There is no restriction on the arrangement or names of these files, except for `tile_entry` JSON files for expansion tilesheets must be at the top level of the image directory.  Subdirectories are not required but are recommended to keep things manageable.
-
-#### `tile_entry` JSON
+### `tile_entry` JSON
 Each `tile_entry` JSON is a dictionary that describes how to map one or more game entities to one or more sprites.  The simplest version has a single game entity, a single foreground sprite, an *optional* background sprite, and a rotation value.  For instance:
 ```C++
 {                                           // this is an object and doesn't require a list
@@ -80,15 +82,8 @@ Each `tile_entry.json` file can have a single object in it, or a list of 1 or mo
 
 Having a list of tile entries in a file may be useful for organization, but completely unrelated entries may all exist in the same file without any complications.
 
-#### expansion `tile_entry` JSON
+### Expansion tile entries
 Tilesheets can have expansion tilesheets, which are tilesheets from mods.  Each expansion tilesheet is a single `"id"` value, `"rotates": false"`, and `"fg": 0`.  Expansion `tile_entry` JSON are the only `tile_entry` JSONs that use an integer value for `"fg"` and that value must be 0.  Expansion `tile_entry` JSONs must be located at the top layer of each image directory.
-
-#### Sprite Images
-Every sprite inside an image directory must have the same height and width as every other sprite in the image directory.
-
-Sprites can be organized into subdirectories within the image directory however the tileset developer prefers.  Sprite filenames are completely arbitrary and should be chosen using a scheme that makes sense to the tileset developer.
-
-After loading a tileset, config/debug.log will contain a space separated list of every entity missing a sprite in the tileset.  Entities that have sprites because of a `"looks_like"` definition will not show up in the list.
 
 ### `tile_info.json`
 Each compositing tileset *must* have a `tile_info.json`, laid out like so:
@@ -126,7 +121,7 @@ The first dictionary is mandatory, and gives the default sprite width and sprite
 
 ## Legacy tilesets
 
-Prior to October 2019 sprite indices in `tile_config.json` had to be calculated by hand. Following is a description for them.
+Prior to October 2019 when `compose.py` was made sprite indices in `tile_config.json` had to be calculated by hand. Following is a description for them.
 
 ### tilesheets
 Each tilesheet contains 1 or more sprites with the same width and height.  Each tilesheet contains one or more rows of exactly 16 sprites.  Sprite index 0 is special and the first sprite of the first tilesheet in a tileset should be blank.  Indices run sequentially through each sheet and continue incrementing for each new sheet without resetting, so index 32 is the first sprite in the third row of the first sheet.  If the first sheet has 320 sprites in it, index 352 would be the first sprite of the third row of the second sheet.
