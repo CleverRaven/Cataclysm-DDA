@@ -80,11 +80,6 @@
     "items": [ [ "afs_atompot", 3 ] ]
   },
   {
-    "id": "bed",
-    "type": "item_group",
-    "items": [ [ "afs_quilt", 10 ], [ "afs_quilt_patchwork", 8 ] ]
-  },
-  {
     "id": "livingroom",
     "type": "item_group",
     "items": [ [ "afs_atomic_smartphone", 1 ], [ "atomic_light", 2 ] ]
