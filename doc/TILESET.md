@@ -6,7 +6,7 @@
 a package of images for the game.
 
 ##### Sprite 
-an image that represents one game entity.
+a single image that represents either one game entity or a common background
 
 ##### Basename
 file name without an extension.
@@ -32,12 +32,12 @@ tileset that is stored as directories of individual sprites and tile entries.
 ##### `compose.py` script
 creates a package suitable for the game from a compositing tileset.
 
-##### Image directory
+##### Tilesheet directory
 compositing tileset subdirectory containing sprites and tile entries.
 
 ##### `tile_info.json` file
 
-describes image directories for `compose.py`
+describes tilesheet directories for `compose.py`
 
 ## JSON Schema
 
@@ -50,7 +50,7 @@ describes image directories for `compose.py`
 }
 ```
 
-Sprites can be referenced across image directories, but they must be stored in an image directory with their size and offset.
+Sprites can be referenced across tilesheet directories, but they must be stored in a tilesheet directory with their size and offset.
 
 `"id"` can be an array of multiple game entity IDs sharing the same sprite configuration, like `"id": ["vp_door", "vp_hddoor"]`.  `"id"` game values that are used as is include terrain, furniture, items (except corpses), monsters, fields, traps.
 
@@ -142,9 +142,9 @@ Each JSON file can have either a single object or an array of 1 or more objects:
 
 The first object defines the default sprite size.
 
-Each image directory must have a corresponding object with single key being the tilesheet output filename.  Empty object as value here means that the tilesheet has default sprite size and no offsets. It can have overriding values under `sprite_width`, `sprite_height`, `sprite_offset_x`, `sprite_offset_y` keys.
+Each tilesheet directory must have a corresponding object with single key being the tilesheet output filename.  Empty object as value here means that the tilesheet has default sprite size and no offsets. It can have overriding values under `sprite_width`, `sprite_height`, `sprite_offset_x`, `sprite_offset_y` keys.
 
-Image directories are expected to be named by `pngs_{tilesheet_basename}_{sprite_width}x{sprite_height}` template, such as `pngs_tiles_32x32`, `pngs_expan_32x32`, `pngs_tree_64x80`, etc. Their number should be minimized for better performance.
+Tilesheet directories are expected to be named by `pngs_{tilesheet_basename}_{sprite_width}x{sprite_height}` template, such as `pngs_tiles_32x32`, `pngs_expan_32x32`, `pngs_tree_64x80`, etc. Their number should be minimized for better performance.
 
 `"filler": true` means the tilesheet is a filler, tile entries within it will be used only if IDs in them were not mentioned in any preceding tile entry.  Sprites within a filler directory will be ignored if another one with the same name was already encountered.  A filler tilesheet is useful when upgrading the art in a tileset: old, low-quality art can be placed on filler tilesheet and will be automatically replaced as better images are added to the non-filler tilesheets.
 
@@ -154,7 +154,7 @@ You can add other keys like `source` but they should be ignored by `compose.py` 
 
 ### Expansion tile entries
 
-Tilesheets can have expansion tilesheets, which are tilesheets from mods.  Each expansion tilesheet is a single `"id"` value, `"rotates": false"`, and `"fg": 0`.  Expansion tile entry JSON are the only tile entry JSONs that use an integer value for `"fg"` and that value must be 0.  Expansion tile entry JSONs must be located at the top layer of each image directory.
+Tilesheets can have expansion tilesheets, which are tilesheets from mods.  Each expansion tilesheet is a single `"id"` value, `"rotates": false"`, and `"fg": 0`.  Expansion tile entry JSON are the only tile entry JSONs that use an integer value for `"fg"` and that value must be 0.  Expansion tile entry JSONs must be located at the top layer of each tilesheet directory.
 
 ## `compose.py`
 
