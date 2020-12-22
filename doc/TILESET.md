@@ -12,7 +12,7 @@ an image that represents one game entity.
 file name without an extension.
 
 ##### Tile
-TODO
+a unit square in the game world with certain coordinates where entities can exist and on which sprites are drawn.
 
 ##### Tilesheet
 a collection of sprites with identical size and offset composited into one image file that the game will read.
