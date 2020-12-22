@@ -8,7 +8,7 @@ A package of images for the game.
 ##### Sprite 
 A single image that represents either an individual game entity or a common background
 
-##### Base name
+##### Root name
 File name without an extension.
 
 ##### Tile
@@ -45,8 +45,8 @@ Describes tilesheet directories for `compose.py`
 ```C++
 {                                           // The simplest version
     "id": "mon_cat",                        // a game entity ID
-    "fg": "mon_cat_black",                  // a sprite basename that will be put on foreground
-    "bg": "shadow_bg_1"                     // another sprite basename that will be the background; can be empty for no background
+    "fg": "mon_cat_black",                  // a sprite root name that will be put on foreground
+    "bg": "shadow_bg_1"                     // another sprite root name that will be the background; can be empty for no background
 }
 ```
 
@@ -96,7 +96,7 @@ You can add `"rotates": true` to allow sprites to be rotated by the game automat
 
 #### Multitile
 
-`"multitile": true` signifies that there is an `additional_tiles` object with one or more objects that define sprites for game entities associated with this tile, such as broken versions of an item, or wall connections.  Each object in the array has an `"id`" field, as above, and an `"fg"` field, which can be a single basename, an array of basenames, or an array of objects as above. `"rotates": true` is implied with it and can be omitted.
+`"multitile": true` signifies that there is an `additional_tiles` object with one or more objects that define sprites for game entities associated with this tile, such as broken versions of an item, or wall connections.  Each object in the array has an `"id`" field, as above, and an `"fg"` field, which can be a single root name, an array of root names, or an array of objects as above. `"rotates": true` is implied with it and can be omitted.
 
 #### Multiple tile entries in the same file
 
@@ -144,7 +144,7 @@ The first object defines the default sprite size.
 
 Each tilesheet directory must have a corresponding object with a single key, which will become the tilesheet output filename.  An empty object as the value here means that the tilesheet uses the default sprite size and has no offsets. It can have overriding values under `sprite_width`, `sprite_height`, `sprite_offset_x`, `sprite_offset_y` keys.
 
-Tilesheet directory names are expected to use the following format: `pngs_{tilesheet_basename}_{sprite_width}x{sprite_height}` - such as `pngs_tiles_32x32`, `pngs_expan_32x32`, `pngs_tree_64x80`, etc. To improve performance, keep the number of separate directories to a minimum.
+Tilesheet directory names are expected to use the following format: `pngs_{tilesheet_root_name}_{sprite_width}x{sprite_height}` - such as `pngs_tiles_32x32`, `pngs_expan_32x32`, `pngs_tree_64x80`, etc. To improve performance, keep the number of separate directories to a minimum.
 
 `"filler": true` means the tilesheet is a filler; tile entries within it will be used only if IDs in them were not mentioned in any preceding tile entry.  Sprites within a filler directory will be ignored if another one with the same name was already encountered.  A filler tilesheet is useful when upgrading the art in a tileset: old, low-quality art can be placed on filler tilesheet and will be automatically replaced as better images are added to the non-filler tilesheets.
 
@@ -168,7 +168,7 @@ Tilesheet can be an expansion from a mod.  Each expansion tilesheet is a single 
 
 `output_dir` will be set to the `source_dir` unless provided separately. Expected to have `tileset.txt` and `fallback.png`.
 
-`--use-all` instead of warning about unused sprites, will treat their basename as the `"id"` value to use them as `"fg"` for.
+`--use-all` instead of warning about unused sprites, will treat their root name as the `"id"` value to use them as `"fg"` for.
 
 Requires `pyvips` module.
 
