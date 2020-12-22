@@ -45,7 +45,7 @@
     "type": "proficiency",
     "id": "prof_biochemistry",
     "name": { "str": "Biochemistry" },
-    "description": "The understanding of how to use chemistry to solve biological problems.",
+    "description": "The understanding of the chemistry of living things.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_fail_multiplier": 2.5,
