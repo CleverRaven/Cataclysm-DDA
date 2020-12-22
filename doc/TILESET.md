@@ -8,6 +8,9 @@ a package of images for the game.
 ### Sprite 
 an image that represents one game entity.
 
+### Basename
+file name without an extension.
+
 ### Tile
 TODO
 
@@ -21,7 +24,7 @@ machine-readable description mapping the contents of tilesheets to game entities
 tileset metadata.
 
 ### Tile entry
-JSON description that describes what sprites are used for what game entities and how.
+JSON configuration object that describes what sprites are used for what game entities and how.
 
 ### Compositing Tileset
 tileset that is stored as directories of individual sprites and tile entries.
@@ -30,17 +33,16 @@ tileset that is stored as directories of individual sprites and tile entries.
 a Python script that creates a package suitable for game from a compositing tileset. Requires `pyvips` module.
 
 ### Image directory
-tileset subdirectory named by `pngs_{tilesheet_name}_{sprite_width}x{sprite_height}` template, such as `pngs_tree_32x40` or `pngs_overlay_32x32`. Their number should be minimized for better performance. Only tile entries for expansion tilesheets must be at the top level of the image directory, otherwise there are no specific requirements to placement of sprites and other tile entries within an image directory.
+compositing tileset subdirectory named by `pngs_{tilesheet_name}_{sprite_width}x{sprite_height}` template, such as `pngs_tree_32x40` or `pngs_overlay_32x32`. Their number should be minimized for better performance. Only tile entries for expansion tilesheets must be at the top level of the image directory, otherwise there are no specific requirements to placement of sprites and other tile entries within an image directory.
 
 ## JSON Schema
 
-Each `tile_entry` JSON is a dictionary that describes how to map one or more game entities to one or more sprites.  The simplest version has a single game entity, a single foreground sprite, an *optional* background sprite, and a rotation value.  For instance:
+### tile entry
 ```C++
-{                                           // this is an object and doesn't require a list
-    "id": "mon_cat",                        // the game entity represented by this sprite
-    "fg": "mon_cat_black",                  // some sprite name
-    "bg": "shadow_bg_1",                    // some sprite name; always a single value
-    "rotates": false                        // true for things that rotate like vehicle parts
+{                                           // The simplest version
+    "id": "mon_cat",                        // a game entity id, can be a list of values that will all have the same following configuration
+    "fg": "mon_cat_black",                  // a sprite basename that will be put on foreground; always a single value
+    "bg": "shadow_bg_1"                    // another sprite basename that will be the background; always a single value, can be empty for no background
 }
 ```
 
@@ -68,7 +70,11 @@ The special prefixes `overlay_wielded_`, `overlay_female_wielded_`, `overlay_mal
     ],
 ```
 
-`"multitile"` is an *optional* field.  If it is present and `true`, there must be an `additional_tiles` list with 1 or more dictionaries for entities and sprites associated with this tile, such as broken versions of an item or wall connections.  Each dictionary in the list has an `"id`" field, as above, and a `"fg"` field, which can be a single filename, a list of filenames, or a list of dictionaries as above.
+#### Optional keys
+
+`"rotates": true` for things that rotate, like vehicle parts.
+
+`"multitile": true` signifies that there is an `additional_tiles` object with 1 or more dictionaries for entities and sprites associated with this tile, such as broken versions of an item or wall connections.  Each dictionary in the list has an `"id`" field, as above, and a `"fg"` field, which can be a single filename, a list of filenames, or a list of dictionaries as above. `"rotates": true` is implied with it and can be omitted.
 
 Each `tile_entry.json` file can have a single object in it, or a list of 1 or more objects like so:
 ```C++
@@ -82,7 +88,7 @@ Each `tile_entry.json` file can have a single object in it, or a list of 1 or mo
 Having a list of tile entries in a file may be useful for organization, but completely unrelated entries may all exist in the same file without any complications.
 
 ### Expansion tile entries
-Tilesheets can have expansion tilesheets, which are tilesheets from mods.  Each expansion tilesheet is a single `"id"` value, `"rotates": false"`, and `"fg": 0`.  Expansion `tile_entry` JSON are the only `tile_entry` JSONs that use an integer value for `"fg"` and that value must be 0.  Expansion `tile_entry` JSONs must be located at the top layer of each image directory.
+Tilesheets can have expansion tilesheets, which are tilesheets from mods.  Each expansion tilesheet is a single `"id"` value, `"rotates": false"`, and `"fg": 0`.  Expansion tile entry JSON are the only tile entry JSONs that use an integer value for `"fg"` and that value must be 0.  Expansion tile entry JSONs must be located at the top layer of each image directory.
 
 ### `tile_info.json`
 Each compositing tileset *must* have a `tile_info.json`, laid out like so:
@@ -121,9 +127,8 @@ The first dictionary is mandatory, and gives the default sprite width and sprite
 # Installing pyvips on Windows
 
 - Download Python https://www.python.org/downloads/
-- Add it to your `PATH` environment variable
 - Download `libvips` https://libvips.github.io/libvips/install.html
-- Add it to `PATH` too
+- Add both to your `PATH` environment variable
 - Press `Windows key + r` to open RUN dialogue
 - type `cmd` to get the console
 - run: `pip install --user pyvips`
@@ -250,7 +255,7 @@ Each legacy tileset has a `tile_config.json` describing how to map the contents 
 ```
 
 ### tools/gfx_tools/decompose.py
-This is a Python script that will convert a legacy tileset into a compositing tileset.  It reads the `tile_config.json` and assigns semi-arbitrary file names to each sprite index.  Then it changes all sprite index references to file names, breaks up `tile_config.json` into many small tile_entry JSON files with arbitrary file names, and writes each sprite into a separate file.
+This is a Python script that will convert a legacy tileset into a compositing tileset.  It reads the `tile_config.json` and assigns semi-arbitrary file names to each sprite index.  Then it changes all sprite index references to file names, breaks up `tile_config.json` into many small tile entry JSON files with arbitrary file names, and writes each sprite into a separate file.
 
 It requires `pyvips` module to do image processing.
 
