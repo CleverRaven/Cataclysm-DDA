@@ -2,38 +2,42 @@
 
 ## Terminology
 
-### Tileset
+##### Tileset
 a package of images for the game.
 
-### Sprite 
+##### Sprite 
 an image that represents one game entity.
 
-### Basename
+##### Basename
 file name without an extension.
 
-### Tile
+##### Tile
 TODO
 
-### Tilesheet
+##### Tilesheet
 a collection of sprites with identical size and offset composited into one image file that the game will read.
 
-### `tile_config.json` file
+##### `tile_config.json` file
 machine-readable description mapping the contents of tilesheets to game entities.
 
-### `tileset.txt` file
+##### `tileset.txt` file
 tileset metadata.
 
-### Tile entry
+##### Tile entry
 JSON configuration object that describes what sprites are used for what game entities and how.
 
-### Compositing Tileset
+##### Compositing Tileset
 tileset that is stored as directories of individual sprites and tile entries.
 
-### compose.py
-a Python script that creates a package suitable for game from a compositing tileset. Requires `pyvips` module.
+##### `compose.py` script
+creates a package suitable for game from a compositing tileset. Requires `pyvips` module.
 
-### Image directory
+##### Image directory
 compositing tileset subdirectory named by `pngs_{tilesheet_name}_{sprite_width}x{sprite_height}` template, such as `pngs_tree_32x40` or `pngs_overlay_32x32`. Their number should be minimized for better performance. Only tile entries for expansion tilesheets must be at the top level of the image directory, otherwise there are no specific requirements to placement of sprites and other tile entries within an image directory.
+
+##### `tile_info.json` file
+
+describes image directories for `compose.py`
 
 ## JSON Schema
 
@@ -41,16 +45,14 @@ compositing tileset subdirectory named by `pngs_{tilesheet_name}_{sprite_width}x
 ```C++
 {                                           // The simplest version
     "id": "mon_cat",                        // a game entity id, can be a list of values that will all have the same following configuration
-    "fg": "mon_cat_black",                  // a sprite basename that will be put on foreground; always a single value
-    "bg": "shadow_bg_1"                    // another sprite basename that will be the background; always a single value, can be empty for no background
+    "fg": "mon_cat_black",                  // a sprite basename that will be put on foreground
+    "bg": "shadow_bg_1"                     // another sprite basename that will be the background; can be empty for no background
 }
 ```
 
 Sprites can be referenced across image directories, but they must be stored in an image directory with their size and offset.
 
 `"id"` can be an array of multiple game entities sharing the same sprite, like `"id": ["vp_door", "vp_hddoor"]`.  `"id"` game values that are used as is include terrain, furniture, items (except corpses), monsters, fields, traps. The special ID `"unknown"` provides a sprite that is displayed when an entity has no other sprite. Other hardcoded IDs also exist and most of them are referenced in `src/cata_tiles.cpp`. Full list of hardcoded IDs _may_ be present in `tools/json_tools/generate_overlay_ids.py` stored as `CPP_IDS` but it's updated manually and may lag behind.
-
-The special suffixes `_season_spring`, `_season_summer`, `_season_autumn`, and `_season_winter` can be added to any entity ID to create a seasonal variant for that entity that will be displayed in the appropriate season, for example `"id": "mon_wolf_season_winter"`.
 
 #### Complex IDs
 
@@ -66,76 +68,85 @@ Special prefixes that are used include:
 
 `overlay_` for movement modes.
 
-`vp_` for vehicle parts, see also `symbols` and `standard_symbols` JSON keys. TODO: link
+`vp_` for vehicle parts, see also `symbols` and `standard_symbols` JSON keys that are used as suffixes. TODO: link
 
 All prefixes that start with `overlay_` can have a `_female` or `_male` gender part added: `overlay_female_` or `overlay_male_`. The decision to use them is up to sprite authors.
 
+Special suffixes `_season_spring`, `_season_summer`, `_season_autumn`, and `_season_winter` can be added to any entity ID to create a seasonal variant for that entity that will be displayed in the appropriate season, for example `"id": "mon_wolf_season_winter"`.
 
-`"fg"` and `"bg"` can also be a list of 2 or 4 pre-rotated rotational variants, like `"bg": ["t_wall_n", "t_wall_e", "t_wall_s", "t_wall_w"]` or `"fg": ["mon_dog_left", "mon_dog_right"]`.
+#### Rotations
+
+You can add `"rotates": true` for sprites to be rotated by the game automatically. Alternatively, `"fg"` and `"bg"` can be a list of 2 or 4 pre-rotated variants, like `"fg": ["mon_dog_left", "mon_dog_right"]` or `"bg": ["t_wall_n", "t_wall_e", "t_wall_s", "t_wall_w"]`.
+
+#### Random variations
 
 `"fg"` and `"bg"` can also be a list of dictionaries of weighted, randomly chosen options, any of which can also be a rotated list:
 ```C++
     "fg": [
-        { "weight": 50, "sprite": "t_dirt_brown"},       // appears in 50 of 53 tiles
-        { "weight": 1, "sprite": "t_dirt_black_specks"}, // appears 1 in 53 tiles
+        { "weight": 50, "sprite": "t_dirt_brown"},       // appears approximately 50 times in 53 tiles
+        { "weight": 1, "sprite": "t_dirt_black_specks"}, // 1 time in 53 tiles
         { "weight": 1, "sprite": "t_dirt_specks_gray"},
-        { "weight": 1, "sprite": "t_patchy_grass"}       // file names are arbitrary
+        { "weight": 1, "sprite": "t_patchy_grass"}       // file names are arbitrary, but see `--use-all` option TODO: link
     ],
 ```
 
-#### Optional keys
-
-`"rotates": true` for things that rotate, like vehicle parts.
+#### Multitile
 
 `"multitile": true` signifies that there is an `additional_tiles` object with 1 or more dictionaries for entities and sprites associated with this tile, such as broken versions of an item or wall connections.  Each dictionary in the list has an `"id`" field, as above, and a `"fg"` field, which can be a single filename, a list of filenames, or a list of dictionaries as above. `"rotates": true` is implied with it and can be omitted.
 
-Each `tile_entry.json` file can have a single object in it, or a list of 1 or more objects like so:
+#### Multiple tile entries in the same file
+
+Each JSON file can have either a single object or an array of 1 or more objects:
 ```C++
 [
-    { "id": "mon_zombie", "fg": "mon_zombie", "bg": "mon_zombie_bg", "rotates": false },
-    { "id": "corpse_mon_zombie", "fg": "mon_zombie_corpse", "bg": "mon_zombie_bg", "rotates": false },
-    { "id": "overlay_wielding_corse_mon_zombie", "fg": "wielded_mon_zombie_corpse", "bg": [], "rotates": false }
+    { "id": "mon_zombie", "fg": "mon_zombie", "bg": "mon_zombie_bg" },
+    { "id": "corpse_mon_zombie", "fg": "mon_zombie_corpse", "bg": "mon_zombie_bg" },
+    { "id": "overlay_wielding_corse_mon_zombie", "fg": "wielded_mon_zombie_corpse", "bg": "" }
 ]
 ```
 
-Having a list of tile entries in a file may be useful for organization, but completely unrelated entries may all exist in the same file without any complications.
-
-### Expansion tile entries
-Tilesheets can have expansion tilesheets, which are tilesheets from mods.  Each expansion tilesheet is a single `"id"` value, `"rotates": false"`, and `"fg": 0`.  Expansion tile entry JSON are the only tile entry JSONs that use an integer value for `"fg"` and that value must be 0.  Expansion tile entry JSONs must be located at the top layer of each image directory.
-
 ### `tile_info.json`
-Each compositing tileset *must* have a `tile_info.json`, laid out like so:
 ```
 [
   {
     "width": 32,
-    "pixelscale": 1,
-    "height": 32
-  },
-  {
-    "1_tiles_32x32_0-5199.png": {}
-  },
-  {
-    "2_expan_32x32_5200-5391.png": {}
-  },
-  {
-    "3_tree_64x80_5392-5471.png": {
+    "height": 32,
+    "pixelscale": 1
+  }, {
+    "tiles.png": {}
+  }, {
+    "expan.png": {}
+  }, {
+    "tree.png": {
       "sprite_offset_x": -16,
       "sprite_offset_y": -48,
       "sprite_height": 80,
       "sprite_width": 64
     }
-  },
-  {
-    "4_fallback_5472-9567.png": { "fallback": true }
+  }, {
+    "fillerhoder.png": { 
+      "source": "https://github.com/CleverRaven/Cataclysm-DDA/tree/b2d1f9f6cf6fae9c5076d29f9779e0ca6c03c222/gfx/HoderTileset",
+      "filler": true 
+    }
+  }, {
+    "fallback.png": {
+      "fallback": true
+    }
   }
 ]
 ```
-The first dictionary is mandatory, and gives the default sprite width and sprite height for all tilesheets in the tileset.  Each of the image directories must have a separate dictionary, containing the tilesheet png name as its key.  If the tilesheet has the default sprite size and no special offsets, it can have an empty dictionary as the value for the tilesheet name key.  Otherwise, it should have a dictionary of the sprite offsets, height, and width.
 
-`"fallback"` is a special key which should be `true` if present.  If a tilesheet is designated as fallback, it will be treated as a tilesheet of fallback ASCII characters.  `compose.py` will also compose the fallback tilesheet to the end of the tileset, and will add a "fallback.png" to `tile_config.json` if there is no `"fallback"` entry in `tile_info.json`.
+The first object defines the default sprite size. Each image directory must have a corresponding object with single key being the tilesheet output filename.  Empty object as value here means that the tilesheet has default sprite size and no offsets. It can have overriding values under `sprite_width`, `sprite_height`, `sprite_offset_x`, `sprite_offset_y` keys.
 
-`"filler"` is another special key that should be `true` if present.  If a tilesheet is designated as filler, entries from its directory will be ignored if an entry from a non-filler directory has already defined the same id.  Entries will also be ignored if the id was already defined by in the filler directory.  Also, pngs from a filler directory will be ignored if they share a name with a png  from a non-filler directory.  A filler tilesheet is useful when upgrading the art in a tileset: old, low-quality art can be placed on filler tilesheet and will be automatically replaced as better images are added to the non-filler tilesheets.
+`"filler": true` means the tilesheet is a filler, tile entries within it will be used only if IDs in them were not mentioned in any preceding tile entry.  Sprites within a filler directory will be ignored if another one with the same name was already encountered.  A filler tilesheet is useful when upgrading the art in a tileset: old, low-quality art can be placed on filler tilesheet and will be automatically replaced as better images are added to the non-filler tilesheets.
+
+`"fallback": true` means the tilesheet is a fallback, it will be treated as a source of fallback ASCII character sprites.  `compose.py` will also compose the fallback tilesheet to the end of the tileset, and will add a "fallback.png" to `tile_config.json` if there is no `"fallback"` entry in `tile_info.json`.
+
+You can add other keys like `source` but they should be ignored by `compose.py` and are meant as comments only.
+
+### Expansion tile entries
+
+Tilesheets can have expansion tilesheets, which are tilesheets from mods.  Each expansion tilesheet is a single `"id"` value, `"rotates": false"`, and `"fg": 0`.  Expansion tile entry JSON are the only tile entry JSONs that use an integer value for `"fg"` and that value must be 0.  Expansion tile entry JSONs must be located at the top layer of each image directory.
 
 # Installing pyvips on Windows
 
