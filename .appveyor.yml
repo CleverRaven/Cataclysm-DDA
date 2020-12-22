@@ -7,11 +7,11 @@ environment:
 shallow_clone: true
 clone_folder: C:\Projects\Cataclysm-DDA
 cache:
-  - c:\tools\vcpkg\installed\ -> appveyor.yml
-  - c:\Users\appveyor\AppData\Local\vcpkg\ -> appveyor.yml
-# install:
- # - cmd: vcpkg install yasm-tool:x86-windows
- # - cmd: vcpkg --triplet x64-windows-static install sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
+  - c:\tools\vcpkg\installed\
+  - c:\Users\appveyor\AppData\Local\vcpkg\
+install:
+ - cmd: vcpkg install yasm-tool:x86-windows
+ - cmd: vcpkg --triplet x64-windows-static install sdl2 sdl2-image sdl2-mixer[dynamic-load,libflac,mpg123,libmodplug,libvorbis] sdl2-ttf gettext
 # build:
   # project: /msvc-full-features/Cataclysm-vcpkg-static.sln
   # parallel: true
