@@ -1214,7 +1214,7 @@
     "symbol": "/",
     "color": "brown",
     "name": { "str": "hollow cane" },
-    "description": "A cane designed to conceal blade.  This was a popular fashion accessory for the wealthy during the 18th and 19th centuries.",
+    "description": "A cane designed to conceal a blade.  This was a popular fashion accessory for the wealthy during the 18th and 19th centuries.",
     "price": 2000,
     "price_postapoc": 750,
     "material": [ "wood" ],
