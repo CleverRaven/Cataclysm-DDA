@@ -142,9 +142,9 @@ Each JSON file can have either a single object or an array of one or more object
 
 The first object defines the default sprite size.
 
-Each tilesheet directory must have a corresponding object with a single key, which must be the tilesheet output filename.  Passing an empty object as the value here means that the tilesheet uses the default sprite size and has no offsets. It can have overriding values under `sprite_width`, `sprite_height`, `sprite_offset_x`, `sprite_offset_y` keys.
+Each tilesheet directory must have a corresponding object with a single key, which will become the tilesheet output filename.  An empty object as the value here means that the tilesheet uses the default sprite size and has no offsets. It can have overriding values under `sprite_width`, `sprite_height`, `sprite_offset_x`, `sprite_offset_y` keys.
 
-Tilesheet directories are expected to us the following format: `pngs_{tilesheet_basename}_{sprite_width}x{sprite_height}` - such as `pngs_tiles_32x32`, `pngs_expan_32x32`, `pngs_tree_64x80`, etc. To improve performance, keep the number of separate directories to a minimum.
+Tilesheet directory names are expected to use the following format: `pngs_{tilesheet_basename}_{sprite_width}x{sprite_height}` - such as `pngs_tiles_32x32`, `pngs_expan_32x32`, `pngs_tree_64x80`, etc. To improve performance, keep the number of separate directories to a minimum.
 
 `"filler": true` means the tilesheet is a filler; tile entries within it will be used only if IDs in them were not mentioned in any preceding tile entry.  Sprites within a filler directory will be ignored if another one with the same name was already encountered.  A filler tilesheet is useful when upgrading the art in a tileset: old, low-quality art can be placed on filler tilesheet and will be automatically replaced as better images are added to the non-filler tilesheets.
 
@@ -154,7 +154,7 @@ You can add other keys like `source` but they should be ignored by `compose.py` 
 
 ### Expansion tile entries
 
-Tilesheets can have expansion tilesheets, which are tilesheets from mods.  Each expansion tilesheet is a single `"id"` value, where the `"rotates": false"`, and `"fg": 0` flags are set.  Expansion tile entry JSONs are the only tile entry JSONs that may use an integer value for `"fg"`, and that value must be 0.  Expansion tile entry JSONs must be located at the top layer of each tilesheet directory.
+Tilesheet can be an expansion from a mod.  Each expansion tilesheet is a single `"id"` value, where the `"rotates": false"`, and `"fg": 0` keys are set.  Expansion tile entry JSONs are the only tile entry JSONs that may use an integer value for `"fg"`, and that value must be 0.  Expansion tile entry JSONs must be located at the top layer of each tilesheet directory.
 
 ## `compose.py`
 
