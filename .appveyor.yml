@@ -6,7 +6,7 @@ environment:
  APPVEYOR_SAVE_CACHE_ON_ERROR: true
 shallow_clone: true
 clone_folder: C:\Projects\Cataclysm-DDA
-# cache:
+cache:
   # - c:\tools\vcpkg\installed\
   # - c:\Users\appveyor\AppData\Local\vcpkg\
 # install:
