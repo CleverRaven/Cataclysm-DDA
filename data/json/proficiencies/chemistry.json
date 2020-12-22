@@ -67,7 +67,7 @@
     "type": "proficiency",
     "id": "prof_xenology",
     "name": { "str": "Xenology" },
-    "description": "An indepth understanding of how alien creatures function and operate.",
+    "description": "You are beginning to grasp a general idea of how alien and post-Cataclysm mutated creatures function and operate.",
     "can_learn": true,
     "default_time_multiplier": 2.0,
     "default_fail_multiplier": 3.0,
