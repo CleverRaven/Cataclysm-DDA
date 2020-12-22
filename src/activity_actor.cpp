@@ -1511,6 +1511,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
 {
     int qty = 0;
     item &it = *target.get_item();
+    bool actually_unloaded = false;
 
     if( it.is_container() ) {
 
@@ -1531,6 +1532,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         }
 
         if( changed ) {
+            actually_unloaded = true;
             it.on_contents_changed();
             who.invalidate_weight_carried_cache();
         }
@@ -1542,21 +1544,27 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         if( who.as_player()->add_or_drop_with_msg( *contained, true ) ) {
             qty += contained->charges;
             remove_contained.push_back( contained );
+            actually_unloaded = true;
         }
     }
     // remove the ammo leads in the belt
     for( item *remove : remove_contained ) {
         it.remove_item( *remove );
+        actually_unloaded = true;
     }
 
     // remove the belt linkage
     if( it.is_ammo_belt() ) {
         if( it.type->magazine->linkage ) {
             item link( *it.type->magazine->linkage, calendar::turn, qty );
-            who.as_player()->add_or_drop_with_msg( link, true );
+            if( who.as_player()->add_or_drop_with_msg( link, true ) ) {
+                actually_unloaded = true;
+            }
         }
-        who.add_msg_if_player( _( "You disassemble your %s." ), it.tname() );
-    } else {
+        if( actually_unloaded ) {
+            who.add_msg_if_player( _( "You disassemble your %s." ), it.tname() );
+        }
+    } else if( actually_unloaded ) {
         who.add_msg_if_player( _( "You unload your %s." ), it.tname() );
     }
 
