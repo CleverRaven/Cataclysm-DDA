@@ -32,6 +32,17 @@ It is recommended that tileset developers include the sprite dimensions in the i
 
 Each image directory contains a hierarchy of subdirectories, `tile_entry` JSON files, and sprite files.  There is no restriction on the arrangement or names of these files, except for `tile_entry` JSON files for expansion tilesheets must be at the top level of the image directory.  Subdirectories are not required but are recommended to keep things manageable.
 
+### Installing pyvips on windows
+
+- Download python https://www.python.org/downloads/
+- Add it to path
+- Download libvips https://libvips.github.io/libvips/install.html
+- Add it to path
+- `Windows key + r` to open RUN dialogue box
+- type `cmd` to get the console
+- run: `pip install --user pyvips`
+- run: `py -m pip install --upgrade pip`
+
 #### `tile_entry` JSON
 Each `tile_entry` JSON is a dictionary that describes how to map one or more game entities to one or more sprites.  The simplest version has a single game entity, a single foreground sprite, an *optional* background sprite, and a rotation value.  For instance:
 ```C++

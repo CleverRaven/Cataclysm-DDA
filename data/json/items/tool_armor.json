@@ -181,7 +181,7 @@
     "encumbrance": 70,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT" ]
+    "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT", "ALLOWS_TAIL" ]
   },
   {
     "id": "leg_xlsplint",
@@ -194,7 +194,7 @@
     "price": 25000,
     "price_postapoc": 50,
     "encumbrance": 140,
-    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT", "ALLOWS_TAIL" ]
   },
   {
     "id": "miner_hat",

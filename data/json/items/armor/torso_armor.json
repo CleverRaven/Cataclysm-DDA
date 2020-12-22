@@ -406,7 +406,7 @@
   {
     "id": "xl_lsurvivor_armor",
     "type": "ARMOR",
-    "name": { "str": "light survivor body armor" },
+    "name": { "str": "XL light survivor body armor" },
     "copy-from": "lsurvivor_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OVERSIZE" ]
