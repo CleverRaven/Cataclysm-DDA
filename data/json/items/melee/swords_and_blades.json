@@ -180,7 +180,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "RM42 fighting knife", "str_pl": "RM42 fighting knives" },
-    "description": "This sturdy matte black Rivtech combat dagger features a long, slim double-edged blade with a spear point and a distinctive slip-resistant grip, which can also be used to affix it to a suitable firearm as a bayonet.  Originally manufactured for the military, it was very popular in films and among collectors due to its fearsome appearance.",
+    "description": "This sturdy, matte black Rivtech combat dagger features a long, slim double-edged blade with a spear point and a distinctive slip-resistant grip, which can also be used to affix it to a suitable firearm as a bayonet.  Originally manufactured for the military, it was very popular in films and among collectors due to its fearsome appearance.",
     "weight": "188 g",
     "volume": "750 ml",
     "longest_side": "30 cm",
