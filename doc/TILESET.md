@@ -52,7 +52,7 @@ describes image directories for `compose.py`
 
 Sprites can be referenced across image directories, but they must be stored in an image directory with their size and offset.
 
-`"id"` can be an array of multiple game entities sharing the same sprite, like `"id": ["vp_door", "vp_hddoor"]`.  `"id"` game values that are used as is include terrain, furniture, items (except corpses), monsters, fields, traps. The special ID `"unknown"` provides a sprite that is displayed when an entity has no other sprite. Other hardcoded IDs also exist and most of them are referenced in `src/cata_tiles.cpp`. Full list of hardcoded IDs _may_ be present in `tools/json_tools/generate_overlay_ids.py` stored as `CPP_IDS` but it's updated manually and may lag behind.
+`"id"` can be an array of multiple game entities sharing the same sprite, like `"id": ["vp_door", "vp_hddoor"]`.  `"id"` game values that are used as is include terrain, furniture, items (except corpses), monsters, fields, traps. The special ID `"unknown"` provides a sprite that is displayed when an entity has no other sprite. Other hardcoded IDs also exist and most of them are referenced in [`src/cata_tiles.cpp`](/src/cata_tiles.cpp). Full list of hardcoded IDs _may_ be present in [`tools/json_tools/generate_overlay_ids.py`](/tools/json_tools/generate_overlay_ids.py) stored as `CPP_IDS` but it's updated manually and may lag behind.
 
 #### Complex IDs
 
@@ -153,6 +153,8 @@ You can add other keys like `source` but they should be ignored by `compose.py` 
 Tilesheets can have expansion tilesheets, which are tilesheets from mods.  Each expansion tilesheet is a single `"id"` value, `"rotates": false"`, and `"fg": 0`.  Expansion tile entry JSON are the only tile entry JSONs that use an integer value for `"fg"` and that value must be 0.  Expansion tile entry JSONs must be located at the top layer of each image directory.
 
 ## `compose.py`
+
+[`tools/gfx_tools/compose.py`](/tools/gfx_tools/compose.py)
 
 ### Usage
 
@@ -296,7 +298,10 @@ Each legacy tileset has a `tile_config.json` describing how to map the contents 
   }
 ```
 
-### tools/gfx_tools/decompose.py
+### decompose.py
+
+[`tools/gfx_tools/decompose.py`](/tools/gfx_tools/decompose.py)
+
 This is a Python script that will convert a legacy tileset into a compositing tileset.  It reads the `tile_config.json` and assigns semi-arbitrary file names to each sprite index.  Then it changes all sprite index references to file names, breaks up `tile_config.json` into many small tile entry JSON files with arbitrary file names, and writes each sprite into a separate file.
 
 It requires `pyvips` module to do image processing.
