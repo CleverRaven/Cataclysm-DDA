@@ -83,8 +83,8 @@ TEST_CASE( "character add_effect", "[creature][character][effect][add]" )
 TEST_CASE( "monster add_effect", "[creature][monster][effect][add]" )
 {
     monster mummy( mtype_id( "debug_mon" ) );
-    const efftype_id effect_bleed( "bleed" );
     const efftype_id effect_grabbed( "grabbed" );
+    const efftype_id effect_poison( "poison" );
 
     mummy.clear_effects();
 
@@ -98,21 +98,21 @@ TEST_CASE( "monster add_effect", "[creature][monster][effect][add]" )
         }
     }
 
-    // Debug monster is "flesh", but doesn't have the "WARM" flag, so is immune to bleeding.
+    // Debug monster is "flesh", but is zombified so can't be easily poisoned
     GIVEN( "monster is immune to effect" ) {
-        REQUIRE( mummy.is_immune_effect( effect_bleed ) );
+        REQUIRE( mummy.is_immune_effect( effect_poison ) );
 
         THEN( "monster add_effect is called with force = false" ) {
-            mummy.add_effect( effect_bleed, 1_minutes, false, 1, false );
+            mummy.add_effect( effect_poison, 1_minutes, false, 1, false );
             THEN( "they do not have the effect" ) {
-                CHECK_FALSE( mummy.has_effect( effect_bleed ) );
+                CHECK_FALSE( mummy.has_effect( effect_poison ) );
             }
         }
 
         WHEN( "monster add_effect is called with force = true" ) {
-            mummy.add_effect( effect_bleed, 1_minutes, false, 1, true );
+            mummy.add_effect( effect_poison, 1_minutes, false, 1, true );
             THEN( "they have the effect" ) {
-                CHECK( mummy.has_effect( effect_bleed ) );
+                CHECK( mummy.has_effect( effect_poison ) );
             }
         }
     }
@@ -355,6 +355,8 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
     const efftype_id effect_badpoison( "badpoison" );
     const efftype_id effect_paralyzepoison( "paralyzepoison" );
     const efftype_id effect_venom_dmg( "venom_dmg" );
+    const efftype_id effect_venom_player1( "venom_player1" );
+    const efftype_id effect_venom_player2( "venom_player2" );
     const efftype_id effect_venom_weaken( "venom_weaken" );
 
     // TODO: Monster may be immune to:
@@ -371,11 +373,13 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
         THEN( "they can bleed" ) {
             CHECK_FALSE( cow.is_immune_effect( effect_bleed ) );
         }
-        THEN( "they can be poisoned" ) {
+        THEN( "they can be poisoned by all poisons" ) {
             CHECK_FALSE( cow.is_immune_effect( effect_poison ) );
             CHECK_FALSE( cow.is_immune_effect( effect_badpoison ) );
             CHECK_FALSE( cow.is_immune_effect( effect_paralyzepoison ) );
             CHECK_FALSE( cow.is_immune_effect( effect_venom_dmg ) );
+            CHECK_FALSE( cow.is_immune_effect( effect_venom_player1 ) );
+            CHECK_FALSE( cow.is_immune_effect( effect_venom_player2 ) );
             CHECK_FALSE( cow.is_immune_effect( effect_venom_weaken ) );
         }
 
@@ -390,32 +394,16 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
         THEN( "they can bleed" ) {
             CHECK_FALSE( zed.is_immune_effect( effect_bleed ) );
         }
-        THEN( "they can't be poisoned" ) {
+        THEN( "they can be poisoned by stronger poisons" ) {
+            CHECK_FALSE( zed.is_immune_effect( effect_venom_dmg ) );
+            CHECK_FALSE( zed.is_immune_effect( effect_venom_player1 ) );
+            CHECK_FALSE( zed.is_immune_effect( effect_venom_player2 ) );
+        }
+        THEN( "they can't be poisoned by weaker poisons" ) {
             CHECK( zed.is_immune_effect( effect_poison ) );
             CHECK( zed.is_immune_effect( effect_badpoison ) );
             CHECK( zed.is_immune_effect( effect_paralyzepoison ) );
-            CHECK( zed.is_immune_effect( effect_venom_dmg ) );
             CHECK( zed.is_immune_effect( effect_venom_weaken ) );
-        }
-    }
-
-    WHEN( "monster is made of flesh, but shouldn't bleed yet" ) {
-        // Razorclaw - fleshy, with arthropod blood
-        monster razorclaw( mtype_id( "mon_razorclaw" ) );
-        razorclaw.clear_effects();
-        REQUIRE( razorclaw.made_of( material_id( "flesh" ) ) );
-        REQUIRE_FALSE( razorclaw.has_flag( MF_WARM ) );
-
-        THEN( "they are immune to the bleed effect" ) {
-            CHECK( razorclaw.is_immune_effect( effect_bleed ) );
-        }
-
-        THEN( "they can be poisoned" ) {
-            CHECK_FALSE( razorclaw.is_immune_effect( effect_poison ) );
-            CHECK_FALSE( razorclaw.is_immune_effect( effect_badpoison ) );
-            CHECK_FALSE( razorclaw.is_immune_effect( effect_paralyzepoison ) );
-            CHECK_FALSE( razorclaw.is_immune_effect( effect_venom_dmg ) );
-            CHECK_FALSE( razorclaw.is_immune_effect( effect_venom_weaken ) );
         }
     }
 
@@ -436,6 +424,8 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
             CHECK( fungaloid.is_immune_effect( effect_badpoison ) );
             CHECK( fungaloid.is_immune_effect( effect_paralyzepoison ) );
             CHECK( fungaloid.is_immune_effect( effect_venom_dmg ) );
+            CHECK( fungaloid.is_immune_effect( effect_venom_player1 ) );
+            CHECK( fungaloid.is_immune_effect( effect_venom_player2 ) );
             CHECK( fungaloid.is_immune_effect( effect_venom_weaken ) );
         }
     }
