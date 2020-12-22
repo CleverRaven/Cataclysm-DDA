@@ -285,7 +285,11 @@
     "symbol": "(",
     "color": "white",
     "name": { "str": "aztlani bow" },
+<<<<<<< HEAD
     "description": "An ornate bow used by Aztlani nobility during hunting rituals.  Designed to fell the plated creatures of Aztlan, its articulated and power assisted limbs allow it to fire projectiles with a strength comparable to modern assault rifles. .\n\nWith its drawing aid system currently disabled, firing it will require truly superhuman strength.  It can be activated to toggle it drawing assist functionality.",
+=======
+    "description": "A bow used by Aztlani Noblemen as a common hunting weapon.  The composite alloy limbs are covered with carved ivory and expensive wood, and the wheels holding the razor thin wire are gilded with silver.  Due to the materials used in its construction, the string is undrawable through convential strength and requires a power source to be usable.",
+>>>>>>> adfb9993f1... finaltouches
     "price": 50000,
     "material": [ "superalloy", "hardsteel", "wood" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "BELTED", "SHEATH_BOW" ],
@@ -322,14 +326,17 @@
     "symbol": "(",
     "color": "white",
     "name": { "str": "aztlani bow (active)" },
+<<<<<<< HEAD
     "description": "An ornate bow used by Aztlani nobility during hunting rituals.  Designed to fell the plated creatures of Aztlan, its articulated and power assisted limbs allow it to fire projectiles with a strength comparable to modern assault rifles. .\n\nWith its drawing aid system enabled, it can be much more easily drawn, at the cost of a modest amount of UPS power consumption per arrow.  It can be activated to toggle it drawing assist functionality.",
+=======
+    "description": "A bow used by Aztlani Noblemen as a common hunting weapon.  The composite alloy limbs are covered with carved ivory and expensive wood, and the wheels holding the razor thin wire are gilded with silver.  Due to the materials used in its construction, the string is undrawable through convential strength and requires a power source to be usable.",
+>>>>>>> adfb9993f1... finaltouches
     "price": 50000,
     "material": [ "superalloy", "hardsteel", "wood" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "BELTED", "SHEATH_BOW" ],
     "skill": "archery",
     "min_strength": 20,
     "ammo": [ "arrow" ],
-    "ups_charges": 4,
     "weight": "2000 g",
     "volume": "3500 ml",
     "longest_side": "183 cm",
@@ -374,7 +381,11 @@
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "salvage bow" },
+<<<<<<< HEAD
     "description": "A bow made from readily-available materials, and quickly and cheaply put together.  It is not made to be pretty, but to get a job done.  Its nocks and string are made of shape-memory alloy that help increase string tension in the string.  The memory alloy requires a UPS source to be activated.",
+=======
+    "description": "A bow made from readily available materials, and quickly and cheaply put together.  It is not made to be pretty, but to get a job done.  Both of its nocks and string are made of memory-alloy that aid in increasing tension in the string.  The memory-alloy requires a UPS source to be activated.",
+>>>>>>> adfb9993f1... finaltouches
     "price": 38000,
     "material": [ "steel", "plastic" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "BELTED", "WATER_FRIENDLY", "SHEATH_BOW" ],
