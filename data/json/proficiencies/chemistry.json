@@ -56,7 +56,7 @@
     "type": "proficiency",
     "id": "prof_physiology",
     "name": { "str": "Physiology" },
-    "description": "An indepth understanding of how humans and animals operate.",
+    "description": "An in-depth understanding of how humans and animals operate.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_fail_multiplier": 2.5,
