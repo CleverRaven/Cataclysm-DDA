@@ -123,15 +123,10 @@
     "id": "saltworks_recipes_3",
     "building_type": "COOK",
     "recipes": [
-      { "id": "tinder", "description": " Craft: Tinder" },
-      { "id": "meat_cooked", "description": " Cook: Meat, Cooked" },
-      { "id": "fish_cooked", "description": " Cook: Fish, Cooked" },
-      { "id": "veggy_cooked", "description": " Cook: Veggy, Cooked" },
-      { "id": "boiled_egg", "description": " Cook: Egg, Boiled" },
-      { "id": "starch", "description": " Cook: Starch" },
-      { "id": "starch_from_fibrous_stuff", "description": " Cook: Cattail Starch" },
-      { "id": "flatbread", "description": " Cook: Flatbread" },
-      { "id": "veggy_wild_cooked", "description": " Cook: Veggy, Cooked Wild" }
+      { "id": "tinder", "description": " Distill: Brandy" },
+      { "id": "meat_cooked", "description": " Distill: Gin" },
+      { "id": "fish_cooked", "description": " Distill: Vodka" },
+      { "id": "veggy_cooked", "description": " Distill: Rum" }
     ]
   },
   {
