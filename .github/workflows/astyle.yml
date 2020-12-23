@@ -1,7 +1,16 @@
 name: astyle
 
 on:
-  pull_request
+  pull_request:
+    paths:
+    - '**.json'
+    - '**.cpp'
+    - '**.h'
+    - '**.c'
+    - '**/CMakeLists.txt'
+    - '**/Makefile'
+    - '**.hpp'
+    - '**.cmake'
 
 jobs:
   style-json:
