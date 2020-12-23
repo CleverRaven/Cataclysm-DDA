@@ -36,14 +36,12 @@ jobs:
         SANITIZE: ${{ matrix.sanitize }}
     steps:
     - name: checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v1
       with:
         fetch-depth: 10
-        submodules: true
-    - name: switch to latest submodule commits
+    - name: download submodules
       run: |
-        cd gfx/UltimateCataclysm/ && \
-        git reset --hard origin/main
+        git submodule update --init --remote --no-fetch gfx/UltimateCataclysm
     - name: install dependencies
       run: |
           sudo apt-get update

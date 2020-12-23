@@ -104,6 +104,16 @@ Helpful pages:
         $ git remote add -f upstream https://github.com/CleverRaven/Cataclysm-DDA.git
         # Assigns the original repository to a remote called "upstream"
 
+5. (optional) Download the UltimateCataclysm tileset submodule
+
+        $ git submodule update --init --remote --no-fetch gfx/UltimateCataclysm/
+        # will get you the latest available commit in the default branch (main)
+        # but that change will be detected in the top-level repository
+        # and may need to be committed or ignored
+
+        # note that it will be in a detached HEAD state
+        $ git checkout main # from the submodule directory may help with that
+
 For further details about commit message guidelines please visit:
 - [codeinthehole.com](https://codeinthehole.com/tips/a-useful-template-for-commit-messages/)
 - [chris.beams.io](https://chris.beams.io/posts/git-commit/)
