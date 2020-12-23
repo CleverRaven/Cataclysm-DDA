@@ -47,5 +47,30 @@
       [ [ "salt", 1 ] ]
     ],
     "//": "Later: this needs baking soda. Also possibility of rewrite to use portions of components' charges."
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "hallula",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "charges": 8,
+    "time": "30 m",
+    "batch_time_factors": [ 50, 5 ],
+    "book_learn": [ [ "family_cookbook", 1 ], [ "baking_book", 2 ], [ "cookbook", 2 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [
+      [ [ "flour", 3 ] ],
+      [ [ "yeast", 2 ] ],
+      [ [ "sugar", 1 ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "water", 1 ] ],
+      [ [ "any_butter_or_oil", 2, "LIST" ] ]
+    ],
+    "//": "I'm not sure whether this should also be rewritten to use a portion of charges, or scaled up so that the smallest component in the recipe becomes a single charge.",
+    "//2": "Since milk is only used sparingly in the creation of hallula, to give it a glazed appearance, Cataclysm practicality suggests omitting it."
   }
 ]
