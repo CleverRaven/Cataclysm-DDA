@@ -1038,9 +1038,9 @@ double Character::crafting_success_roll( const recipe &making ) const
     }
     const float final_difficulty = 
         ( 2.0f * making.difficulty + 1.0f * secondary_difficulty ) / 
-        ( 2.0f * making.difficulty + 1.0f * secondary_count );
+        ( 2.0f + 1.0f * secondary_count );
     
-    return skill_roll / final_difficulty;
+    return craft_roll / final_difficulty;
 }
 
 int item::get_next_failure_point() const
