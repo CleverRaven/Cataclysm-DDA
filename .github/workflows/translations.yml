@@ -6,9 +6,8 @@ on:
       - master
     paths:
       - '**.json'
-      - '**.cpp'
-      - 'src/**'
-      - 'data/**'
+      - 'src/**.cpp'
+      - 'src/**.h'
       - 'lang/extract_json_strings.py'
       - 'lang/strip_line_numbers.py'
       - 'lang/update_pot.sh'
