@@ -11,7 +11,6 @@ on:
       - 'data/**'
       - 'lang/extract_json_strings.py'
       - 'lang/strip_line_numbers.py'
-      - 'lang/po/**.pot'
       - 'lang/update_pot.sh'
       - 'lang/unicode_check.py'
 
