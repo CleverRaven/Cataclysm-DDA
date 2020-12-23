@@ -304,5 +304,27 @@
     "flags": [ "EATEN_HOT", "EATEN_COLD" ],
     "fun": 3,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "hallula",
+    "name": { "str_sp": "hallula" },
+    "weight": "45 g",
+    "color": "brown",
+    "spoils_in": "10 days",
+    "container": "bag_plastic",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": 1,
+    "calories": 61,
+    "description": "This type of bread is popular in Chile and Bolivia.  Prepared using animal lard or oil, it resembles a large, round scone.  In the pre-Cataclysm world, it would usually be filled with savory ingredients rather than sweet ones.",
+    "price": "272 cent",
+    "price_postapoc": "4 USD",
+    "material": [ "wheat" ],
+    "volume": "48 ml",
+    "charges": 16,
+    "flags": [ "EATEN_HOT", "EATEN_COLD" ],
+    "fun": 4,
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
   }
 ]
