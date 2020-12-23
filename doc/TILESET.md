@@ -30,7 +30,7 @@ JSON configuration object that describes which sprites are used for which game e
 A tileset that is stored as directories of individual sprites and tile entries.
 
 ##### `compose.py` script
-This creates a package suitable for the game from a compositing tileset.
+Converts a compositing tileset into package suitable for the game: a set of tilesheets and the `tile_config.json`.
 
 ##### Tilesheet directory
 Compositing tileset subdirectory containing sprites and tile entries.
