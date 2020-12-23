@@ -96,7 +96,6 @@ static const itype_id itype_milk_raw( "milk_raw" );
 
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
-static const species_id species_INSECT( "INSECT" );
 static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MOLLUSK( "MOLLUSK" );
 static const species_id species_ROBOT( "ROBOT" );
