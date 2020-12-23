@@ -40,11 +40,10 @@ jobs:
       with:
         fetch-depth: 10
         submodules: true
-    - name: pull latest submodule commits
+    - name: switch to latest submodule commits
       run: |
         cd gfx/UltimateCataclysm/ && \
-        git reset --hard origin/main && \
-        rm .git
+        git reset --hard origin/main
     - name: install dependencies
       run: |
           sudo apt-get update
