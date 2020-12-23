@@ -739,6 +739,8 @@
     "components": [
       [
         [ "veggy_any", 1, "LIST" ],
+        [ "irradiated_empty_corn_cob", 1 ],
+        [ "irradiated_corn", 1 ],
         [ "empty_corn_cob", 1 ],
         [ "corn", 1 ],
         [ "powder_eggs", 1 ],
