@@ -490,8 +490,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     // Fighting is hard work
     increase_activity_level( EXTRA_EXERCISE );
 
-    safe_reference<item> cur_weapon = allow_unarmed ? used_weapon().get_safe_reference() :
-                                      weapon.get_safe_reference();
+    item *cur_weapon = allow_unarmed ? &used_weapon() : &weapon;
+
     // If no weapon is selected, use highest layer of gloves instead.
     bool unarmed_flag_set = false;
     if( cur_weapon->is_null() ) {
@@ -500,7 +500,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             if( ( worn_item.covers( bodypart_id( "hand_l" ) ) &&
                   worn_item.covers( bodypart_id( "hand_r" ) ) ) ) {
                 if( cur_weapon->is_null() || ( worn_item.get_layer() >= cur_weapon->get_layer() ) ) {
-                    cur_weapon = worn_item.get_safe_reference();
+                    cur_weapon = &worn_item;
                     cur_weapon->set_flag( flag_UNARMED_WEAPON );
                     unarmed_flag_set = true;
                 }
@@ -700,8 +700,12 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         }
     }
 
-    if( cur_weapon && unarmed_flag_set ) {
+    if( unarmed_flag_set ) {
         cur_weapon->unset_flag( flag_UNARMED_WEAPON );
+    }
+
+    if( !t.is_hallucination() ) {
+        handle_melee_wear( *cur_weapon );
     }
 
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
@@ -2010,10 +2014,6 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         d.add_damage( damage_type::CUT, rng( 0,
                                              5 + static_cast<int>( vol * 1.5 ) ) ); // Hurt the monster extra
         remove_weapon();
-    }
-
-    if( !t.is_hallucination() ) {
-        handle_melee_wear( weap );
     }
 
     // on-hit effects for martial arts

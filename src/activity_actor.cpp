@@ -206,6 +206,8 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
     jsout.member( "first_turn", first_turn );
     jsout.member( "action", action );
+    jsout.member( "aif_duration", aif_duration );
+    jsout.member( "aiming_at_critter", aiming_at_critter );
     jsout.member( "snap_to_target", snap_to_target );
     jsout.member( "shifting_view", shifting_view );
     jsout.member( "initial_view_offset", initial_view_offset );
@@ -223,6 +225,8 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
     data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
     data.read( "first_turn", actor.first_turn );
     data.read( "action", actor.action );
+    data.read( "aif_duration", actor.aif_duration );
+    data.read( "aiming_at_critter", actor.aiming_at_critter );
     data.read( "snap_to_target", actor.snap_to_target );
     data.read( "shifting_view", actor.shifting_view );
     data.read( "initial_view_offset", actor.initial_view_offset );
@@ -2211,6 +2215,47 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
     return actor.clone();
 }
 
+void move_furniture_activity_actor::start( player_activity &act, Character & )
+{
+    int moves = g->grabbed_furn_move_time( dp );
+    act.moves_left = moves;
+    act.moves_total = moves;
+}
+
+void move_furniture_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( !g->grabbed_furn_move( dp ) ) {
+        g->walk_move( who.pos() + dp, via_ramp, true );
+    }
+    act.set_to_null();
+}
+
+void move_furniture_activity_actor::canceled( player_activity &, Character & )
+{
+    add_msg( m_warning, _( "You let go of the grabbed object." ) );
+    get_avatar().grab( object_type::NONE );
+}
+
+void move_furniture_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "dp", dp );
+    jsout.member( "via_ramp", via_ramp );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( JsonIn &jsin )
+{
+    move_furniture_activity_actor actor = move_furniture_activity_actor( tripoint_zero, false );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "dp", actor.dp );
+    data.read( "via_ramp", actor.via_ramp );
+
+    return actor.clone();
+}
+
 void burrow_activity_actor::start( player_activity &act, Character &who )
 {
     act.moves_total = moves_total;
@@ -2354,6 +2399,30 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     } else {
         add_msg( m_neutral, _( "You reload the %1$s with %2$s." ), reloadable_name, ammo_name );
     }
+    item_location loc = reload_targets[0];
+    // Reload may have caused the item to increase in size more than the pocket/location can contain.
+    // We want to avoid this because items will be deleted on a save/load.
+    if( loc.volume_capacity() < units::volume() ||
+        loc.weight_capacity() < units::mass() ) {
+        // In player inventory and player is wielding nothing.
+        if( !who.is_armed() && loc.held_by( who ) ) {
+            add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
+                     reloadable_name );
+            who.wield( reloadable );
+        } else {
+            // In player inventory and player is wielding something.
+            if( loc.held_by( who ) ) {
+                add_msg( m_neutral, _( "The %s no longer fits in your inventory so you drop it instead." ),
+                         reloadable_name );
+                // Default handling message.
+            } else {
+                add_msg( m_neutral, _( "The %s no longer fits its location so you drop it instead." ),
+                         reloadable_name );
+            }
+            get_map().add_item_or_charges( loc.position(), reloadable );
+            loc.remove_item();
+        }
+    }
 }
 
 void reload_activity_actor::canceled( player_activity &act, Character &/*who*/ )
@@ -2390,7 +2459,6 @@ void milk_activity_actor::start( player_activity &act, Character &/*who*/ )
     act.moves_total = total_moves;
     act.moves_left = total_moves;
 }
-
 
 void milk_activity_actor::finish( player_activity &act, Character &who )
 {
@@ -2456,6 +2524,7 @@ std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
 
     return actor.clone();
 }
+
 namespace activity_actors
 {
 
@@ -2486,6 +2555,7 @@ deserialize_functions = {
     { activity_id( "ACT_WORKOUT_ACTIVE" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_MODERATE" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_LIGHT" ), &workout_activity_actor::deserialize },
+    { activity_id( "ACT_FURNITURE_MOVE" ), &move_furniture_activity_actor::deserialize },
 };
 } // namespace activity_actors
 

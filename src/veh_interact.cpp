@@ -3246,4 +3246,5 @@ void veh_interact::complete_vehicle( player &p )
         }
     }
     p.invalidate_crafting_inventory();
+    p.invalidate_weight_carried_cache();
 }

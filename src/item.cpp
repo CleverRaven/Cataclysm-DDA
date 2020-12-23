@@ -278,7 +278,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
 
     if( has_flag( flag_NANOFAB_TEMPLATE ) ) {
         itype_id nanofab_recipe =
-            item_group::item_from( item_group_id( "nanofab_recipes" ) ).typeId();
+            item_group::item_from( type->nanofab_template_group ).typeId();
         set_var( "NANOFAB_ITEM_ID", nanofab_recipe.str() );
     }
 
@@ -669,7 +669,7 @@ bool item::is_null() const
 
 bool item::is_unarmed_weapon() const
 {
-    return has_flag( flag_UNARMED_WEAPON ) || is_null();
+    return is_null() || has_flag( flag_UNARMED_WEAPON );
 }
 
 bool item::is_frozen_liquid() const
@@ -945,7 +945,7 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     if( type != rhs.type ) {
         return false;
     }
-    if( is_relic() && !( *relic_data == *rhs.relic_data ) ) {
+    if( is_relic() && rhs.is_relic() && !( *relic_data == *rhs.relic_data ) ) {
         return false;
     }
     if( charges != 0 && rhs.charges != 0 && is_money() ) {
@@ -2770,9 +2770,11 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                   iteminfo::no_newline | iteminfo::lower_is_better,
                                                   piece.second.portion.encumber ) );
 
-                        info.push_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
-                                                  iteminfo::no_newline | iteminfo::lower_is_better,
-                                                  piece.second.portion.max_encumber ) );
+                        if( piece.second.portion.encumber != piece.second.portion.max_encumber ) {
+                            info.push_back( iteminfo( "ARMOR", space + _( "When full:" ) + space, "",
+                                                      iteminfo::no_newline | iteminfo::lower_is_better,
+                                                      piece.second.portion.max_encumber ) );
+                        }
 
                         info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
                                                   iteminfo::no_flags,
@@ -3804,11 +3806,11 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         std::string signame;
         if( has_flag( flag_RADIOSIGNAL_1 ) ) {
-            signame = "<color_c_red>red</color> radio signal.";
+            signame = _( "<color_c_red>red</color> radio signal" );
         } else if( has_flag( flag_RADIOSIGNAL_2 ) ) {
-            signame = "<color_c_blue>blue</color> radio signal.";
+            signame = _( "<color_c_blue>blue</color> radio signal" );
         } else if( has_flag( flag_RADIOSIGNAL_3 ) ) {
-            signame = "<color_c_green>green</color> radio signal.";
+            signame = _( "<color_c_green>green</color> radio signal" );
         }
         if( parts->test( iteminfo_parts::DESCRIPTION_RADIO_ACTIVATION_CHANNEL ) ) {
             info.emplace_back( "DESCRIPTION",
@@ -7668,6 +7670,31 @@ itype_id item::ammo_current() const
     }
 
     return itype_id::NULL_ID();
+}
+
+const item &item::loaded_ammo() const
+{
+    const item *mag = magazine_current();
+    if( mag ) {
+        return mag->loaded_ammo();
+    }
+
+    if( is_magazine() ) {
+        return !contents.empty() ? contents.first_ammo() : null_item_reference();
+    }
+
+    auto mods = is_gun() ? gunmods() : toolmods();
+    for( const item *e : mods ) {
+        const item &mod_ammo = e->loaded_ammo();
+        if( !mod_ammo.is_null() ) {
+            return mod_ammo;
+        }
+    }
+
+    if( is_gun() && ammo_remaining() != 0 ) {
+        return contents.first_ammo();
+    }
+    return null_item_reference();
 }
 
 std::set<ammotype> item::ammo_types( bool conversion ) const

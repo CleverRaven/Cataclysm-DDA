@@ -89,7 +89,6 @@
       { "item": "balclava", "prob": 10 },
       { "item": "pickaxe", "prob": 20 },
       { "item": "makeshift_machete", "prob": 15 },
-      { "item": "flamethrower_crude", "prob": 20 },
       { "item": "fungicide", "prob": 20 },
       { "item": "insecticide", "prob": 20 },
       { "item": "antifungal", "prob": 20 },

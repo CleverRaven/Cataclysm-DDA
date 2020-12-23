@@ -309,32 +309,32 @@
   },
   {
     "type": "profession_item_substitutions",
-    "item": "glasses_eye",
+    "group": { "items": [ "glasses_eye" ] },
     "bonus": { "present": [ "MYOPIC" ], "absent": [ "HYPEROPIC" ] }
   },
   {
     "type": "profession_item_substitutions",
-    "item": "glasses_bifocal",
+    "group": { "items": [ "glasses_bifocal" ] },
     "bonus": { "present": [ "HYPEROPIC", "MYOPIC" ] }
   },
   {
     "type": "profession_item_substitutions",
-    "item": "glasses_reading",
+    "group": { "items": [ "glasses_reading" ] },
     "bonus": { "present": [ "HYPEROPIC" ], "absent": [ "MYOPIC" ] }
   },
   {
     "type": "profession_item_substitutions",
-    "item": "inhaler",
+    "group": { "entries": [ { "item": "inhaler", "ammo-item": "albuterol", "charges": 100 } ] },
     "bonus": { "present": [ "ASTHMA" ] }
   },
   {
     "type": "profession_item_substitutions",
-    "item": "thorazine",
+    "group": { "items": [ "thorazine" ] },
     "bonus": { "present": [ "SCHIZOPHRENIC" ] }
   },
   {
     "type": "profession_item_substitutions",
-    "item": "teleumbrella",
+    "group": { "items": [ "teleumbrella" ] },
     "bonus": { "present": [ "ALBINO" ] }
   },
   {
@@ -2109,6 +2109,22 @@
     "items": {
       "both": {
         "items": [ "kariginu", "eboshi", "pants", "tabi_dress", "geta", "holy_symbol", "holybook_kojiki" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "bhikkhu",
+    "name": { "male": "Bhikkhu", "female": "Bhikkhuni" },
+    "description": "Your life was simple at the Vihara, doing household chores and meditating.  Your Sangha wanted to attain liberation from suffering, now their rotting corpses will suffer forever.",
+    "points": 0,
+    "skills": [ { "level": 3, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [ "kasaya", "pants", "flip_flops", "holy_symbol", "holybook_sutras" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],

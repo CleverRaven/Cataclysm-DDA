@@ -1517,9 +1517,8 @@ void Character::suffer()
     const int current_stim = get_stim();
     // TODO: Remove this section and encapsulate hp_cur
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        if( elem.second.get_hp_cur() <= 0 ) {
+        if( is_limb_broken( elem.first ) ) {
             add_effect( effect_disabled, 1_turns, elem.first.id(), true );
-            get_event_bus().send<event_type::broken_bone>( getID(), elem.first );
         }
     }
 
@@ -1868,7 +1867,7 @@ void Character::apply_wetness_morale( int temperature )
             continue;
         }
 
-        const auto &part_arr = mut_drench[bp->token];
+        const std::array<int, NUM_WATER_TOLERANCE> &part_arr = get_part_mut_drench( bp );
         const int part_ignored = part_arr[WT_IGNORED];
         const int part_neutral = part_arr[WT_NEUTRAL];
         const int part_good    = part_arr[WT_GOOD];

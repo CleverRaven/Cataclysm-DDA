@@ -898,6 +898,7 @@ void mapgen_road( mapgendata &dat )
         if( num_dirs == 4 ) {
             if( one_in( 2 ) &&
                 m->ter( point( 3, 1 ) ) == t_sidewalk && m->ter( point( 20, 2 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 11, 1 ), point( 12, 3 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( i, 1 ), t_zebra );
                     m->ter_set( point( i, 2 ), t_zebra );
@@ -905,6 +906,7 @@ void mapgen_road( mapgendata &dat )
             }
             if( one_in( 2 ) &&
                 m->ter( point( 21, 3 ) ) == t_sidewalk && m->ter( point( 22, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 20, 11 ), point( 23, 12 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( 21, i ), t_zebra );
                     m->ter_set( point( 22, i ), t_zebra );
@@ -912,6 +914,7 @@ void mapgen_road( mapgendata &dat )
             }
             if( one_in( 2 ) &&
                 m->ter( point( 3, 21 ) ) == t_sidewalk && m->ter( point( 20, 22 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 11, 21 ), point( 12, 22 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( i, 21 ), t_zebra );
                     m->ter_set( point( i, 22 ), t_zebra );
@@ -919,6 +922,7 @@ void mapgen_road( mapgendata &dat )
             }
             if( one_in( 2 ) &&
                 m->ter( point( 1, 3 ) ) == t_sidewalk && m->ter( point( 2, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 1, 11 ), point( 2, 12 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( 1, i ), t_zebra );
                     m->ter_set( point( 2, i ), t_zebra );
@@ -943,6 +947,7 @@ void mapgen_road( mapgendata &dat )
         if( num_dirs == 3 ) {
             if( one_in( 2 ) &&
                 m->ter( point( 3, 1 ) ) == t_sidewalk && m->ter( point( 20, 2 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 11, 1 ), point( 12, 3 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( i, 1 ), t_zebra );
                     m->ter_set( point( i, 2 ), t_zebra );
@@ -950,6 +955,7 @@ void mapgen_road( mapgendata &dat )
             }
             if( one_in( 2 ) &&
                 m->ter( point( 21, 3 ) ) == t_sidewalk && m->ter( point( 22, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 20, 11 ), point( 23, 13 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( 21, i ), t_zebra );
                     m->ter_set( point( 22, i ), t_zebra );
@@ -957,6 +963,7 @@ void mapgen_road( mapgendata &dat )
             }
             if( one_in( 2 ) &&
                 m->ter( point( 1, 3 ) ) == t_sidewalk && m->ter( point( 2, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 1, 11 ), point( 2, 13 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( 1, i ), t_zebra );
                     m->ter_set( point( 2, i ), t_zebra );

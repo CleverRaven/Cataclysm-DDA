@@ -83,7 +83,7 @@
   {
     "id": "xl_coat_fur",
     "type": "ARMOR",
-    "name": { "str": "xl fur coat" },
+    "name": { "str": "XL fur coat" },
     "copy-from": "coat_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
@@ -104,7 +104,7 @@
   {
     "id": "xl_coat_faux_fur",
     "type": "ARMOR",
-    "name": { "str": "xl faux fur coat" },
+    "name": { "str": "XL faux fur coat" },
     "copy-from": "coat_faux_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "POCKETS", "OVERSIZE", "SUPER_FANCY" ]
@@ -191,6 +191,28 @@
     "material_thickness": 2,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ]
+  },
+  {
+    "id": "coat_straw",
+    "type": "ARMOR",
+    "name": { "str": "straw cape" },
+    "description": "A bulky traditional Japanese raincoat made from straw, which covers the entire body.  Also known as mino.",
+    "weight": "907 g",
+    "volume": "4 L",
+    "price": 9000,
+    "price_postapoc": 25,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "yellow",
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 12 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 40, "encumbrance": 2 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 50, "encumbrance": 0 }
+    ],
+    "warmth": 15,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "WATERPROOF", "OUTER" ]
   },
   {
     "id": "coat_gut",
@@ -310,7 +332,7 @@
   {
     "id": "xl_duster_fur",
     "type": "ARMOR",
-    "name": { "str": "xl fur duster" },
+    "name": { "str": "XL fur duster" },
     "copy-from": "duster_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "OVERSIZE" ]
@@ -318,7 +340,7 @@
   {
     "id": "xl_duster",
     "type": "ARMOR",
-    "name": { "str": "xl duster" },
+    "name": { "str": "XL duster" },
     "copy-from": "duster",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "OVERSIZE" ]
@@ -338,7 +360,7 @@
   {
     "id": "xl_duster_faux_fur",
     "type": "ARMOR",
-    "name": { "str": "xl faux fur duster" },
+    "name": { "str": "XL faux fur duster" },
     "copy-from": "duster_faux_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "FANCY", "OVERSIZE" ]
@@ -378,7 +400,7 @@
   {
     "id": "xl_duster_leather",
     "type": "ARMOR",
-    "name": { "str": "xl leather duster" },
+    "name": { "str": "XL leather duster" },
     "copy-from": "duster_leather",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "OVERSIZE" ]
@@ -419,7 +441,7 @@
   {
     "id": "xl_duster_survivor",
     "type": "ARMOR",
-    "name": { "str": "xl survivor duster" },
+    "name": { "str": "XL survivor duster" },
     "copy-from": "duster_survivor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER", "OVERSIZE" ]
@@ -831,6 +853,28 @@
     "coverage": 100,
     "encumbrance": 17,
     "warmth": 23,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "kasaya",
+    "repairs_like": "trenchcoat",
+    "type": "ARMOR",
+    "name": { "str": "kasaya" },
+    "description": "A traditional, ankle-length Buddhist robe, stitched together from three large rectangular pieces of saffron dyed cloth.",
+    "weight": "1200 g",
+    "volume": "5000 ml",
+    "price": 20000,
+    "price_postapoc": 50,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "kimono",
+    "color": "brown",
+    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
+    "coverage": 90,
+    "encumbrance": 2,
+    "warmth": 20,
     "material_thickness": 2,
     "flags": [ "VARSIZE" ]
   },

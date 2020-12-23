@@ -1821,6 +1821,9 @@ class item : public visitable<item>
         const itype *ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
         itype_id ammo_current() const;
+        /** Get currently loaded ammo, if any.
+         * @return item reference or null item if not loaded. */
+        const item &loaded_ammo() const;
         /** Ammo type of an ammo item
          *  @return ammotype of ammo item or a null id if the item is not ammo */
         ammotype ammo_type() const;

@@ -1604,6 +1604,7 @@
     "price": 150000,
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
+    "nanofab_template_group": "nanofab_recipes",
     "weight": "317 g",
     "volume": "250 ml",
     "to_hit": -1,

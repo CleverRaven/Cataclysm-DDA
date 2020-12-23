@@ -9,6 +9,12 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "WraitheonRobotics",
+    "neutral": [ "cop_bot", "defense_bot", "utility_bot", "animal", "uplift", "robofac" ],
+    "hate": [ "zombie", "fungus", "cult", "triffid", "nether", "PrepNEt", "moxie", "bio_machine" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "whately",
     "friendly": [ "human", "player", "whately", "whately_family" ],
     "neutral": "herbivore",
@@ -32,5 +38,15 @@
     "type": "MONSTER_FACTION",
     "name": "bio_machine",
     "neutral": [ "moxie", "small_animal", "herbivore", "insect", "player" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "hevel",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "venandi",
+    "//": "TODO assign base faction and/or attitude"
   }
 ]
