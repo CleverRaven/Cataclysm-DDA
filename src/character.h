@@ -2500,7 +2500,7 @@ class Character : public Creature, public visitable<Character>
          * @return a value >= 0.0 with >= 1.0 representing unequivocal success
          */
         double crafting_success_roll( const recipe &making ) const;
-        float get_recipe_weighted_skill_average( const recipe &making );
+        float get_recipe_weighted_skill_average( const recipe &making ) const;
         void complete_craft( item &craft, const cata::optional<tripoint> &loc );
         /**
          * Check if the player meets the requirements to continue the in progress craft and if
