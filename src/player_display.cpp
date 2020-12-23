@@ -224,9 +224,11 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
         case bp_eyes:
             s += string_format(
                      _( "Perception when checking traps or firing ranged weapons: <color_white>%+d</color>\n"
-                        "Dispersion when throwing items: <color_white>%+d</color>" ),
+                        "Dispersion when throwing items: <color_white>%+d</color>\n"
+                        "Night vision range: <color_white>%+.1f</color>" ),
                      -( eff_encumbrance / 10 ),
-                     eff_encumbrance * 10 );
+                     eff_encumbrance * 10,
+                     vision::nv_range_from_eye_encumbrance( eff_encumbrance ) );
             break;
         case bp_mouth:
             s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );
@@ -414,6 +416,9 @@ static void draw_stats_info( const catacurses::window &w_info,
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                         _( "Perception is the most important stat for ranged combat.  It's also used for "
                            "detecting traps and other things of interest." ) );
+        print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
+                            string_format( _( "Base night vision range: <color_white>%.1f</color>" ),
+                                           vision::nv_range_from_per( you.get_per() ) ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Trap detection level: <color_white>%d</color>" ), you.get_per() ) );
         if( you.ranged_per_mod() > 0 ) {

@@ -536,3 +536,14 @@ TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision][.]" )
 
     t.test_all();
 }
+
+TEST_CASE( "nv_range_math_correct", "[vision]" )
+{
+    for( int i = 0; i < 80; i++ ) {
+        float threshold = vision::threshold_for_nv_range( i );
+        // minus, because LIGHT_RANGE is for luminosity at a distance
+        // tl;dr: exp/log math, luminosity * exp( -range ) = threshold
+        int range = -LIGHT_RANGE( threshold );
+        CHECK( range == i );
+    }
+}

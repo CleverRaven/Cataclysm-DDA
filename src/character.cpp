@@ -267,9 +267,6 @@ static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
-static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
-static const trait_id trait_NIGHTVISION2( "NIGHTVISION2" );
-static const trait_id trait_NIGHTVISION3( "NIGHTVISION3" );
 static const trait_id trait_NO_THIRST( "NO_THIRST" );
 static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
@@ -1676,7 +1673,9 @@ void Character::recalc_sight_limits()
         vision_mode_cache.set( URSINE_VISION );
     }
 
-    nv_range = get_per() / 3.0f - encumb( bp_eyes ) / 10.0f;
+    // +1 because of the ugly -1 in _from_per
+    nv_range = 1 + vision::nv_range_from_per( get_per() ) +
+               vision::nv_range_from_eye_encumbrance( encumb( bp_eyes ) );
     nv_range += best_bonus_nv;
     if( vision_mode_cache[BIRD_EYE] ) {
         nv_range++;
@@ -1703,11 +1702,28 @@ void Character::recalc_sight_limits()
     }
 }
 
-static float threshold_for_range( float range )
+namespace vision
 {
-    constexpr float epsilon = 0.01f;
-    return LIGHT_AMBIENT_MINIMAL / std::exp( range * LIGHT_TRANSPARENCY_OPEN_AIR ) - epsilon;
+
+float threshold_for_nv_range( float range )
+{
+    constexpr float epsilon = 0.0001f;
+    return LIGHT_AMBIENT_LOW / std::exp( range * LIGHT_TRANSPARENCY_OPEN_AIR )
+           - epsilon;
 }
+
+float nv_range_from_per( int per )
+{
+    // The -1 is because the math is incorrect, but we want the UI to show correct numbers
+    return per / 3.0f - 1.0f;
+}
+
+float nv_range_from_eye_encumbrance( int enc )
+{
+    return -( enc / 10.0f );
+}
+
+} // namespace vision
 
 float Character::get_vision_threshold( float light_level ) const
 {
@@ -1722,12 +1738,17 @@ float Character::get_vision_threshold( float light_level ) const
                                      LIGHT_AMBIENT_MINIMAL ) /
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
+    // -1 because SOME math was changed from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LOW
+    // but kept in other places.
+    // *_LOW is the one actually used in math, *_MINIMAL is arbitrary.
+    // TODO: Correct test cases and drop the ugliness
+
     // This guarantees at least 1 tile of range
-    static const float threshold_cap = threshold_for_range( 1 ) * LIGHT_AMBIENT_LOW /
+    static const float threshold_cap = vision::threshold_for_nv_range( 1 - 1 ) * LIGHT_AMBIENT_LOW /
                                        LIGHT_AMBIENT_MINIMAL;
 
     return std::min( {static_cast<float>( LIGHT_AMBIENT_LOW ),
-                      threshold_for_range( nv_range ) * dimming_from_light,
+                      vision::threshold_for_nv_range( nv_range - 1 ) * dimming_from_light,
                       threshold_cap} );
 }
 

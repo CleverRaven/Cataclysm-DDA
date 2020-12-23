@@ -902,7 +902,9 @@ tab_direction set_stats( avatar &u, points_left &points )
                     mvwprintz( w_description, point_zero, COL_STAT_PENALTY, _( "Aiming penalty: -%d" ),
                                u.ranged_per_mod() );
                 }
-                fold_and_print( w_description, point( 0, 2 ), getmaxx( w_description ) - 1, COL_STAT_NEUTRAL,
+                mvwprintz( w_description, point( 0, 2 ), COL_STAT_BONUS, _( "Night vision bonus: -%.1f" ),
+                           vision::nv_range_from_per( u.per_max ) );
+                fold_and_print( w_description, point( 0, 4 ), getmaxx( w_description ) - 1, COL_STAT_NEUTRAL,
                                 _( "Perception is also used for detecting traps and other things of interest." ) );
                 break;
         }

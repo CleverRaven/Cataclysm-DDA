@@ -2309,4 +2309,18 @@ struct enum_traits<Character::stat> {
 };
 /**Get translated name of a stat*/
 std::string get_stat_name( Character::stat Stat );
+
+// TODO: Move to its own file (it's not Character-specific)
+namespace vision
+{
+/**
+ * Returns the light level that darkness will have at this range from player.
+ * Assumes pure air transparency.
+ */
+float threshold_for_nv_range( float range );
+
+float nv_range_from_per( int per );
+float nv_range_from_eye_encumbrance( int enc );
+} // namespace vision
+
 #endif // CATA_SRC_CHARACTER_H
