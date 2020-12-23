@@ -1,8 +1,16 @@
+name: "Push translation template"
+
 on:
   push:
     branches:
       - master
-name: "Push translation template"
+    paths:
+      - '**.json'
+      - '**.cpp'
+      - 'src/**'
+      - 'data/**'
+
+
 jobs:
   push-template:
     runs-on: ubuntu-20.04
