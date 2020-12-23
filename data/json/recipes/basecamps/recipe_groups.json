@@ -98,6 +98,44 @@
   },
   {
     "type": "recipe_group",
+    "id": "saltworks_recipes_1",
+    "building_type": "COOK",
+    "recipes": [
+      { "id": "salt_from_salt_water", "description": " Craft: Salt from salt water" },
+      { "id": "salted_fish", "description": " Cook: Fish, Salted" }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "saltworks_recipes_2",
+    "building_type": "COOK",
+    "recipes": [
+      { "id": "brew_fruit_wine", "description": " Brew: Fruit Wine Must" },
+      { "id": "brew_mead", "description": " Brew: Spiced Wine Must" },
+      { "id": "brew_dandelion_wine", "description": " Brew: Dandelion Wine Must" },
+      { "id": "brew_burdock_wine", "description": " Brew: Burdock Wine Must" },
+      { "id": "brew_pine_wine", "description": " Brew: Pine Wine Must" },
+      { "id": "brew_hb_beer", "description": " Brew: Beer" }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "saltworks_recipes_3",
+    "building_type": "COOK",
+    "recipes": [
+      { "id": "tinder", "description": " Craft: Tinder" },
+      { "id": "meat_cooked", "description": " Cook: Meat, Cooked" },
+      { "id": "fish_cooked", "description": " Cook: Fish, Cooked" },
+      { "id": "veggy_cooked", "description": " Cook: Veggy, Cooked" },
+      { "id": "boiled_egg", "description": " Cook: Egg, Boiled" },
+      { "id": "starch", "description": " Cook: Starch" },
+      { "id": "starch_from_fibrous_stuff", "description": " Cook: Cattail Starch" },
+      { "id": "flatbread", "description": " Cook: Flatbread" },
+      { "id": "veggy_wild_cooked", "description": " Cook: Veggy, Cooked Wild" }
+    ]
+  },
+  {
+    "type": "recipe_group",
     "id": "primitive_camp_recipes_1",
     "building_type": "BASE",
     "recipes": [
