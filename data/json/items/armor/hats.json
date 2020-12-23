@@ -24,6 +24,7 @@
   {
     "id": "bandana_head",
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "name": { "str": "head bandana" },
     "description": "A cotton bandana, worn over the head.",
     "weight": "42 g",
