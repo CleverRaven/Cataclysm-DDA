@@ -94,7 +94,7 @@
     "id": "irradiated_empty_corn_cob",
     "copy-from": "empty_corn_cob",
     "name": { "str_sp": "irradiated empty corn cob" },
-    "description": "An irradiated empty corn cob will remain edible nearly forever... though you may not want to eat this one.",
+    "description": "An irradiated empty corn cob will remain edible nearly forever… though you may not want to eat this one.",
     "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",
     "container": "bag_plastic"
