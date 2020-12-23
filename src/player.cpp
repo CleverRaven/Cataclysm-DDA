@@ -461,7 +461,7 @@ int player::kcal_speed_penalty() const
     static const std::vector<std::pair<float, float>> starv_thresholds = { {
             std::make_pair( 0.0f, -90.0f ),
             std::make_pair( 0.1f, -50.f ),
-            std::make_pair( 0.3, -25.0f ),
+            std::make_pair( 0.3f, -25.0f ),
             std::make_pair( 0.5f, 0.0f )
         }
     };
@@ -477,10 +477,10 @@ int player::thirst_speed_penalty( int thirst )
     // We die at 1200 thirst
     // Start by dropping speed really fast, but then level it off a bit
     static const std::vector<std::pair<float, float>> thirst_thresholds = {{
-            std::make_pair( +thirst_levels::very_thirsty, 0.0f ),
-            std::make_pair( +thirst_levels::dehydrated, -25.0f ),
-            std::make_pair( +thirst_levels::parched, -50.0f ),
-            std::make_pair( +thirst_levels::dead, -75.0f )
+            std::make_pair( static_cast<float>( thirst_levels::very_thirsty ), 0.0f ),
+            std::make_pair( static_cast<float>( thirst_levels::dehydrated ), -25.0f ),
+            std::make_pair( static_cast<float>( thirst_levels::parched ), -50.0f ),
+            std::make_pair( static_cast<float>( thirst_levels::dead ), -75.0f )
         }
     };
     return static_cast<int>( multi_lerp( thirst_thresholds, thirst ) );
