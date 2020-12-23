@@ -654,7 +654,7 @@
     "quench": -10,
     "healthy": 1,
     "calories": 132,
-    "description": "A hanful of dried corn kernels.",
+    "description": "A handful of dried corn kernels.",
     "price": 60,
     "price_postapoc": 50,
     "material": [ "veggy" ],
