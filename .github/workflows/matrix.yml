@@ -39,6 +39,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 10
+        submodules: true
     - name: download submodules
       run: |
         git submodule update --init --remote --no-fetch gfx/UltimateCataclysm
