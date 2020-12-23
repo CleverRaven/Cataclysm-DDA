@@ -9,6 +9,7 @@
 #include "item.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "map.h"
 #include "monster.h"
 #include "mtype.h"
 #include "pimpl.h"
