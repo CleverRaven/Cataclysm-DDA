@@ -4,9 +4,18 @@ on:
   push:
     branches:
     - master
+    paths-ignore:
+    - 'doc/**'
+    - 'lgtm/**'
+    - 'tools/**'
   pull_request:
     branches:
     - master
+    paths-ignore:
+    - 'doc/**'
+    - 'lgtm/**'
+    - 'tools/**'
+
 
 jobs:
   varied_builds:
