@@ -42,7 +42,7 @@ jobs:
         submodules: true
     - name: download submodules
       run: |
-        git submodule update --init --remote --no-fetch gfx/UltimateCataclysm
+        git submodule update --init --remote gfx/UltimateCataclysm
     - name: install dependencies
       run: |
           sudo apt-get update

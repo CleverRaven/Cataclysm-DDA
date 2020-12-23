@@ -106,7 +106,7 @@ Helpful pages:
 
 5. (optional) Download the UltimateCataclysm tileset submodule
 
-        $ git submodule update --init --remote --no-fetch gfx/UltimateCataclysm/
+        $ git submodule update --init --remote gfx/UltimateCataclysm
         # Will get you the latest available commit in the default branch (main).
         # If this commit has not been recorded by the CDDA repository yet
         # it will have to be committed or ignored
