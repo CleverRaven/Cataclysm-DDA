@@ -7,10 +7,6 @@ on:
     - '**.cpp'
     - '**.h'
     - '**.c'
-    - '**/CMakeLists.txt'
-    - '**/Makefile'
-    - '**.hpp'
-    - '**.cmake'
 
 jobs:
   style-json:
