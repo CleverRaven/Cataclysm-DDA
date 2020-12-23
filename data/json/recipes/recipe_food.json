@@ -6389,11 +6389,12 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
+    "byproducts": [ [ "empty_corn_cob", 1 ] ],
     "skill_used": "cooking",
     "time": "20 s",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "corn", 1 ] ] ]
+    "components": [ [ [ "corn", 1 ], [ "irradiated_corn", 1 ] ] ]
   },
   {
     "result": "flour",
