@@ -96,7 +96,7 @@ You can add `"rotates": true` to allow sprites to be rotated by the game automat
 
 #### Multitile
 
-`"multitile": true` signifies that there is an `additional_tiles` object with one or more objects that define sprites for game entities associated with this tile, such as broken versions of an item, or wall connections.  Each object in the array has an `"id`" field, as above, and an `"fg"` field, which can be a single root name, an array of root names, or an array of objects as above. `"rotates": true` is implied with it and can be omitted.
+`"multitile": true` signifies that there is an `additional_tiles` object (redundant? [probably](https://github.com/CleverRaven/Cataclysm-DDA/issues/46253)) with one or more objects that define sprites for game entities associated with this tile, such as broken versions of an item, or wall connections.  Each object in the array has an `"id`" field, as above, and an `"fg"` field, which can be a single root name, an array of root names, or an array of objects as above. `"rotates": true` is implied with it and can be omitted.
 
 #### Multiple tile entries in the same file
 
