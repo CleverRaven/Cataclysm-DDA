@@ -43,8 +43,8 @@ jobs:
     - name: pull latest submodule commits
       run: |
         cd gfx/UltimateCataclysm/ && \
-        git pull --depth 1 --force origin main && \
-        rm -r .git
+        git reset --hard origin/main && \
+        rm .git
     - name: install dependencies
       run: |
           sudo apt-get update
