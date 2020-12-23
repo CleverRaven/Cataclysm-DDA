@@ -42,7 +42,9 @@ jobs:
         submodules: true
     - name: pull latest submodule commits
       run: |
-        git submodule foreach git pull --depth 1 --force origin main
+        cd gfx/UltimateCataclysm/ && \
+        git pull --depth 1 --force origin main && \
+        rm -r .git
     - name: install dependencies
       run: |
           sudo apt-get update
