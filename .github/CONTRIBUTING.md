@@ -107,11 +107,11 @@ Helpful pages:
 5. (optional) Download the UltimateCataclysm tileset submodule
 
         $ git submodule update --init --remote --no-fetch gfx/UltimateCataclysm/
-        # will get you the latest available commit in the default branch (main)
-        # but that change will be detected in the top-level repository
-        # and may need to be committed or ignored
+        # Will get you the latest available commit in the default branch (main).
+        # If this commit has not been recorded by the CDDA repository yet
+        # it will have to be committed or ignored
 
-        # note that it will be in a detached HEAD state
+        # Note that it will be in a detached HEAD state
         $ git checkout main # from the submodule directory may help with that
 
 For further details about commit message guidelines please visit:
