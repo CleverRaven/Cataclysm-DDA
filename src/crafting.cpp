@@ -1051,10 +1051,6 @@ double Character::crafting_success_roll( const recipe &making ) const
         ( 2.0f * making.difficulty + 1.0f * secondary_difficulty ) /
         ( 2.0f + 1.0f * secondary_count );
 
-    const float final_difficulty =
-        ( 2.0f * making.difficulty + 1.0f * secondary_difficulty ) /
-        ( 2.0f + 1.0f * secondary_count );
-
     return std::max( craft_roll / final_difficulty, 0.0f );
 }
 
