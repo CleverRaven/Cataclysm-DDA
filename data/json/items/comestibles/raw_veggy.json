@@ -257,7 +257,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": 1,
-    "description": "An empty corn cob, may seem useless, but it can be used to make stock, a delicious jelly, or as fuel.",
+    "description": "An empty corn cob.  It may seem useless, but it can be used to make stock, a delicious jelly, or as fuel.",
     "price": 1,
     "price_postapoc": 1,
     "material": [ "veggy" ],
