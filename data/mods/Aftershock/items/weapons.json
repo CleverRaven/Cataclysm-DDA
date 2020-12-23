@@ -30,7 +30,7 @@
       "menu_text": "Activate",
       "type": "transform",
       "target": "afs_energy_saber_on",
-      "msg": "You activate the claw,  and its bludgeoning surface slowly flattens into an edge as it begins to glow red-hot",
+      "msg": "You activate the claw, and its bludgeoning surface slowly flattens into an edge as it begins to glow red-hot",
       "need_charges": 1,
       "need_charges_msg": "The claw is out of charge.",
       "active": true
