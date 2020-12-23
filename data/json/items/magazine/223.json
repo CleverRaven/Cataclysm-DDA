@@ -311,6 +311,7 @@
     "description": "A bulky 150-round double drum magazine for use with STANAG compatible rifles, known as the SAW-MAG.",
     "weight": "2220 g",
     "volume": "1700 ml",
+    "longest_side": "343 mm",
     "price": 18000,
     "material": [ "plastic", "steel" ],
     "symbol": "#",
