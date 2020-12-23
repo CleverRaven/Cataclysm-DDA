@@ -143,6 +143,9 @@ static void cut_up_yields( const std::string &target )
 TEST_CASE( "cut_up_yields" )
 {
     cut_up_yields( "blanket" );
+    cut_up_yields( "backpack_hiking" );
+    cut_up_yields( "boxpack" );
+    cut_up_yields( "case_violin" );
     cut_up_yields( "down_mattress" );
     cut_up_yields( "plastic_boat_hull" );
     cut_up_yields( "bunker_coat" );
