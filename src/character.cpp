@@ -10945,7 +10945,7 @@ int Character::floor_item_warmth( const tripoint &pos )
 {
     int item_warmth = 0;
 
-    auto warm = [&item_warmth]( auto stack ) {
+    const auto warm = [&item_warmth]( const auto & stack ) {
         for( const item &elem : stack ) {
             if( !elem.is_armor() ) {
                 continue;
@@ -10961,21 +10961,19 @@ int Character::floor_item_warmth( const tripoint &pos )
     };
 
     map &here = get_map();
-    map_stack floor_items = here.i_at( pos );
-    warm( floor_items );
 
     if( !!here.veh_at( pos ) ) {
         if( const cata::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( VPFLAG_CARGO,
                 false ) ) {
             vehicle *const veh = &vp->vehicle();
             const int cargo = vp->part_index();
-            if( !veh->get_items( cargo ).empty() ) {
-                vehicle_stack vehicle_items = veh->get_items( cargo );
-                warm( vehicle_items );
-            }
+            vehicle_stack vehicle_items = veh->get_items( cargo );
+            warm( vehicle_items );
+            return item_warmth;
         }
     }
-
+    map_stack floor_items = here.i_at( pos );
+    warm( floor_items );
     return item_warmth;
 }
 
