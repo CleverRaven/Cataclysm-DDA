@@ -1532,7 +1532,6 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         }
 
         if( changed ) {
-            actually_unloaded = true;
             it.on_contents_changed();
             who.invalidate_weight_carried_cache();
         }
