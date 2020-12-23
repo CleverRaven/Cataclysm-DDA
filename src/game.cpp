@@ -1734,6 +1734,7 @@ bool game::cancel_activity_query( const std::string &text )
     }
     if( query_yn( "%s %s", text, u.activity.get_stop_phrase() ) ) {
         u.cancel_activity();
+        u.clear_destination();
         u.resume_backlog_activity();
         return true;
     }
