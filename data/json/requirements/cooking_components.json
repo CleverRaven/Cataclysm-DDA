@@ -367,7 +367,6 @@
         [ "hominy", 1 ],
         [ "dry_veggy", 1 ],
         [ "dry_corn", 1 ],
-        [ "corn_kernels", 1 ],
         [ "con_milk", 1 ],
         [ "flatbread", 1 ],
         [ "tortilla_corn", 1 ],
@@ -665,14 +664,7 @@
   {
     "id": "veggy_any_uncooked",
     "type": "requirement",
-    "components": [
-      [
-        [ "rehydrated_veggy", 1 ],
-        [ "rehydrated_corn", 1 ],
-        [ "corn_kernels", 1 ],
-        [ "veggy_any_fresh_uncooked", 1, "LIST" ]
-      ]
-    ]
+    "components": [ [ [ "rehydrated_veggy", 1 ], [ "rehydrated_corn", 1 ], [ "veggy_any_fresh_uncooked", 1, "LIST" ] ] ]
   },
   {
     "id": "veggy_any_fresh_uncooked",
@@ -710,6 +702,8 @@
         [ "veggy_wild", 1 ],
         [ "zucchini", 1 ],
         [ "irradiated_zucchini", 1 ],
+        [ "corn_kernels", 1 ],
+        [ "irradiated_corn_kernels", 1 ],
         [ "carrot_wild", 1 ],
         [ "spinach", 1 ]
       ]
