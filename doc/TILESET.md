@@ -154,7 +154,7 @@ You can add other keys like `source` but they should be ignored by `compose.py` 
 
 ### Expansion tile entries
 
-Tilesheet can be an expansion from a mod.  Each expansion tilesheet is a single `"id"` value, where the `"rotates": false"`, and `"fg": 0` keys are set.  Expansion tile entry JSONs are the only tile entry JSONs that may use an integer value for `"fg"`, and that value must be 0.  Expansion tile entry JSONs must be located at the top layer of each tilesheet directory.
+A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a single `"id"` value, where the `"rotates": false"`, and `"fg": 0` keys are set.  Expansion tile entry JSONs are the only tile entry JSONs that may use an integer value for `"fg"`, and that value must be 0.  Expansion tile entry JSONs must be located at the top layer of each tilesheet directory.
 
 ## `compose.py`
 
