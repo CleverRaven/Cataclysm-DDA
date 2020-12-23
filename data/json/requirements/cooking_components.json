@@ -740,6 +740,7 @@
       [
         [ "veggy_any", 1, "LIST" ],
         [ "empty_corn_cob", 1 ],
+        [ "corn", 1 ],
         [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],
         [ "egg_reptile", 1 ],
