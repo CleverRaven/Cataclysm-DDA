@@ -262,7 +262,7 @@ void player::process_turn()
         mod_power_level( get_max_power_level() );
     }
 
-    visit_items( [this]( item * e ) {
+    visit_items( [this]( item * e, item * ) {
         e->process_relic( this, pos() );
         return VisitResponse::NEXT;
     } );

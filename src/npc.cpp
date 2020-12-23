@@ -1893,7 +1893,7 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
     can_fix.clear_all();
     healing_options *fix_p = &can_fix;
 
-    visit_items( [&fix_p, try_to_fix]( item * node ) {
+    visit_items( [&fix_p, try_to_fix]( item * node, item * ) {
         const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
@@ -1932,7 +1932,7 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
 item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
 {
     item *best = &null_item_reference();
-    visit_items( [&best, try_to_fix, first_best]( item * node ) {
+    visit_items( [&best, try_to_fix, first_best]( item * node, item * ) {
         const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;

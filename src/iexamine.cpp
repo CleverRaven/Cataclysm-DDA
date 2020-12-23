@@ -3602,7 +3602,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         if( it.will_spill() || it.is_watertight_container() ) {
             container = &it;
 
-            it.visit_items( [&charges, &has_sap]( const item * it ) {
+            it.visit_items( [&charges, &has_sap]( const item * it, item * ) {
                 if( it->typeId() == itype_maple_syrup ) {
                     has_sap = true;
                     charges = it->charges;

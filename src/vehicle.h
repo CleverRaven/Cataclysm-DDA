@@ -55,7 +55,7 @@ class zone_data;
 struct itype;
 struct uilist_entry;
 template <typename E> struct enum_traits;
-template <typename T> class visitable;
+class visitable;
 
 enum vpart_bitflags : int;
 enum ter_bitflags : int;
@@ -206,7 +206,7 @@ static constexpr float accel_g = 9.81f;
 struct vehicle_part {
         friend vehicle;
         friend class veh_interact;
-        friend visitable<vehicle_cursor>;
+        friend class vehicle_cursor;
         friend item_location;
         friend class turret_data;
 

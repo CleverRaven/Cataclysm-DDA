@@ -363,7 +363,7 @@ enum class book_mastery {
     MASTERED // can no longer increase skill by reading
 };
 
-class Character : public Creature, public visitable<Character>
+class Character : public Creature, public visitable
 {
     public:
         Character( const Character & ) = delete;
@@ -2676,6 +2676,20 @@ class Character : public Creature, public visitable<Character>
         void process_effects() override;
         /** Handles the still hard-coded effects. */
         void hardcoded_effects( effect &it );
+
+        // inherited from visitable
+        bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
+        int max_quality( const quality_id &qual ) const override;
+        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
+        override;
+        std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
+                                           int count = INT_MAX ) override;
+        int charges_of( const itype_id &what, int limit = INT_MAX,
+                        const std::function<bool( const item & )> &filter = return_true<item>,
+                        const std::function<void( int )> &visitor = nullptr ) const override;
+        int amount_of( const itype_id &what, bool pseudo = true,
+                       int limit = INT_MAX,
+                       const std::function<bool( const item & )> &filter = return_true<item> ) const override;
 
     protected:
         Character();

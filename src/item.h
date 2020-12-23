@@ -173,7 +173,7 @@ iteminfo weight_to_info( const std::string &type, const std::string &left,
 
 inline bool is_crafting_component( const item &component );
 
-class item : public visitable<item>
+class item : public visitable
 {
     public:
         using FlagsSetType = std::set<flag_id>;
@@ -208,7 +208,7 @@ class item : public visitable<item>
             item( itype_id( itype ), std::forward<Args>( args )... )
         {}
 
-        ~item();
+        ~item() override;
 
         /** Return a pointer-like type that's automatically invalidated if this
          * item is destroyed or assigned-to */
@@ -2187,6 +2187,12 @@ class item : public visitable<item>
          * @return The number of moves to recursively disassemble this item
          */
         int get_recursive_disassemble_moves( const Character &guy ) const;
+
+        // inherited from visitable
+        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
+        override;
+        std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
+                                           int count = INT_MAX ) override;
 
     private:
         /** migrates an item into this item. */
