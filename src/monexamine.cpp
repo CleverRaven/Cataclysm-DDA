@@ -715,6 +715,7 @@ void monexamine::tie_or_untie( monster &z )
     Character &player_character = get_player_character();
     if( z.has_effect( effect_tied ) ) {
         z.remove_effect( effect_tied );
+        add_msg( _( "You untie your %s." ), z.get_name() );
         if( z.tied_item ) {
             player_character.i_add( *z.tied_item );
             z.tied_item.reset();
@@ -744,6 +745,7 @@ void monexamine::tie_or_untie( monster &z )
         z.tied_item = cata::make_value<item>( *rope_item );
         player_character.i_rem( rope_item );
         z.add_effect( effect_tied, 1_turns, true );
+        add_msg( _( "You tie your %s." ), z.get_name() );
     }
 }
 
