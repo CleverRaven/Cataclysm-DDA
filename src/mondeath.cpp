@@ -82,7 +82,7 @@ static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 
 void mdeath::normal( monster &z )
 {
-    if( z.no_corpse_quiet ) {
+    if( z.no_corpse_quiet || !z.death_drops ) {
         return;
     }
 

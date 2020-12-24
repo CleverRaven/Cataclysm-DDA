@@ -2204,10 +2204,7 @@ void monster::die( Creature *nkiller )
     g->set_critter_died();
     dead = true;
     set_killer( nkiller );
-    if( !death_drops ) {
-        return;
-    }
-    if( !no_extra_death_drops ) {
+    if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death();
     }
     // TODO: should actually be class Character
@@ -2228,22 +2225,24 @@ void monster::die( Creature *nkiller )
             ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
         }
     }
-    // Drop items stored in optionals
-    move_special_item_to_inv( tack_item );
-    move_special_item_to_inv( armor_item );
-    move_special_item_to_inv( storage_item );
-    move_special_item_to_inv( tied_item );
+    if( death_drops ) {
+        // Drop items stored in optionals
+        move_special_item_to_inv( tack_item );
+        move_special_item_to_inv( armor_item );
+        move_special_item_to_inv( storage_item );
+        move_special_item_to_inv( tied_item );
 
-    if( has_effect( effect_lightsnare ) ) {
-        add_item( item( "string_36", calendar::turn_zero ) );
-        add_item( item( "snare_trigger", calendar::turn_zero ) );
-    }
-    if( has_effect( effect_heavysnare ) ) {
-        add_item( item( "rope_6", calendar::turn_zero ) );
-        add_item( item( "snare_trigger", calendar::turn_zero ) );
-    }
-    if( has_effect( effect_beartrap ) ) {
-        add_item( item( "beartrap", calendar::turn_zero ) );
+        if( has_effect( effect_lightsnare ) ) {
+            add_item( item( "string_36", calendar::turn_zero ) );
+            add_item( item( "snare_trigger", calendar::turn_zero ) );
+        }
+        if( has_effect( effect_heavysnare ) ) {
+            add_item( item( "rope_6", calendar::turn_zero ) );
+            add_item( item( "snare_trigger", calendar::turn_zero ) );
+        }
+        if( has_effect( effect_beartrap ) ) {
+            add_item( item( "beartrap", calendar::turn_zero ) );
+        }
     }
     map &here = get_map();
     if( has_effect( effect_grabbing ) ) {
@@ -2268,7 +2267,7 @@ void monster::die( Creature *nkiller )
             }
         }
     }
-    if( !is_hallucination() ) {
+    if( death_drops && !is_hallucination() ) {
         for( const auto &it : inv ) {
             here.add_item_or_charges( pos(), it );
         }
