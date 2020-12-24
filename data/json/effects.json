@@ -445,6 +445,7 @@
     "miss_messages": [ [ "You feel bad inside.", 1 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "prophylactic_antivenom" ],
     "pain_sizing": true,
     "hurt_sizing": true,
     "main_parts_only": true,
@@ -468,6 +469,7 @@
     "miss_messages": [ [ "You feel bad inside.", 2 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "prophylactic_antivenom" ],
     "pain_sizing": true,
     "hurt_sizing": true,
     "main_parts_only": true,
@@ -495,6 +497,8 @@
     "show_intensity": false,
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "blood_analysis_description": "Necrotizing Venom",
+    "resist_effects": [ "prophylactic_antivenom" ],
     "pain_sizing": true,
     "hurt_sizing": true,
     "main_parts_only": true,
@@ -511,7 +515,7 @@
       "hurt_amount": [ 5, 0 ],
       "hurt_min": [ 2, 1 ],
       "hurt_chance": [ 13, 100 ],
-      "hurt_tick": [ 30 ]
+      "hurt_tick": [ 36 ]
     },
     "scaling_mods": { "pain_min": [ 0.05, 0.01 ], "pain_chance": [ -0.15, -0.8 ], "hurt_chance": [ -0.11, -0.81 ] }
   },
@@ -524,6 +528,8 @@
     "remove_message": "The weight on your chest lessens.",
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "blood_analysis_description": "Systemic Inflammatory Agents",
+    "resist_effects": [ "prophylactic_antivenom" ],
     "max_intensity": 125,
     "max_effective_intensity": 100,
     "max_duration": 18000,
@@ -598,6 +604,7 @@
     "rating": "bad",
     "max_intensity": 20,
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "prophylactic_antivenom" ],
     "int_add_val": 1,
     "int_decay_tick": 600,
     "base_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ] },
@@ -1356,6 +1363,14 @@
     "blocks_effects": [ "flu" ],
     "rating": "good",
     "blood_analysis_description": "Antivirals"
+  },
+  {
+    "type": "effect_type",
+    "id": "prophylactic_antivenom",
+    "name": [ "Antivenom Resistance" ],
+    "desc": [ "You are temporarily resistant to venoms." ],
+    "rating": "good",
+    "blood_analysis_description": "Prophylactic antivenom"
   },
   {
     "type": "effect_type",

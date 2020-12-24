@@ -1524,8 +1524,10 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
                 ammo_match_found = e->can_reload_with( id );
                 speedloader = true;
             }
-            if( can_reload( *e, id ) && ( speedloader || e->ammo_remaining() == 0 ||
-                                          e->loaded_ammo().stacks_with( *ammo ) ) ) {
+            if( can_reload( *e, id ) &&
+                ( speedloader || e->ammo_remaining() == 0 ||
+                  e->ammo_remaining() < ammo->ammo_remaining() ||
+                  e->loaded_ammo().stacks_with( *ammo ) ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
             }
         }

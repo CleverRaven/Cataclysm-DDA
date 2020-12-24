@@ -21,6 +21,11 @@
   },
   {
     "type": "recipe",
+    "result": "toolbox_workshop",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "arrow_metal",
     "obsolete": true
   },

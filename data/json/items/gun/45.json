@@ -374,6 +374,7 @@
     "volume": "483 ml",
     "longest_side": "241 mm",
     "ammo": [ "45" ],
+    "price": 70000,
     "price_postapoc": 2500,
     "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "built_in_mods": [ "match_trigger" ],
@@ -397,6 +398,7 @@
     "weight": "844 g",
     "volume": "698 ml",
     "longest_side": "277 mm",
+    "price": 70000,
     "price_postapoc": 3000,
     "default_mods": [ "suppressor", "laser_sight" ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
