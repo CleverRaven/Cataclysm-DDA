@@ -453,6 +453,7 @@
     "skill_used": "cooking",
     "time": "3 m",
     "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
     "flags": [ "BLIND_HARD" ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "dry_meat", 1 ] ], [ [ "water_clean", 1 ] ] ]
@@ -466,6 +467,7 @@
     "skill_used": "cooking",
     "time": "3 m",
     "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
     "flags": [ "BLIND_HARD" ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "dry_fish", 1 ] ], [ [ "water_clean", 1 ] ] ]
@@ -479,6 +481,7 @@
     "skill_used": "cooking",
     "time": "3 m",
     "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
     "flags": [ "BLIND_HARD" ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "dry_veggy", 1 ] ], [ [ "water_clean", 1 ] ] ]
@@ -492,6 +495,7 @@
     "skill_used": "cooking",
     "time": "3 m",
     "autolearn": true,
+    "batch_time_factors": [ 95, 1 ],
     "flags": [ "BLIND_HARD" ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "dry_fruit", 1 ] ], [ [ "water_clean", 1 ] ] ]
