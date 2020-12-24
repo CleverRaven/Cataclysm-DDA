@@ -332,7 +332,8 @@
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "book_learn": [ [ "recipe_alpha", 9 ], [ "recipe_serum", 9 ] ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
-    "components": [ [ [ "iv_purifier", 3 ] ], [ [ "royal_jelly", 1 ] ], [ [ "slime_scrap", 1 ] ], [ [ "syringe", 1 ] ] ]
+    "components": [ [ [ "iv_purifier", 3 ] ], [ [ "afs_biomaterial_4", 1 ] ], [ [ "slime_scrap", 1 ] ], [ [ "syringe", 1 ] ] ],
+    "//": "Biomaterial 4 was chosen for balance purposes, given the utility of this shot."
   },
   {
     "result": "laser_rifle_cheap",
