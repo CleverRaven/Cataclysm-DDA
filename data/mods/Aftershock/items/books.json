@@ -137,6 +137,20 @@
     "copy-from": "schematics_generic"
   },
   {
+    "id": "schematics_diamond_press",
+    "type": "BOOK",
+    "name": { "str_sp": "diamond press schematics" },
+    "description": "Bearing the logo of Matrioshka Fabritechnics, those are assembly plans, design specs, and technical drawings for the diamond press.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "copy-from": "schematics_generic"
+  },
+  {
+    "id": "schematics_nano_forge",
+    "type": "BOOK",
+    "name": { "str_sp": "nano forge schematics" },
+    "description": "Bearing the logo of Matrioshka Fabritechnics, those are assembly plans, design specs, and technical drawings for the nano forge.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "copy-from": "schematics_generic"
+  },
+  {
     "id": "schematics_tankbot",
     "type": "BOOK",
     "name": { "str_sp": "tank drone schematics" },
@@ -216,6 +230,46 @@
     "intelligence": 16,
     "time": "35 m",
     "fun": -3
+  },
+  {
+    "id": "recipes_resistance",
+    "type": "BOOK",
+    "name": { "str": "useful recipes for resistance", "str_pl": "copies of useful recipes for resistance" },
+    "description": "Recipes for Resistance is a collection of tales, strategies and recipes for working against corporate rule.  Very simple language is used in the recipes but it drags out the explanations.",
+    "weight": "2000 g",
+    "volume": "500 ml",
+    "price": 64000,
+    "price_postapoc": 2000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_green",
+    "skill": "chemistry",
+    "looks_like": "adv_chemistry",
+    "required_level": 6,
+    "max_level": 7,
+    "intelligence": 9,
+    "time": "50 m",
+    "fun": -1
+  },
+  {
+    "id": "recipes_cryolab",
+    "type": "BOOK",
+    "name": { "str": "Working in Boreal Conditions and beyond", "str_pl": "copies of Working in Boreal Conditions and beyond" },
+    "description": "A corporate manual for conditions of inhospitable cold.  It includes instructions for building devices and substances that will aid in survival in extreme weather or even the lack thereof.",
+    "weight": "2000 g",
+    "volume": "500 ml",
+    "price": 64000,
+    "price_postapoc": 2000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_cyan",
+    "looks_like": "recipe_lab_elec",
+    "skill": "chemistry",
+    "required_level": 3,
+    "max_level": 5,
+    "intelligence": 14,
+    "time": "35 m",
+    "fun": -1
   },
   {
     "id": "recipe_unusual_ammos",
