@@ -628,10 +628,24 @@ bool monexamine::give_items_to( monster &z )
             to_move.insert( to_move.end(), itq );
         }
     }
+    // Quit if there is nothing to add
+    if( to_move.empty() ) {
+        add_msg( _( "Never mind." ) );
+        return true;
+    }
     z.add_effect( effect_controlled, 5_turns );
     player_character.drop( to_move, z.pos(), true );
-
-    return false;
+    // Print an appropriate message for the inserted item or items
+    if( to_move.size() > 1 ) {
+        add_msg( _( "You put %1$s items in the %2$s on your %3$s." ), to_move.size(), storage.tname(),
+                 pet_name );
+    } else {
+        item_location loc = to_move.front().first;
+        item &it = *loc;
+        add_msg( _( "You put the %1$s in the %2$s on your %3$s." ), it.tname(), storage.tname(), pet_name );
+    }
+    // Return success if all items were inserted
+    return to_move.size() == items.size();
 }
 
 bool monexamine::add_armor( monster &z )
