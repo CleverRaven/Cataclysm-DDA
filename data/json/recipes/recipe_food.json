@@ -1733,7 +1733,8 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "skills_required": [ "survival", 1 ],
-    "time": "10 m",
+    "time": "20 m",
+    "charges": 4,
     "batch_time_factors": [ 80, 4 ],
     "book_learn": [
       [ "pocket_survival", 1 ],
@@ -1745,7 +1746,7 @@
     ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "lotus", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "lotus", 1 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ]
   },
   {
     "type": "recipe",
