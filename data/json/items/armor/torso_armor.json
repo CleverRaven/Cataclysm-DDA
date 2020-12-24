@@ -84,7 +84,7 @@
   {
     "id": "xl_armor_lorica",
     "type": "ARMOR",
-    "name": { "str_sp": "oversized lorica segmentata" },
+    "name": { "str_sp": "XL lorica segmentata" },
     "copy-from": "armor_lorica",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
