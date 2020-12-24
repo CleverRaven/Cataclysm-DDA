@@ -10,7 +10,7 @@ than just one turn.
 1. `player_activities.json` Define properties that apply to all instances
 of the activity in question.
 
-2. `activity_actor.h` Create a new subclass of `activity_actor`
+2. `activity_actor_definitions.h` Create a new subclass of `activity_actor`
 (e.g. move_items_activity_actor) to store state and handle turns of the
 new activity.
 
