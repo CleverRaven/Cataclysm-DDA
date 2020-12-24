@@ -985,10 +985,9 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     total_skill_modifiers += ( focus_pool - 100 ) /  50.0f;
 
     // TO DO: Attribute role should also be data-driven either in skills.json or in the recipe itself.
-    // For now let's just use Intelligence.  For the average intelligence of 8, this gives a +2.
-    // That means that if all your skills are at the requirement and you have average intelligence,
-    // that gives a roughly 1 in 6 chance of failure.
-    total_skill_modifiers += int_cur / 4.0f;
+    // For now let's just use Intelligence.  For the average intelligence of 8, this provides no bonus.
+    // Deviations above or below become a bonus/penalty of 0.25 per point of int.
+    total_skill_modifiers += ( int_cur - 8 ) / 4.0f;
 
     for( const recipe_proficiency &recip : making.proficiencies ) {
         if( !recip.required && !has_proficiency( recip.id ) ) {
