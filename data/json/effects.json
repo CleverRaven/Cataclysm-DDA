@@ -479,6 +479,7 @@
     "show_intensity": false,
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "blood_analysis_description": "Necrotizing Venom",
     "resist_effects": [ "prophylactic_antivenom" ],
     "pain_sizing": true,
     "hurt_sizing": true,
@@ -496,7 +497,7 @@
       "hurt_amount": [ 5, 0 ],
       "hurt_min": [ 2, 1 ],
       "hurt_chance": [ 13, 100 ],
-      "hurt_tick": [ 30 ]
+      "hurt_tick": [ 36 ]
     },
     "scaling_mods": { "pain_min": [ 0.05, 0.01 ], "pain_chance": [ -0.15, -0.8 ], "hurt_chance": [ -0.11, -0.81 ] }
   },
@@ -509,6 +510,7 @@
     "remove_message": "The weight on your chest lessens.",
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "blood_analysis_description": "Systemic Inflammatory Agents",
     "resist_effects": [ "prophylactic_antivenom" ],
     "max_intensity": 125,
     "max_effective_intensity": 100,
