@@ -53,6 +53,7 @@
 #include "material.h"
 #include "memorial_logger.h"
 #include "messages.h"
+#include "mission.h"
 #include "mondefense.h"
 #include "monfaction.h"
 #include "monster.h"
@@ -5750,6 +5751,10 @@ bool mattack::zombie_fuse( monster *z )
     z->add_effect( effect_grown_of_fuse, 10_days, true,
                    critter->get_hp_max() + z->get_effect( effect_grown_of_fuse ).get_intensity() );
     z->heal( critter->get_hp(), true );
+    z->mission_fused.emplace_back( critter->name() );
+    z->mission_fused.insert( z->mission_fused.end(),
+                             critter->mission_fused.begin(), critter->mission_fused.end() );
+    mission::on_creature_fusion( *z, *critter );
     critter->death_drops = false;
     critter->die( z );
     return true;

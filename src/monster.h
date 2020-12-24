@@ -469,7 +469,9 @@ class monster : public Creature
         // Our faction (species, for most monsters)
         mfaction_id faction;
         // If we're related to a mission
-        int mission_id = 0;
+        std::set<int> mission_ids;
+        // Names of mission monsters fused with this monster
+        std::vector<std::string> mission_fused;
         const mtype *type;
         // If true, don't spawn loot items as part of death.
         bool no_extra_death_drops = false;

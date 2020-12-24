@@ -2135,7 +2135,12 @@ void monster::load( const JsonObject &data )
     }
 
     data.read( "friendly", friendly );
-    data.read( "mission_id", mission_id );
+    if( data.has_member( "mission_ids" ) ) {
+        data.read( "mission_ids", mission_ids );
+    } else if( data.has_member( "mission_id" ) ) {
+        mission_ids = { data.get_int( "mission_id" ) };
+    }
+    data.read( "mission_fused", mission_fused );
     data.read( "no_extra_death_drops", no_extra_death_drops );
     data.read( "dead", dead );
     data.read( "anger", anger );
@@ -2211,7 +2216,8 @@ void monster::store( JsonOut &json ) const
     json.member( "friendly", friendly );
     json.member( "fish_population", fish_population );
     json.member( "faction", faction.id().str() );
-    json.member( "mission_id", mission_id );
+    json.member( "mission_ids", mission_ids );
+    json.member( "mission_fused", mission_fused );
     json.member( "no_extra_death_drops", no_extra_death_drops );
     json.member( "dead", dead );
     json.member( "anger", anger );

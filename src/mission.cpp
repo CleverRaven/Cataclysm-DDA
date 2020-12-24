@@ -142,16 +142,18 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
     monster *mon = dynamic_cast<monster *>( &poor_dead_dude );
     if( mon != nullptr ) {
-        if( mon->mission_id == -1 ) {
+        if( mon->mission_ids.empty() ) {
             return;
         }
-        mission *found_mission = mission::find( mon->mission_id );
-        const mission_type *type = found_mission->type;
-        if( type->goal == MGOAL_FIND_MONSTER ) {
-            found_mission->fail();
-        }
-        if( type->goal == MGOAL_KILL_MONSTER ) {
-            found_mission->step_complete( 1 );
+        for( const int mission_id : mon->mission_ids ) {
+            mission *found_mission = mission::find( mission_id );
+            const mission_type *type = found_mission->type;
+            if( type->goal == MGOAL_FIND_MONSTER ) {
+                found_mission->fail();
+            }
+            if( type->goal == MGOAL_KILL_MONSTER ) {
+                found_mission->step_complete( 1 );
+            }
         }
         return;
     }
@@ -184,6 +186,32 @@ void mission::on_creature_death( Creature &poor_dead_dude )
         //fail the mission if recruit target dies
         if( i.type->goal == MGOAL_RECRUIT_NPC && i.target_npc_id == dead_guys_id ) {
             i.fail();
+        }
+    }
+}
+
+void mission::on_creature_fusion( Creature &fuser, Creature &fused )
+{
+    if( fuser.is_hallucination() || fused.is_hallucination() ) {
+        return;
+    }
+    monster *mon_fuser = dynamic_cast<monster *>( &fuser );
+    if( mon_fuser == nullptr ) {
+        debugmsg( "Unimplemented: fuser is not a monster" );
+        return;
+    }
+    monster *mon_fused = dynamic_cast<monster *>( &fused );
+    if( mon_fused == nullptr ) {
+        debugmsg( "Unimplemented: fused it not a monster" );
+        return;
+    }
+    for( const int mission_id : mon_fused->mission_ids ) {
+        const mission *const found_mission = mission::find( mission_id );
+        const mission_type *const type = found_mission->type;
+        if( type->goal == MGOAL_KILL_MONSTER ) {
+            // the fuser has to be killed now!
+            mon_fuser->mission_ids.emplace( mission_id );
+            mon_fused->mission_ids.erase( mission_id );
         }
     }
 }
@@ -468,7 +496,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
             }
             return g->get_creature_if( [&]( const Creature & critter ) {
                 const monster *const mon_ptr = dynamic_cast<const monster *>( &critter );
-                return mon_ptr && mon_ptr->mission_id == uid;
+                return mon_ptr && mon_ptr->mission_ids.count( uid );
             } );
 
         case MGOAL_RECRUIT_NPC: {

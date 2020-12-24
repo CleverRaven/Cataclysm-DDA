@@ -207,7 +207,6 @@ monster::monster()
     anger = 0;
     morale = 2;
     faction = mfaction_id( 0 );
-    mission_id = -1;
     no_extra_death_drops = false;
     dead = false;
     death_drops = true;
@@ -673,6 +672,17 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         mvwprintz( w, point( column, ++vStart ), c_light_gray, lines[i] );
     }
 
+    if( !mission_fused.empty() ) {
+        // Mission monsters fused into this monster
+        const std::string fused_desc = string_format( _( "Parts of %s extrude from its body." ),
+                                       enumerate_as_string( mission_fused ) );
+        lines = foldstring( fused_desc, max_width );
+        numlines = lines.size();
+        for( int i = 0; i < numlines && vStart < vEnd; i++ ) {
+            mvwprintz( w, point( column, ++vStart ), c_light_gray, lines[i] );
+        }
+    }
+
     // Riding indicator on next line after description.
     if( has_effect( effect_ridden ) && mounted_player ) {
         mvwprintz( w, point( column, ++vStart ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
@@ -732,6 +742,13 @@ std::string monster::extended_description() const
     ss += "--\n";
     ss += string_format( "<dark>%s</dark>", type->get_description() ) + "\n";
     ss += "--\n";
+    if( !mission_fused.empty() ) {
+        // Mission monsters fused into this monster
+        const std::string fused_desc = string_format( _( "Parts of %s extrude from its body." ),
+                                       enumerate_as_string( mission_fused ) );
+        ss += string_format( "<dark>%s</dark>", fused_desc ) + "\n";
+        ss += "--\n";
+    }
 
     ss += string_format( _( "It is %s in size." ),
                          size_names.at( get_size() ) ) + "\n";
