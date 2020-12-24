@@ -143,12 +143,13 @@ For further details about commit message guidelines please visit:
 
  * Note: any new commits to the `new_feature` branch on GitHub will automatically be included in the pull request, so make sure to only commit related changes to the same branch.
 
-## Pull Request Notes
-If you file a PR but you're still working on it, please add a [WIP] before the title text. This will tell the reviewers that you still intend to add more to the PR and we don't need to review it yet. When it's ready to be reviewed by a merger just edit the title text to remove the [WIP].
-
-If you are also looking for suggestions then mark it with [CR] — "comments requested". You can use both [WIP] and [CR] to indicated that you need opinion/code review/suggestions to continue working (e.g. "[WIP] [CR] Super awesome big feature"). Feel free to remove [CR] when you feel you got enough information to proceed.
+## Drafts
+If you file a PR but you're still working on it, please make it a Draft. This will tell the reviewers that you still intend to add more to the PR and we don't need to review it yet. When it's ready to be reviewed by a merger just click the `Ready for review` button. Please convert all your existing PRs with `[WIP]` in the title to Drafts.
 
 This can help speed up our review process by allowing us to only review the things that are ready for it, and will prevent anything that isn't completely ready from being merged in.
+
+## Comment requests
+If you are also looking for suggestions then mark it with [CR] — "comments requested". Feel free to remove [CR] when you feel you got enough information to proceed.
 
 It is not required to solve or reference an open issue to file a PR, however, if you do so, you need to explain the problem your PR is solving in full detail.
 
