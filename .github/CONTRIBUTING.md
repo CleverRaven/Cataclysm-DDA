@@ -121,6 +121,9 @@ For further details about commit message guidelines please visit:
         # gets changes from "master" branch on the "upstream" remote
 
  * Note: If this gives you an error, it means you have committed directly to your local `master` branch. [Click here for instructions on how to fix this issue](#why-does-git-pull---ff-only-result-in-an-error).
+ 
+         $ git push origin master
+         # optionally, push the synced master state to your fork
 
 #### Make your changes
 
@@ -149,7 +152,7 @@ If you file a PR but you're still working on it, please make it a Draft. This wi
 This can help speed up our review process by allowing us to only review the things that are ready for it, and will help prevent merging in anything that isn't completely ready.
 
 ## Comment requests
-If you are also looking for suggestions then mark it with [CR] — "comments requested". Feel free to remove [CR] when you feel you got enough information to proceed.
+If you are also looking for suggestions then add a [CR] before the title text — "comments requested". Feel free to remove [CR] when you feel you got enough information to proceed.
 
 It is not required to solve or reference an open issue to file a PR, however, if you do so, you need to explain the problem your PR is solving in full detail.
 
