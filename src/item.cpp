@@ -4223,11 +4223,11 @@ nc_color item::color_in_inventory() const
             case TOO_FULL:
                 ret = c_cyan;
 
-                // Show perishables as a separate color
+                // Show old items as yellow
                 if( food->is_going_bad() ) {
                     ret = c_yellow;
                 }
-                // Show old items as yellow
+                // Show perishables as a separate color
                 else if( food->goes_bad() ) {
                     ret = c_light_cyan;
                 }
