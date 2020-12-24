@@ -954,6 +954,7 @@ Other monster flags.
 - ```HARDTOSHOOT``` It's one size smaller for ranged attacks, no less then MS_TINY
 - ```HEARS``` It can hear you.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
+- ```INSECTICIDEPROOF``` It's immune to insecticide even though it's made of bug flesh ("iflesh").
 - ```HUMAN``` It's a live human, as long as it's alive.
 - ```CONSOLE_DESPAWN``` Despawns when a nearby console is properly hacked.
 - ```IMMOBILE``` Doesn't move (e.g. turrets)

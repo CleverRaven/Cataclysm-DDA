@@ -1,5 +1,12 @@
 [
   {
+    "id": "nanosmithing_standard",
+    "type": "requirement",
+    "//": "Includes forging resources as well as tools needed for most physical material hypertech crafting",
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "DIAMONDPRESS", "level": 1 }, { "id": "NANO_FORGE", "level": 1 } ],
+    "tools": [ [ [ "nano_forge", 20 ] ], [ [ "tongs", -1 ] ] ]
+  },
+  {
     "id": "bone_edible",
     "type": "requirement",
     "//": "Any kind of non-poisonous bones, human or not.",
@@ -46,7 +53,7 @@
   {
     "id": "edible_lard",
     "type": "requirement",
-    "//": "Lard that is safe for consumption.",
+    "//": "Lard that is 'safe' for consumption.",
     "components": [
       [
         [ "lard", 1 ],

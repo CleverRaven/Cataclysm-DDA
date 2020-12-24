@@ -2028,7 +2028,7 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_insecticidal_gas ) {
-            if( z.type->in_species( species_INSECT ) || z.type->in_species( species_SPIDER ) ) {
+            if( z.made_of( material_id( "iflesh" ) ) && !z.has_flag( MF_INSECTICIDEPROOF ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.moves -= rng( 10 * intensity, 30 * intensity );
                 dam += rng( 4, 7 * intensity );
