@@ -1125,7 +1125,7 @@ class vehicle
         // get passenger at part p
         player *get_passenger( int p ) const;
         // get monster on a boardable part at p
-        monster *get_pet( int p ) const;
+        monster *get_monster( int p ) const;
 
         bool enclosed_at( const tripoint &pos ); // not const because it calls refresh_insides
         /**
