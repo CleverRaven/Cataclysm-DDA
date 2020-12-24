@@ -29,6 +29,7 @@
 #include "point.h"
 #include "string_id.h"
 #include "submap.h"
+#include "temp_crafting_inventory.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
@@ -388,6 +389,18 @@ VisitResponse inventory::visit_items(
             if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
+        }
+    }
+    return VisitResponse::NEXT;
+}
+
+/** @relates visitable */
+VisitResponse temp_crafting_inventory::visit_items(
+    const std::function<VisitResponse( item *, item * )> &func ) const
+{
+    for( item *it : items ) {
+        if( visit_internal( func, it ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
         }
     }
     return VisitResponse::NEXT;
@@ -763,6 +776,13 @@ int read_only_visitable::charges_of( const itype_id &what, int limit,
                                      const std::function<bool( const item & )> &filter,
                                      const std::function<void( int )> &visitor ) const
 {
+    if( what == itype_UPS ) {
+        int qty = 0;
+        qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
+        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.6 ) );
+        return std::min( qty, limit );
+    }
+
     return charges_of_internal( *this, *this, what, limit, filter, visitor );
 }
 
