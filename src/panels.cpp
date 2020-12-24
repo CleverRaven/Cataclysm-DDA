@@ -2066,7 +2066,7 @@ static void print_weary( const player &u, const catacurses::window &w, const std
 {
     werase( w );
 
-    auto weary_pair = get_hp_bar( u.weary_threshold(), u.weariness() );
+    std::pair<std::string, nc_color> weary_pair = get_hp_bar( u.weary_threshold(), u.weariness() );
 
     const std::string weary_string = string_format( fmt_string,
                                         utf8_justify( _( "Weary" ), j1 ),
