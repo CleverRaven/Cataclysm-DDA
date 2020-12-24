@@ -354,6 +354,7 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
     const efftype_id effect_bleed( "bleed" );
     const efftype_id effect_poison( "poison" );
     const efftype_id effect_badpoison( "badpoison" );
+    const efftype_id effect_downed( "downed" );
     const efftype_id effect_paralyzepoison( "paralyzepoison" );
     const efftype_id effect_venom_dmg( "venom_dmg" );
     const efftype_id effect_venom_player1( "venom_player1" );
@@ -365,69 +366,85 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
     // - stunned (if has_flag MF_STUN_IMMUNE)
 
     WHEN( "monster is made of flesh and is not zombified" ) {
-        // Cow - fleshy and alive
-        monster cow( mtype_id( "mon_cow" ) );
-        cow.clear_effects();
-        REQUIRE( cow.made_of_any( Creature::cmat_flesh ) );
-        REQUIRE_FALSE( cow.type->in_species( species_ZOMBIE ) );
+        // snek - fleshy, living snake
+        monster snek( mtype_id( "mon_rattlesnake" ) );
+        snek.clear_effects();
+        REQUIRE( snek.made_of_any( Creature::cmat_flesh ) );
+        REQUIRE_FALSE( snek.type->in_species( species_ZOMBIE ) );
+        REQUIRE( snek.type->bodytype == "snake" );
 
         THEN( "they can bleed" ) {
-            CHECK_FALSE( cow.is_immune_effect( effect_bleed ) );
+            CHECK_FALSE( snek.is_immune_effect( effect_bleed ) );
         }
         THEN( "they can be poisoned by all poisons" ) {
-            CHECK_FALSE( cow.is_immune_effect( effect_poison ) );
-            CHECK_FALSE( cow.is_immune_effect( effect_badpoison ) );
-            CHECK_FALSE( cow.is_immune_effect( effect_paralyzepoison ) );
-            CHECK_FALSE( cow.is_immune_effect( effect_venom_dmg ) );
-            CHECK_FALSE( cow.is_immune_effect( effect_venom_player1 ) );
-            CHECK_FALSE( cow.is_immune_effect( effect_venom_player2 ) );
-            CHECK_FALSE( cow.is_immune_effect( effect_venom_weaken ) );
+            CHECK_FALSE( snek.is_immune_effect( effect_poison ) );
+            CHECK_FALSE( snek.is_immune_effect( effect_badpoison ) );
+            CHECK_FALSE( snek.is_immune_effect( effect_paralyzepoison ) );
+            CHECK_FALSE( snek.is_immune_effect( effect_venom_dmg ) );
+            CHECK_FALSE( snek.is_immune_effect( effect_venom_player1 ) );
+            CHECK_FALSE( snek.is_immune_effect( effect_venom_player2 ) );
+            CHECK_FALSE( snek.is_immune_effect( effect_venom_weaken ) );
+        }
+
+        THEN( "they can't be downed" ) {
+            CHECK( snek.is_immune_effect( effect_downed ) );
         }
 
     }
     WHEN( "monster is made of flesh but is zombified" ) {
-        // Zombie - fleshy zombie
+        // Zombie - fleshy humanoid zombie
         monster zed( mtype_id( "mon_zombie" ) );
         zed.clear_effects();
         REQUIRE( zed.made_of_any( Creature::cmat_flesh ) );
         REQUIRE( zed.type->in_species( species_ZOMBIE ) );
+        REQUIRE( zed.type->bodytype == "human" );
 
         THEN( "they can bleed" ) {
             CHECK_FALSE( zed.is_immune_effect( effect_bleed ) );
         }
+
         THEN( "they can be poisoned by stronger poisons" ) {
             CHECK_FALSE( zed.is_immune_effect( effect_venom_dmg ) );
             CHECK_FALSE( zed.is_immune_effect( effect_venom_player1 ) );
             CHECK_FALSE( zed.is_immune_effect( effect_venom_player2 ) );
         }
+
         THEN( "they can't be poisoned by weaker poisons" ) {
             CHECK( zed.is_immune_effect( effect_poison ) );
             CHECK( zed.is_immune_effect( effect_badpoison ) );
             CHECK( zed.is_immune_effect( effect_paralyzepoison ) );
             CHECK( zed.is_immune_effect( effect_venom_weaken ) );
         }
+
+        THEN( "they can be downed" ) {
+            CHECK_FALSE( zed.is_immune_effect( effect_downed ) );
+        }
     }
 
     WHEN( "monster is not made of flesh, but it's weird nether stuff" ) {
-        // Mi-Go, flesh but Nether species
-        monster migo( mtype_id( "mon_mi_go" ) );
-        migo.clear_effects();
-        REQUIRE( migo.made_of( material_id( "flesh" ) ) );
-        REQUIRE_FALSE( migo.made_of( material_id( "iflesh" ) ) );
-        REQUIRE( migo.type->in_species( species_NETHER ) );
+        // Flaming eye, flesh but Nether species and flying
+        monster feye( mtype_id( "mon_flaming_eye" ) );
+        feye.clear_effects();
+        REQUIRE( feye.made_of( material_id( "flesh" ) ) );
+        REQUIRE( feye.has_flag( MF_FLIES ) );
+        REQUIRE( feye.type->in_species( species_NETHER ) );
 
         THEN( "they can still bleed" ) {
-            CHECK_FALSE( migo.is_immune_effect( effect_bleed ) );
+            CHECK_FALSE( feye.is_immune_effect( effect_bleed ) );
         }
 
         THEN( "they can't be poisoned" ) {
-            CHECK( migo.is_immune_effect( effect_poison ) );
-            CHECK( migo.is_immune_effect( effect_badpoison ) );
-            CHECK( migo.is_immune_effect( effect_paralyzepoison ) );
-            CHECK( migo.is_immune_effect( effect_venom_dmg ) );
-            CHECK( migo.is_immune_effect( effect_venom_player1 ) );
-            CHECK( migo.is_immune_effect( effect_venom_player2 ) );
-            CHECK( migo.is_immune_effect( effect_venom_weaken ) );
+            CHECK( feye.is_immune_effect( effect_poison ) );
+            CHECK( feye.is_immune_effect( effect_badpoison ) );
+            CHECK( feye.is_immune_effect( effect_paralyzepoison ) );
+            CHECK( feye.is_immune_effect( effect_venom_dmg ) );
+            CHECK( feye.is_immune_effect( effect_venom_player1 ) );
+            CHECK( feye.is_immune_effect( effect_venom_player2 ) );
+            CHECK( feye.is_immune_effect( effect_venom_weaken ) );
+        }
+
+        THEN( "they can't be downed" ) {
+            CHECK( feye.is_immune_effect( effect_downed ) );
         }
     }
     WHEN( "monster is not made of flesh or iflesh" ) {
