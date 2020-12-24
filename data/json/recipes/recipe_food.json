@@ -186,6 +186,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "bacon",
+    "id_suffix": "hand_smoked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -196,12 +197,13 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 15 ] ], [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "raw_cured_meat", 1 ] ] ]
+    "components": [ [ [ "raw_cured_fatty_meat", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "bacon",
+    "id_suffix": "from_uncut_bacon",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -377,6 +379,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "mutant_lard",
     "copy-from": "lard",
+    "byproducts": [ [ "mutant_cracklins" ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "mutant_fat", 2 ] ] ]
@@ -394,6 +397,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "mutant_human_lard",
+    "byproducts": [ [ "mutant_human_cracklins" ] ],
     "copy-from": "lard",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
@@ -976,7 +980,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "human_lard",
-    "byproducts": [ [ "cracklins" ] ],
+    "byproducts": [ [ "human_cracklins" ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -1077,6 +1081,23 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "cattail_stalk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "roasted_cattail_rhizome",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "skills_required": [ "survival", 2 ],
+    "book_learn": [ [ "pocket_survival", 1 ], [ "manual_survival", 1 ] ],
+    "time": "24 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 3 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "components": [ [ [ "cattail_rhizome", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4509,6 +4530,7 @@
         [ "acorns_cooked", 2 ],
         [ "oats", 4 ],
         [ "starch", 1 ],
+        [ "roasted_cattail_rhizome", 2 ],
         [ "dry_rice", 5 ]
       ]
     ]
@@ -6347,6 +6369,7 @@
         [ "acorns_cooked", 2 ],
         [ "oats", 4 ],
         [ "starch", 1 ],
+        [ "roasted_cattail_rhizome", 2 ],
         [ "dry_rice", 5 ]
       ]
     ]
@@ -7075,7 +7098,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "demihuman_lard",
-    "byproducts": [ [ "cracklins" ] ],
+    "byproducts": [ [ "demihuman_cracklins" ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",

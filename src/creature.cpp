@@ -211,7 +211,8 @@ bool Creature::sees( const Creature &critter ) const
     }
 
     map &here = get_map();
-    if( !here.has_potential_los( pos(), critter.pos() ) ) {
+    // player can use mirrors, so `has_potential_los` cannot be used
+    if( !is_player() && !here.has_potential_los( pos(), critter.pos() ) ) {
         return false;
     }
 
@@ -505,6 +506,36 @@ int Creature::size_melee_penalty() const
 
     debugmsg( "Invalid target size %d", get_size() );
     return 0;
+}
+
+bool Creature::is_adjacent( Creature *target, const bool allow_z_levels ) const
+{
+    if( target == nullptr ) {
+        return false;
+    }
+
+    if( rl_dist( pos(), target->pos() ) != 1 ) {
+        return false;
+    }
+
+    map &here = get_map();
+    if( posz() == target->posz() ) {
+        return
+            /* either target or attacker are underwater and separated by vehicle tiles */
+            !( underwater != target->underwater &&
+               here.veh_at( pos() ) && here.veh_at( target->pos() ) );
+    }
+
+    if( !allow_z_levels ) {
+        return false;
+    }
+
+    // The square above must have no floor (currently only open air).
+    // The square below must have no ceiling (i.e. be outside).
+    const bool target_above = target->posz() > posz();
+    const tripoint &up   = target_above ? target->pos() : pos();
+    const tripoint &down = target_above ? pos() : target->pos();
+    return here.ter( up ) == t_open_air && here.is_outside( down );
 }
 
 int Creature::deal_melee_attack( Creature *source, int hitroll )
@@ -1679,7 +1710,12 @@ int Creature::get_part_temp_conv( const bodypart_id &id ) const
 
 int Creature::get_part_frostbite_timer( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, &bodypart::get_frotbite_timer );
+    return get_part_helper( *this, id, &bodypart::get_frostbite_timer );
+}
+
+std::array<int, NUM_WATER_TOLERANCE> Creature::get_part_mut_drench( const bodypart_id &id ) const
+{
+    return get_part_helper( *this, id, &bodypart::get_mut_drench );
 }
 
 float Creature::get_part_wetness_percentage( const bodypart_id &id ) const
@@ -1690,6 +1726,9 @@ float Creature::get_part_wetness_percentage( const bodypart_id &id ) const
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
     set_part_helper( *this, id, &bodypart::set_hp_cur, set );
+    if( is_avatar() && as_character()->is_limb_broken( id ) ) {
+        get_event_bus().send<event_type::broken_bone>( as_character()->getID(), id );
+    }
 }
 
 void Creature::set_part_hp_max( const bodypart_id &id, int set )
@@ -1737,9 +1776,17 @@ void Creature::set_part_frostbite_timer( const bodypart_id &id, int set )
     set_part_helper( *this, id, &bodypart::set_frostbite_timer, set );
 }
 
+void Creature::set_part_mut_drench( const bodypart_id &id, std::pair<water_tolerance, int> set )
+{
+    set_part_helper( *this, id, &bodypart::set_mut_drench, set );
+}
+
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
     set_part_helper( *this, id, &bodypart::mod_hp_cur, mod );
+    if( is_avatar() && as_character()->is_limb_broken( id ) ) {
+        get_event_bus().send<event_type::broken_bone>( as_character()->getID(), id );
+    }
 }
 
 void Creature::mod_part_hp_max( const bodypart_id &id, int mod )
@@ -2408,4 +2455,37 @@ void Creature::load_hit_range( const JsonObject &jo )
     if( jo.has_array( "even_good" ) ) {
         jo.read( "even_good", dispersion_for_even_chance_of_good_hit );
     }
+}
+
+void Creature::describe_infrared( std::vector<std::string> &buf ) const
+{
+    std::string size_str;
+    switch( get_size() ) {
+        case creature_size::tiny:
+            size_str = pgettext( "infrared size", "tiny" );
+            break;
+        case creature_size::small:
+            size_str = pgettext( "infrared size", "small" );
+            break;
+        case creature_size::medium:
+            size_str = pgettext( "infrared size", "medium" );
+            break;
+        case creature_size::large:
+            size_str = pgettext( "infrared size", "large" );
+            break;
+        case creature_size::huge:
+            size_str = pgettext( "infrared size", "huge" );
+            break;
+        case creature_size::num_sizes:
+            debugmsg( "Creature has invalid size class." );
+            size_str = "invalid";
+            break;
+    }
+    buf.push_back( _( "You see a figure radiating heat." ) );
+    buf.push_back( string_format( _( "It is %s in size." ), size_str ) );
+}
+
+void Creature::describe_specials( std::vector<std::string> &buf ) const
+{
+    buf.push_back( _( "You sense a creature here." ) );
 }

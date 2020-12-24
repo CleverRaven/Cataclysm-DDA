@@ -96,7 +96,6 @@ static const itype_id itype_milk_raw( "milk_raw" );
 
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
-static const species_id species_INSECT( "INSECT" );
 static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MOLLUSK( "MOLLUSK" );
 static const species_id species_ROBOT( "ROBOT" );
@@ -556,14 +555,13 @@ std::string monster::name( unsigned int quantity ) const
 std::string monster::name_with_armor() const
 {
     std::string ret;
-    if( type->in_species( species_INSECT ) ) {
+    if( made_of( material_id( "iflesh" ) ) ) {
         ret = _( "carapace" );
     } else if( made_of( material_id( "veggy" ) ) ) {
         ret = _( "thick bark" );
     } else if( made_of( material_id( "bone" ) ) ) {
         ret = _( "exoskeleton" );
-    } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ||
-               made_of( material_id( "iflesh" ) ) ) {
+    } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
         ret = _( "thick hide" );
     } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ) {
         ret = _( "armor plating" );
@@ -1079,7 +1077,10 @@ monster_attitude monster::attitude( const Character *u ) const
 
     if( u != nullptr ) {
         // Those are checked quite often, so avoiding string construction is a good idea
+        static const string_id<monfaction> faction_acid_ant( "acid_ant" );
+        static const string_id<monfaction> faction_ant( "ant" );
         static const string_id<monfaction> faction_bee( "bee" );
+        static const string_id<monfaction> faction_wasp( "wasp" );
         if( faction == faction_bee ) {
             if( u->has_trait( trait_BEE ) ) {
                 return MATT_FRIEND;
@@ -1094,8 +1095,12 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         if( effective_anger >= 10 &&
-            ( ( type->in_species( species_MAMMAL ) && u->has_trait( trait_PHEROMONE_MAMMAL ) ) ||
-              ( type->in_species( species_INSECT ) && u->has_trait( trait_PHEROMONE_INSECT ) ) ) ) {
+            type->in_species( species_MAMMAL ) && u->has_trait( trait_PHEROMONE_MAMMAL ) ) {
+            effective_anger -= 20;
+        }
+
+        if( ( faction == faction_acid_ant || faction == faction_ant || faction == faction_bee ||
+              faction == faction_wasp ) && effective_anger >= 10 && u->has_trait( trait_PHEROMONE_INSECT ) ) {
             effective_anger -= 20;
         }
 
@@ -1362,15 +1367,16 @@ void monster::melee_attack( Creature &target )
 
 void monster::melee_attack( Creature &target, float accuracy )
 {
-    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
+    // Note: currently this method must consume move even if attack hasn't actually happen
+    // otherwise infinite loop will happen
     mod_moves( -type->attack_cost );
-    if( type->melee_dice == 0 ) {
-        // We don't attack, so just return
+    if( /*This happens sometimes*/ this == &target || !is_adjacent( &target, true ) ) {
         return;
     }
 
-    if( this == &target ) {
-        // This happens sometimes
+    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
+    if( type->melee_dice == 0 ) {
+        // We don't attack, so just return
         return;
     }
 

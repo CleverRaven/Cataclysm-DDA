@@ -46,7 +46,8 @@
     "type": "COMESTIBLE",
     "name": "human stomach",
     "description": "The stomach of a human.  It is surprisingly durable.",
-    "material": [ "hflesh" ]
+    "material": [ "hflesh" ],
+    "delete": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
     "id": "hstomach_large",
@@ -88,7 +89,8 @@
     "cooks_like": "human_cooked",
     "name": { "str": "human flesh", "str_pl": "human fleshes" },
     "description": "Freshly butchered from a human body.",
-    "material": [ "hflesh" ]
+    "material": [ "hflesh" ],
+    "delete": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
     "id": "human_cooked",
@@ -118,7 +120,7 @@
     "fun": -10,
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "vitB", 778 ] ],
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
   },
   {
@@ -136,7 +138,7 @@
     "healthy": -1,
     "fun": -10,
     "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "vitB", 0 ] ],
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
   },
   {
@@ -221,7 +223,7 @@
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 26 ], [ "vitB", 389 ], [ "mutant_toxin", 25 ] ],
-    "flags": [ "SMOKABLE", "BAD_TASTE", "RAW" ]
+    "flags": [ "SMOKABLE", "BAD_TASTE", "RAW", "PREDATOR_FUN" ]
   },
   {
     "id": "mutant_meat_scrap",
@@ -431,7 +433,8 @@
     "calories": 60,
     "quench": 1,
     "healthy": -1,
-    "fun": -15
+    "fun": -15,
+    "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
     "id": "stomach_large",
@@ -532,7 +535,8 @@
     "quench": 2,
     "fun": -10,
     "calories": 50,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "vitB", 22 ] ]
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "vitB", 22 ] ],
+    "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
     "id": "lung_cooked",
@@ -542,7 +546,7 @@
     "name": { "str": "cooked piece of lung", "str_pl": "cooked pieces of lung" },
     "description": " Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
     "parasites": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
     "id": "mutant_bug_lungs",
@@ -580,7 +584,7 @@
     "price_postapoc": 50,
     "fun": -2,
     "healthy": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
     "id": "brain",
@@ -609,7 +613,7 @@
     "parasites": 0,
     "healthy": -2,
     "fun": -8,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
     "id": "kidney",
@@ -637,7 +641,7 @@
     "quench": -2,
     "fun": -3,
     "parasites": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
     "id": "sweetbread",
@@ -663,7 +667,7 @@
     "fun": -1,
     "description": "Normally a delicacy, it needs a little… something.",
     "parasites": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -1057,7 +1061,8 @@
     "material": [ "flesh" ],
     "volume": "500 ml",
     "fun": -25,
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": false }
+    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": false },
+    "flags": [ "PREDATOR_FUN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -1076,7 +1081,8 @@
     "material": [ "flesh" ],
     "volume": "1 L",
     "fun": -25,
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": true }
+    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": true },
+    "flags": [ "PREDATOR_FUN" ]
   },
   {
     "type": "COMESTIBLE",

@@ -112,14 +112,14 @@ Number of moves is calculated as attack speed * ( number of misses + number of n
 Damage per second against a particular monster is total damage * 100 / number of moves (100 for the 100 moves/second).  Overall dps is the average of the dps against the three reference monsters.
 
 ### Critical hits
-A double critical can occcur when a second hit roll is made against 1.5 * the monster's dodge.  Double critical hits have a higher chance of occurring than normal critical hits.  For each hit, the chance of achieving either a double critical hit or a normal critical hit is calculated, and then if a random number is less than the critical chance, the critical occurs.  Both double and normal critical hits have the same effect, but the chance of them occurring is different.
+A double critical can occur when a second hit roll is made against 1.5 * the monster's dodge.  Double critical hits have a higher chance of occurring than normal critical hits.  For each hit, the chance of achieving either a double critical hit or a normal critical hit is calculated, and then if a random number is less than the critical chance, the critical occurs.  Both double and normal critical hits have the same effect, but the chance of them occurring is different.
 
-**Note** The critical hit system is stupid and complicated and produces weird results.  Double critical hits should have a chance of occuring when the original hit roll is more than 1 standard deviation above the mean, which is simple and faster to calculate than the current system.
+**Note** The critical hit system is stupid and complicated and produces weird results.  Double critical hits should have a chance of occurring when the original hit roll is more than 1 standard deviation above the mean, which is simple and faster to calculate than the current system.
 
 ### Other factors
 Reach is worth +20% at reach 2, +35% at reach 3.
 
-A weapon that is usuable by a known martial art is worth +50%.
+A weapon that is usable by a known martial art is worth +50%.
 
 ### Weapon tiers
 Relative value should put the weapon into one of those categories:

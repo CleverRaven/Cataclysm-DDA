@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
@@ -542,13 +543,18 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     if( src_pos == tripoint_zero ) {
         inv_pos = pos();
     }
+    static int radius_mem = radius;
     if( cached_moves == moves
+        && radius_mem == radius
         && cached_time == calendar::turn
         && cached_position == inv_pos ) {
         return *cached_crafting_inventory;
     }
+    radius_mem = radius;
     cached_crafting_inventory->clear();
-    cached_crafting_inventory->form_from_map( inv_pos, radius, this, false, clear_path );
+    if( radius >= 0 ) {
+        cached_crafting_inventory->form_from_map( inv_pos, radius, this, false, clear_path );
+    }
 
     for( const item_location &it : all_items_loc() ) {
         // can't craft with containers that have items in them
@@ -669,7 +675,7 @@ static item *set_item_inventory( Character &p, item &newit )
 
 /**
  * Helper for @ref set_item_map_or_vehicle
- * This is needed to still get a vaild item_location if overflow occurs
+ * This is needed to still get a valid item_location if overflow occurs
  */
 static item_location set_item_map( const tripoint &loc, item &newit )
 {
@@ -1521,7 +1527,11 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             // Can't use pseudo items as components
             if( player_inv ) {
                 bool found = false;
-                if( has_amount( type, count, false, filter ) ) {
+                const item item_sought( type );
+                if( item_sought.is_software() && count_softwares( type ) > 0 ) {
+                    player_has.push_back( component );
+                    found = true;
+                } else if( has_amount( type, count, false, filter ) ) {
                     player_has.push_back( component );
                     found = true;
                 }
@@ -1732,6 +1742,24 @@ std::list<item> Character::consume_items( const std::vector<item_comp> &componen
                           filter );
 }
 
+bool Character::consume_software_container( const itype_id &software_id )
+{
+    for( item_location it : all_items_loc() ) {
+        if( !it.get_item() ) {
+            continue;
+        }
+        if( it.get_item()->is_software_storage() ) {
+            for( const item *soft : it.get_item()->softwares() ) {
+                if( soft->typeId() == software_id ) {
+                    it.remove_item();
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 comp_selection<tool_comp>
 Character::select_tool_component( const std::vector<tool_comp> &tools, int batch,
                                   inventory &map_inv, bool can_cancel, bool player_inv,
@@ -1749,18 +1777,23 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
     bool found_nocharge = false;
     std::vector<tool_comp> player_has;
     std::vector<tool_comp> map_has;
+    std::vector<tool_comp> both_has;
     // Use charges of any tools that require charges used
     for( auto it = tools.begin(); it != tools.end() && !found_nocharge; ++it ) {
         itype_id type = it->type;
         if( it->count > 0 ) {
             const int count = calc_charges( *it );
-            if( player_inv ) {
-                if( has_charges( type, count ) ) {
-                    player_has.push_back( *it );
-                }
+            if( player_inv && crafting_inventory( pos(), -1 ).has_charges( type, count ) ) {
+                player_has.push_back( *it );
             }
             if( map_inv.has_charges( type, count ) ) {
                 map_has.push_back( *it );
+            }
+            // Needed for tools that can have power in a different location, such as a UPS.
+            // Will only populate if no other options were found.
+            if( player_inv && crafting_inventory().has_charges( type, count )
+                && player_has.size() + map_has.size() == 0 ) {
+                both_has.push_back( *it );
             }
         } else if( ( player_inv && has_amount( type, 1 ) ) || map_inv.has_tools( type, 1 ) ) {
             selected.comp = *it;
@@ -1772,21 +1805,16 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
         return selected;    // Default to using a tool that doesn't require charges
     }
 
-    if( player_has.size() + map_has.size() == 1 ) {
-        if( map_has.empty() ) {
-            selected.use_from = usage_from::player;
-            selected.comp = player_has[0];
-        } else {
-            selected.use_from = usage_from::map;
-            selected.comp = map_has[0];
-        }
-    } else if( is_npc() ) {
-        if( !player_has.empty() ) {
-            selected.use_from = usage_from::player;
-            selected.comp = player_has[0];
+    if( ( both_has.size() + player_has.size() + map_has.size() == 1 ) || is_npc() ) {
+        if( !both_has.empty() ) {
+            selected.use_from = usage_from::both;
+            selected.comp = both_has[0];
         } else if( !map_has.empty() ) {
             selected.use_from = usage_from::map;
             selected.comp = map_has[0];
+        } else if( !player_has.empty() ) {
+            selected.use_from = usage_from::player;
+            selected.comp = player_has[0];
         } else {
             selected.use_from = usage_from::none;
             return selected;
@@ -1817,6 +1845,18 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
                 tmenu.addentry( item::nname( player_ha.type ) );
             }
         }
+        for( auto &both_ha : both_has ) {
+            if( item::find_type( both_ha.type )->maximum_charges() > 1 ) {
+                const int charge_count = calc_charges( both_ha );
+                std::string tmpStr = string_format( _( "%s (%d/%d charges nearby or on person)" ),
+                                                    item::nname( both_ha.type ), charge_count,
+                                                    charges_of( both_ha.type ) );
+                tmenu.addentry( tmpStr );
+            } else {
+                std::string tmpStr = item::nname( both_ha.type ) + _( " (at hand)" );
+                tmenu.addentry( tmpStr );
+            }
+        }
 
         if( tmenu.entries.empty() ) {  // This SHOULD only happen if cooking with a fire,
             selected.use_from = usage_from::none;
@@ -1829,7 +1869,8 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
         tmenu.title = _( "Use which tool?" );
         tmenu.query();
 
-        if( tmenu.ret < 0 || static_cast<size_t>( tmenu.ret ) >= map_has.size() + player_has.size() ) {
+        if( tmenu.ret < 0 || static_cast<size_t>( tmenu.ret ) >= map_has.size()
+            + player_has.size() + both_has.size() ) {
             selected.use_from = usage_from::cancel;
             return selected;
         }
@@ -1838,17 +1879,21 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
         if( uselection < map_has.size() ) {
             selected.use_from = usage_from::map;
             selected.comp = map_has[uselection];
-        } else {
+        } else if( uselection < map_has.size() + player_has.size() ) {
             uselection -= map_has.size();
             selected.use_from = usage_from::player;
             selected.comp = player_has[uselection];
+        } else {
+            uselection -= map_has.size() + player_has.size();
+            selected.use_from = usage_from::both;
+            selected.comp = both_has[uselection];
         }
     }
 
     return selected;
 }
 
-bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_craft )
+bool Character::craft_consume_tools( item &craft, int multiplier, bool start_craft )
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_consume_tools() called on non-craft '%s.' Aborting.", craft.tname() );
@@ -1858,7 +1903,7 @@ bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_cra
         return true;
     }
 
-    const auto calc_charges = [&craft, &start_craft, &mulitplier]( int charges ) {
+    const auto calc_charges = [&craft, &start_craft, &multiplier]( int charges ) {
         int ret = charges;
 
         if( ret <= 0 ) {
@@ -1872,7 +1917,7 @@ bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_cra
         ret /= 20;
 
         // In case more than 5% progress was accomplished in one turn
-        ret *= mulitplier;
+        ret *= multiplier;
 
         // If just starting consume the remainder as well
         if( start_craft ) {
@@ -1914,6 +1959,14 @@ bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_cra
                     }
                     break;
                 case usage_from::both:
+                    if( !( crafting_inventory() ).has_charges( type, count ) ) {
+                        add_msg_player_or_npc(
+                            _( "You have insufficient %s charges and can't continue crafting" ),
+                            _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                            item::nname( type ) );
+                        craft.set_tools_to_continue( false );
+                        return false;
+                    }
                 case usage_from::none:
                 case usage_from::cancel:
                 case usage_from::num_usages_from:
@@ -1953,11 +2006,16 @@ void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, in
 
     const itype *tmp = item::find_type( tool.comp.type );
     int quantity = tool.comp.count * batch * tmp->charge_factor();
-    if( tool.use_from & usage_from::player ) {
+    if( tool.use_from == usage_from::both ) {
+        use_charges( tool.comp.type, quantity, radius );
+    } else if( tool.use_from == usage_from::player ) {
         use_charges( tool.comp.type, quantity );
-    }
-    if( tool.use_from & usage_from::map ) {
+    } else if( tool.use_from == usage_from::map ) {
         m.use_charges( origin, radius, tool.comp.type, quantity, return_true<item>, bcp );
+        // Map::use_charges() does not handle UPS charges.
+        if( quantity > 0 ) {
+            use_charges( tool.comp.type, quantity, radius );
+        }
     }
 
     // else, usage_from::none (or usage_from::cancel), so we don't use up any tools;
