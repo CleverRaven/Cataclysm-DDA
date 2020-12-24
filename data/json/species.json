@@ -137,7 +137,8 @@
   },
   {
     "type": "SPECIES",
-    "id": "HALLUCINATION"
+    "id": "HALLUCINATION",
+    "description": "your imagination"
   },
   {
     "type": "SPECIES",
@@ -146,6 +147,7 @@
   },
   {
     "type": "SPECIES",
-    "id": "UNKNOWN"
+    "id": "UNKNOWN",
+    "description": "a bug"
   }
 ]
