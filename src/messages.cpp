@@ -473,8 +473,7 @@ Messages::dialog::dialog()
 
 void Messages::dialog::init( ui_adaptor &ui )
 {
-    w_width = get_option<bool>( "MESSAGE_LOG_WIDTH" ) ? TERMX :
-              std::max( 45, TERMX - 2 * ( panel_manager::get_manager().get_width_right() +
+    w_width = std::max( 45, TERMX - 2 * ( panel_manager::get_manager().get_width_right() +
                                           panel_manager::get_manager().get_width_left() ) );
     w_height = TERMY;
     w_x = ( TERMX - w_width ) / 2;
