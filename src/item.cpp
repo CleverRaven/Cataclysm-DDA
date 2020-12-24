@@ -1671,40 +1671,39 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                   imap.second ) ) );
             }
 
-            const item *food = get_food();
             const std::string space = "  ";
-            if( food && food->goes_bad() ) {
+            if( goes_bad() ) {
                 info.push_back( iteminfo( "BASE", _( "age (turns): " ),
                                           "", iteminfo::lower_is_better,
-                                          to_turns<int>( food->age() ) ) );
+                                          to_turns<int>( age() ) ) );
                 info.push_back( iteminfo( "BASE", _( "rot (turns): " ),
                                           "", iteminfo::lower_is_better,
-                                          to_turns<int>( food->rot ) ) );
+                                          to_turns<int>( rot ) ) );
                 info.push_back( iteminfo( "BASE", space + _( "max rot (turns): " ),
                                           "", iteminfo::lower_is_better,
-                                          to_turns<int>( food->get_shelf_life() ) ) );
+                                          to_turns<int>( get_shelf_life() ) ) );
             }
-            if( food && food->has_temperature() ) {
+            if( has_temperature() ) {
                 info.push_back( iteminfo( "BASE", _( "last temp: " ),
                                           "", iteminfo::lower_is_better,
-                                          to_turn<int>( food->last_temp_check ) ) );
+                                          to_turn<int>( last_temp_check ) ) );
                 info.push_back( iteminfo( "BASE", _( "Temp: " ), "", iteminfo::lower_is_better,
-                                          food->temperature ) );
+                                          temperature ) );
                 info.push_back( iteminfo( "BASE", _( "Spec ener: " ), "",
                                           iteminfo::lower_is_better,
-                                          food->specific_energy ) );
+                                          specific_energy ) );
                 info.push_back( iteminfo( "BASE", _( "Spec heat lq: " ), "",
                                           iteminfo::lower_is_better,
-                                          1000 * food->get_specific_heat_liquid() ) );
+                                          1000 * get_specific_heat_liquid() ) );
                 info.push_back( iteminfo( "BASE", _( "Spec heat sld: " ), "",
                                           iteminfo::lower_is_better,
-                                          1000 * food->get_specific_heat_solid() ) );
+                                          1000 * get_specific_heat_solid() ) );
                 info.push_back( iteminfo( "BASE", _( "latent heat: " ), "",
                                           iteminfo::lower_is_better,
-                                          food->get_latent_heat() ) );
+                                          get_latent_heat() ) );
                 info.push_back( iteminfo( "BASE", _( "Freeze point: " ), "",
                                           iteminfo::lower_is_better,
-                                          food->get_freeze_point() ) );
+                                          get_freeze_point() ) );
             }
         }
     }
@@ -4216,13 +4215,24 @@ nc_color item::color_in_inventory() const
         // Dark gray: inedible
         // Red: morale penalty
         // Yellow: will rot soon
-        // Cyan: will rot eventually
+        // Cyan: edible
+        // Light Cyan: will rot eventually
         const ret_val<edible_rating> rating = player_character.will_eat( *food );
         // TODO: More colors
         switch( rating.value() ) {
             case EDIBLE:
             case TOO_FULL:
                 ret = c_cyan;
+
+                // Show old items as yellow
+                if( food->is_going_bad() ) {
+                    ret = c_yellow;
+                }
+                // Show perishables as a separate color
+                else if( food->goes_bad() ) {
+                    ret = c_light_cyan;
+                }
+
                 break;
             case INEDIBLE:
             case INEDIBLE_MUTATION:
