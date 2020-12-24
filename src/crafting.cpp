@@ -1043,12 +1043,12 @@ double Character::crafting_success_roll( const recipe &making ) const
     int secondary_difficulty = 0;
     int secondary_count = 0;
     for( const auto &count_secondaries : making.required_skills ) {
-        secondary_count += 1;
-        secondary_difficulty += count_secondaries.second;
+        secondary_level_count += count_secondaries.second;
+        secondary_difficulty += std::pow( count_secondaries.second, 2 );
     }
     const float final_difficulty =
-        ( 2.0f * making.difficulty + 1.0f * secondary_difficulty ) /
-        ( 2.0f + 1.0f * secondary_count );
+        ( 2.0f * making.difficulty * making.difficulty + 1.0f * secondary_difficulty ) /
+        ( 2.0f * making.difficulty + 1.0f * secondary_level_count );
 
     return std::max( craft_roll / final_difficulty, 0.0f );
 }
