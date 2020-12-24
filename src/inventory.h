@@ -177,13 +177,6 @@ class inventory : public visitable
         std::list<item> use_amount( const itype_id &it, int quantity,
                                     const std::function<bool( const item & )> &filter = return_true<item> );
 
-        bool has_tools( const itype_id &it, int quantity,
-                        const std::function<bool( const item & )> &filter = return_true<item> ) const;
-        bool has_components( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter = return_true<item> ) const;
-        bool has_charges( const itype_id &it, int quantity,
-                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
-
         int leak_level( const flag_id &flag ) const; // level of leaked bad stuff from items
 
         // NPC/AI functions

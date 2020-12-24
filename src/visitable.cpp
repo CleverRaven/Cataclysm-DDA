@@ -198,6 +198,24 @@ bool Character::has_quality( const quality_id &qual, int level, int qty ) const
     return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
+bool read_only_visitable::has_tools( const itype_id &it, int quantity,
+                                     const std::function<bool( const item & )> &filter ) const
+{
+    return has_amount( it, quantity, true, filter );
+}
+
+bool read_only_visitable::has_components( const itype_id &it, int quantity,
+        const std::function<bool( const item & )> &filter ) const
+{
+    return has_amount( it, quantity, false, filter );
+}
+
+bool read_only_visitable::has_charges( const itype_id &it, int quantity,
+                                       const std::function<bool( const item & )> &filter ) const
+{
+    return ( charges_of( it, INT_MAX, filter ) >= quantity );
+}
+
 template <typename T>
 static int max_quality_internal( const T &self, const quality_id &qual )
 {

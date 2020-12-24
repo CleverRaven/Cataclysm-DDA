@@ -1998,7 +1998,7 @@ class Character : public Creature, public visitable
         std::vector<const item *> all_items_with_flag( const flag_id &flag ) const;
 
         bool has_charges( const itype_id &it, int quantity,
-                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
+                          const std::function<bool( const item & )> &filter = return_true<item> ) const override;
 
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
@@ -2554,7 +2554,7 @@ class Character : public Creature, public visitable
          * @param obj Object to check for disassembly
          * @param inv current crafting inventory
          */
-        ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
+        ret_val<bool> can_disassemble( const item &obj, const read_only_visitable &inv ) const;
 
         bool disassemble();
         bool disassemble( item_location target, bool interactive = true );
@@ -2563,11 +2563,11 @@ class Character : public Creature, public visitable
         void complete_disassemble( item_location &target, const recipe &dis );
 
         const requirement_data *select_requirements(
-            const std::vector<const requirement_data *> &, int batch, const inventory &,
+            const std::vector<const requirement_data *> &, int batch, const read_only_visitable &,
             const std::function<bool( const item & )> &filter ) const;
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
-                               int batch, inventory &map_inv, bool can_cancel = false,
+                               int batch, read_only_visitable &map_inv, bool can_cancel = false,
                                const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true );
         std::list<item> consume_items( const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item> );
@@ -2578,7 +2578,7 @@ class Character : public Creature, public visitable
                                        const std::function<bool( const item & )> &filter = return_true<item> );
         bool consume_software_container( const itype_id &software_id );
         comp_selection<tool_comp>
-        select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
+        select_tool_component( const std::vector<tool_comp> &tools, int batch, read_only_visitable &map_inv,
                                bool can_cancel = false, bool player_inv = true,
         const std::function<int( int )> &charges_required_modifier = []( int i ) {
             return i;

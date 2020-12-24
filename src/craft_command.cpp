@@ -290,7 +290,7 @@ skill_id craft_command::get_skill_id()
 }
 
 std::vector<comp_selection<item_comp>> craft_command::check_item_components_missing(
-                                        const inventory &map_inv ) const
+                                        const read_only_visitable &map_inv ) const
 {
     std::vector<comp_selection<item_comp>> missing;
 
@@ -355,7 +355,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
 }
 
 std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_missing(
-                                        const inventory &map_inv ) const
+                                        const read_only_visitable &map_inv ) const
 {
     std::vector<comp_selection<tool_comp>> missing;
 

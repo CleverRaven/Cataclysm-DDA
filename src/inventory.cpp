@@ -725,24 +725,6 @@ std::list<item> inventory::use_amount( const itype_id &it, int quantity,
     return ret;
 }
 
-bool inventory::has_tools( const itype_id &it, int quantity,
-                           const std::function<bool( const item & )> &filter ) const
-{
-    return has_amount( it, quantity, true, filter );
-}
-
-bool inventory::has_components( const itype_id &it, int quantity,
-                                const std::function<bool( const item & )> &filter ) const
-{
-    return has_amount( it, quantity, false, filter );
-}
-
-bool inventory::has_charges( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter ) const
-{
-    return ( charges_of( it, INT_MAX, filter ) >= quantity );
-}
-
 int inventory::leak_level( const flag_id &flag ) const
 {
     int ret = 0;

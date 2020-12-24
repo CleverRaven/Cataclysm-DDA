@@ -97,6 +97,15 @@ class read_only_visitable
         std::vector<const item *> items_with( const std::function<bool( const item & )> &filter ) const;
 
         virtual ~read_only_visitable() = default;
+
+        bool has_tools( const itype_id &it, int quantity,
+                        const std::function<bool( const item & )> &filter = return_true<item> ) const;
+        bool has_components( const itype_id &it, int quantity,
+                             const std::function<bool( const item & )> &filter = return_true<item> ) const;
+
+        virtual bool has_charges( const itype_id &it, int quantity,
+                                  const std::function<bool( const item & )> &filter = return_true<item> ) const;
+
 };
 
 /**
