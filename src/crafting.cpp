@@ -1041,7 +1041,7 @@ double Character::crafting_success_roll( const recipe &making ) const
     float craft_roll = std::max( normal_roll( weighted_skill_average, 2 ), 0.0 );
 
     int secondary_difficulty = 0;
-    int secondary_count = 0;
+    int secondary_level_count = 0;
     for( const auto &count_secondaries : making.required_skills ) {
         secondary_level_count += count_secondaries.second;
         secondary_difficulty += std::pow( count_secondaries.second, 2 );
