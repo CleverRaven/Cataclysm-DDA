@@ -1828,7 +1828,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
 
         map &here = get_map();
         //~ %1$s is the vehicle being loaded onto the bicycle rack
-        add_msg( _( "You load the %1$s on the rack" ), carry_veh->name );
+        add_msg( _( "You load the %1$s on the rack." ), carry_veh->name );
         here.destroy_vehicle( carry_veh );
         here.dirty_vehicle_list.insert( this );
         here.set_transparency_cache_dirty( sm_pos.z );
@@ -1836,7 +1836,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         refresh();
     } else {
         //~ %1$s is the vehicle being loaded onto the bicycle rack
-        add_msg( m_bad, _( "You can't get the %1$s on the rack" ), carry_veh->name );
+        add_msg( m_bad, _( "You can't get the %1$s on the rack." ), carry_veh->name );
     }
     return found_all_parts;
 }

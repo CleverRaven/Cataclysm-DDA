@@ -1957,12 +1957,14 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
         item tmp( d.cur_item );
         tmp.charges = seller_has;
         if( is_trade ) {
-            int price = tmp.price( true ) * ( is_npc ? -1 : 1 ) + d.beta->debt();
+            const int npc_debt = d.beta->debt();
+            int price = tmp.price( true ) * ( is_npc ? -1 : 1 ) + npc_debt;
             if( d.beta->get_faction() && !d.beta->get_faction()->currency.is_empty() ) {
                 const itype_id &pay_in = d.beta->get_faction()->currency;
                 item pay( pay_in );
-                if( d.beta->value( pay ) > 0 ) {
-                    int required = price / d.beta->value( pay );
+                const int value = d.beta->value( pay );
+                if( value > 0 ) {
+                    int required = price / value;
                     int buyer_has = required;
                     if( is_npc ) {
                         buyer_has = std::min( buyer_has, buyer->charges_of( pay_in ) );
@@ -1980,11 +1982,18 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
                     }
                     for( int i = 0; i < buyer_has; i++ ) {
                         seller->i_add( pay );
-                        price -= d.beta->value( pay );
+                        price -= value;
                     }
+                } else {
+                    debugmsg( "%s pays in bulk_trade_accept with faction currency worth 0!",
+                              d.beta->disp_name() );
                 }
-                d.beta->add_debt( price );
+            } else {
+                debugmsg( "%s has no faction currency to pay with in bulk_trade_accept!",
+                          d.beta->disp_name() );
             }
+            d.beta->add_debt( -npc_debt );
+            d.beta->add_debt( price );
         }
         seller->use_charges( d.cur_item, seller_has );
         buyer->i_add( tmp );
