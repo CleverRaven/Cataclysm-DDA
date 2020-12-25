@@ -144,7 +144,7 @@ Each JSON file can have either a single object or an array of one or more object
 ]
 ```
 
-Tilesheet directory names are expected to use the following format: `pngs_{tilesheet_root_name}_{sprite_width}x{sprite_height}` - such as `pngs_tiles_32x32`, `pngs_expan_32x32`, `pngs_tree_64x80`, etc. To improve performance, keep the number of separate directories to a minimum.
+Tilesheet directory names are expected to use the following format: `pngs_{tilesheet_root_name}_{sprite_width}x{sprite_height}` - such as `pngs_tiles_32x32`, `pngs_expan_32x32`, `pngs_tree_64x80`, etc. To improve performance, keep the number of tilesheets to a minimum.
 
 `"filler": true` means the tilesheet is a filler; tile entries within it will be used only if IDs in them were not mentioned in any preceding tile entry.  Sprites within a filler directory will be ignored if another one with the same name was already encountered.  A filler tilesheet is useful when upgrading the art in a tileset: old, low-quality art can be placed on filler tilesheet and will be automatically replaced as better images are added to the non-filler tilesheets.
 
