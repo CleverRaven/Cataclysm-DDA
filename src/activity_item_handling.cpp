@@ -681,7 +681,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     units::volume total_volume = 0_ml;
 
     for( const auto &it : items ) {
-        total_volume += it.first->volume();
+        total_volume += it.first->volume() * it.second / it.first->count();
     }
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
@@ -704,10 +704,23 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
         return;
     }
 
-    for( auto &it : items ) {
-        item &filthy_item = *it.first;
-        filthy_item.item_tags.erase( "FILTHY" );
-        p->on_worn_item_washed( filthy_item );
+    for( auto &i : items ) {
+        item &it = *i.first;
+        if( i.second >= it.count() ) {
+            if( i.second > it.count() ) {
+                debugmsg( "Invalid item count to wash: tried %d, max %d", i.second, it.count() );
+            }
+            it.item_tags.erase( "FILTHY" );
+        } else {
+            item it2 = it;
+            it.charges -= i.second;
+            it2.charges = i.second;
+            it2.item_tags.erase( "FILTHY" );
+            std::list<item> tmp;
+            tmp.push_back( it2 );
+            put_into_vehicle_or_drop( *p, item_drop_reason::deliberate, tmp );
+        }
+        p->on_worn_item_washed( it );
     }
 
     std::vector<item_comp> comps;
