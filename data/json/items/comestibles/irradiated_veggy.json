@@ -137,26 +137,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "irradiated_corn_kernels",
-    "copy-from": "corn_kernels",
-    "name": { "str_sp": "irradiated corn kernels" },
-    "description": "Irradiated corn kernels will remain edible nearly forever.  Sterilized using radiation, so they're safe to eat.",
-    "proportional": { "price": 2.0 },
-    "spoils_in": "0 hours",
-    "container": "bag_plastic"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "irradiated_empty_corn_cob",
-    "copy-from": "empty_corn_cob",
-    "name": { "str_sp": "irradiated empty corn cob" },
-    "description": "An irradiated empty corn cob will remain edible nearly forever... though you may not want to eat this one.",
-    "proportional": { "price": 2.0 },
-    "spoils_in": "0 hours",
-    "container": "bag_plastic"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "irradiated_rhubarb",
     "copy-from": "rhubarb",
     "name": { "str_sp": "irradiated rhubarb" },
