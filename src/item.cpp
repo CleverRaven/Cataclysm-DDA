@@ -4249,7 +4249,7 @@ nc_color item::color_in_inventory() const
                                 const item_pocket *const parent_pocket = parent->contained_where( *node );
                                 if( parent_pocket ) {
                                     if( parent_pocket->spoil_multiplier() == 0 ) {
-                                        ret = c_blue; // Blue = Not currently spoiling due to being sealed
+                                        ret = c_light_blue; // Blue = Not currently spoiling due to being sealed
                                         return VisitResponse::ABORT;
                                     }
                                 }
@@ -4264,7 +4264,7 @@ nc_color item::color_in_inventory() const
                                     const item_pocket *const parent_pocket = parent->contained_where( *node );
                                     if( parent_pocket ) {
                                         if( parent_pocket->spoil_multiplier() == 0 ) {
-                                            ret = c_blue; //Blue in any surrounding square
+                                            ret = c_light_blue; //Blue in any surrounding square
                                             return VisitResponse::ABORT;
                                         }
                                     }
@@ -4672,7 +4672,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                 colorprefix = "<" + string_from_color( contents_item.color_in_inventory() ) + ">";
                 colorprefix.replace( 1, 1, "color" ); // changes <c_cyan> to <color_cyan>
                 if( contents.get_sealed_summary() == item_contents::sealed_summary::all_sealed ) {
-                    colorprefix = "<color_blue>";
+                    colorprefix = "<color_light_blue>";
                 }
                 colorsuffix = "</color>";
             }
@@ -4689,7 +4689,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
             int worstrot = 0;
             if( contents.get_sealed_summary() == item_contents::sealed_summary::all_sealed ) {
-                colorprefix = "<color_blue>";
+                colorprefix = "<color_light_blue>";
                 worstrot = 1;
             } else {
                 // If container has multiple food items, take the worst rot state and use that as the color for the "# items" text.
