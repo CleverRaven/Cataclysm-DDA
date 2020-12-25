@@ -196,6 +196,10 @@ The "???" is the issue number. This automatically closes the issue when the PR i
 
 See https://help.github.com/articles/closing-issues-using-keywords/ for more.
 
+## Keep you PR description relevant
+
+Make sure your PR description is still relevant every time you change your branch after discussion or additional thought.
+
 ## Tooling support
 
 Various tools are available to help you keep your contributions conforming to the appropriate style.  See [the relevant docs](../doc/DEVELOPER_TOOLING.md) for more details.
