@@ -76,7 +76,7 @@ Special prefixes that are used include:
 
 #### Optional gendered variants
 
-Are defined by adding `_female` or `_male` part to any `overlay_` prefix: `overlay_female_` or `overlay_male_`.
+Are defined by adding `_female` or `_male` part to the `overlay_` part of a prefix: `overlay_female_` or `overlay_male_`.
 
 #### Optional seasonal variants
 
