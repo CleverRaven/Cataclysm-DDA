@@ -147,7 +147,17 @@ For further details about commit message guidelines please visit:
  * Note: any new commits to the `new_feature` branch on GitHub will automatically be included in the pull request, so make sure to only commit related changes to the same branch.
 
 ## Drafts
-If you file a PR but you're still working on it, please make it a Draft. This will tell the reviewers that you still intend to add more to the PR and we don't need to review it yet. When it's ready to be reviewed for a merger, just click the `Ready for review` button. Please convert all your existing PRs with `[WIP]` in the title to Drafts. (If you do want reviews while it is a Draft, see "Comment requests" below.)
+If you file a PR but you're still working on it, please make it a [Draft](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork).
+
+![screenshot](https://docs.github.com/assets/images/help/pull_requests/pullrequest-send.png)
+
+This will tell the reviewers that you still intend to add more to the PR and we don't need to review it yet. When it's ready to be reviewed for a merger, just click the [`Ready for review`](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/changing-the-stage-of-a-pull-request) button.
+
+![screenshot](https://docs.github.com/assets/images/help/pull_requests/ready-for-review-button.png)
+
+Please convert all your existing PRs with `[WIP]` in the title to Drafts.
+
+![screenshot](https://docs.github.com/assets/images/help/pull_requests/convert-to-draft-link.png)
 
 This can help speed up our review process by allowing us to only review the things that are ready for it, and will help prevent merging in anything that isn't completely ready.
 
