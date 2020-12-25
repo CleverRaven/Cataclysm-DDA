@@ -236,6 +236,23 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
+    "type": "GENERIC",
+    "id": "empty_corn_cob",
+    "name": { "str_sp": "empty corn cob" },
+    "weight": "480 g",
+    "color": "yellow",
+    "spoils_in": "5 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": 1,
+    "description": "An empty corn cob.  It may seem useless, but it can be used to make stock, a delicious jelly, or as fuel.",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "veggy" ],
+    "volume": "465 ml",
+    "flags": [ "RAW" ]
+  },
+  {
     "id": "radio_car_wheel",
     "type": "GENERIC",
     "category": "spare_parts",

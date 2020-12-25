@@ -679,7 +679,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "rehydrated_corn",
+    "id": "rehydrated_corn_kernels",
     "name": "rehydrated corn kernels",
     "copy-from": "veggy",
     "weight": "70 g",
