@@ -2061,7 +2061,8 @@ static void draw_mana_wide( const player &u, const catacurses::window &w )
     print_mana( u, w, " %s: %s %s : %s", -5, -5, 13, -5 );
 }
 
-static void print_weary( const player &u, const catacurses::window &w, const std::string &fmt_string,
+static void print_weary( const player &u, const catacurses::window &w,
+                         const std::string &fmt_string,
                          const int j1, const int j2 )
 {
     werase( w );
@@ -2069,31 +2070,41 @@ static void print_weary( const player &u, const catacurses::window &w, const std
     std::pair<std::string, nc_color> weary_pair = get_hp_bar( u.weary_threshold(), u.weariness() );
     int activity_level = u.attempted_activity_level;
 
-    int no_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier( NO_EXERCISE ) ) );
-    int light_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier( LIGHT_EXERCISE ) ) );
-    int moderate_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier( MODERATE_EXERCISE ) ) );
-    int brisk_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier( BRISK_EXERCISE ) ) );
-    int active_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier( ACTIVE_EXERCISE ) ) );
-    int extra_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier( EXTRA_EXERCISE ) ) );
+    int no_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier(
+                                         NO_EXERCISE ) ) );
+    int light_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier(
+                                            LIGHT_EXERCISE ) ) );
+    int moderate_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier(
+            MODERATE_EXERCISE ) ) );
+    int brisk_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier(
+                                            BRISK_EXERCISE ) ) );
+    int active_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier(
+            ACTIVE_EXERCISE ) ) );
+    int extra_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier(
+                                            EXTRA_EXERCISE ) ) );
 
     nc_color gray = c_light_gray;
     std::string speeds = string_format( "%s/%s/%s/%s/%s/%s",
-            colorize( string_format( "%i", no_speed ),       activity_level == NO_EXERCISE ? c_white : gray ),
-            colorize( string_format( "%i", light_speed ),    activity_level == LIGHT_EXERCISE ? c_green : gray ),
-            colorize( string_format( "%i", moderate_speed ), activity_level == MODERATE_EXERCISE ? c_light_green : gray ),
-            colorize( string_format( "%i", brisk_speed ),    activity_level == BRISK_EXERCISE ? c_yellow : gray ),
-            colorize( string_format( "%i", active_speed ),   activity_level == ACTIVE_EXERCISE ? c_light_red : gray ),
-            colorize( string_format( "%i", extra_speed ),    activity_level == EXTRA_EXERCISE ? c_red : gray )
-        );
+                                        colorize( string_format( "%i", no_speed ), activity_level == NO_EXERCISE ? c_white : gray ),
+                                        colorize( string_format( "%i", light_speed ),
+                                                activity_level == LIGHT_EXERCISE ? c_green : gray ),
+                                        colorize( string_format( "%i", moderate_speed ),
+                                                activity_level == MODERATE_EXERCISE ? c_light_green : gray ),
+                                        colorize( string_format( "%i", brisk_speed ),
+                                                activity_level == BRISK_EXERCISE ? c_yellow : gray ),
+                                        colorize( string_format( "%i", active_speed ),
+                                                activity_level == ACTIVE_EXERCISE ? c_light_red : gray ),
+                                        colorize( string_format( "%i", extra_speed ), activity_level == EXTRA_EXERCISE ? c_red : gray )
+                                      );
 
     const std::string weary_string = string_format( fmt_string,
-                                        utf8_justify( _( "Weary" ), j1 ),
-                                        colorize( utf8_justify( weary_pair.first, -5 ), weary_pair.second ) );
+                                     utf8_justify( _( "Weary" ), j1 ),
+                                     colorize( utf8_justify( weary_pair.first, -5 ), weary_pair.second ) );
     const std::string penalty_string = string_format( fmt_string,
-                                        utf8_justify( _( "Speed" ), j1 ),
-                                        speeds );
+                                       utf8_justify( _( "Speed" ), j1 ),
+                                       speeds );
     print_colored_text( w, point_zero, gray, gray, weary_string );
-    print_colored_text( w, point(0, 1), gray, gray, penalty_string );
+    print_colored_text( w, point( 0, 1 ), gray, gray, penalty_string );
 
     int width = utf8_width( weary_pair.first );
     for( int i = 0; i < 5 - width; i++ ) {
