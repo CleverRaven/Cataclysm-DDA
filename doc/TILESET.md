@@ -114,25 +114,25 @@ Each JSON file can have either a single object or an array of one or more object
 ```
 
 ### `tile_info.json`
-```
+```c++
 [
-  {
+  {                         // default sprite size
     "width": 32,
     "height": 32,
     "pixelscale": 1
   }, {
-    "tiles.png": {}
-  }, {
-    "expan.png": {}
+    "tiles.png": {}         // Each tilesheet directory must have a corresponding object
+  }, {                      // with a single key, which will become the tilesheet output filename.
+    "expan.png": {}         // Empty object means the default sprite size and no offsets.
   }, {
     "tree.png": {
-      "sprite_width": 64,
+      "sprite_width": 64,   // Overriding values example
       "sprite_height": 80,
       "sprite_offset_x": -16,
       "sprite_offset_y": -48
     }
   }, {
-    "fillerhoder.png": { 
+    "fillerhoder.png": {    // Unknown keys like `source` will be ignored by `compose.py` and can be used as comments.
       "source": "https://github.com/CleverRaven/Cataclysm-DDA/tree/b2d1f9f6cf6fae9c5076d29f9779e0ca6c03c222/gfx/HoderTileset",
       "filler": true 
     }
@@ -144,17 +144,11 @@ Each JSON file can have either a single object or an array of one or more object
 ]
 ```
 
-The first object defines the default sprite size.
-
-Each tilesheet directory must have a corresponding object with a single key, which will become the tilesheet output filename.  An empty object as the value here means that the tilesheet uses the default sprite size and has no offsets. It can have overriding values under `sprite_width`, `sprite_height`, `sprite_offset_x`, `sprite_offset_y` keys.
-
 Tilesheet directory names are expected to use the following format: `pngs_{tilesheet_root_name}_{sprite_width}x{sprite_height}` - such as `pngs_tiles_32x32`, `pngs_expan_32x32`, `pngs_tree_64x80`, etc. To improve performance, keep the number of separate directories to a minimum.
 
 `"filler": true` means the tilesheet is a filler; tile entries within it will be used only if IDs in them were not mentioned in any preceding tile entry.  Sprites within a filler directory will be ignored if another one with the same name was already encountered.  A filler tilesheet is useful when upgrading the art in a tileset: old, low-quality art can be placed on filler tilesheet and will be automatically replaced as better images are added to the non-filler tilesheets.
 
 `"fallback": true` means the tilesheet is a fallback; it will be treated as a source of fallback ASCII character sprites.  `compose.py` will also append the fallback tilesheet to the end of the tileset, and will add a "fallback.png" to `tile_config.json` if there is no `fallback` entry in `tile_info.json`.
-
-You can add other keys like `source` but they should be ignored by `compose.py` and are meant as comments only.
 
 ### Expansion tile entries
 
