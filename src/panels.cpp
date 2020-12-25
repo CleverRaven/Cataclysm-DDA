@@ -2079,10 +2079,10 @@ static void print_weary( const player &u, const catacurses::window &w, const std
     nc_color gray = c_light_gray;
     std::string speeds = string_format( "%s/%s/%s/%s/%s/%s",
             colorize( string_format( "%i", no_speed ),       activity_level == NO_EXERCISE ? c_white : gray ),
-            colorize( string_format( "%i", light_speed ),    activity_level == LIGHT_EXERCISE ? c_light_green : gray ),
-            colorize( string_format( "%i", moderate_speed ), activity_level == MODERATE_EXERCISE ? c_green : gray ),
+            colorize( string_format( "%i", light_speed ),    activity_level == LIGHT_EXERCISE ? c_green : gray ),
+            colorize( string_format( "%i", moderate_speed ), activity_level == MODERATE_EXERCISE ? c_light_green : gray ),
             colorize( string_format( "%i", brisk_speed ),    activity_level == BRISK_EXERCISE ? c_yellow : gray ),
-            colorize( string_format( "%i", active_speed ),   activity_level == ACTIVE_EXERCISE ? c_pink : gray ),
+            colorize( string_format( "%i", active_speed ),   activity_level == ACTIVE_EXERCISE ? c_light_red : gray ),
             colorize( string_format( "%i", extra_speed ),    activity_level == EXTRA_EXERCISE ? c_red : gray )
         );
 
