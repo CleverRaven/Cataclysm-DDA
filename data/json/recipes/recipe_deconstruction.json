@@ -5165,7 +5165,7 @@
     "result": "umbrella",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "12 s",
+    "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 2 ] ] ]
   },
