@@ -1068,6 +1068,8 @@ class Character : public Creature, public visitable<Character>
         }
         inline void setpos( const tripoint &p ) override {
             position = p;
+            // In case we've moved out of range of lifting assist.
+            invalidate_weight_carried_cache();
         }
 
         /**
