@@ -52,11 +52,11 @@ Describes tilesheet directories for `compose.py`
 
 Sprites can be referenced across tilesheet directories, but they must be stored in a tilesheet directory with their size and offset.
 
-`"id"` can be an array of multiple game entity IDs sharing the same sprite configuration, like `"id": ["vp_door", "vp_hddoor"]`.  `"id"` game values that are used as-is include terrain, furniture, items (except corpses), monsters, fields, traps.
+`id` can be an array of multiple game entity IDs sharing the same sprite configuration, like `"id": ["vp_door", "vp_hddoor"]`.  `id` game values that are used as-is include terrain, furniture, items (except corpses), monsters, fields, traps.
 
 #### Hardcoded IDs
 
-The special ID `"unknown"` provides a sprite that is displayed when an entity has no other sprite. Other hardcoded IDs also exist, and most of them are referenced in [`src/cata_tiles.cpp`](/src/cata_tiles.cpp). A full list of hardcoded IDs _may_ be present in [`tools/json_tools/generate_overlay_ids.py`](/tools/json_tools/generate_overlay_ids.py) stored as `CPP_IDS` but it's updated manually and may lag behind.
+The special ID `unknown` provides a sprite that is displayed when an entity has no other sprite. Other hardcoded IDs also exist, and most of them are referenced in [`src/cata_tiles.cpp`](/src/cata_tiles.cpp). A full list of hardcoded IDs _may_ be present in [`tools/json_tools/generate_overlay_ids.py`](/tools/json_tools/generate_overlay_ids.py) stored as `CPP_IDS` but it's updated manually and may lag behind.
 
 #### Complex IDs
 
@@ -80,11 +80,11 @@ Special suffixes `_season_spring`, `_season_summer`, `_season_autumn`, and `_sea
 
 #### Rotations
 
-You can add `"rotates": true` to allow sprites to be rotated by the game automatically. Alternatively, `"fg"` and `"bg"` can be an array of 2 or 4 pre-rotated variants, like `"fg": ["mon_dog_left", "mon_dog_right"]` or `"bg": ["t_wall_n", "t_wall_e", "t_wall_s", "t_wall_w"]`.
+You can add `"rotates": true` to allow sprites to be rotated by the game automatically. Alternatively, `fg` and `bg` can be an array of 2 or 4 pre-rotated variants, like `"fg": ["mon_dog_left", "mon_dog_right"]` or `"bg": ["t_wall_n", "t_wall_e", "t_wall_s", "t_wall_w"]`.
 
 #### Random variations
 
-`"fg"` and `"bg"` can also be an array of objects of weighted, randomly chosen options, any of which can also be an array of rotations:
+`fg` and `bg` can also be an array of objects of weighted, randomly chosen options, any of which can also be an array of rotations:
 ```C++
     "fg": [
         { "weight": 50, "sprite": "t_dirt_brown"},       // appears approximately 50 times in 53 tiles
@@ -96,7 +96,7 @@ You can add `"rotates": true` to allow sprites to be rotated by the game automat
 
 #### Multitile
 
-`"multitile": true` signifies that there is an `additional_tiles` object (redundant? [probably](https://github.com/CleverRaven/Cataclysm-DDA/issues/46253)) with one or more objects that define sprites for game entities associated with this tile, such as broken versions of an item, or wall connections.  Each object in the array has an `"id`" field, as above, and an `"fg"` field, which can be a single [root name](#root-name), an array of root names, or an array of objects as above. `"rotates": true` is implied with it and can be omitted.
+`"multitile": true` signifies that there is an `additional_tiles` object (redundant? [probably](https://github.com/CleverRaven/Cataclysm-DDA/issues/46253)) with one or more objects that define sprites for game entities associated with this tile, such as broken versions of an item, or wall connections.  Each object in the array has an `id` field, as above, and an `fg` field, which can be a single [root name](#root-name), an array of root names, or an array of objects as above. `"rotates": true` is implied with it and can be omitted.
 
 #### Multiple tile entries in the same file
 
@@ -148,13 +148,13 @@ Tilesheet directory names are expected to use the following format: `pngs_{tiles
 
 `"filler": true` means the tilesheet is a filler; tile entries within it will be used only if IDs in them were not mentioned in any preceding tile entry.  Sprites within a filler directory will be ignored if another one with the same name was already encountered.  A filler tilesheet is useful when upgrading the art in a tileset: old, low-quality art can be placed on filler tilesheet and will be automatically replaced as better images are added to the non-filler tilesheets.
 
-`"fallback": true` means the tilesheet is a fallback; it will be treated as a source of fallback ASCII character sprites.  `compose.py` will also append the fallback tilesheet to the end of the tileset, and will add a "fallback.png" to `tile_config.json` if there is no `"fallback"` entry in `tile_info.json`.
+`"fallback": true` means the tilesheet is a fallback; it will be treated as a source of fallback ASCII character sprites.  `compose.py` will also append the fallback tilesheet to the end of the tileset, and will add a "fallback.png" to `tile_config.json` if there is no `fallback` entry in `tile_info.json`.
 
 You can add other keys like `source` but they should be ignored by `compose.py` and are meant as comments only.
 
 ### Expansion tile entries
 
-A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a single `"id"` value, where the `"rotates": false"`, and `"fg": 0` keys are set.  Expansion tile entry JSONs are the only tile entry JSONs that may use an integer value for `"fg"`, and that value must be 0.  Expansion tile entry JSONs must be located at the top layer of each tilesheet directory.
+A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a single `id` value, where the `"rotates": false"`, and `"fg": 0` keys are set.  Expansion tile entry JSONs are the only tile entry JSONs that may use an integer value for `fg`, and that value must be 0.  Expansion tile entry JSONs must be located at the top layer of each tilesheet directory.
 
 ## `compose.py`
 
@@ -168,7 +168,7 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 
 `output_dir` will be set to the `source_dir` unless provided separately. Expected to have `tileset.txt` and `fallback.png`.
 
-`--use-all` instead of warning about unused sprites, will treat their [root name](#root-name) as the `"id"` value to use them as `"fg"` for. In other words, just naming your sprite `overlay_wielded_spear_survivor.png` will imply this tile entry:
+`--use-all` instead of warning about unused sprites, will treat their [root name](#root-name) as the `id` value to use them as `fg` for. In other words, just naming your sprite `overlay_wielded_spear_survivor.png` will imply this tile entry **unless** `overlay_wielded_spear_survivor` already has any other tile entry that reference it in the `id`:
 ```JSON
 {
     "id": "overlay_wielded_spear_survivor",
