@@ -4231,6 +4231,48 @@ nc_color item::color_in_inventory() const
                 // Show perishables as a separate color
                 else if( food->goes_bad() ) {
                     ret = c_light_cyan;
+
+                    map_cursor nearby[9] = { player_character.pos() - tripoint( -1, -1, 0 ),
+                                             player_character.pos() - tripoint( -1, 0, 0 ),
+                                             player_character.pos() - tripoint( -1, 1, 0 ),
+                                             player_character.pos() - tripoint( 0, -1, 0 ),
+                                             player_character.pos() - tripoint( 0, 0, 0 ),
+                                             player_character.pos() - tripoint( 0, 1, 0 ),
+                                             player_character.pos() - tripoint( 1, -1, 0 ),
+                                             player_character.pos() - tripoint( 1, 0, 0 ),
+                                             player_character.pos() - tripoint( 1, 1, 0 ),
+                                           };
+
+                    player_character.visit_items( [&]( const item * node, const item * parent ) {
+                        if( node == food ) {
+                            if( parent ) {
+                                const item_pocket *const parent_pocket = parent->contained_where( *node );
+                                if( parent_pocket ) {
+                                    if( parent_pocket->spoil_multiplier() == 0 ) {
+                                        ret = c_blue; // Blue = Not currently spoiling due to being sealed
+                                        return VisitResponse::ABORT;
+                                    }
+                                }
+                            }
+                        }
+                        return VisitResponse::NEXT;
+                    } );
+                    for( const map_cursor &checkp : nearby ) {
+                        checkp.visit_items( [&]( const item * node, const item * parent ) {
+                            if( node == food ) {
+                                if( parent ) {
+                                    const item_pocket *const parent_pocket = parent->contained_where( *node );
+                                    if( parent_pocket ) {
+                                        if( parent_pocket->spoil_multiplier() == 0 ) {
+                                            ret = c_blue; //Blue in any surrounding square
+                                            return VisitResponse::ABORT;
+                                        }
+                                    }
+                                }
+                            }
+                            return VisitResponse::NEXT;
+                        } );
+                    }
                 }
 
                 break;
@@ -4588,6 +4630,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     std::string maintext;
     std::string contents_suffix_text;
+    std::string colorprefix = "";
+    std::string colorsuffix = "";
 
     if( is_corpse() || typeId() == itype_blood || item_vars.find( "name" ) != item_vars.end() ) {
         maintext = type_name( quantity );
@@ -4621,16 +4665,56 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                   contents_item.charges > 1 )
                 ? contents_item.charges
                 : 1;
+
+            // Color second half of container contents depending on perishability (highest perishability of all contents)
+            if( contents_item.is_food() && contents_item.goes_bad() ) {
+                // For perishables
+                colorprefix = "<" + string_from_color( contents_item.color_in_inventory() ) + ">";
+                colorprefix.replace( 1, 1, "color" ); // changes <c_cyan> to <color_cyan>
+                if( contents.get_sealed_summary() == item_contents::sealed_summary::all_sealed ) {
+                    colorprefix = "<color_blue>";
+                }
+                colorsuffix = "</color>";
+            }
+
             contents_suffix_text = string_format( pgettext( "item name",
                                                   //~ [container item name] " > [inner item  name]"
-                                                  " > %1$s" ),
+                                                  " > %1$s%2$s" ),
                                                   /* with_contents=false for nested items to prevent excessively long names */
-                                                  contents_item.tname( contents_count, true, 0, false ) );
+                                                  colorprefix, contents_item.tname( contents_count, true, 0, false )
+                                                  /* with_contents=false for nested items to prevent excessively long names */
+                                                ) + string_format( " (%d)%s", contents_count, colorsuffix );
+
         } else if( !contents.empty() ) {
-            contents_suffix_text = string_format( npgettext( "item name",
+
+            int worstrot = 0;
+            if( contents.get_sealed_summary() == item_contents::sealed_summary::all_sealed ) {
+                colorprefix = "<color_blue>";
+                worstrot = 1;
+            } else {
+                // If container has multiple food items, take the worst rot state and use that as the color for the "# items" text.
+                // 0 = No food; 1 = Non-perishable (cyan); 2 = Perishable (light cyan); 3 = Old (yellow); 4 = Rotten (brown)
+                for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                    if( worstrot < 4 && it->rotten() ) {
+                        worstrot = 4;
+                        colorprefix = "<color_brown>";
+                    } else if( worstrot < 3 && it->is_going_bad() ) {
+                        worstrot = 3;
+                        colorprefix = "<color_yellow>";
+                    } else if( worstrot < 2 && it->goes_bad() ) {
+                        worstrot = 2;
+                        colorprefix = "<color_light_cyan>";
+                    } else if( worstrot < 1 && it->is_food() ) {
+                        worstrot = 1;
+                        colorprefix = "<color_cyan>";
+                    }
+                }
+            }
+            colorsuffix = ( worstrot > 0 ) ? "</color>" : "";
+            contents_suffix_text = string_format( pgettext( "item name",
                                                   //~ [container item name] " > [count] item"
-                                                  " > %1$zd item", " > %1$zd items",
-                                                  contents.num_item_stacks() ), contents.num_item_stacks() );
+                                                  " > %1$s%2$zd items%3$s" ),
+                                                  colorprefix, contents.num_item_stacks(), colorsuffix );
         }
     }
 
