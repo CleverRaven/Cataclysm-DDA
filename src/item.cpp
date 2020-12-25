@@ -4667,8 +4667,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                 : 1;
 
             // Color second half of container contents depending on perishability (highest perishability of all contents)
-            if( contents_item.is_food() && contents_item.goes_bad() ) {
-                // For perishables
+            if( contents_item.is_food() ) {
+                // For comestibles
                 colorprefix = "<" + string_from_color( contents_item.color_in_inventory() ) + ">";
                 colorprefix.replace( 1, 1, "color" ); // changes <c_cyan> to <color_cyan>
                 if( contents.get_sealed_summary() == item_contents::sealed_summary::all_sealed ) {
