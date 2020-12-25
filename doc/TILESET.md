@@ -164,7 +164,7 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 
 `compose.py [-h] [--use-all] source_dir [output_dir]`
 
-`source_dir` - the composing tileset directory.
+`source_dir` - the compositing tileset directory.
 
 `output_dir` will be set to the `source_dir` unless provided separately. Expected to have `tileset.txt` and `fallback.png`.
 
