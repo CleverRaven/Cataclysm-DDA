@@ -66,13 +66,13 @@ Special prefixes that are used include:
 
 `overlay_mutation_` for both mutations and bionics; can include `active_` at the start.
 
-`overlay_worn_` and `overlay_wielded_` for items being worn or wielded by the PC or an NPC.
+`overlay_worn_` and `overlay_wielded_` for items being worn or wielded by characters.
 
 `corpse_` for corpses.
 
 `overlay_` for movement modes.
 
-`vp_` for vehicle parts (see also [`symbols` and `standard_symbols` JSON keys](JSON_INFO.md#symbols-and-variants)) that are used as suffixes.
+`vp_` for vehicle parts (see also [`symbols` and `standard_symbols` JSON keys](JSON_INFO.md#symbols-and-variants) that are used as suffixes).
 
 All prefixes that start with `overlay_` can have a `_female` or `_male` gender part added: `overlay_female_` or `overlay_male_`. The decision to use them is up to sprite authors.
 
