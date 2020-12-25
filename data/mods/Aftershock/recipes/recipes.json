@@ -334,7 +334,7 @@
     "qualities": [ { "id": "CHEM", "level": 3 } ],
     "components": [ [ [ "iv_purifier", 3 ] ], [ [ "afs_biomaterial_4", 2 ] ], [ [ "syringe", 1 ] ] ],
     "//": "Biomaterial 4 was chosen for balance purposes, given the utility of this shot.",
-    "//2:" "slimes are unlikely to make it into aftershock so might be a good idea to not have that in there -- MomBun"
+    "//2": "slimes are unlikely to make it into aftershock so might be a good idea to not have that in there -- MomBun"
   },
   {
     "result": "laser_rifle_cheap",
