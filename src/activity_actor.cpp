@@ -327,6 +327,70 @@ void aim_activity_actor::unload_RAS_weapon()
     }
 }
 
+void autodrive_activity_actor::start( player_activity &act, Character &who )
+{
+    bool in_vehicle = who.in_vehicle && who.controlling_vehicle;
+    const map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( who.pos() );
+    if( !( vp && in_vehicle ) ) {
+        who.cancel_activity();
+        return;
+    }
+
+    player_vehicle = &vp->vehicle();
+    act.moves_left = calendar::INDEFINITELY_LONG;
+    who.moves = 0;
+}
+
+void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( who.in_vehicle && who.controlling_vehicle && player_vehicle->is_autodriving &&
+        !who.omt_path.empty() && !player_vehicle->omt_path.empty() ) {
+        player_vehicle->do_autodrive();
+        if( who.global_omt_location() == who.omt_path.back() ) {
+            who.omt_path.pop_back();
+        }
+        who.moves = 0;
+    } else {
+        who.cancel_activity();
+        return;
+    }
+    if( player_vehicle->omt_path.empty() ) {
+        act.moves_left = 0;
+    }
+}
+
+void autodrive_activity_actor::canceled( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( m_info, _( "Auto-drive canceled." ) );
+    if( !player_vehicle->omt_path.empty() ) {
+        player_vehicle->omt_path.clear();
+    }
+    if( !who.omt_path.empty() ) {
+        who.omt_path.clear();
+    }
+    player_vehicle->is_autodriving = false;
+    act.set_to_null();
+}
+
+void autodrive_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( m_info, _( "You have reached your destination." ) );
+    player_vehicle->is_autodriving = false;
+    act.set_to_null();
+}
+
+void autodrive_activity_actor::serialize( JsonOut &jsout ) const
+{
+    // Activity is not being saved but still provide some valid json if called.
+    jsout.write_null();
+}
+
+std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & )
+{
+    return autodrive_activity_actor().clone();
+}
+
 void dig_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves_total;
@@ -2539,6 +2603,7 @@ namespace activity_actors
 const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
 deserialize_functions = {
     { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
+    { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
     { activity_id( "ACT_BURROW" ), &burrow_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
