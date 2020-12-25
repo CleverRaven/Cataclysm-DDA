@@ -2016,10 +2016,10 @@ inventory_iuse_selector::inventory_iuse_selector(
     const GetStats &get_st
 ) :
     inventory_multiselector( p, preset, selector_title ),
-    get_stats( get_st ),
-    max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
+    get_stats( get_st )
 {}
-drop_locations inventory_iuse_selector::execute()
+
+std::list<iuse_location> inventory_iuse_selector::execute()
 {
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
@@ -2066,7 +2066,7 @@ drop_locations inventory_iuse_selector::execute()
             }
             break;
         } else if( input.action == "QUIT" ) {
-            return drop_locations();
+            return std::list<iuse_location>();
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else {
@@ -2075,14 +2075,13 @@ drop_locations inventory_iuse_selector::execute()
         }
     }
 
-    drop_locations dropped_pos_and_qty;
-
-    for( const std::pair<const item *const, int> &use_pair : to_use ) {
-        item_location loc( u, const_cast<item *>( use_pair.first ) );
-        dropped_pos_and_qty.push_back( std::make_pair( loc, use_pair.second ) );
+    std::list<iuse_location> ret;
+    for( const auto &entry : to_use ) {
+        for( const iuse_location &loc : entry.second ) {
+            ret.push_back( loc );
+        }
     }
-
-    return dropped_pos_and_qty;
+    return ret;
 }
 
 void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t count )
@@ -2097,7 +2096,14 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
         }
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
-        to_use[it] = entry.chosen_count;
+        to_use[it].clear();
+        if( entry.locations.size() == 1 ) {
+            to_use[it].push_back( iuse_location{ entry.locations[0], entry.chosen_count } );
+        } else {
+            for( size_t i = 0; i < entry.chosen_count; i++ ) {
+                to_use[it].push_back( iuse_location{ entry.locations[i], 1 } );
+            }
+        }
     }
 
     on_change( entry );
@@ -2106,7 +2112,15 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
 inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
 {
     if( get_stats ) {
-        return get_stats( to_use );
+        std::map<const item *, int> tmp;
+        for( const auto &elem : to_use ) {
+            int num = 0;
+            for( const iuse_location &loc : elem.second ) {
+                num += static_cast<int>( loc.count );
+            }
+            tmp.insert( std::make_pair( elem.first, num ) );
+        }
+        return get_stats( tmp );
     }
     return stats{{ stat{{ "", "", "", "" }}, stat{{ "", "", "", "" }} }};
 }

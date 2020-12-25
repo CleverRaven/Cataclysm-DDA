@@ -9476,20 +9476,20 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
         popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
         return 0;
     }
-    const drop_locations to_clean = inv_s.execute();
+    const std::list<iuse_location> to_clean = inv_s.execute();
     if( to_clean.empty() ) {
         return 0;
     }
 
     // Determine if we have enough water and cleanser for all the items.
     units::volume total_volume = 0_ml;
-    for( drop_location pair : to_clean ) {
-        if( !pair.first ) {
+    for( iuse_location iloc : to_clean ) {
+        if( !iloc.loc ) {
             p->add_msg_if_player( m_info, _( "Never mind." ) );
             return 0;
         }
-        item &i = *pair.first;
-        total_volume += i.volume() * pair.second / ( i.count_by_charges() ? i.charges : 1 );
+        item &i = *iloc.loc;
+        total_volume += i.volume() * iloc.count / ( i.count_by_charges() ? i.charges : 1 );
     }
 
     washing_requirements required = washing_requirements_for_volume( total_volume );
@@ -9515,9 +9515,9 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
     // Assign the activity values.
     p->assign_activity( ACT_WASH, required.time );
 
-    for( drop_location pair : to_clean ) {
-        p->activity.targets.push_back( pair.first );
-        p->activity.values.push_back( pair.second );
+    for( iuse_location iloc : to_clean ) {
+        p->activity.targets.push_back( iloc.loc );
+        p->activity.values.push_back( iloc.count );
     }
 
     return 0;

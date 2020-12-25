@@ -676,6 +676,12 @@ class inventory_compare_selector : public inventory_multiselector
 
 // This and inventory_drop_selectors should probably both inherit from a higher-abstraction "action selector".
 // Should accept a function to calculate dummy values.
+
+struct iuse_location {
+    item_location loc;
+    size_t count;
+};
+
 class inventory_iuse_selector : public inventory_multiselector
 {
     public:
@@ -684,7 +690,7 @@ class inventory_iuse_selector : public inventory_multiselector
                                  const std::string &selector_title,
                                  const inventory_selector_preset &preset = default_preset,
                                  const GetStats & = {} );
-        drop_locations execute();
+        std::list<iuse_location> execute();
 
     protected:
         stats get_raw_stats() const override;
@@ -692,8 +698,8 @@ class inventory_iuse_selector : public inventory_multiselector
 
     private:
         GetStats get_stats;
-        std::map<const item *, int> to_use;
-        size_t max_chosen_count;
+        std::map<const item *, std::vector<iuse_location>> to_use;
+        const size_t max_chosen_count = std::numeric_limits<size_t>::max();
 };
 
 class inventory_drop_selector : public inventory_multiselector
