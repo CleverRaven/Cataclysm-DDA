@@ -117,7 +117,7 @@ static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PHEROMONE_( "PHEROMONE_INSECT" );
+static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
 static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
