@@ -2062,22 +2062,24 @@ static void draw_mana_wide( const player &u, const catacurses::window &w )
 }
 
 static void print_weary( const player &u, const catacurses::window &w, const std::string &fmt_string,
-                         const int j1, const int j2 )
+                         const int j1, const int j2, const int j3 )
 {
     werase( w );
 
     std::pair<std::string, nc_color> weary_pair = get_hp_bar( u.weary_threshold(), u.weariness() );
+    int move_mult = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier( EXTRA_EXERCISE ) ) );
 
     const std::string weary_string = string_format( fmt_string,
                                         utf8_justify( _( "Weary" ), j1 ),
-                                        colorize( utf8_justify( weary_pair.first, -5 ), weary_pair.second )
-            );
+                                        colorize( utf8_justify( weary_pair.first, -5 ), weary_pair.second ),
+                                        utf8_justify( _( "Speed" ), j2 ),
+                                        utf8_justify( string_format( "%i%%", move_mult ), -5 ) );
     nc_color gray = c_light_gray;
     print_colored_text( w, point_zero, gray, gray, weary_string );
 
     int width = utf8_width( weary_pair.first );
     for( int i = 0; i < 5 - width; i++ ) {
-        mvwprintz( w, point( j2 - i, 0 ), c_white, "." );
+        mvwprintz( w, point( j3 - i, 0 ), c_white, "." );
     }
 
     wnoutrefresh( w );
@@ -2085,22 +2087,22 @@ static void print_weary( const player &u, const catacurses::window &w, const std
 
 static void draw_weary_wide( const player &u, const catacurses::window &w )
 {
-    print_weary( u, w, " %s: %s", 5, 12 );
+    print_weary( u, w, " %s: %s %s :%s", 5, 14, 12 );
 }
 
 static void draw_weary_narrow( const player &u, const catacurses::window &w )
 {
-    print_weary( u, w, " %s: %s", 5, 12 );
+    print_weary( u, w, " %s: %s %s: %s", 5, 10, 12 );
 }
 
 static void draw_weary_compact( const player &u, const catacurses::window &w )
 {
-    print_weary( u, w, "%s%s", 5, 9 );
+    print_weary( u, w, "%s%s %s %s", 5, 5, 9 );
 }
 
 static void draw_weary_classic( const player &u, const catacurses::window &w )
 {
-    print_weary( u, w, "%s   : %s", 5, 14 );
+    print_weary( u, w, "%s   : %s %s: %s", 5, 20, 14 );
 }
 
 // ============
