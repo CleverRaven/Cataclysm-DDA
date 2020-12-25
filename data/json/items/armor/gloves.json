@@ -70,6 +70,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL chainmail gloves", "str_pl": "pairs of XL chainmail gloves" },
     "copy-from": "chainmail_hands",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
@@ -125,6 +126,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL chitinous gauntlets", "str_pl": "pairs of XL chitinous gauntlets" },
     "copy-from": "gauntlets_chitin",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "STURDY", "OVERSIZE" ]
   },
   {
@@ -144,6 +146,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL biosilicified chitin gauntlets", "str_pl": "pairs of XL biosilicified chitin gauntlets" },
     "copy-from": "gauntlets_acidchitin",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "STURDY", "OVERSIZE" ]
   },
   {
@@ -219,6 +222,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL leather armor gauntlets", "str_pl": "pairs of XL leather armor gauntlets" },
     "copy-from": "gauntlets_larmor",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
   {
@@ -311,6 +315,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL survivor firegloves", "str_pl": "pairs of XL survivor firegloves" },
     "copy-from": "gloves_fsurvivor",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "WATERPROOF" ]
   },
   {
@@ -338,6 +343,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL fur gloves", "str_pl": "pairs of XL fur gloves" },
     "copy-from": "gloves_fur",
+    "proportional": { "weight": 1.6, "volume": 1.6 },
     "flags": [ "WATERPROOF" ]
   },
   {
@@ -368,6 +374,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL heavy survivor gloves", "str_pl": "pairs of XL heavy survivor gloves" },
     "copy-from": "gloves_hsurvivor",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "WATERPROOF" ]
   },
   {
@@ -418,6 +425,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL leather gloves", "str_pl": "pairs of XL leather gloves" },
     "copy-from": "gloves_leather",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "VARSIZE", "OVERSIZE", "WATERPROOF" ]
   },
   {
@@ -446,6 +454,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL light gloves", "str_pl": "pairs of XL light gloves" },
     "copy-from": "gloves_light",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -474,6 +483,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL glove liners", "str_pl": "pairs of XL glove liners" },
     "copy-from": "gloves_liner",
+    "proportional": { "weight": 2, "volume": 2 },
     "flags": [ "SKINTIGHT", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -504,6 +514,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL light survivor gloves", "str_pl": "pairs of XL light survivor gloves" },
     "copy-from": "gloves_lsurvivor",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "WATERPROOF" ]
   },
   {
@@ -534,6 +545,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL fingerless survivor gloves", "str_pl": "pairs of XL fingerless survivor gloves" },
     "copy-from": "gloves_survivor_fingerless",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "WATERPROOF", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -587,6 +599,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL armored gauntlets", "str_pl": "pairs of XL armored gauntlets" },
     "copy-from": "gloves_plate",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
@@ -705,6 +718,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL wool gloves", "str_pl": "pairs of XL wool gloves" },
     "copy-from": "gloves_wool",
+    "proportional": { "weight": 1.4, "volume": 1.4 },
     "flags": [ "OVERSIZE" ]
   },
   {
@@ -863,6 +877,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of XL winter survivor gloves", "str_pl": "pairs of XL winter survivor gloves" },
     "copy-from": "gloves_wsurvivor",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OVERSIZE" ]
   },
   {
