@@ -562,7 +562,6 @@ void player::sort_armor()
                          ctxt.get_desc( "USAGE_HELP" ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 
-        leftListSize = tmp_worn.size();
         if( leftListLines > leftListSize ) {
             leftListOffset = 0;
         } else if( leftListOffset + leftListLines > leftListSize ) {
@@ -724,6 +723,7 @@ void player::sort_armor()
                 }
             }
         }
+        leftListSize = tmp_worn.size();
 
         // Ensure leftListIndex is in bounds
         int new_index_upper_bound = std::max( 0, leftListSize - 1 );
