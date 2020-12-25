@@ -5061,8 +5061,8 @@
     "result": "clamp",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "12 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 6 ] ] ]
   },
   {
@@ -5117,8 +5117,8 @@
     "result": "multitool",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "12 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "time": "40 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ] ]
   },
   {
@@ -5157,8 +5157,8 @@
     "result": "tongs",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 2 ] ] ]
   },
   {
