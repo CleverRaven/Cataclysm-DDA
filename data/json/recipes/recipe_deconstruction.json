@@ -5041,7 +5041,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "material_rocksalt", 10 ] ] ]
   },
-    {
+  {
     "result": "knife_butter",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
