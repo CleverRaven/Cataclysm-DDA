@@ -64,7 +64,7 @@ Special prefixes that are used include:
 
 `overlay_effect_` for effects.
 
-`overlay_mutation_` for both mutations and bionics; can include `active_` at the start.
+`overlay_mutation_` and `overlay_mutation_active_` for both mutations and bionics.
 
 `overlay_worn_` and `overlay_wielded_` for items being worn or wielded by characters.
 
