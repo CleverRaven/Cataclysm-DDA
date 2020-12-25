@@ -224,7 +224,7 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
         uilist nmenu;
         nmenu.text = prompt;
         for( const npc *elem : npc_list ) {
-            nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->name );
+            nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->name_and_activity() );
         }
         if( npc_count > 1 && everyone ) {
             nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
@@ -447,8 +447,9 @@ void game::chat()
     nmenu.text = std::string( _( "What do you want to do?" ) );
 
     if( !available.empty() ) {
+        const npc *guy = available.front();
         nmenu.addentry( NPC_CHAT_TALK, true, 't', available_count == 1 ?
-                        string_format( _( "Talk to %s" ), available.front()->name ) :
+                        string_format( _( "Talk to %s" ), guy->name_and_activity() ) :
                         _( "Talk to…" )
                       );
     }
