@@ -674,14 +674,14 @@ void activity_on_turn_wear( player_activity &act, player &p )
 
 void activity_handlers::washing_finish( player_activity *act, player *p )
 {
-    std::list<act_item> items = reorder_for_dropping( *p, convert_to_locations( *act ) );
+    drop_locations items = convert_to_locations( *act );
 
     // Check again that we have enough water and soap incase the amount in our inventory changed somehow
     // Consume the water and soap
     units::volume total_volume = 0_ml;
 
-    for( const act_item &filthy_item : items ) {
-        total_volume += filthy_item.loc->volume();
+    for( const auto &it : items ) {
+        total_volume += it.first->volume();
     }
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
@@ -704,10 +704,10 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
         return;
     }
 
-    for( const auto &ait : items ) {
-        item *filthy_item = const_cast<item *>( &*ait.loc );
-        filthy_item->item_tags.erase( "FILTHY" );
-        p->on_worn_item_washed( *filthy_item );
+    for( auto &it : items ) {
+        item &filthy_item = *it.first;
+        filthy_item.item_tags.erase( "FILTHY" );
+        p->on_worn_item_washed( filthy_item );
     }
 
     std::vector<item_comp> comps;
