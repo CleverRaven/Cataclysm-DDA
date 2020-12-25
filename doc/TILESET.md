@@ -74,9 +74,13 @@ Special prefixes that are used include:
 
 `vp_` for vehicle parts (see also [`symbols` and `standard_symbols` JSON keys](JSON_INFO.md#symbols-and-variants) that are used as suffixes).
 
-All prefixes that start with `overlay_` can have a `_female` or `_male` gender part added: `overlay_female_` or `overlay_male_`. The decision to use them is up to sprite authors.
+#### Optional gendered variants
 
-Special suffixes `_season_spring`, `_season_summer`, `_season_autumn`, and `_season_winter` can be added to any entity ID to create a seasonal variant for that entity that will be displayed in the appropriate season, for example `"id": "mon_wolf_season_winter"`.
+Can be defined by adding `_female` or `_male` part to any `overlay_` prefix: `overlay_female_` or `overlay_male_`.
+
+#### Optional seasonal variants
+
+Can be defined by adding `_season_spring`, `_season_summer`, `_season_autumn`, or `_season_winter` suffix to any tile entry `id`. For example `"id": "mon_wolf_season_winter"`.
 
 #### Rotations
 
