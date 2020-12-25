@@ -76,11 +76,11 @@ Special prefixes that are used include:
 
 #### Optional gendered variants
 
-Can be defined by adding `_female` or `_male` part to any `overlay_` prefix: `overlay_female_` or `overlay_male_`.
+Are defined by adding `_female` or `_male` part to any `overlay_` prefix: `overlay_female_` or `overlay_male_`.
 
 #### Optional seasonal variants
 
-Can be defined by adding `_season_spring`, `_season_summer`, `_season_autumn`, or `_season_winter` suffix to any tile entry `id`. For example `"id": "mon_wolf_season_winter"`.
+Are defined by adding `_season_spring`, `_season_summer`, `_season_autumn`, or `_season_winter` suffix to any tile entry `id`. For example `"id": "mon_wolf_season_winter"`.
 
 #### Rotations
 
