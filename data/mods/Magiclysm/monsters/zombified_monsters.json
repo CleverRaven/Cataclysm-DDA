@@ -60,7 +60,7 @@
     "armor_cut": 31,
     "armor_bullet": 23,
     "vision_night": 12,
-    "harvest": "flesh",
+    "harvest": "orc",
     "special_attacks": [ [ "TACKLE", 43 ] ],
     "fear_triggers": [ "NONE" ],
     "death_function": [ "NORMAL" ],
