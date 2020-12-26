@@ -4641,7 +4641,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                                                   /* with_contents=false for nested items to prevent excessively long names */
                                                   colorprefix, contents_item.tname( contents_count, true, 0, false )
                                                   /* with_contents=false for nested items to prevent excessively long names */
-                                                ) + string_format( " %s", colorsuffix );
+                                                ) + string_format( "%s", colorsuffix );
 
         } else if( !contents.empty() ) {
 
@@ -4671,8 +4671,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             colorsuffix = ( worstrot > 0 ) ? "</color>" : "";
             contents_suffix_text = string_format( pgettext( "item name",
                                                   //~ [container item name] " > [count] item"
-                                                  " > %1$s%2$zd items%3$s" ),
-                                                  colorprefix, contents.num_item_stacks(), colorsuffix );
+                                                  " > %1$s" ), colorprefix ) +
+                                   string_format( ngettext( "%1$zd item", "%1$zd items", contents.num_item_stacks() ),
+                                                  contents.num_item_stacks() ) +
+                                   string_format( pgettext( "color suffix", "%3$s" ), colorsuffix );
         }
     }
 
