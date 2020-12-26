@@ -1052,10 +1052,6 @@ void complete_craft( player &p, item &craft, const bench_location & )
             }
         }
 
-        //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
-        if( newit.has_flag( flag_VARSIZE ) ) {
-            newit.item_tags.insert( flag_FIT );
-        }
         food_contained.inherit_flags( used, making );
 
         for( const std::string &flag : making.flags_to_delete ) {

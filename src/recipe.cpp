@@ -33,6 +33,9 @@
 
 extern bool test_mode;
 
+static const std::string flag_FIT( "FIT" );
+static const std::string flag_VARSIZE( "VARSIZE" );
+
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
 time_duration recipe::batch_duration( int batch, float multiplier, size_t assistants ) const
@@ -413,6 +416,12 @@ item recipe::create_result() const
     } else if( result_mult != 1 ) {
         // TODO: Make it work for charge-less items
         newit.charges *= result_mult;
+    }
+
+    // Show crafted items as fitting
+    // They might end up not fitting, but it's rare
+    if( newit.has_flag( flag_VARSIZE ) ) {
+        newit.item_tags.insert( flag_FIT );
     }
 
     if( contained ) {
