@@ -329,7 +329,7 @@ void aim_activity_actor::unload_RAS_weapon()
 
 void autodrive_activity_actor::start( player_activity &act, Character &who )
 {
-    bool in_vehicle = who.in_vehicle && who.controlling_vehicle;
+    const bool in_vehicle = who.in_vehicle && who.controlling_vehicle;
     const map &here = get_map();
     const optional_vpart_position vp = here.veh_at( who.pos() );
     if( !( vp && in_vehicle ) ) {
