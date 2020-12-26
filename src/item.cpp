@@ -4588,8 +4588,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     std::string maintext;
     std::string contents_suffix_text;
-    std::string colorprefix = "";
-    std::string colorsuffix = "";
+    std::string colorprefix;
+    std::string colorsuffix;
 
     if( is_corpse() || typeId() == itype_blood || item_vars.find( "name" ) != item_vars.end() ) {
         maintext = type_name( quantity );
@@ -4627,9 +4627,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             // Color second half of container contents depending on perishability (highest perishability of all contents)
             if( contents_item.is_food() ) {
                 // For comestibles
+				const item_pocket* const parent_pocket = contained_where(contents_item);
                 colorprefix = "<" + string_from_color( contents_item.color_in_inventory() ) + ">";
                 colorprefix.replace( 1, 1, "color" ); // changes <c_cyan> to <color_cyan>
-                if( contents.get_sealed_summary() == item_contents::sealed_summary::all_sealed ) {
+                if( contents.get_sealed_summary() == item_contents::sealed_summary::all_sealed && parent_pocket->spoil_multiplier() == 0 ) {
                     colorprefix = "<color_light_blue>";
                 }
                 colorsuffix = "</color>";
@@ -4646,10 +4647,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else if( !contents.empty() ) {
 
             int worstrot = 0;
-            if( contents.get_sealed_summary() == item_contents::sealed_summary::all_sealed ) {
-                colorprefix = "<color_light_blue>";
-                worstrot = 1;
-            } else {
                 // If container has multiple food items, take the worst rot state and use that as the color for the "# items" text.
                 // 0 = No food; 1 = Non-perishable (cyan); 2 = Perishable (light cyan); 3 = Old (yellow); 4 = Rotten (brown)
                 for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
@@ -4667,7 +4664,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                         colorprefix = "<color_cyan>";
                     }
                 }
-            }
+            
             colorsuffix = ( worstrot > 0 ) ? "</color>" : "";
             contents_suffix_text = string_format( pgettext( "item name",
                                                   //~ [container item name] " > [count] item"
