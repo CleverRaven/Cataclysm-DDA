@@ -669,7 +669,6 @@
       [
         [ "rehydrated_veggy", 1 ],
         [ "rehydrated_corn_kernels", 1 ],
-        [ "corn_kernels", 1 ],
         [ "veggy_any_fresh_uncooked", 1, "LIST" ]
       ]
     ]
@@ -688,6 +687,7 @@
         [ "cattail_stalk", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
+        [ "corn_kernels", 1 ],
         [ "cucumber", 1 ],
         [ "irradiated_cucumber", 1 ],
         [ "lettuce", 1 ],
