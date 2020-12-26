@@ -95,7 +95,8 @@
         { "item": "legguard_scrap", "prob": 10 },
         { "item": "boots_scrap", "prob": 10 },
         { "item": "armguard_scrap", "prob": 30 },
-        { "item": "cuirass_scrap", "prob": 20 }
+        { "item": "cuirass_scrap", "prob": 20 },
+         { "group": "melee", "prob": 100 }
       ]
     }
   }
