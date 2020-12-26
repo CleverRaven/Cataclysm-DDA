@@ -35,7 +35,7 @@
       ],
       "palettes": [ "mil_outpost_bandit" ],
       "npcs": { "@": { "class": "thug" } },
-      "mapping": { "X": { "furniture": "f_brazier", "item": { "item": "2x4", "count": 5 }, "fields": { "field": "fd_fire" } } }
+      "mapping": { "X": { "furniture": "f_brazier", "item": { "item": "2x4", "amount": 5 }, "fields": { "field": "fd_fire" } } }
     }
   }
 ]

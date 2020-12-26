@@ -36,7 +36,7 @@
       "palettes": [ "mil_outpost_bandit" ],
       "npcs": { "@": { "class": "raider" }, "z": { "class": "bandit" }, "Z": { "class": "thug" } },
       "traps": { "_": "tr_beartrap" },
-      "mapping": { "H": { "furniture": "f_brazier", "item": { "item": "2x4", "count": 5 }, "fields": { "field": "fd_fire" } } }
+      "mapping": { "H": { "furniture": "f_brazier", "item": { "item": "2x4", "amount": 5 }, "fields": { "field": "fd_fire" } } }
     }
   }
 ]
