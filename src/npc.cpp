@@ -3350,6 +3350,17 @@ std::string npc::describe_mission() const
     } // switch (mission)
 }
 
+std::string npc::name_and_activity() const
+{
+    if( current_activity_id ) {
+        const std::string activity_name = current_activity_id.obj().verb().translated();
+        //~ %1$s - npc name, %2$s - npc current activity name.
+        return string_format( _( "%1$s (%2$s)" ), name, activity_name );
+    } else {
+        return name;
+    }
+}
+
 std::unique_ptr<talker> get_talker_for( npc &guy )
 {
     return std::make_unique<talker_npc>( &guy );
