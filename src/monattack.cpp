@@ -1639,10 +1639,7 @@ bool mattack::fungus( monster *z )
     // TODO: Infect NPCs?
     // It takes a while
     z->moves -= 200;
-    Character &player_character = get_player_character();
-    if( player_character.has_trait( trait_THRESH_MYCUS ) ) {
-        z->friendly = 100;
-    }
+
     //~ the sound of a fungus releasing spores
     sounds::sound( z->pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
     add_msg_if_player_sees( *z, m_warning, _( "Spores are released from the %s!" ), z->name() );
