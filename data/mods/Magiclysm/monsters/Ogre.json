@@ -21,6 +21,7 @@
     "melee_dice_sides": 8,
     "dodge": 3,
     "harvest": "ogre",
+    "anger_triggers": [ "HURT", "FIRE", "PLAYER_WEAK" ],
     "vision_day": 10,
     "vision_night": 3,
     "death_function": [ "NORMAL" ],
