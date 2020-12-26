@@ -7,9 +7,9 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": "orc_village",
     "object": {
       "fill_ter": "t_dirt",
-      "om_terrain": "orc_village",
       "rows": [
         "111111111111111111111111111111111111111111111111111111111",
         "1.......................................................1",
