@@ -4674,7 +4674,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                                                   " > %1$s" ), colorprefix ) +
                                    string_format( ngettext( "%1$zd item", "%1$zd items", contents.num_item_stacks() ),
                                                   contents.num_item_stacks() ) +
-                                   string_format( pgettext( "color suffix", "%3$s" ), colorsuffix );
+                                   string_format( pgettext( "color suffix", "%1$s" ), colorsuffix );
         }
     }
 
