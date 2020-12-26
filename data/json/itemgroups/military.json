@@ -140,6 +140,7 @@
       { "item": "sholster", "prob": 10 },
       { "item": "bandolier_shotgun", "prob": 12 },
       { "item": "torso_bandolier_shotgun", "prob": 8 },
+      { "item": "torso_bandolier_grenade", "prob": 8 },
       { "item": "bootstrap", "prob": 3 },
       { "item": "legpouch", "prob": 8 },
       { "item": "legpouch_large", "prob": 4 },
