@@ -58,7 +58,7 @@
         { "item": "sheath", "contents-item": "knife_combat", "prob": 50 }
       ]
     },
-    "starting_ammo": { "Arrow": 75 },
+    "starting_ammo": { "arrow_wood_heavy": 75 },
     "extend": {
       "special_attacks": [
         {
