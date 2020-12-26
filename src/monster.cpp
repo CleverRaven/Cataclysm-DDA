@@ -544,10 +544,17 @@ std::string monster::name( unsigned int quantity ) const
         debugmsg( "monster::name empty type!" );
         return std::string();
     }
+    std::string result = type->nname( quantity );
     if( !unique_name.empty() ) {
-        return string_format( "%s: %s", type->nname( quantity ), unique_name );
+        //~ %1$s: monster name, %2$s: unique name
+        result = string_format( pgettext( "unique monster name", "%1$s: %2$s" ),
+                                result, unique_name );
     }
-    return type->nname( quantity );
+    if( !mission_fused.empty() ) {
+        //~ name when a monster fuses with a mission target
+        result = string_format( pgettext( "fused mission monster", "*%s" ), result );
+    }
+    return result;
 }
 
 // TODO: MATERIALS put description in materials.json?

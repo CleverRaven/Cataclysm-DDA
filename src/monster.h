@@ -479,6 +479,8 @@ class monster : public Creature
         bool no_corpse_quiet = false;
         // Turned to false for simulating monsters during distant missions so they don't drop in sight.
         bool death_drops = true;
+        // If true, sound and message is suppressed for monster death.
+        bool quiet_death = false;
         bool is_dead() const;
         bool made_footstep = false;
         // If we're unique

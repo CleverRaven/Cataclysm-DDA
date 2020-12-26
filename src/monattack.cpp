@@ -5754,8 +5754,13 @@ bool mattack::zombie_fuse( monster *z )
     z->mission_fused.emplace_back( critter->name() );
     z->mission_fused.insert( z->mission_fused.end(),
                              critter->mission_fused.begin(), critter->mission_fused.end() );
-    mission::on_creature_fusion( *z, *critter );
+    if( mission::on_creature_fusion( *z, *critter ) ) {
+        // let the player know that they still need to kill the fusing monster
+        add_msg_if_player_sees( *z, _( "%1$s still seems to be moving inside %2$s…" ),
+                                critter->name(), z->name() );
+    }
     critter->death_drops = false;
+    critter->quiet_death = true;
     critter->die( z );
     return true;
 }

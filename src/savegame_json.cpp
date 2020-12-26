@@ -2138,7 +2138,12 @@ void monster::load( const JsonObject &data )
     if( data.has_member( "mission_ids" ) ) {
         data.read( "mission_ids", mission_ids );
     } else if( data.has_member( "mission_id" ) ) {
-        mission_ids = { data.get_int( "mission_id" ) };
+        const int mission_id = data.get_int( "mission_id" );
+        if( mission_id > 0 ) {
+            mission_ids = { mission_id };
+        } else {
+            mission_ids.clear();
+        }
     }
     data.read( "mission_fused", mission_fused );
     data.read( "no_extra_death_drops", no_extra_death_drops );

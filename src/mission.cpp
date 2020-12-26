@@ -190,21 +190,22 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
 }
 
-void mission::on_creature_fusion( Creature &fuser, Creature &fused )
+bool mission::on_creature_fusion( Creature &fuser, Creature &fused )
 {
     if( fuser.is_hallucination() || fused.is_hallucination() ) {
-        return;
+        return false;
     }
     monster *mon_fuser = dynamic_cast<monster *>( &fuser );
     if( mon_fuser == nullptr ) {
         debugmsg( "Unimplemented: fuser is not a monster" );
-        return;
+        return false;
     }
     monster *mon_fused = dynamic_cast<monster *>( &fused );
     if( mon_fused == nullptr ) {
         debugmsg( "Unimplemented: fused it not a monster" );
-        return;
+        return false;
     }
+    bool mission_transfered = false;
     for( const int mission_id : mon_fused->mission_ids ) {
         const mission *const found_mission = mission::find( mission_id );
         const mission_type *const type = found_mission->type;
@@ -212,8 +213,10 @@ void mission::on_creature_fusion( Creature &fuser, Creature &fused )
             // the fuser has to be killed now!
             mon_fuser->mission_ids.emplace( mission_id );
             mon_fused->mission_ids.erase( mission_id );
+            mission_transfered = true;
         }
     }
+    return mission_transfered;
 }
 
 void mission::on_talk_with_npc( const character_id &npc_id )
