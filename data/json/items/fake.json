@@ -62,7 +62,7 @@
     "to_hit": 2,
     "cutting": 8,
     "techniques": "PRECISE",
-    "flags": [ "TRADER_AVOID", "NO_UNWIELD", "UNBREAKABLE_MELEE", "SPEAR" ],
+    "flags": [ "TRADER_AVOID", "NO_DROP", "UNBREAKABLE_MELEE", "SPEAR" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ]
   },
   {
