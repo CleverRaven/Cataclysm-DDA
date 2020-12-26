@@ -2666,6 +2666,8 @@ class Character : public Creature, public visitable<Character>
         bool defer_move( const tripoint &next );
         time_duration get_consume_time( const item &it );
 
+        // For display purposes mainly, how far we are from the next level of weariness
+        std::pair<int, int> weariness_transition_progress() const;
         int weariness_level() const;
         int weary_threshold() const;
         int weariness() const;
