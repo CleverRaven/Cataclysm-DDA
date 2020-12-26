@@ -107,6 +107,7 @@
   },
   {
     "id": "torso_bandolier_grenade",
+    "type": "ARMOR",
     "copy-from": "bandolier_shotgun",
     "//": "It's very much similar to the torso shotgun bandolier I'm patterning this off of, so I'm keeping the data the same.",
     "name": { "str": "torso grenade bandolier" },
