@@ -4683,7 +4683,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                                                   /* with_contents=false for nested items to prevent excessively long names */
                                                   colorprefix, contents_item.tname( contents_count, true, 0, false )
                                                   /* with_contents=false for nested items to prevent excessively long names */
-                                                ) + string_format( " (%d)%s", contents_count, colorsuffix );
+                                                ) + string_format( " %s", colorsuffix );
 
         } else if( !contents.empty() ) {
 
