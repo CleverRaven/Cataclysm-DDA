@@ -256,7 +256,7 @@
     "result": "torso_bandolier_grenade",
     "type": "recipe",
     "copy-from": "torso_bandolier_shotgun",
-    "skills_required": [ [ "gun", 1 ], [ "launchers", 1 ] ],
+    "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
     "//": "The two items are very similar, so it makes sense to have their recipes be nearly identical,",
     "//2": "with the exception of using launchers as the skill."
   },
