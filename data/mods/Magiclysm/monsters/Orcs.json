@@ -21,6 +21,7 @@
     "melee_dice_sides": 4,
     "dodge": 10,
     "harvest": "orc",
+    "anger_triggers": [ "FRIEND_HURT", "FRIEND_DIED", "PLAYER_WEAK" ],
     "vision_day": 13,
     "vision_night": 5,
     "zombify_into": "mon_zorc",
@@ -36,7 +37,7 @@
       ]
     },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_2" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_2", "SWARMS", "GROUP_MORALE" ]
   },
   {
     "type": "MONSTER",
