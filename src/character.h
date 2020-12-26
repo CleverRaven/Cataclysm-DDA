@@ -2132,6 +2132,14 @@ class Character : public Creature, public visitable
         void reset_activity_level();
         // outputs player activity level to a printable string
         std::string activity_level_str() const;
+        // NOT SUITABLE FOR USE OTHER THAN DISPLAY
+        // The activity level this turn
+        float instantaneous_activity_level() const;
+        // Basically, advance this display one turn
+        void reset_activity_cursor();
+        // When we log an activity for metabolic purposes
+        // log it in our cursor too
+        void log_instant_activity( float );
 
         /** Returns overall bashing resistance for the body_part */
         int get_armor_bash( bodypart_id bp ) const override;
@@ -2768,6 +2776,10 @@ class Character : public Creature, public visitable
 
         // the player's activity level for metabolism calculations
         float attempted_activity_level = NO_EXERCISE;
+        // Display purposes only - the highest activity this turn and last
+        float act_cursor = NO_EXERCISE;
+        float last_act = NO_EXERCISE;
+        time_point act_turn = calendar::turn_zero;
 
         trap_map known_traps;
         mutable std::map<std::string, double> cached_info;

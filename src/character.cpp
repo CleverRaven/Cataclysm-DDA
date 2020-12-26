@@ -5662,6 +5662,41 @@ void Character::try_reduce_weariness( const float exertion )
     weary.low_activity_ticks = std::max( weary.low_activity_ticks, 0 );
 }
 
+// Remove all this instantaneous stuff when activity tracking moves to per turn
+float Character::instantaneous_activity_level() const
+{
+    // As this is for display purposes, we want to show last turn's activity.
+    if( calendar::turn > act_turn ) {
+        return act_cursor;
+    } else {
+        return last_act;
+    }
+}
+
+// Basically, advance one turn
+void Character::reset_activity_cursor()
+{
+
+    if( calendar::turn > act_turn ) {
+        last_act = act_cursor;
+        act_cursor = NO_EXERCISE;
+        act_turn = calendar::turn;
+    } else {
+        act_cursor = NO_EXERCISE;
+    }
+}
+
+// Log the highest activity level for this turn, and advance one turn if needed
+void Character::log_instant_activity( float level )
+{
+    if( calendar::turn > act_turn ) {
+        reset_activity_cursor();
+        act_cursor = level;
+    } else if( level > act_cursor ) {
+        act_cursor = level;
+    }
+}
+
 float Character::activity_level() const
 {
     float max = maximum_exertion_level();
@@ -8346,6 +8381,7 @@ void Character::increase_activity_level( float new_level )
     if( attempted_activity_level < new_level ) {
         attempted_activity_level = new_level;
     }
+    log_instant_activity( new_level );
 }
 
 void Character::decrease_activity_level( float new_level )
@@ -8353,10 +8389,12 @@ void Character::decrease_activity_level( float new_level )
     if( attempted_activity_level > new_level ) {
         attempted_activity_level = new_level;
     }
+    log_instant_activity( new_level );
 }
 void Character::reset_activity_level()
 {
     attempted_activity_level = NO_EXERCISE;
+    reset_activity_cursor();
 }
 
 std::string Character::activity_level_str() const
