@@ -9,6 +9,8 @@
 #include <vector>
 #include <utility>
 
+#include "json.h"
+
 class loading_ui;
 class JsonObject;
 class JsonIn;
@@ -59,9 +61,9 @@ class DynamicDataLoader
 
         /**
          * JSON data dependent upon as-yet unparsed definitions
-         * first: JSON data, second: source identifier
+         * first: JSON source location, second: source identifier
          */
-        using deferred_json = std::list<std::pair<std::string, std::string>>;
+        using deferred_json = std::list<std::pair<json_source_location, std::string>>;
 
     private:
         bool finalized = false;

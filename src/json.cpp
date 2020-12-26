@@ -252,6 +252,21 @@ JsonIn *JsonObject::get_raw( const std::string &name ) const
     return jsin;
 }
 
+json_source_location JsonObject::get_source_location() const
+{
+    if( !jsin ) {
+        throw JsonError( "JsonObject::get_source_location called when stream is null" );
+    }
+    json_source_location loc;
+    loc.path = jsin->get_path();
+    if( !loc.path ) {
+        jsin->seek( start );
+        jsin->error( "JsonObject::get_source_location called but the path is unknown" );
+    }
+    loc.offset = start;
+    return loc;
+}
+
 /* returning values by name */
 
 bool JsonObject::get_bool( const std::string &name ) const
@@ -1629,6 +1644,7 @@ bool JsonIn::read( JsonDeserializer &j, bool throw_on_error )
 // WARNING: for occasional use only.
 std::string JsonIn::line_number( int offset_modifier )
 {
+    const std::string &name = path ? *path : "<unknown source file>";
     if( stream && stream->eof() ) {
         return name + ":EOF";
     } else if( !stream || stream->fail() ) {

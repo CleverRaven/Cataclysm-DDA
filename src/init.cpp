@@ -125,24 +125,35 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
         const size_t n = data.size();
         auto it = data.begin();
         for( size_t idx = 0; idx != n; ++idx ) {
-            try {
-                std::istringstream str( it->first );
-                JsonIn jsin( str );
-                JsonObject jo = jsin.get_object();
-                load_object( jo, it->second );
-            } catch( const std::exception &err ) {
-                debugmsg( "Error loading data from json: %s", err.what() );
+            if( !it->first.path ) {
+                debugmsg( "JSON source location has null path, data may load incorrectly" );
+            } else {
+                try {
+                    std::ifstream str( *it->first.path, std::ifstream::in | std::ifstream::binary );
+                    JsonIn jsin( str, it->first );
+                    JsonObject jo = jsin.get_object();
+                    load_object( jo, it->second );
+                } catch( const JsonError &err ) {
+                    debugmsg( "(json-error)\n%s", err.what() );
+                }
             }
             ++it;
         }
         data.erase( data.begin(), it );
         if( data.size() == n ) {
-            std::string discarded;
             for( const auto &elem : data ) {
-                discarded += elem.first;
+                if( !elem.first.path ) {
+                    debugmsg( "JSON source location has null path when reporting circular dependency" );
+                } else {
+                    try {
+                        std::ifstream str( *elem.first.path, std::ifstream::in | std::ifstream::binary );
+                        JsonIn jsin( str, elem.first );
+                        jsin.error( "JSON contains circular dependency, this object is discarded" );
+                    } catch( const JsonError &err ) {
+                        debugmsg( "(json-error)\n%s", err.what() );
+                    }
+                }
             }
-            debugmsg( "JSON contains circular dependency.  Discarded %i objects:\n%s",
-                      data.size(), discarded );
             data.clear();
             return; // made no progress on this cycle so abort
         }
