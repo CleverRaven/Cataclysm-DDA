@@ -54,7 +54,7 @@
         { "item": "boots_scrap", "prob": 40 },
         { "item": "armguard_scrap", "prob": 40 },
         { "item": "cuirass_scrap", "prob": 40 },
-        { "item": "Longbow", "prob": 100 },
+        { "item": "longbow", "prob": 100 },
         { "item": "sheath", "contents-item": "knife_combat", "prob": 50 }
       ]
     },
