@@ -2355,49 +2355,65 @@
     "type": "effect_type",
     "id": "weary_1",
     "name": [ "Lightly Weary" ],
-    "desc": [ "You've been pretty active for a while; operating at the highest levels of activity will be impaired." ]
+    "desc": [
+      "You've been pretty active for a while; operating at the highest levels of activity will be impaired.\nThe following move penalties are applied for the following activity levels:\nExtreme: 1.25x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_2",
     "name": [ "Moderately Weary" ],
-    "desc": [ "You've been quite active for a while; operating at higher levels of activity will be impaired." ]
+    "desc": [
+      "You've been quite active for a while; operating at higher levels of activity will be impaired.\nThe following move penalties are applied for the following activity levels:\nExtreme: 1.67x, Active: 1.33x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_3",
     "name": [ "Weary" ],
-    "desc": [ "You've been very active for a while, and need to slow down for a bit." ]
+    "desc": [
+      "You've been very active for a while, and need to slow down for a bit.\nThe following move penalties are applied for the following activity levels:\nExtreme: 2.5x, Active: 2x, Brisk: 1.5x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_4",
     "name": [ "Very Weary" ],
-    "desc": [ "You've been extremely active for a while, and need to slow down." ]
+    "desc": [
+      "You've been extremely active for a while, and need to slow down.\nThe following move penalties are applied for the following activity levels:\nExtreme: 5x, Active: 4x, Brisk: 3x, Moderate: 2x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_5",
     "name": [ "Extremely Weary" ],
-    "desc": [ "You've been extremely active for a while, and can't take much more activity." ]
+    "desc": [
+      "You've been extremely active for a while, and can't take much more activity.\nThe following move penalties are applied for the following activity levels:\nExtreme: 10x, Active: 8x, Brisk: 6x, Moderate: 4x, Light: 2x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_6",
     "name": [ "Extremely Weary" ],
-    "desc": [ "You've been extremely active for a while, and really need to get some rest." ]
+    "desc": [
+      "You've been extremely active for a while, and really need to get some rest.\nThe following move penalties are applied for the following activity levels:\nExtreme: 10x, Active: 8x, Brisk: 6x, Moderate: 4x, Light: 2x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_7",
     "name": [ "Extremely Weary" ],
-    "desc": [ "You've been extremely active for a while; it's time to stop." ]
+    "desc": [
+      "You've been extremely active for a while; it's time to stop.\nThe following move penalties are applied for the following activity levels:\nExtreme: 10x, Active: 8x, Brisk: 6x, Moderate: 4x, Light: 2x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_8",
     "name": [ "Extremely Weary" ],
-    "desc": [ "You've been extremely active for a while, and can no longer keep pushing." ]
+    "desc": [
+      "You've been extremely active for a while, and can no longer keep pushing.\nThe following move penalties are applied for the following activity levels:\nExtreme: 10x, Active: 8x, Brisk: 6x, Moderate: 4x, Light: 2x"
+    ]
   },
   {
     "type": "effect_type",
