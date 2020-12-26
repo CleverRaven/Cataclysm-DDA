@@ -5571,6 +5571,24 @@ int Character::weariness() const
     return weary.tracker - weary.intake * 0.5;
 }
 
+std::pair<int, int> Character::weariness_transition_progress() const
+{
+    // Mostly a duplicate of the below function. No real way to clean this up
+    int amount = weariness();
+    int threshold = weary_threshold();
+    amount -= threshold * get_option<float>( "WEARY_INITIAL_STEP" );
+    while( amount >= 0 ) {
+        amount -= threshold;
+        if( threshold > 20 ) {
+            threshold *= get_option<float>( "WEARY_THRESH_SCALING" );
+        }
+    }
+
+    // If we return the absolute value of the amount, it will work better
+    // Because as it decreases, we will approach a transition
+    return {std::abs( amount ), threshold};
+}
+
 int Character::weariness_level() const
 {
     int amount = weariness();
