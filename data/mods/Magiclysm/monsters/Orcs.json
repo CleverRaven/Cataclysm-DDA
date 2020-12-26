@@ -19,7 +19,7 @@
     "melee_skill": 5,
     "melee_dice": 6,
     "melee_dice_sides": 4,
-    "dodge": 10,
+    "dodge": 7,
     "harvest": "orc",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK" ],
     "vision_day": 13,
