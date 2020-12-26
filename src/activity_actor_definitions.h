@@ -101,7 +101,7 @@ class autodrive_activity_actor : public activity_actor
         vehicle *player_vehicle = nullptr;
 
     public:
-        autodrive_activity_actor() {};
+        autodrive_activity_actor() = default;
 
         activity_id get_type() const override {
             return activity_id( "ACT_AUTODRIVE" );
