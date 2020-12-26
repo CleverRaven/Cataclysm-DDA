@@ -10,6 +10,7 @@
 #include <utility>
 
 #include "json.h"
+#include "memory_fast.h"
 
 class loading_ui;
 class JsonObject;
@@ -67,6 +68,9 @@ class DynamicDataLoader
 
     private:
         bool finalized = false;
+
+        struct cached_streams;
+        std::unique_ptr<cached_streams> stream_cache;
 
     protected:
         /**
@@ -163,6 +167,14 @@ class DynamicDataLoader
         bool is_data_finalized() const {
             return finalized;
         }
+
+        /**
+         * Get a possibly cached stream for deferred data loading. If the cached
+         * stream is still in use by outside code, this returns a new stream to
+         * avoid conflict of stream cursor. The stream cursor is not reset if a
+         * cached stream is returned.
+         */
+        shared_ptr_fast<std::istream> get_cached_stream( const std::string &path );
 };
 
 #endif // CATA_SRC_INIT_H

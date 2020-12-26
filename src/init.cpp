@@ -44,6 +44,7 @@
 #include "item_factory.h"
 #include "json.h"
 #include "loading_ui.h"
+#include "lru_cache.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "magic_ter_furn_transform.h"
@@ -119,6 +120,30 @@ void DynamicDataLoader::load_object( const JsonObject &jo, const std::string &sr
     it->second( jo, src, base_path, full_path );
 }
 
+struct DynamicDataLoader::cached_streams {
+    lru_cache<std::string, shared_ptr_fast<std::istringstream>> cache;
+};
+
+shared_ptr_fast<std::istream> DynamicDataLoader::get_cached_stream( const std::string &path )
+{
+    cata_assert( !finalized &&
+                 "Cannot open data file after finalization." );
+    if( !stream_cache ) {
+        stream_cache = std::make_unique<cached_streams>();
+    }
+    shared_ptr_fast<std::istringstream> cached = stream_cache->cache.get( path, nullptr );
+    // Create a new stream if the file is not opened yet, or if some code is still
+    // using the previous stream (in such case, `cached` and `stream_cache` have
+    // two references to the stream, hence the test for > 2).
+    if( !cached ) {
+        cached = make_shared_fast<std::istringstream>( read_entire_file( path ) );
+    } else if( cached.use_count() > 2 ) {
+        cached = make_shared_fast<std::istringstream>( cached->str() );
+    }
+    stream_cache->cache.insert( 8, path, cached );
+    return cached;
+}
+
 void DynamicDataLoader::load_deferred( deferred_json &data )
 {
     while( !data.empty() ) {
@@ -129,8 +154,8 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                 debugmsg( "JSON source location has null path, data may load incorrectly" );
             } else {
                 try {
-                    std::ifstream str( *it->first.path, std::ifstream::in | std::ifstream::binary );
-                    JsonIn jsin( str, it->first );
+                    shared_ptr_fast<std::istream> stream = get_cached_stream( *it->first.path );
+                    JsonIn jsin( *stream, it->first );
                     JsonObject jo = jsin.get_object();
                     load_object( jo, it->second );
                 } catch( const JsonError &err ) {
@@ -146,8 +171,8 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                     debugmsg( "JSON source location has null path when reporting circular dependency" );
                 } else {
                     try {
-                        std::ifstream str( *elem.first.path, std::ifstream::in | std::ifstream::binary );
-                        JsonIn jsin( str, elem.first );
+                        shared_ptr_fast<std::istream> stream = get_cached_stream( *it->first.path );
+                        JsonIn jsin( *stream, elem.first );
                         jsin.error( "JSON contains circular dependency, this object is discarded" );
                     } catch( const JsonError &err ) {
                         debugmsg( "(json-error)\n%s", err.what() );
@@ -651,6 +676,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     }
 
     check_consistency( ui );
+    stream_cache.reset();
     finalized = true;
 }
 

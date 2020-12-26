@@ -4,7 +4,6 @@
 #include <array>
 #include <cmath>
 #include <cstdlib>
-#include <fstream>
 #include <functional>
 #include <list>
 #include <map>
@@ -2439,8 +2438,9 @@ void mapgen_function_json_base::setup_common()
         debugmsg( "null json source location path" );
         return;
     }
-    std::ifstream ifs( *jsrcloc.path, std::ifstream::in | std::ifstream::binary );
-    JsonIn jsin( ifs, jsrcloc );
+    shared_ptr_fast<std::istream> stream = DynamicDataLoader::get_instance().get_cached_stream(
+            *jsrcloc.path );
+    JsonIn jsin( *stream, jsrcloc );
     JsonObject jo = jsin.get_object();
     mapgen_defer::defer = false;
     if( !setup_common( jo ) ) {
