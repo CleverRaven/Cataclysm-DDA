@@ -4231,48 +4231,6 @@ nc_color item::color_in_inventory() const
                 // Show perishables as a separate color
                 else if( food->goes_bad() ) {
                     ret = c_light_cyan;
-
-                    map_cursor nearby[9] = { player_character.pos() - tripoint( -1, -1, 0 ),
-                                             player_character.pos() - tripoint( -1, 0, 0 ),
-                                             player_character.pos() - tripoint( -1, 1, 0 ),
-                                             player_character.pos() - tripoint( 0, -1, 0 ),
-                                             player_character.pos() - tripoint( 0, 0, 0 ),
-                                             player_character.pos() - tripoint( 0, 1, 0 ),
-                                             player_character.pos() - tripoint( 1, -1, 0 ),
-                                             player_character.pos() - tripoint( 1, 0, 0 ),
-                                             player_character.pos() - tripoint( 1, 1, 0 ),
-                                           };
-
-                    player_character.visit_items( [&]( const item * node, const item * parent ) {
-                        if( node == food ) {
-                            if( parent ) {
-                                const item_pocket *const parent_pocket = parent->contained_where( *node );
-                                if( parent_pocket ) {
-                                    if( parent_pocket->spoil_multiplier() == 0 ) {
-                                        ret = c_light_blue; // Blue = Not currently spoiling due to being sealed
-                                        return VisitResponse::ABORT;
-                                    }
-                                }
-                            }
-                        }
-                        return VisitResponse::NEXT;
-                    } );
-                    for( const map_cursor &checkp : nearby ) {
-                        checkp.visit_items( [&]( const item * node, const item * parent ) {
-                            if( node == food ) {
-                                if( parent ) {
-                                    const item_pocket *const parent_pocket = parent->contained_where( *node );
-                                    if( parent_pocket ) {
-                                        if( parent_pocket->spoil_multiplier() == 0 ) {
-                                            ret = c_light_blue; //Blue in any surrounding square
-                                            return VisitResponse::ABORT;
-                                        }
-                                    }
-                                }
-                            }
-                            return VisitResponse::NEXT;
-                        } );
-                    }
                 }
 
                 break;
