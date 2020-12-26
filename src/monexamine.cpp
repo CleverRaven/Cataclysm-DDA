@@ -642,6 +642,7 @@ bool monexamine::give_items_to( monster &z )
     } else {
         item_location loc = to_move.front().first;
         item &it = *loc;
+        //~ %1$s - item name, %2$s - storage item name, %3$s - pet name 
         add_msg( _( "You put the %1$s in the %2$s on your %3$s." ), it.tname(), storage.tname(), pet_name );
     }
     // Return success if all items were inserted
