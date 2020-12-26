@@ -38,7 +38,7 @@
   {
     "type": "overmap_special",
     "id": "orc_village",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "orc_civ" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "orc_village_north" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -5 ],
     "city_sizes": [ 0, 13 ],
