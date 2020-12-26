@@ -239,9 +239,9 @@
     "price": 450,
     "price_postapoc": 25,
     "material": [ "veggy", "powder" ],
-    "volume": "107 ml",
+    "volume": "1070 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "charges": 1,
+    "charges": 10,
     "fun": -5
   },
   {
