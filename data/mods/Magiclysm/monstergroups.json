@@ -183,8 +183,10 @@
     "type": "monstergroup",
     "name": "GROUP_ORC",
     "default": "mon_orc_warrior",
-    "monsters": { "monster": "mon_orc_warrior", "freq": 100, "cost_multiplier": 5 },
-    "monsters": { "monster": "mon_orc_archer", "freq": 25, "cost_multiplier": 7 },
-    "monsters": { "monster": "mon_orc_blood_warrior", "freq": 15, "cost_multiplier": 5 }
+    "monsters": [
+      { "monster": "mon_orc_warrior", "freq": 100, "cost_multiplier": 5 },
+      { "monster": "mon_orc_archer", "freq": 25, "cost_multiplier": 7 },
+      { "monster": "mon_orc_blood_warrior", "freq": 15, "cost_multiplier": 5 }
+    ]
   }
 ]
