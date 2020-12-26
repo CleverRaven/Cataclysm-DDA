@@ -36,8 +36,8 @@
   {
     "id": "mon_zorc",
     "type": "MONSTER",
-    "name": { "str": "undead orc" },
-    "description": " This unholy amalgamation looks at you with a piercing stare so strong it might scare your soul away.",
+    "name": { "str": "Zorc" },
+    "description": " This unholy beast looks at you with a piercing stare so strong it might scare your soul away.",
     "default_faction": "zombie",
     "bodytype": "human",
     "categories": [ "CLASSIC" ],
@@ -61,8 +61,6 @@
     "armor_bullet": 23,
     "vision_night": 12,
     "harvest": "orc",
-    "special_attacks": [ [ "TACKLE", 43 ] ],
-    "fear_triggers": [ "NONE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   }
