@@ -4607,7 +4607,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "dry_corn", 1 ] ] ]
+    "components": [ [ [ "dry_corn", 1 ], [ "kernels", 1 ] ] ]
   },
   {
     "type": "recipe",
