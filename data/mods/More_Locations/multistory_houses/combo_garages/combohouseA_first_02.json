@@ -32,7 +32,7 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "multistory_house" ],
+      "palettes": [ "multistory_house", "ground_level" ],
       "toilets": { "&": { "amount": [ 0, 40 ] } }
     }
   }
