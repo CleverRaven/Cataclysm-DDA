@@ -89,8 +89,8 @@
     "obsolete": true
   },
   {
-  "type": "recipe",
-  "result": "purifier_smart_shot",
-  "obsolete": true
+    "type": "recipe",
+    "result": "purifier_smart_shot",
+    "obsolete": true
   }
 ]
