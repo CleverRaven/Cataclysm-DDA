@@ -2345,9 +2345,6 @@ void avatar::steal( npc &target )
     if( has_trait( trait_DEFT ) ) {
         my_roll += dice( 2, 6 );
     }
-    if( has_trait( trait_CLUMSY ) ) {
-        my_roll -= dice( 4, 6 );
-    }
 
     int their_roll = dice( 5, target.get_per() );
 

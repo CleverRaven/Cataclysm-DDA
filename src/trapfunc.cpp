@@ -855,7 +855,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
             n->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
                                   body_part_name_accusative( hit->token ) );
             n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
-            if( !n->has_trait( trait_INFRESIST )  ) {
+            if( !n->has_trait( trait_INFRESIST ) ) {
                 n->add_effect( effect_tetanus, 1_turns, num_bp, true );
             }
         }

@@ -50,7 +50,7 @@
     "starting_trait": true,
     "category": [ "ALPHA", "MOUSE", "ELFA" ],
     "cancels": [ "BADHEARING" ],
-    "hearing_modifier": 1.25
+    "hearing_modifier": 1.5
   },
   {
     "type": "mutation",
@@ -161,7 +161,7 @@
     "type": "mutation",
     "id": "LIGHTEATER",
     "name": { "str": "Light Eater" },
-    "points": 2,
+    "points": 1,
     "description": "Your metabolism is a little slower, and you require less food than most.",
     "starting_trait": true,
     "cancels": [ "MET_RAT" ],
@@ -243,7 +243,8 @@
     "id": "TOUGH_FEET",
     "name": { "str": "Tough Feet" },
     "points": 1,
-    "description": "The bottoms of your feet are tough and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes.",
+    "description": "The bottoms of your feet are tough and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes, and your feet are more resistant to damage.",
+    "armor": [ { "parts": [ "FOOT_L", "FOOT_R" ], "physical": 2, "acid": 2 } ],
     "starting_trait": true,
     "valid": false
   },
@@ -441,16 +442,6 @@
   },
   {
     "type": "mutation",
-    "id": "DISRESISTANT",
-    "name": { "str": "Disease Resistant" },
-    "points": 1,
-    "description": "It's very unlikely that you will catch ambient diseases like a cold or the flu.",
-    "starting_trait": true,
-    "changes_to": [ "DISIMMUNE" ],
-    "category": [ "CATTLE", "RAT", "MEDICAL" ]
-  },
-  {
-    "type": "mutation",
     "id": "ADRENALINE",
     "name": { "str": "High Adrenaline" },
     "points": 1,
@@ -516,11 +507,11 @@
     "id": "LIGHTSTEP",
     "name": { "str": "Light Step" },
     "points": 1,
-    "description": "You make less noise while walking.  You're also less likely to set off traps.",
+    "description": "You make no noise while walking.",
     "starting_trait": true,
     "category": [ "BIRD", "ELFA", "FELINE" ],
     "cancels": [ "CLUMSY" ],
-    "noise_modifier": 0.4
+    "noise_modifier": 0.0
   },
   {
     "type": "mutation",
@@ -699,10 +690,10 @@
     "type": "mutation",
     "id": "MYOPIC",
     "name": { "str": "Near-Sighted" },
-    "points": -2,
+    "points": -1,
     "description": "Without glasses, your seeing radius is severely reduced!  However, you are guaranteed to start with a pair of glasses.",
     "starting_trait": true,
-    "cancels": [ "URSINE_EYE", "EAGLEEYED" ],
+    "cancels": [ "URSINE_EYE", "EAGLEEYED", "HYPEROPIC" ],
     "category": [ "BEAST", "TROGLOBITE" ]
   },
   {
@@ -746,8 +737,9 @@
     "type": "mutation",
     "id": "HYPEROPIC",
     "name": { "str": "Far-Sighted" },
-    "points": -2,
+    "points": -1,
     "description": "Without reading glasses, you are unable to read anything, and take penalties on melee accuracy and electronics/tailoring crafting.  However, you are guaranteed to start with a pair of reading glasses.",
+    "cancels": [ "MYOPIC" ],
     "starting_trait": true,
     "valid": false
   },
@@ -777,7 +769,7 @@
     "type": "mutation",
     "id": "ASTHMA",
     "name": { "str": "Asthmatic" },
-    "points": -4,
+    "points": -3,
     "description": "You will occasionally need to use an inhaler, or else suffer severe physical limitations.  However, you are guaranteed to start with an inhaler.",
     "social_modifiers": { "intimidate": -2 },
     "starting_trait": true,
@@ -828,7 +820,7 @@
     "type": "mutation",
     "id": "BADHEARING",
     "name": { "str": "Poor Hearing" },
-    "points": -2,
+    "points": -1,
     "description": "Your hearing is poor, and you may not hear quiet or far-off noises.",
     "starting_trait": true,
     "category": [ "PLANT" ],
@@ -840,7 +832,7 @@
     "type": "mutation",
     "id": "DEAF",
     "name": { "str": "Deaf" },
-    "points": -6,
+    "points": -5,
     "description": "You're not able to hear anything, and as such you're not able to talk to NPCs.",
     "starting_trait": true,
     "prereqs": [ "BADHEARING" ],
@@ -904,7 +896,7 @@
     "type": "mutation",
     "id": "ANTIFRUIT",
     "name": { "str": "Hates Fruit" },
-    "points": -3,
+    "points": -2,
     "description": "You despise eating fruits.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
     "starting_trait": true,
     "valid": false,
@@ -1072,10 +1064,10 @@
     "id": "CLUMSY",
     "name": { "str": "Clumsy" },
     "points": -1,
-    "description": "You make more noise while walking.  You're also more likely to set off traps.",
+    "description": "You make more noise while walking.",
     "starting_trait": true,
     "cancels": [ "LIGHTSTEP" ],
-    "noise_modifier": 1.7
+    "noise_modifier": 2.0
   },
   {
     "type": "mutation",
@@ -1372,7 +1364,8 @@
       "NIGHTVISION",
       "NIGHTVISION2",
       "NIGHTVISION3",
-      "MYOPIC"
+      "MYOPIC",
+      "HYPEROPIC"
     ],
     "category": [ "URSINE" ],
     "active": true,
@@ -2544,16 +2537,6 @@
   },
   {
     "type": "mutation",
-    "id": "DISIMMUNE",
-    "name": { "str": "Disease Immune" },
-    "points": 2,
-    "description": "Your body is simply immune to diseases.  You will never catch an ambient disease.",
-    "prereqs": [ "DISRESISTANT" ],
-    "category": [ "PLANT", "SLIME", "TROGLOBITE" ],
-    "flags": [ "NO_DISEASE" ]
-  },
-  {
-    "type": "mutation",
     "id": "INFRESIST",
     "name": { "str": "Infection Immune" },
     "points": 1,
@@ -2578,8 +2561,7 @@
     "name": { "str": "Parasite Immune" },
     "points": 1,
     "description": "Your body is unusually inhospitable to parasitic lifeforms.  You will never become infested with internal parasites.",
-    "prereqs": [ "DISRESISTANT" ],
-    "prereqs2": [ "INFRESIST" ],
+    "starting_trait": true,
     "category": [ "ELFA", "CHIMERA", "MEDICAL", "SLIME" ]
   },
   {
@@ -4079,7 +4061,7 @@
     "mixed_effect": true,
     "description": "You're only half as tall as you used to be!  The weight of things you once found easy to carry is now unbearable, clothes are now twice as encumbering for you unless you refit them (since you're half their size), and your hit points are heavily reduced.  However, your movement is silent, and your dodge skill is a little higher.",
     "prereqs": [ "SMALL" ],
-    "cancels": [ "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
+    "cancels": [ "LARGE", "LARGE_OK", "HUGE", "HUGE_OK", "LIGHTSTEP", "CLUMSY" ],
     "changes_to": [ "SMALL_OK" ],
     "category": [ "MOUSE" ],
     "hp_modifier": -0.3,
@@ -4095,7 +4077,7 @@
     "mixed_effect": true,
     "description": "You've mastered your tiny form!  Item encumbrance and carry weight penalties are reduced, and you've learned to use your increased nimbleness to offset your reduced capacity to absorb damage.",
     "prereqs": [ "SMALL2" ],
-    "cancels": [ "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
+    "cancels": [ "LARGE", "LARGE_OK", "HUGE", "HUGE_OK", "LIGHTSTEP", "CLUMSY" ],
     "valid": false,
     "purifiable": false,
     "threshreq": [ "THRESH_MOUSE" ],
@@ -4499,13 +4481,13 @@
     "id": "HUNGER",
     "name": { "str": "Fast Metabolism" },
     "points": -2,
-    "description": "You require more food than most people, but recover stamina slightly faster.",
+    "bodytemp_modifiers": [ 0, 1000 ],
+    "description": "You require more food than most people.  On a plus side, you are more resistant to cold.",
     "starting_trait": true,
     "types": [ "METABOLISM" ],
     "changes_to": [ "HUNGER2", "MET_RAT" ],
     "category": [ "RAT", "ALPHA", "MEDICAL", "ELFA", "BEAST", "SLIME", "RAPTOR", "CHIMERA", "MOUSE" ],
-    "metabolism_modifier": 0.5,
-    "stamina_regen_modifier": 0.1
+    "metabolism_modifier": 0.5
   },
   {
     "type": "mutation",
@@ -4529,27 +4511,27 @@
     "type": "mutation",
     "id": "HUNGER2",
     "name": { "str": "Very Fast Metabolism" },
-    "points": -2,
-    "description": "You need about twice as much food as the average human to maintain your expanded cardiovascular and respiratory systems.  On a plus side, it doesn't take you much time to recover from any strenuous activity.",
+    "points": -3,
+    "bodytemp_modifiers": [ 0, 2000 ],
+    "description": "You need about twice as much food as the average human to maintain your flawed biology.  At least it warms you up when you need it.",
     "prereqs": [ "HUNGER" ],
     "changes_to": [ "HUNGER3" ],
     "types": [ "METABOLISM" ],
     "category": [ "BEAST", "SLIME", "RAPTOR" ],
-    "metabolism_modifier": 1.0,
-    "stamina_regen_modifier": 0.3
+    "metabolism_modifier": 1.0
   },
   {
     "type": "mutation",
     "id": "HUNGER3",
     "name": { "str": "Extreme Metabolism" },
-    "points": -2,
-    "description": "You consume three times as much food as the average human to maintain your truly superhuman endurance.",
+    "points": -4,
+    "bodytemp_modifiers": [ 0, 4000 ],
+    "description": "You consume three times as much food as the average human to maintain your inefficient body.  All the excess heat it generates could let you survive a snowstorm naked.",
     "prereqs": [ "HUNGER2" ],
     "leads_to": [ "EATHEALTH" ],
     "types": [ "METABOLISM" ],
     "category": [ "CHIMERA" ],
-    "metabolism_modifier": 2.0,
-    "stamina_regen_modifier": 0.5
+    "metabolism_modifier": 2.0
   },
   {
     "type": "mutation",
@@ -5561,6 +5543,7 @@
     "types": [ "LEGS" ],
     "leads_to": [ "LEG_TENT_BRACE" ],
     "movecost_swim_modifier": 0.85,
+    "cancels": [ "LIGHTSTEP", "CLUMSY" ],
     "category": [ "CEPHALOPOD" ],
     "wet_protection": [
       { "part": "LEG_L", "neutral": 21 },
@@ -6368,7 +6351,8 @@
     "starting_trait": true,
     "description": "You're too adventurous for your own good.  The more time you spend somewhere, the unhappier it makes you to be there.",
     "changes_to": [ "NOMAD2" ],
-    "category": [ "BIRD", "FISH", "CHIMERA" ]
+    "category": [ "BIRD", "FISH", "CHIMERA" ],
+    "valid": false
   },
   {
     "type": "mutation",

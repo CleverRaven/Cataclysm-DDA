@@ -122,7 +122,6 @@ static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
 static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
-static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
@@ -144,7 +143,6 @@ static const trait_id trait_LARGE( "LARGE" );
 static const trait_id trait_LARGE_OK( "LARGE_OK" );
 static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
-static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
@@ -759,14 +757,6 @@ bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
         traproll = dice( 6, tr.get_avoidance() );
     }
 
-    if( has_trait( trait_LIGHTSTEP ) ) {
-        myroll += dice( 2, 6 );
-    }
-
-    if( has_trait( trait_CLUMSY ) ) {
-        myroll -= dice( 2, 6 );
-    }
-
     return myroll >= traproll;
 }
 
@@ -1062,9 +1052,6 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         }
         if( has_trait( trait_DEFT ) ) {
             rolls--;
-        }
-        if( has_trait( trait_CLUMSY ) ) {
-            rolls++;
         }
 
         if( stability_roll() < dice( rolls, 10 ) ) {

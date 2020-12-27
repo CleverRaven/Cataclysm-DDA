@@ -363,11 +363,7 @@
     "type": "trait_group",
     "id": "trait_group_raptor_postthres",
     "subtype": "collection",
-    "traits": [
-      { "trait": "THRESH_RAPTOR" },
-      { "trait": "PRED4", "prob": 50 },
-      { "trait": "SAPIOVORE", "prob": 50 }
-    ]
+    "traits": [ { "trait": "THRESH_RAPTOR" }, { "trait": "PRED4", "prob": 50 }, { "trait": "SAPIOVORE", "prob": 50 } ]
   },
   {
     "type": "trait_group",

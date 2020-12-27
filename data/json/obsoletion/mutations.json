@@ -124,5 +124,27 @@
     "prereqs2": [ "INFRESIST" ],
     "category": [ "MEDICAL" ],
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "DISRESISTANT",
+    "name": { "str": "Disease Resistant" },
+    "points": 1,
+    "description": "It's very unlikely that you will catch ambient diseases like a cold or the flu.",
+    "starting_trait": true,
+    "changes_to": [ "DISIMMUNE" ],
+    "category": [ "CATTLE", "RAT", "MEDICAL" ],
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "DISIMMUNE",
+    "name": { "str": "Disease Immune" },
+    "points": 2,
+    "description": "Your body is simply immune to diseases.  You will never catch an ambient disease.",
+    "prereqs": [ "DISRESISTANT" ],
+    "category": [ "PLANT", "SLIME", "TROGLOBITE" ],
+    "flags": [ "NO_DISEASE" ],
+    "valid": false
   }
 ]
