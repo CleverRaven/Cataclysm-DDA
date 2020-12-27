@@ -449,7 +449,7 @@ class vpart_info
          *  default is half @ref install_moves */
         int removal_moves = -1;
 
-        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharing (power) */
+        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharging (power) */
         int bonus = 0;
 
         /** cargo weight modifier (percentage) */

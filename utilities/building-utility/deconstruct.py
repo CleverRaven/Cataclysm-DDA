@@ -58,8 +58,8 @@ def get_map_cells(infile, cell_size):
         line = line[:-1]
 
         assert len(line) % cell_size == 0, \
-            "Map {infile} does not have colums equal to a multiple of the " \
-            "map cell size. Error occured on line {line_no}.".format(
+            "Map {infile} does not have columns equal to a multiple of the " \
+            "map cell size. Error occurred on line {line_no}.".format(
                 infile=infile.name,
                 line_no=line_no)
 
@@ -70,7 +70,7 @@ def get_map_cells(infile, cell_size):
         else:
             assert cells_per_line == len(line) // cell_size, \
                 "Map {infile} starts new cells before finishing cells " \
-                "{cell_begin} to {cell_end}. Error occured on line " \
+                "{cell_begin} to {cell_end}. Error occurred on line " \
                 "{line_no}.".format(
                     infile=infile.name,
                     cell_begin=len(all_cells) + 1,

@@ -74,6 +74,13 @@
   },
   {
     "type": "SPECIES",
+    "id": "CENTIPEDE",
+    "description": "a centipede",
+    "footsteps": "skittering.",
+    "fear_triggers": [ "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "INSECT_FLYING",
     "description": "a flying insect",
     "footsteps": "BZZZZZZZZZZZZZZZZZ",
@@ -130,7 +137,8 @@
   },
   {
     "type": "SPECIES",
-    "id": "HALLUCINATION"
+    "id": "HALLUCINATION",
+    "description": "your imagination"
   },
   {
     "type": "SPECIES",
@@ -139,6 +147,7 @@
   },
   {
     "type": "SPECIES",
-    "id": "UNKNOWN"
+    "id": "UNKNOWN",
+    "description": "a bug"
   }
 ]

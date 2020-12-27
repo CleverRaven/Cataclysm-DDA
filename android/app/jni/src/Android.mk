@@ -11,8 +11,8 @@ LOCAL_C_INCLUDES := $(SDL_PATH)/include
 LOCAL_CPP_FEATURES := exceptions rtti
 
 # Add your application source files here...
-FILE_LIST := $(wildcard $(LOCAL_PATH)/*.cpp)
-LOCAL_SRC_FILES := $(FILE_LIST:$(LOCAL_PATH)/%=%)
+FILE_LIST := $(sort $(wildcard $(LOCAL_PATH)/*.cpp))
+LOCAL_SRC_FILES := $(sort $(FILE_LIST:$(LOCAL_PATH)/%=%))
 
 LOCAL_SHARED_LIBRARIES := libhidapi SDL2 SDL2_mixer SDL2_image SDL2_ttf libintl-lite mpg123
 

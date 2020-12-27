@@ -902,5 +902,14 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": { "ctxt": "training", "str": "working out" },
     "based_on": "time"
+  },
+  {
+    "id": "ACT_FURNITURE_MOVE",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "moving",
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
   }
 ]

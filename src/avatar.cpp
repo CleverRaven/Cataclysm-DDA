@@ -209,7 +209,7 @@ mission *avatar::get_active_mission() const
     return active_mission;
 }
 
-void avatar::reset_all_misions()
+void avatar::reset_all_missions()
 {
     active_mission = nullptr;
     active_missions.clear();
@@ -477,6 +477,7 @@ bool avatar::read( item &it, const bool continuous )
         } else if( mastery == book_mastery::LEARNING && morale_req ) {
             learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
             const double penalty = static_cast<double>( time_taken ) / time_to_read( it, *reader, elem );
+            act.values.push_back( elem->getID().get_value() );
             act.str_values.push_back( to_string( penalty ) );
         } else {
             std::string reason = _( " (uninterested)" );
@@ -651,7 +652,7 @@ bool avatar::read( item &it, const bool continuous )
                  complex_player->disp_name() );
     }
 
-    // push an indentifier of martial art book to the action handling
+    // push an identifier of martial art book to the action handling
     if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 
         if( get_stamina() < get_stamina_max() / 10 ) {
@@ -675,7 +676,7 @@ bool avatar::read( item &it, const bool continuous )
         apply_morale.insert( elem.first );
     }
     for( player *elem : apply_morale ) {
-        //Fun bonuses for spritual and To Serve Man are no longer calculated here.
+        //Fun bonuses for spiritual and To Serve Man are no longer calculated here.
         elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 30_minutes,
                           decay_start, false, it.type );
     }
@@ -963,6 +964,11 @@ void avatar::identify( const item &item )
     if( recipe_list.size() != reading->recipes.size() ) {
         add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
     }
+}
+
+void avatar::clear_identified()
+{
+    items_identified.clear();
 }
 
 void avatar::wake_up()
@@ -1487,14 +1493,13 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
     }
 
     if( can_switch_to( new_mode ) ) {
+        if( is_hauling() && new_mode->stop_hauling() ) {
+            stop_hauling();
+        }
         add_msg( new_mode->change_message( true, steed ) );
         move_mode = new_mode;
         // crouching affects visibility
         get_map().set_seen_cache_dirty( pos().z );
-
-        if( new_mode->stop_hauling() ) {
-            stop_hauling();
-        }
     } else {
         add_msg( new_mode->change_message( false, steed ) );
     }

@@ -106,7 +106,6 @@ enum m_flag : int {
     MF_FUR,                 // May produce fur when butchered
     MF_LEATHER,             // May produce leather when butchered
     MF_WOOL,                // May produce wool when butchered
-    MF_FEATHER,             // May produce feather when butchered
     MF_BONES,               // May produce bones and sinews when butchered; if combined with POISON flag, tainted bones, if combined with HUMAN, human bones
     MF_FAT,                 // May produce fat when butchered; if combined with POISON flag, tainted fat
     MF_CONSOLE_DESPAWN,     // Despawns when a nearby console is properly hacked
@@ -168,13 +167,14 @@ enum m_flag : int {
     MF_SHEARABLE,           // This monster is shearable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
-    MF_DRIPS_NAPALM,        // This monster ocassionally drips napalm on move
+    MF_DRIPS_NAPALM,        // This monster occasionally drips napalm on move
     MF_DRIPS_GASOLINE,      // This monster occasionally drips gasoline on move
     MF_ELECTRIC_FIELD,      // This monster is surrounded by an electrical field that ignites flammable liquids near it
     MF_LOUDMOVES,           // This monster makes move noises as if ~2 sizes louder, even if flying.
     MF_CAN_OPEN_DOORS,      // This monster can open doors.
     MF_STUN_IMMUNE,         // This monster is immune to the stun effect
     MF_DROPS_AMMO,          // This monster drops ammo. Should not be set for monsters that use pseudo ammo.
+    MF_INSECTICIDEPROOF,    // This monster is immune to insecticide, even though it's made of bug flesh
     MF_RANGED_ATTACKER,     // This monster has any sort of ranged attack
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };

@@ -642,11 +642,8 @@ void mdeath::broken( monster &z )
                     if( attack.second->id == "gun" ) {
                         item gun = item( dynamic_cast<const gun_actor *>( attack.second.get() )->gun_type );
                         bool same_ammo = false;
-                        for( const ammotype &at : gun.ammo_types() ) {
-                            if( at == item( ammo_entry.first ).ammo_type() ) {
-                                same_ammo = true;
-                                break;
-                            }
+                        if( gun.typeId()->magazine_default.count( item( ammo_entry.first ).ammo_type() ) ) {
+                            same_ammo = true;
                         }
                         const bool uses_mags = !gun.magazine_compatible().empty();
                         if( same_ammo && uses_mags ) {

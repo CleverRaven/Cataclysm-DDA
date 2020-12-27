@@ -65,7 +65,7 @@ static const int min_column_gap = 2;
 static const int normal_column_gap = 8;
 /**
  * The minimal occupancy ratio to align columns to the center
- * @see inventory_selector::get_columens_occupancy_ratio()
+ * @see inventory_selector::get_columns_occupancy_ratio()
  */
 static const double min_ratio_to_center = 0.85;
 
@@ -654,9 +654,9 @@ void inventory_column::on_input( const inventory_input &input )
             move_selection( scroll_direction::FORWARD );
         } else if( input.action == "UP" ) {
             move_selection( scroll_direction::BACKWARD );
-        } else if( input.action == "NEXT_TAB" ) {
+        } else if( input.action == "PAGE_DOWN" ) {
             move_selection_page( scroll_direction::FORWARD );
-        } else if( input.action == "PREV_TAB" ) {
+        } else if( input.action == "PAGE_UP" ) {
             move_selection_page( scroll_direction::BACKWARD );
         } else if( input.action == "HOME" ) {
             select( 0, scroll_direction::FORWARD );
@@ -1628,17 +1628,26 @@ inventory_selector::stat display_stat( const std::string &caption, int cur_value
 
 inventory_selector::stats inventory_selector::get_weight_and_volume_stats(
     units::mass weight_carried, units::mass weight_capacity,
-    const units::volume &volume_carried, const units::volume &volume_capacity )
+    const units::volume &volume_carried, const units::volume &volume_capacity,
+    const units::length &longest_length, const units::volume &largest_free_volume )
 {
+    // This is a bit of a hack, we're prepending two entries to the weight and length stat blocks.
+    std::string length_weight_caption = string_format( _( "Longest Length (%s): %s Weight (%s):" ),
+                                        length_units( longest_length ),
+                                        colorize( to_string( convert_length( longest_length ) ), c_light_gray ), weight_units() );
+    std::string volume_caption = string_format( _( "Free Volume (%s): %s Volume (%s):" ),
+                                 volume_units_abbr(),
+                                 colorize( format_volume( largest_free_volume ), c_light_gray ),
+                                 volume_units_abbr() );
     return {
         {
-            display_stat( string_format( _( "Weight (%s):" ), weight_units() ),
+            display_stat( length_weight_caption,
                           to_gram( weight_carried ),
                           to_gram( weight_capacity ), []( int w )
             {
                 return string_format( "%.1f", round_up( convert_weight( units::from_gram( w ) ), 1 ) );
             } ),
-            display_stat( string_format( _( "Volume (%s):" ), volume_units_abbr() ),
+            display_stat( volume_caption,
                           units::to_milliliter( volume_carried ),
                           units::to_milliliter( volume_capacity ), []( int v )
             {
@@ -1651,7 +1660,8 @@ inventory_selector::stats inventory_selector::get_weight_and_volume_stats(
 inventory_selector::stats inventory_selector::get_raw_stats() const
 {
     return get_weight_and_volume_stats( u.weight_carried(), u.weight_capacity(),
-                                        u.volume_carried(), u.volume_capacity() );
+                                        u.volume_carried(), u.volume_capacity(),
+                                        u.max_single_item_length(), u.max_single_item_volume() );
 }
 
 std::vector<std::string> inventory_selector::get_stats() const
@@ -1869,14 +1879,14 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
 {
     ctxt.register_action( "DOWN", to_translation( "Next item" ) );
     ctxt.register_action( "UP", to_translation( "Previous item" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Page down" ) );
+    ctxt.register_action( "PAGE_UP", to_translation( "Page up" ) );
     ctxt.register_action( "RIGHT", to_translation( "Next column" ) );
     ctxt.register_action( "LEFT", to_translation( "Previous column" ) );
     ctxt.register_action( "CONFIRM", to_translation( "Confirm your selection" ) );
     ctxt.register_action( "QUIT", to_translation( "Cancel" ) );
-    ctxt.register_action( "CATEGORY_SELECTION", to_translation( "Switch selection mode" ) );
+    ctxt.register_action( "CATEGORY_SELECTION", to_translation( "Switch category selection mode" ) );
     ctxt.register_action( "TOGGLE_FAVORITE", to_translation( "Toggle favorite" ) );
-    ctxt.register_action( "NEXT_TAB", to_translation( "Page down" ) );
-    ctxt.register_action( "PREV_TAB", to_translation( "Page up" ) );
     ctxt.register_action( "HOME", to_translation( "Home" ) );
     ctxt.register_action( "END", to_translation( "End" ) );
     ctxt.register_action( "SELECT" );
@@ -2627,5 +2637,6 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
                u.weight_carried_with_tweaks( dropping ),
                u.weight_capacity(),
                u.volume_carried_with_tweaks( dropping ),
-               u.volume_capacity_with_tweaks( dropping ) );
+               u.volume_capacity_with_tweaks( dropping ),
+               u.max_single_item_length(), u.max_single_item_volume() );
 }

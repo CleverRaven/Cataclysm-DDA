@@ -20,6 +20,16 @@
     "flags": [ "SKINTIGHT" ]
   },
   {
+    "id": "xl_arm_warmers",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL arm warmers", "str_pl": "pairs of XL arm warmers" },
+    "description": "Snug, soft cloth sleeves to keep your arms warm.  Made only for the largest of survivors.",
+    "weight": "49 g",
+    "volume": "350 ml",
+    "copy-from": "arm_warmers",
+    "flags": [ "SKINTIGHT", "OVERSIZE" ]
+  },
+  {
     "id": "army_top",
     "repairs_like": "tank_top",
     "type": "ARMOR",

@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include "flat_set.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -15,22 +16,23 @@ struct oter_t;
 
 struct overmap_location {
     public:
+        using TerrColType = cata::flat_set<oter_type_str_id>;
+
         void load( const JsonObject &jo, const std::string &src );
         void check() const;
         void finalize();
 
         // Test if oter meets the terrain restrictions.
         bool test( const int_id<oter_t> &oter ) const;
-        std::vector<oter_type_id> get_all_terrains() const;
+        const TerrColType &get_all_terrains() const;
         oter_type_id get_random_terrain() const;
 
-    public:
         // Used by generic_factory
         string_id<overmap_location> id;
         bool was_loaded = false;
 
     private:
-        std::vector<oter_type_str_id> terrains;
+        TerrColType terrains;
         std::vector<std::string> flags;
 };
 

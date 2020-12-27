@@ -495,22 +495,17 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     // If no weapon is selected, use highest layer of gloves instead.
     bool unarmed_flag_set = false;
     if( cur_weapon->is_null() ) {
-        bool found_glove = false;
         for( item &worn_item : worn ) {
             // Uses enum layer_level to make distinction for top layer.
             if( ( worn_item.covers( bodypart_id( "hand_l" ) ) &&
                   worn_item.covers( bodypart_id( "hand_r" ) ) ) ) {
                 if( cur_weapon->is_null() || ( worn_item.get_layer() >= cur_weapon->get_layer() ) ) {
                     cur_weapon = &worn_item;
-                    found_glove = true;
+                    cur_weapon->set_flag( flag_UNARMED_WEAPON );
+                    unarmed_flag_set = true;
                 }
-            }
-        }
 
-        // Treat all gloves as unarmed weapons.
-        if( found_glove ) {
-            cur_weapon->set_flag( flag_UNARMED_WEAPON );
-            unarmed_flag_set = true;
+            }
         }
     }
 
@@ -644,8 +639,8 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             t.deal_melee_hit( this, hit_spread, critical_hit, d, dealt_dam );
             if( dealt_special_dam.type_damage( damage_type::CUT ) > 0 ||
                 dealt_special_dam.type_damage( damage_type::STAB ) > 0 ||
-                ( cur_weapon->is_null() && ( dealt_dam.type_damage( damage_type::CUT ) > 0 ||
-                                             dealt_dam.type_damage( damage_type::STAB ) > 0 ) ) ) {
+                ( cur_weapon && cur_weapon->is_null() && ( dealt_dam.type_damage( damage_type::CUT ) > 0 ||
+                        dealt_dam.type_damage( damage_type::STAB ) > 0 ) ) ) {
                 if( has_trait( trait_POISONOUS ) ) {
                     add_msg_if_player( m_good, _( "You poison %s!" ), t.disp_name() );
                     t.add_effect( effect_poison, 6_turns );
@@ -673,7 +668,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             melee::melee_stats.damage_amount += dam;
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
-            if( !has_active_bionic( bio_cqb ) ) {
+            if( !has_active_bionic( bio_cqb ) && cur_weapon ) {
                 melee_train( *this, 5, 10, *cur_weapon );
             }
 
@@ -707,6 +702,10 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
 
     if( unarmed_flag_set ) {
         cur_weapon->unset_flag( flag_UNARMED_WEAPON );
+    }
+
+    if( !t.is_hallucination() ) {
+        handle_melee_wear( *cur_weapon );
     }
 
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
@@ -2015,10 +2014,6 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         d.add_damage( damage_type::CUT, rng( 0,
                                              5 + static_cast<int>( vol * 1.5 ) ) ); // Hurt the monster extra
         remove_weapon();
-    }
-
-    if( !t.is_hallucination() ) {
-        handle_melee_wear( weap );
     }
 
     // on-hit effects for martial arts

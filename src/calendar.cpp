@@ -460,7 +460,7 @@ weekdays day_of_week( const time_point &p )
      * <wito> Oh, I thought we were talking about week day numbering in general.
      * <wito> Day 5 is a thursday, I think.
      * <wito> Nah, Day 5 feels like a thursday. :P
-     * <wito> Which would put the apocalpyse on a saturday?
+     * <wito> Which would put the apocalypse on a saturday?
      * <Starfyre> must be a thursday.  I was never able to get the hang of those.
      * <ZChris13> wito: seems about right to me
      * <wito> kevingranade: add four for thursday. ;)

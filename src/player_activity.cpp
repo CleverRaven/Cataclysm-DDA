@@ -78,7 +78,7 @@ void player_activity::set_to_null()
     sfx::end_activity_sounds(); // kill activity sounds when activity is nullified
 }
 
-void player_activity::sychronize_type_with_actor()
+void player_activity::synchronize_type_with_actor()
 {
     if( actor && type != activity_id::NULL_ID() ) {
         type = actor->get_type();
@@ -200,7 +200,7 @@ void player_activity::start_or_resume( Character &who, bool resuming )
         who.rooted_message();
     }
     // last, as start function may have changed the type
-    sychronize_type_with_actor();
+    synchronize_type_with_actor();
 }
 
 void player_activity::do_turn( player &p )
@@ -212,7 +212,7 @@ void player_activity::do_turn( player &p )
         return;
     }
     // first to ensure sync with actor
-    sychronize_type_with_actor();
+    synchronize_type_with_actor();
     // Should happen before activity or it may fail du to 0 moves
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );

@@ -27,14 +27,14 @@ enum class monotonically : int;
 class score;
 class stats_tracker;
 
-// The stats_tracker is intended to keep a summary of events that have occured.
+// The stats_tracker is intended to keep a summary of events that have occurred.
 // For each event_type it stores an event_multiset.
 // Within the event_tracker, the events are partitioned according to their data
 // (an event::data_type object, which is a map of keys to values).
 // Within each partition, an event_summary is stored, which contains the first
 // and last times such events were seen, and the number of them seen.
 // The stats_tracker can be queried in various ways to get summary statistics
-// about events that have occured.
+// about events that have occurred.
 
 struct event_summary {
     event_summary();
@@ -69,7 +69,7 @@ class event_multiset
         }
 
         // count returns the number of events matching given criteria that have
-        // occured.
+        // occurred.
         // total returns the sum of some integer-valued field across every
         // event satisfying certain criteria.
         // maximum and minimum return the max and min respectively of some

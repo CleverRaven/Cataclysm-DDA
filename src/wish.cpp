@@ -871,7 +871,7 @@ void debug_menu::wishproficiency( player *p )
             if( know_prof ) {
                 prmenu.entries[prmenu.selected].txt = string_format( _( "(known) %s" ), cur.first->name() );
                 prmenu.entries[prmenu.selected].text_color = c_yellow;
-                p->add_msg_if_player( m_good, _( "You are now proficient in %s" ), prof->name() );
+                p->add_msg_if_player( m_good, _( "You are now proficient in %s!" ), prof->name() );
                 p->add_proficiency( prof, true );
                 continue;
             }
@@ -879,7 +879,7 @@ void debug_menu::wishproficiency( player *p )
             know_all = false;
             prmenu.entries[prmenu.selected].txt = string_format( "%s", cur.first->name() );
             prmenu.entries[prmenu.selected].text_color = prmenu.text_color;
-            p->add_msg_if_player( m_bad, _( "You are no longer proficient in %s" ), prof->name() );
+            p->add_msg_if_player( m_bad, _( "You are no longer proficient in %s." ), prof->name() );
             p->lose_proficiency( prof, true );
         }
     } while( prmenu.ret != UILIST_CANCEL );

@@ -108,7 +108,7 @@ void JsonObject::mark_visited( const std::string &name ) const
 void JsonObject::report_unvisited() const
 {
 #ifndef CATA_IN_TOOL
-    if( test_mode && report_unvisited_members && !reported_unvisited_members &&
+    if( report_unvisited_members && !reported_unvisited_members &&
         !std::uncaught_exception() ) {
         reported_unvisited_members = true;
         for( const std::pair<const std::string, int> &p : positions ) {
@@ -1864,7 +1864,7 @@ void JsonOut::write_separator()
     }
     stream->put( ',' );
     if( pretty_print ) {
-        // Wrap after seperator between objects and between members of top-level objects.
+        // Wrap after separator between objects and between members of top-level objects.
         if( indent_level < 2 || need_wrap.back() ) {
             stream->put( '\n' );
             write_indent();

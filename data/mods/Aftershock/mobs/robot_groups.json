@@ -69,7 +69,7 @@
       { "monster": "mon_milbot_needle", "freq": 10, "cost_multiplier": 0 },
       { "monster": "mon_milbot_flame", "freq": 1, "cost_multiplier": 0 },
       { "monster": "mon_advbot_laser", "freq": 20, "cost_multiplier": 0 },
-      { "monster": "mon_advbot_plasma", "freq": 1, "cost_multiplier": 0 },
+      { "monster": "mon_wraitheon_irradiant", "freq": 1, "cost_multiplier": 0 },
       { "monster": "mon_molebot", "freq": 0, "cost_multiplier": 0 },
       { "monster": "mon_tripod", "freq": 10, "cost_multiplier": 0 },
       { "monster": "mon_tankbot", "freq": 20, "cost_multiplier": 0, "starts": 1086 },
