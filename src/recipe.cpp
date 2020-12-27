@@ -662,12 +662,16 @@ std::string recipe::missing_proficiencies_string( Character *c ) const
 
     for( const recipe_proficiency &rec : proficiencies ) {
         if( !rec.required ) {
-            if( !(c->has_proficiency( rec.id ) || helpers_have_proficiencies( *c, rec.id )) ) {
+            if( !( c->has_proficiency( rec.id ) || helpers_have_proficiencies( *c, rec.id ) ) ) {
                 prof_penalty pen = { rec.id, rec.time_multiplier, rec.fail_multiplier };
-                const book_proficiency_bonuses book_bonuses = c->crafting_inventory().get_book_proficiency_bonuses();
+                const book_proficiency_bonuses book_bonuses =
+                    c->crafting_inventory().get_book_proficiency_bonuses();
                 pen.time_mult *= book_bonuses.time_factor( pen.id );
                 pen.failure_mult *= book_bonuses.fail_factor( pen.id );
-                if( book_bonuses.time_factor( pen.id ) != 1.0f ) {
+                // The book bonuses can't make not having this a positive
+                pen.time_mult = std::max( pen.time_mult, 1.0f );
+                pen.failure_mult = std::max( pen.failure_mult, 1.0f );
+                if( book_bonuses.time_factor( pen.id ) != 1.0f || book_bonuses.fail_factor( pen.id ) != 1.0f ) {
                     pen.mitigated = true;
                 }
                 missing_profs.push_back( pen );

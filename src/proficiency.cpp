@@ -382,7 +382,7 @@ void book_proficiency_bonus::deserialize( JsonIn &jsin )
     optional( jo, was_loaded, "include_prereqs", include_prereqs, default_include_prereqs );
 }
 
-book_proficiency_bonus book_proficiency_bonus::operator+=( const book_proficiency_bonus &rhs )
+book_proficiency_bonus &book_proficiency_bonus::operator+=( const book_proficiency_bonus &rhs )
 {
     if( !id.is_empty() && id != rhs.id ) {
         debugmsg( "ERROR: Tried to add two book proficiency bonuses with different ids" );
@@ -404,14 +404,7 @@ void book_proficiency_bonuses::add( const book_proficiency_bonus &bonus )
 void book_proficiency_bonuses::add( const book_proficiency_bonus &bonus,
                                     std::set<proficiency_id> &already_included )
 {
-    auto found_bonus = bonuses.find( bonus.id );
-    if( found_bonus != bonuses.end() ) {
-        book_proficiency_bonus &current_bonus = found_bonus->second;
-        current_bonus.fail_factor += std::pow( 1 - bonus.fail_factor, 2 );
-        current_bonus.time_factor += std::pow( 1 - bonus.time_factor, 2 );
-    } else {
-        bonuses.emplace( bonus.id, bonus );
-    }
+    bonuses.push_back( bonus );
     if( bonus.include_prereqs ) {
         for( const proficiency_id &prereqs : bonus.id->required_proficiencies() ) {
             if( !already_included.count( prereqs ) ) {
@@ -424,30 +417,51 @@ void book_proficiency_bonuses::add( const book_proficiency_bonus &bonus,
     }
 }
 
-book_proficiency_bonuses book_proficiency_bonuses::operator+=( const book_proficiency_bonuses &rhs )
+book_proficiency_bonuses &book_proficiency_bonuses::operator+=( const book_proficiency_bonuses
+        &rhs )
 {
-    for( const std::pair<proficiency_id, book_proficiency_bonus> &bonus_pair : rhs.bonuses ) {
-        bonuses[bonus_pair.first] += bonus_pair.second;
+    for( const book_proficiency_bonus &bonus : rhs.bonuses ) {
+        add( bonus );
     }
     return *this;
 }
 
 float book_proficiency_bonuses::fail_factor( const proficiency_id &id ) const
 {
-    auto found_bonus = bonuses.find( id );
-    if( found_bonus == bonuses.end() ) {
-        return 1.0f;
-    } else {
-        return 1 - std::sqrt( found_bonus->second.fail_factor );
+    float ret = 0.0f;
+    bool found_bonus = false;
+
+    for( const book_proficiency_bonus &bonus : bonuses ) {
+        if( id != bonus.id ) {
+            continue;
+        }
+        found_bonus = true;
+        ret += std::pow( 1 - bonus.fail_factor, 2 );
     }
+
+    if( !found_bonus ) {
+        return 1.0f;
+    }
+
+    return 1 - std::sqrt( ret );
 }
 
 float book_proficiency_bonuses::time_factor( const proficiency_id &id ) const
 {
-    auto found_bonus = bonuses.find( id );
-    if( found_bonus == bonuses.end() ) {
-        return 1.0f;
-    } else {
-        return 1 - std::sqrt( found_bonus->second.time_factor );
+    float ret = 0.0f;
+    bool found_bonus = false;
+
+    for( const book_proficiency_bonus &bonus : bonuses ) {
+        if( id != bonus.id ) {
+            continue;
+        }
+        found_bonus = true;
+        ret += std::pow( 1 - bonus.time_factor, 2 );
     }
+
+    if( !found_bonus ) {
+        return 1.0f;
+    }
+
+    return 1 - std::sqrt( ret );
 }

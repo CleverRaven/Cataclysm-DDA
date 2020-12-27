@@ -135,7 +135,8 @@ struct book_proficiency_bonus {
         bool was_loaded = false;
         void deserialize( JsonIn &jsin );
 
-        book_proficiency_bonus operator+=( const book_proficiency_bonus &rhs );
+        book_proficiency_bonus &operator+=( const book_proficiency_bonus &rhs );
+
     private:
         static const float default_time_factor;
         static const float default_fail_factor;
@@ -146,12 +147,12 @@ struct book_proficiency_bonus {
 class book_proficiency_bonuses
 {
     private:
-        std::map<proficiency_id, book_proficiency_bonus> bonuses;
+        std::vector<book_proficiency_bonus> bonuses;
         // the inner part of the add function for recursion
         void add( const book_proficiency_bonus &bonus, std::set<proficiency_id> &already_included );
     public:
         void add( const book_proficiency_bonus &bonus );
-        book_proficiency_bonuses operator+=( const book_proficiency_bonuses &rhs );
+        book_proficiency_bonuses &operator+=( const book_proficiency_bonuses &rhs );
         float fail_factor( const proficiency_id &id ) const;
         float time_factor( const proficiency_id &id ) const;
 };
