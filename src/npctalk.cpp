@@ -1482,10 +1482,11 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
         response_hotkeys.clear();
         input_event evt = ctxt.first_unassigned_hotkey( queue );
         for( talk_response &response : responses ) {
-            response_lines.emplace_back( response.create_option_line( *this, evt ) );
+            const talk_data &td = response.create_option_line( *this, evt );
+            response_lines.emplace_back( td );
             response_hotkeys.emplace_back( evt );
 #if defined(__ANDROID__)
-            ctxt.register_manual_key( evt.get_first_input() );
+            ctxt.register_manual_key( evt.get_first_input(), td.text );
 #endif
             evt = ctxt.next_unassigned_hotkey( queue, evt );
         }
