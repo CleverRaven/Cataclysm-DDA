@@ -3,7 +3,7 @@
     "id": "mon_orc_warrior",
     "type": "MONSTER",
     "name": { "str": "Orc Warrior" },
-    "description": "This green brute is a orc warrior. It stares at you menacingly, club in hand.",
+    "description": "This green brute is a orc warrior.  It stares at you menacingly, sword in hand.",
     "default_faction": "orcs",
     "bodytype": "human",
     "species": [ "ORC" ],
