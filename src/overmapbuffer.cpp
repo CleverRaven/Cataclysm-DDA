@@ -63,6 +63,8 @@ int camp_reference::get_distance_from_bounds() const
 
 omt_find_params::~omt_find_params() = default;
 
+omt_route_params::~omt_route_params() = default;
+
 std::string overmapbuffer::terrain_filename( const point &p )
 {
     return string_format( "%s/o.%d.%d", g->get_world_base_save_path(), p.x, p.y );
@@ -776,8 +778,8 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
     return path;
 }
 
-bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, int radius,
-                                  bool road_only )
+bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest,
+                                  const omt_route_params &params )
 {
     static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
     static const int OX = RADIUS * OMAPX;   // half-width of the area to search in
@@ -811,7 +813,7 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
         const oter_id oter = get_ter_at( cur.pos );
 
         if( !connection->has( oter ) ) {
-            if( road_only ) {
+            if( params.road_only ) {
                 return pf::rejected;
             }
 
@@ -828,11 +830,23 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
         return res;
     };
 
+    size_t num_overmaps = overmaps.size();
+    size_t counter = 0;
+
+    const auto reporter = [&]() {
+        counter += 1;
+        if( params.popup && ( num_overmaps != overmaps.size() || counter == 512 ) ) {
+            params.popup->refresh();
+            counter = 0;
+            num_overmaps = overmaps.size();
+        }
+    };
+
     const auto path = pf::find_path_4dir( start, finish, 2 * OX,
-                                          2 * OY, estimate );
+                                          2 * OY, estimate, reporter );
 
     for( const auto &node : path.nodes ) {
-        reveal( base + node.pos, radius );
+        reveal( base + node.pos, params.radius );
     }
     return !path.nodes.empty();
 }

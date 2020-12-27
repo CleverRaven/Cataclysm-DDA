@@ -127,6 +127,20 @@ struct omt_find_params {
     shared_ptr_fast<throbber_popup> popup = nullptr;
 };
 
+/**
+ * Standard arguments for finding overmap route
+ * @param radius Radius of revealed terrain around the route
+ * @param road_only If set, restricts route to only use roads
+ * @param popup If set, the popup will be periodically updated to indicate ongoing pathfinding.
+ */
+struct omt_route_params {
+    ~omt_route_params();
+
+    int radius = 0;
+    bool road_only = false;
+    shared_ptr_fast<throbber_popup> popup = nullptr;
+};
+
 class overmapbuffer
 {
     public:
@@ -319,8 +333,7 @@ class overmapbuffer
                      const std::function<bool( const oter_id & )> &filter );
         std::vector<tripoint> get_npc_path( const tripoint &src, const tripoint &dest );
         std::vector<tripoint> get_npc_path( const tripoint &src, const tripoint &dest, path_type &ptype );
-        bool reveal_route( const tripoint &source, const tripoint &dest, int radius = 0,
-                           bool road_only = false );
+        bool reveal_route( const tripoint &source, const tripoint &dest, const omt_route_params &params );
         /**
          * Returns the closest point of terrain type.
          * @param origin Location of search

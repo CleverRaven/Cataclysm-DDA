@@ -23,6 +23,7 @@
 #include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "popup.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -613,7 +614,12 @@ void mission_start::reveal_refugee_center( mission *miss )
                                  3, false );
     const tripoint dest_road = overmap_buffer.find_closest( *target_pos, "road", 3, false );
 
-    if( overmap_buffer.reveal_route( source_road, dest_road, 1, true ) ) {
+    omt_route_params params;
+    params.radius = 1;
+    params.road_only = true;
+    params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
+
+    if( overmap_buffer.reveal_route( source_road, dest_road, params ) ) {
         add_msg( _( "You mark the refugee center and the road that leads to it…" ) );
     } else {
         add_msg( _( "You mark the refugee center, but you have no idea how to get there by road…" ) );

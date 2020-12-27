@@ -43,24 +43,6 @@ static tripoint reveal_destination( const std::string &type )
     return overmap::invalid_tripoint;
 }
 
-static void reveal_route( mission *miss, const tripoint &destination )
-{
-    const npc *p = g->find_npc( miss->get_npc_id() );
-    if( p == nullptr ) {
-        debugmsg( "couldn't find an NPC!" );
-        return;
-    }
-
-    const tripoint source = g->u.global_omt_location();
-
-    const tripoint source_road = overmap_buffer.find_closest( source, "road", 3, false );
-    const tripoint dest_road = overmap_buffer.find_closest( destination, "road", 3, false );
-
-    if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
-        add_msg( _( "%s also marks the road that leads to it…" ), p->name );
-    }
-}
-
 static void reveal_target( mission *miss, const std::string &omter_id )
 {
     const npc *p = g->find_npc( miss->get_npc_id() );
@@ -75,8 +57,9 @@ static void reveal_target( mission *miss, const std::string &omter_id )
         add_msg( _( "%s has marked the only %s known to them on your map." ), p->name,
                  oter->get_name() );
         miss->set_target( destination );
-        if( one_in( 3 ) ) {
-            reveal_route( miss, destination );
+        if( one_in( 3 ) &&
+            mission_util::reveal_road( g->u.global_omt_location(), destination, overmap_buffer ) ) {
+            add_msg( _( "%s also marks the road that leads to it…" ), p->name );
         }
     }
 }
@@ -90,7 +73,11 @@ bool mission_util::reveal_road( const tripoint &source, const tripoint &dest, ov
 {
     const tripoint source_road = overmap_buffer.find_closest( source, "road", 3, false );
     const tripoint dest_road = overmap_buffer.find_closest( dest, "road", 3, false );
-    return omb.reveal_route( source_road, dest_road );
+
+    omt_route_params params;
+    params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
+
+    return omb.reveal_route( source_road, dest_road, params );
 }
 
 /**
