@@ -92,7 +92,7 @@ class Tileset:
         self.sprite_height = 16
         self.info = [{}]
         if not os.access(info_path, os.R_OK):
-            sys.exit(f'Error: cannot open {tileset_info_path}')
+            sys.exit(f'Error: cannot open {info_path}')
         with open(info_path, 'r') as fp:
             self.info = json.load(fp)
             self.sprite_width = self.info[0].get('width')
@@ -155,7 +155,7 @@ class Tileset:
 
         if is_filler:
             for an_id in tile_id:
-                full_id = prefix + an_id
+                full_id = f'{prefix}{an_id}'
                 if full_id in self.processed_ids:
                     print(f'Info: skipping filler for {full_id}')
                     return None
@@ -182,7 +182,7 @@ class Tileset:
 
         if fg_id or bg_id:
             for an_id in tile_id:
-                full_id = prefix + an_id
+                full_id = f'{prefix}{an_id}'
                 if full_id not in self.processed_ids:
                     self.processed_ids.append(full_id)
             return tile_entry
@@ -204,7 +204,7 @@ class Tileset:
         return unused
 
 
-class TilesheetData:
+class Tilesheet:
     '''
     Tilesheet reading and compositing
     '''
@@ -391,7 +391,7 @@ if __name__ == '__main__':
     # loop through tilesheets and parse all configs in subdirectories,
     # create sheet images
     for subdir_index in range(1, len(tileset.info)):
-        sheet = TilesheetData(subdir_index, tileset)
+        sheet = Tilesheet(subdir_index, tileset)
         sheet.set_first_index(tileset)
 
         if sheet.is_filler:
