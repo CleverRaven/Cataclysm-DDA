@@ -8,7 +8,7 @@ on:
     - '**.c'
 
 jobs:
-  style-json:
+  astyle-code:
     name: astyle check
 
     runs-on: ubuntu-latest
