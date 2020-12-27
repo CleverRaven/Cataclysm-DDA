@@ -37,7 +37,7 @@
     "id": "mon_zorc",
     "type": "MONSTER",
     "name": { "str": "Zorc" },
-    "description": " This unholy beast looks at you with a piercing stare so strong it might scare your soul away.",
+    "description": "This unholy beast looks at you with a piercing stare so strong it might scare your soul away.",
     "default_faction": "zombie",
     "bodytype": "human",
     "categories": [ "CLASSIC" ],
