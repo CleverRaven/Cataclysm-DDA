@@ -2274,6 +2274,7 @@
       [ "bootsheath", 5 ],
       [ "holster", 4 ],
       [ "bandolier_shotgun", 3 ],
+      [ "torso_bandolier_grenade", 1 ],
       [ "survnote", 2 ],
       [ "bodypillow", 1 ],
       [ "flint_steel", 6 ],
