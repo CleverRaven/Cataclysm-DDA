@@ -5,16 +5,30 @@ on:
     branches:
     - master
     paths-ignore:
+    - 'android/**'
+    - 'build-data/osx/**'
     - 'doc/**'
+    - 'doxygen-doc/**'
     - 'lgtm/**'
+    - 'msvc-full-features/**'
+    - 'msvc-object_creator/**'
+    - 'object_creator/**'
     - 'tools/**'
+    - 'utilities/**'
   pull_request:
     branches:
     - master
     paths-ignore:
+    - 'android/**'
+    - 'build-data/osx/**'
     - 'doc/**'
+    - 'doxygen-doc/**'
     - 'lgtm/**'
+    - 'msvc-full-features/**'
+    - 'msvc-object_creator/**'
+    - 'object_creator/**'
     - 'tools/**'
+    - 'utilities/**'
 
 
 jobs:
