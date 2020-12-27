@@ -1070,6 +1070,8 @@ class JsonArray
         std::string str(); // copy array json as string
         [[noreturn]] void throw_error( const std::string &err );
         [[noreturn]] void throw_error( const std::string &err, int idx );
+        // See JsonIn::string_error
+        [[noreturn]] void string_error( const std::string &err, int idx, int offset );
 
         // iterative access
         bool next_bool();

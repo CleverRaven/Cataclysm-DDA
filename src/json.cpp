@@ -236,6 +236,17 @@ void JsonArray::throw_error( const std::string &err, int idx )
     jsin->error( err );
 }
 
+void JsonArray::string_error( const std::string &err, const int idx,
+                              const int offset )
+{
+    if( jsin && idx >= 0 && static_cast<size_t>( idx ) < positions.size() ) {
+        jsin->seek( positions[idx] );
+        jsin->string_error( err, offset );
+    } else {
+        throw_error( err );
+    }
+}
+
 void JsonObject::throw_error( const std::string &err ) const
 {
     if( !jsin ) {
@@ -1672,6 +1683,12 @@ void JsonIn::error( const std::string &message, int offset )
     if( !stream->good() ) {
         throw JsonError( err.str() );
     }
+    // Seek to eof after throwing to avoid continue reading from the incorrect
+    // location. The calling code of json error methods is supposed to restore
+    // the stream location if it wishes to recover from the error.
+    on_out_of_scope seek_to_eof( [this]() {
+        stream->seekg( 0, std::istream::end );
+    } );
     // also print surrounding few lines of context, if not too large
     err << "\n\n";
     stream->seekg( offset, std::istream::cur );
@@ -1694,7 +1711,7 @@ void JsonIn::error( const std::string &message, int offset )
             err << *it;
         }
     }
-    if( !is_whitespace( peek() ) ) {
+    if( !is_whitespace( peek() ) && stream->good() ) {
         err << peek();
     }
     // display a pointer to the position

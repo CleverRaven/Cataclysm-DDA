@@ -2499,21 +2499,21 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                 const bool has_placing = fpi != format_placings.end();
 
                 if( !has_terrain && !fallback_terrain_exists ) {
-                    parray.throw_error(
+                    parray.string_error(
                         string_format( "format: rows: row %d column %d: "
                                        "'%s' is not in 'terrain', and no 'fill_ter' is set!",
-                                       c + 1, i + 1, key.str ) );
+                                       c + 1, i + 1, key.str ), c, i + 1 );
                 }
-                if( test_mode && !has_terrain && !has_furn && !has_placing &&
+                if( !has_terrain && !has_furn && !has_placing &&
                     key.str != " " && key.str != "." ) {
-                    // TODO: Once all the in-tree mods don't report this error,
-                    // it should be changed to happen in regular games (not
-                    // just test_mode) and be non-fatal, so that mappers find
-                    // out about their issues before they PR their changes.
-                    parray.throw_error(
-                        string_format( "format: rows: row %d column %d: "
-                                       "'%s' has no terrain, furniture, or other definition",
-                                       c + 1, i + 1, key.str ) );
+                    try {
+                        parray.string_error(
+                            string_format( "format: rows: row %d column %d: "
+                                           "'%s' has no terrain, furniture, or other definition",
+                                           c + 1, i + 1, key.str ), c, i + 1 );
+                    } catch( const JsonError &e ) {
+                        debugmsg( "(json-error)\n%s", e.what() );
+                    }
                 }
                 if( has_terrain ) {
                     format[ calc_index( p ) ].ter = iter_ter->second;
