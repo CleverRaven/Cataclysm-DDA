@@ -225,7 +225,6 @@
     "points": 1,
     "description": "Your system is rather tolerant of poisons and toxins, and most will affect you less.",
     "starting_trait": true,
-    "leads_to": [ "EATPOISON" ],
     "category": [ "INSECT", "SLIME", "SPIDER", "MEDICAL" ]
   },
   {
@@ -375,7 +374,7 @@
     "points": 1,
     "description": "You can handle intoxicants well.  Their effects clear up more quickly for you.",
     "starting_trait": true,
-    "leads_to": [ "ALCMET", "EATPOISON" ],
+    "leads_to": [ "ALCMET" ],
     "cancels": [ "LIGHTWEIGHT" ]
   },
   {
@@ -2601,7 +2600,6 @@
     "points": 1,
     "description": "Your body produces a potent venom.  Cutting or stabbing attacks from mutations have a chance to poison your target.",
     "prereqs": [ "POISRESIST" ],
-    "leads_to": [ "EATPOISON" ],
     "changes_to": [ "POISONOUS2" ],
     "category": [ "SLIME", "TROGLOBITE", "SPIDER" ]
   },
@@ -2853,28 +2851,13 @@
   },
   {
     "type": "mutation",
-    "id": "EATPOISON",
-    "name": { "str": "Intestinal Fortitude" },
-    "points": 2,
-    "description": "Your guts have developed the ability to handle poisonous food.  Mostly.",
-    "changes_to": [ "EATDEAD" ],
-    "prereqs": [ "NAUSEA", "VOMITOUS", "POISRESIST", "POISONOUS" ],
-    "//": "Yes, you eventually got over the massive digestive upset.  Mutations aren't easy on a system!",
-    "prereqs2": [ "SAPROVORE", "TOLERANCE" ],
-    "threshreq": [ "THRESH_TROGLOBITE", "THRESH_CHIMERA", "THRESH_RAPTOR", "THRESH_RAT", "THRESH_MOUSE" ],
-    "category": [ "TROGLOBITE", "RAPTOR", "RAT", "CHIMERA" ],
-    "valid": false
-  },
-  {
-    "type": "mutation",
     "id": "EATDEAD",
     "name": { "str": "Eater Of The Dead" },
-    "points": 4,
+    "points": 3,
     "description": "Eating rotting, long-dead flesh is good for the struggle, and safe--if still completely unappealing--for you.",
-    "prereqs": [ "EATPOISON" ],
+    "prereqs": [ "POISRESIST" ],
     "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT", "THRESH_MOUSE" ],
-    "category": [ "RAT", "CHIMERA", "MOUSE" ],
-    "valid": false
+    "category": [ "RAT", "CHIMERA", "MOUSE" ]
   },
   {
     "type": "mutation",
@@ -4508,7 +4491,7 @@
     "points": -2,
     "description": "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.  You can, if desired, think yourself into vomiting, too.",
     "prereqs": [ "WEAKSTOMACH" ],
-    "changes_to": [ "VOMITOUS", "EATPOISON" ],
+    "changes_to": [ "VOMITOUS" ],
     "category": [ "ALPHA" ],
     "active": true
   },
@@ -4519,7 +4502,6 @@
     "points": -3,
     "description": "You have a major digestive disorder.  Though it causes you to vomit frequently, you have found that you can trigger your vomit reflex on demand, too.",
     "prereqs": [ "NAUSEA" ],
-    "changes_to": [ "EATPOISON" ],
     "category": [ "SLIME", "RAT", "MEDICAL", "ELFA" ],
     "active": true
   },

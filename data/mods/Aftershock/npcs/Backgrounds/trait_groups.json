@@ -262,7 +262,7 @@
     "type": "trait_group",
     "id": "trait_group_troglobite_postthres",
     "subtype": "collection",
-    "traits": [ { "trait": "THRESH_TROGLOBITE" }, { "trait": "PAINRESIST_TROGLO", "prob": 50 }, { "trait": "EATPOISON", "prob": 50 } ]
+    "traits": [ { "trait": "THRESH_TROGLOBITE" }, { "trait": "PAINRESIST_TROGLO", "prob": 50 } ]
   },
   {
     "type": "trait_group",
@@ -318,7 +318,6 @@
       { "trait": "SAPIOVORE", "prob": 50 },
       { "trait": "MUT_JUNKIE", "prob": 50 },
       { "trait": "MUT_TOUGH2", "prob": 50 },
-      { "trait": "EATPOISON", "prob": 50 },
       { "trait": "EATDEAD", "prob": 50 },
       { "trait": "SABER_TEETH", "prob": 50 },
       { "trait": "EATHEALTH", "prob": 50 }
@@ -367,8 +366,7 @@
     "traits": [
       { "trait": "THRESH_RAPTOR" },
       { "trait": "PRED4", "prob": 50 },
-      { "trait": "SAPIOVORE", "prob": 50 },
-      { "trait": "EATPOISON", "prob": 50 }
+      { "trait": "SAPIOVORE", "prob": 50 }
     ]
   },
   {

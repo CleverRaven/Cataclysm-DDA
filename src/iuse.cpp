@@ -236,7 +236,6 @@ static const trait_id trait_ALCMET( "ALCMET" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
-static const trait_id trait_EATPOISON( "EATPOISON" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
@@ -250,6 +249,7 @@ static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_POISRESIST( "POISRESIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
@@ -857,11 +857,10 @@ int iuse::poison( player *p, item *it, bool, const tripoint & )
           !p->query_yn( _( "Are you sure you want to eat this?  It looks poisonous…" ) ) ) ) {
         return 0;
     }
-    /** @EFFECT_STR increases EATPOISON trait effectiveness (50-90%) */
-    if( ( p->has_trait( trait_EATPOISON ) ) && ( !( one_in( p->str_cur / 2 ) ) ) ) {
-        return it->type->charges_to_use();
+    if( !p->has_trait( trait_POISRESIST ) ) {
+        p->add_effect( effect_poison, 1_hours );
     }
-    p->add_effect( effect_poison, 1_hours );
+
     p->add_effect( effect_foodpoison, 3_hours );
     return it->type->charges_to_use();
 }

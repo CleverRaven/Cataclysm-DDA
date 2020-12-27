@@ -104,5 +104,14 @@
     "description": "Everyone can pilot a helicopter nowadays, you don't need this trait.",
     "valid": false,
     "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "EATPOISON",
+    "name": { "str": "Intestinal Fortitude" },
+    "points": 2,
+    "description": "Your guts have developed the ability to handle poisonous food.  Mostly.",
+    "changes_to": [ "EATDEAD" ],
+    "valid": false
   }
 ]

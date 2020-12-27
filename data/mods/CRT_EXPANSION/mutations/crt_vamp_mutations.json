@@ -274,7 +274,6 @@
     "points": 1,
     "description": "Your body produces a potent venom.  Cutting or stabbing attacks from mutations have a chance to poison your target.",
     "prereqs": [ "POISRESIST" ],
-    "leads_to": [ "EATPOISON" ],
     "changes_to": [ "POISONOUS2" ],
     "category": [ "SLIME", "TROGLOBITE", "SPIDER", "VAMP" ]
   },
