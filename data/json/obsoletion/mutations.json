@@ -113,5 +113,16 @@
     "description": "Your guts have developed the ability to handle poisonous food.  Mostly.",
     "changes_to": [ "EATDEAD" ],
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "INFIMMUNE",
+    "name": { "str": "Infection Immune" },
+    "points": 3,
+    "description": "Your bloodstream has developed antibiotic properties.  Your wounds will never become infected.",
+    "prereqs": [ "DISRESISTANT" ],
+    "prereqs2": [ "INFRESIST" ],
+    "category": [ "MEDICAL" ],
+    "valid": false
   }
 ]

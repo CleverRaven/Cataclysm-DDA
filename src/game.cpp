@@ -226,7 +226,6 @@ static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
-static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
@@ -9442,10 +9441,7 @@ point game::place_player( const tripoint &dest_loc )
                          body_part_name_accusative( bp->token ),
                          m.has_flag_ter( "SHARP", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                              dest_loc ) );
-                if( ( u.has_trait( trait_INFRESIST ) ) && ( one_in( 1024 ) ) ) {
-                    u.add_effect( effect_tetanus, 1_turns, num_bp, true );
-                } else if( ( !u.has_trait( trait_INFIMMUNE ) || !u.has_trait( trait_INFRESIST ) ) &&
-                           ( one_in( 256 ) ) ) {
+                if( !u.has_trait( trait_INFRESIST ) ) {
                     u.add_effect( effect_tetanus, 1_turns, num_bp, true );
                 }
             }

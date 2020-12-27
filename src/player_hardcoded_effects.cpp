@@ -947,17 +947,20 @@ void player::hardcoded_effects( effect &it )
         }
         if( !recovered ) {
             // Move up to infection
-            if( dur > 6_hours ) {
+            // Infection resistance can keep us in bite phase arbitrarily long
+            if( dur > 6_hours && !has_trait( trait_INFRESIST ) ) {
                 add_effect( effect_infected, 1_turns, bp, true );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
             } else if( has_effect( effect_strong_antibiotic ) ) {
-                it.mod_duration( -1_turns ); //strong antibiotic reverses!
+                // Strong antibiotic reverses progress
+                it.mod_duration( -1_turns );
             } else if( has_effect( effect_antibiotic ) ) {
                 // Normal antibiotic prevents progression
             } else if( has_effect( effect_weak_antibiotic ) ) {
                 if( calendar::once_every( 4_turns ) ) {
-                    it.mod_duration( 1_turns ); //weak antibiotic slows down to a quarter
+                    // Weak antibiotic slows down to a quarter
+                    it.mod_duration( 1_turns );
                 }
             } else {
                 it.mod_duration( 1_turns );

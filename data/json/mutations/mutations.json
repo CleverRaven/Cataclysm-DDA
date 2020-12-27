@@ -2555,22 +2555,11 @@
   {
     "type": "mutation",
     "id": "INFRESIST",
-    "name": { "str": "Infection Resistant" },
-    "points": 2,
-    "description": "Your immune system is particularly good at resisting infections.  You have an increased chance for bad wounds and infections to heal on their own, and only suffer reduced penalties from them.",
-    "starting_trait": true,
-    "changes_to": [ "INFIMMUNE" ],
-    "category": [ "TROGLOBITE", "RAT", "MEDICAL" ]
-  },
-  {
-    "type": "mutation",
-    "id": "INFIMMUNE",
     "name": { "str": "Infection Immune" },
-    "points": 3,
-    "description": "Your bloodstream has developed antibiotic properties.  Your wounds will never become infected.",
-    "prereqs": [ "DISRESISTANT" ],
-    "prereqs2": [ "INFRESIST" ],
-    "category": [ "MEDICAL" ]
+    "points": 1,
+    "description": "Your immune system is particularly good at resisting infections.  Your wounds will no longer become infected, altough existing infections are still dangerous.",
+    "starting_trait": true,
+    "category": [ "TROGLOBITE", "RAT", "MEDICAL" ]
   },
   {
     "type": "mutation",

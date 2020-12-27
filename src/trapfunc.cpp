@@ -50,7 +50,6 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_tetanus( "tetanus" );
 
-static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
@@ -162,13 +161,8 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
         c->deal_damage( nullptr, hit, d );
 
         player *n = dynamic_cast<player *>( c );
-        if( n != nullptr ) {
-            if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 512 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, num_bp, true );
-            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
-                       ( one_in( 128 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, num_bp, true );
-            }
+        if( n != nullptr && !n->has_trait( trait_INFRESIST ) ) {
+            n->add_effect( effect_tetanus, 1_turns, num_bp, true );
         }
         c->check_dead_state();
     } else {
@@ -202,10 +196,7 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
     } else {
         c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, rng( 6, 10 ) ) );
         c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( DT_CUT, rng( 6, 10 ) ) );
-        if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
-            n->add_effect( effect_tetanus, 1_turns, num_bp, true );
-        } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
-                   ( one_in( 35 ) ) ) {
+        if( !n->has_trait( trait_INFRESIST ) ) {
             n->add_effect( effect_tetanus, 1_turns, num_bp, true );
         }
     }
@@ -864,10 +855,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
             n->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
                                   body_part_name_accusative( hit->token ) );
             n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
-            if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, num_bp, true );
-            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
-                       ( one_in( 35 ) ) ) {
+            if( !n->has_trait( trait_INFRESIST )  ) {
                 n->add_effect( effect_tetanus, 1_turns, num_bp, true );
             }
         }
@@ -951,10 +939,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
             n->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
                                   body_part_name_accusative( hit->token ) );
             n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
-            if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, num_bp, true );
-            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
-                       ( one_in( 35 ) ) ) {
+            if( !n->has_trait( trait_INFRESIST ) ) {
                 n->add_effect( effect_tetanus, 1_turns, num_bp, true );
             }
         }

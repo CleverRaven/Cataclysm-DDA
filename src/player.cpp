@@ -138,7 +138,6 @@ static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_HOOVES( "HOOVES" );
 static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_HUGE_OK( "HUGE_OK" );
-static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LARGE( "LARGE" );
@@ -1689,12 +1688,6 @@ void player::process_effects_internal()
     if( has_trait( trait_EATHEALTH ) && has_effect( effect_tapeworm ) ) {
         remove_effect( effect_tapeworm );
         add_msg_if_player( m_good, _( "Your bowels gurgle as something inside them dies." ) );
-    }
-    if( has_trait( trait_INFIMMUNE ) && ( has_effect( effect_bite ) || has_effect( effect_infected ) ||
-                                          has_effect( effect_recover ) ) ) {
-        remove_effect( effect_bite );
-        remove_effect( effect_infected );
-        remove_effect( effect_recover );
     }
 
     //Human only effects

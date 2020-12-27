@@ -392,7 +392,6 @@
       { "trait": "JITTERY", "prob": 50 },
       { "trait": "MOODSWINGS", "prob": 50 },
       { "trait": "RADIOGENIC", "prob": 50 },
-      { "trait": "INFIMMUNE", "prob": 50 },
       { "trait": "PARAIMMUNE", "prob": 50 },
       { "trait": "PAINREC3", "prob": 50 },
       { "trait": "VOMITOUS", "prob": 50 },
