@@ -1,10 +1,14 @@
 name: astyle
 
 on:
-  pull_request
+  pull_request:
+    paths:
+    - '**.cpp'
+    - '**.h'
+    - '**.c'
 
 jobs:
-  style-json:
+  astyle-code:
     name: astyle check
 
     runs-on: ubuntu-latest

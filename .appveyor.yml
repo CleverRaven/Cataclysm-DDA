@@ -16,3 +16,9 @@ build:
   verbosity: minimal
 test_script:
   - cmd: Cataclysm-test-vcpkg-static-Release-x64.exe --rng-seed time --min-duration 0.2
+skip_commits:
+  files:
+    - 'doc/**'
+    - 'lgtm/**'
+    - 'tools/**'
+    - '.github/**'
