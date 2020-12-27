@@ -30,6 +30,7 @@
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_types.h"
+#include "popup.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
@@ -59,6 +60,8 @@ int camp_reference::get_distance_from_bounds() const
     assert( camp != nullptr );
     return distance - omt_to_sm_copy( 4 );
 }
+
+omt_find_params::~omt_find_params() = default;
 
 std::string overmapbuffer::terrain_filename( const point &p )
 {
@@ -968,6 +971,9 @@ tripoint overmapbuffer::find_closest( const tripoint &origin, const omt_find_par
     std::vector<tripoint> result;
     cata::optional<int> found_dist;
 
+    size_t num_overmaps = overmaps.size();
+    size_t counter = 0;
+
     for( const point &loc_xy : closest_points_first( origin.xy(), min_dist, max_dist ) ) {
         const int dist_xy = square_dist( origin.xy(), loc_xy );
 
@@ -987,6 +993,13 @@ tripoint overmapbuffer::find_closest( const tripoint &origin, const omt_find_par
                 found_dist = dist;
                 result.push_back( loc );
             }
+
+            counter += 1;
+            if( params.popup && ( num_overmaps != overmaps.size() || counter == 512 ) ) {
+                params.popup->refresh();
+                num_overmaps = overmaps.size();
+                counter = 0;
+            }
         }
     }
 
@@ -1001,9 +1014,19 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin,
     const int min_dist = params.min_distance;
     const int max_dist = params.search_range ? params.search_range : OMAPX;
 
+    size_t num_overmaps = overmaps.size();
+    size_t counter = 0;
+
     for( const tripoint &loc : closest_tripoints_first( origin, min_dist, max_dist ) ) {
         if( is_findable_location( loc, params ) ) {
             result.push_back( loc );
+        }
+
+        counter += 1;
+        if( params.popup && ( num_overmaps != overmaps.size() || counter == 512 ) ) {
+            params.popup->refresh();
+            num_overmaps = overmaps.size();
+            counter = 0;
         }
     }
 

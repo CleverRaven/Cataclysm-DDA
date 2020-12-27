@@ -1383,6 +1383,8 @@ void computer_session::action_emerg_ref_center()
 {
     reset_terminal();
     print_line( _( "SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT…" ) );
+    ui_manager::redraw();
+    refresh_display();
 
     const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
     tripoint mission_target;

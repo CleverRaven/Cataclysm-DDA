@@ -27,6 +27,7 @@ class monster;
 class npc;
 class overmap;
 class overmap_special_batch;
+class throbber_popup;
 class vehicle;
 struct mongroup;
 struct om_vehicle;
@@ -99,7 +100,7 @@ struct overmap_with_local_coords {
     }
 };
 
-/*
+/**
  * Standard arguments for finding overmap terrain
  * @param origin Location of search
  * @param types vector of Terrain type/matching rule to use to find the type
@@ -111,8 +112,11 @@ struct overmap_with_local_coords {
  * is particularly useful if we want to attempt to add a missing overmap special to an existing
  * overmap rather than creating many overmaps in an attempt to find it.
  * @param om_special If set, the terrain must be part of the specified overmap special.
+ * @param popup If set, the popup will be periodically updated to indicate ongoing search.
 */
 struct omt_find_params {
+    ~omt_find_params();
+
     std::vector<std::pair<std::string, ot_match_type>> types;
     int search_range = 0;
     int min_distance = 0;
@@ -120,6 +124,7 @@ struct omt_find_params {
     bool cant_see = false;
     bool existing_only = false;
     cata::optional<overmap_special_id> om_special = cata::nullopt;
+    shared_ptr_fast<throbber_popup> popup = nullptr;
 };
 
 class overmapbuffer

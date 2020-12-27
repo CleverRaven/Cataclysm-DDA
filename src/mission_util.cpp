@@ -25,6 +25,7 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
+#include "popup.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
@@ -180,6 +181,7 @@ static cata::optional<tripoint> find_or_create_om_terrain( const tripoint &origi
     find_params.must_see = params.must_see;
     find_params.cant_see = params.cant_see;
     find_params.existing_only = true;
+    find_params.popup = make_shared_fast<throbber_popup>( _( "Please wait…" ) );
 
     auto get_target_position = [&]() {
         // Either find a random or closest match, based on the criteria.
