@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
       with:
-        fetch-depth: 10
+        fetch-depth: 1
 
     - name: install dependencies
       run: sudo apt-get install astyle

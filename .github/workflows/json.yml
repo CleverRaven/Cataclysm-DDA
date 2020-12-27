@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
       with:
-        fetch-depth: 10
+        fetch-depth: 1
     - name: JSON style check
       run: make style-json
     - name: Display Corrections
