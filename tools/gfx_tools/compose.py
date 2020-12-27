@@ -450,7 +450,7 @@ if __name__ == '__main__':
 
         tiles_new_dict[sheet.max_index] = sheet_conf
 
-    # fing unused images
+    # find unused images
     unused = tileset.find_unused(use_all)
 
     # unused list must be empty without use_all
