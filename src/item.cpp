@@ -6817,7 +6817,11 @@ bool item::is_map() const
 
 bool item::seal()
 {
-    return contents.seal_all_pockets();
+    if( is_container_full() ) {
+        return contents.seal_all_pockets();
+    } else {
+        return false;
+    }
 }
 
 bool item::is_container() const
