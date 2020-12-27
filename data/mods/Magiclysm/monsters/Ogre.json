@@ -3,7 +3,7 @@
     "id": "mon_ogre",
     "type": "MONSTER",
     "name": { "str": "Ogre" },
-    "description": "Green beast known for living in swamps and eating humans, it will kill anything it gets its hands on.",
+    "description": "A green beast known for living in swamps and eating humans; it will kill anything it gets its hands on.",
     "default_faction": "ogre",
     "bodytype": "human",
     "species": [ "OGRE" ],
