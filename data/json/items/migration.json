@@ -1298,5 +1298,10 @@
     "id": "jug_plastic_sealed",
     "type": "MIGRATION",
     "replace": "jug_plastic"
+  },
+  {
+    "id": "knuckles_steel",
+    "type": "MIGRATION",
+    "replace": "knuckles_scrap"
   }
 ]
