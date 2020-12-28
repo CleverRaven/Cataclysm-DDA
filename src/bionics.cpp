@@ -1121,7 +1121,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
     calc_encumbrance();
-    //Possibly size or slots used changed? 
+    //Possibly size or slots used changed?
     update_bionic_faults();
     reset();
     if( !bio.id->enchantments.empty() ) {

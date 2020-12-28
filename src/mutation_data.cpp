@@ -588,7 +588,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
 int mutation_branch::bionic_slot_bonus( const bodypart_str_id &part ) const
 {
-    //TODO Possibly add field to mutations for bp affected and use it rather than all these    
+    //TODO Possibly add field to mutations for bp affected and use it rather than all these
     int total_bonus = 0;
     const auto slot_iter = bionic_slot_bonuses.find( part );
     if( slot_iter != bionic_slot_bonuses.end() ) {
