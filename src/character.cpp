@@ -12171,6 +12171,12 @@ void Character::process_one_effect( effect &it, bool is_new )
         }
     }
 
+    // Handle infection
+    mod = 1;
+    val = 0;
+    if( it.activated( calendar::turn, "INFECTION", val, reduced, mod ) ) {
+        add_effect( effect_infected, 25_minutes, bp, true );
+    }
     // Speed and stats are handled in recalc_speed_bonus and reset_stats respectively
 }
 

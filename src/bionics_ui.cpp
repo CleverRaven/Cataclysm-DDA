@@ -385,11 +385,9 @@ static void draw_description( const catacurses::window &win, const bionic &bio,
     ypos += 1 + fold_and_print( win, point( 0, ypos ), width, c_light_blue, "%s", bio.id->description );
 
     // TODO: Unhide when enforcing limits
-    if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
-        const bool each_bp_on_new_line = ypos + num_of_bp + 1 < getmaxy( win );
-        fold_and_print( win, point( 0, ypos ), width, c_light_gray, list_occupied_bps( bio.id,
-                        _( "This bionic occupies the following body parts:" ), each_bp_on_new_line ) );
-    }
+    const bool each_bp_on_new_line = ypos + num_of_bp + 1 < getmaxy( win );
+    fold_and_print( win, point( 0, ypos ), width, c_light_gray, list_occupied_bps( bio.id,
+                    _( "This bionic occupies the following body parts:" ), each_bp_on_new_line ) );
     wnoutrefresh( win );
 }
 
@@ -405,7 +403,7 @@ static void draw_connectors( const catacurses::window &win, const point &start,
             pos_and_num.emplace_back( static_cast<int>( pos->second ) + LIST_START_Y, elem.second );
         }
     }
-    if( pos_and_num.empty() || !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
+    if( pos_and_num.empty() ) {
         return;
     }
 
@@ -655,10 +653,8 @@ void avatar::power_bionics()
             max_width = std::max( max_width, utf8_width( s ) );
         }
         const int pos_x = WIDTH - 2 - max_width;
-        if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
-            for( size_t i = 0; i < bps.size(); ++i ) {
-                mvwprintz( wBio, point( pos_x, i + list_start_y ), c_light_gray, bps[i] );
-            }
+        for( size_t i = 0; i < bps.size(); ++i ) {
+            mvwprintz( wBio, point( pos_x, i + list_start_y ), c_light_gray, bps[i] );
         }
 
         if( current_bionic_list->empty() ) {
@@ -685,7 +681,7 @@ void avatar::power_bionics()
                                                                 *( *current_bionic_list )[i] ).c_str() );
                 trim_and_print( wBio, point( 2, list_start_y + i - scroll_position ), WIDTH - 3, col,
                                 desc );
-                if( is_highlighted && menu_mode != EXAMINING && get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
+                if( is_highlighted && menu_mode != EXAMINING ) {
                     const bionic_id bio_id = ( *current_bionic_list )[i]->id;
                     draw_connectors( wBio, point( utf8_width( desc ) + 3, list_start_y + i - scroll_position ),
                                      pos_x - 2, bio_id, bp_to_pos );

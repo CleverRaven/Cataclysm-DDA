@@ -2393,6 +2393,13 @@
   },
   {
     "type": "effect_type",
+    "id": "open_skin",
+    "name": [ "Open Skin" ],
+    "desc": [ "Your bionics are crowded and not everything is quite sealed, leaving room for infection." ],
+    "base_mods": { "infection_chance": [ 1 ], "infection_tick": [ 86, 400 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "hunger_full",
     "name": [ "Full" ],
     "desc": [ "You feel quite full, and a bit sluggish." ],

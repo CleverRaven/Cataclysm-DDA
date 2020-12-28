@@ -239,8 +239,17 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "stylish_bonus", stylish_bonus, 0 );
     optional( jo, was_loaded, "squeamish_penalty", squeamish_penalty, 0 );
 
-    optional( jo, was_loaded, "bionic_slots", bionic_slots_, 0 );
-
+    optional( jo, was_loaded, "safe_bionic_slots", safe_bionic_slots_, 0 );
+    optional( jo, was_loaded, "max_bionic_slots", max_bionic_slots_, 0 );
+    if( safe_bionic_slots_ > max_bionic_slots_ ) {
+        jo.throw_error( "safe slots cannot exceed max slots." );
+    }
+    for( JsonObject fault : jo.get_array( "faults" ) ) {
+        bp_bionic_fault new_fault;
+        mandatory( fault, was_loaded, "effect", new_fault.effect );
+        mandatory( fault, was_loaded, "slots_requirement", new_fault.slots_requirement );
+        faults_.push_back( new_fault );
+    }
     optional( jo, was_loaded, "flags", flags );
 
     part_side = jo.get_enum_value<side>( "side" );

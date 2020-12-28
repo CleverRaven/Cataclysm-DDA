@@ -15,6 +15,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonObject;
@@ -106,6 +107,11 @@ struct stat_hp_mods {
     void deserialize( JsonIn &jsin );
 };
 
+struct bp_bionic_fault {
+    efftype_id effect;
+    int slots_requirement;
+};
+
 struct body_part_type {
     public:
         bodypart_str_id id;
@@ -180,11 +186,19 @@ struct body_part_type {
         // Verifies that body parts make sense
         static void check_consistency();
 
-        int bionic_slots() const {
-            return bionic_slots_;
+        int max_bionic_slots() const {
+            return max_bionic_slots_;
+        }
+        int safe_bionic_slots() const {
+            return safe_bionic_slots_;
+        }
+        std::vector<bp_bionic_fault> faults() const {
+            return faults_;
         }
     private:
-        int bionic_slots_ = 0;
+        int max_bionic_slots_ = 0;
+        int safe_bionic_slots_ = 0;
+        std::vector<bp_bionic_fault> faults_;
 };
 
 struct layer_details {

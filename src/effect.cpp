@@ -393,6 +393,12 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
         extract_effect( j, mod_data, "cut_mod",    member, "CUT",  "min" );
         extract_effect( j, mod_data, "size_mod",    member, "SIZE",  "min" );
 
+        // Then infection chance
+        extract_effect( j, mod_data, "infection_chance",     member, "INFECTION",    "chance_top" );
+        extract_effect( j, mod_data, "infection_chance_bot", member, "INFECTION",    "chance_bot" );
+        extract_effect( j, mod_data, "infection_tick",       member, "INFECTION",    "tick" );
+
+
         return true;
     } else {
         return false;
@@ -654,6 +660,9 @@ std::string effect::disp_desc( bool reduced ) const
     val = get_avg_mod( "SLEEP", reduced );
     values.push_back( desc_freq( get_percentage( "SLEEP", val, reduced ), val, _( "blackouts" ),
                                  _( "blackouts" ) ) );
+    val = get_avg_mod( "INFECTION", reduced );
+    values.push_back( desc_freq( get_percentage( "INFECTION", val, reduced ), val, _( "infection" ),
+                                 _( "infection" ) ) );
 
     for( auto &i : values ) {
         if( i.val > 0 ) {

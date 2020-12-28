@@ -92,13 +92,6 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "CBM_SLOTS_ENABLED",
-    "info": "Enables CBM slots mechanics.  If true CBM slots are enabled.",
-    "stype": "bool",
-    "value": false
-  },
-  {
-    "type": "EXTERNAL_OPTION",
     "name": "SPAWN_ANIMAL_DENSITY",
     "info": "A scaling factor that determines density of wild, formerly domesticated and mutated animal spawns.",
     "stype": "float",

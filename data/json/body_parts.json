@@ -24,7 +24,9 @@
     "base_hp": 60,
     "drench_capacity": 40,
     "smash_message": "You smash the %s with a powerful shoulder-check.",
-    "bionic_slots": 80
+    "safe_bionic_slots": 40,
+    "max_bionic_slots": 80,
+    "faults": [ { "effect": "open_skin", "slots_requirement": 40 } ]
   },
   {
     "id": "head",
@@ -52,7 +54,9 @@
     "drench_capacity": 7,
     "smash_message": "You smash the %s with a firm headbutt.",
     "smash_efficiency": 0.25,
-    "bionic_slots": 18
+    "safe_bionic_slots": 9,
+    "max_bionic_slots": 18,
+    "faults": [ { "effect": "open_skin", "slots_requirement": 9 } ]
   },
   {
     "id": "eyes",
@@ -76,7 +80,9 @@
     "flags": [ "IGNORE_TEMP" ],
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
-    "bionic_slots": 4
+    "safe_bionic_slots": 2,
+    "max_bionic_slots": 4,
+    "faults": [ { "effect": "open_skin", "slots_requirement": 2 } ]
   },
   {
     "id": "mouth",
@@ -101,7 +107,9 @@
     "drench_capacity": 1,
     "smash_message": "You use your flippin' face to smash the %s.  EXTREME.",
     "smash_efficiency": 0.25,
-    "bionic_slots": 4
+    "safe_bionic_slots": 2,
+    "max_bionic_slots": 4,
+    "faults": [ { "effect": "open_skin", "slots_requirement": 2 } ]
   },
   {
     "id": "arm_l",
@@ -131,7 +139,9 @@
     "base_hp": 60,
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
-    "bionic_slots": 20
+    "safe_bionic_slots": 10,
+    "max_bionic_slots": 20,
+    "faults": [ { "effect": "open_skin", "slots_requirement": 10 } ]
   },
   {
     "id": "arm_r",
@@ -160,7 +170,9 @@
     "base_hp": 60,
     "drench_capacity": 10,
     "smash_message": "You elbow-smash the %s.",
-    "bionic_slots": 20
+    "safe_bionic_slots": 10,
+    "max_bionic_slots": 20,
+    "faults": [ { "effect": "open_skin", "slots_requirement": 10 } ]
   },
   {
     "id": "hand_l",
@@ -187,7 +199,9 @@
     "base_hp": 60,
     "drench_capacity": 3,
     "smash_message": "You smash the %s with your fist.",
-    "bionic_slots": 5
+    "safe_bionic_slots": 3,
+    "max_bionic_slots": 5,
+    "faults": [ { "effect": "open_skin", "slots_requirement": 3 } ]
   },
   {
     "id": "hand_r",
@@ -214,7 +228,9 @@
     "base_hp": 60,
     "drench_capacity": 3,
     "smash_message": "You smash the %s with your fist.",
-    "bionic_slots": 5
+    "safe_bionic_slots": 3,
+    "max_bionic_slots": 5,
+    "faults": [ { "effect": "open_skin", "slots_requirement": 3 } ]
   },
   {
     "id": "leg_l",
@@ -244,7 +260,9 @@
     "base_hp": 60,
     "drench_capacity": 11,
     "smash_message": "You bring your knee down on the %s, smashing it.",
-    "bionic_slots": 30
+    "safe_bionic_slots": 15,
+    "max_bionic_slots": 30,
+    "faults": [ { "effect": "open_skin", "slots_requirement": 15 } ]
   },
   {
     "id": "leg_r",
@@ -274,7 +292,9 @@
     "base_hp": 60,
     "drench_capacity": 11,
     "smash_message": "You bring your knee down on the %s, smashing it.",
-    "bionic_slots": 30
+    "safe_bionic_slots": 15,
+    "max_bionic_slots": 30,
+    "faults": [ { "effect": "open_skin", "slots_requirement": 15 } ]
   },
   {
     "id": "foot_l",
@@ -301,7 +321,9 @@
     "base_hp": 60,
     "drench_capacity": 3,
     "smash_message": "You kick down the %s, smashing it.",
-    "bionic_slots": 7
+    "safe_bionic_slots": 4,
+    "max_bionic_slots": 7,
+    "faults": [ { "effect": "open_skin", "slots_requirement": 4 } ]
   },
   {
     "id": "foot_r",
@@ -328,6 +350,8 @@
     "base_hp": 60,
     "drench_capacity": 3,
     "smash_message": "You kick down the %s, smashing it.",
-    "bionic_slots": 7
+    "safe_bionic_slots": 4,
+    "max_bionic_slots": 7,
+    "faults": [ { "effect": "open_skin", "slots_requirement": 4 } ]
   }
 ]
