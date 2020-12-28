@@ -10,6 +10,14 @@
 #include "output.h"
 #include "ui_manager.h"
 
+#if defined(TILES)
+#   if defined(_MSC_VER) && defined(USE_VCPKG)
+#       include <SDL2/SDL.h>
+#   else
+#       include <SDL.h>
+#   endif
+#endif // TILES
+
 extern bool test_mode;
 
 query_popup::query_popup()
@@ -239,11 +247,16 @@ void query_popup::show() const
     wnoutrefresh( win );
 }
 
-std::shared_ptr<ui_adaptor> query_popup::create_or_get_adaptor()
+std::shared_ptr<ui_adaptor> query_popup::create_or_get_adaptor( bool disable_below )
 {
     std::shared_ptr<ui_adaptor> ui = adaptor.lock();
     if( !ui ) {
-        adaptor = ui = std::make_shared<ui_adaptor>();
+        if( disable_below ) {
+            ui = std::make_shared<ui_adaptor>( ui_adaptor::disable_uis_below{} );
+        } else {
+            ui = std::make_shared<ui_adaptor>();
+        }
+        adaptor = ui;
         ui->on_redraw( [this]( const ui_adaptor & ) {
             show();
         } );
@@ -391,4 +404,25 @@ query_popup::button::button( const std::string &text, const point &p )
 static_popup::static_popup()
 {
     ui = create_or_get_adaptor();
+}
+
+throbber_popup::throbber_popup( const std::string &msg ) : msg( msg )
+{
+    on_top( true );
+    ui = create_or_get_adaptor( true );
+}
+
+void throbber_popup::refresh()
+{
+    static constexpr std::chrono::milliseconds update_interval( 500 );
+    auto now = std::chrono::steady_clock::now();
+    if( last_update + update_interval < now ) {
+        wait_message( "%s", msg ); // re-assign the message to advance the animation
+        ui_manager::redraw();
+        refresh_display();
+        last_update = now;
+#if defined(TILES)
+        SDL_PumpEvents();
+#endif // TILES
+    }
 }

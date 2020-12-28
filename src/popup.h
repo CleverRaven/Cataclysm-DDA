@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_POPUP_H
 #define CATA_SRC_POPUP_H
 
+#include <chrono>
 #include <cstddef>
 #include <functional>
 #include <memory>
@@ -196,7 +197,7 @@ class query_popup
          * Create or get a ui_adaptor on the UI stack to handle redrawing and
          * resizing of the popup.
          */
-        std::shared_ptr<ui_adaptor> create_or_get_adaptor();
+        std::shared_ptr<ui_adaptor> create_or_get_adaptor( bool disable_below = false );
 
     private:
         struct query_option {
@@ -278,6 +279,55 @@ class static_popup : public query_popup
 
     private:
         std::shared_ptr<ui_adaptor> ui;
+};
+
+/**
+ * Popup optimized to work as a throbber (indicate some calculation running in background).
+ *
+ * Create an instance of this class to put the popup on the UI stack.
+ *
+ * Call `refresh()` to redraw the popup, refresh the game window and poll events.
+ * To minimize the cost of repeated UI redraws and window refreshes,
+ * actual redraw/refresh/poll rate is kept at maximum 2 times per second,
+ * and all UIs under the popup are disabled (are not redrawn or resized).
+ *
+ * The popup stays on the UI stack until its lifetime ends.
+ *
+ * Example:
+ *
+ * ```
+ * {
+ *     throbber_popup popup( _( "Please wait…" ) );
+ *     while( loading ) {
+ *         popup.refresh(); // may be safely called 1000s of times per second
+ *         load_part();
+ *     }
+ *     // The popup is removed from UI stack when it goes out of scope.
+ *     // Note that the removal is not visible until the next time `ui_manager::redraw` is called.
+ * }
+ * ```
+ */
+class throbber_popup : private query_popup
+{
+    public:
+        /**
+         * Create a popup on the UI stack.
+         * The popup is removed from UI stack when it goes out of scope.
+         * @param msg message to display.
+         * A spinning animation is appended automatically on the left side of the message.
+         */
+        throbber_popup( const std::string &msg );
+
+        /**
+         * Refresh the popup. Ideally, should be called at least 2 times per second
+         * to keep the refresh rate consistent.
+         */
+        void refresh();
+
+    private:
+        std::shared_ptr<ui_adaptor> ui;
+        std::string msg;
+        std::chrono::steady_clock::time_point last_update;
 };
 
 #endif // CATA_SRC_POPUP_H

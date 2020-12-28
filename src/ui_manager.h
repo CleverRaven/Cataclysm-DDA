@@ -22,7 +22,8 @@ class ui_adaptor
 
         ui_adaptor();
         // ui_adaptor constructed this way will block any uis below from being
-        // redrawn or resized until it is deconstructed. It is used for `debug_msg`.
+        // redrawn or resized until it is deconstructed.
+        // It is used for `debug_msg` and `throbber_popup`.
         ui_adaptor( disable_uis_below );
         ui_adaptor( const ui_adaptor &rhs ) = delete;
         ui_adaptor( ui_adaptor &&rhs ) = delete;
