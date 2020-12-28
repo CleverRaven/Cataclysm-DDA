@@ -2277,20 +2277,6 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
     p.activity.set_to_null();
 }
 
-static int chop_moves( player &p, item *it )
-{
-    // quality of tool
-    const int quality = it->get_quality( qual_AXE );
-
-    // attribute; regular tools - based on STR, powered tools - based on DEX
-    const int attr = it->has_flag( flag_POWERED ) ? p.dex_cur : p.str_cur;
-
-    int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
-    const int helpersize = p.get_num_crafting_helpers( 3 );
-    moves = moves * ( 1 - ( helpersize / 10 ) );
-    return moves;
-}
-
 static bool mine_activity( player &p, const tripoint &src_loc )
 {
     std::vector<item *> mining_inv = p.items_with( []( const item & itm ) {
@@ -2343,7 +2329,7 @@ static bool chop_tree_activity( player &p, const tripoint &src_loc )
     if( !best_qual ) {
         return false;
     }
-    int moves = chop_moves( p, best_qual );
+    int moves = iuse::chop_moves( p, *best_qual );
     if( best_qual->type->can_have_charges() ) {
         p.consume_charges( *best_qual, best_qual->type->charges_to_use() );
     }

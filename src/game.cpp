@@ -8527,10 +8527,9 @@ void game::butcher()
         }
         return;
     }
-    const auto helpers = u.get_crafting_helpers();
+    const auto helpers = u.get_crafting_helpers( 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
     }
     switch( butcher_select ) {
         case BUTCHER_OTHER:

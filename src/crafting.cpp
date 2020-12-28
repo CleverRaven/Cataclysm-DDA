@@ -2253,13 +2253,21 @@ void remove_ammo( item &dis_item, player &p )
     }
 }
 
-std::vector<npc *> player::get_crafting_helpers() const
+std::vector<npc *> player::get_crafting_helpers( size_t max ) const
 {
-    return g->get_npcs_if( [this]( const npc & guy ) {
+    size_t n = 0;
+    return g->get_npcs_if( [ &n, max, this]( const npc & guy ) {
         // NPCs can help craft if awake, taking orders, within pickup range and have clear path
-        return !guy.in_sleep_state() && guy.is_obeying( *this ) &&
-               rl_dist( guy.pos(), pos() ) < PICKUP_RANGE &&
-               g->m.clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+        if( max != 0 && n >= max ) {
+            return false;
+        }
+        bool ok = !guy.in_sleep_state() && guy.is_obeying( *this ) &&
+                  rl_dist( guy.pos(), pos() ) < PICKUP_RANGE &&
+                  g->m.clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+        if( ok ) {
+            n += 1;
+        }
+        return ok;
     } );
 }
 

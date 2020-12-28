@@ -1093,12 +1093,6 @@ int player::get_lift_assist() const
     return result;
 }
 
-int player::get_num_crafting_helpers( int max ) const
-{
-    std::vector<npc *> helpers = get_crafting_helpers();
-    return std::min( max, static_cast<int>( helpers.size() ) );
-}
-
 bool player::immune_to( body_part bp, damage_unit dam ) const
 {
     if( has_trait( trait_DEBUG_NODMG ) || is_immune_damage( dam.type ) ) {

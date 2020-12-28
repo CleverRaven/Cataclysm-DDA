@@ -818,7 +818,7 @@ int butcher_time_to_cut( const inventory &inv, const item &corpse_item, const bu
     if( corpse_item.has_flag( flag_QUARTERED ) ) {
         time_to_cut /= 4;
     }
-    time_to_cut = time_to_cut * ( 1 - ( g->u.get_num_crafting_helpers( 3 ) / 10 ) );
+    time_to_cut = time_to_cut * ( 10 - g->u.get_crafting_helpers( 3 ).size() ) / 10;
     return time_to_cut;
 }
 
@@ -1985,7 +1985,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     // Invalidate the activity early to prevent a query from mod_pain()
     act->set_to_null();
     if( p->is_avatar() ) {
-        const int helpersize = g->u.get_num_crafting_helpers( 3 );
+        const int helpersize = g->u.get_crafting_helpers( 3 ).size();
         if( g->m.is_bashable( pos ) && g->m.has_flag( flag_SUPPORTS_ROOF, pos ) &&
             g->m.ter( pos ) != t_tree ) {
             // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
@@ -4074,7 +4074,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     }
 
     g->m.ter_set( pos, t_stump );
-    const int helpersize = p->get_num_crafting_helpers( 3 );
+    const int helpersize = p->get_crafting_helpers( 3 ).size();
     p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -4121,7 +4121,7 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
         g->m.add_item_or_charges( pos, obj );
     }
     g->m.ter_set( pos, t_dirt );
-    const int helpersize = p->get_num_crafting_helpers( 3 );
+    const int helpersize = p->get_crafting_helpers( 3 ).size();
     p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -4173,7 +4173,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
     g->m.destroy( pos, true );
 
     if( p->is_avatar() ) {
-        const int helpersize = g->u.get_num_crafting_helpers( 3 );
+        const int helpersize = g->u.get_crafting_helpers( 3 ).size();
         p->mod_stored_nutr( 5 - helpersize );
         p->mod_thirst( 5 - helpersize );
         p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -4251,7 +4251,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
         g->m.spawn_items( dump_loc, item_group::items_from( byproducts_item_group, calendar::turn ) );
     }
 
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    const int helpersize = g->u.get_crafting_helpers( 3 ).size();
     p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -4308,7 +4308,7 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         g->m.ter_set( pos, t_dirt );
     }
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    const int helpersize = g->u.get_crafting_helpers( 3 ).size();
     p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );

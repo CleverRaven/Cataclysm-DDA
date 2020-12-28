@@ -2641,11 +2641,6 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     int dig_minutes = volume_m3 * material_density_kg_m3 / player_dig_rate;
     int moves = to_moves<int>( time_duration::from_minutes( dig_minutes ) );
 
-    // Modify the number of moves based on the help.
-    // TODO: this block of code is all over the place and could probably be consolidated.
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    moves = moves * ( 1 - ( helpersize / 10 ) );
-
     ter_id result_terrain;
     if( channel ) {
         result_terrain = ter_id( "t_water_moving_sh" );
@@ -2731,14 +2726,14 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         }
     }
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
-    }
-
     digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
             can_deepen, false );
+
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    for( const npc *np : helpers ) {
+        add_msg( m_info, _( "%s helps with this task…" ), np->name );
+    }
+    moves_and_byproducts.moves = moves_and_byproducts.moves * ( 10 - helpers.size() ) / 10;
 
     player_activity act( ACT_DIG, moves_and_byproducts.moves, -1,
                          p->get_item_position( it ) );
@@ -2798,14 +2793,14 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
-    }
-
     digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, false,
             true );
+
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
+    for( const npc *np : helpers ) {
+        add_msg( m_info, _( "%s helps with this task…" ), np->name );
+    }
+    moves_and_byproducts.moves = moves_and_byproducts.moves * ( 10 - helpers.size() ) / 10;
 
     player_activity act( ACT_DIG_CHANNEL, moves_and_byproducts.moves, -1,
                          p->get_item_position( it ) );
@@ -2872,13 +2867,13 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
     } else {
         return 0;
     }
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    moves = moves * ( 1 - ( helpersize / 10 ) );
+
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
     }
+    moves = moves * ( 10 - helpers.size() ) / 10;
+
     p->assign_activity( ACT_FILL_PIT, moves, -1, p->get_item_position( it ) );
     p->activity.placement = pnt;
 
@@ -2913,14 +2908,15 @@ int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
+    int moves = to_moves<int>( 30_seconds );
     int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
     }
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    const int moves = to_moves<int>( 30_seconds ) * ( 1 - ( helpersize / 10 ) );
+    moves = moves * ( 10 - helpers.size() ) / 10;
+
     player_activity act( ACT_CLEAR_RUBBLE, moves / bonus, bonus );
     p->assign_activity( act );
     p->activity.placement = pnt;
@@ -3220,13 +3216,11 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         moves /= 2;
     }
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    moves *= ( 1 - ( helpersize / 10 ) );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
     }
+    moves = moves * ( 10 - helpers.size() ) / 10;
 
     p->assign_activity( ACT_JACKHAMMER, moves, -1, p->get_item_position( it ) );
     p->activity.placement = g->m.getabs( pnt );
@@ -3276,13 +3270,11 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
         moves /= 2;
     }
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    moves *= ( 1 - ( helpersize / 10 ) );
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
     }
+    moves = moves * ( 10 - helpers.size() ) / 10;
 
     p->assign_activity( ACT_PICKAXE, moves, -1 );
     p->activity.targets.push_back( item_location( *p, it ) );
@@ -4708,18 +4700,15 @@ int iuse::lumber( player *p, item *it, bool t, const tripoint & )
     return it->type->charges_to_use();
 }
 
-static int chop_moves( player *p, item *it )
+int iuse::chop_moves( Character &ch, item &tool )
 {
     // quality of tool
-    const int quality = it->get_quality( qual_AXE );
+    const int quality = tool.get_quality( qual_AXE );
 
     // attribute; regular tools - based on STR, powered tools - based on DEX
-    const int attr = it->has_flag( "POWERED" ) ? p->dex_cur : p->str_cur;
+    const int attr = tool.has_flag( "POWERED" ) ? ch.dex_cur : ch.str_cur;
 
-    int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    moves = moves * ( 1 - ( helpersize / 10 ) );
-    return moves;
+    return to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
 }
 
 int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
@@ -4752,12 +4741,14 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
         }
         return 0;
     }
-    int moves = chop_moves( p, it );
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    int moves = chop_moves( *p, *it );
+
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
     }
+    moves = moves * ( 10 - helpers.size() ) / 10;
+
     p->assign_activity( ACT_CHOP_TREE, moves, -1, p->get_item_position( it ) );
     p->activity.placement = g->m.getabs( pnt );
 
@@ -4795,12 +4786,14 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
 
-    int moves = chop_moves( p, it );
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    int moves = chop_moves( *p, *it );
+
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
     }
+    moves = moves * ( 10 - helpers.size() ) / 10;
+
     p->assign_activity( ACT_CHOP_LOGS, moves, -1, p->get_item_position( it ) );
     p->activity.placement = g->m.getabs( pnt );
 
@@ -9512,13 +9505,13 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
                               required.cleanser );
         return 0;
     }
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    required.time = required.time * ( 1 - ( helpersize / 10 ) );
+
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers( 3 );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
     }
+    required.time = required.time * ( 10 - helpers.size() ) / 10;
+
     // Assign the activity values.
     p->assign_activity( ACT_WASH, required.time );
 

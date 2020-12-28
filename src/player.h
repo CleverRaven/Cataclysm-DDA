@@ -637,9 +637,11 @@ class player : public Character
          * @return if the craft can be continued
          */
         bool can_continue_craft( item &craft );
-        /** Returns nearby NPCs ready and willing to help with crafting. */
-        std::vector<npc *> get_crafting_helpers() const;
-        int get_num_crafting_helpers( int max ) const;
+        /**
+         * Returns nearby NPCs ready and willing to help with crafting or some other manual task.
+         * @param max If set, limits number of helpers to that value
+         */
+        std::vector<npc *> get_crafting_helpers( size_t max = 0 ) const;
         /**
          * Handle skill gain for player and followers during crafting
          * @param craft the currently in progress craft

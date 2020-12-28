@@ -234,6 +234,9 @@ class iuse
         static int handle_ground_graffiti( player &p, item *it, const std::string &prefix,
                                            const tripoint &where );
 
+        // Helper for wood chopping
+        static int chop_moves( Character &ch, item &tool );
+
         // LEGACY
         int cauterize_hotplate( player *, item *, bool, const tripoint & );
 
