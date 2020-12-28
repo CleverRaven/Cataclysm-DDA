@@ -642,7 +642,7 @@
       [ [ "afs_material_1", 6 ] ],
       [ [ "afs_circuitry_2", 3 ] ],
       [ [ "afs_energy_storage_1", 2 ] ],
-      [ [ "afs_magnet_1", 1 ] ]
+      [ [ "afs_magnet_1", 4 ] ]
     ]
   }
 ]
