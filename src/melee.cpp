@@ -660,23 +660,22 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
                         }
                     }
                 } else if( has_trait( trait_POISONOUS2 ) ) {
-                }
-                if( t.is_monster() ) {
-                    t.add_effect( effect_venom_player2, 1_minutes );
-                } else {
-                    t.add_effect( effect_venom_dmg, 15_minutes );
-                    t.add_effect( effect_venom_weaken, 5_minutes );
-                }
-                if( t.is_immune_effect( effect_venom_player2 ) ) {
-                    add_msg_if_player( m_bad, _( "The %s is not affected by your venom" ), t.disp_name() ) ;
-                } else {
-                    add_msg_if_player( m_good, _( "You inject your venom into %s!" ), t.disp_name() );
-                    if( x_in_y( 1, 4 ) ) {
-                        t.add_effect( effect_stunned, 1_turns );
+                    if( t.is_monster() ) {
+                        t.add_effect( effect_venom_player2, 1_minutes );
+                    } else {
+                        t.add_effect( effect_venom_dmg, 15_minutes );
+                        t.add_effect( effect_venom_weaken, 5_minutes );
+                    }
+                    if( t.is_immune_effect( effect_venom_player2 ) ) {
+                        add_msg_if_player( m_bad, _( "The %s is not affected by your venom" ), t.disp_name() );
+                    } else {
+                        add_msg_if_player( m_good, _( "You inject your venom into %s!" ), t.disp_name() );
+                        if( x_in_y( 1, 4 ) ) {
+                            t.add_effect( effect_stunned, 1_turns );
+                        }
                     }
                 }
             }
-
             // Make a rather quiet sound, to alert any nearby monsters
             if( !is_quiet() ) { // check martial arts silence
                 //sound generated later
