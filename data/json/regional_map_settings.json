@@ -433,7 +433,7 @@
         }
       },
       "forest_water": {
-        "chance": 20,
+        "chance": 2,
         "extras": {
           "mx_helicopter": 1,
           "mx_military": 8,
@@ -456,7 +456,7 @@
           "mx_point_burned_ground": 500,
           "mx_casings": 30,
           "mx_corpses": 30,
-          "mx_nest_dermatik": 10,
+          "mx_nest_dermatik": 10000,
           "mx_mass_grave": 5
         }
       },
