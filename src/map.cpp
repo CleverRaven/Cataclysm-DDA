@@ -2037,7 +2037,7 @@ bool map::has_floor( const tripoint &p ) const
         return true;
     }
 
-    return ter( p )->has_flag( TFLAG_NO_FLOOR );
+    return !ter( p )->has_flag( TFLAG_NO_FLOOR );
 }
 
 bool map::supports_above( const tripoint &p ) const

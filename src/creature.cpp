@@ -530,12 +530,14 @@ bool Creature::is_adjacent( Creature *target, const bool allow_z_levels ) const
         return false;
     }
 
-    // The square above must have no floor (currently only open air).
-    // The square below must have no ceiling (i.e. be outside).
+    // The square above must have no floor.
+    // The square below must have no ceiling (i.e. no floor on the tile above it).
     const bool target_above = target->posz() > posz();
     const tripoint &up   = target_above ? target->pos() : pos();
     const tripoint &down = target_above ? pos() : target->pos();
-    return here.ter( up ) == t_open_air && here.is_outside( down );
+    const tripoint above{ down.xy(), up.z };
+    return ( !here.has_floor( up ) || here.ter( up )->has_flag( TFLAG_GOES_DOWN ) ) &&
+           ( !here.has_floor( above ) || here.ter( above )->has_flag( TFLAG_GOES_DOWN ) );
 }
 
 int Creature::deal_melee_attack( Creature *source, int hitroll )
