@@ -629,6 +629,8 @@ int mutation_branch::bionic_slot_bonus( const bodypart_str_id &part ) const
     if( restricts_gear_iter != restricts_gear.end() ) {
         total_bonus --;
     }
+
+    return total_bonus;
 }
 
 std::string mutation_branch::spawn_item_message() const
