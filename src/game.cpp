@@ -6256,8 +6256,9 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     // Print OMT type and terrain type on first line.
     std::string tile = m.tername( lp );
     trim_and_print( w_look, point( column, line ), max_width, c_white, area_name );
-    trim_and_print( w_look, point( column + utf8_width( area_name ) + 1, line ), max_width,
-                    c_light_gray, tile );
+    const int terrain_lines = fold_and_print( w_look, point( column + utf8_width( area_name ) + 1,
+                              line ), max_width - utf8_width( area_name ) - 1, c_light_gray, tile );
+    line += terrain_lines - 1;
 
     // Furniture on second line if any.
     if( m.has_furn( lp ) ) {
@@ -6275,7 +6276,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         mvwprintz( w_look, point( column, ++line ), c_light_gray, lines[i] );
     }
 
-    // Move cost from terrain and furntiure and vehicle parts.
+    // Move cost from terrain and furniture and vehicle parts.
     // Vehicle part information is printed in a different function.
     if( m.impassable( lp ) ) {
         mvwprintz( w_look, point( column, ++line ), c_light_red, _( "Impassable" ) );
