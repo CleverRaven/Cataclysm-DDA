@@ -11203,7 +11203,13 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     }
 
     for( item *e : del ) {
-        inv.remove_item( e );
+        if( inv.has_item( *e ) ) {
+            inv.remove_item( e );
+        } else if( &weapon == e ) {
+            weapon = item();
+        } else {
+            debugmsg( "Invalid item removal." );
+        }
     }
 
     if( has_tool_with_UPS ) {
