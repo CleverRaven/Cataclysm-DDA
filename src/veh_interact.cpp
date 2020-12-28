@@ -3101,7 +3101,7 @@ void veh_interact::complete_vehicle( player &p )
                 contained.charges -= pt.base.fill_with( contained, contained.charges );
                 src->on_contents_changed();
 
-                // if code goes here, we can consume "pt" has already refilled with "contained" something.
+                // if code goes here, we can assume "pt" has already refilled with "contained" something.
                 int remaining_ammo_capacity = pt.ammo_capacity( contained.ammo_type() ) - pt.ammo_remaining();
 
                 if( remaining_ammo_capacity ) {
