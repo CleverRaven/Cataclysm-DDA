@@ -239,7 +239,6 @@ static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
-static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
@@ -4986,7 +4985,7 @@ void Character::update_bodytemp()
     const auto player_local_temp = g->weather.get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
-    int Ctemperature = static_cast<int>( 100 * temp_to_celsius( player_local_temp ) );
+    int Ctemperature = static_cast<int>( 100 * fahrenheit_to_celsius( player_local_temp ) );
     const w_point weather = *g->weather.weather_precise;
     int vehwindspeed = 0;
     const optional_vpart_position vp = g->m.veh_at( pos() );
@@ -5000,32 +4999,17 @@ void Character::update_bodytemp()
                              g->weather.winddirection, sheltered );
     // Let's cache this not to check it num_bp times
     const bool has_bark = has_trait( trait_BARK );
-    const bool has_sleep = has_effect( effect_sleep );
     const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( "rm13_armor_on" ) ||
                               has_trait( trait_M_SKIN2 ) || has_trait( trait_M_SKIN3 );
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
     const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // Temperature norms
-    // Ambient normal temperature is lower while asleep
-    const int ambient_norm = has_sleep ? 3100 : 1900;
+    const int ambient_norm = 3100;
 
     /**
      * Calculations that affect all body parts equally go here, not in the loop
      */
-    // Hunger / Starvation
-    // -1000 when about to starve to death
-    // -1333 when starving with light eater
-    // -2000 if you managed to get 0 metabolism rate somehow
-    const float met_rate = metabolic_rate();
-    const int hunger_warmth = static_cast<int>( 2000 * std::min( met_rate, 1.0f ) - 2000 );
-    // Give SOME bonus to those living furnaces with extreme metabolism
-    const int metabolism_warmth = static_cast<int>( std::max( 0.0f, met_rate - 1.0f ) * 1000 );
-    // Fatigue
-    // ~-900 when exhausted
-    const int fatigue_warmth = has_sleep ? 0 : static_cast<int>( std::min( 0.0f,
-                               -1.5f * get_fatigue() ) );
-
     // Sunlight
     const int sunlight_warmth = g->is_in_sunlight( pos() ) ? ( g->weather.weather == WEATHER_SUNNY ?
                                 1000 :
@@ -5034,7 +5018,7 @@ void Character::update_bodytemp()
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
     const int water_temperature =
-        100 * temp_to_celsius( g->weather.get_cur_weather_gen().get_water_temperature() );
+        100 * fahrenheit_to_celsius( g->weather.get_water_temperature( pos() ) );
 
     // Correction of body temperature due to traits and mutations
     // Lower heat is applied always
@@ -5044,6 +5028,12 @@ void Character::update_bodytemp()
     const int mutation_heat_bonus = mutation_heat_high - mutation_heat_low;
 
     const int h_radiation = get_heat_radiation( pos(), false );
+
+    // If you're standing in water, air temperature is replaced by water temperature. No wind.
+    const ter_id ter_at_pos = g->m.ter( pos() );
+    bool submerged = ter_at_pos->has_flag( TFLAG_DEEP_WATER );
+    bool submerged_low = submerged || ter_at_pos->has_flag( TFLAG_SWIMMABLE );
+
     // Current temperature and converging temperature calculations
     for( const body_part bp : all_body_parts ) {
         // Skip eyes
@@ -5056,7 +5046,6 @@ void Character::update_bodytemp()
         int adjusted_temp = ( Ctemperature - ambient_norm );
         int bp_windpower = total_windpower;
         // Represents the fact that the body generates heat when it is cold.
-        // TODO: : should this increase hunger?
         double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
                                     temp_cur[bp] );
         // Produces a smooth curve between 30.0 and 60.0.
@@ -5073,14 +5062,9 @@ void Character::update_bodytemp()
                                              get_local_humidity( weather.humidity, g->weather.weather,
                                                      sheltered ),
                                              bp_windpower );
-        // If you're standing in water, air temperature is replaced by water temperature. No wind.
-        const ter_id ter_at_pos = g->m.ter( pos() );
         // Convert to 0.01C
-        if( ( ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp ||
-              ter_at_pos == t_water_moving_dp ) ||
-            ( ( ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage ||
-                ter_at_pos == t_water_moving_sh ) &&
-              ( bp == bp_foot_l || bp == bp_foot_r || bp == bp_leg_l || bp == bp_leg_r ) ) ) {
+        if( submerged ||
+            ( submerged_low && ( bp == bp_foot_l || bp == bp_foot_r || bp == bp_leg_l || bp == bp_leg_r ) ) ) {
             adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
             windchill = 0;
         }
@@ -5088,10 +5072,6 @@ void Character::update_bodytemp()
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
         temp_conv[bp] = BODYTEMP_NORM + adjusted_temp + windchill * 100 + clothing_warmth_adjustement;
-        // HUNGER / STARVATION
-        temp_conv[bp] += hunger_warmth;
-        // FATIGUE
-        temp_conv[bp] += fatigue_warmth;
         // Mutations
         temp_conv[bp] += mutation_heat_low;
         // DIRECT HEAT SOURCES (generates body heat, helps fight frostbite)
@@ -5101,7 +5081,6 @@ void Character::update_bodytemp()
         if( frostbite_timer[bp] > 0 ) {
             frostbite_timer[bp] -= std::max( 5, h_radiation );
         }
-        // 111F (44C) is a temperature in which proteins break down: https://en.wikipedia.org/wiki/Burn
         blister_count += h_radiation - 111 > 0 ?
                          std::max( static_cast<int>( std::sqrt( h_radiation - 111 ) ), 0 ) : 0;
 
@@ -5123,8 +5102,6 @@ void Character::update_bodytemp()
         }
 
         temp_conv[bp] += sunlight_warmth;
-        // Loss of blood results in loss of body heat, 1% bodyheat lost per 2% hp lost
-        temp_conv[bp] -= blood_loss( bp ) * temp_conv[bp] / 200;
 
         // EQUALIZATION
         switch( bp ) {
@@ -5184,7 +5161,7 @@ void Character::update_bodytemp()
         int bonus_fire_warmth = best_fire * 500;
 
         const int comfortable_warmth = bonus_fire_warmth + lying_warmth;
-        const int bonus_warmth = comfortable_warmth + metabolism_warmth + mutation_heat_bonus;
+        const int bonus_warmth = comfortable_warmth + mutation_heat_bonus;
         if( bonus_warmth > 0 ) {
             // Approximate temp_conv needed to reach comfortable temperature in this very turn
             // Basically inverted formula for temp_cur below

@@ -9089,7 +9089,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
     const w_point weatherPoint = *g->weather.weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const auto player_local_temp = g->weather.get_temperature( g->u.pos() );
+    const auto player_local_temp = g->weather.get_temperature( p->pos() );
 
     if( it->typeId() == "weather_reader" ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
@@ -9102,6 +9102,13 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         } else {
             p->add_msg_if_player( m_neutral, _( "Temperature: %s." ),
                                   print_temperature( player_local_temp ) );
+        }
+        // TODO: Don't output air temp if we aren't near air
+        if( g->m.has_flag( TFLAG_SWIMMABLE, p->pos() ) ) {
+            const double water_temp = g->weather.get_cur_weather_gen().get_water_temperature( p->pos(),
+                                      calendar::turn, g->get_seed() );
+            p->add_msg_if_player( m_neutral, _( "Water temperature: %s." ),
+                                  print_temperature( water_temp ) );
         }
     }
     if( it->has_flag( "HYGROMETER" ) ) {

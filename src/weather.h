@@ -239,10 +239,12 @@ class weather_manager
     public:
         weather_manager();
         const weather_generator &get_cur_weather_gen() const;
-        // Updates the temperature and weather patten
+        // Updates the temperature and weather pattern
         void update_weather();
-        // The air temperature
+        // The air temperature in Fahrenheit
         int temperature = 0;
+        // The water temperature in Fahrenheit
+        int water_temperature = 0;
         bool lightning_active = false;
         // Weather pattern
         weather_type weather = weather_type::WEATHER_NULL;
@@ -257,10 +259,12 @@ class weather_manager
         void set_nextweather( time_point t );
         // The time at which weather will shift next.
         time_point nextweather;
-        /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
+        /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures in Fahrenheit */
         std::unordered_map< tripoint, int > temperature_cache;
-        // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
+        // Returns outdoor or indoor temperature of given location (in local coords) in Fahrenheit.
         int get_temperature( const tripoint &location );
+        // Returns water temperature of given location (in local coords) in Fahrenheit.
+        int get_water_temperature( const tripoint &location );
         void clear_temp_cache();
 };
 

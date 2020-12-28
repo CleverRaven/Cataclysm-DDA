@@ -58,7 +58,7 @@ static weather_gen_common get_common_data( const tripoint &location, const time_
     result.year_fraction = year_fraction;
     result.cyf = std::cos( tau * ( year_fraction + .125 ) ); // [-1, 1]
     // We add one-eighth to line up `cyf` so that 1 is at
-    // midwinter and -1 at midsummer. (Cataclsym DDA years
+    // midwinter and -1 at midsummer. (Cataclysm years
     // start when spring starts. Gregorian years start when
     // winter starts.)
     result.season = season_of_year( t );
@@ -258,33 +258,34 @@ int weather_generator::convert_winddir( const int inputdir ) const
     return static_cast<int>( finputdir );
 }
 
-int weather_generator::get_water_temperature() const
+double weather_generator::get_water_temperature( const tripoint &location, const time_point &time,
+        unsigned seed ) const
 {
-    /**
-    WATER TEMPERATURE
-    source : http://echo2.epfl.ch/VICAIRE/mod_2/chapt_5/main.htm
-    source : http://www.grandriver.ca/index/document.cfm?Sec=2&Sub1=7&sub2=1
-    **/
-
-    int season_length = to_days<int>( calendar::season_length() );
-    int day = to_days<int>( time_past_new_year( calendar::turn ) );
-    int hour = hour_of_day<int>( calendar::turn );
-
-    int water_temperature = 0;
-
-    if( season_length == 0 ) {
-        season_length = 1;
-    }
-
-    // Temperature varies between 33.8F and 75.2F depending on the time of year. Day = 0 corresponds to the start of spring.
-    int annual_mean_water_temperature = 54.5 + 20.7 * std::sin( tau * ( day - season_length * 0.5 ) /
-                                        ( season_length * 4.0 ) );
-    // Temperature varies between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
-    int daily_water_temperature_varaition = 2.0 + 2.0 * std::sin( tau * ( hour - 6.0 ) / 24.0 );
-
-    water_temperature = annual_mean_water_temperature + daily_water_temperature_varaition;
-
-    return water_temperature;
+    // Instead of using a realistic model, we'll just smooth out air temperature
+    // Smooth out both in time and intensity
+    // And add a low cap - it must stay liquid water
+    constexpr std::array<std::pair<time_duration, double>, 4> measurement_weights = {{
+            { 7_days, 0.25 },
+            { 3_days, 0.25 },
+            { 1_days, 0.25 },
+            { 0_days, 0.25 }
+        }
+    };
+    const double weighted_avg = std::accumulate( measurement_weights.begin(), measurement_weights.end(),
+                                0,
+    [this, location, time, seed]( double acc, const std::pair<time_duration, double> &pr ) {
+        return acc + pr.second * get_weather_temperature( location, time - pr.first, seed );
+    } );
+    // Rescale the range:
+    // For avg air temp<-12C, water is 0C
+    // For avg air temp> 36C, water is 24C
+    // logarithmic_range smoothing for the in-between
+    constexpr double lower_limit = celsius_to_fahrenheit( -12.0 );
+    constexpr double upper_limit = celsius_to_fahrenheit( 36.0 );
+    const double t = logarithmic_range( static_cast<int>( 1000 * lower_limit ),
+                                        static_cast<int>( 1000 * upper_limit ),
+                                        static_cast<int>( 1000 * weighted_avg ) );
+    return lerp( celsius_to_fahrenheit( 0 ), celsius_to_fahrenheit( 24 ), t );
 }
 
 void weather_generator::test_weather( unsigned seed = 1000 ) const

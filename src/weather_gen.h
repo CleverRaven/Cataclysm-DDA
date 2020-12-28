@@ -12,6 +12,7 @@ class JsonObject;
 enum weather_type : int;
 
 struct w_point {
+    // In Fahrenheit
     double temperature = 0;
     double humidity = 0;
     double pressure = 0;
@@ -33,6 +34,7 @@ class weather_generator
         double base_wind = 0;
         //How much the wind peaks above average
         int base_wind_distrib_peaks = 0;
+        // Temperatures here are in Celsius
         float summer_temp = 0;
         float spring_temp = 0;
         float autumn_temp = 0;
@@ -57,10 +59,12 @@ class weather_generator
         weather_type get_weather_conditions( const w_point & ) const;
         int get_wind_direction( season_type ) const;
         int convert_winddir( int ) const;
-        int get_water_temperature() const;
         void test_weather( unsigned ) const;
 
+        // In Fahrenheit. Coords are absolute, as in @ref map::getabs
         double get_weather_temperature( const tripoint &, const time_point &, unsigned ) const;
+        // In Fahrenheit. Coords are absolute, as in @ref map::getabs
+        double get_water_temperature( const tripoint &, const time_point &, unsigned ) const;
 
         static weather_generator load( const JsonObject &jo );
 };

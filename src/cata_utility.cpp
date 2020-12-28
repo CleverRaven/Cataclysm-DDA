@@ -281,26 +281,6 @@ double convert_volume( int volume, int *out_scale )
     return ret;
 }
 
-double temp_to_celsius( double fahrenheit )
-{
-    return ( ( fahrenheit - 32.0 ) * 5.0 / 9.0 );
-}
-
-double temp_to_kelvin( double fahrenheit )
-{
-    return temp_to_celsius( fahrenheit ) + 273.15;
-}
-
-double kelvin_to_fahrenheit( double kelvin )
-{
-    return 1.8 * ( kelvin - 273.15 ) + 32;
-}
-
-double celsius_to_fahrenheit( double celsius )
-{
-    return celsius * 9 / 5 + 32;
-}
-
 double clamp_to_width( double value, int width, int &scale )
 {
     return clamp_to_width( value, width, scale, nullptr );

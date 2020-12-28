@@ -1191,7 +1191,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             // Add temperature value to the overlay_strings list for every visible tile when displaying temperature
             if( g->display_overlay_state( ACTION_DISPLAY_TEMPERATURE ) && !invisible[0] ) {
                 int temp_value = g->weather.get_temperature( pos );
-                int ctemp = temp_to_celsius( temp_value );
+                int ctemp = fahrenheit_to_celsius( temp_value );
                 short color;
                 const short bold = 8;
                 if( ctemp > 40 ) {
@@ -1208,9 +1208,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     color = catacurses::blue + bold;
                 }
                 if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
-                    temp_value = temp_to_celsius( temp_value );
+                    temp_value = fahrenheit_to_celsius( temp_value );
                 } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
-                    temp_value = temp_to_kelvin( temp_value );
+                    temp_value = fahrenheit_to_kelvin( temp_value );
 
                 }
                 overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
