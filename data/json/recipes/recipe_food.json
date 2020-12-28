@@ -4395,6 +4395,7 @@
         [ "cola", 6 ],
         [ "con_milk", 1 ],
         [ "corn_kernels", 3 ],
+        [ "rehydrated_corn_kernels", 3 ],
         [ "honey_bottled", 1 ],
         [ "honey_glassed", 1 ],
         [ "honeycomb", 1 ],
