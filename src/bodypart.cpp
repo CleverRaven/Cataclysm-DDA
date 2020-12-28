@@ -307,6 +307,12 @@ void body_part_type::check() const
         debugmsg( "Bodypart %s has inconsistent opposite part!", id.str() );
     }
 
+    for( const bp_bionic_fault &fault : faults_ ) {
+        if( !fault.effect.is_valid() ) {
+            debugmsg( "Fault has invalid effect %s", fault.effect.str() );
+        }
+    }
+
     // Check that connected_to leads eventually to the root bodypart (currently always head),
     // without any loops
     std::unordered_set<bodypart_str_id> visited = { id };

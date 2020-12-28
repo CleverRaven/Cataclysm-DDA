@@ -26,7 +26,11 @@
     "smash_message": "You smash the %s with a powerful shoulder-check.",
     "safe_bionic_slots": 40,
     "max_bionic_slots": 80,
-    "faults": [ { "effect": "open_skin", "slots_requirement": 40 } ]
+    "faults": [
+      { "effect": "open_skin", "slots_requirement": 40 },
+      { "effect": "nerve_pain", "slots_requirement": 50 },
+      { "effect": "nerve_pain_2", "slots_requirement": 60 }
+    ]
   },
   {
     "id": "head",
@@ -56,7 +60,11 @@
     "smash_efficiency": 0.25,
     "safe_bionic_slots": 9,
     "max_bionic_slots": 18,
-    "faults": [ { "effect": "open_skin", "slots_requirement": 9 } ]
+    "faults": [
+      { "effect": "open_skin", "slots_requirement": 9 },
+      { "effect": "nerve_pain", "slots_requirement": 11 },
+      { "effect": "nerve_pain_2", "slots_requirement": 15 }
+    ]
   },
   {
     "id": "eyes",
@@ -82,7 +90,11 @@
     "smash_efficiency": 0.25,
     "safe_bionic_slots": 2,
     "max_bionic_slots": 4,
-    "faults": [ { "effect": "open_skin", "slots_requirement": 2 } ]
+    "faults": [
+      { "effect": "open_skin", "slots_requirement": 2 },
+      { "effect": "nerve_pain", "slots_requirement": 3 },
+      { "effect": "nerve_pain_2", "slots_requirement": 4 }
+    ]
   },
   {
     "id": "mouth",
@@ -109,7 +121,11 @@
     "smash_efficiency": 0.25,
     "safe_bionic_slots": 2,
     "max_bionic_slots": 4,
-    "faults": [ { "effect": "open_skin", "slots_requirement": 2 } ]
+    "faults": [
+      { "effect": "open_skin", "slots_requirement": 2 },
+      { "effect": "nerve_pain", "slots_requirement": 3 },
+      { "effect": "nerve_pain_2", "slots_requirement": 4 }
+    ]
   },
   {
     "id": "arm_l",
@@ -141,7 +157,11 @@
     "smash_message": "You elbow-smash the %s.",
     "safe_bionic_slots": 10,
     "max_bionic_slots": 20,
-    "faults": [ { "effect": "open_skin", "slots_requirement": 10 } ]
+    "faults": [
+      { "effect": "open_skin", "slots_requirement": 10 },
+      { "effect": "nerve_pain", "slots_requirement": 12 },
+      { "effect": "nerve_pain_2", "slots_requirement": 15 }
+    ]
   },
   {
     "id": "arm_r",
@@ -172,7 +192,11 @@
     "smash_message": "You elbow-smash the %s.",
     "safe_bionic_slots": 10,
     "max_bionic_slots": 20,
-    "faults": [ { "effect": "open_skin", "slots_requirement": 10 } ]
+    "faults": [
+      { "effect": "open_skin", "slots_requirement": 10 },
+      { "effect": "nerve_pain", "slots_requirement": 12 },
+      { "effect": "nerve_pain_2", "slots_requirement": 15 }
+    ]
   },
   {
     "id": "hand_l",
@@ -201,7 +225,11 @@
     "smash_message": "You smash the %s with your fist.",
     "safe_bionic_slots": 3,
     "max_bionic_slots": 5,
-    "faults": [ { "effect": "open_skin", "slots_requirement": 3 } ]
+    "faults": [
+      { "effect": "open_skin", "slots_requirement": 3 },
+      { "effect": "nerve_pain", "slots_requirement": 4 },
+      { "effect": "nerve_pain_2", "slots_requirement": 5 }
+    ]
   },
   {
     "id": "hand_r",
@@ -230,7 +258,11 @@
     "smash_message": "You smash the %s with your fist.",
     "safe_bionic_slots": 3,
     "max_bionic_slots": 5,
-    "faults": [ { "effect": "open_skin", "slots_requirement": 3 } ]
+    "faults": [
+      { "effect": "open_skin", "slots_requirement": 3 },
+      { "effect": "nerve_pain", "slots_requirement": 4 },
+      { "effect": "nerve_pain_2", "slots_requirement": 5 }
+    ]
   },
   {
     "id": "leg_l",
@@ -262,7 +294,11 @@
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "safe_bionic_slots": 15,
     "max_bionic_slots": 30,
-    "faults": [ { "effect": "open_skin", "slots_requirement": 15 } ]
+    "faults": [
+      { "effect": "open_skin", "slots_requirement": 15 },
+      { "effect": "nerve_pain", "slots_requirement": 20 },
+      { "effect": "nerve_pain_2", "slots_requirement": 25 }
+    ]
   },
   {
     "id": "leg_r",
@@ -294,7 +330,11 @@
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "safe_bionic_slots": 15,
     "max_bionic_slots": 30,
-    "faults": [ { "effect": "open_skin", "slots_requirement": 15 } ]
+    "faults": [
+      { "effect": "open_skin", "slots_requirement": 15 },
+      { "effect": "nerve_pain", "slots_requirement": 20 },
+      { "effect": "nerve_pain_2", "slots_requirement": 25 }
+    ]
   },
   {
     "id": "foot_l",
@@ -323,7 +363,11 @@
     "smash_message": "You kick down the %s, smashing it.",
     "safe_bionic_slots": 4,
     "max_bionic_slots": 7,
-    "faults": [ { "effect": "open_skin", "slots_requirement": 4 } ]
+    "faults": [
+      { "effect": "open_skin", "slots_requirement": 4 },
+      { "effect": "nerve_pain", "slots_requirement": 5 },
+      { "effect": "nerve_pain_2", "slots_requirement": 6 }
+    ]
   },
   {
     "id": "foot_r",
@@ -352,6 +396,10 @@
     "smash_message": "You kick down the %s, smashing it.",
     "safe_bionic_slots": 4,
     "max_bionic_slots": 7,
-    "faults": [ { "effect": "open_skin", "slots_requirement": 4 } ]
+    "faults": [
+      { "effect": "open_skin", "slots_requirement": 4 },
+      { "effect": "nerve_pain", "slots_requirement": 5 },
+      { "effect": "nerve_pain_2", "slots_requirement": 6 }
+    ]
   }
 ]

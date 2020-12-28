@@ -2384,7 +2384,27 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
     const int difficulty = type.bionic->difficulty;
     int pl_skill = installer.bionics_pl_skill( autodoc, skill_level );
     int chance_of_success = bionic_success_chance( autodoc, skill_level, difficulty, installer );
+    bool bonus = false;
+    bool penalty = false;
 
+    // If all parts have no bionics give bonus.  If any parts have more than safe slots used apply penalty.
+    for( const std::pair<const bodypart_str_id, size_t> &bp : bioid->occupied_bodyparts ) {
+        if( get_used_bionics_slots( bp.first ) == 0 ) {
+            bonus = true;
+        } else if( get_used_bionics_slots( bp.first ) > bp.first->safe_bionic_slots() ) {
+            bonus = false;
+            penalty = true;
+            break;
+        } else {
+            bonus = false;
+        }
+    }
+    //TODO make this scale and balanced
+    if( penalty ) {
+        chance_of_success -= 30;
+    } else if( bonus ) {
+        chance_of_success += 30;
+    }
     // Practice skills only if conducting manual installation
     if( !autodoc ) {
         installer.practice( skill_electronics, static_cast<int>( ( 100 - chance_of_success ) * 1.5 ) );

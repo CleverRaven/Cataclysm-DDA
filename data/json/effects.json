@@ -2400,6 +2400,20 @@
   },
   {
     "type": "effect_type",
+    "id": "nerve_pain",
+    "name": [ "Nerve Pain" ],
+    "desc": [ "Your bionics are interfering with your nerves causing pain." ],
+    "base_mods": { "pain_chance": [ 512 ], "pain_min": [ 2 ], "pain_max": [ 8 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "nerve_pain_2",
+    "name": [ "Nerve Pain" ],
+    "desc": [ "Your bionics are interfering with your nerves causing a lot of pain." ],
+    "base_mods": { "pain_chance": [ 512 ], "pain_min": [ 20 ], "pain_max": [ 40 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "hunger_full",
     "name": [ "Full" ],
     "desc": [ "You feel quite full, and a bit sluggish." ],

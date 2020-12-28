@@ -588,11 +588,46 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
 int mutation_branch::bionic_slot_bonus( const bodypart_str_id &part ) const
 {
-    const auto iter = bionic_slot_bonuses.find( part );
-    if( iter == bionic_slot_bonuses.end() ) {
-        return 0;
-    } else {
-        return iter->second;
+    //TODO Possibly add field to mutations for bp affected and use it rather than all these    
+    int total_bonus = 0;
+    const auto slot_iter = bionic_slot_bonuses.find( part );
+    if( slot_iter != bionic_slot_bonuses.end() ) {
+        total_bonus += slot_iter->second;
+    }
+
+    const auto armor_iter = armor.find( part );
+    if( armor_iter != armor.end() ) {
+        total_bonus --;
+    }
+
+    const auto lumination_iter = lumination.find( part );
+    if( lumination_iter != lumination.end() ) {
+        total_bonus --;
+    }
+
+    const auto protection_iter = protection.find( part );
+    if( protection_iter != protection.end() ) {
+        total_bonus --;
+    }
+
+    const auto encumbrance_always_iter = encumbrance_always.find( part );
+    if( encumbrance_always_iter != encumbrance_always.end() ) {
+        total_bonus --;
+    }
+
+    const auto encumbrance_covered_iter = encumbrance_covered.find( part );
+    if( encumbrance_covered_iter != encumbrance_covered.end() ) {
+        total_bonus --;
+    }
+
+    const auto encumbrance_multiplier_always_iter = encumbrance_multiplier_always.find( part );
+    if( encumbrance_multiplier_always_iter != encumbrance_multiplier_always.end() ) {
+        total_bonus --;
+    }
+
+    const auto restricts_gear_iter = restricts_gear.find( part );
+    if( restricts_gear_iter != restricts_gear.end() ) {
+        total_bonus --;
     }
 }
 
