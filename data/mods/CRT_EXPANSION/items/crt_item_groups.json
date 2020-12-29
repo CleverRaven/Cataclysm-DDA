@@ -14,18 +14,38 @@
   {
     "type": "item_group",
     "id": "bionics",
-    "items": [ [ "crt_aarmor", 8 ], [ "crt_earmor", 1 ], [ "crt_earmor_boots", 1 ], [ "crt_sarmor", 3 ]  ]
+    "items": [
+      [ "crt_aarmor", 8 ],
+      [ "crt_earmor", 1 ],
+      [ "crt_earmor_boots", 1 ],
+      [ "crt_sarmor", 3 ],
+      [ "ds_armor", 1 ],
+      [ "ds_monitor", 1 ]
+    ]
   },
   {
     "type": "item_group",
     "id": "guns_energy",
     "//": "Assorted factory crafted energy weapons.",
-    "items": [ { "item": "crt_laser_pistol", "prob": 5 }, { "item": "crt_laser_carbine", "prob": 10 }, { "item": "crt_energy_rifle", "prob": 4 }, { "item": "crt_cqb_si", "prob": 4 }, { "item": "crt_fire_glove", "prob": 1 } ]
+    "items": [
+      { "item": "crt_laser_pistol", "prob": 5 },
+      { "item": "crt_laser_carbine", "prob": 10 },
+      { "item": "crt_energy_rifle", "prob": 4 },
+      { "item": "crt_cqb_si", "prob": 4 },
+      { "item": "crt_fire_glove", "prob": 1 }
+    ]
   },
   {
     "type": "item_group",
     "id": "ammo_rifle_common",
-    "items": [ { "item": "pellet", "prob": 5 }, { "item": "dhp_pellet", "prob": 10 }, { "item": "hp_pellet", "prob": 10 }, { "item": "alloy_pellet", "prob": 10 }, { "item": "pulsesb", "prob": 10 }, { "item": "pelletgun", "prob": 10 } ]
+    "items": [
+      { "item": "pellet", "prob": 5 },
+      { "item": "dhp_pellet", "prob": 10 },
+      { "item": "hp_pellet", "prob": 10 },
+      { "item": "alloy_pellet", "prob": 10 },
+      { "item": "pulsesb", "prob": 10 },
+      { "item": "pelletgun", "prob": 10 }
+    ]
   },
   {
     "id": "clothing_soldier_set",
