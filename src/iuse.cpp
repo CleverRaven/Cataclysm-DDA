@@ -571,7 +571,7 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
     if( it->typeId() == itype_cig || it->typeId() == itype_handrolled_cig ) {
         // There's really no reason to have these two
         // itypes split into identical codeblocks
-        
+
         cig = item( "cig_lit", calendar::turn );
         cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_hunger( -3 );
@@ -1282,8 +1282,8 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
     }
 
     int mutation_index = uilist( _( "Choose a mutation to purify: " ), valid_names );
-                                 // Because valid_names doesn't start with a space,
-                                 // include one here to prettify the output
+    // Because valid_names doesn't start with a space,
+    // include one here to prettify the output
     if( mutation_index < 0 ) {
         return 0;
     }
@@ -1529,7 +1529,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
     // From an end-user perspective, dialogue should be presented uniformly:
     // initial caps, as in human writing, or all lowercase letters.
     // I think that all lowercase, because it contrasts with normal convention, reinforces the Mycus' alien nature
-    
+
     if( p->has_trait( trait_THRESH_MARLOSS ) ) {
         get_event_bus().send<event_type::crosses_mycus_threshold>( p->getID() );
         p->add_msg_if_player( m_neutral,
@@ -2597,8 +2597,8 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     const int pry_level = it->get_quality( quality_id( "PRY" ) );
 
     if( pry_level < pry_quality ) {
-                                    // This doesn't really make it clear to the player
-                                    // why their attempt is failing.
+        // This doesn't really make it clear to the player
+        // why their attempt is failing.
         p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your %s." ),
                               it->tname() );
         p->mod_moves( 10 ); // spend a few moves trying it.
@@ -5485,7 +5485,8 @@ int iuse::heat_food( player *p, item *it, bool, const tripoint & )
             p->mod_power_level( -10_kJ );
         }
     } else {
-        p->add_msg_if_player( m_info, _( "You need to be next to a fire to heat something up with the %s." ),
+        p->add_msg_if_player( m_info,
+                              _( "You need to be next to a fire to heat something up with the %s." ),
                               it->tname() );
     }
     return 0;
@@ -5866,7 +5867,7 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         resultdurability = fix.durability_indicator( true );
         p->add_msg_if_player( m_good, _( "You repair your %s completely!  ( %s-> %s)" ),
                               fix.tname( 1, false ), startdurability, resultdurability );
-                              // Do these need to use the %1$s syntax used elsewhere?
+        // Do these need to use the %1$s syntax used elsewhere?
     }
     return it->type->charges_to_use();
 }
