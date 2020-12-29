@@ -5,7 +5,7 @@
     "regions": [ "all" ],
     "map_extras": {
       "forest_water": { "chance": 20, "extras": { "mx_nest_tyrannosaurus": 10 } },
-      "forest": { "chance": 20, "extras": { "mx_nest_maiasaura": 10 } }
+      "forest": { "chance": 20, "extras": { "mx_nest_maiasaura": 20 } }
     }
   }
 ]
