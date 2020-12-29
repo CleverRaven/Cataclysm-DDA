@@ -264,28 +264,31 @@ double weather_generator::get_water_temperature( const tripoint &location, const
     // Instead of using a realistic model, we'll just smooth out air temperature
     // Smooth out both in time and intensity
     // And add caps - it must stay liquid water
-    constexpr std::array<std::pair<time_duration, double>, 4> measurement_weights = {{
-            { 7_days, 0.25 },
-            { 3_days, 0.25 },
-            { 1_days, 0.25 },
-            { 0_days, 0.25 }
+    constexpr std::array<std::pair<time_duration, double>, 7> measurement_weights = {{
+            { 7_days, 0.1 },
+            { 7_days + 12_hours, 0.1 },
+            { 3_days, 0.2 },
+            { 3_days + 12_hours, 0.2 },
+            { 1_days, 0.2 },
+            { 0_days + 12_hours, 0.2 },
+            { 0_days, 0.1 }
         }
     };
     const double weighted_avg = std::accumulate( measurement_weights.begin(), measurement_weights.end(),
-                                0,
+                                0.0,
     [this, location, time, seed]( double acc, const std::pair<time_duration, double> &pr ) {
         return acc + pr.second * get_weather_temperature( location, time - pr.first, seed );
     } );
     // Rescale the range:
-    // For avg air temp<-12C, water is 0C
-    // For avg air temp> 36C, water is 24C
+    // For avg air temp<-10C, water is 0C
+    // For avg air temp> 30C, water is 30C
     // logarithmic_range smoothing for the in-between
-    constexpr double lower_limit = celsius_to_fahrenheit( -12.0 );
-    constexpr double upper_limit = celsius_to_fahrenheit( 36.0 );
+    constexpr double lower_limit = celsius_to_fahrenheit( -10.0 );
+    constexpr double upper_limit = celsius_to_fahrenheit( 30.0 );
     const double t = logarithmic_range( static_cast<int>( 1000 * lower_limit ),
                                         static_cast<int>( 1000 * upper_limit ),
                                         static_cast<int>( 1000 * weighted_avg ) );
-    return lerp( celsius_to_fahrenheit( 0 ), celsius_to_fahrenheit( 24 ), t );
+    return lerp( celsius_to_fahrenheit( 0 ), celsius_to_fahrenheit( 30 ), 1.0 - t );
 }
 
 void weather_generator::test_weather( unsigned seed = 1000 ) const
