@@ -131,7 +131,6 @@
     "name": { "str": "Disease Resistant" },
     "points": 1,
     "description": "It's very unlikely that you will catch ambient diseases like a cold or the flu.",
-    "starting_trait": true,
     "changes_to": [ "DISIMMUNE" ],
     "category": [ "CATTLE", "RAT", "MEDICAL" ],
     "valid": false
