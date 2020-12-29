@@ -86,6 +86,7 @@
     "description": "This bloody red brute is a orc warrior.  He stares at you menacingly, weapon in hand; this one seems to have bathed himself in the blood of his enemies.",
     "hp": 97,
     "dodge": 3,
+    "aggression": 100,
     "melee_dice_sides": 8,
     "melee_cut": 5,
     "death_drops": {
