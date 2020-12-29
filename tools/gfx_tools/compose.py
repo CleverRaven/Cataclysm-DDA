@@ -15,6 +15,8 @@ import os
 import subprocess
 import sys
 
+from typing import Any, List, Tuple, Union
+
 try:
     import pyvips
     Vips = pyvips
@@ -49,7 +51,7 @@ FALLBACK = {
 ERROR_LOGGED = False
 
 
-def write_to_json(pathname, data):
+def write_to_json(pathname: str, data: Any) -> None:
     with open(pathname, 'w') as fp:
         json.dump(data, fp)
 
@@ -59,18 +61,22 @@ def write_to_json(pathname, data):
         subprocess.call(cmd)
 
 
-def find_or_make_dir(pathname):
+def find_or_make_dir(pathname: str) -> None:
     try:
         os.stat(pathname)
     except OSError:
         os.mkdir(pathname)
 
 
+def list_or_first(iterable: list) -> Any:
+    return iterable[0] if len(iterable) == 1 else iterable
+
+
 class Tileset:
     '''
     Sprites handling and referenced images memory
     '''
-    def __init__(self, source_dir, output_dir):
+    def __init__(self, source_dir: str, output_dir: str) -> None:
         self.source_dir = source_dir
         self.output_dir = output_dir
 
@@ -98,13 +104,16 @@ class Tileset:
             self.sprite_width = self.info[0].get('width')
             self.sprite_height = self.info[0].get('height')
 
-    def convert_a_pngname_to_pngnum(self, sprite_id, entry):
-        if sprite_id:
-            new_id = self.pngname_to_pngnum.get(sprite_id, 0)
-            if new_id:
-                entry.append(new_id)
-                if sprite_id not in self.referenced_pngnames:
-                    self.referenced_pngnames.append(sprite_id)
+    def append_sprite_index(self, sprite_name: str, entry: list) -> bool:
+        '''
+        Get sprite index by sprite name and append it to entry
+        '''
+        if sprite_name:
+            sprite_index = self.pngname_to_pngnum.get(sprite_name, 0)
+            if sprite_index:
+                entry.append(sprite_index)
+                if sprite_name not in self.referenced_pngnames:
+                    self.referenced_pngnames.append(sprite_name)
                 return True
             else:
                 print(f'Error: sprite id {sprite_id} has no matching PNG file.'
@@ -113,40 +122,58 @@ class Tileset:
                 ERROR_LOGGED = True
         return False
 
-    def convert_pngname_to_pngnum(self, index):
-        new_index = []
-        if isinstance(index, list):
-            for pngname in index:
-                if isinstance(pngname, dict):
-                    sprite_ids = pngname.get('sprite')
-                    valid = False
-                    new_sprites = []
-                    if isinstance(sprite_ids, list):
-                        new_sprites = []
-                        for sprite_id in sprite_ids:
-                            valid |= self.convert_a_pngname_to_pngnum(
-                                sprite_id, new_sprites)
-                        pngname['sprite'] = new_sprites
-                    else:
-                        valid = self.convert_a_pngname_to_pngnum(
-                            sprite_ids, new_sprites)
-                        if valid:
-                            pngname['sprite'] = new_sprites[0]
-                    if valid:
-                        new_index.append(pngname)
-                else:
-                    self.convert_a_pngname_to_pngnum(pngname, new_index)
-        else:
-            self.convert_a_pngname_to_pngnum(index, new_index)
-        if new_index and len(new_index) == 1:
-            return new_index[0]
-        return new_index
+    def convert_entry_layer(self, entry_layer: Union[list, str]) -> list:
+        '''
+        Convert sprite names to sprite indexes in one fg or bg tile entry part
+        '''
+        output = []
 
-    def convert_tile_entry(self, tile_entry, prefix, is_filler):
+        if isinstance(entry_layer, list):
+            # "fg": [ "f_fridge_S", "f_fridge_W", "f_fridge_N", "f_fridge_E" ]
+            for layer_part in entry_layer:
+                if isinstance(layer_part, dict):
+                    # weighted random variations
+                    variations, valid = self.convert_random_variations(
+                        layer_part.get('sprite'))
+                    if valid:
+                        layer_part['sprite'] = \
+                            variations[0] if len(variations) == 1 \
+                            else variations
+                        output.append(layer_part)
+                else:
+                    self.append_sprite_index(layer_part, output)
+        else:
+            # "bg": "t_grass"
+            self.append_sprite_index(entry_layer, output)
+
+        return output
+
+    def convert_random_variations(self, sprites: Union[list, str])\
+            -> Tuple[list, bool]:
         '''
-        Compile input JSON into objects for the output JSON config
+        Convert list of random weighted variation objects
         '''
-        tile_id = tile_entry.get('id')
+        valid = False
+        converted_variations = []
+
+        if isinstance(sprites, list):
+            # list of rotations
+            converted_variations = []
+            for sprite_name in sprites:
+                valid |= self.append_sprite_index(
+                    sprite_name, converted_variations)
+        else:
+            # single sprite
+            valid = self.append_sprite_index(
+                sprites, converted_variations)
+        return converted_variations, valid
+
+    def convert_tile_entry(self, entry: dict, prefix: str, is_filler: bool)\
+            -> None:
+        '''
+        Recursively compile input into game-compatible objects in-place
+        '''
+        tile_id = entry.get('id')
         id_as_prefix = None
         if tile_id:
             if not isinstance(tile_id, list):
@@ -159,36 +186,39 @@ class Tileset:
                 if full_id in self.processed_ids:
                     print(f'Info: skipping filler for {full_id}')
                     return None
-        fg_id = tile_entry.get('fg')
-        if fg_id:
-            tile_entry['fg'] = self.convert_pngname_to_pngnum(fg_id)
+        fg_layer = entry.get('fg')
+        if fg_layer:
+            entry['fg'] = list_or_first(
+                self.convert_entry_layer(fg_layer))
         else:
-            del tile_entry['fg']
+            del entry['fg']
 
-        bg_id = tile_entry.get('bg')
-        if bg_id:
-            tile_entry['bg'] = self.convert_pngname_to_pngnum(bg_id)
+        bg_layer = entry.get('bg')
+        if bg_layer:
+            entry['bg'] = list_or_first(
+                self.convert_entry_layer(bg_layer))
         else:
             try:
-                del tile_entry['bg']
+                del entry['bg']
             except Exception:
                 print(f'Error: Cannot find bg for tile with id {tile_id}')
                 global ERROR_LOGGED
                 ERROR_LOGGED = True
 
-        add_tile_entrys = tile_entry.get('additional_tiles', [])
+        add_tile_entrys = entry.get('additional_tiles', [])
         for add_tile_entry in add_tile_entrys:
+            # recursive part
             self.convert_tile_entry(add_tile_entry, id_as_prefix, is_filler)
 
-        if fg_id or bg_id:
+        if fg_layer or bg_layer:
             for an_id in tile_id:
                 full_id = f'{prefix}{an_id}'
                 if full_id not in self.processed_ids:
                     self.processed_ids.append(full_id)
-            return tile_entry
+            return entry
         return None  # TODO: option to warn
 
-    def find_unused(self, use_all=False):
+    def find_unused(self, use_all: bool = False) -> dict:
         '''
         Find unused images and either warn about them or return the list
         '''
@@ -208,7 +238,7 @@ class Tilesheet:
     '''
     Tilesheet reading and compositing
     '''
-    def __init__(self, subdir_index, tileset):
+    def __init__(self, subdir_index: int, tileset: Tileset) -> None:
         tilesheet_config_obj = tileset.info[subdir_index]
         self.name = next(iter(tilesheet_config_obj))
         self.specs = tilesheet_config_obj[self.name] or {}
@@ -237,7 +267,7 @@ class Tilesheet:
             Vips.Image.grey(self.sprite_width, self.sprite_height)
         self.row_pngs = ['null_image']
 
-    def set_first_index(self, tileset):
+    def set_first_index(self, tileset: Tileset) -> None:
         '''
         Increment global index and set local indexes.
         Global index can be decremented later if tilesheet does not contain
@@ -247,7 +277,7 @@ class Tilesheet:
         self.first_index = tileset.pngnum
         self.max_index = tileset.pngnum
 
-    def is_standard(self, tileset):
+    def is_standard(self, tileset: Tileset) -> bool:
         '''
         Check whether output object needs a non-standard size or offset config
         '''
@@ -259,7 +289,7 @@ class Tilesheet:
             return False
         return True
 
-    def load_image(self, png_path):
+    def load_image(self, png_path: str) -> pyvips.Image:
         '''
         Load and verify an image using pyvips
         '''
@@ -290,7 +320,7 @@ class Tilesheet:
 
         return image
 
-    def prepare_images_row(self, tileset):
+    def prepare_images_row(self, tileset: Tileset) -> List[pyvips.Image]:
         '''
         Prepare a list of 16 Vips images that will be one row
         '''
@@ -311,7 +341,7 @@ class Tilesheet:
 
         return row
 
-    def walk_dirs(self, tileset):
+    def walk_dirs(self, tileset: Tileset) -> List[pyvips.Image]:
         images_grid = []
         for subdir_fpath, dirnames, filenames in os.walk(self.subdir_path):
             for filename in filenames:
@@ -350,7 +380,7 @@ class Tilesheet:
             images_grid += images_row
         return images_grid
 
-    def create_sheet(self, images_grid):
+    def create_sheet(self, images_grid: List[pyvips.Image]) -> None:
         '''
         Compose and save tilesheet PNG
         '''
