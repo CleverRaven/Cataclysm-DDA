@@ -60,6 +60,7 @@
     "name": "orc_village",
     "sym": "o",
     "color": "green",
-    "see_cost": 6
+    "see_cost": 6,
+    "flags": [ "RISK_HIGH" ]
   }
 ]
