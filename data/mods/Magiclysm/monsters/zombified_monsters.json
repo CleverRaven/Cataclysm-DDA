@@ -44,7 +44,7 @@
     "species": [ "ZOMBIE" ],
     "volume": "67 L",
     "weight": "200 kg",
-    "hp": 260,
+    "hp": 122,
     "speed": 100,
     "material": [ "flesh" ],
     "symbol": "O",
