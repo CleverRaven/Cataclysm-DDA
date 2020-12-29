@@ -1019,7 +1019,7 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         // Adjustment because in player::wield_contents this amount is refunded.
         you.mod_moves( -loc.obtain_cost( you ) );
     } else {
-        loc = loc.obtain( you );
+        loc = loc.obtain( you, 1 );
         if( !loc ) {
             debugmsg( "Failed to obtain target item" );
             return;
