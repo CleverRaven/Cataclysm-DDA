@@ -195,7 +195,7 @@
     "name": { "str": "stone axe head" },
     "description": "This is a broad piece of stone with an edge narrow enough to roughly chop wood.",
     "weight": "453 g",
-    "volume": "500 ml",
+    "volume": "230 ml",
     "price": 0,
     "price_postapoc": 50,
     "to_hit": -3,
