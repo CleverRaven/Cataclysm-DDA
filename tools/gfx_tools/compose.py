@@ -116,7 +116,7 @@ class Tileset:
                     self.referenced_pngnames.append(sprite_name)
                 return True
             else:
-                print(f'Error: sprite id {sprite_id} has no matching PNG file.'
+                print(f'Error: sprite {sprite_name} has no matching PNG file.'
                       ' It will not be added to tile_config.json')
                 global ERROR_LOGGED
                 ERROR_LOGGED = True
