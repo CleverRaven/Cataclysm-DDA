@@ -833,7 +833,7 @@ void talk_function::stranger_neutral( npc &p )
     p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
 }
 
-bool drop_stolen_item( item &cur_item, npc &p )
+bool talk_function::drop_stolen_item( item &cur_item, npc &p )
 {
     Character &player_character = get_player_character();
     map &here = get_map();
@@ -861,7 +861,6 @@ void talk_function::drop_stolen_item( npc &p )
 {
     bool dropped = false;
     Character &player_character = get_player_character();
-    map &here = get_map();
     for( item *&elem : player_character.inv_dump() ) {
         dropped |= drop_stolen_item( *elem, p );
     }
