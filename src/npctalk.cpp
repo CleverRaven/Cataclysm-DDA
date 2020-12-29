@@ -1955,8 +1955,15 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
     function = [is_trade, is_npc]( const dialogue & d ) {
         const std::unique_ptr<talker> &seller = is_npc ? d.beta : d.alpha;
         const std::unique_ptr<talker> &buyer = is_npc ? d.alpha : d.beta;
-        int seller_has = seller->charges_of( d.cur_item );
         item tmp( d.cur_item );
+        int seller_has = 0;
+        if( tmp.count_by_charges() ) {
+            seller_has = seller->charges_of( d.cur_item );
+        } else {
+            seller_has = seller->items_with( [&tmp]( const item & e ) {
+                return tmp.type == e.type;
+            } ).size();
+        }
         tmp.charges = seller_has;
         if( is_trade ) {
             const int npc_debt = d.beta->debt();
@@ -1997,7 +2004,11 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
             d.beta->add_debt( -npc_debt );
             d.beta->add_debt( price );
         }
-        seller->use_charges( d.cur_item, seller_has );
+        if( tmp.count_by_charges() ) {
+            seller->use_charges( d.cur_item, seller_has );
+        } else {
+            seller->use_amount( d.cur_item, seller_has );
+        }
         buyer->i_add( tmp );
     };
 }

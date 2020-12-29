@@ -11213,7 +11213,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     }
 
     for( item *e : del ) {
-        inv.remove_item( e );
+        remove_item( *e );
     }
 
     if( has_tool_with_UPS ) {
