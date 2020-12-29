@@ -99,7 +99,7 @@ class Tileset:
             self.sprite_height = self.info[0].get('height')
 
     def convert_a_pngname_to_pngnum(self, sprite_id, entry):
-        if sprite_id and sprite_id != 'no_entry':
+        if sprite_id:
             new_id = self.pngname_to_pngnum.get(sprite_id, 0)
             if new_id:
                 entry.append(new_id)
@@ -318,8 +318,7 @@ class Tilesheet:
                 filepath = os.path.join(subdir_fpath, filename)
                 if filename.endswith('.png'):
                     pngname = filename.split('.png')[0]
-                    if (pngname in tileset.pngname_to_pngnum or
-                            pngname == 'no_entry'):
+                    if (pngname in tileset.pngname_to_pngnum):
                         print(f'skipping {pngname}')
                         continue
                     if self.is_filler and pngname in tileset.pngname_to_pngnum:
