@@ -3084,7 +3084,7 @@ int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
 
     int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    const int helpersize = p->get_num_crafting_helpers( 3 );
+    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
     const int moves = to_moves<int>( 30_seconds ) * ( 1.0f - ( helpersize / 10.0f ) );
     for( std::size_t i = 0; i < helpersize; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
