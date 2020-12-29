@@ -1525,7 +1525,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         return it->type->charges_to_use();
     }
     // Welcome our guide.  Welcome.  To. The Mycus.
-    
+
     // From an end-user perspective, dialogue should be presented uniformly:
     // initial caps, as in human writing, or all lowercase letters.
     // I think that all lowercase, because it contrasts with normal convention, reinforces the Mycus' alien nature
