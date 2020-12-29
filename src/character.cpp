@@ -4997,6 +4997,8 @@ void Character::update_bodytemp()
     double total_windpower = get_local_windpower( g->weather.windspeed + vehwindspeed, cur_om_ter,
                              pos(),
                              g->weather.winddirection, sheltered );
+    int air_humidity = get_local_humidity( weather.humidity, g->weather.weather,
+                                           sheltered );
     // Let's cache this not to check it num_bp times
     const bool has_bark = has_trait( trait_BARK );
     const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( "rm13_armor_on" ) ||
@@ -5005,20 +5007,22 @@ void Character::update_bodytemp()
     const bool use_floor_warmth = can_use_floor_warmth();
     const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // Temperature norms
-    const int ambient_norm = 3100;
+    const int ambient_norm = 3100 - BODYTEMP_NORM;
 
     /**
      * Calculations that affect all body parts equally go here, not in the loop
      */
-    // Sunlight
-    const int sunlight_warmth = g->is_in_sunlight( pos() ) ? ( g->weather.weather == WEATHER_SUNNY ?
-                                1000 :
-                                500 ) : 0;
+    const int sunlight_warmth = g->is_in_sunlight( pos() )
+                                ? ( g->weather.weather == WEATHER_SUNNY ? 1000 : 500 )
+                                : 0;
     const int best_fire = get_heat_radiation( pos(), true );
+    const bool pyromania = has_trait( trait_PYROMANIA );
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
-    const int water_temperature =
+    const int water_temperature_raw =
         100 * fahrenheit_to_celsius( g->weather.get_water_temperature( pos() ) );
+    // Rescale so that 0C is 0 (FREEZING) and 30C is 5k (NORM).
+    const int water_temperature = water_temperature_raw * 5 / 3;
 
     // Correction of body temperature due to traits and mutations
     // Lower heat is applied always
@@ -5027,12 +5031,31 @@ void Character::update_bodytemp()
     // Difference between high and low is the "safe" heat - one we only apply if it's beneficial
     const int mutation_heat_bonus = mutation_heat_high - mutation_heat_low;
 
+    // Note: this is included in @ref weather::get_temperature(), so don't add to bodytemp!
     const int h_radiation = get_heat_radiation( pos(), false );
 
     // If you're standing in water, air temperature is replaced by water temperature. No wind.
     const ter_id ter_at_pos = g->m.ter( pos() );
     bool submerged = ter_at_pos->has_flag( TFLAG_DEEP_WATER );
     bool submerged_low = submerged || ter_at_pos->has_flag( TFLAG_SWIMMABLE );
+
+    // EQUALIZATION
+    // We run it outside the loop because we can and so we should
+    // Also, it makes bonus heat application more stable
+    // TODO: Affect future convection temperature instead (might require adding back to loop)
+    temp_equalizer( bp_torso, bp_arm_l );
+    temp_equalizer( bp_torso, bp_arm_r );
+    temp_equalizer( bp_torso, bp_leg_l );
+    temp_equalizer( bp_torso, bp_leg_r );
+    temp_equalizer( bp_torso, bp_head );
+
+    temp_equalizer( bp_head, bp_mouth );
+
+    temp_equalizer( bp_arm_l, bp_hand_l );
+    temp_equalizer( bp_arm_r, bp_hand_r );
+
+    temp_equalizer( bp_leg_l, bp_foot_l );
+    temp_equalizer( bp_leg_r, bp_foot_r );
 
     // Current temperature and converging temperature calculations
     for( const body_part bp : all_body_parts ) {
@@ -5041,10 +5064,14 @@ void Character::update_bodytemp()
             continue;
         }
 
-        // This adjusts the temperature scale to match the bodytemp scale,
-        // it needs to be reset every iteration
-        int adjusted_temp = ( Ctemperature - ambient_norm );
-        int bp_windpower = total_windpower;
+        const bool submerged_bp = submerged ||
+                                  ( submerged_low &&
+                                    ( bp == bp_foot_l || bp == bp_foot_r || bp == bp_leg_l || bp == bp_leg_r ) );
+        // This adjusts the temperature scale to match the bodytemp scale
+        const int adjusted_temp = submerged_bp ?
+                                  water_temperature :
+                                  ( Ctemperature - ambient_norm );
+
         // Represents the fact that the body generates heat when it is cold.
         double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
                                     temp_cur[bp] );
@@ -5054,116 +5081,33 @@ void Character::update_bodytemp()
         int clothing_warmth_adjusted_bonus = static_cast<int>( homeostasis_adjustement * bonus_item_warmth(
                 bp ) );
         // WINDCHILL
-
-        bp_windpower = static_cast<int>( static_cast<float>( bp_windpower ) * ( 1 - get_wind_resistance(
-                                             bp ) / 100.0 ) );
+        double bp_windpower = total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 );
         // Calculate windchill
-        int windchill = get_local_windchill( player_local_temp,
-                                             get_local_humidity( weather.humidity, g->weather.weather,
-                                                     sheltered ),
-                                             bp_windpower );
-        // Convert to 0.01C
-        if( submerged ||
-            ( submerged_low && ( bp == bp_foot_l || bp == bp_foot_r || bp == bp_leg_l || bp == bp_leg_r ) ) ) {
-            adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
-            windchill = 0;
-        }
+        int windchill = submerged_bp
+                        ? 0
+                        : get_local_windchill( player_local_temp,
+                                               air_humidity,
+                                               bp_windpower );
 
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
-        temp_conv[bp] = BODYTEMP_NORM + adjusted_temp + windchill * 100 + clothing_warmth_adjustement;
-        // Mutations
-        temp_conv[bp] += mutation_heat_low;
-        // DIRECT HEAT SOURCES (generates body heat, helps fight frostbite)
-        // Bark : lowers blister count to -5; harder to get blisters
-        int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
-
-        if( frostbite_timer[bp] > 0 ) {
-            frostbite_timer[bp] -= std::max( 5, h_radiation );
-        }
-        blister_count += h_radiation - 111 > 0 ?
-                         std::max( static_cast<int>( std::sqrt( h_radiation - 111 ) ), 0 ) : 0;
-
-        const bool pyromania = has_trait( trait_PYROMANIA );
-        // BLISTERS : Skin gets blisters from intense heat exposure.
-        // Fire protection protects from blisters.
-        // Heatsinks give near-immunity.
-        if( blister_count - get_armor_fire( bp ) - ( has_heatsink ? 20 : 0 ) > 0 ) {
-            add_effect( effect_blisters, 1_turns, bp );
-            if( pyromania ) {
-                add_morale( MORALE_PYROMANIA_NEARFIRE, 10, 10, 1_hours,
-                            30_minutes ); // Proximity that's close enough to harm us gives us a bit of a thrill
-                rem_morale( MORALE_PYROMANIA_NOFIRE );
-            }
-        } else if( pyromania && best_fire >= 1 ) { // Only give us fire bonus if there's actually fire
-            add_morale( MORALE_PYROMANIA_NEARFIRE, 5, 5, 30_minutes,
-                        15_minutes ); // Gain a much smaller mood boost even if it doesn't hurt us
-            rem_morale( MORALE_PYROMANIA_NOFIRE );
-        }
-
-        temp_conv[bp] += sunlight_warmth;
-
-        // EQUALIZATION
-        switch( bp ) {
-            case bp_torso:
-                temp_equalizer( bp_torso, bp_arm_l );
-                temp_equalizer( bp_torso, bp_arm_r );
-                temp_equalizer( bp_torso, bp_leg_l );
-                temp_equalizer( bp_torso, bp_leg_r );
-                temp_equalizer( bp_torso, bp_head );
-                break;
-            case bp_head:
-                temp_equalizer( bp_head, bp_torso );
-                temp_equalizer( bp_head, bp_mouth );
-                break;
-            case bp_arm_l:
-                temp_equalizer( bp_arm_l, bp_torso );
-                temp_equalizer( bp_arm_l, bp_hand_l );
-                break;
-            case bp_arm_r:
-                temp_equalizer( bp_arm_r, bp_torso );
-                temp_equalizer( bp_arm_r, bp_hand_r );
-                break;
-            case bp_leg_l:
-                temp_equalizer( bp_leg_l, bp_torso );
-                temp_equalizer( bp_leg_l, bp_foot_l );
-                break;
-            case bp_leg_r:
-                temp_equalizer( bp_leg_r, bp_torso );
-                temp_equalizer( bp_leg_r, bp_foot_r );
-                break;
-            case bp_mouth:
-                temp_equalizer( bp_mouth, bp_head );
-                break;
-            case bp_hand_l:
-                temp_equalizer( bp_hand_l, bp_arm_l );
-                break;
-            case bp_hand_r:
-                temp_equalizer( bp_hand_r, bp_arm_r );
-                break;
-            case bp_foot_l:
-                temp_equalizer( bp_foot_l, bp_leg_l );
-                break;
-            case bp_foot_r:
-                temp_equalizer( bp_foot_r, bp_leg_r );
-                break;
-            default:
-                debugmsg( "Wacky body part temperature equalization!" );
-                break;
-        }
+        int bp_conv = adjusted_temp
+                      + windchill * 100
+                      + clothing_warmth_adjustement
+                      + mutation_heat_low
+                      + sunlight_warmth;
 
         // Climate Control eases the effects of high and low ambient temps
         if( has_climate_control ) {
-            temp_conv[bp] = temp_corrected_by_climate_control( temp_conv[bp] );
+            bp_conv = temp_corrected_by_climate_control( bp_conv );
         }
 
-        // FINAL CALCULATION : Increments current body temperature towards convergent.
         int bonus_fire_warmth = best_fire * 500;
 
         const int comfortable_warmth = bonus_fire_warmth + lying_warmth;
-        const int bonus_warmth = comfortable_warmth + mutation_heat_bonus;
+        const int bonus_warmth = comfortable_warmth + mutation_heat_bonus + clothing_warmth_adjusted_bonus;
         if( bonus_warmth > 0 ) {
-            // Approximate temp_conv needed to reach comfortable temperature in this very turn
+            // Approximate bp_conv needed to reach comfortable temperature in this very turn
             // Basically inverted formula for temp_cur below
             int desired = 501 * BODYTEMP_NORM - 499 * temp_cur[bp];
             if( std::abs( BODYTEMP_NORM - desired ) < 1000 ) {
@@ -5172,14 +5116,14 @@ void Character::update_bodytemp()
                 desired = BODYTEMP_HOT; // Cap excess at sane temperature
             }
 
-            if( desired < temp_conv[bp] ) {
+            if( desired < bp_conv ) {
                 // Too hot, can't help here
-            } else if( desired < temp_conv[bp] + bonus_warmth ) {
+            } else if( desired < bp_conv + bonus_warmth ) {
                 // Use some heat, but not all of it
-                temp_conv[bp] = desired;
+                bp_conv = desired;
             } else {
                 // Use all the heat
-                temp_conv[bp] += bonus_warmth;
+                bp_conv += bonus_warmth;
             }
 
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
@@ -5195,34 +5139,28 @@ void Character::update_bodytemp()
             }
         }
 
+        // The current temperature model can't account for water temperature conduction well
+        // Hack: cut non-water effects by 80% when in water
+        if( submerged_bp ) {
+            bp_conv = ( ( bp_conv - adjusted_temp ) / 5 ) + adjusted_temp;
+        }
+
+        // FINAL CALCULATION : Increments current body temperature towards convergent.
         int temp_before = temp_cur[bp];
-        int temp_difference = temp_before - temp_conv[bp]; // Negative if the player is warming up.
-        // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
-        // exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
+        int temp_difference = temp_before - bp_conv; // Negative if the player is warming up.
         int rounding_error = 0;
         // If temp_diff is small, the player cannot warm up due to rounding errors. This fixes that.
         if( temp_difference < 0 && temp_difference > -600 ) {
             rounding_error = 1;
         }
-        if( temp_cur[bp] != temp_conv[bp] ) {
-            temp_cur[bp] = static_cast<int>( temp_difference * std::exp( -0.002 ) + temp_conv[bp] +
+        // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
+        // exp(-0.003) : half life of 20 minutes, exp(-0.004) : half life of 15 minutes
+        static const double change_mult_air = std::exp( -0.002 );
+        static const double change_mult_water = std::exp( -0.008 );
+        const double change_mult = submerged_bp ? change_mult_water : change_mult_air;
+        if( temp_cur[bp] != bp_conv ) {
+            temp_cur[bp] = static_cast<int>( temp_difference * change_mult + bp_conv +
                                              rounding_error );
-        }
-        // This statement checks if we should be wearing our bonus warmth.
-        // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
-        if( clothing_warmth_adjusted_bonus != 0 &&
-            ( ( temp_conv[bp] + clothing_warmth_adjusted_bonus ) < BODYTEMP_HOT ||
-              temp_cur[bp] < BODYTEMP_COLD ) ) {
-            temp_conv[bp] += clothing_warmth_adjusted_bonus;
-            rounding_error = 0;
-            if( temp_difference < 0 && temp_difference > -600 ) {
-                rounding_error = 1;
-            }
-            if( temp_before != temp_conv[bp] ) {
-                temp_difference = temp_before - temp_conv[bp];
-                temp_cur[bp] = static_cast<int>( temp_difference * std::exp( -0.002 ) + temp_conv[bp] +
-                                                 rounding_error );
-            }
         }
         int temp_after = temp_cur[bp];
         // PENALTIES
@@ -5256,6 +5194,32 @@ void Character::update_bodytemp()
                 remove_effect( effect_hot_speed, bp );
             }
         }
+
+        // Bark : lowers blister count to -5; harder to get blisters
+        int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
+
+        if( frostbite_timer[bp] > 0 ) {
+            frostbite_timer[bp] -= std::min( 5, h_radiation );
+        }
+        blister_count += h_radiation - 111 > 0 ?
+                         std::max( static_cast<int>( std::sqrt( h_radiation - 111 ) ), 0 ) : 0;
+
+        // BLISTERS : Skin gets blisters from intense heat exposure.
+        // Fire protection protects from blisters.
+        // Heatsinks give near-immunity.
+        if( blister_count - get_armor_fire( bp ) - ( has_heatsink ? 20 : 0 ) > 0 ) {
+            add_effect( effect_blisters, 1_turns, bp );
+            if( pyromania ) {
+                add_morale( MORALE_PYROMANIA_NEARFIRE, 10, 10, 1_hours,
+                            30_minutes ); // Proximity that's close enough to harm us gives us a bit of a thrill
+                rem_morale( MORALE_PYROMANIA_NOFIRE );
+            }
+        } else if( pyromania && best_fire >= 1 ) { // Only give us fire bonus if there's actually fire
+            add_morale( MORALE_PYROMANIA_NEARFIRE, 5, 5, 30_minutes,
+                        15_minutes ); // Gain a much smaller mood boost even if it doesn't hurt us
+            rem_morale( MORALE_PYROMANIA_NOFIRE );
+        }
+
         // FROSTBITE - only occurs to hands, feet, face
         /**
 
@@ -5407,27 +5371,31 @@ void Character::update_bodytemp()
 
         // Warn the player that wind is going to be a problem.
         // But only if it can be a problem, no need to spam player with "wind chills your scorching body"
-        if( temp_conv[bp] <= BODYTEMP_COLD && windchill < -10 && one_in( 200 ) ) {
+        if( bp_conv <= BODYTEMP_COLD && windchill < -10 && one_in( 200 ) ) {
             add_msg( m_bad, _( "The wind is making your %s feel quite cold." ),
                      body_part_name( bp ) );
-        } else if( temp_conv[bp] <= BODYTEMP_COLD && windchill < -20 && one_in( 100 ) ) {
+        } else if( bp_conv <= BODYTEMP_COLD && windchill < -20 && one_in( 100 ) ) {
             add_msg( m_bad,
                      _( "The wind is very strong, you should find some more wind-resistant clothing for your %s." ),
                      body_part_name( bp ) );
-        } else if( temp_conv[bp] <= BODYTEMP_COLD && windchill < -30 && one_in( 50 ) ) {
+        } else if( bp_conv <= BODYTEMP_COLD && windchill < -30 && one_in( 50 ) ) {
             add_msg( m_bad, _( "Your clothing is not providing enough protection from the wind for your %s!" ),
                      body_part_name( bp ) );
         }
+
+        // Set temp_conv just once per bp, for readability
+        // TODO: Remove temp_conv, it's only really for display, so should not be in Character
+        temp_conv[bp] = bp_conv;
     }
 }
 
 void Character::temp_equalizer( body_part bp1, body_part bp2 )
 {
     // Body heat is moved around.
-    // Shift in one direction only, will be shifted in the other direction separately.
-    int diff = static_cast<int>( ( temp_cur[bp2] - temp_cur[bp1] ) *
-                                 0.0001 ); // If bp1 is warmer, it will lose heat
+    // If bp1 is warmer, it will lose heat
+    int diff = static_cast<int>( ( temp_cur[bp2] - temp_cur[bp1] ) * 0.001 );
     temp_cur[bp1] += diff;
+    temp_cur[bp2] -= diff;
 }
 
 Character::comfort_response_t Character::base_comfort_value( const tripoint &p ) const
@@ -8979,12 +8947,14 @@ int Character::warmth( body_part bp ) const
     for( auto &i : worn ) {
         if( i.covers( bp ) ) {
             warmth = i.get_warmth();
-            // Wool items do not lose their warmth due to being wet.
-            // Warmth is reduced by 0 - 66% based on wetness.
-            if( !i.made_of( material_id( "wool" ) ) ) {
-                warmth *= 1.0 - 0.66 * body_wetness[bp] / drench_capacity[bp];
-            }
-            ret += warmth;
+            // Warmth reduced linearly with wetness
+            const auto materials = i.made_of();
+            float max_wet_resistance = std::accumulate( materials.begin(), materials.end(), 0.0f,
+            []( float best, const material_id & mat ) {
+                return std::max( best, mat->warmth_when_wet() );
+            } );
+            float wet_mult = 1.0f - max_wet_resistance * body_wetness[bp] / drench_capacity[bp];
+            ret += warmth * wet_mult;
         }
     }
     ret += get_effect_int( effect_heating_bionic, bp );

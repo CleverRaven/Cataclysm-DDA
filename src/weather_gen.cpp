@@ -263,7 +263,7 @@ double weather_generator::get_water_temperature( const tripoint &location, const
 {
     // Instead of using a realistic model, we'll just smooth out air temperature
     // Smooth out both in time and intensity
-    // And add a low cap - it must stay liquid water
+    // And add caps - it must stay liquid water
     constexpr std::array<std::pair<time_duration, double>, 4> measurement_weights = {{
             { 7_days, 0.25 },
             { 3_days, 0.25 },

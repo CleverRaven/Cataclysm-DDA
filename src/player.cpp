@@ -297,6 +297,7 @@ void player::normalize()
 
     recalc_hp();
 
+    temp_cur.fill( BODYTEMP_NORM );
     temp_conv.fill( BODYTEMP_NORM );
     set_stamina( get_stamina_max() );
 }

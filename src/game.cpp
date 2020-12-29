@@ -1363,7 +1363,7 @@ bool game::do_turn()
     }
 
     // starting a new turn, clear out temperature cache
-    weather.temperature_cache.clear();
+    weather.clear_temp_cache();
 
     if( npcs_dirty ) {
         load_npcs();
