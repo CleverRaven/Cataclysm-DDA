@@ -313,8 +313,8 @@ class monster : public Creature
 
         void absorb_hit( const bodypart_id &bp, damage_instance &dam ) override;
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
-        void melee_attack( Creature &target );
-        void melee_attack( Creature &target, float accuracy );
+        bool melee_attack( Creature &target );
+        bool melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
                                      bool print_messages = true ) override;

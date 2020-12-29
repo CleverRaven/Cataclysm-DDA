@@ -397,7 +397,7 @@ class Creature : public location, public viewer
         // If allow_zlev is true, also allow distance == 1 and on different z-level
         // as long as floor/ceiling doesn't exist.
         // Also check other factors, like vehicle separating deep water/air
-        bool is_adjacent( Creature *target, bool allow_z_levels ) const;
+        bool is_adjacent( const Creature *target, bool allow_z_levels ) const;
 
         // modifies the damage dealt based on the creature's enchantments
         // since creatures currently don't have enchantments, this is just virtual

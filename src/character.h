@@ -791,8 +791,10 @@ class Character : public Creature, public visitable<Character>
          * @param force_technique special technique to use in attack.
          * @param allow_unarmed always uses the wielded weapon regardless of martialarts style
          */
-        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
+        bool melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
                            bool allow_unarmed = true );
+        bool melee_attack_abstract( Creature &t, bool allow_special, const matec_id &force_technique,
+                                    bool allow_unarmed = true );
 
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &p );
@@ -801,7 +803,7 @@ class Character : public Creature, public visitable<Character>
          * Calls the to other melee_attack function with an empty technique id (meaning no specific
          * technique should be used).
          */
-        void melee_attack( Creature &t, bool allow_special );
+        bool melee_attack( Creature &t, bool allow_special );
         /** Handles combat effects, returns a string of any valid combat effect messages */
         std::string melee_special_effects( Creature &t, damage_instance &d, item &weap );
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */

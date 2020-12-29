@@ -1360,24 +1360,24 @@ void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
     }
 }
 
-void monster::melee_attack( Creature &target )
+bool monster::melee_attack( Creature &target )
 {
-    melee_attack( target, get_hit() );
+    return melee_attack( target, get_hit() );
 }
 
-void monster::melee_attack( Creature &target, float accuracy )
+bool monster::melee_attack( Creature &target, float accuracy )
 {
     // Note: currently this method must consume move even if attack hasn't actually happen
     // otherwise infinite loop will happen
     mod_moves( -type->attack_cost );
     if( /*This happens sometimes*/ this == &target || !is_adjacent( &target, true ) ) {
-        return;
+        return false;
     }
 
     int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
     if( type->melee_dice == 0 ) {
-        // We don't attack, so just return
-        return;
+        // We don't hit, so just return
+        return true;
     }
 
     Character &player_character = get_player_character();
@@ -1500,11 +1500,11 @@ void monster::melee_attack( Creature &target, float accuracy )
         if( one_in( 7 ) ) {
             die( nullptr );
         }
-        return;
+        return true;
     }
 
     if( total_dealt <= 0 ) {
-        return;
+        return true;
     }
 
     // Add any on damage effects
@@ -1533,6 +1533,7 @@ void monster::melee_attack( Creature &target, float accuracy )
         target.add_msg_if_player( m_bad, _( "You feel venom enter your body!" ) );
         target.add_effect( effect_paralyzepoison, 10_minutes );
     }
+    return true;
 }
 
 void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,

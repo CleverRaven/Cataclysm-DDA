@@ -508,7 +508,7 @@ int Creature::size_melee_penalty() const
     return 0;
 }
 
-bool Creature::is_adjacent( Creature *target, const bool allow_z_levels ) const
+bool Creature::is_adjacent( const Creature *target, const bool allow_z_levels ) const
 {
     if( target == nullptr ) {
         return false;
