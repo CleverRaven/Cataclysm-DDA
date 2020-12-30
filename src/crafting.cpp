@@ -2111,6 +2111,10 @@ item_location Character::create_in_progress_disassembly( item_location target )
     const auto &r = recipe_dictionary::get_uncraft( target->typeId() );
     item &temp = *target.get_item();
 
+    if( temp.is_container() ) {
+        temp.spill_contents( pos() );
+    }
+
     item new_disassembly( &r, temp );
     target.remove_item();
 
@@ -2122,7 +2126,6 @@ item_location Character::create_in_progress_disassembly( item_location target )
         if( cata::optional<item_location> it_loc = wield_craft( *this, new_disassembly ) ) {
             disassembly_in_world = *it_loc;
         }  else {
-            // This almost certianly shouldn't happen
             put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {new_disassembly} );
         }
     } else {
@@ -2152,7 +2155,6 @@ item_location Character::create_in_progress_disassembly( item_location target )
                 if( cata::optional<item_location> it_loc = wield_craft( *this, new_disassembly ) ) {
                     disassembly_in_world = *it_loc;
                 } else {
-                    // This almost certainly shouldn't happen
                     put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {new_disassembly} );
                 }
                 break;
@@ -2197,9 +2199,7 @@ bool Character::disassemble( item_location target, bool interactive )
     const auto ret = can_disassemble( obj, crafting_inventory() );
 
     if( !ret.success() ) {
-        if( interactive ) {
-            add_msg_if_player( m_info, "%s", ret.c_str() );
-        }
+        add_msg_if_player( m_info, "%s", ret.c_str() );
         return false;
     }
 

@@ -1628,22 +1628,14 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                              "You can cast spells with it in your hand." ) ) );
             }
             if( is_craft() ) {
-                if( typeId() == itype_disassembly ) {
-                    const std::string desc = _( "This is an in progress disassembly of %s.  "
-                                                "It is %d percent complete." );
-                    const int percent_progress = item_counter / 100000;
-                    info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
-                                              craft_data_->making->result_name(),
-                                              percent_progress ) ) );
-                } else {
-                    const std::string desc = _( "This is an in progress %s.  "
-                                                "It is %d percent complete." );
-                    const int percent_progress = item_counter / 100000;
-                    info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
-                                              craft_data_->making->result_name(),
-                                              percent_progress ) ) );
-                }
-
+                const std::string desc = ( typeId() == itype_disassembly ) ?
+                                         _( "This is an in progress disassembly of %s.  "
+                                            "It is %d percent complete." ) : _( "This is an in progress %s.  "
+                                                    "It is %d percent complete." );
+                const int percent_progress = item_counter / 100000;
+                info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
+                                          craft_data_->making->result_name(),
+                                          percent_progress ) ) );
             } else {
                 info.push_back( iteminfo( "DESCRIPTION", type->description.translated() ) );
             }
