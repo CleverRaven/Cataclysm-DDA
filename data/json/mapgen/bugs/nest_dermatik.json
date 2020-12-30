@@ -34,7 +34,7 @@
       "terrain": {
         "t": [ "t_region_tree", "t_region_groundcover" ],
         ",": [ "t_region_tree" ],
-        "_": [ "t_paper" ],
+        "_": [ "t_wall_dirt" ],
         ".": [ "t_floor_paper" ],
 		"0": [ "t_pit_shallow" ],
 		"X": [ "t_hole" ]

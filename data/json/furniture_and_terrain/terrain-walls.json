@@ -905,6 +905,19 @@
   },
   {
     "type": "terrain",
+	"id": "t_wall_dirt",
+	"copy-from": "t_wall_rammed_earth",
+	"description": "A wall of dirt mixed with...something to strengthen it.  Its surface glistens sligthly and it smells faintly like rotten milk."
+	"bash": {
+	  "str_min": 60,
+	  "str_max": 200,
+	  "sound": "heavy rumbling",
+	  "sound_fail": "thump",
+	  "ter_set": "t_mud_underground",
+	  "items": [ { "item": "material_soil", "count": [ 50, 150 ] } ]
+  },
+  {
+    "type": "terrain",
     "id": "t_junk_palisade",
     "name": "junk metal barrier",
     "looks_like": "t_scrap_wall_halfway",
