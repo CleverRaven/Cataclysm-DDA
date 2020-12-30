@@ -369,23 +369,21 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
             item_name = string_format( "%s %s", it.symbol(), item_name );
         }
 
-        if (active) {
+        if( active ) {
             thiscolor = it.color_in_inventory();
-        }
-        else {
-            item_name = remove_color_tags(item_name);
+        } else {
+            item_name = remove_color_tags( item_name );
             thiscolor = norm;
         }
 
-        if (selected) {
-            thiscolor = inCategoryMode && pane.sortby == SORTBY_CATEGORY ? c_white_red : hilite(c_white);
-            thiscolordark = hilite(thiscolordark);
-            item_name = remove_color_tags(item_name);
-            if (compact) {
-                mvwprintz(window, point(1, 6 + item_line), thiscolor, "  %s", spaces);
-            }
-            else {
-                mvwprintz(window, point(1, 6 + item_line), thiscolor, ">>%s", spaces);
+        if( selected ) {
+            thiscolor = inCategoryMode && pane.sortby == SORTBY_CATEGORY ? c_white_red : hilite( c_white );
+            thiscolordark = hilite( thiscolordark );
+            item_name = remove_color_tags( item_name );
+            if( compact ) {
+                mvwprintz( window, point( 1, 6 + item_line ), thiscolor, "  %s", spaces );
+            } else {
+                mvwprintz( window, point( 1, 6 + item_line ), thiscolor, ">>%s", spaces );
             }
         }
 
