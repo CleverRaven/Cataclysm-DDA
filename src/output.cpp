@@ -240,8 +240,9 @@ std::string trim_by_length( const std::string  &text, int width )
             iLength += iTempLen;
 
             if( iLength > width ) {
-                sTempText = sTempText.substr( 0, cursorx_to_position( sTempText.c_str(),
-                                              iTempLen - ( iLength - width ) - 1, nullptr, -1 ) ) + "\u2026";
+                int pos = 0;
+                cursorx_to_position( sTempText.c_str(), iTempLen - ( iLength - width ) - 1, &pos, -1 );
+                sTempText = sTempText.substr( 0, pos ) + "\u2026";
             }
 
             sText += sColor + sTempText;
