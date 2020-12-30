@@ -1025,9 +1025,7 @@ double Character::crafting_success_roll( const recipe &making ) const
         if( has_all_skills ) {
             const float helper_skill_average = std::max( np->get_recipe_weighted_skill_average( making ),
                                                0.0f );
-            if( helper_skill_average > 0 ){
-                npc_helpers_weighted_average += std::pow( helper_skill_average, 2 );
-            }
+            npc_helpers_weighted_average += std::pow( helper_skill_average, 2 );
             add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->name );
         }
     }
