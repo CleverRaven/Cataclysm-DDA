@@ -2522,20 +2522,20 @@
   },
   {
     "type": "speech",
-	"speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog", "mon_dermatik_incubator_bear" ],
+	"speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
 	"sound": "heavy breathing",
 	"volume": 10
   },
   {
     "type": "speech",
-	"speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog", "mon_dermatik_incubator_bear" ],
+	"speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
 	"sound": "labored breathing",
 	"volume": 10
   },
   {
     "type": "speech",
 	"speaker": [ "mon_dermatik_incubator_dog" ],
-	"sound": "a faint whimper",
+	"sound": "a whimper",
 	"volume": 10
   },
   {

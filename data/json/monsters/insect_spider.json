@@ -1430,13 +1430,14 @@
 	"delete": { "flags": [ "FLIES", "LOUDMOVES" ], "special_attacks": [ "DERMATIK" ] }
   },
   {
-    "id": "mon_dermatik_incubator_bear",
+    "id": "mon_dermatik_incubator_deer",
     "type": "MONSTER",
     "name": { "str": "dermatik incubator" },
-    "description": "An emaciated black bear, unmoving save for its shallow breathing and occasional growls.  Its whole body is pocked with patches of missing fur, scar tissue, and open wounds.",
-	"copy-from": "mon_bear",
+	"description": "A paralyzed, wound-ridden deer.  It spasms as it notices your presence, terrified eyes darting around the muddy chamber when it fails to stand.",
+	"copy-from": "mon_deer",
+	"symbol": "I",
     "default_faction": "dermatik",
-    "weight": "40 kg",
+    "weight": "45 kg",
     "hp": 40,
     "speed": 20,
     "aggression": 100,
@@ -1457,19 +1458,23 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "IMMOBILE", "PACIFIST" ]
   },
   {
-    "id": "mon_dermatik_incubator_deer",
-	"type": "MONSTER",
-	"copy-from": "mon_dermatik_incubator_bear",
-	"description": "A paralyzed, wound-ridden deer.  It spasms as it notices your presence, terrified eyes darting around the muddy chamber as it fails to stand.",
-	"looks_like": "mon_deer",
-	"weight": "55 kg"
-  },
-  {
     "id": "mon_dermatik_incubator_dog",
 	"type": "MONSTER",
-	"copy-from": "mon_dermatik_incubator_bear",
-	"description": "This is not nice of me",
+	"copy-from": "mon_dermatik_incubator_deer",
+	"color": "black",
+	"description": "A barely living dog, panting in a pool of slime and blood.  As you draw near it lets out a faint whimper, and you see the smallest hint of a twitch in its tail.",
 	"looks_like": "mon_dog_rottweiler",
+	"weight": "30 kg"
+  },
+  {
+    "id": "mon_dermatik_incubator_spider",
+	"type": "MONSTER",
+	"copy-from": "mon_dermatik_incubator_deer",
+	"material": [ "iflesh" ],
+	"species": [ "SPIDER" ],
+	"looks_like": "mon_spider_web",
+	"color": "yellow",
+	"description": "A giant, mutated spider lying on its back, legs twitching periodically.  A translucent slime, mixed with its ichor seeps from its joints, and its chitin is marked by numerous exit wounds.",
 	"weight": "30 kg"
   },
   {
