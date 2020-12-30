@@ -238,10 +238,16 @@ class Tilesheet:
     '''
     Tilesheet reading and compositing
     '''
-    def __init__(self, subdir_index: int, tileset: Tileset) -> None:
-        tilesheet_config_obj = tileset.info[subdir_index]
+    def __init__(
+            self,
+            tileset: Tileset,
+            config_index: int,
+            sheet_width: int = 16) -> None:
+        self.sheet_width = sheet_width
+        tilesheet_config_obj = tileset.info[config_index]
         self.name = next(iter(tilesheet_config_obj))
         self.specs = tilesheet_config_obj[self.name] or {}
+        self.tileset = tileset
 
         self.sprite_width = self.specs.get(
             'sprite_width', tileset.sprite_width)
@@ -262,30 +268,29 @@ class Tilesheet:
         self.output = os.path.join(tileset.output_dir, self.name)
 
         self.tile_entries = []
-        self.row_num = 0
         self.null_image = \
             Vips.Image.grey(self.sprite_width, self.sprite_height)
-        self.row_pngs = ['null_image']
+        self.images_grid = [self.null_image]
 
-    def set_first_index(self, tileset: Tileset) -> None:
+    def set_first_index(self) -> None:
         '''
         Increment global index and set local indexes.
         Global index can be decremented later if tilesheet does not contain
         any output images.
         '''
-        tileset.pngnum += 1
-        self.first_index = tileset.pngnum
-        self.max_index = tileset.pngnum
+        self.tileset.pngnum += 1
+        self.first_index = self.tileset.pngnum
+        self.max_index = self.tileset.pngnum
 
-    def is_standard(self, tileset: Tileset) -> bool:
+    def is_standard(self) -> bool:
         '''
         Check whether output object needs a non-standard size or offset config
         '''
         if self.offset_x or self.offset_y:
             return False
-        if self.sprite_width != tileset.sprite_width:
+        if self.sprite_width != self.tileset.sprite_width:
             return False
-        if self.sprite_height != tileset.sprite_height:
+        if self.sprite_height != self.tileset.sprite_height:
             return False
         return True
 
@@ -320,72 +325,64 @@ class Tilesheet:
 
         return image
 
-    def prepare_images_row(self, tileset: Tileset) -> List[pyvips.Image]:
+    def walk_dirs(self) -> None:
         '''
-        Prepare a list of 16 Vips images that will be one row
+        Find and process all JSON and PNG files within sheet directory
         '''
-        spacer = 16 - len(self.row_pngs)
-        tileset.pngnum += spacer
-
-        row = []
-
-        for png_path in self.row_pngs:
-            if png_path == 'null_image':
-                row.append(self.null_image)
-            else:
-                image = self.load_image(png_path)
-                row.append(image)
-
-        # fill the last row
-        row.extend([self.null_image for i in range(spacer)])
-
-        return row
-
-    def walk_dirs(self, tileset: Tileset) -> List[pyvips.Image]:
-        images_grid = []
         for subdir_fpath, dirnames, filenames in os.walk(self.subdir_path):
             for filename in filenames:
                 filepath = os.path.join(subdir_fpath, filename)
                 if filename.endswith('.png'):
-                    pngname = filename.split('.png')[0]
-                    if (pngname in tileset.pngname_to_pngnum):
-                        print(f'skipping {pngname}')
-                        continue
-                    if self.is_filler and pngname in tileset.pngname_to_pngnum:
-                        continue  # TODO: option to warn
-                    self.row_pngs.append(filepath)
-                    tileset.pngname_to_pngnum[pngname] = tileset.pngnum
-                    tileset.pngnum_to_pngname[tileset.pngnum] = pngname
-                    tileset.pngnum += 1
-                    if len(self.row_pngs) > 15:
-                        images_row = self.prepare_images_row(tileset)
-                        self.row_num += 1
-                        self.row_pngs = []
-                        images_grid += images_row
+                    self.process_png(filepath, filename)
                 elif filename.endswith('.json'):
-                    with open(filepath, 'r') as fp:
-                        try:
-                            tile_entry = json.load(fp)
-                        except Exception:
-                            print(f'error loading {filepath}')
-                            raise
+                    self.process_json(filepath)
 
-                        if not isinstance(tile_entry, list):
-                            tile_entry = [tile_entry]
-                        self.tile_entries += tile_entry
-        if self.row_pngs:
-            if self.row_num == 0 and self.row_pngs == ['null_image']:
-                return []
-            images_row = self.prepare_images_row(tileset)
-            images_grid += images_row
-        return images_grid
+    def process_png(self, filepath, filename) -> None:
+        '''
+        Verify image root name is unique, load it and register
+        '''
+        pngname = filename.split('.png')[0]
+        if (pngname in self.tileset.pngname_to_pngnum):
+            print(f'skipping {pngname}')
+            return
+        if self.is_filler and pngname in self.tileset.pngname_to_pngnum:
+            return  # TODO: option to warn
+        self.images_grid.append(self.load_image(filepath))
+        self.tileset.pngname_to_pngnum[pngname] = self.tileset.pngnum
+        self.tileset.pngnum_to_pngname[self.tileset.pngnum] = pngname
+        self.tileset.pngnum += 1
 
-    def create_sheet(self, images_grid: List[pyvips.Image]) -> None:
+    def process_json(self, filepath) -> None:
         '''
-        Compose and save tilesheet PNG
+        Load and store tile entries from the file
         '''
-        if images_grid:
-            sheet_image = Vips.Image.arrayjoin(images_grid, across=16)
+        with open(filepath, 'r') as fp:
+            try:
+                tile_entries = json.load(fp)
+            except Exception:
+                print(f'error loading {filepath}')
+                raise
+
+            if not isinstance(tile_entries, list):
+                tile_entries = [tile_entries]
+            self.tile_entries += tile_entries
+
+    def write_composite_png(self) -> None:
+        '''
+        Compose and save tilesheet PNG or decrement pngnum
+        '''
+        if self.images_grid == [self.null_image]:
+            self.tileset.pngnum -= 1
+            return
+        # fill the last row
+        empty_spaces = self.sheet_width - (
+            len(self.images_grid) % self.sheet_width)
+        self.images_grid.extend([self.null_image for i in range(empty_spaces)])
+        self.tileset.pngnum += empty_spaces
+
+        if self.images_grid:
+            sheet_image = Vips.Image.arrayjoin(
+                self.images_grid, across=self.sheet_width)
             sheet_image.pngsave(self.output)
 
 
@@ -419,9 +416,9 @@ if __name__ == '__main__':
 
     # loop through tilesheets and parse all configs in subdirectories,
     # create sheet images
-    for subdir_index in range(1, len(tileset.info)):
-        sheet = Tilesheet(subdir_index, tileset)
-        sheet.set_first_index(tileset)
+    for config_index in range(1, len(tileset.info)):
+        sheet = Tilesheet(tileset, config_index)
+        sheet.set_first_index()
 
         if sheet.is_filler:
             sheet_type = 'filler'
@@ -432,15 +429,10 @@ if __name__ == '__main__':
 
         print(f'Info: parsing {sheet_type} tilesheet {sheet.name}')
         if sheet_type != 'fallback':
-            images_grid = sheet.walk_dirs(tileset)
-
-            if not images_grid:
-                # no images in the tilesheet, revert pngnum
-                tileset.pngnum -= 1
-                continue
+            sheet.walk_dirs()
 
             # write output PNGs
-            sheet.create_sheet(images_grid)
+            sheet.write_composite_png()
 
             sheet.max_index = tileset.pngnum
 
@@ -471,7 +463,7 @@ if __name__ == '__main__':
             '//': f'range {sheet.first_index} to {sheet.max_index}'
         }
 
-        if not sheet.is_standard(tileset):
+        if not sheet.is_standard():
             sheet_conf['sprite_width'] = sheet.sprite_width
             sheet_conf['sprite_height'] = sheet.sprite_height
             sheet_conf['sprite_offset_x'] = sheet.offset_x
