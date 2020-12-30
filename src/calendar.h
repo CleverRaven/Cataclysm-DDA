@@ -375,7 +375,7 @@ constexpr time_duration operator"" _weeks( const unsigned long long int v )
  * 0 so it's skipped).
  * @param compact True for compact display of time. Example: 1 min 15 secs
  */
-std::string to_string( const time_duration &d, const bool compact = false );
+std::string to_string( const time_duration &d, bool compact = false );
 
 enum class clipped_align : int {
     none,
