@@ -4,10 +4,11 @@
 ;
 ; Levels from the Game Boy.
 ;
-; Copyright (c) 1998-1999 by Kevin Hugo
-; The last eight levels of this file are from NetHack.
+; Levels 121-128 (currently the last 8 in the file) are from NetHack.
+; These are copyright (c) 1998-1999 by Kevin Hugo
+; See sokoban-nethack.license.txt for the license for these levels.
 
- #####
+#####
  #   ####
  #   #  #
  ##    .#
