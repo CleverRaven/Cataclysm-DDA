@@ -1072,12 +1072,12 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
     int focus_equilibrium = 100;
 
     if( activity.id() == ACT_READ ) {
-        const item &book = *activity.targets[0].get_item();
-        if( book.is_book() && get_item_position( &book ) != INT_MIN ) {
-            auto &bt = *book.type->book;
+        const item *book = activity.targets[0].get_item();
+        if( book && book->is_book() && get_item_position( book ) != INT_MIN ) {
+            auto &bt = book->type->book;
             // apply a penalty when we're actually learning something
-            const SkillLevel &skill_level = get_skill_level_object( bt.skill );
-            if( skill_level.can_train() && skill_level < bt.level ) {
+            const SkillLevel &skill_level = get_skill_level_object( bt->skill );
+            if( skill_level.can_train() && skill_level < bt->level ) {
                 focus_equilibrium -= 50;
             }
         }
