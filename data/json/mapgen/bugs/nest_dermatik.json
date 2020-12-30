@@ -46,7 +46,7 @@
 	 { "field": "fd_blood_insect", "x": [ 3, 19 ], "y": [ 4, 20 ], "repeat": [ 20, 30 ] }
 	 ],	 
 	 "place_monster": [
-	   { "monster": "mon_dermatik_larva", "x": [ 3, 22 ], "y": [ 8, 22 ], "repeat": [ 2, 10 ] },
+	   { "monster": "mon_dermatik_larva", "x": [ 3, 22 ], "y": [ 8, 22 ], "repeat": [ 2, 4 ] },
 	   { "monster": "mon_dermatik_midwife", "x": [ 10, 12 ], "y": [ 14, 17 ], "repeat": [ 0, 2 ] }
 	   ],
       "place_monsters": [ 
