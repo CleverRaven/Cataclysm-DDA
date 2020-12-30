@@ -15,7 +15,7 @@ import os
 import subprocess
 import sys
 
-from typing import Any, List, Tuple, Union
+from typing import Any, Tuple, Union
 
 try:
     import pyvips
@@ -51,7 +51,7 @@ FALLBACK = {
 ERROR_LOGGED = False
 
 
-def write_to_json(pathname: str, data: Any) -> None:
+def write_to_json(pathname: str, data: Union[dict, list]) -> None:
     with open(pathname, 'w') as fp:
         json.dump(data, fp)
 
@@ -347,6 +347,7 @@ class Tilesheet:
             return
         if self.is_filler and pngname in self.tileset.pngname_to_pngnum:
             return  # TODO: option to warn
+
         self.images_grid.append(self.load_image(filepath))
         self.tileset.pngname_to_pngnum[pngname] = self.tileset.pngnum
         self.tileset.pngnum_to_pngname[self.tileset.pngnum] = pngname
@@ -374,6 +375,7 @@ class Tilesheet:
         if self.images_grid == [self.null_image]:
             self.tileset.pngnum -= 1
             return
+
         # fill the last row
         empty_spaces = self.sheet_width - (
             len(self.images_grid) % self.sheet_width)
