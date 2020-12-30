@@ -240,9 +240,9 @@
 	"locations": [ "swamp" ],
 	"city_distance": [ 10, -1 ],
 	"city_sizes": [ -1, -1 ],
-	"occurrences": [ 20, 200 ],
+	"occurrences": [ 0, 3 ],
 	"flags": [ "WILDERNESS" ],
-	"spawns": { "group": "GROUP_DERMATIK", "population": [ 2, 11 ], "radius": [ 1, 2 ] }
+	"spawns": { "group": "GROUP_DERMATIK", "population": [ 5, 10 ], "radius": [ 2, 10 ] }
   },
   {
     "type": "overmap_special",
