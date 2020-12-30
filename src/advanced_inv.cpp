@@ -334,19 +334,9 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         const item &it = *sitem.items.front();
         const bool selected = active && index == static_cast<int>( i );
 
-        nc_color thiscolor = active ? it.color_in_inventory() : norm;
+        nc_color thiscolor;
         nc_color thiscolordark = c_dark_gray;
         nc_color print_color;
-
-        if( selected ) {
-            thiscolor = inCategoryMode && pane.sortby == SORTBY_CATEGORY ? c_white_red : hilite( c_white );
-            thiscolordark = hilite( thiscolordark );
-            if( compact ) {
-                mvwprintz( window, point( 1, 6 + item_line ), thiscolor, "  %s", spaces );
-            } else {
-                mvwprintz( window, point( 1, 6 + item_line ), thiscolor, ">>%s", spaces );
-            }
-        }
 
         std::string item_name;
         std::string stolen_string;
@@ -377,6 +367,26 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         }
         if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
             item_name = string_format( "%s %s", it.symbol(), item_name );
+        }
+
+        if (active) {
+            thiscolor = it.color_in_inventory();
+        }
+        else {
+            item_name = remove_color_tags(item_name);
+            thiscolor = norm;
+        }
+
+        if (selected) {
+            thiscolor = inCategoryMode && pane.sortby == SORTBY_CATEGORY ? c_white_red : hilite(c_white);
+            thiscolordark = hilite(thiscolordark);
+            item_name = remove_color_tags(item_name);
+            if (compact) {
+                mvwprintz(window, point(1, 6 + item_line), thiscolor, "  %s", spaces);
+            }
+            else {
+                mvwprintz(window, point(1, 6 + item_line), thiscolor, ">>%s", spaces);
+            }
         }
 
         //print item name
