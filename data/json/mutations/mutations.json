@@ -6171,7 +6171,7 @@
     "id": "THRESH_SLIME",
     "name": { "str": "Aqueous" },
     "points": 1,
-    "description": "What was that old advertisement? 'Paint the planet'?  That might be a good long-term goal, but for now…",
+    "description": "What was that old advertisement?  'Paint the planet'?  That might be a good long-term goal, but for now…",
     "valid": false,
     "purifiable": false,
     "threshold": true
