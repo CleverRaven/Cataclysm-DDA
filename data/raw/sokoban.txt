@@ -8,7 +8,7 @@
 ; These are copyright (c) 1998-1999 by Kevin Hugo
 ; See sokoban-nethack.license.txt for the license for these levels.
 
-#####
+ #####
  #   ####
  #   #  #
  ##    .#
