@@ -8,7 +8,7 @@
   {
     "type": "scenario",
     "id": "lab_staff",
-    "copy-from": "lab_chal",
+    "copy-from": "lab_staff",
     "extend": { "professions": [ "crt", "crt_engineer", "crt_dude", "crt_guard", "crt_employee", "crt_vamp" ] }
   },
   {
