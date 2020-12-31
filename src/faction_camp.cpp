@@ -456,9 +456,6 @@ static std::string camp_trip_description( const time_duration &total_time,
         const time_duration &travel_time,
         int distance, int trips, int need_food );
 
-/// Returns a string for display of the selected car so you don't chop shop the wrong one
-static std::string camp_car_description( vehicle *car );
-
 /// Changes the faction food supply by @ref change, 0 returns total food supply, a negative
 /// total food supply hurts morale
 static int camp_food_supply( int change = 0, bool return_days = false );
@@ -3698,39 +3695,6 @@ std::string basecamp::farm_description( const tripoint_abs_omt &farm_pos, size_t
             debugmsg( "Farm operations called with no operation" );
             break;
     }
-    return entry;
-}
-
-std::string camp_car_description( vehicle *car )
-{
-    std::string entry = string_format( _( "Name:     %s\n" ), right_justify( car->name, 25 ) );
-    entry += _( "----          Engines          ----\n" );
-    for( const vpart_reference &vpr : car->get_any_parts( "ENGINE" ) ) {
-        const vehicle_part &pt = vpr.part();
-        const vpart_info &vp = pt.info();
-        entry += string_format( _( "Engine:   %s\n" ), right_justify( vp.name(), 25 ) );
-        entry += string_format( _( ">Status:  %24d%%\n" ),
-                                static_cast<int>( 100 * pt.health_percent() ) );
-        entry += string_format( _( ">Fuel:    %s\n" ), right_justify( item::nname( vp.fuel_type ), 25 ) );
-    }
-    std::map<itype_id, int> fuels = car->fuels_left();
-    entry += _( "----  Fuel Storage & Battery   ----\n" );
-    for( auto &fuel : fuels ) {
-        std::string fuel_entry = string_format( "%d/%d", car->fuel_left( fuel.first ),
-                                                car->fuel_capacity( fuel.first ) );
-        entry += string_format( ">%s:%s\n", item( fuel.first ).tname(),
-                                right_justify( fuel_entry, 33 - utf8_width( item( fuel.first ).tname() ) ) );
-    }
-    for( const vpart_reference &vpr : car->get_all_parts() ) {
-        if( vpr.part().is_battery() ) {
-            const vpart_info &vp = vpr.part().info();
-            entry += string_format( ">%s:%*d%%\n", vp.name(), 32 - utf8_width( vp.name() ),
-                                    static_cast<int>( 100.0 * vpr.part().ammo_remaining() /
-                                            vpr.part().ammo_capacity( ammotype( "battery" ) ) ) );
-        }
-    }
-    entry += "\n";
-    entry += _( "Estimated Chop Time:         5 Days\n" );
     return entry;
 }
 
