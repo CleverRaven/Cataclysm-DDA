@@ -145,121 +145,6 @@ class Tileset:
         self.output_conf_file = conf_filename
         return self.output_conf_file
 
-    def append_sprite_index(self, sprite_name: str, entry: list) -> bool:
-        '''
-        Get sprite index by sprite name and append it to entry
-        '''
-        if sprite_name:
-            sprite_index = self.pngname_to_pngnum.get(sprite_name, 0)
-            if sprite_index:
-                entry.append(sprite_index)
-                if sprite_name not in self.referenced_pngnames:
-                    self.referenced_pngnames.append(sprite_name)
-                return True
-            else:
-                print(f'Error: sprite {sprite_name} has no matching PNG file.'
-                      f' It will not be added to {self.output_conf_file}')
-                global ERROR_LOGGED
-                ERROR_LOGGED = True
-        return False
-
-    def convert_entry_layer(self, entry_layer: Union[list, str]) -> list:
-        '''
-        Convert sprite names to sprite indexes in one fg or bg tile entry part
-        '''
-        output = []
-
-        if isinstance(entry_layer, list):
-            # "fg": [ "f_fridge_S", "f_fridge_W", "f_fridge_N", "f_fridge_E" ]
-            for layer_part in entry_layer:
-                if isinstance(layer_part, dict):
-                    # weighted random variations
-                    variations, valid = self.convert_random_variations(
-                        layer_part.get('sprite'))
-                    if valid:
-                        layer_part['sprite'] = \
-                            variations[0] if len(variations) == 1 \
-                            else variations
-                        output.append(layer_part)
-                else:
-                    self.append_sprite_index(layer_part, output)
-        else:
-            # "bg": "t_grass"
-            self.append_sprite_index(entry_layer, output)
-
-        return output
-
-    def convert_random_variations(self, sprites: Union[list, str])\
-            -> Tuple[list, bool]:
-        '''
-        Convert list of random weighted variation objects
-        '''
-        valid = False
-        converted_variations = []
-
-        if isinstance(sprites, list):
-            # list of rotations
-            converted_variations = []
-            for sprite_name in sprites:
-                valid |= self.append_sprite_index(
-                    sprite_name, converted_variations)
-        else:
-            # single sprite
-            valid = self.append_sprite_index(
-                sprites, converted_variations)
-        return converted_variations, valid
-
-    def convert_tile_entry(self, entry: dict, prefix: str, is_filler: bool)\
-            -> Optional[dict]:
-        '''
-        Recursively compile input into game-compatible objects in-place
-        '''
-        tile_id = entry.get('id')
-        id_as_prefix = None
-        if tile_id:
-            if not isinstance(tile_id, list):
-                tile_id = [tile_id]
-            id_as_prefix = f'{tile_id[0]}_'
-
-        if is_filler:
-            for an_id in tile_id:
-                full_id = f'{prefix}{an_id}'
-                if full_id in self.processed_ids:
-                    print(f'Info: skipping filler for {full_id}')
-                    return None
-        fg_layer = entry.get('fg')
-        if fg_layer:
-            entry['fg'] = list_or_first(
-                self.convert_entry_layer(fg_layer))
-        else:
-            del entry['fg']
-
-        bg_layer = entry.get('bg')
-        if bg_layer:
-            entry['bg'] = list_or_first(
-                self.convert_entry_layer(bg_layer))
-        else:
-            try:
-                del entry['bg']
-            except Exception:
-                print(f'Error: Cannot find bg for tile with id {tile_id}')
-                global ERROR_LOGGED
-                ERROR_LOGGED = True
-
-        additional_entries = entry.get('additional_tiles', [])
-        for additional_entry in additional_entries:
-            # recursive part
-            self.convert_tile_entry(additional_entry, id_as_prefix, is_filler)
-
-        if fg_layer or bg_layer:
-            for an_id in tile_id:
-                full_id = f'{prefix}{an_id}'
-                if full_id not in self.processed_ids:
-                    self.processed_ids.append(full_id)
-            return entry
-        print(f'skipping empty entry for {prefix}{tile_id}')
-        return None
-
     def find_unused(self, use_all: bool = False) -> dict:
         '''
         Find unused images and either warn about them or return the list
@@ -286,7 +171,7 @@ class Tilesheet:
             config_index: int,
             obsolete_fillers: bool = False,
             sheet_width: int = 16) -> None:
-        self.sheet_width = sheet_width
+        self.sheet_width = sheet_width  # sprites across, could be anything
         tilesheet_config_obj = tileset.info[config_index]
         self.name = next(iter(tilesheet_config_obj))
         self.specs = tilesheet_config_obj[self.name] or {}
@@ -411,7 +296,8 @@ class Tilesheet:
 
             if not isinstance(tile_entries, list):
                 tile_entries = [tile_entries]
-            self.tile_entries += tile_entries
+            for input_entry in tile_entries:
+                self.tile_entries.append(TileEntry(self.tileset, input_entry))
 
     def write_composite_png(self) -> bool:
         '''
@@ -429,6 +315,128 @@ class Tilesheet:
                 self.sprites, across=self.sheet_width)
             sheet_image.pngsave(self.output)
             return True
+        return False
+
+
+class TileEntry:
+    def __init__(self, tileset: Tileset, data) -> None:
+        self.tileset = tileset
+        self.data = data
+
+    def convert(self, entry: dict, is_filler: bool = False, prefix: str = '')\
+            -> Optional[dict]:
+        '''
+        Recursively compile input into game-compatible objects in-place
+        '''
+        tile_id = entry.get('id')
+        id_as_prefix = None
+        if tile_id:
+            if not isinstance(tile_id, list):
+                tile_id = [tile_id]
+            id_as_prefix = f'{tile_id[0]}_'
+
+        if is_filler:
+            for an_id in tile_id:
+                full_id = f'{prefix}{an_id}'
+                if full_id in self.tileset.processed_ids:
+                    print(f'Info: skipping filler for {full_id}')
+                    return None
+        fg_layer = entry.get('fg')
+        if fg_layer:
+            entry['fg'] = list_or_first(
+                self.convert_entry_layer(fg_layer))
+        else:
+            del entry['fg']
+
+        bg_layer = entry.get('bg')
+        if bg_layer:
+            entry['bg'] = list_or_first(
+                self.convert_entry_layer(bg_layer))
+        else:
+            try:
+                del entry['bg']
+            except Exception:
+                print(f'Error: Cannot find bg for tile with id {tile_id}')
+                global ERROR_LOGGED
+                ERROR_LOGGED = True
+
+        additional_entries = entry.get('additional_tiles', [])
+        for additional_entry in additional_entries:
+            # recursive part
+            self.convert(additional_entry, is_filler, id_as_prefix)
+
+        if fg_layer or bg_layer:
+            for an_id in tile_id:
+                full_id = f'{prefix}{an_id}'
+                if full_id not in self.tileset.processed_ids:
+                    self.tileset.processed_ids.append(full_id)
+            return entry
+        print(f'skipping empty entry for {prefix}{tile_id}')
+        return None
+
+    def convert_entry_layer(self, entry_layer: Union[list, str]) -> list:
+        '''
+        Convert sprite names to sprite indexes in one fg or bg tile entry part
+        '''
+        output = []
+
+        if isinstance(entry_layer, list):
+            # "fg": [ "f_fridge_S", "f_fridge_W", "f_fridge_N", "f_fridge_E" ]
+            for layer_part in entry_layer:
+                if isinstance(layer_part, dict):
+                    # weighted random variations
+                    variations, valid = self.convert_random_variations(
+                        layer_part.get('sprite'))
+                    if valid:
+                        layer_part['sprite'] = \
+                            variations[0] if len(variations) == 1 \
+                            else variations
+                        output.append(layer_part)
+                else:
+                    self.append_sprite_index(layer_part, output)
+        else:
+            # "bg": "t_grass"
+            self.append_sprite_index(entry_layer, output)
+
+        return output
+
+    def convert_random_variations(self, sprites: Union[list, str])\
+            -> Tuple[list, bool]:
+        '''
+        Convert list of random weighted variation objects
+        '''
+        valid = False
+        converted_variations = []
+
+        if isinstance(sprites, list):
+            # list of rotations
+            converted_variations = []
+            for sprite_name in sprites:
+                valid |= self.append_sprite_index(
+                    sprite_name, converted_variations)
+        else:
+            # single sprite
+            valid = self.append_sprite_index(
+                sprites, converted_variations)
+        return converted_variations, valid
+
+    def append_sprite_index(self, sprite_name: str, entry: list) -> bool:
+        '''
+        Get sprite index by sprite name and append it to entry
+        '''
+        if sprite_name:
+            sprite_index = self.tileset.pngname_to_pngnum.get(sprite_name, 0)
+            if sprite_index:
+                entry.append(sprite_index)
+                if sprite_name not in self.tileset.referenced_pngnames:
+                    self.tileset.referenced_pngnames.append(sprite_name)
+                return True
+            else:
+                print(f'Error: sprite {sprite_name} has no matching PNG file.'
+                      ' It will not be added to '
+                      f'{self.tileset.output_conf_file}')
+                global ERROR_LOGGED
+                ERROR_LOGGED = True
         return False
 
 
@@ -506,8 +514,10 @@ if __name__ == '__main__':
         sheet_entries = []
 
         for tile_entry in sheet.tile_entries:
-            converted_tile_entry = tileset.convert_tile_entry(
-                tile_entry, '', sheet.is_filler)
+            # TODO: pop?
+            converted_tile_entry = tile_entry.convert(
+                tile_entry.data,  # FIXME
+                sheet.is_filler)
             if converted_tile_entry:
                 sheet_entries.append(converted_tile_entry)
 
