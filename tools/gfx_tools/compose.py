@@ -25,6 +25,8 @@ except ImportError:
     gi.require_version('Vips', '8.0')
     from gi.repository import Vips
 
+PROPERTIES_FILENAME = 'tileset.txt'
+
 FALLBACK = {
     "file": "fallback.png",
     "tiles": [],
@@ -69,12 +71,29 @@ def find_or_make_dir(pathname: str) -> None:
 
 
 def list_or_first(iterable: list) -> Any:
+    '''
+    Strip unneeded container list if there is only one value
+    '''
     return iterable[0] if len(iterable) == 1 else iterable
+
+
+def read_properties(filepath: str) -> dict:
+    '''
+    tileset.txt reader
+    '''
+    with open(filepath, 'r') as fp:
+        pairs = {}
+        for line in fp.readlines():
+            line = line.strip()
+            if line and not line.startswith('#'):
+                key, value = line.split(':')
+                pairs[key] = value.strip()
+    return pairs
 
 
 class Tileset:
     '''
-    Sprites handling and referenced images memory
+    Referenced sprites memory and handling, tile entries conversion
     '''
     def __init__(self, source_dir: str, output_dir: str) -> None:
         self.source_dir = source_dir
@@ -103,6 +122,30 @@ class Tileset:
             self.info = json.load(fp)
             self.sprite_width = self.info[0].get('width')
             self.sprite_height = self.info[0].get('height')
+
+    def confpath(self) -> str:
+        '''
+        Read JSON value from tileset.txt
+        '''
+        properties = {}
+
+        for candidate_path in (self.source_dir, self.output_dir):
+            properties_path = os.path.join(candidate_path, PROPERTIES_FILENAME)
+            if os.access(properties_path, os.R_OK):
+                properties = read_properties(properties_path)
+                if properties:
+                    break
+
+        if not properties:
+            sys.exit(f'No valid {PROPERTIES_FILENAME} found')
+
+        conf_filename = properties.get('JSON', None)
+
+        if not conf_filename:
+            sys.exit(f'No JSON key found in {PROPERTIES_FILENAME}')
+
+        confpath = os.path.join(self.output_dir, conf_filename)
+        return confpath
 
     def append_sprite_index(self, sprite_name: str, entry: list) -> bool:
         '''
@@ -412,11 +455,12 @@ if __name__ == '__main__':
 
     source_dir = args_dict.get('source_dir')
     output_dir = args_dict.get('output_dir') or source_dir
-    tileset_confpath = os.path.join(output_dir, 'tile_config.json')
     use_all = args_dict.get('use_all', False)
     obsolete_fillers = args_dict.get('obsolete_fillers', False)
 
+    # init tileset
     tileset = Tileset(source_dir, output_dir)
+    tileset_confpath = tileset.confpath()
 
     typed_sheets = {
         'main': [],
@@ -427,6 +471,7 @@ if __name__ == '__main__':
 
     # loop through tilesheets and parse all configs in subdirectories,
     # create sheet images
+    # TODO: move into Tileset
     for config_index in range(1, len(tileset.info)):
         sheet = Tilesheet(tileset, config_index, obsolete_fillers)
         sheet.set_first_index()
