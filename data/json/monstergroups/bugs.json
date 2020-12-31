@@ -38,8 +38,8 @@
     "type": "monstergroup",
     "default": "mon_dermatik_incubator_deer",
     "monsters": [
-      { "monster": "mon_dermatik_incubator_spider", "freq": 550, "cost_multiplier": 1 },
-      { "monster": "mon_dermatik_incubator_dog", "freq": 50, "cost_multiplier": 1 }
+      { "monster": "mon_dermatik_incubator_spider", "freq": 500, "cost_multiplier": 1 },
+      { "monster": "mon_dermatik_incubator_dog", "freq": 100, "cost_multiplier": 1 }
 	  ]
   },
   {
