@@ -1064,7 +1064,7 @@ double Character::crafting_success_roll( const recipe &making ) const
         // This means that luck plays less of a roll the more overqualified you are.
         crafting_stddev -= std::min( ( weighted_skill_average - final_difficulty ) / 4, 1.0f );
     }
-    float craft_roll = std::max( normal_roll( weighted_skill_average, crafting_stddev ), 0.0f );
+    float craft_roll = std::max( normal_roll( weighted_skill_average, crafting_stddev ), 0.0 );
     
     return std::max( craft_roll / final_difficulty, 0.0f );
 }
