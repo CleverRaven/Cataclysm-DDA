@@ -121,7 +121,7 @@ class Tileset:
             self.sprite_width = self.info[0].get('width')
             self.sprite_height = self.info[0].get('height')
 
-    def determine_confpath(self) -> str:
+    def determine_conffile(self) -> str:
         '''
         Read JSON value from tileset.txt
         '''
@@ -246,10 +246,10 @@ class Tileset:
                 global ERROR_LOGGED
                 ERROR_LOGGED = True
 
-        add_tile_entrys = entry.get('additional_tiles', [])
-        for add_tile_entry in add_tile_entrys:
+        additional_entries = entry.get('additional_tiles', [])
+        for additional_entry in additional_entries:
             # recursive part
-            self.convert_tile_entry(add_tile_entry, id_as_prefix, is_filler)
+            self.convert_tile_entry(additional_entry, id_as_prefix, is_filler)
 
         if fg_layer or bg_layer:
             for an_id in tile_id:
@@ -457,7 +457,7 @@ if __name__ == '__main__':
     # init tileset
     tileset = Tileset(source_dir, output_dir)
     tileset_confpath = os.path.join(
-        output_dir, tileset.determine_confpath())
+        output_dir, tileset.determine_conffile())
 
     typed_sheets = {
         'main': [],
