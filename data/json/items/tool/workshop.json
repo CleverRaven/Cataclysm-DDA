@@ -470,7 +470,7 @@
       [ "SAW_M", 2 ],
       [ "WRENCH_FINE", 1 ],
       [ "WRENCH", 2 ],
-	  [ "WHEEL_FAST", 1 ],
+      [ "WHEEL_FAST", 1 ],
       [ "SCREW_FINE", 1 ],
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
@@ -818,7 +818,7 @@
       [ "SAW_W", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "WRENCH", 2 ],
-	  [ "WHEEL_FAST", 1 ],
+      [ "WHEEL_FAST", 1 ],
       [ "SCREW_FINE", 1 ],
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
@@ -983,7 +983,7 @@
       [ "SAW_M_FINE", 1 ],
       [ "WRENCH", 2 ],
       [ "WRENCH_FINE", 1 ],
-	  [ "WHEEL_FAST", 1 ],
+      [ "WHEEL_FAST", 1 ],
       [ "SCREW", 1 ],
       [ "SCREW_FINE", 1 ],
       [ "CUT", 2 ],
@@ -1137,7 +1137,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ], ["WHEEL_FAST", 1] ],
+    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ], [ "WHEEL_FAST", 1 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {
