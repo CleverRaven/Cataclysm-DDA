@@ -1042,9 +1042,6 @@ double Character::crafting_success_roll( const recipe &making ) const
         weighted_skill_average *= -1;
     }
 
-    // in the future we might want to make the standard deviation vary depending on some feature of the recipe.
-    float craft_roll = std::max( normal_roll( weighted_skill_average, 2 ), 0.0 );
-
     int secondary_difficulty = 0;
     int secondary_level_count = 0;
     for( const auto &count_secondaries : making.required_skills ) {
@@ -1055,6 +1052,20 @@ double Character::crafting_success_roll( const recipe &making ) const
         ( 2.0f * making.difficulty * making.difficulty + 1.0f * secondary_difficulty ) /
         ( 2.0f * making.difficulty + 1.0f * secondary_level_count );
 
+    // in the future we might want to make the standard deviation vary depending on some feature of the recipe.
+    float crafting_stddev = 2.0f
+    if( final_difficulty > weighted_skill_average ){
+        // Increase the standard deviation by 0.33 for every point below the difficulty your skill level is.
+        // This makes the rolls more random and "swingy" at low levels, based more on luck.
+        crafting_stddev += ( final_difficulty - weighted_skill_average ) / 3;
+    }
+    if( final_difficulty < weighted_skill_average ){
+        // decrease the standard deviation by 0.25 for every point above the difficulty your skill level is, to a cap of 1.
+        // This means that luck plays less of a roll the more overqualified you are.
+        crafting_stddev -= std::min( ( weighted_skill_average - final_difficulty ) / 4, 1.0f );
+    }
+    float craft_roll = std::max( normal_roll( weighted_skill_average, crafting_stddev ), 0.0f );
+    
     return std::max( craft_roll / final_difficulty, 0.0f );
 }
 
