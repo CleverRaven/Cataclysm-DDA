@@ -9998,7 +9998,7 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
     // FIXME: remove this once power armors don't need to be TOOL_ARMOR anymore
-    if( is_power_armor() && carrier->can_interface_armor() && carrier->has_power() ) {
+    if( is_power_armor() && carrier && carrier->can_interface_armor() && carrier->has_power() ) {
         return false;
     }
 
