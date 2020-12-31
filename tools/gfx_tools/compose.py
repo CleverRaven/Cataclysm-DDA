@@ -4,7 +4,7 @@
 
 '''
 Merge all individual tile entries and PNGs in a compositing tileset directory
-into 1 or more tilesheets and compile configuration JSON for them.
+into tilesheets and compile configuration JSON for them.
 '''
 
 import argparse
@@ -420,11 +420,9 @@ class Tilesheet:
         if not self.sprites:
             return False
 
-        # fill the last row
-        empty_spaces = self.sheet_width - (
-            len(self.sprites) % self.sheet_width)
-        self.sprites.extend([self.null_image for i in range(empty_spaces)])
-        self.tileset.pngnum += empty_spaces
+        # count empty spaces in the last row
+        self.tileset.pngnum += self.sheet_width - \
+            (len(self.sprites) % self.sheet_width)
 
         if self.sprites:
             sheet_image = Vips.Image.arrayjoin(
