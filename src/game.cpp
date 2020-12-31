@@ -236,6 +236,7 @@ static const efftype_id effect_fungus( "fungus" );
 static const bionic_id bio_remote( "bio_remote" );
 
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_holybook_bible1( "holybook_bible1" );
 static const itype_id itype_holybook_bible2( "holybook_bible2" );
@@ -8521,9 +8522,15 @@ static void add_disassemblables( uilist &menu,
             //~ Name, number of items and time to complete disassembling
             const auto &msg = string_format( pgettext( "butchery menu", "%s (%d)" ),
                                              it.tname(), stack.second );
+            recipe uncraft_recipe;
+            if( it.typeId() == itype_disassembly ) {
+                uncraft_recipe = it.get_making();
+            } else {
+                uncraft_recipe = recipe_dictionary::get_uncraft( it.typeId() );
+            }
             menu.addentry_col( menu_index++, true, hotkey, msg,
-                               to_string_clipped( recipe_dictionary::get_uncraft(
-                                       it.typeId() ).time_to_craft( get_player_character(), recipe_time_flag::ignore_proficiencies ) ) );
+                               to_string_clipped( uncraft_recipe.time_to_craft( get_player_character(),
+                                                  recipe_time_flag::ignore_proficiencies ) ) );
             hotkey = cata::nullopt;
         }
     }
@@ -8834,11 +8841,25 @@ void game::butcher()
             int time_to_disassemble_once = 0;
             int time_to_disassemble_recursive = 0;
             for( const auto &stack : disassembly_stacks ) {
-                const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time_to_craft_moves(
+                recipe uncraft_recipe;
+                if( stack.first->typeId() == itype_disassembly ) {
+                    uncraft_recipe = stack.first->get_making();
+                } else {
+                    uncraft_recipe = recipe_dictionary::get_uncraft( stack.first->typeId() );
+                }
+
+                const int time = uncraft_recipe.time_to_craft_moves(
                                      get_player_character(), recipe_time_flag::ignore_proficiencies );
                 time_to_disassemble_once += time * stack.second;
-                time_to_disassemble_recursive += stack.first->get_recursive_disassemble_moves(
-                                                     get_player_character() ) * stack.second;
+                if( stack.first->typeId() == itype_disassembly ) {
+                    item test( uncraft_recipe.result(), calendar::turn, 1 );
+                    time_to_disassemble_recursive += test.get_recursive_disassemble_moves(
+                                                         get_player_character() ) * stack.second;
+                } else {
+                    time_to_disassemble_recursive += stack.first->get_recursive_disassemble_moves(
+                                                         get_player_character() ) * stack.second;
+                }
+
             }
 
             kmenu.addentry_col( MULTIDISASSEMBLE_ONE, true, 'D', _( "Disassemble everything once" ),
