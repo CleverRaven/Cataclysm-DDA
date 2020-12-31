@@ -1053,7 +1053,7 @@ double Character::crafting_success_roll( const recipe &making ) const
         ( 2.0f * making.difficulty + 1.0f * secondary_level_count );
 
     // in the future we might want to make the standard deviation vary depending on some feature of the recipe.
-    float crafting_stddev = 2.0f
+    float crafting_stddev = 2.0f;
     if( final_difficulty > weighted_skill_average ){
         // Increase the standard deviation by 0.33 for every point below the difficulty your skill level is.
         // This makes the rolls more random and "swingy" at low levels, based more on luck.
