@@ -400,7 +400,7 @@ class TileEntry:
 
         return output
 
-    def convert_random_variations(self, sprites: Union[list, str])\
+    def convert_random_variations(self, sprite_names: Union[list, str])\
             -> Tuple[list, bool]:
         '''
         Convert list of random weighted variation objects
@@ -408,16 +408,16 @@ class TileEntry:
         valid = False
         converted_variations = []
 
-        if isinstance(sprites, list):
+        if isinstance(sprite_names, list):
             # list of rotations
             converted_variations = []
-            for sprite_name in sprites:
+            for sprite_name in sprite_names:
                 valid |= self.append_sprite_index(
                     sprite_name, converted_variations)
         else:
             # single sprite
             valid = self.append_sprite_index(
-                sprites, converted_variations)
+                sprite_names, converted_variations)
         return converted_variations, valid
 
     def append_sprite_index(self, sprite_name: str, entry: list) -> bool:
