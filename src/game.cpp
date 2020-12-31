@@ -5901,17 +5901,20 @@ void game::examine( const tripoint &examp )
     Creature *c = critter_at( examp );
     if( c != nullptr ) {
         monster *mon = dynamic_cast<monster *>( c );
-        if( mon != nullptr && mon->has_effect( effect_pet ) && !u.is_mounted() ) {
-            if( monexamine::pet_menu( *mon ) ) {
-                return;
-            }
-        } else if( mon && mon->has_flag( MF_RIDEABLE_MECH ) && !mon->has_effect( effect_pet ) ) {
-            if( monexamine::mech_hack( *mon ) ) {
-                return;
-            }
-        } else if( mon && mon->has_flag( MF_PAY_BOT ) ) {
-            if( monexamine::pay_bot( *mon ) ) {
-                return;
+        if( mon != nullptr ) {
+            add_msg( _( "There is a %s." ), mon->get_name() );
+            if( mon->has_effect( effect_pet ) && !u.is_mounted() ) {
+                if( monexamine::pet_menu( *mon ) ) {
+                    return;
+                }
+            } else if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->has_effect( effect_pet ) ) {
+                if( monexamine::mech_hack( *mon ) ) {
+                    return;
+                }
+            } else if( mon->has_flag( MF_PAY_BOT ) ) {
+                if( monexamine::pay_bot( *mon ) ) {
+                    return;
+                }
             }
         } else if( u.is_mounted() ) {
             add_msg( m_warning, _( "You cannot do that while mounted." ) );
