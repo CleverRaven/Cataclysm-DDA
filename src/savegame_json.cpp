@@ -1014,7 +1014,8 @@ void avatar::load( const JsonObject &data )
     if( data.read( "profession", prof_ident ) && string_id<profession>( prof_ident ).is_valid() ) {
         prof = &string_id<profession>( prof_ident ).obj();
     } else {
-        debugmsg( "Tried to use non-existent profession '%s'", prof_ident.c_str() );
+        //We are likely an older profession which has since been removed so just set to default.  This is only cosmetic after game start.
+        prof = profession::generic();
     }
 
     data.read( "controlling_vehicle", controlling_vehicle );
