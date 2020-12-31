@@ -85,7 +85,7 @@ def read_properties(filepath: str) -> dict:
             line = line.strip()
             if line and not line.startswith('#'):
                 key, value = line.split(':')
-                pairs[key] = value.strip()
+                pairs[key.strip()] = value.strip()
     return pairs
 
 
@@ -271,7 +271,7 @@ class Tileset:
                     unused[pngname] = pngnum
                 else:
                     print(
-                        f'Warning: image filename {pngname} index {pngnum}'
+                        f'Warning: image filename {pngname} index {pngnum} '
                         f'was not used in any {self.output_conf_file} entries')
         return unused
 
