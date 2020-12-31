@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 
 # compose.py
-# Split a gfx directory made of 1000s of little images and files
-# into a set of tilesheets and a tile_config.json
 
 '''
-Merge all individal tile_entries and pngs in a tileset's directory
-into a tile_config.json and 1 or more tilesheet pngs.
+Merge all individual tile entries and PNGs in a compositing tileset directory
+into 1 or more tilesheets and compile configuration JSON for them.
 '''
 
 import argparse
@@ -123,7 +121,7 @@ class Tileset:
             self.sprite_width = self.info[0].get('width')
             self.sprite_height = self.info[0].get('height')
 
-    def confpath(self) -> str:
+    def determine_confpath(self) -> str:
         '''
         Read JSON value from tileset.txt
         '''
@@ -144,8 +142,8 @@ class Tileset:
         if not conf_filename:
             sys.exit(f'No JSON key found in {PROPERTIES_FILENAME}')
 
-        confpath = os.path.join(self.output_dir, conf_filename)
-        return confpath
+        self.output_conf_file = conf_filename
+        return self.output_conf_file
 
     def append_sprite_index(self, sprite_name: str, entry: list) -> bool:
         '''
@@ -160,7 +158,7 @@ class Tileset:
                 return True
             else:
                 print(f'Error: sprite {sprite_name} has no matching PNG file.'
-                      ' It will not be added to tile_config.json')
+                      f' It will not be added to {self.output_conf_file}')
                 global ERROR_LOGGED
                 ERROR_LOGGED = True
         return False
@@ -274,7 +272,7 @@ class Tileset:
                 else:
                     print(
                         f'Warning: image filename {pngname} index {pngnum}'
-                        'was not used in any tile_config.json entries')
+                        f'was not used in any {self.output_conf_file} entries')
         return unused
 
 
@@ -460,7 +458,8 @@ if __name__ == '__main__':
 
     # init tileset
     tileset = Tileset(source_dir, output_dir)
-    tileset_confpath = tileset.confpath()
+    tileset_confpath = os.path.join(
+        output_dir, tileset.determine_confpath())
 
     typed_sheets = {
         'main': [],
