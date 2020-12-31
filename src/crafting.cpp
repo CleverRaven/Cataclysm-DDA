@@ -1010,6 +1010,9 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
 
 float Character::get_recipe_weighted_skill_average( const recipe &making ) const
 {
+    if( has_trait( trait_DEBUG_CNF ) ) {
+        return 1.0;
+    }
     int secondary_skill_total = 0;
     int secondary_difficulty = 0;
     for( const auto &count_secondaries : making.required_skills ) {
@@ -1053,10 +1056,13 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     total_skill_modifiers += ( focus_pool - 100 ) /  50.0f;
 
     // TO DO: Attribute role should also be data-driven either in skills.json or in the recipe itself.
-    // For now let's just use Intelligence.  For the average intelligence of 8, this provides no bonus.
-    // Deviations above or below become a bonus/penalty of 0.25 per point of int.
-    total_skill_modifiers += ( int_cur - 8 ) / 4.0f;
+    // For now let's just use Intelligence.  For the average intelligence of 8, give +2.  Inc/dec by 0.25 per stat point.
+    // This ensures that at parity, where skill = difficulty, you have a roughly 85% chance of success at average intelligence.
+    total_skill_modifiers += int_cur / 4.0f;
 
+    // Missing proficiencies penalize skill level
+    // At the time of writing this is currently called a fail multiplier.
+    // TK: change the name of this feature to "skill penalty".
     for( const recipe_proficiency &recip : making.proficiencies ) {
         if( !recip.required && !has_proficiency( recip.id ) ) {
             total_skill_modifiers -= ( recip.fail_multiplier - 1.0f );
@@ -1121,7 +1127,8 @@ double Character::crafting_success_roll( const recipe &making ) const
         ( 2.0f * making.difficulty + 1.0f * secondary_level_count );
 
     // in the future we might want to make the standard deviation vary depending on some feature of the recipe.
-    float crafting_stddev = 2.0f
+    // For now, it varies only depending on your skill relative to the recipe's difficulty.
+    float crafting_stddev = 2.0f;
     if( final_difficulty > weighted_skill_average ){
         // Increase the standard deviation by 0.33 for every point below the difficulty your skill level is.
         // This makes the rolls more random and "swingy" at low levels, based more on luck.
@@ -1129,12 +1136,13 @@ double Character::crafting_success_roll( const recipe &making ) const
     }
     if( final_difficulty < weighted_skill_average ){
         // decrease the standard deviation by 0.25 for every point above the difficulty your skill level is, to a cap of 1.
-        // This means that luck plays less of a roll the more overqualified you are.
+        // This means that luck plays less of a role the more overqualified you are.
         crafting_stddev -= std::min( ( weighted_skill_average - final_difficulty ) / 4, 1.0f );
     }
-    float craft_roll = std::max( normal_roll( weighted_skill_average, crafting_stddev ), 0.0f );
+    float craft_roll = std::max( normal_roll( weighted_skill_average, crafting_stddev ), 0.0 );
     
-    return std::max( craft_roll / final_difficulty, 0.0f );
+    // TK: check all calls to crafting_success_roll, make sure they fit with the outputs this gives.
+    return std::max( craft_roll - final_difficulty + 1, 0.0f );
 }
 
 int item::get_next_failure_point() const
