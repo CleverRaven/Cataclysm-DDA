@@ -80,7 +80,7 @@ class Tileset:
         self.source_dir = source_dir
         self.output_dir = output_dir
 
-        self.pngnum = 0
+        self.pngnum = 1
         self.referenced_pngnames = []
 
         # bijectional dicts of pngnames to png numbers and vice versa
@@ -270,15 +270,12 @@ class Tilesheet:
         self.tile_entries = []
         self.null_image = \
             Vips.Image.grey(self.sprite_width, self.sprite_height)
-        self.images_grid = [self.null_image]
+        self.images_grid = [self.null_image] if config_index == 1 else []
 
     def set_first_index(self) -> None:
         '''
-        Increment global index and set local indexes.
-        Global index can be decremented later if tilesheet does not contain
-        any output images.
+        Set initial indexes.
         '''
-        self.tileset.pngnum += 1
         self.first_index = self.tileset.pngnum
         self.max_index = self.tileset.pngnum
 
@@ -368,13 +365,12 @@ class Tilesheet:
                 tile_entries = [tile_entries]
             self.tile_entries += tile_entries
 
-    def write_composite_png(self) -> None:
+    def write_composite_png(self) -> bool:
         '''
-        Compose and save tilesheet PNG or decrement pngnum
+        Compose and save tilesheet PNG
         '''
-        if self.images_grid == [self.null_image]:
-            self.tileset.pngnum -= 1
-            return
+        if not self.images_grid:
+            return False
 
         # fill the last row
         empty_spaces = self.sheet_width - (
@@ -386,6 +382,8 @@ class Tilesheet:
             sheet_image = Vips.Image.arrayjoin(
                 self.images_grid, across=self.sheet_width)
             sheet_image.pngsave(self.output)
+            return True
+        return False
 
 
 if __name__ == '__main__':
@@ -434,7 +432,8 @@ if __name__ == '__main__':
             sheet.walk_dirs()
 
             # write output PNGs
-            sheet.write_composite_png()
+            if not sheet.write_composite_png():
+                continue
 
             sheet.max_index = tileset.pngnum
 
