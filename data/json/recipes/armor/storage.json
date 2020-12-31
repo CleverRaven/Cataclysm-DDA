@@ -253,6 +253,14 @@
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
+    "result": "torso_bandolier_grenade",
+    "type": "recipe",
+    "copy-from": "torso_bandolier_shotgun",
+    "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
+    "//": "The two items are very similar, so it makes sense to have their recipes be nearly identical,",
+    "//2": "with the exception of using launchers as the skill."
+  },
+  {
     "result": "bandolier_wrist",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

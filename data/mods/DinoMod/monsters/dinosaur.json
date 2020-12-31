@@ -3,7 +3,8 @@
     "type": "SPECIES",
     "id": "DINOSAUR",
     "//": "Capping these at 1000 L and kg to prevent bodies and meat disappearing and vision at 50 for less aggro",
-    "fear_triggers": [ "FIRE" ]
+    "fear_triggers": [ "FIRE" ],
+    "description": "a dinosaur"
   },
   {
     "type": "MONSTER",
@@ -967,16 +968,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_maiasaura",
-    "name": { "str_sp": "Maiasaura" },
-    "copy-from": "mon_parasaurolophus",
-    "hp": 250,
-    "zombify_into": "mon_zaiasaura",
-    "description": "A huge scaly dinosaur with hooves and heavy tail.  Has a flat beak, thick nose, and small spiky head crest.",
-    "reproduction": { "baby_egg": "egg_maiasaura", "baby_count": 30, "baby_timer": 24 }
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_parasaurolophus",
     "name": { "str_sp": "Parasaurolophus" },
     "species": "DINOSAUR",
@@ -1008,6 +999,16 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "ATTACKMON" ],
     "harvest": "mammal_large_leather",
     "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_maiasaura",
+    "name": { "str_sp": "Maiasaura" },
+    "copy-from": "mon_parasaurolophus",
+    "hp": 250,
+    "zombify_into": "mon_zaiasaura",
+    "description": "A huge scaly dinosaur with hooves and heavy tail.  Has a flat beak, thick nose, and small spiky head crest.",
+    "reproduction": { "baby_egg": "egg_maiasaura", "baby_count": 30, "baby_timer": 24 }
   },
   {
     "type": "MONSTER",

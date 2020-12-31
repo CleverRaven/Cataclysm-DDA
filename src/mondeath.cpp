@@ -86,32 +86,36 @@ void mdeath::normal( monster &z )
         return;
     }
 
-    if( z.type->in_species( species_ZOMBIE ) ) {
-        sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos() ) );
-    }
-
-    //Currently it is possible to get multiple messages that a monster died.
-    add_msg_if_player_sees( z, m_good, _( "The %s dies!" ), z.name() );
-
-    const int max_hp = std::max( z.get_hp_max(), 1 );
-    const float overflow_damage = std::max( -z.get_hp(), 0 );
-    const float corpse_damage = 2.5 * overflow_damage / max_hp;
-    const bool pulverized = corpse_damage > 5 && overflow_damage > z.get_hp_max();
-
-    z.bleed(); // leave some blood if we have to
-
-    if( !pulverized ) {
-        make_mon_corpse( z, static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
-    }
-    // if mdeath::splatter was set along normal makes sure it is not called twice
-    bool splatt = false;
-    for( const auto &deathfunction : z.type->dies ) {
-        if( deathfunction == mdeath::splatter ) {
-            splatt = true;
+    if( !z.quiet_death ) {
+        if( z.type->in_species( species_ZOMBIE ) ) {
+            sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos() ) );
         }
+
+        //Currently it is possible to get multiple messages that a monster died.
+        add_msg_if_player_sees( z, m_good, _( "The %s dies!" ), z.name() );
     }
-    if( !splatt ) {
-        splatter( z );
+
+    if( z.death_drops ) {
+        const int max_hp = std::max( z.get_hp_max(), 1 );
+        const float overflow_damage = std::max( -z.get_hp(), 0 );
+        const float corpse_damage = 2.5 * overflow_damage / max_hp;
+        const bool pulverized = corpse_damage > 5 && overflow_damage > z.get_hp_max();
+
+        z.bleed(); // leave some blood if we have to
+
+        if( !pulverized ) {
+            make_mon_corpse( z, static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
+        }
+        // if mdeath::splatter was set along normal makes sure it is not called twice
+        bool splatt = false;
+        for( const auto &deathfunction : z.type->dies ) {
+            if( deathfunction == mdeath::splatter ) {
+                splatt = true;
+            }
+        }
+        if( !splatt ) {
+            splatter( z );
+        }
     }
 }
 

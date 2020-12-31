@@ -5,12 +5,14 @@
 #include <set>
 #include <vector>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "character.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "pimpl.h"
+#include "player.h"
 #include "type_id.h"
 #include "visitable.h"
 
@@ -33,7 +35,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
     CHECK( mag_id != bad_mag );
     CHECK( mag_cap > 0 );
 
-    Character &player_character = get_player_character();
+    avatar &player_character = get_avatar();
     player_character.worn.clear();
     player_character.inv->clear();
     player_character.remove_weapon();
@@ -298,6 +300,18 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                             REQUIRE( found.size() == 1 );
                             REQUIRE( found[0]->charges == 8 );
                         }
+                    }
+                }
+                AND_WHEN( "the gun is reloaded with a full magazine" ) {
+                    item &another_mag = player_character.i_add( item( mag_id ) );
+                    another_mag.ammo_set( ammo_id, mag_cap );
+                    std::vector<item::reload_option> ammo_list;
+                    CHECK( player_character.list_ammo( gun, ammo_list, false ) );
+                    CHECK( !ammo_list.empty() );
+                    bool ok = gun.reload( player_character, item_location( player_character, &another_mag ), 1 );
+                    THEN( "the gun is now loaded with the full magazine" ) {
+                        CHECK( ok );
+                        CHECK( gun.ammo_remaining() == mag_cap );
                     }
                 }
             }

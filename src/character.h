@@ -1068,6 +1068,8 @@ class Character : public Creature, public visitable
         }
         inline void setpos( const tripoint &p ) override {
             position = p;
+            // In case we've moved out of range of lifting assist.
+            invalidate_weight_carried_cache();
         }
 
         /**
@@ -2555,11 +2557,12 @@ class Character : public Creature, public visitable
          * @param inv current crafting inventory
          */
         ret_val<bool> can_disassemble( const item &obj, const read_only_visitable &inv ) const;
+        item_location create_in_progress_disassembly( item_location target );
 
         bool disassemble();
         bool disassemble( item_location target, bool interactive = true );
         void disassemble_all( bool one_pass ); // Disassemble all items on the tile
-        void complete_disassemble();
+        void complete_disassemble( item_location target );
         void complete_disassemble( item_location &target, const recipe &dis );
 
         const requirement_data *select_requirements(
