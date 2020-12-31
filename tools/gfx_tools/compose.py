@@ -15,7 +15,7 @@ import os
 import subprocess
 import sys
 
-from typing import Any, Tuple, Union
+from typing import Any, Optional, Tuple, Union
 
 try:
     import pyvips
@@ -169,7 +169,7 @@ class Tileset:
         return converted_variations, valid
 
     def convert_tile_entry(self, entry: dict, prefix: str, is_filler: bool)\
-            -> None:
+            -> Optional[dict]:
         '''
         Recursively compile input into game-compatible objects in-place
         '''
@@ -216,7 +216,8 @@ class Tileset:
                 if full_id not in self.processed_ids:
                     self.processed_ids.append(full_id)
             return entry
-        return None  # TODO: option to warn
+        print(f'skipping empty entry for {prefix}{tile_id}')
+        return None
 
     def find_unused(self, use_all: bool = False) -> dict:
         '''
@@ -242,12 +243,14 @@ class Tilesheet:
             self,
             tileset: Tileset,
             config_index: int,
+            obsolete_fillers: bool = False,
             sheet_width: int = 16) -> None:
         self.sheet_width = sheet_width
         tilesheet_config_obj = tileset.info[config_index]
         self.name = next(iter(tilesheet_config_obj))
         self.specs = tilesheet_config_obj[self.name] or {}
         self.tileset = tileset
+        self.obsolete_fillers = obsolete_fillers
 
         self.sprite_width = self.specs.get(
             'sprite_width', tileset.sprite_width)
@@ -270,7 +273,7 @@ class Tilesheet:
         self.tile_entries = []
         self.null_image = \
             Vips.Image.grey(self.sprite_width, self.sprite_height)
-        self.images_grid = [self.null_image] if config_index == 1 else []
+        self.sprites = [self.null_image] if config_index == 1 else []
 
     def set_first_index(self) -> None:
         '''
@@ -343,9 +346,13 @@ class Tilesheet:
             print(f'skipping {pngname}')
             return
         if self.is_filler and pngname in self.tileset.pngname_to_pngnum:
-            return  # TODO: option to warn
+            if self.obsolete_fillers:
+                print(f'filler for {pngname} is obsolete')
+                global ERROR_LOGGED
+                ERROR_LOGGED = True
+            return
 
-        self.images_grid.append(self.load_image(filepath))
+        self.sprites.append(self.load_image(filepath))
         self.tileset.pngname_to_pngnum[pngname] = self.tileset.pngnum
         self.tileset.pngnum_to_pngname[self.tileset.pngnum] = pngname
         self.tileset.pngnum += 1
@@ -367,20 +374,20 @@ class Tilesheet:
 
     def write_composite_png(self) -> bool:
         '''
-        Compose and save tilesheet PNG
+        Compose and save tilesheet PNG if there are sprites to work with
         '''
-        if not self.images_grid:
+        if not self.sprites:
             return False
 
         # fill the last row
         empty_spaces = self.sheet_width - (
-            len(self.images_grid) % self.sheet_width)
-        self.images_grid.extend([self.null_image for i in range(empty_spaces)])
+            len(self.sprites) % self.sheet_width)
+        self.sprites.extend([self.null_image for i in range(empty_spaces)])
         self.tileset.pngnum += empty_spaces
 
-        if self.images_grid:
+        if self.sprites:
             sheet_image = Vips.Image.arrayjoin(
-                self.images_grid, across=self.sheet_width)
+                self.sprites, across=self.sheet_width)
             sheet_image.pngsave(self.output)
             return True
         return False
@@ -398,12 +405,16 @@ if __name__ == '__main__':
     arg_parser.add_argument(
         '--use-all', dest='use_all', action='store_true',
         help='Add unused images with id being their basename')
+    arg_parser.add_argument(
+        '--obsolete-fillers', dest='obsolete_fillers', action='store_true',
+        help='Warn about obsoleted fillers')
     args_dict = vars(arg_parser.parse_args())
 
     source_dir = args_dict.get('source_dir')
     output_dir = args_dict.get('output_dir') or source_dir
     tileset_confpath = os.path.join(output_dir, 'tile_config.json')
     use_all = args_dict.get('use_all', False)
+    obsolete_fillers = args_dict.get('obsolete_fillers', False)
 
     tileset = Tileset(source_dir, output_dir)
 
@@ -417,7 +428,7 @@ if __name__ == '__main__':
     # loop through tilesheets and parse all configs in subdirectories,
     # create sheet images
     for config_index in range(1, len(tileset.info)):
-        sheet = Tilesheet(tileset, config_index)
+        sheet = Tilesheet(tileset, config_index, obsolete_fillers)
         sheet.set_first_index()
 
         if sheet.is_filler:
