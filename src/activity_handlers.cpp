@@ -291,7 +291,6 @@ activity_handlers::do_turn_functions = {
     { ACT_BUTCHER, butcher_do_turn },
     { ACT_BUTCHER_FULL, butcher_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
-    { ACT_AUTODRIVE, drive_do_turn },
     { ACT_FIELD_DRESS, butcher_do_turn },
     { ACT_SKIN, butcher_do_turn },
     { ACT_QUARTER, butcher_do_turn },
@@ -2846,41 +2845,6 @@ void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
 {
     p->cancel_activity();
     create_advanced_inv();
-}
-
-void activity_handlers::drive_do_turn( player_activity *act, player *p )
-{
-    map &here = get_map();
-    vehicle *player_veh = veh_pointer_or_null( here.veh_at( p->pos() ) );
-    if( !player_veh ) {
-        act->set_to_null();
-        p->cancel_activity();
-        return;
-    }
-    Character &player_character = get_player_character();
-    if( p->in_vehicle && p->controlling_vehicle && player_veh->is_autodriving &&
-        !player_character.omt_path.empty() && !player_veh->omt_path.empty() ) {
-        player_veh->do_autodrive();
-        if( player_character.global_omt_location() == player_character.omt_path.back() ) {
-            player_character.omt_path.pop_back();
-        }
-        p->moves = 0;
-    } else {
-        p->add_msg_if_player( m_info, _( "Auto-drive canceled." ) );
-        if( !player_veh->omt_path.empty() ) {
-            player_veh->omt_path.clear();
-        }
-        player_veh->is_autodriving = false;
-        act->set_to_null();
-        p->cancel_activity();
-        return;
-    }
-    if( player_veh->omt_path.empty() ) {
-        act->set_to_null();
-        player_veh->is_autodriving = false;
-        p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
-        p->cancel_activity();
-    }
 }
 
 void activity_handlers::travel_do_turn( player_activity *act, player *p )
