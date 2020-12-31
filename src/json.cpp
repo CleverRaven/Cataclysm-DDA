@@ -1708,7 +1708,7 @@ static std::string escape_property( std::string str )
             break;
         case error_log_format_t::github_action:
             replace_substring( str, "%", "%25", true );
-            replace_substring( str, "\r", "%0D", true );
+            replace_substring( str, "\r", "%0D", true ); // NOLINT(cata-text-style)
             replace_substring( str, "\n", "%0A", true );
             replace_substring( str, ":", "%3A", true );
             replace_substring( str, ",", "%2C", true );
@@ -1728,7 +1728,7 @@ static std::string escape_data( std::string str )
             break;
         case error_log_format_t::github_action:
             replace_substring( str, "%", "%25", true );
-            replace_substring( str, "\r", "%0D", true );
+            replace_substring( str, "\r", "%0D", true ); // NOLINT(cata-text-style)
             replace_substring( str, "\n", "%0A", true );
             break;
     }
