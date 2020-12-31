@@ -1,9 +1,9 @@
 [
   {
-    "id": "vehicle_bolt",
+    "id": "vehicle_fasten",
     "type": "requirement",
     "//": "Compatible with legacy flag TOOL_WRENCH or when installing wheels",
-    "qualities": [ { "id": "WHEELFAST", "level": 1 } ]
+    "qualities": [ { "id": "WHEEL_FAST", "level": 1 } ]
   },
   {
     "id": "vehicle_wrench_1",
