@@ -220,37 +220,6 @@ class Tilesheet:
             return False
         return True
 
-    def load_image(self, png_path: str) -> pyvips.Image:
-        '''
-        Load and verify an image using pyvips
-        '''
-        image = Vips.Image.pngload(png_path)
-        if image.interpretation != 'srgb':
-            image = image.colourspace('srgb')
-
-        try:
-            if not image.hasalpha():
-                image = image.addalpha()
-        except Vips.Error as vips_error:
-            print(f'{png_path}: {vips_error}')
-
-        try:
-            if image.get_typeof('icc-profile-data') != 0:
-                image = image.icc_transform('srgb')
-        except Vips.Error as vips_error:
-            print(f'{png_path}: {vips_error}')
-
-        if (image.width != self.sprite_width or
-                image.height != self.sprite_height):
-            print(
-                f'Error: {png_path} is {image.width}x{image.height}, but '
-                f'{self.name} sheet sprites have to be '
-                f'{self.sprite_width}x{self.sprite_height}.')
-            global ERROR_LOGGED
-            ERROR_LOGGED = True
-
-        return image
-
     def walk_dirs(self) -> None:
         '''
         Find and process all JSON and PNG files within sheet directory
@@ -282,6 +251,37 @@ class Tilesheet:
         self.tileset.pngname_to_pngnum[pngname] = self.tileset.pngnum
         self.tileset.pngnum_to_pngname[self.tileset.pngnum] = pngname
         self.tileset.pngnum += 1
+
+    def load_image(self, png_path: str) -> pyvips.Image:
+        '''
+        Load and verify an image using pyvips
+        '''
+        image = Vips.Image.pngload(png_path)
+        if image.interpretation != 'srgb':
+            image = image.colourspace('srgb')
+
+        try:
+            if not image.hasalpha():
+                image = image.addalpha()
+        except Vips.Error as vips_error:
+            print(f'{png_path}: {vips_error}')
+
+        try:
+            if image.get_typeof('icc-profile-data') != 0:
+                image = image.icc_transform('srgb')
+        except Vips.Error as vips_error:
+            print(f'{png_path}: {vips_error}')
+
+        if (image.width != self.sprite_width or
+                image.height != self.sprite_height):
+            print(
+                f'Error: {png_path} is {image.width}x{image.height}, but '
+                f'{self.name} sheet sprites have to be '
+                f'{self.sprite_width}x{self.sprite_height}.')
+            global ERROR_LOGGED
+            ERROR_LOGGED = True
+
+        return image
 
     def process_json(self, filepath) -> None:
         '''
