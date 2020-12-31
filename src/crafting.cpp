@@ -1061,7 +1061,7 @@ double Character::crafting_success_roll( const recipe &making ) const
     }
     if( final_difficulty < weighted_skill_average ){
         // decrease the standard deviation by 0.25 for every point above the difficulty your skill level is, to a cap of 1.
-        // This means that luck plays less of a roll the more overqualified you are.
+        // This means that luck plays less of a role the more overqualified you are.
         crafting_stddev -= std::min( ( weighted_skill_average - final_difficulty ) / 4, 1.0f );
     }
     float craft_roll = std::max( normal_roll( weighted_skill_average, crafting_stddev ), 0.0 );
