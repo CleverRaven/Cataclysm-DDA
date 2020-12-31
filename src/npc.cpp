@@ -844,6 +844,21 @@ void npc::starting_weapon( const npc_class_id &type )
         } else {
             debugmsg( "tried setting ammo for %s which has no magazine or ammo", weapon.typeId().c_str() );
         }
+        //You should be able to wield your starting weapon
+        if( !meets_stat_requirements( weapon ) ) {
+            if( weapon.get_min_str() > get_str() ) {
+                str_max = weapon.get_min_str();
+            }
+            if( weapon.type->min_dex > get_dex() ) {
+                dex_max = weapon.type->min_dex;
+            }
+            if( weapon.type->min_int > get_int() ) {
+                int_max = weapon.type->min_int;
+            }
+            if( weapon.type->min_per > get_per() ) {
+                per_max = weapon.type->min_per;
+            }
+        }
     }
 
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
