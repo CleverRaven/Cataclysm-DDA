@@ -805,6 +805,18 @@ class Creature : public location, public viewer
         void describe_specials( std::vector<std::string> &buf ) const;
 
         // Message related stuff
+        // These functions print to the sidebar message log. Unlike add_msg which prints messages
+        // unconditionally, these only print messages when invoked for certain creature types:
+        //
+        // add_msg_if_player - only printed for avatar, not NPCs/monsters
+        // add_msg_if_npc - only printed for NPCs, not players/monsters
+        // add_msg_player_or_npc - printed for avatar or NPC, not monsters
+        //
+        // Examples:
+        // add_msg_if_player( "You feel that you need to eat more calorie-dense food." );
+        // add_msg_if_npc( "<npcname> falls off their mount!" );
+        // add_msg_if_player_or_npc( "You open the door.", "<npcname> opens the door." );
+        //
         virtual void add_msg_if_player( const std::string &/*msg*/ ) const {}
         virtual void add_msg_if_player( const game_message_params &/*params*/,
                                         const std::string &/*msg*/ ) const {}
