@@ -87,5 +87,10 @@
     "result": "afs_sunesthesia",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "purifier_smart_shot",
+    "obsolete": true
   }
 ]
