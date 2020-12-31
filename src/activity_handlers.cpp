@@ -2711,6 +2711,12 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
         target->set_var( "dirt", 0 );
     }
+
+    //get skill list from mending method, iterate through and give xp
+    for( const std::pair<const skill_id, int> &e : method->skills ) {
+        p->practice( e.first, 10, static_cast<int>( e.second * 1.25 ) );
+    }
+
     add_msg( m_good, method->success_msg.translated(), target->tname() );
 }
 
