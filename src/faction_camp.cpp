@@ -1522,12 +1522,8 @@ bool basecamp::handle_mission( const std::string &miss_id,
         farm_return( "_faction_exp_harvest_" + miss_dir_id, omt_trg, farm_ops::harvest );
     }
 
-    if( miss_id == miss_dir_id + " Chop Shop" ) {
-        start_garage_chop( miss_dir, omt_trg );
-    } else if( miss_id == miss_dir_id + " (Finish) Chop Shop" ) {
-        const std::string msg = _( "returns from your garage…" );
-        mission_return( "_faction_exp_chop_shop_" + miss_dir_id, 5_days, true, msg,
-                        "mechanics", 2 );
+    if( miss_id == miss_dir_id + " Chop Shop" || miss_id == miss_dir_id + " (Finish) Chop Shop" ) {
+        debugmsg( "Obsolete Function.  Use disassemble zone instead." );
     }
 
     if( miss_id == "Emergency Recall" ) {
@@ -2430,77 +2426,6 @@ void basecamp::start_farm_op( const point &dir, const tripoint_abs_omt &omt_tgt,
         default:
             debugmsg( "Farm operations called with no operation" );
     }
-}
-
-bool basecamp::start_garage_chop( const point &dir, const tripoint_abs_omt &omt_tgt )
-{
-    editmap edit;
-    vehicle *car = edit.mapgen_veh_query( omt_tgt );
-    if( car == nullptr ) {
-        return false;
-    }
-
-    if( !query_yn( _( "       Chopping this vehicle:\n%s" ), camp_car_description( car ) ) ) {
-        return false;
-    }
-
-    const std::string dir_id = base_camps::all_directions.at( dir ).id;
-    npc_ptr comp = start_mission( "_faction_exp_chop_shop_" + dir_id, 5_days, true,
-                                  _( "begins working in the garage…" ), false, {},
-                                  skill_mechanics, 2 );
-    if( comp == nullptr ) {
-        return false;
-    }
-    // FIXME: use ranges, do this sensibly
-    //Chopping up the car!
-    //std::vector<vehicle_part> p_all = car->parts;
-    int prt = 0;
-    int skillLevel = comp->get_skill_level( skill_mechanics );
-    while( car->part_count() > 0 ) {
-        vehicle_stack contents = car->get_items( prt );
-        for( auto iter = contents.begin(); iter != contents.end(); ) {
-            comp->companion_mission_inv.add_item( *iter );
-            iter = contents.erase( iter );
-        }
-        bool broken = car->part( prt ).is_broken();
-        bool skill_break = false;
-        bool skill_destroy = false;
-
-        int dice = rng( 1, 20 );
-        dice += skillLevel - car->part( prt ).info().difficulty;
-
-        if( dice >= 20 ) {
-            skill_break = false;
-            skill_destroy = false;
-            talk_function::companion_skill_trainer( *comp, skill_mechanics, 1_hours,
-                                                    car->part( prt ).info().difficulty );
-        } else if( dice > 15 ) {
-            skill_break = false;
-        } else if( dice > 9 ) {
-            skill_break = true;
-            skill_destroy = false;
-        } else {
-            skill_break = true;
-            skill_destroy = true;
-        }
-
-        if( !broken && !skill_break ) {
-            //Higher level garages will salvage liquids from tanks
-            if( !car->part( prt ).is_battery() ) {
-                car->part( prt ).ammo_consume( car->part( prt ).ammo_remaining(),
-                                               car->global_part_pos3( car->part( prt ) ) );
-            }
-            comp->companion_mission_inv.add_item( car->part( prt ).properties_to_item() );
-        } else if( !skill_destroy ) {
-            for( const item &itm : car->part( prt ).pieces_for_broken_part() ) {
-                comp->companion_mission_inv.add_item( itm );
-            }
-        }
-        car->force_erase_part( prt );
-    }
-    talk_function::companion_skill_trainer( *comp, skill_mechanics, 5_days, 2 );
-    edit.mapgen_veh_destroy( omt_tgt, car );
-    return true;
 }
 
 // camp faction companion mission recovery functions
