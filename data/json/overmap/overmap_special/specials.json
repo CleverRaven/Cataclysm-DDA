@@ -237,12 +237,10 @@
 	 { "point": [ 0, 0, 0 ], "overmap": "nest_dermatik_north" },
 	 { "point": [ 0, 0, 1 ], "overmap": "nest_dermatik_roof_north" }
 	],
-	"locations": [ "swamp" ],
-	"city_distance": [ 10, -1 ],
-	"city_sizes": [ -1, -1 ],
-	"occurrences": [ 0, 3 ],
-	"flags": [ "WILDERNESS" ],
-	"spawns": { "group": "GROUP_DERMATIK", "population": [ 5, 10 ], "radius": [ 2, 10 ] }
+	"locations": [ "wilderness" ],
+	"city_distance": [ 8, -1 ],
+	"occurrences": [ 0, 4 ],
+	"flags": [ "WILDERNESS" ]
   },
   {
     "type": "overmap_special",

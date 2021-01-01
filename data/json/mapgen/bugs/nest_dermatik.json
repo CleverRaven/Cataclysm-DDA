@@ -27,7 +27,7 @@
         "--.0..#..#.#.#..0#...-  ",
         " -#.##########......--  ",
         " ------...##..0....--   ",
-        "   --<-#..0##-.-----    ",
+        "   ----#..0##-.-----    ",
         "  t   ---------- -   t  ",
         "       --- --           "
       ],
@@ -36,22 +36,19 @@
         ",": [ "t_region_tree" ],
         "-": [ "t_wall_dirt" ],
 		"#": [ [ "t_paper", 3 ], "t_wall_dirt" ],
-        ".": [ "t_mud_underground", "t_floor_paper" ],
-		"0": [ "t_pit_shallow" ],
-		"<": [ "t_slope_up" ]
+        ".": [ "t_mud_underground", [ "t_floor_paper", 2 ] ],
+		"0": [ "t_pit_shallow" ]
       },
-     "monster": { "0": { "group": "GROUP_DERMATIK_INCUB", "chance": 50 } },
+     "monster": { "0": { "group": "GROUP_DERMATIK_INCUB", "chance": 70 } },
 	 "place_fields": [ 
-	 { "field": "fd_blood", "x": [ 3, 19 ], "y": [ 4, 20 ], "repeat": [ 20, 30 ] },
+	 { "field": "fd_blood", "x": [ 3, 19 ], "y": [ 4, 20 ], "repeat": [ 30, 50 ] },
 	 { "field": "fd_blood_insect", "x": [ 3, 19 ], "y": [ 4, 20 ], "repeat": [ 20, 30 ] }
 	 ],	 
 	 "place_monster": [
 	   { "monster": "mon_dermatik_larva", "x": [ 3, 22 ], "y": [ 8, 22 ], "repeat": [ 2, 4 ] },
-	   { "monster": "mon_dermatik_midwife", "x": [ 10, 12 ], "y": [ 14, 17 ], "repeat": [ 0, 2 ] }
-	   ],
-      "place_monsters": [ 
-	    { "monster": "GROUP_DERMATIK", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 3 ], "density": 0.1 } 
-		]
+	   { "monster": "mon_dermatik_midwife", "x": [ 10, 12 ], "y": [ 14, 17 ], "repeat": [ 0, 2 ] },
+	   { "monster": "mon_dermatik", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 6 ] }
+	   ]
      }
 	},
     {
@@ -82,17 +79,13 @@
         " ,,,,,,,,,,,,,,,,,,,,,  ",
         " ,,,,,,,,,,,,,,,,,,,,,  ",
         "   ,,,,,,,,,,,,,,,,,,   ",
-        "     > ,,,,,,,,,,,,     ",
+        "       ,,,,,,,,,,,,     ",
         "        ,,,   ,         ",
         "                        "
       ],
       "terrain": {
-        ",": [ "t_dirtfloor_no_roof" ],
-		">": [ "t_slope_down" ]
-    },
-      "place_monsters": [ 
-	    { "monster": "GROUP_DERMATIK", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 3 ], "density": 0.1 } 
-	]
-   }
+        ",": [ "t_roof_paper" ]
+    }
+  }
   }
 ]  
