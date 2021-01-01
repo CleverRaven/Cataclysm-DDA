@@ -1267,7 +1267,8 @@ const item_category *inventory_selector::naturalize_category( const item_categor
 
 void inventory_selector::add_entry( inventory_column &target_column,
                                     std::vector<item_location> &&locations,
-                                    const item_category *custom_category )
+                                    const item_category *custom_category,
+                                    const size_t chosen_count )
 {
     if( !preset.is_shown( locations.front() ) ) {
         return;
@@ -1275,7 +1276,8 @@ void inventory_selector::add_entry( inventory_column &target_column,
 
     is_empty = false;
     inventory_entry entry( locations, custom_category,
-                           preset.get_denial( locations.front() ).empty() );
+                           preset.get_denial( locations.front() ).empty(),
+                           /*chosen_count=*/chosen_count );
 
     target_column.add_entry( entry );
 
@@ -2067,7 +2069,9 @@ void inventory_selector::toggle_categorize_contained()
         inventory_column replacement_column;
         for( inventory_entry *entry : own_gear_column.get_entries( return_item ) ) {
             if( entry->any_item().where() == item_location::type::container ) {
-                add_entry( own_inv_column, std::move( entry->locations ) );
+                add_entry( own_inv_column, std::move( entry->locations ),
+                           /*custom_category=*/nullptr,
+                           /*chosen_count=*/entry->chosen_count );
             } else {
                 replacement_column.add_entry( *entry );
             }
@@ -2087,10 +2091,12 @@ void inventory_selector::toggle_categorize_contained()
 
             if( parent.get_item() == &u.weapon ) {
                 add_entry( own_gear_column, std::move( entry->locations ),
-                           &item_category_id( "WEAPON_HELD" ).obj() );
+                           &item_category_id( "WEAPON_HELD" ).obj(),
+                           /*chosen_count=*/entry->chosen_count );
             } else {
                 add_entry( own_gear_column, std::move( entry->locations ),
-                           &item_category_id( "ITEMS_WORN" ).obj() );
+                           &item_category_id( "ITEMS_WORN" ).obj(),
+                           /*chosen_count=*/entry->chosen_count );
             }
         }
         own_gear_column.order_by_parent();

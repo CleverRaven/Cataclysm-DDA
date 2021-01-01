@@ -79,8 +79,10 @@ class inventory_entry
 
         inventory_entry( const std::vector<item_location> &locations,
                          const item_category *custom_category = nullptr,
-                         bool enabled = true ) :
+                         bool enabled = true,
+                         const size_t chosen_count = 0 ) :
             locations( locations ),
+            chosen_count( chosen_count ),
             custom_category( custom_category ),
             enabled( enabled )
         {}
@@ -546,7 +548,8 @@ class inventory_selector
 
         void add_entry( inventory_column &target_column,
                         std::vector<item_location> &&locations,
-                        const item_category *custom_category = nullptr );
+                        const item_category *custom_category = nullptr,
+                        size_t chosen_count = 0 );
 
         void add_item( inventory_column &target_column,
                        item_location &&location,
