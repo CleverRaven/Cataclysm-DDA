@@ -782,7 +782,7 @@ class inventory_drop_selector : public inventory_multiselector
         inventory_drop_selector( Character &p,
                                  const inventory_selector_preset &preset = default_preset,
                                  const std::string &selection_column_title = _( "ITEMS TO DROP" ),
-                                 const bool warn_liquid = true );
+                                 bool warn_liquid = true );
         drop_locations execute();
     protected:
         stats get_raw_stats() const override;
