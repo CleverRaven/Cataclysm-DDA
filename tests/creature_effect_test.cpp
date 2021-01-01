@@ -362,6 +362,7 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
     const efftype_id effect_venom_weaken( "venom_weaken" );
 
     static const species_id species_WORM( "WORM" );
+    static const species_id species_FUNGUS( "FUNGUS" );
 
     // TODO: Monster may be immune to:
     // - onfire (if is_immune_damage DT_HEAT, made_of LIQUID, has_flag MF_FIREY)
@@ -372,11 +373,12 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
         monster graboid( mtype_id( "mon_graboid" ) );
         graboid.clear_effects();
         REQUIRE( graboid.made_of_any( Creature::cmat_flesh ) );
-        REQUIRE( graboid.type->bodytype == "snake" );        
-		REQUIRE( graboid.type->in_species( species_WORM ) );
+        REQUIRE( graboid.type->bodytype == "snake" );
+        REQUIRE( graboid.type->in_species( species_WORM ) );
 
         THEN( "they can bleed" ) {
             CHECK_FALSE( graboid.is_immune_effect( effect_bleed ) );
+        }
 
         THEN( "they can be poisoned by all poisons" ) {
             CHECK_FALSE( graboid.is_immune_effect( effect_poison ) );
@@ -393,7 +395,7 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
         }
 
     }
-	
+
     WHEN( "monster is a zombie, made of flesh, has blood and has legs" ) {
         // Zombie - fleshy humanoid zombie
         monster zed( mtype_id( "mon_zombie" ) );
@@ -405,7 +407,7 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
         THEN( "they can bleed" ) {
             CHECK_FALSE( zed.is_immune_effect( effect_bleed ) );
         }
-		
+
         THEN( "they can be poisoned by stronger poisons" ) {
             CHECK_FALSE( zed.is_immune_effect( effect_venom_dmg ) );
             CHECK_FALSE( zed.is_immune_effect( effect_venom_player1 ) );
@@ -445,18 +447,18 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
             CHECK( feye.is_immune_effect( effect_venom_player2 ) );
             CHECK( feye.is_immune_effect( effect_venom_weaken ) );
         }
-		
-		THEN( "they can't be downed" ) {
+
+        THEN( "they can't be downed" ) {
             CHECK( feye.is_immune_effect( effect_downed ) );
         }
     }
-	
+
     WHEN( "monster is not made of flesh or iflesh" ) {
         // Fungaloid - veggy, has no blood or bodytype
         monster fungaloid( mtype_id( "mon_fungaloid" ) );
         fungaloid.clear_effects();
         REQUIRE_FALSE( fungaloid.made_of_any( Creature::cmat_flesh ) );
-		REQUIRE( fungaloid.type->in_species( species_FUNGUS )
+        REQUIRE( fungaloid.type->in_species( species_FUNGUS ) );
 
         THEN( "they are immune to the bleed effect" ) {
             CHECK( fungaloid.is_immune_effect( effect_bleed ) );
@@ -470,12 +472,12 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
             CHECK( fungaloid.is_immune_effect( effect_venom_player1 ) );
             CHECK( fungaloid.is_immune_effect( effect_venom_player2 ) );
             CHECK( fungaloid.is_immune_effect( effect_venom_weaken ) );
-		}
-			
-		THEN( "they can be downed" ) {
-			CHECK_FALSE( fungaloid.is_immune_effect( effect_downed) );
-		}
-	}		
+        }
+
+        THEN( "they can be downed" ) {
+            CHECK_FALSE( fungaloid.is_immune_effect( effect_downed ) );
+        }
+    }
 
     WHEN( "monster species doesn't have bleeding type set, but it has flag describing its bleeding type" ) {
         // Razorclaw - has `MUTANT` species which doesn't have any bleeding type set, but has arthropod blood
