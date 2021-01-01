@@ -358,7 +358,7 @@ class inventory_column
          */
         virtual void on_input( const inventory_input &input );
         /** The entry has been changed. */
-        virtual void on_change( const inventory_entry & ) {}
+        virtual void on_change( const inventory_entry &entry );
         /** The column has been activated. */
         virtual void on_activate() {
             active = true;

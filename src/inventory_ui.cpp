@@ -676,6 +676,20 @@ void inventory_column::on_input( const inventory_input &input )
     }
 }
 
+void inventory_column::on_change( const inventory_entry &entry )
+{
+    if( !entry.locations.empty() ) {
+        // copy changes to the unfiltered entry
+        const auto unfiltered_it = std::find_if( entries_unfiltered.begin(), entries_unfiltered.end(),
+        [&]( const inventory_entry & unfiltered_entry ) {
+            return unfiltered_entry.locations == entry.locations;
+        } );
+        if( unfiltered_it != entries_unfiltered.end() ) {
+            *unfiltered_it = entry;
+        }
+    }
+}
+
 void inventory_column::order_by_parent()
 {
     std::vector<inventory_entry> base_entries;
