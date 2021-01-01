@@ -438,6 +438,12 @@ void inventory_column::set_filter( const std::string &filter )
     prepare_paging( filter );
 }
 
+void selection_column::set_filter( const std::string & )
+{
+    // always show all selected items
+    inventory_column::set_filter( std::string() );
+}
+
 inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache(
     const inventory_entry &entry ) const
 {
@@ -1126,9 +1132,10 @@ void selection_column::reset_width( const std::vector<inventory_column *> &all_c
     }
 }
 
-void selection_column::prepare_paging( const std::string &filter )
+void selection_column::prepare_paging( const std::string & )
 {
-    inventory_column::prepare_paging( filter );
+    // always show all selected items
+    inventory_column::prepare_paging( std::string() );
 
     if( entries.empty() ) { // Category must always persist
         entries.emplace_back( &*selected_cat );

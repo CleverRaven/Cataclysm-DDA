@@ -372,7 +372,7 @@ class inventory_column
             this->mode = mode;
         }
 
-        void set_filter( const std::string &filter );
+        virtual void set_filter( const std::string &filter );
 
         // whether or not to indent contained entries
         bool indent_entries() const {
@@ -484,6 +484,8 @@ class selection_column : public inventory_column
         void on_mode_change( navigation_mode ) override {
             // Intentionally ignore mode change.
         }
+
+        void set_filter( const std::string &filter ) override;
 
     private:
         const pimpl<item_category> selected_cat;
