@@ -124,7 +124,6 @@ static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
-static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
@@ -291,7 +290,6 @@ activity_handlers::do_turn_functions = {
     { ACT_BUTCHER, butcher_do_turn },
     { ACT_BUTCHER_FULL, butcher_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
-    { ACT_AUTODRIVE, drive_do_turn },
     { ACT_FIELD_DRESS, butcher_do_turn },
     { ACT_SKIN, butcher_do_turn },
     { ACT_QUARTER, butcher_do_turn },
@@ -354,7 +352,6 @@ activity_handlers::finish_functions = {
     { ACT_WAIT_STAMINA, wait_stamina_finish },
     { ACT_SOCIALIZE, socialize_finish },
     { ACT_OPERATION, operation_finish },
-    { ACT_DISASSEMBLE, disassemble_finish },
     { ACT_VIBE, vibe_finish },
     { ACT_ATM, atm_finish },
     { ACT_EAT_MENU, eat_menu_finish },
@@ -2481,7 +2478,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         // TODO: Allow setting this in the actor
         // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
         if( !used_tool->units_sufficient( *p ) ) {
-            p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname() );
+            p->add_msg_if_player( _( "Your %s ran out of charges." ), used_tool->tname() );
             act->set_to_null();
             return;
         }
@@ -2712,6 +2709,12 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
         target->set_var( "dirt", 0 );
     }
+
+    //get skill list from mending method, iterate through and give xp
+    for( const std::pair<const skill_id, int> &e : method->skills ) {
+        p->practice( e.first, 10, static_cast<int>( e.second * 1.25 ) );
+    }
+
     add_msg( m_good, method->success_msg.translated(), target->tname() );
 }
 
@@ -2846,41 +2849,6 @@ void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
 {
     p->cancel_activity();
     create_advanced_inv();
-}
-
-void activity_handlers::drive_do_turn( player_activity *act, player *p )
-{
-    map &here = get_map();
-    vehicle *player_veh = veh_pointer_or_null( here.veh_at( p->pos() ) );
-    if( !player_veh ) {
-        act->set_to_null();
-        p->cancel_activity();
-        return;
-    }
-    Character &player_character = get_player_character();
-    if( p->in_vehicle && p->controlling_vehicle && player_veh->is_autodriving &&
-        !player_character.omt_path.empty() && !player_veh->omt_path.empty() ) {
-        player_veh->do_autodrive();
-        if( player_character.global_omt_location() == player_character.omt_path.back() ) {
-            player_character.omt_path.pop_back();
-        }
-        p->moves = 0;
-    } else {
-        p->add_msg_if_player( m_info, _( "Auto-drive canceled." ) );
-        if( !player_veh->omt_path.empty() ) {
-            player_veh->omt_path.clear();
-        }
-        player_veh->is_autodriving = false;
-        act->set_to_null();
-        p->cancel_activity();
-        return;
-    }
-    if( player_veh->omt_path.empty() ) {
-        act->set_to_null();
-        player_veh->is_autodriving = false;
-        p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
-        p->cancel_activity();
-    }
 }
 
 void activity_handlers::travel_do_turn( player_activity *act, player *p )
@@ -3525,11 +3493,6 @@ void activity_handlers::multiple_farm_do_turn( player_activity *act, player *p )
 void activity_handlers::fetch_do_turn( player_activity *act, player *p )
 {
     generic_multi_activity_handler( *act, *p );
-}
-
-void activity_handlers::disassemble_finish( player_activity *, player *p )
-{
-    p->complete_disassemble();
 }
 
 void activity_handlers::vibe_finish( player_activity *act, player *p )

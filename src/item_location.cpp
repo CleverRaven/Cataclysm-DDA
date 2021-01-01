@@ -34,7 +34,7 @@ template <typename T>
 static int find_index( const T &sel, const item *obj )
 {
     int idx = -1;
-    sel.visit_items( [&idx, &obj]( const item * e ) {
+    sel.visit_items( [&idx, &obj]( const item * e, item * ) {
         idx++;
         if( e == obj ) {
             return VisitResponse::ABORT;
@@ -48,7 +48,7 @@ template <typename T>
 static item *retrieve_index( const T &sel, int idx )
 {
     item *obj = nullptr;
-    sel.visit_items( [&idx, &obj]( const item * e ) {
+    sel.visit_items( [&idx, &obj]( const item * e, item * ) {
         if( idx-- == 0 ) {
             obj = const_cast<item *>( e );
             return VisitResponse::ABORT;
@@ -816,7 +816,8 @@ int item_location::max_charges_by_parent_recursive( const item &it ) const
 
     return std::min( { it.charges_per_volume( pocket->remaining_volume() ),
                        it.charges_per_weight( pocket->remaining_weight() ),
-                       pocket->rigid() ? item::INFINITE_CHARGES : parent.max_charges_by_parent_recursive( it ) } );
+                       pocket->rigid() ? item::INFINITE_CHARGES : parent.max_charges_by_parent_recursive( it )
+                     } );
 }
 
 item_location::type item_location::where() const

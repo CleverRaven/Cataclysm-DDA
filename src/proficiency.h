@@ -125,4 +125,36 @@ struct display_proficiency {
     bool known = false;
 };
 
+// a class for having bonuses from books instead of proficiencies you know
+struct book_proficiency_bonus {
+        proficiency_id id;
+        float time_factor = default_time_factor;
+        float fail_factor = default_fail_factor;
+        bool include_prereqs = default_include_prereqs;
+
+        bool was_loaded = false;
+        void deserialize( JsonIn &jsin );
+
+        book_proficiency_bonus &operator+=( const book_proficiency_bonus &rhs );
+
+    private:
+        static const float default_time_factor;
+        static const float default_fail_factor;
+        static const float default_include_prereqs;
+};
+
+// a container class for book_proficiency_bonus to make it easy to calculate and compartmentalize
+class book_proficiency_bonuses
+{
+    private:
+        std::vector<book_proficiency_bonus> bonuses;
+        // the inner part of the add function for recursion
+        void add( const book_proficiency_bonus &bonus, std::set<proficiency_id> &already_included );
+    public:
+        void add( const book_proficiency_bonus &bonus );
+        book_proficiency_bonuses &operator+=( const book_proficiency_bonuses &rhs );
+        float fail_factor( const proficiency_id &id ) const;
+        float time_factor( const proficiency_id &id ) const;
+};
+
 #endif // CATA_SRC_PROFICIENCY_H

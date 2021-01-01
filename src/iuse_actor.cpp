@@ -2507,7 +2507,7 @@ static item_location get_item_location( player &p, item &it, const tripoint &pos
     if( const optional_vpart_position &vp = get_map().veh_at( pos ) ) {
         vehicle_cursor vc( vp->vehicle(), vp->part_index() );
         bool found_in_vehicle = false;
-        vc.visit_items( [&]( const item * e ) {
+        vc.visit_items( [&]( const item * e, item * ) {
             if( e == &it ) {
                 found_in_vehicle = true;
                 return VisitResponse::ABORT;

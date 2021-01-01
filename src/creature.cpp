@@ -584,16 +584,6 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     bodypart_id bp_hit =  select_body_part( source, hit_spread );
     block_hit( source, bp_hit, d );
 
-    // Bashing critical
-    if( critical_hit && !is_immune_effect( effect_stunned ) ) {
-        if( d.type_damage( damage_type::BASH ) * hit_spread > get_hp_max() ) {
-            add_effect( source, effect_stunned, 1_turns ); // 1 turn is enough
-            if( source->is_avatar() ) {
-                add_msg( m_good, _( "You stun %s with your blow." ), disp_name() );
-            }
-        }
-    }
-
     // Stabbing effects
     int stab_moves = rng( d.type_damage( damage_type::STAB ) / 2,
                           d.type_damage( damage_type::STAB ) * 1.5 );
@@ -618,6 +608,18 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     on_hit( source, bp_hit ); // trigger on-gethit events
     dealt_dam = deal_damage( source, bp_hit, d );
     dealt_dam.bp_hit = bp_hit;
+
+    // Bashing critical
+    if( critical_hit && !is_immune_effect( effect_stunned ) &&
+        dealt_dam.type_damage( damage_type::BASH ) > 0 ) {
+        // check if raw bash damage is enough to stun
+        if( d.type_damage( damage_type::BASH ) * hit_spread > get_hp_max() ) {
+            add_effect( source, effect_stunned, 1_turns ); // 1 turn is enough
+            if( source->is_avatar() ) {
+                add_msg( m_good, _( "You stun %s with your blow." ), disp_name() );
+            }
+        }
+    }
 }
 
 /**

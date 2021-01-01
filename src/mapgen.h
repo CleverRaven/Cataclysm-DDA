@@ -319,11 +319,11 @@ class mapgen_function_json_base
         bool has_vehicle_collision( const mapgendata &dat, const point &offset ) const;
 
     private:
-        std::string jdata;
+        json_source_location jsrcloc;
         std::string context_;
 
     protected:
-        mapgen_function_json_base( const std::string &s, const std::string &context );
+        mapgen_function_json_base( const json_source_location &jsrcloc, const std::string &context );
         virtual ~mapgen_function_json_base();
 
         void setup_common();
@@ -354,7 +354,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         void setup() override;
         void check() const override;
         void generate( mapgendata & ) override;
-        mapgen_function_json( const std::string &s, int w, const std::string &context,
+        mapgen_function_json( const json_source_location &jsrcloc, int w, const std::string &context,
                               const point &grid_offset = point_zero );
         ~mapgen_function_json() override = default;
 
@@ -371,7 +371,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
 class update_mapgen_function_json : public mapgen_function_json_base
 {
     public:
-        update_mapgen_function_json( const std::string &s, const std::string &context );
+        update_mapgen_function_json( const json_source_location &jsrcloc, const std::string &context );
         ~update_mapgen_function_json() override = default;
 
         void setup();
@@ -392,7 +392,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
     public:
         void setup();
         void check() const;
-        mapgen_function_json_nested( const std::string &s, const std::string &context );
+        mapgen_function_json_nested( const json_source_location &jsrcloc, const std::string &context );
         ~mapgen_function_json_nested() override = default;
 
         void nest( const mapgendata &dat, const point &offset ) const;

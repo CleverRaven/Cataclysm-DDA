@@ -112,7 +112,7 @@
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
-      "install_time": "20 m"
+      "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID" ],
@@ -130,7 +130,7 @@
       "location": "underbarrel",
       "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
-      "install_time": "20 m"
+      "install_time": "5 s"
     },
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
@@ -195,7 +195,7 @@
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle" ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
-      "install_time": "20 m"
+      "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID", "WBLOCK_1" ],
@@ -832,7 +832,7 @@
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
-      "install_time": "20 m"
+      "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
     "techniques": [ "WBLOCK_1", "RAPID" ],

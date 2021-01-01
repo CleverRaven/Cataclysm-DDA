@@ -35,6 +35,7 @@
 #include "value_ptr.h"
 #include "visitable.h"
 
+class book_proficiency_bonuses;
 class Character;
 class JsonIn;
 class JsonObject;
@@ -173,7 +174,7 @@ iteminfo weight_to_info( const std::string &type, const std::string &left,
 
 inline bool is_crafting_component( const item &component );
 
-class item : public visitable<item>
+class item : public visitable
 {
     public:
         using FlagsSetType = std::set<flag_id>;
@@ -201,6 +202,9 @@ class item : public visitable<item>
         /** For constructing in-progress crafts */
         item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
 
+        /** For constructing in-progress disassemblies */
+        item( const recipe *rec, item &component );
+
         // Legacy constructor for constructing from string rather than itype_id
         // TODO: remove this and migrate code using it.
         template<typename... Args>
@@ -208,7 +212,7 @@ class item : public visitable<item>
             item( itype_id( itype ), std::forward<Args>( args )... )
         {}
 
-        ~item();
+        ~item() override;
 
         /** Return a pointer-like type that's automatically invalidated if this
          * item is destroyed or assigned-to */
@@ -1713,6 +1717,10 @@ class item : public visitable<item>
          */
         /*@{*/
         /**
+         * translates the vector of proficiency bonuses into the container. returns an empty object if it's not a book
+         */
+        book_proficiency_bonuses get_book_proficiency_bonuses() const;
+        /**
          * How many chapters the book has (if any). Will be 0 if the item is not a book, or if it
          * has no chapters at all.
          * Each reading will "consume" a chapter, if the book has no unread chapters, it's less fun.
@@ -2112,6 +2120,7 @@ class item : public visitable<item>
         faction_id get_old_owner() const;
         bool is_owned_by( const Character &c, bool available_to_take = false ) const;
         bool is_old_owner( const Character &c, bool available_to_take = false ) const;
+        std::string get_old_owner_name() const;
         std::string get_owner_name() const;
         int get_min_str() const;
 
@@ -2187,6 +2196,12 @@ class item : public visitable<item>
          * @return The number of moves to recursively disassemble this item
          */
         int get_recursive_disassemble_moves( const Character &guy ) const;
+
+        // inherited from visitable
+        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
+        override;
+        std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
+                                           int count = INT_MAX ) override;
 
     private:
         /** migrates an item into this item. */
