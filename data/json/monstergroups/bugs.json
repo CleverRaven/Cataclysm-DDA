@@ -40,7 +40,7 @@
     "monsters": [
       { "monster": "mon_dermatik_incubator_spider", "freq": 500, "cost_multiplier": 1 },
       { "monster": "mon_dermatik_incubator_dog", "freq": 100, "cost_multiplier": 1 }
-	  ]
+    ]
   },
   {
     "type": "monstergroup",

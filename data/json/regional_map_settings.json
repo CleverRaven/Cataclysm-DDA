@@ -434,7 +434,7 @@
       },
       "forest_water": {
         "chance": 12,
-		"//": "weights normalised to 1000"
+        "//": "weights normalised to 1000",
         "extras": {
           "mx_helicopter": 5,
           "mx_military": 25,
@@ -451,7 +451,7 @@
           "mx_point_dead_vegetation": 60,
           "mx_casings": 60,
           "mx_corpses": 80,
-		  "mx_nest_dermatik": 50
+          "mx_nest_dermatik": 50
         }
       },
       "field": {
