@@ -481,9 +481,6 @@ int iuse::sewage( player *p, item *it, bool, const tripoint & )
 
     get_event_bus().send<event_type::eats_sewage>();
     p->vomit();
-    if( one_in( 4 ) ) {
-        p->mutate();
-    }
     return it->type->charges_to_use();
 }
 
