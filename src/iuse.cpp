@@ -2895,9 +2895,8 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     }
 
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
+    for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
 
     digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
@@ -2964,9 +2963,8 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     }
 
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
+    for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
 
     digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, false,
@@ -3080,12 +3078,11 @@ int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
 
     int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
-    }
-    const int helpersize = p->get_num_crafting_helpers( 3 );
+    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
     const int moves = to_moves<int>( 30_seconds ) * ( 1.0f - ( helpersize / 10.0f ) );
+    for( std::size_t i = 0; i < helpersize; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
+    }
     player_activity act( ACT_CLEAR_RUBBLE, moves / bonus, bonus );
     p->assign_activity( act );
     p->activity.placement = pnt;
@@ -5003,9 +5000,8 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
     }
     int moves = chop_moves( p, it );
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
+    for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
     p->assign_activity( ACT_CHOP_TREE, moves, -1, p->get_item_position( it ) );
     p->activity.placement = here.getabs( pnt );
@@ -5047,9 +5043,8 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
 
     int moves = chop_moves( p, it );
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
+    for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
     p->assign_activity( ACT_CHOP_LOGS, moves, -1, p->get_item_position( it ) );
     p->activity.placement = here.getabs( pnt );
