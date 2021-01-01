@@ -124,8 +124,8 @@
     "building_type": "COOK",
     "recipes": [
       { "id": "brandy", "description": " Distill: Brandy" },
-      { "id": "gin", "description": " Distill: Gin" },
-      { "id": "vodka", "description": " Distill: Vodka" },
+      { "id": "gin_from_mash", "description": " Distill: Gin" },
+      { "id": "vodka_from_wash", "description": " Distill: Vodka" },
       { "id": "rum", "description": " Distill: Rum" }
     ]
   },
