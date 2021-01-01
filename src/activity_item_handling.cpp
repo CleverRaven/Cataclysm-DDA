@@ -63,6 +63,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -3048,15 +3049,33 @@ bool find_auto_consume( player &p, const bool food )
         if( loc.z != p.pos().z ) {
             continue;
         }
-        map_stack food_there = g->m.i_at( g->m.getlocal( loc ) );
-        for( item &it : food_there ) {
-            item &comest = p.get_consumable_from( it );
+
+        const optional_vpart_position vp = g->m.veh_at( g->m.getlocal( loc ) );
+        std::vector<item *> items_here;
+        if( vp ) {
+            vehicle &veh = vp->vehicle();
+            int index = veh.part_with_feature( vp->part_index(), "CARGO", false );
+            if( index >= 0 ) {
+                vehicle_stack vehitems = veh.get_items( index );
+                for( item &it : vehitems ) {
+                    items_here.push_back( &it );
+                }
+            }
+        } else {
+            map_stack mapitems = g->m.i_at( g->m.getlocal( loc ) );
+            for( item &it : mapitems ) {
+                items_here.push_back( &it );
+            }
+        }
+
+        for( item *it : items_here ) {
+            item &comest = p.get_consumable_from( *it );
             if( comest.is_null() || comest.is_craft() || !comest.is_food() ||
                 p.fun_for( comest ).first < -5 ) {
                 // not good eatings.
                 continue;
             }
-            if( !p.can_consume( it ) ) {
+            if( !p.can_consume( *it ) ) {
                 continue;
             }
             if( food && p.compute_effective_nutrients( comest ).kcal < 50 ) {
@@ -3067,7 +3086,7 @@ bool find_auto_consume( player &p, const bool food )
                 // wont like it, cannibal meat etc
                 continue;
             }
-            if( !it.is_owned_by( p, true ) ) {
+            if( !it->is_owned_by( p, true ) ) {
                 // it aint ours.
                 continue;
             }
@@ -3075,13 +3094,19 @@ bool find_auto_consume( player &p, const bool food )
                 // not quenching enough
                 continue;
             }
-            if( !food && it.is_watertight_container() && it.contents_made_of( SOLID ) ) {
+            if( !food && it->is_watertight_container() && it->contents_made_of( SOLID ) ) {
                 // its frozen
                 continue;
             }
-            p.mod_moves( -Pickup::cost_to_move_item( p, it ) * std::max( rl_dist( p.pos(),
+
+            p.mod_moves( -Pickup::cost_to_move_item( p, *it ) * std::max( rl_dist( p.pos(),
                          g->m.getlocal( loc ) ), 1 ) );
-            item_location item_loc( map_cursor( g->m.getlocal( loc ) ), &it );
+            item_location item_loc;
+            if( vp ) {
+                item_loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), &comest );
+            } else {
+                item_loc = item_location( map_cursor( g->m.getlocal( loc ) ), &comest );
+            }
             avatar_action::eat( g->u, item_loc );
             // eat() may have removed the item, so check its still there.
             if( item_loc.get_item() && item_loc->is_container() ) {
