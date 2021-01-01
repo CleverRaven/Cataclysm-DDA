@@ -1405,28 +1405,18 @@ int avatar::free_upgrade_points() const
     return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
 }
 
-static int xp_to_next( const avatar &you )
-{
-    const int cur_xp = you.kill_xp();
-    // Initialize to 'already max level' sentinel
-    int xp_next = -1;
-    // Iterate in reverse: { 405k, 355k, 305k, ..., 300 }
-    for( std::array<int, 20>::const_reverse_iterator iter = xp_cutoffs.crbegin();
-         iter != xp_cutoffs.crend(); ++iter ) {
-        if( cur_xp < *iter ) {
-            xp_next = *iter;
-        }
-    }
-    return xp_next;
-}
-
 void avatar::upgrade_stat_prompt( const character_stat &stat )
 {
     const int free_points = free_upgrade_points();
-    const int next_lvl_xp = xp_to_next( *this );
 
     if( free_points <= 0 ) {
-        popup( _( "No available stat points to spend.  Experience to next level: %d" ), next_lvl_xp );
+        auto it = std::lower_bound( xp_cutoffs.begin(), xp_cutoffs.end(), kill_xp() );
+        if( it == xp_cutoffs.end() ) {
+            popup( _( "You've already reached maximum level." ) );
+        } else {
+            popup( _( "Needs %d more experience to gain next level." ),
+                   *it - kill_xp() );
+        }
         return;
     }
 
