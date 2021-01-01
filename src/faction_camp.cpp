@@ -684,19 +684,12 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         }
         // Generate upgrade missions for expansions
         std::vector<basecamp_upgrade> upgrades = available_upgrades( dir );
-        std::vector<size_t> order;
+        std::vector<size_t> order( upgrades.size() );
+        std::iota( order.begin(), order.end(), 0 );
 
-        for( size_t i = 0; i < upgrades.size(); i++ ) {
-            order.push_back( i );
-        }
-
-        for( size_t i = 0; i + 1 < upgrades.size(); i++ ) {
-            for( size_t k = i + 1; k < upgrades.size(); k++ ) {
-                if( upgrades[order[k]].name.translated_lt( upgrades[order[i]].name ) ) {
-                    std::swap( order[i], order[k] );
-                }
-            }
-        }
+        std::sort( order.begin(), order.end(), [upgrades]( const size_t &p, const size_t &q )->bool {
+            return upgrades[p].name.translated_lt( upgrades[q].name );
+        } );
 
         for( const size_t index : order ) {
             const base_camps::miss_data &miss_info = base_camps::miss_info["_faction_upgrade_exp_"];
@@ -1226,22 +1219,14 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                 base_camps::base_dir, entry, avail );
     }
     std::vector<basecamp_upgrade> upgrades = available_upgrades( base_camps::base_dir );
-    std::vector<size_t> order;
+    std::vector<size_t> order( upgrades.size() );
+    std::iota( order.begin(), order.end(), 0 );
 
-    for( size_t i = 0; i < upgrades.size(); i++ ) {
-        order.push_back( i );
-    }
-
-    for( size_t i = 0; i + 1 < upgrades.size(); i++ ) {
-        for( size_t k = i + 1; k < upgrades.size(); k++ ) {
-            if( upgrades[order[k]].name.translated_lt( upgrades[order[i]].name ) ) {
-                std::swap( order[i], order[k] );
-            }
-        }
-    }
+    std::sort( order.begin(), order.end(), [upgrades]( const size_t &p, const size_t &q )->bool {
+        return upgrades[p].name.translated_lt( upgrades[q].name );
+    } );
 
     for( const size_t index : order ) {
-        //    for( size_t i = 0; i < order.size(); i++ ) {
         const base_camps::miss_data &miss_info = base_camps::miss_info["_faction_upgrade_camp"];
         comp_list npc_list = get_mission_workers( upgrades[index].bldg + "_faction_upgrade_camp" );
         if( npc_list.empty() && !upgrades[index].in_progress ) {
