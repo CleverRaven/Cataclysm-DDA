@@ -1410,17 +1410,19 @@ void monster::melee_attack( Creature &target )
 
 void monster::melee_attack( Creature &target, float accuracy )
 {
-    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
+    // Note: currently this method must consume move even if attack hasn't actually happen
+    // otherwise infinite loop will happen
     mod_moves( -type->attack_cost );
+    if( /*This happens sometimes*/ this == &target || !is_adjacent( &target, true ) ) {
+        return;
+    }
+
+    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
     if( type->melee_dice == 0 ) {
         // We don't attack, so just return
         return;
     }
 
-    if( this == &target ) {
-        // This happens sometimes
-        return;
-    }
 
     Character &player_character = get_player_character();
     if( target.is_player() ||
