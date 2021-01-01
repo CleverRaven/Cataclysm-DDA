@@ -194,12 +194,19 @@ void game_menus::inv::common( avatar &you )
 
     int res = 0;
 
+    item_location location;
+    std::string filter;
     do {
         you.inv->restack( you );
         inv_s.clear_items();
         inv_s.add_character_items( you );
+        inv_s.set_filter( filter );
+        if( location != item_location::nowhere ) {
+            inv_s.select( location );
+        }
 
-        const item_location &location = inv_s.execute();
+        location = inv_s.execute();
+        filter = inv_s.get_filter();
 
         if( location == item_location::nowhere ) {
             break;
@@ -223,11 +230,18 @@ void game_menus::inv::common( item_location &loc, avatar &you )
 
     int res = 0;
 
+    item_location location;
+    std::string filter;
     do {
         inv_s.clear_items();
         inv_s.add_contained_items( loc );
+        inv_s.set_filter( filter );
+        if( location != item_location::nowhere ) {
+            inv_s.select( location );
+        }
 
-        const item_location &location = inv_s.execute();
+        location = inv_s.execute();
+        filter = inv_s.get_filter();
 
         if( location == item_location::nowhere ) {
             break;
