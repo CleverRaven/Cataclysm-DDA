@@ -18,7 +18,7 @@
     "max_level": 20,
     "min_aoe": 0,
     "max_aoe": 5,
-    "aoe_increment": 0.4,
+    "aoe_increment": 0.2,
     "min_range": 1,
     "max_range": 10,
     "range_increment": 1.0,
