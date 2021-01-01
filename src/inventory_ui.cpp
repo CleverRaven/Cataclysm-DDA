@@ -2075,8 +2075,10 @@ void inventory_selector::toggle_categorize_contained()
         own_inv_column.clear();
     }
 
-    resize_window( std::max( { get_layout_width() + 6, get_header_min_width() } ),
-                   get_layout_height() + get_header_height() );
+    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+    if( current_ui ) {
+        current_ui->mark_resize();
+    }
 }
 
 void inventory_selector::toggle_active_column( scroll_direction dir )
