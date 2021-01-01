@@ -1327,7 +1327,8 @@ drop_locations game_menus::inv::holster( player &p, const item_location &holster
 
     inventory_holster_preset holster_preset( holster );
 
-    inventory_drop_selector insert_menu( p, holster_preset, _( "ITEMS TO INSERT" ) );
+    inventory_drop_selector insert_menu( p, holster_preset, _( "ITEMS TO INSERT" ),
+                                         /*warn_liquid=*/false );
     insert_menu.add_character_items( p );
     insert_menu.add_map_items( p.pos() );
     insert_menu.add_vehicle_items( p.pos() );

@@ -781,7 +781,8 @@ class inventory_drop_selector : public inventory_multiselector
     public:
         inventory_drop_selector( Character &p,
                                  const inventory_selector_preset &preset = default_preset,
-                                 const std::string &selection_column_title = _( "ITEMS TO DROP" ) );
+                                 const std::string &selection_column_title = _( "ITEMS TO DROP" ),
+                                 const bool warn_liquid = true );
         drop_locations execute();
     protected:
         stats get_raw_stats() const override;
@@ -793,6 +794,7 @@ class inventory_drop_selector : public inventory_multiselector
         void deselect_contained_items();
         std::vector<std::pair<item_location, int>> dropping;
         size_t max_chosen_count;
+        bool warn_liquid;
 };
 
 #endif // CATA_SRC_INVENTORY_UI_H

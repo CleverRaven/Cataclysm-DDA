@@ -2435,9 +2435,12 @@ inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
 }
 
 inventory_drop_selector::inventory_drop_selector( Character &p,
-        const inventory_selector_preset &preset, const std::string &selection_column_title ) :
+        const inventory_selector_preset &preset,
+        const std::string &selection_column_title,
+        const bool warn_liquid ) :
     inventory_multiselector( p, preset, selection_column_title ),
-    max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
+    max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() ),
+    warn_liquid( warn_liquid )
 {
 #if defined(__ANDROID__)
     // allow user to type a drop number without dismissing virtual keyboard after each keypress
@@ -2603,7 +2606,7 @@ drop_locations inventory_drop_selector::execute()
         bool should_drop = true;
         if( drop_pair.first->made_of_from_type( phase_id::LIQUID ) ) {
             if( should_drop_liquid == drop_liquid::ask ) {
-                if( query_yn(
+                if( !warn_liquid || query_yn(
                         _( "You are dropping liquid from its container.  You might not be able to pick it back up.  Really do so?" ) ) ) {
                     should_drop_liquid = drop_liquid::yes;
                 } else {
