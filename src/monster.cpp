@@ -1423,7 +1423,6 @@ void monster::melee_attack( Creature &target, float accuracy )
         return;
     }
 
-
     Character &player_character = get_player_character();
     if( target.is_player() ||
         ( target.is_npc() && player_character.attitude_to( target ) == Attitude::FRIENDLY ) ) {
