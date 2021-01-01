@@ -4647,7 +4647,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
             // If container has multiple food items, take the worst rot state and use that as the color for the "# items" text.
             // 0 = No food; 1 = Non-perishable (cyan); 2 = Perishable (light cyan); 3 = Old (yellow); 4 = Rotten (brown)
-            for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            for( const item *it : contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
                 if( worstrot < 4 && it->rotten() ) {
                     worstrot = 4;
                     colorprefix = c_brown;
