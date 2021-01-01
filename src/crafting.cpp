@@ -1448,7 +1448,8 @@ bool Character::can_continue_craft( item &craft )
     return true;
 }
 const requirement_data *Character::select_requirements(
-    const std::vector<const requirement_data *> &alternatives, int batch, const inventory &inv,
+    const std::vector<const requirement_data *> &alternatives, int batch,
+    const read_only_visitable &inv,
     const std::function<bool( const item & )> &filter ) const
 {
     cata_assert( !alternatives.empty() );
@@ -1482,7 +1483,7 @@ const requirement_data *Character::select_requirements(
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */
 comp_selection<item_comp> Character::select_item_component( const std::vector<item_comp>
         &components,
-        int batch, inventory &map_inv, bool can_cancel,
+        int batch, read_only_visitable &map_inv, bool can_cancel,
         const std::function<bool( const item & )> &filter, bool player_inv )
 {
     std::vector<item_comp> player_has;
@@ -1763,7 +1764,7 @@ bool Character::consume_software_container( const itype_id &software_id )
 
 comp_selection<tool_comp>
 Character::select_tool_component( const std::vector<tool_comp> &tools, int batch,
-                                  inventory &map_inv, bool can_cancel, bool player_inv,
+                                  read_only_visitable &map_inv, bool can_cancel, bool player_inv,
                                   const std::function<int( int )> &charges_required_modifier )
 {
 
@@ -2032,7 +2033,7 @@ void Character::consume_tools( const std::vector<tool_comp> &tools, int batch )
     consume_tools( select_tool_component( tools, batch, map_inv ), batch );
 }
 
-ret_val<bool> Character::can_disassemble( const item &obj, const inventory &inv ) const
+ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visitable &inv ) const
 {
     if( !obj.is_disassemblable() ) {
         return ret_val<bool>::make_failure( _( "You cannot disassemble this." ) );

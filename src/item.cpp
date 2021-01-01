@@ -4986,7 +4986,7 @@ int item::price( bool practical ) const
 {
     int res = 0;
 
-    visit_items( [&res, practical]( const item * e ) {
+    visit_items( [&res, practical]( const item * e, item * ) {
         if( e->rotten() ) {
             // TODO: Special case things that stay useful when rotten
             return VisitResponse::NEXT;
@@ -8076,7 +8076,7 @@ const use_function *item::get_use( const std::string &use_name ) const
 {
     const use_function *fun = nullptr;
     visit_items(
-    [&fun, &use_name]( const item * it ) {
+    [&fun, &use_name]( const item * it, auto ) {
         if( it == nullptr ) {
             return VisitResponse::SKIP;
         }
@@ -8102,7 +8102,7 @@ item *item::get_usable_item( const std::string &use_name )
 {
     item *ret = nullptr;
     visit_items(
-    [&ret, &use_name]( item * it ) {
+    [&ret, &use_name]( item * it, auto ) {
         if( it == nullptr ) {
             return VisitResponse::SKIP;
         }
@@ -8651,7 +8651,7 @@ bool item::allow_crafting_component() const
     // fixes #18886 - turret installation may require items with irremovable mods
     if( is_gun() ) {
         bool valid = true;
-        visit_items( [&]( const item * it ) {
+        visit_items( [&]( const item * it, item * ) {
             if( this == it ) {
                 return VisitResponse::NEXT;
             }
@@ -9185,7 +9185,7 @@ uint64_t item::make_component_hash() const
 bool item::needs_processing() const
 {
     bool need_process = false;
-    visit_items( [&need_process]( const item * it ) {
+    visit_items( [&need_process]( const item * it, item * ) {
         if( it->active || it->ethereal || it->has_flag( flag_RADIO_ACTIVATION ) ||
             it->is_food() || it->has_relic_recharge() ) {
             need_process = true;

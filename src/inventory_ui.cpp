@@ -1313,7 +1313,7 @@ void inventory_selector::add_contained_items( item_location &container, inventor
 
 void inventory_selector::add_character_items( Character &character )
 {
-    character.visit_items( [ this, &character ]( item * it ) {
+    character.visit_items( [ this, &character ]( item * it, item * ) {
         if( it == &character.weapon ) {
             add_item( own_gear_column, item_location( character, it ),
                       &item_category_id( "WEAPON_HELD" ).obj() );

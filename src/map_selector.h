@@ -7,7 +7,7 @@
 #include "point.h"
 #include "visitable.h"
 
-class map_cursor : public visitable<map_cursor>
+class map_cursor : public visitable
 {
     private:
         tripoint pos_;
@@ -15,12 +15,16 @@ class map_cursor : public visitable<map_cursor>
     public:
         map_cursor( const tripoint &pos );
         operator tripoint() const;
+
+        // inherited from visitable
+        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
+        override;
+        std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
+                                           int count = INT_MAX ) override;
 };
 
-class map_selector : public visitable<map_selector>
+class map_selector : public visitable
 {
-        friend visitable<map_selector>;
-
     public:
         using value_type = map_cursor;
         using size_type = std::vector<value_type>::size_type;
@@ -69,6 +73,12 @@ class map_selector : public visitable<map_selector>
         const_reference back() const {
             return data.back();
         }
+
+        // inherited from visitable
+        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
+        override;
+        std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
+                                           int count = INT_MAX ) override;
 
     private:
         std::vector<value_type> data;
