@@ -2557,11 +2557,12 @@ class Character : public Creature, public visitable<Character>
          * @param inv current crafting inventory
          */
         ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
+        item_location create_in_progress_disassembly( item_location target );
 
         bool disassemble();
         bool disassemble( item_location target, bool interactive = true );
         void disassemble_all( bool one_pass ); // Disassemble all items on the tile
-        void complete_disassemble();
+        void complete_disassemble( item_location target );
         void complete_disassemble( item_location &target, const recipe &dis );
 
         const requirement_data *select_requirements(

@@ -1482,10 +1482,11 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
         response_hotkeys.clear();
         input_event evt = ctxt.first_unassigned_hotkey( queue );
         for( talk_response &response : responses ) {
-            response_lines.emplace_back( response.create_option_line( *this, evt ) );
+            const talk_data &td = response.create_option_line( *this, evt );
+            response_lines.emplace_back( td );
             response_hotkeys.emplace_back( evt );
 #if defined(__ANDROID__)
-            ctxt.register_manual_key( evt.get_first_input() );
+            ctxt.register_manual_key( evt.get_first_input(), td.text );
 #endif
             evt = ctxt.next_unassigned_hotkey( queue, evt );
         }
@@ -1954,8 +1955,15 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
     function = [is_trade, is_npc]( const dialogue & d ) {
         const std::unique_ptr<talker> &seller = is_npc ? d.beta : d.alpha;
         const std::unique_ptr<talker> &buyer = is_npc ? d.alpha : d.beta;
-        int seller_has = seller->charges_of( d.cur_item );
         item tmp( d.cur_item );
+        int seller_has = 0;
+        if( tmp.count_by_charges() ) {
+            seller_has = seller->charges_of( d.cur_item );
+        } else {
+            seller_has = seller->items_with( [&tmp]( const item & e ) {
+                return tmp.type == e.type;
+            } ).size();
+        }
         tmp.charges = seller_has;
         if( is_trade ) {
             const int npc_debt = d.beta->debt();
@@ -1996,7 +2004,11 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
             d.beta->add_debt( -npc_debt );
             d.beta->add_debt( price );
         }
-        seller->use_charges( d.cur_item, seller_has );
+        if( tmp.count_by_charges() ) {
+            seller->use_charges( d.cur_item, seller_has );
+        } else {
+            seller->use_amount( d.cur_item, seller_has );
+        }
         buyer->i_add( tmp );
     };
 }

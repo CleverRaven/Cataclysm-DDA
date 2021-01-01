@@ -207,7 +207,6 @@ monster::monster()
     anger = 0;
     morale = 2;
     faction = mfaction_id( 0 );
-    mission_id = -1;
     no_extra_death_drops = false;
     dead = false;
     death_drops = true;
@@ -545,10 +544,17 @@ std::string monster::name( unsigned int quantity ) const
         debugmsg( "monster::name empty type!" );
         return std::string();
     }
+    std::string result = type->nname( quantity );
     if( !unique_name.empty() ) {
-        return string_format( "%s: %s", type->nname( quantity ), unique_name );
+        //~ %1$s: monster name, %2$s: unique name
+        result = string_format( pgettext( "unique monster name", "%1$s: %2$s" ),
+                                result, unique_name );
     }
-    return type->nname( quantity );
+    if( !mission_fused.empty() ) {
+        //~ name when a monster fuses with a mission target
+        result = string_format( pgettext( "fused mission monster", "*%s" ), result );
+    }
+    return result;
 }
 
 // TODO: MATERIALS put description in materials.json?
@@ -673,6 +679,17 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         mvwprintz( w, point( column, ++vStart ), c_light_gray, lines[i] );
     }
 
+    if( !mission_fused.empty() ) {
+        // Mission monsters fused into this monster
+        const std::string fused_desc = string_format( _( "Parts of %s extrude from its body." ),
+                                       enumerate_as_string( mission_fused ) );
+        lines = foldstring( fused_desc, max_width );
+        numlines = lines.size();
+        for( int i = 0; i < numlines && vStart < vEnd; i++ ) {
+            mvwprintz( w, point( column, ++vStart ), c_light_gray, lines[i] );
+        }
+    }
+
     // Riding indicator on next line after description.
     if( has_effect( effect_ridden ) && mounted_player ) {
         mvwprintz( w, point( column, ++vStart ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
@@ -732,6 +749,13 @@ std::string monster::extended_description() const
     ss += "--\n";
     ss += string_format( "<dark>%s</dark>", type->get_description() ) + "\n";
     ss += "--\n";
+    if( !mission_fused.empty() ) {
+        // Mission monsters fused into this monster
+        const std::string fused_desc = string_format( _( "Parts of %s extrude from its body." ),
+                                       enumerate_as_string( mission_fused ) );
+        ss += string_format( "<dark>%s</dark>", fused_desc ) + "\n";
+        ss += "--\n";
+    }
 
     ss += string_format( _( "It is %s in size." ),
                          size_names.at( get_size() ) ) + "\n";
@@ -2204,10 +2228,7 @@ void monster::die( Creature *nkiller )
     g->set_critter_died();
     dead = true;
     set_killer( nkiller );
-    if( !death_drops ) {
-        return;
-    }
-    if( !no_extra_death_drops ) {
+    if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death();
     }
     // TODO: should actually be class Character
@@ -2228,22 +2249,24 @@ void monster::die( Creature *nkiller )
             ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
         }
     }
-    // Drop items stored in optionals
-    move_special_item_to_inv( tack_item );
-    move_special_item_to_inv( armor_item );
-    move_special_item_to_inv( storage_item );
-    move_special_item_to_inv( tied_item );
+    if( death_drops ) {
+        // Drop items stored in optionals
+        move_special_item_to_inv( tack_item );
+        move_special_item_to_inv( armor_item );
+        move_special_item_to_inv( storage_item );
+        move_special_item_to_inv( tied_item );
 
-    if( has_effect( effect_lightsnare ) ) {
-        add_item( item( "string_36", calendar::turn_zero ) );
-        add_item( item( "snare_trigger", calendar::turn_zero ) );
-    }
-    if( has_effect( effect_heavysnare ) ) {
-        add_item( item( "rope_6", calendar::turn_zero ) );
-        add_item( item( "snare_trigger", calendar::turn_zero ) );
-    }
-    if( has_effect( effect_beartrap ) ) {
-        add_item( item( "beartrap", calendar::turn_zero ) );
+        if( has_effect( effect_lightsnare ) ) {
+            add_item( item( "string_36", calendar::turn_zero ) );
+            add_item( item( "snare_trigger", calendar::turn_zero ) );
+        }
+        if( has_effect( effect_heavysnare ) ) {
+            add_item( item( "rope_6", calendar::turn_zero ) );
+            add_item( item( "snare_trigger", calendar::turn_zero ) );
+        }
+        if( has_effect( effect_beartrap ) ) {
+            add_item( item( "beartrap", calendar::turn_zero ) );
+        }
     }
     map &here = get_map();
     if( has_effect( effect_grabbing ) ) {
@@ -2268,7 +2291,7 @@ void monster::die( Creature *nkiller )
             }
         }
     }
-    if( !is_hallucination() ) {
+    if( death_drops && !is_hallucination() ) {
         for( const auto &it : inv ) {
             here.add_item_or_charges( pos(), it );
         }
