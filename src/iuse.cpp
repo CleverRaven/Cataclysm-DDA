@@ -569,9 +569,6 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
 
     item cig;
     if( it->typeId() == itype_cig || it->typeId() == itype_handrolled_cig ) {
-        // There's really no reason to have these two
-        // itypes split into identical codeblocks
-
         cig = item( "cig_lit", calendar::turn );
         cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_hunger( -3 );
