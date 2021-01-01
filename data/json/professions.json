@@ -3367,7 +3367,10 @@
     "description": "At the local mall, you saw a sign advertising a discount on survival kits.  You bought one, more for show than for actual use.  Now it's all you have.",
     "points": 1,
     "items": {
-      "both": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "jacket_light", "survival_kit" ],
+      "both": {
+        "items": [ "sneakers", "mbag", "socks", "jeans", "tshirt", "wristwatch", "jacket_light" ],
+        "entries": [ { "group": "full_survival_kit" } ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "panties", "bra" ]
     }

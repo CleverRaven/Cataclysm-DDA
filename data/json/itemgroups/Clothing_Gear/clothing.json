@@ -2001,7 +2001,7 @@
       [ "chem_hexamine", 3 ],
       [ "esbit_stove", 6 ],
       [ "mess_tin", 4 ],
-      [ "survival_kit", 4 ]
+      { "group": "full_survival_kit", "prob": 4 }
     ]
   },
   {
@@ -2469,7 +2469,7 @@
       [ "small_repairkit", 14 ],
       [ "grapnel", 6 ],
       { "item": "misc_repairkit", "prob": 8, "charges-min": 0 },
-      [ "survival_kit", 3 ],
+      { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 3 },
       { "group": "tools_toolbox", "prob": 1 },
       [ "survivor_belt_notools", 2 ],
       [ "survivor_machete", 2 ],
