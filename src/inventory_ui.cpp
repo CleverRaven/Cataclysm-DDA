@@ -819,7 +819,6 @@ void inventory_column::prepare_paging( const std::string &filter )
         return preset.get_filter( filter );
     } );
 
-    // FIXME: toggled status of multiselect menu resets when filtering the menu
     // First, remove all non-items
     const auto new_end = std::remove_if( entries.begin(),
     entries.end(), [&filter_fn]( const inventory_entry & entry ) {
@@ -830,6 +829,7 @@ void inventory_column::prepare_paging( const std::string &filter )
     if( entries_unfiltered.empty() ) {
         auto from = entries.begin();
         while( from != entries.end() ) {
+            from->update_cache();
             auto to = std::next( from );
             while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
                 to->update_cache();
