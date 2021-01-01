@@ -229,6 +229,8 @@ class inventory : public visitable
 
         int count_item( const itype_id &item_type ) const;
 
+        book_proficiency_bonuses get_book_proficiency_bonuses() const;
+
         // inherited from `visitable`
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const

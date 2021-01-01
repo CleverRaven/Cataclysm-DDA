@@ -35,6 +35,7 @@
 #include "value_ptr.h"
 #include "visitable.h"
 
+class book_proficiency_bonuses;
 class Character;
 class JsonIn;
 class JsonObject;
@@ -1715,6 +1716,10 @@ class item : public visitable
          * Book specific functions, apply to items that are books.
          */
         /*@{*/
+        /**
+         * translates the vector of proficiency bonuses into the container. returns an empty object if it's not a book
+         */
+        book_proficiency_bonuses get_book_proficiency_bonuses() const;
         /**
          * How many chapters the book has (if any). Will be 0 if the item is not a book, or if it
          * has no chapters at all.
