@@ -908,7 +908,7 @@
     "id": "t_wall_dirt",
     "name": "smooth dirt wall",
     "looks_like": "t_wall_rammed_earth",
-    "description": "A solid wall of compressed dirt, mixed with…something to keep it stable.  Its surface glistens slightly, and it smells like rotten milk.",
+    "description": "A solid wall of compressed dirt, mixed with… something to keep it stable.  Its surface glistens slightly, and it smells like rotten milk.",
     "symbol": "LINE_OXOX",
     "color": "brown",
     "move_cost": 0,
