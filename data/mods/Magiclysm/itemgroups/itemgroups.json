@@ -345,7 +345,6 @@
     "//": "all the tool tokens",
     "subtype": "collection",
     "items": [
-      { "item": "mtoken_toolbox", "prob": 5 },
       { "item": "mtoken_hammer", "prob": 20 },
       { "item": "mtoken_screwdriver_set", "prob": 30 },
       { "item": "mtoken_crowbar", "prob": 20 }

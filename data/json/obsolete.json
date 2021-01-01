@@ -691,7 +691,6 @@
     "categories": [ "warfare" ],
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 6,
     "breaks_into": [ { "item": "ftk93", "prob": 50 } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ], "time": 10000 },
@@ -910,7 +909,6 @@
     "broken_color": "light_gray",
     "durability": 120,
     "item": "bone_plate",
-    "difficulty": 2,
     "location": "armor",
     "flags": [ "ARMOR" ],
     "breaks_into": [ { "item": "bone_tainted", "count": [ 10, 30 ] } ],

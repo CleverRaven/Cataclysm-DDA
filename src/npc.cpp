@@ -1898,7 +1898,7 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
     can_fix.clear_all();
     healing_options *fix_p = &can_fix;
 
-    visit_items( [&fix_p, try_to_fix]( item * node ) {
+    visit_items( [&fix_p, try_to_fix]( item * node, item * ) {
         const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
@@ -1937,7 +1937,7 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
 item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
 {
     item *best = &null_item_reference();
-    visit_items( [&best, try_to_fix, first_best]( item * node ) {
+    visit_items( [&best, try_to_fix, first_best]( item * node, item * ) {
         const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
@@ -3348,6 +3348,17 @@ std::string npc::describe_mission() const
             return string_format( "ERROR: Someone forgot to code an npc_mission text for "
                                   "mission: %d.", static_cast<int>( mission ) );
     } // switch (mission)
+}
+
+std::string npc::name_and_activity() const
+{
+    if( current_activity_id ) {
+        const std::string activity_name = current_activity_id.obj().verb().translated();
+        //~ %1$s - npc name, %2$s - npc current activity name.
+        return string_format( _( "%1$s (%2$s)" ), name, activity_name );
+    } else {
+        return name;
+    }
 }
 
 std::unique_ptr<talker> get_talker_for( npc &guy )

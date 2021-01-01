@@ -129,6 +129,7 @@ static const itype_id itype_cig_butt( "cig_butt" );
 static const itype_id itype_cig_lit( "cig_lit" );
 static const itype_id itype_cigar_butt( "cigar_butt" );
 static const itype_id itype_cigar_lit( "cigar_lit" );
+static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_hand_crossbow( "hand_crossbow" );
 static const itype_id itype_joint_roach( "joint_roach" );
 static const itype_id itype_plut_cell( "plut_cell" );
@@ -385,6 +386,39 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
             }
         }
         for( const flag_id &f : component.type->get_flags() ) {
+            if( f->craft_inherit() ) {
+                set_flag( f );
+            }
+        }
+    }
+}
+
+item::item( const recipe *rec, item &component )
+    : item( "disassembly", calendar::turn )
+{
+    craft_data_ = cata::make_value<craft_data>();
+    craft_data_->making = rec;
+    std::list<item>items( { component } );
+    components = items;
+
+    if( is_food() ) {
+        active = true;
+        last_temp_check = bday;
+        if( goes_bad() ) {
+            const item *most_rotten = get_most_rotten_component( *this );
+            if( most_rotten ) {
+                set_relative_rot( most_rotten->get_relative_rot() );
+            }
+        }
+    }
+
+    for( item &comp : components ) {
+        for( const flag_id &f : comp.get_flags() ) {
+            if( f->craft_inherit() ) {
+                set_flag( f );
+            }
+        }
+        for( const flag_id &f : comp.type->get_flags() ) {
             if( f->craft_inherit() ) {
                 set_flag( f );
             }
@@ -1340,6 +1374,15 @@ bool item::is_old_owner( const Character &c, bool available_to_take ) const
     return c.get_faction()->id == get_old_owner();
 }
 
+std::string item::get_old_owner_name() const
+{
+    if( !g->faction_manager_ptr->get( get_old_owner() ) ) {
+        debugmsg( "item::get_owner_name() item %s has no valid nor null faction id", tname() );
+        return "no owner";
+    }
+    return g->faction_manager_ptr->get( get_old_owner() )->name;
+}
+
 std::string item::get_owner_name() const
 {
     if( !g->faction_manager_ptr->get( get_owner() ) ) {
@@ -1595,8 +1638,10 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                              "You can cast spells with it in your hand." ) ) );
             }
             if( is_craft() ) {
-                const std::string desc = _( "This is an in progress %s.  "
-                                            "It is %d percent complete." );
+                const std::string desc = ( typeId() == itype_disassembly ) ?
+                                         _( "This is an in progress disassembly of %s.  "
+                                            "It is %d percent complete." ) : _( "This is an in progress %s.  "
+                                                    "It is %d percent complete." );
                 const int percent_progress = item_counter / 100000;
                 info.push_back( iteminfo( "DESCRIPTION", string_format( desc,
                                           craft_data_->making->result_name(),
@@ -1651,6 +1696,10 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 {
     if( debug && parts->test( iteminfo_parts::BASE_DEBUG ) ) {
         if( g != nullptr ) {
+            if( !old_owner.is_null() ) {
+                info.push_back( iteminfo( "BASE", string_format( _( "Old owner: %s" ),
+                                          _( get_old_owner_name() ) ) ) );
+            }
             info.push_back( iteminfo( "BASE", _( "age (hours): " ), "", iteminfo::lower_is_better,
                                       to_hours<int>( age() ) ) );
             info.push_back( iteminfo( "BASE", _( "charges: " ), "", iteminfo::lower_is_better,
@@ -3292,7 +3341,8 @@ void item::disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *
         return;
     }
 
-    const recipe &dis = recipe_dictionary::get_uncraft( typeId() );
+    const recipe &dis = ( typeId() == itype_disassembly ) ? get_making() :
+                        recipe_dictionary::get_uncraft( typeId() );
     const requirement_data &req = dis.disassembly_requirements();
     if( !req.is_empty() ) {
         const std::string approx_time = to_string_approx( dis.time_to_craft( get_player_character(),
@@ -4604,7 +4654,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             maintext += string_format( "+%d", amt );
         }
     } else if( is_craft() ) {
-        maintext = string_format( _( "in progress %s" ), craft_data_->making->result_name() );
+        if( typeId() == itype_disassembly ) {
+            maintext = string_format( _( "in progress disassembly of %s" ),
+                                      craft_data_->making->result_name() );
+        } else {
+            maintext = string_format( _( "in progress %s" ), craft_data_->making->result_name() );
+        }
         if( charges > 1 ) {
             maintext += string_format( " (%d)", charges );
         }
@@ -4932,7 +4987,7 @@ int item::price( bool practical ) const
 {
     int res = 0;
 
-    visit_items( [&res, practical]( const item * e ) {
+    visit_items( [&res, practical]( const item * e, item * ) {
         if( e->rotten() ) {
             // TODO: Special case things that stay useful when rotten
             return VisitResponse::NEXT;
@@ -6818,7 +6873,11 @@ bool item::is_map() const
 
 bool item::seal()
 {
-    return contents.seal_all_pockets();
+    if( is_container_full() ) {
+        return contents.seal_all_pockets();
+    } else {
+        return false;
+    }
 }
 
 bool item::is_container() const
@@ -7010,7 +7069,7 @@ bool item::is_salvageable() const
 
 bool item::is_disassemblable() const
 {
-    return !ethereal && recipe_dictionary::get_uncraft( typeId() );
+    return !ethereal && ( recipe_dictionary::get_uncraft( typeId() ) || typeId() == itype_disassembly );
 }
 
 bool item::is_craft() const
@@ -8030,7 +8089,7 @@ const use_function *item::get_use( const std::string &use_name ) const
 {
     const use_function *fun = nullptr;
     visit_items(
-    [&fun, &use_name]( const item * it ) {
+    [&fun, &use_name]( const item * it, auto ) {
         if( it == nullptr ) {
             return VisitResponse::SKIP;
         }
@@ -8056,7 +8115,7 @@ item *item::get_usable_item( const std::string &use_name )
 {
     item *ret = nullptr;
     visit_items(
-    [&ret, &use_name]( item * it ) {
+    [&ret, &use_name]( item * it, auto ) {
         if( it == nullptr ) {
             return VisitResponse::SKIP;
         }
@@ -8605,7 +8664,7 @@ bool item::allow_crafting_component() const
     // fixes #18886 - turret installation may require items with irremovable mods
     if( is_gun() ) {
         bool valid = true;
-        visit_items( [&]( const item * it ) {
+        visit_items( [&]( const item * it, item * ) {
             if( this == it ) {
                 return VisitResponse::NEXT;
             }
@@ -9139,7 +9198,7 @@ uint64_t item::make_component_hash() const
 bool item::needs_processing() const
 {
     bool need_process = false;
-    visit_items( [&need_process]( const item * it ) {
+    visit_items( [&need_process]( const item * it, item * ) {
         if( it->active || it->ethereal || it->has_flag( flag_RADIO_ACTIVATION ) ||
             it->is_food() || it->has_relic_recharge() ) {
             need_process = true;

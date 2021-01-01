@@ -3101,7 +3101,10 @@ void veh_interact::complete_vehicle( player &p )
                 contained.charges -= pt.base.fill_with( contained, contained.charges );
                 src->on_contents_changed();
 
-                if( pt.remaining_ammo_capacity() ) {
+                // if code goes here, we can assume "pt" has already refilled with "contained" something.
+                int remaining_ammo_capacity = pt.ammo_capacity( contained.ammo_type() ) - pt.ammo_remaining();
+
+                if( remaining_ammo_capacity ) {
                     //~ 1$s vehicle name, 2$s tank name
                     p.add_msg_if_player( m_good, _( "You refill the %1$s's %2$s." ),
                                          veh->name, pt.name() );

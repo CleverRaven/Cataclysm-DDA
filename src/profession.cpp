@@ -422,7 +422,7 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
     for( item &it : result ) {
-        it.visit_items( []( item * it ) {
+        it.visit_items( []( item * it, item * ) {
             clear_faults( *it );
             return VisitResponse::NEXT;
         } );
