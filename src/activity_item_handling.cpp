@@ -2881,10 +2881,13 @@ int get_auto_consume_moves( player &p, const bool food )
         const optional_vpart_position vp = here.veh_at( here.getlocal( loc ) );
         std::vector<item *> items_here;
         if( vp ) {
-            vehicle_stack vehitems = vp->vehicle().get_items( vp->vehicle().part_with_feature( vp->part_index(),
-                                     "CARGO", false ) );
-            for( item &it : vehitems ) {
-                items_here.push_back( &it );
+            vehicle &veh = vp->vehicle();
+            int index = veh.part_with_feature( vp->part_index(), "CARGO", false );
+            if( index >= 0 ) {
+                vehicle_stack vehitems = veh.get_items( index );
+                for( item &it : vehitems ) {
+                    items_here.push_back( &it );
+                }
             }
         } else {
             map_stack mapitems = here.i_at( here.getlocal( loc ) );
