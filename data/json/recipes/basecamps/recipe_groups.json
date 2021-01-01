@@ -123,10 +123,10 @@
     "id": "saltworks_recipes_3",
     "building_type": "COOK",
     "recipes": [
-      { "id": "tinder", "description": " Distill: Brandy" },
-      { "id": "meat_cooked", "description": " Distill: Gin" },
-      { "id": "fish_cooked", "description": " Distill: Vodka" },
-      { "id": "veggy_cooked", "description": " Distill: Rum" }
+      { "id": "brandy", "description": " Distill: Brandy" },
+      { "id": "gin", "description": " Distill: Gin" },
+      { "id": "vodka", "description": " Distill: Vodka" },
+      { "id": "rum", "description": " Distill: Rum" }
     ]
   },
   {
