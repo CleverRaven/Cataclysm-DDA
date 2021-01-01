@@ -774,6 +774,7 @@ void inventory_column::add_entry( const inventory_entry &entry )
             item_location found_entry_item = entry.locations.front();
             return found_entry_item.where() == item_location::type::container &&
                    entry_item->display_stacked_with( *found_entry_item ) &&
+                   found_entry_item.has_parent() &&
                    entry_item.parent_item() == found_entry_item.parent_item();
         } );
         if( entry_with_loc != entries.end() ) {
@@ -2078,8 +2079,8 @@ void inventory_selector::toggle_categorize_contained()
         own_inv_column.set_indent_entries_override( false );
     } else {
         for( inventory_entry *entry : own_inv_column.get_entries( return_item ) ) {
-            // all item entries in own_inv_column are always contained items
-            item_location parent = entry->any_item().parent_item();
+            item_location parent = entry->any_item().has_parent()
+                                   ? entry->any_item().parent_item() : item_location::nowhere;
             while( parent.where() == item_location::type::container ) {
                 parent = parent.parent_item();
             }
