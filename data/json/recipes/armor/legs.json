@@ -32,7 +32,7 @@
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_articulation" }
     ],
-    "using": [ [ "armor_chitin", 4 ], [ "tailoring_leather_small", 3 ] ]
+    "using": [ [ "armor_chitin", 6 ], [ "tailoring_leather_small", 4 ] ]
   },
   {
     "result": "legguard_acidchitin",
@@ -47,7 +47,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_arthropod", 5 ] ],
     "byproducts": [ [ "scrap_leather", 92 ] ],
-    "using": [ [ "armor_acidchitin", 4 ], [ "tailoring_leather_small", 3 ] ],
+    "using": [ [ "armor_acidchitin", 6 ], [ "tailoring_leather_small", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
