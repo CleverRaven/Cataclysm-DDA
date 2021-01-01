@@ -908,7 +908,10 @@ void inventory_column::clear()
 bool inventory_column::select( const item_location &loc )
 {
     for( size_t index = 0; index < entries.size(); ++index ) {
-        if( entries[index].is_selectable() && entries[index].any_item() == loc ) {
+        if( entries[index].is_selectable()
+            && std::find( entries[index].locations.begin(),
+                          entries[index].locations.end(),
+                          loc ) != entries[index].locations.end() ) {
             select( index, scroll_direction::FORWARD );
             return true;
         }
