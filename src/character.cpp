@@ -2759,13 +2759,22 @@ units::volume Character::max_single_item_volume() const
 
 std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, const item *avoid )
 {
+    const std::list<const item *> avoid_list = { avoid };
+    return Character::best_pocket( it, avoid_list );
+}
+
+std::pair<item_location, item_pocket *> Character::best_pocket( const item &it,
+        const std::list< const item *> avoid_list )
+{
     item_location weapon_loc( *this, &weapon );
     std::pair<item_location, item_pocket *> ret = std::make_pair( item_location(), nullptr );
-    if( &weapon != &it && &weapon != avoid ) {
+    bool avoid = ( std::find( avoid_list.begin(), avoid_list.end(), &weapon ) != avoid_list.end() );
+    if( &weapon != &it && !avoid ) {
         ret = weapon.best_pocket( it, weapon_loc );
     }
     for( item &worn_it : worn ) {
-        if( &worn_it == &it || &worn_it == avoid ) {
+        avoid = ( std::find( avoid_list.begin(), avoid_list.end(), &worn_it ) != avoid_list.end() );
+        if( &worn_it == &it || avoid ) {
             continue;
         }
         item_location loc( *this, &worn_it );
@@ -2779,6 +2788,13 @@ std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, 
 }
 
 item *Character::try_add( item it, const item *avoid, const bool allow_wield )
+{
+    const std::list<const item *> avoid_list = { avoid };
+    return Character::try_add( it, avoid_list, allow_wield );
+}
+
+item *Character::try_add( item it, const std::list< const item *> avoid,
+                          const bool allow_wield )
 {
     invalidate_inventory_validity_cache();
     itype_id item_type_id = it.typeId();
@@ -2817,7 +2833,16 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
     return ret;
 }
 
-item &Character::i_add( item it, bool /* should_stack */, const item *avoid, const bool allow_drop,
+item &Character::i_add( item it, const bool /* should_stack */, const item *avoid,
+                        const bool allow_drop,
+                        const bool allow_wield )
+{
+    const std::list<const item *> avoid_list = { avoid };
+    return Character::i_add( it, true, avoid_list, allow_drop, allow_wield );
+}
+
+item &Character::i_add( item it, const bool /* should_stack */, const std::list<const item *>avoid,
+                        const bool allow_drop,
                         const bool allow_wield )
 {
     invalidate_inventory_validity_cache();

@@ -1092,10 +1092,18 @@ class Character : public Creature, public visitable
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
         /**
-          * What is the best pocket to put @it into?
-          * the pockets in @avoid do not count
+          * What is the best pocket to put it into?
+          * @param avoid Container to avoid placing it into.
           */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, const item *avoid );
+
+        /**
+          * What is the best pocket to put it into?
+          * @param avoid List of containers to avoid placing it into.
+          */
+        std::pair<item_location, item_pocket *> best_pocket( const item &it,
+                std::list <const item *>avoid );
+
     protected:
 
         void do_skill_rust();
@@ -1507,12 +1515,26 @@ class Character : public Creature, public visitable
 
         /**
          * Adds the item to the character's worn items or wields it, or prompts if the Character cannot pick it up.
-         * @avoid is the item to not put @it into
+         * @param avoid The container to not put it into.
          */
         item &i_add( item it, bool should_stack = true, const item *avoid = nullptr, bool allow_drop = true,
                      bool allow_wield = true );
-        /** tries to add to the character's inventory without a popup. returns nullptr if it fails. */
+        /**
+         * Adds the item to the character's worn items or wields it, or prompts if the Character cannot pick it up.
+         * @param avoid The list of containers to not put the item into.
+         */
+        item &i_add( item it, bool should_stack, std::list<const item *> avoid, bool allow_drop = true,
+                     bool allow_wield = true );
+
+        /** Tries to add to the character's inventory without a popup. Returns nullptr if it fails.
+        *   @param avoid The container to avoid placing this item into.
+        */
         item *try_add( item it, const item *avoid = nullptr, bool allow_wield = true );
+
+        /** Tries to add to the character's inventory without a popup. Returns nullptr if it fails.
+        *   @param avoid The list of containers to avoid placing this item into.
+        */
+        item *try_add( item it, std::list<const item *> avoid, bool allow_wield = true );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are

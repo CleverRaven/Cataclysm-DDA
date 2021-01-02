@@ -44,8 +44,14 @@ static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
 
 void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
                                   player &receiver, std::list<item_location *> &from_map,
-                                  bool npc_gives )
+                                  bool npc_gives, const std::vector<item_pricing> &avoid )
 {
+    std::list<const item *>avoid_list;
+    for( auto i : avoid ) {
+        if( i.selected && i.is_container ) {
+            avoid_list.push_back( i.loc.get_item() );
+        }
+    }
     for( item_pricing &ip : stuff ) {
         if( !ip.selected ) {
             continue;
@@ -63,10 +69,10 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
 
         if( ip.charges ) {
             gift.charges = charges;
-            receiver.i_add( gift );
+            receiver.i_add( gift, true, avoid_list, true, false );
         } else {
             for( int i = 0; i < count; i++ ) {
-                receiver.i_add( gift );
+                receiver.i_add( gift, true, avoid_list, true, false );
             }
         }
 
@@ -697,7 +703,8 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         std::list<item_location *> from_map;
 
         avatar &player_character = get_avatar();
-        npc_trading::transfer_items( trade_win.yours, player_character, np, from_map, false );
+        npc_trading::transfer_items( trade_win.yours, player_character, np, from_map, false,
+                                     trade_win.theirs );
         npc_trading::transfer_items( trade_win.theirs, np, player_character, from_map, true );
 
         for( item_location *loc_ptr : from_map ) {
