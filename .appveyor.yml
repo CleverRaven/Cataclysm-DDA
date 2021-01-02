@@ -12,7 +12,7 @@ build:
   parallel: true
   verbosity: minimal
 test_script:
-  - cmd: Cataclysm-test-vcpkg-static-Release-Win32.exe --rng-seed time --min-duration 0.2
+  - cmd: Cataclysm-test-vcpkg-static-Release-Win32.exe --rng-seed time --min-duration 0.2 --order rand
 skip_commits:
   files:
     - 'doc/**'
