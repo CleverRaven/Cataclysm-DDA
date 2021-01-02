@@ -51,7 +51,8 @@ class advuilist_sourced : public advuilist<Container, T>
         ///@param slot
         ///@param icon
         ///@param fallthrough used internally by rebuild() to ensure that the internal list is valid
-        bool setSource( slotidx_t slot, icon_t icon = 0, bool fallthrough = false );
+        ///@param reb if true, also runs advuilist::rebuild(). used internally by loadstate()
+        bool setSource( slotidx_t slot, icon_t icon = 0, bool fallthrough = false, bool reb = true );
         getsource_t getSource();
         /// returns true if last call to setSource was successful. meant to be called from the
         /// external ctxt handler added by setctxthandler()
@@ -147,7 +148,8 @@ void advuilist_sourced<Container, T>::addSource( slotidx_t slot, source_t const 
 }
 
 template <class Container, typename T>
-bool advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon, bool fallthrough )
+bool advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon, bool fallthrough,
+                                                 bool reb )
 {
     slot_t &_slot = _sources[slot];
     slotcont_t &slotcont = std::get<slotcont_t>( _slot );
@@ -156,8 +158,10 @@ bool advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon, bo
     source_t const &src = slotcont[_icon];
     if( std::get<fsourceb_t>( src )() ) {
         _slot.first = _icon;
-        _container = std::get<fsource_t>( src )();
-        advuilist<Container, T>::rebuild();
+        if( reb ) {
+            _container = std::get<fsource_t>( src )();
+            advuilist<Container, T>::rebuild();
+        }
         _cslot = slot;
         if( _mapui ) {
             _mapui->invalidate_ui();
@@ -168,7 +172,7 @@ bool advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon, bo
     // if requested icon is not valid, set the first available one
     icon_t next = _cycleslot( slot, slotcont.begin()->first );
     if( next != 0 ) {
-        setSource( slot, next, fallthrough );
+        setSource( slot, next, fallthrough, reb );
         return true;
     }
 
@@ -212,7 +216,7 @@ template <class Container, typename T>
 void advuilist_sourced<Container, T>::rebuild()
 {
     needsinit = false;
-    setSource( _cslot, 0, true );
+    setSource( _cslot, 0, true, true );
 }
 
 template <class Container, typename T>
@@ -288,9 +292,13 @@ template <class Container, typename T>
 void advuilist_sourced<Container, T>::loadstate( advuilist_save_state *state, bool reb )
 {
     _cslot = static_cast<std::size_t>( state->slot );
-    setSource( _cslot, state->icon, true );
+    setSource( _cslot, state->icon, true, false );
 
-    advuilist<Container, T>::loadstate( state, reb );
+    advuilist<Container, T>::loadstate( state, false );
+
+    if( reb ) {
+        rebuild();
+    }
 }
 
 template <class Container, typename T>
