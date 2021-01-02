@@ -841,7 +841,7 @@ std::string recipe::required_all_skills_string() const
 std::string recipe::batch_savings_string() const
 {
     return ( batch_rsize != 0 ) ?
-           string_format( _( "%s%% at >%s units" ), static_cast<int64_t>( batch_rscale * 100 ), batch_rsize )
+           string_format( _( "%d%% at >%d units" ), static_cast<int>( batch_rscale * 100 ), batch_rsize )
            : _( "none" );
 }
 
