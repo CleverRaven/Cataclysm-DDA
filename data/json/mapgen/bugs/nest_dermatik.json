@@ -47,7 +47,7 @@
       "place_monster": [
         { "monster": "mon_dermatik_larva", "x": [ 3, 22 ], "y": [ 8, 22 ], "repeat": [ 2, 4 ] },
         { "monster": "mon_dermatik_midwife", "x": [ 10, 12 ], "y": [ 14, 17 ], "repeat": [ 0, 2 ] },
-        { "monster": "mon_dermatik", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 6 ] }
+        { "monster": "mon_dermatik", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 4 ] }
       ]
     }
   },
