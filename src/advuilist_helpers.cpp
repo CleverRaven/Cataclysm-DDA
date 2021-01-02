@@ -46,6 +46,7 @@
 #include "units_utility.h"               // for convert_weight, volume_units...
 #include "vehicle.h"                     // for vehicle, vehicle_stack
 #include "vehicle_selector.h"            // for vehicle_cursor
+#include "veh_type.h"                    // for vpart_info
 #include "vpart_position.h"              // for vpart_reference, optional_vp...
 
 namespace catacurses
@@ -126,6 +127,34 @@ std::size_t offset_to_slotidx( tripoint const &off )
 constexpr bool is_vehicle( aim_advuilist_sourced_t::icon_t icon )
 {
     return icon == SOURCE_DRAGGED_i or icon == SOURCE_VEHICLE_i;
+}
+
+cata::optional<vpart_reference> veh_cargo_at( tripoint const &loc )
+{
+    return get_map().veh_at( loc ).part_with_feature( "CARGO", false );
+}
+
+std::string aim_sourcelabel( _sourcearray::size_type idx, bool veh = false )
+{
+    _sourcetuple const &src = aimsources[idx];
+    std::string const &srcname = std::get<_tuple_label_idx>( src );
+
+    tripoint const pos = get_avatar().pos() + slotidx_to_offset( idx );
+    std::string prefix;
+    std::string label;
+
+    if( veh or idx == DRAGGED_IDX ) {
+        cata::optional<vpart_reference> vp = veh_cargo_at( pos );
+        prefix = vp->vehicle().name;
+        label = vp->get_label().value_or( vp->info().name() );
+    } else {
+        prefix = srcname;
+        if( std::get<bool>( src ) ) {
+            label = get_map().name( pos );
+        }
+    }
+
+    return string_format( "%s\n%s", colorize( prefix, c_green ), colorize( label, c_light_blue ) );
 }
 // end hacky stuff
 
@@ -356,11 +385,6 @@ int query_destination()
     }
     menu.query();
     return menu.ret;
-}
-
-cata::optional<vpart_reference> veh_cargo_at( tripoint const &loc )
-{
-    return get_map().veh_at( loc ).part_with_feature( "CARGO", false );
 }
 
 void aim_inv_idv_stats( aim_advuilist_sourced_t *ui )
@@ -800,6 +824,7 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t *mutex 
     using source_t = aim_advuilist_sourced_t::source_t;
     using fsource_t = aim_advuilist_sourced_t::fsource_t;
     using fsourceb_t = aim_advuilist_sourced_t::fsourceb_t;
+    using flabel_t = aim_advuilist_sourced_t::flabel_t;
     using icon_t = aim_advuilist_sourced_t::icon_t;
 
     fsource_t source_dummy = []() {
@@ -875,10 +900,15 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t *mutex 
                     break;
                 }
             }
-            myadvuilist->addSource( idx, source_t{ _( str ), icon, _fs, _fsb } );
+            flabel_t const label = [ = ]() {
+                return aim_sourcelabel( idx );
+            };
+            myadvuilist->addSource( idx, source_t{ label, icon, _fs, _fsb } );
             if( _fsv ) {
-                myadvuilist->addSource( idx,
-                                        source_t{ _( SOURCE_VEHICLE ), SOURCE_VEHICLE_i, _fsv, _fsvb } );
+                flabel_t const vlabel = [ = ]() {
+                    return aim_sourcelabel( idx, true );
+                };
+                myadvuilist->addSource( idx, source_t{ vlabel, SOURCE_VEHICLE_i, _fsv, _fsvb } );
             }
         }
         idx++;

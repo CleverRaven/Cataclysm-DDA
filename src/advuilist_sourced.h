@@ -34,8 +34,9 @@ class advuilist_sourced : public advuilist<Container, T>
         using icon_t = char;
         using slotidx_t = std::size_t;
         using getsource_t = std::pair<slotidx_t, icon_t>;
+        using flabel_t = std::function<std::string()>;
         // label, icon, source function, availability function. icon must be unique and not zero
-        using source_t = std::tuple<std::string, icon_t, fsource_t, fsourceb_t>;
+        using source_t = std::tuple<flabel_t, icon_t, fsource_t, fsourceb_t>;
         using fctxt_t = typename advuilist<Container, T>::fctxt_t;
         using select_t = typename advuilist<Container, T>::select_t;
 
@@ -333,8 +334,12 @@ void advuilist_sourced<Container, T>::_printmap()
     // print the name of the current source. we're doing it here instead of down in the loop
     // so that it doesn't cover the source map if it's too long
     icon_t const ci = std::get<icon_t>( _sources[_cslot] );
-    mvwprintz( _w, { _firstcol, _headersize }, c_light_gray,
-               std::get<std::string>( std::get<slotcont_t>( _sources[_cslot] )[ci] ) );
+    nc_color bc = c_light_gray;
+    std::string const &label = std::get<flabel_t>( std::get<slotcont_t>( _sources[_cslot] )[ci] )();
+    int labely = _headersize;
+    for( std::string const &str : foldstring( label, _size.x ) ) {
+        print_colored_text( _w, { _firstcol, labely++ }, bc, bc, str );
+    }
 
     for( typename srccont_t::value_type &it : _sources ) {
         slotidx_t const slotidx = it.first;
