@@ -793,7 +793,7 @@ void aim_rebuild( aim_transaction_ui_t *ui, pane_mutex_t *mutex )
     ui->left()->rebuild();
     set_mutex( mutex, lidx, licon, true );
     // make sure our panes don't use the same source even if they end up using the same slot
-    set_mutex( mutex, ridx, ricon, lidx == ridx );
+    set_mutex( mutex, ridx, ricon, lidx == ridx and licon == ricon );
     ui->right()->rebuild();
     set_mutex( mutex, ridx, ricon, true );
 }
