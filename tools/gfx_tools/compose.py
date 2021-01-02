@@ -3,8 +3,16 @@
 # compose.py
 
 '''
-Merge all individual tile entries and PNGs in a compositing tileset directory
-into tilesheets and compile configuration JSON for them.
+Merge all tile entries and PNGs in a compositing tileset directory into
+a tile_config.json and tilesheet .png file(s) ready for use in CDDA.
+
+Examples:
+
+    %(prog)s ../CDDA-Tilesets/gfx/Retrodays/
+    %(prog)s --use-all ../CDDA-Tilesets/gfx/UltimateCataclysm/
+
+By default, output is written back to the source directory. Pass an output
+directory as the last argument to place output files there instead.
 '''
 
 import argparse
@@ -442,7 +450,9 @@ class TileEntry:
 
 if __name__ == '__main__':
     # read arguments and initialize objects
-    arg_parser = argparse.ArgumentParser(description=__doc__)
+    arg_parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
     arg_parser.add_argument(
         'source_dir',
         help='Tileset source files directory path')
