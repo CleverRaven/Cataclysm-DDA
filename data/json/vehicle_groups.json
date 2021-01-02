@@ -160,6 +160,7 @@
   {
     "type": "vehicle_group",
     "id": "suburban_home",
+    "//": "Do not add vehicles over 8 tiles long or 4 wide. This is for indoor garages/spaces",
     "vehicles": [
       [ "car", 1000 ],
       [ "car_anmlcmpt", 150 ],
@@ -190,7 +191,8 @@
       [ "4x4_car", 200 ],
       [ "wheelbarrow", 100 ]
     ]
-  },  {
+  },
+  {
     "type": "vehicle_group",
     "id": "suburban_home_compact",
     "//": "Do not add vehicles over 5 tiles long or 4 wide. This is for compact car garages/spaces",
