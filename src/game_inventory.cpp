@@ -588,7 +588,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             Character &player_character = get_player_character();
             append_cell( [&player_character]( const item_location & loc ) {
                 time_duration time = player_character.get_consume_time( *loc );
-                return string_format( _( "%s" ), to_string( time ) );
+                return string_format( "%s", to_string( time, true ) );
             }, _( "CONSUME TIME" ) );
 
             append_cell( [this, &player_character]( const item_location & loc ) {

@@ -3390,12 +3390,13 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
 
-    p->assign_activity( ACT_JACKHAMMER, moves, -1, p->get_item_position( it ) );
+    p->assign_activity( ACT_JACKHAMMER, moves );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.placement = here.getabs( pnt );
     p->add_msg_if_player( _( "You start drilling into the %1$s with your %2$s." ),
                           here.tername( pnt ), it->tname() );
 
-    return it->type->charges_to_use();
+    return 0; // handled when the activity finishes
 }
 
 int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
