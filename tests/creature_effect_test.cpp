@@ -434,7 +434,7 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
         REQUIRE( feye.type->in_species( species_NETHER ) );
 
         THEN( "they can bleed" ) {
-            CHECK( feye.is_immune_effect( effect_bleed ) );
+            CHECK_FALSE( feye.is_immune_effect( effect_bleed ) );
         }
 
         THEN( "they can't be poisoned" ) {
