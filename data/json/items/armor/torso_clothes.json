@@ -520,6 +520,27 @@
     "flags": [ "VARSIZE" ]
   },
   {
+    "id": "shirt_straw",
+    "type": "ARMOR",
+    "name": { "str": "grass shirt" },
+    "description": "A crude and bulky short-sleeved shirt woven from grass.  Definitely not the most comfortable thing to wear.",
+    "weight": "500 g",
+    "volume": "2500 ml",
+    "price": 100,
+    "price_postapoc": 5,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "camisole",
+    "color": "yellow",
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": 8 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 25, "encumbrance": 1 }
+    ],
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE" ]
+  },
+  {
     "id": "striped_shirt",
     "repairs_like": "tshirt",
     "type": "ARMOR",
@@ -720,6 +741,29 @@
         "text": "A short-sleeved cotton shirt with an AK-47 on the front.  It is held up by a clenched fist around its forestock, the fingers covered in crude looking tattoos."
       }
     ]
+  },
+  {
+    "id": "uttarasanga",
+    "repairs_like": "tshirt",
+    "type": "ARMOR",
+    "name": { "str": "uttarasanga" },
+    "description": "A traditional Buddhist shirt, covering most of the upper body, but not the arms.",
+    "weight": "250 g",
+    "volume": "750 ml",
+    "price": 6500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "longshirt",
+    "color": "brown",
+    "covers": [ "torso" ],
+    "coverage": 50,
+    "encumbrance": 4,
+    "max_encumbrance": 5,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "FANCY" ]
   },
   {
     "id": "vest_leather",

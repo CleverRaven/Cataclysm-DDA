@@ -24,6 +24,7 @@
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
+#include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
 #include "translations.h"
@@ -379,6 +380,7 @@ struct islot_book {
     };
     using recipe_list_t = std::set<recipe_with_description_t>;
     recipe_list_t recipes;
+    std::vector<book_proficiency_bonus> proficiencies;
 
     bool was_loaded = false;
 
@@ -994,6 +996,9 @@ struct itype {
 
         // used for generic_factory for copy-from
         bool was_loaded = false;
+
+        // itemgroup used to generate the recipes within nanofabricator templates.
+        item_group_id nanofab_template_group;
 
     private:
         /** Can item be combined with other identical items? */

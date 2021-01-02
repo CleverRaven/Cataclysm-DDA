@@ -686,12 +686,11 @@ void editmap::draw_main_ui_overlay()
         } else {
 #endif
             hilights["mapgentgt"].draw( *this, true );
-            tmpmap.clear_all_vehicle_caches( target.z );
             const tripoint center( SEEX - 1, SEEY - 1, target.z );
             for( const tripoint &p : tmpmap.points_on_zlevel() ) {
                 tmpmap.drawsq( g->w_terrain, player_character, p, false, true, center, false, true );
             }
-            tmpmap.build_all_vehicle_caches( target.z );
+            tmpmap.rebuild_vehicle_level_caches();
 #ifdef TILES
         }
 #endif
@@ -1913,7 +1912,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             here.set_floor_cache_dirty( target.z );
             here.set_pathfinding_cache_dirty( target.z );
 
-            here.clear_all_vehicle_caches( target.z );
+            here.clear_vehicle_level_caches();
             here.clear_vehicle_list( target.z );
 
             for( int x = 0; x < 2; x++ ) {
@@ -1957,7 +1956,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                 }
             }
 
-            here.build_all_vehicle_caches( target.z );
+            here.rebuild_vehicle_level_caches();
         } else if( gpmenu.ret == 3 ) {
             popup( _( "Changed oter_id from '%s' (%s) to '%s' (%s)" ),
                    orig_oters->get_name(), orig_oters.id().str(),
@@ -2038,9 +2037,8 @@ bool editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_
             for( auto &z : destsm->vehicles ) {
                 if( z.get() == car_target ) {
                     std::unique_ptr<vehicle> old_veh = target_bay.detach_vehicle( z.get() );
-                    here.clear_all_vehicle_caches( omt_tgt.z() );
                     here.clear_vehicle_list( omt_tgt.z() );
-                    here.build_all_vehicle_caches( omt_tgt.z() );
+                    here.rebuild_vehicle_level_caches();
                     //Rebuild vehicle_list?
                     return true;
                 }

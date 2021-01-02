@@ -465,6 +465,11 @@ int bodypart::get_temp_conv() const
     return temp_conv;
 }
 
+std::array<int, NUM_WATER_TOLERANCE> bodypart::get_mut_drench() const
+{
+    return mut_drench;
+}
+
 void bodypart::set_hp_cur( int set )
 {
     hp_cur = set;
@@ -493,6 +498,14 @@ void bodypart::set_damage_disinfected( int set )
 void bodypart::set_encumbrance_data( const encumbrance_data &set )
 {
     encumb_data = set;
+}
+
+void bodypart::set_mut_drench( std::pair<water_tolerance, int> set )
+{
+    if( set.first < WT_IGNORED || set.first > NUM_WATER_TOLERANCE ) {
+        debugmsg( "Tried to use invalid water tolerance enum in set_mut_drench()." );
+    }
+    mut_drench[set.first] = set.second;
 }
 
 void bodypart::set_wetness( int set )

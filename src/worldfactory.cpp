@@ -1597,6 +1597,10 @@ void load_external_option( const JsonObject &jo )
     } else {
         jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
     }
+    // Just visit this member if it exists
+    if( jo.has_member( "info" ) ) {
+        jo.get_string( "info" );
+    }
 }
 
 mod_manager &worldfactory::get_mod_manager()

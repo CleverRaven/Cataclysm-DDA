@@ -347,6 +347,8 @@ struct mutation_branch {
         std::map<bodypart_str_id, float> encumbrance_multiplier_always;
         // Body parts that now need OVERSIZE gear
         std::set<bodypart_str_id> restricts_gear;
+        // item flags that allow wearing gear even if its body part is restricted
+        std::set<flag_id> allowed_items;
         // Mutation stat mods
         /** Key pair is <active: bool, mod type: "STR"> */
         std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> mods;

@@ -422,7 +422,6 @@ std::string enum_to_string<blood_type>( blood_type data )
 
 // *INDENT-OFF*
 Character::Character() :
-    visitable<Character>(),
     cached_time( calendar::before_time_starts ),
     id( -1 ),
     next_climate_control_check( calendar::before_time_starts ),
@@ -1891,8 +1890,8 @@ void Character::recalc_hp()
     // Mutated toughness stacks with starting, by design.
     float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
     float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
-    calc_all_parts_hp( hp_mod, hp_adjustment, str_max, dex_max, per_max, int_max, get_healthy(),
-                       get_fat_to_hp() );
+    calc_all_parts_hp( hp_mod, hp_adjustment, get_str_base(), get_dex_base(), get_per_base(),
+                       get_int_base(), get_healthy(), get_fat_to_hp() );
 }
 
 int Character::get_part_hp_max( const bodypart_id &id ) const
@@ -2903,7 +2902,7 @@ item *Character::invlet_to_item( const int linvlet )
                                       name;
     }
     item *invlet_item = nullptr;
-    visit_items( [&invlet, &invlet_item]( item * it ) {
+    visit_items( [&invlet, &invlet_item]( item * it, item * ) {
         if( it->invlet == invlet ) {
             invlet_item = it;
             return VisitResponse::ABORT;
@@ -3373,7 +3372,7 @@ std::vector<item_location> Character::find_reloadables()
 {
     std::vector<item_location> reloadables;
 
-    visit_items( [this, &reloadables]( item * node ) {
+    visit_items( [this, &reloadables]( item * node, item * ) {
         if( !node->is_gun() && !node->is_magazine() ) {
             return VisitResponse::NEXT;
         }
@@ -6555,10 +6554,7 @@ void Character::update_bodytemp()
             // Morale bonus for comfiness - only if actually comfy (not too warm/cold)
             // Spread the morale bonus in time.
             if( comfortable_warmth > 0 &&
-                // TODO: make this simpler and use time_duration/time_point
-                to_turn<int>( calendar::turn ) % to_turns<int>( 1_minutes ) == to_turns<int>
-                ( 1_minutes * bp->token ) / to_turns<int>( 1_minutes * num_bp ) &&
-                get_effect_int( effect_cold ) == 0 &&
+                calendar::once_every( 1_minutes ) && get_effect_int( effect_cold ) == 0 &&
                 get_effect_int( effect_hot ) == 0 &&
                 get_part_temp_conv( bp ) > BODYTEMP_COLD && get_part_temp_conv( bp ) <= BODYTEMP_NORM ) {
                 add_morale( MORALE_COMFY, 1, 10, 2_minutes, 1_minutes, true );
@@ -6844,6 +6840,26 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                         comfort_response.aid = &items_it;
                         break; // prevents using more than 1 sleep aid
                     }
+                    if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
+                        bool found = false;
+                        if( items_it.contents.size() > 1 ) {
+                            // Only one item is allowed, so we don't fill our pillowcase with nails
+                            continue;
+                        }
+                        for( const item *it : items_it.contents.all_items_top() ) {
+                            if( it->has_flag( flag_SLEEP_AID ) ) {
+                                // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                                comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                                comfort_response.aid = &items_it;
+                                found = true;
+                                break; // prevents using more than 1 sleep aid
+                            }
+                        }
+                        // Only 1 sleep aid
+                        if( found ) {
+                            break;
+                        }
+                    }
                 }
             }
             if( board ) {
@@ -6880,6 +6896,26 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                     comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
                     comfort_response.aid = &items_it;
                     break; // prevents using more than 1 sleep aid
+                }
+                if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
+                    bool found = false;
+                    if( items_it.contents.size() > 1 ) {
+                        // Only one item is allowed, so we don't fill our pillowcase with nails
+                        continue;
+                    }
+                    for( const item *it : items_it.contents.all_items_top() ) {
+                        if( it->has_flag( flag_SLEEP_AID ) ) {
+                            // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                            comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                            comfort_response.aid = &items_it;
+                            found = true;
+                            break; // prevents using more than 1 sleep aid
+                        }
+                    }
+                    // Only 1 sleep aid
+                    if( found ) {
+                        break;
+                    }
                 }
             }
         }
@@ -8015,51 +8051,78 @@ float Character::get_bmi() const
 
 std::string Character::get_weight_string() const
 {
+    std::pair<std::string, nc_color> weight_pair = get_weight_description();
+    return colorize( weight_pair.first, weight_pair.second );
+}
+
+std::pair<std::string, nc_color> Character::get_weight_description() const
+{
     const float bmi = get_bmi();
+    std::string weight_string;
+    nc_color weight_color = c_light_gray;
     if( get_option<bool>( "CRAZY" ) ) {
         if( bmi > character_weight_category::morbidly_obese + 10.0f ) {
-            return colorize( _( "AW HELL NAH" ), c_red );
+            weight_string = translate_marker( "AW HELL NAH" );
+            weight_color = c_red;
         } else if( bmi > character_weight_category::morbidly_obese + 5.0f ) {
-            return colorize( _( "DAYUM" ), c_red );
+            weight_string = translate_marker( "DAYUM" );
+            weight_color = c_red;
         } else if( bmi > character_weight_category::morbidly_obese ) {
-            return colorize( _( "Fluffy" ), c_red );
+            weight_string = translate_marker( "Fluffy" );
+            weight_color = c_red;
         } else if( bmi > character_weight_category::very_obese ) {
-            return colorize( _( "Husky" ), c_red );
+            weight_string = translate_marker( "Husky" );
+            weight_color = c_red;
         } else if( bmi > character_weight_category::obese ) {
-            return colorize( _( "Healthy" ), c_light_red );
+            weight_string = translate_marker( "Healthy" );
+            weight_color = c_light_red;
         } else if( bmi > character_weight_category::overweight ) {
-            return colorize( _( "Big" ), c_yellow );
+            weight_string = translate_marker( "Big" );
+            weight_color = c_yellow;
         } else if( bmi > character_weight_category::normal ) {
-            return _( "Normal" );
+            weight_string = translate_marker( "Normal" );
+            weight_color = c_light_gray;
         } else if( bmi > character_weight_category::underweight ) {
-            return colorize( _( "Bean Pole" ), c_yellow );
+            weight_string = translate_marker( "Bean Pole" );
+            weight_color = c_yellow;
         } else if( bmi > character_weight_category::emaciated ) {
-            return colorize( _( "Emaciated" ), c_light_red );
+            weight_string = translate_marker( "Emaciated" );
+            weight_color = c_light_red;
         } else {
-            return colorize( _( "Spooky Scary Skeleton" ), c_red );
+            weight_string = translate_marker( "Spooky Scary Skeleton" );
+            weight_color = c_red;
         }
     } else {
         if( bmi > character_weight_category::morbidly_obese ) {
-            return colorize( _( "Morbidly Obese" ), c_red );
+            weight_string = translate_marker( "Morbidly Obese" );
+            weight_color = c_red;
         } else if( bmi > character_weight_category::very_obese ) {
-            return colorize( _( "Very Obese" ), c_red );
+            weight_string = translate_marker( "Very Obese" );
+            weight_color = c_red;
         } else if( bmi > character_weight_category::obese ) {
-            return colorize( _( "Obese" ), c_light_red );
+            weight_string = translate_marker( "Obese" );
+            weight_color = c_light_red;
         } else if( bmi > character_weight_category::overweight ) {
-            return colorize( _( "Overweight" ), c_yellow );
+            weight_string = translate_marker( "Overweight" );
+            weight_color = c_yellow;
         } else if( bmi > character_weight_category::normal ) {
-            return _( "Normal" );
+            weight_string = translate_marker( "Normal" );
+            weight_color = c_light_gray;
         } else if( bmi > character_weight_category::underweight ) {
-            return colorize( _( "Underweight" ), c_yellow );
+            weight_string = translate_marker( "Underweight" );
+            weight_color = c_yellow;
         } else if( bmi > character_weight_category::emaciated ) {
-            return colorize( _( "Emaciated" ), c_light_red );
+            weight_string = translate_marker( "Emaciated" );
+            weight_color = c_light_red;
         } else {
-            return colorize( _( "Skeletal" ), c_red );
+            weight_string = translate_marker( "Skeletal" );
+            weight_color = c_red;
         }
     }
+    return std::make_pair( _( weight_string ), weight_color );
 }
 
-std::string Character::get_weight_description() const
+std::string Character::get_weight_long_description() const
 {
     const float bmi = get_bmi();
     if( bmi > character_weight_category::morbidly_obese ) {
@@ -9044,7 +9107,7 @@ void Character::vomit()
                 stomach.contains() ) / 21, dummy_nausea.get_int_dur_factor() ) );
     }
 
-    moves -= 100;
+    mod_moves( -100 );
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             auto &it = _effect_it.second;
@@ -9186,10 +9249,9 @@ void Character::drench_mut_calc()
                 good += wp_iter->second.z;
             }
         }
-
-        mut_drench[bp->token][WT_GOOD] = good;
-        mut_drench[bp->token][WT_NEUTRAL] = neutral;
-        mut_drench[bp->token][WT_IGNORED] = ignored;
+        set_part_mut_drench( bp, { WT_GOOD, good } );
+        set_part_mut_drench( bp, { WT_NEUTRAL, neutral } );
+        set_part_mut_drench( bp, { WT_IGNORED, ignored } );
     }
 }
 
@@ -9215,7 +9277,7 @@ void Character::recalculate_enchantment_cache()
     // start by resetting the cache to all inventory items
     *enchantment_cache = inv->get_active_enchantment_cache( *this );
 
-    visit_items( [&]( const item * it ) {
+    visit_items( [&]( const item * it, item * ) {
         for( const enchantment &ench : it->get_enchantments() ) {
             if( ench.is_active( *this, *it ) ) {
                 enchantment_cache->force_add( ench );
@@ -10747,7 +10809,7 @@ void Character::fall_asleep( const time_duration &duration )
 
 void Character::migrate_items_to_storage( bool disintegrate )
 {
-    inv->visit_items( [&]( const item * it ) {
+    inv->visit_items( [&]( const item * it, item * ) {
         if( disintegrate ) {
             if( try_add( *it ) == nullptr ) {
                 debugmsg( "ERROR: Could not put %s into inventory.  Check if the profession has enough space.",
@@ -10920,27 +10982,37 @@ int Character::floor_bedding_warmth( const tripoint &pos )
 
 int Character::floor_item_warmth( const tripoint &pos )
 {
-    map &here = get_map();
-    if( !here.has_items( pos ) ) {
-        return 0;
-    }
-
     int item_warmth = 0;
-    // Search the floor for items
-    const map_stack floor_item = here.i_at( pos );
-    for( const item &elem : floor_item ) {
-        if( !elem.is_armor() ) {
-            continue;
-        }
-        // Items that are big enough and covers the torso are used to keep warm.
-        // Smaller items don't do as good a job
-        if( elem.volume() > 250_ml &&
-            ( elem.covers( body_part_torso ) || elem.covers( body_part_leg_l ) ||
-              elem.covers( body_part_leg_r ) ) ) {
-            item_warmth += 60 * elem.get_warmth() * elem.volume() / 2500_ml;
-        }
-    }
 
+    const auto warm = [&item_warmth]( const auto & stack ) {
+        for( const item &elem : stack ) {
+            if( !elem.is_armor() ) {
+                continue;
+            }
+            // Items that are big enough and covers the torso are used to keep warm.
+            // Smaller items don't do as good a job
+            if( elem.volume() > 250_ml &&
+                ( elem.covers( body_part_torso ) || elem.covers( body_part_leg_l ) ||
+                  elem.covers( body_part_leg_r ) ) ) {
+                item_warmth += 60 * elem.get_warmth() * elem.volume() / 2500_ml;
+            }
+        }
+    };
+
+    map &here = get_map();
+
+    if( !!here.veh_at( pos ) ) {
+        if( const cata::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( VPFLAG_CARGO,
+                false ) ) {
+            vehicle *const veh = &vp->vehicle();
+            const int cargo = vp->part_index();
+            vehicle_stack vehicle_items = veh->get_items( cargo );
+            warm( vehicle_items );
+        }
+        return item_warmth;
+    }
+    map_stack floor_items = here.i_at( pos );
+    warm( floor_items );
     return item_warmth;
 }
 
@@ -11067,10 +11139,11 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
     return false;
 }
 
-std::list<item> Character::use_charges( const itype_id &what, int qty,
+std::list<item> Character::use_charges( const itype_id &what, int qty, const int radius,
                                         const std::function<bool( const item & )> &filter )
 {
     std::list<item> res;
+    inventory inv = crafting_inventory( pos(), radius, true );
 
     if( qty <= 0 ) {
         return res;
@@ -11098,16 +11171,16 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
             qty -= std::min( qty, bio );
         }
 
-        int adv = charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.6 ) ) );
+        int adv = inv.charges_of( itype_adv_UPS_off, static_cast<int>( std::ceil( qty * 0.6 ) ) );
         if( adv > 0 ) {
-            std::list<item> found = use_charges( itype_adv_UPS_off, adv );
+            std::list<item> found = use_charges( itype_adv_UPS_off, adv, radius );
             res.splice( res.end(), found );
             qty -= std::min( qty, static_cast<int>( adv / 0.6 ) );
         }
 
-        int ups = charges_of( itype_UPS_off, qty );
+        int ups = inv.charges_of( itype_UPS_off, qty );
         if( ups > 0 ) {
-            std::list<item> found = use_charges( itype_UPS_off, ups );
+            std::list<item> found = use_charges( itype_UPS_off, ups, radius );
             res.splice( res.end(), found );
             qty -= std::min( qty, ups );
         }
@@ -11117,25 +11190,42 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
     std::vector<item *> del;
 
     bool has_tool_with_UPS = false;
-    visit_items( [this, &what, &qty, &res, &del, &has_tool_with_UPS, &filter]( item * e ) {
-        if( e->use_charges( what, qty, res, pos(), filter ) ) {
-            del.push_back( e );
-        }
+    // Detection of UPS tool
+    inv.visit_items( [ &what, &qty, &has_tool_with_UPS, &filter]( item * e, item * ) {
         if( filter( *e ) && e->typeId() == what && e->has_flag( flag_USE_UPS ) ) {
             has_tool_with_UPS = true;
+            return VisitResponse::ABORT;
         }
         return qty > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
+
+    if( radius >= 0 ) {
+        get_map().use_charges( pos(), radius, what, qty, return_true<item> );
+    }
+    if( qty > 0 ) {
+        visit_items( [this, &what, &qty, &res, &del, &filter]( item * e, item * ) {
+            if( e->use_charges( what, qty, res, pos(), filter ) ) {
+                del.push_back( e );
+            }
+            return qty > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
+        } );
+    }
 
     for( item *e : del ) {
         remove_item( *e );
     }
 
     if( has_tool_with_UPS ) {
-        use_charges( itype_UPS, qty );
+        use_charges( itype_UPS, qty, radius );
     }
 
     return res;
+}
+
+std::list<item> Character::use_charges( const itype_id &what, int qty,
+                                        const std::function<bool( const item & )> &filter )
+{
+    return use_charges( what, qty, -1, filter );
 }
 
 bool Character::has_fire( const int quantity ) const
@@ -11149,7 +11239,13 @@ bool Character::has_fire( const int quantity ) const
     } else if( has_item_with_flag( flag_FIRESTARTER ) ) {
         auto firestarters = all_items_with_flag( flag_FIRESTARTER );
         for( auto &i : firestarters ) {
-            if( has_charges( i->typeId(), quantity ) ) {
+            if( !i->typeId()->can_have_charges() ) {
+                const use_function *usef = i->type->get_use( "firestarter" );
+                const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+                if( actor->can_use( *this->as_character(), *i, false, tripoint_zero ).success() ) {
+                    return true;
+                }
+            } else if( has_charges( i->typeId(), quantity ) ) {
                 return true;
             }
         }
@@ -12757,7 +12853,7 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
     } else if( ammo.is_ammo_container() ) {
         int min_clamp = 0;
         // find the first ammo in the container to get its charges
-        ammo.visit_items( [&min_clamp]( const item * it ) {
+        ammo.visit_items( [&min_clamp]( const item * it, item * ) {
             if( it->is_ammo() ) {
                 min_clamp = it->charges;
                 return VisitResponse::ABORT;

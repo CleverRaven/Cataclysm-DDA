@@ -513,7 +513,7 @@ static void draw_stats_info( const catacurses::window &w_info,
                                              " which in turn shows how prepared you are to survive for a time without food."
                                              "  Having too much, or too little, can be unhealthy." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
-                        you.get_weight_description() );
+                        you.get_weight_long_description() );
     } else if( line == 5 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,

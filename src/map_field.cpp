@@ -1272,16 +1272,14 @@ bool map::process_fire_field_in_submap( maptile &map_tile, const tripoint &p, fi
             // Allow weaker fires to spread occasionally
             const int power = cur.get_field_intensity() + one_in( 5 );
             if( can_spread && rng( 1, 100 ) < spread_chance &&
-                ( dster.is_flammable() || dsfrn.is_flammable() ) &&
                 ( in_pit == ( dster.id.id() == t_pit ) ) &&
                 (
-                    ( power >= 3 && cur.get_field_age() < 0_turns && one_in( 20 ) ) ||
                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
                     ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
-                    nearwebfld || ( dst.get_item_count() > 0 &&
-                                    flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
-                                    one_in( 5 ) )
+                    nearwebfld ||
+                    ( one_in( 5 ) && dst.get_item_count() > 0 &&
+                      flammable_items_at( p + eight_horizontal_neighbors[i] ) )
                 ) ) {
                 // Nearby open flammable ground? Set it on fire.
                 add_field( dst_p, fd_fire, 1, 0_turns, false );
@@ -1334,17 +1332,15 @@ bool map::process_fire_field_in_submap( maptile &map_tile, const tripoint &p, fi
             const furn_t &dsfrn = dst.get_furn_t();
             // Allow weaker fires to spread occasionally
             const int power = cur.get_field_intensity() + one_in( 5 );
-            if( can_spread && rng( 1, 100 - windpower ) < spread_chance &&
-                ( dster.is_flammable() || dsfrn.is_flammable() ) &&
+            if( can_spread && rng( 1, 100 ) < spread_chance &&
                 ( in_pit == ( dster.id.id() == t_pit ) ) &&
                 (
-                    ( power >= 3 && cur.get_field_age() < 0_turns && one_in( 20 ) ) ||
                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
                     ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
-                    nearwebfld || ( dst.get_item_count() > 0 &&
-                                    flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
-                                    one_in( 5 ) )
+                    nearwebfld ||
+                    ( one_in( 5 ) && dst.get_item_count() > 0 &&
+                      flammable_items_at( p + eight_horizontal_neighbors[i] ) )
                 ) ) {
                 // Nearby open flammable ground? Set it on fire.
                 add_field( dst_p, fd_fire, 1, 0_turns, false );
@@ -2032,7 +2028,7 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_insecticidal_gas ) {
-            if( z.type->in_species( species_INSECT ) || z.type->in_species( species_SPIDER ) ) {
+            if( z.made_of( material_id( "iflesh" ) ) && !z.has_flag( MF_INSECTICIDEPROOF ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.moves -= rng( 10 * intensity, 30 * intensity );
                 dam += rng( 4, 7 * intensity );

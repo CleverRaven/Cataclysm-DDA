@@ -108,7 +108,7 @@ void JsonObject::mark_visited( const std::string &name ) const
 void JsonObject::report_unvisited() const
 {
 #ifndef CATA_IN_TOOL
-    if( test_mode && report_unvisited_members && !reported_unvisited_members &&
+    if( report_unvisited_members && !reported_unvisited_members &&
         !std::uncaught_exception() ) {
         reported_unvisited_members = true;
         for( const std::pair<const std::string, int> &p : positions ) {
@@ -236,6 +236,17 @@ void JsonArray::throw_error( const std::string &err, int idx )
     jsin->error( err );
 }
 
+void JsonArray::string_error( const std::string &err, const int idx,
+                              const int offset )
+{
+    if( jsin && idx >= 0 && static_cast<size_t>( idx ) < positions.size() ) {
+        jsin->seek( positions[idx] );
+        jsin->string_error( err, offset );
+    } else {
+        throw_error( err );
+    }
+}
+
 void JsonObject::throw_error( const std::string &err ) const
 {
     if( !jsin ) {
@@ -250,6 +261,21 @@ JsonIn *JsonObject::get_raw( const std::string &name ) const
     mark_visited( name );
     jsin->seek( pos );
     return jsin;
+}
+
+json_source_location JsonObject::get_source_location() const
+{
+    if( !jsin ) {
+        throw JsonError( "JsonObject::get_source_location called when stream is null" );
+    }
+    json_source_location loc;
+    loc.path = jsin->get_path();
+    if( !loc.path ) {
+        jsin->seek( start );
+        jsin->error( "JsonObject::get_source_location called but the path is unknown" );
+    }
+    loc.offset = start;
+    return loc;
 }
 
 /* returning values by name */
@@ -1629,6 +1655,7 @@ bool JsonIn::read( JsonDeserializer &j, bool throw_on_error )
 // WARNING: for occasional use only.
 std::string JsonIn::line_number( int offset_modifier )
 {
+    const std::string &name = path ? *path : "<unknown source file>";
     if( stream && stream->eof() ) {
         return name + ":EOF";
     } else if( !stream || stream->fail() ) {
@@ -1672,6 +1699,12 @@ void JsonIn::error( const std::string &message, int offset )
     if( !stream->good() ) {
         throw JsonError( err.str() );
     }
+    // Seek to eof after throwing to avoid continue reading from the incorrect
+    // location. The calling code of json error methods is supposed to restore
+    // the stream location if it wishes to recover from the error.
+    on_out_of_scope seek_to_eof( [this]() {
+        stream->seekg( 0, std::istream::end );
+    } );
     // also print surrounding few lines of context, if not too large
     err << "\n\n";
     stream->seekg( offset, std::istream::cur );
@@ -1694,7 +1727,7 @@ void JsonIn::error( const std::string &message, int offset )
             err << *it;
         }
     }
-    if( !is_whitespace( peek() ) ) {
+    if( !is_whitespace( peek() ) && stream->good() ) {
         err << peek();
     }
     // display a pointer to the position

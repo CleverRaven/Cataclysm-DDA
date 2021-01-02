@@ -79,7 +79,6 @@
     "broken_color": "red",
     "durability": 100,
     "item": "null",
-    "difficulty": 0,
     "flags": [ "NOINSTALL" ],
     "breaks_into": [  ]
   },
@@ -461,7 +460,6 @@
     "durability": 100,
     "description": "A computer system hooked up to the steering and engine of the vehicle to allow it to follow simple paths.",
     "item": "programmable_autopilot",
-    "difficulty": 5,
     "looks_like": "cam_control",
     "epower": -15,
     "flags": [ "ENABLED_DRAINS_EPOWER", "AUTOPILOT" ],

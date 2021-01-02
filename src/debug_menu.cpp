@@ -1317,7 +1317,11 @@ void debug()
     };
     bool should_disable_achievements = action && !non_cheaty_options.count( *action );
     if( should_disable_achievements && achievements.is_enabled() ) {
-        if( query_yn( _( "Using this will disable achievements.  Proceed?" ) ) ) {
+        static const std::string query(
+            translate_marker(
+                "Using this will disable achievements.  Proceed?"
+                "\nThey can be reenabled in the 'game' section of the menu." ) );
+        if( query_yn( _( query ) ) ) {
             achievements.set_enabled( false );
         } else {
             action = cata::nullopt;

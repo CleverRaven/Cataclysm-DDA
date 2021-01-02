@@ -106,7 +106,6 @@ enum m_flag : int {
     MF_FUR,                 // May produce fur when butchered
     MF_LEATHER,             // May produce leather when butchered
     MF_WOOL,                // May produce wool when butchered
-    MF_FEATHER,             // May produce feather when butchered
     MF_BONES,               // May produce bones and sinews when butchered; if combined with POISON flag, tainted bones, if combined with HUMAN, human bones
     MF_FAT,                 // May produce fat when butchered; if combined with POISON flag, tainted fat
     MF_CONSOLE_DESPAWN,     // Despawns when a nearby console is properly hacked
@@ -175,6 +174,7 @@ enum m_flag : int {
     MF_CAN_OPEN_DOORS,      // This monster can open doors.
     MF_STUN_IMMUNE,         // This monster is immune to the stun effect
     MF_DROPS_AMMO,          // This monster drops ammo. Should not be set for monsters that use pseudo ammo.
+    MF_INSECTICIDEPROOF,    // This monster is immune to insecticide, even though it's made of bug flesh
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -379,6 +379,7 @@ struct mtype {
         bool in_category( const std::string &category ) const;
         bool in_species( const species_id &spec ) const;
         std::vector<std::string> species_descriptions() const;
+        field_type_id get_bleed_type() const;
         //Used for corpses.
         field_type_id bloodType() const;
         field_type_id gibType() const;

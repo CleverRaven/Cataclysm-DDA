@@ -89,7 +89,7 @@
     "encumbrance": 4,
     "warmth": 30,
     "material_thickness": 3,
-    "flags": [ "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY", "TRADER_KEEP_EQUIPPED" ],
+    "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY", "TRADER_KEEP_EQUIPPED" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] }
   },
   {

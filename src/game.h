@@ -198,8 +198,6 @@ class game
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
     public:
-        /** Initializes the UI. */
-        void init_ui( bool resized = false );
         void setup();
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
@@ -333,7 +331,7 @@ class game
         monster *place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint &p );
         monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
         monster *place_critter_around( const shared_ptr_fast<monster> &mon, const tripoint &center,
-                                       int radius );
+                                       int radius, bool forced = false );
         monster *place_critter_within( const mtype_id &id, const tripoint_range<tripoint> &range );
         monster *place_critter_within( const shared_ptr_fast<monster> &mon,
                                        const tripoint_range<tripoint> &range );
@@ -735,8 +733,9 @@ class game
 
         // Handle phasing through walls, returns true if it handled the move
         bool phasing_move( const tripoint &dest, bool via_ramp = false );
+        bool can_move_furniture( tripoint fdest, const tripoint &dp );
         // Regular movement. Returns false if it failed for any reason
-        bool walk_move( const tripoint &dest, bool via_ramp = false );
+        bool walk_move( const tripoint &dest, bool via_ramp = false, bool furniture_move = false );
         void on_move_effects();
     private:
         // Game-start procedures
@@ -782,9 +781,8 @@ class game
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
         // Handle pushing during move, returns true if it handled the move
-        bool grabbed_move( const tripoint &dp );
+        bool grabbed_move( const tripoint &dp, bool via_ramp );
         bool grabbed_veh_move( const tripoint &dp );
-        bool grabbed_furn_move( const tripoint &dp );
 
         void control_vehicle(); // Use vehicle controls  '^'
         void examine( const tripoint &p ); // Examine nearby terrain  'e'
@@ -801,6 +799,9 @@ class game
 
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
+        int grabbed_furn_move_time( const tripoint &dp );
+        bool grabbed_furn_move( const tripoint &dp );
+
         void reload_item(); // Reload an item
         void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
@@ -1026,7 +1027,6 @@ class game
         safe_mode_type safe_mode;
 
         //pixel minimap management
-        int pixel_minimap_option = 0;
         time_duration turnssincelastmon = 0_turns; // needed for auto run mode
 
         weather_manager weather;
