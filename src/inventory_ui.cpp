@@ -1010,7 +1010,8 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
             const size_t denial_width = std::min( max_denial_width, static_cast<size_t>( utf8_width( denial,
                                                   true ) ) );
 
-            trim_and_print( win, point( p.x + get_width() - denial_width + contained_offset, yy ), denial_width,
+            trim_and_print( win, point( p.x + get_width() - denial_width, yy ),
+                            denial_width,
                             c_red, denial );
         }
 
