@@ -393,7 +393,6 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
         THEN( "they can't be downed" ) {
             CHECK( graboid.is_immune_effect( effect_downed ) );
         }
-
     }
 
     WHEN( "monster is a zombie, made of flesh, has blood and has legs" ) {
@@ -426,7 +425,7 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
         }
     }
 
-    WHEN( "monster is made of nether flesh, has no blood and is flying" ) {
+    WHEN( "monster is made of nether flesh and is flying" ) {
         // Flaming eye, flesh, Nether species and flying
         monster feye( mtype_id( "mon_flaming_eye" ) );
         feye.clear_effects();
@@ -434,7 +433,7 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
         REQUIRE( feye.has_flag( MF_FLIES ) );
         REQUIRE( feye.type->in_species( species_NETHER ) );
 
-        THEN( "they can't bleed" ) {
+        THEN( "they can bleed" ) {
             CHECK( feye.is_immune_effect( effect_bleed ) );
         }
 
@@ -460,8 +459,8 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
         REQUIRE_FALSE( fungaloid.made_of_any( Creature::cmat_flesh ) );
         REQUIRE( fungaloid.type->in_species( species_FUNGUS ) );
 
-        THEN( "they are immune to the bleed effect" ) {
-            CHECK( fungaloid.is_immune_effect( effect_bleed ) );
+        THEN( "they bleed plant sap for now" ) {
+            CHECK_FALSE( fungaloid.is_immune_effect( effect_bleed ) );
         }
 
         THEN( "they can't be poisoned" ) {
