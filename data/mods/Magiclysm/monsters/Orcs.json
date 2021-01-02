@@ -1,0 +1,105 @@
+[
+  {
+    "id": "mon_orc_warrior",
+    "type": "MONSTER",
+    "name": { "str": "Orc Warrior" },
+    "description": "This green brute is a orc warrior.  It stares at you menacingly, sword in hand.",
+    "default_faction": "orcs",
+    "bodytype": "human",
+    "species": [ "ORC" ],
+    "volume": "60 L",
+    "weight": "70 kg",
+    "hp": 92,
+    "speed": 110,
+    "material": [ "flesh" ],
+    "symbol": "o",
+    "color": "green",
+    "aggression": 75,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 6,
+    "melee_dice_sides": 4,
+    "melee_cut": 7,
+    "dodge": 7,
+    "harvest": "orc",
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK" ],
+    "vision_day": 13,
+    "vision_night": 5,
+    "zombify_into": "mon_zorc",
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "helmet_scrap", "prob": 20 },
+        { "item": "legguard_scrap", "prob": 20 },
+        { "item": "boots_scrap", "prob": 20 },
+        { "item": "armguard_scrap", "prob": 20 },
+        { "item": "cuirass_scrap", "prob": 10 },
+        { "item": "longsword", "prob": 100 }
+      ]
+    },
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_2", "SWARMS", "GROUP_MORALE" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_orc_archer",
+    "name": { "str": "orc archer" },
+    "description": "This green brute is a orc archer.  It looks at you with a bow in hand and smiles silently as it aims at you.",
+    "copy-from": "mon_orc_warrior",
+    "melee_skill": 2,
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "helmet_scrap", "prob": 40 },
+        { "item": "legguard_scrap", "prob": 40 },
+        { "item": "boots_scrap", "prob": 40 },
+        { "item": "armguard_scrap", "prob": 40 },
+        { "item": "cuirass_scrap", "prob": 40 },
+        { "item": "longbow", "prob": 100 },
+        { "item": "sheath", "contents-item": "knife_combat", "prob": 50 }
+      ]
+    },
+    "starting_ammo": { "arrow_wood_heavy": 75 },
+    "extend": {
+      "special_attacks": [
+        {
+          "type": "gun",
+          "cooldown": 10,
+          "move_cost": 93,
+          "gun_type": "bow",
+          "ammo_type": "arrow",
+          "fake_skills": [ [ "gun", 6 ], [ "rifle", 7 ] ],
+          "fake_dex": 9,
+          "fake_per": 5,
+          "require_targeting_player": false,
+          "description": "The orc shoots you with laser accuracy",
+          "ranges": [ [ 12, 13, "DEFAULT" ] ],
+          "no_ammo_sound": "grunting"
+        }
+      ]
+    }
+  },
+  {
+    "id": "mon_orc_blood_warrior",
+    "type": "MONSTER",
+    "copy-from": "mon_orc_warrior",
+    "name": { "str": "Blood Orc" },
+    "description": "This bloody red brute is a orc warrior.  He stares at you menacingly, weapon in hand; this one seems to have bathed himself in the blood of his enemies.",
+    "hp": 97,
+    "dodge": 3,
+    "aggression": 100,
+    "melee_dice_sides": 8,
+    "melee_cut": 5,
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "helmet_scrap", "prob": 20 },
+        { "item": "legguard_scrap", "prob": 10 },
+        { "item": "boots_scrap", "prob": 10 },
+        { "item": "armguard_scrap", "prob": 30 },
+        { "item": "cuirass_scrap", "prob": 20 },
+        { "group": "defense_caravan_melee", "count": [ 1, 3 ], "prob": 100 }
+      ]
+    }
+  }
+]
