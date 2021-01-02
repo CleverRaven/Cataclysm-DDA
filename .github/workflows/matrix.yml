@@ -66,9 +66,22 @@ jobs:
       run: |
           sudo apt-get update
           sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
-            libsdl2-mixer-dev libpulse-dev ccache gettext
+            libsdl2-mixer-dev libpulse-dev ccache gettext cmake
     - name: prepare
       run: bash ./build-scripts/requirements.sh
+    - name: Prepare ccache timestamp
+      id: ccache_cache_timestamp
+      shell: cmake -P {0}
+      run: |
+          string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
+          message("::set-output name=timestamp::${current_date}")
+    - name: ccache cache files
+      uses: actions/cache@v1.1.0
+      with:
+        path: ~/.ccache
+        key: ${{ matrix.compiler }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
+        restore-keys: |
+          ${{ matrix.compiler }}-ccache-
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
       run: bash ./build-scripts/build.sh
