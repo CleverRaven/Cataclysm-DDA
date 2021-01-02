@@ -962,7 +962,9 @@ void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t cons
     std::tie( dst, dsti ) = ui->otherpane()->getSource();
 
     // return to the AIM after player activities finish
-    aim_add_return_activity();
+    if( select.size() == 1 or !get_option<bool>( "CLOSE_ADV_INV") ) {
+        aim_add_return_activity();
+    }
 
     // select a valid destination if otherpane is showing the ALL source
     if( dst == ALL_IDX ) {
