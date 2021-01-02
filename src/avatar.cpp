@@ -1410,7 +1410,8 @@ void avatar::upgrade_stat_prompt( const character_stat &stat )
     const int free_points = free_upgrade_points();
 
     if( free_points <= 0 ) {
-        const int *xp_next_level = std::lower_bound( xp_cutoffs.begin(), xp_cutoffs.end(), kill_xp() );
+        std::array<int, 20>::const_iterator xp_next_level = std::lower_bound( xp_cutoffs.begin(),
+                xp_cutoffs.end(), kill_xp() );
         if( xp_next_level == xp_cutoffs.end() ) {
             popup( _( "You've already reached maximum level." ) );
         } else {
