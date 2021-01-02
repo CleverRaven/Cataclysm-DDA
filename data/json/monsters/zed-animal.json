@@ -470,7 +470,7 @@
     "type": "MONSTER",
     "name": { "str": "woodland wight" },
     "looks_like": "mon_deer",
-    "description": "A pale, stumbling, white-tailed deer, rivulets of slime running down its neck. Its limbs twist and bend in unnatural, haphazard directions, and yet it moves with uncanny strength and speed.  Thanks to the Cataclysm, it has now turned the tables, and what was once prey, now itself preys on coyotes, wolves, and giant mutated spiders.",
+    "description": "A pale, stumbling, white-tailed deer, rivulets of slime running down its neck.  Its limbs twist and bend in unnatural, haphazard directions, and yet it moves with uncanny strength and speed.  Thanks to the Cataclysm, it has now turned the tables; what was once prey, now itself preys on coyotes, wolves, and giant mutated spiders.",
     "default_faction": "zombie",
     "bodytype": "horse",
     "categories": [ "CLASSIC" ],
