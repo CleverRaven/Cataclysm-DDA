@@ -492,6 +492,7 @@ void swap_panes_maybe( aim_transaction_ui_t *ui, std::string const &action, pane
             set_mutex( mutex, oslot, oicon, false );
             ui->curpane()->setSource( oslot, oicon );
             set_mutex( mutex, oslot, oicon, true );
+            change_columns( ui->otherpane() );
             ui->otherpane()->get_ui()->invalidate_ui();
         }
     }
