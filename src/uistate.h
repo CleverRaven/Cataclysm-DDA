@@ -84,7 +84,7 @@ class uistatedata
         itype_id adv_inv_container_content_type = itype_id::NULL_ID();
         bool adv_inv_container_in_vehicle = false;
 
-        transaction_ui_save_state transfer_save;
+        transaction_ui_save_state transfer_save, transfer_default;
 
         bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool overmap_blinking = true;           // toggles active blinking of overlays.

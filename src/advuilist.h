@@ -436,6 +436,8 @@ template <class Container, typename T>
 void advuilist<Container, T>::suspend()
 {
     _exit = true;
+    // redraw darker borders, etc
+    _ui->invalidate_ui();
 }
 
 template <class Container, typename T>

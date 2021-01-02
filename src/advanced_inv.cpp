@@ -36,7 +36,7 @@ std::pair<point, point> AIM_size( bool full_screen )
 }
 } // namespace
 
-void create_advanced_inv()
+void create_advanced_inv( bool resume )
 {
     using namespace advuilist_helpers;
     using mytrui_t = transaction_ui<aim_container_t>;
@@ -74,23 +74,15 @@ void create_advanced_inv()
 
     }
 
-    reset_mutex( &*mytrui, &pane_mutex );
-    aim_advuilist_sourced_t::slotidx_t lidx = 0;
-    aim_advuilist_sourced_t::slotidx_t ridx = 0;
-    aim_advuilist_sourced_t::icon_t licon = 0;
-    aim_advuilist_sourced_t::icon_t ricon = 0;
-    std::tie( lidx, licon ) = mytrui->left()->getSource();
-    std::tie( ridx, ricon ) = mytrui->right()->getSource();
-    lidx = licon == SOURCE_VEHICLE_i ? idxtovehidx( lidx ) : lidx;
-    ridx = ricon == SOURCE_VEHICLE_i ? idxtovehidx( ridx ) : ridx;
+    reset_mutex( &pane_mutex );
+    if( !resume and get_option<bool>( "OPEN_DEFAULT_ADV_INV") ) {
+        mytrui->loadstate( &uistate.transfer_default, false );
+    } else {
+       mytrui->loadstate( &uistate.transfer_save, false );
+    }
 
-    pane_mutex[lidx] = false;
-    mytrui->left()->rebuild();
-    pane_mutex[lidx] = true;
-    // make sure our panes don't use the same source even if they end up using the same slot
-    pane_mutex[ridx] = lidx == ridx;
-    mytrui->right()->rebuild();
-    pane_mutex[ridx] = true;
+    reset_mutex( &*mytrui, &pane_mutex );
+    aim_rebuild( &*mytrui, &pane_mutex );
 
     mytrui->show();
     mytrui->savestate( &uistate.transfer_save );

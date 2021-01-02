@@ -248,9 +248,6 @@ void transaction_ui<Container, T>::_process( event const &ev )
             break;
         }
         case event::SWITCH: {
-            // redraw darker borders, etc
-            _panes[_cpane].get_ui()->invalidate_ui();
-
             _cpane = -_cpane + 1;
             break;
         }

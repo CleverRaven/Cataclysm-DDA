@@ -525,6 +525,11 @@ void set_mutex( pane_mutex_t *mutex, aim_advuilist_sourced_t::slotidx_t slot,
     }
 }
 
+void reset_mutex( pane_mutex_t *mutex )
+{
+    mutex->fill( false );
+}
+
 void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex )
 {
     using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
@@ -536,7 +541,7 @@ void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex )
 
     std::tie( lsrc, licon ) = ui->left()->getSource();
     std::tie( rsrc, ricon ) = ui->right()->getSource();
-    mutex->fill( false );
+    reset_mutex( mutex );
     set_mutex( mutex, lsrc, licon, true );
     set_mutex( mutex, rsrc, ricon, true );
 }
@@ -776,6 +781,23 @@ void aim_all_columns( aim_advuilist_t *myadvuilist )
                              false );
 }
 
+void aim_rebuild( aim_transaction_ui_t *ui, pane_mutex_t *mutex )
+{
+    aim_advuilist_sourced_t::slotidx_t lidx = 0;
+    aim_advuilist_sourced_t::slotidx_t ridx = 0;
+    aim_advuilist_sourced_t::icon_t licon = 0;
+    aim_advuilist_sourced_t::icon_t ricon = 0;
+    std::tie( lidx, licon ) = ui->left()->getSource();
+    std::tie( ridx, ricon ) = ui->right()->getSource();
+    set_mutex( mutex, lidx, licon, false );
+    ui->left()->rebuild();
+    set_mutex( mutex, lidx, licon, true );
+    // make sure our panes don't use the same source even if they end up using the same slot
+    set_mutex( mutex, ridx, ricon, lidx == ridx );
+    ui->right()->rebuild();
+    set_mutex( mutex, ridx, ricon, true );
+}
+
 void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
 {
     using sorter_t = typename aim_advuilist_t::sorter_t;
@@ -817,6 +839,8 @@ void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats )
         aim_stats_printer( ui, stats );
     } );
     myadvuilist->get_ctxt()->register_action( advuilist_literals::ACTION_EXAMINE );
+    myadvuilist->get_ctxt()->register_action( advuilist_literals::ITEMS_DEFAULT );
+    myadvuilist->get_ctxt()->register_action( advuilist_literals::SAVE_DEFAULT );
     myadvuilist->get_ctxt()->register_action( advuilist_literals::TOGGLE_AUTO_PICKUP );
     myadvuilist->get_ctxt()->register_action( advuilist_literals::TOGGLE_FAVORITE );
 }
@@ -991,6 +1015,17 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
             ui->otherpane()->get_ui()->invalidate_ui();
         }
 
+    } else if( action == "SAVE_DEFAULT" ) {
+        ui->savestate( &uistate.transfer_default );
+
+    } else if( action == "ITEMS_DEFAULT" ) {
+        ui->curpane()->suspend();
+        reset_mutex( mutex );
+        ui->loadstate( &uistate.transfer_default, false );
+        reset_mutex( ui, mutex );
+        aim_rebuild( ui, mutex );
+        ui->otherpane()->get_ui()->invalidate_ui();
+        
     } else if( !peek.empty() ) {
         iloc_entry &entry = *std::get<aim_advuilist_t::ptr_t>( peek.front() );
 

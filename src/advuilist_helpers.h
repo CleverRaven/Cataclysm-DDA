@@ -78,6 +78,7 @@ constexpr char const SOURCE_VEHICLE_i = 'V';
 
 using pane_mutex_t = std::array<bool, aim_nsources * 2>;
 std::size_t idxtovehidx( std::size_t idx );
+void reset_mutex( pane_mutex_t *mutex );
 void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex );
 void set_mutex( pane_mutex_t *mutex, aim_advuilist_sourced_t::slotidx_t slot,
                 aim_advuilist_sourced_t::icon_t icon, bool val );
@@ -124,6 +125,7 @@ bool source_vehicle_avail( tripoint const &loc );
 
 void aim_all_columns( aim_advuilist_t *myadvuilist );
 void aim_default_columns( aim_advuilist_t *myadvuilist );
+void aim_rebuild( aim_transaction_ui_t *ui, pane_mutex_t *mutex );
 
 void setup_for_aim( aim_advuilist_t *myadvuilist, aim_stats_t *stats );
 void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t *mutex );

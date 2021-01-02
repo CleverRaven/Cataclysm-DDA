@@ -3041,6 +3041,18 @@
   },
   {
     "type": "keybinding",
+    "id": "ITEMS_DEFAULT",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Restore default layout"
+  },
+  {
+    "type": "keybinding",
+    "id": "SAVE_DEFAULT",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Save default layout"
+  },
+  {
+    "type": "keybinding",
     "id": "SCROLL_UP",
     "category": "ITEM_ACTIONS",
     "name": "Scroll up",
