@@ -1,12 +1,6 @@
 [
   {
     "type": "item_group",
-    "id": "gunmod_common",
-    "//": "Common gunmods typically owned by citizens and found in many locations.",
-    "items": [ [ "bthk_stock", 50 ] ]
-  },
-  {
-    "type": "item_group",
     "id": "gunmod_milspec",
     "//": "Military specification gunmods found only at military sites.",
     "items": [ [ "flare_gmod", 25 ] ]
