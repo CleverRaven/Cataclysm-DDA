@@ -100,6 +100,7 @@ constexpr _sourcearray const aimsources = {
 #pragma clang diagnostic pop
 #endif
 
+constexpr std::size_t const CONT_IDX = 0;
 constexpr std::size_t const DRAGGED_IDX = 1;
 constexpr std::size_t const INV_IDX = 7;
 constexpr std::size_t const ALL_IDX = 12;
@@ -847,27 +848,27 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t *mutex 
         std::tie( std::ignore, str, std::ignore, icon, off ) = src;
 
         if( icon != 0 ) {
-            switch( icon ) {
-                case SOURCE_CONT_i: {
+            switch( idx ) {
+                case CONT_IDX: {
                     _fs = source_dummy;
                     _fsb = _never;
                     break;
                 }
-                case SOURCE_DRAGGED_i: {
+                case DRAGGED_IDX: {
                     _fs = source_player_dragged;
                     _fsb = [ = ]() {
                         return !mutex->at( DRAGGED_IDX ) and source_player_dragged_avail();
                     };
                     break;
                 }
-                case SOURCE_INV_i: {
+                case INV_IDX: {
                     _fs = source_player_inv;
                     _fsb = [ = ]() {
                         return !mutex->at( INV_IDX );
                     };
                     break;
                 }
-                case SOURCE_ALL_i: {
+                case ALL_IDX: {
                     _fs = [ = ]() {
                         return source_player_all( myadvuilist, mutex );
                     };
@@ -876,7 +877,7 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t *mutex 
                     };
                     break;
                 }
-                case SOURCE_WORN_i: {
+                case WORN_IDX: {
                     _fs = source_player_worn;
                     _fsb = [ = ]() {
                         return !mutex->at( WORN_IDX );
