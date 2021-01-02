@@ -240,7 +240,8 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 8, -1 ],
     "occurrences": [ 0, 4 ],
-    "flags": [ "WILDERNESS" ]
+    "flags": [ "WILDERNESS" ],
+	"spawns": { "group": "GROUP_DERMATIK", "population": [ 10, 20 ], "radius": [ 10 , 15 ] }
   },
   {
     "type": "overmap_special",
