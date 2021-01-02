@@ -2931,7 +2931,7 @@
     "bonus": 7,
     "power": -1050,
     "durability": 200,
-    "//": "No need to mention re drag - already provided by EXTRA_DRAG flag."
+    "//": "No need to mention re drag - already provided by EXTRA_DRAG flag.",
     "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants and store them in the vehicle's cargo.  It should be placed in front of any plows in the vehicle for efficient operation.  It has internal cargo space for collecting the harvest.",
     "item": "v_reaper_item_advanced",
     "location": "under",
