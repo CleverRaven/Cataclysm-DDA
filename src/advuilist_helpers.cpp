@@ -962,7 +962,7 @@ void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t cons
     std::tie( dst, dsti ) = ui->otherpane()->getSource();
 
     // return to the AIM after player activities finish
-    if( select.size() == 1 or !get_option<bool>( "CLOSE_ADV_INV") ) {
+    if( select.size() == 1 or !get_option<bool>( "CLOSE_ADV_INV" ) ) {
         aim_add_return_activity();
     }
 
@@ -1027,7 +1027,7 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
         reset_mutex( ui, mutex );
         aim_rebuild( ui, mutex );
         ui->otherpane()->get_ui()->invalidate_ui();
-        
+
     } else if( !peek.empty() ) {
         iloc_entry &entry = *std::get<aim_advuilist_t::ptr_t>( peek.front() );
 

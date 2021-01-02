@@ -75,10 +75,10 @@ void create_advanced_inv( bool resume )
     }
 
     reset_mutex( &pane_mutex );
-    if( !resume and get_option<bool>( "OPEN_DEFAULT_ADV_INV") ) {
+    if( !resume and get_option<bool>( "OPEN_DEFAULT_ADV_INV" ) ) {
         mytrui->loadstate( &uistate.transfer_default, false );
     } else {
-       mytrui->loadstate( &uistate.transfer_save, false );
+        mytrui->loadstate( &uistate.transfer_save, false );
     }
 
     reset_mutex( &*mytrui, &pane_mutex );

@@ -149,7 +149,7 @@ void advuilist_sourced<Container, T>::addSource( slotidx_t slot, source_t const 
 
 template <class Container, typename T>
 bool advuilist_sourced<Container, T>::setSource( slotidx_t slot, icon_t icon, bool fallthrough,
-                                                 bool reb )
+        bool reb )
 {
     slot_t &_slot = _sources[slot];
     slotcont_t &slotcont = std::get<slotcont_t>( _slot );
