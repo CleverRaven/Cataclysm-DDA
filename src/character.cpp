@@ -2773,7 +2773,7 @@ std::pair<item_location, item_pocket *> Character::best_pocket( const item &it,
         ret = weapon.best_pocket( it, weapon_loc );
     }
     for( item &worn_it : worn ) {
-        avoid = ( std::find( avoid_list.begin(), avoid_list.end(), &worn_it ) != avoid_list.end() );
+        avoid = std::find( avoid_list.begin(), avoid_list.end(), &worn_it ) != avoid_list.end();
         if( &worn_it == &it || avoid ) {
             continue;
         }
