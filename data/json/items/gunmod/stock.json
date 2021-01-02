@@ -123,5 +123,23 @@
     "dispersion_modifier": -1,
     "handling_modifier": 2,
     "min_skills": [ [ "weapon", 2 ] ]
+  },
+  {
+    "id": "butt_hook",
+    "type": "GUNMOD",
+    "name": "butt hook",
+    "description": "An attachment to the butt of the gun that is put under the armpit allowing for greater stability.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": 4750,
+    "price_postapoc": 75,
+    "material": [ "aluminum" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "stock",
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher" ],
+    "install_time": "10 m",
+    "dispersion_modifier": -5,
+    "min_skills": [ [ "weapon", 2 ] ]
   }
 ]

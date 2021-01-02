@@ -12,6 +12,7 @@
       [ "shoulder_strap", 100 ],
       [ "suppressor", 60 ],
       [ "suppressor_compact", 40 ],
+      [ "butt_hook", 30 ],
       [ "cheek_pad", 25 ]
     ]
   },
