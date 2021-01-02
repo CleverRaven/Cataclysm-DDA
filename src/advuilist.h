@@ -811,6 +811,7 @@ void advuilist<Container, T>::_queryfilter()
 {
     string_input_popup spopup;
     spopup.max_length( 256 ).text( _filter );
+    spopup.identifier( _ctxt.get_category() );
     if( !_filterdsc.empty() ) {
         spopup.description( _filterdsc );
     }
