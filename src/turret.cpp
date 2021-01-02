@@ -601,7 +601,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
                                                   "You hear %d annoyed sounding beeps.",
                                                   boo_hoo ), boo_hoo );
                 } else if( u_see & !u_hear ) {
-                        add_msg( m_warning, _( "%s points in your direction." ), cpu.name );
+                    add_msg( m_warning, _( "%s points in your direction." ), cpu.name );
                 }
             }
             return shots;
