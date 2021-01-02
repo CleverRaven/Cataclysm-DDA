@@ -1200,7 +1200,7 @@
     "symbol": "%",
     "quench": -8,
     "calories": 879,
-    "description": "A sealed plastic bag containing a full dehydrated meal. This one contains a hearty cooked beef and egg breakfast.",
+    "description": "A sealed plastic bag containing a full dehydrated meal.  This one contains a hearty cooked beef and egg breakfast.",
     "price": 1200,
     "price_postapoc": 1400,
     "material": [ "flesh", "egg", "junk" ],
