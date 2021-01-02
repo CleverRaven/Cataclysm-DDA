@@ -118,6 +118,27 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "speedloaders_s&w619_special",
+    "entries": [
+      { "item": "38_speedloader", "ammo-item": "38_special", "charges": 7 },
+      { "item": "38_speedloader", "ammo-item": "38_special", "charges": 7 },
+      { "item": "38_speedloader", "ammo-item": "38_special", "charges": 7 },
+      { "item": "38_speedloader", "ammo-item": "38_special", "charges": 7 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "speedloaders_s&w619_magnum",
+    "entries": [
+      { "item": "38_speedloader", "ammo-item": "357mag_fmj", "charges": 7 },
+      { "item": "38_speedloader", "ammo-item": "357mag_fmj", "charges": 7 },
+      { "item": "38_speedloader", "ammo-item": "357mag_fmj", "charges": 7 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "quiver_bow_hunter",
     "entries": [ { "item": "arrow_cf", "charges": 8 } ]
   },
@@ -618,6 +639,22 @@
       },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "baseball_player",
+    "name": "Baseball Player",
+    "description": "You were playing at the local team.  With no one left to play baseball, you can eventually use your best friend for another purpose.  Home run!",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "throw" }, { "level": 1, "name": "melee" } ],
+    "items": {
+      "both": {
+        "items": [ "baseball", "tshirt", "jacket_light", "jeans", "socks", "sneakers", "helmet_ball", "sports_drink" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "bat", "custom-flags": [ "auto_wield" ] } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "panties" ]
     }
   },
   {
@@ -1209,8 +1246,8 @@
           { "group": "charged_cell_phone" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_ref_lighter" },
-          { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 6, "container-item": "holster" },
-          { "item": "357mag_fmj", "charges": 24 }
+          { "group": "speedloaders_s&w619_magnum" },
+          { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 7, "container-item": "holster" }
         ]
       },
       "male": [ "briefs" ],
@@ -2329,8 +2366,8 @@
         ],
         "entries": [
           { "group": "charged_cell_phone" },
-          { "item": "sw_619", "ammo-item": "38_special", "charges": 7, "container-item": "holster" },
-          { "item": "38_special", "charges": 33 }
+          { "group": "speedloaders_s&w619_special" },
+          { "item": "sw_619", "ammo-item": "38_special", "charges": 7, "container-item": "holster" }
         ]
       },
       "male": [ "briefs" ],
@@ -3330,7 +3367,10 @@
     "description": "At the local mall, you saw a sign advertising a discount on survival kits.  You bought one, more for show than for actual use.  Now it's all you have.",
     "points": 1,
     "items": {
-      "both": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "jacket_light", "survival_kit" ],
+      "both": {
+        "items": [ "sneakers", "mbag", "socks", "jeans", "tshirt", "wristwatch", "jacket_light" ],
+        "entries": [ { "group": "full_survival_kit" } ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "panties", "bra" ]
     }

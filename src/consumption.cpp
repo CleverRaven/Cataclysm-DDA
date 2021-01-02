@@ -1507,7 +1507,7 @@ bool Character::can_consume( const item &it ) const
 item &Character::get_consumable_from( item &it ) const
 {
     item *ret = nullptr;
-    it.visit_items( [&]( item * it ) {
+    it.visit_items( [&]( item * it, item * ) {
         if( can_consume_as_is( *it ) ) {
             ret = it;
             return VisitResponse::ABORT;

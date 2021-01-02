@@ -79,8 +79,10 @@ class inventory_entry
 
         inventory_entry( const std::vector<item_location> &locations,
                          const item_category *custom_category = nullptr,
-                         bool enabled = true ) :
+                         bool enabled = true,
+                         const size_t chosen_count = 0 ) :
             locations( locations ),
+            chosen_count( chosen_count ),
             custom_category( custom_category ),
             enabled( enabled )
         {}
@@ -358,7 +360,7 @@ class inventory_column
          */
         virtual void on_input( const inventory_input &input );
         /** The entry has been changed. */
-        virtual void on_change( const inventory_entry & ) {}
+        virtual void on_change( const inventory_entry &entry );
         /** The column has been activated. */
         virtual void on_activate() {
             active = true;
@@ -372,7 +374,7 @@ class inventory_column
             this->mode = mode;
         }
 
-        void set_filter( const std::string &filter );
+        virtual void set_filter( const std::string &filter );
 
         // whether or not to indent contained entries
         bool indent_entries() const {
@@ -485,6 +487,8 @@ class selection_column : public inventory_column
             // Intentionally ignore mode change.
         }
 
+        void set_filter( const std::string &filter ) override;
+
     private:
         const pimpl<item_category> selected_cat;
         inventory_entry last_changed;
@@ -544,7 +548,8 @@ class inventory_selector
 
         void add_entry( inventory_column &target_column,
                         std::vector<item_location> &&locations,
-                        const item_category *custom_category = nullptr );
+                        const item_category *custom_category = nullptr,
+                        size_t chosen_count = 0 );
 
         void add_item( inventory_column &target_column,
                        item_location &&location,
@@ -776,7 +781,8 @@ class inventory_drop_selector : public inventory_multiselector
     public:
         inventory_drop_selector( Character &p,
                                  const inventory_selector_preset &preset = default_preset,
-                                 const std::string &selection_column_title = _( "ITEMS TO DROP" ) );
+                                 const std::string &selection_column_title = _( "ITEMS TO DROP" ),
+                                 bool warn_liquid = true );
         drop_locations execute();
     protected:
         stats get_raw_stats() const override;
@@ -788,6 +794,7 @@ class inventory_drop_selector : public inventory_multiselector
         void deselect_contained_items();
         std::vector<std::pair<item_location, int>> dropping;
         size_t max_chosen_count;
+        bool warn_liquid;
 };
 
 #endif // CATA_SRC_INVENTORY_UI_H
