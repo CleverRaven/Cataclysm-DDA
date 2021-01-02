@@ -1721,9 +1721,10 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
 
     // Base moves for batch size with no speed modifier or assistants
     // Must ensure >= 1 so we don't divide by 0;
-    const double base_total_moves = std::max( 1, rec.batch_time( crafter, craft.charges, 1.0f, 0 ) );
+    const double base_total_moves = std::max( static_cast<int64_t>( 1 ), rec.batch_time( crafter,
+                                    craft.charges, 1.0f, 0 ) );
     // Current expected total moves, includes crafting speed modifiers and assistants
-    const double cur_total_moves = std::max( 1, rec.batch_time( crafter, craft.charges, crafting_speed,
+    const double cur_total_moves = std::max( static_cast< int64_t >( 1 ), rec.batch_time( crafter, craft.charges, crafting_speed,
                                    assistants ) );
     // Delta progress in moves adjusted for current crafting speed /
     //crafter.exertion_adjusted_move_multiplier( exertion_level() )
