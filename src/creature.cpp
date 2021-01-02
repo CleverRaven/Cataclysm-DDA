@@ -716,7 +716,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const int max_damage = proj.impact.total_damage();
     std::string message;
     game_message_type gmtSCTcolor = m_neutral;
-    double world_multiplier = get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+    float world_multiplier = get_option<int>( "MONSTER_RESILIENCE" ) / 100.0f;
     if( magic ) {
         damage_mult *= rng_float( 0.9, 1.1 );
     } else if( goodhit < accuracy_headshot &&
