@@ -390,7 +390,8 @@ std::string to_string( const time_duration &d, const bool compact )
 
     if( d % divider != 0_turns ) {
         if( compact ) {
-            return string_format( _( "%1$s %2$s" ),
+            //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
+            return string_format( pgettext( "time duration", "%1$s %2$s" ),
                                   to_string_clipped( d, clipped_align::compact ),
                                   to_string_clipped( d % divider, clipped_align::compact ) );
         } else {
