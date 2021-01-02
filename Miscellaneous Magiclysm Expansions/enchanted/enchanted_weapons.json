@@ -1,0 +1,21 @@
+[{
+    "id": "grass_s",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str_sp": "grass sword" },
+    "description": "A blade composed entirely of grass, it seems unusually sharp, as it bends with the swing. When not in use, it wraps comfortably around thine wrist. If broken, the portion naturally regrows.",
+    "weight": "750 g",
+    "volume": "1000 ml",
+    "longest_side": "70 cm",
+    "price": 12500,
+    "price_postapoc": 3500,
+    "bashing": 8,
+    "cutting": 30,
+    "material": [ "dry_plant" ],
+    "symbol": "/",
+    "color": "green",
+    "armor_data": { "covers": [ "hand_l", "hand_r" ], "coverage": 0, "material_thickness": 1, "encumbrance": 0 },
+    "techniques": [ "WBLOCK_2" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "flags": [ "UNBREAKABLE_MELEE" ]
+  }]

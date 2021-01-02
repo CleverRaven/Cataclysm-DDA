@@ -1,0 +1,193 @@
+[{
+    "type": "npc_class",
+    "id": "NC_MAGUS",
+    "name": "Magus",
+    "job_description": "I am a wizard, a Magus.",
+    "worn_override": "NC_OLD_MAGUS_worn",
+    "carry_override": "wizard_carried",
+    "weapon_override": "wizard_wield",
+    "traits": [
+      { "trait": "MAGUS" },
+      { "group": "BG_survival_story_RURAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [ -4, -1 ] },
+    "bonus_dex": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "bonus_per": { "rng": [ -2, -1 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -2 ] } ] } ] } },
+      { "skill": "spellcraft", "bonus": { "rng": [ 3, 5 ] } }
+    ],
+    "spells": [ { "id": "magic_missile", "level": 10 }, { "id": "gravity_well", "level": 10 }, { "id": "foxs_cunning", "level": 7 } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ANIMIST",
+    "name": "Animist",
+    "job_description": "I am a wizard, an Animist.",
+    "worn_override": "NC_OLD_MAGUS_worn",
+    "carry_override": "animist_carried",
+    "weapon_override": "animist_wield",
+    "traits": [
+      { "trait": "ANIMIST" },
+      { "group": "BG_survival_story_RURAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [ -4, -1 ] },
+    "bonus_dex": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "bonus_per": { "rng": [ -2, -1 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -2 ] } ] } ] } },
+      { "skill": "spellcraft", "bonus": { "rng": [ 3, 5 ] } }
+    ],
+    "spells": [ { "id": "summon_zombie", "level": 10 }, { "id": "necrotic_gaze", "level": 10 }, { "id": "recover_pain", "level": 7 } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_BIOMANCER",
+    "name": "Biomancer",
+    "job_description": "I am a wizard, a Biomancer.",
+    "worn_override": "NC_OLD_MAGUS_worn",
+    "carry_override": "wizard_carried",
+    "weapon_override": "wizard_wield",
+    "traits": [
+      { "trait": "BIOMANCER" },
+      { "group": "BG_survival_story_RURAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [ -4, -1 ] },
+    "bonus_dex": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "bonus_per": { "rng": [ -2, -1 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -2 ] } ] } ] } },
+      { "skill": "spellcraft", "bonus": { "rng": [ 3, 5 ] } }
+    ],
+    "spells": [ { "id": "bio_acidicspray", "level": 10 }, { "id": "biomancer_paralytic_dart", "level": 10 }, { "id": "light_healing", "level": 7 } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_DRUID",
+    "name": "Druid",
+    "job_description": "I am a wizard, a Druid.",
+    "worn_override": "NC_OLD_MAGUS_worn",
+    "carry_override": "wizard_carried",
+    "weapon_override": "wizard_wield",
+    "traits": [
+      { "trait": "DRUID" },
+      { "group": "BG_survival_story_RURAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [ -4, -1 ] },
+    "bonus_dex": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "bonus_per": { "rng": [ -2, -1 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -2 ] } ] } ] } },
+      { "skill": "spellcraft", "bonus": { "rng": [ 3, 5 ] } }
+    ],
+    "spells": [ { "id": "druid_veggrasp", "level": 10 }, { "id": "druid_woodshaft", "level": 10 }, { "id": "purify_seed", "level": 7 } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_EARTH",
+    "name": "Earthshaper",
+    "job_description": "I am a wizard, an Earthshaper.",
+    "worn_override": "NC_OLD_MAGUS_worn",
+    "carry_override": "wizard_carried",
+    "weapon_override": "wizard_wield",
+    "traits": [
+      { "trait": "EARTHSHAPER" },
+      { "group": "BG_survival_story_RURAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [ -4, -1 ] },
+    "bonus_dex": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "bonus_per": { "rng": [ -2, -1 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -2 ] } ] } ] } },
+      { "skill": "spellcraft", "bonus": { "rng": [ 3, 5 ] } }
+    ],
+    "spells": [ { "id": "eshaper_rockbolt", "level": 10 }, { "id": "clairvoyance", "level": 10 }, { "id": "move_earth", "level": 7 } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_KELVINIST",
+    "name": "Kelvinist",
+    "job_description": "I am a wizard, a Kelvinist.",
+    "worn_override": "NC_OLD_MAGUS_worn",
+    "carry_override": "wizard_carried",
+    "weapon_override": "wizard_wield",
+    "traits": [
+      { "trait": "KELVINIST" },
+      { "group": "BG_survival_story_RURAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [ -4, -1 ] },
+    "bonus_dex": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "bonus_per": { "rng": [ -2, -1 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -2 ] } ] } ] } },
+      { "skill": "spellcraft", "bonus": { "rng": [ 3, 5 ] } }
+    ],
+    "spells": [ { "id": "point_flare", "level": 10 }, { "id": "frost_spray", "level": 10 }, { "id": "fireball", "level": 7 } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_STORM",
+    "name": "Stormshaper",
+    "job_description": "I am a wizard, a Stormshaper.",
+    "worn_override": "NC_OLD_MAGUS_worn",
+    "carry_override": "wizard_carried",
+    "weapon_override": "animist_wield",
+    "traits": [
+      { "trait": "STORMSHAPER" },
+      { "group": "BG_survival_story_RURAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [ -4, -1 ] },
+    "bonus_dex": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "bonus_per": { "rng": [ -2, -1 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -2 ] } ] } ] } },
+      { "skill": "spellcraft", "bonus": { "rng": [ 3, 5 ] } }
+    ],
+    "spells": [ { "id": "lightning_bolt", "level": 10 }, { "id": "windrun", "level": 10 }, { "id": "storm_hammer", "level": 7 } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_TECH",
+    "name": "Technomancer",
+    "job_description": "I am a wizard, a Technomancer.",
+    "worn_override": "NC_OLD_MAGUS_worn",
+    "carry_override": "wizard_carried",
+    "weapon_override": "animist_wield",
+    "traits": [
+      { "trait": "TECHNOMANCER" },
+      { "group": "BG_survival_story_RURAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [ -4, -1 ] },
+    "bonus_dex": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "bonus_per": { "rng": [ -2, -1 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -2 ] } ] } ] } },
+      { "skill": "spellcraft", "bonus": { "rng": [ 3, 5 ] } }
+    ],
+    "spells": [ { "id": "taze", "level": 10 }, { "id": "quantum_tunnel_lesser", "level": 10 }, { "id": "animated_blade", "level": 7 } ]
+  }
+  ]

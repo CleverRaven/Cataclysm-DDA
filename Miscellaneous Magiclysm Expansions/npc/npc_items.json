@@ -1,0 +1,29 @@
+[{
+    "type": "item_group",
+    "id": "wizard_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "small_mana_crystal" }, 
+                 { "item": "crystallized_mana" },
+                 { "group": "magic_shop_books" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "wizard_wield",
+    "subtype": "collection",
+    "entries": [ { "group": "magic_shop_wands", "charges-min": 50, "charges-max": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "animist_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "small_mana_crystal" },
+                 { "item": "switchblade" }, 
+                 { "item": "crystallized_mana" },
+                 { "group": "magic_shop_books" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "animist_wield",
+    "subtype": "collection",
+    "entries": [ { } ]
+  }]

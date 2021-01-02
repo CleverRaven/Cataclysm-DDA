@@ -1,0 +1,12 @@
+[{
+    "type": "effect_type",
+    "id": "froze",
+    "name": [ "Frozen" ],
+    "desc": [ "Ice coats your opponents." ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "apply_message": "Ice forms, freezing your opponents in place!",
+    "remove_message": "The ice melts.",
+    "base_mods": { "speed_mod": [ -100 ] },
+    "scaling_mods": { "speed_mod": [ -20 ] }
+  }]

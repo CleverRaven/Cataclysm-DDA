@@ -1,0 +1,61 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANIMIST",
+    "dynamic_line": {
+      "u_has_var": "talked_to_animist",
+      "type": "dialogue",
+      "context": "animist",
+      "value": "yes",
+      "no": "Hello, stranger. What brings you here?",
+      "yes": "Greetings, friend."
+    },
+    "responses": [
+      {
+        "text": "Hello <name_g>.",
+        "topic": "TALK_ANIMIST_INTRO",
+        "effect": { "u_add_var": "talked_to_animist", "type": "dialogue", "context": "animist", "value": "yes" }
+      },
+      { "text": "Feel like journey'n?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "Let us trade.", "topic": "TALK_A_NOSELL" },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANIMIST_INTRO",
+    "dynamic_line": "What do you need?",
+    "responses": [
+      { "text": "Why are you here?", "topic": "TALK_A_RESIDENCE" },
+      { "text": "Let's trade then.", "topic": "TALK_A_NOSELL" },
+      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_A_RESIDENCE",
+    "dynamic_line": "I live here, as I have for some time. All that past negative stigma is usually avoided out here.",
+    "responses": [
+      { "text": "Do you feel like leavin', after all this time?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "Negative stigma?", "topic": "TALK_A_STUDY" },
+      { "text": "What can you sell me?", "topic": "TALK_A_NOSELL" },
+      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_A_NOSELL",
+    "dynamic_line": "Unfourtonatley, I have no materials to spare. I purchase enough for myself and my research only. I'm sorry. ",
+    "responses": [
+      { "text": "Oh, okay", "topic": "TALK_ANIMIST_INTRO" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_A_STUDY",
+    "dynamic_line": "I am a wizard, an Animist, specifically. We've had a long, supposed, history as necromancers, though I assure you everything is fine here, <name_g>.",
+    "responses": [
+      { "text": "Okay.", "topic": "TALK_ANIMIST_INTRO" }
+    ]
+  }
+]

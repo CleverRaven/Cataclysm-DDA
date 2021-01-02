@@ -1,0 +1,14 @@
+[
+ {
+    "type": "construction",
+    "id": "constr_etable",
+    "description": "Build Enchantng Table",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ], [ "spellcraft", 4 ] ],
+    "time": "45 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "MANA_INFUSE", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_etable"
+  }
+]

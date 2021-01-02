@@ -1,0 +1,13 @@
+[{ "result": "grass_s",
+    "type": "recipe",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "fabrication",
+    "skills_required": [ "spellcraft", 5 ],
+    "difficulty": 4,
+    "time": "8 h 30 m",
+	"book_learn": [ [ "staves_druid", 8 ] ],
+	"qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "MANA_INFUSE", "level": 3 } ], 
+	 "components": [
+      [ [ "crystallized_mana", 400 ] ],
+      [ [ "withered", 50 ], [ "straw_pile", 50 ] ] ] } ] 

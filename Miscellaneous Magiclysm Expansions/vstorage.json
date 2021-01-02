@@ -1,0 +1,20 @@
+[
+ {
+    "id": "magic_fuel_bunker",
+    "type": "MAGAZINE",
+    "name": "magical fuel bunker",
+    "description": "A bin for holding solid fuel, this one designed specificaly for solid magical fuels.",
+    "symbol": "]",
+    "color": "blue",
+    "looks_like": "cargo_rack",
+    "material": "steel",
+    "category": "veh_parts",
+    "weight": "22000 g",
+    "volume": "55 L",
+    "capacity": 2000,
+    "reliability": 10,
+    "//": "mods will need to expand",
+    "ammo_type": "crystallized_mana",
+    "price": 3000
+  }
+]

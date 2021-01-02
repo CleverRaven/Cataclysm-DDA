@@ -1,0 +1,20 @@
+[{
+    "type": "COMESTIBLE",
+    "id": "fblood",
+    "name": { "str_sp": "blood" },
+    "weight": "265 g",
+    "color": "red",
+    "container": "bag_iv",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 50,
+    "healthy": 80,
+    "price_postapoc": 0,
+    "calories": 658,
+    "description": "Blood, possibly that of a human. Delicious!",
+    "price": 0,
+    "material": "hflesh",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "fun": -50
+  }]

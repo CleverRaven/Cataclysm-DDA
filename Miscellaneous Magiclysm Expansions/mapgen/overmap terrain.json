@@ -1,0 +1,20 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "wiz_shack",
+    "name": "wizard shack",
+    "sym": "S",
+    "color": "green",
+    "flags": [ "NO_ROTATE" ],
+    "see_cost": 3 
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "wiz_roof",
+    "name": "wizard shack",
+    "sym": "S",
+    "color": "green",
+    "flags": [ "NO_ROTATE" ],
+    "see_cost": 3 
+  }
+  ]

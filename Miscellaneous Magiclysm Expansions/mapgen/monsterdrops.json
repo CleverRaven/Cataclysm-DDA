@@ -1,0 +1,14 @@
+[{
+    "type": "item_group",
+    "id": "mon_vspawn_deathdrops",
+    "subtype": "collection",
+    "entries": [
+      { "item": "tie_necktie", "prob": 100 },
+      { "item": "dress_shirt", "prob": 100 },
+      { "item": "boxer_briefs", "prob": 100 },
+      { "item": "pants", "prob": 100 },
+      { "item": "socks", "prob": 100 },
+      { "item": "dress_shoes", "prob": 100 }
+    ]
+  }
+]

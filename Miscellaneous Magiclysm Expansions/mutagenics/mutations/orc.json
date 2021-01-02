@@ -1,0 +1,93 @@
+[{
+    "type": "mutation",
+    "id": "THRESH_ORC",
+    "name": { "str": "Orc" },
+    "points": 1,
+    "description": "Through research probably done by some basement-dwelling neckbeard of whom knew magic, you have become an orc. Strike forth, and bring honor to Malacath!",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+{
+    "type": "mutation",
+    "id": "ORCHP",
+    "name": "Orcish Strength",
+    "points": 2,
+    "description": "Your muscles and bones appear to have hardened.",
+    "changes_to": [ "ORCHP2" ],
+    "cancels": [ "TOUGH", "TOUGH2", "TOUGH3", "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
+    "category": [ "ORC" ],
+    "social_modifiers": { "intimidate": 3 },
+    "hp_modifier": 0.3
+  },
+{
+    "type": "mutation",
+    "id": "ORCHP2",
+    "name": "Improved Orcish Strength",
+    "points": 3,
+    "description": "The density of your muscles and skin have increased, providing an improved bonus to ones health.",
+    "prereqs": [ "ORCHP" ],
+    "changes_to": [ "ORCHP3" ],
+    "cancels": [ "TOUGH", "TOUGH2", "TOUGH3", "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW", "THINSKIN"],
+    "category": [ "ORC" ],
+    "wet_protection": [
+      { "part": "LEG_L", "neutral": 2 },
+      { "part": "LEG_R", "neutral": 2 },
+      { "part": "ARM_L", "neutral": 2 },
+      { "part": "ARM_R", "neutral": 2 },
+      { "part": "TORSO", "neutral": 4 }
+    ],
+    "armor": [ { "parts": "ALL", "bash": 1, "cut": 1 } ],
+    "passive_mods": { "str_mod": 2 },   
+    "weight_capacity_modifier": 1.05,
+    "social_modifiers": { "intimidate": 4 },
+    "hp_modifier": 0.5
+  },
+  {
+    "type": "mutation",
+    "id": "ORCHP3",
+    "name": "Supreme Orcish Strength",
+    "points": 5,
+    "description": "Your muscles have become extremely dense, as well as your skin, providing major boosts to health.",
+    "prereqs": [ "ORCHP2" ],
+    "threshreq": [ "THRESH_ORC" ],
+    "cancels": [ "TOUGH", "TOUGH2", "TOUGH3", "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
+    "category": [ "ORC" ],
+    "wet_protection": [
+      { "part": "LEG_L", "neutral": 3 },
+      { "part": "LEG_R", "neutral": 3 },
+      { "part": "ARM_L", "neutral": 3 },
+      { "part": "ARM_R", "neutral": 3 },
+      { "part": "TORSO", "neutral": 5 }
+    ],
+    "armor": [ { "parts": "ALL", "bash": 3, "cut": 3 } ], 
+    "passive_mods": { "str_mod": 4 },
+    "weight_capacity_modifier": 2.1,                  
+    "social_modifiers": { "intimidate": 7 },
+    "hp_modifier": 1
+  },
+  {
+    "type": "mutation",
+    "id": "ORCENDURE",
+    "name": "Orcish Endurance",
+    "points": 2,
+    "description": "Your natural endurance has increased somewhat.",
+    "cancels": [ "BADCARDIO", "GOODCARDIO", "GOODCARDIO2" ],                                                                            
+    "category": [ "ORC" ],
+    "max_stamina_modifier": 1.8
+  },
+  {
+    "type": "mutation",
+    "id": "ORCBLUST",
+    "name": "Bloodlust",
+    "points": 2,
+    "description": "You have learned to control your adrenaline, allowing for its release when you wish.",
+    "category": [ "ORC" ],
+    "threshreq": [ "THRESH_ORC" ],
+    "hp_modifier": 1.03,
+    "active_mods": { "str_mod": 6 },
+    "active": true,
+    "starts_active": false,
+    "cost": 0
+  }
+]

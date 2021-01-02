@@ -1,0 +1,13 @@
+ [
+  {
+    "id": "mana_engine",
+    "copy-from": "engine_steam",
+    "type": "ENGINE",
+    "name": "mana engine",
+    "description": "An engine, similar in model to that of steam, but using crystalized mana to heat water instead of coal. You can see a Technomancer rune embedded upon it.",
+    "weight": "180000 g",
+    "volume": "37500 ml",
+    "price": 555000,
+    "price_postapoc": 1110000
+  }
+ ]

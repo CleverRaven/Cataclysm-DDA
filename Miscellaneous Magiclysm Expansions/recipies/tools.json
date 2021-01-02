@@ -1,0 +1,12 @@
+[{  "result": "stave_carver",
+    "type": "recipe",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "book_learn": [ [ "staves_bio", 8 ], [ "staves_tech", 8 ], [ "staves_storm", 8 ], [ "staves_earth", 8 ], [ "staves_druid", 8 ], [ "staves_animist", 8 ], [ "staves_kelvin", 8 ], [ "staves_magus", 8 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CHISEL", "level": 1 } ],
+    "components": [
+       [ [ "primitive_knife", 1 ] ], [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ], [ [ "rock", 1 ], [ "sharp_rock", 1 ] ] ]                 
+  }]

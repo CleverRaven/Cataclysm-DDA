@@ -1,0 +1,61 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_DRUID",
+    "dynamic_line": {
+      "u_has_var": "talked_to_druid",
+      "type": "dialogue",
+      "context": "druid",
+      "value": "yes",
+      "no": "Hello, stranger. What brings you here?",
+      "yes": "Greetings, friend."
+    },
+    "responses": [
+      {
+        "text": "Hello <name_g>.",
+        "topic": "TALK_DRUID_INTRO",
+        "effect": { "u_add_var": "talked_to_druid", "type": "dialogue", "context": "druid", "value": "yes" }
+      },
+      { "text": "Feel like journey'n?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "Let us trade.", "topic": "TALK_D_NOSELL" },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DRUID_INTRO",
+    "dynamic_line": "What do you need?",
+    "responses": [
+      { "text": "Why are you here?", "topic": "TALK_D_RESIDENCE" },
+      { "text": "Let's trade then.", "topic": "TALK_D_NOSELL" },
+      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_D_RESIDENCE",
+    "dynamic_line": "I live here, as I have for some time. It aids my attunement to nature.",
+    "responses": [
+      { "text": "What if we explore the natural world further?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "You are a hippe, I presume?", "topic": "TALK_D_STUDY" },
+      { "text": "What can you sell me?", "topic": "TALK_D_NOSELL" },
+      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_D_NOSELL",
+    "dynamic_line": "I have nothing to spare. Sorry.",
+    "responses": [
+      { "text": "Oh, okay", "topic": "TALK_DRUID_INTRO" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_D_STUDY",
+    "dynamic_line": "No, no... well, mabey. I'm a Druid, actually. I harbor an attunement to nature few others possess.",
+    "responses": [
+      { "text": "Impressive.", "topic": "TALK_DRUID_INTRO" }
+    ]
+  }
+]

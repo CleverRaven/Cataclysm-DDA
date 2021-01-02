@@ -1,0 +1,29 @@
+[
+ {
+    "type": "mutation_category",
+    "id": "ORC",
+    "name": "Orc",
+    "threshold_mut": "THRESH_ORC",
+    "mutagen_message": "You feel powerful.",
+    "iv_message": "Your gaze hardens.",
+    "memorial_message": "Understood martial prowess."
+  },
+  {
+    "type": "mutation_category",
+    "id": "VAMP",
+    "name": "Vampyr",
+    "threshold_mut": "THRESH_VAMP",
+    "mutagen_message": "The night beckons you.",
+    "iv_message": "Your canine teeth sharpen.",
+    "memorial_message": "Became a child of the night."
+  },
+  {
+    "type": "mutation_category",
+    "id": "MAGIC",
+    "name": "Attuned Mage",
+    "threshold_mut": "THRESH_MAGIC",
+    "mutagen_message": "Mana falls upon you.",
+    "iv_message": "A wave of mana crashes upon your shores.",
+    "memorial_message": "Attuned the arcane."
+  }
+ ]

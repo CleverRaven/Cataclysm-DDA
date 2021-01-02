@@ -1,0 +1,80 @@
+[{
+    "type": "npc",
+    "id": "magus",
+    "//": "generic magus.",
+    "class": "NC_MAGUS",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_MAGUS",
+    "faction": "wizards_ancient"
+  },
+  {
+    "type": "npc",
+    "id": "animist",
+    "//": "generic animist.",
+    "class": "NC_ANIMIST",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ANIMIST",
+    "faction": "wizards_ancient"
+  },
+  {
+    "type": "npc",
+    "id": "biomancer",
+    "//": "generic biomancer.",
+    "class": "NC_BIOMANCER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_BIO",
+    "faction": "wizards_ancient"
+  },
+  {
+    "type": "npc",
+    "id": "druid",
+    "//": "generic druid.",
+    "class": "NC_DRUID",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_DRUID",
+    "faction": "wizards_ancient"
+  },
+  {
+    "type": "npc",
+    "id": "earthshaper",
+    "//": "generic earthshaper.",
+    "class": "NC_EARTH",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_EARTH",
+    "faction": "wizards_ancient"
+  },
+  {
+    "type": "npc",
+    "id": "kelvinist",
+    "//": "generic kelvinist.",
+    "class": "NC_KELVINIST",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_KELVIN",
+    "faction": "wizards_ancient"
+  },
+  {
+    "type": "npc",
+    "id": "stormshaper",
+    "//": "generic stormshaper.",
+    "class": "NC_STORM",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_STORM",
+    "faction": "wizards_ancient"
+  },
+  {
+    "type": "npc",
+    "id": "technomancer",
+    "//": "generic technomancer.",
+    "class": "NC_TECH",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_TECH",
+    "faction": "wizards_ancient"
+  }]

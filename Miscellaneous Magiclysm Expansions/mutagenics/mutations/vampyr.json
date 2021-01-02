@@ -1,0 +1,165 @@
+[{
+    "type": "mutation",
+    "id": "THRESH_VAMP",
+    "name": "Vampyr",
+    "points": 1,
+    "description": "You have grown to become a child of the night. Vampyr is your new name, for you shall not be called death so soon",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "VGAZE",
+    "name": "Charming Gaze",
+    "points": 2,
+    "description": "Your gaze provokes a sense of calm within those whom you adress.",
+    "cancels": [ "UGLY" ],
+    "category": [ "VAMP" ],
+    "social_modifiers": { "persuade": 3 }
+  },
+  {
+    "type": "mutation",
+    "id": "FANG",
+    "name": "Draining Fangs",
+    "points": 2,
+    "description": "Your canine teeth have elongated and sharpened, allowing for you to feed upon others",
+    "cancels": [ "FANGS", "SHARKTEETH", "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
+    "category": [ "VAMP" ],
+    "spells_learned": [ [ "vamp_drain", 0 ] ],
+     "attacks": {
+      "attack_text_u": "You tear into %s with your teeth",
+      "attack_text_npc": "%1$s tears into %2$s with their teeth",
+      "body_part": "MOUTH",
+      "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
+      "chance": 20,
+      "base_damage": { "damage_type": "stab", "amount": 15 }
+    },
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "VDEX",
+    "name": "Vampiric Dexterity",
+    "points": 2,
+    "description": "Your joints seem to have loosened slightly.",
+    "changes_to": [ "VDEX2" ],
+    "cancels": [ "BADKNEES" ],
+    "category": [ "VAMP" ],
+    "passive_mods": { "dex_mod": 2 }
+  },
+  {
+    "type": "mutation",
+    "id": "VDEX2",
+    "name": "Enhanced Vampiric Dexterity",
+    "points": 3,
+    "description": "Your joints seem to have loosened. You may climb obstacles quickly, too.",
+    "prereqs": [ "VDEX" ],
+    "changes_to": [ "VDEX3" ],
+    "cancels": [ "BADKNEES" ],
+    "category": [ "VAMP" ],
+    "passive_mods": { "dex_mod": 3 },
+    "movecost_obstacle_modifier": 0.25
+  },
+  {
+    "type": "mutation",
+    "id": "VDEX3",
+    "name": "Extreme Vampiric Dexterity",
+    "points": 4,
+    "description": "Your joints seem to have loosened to a great degree. You may climb obstacles rather quickly, too.",
+    "prereqs": [ "VDEX2" ],
+    "cancels": [ "BADKNEES" ],
+    "category": [ "VAMP" ],
+    "threshreq": [ "THRESH_VAMP" ],
+    "passive_mods": { "dex_mod": 5 },
+    "movecost_obstacle_modifier": 0.75
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION",
+    "name": { "str": "Night Vision" },
+    "points": 2,
+    "description": "You possess natural night vision, and can see further in the dark than most.  Activate to toggle NV-visible areas on or off.",
+    "starting_trait": true,
+    "changes_to": [ "NIGHTVISION2" ],
+    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
+    "category": [ "BIRD", "CATTLE", "INSECT", "VAMP" ],
+    "active": true,
+    "starts_active": true
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION2",
+    "name": { "str": "High Night Vision" },
+    "points": 4,
+    "description": "You can see incredibly well in the dark!  Activate to toggle NV-visible areas on or off.",
+    "prereqs": [ "NIGHTVISION" ],
+    "changes_to": [ "NIGHTVISION3" ],
+    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
+    "category": [ "FISH", "BEAST", "INSECT", "RAT", "CHIMERA", "LUPINE", "MOUSE", "VAMP" ],
+    "active": true,
+    "starts_active": true
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTVISION3",
+    "name": { "str": "Full Night Vision" },
+    "points": 6,
+    "description": "You can see in pitch blackness as if you were wearing night-vision goggles.  Activate to toggle NV-visible areas on or off.",
+    "prereqs": [ "NIGHTVISION2" ],
+    "leads_to": [ "INFRARED" ],
+    "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE" ],
+    "category": [ "FISH", "TROGLOBITE", "SPIDER", "VAMP" ],
+    "active": true,
+    "starts_active": true
+  },
+  {
+    "type": "mutation",
+    "id": "ALBINO",
+    "name": { "str": "Albino" },
+    "points": -1,
+    "description": "You lack skin pigmentation due to a genetic problem.  You sunburn extremely easily, and typically use an umbrella and sunglasses when going out in the sun.",
+    "starting_trait": true,
+    "changes_to": [ "SUNBURN" ],
+    "category": [ "TROGLOBITE", "MOUSE", "VAMP" ],
+    "types": [ "skin_tone" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SUNBURN",
+    "name": { "str": "Solar Sensitivity" },
+    "points": -3,
+    "description": "Your skin simply cannot handle ultraviolet radiation, such as sunlight.  It will seriously burn you.",
+    "prereqs": [ "ALBINO" ],
+    "prereqs2": [ "TROGLO2", "TROGLO3" ],
+    "category": [ "TROGLOBITE", "VAMP" ],
+    "types": [ "skin_tone" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VSPELL1",
+    "name": "Bloodshot",
+    "points": 2,
+    "description": "You have learned to focus your vampiric power into a harmful blast, if fatiguing.",
+    "category": [ "VAMP" ],
+    "spells_learned": [ [ "bloodshot", 0 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VSPELL2",
+    "name": "Misten Propulsion",
+    "points": 2,
+    "description": "You have learned to descintegrate into a fine mist, propelling yourself in a general direction, though extremely tiring.",
+    "category": [ "VAMP" ],
+    "spells_learned": [ [ "mist_prop", 0 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VSPELL3",
+    "name": "Servant Spawn",
+    "points": 2,
+    "description": "You have learned to focus your vampiric powers to create servants.",
+    "category": [ "VAMP" ],
+    "spells_learned": [ [ "vamp_minion", 0 ] ]
+  }
+]

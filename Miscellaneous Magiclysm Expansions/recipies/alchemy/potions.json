@@ -1,0 +1,39 @@
+[{  "result": "mana_potion_lesser",
+    "type": "recipe",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 2 ],
+    "difficulty": 1,
+    "time": "15 m",
+    "book_learn": [ [ "alchemist", 8 ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 } ],
+    "components": [
+       [ [ "crystallized_mana", 5 ] ], [ [ "potion_starter", 1 ] ] ]
+  },
+  { "result": "mana_potion",
+    "type": "recipe",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 3 ],
+    "difficulty": 2,
+    "time": "30 m",
+    "book_learn": [ [ "alchemist", 8 ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [
+       [ [ "crystallized_mana", 30 ] ], [ [ "potion_starter", 1 ] ] ]
+  },
+  { "result": "mana_potion_greater",
+    "type": "recipe",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 5 ],
+    "difficulty": 4,
+    "time": "45 m",
+    "book_learn": [ [ "alchemist", 8 ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 2 }, { "id": "BOIL", "level": 3 }, { "id": "DISTILL", "level": 3 }, { "id": "MANA_INFUSE", "level": 2 } ],
+    "components": [
+       [ [ "crystallized_mana", 60 ] ], [ [ "potion_starter", 1 ] ] ]
+  }]

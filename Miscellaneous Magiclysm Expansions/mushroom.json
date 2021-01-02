@@ -1,0 +1,23 @@
+[
+ {
+    "type": "COMESTIBLE",
+    "id": "mushroom_mana",
+    "name": "magical mushroom",
+    "weight": "69 g",
+    "color": "blue",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": 1,
+    "calories": 15,
+    "description": "A blue, iridescent mushroom. It seems to contain magical power.",
+    "price": 140,
+    "price_postapoc": 50,
+    "material": "mushroom",
+    "volume": "250 ml",
+    "fun": -3,
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "smoking_result": "dry_mushroom",
+    "vitamins": [ [ "vitC", 2 ], [ "iron", 2 ] ]
+  }
+ ]

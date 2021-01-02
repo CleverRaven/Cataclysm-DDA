@@ -1,0 +1,70 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_EARTH",
+    "dynamic_line": {
+      "u_has_var": "talked_to_earth",
+      "type": "dialogue",
+      "context": "earth",
+      "value": "yes",
+      "no": "Hello, stranger. What brings you here?",
+      "yes": "Greetings, friend."
+    },
+    "responses": [
+      {
+        "text": "Hello <name_g>.",
+        "topic": "TALK_EARTH_INTRO",
+        "effect": { "u_add_var": "talked_to_earth", "type": "dialogue", "context": "earth", "value": "yes" }
+      },
+      { "text": "Feel like journey'n?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "Let us trade.", "topic": "TALK_E_NOSELL" },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EARTH_INTRO",
+    "dynamic_line": "What do you need?",
+    "responses": [
+      { "text": "Why are you here?", "topic": "TALK_E_RESIDENCE" },
+      { "text": "Let's trade then.", "topic": "TALK_E_NOSELL" },
+      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_E_RESIDENCE",
+    "dynamic_line": "I live here, <name_g>. I can truly focus upon my studies here, y'know?",
+    "responses": [
+      { "text": "Do you feel like leavin', after all this time?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "What do you study?", "topic": "TALK_E_STUDY" },
+      { "text": "What can you sell me?", "topic": "TALK_E_NOSELL" },
+      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_E_NOSELL",
+    "dynamic_line": "Unfourtonatley, I have no materials to spare. I purchase enough for myself and my research only. I'm sorry. ",
+    "responses": [
+      { "text": "Oh, okay", "topic": "TALK_EARTH_INTRO" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_E_STUDY",
+    "dynamic_line": "I'm an Earthshaper, <name_g>. My attunements to the planet are quite important, so, I moved here. I like it.",
+    "responses": [
+      { "text": "Hmm...", "topic": "TALK_EARTH_INTRO" },
+      { "text": "What attunements?", "topic": "TALK_E_MAGIC" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_E_MAGIC",
+    "dynamic_line": "Well, as an Earthshaper, my magic harbors a great attunement to stone, minerals, etc. Our magical ability harbors a derect corrolation to the strength of this attunement. As such, I wish to strengthen this as much as possible.",
+    "responses": [
+      { "text": "Okay", "topic": "TALK_EARTH_INTRO" }
+    ]
+  }
+]

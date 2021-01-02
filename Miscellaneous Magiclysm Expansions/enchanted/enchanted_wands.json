@@ -1,0 +1,11 @@
+[   
+ {  "type": "TOOL",
+    "id": "wand_demon_fireball",
+    "name": "Daemon Arachnid Wand",
+    "name_plural": "Daemon Arachnid Wands",
+    "copy-from": "spell_wand",
+    "price": 30000,
+    "description": "Ye wand hath been forged frome the chitin of some foul daemon, wielding their powere!",
+    "use_action": { "type": "cast_spell", "spell_id": "burning_hands", "no_fail": true, "level": 5, "need_wielding": true } 
+}
+]

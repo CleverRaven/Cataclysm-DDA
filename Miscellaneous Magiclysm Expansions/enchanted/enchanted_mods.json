@@ -1,0 +1,20 @@
+[
+  {
+    "id": "magicfocus",
+    "type": "GUNMOD",
+    "name": { "str": "magical focus enchantment" },
+    "description": "An enchanted pebble which allows a spellcaster to focus their magic through an object.",
+    "weight": "1 g",
+    "volume": "50 ml",
+    "integral_volume": "0 ml",
+    "price": 4000,
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "symbol": ".",
+    "color": "dark_gray",
+    "location": "accessories",
+    "mod_targets": [ "bow", "stave", "gstave", "crossbow", "rifle", "shotgun", "smg", "pistol", "rugerlcp", "kp32", "kp3at", "kpf9", "cop_38", "moss_brownie" ],
+    "dispersion_modifier": 0,
+    "min_skills": [ [ "spellcraft", 1 ] ]
+  }
+  ]

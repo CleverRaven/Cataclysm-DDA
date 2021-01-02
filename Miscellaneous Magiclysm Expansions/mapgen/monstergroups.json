@@ -1,0 +1,13 @@
+[{
+    "type": "monstergroup",
+    "name": "GROUP_DUNGEON",
+    "default": "mon_null",
+    "monsters": [ { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 2 },
+                  { "monster": "mon_skeleton", "freq": 100, "cost_multiplier": 2 },
+                  { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 2 },
+                  { "monster": "mon_skeleton", "freq": 100, "cost_multiplier": 2 },
+                 { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 2 },
+                  { "monster": "mon_skeleton", "freq": 100, "cost_multiplier": 2 },
+                  { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 2 },
+                  { "monster": "mon_skeleton", "freq": 100, "cost_multiplier": 2 } ]
+  }]

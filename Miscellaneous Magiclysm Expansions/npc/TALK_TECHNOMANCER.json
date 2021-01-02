@@ -1,0 +1,61 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_TECH",
+    "dynamic_line": {
+      "u_has_var": "talked_to_tech",
+      "type": "dialogue",
+      "context": "tech",
+      "value": "yes",
+      "no": "What be-ith the reason for thine arrival?",
+      "yes": "Greetings."
+    },
+    "responses": [
+      {
+        "text": "Hello <name_g>.",
+        "topic": "TALK_TECH_INTRO",
+        "effect": { "u_add_var": "talked_to_tech", "type": "dialogue", "context": "tech", "value": "yes" }
+      },
+      { "text": "Feel like journey'n?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "Let us trade.", "topic": "TALK_T_NOSELL" },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TECH_INTRO",
+    "dynamic_line": "What doth thine require?",
+    "responses": [
+      { "text": "Why are you here?", "topic": "TALK_T_RESIDENCE" },
+      { "text": "Let's trade then.", "topic": "TALK_T_NOSELL" },
+      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_T_RESIDENCE",
+    "dynamic_line": "This be-ith my abode. My research is quite safe within a secluded area.",
+    "responses": [
+      { "text": "Do you feel like leavin', after all this time?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "What do you research?", "topic": "TALK_T_STUDY" },
+      { "text": "What can you sell me?", "topic": "TALK_T_NOSELL" },
+      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_T_NOSELL",
+    "dynamic_line": "I harbor no spare portions by which to barter. I do apologize.",
+    "responses": [
+      { "text": "Oh, okay", "topic": "TALK_TECH_INTRO" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_T_STUDY",
+    "dynamic_line": "I am a Technomancer. My work alters technology, charged via the utilization of various magics.",
+    "responses": [
+      { "text": "Interesting", "topic": "TALK_TECH_INTRO" }
+    ]
+  }
+]

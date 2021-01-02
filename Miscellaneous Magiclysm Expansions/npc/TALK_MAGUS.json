@@ -1,0 +1,61 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_MAGUS",
+    "dynamic_line": {
+      "u_has_var": "talked_to_magus",
+      "type": "dialogue",
+      "context": "magus",
+      "value": "yes",
+      "no": "Hello, stranger. What brings you here?",
+      "yes": "Greetings, friend."
+    },
+    "responses": [
+      {
+        "text": "Hello <name_g>.",
+        "topic": "TALK_MAGUS_INTRO",
+        "effect": { "u_add_var": "talked_to_magus", "type": "dialogue", "context": "magus", "value": "yes" }
+      },
+      { "text": "Feel like journey'n?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "Let us trade.", "topic": "TALK_NOSELL" },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MAGUS_INTRO",
+    "dynamic_line": "What do you need?",
+    "responses": [
+      { "text": "Why are you here?", "topic": "TALK_RESIDENCE" },
+      { "text": "Let's trade then.", "topic": "TALK_NOSELL" },
+      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RESIDENCE",
+    "dynamic_line": "I live here, as I have for some time. I find the solitude to aid me when I research. All the people seem to question me, you know.",
+    "responses": [
+      { "text": "Do you feel like leavin', after all this time?", "topic": "TALK_SUGGEST_FOLLOW" },
+      { "text": "What do you research?", "topic": "TALK_STUDY" },
+      { "text": "What can you sell me?", "topic": "TALK_NOSELL" },
+      { "text": "I'm sorry, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NOSELL",
+    "dynamic_line": "Unfortunately, I have no materials to spare. I purchase enough for myself and my research only. I'm sorry. ",
+    "responses": [
+      { "text": "Oh, okay", "topic": "TALK_MAGUS_INTRO" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_STUDY",
+    "dynamic_line": "I am a wizard, a Magus, specifically. The school is as old as magic itself, <name_g>.",
+    "responses": [
+      { "text": "Interesting", "topic": "TALK_MAGUS_INTRO" }
+    ]
+  }
+]

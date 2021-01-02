@@ -1,0 +1,104 @@
+[
+  {
+    "type": "dream",
+    "messages": [ "You dream of battle.", "You dream of contest." ],
+    "category": "ORC",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of smoked meats and strong drink.",
+      "You dream of hunting various mammailia, your friends beside you."
+    ],
+    "category": "ORC",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "A field of battle rages around you, as adrenaline courses through you.",
+      "Music plays, as you chug various beverages with various friends."
+    ],
+    "category": "ORC",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "A tall, strong Orc visits you within an unkown plane, speaking words of encouragement, and the embracement of your true nature.",
+      "You now know what life truly is, leaving behind your weak form. Glory to Malacath!"
+    ],
+    "category": "ORC",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [ "You dream of spells.", "You dream of magic." ],
+    "category": "MAGIC",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of riding an owlbear.",
+      "You dream of blue mushrooms growing beneath a tree."
+    ],
+    "category": "MAGIC",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You stand within a workshop, various objects around you, in front of you lies an unfinished wand.",
+      "Strolling through the halls of an academy, you observe apprintices practice magic, and grinding flourescent fungi."
+    ],
+    "category": "MAGIC",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Fireballs and magic missiles fly about you, as lightning roars from the heavens, rending that below.",
+      "You wield arcane powers which few other mages know of. Your spells readied, potions stocked, and wands recharged, you venture into the unknown."
+    ],
+    "category": "MAGIC",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of moonlight.",
+      "You dream of teeth."
+    ],
+    "category": "VAMP",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of drawing blood from an animal.",
+      "You dream of wandering the night."
+    ],
+    "category": "VAMP",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Wandering through a forest, a great hunger washes upon you. A thirst unknown to thine prior.",
+      "You stand from a coffin, two human-like figures flank the room, observing your movements."
+    ],
+    "category": "VAMP",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Sat upon a rooftop, the moon above you, as your observations of a sleeping city yield the events of others. It is pleasure.",
+      "'Spawn of the night', 'bloodsucker', 'dark being', such negative stigma has plauged you throughout the centuries. You have embraced the evening hours, with powers great. Your kind shall be brought forth from the brink of extinction, unto a new moon."
+    ],
+    "category": "VAMP",
+    "strength": 4
+  }
+]

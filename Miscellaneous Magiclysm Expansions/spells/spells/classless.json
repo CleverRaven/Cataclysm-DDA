@@ -1,0 +1,20 @@
+[{
+    "id": "fear",
+    "type": "SPELL",
+    "name": "Cause Fear",
+    "description": "Instill a great fear wihin the minds of your foes!",
+    "message": "Your eyes glow green for a moment.  Now your sight can pierce the darkest shadows.",
+    "valid_targets": [ "ally", "self", "hostile" ],
+    "effect": "target_attack",
+    "effect_str": "eff_frightful_presence",
+    "min_range": 1,
+    "max_range": 8,
+    "base_casting_time": 100,
+    "base_energy_cost": 300,
+    "energy_source": "MANA",
+    "difficulty": 4,
+    "max_level": 20,
+    "min_duration": 100000,
+    "max_duration": 1000000,
+    "duration_increment": 2000
+  }]

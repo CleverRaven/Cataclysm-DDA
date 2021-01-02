@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "demon_spider_a",
+    "name": "Miscellaneous Magiclysm Expansions",
+    "authors": [ "Minecrafter: Next Generation" ],
+    "maintainers": [ "Minecrafter: Next Generation", "GoatGod" ],
+    "description": "Major and/or minor expansions to the Magiclysm modification. Additional credit: Chaosvolt, Mrsecretguy1/Kenan", 
+    "category": "items",
+    "dependencies": [ "dda", "magiclysm" ]
+  } ]

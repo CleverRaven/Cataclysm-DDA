@@ -1,0 +1,19 @@
+[   
+ {
+    "id": "etable",
+    "type": "TOOL",
+    "name": { "str": "enchanter's table" },
+    "description": "A fake item for the enchanting table. It is a bug if you have it.",
+    "weight": "5400 g",
+    "volume": "4 L",
+    "price": 10000,
+    "price_postapoc": 200,
+    "to_hit": -5,
+    "bashing": 10,
+    "material": "iron",
+    "symbol": ";",
+    "color": "dark_gray",
+    "qualities": [ [ "MANA_INFUSE", 3 ] ],
+    "flags": [ "DURABLE_MELEE" ]
+  }
+]

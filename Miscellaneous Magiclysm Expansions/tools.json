@@ -1,0 +1,14 @@
+[
+  {
+    "id": "stave_carver",
+    "type": "TOOL",
+    "name": { "str": "stave carving kit", "str_pl": "stave carving kits" },
+    "description": "A combination of a knife and drill often utilized within the precise carpentry of stave-craft.",
+    "weight": "650 g",
+    "volume": "250 ml",
+    "price": 3000,
+    "price_postapoc": 10,
+    "material": [ "wood", "stone" ],
+    "symbol": ";",
+    "color": "brown"
+  }]

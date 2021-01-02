@@ -1,0 +1,22 @@
+[
+  {
+    "type": "start_location",
+    "id": "magic_cabin",
+    "name": "Magic Cabin",
+    "target": [ "magic_cabin_north" ]
+},
+{
+    "type": "start_location",
+    "id": "bdrag_lair",
+    "name": "Dragons Lair",
+    "target": [
+      [ "black_dragon_lair_z-1_north" ]
+    ]
+},
+{
+    "type": "start_location",
+    "id": "dspider_lair",
+    "name": "Demon Spider Nest",
+    "target": [ "demon_spider_lair_north" ]
+}
+]

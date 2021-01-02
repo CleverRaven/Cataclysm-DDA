@@ -1,0 +1,44 @@
+[{  "result": "mutagen_orc",
+    "type": "recipe",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 4 ],
+    "difficulty": 5,
+    "time": "1 h",
+    "book_learn": [ [ "hchem_notebook", 8 ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 }, { "id": "MANA_INFUSE", "level": 1 }, { "id": "DISTILL", "level": 1 }, { "id": "CHEM", "level": 3 } ],
+    "components": [
+       [ [ "crystallized_mana", 10 ] ], [ [ "potion_starter", 1 ] ], [ [ "fish", 12 ] ], [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+  },
+  {"result": "magicmutagen",
+    "type": "recipe",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 3 ],
+    "difficulty": 3,
+    "time": "1 h",
+    "book_learn": [ [ "hchem_notebook", 8 ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 }, { "id": "MANA_INFUSE", "level": 1 }, { "id": "DISTILL", "level": 1 }, { "id": "CHEM", "level": 3 } ],
+    "components": [
+       [ [ "crystallized_mana", 10 ] ], [ [ "potion_starter", 1 ] ], [ [ "mushroom_mana", 10 ], [ "seed_mushroom_mana", 20 ] ] ]
+  },
+  {"result": "vampmut",
+    "type": "recipe",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_POTIONS",
+    "skill_used": "cooking",
+    "skills_required": [ "spellcraft", 3 ],
+    "difficulty": 3,
+    "time": "1 h",
+    "book_learn": [ [ "hchem_notebook", 8 ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 2 }, { "id": "MANA_INFUSE", "level": 1 }, { "id": "DISTILL", "level": 1 }, { "id": "CHEM", "level": 3 } ],
+    "components": [
+       [ [ "crystallized_mana", 10 ] ], [ [ "potion_starter", 1 ] ], [ [ "blood", 15 ] ], [ [ "mushroom_mana", 10 ], [ "seed_mushroom_mana", 20 ] ] ]
+  }]
+
+
+
+
+

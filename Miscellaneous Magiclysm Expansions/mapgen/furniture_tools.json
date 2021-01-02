@@ -1,0 +1,22 @@
+[
+ {
+    "type": "furniture",
+    "id": "f_etable",
+    "name": "enchanting table",
+    "description": "A magical workplace utilized within the enchanting process.",
+    "symbol": "#",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "required_str": 5,
+    "crafting_pseudo_item": "etable",
+    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 10 } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
+  }
+}
+]

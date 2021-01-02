@@ -1,0 +1,13 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_mushroom_mana",
+    "copy-from": "seed_mushroom_base",
+    "name": { "str_sp": "magic mushroom spores" },
+    "description": "Some magic mushroom spores.",
+    "seed_data": { "plant_name": "magic mushroom", "fruit": "mushroom_mana", "grow": "7 days" }
+  }
+]
+
+
+

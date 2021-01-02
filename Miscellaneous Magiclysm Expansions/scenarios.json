@@ -1,0 +1,33 @@
+[
+  {
+    "type": "scenario",
+    "ident": "magic_hermit",
+    "name": "Magical Hermit",
+    "flags": [ "LONE_START" ],
+    "points": 2,
+    "description": "Prior to the Cataclysm, you discovered the world of magic from a local wizard. You decided to create a new spell, one day, and someone told the Dracionic heads, exiling you for it. You then became a hermit, living alone in a cabin, studying magical theory and spell reserch, safe within your isolated home when the Cataclysm struck. You doubt the zombies know how to resist magical attacks. ",
+    "start_name": "Magical Cabin",
+    "allowed_locs": [ "magic_cabin" ],
+    "professions": [ "wizard_novice", "novice_necromancer", "novice_earthshaper", "novice_technomancer", "novice_stormshaper", "sum" ] },
+{
+    "type": "scenario",
+    "ident": "dspider_advent",
+    "name": "Challenge - Arachnid Slayer",
+    "flags": [ "LONE_START", "CHALLENGE", "HELI_CRASH" ],
+    "points": -8,
+    "description": "You stumbled across a nest of Demon Spiders. Harkened to the legends of powerful artifacts, you ventured inside. Of course, you were spotted, and wounded in combat. Now in pain, and having spotted what appeared to be a massive spider, you plan upon retreat. You may only hope that your passing is not here.",
+    "start_name": "Demon Spider Nest",
+    "allowed_locs": [ "dspider_lair" ],
+    "professions": [ "wizard_novice", "novice_necromancer", "novice_earthshaper", "novice_technomancer", "novice_stormshaper", "a_technomancer", "a_earthshaper", "a_stormshaper", "a_necromancer", "wizard_advanced", "sum" ]},
+
+{
+    "type": "scenario",
+    "ident": "bdrag_advent",
+    "name": "Challenge - Dracionic Raider",
+    "flags": [ "LONE_START", "CHALLENGE", "HELI_CRASH" ],
+    "points": -8,
+    "description": "You found the lair of a black dragon one day. Seeking powerful magics, you ventured inside. Despite your attempts to bypass the gaurds, you were spotted, ensuing combat. You were wounded in the frenzy, and you wish not to pass here. ",
+    "start_name": "Dragon Lair",
+    "allowed_locs": [ "bdrag_lair" ],
+    "professions": [ "wizard_novice", "novice_necromancer", "novice_earthshaper", "novice_technomancer", "novice_stormshaper", "a_technomancer", "a_earthshaper", "a_stormshaper", "a_necromancer", "wizard_advanced", "sum" ]}
+]
