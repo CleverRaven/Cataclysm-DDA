@@ -577,6 +577,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     }
 
     const bool u_see = g->u.sees( pos );
+    const bool u_hear = !g->u.is_deaf();
     // The current target of the turret.
     auto &target = pt.target;
     if( target.first == target.second ) {
@@ -593,16 +594,18 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         if( auto_target == nullptr ) {
             if( boo_hoo ) {
                 cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name() );
-                if( u_see ) {
+                // check if the player can see or hear then print chooses a message accordingly
+                if( u_see && u_hear ) {
                     add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
                                                   "%s points in your direction and emits %d annoyed sounding beeps.",
                                                   boo_hoo ),
                              cpu.name, boo_hoo );
-                } else {
-                    add_msg( m_warning, ngettext( "%s emits an IFF warning beep.",
-                                                  "%s emits %d annoyed sounding beeps.",
-                                                  boo_hoo ),
-                             cpu.name, boo_hoo );
+                } else if( u_hear ) {
+                    add_msg( m_warning, ngettext( "You hear a warning beep.",
+                                                  "You hear %d annoyed sounding beeps.",
+                                                  boo_hoo ), boo_hoo );
+                } else if( u_see ) {
+                    add_msg( m_warning, _( "%s points in your direction." ), cpu.name );
                 }
             }
             return shots;
