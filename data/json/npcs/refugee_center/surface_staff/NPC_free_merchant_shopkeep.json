@@ -324,7 +324,7 @@
   {
     "id": "TALK_EVAC_MERCHANT_HUB01",
     "type": "talk_topic",
-    "dynamic_line": "We had an odd group came by two days after the power grid went off, two armed guards wearing brown uniforms, escorting what seemed to be a gov' doctor of some sort, had a hazmat suit and mask they never took off. They looked rather organized, probably military remnant from somewhere close by.",
+    "dynamic_line": "We had an odd group came by two days after the power grid went off, two armed guards wearing brown uniforms, escorting what seemed to be a gov' doctor of some sort, had a hazmat suit and mask they never took off.  They looked rather organized, probably military remnant from somewhere close by.",
     "responses": [
       { "text": "I was hoping for something more substantial than that.", "topic": "TALK_EVAC_MERCHANT" },
       { "text": "Just that?", "topic": "TALK_EVAC_MERCHANT_HUB01_ACTIVITY" }
