@@ -1063,12 +1063,12 @@ void computer_session::action_srcf_elevator()
     }
 
     //If only one is enabled, enable the other one. Fix for before this change
-    else if( is_surface_elevator_on && is_underground_elevator_exist ) {
+    else if( is_surface_elevator_on && !is_underground_elevator_on && is_underground_elevator_exist ) {
         here.ter_set( underground_elevator, t_elevator_control );
         is_underground_elevator_on = true;
     }
 
-    else if( is_underground_elevator_on && is_surface_elevator_exist ) {
+    else if( is_underground_elevator_on && !is_surface_elevator_on && is_surface_elevator_exist ) {
         here.ter_set( surface_elevator, t_elevator_control );
         is_surface_elevator_on = true;
     }
