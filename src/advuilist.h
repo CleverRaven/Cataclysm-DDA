@@ -40,8 +40,9 @@ class advuilist
         using cwidth_t = float;
         /// name, column printer function, width weight
         using col_t = std::tuple<std::string, fcol_t, cwidth_t>;
+        using count_t = std::size_t;
         /// counting function. used only for partial/whole selection
-        using fcounter_t = std::function<std::size_t( T const & )>;
+        using fcounter_t = std::function<count_t( T const & )>;
         /// on_rebuild function. params are first_item, element
         using frebuild_t = std::function<void( bool, T const & )>;
         using fdraw_t = std::function<void( advuilist<Container, T> * )>;
@@ -64,7 +65,7 @@ class advuilist
 
         using ptr_t = typename Container::iterator;
         /// count, pointer. count is always > 0
-        using selection_t = std::pair<std::size_t, ptr_t>;
+        using selection_t = std::pair<count_t, ptr_t>;
         using select_t = std::vector<selection_t>;
 
         explicit advuilist( Container *list, point size = { -9, -9 }, point origin = { -9, -9 },
@@ -124,7 +125,8 @@ class advuilist
     private:
         /// pair of index, pointer. index is used for "none" sorting mode and is not meant to represent
         /// index in the original Container (which may not even be indexable)
-        using entry_t = std::pair<std::size_t, ptr_t>;
+        using nidx_t = typename Container::size_type;
+        using entry_t = std::pair<nidx_t, ptr_t>;
         using list_t = std::vector<entry_t>;
         using colscont_t = std::vector<col_t>;
         using sortcont_t = std::vector<sorter_t>;
@@ -139,7 +141,7 @@ class advuilist
 
         point _size, _osize;
         point _origin, _oorigin;
-        std::size_t _pagesize = 0;
+        typename list_t::size_type _pagesize = 0;
         list_t _list;
         colscont_t _columns;
         sortcont_t _sorters;
@@ -178,10 +180,10 @@ class advuilist
         /// minimum whitespace between columns
         static constexpr int const _colspacing = 1;
 
-        select_t _peek( std::size_t amount );
+        select_t _peek( count_t amount );
         select_t _peekall();
-        std::size_t _count( std::size_t idx );
-        std::size_t _peekcount();
+        count_t _count( typename list_t::size_type idx );
+        count_t _peekcount();
 
         void _initctxt();
         void _print();
@@ -192,13 +194,13 @@ class advuilist
         void _group( typename groupercont_t::size_type idx );
         void _querysort();
         void _queryfilter();
-        std::size_t _querypartial( std::size_t max );
+        count_t _querypartial( count_t max );
         void _setfilter( std::string const &filter );
         bool _basicfilter( T const &it, std::string const &filter ) const;
         typename pagecont_t::size_type _idxtopage( typename list_t::size_type idx );
-        void _incidx( std::size_t amount );
-        void _decidx( std::size_t amount );
-        void _setidx( std::size_t idx );
+        void _incidx( typename list_t::size_type amount );
+        void _decidx( typename list_t::size_type amount );
+        void _setidx( typename list_t::size_type idx );
 };
 
 // *INDENT-OFF*
@@ -252,7 +254,7 @@ void advuilist<Container, T>::setColumns( std::vector<col_t> const &columns, boo
 
         // build new implicit column sorters
         if( implicit ) {
-            std::size_t const idx = _columns.size() - 1;
+            typename colscont_t::size_type const idx = _columns.size() - 1;
             tmp.emplace_back( std::get<std::string>( v ),
             [this, idx]( T const & lhs, T const & rhs ) -> bool {
                 return localized_compare( std::get<fcol_t>( _columns[idx] )( lhs ),
@@ -370,14 +372,14 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::select()
             return peek();
         } else if( action == ACTION_SELECT_PARTIAL ) {
             if( !_list.empty() ) {
-                std::size_t const count = _peekcount();
-                std::size_t const input = _querypartial( count );
+                count_t const count = _peekcount();
+                count_t const input = _querypartial( count );
                 if( input > 0 ) {
                     return _peek( input );
                 }
             }
         } else if( action == ACTION_SELECT_WHOLE ) {
-            std::size_t const count = _peekcount();
+            count_t const count = _peekcount();
             return _peek( count );
         } else if( action == ACTION_SELECT_ALL ) {
             return _peekall();
@@ -410,7 +412,7 @@ void advuilist<Container, T>::rebuild( Container *list )
 {
     _list.clear();
     Container *rlist = list == nullptr ? _olist : list;
-    std::size_t idx = 0;
+    nidx_t idx = 0;
     for( auto it = rlist->begin(); it != rlist->end(); ++it ) {
         if( !_ffilter or _filter.empty() or _ffilter( *it, _filter ) ) {
             if( _frebuild ) {
@@ -487,8 +489,8 @@ void advuilist<Container, T>::resize( point size, point origin, point reserved_r
 
     _innerw = _size.x - _firstcol * 2;
     // leave space for decorations and column headers
-    std::size_t const npagesize =
-        static_cast<std::size_t>( std::max( 0, _size.y - ( _headersize + _footersize + 1 ) ) );
+    typename list_t::size_type const npagesize = static_cast<typename list_t::size_type>(
+                std::max( 0, _size.y - ( _headersize + _footersize + 1 ) ) );
     if( npagesize != _pagesize ) {
         _pagesize = npagesize;
         rebuild( _olist );
@@ -531,8 +533,8 @@ void advuilist<Container, T>::savestate( advuilist_save_state *state )
 template <class Container, typename T>
 void advuilist<Container, T>::loadstate( advuilist_save_state *state, bool reb )
 {
-    _csort = static_cast<std::size_t>( state->sort );
-    _cgroup = static_cast<std::size_t>( state->group );
+    _csort = static_cast<typename sortcont_t::size_type>( state->sort );
+    _cgroup = static_cast<typename groupercont_t::size_type>( state->group );
     _filter = state->filter;
     if( reb ) {
         rebuild();
@@ -543,7 +545,7 @@ void advuilist<Container, T>::loadstate( advuilist_save_state *state, bool reb )
 }
 
 template <class Container, typename T>
-typename advuilist<Container, T>::select_t advuilist<Container, T>::_peek( std::size_t amount )
+typename advuilist<Container, T>::select_t advuilist<Container, T>::_peek( count_t amount )
 {
     if( _list.empty() ) {
         return select_t();
@@ -556,8 +558,8 @@ template <class Container, typename T>
 typename advuilist<Container, T>::select_t advuilist<Container, T>::_peekall()
 {
     select_t ret;
-    for( std::size_t idx = 0; idx < _list.size(); idx++ ) {
-        std::size_t const amount = _count( idx );
+    for( typename list_t::size_type idx = 0; idx < _list.size(); idx++ ) {
+        count_t const amount = _count( idx );
         ret.emplace_back( amount, std::get<ptr_t>( _list[idx] ) );
     }
 
@@ -565,7 +567,8 @@ typename advuilist<Container, T>::select_t advuilist<Container, T>::_peekall()
 }
 
 template <class Container, typename T>
-std::size_t advuilist<Container, T>::_count( std::size_t idx )
+typename advuilist<Container, T>::count_t
+advuilist<Container, T>::_count( typename list_t::size_type idx )
 {
     if( _list.empty() ) {
         return 0;
@@ -577,7 +580,7 @@ std::size_t advuilist<Container, T>::_count( std::size_t idx )
 }
 
 template <class Container, typename T>
-std::size_t advuilist<Container, T>::_peekcount()
+typename advuilist<Container, T>::count_t advuilist<Container, T>::_peekcount()
 {
     return _count( _cidx );
 }
@@ -615,11 +618,11 @@ void advuilist<Container, T>::_print()
     lpos.y += 1;
 
     // print entries
-    std::size_t const cpagebegin = _pages[_cpage].first;
-    std::size_t const cpageend = _pages[_cpage].second;
+    typename list_t::size_type const cpagebegin = _pages[_cpage].first;
+    typename list_t::size_type const cpageend = _pages[_cpage].second;
     std::string cgroup;
     fglabel_t const &fglabel = std::get<fglabel_t>( _groupers[_cgroup] );
-    for( std::size_t idx = cpagebegin; idx < cpageend; idx++ ) {
+    for( typename list_t::size_type idx = cpagebegin; idx < cpageend; idx++ ) {
         T const &it = *std::get<ptr_t>( _list[idx] );
 
         // print group header if appropriate
@@ -675,8 +678,8 @@ void advuilist<Container, T>::_printheaders()
                std::get<std::string>( _sorters[_csort] ) );
 
     // page index
-    std::size_t const cpage = _cpage + 1;
-    std::size_t const npages = _pages.size();
+    typename pagecont_t::size_type const cpage = _cpage + 1;
+    typename pagecont_t::size_type const npages = _pages.size();
     std::string const msg2 = string_format( _( "[<] page %1$d of %2$d [>]" ), cpage, npages );
     trim_and_print( _w, { _firstcol, 1 }, _size.x, c_light_blue, msg2 );
 
@@ -719,7 +722,7 @@ void advuilist<Container, T>::_sort( typename sortcont_t::size_type idx )
         // "none" sort mode needs special handling unfortunately
         struct cmp {
             constexpr bool operator()( entry_t const &lhs, entry_t const &rhs ) const {
-                return std::get<std::size_t>( lhs ) < std::get<std::size_t>( rhs );
+                return std::get<nidx_t>( lhs ) < std::get<nidx_t>( rhs );
             }
         };
         for( group_t const &v : _groups ) {
@@ -751,8 +754,8 @@ void advuilist<Container, T>::_group( typename groupercont_t::size_type idx )
     typename list_t::iterator gbegin = _list.begin();
     typename list_t::size_type pbegin = 0;
     // reserve extra space for the first group header;
-    std::size_t lpagesize = _pagesize - ( idx != 0 ? 1 : 0 );
-    std::size_t cpentries = 0;
+    typename list_t::size_type lpagesize = _pagesize - ( idx != 0 ? 1 : 0 );
+    typename list_t::size_type cpentries = 0;
     fglabel_t const &fglabel = std::get<fglabel_t>( _groupers[idx] );
     for( auto it = _list.begin(); it != _list.end(); ++it ) {
         if( fglabel and fglabel( *it->second ) != fglabel( *gbegin->second ) ) {
@@ -828,14 +831,14 @@ void advuilist<Container, T>::_queryfilter()
 }
 
 template <class Container, typename T>
-std::size_t advuilist<Container, T>::_querypartial( std::size_t max )
+typename advuilist<Container, T>::count_t advuilist<Container, T>::_querypartial( count_t max )
 {
     string_input_popup spopup;
     spopup.title(
         string_format( _( "How many do you want to select?  [Max %d] (0 to cancel)" ), max ) );
     spopup.width( 20 );
     spopup.only_digits( true );
-    std::size_t amount = spopup.query_int64_t();
+    count_t amount = spopup.query_int64_t();
 
     return spopup.canceled() ? 0 : std::min( max, amount );
 }
@@ -871,7 +874,7 @@ advuilist<Container, T>::_idxtopage( typename list_t::size_type idx )
 }
 
 template <class Container, typename T>
-void advuilist<Container, T>::_incidx( std::size_t amount )
+void advuilist<Container, T>::_incidx( typename list_t::size_type amount )
 {
     if( _pages.back().second == 0 ) {
         _cidx = 0;
@@ -887,7 +890,7 @@ void advuilist<Container, T>::_incidx( std::size_t amount )
 }
 
 template <class Container, typename T>
-void advuilist<Container, T>::_decidx( std::size_t amount )
+void advuilist<Container, T>::_decidx( typename list_t::size_type amount )
 {
     if( _pages.back().second == 0 ) {
         _cidx = 0;
@@ -903,7 +906,7 @@ void advuilist<Container, T>::_decidx( std::size_t amount )
 }
 
 template <class Container, typename T>
-void advuilist<Container, T>::_setidx( std::size_t idx )
+void advuilist<Container, T>::_setidx( typename list_t::size_type idx )
 {
     _cidx = _pages.back().second == 0
             ? 0

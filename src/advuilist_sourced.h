@@ -95,7 +95,7 @@ class advuilist_sourced : public advuilist<Container, T>
         void _ctxthandler( advuilist<Container, T> *ui, std::string const &action );
         void _printmap();
         icon_t _cycleslot( slotidx_t idx, icon_t first = 0 );
-        std::size_t _countactive( slotidx_t idx );
+        typename slotcont_t::size_type _countactive( slotidx_t idx );
 
         // used only for source map window
         static constexpr int const _headersize = 1;
@@ -291,7 +291,7 @@ void advuilist_sourced<Container, T>::savestate( advuilist_save_state *state )
 template <class Container, typename T>
 void advuilist_sourced<Container, T>::loadstate( advuilist_save_state *state, bool reb )
 {
-    _cslot = static_cast<std::size_t>( state->slot );
+    _cslot = static_cast<slotidx_t>( state->slot );
     setSource( _cslot, state->icon, true, false );
 
     advuilist<Container, T>::loadstate( state, false );
@@ -357,7 +357,7 @@ void advuilist_sourced<Container, T>::_printmap()
         source_t const &src = slotcont.at( icon );
 
         // FIXME: maybe cache this?
-        std::size_t nactive = _countactive( slotidx );
+        typename slotcont_t::size_type nactive = _countactive( slotidx );
 
         std::string const color = string_format(
                                       "<color_%s>",
@@ -397,11 +397,12 @@ advuilist_sourced<Container, T>::_cycleslot( slotidx_t idx, icon_t first )
 }
 
 template <class Container, typename T>
-std::size_t advuilist_sourced<Container, T>::_countactive( slotidx_t idx )
+typename advuilist_sourced<Container, T>::slotcont_t::size_type
+advuilist_sourced<Container, T>::_countactive( slotidx_t idx )
 {
-    std::size_t nactive = 0;
+    typename slotcont_t::size_type nactive = 0;
     for( auto const &it : std::get<slotcont_t>( _sources[idx] ) ) {
-        nactive += static_cast<std::size_t>( std::get<fsourceb_t>( it.second )() );
+        nactive += static_cast<typename slotcont_t::size_type>( std::get<fsourceb_t>( it.second )() );
     }
 
     return nactive;

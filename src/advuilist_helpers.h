@@ -77,7 +77,6 @@ constexpr char const *SOURCE_VEHICLE = "Vehicle";
 constexpr char const SOURCE_VEHICLE_i = 'V';
 
 using pane_mutex_t = std::array<bool, aim_nsources * 2>;
-std::size_t idxtovehidx( std::size_t idx );
 void reset_mutex( pane_mutex_t *mutex );
 void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex );
 void set_mutex( pane_mutex_t *mutex, aim_advuilist_sourced_t::slotidx_t slot,
@@ -92,7 +91,7 @@ template <class Iterable>
 iloc_stack_t get_stacks( Iterable items, filoc_t const &iloc_helper );
 iloc_stack_t get_stacks( std::list<item *> const &items, filoc_t const &iloc_helper );
 
-std::size_t iloc_entry_counter( iloc_entry const &it );
+aim_advuilist_t::count_t iloc_entry_counter( iloc_entry const &it );
 std::string iloc_entry_count( iloc_entry const &it );
 std::string iloc_entry_weight( iloc_entry const &it );
 std::string iloc_entry_volume( iloc_entry const &it );

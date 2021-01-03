@@ -214,7 +214,7 @@ void transaction_ui<Container, T>::loadstate( transaction_ui_save_state *state, 
 {
     _panes[_left].loadstate( &state->left, reb );
     _panes[_right].loadstate( &state->right, reb );
-    _cpane = static_cast<std::size_t>( state->cpane );
+    _cpane = static_cast<typename panecont_t::size_type>( state->cpane );
 }
 
 template <class Container, typename T>
@@ -225,7 +225,7 @@ void transaction_ui<Container, T>::_ctxthandler( advuilist<Container, T> *ui,
     if( action == ACTION_QUIT ) {
         _queue.emplace( event::QUIT );
     } else if( action == ACTION_SWITCH_PANES or action == PANE_LEFT or action == PANE_RIGHT ) {
-        std::size_t check = action == PANE_LEFT ? _right : _left;
+        typename panecont_t::size_type check = action == PANE_LEFT ? _right : _left;
         if( action == ACTION_SWITCH_PANES or _cpane == check ) {
             _queue.emplace( event::SWITCH );
             ui->suspend();

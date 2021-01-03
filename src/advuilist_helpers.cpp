@@ -100,11 +100,11 @@ constexpr _sourcearray const aimsources = {
 #pragma clang diagnostic pop
 #endif
 
-constexpr std::size_t const CONT_IDX = 0;
-constexpr std::size_t const DRAGGED_IDX = 1;
-constexpr std::size_t const INV_IDX = 7;
-constexpr std::size_t const ALL_IDX = 12;
-constexpr std::size_t const WORN_IDX = 13;
+constexpr _sourcearray::size_type const CONT_IDX = 0;
+constexpr _sourcearray::size_type const DRAGGED_IDX = 1;
+constexpr _sourcearray::size_type const INV_IDX = 7;
+constexpr _sourcearray::size_type const ALL_IDX = 12;
+constexpr _sourcearray::size_type const WORN_IDX = 13;
 // this could be a constexpr too if we didn't have to use old compilers
 tripoint slotidx_to_offset( aim_advuilist_sourced_t::slotidx_t idx )
 {
@@ -116,13 +116,18 @@ tripoint slotidx_to_offset( aim_advuilist_sourced_t::slotidx_t idx )
 }
 
 // this could be constexpr in C++20
-std::size_t offset_to_slotidx( tripoint const &off )
+_sourcearray::size_type offset_to_slotidx( tripoint const &off )
 {
     _sourcearray::const_iterator const it =
     std::find_if( aimsources.begin(), aimsources.end(), [&]( _sourcetuple const & v ) {
         return std::get<bool>( v ) and std::get<tripoint>( v ) == off;
     } );
     return std::distance( aimsources.begin(), it );
+}
+
+pane_mutex_t::size_type idxtovehidx( pane_mutex_t::size_type idx )
+{
+    return idx + aim_nsources;
 }
 
 constexpr bool is_vehicle( aim_advuilist_sourced_t::icon_t icon )
@@ -258,7 +263,7 @@ aim_container_t source_player_all( aim_advuilist_sourced_t *ui, pane_mutex_t *mu
     ( *mutex )[slotidx] = false;
 
     aim_container_t itemlist;
-    std::size_t idx = 0;
+    pane_mutex_t::size_type idx = 0;
     for( auto const &v : aimsources ) {
         // only consider entries with is_ground_source = true and not mutex'ed
         if( std::get<bool>( v ) ) {
@@ -297,7 +302,7 @@ void player_drop( aim_transaction_ui_t::select_t const &sel, tripoint const pos,
         if( sel.size() > 1 and it.second->stack.front()->is_favorite ) {
             continue;
         }
-        std::size_t count = it.first;
+        aim_advuilist_t::count_t count = it.first;
         if( it.second->stack.front()->count_by_charges() ) {
             to_drop.emplace_back( it.second->stack.front(), count );
         } else {
@@ -503,11 +508,6 @@ void swap_panes_maybe( aim_transaction_ui_t *ui, std::string const &action, pane
 namespace advuilist_helpers
 {
 
-std::size_t idxtovehidx( std::size_t idx )
-{
-    return idx + aim_nsources;
-}
-
 void set_mutex( pane_mutex_t *mutex, aim_advuilist_sourced_t::slotidx_t slot,
                 aim_advuilist_sourced_t::icon_t icon, bool val )
 {
@@ -516,7 +516,7 @@ void set_mutex( pane_mutex_t *mutex, aim_advuilist_sourced_t::slotidx_t slot,
     if( source_player_dragged_avail() ) {
         tripoint const off = get_avatar().grab_point;
         if( slot == DRAGGED_IDX ) {
-            std::size_t const idx = offset_to_slotidx( off );
+            pane_mutex_t::size_type const idx = offset_to_slotidx( off );
             mutex->at( idxtovehidx( idx ) ) = val;
         }
         if( ( off == slotidx_to_offset( slot ) and is_vehicle( icon ) ) ) {
@@ -591,7 +591,7 @@ iloc_stack_t get_stacks( std::list<item *> const &items, filoc_t const &iloc_hel
     return stacks;
 }
 
-std::size_t iloc_entry_counter( iloc_entry const &it )
+aim_advuilist_t::count_t iloc_entry_counter( iloc_entry const &it )
 {
     return it.stack[0]->count_by_charges() ? it.stack[0]->charges : it.stack.size();
 }
@@ -627,7 +627,7 @@ std::string iloc_entry_name( iloc_entry const &it )
 std::string iloc_entry_src( iloc_entry const &it )
 {
     tripoint const off = it.stack.front().position() - get_avatar().pos();
-    std::size_t idx = offset_to_slotidx( off );
+    _sourcearray::size_type idx = offset_to_slotidx( off );
     return std::get<_tuple_abrev_idx>( aimsources[idx] );
 }
 
@@ -861,7 +861,7 @@ void add_aim_sources( aim_advuilist_sourced_t *myadvuilist, pane_mutex_t *mutex 
     };
 
     // Cataclysm: Hacky Stuff Redux
-    std::size_t idx = 0;
+    _sourcearray::size_type idx = 0;
     for( auto const &src : aimsources ) {
         fsource_t _fs;
         fsource_t _fsv;
@@ -974,7 +974,7 @@ void aim_transfer( aim_transaction_ui_t *ui, aim_transaction_ui_t::select_t cons
             return;
         }
         dst = static_cast<slotidx_t>( newdst );
-        dsti = std::get<char>( aimsources[dst] );
+        dsti = std::get<icon_t>( aimsources[dst] );
     }
 
     if( dst == WORN_IDX ) {
@@ -998,6 +998,7 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
 {
     using namespace advuilist_literals;
     using select_t = aim_transaction_ui_t::select_t;
+    using slotidx_t = aim_advuilist_sourced_t::slotidx_t;
     select_t const peek = ui->curpane()->peek();
 
     // reset pane mutex on any source change
@@ -1009,7 +1010,7 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
         change_columns( ui->curpane() );
         reset_mutex( ui, mutex );
         // rebuild other pane if it's set to the ALL source
-        if( std::get<std::size_t>( ui->otherpane()->getSource() ) == ALL_IDX ) {
+        if( std::get<slotidx_t>( ui->otherpane()->getSource() ) == ALL_IDX ) {
             // this is ugly but it's required since we're rebuilding out of line
             mutex->at( ALL_IDX ) = false;
             ui->otherpane()->rebuild();
@@ -1032,7 +1033,7 @@ void aim_ctxthandler( aim_transaction_ui_t *ui, std::string const &action, pane_
         iloc_entry &entry = *std::get<aim_advuilist_t::ptr_t>( peek.front() );
 
         if( action == advuilist_literals::ACTION_EXAMINE ) {
-            std::size_t src = std::get<std::size_t>( ui->curpane()->getSource() );
+            slotidx_t src = std::get<slotidx_t>( ui->curpane()->getSource() );
             if( src == INV_IDX or src == WORN_IDX ) {
                 aim_add_return_activity();
                 ui->pushevent( aim_transaction_ui_t::event::QUIT );
