@@ -1080,9 +1080,10 @@ bool item::merge_charges( const item &rhs )
     return true;
 }
 
-ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type )
+ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type,
+                            const bool unseal_pockets )
 {
-    ret_val<bool> result = contents.insert_item( payload, pk_type );
+    ret_val<item_pocket *> result = contents.insert_item( payload, pk_type );
     if( !result.success() ) {
         debugmsg( "tried to put an item (%s) count (%d) in a container (%s) that cannot contain it: %s",
                   payload.typeId().str(), payload.count(), typeId().str(), result.str() );
@@ -1090,8 +1091,11 @@ ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_typ
     if( pk_type == item_pocket::pocket_type::MOD ) {
         update_modified_pockets();
     }
+    if( unseal_pockets ) {
+        result.value()->on_contents_changed();
+    }
     on_contents_changed();
-    return result;
+    return ret_val<bool>::make_success( result.str() );
 }
 
 void item::set_var( const std::string &name, const int value )
@@ -8816,7 +8820,8 @@ void item::set_item_temperature( float new_temperature )
     reset_temp_check();
 }
 
-int item::fill_with( const item &contained, const int amount )
+int item::fill_with( const item &contained, const int amount,
+                     const bool unseal_pockets )
 {
     if( amount <= 0 ) {
         return 0;
@@ -8867,6 +8872,9 @@ int item::fill_with( const item &contained, const int amount )
             num_contained += contained_item.charges;
         } else {
             num_contained++;
+        }
+        if( unseal_pockets ) {
+            pocket->on_contents_changed();
         }
     }
     if( num_contained == 0 ) {

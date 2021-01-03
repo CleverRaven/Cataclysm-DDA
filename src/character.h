@@ -1541,19 +1541,19 @@ class Character : public Creature, public visitable
         bool i_add_or_drop( item &it, int qty = 1, const item *avoid = nullptr );
 
         /**
-         * Update items in `containers` and their parent/ancestor items after
-         * their contents are changed. Specifically, handle contents that would
-         * spill in unsealed pockets of items in `containers`, and unseal and
-         * handle any parent/ancestor pockets in the process.
+         * Check any already unsealed pockets in items pointed to by `containers`
+         * and propagate the unsealed status through the container tree. In the
+         * process the player may be asked to handle containers or spill contents,
+         * so make sure all unsealed containers are passed to this fucntion in a
+         * single batch; items (not limited to the ones listed in `containers` and
+         * their contents) may be invalidated or moved after a call to this function.
          *
-         * Pockets of items in `container` should be unsealed before calling
-         * this method
-         *
-         * @param containers Item locations of containers to handle. Item locations
+         * @param containers Item locations pointing to containers. Item locations
          *        in this vector can contain each other, but should always be valid
          *        (i.e. if A contains B and B contains C, A and C can be in the vector
-         *        at the same time, but B shouldn't be removed in such case, otherwise
-         *        C is invalidated.). Item location in this vector should be unique.
+         *        at the same time and should be valid, but B shouldn't be invalidated
+         *        either, otherwise C is invalidated). Item location in this vector
+         *        should be unique.
          */
         void handle_contents_changed( const std::vector<item_location> &containers );
 
