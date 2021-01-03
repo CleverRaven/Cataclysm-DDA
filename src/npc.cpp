@@ -2325,13 +2325,13 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
                              _( "Unaware of you" );
     line += fold_and_print( w, point( column, line ), iWidth,
                             sees( player_character ) ? c_yellow : c_green,
-                            senses_str ) - 1;
+                            senses_str );
 
     // Print what item the NPC is holding if any on the fourth line.
     if( is_armed() ) {
-        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Wielding: " ) );
-        trim_and_print( w, point( column + utf8_width( _( "Wielding: " ) ), line ), iWidth, c_red,
-                        weapon.tname() );
+        line += fold_and_print( w, point( column, line ), iWidth, c_red,
+                                std::string( "<color_light_gray>" ) + _( "Wielding: " ) + std::string( "</color>" ) +
+                                weapon.tname() );
     }
 
     // Worn gear list on following lines.
