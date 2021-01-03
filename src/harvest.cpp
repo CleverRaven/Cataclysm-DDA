@@ -159,6 +159,7 @@ void harvest_list::check_consistency()
                     }
                     errorlist += "null type";
                 } else if( !( entry.type == "flesh" || entry.type == "bone" || entry.type == "skin" ||
+                              entry.type == "blood" ||
                               entry.type == "offal" || entry.type == "bionic" || entry.type == "bionic_group" ) ) {
                     if( !item_valid ) {
                         errorlist += ", ";
