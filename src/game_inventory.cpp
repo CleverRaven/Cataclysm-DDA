@@ -1380,7 +1380,9 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
                           holster.max_charges_by_parent_recursive( it ) );
 
             if( charges > 0 && holster->can_contain_partial( it ) ) {
-                int result = holster->fill_with( it, charges, /*unseal_pockets=*/true );
+                int result = holster->fill_with( it, charges,
+                                                 /*unseal_pockets=*/true,
+                                                 /*allow_sealed=*/true );
                 success = result > 0;
 
                 if( success ) {

@@ -480,7 +480,7 @@ void item_contents::fill_with( const item &contained )
 }
 
 std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
-        item_location &parent, bool nested )
+        item_location &parent, bool nested, const bool allow_sealed )
 {
     if( !can_contain( it ).success() ) {
         return { item_location(), nullptr };
@@ -496,7 +496,7 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
         if( nested && !pocket.rigid() ) {
             continue;
         }
-        if( pocket.sealed() ) {
+        if( !allow_sealed && pocket.sealed() ) {
             // we don't want to unseal a pocket to put something in it automatically
             // that needs to be something a player explicitly does
             continue;

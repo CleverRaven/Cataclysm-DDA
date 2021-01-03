@@ -44,7 +44,7 @@ class item_contents
           * only checks CONTAINER pocket type
           */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                bool nested );
+                bool nested, bool allow_sealed = false );
 
         units::length max_containable_length() const;
         units::volume max_containable_volume() const;
