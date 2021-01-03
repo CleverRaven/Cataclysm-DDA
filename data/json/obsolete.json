@@ -1641,19 +1641,18 @@
     "use_action": [ "HAMMER", "CROWBAR" ]
   },
   {
-    "type": "GENERIC",
-    "id": "knuckle_steel",
-    "symbol": "3",
-    "color": "dark_gray",
-    "name": { "str": "pair of steel knuckles", "str_pl": "pairs of steel knuckles" },
-    "description": "A mass of scrap metal crudely beat into shape, with folded rags underneath to protect the wearers knuckles.  A good, quick weapon - but you have to get within punching range to use it.",
-    "category": "weapons",
-    "material": [ "steel" ],
-    "volume": "250 ml",
-    "weight": "430 g",
-    "bashing": 4,
-    "price_postapoc": 50,
-    "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "UNARMED_WEAPON" ]
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "knuckle_scrap",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "skills_required": [ "bashing", 1 ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "rag", 4 ] ], [ [ "scrap", 4 ] ] ]
   }
 ]
