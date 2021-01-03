@@ -2323,7 +2323,9 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // Awareness indicator on the third line.
     std::string senses_str = sees( player_character ) ? _( "Aware of your presence" ) :
                              _( "Unaware of you" );
-    mvwprintz( w, point( column, ++line ), sees( player_character ) ? c_yellow : c_green, senses_str );
+    line += fold_and_print( w, point( column, line ), iWidth,
+                            sees( player_character ) ? c_yellow : c_green,
+                            senses_str ) - 1;
 
     // Print what item the NPC is holding if any on the fourth line.
     if( is_armed() ) {

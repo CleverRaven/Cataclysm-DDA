@@ -670,7 +670,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     bool sees_player = sees( get_player_character() );
     std::string senses_str = sees_player ? _( "Can see to your current location" ) :
                              _( "Can't see to your current location" );
-    mvwprintz( w, point( column, ++vStart ), sees_player ? c_red : c_green, senses_str );
+    ++vStart;
+    vStart += fold_and_print( w, point( column, vStart ), max_width, sees_player ? c_red : c_green,
+                              senses_str ) - 1;
 
     // Monster description on following lines.
     std::vector<std::string> lines = foldstring( type->get_description(), max_width );
