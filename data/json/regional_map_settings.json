@@ -433,7 +433,7 @@
         }
       },
       "forest_water": {
-        "chance": 12,
+        "chance": 20,
         "//": "weights normalised to 1000",
         "extras": {
           "mx_helicopter": 5,
