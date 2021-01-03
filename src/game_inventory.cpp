@@ -1344,21 +1344,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
 {
     drop_locations holstered_list = game_menus::inv::holster( you, holster );
     bool all_pockets_rigid = holster->contents.all_pockets_rigid();
-    std::vector<item_location> unsealed;
-    const auto add_unsealed = [&]( const item_location & loc ) {
-        if( std::find( unsealed.begin(), unsealed.end(), loc ) == unsealed.end() ) {
-            unsealed.emplace_back( loc );
-        }
-    };
-    const auto unseal_pocket_containing = [&]( const item_location & loc ) {
-        if( loc.has_parent() ) {
-            item_location parent = loc.parent_item();
-            item_pocket &pocket = *parent->contained_where( *loc );
-            pocket.on_contents_changed();
-            parent.on_contents_changed();
-            add_unsealed( parent );
-        }
-    };
+    contents_change_handler handler;
     for( drop_location holstered_item : holstered_list ) {
         if( !holstered_item.first ) {
             continue;
@@ -1370,8 +1356,8 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
                 success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
                                            /*unseal_pockets=*/true ).success();
                 if( success ) {
-                    add_unsealed( holster );
-                    unseal_pocket_containing( holstered_item.first );
+                    handler.add_unsealed( holster );
+                    handler.unseal_pocket_containing( holstered_item.first );
                     holstered_item.first.remove_item();
                 }
             }
@@ -1386,8 +1372,8 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
                 success = result > 0;
 
                 if( success ) {
-                    add_unsealed( holster );
-                    unseal_pocket_containing( holstered_item.first );
+                    handler.add_unsealed( holster );
+                    handler.unseal_pocket_containing( holstered_item.first );
                     it.charges -= result;
                     if( it.charges == 0 ) {
                         holstered_item.first.remove_item();
@@ -1401,7 +1387,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
                                        _( "Could not put %s into %s, aborting." ), it.tname(), holster->tname() ) );
         }
     }
-    you.handle_contents_changed( unsealed );
+    handler.handle_by( you );
 }
 
 class saw_barrel_inventory_preset: public weapon_inventory_preset

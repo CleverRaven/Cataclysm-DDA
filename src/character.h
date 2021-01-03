@@ -337,23 +337,42 @@ enum class character_stat : char {
 };
 
 /**
- * Secures the container and pocket of an item (if any), and calls
- * `Character::handle_contents_changed` when `handle()` is called.
+ * Records a batch of unsealed containers and handles spilling at once. This
+ * is preferred over handling containers right after unsealing because the latter
+ * can cause items to be invalidated when later code still needs to access them.
+ * See @ref `Character::handle_contents_changed` for more detail.
  */
-class handle_contents_changed_helper
+class contents_change_handler
 {
     public:
+        contents_change_handler() = default;
         /**
-         * @param guy The guy who's manipulating the item.
-         * @param content The manipulated item. Parent item and pocket of this
-         *        item should remain valid before `handle()` is called.
+         * Add an already unsealed container to the list. This item location
+         * should remain valid when `handle_by` is called.
          */
-        handle_contents_changed_helper( Character &guy, const item_location &content );
-        void handle();
+        void add_unsealed( const item_location &loc );
+        /**
+         * Unseal the pocket containing `loc` and add `loc`'s parent to the list.
+         * Does nothing if `loc` does not have a parent container. The parent of
+         * `loc` should remain valid when `handle_by` is called, but `loc` only
+         * needs to be valid here (for example, the item may be consumed afterwards).
+         */
+        void unseal_pocket_containing( const item_location &loc );
+        /**
+         * Let the guy handle any container that needs spilling. This may invalidate
+         * items in and out of the list of containers. The list is cleared after handling.
+         */
+        void handle_by( Character &guy );
+        /**
+         * Serialization for activities
+         */
+        void serialize( JsonOut &jsout ) const;
+        /**
+         * Deserialization for activities
+         */
+        void deserialize( JsonIn &jsin );
     private:
-        Character *guy;
-        item_location parent;
-        item_pocket *pocket;
+        std::vector<item_location> unsealed;
 };
 
 enum class book_mastery {

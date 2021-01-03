@@ -2990,6 +2990,10 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid )
 
 void Character::handle_contents_changed( const std::vector<item_location> &containers )
 {
+    if( containers.empty() ) {
+        return;
+    }
+
     class item_loc_with_depth
     {
         public:
@@ -3037,20 +3041,24 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
             continue;
         }
         loc->on_contents_changed();
+        const bool handle_drop = loc.where() != item_location::type::map && !is_wielding( *loc );
         bool drop_unhandled = false;
-        if( loc.where() != item_location::type::map && !is_wielding( *loc ) ) {
-            for( item_pocket *const pocket : loc->contents.get_all_contained_pockets().value() ) {
-                if( pocket && pocket->will_spill() ) {
-                    // the pocket's contents (with a larger depth value) are not
-                    // inside `sorted_containers` and can be safely disposed of.
-                    pocket->handle_liquid_or_spill( *this, /*avoid=*/&*loc );
-                    // drop the container instead if canceled.
-                    if( !pocket->empty() ) {
-                        // drop later since we still need to access the container item
-                        drop_unhandled = true;
-                        // canceling one pocket cancels spilling for the whole container
-                        break;
-                    }
+        for( item_pocket *const pocket : loc->contents.get_all_contained_pockets().value() ) {
+            if( pocket && !pocket->sealed() ) {
+                // pockets are unsealed but on_contents_changed is not called
+                // in contents_change_handler::unseal_pocket_containing
+                pocket->on_contents_changed();
+            }
+            if( pocket && handle_drop && pocket->will_spill() ) {
+                // the pocket's contents (with a larger depth value) are not
+                // inside `sorted_containers` and can be safely disposed of.
+                pocket->handle_liquid_or_spill( *this, /*avoid=*/&*loc );
+                // drop the container instead if canceled.
+                if( !pocket->empty() ) {
+                    // drop later since we still need to access the container item
+                    drop_unhandled = true;
+                    // canceling one pocket cancels spilling for the whole container
+                    break;
                 }
             }
         }
@@ -3089,28 +3097,50 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
     }
 }
 
-handle_contents_changed_helper::handle_contents_changed_helper(
-    Character &guy, const item_location &content )
-    : guy( &guy )
+void contents_change_handler::add_unsealed( const item_location &loc )
 {
-    if( content.has_parent() ) {
-        parent = content.parent_item();
-        pocket = parent->contained_where( *content );
-    } else {
-        parent = item_location::nowhere;
-        pocket = nullptr;
+    if( std::find( unsealed.begin(), unsealed.end(), loc ) == unsealed.end() ) {
+        unsealed.emplace_back( loc );
     }
 }
 
-void handle_contents_changed_helper::handle()
+void contents_change_handler::unseal_pocket_containing( const item_location &loc )
 {
-    if( guy && parent && pocket ) {
-        pocket->on_contents_changed();
-        guy->handle_contents_changed( { parent } );
+    if( loc.has_parent() ) {
+        item_location parent = loc.parent_item();
+        item_pocket *const pocket = parent->contained_where( *loc );
+        if( pocket ) {
+            // on_contents_changed restacks the pocket and should be called later
+            // in Character::handle_contents_changed
+            pocket->unseal();
+        } else {
+            debugmsg( "parent container does not contain item" );
+        }
+        parent.on_contents_changed();
+        add_unsealed( parent );
     }
-    guy = nullptr;
-    parent = item_location::nowhere;
-    pocket = nullptr;
+}
+
+void contents_change_handler::handle_by( Character &guy )
+{
+    // some containers could have been destroyed by e.g. monster attack
+    auto it = std::remove_if( unsealed.begin(), unsealed.end(),
+    []( const item_location & loc ) -> bool {
+        return !loc;
+    } );
+    unsealed.erase( it, unsealed.end() );
+    guy.handle_contents_changed( unsealed );
+    unsealed.clear();
+}
+
+void contents_change_handler::serialize( JsonOut &jsout ) const
+{
+    jsout.write( unsealed );
+}
+
+void contents_change_handler::deserialize( JsonIn &jsin )
+{
+    jsin.read( unsealed );
 }
 
 std::list<item *> Character::get_dependent_worn_items( const item &it )

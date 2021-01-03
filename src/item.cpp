@@ -1092,7 +1092,7 @@ ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_typ
         update_modified_pockets();
     }
     if( unseal_pockets ) {
-        result.value()->on_contents_changed();
+        result.value()->unseal();
     }
     on_contents_changed();
     return ret_val<bool>::make_success( result.str() );
@@ -8878,7 +8878,7 @@ int item::fill_with( const item &contained, const int amount,
             num_contained++;
         }
         if( unseal_pockets ) {
-            pocket->on_contents_changed();
+            pocket->unseal();
         }
     }
     if( num_contained == 0 ) {
