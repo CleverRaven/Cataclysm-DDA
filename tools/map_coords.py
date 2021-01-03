@@ -1,4 +1,43 @@
 #!/usr/bin/env python3
+"""Translates map coordinate to map file and folder and vice-versa
+Run this script with -h for full usage information.
+
+Info about output:
+     Map: In game map coordinate number
+    File: Where coordinate is found on the maps folder
+  Folder: Range of submaps the folder can have
+Overmaps: Number of overmaps the folder contains
+
+Examples with map format:
+   
+    %(prog)s 6.1.-3.map
+    %(prog)s -4.8.1.map
+    %(prog)s -9.-9.17.map
+
+Examples using folder format:
+
+    %(prog)s 1.0.0
+    %(prog)s -7.3.5
+    %(prog)s 8.-9.-1
+
+Examples with map coordinate format:
+   
+    %(prog)s "5'107 3'146"
+    %(prog)s "7'98 -7'137 5"
+    %(prog)s "-1'0 0'4 -8"
+
+Examples of INVALID map coordinate format:
+
+    %(prog)s "3'180 3'17"    -> Number after the ' must be between 0 and 179
+    %(prog)s "7'31  5'-17 1" -> Number after the ' must be positive
+    %(prog)s 1'13   3'17 1   -> Coordinate must be between quotation marks (") to prevent string escaping
+
+Examples with range:
+
+    %(prog)s "0'31 0'0" --range "0'32 0'0"
+    %(prog)s "1'5 4'3 5" --range "-7'1 -9'179 -7"
+    %(prog)s 7.3.0.map --range -1.73.1.map
+"""
 
 import sys
 import argparse
@@ -85,7 +124,7 @@ if __name__ == "__main__":
                 sys.argv[key + 1] = argvCopy
 
     parser = argparse.ArgumentParser(
-        description="Prints information given game coordinates or file coordinates",
+        description=__doc__,
         formatter_class=argparse.RawTextHelpFormatter,
     )
     parser.add_argument(
@@ -95,12 +134,9 @@ if __name__ == "__main__":
         help="""coordinate format
 Accepted formats:
 Folders:    x.y.z
-    E.g: 1.0.0  -7.3.5  8.-9.-1
 Maps:       x.y.z.map
-    E.g: 6.1.-3.map  -4.8.1.map  -9.-9.17.map
 Coordinate: \"x'(0->179) y'(0->179)\" or \"x'(0->179) y'(0->179) z\"
-    E.g: 5'107 3'146    7'98 -7'137 5    -1'0 0'4 -8    
-    The quotation mark ( \" ) IS necessary
+    Default for z is 0
         """,
     )
     parser.add_argument("--info", action="store_true", help="Print info about maps")
