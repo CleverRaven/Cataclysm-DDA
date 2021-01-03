@@ -22,7 +22,7 @@
   {
     "id": "chamomille_harv",
     "type": "harvest",
-    "entries": [ { "drop": "chamomile", "base_num": [ 1, 2 ] } ]
+    "entries": [ { "drop": "chamomile", "base_num": [ 4, 8 ] } ]
   },
   {
     "id": "tulip_harv",
