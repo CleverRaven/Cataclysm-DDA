@@ -800,7 +800,7 @@
   {
     "id": "xl_lsurvivor_suit",
     "type": "ARMOR",
-    "name": { "str": "xl light survivor suit" },
+    "name": { "str": "XL light survivor suit" },
     "copy-from": "lsurvivor_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
@@ -830,7 +830,7 @@
   {
     "id": "xl_nomex_suit",
     "type": "ARMOR",
-    "name": { "str": "xl nomex suit" },
+    "name": { "str": "XL nomex suit" },
     "copy-from": "nomex_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "OVERSIZE" ]

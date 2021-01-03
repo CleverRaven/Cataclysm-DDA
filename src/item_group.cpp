@@ -522,6 +522,10 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     for( const flag_id &flag : custom_flags ) {
         new_item.set_flag( flag );
     }
+
+    if( !snippets.empty() ) {
+        new_item.snip_id = random_entry( snippets );
+    }
 }
 
 void Item_modifier::check_consistency( const std::string &context ) const

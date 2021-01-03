@@ -34,7 +34,7 @@ template <typename T>
 static int find_index( const T &sel, const item *obj )
 {
     int idx = -1;
-    sel.visit_items( [&idx, &obj]( const item * e ) {
+    sel.visit_items( [&idx, &obj]( const item * e, item * ) {
         idx++;
         if( e == obj ) {
             return VisitResponse::ABORT;
@@ -48,7 +48,7 @@ template <typename T>
 static item *retrieve_index( const T &sel, int idx )
 {
     item *obj = nullptr;
-    sel.visit_items( [&idx, &obj]( const item * e ) {
+    sel.visit_items( [&idx, &obj]( const item * e, item * ) {
         if( idx-- == 0 ) {
             obj = const_cast<item *>( e );
             return VisitResponse::ABORT;
@@ -80,6 +80,8 @@ class item_location::impl
         virtual tripoint position() const = 0;
         virtual std::string describe( const Character * ) const = 0;
         virtual item_location obtain( Character &, int ) = 0;
+        virtual units::volume volume_capacity() const = 0;
+        virtual units::mass weight_capacity() const = 0;
         virtual int obtain_cost( const Character &, int ) const = 0;
         virtual void remove_item() = 0;
         virtual void on_contents_changed() = 0;
@@ -161,6 +163,14 @@ class item_location::impl::nowhere : public item_location::impl
             js.member( "type", "null" );
             js.end_object();
         }
+
+        units::volume volume_capacity() const override {
+            return units::volume();
+        }
+
+        units::mass weight_capacity() const override {
+            return units::mass();
+        }
 };
 
 class item_location::impl::item_on_map : public item_location::impl
@@ -240,6 +250,15 @@ class item_location::impl::item_on_map : public item_location::impl
 
         void on_contents_changed() override {
             target()->on_contents_changed();
+        }
+
+        units::volume volume_capacity() const override {
+            map_stack stack = get_map().i_at( cur );
+            return stack.free_volume();
+        }
+
+        units::mass weight_capacity() const override {
+            return units::mass_max;
         }
 };
 
@@ -388,6 +407,14 @@ class item_location::impl::item_on_person : public item_location::impl
             ensure_unpacked();
             return !!what && !!who;
         }
+
+        units::volume volume_capacity() const override {
+            return units::volume_max;
+        }
+
+        units::mass weight_capacity() const override {
+            return units::mass_max;
+        }
 };
 
 class item_location::impl::item_on_vehicle : public item_location::impl
@@ -486,6 +513,14 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             target()->on_contents_changed();
             cur.veh.invalidate_mass();
         }
+
+        units::volume volume_capacity() const override {
+            return cur.veh.free_volume( cur.part );
+        }
+
+        units::mass weight_capacity() const override {
+            return units::mass_max;
+        }
 };
 
 class item_location::impl::item_in_container : public item_location::impl
@@ -563,20 +598,25 @@ class item_location::impl::item_in_container : public item_location::impl
             container->on_contents_changed();
         }
 
-        item_location obtain( Character &ch, int qty ) override {
+        item_location obtain( Character &ch, const int qty ) override {
             ch.mod_moves( -obtain_cost( ch, qty ) );
 
             on_contents_changed();
-            item obj = target()->split( qty );
-            if( !obj.is_null() ) {
-                return item_location( ch, &ch.i_add( obj, should_stack ) );
-            } else if( container.held_by( ch ) ) {
+            if( container.held_by( ch ) ) {
                 // we don't need to move it in this case, it's in a pocket
                 // we just charge the obtain cost and leave it in place. otherwise
                 // it's liable to end up back in the same pocket, where shenanigans ensue
                 return item_location( container, target() );
+            }
+            const item obj = target()->split( qty );
+            if( !obj.is_null() ) {
+                return item_location( ch, &ch.i_add( obj, should_stack,
+                                                     /*avoid=*/nullptr,
+                                                     /*allow_drop=*/false ) );
             } else {
-                item *inv = &ch.i_add( *target(), should_stack );
+                item *const inv = &ch.i_add( *target(), should_stack,
+                                             /*avoid=*/nullptr,
+                                             /*allow_drop=*/false );
                 if( inv->is_null() ) {
                     debugmsg( "failed to add item to character inventory while obtaining from container" );
                 }
@@ -618,6 +658,14 @@ class item_location::impl::item_in_container : public item_location::impl
                 parent_obtain_cost /= 2;
             }
             return primary_cost + parent_obtain_cost;
+        }
+
+        units::volume volume_capacity() const override {
+            return container->contained_where( *target() )->remaining_volume();
+        }
+
+        units::mass weight_capacity() const override {
+            return container->contained_where( *target() )->remaining_weight();
         }
 };
 
@@ -773,7 +821,8 @@ int item_location::max_charges_by_parent_recursive( const item &it ) const
 
     return std::min( { it.charges_per_volume( pocket->remaining_volume() ),
                        it.charges_per_weight( pocket->remaining_weight() ),
-                       pocket->rigid() ? item::INFINITE_CHARGES : parent.max_charges_by_parent_recursive( it ) } );
+                       pocket->rigid() ? item::INFINITE_CHARGES : parent.max_charges_by_parent_recursive( it )
+                     } );
 }
 
 item_location::type item_location::where() const
@@ -847,4 +896,14 @@ bool item_location::held_by( Character &who ) const
         return parent_item().held_by( who );
     }
     return false;
+}
+
+units::volume item_location::volume_capacity() const
+{
+    return ptr->volume_capacity();
+}
+
+units::mass item_location::weight_capacity() const
+{
+    return ptr->weight_capacity();
 }

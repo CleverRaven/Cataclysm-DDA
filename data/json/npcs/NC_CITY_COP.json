@@ -127,7 +127,7 @@
       { "item": "diazepam", "prob": 1 },
       { "item": "lsd", "prob": 6 },
       { "item": "weed", "prob": 10 },
-      { "item": "electrohack", "prob": 3 },
+      { "item": "electrohack", "prob": 3, "charges-min": 0 },
       { "item": "textbook_gaswarfare", "prob": 1 },
       { "item": "textbook_anarch", "prob": 3 },
       { "item": "brewing_cookbook", "prob": 3 },
@@ -161,13 +161,13 @@
       { "item": "antenna", "prob": 18 },
       { "item": "screwdriver", "prob": 40 },
       { "item": "RAM", "prob": 22 },
-      { "item": "mp3", "prob": 18 },
-      { "item": "portable_game", "prob": 12 },
-      { "item": "game_watch", "prob": 3 },
-      { "item": "vibrator", "prob": 10 },
+      { "item": "mp3", "prob": 18, "charges-min": 0 },
+      { "item": "portable_game", "prob": 12, "charges-min": 0 },
+      { "item": "game_watch", "prob": 3, "charges-min": 0 },
+      { "item": "vibrator", "prob": 10, "charges-min": 0 },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 10, "charges": [ 0, 300 ] },
-      { "item": "radio", "prob": 20 },
+      { "item": "radio", "prob": 20, "charges-min": 0 },
       { "item": "mess_kit", "prob": 5 },
       { "item": "hotplate", "prob": 10 },
       { "item": "coffeemaker", "prob": 10 },
@@ -189,7 +189,7 @@
       { "item": "magnifying_glass", "prob": 4 },
       { "item": "omnicamera", "prob": 2 },
       { "item": "l-stick", "prob": 1 },
-      { "item": "reading_light", "prob": 6 }
+      { "item": "reading_light", "prob": 6, "charges-min": 0 }
     ]
   }
 ]

@@ -2,7 +2,7 @@
   {
     "id": "mon_dragonfly_small",
     "type": "MONSTER",
-    "name": { "str": "huge dragonfly" },
+    "name": { "str": "huge dragonfly", "str_pl": "huge dragonflies" },
     "description": "A brightly colored, winged mutant dragonfly the size of a cat with sharp fangs.",
     "copy-from": "mon_dragonfly_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -691,7 +691,6 @@
     "categories": [ "warfare" ],
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 6,
     "breaks_into": [ { "item": "ftk93", "prob": 50 } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ], "time": 10000 },
@@ -910,7 +909,6 @@
     "broken_color": "light_gray",
     "durability": 120,
     "item": "bone_plate",
-    "difficulty": 2,
     "location": "armor",
     "flags": [ "ARMOR" ],
     "breaks_into": [ { "item": "bone_tainted", "count": [ 10, 30 ] } ],
@@ -1604,5 +1602,40 @@
     "description": "Deprecated.",
     "display_category": "none",
     "obsolete": true
+  },
+  {
+    "id": "toolbox_workshop",
+    "type": "TOOL",
+    "name": { "str": "workshop toolbox", "str_pl": "workshop toolboxes" },
+    "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities, as well as additional tools used in workshops for advanced fabrication jobs.",
+    "looks_like": "toolbox",
+    "weight": "3994 g",
+    "volume": "2500 ml",
+    "price": 14099,
+    "price_postapoc": 3250,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "red",
+    "qualities": [
+      [ "CUT", 1 ],
+      [ "HAMMER", 3 ],
+      [ "SAW_M", 2 ],
+      [ "SAW_W", 2 ],
+      [ "AXE", 1 ],
+      [ "WRENCH", 2 ],
+      [ "SCREW", 1 ],
+      [ "PRY", 1 ],
+      [ "HAMMER_FINE", 1 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "SCREW_FINE", 1 ],
+      [ "BUTCHER", 11 ],
+      [ "FILE", 2 ],
+      [ "REAM", 2 ],
+      [ "VISE", 1 ]
+    ],
+    "use_action": [ "HAMMER", "CROWBAR" ]
   }
 ]

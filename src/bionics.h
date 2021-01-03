@@ -54,7 +54,7 @@ struct bionic_data {
     * If true, this bionic is included with another.
     */
     bool included = false;
-    /**Factor modifiying weight capacity*/
+    /**Factor modifying weight capacity*/
     float weight_capacity_modifier = 1.0f;
     /**Bonus to weight capacity*/
     units::mass weight_capacity_bonus = 0_gram;
@@ -76,7 +76,7 @@ struct bionic_data {
     bool exothermic_power_gen = false;
     /**Type of field emitted by this bionic when it produces energy*/
     emit_id power_gen_emission = emit_id::NULL_ID();
-    /**Amount of environemental protection offered by this bionic*/
+    /**Amount of environmental protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> env_protec;
 
     /**Amount of bash protection offered by this bionic*/
@@ -162,7 +162,7 @@ struct bionic {
         bool        powered = false;
         /* Ammunition actually loaded in this bionic gun in deactivated state */
         itype_id    ammo_loaded = itype_id::NULL_ID();
-        /* Ammount of ammo actually held inside by this bionic gun in deactivated state */
+        /* Amount of ammo actually held inside by this bionic gun in deactivated state */
         unsigned int         ammo_count = 0;
         /* An amount of time during which this bionic has been rendered inoperative. */
         time_duration        incapacitated_time;

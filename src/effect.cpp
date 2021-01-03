@@ -1472,7 +1472,7 @@ std::string texitify_healing_power( const int power )
 std::string texitify_bandage_power( const int power )
 {
     if( power < 5 ) {
-        return colorize( _( "miniscule" ), c_red );
+        return colorize( _( "minuscule" ), c_red );
     } else if( power < 10 ) {
         return colorize( _( "small" ), c_light_red );
     } else if( power < 15 ) {

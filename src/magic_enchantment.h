@@ -172,8 +172,7 @@ class enchantment
             return mutations;
         }
 
-        friend bool operator==( const enchantment &source_enchantement,
-                                const enchantment &target_enchantment );
+        bool operator==( const enchantment &rhs ) const;
     private:
         std::set<trait_id> mutations;
         cata::optional<emit_id> emitter;

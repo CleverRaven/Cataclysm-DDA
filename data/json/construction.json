@@ -4249,5 +4249,17 @@
     "components": [ [ [ "glass_sheet", 2 ] ] ],
     "pre_terrain": "t_skylight_frame",
     "post_terrain": "t_glass_roof"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_gravel",
+    "group": "remove_gravel",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "pebble", "count": [ 70, 100 ] } ],
+    "pre_terrain": "t_railroad_rubble",
+    "post_terrain": "t_dirt"
   }
 ]

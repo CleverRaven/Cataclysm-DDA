@@ -260,7 +260,7 @@ The first entry is using  that explicit symbol placement technique.  The end ent
 ```
 Our vehicle happens to be a swivel chair using explicit symbol placement.
 
-This next example uses vehicle_groups and x,y placement.  It also includes rotation and status.  The rotation is which direction the vehicle will spawn on the map, and that status is its overall condition. Fuel is pretty self explanatory.  Always test your vehcile spawns in game, they can be rather picky in their placement and the rotation doesn't really match what you'd expect the numbers to mean.  The 0,0 point of vehicles can vary so you'll have to experiment to get the spawns in the right spots, especially in tight spaces.
+This next example uses vehicle_groups and x,y placement.  It also includes rotation and status.  The rotation is which direction the vehicle will spawn on the map, and that status is its overall condition. Fuel is pretty self explanatory.  Always test your vehicle spawns in game, they can be rather picky in their placement and the rotation doesn't really match what you'd expect the numbers to mean.  The 0,0 point of vehicles can vary so you'll have to experiment to get the spawns in the right spots, especially in tight spaces.
 
 ```
 "place_vehicles": [
@@ -492,7 +492,7 @@ You need one entry per mapgen ID:
 4. `"name"` how the name displays on the overmap.
 5. `"sym"` the symbol displayed on the overmap. If left out, the carrots will be used `v<>^`
 6. `"color"` color for overmap symbol.
-7. `"mondesntiy"` sets the default monster density for this overmap tile.  You'll use this for general zombie spawns and reserve the mapgen monster entries for special spanwns for that location (e.g. a pet store's pets).
+7. `"mondesntiy"` sets the default monster density for this overmap tile.  You'll use this for general zombie spawns and reserve the mapgen monster entries for special spawns for that location (e.g. a pet store's pets).
 8. `"extend"` many of these flags will be used by NPCs in the future for their AI, try to add flags appropriate for your location.  Others further define the mapgen, like having sidewalks generate.
 
 For further information see: [Overmap Terrain section of doc/OVERMAP.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/OVERMAP.md#overmap-terrain).

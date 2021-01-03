@@ -21,7 +21,7 @@
  * and @ref JsonArrayOutputArchive) have (nearly) the same interface (mostly the `io` function),
  * they only differ in what the functions do. This is an important design decision, it allows
  * the archive type to be a template parameter. The `io` functions in both archive classes should
- * therefor have a compatible signature.
+ * therefore have a compatible signature.
  *
  * Archive classes also have a `is_input` member type, which is either @ref std::true_type or
  * if(the class is an input archive) or @ref std::false_type (it's an output archive). This can be
@@ -128,7 +128,7 @@ struct enable_if_type {
 /**
  * Implementation for classes that don't have an archive_type_tag defined. They use the
  * normal JsonSerializer / JsonDeserializer interface, which is handled directly by the Json
- * classes. Therefor the functions here simply forward to those.
+ * classes. Therefore the functions here simply forward to those.
  */
 template<class T, class E = void>
 struct has_archive_tag : std::false_type {
