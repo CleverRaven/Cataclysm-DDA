@@ -634,8 +634,8 @@ static void draw_bionics_tab( const catacurses::window &w_bionics,
     center_print( w_bionics, 0, title_col, _( title_BIONICS ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>"
-                                      " / <color_light_blue>%2$d</color>" ),
+                    string_format( _( "Power: <color_light_blue>%1$d kJ</color>"
+                                      " / <color_light_blue>%2$d kJ</color>" ),
                                    units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
 
     const size_t useful_y = bionics_win_size_y - 2;
