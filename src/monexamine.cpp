@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -627,10 +628,25 @@ bool monexamine::give_items_to( monster &z )
             to_move.insert( to_move.end(), itq );
         }
     }
+    // Quit if there is nothing to add
+    if( to_move.empty() ) {
+        add_msg( _( "Never mind." ) );
+        return true;
+    }
     z.add_effect( effect_controlled, 5_turns );
     player_character.drop( to_move, z.pos(), true );
-
-    return false;
+    // Print an appropriate message for the inserted item or items
+    if( to_move.size() > 1 ) {
+        add_msg( _( "You put %1$s items in the %2$s on your %3$s." ), to_move.size(), storage.tname(),
+                 pet_name );
+    } else {
+        item_location loc = to_move.front().first;
+        item &it = *loc;
+        //~ %1$s - item name, %2$s - storage item name, %3$s - pet name
+        add_msg( _( "You put the %1$s in the %2$s on your %3$s." ), it.tname(), storage.tname(), pet_name );
+    }
+    // Return success if all items were inserted
+    return to_move.size() == items.size();
 }
 
 bool monexamine::add_armor( monster &z )
@@ -714,6 +730,7 @@ void monexamine::tie_or_untie( monster &z )
     Character &player_character = get_player_character();
     if( z.has_effect( effect_tied ) ) {
         z.remove_effect( effect_tied );
+        add_msg( _( "You untie your %s." ), z.get_name() );
         if( z.tied_item ) {
             player_character.i_add( *z.tied_item );
             z.tied_item.reset();
@@ -743,6 +760,7 @@ void monexamine::tie_or_untie( monster &z )
         z.tied_item = cata::make_value<item>( *rope_item );
         player_character.i_rem( rope_item );
         z.add_effect( effect_tied, 1_turns, true );
+        add_msg( _( "You tie your %s." ), z.get_name() );
     }
 }
 
@@ -756,8 +774,8 @@ void monexamine::milk_source( monster &source_mon )
     }
     if( milkable_ammo->second > 0 ) {
         const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
-        std::vector<tripoint> coords {};
-        std::vector<std::string> str_values {};
+        std::vector<tripoint> coords{};
+        std::vector<std::string> str_values{};
         Character &player_character = get_player_character();
         coords.push_back( get_map().getabs( source_mon.pos() ) );
         // pin the cow in place if it isn't already

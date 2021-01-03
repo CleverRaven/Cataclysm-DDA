@@ -212,7 +212,7 @@
       [ "knife_folding", 6 ],
       [ "knife_swissarmy", 6 ],
       [ "multitool", 8 ],
-      [ "survival_kit", 3 ],
+      { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 3 },
       [ "touring_suit", 20 ],
       [ "helmet_motor", 14 ],
       [ "motorbike_armor", 10 ],

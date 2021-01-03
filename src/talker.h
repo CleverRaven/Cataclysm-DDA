@@ -182,7 +182,7 @@ class talker
         virtual std::list<item> use_amount( const itype_id &, int ) {
             return {};
         }
-        virtual int value( const item & ) {
+        virtual int value( const item & ) const {
             return 0;
         }
         virtual int cash() const {

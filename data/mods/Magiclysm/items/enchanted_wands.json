@@ -11,7 +11,7 @@
     "material": [ "wood" ],
     "symbol": "|",
     "color": "brown",
-    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
     "charges_per_use": 1,
     "ammo": [ "crystallized_mana" ],
     "pocket_data": [
@@ -36,7 +36,7 @@
     "material": [ "wood" ],
     "symbol": "|",
     "color": "brown",
-    "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "NO_UNLOAD", "NO_RELOAD", "MAGIC_FOCUS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "crystallized_mana": 20 } } ],
     "charges_per_use": 1
   },

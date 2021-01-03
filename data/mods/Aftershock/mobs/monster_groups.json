@@ -5,7 +5,10 @@
     "monsters": [
       { "monster": "mon_afs_headless_horror", "freq": 20, "cost_multiplier": 2, "starts": 400 },
       { "monster": "mon_zombie_upliftedbear", "freq": 5, "cost_multiplier": 10, "starts": 1086 },
-      { "monster": "mon_uplifted_ape_zed", "freq": 8, "cost_multiplier": 10, "starts": 1086 }
+      { "monster": "mon_uplifted_ape_zed", "freq": 8, "cost_multiplier": 10, "starts": 1086 },
+      { "monster": "mon_moxie_elder", "freq": 20, "cost_multiplier": 2, "starts": 400 },
+      { "monster": "mon_moxie_bloodhound", "freq": 20, "cost_multiplier": 2, "pack_size": [ 2, 4 ], "starts": 400 },
+      { "monster": "mon_moxphore_emetic", "freq": 20, "cost_multiplier": 2, "starts": 400 }
     ]
   },
   {
@@ -14,7 +17,10 @@
     "monsters": [
       { "monster": "mon_afs_headless_horror", "freq": 10, "cost_multiplier": 20 },
       { "monster": "mon_zombie_upliftedbear", "freq": 3, "cost_multiplier": 10, "starts": 1086 },
-      { "monster": "mon_uplifted_ape_zed", "freq": 5, "cost_multiplier": 10, "starts": 1086 }
+      { "monster": "mon_uplifted_ape_zed", "freq": 5, "cost_multiplier": 10, "starts": 1086 },
+      { "monster": "mon_moxie_elder", "freq": 10, "cost_multiplier": 20 },
+      { "monster": "mon_moxie_bloodhound", "freq": 10, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_moxphore_emetic", "freq": 10, "cost_multiplier": 20 }
     ]
   },
   {
@@ -36,14 +42,14 @@
   {
     "type": "monstergroup",
     "name": "GROUP_MI-GO_BASE_COMMON",
-    "monsters": [ { "monster": "afs_mon_migoturret", "freq": 20, "cost_multiplier": 4 } ]
+    "monsters": [ { "monster": "afs_mon_migoturret", "freq": 120, "cost_multiplier": 1 } ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_MI-GO_BASE_BOSS",
     "//": "Mi-go base defenders for major boss battles.",
     "default": "mon_mi_go_guard",
-    "monsters": [ { "monster": "afs_mon_migoturret", "freq": 50, "cost_multiplier": 3, "pack_size": [ 2, 3 ] } ]
+    "monsters": [ { "monster": "afs_mon_migoturret", "freq": 150, "cost_multiplier": 1, "pack_size": [ 2, 3 ] } ]
   },
   {
     "type": "monstergroup",
@@ -54,6 +60,24 @@
       { "monster": "mon_uplifted_bear", "freq": 1, "cost_multiplier": 10, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
       { "monster": "mon_zombie_upliftedbear", "freq": 1, "cost_multiplier": 10, "starts": 1086 },
       { "monster": "mon_uplifted_ape_zed", "freq": 1, "cost_multiplier": 10, "starts": 1086 },
+      {
+        "monster": "afs_mon_rabbit",
+        "freq": 1,
+        "cost_multiplier": 10,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      },
+      {
+        "monster": "afs_runner",
+        "freq": 1,
+        "cost_multiplier": 10,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      },
+      {
+        "monster": "afs_grazer",
+        "freq": 1,
+        "cost_multiplier": 10,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      },
       {
         "monster": "mon_uplifted_bear",
         "freq": 3,
@@ -129,7 +153,61 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_uplifted_octupus", "freq": 3, "cost_multiplier": 10 },
-      { "monster": "mon_zombie_upliftedoctopus", "freq": 1, "cost_multiplier": 10 }
+      { "monster": "mon_zombie_upliftedoctopus", "freq": 1, "cost_multiplier": 10 },
+      { "monster": "mon_deep_go", "freq": 1, "cost_multiplier": 10, "starts": 500 },
+      { "monster": "mon_deep_go_slaver", "freq": 1, "cost_multiplier": 10, "starts": 1086 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CRYO_LAB",
+    "default": "mon_mutant_cryo",
+    "monsters": [
+      { "monster": "mon_mutant_experimental", "freq": 30, "cost_multiplier": 2 },
+      { "monster": "mon_mutant_evolved", "freq": 5, "cost_multiplier": 10 },
+      { "monster": "mon_broken_cyborg", "freq": 8, "cost_multiplier": 10 },
+      { "monster": "mon_mutant_cryo", "freq": 40, "cost_multiplier": 2 },
+      { "monster": "mon_mi_go", "freq": 5, "cost_multiplier": 10, "starts": 500 },
+      { "monster": "mon_shoggoth", "freq": 3, "cost_multiplier": 10, "starts": 1086 },
+      { "monster": "mon_cryokinetic", "freq": 8, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB",
+    "default": "mon_zombie_scientist",
+    "monsters": [
+      { "monster": "mon_moxie_scavenger", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_moxie_spartan", "freq": 25, "cost_multiplier": 0 },
+      { "monster": "mon_moxie_regenerator", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_moxie_grabby", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_human_biomachine", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SWAMP",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      {
+        "monster": "afs_mon_hevel",
+        "freq": 1,
+        "cost_multiplier": 10,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      },
+      {
+        "monster": "afs_venandi",
+        "freq": 1,
+        "cost_multiplier": 10,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      },
+      {
+        "monster": "afs_grazer",
+        "freq": 1,
+        "cost_multiplier": 10,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      }
     ]
   }
 ]

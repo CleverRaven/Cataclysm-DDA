@@ -209,7 +209,7 @@ mission *avatar::get_active_mission() const
     return active_mission;
 }
 
-void avatar::reset_all_misions()
+void avatar::reset_all_missions()
 {
     active_mission = nullptr;
     active_missions.clear();
@@ -477,6 +477,7 @@ bool avatar::read( item &it, const bool continuous )
         } else if( mastery == book_mastery::LEARNING && morale_req ) {
             learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
             const double penalty = static_cast<double>( time_taken ) / time_to_read( it, *reader, elem );
+            act.values.push_back( elem->getID().get_value() );
             act.str_values.push_back( to_string( penalty ) );
         } else {
             std::string reason = _( " (uninterested)" );
@@ -651,7 +652,7 @@ bool avatar::read( item &it, const bool continuous )
                  complex_player->disp_name() );
     }
 
-    // push an indentifier of martial art book to the action handling
+    // push an identifier of martial art book to the action handling
     if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 
         if( get_stamina() < get_stamina_max() / 10 ) {
@@ -675,7 +676,7 @@ bool avatar::read( item &it, const bool continuous )
         apply_morale.insert( elem.first );
     }
     for( player *elem : apply_morale ) {
-        //Fun bonuses for spritual and To Serve Man are no longer calculated here.
+        //Fun bonuses for spiritual and To Serve Man are no longer calculated here.
         elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 30_minutes,
                           decay_start, false, it.type );
     }
@@ -965,6 +966,11 @@ void avatar::identify( const item &item )
     }
 }
 
+void avatar::clear_identified()
+{
+    items_identified.clear();
+}
+
 void avatar::wake_up()
 {
     if( has_effect( effect_sleep ) ) {
@@ -1066,12 +1072,12 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
     int focus_equilibrium = 100;
 
     if( activity.id() == ACT_READ ) {
-        const item &book = *activity.targets[0].get_item();
-        if( book.is_book() && get_item_position( &book ) != INT_MIN ) {
-            auto &bt = *book.type->book;
+        const item *book = activity.targets[0].get_item();
+        if( book && book->is_book() && get_item_position( book ) != INT_MIN ) {
+            auto &bt = book->type->book;
             // apply a penalty when we're actually learning something
-            const SkillLevel &skill_level = get_skill_level_object( bt.skill );
-            if( skill_level.can_train() && skill_level < bt.level ) {
+            const SkillLevel &skill_level = get_skill_level_object( bt->skill );
+            if( skill_level.can_train() && skill_level < bt->level ) {
                 focus_equilibrium -= 50;
             }
         }
@@ -1399,28 +1405,19 @@ int avatar::free_upgrade_points() const
     return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
 }
 
-static int xp_to_next( const avatar &you )
-{
-    const int cur_xp = you.kill_xp();
-    // Initialize to 'already max level' sentinel
-    int xp_next = -1;
-    // Iterate in reverse: { 405k, 355k, 305k, ..., 300 }
-    for( std::array<int, 20>::const_reverse_iterator iter = xp_cutoffs.crbegin();
-         iter != xp_cutoffs.crend(); ++iter ) {
-        if( cur_xp < *iter ) {
-            xp_next = *iter;
-        }
-    }
-    return xp_next;
-}
-
 void avatar::upgrade_stat_prompt( const character_stat &stat )
 {
     const int free_points = free_upgrade_points();
-    const int next_lvl_xp = xp_to_next( *this );
 
     if( free_points <= 0 ) {
-        popup( _( "No available stat points to spend.  Experience to next level: %d" ), next_lvl_xp );
+        std::array<int, 20>::const_iterator xp_next_level = std::lower_bound( xp_cutoffs.begin(),
+                xp_cutoffs.end(), kill_xp() );
+        if( xp_next_level == xp_cutoffs.end() ) {
+            popup( _( "You've already reached maximum level." ) );
+        } else {
+            popup( _( "Needs %d more experience to gain next level." ),
+                   *xp_next_level - kill_xp() );
+        }
         return;
     }
 
@@ -1466,6 +1463,7 @@ void avatar::upgrade_stat_prompt( const character_stat &stat )
                 break;
         }
     }
+    recalc_hp();
 }
 
 faction *avatar::get_faction() const
@@ -1487,14 +1485,13 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
     }
 
     if( can_switch_to( new_mode ) ) {
+        if( is_hauling() && new_mode->stop_hauling() ) {
+            stop_hauling();
+        }
         add_msg( new_mode->change_message( true, steed ) );
         move_mode = new_mode;
         // crouching affects visibility
         get_map().set_seen_cache_dirty( pos().z );
-
-        if( new_mode->stop_hauling() ) {
-            stop_hauling();
-        }
     } else {
         add_msg( new_mode->change_message( false, steed ) );
     }

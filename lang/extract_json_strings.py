@@ -41,7 +41,9 @@ git_files_list = {os.path.normpath(i) for i in {
 # no warning will be given if an untranslatable object is found in those files
 warning_suppressed_list = {os.path.normpath(i) for i in {
     "data/json/flags.json",
+    "data/json/npcs/npc.json",
     "data/json/overmap_terrain.json",
+    "data/json/statistics.json",
     "data/json/traps.json",
     "data/json/vehicleparts/",
     "data/raw/keybindings.json",
@@ -49,7 +51,7 @@ warning_suppressed_list = {os.path.normpath(i) for i in {
     "data/mods/DeoxyMod/Deoxy_vehicle_parts.json",
     "data/mods/More_Survival_Tools/start_locations.json",
     "data/mods/NPC_Traits/npc_classes.json",
-    "data/mods/Tanks/monsters.json"
+    "data/mods/Tanks/monsters.json",
 }}
 
 
@@ -1038,7 +1040,7 @@ def gettextify(string, context=None, plural=None):
 
 
 def writestr(filename, string, context=None, format_strings=False,
-             comment=None, pl_fmt=False):
+             comment=None, pl_fmt=False, _local_fp_cache=dict()):
     "Wrap the string and write to the file."
     if type(string) is list:
         for entry in string:
@@ -1091,17 +1093,21 @@ def writestr(filename, string, context=None, format_strings=False,
         raise WrongJSONItem(
             "ERROR: value is not a string, dict, list, or None", string)
 
-    with open(filename, 'a', encoding="utf-8", newline='\n') as fs:
-        # Append developers comment
-        if comment:
-            tlcomment(fs, comment)
-        # most of the strings from json don't use string formatting.
-        # we must tell xgettext this explicitly
-        contains_percent = ("%" in str_singular or
-                            (str_pl is not None and "%" in str_pl))
-        if not format_strings and contains_percent:
-            fs.write("# xgettext:no-python-format\n")
-        fs.write(gettextify(str_singular, context=context, plural=str_pl))
+    if filename in _local_fp_cache:
+        fs = _local_fp_cache[filename]
+    else:
+        fs = open(filename, 'a', encoding="utf-8", newline='\n')
+        _local_fp_cache[filename] = fs
+    # Append developers comment
+    if comment:
+        tlcomment(fs, comment)
+    # most of the strings from json don't use string formatting.
+    # we must tell xgettext this explicitly
+    contains_percent = ("%" in str_singular or
+                        (str_pl is not None and "%" in str_pl))
+    if not format_strings and contains_percent:
+        fs.write("# xgettext:no-python-format\n")
+    fs.write(gettextify(str_singular, context=context, plural=str_pl))
 
 
 def get_outfile(json_object_type):

@@ -50,14 +50,10 @@ class scenario
         std::vector<mission_type_id> _missions;
 
         bool _custom_initial_date = false;
-        bool _random_initial_hour = true;
-        bool _random_initial_day = true;
-        bool _random_initial_season = true;
-        bool _random_initial_year = true;
-        int _initial_hour = 0;
+        int _initial_hour = 8;
         int _initial_day = 0;
         season_type _initial_season = SPRING;
-        int _initial_year = 0;
+        int _initial_year = 1;
 
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
 
@@ -92,10 +88,9 @@ class scenario
         int start_location_targets_count() const;
 
         bool custom_initial_date() const;
-        bool random_initial_hour() const;
-        bool random_initial_day() const;
-        bool random_initial_season() const;
-        bool random_initial_year() const;
+        bool is_random_hour() const;
+        bool is_random_day() const;
+        bool is_random_year() const;
         int initial_hour() const;
         int initial_day() const;
         season_type initial_season() const;

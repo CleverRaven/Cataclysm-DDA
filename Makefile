@@ -302,16 +302,10 @@ endif
 # enable optimizations. slow to build
 ifeq ($(RELEASE), 1)
   ifeq ($(NATIVE), osx)
-    ifdef OSXCROSS
-      OPTLEVEL = -O0
-    else ifeq ($(shell expr $(OSX_MIN) \<= 10.11), 1)
-      OPTLEVEL = -O0
+    ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
+      OPTLEVEL = -Os
     else
-      ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
-        OPTLEVEL = -Os
-      else
-        OPTLEVEL = -O3
-      endif
+      OPTLEVEL = -O3
     endif
   else
     # MXE ICE Workaround

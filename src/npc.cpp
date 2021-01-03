@@ -595,7 +595,12 @@ void starting_inv( npc &who, const npc_class_id &type )
         return;
     }
 
-    res.emplace_back( "lighter" );
+    item lighter( "lighter" );
+    // Set lighter ammo
+    if( !lighter.ammo_default().is_null() ) {
+        lighter.ammo_set( lighter.ammo_default(), rng( 10, 100 ) );
+    }
+    res.emplace_back( lighter );
     // If wielding a gun, get some additional ammo for it
     if( who.weapon.is_gun() ) {
         item ammo;
@@ -838,6 +843,21 @@ void npc::starting_weapon( const npc_class_id &type )
             weapon.ammo_set( weapon.ammo_default() );
         } else {
             debugmsg( "tried setting ammo for %s which has no magazine or ammo", weapon.typeId().c_str() );
+        }
+        //You should be able to wield your starting weapon
+        if( !meets_stat_requirements( weapon ) ) {
+            if( weapon.get_min_str() > get_str() ) {
+                str_max = weapon.get_min_str();
+            }
+            if( weapon.type->min_dex > get_dex() ) {
+                dex_max = weapon.type->min_dex;
+            }
+            if( weapon.type->min_int > get_int() ) {
+                int_max = weapon.type->min_int;
+            }
+            if( weapon.type->min_per > get_per() ) {
+                per_max = weapon.type->min_per;
+            }
         }
     }
 
@@ -1893,7 +1913,7 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
     can_fix.clear_all();
     healing_options *fix_p = &can_fix;
 
-    visit_items( [&fix_p, try_to_fix]( item * node ) {
+    visit_items( [&fix_p, try_to_fix]( item * node, item * ) {
         const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
@@ -1932,7 +1952,7 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
 item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
 {
     item *best = &null_item_reference();
-    visit_items( [&best, try_to_fix, first_best]( item * node ) {
+    visit_items( [&best, try_to_fix, first_best]( item * node, item * ) {
         const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
@@ -3343,6 +3363,17 @@ std::string npc::describe_mission() const
             return string_format( "ERROR: Someone forgot to code an npc_mission text for "
                                   "mission: %d.", static_cast<int>( mission ) );
     } // switch (mission)
+}
+
+std::string npc::name_and_activity() const
+{
+    if( current_activity_id ) {
+        const std::string activity_name = current_activity_id.obj().verb().translated();
+        //~ %1$s - npc name, %2$s - npc current activity name.
+        return string_format( _( "%1$s (%2$s)" ), name, activity_name );
+    } else {
+        return name;
+    }
 }
 
 std::unique_ptr<talker> get_talker_for( npc &guy )

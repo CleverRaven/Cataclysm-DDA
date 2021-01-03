@@ -898,6 +898,7 @@ void mapgen_road( mapgendata &dat )
         if( num_dirs == 4 ) {
             if( one_in( 2 ) &&
                 m->ter( point( 3, 1 ) ) == t_sidewalk && m->ter( point( 20, 2 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 11, 1 ), point( 12, 3 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( i, 1 ), t_zebra );
                     m->ter_set( point( i, 2 ), t_zebra );
@@ -905,6 +906,7 @@ void mapgen_road( mapgendata &dat )
             }
             if( one_in( 2 ) &&
                 m->ter( point( 21, 3 ) ) == t_sidewalk && m->ter( point( 22, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 20, 11 ), point( 23, 12 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( 21, i ), t_zebra );
                     m->ter_set( point( 22, i ), t_zebra );
@@ -912,6 +914,7 @@ void mapgen_road( mapgendata &dat )
             }
             if( one_in( 2 ) &&
                 m->ter( point( 3, 21 ) ) == t_sidewalk && m->ter( point( 20, 22 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 11, 21 ), point( 12, 22 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( i, 21 ), t_zebra );
                     m->ter_set( point( i, 22 ), t_zebra );
@@ -919,6 +922,7 @@ void mapgen_road( mapgendata &dat )
             }
             if( one_in( 2 ) &&
                 m->ter( point( 1, 3 ) ) == t_sidewalk && m->ter( point( 2, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 1, 11 ), point( 2, 12 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( 1, i ), t_zebra );
                     m->ter_set( point( 2, i ), t_zebra );
@@ -943,6 +947,7 @@ void mapgen_road( mapgendata &dat )
         if( num_dirs == 3 ) {
             if( one_in( 2 ) &&
                 m->ter( point( 3, 1 ) ) == t_sidewalk && m->ter( point( 20, 2 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 11, 1 ), point( 12, 3 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( i, 1 ), t_zebra );
                     m->ter_set( point( i, 2 ), t_zebra );
@@ -950,6 +955,7 @@ void mapgen_road( mapgendata &dat )
             }
             if( one_in( 2 ) &&
                 m->ter( point( 21, 3 ) ) == t_sidewalk && m->ter( point( 22, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 20, 11 ), point( 23, 13 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( 21, i ), t_zebra );
                     m->ter_set( point( 22, i ), t_zebra );
@@ -957,6 +963,7 @@ void mapgen_road( mapgendata &dat )
             }
             if( one_in( 2 ) &&
                 m->ter( point( 1, 3 ) ) == t_sidewalk && m->ter( point( 2, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 1, 11 ), point( 2, 13 ) );
                 for( int i = 4; i < 20; i += 2 ) {
                     m->ter_set( point( 1, i ), t_zebra );
                     m->ter_set( point( 2, i ), t_zebra );
@@ -976,6 +983,7 @@ void mapgen_road( mapgendata &dat )
 
         // ordinary straight roads
         if( num_dirs == 2 && !diag && one_in( 10 ) ) {
+            square( m, t_pavement, point( 4, 12 ), point( 19, 15 ) );
             for( int i = 4; i < 20; i += 2 ) {
                 m->ter_set( point( i, 13 ), t_zebra );
                 m->ter_set( point( i, 14 ), t_zebra );
@@ -2586,7 +2594,7 @@ void mapgen_forest( mapgendata &dat )
             // to specify biomes in the forest regional settings that are not
             // rendered by this forest map gen method, in order to control
             // how terrains are blended together (e.g. specify roads with an equal
-            // sparsness adjacency factor to forests so that forests don't fade out
+            // sparseness adjacency factor to forests so that forests don't fade out
             // as they transition to roads.
             return 0;
         }
@@ -2630,7 +2638,7 @@ void mapgen_forest( mapgendata &dat )
         return *max_element( std::begin( factors ), std::end( factors ) );
     };
 
-    // Get the sparesness factor for this terrain, and fill it.
+    // Get the sparseness factor for this terrain, and fill it.
     const int factor = get_sparseness_adjacency_factor( dat.terrain_type() );
     fill_adjacency_factor( factor );
 

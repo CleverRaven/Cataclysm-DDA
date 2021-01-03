@@ -120,7 +120,7 @@
   {
     "id": "xl_boots_chitin",
     "type": "ARMOR",
-    "name": { "str": "paird of oversize chitin boots", "str_pl": "pairs of oversized chitin boots" },
+    "name": { "str": "pair of oversize chitin boots", "str_pl": "pairs of oversized chitin boots" },
     "copy-from": "boots_chitin",
     "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
   },

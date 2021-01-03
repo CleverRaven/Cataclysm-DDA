@@ -10,6 +10,7 @@
 #include <utility>
 
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "inventory.h"
 #include "item.h"
@@ -67,7 +68,7 @@ template <typename T>
 static item *retrieve_item( const T &sel, int id )
 {
     item *obj = nullptr;
-    sel.visit_items( [&id, &obj]( const item * e ) {
+    sel.visit_items( [&id, &obj]( const item * e, item * ) {
         if( get_id( *e ) == id ) {
             obj = const_cast<item *>( e );
             return VisitResponse::ABORT;

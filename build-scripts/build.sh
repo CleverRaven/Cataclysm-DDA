@@ -9,7 +9,7 @@ num_jobs=3
 function run_tests
 {
     # --min-duration shows timing lines for tests with a duration of at least that many seconds.
-    $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS
+    $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time --error-format=github-action $EXTRA_TEST_OPTS
 }
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
@@ -189,10 +189,7 @@ else
         # Run the tests one more time, without actually running any tests, just to verify that all
         # the mod data can be successfully loaded
 
-        # Use a blacklist of mods that currently fail to load cleanly.  Hopefully this list will
-        # shrink over time.
-        blacklist=build-scripts/mod_test_blacklist
-        mods="$(./build-scripts/get_all_mods.py $blacklist)"
+        mods="$(./build-scripts/get_all_mods.py)"
         run_tests ./tests/cata_test --user-dir=all_modded --mods="$mods" '~*'
     fi
 fi

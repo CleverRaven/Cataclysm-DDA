@@ -795,14 +795,21 @@ bool veh_interact::update_part_requirements()
 
     nmsg += _( "<color_white>Additional requirements:</color>\n" );
 
+    bool allow_more_eng = engines < 2 || player_character.has_trait( trait_DEBUG_HS );
+
     if( dif_eng > 0 ) {
-        if( player_character.get_skill_level( skill_mechanics ) < dif_eng ) {
+        if( !allow_more_eng || player_character.get_skill_level( skill_mechanics ) < dif_eng ) {
             ok = false;
         }
-        //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
-        nmsg += string_format( _( "> %1$s%2$s %3$i</color> for extra engines." ),
-                               status_color( player_character.get_skill_level( skill_mechanics ) >= dif_eng ),
-                               skill_mechanics.obj().name(), dif_eng ) + "\n";
+        if( allow_more_eng ) {
+            //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
+            nmsg += string_format( _( "> %1$s%2$s %3$i</color> for extra engines." ),
+                                   status_color( player_character.get_skill_level( skill_mechanics ) >= dif_eng ),
+                                   skill_mechanics.obj().name(), dif_eng ) + "\n";
+        } else {
+            nmsg += _( "> <color_red>You cannot install any more engines on this vehicle.</color>" ) +
+                    std::string( "\n" );
+        }
     }
 
     if( dif_steering > 0 ) {
@@ -1138,7 +1145,7 @@ void veh_interact::do_repair()
     task_reason reason = cant_do( 'r' );
 
     if( reason == task_reason::INVALID_TARGET ) {
-        vehicle_part *most_repairable = get_most_repariable_part();
+        vehicle_part *most_repairable = get_most_repairable_part();
         if( most_repairable && most_repairable->damage_percent() ) {
             move_cursor( ( most_repairable->mount + dd ).rotate( 3 ) );
             return;
@@ -1719,7 +1726,7 @@ vehicle_part *veh_interact::get_most_damaged_part() const
     return &( *high_damage_iterator ).part();
 }
 
-vehicle_part *veh_interact::get_most_repariable_part() const
+vehicle_part *veh_interact::get_most_repairable_part() const
 {
     auto &part = veh_utils::most_repairable_part( *veh, get_player_character() );
     return part ? &part : nullptr;
@@ -2059,8 +2066,22 @@ int veh_interact::part_at( const point &d )
  */
 bool veh_interact::can_potentially_install( const vpart_info &vpart )
 {
-    return get_player_character().has_trait( trait_DEBUG_HS ) ||
-           vpart.install_requirements().can_make_with_inventory( crafting_inv, is_crafting_component );
+    bool engine_reqs_met = true;
+    bool can_make = vpart.install_requirements().can_make_with_inventory( crafting_inv,
+                    is_crafting_component );
+    bool hammerspace = get_player_character().has_trait( trait_DEBUG_HS );
+
+    int engines = 0;
+    if( vpart.has_flag( VPFLAG_ENGINE ) && vpart.has_flag( "E_HIGHER_SKILL" ) ) {
+        for( const vpart_reference &vp : veh->get_avail_parts( "ENGINE" ) ) {
+            if( vp.has_feature( "E_HIGHER_SKILL" ) ) {
+                engines++;
+            }
+        }
+        engine_reqs_met = engines < 2;
+    }
+
+    return hammerspace || ( can_make && engine_reqs_met );
 }
 
 /**
@@ -2448,7 +2469,7 @@ void veh_interact::display_stats() const
     };
 
     vehicle_part *mostDamagedPart = get_most_damaged_part();
-    vehicle_part *most_repairable = get_most_repariable_part();
+    vehicle_part *most_repairable = get_most_repairable_part();
 
     // Write the most damaged part
     if( mostDamagedPart && mostDamagedPart->damage_percent() ) {
@@ -3080,7 +3101,10 @@ void veh_interact::complete_vehicle( player &p )
                 contained.charges -= pt.base.fill_with( contained, contained.charges );
                 src->on_contents_changed();
 
-                if( pt.remaining_ammo_capacity() ) {
+                // if code goes here, we can assume "pt" has already refilled with "contained" something.
+                int remaining_ammo_capacity = pt.ammo_capacity( contained.ammo_type() ) - pt.ammo_remaining();
+
+                if( remaining_ammo_capacity ) {
                     //~ 1$s vehicle name, 2$s tank name
                     p.add_msg_if_player( m_good, _( "You refill the %1$s's %2$s." ),
                                          veh->name, pt.name() );
@@ -3210,7 +3234,7 @@ void veh_interact::complete_vehicle( player &p )
                     get_map().clear_vehicle_point_from_cache( veh, part_pos );
                 }
             }
-            // This will be part of an NPC "job" where they need to clean up the acitivty
+            // This will be part of an NPC "job" where they need to clean up the activity
             // items afterwards
             if( p.is_npc() ) {
                 for( item &it : resulting_items ) {
@@ -3225,4 +3249,5 @@ void veh_interact::complete_vehicle( player &p )
         }
     }
     p.invalidate_crafting_inventory();
+    p.invalidate_weight_carried_cache();
 }
