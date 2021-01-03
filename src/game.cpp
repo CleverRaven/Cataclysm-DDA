@@ -8572,13 +8572,17 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
         const mtype *dead_mon = corpses[index]->get_mtype();
         if( dead_mon ) {
             for( const harvest_entry &entry : dead_mon->harvest.obj() ) {
-                if( entry.type == "skin" ) {
+                if( entry.type == "skin" && !corpses[index]->has_flag( flag_SKINNED ) ) {
                     has_skin = true;
                 }
-                if( entry.type == "offal" ) {
+                if( entry.type == "offal" && !( corpses[index]->has_flag( flag_QUARTERED ) ||
+                                                corpses[index]->has_flag( flag_FIELD_DRESS ) ||
+                                                corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
                     has_organs = true;
                 }
-                if( entry.type == "blood" ) {
+                if( entry.type == "blood" && !( corpses[index]->has_flag( flag_QUARTERED ) ||
+                                                corpses[index]->has_flag( flag_FIELD_DRESS ) ||
+                                                corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) || corpses[index]->has_flag( flag_BLED ) ) ) {
                     has_blood = true;
                 }
             }
