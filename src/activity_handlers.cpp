@@ -927,7 +927,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 continue;
             }
         }
-        // field dressing ignores everything outside below list
+        // field dressing ignores skin flesh, and blood
         if( action == butcher_type::FIELD_DRESS ) {
             if( entry.type == "bone" ) {
                 roll = rng( 0, roll / 2 );
@@ -1020,8 +1020,10 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
+                bool dont_care_for_blood = ( action == butcher_type::FIELD_DRESS || action == butcher_type::FULL ||
+                                             action == butcher_type::QUICK );
                 // TODO: smarter NPC liquid handling
-                if( p.is_npc() ) {
+                if( p.is_npc() || dont_care_for_blood ) {
                     drop_on_map( p, item_drop_reason::deliberate, { obj }, p.pos() );
                 } else {
                     liquid_handler::handle_all_liquid( obj, 1 );
