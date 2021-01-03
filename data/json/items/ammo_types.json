@@ -374,7 +374,7 @@
   {
     "type": "ammunition_type",
     "id": "battery",
-    "name": "J",
+    "name": "kJ",
     "default": "battery"
   },
   {
