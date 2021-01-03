@@ -1300,7 +1300,7 @@
     "replace": "jug_plastic"
   },
   {
-    "id": "knuckles_steel",
+    "id": "knuckle_steel",
     "type": "MIGRATION",
     "replace": "knuckles_scrap"
   }
