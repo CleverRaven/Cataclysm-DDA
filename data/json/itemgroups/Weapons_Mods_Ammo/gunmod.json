@@ -35,6 +35,8 @@
       [ "pistol_bayonet", 10 ],
       [ "pistol_scope", 10 ],
       [ "pistol_stock", 10 ],
+      [ "tail_hook_stock", 30 ],
+      [ "butt_hook_stock", 20 ],
       [ "arredondo_chute", 20 ],
       [ "rail_laser_sight", 40 ],
       [ "red_dot_sight", 70 ],
