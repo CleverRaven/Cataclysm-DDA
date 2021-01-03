@@ -1226,7 +1226,6 @@
     "price_postapoc": 1400,
     "material": [ "flesh", "egg", "junk" ],
     "volume": "500ml",
-    "charges": 2,
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ] ],
     "fun": 4
