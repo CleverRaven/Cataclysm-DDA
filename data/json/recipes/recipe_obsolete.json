@@ -2682,8 +2682,8 @@
     "obsolete": true
   },
   {
-  "type": "recipe",
-  "result": "knuckle_steel",
-  "obsolete": true
+    "type": "recipe",
+    "result": "knuckle_steel",
+    "obsolete": true
   }
 ]
