@@ -305,10 +305,7 @@ TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
     trigdist = true;
     test_moves_to_squares( "mon_zombie_dog", true );
     test_moves_to_squares( "mon_pig", true );
-    if( ! old_trigdist ) {
-        override_option opt( "CIRCLEDIST", "false" );
-        trigdist = false;
-    }
+    trigdist = old_trigdist;
 }
 
 TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
@@ -319,10 +316,7 @@ TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
     trigdist = false;
     test_moves_to_squares( "mon_zombie_dog", true );
     test_moves_to_squares( "mon_pig", true );
-    if( old_trigdist ) {
-        override_option opt( "CIRCLEDIST", "true" );
-        trigdist = true;
-    }
+    trigdist = old_trigdist;
 }
 
 // Characterization test for monster movement speed.
@@ -334,10 +328,7 @@ TEST_CASE( "monster_speed_square", "[speed]" )
     override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     monster_check();
-    if( old_trigdist ) {
-        override_option opt( "CIRCLEDIST", "true" );
-        trigdist = true;
-    }
+    trigdist = old_trigdist;
 }
 
 TEST_CASE( "monster_speed_trig", "[speed]" )
@@ -347,10 +338,7 @@ TEST_CASE( "monster_speed_trig", "[speed]" )
     override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     monster_check();
-    if( ! old_trigdist ) {
-        override_option opt( "CIRCLEDIST", "false" );
-        trigdist = false;
-    }
+    trigdist = old_trigdist;
 }
 
 TEST_CASE( "monster_extend_flags", "[monster]" )
