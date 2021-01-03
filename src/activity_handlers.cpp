@@ -924,7 +924,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 continue;
             }
         }
-        // field dressing ignores skin flesh, and blood
+        // field dressing ignores skin, flesh, and blood
         if( action == butcher_type::FIELD_DRESS ) {
             if( entry.type == "bone" ) {
                 roll = rng( 0, roll / 2 );
@@ -1256,7 +1256,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     butchery_drops_harvest( &corpse_item, *corpse, *p, roll_butchery, action, roll_drops );
     // after this point, if there was a liquid handling from the harvest,
     // and the liquid handling was interrupted, then the activity was canceled,
-    // therefore operations on this activities targets and values may be invalidated.
+    // therefore operations on this activity's targets and values may be invalidated.
     // reveal hidden items / hidden content
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
         action != butcher_type::BLEED ) {
