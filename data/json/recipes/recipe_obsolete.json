@@ -2680,5 +2680,10 @@
     "type": "recipe",
     "result": "foot_crank",
     "obsolete": true
+  },
+  {
+  "type": "recipe",
+  "result": "knuckle_steel",
+  "obsolete": true
   }
 ]
