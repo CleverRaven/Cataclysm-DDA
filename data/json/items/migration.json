@@ -1302,6 +1302,6 @@
   {
     "id": "knuckle_steel",
     "type": "MIGRATION",
-    "replace": "knuckles_scrap"
+    "replace": "knuckle_scrap"
   }
 ]
