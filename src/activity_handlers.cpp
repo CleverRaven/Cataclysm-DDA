@@ -1073,14 +1073,12 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     // 20% of the original corpse weight is not an item, but liquid gore
     monster_weight_remaining -= monster_weight / 5;
     // add the remaining unusable weight as rotting garbage
-    if( monster_weight_remaining > 0 ) {
+    if( monster_weight_remaining > 0 && action != butcher_type::BLEED ) {
         if( action == butcher_type::FIELD_DRESS ) {
             // 25% of the corpse weight is what's removed during field dressing
             monster_weight_remaining -= monster_weight * 3 / 4;
         } else if( action == butcher_type::SKIN ) {
             monster_weight_remaining -= monster_weight * 0.85;
-        } else if( action == butcher_type::BLEED ) {
-            monster_weight_remaining -= monster_weight * 0.1;
         } else {
             // a carcass is 75% of the weight of the unmodified creature's weight
             if( ( corpse_item->has_flag( flag_FIELD_DRESS ) ||
@@ -1261,7 +1259,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // and the liquid handling was interrupted, then the activity was canceled,
     // therefore operations on this activities targets and values may be invalidated.
     // reveal hidden items / hidden content
-    if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN ) {
+    if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
+        action != butcher_type::BLEED ) {
         for( item *content : corpse_item.contents.all_items_top() ) {
             if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
