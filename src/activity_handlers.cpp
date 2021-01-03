@@ -1017,10 +1017,10 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
-                bool dont_care_for_blood = ( action == butcher_type::FIELD_DRESS || action == butcher_type::FULL ||
-                                             action == butcher_type::QUICK );
+
                 // TODO: smarter NPC liquid handling
-                if( p.is_npc() || dont_care_for_blood ) {
+                // If we're not bleeding the animal we don't care about the blood being wasted
+                if( p.is_npc() || action != butcher_type::BLEED ) {
                     drop_on_map( p, item_drop_reason::deliberate, { obj }, p.pos() );
                 } else {
                     liquid_handler::handle_all_liquid( obj, 1 );
