@@ -1036,8 +1036,9 @@ nc_color avatar::basic_symbol_color() const
 
 int avatar::print_info( const catacurses::window &w, int vStart, int, int column ) const
 {
-    mvwprintw( w, point( column, vStart++ ), _( "You (%s)" ), name );
-    return vStart;
+    return vStart + fold_and_print( w, point( column, vStart ), getmaxx( w ), c_dark_gray,
+                                    _( "You (%s)" ),
+                                    name ) - 1;
 }
 
 void avatar::disp_morale()
