@@ -6695,7 +6695,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
             mon->remove_effect( effect_harnessed );
         }
         if( part_flag( p, "TOW_CABLE" ) ) {
-            invalidate_towing();
+            invalidate_towing( true );
         } else {
             remove_part( p );
         }
