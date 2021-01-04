@@ -307,7 +307,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
             return e.typeId() == itid;
         } );
     }, _( "Introduce a compatible template." ), PICKUP_RANGE,
-    _( "You don't have any usable templates.\n\nCompatible templates are: " + name_list ) );
+    _( "You don't have any usable templates.\n\nCompatible templates are: " ) + name_list );
 
     if( !nanofab_template ) {
         return;
