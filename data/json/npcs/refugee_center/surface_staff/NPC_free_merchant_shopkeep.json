@@ -342,7 +342,7 @@
   {
     "id": "TALK_EVAC_MERCHANT_HUB01_DELIVERY_MISSION_OFFER",
     "type": "talk_topic",
-    "dynamic_line": "I could share the drop off location if you agree to deliver the data for us.  But I'm certain that you wont find whatever you seek in there.",
+    "dynamic_line": "I could share the drop off location if you agree to deliver the data for us.  But I'm certain that you won't find whatever you seek in there.",
     "responses": [
       {
         "text": "Seems like a deal to me.",
@@ -752,7 +752,7 @@
       "accepted": "…",
       "rejected": "…",
       "advice": "…",
-      "inquire": "Have you finished the delivery already",
+      "inquire": "Have you finished the delivery already?",
       "success": "Good, that's one less thing to worry about.",
       "success_lie": "What good does this do us?",
       "failure": "At least you came back with your life…"
