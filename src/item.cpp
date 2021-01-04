@@ -1091,11 +1091,15 @@ ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_typ
     if( pk_type == item_pocket::pocket_type::MOD ) {
         update_modified_pockets();
     }
-    if( unseal_pockets ) {
+    if( unseal_pockets && result.success() ) {
         result.value()->unseal();
     }
     on_contents_changed();
-    return ret_val<bool>::make_success( result.str() );
+    if( result.success() ) {
+        return ret_val<bool>::make_success( result.str() );
+    } else {
+        return ret_val<bool>::make_failure( result.str() );
+    }
 }
 
 void item::set_var( const std::string &name, const int value )
