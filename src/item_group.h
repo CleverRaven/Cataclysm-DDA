@@ -59,7 +59,7 @@ using ItemList = std::vector<item>;
  * @param group_id The identifier of the item group. You may check its validity
  * with @ref group_is_defined.
  * @param birthday The birthday (@ref item::bday) of the items created by this function.
- * @param use_spawn_rate Whether to use spawn rate in rng calculations.
+ * @param flags The spawn flags used in spawning the items.
  */
 ItemList items_from( const item_group_id &group_id, const time_point &birthday,
                      spawn_flags flags = spawn_flags::none );
