@@ -683,7 +683,7 @@ std::string recipe::missing_proficiencies_string( Character *c ) const
     std::string color = "yellow";
     std::string missing = enumerate_as_string( missing_profs.begin(),
     missing_profs.end(), [&]( const prof_penalty & prof ) {
-        return profstring(prof, color, c->has_prof_prereqs(prof.id) ? "cyan" : "red");
+        return profstring( prof, color, c->has_prof_prereqs( prof.id ) ? "cyan" : "red" );
     } );
 
     return missing;
