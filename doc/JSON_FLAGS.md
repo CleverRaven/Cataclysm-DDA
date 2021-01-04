@@ -723,8 +723,6 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun (excluding any mods). Does not include wield time penalty (see NEEDS_UNFOLD).
 - ```CONSUMABLE``` Makes a gunpart have a chance to get damaged depending on ammo fired, and definable fields 'consume_chance' and 'consume_divisor'.
 - ```DISABLE_SIGHTS``` Prevents use of the base weapon sights
-- ```FIRE_100``` Uses 100 shots per firing.
-- ```FIRE_50``` Uses 50 shots per firing.
 - ```FIRE_TWOHAND``` Gun can only be fired if player has two free hands.
 - ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.
 - ```MECH_BAT```    This is an exotic battery designed to power military mechs.

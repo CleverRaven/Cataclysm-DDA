@@ -48,13 +48,14 @@
       [ "afs_atomic_smartphone", 5 ],
       [ "laser_pack", 10 ],
       [ "ftk93", 5 ],
-      [ "atomic_butterchurn", 5 ]
+      [ "atomic_butterchurn", 5 ],
+      [ "alien_battery", 5 ]
     ]
   },
   {
     "id": "spider",
     "type": "item_group",
-    "items": [ [ "afs_energy_saber_off", 1 ], [ "afs_bag_of_holding", 2 ], [ "afs_hydraulic_gauntlet", 1 ] ]
+    "items": [ [ "afs_energy_saber_off", 1 ], [ "afs_bag_of_holding", 2 ], [ "afs_hydraulic_gauntlet", 1 ], [ "alien_battery", 1 ] ]
   },
   {
     "id": "survivorzed_extra",
@@ -404,7 +405,7 @@
     "id": "crate_sports",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ [ "q_solarpack", 1 ] ]
+    "items": [ [ "q_solarpack", 1 ], [ "alien_battery", 1 ] ]
   },
   {
     "id": "cryo_lab_drops",
