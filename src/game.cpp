@@ -6258,12 +6258,15 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 {
     const int max_width = getmaxx( w_look ) - column - 1;
 
-    // Print OMT type and terrain type on first line.
-    std::string tile = m.tername( lp );
-    trim_and_print( w_look, point( column, line ), max_width, c_white, area_name );
-    const int terrain_lines = fold_and_print( w_look, point( column + utf8_width( area_name ) + 1,
-                              line ), max_width - utf8_width( area_name ) - 1, c_light_gray, tile );
-    line += terrain_lines - 1;
+    // Print OMT type and terrain type on first line, or first two lines if can't fit in one line.
+    const std::string tile = m.tername( lp );
+    if( utf8_width( tile ) + utf8_width( area_name ) + 1 > max_width ) {
+        trim_and_print( w_look, point( column, line++ ), max_width, c_white, area_name );
+        trim_and_print( w_look, point( column, line++ ), max_width, c_light_gray, tile );
+    } else {
+        mvwprintz( w_look, point( column, line ), c_white, area_name );
+        mvwprintz( w_look, point( column + utf8_width( area_name ) + 1, line++ ), c_light_gray, tile );
+    }
 
     // Furniture on second line if any.
     if( m.has_furn( lp ) ) {
