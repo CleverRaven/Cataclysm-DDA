@@ -410,7 +410,7 @@
     "qualities": [ { "id": "SEW_CURVED", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "neoprene", 5 ] ], [ [ "filament", 15, "LIST" ] ] ]
   },
-    {
+  {
     "result": "sheet_nomex_patchwork",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

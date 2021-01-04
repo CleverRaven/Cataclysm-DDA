@@ -4212,13 +4212,13 @@
     "components": [ [ [ "felt_patch", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
-    {
+  {
     "result": "nomex",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-	"time": "1 h",
+    "time": "1 h",
     "components": [ [ [ "thread_nomex", 50 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
