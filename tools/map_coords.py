@@ -9,7 +9,7 @@ Info about output:
 Overmaps: Number of overmaps the folder contains
 
 Examples with map format:
-   
+
     %(prog)s 6.1.-3.map
     %(prog)s -4.8.1.map
     %(prog)s -9.-9.17.map
@@ -21,7 +21,7 @@ Examples using folder format:
     %(prog)s 8.-9.-1
 
 Examples with map coordinate format:
-   
+
     %(prog)s "5'107 3'146"
     %(prog)s "7'98 -7'137 5"
     %(prog)s "-1'0 0'4 -8"
@@ -30,7 +30,8 @@ Examples of INVALID map coordinate format:
 
     %(prog)s "3'180 3'17"    -> Number after the ' must be between 0 and 179
     %(prog)s "7'31  5'-17 1" -> Number after the ' must be positive
-    %(prog)s 1'13   3'17 1   -> Coordinate must be between quotation marks (") to prevent string escaping
+    %(prog)s 1'13 3'17 1   -> Quotation marks are needed (")
+                              to prevent string escaping
 
 Examples with range:
 
@@ -92,7 +93,8 @@ def info_folder(format: str) -> None:
     if o4 not in ol:
         ol.append(o4)
 
-    print(f"  Folder:  {min_cx}.{min_cy}.{cz}.map -> {max_cx}.{max_cy}.{cz}.map")
+    print(f"  Folder:  {min_cx}.{min_cy}.{cz}.map -> "
+          f"{max_cx}.{max_cy}.{cz}.map")
     print("Overmaps:  ", end="")
     for k, v in enumerate(ol):
         if k == len(ol) - 1:
@@ -101,12 +103,21 @@ def info_folder(format: str) -> None:
             print(v, end=", ")
 
 
-def info_range(r1: tuple, r2: tuple) -> None:
-    rv = lambda miv, mav: [miv] if miv == mav else list(range(miv, mav + 1))
+def get_range_list(value1: int, value2: int) -> list:
+    min_value = min(value1, value2)
+    max_value = max(value1, value2)
 
-    lvx = rv(min(r1[0], r2[0]), max(r1[0], r2[0]))
-    lvy = rv(min(r1[1], r2[1]), max(r1[1], r2[1]))
-    lvz = rv(min(r1[2], r2[2]), max(r1[2], r2[2]))
+    if min_value == max_value:
+        return [min_value]
+    else:
+        return list(range(min_value, max_value + 1))
+
+
+def info_range(r1: tuple, r2: tuple) -> None:
+
+    lvx = get_range_list(r1[0], r2[0])
+    lvy = get_range_list(r1[1], r2[1])
+    lvz = get_range_list(r1[2], r2[2])
 
     for z in lvz:
         for y in lvy:
@@ -139,7 +150,8 @@ Coordinate: \"x'(0->179) y'(0->179)\" or \"x'(0->179) y'(0->179) z\"
     Default for z is 0
         """,
     )
-    parser.add_argument("--info", action="store_true", help="Print info about maps")
+    parser.add_argument("--info", action="store_true",
+                        help="Print info about maps")
     parser.add_argument(
         "--range", help="Print maps in range using maps or coordinate format"
     )
@@ -212,7 +224,8 @@ Coordinate: \"x'(0->179) y'(0->179)\" or \"x'(0->179) y'(0->179) z\"
             retInfo = info_map(args.format)
         elif re.match(r"^-?\d'-?\d+\s+-?\d+'-?\d+(\s+-?\d+)?$", args.format):
             print(
-                "Invalid range for map coordination, a'b where b is positive from 0 to 179"
+                "Invalid range for map coordination,"
+                " a'b where b is positive from 0 to 179"
             )
         else:
             print("Invalid format, print help to view usage")
@@ -221,7 +234,8 @@ Coordinate: \"x'(0->179) y'(0->179)\" or \"x'(0->179) y'(0->179) z\"
             cx, cy, cz = retInfo
 
             print(
-                f"     Map:  {cx//180}'{cx - 180 * (cx//180)}  {cy//180}'{cy- 180 * (cy//180)}  {cz}"
+                f"     Map:  {cx//180}'{cx - 180 * (cx//180)}"
+                f"  {cy//180}'{cy- 180 * (cy//180)}  {cz}"
             )
 
             print(f"    File:  {cx//32}.{cy//32}.{cz}/{cx}.{cy}.{cz}.map")
