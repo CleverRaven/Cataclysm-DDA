@@ -610,7 +610,7 @@ struct prof_penalty {
 
 static std::string profstring( const prof_penalty &prof,
                                std::string &color,
-                               const std::string &name_color = "cyan")
+                               const std::string &name_color = "cyan" )
 {
     std::string mitigated_str;
     if( prof.mitigated ) {
@@ -684,10 +684,10 @@ std::string recipe::missing_proficiencies_string( Character *c ) const
     std::string name_color = "cyan";
     std::string missing = enumerate_as_string( missing_profs.begin(),
     missing_profs.end(), [&]( const prof_penalty & prof ) {
-        if (!c->has_prof_prereqs(prof.id)) {
+        if( !c->has_prof_prereqs( prof.id ) ) {
             name_color = "red";
         }
-        return profstring(prof, color, name_color);
+        return profstring( prof, color, name_color );
     } );
 
     return missing;

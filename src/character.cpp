@@ -12591,9 +12591,9 @@ bool Character::has_proficiency( const proficiency_id &prof ) const
     return _proficiencies->has_learned( prof );
 }
 
-bool Character::has_prof_prereqs(const proficiency_id &prof) const
+bool Character::has_prof_prereqs( const proficiency_id &prof ) const
 {
-    return _proficiencies->has_prereqs(prof);
+    return _proficiencies->has_prereqs( prof );
 }
 
 void Character::add_proficiency( const proficiency_id &prof, bool ignore_requirements )
