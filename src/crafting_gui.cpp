@@ -313,8 +313,8 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CYCLE_MODE" );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
     ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
     ctxt.register_action( "PREV_TAB" );
@@ -836,8 +836,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         ui_manager::redraw();
         const int scroll_item_info_lines = catacurses::getmaxy( w_iteminfo ) - 4;
         const std::string action = ctxt.handle_input();
-        int recmax = current.size();
-        int scroll_rate = recmax > 20 ? 10 : 3;
+        const int recmax = static_cast<int>( current.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "CYCLE_MODE" ) {
             display_mode = display_mode + 1;
             if( display_mode <= 0 ) {
@@ -1126,14 +1126,14 @@ int related_menu_fill( uilist &rmenu,
         std::vector<const recipe *> current_part = available.search_result( p.first );
         if( !current_part.empty() ) {
 
-            bool defferent_recipes = false;
+            bool different_recipes = false;
 
             // 1st pass: check if we need to add group
             for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
                 if( current_part[recipe_n]->result_name() != recipe_name ) {
                     // add group
                     rmenu.addentry( ++np_last, false, -1, recipe_name );
-                    defferent_recipes = true;
+                    different_recipes = true;
                     break;
                 } else if( recipe_n == current_part.size() - 1 ) {
                     // only one result
@@ -1141,9 +1141,9 @@ int related_menu_fill( uilist &rmenu,
                 }
             }
 
-            if( defferent_recipes ) {
+            if( different_recipes ) {
                 std::string prev_item_name;
-                // 2nd pass: add defferent recipes
+                // 2nd pass: add different recipes
                 for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
                     std::string cur_item_name = current_part[recipe_n]->result_name();
                     if( cur_item_name != prev_item_name ) {

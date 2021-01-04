@@ -19,6 +19,15 @@
     "flags": [ "SOURCE_FOOD" ]
   },
   {
+    "id": "afs_crashed_escape_pod",
+    "type": "overmap_terrain",
+    "name": "crashed escape pod",
+    "sym": "+",
+    "color": "i_red",
+    "see_cost": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_GUN", "SOURCE_AMMO" ]
+  },
+  {
     "id": "municipal_reactor_ware",
     "type": "overmap_terrain",
     "name": "warehouse",
@@ -86,7 +95,29 @@
     "spawns": { "group": "AFS_GROUP_AUG_CLINIC", "population": [ 4, 10 ], "chance": 80 },
     "sym": "A",
     "color": "yellow",
+    "flags": [ "SIDEWALK" ],
     "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_urban_aquaponicsw_n1", "afs_urban_aquaponicsw_n2", "afs_urban_aquaponicsw_n3" ],
+    "name": "aquacultural farm",
+    "spawns": { "group": "AFS_GROUP_AUG_CLINIC", "population": [ 4, 10 ], "chance": 80 },
+    "sym": "Q",
+    "color": "cyan",
+    "flags": [ "SIDEWALK", "SOURCE_FOOD" ],
+    "see_cost": 3
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_astrobiology_lab_n1", "afs_astrobiology_lab_n2" ],
+    "name": "astrobiology lab",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },
+    "sym": "L",
+    "color": "light_green",
+    "flags": [ "SIDEWALK", "SOURCE_FOOD" ],
+    "see_cost": 3,
+    "mondensity": 3
   },
   {
     "type": "overmap_terrain",

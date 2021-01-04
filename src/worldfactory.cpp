@@ -302,7 +302,7 @@ void worldfactory::init()
         }
     };
 
-    // This returns files as well, but they are going to be discared later as
+    // This returns files as well, but they are going to be discarded later as
     // we look for files *within* these dirs. If it's a file, there won't be
     // be any of those inside it and is_save_dir will return false.
     for( const std::string &dir : get_files_from_path( "", PATH_INFO::savedir(), false ) ) {
@@ -515,8 +515,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
     input_context ctxt( "PICK_WORLD_DIALOG" );
     ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_TAB" );
@@ -527,8 +527,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
-        size_t recmax = world_pages[selpage].size();
-        size_t scroll_rate = recmax > 20 ? 10 : 3;
+        const size_t recmax = world_pages[selpage].size();
+        const size_t scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "QUIT" ) {
             break;
@@ -808,6 +808,8 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
 
     input_context ctxt( "DEFAULT" );
     ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -825,21 +827,37 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
+        const int recmax = static_cast<int>( num_mods );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "UP" ) {
             cursor--;
             // If it went under 0, loop back to the end of the list.
             if( cursor < 0 ) {
-                cursor = static_cast<int>( num_mods - 1 );
+                cursor = recmax - 1;
             }
-
         } else if( action == "DOWN" ) {
             cursor++;
             // If it went over the end of the list, loop back to the start of the list.
-            if( cursor > static_cast<int>( num_mods - 1 ) ) {
+            if( cursor > recmax - 1 ) {
                 cursor = 0;
             }
-
+        } else if( action == "PAGE_DOWN" ) {
+            if( cursor == recmax - 1 ) {
+                cursor = 0;
+            } else if( cursor + scroll_rate >= recmax ) {
+                cursor = recmax - 1;
+            } else {
+                cursor += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( cursor == 0 ) {
+                cursor = recmax - 1;
+            } else if( cursor <= scroll_rate ) {
+                cursor = 0;
+            } else {
+                cursor += -scroll_rate;
+            }
         } else if( action == "QUIT" || action == "CONFIRM" ) {
             break;
         }
@@ -864,8 +882,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 
     input_context ctxt( "MODMANAGER_DIALOG" );
     ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "LEFT", to_translation( "Switch to other list" ) );
     ctxt.register_action( "RIGHT", to_translation( "Switch to other list" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1578,6 +1596,10 @@ void load_external_option( const JsonObject &jo )
         opt.setValue( jo.get_string( "value" ) );
     } else {
         jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
+    }
+    // Just visit this member if it exists
+    if( jo.has_member( "info" ) ) {
+        jo.get_string( "info" );
     }
 }
 

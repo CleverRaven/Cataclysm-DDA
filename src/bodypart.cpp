@@ -14,6 +14,19 @@
 #include "json.h"
 #include "type_id.h"
 
+const bodypart_str_id body_part_head( "head" );
+const bodypart_str_id body_part_eyes( "eyes" );
+const bodypart_str_id body_part_mouth( "mouth" );
+const bodypart_str_id body_part_torso( "torso" );
+const bodypart_str_id body_part_arm_l( "arm_l" );
+const bodypart_str_id body_part_arm_r( "arm_r" );
+const bodypart_str_id body_part_hand_l( "hand_l" );
+const bodypart_str_id body_part_hand_r( "hand_r" );
+const bodypart_str_id body_part_leg_l( "leg_l" );
+const bodypart_str_id body_part_foot_l( "foot_l" );
+const bodypart_str_id body_part_leg_r( "leg_r" );
+const bodypart_str_id body_part_foot_r( "foot_r" );
+
 side opposite_side( side s )
 {
     switch( s ) {
@@ -134,19 +147,19 @@ int_id<body_part_type>::int_id( const string_id<body_part_type> &id ) : _id( id.
 const bodypart_str_id &convert_bp( body_part bp )
 {
     static const std::vector<bodypart_str_id> body_parts = {
-        bodypart_str_id( "torso" ),
-        bodypart_str_id( "head" ),
-        bodypart_str_id( "eyes" ),
-        bodypart_str_id( "mouth" ),
-        bodypart_str_id( "arm_l" ),
-        bodypart_str_id( "arm_r" ),
-        bodypart_str_id( "hand_l" ),
-        bodypart_str_id( "hand_r" ),
-        bodypart_str_id( "leg_l" ),
-        bodypart_str_id( "leg_r" ),
-        bodypart_str_id( "foot_l" ),
-        bodypart_str_id( "foot_r" ),
-        bodypart_str_id( "bp_null" ),
+        body_part_torso,
+        body_part_head,
+        body_part_eyes,
+        body_part_mouth,
+        body_part_arm_l,
+        body_part_arm_r,
+        body_part_hand_l,
+        body_part_hand_r,
+        body_part_leg_l,
+        body_part_leg_r,
+        body_part_foot_l,
+        body_part_foot_r,
+        bodypart_str_id::NULL_ID(),
     };
     if( bp > num_bp || bp < bp_torso ) {
         debugmsg( "Invalid body part token %d", bp );
@@ -166,12 +179,17 @@ bool body_part_type::has_flag( const std::string &flag ) const
     return flags.count( flag ) > 0;
 }
 
+const std::vector<body_part_type> &body_part_type::get_all()
+{
+    return body_part_factory.get_all();
+}
+
 void body_part_type::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
 
     mandatory( jo, was_loaded, "name", name );
-    // This is NOT the plural of `name`; it's a name refering to the pair of
+    // This is NOT the plural of `name`; it's a name referring to the pair of
     // bodyparts which this bodypart belongs to, and thus should not be implemented
     // using "ngettext" or "translation::make_plural". Otherwise, in languages
     // without plural forms, translation of this string would indicate it
@@ -432,7 +450,7 @@ int bodypart::get_wetness() const
     return wetness;
 }
 
-int bodypart::get_frotbite_timer() const
+int bodypart::get_frostbite_timer() const
 {
     return frostbite_timer;
 }
@@ -445,6 +463,11 @@ int bodypart::get_temp_cur() const
 int bodypart::get_temp_conv() const
 {
     return temp_conv;
+}
+
+std::array<int, NUM_WATER_TOLERANCE> bodypart::get_mut_drench() const
+{
+    return mut_drench;
 }
 
 void bodypart::set_hp_cur( int set )
@@ -475,6 +498,14 @@ void bodypart::set_damage_disinfected( int set )
 void bodypart::set_encumbrance_data( const encumbrance_data &set )
 {
     encumb_data = set;
+}
+
+void bodypart::set_mut_drench( std::pair<water_tolerance, int> set )
+{
+    if( set.first < WT_IGNORED || set.first > NUM_WATER_TOLERANCE ) {
+        debugmsg( "Tried to use invalid water tolerance enum in set_mut_drench()." );
+    }
+    mut_drench[set.first] = set.second;
 }
 
 void bodypart::set_wetness( int set )

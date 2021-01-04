@@ -340,8 +340,8 @@ void uilist::inputfilter()
 {
     input_context ctxt( input_category, keyboard_mode::keychar );
     ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
     ctxt.register_action( "ANY_INPUT" );
@@ -766,7 +766,7 @@ void uilist::show()
 
 int uilist::scroll_amount_from_action( const std::string &action )
 {
-    int scroll_rate = vmax > 20 ? 10 : 3;
+    const int scroll_rate = vmax > 20 ? 10 : 3;
     if( action == "UP" ) {
         return -1;
     } else if( action == "PAGE_UP" ) {
@@ -823,17 +823,13 @@ bool uilist::scrollby( const int scrollby )
         if( fselected >= recmax ) {
             fselected = 0;
         }
-        int x = 0;
         for( size_t i = 0; i < fentries.size(); ++i ) {
             if( hilight_disabled || entries[ fentries [ fselected ] ].enabled ) {
                 break;
             }
             ++fselected;
-            ++x;
-            if( fselected >= recmax - x && scrollby == 1 ) {
+            if( fselected >= recmax ) {
                 fselected = 0;
-            } else {
-                fselected = fentries.size() - ( x + 1 ); // noch nicht ganz, da der LOOP fehlt
             }
         }
     }
@@ -877,8 +873,8 @@ void uilist::query( bool loop, int timeout )
 
     input_context ctxt( input_category, keyboard_mode::keycode );
     ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
     if( allow_cancel ) {

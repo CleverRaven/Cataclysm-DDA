@@ -454,12 +454,22 @@ cata::optional<std::string> zone_manager::query_name( const std::string &default
 cata::optional<zone_type_id> zone_manager::query_type() const
 {
     const auto &types = get_manager().get_types();
+
+    // Copy zone types into an array and sort by name
+    std::vector<std::pair<zone_type_id, zone_type>> types_vec;
+    std::copy( types.begin(), types.end(),
+               std::back_inserter<std::vector<std::pair<zone_type_id, zone_type>>>( types_vec ) );
+    std::sort( types_vec.begin(), types_vec.end(),
+    []( const std::pair<zone_type_id, zone_type> &lhs, const std::pair<zone_type_id, zone_type> &rhs ) {
+        return localized_compare( lhs.second.name(), rhs.second.name() );
+    } );
+
     uilist as_m;
     as_m.desc_enabled = true;
     as_m.text = _( "Select zone type:" );
 
     size_t i = 0;
-    for( const auto &pair : types ) {
+    for( const auto &pair : types_vec ) {
         const auto &type = pair.second;
 
         as_m.addentry_desc( i++, true, MENU_AUTOASSIGN, type.name(), type.desc() );
@@ -471,7 +481,7 @@ cata::optional<zone_type_id> zone_manager::query_type() const
     }
     size_t index = as_m.ret;
 
-    auto iter = types.begin();
+    auto iter = types_vec.begin();
     std::advance( iter, index );
 
     return iter->first;
@@ -627,7 +637,7 @@ std::unordered_set<tripoint> zone_manager::get_point_set_loot( const tripoint &w
 {
     std::unordered_set<tripoint> res;
     map &here = get_map();
-    for( const tripoint elem : here.points_in_radius( here.getlocal( where ), radius ) ) {
+    for( const tripoint &elem : here.points_in_radius( here.getlocal( where ), radius ) ) {
         const zone_data *zone = get_zone_at( here.getabs( elem ) );
         // if not a LOOT zone
         if( ( !zone ) || ( zone->get_type().str().substr( 0, 4 ) != "LOOT" ) ) {
@@ -818,7 +828,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             return zone_type_id( "LOOT_CUSTOM" );
         }
     }
-    if( it.has_flag( STATIC( flag_str_id( "FIREWOOD" ) ) ) ) {
+    if( it.has_flag( STATIC( flag_id( "FIREWOOD" ) ) ) ) {
         if( has_near( zone_type_id( "LOOT_WOOD" ), where, range ) ) {
             return zone_type_id( "LOOT_WOOD" );
         }
@@ -839,17 +849,40 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
     }
 
     if( cat.get_id() == item_category_food ) {
-        // skip food without comestible, like MREs
-        if( const item *it_food = it.get_food() ) {
+        const item *it_food = nullptr;
+        bool perishable = false;
+        // Look for food, and whether any contents which will spoil if left out.
+        // Food crafts and food without comestible, like MREs, will fall down to LOOT_FOOD.
+        it.visit_items( [&it_food, &perishable]( const item * node, const item * parent ) {
+            if( node && node->is_food() ) {
+                it_food = node;
+
+                if( node->goes_bad() ) {
+                    float spoil_multiplier = 1.0f;
+                    if( parent ) {
+                        const item_pocket *parent_pocket = parent->contained_where( *node );
+                        if( parent_pocket ) {
+                            spoil_multiplier = parent_pocket->spoil_multiplier();
+                        }
+                    }
+                    if( spoil_multiplier > 0.0f ) {
+                        perishable = true;
+                    }
+                }
+            }
+            return VisitResponse::NEXT;
+        } );
+
+        if( it_food != nullptr ) {
             if( it_food->get_comestible()->comesttype == "DRINK" ) {
-                if( it_food->goes_bad() && has_near( zone_type_id( "LOOT_PDRINK" ), where, range ) ) {
+                if( perishable && has_near( zone_type_id( "LOOT_PDRINK" ), where, range ) ) {
                     return zone_type_id( "LOOT_PDRINK" );
                 } else if( has_near( zone_type_id( "LOOT_DRINK" ), where, range ) ) {
                     return zone_type_id( "LOOT_DRINK" );
                 }
             }
 
-            if( it_food->goes_bad() && has_near( zone_type_id( "LOOT_PFOOD" ), where, range ) ) {
+            if( perishable && has_near( zone_type_id( "LOOT_PFOOD" ), where, range ) ) {
                 return zone_type_id( "LOOT_PFOOD" );
             }
         }
@@ -1126,6 +1159,7 @@ void zone_data::serialize( JsonOut &json ) const
 void zone_data::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     data.read( "name", name );
     data.read( "type", type );
     if( data.has_member( "faction" ) ) {

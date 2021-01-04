@@ -182,9 +182,9 @@ nc_color color_manager::highlight_from_names( const std::string &name,
         const std::string &bg_name ) const
 {
     /*
-    //             Base Name      Highlight      Red BG              White BG            Green BG            Yellow BG
-    add_hightlight("c_black",     "h_black",     "",                 "c_black_white",    "c_black_green",    "c_black_yellow",   "c_black_magenta",      "c_black_cyan");
-    add_hightlight("c_white",     "h_white",     "c_white_red",      "c_white_white",    "c_white_green",    "c_white_yellow",   "c_white_magenta",      "c_white_cyan");
+    //            Base Name      Highlight      Red BG              White BG            Green BG            Yellow BG
+    add_highlight("c_black",     "h_black",     "",                 "c_black_white",    "c_black_green",    "c_black_yellow",   "c_black_magenta",      "c_black_cyan");
+    add_highlight("c_white",     "h_white",     "c_white_red",      "c_white_white",    "c_white_green",    "c_white_yellow",   "c_white_magenta",      "c_white_cyan");
     etc.
     */
 
@@ -758,8 +758,8 @@ void color_manager::show_gui()
     bool bStuffChanged = false;
     input_context ctxt( "COLORS" );
     ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "REMOVE_CUSTOM" );
@@ -845,14 +845,14 @@ void color_manager::show_gui()
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
-        int recmax = static_cast<int>( iMaxColors );
-        int scroll_rate = recmax > 20 ? 10 : 3;
+        const int recmax = iMaxColors;
+        const int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "QUIT" ) {
             break;
         } else if( action == "UP" ) {
             iCurrentLine--;
             if( iCurrentLine < 0 ) {
-                iCurrentLine = iMaxColors - 1;
+                iCurrentLine = recmax - 1;
             }
         } else if( action == "DOWN" ) {
             iCurrentLine++;

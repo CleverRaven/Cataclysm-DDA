@@ -140,8 +140,8 @@ class Item_spawn_data
          * Create a list of items. The create list might be empty.
          * No item of it will be the null item.
          * @param[in] birthday All items have that value as birthday.
-         * numbers above 1 do nothing. Only used to decrease spawns.
          * @param[out] rec Recursion list, output goes here.
+         * @param[in] spawn_flags Extra information to change how items are spawned.
          */
         virtual ItemList create( const time_point &birthday, RecursionList &rec,
                                  spawn_flags = spawn_flags::none ) const = 0;
@@ -246,7 +246,12 @@ class Item_modifier
         /**
          * Custom flags to be added to the item.
          */
-        std::vector<flag_str_id> custom_flags;
+        std::vector<flag_id> custom_flags;
+
+        /**
+         * Custom sub set of snippets to be randomly chosen from and then applied to the item.
+         */
+        std::vector<snippet_id> snippets;
 
         Item_modifier();
         Item_modifier( Item_modifier && ) = default;

@@ -5,7 +5,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-units::angle normalize( units::angle a, units::angle mod )
+units::angle normalize( units::angle a, const units::angle &mod )
 {
     a = units::fmod( a, mod );
     if( a < 0_degrees ) {
@@ -76,6 +76,22 @@ double convert_weight( const units::mass &weight )
     }
     return ret;
 }
+
+double convert_length_cm_in( const units::length &length )
+{
+
+    double ret = to_millimeter( length );
+    const bool metric = get_option<std::string>( "DISTANCE_UNITS" ) == "metric";
+    if( metric ) {
+        ret /= 10;
+    } else {
+        // imperial's a doozy, we can only try to approximate
+        // so first we convert it to inches which are the smallest unit
+        ret /= 25.4;
+    }
+    return ret;
+}
+
 
 int convert_length( const units::length &length )
 {

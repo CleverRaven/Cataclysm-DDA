@@ -110,10 +110,44 @@
     "time": "50 m"
   },
   {
+    "id": "afs_bugbrew_book",
+    "type": "BOOK",
+    "name": { "str": "mealworm farm logbook" },
+    "description": "A binder containing detailed production logs from an industrial mealworm farm.  You could use its recordings to start your own farming operations.",
+    "weight": "700 g",
+    "volume": "750 ml",
+    "price": 5000,
+    "price_postapoc": 1000,
+    "looks_like": "file",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_blue",
+    "intelligence": 12,
+    "skill": "chemistry",
+    "required_level": 0,
+    "max_level": 2,
+    "time": "50 m",
+    "fun": -2
+  },
+  {
     "id": "schematics_chickenbot",
     "type": "BOOK",
     "name": { "str_sp": "chicken walker schematics" },
     "description": "Bearing the logo of Northrop, those are assembly plans, design specs, and technical drawings for the chicken walker.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "copy-from": "schematics_generic"
+  },
+  {
+    "id": "schematics_diamond_press",
+    "type": "BOOK",
+    "name": { "str_sp": "diamond press schematics" },
+    "description": "Bearing the logo of Matrioshka Fabritechnics, those are assembly plans, design specs, and technical drawings for the diamond press.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "copy-from": "schematics_generic"
+  },
+  {
+    "id": "schematics_nano_forge",
+    "type": "BOOK",
+    "name": { "str_sp": "nano forge schematics" },
+    "description": "Bearing the logo of Matrioshka Fabritechnics, those are assembly plans, design specs, and technical drawings for the nano forge.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
@@ -129,6 +163,24 @@
     "name": { "str_sp": "tripod schematics" },
     "description": "Bearing the logo of Honda, those are assembly plans, design specs, and technical drawings for the tripod.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
+  },
+  {
+    "id": "afs_landfall_kit_2_instructions",
+    "type": "BOOK",
+    "name": { "str": "landfall survival manual" },
+    "description": "A small folio indicating how to best utilize the equipment of your landfall survival kit during an emergency.  Its first page urges you to remain calm, and to consult your escape pod's control console for further instructions.",
+    "weight": "120 g",
+    "volume": "500 ml",
+    "price": 0,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "file",
+    "color": "light_green",
+    "skill": "survival",
+    "max_level": 2,
+    "intelligence": 9,
+    "fun": -1,
+    "time": "20 m"
   },
   {
     "id": "cyrus'_notes",
@@ -180,6 +232,46 @@
     "fun": -3
   },
   {
+    "id": "recipes_resistance",
+    "type": "BOOK",
+    "name": { "str": "useful recipes for resistance", "str_pl": "copies of useful recipes for resistance" },
+    "description": "Recipes for Resistance is a collection of tales, strategies and recipes for working against corporate rule.  Very simple language is used in the recipes but it drags out the explanations.",
+    "weight": "2000 g",
+    "volume": "500 ml",
+    "price": 64000,
+    "price_postapoc": 2000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_green",
+    "skill": "chemistry",
+    "looks_like": "adv_chemistry",
+    "required_level": 6,
+    "max_level": 7,
+    "intelligence": 9,
+    "time": "50 m",
+    "fun": -1
+  },
+  {
+    "id": "recipes_cryolab",
+    "type": "BOOK",
+    "name": { "str": "Working in Boreal Conditions and beyond", "str_pl": "copies of Working in Boreal Conditions and beyond" },
+    "description": "A corporate manual for conditions of inhospitable cold.  It includes instructions for building devices and substances that will aid in survival in extreme weather or even the lack thereof.",
+    "weight": "2000 g",
+    "volume": "500 ml",
+    "price": 64000,
+    "price_postapoc": 2000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_cyan",
+    "looks_like": "recipe_lab_elec",
+    "skill": "chemistry",
+    "required_level": 3,
+    "max_level": 5,
+    "intelligence": 14,
+    "time": "35 m",
+    "fun": -1
+  },
+  {
     "id": "recipe_unusual_ammos",
     "type": "BOOK",
     "name": { "str": "Unusual Ammunitions of the Corporations", "str_pl": "copies of Unusual Ammunitions of the Corporations" },
@@ -197,6 +289,25 @@
     "max_level": 3,
     "intelligence": 9,
     "fun": 1,
+    "time": "50 m"
+  },
+  {
+    "id": "recipe_lichenlog",
+    "type": "BOOK",
+    "name": { "str": "Applications of Salus IV Lichen", "str_pl": "copies of Applications of Salus IV Lichen" },
+    "description": "A sheaf of notes detailing some species of lichen.  Most of the information is useless to you except for the fact that the majority of Salus IV lifeform's metabolism rely on a macronutrient that acts like a neurotoxin for humans.  One useful note is a detailed procedure to neutralize said neurotoxin.",
+    "weight": "50 g",
+    "volume": "500 ml",
+    "price": "5000 cent",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "recipe_medicalmut",
+    "color": "light_green",
+    "skill": "chemistry",
+    "required_level": 0,
+    "max_level": 2,
+    "intelligence": 9,
+    "fun": -2,
     "time": "50 m"
   }
 ]

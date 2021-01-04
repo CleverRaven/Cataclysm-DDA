@@ -47,7 +47,7 @@ struct ma_requirements {
     std::vector<std::pair<damage_type, int>> min_damage;
 
     std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
-    std::set<flag_str_id> req_flags; // any item flags required for this technique
+    std::set<flag_id> req_flags; // any item flags required for this technique
 
     ma_requirements() {
         unarmed_allowed = false;
@@ -297,7 +297,7 @@ void load_technique( const JsonObject &jo, const std::string &src );
 void load_martial_art( const JsonObject &jo, const std::string &src );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
-void finialize_martial_arts();
+void finalize_martial_arts();
 std::string martialart_difficulty( const matype_id &mstyle );
 
 std::vector<matype_id> all_martialart_types();

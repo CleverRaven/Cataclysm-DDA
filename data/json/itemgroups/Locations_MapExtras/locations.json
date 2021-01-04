@@ -230,15 +230,10 @@
       { "item": "game_watch", "prob": 2, "charges": [ 0, 100 ] },
       { "item": "laptop", "prob": 5, "charges": [ 0, 500 ] },
       [ "fish_bowl", 1 ],
-      [ "glasses_eye", 30 ],
       [ "contacts", 15 ],
-      [ "sunglasses", 30 ],
-      [ "fitover_sunglasses", 20 ],
-      [ "fancy_sunglasses", 5 ],
-      [ "glasses_reading", 30 ],
+      { "group": "clothing_glasses", "prob": 40 },
       { "item": "shavingkit", "prob": 20, "charges": [ 0, 10 ] },
       { "item": "elec_hairtrimmer", "prob": 10, "charges": [ 0, 50 ] },
-      [ "glasses_bifocal", 30 ],
       [ "tailor_portfolio", 3 ],
       [ "house_coat", 20 ],
       [ "gloves_medical", 50 ],
@@ -682,6 +677,9 @@
       [ "glasses_reading", 20 ],
       [ "glasses_bifocal", 20 ],
       [ "glasses_eye", 20 ],
+      [ "fancy_glasses_bifocal", 5 ],
+      [ "fancy_glasses_reading", 5 ],
+      [ "fancy_glasses_eye", 5 ],
       { "item": "marble", "prob": 20, "charges-min": 1, "charges-max": 3 },
       [ "fish_bowl", 15 ],
       [ "jar_3l_glass_sealed", 120 ],
@@ -884,7 +882,8 @@
       [ "tinder", 1 ],
       [ "hobo_stove", 1 ],
       [ "l-stick", 1 ],
-      [ "eclipse_glasses", 1 ]
+      [ "eclipse_glasses", 1 ],
+      { "group": "writing_utensils", "prob": 5 }
     ]
   },
   {
@@ -940,7 +939,8 @@
       [ "golf_ball", 90 ],
       [ "towel", 40 ],
       [ "scorecard", 10 ],
-      [ "golf_club", 75 ]
+      [ "golf_club", 75 ],
+      [ "pencil", 20 ]
     ]
   },
   {
@@ -1552,12 +1552,7 @@
     "id": "church",
     "subtype": "distribution",
     "entries": [
-      { "item": "glasses_eye", "prob": 90 },
-      { "item": "sunglasses", "prob": 90 },
-      { "item": "fitover_sunglasses", "prob": 60 },
-      { "item": "fancy_sunglasses", "prob": 10 },
-      { "item": "glasses_reading", "prob": 90 },
-      { "item": "glasses_bifocal", "prob": 90 },
+      { "group": "clothing_glasses", "prob": 80 },
       { "item": "child_book", "prob": 60 },
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
       { "item": "ref_lighter", "prob": 4, "charges": [ 0, 50 ] },
@@ -1666,12 +1661,7 @@
       [ "socks_ankle", 50 ],
       [ "mocassins", 20 ],
       [ "bandana", 35 ],
-      [ "glasses_eye", 90 ],
-      [ "sunglasses", 20 ],
-      [ "fancy_sunglasses", 5 ],
-      [ "fitover_sunglasses", 10 ],
-      [ "glasses_reading", 90 ],
-      [ "glasses_bifocal", 90 ],
+      { "group": "clothing_glasses", "prob": 80 },
       [ "towel", 40 ],
       [ "hat_ball", 30 ],
       [ "briefcase", 50 ],
@@ -1772,7 +1762,8 @@
       [ "barometer", 3 ],
       [ "badge_doctor", 5 ],
       [ "dnd_handbook", 2 ],
-      [ "bodypillow", 1 ]
+      [ "bodypillow", 1 ],
+      { "group": "writing_utensils", "prob": 10 }
     ]
   },
   {
@@ -1847,7 +1838,8 @@
       [ "eclipse_glasses", 1 ],
       [ "sandbox_kit", 1 ],
       [ "dnd_handbook", 1 ],
-      [ "balloon", 5 ]
+      [ "balloon", 5 ],
+      { "group": "writing_utensils", "prob": 40 }
     ]
   },
   {
@@ -1940,13 +1932,8 @@
       [ "aspirin", 85 ],
       [ "junk_burrito", 25 ],
       { "group": "tobacco_products", "prob": 31 },
-      [ "glasses_eye", 90 ],
       [ "contacts", 15 ],
-      [ "sunglasses", 90 ],
-      [ "fitover_sunglasses", 60 ],
-      [ "fancy_sunglasses", 5 ],
-      [ "glasses_reading", 90 ],
-      [ "glasses_bifocal", 90 ],
+      { "group": "clothing_glasses", "prob": 80 },
       [ "briefcase", 40 ],
       [ "purse", 40 ],
       [ "mbag", 20 ],
@@ -1962,7 +1949,7 @@
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       [ "bubblewrap", 50 ],
-      [ "coffee_raw", 15 ],
+      [ "instant_coffee", 15 ],
       [ "usb_drive", 5 ],
       [ "software_useless", 10 ],
       [ "software_electronics_reference", 2 ],
@@ -1980,7 +1967,8 @@
       [ "survnote", 1 ],
       [ "magnifying_glass", 8 ],
       [ "camera_control", 2 ],
-      [ "eclipse_glasses", 1 ]
+      [ "eclipse_glasses", 1 ],
+      { "group": "writing_utensils", "prob": 20 }
     ]
   },
   {
@@ -2002,13 +1990,8 @@
       { "item": "aspirin", "prob": 85 },
       { "item": "maltballs", "prob": 30 },
       { "group": "tobacco_products", "prob": 151 },
-      { "item": "glasses_eye", "prob": 90 },
       { "item": "contacts", "prob": 15 },
-      { "item": "sunglasses", "prob": 90 },
-      { "item": "fitover_sunglasses", "prob": 60 },
-      { "item": "fancy_sunglasses", "prob": 5 },
-      { "item": "glasses_reading", "prob": 90 },
-      { "item": "glasses_bifocal", "prob": 90 },
+      { "group": "clothing_glasses", "prob": 80 },
       { "item": "fan", "prob": 10 },
       { "item": "briefcase", "prob": 40 },
       { "item": "purse", "prob": 40 },
@@ -2026,7 +2009,7 @@
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "bubblewrap", "prob": 50 },
-      { "item": "coffee_raw", "prob": 15 },
+      { "item": "instant_coffee", "prob": 15 },
       { "item": "usb_drive", "prob": 5 },
       { "item": "coat_rain", "prob": 50 },
       { "item": "hood_rain", "prob": 10 },
@@ -2049,7 +2032,8 @@
       { "item": "pocketwatch", "prob": 2 },
       { "item": "knitting_needles", "prob": 1 },
       { "item": "survnote", "prob": 1 },
-      { "item": "eclipse_glasses", "prob": 1 }
+      { "item": "eclipse_glasses", "prob": 1 },
+      { "group": "writing_utensils", "prob": 20 }
     ]
   },
   {
@@ -2065,11 +2049,14 @@
       [ "gum", 100 ],
       [ "caff_gum", 20 ],
       [ "nic_gum", 20 ],
+      [ "instant_coffee", 130 ],
+      [ "coffee_syrup", 80 ],
+      [ "coffee_raw", 80 ],
       [ "weed", 10 ],
       [ "joint", 10 ],
       [ "matches", 50 ],
       { "item": "lighter", "prob": 50, "charges": [ 0, 100 ] },
-      [ "glasses_eye", 30 ],
+      { "group": "clothing_glasses", "prob": 30 },
       [ "contacts", 30 ],
       { "item": "radio", "prob": 100, "charges": [ 0, 100 ] },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
@@ -2078,7 +2065,8 @@
       { "group": "magazines", "prob": 120 },
       { "group": "newspaper_recent", "prob": 100 },
       [ "survnote", 1 ],
-      [ "dnd_handbook", 1 ]
+      [ "dnd_handbook", 1 ],
+      { "group": "writing_utensils", "prob": 10 }
     ]
   },
   {
@@ -2169,14 +2157,15 @@
       [ "neccowafers", 40 ],
       [ "can_herring", 30 ],
       [ "coffee_raw", 15 ],
+      [ "instant_coffee", 25 ],
       [ "cheese_hard", 5 ],
       [ "bandages", 50 ],
       [ "adhesive_bandages", 50 ],
       [ "cotton_ball", 50 ],
       { "group": "used_1st_aid", "prob": 35 },
       { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 35 },
-      [ "survival_kit", 35 ],
-      [ "premium_survival_kit", 8 ],
+      { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 35 },
+      { "group": "premium_contents", "prob": 8 },
       [ "saline", 10 ],
       [ "vitamins", 75 ],
       [ "gummy_vitamins", 25 ],
@@ -2248,7 +2237,7 @@
       [ "rollmat", 40 ],
       [ "tent_kit", 17 ],
       [ "large_tent_kit", 17 ],
-      [ "survival_kit", 10 ],
+      { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 10 },
       [ "canteen", 15 ],
       [ "2lcanteen", 10 ],
       [ "camelbak", 5 ],
@@ -2285,6 +2274,7 @@
       [ "bootsheath", 5 ],
       [ "holster", 4 ],
       [ "bandolier_shotgun", 3 ],
+      [ "torso_bandolier_grenade", 1 ],
       [ "survnote", 2 ],
       [ "bodypillow", 1 ],
       [ "flint_steel", 6 ],
@@ -2298,7 +2288,8 @@
       [ "bottle_folding", 6 ],
       [ "mess_tin", 8 ],
       [ "metal_file", 5 ],
-      [ "pin_reamer", 3 ]
+      [ "pin_reamer", 3 ],
+      { "group": "writing_utensils", "prob": 20 }
     ]
   },
   {
@@ -2457,7 +2448,7 @@
       [ "barrette", 5 ],
       [ "hairpin", 5 ],
       [ "child_book", 5 ],
-      [ "fancy_sunglasses", 5 ],
+      { "group": "clothing_glasses", "prob": 20 },
       [ "flask_hip", 5 ],
       { "item": "ref_lighter", "prob": 5, "charges": [ 0, 50 ] },
       { "group": "jewelry_accessories", "prob": 35 },

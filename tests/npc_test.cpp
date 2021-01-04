@@ -35,9 +35,9 @@ class Creature;
 
 static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
-    calendar::turn = to_turn<int>( calendar::turn_zero + from );
+    calendar::turn = calendar::turn_zero + from;
     who.on_unload();
-    calendar::turn = to_turn<int>( calendar::turn_zero + to );
+    calendar::turn = calendar::turn_zero + to;
     who.on_load();
 }
 

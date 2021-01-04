@@ -29,6 +29,7 @@
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -319,9 +320,17 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
                                       player_character.get_skill_level( r.skill_used ) ) );
     player_character.moves--;
     const inventory &crafting_inv = player_character.crafting_inventory();
-    bool can_craft = r.deduped_requirements().can_make_with_inventory(
-                         crafting_inv, r.get_component_filter() );
-    REQUIRE( can_craft == expect_craftable );
+
+    SECTION( "can craft with crafting inv" ) {
+        bool can_craft = r.deduped_requirements().can_make_with_inventory(
+                             crafting_inv, r.get_component_filter() );
+        REQUIRE( can_craft == expect_craftable );
+    }
+    SECTION( "can craft with temp inv" ) {
+        bool can_craft = r.deduped_requirements().can_make_with_inventory(
+                             temp_crafting_inventory( crafting_inv ), r.get_component_filter() );
+        REQUIRE( can_craft == expect_craftable );
+    }
 }
 
 static time_point midnight = calendar::turn_zero + 0_hours;
@@ -377,7 +386,7 @@ TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
     avatar dummy;
     clear_character( dummy );
     dummy.worn.push_back( item( "backpack" ) );
-    item &ups = dummy.i_add( item( "UPS_off", -1, 500 ) );
+    item &ups = dummy.i_add( item( "UPS_off", calendar::turn_zero, 500 ) );
     REQUIRE( dummy.has_item( ups ) );
     REQUIRE( ups.charges == 500 );
     REQUIRE( dummy.charges_of( itype_id( "UPS_off" ) ) == 500 );
@@ -467,7 +476,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             item soldering_iron( "soldering_iron" );
             soldering_iron.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
             tools.push_back( soldering_iron );
-            tools.emplace_back( "UPS_off", -1, 10 );
+            tools.emplace_back( "UPS_off", calendar::turn_zero, 10 );
 
             THEN( "crafting fails, and no charges are used" ) {
                 prep_craft( recipe_id( "carver_off" ), tools, false );
@@ -483,9 +492,34 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         std::vector<item> tools;
         tools.push_back( tool_with_ammo( "hotplate", 20 ) );
         item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.put_in( item( "water", -1, 2 ), item_pocket::pocket_type::CONTAINER );
+        plastic_bottle.put_in(
+            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
         tools.emplace_back( "pot" );
+
+        // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
+        prep_craft( recipe_id( "water_clean" ), tools, true );
+    }
+    SECTION( "clean_water_in_loaded_mess_kit" ) {
+        std::vector<item> tools;
+        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        item plastic_bottle( "bottle_plastic" );
+        plastic_bottle.put_in(
+            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+        tools.push_back( plastic_bottle );
+        tools.push_back( tool_with_ammo( "mess_kit", 20 ) );
+
+        // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
+        prep_craft( recipe_id( "water_clean" ), tools, true );
+    }
+    SECTION( "clean_water_in_loaded_survivor_mess_kit" ) {
+        std::vector<item> tools;
+        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        item plastic_bottle( "bottle_plastic" );
+        plastic_bottle.put_in(
+            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+        tools.push_back( plastic_bottle );
+        tools.push_back( tool_with_ammo( "survivor_mess_kit", 20 ) );
 
         // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
         prep_craft( recipe_id( "water_clean" ), tools, true );
@@ -494,12 +528,13 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         std::vector<item> tools;
         tools.push_back( tool_with_ammo( "hotplate", 20 ) );
         item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.put_in( item( "water", -1, 2 ), item_pocket::pocket_type::CONTAINER );
+        plastic_bottle.put_in(
+            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
         item jar( "jar_glass_sealed" );
         // If it's not watertight the water will spill.
         REQUIRE( jar.is_watertight_container() );
-        jar.put_in( item( "water", -1, 2 ), item_pocket::pocket_type::CONTAINER );
+        jar.put_in( item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
         tools.push_back( jar );
 
         prep_craft( recipe_id( "water_clean" ), tools, false );
@@ -570,8 +605,8 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
         int actual_turns_taken;
 
         WHEN( "crafting begins, and continues until the craft is completed" ) {
-            tools.emplace_back( "razor_blade", -1, 1 );
-            tools.emplace_back( "plastic_chunk", -1, 1 );
+            tools.emplace_back( "razor_blade", calendar::turn_zero, 1 );
+            tools.emplace_back( "plastic_chunk", calendar::turn_zero, 1 );
             actual_turns_taken = actually_test_craft( test_recipe, tools, INT_MAX );
 
             THEN( "it should take the expected number of turns" ) {
@@ -584,8 +619,8 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
         }
 
         WHEN( "crafting begins, but is interrupted after 2 turns" ) {
-            tools.emplace_back( "razor_blade", -1, 1 );
-            tools.emplace_back( "plastic_chunk", -1, 1 );
+            tools.emplace_back( "razor_blade", calendar::turn_zero, 1 );
+            tools.emplace_back( "plastic_chunk", calendar::turn_zero, 1 );
             actual_turns_taken = actually_test_craft( test_recipe, tools, 2 );
             REQUIRE( actual_turns_taken == 3 );
 
@@ -606,4 +641,11 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
             }
         }
     }
+}
+
+TEST_CASE( "check-tool_qualities" )
+{
+    CHECK( tool_with_ammo( "mess_kit", 20 ).has_quality( quality_id( "BOIL" ), 2, 1 ) );
+    CHECK( tool_with_ammo( "survivor_mess_kit", 20 ).has_quality( quality_id( "BOIL" ), 2, 1 ) );
+    CHECK( tool_with_ammo( "survivor_mess_kit", 20 ).get_quality( quality_id( "BOIL" ) ) > 0 );
 }

@@ -264,7 +264,7 @@ class consume_drug_iuse : public iuse_actor
         /** Modify player vitamin_levels by random amount between min (first) and max (second) */
         std::map<vitamin_id, std::pair<int, int>> vitamins;
 
-        /**List of damage over time applyed by this drug, negative damage heals*/
+        /**List of damage over time applied by this drug, negative damage heals*/
         std::vector<damage_over_time_data> damage_over_time;
 
         /** How many move points this action takes. */
@@ -836,6 +836,8 @@ class repair_item_actor : public iuse_actor
         /** Checks if we are allowed to use the tool. */
         bool can_use_tool( const player &p, const item &tool, bool print_msg ) const;
 
+        /** Returns a list of items that can be used to repair this item. */
+        std::set<itype_id> get_valid_repair_materials( const item &fix ) const;
         /** Returns if components are available. Consumes them if `just_check` is false. */
         bool handle_components( player &pl, const item &fix, bool print_msg, bool just_check ) const;
         /** Returns the chance to repair and to damage an item. */
@@ -905,7 +907,7 @@ class heal_actor : public iuse_actor
         itype_id used_up_item_id;
         int used_up_item_quantity = 1;
         int used_up_item_charges = 1;
-        std::set<flag_str_id> used_up_item_flags;
+        std::set<flag_id> used_up_item_flags;
 
         /** How much hp would `healer` heal using this actor on `healed` body part. */
         int get_heal_value( const Character &healer, bodypart_id healed ) const;

@@ -194,15 +194,8 @@ void talker_npc::check_missions()
     me_npc->chatbin.check_missions();
 }
 
-void talker_npc::update_missions( const std::vector<mission *> &missions_assigned,
-                                  const character_id &charID )
+void talker_npc::update_missions( const std::vector<mission *> &missions_assigned )
 {
-    if( me_npc->chatbin.mission_selected != nullptr ) {
-        if( me_npc->chatbin.mission_selected->get_assigned_player_id() != charID ) {
-            // Don't talk about a mission that is assigned to someone else.
-            me_npc->chatbin.mission_selected = nullptr;
-        }
-    }
     if( me_npc->chatbin.mission_selected == nullptr ) {
         // if possible, select a mission to talk about
         if( !me_npc->chatbin.missions.empty() ) {
@@ -403,6 +396,11 @@ int talker_npc::cash_to_favor( const int value ) const
     return npc_trading::cash_to_favor( *me_npc, value );
 }
 
+int talker_npc::value( const item &it ) const
+{
+    return me_npc->value( it );
+}
+
 enum consumption_result {
     REFUSED = 0,
     CONSUMED_SOME, // Consumption didn't fail, but don't delete the item
@@ -495,9 +493,9 @@ std::string talker_npc::give_item_to( const bool to_use )
     item &given = *loc;
 
     if( ( &given == &player_character.weapon &&
-          given.has_flag( STATIC( flag_str_id( "NO_UNWIELD" ) ) ) ) ||
+          given.has_flag( STATIC( flag_id( "NO_UNWIELD" ) ) ) ) ||
         ( player_character.is_worn( given ) &&
-          given.has_flag( STATIC( flag_str_id( "NO_TAKEOFF" ) ) ) ) ) {
+          given.has_flag( STATIC( flag_id( "NO_TAKEOFF" ) ) ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }

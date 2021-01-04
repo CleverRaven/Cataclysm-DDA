@@ -16,6 +16,7 @@
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "make_static.h"
 #include "options.h"
 #include "relic.h"
 #include "ret_val.h"
@@ -23,7 +24,6 @@
 #include "type_id.h"
 
 static const std::string null_item_id( "null" );
-
 
 Item_spawn_data::ItemList Item_spawn_data::create(
     const time_point &birthday, spawn_flags flags ) const
@@ -214,7 +214,7 @@ Item_spawn_data::ItemList Single_item_creator::create(
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
             const item itm = create_single( birthday, rec );
-            if( flags & spawn_flags::use_spawn_rate && !itm.has_flag( flag_str_id( "MISSION_ITEM" ) ) &&
+            if( flags & spawn_flags::use_spawn_rate && !itm.has_flag( STATIC( flag_id( "MISSION_ITEM" ) ) ) &&
                 rng_float( 0, 1 ) > spawn_rate ) {
                 continue;
             }
@@ -526,8 +526,12 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
         }
     }
 
-    for( const flag_str_id &flag : custom_flags ) {
+    for( const flag_id &flag : custom_flags ) {
         new_item.set_flag( flag );
+    }
+
+    if( !snippets.empty() ) {
+        new_item.snip_id = random_entry( snippets );
     }
 }
 
@@ -746,7 +750,7 @@ item_group::ItemList item_group::items_from( const item_group_id &group_id,
 
 item_group::ItemList item_group::items_from( const item_group_id &group_id )
 {
-    return items_from( group_id, 0 );
+    return items_from( group_id, calendar::turn_zero );
 }
 
 item item_group::item_from( const item_group_id &group_id, const time_point &birthday )
@@ -760,7 +764,7 @@ item item_group::item_from( const item_group_id &group_id, const time_point &bir
 
 item item_group::item_from( const item_group_id &group_id )
 {
-    return item_from( group_id, 0 );
+    return item_from( group_id, calendar::turn_zero );
 }
 
 bool item_group::group_is_defined( const item_group_id &group_id )

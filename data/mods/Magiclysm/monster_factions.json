@@ -24,8 +24,20 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "robot"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "wonder_forge",
     "hate": [ "zombie", "fungus" ],
     "friendly": "forge_lords"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "orcs"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ogre"
   }
 ]

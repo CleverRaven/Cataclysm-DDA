@@ -211,7 +211,6 @@ bool assign_set( const JsonObject &jo, const std::string &name, Set &val )
 }
 } // namespace details
 
-
 template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
     const JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
@@ -767,7 +766,7 @@ static void assign_dmg_proportional( const JsonObject &jo, const std::string &na
 
             // If it's 1, it wasn't loaded (or was loaded as 1)
             if( scalar.damage_multiplier <= 0 ) {
-                jo.throw_error( "Proportional damage multipler is not a valid scalar", name );
+                jo.throw_error( "Proportional damage multiplier is not a valid scalar", name );
             }
 
             // If it's 1, it wasn't loaded (or was loaded as 1)
@@ -862,25 +861,28 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         float amount = 0.0f;
         float arpen = 0.0f;
         float unc_dmg_mult = 1.0f;
+        bool with_legacy = false;
 
         // There will always be either a prop_damage or damage (name)
         if( jo.has_member( name ) ) {
+            with_legacy = true;
             amount = jo.get_float( name );
         } else if( jo.has_member( "prop_damage" ) ) {
+            with_legacy = true;
             unc_dmg_mult = jo.get_float( "prop_damage" );
         }
         // And there may or may not be armor penetration
         if( jo.has_member( "pierce" ) ) {
+            with_legacy = true;
             arpen = jo.get_float( "pierce" );
         }
 
-        if( amount != 0.0f || arpen != 0.0f || unc_dmg_mult != 1.0f ) {
+        if( with_legacy ) {
             // Give a load warning, it's likely anything loading damage this way
             // is a gun, and as such is using the wrong damage type
             debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
+            out.add_damage( damage_type::STAB, amount, arpen, 1.0f, 1.0f, 1.0f, unc_dmg_mult );
         }
-
-        out.add_damage( damage_type::STAB, amount, arpen, 1.0f, 1.0f, 1.0f, unc_dmg_mult );
     }
 
     // Object via which to report errors which differs for proportional/relative values

@@ -10,6 +10,7 @@
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"
+#include "player_helpers.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -19,12 +20,30 @@ static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
+TEST_CASE( "clearing identified books", "[reading][book][identify][clear]" )
+{
+    item book( "child_book" );
+    SECTION( "using local avatar" ) {
+        avatar dummy;
+        dummy.identify( book );
+        dummy.clear_identified();
+        REQUIRE_FALSE( dummy.has_identified( book.typeId() ) );
+    }
+    SECTION( "test helper clear_avatar() also clears items identified" ) {
+        avatar &dummy = get_avatar();
+        dummy.identify( book );
+        clear_avatar();
+        REQUIRE_FALSE( dummy.has_identified( book.typeId() ) );
+    }
+}
+
 TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 {
-    avatar dummy;
+    clear_avatar();
+    Character &dummy = get_avatar();
     dummy.worn.push_back( item( "backpack" ) );
 
-    GIVEN( "player has some unidentified books" ) {
+    GIVEN( "character has some unidentified books" ) {
         item &book1 = dummy.i_add( item( "novel_western" ) );
         item &book2 = dummy.i_add( item( "mag_throwing" ) );
 
@@ -32,8 +51,8 @@ TEST_CASE( "identifying unread books", "[reading][book][identify]" )
         REQUIRE_FALSE( dummy.has_identified( book2.typeId() ) );
 
         WHEN( "they read the books for the first time" ) {
-            dummy.do_read( book1 );
-            dummy.do_read( book2 );
+            dummy.identify( book1 );
+            dummy.identify( book2 );
 
             THEN( "the books should be identified" ) {
                 CHECK( dummy.has_identified( book1.typeId() ) );
@@ -45,7 +64,8 @@ TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 
 TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 {
-    avatar dummy;
+    clear_avatar();
+    Character &dummy = get_avatar();
     dummy.set_body();
     dummy.worn.push_back( item( "backpack" ) );
 
@@ -55,7 +75,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
         REQUIRE( book.type->book->fun > 0 );
         int book_fun = book.type->book->fun;
 
-        WHEN( "player neither loves nor hates books" ) {
+        WHEN( "character neither loves nor hates books" ) {
             REQUIRE_FALSE( dummy.has_trait( trait_LOVES_BOOKS ) );
             REQUIRE_FALSE( dummy.has_trait( trait_HATES_BOOKS ) );
 
@@ -65,7 +85,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
             }
         }
 
-        WHEN( "player loves books" ) {
+        WHEN( "character loves books" ) {
             dummy.toggle_trait( trait_LOVES_BOOKS );
             REQUIRE( dummy.has_trait( trait_LOVES_BOOKS ) );
 
@@ -75,7 +95,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
             }
         }
 
-        WHEN( "player hates books" ) {
+        WHEN( "character hates books" ) {
             dummy.toggle_trait( trait_HATES_BOOKS );
             REQUIRE( dummy.has_trait( trait_HATES_BOOKS ) );
 
@@ -93,7 +113,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
         REQUIRE( book.type->book->fun > 0 );
         int book_fun = book.type->book->fun;
 
-        WHEN( "player is not spiritual" ) {
+        WHEN( "character is not spiritual" ) {
             REQUIRE_FALSE( dummy.has_trait( trait_SPIRITUAL ) );
 
             THEN( "the book is a normal amount of fun" ) {
@@ -102,7 +122,7 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
             }
         }
 
-        WHEN( "player is spiritual" ) {
+        WHEN( "character is spiritual" ) {
             dummy.toggle_trait( trait_SPIRITUAL );
             REQUIRE( dummy.has_trait( trait_SPIRITUAL ) );
 
@@ -116,13 +136,14 @@ TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 
 TEST_CASE( "character reading speed", "[reading][character][speed]" )
 {
-    avatar dummy;
+    clear_avatar();
+    Character &dummy = get_avatar();
     dummy.worn.push_back( item( "backpack" ) );
 
     // Note: read_speed() returns number of moves;
     // 6000 == 60 seconds
 
-    WHEN( "player has average intelligence" ) {
+    WHEN( "character has average intelligence" ) {
         REQUIRE( dummy.get_int() == 8 );
 
         THEN( "reading speed is normal" ) {
@@ -130,7 +151,7 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
         }
     }
 
-    WHEN( "player has below-average intelligence" ) {
+    WHEN( "character has below-average intelligence" ) {
 
         THEN( "reading speed gets slower as intelligence decreases" ) {
             dummy.int_max = 7;
@@ -144,7 +165,7 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
         }
     }
 
-    WHEN( "player has above-average intelligence" ) {
+    WHEN( "character has above-average intelligence" ) {
 
         THEN( "reading speed gets faster as intelligence increases" ) {
             dummy.int_max = 9;
@@ -195,9 +216,9 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 
     GIVEN( "some identified books and plenty of light" ) {
         // Identify the books
-        dummy.do_read( child );
-        dummy.do_read( western );
-        dummy.do_read( alpha );
+        dummy.identify( child );
+        dummy.identify( western );
+        dummy.identify( alpha );
         REQUIRE( dummy.has_identified( child.typeId() ) );
         REQUIRE( dummy.has_identified( western.typeId() ) );
         REQUIRE( dummy.has_identified( alpha.typeId() ) );
@@ -278,9 +299,9 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 
     GIVEN( "some identified books and plenty of light" ) {
         // Identify the books
-        dummy.do_read( child );
-        dummy.do_read( western );
-        dummy.do_read( alpha );
+        dummy.identify( child );
+        dummy.identify( western );
+        dummy.identify( alpha );
 
         // Get some light
         dummy.i_add( item( "atomic_lamp" ) );
@@ -336,3 +357,57 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
     }
 }
 
+TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
+{
+    static const auto book_has_skill = []( const item & book ) -> bool {
+        REQUIRE( book.is_book() );
+        return bool( book.type->book->skill );
+    };
+
+    avatar dummy;
+    dummy.set_body();
+    dummy.worn.push_back( item( "backpack" ) );
+
+    item &child = dummy.i_add( item( "child_book" ) );
+    item &alpha = dummy.i_add( item( "recipe_alpha" ) );
+
+    SECTION( "you cannot determine mastery for non-book items" ) {
+        item &rag = dummy.i_add( item( "rag" ) );
+        REQUIRE_FALSE( rag.is_book() );
+        CHECK( dummy.get_book_mastery( rag ) == book_mastery::CANT_DETERMINE );
+    }
+    SECTION( "you cannot determine mastery for unidentified books" ) {
+        REQUIRE( alpha.is_book() );
+        REQUIRE_FALSE( dummy.has_identified( alpha.typeId() ) );
+        CHECK( dummy.get_book_mastery( child ) == book_mastery::CANT_DETERMINE );
+    }
+    GIVEN( "some identified books" ) {
+        dummy.do_read( child );
+        dummy.do_read( alpha );
+        REQUIRE( dummy.has_identified( child.typeId() ) );
+        REQUIRE( dummy.has_identified( alpha.typeId() ) );
+
+        WHEN( "it gives/requires no skill" ) {
+            REQUIRE_FALSE( book_has_skill( child ) );
+            THEN( "you've already mastered it" ) {
+                CHECK( dummy.get_book_mastery( child ) == book_mastery::MASTERED );
+            }
+        }
+        WHEN( "it gives/requires skills" ) {
+            REQUIRE( book_has_skill( alpha ) );
+
+            THEN( "you won't understand it if your skills are too low" ) {
+                dummy.set_skill_level( skill_id( "chemistry" ), 5 );
+                CHECK( dummy.get_book_mastery( alpha ) == book_mastery::CANT_UNDERSTAND );
+            }
+            THEN( "you can learn from it with enough skill" ) {
+                dummy.set_skill_level( skill_id( "chemistry" ), 6 );
+                CHECK( dummy.get_book_mastery( alpha ) == book_mastery::LEARNING );
+            }
+            THEN( "you already mastered it if you have too much skill" ) {
+                dummy.set_skill_level( skill_id( "chemistry" ), 7 );
+                CHECK( dummy.get_book_mastery( alpha ) == book_mastery::MASTERED );
+            }
+        }
+    }
+}

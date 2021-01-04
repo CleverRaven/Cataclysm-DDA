@@ -67,6 +67,9 @@ static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
+static const bionic_id bio_syringe( "bio_syringe" );
+
+static const itype_id itype_syringe( "syringe" );
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -191,12 +194,19 @@ void game_menus::inv::common( avatar &you )
 
     int res = 0;
 
+    item_location location;
+    std::string filter;
     do {
         you.inv->restack( you );
         inv_s.clear_items();
         inv_s.add_character_items( you );
+        inv_s.set_filter( filter );
+        if( location != item_location::nowhere ) {
+            inv_s.select( location );
+        }
 
-        const item_location &location = inv_s.execute();
+        location = inv_s.execute();
+        filter = inv_s.get_filter();
 
         if( location == item_location::nowhere ) {
             break;
@@ -220,11 +230,18 @@ void game_menus::inv::common( item_location &loc, avatar &you )
 
     int res = 0;
 
+    item_location location;
+    std::string filter;
     do {
         inv_s.clear_items();
         inv_s.add_contained_items( loc );
+        inv_s.set_filter( filter );
+        if( location != item_location::nowhere ) {
+            inv_s.select( location );
+        }
 
-        const item_location &location = inv_s.execute();
+        location = inv_s.execute();
+        filter = inv_s.get_filter();
 
         if( location == item_location::nowhere ) {
             break;
@@ -319,12 +336,13 @@ class armor_inventory_preset: public inventory_selector_preset
 class wear_inventory_preset: public armor_inventory_preset
 {
     public:
-        wear_inventory_preset( player &p, const std::string &color ) :
-            armor_inventory_preset( p, color )
+        wear_inventory_preset( player &p, const std::string &color, const bodypart_id &bp ) :
+            armor_inventory_preset( p, color ), bp( bp )
         {}
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_armor() && !p.is_worn( *loc );
+            return loc->is_armor() && !p.is_worn( *loc ) &&
+                   ( bp != bodypart_id( "bp_null" ) ? loc->covers( bp ) : true );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -336,11 +354,15 @@ class wear_inventory_preset: public armor_inventory_preset
 
             return std::string();
         }
+
+    private:
+        const bodypart_id &bp;
+
 };
 
-item_location game_menus::inv::wear( player &p )
+item_location game_menus::inv::wear( player &p, const bodypart_id &bp )
 {
-    return inv_internal( p, wear_inventory_preset( p, "color_yellow" ), _( "Wear item" ), 1,
+    return inv_internal( p, wear_inventory_preset( p, "color_yellow", bp ), _( "Wear item" ), 1,
                          _( "You have nothing to wear." ) );
 }
 
@@ -566,7 +588,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             Character &player_character = get_player_character();
             append_cell( [&player_character]( const item_location & loc ) {
                 time_duration time = player_character.get_consume_time( *loc );
-                return string_format( _( "%s" ), to_string( time ) );
+                return string_format( "%s", to_string( time, true ) );
             }, _( "CONSUME TIME" ) );
 
             append_cell( [this, &player_character]( const item_location & loc ) {
@@ -597,23 +619,12 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "SPOILS IN" ) );
             append_cell( [&p]( const item_location & loc ) {
                 std::string cbm_name;
-
-                switch( p.get_cbm_rechargeable_with( *loc ) ) {
-                    case rechargeable_cbm::none:
-                        break;
-                    case rechargeable_cbm::reactor:
-                        cbm_name = _( "Reactor" );
-                        break;
-                    case rechargeable_cbm::furnace:
-                        cbm_name = _( "Furnace" );
-                        break;
-                    case rechargeable_cbm::other:
-                        std::vector<bionic_id> bids = p.get_bionic_fueled_with( *loc );
-                        if( !bids.empty() ) {
-                            bionic_id bid = p.get_most_efficient_bionic( bids );
-                            cbm_name = bid->name.translated();
-                        }
-                        break;
+                if( p.can_fuel_bionic_with( *loc ) ) {
+                    std::vector<bionic_id> bids = p.get_bionic_fueled_with( *loc );
+                    if( !bids.empty() ) {
+                        bionic_id bid = p.get_most_efficient_bionic( bids );
+                        cbm_name = bid->name.translated();
+                    }
                 }
 
                 if( !cbm_name.empty() ) {
@@ -858,6 +869,16 @@ class activatable_inventory_preset : public pickup_inventory_preset
         std::string get_denial( const item_location &loc ) const override {
             const item &it = *loc;
             const auto &uses = it.type->use_methods;
+
+            auto &comest = it.get_comestible();
+            if( comest && !comest->tool.is_null() ) {
+                const bool has = item::count_by_charges( comest->tool )
+                                 ? p.has_charges( comest->tool, 1 )
+                                 : p.has_amount( comest->tool, 1 );
+                if( !has && !( comest->tool == itype_syringe && p.has_bionic( bio_syringe ) ) ) {
+                    return string_format( _( "You need a %s to consume that!" ), item::nname( comest->tool ) );
+                }
+            }
 
             if( uses.size() == 1 ) {
                 const auto ret = uses.begin()->second.can_call( p, it, false, p.pos() );
@@ -1306,7 +1327,8 @@ drop_locations game_menus::inv::holster( player &p, const item_location &holster
 
     inventory_holster_preset holster_preset( holster );
 
-    inventory_drop_selector insert_menu( p, holster_preset, _( "ITEMS TO INSERT" ) );
+    inventory_drop_selector insert_menu( p, holster_preset, _( "ITEMS TO INSERT" ),
+                                         /*warn_liquid=*/false );
     insert_menu.add_character_items( p );
     insert_menu.add_map_items( p.pos() );
     insert_menu.add_vehicle_items( p.pos() );

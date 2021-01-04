@@ -97,6 +97,7 @@ explosion_data load_explosion_data( const JsonObject &jo )
     jo.read( "power", ret.power );
     // Rest isn't
     ret.distance_factor = jo.get_float( "distance_factor", 0.8f );
+    ret.max_noise = jo.get_int( "max_noise", 90000000 );
     ret.fire = jo.get_bool( "fire", false );
     if( jo.has_int( "shrapnel" ) ) {
         ret.shrapnel.casing_mass = jo.get_int( "shrapnel" );
@@ -420,7 +421,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
             frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
             // dealt_dam.total_damage() == 0 means armor block
             // dealt_dam.total_damage() > 0 means took damage
-            // Need to diffentiate target among player, npc, and monster
+            // Need to differentiate target among player, npc, and monster
             // Do we even print monster damage?
             int damage_taken = 0;
             int damaging_hits = 0;
@@ -502,7 +503,13 @@ void explosion( const tripoint &p, float power, float factor, bool fire,
 
 void explosion( const tripoint &p, const explosion_data &ex )
 {
-    const int noise = ex.power * ( ex.fire ? 2 : 10 );
+    _explosions.emplace_back( p, ex );
+}
+
+void _make_explosion( const tripoint &p, const explosion_data &ex )
+{
+    int noise = ex.power * ( ex.fire ? 2 : 10 );
+    noise = ( noise > ex.max_noise ) ? ex.max_noise : noise;
     if( noise >= 30 ) {
         sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ), false, "explosion",
                        "huge" );
@@ -572,8 +579,8 @@ void flashbang( const tripoint &p, bool player_immune )
             } else if( player_character.has_bionic( bio_sunglasses ) ||
                        player_character.is_wearing( itype_rm13_armor_on ) ) {
                 flash_mod = 6;
-            } else if( player_character.worn_with_flag( STATIC( flag_str_id( "BLIND" ) ) ) ||
-                       player_character.worn_with_flag( STATIC( flag_str_id( "FLASH_PROTECTION" ) ) ) ) {
+            } else if( player_character.worn_with_flag( STATIC( flag_id( "BLIND" ) ) ) ||
+                       player_character.worn_with_flag( STATIC( flag_id( "FLASH_PROTECTION" ) ) ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
             player_character.add_env_effect( effect_blind, bodypart_id( "eyes" ), ( 12 - flash_mod - dist ) / 2,
@@ -758,7 +765,7 @@ void emp_blast( const tripoint &p )
         // TODO: More effects?
         //e-handcuffs effects
         if( player_character.weapon.typeId() == itype_e_handcuffs && player_character.weapon.charges > 0 ) {
-            player_character.weapon.unset_flag( STATIC( flag_str_id( "NO_UNWIELD" ) ) );
+            player_character.weapon.unset_flag( STATIC( flag_id( "NO_UNWIELD" ) ) );
             player_character.weapon.charges = 0;
             player_character.weapon.active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
@@ -859,6 +866,14 @@ void resonance_cascade( const tripoint &p )
     }
 }
 
+void process_explosions()
+{
+    for( const queued_explosion &ex : _explosions ) {
+        _make_explosion( ex.first, ex.second );
+    }
+    _explosions.clear();
+}
+
 } // namespace explosion_handler
 
 // This is only ever used to zero the cloud values, which is what makes it work.
@@ -912,8 +927,8 @@ fragment_cloud accumulate_fragment_cloud( const fragment_cloud &cumulative_cloud
         const fragment_cloud &current_cloud, const int &distance )
 {
     // Velocity is the cumulative and continuous decay of speed,
-    // so it is accumulated the same way as light attentuation.
-    // Density is the accumulation of discrete attenuaton events encountered in the traversed squares,
+    // so it is accumulated the same way as light attenuation.
+    // Density is the accumulation of discrete attenuation events encountered in the traversed squares,
     // so each term is added to the series via multiplication.
     return fragment_cloud( ( ( distance - 1 ) * cumulative_cloud.velocity + current_cloud.velocity ) /
                            distance,

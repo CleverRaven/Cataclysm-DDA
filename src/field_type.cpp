@@ -94,7 +94,7 @@ std::string enum_to_string<description_affix>( description_affix data )
         case description_affix::DESCRIPTION_AFFIX_COVERED_IN: return "covered_in";
         case description_affix::DESCRIPTION_AFFIX_ON: return "on";
         case description_affix::DESCRIPTION_AFFIX_UNDER: return "under";
-        case description_affix::DESCRIPTION_AFFIX_ILLUMINTED_BY: return "illuminated_by";
+        case description_affix::DESCRIPTION_AFFIX_ILLUMINATED_BY: return "illuminated_by";
         // *INDENT-ON*
         case description_affix::DESCRIPTION_AFFIX_NUM:
             break;
@@ -231,7 +231,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
                 optional( joe, was_loaded, "min_duration", fe.min_duration );
                 optional( joe, was_loaded, "max_duration", fe.max_duration );
                 optional( joe, was_loaded, "intensity", fe.intensity );
-                optional( joe, was_loaded, "body_part", fe.bp, bodypart_str_id( "bp_null" ) );
+                optional( joe, was_loaded, "body_part", fe.bp, bodypart_str_id::NULL_ID() );
                 optional( joe, was_loaded, "is_environmental", fe.is_environmental );
                 optional( joe, was_loaded, "immune_in_vehicle", fe.immune_in_vehicle );
                 optional( joe, was_loaded, "immune_inside_vehicle", fe.immune_inside_vehicle );

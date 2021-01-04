@@ -227,7 +227,7 @@ bool Character::can_power_mutation( const trait_id &mut )
 
 void Character::mutation_reflex_trigger( const trait_id &mut )
 {
-    if( mut->triger_list.empty() || !can_power_mutation( mut ) ) {
+    if( mut->trigger_list.empty() || !can_power_mutation( mut ) ) {
         return;
     }
 
@@ -236,7 +236,7 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
 
-    for( const std::vector<reflex_activation_data> &vect_rdata : mut->triger_list ) {
+    for( const std::vector<reflex_activation_data> &vect_rdata : mut->trigger_list ) {
         activate = false;
         // OR conditions: if any trigger is true then this condition is true
         for( const reflex_activation_data &rdata : vect_rdata ) {
@@ -343,6 +343,12 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
         return false;
     }
 
+    for( const flag_id &allowed : allowed_items ) {
+        if( it.has_flag( allowed ) ) {
+            return false;
+        }
+    }
+
     for( const bodypart_str_id &bp : restricts_gear ) {
         if( it.covers( bp.id() ) ) {
             return true;
@@ -420,7 +426,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     }
 
     remove_worn_items_with( [&]( item & armor ) {
-        if( armor.has_flag( STATIC( flag_str_id( "OVERSIZE" ) ) ) ) {
+        if( armor.has_flag( STATIC( flag_id( "OVERSIZE" ) ) ) ) {
             return false;
         }
         if( !branch.conflicts_with_item( armor ) ) {
@@ -499,6 +505,32 @@ bool Character::has_active_mutation( const trait_id &b ) const
     return iter != my_mutations.end() && iter->second.powered;
 }
 
+int Character::get_cost_timer( const trait_id &mut ) const
+{
+    const auto iter = my_mutations.find( mut );
+    if( iter != my_mutations.end() ) {
+        return iter->second.charge;
+    } else {
+        debugmsg( "Tried to get cost timer of %s but doesn't have this mutation.", mut.c_str() );
+    }
+    return 0;
+}
+
+void Character::set_cost_timer( const trait_id &mut, int set )
+{
+    const auto iter = my_mutations.find( mut );
+    if( iter != my_mutations.end() ) {
+        iter->second.charge = set;
+    } else {
+        debugmsg( "Tried to set cost timer of %s but doesn't have this mutation.", mut.c_str() );
+    }
+}
+
+void Character::mod_cost_timer( const trait_id &mut, int mod )
+{
+    set_cost_timer( mut, get_cost_timer( mut ) + mod );
+}
+
 bool Character::is_category_allowed( const std::vector<mutation_category_id> &category ) const
 {
     bool allowed = false;
@@ -567,7 +599,7 @@ bool Character::can_use_heal_item( const item &med ) const
         }
     }
     if( !got_restriction ) {
-        can_use = !med.has_flag( STATIC( flag_str_id( "CANT_HEAL_EVERYONE" ) ) );
+        can_use = !med.has_flag( STATIC( flag_id( "CANT_HEAL_EVERYONE" ) ) );
     }
 
     if( !can_use ) {

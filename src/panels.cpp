@@ -15,6 +15,7 @@
 #include "avatar.h"
 #include "behavior.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -65,8 +66,8 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 static const efftype_id effect_got_checked( "got_checked" );
 
-static const flag_str_id json_flag_THERMOMETER( "THERMOMETER" );
-static const flag_str_id json_flag_SPLINT( "SPLINT" );
+static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
+static const flag_id json_flag_SPLINT( "SPLINT" );
 
 // constructor
 window_panel::window_panel(
@@ -187,7 +188,7 @@ static nc_color focus_color( int focus )
 int window_panel::get_height() const
 {
     if( height == -1 ) {
-        if( g->pixel_minimap_option ) {
+        if( pixel_minimap_option ) {
             return  get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) > 0 ?
                     get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) :
                     width / 2;
@@ -866,7 +867,7 @@ static nc_color safe_color()
 {
     nc_color s_color = g->safe_mode ? c_green : c_red;
     if( g->safe_mode == SAFE_MODE_OFF && get_option<bool>( "AUTOSAFEMODE" ) ) {
-        int s_return = get_option<int>( "AUTOSAFEMODETURNS" );
+        time_duration s_return = time_duration::from_turns( get_option<int>( "AUTOSAFEMODETURNS" ) );
         int iPercent = g->turnssincelastmon * 100 / s_return;
         if( iPercent >= 100 ) {
             s_color = c_green;
@@ -1364,7 +1365,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     } else {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  :" ) );
-        wprintz( w, get_weather().weather_id->color, " %s", _( get_weather().weather_id->name ) );
+        wprintz( w, get_weather().weather_id->color, " %s", get_weather().weather_id->name.translated() );
     }
     // display lighting
     const std::pair<std::string, nc_color> ll = get_light_level(
@@ -1470,6 +1471,7 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> hunger_pair = u.get_hunger_description();
     std::pair<std::string, nc_color> thirst_pair = u.get_thirst_description();
     std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
+    std::pair<std::string, nc_color> weight_pair = u.get_weight_description();
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1485,6 +1487,8 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 30, 1 ), hunger_pair.second, hunger_pair.first );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Heat :" ) );
     mvwprintz( w, point( 8, 2 ), temp_pair.first, temp_pair.second );
+    mvwprintz( w, point( 23, 2 ), c_light_gray, _( "Weight:" ) );
+    mvwprintz( w, point( 30, 2 ), weight_pair.second, weight_pair.first );
     wnoutrefresh( w );
 }
 
@@ -1562,7 +1566,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( text_left, 3 ), c_light_gray, _( "Underground" ) );
     } else {
         mvwprintz( w, point( text_left, 3 ), get_weather().weather_id->color,
-                   _( get_weather().weather_id->name ) );
+                   get_weather().weather_id->name.translated() );
     }
     // display lighting
     const std::pair<std::string, nc_color> ll = get_light_level(
@@ -1617,11 +1621,9 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     werase( w );
 
-    // Classic 5x5 minimap in a 7x7 frame
+    // 7x7 minimap
     const tripoint_abs_omt curs = u.global_omt_location();
-    draw_rectangle( w, c_light_gray, point_zero, point( 6, 6 ) );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    overmap_ui::draw_overmap_chunk( w, u, curs, point( 1, 1 ), 5, 5 );
+    overmap_ui::draw_overmap_chunk( w, u, curs, point_zero, 7, 7 );
 
     // print limb health
     int i = 0;
@@ -1735,18 +1737,19 @@ static void draw_armor_padding( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 2 ), color, _( "Arms :" ) );
     mvwprintz( w, point( 1, 3 ), color, _( "Legs :" ) );
     mvwprintz( w, point( 1, 4 ), color, _( "Feet :" ) );
-
-    unsigned int max_length = getmaxx( w ) - 8;
-    print_colored_text( w, point( 8, 0 ), color, color, get_armor( u, bodypart_id( "head" ),
-                        max_length ) );
-    print_colored_text( w, point( 8, 1 ), color, color, get_armor( u, bodypart_id( "torso" ),
-                        max_length ) );
-    print_colored_text( w, point( 8, 2 ), color, color, get_armor( u, bodypart_id( "arm_r" ),
-                        max_length ) );
-    print_colored_text( w, point( 8, 3 ), color, color, get_armor( u, bodypart_id( "leg_r" ),
-                        max_length ) );
-    print_colored_text( w, point( 8, 4 ), color, color, get_armor( u, bodypart_id( "foot_r" ),
-                        max_length ) );
+    const int heading_length = std::max( {utf8_width( _( "Head :" ) ), utf8_width( _( "Torso:" ) ), utf8_width( _( "Arms :" ) ), utf8_width( _( "Legs :" ) ), utf8_width( _( "Feet :" ) )} )
+                               + 2;
+    const int max_length = getmaxx( w ) - heading_length;
+    trim_and_print( w, point( heading_length, 0 ), max_length, color, get_armor( u,
+                    bodypart_id( "head" ) ) );
+    trim_and_print( w, point( heading_length, 1 ), max_length, color, get_armor( u,
+                    bodypart_id( "torso" ) ) );
+    trim_and_print( w, point( heading_length, 2 ), max_length, color, get_armor( u,
+                    bodypart_id( "arm_r" ) ) );
+    trim_and_print( w, point( heading_length, 3 ), max_length, color, get_armor( u,
+                    bodypart_id( "leg_r" ) ) );
+    trim_and_print( w, point( heading_length, 4 ), max_length, color, get_armor( u,
+                    bodypart_id( "foot_r" ) ) );
     wnoutrefresh( w );
 }
 
@@ -1760,18 +1763,19 @@ static void draw_armor( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 0, 2 ), color, _( "Arms :" ) );
     mvwprintz( w, point( 0, 3 ), color, _( "Legs :" ) );
     mvwprintz( w, point( 0, 4 ), color, _( "Feet :" ) );
-
-    unsigned int max_length = getmaxx( w ) - 7;
-    print_colored_text( w, point( 7, 0 ), color, color, get_armor( u, bodypart_id( "head" ),
-                        max_length ) );
-    print_colored_text( w, point( 7, 1 ), color, color, get_armor( u, bodypart_id( "torso" ),
-                        max_length ) );
-    print_colored_text( w, point( 7, 2 ), color, color, get_armor( u, bodypart_id( "arm_r" ),
-                        max_length ) );
-    print_colored_text( w, point( 7, 3 ), color, color, get_armor( u, bodypart_id( "leg_r" ),
-                        max_length ) );
-    print_colored_text( w, point( 7, 4 ), color, color, get_armor( u, bodypart_id( "foot_r" ),
-                        max_length ) );
+    const int heading_length = std::max( {utf8_width( _( "Head :" ) ), utf8_width( _( "Torso:" ) ), utf8_width( _( "Arms :" ) ), utf8_width( _( "Legs :" ) ), utf8_width( _( "Feet :" ) )} )
+                               + 1;
+    const int max_length = getmaxx( w ) - heading_length;
+    trim_and_print( w, point( heading_length, 0 ), max_length, color, get_armor( u,
+                    bodypart_id( "head" ) ) );
+    trim_and_print( w, point( heading_length, 1 ), max_length, color, get_armor( u,
+                    bodypart_id( "torso" ) ) );
+    trim_and_print( w, point( heading_length, 2 ), max_length, color, get_armor( u,
+                    bodypart_id( "arm_r" ) ) );
+    trim_and_print( w, point( heading_length, 3 ), max_length, color, get_armor( u,
+                    bodypart_id( "leg_r" ) ) );
+    trim_and_print( w, point( heading_length, 4 ), max_length, color, get_armor( u,
+                    bodypart_id( "foot_r" ) ) );
     wnoutrefresh( w );
 }
 
@@ -1932,7 +1936,7 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     } else {
         mvwprintz( w, point_zero, c_light_gray, _( "Weather :" ) );
         mvwprintz( w, point( 10, 0 ), get_weather().weather_id->color,
-                   _( get_weather().weather_id->name ) );
+                   get_weather().weather_id->name.translated() );
     }
     mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Moon :" ) );
     nc_color clr = c_white;

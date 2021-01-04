@@ -149,7 +149,7 @@ void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint
     int total_hp = 0; // total hp among limbs
 
     for( const std::pair<const bodypart_str_id, bodypart> &elem : p->get_body() ) {
-        if( elem.first == bodypart_str_id( "bp_null" ) ) {
+        if( elem.first == bodypart_str_id::NULL_ID() ) {
             continue;
         }
         num_limbs++;
@@ -483,10 +483,11 @@ static void damage_targets( const spell &sp, Creature &caster,
             cr->deal_projectile_attack( &caster, atk, true );
         } else if( sp.damage() < 0 ) {
             sp.heal( target );
-            add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
+            add_msg_if_player_sees( cr->pos(), m_good, _( "%s wounds are closing up!" ),
+                                    cr->disp_name( true ) );
         }
         // TODO: randomize hit location
-        cr->add_damage_over_time( sp.damage_over_time( { bodypart_str_id( "torso" ) } ) );
+        cr->add_damage_over_time( sp.damage_over_time( { body_part_torso } ) );
     }
 }
 
@@ -852,7 +853,6 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
         if( sp.is_valid_target( spell_target::item ) && here.has_items( push_point ) ) {
             move_items( here, push_point, push_dest );
         }
-
 
         if( sp.is_valid_target( spell_target::field ) ) {
             move_field( here, push_point, push_dest );

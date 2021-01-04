@@ -506,3 +506,11 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature *tar
         spell_lvl.cast_all_effects( caster, trg_crtr.pos() );
     }
 }
+
+bool enchantment::operator==( const enchantment &rhs ) const
+{
+    return this->id == rhs.id &&
+           this->get_mutations() == rhs.get_mutations() &&
+           this->values_multiply == rhs.values_multiply &&
+           this->values_add == rhs.values_add;
+}

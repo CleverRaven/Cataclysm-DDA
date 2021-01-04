@@ -1,9 +1,15 @@
 [
   {
+    "//": "After changing this file, you might want to run 'generate_monfactions_attitude_matrix' test on demand",
     "type": "MONSTER_FACTION",
     "name": "",
     "base_faction": "",
     "by_mood": [ "" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "factionless",
+    "//": "TODO assign base faction and/or attitude"
   },
   {
     "type": "MONSTER_FACTION",
@@ -18,8 +24,53 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "friendly": [ "slime", "cult", "zombie_aquatic" ],
-    "neutral": [ "small_animal", "insect", "fish" ],
-    "by_mood": "bee"
+    "neutral": [ "small_animal", "fish", "insect" ],
+    "by_mood": [ "bee", "wasp" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mutant",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "razorclaw",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "frog",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "worm",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "slug",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "vortex",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "vermin",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "gator",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fungus",
+    "//": "TODO assign base faction and/or attitude"
   },
   {
     "type": "MONSTER_FACTION",
@@ -64,6 +115,11 @@
     "type": "MONSTER_FACTION",
     "name": "bot",
     "neutral": [ "cop_bot", "defense_bot", "utility_bot", "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "utility_bot",
+    "base_faction": "bot"
   },
   {
     "type": "MONSTER_FACTION",
@@ -115,8 +171,59 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "bear",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "molerat",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fox",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "big_cat",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "cat",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dog",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "pig",
+    "base_faction": "animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "otter",
+    "base_faction": "animal",
+    "by_mood": "fish"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "wolf",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "small_animal",
     "base_faction": "animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "rat",
+    "//": "TODO assign base faction and/or attitude"
   },
   {
     "type": "MONSTER_FACTION",
@@ -131,9 +238,36 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "salmon",
+    "base_faction": "fish"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "carp",
+    "base_faction": "fish"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "crayfish",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "insect",
     "neutral": [ "military", "defense_bot", "utility_bot", "zombie" ],
     "by_mood": "insect"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "locust",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "wasp",
+    "base_faction": "insect",
+    "neutral": [ "spider", "centipede" ],
+    "hate": [ "insect", "small_animal" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -158,13 +292,15 @@
     "name": "dragonfly",
     "base_faction": "insect",
     "by_mood": [ "centipede", "spider" ],
-    "hate": [ "insect", "small_animal", "bird" ],
-    "neutral": [ "dragonfly" ]
+    "hate": [ "insect", "small_animal" ],
+    "neutral": [ "dragonfly", "aquatic_predator" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "centipede",
-    "base_faction": "insect"
+    "base_faction": "insect",
+    "neutral": [ "spider", "bee", "wasp" ],
+    "hate": [ "insect", "animal" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -175,6 +311,8 @@
     "type": "MONSTER_FACTION",
     "name": "spider",
     "base_faction": "insect",
+    "neutral": [ "centipede", "bee", "wasp", "zombie" ],
+    "hate": [ "insect", "animal" ],
     "by_mood": "spider"
   },
   {
@@ -209,6 +347,21 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "ant",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "acid_ant",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mi-go",
+    "//": "TODO assign base faction and/or attitude"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "plant",
     "neutral": "bot",
     "friendly": "bee"
@@ -221,7 +374,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "aquatic_predator",
-    "neutral": "bot",
+    "neutral": [ "bot", "dragonfly" ],
     "hate": "fish"
   }
 ]

@@ -126,7 +126,7 @@ TEST_CASE( "display name includes item contents", "[item][display_name][contents
 {
     clear_avatar();
 
-    item arrow( "test_arrow_wood", 0, item::default_charges_tag{} );
+    item arrow( "test_arrow_wood", calendar::turn_zero, item::default_charges_tag{} );
     // Arrows are ammo with a default count of 10
     REQUIRE( arrow.is_ammo() );
     REQUIRE( arrow.count() == 10 );
@@ -150,6 +150,6 @@ TEST_CASE( "display name includes item contents", "[item][display_name][contents
     CHECK( quiver.ammo_remaining() == 10 );
     CHECK( quiver.display_name() ==
            "<color_c_light_green>||\u00A0</color>"
-           "test wooden broadhead arrow (test quiver) (10)" );
+           "test quiver > test wooden broadhead arrows (10)" );
 }
 

@@ -9,18 +9,14 @@
     "symbol": "~",
     "description": "Blood of a dragon, it radiates warmth and looking at it you see moving patterns form and disappear in it as if looking at an actual fire.",
     "price": 100000,
-    "material": [ "flesh" ],
+    "material": [ "dragon_blood" ],
     "volume": "1 ml",
     "phase": "liquid",
     "category": "fuel",
     "ammo_type": "dragon_blood",
     "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 5 },
     "range": 4,
-    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
-    "fuel": {
-      "energy": 50,
-      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
-    }
+    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",
@@ -32,12 +28,11 @@
     "symbol": "~",
     "description": "Blood from a blob corrupted creature.  The surface of this black sludge undulates slowly as if agitated by a soft breeze.",
     "price": 0,
-    "material": [ "flesh" ],
+    "material": [ "tainted_blood" ],
     "volume": "1 ml",
     "phase": "liquid",
     "category": "fuel",
-    "ammo_type": "tainted_blood",
-    "fuel": { "energy": 5 }
+    "ammo_type": "tainted_blood"
   },
   {
     "type": "AMMO",
@@ -49,12 +44,11 @@
     "symbol": "~",
     "description": "Blood, possibly that of a human.  Disgusting!",
     "price": 0,
-    "material": [ "hflesh" ],
-    "volume": "250 ml",
+    "material": [ "blood" ],
+    "volume": "1 ml",
     "phase": "liquid",
     "category": "fuel",
-    "ammo_type": "blood",
-    "fuel": { "energy": 1 }
+    "ammo_type": "blood"
   },
   {
     "id": "mana_infused_blood",

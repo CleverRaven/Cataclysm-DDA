@@ -43,8 +43,7 @@ class talker_npc : public talker_character
         bool will_talk_to_u( const player &u, bool force ) override;
         std::vector<std::string> get_topics( bool radio_contact ) override;
         void check_missions() override;
-        void update_missions( const std::vector<mission *> &missions_assigned,
-                              const character_id &charID ) override;
+        void update_missions( const std::vector<mission *> &missions_assigned ) override;
         bool check_hostile_response( int anger ) const override;
         int parse_mod( const std::string &attribute, int factor ) const override;
         int trial_chance_mod( const std::string &trial_type ) const override;
@@ -68,6 +67,7 @@ class talker_npc : public talker_character
         int cash_to_favor( int value ) const override;
         std::string give_item_to( bool to_use ) override;
         bool buy_from( int amount ) override;
+        int value( const item &it ) const override;
 
         // missions
         std::vector<mission *> available_missions() const override;

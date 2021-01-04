@@ -7,7 +7,7 @@
   "id": "prof_knapping",
   "type": "proficiency",
   "name": { "str": "Knapping" },
-  "desription": "The ability to turn stones into usable tools.",
+  "description": "The ability to turn stones into usable tools.",
   "can_learn": true,
   "time_to_learn": "10 h",
   "required_proficiencies": [ "prof_foo" ]
