@@ -354,17 +354,6 @@
     "items": [ [ "afs_titanium_frame", 5 ], { "item": "afs_scrap_titanium", "prob": 10, "count": [ 2, 8 ] } ]
   },
   {
-    "id": "supplies_metal",
-    "type": "item_group",
-    "items": [
-      [ "bionic_maintenance_toolkit", 20 ],
-      [ "afs_biomaterial_2", 20 ],
-      [ "afs_biomaterial_3", 10 ],
-      [ "afs_biomaterial_1", 20 ],
-      [ "afs_neural_io_2", 15 ]
-    ]
-  },
-  {
     "id": "swat_gear",
     "type": "item_group",
     "items": [
