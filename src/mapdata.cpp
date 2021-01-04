@@ -1223,6 +1223,8 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
         set_connects( jo.get_string( "connects_to" ) );
     }
 
+    optional( jo, was_loaded, "allowed_template_ids", allowed_template_id );
+
     optional( jo, was_loaded, "open", open, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );

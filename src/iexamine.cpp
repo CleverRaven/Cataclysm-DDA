@@ -218,6 +218,7 @@ static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
 static const std::string flag_PICKABLE( "PICKABLE" );
+static const std::string flag_NANOFAB_TABLE( "NANOFAB_TABLE" );
 static const std::string flag_WALL( "WALL" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
@@ -273,15 +274,17 @@ void iexamine::cvdmachine( player &p, const tripoint & )
 }
 
 /**
- * UI FOR LAB_FINALE NANO FABRICATOR.
+ * TEMPLATE FABRICATORS
+ * Generate items from found blueprints.
  */
 void iexamine::nanofab( player &p, const tripoint &examp )
 {
     bool table_exists = false;
     tripoint spawn_point;
     map &here = get_map();
+    std::set<itype_id> allowed_template = here.ter( examp )->allowed_template_id;
     for( const auto &valid_location : here.points_in_radius( examp, 1 ) ) {
-        if( here.ter( valid_location ) == ter_str_id( "t_nanofab_body" ) ) {
+        if( here.has_flag( flag_NANOFAB_TABLE, valid_location ) ) {
             spawn_point = valid_location;
             table_exists = true;
             break;
@@ -290,11 +293,21 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     if( !table_exists ) {
         return;
     }
+    //Create a list of the names of all acceptable templates.
+    std::set<std::string> templatenames;
+    for( const itype_id &id : allowed_template ) {
+        templatenames.insert( id->nname( 1 ) );
+    }
+    std::string name_list =  enumerate_as_string( templatenames );
 
-    item_location nanofab_template = g->inv_map_splice( []( const item & e ) {
-        return e.has_var( "NANOFAB_ITEM_ID" );
-    }, _( "Introduce Nanofabricator template" ), PICKUP_RANGE,
-    _( "You don't have any usable templates." ) );
+    //Template selection
+    item_location nanofab_template = g->inv_map_splice( [&]( const item & e ) {
+        return  std::any_of( allowed_template.begin(), allowed_template.end(),
+        [&e]( const itype_id itid ) {
+            return e.typeId() == itid;
+        } );
+    }, _( "Introduce a compatible template." ), PICKUP_RANGE,
+    _( "You don't have any usable templates.\n\nCompatible templates are: " + name_list ) );
 
     if( !nanofab_template ) {
         return;
@@ -303,8 +316,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     item new_item( nanofab_template->get_var( "NANOFAB_ITEM_ID" ), calendar::turn );
 
     int qty = std::max( 1, new_item.volume() / 250_ml );
-    requirement_data reqs = *requirement_id( "nanofabricator" ) * qty;
-
+    requirement_data reqs = *nanofab_template->type->template_requirements * qty;
     if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;

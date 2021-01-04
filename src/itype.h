@@ -1000,6 +1000,8 @@ struct itype {
         // itemgroup used to generate the recipes within nanofabricator templates.
         item_group_id nanofab_template_group;
 
+        requirement_id template_requirements;
+
     private:
         /** Can item be combined with other identical items? */
         bool stackable_ = false;
