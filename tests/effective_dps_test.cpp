@@ -308,6 +308,8 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "lucern_hammerfake", 14.0 );
         calc_expected_dps( test_guy, "spear_survivor", 26.0 );
         calc_expected_dps( test_guy, "long_pole", 13.0 );
+        calc_expected_dps( test_guy, "scythe_war", 30.5 );
+        calc_expected_dps( test_guy, "makeshift_scythe_war", 24.5 );
     }
     SECTION( "two-handed axes" ) { // typical value around 29
         calc_expected_dps( test_guy, "battleaxe", 29.0 );
