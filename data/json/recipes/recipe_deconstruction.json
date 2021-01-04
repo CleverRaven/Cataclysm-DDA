@@ -2133,6 +2133,14 @@
     "components": [ [ [ "neoprene", 1 ] ], [ [ "scrap_neoprene", 20 ] ] ]
   },
   {
+    "result": "sheet_nomex_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "nomex", 1 ] ], [ [ "scrap_nomex", 20 ] ] ]
+  },
+  {
     "result": "tanned_hide",
     "type": "uncraft",
     "time": "2 m",
@@ -4202,6 +4210,16 @@
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "felt_patch", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+    {
+    "result": "nomex",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "fabrication",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+	"time": "1 h",
+    "components": [ [ [ "thread_nomex", 50 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
