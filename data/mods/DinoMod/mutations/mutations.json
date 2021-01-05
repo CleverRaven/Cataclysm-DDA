@@ -107,7 +107,7 @@
         "bullet": 1
       }
     ],
-    "passive_mods": { "dexterity": -1 }
+    "passive_mods": { "dexmod": -1 }
   },
   {
     "type": "mutation",
@@ -127,11 +127,12 @@
         "bullet": 6
       }
     ],
-    "passive_mods": { "speed": -10 }
+    "speed_modifier": 0.95
   },
   {
     "type": "mutation",
     "id": "STRONGBACKDINO",
+    "name": { "str": "Apatosaurus Back" },
     "points": 2,
     "description": "You are capable of carrying inhuman amounts more than someone with similar strength could.  Your maximum weight carried is increased by 70%.",
     "prereqs": "STRONGBACK",
