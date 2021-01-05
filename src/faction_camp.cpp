@@ -688,7 +688,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         std::sort( upgrades.begin(), upgrades.end(), []( const basecamp_upgrade & p,
                    const basecamp_upgrade & q )->bool {return p.name.translated_lt( q.name ); } );
 
-        for( const basecamp_upgrade upgrade : upgrades ) {
+        for( const basecamp_upgrade &upgrade : upgrades ) {
             const base_camps::miss_data &miss_info = base_camps::miss_info["_faction_upgrade_exp_"];
             comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_exp_" +
                                  dir_id );
@@ -1220,7 +1220,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
     std::sort( upgrades.begin(), upgrades.end(), []( const basecamp_upgrade & p,
                const basecamp_upgrade & q )->bool {return p.name.translated_lt( q.name ); } );
 
-    for( const basecamp_upgrade upgrade : upgrades ) {
+    for( const basecamp_upgrade &upgrade : upgrades ) {
         const base_camps::miss_data &miss_info = base_camps::miss_info["_faction_upgrade_camp"];
         comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_camp" );
         if( npc_list.empty() && !upgrade.in_progress ) {
