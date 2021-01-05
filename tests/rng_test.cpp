@@ -79,3 +79,57 @@ TEST_CASE( "random_entry_preserves_constness" )
     i1 = 5678;
     CHECK( v1[0] == 5678 );
 }
+
+template<int w, int h>
+static void test_pseudo_random_tiling_test( uint64_t seed )
+{
+    pseudo_random_matrix_tiling<w, h> mt( seed );
+    std::set<std::pair<int, int>> s1;
+    std::vector<std::pair<int, int>> vec1;
+
+    for( size_t i = 0; i < w * h; ++i ) {
+        const std::pair<int, int> &v = mt.get_xy( i );
+        CHECK( v.first >= 0 );
+        CHECK( v.first < w );
+        CHECK( v.second >= 0 );
+        CHECK( v.second <= h );
+        s1.insert( v );
+        vec1.push_back( v );
+    }
+    INFO( "All elements in [0..w*h) range should be distinct" );
+    CAPTURE( s1 );
+    CHECK( s1.size() == w * h );
+
+    INFO( "Results should form a period of (w * h)" )
+    for( size_t i = 0; i < w * h * 5; ++i ) {
+        const std::pair<int, int> &v = mt.get_xy( i );
+        CAPTURE( i, v );
+        CHECK( vec1[i % ( w * h )] == v );
+    }
+
+    INFO( "Seed stability" );
+    pseudo_random_matrix_tiling<w, h> mt2( seed );
+    for( size_t i = 0; i < w * h; ++i ) {
+        const std::pair<int, int> &v = mt2.get_xy( i );
+        CAPTURE( i, v );
+        CHECK( vec1[i] == v );
+    }
+
+    INFO( "Seed variance" );
+    int diff = 0;
+    pseudo_random_matrix_tiling<w, h> mt3( seed + 1 );
+    for( size_t i = 0; i < w * h; ++i ) {
+        const std::pair<int, int> &v = mt3.get_xy( i );
+        diff += ( vec1[i] != v );
+    }
+    INFO( "At least half of the returned values should be different." );
+    CHECK( diff >= w * h / 2 );
+};
+
+TEST_CASE( "pseudo_random_tiling_test" )
+{
+    uint64_t seed = GENERATE( 441747021, 466935525, 184832026, 694846310, 472039296 );
+    test_pseudo_random_tiling_test<12, 12>( seed );
+    test_pseudo_random_tiling_test<1, 1>( seed );
+    test_pseudo_random_tiling_test<13, 7>( seed );
+}

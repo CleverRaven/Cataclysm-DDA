@@ -244,12 +244,13 @@
     "dangerous": false,
     "precip": "light",
     "rains": false,
+    "snows": true,
     "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "." },
     "sound_category": "flurries",
     "sun_intensity": "light",
-    "requirements": { "temperature_max": 33, "required_weathers": [ "drizzle" ] }
+    "requirements": { "temperature_max": 33, "required_weathers": [ "light_drizzle", "drizzle" ] }
   },
   {
     "id": "snowing",
@@ -265,6 +266,7 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": false,
+    "snows": true,
     "acidic": false,
     "effects": [ { "must_be_outside": true, "wet": 10 } ],
     "tiles_animation": "weather_snowflake",
@@ -287,12 +289,13 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": false,
+    "snows": true,
     "acidic": false,
     "effects": [ { "must_be_outside": true, "wet": 40 } ],
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.04, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
     "sun_intensity": "none",
-    "requirements": { "temperature_max": 33, "windpower_min": 15, "required_weathers": [ "thunder", "lightning" ] }
+    "requirements": { "temperature_max": 33, "windpower_min": 15, "required_weathers": [ "rain", "thunder", "lightning" ] }
   }
 ]

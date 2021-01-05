@@ -183,5 +183,43 @@ cata::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
 /// Same as other random_point with a range enclosing all valid points of the map.
 cata::optional<tripoint> random_point( const map &m,
                                        const std::function<bool( const tripoint & )> &predicate );
+/**
+ * Helper class that provides the means to fully tile w x h matrix in (w x h) steps in
+ * pseudo-random stable way. Internally uses w+h extra space.
+ * @tparam w  width of the matrix
+ * @tparam h  height of the matrix
+ */
+template<size_t w, size_t h>
+class pseudo_random_matrix_tiling
+{
+        static_assert( w > 0 && h > 0, "dimensions should be positive" );
+
+    public:
+        pseudo_random_matrix_tiling( uint64_t seed ) {
+            for( size_t i = 0; i < w; ++i ) {
+                w_arr[i] = i;
+            }
+            for( size_t i = 0; i < h; ++i ) {
+                h_arr[i] = i;
+            }
+            cata_default_random_engine eng( seed );
+            std::shuffle( w_arr.begin(), w_arr.end(), eng );
+            std::shuffle( h_arr.begin(), h_arr.end(), eng );
+        }
+        /**
+         * Returns pair of coordinates, (x, y) of the tile to set.
+         * Indices from [0..(w*h)) are guaranteed to cover all coords in the matrix.
+         * @param idx
+         * @return
+         */
+        std::pair<int, int> get_xy( size_t idx ) {
+            // inspired by comments in https://habr.com/ru/post/337036/
+            return std::make_pair( w_arr[idx % w], h_arr[( idx % w + h_arr[( idx / w ) % h] ) % h] );
+        }
+
+    private:
+        std::array<int, w> w_arr;
+        std::array<int, h> h_arr;
+};
 
 #endif // CATA_SRC_RNG_H

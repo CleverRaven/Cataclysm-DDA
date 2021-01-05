@@ -41,7 +41,194 @@ static double proportion_gteq_x( std::vector<double> const &v, double x )
     return static_cast<double>( count ) / v.size();
 }
 
-TEST_CASE( "weather realism" )
+/**
+ * @return 0 - January, 11-December
+ */
+static int get_real_month( time_point t )
+{
+    const time_duration &dur = ( t - calendar::turn_zero ) % ( calendar::year_length() );
+    // 0 is first month of spring, i.e. March
+    int cata_month = dur / ( calendar::season_length() / 3 );
+    return ( cata_month + 2 ) % 12;
+}
+
+template<typename T>
+std::ostream &operator<<( std::ostream &os, string_id<T> const &id )
+{
+    return os << id.str();
+}
+
+std::ostream &operator<<( std::ostream &os, time_duration const &d )
+{
+    return os << to_string( d );
+}
+
+template<typename K, typename V>
+std::ostream &operator<<( std::ostream &os, std::map<K, V> const &m )
+{
+    os << "[";
+    bool first = true;
+    for( const auto &p : m ) {
+        if( !first ) {
+            os << ",";
+        }
+        first = true;
+        os << "{" << p.first << ", " << p.second << "} ";
+    }
+    return os << "]";
+}
+
+static const std::vector<std::string> month_names = {{
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    }
+};
+
+TEST_CASE( "snow realism", "[weather][snow]" )
+{
+    const time_point prev_cal_turn = calendar::turn;
+
+    double snow_sum_mm = 0;
+    int years = 4;
+    // snow in mm (data from https://en.wikipedia.org/wiki/Climate_of_New_England)
+    // Northern, Portland International Jetport, Maine
+    // 490,310,320,71,0,0,0,0,0,0,48,340
+    // Southern coastal, Bridgeport, Connecticut (Sikorsky Airport)
+    // 200,210,130,23,0,0,0,0,0,0,18,130
+
+    // From https://www.currentresults.com/Weather/Massachusetts/Places/boston-snowfall-totals-snow-accumulation-averages.php
+    // Over the long-term Boston has averaged an inch or two of snow during November and April.
+    // But in most years those months have no snow. Just one-quarter of years get an inch or more of snow in April and three or more inches in November.
+    // Boston's first snowfall of winter usually arrives in December. The season's last snowfall typically happens in March.
+    // Boston is normally free of snow every year from May to October.
+
+    // Averages with large margin due to possible variance.
+    std::vector<Approx> eta_snowfall_mm_per_month = {{
+            Approx( 350 ).epsilon( 0.4 ),
+            Approx( 260 ).epsilon( 0.4 ),
+            Approx( 225 ).epsilon( 0.4 ),
+            Approx( 50 ).epsilon( 0.5 ), /* Slightly diverges from reality */
+            Approx( 0 ).margin( 20 ),
+            Approx( 0 ).margin( 0 ),
+            Approx( 0 ).margin( 0 ),
+            Approx( 0 ).margin( 0 ),
+            Approx( 0 ).margin( 0 ),
+            Approx( 0 ).margin( 40 ), /* Slightly diverges from reality */
+            Approx( 33 ).margin( 150 ), /* Significantly diverges from reality! */
+            Approx( 235 ).epsilon( 0.4 )
+        }
+    };
+
+    // Average days with snow layer > 1 inch
+    // Data from https://www.currentresults.com/Weather/Massachusetts/Places/boston-snowfall-totals-snow-accumulation-averages.php
+    std::vector<Approx> eta_days_with_snow_depth_per_month = {{
+            Approx( 25 ).margin( 6 ),
+            Approx( 19.3 ).margin( 12 ), /* Higher than in reality */
+            Approx( 10.7 ).margin( 6 ),
+            Approx( 0.7 ).margin( 2 ),
+            Approx( 0 ).margin( 0 ),
+            Approx( 0 ).margin( 0 ),
+            Approx( 0 ).margin( 0 ),
+            Approx( 0 ).margin( 0 ),
+            Approx( 0 ).margin( 0 ),
+            Approx( 0 ).margin( 0 ),
+            Approx( 1.5 ).margin( 4 ),
+            Approx( 9.5 ).margin( 15 ) /* Higher than in reality */
+        }
+    };
+
+    std::vector<float> snowfall_mm_per_month;
+    snowfall_mm_per_month.resize( 12, 0.f );
+
+    std::vector<float> days_with_snow_depth_per_month;
+    days_with_snow_depth_per_month.resize( 12, 0.f );
+
+    std::vector<std::map<weather_type_id, int>> weather_per_month;
+    weather_per_month.resize( 12 );
+
+    weather_manager wm;
+
+    for( int i = 0; i < years; ++i ) {
+        for( calendar::turn = calendar::turn_zero + calendar::year_length() * i;
+             calendar::turn < calendar::turn_zero + calendar::year_length() * ( i + 1 );
+             calendar::turn += 1_turns ) {
+
+            wm.update_weather();
+
+            const time_duration update_period = 1_minutes;
+            if( calendar::once_every( update_period ) ) {
+                const weather_type_id &weather = wm.current_weather( tripoint_zero, calendar::turn );
+                double snowfall_mm = weather_manager::get_snowfall_mm( weather, update_period );
+                snow_sum_mm += snowfall_mm / years;
+                int month = get_real_month( calendar::turn );
+                snowfall_mm_per_month[month] += snowfall_mm / years;
+                weather_per_month[month][weather]++;
+
+                if( wm.snow_level > 25 ) {
+                    days_with_snow_depth_per_month[month] += ( update_period / 1_days ) / years;
+                }
+            }
+        }
+    }
+
+    for( int i = 0; i < 12; ++i ) {
+        // uncomment for debug output
+        // WARN( i << " " << month_names[i] );
+        // WARN( month_names[i] << " " << snowfall_mm_per_month[i] << " days:" <<
+        //         days_with_snow_depth_per_month[i] );
+        // WARN( i << " " << weather_per_month[i] );
+        CAPTURE( i, month_names[ i ] );
+        CHECK( snowfall_mm_per_month[i] == eta_snowfall_mm_per_month[i] );
+        CHECK( eta_days_with_snow_depth_per_month[ i ] == days_with_snow_depth_per_month[ i ] );
+    }
+
+    // https://en.wikipedia.org/wiki/Climate_of_New_England
+    CHECK( snow_sum_mm == Approx( 1570 ).epsilon( 0.4 ) );
+
+    // restore calendar turn
+    calendar::turn = prev_cal_turn;
+}
+
+TEST_CASE( "snow melting time", "[weather][snow]" )
+{
+    weather_manager wm;
+    const weather_type_id sunny( "sunny" );
+    const weather_type_id clear( "clear" );
+    const time_point midday = calendar::turn_zero + 12_hours;
+    const time_point midnight = calendar::turn_zero;
+
+    // Anecdote from here: https://chicago.cbslocal.com/2014/02/14/warming-on-way-how-much-snow-will-melt/
+    // Three days of temperatures at 50 degrees can melt 2 to 4 inches of snow.
+    // If temps fall below freezing at night, the process will be slower.
+    SECTION( "melting 101mm of snow in the sun" ) {
+        wm.snow_level = 101; // mm, ≈4"
+        wm.temperature = 50; // (in F)
+
+        time_duration d = 0_minutes;
+        while( d < 10_days && wm.snow_level > 0 ) {
+            wm.update_snow_level( sunny, midday, 1_minutes );
+            d += 1_minutes;
+        }
+        // actual simulated melt time is: 1 day and 14 hours
+        CAPTURE( d );
+        CHECK( d >= 1_days );
+        CHECK( d <= 4_days );
+    }
+
+    SECTION( "melting 101mm of snow when temp is below freezing an no sun" ) {
+        wm.snow_level = 101; // mm, ≈4"
+        wm.temperature = 28; // (in F) ≈ -2.22 ºC
+
+        time_duration d = 0_minutes;
+        while( d < 20_days && wm.snow_level > 0 ) {
+            wm.update_snow_level( clear, midnight, 1_minutes );
+            d += 1_minutes;
+        }
+        INFO( "Should not have melted" );
+        CHECK( wm.snow_level > 0 );
+    }
+}
+
+TEST_CASE( "weather realism", "[weather]" )
 // Check our simulated weather against numbers from real data
 // from a few years in a few locations in New England. The numbers
 // are based on NOAA's Local Climatological Data (LCD). Analysis code

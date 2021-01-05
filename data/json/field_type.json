@@ -1225,6 +1225,20 @@
     "phase": "gas"
   },
   {
+    "id": "fd_snow",
+    "type": "field_type",
+    "//": "1 < 10mm (0.39\"); 2 ≈ 10mm-160mm (6.3\");  3 ≈ 160mm-810mm (31.9\"); see map::actualize_snow_in_submap for details.",
+    "intensity_levels": [
+      { "name": "shallow snow", "sym": "*", "color": "white", "convection_temperature_mod": -2 },
+      { "name": { "ctxt": "noun", "str": "snow" }, "color": "white" },
+      { "name": "deep snow" }
+    ],
+    "priority": -1,
+    "phase": "solid",
+    "display_items": true,
+    "display_field": true
+  },
+  {
     "id": "fd_cold_air2",
     "type": "field_type",
     "legacy_enum_id": 42,

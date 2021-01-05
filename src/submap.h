@@ -249,6 +249,10 @@ class submap : maptile_soa<SEEX, SEEY>
         std::map<tripoint, partial_con> partial_constructions;
         std::unique_ptr<basecamp> camp;  // only allowing one basecamp per submap
 
+        // avg actualized snow level, in mm (see map::actualize_snow_in_submap)
+        float snow_level = 0;
+        // a flag that is reset during loading and set during actualization
+        bool actualized = false;
     private:
         std::map<point, computer> computers;
         std::unique_ptr<computer> legacy_computer;

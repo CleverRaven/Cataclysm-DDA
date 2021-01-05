@@ -1583,6 +1583,10 @@ bool game::do_turn()
     // consider a stripped down cache just for monsters.
     m.build_map_cache( levz, true );
     monmove();
+    double snow_level = get_weather().snow_level;
+    if( calendar::once_every( 1_minutes ) ) {
+        m.actualize_snow( snow_level );
+    }
     if( calendar::once_every( 5_minutes ) ) {
         overmap_npc_move();
     }

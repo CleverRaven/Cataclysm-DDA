@@ -1162,7 +1162,7 @@ void game::unserialize_master( std::istream &fin )
             } else if( name == "seed" ) {
                 jsin.read( seed );
             } else if( name == "weather" ) {
-                weather_manager::unserialize_all( jsin );
+                get_weather().unserialize_all( jsin );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1182,15 +1182,28 @@ void mission::serialize_all( JsonOut &json )
     json.end_array();
 }
 
+void weather_manager::serialize_all( JsonOut &json )
+{
+    json.member( "lightning", lightning_active );
+    json.member( "weather_id", weather_id );
+    json.member( "next_weather", nextweather );
+    json.member( "temperature", temperature );
+    json.member( "winddirection", winddirection );
+    json.member( "windspeed", windspeed );
+    json.member( "snow_level", snow_level );
+}
+
 void weather_manager::unserialize_all( JsonIn &jsin )
 {
     JsonObject w = jsin.get_object();
-    w.read( "lightning", get_weather().lightning_active );
-    w.read( "weather_id", get_weather().weather_id );
-    w.read( "next_weather", get_weather().nextweather );
-    w.read( "temperature", get_weather().temperature );
-    w.read( "winddirection", get_weather().winddirection );
-    w.read( "windspeed", get_weather().windspeed );
+    w.read( "lightning", lightning_active );
+    w.read( "weather_id", weather_id );
+    w.read( "next_weather", nextweather );
+    w.read( "temperature", temperature );
+    w.read( "winddirection", winddirection );
+    w.read( "windspeed", windspeed );
+    snow_level = 0;
+    w.read( "snow_level", snow_level );
 }
 
 void game::serialize_master( std::ostream &fout )
@@ -1211,12 +1224,7 @@ void game::serialize_master( std::ostream &fout )
 
         json.member( "weather" );
         json.start_object();
-        json.member( "lightning", weather.lightning_active );
-        json.member( "weather_id", weather.weather_id );
-        json.member( "next_weather", weather.nextweather );
-        json.member( "temperature", weather.temperature );
-        json.member( "winddirection", weather.winddirection );
-        json.member( "windspeed", weather.windspeed );
+        weather.serialize_all( json );
         json.end_object();
 
         json.end_object();

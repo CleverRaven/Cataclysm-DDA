@@ -116,3 +116,94 @@ TEST_CASE( "firebugs", "[field]" )
     fire_duration( "t_grass", 5_minutes, 30_minutes );
     fire_duration( "t_shrub_raspberry", 60_minutes, 120_minutes );
 }
+
+TEST_CASE( "snow actualization", "[field][snow]" )
+{
+    clear_map();
+    map &m = get_map();
+
+    const auto count_snow = [&]( cata::optional<int> intensity = cata::nullopt ) {
+        int res = 0;
+        for( int x = 0; x < SEEX; ++x ) {
+            for( int y = 0; y < SEEY; y++ ) {
+                field_entry *f = m.get_field( tripoint( x, y, 0 ), fd_snow );
+                if( f && ( !intensity || f->get_field_intensity() == *intensity ) ) {
+                    res++;
+                }
+            }
+        }
+        return res;
+    };
+
+    //using REQUIRE, because subsequent checks depend on the previous
+    REQUIRE( count_snow() == 0 );
+    // 0-10 corresponds to intensity level 1
+    m.actualize_snow_in_submap( tripoint_zero, 5.f, true );
+    // process_fields removes "inactive" fields
+    m.process_fields();
+
+    {
+        INFO( "should be fully covered" );
+        REQUIRE( count_snow() == SEEX * SEEY );
+    }
+
+    // above intensity 1
+    m.actualize_snow_in_submap( tripoint_zero, 20.f, false );
+    m.process_fields();
+    {
+        INFO( "should be fully covered in snow" );
+        REQUIRE( count_snow() == SEEX * SEEY );
+        INFO( "some snow fields should be upgraded" );
+        REQUIRE( count_snow( 1 ) < SEEX * SEEY );
+        REQUIRE( count_snow( 2 ) > 0 );
+    }
+
+    // 3m of snow should result max intensity
+    m.actualize_snow_in_submap( tripoint_zero, 3000.f, false );
+    m.process_fields();
+    {
+        INFO( "should be fully covered in max intensity field" );
+        REQUIRE( count_snow( fd_snow->get_max_intensity() ) == SEEX * SEEY );
+    }
+
+    m.actualize_snow_in_submap( tripoint_zero, 1.f, false );
+    m.process_fields();
+    {
+        INFO( "should be evenly covered in intensity 1 snow" );
+        REQUIRE( count_snow( 1 ) == SEEX * SEEY );
+    }
+
+    m.actualize_snow_in_submap( tripoint_zero, 0.f, false );
+    m.process_fields();
+    {
+        INFO( "should be cleared" );
+        REQUIRE( count_snow() == 0 );
+    }
+
+    m.actualize_snow_in_submap( tripoint_zero, 1.f, false );
+    m.process_fields();
+    {
+        INFO( "should be evenly covered in intensity 1 snow" );
+        REQUIRE( count_snow( 1 ) == SEEX * SEEY );
+    }
+
+    // remove some of the fields
+    for( int x = 0; x < SEEX / 2; ++x ) {
+        for( int y = 0; y < SEEY / 2; y++ ) {
+            m.remove_field( {x, y, 0}, fd_snow );
+        }
+    }
+    {
+        INFO( "quarter of the field is cleared" );
+        REQUIRE( count_snow( 1 ) == SEEX * SEEY * 3 / 4 );
+    }
+
+    m.actualize_snow_in_submap( tripoint_zero, 10.1f, false );
+    {
+        INFO( "should be fully covered in snow again" );
+        REQUIRE( count_snow() == SEEX * SEEY );
+        REQUIRE( count_snow( 1 ) == Approx( SEEX * SEEY ).margin( 1 ) );
+    }
+
+    clear_map();
+}

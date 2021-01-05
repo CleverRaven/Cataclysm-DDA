@@ -6565,20 +6565,16 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
     clear_vehicle_level_caches();
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            loadn( point( gridx, gridy ), update_vehicle, false );
+            loadn( point( gridx, gridy ), update_vehicle );
         }
     }
     rebuild_vehicle_level_caches();
+    // floor and outside caches are needed for actualize
+    build_map_cache( 0, true );
 
     // actualize after loading all submaps to prevent errors
     // with entities at the edges
-    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
-        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                actualize( tripoint( point( gridx, gridy ), gridz ) );
-            }
-        }
-    }
+    actualize();
 }
 
 void map::shift_traps( const tripoint &shift )
@@ -6783,6 +6779,9 @@ void map::shift( const point &sp )
         }
 
     }
+
+    // actualize requires valid floor and outside caches
+    build_map_cache( 0, true );
     rebuild_vehicle_level_caches();
 
     g->setremoteveh( remoteveh );
@@ -6794,6 +6793,8 @@ void map::shift( const point &sp )
             support_cache_dirty.insert( pt + point( -sp.x * SEEX, -sp.y * SEEY ) );
         }
     }
+
+    actualize();
 }
 
 void map::vertical_shift( const int newz )
@@ -6871,7 +6872,7 @@ static void generate_uniform( const tripoint &p, const ter_id &terrain_type )
     }
 }
 
-void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actualize )
+void map::loadn( const tripoint &grid, const bool update_vehicles )
 {
     // Cache empty overmap types
     static const oter_id rock( "empty_rock" );
@@ -6885,7 +6886,10 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
 
     dbg( D_INFO ) << "map::loadn grid_abs_sub: " << grid_abs_sub << "  gridn: " << gridn;
 
-    const int old_abs_z = abs_sub.z; // Ugly, but necessary at the moment
+    const int old_abs_z = abs_sub.z; // Ugly, but necessary at the moment:
+    // `abs_sub.z` is used in a lot of map methods that take `point` instead of `tripoint`
+    // the missing `z` component in such methods is taken from the abs_sub::z,
+    // so it is expected to match the z of the "currently processed submap"
     abs_sub.z = grid.z;
 
     submap *tmpsub = MAPBUFFER.lookup_submap( grid_abs_sub );
@@ -6966,10 +6970,8 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
         }
     }
 
-    // don't actualize before all maps are loaded
-    if( _actualize ) {
-        actualize( grid );
-    }
+    // mark submap for actualization
+    tmpsub->actualized = false;
 
     abs_sub.z = old_abs_z;
 }
@@ -6997,6 +6999,173 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
             }
         }
     }
+}
+
+void map::actualize_snow( float new_snow_lvl )
+{
+    const int zmin = 0;
+    const int zmax = zlevels ? OVERMAP_HEIGHT : 0;
+    tripoint gp;
+    int &gx = gp.x;
+    int &gy = gp.y;
+    int &gz = gp.z;
+    for( gz = zmin; gz <= zmax; gz++ ) {
+        for( gx = 0; gx < my_MAPSIZE; gx++ ) {
+            for( gy = 0; gy < my_MAPSIZE; gy++ ) {
+                actualize_snow_in_submap( tripoint( gx, gy, gz ), new_snow_lvl, false );
+            }
+        }
+    }
+}
+
+void map::actualize_snow_in_submap( const tripoint &gridp, float new_snow_lvl, bool from_scratch )
+{
+    /**
+     * Takes the snow level in mm and materializes it in a submap in the form of a `fd_snow` field
+     * with different intensities that correspond to the snow depth.
+     * Unless `from_scratch` is true, tries to update the existing snow layer according to the difference
+     * between `submap::snow_level` and `new_snow_lvl`.
+     * Behavior:
+     * * when snow is updated from 0, an even layer of intensity 1 is created
+     * * same happens every 10mm of snow (all patches cleared by player are covered with intensity 1)
+     * * after 10mm of snow field intensity is upgraded pseudo-randomly until the next intensity level is reached
+     *    (see `actualize_snow_in_submap::level_to_intensity`)
+     * * same process happens backwards (intensity is downgraded) when `new_snow_lvl` is less than `submap::snow_level`
+     * * when snow is melting, evel layer of intensity 1 is preserved until snow level reaches zero (eps)
+     *
+     * Important behavior note: `actualize_snow_in_submap` should have exact same behavior regardless of whether
+     *  new_snow_level is incremented/decremented once by large amount or multiple times in tiny increments/decrements.
+     * This is important, because newly loaded and actualized submaps should look exactly like submaps that were
+     *  actively updated in the reality bubble.
+     */
+
+    if( gridp.z < 0 ) {  // for simplicity snow doesn't fall below ground
+        return;
+    }
+
+    level_cache &cache = get_cache( gridp.z );
+    level_cache *cache_above = gridp.z < OVERMAP_HEIGHT ? &get_cache( gridp.z + 1 ) : nullptr;
+    submap *sm = get_submap_at_grid( gridp );
+
+    if( !sm ) {
+        return;
+    }
+    if( sm->is_uniform && gridp.z != 0 ) {
+        // skip uniform submaps above the ground
+        return;
+    }
+
+    static constexpr float eps = 0.001f;
+
+    // convert once
+    const field_type_id fd_snow = ::fd_snow;
+    const point sm_origin = sm_to_ms_copy( gridp.xy() );
+
+    /**
+     * Converts snow level in mm to the field intensity level
+     * 1 < 10mm (0.39")
+     * 2 ≈ 10mm-160mm (6.3")
+     * 3 ≈ 160mm-810mm (31.9")
+     */
+    const auto level_to_intensity = [&]( float level_mm ) -> float {
+        return level_mm < eps ? 0 :
+        level_mm <= 10.f ? 1.f :
+        std::powf( level_mm / 10.f, 1.f / 4 );
+    };
+    // Convert snow level in mm to the index of the pseudorandom tiling sequence
+    const auto level_to_idx = [&]( float level_mm ) {
+        return static_cast<int>( std::ceilf( level_to_intensity( level_mm ) * SEEX * SEEY ) );
+    };
+    const auto remove_snow = [&]( field & f ) {
+        if( f.remove_field( fd_snow ) ) {
+            sm->field_count--;
+        }
+    };
+    const auto add_snow = [&]( field & f, int mod ) {
+        if( f.add_field( fd_snow, mod ) ) {
+            sm->field_count++;
+            cache.field_cache.set( gridp.x + gridp.y * MAPSIZE );
+        }
+    };
+    const auto snow_intensity = [&]( field & f ) {
+        field_entry *fe = f.find_field( fd_snow );
+        return fe ? fe->get_field_intensity() : 0;
+    };
+    // Whether tile supports snow. `when_adding` represents asymmetry between adding and maintaining snow
+    const auto supports_snow = [&]( const point p, bool when_adding ) {
+        const point &map_p = sm_origin + p;
+        return cache.floor_cache[map_p.x][map_p.y] &&
+               ( !when_adding || !cache_above || !cache_above->floor_cache[map_p.x][map_p.y] ) &&
+               ( !when_adding || cache.outside_cache[map_p.x][map_p.y] ) &&
+               ( !when_adding || !cache.get_veh_exists_at( tripoint( map_p, 0 ) ) ) &&
+               !sm->get_ter( p )->has_flag( TFLAG_NO_SNOW ) &&
+               !sm->get_ter( p )->has_flag( TFLAG_LIQUID );
+    };
+
+    // stable rng seed for this submap
+    const uint64_t seed = std::hash<tripoint>()( abs_sub + gridp );
+
+    // from_idx is inclusive, to_idx is exclusive
+    const auto for_each_idx = [&]( int from_idx, int to_idx,
+    std::function<void( const point &p )> f ) {
+        if( from_idx >= to_idx ) {
+            return;
+        }
+        pseudo_random_matrix_tiling<SEEX, SEEY> rng_tiles( seed );
+        for( int i = from_idx; i < to_idx; i++ ) {
+            const std::pair<int, int> t = rng_tiles.get_xy( i );
+            const point &p = point( t.first, t.second );
+            f( p );
+        }
+    };
+
+    if( from_scratch || new_snow_lvl < eps ) {
+        for( int x = 0; x < SEEX; x++ ) {
+            for( int y = 0; y < SEEY; y++ ) {
+                remove_snow( sm->get_field( point( x, y ) ) );
+            }
+        }
+        sm->snow_level = 0;
+    }
+    // adding 10mm of snow should guarantee an even cover of 1 intensity
+    if( static_cast<int>( sm->snow_level / 10 ) < static_cast<int>( new_snow_lvl / 10 ) ) {
+        for( int x = 0; x < SEEX; x++ ) {
+            for( int y = 0; y < SEEY; y++ ) {
+                field &f = sm->get_field( point( x, y ) );
+                bool has_snow = f.find_field( fd_snow );
+                if( !has_snow && supports_snow( point( x, y ), /*add*/ true ) ) {
+                    add_snow( f, 1 );
+                } else if( has_snow && !supports_snow( point( x, y ), /*add*/ false ) ) {
+                    // while we're here, remove unsupported snow
+                    remove_snow( f );
+                }
+            }
+        }
+        // doubles up as a fast shortcut for adding snow initially
+        if( sm->snow_level < 10.f ) {
+            sm->snow_level = 10.f;
+        }
+    }
+
+    int from = level_to_idx( sm->snow_level );
+    int to = level_to_idx( new_snow_lvl );
+    const int new_intensity = level_to_intensity( new_snow_lvl );
+    const bool adding = sm->snow_level < new_snow_lvl;
+    if( !adding ) {
+        std::swap( from, to );
+    }
+
+    for_each_idx( from, to,
+    [&]( const point & p ) {
+        field &f = sm->get_field( p );
+        if( adding && supports_snow( p, true ) ) {
+            add_snow( f, 1 );
+        } else if( !adding && snow_intensity( f ) > new_intensity ) {
+            add_snow( f, -1 );
+        }
+    } );
+
+    sm->snow_level = new_snow_lvl;
 }
 
 void map::fill_funnels( const tripoint &p, const time_point &since )
@@ -7280,6 +7449,17 @@ void map::decay_cosmetic_fields( const tripoint &p,
     }
 }
 
+void map::actualize()
+{
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                actualize( tripoint( point( gridx, gridy ), gridz ) );
+            }
+        }
+    }
+}
+
 void map::actualize( const tripoint &grid )
 {
     submap *const tmpsub = get_submap_at_grid( grid );
@@ -7287,6 +7467,10 @@ void map::actualize( const tripoint &grid )
         debugmsg( "Actualize called on null submap (%d,%d,%d)", grid.x, grid.y, grid.z );
         return;
     }
+    if( tmpsub->actualized ) {
+        return;
+    }
+    tmpsub->actualized = true;
 
     const time_duration time_since_last_actualize = calendar::turn - tmpsub->last_touched;
     const bool do_funnels = ( grid.z >= 0 );
@@ -7330,6 +7514,8 @@ void map::actualize( const tripoint &grid )
             decay_cosmetic_fields( pnt, time_since_last_actualize );
         }
     }
+
+    actualize_snow_in_submap( grid, get_weather().snow_level, time_since_last_actualize > 7_days );
 
     // the last time we touched the submap, is right now.
     tmpsub->last_touched = calendar::turn;

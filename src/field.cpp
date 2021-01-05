@@ -128,8 +128,7 @@ int field_entry::get_field_intensity() const
 int field_entry::set_field_intensity( int new_intensity )
 {
     is_alive = new_intensity > 0;
-    return intensity = std::max( std::min( new_intensity, get_max_field_intensity() ), 1 );
-
+    return intensity = clamp( new_intensity, 1, get_max_field_intensity() );
 }
 
 void field_entry::mod_field_intensity( int mod )
@@ -234,12 +233,16 @@ bool field::add_field( const field_type_id &field_type_to_add, const int new_int
         it->second.set_field_intensity( it->second.get_field_intensity() + new_intensity );
         return false;
     }
-    if( !_displayed_field_type ||
-        field_type_to_add.obj().priority >= _displayed_field_type.obj().priority ) {
-        _displayed_field_type = field_type_to_add;
+    if( new_intensity > 0 ) {
+        if( !_displayed_field_type ||
+            field_type_to_add.obj().priority >= _displayed_field_type.obj().priority ) {
+            _displayed_field_type = field_type_to_add;
+        }
+        _field_type_list[field_type_to_add] = field_entry(
+                field_type_to_add, std::min( new_intensity, field_type_to_add->get_max_intensity() ), new_age );
+        return true;
     }
-    _field_type_list[field_type_to_add] = field_entry( field_type_to_add, new_intensity, new_age );
-    return true;
+    return false;
 }
 
 bool field::remove_field( const field_type_id &field_to_remove )

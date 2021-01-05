@@ -137,6 +137,8 @@ int incident_sunlight( const weather_type_id &wtype, const time_point &t )
 static inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
                                      const time_point &t, const time_duration &tick_size )
 {
+    // FIXME rain levels are WAY to high!  1mm/s is 3.6m/h or 141"/hour !
+    // need to use precip_mm_per_hour
     int amount = 0;
     if( wtype->rains ) {
         switch( wtype->precip ) {
@@ -164,13 +166,18 @@ static inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &
     data.sunlight += tick_sunlight * to_turns<int>( tick_size );
 }
 
+weather_type_id weather_manager::current_weather( const tripoint &location, const time_point &t )
+{
+    const weather_generator &wgen = get_cur_weather_gen();
+    if( weather_override != WEATHER_NULL ) {
+        return weather_override;
+    }
+    return wgen.get_weather_conditions( location, t, g->get_seed(), next_instance_allowed );
+}
+
 weather_type_id current_weather( const tripoint &location, const time_point &t )
 {
-    const weather_generator wgen = g->weather.get_cur_weather_gen();
-    if( g->weather.weather_override != WEATHER_NULL ) {
-        return g->weather.weather_override;
-    }
-    return wgen.get_weather_conditions( location, t, g->get_seed(), g->weather.next_instance_allowed );
+    return g->weather.current_weather( location, t );
 }
 
 ////// Funnels.
@@ -192,11 +199,6 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
 
         weather_type_id wtype = current_weather( location, t );
         proc_weather_sum( wtype, data, t, tick_size );
-        data.wind_amount += get_local_windpower( g->weather.windspeed,
-                            // TODO: fix point types
-                            overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( location ) ) ),
-                            location,
-                            g->weather.winddirection, false ) * to_turns<int>( tick_size );
     }
     return data;
 }
@@ -463,6 +465,15 @@ double precip_mm_per_hour( precip_class const p )
         p == precip_class::very_light ? 0.5 :
         p == precip_class::light ? 1.5 :
         p == precip_class::heavy ? 3   :
+        0;
+}
+
+double snow_mm_per_hour( precip_class p )
+{
+    return
+        p == precip_class::very_light ? 0.5 :
+        p == precip_class::light ? 2.5 :
+        p == precip_class::heavy ? 6   :
         0;
 }
 
@@ -1047,6 +1058,74 @@ const weather_generator &weather_manager::get_cur_weather_gen() const
     return settings.weather;
 }
 
+/**
+ * Snowmelt modeling based on the degree-day method
+ * @param temp_C average temperature during period, in ºC
+ * @param duration melting period
+ * @return snow melt in mm. Could be negative. Negative values are used to offset snow melt from sun radiation.
+ */
+double snowmelt_temp( double temp_C, time_duration duration )
+{
+    /* https://directives.sc.egov.usda.gov/OpenNonWebContent.aspx?content=17753.wba
+     The degree-day method is a temperature index approach that equates the total daily melt to a coefficient
+        times the temperature difference between the mean daily temperature and a base temperature
+        (generally 32 °F or 0 °C).
+            M = Cm (Ta - Tb)
+        where:
+          M = snowmelt_temp in in/d (mm/d)
+          Cm = the degree-day coefficient in in/degree-day F (mm/degree-day C)
+          Ta = mean daily air temperature °F (°C)
+          Tb = base temperature °F (°C)
+       The coefficient Cm varies seasonally and by location.
+       Typical values are from 0.035 to 0.13 inches per degree-day Fahrenheit (1.6 to 6.0 mm/degree-day C).
+       A value of 0.060 inches per degree-day Fahrenheit (2.74 mm/degree-day C)
+       is often used when other information is lacking.
+     */
+    return temp_C * 2.74 * to_seconds<double>( duration ) / ( 3600. * 24. );
+}
+
+/**
+ * Converts sunlight in % (as returned by `incident_sunlight`) to W/m², using New England data
+ * @param sunlight_percent
+ * @return Direct normal radiation, in W/m²
+ */
+double sunlight_to_watts_per_m_sq( double sunlight_percent )
+{
+    // for New England yearly total GHI (Global Horizontal Irradiance) is ≈1387 kWh/m²
+    // cumulative "sunlight_percent" for one year, returned by `sum_conditions` is 1.64339e+09
+    // sanity check, for the "default daylight level" = 100, result of this function is ≈303W/m²
+    static double constexpr k = 1387.0f * 1000 * 3600 / 1.64339e+09;
+    return sunlight_percent * k;
+}
+
+/**
+ * Snowmelt modeling based on sun radiation
+ * @param incident_sunlight_percent
+ * @param period, melting period
+ * @return snow melt in mm (non-negative)
+ */
+double snowmelt_sun( double incident_sunlight_percent, time_duration period )
+{
+    // 1 langley = 41.84 kJ/m² (kWs/m²)
+    // 1 langley/day =  41.84 / (3600 * 24) kW
+    // From https://directives.sc.egov.usda.gov/OpenNonWebContent.aspx?content=17753.wba
+    // Solar part of melt is M = C * 0.02 I (1 - a)
+    // where:
+    //      C is some coefficient to "account for variability"
+    //      I is = incident solar radiation on a horizontal surface (langleys/day)
+    //      a is snow albedo ( could be averaged to 0.6 )
+    //  converting to SI,
+    //      M = C * 0.02 * 41.84 / (3600 * 24) * I * 1000 * 0.4 * period_s
+    //           where I is in W/m²
+    // sanity check, for full day in 100% sun (≈300W/m²) melt is 100mm (≈4")
+
+    // C is set to have snow melt match the real world statistical data, see "snow realism" test
+    static const double C = 0.00035;
+    static const double k = C * 0.02 * 41.84 / ( 3600.0 * 24.0 ) * 1000.0 * 0.4;
+    return std::max( 0., k * sunlight_to_watts_per_m_sq( incident_sunlight_percent ) *
+                     to_seconds<double>( period ) );
+}
+
 void weather_manager::update_weather()
 {
     w_point &w = *weather_precise;
@@ -1086,6 +1165,31 @@ void weather_manager::update_weather()
             here.set_seen_cache_dirty( tripoint_zero );
         }
     }
+
+    if( calendar::once_every( 30_seconds ) ) {
+        update_snow_level( current_weather( get_map().getabs( player_character.pos() ), calendar::turn ),
+                           calendar::turn, 30_seconds );
+    }
+}
+
+void weather_manager::update_snow_level( const weather_type_id &weather,  const time_point &t,
+        const time_duration period )
+{
+    double snowfall_mm = get_snowfall_mm( weather, period );
+    snow_level += snowfall_mm;
+    add_msg_debug( "snowfall: %.2fmm", snowfall_mm );
+    double snowmelt_mm = snowmelt_temp( temp_to_celsius( temperature ), period ) +
+                         snowmelt_sun( incident_sunlight( weather, t ), period );
+    snowmelt_mm = std::max( snowmelt_mm, 0. );
+
+    add_msg_debug( "snowmelt_temp: %.2fmm", snowmelt_mm );
+    snow_level -= snowmelt_mm;
+
+    /* Cap accumulated snow level by 3m.
+     * It will also be effectively capped by the max intensity level of the fd_snow.
+     * The `snow_level` above the max field intensity only affects how long the snowpack will melt.
+     * */
+    snow_level = clamp( snow_level, 0., 3000. );
 }
 
 void weather_manager::set_nextweather( time_point t )
@@ -1124,6 +1228,15 @@ int weather_manager::get_temperature( const tripoint_abs_omt &location )
 void weather_manager::clear_temp_cache()
 {
     temperature_cache.clear();
+}
+
+double weather_manager::get_snowfall_mm( const weather_type_id &weather,
+        const time_duration period )
+{
+    if( weather->snows ) {
+        return snow_mm_per_hour( weather->precip ) / 3600.0 * to_seconds<double>( period );
+    }
+    return 0;
 }
 
 ///@}
