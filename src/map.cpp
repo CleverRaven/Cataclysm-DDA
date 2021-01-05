@@ -7564,7 +7564,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
 
         for( int j = 0; j < i.count; j++ ) {
             monster tmp( i.type );
-            if( i.mission_id >= 0 ) {
+            if( i.mission_id > 0 ) {
                 tmp.mission_ids = { i.mission_id };
             }
             if( i.name != "NONE" ) {
