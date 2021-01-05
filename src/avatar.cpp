@@ -1036,7 +1036,7 @@ nc_color avatar::basic_symbol_color() const
 
 int avatar::print_info( const catacurses::window &w, int vStart, int, int column ) const
 {
-    return vStart + fold_and_print( w, point( column, vStart ), getmaxx( w ), c_dark_gray,
+    return vStart + fold_and_print( w, point( column, vStart ), getmaxx( w ) - column - 1, c_dark_gray,
                                     _( "You (%s)" ),
                                     name ) - 1;
 }
