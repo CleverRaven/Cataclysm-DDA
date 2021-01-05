@@ -698,7 +698,7 @@
     "type": "profession",
     "id": "major-general",
     "name": "Major General",
-    "description": "You worked your way up through the ranks, from a no-name private, to a big shot Major General.  Now however, it is years since you last fired a weapon in anger, and you barely escaped your aides.  ",
+    "description": "You worked your way up through the ranks, from a no-name private, to a big shot Major General.  Now however, it is years since you last fired a weapon in anger, and you barely escaped your aides.",
     "points": 4,
     "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [
@@ -769,7 +769,7 @@
     "type": "profession",
     "id": "combat-mechanic",
     "name": "Combat Mechanic",
-    "description": "You failed out of high school, and joined the army.  You were soon hand picked for extra training in the mechanics trade, keeping the armour running. It's been years since you last touched a rifle, and the dead men are marching again...",
+    "description": "You failed out of high school, and joined the army.  You were soon hand picked for extra training in the mechanics trade, keeping the armour running.  It's been years since you last touched a rifle, and the dead men are marching again…",
     "points": 4,
     "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [
@@ -814,7 +814,7 @@
     "type": "profession",
     "id": "combat-engineer",
     "name": "Combat Engineer",
-    "description": "Your job was simple. Keep the army moving.  You built bridges, you built roads, you destroyed fortifications, and you cleared mines.  It has been years since you last handled a rifle in basic training, now might be the time to dust off those skills.",
+    "description": "Your job was simple.  Keep the army moving.  You built bridges, you built roads, you destroyed fortifications, and you cleared mines.  It has been years since you last handled a rifle in basic training, now might be the time to dust off those skills.",
     "points": 6,
     "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [
@@ -859,7 +859,7 @@
     "type": "profession",
     "id": "nco",
     "name": "Non Comissioned Officer",
-    "description": "You're a veteran of several peace keeping missions.  You lead your squad as a sort of parental figure, offering helpful advice on how not to die.  Now your squad are shambling and want to eat your brains.  ",
+    "description": "You're a veteran of several peace keeping missions.  You lead your squad as a sort of parental figure, offering helpful advice on how not to die.  Now your squad are shambling and want to eat your brains.",
     "points": 7,
     "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [
