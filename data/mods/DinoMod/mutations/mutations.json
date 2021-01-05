@@ -107,7 +107,7 @@
         "bullet": 1
       }
     ],
-    "passive_mods": { "dexmod": -1 }
+    "passive_mods": { "dex_mod": -1 }
   },
   {
     "type": "mutation",
@@ -318,49 +318,49 @@
     "type": "mutation",
     "id": "MUT_TOUGH",
     "copy-from": "MUT_TOUGH",
-    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT" ] }
   },
   {
     "type": "mutation",
     "id": "MUT_TOUGH2",
     "copy-from": "MUT_TOUGH2",
-    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT" ] }
   },
   {
     "type": "mutation",
     "id": "MUT_TOUGH3",
     "copy-from": "MUT_TOUGH3",
-    "extend": { "category": [ "STEGO" ], "threshreq": [ "STEGO" ] }
+    "extend": { "category": [ "STEGO" ], "threshreq": [ "THRESH_STEGO" ] }
   },
   {
     "type": "mutation",
     "id": "PRED1",
     "copy-from": "PRED1",
-    "extend": { "category": [ "TYRANT" ], "threshreq": [ "TYRANT" ] }
+    "extend": { "category": [ "TYRANT" ], "threshreq": [ "THRESH_TYRANT" ] }
   },
   {
     "type": "mutation",
     "id": "PRED2",
     "copy-from": "PRED2",
-    "extend": { "category": [ "TYRANT" ], "threshreq": [ "TYRANT" ] }
+    "extend": { "category": [ "TYRANT" ], "threshreq": [ "THRESH_TYRANT" ] }
   },
   {
     "type": "mutation",
     "id": "PRED3",
     "copy-from": "PRED3",
-    "extend": { "category": [ "TYRANT" ], "threshreq": [ "TYRANT" ] }
+    "extend": { "category": [ "TYRANT" ], "threshreq": [ "THRESH_TYRANT" ] }
   },
   {
     "type": "mutation",
     "id": "PRED4",
     "copy-from": "PRED4",
-    "extend": { "category": [ "TYRANT" ], "threshreq": [ "TYRANT" ] }
+    "extend": { "category": [ "TYRANT" ], "threshreq": [ "THRESH_TYRANT" ] }
   },
   {
     "type": "mutation",
     "id": "SAPIOVORE",
     "copy-from": "SAPIOVORE",
-    "extend": { "category": [ "TYRANT" ], "threshreq": [ "TYRANT" ] }
+    "extend": { "category": [ "TYRANT" ], "threshreq": [ "THRESH_TYRANT" ] }
   },
   {
     "type": "mutation",
@@ -372,7 +372,7 @@
     "type": "mutation",
     "id": "LARGE_OK",
     "copy-from": "LARGE_OK",
-    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT" ] }
   },
   {
     "type": "mutation",
@@ -384,7 +384,7 @@
     "type": "mutation",
     "id": "HUGE_OK",
     "copy-from": "HUGE_OK",
-    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT" ] }
   },
   {
     "type": "mutation",
@@ -420,6 +420,6 @@
     "type": "mutation",
     "id": "COLDBLOOD4",
     "copy-from": "COLDBLOOD4",
-    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT" ] }
   }
 ]
