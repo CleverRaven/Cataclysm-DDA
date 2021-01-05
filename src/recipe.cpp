@@ -627,7 +627,7 @@ static std::string profstring( const prof_penalty &prof,
 
     return string_format(
                _( "<color_%s>%s</color> (<color_%s>%gx\u00a0time, %gx\u00a0failure</color>%s)" ),
-               name_color, prof.id->name(), name_color, prof.time_mult, prof.failure_mult, mitigated_str );
+               name_color, prof.id->name(), color, prof.time_mult, prof.failure_mult, mitigated_str );
 }
 
 std::string recipe::used_proficiencies_string( const Character *c ) const
