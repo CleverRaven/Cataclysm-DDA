@@ -1110,8 +1110,8 @@ monster_attitude monster::attitude( const Character *u ) const
                 effective_anger -= 10;
             }
         }
-
-        if( faction == u->get_faction()->mon_faction ) {
+        auto *u_fac = u->get_faction();
+        if( u_fac && faction == u_fac->mon_faction ) {
             return MATT_FRIEND;
         }
 
