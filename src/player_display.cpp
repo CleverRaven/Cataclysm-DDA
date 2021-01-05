@@ -636,13 +636,13 @@ static void draw_bionics_tab( const catacurses::window &w_bionics,
     std::string power_unit;
     if( you.get_power_level() < 1_J ) {
         power_amount = units::to_millijoule( you.get_power_level() );
-        power_unit = "mJ";
+        power_unit = pgettext( "energy unit: millijoule", "mJ" );
     } else if( you.get_power_level() < 1_kJ ) {
         power_amount = units::to_joule( you.get_power_level() );
-        power_unit = "J";
+        power_unit = pgettext( "energy unit: joule", "J" );
     } else {
         power_amount = units::to_kilojoule( you.get_power_level() );
-        power_unit = "kJ";
+        power_unit = pgettext( "energy unit: kilojoule", "kJ" );
     }
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
