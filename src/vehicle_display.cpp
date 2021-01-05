@@ -478,3 +478,29 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
         }
     }
 }
+
+void vehicle::print_speed_gauge( const catacurses::window &win, const point &p,
+                                 unsigned int spacing )
+{
+    if( !cruise_on ) {
+        return;
+    }
+    // target speed > current speed
+    const float strain = this->strain();
+    nc_color col_vel = strain <= 0 ? c_light_blue :
+                       ( strain <= 0.2 ? c_yellow :
+                         ( strain <= 0.4 ? c_light_red : c_red ) );
+    int t_speed = static_cast<int>( convert_velocity( cruise_velocity, VU_VEHICLE ) );
+    int c_speed = static_cast<int>( convert_velocity( velocity, VU_VEHICLE ) );
+
+    int offset = t_speed == 0 ? 1 :
+                 ( t_speed > 0 ?
+                   static_cast<int>( std::log10( static_cast<double>( std::abs( t_speed ) ) ) ) + 1 :
+                   static_cast<int>( std::log10( static_cast<double>( std::abs( t_speed ) ) ) ) + 2 );
+
+    const std::string type = get_option<std::string> ( "USE_METRIC_SPEEDS" );
+    mvwprintz( win, p, c_light_gray, "%s :", type );
+    mvwprintz( win, p + point( type.length() + 2 + spacing,  0 ), c_light_green, "%d", t_speed );
+    mvwprintz( win, p + point( type.length() + 2 + 2 * spacing + offset, 0 ), c_light_gray, "%s", ">" );
+    mvwprintz( win, p + point( type.length() + 3 + 3 * spacing + offset, 0 ), col_vel, "%d", c_speed );
+}
