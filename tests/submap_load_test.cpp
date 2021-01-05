@@ -287,9 +287,9 @@ static std::istringstream submap_field_ss(
     "    0, 0, [ \"fd_laser\", 1, 1997 ],\n"
     "    0, 11, [ \"fd_acid\", 2, 2003 ],\n"
     "    11, 0, [ \"fd_web\", 3, 2077 ],\n"
-    "    11, 0, [ \"fd_smoke\", 4, 3004 ],\n"
-    "    11, 11, [ \"fd_electricity\", 5, 1482 ],\n"
-    "    4, 7, [ \"fd_nuke_gas\", 6, 1615 ]\n"
+    "    11, 0, [ \"fd_smoke\", 2, 3004 ],\n"
+    "    11, 11, [ \"fd_electricity\", 3, 1482 ],\n"
+    "    4, 7, [ \"fd_nuke_gas\", 1, 1615 ]\n"
     "  ],\n"
     "  \"cosmetics\": [ ],\n"
     "  \"spawns\": [ ],\n"
@@ -1111,37 +1111,47 @@ TEST_CASE( "submap_field_load", "[submap][load]" )
     REQUIRE( fd_se != nullptr );
     REQUIRE( fd_ra != nullptr );
 
-    // We placed a unique item in a couple of places. Check that those are correct
-    INFO( string_format( "nw: %d %s %d %d %s %d %d", field_nw.field_count(),
-                         fd_nw->get_field_type().id().str(), fd_nw->get_field_intensity(),
-                         to_turns<int>( fd_nw->get_field_age() ), fd_ow->get_field_type().id().str(),
-                         fd_ow->get_field_intensity(),
-                         to_turns<int>( fd_ow->get_field_age() ) ) );
-    INFO( string_format( "ne: %d %s %d %d", field_ne.field_count(),
-                         fd_ne->get_field_type().id().str(), fd_ne->get_field_intensity(),
-                         to_turns<int>( fd_ne->get_field_age() ) ) );
-    INFO( string_format( "sw: %d %s %d %d", field_sw.field_count(),
-                         fd_sw->get_field_type().id().str(), fd_sw->get_field_intensity(),
-                         to_turns<int>( fd_sw->get_field_age() ) ) );
-    INFO( string_format( "se: %d %s %d %d", field_se.field_count(),
-                         fd_se->get_field_type().id().str(), fd_se->get_field_intensity(),
-                         to_turns<int>( fd_se->get_field_age() ) ) );
-    INFO( string_format( "ra: %d %s %d %d", field_ra.field_count(),
-                         fd_ra->get_field_type().id().str(), fd_ra->get_field_intensity(),
-                         to_turns<int>( fd_ra->get_field_age() ) ) );
     // Require to prevent the lower CHECK from being spammy
-    REQUIRE( fd_nw->get_field_intensity() == 3 );
-    REQUIRE( fd_nw->get_field_age() == 2077_seconds );
-    REQUIRE( fd_ow->get_field_intensity() == 4 );
-    REQUIRE( fd_ow->get_field_age() == 3004_seconds );
-    REQUIRE( fd_ne->get_field_intensity() == 1 );
-    REQUIRE( fd_ne->get_field_age() == 1997_seconds );
-    REQUIRE( fd_sw->get_field_intensity() == 5 );
-    REQUIRE( fd_sw->get_field_age() == 1482_seconds );
-    REQUIRE( fd_se->get_field_intensity() == 2 );
-    REQUIRE( fd_se->get_field_age() == 2003_seconds );
-    REQUIRE( fd_ra->get_field_intensity() == 6 );
-    REQUIRE( fd_ra->get_field_age() == 1615_seconds );
+    {
+        INFO( string_format( "nw: %d %s %d %d %s %d %d", field_nw.field_count(),
+                             fd_nw->get_field_type().id().str(), fd_nw->get_field_intensity(),
+                             to_turns<int>( fd_nw->get_field_age() ), fd_ow->get_field_type().id().str(),
+                             fd_ow->get_field_intensity(),
+                             to_turns<int>( fd_ow->get_field_age() ) ) );
+
+        REQUIRE( fd_nw->get_field_intensity() == 3 );
+        REQUIRE( fd_nw->get_field_age() == 2077_seconds );
+        REQUIRE( fd_ow->get_field_intensity() == 2 );
+        REQUIRE( fd_ow->get_field_age() == 3004_seconds );
+    }
+    {
+        INFO( string_format( "ne: %d %s %d %d", field_ne.field_count(),
+                             fd_ne->get_field_type().id().str(), fd_ne->get_field_intensity(),
+                             to_turns<int>( fd_ne->get_field_age() ) ) );
+        REQUIRE( fd_ne->get_field_intensity() == 1 );
+        REQUIRE( fd_ne->get_field_age() == 1997_seconds );
+    }
+    {
+        INFO( string_format( "sw: %d %s %d %d", field_sw.field_count(),
+                             fd_sw->get_field_type().id().str(), fd_sw->get_field_intensity(),
+                             to_turns<int>( fd_sw->get_field_age() ) ) );
+        REQUIRE( fd_sw->get_field_intensity() == 3 );
+        REQUIRE( fd_sw->get_field_age() == 1482_seconds );
+    }
+    {
+        INFO( string_format( "se: %d %s %d %d", field_se.field_count(),
+                             fd_se->get_field_type().id().str(), fd_se->get_field_intensity(),
+                             to_turns<int>( fd_se->get_field_age() ) ) );
+        REQUIRE( fd_se->get_field_intensity() == 2 );
+        REQUIRE( fd_se->get_field_age() == 2003_seconds );
+    }
+    {
+        INFO( string_format( "ra: %d %s %d %d", field_ra.field_count(),
+                             fd_ra->get_field_type().id().str(), fd_ra->get_field_intensity(),
+                             to_turns<int>( fd_ra->get_field_age() ) ) );
+        REQUIRE( fd_ra->get_field_intensity() == 1 );
+        REQUIRE( fd_ra->get_field_age() == 1615_seconds );
+    }
 
     // Also, check we have no other fields
     for( int y = 0; y < SEEY; ++y ) {
