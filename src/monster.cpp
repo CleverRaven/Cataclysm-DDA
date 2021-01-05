@@ -1111,6 +1111,10 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
+        if( faction == u->get_faction()->mon_faction ) {
+            return MATT_FRIEND;
+        }
+
         if( type->in_species( species_FUNGUS ) && ( u->has_trait( trait_THRESH_MYCUS ) ||
                 u->has_trait( trait_MYCUS_FRIEND ) ) ) {
             return MATT_FRIEND;
