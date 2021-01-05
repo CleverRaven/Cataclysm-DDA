@@ -675,7 +675,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         // return legacy workers
         comp_list npc_list = get_mission_workers( "_faction_upgrade_exp_" + dir_id );
         if( !npc_list.empty() ) {
-            const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_upgrade_exp_" ];
+            const base_camps::miss_data &miss_info = base_camps::miss_info["_faction_upgrade_exp_"];
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( "Recover Ally, " + dir_id + " Expansion",
@@ -684,28 +684,25 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         }
         // Generate upgrade missions for expansions
         std::vector<basecamp_upgrade> upgrades = available_upgrades( dir );
-        std::vector<size_t> order( upgrades.size() );
-        std::iota( order.begin(), order.end(), 0 );
 
-        std::sort( order.begin(), order.end(), [upgrades]( const size_t &p, const size_t &q )->bool {
-            return upgrades[p].name.translated_lt( upgrades[q].name );
-        } );
+        std::sort( upgrades.begin(), upgrades.end(), []( const basecamp_upgrade & p,
+                   const basecamp_upgrade & q )->bool {return p.name.translated_lt( q.name ); } );
 
-        for( const size_t index : order ) {
+        for( const basecamp_upgrade upgrade : upgrades ) {
             const base_camps::miss_data &miss_info = base_camps::miss_info["_faction_upgrade_exp_"];
-            comp_list npc_list = get_mission_workers( upgrades[index].bldg + "_faction_upgrade_exp_" +
+            comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_exp_" +
                                  dir_id );
             if( npc_list.empty() ) {
-                entry = om_upgrade_description( upgrades[index].bldg );
-                mission_key.add_start( dir_id + miss_info.miss_id + upgrades[index].bldg,
-                                       dir_abbr + miss_info.desc + " " + upgrades[index].name, dir, entry,
-                                       upgrades[index].avail );
+                entry = om_upgrade_description( upgrade.bldg );
+                mission_key.add_start( dir_id + miss_info.miss_id + upgrade.bldg,
+                                       dir_abbr + miss_info.desc + " " + upgrade.name, dir, entry,
+                                       upgrade.avail );
             } else {
                 entry = miss_info.action.translated();
                 bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( "Recover Ally, " + dir_id + " Expansion" + upgrades[index].bldg,
+                mission_key.add_return( "Recover Ally, " + dir_id + " Expansion" + upgrade.bldg,
                                         _( "Recover Ally, " ) + dir_abbr + _( " Expansion" ) +
-                                        " " + upgrades[index].name, dir, entry, avail );
+                                        " " + upgrade.name, dir, entry, avail );
             }
         }
     }
@@ -1219,26 +1216,23 @@ void basecamp::get_available_missions( mission_data &mission_key )
                                 base_camps::base_dir, entry, avail );
     }
     std::vector<basecamp_upgrade> upgrades = available_upgrades( base_camps::base_dir );
-    std::vector<size_t> order( upgrades.size() );
-    std::iota( order.begin(), order.end(), 0 );
 
-    std::sort( order.begin(), order.end(), [upgrades]( const size_t &p, const size_t &q )->bool {
-        return upgrades[p].name.translated_lt( upgrades[q].name );
-    } );
+    std::sort( upgrades.begin(), upgrades.end(), []( const basecamp_upgrade & p,
+               const basecamp_upgrade & q )->bool {return p.name.translated_lt( q.name ); } );
 
-    for( const size_t index : order ) {
+    for( const basecamp_upgrade upgrade : upgrades ) {
         const base_camps::miss_data &miss_info = base_camps::miss_info["_faction_upgrade_camp"];
-        comp_list npc_list = get_mission_workers( upgrades[index].bldg + "_faction_upgrade_camp" );
-        if( npc_list.empty() && !upgrades[index].in_progress ) {
-            entry = om_upgrade_description( upgrades[index].bldg );
-            mission_key.add_start( miss_info.miss_id + upgrades[index].bldg,
-                                   miss_info.desc + " " + upgrades[index].name, base_camps::base_dir,
-                                   entry, upgrades[index].avail );
-        } else if( !npc_list.empty() && upgrades[index].in_progress ) {
+        comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_camp" );
+        if( npc_list.empty() && !upgrade.in_progress ) {
+            entry = om_upgrade_description( upgrade.bldg );
+            mission_key.add_start( miss_info.miss_id + upgrade.bldg,
+                                   miss_info.desc + " " + upgrade.name, base_camps::base_dir,
+                                   entry, upgrade.avail );
+        } else if( !npc_list.empty() && upgrade.in_progress ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id + upgrades[index].bldg,
-                                    miss_info.ret_desc + " " + upgrades[index].name, base_camps::base_dir,
+            mission_key.add_return( miss_info.ret_miss_id + upgrade.bldg,
+                                    miss_info.ret_desc + " " + upgrade.name, base_camps::base_dir,
                                     entry, avail );
         }
     }
