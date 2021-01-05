@@ -1769,10 +1769,13 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
 {
 
     comp_selection<tool_comp> selected;
-    int full_craft_charges = 1;
-    auto calc_charges = [&]( const tool_comp & t ) {
-        full_craft_charges = item::find_type( t.type )->charge_factor() * t.count * batch;
+    auto calc_charges = [&]( const tool_comp & t, bool ui = false ) {
+        const int full_craft_charges = item::find_type( t.type )->charge_factor() * t.count * batch;
         const int modified_charges = charges_required_modifier( full_craft_charges );
+        if( ui ) {
+            return std::max( full_craft_charges, 1 );
+        }
+
         return std::max( modified_charges, 1 );
     };
 
@@ -1824,11 +1827,10 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
     } else { // Variety of options, list them and pick one
         // Populate the list
         uilist tmenu;
-        const int charge_count = std::max( full_craft_charges, 1 );
         for( auto &map_ha : map_has ) {
             if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
                 std::string tmpStr = string_format( _( "%s (%d/%d charges nearby)" ),
-                                                    item::nname( map_ha.type ), charge_count,
+                                                    item::nname( map_ha.type ), calc_charges( map_ha, true ),
                                                     map_inv.charges_of( map_ha.type ) );
                 tmenu.addentry( tmpStr );
             } else {
@@ -1839,7 +1841,7 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
         for( auto &player_ha : player_has ) {
             if( item::find_type( player_ha.type )->maximum_charges() > 1 ) {
                 std::string tmpStr = string_format( _( "%s (%d/%d charges on person)" ),
-                                                    item::nname( player_ha.type ), charge_count,
+                                                    item::nname( player_ha.type ), calc_charges( player_ha, true ),
                                                     charges_of( player_ha.type ) );
                 tmenu.addentry( tmpStr );
             } else {
@@ -1849,7 +1851,7 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
         for( auto &both_ha : both_has ) {
             if( item::find_type( both_ha.type )->maximum_charges() > 1 ) {
                 std::string tmpStr = string_format( _( "%s (%d/%d charges nearby or on person)" ),
-                                                    item::nname( both_ha.type ), charge_count,
+                                                    item::nname( both_ha.type ), calc_charges( both_ha, true ),
                                                     charges_of( both_ha.type ) );
                 tmenu.addentry( tmpStr );
             } else {
