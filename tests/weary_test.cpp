@@ -26,6 +26,8 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 {
     const avatar &guy = get_avatar();
 
+    clear_avatar();
+
     tasklist desk_8h;
     desk_8h.enschedule( task_firstaid, 8_hours );
 
@@ -40,6 +42,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 
     SECTION( "Light tasks" ) {
         INFO( "\nFirst Aid 8 hours:" );
+        INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( desk_8h );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
@@ -49,6 +52,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 
     SECTION( "Moderate tasks" ) {
         INFO( "\nPlanting 8 hours:" );
+        INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( moderate_8h );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
@@ -59,6 +63,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 
     SECTION( "Heavy tasks" ) {
         INFO( "\nDigging Pits 8 hours:" );
+        INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( soldier_8h );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
@@ -86,6 +91,8 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 TEST_CASE( "weary_recovery", "[weary][activities]" )
 {
     const avatar &guy = get_avatar();
+
+    clear_avatar();
 
     tasklist soldier_8h;
     soldier_8h.enschedule( task_dig, 8_hours );
@@ -115,6 +122,7 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
 
     SECTION( "Heavy tasks" ) {
         INFO( "\nDigging Pits 8 hours, then waiting 8:" );
+        INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( soldier_8h );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
@@ -126,6 +134,7 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
 
     SECTION( "1 day vehicle work" ) {
         INFO( "\n3 meals, 10h vehicle work, 4h reading, 10h sleep, 16h waiting" );
+        INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( mechanic_day );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
@@ -141,6 +150,8 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
 {
     const avatar &guy = get_avatar();
 
+    clear_avatar();
+
     tasklist waiting_24h;
     waiting_24h.enschedule( task_wait, 24_hours );
 
@@ -148,6 +159,7 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
     digging_24h.enschedule( task_dig, 24_hours );
 
     SECTION( "Waiting 24 hours" ) {
+        INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( waiting_24h );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
@@ -156,6 +168,7 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
     }
 
     SECTION( "Digging 24 hours" ) {
+        INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( digging_24h );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
@@ -164,7 +177,7 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
         CHECK( info.transition_minutes( 1, 2, 255_minutes ) == Approx( 255 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 4, 5, 585_minutes ) == Approx( 590 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 4, 5, 585_minutes ) == Approx( 585 ).margin( 5 ) );
         CHECK( info.transition_minutes( 5, 6, 725_minutes ) == Approx( 725 ).margin( 10 ) );
         CHECK( info.transition_minutes( 6, 7, 810_minutes ) == Approx( 810 ).margin( 10 ) );
         CHECK( info.transition_minutes( 7, 8, 890_minutes ) == Approx( 890 ).margin( 10 ) );

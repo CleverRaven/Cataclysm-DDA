@@ -9,6 +9,7 @@
 #include "item.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "map_helpers.h"
 #include "monster.h"
 #include "mtype.h"
 #include "pimpl.h"
@@ -37,6 +38,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
 {
     clear_avatar();
     player &player_character = get_avatar();
+    clear_map();
 
     g->clear_zombies();
     item &test_item = player_character.i_add( item( "bot_manhack", calendar::turn_zero,

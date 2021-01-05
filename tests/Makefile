@@ -61,7 +61,7 @@ $(PCH_P): $(PCH_H)
 
 # Iterate over all the individual tests.
 check: $(TEST_TARGET)
-	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time
+	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time --order rand
 
 clean:
 	rm -rf *obj *objwin
