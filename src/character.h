@@ -35,6 +35,7 @@
 #include "item_location.h"
 #include "magic_enchantment.h"
 #include "memory_fast.h"
+#include "move_mode.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -710,7 +711,7 @@ class Character : public Creature, public visitable
         bool is_crouching() const;
 
         bool can_switch_to( const move_mode_id &mode ) const;
-
+        steed_type get_steed_type() const;
         virtual void set_movement_mode( const move_mode_id &mode ) = 0;
 
         /**Determine if character is susceptible to dis_type and if so apply the symptoms*/

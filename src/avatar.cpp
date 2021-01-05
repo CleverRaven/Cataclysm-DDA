@@ -1474,27 +1474,16 @@ faction *avatar::get_faction() const
 
 void avatar::set_movement_mode( const move_mode_id &new_mode )
 {
-    steed_type steed;
-    if( is_mounted() ) {
-        if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-            steed = steed_type::MECH;
-        } else {
-            steed = steed_type::ANIMAL;
-        }
-    } else {
-        steed = steed_type::NONE;
-    }
-
     if( can_switch_to( new_mode ) ) {
         if( is_hauling() && new_mode->stop_hauling() ) {
             stop_hauling();
         }
-        add_msg( new_mode->change_message( true, steed ) );
+        add_msg( new_mode->change_message( true, get_steed_type() ) );
         move_mode = new_mode;
         // crouching affects visibility
         get_map().set_seen_cache_dirty( pos().z );
     } else {
-        add_msg( new_mode->change_message( false, steed ) );
+        add_msg( new_mode->change_message( false, get_steed_type() ) );
     }
 }
 
