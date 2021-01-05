@@ -691,7 +691,7 @@
     "looks_like": "mon_copbot",
     "name": "advanced robot",
     "description": "An advanced robot still functioning due to its internal fusion core.  This model is armed with a powerful laser-emitter.",
-    "default_faction": "robot",
+    "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
     "hp": 100,
     "armor_bash": 8,
