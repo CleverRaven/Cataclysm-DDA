@@ -46,7 +46,7 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
             defender.set_hp( starting_hp );
 
             // Attack once
-            attacker.melee_attack( defender, false );
+            attacker.melee_attack_abstract( defender, false, matec_id( "" ) );
 
             // Tally total damage and moves
             total_damage += std::max( 0, starting_hp - defender.get_hp() );
