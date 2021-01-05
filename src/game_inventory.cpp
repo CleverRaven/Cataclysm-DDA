@@ -524,20 +524,18 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( []( const item_location & loc ) {
                 const int health = loc->is_comestible() ? loc->get_comestible()->healthy : 0;
-                if( health > 0 ) {
-                    //~This is good food/drink/drug as it boost your hidden health stat.
-                    return pgettext( "Good food/drink/drug", "<good>healthy</good>" );
-                } else if( health < -5 ) {
-                    //~This is dangerous food/drink/drug, really bad for your hidden health stat.
-                    return pgettext( "Really bad food/drink/drug", "<bad>dangerous</bad>" );
+                if( health > 3 ) {
+                    return _( "<good>+++</good>" );
+                } else if( health > 0 ) {
+                    return _( "<good>+</good>" );
+                } else if( health < -3 ) {
+                    return _( "<bad>!!!</bad>" );
                 } else if( health < 0 ) {
-                    //~This is bad food/drink/drug as it is negative for your hidden health stat.
-                    return pgettext( "Bad food/drink/drug", "<bad>unhealthy</bad>" );
+                    return _( "<bad>-</bad>" );
                 } else if( loc->is_medication() ) {
                     return "";
                 } else {
-                    //~This is food/drink/drug that has no effect on your hidden health stat.
-                    return pgettext( "food/drink/drug that is neither good or bad", "no effect" );
+                    return "";
                 }
             }, _( "HEALTH" ) );
 
