@@ -2351,7 +2351,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
                      skill_name );
         }
 
-        int chance_to_drop = focus_pool;
+        int chance_to_drop = std::max( focus_pool, amount * 10 );
         focus_pool -= chance_to_drop / 100;
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
@@ -2359,6 +2359,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
                 skill.is_combat_skill() ) ) ) {
             focus_pool--;
         }
+        focus_pool = std::max( focus_pool, 0 );
     }
 
     get_skill_level_object( id ).practice();
@@ -11580,8 +11581,9 @@ int Character::adjust_for_focus( int amount ) const
     }
     effective_focus += ( get_int() - get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
                        get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" );
+    effective_focus = std::max( effective_focus, 0 );
     double tmp = amount * ( effective_focus / 100.0 );
-    return roll_remainder( tmp );
+    return roll_remainder( std::min( effective_focus * 10.0, tmp ) );
 }
 
 std::set<tripoint> Character::get_path_avoid() const
