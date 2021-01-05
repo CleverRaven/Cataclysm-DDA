@@ -294,7 +294,7 @@ TEST_CASE( "weather realism", "[weather]" )
         const double at_least_light_precip = proportion_gteq_x(
                 hourly_precip, 1 );
         CHECK( at_least_light_precip >= .025 );
-        CHECK( at_least_light_precip <= .05 );
+        CHECK( at_least_light_precip <= .06 );
 
         // Likewise for heavy precipitation.
         const double heavy_precip = proportion_gteq_x(
