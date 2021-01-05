@@ -69,6 +69,19 @@ jobs:
             libsdl2-mixer-dev libpulse-dev ccache gettext
     - name: prepare
       run: bash ./build-scripts/requirements.sh
+    - name: Get Date
+      id: get-date
+      run: |
+        echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
+      shell: bash
+    - name: ccache cache files
+      uses: actions/cache@v2
+      with:
+        path: ~/.ccache
+        key: ccache-${{ steps.get-date.outputs.date }}
+        restore-keys: |
+          ccache-${{ steps.get-date.outputs.date }}
+          ccache-
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
       run: bash ./build-scripts/build.sh
