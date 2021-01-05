@@ -594,6 +594,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "fema_data",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str_sp": "FEMA data" },
+    "description": "Evacuation plans, disaster risk projections, personnel lists and last minute communications from just before the end, all scrubbed from FEMA servers and stored in an external hdd.",
+    "price": 10000,
+    "price_postapoc": 50,
+    "material": [ "plastic" ],
+    "weight": "30 g",
+    "volume": "250 ml",
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
     "id": "candlestick",
     "symbol": "/",
     "color": "yellow",
@@ -1605,10 +1619,21 @@
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
     "nanofab_template_group": "nanofab_recipes",
+    "template_requirements": "nanofabricator",
     "weight": "317 g",
     "volume": "250 ml",
     "to_hit": -1,
     "flags": [ "NANOFAB_TEMPLATE", "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "debug_template",
+    "copy-from": "standard_template_construct",
+    "color": "yellow",
+    "name": { "str": "nanofabricator template" },
+    "description": "A state-of-the-art optical storage system, containing the instruction set to replicate itself.",
+    "nanofab_template_group": "debug_template_item",
+    "template_requirements": "copper_scrap_equivalent"
   },
   {
     "type": "GENERIC",

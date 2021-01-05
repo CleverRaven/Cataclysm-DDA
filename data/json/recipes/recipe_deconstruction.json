@@ -3177,18 +3177,6 @@
     ]
   },
   {
-    "result": "radio_car_box",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "2 m",
-    "components": [
-      [ [ "radio_car", 1 ] ],
-      [ [ "radiocontrol", 1 ] ],
-      [ [ "light_minus_battery_cell", 1 ] ],
-      [ [ "light_battery_cell", 1 ] ]
-    ]
-  },
-  {
     "result": "radiocontrol",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

@@ -13,6 +13,7 @@
         "   d",
         " BBB"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -38,6 +39,7 @@
         "  cd",
         "  ix"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -65,6 +67,7 @@
         "  cd",
         "  dd"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -117,6 +120,7 @@
         "dc  ",
         "xi  "
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -144,6 +148,7 @@
         "dc  ",
         "dd  "
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -171,6 +176,7 @@
         "    ",
         " HHH"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -198,6 +204,7 @@
         "i  d",
         "  cd"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -225,6 +232,7 @@
         "  cd",
         "  dd"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -252,6 +260,7 @@
         "  cd",
         " xdd"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -279,6 +288,7 @@
         "    ",
         " iBB"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -306,6 +316,7 @@
         "B   ",
         "BBB "
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -333,6 +344,7 @@
         "d  i",
         "dc  "
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -360,6 +372,7 @@
         "dc  ",
         "dd  "
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -387,6 +400,7 @@
         "dc  ",
         "ddx "
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -414,6 +428,7 @@
         "    ",
         "BBi "
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "d": [ { "item": "office", "chance": 25, "repeat": [ 1, 3 ] }, { "item": "electronics", "chance": 15 } ],
         "H": { "item": "bed", "chance": 15 },
@@ -695,6 +710,7 @@
         "os   ",
         "bbbbS"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
         "f": { "item": "supplies_reagents_lab", "chance": 60, "repeat": [ 1, 5 ] },
@@ -722,6 +738,7 @@
         "     ",
         "f8SCh"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
         "f": { "item": "supplies_reagents_lab", "chance": 60, "repeat": [ 1, 5 ] },
@@ -749,6 +766,7 @@
         "bs  f",
         "bbSDC"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
         "f": { "item": "supplies_reagents_lab", "chance": 60, "repeat": [ 1, 5 ] },
@@ -776,6 +794,7 @@
         " sbs ",
         "fbbbf"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
         "f": { "item": "supplies_reagents_lab", "chance": 60, "repeat": [ 1, 5 ] },
@@ -804,6 +823,7 @@
         " s   ",
         "Fbhf8"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
         "f": { "item": "supplies_reagents_lab", "chance": 60, "repeat": [ 1, 5 ] },
@@ -832,6 +852,7 @@
         " sHs ",
         "bbMbb"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
         "f": { "item": "supplies_reagents_lab", "chance": 60, "repeat": [ 1, 5 ] },
@@ -860,6 +881,7 @@
         "#=#sb",
         "N #bb"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
         "f": { "item": "supplies_reagents_lab", "chance": 60, "repeat": [ 1, 5 ] },
@@ -888,6 +910,7 @@
         "|-|-|",
         "dc|cd"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "d": [
           { "item": "office", "chance": 50, "repeat": [ 2, 5 ] },
@@ -912,6 +935,7 @@
         "fsHs8",
         "bbMbb"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
         "f": { "item": "supplies_reagents_lab", "chance": 60, "repeat": [ 1, 5 ] },
@@ -943,7 +967,7 @@
         "  s  s  ",
         " sts    "
       ],
-      "terrain": { "r": "t_linoleum_white", "f": "t_linoleum_white" },
+      "terrain": { "r": "t_linoleum_white", "f": "t_linoleum_white", " ": "t_null" },
       "furniture": { "v": "f_glass_fridge" },
       "items": {
         "v": { "item": "coffee_shop", "chance": 90, "repeat": [ 2, 10 ] },
@@ -971,6 +995,7 @@
         "Httc    ",
         "HHc     "
       ],
+      "terrain": { " ": "t_null" },
       "furniture": { "c": [ "f_armchair", "f_armchair", "f_null", "f_null", "f_null", "f_null" ] },
       "items": { "t": { "item": "magazines", "chance": 20 } },
       "palettes": [ "lab_surface_palette" ]
@@ -994,6 +1019,7 @@
         "ctc  ctc",
         " c      "
       ],
+      "terrain": { " ": "t_null" },
       "furniture": { "c": "f_armchair" },
       "items": { "t": { "item": "magazines", "chance": 20 } },
       "palettes": [ "lab_surface_palette" ]
@@ -1017,6 +1043,7 @@
         "  x%%%  ",
         "  Cffr  "
       ],
+      "terrain": { " ": "t_null" },
       "furniture": { "f": "f_glass_fridge" },
       "items": {
         "f": { "item": "fridgesnacks", "chance": 90, "repeat": [ 2, 15 ] },
@@ -1047,6 +1074,7 @@
         "   ccccc   ",
         "           "
       ],
+      "terrain": { " ": "t_null" },
       "items": { "c": { "item": "office", "chance": 8 }, "t": { "item": "electronics", "chance": 15 } },
       "palettes": [ "lab_surface_palette" ]
     }
@@ -1072,7 +1100,7 @@
         "  dc dc dc ",
         "           "
       ],
-      "terrain": { "%": "t_carpet_concrete_yellow" },
+      "terrain": { " ": "t_null", "%": "t_carpet_concrete_yellow" },
       "items": { "d": { "item": "office", "chance": 8 } },
       "palettes": [ "lab_surface_palette" ]
     }
@@ -1098,7 +1126,7 @@
         " cxxc cxxc ",
         "           "
       ],
-      "terrain": { "%": "t_carpet_concrete_yellow" },
+      "terrain": { " ": "t_null" },
       "palettes": [ "lab_surface_palette" ]
     }
   },
@@ -1367,6 +1395,7 @@
         "Ull### llll",
         "   =H=    &"
       ],
+      "terrain": { " ": "t_null" },
       "furniture": { "H": "f_shower" },
       "items": {
         "b": [
@@ -1408,6 +1437,7 @@
         "f   & -  sb",
         "      #f &S"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
         "f": { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
@@ -1445,6 +1475,7 @@
         "S     e#Ull",
         "CC&    =   "
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
         "f": { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
@@ -1481,6 +1512,7 @@
         "llU#& -  sb",
         "   -  #S Fb"
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
         "f": { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
@@ -1518,6 +1550,7 @@
         "bs  - &#Ull",
         "bF S#  -   "
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
         "f": { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
@@ -1555,6 +1588,7 @@
         "bs    &#Ull",
         "bbG    -   "
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
         "f": { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
@@ -1591,6 +1625,7 @@
         "bs         ",
         "bbb& CSC&  "
       ],
+      "terrain": { " ": "t_null" },
       "items": {
         "b": [
           { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
@@ -1736,7 +1771,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-      "terrain": { "X": "t_strconc_floor" },
+      "terrain": { "X": "t_null" },
       "furniture": { "X": [ [ "f_cardboard_box", 2 ], [ "f_crate_c", 3 ], "f_crate_o" ] },
       "place_items": [ { "item": "supplies_reagents_lab", "x": 0, "y": 0, "chance": 90, "repeat": [ 5, 20 ] } ]
     }
@@ -1749,7 +1784,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-      "terrain": { "X": "t_strconc_floor" },
+      "terrain": { "X": "t_null" },
       "furniture": { "X": [ [ "f_cardboard_box", 2 ], [ "f_crate_c", 3 ], "f_crate_o" ] },
       "place_items": [ { "item": "tools_science", "x": 0, "y": 0, "chance": 90, "repeat": [ 5, 10 ] } ]
     }
@@ -1762,7 +1797,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-      "terrain": { "X": "t_strconc_floor" },
+      "terrain": { "X": "t_null" },
       "furniture": { "X": [ [ "f_cardboard_box", 2 ], [ "f_crate_c", 3 ], "f_crate_o" ] },
       "place_items": [ { "item": "electronics", "x": 0, "y": 0, "chance": 90, "repeat": [ 1, 10 ] } ]
     }
@@ -1775,7 +1810,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-      "terrain": { "X": "t_strconc_floor" },
+      "terrain": { "X": "t_null" },
       "furniture": { "X": [ [ "f_cardboard_box", 2 ], [ "f_crate_c", 3 ], "f_crate_o" ] },
       "place_items": [ { "item": "hardware_bulk", "x": 0, "y": 0, "chance": 90, "repeat": [ 1, 5 ] } ]
     }
@@ -1788,7 +1823,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-      "terrain": { "X": "t_strconc_floor" },
+      "terrain": { "X": "t_null" },
       "furniture": { "X": [ [ "f_cardboard_box", 2 ], [ "f_crate_c", 3 ], "f_crate_o" ] },
       "place_items": [ { "item": "produce", "x": 0, "y": 0, "chance": 90, "repeat": [ 5, 10 ] } ]
     }
@@ -1801,7 +1836,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-      "terrain": { "X": "t_strconc_floor" },
+      "terrain": { "X": "t_null" },
       "furniture": { "X": [ [ "f_cardboard_box", 2 ], [ "f_crate_c", 3 ], "f_crate_o" ] },
       "place_items": [ { "item": "supplies_samples_lab", "x": 0, "y": 0, "chance": 90, "repeat": [ 10, 20 ] } ]
     }
@@ -1814,7 +1849,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-      "terrain": { "X": "t_strconc_floor" },
+      "terrain": { "X": "t_null" },
       "furniture": { "X": [ [ "f_cardboard_box", 2 ], [ "f_crate_c", 3 ], "f_crate_o" ] },
       "place_items": [ { "item": "snacks", "x": 0, "y": 0, "chance": 50, "repeat": [ 5, 10 ] } ]
     }
@@ -1827,7 +1862,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "//": "Places a crate, 25% chance of being pre-opened.",
-      "terrain": { "X": "t_strconc_floor" },
+      "terrain": { "X": "t_null" },
       "furniture": { "X": [ [ "f_cardboard_box", 2 ], [ "f_crate_c", 3 ], "f_crate_o" ] },
       "place_items": [ { "item": "hospital_lab", "x": 0, "y": 0, "chance": 90, "repeat": [ 5, 10 ] } ]
     }
@@ -1839,7 +1874,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_strconc_floor" },
+      "terrain": { "X": "t_null" },
       "furniture": { "X": "f_sample_freezer" },
       "place_items": [ { "item": "supplies_reagents_lab", "x": 0, "y": 0, "chance": 70, "repeat": [ 1, 5 ] } ]
     }
@@ -1851,7 +1886,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_strconc_floor" },
+      "terrain": { "X": "t_null" },
       "furniture": { "X": "f_counter" },
       "place_items": [ { "item": "snacks", "x": 0, "y": 0, "chance": 60, "repeat": [ 1, 5 ] } ]
     }
@@ -1863,7 +1898,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_strconc_floor" },
+      "terrain": { "X": "t_null" },
       "furniture": { "X": "f_fridge" },
       "place_items": [
         { "item": "fridge", "x": 0, "y": 0, "chance": 60, "repeat": [ 1, 5 ] },
@@ -1878,7 +1913,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_strconc_floor" },
+      "terrain": { "X": "t_null" },
       "furniture": { "X": [ "f_IV_pole", "f_desk", "f_counter" ] }
     }
   },
@@ -1889,7 +1924,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_strconc_floor" },
+      "terrain": { "X": "t_null" },
       "furniture": { "X": [ "f_autoclave", "f_console_broken", "f_centrifuge" ] }
     }
   },
@@ -1900,7 +1935,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_strconc_floor" },
+      "terrain": { "X": "t_null" },
       "furniture": { "X": [ "f_machinery_old", "f_machinery_light", "f_machinery_electronic" ] }
     }
   },
@@ -1911,7 +1946,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
-      "terrain": { "X": "t_strconc_floor" },
+      "terrain": { "X": "t_null" },
       "furniture": { "X": "f_glass_cabinet" },
       "place_items": [ { "item": "lab_bookshelves", "x": 0, "y": 0, "chance": 70, "repeat": [ 1, 5 ] } ]
     }

@@ -1646,6 +1646,8 @@ class vehicle
         // returns whether the door is open or not
         bool is_open( int part_index ) const;
 
+        bool can_close( int part_index, Character &who );
+
         // Consists only of parts with the FOLDABLE tag.
         bool is_foldable() const;
         // Restore parts of a folded vehicle.

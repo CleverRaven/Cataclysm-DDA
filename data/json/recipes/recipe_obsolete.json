@@ -16,6 +16,36 @@
   },
   {
     "type": "recipe",
+    "result": "radio_car_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "1st_aid",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ifak",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "toolbox",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_belt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_belt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "survival_kit",
     "obsolete": true
   },

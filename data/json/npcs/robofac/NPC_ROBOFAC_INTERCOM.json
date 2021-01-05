@@ -287,10 +287,44 @@
     },
     "responses": [
       {
+        "text": "I was sent here by the traders at the refugee center.  They told me to deliver this hdd drive to you.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" } },
+            {
+              "not": { "u_has_var": "completed_free_merchants_hub_delivery_1", "type": "dialogue", "context": "intercom", "value": "yes" }
+            },
+            { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_1"
+      },
+      {
+        "text": "The traders also mentioned you were looking for help.",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" } },
+            {
+              "u_has_var": "completed_free_merchants_hub_delivery_1",
+              "type": "dialogue",
+              "context": "intercom",
+              "value": "yes"
+            }
+          ]
+        },
+        "trial": { "type": "LIE", "difficulty": 1 },
+        "success": { "topic": "MISSION_ROBOFAC_INTERCOM_1_INTRODUCTION" },
+        "failure": { "topic": "MISSION_ROBOFAC_INTERCOM_1_INTRODUCTION" }
+      },
+      {
         "text": "Wait!  What??",
         "condition": {
           "and": [
             { "not": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" } },
+            {
+              "not": { "u_has_var": "completed_free_merchants_hub_delivery_1", "type": "dialogue", "context": "intercom", "value": "yes" }
+            },
+            { "not": { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" } },
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" } }
           ]
         },
@@ -301,6 +335,10 @@
         "condition": {
           "and": [
             { "not": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" } },
+            {
+              "not": { "u_has_var": "completed_free_merchants_hub_delivery_1", "type": "dialogue", "context": "intercom", "value": "yes" }
+            },
+            { "not": { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" } },
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" } }
           ]
         },
@@ -311,6 +349,10 @@
         "condition": {
           "and": [
             { "not": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" } },
+            {
+              "not": { "u_has_var": "completed_free_merchants_hub_delivery_1", "type": "dialogue", "context": "intercom", "value": "yes" }
+            },
+            { "not": { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" } },
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" } }
           ]
         },
@@ -334,7 +376,7 @@
         "truefalsetext": {
           "condition": { "npc_has_effect": "npc_said" },
           "true": "There are other things I need to bring up…",
-          "false": "We have nothing else to offer currently."
+          "false": "[Identify yourself before the Intercom]"
         },
         "condition": {
           "and": [
@@ -528,6 +570,28 @@
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
       { "text": "I have to give it a thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_FREE_MERCHANT_DELIVERY_1",
+    "type": "talk_topic",
+    "dynamic_line": "Understood.  Please drop the drive on the box embedded beneath the intercom.  You are welcome to leave afterwards.",
+    "responses": [
+      {
+        "text": "[Do as the Intercom Says]",
+        "condition": { "u_has_items": { "item": "fema_data", "count": 1 } },
+        "effect": [
+          { "u_sell_item": "fema_data", "count": 1 },
+          {
+            "u_add_var": "completed_free_merchants_hub_delivery_1",
+            "type": "dialogue",
+            "context": "intercom",
+            "value": "yes"
+          }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Didn't bring the hdd now, let me return with it.", "topic": "TALK_DONE" }
     ]
   },
   {
