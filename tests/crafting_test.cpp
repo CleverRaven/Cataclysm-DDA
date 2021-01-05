@@ -293,6 +293,21 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
     }
 }
 
+static void give_tools( const std::vector<item> &tools )
+{
+    Character &player_character = get_player_character();
+    player_character.worn.clear();
+    player_character.calc_encumbrance();
+    player_character.inv->clear();
+    player_character.remove_weapon();
+    const item backpack( "debug_backpack" );
+    player_character.worn.push_back( backpack );
+
+    for( const item &gear : tools ) {
+        player_character.i_add( gear );
+    }
+}
+
 static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
                         bool expect_craftable )
 {
@@ -302,12 +317,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     const tripoint test_origin( 60, 60, 0 );
     Character &player_character = get_player_character();
     player_character.setpos( test_origin );
-    const item backpack( "backpack" );
-    player_character.worn.push_back( backpack );
-    player_character.worn.push_back( backpack );
-    for( const item &gear : tools ) {
-        player_character.i_add( gear );
-    }
+    give_tools( tools );
 
     const recipe &r = rid.obj();
 
@@ -321,16 +331,12 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     player_character.moves--;
     const inventory &crafting_inv = player_character.crafting_inventory();
 
-    SECTION( "can craft with crafting inv" ) {
-        bool can_craft = r.deduped_requirements().can_make_with_inventory(
-                             crafting_inv, r.get_component_filter() );
-        REQUIRE( can_craft == expect_craftable );
-    }
-    SECTION( "can craft with temp inv" ) {
-        bool can_craft = r.deduped_requirements().can_make_with_inventory(
-                             temp_crafting_inventory( crafting_inv ), r.get_component_filter() );
-        REQUIRE( can_craft == expect_craftable );
-    }
+    bool can_craft_with_crafting_inv = r.deduped_requirements().can_make_with_inventory(
+                                           crafting_inv, r.get_component_filter() );
+    REQUIRE( can_craft_with_crafting_inv == expect_craftable );
+    bool can_craft_with_temp_inv = r.deduped_requirements().can_make_with_inventory(
+                                       temp_crafting_inventory( crafting_inv ), r.get_component_filter() );
+    REQUIRE( can_craft_with_temp_inv == expect_craftable );
 }
 
 static time_point midnight = calendar::turn_zero + 0_hours;
@@ -349,10 +355,9 @@ static void set_time( const time_point &time )
 
 // This tries to actually run the whole craft activity, which is more thorough,
 // but slow
-static int actually_test_craft( const recipe_id &rid, const std::vector<item> &tools,
-                                int interrupt_after_turns )
+static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
+                                int skill_level = -1 )
 {
-    prep_craft( rid, tools, true );
     set_time( midday ); // Ensure light for crafting
     avatar &player_character = get_avatar();
     const recipe &rec = rid.obj();
@@ -371,12 +376,16 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> &t
     REQUIRE( player_character.activity.id() == activity_id( "ACT_CRAFT" ) );
     int turns = 0;
     while( player_character.activity.id() == activity_id( "ACT_CRAFT" ) ) {
-        if( turns >= interrupt_after_turns ) {
+        if( turns >= interrupt_after_turns ||
+            ( skill_level >= 0 && player_character.get_skill_level( rec.skill_used ) > skill_level ) ) {
             set_time( midnight ); // Kill light to interrupt crafting
         }
         ++turns;
         player_character.moves = 100;
         player_character.activity.do_turn( player_character );
+        if( turns % 60 == 0 ) {
+            player_character.update_mental_focus();
+        }
     }
     return turns;
 }
@@ -430,7 +439,8 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             tools.push_back( soldering );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
-                int turns = actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
+                prep_craft( recipe_id( "carver_off" ), tools, true );
+                int turns = actually_test_craft( recipe_id( "carver_off" ), INT_MAX );
                 CAPTURE( turns );
                 CHECK( get_remaining_charges( "hotplate" ) == 10 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
@@ -442,7 +452,8 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             tools.insert( tools.end(), 2, tool_with_ammo( "soldering_iron", 5 ) );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
-                actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
+                prep_craft( recipe_id( "carver_off" ), tools, true );
+                actually_test_craft( recipe_id( "carver_off" ), INT_MAX );
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
             }
@@ -462,7 +473,8 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             tools.emplace_back( UPS );
 
             THEN( "crafting succeeds, and uses charges from the UPS" ) {
-                actually_test_craft( recipe_id( "carver_off" ), tools, INT_MAX );
+                prep_craft( recipe_id( "carver_off" ), tools, true );
+                actually_test_craft( recipe_id( "carver_off" ), INT_MAX );
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
                 CHECK( get_remaining_charges( "UPS_off" ) == 480 );
@@ -561,6 +573,9 @@ static int resume_craft()
         ++turns;
         player_character.moves = 100;
         player_character.activity.do_turn( player_character );
+        if( turns % 60 == 0 ) {
+            player_character.update_mental_focus();
+        }
     }
     return turns;
 }
@@ -607,7 +622,8 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
         WHEN( "crafting begins, and continues until the craft is completed" ) {
             tools.emplace_back( "razor_blade", calendar::turn_zero, 1 );
             tools.emplace_back( "plastic_chunk", calendar::turn_zero, 1 );
-            actual_turns_taken = actually_test_craft( test_recipe, tools, INT_MAX );
+            prep_craft( test_recipe, tools, true );
+            actual_turns_taken = actually_test_craft( test_recipe, INT_MAX );
 
             THEN( "it should take the expected number of turns" ) {
                 CHECK( actual_turns_taken == expected_turns_taken );
@@ -621,7 +637,8 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
         WHEN( "crafting begins, but is interrupted after 2 turns" ) {
             tools.emplace_back( "razor_blade", calendar::turn_zero, 1 );
             tools.emplace_back( "plastic_chunk", calendar::turn_zero, 1 );
-            actual_turns_taken = actually_test_craft( test_recipe, tools, 2 );
+            prep_craft( test_recipe, tools, true );
+            actual_turns_taken = actually_test_craft( test_recipe, 2 );
             REQUIRE( actual_turns_taken == 3 );
 
             THEN( "the in-progress craft should be in the inventory" ) {
@@ -639,6 +656,277 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
                     }
                 }
             }
+        }
+    }
+}
+
+static void test_skill_progression( const recipe_id &test_recipe, std::vector<item> &tools,
+                                    int expected_turns_taken, int morale_level = 0 )
+{
+    Character &you = get_player_character();
+    int actual_turns_taken = 0;
+    const recipe &r = *test_recipe;
+    const skill_id skill_used = r.skill_used;
+    // Do we need to check required skills too?
+    const int starting_skill_level = r.difficulty;
+    prep_craft( test_recipe, tools, true );
+    you.focus_pool = 100;
+    if( morale_level != 0 ) {
+        you.add_morale( morale_type( "morale_food_good" ), morale_level );
+        REQUIRE( you.get_morale_level() == morale_level );
+    }
+    do {
+        actual_turns_taken += actually_test_craft( test_recipe, INT_MAX, starting_skill_level );
+        give_tools( tools );
+    } while( you.get_skill_level( skill_used ) == starting_skill_level );
+    CAPTURE( test_recipe.str() );
+    CAPTURE( expected_turns_taken );
+    CHECK( you.get_skill_level( skill_used ) == starting_skill_level + 1 );
+    // The margin is to handle crafting delays from failed skill checks.
+    CHECK( actual_turns_taken == Approx( expected_turns_taken ).
+           margin( expected_turns_taken * 0.1 / ( starting_skill_level + 1 ) ) );
+}
+
+TEST_CASE( "crafting skill gain" )
+{
+    std::vector<item> tools;
+    // lvl 0?
+    SECTION( "lvl 1 -> 2" ) {
+        tools.emplace_back( "pockknife" );
+        tools.emplace_back( "2x4" );
+        tools.emplace_back( "2x4" );
+        tools.emplace_back( "rag" );
+        tools.emplace_back( "rag" );
+        tools.emplace_back( itype_id( "string_6" ) );
+        tools.emplace_back( itype_id( "string_6" ) );
+        tools.emplace_back( itype_id( "string_6" ) );
+        tools.emplace_back( itype_id( "string_6" ) );
+        GIVEN( "nominal morale" ) {
+            test_skill_progression( recipe_id( "2byarm_guard" ), tools, 4967 );
+        }
+        GIVEN( "high morale" ) {
+            test_skill_progression( recipe_id( "2byarm_guard" ), tools, 4346, 50 );
+        }
+        GIVEN( "very high morale" ) {
+            test_skill_progression( recipe_id( "2byarm_guard" ), tools, 4038, 100 );
+        }
+    }
+    SECTION( "lvl 2 -> lvl 3" ) {
+        // using tailoring_leather
+        tools.emplace_back( "pockknife" );
+        tools.emplace_back( "needle_bone" );
+        tools.emplace_back( "awl_bone" );
+        tools.emplace_back( "tanned_hide" );
+        tools.emplace_back( "tanned_hide" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        GIVEN( "nominal morale" ) {
+            test_skill_progression( recipe_id( "vambrace_larmor" ), tools, 22729 );
+        }
+        GIVEN( "high morale" ) {
+            test_skill_progression( recipe_id( "vambrace_larmor" ), tools, 16235, 50 );
+        }
+        GIVEN( "very high morale" ) {
+            test_skill_progression( recipe_id( "vambrace_larmor" ), tools, 12989, 100 );
+        }
+    }
+    SECTION( "lvl 3 -> lvl 4" ) {
+        // using tailoring_leather 2
+        tools.emplace_back( "pockknife" );
+        tools.emplace_back( "needle_bone" );
+        tools.emplace_back( "awl_bone" );
+        tools.emplace_back( "tanned_hide" );
+        tools.emplace_back( "tanned_hide" );
+        tools.emplace_back( "tanned_hide" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        GIVEN( "nominal morale" ) {
+            test_skill_progression( recipe_id( "armguard_larmor" ), tools, 17299 );
+        }
+        GIVEN( "high morale" ) {
+            test_skill_progression( recipe_id( "armguard_larmor" ), tools, 12933, 50 );
+        }
+        GIVEN( "very high morale" ) {
+            test_skill_progression( recipe_id( "armguard_larmor" ), tools, 6477, 100 );
+        }
+    }
+    SECTION( "lvl 4 -> 5" ) {
+        // using cordage 1
+        tools.emplace_back( "string_36" );
+        tools.emplace_back( "string_36" );
+        tools.emplace_back( "string_36" );
+        tools.emplace_back( "string_36" );
+        tools.emplace_back( "string_36" );
+        tools.emplace_back( "string_36" );
+        tools.emplace_back( "string_36" );
+        tools.emplace_back( "string_36" );
+        tools.emplace_back( "string_36" );
+        tools.emplace_back( "string_36" );
+        tools.emplace_back( "string_36" );
+        // hammer 2
+        tools.emplace_back( "hammer" );
+        // saw 1
+        tools.emplace_back( "hacksaw" );
+        // sheet_metal_small 4
+        tools.emplace_back( "sheet_metal_small" );
+        tools.emplace_back( "sheet_metal_small" );
+        tools.emplace_back( "sheet_metal_small" );
+        tools.emplace_back( "sheet_metal_small" );
+        tools.emplace_back( "sheet_metal_small" );
+        tools.emplace_back( "sheet_metal_small" );
+        tools.emplace_back( "sheet_metal_small" );
+        tools.emplace_back( "sheet_metal_small" );
+        GIVEN( "nominal morale" ) {
+            test_skill_progression( recipe_id( "armguard_metal" ), tools, 40000 );
+        }
+        GIVEN( "high morale" ) {
+            test_skill_progression( recipe_id( "armguard_metal" ), tools, 31321, 50 );
+        }
+        GIVEN( "very high morale" ) {
+            test_skill_progression( recipe_id( "armguard_metal" ), tools, 25056, 100 );
+        }
+    }
+    SECTION( "lvl 5 -> 6" ) {
+        // using tailoring_leather_small 2
+        tools.emplace_back( "pockknife" );
+        tools.emplace_back( "needle_bone" );
+        tools.emplace_back( "awl_bone" );
+        tools.emplace_back( "leather" );
+        tools.emplace_back( "leather" );
+        tools.emplace_back( "leather" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        // using armor_chitin 3
+        tools.emplace_back( "chitin_piece" );
+        tools.emplace_back( "chitin_piece" );
+        tools.emplace_back( "chitin_piece" );
+        tools.emplace_back( "chitin_piece" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        GIVEN( "nominal morale" ) {
+            test_skill_progression( recipe_id( "armguard_chitin" ), tools, 4674 );
+        }
+        GIVEN( "high morale" ) {
+            test_skill_progression( recipe_id( "armguard_chitin" ), tools, 4674, 50 );
+        }
+        GIVEN( "very high morale" ) {
+            test_skill_progression( recipe_id( "armguard_chitin" ), tools, 7011, 100 );
+        }
+    }
+    SECTION( "lvl 6 -> 7" ) {
+        // using tailoring_leather_small 2
+        tools.emplace_back( "pockknife" );
+        tools.emplace_back( "needle_bone" );
+        tools.emplace_back( "awl_bone" );
+        tools.emplace_back( "leather" );
+        tools.emplace_back( "leather" );
+        tools.emplace_back( "leather" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        // using armor_acidchitin 3
+        tools.emplace_back( "acidchitin_piece" );
+        tools.emplace_back( "acidchitin_piece" );
+        tools.emplace_back( "acidchitin_piece" );
+        tools.emplace_back( "acidchitin_piece" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        GIVEN( "nominal morale" ) {
+            test_skill_progression( recipe_id( "armguard_acidchitin" ), tools, 7000 );
+        }
+        GIVEN( "high morale" ) {
+            test_skill_progression( recipe_id( "armguard_acidchitin" ), tools, 37385, 50 );
+        }
+        GIVEN( "very high morale" ) {
+            test_skill_progression( recipe_id( "armguard_acidchitin" ), tools, 32712, 100 );
+        }
+    }
+    SECTION( "lvl 7 -> 8" ) {
+        // lvl 7
+        recipe_id test_recipe( "armguard_lightplate" );
+        // using blacksmithing_standard 24
+        tools.emplace_back( "anvil" );
+        tools.emplace_back( "hammer" );
+        tools.push_back( tool_with_ammo( "forge", 500 ) );
+        tools.emplace_back( "tongs" );
+        // using steel_standard 2
+        tools.emplace_back( "steel_lump" );
+        tools.emplace_back( "steel_lump" );
+        tools.emplace_back( "steel_lump" );
+        // using tailoring_leather 2
+        tools.emplace_back( "pockknife" );
+        tools.emplace_back( "needle_bone" );
+        tools.emplace_back( "awl_bone" );
+        tools.emplace_back( "tanned_hide" );
+        tools.emplace_back( "tanned_hide" );
+        tools.emplace_back( "tanned_hide" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        tools.emplace_back( "thread" );
+        // CHISEL 2
+        tools.emplace_back( "chisel" );
+        // swage
+        tools.emplace_back( "swage" );
+        GIVEN( "nominal morale" ) {
+            test_skill_progression( recipe_id( "armguard_lightplate" ), tools, 112905 );
+        }
+        GIVEN( "high morale" ) {
+            test_skill_progression( recipe_id( "armguard_lightplate" ), tools, 43129, 50 );
+        }
+        GIVEN( "very high morale" ) {
+            test_skill_progression( recipe_id( "armguard_lightplate" ), tools, 54349, 100 );
+        }
+    }
+    /*
+    // lvl 8
+    recipe_id test_recipe( "armguard_larmor" );
+    // using tailoring_leather 2
+
+    // lvl 9
+    recipe_id test_recipe( "armguard_larmor" );
+    // using tailoring_leather 2
+
+    // lvl 10
+    recipe_id test_recipe( "armguard_larmor" );
+    // using tailoring_leather 2
+    */
+    SECTION( "long craft with proficiency delays" ) {
+        tools.emplace_back( "pockknife", calendar::turn_zero, 1 );
+        tools.emplace_back( "2x4", calendar::turn_zero, 1 );
+        tools.emplace_back( itype_id( "string_36" ), calendar::turn_zero );
+        tools.emplace_back( itype_id( "string_36" ), calendar::turn_zero );
+        GIVEN( "nominal morale" ) {
+            test_skill_progression( recipe_id( "longbow" ), tools, 36000 );
+        }
+        GIVEN( "high morale" ) {
+            test_skill_progression( recipe_id( "longbow" ), tools, 21741, 50 );
+        }
+        GIVEN( "very high morale" ) {
+            test_skill_progression( recipe_id( "longbow" ), tools, 15935, 100 );
         }
     }
 }
