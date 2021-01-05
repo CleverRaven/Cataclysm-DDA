@@ -594,6 +594,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "fema_data",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str_sp": "FEMA data" },
+    "description": "Evacuation plans, disaster risk projections, personnel lists and last minute communications from just before the end, all scrubbed from FEMA servers and stored in an external hdd.",
+    "price": 10000,
+    "price_postapoc": 50,
+    "material": [ "plastic" ],
+    "weight": "30 g",
+    "volume": "250 ml",
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
     "id": "candlestick",
     "symbol": "/",
     "color": "yellow",
