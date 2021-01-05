@@ -1114,7 +1114,8 @@ class vehicle
             bool isHorizontal = false );
 
         // Vehicle speed gauge
-        void print_speed_gauge( const catacurses::window &win, const point &, unsigned int spaceing = 0 );
+        void vehicle::print_speed_gauge( const catacurses::window &win, const point &,
+                                         unsigned int spacing = 0 );
 
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
         void precalc_mounts( int idir, const units::angle &dir, const point &pivot );
