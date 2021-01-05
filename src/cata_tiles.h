@@ -32,6 +32,8 @@ class pixel_minimap;
 
 extern void set_displaybuffer_rendertarget();
 
+extern const std::string SNOW_SUFFIX;
+
 /** Structures */
 struct tile_type {
     // fg and bg are both a weighted list of lists of sprite IDs
@@ -39,6 +41,7 @@ struct tile_type {
     bool multitile = false;
     bool rotates = false;
     bool animated = false;
+    bool snow_suffix = false;
     int height_3d = 0;
     point offset = point_zero;
 
@@ -120,6 +123,7 @@ class tileset
         struct season_tile_value {
             tile_type *default_tile = nullptr;
             cata::optional<tile_lookup_res> season_tile = cata::nullopt;
+            cata::optional<tile_lookup_res> snow_tile = cata::nullopt;
         };
 
         std::string tileset_id;
@@ -196,7 +200,7 @@ class tileset
          *  the corresponding `tileset` is invalidated.
          */
         cata::optional<tile_lookup_res> find_tile_type_by_season( const std::string &id,
-                season_type season ) const;
+                season_type season, bool snow ) const;
 };
 
 class tileset_loader
@@ -325,35 +329,59 @@ class cata_tiles
         void draw_minimap( const point &dest, const tripoint &center, int width, int height );
 
     protected:
+        struct tile_render_info {
+            const tripoint pos{};
+            // accumulator for 3d tallness of sprites rendered here so far;
+            mutable int height_3d = 0;
+            lit_level ll;
+            bool invisible[5] {};
+            // flag that indicates that terrain layer was drawn with the sprite variant with snow suffix
+            mutable bool snow_variant_rendered = false;
+            tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll )
+                : pos( pos ), height_3d( height_3d ), ll( ll ) {}
+            tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
+                              const bool ( &invisible )[5] )
+                : tile_render_info( pos, height_3d, ll ) {
+                std::copy_n( invisible, 5, this->invisible );
+            }
+        };
+        struct draw_config {
+            bool apply_night_vision_goggles = false;
+            bool snow = false;
+
+            draw_config &set_nv_goggles( bool nv_goggles ) {
+                apply_night_vision_goggles = nv_goggles;
+                return *this;
+            }
+        };
+
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts( int width, int height, int &columns, int &rows ) const;
 
-        cata::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
+        cata::optional<tile_lookup_res> find_tile_with_season( const std::string &id, bool snow ) const;
 
         cata::optional<tile_lookup_res>
-        find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
+        find_tile_looks_like( const std::string &id, TILE_CATEGORY category, bool snow,
                               int looks_like_jumps_limit = 10 ) const;
 
         // this templated method is used only from it's own cpp file, so it's ok to declare it here
         template<typename T>
         cata::optional<tile_lookup_res>
-        find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEGORY category,
+        find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEGORY category, bool snow,
                                            int looks_like_jumps_limit ) const;
 
         bool find_overlay_looks_like( bool male, const std::string &overlay, std::string &draw_id );
 
-        bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll,
-                                  bool apply_night_vision_goggles );
-        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
-                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles );
-        bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll,
-                                  bool apply_night_vision_goggles, int &height_3d );
-        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
-                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
-                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d );
+        const tile_type  *draw_from_id_string(
+            const std::string &id, const tripoint &pos, int subtile, int rota,
+            lit_level ll,
+            const draw_config &config );
+        const tile_type  *draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                               const std::string &subcategory, const tripoint &pos, int subtile, int rota,
+                                               lit_level ll, const draw_config &config );
+        const tile_type  *draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                               const std::string &subcategory, const tripoint &pos, int subtile, int rota,
+                                               lit_level ll, const draw_config &config, int &height_3d );
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
@@ -394,30 +422,19 @@ class cata_tiles
         /** Drawing Layers */
         bool would_apply_vision_effects( visibility_type visibility ) const;
         bool apply_vision_effects( const tripoint &pos, visibility_type visibility );
-        bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d,
-                           const bool ( &invisible )[5] );
-        bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d,
-                                 const bool ( &invisible )[5] );
-        bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d,
-                             const bool ( &invisible )[5] );
-        bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d,
-                            const bool ( &invisible )[5] );
-        bool draw_trap( const tripoint &p, lit_level ll, int &height_3d,
-                        const bool ( &invisible )[5] );
-        bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d,
-                                 const bool ( &invisible )[5] );
-        bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
-                         const bool ( &invisible )[5] );
-        bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d,
-                               const bool ( &invisible )[5] );
-        bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,
-                              const bool ( &invisible )[5] );
-        bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d,
-                                    const bool ( &invisible )[5] );
-        bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
-                             const bool ( &invisible )[5] );
-        bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,
-                                             const bool ( &invisible )[5] );
+
+        bool draw_terrain( const tile_render_info &ti );
+        bool draw_terrain_below( const tile_render_info &ti );
+        bool draw_furniture( const tile_render_info &ti );
+        bool draw_graffiti( const tile_render_info &ti );
+        bool draw_trap( const tile_render_info &ti );
+        bool draw_field_or_item( const tile_render_info &ti );
+        bool draw_vpart( const tile_render_info &ti );
+        bool draw_vpart_below( const tile_render_info &ti );
+        bool draw_critter_at( const tile_render_info &ti );
+        bool draw_critter_at_below( const tile_render_info &ti );
+        bool draw_zone_mark( const tile_render_info &ti );
+        bool draw_zombie_revival_indicators( const tile_render_info &ti );
         void draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
                                         int &height_3d );
 
