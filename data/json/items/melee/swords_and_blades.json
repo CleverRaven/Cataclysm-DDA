@@ -1752,7 +1752,7 @@
     "max_charges": 450,
     "use_action": [ "COMBATSAW_OFF" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "ALWAYS_TWOHAND" ]
+    "flags": [ "ALWAYS_TWOHAND", "FRAGILE_MELEE" ]
   },
   {
     "id": "combatsaw_on",
@@ -1767,7 +1767,7 @@
     "revert_to": "combatsaw_off",
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
     "use_action": [ "COMBATSAW_ON" ],
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "e_combatsaw_off",
@@ -1789,7 +1789,7 @@
     "charges_per_use": 5,
     "use_action": [ "E_COMBATSAW_OFF" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "ALWAYS_TWOHAND" ],
+    "flags": [ "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1814,6 +1814,6 @@
     "revert_to": "e_combatsaw_off",
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": [ "E_COMBATSAW_ON" ],
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
   }
 ]
