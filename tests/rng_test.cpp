@@ -92,7 +92,7 @@ static void test_pseudo_random_tiling_test( uint64_t seed )
         CHECK( v.first >= 0 );
         CHECK( v.first < w );
         CHECK( v.second >= 0 );
-        CHECK( v.second <= h );
+        CHECK( v.second < h );
         s1.insert( v );
         vec1.push_back( v );
     }

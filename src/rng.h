@@ -196,12 +196,9 @@ class pseudo_random_matrix_tiling
 
     public:
         pseudo_random_matrix_tiling( uint64_t seed ) {
-            for( size_t i = 0; i < w; ++i ) {
-                w_arr[i] = i;
-            }
-            for( size_t i = 0; i < h; ++i ) {
-                h_arr[i] = i;
-            }
+            std::iota( w_arr.begin(), w_arr.end(), 0 );
+            std::iota( h_arr.begin(), h_arr.end(), 0 );
+            // NOLINTNEXTLINE(cata-determinism)
             cata_default_random_engine eng( seed );
             std::shuffle( w_arr.begin(), w_arr.end(), eng );
             std::shuffle( h_arr.begin(), h_arr.end(), eng );

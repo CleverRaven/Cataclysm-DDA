@@ -7070,11 +7070,11 @@ void map::actualize_snow_in_submap( const tripoint &gridp, float new_snow_lvl, b
     const auto level_to_intensity = [&]( float level_mm ) -> float {
         return level_mm < eps ? 0 :
         level_mm <= 10.f ? 1.f :
-        std::powf( level_mm / 10.f, 1.f / 4 );
+        std::pow( level_mm / 10.f, 1.f / 4 );
     };
     // Convert snow level in mm to the index of the pseudorandom tiling sequence
     const auto level_to_idx = [&]( float level_mm ) {
-        return static_cast<int>( std::ceilf( level_to_intensity( level_mm ) * SEEX * SEEY ) );
+        return static_cast<int>( std::ceil( level_to_intensity( level_mm ) * SEEX * SEEY ) );
     };
     const auto remove_snow = [&]( field & f ) {
         if( f.remove_field( fd_snow ) ) {
