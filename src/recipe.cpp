@@ -98,7 +98,7 @@ int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
         return static_cast<int64_t>( local_time ) * batch;
     }
 
-    double total_time = 0.0f;
+    double total_time = 0.0;
     // if recipe does not benefit from batching but we do have assistants, skip calculating the batching scale factor
     if( batch_rscale == 0.0f ) {
         total_time = local_time * batch;
