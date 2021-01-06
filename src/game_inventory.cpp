@@ -1776,22 +1776,22 @@ class bionic_install_preset: public inventory_selector_preset
             } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
                 return _( "CBM already deployed.  Please reset to factory state." );
             } else if( pa.has_bionic( bid ) ) {
-                return _( "CBM already installed" );
+                return _( "CBM already installed." );
             } else if( !pa.can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
                 return _( "CBM not compatible with patient's body." );
             } else if( bid->upgraded_bionic &&
                        !pa.has_bionic( bid->upgraded_bionic ) &&
                        it->is_upgrade() ) {
-                return _( "No base version installed" );
+                return _( "No base version installed." );
             } else if( std::any_of( bid->available_upgrades.begin(),
                                     bid->available_upgrades.end(),
                                     std::bind( &player::has_bionic, &pa,
                                                std::placeholders::_1 ) ) ) {
-                return _( "Superior version installed" );
+                return _( "Superior version installed." );
             } else if( pa.is_npc() && !bid->has_flag( "BIONIC_NPC_USABLE" ) ) {
-                return _( "CBM not compatible with patient" );
+                return _( "CBM not compatible with patient." );
             } else if( units::energy_max - pa.get_max_power_level() < bid->capacity ) {
-                return _( "Max power capacity already reached" );
+                return _( "Max power capacity already reached." );
             } else if( !p.has_enough_anesth( *itemtype, pa ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
