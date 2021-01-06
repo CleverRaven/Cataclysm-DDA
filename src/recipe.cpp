@@ -91,7 +91,7 @@ int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
         multiplier = 1.0f;
     }
 
-    const double local_time = static_cast<float>( time_to_craft_moves( guy ) ) / multiplier;
+    const double local_time = static_cast<double>( time_to_craft_moves( guy ) ) / multiplier;
 
     // if recipe does not benefit from batching and we have no assistants, don't do unnecessary additional calculations
     if( batch_rscale == 0.0 && assistants == 0 ) {
