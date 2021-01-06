@@ -1360,6 +1360,7 @@
     "name": [ "Took antiasthmatic drugs" ],
     "desc": [ "You have taken an antiasthmatic drug recently." ],
     "rating": "good",
+    "max_duration": 86400,
     "blood_analysis_description": "Antiasthmatics"
   },
   {

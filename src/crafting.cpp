@@ -372,13 +372,14 @@ int Character::available_assistant_count( const recipe &rec ) const
     } );
 }
 
-int Character::base_time_to_craft( const recipe &rec, int batch_size ) const
+int64_t Character::base_time_to_craft( const recipe &rec, int batch_size ) const
 {
     const size_t assistants = available_assistant_count( rec );
     return rec.batch_time( *this, batch_size, 1.0f, assistants );
 }
 
-int Character::expected_time_to_craft( const recipe &rec, int batch_size, bool in_progress ) const
+int64_t Character::expected_time_to_craft( const recipe &rec, int batch_size,
+        bool in_progress ) const
 {
     const size_t assistants = available_assistant_count( rec );
     float modifier = crafting_speed_multiplier( rec, in_progress );

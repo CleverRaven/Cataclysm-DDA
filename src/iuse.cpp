@@ -929,14 +929,6 @@ int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::antiasthmatic( player *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player( m_good,
-                          _( "You no longer need to worry about asthma attacks, at least for a while." ) );
-    p->add_effect( effect_took_antiasthmatic, 1_days, true );
-    return it->type->charges_to_use();
-}
-
 int iuse::poison( player *p, item *it, bool, const tripoint & )
 {
     if( ( p->has_trait( trait_EATDEAD ) ) ) {
