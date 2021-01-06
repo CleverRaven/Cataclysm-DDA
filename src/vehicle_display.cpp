@@ -499,8 +499,8 @@ void vehicle::print_speed_gauge( const catacurses::window &win, const point &p,
                    static_cast<int>( std::log10( static_cast<double>( std::abs( t_speed ) ) ) ) + 2 );
 
     const std::string type = get_option<std::string> ( "USE_METRIC_SPEEDS" );
-    mvwprintz( win, p, c_light_gray, "%s :", type );
+    mvwprintz( win, p, c_light_gray, pgettext( "speed gauge unit", "%s :" ), type );
     mvwprintz( win, p + point( type.length() + 2 + spacing,  0 ), c_light_green, "%d", t_speed );
-    mvwprintz( win, p + point( type.length() + 2 + 2 * spacing + offset, 0 ), c_light_gray, "%s", ">" );
+    mvwprintz( win, p + point( type.length() + 2 + 2 * spacing + offset, 0 ), c_light_gray, ">" );
     mvwprintz( win, p + point( type.length() + 3 + 3 * spacing + offset, 0 ), col_vel, "%d", c_speed );
 }
