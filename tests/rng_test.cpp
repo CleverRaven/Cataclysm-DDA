@@ -124,7 +124,7 @@ static void test_pseudo_random_tiling_test( uint64_t seed )
     }
     INFO( "At least half of the returned values should be different." );
     CHECK( diff >= w * h / 2 );
-};
+}
 
 TEST_CASE( "pseudo_random_tiling_test" )
 {
