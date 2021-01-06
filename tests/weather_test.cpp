@@ -58,7 +58,7 @@ std::ostream &operator<<( std::ostream &os, string_id<T> const &id )
     return os << id.str();
 }
 
-std::ostream &operator<<( std::ostream &os, time_duration const &d )
+static std::ostream &operator<<( std::ostream &os, time_duration const &d )
 {
     return os << to_string( d );
 }

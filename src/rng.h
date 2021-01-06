@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_RNG_H
 #define CATA_SRC_RNG_H
 
+#include <algorithm>
 #include <array>
 #include <functional>
 #include <iosfwd>

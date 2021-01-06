@@ -1064,7 +1064,7 @@ const weather_generator &weather_manager::get_cur_weather_gen() const
  * @param duration melting period
  * @return snow melt in mm. Could be negative. Negative values are used to offset snow melt from sun radiation.
  */
-double snowmelt_temp( double temp_C, time_duration duration )
+static double snowmelt_temp( double temp_C, time_duration duration )
 {
     /* https://directives.sc.egov.usda.gov/OpenNonWebContent.aspx?content=17753.wba
      The degree-day method is a temperature index approach that equates the total daily melt to a coefficient
@@ -1089,7 +1089,7 @@ double snowmelt_temp( double temp_C, time_duration duration )
  * @param sunlight_percent
  * @return Direct normal radiation, in W/m²
  */
-double sunlight_to_watts_per_m_sq( double sunlight_percent )
+static double sunlight_to_watts_per_m_sq( double sunlight_percent )
 {
     // for New England yearly total GHI (Global Horizontal Irradiance) is ≈1387 kWh/m²
     // cumulative "sunlight_percent" for one year, returned by `sum_conditions` is 1.64339e+09
@@ -1104,7 +1104,7 @@ double sunlight_to_watts_per_m_sq( double sunlight_percent )
  * @param period, melting period
  * @return snow melt in mm (non-negative)
  */
-double snowmelt_sun( double incident_sunlight_percent, time_duration period )
+static double snowmelt_sun( double incident_sunlight_percent, time_duration period )
 {
     // 1 langley = 41.84 kJ/m² (kWs/m²)
     // 1 langley/day =  41.84 / (3600 * 24) kW
