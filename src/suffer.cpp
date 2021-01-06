@@ -1169,12 +1169,12 @@ void Character::suffer_from_bad_bionics()
     // Negative bionics effects
     if( has_bionic( bio_dis_shock ) && get_power_level() > 9_kJ && one_turn_in( 2_hours ) &&
         !has_effect( effect_narcosis ) ) {
-            if( !has_trait( trait_NOPAIN ) ) {
-                add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
-                mod_pain( 1 );
-            } else {
-                add_msg_if_player( m_bad, _( "You experience an electrical discharge!" ) );
-            }
+        if( !has_trait( trait_NOPAIN ) ) {
+            add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
+            mod_pain( 1 );
+        } else {
+            add_msg_if_player( m_bad, _( "You experience an electrical discharge!" ) );
+        }
         moves -= 150;
         mod_power_level( -10_kJ );
 
@@ -1190,7 +1190,7 @@ void Character::suffer_from_bad_bionics()
         sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }
     if( has_bionic( bio_dis_acid ) && one_turn_in( 150_minutes ) ) {
-        if( !has_trait( trait_NOPAIN ) ) {       
+        if( !has_trait( trait_NOPAIN ) ) {
             add_msg_if_player( m_bad, _( "You suffer a burning acidic discharge!" ) );
         } else {
             add_msg_if_player( m_bad, _( "You experience an acidic discharge!" ) );
