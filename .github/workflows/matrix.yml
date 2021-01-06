@@ -57,6 +57,7 @@ jobs:
         TILES: ${{ matrix.tiles }}
         SOUND: ${{ matrix.tiles }}
         SANITIZE: ${{ matrix.sanitize }}
+        RELEASE: 1
     steps:
     - name: checkout repository
       uses: actions/checkout@v1
@@ -69,6 +70,19 @@ jobs:
             libsdl2-mixer-dev libpulse-dev ccache gettext
     - name: prepare
       run: bash ./build-scripts/requirements.sh
+    - name: Get Date
+      id: get-date
+      run: |
+        echo "::set-output name=date::$(/bin/date -u "+%Y%m%d%H%M")"
+      shell: bash
+    - name: ccache cache files
+      uses: actions/cache@v2
+      with:
+        path: ~/.ccache
+        key: ccache-${{ matrix.compiler }}-${{ steps.get-date.outputs.date }}
+        restore-keys: |
+          ccache-${{ matrix.compiler }}-
+          ccache-
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
       run: bash ./build-scripts/build.sh
