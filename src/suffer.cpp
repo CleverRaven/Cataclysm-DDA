@@ -1172,8 +1172,7 @@ void Character::suffer_from_bad_bionics()
             if( !has_trait( trait_NOPAIN ) ) {
                 add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
                 mod_pain( 1 );
-            }
-            else {
+            } else {
                 add_msg_if_player( m_bad, _( "You experience an electrical discharge!" ) );
             }
         moves -= 150;
@@ -1193,8 +1192,7 @@ void Character::suffer_from_bad_bionics()
     if( has_bionic( bio_dis_acid ) && one_turn_in( 150_minutes ) ) {
         if( !has_trait( trait_NOPAIN ) ) {       
             add_msg_if_player( m_bad, _( "You suffer a burning acidic discharge!" ) );
-        }
-        else {
+        } else {
             add_msg_if_player( m_bad, _( "You experience an acidic discharge!" ) );
         }
         hurtall( 1, nullptr );
