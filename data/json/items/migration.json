@@ -1317,5 +1317,6 @@
   {
     "id": "rifle_3006",
     "type": "MIGRATION",
+    "replace": "remington_700"
   }
 ]
