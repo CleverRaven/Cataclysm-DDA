@@ -1451,6 +1451,13 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
 
     d_win.add_history_separator();
 
+    ui_adaptor ui;
+    const auto resize_cb = [&]( ui_adaptor & ui ) {
+        d_win.resize_dialogue( ui );
+    };
+    ui.on_screen_resize( resize_cb );
+    resize_cb( ui );
+
     // Number of lines to highlight
     const size_t hilight_lines = d_win.add_to_history( challenge );
 
@@ -1492,12 +1499,6 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
         }
     };
     generate_response_lines();
-
-    ui_adaptor ui;
-    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        d_win.resize_dialogue( ui );
-    } );
-    ui.mark_resize();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         d_win.print_header( npc_name );
@@ -1950,9 +1951,9 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
     };
 }
 
-void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
+void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, int quantity, bool is_npc )
 {
-    function = [is_trade, is_npc]( const dialogue & d ) {
+    function = [is_trade, is_npc, quantity]( const dialogue & d ) {
         const std::unique_ptr<talker> &seller = is_npc ? d.beta : d.alpha;
         const std::unique_ptr<talker> &buyer = is_npc ? d.alpha : d.beta;
         item tmp( d.cur_item );
@@ -1964,6 +1965,7 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
                 return tmp.type == e.type;
             } ).size();
         }
+        seller_has = ( quantity == -1 ) ? seller_has : std::min( seller_has, quantity );
         tmp.charges = seller_has;
         if( is_trade ) {
             const int npc_debt = d.beta->debt();
@@ -2211,6 +2213,32 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         } else if( jo.has_string( "npc_remove_item_with" ) ) {
             subeffect_fun.set_remove_item_with( jo, "npc_remove_item_with", is_npc );
         }
+    } else if( jo.has_int( "u_bulk_trade_accept" ) || jo.has_int( "npc_bulk_trade_accept" ) ||
+               jo.has_int( "u_bulk_donate" ) || jo.has_int( "npc_bulk_donate" ) ) {
+        talk_effect_fun_t subeffect_fun;
+        int quantity = -1;
+        bool is_npc = false;
+        bool is_trade = false;
+        if( jo.has_int( "npc_bulk_trade_accept" ) ) {
+            is_npc = true;
+            is_trade = true;
+            quantity = jo.get_int( "npc_bulk_trade_accept" );
+        } else if( jo.has_int( "npc_bulk_donate" ) ) {
+            is_npc = true;
+            is_trade = false;
+            quantity = jo.get_int( "npc_bulk_donate" );
+        } else if( jo.has_int( "u_bulk_trade_accept" ) ) {
+            is_npc = false;
+            is_trade = true;
+            quantity = jo.get_int( "u_bulk_trade_accept" );
+        } else if( jo.has_int( "u_bulk_donate" ) ) {
+            is_npc = false;
+            is_trade = false;
+            quantity = jo.get_int( "u_bulk_donate" );
+        }
+        subeffect_fun.set_bulk_trade_accept( is_trade, quantity, is_npc );
+        set_effect( subeffect_fun );
+        return;
     } else if( jo.has_string( "npc_change_class" ) ) {
         std::string class_name = jo.get_string( "npc_change_class" );
         subeffect_fun.set_npc_change_class( class_name );
@@ -2370,7 +2398,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
         effect_id == "u_bulk_donate" || effect_id == "npc_bulk_donate" ) {
         bool is_npc = effect_id == "npc_bulk_trade_accept" || effect_id == "npc_bulk_donate";
         bool is_trade = effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept";
-        subeffect_fun.set_bulk_trade_accept( is_trade, is_npc );
+        subeffect_fun.set_bulk_trade_accept( is_trade, -1, is_npc );
         set_effect( subeffect_fun );
         return;
     }

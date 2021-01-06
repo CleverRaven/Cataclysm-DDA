@@ -1365,7 +1365,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     } else {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  :" ) );
-        wprintz( w, get_weather().weather_id->color, " %s", _( get_weather().weather_id->name ) );
+        wprintz( w, get_weather().weather_id->color, " %s", get_weather().weather_id->name.translated() );
     }
     // display lighting
     const std::pair<std::string, nc_color> ll = get_light_level(
@@ -1566,7 +1566,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( text_left, 3 ), c_light_gray, _( "Underground" ) );
     } else {
         mvwprintz( w, point( text_left, 3 ), get_weather().weather_id->color,
-                   _( get_weather().weather_id->name ) );
+                   get_weather().weather_id->name.translated() );
     }
     // display lighting
     const std::pair<std::string, nc_color> ll = get_light_level(
@@ -1936,7 +1936,7 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     } else {
         mvwprintz( w, point_zero, c_light_gray, _( "Weather :" ) );
         mvwprintz( w, point( 10, 0 ), get_weather().weather_id->color,
-                   _( get_weather().weather_id->name ) );
+                   get_weather().weather_id->name.translated() );
     }
     mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Moon :" ) );
     nc_color clr = c_white;

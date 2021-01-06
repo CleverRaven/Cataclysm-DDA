@@ -20,6 +20,7 @@
 #include "cached_options.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "output.h"
 #include "string_formatter.h"
 
 // JSON parsing and serialization tools for Cataclysm-DDA.
@@ -1650,16 +1651,111 @@ bool JsonIn::read( JsonDeserializer &j, bool throw_on_error )
     }
 }
 
+/**
+ * Get the normal form of a relative path. Does not work on absolute paths.
+ * Slash and backslash are both treated as path separators and replaced with
+ * slash. Trailing slashes are always removed.
+ */
+static std::string normalize_relative_path( const std::string &path )
+{
+    if( path.empty() ) {
+        // normal form of an empty path is an empty path
+        return path;
+    }
+    std::vector<std::string> names;
+    for( size_t name_start = 0; name_start < path.size(); ) {
+        const size_t name_end = std::min( path.find_first_of( "\\/", name_start ),
+                                          path.size() );
+        if( name_start < name_end ) {
+            const std::string name = path.substr( name_start, name_end - name_start );
+            if( name == "." ) {
+                // do nothing
+            } else if( name == ".." ) {
+                if( names.empty() || names.back() == ".." ) {
+                    names.emplace_back( name );
+                } else {
+                    names.pop_back();
+                }
+            } else {
+                names.emplace_back( name );
+            }
+        }
+        name_start = std::min( path.find_first_not_of( "\\/", name_end ),
+                               path.size() );
+    }
+    if( names.empty() ) {
+        return ".";
+    } else {
+        std::string normpath;
+        for( auto it = names.begin(); it != names.end(); ++it ) {
+            if( it != names.begin() ) {
+                normpath += "/";
+            }
+            normpath += *it;
+        }
+        return normpath;
+    }
+}
+
+/**
+ * Escape special chars in github action command properties.
+ * See https://github.com/actions/toolkit/blob/main/packages/core/src/command.ts
+ */
+static std::string escape_property( std::string str )
+{
+    switch( error_log_format ) {
+        case error_log_format_t::human_readable:
+            break;
+        case error_log_format_t::github_action:
+            replace_substring( str, "%", "%25", true );
+            replace_substring( str, "\r", "%0D", true ); // NOLINT(cata-text-style)
+            replace_substring( str, "\n", "%0A", true );
+            replace_substring( str, ":", "%3A", true );
+            replace_substring( str, ",", "%2C", true );
+            break;
+    }
+    return str;
+}
+
+/**
+ * Escape special chars in github action command messages.
+ * See https://github.com/actions/toolkit/blob/main/packages/core/src/command.ts
+ */
+static std::string escape_data( std::string str )
+{
+    switch( error_log_format ) {
+        case error_log_format_t::human_readable:
+            break;
+        case error_log_format_t::github_action:
+            replace_substring( str, "%", "%25", true );
+            replace_substring( str, "\r", "%0D", true ); // NOLINT(cata-text-style)
+            replace_substring( str, "\n", "%0A", true );
+            break;
+    }
+    return str;
+}
+
 /* error display */
 
 // WARNING: for occasional use only.
 std::string JsonIn::line_number( int offset_modifier )
 {
-    const std::string &name = path ? *path : "<unknown source file>";
+    const std::string name = escape_property( path ? normalize_relative_path( *path )
+                             : "<unknown source file>" );
     if( stream && stream->eof() ) {
-        return name + ":EOF";
+        switch( error_log_format ) {
+            case error_log_format_t::human_readable:
+                return name + ":EOF";
+            case error_log_format_t::github_action:
+                return "file=" + name + ",line=EOF";
+        }
     } else if( !stream || stream->fail() ) {
-        return name + ":???";
+        switch( error_log_format ) {
+            case error_log_format_t::human_readable:
+                return name + ":???";
+            case error_log_format_t::github_action:
+                return "file=" + name + ",line=???";
+        }
     } // else stream is fine
     int pos = tell();
     int line = 1;
@@ -1687,17 +1783,32 @@ std::string JsonIn::line_number( int offset_modifier )
     }
     seek( pos );
     std::stringstream ret;
-    ret << name << ":" << line << ":" << offset;
+    switch( error_log_format ) {
+        case error_log_format_t::human_readable:
+            ret << name << ":" << line << ":" << offset;
+            break;
+        case error_log_format_t::github_action:
+            ret.imbue( std::locale::classic() );
+            ret << "file=" << name << ",line=" << line << ",col=" << offset;
+            break;
+    }
     return ret.str();
 }
 
 void JsonIn::error( const std::string &message, int offset )
 {
-    std::ostringstream err;
-    err << "Json error: " << line_number( offset ) << ": " << message;
+    std::ostringstream err_header;
+    switch( error_log_format ) {
+        case error_log_format_t::human_readable:
+            err_header << "Json error: " << line_number( offset ) << ": ";
+            break;
+        case error_log_format_t::github_action:
+            err_header << "::error " << line_number( offset ) << "::";
+            break;
+    }
     // if we can't get more info from the stream don't try
     if( !stream->good() ) {
-        throw JsonError( err.str() );
+        throw JsonError( err_header.str() + escape_data( message ) );
     }
     // Seek to eof after throwing to avoid continue reading from the incorrect
     // location. The calling code of json error methods is supposed to restore
@@ -1705,6 +1816,8 @@ void JsonIn::error( const std::string &message, int offset )
     on_out_of_scope seek_to_eof( [this]() {
         stream->seekg( 0, std::istream::end );
     } );
+    std::ostringstream err;
+    err << message;
     // also print surrounding few lines of context, if not too large
     err << "\n\n";
     stream->seekg( offset, std::istream::cur );
@@ -1774,7 +1887,7 @@ void JsonIn::error( const std::string &message, int offset )
     if( !msg.empty() && msg.back() != '\n' ) {
         msg.push_back( '\n' );
     }
-    throw JsonError( msg );
+    throw JsonError( err_header.str() + escape_data( msg ) );
 }
 
 void JsonIn::string_error( const std::string &message, const int offset )

@@ -549,7 +549,7 @@
       { "item": "legrig", "prob": 10 },
       { "item": "rucksack", "prob": 20 },
       { "item": "gobag", "prob": 2 },
-      { "item": "survival_kit", "prob": 3 },
+      { "group": "full_survival_kit", "prob": 3 },
       { "item": "recipe_raptor", "prob": 2 },
       { "item": "tac_helmet", "prob": 5 },
       { "item": "tac_fullhelmet", "prob": 2 },

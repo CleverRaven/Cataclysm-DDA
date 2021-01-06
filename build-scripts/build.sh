@@ -9,7 +9,7 @@ num_jobs=3
 function run_tests
 {
     # --min-duration shows timing lines for tests with a duration of at least that many seconds.
-    $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS
+    $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time --error-format=github-action $EXTRA_TEST_OPTS
 }
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH

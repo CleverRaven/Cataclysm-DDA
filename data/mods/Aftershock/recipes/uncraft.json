@@ -78,5 +78,40 @@
     "using": [ [ "welding_standard", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "afs_scrap_titanium", 2 ] ] ]
+  },
+  {
+    "result": "afs_energy_saber_off",
+    "type": "uncraft",
+    "activity_level": "fake",
+    "time": "1 h",
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [
+      [ [ "afs_heat_1", 2 ] ],
+      [ [ "afs_material_2", 3 ] ],
+      [ [ "afs_material_1", 2 ] ],
+      [ [ "afs_circuitry_1", 1 ] ],
+      [ [ "afs_energy_storage_1", 1 ] ]
+    ]
+  },
+  {
+    "result": "azabow_off",
+    "type": "uncraft",
+    "activity_level": "fake",
+    "time": "2 h",
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "afs_material_2", 3 ] ],
+      [ [ "afs_material_3", 2 ] ],
+      [ [ "afs_energy_storage_2", 2 ] ],
+      [ [ "afs_circuitry_2", 1 ] ]
+    ]
+  },
+  {
+    "result": "afs_atomic_smartphone",
+    "type": "uncraft",
+    "activity_level": "fake",
+    "time": 500,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "afs_material_2", 6 ] ], [ [ "afs_material_3", 4 ] ], [ [ "afs_material_1", 8 ] ] ]
   }
 ]

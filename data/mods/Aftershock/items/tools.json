@@ -415,7 +415,7 @@
     "id": "diamond_press",
     "type": "GENERIC",
     "category": "tools",
-    "name": { "str": "folded diamond press" },
+    "name": { "str": "folded diamond press", "str_pl": "folded diamond presses" },
     "description": "Matrioshka Fabritechnics this device that can create pressures beyond those that create diamonds.  Once deployed it can be used to craft ultratech marvels that require substances of singular qualities.",
     "weight": "8464 g",
     "volume": "11356 ml",
@@ -433,7 +433,7 @@
   {
     "id": "pseudo_diamond_press",
     "type": "TOOL",
-    "name": { "str": "pseudo diamond press" },
+    "name": { "str": "pseudo diamond press", "str_pl": "pseudo diamond presses" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "weight": "6464 g",
     "volume": "11356 ml",
@@ -445,5 +445,24 @@
     "symbol": "H",
     "color": "light_gray",
     "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "alien_battery",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": { "str": "alien cell" },
+    "description": "A conical device salvaged from an alien artifact.  Grooves etched on its circular face slowly pulse with purple light.",
+    "weight": "1000 g",
+    "volume": "1225ml",
+    "price": 100000,
+    "price_postapoc": 5000,
+    "material": [ "iron", "plastic" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": [ "battery" ],
+    "capacity": 4500,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4500 } } ]
   }
 ]

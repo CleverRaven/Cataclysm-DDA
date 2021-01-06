@@ -136,7 +136,7 @@ double npc_trading::net_price_adjustment( const player &buyer, const player &sel
 template <typename T, typename Callback>
 void buy_helper( T &src, Callback cb )
 {
-    src.visit_items( [&src, &cb]( item * node ) {
+    src.visit_items( [&src, &cb]( item * node, item * ) {
         cb( std::move( item_location( src, node ) ), 1 );
 
         return VisitResponse::SKIP;

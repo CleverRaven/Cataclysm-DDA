@@ -194,12 +194,19 @@ void game_menus::inv::common( avatar &you )
 
     int res = 0;
 
+    item_location location;
+    std::string filter;
     do {
         you.inv->restack( you );
         inv_s.clear_items();
         inv_s.add_character_items( you );
+        inv_s.set_filter( filter );
+        if( location != item_location::nowhere ) {
+            inv_s.select( location );
+        }
 
-        const item_location &location = inv_s.execute();
+        location = inv_s.execute();
+        filter = inv_s.get_filter();
 
         if( location == item_location::nowhere ) {
             break;
@@ -223,11 +230,18 @@ void game_menus::inv::common( item_location &loc, avatar &you )
 
     int res = 0;
 
+    item_location location;
+    std::string filter;
     do {
         inv_s.clear_items();
         inv_s.add_contained_items( loc );
+        inv_s.set_filter( filter );
+        if( location != item_location::nowhere ) {
+            inv_s.select( location );
+        }
 
-        const item_location &location = inv_s.execute();
+        location = inv_s.execute();
+        filter = inv_s.get_filter();
 
         if( location == item_location::nowhere ) {
             break;
@@ -574,7 +588,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             Character &player_character = get_player_character();
             append_cell( [&player_character]( const item_location & loc ) {
                 time_duration time = player_character.get_consume_time( *loc );
-                return string_format( _( "%s" ), to_string( time ) );
+                return string_format( "%s", to_string( time, true ) );
             }, _( "CONSUME TIME" ) );
 
             append_cell( [this, &player_character]( const item_location & loc ) {
@@ -1313,7 +1327,8 @@ drop_locations game_menus::inv::holster( player &p, const item_location &holster
 
     inventory_holster_preset holster_preset( holster );
 
-    inventory_drop_selector insert_menu( p, holster_preset, _( "ITEMS TO INSERT" ) );
+    inventory_drop_selector insert_menu( p, holster_preset, _( "ITEMS TO INSERT" ),
+                                         /*warn_liquid=*/false );
     insert_menu.add_character_items( p );
     insert_menu.add_map_items( p.pos() );
     insert_menu.add_vehicle_items( p.pos() );

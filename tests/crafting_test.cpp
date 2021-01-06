@@ -29,6 +29,7 @@
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -319,9 +320,17 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
                                       player_character.get_skill_level( r.skill_used ) ) );
     player_character.moves--;
     const inventory &crafting_inv = player_character.crafting_inventory();
-    bool can_craft = r.deduped_requirements().can_make_with_inventory(
-                         crafting_inv, r.get_component_filter() );
-    REQUIRE( can_craft == expect_craftable );
+
+    SECTION( "can craft with crafting inv" ) {
+        bool can_craft = r.deduped_requirements().can_make_with_inventory(
+                             crafting_inv, r.get_component_filter() );
+        REQUIRE( can_craft == expect_craftable );
+    }
+    SECTION( "can craft with temp inv" ) {
+        bool can_craft = r.deduped_requirements().can_make_with_inventory(
+                             temp_crafting_inventory( crafting_inv ), r.get_component_filter() );
+        REQUIRE( can_craft == expect_craftable );
+    }
 }
 
 static time_point midnight = calendar::turn_zero + 0_hours;

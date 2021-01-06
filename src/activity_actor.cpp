@@ -63,6 +63,7 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_tied( "tied" );
 
 static const itype_id itype_bone_human( "bone_human" );
+static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
@@ -80,6 +81,16 @@ static const mtype_id mon_skeleton( "mon_skeleton" );
 static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
+
+std::string activity_actor::get_progress_message( const player_activity &act ) const
+{
+    if( act.moves_total > 0 ) {
+        const int pct = ( ( act.moves_total - act.moves_left ) * 100 ) / act.moves_total;
+        return string_format( "%d%%", pct );
+    } else {
+        return std::string();
+    }
+}
 
 aim_activity_actor::aim_activity_actor()
 {
@@ -465,12 +476,6 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
-std::string dig_activity_actor::get_progress_message( const player_activity &act ) const
-{
-    const int pct = ( ( act.moves_total - act.moves_left ) * 100 ) / act.moves_total;
-    return string_format( "%d%%", pct );
-}
-
 void dig_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -536,12 +541,6 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
                            here.ter( location ).obj().name() );
 
     act.set_to_null();
-}
-
-std::string dig_channel_activity_actor::get_progress_message( const player_activity &act ) const
-{
-    const int pct = ( ( act.moves_total - act.moves_left ) * 100 ) / act.moves_total;
-    return string_format( "%d%%", pct );
 }
 
 void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
@@ -2596,6 +2595,95 @@ std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
     return actor.clone();
 }
 
+static bool check_if_disassemble_okay( item_location target, Character &who )
+{
+    item *disassembly = target.get_item();
+
+    // item_location::get_item() will return nullptr if the item is lost
+    if( !disassembly ) {
+        who.add_msg_player_or_npc(
+            _( "You no longer have the in progress disassembly in your possession.  "
+               "You stop disassembling.  "
+               "Reactivate the in progress disassembly to continue disassembling." ),
+            _( "<npcname> no longer has the in progress disassembly in their possession.  "
+               "<npcname> stops disassembling." ) );
+        return false;
+    }
+    return true;
+}
+
+void disassemble_activity_actor::start( player_activity &act, Character &who )
+{
+    if( act.targets.empty() ) {
+        act.set_to_null();
+        return;
+    }
+
+    if( act.targets.back()->typeId() != itype_disassembly ) {
+        target = who.create_in_progress_disassembly( act.targets.back() );
+    } else {
+        target = act.targets.back();
+    }
+    act.targets.pop_back();
+
+    if( !check_if_disassemble_okay( target, who ) ) {
+        act.set_to_null();
+        return;
+    }
+
+    // We already checked if this is nullptr above
+    item *craft = target.get_item();
+    double counter = craft->item_counter;
+
+    act.moves_left = moves_total - ( counter / 10'000'000.0 ) * moves_total;
+    act.moves_total = moves_total;
+}
+
+void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( !check_if_disassemble_okay( target, who ) ) {
+        act.set_to_null();
+        return;
+    }
+
+    // We already checked if this is nullptr above
+    item *craft = target.get_item();
+
+    double moves_left = act.moves_left;
+    double moves_total = act.moves_total;
+    // Current progress as a percent of base_total_moves to 2 decimal places
+    craft->item_counter = std::round( ( moves_total - moves_left ) / moves_total * 10'000'000.0 );
+}
+
+void disassemble_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( !check_if_disassemble_okay( target, who ) ) {
+        act.set_to_null();
+        return;
+    }
+    who.complete_disassemble( target );
+}
+
+void disassemble_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn &jsin )
+{
+    disassemble_activity_actor actor = disassemble_activity_actor( 0 );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves_total", actor.moves_total );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -2609,6 +2697,7 @@ deserialize_functions = {
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
+    { activity_id( "ACT_DISASSEMBLE" ), &disassemble_activity_actor::deserialize },
     { activity_id( "ACT_DROP" ), &drop_activity_actor::deserialize },
     { activity_id( "ACT_GUNMOD_REMOVE" ), &gunmod_remove_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
