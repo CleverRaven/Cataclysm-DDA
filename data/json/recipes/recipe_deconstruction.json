@@ -5090,6 +5090,14 @@
     "components": [ [ [ "silver_small", 5 ] ] ]
   },
   {
+    "result": "coin_nickel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "copper", 5 ] ] ]
+  },
+  {
     "result": "spray_can",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
