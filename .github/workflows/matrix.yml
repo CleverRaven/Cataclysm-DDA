@@ -79,9 +79,9 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.ccache
-        key: ccache-${{ steps.get-date.outputs.date }}
+        key: ccache-${{ matrix.compiler }}-${{ steps.get-date.outputs.date }}
         restore-keys: |
-          ccache-${{ steps.get-date.outputs.date }}
+          ccache-${{ matrix.compiler }}-
           ccache-
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
