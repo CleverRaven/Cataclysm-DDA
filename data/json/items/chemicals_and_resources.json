@@ -434,21 +434,24 @@
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_splash" ], "scale_qty": true }
   },
   {
-    "type": "AMMO",
+    "type": "COMESTIBLE",
     "id": "sewage",
     "name": "sewage sample",
     "weight": "280 g",
     "color": "green",
     "use_action": "SEWAGE",
     "container": "bottle_plastic",
+    "comestible_type": "DRINK",
     "symbol": "~",
+    "quench": 5,
+    "healthy": -40,
     "description": "A sample of sewage from a treatment plant.  Gross.",
     "price": 0,
     "price_postapoc": 0,
     "volume": "250 ml",
     "phase": "liquid",
-    "ammo_type": "components",
-    "category": "chems"
+    "category": "chems",
+    "fun": -40
   },
   {
     "type": "AMMO",
