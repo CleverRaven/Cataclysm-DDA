@@ -322,6 +322,46 @@
     "responses": [ { "text": "Thanks, I'll keep an eye out.", "topic": "TALK_EVAC_MERCHANT" } ]
   },
   {
+    "id": "TALK_EVAC_MERCHANT_HUB01",
+    "type": "talk_topic",
+    "dynamic_line": "We had an odd group came by two days after the power grid went off, two armed guards wearing brown uniforms, escorting what seemed to be a gov' doctor of some sort, had a hazmat suit and mask they never took off.  They looked rather organized, probably military remnant from somewhere close by.",
+    "responses": [
+      { "text": "I was hoping for something more substantial than that.", "topic": "TALK_EVAC_MERCHANT" },
+      { "text": "Just that?", "topic": "TALK_EVAC_MERCHANT_HUB01_ACTIVITY" }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_HUB01_ACTIVITY",
+    "type": "talk_topic",
+    "dynamic_line": "They surely didn't seem the nice talkative type.  Doctor paid us in advance to get some old FEMA info from our computers here, told us to deliver the data to some remote locale afterwards.  Still haven't done that however, we're half thinking it must have been some sort of strange trap.",
+    "responses": [
+      { "text": "Think you could share that meeting location?", "topic": "TALK_EVAC_MERCHANT_HUB01_DELIVERY_MISSION_OFFER" },
+      { "text": "Seems like you are right to be suspicious.", "topic": "TALK_EVAC_MERCHANT" }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_HUB01_DELIVERY_MISSION_OFFER",
+    "type": "talk_topic",
+    "dynamic_line": "I could share the drop off location if you agree to deliver the data for us.  But I'm certain that you won't find whatever you seek in there.",
+    "responses": [
+      {
+        "text": "Seems like a deal to me.",
+        "topic": "TALK_EVAC_MERCHANT_HUB_DELIVERY_ACCEPTED",
+        "effect": { "add_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
+      },
+      { "text": "That seems rather dangerous, I think I'll pass.", "topic": "TALK_EVAC_MERCHANT" }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_HUB_DELIVERY_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "Location should be an old isolated building not far from here, you should probably just leave the hdd to the persons there and be off your way.  And as I said, be careful approaching the place, I wouldn't like leading you straight into your death.",
+    "responses": [
+      { "text": "Don't worry, I'll be careful.", "topic": "TALK_DONE" },
+      { "text": "Pretty sure I'll manage.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "TALK_EVAC_MERCHANT_NO",
     "type": "talk_topic",
     "dynamic_line": "I'm sorry, not a risk we are willing to take right now.",
@@ -360,6 +400,7 @@
     "responses": [
       { "text": "Hordes?", "topic": "TALK_EVAC_MERCHANT_HORDES" },
       { "text": "Heard of anything better than the odd gun cache?", "topic": "TALK_EVAC_MERCHANT_PRIME_LOOT" },
+      { "text": "Any other settlements nearby?", "topic": "TALK_EVAC_MERCHANT_HUB01" },
       { "text": "Was hoping for something more…", "topic": "TALK_EVAC_MERCHANT" }
     ]
   },
@@ -683,6 +724,38 @@
       "success": "That's one less thing to worry about.  Glad to have someone like you on our side.  Here's 25 merch, and the broker will buy any further glass jars you can find - at a reduced price, we can't keep up the premium rate.  Actually, the broker was saying they had some jobs like this for you, and that it might be easier to just go straight through their office if you want more work.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1",
+    "type": "mission_definition",
+    "name": { "str": "Unknown Recipient" },
+    "description": "Deliver the hdd to the military remnant.  Return to the Evacuation Center when the trade is complete.",
+    "goal": "MGOAL_CONDITION",
+    "difficulty": 5,
+    "start": {
+      "effect": [ { "u_buy_item": "fema_data", "count": 1 } ],
+      "assign_mission_target": {
+        "om_terrain": "robofachq_surface_entrance",
+        "om_special": "hub_01",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 280
+      }
+    },
+    "goal_condition": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+    "value": 5000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "Have you finished the delivery already?",
+      "success": "Good, that's one less thing to worry about.",
+      "success_lie": "What good does this do us?",
+      "failure": "At least you came back with your life…"
     }
   }
 ]

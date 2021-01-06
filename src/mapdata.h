@@ -373,6 +373,7 @@ struct ter_t : map_data_common_t {
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
     std::set<emit_id> emissions;
+    std::set<itype_id> allowed_template_id;
 
     ter_t();
 

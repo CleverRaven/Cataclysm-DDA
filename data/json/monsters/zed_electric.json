@@ -44,7 +44,8 @@
       "ELECTRIC",
       "NO_BREATHE",
       "REVIVES",
-      "FILTHY"
+      "FILTHY",
+      "RANGED_ATTACKER"
     ]
   },
   {
@@ -91,7 +92,8 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "RANGED_ATTACKER"
     ]
   },
   {

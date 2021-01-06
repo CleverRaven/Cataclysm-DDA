@@ -4,6 +4,7 @@
     "id": "DINOSAUR",
     "//": "Capping these at 1000 L and kg to prevent bodies and meat disappearing and vision at 50 for less aggro",
     "fear_triggers": [ "FIRE" ],
+    "bleeds": "fd_blood",
     "description": "a dinosaur"
   },
   {

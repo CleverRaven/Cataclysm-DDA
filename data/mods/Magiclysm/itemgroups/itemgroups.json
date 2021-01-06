@@ -177,6 +177,7 @@
       [ "glow_light_off", 1 ],
       [ "bulette_plate", 10 ],
       [ "cauldron_orichalcum", 7 ],
+      [ "mithril_ingot", 2 ],
       { "item": "bulette_pearl", "prob": 8, "count-min": 1, "count-max": 2 }
     ]
   },
