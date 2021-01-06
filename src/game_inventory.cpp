@@ -437,14 +437,14 @@ class pickup_inventory_preset : public inventory_selector_preset
             if( !p.has_item( *loc ) ) {
                 if( loc->made_of_from_type( phase_id::LIQUID ) ) {
                     if( loc.has_parent() ) {
-                        return _( "Can't pick up liquids" );
+                        return _( "Can't pick up liquids." );
                     } else {
-                        return _( "Can't pick up spilt liquids" );
+                        return _( "Can't pick up spilt liquids." );
                     }
                 } else if( !p.can_pickVolume( *loc ) && p.has_wield_conflicts( *loc ) ) {
-                    return _( "Too big to pick up" );
+                    return _( "Too big to pick up!" );
                 } else if( !p.can_pickWeight( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-                    return _( "Too heavy to pick up" );
+                    return _( "Too heavy to pick up!" );
                 }
             }
 
