@@ -422,7 +422,6 @@ std::string enum_to_string<blood_type>( blood_type data )
 
 // *INDENT-OFF*
 Character::Character() :
-    visitable<Character>(),
     cached_time( calendar::before_time_starts ),
     id( -1 ),
     next_climate_control_check( calendar::before_time_starts ),
@@ -1891,8 +1890,8 @@ void Character::recalc_hp()
     // Mutated toughness stacks with starting, by design.
     float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
     float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
-    calc_all_parts_hp( hp_mod, hp_adjustment, str_max, dex_max, per_max, int_max, get_healthy(),
-                       get_fat_to_hp() );
+    calc_all_parts_hp( hp_mod, hp_adjustment, get_str_base(), get_dex_base(), get_per_base(),
+                       get_int_base(), get_healthy(), get_fat_to_hp() );
 }
 
 int Character::get_part_hp_max( const bodypart_id &id ) const
@@ -2903,7 +2902,7 @@ item *Character::invlet_to_item( const int linvlet )
                                       name;
     }
     item *invlet_item = nullptr;
-    visit_items( [&invlet, &invlet_item]( item * it ) {
+    visit_items( [&invlet, &invlet_item]( item * it, item * ) {
         if( it->invlet == invlet ) {
             invlet_item = it;
             return VisitResponse::ABORT;
@@ -3373,7 +3372,7 @@ std::vector<item_location> Character::find_reloadables()
 {
     std::vector<item_location> reloadables;
 
-    visit_items( [this, &reloadables]( item * node ) {
+    visit_items( [this, &reloadables]( item * node, item * ) {
         if( !node->is_gun() && !node->is_magazine() ) {
             return VisitResponse::NEXT;
         }
@@ -6841,6 +6840,26 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                         comfort_response.aid = &items_it;
                         break; // prevents using more than 1 sleep aid
                     }
+                    if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
+                        bool found = false;
+                        if( items_it.contents.size() > 1 ) {
+                            // Only one item is allowed, so we don't fill our pillowcase with nails
+                            continue;
+                        }
+                        for( const item *it : items_it.contents.all_items_top() ) {
+                            if( it->has_flag( flag_SLEEP_AID ) ) {
+                                // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                                comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                                comfort_response.aid = &items_it;
+                                found = true;
+                                break; // prevents using more than 1 sleep aid
+                            }
+                        }
+                        // Only 1 sleep aid
+                        if( found ) {
+                            break;
+                        }
+                    }
                 }
             }
             if( board ) {
@@ -6877,6 +6896,26 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                     comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
                     comfort_response.aid = &items_it;
                     break; // prevents using more than 1 sleep aid
+                }
+                if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
+                    bool found = false;
+                    if( items_it.contents.size() > 1 ) {
+                        // Only one item is allowed, so we don't fill our pillowcase with nails
+                        continue;
+                    }
+                    for( const item *it : items_it.contents.all_items_top() ) {
+                        if( it->has_flag( flag_SLEEP_AID ) ) {
+                            // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                            comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                            comfort_response.aid = &items_it;
+                            found = true;
+                            break; // prevents using more than 1 sleep aid
+                        }
+                    }
+                    // Only 1 sleep aid
+                    if( found ) {
+                        break;
+                    }
                 }
             }
         }
@@ -9238,7 +9277,7 @@ void Character::recalculate_enchantment_cache()
     // start by resetting the cache to all inventory items
     *enchantment_cache = inv->get_active_enchantment_cache( *this );
 
-    visit_items( [&]( const item * it ) {
+    visit_items( [&]( const item * it, item * ) {
         for( const enchantment &ench : it->get_enchantments() ) {
             if( ench.is_active( *this, *it ) ) {
                 enchantment_cache->force_add( ench );
@@ -10770,7 +10809,7 @@ void Character::fall_asleep( const time_duration &duration )
 
 void Character::migrate_items_to_storage( bool disintegrate )
 {
-    inv->visit_items( [&]( const item * it ) {
+    inv->visit_items( [&]( const item * it, item * ) {
         if( disintegrate ) {
             if( try_add( *it ) == nullptr ) {
                 debugmsg( "ERROR: Could not put %s into inventory.  Check if the profession has enough space.",
@@ -10943,27 +10982,37 @@ int Character::floor_bedding_warmth( const tripoint &pos )
 
 int Character::floor_item_warmth( const tripoint &pos )
 {
-    map &here = get_map();
-    if( !here.has_items( pos ) ) {
-        return 0;
-    }
-
     int item_warmth = 0;
-    // Search the floor for items
-    const map_stack floor_item = here.i_at( pos );
-    for( const item &elem : floor_item ) {
-        if( !elem.is_armor() ) {
-            continue;
-        }
-        // Items that are big enough and covers the torso are used to keep warm.
-        // Smaller items don't do as good a job
-        if( elem.volume() > 250_ml &&
-            ( elem.covers( body_part_torso ) || elem.covers( body_part_leg_l ) ||
-              elem.covers( body_part_leg_r ) ) ) {
-            item_warmth += 60 * elem.get_warmth() * elem.volume() / 2500_ml;
-        }
-    }
 
+    const auto warm = [&item_warmth]( const auto & stack ) {
+        for( const item &elem : stack ) {
+            if( !elem.is_armor() ) {
+                continue;
+            }
+            // Items that are big enough and covers the torso are used to keep warm.
+            // Smaller items don't do as good a job
+            if( elem.volume() > 250_ml &&
+                ( elem.covers( body_part_torso ) || elem.covers( body_part_leg_l ) ||
+                  elem.covers( body_part_leg_r ) ) ) {
+                item_warmth += 60 * elem.get_warmth() * elem.volume() / 2500_ml;
+            }
+        }
+    };
+
+    map &here = get_map();
+
+    if( !!here.veh_at( pos ) ) {
+        if( const cata::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( VPFLAG_CARGO,
+                false ) ) {
+            vehicle *const veh = &vp->vehicle();
+            const int cargo = vp->part_index();
+            vehicle_stack vehicle_items = veh->get_items( cargo );
+            warm( vehicle_items );
+        }
+        return item_warmth;
+    }
+    map_stack floor_items = here.i_at( pos );
+    warm( floor_items );
     return item_warmth;
 }
 
@@ -11142,7 +11191,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
 
     bool has_tool_with_UPS = false;
     // Detection of UPS tool
-    inv.visit_items( [ &what, &qty, &has_tool_with_UPS, &filter]( item * e ) {
+    inv.visit_items( [ &what, &qty, &has_tool_with_UPS, &filter]( item * e, item * ) {
         if( filter( *e ) && e->typeId() == what && e->has_flag( flag_USE_UPS ) ) {
             has_tool_with_UPS = true;
             return VisitResponse::ABORT;
@@ -11154,7 +11203,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
         get_map().use_charges( pos(), radius, what, qty, return_true<item> );
     }
     if( qty > 0 ) {
-        visit_items( [this, &what, &qty, &res, &del, &filter]( item * e ) {
+        visit_items( [this, &what, &qty, &res, &del, &filter]( item * e, item * ) {
             if( e->use_charges( what, qty, res, pos(), filter ) ) {
                 del.push_back( e );
             }
@@ -11163,7 +11212,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     }
 
     for( item *e : del ) {
-        inv.remove_item( e );
+        remove_item( *e );
     }
 
     if( has_tool_with_UPS ) {
@@ -12542,6 +12591,11 @@ bool Character::has_proficiency( const proficiency_id &prof ) const
     return _proficiencies->has_learned( prof );
 }
 
+bool Character::has_prof_prereqs( const proficiency_id &prof ) const
+{
+    return _proficiencies->has_prereqs( prof );
+}
+
 void Character::add_proficiency( const proficiency_id &prof, bool ignore_requirements )
 {
     if( ignore_requirements ) {
@@ -12804,7 +12858,7 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
     } else if( ammo.is_ammo_container() ) {
         int min_clamp = 0;
         // find the first ammo in the container to get its charges
-        ammo.visit_items( [&min_clamp]( const item * it ) {
+        ammo.visit_items( [&min_clamp]( const item * it, item * ) {
             if( it->is_ammo() ) {
                 min_clamp = it->charges;
                 return VisitResponse::ABORT;

@@ -485,19 +485,25 @@ static void open()
 
     player_character.moves -= 100;
 
+    // Is a vehicle part here?
     if( const optional_vpart_position vp = here.veh_at( openp ) ) {
         vehicle *const veh = &vp->vehicle();
+        // Check for potential thievery, and restore moves if action is canceled
+        if( !veh->handle_potential_theft( player_character ) ) {
+            player_character.moves += 100;
+            return;
+        }
+        // Check if vehicle has a part here that can be opened
         int openable = veh->next_part_to_open( vp->part_index() );
         if( openable >= 0 ) {
+            // If player is inside vehicle, open the door/window/curtain
             const vehicle *player_veh = veh_pointer_or_null( here.veh_at( player_character.pos() ) );
+            const std::string part_name = veh->part( openable ).name();
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
-                if( !veh->handle_potential_theft( player_character ) ) {
-                    player_character.moves += 100;
-                    return;
-                } else {
-                    veh->open( openable );
-                }
+                veh->open( openable );
+                //~ %1$s - vehicle name, %2$s - part name
+                player_character.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh->name, part_name );
             } else {
                 // Outside means we check if there's anything in that tile outside-openable.
                 // If there is, we open everything on tile. This means opening a closed,
@@ -505,16 +511,12 @@ static void open()
                 // curtains as well.
                 int outside_openable = veh->next_part_to_open( vp->part_index(), true );
                 if( outside_openable == -1 ) {
-                    const std::string name = veh->part_info( openable ).name();
-                    add_msg( m_info, _( "That %s can only opened from the inside." ), name );
+                    add_msg( m_info, _( "That %s can only be opened from the inside." ), part_name );
                     player_character.moves += 100;
                 } else {
-                    if( !veh->handle_potential_theft( player_character ) ) {
-                        player_character.moves += 100;
-                        return;
-                    } else {
-                        veh->open_all_at( openable );
-                    }
+                    veh->open_all_at( openable );
+                    //~ %1$s - vehicle name, %2$s - part name
+                    player_character.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh->name, part_name );
                 }
             }
         } else {
@@ -528,10 +530,11 @@ static void open()
         }
         return;
     }
-
+    // Not a vehicle part, just a regular door
     bool didit = here.open_door( openp, !here.is_outside( player_character.pos() ) );
-
-    if( !didit ) {
+    if( didit ) {
+        player_character.add_msg_if_player( _( "You open the %s." ), here.name( openp ) );
+    } else {
         const ter_str_id tid = here.ter( openp ).id();
 
         if( here.has_flag( flag_LOCKED, openp ) ) {

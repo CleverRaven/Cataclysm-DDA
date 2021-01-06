@@ -34,7 +34,7 @@ template <typename T>
 static int find_index( const T &sel, const item *obj )
 {
     int idx = -1;
-    sel.visit_items( [&idx, &obj]( const item * e ) {
+    sel.visit_items( [&idx, &obj]( const item * e, item * ) {
         idx++;
         if( e == obj ) {
             return VisitResponse::ABORT;
@@ -48,7 +48,7 @@ template <typename T>
 static item *retrieve_index( const T &sel, int idx )
 {
     item *obj = nullptr;
-    sel.visit_items( [&idx, &obj]( const item * e ) {
+    sel.visit_items( [&idx, &obj]( const item * e, item * ) {
         if( idx-- == 0 ) {
             obj = const_cast<item *>( e );
             return VisitResponse::ABORT;
@@ -598,20 +598,25 @@ class item_location::impl::item_in_container : public item_location::impl
             container->on_contents_changed();
         }
 
-        item_location obtain( Character &ch, int qty ) override {
+        item_location obtain( Character &ch, const int qty ) override {
             ch.mod_moves( -obtain_cost( ch, qty ) );
 
             on_contents_changed();
-            item obj = target()->split( qty );
-            if( !obj.is_null() ) {
-                return item_location( ch, &ch.i_add( obj, should_stack ) );
-            } else if( container.held_by( ch ) ) {
+            if( container.held_by( ch ) ) {
                 // we don't need to move it in this case, it's in a pocket
                 // we just charge the obtain cost and leave it in place. otherwise
                 // it's liable to end up back in the same pocket, where shenanigans ensue
                 return item_location( container, target() );
+            }
+            const item obj = target()->split( qty );
+            if( !obj.is_null() ) {
+                return item_location( ch, &ch.i_add( obj, should_stack,
+                                                     /*avoid=*/nullptr,
+                                                     /*allow_drop=*/false ) );
             } else {
-                item *inv = &ch.i_add( *target(), should_stack );
+                item *const inv = &ch.i_add( *target(), should_stack,
+                                             /*avoid=*/nullptr,
+                                             /*allow_drop=*/false );
                 if( inv->is_null() ) {
                     debugmsg( "failed to add item to character inventory while obtaining from container" );
                 }
@@ -816,7 +821,8 @@ int item_location::max_charges_by_parent_recursive( const item &it ) const
 
     return std::min( { it.charges_per_volume( pocket->remaining_volume() ),
                        it.charges_per_weight( pocket->remaining_weight() ),
-                       pocket->rigid() ? item::INFINITE_CHARGES : parent.max_charges_by_parent_recursive( it ) } );
+                       pocket->rigid() ? item::INFINITE_CHARGES : parent.max_charges_by_parent_recursive( it )
+                     } );
 }
 
 item_location::type item_location::where() const

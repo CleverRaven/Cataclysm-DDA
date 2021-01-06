@@ -98,7 +98,7 @@
       [ "metal_file", 15 ],
       [ "pin_reamer", 10 ],
       [ "sandbox_kit", 5 ],
-      [ "survival_kit", 5 ],
+      { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 5 },
       { "group": "writing_utensils", "prob": 40 }
     ]
   },
@@ -674,8 +674,8 @@
       [ "recipe_arrows", 7 ],
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 30, "charges": [ 0, 300 ] },
-      [ "survival_kit", 35 ],
-      [ "premium_survival_kit", 8 ],
+      { "group": "full_survival_kit", "prob": 35 },
+      { "group": "premium_contents", "prob": 8 },
       [ "mess_kit", 9 ],
       [ "popcan_stove", 2 ],
       [ "denat_alcohol", 2 ],

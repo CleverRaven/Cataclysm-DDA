@@ -983,6 +983,7 @@ void mapgen_road( mapgendata &dat )
 
         // ordinary straight roads
         if( num_dirs == 2 && !diag && one_in( 10 ) ) {
+            square( m, t_pavement, point( 4, 12 ), point( 19, 15 ) );
             for( int i = 4; i < 20; i += 2 ) {
                 m->ter_set( point( i, 13 ), t_zebra );
                 m->ter_set( point( i, 14 ), t_zebra );

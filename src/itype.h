@@ -24,6 +24,7 @@
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
+#include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
 #include "translations.h"
@@ -379,6 +380,7 @@ struct islot_book {
     };
     using recipe_list_t = std::set<recipe_with_description_t>;
     recipe_list_t recipes;
+    std::vector<book_proficiency_bonus> proficiencies;
 
     bool was_loaded = false;
 
@@ -543,6 +545,8 @@ struct islot_gun : common_ranged_data {
      *  @note useful for adding recoil effect to guns which otherwise consume no ammo
      */
     int recoil = 0;
+
+    int ammo_to_fire = 1;
 };
 
 /// The type of gun. The second "_type" suffix is only to distinguish it from `item::gun_type`.
@@ -997,6 +1001,8 @@ struct itype {
 
         // itemgroup used to generate the recipes within nanofabricator templates.
         item_group_id nanofab_template_group;
+
+        requirement_id template_requirements;
 
     private:
         /** Can item be combined with other identical items? */

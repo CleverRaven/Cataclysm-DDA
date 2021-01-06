@@ -41,7 +41,9 @@ git_files_list = {os.path.normpath(i) for i in {
 # no warning will be given if an untranslatable object is found in those files
 warning_suppressed_list = {os.path.normpath(i) for i in {
     "data/json/flags.json",
+    "data/json/npcs/npc.json",
     "data/json/overmap_terrain.json",
+    "data/json/statistics.json",
     "data/json/traps.json",
     "data/json/vehicleparts/",
     "data/raw/keybindings.json",
@@ -49,7 +51,7 @@ warning_suppressed_list = {os.path.normpath(i) for i in {
     "data/mods/DeoxyMod/Deoxy_vehicle_parts.json",
     "data/mods/More_Survival_Tools/start_locations.json",
     "data/mods/NPC_Traits/npc_classes.json",
-    "data/mods/Tanks/monsters.json"
+    "data/mods/Tanks/monsters.json",
 }}
 
 
@@ -63,6 +65,7 @@ def warning_supressed(filename):
 # these files will not be parsed. Full related path.
 ignore_files = {os.path.normpath(i) for i in {
     "data/json/anatomy.json",
+    "data/json/items/book/abstract.json",
     "data/mods/replacements.json",
     "data/raw/color_templates/no_bright_background.json"
 }}
