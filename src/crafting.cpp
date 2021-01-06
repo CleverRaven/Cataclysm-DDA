@@ -871,8 +871,18 @@ void Character::craft_skill_gain( const item &craft, const int &multiplier )
     std::vector<npc *> helpers = get_crafting_helpers();
 
     if( making.skill_used ) {
+        // What we're doing here is taking the amount of time the craft will actually take and
+        // the amount of time it will take without factoring in proficiency losses or
+        // assistants or batch efficiencies and averaging them.
+        // The reason for this is gaining skill practice at "full" rate for slowed down crafting is
+        // incredibly generous, and gaining skill practice at the reduced rate for
+        // missing proficiencies is incredibly harsh, so we're just splitting the difference.
+        const double actual_craft_time = base_time_to_craft( making, batch_size );
+        const double nominal_craft_time = making.time_to_craft_moves( *this,
+                                          recipe_time_flag::ignore_proficiencies );
+        const double adjusted_craft_time = ( actual_craft_time + nominal_craft_time ) / 2.0;
         // Normalize experience gain to crafting time, giving a bonus for longer crafting
-        const double batch_mult = batch_size + base_time_to_craft( making, batch_size ) / 30000.0;
+        const double batch_mult = batch_size + ( adjusted_craft_time / 30000.0 );
         // This is called after every 5% crafting progress, so divide by 20
         const int base_practice = roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult /
                                   20.0 ) * multiplier;
