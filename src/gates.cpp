@@ -283,10 +283,13 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
             if( !veh->handle_potential_theft( get_avatar() ) ) {
                 return;
             }
-            veh->close( closable );
-            //~ %1$s - vehicle name, %2$s - part name
-            who.add_msg_if_player( _( "You close the %1$s's %2$s." ), veh->name, veh->part( closable ).name() );
-            didit = true;
+            Character *ch = who.as_character();
+            if( ch && veh->can_close( closable, *ch ) ) {
+                veh->close( closable );
+                //~ %1$s - vehicle name, %2$s - part name
+                who.add_msg_if_player( _( "You close the %1$s's %2$s." ), veh->name, veh->part( closable ).name() );
+                didit = true;
+            }
         } else if( inside_closable >= 0 ) {
             who.add_msg_if_player( m_info, _( "That %s can only be closed from the inside." ),
                                    veh->part( inside_closable ).name() );

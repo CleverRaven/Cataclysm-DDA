@@ -297,6 +297,26 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
                     //~ Right-aligned time string. should right-align with other strings with this same comment
                     return string_format( ngettext( "%3d    year", "%3d   years", num ), num );
             }
+        case clipped_align::compact:
+            switch( type ) {
+                default:
+                case clipped_unit::forever:
+                    return _( "forever" );
+                case clipped_unit::second:
+                    return string_format( ngettext( "%d sec", "%d secs", num ), num );
+                case clipped_unit::minute:
+                    return string_format( ngettext( "%d min", "%d mins", num ), num );
+                case clipped_unit::hour:
+                    return string_format( ngettext( "%d hr", "%d hrs", num ), num );
+                case clipped_unit::day:
+                    return string_format( ngettext( "%d day", "%d days", num ), num );
+                case clipped_unit::week:
+                    return string_format( ngettext( "%d wk", "%d wks", num ), num );
+                case clipped_unit::season:
+                    return string_format( ngettext( "%d seas", "%d seas", num ), num );
+                case clipped_unit::year:
+                    return string_format( ngettext( "%d yr", "%d yrs", num ), num );
+            }
     }
 }
 
@@ -343,7 +363,7 @@ std::string to_string_clipped( const time_duration &d,
     return to_string_clipped( time.first, time.second, align );
 }
 
-std::string to_string( const time_duration &d )
+std::string to_string( const time_duration &d, const bool compact )
 {
     if( d >= calendar::INDEFINITELY_LONG_DURATION ) {
         return _( "forever" );
@@ -369,10 +389,17 @@ std::string to_string( const time_duration &d )
     }
 
     if( d % divider != 0_turns ) {
-        //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
-        return string_format( _( "%1$s and %2$s" ),
-                              to_string_clipped( d ),
-                              to_string_clipped( d % divider ) );
+        if( compact ) {
+            //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
+            return string_format( pgettext( "time duration", "%1$s %2$s" ),
+                                  to_string_clipped( d, clipped_align::compact ),
+                                  to_string_clipped( d % divider, clipped_align::compact ) );
+        } else {
+            //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
+            return string_format( _( "%1$s and %2$s" ),
+                                  to_string_clipped( d ),
+                                  to_string_clipped( d % divider ) );
+        }
     }
     return to_string_clipped( d );
 }

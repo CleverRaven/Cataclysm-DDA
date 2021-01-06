@@ -649,34 +649,32 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     const int max_width = getmaxx( w ) - column - 1;
 
     // Print health bar, monster name, then statuses on the first line.
-    nc_color color = c_white;
-    std::string bar_str;
-    get_HP_Bar( color, bar_str );
-    mvwprintz( w, point( column, vStart ), color, bar_str );
-    const int bar_max_width = 5;
-    const int bar_width = utf8_width( bar_str );
-    for( int i = 0; i < bar_max_width - bar_width; ++i ) {
-        mvwprintz( w, point( column + 4 - i, vStart ), c_white, "." );
-    }
-    mvwprintz( w, point( column + bar_max_width + 1, vStart ), basic_symbol_color(), name() );
-    trim_and_print( w, point( column + bar_max_width + utf8_width( " " + name() + " " ), vStart ),
-                    max_width - bar_max_width - utf8_width( " " + name() + " " ), h_white, get_effect_status() );
+    nc_color bar_color = c_white;
+    std::string bar_str, dot_str;
+    get_HP_Bar( bar_color, bar_str );
+    std::ostringstream oss;
+    oss << get_tag_from_color( bar_color ) << bar_str << "</color>";
+    oss << "<color_white>" << std::string( 5 - utf8_width( bar_str ), '.' ) << "</color> ";
+    oss << get_tag_from_color( basic_symbol_color() ) << name() << "</color> ";
+    oss << "<color_h_white>" << get_effect_status() << "</color>";
+    vStart += fold_and_print( w, point( column, vStart ), max_width, c_white, oss.str() );
 
     // Hostility indicator on the second line.
     std::pair<std::string, nc_color> att = get_attitude();
-    mvwprintz( w, point( column, ++vStart ), att.second, att.first );
+    mvwprintz( w, point( column, vStart++ ), att.second, att.first );
 
     // Awareness indicator in the third line.
     bool sees_player = sees( get_player_character() );
     std::string senses_str = sees_player ? _( "Can see to your current location" ) :
                              _( "Can't see to your current location" );
-    mvwprintz( w, point( column, ++vStart ), sees_player ? c_red : c_green, senses_str );
+    vStart += fold_and_print( w, point( column, vStart ), max_width, sees_player ? c_red : c_green,
+                              senses_str );
 
     // Monster description on following lines.
     std::vector<std::string> lines = foldstring( type->get_description(), max_width );
     int numlines = lines.size();
     for( int i = 0; i < numlines && vStart < vEnd; i++ ) {
-        mvwprintz( w, point( column, ++vStart ), c_light_gray, lines[i] );
+        mvwprintz( w, point( column, vStart++ ), c_light_gray, lines[i] );
     }
 
     if( !mission_fused.empty() ) {
@@ -1112,6 +1110,10 @@ monster_attitude monster::attitude( const Character *u ) const
                 effective_anger -= 10;
             }
         }
+        auto *u_fac = u->get_faction();
+        if( u_fac && faction == u_fac->mon_faction ) {
+            return MATT_FRIEND;
+        }
 
         if( type->in_species( species_FUNGUS ) && ( u->has_trait( trait_THRESH_MYCUS ) ||
                 u->has_trait( trait_MYCUS_FRIEND ) ) ) {
@@ -1383,24 +1385,24 @@ void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
     }
 }
 
-void monster::melee_attack( Creature &target )
+bool monster::melee_attack( Creature &target )
 {
-    melee_attack( target, get_hit() );
+    return melee_attack( target, get_hit() );
 }
 
-void monster::melee_attack( Creature &target, float accuracy )
+bool monster::melee_attack( Creature &target, float accuracy )
 {
     // Note: currently this method must consume move even if attack hasn't actually happen
     // otherwise infinite loop will happen
     mod_moves( -type->attack_cost );
     if( /*This happens sometimes*/ this == &target || !is_adjacent( &target, true ) ) {
-        return;
+        return false;
     }
 
     int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
     if( type->melee_dice == 0 ) {
-        // We don't attack, so just return
-        return;
+        // We don't hit, so just return
+        return true;
     }
 
     Character &player_character = get_player_character();
@@ -1523,11 +1525,11 @@ void monster::melee_attack( Creature &target, float accuracy )
         if( one_in( 7 ) ) {
             die( nullptr );
         }
-        return;
+        return true;
     }
 
     if( total_dealt <= 0 ) {
-        return;
+        return true;
     }
 
     // Add any on damage effects
@@ -1556,6 +1558,7 @@ void monster::melee_attack( Creature &target, float accuracy )
         target.add_msg_if_player( m_bad, _( "You feel venom enter your body!" ) );
         target.add_effect( effect_paralyzepoison, 10_minutes );
     }
+    return true;
 }
 
 void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,

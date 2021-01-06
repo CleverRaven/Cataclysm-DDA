@@ -2198,7 +2198,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
                 } else {
                     //~ 1s - scenario name, 2d - current character points.
                     scen_msg_temp = ngettext( "Scenario %1$s costs %2$d point",
-                                              "Scenario %1$s cost %2$d points",
+                                              "Scenario %1$s costs %2$d points",
                                               pointsForScen );
                 }
             } else {
@@ -2207,7 +2207,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
                                               "Scenario earns %2$d points", pointsForScen );
                 } else {
                     scen_msg_temp = ngettext( "Scenario costs %2$d point",
-                                              "Scenario cost %2$d points", pointsForScen );
+                                              "Scenario costs %2$d points", pointsForScen );
                 }
             }
 

@@ -1533,12 +1533,14 @@ bool game::do_turn()
 
             mon_info_update();
 
-            // If player is performing a task and a monster is dangerously close, warn them
-            // regardless of previous safemode warnings
+            // If player is performing a task, a monster is dangerously close,
+            // and monster can reach to the player or it has some sort of a ranged attack,
+            // warn them regardless of previous safemode warnings
             if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
                 u.activity.moves_left > 0 &&
                 !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
-                Creature *hostile_critter = is_hostile_very_close();
+                Creature *hostile_critter = is_hostile_very_close( true );
+
                 if( hostile_critter != nullptr ) {
                     cancel_activity_or_ignore_query( distraction_type::hostile_spotted_near,
                                                      string_format( _( "The %s is dangerously close!" ),
@@ -4061,15 +4063,28 @@ Creature *game::is_hostile_nearby()
     return is_hostile_within( distance );
 }
 
-Creature *game::is_hostile_very_close()
+Creature *game::is_hostile_very_close( bool dangerous )
 {
-    return is_hostile_within( DANGEROUS_PROXIMITY );
+    return is_hostile_within( DANGEROUS_PROXIMITY, dangerous );
 }
 
-Creature *game::is_hostile_within( int distance )
+Creature *game::is_hostile_within( int distance, bool dangerous )
 {
     for( auto &critter : u.get_visible_creatures( distance ) ) {
         if( u.attitude_to( *critter ) == Creature::Attitude::HOSTILE ) {
+            if( dangerous ) {
+                if( critter->is_ranged_attacker() ) {
+                    return critter;
+                }
+
+                const pathfinding_settings pf_settings = pathfinding_settings { 8, distance, distance * 2, 4, true, false, true, false, false };
+                static const std::set<tripoint> path_avoid = {};
+
+                if( !get_map().route( u.pos(), critter->pos(), pf_settings, path_avoid ).empty() ) {
+                    return critter;
+                }
+                continue;
+            }
             return critter;
         }
     }
@@ -6258,12 +6273,15 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 {
     const int max_width = getmaxx( w_look ) - column - 1;
 
-    // Print OMT type and terrain type on first line.
-    std::string tile = m.tername( lp );
-    trim_and_print( w_look, point( column, line ), max_width, c_white, area_name );
-    const int terrain_lines = fold_and_print( w_look, point( column + utf8_width( area_name ) + 1,
-                              line ), max_width - utf8_width( area_name ) - 1, c_light_gray, tile );
-    line += terrain_lines - 1;
+    // Print OMT type and terrain type on first line, or first two lines if can't fit in one line.
+    const std::string tile = m.tername( lp );
+    if( utf8_width( tile ) + utf8_width( area_name ) + 1 > max_width ) {
+        trim_and_print( w_look, point( column, line++ ), max_width, c_white, area_name );
+        trim_and_print( w_look, point( column, line++ ), max_width, c_light_gray, tile );
+    } else {
+        mvwprintz( w_look, point( column, line ), c_white, area_name );
+        mvwprintz( w_look, point( column + utf8_width( area_name ) + 1, line++ ), c_light_gray, tile );
+    }
 
     // Furniture on second line if any.
     if( m.has_furn( lp ) ) {
@@ -8796,7 +8814,7 @@ void game::butcher()
         return;
     }
 
-    Creature *hostile_critter = is_hostile_very_close();
+    Creature *hostile_critter = is_hostile_very_close( true );
     if( hostile_critter != nullptr ) {
         if( !query_yn( _( "You see %s nearby!  Start butchering anyway?" ),
                        hostile_critter->disp_name() ) ) {
