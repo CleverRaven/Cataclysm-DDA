@@ -647,7 +647,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             const item &med = *loc;
 
             if( loc->made_of_from_type( phase_id::LIQUID ) && loc.where() != item_location::type::container ) {
-                return _( "Can't drink spilt liquids" );
+                return _( "Can't drink spilt liquids." );
             }
 
             if( med.is_medication() && !p.can_use_heal_item( med ) ) {
