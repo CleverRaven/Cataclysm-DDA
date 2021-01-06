@@ -676,7 +676,6 @@
       "your_followers": { "knows your voice": true },
       "no_faction": { "knows your voice": true }
     },
-    "epilogues": [ { "power_min": 0, "id": "epilogue_fisherman_family_0" }, { "power_max": 150, "id": "epilogue_fisherman_family_150" } ],
-    "description": "Fisherman Family!"
+    "description": "A small family trying to survive in this new world."
   }
 ]

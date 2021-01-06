@@ -29,21 +29,19 @@
     "id": "NPC_lighthouse_man_shop",
     "subtype": "collection",
     "items": [
-      [ "fish_bait", 10 ],
-      [ "fishspear", 10 ],
-      [ "fish", 10 ],
-      [ "fish_smoked", 10 ],
-      [ "fish_cooked", 10 ],
-      [ "salted_fish", 10 ],
-      [ "fish_smoked", 10 ],
-      [ "dry_fish", 10 ],
-      [ "fish_pickled", 10 ],
-      [ "fish_fried", 10 ],
-      [ "soup_fish", 10 ],
-      [ "doublespeargun", 10 ],
-      [ "fish_trap", 10 ],
-      [ "fishing_hook_bone", 10 ],
-      [ "fishing_rod_basic", 10 ]
+      [ "fish_bait", 35 ],
+      [ "fishspear", 1 ],
+      [ "fish", 20 ],
+      [ "fish_smoked", 4 ],
+      [ "fish_cooked", 14 ],
+      [ "salted_fish", 4 ],
+      [ "dry_fish", 2 ],
+      [ "fish_fried", 6 ],
+      [ "soup_fish", 50 ],
+      [ "doublespeargun", 1 ],
+      [ "fish_trap", 4 ],
+      [ "fishing_hook_bone", 2 ],
+      [ "fishing_rod_basic", 1 ]
     ]
   },
   {
@@ -60,7 +58,7 @@
       { "text": "About that job…", "condition": "has_assigned_mission", "topic": "TALK_MISSION_INQUIRE" },
       { "text": "<BGSS_intro_question>", "topic": "TALK_lighthouse_man_Background" },
       {
-        "text": "How are you?",
+        "text": "How are you doing?",
         "topic": "TALK_lighthouse_man_hay",
         "condition": { "npc_has_var": "helped_lighthouse_man", "type": "flag", "context": "help", "value": "yes" }
       },
@@ -117,6 +115,7 @@
     "id": "TALK_lighthouse_man_lighthouse",
     "dynamic_line": "Are we there yet, <name_g>?",
     "responses": [
+      { "text": "I want you to use this item.", "topic": "TALK_lighthouse_man_lighthouse", "effect": "npc_gets_item_to_use" },
       {
         "text": "We're here.",
         "topic": "TALK_MISSION_INQUIRE",

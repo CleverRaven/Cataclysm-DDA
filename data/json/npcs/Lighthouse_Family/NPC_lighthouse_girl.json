@@ -16,6 +16,7 @@
     "dynamic_line": "I'm scared.  Where is my papa?",
     "speaker_effect": { "sentinel": "met", "effect": [ "follow_only", { "add_mission": "MISSION_lighthouse_girl_0" } ] },
     "responses": [
+      { "text": "I want you to use this item.", "topic": "TALK_lighthouse_girl_start", "effect": "npc_gets_item_to_use" },
       {
         "text": "We're here.",
         "topic": "TALK_lighthouse_girl_safe",
@@ -50,7 +51,7 @@
         "context": "death",
         "value": "yes",
         "yes": "Poor, poor mama…",
-        "no": "<greet>"
+        "no": "Hello."
       }
     },
     "responses": [
@@ -84,7 +85,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_lighthouse_girl_Background",
-    "dynamic_line": "Insert text."
+    "dynamic_line": "I don't have much to tell, sorry.  I'm busy with helping my mom, tiding this place to make it our new home.  You should talk to my dad, he doesn't look busy right now.  Or always…"
   },
   {
     "id": "MISSION_lighthouse_girl_0",
