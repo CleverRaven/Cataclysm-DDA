@@ -710,5 +710,5 @@ int main( int argc, const char *argv[] )
     }
 
     exit_handler( -999 );
-    return 42;
+    return 0;
 }
