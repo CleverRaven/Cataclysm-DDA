@@ -3331,7 +3331,7 @@ bool npc::do_player_activity()
             current_activity_id = activity.id();
         } else {
             if( is_player_ally() ) {
-                add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
+                add_msg( m_info, string_format( _( "%s completed the assigned task." ), disp_name() ) );
             }
             current_activity_id = activity_id::NULL_ID();
             revert_after_activity();
