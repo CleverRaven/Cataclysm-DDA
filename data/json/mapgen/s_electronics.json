@@ -320,5 +320,161 @@
         }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_electronics_2" ],
+    "weight": 300,
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "  ____________________  ",
+        "  *___*___*______*___*  ",
+        "  ---:::---+----:::---  ",
+        "  |H....#...........R|  ",
+        "  |H................R|  ",
+        "  |H....#...CC......R|  ",
+        "  |H....#.......#####|  ",
+        "  |H............#....|  ",
+        "  |H....#...CC..#....|  ",
+        "  |H....#...CC..###.#|  ",
+        "  |D....#...CC..{...D|  ",
+        "  |D........CC......D|  ",
+        "  |D................D|  ",
+        "  |D............BBBBD|  ",
+        "  ==/=================  ",
+        " 4=..|..............#=  ",
+        "  =..|..............N=  ",
+        "  =../..............N=  ",
+        "  =..|..............#=  ",
+        "  =..|-------G..AS#.G=  ",
+        "  =../.....M|G..?.#.G=  ",
+        "  =/-|.....M|G......G=  ",
+        "  =JJ|.MMMMM|GGGGGGGG=  ",
+        "  ====================  "
+      ],
+      "terrain": {
+        "*": "t_pavement_y",
+        "+": "t_door_metal_pickable",
+        "-": "t_concrete_wall",
+        ".": "t_floor",
+        "C": "t_floor",
+        "#": "t_floor",
+        "R": "t_floor",
+        "J": "t_floor",
+        "{": "t_floor",
+        "D": "t_floor",
+        "M": "t_floor",
+        "G": "t_floor",
+        "A": "t_floor",
+        "?": "t_floor",
+        "S": "t_floor",
+        "N": "t_floor",
+        "H": "t_floor",
+        "B": "t_floor",
+        ":": "t_window_bars_alarm",
+        "=": "t_strconc_wall",
+        "_": "t_pavement",
+        "|": "t_concrete_wall",
+        "/": "t_door_c",
+        "<": "t_ladder_up",
+        "4": "t_gutter_downspout"
+      },
+      "toilets": { "&": {  } },
+      "items": {
+        "J": { "item": "cleaning", "chance": 50, "repeat": [ 1, 4 ] },
+        "D": { "item": "elecsto_diy", "chance": 75, "repeat": [ 1, 4 ] },
+        "C": { "item": "consumer_electronics", "chance": 75, "repeat": [ 1, 4 ] },
+        "H": { "item": "elecsto_homapl", "chance": 75, "repeat": [ 1, 4 ] },
+        "R": { "item": "elecsto_books", "chance": 50, "repeat": [ 1, 2 ] },
+        "B": { "item": "bionics_common", "chance": 50 },
+        "G": [ { "item": "bionics_common", "chance": 20 }, { "item": "bionics", "chance": 10 } ],
+        "M": [
+          { "item": "surgery", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "drugs_pharmacy", "chance": 10, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "furniture": {
+        "#": "f_counter",
+        "S": "f_stool",
+        "{": "f_rack",
+        "D": "f_rack",
+        "G": "f_rack",
+        "C": "f_rack",
+        "H": "f_rack",
+        "R": "f_rack",
+        "B": "f_rack",
+        "M": "f_rack",
+        "N": "f_sink",
+        "A": "f_autodoc",
+        "?": "f_autodoc_couch"
+      },
+      "place_monster": [ { "monster": "mon_turret_light", "x": 13, "y": 17 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_electronics_roof_2",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "  |2222222222222222223  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..X...............3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  5..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |------------------3  "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": {  },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 30 ],
+            [ "roof_2x2_utilities", 30 ],
+            [ "roof_2x2_golf", 10 ],
+            [ "roof_3x3_wine", 10 ]
+          ],
+          "x": [ 4, 15 ],
+          "y": [ 8, 9 ]
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_4x4_party", 5 ],
+            [ "roof_4x4_holdout", 15 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_4x4_utility_1", 10 ],
+            [ "roof_6x6_survivor", 20 ],
+            [ "roof_6x6_utility", 20 ]
+          ],
+          "x": [ 4, 13 ],
+          "y": [ 11, 16 ]
+        }
+      ]
+    }
   }
 ]

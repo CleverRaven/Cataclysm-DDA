@@ -195,7 +195,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_electronics", "s_electronics_1" ],
+    "id": [ "s_electronics", "s_electronics_1", "s_electronics_2" ],
     "copy-from": "generic_city_building",
     "name": "electronics store",
     "color": "yellow",
@@ -203,7 +203,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_electronics_roof", "s_electronics_roof_1" ],
+    "id": [ "s_electronics_roof", "s_electronics_roof_1", "s_electronics_roof_2" ],
     "copy-from": "generic_city_building",
     "name": "electronics store roof",
     "color": "yellow"
