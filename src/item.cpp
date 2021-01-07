@@ -1855,6 +1855,12 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     if( mod->ammo_required() && !mod->ammo_remaining() ) {
         tmp = *mod;
         tmp.ammo_set( mod->magazine_current() ? tmp.common_ammo_default() : tmp.ammo_default() );
+        if( tmp.ammo_data() == nullptr ) {
+            insert_separation_line( info );
+            info.emplace_back( "GUN",
+                               _( "Weapon <bad>can't be loaded in its current state</bad>." ) );
+            return;
+        }
         loaded_mod = &tmp;
         if( parts->test( iteminfo_parts::GUN_DEFAULT_AMMO ) ) {
             insert_separation_line( info );
@@ -7262,7 +7268,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
     } else if( mod.typeId() == "brass_catcher" && has_flag( flag_RELOAD_EJECT ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a brass catcher" ) );
 
-    } else if( ( mod.type->mod->ammo_modifier.empty() || !mod.type->mod->magazine_adaptor.empty() )
+    } else if( ( !mod.type->mod->ammo_modifier.empty() || !mod.type->mod->magazine_adaptor.empty() )
                && ( ammo_remaining() > 0 || magazine_current() ) ) {
         return ret_val<bool>::make_failure( _( "must be unloaded before installing this mod" ) );
     }

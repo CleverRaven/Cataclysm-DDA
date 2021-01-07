@@ -568,6 +568,7 @@ class gun_type_type
         }
 
         friend struct std::hash<gun_type_type>;
+        friend class Item_factory;
 };
 
 namespace std

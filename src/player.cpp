@@ -29,6 +29,7 @@
 #include "fault.h"
 #include "field_type.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "gun_mode.h"
 #include "handle_liquid.h"
 #include "input.h"
@@ -3548,24 +3549,30 @@ void player::gunmod_add( item &gun, item &mod )
 
     std::string tool;
     int qty = 0;
+    bool requery = false;
 
-    if( mod.is_irremovable() ) {
-        if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
-                       colorize( mod.tname(), mod.color_in_inventory() ),
-                       colorize( gun.tname(), gun.color_in_inventory() ) ) ) {
-            add_msg_if_player( _( "Never mind." ) );
-            return; // player canceled installation
-        }
+    item modded = gun;
+    modded.put_in( mod );
+    bool no_magazines = modded.common_ammo_default() == "NULL";
+
+    std::string query_msg = mod.is_irremovable()
+                            ? _( "<color_yellow>Permanently</color> install your %1$s in your %2$s?" )
+                            : _( "Attach your %1$s to your %2$s?" );
+    if( no_magazines ) {
+        query_msg += "\n";
+        query_msg += colorize(
+                         _( "Warning: after installing this mod, a magazine adapter mod will be required to load it!" ),
+                         c_red );
     }
 
-    // if chance of success <100% prompt user to continue
+    uilist prompt;
+    prompt.text = string_format( query_msg,
+                                 colorize( mod.tname(), mod.color_in_inventory() ),
+                                 colorize( gun.tname(), gun.color_in_inventory() ) );
+
+    std::vector<std::function<void()>> actions;
+
     if( roll < 100 ) {
-        uilist prompt;
-        prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), mod.tname(),
-                                     gun.tname() );
-
-        std::vector<std::function<void()>> actions;
-
         prompt.addentry( -1, true, 'w',
                          string_format( _( "Try without tools (%i%%) risking damage (%i%%)" ), roll, risk ) );
         actions.emplace_back( [&] {} );
@@ -3589,14 +3596,26 @@ void player::gunmod_add( item &gun, item &mod )
             roll *= 3; // gunsmith repair kit improves success markedly...
             risk = 0;  // ...and entirely prevents damage upon failure
         } );
+    } else {
+        prompt.addentry( -1, true, 'w', _( "Install without tools" ) );
+        actions.emplace_back( [&] {} );
+    }
 
+    prompt.addentry( -1, true, 'c', _( "Compare before/after installation" ) );
+    actions.emplace_back( [&] {
+        requery = true;
+        game_menus::inv::compare( gun, modded );
+    } );
+
+    do {
+        requery = false;
         prompt.query();
         if( prompt.ret < 0 ) {
             add_msg_if_player( _( "Never mind." ) );
             return; // player canceled installation
         }
         actions[ prompt.ret ]();
-    }
+    } while( requery );
 
     const int moves = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
 

@@ -63,6 +63,7 @@ item_location titled_filter_menu( item_filter filter, avatar &you,
 
 void common( avatar &you );
 void compare( player &p, const cata::optional<tripoint> &offset );
+void compare( const item &left, const item &right );
 void reassign_letter( player &p, item &it );
 void swap_letters( player &p );
 

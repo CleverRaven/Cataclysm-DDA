@@ -41,6 +41,7 @@
 #include "recipe_dictionary.h"
 #include "relic.h"
 #include "requirements.h"
+#include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -1187,6 +1188,43 @@ void Item_factory::check_definitions() const
             }
             if( ( type->gunmod->sight_dispersion < 0 ) != ( type->gunmod->aim_speed < 0 ) ) {
                 msg += "gunmod must have both sight_dispersion and aim_speed set or neither of them set\n";
+            }
+            for( const gun_type_type &t : type->gunmod->usable ) {
+                // TODO: Make gun_type_type not require horrid checks like this one
+                const skill_id gun_skill = skill_id( t.name_ );
+                bool is_skill = ( gun_skill.is_valid() && gun_skill->is_combat_skill() )
+                                || t.name_ == "bow"
+                                || t.name_ == "crossbow";
+                bool is_item = has_template( t.name_ );
+                if( !is_skill && !is_item ) {
+                    msg += string_format( "gunmod is usable for invalid item/gun type %s\n", t.name_ );
+                    continue;
+                }
+
+                // We need to check is_skill because something can be both an item and a skill
+                if( !is_skill && is_item ) {
+                    const itype *target = find_template( t.name_ );
+                    if( target->gun->valid_mod_locations.count( type->gunmod->location ) == 0 ) {
+                        msg += string_format( "gunmod is usable for gun %s which doesn't have a slot of type %s\n",
+                                              t.name_, type->gunmod->location.str() );
+                    }
+
+                    if( type->mod != nullptr && !type->mod->ammo_modifier.empty() ) {
+                        auto acceptable_ammo = type->mod->ammo_modifier;
+                        for( const auto &pr : type->mod->magazine_adaptor ) {
+                            acceptable_ammo.insert( pr.first );
+                        }
+                        auto acceptable_magazines = !type->mod->magazine_adaptor.empty()
+                                                    ? type->mod->magazine_adaptor
+                                                    : target->magazines;
+                        for( const ammotype &ammo : acceptable_ammo ) {
+                            if( acceptable_magazines.find( ammo ) == acceptable_magazines.end() ) {
+                                msg += string_format( "gunmod can be applied to %s, which has no magazines for ammo %s\n",
+                                                      t.name_, ammo.str() );
+                            }
+                        }
+                    }
+                }
             }
         }
         if( type->mod ) {

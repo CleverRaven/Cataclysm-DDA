@@ -1406,6 +1406,19 @@ void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset
         return;
     }
 
+    do {
+        const auto to_compare = inv_s.execute();
+
+        if( to_compare.first == nullptr || to_compare.second == nullptr ) {
+            break;
+        }
+
+        compare( *to_compare.first, *to_compare.second );
+    } while( true );
+}
+
+void game_menus::inv::compare( const item &l, const item &r )
+{
     std::string action;
     input_context ctxt;
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1415,69 +1428,61 @@ void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
 
-    do {
-        const auto to_compare = inv_s.execute();
+    std::vector<iteminfo> vItemLastCh;
+    std::vector<iteminfo> vItemCh;
+    std::string sItemLastCh;
+    std::string sItemCh;
+    std::string sItemLastTn;
+    std::string sItemTn;
 
-        if( to_compare.first == nullptr || to_compare.second == nullptr ) {
-            break;
+    l.info( true, vItemLastCh );
+    sItemLastCh = l.tname();
+    sItemLastTn = l.type_name();
+
+    r.info( true, vItemCh );
+    sItemCh = r.tname();
+    sItemTn = r.type_name();
+
+    int iScrollPos = 0;
+    int iScrollPosLast = 0;
+
+    item_info_data last_item_info( sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast );
+    last_item_info.without_getch = true;
+
+    item_info_data cur_item_info( sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
+    cur_item_info.without_getch = true;
+
+    catacurses::window w_last_item_info;
+    catacurses::window w_cur_item_info;
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const int half_width = TERMX / 2;
+        const int height = TERMY;
+        w_last_item_info = catacurses::newwin( height, half_width, point_zero );
+        w_cur_item_info = catacurses::newwin( height, half_width, point( half_width, 0 ) );
+        ui.position( point_zero, point( half_width * 2, height ) );
+    } );
+    ui.mark_resize();
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_item_info( w_last_item_info, last_item_info );
+        draw_item_info( w_cur_item_info, cur_item_info );
+    } );
+
+    do {
+        ui_manager::redraw();
+
+        action = ctxt.handle_input();
+
+        if( action == "UP" || action == "PAGE_UP" ) {
+            iScrollPos--;
+            iScrollPosLast--;
+        } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
+            iScrollPos++;
+            iScrollPosLast++;
         }
 
-        std::vector<iteminfo> vItemLastCh;
-        std::vector<iteminfo> vItemCh;
-        std::string sItemLastCh;
-        std::string sItemCh;
-        std::string sItemLastTn;
-        std::string sItemTn;
-
-        to_compare.first->info( true, vItemCh );
-        sItemCh = to_compare.first->tname();
-        sItemTn = to_compare.first->type_name();
-
-        to_compare.second->info( true, vItemLastCh );
-        sItemLastCh = to_compare.second->tname();
-        sItemLastTn = to_compare.second->type_name();
-
-        int iScrollPos = 0;
-        int iScrollPosLast = 0;
-
-        item_info_data last_item_info( sItemLastCh, sItemLastTn, vItemLastCh, vItemCh, iScrollPosLast );
-        last_item_info.without_getch = true;
-
-        item_info_data cur_item_info( sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
-        cur_item_info.without_getch = true;
-
-        catacurses::window w_last_item_info;
-        catacurses::window w_cur_item_info;
-        ui_adaptor ui;
-        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-            const int half_width = TERMX / 2;
-            const int height = TERMY;
-            w_last_item_info = catacurses::newwin( height, half_width, point_zero );
-            w_cur_item_info = catacurses::newwin( height, half_width, point( half_width, 0 ) );
-            ui.position( point_zero, point( half_width * 2, height ) );
-        } );
-        ui.mark_resize();
-
-        ui.on_redraw( [&]( const ui_adaptor & ) {
-            draw_item_info( w_last_item_info, last_item_info );
-            draw_item_info( w_cur_item_info, cur_item_info );
-        } );
-
-        do {
-            ui_manager::redraw();
-
-            action = ctxt.handle_input();
-
-            if( action == "UP" || action == "PAGE_UP" ) {
-                iScrollPos--;
-                iScrollPosLast--;
-            } else if( action == "DOWN" || action == "PAGE_DOWN" ) {
-                iScrollPos++;
-                iScrollPosLast++;
-            }
-
-        } while( action != "QUIT" );
-    } while( true );
+    } while( action != "QUIT" );
 }
 
 void game_menus::inv::reassign_letter( player &p, item &it )

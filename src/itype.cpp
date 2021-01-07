@@ -8,6 +8,7 @@
 #include "player.h"
 #include "ret_val.h"
 #include "translations.h"
+#include "skill.h"
 
 struct tripoint;
 
