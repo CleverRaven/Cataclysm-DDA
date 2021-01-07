@@ -1141,7 +1141,7 @@
     "name": { "str": "new york wiener" },
     "copy-from": "hotdogs_cooked",
     "weight": "568 g",
-    "looks-like": "hotdogs_cooked",
+    "looks_like": "hotdogs_cooked",
     "calories": 721,
     "description": "What's better than a hot dog?  A hot dog smothered in ground meat and chopped onions, of course!  Tastes better than a normal hot dog.",
     "price_postapoc": 500,
