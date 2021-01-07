@@ -1467,5 +1467,20 @@
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_smoke"
+  },
+  {
+    "id": "fd_grease",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "grease splatter", "color": "light_gray" },
+      { "name": "grease stain" },
+      { "name": "puddle of grease", "color": "dark_gray" }
+    ],
+    "description_affix": "covered_in",
+    "is_splattering": true,
+    "half_life": "10 days",
+    "phase": "liquid",
+    "display_field": true,
+    "looks_like": "fd_sludge"
   }
 ]
