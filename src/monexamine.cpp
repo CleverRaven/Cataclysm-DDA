@@ -491,6 +491,8 @@ bool monexamine::mfriend_menu( monster &z )
                 get_player_character().melee_attack( z, true );
             }
             break;
+        default:
+            break;
     }
 
     return true;
