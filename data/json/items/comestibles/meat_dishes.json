@@ -357,7 +357,7 @@
     "description": "A delicious deep-fried biscuit loaded with crab meat.",
     "//": "Currently only found in worldgen and is uncraftable. If crab gets added please make a recipe for crab cakes.",
     "volume": "175 ml",
-    "looks-like": "fish_fried",
+    "looks_like": "fish_fried",
     "fun": 13
   },
   {
