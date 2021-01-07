@@ -378,7 +378,7 @@
     "followup": "MISSION_lighthouse_man_4",
     "dialogue": {
       "describe": "-",
-      "offer": "We found The lighthouse and cleared it of <zombies>.  Now, I need to bring my family here.  May I ask you for a favor?  Since you bring me here, can you go back, find my family and bring them here?",
+      "offer": "We found the lighthouse and cleared it of <zombies>.  Now, I need to bring my family here.  May I ask you for a favor?  Since you bring me here, can you go back, find my family and bring them here?",
       "accepted": "You are my savior!  I'll take a look around here for a while, prepare everything here for their arrival.",
       "rejected": "Well, it's your choice.",
       "advice": "Please be very careful.  I don't want to lose them…",
