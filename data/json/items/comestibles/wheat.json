@@ -378,7 +378,7 @@
     "weight": "25 g",
     "container": "plastic_bag_vac",
     "description": "These bite-sized crackers go well with soups, but will make you thirsty on their own.",
-    "looks-like": "crackers",
+    "looks_like": "crackers",
     "price": 55,
     "price_postapoc": 300,
     "volume": "250 ml",
