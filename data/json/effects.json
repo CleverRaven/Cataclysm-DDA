@@ -245,6 +245,13 @@
     "desc": [ "AI tag used for monsters pushing each other.  This is a bug if you have it." ]
   },
   {
+    "type": "effect_type",
+    "id": "dripping_grease",
+    "name": [ "Grease dripping" ],
+    "desc": [ "AI tag used for robot monsters losing grease.  This is a bug if you have it." ],
+    "show_in_info": true
+  },
+  {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
     "type": "effect_type",
     "id": "downed",
