@@ -1695,7 +1695,8 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     if( veh ) {
         veh->print_fuel_indicators( w, point( 39, 2 ) );
         mvwprintz( w, point( 35, 4 ), c_light_gray, veh->face.to_string_azimuth_from_north() );
-        veh->print_speed_gauge( w, point( 21, 5 ), 1 );
+        double speed = convert_velocity( veh->velocity, VU_VEHICLE );
+        veh->print_speed_gauge( w, point( 21, 5 ), ( -10 < speed && speed < 100 ) ? 1 : 0 );
     }
 
     wnoutrefresh( w );

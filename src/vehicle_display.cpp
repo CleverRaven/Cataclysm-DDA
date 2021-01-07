@@ -479,9 +479,11 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
     }
 }
 
-void vehicle::print_speed_gauge( const catacurses::window &win, const point &p,
-                                 unsigned int spacing )
+void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, int spacing )
 {
+    if( spacing < 0 ) {
+        throw std::invalid_argument( "received negative value for spacing" );
+    }
     if( !cruise_on ) {
         return;
     }
