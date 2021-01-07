@@ -429,9 +429,16 @@ void sounds::process_sound_markers( player *p )
         }
 
         // Player volume meter includes all sounds from their tile and adjacent tiles
-        // TODO: Add noises from vehicle player is in.
         if( distance_to_sound <= 1 ) {
             p->volume = std::max( p->volume, heard_volume );
+        }
+
+        // Noises from vehicle player is in.
+        if( p->controlling_vehicle ) {
+            vehicle *veh = veh_pointer_or_null( get_map().veh_at( p->pos() ) );
+            const int noise = veh ? static_cast<int>( veh->vehicle_noise ) : 0;
+
+            p->volume = std::max( p->volume, noise );
         }
 
         // Secure the flag before wake_up() clears the effect
