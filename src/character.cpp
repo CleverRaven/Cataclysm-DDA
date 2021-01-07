@@ -1829,10 +1829,25 @@ bool Character::is_crouching() const
     return move_mode->type() == move_mode_type::CROUCHING;
 }
 
+steed_type Character::get_steed_type() const
+{
+    steed_type steed;
+    if( is_mounted() ) {
+        if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+            steed = steed_type::MECH;
+        } else {
+            steed = steed_type::ANIMAL;
+        }
+    } else {
+        steed = steed_type::NONE;
+    }
+    return steed;
+}
+
 bool Character::can_switch_to( const move_mode_id &mode ) const
 {
-    // Only running modes are restricted at the moment
-    return mode->type() != move_mode_type::RUNNING || can_run();
+    // Only running modes are restricted at the moment and only when its your legs doing the running
+    return get_steed_type() != steed_type::NONE || mode->type() != move_mode_type::RUNNING || can_run();
 }
 
 void Character::expose_to_disease( const diseasetype_id &dis_type )
