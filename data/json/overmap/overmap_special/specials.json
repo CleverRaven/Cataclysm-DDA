@@ -1125,11 +1125,10 @@
   {
     "type": "overmap_special",
     "id": "Spider Pit",
-	"//": "TODO: Occurance, range, size, spawn?",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "spider_pit" }, { "point": [ 0, 0, -1 ], "overmap": "spider_pit_under" } ],
     "locations": [ "forest" ],
     "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 500 ],
+    "occurrences": [ 0, 0 ],
     "rotate": false,
     "flags": [ "WILDERNESS" ]
   },
@@ -4483,7 +4482,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
-    "occurrences": [ 1, 1 ],
+    "occurrences": [ 33, 100 ],
     "rotate": false,
     "flags": [ "UNIQUE" ]
   },
@@ -4532,7 +4531,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
-    "occurrences": [ 4, 6 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "LAB" ]
   },
   {
@@ -4636,7 +4635,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
-    "occurrences": [ 1, 2 ],
+    "occurrences": [ 0, 2 ],
     "rotate": false,
     "flags": [ "LAB" ]
   },
@@ -4748,7 +4747,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
-    "occurrences": [ 1, 2 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "LAB" ]
   },
   {
@@ -4770,7 +4769,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "rotate": false,
-    "occurrences": [ 1, 4 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "LAB" ]
   },
   {
