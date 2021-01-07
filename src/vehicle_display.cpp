@@ -487,7 +487,7 @@ void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, 
     if( !cruise_on ) {
         return;
     }
-    // target speed < current speed
+
     const float strain = this->strain();
     nc_color col_vel = strain <= 0 ? c_light_blue :
                        ( strain <= 0.2 ? c_yellow :
