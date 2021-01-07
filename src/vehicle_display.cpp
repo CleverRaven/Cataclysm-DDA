@@ -483,7 +483,6 @@ void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, 
 {
     if( spacing < 0 ) {
         spacing = 0;
-        DebugLog( D_WARNING, D_MAIN ) << "Speed gauge spacing is negative.  Changing it to 0.";
     }
     if( !cruise_on ) {
         return;
