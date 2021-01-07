@@ -1709,7 +1709,7 @@ void map::player_in_field( player &u )
             }
         }
         if( ft == fd_grease ) {
-            if( !u.in_vehicle && x_in_y( cur.get_field_intensity(), 10 ) ) {
+            if( !u.in_vehicle && x_in_y( cur.get_field_intensity(), 20 ) ) {
                 u.add_effect( effect_downed, 2_turns );
             }
         }
@@ -2040,7 +2040,7 @@ void map::monster_in_field( monster &z )
                 dam += rng( 4, 7 * intensity );
             }
         }
-        if( cur_field_type == fd_grease && x_in_y( cur.get_field_intensity(), 10 ) ) {
+        if( cur_field_type == fd_grease && x_in_y( cur.get_field_intensity(), 20 ) ) {
             z.add_effect( effect_downed, 2_turns );
         }
     }
