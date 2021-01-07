@@ -774,7 +774,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 6 ],
-    "occurrences": [ 10, 100],
+    "occurrences": [ 25, 100 ],
     "flags": [ "UNIQUE", "LAB" ],
     "rotate": false
   },
@@ -5016,7 +5016,7 @@
     "locations": [ "land" ],
     "city_distance": [ 0, 120 ],
     "city_sizes": [ 1, 12 ],
-    "occurrences": [ 1, 100 ],
+    "occurrences": [ 25, 100 ],
     "flags": [ "UNIQUE" ]
   },
   {
