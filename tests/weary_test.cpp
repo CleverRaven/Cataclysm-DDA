@@ -26,6 +26,8 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 {
     const avatar &guy = get_avatar();
 
+    clear_avatar();
+
     tasklist desk_8h;
     desk_8h.enschedule( task_firstaid, 8_hours );
 
@@ -90,6 +92,8 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
 {
     const avatar &guy = get_avatar();
 
+    clear_avatar();
+
     tasklist soldier_8h;
     soldier_8h.enschedule( task_dig, 8_hours );
     soldier_8h.enschedule( task_wait, 8_hours );
@@ -146,6 +150,8 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
 {
     const avatar &guy = get_avatar();
 
+    clear_avatar();
+
     tasklist waiting_24h;
     waiting_24h.enschedule( task_wait, 24_hours );
 
@@ -171,7 +177,7 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
         CHECK( info.transition_minutes( 1, 2, 255_minutes ) == Approx( 255 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 4, 5, 585_minutes ) == Approx( 590 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 4, 5, 585_minutes ) == Approx( 585 ).margin( 5 ) );
         CHECK( info.transition_minutes( 5, 6, 725_minutes ) == Approx( 725 ).margin( 10 ) );
         CHECK( info.transition_minutes( 6, 7, 810_minutes ) == Approx( 810 ).margin( 10 ) );
         CHECK( info.transition_minutes( 7, 8, 890_minutes ) == Approx( 890 ).margin( 10 ) );

@@ -2666,6 +2666,8 @@ class Character : public Creature, public visitable
         time_duration get_consume_time( const item &it );
 
         int weariness_level() const;
+        int weary_threshold() const;
+        int weariness() const;
         float activity_level() const;
         float exertion_adjusted_move_multiplier( float level = -1.0f ) const;
         void try_reduce_weariness( float exertion );
@@ -2731,8 +2733,6 @@ class Character : public Creature, public visitable
         int healthy_mod = 0;
 
         weariness_tracker weary;
-        int weary_threshold() const;
-        int weariness() const;
         // Our bmr at no activity level
         int base_bmr() const;
 
