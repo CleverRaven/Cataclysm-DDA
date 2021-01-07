@@ -369,7 +369,7 @@
     "calories": 572,
     "description": "Quahog clams stuffed with bread crumbs and fried.",
     "volume": "175 ml",
-    "looks-like": "fish_fried",
+    "looks_like": "fish_fried",
     "fun": 13,
     "charges": 5,
     "vitamins": [ [ "vitA", 6 ], [ "calcium", 2 ], [ "iron", 5 ], [ "vitB", 22 ] ]
