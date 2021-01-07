@@ -15,7 +15,7 @@ class JsonObject;
 template<typename T>
 class generic_factory;
 
-enum class steed_type : int {
+enum steed_type : int {
     NONE,
     ANIMAL,
     MECH,

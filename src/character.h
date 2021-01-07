@@ -35,7 +35,6 @@
 #include "item_location.h"
 #include "magic_enchantment.h"
 #include "memory_fast.h"
-#include "move_mode.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -97,6 +96,7 @@ template <typename E> struct enum_traits;
 
 enum npc_attitude : int;
 enum action_id : int;
+enum steed_type;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
