@@ -2414,9 +2414,9 @@ void vehicle_part::deserialize( JsonIn &jsin )
     data.read( "flags", flags );
     data.read( "passenger_id", passenger_id );
     JsonArray ja = data.get_array( "carry" );
-    // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
-    for( size_t index = ja.size() - 1; index < ja.size(); index-- ) {
-        carry_names.push( ja.get_string( index ) );
+    size_t sz = ja.size();
+    for( size_t index = 0; index < sz; index++ ) {
+        carry_names.push( ja.get_string( sz - index - 1 ) );
     }
     data.read( "crew_id", crew_id );
     data.read( "items", items );
