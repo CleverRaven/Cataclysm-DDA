@@ -9048,7 +9048,7 @@ void Character::shout( std::string msg, bool order )
     // You can't shout without your face
     if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
                                             is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
-        add_msg_if_player( m_warning, _( "You try to shout but you have no face!" ) );
+        add_msg_if_player( m_warning, _( "You try to shout, but you have no face!" ) );
         return;
     }
 
