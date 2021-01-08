@@ -109,7 +109,7 @@
     "skills_required": [ "fabrication", 6 ],
     "time": "20 h",
     "autolearn": true,
-    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "tailoring_nomex", 8 ], [ "fastener_small", 2 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 4 ], [ "tailoring_nomex_patchwork", 8 ], [ "fastener_small", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_cobbling" },
       { "proficiency": "prof_leatherworking_basic" },
@@ -123,7 +123,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "boots_fsurvivor",
-    "using": [ [ "tailoring_kevlar_fabric", 6 ], [ "tailoring_nomex", 11 ], [ "fastener_small", 2 ] ],
+    "using": [ [ "tailoring_kevlar_fabric", 6 ], [ "tailoring_nomex_patchwork", 11 ], [ "fastener_small", 2 ] ],
     "time": "23 h"
   },
   {
@@ -612,7 +612,7 @@
     "time": "24 m",
     "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
     "book_learn": [ [ "textbook_fireman", 6 ], [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "using": [ [ "tailoring_nomex", 2 ] ]
+    "using": [ [ "tailoring_nomex_patchwork", 2 ] ]
   },
   {
     "result": "xlnomex_socks",
@@ -625,7 +625,7 @@
     "time": "37 m",
     "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
     "book_learn": [ [ "textbook_fireman", 6 ], [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "using": [ [ "tailoring_nomex", 4 ] ]
+    "using": [ [ "tailoring_nomex_patchwork", 4 ] ]
   },
   {
     "result": "shoes_birchbark",
