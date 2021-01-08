@@ -214,9 +214,9 @@
   {
     "type": "overmap_terrain",
     "id": "spider_pit",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
+    "name": "spider pit",
+    "sym": "S",
+    "color": "white",
     "see_cost": 3,
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
