@@ -6174,7 +6174,7 @@ void Character::check_needs_extremes()
                 mod_fatigue( 1 );
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_SERIOUS ) {
                 add_msg_if_player( m_bad,
-                                   _( "Your mind feels foggy from lack of good sleep, and your eyes keep trying to close against your will." ) );
+                                   _( "Your mind feels foggy from a lack of good sleep, and your eyes keep trying to close against your will." ) );
                 mod_fatigue( 5 );
 
                 if( one_in( 10 ) ) {
