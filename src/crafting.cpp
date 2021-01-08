@@ -1772,11 +1772,7 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
     auto calc_charges = [&]( const tool_comp & t, bool ui = false ) {
         const int full_craft_charges = item::find_type( t.type )->charge_factor() * t.count * batch;
         const int modified_charges = charges_required_modifier( full_craft_charges );
-        if( ui ) {
-            return std::max( full_craft_charges, 1 );
-        }
-
-        return std::max( modified_charges, 1 );
+        return std::max( ui ? full_craft_charges : modified_charges, 1 );
     };
 
     bool found_nocharge = false;
