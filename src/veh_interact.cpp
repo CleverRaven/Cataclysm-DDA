@@ -1497,15 +1497,15 @@ void veh_interact::calc_overview()
                 }
             };
 
-            if( vpr.part().is_tank() && vpr.part().is_available() ) {
+            if( vpr.part().is_tank() ) {
                 overview_opts.emplace_back( "TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ), tank_details );
-            } else if( vpr.part().is_fuel_store() && vpr.part().is_available() && !( vpr.part().is_turret() ||
+            } else if( vpr.part().is_fuel_store() && !( vpr.part().is_turret() ||
                        vpr.part().is_battery() || vpr.part().is_reactor() ) ) {
                 overview_opts.emplace_back( "TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
                                             no_tank_details );
             }
 
-            if( vpr.part().is_battery() && vpr.part().is_available() ) {
+            if( vpr.part().is_battery() ) {
                 // always display total battery capacity and percentage charge
                 auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                     int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity(
@@ -1536,11 +1536,11 @@ void veh_interact::calc_overview()
                                  string_format( fmtstring, item::nname( pt.ammo_current() ), pt.ammo_remaining() ) );
                 }
             };
-            if( vpr.part().is_reactor() && vpr.part().is_available() ) {
+            if( vpr.part().is_reactor() ) {
                 overview_opts.emplace_back( "REACTOR", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
                                             details_ammo );
             }
-            if( vpr.part().is_turret() && vpr.part().is_available() ) {
+            if( vpr.part().is_turret() ) {
                 overview_opts.emplace_back( "TURRET", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
                                             details_ammo );
             }
@@ -1553,15 +1553,14 @@ void veh_interact::calc_overview()
                     right_print( w, y, 1, pt.passenger_id == who->getID() ? c_green : c_light_gray, who->name );
                 }
             };
-            if( vpr.part().is_seat() && vpr.part().is_available() ) {
-                overview_opts.emplace_back( "SEAT", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
-            }
+            overview_opts.emplace_back( "SEAT", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
         }
     }
 
 
     auto compare = []( veh_interact::part_option & s1,
     veh_interact::part_option & s2 ) {
+        // NOLINTNEXTLINE cata-use-localized-sorting
         return  s1.key <  s2.key;
     };
     std::sort( overview_opts.begin(), overview_opts.end(), compare );
