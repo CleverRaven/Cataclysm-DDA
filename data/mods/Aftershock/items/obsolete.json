@@ -284,5 +284,37 @@
     "warmth": 20,
     "material_thickness": 2,
     "flags": [ "OUTER", "VARSIZE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_milbot_flame",
+    "copy-from": "broken_milbot_disarmed",
+    "color": "red",
+    "name": "broken military flame robot",
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated flamethrower.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_milbot_308",
+    "copy-from": "broken_milbot_disarmed",
+    "color": "light_gray",
+    "name": "broken military robot",
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 7.62mm firearm.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_milbot_8x40mm",
+    "copy-from": "broken_milbot_disarmed",
+    "color": "light_gray",
+    "name": "broken military robot",
+    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 8x40mm firearm.  Could be stripped for parts."
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_advbot_rail",
+    "copy-from": "broken_advbot_disarmed",
+    "color": "magenta",
+    "name": "broken advanced robot",
+    "description": "A broken advanced robot.  This one is armed with an integrated laser-emitter.  Could be stripped for parts."
   }
 ]

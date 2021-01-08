@@ -47,9 +47,9 @@
   {
     "id": "mon_chickenbot",
     "type": "MONSTER",
-    "name": { "str": "chicken walker" },
-    "description": "The Northrop ATSV, a massive, heavily-armed and armored robot walking on a pair of reverse-jointed legs.  Armed with a 40mm anti-vehicle grenade launcher, 5.56 anti-personnel gun, and the ability to electrify itself against attackers, it is an effective automated sentry, though production was limited due to a legal dispute.",
-    "default_faction": "military",
+    "name": { "str": "Wraitheon Pathfinder" },
+    "description": "The Wraitheon Pathfinder is a massive armored robot towering to the size of a house and armed to the teeth with a 40mm anti-material grenade launcher, 5.56 anti-personnel gun, and an in-built protection mechanism by electrifying itself against attackers.  Manufactured by Wraitheon for the ESCA military, it was used along with infantry due to its versatility that came from its reverse-jointed legs.",
+    "default_faction": "WraitheonRobotics",
     "species": [ "ROBOT" ],
     "diff": 20,
     "volume": "92500 ml",
@@ -80,9 +80,9 @@
   {
     "id": "mon_tankbot",
     "type": "MONSTER",
-    "name": { "str": "Beagle Mini-Tank UGV" },
-    "description": "The Northrop Beagle is a refrigerator-sized urban warfare UGV.  Sporting an anti-tank missile launcher, 40mm grenade launcher, and numerous anti-infantry weapons, it's designed for high-risk urban fighting.",
-    "default_faction": "military",
+    "name": { "str": "Wraitheon Regulator" },
+    "description": "Designed by Wraitheon, the Regulator is a refrigerator sized UGV designed for high-risk urban fighting.  Armed with an anti-material missile launcher, 40mm grenade launcher, and several anti-personnel weapons, it's designed to match the fervor of freedom fighters with the industrial might of Earth.",
+    "default_faction": "WraitheonRobotics",
     "species": [ "ROBOT" ],
     "diff": 30,
     "volume": "875000 ml",
@@ -251,9 +251,9 @@
   {
     "id": "mon_utilibot",
     "type": "MONSTER",
-    "name": "utility robot",
+    "name": "ENIAC Nihility",
     "looks_like": "mon_hazmatbot",
-    "description": "One of the many models of utility robot formerly in use by government agencies, private corporations, and civilians alike.",
+    "description": "One of the more cheaper models produced by ENIAC, it is built to be multi-purpose, equipped with several tools to facilitate this, however it is commonly used for janitorial purposes.",
     "default_faction": "utility_bot",
     "species": [ "ROBOT" ],
     "volume": "62500 ml",
@@ -279,23 +279,23 @@
     "id": "mon_hazmatbot",
     "type": "MONSTER",
     "copy-from": "mon_utilibot",
-    "name": "hazmat bot",
-    "description": "A utility robot designed for cleaning up waste material in hazardous conditions."
+    "name": "TsKBEM Likvidator",
+    "description": "The Likvidator was designed by the TsKBEM design bureau for the Soviet Union as an answer to liquidators post-Chernobyl.  Rather than using humans, easily suspectible to radiation sickness and hard to repair, the Likvidator would do the duties of taking care of toxic hazardous waste instead.  Likvidators are roughly human-sized, bipedal bulky machines; crafted for a utilitarian purpose of cleaning up toxic waste rather than aesthetic."
   },
   {
     "id": "mon_utilibot_butler",
     "type": "MONSTER",
     "copy-from": "mon_utilibot",
-    "name": "butler-bot",
+    "name": "ENIAC Famulus",
     "color": "dark_gray",
-    "description": "A luxury model utility robot for domestic use."
+    "description": "Top of the line and luxury built, the Famulus is a humaniform robot, derived from the humaniform schematics by Wraitheon with slight alterations to give it a more human appearance.  It is designed to be a robotic servant, its AI tailored for the needs for each customer; and arguably one of the few commercial robots to pass the turing test."
   },
   {
     "id": "mon_utilibot_const",
     "type": "MONSTER",
     "copy-from": "mon_utilibot",
-    "name": "construction robot",
-    "description": "One of the many models of construction robot formerly in use by government agencies and private corporations.  It is equipped with an integrated welder, flashlight, nailgun, and jackhammer.",
+    "name": "TsKBEM Udarnik",
+    "description": "One of the many challenges that the Soviet Union faced during its industrialization was that the model of shock brigades were unsustainable.  However, instead of slowing down, the answer that the Soviet Union used for this was the Udarnik.  Designed by the TsKBEM design bureau, it was made to replicate the zeal of strike workers, without the drawback of breaks, pay, or food.  This, along with in-built construction tools meant that the required work to compete with other world powers could be fulfilled.",
     "color": "yellow",
     "luminance": 10,
     "melee_skill": 2,
@@ -319,8 +319,8 @@
     "id": "mon_utilibot_fire",
     "type": "MONSTER",
     "copy-from": "mon_utilibot",
-    "name": "firefighter robot",
-    "description": "One of the many models of fire-fighting robot formerly in use by local fire departments and emergency services.  Designed for entering burning buildings and other situations deemed too dangerous for human firefighters.",
+    "name": "TsKBEM Brandspojt",
+    "description": "Due to the significance placed on fire-fighting in the Soviet Union, it made perfect sense that with the advancements in robotics meant there were would be a machine designed for fire-fighting.  The Brandspojt was this, and its development was plagued by feature creep and development hell to such an extent that the government had to rein in the project.  It was eventually launched, and while it lacked the advanced features that it was advertised to include; it was effective at its job of both complimenting personnel and replacing them, enough so that several other countries scrambled to negiotiate for their own fire-fighting departments.",
     "color": "yellow",
     "luminance": 100,
     "melee_skill": 3,
@@ -343,7 +343,7 @@
   {
     "id": "mon_medibot",
     "type": "MONSTER",
-    "name": "medical robot",
+    "name": "Faulty Surgical Droid",
     "looks_like": "mon_tripod",
     "description": "A free roaming medical robot capable of administering powerful anesthetics and performing complex surgical operations, usually in that order.  Faulty bio-diagnostic programs resulted in numerous lawsuits before the Cataclysm.",
     "default_faction": "utility_bot",
@@ -446,8 +446,9 @@
     "id": "mon_defbot_shot",
     "type": "MONSTER",
     "copy-from": "mon_defbot_base",
-    "name": "security robot",
-    "description": "An automated riot control robot still active due to its internal power source.  This one is equipped with an electric prod and an integrated shotgun.",
+    "default_faction": "WraitheonRobotics",
+    "name": "Wraitheon Aegis",
+    "description": "One of the many models of robots manufactured by Wraitheon approved for domestic use, the Aegis is a bulky and heavy riot control machine built with an integrated electroshock weapon and riot shotgun.",
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "shot_beanbag": 400 },
     "special_attacks": [
@@ -471,7 +472,7 @@
     "looks_like": "mon_secubot",
     "name": "military robot",
     "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 5.56mm firearm.",
-    "default_faction": "military",
+    "default_faction": "WraitheonRobotics",
     "species": [ "ROBOT" ],
     "volume": "62500 ml",
     "weight": "81500 g",
@@ -501,8 +502,8 @@
     "id": "mon_milbot_556",
     "type": "MONSTER",
     "copy-from": "mon_milbot_base",
-    "name": "military robot",
-    "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 5.56mm firearm.",
+    "name": "Wraitheon Imaginifer",
+    "description": "The Imaginifer is one of the few example of the true humaniform robots; manufactured by Wraitheon for ESCA militaries to compliment infantry soldiers.  While they are based on humaniform schematics, they are far removed from the ENIAC's Famulus. The Wraitheon humaniforms are designed to take full advantage of a humanoid shape, not to look human; nor designed for sapience, but for game theory.",
     "diff": 20,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "556": 1600 },
@@ -529,74 +530,11 @@
     "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
-    "id": "mon_milbot_308",
-    "type": "MONSTER",
-    "copy-from": "mon_milbot_base",
-    "name": "military robot",
-    "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 7.62mm firearm.",
-    "diff": 20,
-    "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "starting_ammo": { "762_51": 1000 },
-    "revert_to_itype": "bot_milbot_308",
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 3,
-        "move_cost": 150,
-        "gun_type": "fn_fal",
-        "ammo_type": "762_51",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
-        "fake_dex": 10,
-        "no_ammo_sound": "click!",
-        "ranges": [ [ 0, 5, "DEFAULT" ], [ 6, 10, "BURST" ], [ 11, 20, "DEFAULT" ] ],
-        "require_targeting_player": true,
-        "require_targeting_npc": true,
-        "require_targeting_monster": true,
-        "targeting_cost": 10,
-        "targeting_timeout_extend": -1,
-        "targeting_sound": "\"Hostile Detected.\"",
-        "targeting_volume": 10
-      }
-    ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
-  },
-  {
-    "id": "mon_milbot_8x40mm",
-    "type": "MONSTER",
-    "copy-from": "mon_milbot_base",
-    "name": "military robot",
-    "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 8mm firearm.",
-    "diff": 20,
-    "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "starting_ammo": { "8mm_caseless": 1200 },
-    "special_attacks": [
-      {
-        "type": "gun",
-        "move_cost": 150,
-        "cooldown": 2,
-        "gun_type": "rm2000_smg",
-        "ammo_type": "8mm_caseless",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 6 ] ],
-        "fake_dex": 10,
-        "no_ammo_sound": "whirrrr!",
-        "ranges": [ [ 0, 5, "BURST" ], [ 6, 10, "AUTO" ], [ 11, 24, "DEFAULT" ] ],
-        "require_targeting_player": true,
-        "require_targeting_npc": true,
-        "require_targeting_monster": true,
-        "targeting_cost": 10,
-        "targeting_timeout_extend": -1,
-        "targeting_sound": "\"Hostile Detected.\"",
-        "targeting_volume": 10
-      }
-    ],
-    "extend": { "flags": [ "DROPS_AMMO" ] }
-  },
-  {
     "id": "mon_milbot_needle",
     "type": "MONSTER",
     "copy-from": "mon_milbot_base",
-    "name": "military robot",
-    "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 5x50mm flechette gun.",
+    "name": "Wraitheon Hashashiyyin",
+    "description": "The Hashashiyyin, as a military humaniform, is unorthodox in its build.  While it keeps the strength of most Wraitheon humaniforms, it also prioritizes stealth. It comes equipped with an integrated 5x50mm flechette gun.",
     "diff": 15,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "5x50dart": 1000 },
@@ -626,8 +564,8 @@
     "id": "mon_milbot_40mm",
     "type": "MONSTER",
     "copy-from": "mon_milbot_base",
-    "name": "grenadier robot",
-    "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 40mm grenade launcher.",
+    "name": "Wraitheon Suppressor",
+    "description": "Looking more like a tank than a robot, the Suuppressor is built to deal with vehicles, tanks, and personnel alike.  Equipped with a 40mm grenade launcher, it can easily dispatch anything in its path.",
     "diff": 20,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "color": "dark_gray_red",
@@ -655,36 +593,6 @@
     "extend": { "flags": [ "DROPS_AMMO" ] }
   },
   {
-    "id": "mon_milbot_flame",
-    "type": "MONSTER",
-    "copy-from": "mon_milbot_base",
-    "name": "military flame robot",
-    "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated flamethrower.",
-    "diff": 20,
-    "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "starting_ammo": { "napalm": 1000 },
-    "extend": { "flags": [ "FIREPROOF", "DROPS_AMMO" ] },
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 1,
-        "gun_type": "flamethrower",
-        "ammo_type": "napalm",
-        "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
-        "fake_dex": 10,
-        "no_ammo_sound": "hiss!",
-        "ranges": [ [ 0, 10, "DEFAULT" ] ],
-        "require_targeting_player": true,
-        "require_targeting_npc": true,
-        "require_targeting_monster": true,
-        "targeting_cost": 200,
-        "targeting_timeout_extend": -10,
-        "targeting_sound": "\"Hostile Detected.\"",
-        "targeting_volume": 10
-      }
-    ]
-  },
-  {
     "abstract": "mon_advbot_base",
     "type": "MONSTER",
     "copy-from": "mon_defbot_base",
@@ -709,8 +617,8 @@
     "id": "mon_advbot_laser",
     "type": "MONSTER",
     "copy-from": "mon_advbot_base",
-    "name": "laser-emitting robot",
-    "description": "An advanced robot still functioning due to its internal fusion core.  This model is furnished with a powerful laser-emitter.",
+    "name": "Wraitheon Fulgent",
+    "description": "An autonomous anti-personnel weapons platform, mounting a laser gun over an insectoid chassis.  The Fulgent designation excels at controlling riots, and if needed, putting down potential freedom fighters.",
     "diff": 20,
     "special_attacks": [
       {
@@ -772,40 +680,11 @@
     ]
   },
   {
-    "id": "mon_advbot_rail",
-    "type": "MONSTER",
-    "copy-from": "mon_advbot_base",
-    "name": "railgun robot",
-    "description": "An advanced robot still functioning due to its internal fusion core.  This model is furnished with a powerful railgun.",
-    "diff": 30,
-    "starting_ammo": { "steel_rail": 100 },
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 4,
-        "gun_type": "railgun",
-        "ammo_type": "steel_rail",
-        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
-        "fake_dex": 10,
-        "no_ammo_sound": "buzz!",
-        "ranges": [ [ 0, 18, "DEFAULT" ] ],
-        "require_targeting_player": true,
-        "require_targeting_npc": true,
-        "require_targeting_monster": true,
-        "laser_lock": true,
-        "targeting_cost": 200,
-        "targeting_timeout_extend": -10,
-        "targeting_sound": "\"Hostile detected.\"",
-        "targeting_volume": 10
-      }
-    ]
-  },
-  {
     "id": "mon_advbot_emp",
     "type": "MONSTER",
     "copy-from": "mon_advbot_base",
-    "name": "EMP-projecting robot",
-    "description": "An advanced robot still functioning due to its internal fusion core.  This model is furnished with a powerful EMP-projector.",
+    "name": "Wraitheon Frequency",
+    "description": "An autonomous weapons platform, made to disable and target electronics, especially robots.  The Frequency designation sports a electromagnetic gun meant to disable any electronics.",
     "diff": 10,
     "special_attacks": [
       {
