@@ -561,5 +561,11 @@
       { "item": "red_pen", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "green_pen", "prob": 5, "charges": [ 0, 100 ] }
     ]
+  },
+  {
+    "id": "autodoc_supplies",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "anesthetic_kit", "charges": [ 0, 6000 ] } ]
   }
 ]
