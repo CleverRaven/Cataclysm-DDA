@@ -59,6 +59,7 @@ jobs:
         SOUND: ${{ matrix.tiles }}
         SANITIZE: ${{ matrix.sanitize }}
         TEST_STAGE: ${{ matrix.test-stage }}
+        EXTRA_TEST_OPTS: --error-format=github-action
         RELEASE: 1
     steps:
     - name: checkout repository
