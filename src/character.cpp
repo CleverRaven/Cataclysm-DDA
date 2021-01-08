@@ -12648,7 +12648,7 @@ void Character::practice_proficiency( const proficiency_id &prof, const time_dur
     }
 
     if( learned ) {
-        add_msg_if_player( m_good, _( "You are now proficient in %s" ), prof->name() );
+        add_msg_if_player( m_good, _( "You are now proficient in %s!" ), prof->name() );
     }
 }
 
