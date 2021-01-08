@@ -17,20 +17,69 @@ struct memorized_terrain_tile {
     std::string tile;
     int subtile;
     int rotation;
+
+    inline bool operator==( const memorized_terrain_tile &rhs ) const {
+        return ( rotation == rhs.rotation ) && ( subtile == rhs.subtile ) && ( tile == rhs.tile );
+    }
+
+    inline bool operator!=( const memorized_terrain_tile &rhs ) const {
+        return !( *this == rhs );
+    }
 };
 
 /** Represent a submap-sized chunk of tile memory. */
 struct mm_submap {
-    /** Whether this mm_submap is empty. Empty submaps are skipped during saving. */
-    bool empty;
+    public:
+        static const memorized_terrain_tile default_tile;
+        static const int default_symbol;
 
-    memorized_terrain_tile tiles[SEEX][SEEY];
-    int symbols[SEEX][SEEY];
+        mm_submap();
 
-    mm_submap();
+        /** Whether this mm_submap is empty. Empty submaps are skipped during saving. */
+        bool is_empty() const {
+            return tiles.empty() && symbols.empty();
+        }
 
-    void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
+        inline const memorized_terrain_tile &tile( const point &p ) const {
+            if( tiles.empty() ) {
+                return default_tile;
+            } else {
+                return tiles[p.y * SEEX + p.x];
+            }
+        }
+
+        inline void set_tile( const point &p, const memorized_terrain_tile &value ) {
+            if( tiles.empty() ) {
+                // call 'reserve' first to force allocation of exact size
+                tiles.reserve( SEEX * SEEY );
+                tiles.resize( SEEX * SEEY, default_tile );
+            }
+            tiles[p.y * SEEX + p.x] = value;
+        }
+
+        inline int symbol( const point &p ) const {
+            if( symbols.empty() ) {
+                return default_symbol;
+            } else {
+                return symbols[p.y * SEEX + p.x];
+            }
+        }
+
+        inline void set_symbol( const point &p, int value ) {
+            if( symbols.empty() ) {
+                // call 'reserve' first to force allocation of exact size
+                symbols.reserve( SEEX * SEEY );
+                symbols.resize( SEEX * SEEY, default_symbol );
+            }
+            symbols[p.y * SEEX + p.x] = value;
+        }
+
+        void serialize( JsonOut &jsout ) const;
+        void deserialize( JsonIn &jsin );
+
+    private:
+        std::vector<memorized_terrain_tile> tiles; // holds either 0 or SEEX*SEEY elements
+        std::vector<int> symbols; // holds either 0 or SEEX*SEEY elements
 };
 
 /**

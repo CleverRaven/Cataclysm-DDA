@@ -3491,9 +3491,8 @@ struct mm_elem {
     memorized_terrain_tile tile;
     int symbol;
 
-    bool operator==( const mm_elem &rhs ) {
-        return symbol == rhs.symbol && tile.subtile == rhs.tile.subtile &&
-               tile.rotation == rhs.tile.rotation && tile.tile == rhs.tile.tile;
+    bool operator==( const mm_elem &rhs ) const {
+        return symbol == rhs.symbol && tile == rhs.tile;
     }
 };
 
@@ -3520,7 +3519,8 @@ void mm_submap::serialize( JsonOut &jsout ) const
 
     for( size_t y = 0; y < SEEY; y++ ) {
         for( size_t x = 0; x < SEEX; x++ ) {
-            const mm_elem elem = { tiles[x][y], symbols[x][y] };
+            point p( x, y );
+            const mm_elem elem = { tile( p ), symbol( p ) };
             if( x == 0 && y == 0 ) {
                 last = elem;
                 continue;
@@ -3563,8 +3563,14 @@ void mm_submap::deserialize( JsonIn &jsin )
                 }
                 jsin.end_array();
             }
-            tiles[x][y] = elem.tile;
-            symbols[x][y] = elem.symbol;
+            point p( x, y );
+            // Try to avoid assigning to save up on memory
+            if( elem.tile != mm_submap::default_tile ) {
+                set_tile( p, elem.tile );
+            }
+            if( elem.symbol != mm_submap::default_symbol ) {
+                set_symbol( p, elem.symbol );
+            }
         }
     }
     jsin.end_array();
@@ -3576,7 +3582,7 @@ void mm_region::serialize( JsonOut &jsout ) const
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
         for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
             const shared_ptr_fast<mm_submap> &sm = submaps[x][y];
-            if( sm->empty ) {
+            if( sm->is_empty() ) {
                 jsout.write_null();
             } else {
                 sm->serialize( jsout );
@@ -3596,7 +3602,6 @@ void mm_region::deserialize( JsonIn &jsin )
             if( jsin.test_null() ) {
                 jsin.skip_null();
             } else {
-                sm->empty = false;
                 sm->deserialize( jsin );
             }
         }
@@ -3644,9 +3649,12 @@ void map_memory::load_legacy( JsonIn &jsin )
         if( !sm ) {
             sm = allocate_submap( cp.sm );
         }
-        sm->empty = false;
-        sm->tiles[cp.loc.x][cp.loc.y] = elem.second.tile;
-        sm->symbols[cp.loc.x][cp.loc.y] = elem.second.symbol;
+        if( elem.second.tile != mm_submap::default_tile ) {
+            sm->set_tile( cp.loc, elem.second.tile );
+        }
+        if( elem.second.symbol != mm_submap::default_symbol ) {
+            sm->set_symbol( cp.loc, elem.second.symbol );
+        }
     }
 }
 

@@ -9,8 +9,8 @@
 #include "map_memory.h"
 #include "path_info.h"
 
-static const memorized_terrain_tile default_tile{ "", 0, 0 };
-static const int default_symbol = 0;
+const memorized_terrain_tile mm_submap::default_tile{ "", 0, 0 };
+const int mm_submap::default_symbol = 0;
 
 #define MM_SIZE (MAPSIZE * 2)
 
@@ -44,8 +44,7 @@ struct reg_coord_pair {
     }
 };
 
-mm_submap::mm_submap() : empty( true ),
-    tiles{{ default_tile }}, symbols{{ default_symbol }} {}
+mm_submap::mm_submap() {}
 
 mm_region::mm_region() : submaps {{ nullptr }} {}
 
@@ -53,7 +52,7 @@ bool mm_region::is_empty() const
 {
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
         for( size_t x  = 0; x < MM_REG_SIZE; x++ ) {
-            if( !submaps[x][y]->empty ) {
+            if( !submaps[x][y]->is_empty() ) {
                 return false;
             }
         }
@@ -75,7 +74,7 @@ const memorized_terrain_tile &map_memory::get_tile( const tripoint &pos ) const
 {
     coord_pair p( pos );
     const mm_submap &sm = get_submap( p.sm );
-    return sm.tiles[p.loc.x][p.loc.y];
+    return sm.tile( p.loc );
 }
 
 void map_memory::memorize_tile( const tripoint &pos, const std::string &ter,
@@ -83,31 +82,29 @@ void map_memory::memorize_tile( const tripoint &pos, const std::string &ter,
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
-    sm.empty = false;
-    sm.tiles[p.loc.x][p.loc.y] = memorized_terrain_tile{ ter, subtile, rotation };
+    sm.set_tile( p.loc, memorized_terrain_tile{ ter, subtile, rotation } );
 }
 
 int map_memory::get_symbol( const tripoint &pos ) const
 {
     coord_pair p( pos );
     const mm_submap &sm = get_submap( p.sm );
-    return sm.symbols[p.loc.x][p.loc.y];
+    return sm.symbol( p.loc );
 }
 
 void map_memory::memorize_symbol( const tripoint &pos, const int symbol )
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
-    sm.empty = false;
-    sm.symbols[p.loc.x][p.loc.y] = symbol;
+    sm.set_symbol( p.loc, symbol );
 }
 
 void map_memory::clear_memorized_tile( const tripoint &pos )
 {
     coord_pair p( pos );
     mm_submap &sm = get_submap( p.sm );
-    sm.symbols[p.loc.x][p.loc.y] = default_symbol;
-    sm.tiles[p.loc.x][p.loc.y] = default_tile;
+    sm.set_symbol( p.loc, mm_submap::default_symbol );
+    sm.set_tile( p.loc, mm_submap::default_tile );
 }
 
 bool map_memory::prepare_region( const tripoint &p1, const tripoint &p2 )
