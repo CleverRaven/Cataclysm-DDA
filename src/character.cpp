@@ -10783,7 +10783,7 @@ void Character::fall_asleep()
     std::string item_name = is_snuggling();
     if( item_name == "many" ) {
         if( one_in( 15 ) ) {
-            add_msg_if_player( _( "You nestle your pile of clothes for warmth." ) );
+            add_msg_if_player( _( "You nestle into your pile of clothes for warmth." ) );
         } else {
             add_msg_if_player( _( "You use your pile of clothes for warmth." ) );
         }
