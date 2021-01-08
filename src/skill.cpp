@@ -221,7 +221,7 @@ void SkillLevel::train( int amount, bool skip_scaling )
         }
     }
 
-    if( _exercise >= 100 * ( _level + 1 ) * ( _level + 1 ) ) {
+    if( _exercise >= 100 * 100 * ( _level + 1 ) * ( _level + 1 ) ) {
         _exercise = 0;
         ++_level;
         if( _level > _highestLevel ) {
@@ -265,11 +265,11 @@ bool SkillLevel::rust( bool charged_bio_mem, int character_rate )
         return one_in( 5 );
     }
 
-    _exercise -= _level;
+    _exercise -= _level * 100;
     const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
     if( _exercise < 0 ) {
         if( rust_type == "vanilla" || rust_type == "int" ) {
-            _exercise = ( 100 * _level * _level ) - 1;
+            _exercise = ( 100 * 100 * _level * _level ) - 1;
             --_level;
         } else {
             _exercise = 0;
