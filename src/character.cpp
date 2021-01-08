@@ -8780,8 +8780,8 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
     } else if( !it.ammo_sufficient() ) {
         if( show_msg ) {
             add_msg_if_player( m_info,
-                               ngettext( "Your %s has %d charge but needs %d.",
-                                         "Your %s has %d charges but needs %d.",
+                               ngettext( "Your %s has %d charge, but needs %d.",
+                                         "Your %s has %d charges, but needs %d.",
                                          it.ammo_remaining() ),
                                it.tname(), it.ammo_remaining(), it.ammo_required() );
         }
