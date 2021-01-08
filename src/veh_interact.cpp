@@ -1248,6 +1248,7 @@ void veh_interact::do_repair()
                 }
                 sel_vehicle_part = &pt;
                 sel_vpart_info = &vp;
+                sel_vpart_variant = pt.variant;
                 const std::vector<npc *> helpers = player_character.get_crafting_helpers();
                 for( const npc *np : helpers ) {
                     add_msg( m_info, _( "%s helps with this task…" ), np->name );
@@ -3084,7 +3085,7 @@ void veh_interact::complete_vehicle( player &p )
         }
 
         case 'r': {
-            veh_utils::repair_part( *veh, veh->part( vehicle_part ), p );
+            veh_utils::repair_part( *veh, veh->part( vehicle_part ), p, variant_id );
             break;
         }
 
