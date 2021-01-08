@@ -469,7 +469,13 @@ class disassemble_inventory_preset : public pickup_inventory_preset
                     return std::string();
                 }
                 const item *i = loc.get_item();
-                const auto components = i->get_uncraft_components();
+                std::vector<item_comp> components = i->get_uncraft_components();
+                std::sort( components.begin(), components.end() );
+                auto it = components.begin();
+                while( ( it = std::adjacent_find( it, components.end() ) ) != components.end() ) {
+                    ++( it->count );
+                    components.erase( std::next( it ) );
+                }
                 return enumerate_as_string( components.begin(), components.end(),
                 []( const decltype( components )::value_type & comps ) {
                     return comps.to_string();
