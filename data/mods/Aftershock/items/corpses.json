@@ -40,7 +40,7 @@
     "symbol": ",",
     "color": "light_gray",
     "looks_like": "broken_cleanerbot",
-    "name": "broken Nihility",
+    "name": { "str": "broken Nihility", "str_pl": "broken Nihilities" },
     "category": "other",
     "description": "A broken Nihility, now limp and unmoving.  Could be gutted for parts or crafted into a salvaged robot.",
     "material": [ "steel", "plastic" ],
@@ -86,7 +86,7 @@
     "id": "broken_utilibot_butler",
     "copy-from": "broken_utilibot",
     "color": "dark_gray",
-    "name": "broken Famulus",
+    "name": { "str": "broken Famulus", "str_pl": "broken Famuli" },
     "description": "A broken Famulus, now silent and mangled.  If it wasn't for the obvious rivets and welding, it would look completely human.  Could be stripped down for parts."
   },
   {
@@ -166,7 +166,7 @@
     "id": "broken_defbot_shot",
     "copy-from": "broken_defbot_disarmed",
     "color": "light_gray",
-    "name": "broken Aegis",
+    "name": { "str": "broken Aegis", "str_pl": "broken Aegises" },
     "description": "A broken defense robot. Could be gutted for parts or crafted into a salvaged robot."
   },
   {

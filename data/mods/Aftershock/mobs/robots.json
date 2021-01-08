@@ -251,7 +251,7 @@
   {
     "id": "mon_utilibot",
     "type": "MONSTER",
-    "name": "ENIAC Nihility",
+    "name": { "str": "ENIAC Nihility", "str_pl": "ENIAC Nihilities" },
     "looks_like": "mon_hazmatbot",
     "description": "One of the more cheaper models produced by ENIAC, it is built to be multi-purpose, equipped with several tools to facilitate this, however it is commonly used for janitorial purposes.",
     "default_faction": "utility_bot",
@@ -286,7 +286,7 @@
     "id": "mon_utilibot_butler",
     "type": "MONSTER",
     "copy-from": "mon_utilibot",
-    "name": "ENIAC Famulus",
+    "name": { "str": "ENIAC Famulus", "str_pl": "ENIAC Famuli" },
     "color": "dark_gray",
     "description": "Top of the line and luxury built, the Famulus is a humaniform robot, derived from the humaniform schematics by Wraitheon with slight alterations to give it a more human appearance.  It is designed to be a robotic servant, its AI tailored for the needs for each customer; and arguably one of the few commercial robots to pass the turing test."
   },
@@ -447,7 +447,7 @@
     "type": "MONSTER",
     "copy-from": "mon_defbot_base",
     "default_faction": "WraitheonRobotics",
-    "name": "Wraitheon Aegis",
+    "name": { "str": "Wraitheon Aegis", "str_pl": "Wraitheon Aegises" },
     "description": "One of the many models of robots manufactured by Wraitheon approved for domestic use, the Aegis is a bulky and heavy riot control machine built with an integrated electroshock weapon and riot shotgun.",
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "shot_beanbag": 400 },
@@ -619,6 +619,7 @@
     "copy-from": "mon_advbot_base",
     "name": "Wraitheon Fulgent",
     "description": "An autonomous anti-personnel weapons platform, mounting a laser gun over an insectoid chassis.  The Fulgent designation excels at controlling riots, and if needed, putting down potential freedom fighters.",
+    "default_faction": "WraitheonRobotics",
     "diff": 20,
     "special_attacks": [
       {
@@ -683,8 +684,9 @@
     "id": "mon_advbot_emp",
     "type": "MONSTER",
     "copy-from": "mon_advbot_base",
-    "name": "Wraitheon Frequency",
+    "name": { "str": "Wraitheon Frequency", "str_pl": "Wraitheon Frequencies" },
     "description": "An autonomous weapons platform, made to disable and target electronics, especially robots.  The Frequency designation sports a electromagnetic gun meant to disable any electronics.",
+    "default_faction": "WraitheonRobotics",
     "diff": 10,
     "special_attacks": [
       {
