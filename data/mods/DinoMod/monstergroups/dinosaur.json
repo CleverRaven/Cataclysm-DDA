@@ -212,8 +212,8 @@
     "name": "GROUP_DINOSAUR_SWIM",
     "default": "mon_null",
     "monsters": [
-		{ "monster": "mon_mosasaurus", "freq": 4, "cost_multiplier": 60 }, 
-		{ "monster": "mon_spinosaurus", "freq": 4, "cost_multiplier": 40 }
-	]
+      { "monster": "mon_mosasaurus", "freq": 4, "cost_multiplier": 60 },
+      { "monster": "mon_spinosaurus", "freq": 4, "cost_multiplier": 40 }
+    ]
   }
 ]
