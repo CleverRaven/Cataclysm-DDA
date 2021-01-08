@@ -334,13 +334,6 @@ class string_id
             return !is_null();
         }
 
-        /**
-         * TODO: Get rid of!
-         */
-        bool operator==( const char *rhs ) const {
-            return _id.str() == rhs;
-        }
-
     private:
         // generic_factory version that corresponds to the _cid
         mutable int64_t _version = INVALID_VERSION;
