@@ -263,17 +263,17 @@
   {
     "result": "broken_skitterbot_rat",
     "type": "uncraft",
-    "copy_from": "broken_skitterbot"
+    "copy-from": "broken_skitterbot"
   },
   {
     "result": "broken_skitterbot_grab",
     "type": "uncraft",
-    "copy_from": "broken_skitterbot"
+    "copy-from": "broken_skitterbot"
   },
   {
     "result": "broken_skitterbot_hunter",
     "type": "uncraft",
-    "copy_from": "broken_skitterbot"
+    "copy-from": "broken_skitterbot"
   },
   {
     "result": "broken_defbot_shot",
