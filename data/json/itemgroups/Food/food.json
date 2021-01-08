@@ -635,6 +635,7 @@
     "entries": [
       { "item": "beer", "prob": 35 },
       { "item": "european_pilsner", "prob": 25 },
+      { "item": "drink_hard_seltzer", "prob": 25 },
       { "item": "pale_ale", "prob": 25 },
       { "item": "india_pale_ale", "prob": 25 },
       { "item": "stout", "prob": 15 },
