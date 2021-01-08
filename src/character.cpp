@@ -7140,7 +7140,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
             if( bleed > 0 ) {
                 int percent = static_cast<int>( bleed * 100 / get_effect_int( effect_bleed, bp ) );
                 percent = std::min( percent, 100 );
-                desc += colorize( string_format( _( "Expected reduction of bleeding by: %d %%" ), percent ),
+                desc += colorize( string_format( _( "Expected bleeding reduction: %d %%" ), percent ),
                                   c_light_green ) + "\n";
             } else {
                 desc += colorize( _( "This will not affect the bleeding." ),
