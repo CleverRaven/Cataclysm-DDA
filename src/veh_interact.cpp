@@ -1497,11 +1497,13 @@ void veh_interact::calc_overview()
             }
         };
 
-        vehicle_part &vp = vpr.part();
-        if( vp.is_tank() && vp.is_available() ) {
-            overview_opts.emplace_back( "TANK", &vp, next_hotkey( vp, hotkey ), tank_details );
-        } else if( vp.is_fuel_store() && !( vp.is_turret() || vp.is_battery() || vp.is_reactor() ) ) {
-            overview_opts.emplace_back( "TANK", &vp, next_hotkey( vp, hotkey ), no_tank_details );
+        if( vpr.part().is_tank() && vpr.part().is_available() ) {
+            overview_opts.emplace_back( "TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ), tank_details );
+        } else if( vpr.part().is_fuel_store() && vpr.part().is_available() && !( vpr.part().is_turret() ||
+                   vpr.part().is_battery() ||
+                   vpr.part().is_reactor() ) ) {
+            overview_opts.emplace_back( "TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                                        no_tank_details );
         }
     }
 
