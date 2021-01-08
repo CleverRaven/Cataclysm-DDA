@@ -2336,7 +2336,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
     }
     if( amount > 0 && level.isTraining() ) {
         int oldLevel = get_skill_level( id );
-        get_skill_level_object( id ).train( amount * 100 );
+        get_skill_level_object( id ).train( amount );
         int newLevel = get_skill_level( id );
         std::string skill_name = skill.name();
         if( newLevel > oldLevel ) {
@@ -2351,12 +2351,14 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
                      skill_name );
         }
 
-        int chance_to_drop = std::max( focus_pool, amount * 10 );
+        int chance_to_drop = std::max( focus_pool, amount / 10 );
+	// TODO: Move focus_pool behind a getter almost everywhere.
+	// TODO: Multiply focus_pool by 100 and just subtract chance_to_drop from it.
         focus_pool -= chance_to_drop / 100;
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
-        if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) && ( !( has_trait_flag( "PRED4" ) &&
-                skill.is_combat_skill() ) ) ) {
+        if( ( rng( 1, 10000 ) <= ( chance_to_drop % 100 ) * ( chance_to_drop % 100 ) ) &&
+            ( !( has_trait_flag( "PRED4" ) && skill.is_combat_skill() ) ) ) {
             focus_pool--;
         }
         focus_pool = std::max( focus_pool, 0 );
@@ -11581,9 +11583,8 @@ int Character::adjust_for_focus( int amount ) const
     }
     effective_focus += ( get_int() - get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
                        get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" );
-    effective_focus = std::max( effective_focus, 0 );
-    double tmp = amount * ( effective_focus / 100.0 );
-    return roll_remainder( std::min( effective_focus * 10.0, tmp ) );
+    effective_focus = std::max( effective_focus, 1 );
+    return effective_focus * std::min( amount, 1000 );
 }
 
 std::set<tripoint> Character::get_path_avoid() const
@@ -12676,7 +12677,7 @@ void Character::practice_proficiency( const proficiency_id &prof, const time_dur
 {
     int amt = to_seconds<int>( amount );
     const float pct_before = _proficiencies->pct_practiced( prof );
-    time_duration focused_amount = time_duration::from_seconds( adjust_for_focus( amt ) );
+    time_duration focused_amount = time_duration::from_seconds( adjust_for_focus( amt ) / 100 );
     const bool learned = _proficiencies->practice( prof, focused_amount, max );
     const float pct_after = _proficiencies->pct_practiced( prof );
 

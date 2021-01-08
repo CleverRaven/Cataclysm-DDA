@@ -756,8 +756,8 @@ void avatar::do_read( item &book )
                 min_ex += 2;
             }
 
-            min_ex = adjust_for_focus( min_ex );
-            max_ex = adjust_for_focus( max_ex );
+            min_ex = adjust_for_focus( min_ex ) / 100;
+            max_ex = adjust_for_focus( max_ex ) / 100;
 
             if( max_ex < 2 ) {
                 max_ex = 2;
