@@ -334,7 +334,9 @@
     "type": "recipe",
     "copy-from": "legguard_lightplate",
     "time": "5 h",
-    "using": [ [ "blacksmithing_standard", 42 ], [ "steel_standard", 9 ], [ "strap_small", 4 ], [ "clasps", 4 ] ]
+    "using": [ [ "blacksmithing_standard", 42 ], [ "steel_standard", 9 ], [ "strap_small", 5 ], [ "clasps", 5 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
     "result": "legguard_metal",
@@ -356,7 +358,8 @@
     "type": "recipe",
     "copy-from": "legguard_metal",
     "time": "2 h",
-    "using": [ [ "steel_tiny", 6 ], [ "strap_large", 2 ], [ "clasps", 4 ] ]
+    "using": [ [ "steel_tiny", 6 ], [ "strap_large", 3 ], [ "clasps", 6 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ]
   },
   {
     "result": "legguard_paper",
@@ -381,7 +384,7 @@
     "time": "40 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "strap_large", 2 ] ],
+    "using": [ [ "strap_large", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 60 ] ] ]
@@ -391,7 +394,8 @@
     "type": "recipe",
     "copy-from": "legguard_scrap",
     "time": "2 h",
-    "using": [ [ "strap_large", 2 ] ],
+    "using": [ [ "strap_large", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 90 ] ] ]
   },
   {
