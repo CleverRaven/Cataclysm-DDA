@@ -9938,7 +9938,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     if( ( has_trait( trait_SLIMESPAWNER ) ) && ( dam >= 10 ) && one_in( 20 - dam ) ) {
         if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
             slime->friendly = -1;
-            add_msg_if_player( m_warning, _( "A msss of slime is torn from you, and moves on its own!" ) );
+            add_msg_if_player( m_warning, _( "A mass of slime is torn from you, and moves on its own!" ) );
         }
     }
 
