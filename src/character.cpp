@@ -10036,7 +10036,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
             } else {
                 add_effect( effect_bite, 1_turns, bp, true );
             }
-            add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
+            add_msg_if_player( _( "Filth from your clothing has been embedded deep in the wound." ) );
         }
     }
 
