@@ -12218,7 +12218,7 @@ void Character::process_effects()
         remove_effect( effect_bloodworms );
         remove_effect( effect_brainworms );
         remove_effect( effect_paincysts );
-        add_msg_if_player( m_good, _( "Something writhes and inside of you as it dies." ) );
+        add_msg_if_player( m_good, _( "Something writhes inside of you as it dies." ) );
     }
     if( has_trait( trait_ACIDBLOOD ) && ( has_effect( effect_dermatik ) ||
                                           has_effect( effect_bloodworms ) ||
