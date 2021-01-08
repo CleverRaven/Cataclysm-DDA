@@ -6793,7 +6793,7 @@ void Character::update_bodytemp()
                      body_part_name( bp ) );
         } else if( conv_temp <= BODYTEMP_COLD && windchill < -20 && one_in( 100 ) ) {
             add_msg( m_bad,
-                     _( "The wind is very strong, you should find some more wind-resistant clothing for your %s." ),
+                     _( "The wind is very strong; you should find some more wind-resistant clothing for your %s." ),
                      body_part_name( bp ) );
         } else if( conv_temp <= BODYTEMP_COLD && windchill < -30 && one_in( 50 ) ) {
             add_msg( m_bad, _( "Your clothing is not providing enough protection from the wind for your %s!" ),
