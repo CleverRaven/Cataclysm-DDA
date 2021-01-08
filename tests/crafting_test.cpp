@@ -670,7 +670,7 @@ static void test_skill_progression( const recipe_id &test_recipe, std::vector<it
     // Do we need to check required skills too?
     const int starting_skill_level = r.difficulty;
     prep_craft( test_recipe, tools, true );
-    you.focus_pool = 100;
+    you.set_focus( 100 );
     if( morale_level != 0 ) {
         you.add_morale( morale_type( "morale_food_good" ), morale_level );
         REQUIRE( you.get_morale_level() == morale_level );

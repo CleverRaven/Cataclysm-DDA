@@ -2352,8 +2352,8 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         }
 
         int chance_to_drop = std::max( focus_pool, amount / 10 );
-	// TODO: Move focus_pool behind a getter almost everywhere.
-	// TODO: Multiply focus_pool by 100 and just subtract chance_to_drop from it.
+        // TODO: Move focus_pool behind a getter almost everywhere.
+        // TODO: Multiply focus_pool by 100 and just subtract chance_to_drop from it.
         focus_pool -= chance_to_drop / 100;
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
@@ -5923,7 +5923,7 @@ void Character::update_needs( int rate_multiplier )
             }
 
             mod_pain( rng( 4, 6 ) );
-            focus_pool -= 1;
+            mod_focus( -1 );
         }
     }
 }
@@ -11571,7 +11571,7 @@ bool Character::has_opposite_trait( const trait_id &flag ) const
 
 int Character::adjust_for_focus( int amount ) const
 {
-    int effective_focus = focus_pool;
+    int effective_focus = get_focus();
     if( has_trait( trait_FASTLEARNER ) ) {
         effective_focus += 15;
     }

@@ -11,45 +11,48 @@ TEST_CASE( "focus" )
     REQUIRE( you.get_morale_level() == 0 );
     int previous_focus = 0;
     SECTION( "equilibrium" ) {
-        you.focus_pool = 100;
+        you.set_focus( 100 );
         for( int i = 0; i < 100; ++i ) {
             you.update_mental_focus();
-            CHECK( you.focus_pool == 100 );
+            CHECK( you.get_focus() == 100 );
         }
     }
     SECTION( "converges up" ) {
-        previous_focus = you.focus_pool = 0;
+        you.set_focus( 0 );
+        previous_focus = you.get_focus();
         for( int i = 0; i < 100; ++i ) {
             you.update_mental_focus();
-            CHECK( you.focus_pool >= previous_focus );
-            previous_focus = you.focus_pool;
+            CHECK( you.get_focus() >= previous_focus );
+            previous_focus = you.get_focus();
         }
-        CHECK( you.focus_pool > 50 );
+        CHECK( you.get_focus() > 50 );
     }
     SECTION( "converges down" ) {
-        previous_focus = you.focus_pool = 200;
+        you.set_focus( 200 );
+        previous_focus = you.get_focus();
         for( int i = 0; i < 100; ++i ) {
             you.update_mental_focus();
-            CHECK( you.focus_pool <= previous_focus );
-            previous_focus = you.focus_pool;
+            CHECK( you.get_focus() <= previous_focus );
+            previous_focus = you.get_focus();
         }
-        CHECK( you.focus_pool < 150 );
+        CHECK( you.get_focus() < 150 );
     }
     SECTION( "drains with practice" ) {
-        previous_focus = you.focus_pool = 100;
+        you.set_focus( 100 );
+        previous_focus = you.get_focus();
         for( int i = 0; i < 600; ++i ) {
             you.practice( skill_id( "fabrication" ), 1, 10, true );
             if( i % 60 == 0 ) {
                 you.update_mental_focus();
             }
-            CHECK( you.focus_pool <= previous_focus + 1 );
-            previous_focus = you.focus_pool;
+            CHECK( you.get_focus() <= previous_focus + 1 );
+            previous_focus = you.get_focus();
         }
-        CHECK( you.focus_pool < 50 );
+        CHECK( you.get_focus() < 50 );
     }
     SECTION( "drains rapidly with large practice" ) {
         you.practice( skill_id( "fabrication" ), 1000, 10, true );
-        CHECK( you.focus_pool < 10 );
+        CHECK( you.get_focus() < 10 );
     }
     SECTION( "time to level" ) {
         REQUIRE( you.get_skill_level( skill_id( "fabrication" ) ) == 0 );
@@ -59,7 +62,7 @@ TEST_CASE( "focus" )
         };
         for( int lvl = 1; lvl <= 10; ++lvl ) {
             int turns = 0;
-            you.focus_pool = 100;
+            you.set_focus( 100 );
             while( you.get_skill_level( skill_id( "fabrication" ) ) < lvl ) {
                 you.practice( skill_id( "fabrication" ), 1, lvl, true );
                 if( turns % 60 == 0 ) {

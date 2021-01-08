@@ -1161,10 +1161,10 @@ int avatar::calc_focus_change() const
     gain *= base_change;
 
     // Fatigue will incrementally decrease any focus above related cap
-    if( ( get_fatigue() >= fatigue_levels::TIRED && focus_pool > 80 ) ||
-        ( get_fatigue() >= fatigue_levels::DEAD_TIRED && focus_pool > 60 ) ||
-        ( get_fatigue() >= fatigue_levels::EXHAUSTED && focus_pool > 40 ) ||
-        ( get_fatigue() >= fatigue_levels::MASSIVE_FATIGUE && focus_pool > 20 ) ) {
+    if( ( get_fatigue() >= fatigue_levels::TIRED && get_focus() > 80 ) ||
+        ( get_fatigue() >= fatigue_levels::DEAD_TIRED && get_focus() > 60 ) ||
+        ( get_fatigue() >= fatigue_levels::EXHAUSTED && get_focus() > 40 ) ||
+        ( get_fatigue() >= fatigue_levels::MASSIVE_FATIGUE && get_focus() > 20 ) ) {
 
         //it can fall faster then 1
         if( gain > -1 ) {
@@ -1176,8 +1176,7 @@ int avatar::calc_focus_change() const
 
 void avatar::update_mental_focus()
 {
-
-    focus_pool += calc_focus_change();
+    mod_focus( calc_focus_change() );
 
     // Moved from calc_focus_equilibrium, because it is now const
     if( activity.id() == ACT_READ ) {

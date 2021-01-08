@@ -832,14 +832,14 @@ void Character::hardcoded_effects( effect &it )
             }
         }
     } else if( id == effect_datura ) {
-        if( dur > 100_minutes && focus_pool >= 1 && one_in( 24 ) ) {
-            focus_pool--;
+        if( dur > 100_minutes && get_focus() >= 1 && one_in( 24 ) ) {
+            mod_focus( -1 );
         }
         if( dur > 200_minutes && one_in( 48 ) && get_stim() < 20 ) {
             mod_stim( 1 );
         }
-        if( dur > 300_minutes && focus_pool >= 1 && one_in( 12 ) ) {
-            focus_pool--;
+        if( dur > 300_minutes && get_focus() >= 1 && one_in( 12 ) ) {
+            mod_focus( -1 );
         }
         if( dur > 400_minutes && one_in( 384 ) ) {
             mod_pain( rng( -1, -8 ) );
@@ -859,8 +859,8 @@ void Character::hardcoded_effects( effect &it )
                 }
             }
         }
-        if( dur > 700_minutes && focus_pool >= 1 ) {
-            focus_pool--;
+        if( dur > 700_minutes && get_focus() >= 1 ) {
+            mod_focus( -1 );
         }
         if( dur > 800_minutes && one_in( 1536 ) ) {
             add_effect( effect_visuals, rng( 4_minutes, 20_minutes ) );
@@ -968,7 +968,7 @@ void Character::hardcoded_effects( effect &it )
                         break;
                     case 3:
                         warning = _( "You are anxious and cannot collect your thoughts." );
-                        focus_pool -= rng( 1, focus_pool * intense / it.get_max_intensity() );
+                        mod_focus( -rng( 1, get_focus() * intense / it.get_max_intensity() ) );
                         break;
                     case 4:
                         warning = _( "You are sweating profusely, but you feel cold." );
