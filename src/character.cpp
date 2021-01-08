@@ -6190,7 +6190,7 @@ void Character::check_needs_extremes()
                 }
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_MASSIVE ) {
                 add_msg_if_player( m_bad,
-                                   _( "You haven't slept decently for so long that your whole body is screaming for mercy.  It's a miracle that you're still awake, but it just feels like a curse now." ) );
+                                   _( "You haven't slept decently for so long that your whole body is screaming for mercy.  It's a miracle that you're still awake, but it feels more like a curse now." ) );
                 mod_fatigue( 40 );
 
                 mod_healthy_mod( -5, 0 );
