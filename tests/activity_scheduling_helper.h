@@ -93,7 +93,7 @@ struct weariness_events {
             int minutes = 0;
             int from = 0;
             int to = 0;
-	    int new_weariness = 0;
+	    int new_weariness = 0
 	    int new_threshold = 0;
         };
 
