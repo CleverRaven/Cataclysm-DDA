@@ -7178,10 +7178,10 @@ bodypart_id Character::body_window( const std::string &menu_header,
             desc += colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
                               c_red ) + "\n";
             if( infect > 0 ) {
-                desc += colorize( string_format( _( "Chance to heal infection: %d %%" ),
+                desc += colorize( string_format( _( "Chance to cure infection: %d %%" ),
                                                  static_cast<int>( infect * 100 ) ), c_light_green ) + "\n";
             } else {
-                desc += colorize( _( "This will not help in healing infection." ), c_yellow ) + "\n";
+                desc += colorize( _( "This will not help in curing infection." ), c_yellow ) + "\n";
             }
         }
         // DISINFECTANT (general) block
