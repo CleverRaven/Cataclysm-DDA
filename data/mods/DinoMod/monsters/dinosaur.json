@@ -131,7 +131,6 @@
     "weight": "1000 kg",
     "bodytype": "bear",
     "material": [ "flesh" ],
-    "//": "Altering Spinosaurus to reflect modern fossils and research on speed, bite force, teeth shape, tail shape and size as well changing its aggression and morale to reflect our understanding of eating and hunting behaviours.",
     "aggression": 70,
     "morale": 70,
     "speed": 90,
