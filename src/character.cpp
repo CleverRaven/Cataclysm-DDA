@@ -1361,7 +1361,7 @@ void Character::on_dodge( Creature *source, float difficulty )
 
         if( tec != tec_none && !is_dead_state() ) {
             if( get_stamina() < get_stamina_max() / 3 ) {
-                add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
+                add_msg( m_bad, _( "You try to counterattack, but you are too exhausted!" ) );
             } else {
                 melee_attack( *source, false, tec );
             }
