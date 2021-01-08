@@ -246,9 +246,9 @@
   },
   {
     "type": "effect_type",
-    "id": "dripping_grease",
-    "name": [ "Grease dripping" ],
-    "desc": [ "AI tag used for robot monsters losing grease.  This is a bug if you have it." ],
+    "id": "dripping_mechanical_fluid",
+    "name": [ "Mechanical fluid dripping" ],
+    "desc": [ "AI tag used for robot monsters losing mechanical fluid.  This is a bug if you have it." ],
     "show_in_info": true
   },
   {

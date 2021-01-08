@@ -55,7 +55,7 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_dripping_grease( "dripping_grease" );
+static const efftype_id effect_dripping_mechanical_fluid( "mechanical_fluid" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -1008,7 +1008,7 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
             if( is_avatar() || is_npc() ) {
                 as_character()->make_bleed( source, bp, 1_minutes * rng( 1, adjusted_damage ) );
             } else if( in_species( species_ROBOT ) ) {
-                add_effect( source, effect_dripping_grease, 1_seconds * rng( 1, adjusted_damage ), bp );
+                add_effect( source, effect_dripping_mechanical_fluid, 1_seconds * rng( 1, adjusted_damage ), bp );
             } else {
                 add_effect( source, effect_bleed, 1_minutes * rng( 1, adjusted_damage ), bp );
             }

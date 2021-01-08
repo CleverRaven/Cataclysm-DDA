@@ -1469,12 +1469,12 @@
     "looks_like": "fd_smoke"
   },
   {
-    "id": "fd_grease",
+    "id": "fd_mechanical_fluid",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "grease splatter", "color": "light_gray" },
-      { "name": "grease stain" },
-      { "name": "puddle of grease", "color": "dark_gray" }
+      { "name": "mechanical fluid splatter", "color": "light_gray" },
+      { "name": "mechanical fluid stain" },
+      { "name": "puddle of mechanical fluid", "color": "dark_gray" }
     ],
     "description_affix": "covered_in",
     "is_splattering": true,
