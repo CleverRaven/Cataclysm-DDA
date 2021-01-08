@@ -1403,7 +1403,7 @@ bool Character::uncanny_dodge()
         position.x = adjacent.x;
         position.y = adjacent.y;
         if( is_u ) {
-            add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
+            add_msg( _( "Time seems to slow down, and you instinctively dodge!" ) );
         } else if( seen ) {
             add_msg( _( "%s dodges… so fast!" ), this->disp_name() );
 
@@ -1411,9 +1411,9 @@ bool Character::uncanny_dodge()
         return true;
     }
     if( is_u ) {
-        add_msg( _( "You try to dodge but there's no room!" ) );
+        add_msg( _( "You try to dodge, but there's no room!" ) );
     } else if( seen ) {
-        add_msg( _( "%s tries to dodge but there's no room!" ), this->disp_name() );
+        add_msg( _( "%s tries to dodge, but there's no room!" ), this->disp_name() );
     }
     return false;
 }
