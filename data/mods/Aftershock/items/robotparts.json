@@ -69,7 +69,7 @@
     "id": "hazmatbot_chassis",
     "name": { "str_sp": "Likvidator chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Likvidator.",
-    "copy_from": "utilibot_chassis",
+    "copy-from": "utilibot_chassis",
     "color": "green"
   },
   {
@@ -77,7 +77,7 @@
     "id": "butlerbot_chassis",
     "name": { "str_sp": "Famulus chassis" },
     "description": "What's left when you remove all moving parts and electronics.  Looking at it feels you with uneasiness as the Famulus stares at you with empty eyes.",
-    "copy_from": "utilibot_chassis",
+    "copy-from": "utilibot_chassis",
     "color": "dark_gray"
   },
   {
@@ -85,7 +85,7 @@
     "id": "utilibot_const_chassis",
     "name": { "str_sp": "Udarnik chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Udarnik.",
-    "copy_from": "utilibot_chassis",
+    "copy-from": "utilibot_chassis",
     "color": "dark_gray"
   },
   {
@@ -93,7 +93,7 @@
     "id": "utilibot_fire_chassis",
     "name": { "str_sp": "Brandspojt chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Brandspojt.",
-    "copy_from": "utilibot_chassis",
+    "copy-from": "utilibot_chassis",
     "color": "yellow"
   },
   {
@@ -101,7 +101,7 @@
     "id": "medibot_chassis",
     "name": { "str_sp": "Surgical Droid chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Surgical Droid.",
-    "copy_from": "utilibot_chassis",
+    "copy-from": "utilibot_chassis",
     "color": "white"
   },
   {
@@ -109,7 +109,7 @@
     "id": "defbot_shot_chassis",
     "name": { "str_sp": "Aegis chassis" },
     "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Aegis.",
-    "copy_from": "utilibot_chassis",
+    "copy-from": "utilibot_chassis",
     "color": "blue"
   },
   {
@@ -137,5 +137,5 @@
     "material": [ "steel" ],
     "category": "spare_parts",
     "color": "red_green"
-  },
+  }
 ]

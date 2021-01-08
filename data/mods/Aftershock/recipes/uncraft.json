@@ -122,8 +122,20 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id":  "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "ai_module", 1 ] ], [ [ "robot_controls", 1 ] ], [ [ "sensor_module", 1 ] ], [ [ "utilibot_chassis", 1 ] ], [ [ "afs_circuitry_1",  6 ] ], [ [ "afs_circuitry_2",  4 ] ], [ [ "afs_circuitry_3",  2 ] ], [ [ "afs_energy_storage_3",  2 ] ], [ [ "afs_energy_storage_4",  1 ] ], [ [ "afs_material_1",  12 ] ], [ [ "afs_material_2",  4 ] ]  ]
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "utilibot_chassis", 1 ] ],
+      [ [ "afs_circuitry_1", 6 ] ],
+      [ [ "afs_circuitry_2", 4 ] ],
+      [ [ "afs_circuitry_3", 2 ] ],
+      [ [ "afs_energy_storage_3", 2 ] ],
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "afs_material_1", 12 ] ],
+      [ [ "afs_material_2", 4 ] ]
+    ]
   },
   {
     "result": "broken_hazmatbot",
@@ -133,8 +145,20 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id":  "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "ai_module", 1 ] ], [ [ "robot_controls", 1 ] ], [ [ "sensor_module", 1 ] ], [ [ "hazmatbot_chassis", 1 ] ], [ [ "afs_circuitry_1",  6 ] ], [ [ "afs_circuitry_2",  4 ] ], [ [ "afs_circuitry_3",  2 ] ], [ [ "afs_energy_storage_3",  2 ] ], [ [ "afs_energy_storage_4",  1 ] ], [ [ "afs_material_1",  12 ] ], [ [ "afs_material_2",  4 ] ]  ]
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "hazmatbot_chassis", 1 ] ],
+      [ [ "afs_circuitry_1", 6 ] ],
+      [ [ "afs_circuitry_2", 4 ] ],
+      [ [ "afs_circuitry_3", 2 ] ],
+      [ [ "afs_energy_storage_3", 2 ] ],
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "afs_material_1", 12 ] ],
+      [ [ "afs_material_2", 4 ] ]
+    ]
   },
   {
     "result": "broken_utilibot_butler",
@@ -144,8 +168,20 @@
     "skill_used": "electronics",
     "difficulty": 5,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id":  "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "ai_module", 1 ] ], [ [ "robot_controls", 1 ] ], [ [ "sensor_module", 1 ] ], [ [ "hazmatbot_chassis", 1 ] ], [ [ "afs_circuitry_1",  6 ] ], [ [ "afs_circuitry_2",  4 ] ], [ [ "afs_circuitry_3",  2 ] ], [ [ "afs_energy_storage_3",  2 ] ], [ [ "afs_energy_storage_4",  1 ] ], [ [ "afs_material_1",  12 ] ], [ [ "afs_material_2",  4 ] ]  ]
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "hazmatbot_chassis", 1 ] ],
+      [ [ "afs_circuitry_1", 6 ] ],
+      [ [ "afs_circuitry_2", 4 ] ],
+      [ [ "afs_circuitry_3", 2 ] ],
+      [ [ "afs_energy_storage_3", 2 ] ],
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "afs_material_1", 12 ] ],
+      [ [ "afs_material_2", 4 ] ]
+    ]
   },
   {
     "result": "broken_utilibot_const",
@@ -155,8 +191,24 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id":  "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "ai_module", 1 ] ], [ [ "robot_controls", 1 ] ], [ [ "sensor_module", 1 ] ], [ [ "utilibot_const_chassis", 1 ] ], [ [ "afs_circuitry_1",  6 ] ], [ [ "afs_circuitry_2",  4 ] ], [ [ "afs_circuitry_3",  2 ] ], [ [ "afs_energy_storage_3",  2 ] ], [ [ "afs_energy_storage_4",  1 ] ], [ [ "afs_material_1",  12 ] ], [ [ "afs_material_2",  4 ] ], [ [ "targeting_module",  1 ] ], [ [ "gun_module",  2 ] ], [ [ "nailgun",  1 ] ], [ [ "welder",  1 ] ]  ]
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "utilibot_const_chassis", 1 ] ],
+      [ [ "afs_circuitry_1", 6 ] ],
+      [ [ "afs_circuitry_2", 4 ] ],
+      [ [ "afs_circuitry_3", 2 ] ],
+      [ [ "afs_energy_storage_3", 2 ] ],
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "afs_material_1", 12 ] ],
+      [ [ "afs_material_2", 4 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 2 ] ],
+      [ [ "nailgun", 1 ] ],
+      [ [ "welder", 1 ] ]
+    ]
   },
   {
     "result": "broken_utilibot_fire",
@@ -166,8 +218,24 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id":  "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "ai_module", 1 ] ], [ [ "robot_controls", 1 ] ], [ [ "sensor_module", 1 ] ], [ [ "utilibot_fire_chassis", 1 ] ], [ [ "afs_circuitry_1",  6 ] ], [ [ "afs_circuitry_2",  4 ] ], [ [ "afs_circuitry_3",  2 ] ], [ [ "afs_energy_storage_3",  2 ] ], [ [ "afs_energy_storage_4",  1 ] ], [ [ "afs_material_1",  12 ] ], [ [ "afs_material_2",  4 ] ], [ [ "targeting_module",  1 ] ], [ [ "gun_module",  1 ] ], [ [ "watercannon",  1 ] ], [ [ "metal_tank_little", 4 ] ]  ]
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "utilibot_fire_chassis", 1 ] ],
+      [ [ "afs_circuitry_1", 6 ] ],
+      [ [ "afs_circuitry_2", 4 ] ],
+      [ [ "afs_circuitry_3", 2 ] ],
+      [ [ "afs_energy_storage_3", 2 ] ],
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "afs_material_1", 12 ] ],
+      [ [ "afs_material_2", 4 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "watercannon", 1 ] ],
+      [ [ "metal_tank_little", 4 ] ]
+    ]
   },
   {
     "result": "broken_medibot",
@@ -177,8 +245,20 @@
     "skill_used": "electronics",
     "difficulty": 5,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id":  "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "ai_module", 1 ] ], [ [ "robot_controls", 1 ] ], [ [ "sensor_module", 1 ] ], [ [ "medibot_chassis", 1 ] ], [ [ "afs_circuitry_1",  6 ] ], [ [ "afs_circuitry_2",  4 ] ], [ [ "afs_circuitry_3",  2 ] ], [ [ "afs_energy_storage_3",  2 ] ], [ [ "afs_energy_storage_4",  1 ] ], [ [ "afs_material_1",  12 ] ], [ [ "afs_material_2",  4 ] ]  ]
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "medibot_chassis", 1 ] ],
+      [ [ "afs_circuitry_1", 6 ] ],
+      [ [ "afs_circuitry_2", 4 ] ],
+      [ [ "afs_circuitry_3", 2 ] ],
+      [ [ "afs_energy_storage_3", 2 ] ],
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "afs_material_1", 12 ] ],
+      [ [ "afs_material_2", 4 ] ]
+    ]
   },
   {
     "result": "broken_skitterbot_rat",
@@ -203,8 +283,22 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id":  "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "ai_module", 1 ] ], [ [ "robot_controls", 1 ] ], [ [ "sensor_module", 1 ] ], [ [ "defbot_shot_chassis", 1 ] ], [ [ "afs_circuitry_1",  6 ] ], [ [ "afs_circuitry_2",  4 ] ], [ [ "afs_circuitry_3",  2 ] ], [ [ "afs_energy_storage_3",  2 ] ], [ [ "afs_energy_storage_4",  1 ] ], [ [ "afs_material_1",  12 ] ], [ [ "afs_material_2",  4 ] ], [ [ "targeting_module",  1 ] ], [ [ "gun_module",  1 ] ]  ]
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "defbot_shot_chassis", 1 ] ],
+      [ [ "afs_circuitry_1", 6 ] ],
+      [ [ "afs_circuitry_2", 4 ] ],
+      [ [ "afs_circuitry_3", 2 ] ],
+      [ [ "afs_energy_storage_3", 2 ] ],
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "afs_material_1", 12 ] ],
+      [ [ "afs_material_2", 4 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ]
+    ]
   },
   {
     "result": "broken_milbot_556",
@@ -214,8 +308,24 @@
     "skill_used": "electronics",
     "difficulty": 5,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id":  "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "ai_module", 1 ] ], [ [ "robot_controls", 1 ] ], [ [ "sensor_module", 1 ] ], [ [ "milbot_humaniform_chassis", 1 ] ], [ [ "afs_circuitry_1",  6 ] ], [ [ "afs_circuitry_2",  4 ] ], [ [ "afs_circuitry_3",  2 ] ], [ [ "afs_energy_storage_3",  2 ] ], [ [ "afs_energy_storage_4",  1 ] ], [ [ "afs_material_1",  12 ] ], [ [ "afs_material_2",  4 ] ], [ [ "targeting_module",  1 ] ], [ [ "gun_module",  1 ] ], [ [ "pathfinding_module",  1 ] ], [ [ "identification_module", 1 ] ]  ]
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "milbot_humaniform_chassis", 1 ] ],
+      [ [ "afs_circuitry_1", 6 ] ],
+      [ [ "afs_circuitry_2", 4 ] ],
+      [ [ "afs_circuitry_3", 2 ] ],
+      [ [ "afs_energy_storage_3", 2 ] ],
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "afs_material_1", 12 ] ],
+      [ [ "afs_material_2", 4 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ]
+    ]
   },
   {
     "result": "broken_milbot_needle",
@@ -225,8 +335,24 @@
     "skill_used": "electronics",
     "difficulty": 5,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id":  "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "ai_module", 1 ] ], [ [ "robot_controls", 1 ] ], [ [ "sensor_module", 1 ] ], [ [ "milbot_humaniform_chassis", 1 ] ], [ [ "afs_circuitry_1",  6 ] ], [ [ "afs_circuitry_2",  4 ] ], [ [ "afs_circuitry_3",  2 ] ], [ [ "afs_energy_storage_3",  2 ] ], [ [ "afs_energy_storage_4",  1 ] ], [ [ "afs_material_1",  12 ] ], [ [ "afs_material_2",  4 ] ], [ [ "targeting_module",  1 ] ], [ [ "gun_module",  1 ] ], [ [ "pathfinding_module",  1 ] ], [ [ "identification_module", 1 ] ]  ]
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "milbot_humaniform_chassis", 1 ] ],
+      [ [ "afs_circuitry_1", 6 ] ],
+      [ [ "afs_circuitry_2", 4 ] ],
+      [ [ "afs_circuitry_3", 2 ] ],
+      [ [ "afs_energy_storage_3", 2 ] ],
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "afs_material_1", 12 ] ],
+      [ [ "afs_material_2", 4 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ]
+    ]
   },
   {
     "result": "broken_milbot_40mm",
@@ -236,7 +362,23 @@
     "skill_used": "electronics",
     "difficulty": 5,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id":  "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "ai_module", 1 ] ], [ [ "robot_controls", 1 ] ], [ [ "sensor_module", 1 ] ], [ [ "milbot_base_chassis", 1 ] ], [ [ "afs_circuitry_1",  6 ] ], [ [ "afs_circuitry_2",  4 ] ], [ [ "afs_circuitry_3",  2 ] ], [ [ "afs_energy_storage_3",  2 ] ], [ [ "afs_energy_storage_4",  1 ] ], [ [ "afs_material_1",  12 ] ], [ [ "afs_material_2",  4 ] ], [ [ "targeting_module",  1 ] ], [ [ "gun_module",  1 ] ], [ [ "pathfinding_module",  1 ] ], [ [ "identification_module", 1 ] ]  ]
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "robot_controls", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "milbot_base_chassis", 1 ] ],
+      [ [ "afs_circuitry_1", 6 ] ],
+      [ [ "afs_circuitry_2", 4 ] ],
+      [ [ "afs_circuitry_3", 2 ] ],
+      [ [ "afs_energy_storage_3", 2 ] ],
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "afs_material_1", 12 ] ],
+      [ [ "afs_material_2", 4 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ]
+    ]
   }
 ]
