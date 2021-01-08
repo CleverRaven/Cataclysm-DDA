@@ -3,14 +3,14 @@
     "id": "40fmj",
     "copy-from": "40sw",
     "type": "AMMO",
-    "name": { "str": ".40 S&W FMJ" },
+    "name": { "str_sp": ".40 S&W FMJ" },
     "description": ".40 S&W ammunition with 180gr FMJ bullets.  Designed to retain the 10mm Auto cartridge's power with lower recoil, the .40 S&W round became popular for law enforcement and personal defense.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 6 } }
   },
   {
     "id": "40sw",
     "type": "AMMO",
-    "name": { "str": ".40 S&W JHP" },
+    "name": { "str_sp": ".40 S&W JHP" },
     "description": ".40 S&W ammunition with 135gr JHP bullets.  The .40 S&W round is a descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.",
     "weight": "9 g",
     "volume": "106 ml",
@@ -34,7 +34,7 @@
     "id": "bp_40fmj",
     "copy-from": "40fmj",
     "type": "AMMO",
-    "name": { "str": ".40 S&W FMJ, black powder" },
+    "name": { "str_sp": ".40 S&W FMJ, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -48,7 +48,7 @@
     "id": "bp_40sw",
     "copy-from": "40sw",
     "type": "AMMO",
-    "name": { "str": ".40 S&W JHP, black powder" },
+    "name": { "str_sp": ".40 S&W JHP, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -62,7 +62,7 @@
     "id": "reloaded_40fmj",
     "copy-from": "40fmj",
     "type": "AMMO",
-    "name": { "str": ".40 S&W FMJ, reloaded" },
+    "name": { "str_sp": ".40 S&W FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -71,7 +71,7 @@
     "id": "reloaded_40sw",
     "copy-from": "40sw",
     "type": "AMMO",
-    "name": { "str": ".40 S&W JHP, reloaded" },
+    "name": { "str_sp": ".40 S&W JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
