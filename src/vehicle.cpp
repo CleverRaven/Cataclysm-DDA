@@ -2142,8 +2142,8 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
         here.dirty_vehicle_list.insert( this );
         part_removal_cleanup();
         new_vehicle->enable_refresh();
-        for (int idx : new_vehicle->engines) {
-            if (!new_vehicle->parts[idx].is_broken()) {
+        for( int idx : new_vehicle->engines ) {
+            if( !new_vehicle->parts[idx].is_broken() ) {
                 new_vehicle->parts[idx].enabled = true;
             }
         }
