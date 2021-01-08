@@ -81,7 +81,8 @@
         { "monster": [ "mon_gallimimus_bio_op" ], "x": [ 11 ], "y": 13 },
         { "monster": [ "mon_pachycephalosaurus_bio_op" ], "x": [ 12 ], "y": 13, "chance": 50 },
         { "monster": [ "mon_trice_bio_op" ], "x": [ 13 ], "y": 14, "chance": 25 }
-      ]
+      ],
+      "items": { "?": { "item": "autodoc_supplies", "chance": 100 } }
     }
   },
   {
