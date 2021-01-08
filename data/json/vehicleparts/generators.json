@@ -1,0 +1,20 @@
+[
+  {
+    "id": "generator_1cyl",
+    "copy-from": "engine_1cyl",
+    "name": { "str": "small gasoline generator" },
+    "type": "vehicle_part",
+    "description": "A small combustion engine disconnected from the drive system.  Burns gasoline fuel from a tank in the vehicle.",
+    "extend": { "flags": [ "GENERATOR" ] },
+    "delete": { "flags": [ "E_HIGHER_SKILL", "ENGINE" ] }
+  },
+  {
+    "id": "generator_vtwin",
+    "copy-from": "engine_vtwin",
+    "name": { "str": "gasoline generator" },
+    "type": "vehicle_part",
+    "description": "A combustion engine disconnected from the drive system.  Burns gasoline fuel from a tank in the vehicle.",
+    "extend": { "flags": [ "GENERATOR" ] },
+    "delete": { "flags": [ "E_HIGHER_SKILL" ] }
+  }
+]

@@ -73,7 +73,7 @@
     "name": "Portable Generator",
     "blueprint": [ [ "o-" ] ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_cross", "small_storage_battery", "engine_vtwin" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_cross", "small_storage_battery", "generator_vtwin" ] },
       { "x": 0, "y": 0, "parts": [ "generator_7500w", "wheel_mount_light", "wheel_small" ] },
       { "x": 1, "y": 0, "part": "frame_cross" },
       { "x": 1, "y": 0, "part": "tank_small", "fuel": "gasoline" },
