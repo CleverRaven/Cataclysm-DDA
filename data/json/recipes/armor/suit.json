@@ -521,7 +521,7 @@
     "result": "xl_chainmail_hauberk",
     "type": "recipe",
     "copy-from": "chainmail_hauberk",
-    "time": "2 h  15 m",
+    "time": "2 h 15 m",
     "components": [
       [ [ "xl_chainmail_vest", 1 ] ],
       [ [ "xl_chainmail_arms", 1 ] ],
