@@ -453,7 +453,6 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             bool has = p.has_amount( comest->tool, 1 );
             if( item::count_by_charges( comest->tool ) ) {
                 has = p.has_charges( comest->tool, 1 );
-
             }
             if( !has ) {
                 reason = string_format( _( "I need a %s to consume that!" ),
