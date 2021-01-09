@@ -40,7 +40,7 @@
     "symbol": ",",
     "color": "light_gray",
     "looks_like": "broken_cleanerbot",
-    "name": { "str": "broken Nihility", "str_pl": "broken Nihilities" },
+    "name": { "str": "broken Seneschal", "str_pl": "broken Seneschals" },
     "category": "other",
     "description": "A broken Nihility, now limp and unmoving.  Could be gutted for parts or crafted into a salvaged robot.",
     "material": [ "steel", "plastic" ],
@@ -135,7 +135,7 @@
     "copy-from": "broken_milbot_disarmed",
     "color": "light_gray",
     "name": "broken Imaginifier",
-    "description": "A broken military humaniform, shattered and inert. While it looks nowhere near human, you still feel uneasy as you feel like it is studying you with it's eyes.  Could be stripped for parts."
+    "description": "A broken military humaniform, shattered and inert. While it looks nowhere near human, you still feel uneasy as you feel as if it is studying you with its eyes.   Could be stripped for parts."
   },
   {
     "type": "GENERIC",
