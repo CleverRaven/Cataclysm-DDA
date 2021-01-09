@@ -1926,6 +1926,7 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "VIEW_CATEGORY_MODE" );
     ctxt.register_action( "ANY_INPUT" ); // For invlets
     ctxt.register_action( "INVENTORY_FILTER" );
+    ctxt.register_action( "EXAMINE" );
 
     append_column( own_inv_column );
     append_column( map_column );
@@ -2190,10 +2191,34 @@ item_location inventory_pick_selector::execute()
             }
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
+        } else if( input.action == "EXAMINE" ) {
+            const inventory_entry &selected = get_active_column().get_selected();
+            const item *sitem = selected.any_item().get_item();
+            if( selected ) {
+                action_examine( sitem );
+            }
         } else {
             on_input( input );
         }
     }
+}
+
+void inventory_selector::action_examine( const item *sitem )
+{
+    int ret = 0;
+
+    // Code below pulled from the action_examine function in advanced_inv.cpp
+    std::vector<iteminfo> vThisItem;
+    std::vector<iteminfo> vDummy;
+    sitem->info( true, vThisItem );
+    item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy );
+    data.handle_scrolling = true;
+
+    int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
+    int width = std::min( 80, maxwidth );
+
+    int ret = draw_item_info( [&]() -> catacurses::window {
+        return catacurses::newwin( 0, width, point( width, 0 ) ); }, data ).get_first_input();
 }
 
 void inventory_selector::highlight()
