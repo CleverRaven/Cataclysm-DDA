@@ -297,7 +297,8 @@ void player_activity::do_turn( player &p )
         }
 
         auto_resume = true;
-
+        player_activity new_act( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 5_minutes ) );
+        new_act.values.push_back( p.get_stamina_max() );
         if( p.is_avatar() && !ignoreQuery ) {
             uilist tired_query;
             tired_query.text = _( "You struggle to continue. Keep trying?" );
@@ -317,9 +318,6 @@ void player_activity::do_turn( player &p )
                     break;
             }
         }
-
-        player_activity new_act( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 5_minutes ) );
-        new_act.values.push_back( p.get_stamina_max() );
         p.assign_activity( new_act );
         return;
     }
