@@ -298,7 +298,7 @@ void player_activity::do_turn( player &p )
 
         auto_resume = true;
 
-        if( !ignoreQuery ) {
+        if( p.is_avatar() && !ignoreQuery ) {
             uilist tired_query;
             tired_query.text = _( "You struggle to continue. Keep trying?" );
             tired_query.addentry( 1, true, 'c', _( "Continue after a break." ) );
