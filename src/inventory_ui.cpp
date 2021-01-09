@@ -2205,8 +2205,6 @@ item_location inventory_pick_selector::execute()
 
 void inventory_selector::action_examine( const item *sitem )
 {
-    int ret = 0;
-
     // Code below pulled from the action_examine function in advanced_inv.cpp
     std::vector<iteminfo> vThisItem;
     std::vector<iteminfo> vDummy;
