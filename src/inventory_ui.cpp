@@ -2212,11 +2212,11 @@ void inventory_selector::action_examine( const item *sitem )
     item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy );
     data.handle_scrolling = true;
 
-    int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
-    int width = std::min( 80, maxwidth );
-
     draw_item_info( [&]() -> catacurses::window {
-        return catacurses::newwin( 0, width, point( width, 0 ) ); }, data ).get_first_input();
+        int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
+        int width = std::min( 80, maxwidth );
+        return catacurses::newwin( 0, width, point( maxwidth / 2 - width / 2, 0 ) ); },
+    data ).get_first_input();
 }
 
 void inventory_selector::highlight()
