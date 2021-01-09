@@ -6202,7 +6202,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
     auto this_sound = sounds::sound_at( lp );
     if( !this_sound.empty() ) {
         const int lines = fold_and_print( w_look, point( 1, ++line ), max_width, c_light_gray,
-                                          _( "You heard %s from here." ),
+                                          _( "From here you heard %s" ),
                                           this_sound );
         line += lines - 1;
     } else {
@@ -6217,7 +6217,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             if( !zlev_sound.empty() ) {
                 const int lines = fold_and_print( w_look, point( 1, ++line ), max_width, c_light_gray,
                                                   tmp.z > lp.z ?
-                                                  _( "You heard %s from above." ) : _( "You heard %s from below." ), this_sound );
+                                                  _( "From above you heard %s" ) : _( "From below you heard %s" ), zlev_sound );
                 line += lines - 1;
             }
         }
