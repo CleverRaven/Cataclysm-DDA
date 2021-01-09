@@ -3779,7 +3779,6 @@ void submap::store( JsonOut &jsout ) const
 
 void submap::load( JsonIn &jsin, const std::string &member_name, int version )
 {
-    bool rubpow_update = version < 22;
     if( member_name == "turn_last_touched" ) {
         last_touched = jsin.get_int();
     } else if( member_name == "temperature" ) {
@@ -3787,65 +3786,31 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
     } else if( member_name == "terrain" ) {
         // TODO: try block around this to error out if we come up short?
         jsin.start_array();
-        // Small duplication here so that the update check is only performed once
-        if( rubpow_update ) {
-            item rock = item( "rock", 0 );
-            item chunk = item( "steel_chunk", 0 );
-            for( int j = 0; j < SEEY; j++ ) {
-                for( int i = 0; i < SEEX; i++ ) {
-                    const ter_str_id tid( jsin.get_string() );
-
-                    if( tid == "t_rubble" ) {
-                        ter[i][j] = ter_id( "t_dirt" );
-                        frn[i][j] = furn_id( "f_rubble" );
-                        itm[i][j].insert( rock );
-                        itm[i][j].insert( rock );
-                    } else if( tid == "t_wreckage" ) {
-                        ter[i][j] = ter_id( "t_dirt" );
-                        frn[i][j] = furn_id( "f_wreckage" );
-                        itm[i][j].insert( chunk );
-                        itm[i][j].insert( chunk );
-                    } else if( tid == "t_ash" ) {
-                        ter[i][j] = ter_id( "t_dirt" );
-                        frn[i][j] = furn_id( "f_ash" );
-                    } else if( tid == "t_pwr_sb_support_l" ) {
-                        ter[i][j] = ter_id( "t_support_l" );
-                    } else if( tid == "t_pwr_sb_switchgear_l" ) {
-                        ter[i][j] = ter_id( "t_switchgear_l" );
-                    } else if( tid == "t_pwr_sb_switchgear_s" ) {
-                        ter[i][j] = ter_id( "t_switchgear_s" );
+        // terrain is encoded using simple RLE
+        int remaining = 0;
+        int_id<ter_t> iid;
+        for( int j = 0; j < SEEY; j++ ) {
+            // NOLINTNEXTLINE(modernize-loop-convert)
+            for( int i = 0; i < SEEX; i++ ) {
+                if( !remaining ) {
+                    if( jsin.test_string() ) {
+                        iid = ter_str_id( jsin.get_string() ).id();
+                    } else if( jsin.test_array() ) {
+                        jsin.start_array();
+                        iid = ter_str_id( jsin.get_string() ).id();
+                        remaining = jsin.get_int() - 1;
+                        jsin.end_array();
                     } else {
-                        ter[i][j] = tid.id();
+                        debugmsg( "Mapbuffer terrain data is corrupt, expected string or array." );
                     }
+                } else {
+                    --remaining;
                 }
+                ter[i][j] = iid;
             }
-        } else {
-            // terrain is encoded using simple RLE
-            int remaining = 0;
-            int_id<ter_t> iid;
-            for( int j = 0; j < SEEY; j++ ) {
-                // NOLINTNEXTLINE(modernize-loop-convert)
-                for( int i = 0; i < SEEX; i++ ) {
-                    if( !remaining ) {
-                        if( jsin.test_string() ) {
-                            iid = ter_str_id( jsin.get_string() ).id();
-                        } else if( jsin.test_array() ) {
-                            jsin.start_array();
-                            iid = ter_str_id( jsin.get_string() ).id();
-                            remaining = jsin.get_int() - 1;
-                            jsin.end_array();
-                        } else {
-                            debugmsg( "Mapbuffer terrain data is corrupt, expected string or array." );
-                        }
-                    } else {
-                        --remaining;
-                    }
-                    ter[i][j] = iid;
-                }
-            }
-            if( remaining ) {
-                debugmsg( "Mapbuffer terrain data is corrupt, tile data remaining." );
-            }
+        }
+        if( remaining ) {
+            debugmsg( "Mapbuffer terrain data is corrupt, tile data remaining." );
         }
         jsin.end_array();
     } else if( member_name == "radiation" ) {
@@ -3903,13 +3868,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             int j = jsin.get_int();
             const point p( i, j );
             // TODO: jsin should support returning an id like jsin.get_id<trap>()
-            const trap_str_id trid( jsin.get_string() );
-            if( trid == "tr_brazier" ) {
-                frn[p.x][p.y] = furn_id( "f_brazier" );
-            } else {
-                trp[p.x][p.y] = trid.id();
-            }
-            // TODO: remove brazier trap-to-furniture conversion after 0.D
+            trp[p.x][p.y] = trap_str_id( jsin.get_string() ).id();
             jsin.end_array();
         }
     } else if( member_name == "fields" ) {
