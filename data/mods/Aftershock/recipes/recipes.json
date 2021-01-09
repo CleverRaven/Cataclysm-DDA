@@ -89,52 +89,6 @@
     "byproducts": [ [ "plastic_chunk" ], [ "plastic_chunk" ] ]
   },
   {
-    "result": "rolling_pin",
-    "type": "recipe",
-    "activity_level": "fake",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_BASHING",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "skills_required": [ [ "cooking", 1 ] ],
-    "//": "Takes a very long time because this is created via whittling.",
-    "time": 240000,
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CUT_FINE", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
-  },
-  {
-    "result": "afs_rolling_pin_barbed_wire",
-    "type": "recipe",
-    "activity_level": "fake",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_BASHING",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "10 m",
-    "autolearn": true,
-    "components": [ [ [ "rolling_pin", 1 ] ], [ [ "wire_barbed", 1 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "fake",
-    "result": "afs_rope_lighter",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "time": 10000,
-    "autolearn": true,
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "rope_6", 1 ], [ "rope_makeshift_6", 1 ] ],
-      [ [ "scrap_copper", 1 ], [ "copper", 25 ] ],
-      [ [ "cu_pipe", 2 ] ],
-      [ [ "scrap", 3 ] ],
-      [ [ "sharp_rock", 1 ], [ "lighter", 1 ] ]
-    ]
-  },
-  {
     "type": "recipe",
     "activity_level": "fake",
     "result": "afs_survivor_belt",
@@ -160,19 +114,6 @@
   {
     "type": "recipe",
     "activity_level": "fake",
-    "result": "afs_basin",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": 2000,
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "sheet_metal", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "fake",
     "result": "thermometer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -189,21 +130,6 @@
       [ [ "circuit", 1 ] ],
       [ [ "scrap", 1 ] ]
     ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "fake",
-    "result": "afs_chain_wrench",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": 10000,
-    "reversible": true,
-    "autolearn": true,
-    "skills_required": [ "mechanics", 2 ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 2 ] ], [ [ "pipe", 1 ] ], [ [ "chain", 1 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
   },
   {
     "result": "afs_titanium_frame",
