@@ -3591,7 +3591,7 @@
     ],
     "connections": [ { "point": [ 0, 2, 0 ] } ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 2, 10 ],
+    "city_distance": [ 2, 5 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC" ]
@@ -3603,7 +3603,7 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pond_field_north" } ],
     "locations": [ "field" ],
     "city_distance": [ 10, -1 ],
-    "occurrences": [ 0, 15 ],
+    "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
   {
@@ -3613,7 +3613,7 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hot_springs_north" } ],
     "locations": [ "field" ],
     "city_distance": [ 10, -1 ],
-    "occurrences": [ 0, 3 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
   {
@@ -3623,7 +3623,7 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pond_forest_north" } ],
     "locations": [ "forest" ],
     "city_distance": [ 10, -1 ],
-    "occurrences": [ 0, 12 ],
+    "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
   {
@@ -3633,7 +3633,7 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pond_swamp_north" } ],
     "locations": [ "swamp" ],
     "city_distance": [ 10, -1 ],
-    "occurrences": [ 0, 9 ],
+    "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
   {
@@ -4019,7 +4019,7 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "Cemetery_1a_north" }, { "point": [ 1, 0, 0 ], "overmap": "Cemetery_1b_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
     "locations": [ "wilderness" ],
-    "city_distance": [ -1, 10 ],
+    "city_distance": [ 2, 5 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC" ]
@@ -4166,7 +4166,7 @@
     ],
     "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
     "locations": [ "field" ],
-    "city_distance": [ 0, 8 ],
+    "city_distance": [ 0, 4 ],
     "city_sizes": [ 8, -1 ],
     "occurrences": [ 0, 4 ],
     "flags": [ "CLASSIC", "URBAN" ]
@@ -4472,7 +4472,6 @@
       { "point": [ 4, 4, -2 ], "overmap": "microlab_rock_border" }
     ],
     "locations": [ "land" ],
-    "city_distance": [ 0, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "LAB" ]
   },
@@ -4686,7 +4685,6 @@
     ],
     "locations": [ "land" ],
     "city_distance": [ 0, -1 ],
-    "occurrences": [ 0, 2 ],
     "flags": [ "LAB" ]
   },
   {
