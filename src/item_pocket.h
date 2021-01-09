@@ -166,6 +166,11 @@ class item_pocket
         // combined weight of contained items
         units::mass contains_weight() const;
         units::mass remaining_weight() const;
+        // these avoid rounding errors and are preferred over
+        // `it.charges_per_volume( pocket.remaining_volume() )` or
+        // `it.charges_per_weight( pocket.remaining_weight() )`
+        int charges_per_remaining_volume( const item &it ) const;
+        int charges_per_remaining_weight( const item &it ) const;
 
         units::volume item_size_modifier() const;
         units::mass item_weight_modifier() const;
@@ -258,8 +263,6 @@ class item_pocket
           * may create a new pocket
           */
         void add( const item &it, item **ret = nullptr );
-        /** fills the pocket to the brim with the item */
-        void fill_with( item contained );
         bool can_unload_liquid() const;
 
         // only available to help with migration from previous usage of std::list<item>

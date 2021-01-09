@@ -469,15 +469,6 @@ void item_contents::force_insert_item( const item &it, item_pocket::pocket_type 
     debugmsg( "ERROR: Could not insert item %s as contents does not have pocket type", it.tname() );
 }
 
-void item_contents::fill_with( const item &contained )
-{
-    for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
-            pocket.fill_with( contained );
-        }
-    }
-}
-
 std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
         item_location &parent, bool nested )
 {
