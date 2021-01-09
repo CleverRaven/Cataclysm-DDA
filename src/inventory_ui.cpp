@@ -2215,7 +2215,7 @@ void inventory_selector::action_examine( const item *sitem )
     int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
     int width = std::min( 80, maxwidth );
 
-    int ret = draw_item_info( [&]() -> catacurses::window {
+    draw_item_info( [&]() -> catacurses::window {
         return catacurses::newwin( 0, width, point( width, 0 ) ); }, data ).get_first_input();
 }
 
