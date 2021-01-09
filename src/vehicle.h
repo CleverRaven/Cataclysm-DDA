@@ -55,7 +55,7 @@ class zone_data;
 struct itype;
 struct uilist_entry;
 template <typename E> struct enum_traits;
-template <typename T> class visitable;
+class visitable;
 
 enum vpart_bitflags : int;
 enum ter_bitflags : int;
@@ -206,7 +206,7 @@ static constexpr float accel_g = 9.81f;
 struct vehicle_part {
         friend vehicle;
         friend class veh_interact;
-        friend visitable<vehicle_cursor>;
+        friend class vehicle_cursor;
         friend item_location;
         friend class turret_data;
 
@@ -687,8 +687,6 @@ class vehicle
         void open_or_close( int part_index, bool opening );
         bool is_connected( const vehicle_part &to, const vehicle_part &from,
                            const vehicle_part &excluded ) const;
-        void add_missing_frames();
-        void add_steerable_wheels();
 
         // direct damage to part (armor protection and internals are not counted)
         // returns damage bypassed
@@ -854,7 +852,7 @@ class vehicle
         }
         bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
-        std::set<point> immediate_path( units::angle rotate = 0_degrees );
+        std::set<point> immediate_path( const units::angle &rotate = 0_degrees );
         std::set<point> collision_check_points;
         void autopilot_patrol();
         units::angle get_angle_from_targ( const tripoint &targ );
@@ -1078,7 +1076,7 @@ class vehicle
         point coord_translate( const point &p ) const;
 
         // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
-        void coord_translate( units::angle dir, const point &pivot, const point &p,
+        void coord_translate( const units::angle &dir, const point &pivot, const point &p,
                               tripoint &q ) const;
         // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
         // should be faster than previous call for repeated translations
@@ -1115,8 +1113,17 @@ class vehicle
             bool fullsize = false, bool verbose = false, bool desc = false,
             bool isHorizontal = false );
 
+        /**
+         * Vehicle speed gauge
+         *
+         * Prints: `target speed` `<` `current speed` `speed unit`
+         * @param spacing Sets size of space between components
+         * @throws std::invalid_argument if spacing is negative
+         */
+        void print_speed_gauge( const catacurses::window &win, const point &, int spacing = 0 );
+
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
-        void precalc_mounts( int idir, units::angle dir, const point &pivot );
+        void precalc_mounts( int idir, const units::angle &dir, const point &pivot );
 
         // get a list of part indices where is a passenger inside
         std::vector<int> boarded_parts() const;
@@ -1127,7 +1134,7 @@ class vehicle
         // get passenger at part p
         player *get_passenger( int p ) const;
         // get monster on a boardable part at p
-        monster *get_pet( int p ) const;
+        monster *get_monster( int p ) const;
 
         bool enclosed_at( const tripoint &pos ); // not const because it calls refresh_insides
         /**
@@ -1381,7 +1388,9 @@ class vehicle
         bool is_flyable() const;
         void set_flyable( bool val );
         // Would interacting with this part prevent the vehicle from being flyable?
-        bool would_prevent_flyable( const vpart_info &vpinfo ) const;
+        bool would_install_prevent_flyable( const vpart_info &vpinfo, Character &pc ) const;
+        bool would_removal_prevent_flyable( vehicle_part &vp, Character &pc ) const;
+        bool would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) const;
         /**
          * Traction coefficient of the vehicle.
          * 1.0 on road. Outside roads, depends on mass divided by wheel area
@@ -1646,6 +1655,8 @@ class vehicle
         // returns whether the door is open or not
         bool is_open( int part_index ) const;
 
+        bool can_close( int part_index, Character &who );
+
         // Consists only of parts with the FOLDABLE tag.
         bool is_foldable() const;
         // Restore parts of a folded vehicle.
@@ -1839,6 +1850,10 @@ class vehicle
         std::vector<int> floating;         // List of parts that provide buoyancy to boats
         std::vector<int> batteries;        // List of batteries
         std::vector<int> fuel_containers;  // List parts with non-null ammo_type
+        std::vector<int> turret_locations; // List of turret parts
+        std::vector<int> mufflers; // List of muffler parts
+        std::vector<int> planters; // List of planter parts
+        std::vector<int> accessories; // List of accessory (power consuming) parts
 
         // config values
         std::string name;   // vehicle name
@@ -1894,14 +1909,16 @@ class vehicle
          * When the vehicle is really moved (by map::displace_vehicle), set_submap_moved
          * is called and updates these values, when the map is only shifted or when a submap
          * is loaded into the map the values are directly set. The vehicles position does
-         * not change therefor no call to set_submap_moved is required.
+         * not change therefore no call to set_submap_moved is required.
          */
         tripoint sm_pos;
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load = 0;
-        /// Time occupied points were calculated.
-        time_point occupied_cache_time = calendar::before_time_starts;
+        // Global location when cache was last refreshed.
+        tripoint occupied_cache_pos = { -1, -1, -1 };
+        // Vehicle facing when cache was last refreshed.
+        units::angle occupied_cache_direction = 0_degrees;
         // Turn the vehicle was last processed
         time_point last_update = calendar::before_time_starts;
         // save values

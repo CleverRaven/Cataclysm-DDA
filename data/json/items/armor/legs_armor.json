@@ -20,7 +20,42 @@
     "encumbrance": 25,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ]
+  },
+  {
+    "id": "legguard_chitin",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of chitin leg guards", "str_pl": "pairs of chitin leg guards" },
+    "description": "A pair of leg guards made from the exoskeletons of insects.  Light and durable.",
+    "weight": "790 g",
+    "volume": "5000 ml",
+    "price": 25000,
+    "price_postapoc": 750,
+    "to_hit": 1,
+    "material": [ "chitin" ],
+    "symbol": "[",
+    "looks_like": "legguard_hard",
+    "color": "green",
+    "covers": [ "leg_l", "leg_r" ],
+    "coverage": 80,
+    "encumbrance": 4,
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 2,
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "legguard_acidchitin",
+    "copy-from": "legguard_chitin",
+    "looks_like": "legguard_chitin",
+    "type": "ARMOR",
+    "price_postapoc": 1250,
+    "name": { "str": "pair of biosilicified chitin leg guards", "str_pl": "pairs of biosilicified chitin leg guards" },
+    "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "relative": { "material_thickness": 1 }
   },
   {
     "id": "bunker_pants",
@@ -75,6 +110,15 @@
     "encumbrance": 20,
     "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "xl_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "chainmail_legs",
+    "name": { "str": "XL chainmail leggings", "str_pl": "pairs of XL chainmail leggings" },
+    "description": "Customized chainmail legs for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "chaps_leather",
@@ -152,7 +196,7 @@
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 30,
     "material_thickness": 5,
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_TAIL" ]
   },
   {
     "id": "legguard_bronze",
@@ -174,7 +218,16 @@
     "encumbrance": 10,
     "warmth": 15,
     "material_thickness": 4,
-    "flags": [ "BELTED", "STURDY" ]
+    "flags": [ "BELTED", "STURDY", "ALLOWS_TAIL" ]
+  },
+  {
+    "id": "xl_legguard_bronze",
+    "type": "ARMOR",
+    "copy-from": "legguard_bronze",
+    "name": { "str": "XL bronze greaves", "str_pl": "pairs of XL bronze greaves" },
+    "description": "A pair of gigantic bronze leg guards with a simple leather lining.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "BELTED", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "legguard_hard",
@@ -197,7 +250,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ]
   },
   {
     "id": "legguard_lightplate",
@@ -219,7 +272,16 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "BELTED", "STURDY" ]
+    "flags": [ "VARSIZE", "BELTED", "STURDY", "ALLOWS_TAIL" ]
+  },
+  {
+    "id": "xl_legguard_lightplate",
+    "type": "ARMOR",
+    "copy-from": "legguard_lightplate",
+    "name": { "str": "pair of XL steel leg guards", "str_pl": "pairs of XL steel leg guards" },
+    "description": "A full assembly of medieval leg protection for the largest of knights.  Cuisses, poleyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "BELTED", "STURDY", "OVERSIZE", "VARSIZE" ]
   },
   {
     "id": "legguard_metal",
@@ -241,7 +303,16 @@
     "encumbrance": 6,
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "ALLOWS_TAIL" ]
+  },
+  {
+    "id": "xl_legguard_metal",
+    "type": "ARMOR",
+    "copy-from": "legguard_metal",
+    "name": { "str": "pair of XL iron greaves", "str_pl": "pairs of XL iron greaves" },
+    "description": "A pair of extra large iron leg guards with a simple leather lining.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "legguard_paper",
@@ -262,7 +333,7 @@
     "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "ALLOWS_TAIL" ]
   },
   {
     "id": "legguard_scrap",
@@ -286,7 +357,16 @@
     "encumbrance": 18,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "ALLOWS_TAIL" ]
+  },
+  {
+    "id": "xl_legguard_scrap",
+    "type": "ARMOR",
+    "copy-from": "legguard_scrap",
+    "name": { "str": "pair of XL scrap leg guards", "str_pl": "pairs of XL scrap leg guards" },
+    "description": "A pair of leg guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.  You look like a trash giant.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "BELTED", "OVERSIZE" ]
   },
   {
     "id": "lsurvivor_pants",
@@ -318,6 +398,15 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "xl_lsurvivor_pants",
+    "type": "ARMOR",
+    "copy-from": "lsurvivor_pants",
+    "name": { "str_sp": "XL light survivor cargo pants" },
+    "description": "Lightweight, Kevlar armored cargo pants designed to hold as much as possible.  Strong and mostly waterproof and sized for larger than average.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "motorbike_pants",
@@ -374,6 +463,15 @@
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
+  },
+  {
+    "id": "xl_pants_survivor",
+    "type": "ARMOR",
+    "copy-from": "pants_survivor",
+    "name": { "str_sp": "XL survivor cargo pants" },
+    "description": "A pair of oversized Kevlar armored pants covered with pouches and pockets.  Custom-built to be durable, comfortable, and easy to wear.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "trousers_eod",

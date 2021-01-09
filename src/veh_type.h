@@ -218,7 +218,7 @@ class vpart_category
         std::string id_;
         translation name_;
         translation short_name_;
-        int priority_; // order of tab in the UI
+        int priority_ = 0; // order of tab in the UI
 };
 
 class vpart_info
@@ -356,7 +356,7 @@ class vpart_info
         std::map<skill_id, int> removal_skills;
 
         /** @ref item_group this part breaks into when destroyed */
-        std::string breaks_into_group = "EMPTY_GROUP";
+        item_group_id breaks_into_group = item_group_id( "EMPTY_GROUP" );
 
         /** Flat decrease of damage of a given type. */
         std::array<float, static_cast<int>( damage_type::NUM )> damage_reduction = {};
@@ -401,7 +401,7 @@ class vpart_info
         translation description;
 
         /** base item for this part */
-        itype_id item;
+        itype_id base_item;
 
         /** What slot of the vehicle tile does this part occupy? */
         std::string location;
@@ -438,9 +438,6 @@ class vpart_info
          */
         int power = 0;
 
-        /** Mechanics skill required to install item */
-        int difficulty = 0;
-
         /** Installation time (in moves) for component (@see install_time), default 1 hour */
         int install_moves = to_moves<int>( 1_hours );
         /** Repair time (in moves) to fully repair a component (@see repair_time) */
@@ -449,7 +446,7 @@ class vpart_info
          *  default is half @ref install_moves */
         int removal_moves = -1;
 
-        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharing (power) */
+        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharging (power) */
         int bonus = 0;
 
         /** cargo weight modifier (percentage) */
@@ -477,7 +474,7 @@ struct vehicle_item_spawn {
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
     int with_magazine = 0;
     std::vector<itype_id> item_ids;
-    std::vector<std::string> item_groups;
+    std::vector<item_group_id> item_groups;
 };
 
 /**

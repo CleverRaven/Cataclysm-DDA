@@ -29,6 +29,7 @@
 #include "enums.h"
 #include "faction.h"
 #include "fault.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
@@ -74,6 +75,8 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_plut_cell( "plut_cell" );
 
 static const skill_id skill_mechanics( "mechanics" );
+
+static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
 
 static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
@@ -214,7 +217,7 @@ veh_interact::veh_interact( vehicle &veh, const point &p )
     // Only build the shapes map and the wheel list once
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        vpart_shapes[ vp.name() + vp.item.str() ].push_back( &vp );
+        vpart_shapes[ vp.name() + vp.base_item.str() ].push_back( &vp );
         if( vp.has_flag( "WHEEL" ) ) {
             wheel_types.push_back( &vp );
         }
@@ -377,8 +380,27 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
             if( !msg.has_value() ) {
                 veh->print_vparts_descs( w_msg, getmaxy( w_msg ), getmaxx( w_msg ), cpart, start_at, start_limit );
             } else {
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_red, msg.value() );
+                const int height = catacurses::getmaxy( w_msg );
+
+                // the following contraption is splitting buffer into separate lines for scrolling
+                // since earlier code relies on msg already being folded
+                std::vector<std::string> buffer;
+                std::istringstream msg_stream( msg.value() );
+                while( !msg_stream.eof() ) {
+                    std::string line;
+                    getline( msg_stream, line );
+                    buffer.push_back( line );
+                }
+
+                const int pages = static_cast<int>( buffer.size() / ( height - 2 ) );
+                w_msg_scroll_offset = clamp( w_msg_scroll_offset, 0, pages );
+                for( int line = 0; line < height; ++line ) {
+                    const int idx = w_msg_scroll_offset * ( height - 1 ) + line;
+                    if( static_cast<size_t>( idx ) >= buffer.size() ) {
+                        break;
+                    }
+                    fold_and_print( w_msg, point( 1, line ), getmaxx( w_msg ) - 2, c_unset, buffer[idx] );
+                }
             }
             wnoutrefresh( w_msg );
 
@@ -773,14 +795,21 @@ bool veh_interact::update_part_requirements()
 
     nmsg += _( "<color_white>Additional requirements:</color>\n" );
 
+    bool allow_more_eng = engines < 2 || player_character.has_trait( trait_DEBUG_HS );
+
     if( dif_eng > 0 ) {
-        if( player_character.get_skill_level( skill_mechanics ) < dif_eng ) {
+        if( !allow_more_eng || player_character.get_skill_level( skill_mechanics ) < dif_eng ) {
             ok = false;
         }
-        //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
-        nmsg += string_format( _( "> %1$s%2$s %3$i</color> for extra engines." ),
-                               status_color( player_character.get_skill_level( skill_mechanics ) >= dif_eng ),
-                               skill_mechanics.obj().name(), dif_eng ) + "\n";
+        if( allow_more_eng ) {
+            //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
+            nmsg += string_format( _( "> %1$s%2$s %3$i</color> for extra engines." ),
+                                   status_color( player_character.get_skill_level( skill_mechanics ) >= dif_eng ),
+                                   skill_mechanics.obj().name(), dif_eng ) + "\n";
+        } else {
+            nmsg += _( "> <color_red>You cannot install any more engines on this vehicle.</color>" ) +
+                    std::string( "\n" );
+        }
     }
 
     if( dif_steering > 0 ) {
@@ -805,7 +834,7 @@ bool veh_interact::update_part_requirements()
         use_aid = ( max_jack >= lifting_quality_to_mass( lvl ) ) || can_self_jack();
         use_str = player_character.can_lift( *veh );
     } else {
-        item base( sel_vpart_info->item );
+        item base( sel_vpart_info->base_item );
         qual = qual_LIFT;
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                          lifting_quality_to_mass( 1 ) );
@@ -929,6 +958,7 @@ void veh_interact::do_install()
 
     int &pos = install_info->pos = 0;
     size_t &tab = install_info->tab = 0;
+    avatar &player_character = get_avatar();
 
     std::vector<const vpart_info *> &tab_vparts = install_info->tab_vparts;
     auto refresh_parts_list = [&]( std::vector<const vpart_info *> parts ) {
@@ -976,7 +1006,7 @@ void veh_interact::do_install()
                 // Modifying a vehicle with rotors will make in not flightworthy
                 // (until we've got a better model)
                 // It can only be the player doing this - an npc won't work well with query_yn
-                if( veh->would_prevent_flyable( *sel_vpart_info ) ) {
+                if( veh->would_install_prevent_flyable( *sel_vpart_info, player_character ) ) {
                     if( query_yn(
                             _( "Installing this part will mean that this vehicle is no longer "
                                "flightworthy.  Continue?" ) ) ) {
@@ -991,7 +1021,7 @@ void veh_interact::do_install()
                     return;
                 }
                 const auto &shapes =
-                    vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->item.str() ];
+                    vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->base_item.str() ];
                 int selected_shape = -1;
                 // more than one shape available, display selection
                 size_t num_vpart_shapes = shapes.size();
@@ -1076,6 +1106,10 @@ void veh_interact::do_install()
             }
 
             refresh_parts_list( can_mount );
+        } else if( action == "DESC_LIST_DOWN" ) {
+            w_msg_scroll_offset++;
+        } else if( action == "DESC_LIST_UP" ) {
+            w_msg_scroll_offset--;
         } else {
             move_in_list( pos, action, tab_vparts.size(), 2 );
         }
@@ -1111,7 +1145,7 @@ void veh_interact::do_repair()
     task_reason reason = cant_do( 'r' );
 
     if( reason == task_reason::INVALID_TARGET ) {
-        vehicle_part *most_repairable = get_most_repariable_part();
+        vehicle_part *most_repairable = get_most_repairable_part();
         if( most_repairable && most_repairable->damage_percent() ) {
             move_cursor( ( most_repairable->mount + dd ).rotate( 3 ) );
             return;
@@ -1171,21 +1205,16 @@ void veh_interact::do_repair()
             } else if( veh->has_part( "NO_MODIFY_VEHICLE" ) && !vp.has_flag( "SIMPLE_PART" ) ) {
                 nmsg += colorize( _( "This vehicle cannot be repaired.\n" ), c_light_red );
                 ok = false;
-            } else if( veh->would_prevent_flyable( vp ) ) {
-                // Modifying a vehicle with rotors will make in not flightworthy (until we've got a better model)
-                // It can only be the player doing this - an npc won't work well with query_yn
-                if( query_yn(
-                        _( "Repairing this part will mean that this vehicle is no longer flightworthy.  Continue?" ) ) ) {
-                    veh->set_flyable( false );
-                } else {
-                    nmsg += colorize( _( "You chose not to install this part to keep the vehicle flyable.\n" ),
-                                      c_light_red );
-                    ok = false;
-                }
             } else {
                 ok = format_reqs( nmsg, vp.repair_requirements() * pt.base.damage_level(), vp.repair_skills,
                                   vp.repair_time( player_character ) * pt.base.damage() / pt.base.max_damage() );
             }
+        }
+
+        bool would_prevent_flying = veh->would_repair_prevent_flyable( pt, player_character );
+        if( would_prevent_flying &&
+            !player_character.has_proficiency( proficiency_prof_aircraft_mechanic ) ) {
+            nmsg += _( "\n<color_yellow>You require the Airframe and Powerplant Mechanics proficiency to repair this part safely!</color>\n\n" );
         }
 
         const nc_color desc_color = pt.is_broken() ? c_dark_gray : c_light_gray;
@@ -1200,22 +1229,35 @@ void veh_interact::do_repair()
         const std::string action = main_context.handle_input();
         msg.reset();
         if( ( action == "REPAIR" || action == "CONFIRM" ) && ok ) {
-            reason = cant_do( 'r' );
-            if( !can_repair() ) {
-                return;
+            // Modifying a vehicle with rotors will make in not flightworthy (until we've got a better model)
+            if( would_prevent_flying ) {
+                // It can only be the player doing this - an npc won't work well with query_yn
+                if( query_yn(
+                        _( "Repairing this part will mean that this vehicle is no longer flightworthy.  Continue?" ) ) ) {
+                    veh->set_flyable( false );
+                } else {
+                    nmsg += colorize( _( "You chose not to install this part to keep the vehicle flyable.\n" ),
+                                      c_light_red );
+                    ok = false;
+                }
             }
-            sel_vehicle_part = &pt;
-            sel_vpart_info = &vp;
-            const std::vector<npc *> helpers = player_character.get_crafting_helpers();
-            for( const npc *np : helpers ) {
-                add_msg( m_info, _( "%s helps with this task…" ), np->name );
+            if( ok ) {
+                reason = cant_do( 'r' );
+                if( !can_repair() ) {
+                    return;
+                }
+                sel_vehicle_part = &pt;
+                sel_vpart_info = &vp;
+                sel_vpart_variant = pt.variant;
+                const std::vector<npc *> helpers = player_character.get_crafting_helpers();
+                for( const npc *np : helpers ) {
+                    add_msg( m_info, _( "%s helps with this task…" ), np->name );
+                }
+                sel_cmd = 'r';
+                break;
             }
-            sel_cmd = 'r';
-            break;
-
         } else if( action == "QUIT" ) {
             break;
-
         } else {
             move_in_list( pos, action, need_repair.size() );
         }
@@ -1416,7 +1458,7 @@ void veh_interact::calc_overview()
                 // but item::display_name tags use a space so this prevents
                 // needing *second* translation for the same thing with a
                 // space in front of it
-                if( it.has_own_flag( "FROZEN" ) ) {
+                if( it.has_own_flag( flag_FROZEN ) ) {
                     specials += _( " (frozen)" );
                 } else if( it.rotten() ) {
                     specials += _( " (rotten)" );
@@ -1685,7 +1727,7 @@ vehicle_part *veh_interact::get_most_damaged_part() const
     return &( *high_damage_iterator ).part();
 }
 
-vehicle_part *veh_interact::get_most_repariable_part() const
+vehicle_part *veh_interact::get_most_repairable_part() const
 {
     auto &part = veh_utils::most_repairable_part( *veh, get_player_character() );
     return part ? &part : nullptr;
@@ -1744,7 +1786,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         use_aid = ( max_jack >= lifting_quality_to_mass( lvl ) ) || can_self_jack();
         use_str = player_character.can_lift( *veh );
     } else {
-        item base( sel_vpart_info->item );
+        item base( sel_vpart_info->base_item );
         qual = qual_LIFT;
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                          lifting_quality_to_mass( 1 ) );
@@ -1855,7 +1897,7 @@ void veh_interact::do_remove()
 
             // Modifying a vehicle with rotors will make in not flightworthy (until we've got a better model)
             // It can only be the player doing this - an npc won't work well with query_yn
-            if( veh->would_prevent_flyable( veh->part( part ).info() ) ) {
+            if( veh->would_removal_prevent_flyable( veh->part( part ), player_character ) ) {
                 if( query_yn(
                         _( "Removing this part will mean that this vehicle is no longer flightworthy.  Continue?" ) ) ) {
                     veh->set_flyable( false );
@@ -2025,8 +2067,22 @@ int veh_interact::part_at( const point &d )
  */
 bool veh_interact::can_potentially_install( const vpart_info &vpart )
 {
-    return get_player_character().has_trait( trait_DEBUG_HS ) ||
-           vpart.install_requirements().can_make_with_inventory( crafting_inv, is_crafting_component );
+    bool engine_reqs_met = true;
+    bool can_make = vpart.install_requirements().can_make_with_inventory( crafting_inv,
+                    is_crafting_component );
+    bool hammerspace = get_player_character().has_trait( trait_DEBUG_HS );
+
+    int engines = 0;
+    if( vpart.has_flag( VPFLAG_ENGINE ) && vpart.has_flag( "E_HIGHER_SKILL" ) ) {
+        for( const vpart_reference &vp : veh->get_avail_parts( "ENGINE" ) ) {
+            if( vp.has_feature( "E_HIGHER_SKILL" ) ) {
+                engines++;
+            }
+        }
+        engine_reqs_met = engines < 2;
+    }
+
+    return hammerspace || ( can_make && engine_reqs_met );
 }
 
 /**
@@ -2065,7 +2121,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
                 continue;
             }
             if( veh->can_mount( vd, vp.get_id() ) ) {
-                if( vp.get_id() != vpart_shapes[ vp.name() + vp.item.str() ][ 0 ]->get_id() ) {
+                if( vp.get_id() != vpart_shapes[ vp.name() + vp.base_item.str() ][ 0 ]->get_id() ) {
                     // only add first shape to install list
                     continue;
                 }
@@ -2414,7 +2470,7 @@ void veh_interact::display_stats() const
     };
 
     vehicle_part *mostDamagedPart = get_most_damaged_part();
-    vehicle_part *most_repairable = get_most_repariable_part();
+    vehicle_part *most_repairable = get_most_repairable_part();
 
     // Write the most damaged part
     if( mostDamagedPart && mostDamagedPart->damage_percent() ) {
@@ -2659,7 +2715,7 @@ void veh_interact::display_details( const vpart_info *part )
     fold_and_print( w_details, point( col_1, line + 2 ), column_width, c_white,
                     "%s: <color_light_gray>%.1f%s</color>",
                     small_mode ? _( "Wgt" ) : _( "Weight" ),
-                    convert_weight( item::find_type( part->item )->weight ),
+                    convert_weight( item::find_type( part->base_item )->weight ),
                     weight_units() );
     if( part->folded_volume != 0_ml ) {
         fold_and_print( w_details, point( col_2, line + 2 ), column_width, c_white,
@@ -2704,7 +2760,7 @@ void veh_interact::display_details( const vpart_info *part )
 
     if( part->has_flag( VPFLAG_WHEEL ) ) {
         // Note: there is no guarantee that whl is non-empty!
-        const cata::value_ptr<islot_wheel> &whl = item::find_type( part->item )->wheel;
+        const cata::value_ptr<islot_wheel> &whl = item::find_type( part->base_item )->wheel;
         fold_and_print( w_details, point( col_1, line + 3 ), column_width, c_white,
                         "%s: <color_light_gray>%d\"</color>",
                         small_mode ? _( "Dia" ) : _( "Wheel Diameter" ),
@@ -2750,7 +2806,7 @@ void veh_interact::display_details( const vpart_info *part )
 
     if( part->fuel_type == itype_battery && !part->has_flag( VPFLAG_ENGINE ) &&
         !part->has_flag( VPFLAG_ALTERNATOR ) ) {
-        const cata::value_ptr<islot_magazine> &battery = item::find_type( part->item )->magazine;
+        const cata::value_ptr<islot_magazine> &battery = item::find_type( part->base_item )->magazine;
         fold_and_print( w_details, point( col_2, line + 5 ), column_width, c_white,
                         "%s: <color_light_gray>%8d</color>",
                         small_mode ? _( "BatCap" ) : _( "Battery Capacity" ),
@@ -2758,7 +2814,7 @@ void veh_interact::display_details( const vpart_info *part )
     } else {
         int part_power = part->power;
         if( part_power == 0 ) {
-            part_power = item( part->item ).engine_displacement();
+            part_power = item( part->base_item ).engine_displacement();
         }
         if( part_power != 0 ) {
             fold_and_print( w_details, point( col_2, line + 5 ), column_width, c_white,
@@ -2910,7 +2966,7 @@ void veh_interact::complete_vehicle( player &p )
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
         if( !p.activity.coord_set.empty() ) {
-            for( const tripoint pt : p.activity.coord_set ) {
+            for( const tripoint &pt : p.activity.coord_set ) {
                 vp = here.veh_at( here.getlocal( pt ) );
                 if( vp ) {
                     break;
@@ -2948,7 +3004,7 @@ void veh_interact::complete_vehicle( player &p )
             item base;
             for( const auto &e : reqs.get_components() ) {
                 for( auto &obj : p.consume_items( e, 1, is_crafting_component ) ) {
-                    if( obj.typeId() == vpinfo.item ) {
+                    if( obj.typeId() == vpinfo.base_item ) {
                         base = obj;
                     }
                 }
@@ -2959,7 +3015,7 @@ void veh_interact::complete_vehicle( player &p )
                              vpinfo.name() );
                     break;
                 } else {
-                    base = item( vpinfo.item );
+                    base = item( vpinfo.base_item );
                 }
             }
 
@@ -3029,7 +3085,7 @@ void veh_interact::complete_vehicle( player &p )
         }
 
         case 'r': {
-            veh_utils::repair_part( *veh, veh->part( vehicle_part ), p );
+            veh_utils::repair_part( *veh, veh->part( vehicle_part ), p, variant_id );
             break;
         }
 
@@ -3042,11 +3098,16 @@ void veh_interact::complete_vehicle( player &p )
             item_location &src = p.activity.targets.front();
             struct vehicle_part &pt = veh->part( vehicle_part );
             if( pt.is_tank() && src->is_container() && !src->contents.empty() ) {
-                item &contained = src->contents.legacy_front();
-                contained.charges -= pt.base.fill_with( contained, contained.charges );
-                src->on_contents_changed();
+                item_location contained( src, &src->contents.only_item() );
+                contained->charges -= pt.base.fill_with( *contained, contained->charges );
 
-                if( pt.remaining_ammo_capacity() ) {
+                contents_change_handler handler;
+                handler.unseal_pocket_containing( contained );
+
+                // if code goes here, we can assume "pt" has already refilled with "contained" something.
+                int remaining_ammo_capacity = pt.ammo_capacity( contained->ammo_type() ) - pt.ammo_remaining();
+
+                if( remaining_ammo_capacity ) {
                     //~ 1$s vehicle name, 2$s tank name
                     p.add_msg_if_player( m_good, _( "You refill the %1$s's %2$s." ),
                                          veh->name, pt.name() );
@@ -3056,13 +3117,17 @@ void veh_interact::complete_vehicle( player &p )
                                          veh->name, pt.name() );
                 }
 
-                if( src->contents.legacy_front().charges == 0 ) {
-                    src->remove_item( src->contents.legacy_front() );
+                if( contained->charges == 0 ) {
+                    contained.remove_item();
                 } else {
                     p.add_msg_if_player( m_good, _( "There's some left over!" ) );
                 }
 
+                handler.handle_by( p );
             } else if( pt.is_fuel_store() ) {
+                contents_change_handler handler;
+                handler.unseal_pocket_containing( src );
+
                 int qty = src->charges;
                 pt.base.reload( p, std::move( src ), qty );
 
@@ -3070,6 +3135,7 @@ void veh_interact::complete_vehicle( player &p )
                 p.add_msg_if_player( m_good, _( "You refuel the %1$s's %2$s." ),
                                      veh->name, pt.name() );
 
+                handler.handle_by( p );
             } else {
                 debugmsg( "vehicle part is not reloadable" );
                 break;
@@ -3176,7 +3242,7 @@ void veh_interact::complete_vehicle( player &p )
                     get_map().clear_vehicle_point_from_cache( veh, part_pos );
                 }
             }
-            // This will be part of an NPC "job" where they need to clean up the acitivty
+            // This will be part of an NPC "job" where they need to clean up the activity
             // items afterwards
             if( p.is_npc() ) {
                 for( item &it : resulting_items ) {
@@ -3191,4 +3257,5 @@ void veh_interact::complete_vehicle( player &p )
         }
     }
     p.invalidate_crafting_inventory();
+    p.invalidate_weight_carried_cache();
 }

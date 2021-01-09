@@ -30,14 +30,20 @@
   },
   {
     "id": "bandana",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
     "name": { "str": "bandana" },
     "description": "A cotton bandana, worn over the mouth for warmth and minor protection from dust and other contaminants.",
     "weight": "42 g",
     "volume": "250 ml",
     "price": 600,
     "price_postapoc": 10,
-    "to_hit": -1,
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust the %s to cover your head.",
+      "target": "bandana_head",
+      "menu_text": "Cover head"
+    },
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "scarf",

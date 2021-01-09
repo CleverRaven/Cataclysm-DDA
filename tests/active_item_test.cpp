@@ -16,10 +16,10 @@ TEST_CASE( "active_items_processed_regularly", "[item]" )
     avatar &player_character = get_avatar();
     map &here = get_map();
     // An arbitrary active item that ticks every turn.
-    item active_item( "firecracker_act", 0, 5 );
+    item active_item( "firecracker_act", calendar::turn_zero, 5 );
     active_item.activate();
     const int active_item_ticks = active_item.charges;
-    item storage( "backpack", 0 );
+    item storage( "backpack", calendar::turn_zero );
     cata::optional<std::list<item>::iterator> wear_success = player_character.wear_item( storage );
     REQUIRE( wear_success );
 

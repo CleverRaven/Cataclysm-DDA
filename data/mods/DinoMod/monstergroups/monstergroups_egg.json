@@ -16,6 +16,7 @@
       { "monster": "mon_compsognathus_hatchling", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_gallimimus_hatchling", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_velociraptor_hatchling", "freq": 15, "cost_multiplier": 1 },
+      { "monster": "mon_nothronychus_hatchling", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_deinonychus_hatchling", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_utahraptor_hatchling", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_eoraptor_hatchling", "freq": 20, "cost_multiplier": 1 },
@@ -118,6 +119,12 @@
     "type": "monstergroup",
     "default": "mon_velociraptor_hatchling",
     "monsters": [ { "monster": "mon_velociraptor_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_nothronychus",
+    "type": "monstergroup",
+    "default": "mon_nothronychus_hatchling",
+    "monsters": [ { "monster": "mon_nothronychus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_deinonychus",
@@ -292,5 +299,23 @@
     "type": "monstergroup",
     "default": "mon_mosasaurus_hatchling",
     "monsters": [ { "monster": "mon_mosasaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_qianzhousaurus",
+    "type": "monstergroup",
+    "default": "mon_qianzhousaurus_hatchling",
+    "monsters": [ { "monster": "mon_qianzhousaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_kosmoceratops",
+    "type": "monstergroup",
+    "default": "mon_kosmoceratops_hatchling",
+    "monsters": [ { "monster": "mon_kosmoceratops_hatchling", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_amargasaurus",
+    "type": "monstergroup",
+    "default": "mon_amargasaurus_hatchling",
+    "monsters": [ { "monster": "mon_amargasaurus_hatchling", "freq": 100, "cost_multiplier": 1 } ]
   }
 ]

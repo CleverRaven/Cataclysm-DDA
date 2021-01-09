@@ -52,6 +52,15 @@ static void reload_names()
 
 static bool sanity_checked_genders = false;
 
+// int version/generation that is incremented each time language is changed
+// used to invalidate translation cache
+static int current_language_version = INVALID_LANGUAGE_VERSION + 1;
+
+int detail::get_current_language_version()
+{
+    return current_language_version;
+}
+
 #if defined(LOCALIZE)
 #include "debug.h"
 #include "options.h"
@@ -164,6 +173,21 @@ void select_language()
     get_options().save();
 }
 
+std::string locale_dir()
+{
+    std::string loc_dir;
+#if !defined(__ANDROID__) && ((defined(__linux__) || (defined(MACOSX) && !defined(TILES))))
+    if( !PATH_INFO::base_path().empty() ) {
+        loc_dir = PATH_INFO::base_path() + "share/locale";
+    } else {
+        loc_dir = PATH_INFO::langdir();
+    }
+#else
+    loc_dir = PATH_INFO::langdir();
+#endif
+    return loc_dir;
+}
+
 void set_language()
 {
     std::string win_or_mac_lang;
@@ -209,24 +233,15 @@ void set_language()
 #endif
 
     // Step 2. Bind to gettext domain.
-    std::string locale_dir;
+    std::string loc_dir = locale_dir();
 #if defined(__ANDROID__)
     // HACK: Since we're using libintl-lite instead of libintl on Android, we hack the locale_dir to point directly to the .mo file.
     // This is because of our hacky libintl-lite bindtextdomain() implementation.
-    auto env = getenv( "LANGUAGE" );
-    locale_dir = std::string( PATH_INFO::base_path() + "lang/mo/" + ( env ? env : "none" ) +
-                              "/LC_MESSAGES/cataclysm-dda.mo" );
-#elif (defined(__linux__) || (defined(MACOSX) && !defined(TILES)))
-    if( !PATH_INFO::base_path().empty() ) {
-        locale_dir = PATH_INFO::base_path() + "share/locale";
-    } else {
-        locale_dir = "lang/mo";
-    }
-#else
-    locale_dir = "lang/mo";
+    const char *env = getenv( "LANGUAGE" );
+    loc_dir += std::string( ( env ? env : "none" ) ) + "/LC_MESSAGES/cataclysm-dda.mo";
 #endif
 
-    const char *locale_dir_char = locale_dir.c_str();
+    const char *locale_dir_char = loc_dir.c_str();
     bindtextdomain( "cataclysm-dda", locale_dir_char );
     bind_textdomain_codeset( "cataclysm-dda", "UTF-8" );
     textdomain( "cataclysm-dda" );
@@ -234,6 +249,11 @@ void set_language()
     reload_names();
 
     sanity_checked_genders = false;
+
+    // increment version to invalidate translation cache
+    do {
+        current_language_version++;
+    } while( current_language_version == INVALID_LANGUAGE_VERSION );
 }
 
 #if defined(MACOSX)
@@ -283,6 +303,11 @@ std::string getOSXSystemLang()
 
 #include <cstring> // strcmp
 #include <map>
+
+std::string locale_dir()
+{
+    return "mo/";
+}
 
 bool isValidLanguage( const std::string &/*lang*/ )
 {
@@ -363,42 +388,32 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
     return pgettext( context.c_str(), msg.c_str() );
 }
 
-translation::translation()
-    : ctxt( cata::nullopt ), raw_pl( cata::nullopt )
-{
-}
-
-translation::translation( const plural_tag )
-    : ctxt( cata::nullopt ), raw_pl( std::string() )
-{
-}
+translation::translation( const plural_tag ) : raw_pl( cata::make_value<std::string>() ) {}
 
 translation::translation( const std::string &ctxt, const std::string &raw )
-    : ctxt( ctxt ), raw( raw ), raw_pl( cata::nullopt ), needs_translation( true )
+    : ctxt( cata::make_value<std::string>( ctxt ) ), raw( raw ), needs_translation( true )
 {
 }
 
 translation::translation( const std::string &raw )
-    : ctxt( cata::nullopt ), raw( raw ), raw_pl( cata::nullopt ), needs_translation( true )
+    : raw( raw ), needs_translation( true )
 {
 }
 
 translation::translation( const std::string &raw, const std::string &raw_pl,
                           const plural_tag )
-    : ctxt( cata::nullopt ), raw( raw ), raw_pl( raw_pl ), needs_translation( true )
+    : raw( raw ), raw_pl( cata::make_value<std::string>( raw_pl ) ), needs_translation( true )
 {
 }
 
 translation::translation( const std::string &ctxt, const std::string &raw,
                           const std::string &raw_pl, const plural_tag )
-    : ctxt( ctxt ), raw( raw ), raw_pl( raw_pl ), needs_translation( true )
+    : ctxt( cata::make_value<std::string>( ctxt ) ),
+      raw( raw ), raw_pl( cata::make_value<std::string>( raw_pl ) ), needs_translation( true )
 {
 }
 
-translation::translation( const std::string &str, const no_translation_tag )
-    : ctxt( cata::nullopt ), raw( str ), raw_pl( cata::nullopt )
-{
-}
+translation::translation( const std::string &str, const no_translation_tag ) : raw( str ) {}
 
 translation translation::to_translation( const std::string &raw )
 {
@@ -432,24 +447,31 @@ void translation::make_plural()
         // if plural form has not been enabled yet
         if( !raw_pl ) {
             // copy the singular string without appending "s" to preserve the original behavior
-            raw_pl = raw;
+            raw_pl = cata::make_value<std::string>( raw );
         }
     } else if( !raw_pl ) {
         // just mark plural form as enabled
-        raw_pl = std::string();
+        raw_pl = cata::make_value<std::string>();
     }
+    // reset the cache
+    cached_language_version = INVALID_LANGUAGE_VERSION;
+    cached_translation = nullptr;
 }
 
 void translation::deserialize( JsonIn &jsin )
 {
+    // reset the cache
+    cached_language_version = INVALID_LANGUAGE_VERSION;
+    cached_translation = nullptr;
+
     if( jsin.test_string() ) {
-        ctxt = cata::nullopt;
+        ctxt = nullptr;
         // if plural form is enabled
         if( raw_pl ) {
             // strings with plural forms are currently only simple names, and
             // need no text style check.
             raw = jsin.get_string();
-            raw_pl = raw + "s";
+            raw_pl = cata::make_value<std::string>( raw + "s" );
         } else {
             raw = text_style_check_reader( text_style_check_reader::allow_object::no )
                   .get_next( jsin );
@@ -458,9 +480,9 @@ void translation::deserialize( JsonIn &jsin )
     } else {
         JsonObject jsobj = jsin.get_object();
         if( jsobj.has_member( "ctxt" ) ) {
-            ctxt = jsobj.get_string( "ctxt" );
+            ctxt = cata::make_value<std::string>( jsobj.get_string( "ctxt" ) );
         } else {
-            ctxt = cata::nullopt;
+            ctxt = nullptr;
         }
         if( jsobj.has_member( "str_sp" ) ) {
             // same singular and plural forms
@@ -469,7 +491,7 @@ void translation::deserialize( JsonIn &jsin )
             raw = jsobj.get_string( "str_sp" );
             // if plural form is enabled
             if( raw_pl ) {
-                raw_pl = raw;
+                raw_pl = cata::make_value<std::string>( raw );
             } else {
                 try {
                     jsobj.throw_error( "str_sp not supported here", "str_sp" );
@@ -494,15 +516,15 @@ void translation::deserialize( JsonIn &jsin )
             // if plural form is enabled
             if( raw_pl ) {
                 if( jsobj.has_member( "str_pl" ) ) {
-                    raw_pl = jsobj.get_string( "str_pl" );
+                    raw_pl = cata::make_value<std::string>( jsobj.get_string( "str_pl" ) );
 #ifndef CATA_IN_TOOL
                     if( check_style ) {
                         try {
-                            if( raw_pl.value() == raw + "s" ) {
+                            if( *raw_pl == raw + "s" ) {
                                 jsobj.throw_error( "\"str_pl\" is not necessary here since the "
                                                    "plural form can be automatically generated.",
                                                    "str_pl" );
-                            } else if( raw_pl.value() == raw ) {
+                            } else if( *raw_pl == raw ) {
                                 jsobj.throw_error( "Please use \"str_sp\" instead of \"str\" and \"str_pl\" "
                                                    "for text with identical singular and plural forms",
                                                    "str_pl" );
@@ -513,7 +535,7 @@ void translation::deserialize( JsonIn &jsin )
                     }
 #endif
                 } else {
-                    raw_pl = raw + "s";
+                    raw_pl = cata::make_value<std::string>( raw + "s" );
                 }
             } else if( jsobj.has_member( "str_pl" ) ) {
                 try {
@@ -531,19 +553,33 @@ std::string translation::translated( const int num ) const
 {
     if( !needs_translation || raw.empty() ) {
         return raw;
-    } else if( !ctxt ) {
-        if( !raw_pl ) {
-            return _( raw );
+    }
+    // Note1: `raw`, `raw_pl` and `ctxt` are effectively immutable for caching purposes:
+    // in the places where they are changed, cache is explicitly invalidated
+    // Note2: if `raw_pl` is defined, `num` becomes part of the "cache key"
+    // otherwise `num` is ignored (for both translation and cache)
+    if( cached_language_version != current_language_version ||
+        ( raw_pl && cached_num != num ) || !cached_translation ) {
+        cached_language_version = current_language_version;
+        cached_num = num;
+
+        if( !ctxt ) {
+            if( !raw_pl ) {
+                cached_translation = cata::make_value<std::string>( detail::_translate_internal( raw ) );
+            } else {
+                cached_translation = cata::make_value<std::string>(
+                                         ngettext( raw.c_str(), raw_pl->c_str(), num ) );
+            }
         } else {
-            return ngettext( raw.c_str(), raw_pl->c_str(), num );
-        }
-    } else {
-        if( !raw_pl ) {
-            return pgettext( ctxt->c_str(), raw.c_str() );
-        } else {
-            return npgettext( ctxt->c_str(), raw.c_str(), raw_pl->c_str(), num );
+            if( !raw_pl ) {
+                cached_translation = cata::make_value<std::string>( pgettext( ctxt->c_str(), raw.c_str() ) );
+            } else {
+                cached_translation = cata::make_value<std::string>(
+                                         npgettext( ctxt->c_str(), raw.c_str(), raw_pl->c_str(), num ) );
+            }
         }
     }
+    return *cached_translation;
 }
 
 bool translation::empty() const
@@ -568,7 +604,8 @@ bool translation::translated_ne( const translation &that ) const
 
 bool translation::operator==( const translation &that ) const
 {
-    return ctxt == that.ctxt && raw == that.raw && raw_pl == that.raw_pl &&
+    return value_ptr_equals( ctxt, that.ctxt ) && raw == that.raw &&
+           value_ptr_equals( raw_pl, that.raw_pl ) &&
            needs_translation == that.needs_translation;
 }
 

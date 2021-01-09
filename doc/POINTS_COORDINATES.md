@@ -155,7 +155,7 @@ That makes sense for two-dimensional `point` types, but how does it handle
 horizontal dimensions, so `z` values are unchanged by `project_to` and
 `project_remain`.  However, for `project_remain` we don't want to duplicate the
 z-coordinate in both parts of the result, so you must choose exactly one to be
-a `tripoint`.  In the example above, z-coodinates do not have much meaning at
+a `tripoint`.  In the example above, z-coordinates do not have much meaning at
 the overmap scale, so you probably want the z-coordinate in
 `omt_within_overmap`.  Than can be done as follows:
 

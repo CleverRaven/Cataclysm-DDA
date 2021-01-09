@@ -108,8 +108,8 @@ class achievement
                 bool becomes_false() const;
                 std::string ui_text( bool is_conduct ) const;
             private:
-                achievement_comparison comparison_;
-                epoch epoch_;
+                achievement_comparison comparison_ = achievement_comparison::anything;
+                epoch epoch_ = epoch::cataclysm;
                 time_duration period_;
         };
 
@@ -174,7 +174,7 @@ class achievement_tracker
 
         // sorted_watchers_ maintains two sets of watchers, categorised by
         // whether they watch a satisfied or unsatisfied requirement.  This
-        // allows us to check whether the achievment is met on each new stat
+        // allows us to check whether the achievement is met on each new stat
         // value in O(1) time.
         std::array<std::unordered_set<requirement_watcher *>, 2> sorted_watchers_;
 };
@@ -188,7 +188,7 @@ class achievements_tracker : public event_subscriber
 
         /**
          * @param active Whether this achievements_tracker needs to create
-         * watchers for the stats_tracker to monitor ongoing events.  If onle
+         * watchers for the stats_tracker to monitor ongoing events.  If only
          * using the achievements_tracker for analyzing past achievements, this
          * should not be necessary.
          */

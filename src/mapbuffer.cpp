@@ -118,16 +118,18 @@ void mapbuffer::save( bool delete_after_save )
     // A set of already-saved submaps, in global overmap coordinates.
     std::set<tripoint> saved_submaps;
     std::list<tripoint> submaps_to_delete;
-    int next_report = 0;
+    static constexpr std::chrono::milliseconds update_interval( 500 );
+    auto last_update = std::chrono::steady_clock::now();
+
     for( auto &elem : submaps ) {
-        if( num_total_submaps > 100 && num_saved_submaps >= next_report ) {
+        auto now = std::chrono::steady_clock::now();
+        if( last_update + update_interval < now ) {
             popup.message( _( "Please wait as the map saves [%d/%d]" ),
                            num_saved_submaps, num_total_submaps );
             ui_manager::redraw();
             refresh_display();
-            next_report += std::max( 100, num_total_submaps / 20 );
+            last_update = now;
         }
-
         // Whatever the coordinates of the current submap are,
         // we're saving a 2x2 quad of submaps at a time.
         // Submaps are generated in quads, so we know if we have one member of a quad,

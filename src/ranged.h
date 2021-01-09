@@ -64,4 +64,5 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
 
 int throw_cost( const player &c, const item &to_throw );
 
+
 #endif // CATA_SRC_RANGED_H

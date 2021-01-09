@@ -9,6 +9,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "avatar.h"
 #include "character.h"
@@ -27,6 +28,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -56,7 +58,6 @@
 #include "vpart_range.h"
 #include "weather.h"
 
-static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
 
@@ -82,6 +83,8 @@ static const efftype_id effect_tied( "tied" );
 static const fault_id fault_engine_starter( "fault_engine_starter" );
 
 static const skill_id skill_mechanics( "mechanics" );
+
+static const flag_id json_flag_FILTHY( "FILTHY" );
 
 enum change_types : int {
     OPENCURTAINS = 0,
@@ -137,7 +140,7 @@ void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
         {
             vehicle_part &e = vp.part();
             if( e.enabled != state ) {
-                add_msg( state ? _( "Turned on %s" ) : _( "Turned off %s." ), e.name() );
+                add_msg( state ? _( "Turned on %s." ) : _( "Turned off %s." ), e.name() );
                 e.enabled = state;
             }
         }
@@ -340,6 +343,8 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
             {
                 add_msg( _( "Camera system won't turn on" ) );
             }
+            map &m = get_map();
+            m.invalidate_map_cache( m.get_abs_sub().z );
             refresh();
         } );
     }
@@ -642,7 +647,7 @@ void vehicle::use_controls( const tripoint &pos )
     }
 
     if( get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() && !has_electronic_controls ) {
-        add_msg( m_info, _( "No controls there" ) );
+        add_msg( m_info, _( "No controls there." ) );
         return;
     }
 
@@ -775,7 +780,7 @@ void vehicle::use_controls( const tripoint &pos )
 
     if( is_alarm_on ) {
         if( velocity == 0 && !remote ) {
-            options.emplace_back( _( "Try to disarm alarm." ), keybind( "TOGGLE_ALARM" ) );
+            options.emplace_back( _( "Try to disarm alarm" ), keybind( "TOGGLE_ALARM" ) );
             actions.push_back( [&] { smash_security_system(); refresh(); } );
 
         } else if( has_electronic_controls && has_part( "SECURITY" ) ) {
@@ -1005,7 +1010,7 @@ bool vehicle::start_engine( const int e )
             backfire( e );
         } else {
             sounds::sound( pos, start_moves / 10, sounds::sound_t::movement,
-                           string_format( _( "the %s bang as it starts" ), eng.name() ), true, "vehicle",
+                           string_format( _( "the %s bang as it starts!" ), eng.name() ), true, "vehicle",
                            "engine_bangs_start" );
         }
     }
@@ -1013,7 +1018,7 @@ bool vehicle::start_engine( const int e )
     // Immobilizers need removing before the vehicle can be started
     if( eng.has_fault_flag( "IMMOBILIZER" ) ) {
         sounds::sound( pos, 5, sounds::sound_t::alarm,
-                       string_format( _( "the %s making a long beep" ), eng.name() ), true, "vehicle",
+                       string_format( _( "the %s making a long beep." ), eng.name() ), true, "vehicle",
                        "fault_immobiliser_beep" );
         return false;
     }
@@ -1022,7 +1027,7 @@ bool vehicle::start_engine( const int e )
     if( eng.faults_potential().count( fault_engine_starter ) ) {
         if( eng.has_fault_flag( "BAD_STARTER" ) ) {
             sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::alarm,
-                           string_format( _( "the %s clicking once" ), eng.name() ), true, "vehicle",
+                           string_format( _( "the %s clicking once." ), eng.name() ), true, "vehicle",
                            "engine_single_click_fail" );
             return false;
         }
@@ -1032,7 +1037,7 @@ bool vehicle::start_engine( const int e )
                                    1_turns * start_moves / 100 );
         if( discharge_battery( start_draw_bat, true ) != 0 ) {
             sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::alarm,
-                           string_format( _( "the %s rapidly clicking" ), eng.name() ), true, "vehicle",
+                           string_format( _( "the %s rapidly clicking." ), eng.name() ), true, "vehicle",
                            "engine_multi_click_fail" );
             return false;
         }
@@ -1049,12 +1054,12 @@ bool vehicle::start_engine( const int e )
     // Damaged non-electric engines have a chance of failing to start
     if( !is_engine_type( e, fuel_type_battery ) && x_in_y( dmg * 100, 120 ) ) {
         sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
-                       string_format( _( "the %s clanking and grinding" ), eng.name() ), true, "vehicle",
+                       string_format( _( "the %s clanking and grinding." ), eng.name() ), true, "vehicle",
                        "engine_clanking_fail" );
         return false;
     }
     sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
-                   string_format( _( "the %s starting" ), eng.name() ) );
+                   string_format( _( "the %s starting." ), eng.name() ) );
 
     if( sfx::has_variant_sound( "engine_start", eng.info().get_id().str() ) ) {
         sfx::play_variant_sound( "engine_start", eng.info().get_id().str(),
@@ -1537,6 +1542,27 @@ bool vehicle::is_open( int part_index ) const
     return parts[part_index].open;
 }
 
+bool vehicle::can_close( int part_index, Character &who )
+{
+    for( auto const &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
+        for( auto const &partID : vec ) {
+            const Creature *const mon = g->critter_at( global_part_pos3( parts[partID] ) );
+            if( mon ) {
+                if( mon->is_player() ) {
+                    who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
+                } else if( mon->is_monster() ) {
+                    // TODO: Houseflies, mosquitoes, etc shouldn't count
+                    who.add_msg_if_player( m_info, _( "The %s is in the way!" ), mon->get_name() );
+                } else {
+                    who.add_msg_if_player( m_info, _( "%s is in the way!" ), mon->disp_name() );
+                }
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 void vehicle::open_all_at( int p )
 {
     std::vector<int> parts_here = parts_at_relative( parts[p].mount, true );
@@ -1582,14 +1608,12 @@ void vehicle::open_or_close( const int part_index, const bool opening )
 void vehicle::use_autoclave( int p )
 {
     vehicle_stack items = get_items( p );
-    static const std::string filthy( "FILTHY" );
-    static const std::string no_packed( "NO_PACKED" );
     bool filthy_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( filthy );
+        return i.has_flag( json_flag_FILTHY );
     } );
 
     bool unpacked_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( no_packed );
+        return i.has_flag( STATIC( flag_id( "NO_PACKED" ) ) );
     } );
 
     bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -1601,9 +1625,9 @@ void vehicle::use_autoclave( int p )
         add_msg( m_bad,
                  _( "You turn the autoclave off before it's finished the program, and open its door." ) );
     } else if( items.empty() ) {
-        add_msg( m_bad, _( "The autoclave is empty, there's no point in starting it." ) );
+        add_msg( m_bad, _( "The autoclave is empty; there's no point in starting it." ) );
     } else if( fuel_left( itype_water ) < 8 && fuel_left( itype_water_clean ) < 8 ) {
-        add_msg( m_bad, _( "You need 8 charges of water in tanks of the %s for the autoclave to run." ),
+        add_msg( m_bad, _( "You need 8 charges of water in the tanks of the %s for the autoclave to run." ),
                  name );
     } else if( filthy_items ) {
         add_msg( m_bad,
@@ -1635,13 +1659,12 @@ void vehicle::use_washing_machine( int p )
     // Get all the items that can be used as detergent
     const inventory &inv = player_character.crafting_inventory();
     std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
-        return it.has_flag( "DETERGENT" ) && inv.has_charges( it.typeId(), 5 );
+        return it.has_flag( STATIC( flag_id( "DETERGENT" ) ) ) && inv.has_charges( it.typeId(), 5 );
     } );
 
     vehicle_stack items = get_items( p );
-    static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( filthy );
+        return i.has_flag( json_flag_FILTHY );
     } );
 
     bool cbms = std::any_of( items.begin(), items.end(), []( const item & i ) {
@@ -1651,12 +1674,13 @@ void vehicle::use_washing_machine( int p )
     if( parts[p].enabled ) {
         parts[p].enabled = false;
         add_msg( m_bad,
-                 _( "You turn the washing machine off before it's finished the program, and open its lid." ) );
+                 _( "You turn the washing machine off before it's finished its cycle, and open its lid." ) );
     } else if( items.empty() ) {
         add_msg( m_bad,
-                 _( "The washing machine is empty, there's no point in starting it." ) );
+                 _( "The washing machine is empty; there's no point in starting it." ) );
     } else if( fuel_left( itype_water ) < 24 && fuel_left( itype_water_clean ) < 24 ) {
-        add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the washing machine." ),
+        add_msg( m_bad,
+                 _( "You need 24 charges of water in the tanks of the %s to fill the washing machine." ),
                  name );
     } else if( detergents.empty() ) {
         add_msg( m_bad, _( "You need 5 charges of a detergent for the washing machine." ) );
@@ -1711,7 +1735,7 @@ void vehicle::use_washing_machine( int p )
         player_character.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
-                 _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled with water from vehicle tanks." ) );
+                 _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled with water from your vehicle's tanks." ) );
     }
 }
 
@@ -1720,13 +1744,12 @@ void vehicle::use_dishwasher( int p )
     avatar &player_character = get_avatar();
     bool detergent_is_enough = player_character.crafting_inventory().has_charges( itype_detergent, 5 );
     vehicle_stack items = get_items( p );
-    static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
-        return i.has_flag( filthy );
+        return i.has_flag( json_flag_FILTHY );
     } );
 
     std::string buffer;
-    buffer += _( "Soft items can't be cleaned in a dishwasher, you should use a washing machine for that.  You need to remove them:" );
+    buffer += _( "Soft items can't be cleaned in a dishwasher; you should use a washing machine for that.  You need to remove them:" );
     bool soft_items = false;
     for( const item &it : items ) {
         if( it.is_soft() ) {
@@ -1738,15 +1761,15 @@ void vehicle::use_dishwasher( int p )
     if( parts[p].enabled ) {
         parts[p].enabled = false;
         add_msg( m_bad,
-                 _( "You turn the dishwasher off before it's finished the program, and open its lid." ) );
+                 _( "You turn the dishwasher off before it's finished its cycle, and open its lid." ) );
     } else if( items.empty() ) {
         add_msg( m_bad,
                  _( "The dishwasher is empty, there's no point in starting it." ) );
     } else if( fuel_left( itype_water ) < 24 && fuel_left( itype_water_clean ) < 24 ) {
-        add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the dishwasher." ),
+        add_msg( m_bad, _( "You need 24 charges of water in the tanks of the %s to fill the dishwasher." ),
                  name );
     } else if( !detergent_is_enough ) {
-        add_msg( m_bad, _( "You need 5 charges of detergent for the dishwasher." ) );
+        add_msg( m_bad, _( "You need 5 charges of a detergent for the dishwasher." ) );
     } else if( !filthy_items ) {
         add_msg( m_bad,
                  _( "You need to remove all non-filthy items from the dishwasher to start the washing program." ) );
@@ -1769,7 +1792,7 @@ void vehicle::use_dishwasher( int p )
         player_character.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
-                 _( "You pour some detergent into the dishwasher, close its lid, and turn it on.  The dishwasher is being filled with water from vehicle tanks." ) );
+                 _( "You pour some detergent into the dishwasher, close its lid, and turn it on.  The dishwasher is being filled with water from your vehicle's tanks." ) );
     }
 }
 
@@ -1942,7 +1965,7 @@ void vehicle::use_bike_rack( int part )
     if( success ) {
         map &here = get_map();
         here.invalidate_map_cache( here.get_abs_sub().z );
-        here.reset_vehicle_cache( here.get_abs_sub().z );
+        here.rebuild_vehicle_level_caches();
     }
 }
 
@@ -1960,7 +1983,7 @@ void vpart_position::form_inventory( inventory &inv )
     // HACK: water_faucet pseudo tool gives access to liquids in tanks
     if( vp_faucet && inv.provide_pseudo_item( itype_water_faucet, 0 ) ) {
         for( const std::pair<const itype_id, int> &it : vehicle().fuels_left() ) {
-            item fuel( it.first, 0 );
+            item fuel( it.first, calendar::turn_zero );
             if( fuel.made_of( phase_id::LIQUID ) ) {
                 fuel.charges = it.second;
                 inv.add_item( fuel );
@@ -2030,7 +2053,7 @@ void vehicle::interact_with( const vpart_position &vp )
             continue;
         }
 
-        const bool enabled = fuel_left( itype_battery, true ) > tool.charges_to_use();
+        const bool enabled = fuel_left( itype_battery, true ) >= tool.charges_to_use();
         selectmenu.addentry( TOOLS_OFFSET + i, enabled, pair.second, _( "Use " ) + tool.nname( 1 ) );
     }
 
@@ -2112,7 +2135,7 @@ void vehicle::interact_with( const vpart_position &vp )
     }
 
     auto tool_wants_battery = []( const itype_id & type ) {
-        item tool( type, 0 );
+        item tool( type, calendar::turn_zero );
         item mag( tool.magazine_default() );
         mag.contents.clear_items();
 
@@ -2121,8 +2144,8 @@ void vehicle::interact_with( const vpart_position &vp )
     };
 
     auto use_vehicle_tool = [&]( const itype_id & tool_type ) {
-        item pseudo( tool_type, 0 );
-        pseudo.set_flag( "PSEUDO" );
+        item pseudo( tool_type, calendar::turn_zero );
+        pseudo.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
         if( !tool_wants_battery( tool_type ) ) {
             player_character.invoke_item( &pseudo );
             return true;
@@ -2187,7 +2210,7 @@ void vehicle::interact_with( const vpart_position &vp )
             return;
         }
         case DRINK: {
-            item water( itype_water_clean, 0 );
+            item water( itype_water_clean, calendar::turn_zero );
             if( player_character.can_consume( water ) ) {
                 player_character.assign_activity( player_activity( consume_activity_actor( water ) ) );
                 drain( itype_water_clean, 1 );
@@ -2223,10 +2246,13 @@ void vehicle::interact_with( const vpart_position &vp )
         }
         case RELOAD_TURRET: {
             item::reload_option opt = player_character.select_ammo( *turret.base(), true );
+            std::vector<item_location> targets;
             if( opt ) {
-                player_character.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
-                player_character.activity.targets.emplace_back( turret.base() );
-                player_character.activity.targets.push_back( std::move( opt.ammo ) );
+                const int moves = opt.moves();
+                targets.emplace_back( turret.base() );
+                targets.push_back( std::move( opt.ammo ) );
+                player_character.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(),
+                                                  targets ) ) );
             }
             return;
         }

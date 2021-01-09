@@ -2,7 +2,7 @@
   {
     "result": "offal_canned",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
     "category": "CC_FOOD",
@@ -21,7 +21,7 @@
   {
     "result": "offal_canned",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
@@ -38,7 +38,7 @@
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
     "components": [
-      [ [ "canister_empty", 1 ], [ "can_food", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_medium", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "meat_offal", 1, "LIST" ] ]
@@ -69,7 +69,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "dogfood",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -92,7 +92,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "dogfood",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -120,7 +120,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "dogfood",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -144,7 +144,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "catfood",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -167,7 +167,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "catfood",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -194,7 +194,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "catfood",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -243,7 +243,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_mushroom",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -264,7 +264,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_mushroom",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -287,7 +287,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_mushroom",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -308,7 +308,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meat_canned",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -327,7 +327,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fish_canned",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -346,7 +346,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "veggy_canned",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -369,7 +369,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "apple_canned",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -393,7 +393,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_woods",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -414,7 +414,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_meat",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -435,7 +435,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_veggy",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -456,7 +456,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_fish",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -477,7 +477,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "broth",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -498,7 +498,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "broth_bone",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -591,7 +591,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "can_tomato",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -614,7 +614,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "can_beans",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -637,7 +637,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meat_canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -663,7 +663,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fish_canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -689,7 +689,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "veggy_canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -715,7 +715,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "apple_canned",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -743,7 +743,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "can_tomato",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -770,7 +770,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "can_beans",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -796,7 +796,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_woods",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -819,7 +819,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_veggy",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -842,7 +842,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_meat",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -865,7 +865,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_fish",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -888,7 +888,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "meat_canned",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -907,7 +907,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "veggy_canned",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -930,7 +930,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "apple_canned",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -955,7 +955,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "fish_canned",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -975,7 +975,7 @@
   {
     "result": "offal_canned",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
     "category": "CC_FOOD",
@@ -993,7 +993,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "can_tomato",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1016,7 +1016,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "can_beans",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1039,7 +1039,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_woods",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1060,7 +1060,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_meat",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1081,7 +1081,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_veggy",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1102,7 +1102,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "soup_fish",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1123,7 +1123,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "broth",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1144,7 +1144,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "broth_bone",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1164,7 +1164,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sauce_red",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1187,7 +1187,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sauce_red",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -1210,7 +1210,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sauce_red",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -1261,7 +1261,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "con_milk",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
@@ -1292,7 +1292,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "con_milk",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ] ],
@@ -1318,7 +1318,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "con_milk",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -1352,7 +1352,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "broth",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -1375,7 +1375,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "broth_bone",
     "id_suffix": "canned",
     "category": "CC_FOOD",
@@ -1402,7 +1402,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "apple_cider",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 4 ] ],
@@ -1426,7 +1426,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "apple_cider",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 4 ] ],
@@ -1446,7 +1446,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "apple_cider",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 24 ] ],
@@ -1470,7 +1470,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "oj",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 4 ] ],
@@ -1494,7 +1494,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "oj",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 4 ] ],
@@ -1514,7 +1514,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "oj",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 24 ] ],
@@ -1538,7 +1538,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cranberry_juice",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 4 ] ],
@@ -1562,7 +1562,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cranberry_juice",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 4 ] ],
@@ -1582,7 +1582,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cranberry_juice",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 24 ] ],
@@ -1606,7 +1606,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "juice",
     "id_suffix": "jarred",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 2 ] ],
@@ -1626,7 +1626,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "juice",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 2 ] ],
@@ -1645,7 +1645,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "juice",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ], [ "juice_pulp", 12 ] ],

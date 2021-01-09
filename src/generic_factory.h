@@ -221,7 +221,8 @@ class generic_factory
                         def = ab->second;
                     } else {
                         def.was_loaded = false;
-                        deferred.emplace_back( jo.str(), src );
+                        deferred.emplace_back( jo.get_source_location(), src );
+                        jo.allow_omitted_members();
                         return false;
                     }
                 }
@@ -304,7 +305,7 @@ class generic_factory
                 }
 
             } else if( jo.has_array( legacy_id_member_name ) ) {
-                for( const auto &e : jo.get_array( legacy_id_member_name ) ) {
+                for( const JsonValue e : jo.get_array( legacy_id_member_name ) ) {
                     T def;
                     if( !handle_inheritance( def, jo, src ) ) {
                         break;

@@ -279,6 +279,29 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zothronychus_brute",
+    "name": { "str_sp": "Nefarious Nothronychus" },
+    "copy-from": "mon_zothronychus",
+    "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Long curved claws protude from its hands.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "upgrades": {  },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zeinonychus_brute",
     "name": { "str": "Deino Destroyer" },
     "copy-from": "mon_zeinonychus",
@@ -578,6 +601,19 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zothronychus_shady",
+    "name": { "str_sp": "shady Nothronychus" },
+    "copy-from": "mon_zothronychus",
+    "color": "light_gray",
+    "description": "An uncanny shadow envelops this dinosaur.  You can make out the outline of a bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
+    "upgrades": {  },
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
+    "vision_day": 3,
+    "vision_night": 40,
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zeinonychus_shady",
     "name": { "str_sp": "shady Deinonychus" },
     "copy-from": "mon_zeinonychus",
@@ -728,6 +764,31 @@
     "material": [ "bone" ],
     "armor_bash": 0,
     "description": "Monstrous columns of dense bone lifting sharp pointed teeth dripping with black goo.",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_cut": 7,
+      "armor_cut": 22,
+      "armor_bullet": 30,
+      "armor_stab": 30,
+      "armor_acid": 3,
+      "vision_day": -20
+    },
+    "upgrades": {  },
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "harvest": "mr_bones",
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sothronychus",
+    "name": { "str_sp": "Skeleton Nothronychus" },
+    "copy-from": "mon_zothronychus",
+    "color": "white",
+    "material": [ "bone" ],
+    "armor_bash": 0,
+    "description": "Monstrous columns of dense bone lifting sharp pointed teeth dripping with black goo.  Long sharp claws extend from its hands",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,

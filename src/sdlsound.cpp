@@ -20,10 +20,12 @@
 #    include <SDL_mixer.h>
 #endif
 
+#include "cached_options.h"
 #include "debug.h"
 #include "init.h"
 #include "json.h"
 #include "loading_ui.h"
+#include "messages.h"
 #include "options.h"
 #include "path_info.h"
 #include "rng.h"
@@ -139,6 +141,10 @@ static void musicFinished();
 
 static void play_music_file( const std::string &filename, int volume )
 {
+    if( test_mode ) {
+        return;
+    }
+
     if( !check_sound( volume ) ) {
         return;
     }
@@ -160,6 +166,10 @@ static void play_music_file( const std::string &filename, int volume )
 /** Callback called when we finish playing music. */
 void musicFinished()
 {
+    if( test_mode ) {
+        return;
+    }
+
     Mix_HaltMusic();
     Mix_FreeMusic( current_music );
     current_music = nullptr;
@@ -225,6 +235,10 @@ void play_music( const std::string &playlist )
 
 void stop_music()
 {
+    if( test_mode ) {
+        return;
+    }
+
     Mix_FreeMusic( current_music );
     Mix_HaltMusic();
     current_music = nullptr;
@@ -236,6 +250,10 @@ void stop_music()
 
 void update_music_volume()
 {
+    if( test_mode ) {
+        return;
+    }
+
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 
     if( !sounds::sound_enabled ) {
@@ -443,6 +461,12 @@ static Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
 
 void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume )
 {
+    if( test_mode ) {
+        return;
+    }
+
+    add_msg_debug( "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
+
     if( !check_sound( volume ) ) {
         return;
     }
@@ -467,6 +491,12 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
 void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume,
                               units::angle angle, double pitch_min, double pitch_max )
 {
+    if( test_mode ) {
+        return;
+    }
+
+    add_msg_debug( "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
+
     if( !check_sound( volume ) ) {
         return;
     }
@@ -504,6 +534,9 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
 void sfx::play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
                                       channel channel, int fade_in_duration, double pitch, int loops )
 {
+    if( test_mode ) {
+        return;
+    }
     if( !check_sound( volume ) ) {
         return;
     }

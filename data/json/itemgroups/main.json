@@ -80,6 +80,12 @@
   },
   {
     "type": "item_group",
+    "id": "debug_template_item",
+    "subtype": "distribution",
+    "entries": [ { "item": "standard_template_construct", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
     "id": "nanofab_recipes",
     "//": "Very rare high level loot. This list doesn't spawn anywhere directly, it is used to create the recipes inside nanofabricator templates. ",
     "magazine": 100,

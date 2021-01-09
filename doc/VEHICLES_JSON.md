@@ -38,7 +38,7 @@ Vehicle prototypes do not currently accept copy-from
 .* Important! *. Vehicle parts must be defined in the same order you would install them in the game (ie, frames and mount points first).  You also cannot break the normal rules of installation (you can't stack non-stackable part flags).
 
 ### Parts list
-The part list contains an arbitary number of lines. Each line is of the form:
+The part list contains an arbitrary number of lines. Each line is of the form:
     { "x": X, "y": Y, "part": PARTID, ... }
 or
     { "x": X, "y": Y, "parts": [ PARTID1, ... ] }

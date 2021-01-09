@@ -27,7 +27,6 @@ std::string defaulttilepng();
 std::string fontdata();
 std::string fontdir();
 std::string user_font();
-std::string fontlist();
 std::string graveyarddir();
 std::string help();
 std::string keybindings();

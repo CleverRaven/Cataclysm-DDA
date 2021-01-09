@@ -13,6 +13,7 @@
       { "monster": "mon_zyrannosaurus", "freq": 8, "cost_multiplier": 80, "starts": 144 },
       { "monster": "mon_zalbertosaurus", "freq": 4, "cost_multiplier": 70, "starts": 72 },
       { "monster": "mon_zallimimus", "freq": 20, "cost_multiplier": 10, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zothronychus", "freq": 3, "cost_multiplier": 30, "starts": 72, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 72, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zutahraptor", "freq": 5, "cost_multiplier": 60, "starts": 144 },
       { "monster": "mon_zapatosaurus", "freq": 5, "cost_multiplier": 50, "starts": 72, "pack_size": [ 1, 2 ] },
@@ -36,7 +37,10 @@
       { "monster": "mon_zentaceratops", "freq": 1, "cost_multiplier": 50, "starts": 72, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zorosaurus", "freq": 1, "cost_multiplier": 50, "starts": 72, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zriceratops", "freq": 3, "cost_multiplier": 60, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zteranodon", "freq": 5, "cost_multiplier": 10, "starts": 72, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_zteranodon", "freq": 5, "cost_multiplier": 10, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zianzhousaurus", "freq": 4, "cost_multiplier": 70, "starts": 72, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_zosmoceratops", "freq": 3, "cost_multiplier": 70, "starts": 72, "pack_size": [ 4, 9 ] },
+      { "monster": "mon_zamargasaurus", "freq": 5, "cost_multiplier": 72, "starts": 72, "pack_size": [ 4, 12 ] }
     ]
   },
   {
@@ -87,6 +91,16 @@
       { "monster": "mon_salbertosaurus", "freq": 45, "cost_multiplier": 5 },
       { "monster": "mon_zalbertosaurus_shady", "freq": 15, "cost_multiplier": 5 },
       { "monster": "mon_zalbertosaurus_brute", "freq": 23, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zothronychus_UPGRADE",
+    "default": "mon_sothronychus",
+    "monsters": [
+      { "monster": "mon_sothronychus", "freq": 45, "cost_multiplier": 5 },
+      { "monster": "mon_zothronychus_shady", "freq": 15, "cost_multiplier": 5 },
+      { "monster": "mon_zothronychus_brute", "freq": 23, "cost_multiplier": 5 }
     ]
   },
   {

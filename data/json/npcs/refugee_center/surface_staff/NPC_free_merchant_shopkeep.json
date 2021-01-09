@@ -145,7 +145,6 @@
       [ "balclava", 10 ],
       [ "pickaxe", 20 ],
       [ "makeshift_machete", 15 ],
-      [ "flamethrower_crude", 20 ],
       [ "fungicide", 20 ],
       [ "insecticide", 20 ],
       [ "antifungal", 20 ],
@@ -215,12 +214,27 @@
       "TALK_EVAC_MERCHANT_PLANS3",
       "TALK_EVAC_MERCHANT_WORLD",
       "TALK_EVAC_MERCHANT_RANCH2",
+      "TALK_EVAC_MERCHANT_MERCH",
       "TALK_EVAC_MERCHANT_HORDES",
       "TALK_EVAC_MERCHANT_PRIME_LOOT",
-      "TALK_EVAC_MERCHANT_BACKGROUND"
+      "TALK_EVAC_MERCHANT_BACKGROUND",
+      "TALK_EVAC_MERCHANT_Boris_Mission_1b",
+      "TALK_EVAC_MERCHANT_Boris_Mission_1c"
     ],
     "type": "talk_topic",
     "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you offer any help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_EVAC_MERCHANT_Boris_Mission_1"
+      },
       { "text": "I heard this place was a refugee center…", "topic": "TALK_EVAC_MERCHANT_NEW" },
       { "text": "What are you doing here?", "topic": "TALK_EVAC_MERCHANT_PLANS" },
       { "text": "Heard anything about the outside world?", "topic": "TALK_EVAC_MERCHANT_WORLD" },
@@ -247,6 +261,11 @@
         "topic": "TALK_NONE",
         "effect": { "companion_mission": "REFUGEE_MERCHANT" },
         "condition": { "u_has_any_trait": [ "NPC_MISSION_LEV_1" ] }
+      },
+      {
+        "text": "What's with these 'free merchant certified notes'?",
+        "topic": "TALK_EVAC_MERCHANT_MERCH",
+        "condition": { "u_has_item": "FMCNote" }
       },
       { "text": "What's your story?", "topic": "TALK_EVAC_MERCHANT_BACKGROUND" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
@@ -303,6 +322,46 @@
     "responses": [ { "text": "Thanks, I'll keep an eye out.", "topic": "TALK_EVAC_MERCHANT" } ]
   },
   {
+    "id": "TALK_EVAC_MERCHANT_HUB01",
+    "type": "talk_topic",
+    "dynamic_line": "We had an odd group came by two days after the power grid went off, two armed guards wearing brown uniforms, escorting what seemed to be a gov' doctor of some sort, had a hazmat suit and mask they never took off.  They looked rather organized, probably military remnant from somewhere close by.",
+    "responses": [
+      { "text": "I was hoping for something more substantial than that.", "topic": "TALK_EVAC_MERCHANT" },
+      { "text": "Just that?", "topic": "TALK_EVAC_MERCHANT_HUB01_ACTIVITY" }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_HUB01_ACTIVITY",
+    "type": "talk_topic",
+    "dynamic_line": "They surely didn't seem the nice talkative type.  Doctor paid us in advance to get some old FEMA info from our computers here, told us to deliver the data to some remote locale afterwards.  Still haven't done that however, we're half thinking it must have been some sort of strange trap.",
+    "responses": [
+      { "text": "Think you could share that meeting location?", "topic": "TALK_EVAC_MERCHANT_HUB01_DELIVERY_MISSION_OFFER" },
+      { "text": "Seems like you are right to be suspicious.", "topic": "TALK_EVAC_MERCHANT" }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_HUB01_DELIVERY_MISSION_OFFER",
+    "type": "talk_topic",
+    "dynamic_line": "I could share the drop off location if you agree to deliver the data for us.  But I'm certain that you won't find whatever you seek in there.",
+    "responses": [
+      {
+        "text": "Seems like a deal to me.",
+        "topic": "TALK_EVAC_MERCHANT_HUB_DELIVERY_ACCEPTED",
+        "effect": { "add_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
+      },
+      { "text": "That seems rather dangerous, I think I'll pass.", "topic": "TALK_EVAC_MERCHANT" }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_HUB_DELIVERY_ACCEPTED",
+    "type": "talk_topic",
+    "dynamic_line": "Location should be an old isolated building not far from here, you should probably just leave the hdd to the persons there and be off your way.  And as I said, be careful approaching the place, I wouldn't like leading you straight into your death.",
+    "responses": [
+      { "text": "Don't worry, I'll be careful.", "topic": "TALK_DONE" },
+      { "text": "Pretty sure I'll manage.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "TALK_EVAC_MERCHANT_NO",
     "type": "talk_topic",
     "dynamic_line": "I'm sorry, not a risk we are willing to take right now.",
@@ -341,6 +400,7 @@
     "responses": [
       { "text": "Hordes?", "topic": "TALK_EVAC_MERCHANT_HORDES" },
       { "text": "Heard of anything better than the odd gun cache?", "topic": "TALK_EVAC_MERCHANT_PRIME_LOOT" },
+      { "text": "Any other settlements nearby?", "topic": "TALK_EVAC_MERCHANT_HUB01" },
       { "text": "Was hoping for something more…", "topic": "TALK_EVAC_MERCHANT" }
     ]
   },
@@ -350,8 +410,9 @@
     "dynamic_line": "They're folks that wanted to come down to our shelter, but we're too full and have neither space nor supplies to share.  Most like them have turned and gone seeking their own place, but these ones… these ones didn't.  We've been trying to find them a safe place, but there's a shortage of safety going around.  Until then we're letting them crash here so long as they don't mess the place up.",
     "responses": [
       {
-        "text": "I don't suppose there'd be some kind of reward if I could clear them out of here?",
+        "text": "[SPEECH] I don't suppose there'd be some kind of reward if I could clear them out of here?",
         "topic": "TALK_EVAC_MERCHANT_BEGGARS1_Reward",
+        "condition": { "u_has_skill": { "skill": "speech", "level": 1 } },
         "effect": { "npc_add_var": "beggars_reward_agreed", "type": "general", "context": "recruit", "value": "yes" }
       }
     ]
@@ -400,6 +461,41 @@
     "dynamic_line": "Unfortunately, no.  Most of the people who left were already stuck upstairs, they were taking on less risk than those with a safe bed already.  We only got a few people out of the basement, and it was already overcrowded when we started.  We're kind of hoping more folk will head out to the ranch for sun, fresh air, and hard work… but people are a bit afraid of getting attacked by zombie hordes, as you might guess."
   },
   {
+    "id": "TALK_EVAC_MERCHANT_MERCH",
+    "type": "talk_topic",
+    "dynamic_line": "Oh, they're just what we're using for local cash.  We started out paying each other in regular cash, but there's so much paper money out there that it's just useless now.  For our internal use, we started certifying bills that represent food and labour in the center here.  Pretty quickly we started trading them among ourselves, and from there, others started adopting them."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_MERCHANT_Boris_Mission_1",
+    "dynamic_line": "Hmm.  Most of the people downstairs aren't willing to come up for things like that.  If you sweeten the pot a bit, we could get a few folks I'm sure.",
+    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
+    "responses": [
+      {
+        "text": "How about five Merch to do it?",
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 5 } },
+        "effect": { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 },
+        "topic": "TALK_EVAC_MERCHANT_Boris_Mission_1b"
+      },
+      {
+        "text": "How about ten Merch to do it?",
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 10 } },
+        "effect": { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
+        "topic": "TALK_EVAC_MERCHANT_Boris_Mission_1c"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_MERCHANT_Boris_Mission_1b",
+    "dynamic_line": "Sure.  Five Merch is definitely enough to get someone off guard duty to help you out."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_MERCHANT_Boris_Mission_1c",
+    "dynamic_line": "Woah, you're really intent hey?  Okay, if you feel so strongly, ten Merch is enough to get a couple people out of guard duty to help, and you know what?  If you feel that strongly about it, I'll come help out in my down time too.  I respect someone putting their money where their mouth is."
+  },
+  {
     "id": "MISSION_FREE_MERCHANTS_EVAC_1",
     "type": "mission_definition",
     "name": { "str": "Clear Back Bay" },
@@ -417,7 +513,8 @@
     "end": {
       "effect": [
         { "u_buy_item": "FMCNote", "count": 25 },
-        { "u_add_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+        { "u_add_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" },
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 }
       ],
       "update_mapgen": {
         "om_terrain": "evac_center_9",
@@ -627,6 +724,38 @@
       "success": "That's one less thing to worry about.  Glad to have someone like you on our side.  Here's 25 merch, and the broker will buy any further glass jars you can find - at a reduced price, we can't keep up the premium rate.  Actually, the broker was saying they had some jobs like this for you, and that it might be easier to just go straight through their office if you want more work.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1",
+    "type": "mission_definition",
+    "name": { "str": "Unknown Recipient" },
+    "description": "Deliver the hdd to the military remnant.  Return to the Evacuation Center when the trade is complete.",
+    "goal": "MGOAL_CONDITION",
+    "difficulty": 5,
+    "start": {
+      "effect": [ { "u_buy_item": "fema_data", "count": 1 } ],
+      "assign_mission_target": {
+        "om_terrain": "robofachq_surface_entrance",
+        "om_special": "hub_01",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 280
+      }
+    },
+    "goal_condition": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+    "value": 5000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "Have you finished the delivery already?",
+      "success": "Good, that's one less thing to worry about.",
+      "success_lie": "What good does this do us?",
+      "failure": "At least you came back with your life…"
     }
   }
 ]

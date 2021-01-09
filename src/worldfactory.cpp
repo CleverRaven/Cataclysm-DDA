@@ -302,7 +302,7 @@ void worldfactory::init()
         }
     };
 
-    // This returns files as well, but they are going to be discared later as
+    // This returns files as well, but they are going to be discarded later as
     // we look for files *within* these dirs. If it's a file, there won't be
     // be any of those inside it and is_save_dir will return false.
     for( const std::string &dir : get_files_from_path( "", PATH_INFO::savedir(), false ) ) {
@@ -515,6 +515,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
     input_context ctxt( "PICK_WORLD_DIALOG" );
     ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_TAB" );
@@ -525,19 +527,37 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
+        const size_t recmax = world_pages[selpage].size();
+        const size_t scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "QUIT" ) {
             break;
         } else if( !world_pages[selpage].empty() && action == "DOWN" ) {
             sel++;
-            if( sel >= world_pages[selpage].size() ) {
+            if( sel >= recmax ) {
                 sel = 0;
             }
         } else if( !world_pages[selpage].empty() && action == "UP" ) {
             if( sel == 0 ) {
-                sel = world_pages[selpage].size() - 1;
+                sel = recmax - 1;
             } else {
                 sel--;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( sel == recmax - 1 ) {
+                sel = 0;
+            } else if( sel + scroll_rate >= recmax ) {
+                sel = recmax - 1;
+            } else {
+                sel += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( sel == 0 ) {
+                sel = recmax - 1;
+            } else if( sel <= scroll_rate ) {
+                sel = 0;
+            } else {
+                sel += -scroll_rate;
             }
         } else if( action == "NEXT_TAB" ) {
             sel = 0;
@@ -788,6 +808,8 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
 
     input_context ctxt( "DEFAULT" );
     ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -805,21 +827,37 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
+        const int recmax = static_cast<int>( num_mods );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "UP" ) {
             cursor--;
             // If it went under 0, loop back to the end of the list.
             if( cursor < 0 ) {
-                cursor = static_cast<int>( num_mods - 1 );
+                cursor = recmax - 1;
             }
-
         } else if( action == "DOWN" ) {
             cursor++;
             // If it went over the end of the list, loop back to the start of the list.
-            if( cursor > static_cast<int>( num_mods - 1 ) ) {
+            if( cursor > recmax - 1 ) {
                 cursor = 0;
             }
-
+        } else if( action == "PAGE_DOWN" ) {
+            if( cursor == recmax - 1 ) {
+                cursor = 0;
+            } else if( cursor + scroll_rate >= recmax ) {
+                cursor = recmax - 1;
+            } else {
+                cursor += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( cursor == 0 ) {
+                cursor = recmax - 1;
+            } else if( cursor <= scroll_rate ) {
+                cursor = 0;
+            } else {
+                cursor += -scroll_rate;
+            }
         } else if( action == "QUIT" || action == "CONFIRM" ) {
             break;
         }
@@ -844,6 +882,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 
     input_context ctxt( "MODMANAGER_DIALOG" );
     ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "LEFT", to_translation( "Switch to other list" ) );
     ctxt.register_action( "RIGHT", to_translation( "Switch to other list" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1132,11 +1172,30 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         }
 
         const std::string action = ctxt.handle_input();
+        size_t recmax = active_header == 0 ? static_cast<int>( all_tabs[iCurrentTab].mods.size() ) :
+                        static_cast<int>( active_mod_order.size() );
+        size_t scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "DOWN" ) {
             selection = next_selection;
         } else if( action == "UP" ) {
             selection = prev_selection;
+        } else if( action == "PAGE_DOWN" ) {
+            if( selection == recmax - 1 ) {
+                selection = 0;
+            } else if( selection + scroll_rate >= recmax ) {
+                selection = recmax - 1;
+            } else {
+                selection += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( selection == 0 ) {
+                selection = recmax - 1;
+            } else if( selection <= scroll_rate ) {
+                selection = 0;
+            } else {
+                selection += -scroll_rate;
+            }
         } else if( action == "RIGHT" ) {
             active_header = next_header;
         } else if( action == "LEFT" ) {
@@ -1537,6 +1596,10 @@ void load_external_option( const JsonObject &jo )
         opt.setValue( jo.get_string( "value" ) );
     } else {
         jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
+    }
+    // Just visit this member if it exists
+    if( jo.has_member( "info" ) ) {
+        jo.get_string( "info" );
     }
 }
 

@@ -456,9 +456,6 @@ static std::string camp_trip_description( const time_duration &total_time,
         const time_duration &travel_time,
         int distance, int trips, int need_food );
 
-/// Returns a string for display of the selected car so you don't chop shop the wrong one
-static std::string camp_car_description( vehicle *car );
-
 /// Changes the faction food supply by @ref change, 0 returns total food supply, a negative
 /// total food supply hurts morale
 static int camp_food_supply( int change = 0, bool return_days = false );
@@ -467,7 +464,7 @@ static int camp_food_supply( int change = 0, bool return_days = false );
 static int camp_food_supply( time_duration work );
 /// Returns the total charges of food time_duration @ref work costs
 static int time_to_food( time_duration work );
-/// Changes the faction respect for you by @ref change, returns repect
+/// Changes the faction respect for you by @ref change, returns respect
 static int camp_discipline( int change = 0 );
 /// Changes the faction opinion for you by @ref change, returns opinion
 static int camp_morale( int change = 0 );
@@ -535,23 +532,33 @@ static cata::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_
 recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation> &pos_options,
         const std::string &option )
 {
-    std::vector<recipe_id> pos_name_ids;
+    if( pos_options.size() == 1 ) {
+        return pos_options.begin()->first;
+    }
+
     std::vector<std::string> pos_names;
+    int choice = 0;
+
     for( const auto &it : pos_options ) {
         pos_names.push_back( it.second.translated() );
-        pos_name_ids.push_back( it.first );
     }
 
-    if( pos_name_ids.size() == 1 ) {
-        return pos_name_ids.front();
-    }
+    std::sort( pos_names.begin(), pos_names.end(), localized_compare );
 
-    const int choice = uilist( option, pos_names );
-    if( choice < 0 || static_cast<size_t>( choice ) >= pos_name_ids.size() ) {
+    choice = uilist( option, pos_names );
+
+    if( choice < 0 || static_cast<size_t>( choice ) >= pos_names.size() ) {
         popup( _( "You choose to wait…" ) );
         return recipe_id::NULL_ID();
     }
-    return pos_name_ids[choice];
+
+    std::string selected_name = pos_names[choice];
+
+    std::map<recipe_id, translation>::const_iterator iter = find_if( pos_options.begin(),
+    pos_options.end(), [selected_name]( const std::pair<const recipe_id, translation> &node ) {
+        return node.second.translated() == selected_name;
+    } );
+    return iter->first;
 }
 
 void talk_function::start_camp( npc &p )
@@ -571,46 +578,12 @@ void talk_function::start_camp( npc &p )
         return;
     }
 
-    std::vector<std::pair<std::string, tripoint_abs_omt>> om_region =
-                om_building_region( omt_pos, 1 );
-    int near_fields = 0;
-    for( const auto &om_near : om_region ) {
-        const oter_id &om_type = oter_id( om_near.first );
-        if( is_ot_match( "field", om_type, ot_match_type::contains ) ) {
-            near_fields += 1;
-        }
-    }
-    std::vector<std::pair<std::string, tripoint_abs_omt>> om_region_ext =
-                om_building_region( omt_pos, 3 );
-    int forests = 0;
-    int waters = 0;
-    for( const auto &om_near : om_region_ext ) {
+    for( const auto &om_near : om_building_region( omt_pos, 3 ) ) {
         const oter_id &om_type = oter_id( om_near.first );
         if( is_ot_match( "faction_base", om_type, ot_match_type::contains ) ) {
             popup( _( "You are too close to another camp!" ) );
             return;
-        } else if( is_ot_match( "forest", om_type, ot_match_type::contains ) ) {
-            forests++;
-        } else if( is_ot_match( "river", om_type, ot_match_type::contains ) ) {
-            waters++;
         }
-    }
-    bool display = false;
-    std::string buffer = _( "Warning, you have selected a region with the following issues:\n\n" );
-    if( forests < 3 ) {
-        display = true;
-        buffer += _( "There are few forests.  Wood is your primary construction material.\n" );
-    }
-    if( waters == 0 ) {
-        display = true;
-        buffer += _( "There are few large clean-ish water sources.\n" );
-    }
-    if( near_fields < 4 ) {
-        display = true;
-        buffer += _( "There are few fields.  Farming may be difficult.\n" );
-    }
-    if( display && !query_yn( _( "%s\nAre you sure you wish to continue?" ), buffer ) ) {
-        return;
     }
     const recipe &making = camp_type.obj();
     if( !run_mapgen_update_func( making.get_blueprint(), omt_pos ) ) {
@@ -1546,12 +1519,8 @@ bool basecamp::handle_mission( const std::string &miss_id,
         farm_return( "_faction_exp_harvest_" + miss_dir_id, omt_trg, farm_ops::harvest );
     }
 
-    if( miss_id == miss_dir_id + " Chop Shop" ) {
-        start_garage_chop( miss_dir, omt_trg );
-    } else if( miss_id == miss_dir_id + " (Finish) Chop Shop" ) {
-        const std::string msg = _( "returns from your garage…" );
-        mission_return( "_faction_exp_chop_shop_" + miss_dir_id, 5_days, true, msg,
-                        "mechanics", 2 );
+    if( miss_id == miss_dir_id + " Chop Shop" || miss_id == miss_dir_id + " (Finish) Chop Shop" ) {
+        debugmsg( "Obsolete Function.  Use disassemble zone instead." );
     }
 
     if( miss_id == "Emergency Recall" ) {
@@ -2456,77 +2425,6 @@ void basecamp::start_farm_op( const point &dir, const tripoint_abs_omt &omt_tgt,
     }
 }
 
-bool basecamp::start_garage_chop( const point &dir, const tripoint_abs_omt &omt_tgt )
-{
-    editmap edit;
-    vehicle *car = edit.mapgen_veh_query( omt_tgt );
-    if( car == nullptr ) {
-        return false;
-    }
-
-    if( !query_yn( _( "       Chopping this vehicle:\n%s" ), camp_car_description( car ) ) ) {
-        return false;
-    }
-
-    const std::string dir_id = base_camps::all_directions.at( dir ).id;
-    npc_ptr comp = start_mission( "_faction_exp_chop_shop_" + dir_id, 5_days, true,
-                                  _( "begins working in the garage…" ), false, {},
-                                  skill_mechanics, 2 );
-    if( comp == nullptr ) {
-        return false;
-    }
-    // FIXME: use ranges, do this sensibly
-    //Chopping up the car!
-    //std::vector<vehicle_part> p_all = car->parts;
-    int prt = 0;
-    int skillLevel = comp->get_skill_level( skill_mechanics );
-    while( car->part_count() > 0 ) {
-        vehicle_stack contents = car->get_items( prt );
-        for( auto iter = contents.begin(); iter != contents.end(); ) {
-            comp->companion_mission_inv.add_item( *iter );
-            iter = contents.erase( iter );
-        }
-        bool broken = car->part( prt ).is_broken();
-        bool skill_break = false;
-        bool skill_destroy = false;
-
-        int dice = rng( 1, 20 );
-        dice += skillLevel - car->part( prt ).info().difficulty;
-
-        if( dice >= 20 ) {
-            skill_break = false;
-            skill_destroy = false;
-            talk_function::companion_skill_trainer( *comp, skill_mechanics, 1_hours,
-                                                    car->part( prt ).info().difficulty );
-        } else if( dice > 15 ) {
-            skill_break = false;
-        } else if( dice > 9 ) {
-            skill_break = true;
-            skill_destroy = false;
-        } else {
-            skill_break = true;
-            skill_destroy = true;
-        }
-
-        if( !broken && !skill_break ) {
-            //Higher level garages will salvage liquids from tanks
-            if( !car->part( prt ).is_battery() ) {
-                car->part( prt ).ammo_consume( car->part( prt ).ammo_remaining(),
-                                               car->global_part_pos3( car->part( prt ) ) );
-            }
-            comp->companion_mission_inv.add_item( car->part( prt ).properties_to_item() );
-        } else if( !skill_destroy ) {
-            for( const item &itm : car->part( prt ).pieces_for_broken_part() ) {
-                comp->companion_mission_inv.add_item( itm );
-            }
-        }
-        car->force_erase_part( prt );
-    }
-    talk_function::companion_skill_trainer( *comp, skill_mechanics, 5_days, 2 );
-    edit.mapgen_veh_destroy( omt_tgt, car );
-    return true;
-}
-
 // camp faction companion mission recovery functions
 npc_ptr basecamp::companion_choose_return( const std::string &miss_id,
         time_duration min_duration )
@@ -2704,24 +2602,24 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
                                            "more experience…" ), task_description );
     finish_return( *comp, false, msg, skill_group, 1 );
 
-    std::string itemlist = "forest";
+    item_group_id itemlist( "forest" );
     if( task == "_faction_camp_firewood" ) {
-        itemlist = "gathering_faction_base_camp_firewood";
+        itemlist = item_group_id( "gathering_faction_base_camp_firewood" );
     } else if( task == "_faction_camp_gathering" ) {
         itemlist = get_gatherlist();
     } else if( task == "_faction_camp_foraging" ) {
         switch( season_of_year( calendar::turn ) ) {
             case SPRING:
-                itemlist = "foraging_faction_camp_spring";
+                itemlist = item_group_id( "foraging_faction_camp_spring" );
                 break;
             case SUMMER:
-                itemlist = "foraging_faction_camp_summer";
+                itemlist = item_group_id( "foraging_faction_camp_summer" );
                 break;
             case AUTUMN:
-                itemlist = "foraging_faction_camp_autumn";
+                itemlist = item_group_id( "foraging_faction_camp_autumn" );
                 break;
             case WINTER:
-                itemlist = "foraging_faction_camp_winter";
+                itemlist = item_group_id( "foraging_faction_camp_winter" );
                 break;
             default:
                 debugmsg( "Invalid season" );
@@ -3078,7 +2976,8 @@ int basecamp::recipe_batch_max( const recipe &making ) const
     return max_batch;
 }
 
-void basecamp::search_results( int skill, const Group_tag &group_id, int attempts, int difficulty )
+void basecamp::search_results( int skill, const item_group_id &group_id, int attempts,
+                               int difficulty )
 {
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
@@ -3748,11 +3647,11 @@ std::string basecamp::recruit_description( int npc_count )
 
 std::string basecamp::gathering_description( const std::string &bldg )
 {
-    std::string itemlist;
-    if( item_group::group_is_defined( "gathering_" + bldg ) ) {
-        itemlist = "gathering_" + bldg;
+    item_group_id itemlist;
+    if( item_group::group_is_defined( item_group_id( "gathering_" + bldg ) ) ) {
+        itemlist = item_group_id( "gathering_" + bldg );
     } else {
-        itemlist = "forest";
+        itemlist = item_group_id( "forest" );
     }
     std::string output;
 
@@ -3796,39 +3695,6 @@ std::string basecamp::farm_description( const tripoint_abs_omt &farm_pos, size_t
             debugmsg( "Farm operations called with no operation" );
             break;
     }
-    return entry;
-}
-
-std::string camp_car_description( vehicle *car )
-{
-    std::string entry = string_format( _( "Name:     %s\n" ), right_justify( car->name, 25 ) );
-    entry += _( "----          Engines          ----\n" );
-    for( const vpart_reference &vpr : car->get_any_parts( "ENGINE" ) ) {
-        const vehicle_part &pt = vpr.part();
-        const vpart_info &vp = pt.info();
-        entry += string_format( _( "Engine:   %s\n" ), right_justify( vp.name(), 25 ) );
-        entry += string_format( _( ">Status:  %24d%%\n" ),
-                                static_cast<int>( 100 * pt.health_percent() ) );
-        entry += string_format( _( ">Fuel:    %s\n" ), right_justify( item::nname( vp.fuel_type ), 25 ) );
-    }
-    std::map<itype_id, int> fuels = car->fuels_left();
-    entry += _( "----  Fuel Storage & Battery   ----\n" );
-    for( auto &fuel : fuels ) {
-        std::string fuel_entry = string_format( "%d/%d", car->fuel_left( fuel.first ),
-                                                car->fuel_capacity( fuel.first ) );
-        entry += string_format( ">%s:%s\n", item( fuel.first ).tname(),
-                                right_justify( fuel_entry, 33 - utf8_width( item( fuel.first ).tname() ) ) );
-    }
-    for( const vpart_reference &vpr : car->get_all_parts() ) {
-        if( vpr.part().is_battery() ) {
-            const vpart_info &vp = vpr.part().info();
-            entry += string_format( ">%s:%*d%%\n", vp.name(), 32 - utf8_width( vp.name() ),
-                                    static_cast<int>( 100.0 * vpr.part().ammo_remaining() /
-                                            vpr.part().ammo_capacity( ammotype( "battery" ) ) ) );
-        }
-    }
-    entry += "\n";
-    entry += _( "Estimated Chop Time:         5 Days\n" );
     return entry;
 }
 

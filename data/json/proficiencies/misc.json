@@ -119,6 +119,13 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_aircraft_mechanic",
+    "name": { "str": "Airframe and Powerplant Mechanic" },
+    "description": "You've been trained and certified to repair aircraft.  You're not really sure how that could help you survive now.",
+    "can_learn": false
+  },
+  {
+    "type": "proficiency",
     "id": "prof_gem_setting",
     "name": { "str": "Gem Setting" },
     "description": "How to add gemstones to jewelry.",

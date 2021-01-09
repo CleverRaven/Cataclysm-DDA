@@ -41,12 +41,8 @@
       [ "pouch_autoclave", 10 ],
       [ "mask_dust", 65 ],
       { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
-      [ "glasses_eye", 90 ],
       [ "contacts", 30 ],
-      [ "sunglasses", 90 ],
-      [ "fitover_sunglasses", 60 ],
-      [ "fancy_sunglasses", 5 ],
-      [ "glasses_safety", 40 ],
+      { "group": "clothing_glasses", "prob": 30 },
       [ "file", 10 ],
       [ "textbook_computer", 8 ],
       [ "computer_science", 6 ],
@@ -136,7 +132,8 @@
       { "item": "gasket_plastic", "prob": 10 },
       { "item": "butane_tank", "prob": 15 },
       { "item": "vac_oven_small", "prob": 5 },
-      { "item": "butane_can", "prob": 2 }
+      { "item": "butane_can", "prob": 2 },
+      { "item": "chem_citric_acid", "prob": 16 }
     ]
   },
   {
@@ -221,6 +218,7 @@
       { "item": "chem_chromium_oxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
+      { "item": "chem_citric_acid", "prob": 16, "charges-min": 100 },
       { "item": "denat_alcohol", "prob": 10, "charges-min": 250 }
     ]
   },

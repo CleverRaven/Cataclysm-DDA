@@ -60,6 +60,34 @@ std::string pocket_data::check_definition() const
         type == item_pocket::pocket_type::MIGRATION ) {
         return "";
     }
+    for( const itype_id &it : item_id_restriction ) {
+        if( !it.is_valid() ) {
+            return string_format( "item_id %s used in restriction invalid\n", it.str() );
+        }
+        if( it->phase == phase_id::LIQUID && !watertight ) {
+            return string_format( "restricted to liquid item %s but not watertight\n",
+                                  it->get_id().str() );
+        }
+        if( it->phase == phase_id::GAS && !airtight ) {
+            return string_format( "restricted to gas item %s but not airtight\n",
+                                  it->get_id().str() );
+        }
+    }
+    for( const std::pair<const ammotype, int> &ammo_res : ammo_restriction ) {
+        const ammotype &at = ammo_res.first;
+        if( !at.is_valid() ) {
+            return string_format( "invalid ammotype %s", at.str() );
+        }
+        const itype_id &it = at->default_ammotype();
+        if( it->phase == phase_id::LIQUID && !watertight ) {
+            return string_format( "restricted to liquid item %s but not watertight\n",
+                                  it->get_id().str() );
+        }
+        if( it->phase == phase_id::GAS && !airtight ) {
+            return string_format( "restricted to gas item %s but not airtight\n",
+                                  it->get_id().str() );
+        }
+    }
     if( max_contains_volume() == 0_ml ) {
         return "has zero max volume\n";
     }
@@ -79,30 +107,6 @@ std::string pocket_data::check_definition() const
     if( ( watertight || airtight ) && min_item_volume > 0_ml ) {
         return "watertight or gastight is incompatible with min_item_volume\n";
     }
-    for( const itype_id &it : item_id_restriction ) {
-        if( !it.is_valid() ) {
-            return string_format( "item_id %s used in restriction invalid\n", it.str() );
-        }
-        if( it->phase == phase_id::LIQUID && !watertight ) {
-            return string_format( "restricted to liquid item %s but not watertight\n",
-                                  it->get_id().str() );
-        }
-        if( it->phase == phase_id::GAS && !airtight ) {
-            return string_format( "restricted to gas item %s but not airtight\n",
-                                  it->get_id().str() );
-        }
-    }
-    for( const std::pair<const ammotype, int> &ammo_res : ammo_restriction ) {
-        const itype_id &it = ammo_res.first->default_ammotype();
-        if( it->phase == phase_id::LIQUID && !watertight ) {
-            return string_format( "restricted to liquid item %s but not watertight\n",
-                                  it->get_id().str() );
-        }
-        if( it->phase == phase_id::GAS && !airtight ) {
-            return string_format( "restricted to gas item %s but not airtight\n",
-                                  it->get_id().str() );
-        }
-    }
     return "";
 }
 
@@ -112,6 +116,12 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "ammo_restriction", ammo_restriction );
     optional( jo, was_loaded, "item_restriction", item_id_restriction );
     optional( jo, was_loaded, "allowed_speedloaders", allowed_speedloaders );
+    if( jo.has_member( "ammo_restriction" ) && ammo_restriction.empty() ) {
+        jo.throw_error( "pocket defines empty ammo_restriction" );
+    }
+    if( jo.has_member( "item_restriction" ) && item_id_restriction.empty() ) {
+        jo.throw_error( "pocket defines empty item_restriction" );
+    }
     if( !item_id_restriction.empty() ) {
         std::vector<itype_id> item_restriction;
         mandatory( jo, was_loaded, "item_restriction", item_restriction );
@@ -140,7 +150,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "watertight", watertight, false );
     optional( jo, was_loaded, "airtight", airtight, false );
     optional( jo, was_loaded, "open_container", open_container, false );
-    optional( jo, was_loaded, "flag_restriction", flag_restrictions_str );
+    optional( jo, was_loaded, "flag_restriction", flag_restrictions );
     optional( jo, was_loaded, "rigid", rigid, false );
     optional( jo, was_loaded, "holster", holster );
     optional( jo, was_loaded, "sealed_data", sealed_data );
@@ -174,19 +184,12 @@ bool pocket_data::operator==( const pocket_data &rhs ) const
 
 const pocket_data::FlagsSetType &pocket_data::get_flag_restrictions() const
 {
-    if( !flag_restrictions_str.empty() ) {
-        for( const auto &f : flag_restrictions_str ) {
-            flag_restrictions_int.insert( f );
-        }
-        flag_restrictions_str.clear();
-    }
-    return flag_restrictions_int;
+    return flag_restrictions;
 }
 
-void pocket_data::add_flag_restriction( const flag_str_id &flag )
+void pocket_data::add_flag_restriction( const flag_id &flag )
 {
-    flag_restrictions_str.insert( flag );
-    flag_restrictions_int.insert( flag );
+    flag_restrictions.insert( flag );
 }
 
 bool item_pocket::same_contents( const item_pocket &rhs ) const
@@ -268,12 +271,8 @@ bool item_pocket::has_item_stacks_with( const item &it ) const
 
 bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
 {
-    if( !this->settings.is_null() || !rhs.settings.is_null() ) {
-        // if this has higher player-set priority then it is automatically better
-        return rhs.settings.is_better_favorite( it, this->settings );
-    }
-
     if( this->settings.priority() != rhs.settings.priority() ) {
+        // Priority overrides all other factors.
         return rhs.settings.priority() > this->settings.priority();
     }
 
@@ -281,31 +280,39 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
     if( has_item_stacks_with( it ) != rhs_it_stack ) {
         return rhs_it_stack;
     }
+
     if( data->ammo_restriction.empty() != rhs.data->ammo_restriction.empty() ) {
         // pockets restricted by ammo should try to get filled first
         return !rhs.data->ammo_restriction.empty();
     }
+
     if( data->get_flag_restrictions().empty() != rhs.data->get_flag_restrictions().empty() ) {
         // pockets restricted by flag should try to get filled first
         return !rhs.data->get_flag_restrictions().empty();
     }
+
     if( it.is_comestible() && it.get_comestible()->spoils != 0_seconds ) {
         // a lower spoil multiplier is better
         return rhs.spoil_multiplier() < spoil_multiplier();
     }
+
     if( it.made_of( phase_id::SOLID ) ) {
         if( data->watertight != rhs.data->watertight ) {
             return !rhs.data->watertight;
         }
     }
+
     if( data->rigid != rhs.data->rigid ) {
+        // Prefer rigid containers, as their fixed volume is wasted unless filled
         return rhs.data->rigid;
     }
-    if( remaining_volume() == rhs.remaining_volume() ) {
-        return rhs.obtain_cost( it ) < obtain_cost( it );
+
+    if( remaining_volume() != rhs.remaining_volume() ) {
+        // we want the least amount of remaining volume
+        return rhs.remaining_volume() < remaining_volume();
     }
-    // we want the least amount of remaining volume
-    return rhs.remaining_volume() < remaining_volume();
+
+    return rhs.obtain_cost( it ) < obtain_cost( it );
 }
 
 bool item_pocket::stacks_with( const item_pocket &rhs ) const
@@ -561,7 +568,7 @@ int item_pocket::ammo_consume( int qty )
     int used = 0;
     std::list<item>::iterator it;
     for( it = contents.begin(); it != contents.end(); ) {
-        if( it->has_flag( "CASING" ) ) {
+        if( it->has_flag( flag_CASING ) ) {
             it++;
             continue;
         }
@@ -619,14 +626,14 @@ std::set<ammotype> item_pocket::ammo_types() const
 void item_pocket::casings_handle( const std::function<bool( item & )> &func )
 {
     for( auto it = contents.begin(); it != contents.end(); ) {
-        if( it->has_flag( "CASING" ) ) {
-            it->unset_flag( "CASING" );
+        if( it->has_flag( flag_CASING ) ) {
+            it->unset_flag( flag_CASING );
             if( func( *it ) ) {
                 it = contents.erase( it );
                 continue;
             }
             // didn't handle the casing so reset the flag ready for next call
-            it->set_flag( "CASING" );
+            it->set_flag( flag_CASING );
         }
         ++it;
     }
@@ -955,24 +962,24 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
     bool contents_header = false;
     for( const item &contents_item : contents ) {
-        if( !contents_item.type->mod ) {
-            if( !contents_header ) {
-                info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this pocket</bold>:" ) );
-                contents_header = true;
-            } else {
-                // Separate items with a blank line
-                info.emplace_back( "DESCRIPTION", space );
-            }
+        if( !contents_header ) {
+            info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this pocket</bold>:" ) );
+            contents_header = true;
+        } else {
+            // Separate items with a blank line
+            info.emplace_back( "DESCRIPTION", space );
+        }
 
-            const translation &description = contents_item.type->description;
+        const translation &description = contents_item.type->description;
 
-            if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
-                info.emplace_back( "DESCRIPTION", contents_item.display_name() );
-                info.emplace_back( vol_to_info( "CONTAINER", description + space,
-                                                contents_item.volume() ) );
-            } else {
-                info.emplace_back( "DESCRIPTION", contents_item.display_name() );
-            }
+        if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
+            info.emplace_back( "DESCRIPTION", colorize( contents_item.display_name(),
+                               contents_item.color_in_inventory() ) );
+            info.emplace_back( vol_to_info( "CONTAINER", description + space,
+                                            contents_item.volume() ) );
+        } else {
+            info.emplace_back( "DESCRIPTION", colorize( contents_item.display_name(),
+                               contents_item.color_in_inventory() ) );
         }
     }
 }
@@ -985,7 +992,7 @@ void item_pocket::favorite_info( std::vector<iteminfo> &info )
 ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) const
 {
     // To prevent debugmsg. Casings can only be inserted in a magazine during firing.
-    if( data->type == item_pocket::pocket_type::MAGAZINE && it.has_flag( "CASING" ) ) {
+    if( data->type == item_pocket::pocket_type::MAGAZINE && it.has_flag( flag_CASING ) ) {
         return ret_val<item_pocket::contain_code>::make_success();
     }
 
@@ -1438,6 +1445,14 @@ bool item_pocket::is_valid() const
     return data != nullptr;
 }
 
+units::length item_pocket::max_containable_length() const
+{
+    if( data ) {
+        return data->max_item_length;
+    }
+    return 0_mm;
+}
+
 units::volume item_pocket::contains_volume() const
 {
     units::volume vol = 0_ml;
@@ -1518,7 +1533,8 @@ void item_pocket::favorite_settings::set_priority( const int priority )
 bool item_pocket::favorite_settings::is_null() const
 {
     return item_whitelist.empty() && item_blacklist.empty() &&
-           category_whitelist.empty() && category_blacklist.empty();
+           category_whitelist.empty() && category_blacklist.empty() &&
+           priority() == 0;
 }
 
 void item_pocket::favorite_settings::whitelist_item( const itype_id &id )
@@ -1573,26 +1589,20 @@ void item_pocket::favorite_settings::clear_category( const item_category_id &id 
     category_whitelist.erase( id );
 }
 
-bool item_pocket::favorite_settings::is_better_favorite(
-    const item &it, const item_pocket::favorite_settings &rhs ) const
+bool item_pocket::favorite_settings::accepts_item( const item &it ) const
 {
     const itype_id &id = it.typeId();
     const item_category_id &cat = it.get_category_of_contents().id;
 
-    if( category_blacklist.count( cat ) || item_blacklist.count( id ) ||
-        ( !category_whitelist.empty() && !category_whitelist.count( cat ) ) ||
-        ( !item_whitelist.empty() && !item_whitelist.count( id ) ) ) {
-        return false;
+    bool accept_category = ( category_whitelist.empty() || category_whitelist.count( cat ) ) &&
+                           !category_blacklist.count( cat );
+    if( accept_category ) {
+        // Allowed unless explicitly disallowed by the item filters.
+        return ( item_whitelist.empty() || item_whitelist.count( id ) ) && !item_blacklist.count( id );
+    } else {
+        // Disallowed unless explicitly whitelisted
+        return item_whitelist.count( id );
     }
-    if( rhs.category_blacklist.count( cat ) || rhs.item_blacklist.count( id ) ||
-        ( !rhs.category_whitelist.empty() && !rhs.category_blacklist.count( cat ) ) ||
-        ( !rhs.item_whitelist.empty() && !rhs.item_whitelist.count( id ) ) ) {
-        return true;
-    }
-    if( is_null() != rhs.is_null() ) {
-        return !is_null();
-    }
-    return priority_rating > rhs.priority_rating;
 }
 
 template<typename T>

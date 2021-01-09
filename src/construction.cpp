@@ -141,7 +141,7 @@ static std::map<construction_str_id, construction_id> construction_id_map;
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const construction_group_str_id &group );
 static bool can_construct( const construction &con );
-static bool player_can_build( player &p, const inventory &inv,
+static bool player_can_build( player &p, const read_only_visitable &inv,
                               const construction_group_str_id &group );
 static bool player_can_see_to_build( player &p, const construction_group_str_id &group );
 static void place_construction( const construction_group_str_id &group );
@@ -346,8 +346,10 @@ construction_id construction_menu( const bool blueprint )
     ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
     ctxt.register_action( "RIGHT", to_translation( "Move tab right" ) );
     ctxt.register_action( "LEFT", to_translation( "Move tab left" ) );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "SCROLL_STAGE_UP" );
+    ctxt.register_action( "SCROLL_STAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" );
     ctxt.register_action( "QUIT" );
@@ -602,16 +604,16 @@ construction_id construction_menu( const bool blueprint )
             if( current_construct_breakpoint > 0 ) {
                 // Print previous stage indicator if breakpoint is past the beginning
                 trim_and_print( w_con, point( pos_x, 2 ), available_window_width, c_white,
-                                _( "Press %s to show previous stage(s)." ),
-                                ctxt.get_desc( "PAGE_UP" ) );
+                                _( "Press [<color_yellow>%s</color>] to show previous stage(s)." ),
+                                ctxt.get_desc( "SCROLL_STAGE_UP" ) );
             }
             if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
                                      available_buffer_height ) < full_construct_buffer.size() ) {
                 // Print next stage indicator if more breakpoints are remaining after screen height
                 trim_and_print( w_con, point( pos_x, w_height - 2 - static_cast<int>( notes.size() ) ),
-                                available_window_width,
-                                c_white, _( "Press %s to show next stage(s)." ),
-                                ctxt.get_desc( "PAGE_DOWN" ) );
+                                available_window_width, c_white,
+                                _( "Press [<color_yellow>%s</color>] to show next stage(s)." ),
+                                ctxt.get_desc( "SCROLL_STAGE_DOWN" ) );
             }
             // Leave room for above/below indicators
             int ypos = 3;
@@ -707,6 +709,8 @@ construction_id construction_menu( const bool blueprint )
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
+        const int recmax = static_cast<int>( constructs.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "FILTER" ) {
             string_input_popup popup;
             popup
@@ -732,7 +736,7 @@ construction_id construction_menu( const bool blueprint )
             }
         } else if( action == "DOWN" ) {
             update_info = true;
-            if( select < static_cast<int>( constructs.size() ) - 1 ) {
+            if( select < recmax - 1 ) {
                 select++;
             } else {
                 select = 0;
@@ -742,7 +746,25 @@ construction_id construction_menu( const bool blueprint )
             if( select > 0 ) {
                 select--;
             } else {
-                select = constructs.size() - 1;
+                select = recmax - 1;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            update_info = true;
+            if( select == recmax - 1 ) {
+                select = 0;
+            } else if( select + scroll_rate >= recmax ) {
+                select = recmax - 1;
+            } else {
+                select += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            update_info = true;
+            if( select == 0 ) {
+                select = recmax - 1;
+            } else if( select <= scroll_rate ) {
+                select = 0;
+            } else {
+                select += -scroll_rate;
             }
         } else if( action == "LEFT" ) {
             update_info = true;
@@ -755,14 +777,14 @@ construction_id construction_menu( const bool blueprint )
             update_info = true;
             update_cat = true;
             tabindex = ( tabindex + 1 ) % tabcount;
-        } else if( action == "PAGE_UP" ) {
+        } else if( action == "SCROLL_STAGE_UP" ) {
             if( current_construct_breakpoint > 0 ) {
                 current_construct_breakpoint--;
             }
             if( current_construct_breakpoint < 0 ) {
                 current_construct_breakpoint = 0;
             }
-        } else if( action == "PAGE_DOWN" ) {
+        } else if( action == "SCROLL_STAGE_DOWN" ) {
             if( current_construct_breakpoint < total_project_breakpoints - 1 ) {
                 current_construct_breakpoint++;
             }
@@ -815,7 +837,8 @@ construction_id construction_menu( const bool blueprint )
     return ret;
 }
 
-bool player_can_build( player &p, const inventory &inv, const construction_group_str_id &group )
+bool player_can_build( player &p, const read_only_visitable &inv,
+                       const construction_group_str_id &group )
 {
     // check all with the same group to see if player can build any
     std::vector<construction *> cons = constructions_by_group( group );
@@ -827,7 +850,7 @@ bool player_can_build( player &p, const inventory &inv, const construction_group
     return false;
 }
 
-bool player_can_build( player &p, const inventory &inv, const construction &con )
+bool player_can_build( player &p, const read_only_visitable &inv, const construction &con )
 {
     if( p.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -1056,7 +1079,8 @@ void complete_construction( player *p )
         here.spawn_items( p->pos(), item_group::items_from( *built.byproduct_item_group, calendar::turn ) );
     }
 
-    add_msg( m_info, _( "%s finished construction: %s." ), p->disp_name(), built.group->name() );
+    add_msg( m_info, _( "%s finished construction: %s." ), p->disp_name( false, true ),
+             built.group->name() );
     // clear the activity
     p->activity.set_to_null();
 
@@ -1214,7 +1238,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        if( vp.item == item_id && vp.has_flag( flag_INITIAL_PART ) ) {
+        if( vp.base_item == item_id && vp.has_flag( flag_INITIAL_PART ) ) {
             return vp.get_id();
         }
     }
@@ -1223,7 +1247,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
     // such type anyway).
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
-        if( vp.item == item_id ) {
+        if( vp.base_item == item_id ) {
             return vp.get_id();
         }
     }
@@ -1588,7 +1612,7 @@ void load_construction( const JsonObject &jo )
 
     if( jo.has_member( "byproducts" ) ) {
         con.byproduct_item_group = item_group::load_item_group( jo.get_member( "byproducts" ),
-                                   "collection" );
+                                   "collection", "byproducts of construction " + con.str_id.str() );
     }
 
     static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = {{
@@ -1757,7 +1781,7 @@ void finalize_constructions()
         if( !vp.has_flag( flag_INITIAL_PART ) ) {
             continue;
         }
-        frame_items.push_back( item_comp( vp.item, 1 ) );
+        frame_items.push_back( item_comp( vp.base_item, 1 ) );
     }
 
     if( frame_items.empty() ) {
@@ -1766,7 +1790,7 @@ void finalize_constructions()
 
     for( construction &con : constructions ) {
         if( !con.group.is_valid() ) {
-            debugmsg( "Invalid construction group (%s) defiend for construction (%s)",
+            debugmsg( "Invalid construction group (%s) defined for construction (%s)",
                       con.group.str(), con.str_id.str() );
         }
         if( con.vehicle_start ) {

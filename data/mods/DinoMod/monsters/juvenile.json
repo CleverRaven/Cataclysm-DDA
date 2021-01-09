@@ -190,7 +190,6 @@
     "default_faction": "herbivore_dino",
     "categories": [ "DINOSAUR" ],
     "species": [ "DINOSAUR" ],
-    "diff": 10,
     "volume": "10 L",
     "weight": "10 kg",
     "hp": 10,
@@ -222,6 +221,29 @@
       "CANPLAY"
     ],
     "harvest": "bird_small"
+  },
+  {
+    "id": "mon_nothronychus_juvenile",
+    "type": "MONSTER",
+    "name": "green and magenta two-legged juvenile",
+    "description": "A small bipedal plant-eating dinosaur juvenile with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "herbivore_dino",
+    "copy-from": "mon_gallimimus_juvenile",
+    "color": "green_magenta",
+    "upgrades": { "age_grow": 365, "into": "mon_nothronychus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
   },
   {
     "id": "mon_deinonychus_juvenile",
@@ -635,6 +657,75 @@
       "CANPLAY",
       "SWIMS",
       "AQUATIC"
+    ]
+  },
+  {
+    "id": "mon_qianzhousaurus_juvenile",
+    "type": "MONSTER",
+    "name": "Qianzhousaurus juvenile",
+    "copy-from": "mon_gallimimus_juvenile",
+    "description": "A juvenile Pinnochio Rex, It looks at you with fear and hatred at the same time.",
+    "default_faction": "qianzhousaurus",
+    "color": "green",
+    "upgrades": { "age_grow": 100, "into": "mon_qianzhousaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_kosmoceratops_juvenile",
+    "type": "MONSTER",
+    "name": "Kosmoceratops juvenile",
+    "copy-from": "mon_gallimimus_juvenile",
+    "description": "A juvenile Kosmoceratops, seems relatively harmless as long as you don't anger it.",
+    "default_faction": "herbivore_dino",
+    "color": "brown",
+    "upgrades": { "age_grow": 100, "into": "mon_kosmoceratops" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_amargasaurus_juvenile",
+    "type": "MONSTER",
+    "name": "Amargasaurus juvenile",
+    "copy-from": "mon_gallimimus_juvenile",
+    "description": "A juvenile Amargasaurus, seems unbothered by your presence.",
+    "default_faction": "herbivore_dino",
+    "color": "brown",
+    "upgrades": { "age_grow": 100, "into": "mon_amargasaurus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
     ]
   }
 ]

@@ -79,7 +79,6 @@
     "default_faction": "compsognathus",
     "categories": [ "DINOSAUR" ],
     "species": [ "DINOSAUR" ],
-    "diff": 10,
     "volume": "2 L",
     "weight": "2 kg",
     "hp": 2,
@@ -141,6 +140,14 @@
     "name": "dark gray and yellow hatchling",
     "default_faction": "velociraptor",
     "upgrades": { "age_grow": 20, "into": "mon_velociraptor" }
+  },
+  {
+    "id": "mon_nothronychus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "green and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 40, "into": "mon_nothronychus_juvenile" }
   },
   {
     "id": "mon_deinonychus_hatchling",
@@ -674,5 +681,29 @@
       "SWIMS",
       "AQUATIC"
     ]
+  },
+  {
+    "id": "mon_qianzhousaurus_hatchling",
+    "type": "MONSTER",
+    "name": { "str_sp": "baby Qianzhousaurus" },
+    "copy-from": "mon_compsognathus_hatchling",
+    "default_faction": "qianzhousaurus",
+    "upgrades": { "age_grow": 40, "into": "mon_qianzhousaurus_juvenile" }
+  },
+  {
+    "id": "mon_kosmoceratops_hatchling",
+    "type": "MONSTER",
+    "name": "kosmoceratops hatchling",
+    "copy-from": "mon_compsognathus_hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 56, "into": "mon_kosmoceratops_juvenile" }
+  },
+  {
+    "id": "mon_amargasaurus_hatchling",
+    "type": "MONSTER",
+    "name": "amargasaurus hatchling",
+    "copy-from": "mon_compsognathus_hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 56, "into": "mon_amargasaurus_juvenile" }
   }
 ]

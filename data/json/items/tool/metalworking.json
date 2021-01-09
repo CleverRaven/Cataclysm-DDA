@@ -10,7 +10,7 @@
     "price_postapoc": 2000,
     "to_hit": -5,
     "bashing": 40,
-    "material": [ "iron" ],
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "ANVIL", 3 ] ],
@@ -73,7 +73,7 @@
   {
     "id": "rock_forge_pseudo",
     "type": "TOOL",
-    "name": { "str": "Rock Forge" },
+    "name": { "str": "rock forge" },
     "copy-from": "char_forge",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 40000 } } ]
   },

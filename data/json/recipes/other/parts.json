@@ -14,7 +14,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "blade",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -116,17 +116,20 @@
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "element",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "crude_heating_element",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
-    "skill_used": "electronics",
-    "difficulty": 1,
-    "time": "7 m",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "electronics", 1 ],
+    "time": "3 h",
     "autolearn": [ [ "electronics", 3 ] ],
     "book_learn": [ [ "manual_electronics", 1 ], [ "textbook_electronics", 1 ], [ "advanced_electronics", 1 ] ],
-    "using": [ [ "soldering_standard", 5 ] ],
-    "components": [ [ [ "cable", 40 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -265,7 +268,7 @@
     "result": "sheet_metal",
     "id_suffix": "welding",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -317,7 +320,7 @@
   {
     "result": "xlframe",
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -335,7 +338,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "ugl_buttstock",
     "category": "CC_WEAPON",
     "skill_used": "fabrication",
@@ -445,7 +448,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "drive_by_wire_controls",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -766,5 +769,21 @@
       [ [ "amplifier", 1 ] ],
       [ [ "cable", 2 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "radio_car_wheel",
+    "byproducts": [ [ "scrap", 2 ] ],
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "2 h 30 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 1.25, "fail_multiplier": 1.25 } ],
+    "using": [ [ "surface_heat", 10 ] ],
+    "qualities": [ { "id": "FILE", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "chunk_rubber", 8 ] ], [ [ "superglue", 4 ], [ "bone_glue", 4 ] ], [ [ "wheel_caster", 1 ] ] ]
   }
 ]

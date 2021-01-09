@@ -281,5 +281,27 @@
     "fun": -1,
     "vitamins": [ [ "calcium", 12 ] ],
     "//": "this item will generally inherit its values, so it is essentially a copy of bread"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "brown_bread",
+    "name": { "str_sp": "brown bread" },
+    "weight": "45 g",
+    "color": "brown",
+    "spoils_in": "10 days",
+    "container": "bag_plastic",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": 1,
+    "calories": 74,
+    "description": "A sweet bread, like cake.",
+    "price": "272 cent",
+    "price_postapoc": "4 USD",
+    "material": [ "wheat" ],
+    "volume": "48 ml",
+    "charges": 10,
+    "flags": [ "EATEN_HOT", "EATEN_COLD" ],
+    "fun": 3,
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
   }
 ]

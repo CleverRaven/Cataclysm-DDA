@@ -19,7 +19,7 @@
         " -.--0......0ó.-V,,,Y,, ",
         " ó.--0......0-.- |<,,|  ",
         " ------(:(----.- |||||  ",
-        " -lb..:.Y.:..-.-.       ",
+        " -lb..:.Y.:..-.-        ",
         " -lb.l|...(.0-.-        ",
         " -llll|^.^(.A-.-        ",
         " ----|||:||||-.-------- ",
@@ -50,7 +50,8 @@
           { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] },
           { "item": "drugs_rare", "chance": 60 },
           { "item": "surgery", "chance": 60 }
-        ]
+        ],
+        "?": { "item": "autodoc_supplies", "chance": 100 }
       },
       "monster": { "ö": { "monster": "mon_skitterbot" } },
       "vendingmachines": { "V": { "item_group": "afs_vending_medicine", "reinforced": true } }
@@ -74,9 +75,9 @@
         " ||+|^.....|||||RRRRRRR(",
         " |&.|^hd......Y:.......:",
         " |rs|^.d......Y:.......:",
-        " |||||||:||||||||R>RRRR(",
-        " |Sccl|...|lccS| RRR    ",
-        " |....:.Y.:....|.       ",
+        " |||||||:||||||||R>..RR(",
+        " |Sccl|...|lccS| RRRRR  ",
+        " |....:.Y.:....|        ",
         " |./?.=...=.?/.|        ",
         " |....=^.^=....|        ",
         " |||||||:|||||||---ó--- ",
@@ -130,7 +131,8 @@
           { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] },
           { "item": "drugs_rare", "chance": 60 },
           { "item": "surgery", "chance": 60 }
-        ]
+        ],
+        "?": { "item": "autodoc_supplies", "chance": 100 }
       }
     }
   },
@@ -207,7 +209,8 @@
           { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] },
           { "item": "drugs_rare", "chance": 60 },
           { "item": "surgery", "chance": 60 }
-        ]
+        ],
+        "?": { "item": "autodoc_supplies", "chance": 100 }
       }
     }
   },

@@ -251,11 +251,6 @@
   },
   {
     "type": "item_action",
-    "id": "ANTIASTHMATIC",
-    "name": { "str": "Take" }
-  },
-  {
-    "type": "item_action",
     "id": "ANTIBIOTIC",
     "name": { "str": "Take" }
   },
@@ -457,7 +452,7 @@
   {
     "type": "item_action",
     "id": "EINKTABLETPC",
-    "name": { "str": "Use" }
+    "name": { "str": "Use SD-Card apps" }
   },
   {
     "type": "item_action",
@@ -742,7 +737,7 @@
   {
     "type": "item_action",
     "id": "PORTABLE_GAME",
-    "name": { "ctxt": "PORTABLE_GAME", "str": "Play" }
+    "name": { "ctxt": "PORTABLE_GAME", "str": "Play a game" }
   },
   {
     "type": "item_action",

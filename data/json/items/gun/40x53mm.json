@@ -19,6 +19,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 180,
     "durability": 8,
+    "min_cycle_recoil": 16875,
     "reload": 400,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -31,6 +32,7 @@
     ],
     "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ], [ "AUTO", "auto", 2, "NPC_AVOID" ] ],
     "flags": [ "MOUNTED_GUN" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

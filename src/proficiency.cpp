@@ -7,6 +7,10 @@
 #include "debug.h"
 #include "generic_factory.h"
 
+const float book_proficiency_bonus::default_time_factor = 0.5f;
+const float book_proficiency_bonus::default_fail_factor = 0.5f;
+const float book_proficiency_bonus::default_include_prereqs = true;
+
 namespace
 {
 generic_factory<proficiency> proficiency_factory( "proficiency" );
@@ -109,15 +113,15 @@ std::vector<display_proficiency> proficiency_set::display() const
 {
     // The proficiencies are sorted by whether or not you know them
     // and then alphabetically
-    std::vector<std::pair<proficiency_id, std::string>> sorted_known;
-    std::vector<std::pair<proficiency_id, std::string>> sorted_learning;
+    std::vector<std::pair<std::string, proficiency_id>> sorted_known;
+    std::vector<std::pair<std::string, proficiency_id>> sorted_learning;
 
     for( const proficiency_id &cur : known ) {
-        sorted_known.push_back( { cur, cur->name() } );
+        sorted_known.push_back( { cur->name(), cur } );
     }
 
     for( const learning_proficiency &cur : learning ) {
-        sorted_learning.push_back( { cur.id, cur.id->name() } );
+        sorted_learning.push_back( { cur.id->name(), cur.id } );
     }
 
     std::sort( sorted_known.begin(), sorted_known.end(), localized_compare );
@@ -126,29 +130,29 @@ std::vector<display_proficiency> proficiency_set::display() const
     // Our display_proficiencies, sorted in the order above
     std::vector<display_proficiency> ret;
 
-    for( const std::pair<proficiency_id, std::string> &cur : sorted_known ) {
+    for( const std::pair<std::string, proficiency_id> &cur : sorted_known ) {
         display_proficiency disp;
-        disp.id = cur.first;
+        disp.id = cur.second;
         disp.color = c_white;
         disp.practice = 1.0f;
-        disp.spent = cur.first->time_to_learn();
+        disp.spent = cur.second->time_to_learn();
         disp.known = true;
         ret.insert( ret.end(), disp );
     }
 
-    for( const std::pair<proficiency_id, std::string> &cur : sorted_learning ) {
+    for( const std::pair<std::string, proficiency_id> &cur : sorted_learning ) {
         display_proficiency disp;
-        disp.id = cur.first;
+        disp.id = cur.second;
         disp.color = c_light_gray;
         time_duration practiced;
         for( const learning_proficiency &cursor : learning ) {
-            if( cursor.id == cur.first ) {
+            if( cursor.id == cur.second ) {
                 practiced = cursor.practiced;
                 break;
             }
         }
         disp.spent = practiced;
-        disp.practice = practiced / cur.first->time_to_learn();
+        disp.practice = practiced / cur.second->time_to_learn();
         disp.known = false;
         ret.insert( ret.end(), disp );
     }
@@ -345,7 +349,7 @@ void proficiency_set::deserialize( JsonIn &jsin )
 
 void proficiency_set::deserialize_legacy( const JsonArray &jo )
 {
-    for( const std::string &prof : jo ) {
+    for( const std::string prof : jo ) {
         known.insert( proficiency_id( prof ) );
     }
 }
@@ -366,4 +370,98 @@ void learning_proficiency::deserialize( JsonIn &jsin )
 
     jo.read( "id", id );
     jo.read( "practiced", practiced );
+}
+
+void book_proficiency_bonus::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+
+    mandatory( jo, was_loaded, "proficiency", id );
+    optional( jo, was_loaded, "fail_factor", fail_factor, default_fail_factor );
+    optional( jo, was_loaded, "time_factor", time_factor, default_time_factor );
+    optional( jo, was_loaded, "include_prereqs", include_prereqs, default_include_prereqs );
+}
+
+book_proficiency_bonus &book_proficiency_bonus::operator+=( const book_proficiency_bonus &rhs )
+{
+    if( !id.is_empty() && id != rhs.id ) {
+        debugmsg( "ERROR: Tried to add two book proficiency bonuses with different ids" );
+        // can't add them together unless the ids are the same
+        return *this;
+    }
+    fail_factor += rhs.fail_factor;
+    time_factor += rhs.time_factor;
+    // includ_prereqs is not included
+    return *this;
+}
+
+void book_proficiency_bonuses::add( const book_proficiency_bonus &bonus )
+{
+    std::set<proficiency_id> ret;
+    add( bonus, ret );
+}
+
+void book_proficiency_bonuses::add( const book_proficiency_bonus &bonus,
+                                    std::set<proficiency_id> &already_included )
+{
+    bonuses.push_back( bonus );
+    if( bonus.include_prereqs ) {
+        for( const proficiency_id &prereqs : bonus.id->required_proficiencies() ) {
+            if( !already_included.count( prereqs ) ) {
+                already_included.emplace( prereqs );
+                book_proficiency_bonus inherited_bonus = bonus;
+                inherited_bonus.id = prereqs;
+                add( inherited_bonus );
+            }
+        }
+    }
+}
+
+book_proficiency_bonuses &book_proficiency_bonuses::operator+=( const book_proficiency_bonuses
+        &rhs )
+{
+    for( const book_proficiency_bonus &bonus : rhs.bonuses ) {
+        add( bonus );
+    }
+    return *this;
+}
+
+float book_proficiency_bonuses::fail_factor( const proficiency_id &id ) const
+{
+    float ret = 0.0f;
+    bool found_bonus = false;
+
+    for( const book_proficiency_bonus &bonus : bonuses ) {
+        if( id != bonus.id ) {
+            continue;
+        }
+        found_bonus = true;
+        ret += std::pow( 1 - bonus.fail_factor, 2 );
+    }
+
+    if( !found_bonus ) {
+        return 1.0f;
+    }
+
+    return 1 - std::sqrt( ret );
+}
+
+float book_proficiency_bonuses::time_factor( const proficiency_id &id ) const
+{
+    float ret = 0.0f;
+    bool found_bonus = false;
+
+    for( const book_proficiency_bonus &bonus : bonuses ) {
+        if( id != bonus.id ) {
+            continue;
+        }
+        found_bonus = true;
+        ret += std::pow( 1 - bonus.time_factor, 2 );
+    }
+
+    if( !found_bonus ) {
+        return 1.0f;
+    }
+
+    return 1 - std::sqrt( ret );
 }

@@ -67,6 +67,23 @@
   },
   {
     "type": "furniture",
+    "id": "f_afs_escape_pod_seat",
+    "name": "escape pod seat",
+    "copy-from": "f_seat_airplane",
+    "description": "The cushioned and upright facing seat of single-seater escape pod.  A storage space beneath it holds survival supplies.",
+    "symbol": "H",
+    "color": "light_red",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "comfort": 3,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "deconstruct": { "items": [ { "item": "pipe", "count": 10 }, { "item": "rag", "count": [ 30, 33 ] }, { "item": "rope_6" } ] },
+    "required_str": 20
+  },
+  {
+    "type": "furniture",
     "id": "f_autodoc_super",
     "name": "chirurgic suite",
     "symbol": "&",
@@ -245,6 +262,34 @@
   },
   {
     "type": "furniture",
+    "id": "f_cooling_pylon",
+    "name": "cryo pylon",
+    "symbol": "#",
+    "description": "This super chilled pylon is so cold it seems to pull in warmth towards itself and create a light breeze of freezing air.",
+    "color": "light_cyan",
+    "move_cost_mod": 15,
+    "coverage": 80,
+    "required_str": -1,
+    "looks_like": "t_column",
+    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "emissions": [ "emit_glimmer", "emit_cold_air2_stream" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "clang!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "afs_energy_storage_3", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 40, 55 ] },
+        { "item": "afs_material_2", "count": [ 10, 20 ] },
+        { "item": "afs_magnet_2", "count": [ 1, 3 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_crispr",
     "name": "CRISPR Biolab",
     "symbol": "&",
@@ -286,6 +331,29 @@
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
         { "item": "afs_material_1", "count": [ 2, 6 ], "prob": 50 }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nano_forge",
+    "name": "nano forge",
+    "looks_like": "f_forge",
+    "description": "Matrioshka Fabritechnics created this portable nanotech forge for when expeditions are setting up a basecamp far from population centers.  Once deployed it can be used to craft ultratech marvels that otherwise are too minute for human crafting.  Often used in combination with a diamond press.",
+    "symbol": "*",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "crafting_pseudo_item": "nano_pseudo_forge",
+    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "nano_forge", "count": 1 } ] },
+    "examine_action": "reload_furniture",
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "nano_forge", "count": 1 } ]
     }
   },
   {
@@ -406,6 +474,570 @@
         { "item": "afs_circuitry_2", "count": [ 1, 2 ] },
         { "item": "afs_magnet_1", "count": [ 4, 14 ] },
         { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_mil_comms_terminal",
+    "name": "military SICC terminal",
+    "description": "Console interface for a Standard Interstellar Communications Cluster.  With the machine connected to it broken, it can only be salvaged for parts.",
+    "looks_like": "f_console",
+    "symbol": "?",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "deconstruct": {
+      "items": [
+        { "item": "large_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ] },
+        { "item": "processor", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 2, 4 ] },
+        { "item": "e_scrap", "count": [ 1, 3 ] },
+        { "item": "circuit", "count": [ 1, 2 ] },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 2 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 1 ] },
+        { "item": "processor", "count": [ 0, 1 ] },
+        { "item": "cable", "charges": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 1, 2 ] },
+        { "item": "circuit", "count": [ 0, 1 ] },
+        { "item": "power_supply", "count": 1, "prob": 25 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_mil_comms_process",
+    "name": "military SICC master computing array",
+    "description": "A massive metal construct reaching as high as the ceiling, this Master Computing Array of a Standard Interstellar Communications Cluster used to be the pinnacle of quantum waveform manipulation technology.  Now, though, it's nothing more than a box full of delicious electronics.",
+    "looks_like": "f_server",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost_mod": -10,
+    "coverage": 100,
+    "required_str": -1,
+    "flags": [ "BLOCKSDOOR", "NOITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "pipe", "count": [ 4, 8 ] },
+        { "item": "pipe_fittings", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 15, 35 ] },
+        { "item": "afs_circuitry_1", "count": [ 2, 4 ] },
+        { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
+        { "item": "afs_circuitry_3", "count": [ 2, 4 ] },
+        { "item": "afs_energy_storage_1", "count": [ 1, 2 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 2, 4 ] },
+        { "item": "afs_heat_4", "count": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 4, 8 ] },
+        { "item": "circuit", "count": [ 1, 3 ] },
+        { "item": "processor", "count": [ 1, 3 ] },
+        { "item": "RAM", "count": [ 1, 3 ] },
+        { "item": "power_supply", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 3 ] },
+        { "item": "pipe_fittings", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 5, 15 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "afs_energy_storage_1", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 2 ] },
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "afs_heat_4", "count": [ 0, 1 ], "prob": 10 },
+        { "item": "e_scrap", "count": [ 4, 8 ] },
+        { "item": "circuit", "count": [ 0, 1 ] },
+        { "item": "processor", "count": [ 0, 1 ] },
+        { "item": "RAM", "count": [ 0, 2 ] },
+        { "item": "power_supply", "count": 1, "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_mil_comms_process_broken",
+    "name": "sabotaged military SICC master computing array",
+    "description": "Vandalized remains of a Standard Interstellar Communications Cluster.  Wires and connectors spill out from a torn side panel, revealing the mangled carcass of a century-old beast.  Although stripped of its core components, careful searching may reveal useful electronics for scavengers like you.",
+    "looks_like": "f_server",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost_mod": -10,
+    "coverage": 100,
+    "required_str": -1,
+    "flags": [ "BLOCKSDOOR", "NOITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 3, 4 ] },
+        { "item": "pipe", "count": [ 3, 6 ] },
+        { "item": "pipe_fittings", "count": [ 0, 4 ] },
+        { "item": "cable", "charges": [ 10, 20 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 3 ], "prob": 70 },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 25 },
+        { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 50 },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 3 ], "prob": 50 },
+        { "item": "afs_heat_4", "count": 1, "prob": 10 },
+        { "item": "e_scrap", "count": [ 2, 6 ] },
+        { "item": "circuit", "count": [ 0, 3 ] },
+        { "item": "processor", "count": [ 0, 2 ] },
+        { "item": "RAM", "count": [ 0, 3 ] },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 3 ] },
+        { "item": "pipe_fittings", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_mil_comms_sat",
+    "name": "military SICC satellite link",
+    "description": "A large satellite dish mounted on a towering amplification platform, linked to an orbital satellite that probably doesn't exist anymore.  Although the satellite dish is of little use due to the unorthodox geometry, the amplifier circuitry will prove invaluable for high-energy gadgets.",
+    "looks_like": "f_satellite",
+    "symbol": "(",
+    "color": "light_gray",
+    "move_cost_mod": -10,
+    "coverage": 60,
+    "required_str": -1,
+    "flags": [ "BLOCKSDOOR", "NOITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "pipe", "count": [ 4, 6 ] },
+        { "item": "rebar", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 3 ] },
+        { "item": "cable", "charges": [ 10, 18 ] },
+        { "item": "pipe_fittings", "count": [ 2, 4 ] },
+        { "item": "motor", "count": [ 0, 1 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 4 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ] },
+        { "item": "afs_energy_storage_1", "count": [ 1, 2 ] },
+        { "item": "e_scrap", "count": [ 2, 4 ] },
+        { "item": "circuit", "count": [ 1, 2 ] },
+        { "item": "power_supply", "count": [ 1, 2 ] },
+        { "item": "amplifier", "count": [ 1, 2 ] },
+        { "item": "transponder", "count": [ 1, 2 ] },
+        { "item": "receiver", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 2, 3 ] },
+        { "item": "rebar", "count": [ 2, 3 ] },
+        { "item": "scrap", "count": [ 6, 12 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 6 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "pipe_fittings", "count": [ 0, 4 ], "prob": 50 },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ], "prob": 25 },
+        { "item": "afs_circuitry_2", "count": [ 0, 1 ], "prob": 25 },
+        { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 25 },
+        { "item": "e_scrap", "count": [ 3, 4 ] },
+        { "item": "processor", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "count": [ 0, 1 ], "prob": 25 },
+        { "item": "amplifier", "count": [ 0, 1 ], "prob": 25 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_mil_comms_power",
+    "name": "military SICC power supply",
+    "description": "Dedicated power supply module for a Standard Interstellar Communications Cluster.  Capable of drawing thousands of watts during operation, it requires a dedicated heat dissipation array to function normally.",
+    "looks_like": "f_server",
+    "symbol": "+",
+    "color": "light_gray",
+    "move_cost_mod": -10,
+    "coverage": 100,
+    "required_str": -1,
+    "flags": [ "BLOCKSDOOR", "NOITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "scrap_copper", "count": [ 4, 8 ] },
+        { "item": "pipe", "count": [ 4, 8 ] },
+        { "item": "pipe_fittings", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 15, 35 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 3 ] },
+        { "item": "afs_circuitry_2", "count": [ 2, 4 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 3 ] },
+        { "item": "afs_energy_storage_3", "count": [ 1, 2 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 4, 5 ] },
+        { "item": "afs_heat_4", "count": [ 2, 6 ] },
+        { "item": "e_scrap", "count": [ 2, 4 ] },
+        { "item": "circuit", "count": [ 1, 2 ] },
+        { "item": "processor", "count": [ 1, 2 ] },
+        { "item": "RAM", "count": [ 1, 2 ] },
+        { "item": "power_supply", "count": [ 2, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 2, 6 ] },
+        { "item": "scrap_copper", "count": [ 4, 6 ] },
+        { "item": "pipe", "count": [ 2, 4 ] },
+        { "item": "pipe_fittings", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 5, 15 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "afs_energy_storage_2", "count": [ 0, 1 ] },
+        { "item": "afs_energy_storage_3", "count": [ 0, 1 ], "prob": 50 },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 2 ] },
+        { "item": "afs_heat_2", "count": [ 0, 2 ] },
+        { "item": "afs_heat_4", "count": [ 0, 1 ], "prob": 50 },
+        { "item": "e_scrap", "count": [ 0, 4 ] },
+        { "item": "power_supply", "count": [ 0, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_mil_comms_power_broken",
+    "name": "destroyed military SICC power supply",
+    "description": "An incoherent mess of molten polymer and charred metamaterial, this badly damaged module used to be the power supply for a Standard Interstellar Communications Cluster.  It seems to have undergone a catastrophic overload event, which is weird considering the array of failsafes these things are equipped with.",
+    "looks_like": "f_server",
+    "symbol": "+",
+    "color": "light_gray",
+    "move_cost_mod": -10,
+    "coverage": 100,
+    "required_str": -1,
+    "flags": [ "BLOCKSDOOR", "NOITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "scrap_copper", "count": [ 2, 3 ] },
+        { "item": "plastic_chunk", "count": [ 4, 8 ] },
+        { "item": "pipe", "count": [ 3, 5 ] },
+        { "item": "pipe_fittings", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 3 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "afs_heat_4", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "e_scrap", "count": [ 2, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "processor", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "RAM", "count": [ 1, 2 ], "prob": 50 },
+        { "item": "power_supply", "count": [ 0, 2 ], "prob": 50 }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 5, 10 ] },
+        { "item": "steel_chunk", "count": [ 5, 10 ] },
+        { "item": "scrap_copper", "count": [ 0, 4 ] },
+        { "item": "pipe", "count": [ 0, 2 ] },
+        { "item": "pipe_fittings", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 0, 5 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
+        { "item": "afs_energy_storage_2", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2", "count": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_mil_comms_heatsink",
+    "name": "military SICC heat dissipation array",
+    "description": "A miniature forest of metallic fins and sparkling panels, this is a dedicated heat dissipation module for a Standard Interstellar Communications Cluster.  It is installed outside to utilize the frigid air for maximum cooling.",
+    "looks_like": "f_rack",
+    "symbol": "=",
+    "color": "light_gray",
+    "move_cost_mod": -10,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "BLOCKSDOOR", "NOITEM" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "scrap_copper", "count": [ 6, 12 ] },
+        { "item": "pipe", "count": [ 5, 15 ] },
+        { "item": "pipe_fittings", "count": [ 5, 15 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 5, 10 ] },
+        { "item": "afs_heat_3", "count": [ 10, 25 ] },
+        { "item": "afs_heat_4", "count": [ 3, 6 ] },
+        { "item": "circuit", "count": [ 0, 1 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "crash!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "scrap_copper", "count": [ 3, 10 ] },
+        { "item": "pipe", "count": [ 0, 5 ] },
+        { "item": "pipe_fittings", "count": [ 0, 5 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 3 ] },
+        { "item": "afs_heat_2", "count": [ 0, 2 ] },
+        { "item": "afs_heat_3", "count": [ 0, 10 ], "prob": 50 },
+        { "item": "afs_heat_4", "count": [ 0, 1 ], "prob": 15 },
+        { "item": "circuit", "count": [ 0, 1 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_toposcan_terminal",
+    "name": "DIRT data interface",
+    "description": "All-in-one integrated console for a Driving Intelligent Realtime Topography rover-mounted vehicular terrain scanner system.  In other words, useless display monitor.",
+    "looks_like": "f_console",
+    "symbol": "?",
+    "color": "light_gray",
+    "move_cost_mod": -6,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "large_lcd_screen", "count": 1 },
+        { "item": "small_lcd_screen", "count": 2 },
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 2, 4 ] },
+        { "item": "e_scrap", "count": [ 1, 3 ] },
+        { "item": "circuit", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "small_lcd_screen", "count": 1, "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 2, 3 ] },
+        { "item": "afs_circuitry_1", "count": 1, "prob": 50 },
+        { "item": "cable", "charges": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 0, 1 ] },
+        { "item": "circuit", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_toposcan_process",
+    "name": "DIRT computation core",
+    "description": "Data analysis and computing core for a DIRT terrain scanner system.  Rugged design and internal shock absorbers help this hefty metal box withstand extreme cold and harsh driving conditions.",
+    "looks_like": "f_server",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost_mod": -6,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 5, 20 ] },
+        { "item": "afs_circuitry_2", "count": [ 1, 8 ] },
+        { "item": "afs_circuitry_3", "count": [ 1, 4 ] },
+        { "item": "afs_energy_storage_1", "count": [ 1, 2 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 2, 4 ] },
+        { "item": "afs_heat_4", "count": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 4, 8 ] },
+        { "item": "circuit", "count": [ 1, 3 ] },
+        { "item": "processor", "count": [ 1, 3 ] },
+        { "item": "RAM", "count": [ 1, 3 ] },
+        { "item": "power_supply", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 0, 4 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 3 ] },
+        { "item": "cable", "charges": [ 5, 15 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "afs_energy_storage_1", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 2 ] },
+        { "item": "afs_heat_4", "count": [ 0, 1 ], "prob": 10 },
+        { "item": "e_scrap", "count": [ 4, 8 ] },
+        { "item": "circuit", "count": [ 0, 1 ] },
+        { "item": "processor", "count": [ 0, 1 ] },
+        { "item": "RAM", "count": [ 0, 2 ] },
+        { "item": "power_supply", "count": 1, "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_toposcan_process_broken",
+    "name": "dismantled DIRT computation core",
+    "description": "It seems that you are not the first one to think of dismantling this precious metal box for the goodies inside - The top lid of this DIRT computational core is missing, and the hollowed-out insides are clearly visible from the opening.",
+    "looks_like": "f_server",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost_mod": -6,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 3, 4 ] },
+        { "item": "cable", "charges": [ 10, 20 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 3 ], "prob": 70 },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ], "prob": 25 },
+        { "item": "afs_energy_storage_1", "count": [ 0, 1 ], "prob": 50 },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 3 ], "prob": 50 },
+        { "item": "afs_heat_4", "count": 1, "prob": 10 },
+        { "item": "e_scrap", "count": [ 2, 6 ] },
+        { "item": "circuit", "count": [ 0, 3 ] },
+        { "item": "processor", "count": [ 0, 2 ] },
+        { "item": "RAM", "count": [ 0, 3 ] },
+        { "item": "power_supply", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 3 ] },
+        { "item": "pipe_fittings", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 5, 10 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 3 ] },
+        { "item": "afs_heat_2_salvage", "count": [ 0, 1 ] },
+        { "item": "afs_heat_2", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_toposcan_scanner",
+    "name": "DIRT scanner array",
+    "description": "Mounted on a self-stabilizing gymbal, this high-tech sphere is full of various sensors and scanners that automatically map out the surrounding terrain with an amazing accuracy.",
+    "looks_like": "f_satellite",
+    "symbol": "{",
+    "color": "light_gray",
+    "move_cost_mod": -6,
+    "coverage": 50,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "frame", "count": 1 },
+        { "item": "rebar", "count": [ 1, 2 ] },
+        { "item": "spring", "count": [ 2, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "cable", "charges": [ 10, 18 ] },
+        { "item": "afs_circuitry_1", "count": [ 1, 4 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 2 ] },
+        { "item": "afs_circuitry_4", "count": 1, "prob": 25 },
+        { "item": "e_scrap", "count": [ 2, 4 ] },
+        { "item": "circuit", "count": [ 1, 2 ] },
+        { "item": "power_supply", "count": [ 1, 2 ] },
+        { "item": "amplifier", "count": [ 1, 2 ] },
+        { "item": "transponder", "count": [ 1, 2 ] },
+        { "item": "receiver", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 2, 4 ] },
+        { "item": "rebar", "count": 1 },
+        { "item": "spring", "count": [ 0, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 0, 10 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
+        { "item": "afs_circuitry_2", "count": [ 0, 2 ] },
+        { "item": "e_scrap", "count": [ 2, 4 ] },
+        { "item": "circuit", "count": [ 1, 2 ] },
+        { "item": "amplifier", "count": [ 1, 2 ] }
       ]
     }
   }

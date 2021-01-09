@@ -14,6 +14,22 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "roasted_cattail_rhizome",
+    "name": { "str": "roasted cattail rhizome" },
+    "copy-from": "cattail_rhizome",
+    "weight": "160 g",
+    "volume": "220 ml",
+    "color": "black",
+    "calories": 280,
+    "spoils_in": "5 days",
+    "description": "A roasted root from a cattail plant.  Its fibrous outer core is charred black, you can remove it and chew on the dry inside.",
+    "fun": -1,
+    "delete": { "flags": [ "RAW" ] },
+    "//": "The flag below implies that part of root got burned and has to be removed",
+    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "starch",
     "name": { "str_sp": "starch" },
     "weight": "180 g",
@@ -28,6 +44,7 @@
     "price_postapoc": 10,
     "material": [ "veggy" ],
     "volume": "250 ml",
+    "milling": { "into": "flour", "conversion_rate": 15 },
     "fun": -14,
     "vitamins": [  ],
     "flags": [ "EDIBLE_FROZEN" ]
@@ -169,7 +186,7 @@
   {
     "type": "COMESTIBLE",
     "id": "can_corn",
-    "name": { "str_sp": "corn" },
+    "name": { "str_sp": "canned corn" },
     "comestible_type": "FOOD",
     "weight": "178 g",
     "color": "yellow",
@@ -440,7 +457,7 @@
     "weight": "240 g",
     "color": "brown",
     "spoils_in": "3 days",
-    "container": "box_medium",
+    "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 5,

@@ -74,7 +74,8 @@
       [ "clamp", 10 ],
       [ "sandpaper", 80 ],
       [ "rake", 15 ],
-      [ "rake_plastic", 25 ]
+      [ "rake_plastic", 25 ],
+      { "group": "writing_utensils", "prob": 5 }
     ]
   },
   {
@@ -83,6 +84,7 @@
     "//": "A typical toolbox filled with tools.",
     "subtype": "collection",
     "container-item": "toolbox_empty",
+    "on_overflow": "discard",
     "items": [
       [ "hammer", 80 ],
       [ "screwdriver_set", 65 ],
@@ -97,7 +99,8 @@
     "type": "item_group",
     "//": "A typical toolbox filled with tools.",
     "subtype": "collection",
-    "container-item": "toolbox_empty",
+    "container-item": "toolbox_workshop_empty",
+    "on_overflow": "discard",
     "items": [
       [ "hammer", 80 ],
       [ "screwdriver_set", 65 ],
@@ -300,6 +303,68 @@
     ]
   },
   {
+    "id": "full_survival_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "survival_kit_box",
+    "items": [
+      { "item": "knife_folding" },
+      { "item": "flint_steel" },
+      { "item": "whistle_multitool" },
+      { "item": "glowstick", "charges": 1400 },
+      { "item": "handflare", "count": 4, "charges": 300 },
+      { "item": "pur_tablets", "charges": 15 },
+      { "item": "pocket_survival" }
+    ]
+  },
+  {
+    "id": "used_survival_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "survival_kit_box",
+    "items": [
+      { "item": "knife_folding", "prob": 40 },
+      { "item": "flint_steel", "prob": 50 },
+      { "item": "whistle_multitool", "prob": 70 },
+      { "item": "glowstick", "charges": 1400, "prob": 60 },
+      { "item": "handflare", "count": [ 0, 4 ], "charges": 300 },
+      { "item": "pur_tablets", "charges": [ 0, 15 ] },
+      { "item": "pocket_survival", "prob": 40 }
+    ]
+  },
+  {
+    "id": "full_1st_aid",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "1st_aid_box",
+    "items": [
+      { "item": "medical_tape", "charges": 20 },
+      { "item": "aspirin", "charges": 10 },
+      { "item": "disinfectant" },
+      { "item": "saline" },
+      { "item": "adhesive_bandages", "charges": 6 },
+      { "item": "bandages", "charges": 3 },
+      { "item": "medical_gauze", "count": 6 },
+      { "item": "booklet_firstaid" }
+    ]
+  },
+  {
+    "id": "used_1st_aid",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "1st_aid_box",
+    "items": [
+      { "item": "medical_tape", "charges": [ 0, 20 ] },
+      { "item": "aspirin", "charges": [ 0, 10 ] },
+      { "item": "disinfectant", "prob": 20 },
+      { "item": "saline", "prob": 60 },
+      { "item": "adhesive_bandages", "charges": [ 0, 6 ] },
+      { "item": "bandages", "charges": [ 0, 3 ] },
+      { "item": "medical_gauze", "count": [ 0, 6 ] },
+      { "item": "booklet_firstaid", "prob": 50 }
+    ]
+  },
+  {
     "id": "tools_medical",
     "type": "item_group",
     "//": "Portable medical equipment for doctors and paramedics (excludes consumables)",
@@ -311,6 +376,40 @@
       [ "thermometer", 50 ],
       [ "vacutainer", 50 ],
       [ "bag_body_bag", 10 ]
+    ]
+  },
+  {
+    "id": "full_ifak",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ifak_pouch",
+    "items": [
+      { "item": "medical_tape", "charges": 20 },
+      { "item": "tourniquet_upper" },
+      { "item": "quikclot", "charges": 5 },
+      { "item": "bandages", "charges": 3, "count": 3 },
+      { "item": "medical_gauze", "count": 3 },
+      { "item": "adhesive_bandages", "charges": 3 },
+      { "item": "pur_tablets", "charges": 3 },
+      { "item": "gloves_medical" },
+      { "item": "scissors" }
+    ]
+  },
+  {
+    "id": "used_ifak",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ifak_pouch",
+    "items": [
+      { "item": "medical_tape", "charges": [ 0, 20 ] },
+      { "item": "tourniquet_upper", "prob": 20 },
+      { "item": "quikclot", "charges": [ 0, 5 ] },
+      { "item": "bandages", "charges": [ 0, 3 ], "count": [ 0, 3 ] },
+      { "item": "medical_gauze", "count": [ 0, 3 ] },
+      { "item": "adhesive_bandages", "charges": [ 0, 3 ] },
+      { "item": "pur_tablets", "charges": [ 0, 3 ] },
+      { "item": "gloves_medical", "prob": 50 },
+      { "item": "scissors", "prob": 30 }
     ]
   },
   {
@@ -472,7 +571,8 @@
       [ "xacto", 4 ],
       [ "cotton_ball", 4 ],
       { "group": "ammo_any_batteries_full", "prob": 50 },
-      [ "acetylene_machine", 1 ]
+      [ "acetylene_machine", 1 ],
+      { "group": "writing_utensils", "prob": 5 }
     ]
   },
   {
@@ -524,7 +624,8 @@
       { "group": "tools_toolbox", "prob": 5 },
       [ "tool_belt", 10 ],
       [ "clamp", 10 ],
-      [ "wrench", 10 ]
+      [ "wrench", 10 ],
+      { "group": "writing_utensils", "prob": 5 }
     ]
   },
   {

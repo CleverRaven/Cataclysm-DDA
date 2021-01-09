@@ -113,7 +113,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "460_casing",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
@@ -129,7 +129,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "380_casing",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
@@ -145,7 +145,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "300blk_casing",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",

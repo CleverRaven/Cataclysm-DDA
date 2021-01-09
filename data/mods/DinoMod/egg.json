@@ -107,6 +107,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_nothronychus",
+    "name": "nothronychus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_nothronychus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_deinonychus",
     "name": "deinonychus egg",
     "copy-from": "egg_dino",
@@ -307,5 +314,26 @@
     "name": "mosasaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_mosasaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_qianzhousaurus",
+    "name": "qianzhousaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_qianzhousaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_amargasaurus",
+    "name": "amargasaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_amargasaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_kosmoceratops",
+    "name": "kosmoceratops egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_kosmoceratops"
   }
 ]

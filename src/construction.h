@@ -55,7 +55,7 @@ struct construction {
         std::string post_terrain;
 
         // Item group of byproducts created by the construction on success.
-        cata::optional<std::string> byproduct_item_group;
+        cata::optional<item_group_id> byproduct_item_group;
 
         // Flags beginning terrain must have
         std::set<std::string> pre_flags;
@@ -116,7 +116,7 @@ void reset_constructions();
 construction_id construction_menu( bool blueprint );
 void complete_construction( player *p );
 bool can_construct( const construction &con, const tripoint &p );
-bool player_can_build( player &p, const inventory &inv, const construction &con );
+bool player_can_build( player &p, const read_only_visitable &inv, const construction &con );
 void check_constructions();
 void finalize_constructions();
 

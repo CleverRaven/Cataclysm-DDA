@@ -18,7 +18,7 @@
   {
     "result": "bandages_makeshift",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "tailor",
@@ -44,7 +44,7 @@
   {
     "result": "bandages_makeshift_boiled",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "firstaid",
@@ -59,7 +59,7 @@
   {
     "result": "adhesive_bandages",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "firstaid",
@@ -73,7 +73,7 @@
   {
     "result": "tourniquet_upper",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "firstaid",
@@ -129,7 +129,7 @@
   {
     "result": "mugwort_oil",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "chemistry",
@@ -145,7 +145,7 @@
   {
     "result": "thyme_oil",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "chemistry",
@@ -160,8 +160,9 @@
   },
   {
     "result": "cattail_jelly",
+    "byproducts": [ [ "plant_fibre" ] ],
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "survival",
@@ -253,7 +254,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "makeshift_stethoscope",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",

@@ -102,12 +102,13 @@ Below is a table of currently implemented effects, along with special rules for 
 | `spawn_item` | spawns an item that will disappear at the end of its duration.  Default duration is 0.
 | `summon` | summons a monster ID or group ID from `effect_str` that will disappear at the end of its duration.  Default duration is 0.
 | `teleport_random` | teleports the player randomly range spaces with aoe variation
+| `targeted_polymorph` | A targeted monster is permanently transformed into the monster ID specified by  `effect_str` if it has less HP than the spell's damage. If `effect_str` is left empty, the target will transform into a random monster with a similar difficulty rating, alternatively  the flag `"POLYMORPH_GROUP"` can be used to pick a weighted monster ID from a monster group. The player and NPCs are immune to this spell effect.
 | `recover_energy` | recovers an energy source equal to damage of the spell. The energy source recovered is defined in "effect_str" and may be one of "MANA", "STAMINA", "FATIGUE", "PAIN", "BIONIC"
 | `ter_transform` | transform the terrain and furniture in an area centered at the target.  The chance of any one of the points in the area of effect changing is one_in( damage ).  The effect_str is the id of a ter_furn_transform.
 | `vomit` | any creature within its area of effect will instantly vomit, if it's able to do so.
 | `timed_event` | adds a timed event to the player only. valid timed events: "help", "wanted", "robot_attack", "spawn_wyrms", "amigara", "roots_die", "temple_open", "temple_flood", "temple_spawn", "dim", "artifact_light" NOTE: This was added only for artifact active effects. support is limited, use at your own risk.
 | `explosion` | an explosion is centered on the target, with power damage() and factor aoe()/10
-| `flashbang` | a flashbang effect is centered on the target, with poewr damage() and factor aoe()/10
+| `flashbang` | a flashbang effect is centered on the target, with power damage() and factor aoe()/10
 | `mod_moves` | adds damage() moves to the target. can be negative to "freeze" the target for that amount of time
 | `map` | maps the overmap centered on the player out to a radius of aoe()
 | `morale` | gives a morale effect to all npcs or avatar within aoe, with value damage(). decay_start is duration() / 10.
@@ -149,6 +150,8 @@ Spells may have any number of flags, for example:
 | `SWAP_POS` | a projectile spell swaps the positions of the caster and target
 | `HOSTILE_SUMMON` | summon spell always spawns a hostile monster
 | `HOSTILE_50` | summoned monster spawns friendly 50% of the time
+| `FRIENDLY_POLY` | the target of a `targeted_polymorph` spell will become friendly to the caster if the spell resolves successfully.
+| `POLYMORPH_GROUP` | a `targeted_polymorph` spell will transform the target into random monster from the monster group ID matching `effect_str`.
 | `SILENT` | spell makes no noise at target
 | `LOUD` | spell makes extra noise at target
 | `VERBAL` | spell makes noise at caster location, mouth encumbrance affects fail %
@@ -509,6 +512,9 @@ Effects for the item that has the enchantment:
 * ITEM_DAMAGE_ELEC
 * ITEM_DAMAGE_ACID
 * ITEM_DAMAGE_BIO
+
+The damage enchantment values are for melee only.
+
 * ITEM_DAMAGE_AP
 * ITEM_ARMOR_BASH
 * ITEM_ARMOR_CUT
@@ -524,3 +530,12 @@ Effects for the item that has the enchantment:
 * ITEM_COVERAGE
 * ITEM_ATTACK_SPEED
 * ITEM_WET_PROTECTION
+
+Examples
+    { "value": "ARMOR_ELEC", "add": -20 } subtracts 20 points of electrical damage
+    { "value": "ATTACK_SPEED", "add": -60 } subtracts 60 moves from attacking making the attack faster
+    { "value": "ARMOR_COLD", "multiply": -0.4 } subtracts 40 percent of the any cold damage
+    { "value": "ARMOR_HEAT", "multiply": 0.4 } increases damage taken from fire by 40 percent
+    { "value": "ARMOR_CUT", "add": 2 } increases cut damage taken by 2
+    { "value": "ARMOR_BIO", "multiply": -1.4 } subtracts 140 percent of the any bio damage giving 40% of damage dealt as increased health
+    { "value": "ARMOR_ACID", "multiply": 1.4 } increases damage taken from acid by 140 percent
