@@ -2335,6 +2335,8 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         }
     }
     if( amount > 0 && level.isTraining() ) {
+        int focus_drain_cap = std::sqrt( focus_pool * 1000 );
+        amount = std::min( amount, focus_drain_cap );
         int oldLevel = get_skill_level( id );
         get_skill_level_object( id ).train( amount );
         int newLevel = get_skill_level( id );
@@ -2351,15 +2353,16 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
                      skill_name );
         }
 
-        int chance_to_drop = std::max( focus_pool, amount / 10 );
-        // TODO: Move focus_pool behind a getter almost everywhere.
-        // TODO: Multiply focus_pool by 100 and just subtract chance_to_drop from it.
-        focus_pool -= chance_to_drop / 100;
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
-        if( ( rng( 1, 10000 ) <= ( chance_to_drop % 100 ) * ( chance_to_drop % 100 ) ) &&
-            ( !( has_trait_flag( "PRED4" ) && skill.is_combat_skill() ) ) ) {
-            focus_pool--;
+        if( !( has_trait_flag( "PRED4" ) && skill.is_combat_skill() ) ) {
+            // Base reduction on the larger of 1% of total, or practice amount.
+            // The latter kicks in when long actions like crafting
+            // apply many turns of gains at once.
+            int focus_drain = std::max( focus_pool / 100, amount );
+            // The purpose of having this squared is that it makes focus drain dramatically slower
+            // as it approaches zero.
+            focus_pool -= ( focus_drain * focus_drain ) / 1000;
         }
         focus_pool = std::max( focus_pool, 0 );
     }

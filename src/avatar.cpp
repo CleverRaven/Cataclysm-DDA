@@ -1142,7 +1142,7 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
 
 int avatar::calc_focus_change() const
 {
-    int focus_gap = calc_focus_equilibrium() - focus_pool;
+    int focus_gap = calc_focus_equilibrium() - get_focus();
 
     // handle negative gain rates in a symmetric manner
     int base_change = 1;
@@ -1151,14 +1151,7 @@ int avatar::calc_focus_change() const
         focus_gap = -focus_gap;
     }
 
-    // for every 100 points, we have a flat gain of 1 focus.
-    // for every n points left over, we have an n% chance of 1 focus
-    int gain = focus_gap / 100;
-    if( rng( 1, 100 ) <= focus_gap % 100 ) {
-        gain++;
-    }
-
-    gain *= base_change;
+    int gain = focus_gap * base_change;
 
     // Fatigue will incrementally decrease any focus above related cap
     if( ( get_fatigue() >= fatigue_levels::TIRED && get_focus() > 80 ) ||
@@ -1176,7 +1169,9 @@ int avatar::calc_focus_change() const
 
 void avatar::update_mental_focus()
 {
-    mod_focus( calc_focus_change() );
+    // calc_focus_change() returns percentile focus, applying it directly
+    // to focus pool is an implicit / 100.
+    focus_pool += 10 * calc_focus_change();
 
     // Moved from calc_focus_equilibrium, because it is now const
     if( activity.id() == ACT_READ ) {

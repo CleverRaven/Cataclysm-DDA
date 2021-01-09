@@ -884,8 +884,7 @@ void Character::craft_skill_gain( const item &craft, const int &multiplier )
         // Normalize experience gain to crafting time, giving a bonus for longer crafting
         const double batch_mult = batch_size + ( adjusted_craft_time / 30000.0 );
         // This is called after every 5% crafting progress, so divide by 20
-        const int base_practice = roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult /
-                                  20.0 ) * multiplier;
+        const int base_practice = ( making.difficulty * 15 + 10 ) * ( batch_mult / 20.0 ) * multiplier;
         const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
         practice( making.skill_used, base_practice, skill_cap, true );
 
