@@ -110,10 +110,10 @@ weariness_events do_activity( tasklist tasks )
         tasks.advance( task.interval );
         // If we're more weary than we were when we started, report it
         if( new_weariness != weariness_lvl ) {
-	    int new_weary = guy.weariness();
-	    int new_thresh = guy.weary_threshold();
-	    activity_log.log( weariness_lvl, new_weariness, spent,
-			      new_weary, new_thresh );
+            int new_weary = guy.weariness();
+            int new_thresh = guy.weary_threshold();
+            activity_log.log( weariness_lvl, new_weariness, spent,
+                              new_weary, new_thresh );
             weariness_lvl = new_weariness;
         }
     }
@@ -171,7 +171,7 @@ time_duration tasklist::duration()
 }
 
 void weariness_events::log( const int old_level, const int new_level, const time_duration &when,
-			    const int new_weariness, const int new_threshold )
+                            const int new_weariness, const int new_threshold )
 {
     weary_transition added;
     added.from = old_level;
@@ -203,8 +203,8 @@ std::string weariness_events::summarize() const
     std::string buffer;
     for( const weary_transition &change : transitions ) {
         buffer += string_format( "Transition: Weariness lvl from %d to %d at %d min (W %d Th %d)\n",
-				 change.from, change.to, change.minutes,
-				 change.new_weariness, change.new_threshold );
+                                 change.from, change.to, change.minutes,
+                                 change.new_weariness, change.new_threshold );
     }
     return buffer;
 }
