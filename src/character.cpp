@@ -4993,7 +4993,7 @@ std::string Character::debug_weary_info() const
 
     return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\nBMR: %d Intake: %d Tracker: %d Thresh: %d At: %d\nCal: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)",
                           amt, max_act, move_mult, bmr, intake, input, thresh, current, stored_calories,
-			  healthy_calories, fatigue, morale, weight, bmi );
+                          healthy_calories, fatigue, morale, weight, bmi );
 }
 
 void weariness_tracker::clear()
