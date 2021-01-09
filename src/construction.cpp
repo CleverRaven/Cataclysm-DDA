@@ -60,6 +60,8 @@
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
+static const construction_category_id construction_category_ALL( "ALL" );
+static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
@@ -627,9 +629,9 @@ construction_id construction_menu( const bool blueprint )
                 last_construction = constructs[select];
             }
             category_id = construct_cat[tabindex].id;
-            if( category_id == "ALL" ) {
+            if( category_id == construction_category_ALL ) {
                 constructs = available;
-            } else if( category_id == "FILTER" ) {
+            } else if( category_id == construction_category_FILTER ) {
                 constructs.clear();
                 std::copy_if( available.begin(), available.end(),
                               std::back_inserter( constructs ),
@@ -1233,12 +1235,12 @@ void construct::done_deconstruct( const tripoint &p )
             }
             done_deconstruct( top );
         }
-        if( t.id == "t_console_broken" )  {
+        if( t.id == ter_str_id( "t_console_broken" ) )  {
             if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
                 g->u.practice( skill_electronics, 20, 4 );
             }
         }
-        if( t.id == "t_console" )  {
+        if( t.id == ter_str_id( "t_console" ) )  {
             if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
                 g->u.practice( skill_electronics, 40, 8 );
             }

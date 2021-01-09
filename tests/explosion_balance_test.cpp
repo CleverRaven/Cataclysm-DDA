@@ -127,11 +127,11 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     for( size_t i = 0; i < before_hp.size(); ++i ) {
         CAPTURE( i );
         INFO( target_vehicle->parts[ i ].name() );
-        if( target_vehicle->parts[ i ].info().get_id() == "battery_car" ||
-            target_vehicle->parts[ i ].info().get_id() == "headlight" ||
-            target_vehicle->parts[ i ].info().get_id() == "windshield" ) {
+        if( target_vehicle->parts[ i ].info().get_id() == vpart_id( "battery_car" ) ||
+            target_vehicle->parts[ i ].info().get_id() == vpart_id( "headlight" ) ||
+            target_vehicle->parts[ i ].info().get_id() == vpart_id( "windshield" ) ) {
             CHECK( before_hp[ i ] >= after_hp[ i ] );
-        } else if( !( target_vehicle->parts[ i ].info().get_id() == "vehicle_clock" ) ) {
+        } else if( !( target_vehicle->parts[ i ].info().get_id() == vpart_id( "vehicle_clock" ) ) ) {
             CHECK( before_hp[ i ] == after_hp[ i ] );
         }
     }

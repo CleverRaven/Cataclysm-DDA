@@ -18,8 +18,10 @@
 #include "string_id.h"
 #include "units.h"
 
+static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_heavysnare( "heavysnare" );
@@ -532,7 +534,7 @@ std::string effect::disp_name() const
         }
         ret += eff_type->name[0].translated();
         if( intensity > 1 ) {
-            if( eff_type->id == "bandaged" || eff_type->id == "disinfected" ) {
+            if( eff_type->id == effect_bandaged || eff_type->id == effect_disinfected ) {
                 ret += string_format( " [%s]", texitify_healing_power( intensity ) );
             } else {
                 ret += string_format( " [%d]", intensity );

@@ -89,6 +89,10 @@ static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
+static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
+static const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
+static const trait_id trait_BEAK_PECK( "BEAK_PECK" );
 static const trait_id trait_CLAWS_TENTACLE( "CLAWS_TENTACLE" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
@@ -99,6 +103,8 @@ static const trait_id trait_NAILS( "NAILS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
+static const trait_id trait_VINES2( "VINES2" );
+static const trait_id trait_VINES3( "VINES3" );
 
 static const efftype_id effect_amigara( "amigara" );
 
@@ -1844,7 +1850,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
 
 static damage_instance hardcoded_mutation_attack( const Character &u, const trait_id &id )
 {
-    if( id == "BEAK_PECK" ) {
+    if( id == trait_BEAK_PECK ) {
         // method open to improvement, please feel free to suggest
         // a better way to simulate target's anti-peck efforts
         /** @EFFECT_DEX increases number of hits with BEAK_PECK */
@@ -1855,11 +1861,11 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
         return damage_instance::physical( 0, 0, num_hits * 10 );
     }
 
-    if( id == "ARM_TENTACLES" || id == "ARM_TENTACLES_4" || id == "ARM_TENTACLES_8" ) {
+    if( id == trait_ARM_TENTACLES || id == trait_ARM_TENTACLES_4 || id == trait_ARM_TENTACLES_8 ) {
         int num_attacks = 1;
-        if( id == "ARM_TENTACLES_4" ) {
+        if( id == trait_ARM_TENTACLES_4 ) {
             num_attacks = 3;
-        } else if( id == "ARM_TENTACLES_8" ) {
+        } else if( id == trait_ARM_TENTACLES_8 ) {
             num_attacks = 7;
         }
         // Note: we're counting arms, so we want wielded item here, not weapon used for attack
@@ -1884,8 +1890,8 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
         return ret;
     }
 
-    if( id == "VINES2" || id == "VINES3" ) {
-        const int num_attacks = id == "VINES2" ? 2 : 3;
+    if( id == trait_VINES2 || id == trait_VINES3 ) {
+        const int num_attacks = id == trait_VINES2 ? 2 : 3;
         /** @EFFECT_STR increases damage with VINES* */
         damage_instance ret;
         ret.add_damage( DT_BASH, u.get_str() / 2.0f, 0, 1.0f, num_attacks );

@@ -46,11 +46,13 @@ static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
+static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
@@ -266,7 +268,7 @@ void Character::recalculate_size()
 
 void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_override )
 {
-    if( mut == "GLASSJAW" ) {
+    if( mut == trait_GLASSJAW ) {
         recalc_hp();
 
     } else if( mut == trait_STR_ALPHA ) {
@@ -338,7 +340,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
 
 void Character::mutation_loss_effect( const trait_id &mut )
 {
-    if( mut == "GLASSJAW" ) {
+    if( mut == trait_GLASSJAW ) {
         recalc_hp();
 
     } else if( mut == trait_STR_ALPHA ) {
@@ -537,7 +539,7 @@ void Character::activate_mutation( const trait_id &mut )
     if( mut == trait_WEB_WEAVER ) {
         g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
-    } else if( mut == "BURROW" ) {
+    } else if( mut == trait_BURROW ) {
         tdata.powered = false;
         item burrowing_item( itype_id( "fake_burrowing" ) );
         invoke_item( &burrowing_item );

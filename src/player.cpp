@@ -194,6 +194,7 @@ static const std::string flag_SPLINT( "SPLINT" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_swimming( "swimming" );
+static const skill_id skill_weapon( "weapon" );
 
 static const bionic_id bio_cloak( "bio_cloak" );
 static const bionic_id bio_cqb( "bio_cqb" );
@@ -3505,7 +3506,7 @@ std::pair<int, int> player::gunmod_installation_odds( const item &gun, const ite
 
     for( const auto &e : mod.type->min_skills ) {
         // gain an additional chance for every level above the minimum requirement
-        skill_id sk = e.first == "weapon" ? gun.gun_skill() : skill_id( e.first );
+        skill_id sk = e.first == skill_weapon ? gun.gun_skill() : e.first;
         chances += std::max( get_skill_level( sk ) - e.second, 0 );
     }
     // cap success from skill alone to 1 in 5 (~83% chance)

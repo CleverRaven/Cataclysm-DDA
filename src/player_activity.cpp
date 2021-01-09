@@ -174,7 +174,7 @@ static std::string craft_progress_message( const avatar &u, const player_activit
 
 cata::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
-    if( type == activity_id( "ACT_NULL" ) || get_verb().empty() ) {
+    if( !type || get_verb().empty() ) {
         return cata::optional<std::string>();
     }
 
@@ -290,7 +290,7 @@ void player_activity::do_turn( player &p )
         p.drop_invalid_inventory();
         return;
     }
-    const bool travel_activity = id() == "ACT_TRAVELLING";
+    const bool travel_activity = id() == activity_id( "ACT_TRAVELLING" );
     // This might finish the activity (set it to null)
     if( actor ) {
         actor->do_turn( *this, p );

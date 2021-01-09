@@ -140,8 +140,10 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
 
+static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
+static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
 static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
 static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
@@ -4366,7 +4368,7 @@ static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
             return it;
         }
         if( it.typeId() == "corpse" ) {
-            if( it.get_mtype()->id == "mon_broken_cyborg" || it.get_mtype()->id == "mon_prototype_cyborg" ) {
+            if( it.get_mtype()->id == mon_broken_cyborg || it.get_mtype()->id == mon_prototype_cyborg ) {
                 return it;
             }
         }
@@ -4501,7 +4503,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             popup( _( "No patient found located on the connected couches.  Operation impossible.  Exiting." ) );
             return;
         }
-    } else if( patient.activity.id() == "ACT_OPERATION" ) {
+    } else if( patient.activity.id() == activity_id( "ACT_OPERATION" ) ) {
         popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
                to_string( time_duration::from_turns( patient.activity.moves_left / 100 ) ) );
         p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );

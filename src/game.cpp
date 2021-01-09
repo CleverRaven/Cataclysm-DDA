@@ -4396,8 +4396,9 @@ void game::monmove()
         if( !guy.has_effect( effect_npc_suspend ) ) {
             guy.process_turn();
         }
-        while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.activity.id() == "ACT_OPERATION" ) &&
-               guy.moves > 0 && turns < 10 ) {
+        while( !guy.is_dead() && guy.moves > 0 && turns < 10 &&
+               ( !guy.in_sleep_state() || guy.activity.id() == activity_id( "ACT_OPERATION" ) )
+             ) {
             int moves = guy.moves;
             guy.move();
             if( moves == guy.moves ) {

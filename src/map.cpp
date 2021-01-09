@@ -6813,7 +6813,7 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     }
     const auto &comest = item.get_comestible();
     mongroup_id mgroup = comest->rot_spawn;
-    if( mgroup == "GROUP_NULL" ) {
+    if( !mgroup ) {
         return;
     }
     const int chance = static_cast<int>( comest->rot_spawn_chance *

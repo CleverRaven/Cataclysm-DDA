@@ -38,6 +38,8 @@
 
 static const std::string flag_FIREWOOD( "FIREWOOD" );
 
+static const item_category_id itcat_food( "food" );
+
 static const zone_type_id zone_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
 static const zone_type_id zone_FARM_PLOT( "FARM_PLOT" );
@@ -843,7 +845,7 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         return *cat.zone();
     }
 
-    if( cat.get_id() == "food" ) {
+    if( cat.get_id() == itcat_food ) {
         const bool preserves = it.is_food_container() && it.type->container->preserves;
 
         // skip food without comestible, like MREs

@@ -102,6 +102,10 @@ static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );
 static const ammotype ammo_battery( "battery" );
 static const ammotype ammo_plutonium( "plutonium" );
 
+static const item_category_id itemcat_drugs( "drugs" );
+static const item_category_id itemcat_food( "food" );
+static const item_category_id itemcat_maps( "maps" );
+
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
@@ -5139,9 +5143,9 @@ int item::spoilage_sort_order()
     }
 
     if( subject->get_comestible() ) {
-        if( subject->get_category().get_id() == "food" ) {
+        if( subject->get_category().get_id() == itemcat_food ) {
             return bottom - 3;
-        } else if( subject->get_category().get_id() == "drugs" ) {
+        } else if( subject->get_category().get_id() == itemcat_drugs ) {
             return bottom - 2;
         } else {
             return bottom - 1;
@@ -6211,7 +6215,7 @@ bool item::is_book() const
 
 bool item::is_map() const
 {
-    return get_category().get_id() == "maps";
+    return get_category().get_id() == itemcat_maps;
 }
 
 bool item::is_container() const
@@ -7314,7 +7318,7 @@ std::map<gun_mode_id, gun_mode> item::gun_all_modes() const
         } else if( e->is_gunmod() ) {
             for( const std::pair<const gun_mode_id, gun_modifier_data> &m : e->type->gunmod->mode_modifier ) {
                 //checks for melee gunmod, points to gunmod
-                if( m.first == "REACH" ) {
+                if( m.first.str() == "REACH" ) {
                     res.emplace( m.first, gun_mode { m.second.name(), const_cast<item *>( e ),
                                                      m.second.qty(), m.second.flags() } );
                     //otherwise points to the parent gun, not the gunmod
@@ -7634,7 +7638,7 @@ bool item::reload( player &u, item_location loc, int qty )
             qty = std::min( qty, ammo->ammo_remaining() );
             ammo->ammo_consume( qty, tripoint_zero );
             charges += qty;
-        } else if( ammo->ammo_type() == "plutonium" ) {
+        } else if( ammo->ammo_type() == ammo_plutonium ) {
             curammo = ammo->type;
             ammo->charges -= qty;
 

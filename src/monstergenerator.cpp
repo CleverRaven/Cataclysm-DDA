@@ -1122,7 +1122,7 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const auto &mon : mon_templates->get_all() ) {
-        if( mon.harvest == "null" && !mon.has_flag( MF_ELECTRONIC ) && mon.id != mtype_id( "mon_null" ) ) {
+        if( !mon.harvest && !mon.has_flag( MF_ELECTRONIC ) && mon.id ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }
         if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.empty() ) {
