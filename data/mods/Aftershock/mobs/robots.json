@@ -503,7 +503,7 @@
     "type": "MONSTER",
     "copy-from": "mon_milbot_base",
     "name": "Wraitheon Imaginifer",
-    "description": "The Imaginifer, one of the few examples of true humaniform robots, was manufactured by Wraitheon for ESCA militaries. They are designed to complement infantry soldiers, being able to use their gear and transports.  While similar in shape, they are far removed from the ENIAC's Famulus. The Wraitheon humaniforms are designed to take full advantage of a humanoid shape, not to look human; programmed not for sapience, but for game theory.",
+    "description": "The Imaginifer, one of the few examples of true humaniform robots, was manufactured by Wraitheon for ESCA militaries. They are designed to complement infantry soldiers, being able to use their gear and transports.  While similar in shape, they are far removed from the ENIAC's Famulus.  The Wraitheon humaniforms are designed to take full advantage of a humanoid shape, not to look human; programmed not for sapience, but for game theory.",
     "diff": 20,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "556": 1600 },
