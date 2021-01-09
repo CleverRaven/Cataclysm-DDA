@@ -104,7 +104,7 @@
   {
     "id": "xl_armguard_hard",
     "type": "ARMOR",
-    "name": { "str": "pair of oversized hard arm guards", "str_pl": "pairs of oversized hard arm guards" },
+    "name": { "str": "pair of XL hard arm guards", "str_pl": "pairs of XL hard arm guards" },
     "description": "A pair of neoprene arm sleeves covered with molded plastic sheaths.  Epic sized.",
     "weight": "550 g",
     "volume": "4 L",
@@ -137,7 +137,7 @@
   {
     "id": "xl_armguard_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of gigantic leather arm guards", "str_pl": "pairs of gigantic leather arm guards" },
+    "name": { "str": "pair of XL leather arm guards", "str_pl": "pairs of XL leather arm guards" },
     "description": "A pair of gigantic leather arm guards.  Heavy but comfortable.",
     "weight": "730 g",
     "volume": "3 L",
@@ -169,7 +169,7 @@
   {
     "id": "xl_armguard_lightplate",
     "type": "ARMOR",
-    "name": { "str": "pair of huge steel arm guards", "str_pl": "pairs of huge steel arm guards" },
+    "name": { "str": "pair of XL steel arm guards", "str_pl": "pairs of XL steel arm guards" },
     "description": "A full assembly of medieval arm protection, made for Jotun.  Rerebraces, couters, and vambraces, with leather straps to secure each piece and connect it as part of a set.",
     "weight": "3243 g",
     "volume": "7 L",
@@ -201,7 +201,7 @@
   {
     "id": "xl_armguard_metal",
     "type": "ARMOR",
-    "name": { "str": "pair of oversize metal arm guards", "str_pl": "pairs of oversize metal arm guards" },
+    "name": { "str": "pair of XL metal arm guards", "str_pl": "pairs of XL metal arm guards" },
     "description": "A pair of arm guards hammered out from metal.  Perfect for the Post-Apocalyptic Warrior look.  Larger than average.",
     "weight": "1380 g",
     "volume": "3250 ml",
@@ -257,7 +257,7 @@
   {
     "id": "xl_armguard_scrap",
     "type": "ARMOR",
-    "name": { "str": "pair of XL scrap armguards", "str_pl": "pairs of XL scrap armguards" },
+    "name": { "str": "pair of XL scrap arm guards", "str_pl": "pairs of XL scrap arm guards" },
     "description": "A pair of oversized arm guards made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "weight": "3412 g",
     "volume": "6 L",

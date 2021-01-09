@@ -5932,6 +5932,10 @@ void game::examine( const tripoint &examp )
                 if( monexamine::pay_bot( *mon ) ) {
                     return;
                 }
+            } else if( mon->attitude_to( u ) == Creature::Attitude::FRIENDLY && !u.is_mounted() ) {
+                if( monexamine::mfriend_menu( *mon ) ) {
+                    return;
+                }
             }
         } else if( u.is_mounted() ) {
             add_msg( m_warning, _( "You cannot do that while mounted." ) );

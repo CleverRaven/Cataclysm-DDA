@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Build script intended for use in Travis CI
+# Build script intended for use in Travis CI and Github workflow
 
 set -exo pipefail
 

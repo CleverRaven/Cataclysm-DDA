@@ -1361,7 +1361,7 @@ void Character::on_dodge( Creature *source, float difficulty )
 
         if( tec != tec_none && !is_dead_state() ) {
             if( get_stamina() < get_stamina_max() / 3 ) {
-                add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
+                add_msg( m_bad, _( "You try to counterattack, but you are too exhausted!" ) );
             } else {
                 melee_attack( *source, false, tec );
             }
@@ -1403,7 +1403,7 @@ bool Character::uncanny_dodge()
         position.x = adjacent.x;
         position.y = adjacent.y;
         if( is_u ) {
-            add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
+            add_msg( _( "Time seems to slow down, and you instinctively dodge!" ) );
         } else if( seen ) {
             add_msg( _( "%s dodges… so fast!" ), this->disp_name() );
 
@@ -1411,9 +1411,9 @@ bool Character::uncanny_dodge()
         return true;
     }
     if( is_u ) {
-        add_msg( _( "You try to dodge but there's no room!" ) );
+        add_msg( _( "You try to dodge, but there's no room!" ) );
     } else if( seen ) {
-        add_msg( _( "%s tries to dodge but there's no room!" ), this->disp_name() );
+        add_msg( _( "%s tries to dodge, but there's no room!" ), this->disp_name() );
     }
     return false;
 }
@@ -1829,10 +1829,25 @@ bool Character::is_crouching() const
     return move_mode->type() == move_mode_type::CROUCHING;
 }
 
+steed_type Character::get_steed_type() const
+{
+    steed_type steed;
+    if( is_mounted() ) {
+        if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+            steed = steed_type::MECH;
+        } else {
+            steed = steed_type::ANIMAL;
+        }
+    } else {
+        steed = steed_type::NONE;
+    }
+    return steed;
+}
+
 bool Character::can_switch_to( const move_mode_id &mode ) const
 {
-    // Only running modes are restricted at the moment
-    return mode->type() != move_mode_type::RUNNING || can_run();
+    // Only running modes are restricted at the moment and only when its your legs doing the running
+    return get_steed_type() != steed_type::NONE || mode->type() != move_mode_type::RUNNING || can_run();
 }
 
 void Character::expose_to_disease( const diseasetype_id &dis_type )
@@ -4046,7 +4061,7 @@ int Character::rust_rate() const
     int intel = get_int();
     /** @EFFECT_INT reduces skill rust by 10% per level above 8 */
     int ret = ( ( rate_option == "vanilla" || rate_option == "capped" ) ?
-                100 : 100 + 10 * ( intel - 8 ) );
+                100 : 100 + 10 * ( 8 - intel ) );
 
     ret *= mutation_value( "skill_rust_multiplier" );
 
@@ -6163,7 +6178,7 @@ void Character::check_needs_extremes()
                 mod_fatigue( 1 );
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_SERIOUS ) {
                 add_msg_if_player( m_bad,
-                                   _( "Your mind feels foggy from lack of good sleep, and your eyes keep trying to close against your will." ) );
+                                   _( "Your mind feels foggy from a lack of good sleep, and your eyes keep trying to close against your will." ) );
                 mod_fatigue( 5 );
 
                 if( one_in( 10 ) ) {
@@ -6179,7 +6194,7 @@ void Character::check_needs_extremes()
                 }
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_MASSIVE ) {
                 add_msg_if_player( m_bad,
-                                   _( "You haven't slept decently for so long that your whole body is screaming for mercy.  It's a miracle that you're still awake, but it just feels like a curse now." ) );
+                                   _( "You haven't slept decently for so long that your whole body is screaming for mercy.  It's a miracle that you're still awake, but it feels more like a curse now." ) );
                 mod_fatigue( 40 );
 
                 mod_healthy_mod( -5, 0 );
@@ -6782,7 +6797,7 @@ void Character::update_bodytemp()
                      body_part_name( bp ) );
         } else if( conv_temp <= BODYTEMP_COLD && windchill < -20 && one_in( 100 ) ) {
             add_msg( m_bad,
-                     _( "The wind is very strong, you should find some more wind-resistant clothing for your %s." ),
+                     _( "The wind is very strong; you should find some more wind-resistant clothing for your %s." ),
                      body_part_name( bp ) );
         } else if( conv_temp <= BODYTEMP_COLD && windchill < -30 && one_in( 50 ) ) {
             add_msg( m_bad, _( "Your clothing is not providing enough protection from the wind for your %s!" ),
@@ -7089,7 +7104,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
         std::string hp_str;
         if( limb_is_mending ) {
-            desc += colorize( _( "It is broken but has been set and just needs time to heal." ),
+            desc += colorize( _( "It is broken, but has been set, and just needs time to heal." ),
                               c_blue ) + "\n";
             const auto &eff = get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
@@ -7129,7 +7144,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
             if( bleed > 0 ) {
                 int percent = static_cast<int>( bleed * 100 / get_effect_int( effect_bleed, bp ) );
                 percent = std::min( percent, 100 );
-                desc += colorize( string_format( _( "Expected reduction of bleeding by: %d %%" ), percent ),
+                desc += colorize( string_format( _( "Expected bleeding reduction: %d %%" ), percent ),
                                   c_light_green ) + "\n";
             } else {
                 desc += colorize( _( "This will not affect the bleeding." ),
@@ -7167,10 +7182,10 @@ bodypart_id Character::body_window( const std::string &menu_header,
             desc += colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
                               c_red ) + "\n";
             if( infect > 0 ) {
-                desc += colorize( string_format( _( "Chance to heal infection: %d %%" ),
+                desc += colorize( string_format( _( "Chance to cure infection: %d %%" ),
                                                  static_cast<int>( infect * 100 ) ), c_light_green ) + "\n";
             } else {
-                desc += colorize( _( "This will not help in healing infection." ), c_yellow ) + "\n";
+                desc += colorize( _( "This will not help in curing infection." ), c_yellow ) + "\n";
             }
         }
         // DISINFECTANT (general) block
@@ -8132,13 +8147,13 @@ std::string Character::get_weight_long_description() const
     if( bmi > character_weight_category::morbidly_obese ) {
         return _( "You have far more fat than is healthy or useful.  It is causing you major problems." );
     } else if( bmi > character_weight_category::very_obese ) {
-        return _( "You have too much fat.  It impacts your day to day health and wellness." );
+        return _( "You have too much fat.  It impacts your day-to-day health and wellness." );
     } else if( bmi > character_weight_category::obese ) {
-        return _( "You've definitely put on a lot of extra weight.  Although it's helpful in times of famine, this is too much and is impacting your health." );
+        return _( "You've definitely put on a lot of extra weight.  Although helpful in times of famine, this is too much and is impacting your health." );
     } else if( bmi > character_weight_category::overweight ) {
-        return _( "You've put on some extra pounds.  Nothing too excessive but it's starting to impact your health and waistline a bit." );
+        return _( "You've put on some extra pounds.  Nothing too excessive, but it's starting to impact your health and waistline a bit." );
     } else if( bmi > character_weight_category::normal ) {
-        return _( "You look to be a pretty healthy weight, with some fat to last you through the winter but nothing excessive." );
+        return _( "You look to be a pretty healthy weight, with some fat to last you through the winter, but nothing excessive." );
     } else if( bmi > character_weight_category::underweight ) {
         return _( "You are thin, thinner than is healthy.  You are less resilient to going without food." );
     } else if( bmi > character_weight_category::emaciated ) {
@@ -8769,8 +8784,8 @@ bool Character::has_enough_charges( const item &it, bool show_msg ) const
     } else if( !it.ammo_sufficient() ) {
         if( show_msg ) {
             add_msg_if_player( m_info,
-                               ngettext( "Your %s has %d charge but needs %d.",
-                                         "Your %s has %d charges but needs %d.",
+                               ngettext( "Your %s has %d charge, but needs %d.",
+                                         "Your %s has %d charges, but needs %d.",
                                          it.ammo_remaining() ),
                                it.tname(), it.ammo_remaining(), it.ammo_required() );
         }
@@ -9037,7 +9052,7 @@ void Character::shout( std::string msg, bool order )
     // You can't shout without your face
     if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
                                             is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
-        add_msg_if_player( m_warning, _( "You try to shout but you have no face!" ) );
+        add_msg_if_player( m_warning, _( "You try to shout, but you have no face!" ) );
         return;
     }
 
@@ -9927,7 +9942,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     if( ( has_trait( trait_SLIMESPAWNER ) ) && ( dam >= 10 ) && one_in( 20 - dam ) ) {
         if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
             slime->friendly = -1;
-            add_msg_if_player( m_warning, _( "Slime is torn from you, and moves on its own!" ) );
+            add_msg_if_player( m_warning, _( "A mass of slime is torn from you, and moves on its own!" ) );
         }
     }
 
@@ -10025,7 +10040,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
             } else {
                 add_effect( effect_bite, 1_turns, bp, true );
             }
-            add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
+            add_msg_if_player( _( "Filth from your clothing has been embedded deep in the wound." ) );
         }
     }
 
@@ -10772,7 +10787,7 @@ void Character::fall_asleep()
     std::string item_name = is_snuggling();
     if( item_name == "many" ) {
         if( one_in( 15 ) ) {
-            add_msg_if_player( _( "You nestle your pile of clothes for warmth." ) );
+            add_msg_if_player( _( "You nestle into your pile of clothes for warmth." ) );
         } else {
             add_msg_if_player( _( "You use your pile of clothes for warmth." ) );
         }
@@ -12207,7 +12222,7 @@ void Character::process_effects()
         remove_effect( effect_bloodworms );
         remove_effect( effect_brainworms );
         remove_effect( effect_paincysts );
-        add_msg_if_player( m_good, _( "Something writhes and inside of you as it dies." ) );
+        add_msg_if_player( m_good, _( "Something writhes inside of you as it dies." ) );
     }
     if( has_trait( trait_ACIDBLOOD ) && ( has_effect( effect_dermatik ) ||
                                           has_effect( effect_bloodworms ) ||
@@ -12637,7 +12652,7 @@ void Character::practice_proficiency( const proficiency_id &prof, const time_dur
     }
 
     if( learned ) {
-        add_msg_if_player( m_good, _( "You are now proficient in %s" ), prof->name() );
+        add_msg_if_player( m_good, _( "You are now proficient in %s!" ), prof->name() );
     }
 }
 

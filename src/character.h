@@ -96,6 +96,7 @@ template <typename E> struct enum_traits;
 
 enum npc_attitude : int;
 enum action_id : int;
+enum class steed_type : int;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
@@ -710,7 +711,7 @@ class Character : public Creature, public visitable
         bool is_crouching() const;
 
         bool can_switch_to( const move_mode_id &mode ) const;
-
+        steed_type get_steed_type() const;
         virtual void set_movement_mode( const move_mode_id &mode ) = 0;
 
         /**Determine if character is susceptible to dis_type and if so apply the symptoms*/
