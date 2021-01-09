@@ -2193,8 +2193,8 @@ item_location inventory_pick_selector::execute()
             set_filter();
         } else if( input.action == "EXAMINE" ) {
             const inventory_entry &selected = get_active_column().get_selected();
-            const item *sitem = selected.any_item().get_item();
             if( selected ) {
+                const item *sitem = selected.any_item().get_item();
                 action_examine( sitem );
             }
         } else {
