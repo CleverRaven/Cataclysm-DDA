@@ -10,6 +10,7 @@
 
 #include "activity_type.h"
 #include "calendar.h"
+#include "character.h"
 #include "clone_ptr.h"
 #include "handle_liquid.h"
 #include "item.h"
@@ -766,7 +767,7 @@ class drop_activity_actor : public activity_actor
 
     private:
         std::vector<drop_or_stash_item_info> items;
-        std::vector<item_location> unhandled_containers;
+        contents_change_handler handler;
         tripoint placement;
         bool force_ground = false;
 };
@@ -801,7 +802,7 @@ class stash_activity_actor: public activity_actor
 
     private:
         std::vector<drop_or_stash_item_info> items;
-        std::vector<item_location> unhandled_containers;
+        contents_change_handler handler;
         tripoint placement;
 };
 

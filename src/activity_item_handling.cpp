@@ -167,8 +167,8 @@ static bool same_type( const std::list<item> &items )
     } );
 }
 
-// See also handle_contents_changed_helper and Character::handle_contents_changed
-// for contents handling of item_location.
+// Deprecated. See `contents_change_handler` and `Character::handle_contents_changed`
+// for contents handling with item_location.
 static bool handle_spillable_contents( Character &c, item &it, map &m )
 {
     if( it.is_bucket_nonempty() ) {
