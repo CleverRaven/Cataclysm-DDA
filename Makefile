@@ -382,7 +382,6 @@ else
   CXXFLAGS += $(OPTLEVEL)
 endif
 
-
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
   OTHERS += -std=gnu++14
 else
