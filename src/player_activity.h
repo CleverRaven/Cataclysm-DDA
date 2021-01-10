@@ -71,6 +71,9 @@ class player_activity
          *  an identical activity. This value is set dynamically.
          */
         bool auto_resume = false;
+        /** Flag that will suppress the relatively expensive fire refueling search process.
+        */
+        bool no_fire = true;
 
         player_activity();
         // This constructor does not work with activities using the new activity_actor system
