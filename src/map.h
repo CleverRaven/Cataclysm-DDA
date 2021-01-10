@@ -1548,11 +1548,11 @@ class map
 
     protected:
         void saven( const tripoint &grid );
-        void loadn( const tripoint &grid, bool update_vehicles, bool _actualize = true );
-        void loadn( const point &grid, bool update_vehicles, bool _actualize = true ) {
+        void loadn( const tripoint &grid, bool update_vehicles );
+        void loadn( const point &grid, bool update_vehicles ) {
             if( zlevels ) {
                 for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                    loadn( tripoint( grid, gridz ), update_vehicles, _actualize );
+                    loadn( tripoint( grid, gridz ), update_vehicles );
                 }
 
                 // Note: we want it in a separate loop! It is a post-load cleanup
@@ -1561,7 +1561,7 @@ class map
                     add_roofs( tripoint( grid, gridz ) );
                 }
             } else {
-                loadn( tripoint( grid, abs_sub.z ), update_vehicles, _actualize );
+                loadn( tripoint( grid, abs_sub.z ), update_vehicles );
             }
         }
         /**
@@ -1569,6 +1569,8 @@ class map
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.
          */
         void actualize( const tripoint &grid );
+        // actualized all submaps
+        void actualize();
         /**
          * Hacks in missing roofs. Should be removed when 3D mapgen is done.
          */
@@ -1630,6 +1632,20 @@ class map
         // fills lm with sunlight. pzlev is current player's zlevel
         void build_sunlight_cache( int pzlev );
     public:
+        /**
+         * Adds or removes snow in all submaps
+         * @param new_snow_lvl new snow level in mm
+         * @see actualize_snow_in_submap
+         */
+        void actualize_snow( float new_snow_lvl );
+        /**
+        * Adds or removes snow to match new_snow_lvl. See implementation for more extensive description.
+        * @param gridp submap position in grid coordinates
+        * @param new_snow_lvl new snow level in mm
+        * @param from_scratch if true, removes snow first and then adds it from scratch
+        */
+        void actualize_snow_in_submap( const tripoint &gridp, float new_snow_lvl, bool from_scratch );
+
         void build_outside_cache( int zlev );
         // Get a bitmap indicating which layers are potentially visible from the target layer.
         std::bitset<OVERMAP_LAYERS> get_inter_level_visibility( int origin_zlevel )const ;

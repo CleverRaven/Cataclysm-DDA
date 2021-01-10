@@ -172,6 +172,8 @@ struct weather_type {
         precip_class precip = precip_class::none;
         // Whether said precipitation falls as rain.
         bool rains = false;
+        // Whether said precipitation falls as snow.
+        bool snows = false;
         // Whether said precipitation is acidic.
         bool acidic = false;
         // vector for weather effects.

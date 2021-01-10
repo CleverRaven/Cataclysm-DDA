@@ -3826,6 +3826,7 @@ void submap::store( JsonOut &jsout ) const
 {
     jsout.member( "turn_last_touched", last_touched );
     jsout.member( "temperature", temperature );
+    jsout.member( "snow_level", snow_level );
 
     // Terrain is saved using a simple RLE scheme.  Legacy saves don't have
     // this feature but the algorithm is backward compatible.
@@ -4048,6 +4049,8 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
         last_touched = time_point( jsin.get_int() );
     } else if( member_name == "temperature" ) {
         temperature = jsin.get_int();
+    } else if( member_name == "snow_level" ) {
+        snow_level = jsin.get_float();
     } else if( member_name == "terrain" ) {
         // TODO: try block around this to error out if we come up short?
         jsin.start_array();

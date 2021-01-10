@@ -13,6 +13,7 @@
 
 const field_type_str_id fd_null = field_type_str_id::NULL_ID();
 const field_type_str_id fd_fire( "fd_fire" );
+const field_type_str_id fd_snow( "fd_snow" );
 const field_type_str_id fd_blood( "fd_blood" );
 const field_type_str_id fd_bile( "fd_bile" );
 const field_type_str_id fd_extinguisher( "fd_extinguisher" );

@@ -403,6 +403,7 @@ void map::process_fields_in_submap( submap *const current_submap,
     const field_type_id fd_bees = ::fd_bees;
     const field_type_id fd_incendiary = ::fd_incendiary;
     const field_type_id fd_fungicidal_gas = ::fd_fungicidal_gas;
+    const field_type_id fd_snow = ::fd_snow;
 
     scent_block sblk( submap, get_scent() );
 
@@ -428,12 +429,6 @@ void map::process_fields_in_submap( submap *const current_submap,
             // contains all the pointers to the real field effects.
             field &curfield = current_submap->get_field( { static_cast<int>( locx ), static_cast<int>( locy ) } );
 
-            // when displayed_field_type == fd_null it means that `curfield` has no fields inside
-            // avoids instantiating (relatively) expensive map iterator
-            if( !curfield.displayed_field_type() ) {
-                continue;
-            }
-
             // This is a translation from local coordinates to submap coordinates.
             // All submaps are in one long 1d array.
             thep.x = locx + sm_offset.x;
@@ -451,7 +446,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                 field_entry &cur = it->second;
 
                 // Holds cur.get_field_type() as that is what the old system used before rewrite.
-                field_type_id cur_fd_type_id = cur.get_field_type();
+                field_type_id cur_fd_type_id = it->first;
 
                 // The field might have been killed by processing a neighbor field
                 if( !cur.is_field_alive() ) {
@@ -460,6 +455,11 @@ void map::process_fields_in_submap( submap *const current_submap,
                     }
                     --current_submap->field_count;
                     curfield.remove_field( it++ );
+                    continue;
+                }
+                if( cur_fd_type_id == fd_snow ) {
+                    // shortcut to speedup field processing when map is covered in snow
+                    ++it;
                     continue;
                 }
 

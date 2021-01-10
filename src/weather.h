@@ -53,6 +53,7 @@ struct rl_vec2d;
 struct trap;
 
 double precip_mm_per_hour( precip_class p );
+double snow_mm_per_hour( precip_class p );
 void handle_weather_effects( const weather_type_id &w );
 
 /**
@@ -78,7 +79,6 @@ struct weather_sum {
     int rain_amount = 0;
     int acid_amount = 0;
     float sunlight = 0.0f;
-    int wind_amount = 0;
 };
 
 weather_type_id get_bad_weather();
@@ -162,8 +162,12 @@ class weather_manager
     public:
         weather_manager();
         const weather_generator &get_cur_weather_gen() const;
+        weather_type_id current_weather( const tripoint &location, const time_point &t );
         // Updates the temperature and weather patten
         void update_weather();
+        // Update snow level
+        void update_snow_level( const weather_type_id &weather, const time_point &t, time_duration period );
+        static double get_snowfall_mm( const weather_type_id &weather,  time_duration period );
         // The air temperature
         int temperature = 0;
         bool lightning_active = false;
@@ -171,6 +175,8 @@ class weather_manager
         weather_type_id weather_id = WEATHER_NULL;
         int winddirection = 0;
         int windspeed = 0;
+        // current snow level, in mm
+        double snow_level = 0;
         // Cached weather data
         pimpl<w_point> weather_precise;
         cata::optional<int> wind_direction_override;
@@ -188,9 +194,8 @@ class weather_manager
         // Returns outdoor or indoor temperature of given location
         int get_temperature( const tripoint_abs_omt &location );
         void clear_temp_cache();
-        void on_load();
-        static void serialize_all( JsonOut &json );
-        static void unserialize_all( JsonIn &jsin );
+        void serialize_all( JsonOut &json );
+        void unserialize_all( JsonIn &jsin );
 };
 
 weather_manager &get_weather();
