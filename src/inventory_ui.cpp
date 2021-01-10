@@ -841,6 +841,8 @@ void inventory_column::order_by_parent()
 
 void inventory_column::add_entry( const inventory_entry &entry )
 {
+    // FIXME: remove group entries first
+    grouped = false;
     if( std::find( entries.begin(), entries.end(), entry ) != entries.end() ) {
         debugmsg( "Tried to add a duplicate entry." );
         return;
@@ -950,6 +952,74 @@ void inventory_column::prepare_paging( const std::string &filter )
             from = to;
         }
     }
+
+    // FIXME: remove this, it's only here for debug needs to be implemented in `inventory_entry`
+    bool expand_group = false;
+    bool in_master_group = false;
+
+    std::vector<item_location> group;
+    std::vector<inventory_entry>::iterator it, nx, gp;
+    it = nx = gp = entries.begin();
+
+    while( it != entries.end() ) {
+        nx++;
+        if( nx != entries.end() && it->is_item() && nx->is_item() &&
+            it->any_item()->typeId() == nx->any_item()->typeId() ) {
+            if( !grouped || in_master_group ) {
+                // save item
+                group.insert( group.end(), it->locations.begin(), it->locations.end() );
+                // FIXME: delete if above works
+                /*
+                for( item_location location : it->locations ) {
+                    group.push_back( item_location( location, location.get_item() ) );
+                }
+                */
+            } else {
+                gp++;
+            }
+            in_master_group = true;
+        } else if( !group.empty() ) {
+            // save item
+            group.insert( group.end(), it->locations.begin(), it->locations.end() );
+            // FIXME: delete if above works
+            /*
+            for( item_location location : it->locations ) {
+                group.push_back( item_location( location, location.get_item() ) );
+            }
+            */
+            // create group entry
+            inventory_entry g_entry( group, gp->get_category_ptr() );
+            g_entry.update_cache();
+            g_entry.highlight_as_parent = true;
+            if( !expand_group ) { // TODO: change it to per-group condition
+                // pop group
+                entries.erase( gp, nx );
+            }
+            if( !grouped ) {
+                if( nx != entries.end() ) { // NOTE: should be a better way
+                    entries.insert( gp, g_entry );
+                    nx++;
+                } else { // end is near
+                    entries.insert( gp, g_entry );
+                    nx = entries.end();
+                }
+                expand_to_fit( *gp );
+            }
+            if( !expand_group ) { // TODO: change it to per-group condition
+                gp++; // because insert
+                nx = gp;
+            } else {
+                gp = nx;
+            }
+            group.clear();
+            in_master_group = false;
+        } else {
+            gp++; // nx
+        }
+        it = nx;
+    }
+    grouped = true;
+
     // Recover categories
     const item_category *current_category = nullptr;
     for( auto iter = entries.begin(); iter != entries.end(); ++iter ) {

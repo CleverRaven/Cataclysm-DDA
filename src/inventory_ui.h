@@ -115,7 +115,10 @@ class inventory_entry
         *  Whether it is hidden in inventory screen.
         * */
         bool is_hidden() const;
-
+        /** Whether the entry is a group */
+        bool is_item_group() const {
+            return locations.size() > 1;
+        }
         /** Whether the entry can be selected */
         bool is_selectable() const {
             return is_item() && enabled;
@@ -465,6 +468,8 @@ class inventory_column
         mutable std::vector<entry_cell_cache_t> entries_cell_cache;
 
         cata::optional<bool> indent_entries_override = cata::nullopt;
+        /** flags if entries have been grouped and group entries have been added*/
+        bool grouped = true;
         /** @return Number of visible cells */
         size_t visible_cells() const;
 };
@@ -742,8 +747,8 @@ class inventory_selector
 
 inventory_selector::stat display_stat( const std::string &caption, int cur_value, int max_value,
                                        const std::function<std::string( int )> &disp_func );
-
 class inventory_pick_selector : public inventory_selector
+
 {
     public:
         explicit inventory_pick_selector( Character &p,
