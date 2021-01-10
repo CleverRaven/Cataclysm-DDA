@@ -1344,10 +1344,12 @@ bool Character::can_continue_craft( item &craft )
         return false;
     }
 
+    return can_continue_craft( craft, craft.get_continue_reqs() );
+}
+
+bool Character::can_continue_craft( item &craft, const requirement_data &continue_reqs )
+{
     const recipe &rec = craft.get_making();
-
-    const requirement_data continue_reqs = craft.get_continue_reqs();
-
     if( !rec.character_has_required_proficiencies( *this ) ) {
         return false;
     }

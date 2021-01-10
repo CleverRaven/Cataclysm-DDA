@@ -2574,6 +2574,7 @@ class Character : public Creature, public visitable
          * @return if the craft can be continued
          */
         bool can_continue_craft( item &craft );
+        bool can_continue_craft( item &craft, const requirement_data &continue_reqs );
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
         int get_num_crafting_helpers( int max ) const;
