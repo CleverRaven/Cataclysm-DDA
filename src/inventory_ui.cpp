@@ -328,9 +328,34 @@ void inventory_selector_preset::append_cell( const
     cells.emplace_back( func, title, stub );
 }
 
-std::string  inventory_selector_preset::cell_t::get_text( const inventory_entry &entry ) const
+std::string inventory_selector_preset::cell_t::get_text( const inventory_entry &entry ) const
 {
     return replace_colors( func( entry ) );
+}
+
+bool inventory_holster_preset::is_shown( const item_location &contained ) const
+{
+    if( contained.where() != item_location::type::container
+        && contained->made_of( phase_id::LIQUID ) ) {
+        // spilt liquid cannot be picked up
+        return false;
+    }
+    item item_copy( *contained );
+    item_copy.charges = 1;
+    if( !holster->contents.can_contain( item_copy ).success() ) {
+        return false;
+    }
+    if( holster->has_item( *contained ) ) {
+        return false;
+    }
+    if( contained->is_bucket_nonempty() ) {
+        return false;
+    }
+    if( !holster->contents.all_pockets_rigid() &&
+        !holster.parents_can_contain_recursive( &item_copy ) ) {
+        return false;
+    }
+    return true;
 }
 
 void inventory_column::select( size_t new_index, scroll_direction dir )
