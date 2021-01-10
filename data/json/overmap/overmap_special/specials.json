@@ -136,9 +136,8 @@
       { "point": [ 1, 0, -1 ], "overmap": "shipwreck_river_4_north" }
     ],
     "locations": [ "water" ],
-    "occurrences": [ 80, 100 ],
-    "spawns": { "group": "GROUP_RAZORCLAW", "population": [ 30, 60 ], "radius": [ 2, 10 ] },
-	"flags": [ "UNIQUE" ]
+    "occurrences": [ 0, 3 ],
+    "spawns": { "group": "GROUP_RAZORCLAW", "population": [ 30, 60 ], "radius": [ 2, 10 ] }
   },
   {
     "//": "This special is required for robofac mission 3, and this is a fallback for when the tower doesn’t spawn inside a city.  Should be removed once we can guarantee the spawning of mid-city specials",
@@ -1117,10 +1116,10 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "slimepit_down" } ],
     "locations": [ "wilderness" ],
 	"city_distance": [ 3 , 30 ],
-    "occurrences": [ 80, 100 ],
+    "occurrences": [ 0, 3 ],
     "rotate": false,
     "spawns": { "group": "GROUP_GOO", "population": [ 100, 200 ], "radius": [ 2, 10 ] },
-    "flags": [ "SLIME", "UNIQUE" ]
+    "flags": [ "SLIME" ]
   },
   {
     "type": "overmap_special",
@@ -1169,7 +1168,7 @@
     ],
     "locations": [ "forest" ],
 	"city_distance": [ 10 , 40 ],
-    "occurrences": [ 0, 4 ],
+    "occurrences": [ 0, 3 ],
     "flags": [ "TRIFFID" ],
     "rotate": false,
     "spawns": { "group": "GROUP_TRIFFID", "population": [ 800, 1300 ], "radius": [ 12, 20 ] }
@@ -3761,7 +3760,7 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hunting_blind_north" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],
-    "occurrences": [ 0, 10 ],
+    "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
   {
@@ -4707,8 +4706,8 @@
     "locations": [ "forest" ],
     "city_distance": [ 10, -1 ],
     "rotate": false,
-    "occurrences": [ 0, 2 ],
-    "flags": [ "LAB" ]
+    "occurrences": [ 50, 100 ],
+    "flags": [ "LAB", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
