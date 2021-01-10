@@ -448,7 +448,7 @@
     "copy-from": "mon_defbot_base",
     "default_faction": "WraitheonRobotics",
     "name": { "str": "Wraitheon Aegis", "str_pl": "Wraitheon Aegises" },
-    "description": "One of the many models of Wraithon-manufactured but supposedly non-military robots, the Aegis is a bulky and heavy riot control machine with electroshock capabilities and an integrated riot shotgun.",
+    "description": "One of the many models of Wraitheon-manufactured but supposedly non-military robots, the Aegis is a bulky and heavy riot control machine with electroshock capabilities and an integrated riot shotgun.",
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "starting_ammo": { "shot_beanbag": 400 },
     "special_attacks": [
@@ -471,7 +471,7 @@
     "type": "MONSTER",
     "looks_like": "mon_secubot",
     "name": "military robot",
-    "description": " military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 5.56mm.",
+    "description": "A military robot still operating due to its internal power core.  This one is armed with an electric prod and an integrated 5.56mm.",
     "default_faction": "WraitheonRobotics",
     "species": [ "ROBOT" ],
     "volume": "62500 ml",
