@@ -3,9 +3,9 @@
 Aftershock is being developed into a full conversion mod set in a mostly abandoned extrasolar colony named Salus 4.  The PC has arrived on Salus for various reasons depending on their profession.  Eventually we hope to have multiple potential end game situations such as finding what you came here for and leaving the planet with enough money to retire to more secret endings.  There will no longer be zombies but instead a variety of alien and human based enemies.  Toe to toe combat will likely be more deadly in Aftershock with more emphasis on picking your battles and only fighting when absolutely necessary.  Special locations may have a different combat aesthetic for example you may enter a dungeon like zone with hordes of small weak enemies that can't be avoided.  As part of this concept where different situations require different solutions we have implemented bionic slots but made the process of changing out CBMs much easier with less chance of failure.  This is to encourage players to change their loadout based on where they are going and what they are doing.
 
 ### Areas seeking contributors
-Faction interactions and new factions.  Currently there are two new factions in Aftershock. PrepNet and Whately Clan.  PrepNet is seeking to build an independent colony and the Whately's are mad scientists.  
+Faction interactions and new factions.  Currently there are two new factions in Aftershock. PrepNet and the Whately Clan.  PrepNet is seeking to build an independent colony and the Whatelys are mad scientists.  
 Uplifted animal mobs and mutation lines are always wanted.  I'd love to see someone make a Rabbit or Jackelope line.  Currently we have Mi-Go, Mastodon, and Cecaelian mutation trees.
-Hi-tech item recipes.  Aftershock has it's own special crafting for ultratech and we'd love to see what you come up with.
+Hi-tech item recipes.  Aftershock has its own special crafting for ultratech and we'd love to see what you come up with.
 Missions, locations, and lore snippets we want this to feel like a world just as real as Cataclysm Prime.
 Please feel free to reach out to us about ideas and implementations.
 
