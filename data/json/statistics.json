@@ -751,7 +751,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_barter_level_7",
-    "description": { "str_sp": "social skill level 7 gained" }
+    "description": { "str_sp": "bartering skill level 7 gained" }
   },
   {
     "id": "avatar_gains_speech_level_7",
@@ -1255,7 +1255,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_barter_level_10",
-    "description": { "str_sp": "social skill level 10 gained" }
+    "description": { "str_sp": "bartering skill level 10 gained" }
   },
   {
     "id": "avatar_gains_speech_level_10",
