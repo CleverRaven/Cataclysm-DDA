@@ -42,7 +42,7 @@
     "looks_like": "broken_cleanerbot",
     "name": { "str": "broken Seneschal" },
     "category": "other",
-    "description": "A broken Nihility, now limp and unmoving.  Could be gutted for parts or crafted into a salvaged robot.",
+    "description": "A broken Seneschal, now limp and unmoving.  Could be gutted for parts or crafted into a salvaged robot.",
     "material": [ "steel", "plastic" ],
     "weight": "140 kg",
     "volume": "62500 ml",
@@ -135,7 +135,7 @@
     "copy-from": "broken_milbot_disarmed",
     "color": "light_gray",
     "name": "broken Imaginifier",
-    "description": " broken military humaniform, shattered and inert.  While it looks nowhere near human, you still feel uneasy - as if it is studying you with its eyes.  Could be stripped for parts."
+    "description": "A broken military humaniform, shattered and inert.  While it looks nowhere near human, you still feel uneasy - as if it is studying you with its eyes.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
@@ -143,7 +143,7 @@
     "copy-from": "broken_milbot_disarmed",
     "color": "light_gray",
     "name": "broken Hashashiyyin",
-    "description": "A broken Hashashiyyin, shattered and inert.  While it looks nowhere near human, you still feel uneasy as you feel like it is studying you with it's eyes.  Could be stripped for parts."
+    "description": "A broken Hashashiyyin, shattered and inert.  While it looks nowhere near human, you still feel uneasy - as if it is studying you with its eyes.  Could be stripped for parts."
   },
   {
     "type": "GENERIC",
@@ -258,7 +258,7 @@
     "looks_like": "broken_tribot",
     "name": "broken surgical droid",
     "category": "other",
-    "description": "A broken medical robot, now crumpled and inert.  Could be stripped down for parts.",
+    "description": "A broken surgical robot, now crumpled and inert.  Could be stripped down for parts.",
     "price": 30000,
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
