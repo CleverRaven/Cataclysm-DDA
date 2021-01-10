@@ -3,6 +3,7 @@
 #define CATA_SRC_TALKER_H
 
 #include "coordinates.h"
+#include <list>
 
 class faction;
 class item;
