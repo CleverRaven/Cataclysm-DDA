@@ -602,6 +602,8 @@ class inventory_selector
         /** Highlight parent and contents of selected item.
         */
         void highlight();
+        /** Show detailed item information for selected item. */
+        void action_examine( const item *sitem );
 
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor
