@@ -301,7 +301,7 @@ void player_activity::do_turn( player &p )
         new_act.values.push_back( p.get_stamina_max() );
         if( p.is_avatar() && !ignoreQuery ) {
             uilist tired_query;
-            tired_query.text = _( "You struggle to continue. Keep trying?" );
+            tired_query.text = _( "You struggle to continue.  Keep trying?" );
             tired_query.addentry( 1, true, 'c', _( "Continue after a break." ) );
             tired_query.addentry( 2, true, 'm', _( "Maybe later." ) );
             tired_query.addentry( 3, true, 'f', _( "Finish it." ) );
