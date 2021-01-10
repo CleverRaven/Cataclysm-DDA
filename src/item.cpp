@@ -9153,6 +9153,11 @@ bool item::will_spill() const
     return contents.will_spill();
 }
 
+bool item::will_spill_if_unsealed() const
+{
+    return contents.will_spill_if_unsealed();
+}
+
 std::string item::components_to_string() const
 {
     using t_count_map = std::map<std::string, int>;

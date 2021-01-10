@@ -791,6 +791,17 @@ bool item_contents::will_spill() const
     return false;
 }
 
+bool item_contents::will_spill_if_unsealed() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER )
+            && pocket.will_spill_if_unsealed() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool item_contents::spill_open_pockets( Character &guy, const item *avoid )
 {
     for( item_pocket &pocket : contents ) {

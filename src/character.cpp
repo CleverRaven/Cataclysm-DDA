@@ -3059,7 +3059,7 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
             item_location parent_loc = loc.parent_item();
             item_loc_with_depth parent( parent_loc );
             item_pocket *const pocket = parent_loc->contained_where( *loc );
-            pocket->on_contents_changed();
+            pocket->unseal();
             bool exists = false;
             auto it = sorted_containers.lower_bound( parent );
             for( ; it != sorted_containers.end() && it->depth() == parent.depth(); ++it ) {
@@ -8665,7 +8665,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
 
     std::vector<dispose_option> opts;
 
-    const bool bucket = obj->will_spill();
+    const bool bucket = obj->will_spill() && !obj->is_container_empty();
 
     opts.emplace_back( dispose_option{
         bucket ? _( "Spill contents and store in inventory" ) : _( "Store in inventory" ),
