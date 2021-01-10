@@ -78,9 +78,9 @@
   {
     "type": "overmap_terrain",
     "id": "standing_stones",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
+    "name": "standing stones",
+    "sym": "S",
+    "color": "red",
     "see_cost": 3,
     "spawns": { "group": "GROUP_STANDING_STONES", "population": [ 1, 4 ], "chance": 100 },
     "flags": [ "NO_ROTATE" ]
