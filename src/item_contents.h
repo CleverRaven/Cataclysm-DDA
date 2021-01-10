@@ -174,8 +174,6 @@ class item_contents
          */
         ret_val<item_pocket *> insert_item( const item &it, item_pocket::pocket_type pk_type );
         void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
-        // fills the contents to the brim of this item
-        void fill_with( const item &contained );
         bool can_unload_liquid() const;
 
         /**
