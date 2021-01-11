@@ -44,7 +44,7 @@ class item_contents
           * only checks CONTAINER pocket type
           */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                bool nested );
+                bool nested, bool allow_sealed = false );
 
         units::length max_containable_length() const;
         units::volume max_containable_volume() const;
@@ -172,10 +172,8 @@ class item_contents
          * pocket, items will be successfully inserted without regard to volume, length, or any
          * other restrictions, since these pockets are not considered to be normal "containers".
          */
-        ret_val<bool> insert_item( const item &it, item_pocket::pocket_type pk_type );
+        ret_val<item_pocket *> insert_item( const item &it, item_pocket::pocket_type pk_type );
         void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
-        // fills the contents to the brim of this item
-        void fill_with( const item &contained );
         bool can_unload_liquid() const;
 
         /**

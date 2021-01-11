@@ -240,13 +240,7 @@ class inventory_holster_preset : public inventory_selector_preset
         inventory_holster_preset( const item_location &holster ) : holster( holster ) {}
 
         /** Does this entry satisfy the basic preset conditions? */
-        bool is_shown( const item_location &contained ) const override {
-            item item_copy( *contained );
-            item_copy.charges = 1;
-            return holster->contents.can_contain( item_copy ).success() && !holster->has_item( *contained ) &&
-                   !contained->is_bucket_nonempty() && ( holster->contents.all_pockets_rigid() ||
-                           holster.parents_can_contain_recursive( &item_copy ) );
-        }
+        bool is_shown( const item_location &contained ) const override;
     private:
         // this is the item that we are putting something into
         item_location holster;
@@ -608,6 +602,8 @@ class inventory_selector
         /** Highlight parent and contents of selected item.
         */
         void highlight();
+        /** Show detailed item information for selected item. */
+        void action_examine( const item *sitem );
 
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor

@@ -158,23 +158,6 @@
     "techniques": [ "WBLOCK_1" ]
   },
   {
-    "id": "afs_rolling_pin_barbed_wire",
-    "type": "GENERIC",
-    "copy-from": "rolling_pin",
-    "name": { "str": "barbed-wire rolling pin" },
-    "description": "Typically used to flatten dough, this rolling pin has been repurposed as a weapon, with barbed wire adding some extra power and weight to its swing.  It has some real heft to it; perfect for the bakers of the apocalypse.",
-    "weight": "923 g",
-    "volume": "1500 ml",
-    "price_postapoc": 1500,
-    "material": [ "steel", "wood" ],
-    "to_hit": 1,
-    "bashing": 14,
-    "cutting": 6,
-    "flags": [ "DURABLE_MELEE", "FIREWOOD", "NONCONDUCTIVE" ],
-    "techniques": [ "WBLOCK_1", "RAPID" ],
-    "looks_like": "bwirebat"
-  },
-  {
     "type": "GENERIC",
     "id": "golf_club",
     "name": { "str": "golf club" },
