@@ -14,17 +14,29 @@ Please feel free to reach out to us about ideas and implementations.
 
 These are the files for Aftershock. Whatever you're looking for has been sorted into subfolders for ease of access:
 
+### itemsgroups
+
+Contains json data for itemgroups.
+
 ### items
 
-Contains json data for food, weapons, tools, and materials.
+Contains json data for all item types.
 
 ### maps
 
-Contains json data for map generation, item groups, and furniture.
+Contains json data for map generation, chunks, terrain, map specials and furniture.
 
 ### mobs
 
 Contains json data for new monsters and monster spawn groups.
+
+### monsterdrops
+
+Contains the json which controls what monsters drop on death.
+
+### muations
+
+Contains json for mutations and threshold dreams.
 
 ### player
 
@@ -40,4 +52,8 @@ Contains json data for vehicles, vehicle parts, and vehicle spawn groups.
 
 ### npcs
 
-Contains json data for npcs, factions, and design document for any new factions, specific new factions PrepPhyle and Whately Clan.  The PrepPhyle are a group of frontier squatters taking advantage of decaying colony infrastructure to set up an independent colonoy separate from Corporate and Earthgov influences.  The Whately Clan are a possibly exiled branch of a corporate executive family.  They are mad, bad, and dangerous to know.
+Contains json data for npcs, factions, and design document for any new factions, specific new factions PrepPhyle and Whately Clan.  The PrepPhyle are a group of frontier squatters taking advantage of decaying colony infrastructure to set up an independent colonoy separate from Corporate and Earthgov influences.  The Whately Clan are a possibly exiled branch of a corporate executive family.  They are mad, bad, and dangerous to know. Mutant NPCs are also located in this folder.
+
+### spells
+
+Contains json data for all spells that are used to create unique effects in game.
