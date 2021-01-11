@@ -4,7 +4,7 @@ Aftershock is being developed into a full conversion mod set in a mostly abandon
 
 ### Areas seeking contributors
 Faction interactions and new factions.  Currently there are two new factions in Aftershock. PrepNet and the Whately Clan.  PrepNet is seeking to build an independent colony and the Whatelys are mad scientists.  
-Uplifted animal mobs and mutation lines are always wanted.  I'd love to see someone make a Rabbit or Jackelope line.  Currently we have Mi-Go, Mastodon, and Cecaelian mutation trees.
+Uplifted animal mobs and mutation lines are always wanted.  I'd love to see someone make a Snow Hare or Yeti line.  Currently we have Mi-Go, Mastodon, and Cecaelian mutation trees.
 Hi-tech item recipes.  Aftershock has its own special crafting for ultratech and we'd love to see what you come up with.
 Missions, locations, and lore snippets we want this to feel like a world just as real as Cataclysm Prime.
 Please feel free to reach out to us about ideas and implementations.
