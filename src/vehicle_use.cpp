@@ -61,6 +61,7 @@
 
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_START_ENGINES( "ACT_START_ENGINES" );
+static const activity_id ACT_START_GENERATORS( "ACT_START_GENERATORS" );
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
@@ -376,24 +377,27 @@ void vehicle::control_electronics()
     } while( valid_option );
 }
 
-void vehicle::control_engines()
+void vehicle::control_engines( bool generators_only )
 {
+
+    const std::vector<int> motors = generators_only ? generators : engines;
+
     int e_toggle = 0;
     bool dirty = false;
     //count active engines
     int active_mask = 0;
     int fuel_count = 0;
     int i = 0;
-    for( int e : engines ) {
+    for( int e : motors ) {
         if( is_part_on( e ) ) {
             active_mask |= 1 << i++;
         }
         fuel_count += part_info( e ).engine_fuel_opts().size();
     }
 
-    const auto adjust_engine = [this]( int e_toggle ) {
+    const auto adjust_engine = [this]( int e_toggle, std::vector<int> motors ) {
         int i = 0;
-        for( int e : engines ) {
+        for( int e : motors ) {
             for( const itype_id &fuel : part_info( e ).engine_fuel_opts() ) {
                 if( i == e_toggle ) {
                     if( parts[ e ].fuel_current() == fuel ) {
@@ -410,23 +414,27 @@ void vehicle::control_engines()
 
     //show menu until user finishes
     do {
-        e_toggle = select_engine();
+        e_toggle = select_engine( generators_only );
         if( e_toggle < 0 || e_toggle >= fuel_count ) {
             break;
         }
         dirty = true;
-        adjust_engine( e_toggle );
+        adjust_engine( e_toggle, motors );
     } while( e_toggle < fuel_count );
 
     if( !dirty ) {
         return;
     }
 
-    bool engines_were_on = engine_on;
+    bool engines_were_on = generators_only ? generator_on : engine_on;
     int new_active_mask = 0;
     i = 0;
-    for( int e : engines ) {
-        engine_on |= is_part_on( e );
+    for( int e : motors ) {
+        if( generators_only ) {
+            generator_on |= is_part_on( e );
+        } else {
+            engine_on |= is_part_on( e );
+        }
         new_active_mask |= 1 << i++;
     }
 
@@ -437,24 +445,26 @@ void vehicle::control_engines()
         cruise_velocity = safe_vel;
     }
 
-    if( engines_were_on && !engine_on ) {
+    if( engines_were_on && ( generators_only ? !generator_on : !engine_on ) ) {
         add_msg( _( "You turn off the %s's engines to change their configurations." ), name );
     } else if( !get_player_character().controlling_vehicle ) {
         add_msg( _( "You change the %s's engine configuration." ), name );
     }
 
-    if( engine_on ) {
-        start_engines();
+    if( generators_only ? generator_on : engine_on ) {
+        start_engines( false, false, generators_only );
     }
 }
 
-int vehicle::select_engine()
+int vehicle::select_engine( const bool generators_only )
 {
+    const std::vector<int> motors = generators_only ? generators : engines;
+
     uilist tmenu;
     tmenu.text = _( "Toggle which?" );
     int i = 0;
-    for( size_t x = 0; x < engines.size(); x++ ) {
-        int e = engines[ x ];
+    for( size_t x = 0; x < motors.size(); x++ ) {
+        int e = motors[ x ];
         for( const itype_id &fuel_id : part_info( e ).engine_fuel_opts() ) {
             bool is_active = parts[ e ].enabled && parts[ e ].fuel_current() == fuel_id;
             bool is_available = parts[ e ].is_available() &&
@@ -760,6 +770,11 @@ void vehicle::use_controls( const tripoint &pos )
         actions.emplace_back( [&] { control_engines(); refresh(); } );
     }
 
+    if( has_part( "GENERATOR" ) ) {
+        options.emplace_back( _( "Control individual generators" ), keybind( "CONTROL_GENERATORS" ) );
+        actions.push_back( [&] { control_engines( true ); refresh(); } );
+    }
+
     if( has_part( "SMART_ENGINE_CONTROLLER" ) ) {
         options.emplace_back( _( "Smart controller settings" ),
                               keybind( "TOGGLE_SMART_ENGINE_CONTROLLER" ) );
@@ -917,43 +932,50 @@ bool vehicle::fold_up()
     return true;
 }
 
-double vehicle::engine_cold_factor( const int e ) const
+double vehicle::engine_cold_factor( const int e, const bool generators_only ) const
 {
-    if( !part_info( engines[e] ).has_flag( "E_COLD_START" ) ) {
+    const std::vector<int> motors = generators_only ? generators : engines;
+
+    if( !part_info( motors[e] ).has_flag( "E_COLD_START" ) ) {
         return 0.0;
     }
 
     int eff_temp = get_weather().get_temperature( get_player_character().pos() );
-    if( !parts[ engines[ e ] ].has_fault_flag( "BAD_COLD_START" ) ) {
+    if( !parts[ motors[ e ] ].has_fault_flag( "BAD_COLD_START" ) ) {
         eff_temp = std::min( eff_temp, 20 );
     }
 
     return 1.0 - ( std::max( 0, std::min( 30, eff_temp ) ) / 30.0 );
 }
 
-int vehicle::engine_start_time( const int e ) const
+int vehicle::engine_start_time( const int e, const bool generators_only ) const
 {
-    if( !is_engine_on( e ) || part_info( engines[e] ).has_flag( "E_STARTS_INSTANTLY" ) ||
-        !engine_fuel_left( e ) ) {
+    const std::vector<int> motors = generators_only ? generators : engines;
+
+    if( !is_engine_on( e, generators_only ) ||
+        part_info( motors[e] ).has_flag( "E_STARTS_INSTANTLY" ) ||
+        !engine_fuel_left( e, generators_only ) ) {
         return 0;
     }
 
-    const double dmg = parts[engines[e]].damage_percent();
+    const double dmg = parts[motors[e]].damage_percent();
 
     // non-linear range [100-1000]; f(0.0) = 100, f(0.6) = 250, f(0.8) = 500, f(0.9) = 1000
     // diesel engines with working glow plugs always start with f = 0.6 (or better)
-    const double cold = 100 / tanh( 1 - std::min( engine_cold_factor( e ), 0.9 ) );
+    const double cold = 100 / tanh( 1 - std::min( engine_cold_factor( e, generators_only ), 0.9 ) );
 
     // watts to old vhp = watts / 373
     // divided by magic 16 = watts / 6000
     const double watts_per_time = 6000;
-    return part_vpower_w( engines[ e ], true ) / watts_per_time + 100 * dmg + cold;
+    return part_vpower_w( motors[ e ], true ) / watts_per_time + 100 * dmg + cold;
 }
 
-bool vehicle::auto_select_fuel( int e )
+bool vehicle::auto_select_fuel( int e, const bool generators_only )
 {
-    vehicle_part &vp_engine = parts[ engines[ e ] ];
-    const vpart_info &vp_engine_info = part_info( engines[e] );
+    const std::vector<int> motors = generators_only ? generators : engines;
+
+    vehicle_part &vp_engine = parts[ motors[ e ] ];
+    const vpart_info &vp_engine_info = part_info( motors[e] );
     if( !vp_engine.is_available() ) {
         return false;
     }
@@ -971,16 +993,18 @@ bool vehicle::auto_select_fuel( int e )
     return false; // not a single fuel type left for this engine
 }
 
-bool vehicle::start_engine( const int e )
+bool vehicle::start_engine( const int e, const bool generators_only )
 {
-    if( !is_engine_on( e ) ) {
+    const std::vector<int> motors = generators_only ? generators : engines;
+
+    if( !is_engine_on( e, generators_only ) ) {
         return false;
     }
 
-    const vpart_info &einfo = part_info( engines[e] );
-    vehicle_part &eng = parts[ engines[ e ] ];
+    const vpart_info &einfo = part_info( motors[e] );
+    vehicle_part &eng = parts[ motors[ e ] ];
 
-    bool out_of_fuel = !auto_select_fuel( e );
+    bool out_of_fuel = !auto_select_fuel( e, generators_only );
 
     Character &player_character = get_player_character();
     if( out_of_fuel ) {
@@ -1000,16 +1024,16 @@ bool vehicle::start_engine( const int e )
         }
     }
 
-    const double dmg = parts[engines[e]].damage_percent();
-    const int engine_power = std::abs( part_epower_w( engines[e] ) );
-    const double cold_factor = engine_cold_factor( e );
-    const int start_moves = engine_start_time( e );
+    const double dmg = parts[motors[e]].damage_percent();
+    const int engine_power = std::abs( part_epower_w( motors[e] ) );
+    const double cold_factor = engine_cold_factor( e, generators_only );
+    const int start_moves = engine_start_time( e, generators_only );
 
-    const tripoint pos = global_part_pos3( engines[e] );
+    const tripoint pos = global_part_pos3( motors[e] );
     if( einfo.engine_backfire_threshold() ) {
         if( ( 1 - dmg ) < einfo.engine_backfire_threshold() &&
             one_in( einfo.engine_backfire_freq() ) ) {
-            backfire( e );
+            backfire( e, generators_only );
         } else {
             sounds::sound( pos, start_moves / 10, sounds::sound_t::movement,
                            string_format( _( "the %s bang as it starts!" ), eng.name() ), true, "vehicle",
@@ -1066,11 +1090,11 @@ bool vehicle::start_engine( const int e )
     if( sfx::has_variant_sound( "engine_start", eng.info().get_id().str() ) ) {
         sfx::play_variant_sound( "engine_start", eng.info().get_id().str(),
                                  eng.info().engine_noise_factor() );
-    } else if( einfo.fuel_type == fuel_type_muscle ) {
+    } else if( is_engine_type( e, fuel_type_muscle, generators_only ) ) {
         sfx::play_variant_sound( "engine_start", "muscle", eng.info().engine_noise_factor() );
-    } else if( is_engine_type( e, fuel_type_wind ) ) {
+    } else if( is_engine_type( e, fuel_type_wind, generators_only ) ) {
         sfx::play_variant_sound( "engine_start", "wind", eng.info().engine_noise_factor() );
-    } else if( is_engine_type( e, fuel_type_battery ) ) {
+    } else if( is_engine_type( e, fuel_type_battery, generators_only ) ) {
         sfx::play_variant_sound( "engine_start", "electric", eng.info().engine_noise_factor() );
     } else {
         sfx::play_variant_sound( "engine_start", "combustion", eng.info().engine_noise_factor() );
@@ -1100,15 +1124,17 @@ void vehicle::stop_engines()
     sfx::do_vehicle_engine_sfx();
 }
 
-void vehicle::start_engines( const bool take_control, const bool autodrive )
+void vehicle::start_engines( const bool take_control, const bool autodrive, bool generators_only )
 {
-    bool has_engine = std::any_of( engines.begin(), engines.end(), [&]( int idx ) {
+    const std::vector<int> motors = generators_only ? generators : engines;
+
+    bool has_engine = std::any_of( motors.begin(), motors.end(), [&]( int idx ) {
         return parts[ idx ].enabled && !parts[ idx ].is_broken();
     } );
 
     // if no engines enabled then enable all before trying to start the vehicle
     if( !has_engine ) {
-        for( int idx : engines ) {
+        for( int idx : motors ) {
             if( !parts[ idx ].is_broken() ) {
                 parts[ idx ].enabled = true;
             }
@@ -1119,13 +1145,13 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
     // record the first usable engine as the referenced position checked at the end of the engine starting activity
     bool has_starting_engine_position = false;
     tripoint starting_engine_position;
-    for( size_t e = 0; e < engines.size(); ++e ) {
-        if( !has_starting_engine_position && !parts[ engines[ e ] ].is_broken() &&
-            parts[ engines[ e ] ].enabled ) {
-            starting_engine_position = global_part_pos3( engines[ e ] );
+    for( size_t e = 0; e < motors.size(); ++e ) {
+        if( !has_starting_engine_position && !parts[ motors[ e ] ].is_broken() &&
+            parts[ motors[ e ] ].enabled ) {
+            starting_engine_position = global_part_pos3( motors[ e ] );
             has_starting_engine_position = true;
         }
-        has_engine = has_engine || is_engine_on( e );
+        has_engine = has_engine || is_engine_on( e, generators_only );
         start_time = std::max( start_time, engine_start_time( e ) );
     }
 
@@ -1134,7 +1160,11 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
     }
 
     if( !has_engine ) {
-        add_msg( m_info, _( "The %s doesn't have an engine!" ), name );
+        if( generators_only ) {
+            add_msg( m_info, _( "The %s doesn't have a generator!" ), name );
+        } else {
+            add_msg( m_info, _( "The %s doesn't have an engine!" ), name );
+        }
         return;
     }
 
@@ -1144,7 +1174,8 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
         add_msg( _( "You take control of the %s." ), name );
     }
     if( !autodrive ) {
-        player_character.assign_activity( ACT_START_ENGINES, start_time );
+        player_character.assign_activity( generators_only ? ACT_START_GENERATORS : ACT_START_ENGINES,
+                                          start_time );
         player_character.activity.placement = starting_engine_position - player_character.pos();
         player_character.activity.values.push_back( take_control );
     }

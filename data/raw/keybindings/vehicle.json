@@ -14,6 +14,13 @@
     "bindings": [ { "input_method": "keyboard_any", "key": "y" } ]
   },
   {
+    "id": "CONTROL_GENERATORS",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Control individual generators",
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" } ]
+  },
+  {
     "id": "FOLD_VEHICLE",
     "type": "keybinding",
     "category": "VEHICLE",

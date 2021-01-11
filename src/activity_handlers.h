@@ -202,6 +202,8 @@ void train_finish( player_activity *act, player *p );
 void shear_finish( player_activity *act, player *p );
 void vehicle_finish( player_activity *act, player *p );
 void start_engines_finish( player_activity *act, player *p );
+void start_generators_finish( player_activity *act, player *p );
+void start_motors_finish( player_activity *act, player *p, const bool generators_only );
 void churn_finish( player_activity *act, player *p );
 void plant_seed_finish( player_activity *act, player *p );
 void oxytorch_finish( player_activity *act, player *p );

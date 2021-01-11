@@ -342,7 +342,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         for( size_t i = 0; i < c_engines.size(); ++i ) {
             // ..0.. < ..1..  was off, new state on
             if( ( prev_mask & ( 1 << i ) ) < ( opt_mask & ( 1 << i ) ) ) {
-                if( !start_engine( c_engines[i], true ) ) {
+                if( !start_engine( c_engines[i], true, false ) ) {
                     failed_to_start = true;
                 }
                 turned_on_gas_engine |= !is_engine_type( c_engines[i], fuel_type_battery );
@@ -367,7 +367,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             for( size_t i = 0; i < c_engines.size(); ++i ) {
                 // was on, needs to be off
                 if( ( prev_mask & ( 1 << i ) ) > ( opt_mask & ( 1 << i ) ) ) {
-                    start_engine( c_engines[i], false );
+                    start_engine( c_engines[i], false, false );
                 }
             }
             if( turned_on_gas_engine ) {

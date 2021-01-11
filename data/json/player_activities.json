@@ -549,6 +549,14 @@
     "based_on": "time"
   },
   {
+    "id": "ACT_START_GENERATORS",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "trying to start vehicle's generators",
+    "suspendable": false,
+    "based_on": "time"
+  },
+  {
     "id": "ACT_OXYTORCH",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

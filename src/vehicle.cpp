@@ -1039,9 +1039,11 @@ int vehicle::lift_strength() const
     return std::max<std::int64_t>( mass / 10000_gram, 1 );
 }
 
-void vehicle::toggle_specific_engine( int e, bool on )
+void vehicle::toggle_specific_engine( int e, bool on, const bool generators_only )
 {
-    toggle_specific_part( engines[e], on );
+    const std::vector<int> motors = generators_only ? generators : engines;
+
+    toggle_specific_part( motors[e], on );
 }
 void vehicle::toggle_specific_part( int p, bool on )
 {
@@ -1096,10 +1098,12 @@ bool vehicle::has_engine_conflict( const vpart_info *possible_conflict,
     return has_conflict;
 }
 
-bool vehicle::is_engine_type( const int e, const itype_id  &ft ) const
+bool vehicle::is_engine_type( const int e, const itype_id  &ft, bool generators_only ) const
 {
-    return parts[engines[e]].ammo_current().is_null() ? parts[engines[e]].fuel_current() == ft :
-           parts[engines[e]].ammo_current() == ft;
+    std::vector<int> motors = generators_only ? generators : engines;
+
+    return parts[motors[e]].ammo_current().is_null() ? parts[motors[e]].fuel_current() == ft :
+           parts[motors[e]].ammo_current() == ft;
 }
 
 bool vehicle::is_combustion_engine_type( const int e ) const
@@ -1113,9 +1117,10 @@ bool vehicle::is_perpetual_type( const int e ) const
     return item( ft ).has_flag( flag_PERPETUAL );
 }
 
-bool vehicle::is_engine_on( const int e ) const
+bool vehicle::is_engine_on( const int e, const bool generators_only ) const
 {
-    return parts[ engines[ e ] ].is_available() && is_part_on( engines[ e ] );
+    std::vector<int> motors = generators_only ? generators : engines;
+    return parts[ motors[ e ] ].is_available() && is_part_on( motors[ e ] );
 }
 
 bool vehicle::is_part_on( const int p ) const
@@ -1125,18 +1130,28 @@ bool vehicle::is_part_on( const int p ) const
 
 bool vehicle::is_alternator_on( const int a ) const
 {
+    const bool engine_mounted = vehicle::is_alternator_on( a, engines );
+    const bool generator_mounted = vehicle::is_alternator_on( a, generators );
+
+    return engine_mounted || generator_mounted;
+
+}
+
+bool vehicle::is_alternator_on( const int a, const std::vector<int> motors ) const
+{
     vehicle_part alt = parts[ alternators [ a ] ];
     if( alt.is_unavailable() ) {
         return false;
     }
 
-    return std::any_of( engines.begin(), engines.end(), [this, &alt]( int idx ) {
+    return std::any_of( motors.begin(), motors.end(), [this, &alt]( int idx ) {
         const vehicle_part &eng = parts [ idx ];
         //fuel_left checks that the engine can produce power to be absorbed
         return eng.mount == alt.mount && eng.is_available() && eng.enabled &&
                fuel_left( eng.fuel_current() ) &&
                !eng.has_fault_flag( "NO_ALTERNATOR_CHARGE" );
     } );
+
 }
 
 bool vehicle::has_security_working() const
@@ -1153,15 +1168,17 @@ bool vehicle::has_security_working() const
     return found_security;
 }
 
-void vehicle::backfire( const int e ) const
+void vehicle::backfire( const int e, const bool generators_only ) const
 {
-    const int power = part_vpower_w( engines[e], true );
-    const tripoint pos = global_part_pos3( engines[e] );
+    const std::vector<int> motors = generators_only ? generators : engines;
+
+    const int power = part_vpower_w( motors[e], true );
+    const tripoint pos = global_part_pos3( motors[e] );
     sounds::sound( pos, 40 + power / 10000, sounds::sound_t::movement,
                    // single space after the exclamation mark because it does not end the sentence
                    //~ backfire sound
                    string_format( _( "a loud BANG! from the %s" ), // NOLINT(cata-text-style)
-                                  parts[ engines[ e ] ].name() ), true, "vehicle", "engine_backfire" );
+                                  parts[ motors[ e ] ].name() ), true, "vehicle", "engine_backfire" );
 }
 
 const vpart_info &vehicle::part_info( int index, bool include_removed ) const
@@ -1180,7 +1197,7 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
 {
     const vehicle_part &vp = parts[ index ];
     int pwr = vp.info().power;
-    if( part_flag( index, VPFLAG_ENGINE ) ) {
+    if( part_flag( index, VPFLAG_ENGINE ) || part_flag( index, VPFLAG_GENERATOR ) ) {
         if( pwr == 0 ) {
             pwr = vhp_to_watts( vp.base.engine_displacement() );
         }
@@ -3356,10 +3373,12 @@ int vehicle::fuel_left( const int p, bool recurse ) const
     return fuel_left( parts[ p ].fuel_current(), recurse );
 }
 
-int vehicle::engine_fuel_left( const int e, bool recurse ) const
+int vehicle::engine_fuel_left( const int e, bool recurse, const bool generators_only ) const
 {
-    if( static_cast<size_t>( e ) < engines.size() ) {
-        return fuel_left( parts[ engines[ e ] ].fuel_current(), recurse );
+    const std::vector<int> motors = generators_only ? generators : engines;
+
+    if( static_cast<size_t>( e ) < motors.size() ) {
+        return fuel_left( parts[ motors[ e ] ].fuel_current(), recurse );
     }
     return 0;
 }
@@ -4731,22 +4750,25 @@ std::pair<int, int> vehicle::battery_power_level() const
     return std::make_pair( remaining_epower, total_epower_capacity );
 }
 
-bool vehicle::start_engine( int e, bool turn_on )
+bool vehicle::start_engine( int e, bool turn_on, bool generators_only )
 {
-    if( parts[engines[e]].enabled == turn_on ) {
+
+    const std::vector<int> motors = generators_only ? generators : engines;
+
+    if( parts[motors[e]].enabled == turn_on ) {
         return false;
     }
     bool res = false;
     if( turn_on ) {
-        toggle_specific_engine( e, true );
+        toggle_specific_engine( e, true, generators_only );
         // prevent starting of the faulty engines
         if( ! start_engine( e ) ) {
-            toggle_specific_engine( e, false );
+            toggle_specific_engine( e, false, generators_only );
         } else {
             res = true;
         }
     } else {
-        toggle_specific_engine( e, false );
+        toggle_specific_engine( e, false, generators_only );
         res = true;
     }
     return res;
@@ -5655,6 +5677,7 @@ void vehicle::refresh()
 
     alternators.clear();
     engines.clear();
+    generators.clear();
     reactors.clear();
     solar_panels.clear();
     wind_turbines.clear();
@@ -5737,8 +5760,12 @@ void vehicle::refresh()
         if( vpi.has_flag( VPFLAG_ALTERNATOR ) ) {
             alternators.push_back( p );
         }
-        if( vpi.has_flag( VPFLAG_ENGINE ) ) {
+        //todo remove entirely flag engine from generators
+        if( vpi.has_flag( VPFLAG_ENGINE ) && !vpi.has_flag( VPFLAG_GENERATOR ) ) {
             engines.push_back( p );
+        }
+        if( vpi.has_flag( VPFLAG_GENERATOR ) ) {
+            generators.push_back( p );
         }
         if( vpi.has_flag( VPFLAG_REACTOR ) ) {
             reactors.push_back( p );

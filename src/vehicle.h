@@ -352,6 +352,9 @@ struct vehicle_part {
         /** Can this part provide power or propulsion? */
         bool is_engine() const;
 
+        /** Can this part provide power or propulsion? */
+        bool is_generator() const;
+
         /** Is this any type of vehicle light? */
         bool is_light() const;
 
@@ -740,10 +743,10 @@ class vehicle
                                    bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
-        int engine_start_time( int e ) const;
+        int engine_start_time( int e, const bool generators_only = false ) const;
 
         // How much does the temperature effect the engine starting (0.0 - 1.0)
-        double engine_cold_factor( int e ) const;
+        double engine_cold_factor( int e, const bool generators_only = false ) const;
 
         // refresh pivot_cache, clear pivot_dirty
         void refresh_pivot() const;
@@ -885,16 +888,17 @@ class vehicle
         bool fold_up();
 
         // Try select any fuel for engine, returns true if some fuel is available
-        bool auto_select_fuel( int e );
+        bool auto_select_fuel( int e, const bool generators_only = false );
         // Attempt to start an engine
-        bool start_engine( int e );
+        bool start_engine( int e, const bool generators_only = false );
         // stop all engines
         void stop_engines();
-        // Attempt to start the vehicle's active engines
-        void start_engines( bool take_control = false, bool autodrive = false );
+        // Attempt to start the vehicle's active engines or generators
+        void start_engines( bool take_control = false, bool autodrive = false,
+                            bool generators_only = false );
 
         // Engine backfire, making a loud noise
-        void backfire( int e ) const;
+        void backfire( int e, const bool generators_only = false ) const;
 
         // get vpart type info for part number (part at given vector index)
         const vpart_info &part_info( int index, bool include_removed = false ) const;
@@ -1176,7 +1180,7 @@ class vehicle
         // Checks how much of the part p's current fuel is left
         int fuel_left( int p, bool recurse = false ) const;
         // Checks how much of an engine's current fuel is left in the tanks.
-        int engine_fuel_left( int e, bool recurse = false ) const;
+        int engine_fuel_left( int e, bool recurse = false, const bool generators_only = false ) const;
         int fuel_capacity( const itype_id &ftype ) const;
 
         // Returns the total specific energy of this fuel type. Frozen is ignored.
@@ -1712,28 +1716,30 @@ class vehicle
                                            std::vector<std::function<void()>> &actions );
         //main method for the control of multiple electronics
         void control_electronics();
-        //main method for the control of individual engines
-        void control_engines();
-        // shows ui menu to select an engine
-        int select_engine();
+        //main method for the control of individual engines or generators
+        void control_engines( const bool generators_only = false );
+        // shows ui menu to select an engine or generator
+        int select_engine( const bool generators_only = false );
         //returns whether the engine is enabled or not, and has fueltype
         bool is_engine_type_on( int e, const itype_id &ft ) const;
-        //returns whether the engine is enabled or not
-        bool is_engine_on( int e ) const;
+        //returns whether the engine or generator is enabled or not
+        bool is_engine_on( int e, const bool generators_only = false ) const;
         //returns whether the part is enabled or not
         bool is_part_on( int p ) const;
-        //returns whether the engine uses specified fuel type
-        bool is_engine_type( int e, const itype_id &ft ) const;
+        //returns whether the engine or generator uses specified fuel type
+        bool is_engine_type( int e, const itype_id &ft, bool generators_only = false ) const;
         //returns whether the engine uses one of specific "combustion" fuel types (gas, diesel and diesel substitutes)
         bool is_combustion_engine_type( int e ) const;
-        //returns whether the alternator is operational
+        //returns whether the alternator on vehicle is operational
         bool is_alternator_on( int a ) const;
+        //returns whether the alternator mounted on collection of parts is operational
+        bool is_alternator_on( int a, const std::vector<int> motors ) const;
         //turn engine as on or off (note: doesn't perform checks if engine can start)
-        void toggle_specific_engine( int e, bool on );
+        void toggle_specific_engine( int e, bool on, const bool generators_only = false );
         // try to turn engine on or off
         // (tries to start it and toggles it on if successful, shutdown is always a success)
         // returns true if engine status was changed
-        bool start_engine( int e, bool turn_on );
+        bool start_engine( int e, bool turn_on, bool generators_only );
         void toggle_specific_part( int p, bool on );
         //true if an engine exists with specified type
         //If enabled true, this engine must be enabled to return true
@@ -1859,6 +1865,7 @@ class vehicle
         std::vector<tripoint_abs_omt> omt_path; // route for overmap-scale auto-driving
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
+        std::vector<int> generators;       // List of generator indices
         std::vector<int> reactors;         // List of reactor indices
         std::vector<int> solar_panels;     // List of solar panel indices
         std::vector<int> wind_turbines;     // List of wind turbine indices
@@ -2029,6 +2036,8 @@ class vehicle
         bool cruise_on = true;
         // at least one engine is on, of any type
         bool engine_on = false;
+        // at least one generator is on, of any type
+        bool generator_on = false;
         // vehicle tracking on/off
         bool tracking_on = false;
         // vehicle has no key
