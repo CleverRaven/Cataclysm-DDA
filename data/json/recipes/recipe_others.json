@@ -1236,7 +1236,8 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "rag", 4 ] ], [ [ "charcoal", 75 ] ] ]
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "rag", 4 ] ], [ [ "charcoal", 75 ] ] ],
+    "flags": [ "FULL_MAGAZINE" ]
   },
   {
     "type": "recipe",
@@ -1419,29 +1420,16 @@
   {
     "type": "recipe",
     "activity_level": "fake",
-    "result": "toolbox_workshop",
+    "result": "toolbox_workshop_empty",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 3 ],
-    "difficulty": 4,
+    "skills_required": [ "mechanics", 5 ],
+    "difficulty": 6,
     "time": "4 m",
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [ [ "sheet_metal_small", 5 ] ],
-      [ [ "nail", 11 ] ],
-      [ [ "wire", 1 ] ],
-      [ [ "pockknife", 1 ], [ "primitive_knife", 1 ], [ "copper_knife", 1 ] ],
-      [ [ "screwdriver_set", 1 ] ],
-      [ [ "hacksaw", 1 ] ],
-      [ [ "wrench", 1 ] ],
-      [ [ "saw", 1 ] ],
-      [ [ "hammer", 1 ] ],
-      [ [ "metal_file", 1 ] ],
-      [ [ "pin_reamer", 1 ] ],
-      [ [ "clamp", 1 ] ]
-    ]
+    "components": [ [ [ "sheet_metal_small", 10 ] ], [ [ "nail", 15 ] ], [ [ "wire", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1970,6 +1958,19 @@
     "autolearn": true,
     "reversible": true,
     "components": [ [ [ "2x4", 10 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bundle_rebar",
+    "type": "recipe",
+    "activity_level": "fake",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "rebar", 10 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

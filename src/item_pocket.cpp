@@ -457,20 +457,22 @@ units::volume item_pocket::remaining_volume() const
 
 int item_pocket::remaining_capacity_for_item( const item &it ) const
 {
-    item item_copy( it );
-    if( item_copy.count_by_charges() ) {
-        item_copy.charges = 1;
-    }
-    if( !can_contain( item_copy ).success() ) {
-        return 0;
-    }
-    if( item_copy.count_by_charges() ) {
-        return std::min( { it.charges,
-                           item_copy.charges_per_volume( remaining_volume() ),
-                           item_copy.charges_per_weight( remaining_weight() )
-                         } );
-    } else {
+    if( it.count_by_charges() ) {
+        item it_copy = it;
+        it_copy.charges = 1;
+        if( can_contain( it_copy ).success() ) {
+            return std::min( {
+                it.charges,
+                charges_per_remaining_volume( it ),
+                charges_per_remaining_weight( it )
+            } );
+        } else {
+            return 0;
+        }
+    } else if( can_contain( it ).success() ) {
         return 1;
+    } else {
+        return 0;
     }
 }
 
@@ -696,6 +698,11 @@ bool item_pocket::will_spill() const
     } else {
         return data->open_container;
     }
+}
+
+bool item_pocket::will_spill_if_unsealed() const
+{
+    return data->open_container;
 }
 
 bool item_pocket::seal()
@@ -1107,7 +1114,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_HEAVY, _( "item is too heavy" ) );
     }
-    if( it.weight() > remaining_weight() ) {
+    if( it.weight() > 0_gram && charges_per_remaining_weight( it ) < it.count() ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_CANNOT_SUPPORT, _( "pocket is holding too much weight" ) );
     }
@@ -1115,7 +1122,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_BIG, _( "item too big" ) );
     }
-    if( it.volume() > remaining_volume() ) {
+    if( it.volume() > 0_ml && charges_per_remaining_volume( it ) < it.count() ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_NO_SPACE, _( "not enough space" ) );
     }
@@ -1388,17 +1395,6 @@ void item_pocket::add( const item &it, item **ret )
     }
 }
 
-void item_pocket::fill_with( item contained )
-{
-    if( contained.count_by_charges() ) {
-        contained.charges = 1;
-    }
-    while( can_contain( contained ).success() ) {
-        add( contained );
-    }
-    restack();
-}
-
 bool item_pocket::can_unload_liquid() const
 {
     if( contents.size() != 1 ) {
@@ -1474,6 +1470,42 @@ units::mass item_pocket::contains_weight() const
 units::mass item_pocket::remaining_weight() const
 {
     return weight_capacity() - contains_weight();
+}
+
+int item_pocket::charges_per_remaining_volume( const item &it ) const
+{
+    if( it.count_by_charges() ) {
+        units::volume non_it_volume = volume_capacity();
+        int contained_charges = 0;
+        for( const item &contained : contents ) {
+            if( contained.stacks_with( it ) ) {
+                contained_charges += contained.charges;
+            } else {
+                non_it_volume -= contained.volume();
+            }
+        }
+        return it.charges_per_volume( non_it_volume ) - contained_charges;
+    } else {
+        return it.charges_per_volume( remaining_volume() );
+    }
+}
+
+int item_pocket::charges_per_remaining_weight( const item &it ) const
+{
+    if( it.count_by_charges() ) {
+        units::mass non_it_weight = weight_capacity();
+        int contained_charges = 0;
+        for( const item &contained : contents ) {
+            if( contained.stacks_with( it ) ) {
+                contained_charges += contained.charges;
+            } else {
+                non_it_weight -= contained.weight();
+            }
+        }
+        return it.charges_per_weight( non_it_weight ) - contained_charges;
+    } else {
+        return it.charges_per_weight( remaining_weight() );
+    }
 }
 
 int item_pocket::best_quality( const quality_id &id ) const

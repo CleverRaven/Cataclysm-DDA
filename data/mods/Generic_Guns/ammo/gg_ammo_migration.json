@@ -339,13 +339,26 @@
       "40x46mm_flechette_m199",
       "40x53mm_m1001",
       "40x53mm_flechette_m169",
-      "40x53mm_buckshot_m169"
+      "40x53mm_buckshot_m169",
+      "bp_40x46mm_buckshot_m118",
+      "bp_40x46mm_buckshot_m199",
+      "bp_40x46mm_flechette_m118",
+      "bp_40x46mm_flechette_m199",
+      "bp_40x53mm_flechette_m169",
+      "bp_40x53mm_buckshot_m169"
     ],
     "type": "MIGRATION",
     "replace": "grenade_ammo_shot"
   },
   {
-    "id": [ "40x46mm_slug_m118", "40x46mm_slug_m199", "40x53mm_slug_m169" ],
+    "id": [
+      "40x46mm_slug_m118",
+      "40x46mm_slug_m199",
+      "40x53mm_slug_m169",
+      "bp_40x46mm_slug_m118",
+      "bp_40x46mm_slug_m199",
+      "bp_40x53mm_slug_m169"
+    ],
     "type": "MIGRATION",
     "replace": "grenade_ammo_slug"
   },

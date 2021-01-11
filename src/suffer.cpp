@@ -174,11 +174,11 @@ static float addiction_scaling( float at_min, float at_max, float add_lvl )
     return lerp( at_min, at_max, ( add_lvl - MIN_ADDICTION_LEVEL ) / MAX_ADDICTION_LEVEL );
 }
 
-void Character::suffer_water_damage( const mutation_branch &mdata )
+void Character::suffer_water_damage( const trait_id &mut_id )
 {
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         const float wetness_percentage = elem.second.get_wetness_percentage();
-        const int dmg = mdata.weakness_to_water * wetness_percentage;
+        const int dmg = mut_id->weakness_to_water * wetness_percentage;
         if( dmg > 0 ) {
             apply_damage( nullptr, elem.first, dmg );
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
@@ -193,50 +193,48 @@ void Character::suffer_water_damage( const mutation_branch &mdata )
     }
 }
 
-void Character::suffer_mutation_power( const mutation_branch &mdata,
-                                       Character::trait_data &tdata )
+void Character::suffer_mutation_power( const trait_id &mut_id )
 {
-    if( tdata.powered && tdata.charge > 0 ) {
-        // Already-on units just lose a bit of charge
-        tdata.charge--;
+    if( get_cost_timer( mut_id ) > 0 ) {
+        // Not ready to consume cost yet, the timer ticks on
+        mod_cost_timer( mut_id, -1 );
     } else {
-        // Not-on units, or those with zero charge, have to pay the power cost
-        if( mdata.cooldown > 0 ) {
-            tdata.powered = true;
-            tdata.charge = mdata.cooldown - 1;
+        // Ready to consume cost: pay the power cost and reset timer
+        if( mut_id->cooldown > 0 ) {
+            set_cost_timer( mut_id, mut_id->cooldown - 1 );
         }
-        if( mdata.hunger ) {
-            // does not directly modify hunger, but burns kcal
-            mod_stored_nutr( mdata.cost );
+        if( mut_id->hunger ) {
             if( get_bmi() < character_weight_category::underweight ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too malnourished to keep your %s going." ),
-                                   mdata.name() );
-                tdata.powered = false;
+                                   mut_id->name() );
+                deactivate_mutation( mut_id );
+            } else {
+                // does not directly modify hunger, but burns kcal
+                mod_stored_nutr( mut_id->cost );
             }
         }
-        if( mdata.thirst ) {
-            mod_thirst( mdata.cost );
+        if( mut_id->thirst ) {
             // Well into Dehydrated
             if( get_thirst() >= 260 ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too dehydrated to keep your %s going." ),
-                                   mdata.name() );
-                tdata.powered = false;
+                                   mut_id->name() );
+                deactivate_mutation( mut_id );
+            } else {
+                mod_thirst( mut_id->cost );
             }
         }
-        if( mdata.fatigue ) {
-            mod_fatigue( mdata.cost );
+        if( mut_id->fatigue ) {
             // Exhausted
             if( get_fatigue() >= fatigue_levels::EXHAUSTED ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too exhausted to keep your %s going." ),
-                                   mdata.name() );
-                tdata.powered = false;
+                                   mut_id->name() );
+                deactivate_mutation( mut_id );
+            } else {
+                mod_fatigue( mut_id->cost );
             }
-        }
-        if( !tdata.powered ) {
-            apply_mods( mdata.id, false );
         }
     }
 }
@@ -676,9 +674,9 @@ void Character::suffer_from_asthma( const int current_stim )
             if( charges == 0 ) {
                 add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
             } else {
-                add_msg_if_player( m_info, ngettext( "You use your inhaler, "
+                add_msg_if_player( m_info, ngettext( "You use your inhaler; "
                                                      "only %d charge left.",
-                                                     "You use your inhaler, "
+                                                     "You use your inhaler; "
                                                      "only %d charges left.", charges ),
                                    charges );
             }
@@ -687,13 +685,13 @@ void Character::suffer_from_asthma( const int current_stim )
             moves -= 500; // synched with use action
             charges = charges_of( itype_oxygen_tank ) + charges_of( itype_smoxygen_tank );
             if( charges == 0 ) {
-                add_msg_if_player( m_bad, _( "You breathe in last bit of oxygen "
+                add_msg_if_player( m_bad, _( "You breathe in the last bit of oxygen "
                                              "from the tank." ) );
             } else {
                 add_msg_if_player( m_info, ngettext( "You take a deep breath from your oxygen "
-                                                     "tank, only %d charge left.",
+                                                     "tank; only %d charge left.",
                                                      "You take a deep breath from your oxygen "
-                                                     "tank, only %d charges left.", charges ),
+                                                     "tank; only %d charges left.", charges ),
                                    charges );
             }
         }
@@ -815,13 +813,13 @@ void Character::suffer_from_sunburn()
         if( !one_turn_in( 1_minutes ) ) {
             return;
         }
-        sunlight_effect = _( "The sunlight is really irritating" );
+        sunlight_effect = _( "The sunlight is really irritating." );
     } else if( has_trait( trait_SUNBURN ) ) {
         // Sunburn effects occur about 3 times per minute
         if( !one_turn_in( 20_seconds ) ) {
             return;
         }
-        sunlight_effect = _( "The sunlight burns" );
+        sunlight_effect = _( "The sunlight burns!" );
     }
 
     // Sunglasses can keep the sun off the eyes.
@@ -1171,8 +1169,12 @@ void Character::suffer_from_bad_bionics()
     // Negative bionics effects
     if( has_bionic( bio_dis_shock ) && get_power_level() > 9_kJ && one_turn_in( 2_hours ) &&
         !has_effect( effect_narcosis ) ) {
-        add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
-        mod_pain( 1 );
+        if( !has_trait( trait_NOPAIN ) ) {
+            add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
+            mod_pain( 1 );
+        } else {
+            add_msg_if_player( m_bad, _( "You experience an electrical discharge!" ) );
+        }
         moves -= 150;
         mod_power_level( -10_kJ );
 
@@ -1188,7 +1190,11 @@ void Character::suffer_from_bad_bionics()
         sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }
     if( has_bionic( bio_dis_acid ) && one_turn_in( 150_minutes ) ) {
-        add_msg_if_player( m_bad, _( "You suffer a burning acidic discharge!" ) );
+        if( !has_trait( trait_NOPAIN ) ) {
+            add_msg_if_player( m_bad, _( "You suffer a burning acidic discharge!" ) );
+        } else {
+            add_msg_if_player( m_bad, _( "You experience an acidic discharge!" ) );
+        }
         hurtall( 1, nullptr );
         sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
         sfx::do_player_death_hurt( get_player_character(), false );
@@ -1330,7 +1336,7 @@ static void apply_weary_message( const Character &you, int level, int old )
                 msg = _( "You're beginning to feel like you've exerted yourself a bit." );
                 break;
             case 2:
-                msg = _( "You're tiring out mildly, and slowing down as a result" );
+                msg = _( "You're tiring out mildly, and slowing down as a result." );
                 break;
             case 3:
                 msg = _( "The day's labors are taking their toll, and slowing you down." );
@@ -1403,7 +1409,7 @@ void Character::suffer_from_exertion()
     int chance = activity ? 2000 : 60;
     if( attempted_activity_level > max_activity && one_in( chance ) && !in_sleep_state() ) {
         add_msg_if_player( m_bad,
-                           _( "You're tiring out, continuing to work at this rate will be slower." ) );
+                           _( "You're tiring out; continuing to work at this rate will be slower." ) );
     }
 
     // This must happen at the end, for hopefully obvious reasons
@@ -1519,9 +1525,8 @@ void Character::suffer()
     const int current_stim = get_stim();
     // TODO: Remove this section and encapsulate hp_cur
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        if( elem.second.get_hp_cur() <= 0 ) {
+        if( is_limb_broken( elem.first ) ) {
             add_effect( effect_disabled, 1_turns, elem.first.id(), true );
-            get_event_bus().send<event_type::broken_bone>( getID(), elem.first );
         }
     }
 
@@ -1529,14 +1534,12 @@ void Character::suffer()
         process_bionic( i );
     }
 
-    for( std::pair<const trait_id, Character::trait_data> &mut : my_mutations ) {
-        const mutation_branch &mdata = mut.first.obj();
+    for( const trait_id &mut_id : get_mutations() ) {
         if( calendar::once_every( 1_minutes ) ) {
-            suffer_water_damage( mdata );
+            suffer_water_damage( mut_id );
         }
-        Character::trait_data &tdata = mut.second;
-        if( tdata.powered ) {
-            suffer_mutation_power( mdata, tdata );
+        if( has_active_mutation( mut_id ) ) {
+            suffer_mutation_power( mut_id );
         }
     }
 
@@ -1837,7 +1840,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
     if( torso_wetness >= get_part_drench_capacity( bodypart_id( "torso" ) ) / 2.0 &&
         has_effect( effect_masked_scent ) &&
         get_value( "waterproof_scent" ).empty() ) {
-        add_msg_if_player( m_info, _( "The water wash away the scent." ) );
+        add_msg_if_player( m_info, _( "The water washes away the scent." ) );
         restore_scent();
     }
 
@@ -1872,7 +1875,7 @@ void Character::apply_wetness_morale( int temperature )
             continue;
         }
 
-        const auto &part_arr = mut_drench[bp->token];
+        const std::array<int, NUM_WATER_TOLERANCE> &part_arr = get_part_mut_drench( bp );
         const int part_ignored = part_arr[WT_IGNORED];
         const int part_neutral = part_arr[WT_NEUTRAL];
         const int part_good    = part_arr[WT_GOOD];

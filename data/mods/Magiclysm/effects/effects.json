@@ -209,7 +209,8 @@
     "apply_message": "You are afraid!",
     "remove_message": "Your fear dissipates.",
     "rating": "bad",
-    "base_mods": { "stim_amount": [ 12, 20, 45 ], "vomit_chance": [ 2, 5, 20 ], "speed_mod": [ -2, -5, -10 ] }
+    "base_mods": { "stim_amount": [ 12, 6 ], "vomit_chance": [ 50, 100 ], "speed_mod": [ -2, -1 ], "stim_max_val": [ 30 ] },
+    "scaling_mods": { "stim_amount": [ 12, 6 ], "vomit_chance": [ -15, -5 ], "speed_mod": [ -4, -1 ] }
   },
   {
     "type": "effect_type",

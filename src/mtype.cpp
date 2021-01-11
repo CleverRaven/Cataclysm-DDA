@@ -137,6 +137,16 @@ std::vector<std::string> mtype::species_descriptions() const
     return ret;
 }
 
+field_type_id mtype::get_bleed_type() const
+{
+    for( const species_id &s : species ) {
+        if( !s->bleeds.is_empty() ) {
+            return s->bleeds;
+        }
+    }
+    return fd_null;
+}
+
 bool mtype::same_species( const mtype &other ) const
 {
     return std::any_of( species.begin(), species.end(), [&]( const species_id & s ) {
@@ -166,7 +176,7 @@ field_type_id mtype::bloodType() const
     if( has_flag( MF_WARM ) && made_of( material_id( "flesh" ) ) ) {
         return fd_blood;
     }
-    return fd_null;
+    return get_bleed_type();
 }
 
 field_type_id mtype::gibType() const

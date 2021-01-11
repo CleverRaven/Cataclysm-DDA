@@ -15,6 +15,48 @@
     "components": [ [ [ "2x4", 1 ] ], [ [ "rag", 4 ] ] ]
   },
   {
+    "result": "legguard_chitin",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ [ "fabrication", 3 ] ],
+    "time": "520 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_arthropod", 4 ] ],
+    "byproducts": [ [ "scrap_leather", 92 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_articulation" }
+    ],
+    "using": [ [ "armor_chitin", 6 ], [ "tailoring_leather_small", 4 ] ]
+  },
+  {
+    "result": "legguard_acidchitin",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ [ "fabrication", 3 ], [ "chemistry", 2 ] ],
+    "time": "520 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_arthropod", 5 ] ],
+    "byproducts": [ [ "scrap_leather", 92 ] ],
+    "using": [ [ "armor_acidchitin", 6 ], [ "tailoring_leather_small", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_articulation" }
+    ]
+  },
+  {
     "result": "bikini_bottom",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -288,6 +330,15 @@
     "tools": [ [ [ "swage", -1 ] ] ]
   },
   {
+    "result": "xl_legguard_lightplate",
+    "type": "recipe",
+    "copy-from": "legguard_lightplate",
+    "time": "5 h",
+    "using": [ [ "blacksmithing_standard", 42 ], [ "steel_standard", 9 ], [ "strap_small", 5 ], [ "clasps", 5 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
     "result": "legguard_metal",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
@@ -300,6 +351,14 @@
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "steel_tiny", 4 ], [ "strap_large", 2 ], [ "clasps", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ]
+  },
+  {
+    "result": "xl_legguard_metal",
+    "type": "recipe",
+    "copy-from": "legguard_metal",
+    "time": "2 h",
+    "using": [ [ "steel_tiny", 6 ], [ "strap_large", 3 ], [ "clasps", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ]
   },
   {
@@ -325,10 +384,19 @@
     "time": "40 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "strap_large", 2 ] ],
+    "using": [ [ "strap_large", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 60 ] ] ]
+  },
+  {
+    "result": "xl_legguard_scrap",
+    "type": "recipe",
+    "copy-from": "legguard_scrap",
+    "time": "2 h",
+    "using": [ [ "strap_large", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 90 ] ] ]
   },
   {
     "result": "loincloth",
@@ -395,6 +463,29 @@
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }
+    ],
+    "components": [
+      [
+        [ "legrig", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 4 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ]
+    ]
+  },
+  {
+    "result": "xl_lsurvivor_pants",
+    "type": "recipe",
+    "copy-from": "lsurvivor_pants",
+    "time": "16 h",
+    "using": [
+      [ "tailoring_cotton_patchwork", 4 ],
+      [ "waterproofing_plastic_bags", 10 ],
+      [ "tailoring_kevlar_fabric", 6 ],
+      [ "fastener_small", 1 ]
     ],
     "components": [
       [
@@ -542,6 +633,32 @@
     ]
   },
   {
+    "result": "xl_pants_survivor",
+    "type": "recipe",
+    "copy-from": "pants_survivor",
+    "time": "18 h",
+    "using": [
+      [ "tailoring_kevlar_fabric", 6 ],
+      [ "tailoring_cotton", 6 ],
+      [ "waterproofing_plastic_bags", 10 ],
+      [ "fastener_small", 1 ]
+    ],
+    "components": [
+      [ [ "pants_army", 2 ], [ "pants_cargo", 2 ] ],
+      [
+        [ "tacvest", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 4 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ]
+    ]
+  },
+  {
     "result": "shorts",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -614,6 +731,19 @@
     "components": [ [ [ "jeans", 1 ] ] ]
   },
   {
+    "result": "skirt_grass",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "straw_pile", 3 ], [ "withered", 3 ] ], [ [ "cordage_short", 2, "LIST" ] ] ]
+  },
+  {
     "result": "stockings_tent_legs",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -668,6 +798,13 @@
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   },
   {
+    "result": "xl_chainmail_legs",
+    "type": "recipe",
+    "copy-from": "chainmail_legs",
+    "time": "6 h",
+    "using": [ [ "armor_chainmail_assembling", 6 ], [ "strap_small", 4 ], [ "clasps", 4 ] ]
+  },
+  {
     "result": "legguard_bronze",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
@@ -686,5 +823,13 @@
       { "proficiency": "prof_articulation" }
     ],
     "components": [ [ [ "scrap_bronze", 12 ] ] ]
+  },
+  {
+    "result": "xl_legguard_bronze",
+    "type": "recipe",
+    "copy-from": "legguard_bronze",
+    "time": "10 h",
+    "using": [ [ "forging_standard", 8 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
+    "components": [ [ [ "scrap_bronze", 16 ] ] ]
   }
 ]

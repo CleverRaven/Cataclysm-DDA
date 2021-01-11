@@ -34,7 +34,7 @@
         "....|##########|........"
       ],
       "palettes": [ "mil_outpost_underground" ],
-      "furniture": { "%": "f_robotic_arm" }
+      "furniture": { "%": "f_robotic_arm", "o": "f_oven" }
     }
   }
 ]

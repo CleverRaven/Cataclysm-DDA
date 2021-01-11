@@ -143,23 +143,6 @@ static const std::map<itype_id, int> plut_charges = {
     { itype_id( "plut_slurry" ),       PLUTONIUM_CHARGES / 2 }
 };
 
-int Character::stomach_capacity() const
-{
-    if( has_trait( trait_GIZZARD ) ) {
-        return 0;
-    }
-
-    if( has_active_mutation( trait_HIBERNATE ) ) {
-        return -620;
-    }
-
-    if( has_trait( trait_GOURMAND ) || has_trait( trait_HIBERNATE ) ) {
-        return -60;
-    }
-
-    return -20;
-}
-
 // TODO: Move pizza scraping here.
 static int compute_default_effective_kcal( const item &comest, const Character &you,
         const cata::flat_set<flag_id> &extra_flags = {} )
@@ -1158,6 +1141,35 @@ void Character::modify_morale( item &food, const int nutr )
         }
     }
 
+    // While raw flesh usually means negative morale, carnivores and cullers get a small bonus.
+    // Hunters, predators, and apex predators don't mind raw flesh at all, maybe even like it.
+    // Cooked flesh is unaffected, because people with these traits *prefer* it raw. Fat is unaffected.
+    // Organs are still usually negative due to fun values as low as -35.
+    // The PREDATOR_FUN flag shouldn't be on human flesh, to not interfere with sapiovores/cannibalism.
+    if( food.has_flag( flag_PREDATOR_FUN ) ) {
+        const bool carnivore = has_trait( trait_CARNIVORE );
+        const bool culler = has_trait_flag( "PRED1" );
+        const bool hunter = has_trait_flag( "PRED2" );
+        const bool predator = has_trait_flag( "PRED3" );
+        const bool apex_predator = has_trait_flag( "PRED4" );
+        if( apex_predator ) {
+            // Largest bonus, balances out to around +5 or +10. Some organs may still be negative.
+            add_morale( MORALE_MEATARIAN, 20, 10 );
+            add_msg_if_player( m_good,
+                               _( "As you tear into the raw flesh, you feel satisfied with your meal." ) );
+        } else if( predator || hunter ) {
+            // Should approximately balance the fun to 0 for normal meat.
+            add_morale( MORALE_MEATARIAN, 15, 5 );
+            add_msg_if_player( m_good,
+                               _( "Raw flesh doesn't taste all that bad, actually." ) );
+        } else if( carnivore || culler ) {
+            // Only a small bonus (+5), still negative fun.
+            add_morale( MORALE_MEATARIAN, 5, 0 );
+            add_msg_if_player( m_bad,
+                               _( "This doesn't taste very good, but meat is meat." ) );
+        }
+    }
+
     // Allergy check for food that is ingested (not gum)
     if( !food.has_flag( flag_NO_INGEST ) ) {
         const auto allergy = allergy_type( food );
@@ -1342,8 +1354,6 @@ bool Character::consume_effects( item &food )
             mod_fatigue( nutr );
         }
     }
-    // TODO: remove this
-    int capacity = stomach_capacity();
     // Moved here and changed a bit - it was too complex
     // Incredibly minor stuff like this shouldn't require complexity
     if( !is_npc() && has_trait( trait_SLIMESPAWNER ) &&
@@ -1363,24 +1373,6 @@ bool Character::consume_effects( item &food )
         //~ slimespawns have *small voices* which may be the Nice equivalent
         //~ of the Rat King's ALL CAPS invective.  Probably shared-brain telepathy.
         add_msg_if_player( m_good, _( "hey, you look like me!  let's work together!" ) );
-    }
-
-    // Last thing that happens before capping hunger
-    if( get_hunger() < capacity && has_trait( trait_EATHEALTH ) ) {
-        int excess_food = capacity - get_hunger();
-        add_msg_player_or_npc( _( "You feel the %s filling you out." ),
-                               _( "<npcname> looks better after eating the %s." ),
-                               food.tname() );
-        // Guaranteed 1 HP healing, no matter what.  You're welcome.  ;-)
-        if( excess_food <= 5 ) {
-            healall( 1 );
-        } else {
-            // Straight conversion, except it's divided amongst all your body parts.
-            healall( excess_food /= 5 );
-        }
-
-        // Note: We want this here to prevent "you can't finish this" messages
-        set_hunger( capacity );
     }
 
     nutrients food_nutrients = compute_effective_nutrients( food );
@@ -1515,7 +1507,7 @@ bool Character::can_consume( const item &it ) const
 item &Character::get_consumable_from( item &it ) const
 {
     item *ret = nullptr;
-    it.visit_items( [&]( item * it ) {
+    it.visit_items( [&]( item * it, item * ) {
         if( can_consume_as_is( *it ) ) {
             ret = it;
             return VisitResponse::ABORT;
@@ -1709,19 +1701,19 @@ trinary player::consume( item_location loc, bool force )
         debugmsg( "Null loc to consume." );
         return trinary::NONE;
     }
-    handle_contents_changed_helper handler( *this, loc );
+    contents_change_handler handler;
     item &target = *loc;
     trinary result = consume( target, force );
+    if( result != trinary::NONE ) {
+        handler.unseal_pocket_containing( loc );
+    }
     if( result == trinary::ALL ) {
         if( loc.where() == item_location::type::character ) {
             i_rem( loc.get_item() );
         } else {
             loc.remove_item();
         }
-
     }
-    if( result != trinary::NONE ) {
-        handler.handle();
-    }
+    handler.handle_by( *this );
     return result;
 }

@@ -28,8 +28,8 @@
   {
     "type": "GENERIC",
     "id": "chickenbot_chassis",
-    "name": { "str_sp": "chicken walker chassis" },
-    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the chicken walker.",
+    "name": { "str_sp": "Pathfinder chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the pathfinder.",
     "symbol": "c",
     "color": "light_gray",
     "weight": "60000 g",
@@ -41,8 +41,8 @@
   {
     "type": "GENERIC",
     "id": "tankbot_chassis",
-    "name": { "str_sp": "Beagle chassis" },
-    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Beagle tank.",
+    "name": { "str_sp": "Regulator chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Regulator tank.",
     "symbol": "c",
     "color": "light_gray",
     "weight": "150000 g",
@@ -50,5 +50,92 @@
     "price": 1000000,
     "material": [ "steel" ],
     "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "utilibot_chassis",
+    "name": { "str_sp": "Seneschal chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Seneschal.",
+    "symbol": "c",
+    "color": "light_gray",
+    "weight": "40000 g",
+    "volume": "70000 ml",
+    "price": 200000,
+    "material": [ "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "hazmatbot_chassis",
+    "name": { "str_sp": "Likvidator chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Likvidator.",
+    "copy-from": "utilibot_chassis",
+    "color": "green"
+  },
+  {
+    "type": "GENERIC",
+    "id": "butlerbot_chassis",
+    "name": { "str_sp": "Famulus chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  Looking at it fills you with uneasiness as the Famulus stares at you with empty eyes.",
+    "copy-from": "utilibot_chassis",
+    "color": "dark_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "utilibot_const_chassis",
+    "name": { "str_sp": "Udarnik chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Udarnik.",
+    "copy-from": "utilibot_chassis",
+    "color": "dark_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "utilibot_fire_chassis",
+    "name": { "str_sp": "Brandspojt chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Brandspojt.",
+    "copy-from": "utilibot_chassis",
+    "color": "yellow"
+  },
+  {
+    "type": "GENERIC",
+    "id": "medibot_chassis",
+    "name": { "str_sp": "Surgical Droid chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Surgical Droid.",
+    "copy-from": "utilibot_chassis",
+    "color": "white"
+  },
+  {
+    "type": "GENERIC",
+    "id": "defbot_shot_chassis",
+    "name": { "str_sp": "Aegis chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Aegis.",
+    "copy-from": "utilibot_chassis",
+    "color": "blue"
+  },
+  {
+    "type": "GENERIC",
+    "id": "milbot_base_chassis",
+    "name": { "str_sp": "military robot chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the military robot.",
+    "symbol": "c",
+    "weight": "40000 g",
+    "volume": "70000 ml",
+    "price": 200000,
+    "material": [ "steel" ],
+    "category": "spare_parts",
+    "color": "red_green"
+  },
+  {
+    "type": "GENERIC",
+    "id": "milbot_humaniform_chassis",
+    "name": { "str_sp": "military humaniform chassis" },
+    "description": "What's left when you remove all moving parts and electronics.  You still feel deep down that its hollow eyes are studying you.",
+    "symbol": "c",
+    "weight": "40000 g",
+    "volume": "70000 ml",
+    "price": 200000,
+    "material": [ "steel" ],
+    "category": "spare_parts",
+    "color": "red_green"
   }
 ]

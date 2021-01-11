@@ -418,6 +418,7 @@
       { "item": "camera", "prob": 3, "charges": [ 0, 150 ] },
       { "item": "gum", "prob": 30 },
       { "item": "caff_gum", "prob": 3 },
+      { "item": "licorice", "prob": 3 },
       { "item": "flask_hip", "prob": 5 },
       { "item": "atomic_light", "prob": 1 },
       { "item": "atomic_lamp", "prob": 1 },

@@ -131,21 +131,16 @@ class test_scenario
         }
 };
 
-void unseal_items_containing( std::vector<item_location> &unsealed, item_location &root,
+void unseal_items_containing( contents_change_handler &handler, item_location &root,
                               const std::set<itype_id> &types )
 {
     for( item *it : root->contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         if( it ) {
             item_location content( root, it );
             if( types.count( it->typeId() ) ) {
-                item_pocket *const pocket = root->contained_where( *it );
-                pocket->on_contents_changed();
-                root.on_contents_changed();
-                if( std::find( unsealed.begin(), unsealed.end(), root ) == unsealed.end() ) {
-                    unsealed.emplace_back( root );
-                }
+                handler.unseal_pocket_containing( content );
             }
-            unseal_items_containing( unsealed, content, types );
+            unseal_items_containing( handler, content, types );
         }
     }
 }
@@ -465,14 +460,14 @@ void test_scenario::run()
     // INFO() is scoped, so the message won't be shown if we put in in the switch block.
     INFO( player_action_str );
 
-    std::vector<item_location> liquid_and_food_containers;
+    contents_change_handler handler;
     // TODO replace with actual activities
-    unseal_items_containing( liquid_and_food_containers, it_loc,
+    unseal_items_containing( handler, it_loc,
                              std::set<itype_id> { test_liquid_1ml, test_solid_1ml } );
-    guy.handle_contents_changed( liquid_and_food_containers );
+    handler.handle_by( guy );
 
     // check final state
-    // wether the outermost container will spill. inner containers will always spill.
+    // whether the outermost container will spill. inner containers will always spill.
     bool will_spill_outer = false;
     switch( cur_container_loc ) {
         case container_location::inventory:

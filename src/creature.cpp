@@ -45,6 +45,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "options.h"
 
 struct mutation_branch;
 
@@ -180,6 +181,22 @@ bool Creature::is_underwater() const
     return underwater;
 }
 
+bool Creature::is_ranged_attacker() const
+{
+    if( has_flag( MF_RANGED_ATTACKER ) ) {
+        return true;
+    }
+
+    for( const std::pair<const std::string, mtype_special_attack> &attack :
+         as_monster()->type->special_attacks ) {
+        if( attack.second->id == "gun" ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool Creature::digging() const
 {
     return false;
@@ -211,7 +228,8 @@ bool Creature::sees( const Creature &critter ) const
     }
 
     map &here = get_map();
-    if( !here.has_potential_los( pos(), critter.pos() ) ) {
+    // player can use mirrors, so `has_potential_los` cannot be used
+    if( !is_player() && !here.has_potential_los( pos(), critter.pos() ) ) {
         return false;
     }
 
@@ -507,6 +525,38 @@ int Creature::size_melee_penalty() const
     return 0;
 }
 
+bool Creature::is_adjacent( const Creature *target, const bool allow_z_levels ) const
+{
+    if( target == nullptr ) {
+        return false;
+    }
+
+    if( rl_dist( pos(), target->pos() ) != 1 ) {
+        return false;
+    }
+
+    map &here = get_map();
+    if( posz() == target->posz() ) {
+        return
+            /* either target or attacker are underwater and separated by vehicle tiles */
+            !( underwater != target->underwater &&
+               here.veh_at( pos() ) && here.veh_at( target->pos() ) );
+    }
+
+    if( !allow_z_levels ) {
+        return false;
+    }
+
+    // The square above must have no floor.
+    // The square below must have no ceiling (i.e. no floor on the tile above it).
+    const bool target_above = target->posz() > posz();
+    const tripoint &up   = target_above ? target->pos() : pos();
+    const tripoint &down = target_above ? pos() : target->pos();
+    const tripoint above{ down.xy(), up.z };
+    return ( !here.has_floor( up ) || here.ter( up )->has_flag( TFLAG_GOES_DOWN ) ) &&
+           ( !here.has_floor( above ) || here.ter( above )->has_flag( TFLAG_GOES_DOWN ) );
+}
+
 int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
     const float dodge = dodge_roll();
@@ -553,16 +603,6 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     bodypart_id bp_hit =  select_body_part( source, hit_spread );
     block_hit( source, bp_hit, d );
 
-    // Bashing critical
-    if( critical_hit && !is_immune_effect( effect_stunned ) ) {
-        if( d.type_damage( damage_type::BASH ) * hit_spread > get_hp_max() ) {
-            add_effect( source, effect_stunned, 1_turns ); // 1 turn is enough
-            if( source->is_avatar() ) {
-                add_msg( m_good, _( "You stun %s with your blow." ), disp_name() );
-            }
-        }
-    }
-
     // Stabbing effects
     int stab_moves = rng( d.type_damage( damage_type::STAB ) / 2,
                           d.type_damage( damage_type::STAB ) * 1.5 );
@@ -587,6 +627,18 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     on_hit( source, bp_hit ); // trigger on-gethit events
     dealt_dam = deal_damage( source, bp_hit, d );
     dealt_dam.bp_hit = bp_hit;
+
+    // Bashing critical
+    if( critical_hit && !is_immune_effect( effect_stunned ) &&
+        dealt_dam.type_damage( damage_type::BASH ) > 0 ) {
+        // check if raw bash damage is enough to stun
+        if( d.type_damage( damage_type::BASH ) * hit_spread > get_hp_max() ) {
+            add_effect( source, effect_stunned, 1_turns ); // 1 turn is enough
+            if( source->is_avatar() ) {
+                add_msg( m_good, _( "You stun %s with your blow." ), disp_name() );
+            }
+        }
+    }
 }
 
 /**
@@ -682,17 +734,18 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const int max_damage = proj.impact.total_damage();
     std::string message;
     game_message_type gmtSCTcolor = m_neutral;
+    float world_multiplier = get_option<int>( "MONSTER_RESILIENCE" ) / 100.0f;
     if( magic ) {
         damage_mult *= rng_float( 0.9, 1.1 );
     } else if( goodhit < accuracy_headshot &&
-               max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) ) {
+               max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) / world_multiplier ) {
         message = _( "Headshot!" );
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float( 0.95, 1.05 );
         damage_mult *= crit_multiplier;
         bp_hit = bodypart_id( "head" ); // headshot hits the head, of course
     } else if( goodhit < accuracy_critical &&
-               max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) ) {
+               max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) / world_multiplier ) {
         message = _( "Critical!" );
         gmtSCTcolor = m_critical;
         damage_mult *= rng_float( 0.75, 1.0 );
@@ -1679,7 +1732,12 @@ int Creature::get_part_temp_conv( const bodypart_id &id ) const
 
 int Creature::get_part_frostbite_timer( const bodypart_id &id ) const
 {
-    return get_part_helper( *this, id, &bodypart::get_frotbite_timer );
+    return get_part_helper( *this, id, &bodypart::get_frostbite_timer );
+}
+
+std::array<int, NUM_WATER_TOLERANCE> Creature::get_part_mut_drench( const bodypart_id &id ) const
+{
+    return get_part_helper( *this, id, &bodypart::get_mut_drench );
 }
 
 float Creature::get_part_wetness_percentage( const bodypart_id &id ) const
@@ -1690,6 +1748,9 @@ float Creature::get_part_wetness_percentage( const bodypart_id &id ) const
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
     set_part_helper( *this, id, &bodypart::set_hp_cur, set );
+    if( is_avatar() && as_character()->is_limb_broken( id ) ) {
+        get_event_bus().send<event_type::broken_bone>( as_character()->getID(), id );
+    }
 }
 
 void Creature::set_part_hp_max( const bodypart_id &id, int set )
@@ -1737,9 +1798,17 @@ void Creature::set_part_frostbite_timer( const bodypart_id &id, int set )
     set_part_helper( *this, id, &bodypart::set_frostbite_timer, set );
 }
 
+void Creature::set_part_mut_drench( const bodypart_id &id, std::pair<water_tolerance, int> set )
+{
+    set_part_helper( *this, id, &bodypart::set_mut_drench, set );
+}
+
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
     set_part_helper( *this, id, &bodypart::mod_hp_cur, mod );
+    if( is_avatar() && as_character()->is_limb_broken( id ) ) {
+        get_event_bus().send<event_type::broken_bone>( as_character()->getID(), id );
+    }
 }
 
 void Creature::mod_part_hp_max( const bodypart_id &id, int mod )
@@ -2408,4 +2477,37 @@ void Creature::load_hit_range( const JsonObject &jo )
     if( jo.has_array( "even_good" ) ) {
         jo.read( "even_good", dispersion_for_even_chance_of_good_hit );
     }
+}
+
+void Creature::describe_infrared( std::vector<std::string> &buf ) const
+{
+    std::string size_str;
+    switch( get_size() ) {
+        case creature_size::tiny:
+            size_str = pgettext( "infrared size", "tiny" );
+            break;
+        case creature_size::small:
+            size_str = pgettext( "infrared size", "small" );
+            break;
+        case creature_size::medium:
+            size_str = pgettext( "infrared size", "medium" );
+            break;
+        case creature_size::large:
+            size_str = pgettext( "infrared size", "large" );
+            break;
+        case creature_size::huge:
+            size_str = pgettext( "infrared size", "huge" );
+            break;
+        case creature_size::num_sizes:
+            debugmsg( "Creature has invalid size class." );
+            size_str = "invalid";
+            break;
+    }
+    buf.push_back( _( "You see a figure radiating heat." ) );
+    buf.push_back( string_format( _( "It is %s in size." ), size_str ) );
+}
+
+void Creature::describe_specials( std::vector<std::string> &buf ) const
+{
+    buf.push_back( _( "You sense a creature here." ) );
 }

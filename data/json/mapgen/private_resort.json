@@ -1169,7 +1169,7 @@
         "***WWWWWWWWWWWWWWWWWW***"
       ],
       "palettes": [ "p_resort_palette_basement" ],
-      "place_item": [ { "item": "toolbox", "repeat": 1, "x": 8, "y": 11 } ],
+      "place_loot": [ { "group": "tools_toolbox", "repeat": 1, "x": 8, "y": 11 } ],
       "items": {
         "S": { "item": "preserved_food", "chance": 50, "repeat": [ 0, 3 ] },
         "f": { "item": "butcher_raw_meat", "chance": 50, "repeat": [ 0, 6 ] }

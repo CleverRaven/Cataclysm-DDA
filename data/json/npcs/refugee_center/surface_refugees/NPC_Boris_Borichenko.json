@@ -64,7 +64,7 @@
     "type": "item_group",
     "id": "REFUGEE_Boris_wield",
     "subtype": "collection",
-    "entries": [ { "item": "toolbox" } ]
+    "entries": [ { "group": "tools_toolbox" } ]
   },
   {
     "type": "talk_topic",

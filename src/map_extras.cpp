@@ -1795,12 +1795,12 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             for( const auto &loc : m.points_in_radius( portal_location, 5 ) ) {
                 m.place_spawns( GROUP_MI_GO_CAMP_OM, 30, loc.xy(), loc.xy(), 1, true );
             }
-            point pos;
-            do {
-                pos = p + point( rng( -5, 5 ), rng( -5, 5 ) );
-            } while( pos.x >= 1 && pos.y >= 1 && pos.x < SEEX * 2 - 1 && pos.y < SEEY * 2 - 1 );
-            circle( &m, ter_id( "t_wall_resin" ), pos, 6 );
-            rough_circle( &m, ter_id( "t_floor_resin" ), pos, 5 );
+            const int radius = 6;
+            const point pos = point( rng( std::max( p.x - radius, radius ),
+                                          SEEX * 2 - std::min( SEEX * 2 - p.x, SEEX - radius ) ),
+                                     rng( std::max( p.y - radius, radius ), SEEY * 2 - std::min( SEEY * 2 - p.y, SEEY - radius ) ) );
+            circle( &m, ter_id( "t_wall_resin" ), pos, radius );
+            rough_circle( &m, ter_id( "t_floor_resin" ), pos, radius - 1 );
             break;
         }
         //Anomaly caused by the portal and spawned an artifact
@@ -1861,7 +1861,7 @@ static bool mx_spider( map &m, const tripoint &abs_sub )
 
 static bool mx_jabberwock( map &m, const tripoint &loc )
 {
-    // A rare chance to spawn a jabberwock. This was extracted from the harcoded forest mapgen
+    // A rare chance to spawn a jabberwock. This was extracted from the hardcoded forest mapgen
     // and moved into a map extra. It still has a one_in chance of spawning because otherwise
     // the rarity skewed the values for all the other extras too much. I considered moving it
     // into the monster group, but again the hardcoded rarity it had in the forest mapgen was
@@ -2238,7 +2238,7 @@ static bool mx_point_burned_ground( map &m, const tripoint &abs_sub )
 static bool mx_burned_ground( map &m, const tripoint &abs_sub )
 {
     // This map extra simulates effects of extensive past fire event; it destroys most vegetation,
-    // and flamable objects, swaps vehicles with wreckage, levels houses, scatters ash etc.
+    // and flammable objects, swaps vehicles with wreckage, levels houses, scatters ash etc.
 
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
@@ -2566,7 +2566,7 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
             equipment.y = rng( 0, 3 );
         }
     } else {
-        return false; // cossroads and strange roads - no generation, bail out
+        return false; // crossroads and strange roads - no generation, bail out
     }
     // road defects generator
     switch( rng( 1, 5 ) ) {
@@ -2639,7 +2639,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
             m.add_corpse( { 23, 1, abs_sub.z } );
             break;
         }
-        //Some cocky moron with friends got dragged out of limo and shooted down by a military
+        //Some cocky moron with friends got dragged out of limo and shot down by a military
         case 2: {
             m.add_vehicle( vproto_id( "limousine" ), point( 18, 9 ), 270_degrees );
 
