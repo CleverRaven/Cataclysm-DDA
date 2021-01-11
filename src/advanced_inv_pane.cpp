@@ -40,7 +40,8 @@ void advanced_inventory_pane::save_settings()
 void advanced_inventory_pane::load_settings( int saved_area_idx,
         const std::array<advanced_inv_area, NUM_AIM_LOCATIONS> &squares, bool is_re_enter )
 {
-    const int i_location = ( get_option<bool>( "OPEN_DEFAULT_ADV_INV" ) ) ? saved_area_idx :
+    const int i_location = ( get_option<bool>( "OPEN_DEFAULT_ADV_INV" ) &&
+                             !is_re_enter ) ? saved_area_idx :
                            save_state->area_idx;
     const aim_location location = static_cast<aim_location>( i_location );
     const advanced_inv_area square = squares[location];
@@ -114,7 +115,7 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
             continue;
         }
         for( const std::vector<item *> &it_stack : item_list_to_stack(
-                 worn_item.contents.all_items_top() ) ) {
+                 worn_item.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) ) {
             advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
             if( !pane.is_filtered( *adv_it.items.front() ) ) {
                 square.volume += adv_it.volume;

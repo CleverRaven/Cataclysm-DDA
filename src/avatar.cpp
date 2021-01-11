@@ -1036,8 +1036,9 @@ nc_color avatar::basic_symbol_color() const
 
 int avatar::print_info( const catacurses::window &w, int vStart, int, int column ) const
 {
-    mvwprintw( w, point( column, vStart++ ), _( "You (%s)" ), name );
-    return vStart;
+    return vStart + fold_and_print( w, point( column, vStart ), getmaxx( w ) - column - 1, c_dark_gray,
+                                    _( "You (%s)" ),
+                                    name ) - 1;
 }
 
 void avatar::disp_morale()
@@ -1072,12 +1073,12 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
     int focus_equilibrium = 100;
 
     if( activity.id() == ACT_READ ) {
-        const item &book = *activity.targets[0].get_item();
-        if( book.is_book() && get_item_position( &book ) != INT_MIN ) {
-            auto &bt = *book.type->book;
+        const item *book = activity.targets[0].get_item();
+        if( book && book->is_book() && get_item_position( book ) != INT_MIN ) {
+            auto &bt = book->type->book;
             // apply a penalty when we're actually learning something
-            const SkillLevel &skill_level = get_skill_level_object( bt.skill );
-            if( skill_level.can_train() && skill_level < bt.level ) {
+            const SkillLevel &skill_level = get_skill_level_object( bt->skill );
+            if( skill_level.can_train() && skill_level < bt->level ) {
                 focus_equilibrium -= 50;
             }
         }
@@ -1405,28 +1406,19 @@ int avatar::free_upgrade_points() const
     return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
 }
 
-static int xp_to_next( const avatar &you )
-{
-    const int cur_xp = you.kill_xp();
-    // Initialize to 'already max level' sentinel
-    int xp_next = -1;
-    // Iterate in reverse: { 405k, 355k, 305k, ..., 300 }
-    for( std::array<int, 20>::const_reverse_iterator iter = xp_cutoffs.crbegin();
-         iter != xp_cutoffs.crend(); ++iter ) {
-        if( cur_xp < *iter ) {
-            xp_next = *iter;
-        }
-    }
-    return xp_next;
-}
-
 void avatar::upgrade_stat_prompt( const character_stat &stat )
 {
     const int free_points = free_upgrade_points();
-    const int next_lvl_xp = xp_to_next( *this );
 
     if( free_points <= 0 ) {
-        popup( _( "No available stat points to spend.  Experience to next level: %d" ), next_lvl_xp );
+        std::array<int, 20>::const_iterator xp_next_level = std::lower_bound( xp_cutoffs.begin(),
+                xp_cutoffs.end(), kill_xp() );
+        if( xp_next_level == xp_cutoffs.end() ) {
+            popup( _( "You've already reached maximum level." ) );
+        } else {
+            popup( _( "Needs %d more experience to gain next level." ),
+                   *xp_next_level - kill_xp() );
+        }
         return;
     }
 
@@ -1472,6 +1464,7 @@ void avatar::upgrade_stat_prompt( const character_stat &stat )
                 break;
         }
     }
+    recalc_hp();
 }
 
 faction *avatar::get_faction() const
@@ -1481,28 +1474,16 @@ faction *avatar::get_faction() const
 
 void avatar::set_movement_mode( const move_mode_id &new_mode )
 {
-    steed_type steed;
-    if( is_mounted() ) {
-        if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-            steed = steed_type::MECH;
-        } else {
-            steed = steed_type::ANIMAL;
-        }
-    } else {
-        steed = steed_type::NONE;
-    }
-
     if( can_switch_to( new_mode ) ) {
-        add_msg( new_mode->change_message( true, steed ) );
+        if( is_hauling() && new_mode->stop_hauling() ) {
+            stop_hauling();
+        }
+        add_msg( new_mode->change_message( true, get_steed_type() ) );
         move_mode = new_mode;
         // crouching affects visibility
         get_map().set_seen_cache_dirty( pos().z );
-
-        if( new_mode->stop_hauling() ) {
-            stop_hauling();
-        }
     } else {
-        add_msg( new_mode->change_message( false, steed ) );
+        add_msg( new_mode->change_message( false, get_steed_type() ) );
     }
 }
 

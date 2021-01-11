@@ -259,6 +259,7 @@ extern const flag_id flag_SHRUB;
 extern const flag_id flag_SKINNED;
 extern const flag_id flag_SKINTIGHT;
 extern const flag_id flag_SLEEP_AID;
+extern const flag_id flag_SLEEP_AID_CONTAINER;
 extern const flag_id flag_SLEEP_IGNORE;
 extern const flag_id flag_SLOWS_MOVEMENT;
 extern const flag_id flag_SLOWS_THIRST;

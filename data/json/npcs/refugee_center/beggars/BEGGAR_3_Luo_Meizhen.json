@@ -182,8 +182,8 @@
     "dynamic_line": "Thanks, I really appreciate this.",
     "speaker_effect": [ { "effect": { "npc_add_effect": "beggar_has_eaten", "duration": 3600 } } ],
     "responses": [
-      { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_3_INTRO", "effect": "u_bulk_trade_accept" },
-      { "text": "No problem.  See you around.", "topic": "TALK_DONE", "effect": "u_bulk_trade_accept" }
+      { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_3_INTRO", "effect": { "u_bulk_donate": 1 } },
+      { "text": "No problem.  See you around.", "topic": "TALK_DONE", "effect": { "u_bulk_donate": 1 } }
     ]
   },
   {

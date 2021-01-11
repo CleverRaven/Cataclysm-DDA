@@ -53,6 +53,8 @@ class color_loader
             jsin.start_array();
             while( !jsin.end_array() ) {
                 JsonObject jo = jsin.get_object();
+                // This isn't actually read (here), so just ignore it
+                jo.get_string( "type" );
                 load_colors( jo );
                 jo.finish();
             }

@@ -151,8 +151,7 @@
     "name": { "str": "The Analyst", "str_pl": "issues of The Analyst" },
     "//": "ie The Economist",
     "description": "This news magazine has been described as \"a kind of Reader's Digest for America's corporate elite.\"  These concerns are, of course, behind us now.",
-    "copy-from": "book_nonf_zine_news_tpl",
-    "looks_like": "mag_glam"
+    "copy-from": "book_nonf_zine_news_tpl"
   },
   {
     "id": "mag_porn",

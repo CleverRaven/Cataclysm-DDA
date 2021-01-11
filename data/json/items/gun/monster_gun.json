@@ -83,6 +83,6 @@
     "type": "GUN",
     "name": { "str": "mounted_laser" },
     "ups_charges": 0,
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   }
 ]

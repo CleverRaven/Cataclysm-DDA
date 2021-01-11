@@ -47,10 +47,7 @@ class leap_actor : public mattack_actor
 class mon_spellcasting_actor : public mattack_actor
 {
     public:
-        // is the spell beneficial to target itself?
-        bool self = false;
-        spell spell_data;
-        int move_cost = 0;
+        fake_spell spell_data;
 
         mon_spellcasting_actor() = default;
         ~mon_spellcasting_actor() override = default;

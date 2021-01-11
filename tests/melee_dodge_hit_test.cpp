@@ -202,6 +202,7 @@ TEST_CASE( "player::get_dodge", "[player][melee][dodge]" )
     const float base_dodge = dummy.get_dodge_base();
 
     SECTION( "each dodge after the first subtracts 2 points" ) {
+        dummy.dodges_left = 1;
         // Simulate some dodges, so dodges_left will go to 0, -1
         dummy.on_dodge( nullptr, 0 );
         CHECK( dummy.get_dodge() == base_dodge - 2 );
@@ -408,4 +409,3 @@ TEST_CASE( "player::get_dodge stamina effects", "[player][melee][dodge][stamina]
         }
     }
 }
-

@@ -1007,10 +1007,35 @@ If the JSON objects contains a "trait" member, it defines a replacement for mult
     { "item": "hat_hunting", "new": [ { "item": "hat_cotton", "ratio": 2 } ] }
   ]
 }
-```C++
+```
 This defines characters with the WOOLALLERGY trait get some items replaced:
 - "blazer" is converted into "jacket_leather_red",
 - each "hat_hunting" is converted into *two* "hat_cotton" items.
+
+If the JSON objects contains a "bonus" member, it defines which items will be received, like this:
+```C++
+{
+  "type": "profession_item_substitutions",
+  "group": {
+    "items": [ "winter_pants_army", "undershirt", "socks", "sweatshirt", "boots_hiking", "knife_folding", "wristwatch" ],
+    "entries": [
+      { "group": "charged_two_way_radio" },
+      { "group": "charged_matches" },
+      { "item": "ear_plugs" },
+      { "item": "water_clean", "container-item": "canteen" },
+      { "item": "m1911", "ammo-item": "45_acp", "charges": 7, "container-item": "holster" },
+      { "item": "45_acp", "charges": 23 },
+      { "item": "garand", "ammo-item": "3006", "charges": 8, "contents-item": "shoulder_strap" },
+      { "item": "3006", "charges": 8, "container-item": "garandclip" },
+      { "item": "3006", "charges": 4 }
+    ]
+  },
+  "bonus": {
+    "present": [ "ALBINO" ],
+    "absent": [ "HYPEROPIC" ]
+  }
+}
+```
 
 ### Professions
 
@@ -2240,6 +2265,7 @@ See also VEHICLE_JSON.md
 "explosion": {                               // Physical explosion data
     "power": 10,                             // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
     "distance_factor": 0.9,                  // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
+    "max_noise": 25,                         // Maximum amount of (auditory) noise the explosion might produce.
     "fire": true,                            // Should the explosion leave fire
     "shrapnel": 200,                         // Total mass of casing, rest of fragmentation variables set to reasonable defaults.
     "shrapnel": {
@@ -2582,6 +2608,7 @@ Guns can be defined like this:
 "burst": 5,                // Number of shots fired in burst mode
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
 "ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
+"ammo_to_fire" 1,          // Amount of ammo used
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
