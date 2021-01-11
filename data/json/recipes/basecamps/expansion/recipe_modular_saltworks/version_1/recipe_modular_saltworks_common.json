@@ -11,7 +11,7 @@
     "never_learn": true,
     "construction_blueprint": "faction_base_saltworks_0",
     "blueprint_name": "Saltworks survey",
-    "time": "3 h",
+    "time": "180 m",
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "blueprint_provides": [ { "id": "fbmsw_0" } ]
   },
