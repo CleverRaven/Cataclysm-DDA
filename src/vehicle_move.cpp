@@ -433,7 +433,11 @@ void vehicle::thrust( int thd, int z )
     }
     if( thrusting && accel == 0 ) {
         if( pl_ctrl ) {
-            add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
+            if( has_engine_type( fuel_type_muscle, true ) ) {
+                add_msg( _( "The %s is too heavy to move!" ), name );
+            } else {
+                add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
+            }
         }
         return;
     }
