@@ -907,23 +907,23 @@ void inventory_column::prepare_paging( const std::string &filter )
         return;
     }
 
-    const auto filter_fn = filter_from_string<inventory_entry>(
-    filter, [this]( const std::string & filter ) {
+    const std::function<bool( const inventory_entry & )> filter_fn = \
+    filter_from_string<inventory_entry>( filter, [this]( const std::string & filter ) {
         return preset.get_filter( filter );
     } );
 
     // First, remove all non-items
-    const auto new_end = std::remove_if( entries.begin(),
-    entries.end(), [&filter_fn]( const inventory_entry & entry ) {
+    std::vector<inventory_entry>::const_iterator new_end = std::remove_if(
+    entries.begin(), entries.end(), [&filter_fn]( const inventory_entry & entry ) {
         return !entry.is_item() || !filter_fn( entry );
     } );
     entries.erase( new_end, entries.end() );
     // Then sort them with respect to categories (sort only once each UI session)
     if( entries_unfiltered.empty() ) {
-        auto from = entries.begin();
+        std::vector<inventory_entry>::iterator from = entries.begin();
         while( from != entries.end() ) {
             from->update_cache();
-            auto to = std::next( from );
+            std::vector<inventory_entry>::iterator to = std::next( from );
             while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
                 to->update_cache();
                 std::advance( to, 1 );
@@ -968,12 +968,6 @@ void inventory_column::prepare_paging( const std::string &filter )
             if( !grouped || in_master_group ) {
                 // save item
                 group.insert( group.end(), it->locations.begin(), it->locations.end() );
-                // FIXME: delete if above works
-                /*
-                for( item_location location : it->locations ) {
-                    group.push_back( item_location( location, location.get_item() ) );
-                }
-                */
             } else {
                 gp++;
             }
@@ -981,12 +975,6 @@ void inventory_column::prepare_paging( const std::string &filter )
         } else if( !group.empty() ) {
             // save item
             group.insert( group.end(), it->locations.begin(), it->locations.end() );
-            // FIXME: delete if above works
-            /*
-            for( item_location location : it->locations ) {
-                group.push_back( item_location( location, location.get_item() ) );
-            }
-            */
             // create group entry
             inventory_entry g_entry( group, gp->get_category_ptr() );
             g_entry.update_cache();
@@ -1022,7 +1010,8 @@ void inventory_column::prepare_paging( const std::string &filter )
 
     // Recover categories
     const item_category *current_category = nullptr;
-    for( auto iter = entries.begin(); iter != entries.end(); ++iter ) {
+    for( std::vector<inventory_entry>::iterator iter = entries.begin();
+         iter != entries.end(); ++iter ) {
         if( iter->get_category_ptr() == current_category ) {
             continue;
         }
@@ -1035,7 +1024,7 @@ void inventory_column::prepare_paging( const std::string &filter )
     if( entries.size() > entries_per_page ) {
         entries_per_page -= 1;  // Make room for the page number.
         for( size_t i = entries_per_page - 1; i < entries.size(); i += entries_per_page ) {
-            auto iter = std::next( entries.begin(), i );
+            std::vector<inventory_entry>::iterator iter = std::next( entries.begin(), i );
             if( iter->is_category() ) {
                 // The last item on the page must not be a category.
                 entries.insert( iter, inventory_entry() );
