@@ -700,6 +700,11 @@ bool item_pocket::will_spill() const
     }
 }
 
+bool item_pocket::will_spill_if_unsealed() const
+{
+    return data->open_container;
+}
+
 bool item_pocket::seal()
 {
     if( !sealable() || empty() ) {

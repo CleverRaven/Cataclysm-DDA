@@ -1348,6 +1348,14 @@ drop_locations game_menus::inv::holster( player &p, const item_location &holster
 
 void game_menus::inv::insert_items( avatar &you, item_location &holster )
 {
+    if( holster->will_spill_if_unsealed()
+        && holster.where() != item_location::type::map
+        && !get_player_character().is_wielding( *holster ) ) {
+
+        you.add_msg_if_player( m_info, _( "The %s would spill unless it's on the ground or wielded." ),
+                               holster->type_name() );
+        return;
+    }
     drop_locations holstered_list = game_menus::inv::holster( you, holster );
     bool all_pockets_rigid = holster->contents.all_pockets_rigid();
     contents_change_handler handler;

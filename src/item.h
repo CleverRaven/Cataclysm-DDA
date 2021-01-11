@@ -1317,6 +1317,7 @@ class item : public visitable
           * if the item will spill if placed into a container
           */
         bool will_spill() const;
+        bool will_spill_if_unsealed() const;
         /**
          * Unloads the item's contents.
          * @param c Character who receives the contents.

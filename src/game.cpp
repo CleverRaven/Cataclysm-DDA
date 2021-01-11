@@ -2130,6 +2130,17 @@ static hint_rating rate_action_wield( const avatar &you, const item &it )
     return you.can_wield( it ).success() ? hint_rating::good : hint_rating::iffy;
 }
 
+static hint_rating rate_action_insert( const avatar &you, const item_location &loc )
+{
+    if( loc->will_spill_if_unsealed()
+        && loc.where() != item_location::type::map
+        && !you.is_wielding( *loc ) ) {
+
+        return hint_rating::cant;
+    }
+    return hint_rating::good;
+}
+
 /* item submenu for 'i' and '/'
 * It use draw_item_info to draw item info and action menu
 *
@@ -2193,7 +2204,7 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
         if( oThisItem.has_pockets() ) {
-            addentry( 'i', pgettext( "action", "insert" ), hint_rating::good );
+            addentry( 'i', pgettext( "action", "insert" ), rate_action_insert( u, locThisItem ) );
             if( oThisItem.contents.num_item_stacks() > 0 ) {
                 addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
             }

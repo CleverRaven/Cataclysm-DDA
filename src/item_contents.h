@@ -232,6 +232,7 @@ class item_contents
         void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
         // returns true if any of the pockets will spill if placed into a pocket
         bool will_spill() const;
+        bool will_spill_if_unsealed() const;
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
         void casings_handle( const std::function<bool( item & )> &func );
 
