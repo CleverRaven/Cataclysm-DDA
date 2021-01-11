@@ -34,13 +34,13 @@ Contains json data for new monsters and monster spawn groups.
 
 Contains the json which controls what monsters drop on death.
 
-### muations
+### mutations
 
 Contains json for mutations and threshold dreams.
 
 ### player
 
-Contains json data for things that affect the player; bionics, mutations, professions, techniques, status effects, etc.
+Contains json data for things that affect the player; bionics, professions, techniques, status effects, etc.
 
 ### recipes
 
