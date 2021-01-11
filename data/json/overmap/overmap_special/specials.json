@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_special",
-    "id": "Crater",
+    "id": "alphaCrater",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "crater" } ],
     "locations": [ "land" ],
     "occurrences": [ 0, 6 ],
@@ -11,7 +11,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "motel-twd",
+    "id": "alphamotel-twd",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "motel_twd_1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "motel_twd_2_north" },
@@ -29,7 +29,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Motel",
+    "id": "alphaMotel",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
@@ -50,7 +50,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Boat Rental",
+    "id": "alphaBoat Rental",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "boat_rental_north", "connection": "local_road" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
@@ -62,7 +62,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Riverside Dwelling",
+    "id": "alphaRiverside Dwelling",
 	"//": "TODO:  range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "riverside_dwelling_north" } ],
     "locations": [ "water" ],
@@ -72,7 +72,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Pottery Cottage",
+    "id": "alphaPottery Cottage",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "pottery_cottage_field_north" },
@@ -90,7 +90,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "farm_abandoned",
+    "id": "alphafarm_abandoned",
 	"//": "TODO: range, size",
     "overmaps": [
       { "point": [ 1, 0, 0 ], "overmap": "car_corner_aban1_north" },
@@ -127,7 +127,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Shipwreck",
+    "id": "alphaShipwreck",
 	"//": "TODO: Range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shipwreck_river_1_north" },
@@ -166,7 +166,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "LMOE Shelter",
+    "id": "alphaLMOE Shelter",
 	"//": "TODO: Location, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lmoe_north" },
@@ -181,7 +181,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Sewage Treatment Plant",
+    "id": "alphaSewage Treatment Plant",
 	"//": "TODO: range, SIZE",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
@@ -215,7 +215,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Bee Hive",
+    "id": "alphaBee Hive",
 	"//": "TODO: size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "hive" },
@@ -237,7 +237,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Rural Gas Station",
+    "id": "alphaRural Gas Station",
 	"//": "TODO: Location,  range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_gas_rural_north" },
@@ -251,7 +251,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Gas Station",
+    "id": "alphaGas Station",
 	"//": "TODO: size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_gas_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "connection": "local_road", "terrain": "road", "existing": true } ],
@@ -262,7 +262,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Cabin",
+    "id": "alphaCabin",
 	"//": "TODO: location, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cabin_north" }, { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_north" } ],
     "locations": [ "forest_with_swamp" ],
@@ -273,7 +273,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Cabin_1",
+    "id": "alphaCabin_1",
 	"//": "TODO: location, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cabin_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_1_north" } ],
     "locations": [ "forest_with_swamp" ],
@@ -284,7 +284,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Cabin_2",
+    "id": "alphaCabin_2",
 	"//": "TODO: location, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cabin_2_north" }, { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_2_north" } ],
     "locations": [ "forest_with_swamp" ],
@@ -295,7 +295,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Cabin_3",
+    "id": "alphaCabin_3",
 	"//": "TODO: location, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cabin_3_north" }, { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_3_north" } ],
     "locations": [ "forest_with_swamp" ],
@@ -306,7 +306,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Cabin_4",
+    "id": "alphaCabin_4",
 	"//": "TODO: location, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cabin_4_north" }, { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_4_north" } ],
     "locations": [ "forest_with_swamp" ],
@@ -317,7 +317,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Cabin_5",
+    "id": "alphaCabin_5",
 	"//": "TODO:  size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cabin_5_north" }, { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_5_north" } ],
     "locations": [ "forest_with_swamp" ],
@@ -328,7 +328,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Cabin_6",
+    "id": "alphaCabin_6",
 	"//": "TODO:  size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cabin_6_north" }, { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_6_north" } ],
     "locations": [ "forest_with_swamp" ],
@@ -339,7 +339,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Cabin_7",
+    "id": "alphaCabin_7",
 	"//": "TODO: location, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cabin_7_north" }, { "point": [ 0, 0, 1 ], "overmap": "cabin_roof_7_north" } ],
     "locations": [ "forest_with_swamp" ],
@@ -350,7 +350,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Cabin_Lapin",
+    "id": "alphaCabin_Lapin",
 	"//": "TODO:  size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "cabin_lapin_north" },
@@ -364,7 +364,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Strange Cabin",
+    "id": "alphaalphaStrange Cabin",
 	"//": "TODO: Occurance? Mission!, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "cabin_strange_north" },
@@ -379,7 +379,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Sugar House",
+    "id": "alphaSugar House",
 	"//": "TODO:  size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "sugar_house_north" },
@@ -393,7 +393,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Farm_2side",
+    "id": "alphaFarm_2side",
 	"//": "TODO: location, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "2farm_4_north" },
@@ -432,7 +432,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Farm",
+    "id": "alphaFarm",
 	"//": "TODO: location, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "farm_3_north" },
@@ -456,7 +456,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Farm_stills",
+    "id": "alphaFarm_stills",
 	"//": "TODO: location, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "farm_stills_4_north" },
@@ -485,7 +485,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "farm_horse",
+    "id": "alphafarm_horse",
 	"//": "TODO: location, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "horse_farm_1_north" },
@@ -521,7 +521,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "farm_lot_wired_2x3",
+    "id": "alphafarm_lot_wired_2x3",
 	"//": "TODO: location, range, size",
     "overmaps": [
       { "point": [ -3, -2, 0 ], "overmap": "farm_lot_wire_turn_v_east" },
@@ -545,7 +545,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "farm_lot_empty_3x2",
+    "id": "alphafarm_lot_empty_3x2",
 	"//": "TODO: location, range, size",
     "overmaps": [
       { "point": [ -2, -3, 0 ], "overmap": "farm_lot_M1_east" },
@@ -569,7 +569,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "farm_lot_forest",
+    "id": "alphafarm_lot_forest",
 	"//": "TODO: location, range, size",
     "overmaps": [
       { "point": [ 0, -5, 0 ], "overmap": "2silos_east" },
@@ -602,7 +602,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "farm_lot_2x4",
+    "id": "alphafarm_lot_2x4",
 	"//": "TODO: location, range, size",
     "overmaps": [
       { "point": [ 0, 1, 0 ], "overmap": "dirt_road_north" },
@@ -631,7 +631,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "St_Johns_farm",
+    "id": "alphaSt_Johns_farm",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "farm_dairy_twd_1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "farm_dairy_twd_2_north" },
@@ -662,7 +662,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Strangle Temple",
+    "id": "alphaStrangle Temple",
 	"//": "TODO: location, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "temple_stairs" },
@@ -680,7 +680,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Standing stones",
+    "id": "alphaStanding stones",
 	"//": "TODO: Occurance, range, size, spawn?",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "standing_stones" } ],
     "locations": [ "forest" ],
@@ -691,7 +691,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Lab",
+    "id": "alphaLab",
 	"//": "TODO: location, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "lab_stairs" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
@@ -702,7 +702,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Lab with Anthill",
+    "id": "alphaLab with Anthill",
 	"//": "TODO:  location range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "lab_stairs" }, { "point": [ 3, 1, 0 ], "overmap": "anthill" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
@@ -714,7 +714,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Central Lab",
+    "id": "alphaCentral Lab",
 	"//": "TODO: Occurance,location range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "central_lab_entrance" },
@@ -765,7 +765,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Ice Lab",
+    "id": "alphaIce Lab",
 	"//": "TODO: location, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "ice_lab_stairs" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
@@ -776,7 +776,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "FEMA Camp",
+    "id": "alphaFEMA Camp",
 	"//": "TODO: location, range, size",
     "overmaps": [
       { "point": [ 1, -1, 0 ], "overmap": "road_end_north" },
@@ -799,7 +799,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "FEMA_Camp2",
+    "id": "alphaFEMA_Camp2",
 	"//": "TODO: location, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "FEMA_tlc_north" },
@@ -822,7 +822,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Military Bunker",
+    "id": "alphaMilitary Bunker",
 	"//": "TODO: location, range, size",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
@@ -837,7 +837,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Military Outpost",
+    "id": "alphaMilitary Outpost",
 	"//": "TODO: location, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outpost_north" } ],
     "locations": [ "land" ],
@@ -847,7 +847,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Missile Silo",
+    "id": "alphaMissile Silo",
 	"//": "TODO: range, size",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
@@ -867,7 +867,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Radio Tower",
+    "id": "alphaRadio Tower",
 	"//": "TODO: location, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "radio_tower_north" },
@@ -886,7 +886,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Radio Tower 1",
+    "id": "alphaRadio Tower 1",
 	"//": "TODO: location, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "radio_tower_1_north" },
@@ -905,7 +905,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Prison",
+    "id": "alphaPrison",
 	"//": "TODO: location range, size",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
@@ -955,7 +955,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Alcatraz Prison",
+    "id": "alphaAlcatraz Prison",
     "overmaps": [
       { "point": [ -1, -1, 0 ], "overmap": "lake_surface" },
       { "point": [ 0, -1, 0 ], "overmap": "lake_surface" },
@@ -1016,7 +1016,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Prison Hidden Lab",
+    "id": "alphaPrison Hidden Lab",
 	"//": "TODO: location, range, size",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
@@ -1066,7 +1066,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Mine Entrance",
+    "id": "alphaMine Entrance",
 	"//": "TODO: location, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_lot_north" }, { "point": [ 0, 1, 0 ], "overmap": "mine_entrance" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
@@ -1078,7 +1078,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Anthill",
+    "id": "alphaAnthill",
 	"//": "TODO: location, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "anthill" } ],
     "locations": [ "wilderness" ],
@@ -1090,7 +1090,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Acid Anthill",
+    "id": "alphaAcid Anthill",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "acid_anthill" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
@@ -1101,7 +1101,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Spider Pit",
+    "id": "alphaSpider Pit",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "spider_pit" }, { "point": [ 0, 0, -1 ], "overmap": "spider_pit_under" } ],
     "locations": [ "forest" ],
     "city_sizes": [ 0, 12 ],
@@ -1111,7 +1111,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Slime Pit",
+    "id": "alphaSlime Pit",
 	"//": "TODO: location, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "slimepit_down" } ],
     "locations": [ "wilderness" ],
@@ -1123,7 +1123,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Fungal Bloom",
+    "id": "alphaFungal Bloom",
 	"//": "TODO: location, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "fungal_bloom" } ],
     "locations": [ "wilderness" ],
@@ -1135,7 +1135,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Fungal Tower",
+    "id": "alphaFungal Tower",
 	"//": "TODO: location, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "fungal_tower" } ],
     "locations": [ "wilderness" ],
@@ -1147,7 +1147,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Fungal Flowers",
+    "id": "alphaFungal Flowers",
 	"//": "TODO: location, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "fungal_flowers" } ],
     "locations": [ "land" ],
@@ -1159,7 +1159,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Triffid Grove",
+    "id": "alphaTriffid Grove",
 	"//": "TODO: location, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "triffid_grove" },
@@ -1175,7 +1175,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Evac Shelter",
+    "id": "alphaEvac Shelter",
 	"//": "TODO: Occurance, location range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shelter_north" },
@@ -1191,7 +1191,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Evac Shelter 1",
+    "id": "alphaEvac Shelter 1",
 	"//": "TODO: Occurance,location range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shelter_1_north" },
@@ -1207,7 +1207,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Evac Shelter 2",
+    "id": "alphaEvac Shelter 2",
 	"//": "TODO: Occurance,location range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shelter_2_north" },
@@ -1223,7 +1223,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Evac Shelter Vandalized",
+    "id": "alphaEvac Shelter Vandalized",
 	"//": "TODO: Occurance,location range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shelter_vandal_north" },
@@ -1239,7 +1239,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Evac Shelter Vandalized 2",
+    "id": "alphaEvac Shelter Vandalized 2",
 	"//": "TODO: Occurance, location range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shelter_1_vandal_north" },
@@ -1255,7 +1255,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Evac Shelter Vandalized 3",
+    "id": "alphaEvac Shelter Vandalized 3",
 	"//": "TODO: Occurance,location range, size Mission!",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shelter_2_vandal_north" },
@@ -1271,7 +1271,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Cave",
+    "id": "alphaCave",
 	"//": "TODO: Occurance, location range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "cave" }, { "point": [ 0, 0, -1 ], "overmap": "cave_underground" } ],
     "locations": [ "forest" ],
@@ -1281,7 +1281,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Rat Cave",
+    "id": "alphaRat Cave",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "cave" },
@@ -1295,7 +1295,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Toxic Waste Dump",
+    "id": "alphaToxic Waste Dump",
 	"//": "TODO: range, size, Connection?",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "toxic_dump_north" } ],
     "locations": [ "land" ],
@@ -1306,7 +1306,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Hazardous Waste Sarcophagus",
+    "id": "alphaHazardous Waste Sarcophagus",
 	"//": "TODO: Occurance, range, size, Mission!",
     "overmaps": [
       { "point": [ 1, -1, 0 ], "overmap": "road_end_north" },
@@ -1327,7 +1327,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Necropolis",
+    "id": "alphaNecropolis",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "necropolis_a_1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "necropolis_a_2_north" },
@@ -1666,7 +1666,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "evac_center",
+    "id": "alphaevac_center",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "refctr_NW1a_north" },
       { "point": [ 1, 0, 0 ], "overmap": "refctr_NW2a_north" },
@@ -3254,7 +3254,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "bandit_cabin",
+    "id": "alphabandit_cabin",
 	"//": "TODO: Occurance, range, size mission",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "bandit_cabin_north" } ],
     "locations": [ "forest" ],
@@ -3265,7 +3265,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "bandit_camp",
+    "id": "alphabandit_camp",
 	"//": "TODO: Connections, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "bandit_camp_1_north" },
@@ -3281,7 +3281,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "sai",
+    "id": "alphasai",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "sai_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
@@ -3293,7 +3293,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "power_station_small",
+    "id": "alphapower_station_small",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pwr_sub_s_north" }, { "point": [ 0, 0, 1 ], "overmap": "pwr_sub_s_roof_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
@@ -3306,7 +3306,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "power_station_large",
+    "id": "alphapower_station_large",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 1, 0 ], "overmap": "pwr_large_entrance_north" },
@@ -3326,7 +3326,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "warehouse",
+    "id": "alphawarehouse",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "warehouse_north" }, { "point": [ 0, 0, 1 ], "overmap": "warehouse_roof_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
@@ -3338,7 +3338,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "ranch_camp",
+    "id": "alpharanch_camp",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "ranch_camp_1_north" },
@@ -3443,7 +3443,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "campsite",
+    "id": "alphacampsite",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "campsite_north" } ],
     "locations": [ "forest" ],
@@ -3453,7 +3453,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "campsite_cabin_incomplete",
+    "id": "alphacampsite_cabin_incomplete",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "campsite_cabin_incomplete_north" } ],
     "locations": [ "forest" ],
@@ -3463,7 +3463,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "campsite_field_biker",
+    "id": "alphacampsite_field_biker",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "campsite_field_biker_north" } ],
     "locations": [ "field" ],
@@ -3473,7 +3473,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "campsite_a",
+    "id": "alphacampsite_a",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "campsite_a_north" } ],
     "locations": [ "forest" ],
@@ -3483,7 +3483,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "campsite_field_biker_destroyed",
+    "id": "alphacampsite_field_biker_destroyed",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "campsite_field_biker_destroyed_north" } ],
     "locations": [ "field" ],
@@ -3493,7 +3493,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "rest_stop",
+    "id": "alpharest_stop",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "roadstop_north" }, { "point": [ 0, 0, 1 ], "overmap": "roadstop_roof_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
@@ -3504,7 +3504,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "roadstop_a",
+    "id": "alpharoadstop_a",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "roadstop_a_north" },
@@ -3518,7 +3518,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "roadstop_b",
+    "id": "alpharoadstop_b",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "roadstop_b_north" },
@@ -3532,7 +3532,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "pump_station",
+    "id": "alphapump_station",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "pump_station_1_north" },
@@ -3557,7 +3557,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "garage_gas",
+    "id": "alphagarage_gas",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "garage_gas_1_north" },
@@ -3579,7 +3579,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "cemetery_religious",
+    "id": "alphacemetery_religious",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "cemetery_4square_00_north" },
@@ -3607,7 +3607,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Hot Springs",
+    "id": "alphaHot Springs",
 	"//": "TODO: Occurance, range, size, extra?",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hot_springs_north" } ],
     "locations": [ "field" ],
@@ -3617,7 +3617,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "basin",
+    "id": "alphabasin",
 	"//": "TODO: Occurance, range, size, extra?",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pond_forest_north" } ],
     "locations": [ "forest" ],
@@ -3627,7 +3627,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "bog",
+    "id": "alphabog",
 	"//": "TODO: Occurance, range, size, extra?",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "pond_swamp_north" } ],
     "locations": [ "swamp" ],
@@ -3637,7 +3637,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Swamp Shack",
+    "id": "alphaSwamp Shack",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "hunter_shack_north" },
@@ -3650,7 +3650,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Swamp Shack 1",
+    "id": "alphaSwamp Shack 1",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "hunter_shack_1_north" },
@@ -3663,7 +3663,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Apple Orchard",
+    "id": "alphaApple Orchard",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "orchard_processing_north" },
@@ -3691,7 +3691,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Dairy Farm",
+    "id": "alphaDairy Farm",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "dairy_farm_NW_north" },
@@ -3709,7 +3709,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "State Park",
+    "id": "alphaState Park",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 1, -1, 0 ], "overmap": "road_end_north" },
@@ -3726,7 +3726,7 @@
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
   {
-    "id": "Fishing Pond",
+    "id": "alphaFishing Pond",
     "type": "overmap_special",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
@@ -3745,7 +3745,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Derelict Property",
+    "id": "alphaDerelict Property",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "derelict_property_north" } ],
     "locations": [ "wilderness" ],
@@ -3755,7 +3755,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Hunting Blind",
+    "id": "alphaHunting Blind",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "hunting_blind_north" } ],
     "locations": [ "wilderness" ],
@@ -3765,7 +3765,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Mansion_Road",
+    "id": "alphaMansion_Road",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "mansion_c5_north" },
       { "point": [ 0, 0, 2 ], "overmap": "mansion_c5_roof_north" },
@@ -3813,7 +3813,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Mansion_Road_Alt",
+    "id": "alphaMansion_Road_Alt",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "mansion_c2_north" },
       { "point": [ 0, 0, 2 ], "overmap": "mansion_c2_roof_north" },
@@ -3861,7 +3861,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Mansion_Wild",
+    "id": "alphaMansion_Wild",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "mansion_c3_north" },
       { "point": [ 0, 0, 2 ], "overmap": "mansion_c3_roof_north" },
@@ -3907,7 +3907,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Mansion_WildAlt",
+    "id": "alphaMansion_WildAlt",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "mansion_c2_north" },
       { "point": [ 0, 0, 2 ], "overmap": "mansion_c2_roof_north" },
@@ -3953,7 +3953,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "junkyard",
+    "id": "alphajunkyard",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "junkyard_1a_north" },
@@ -3972,7 +3972,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "dumpsite",
+    "id": "alphadumpsite",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "dumpsite_north" } ],
 	"connections": [ { "point": [ 0, 1, 0 ], "terrain": "road", "existing": true } ],
@@ -3984,7 +3984,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "nature trail",
+    "id": "alphanature trail",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "NatureTrail_1a_north" },
@@ -3999,7 +3999,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "public pond",
+    "id": "alphapublic pond",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "PublicPond_1a_north" },
@@ -4014,7 +4014,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "cemetery",
+    "id": "alphacemetery",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "Cemetery_1a_north" }, { "point": [ 1, 0, 0 ], "overmap": "Cemetery_1b_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
@@ -4026,7 +4026,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "tree farm",
+    "id": "alphatree farm",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "TreeFarm_1a_north" }, { "point": [ 1, 0, 0 ], "overmap": "TreeFarm_1b_north" } ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
@@ -4037,7 +4037,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "shooting range",
+    "id": "alphashooting range",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "shootingrange_1a_north" },
@@ -4053,7 +4053,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "campground",
+    "id": "alphacampground",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "campground_1a_north" },
@@ -4070,7 +4070,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "desolate barn",
+    "id": "alphadesolate barn",
 	"//": "TODO: Occurance, range, size",
     "locations": [ "land" ],
     "city_distance": [ 10, 40 ],
@@ -4080,7 +4080,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "bandit_garage",
+    "id": "alphabandit_garage",
 	"//": "TODO: Connection!, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "bandit_garage_1_north" },
@@ -4095,7 +4095,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "golf course",
+    "id": "alphagolf course",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "golfcourse_00_north" },
@@ -4122,7 +4122,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Rest_Area",
+    "id": "alphaRest_Area",
 	"//": "TODO:  range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_restparking_1_north" },
@@ -4143,7 +4143,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Movie Theater",
+    "id": "alphaMovie Theater",
 	"//": "TODO: Occurance, range, size, move to cities down the line",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "movietheater_0_0_north" },
@@ -4174,7 +4174,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Trailer Park",
+    "id": "alphaTrailer Park",
 	"//": "TODO: Occurance, range, size, move to cities",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "trailerparksmall0_north" },
@@ -4190,7 +4190,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Homeless Camp",
+    "id": "alphaHomeless Camp",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "homelesscamp_north" } ],
     "locations": [ "land" ],
@@ -4201,7 +4201,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "rural_house",
+    "id": "alpharural_house",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 1, 0 ], "overmap": "dirt_road_forest_north" },
@@ -4217,7 +4217,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "rural_house_turn",
+    "id": "alpharural_house_turn",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 1, 0 ], "overmap": "dirt_road_forest_north" },
@@ -4233,7 +4233,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "rural_house_yard",
+    "id": "alpharural_house_yard",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 1, 0 ], "overmap": "dirt_road_forest_north" },
@@ -4251,7 +4251,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Moonshine Still",
+    "id": "alphaMoonshine Still",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "moonshine_still_north" },
@@ -4264,7 +4264,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Moonshine Still 1",
+    "id": "alphaMoonshine Still 1",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "moonshine_still_1_north" },
@@ -4277,7 +4277,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Moonshine Still 2",
+    "id": "alphaMoonshine Still 2",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "moonshine_still_2_north" },
@@ -4289,7 +4289,7 @@
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
   {
-    "id": "Railroad Station",
+    "id": "alphaRailroad Station",
     "type": "overmap_special",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
@@ -4323,7 +4323,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "2fMotel",
+    "id": "alpha2fMotel",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "2fmotel_entrance_north" },
@@ -4346,7 +4346,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "hub_01",
+    "id": "alphahub_01",
     "overmaps": [
       { "point": [ 0, 0, 1 ], "overmap": "robofachq_roof_a0_north" },
       { "point": [ 1, 0, 1 ], "overmap": "robofachq_roof_a1_north" },
@@ -4432,7 +4432,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "4x4_microlab",
+    "id": "alpha4x4_microlab",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 2, -2, -2 ], "overmap": "microlab_sub_connector_north" },
@@ -4478,7 +4478,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "4x4_microlab_surface",
+    "id": "alpha4x4_microlab_surface",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 2, 1, 1 ], "overmap": "microlab_generic_surface_roof_north" },
@@ -4528,7 +4528,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "4x4_microlab_vent_shaft",
+    "id": "alpha4x4_microlab_vent_shaft",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 2, 1, 1 ], "overmap": "lab_subway_vent_shaft_roof" },
@@ -4581,7 +4581,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "double_microlab",
+    "id": "alphadouble_microlab",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 3, -2, -2 ], "overmap": "microlab_sub_connector_north" },
@@ -4690,7 +4690,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "lab_subway_vent_shaft",
+    "id": "alphalab_subway_vent_shaft",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 1 ], "overmap": "lab_subway_vent_shaft_roof" },
@@ -4711,7 +4711,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "ws_survivor_bunker_place",
+    "id": "alphaws_survivor_bunker_place",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "ws_survivor_bunker_f0_north" },
@@ -4724,7 +4724,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "ws_survivor_camp_place",
+    "id": "alphaws_survivor_camp_place",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "ws_survivor_camp_north" } ],
     "locations": [ "wilderness" ],
@@ -4734,7 +4734,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "ws_giant_sinkhole",
+    "id": "alphaws_giant_sinkhole",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "ws_giant_sinkhole_1_north" },
@@ -4747,7 +4747,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "ws_fire_lookout_tower",
+    "id": "alphaws_fire_lookout_tower",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "ws_fire_lookout_tower_base_north" },
@@ -4762,7 +4762,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "ws_regional_dump",
+    "id": "alphaws_regional_dump",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "ws_regional_dump_0_0_north" },
@@ -4791,7 +4791,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "lab_surface_big",
+    "id": "alphalab_surface_big",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, -1 ], "overmap": "lab_surface_brick_basementA0_north" },
@@ -4954,7 +4954,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "irradiator",
+    "id": "alphairradiator",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "irradiator_1_3_north" },
@@ -4989,7 +4989,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "regional_airport",
+    "id": "alpharegional_airport",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 1, -1, 0 ], "overmap": "road_end_north" },
@@ -5029,7 +5029,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Lumbermill",
+    "id": "alphaLumbermill",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lumbermill_0_0_north" },
@@ -5061,7 +5061,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "ws_biker_dump",
+    "id": "alphaws_biker_dump",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "ws_biker_dump_0_0_north" },
@@ -5091,7 +5091,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "lake_shore_dock_small",
+    "id": "alphalake_shore_dock_small",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
@@ -5143,7 +5143,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Island",
+    "id": "alphaIsland",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
@@ -5190,7 +5190,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Island Forest",
+    "id": "alphaIsland Forest",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
@@ -5237,7 +5237,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Sandy Island",
+    "id": "alphaSandy Island",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
@@ -5257,7 +5257,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Island_1",
+    "id": "alphaIsland_1",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
@@ -5310,7 +5310,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Island_2",
+    "id": "alphaIsland_2",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
@@ -5363,7 +5363,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Island_3",
+    "id": "alphaIsland_3",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
@@ -5416,7 +5416,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Island_4",
+    "id": "alphaIsland_4",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
@@ -5476,7 +5476,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Island_5_swamp",
+    "id": "alphaIsland_5_swamp",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
@@ -5512,7 +5512,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Island_5_forest",
+    "id": "alphaIsland_5_forest",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
@@ -5548,7 +5548,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Island_5_forest_thick",
+    "id": "alphaIsland_5_forest_thick",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
@@ -5584,7 +5584,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Island_5_field",
+    "id": "alphaIsland_5_field",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
@@ -5620,7 +5620,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Lighthouse Island",
+    "id": "alphaLighthouse Island",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
@@ -5646,7 +5646,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Lake Cabin",
+    "id": "alphaLake Cabin",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
@@ -5695,7 +5695,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "marina",
+    "id": "alphamarina",
     "overmaps": [
       { "point": [ -1, -1, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
       { "point": [ 0, -1, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
@@ -5738,7 +5738,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Mi-Go Encampment",
+    "id": "alphaMi-Go Encampment",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "mi-go_camp1_north" },
@@ -5754,7 +5754,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Mi-Go Scout Tower",
+    "id": "alphaMi-Go Scout Tower",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "mi-go_scout_tower_1_north" },
@@ -5771,7 +5771,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Isherwood Farms",
+    "id": "alphaIsherwood Farms",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "field" },
@@ -6700,7 +6700,7 @@
     "flags": [ "CLASSIC", "FARM", "UNIQUE" ]
   },
   {
-    "id": "airliner_crashed",
+    "id": "alphaairliner_crashed",
     "type": "overmap_special",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
@@ -6747,7 +6747,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Large Campground",
+    "id": "alphaLarge Campground",
 	"//": "TODO: ??",
     "overmaps": [
       { "point": [ -4, 1, 0 ], "overmap": "forest" },
@@ -6820,7 +6820,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "steel mill",
+    "id": "alphasteel mill",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "steel_mill_0_1_north" },
@@ -6893,7 +6893,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "miniature railway",
+    "id": "alphaminiature railway",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "miniaturerailway_0_0_0_north" },
@@ -6914,7 +6914,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Luna Park",
+    "id": "alphaLuna Park",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "luna_park_0_0_0_north" },
@@ -6939,7 +6939,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "private_resort",
+    "id": "alphaprivate_resort",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "p_resort_1nw_north" },
@@ -6987,7 +6987,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "military helipad",
+    "id": "alphamilitary helipad",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "helipad_nw_north" },
@@ -7007,7 +7007,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "mil_base",
+    "id": "alphamil_base",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 3, -2, 0 ], "overmap": "road_end_north" },
@@ -7252,7 +7252,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "o_airport",
+    "id": "alphao_airport",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_air_term_south" },
@@ -7289,7 +7289,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "o_lightindustry",
+    "id": "alphao_lightindustry",
 	"//": "TODO: Occurance, range, size",
     "overmaps": [
       { "point": [ 1, 0, 0 ], "overmap": "s_lightindustry_road_0_south" },
@@ -7315,7 +7315,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Freshwater Research Station",
+    "id": "alphaFreshwater Research Station",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
@@ -7339,7 +7339,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Bastion Fort",
+    "id": "alphaBastion Fort",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "fort_1a_north" },
       { "point": [ 1, 0, 0 ], "overmap": "fort_2a_north" },
