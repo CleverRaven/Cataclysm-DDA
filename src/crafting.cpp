@@ -90,6 +90,7 @@ static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
 
 static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 
@@ -958,6 +959,9 @@ void Character::craft_proficiency_gain( const item &craft, const time_duration &
 
 double Character::crafting_success_roll( const recipe &making ) const
 {
+    if( has_trait( trait_DEBUG_CNF ) ) {
+        return 1.0;
+    }
     int secondary_dice = 0;
     int secondary_difficulty = 0;
     for( const auto &pr : making.required_skills ) {

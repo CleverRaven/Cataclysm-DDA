@@ -6781,6 +6781,15 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_CNF",
+    "name": { "str": "Debug Crafting Virtuoso" },
+    "points": 99,
+    "valid": false,
+    "description": "Crafting failures won't bug you any more.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_MIND_CONTROL",
     "name": { "str": "Debug Mind Control" },
     "points": 99,

@@ -316,6 +316,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
 
     const tripoint test_origin( 60, 60, 0 );
     Character &player_character = get_player_character();
+    player_character.toggle_trait( trait_id( "DEBUG_CNF" ) );
     player_character.setpos( test_origin );
     give_tools( tools );
 
@@ -713,9 +714,7 @@ static void test_skill_progression( const recipe_id &test_recipe,
     CAPTURE( test_recipe.str() );
     CAPTURE( expected_turns_taken );
     CHECK( you.get_skill_level( skill_used ) == starting_skill_level + 1 );
-    // The margin is to handle crafting delays from failed skill checks.
-    CHECK( actual_turns_taken == Approx( expected_turns_taken ).
-           margin( expected_turns_taken * 0.1 / ( starting_skill_level + 1 ) ) );
+    CHECK( actual_turns_taken == expected_turns_taken );
 }
 
 TEST_CASE( "crafting skill gain" )
@@ -723,13 +722,13 @@ TEST_CASE( "crafting skill gain" )
     // lvl 0?
     SECTION( "lvl 1 -> 2" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "2byarm_guard" ), 4967 );
+            test_skill_progression( recipe_id( "2byarm_guard" ), 4957 );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_id( "2byarm_guard" ), 4346, 50 );
+            test_skill_progression( recipe_id( "2byarm_guard" ), 4281, 50 );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_id( "2byarm_guard" ), 4038, 100 );
+            test_skill_progression( recipe_id( "2byarm_guard" ), 4056, 100 );
         }
     }
     SECTION( "lvl 2 -> lvl 3" ) {
@@ -748,7 +747,7 @@ TEST_CASE( "crafting skill gain" )
             test_skill_progression( recipe_id( "armguard_larmor" ), 129871 );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_id( "armguard_larmor" ), 103869, 50 );
+            test_skill_progression( recipe_id( "armguard_larmor" ), 103898, 50 );
         }
         GIVEN( "very high morale" ) {
             test_skill_progression( recipe_id( "armguard_larmor" ), 97404, 100 );
@@ -756,13 +755,13 @@ TEST_CASE( "crafting skill gain" )
     }
     SECTION( "lvl 4 -> 5" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "armguard_metal" ), 40000 );
+            test_skill_progression( recipe_id( "armguard_metal" ), 39961 );
         }
         GIVEN( "high morale" ) {
             test_skill_progression( recipe_id( "armguard_metal" ), 31321, 50 );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_id( "armguard_metal" ), 25056, 100 );
+            test_skill_progression( recipe_id( "armguard_metal" ), 25200, 100 );
         }
     }
     SECTION( "lvl 5 -> 6" ) {
@@ -789,7 +788,7 @@ TEST_CASE( "crafting skill gain" )
     }
     SECTION( "lvl 7 -> 8" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "armguard_lightplate" ), 1547662 );
+            test_skill_progression( recipe_id( "armguard_lightplate" ), 1547622 );
         }
         GIVEN( "high morale" ) {
             test_skill_progression( recipe_id( "armguard_lightplate" ), 1261907, 50 );
