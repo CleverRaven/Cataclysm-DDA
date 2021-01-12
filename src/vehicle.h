@@ -743,10 +743,10 @@ class vehicle
                                    bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
-        int engine_start_time( int e, const bool generators_only = false ) const;
+        int engine_start_time( int e, bool generators_only = false ) const;
 
         // How much does the temperature effect the engine starting (0.0 - 1.0)
-        double engine_cold_factor( int e, const bool generators_only = false ) const;
+        double engine_cold_factor( int e, bool generators_only = false ) const;
 
         // refresh pivot_cache, clear pivot_dirty
         void refresh_pivot() const;
@@ -888,9 +888,9 @@ class vehicle
         bool fold_up();
 
         // Try select any fuel for engine, returns true if some fuel is available
-        bool auto_select_fuel( int e, const bool generators_only = false );
+        bool auto_select_fuel( int e, bool generators_only = false );
         // Attempt to start an engine
-        bool start_engine( int e, const bool generators_only = false );
+        bool start_engine( int e, bool generators_only = false );
         // stop all engines
         void stop_engines();
         // Attempt to start the vehicle's active engines or generators
@@ -898,7 +898,7 @@ class vehicle
                             bool generators_only = false );
 
         // Engine backfire, making a loud noise
-        void backfire( int e, const bool generators_only = false ) const;
+        void backfire( int e, bool generators_only = false ) const;
 
         // get vpart type info for part number (part at given vector index)
         const vpart_info &part_info( int index, bool include_removed = false ) const;
@@ -1180,7 +1180,7 @@ class vehicle
         // Checks how much of the part p's current fuel is left
         int fuel_left( int p, bool recurse = false ) const;
         // Checks how much of an engine's current fuel is left in the tanks.
-        int engine_fuel_left( int e, bool recurse = false, const bool generators_only = false ) const;
+        int engine_fuel_left( int e, bool recurse = false, bool generators_only = false ) const;
         int fuel_capacity( const itype_id &ftype ) const;
 
         // Returns the total specific energy of this fuel type. Frozen is ignored.
@@ -1717,13 +1717,13 @@ class vehicle
         //main method for the control of multiple electronics
         void control_electronics();
         //main method for the control of individual engines or generators
-        void control_engines( const bool generators_only = false );
+        void control_engines( bool generators_only = false );
         // shows ui menu to select an engine or generator
-        int select_engine( const bool generators_only = false );
+        int select_engine( bool generators_only = false );
         //returns whether the engine is enabled or not, and has fueltype
         bool is_engine_type_on( int e, const itype_id &ft ) const;
         //returns whether the engine or generator is enabled or not
-        bool is_engine_on( int e, const bool generators_only = false ) const;
+        bool is_engine_on( int e, bool generators_only = false ) const;
         //returns whether the part is enabled or not
         bool is_part_on( int p ) const;
         //returns whether the engine or generator uses specified fuel type
@@ -1733,9 +1733,9 @@ class vehicle
         //returns whether the alternator on vehicle is operational
         bool is_alternator_on( int a ) const;
         //returns whether the alternator mounted on collection of parts is operational
-        bool is_alternator_on( int a, const std::vector<int> motors ) const;
+        bool is_alternator_on( int a, std::vector<int> motors ) const;
         //turn engine as on or off (note: doesn't perform checks if engine can start)
-        void toggle_specific_engine( int e, bool on, const bool generators_only = false );
+        void toggle_specific_engine( int e, bool on, bool generators_only = false );
         // try to turn engine on or off
         // (tries to start it and toggles it on if successful, shutdown is always a success)
         // returns true if engine status was changed
