@@ -680,7 +680,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     if( !mission_fused.empty() ) {
         // Mission monsters fused into this monster
-        const std::string fused_desc = string_format( _( "Parts of %s extrude from its body." ),
+        const std::string fused_desc = string_format( _( "Parts of %s protrude from its body." ),
                                        enumerate_as_string( mission_fused ) );
         lines = foldstring( fused_desc, max_width );
         numlines = lines.size();
@@ -750,7 +750,7 @@ std::string monster::extended_description() const
     ss += "--\n";
     if( !mission_fused.empty() ) {
         // Mission monsters fused into this monster
-        const std::string fused_desc = string_format( _( "Parts of %s extrude from its body." ),
+        const std::string fused_desc = string_format( _( "Parts of %s protrude from its body." ),
                                        enumerate_as_string( mission_fused ) );
         ss += string_format( "<dark>%s</dark>", fused_desc ) + "\n";
         ss += "--\n";
