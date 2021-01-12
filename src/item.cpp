@@ -4974,25 +4974,32 @@ int item::get_quality( const quality_id &id ) const
      * EXCEPTION: Items with quality BOIL only count as such if they are empty,
      * excluding items of their ammo type if they are tools.
      */
-    auto boil_filter = [this]( const item & itm ) {
-        if( itm.is_ammo() ) {
-            return ammo_types().count( itm.ammo_type() ) != 0;
+    auto block_boil_filter = [this]( const item & itm ) {
+        // We want to skip (do not block) only those : correct ammo, correct magazine, correct toolmod.Everything else should block.
+        if( &itm == this ) {
+            // Do not block if checking itself - we are checking only item contents not item itself.
+            return false;
+        } else if( itm.is_ammo() ) {
+            return ammo_types().count( itm.ammo_type() ) == 0;
         } else if( itm.is_magazine() ) {
+            // we want to return "fine for boiling" if any of the ammo types match and "blocks boiling" if none match.
             for( const ammotype &at : ammo_types() ) {
                 for( const ammotype &mag_at : itm.ammo_types() ) {
                     if( at == mag_at ) {
-                        return true;
+                        return false;
                     }
                 }
             }
-            return false;
-        } else if( itm.is_toolmod() ) {
             return true;
+        } else if( itm.is_toolmod() ) {
+            return false;
         }
-        return false;
+        return true;
     };
-    if( id == quality_id( "BOIL" ) && ( !contents.empty() ||
-                                        ( is_tool() && !has_item_with( boil_filter ) ) ) ) {
+    // if it's has boil quality and it's empty, it's good to boil. If it's not empty and it's not a tool (it's probably a container), it's not good to boil. If it's a tool, it gets an extra chance: if it's only contents are mods or batteries, it's still good.
+    // Also  we are using inverted filter, since we don't care about items that the filter likes, we only care if it find something it doesn't like.
+    if( id == quality_id( "BOIL" ) && !contents.empty() &&
+        ( !is_tool() || has_item_with( block_boil_filter ) ) ) {
         return INT_MIN;
     }
 
