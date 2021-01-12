@@ -3815,8 +3815,19 @@ void vehicle::spew_field( double joules, int part, field_type_id type, int inten
  * load = how hard the engines are working, from 0.0 until 1.0
  * time = how many seconds to generated smoke for
  */
+
 void vehicle::noise_and_smoke( int load, time_duration time )
 {
+    noise_and_smoke( load, false, time );
+    noise_and_smoke( load, true, time );
+}
+
+
+void vehicle::noise_and_smoke( int load, const bool generators_only, time_duration time )
+{
+
+    std::vector<int> motors = generators_only ? generators : engines;
+
     static const std::array<std::pair<std::string, int>, 8> sounds = { {
             { translate_marker( "hmm" ), 0 }, { translate_marker( "hummm!" ), 15 },
             { translate_marker( "whirrr!" ), 30 }, { translate_marker( "vroom!" ), 60 },
@@ -3834,9 +3845,9 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     bool bad_filter = false;
     bool combustion = false;
 
-    for( size_t e = 0; e < engines.size(); e++ ) {
-        int p = engines[e];
-        if( is_engine_on( e ) &&  engine_fuel_left( e ) ) {
+    for( size_t e = 0; e < motors.size(); e++ ) {
+        int p = motors[e];
+        if( is_engine_on( e, generators_only ) &&  engine_fuel_left( e, generators_only ) ) {
             // convert current engine load to units of watts/40K
             // then spew more smoke and make more noise as the engine load increases
             int part_watts = part_vpower_w( p, true );
@@ -3863,7 +3874,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                     j *= j;
                 }
 
-                if( ( exhaust_part == -1 ) && engine_on ) {
+                if( ( exhaust_part == -1 ) && ( generators_only ? generator_on : engine_on ) ) {
                     spew_field( j, p, fd_smoke, bad_filter ? fd_smoke->get_max_intensity() : 1 );
                 } else {
                     mufflesmoke += j;
@@ -3878,7 +3889,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     }
     /// TODO: handle other engine types: muscle / animal / wind / coal / ...
 
-    if( exhaust_part != -1 && engine_on ) {
+    if( exhaust_part != -1 && ( generators_only ? generator_on : engine_on ) ) {
         spew_field( mufflesmoke, exhaust_part, fd_smoke,
                     bad_filter ? fd_smoke->get_max_intensity() : 1 );
     }

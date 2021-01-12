@@ -1334,6 +1334,8 @@ class vehicle
 
         // Loop through engines and generate noise and smoke for each one
         void noise_and_smoke( int load, time_duration time = 1_turns );
+        // Loop through provided parts and generate noise and smoke for each one
+        void noise_and_smoke( int load, bool generators_only, time_duration time = 1_turns );
 
         /**
          * Calculates the sum of the area under the wheels of the vehicle.
