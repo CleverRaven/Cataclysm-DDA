@@ -790,7 +790,7 @@
   },
   {
     "type": "vehicle_part",
-    "id": "folding wood box",
+    "id": "folding_wood_box",
     "name": { "str": "folding wood box" },
     "symbol": "o",
     "looks_like": "wood_box",
