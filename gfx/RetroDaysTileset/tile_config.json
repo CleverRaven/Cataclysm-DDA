@@ -5376,7 +5376,7 @@
           "fg": 1974,
           "rotates": false
         },
-        { "id": [ "rollerskates", "roller_blades" ], "fg": 1975, "rotates": false },
+        { "id": [ "rollerskates", "rollerblades" ], "fg": 1975, "rotates": false },
         { "id": [ "molle_pack", "gobag", "rucksack" ], "fg": 1976, "rotates": false },
         { "id": [ "chestwrap_leather", "leather" ], "fg": 1977, "rotates": false },
         { "id": [ "v_curtain_item", "sheet" ], "fg": 1978, "rotates": false },

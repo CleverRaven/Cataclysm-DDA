@@ -260,7 +260,7 @@ TEST_CASE( "player::get_dodge with effects", "[player][melee][dodge][effect]" )
 
     SECTION( "skating: amateur or pro?" ) {
         item skates( "rollerskates" );
-        item blades( "roller_blades" );
+        item blades( "rollerblades" );
         item heelys( "roller_shoes_on" );
 
         REQUIRE( skates.has_flag( flag_ROLLER_QUAD ) );

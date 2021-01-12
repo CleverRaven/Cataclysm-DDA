@@ -2877,7 +2877,7 @@
         { "id": "rm13_armor", "fg": 1207, "rotates": false, "multitile": false },
         { "id": "rm13_armor_on", "fg": 1207, "rotates": false, "multitile": false },
         { "id": "rollerskates", "fg": 1050, "rotates": false, "multitile": false },
-        { "id": "roller_blades", "fg": 1050, "rotates": false, "multitile": false },
+        { "id": "rollerblades", "fg": 1050, "rotates": false, "multitile": false },
         { "id": "rucksack", "fg": 1156, "rotates": false, "multitile": false },
         { "id": "runner_bag", "fg": 1154, "rotates": false, "multitile": false },
         { "id": "scabbard", "fg": 1163, "rotates": false, "multitile": false },

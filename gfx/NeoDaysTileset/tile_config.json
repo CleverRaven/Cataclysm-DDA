@@ -3949,7 +3949,7 @@
         { "id": "rock_quern", "fg": 1562, "rotates": false },
         { "id": [ "rock", "rock" ], "fg": 1259, "rotates": false },
         { "id": "rock_sock", "fg": 1964, "rotates": false },
-        { "id": [ "rollerskates", "roller_blades" ], "fg": 3593, "rotates": false },
+        { "id": [ "rollerskates", "rollerblades" ], "fg": 3593, "rotates": false },
         { "id": [ "rolling_paper", "aluminum_foil", "wrapper" ], "fg": 1158, "rotates": false },
         { "id": "rollmat", "fg": 1633, "rotates": false },
         { "id": [ "rope_6", "rope_makeshift_30", "rope_makeshift_6", "rope_30" ], "fg": 1965, "rotates": false },

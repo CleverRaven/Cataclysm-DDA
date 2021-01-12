@@ -304,7 +304,7 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "naginata", 35.0 );
         calc_expected_dps( test_guy, "naginata_inferior", 21.5 );
         calc_expected_dps( test_guy, "naginata_fake", 10.0 );
-        calc_expected_dps( test_guy, "lucern_hammer", 36.0 );
+        calc_expected_dps( test_guy, "lucerne_hammer", 36.0 );
         calc_expected_dps( test_guy, "lucern_hammerfake", 14.0 );
         calc_expected_dps( test_guy, "spear_survivor", 26.0 );
         calc_expected_dps( test_guy, "long_pole", 13.0 );
@@ -315,10 +315,10 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "battleaxe", 29.0 );
         calc_expected_dps( test_guy, "battleaxe_fake", 11.0 );
         calc_expected_dps( test_guy, "battleaxe_inferior", 19.25 );
-        calc_expected_dps( test_guy, "fire_ax", 25.0 );
+        calc_expected_dps( test_guy, "fire_axe", 25.0 );
         calc_expected_dps( test_guy, "lobotomizer", 24.0 );
-        calc_expected_dps( test_guy, "ax", 20.25 );
-        calc_expected_dps( test_guy, "copper_ax", 12.0 );
+        calc_expected_dps( test_guy, "axe", 20.25 );
+        calc_expected_dps( test_guy, "copper_axe", 12.0 );
         calc_expected_dps( test_guy, "e_combatsaw_on", 28.0 );
         calc_expected_dps( test_guy, "combatsaw_on", 28.0 );
         calc_expected_dps( test_guy, "chainsaw_on", 16.0 );

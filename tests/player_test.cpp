@@ -108,7 +108,7 @@ TEST_CASE( "player body temperatures converge on expected values.", "[.bodytemp]
     }
 
     SECTION( "Arctic gear target temperatures" ) {
-        equip_clothing( &dummy, "balclava" );
+        equip_clothing( &dummy, "balaclava" );
         equip_clothing( &dummy, "goggles_ski" );
         equip_clothing( &dummy, "hat_hunting" );
         equip_clothing( &dummy, "under_armor" );
