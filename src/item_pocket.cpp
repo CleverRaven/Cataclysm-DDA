@@ -972,20 +972,17 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
         if( !contents_header ) {
             info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this pocket</bold>:" ) );
             contents_header = true;
-        } else {
-            // Separate items with a blank line
-            info.emplace_back( "DESCRIPTION", space );
         }
 
         const translation &description = contents_item.type->description;
 
         if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
-            info.emplace_back( "DESCRIPTION", colorize( contents_item.display_name(),
+            info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
                                contents_item.color_in_inventory() ) );
             info.emplace_back( vol_to_info( "CONTAINER", description + space,
                                             contents_item.volume() ) );
         } else {
-            info.emplace_back( "DESCRIPTION", colorize( contents_item.display_name(),
+            info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
                                contents_item.color_in_inventory() ) );
         }
     }
