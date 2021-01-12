@@ -181,6 +181,22 @@ bool Creature::is_underwater() const
     return underwater;
 }
 
+bool Creature::is_ranged_attacker() const
+{
+    if( has_flag( MF_RANGED_ATTACKER ) ) {
+        return true;
+    }
+
+    for( const std::pair<const std::string, mtype_special_attack> &attack :
+         as_monster()->type->special_attacks ) {
+        if( attack.second->id == "gun" ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool Creature::digging() const
 {
     return false;
@@ -509,7 +525,7 @@ int Creature::size_melee_penalty() const
     return 0;
 }
 
-bool Creature::is_adjacent( Creature *target, const bool allow_z_levels ) const
+bool Creature::is_adjacent( const Creature *target, const bool allow_z_levels ) const
 {
     if( target == nullptr ) {
         return false;
@@ -531,12 +547,14 @@ bool Creature::is_adjacent( Creature *target, const bool allow_z_levels ) const
         return false;
     }
 
-    // The square above must have no floor (currently only open air).
-    // The square below must have no ceiling (i.e. be outside).
+    // The square above must have no floor.
+    // The square below must have no ceiling (i.e. no floor on the tile above it).
     const bool target_above = target->posz() > posz();
     const tripoint &up   = target_above ? target->pos() : pos();
     const tripoint &down = target_above ? pos() : target->pos();
-    return here.ter( up ) == t_open_air && here.is_outside( down );
+    const tripoint above{ down.xy(), up.z };
+    return ( !here.has_floor( up ) || here.ter( up )->has_flag( TFLAG_GOES_DOWN ) ) &&
+           ( !here.has_floor( above ) || here.ter( above )->has_flag( TFLAG_GOES_DOWN ) );
 }
 
 int Creature::deal_melee_attack( Creature *source, int hitroll )

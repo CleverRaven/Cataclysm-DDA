@@ -58,24 +58,9 @@
     "items": [ [ "afs_energy_saber_off", 1 ], [ "afs_bag_of_holding", 2 ], [ "afs_hydraulic_gauntlet", 1 ], [ "alien_battery", 1 ] ]
   },
   {
-    "id": "survivorzed_extra",
-    "type": "item_group",
-    "items": [ [ "afs_rolling_pin_barbed_wire", 5 ], [ "afs_chain_wrench", 8 ] ]
-  },
-  {
     "id": "camping",
     "type": "item_group",
-    "items": [ [ "afs_rope_lighter", 10 ], [ "atomic_light", 1 ] ]
-  },
-  {
-    "id": "allsporting",
-    "type": "item_group",
-    "items": [ [ "afs_rope_lighter", 10 ] ]
-  },
-  {
-    "id": "traveler",
-    "type": "item_group",
-    "items": [ [ "afs_rope_lighter", 10 ] ]
+    "items": [ [ "atomic_light", 1 ] ]
   },
   {
     "id": "drugdealer",
@@ -140,36 +125,14 @@
     "items": [ [ "afs_power_cutter", 5 ] ]
   },
   {
-    "id": "book_gunref",
-    "type": "item_group",
-    "items": [
-      [ "afs_textbook_shotguns", 3 ],
-      [ "afs_textbook_handguns", 3 ],
-      [ "afs_textbook_rifles", 3 ],
-      [ "afs_textbook_launchers", 3 ]
-    ]
-  },
-  {
     "id": "book_military",
     "type": "item_group",
-    "items": [
-      [ "afs_textbook_shotguns", 20 ],
-      [ "afs_textbook_handguns", 20 ],
-      [ "afs_textbook_rifles", 20 ],
-      [ "afs_textbook_launchers", 10 ],
-      [ "recipe_unusual_ammos", 7 ]
-    ]
+    "items": [ [ "recipe_unusual_ammos", 7 ] ]
   },
   {
     "id": "textbooks",
     "type": "item_group",
-    "items": [
-      [ "afs_textbook_shotguns", 3 ],
-      [ "afs_textbook_handguns", 3 ],
-      [ "afs_textbook_rifles", 3 ],
-      [ "afs_textbook_launchers", 3 ],
-      [ "textbook_atomic", 8 ]
-    ]
+    "items": [ [ "textbook_atomic", 8 ] ]
   },
   {
     "id": "guns_pistol_improvised",

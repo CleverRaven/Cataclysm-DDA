@@ -397,7 +397,7 @@ class Creature : public location, public viewer
         // If allow_zlev is true, also allow distance == 1 and on different z-level
         // as long as floor/ceiling doesn't exist.
         // Also check other factors, like vehicle separating deep water/air
-        bool is_adjacent( Creature *target, bool allow_z_levels ) const;
+        bool is_adjacent( const Creature *target, bool allow_z_levels ) const;
 
         // modifies the damage dealt based on the creature's enchantments
         // since creatures currently don't have enchantments, this is just virtual
@@ -448,6 +448,11 @@ class Creature : public location, public viewer
          */
         virtual void on_hit( Creature *source, bodypart_id bp_hit,
                              float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
+
+        /** Returns true if this monster has any sort of ranged attack. This doesn't necessarily mean direct damage ranged attack,
+        * but also includes any sort of potentially dangerous ranged interaction, e.g. monster with RANGED_PULL special attack will fit here too.
+         */
+        virtual bool is_ranged_attacker() const;
 
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;

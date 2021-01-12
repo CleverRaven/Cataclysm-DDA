@@ -139,7 +139,7 @@
   {
     "id": "afs_freeze_gauntlet",
     "type": "GENERIC",
-    "name": { "str": "psychrophile handling gloves" },
+    "name": { "str_sp": "psychrophile handling gloves" },
     "description": "These gloves are designed for handling organisms that live in extremely cold temperatures.  They can also be used to freeze your foes to death.",
     "weight": "3778 g",
     "volume": "2 L",
@@ -156,23 +156,6 @@
     "to_hit": 0,
     "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "UNARMED_WEAPON" ],
     "techniques": [ "WBLOCK_1" ]
-  },
-  {
-    "id": "afs_rolling_pin_barbed_wire",
-    "type": "GENERIC",
-    "copy-from": "rolling_pin",
-    "name": { "str": "barbed-wire rolling pin" },
-    "description": "Typically used to flatten dough, this rolling pin has been repurposed as a weapon, with barbed wire adding some extra power and weight to its swing.  It has some real heft to it; perfect for the bakers of the apocalypse.",
-    "weight": "923 g",
-    "volume": "1500 ml",
-    "price_postapoc": 1500,
-    "material": [ "steel", "wood" ],
-    "to_hit": 1,
-    "bashing": 14,
-    "cutting": 6,
-    "flags": [ "DURABLE_MELEE", "FIREWOOD", "NONCONDUCTIVE" ],
-    "techniques": [ "WBLOCK_1", "RAPID" ],
-    "looks_like": "bwirebat"
   },
   {
     "type": "GENERIC",

@@ -65,6 +65,7 @@ def warning_supressed(filename):
 # these files will not be parsed. Full related path.
 ignore_files = {os.path.normpath(i) for i in {
     "data/json/anatomy.json",
+    "data/json/items/book/abstract.json",
     "data/mods/replacements.json",
     "data/raw/color_templates/no_bright_background.json"
 }}

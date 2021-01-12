@@ -2297,7 +2297,7 @@ nc_color npc::basic_symbol_color() const
 int npc::print_info( const catacurses::window &w, int line, int vLines, int column ) const
 {
     const int last_line = line + vLines;
-    const int iWidth = getmaxx( w ) - 2;
+    const int iWidth = getmaxx( w ) - 1 - column;
     // First line of w is the border; the next 4 are terrain info, and after that
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
@@ -2311,8 +2311,8 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     for( int i = 0; i < bar_max_width - bar_width; ++i ) {
         mvwprintz( w, point( column + 4 - i, line ), c_white, "." );
     }
-    line += fold_and_print( w, point( column + bar.first.length() + 1, line ),
-                            iWidth - bar.first.length() - 1, basic_symbol_color(), name );
+    line += fold_and_print( w, point( column + bar_max_width + 1, line ),
+                            iWidth - bar_max_width - 1, basic_symbol_color(), name );
 
     Character &player_character = get_player_character();
     // Hostility indicator in the second line.

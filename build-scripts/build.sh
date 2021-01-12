@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Build script intended for use in Travis CI
+# Build script intended for use in Travis CI and Github workflow
 
 set -exo pipefail
 
@@ -9,7 +9,7 @@ num_jobs=3
 function run_tests
 {
     # --min-duration shows timing lines for tests with a duration of at least that many seconds.
-    $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time --error-format=github-action $EXTRA_TEST_OPTS
+    $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS
 }
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
@@ -36,7 +36,7 @@ fi
 
 ccache --zero-stats
 # Increase cache size because debug builds generate large object files
-ccache -M 2G
+ccache -M 5G
 ccache --show-stats
 
 if [ "$CMAKE" = "1" ]
@@ -194,5 +194,8 @@ else
     fi
 fi
 ccache --show-stats
+# Shrink the ccache back down to 2GB in preperation for pushing to shared storage.
+ccache -M 2G
+ccache -c
 
 # vim:tw=0

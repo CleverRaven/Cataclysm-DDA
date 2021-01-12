@@ -69,7 +69,7 @@ enum m_flag : int {
     MF_HEARS,               // It can hear you
     MF_GOODHEARING,         // Pursues sounds more than most monsters
     MF_SMELLS,              // It can smell you
-    MF_KEENNOSE,            //Keen sense of smell
+    MF_KEENNOSE,            // Keen sense of smell
     MF_STUMBLES,            // Stumbles in its movement
     MF_WARM,                // Warm blooded
     MF_NOHEAD,              // Headshots not allowed!
@@ -95,7 +95,7 @@ enum m_flag : int {
     MF_ELECTRIC,            // Shocks unarmed attackers
     MF_ACIDPROOF,           // Immune to acid
     MF_ACIDTRAIL,           // Leaves a trail of acid
-    MF_SHORTACIDTRAIL,       // Leaves an intermittent trail of acid
+    MF_SHORTACIDTRAIL,      // Leaves an intermittent trail of acid
     MF_FIREPROOF,           // Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
@@ -110,9 +110,9 @@ enum m_flag : int {
     MF_FAT,                 // May produce fat when butchered; if combined with POISON flag, tainted fat
     MF_CONSOLE_DESPAWN,     // Despawns when a nearby console is properly hacked
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
-    MF_ID_CARD_DESPAWN,      // Despawns when a science ID card is used on a nearby console
+    MF_ID_CARD_DESPAWN,     // Despawns when a science ID card is used on a nearby console
     MF_RIDEABLE_MECH,       // A rideable mech that is immobile until ridden.
-    MF_MILITARY_MECH,        // A rideable mech that was designed for military work.
+    MF_MILITARY_MECH,       // A rideable mech that was designed for military work.
     MF_MECH_RECON_VISION,   // This mech gives you IR night-vision.
     MF_MECH_DEFENSIVE,      // This mech gives you thorough protection.
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack
@@ -175,6 +175,7 @@ enum m_flag : int {
     MF_STUN_IMMUNE,         // This monster is immune to the stun effect
     MF_DROPS_AMMO,          // This monster drops ammo. Should not be set for monsters that use pseudo ammo.
     MF_INSECTICIDEPROOF,    // This monster is immune to insecticide, even though it's made of bug flesh
+    MF_RANGED_ATTACKER,     // This monster has any sort of ranged attack
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 

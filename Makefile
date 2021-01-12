@@ -157,6 +157,11 @@ SRC_DIR = src
 LOCALIZE = 1
 ASTYLE_BINARY = astyle
 
+# Enable debug by default
+ifndef RELEASE
+  RELEASE = 0
+endif
+
 # Enable astyle by default
 ifndef ASTYLE
   ASTYLE = 1
@@ -360,9 +365,7 @@ ifeq ($(RELEASE), 1)
   ifeq ($(LINTJSON), 1)
     CHECKS += style-json
   endif
-endif
-
-ifndef RELEASE
+else
   ifeq ($(NOOPT), 1)
     # While gcc claims to include all information required for
     # debugging at -Og, at least with gcc 8.3, control flow
@@ -492,10 +495,16 @@ ifeq ($(NATIVE), osx)
       LDFLAGS += -L$(LIBSDIR)/gettext/lib
       CXXFLAGS += -I$(LIBSDIR)/gettext/include
     endif
+    # recent versions of brew will not allow you to link
     ifeq ($(BREWGETTEXT), 1)
-      # recent versions of brew will not allow you to link
-      LDFLAGS += -L/usr/local/opt/gettext/lib
-      CXXFLAGS += -I/usr/local/opt/gettext/include
+      # native ARM Homebrew is installed to /opt/homebrew
+      ifneq ("$(wildcard /opt/homebrew)", "")
+        LDFLAGS += -L/opt/homebrew/lib
+        CXXFLAGS += -I/opt/homebrew/include
+      else
+        LDFLAGS += -L/usr/local/opt/gettext/lib
+        CXXFLAGS += -I/usr/local/opt/gettext/include
+      endif
     endif
     ifeq ($(MACPORTS), 1)
       ifneq ($(TILES), 1)
