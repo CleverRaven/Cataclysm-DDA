@@ -999,7 +999,7 @@
     "name": { "str_sp": "nicotine liquid" },
     "symbol": "=",
     "color": "yellow",
-    "description": "A liquid that is made up of propylene glycol, vegetable glycerin, flavorings and nicotine.",
+    "description": "A liquid that is made up of propylene glycol, vegetable glycerin, flavorings, and nicotine.",
     "container": "bottle_plastic_small",
     "phase": "liquid",
     "volume": "250 ml",
