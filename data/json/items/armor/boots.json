@@ -1067,7 +1067,7 @@
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
-    "id": "roller_blades",
+    "id": "rollerblades",
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of rollerblades", "str_pl": "pairs of rollerblades" },
@@ -1103,7 +1103,7 @@
     "bashing": 6,
     "material": [ "leather", "steel" ],
     "symbol": "[",
-    "looks_like": "roller_blades",
+    "looks_like": "rollerblades",
     "color": "brown",
     "covers": [ "foot_l", "foot_r" ],
     "coverage": 100,

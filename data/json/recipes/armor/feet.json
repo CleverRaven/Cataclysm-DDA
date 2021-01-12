@@ -789,7 +789,7 @@
     "using": [ [ "armor_chainmail_assembling", 4 ], [ "strap_small", 2 ] ]
   },
   {
-    "result": "roller_blades",
+    "result": "rollerblades",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ARMOR",

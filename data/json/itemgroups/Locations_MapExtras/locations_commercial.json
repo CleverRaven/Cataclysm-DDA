@@ -464,7 +464,7 @@
       [ "apron_leather", 5 ],
       [ "boots_combat", 10 ],
       [ "boots_hiking", 10 ],
-      [ "roller_blades", 20 ],
+      [ "rollerblades", 20 ],
       [ "rollerskates", 10 ],
       [ "roller_shoes_off", 10 ],
       [ "runner_bag", 5 ],
@@ -1088,7 +1088,7 @@
           { "item": "small_storage_battery", "prob": 10 },
           { "item": "alternator_bicycle", "prob": 10 },
           { "item": "folding_bicycle", "prob": 10 },
-          { "item": "roller_blades", "prob": 10 }
+          { "item": "rollerblades", "prob": 10 }
         ]
       },
       {

@@ -808,7 +808,7 @@
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
-    "id": "roller_blades",
+    "id": "rollerblades",
     "type": "ARMOR",
     "name": { "str": "pair of rollerblades", "str_pl": "pairs of rollerblades" },
     "description": "A pair of inline skates.  Very fast on flat floors, but they make it hard to move on rough terrain, or to dodge effectively.",

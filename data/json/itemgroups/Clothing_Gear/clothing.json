@@ -1283,7 +1283,7 @@
       [ "clogs", 1 ],
       [ "leathersandals", 10 ],
       [ "rollerskates", 1 ],
-      [ "roller_blades", 5 ],
+      [ "rollerblades", 5 ],
       [ "roller_shoes_off", 1 ],
       [ "mocassins", 20 ]
     ]
@@ -1545,7 +1545,7 @@
       [ "clogs", 60 ],
       [ "leathersandals", 100 ],
       [ "rollerskates", 10 ],
-      [ "roller_blades", 20 ],
+      [ "rollerblades", 20 ],
       [ "roller_shoes_off", 10 ],
       [ "boots_rubber", 20 ],
       [ "clownshoes", 10 ],
@@ -3231,7 +3231,7 @@
           { "item": "cleats", "prob": 20 },
           { "item": "golf_shoes", "prob": 20 },
           { "item": "dance_shoes", "prob": 30 },
-          { "item": "roller_blades", "prob": 35 },
+          { "item": "rollerblades", "prob": 35 },
           { "item": "rollerskates", "prob": 35 },
           { "item": "roller_shoes_off", "prob": 45 }
         ],

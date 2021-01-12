@@ -213,7 +213,7 @@
       [ "whistle", 20 ],
       [ "elbow_pads", 80 ],
       [ "knee_pads", 80 ],
-      [ "roller_blades", 40 ],
+      [ "rollerblades", 40 ],
       [ "rollerskates", 10 ],
       [ "aspirin", 80 ],
       { "item": "inhaler", "prob": 30, "charges-min": 10, "charges-max": 100 },

@@ -177,7 +177,7 @@
       { "item": "solder_wire", "prob": 30 },
       { "item": "bubblewrap", "prob": 50 },
       { "item": "binoculars", "prob": 20 },
-      { "item": "roller_blades", "prob": 20 },
+      { "item": "rollerblades", "prob": 20 },
       { "item": "duct_tape", "prob": 70 },
       { "item": "lawnmower", "prob": 25 },
       { "item": "floodlight", "prob": 10 },

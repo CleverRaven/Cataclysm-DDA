@@ -84,7 +84,7 @@
       { "item": "handflare", "prob": 40, "charges": 300 },
       [ "elbow_pads", 40 ],
       [ "knee_pads", 40 ],
-      [ "roller_blades", 20 ],
+      [ "rollerblades", 20 ],
       [ "rollerskates", 10 ],
       [ "wheel_skate", 50 ],
       [ "manual_throw", 12 ],
