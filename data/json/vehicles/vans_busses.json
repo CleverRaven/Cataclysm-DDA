@@ -890,7 +890,7 @@
       { "x": -6, "y": 3, "part": "wheel" }
     ],
     "items": [
-      { "x": 0, "y": 0, "chance": 100, "items": [ "porkpie" ] },
+      { "x": 0, "y": 0, "chance": 100, "items": [ "hat_pork_pie" ] },
       { "x": -2, "y": 0, "chance": 30, "items": [ "dayquil" ] },
       { "x": -2, "y": 0, "chance": 8, "items": [ "dayquil" ] },
       { "x": -2, "y": 0, "chance": 5, "items": [ "dayquil" ] },

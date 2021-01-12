@@ -164,7 +164,7 @@
     ],
     "items": {
       "both": {
-        "items": [ "suit", "bowhat", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses", "shot_00" ],
+        "items": [ "suit", "hat_bowler", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses", "shot_00" ],
         "entries": [
           { "group": "charged_ref_lighter" },
           { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },

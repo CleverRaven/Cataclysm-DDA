@@ -434,8 +434,8 @@
   {
     "type": "GENERIC",
     "id": "fire_ax_plus_one",
-    "copy-from": "fire_ax",
-    "looks_like": "fire_ax",
+    "copy-from": "fire_axe",
+    "looks_like": "fire_axe",
     "name": "fire axe +1",
     "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
@@ -443,8 +443,8 @@
   {
     "type": "GENERIC",
     "id": "fire_ax_plus_two",
-    "copy-from": "fire_ax",
-    "looks_like": "fire_ax",
+    "copy-from": "fire_axe",
+    "looks_like": "fire_axe",
     "name": "fire axe +2",
     "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }

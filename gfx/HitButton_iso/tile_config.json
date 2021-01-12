@@ -4388,7 +4388,7 @@
           "fg": 1403
         },
         {
-          "id": ["hat_boonie", "porkpie", "straw_hat", "fedora", "straw_fedora" ],
+          "id": ["hat_boonie", "hat_pork_pie", "straw_hat", "fedora", "straw_fedora" ],
           "fg": 1404
         },
         {
@@ -4420,7 +4420,7 @@
           "fg": 1411
         },
         {
-          "id": ["bowhat" ],
+          "id": ["hat_bowler" ],
           "fg": 1412
         },
         {
@@ -4572,7 +4572,7 @@
           "fg": 1449
         },
         {
-          "id": ["balclava", "mask_ski", "mask_ski_loose" ],
+          "id": ["balaclava", "mask_ski", "mask_ski_loose" ],
           "fg": 1450
         },
         {
@@ -5485,7 +5485,7 @@
           "fg": 1675
         },
         {
-          "id": ["iceaxe", "hatchet", "fire_ax", "primitive_adze", "primitive_axe", "ax", "throwing_axe" ],
+          "id": ["iceaxe", "hatchet", "fire_axe", "primitive_adze", "primitive_axe", "axe", "throwing_axe" ],
           "fg": 1676
         },
         {
@@ -5493,7 +5493,7 @@
           "fg": 1677
         },
         {
-          "id": ["copper_ax" ],
+          "id": ["copper_axe" ],
           "fg": 1678
         },
         {

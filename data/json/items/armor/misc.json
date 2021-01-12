@@ -1,7 +1,7 @@
 [
   {
     "id": "clown_wig",
-    "repairs_like": "balclava",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": { "str": "clown wig" },
     "description": "A colorful and ridiculous wig fit for a clown.",
@@ -226,7 +226,7 @@
   },
   {
     "id": "veil_wedding",
-    "repairs_like": "balclava",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": { "str": "wedding veil" },
     "description": "A lacy white wedding veil.",

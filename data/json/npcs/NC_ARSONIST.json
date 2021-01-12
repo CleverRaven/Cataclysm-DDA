@@ -143,7 +143,7 @@
     "entries": [
       { "item": "knife_butcher", "prob": 20 },
       { "item": "hatchet", "prob": 20 },
-      { "item": "ax", "prob": 20 },
+      { "item": "axe", "prob": 20 },
       { "item": "machete", "prob": 20 },
       { "item": "knife_combat", "prob": 20 },
       { "item": "katana", "prob": 20 }

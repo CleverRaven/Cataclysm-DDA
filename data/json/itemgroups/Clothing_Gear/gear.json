@@ -17,7 +17,7 @@
       [ "helmet_lobster", 5 ],
       [ "helmet_riot", 5 ],
       [ "holo_sight", 20 ],
-      [ "balclava", 10 ],
+      [ "balaclava", 10 ],
       [ "balaclava_cut_resistant", 5 ],
       [ "holster", 15 ],
       [ "bandolier_shotgun", 15 ],
@@ -84,7 +84,7 @@
     "items": [
       { "item": "extinguisher", "prob": 10, "charges": 100 },
       { "item": "sm_extinguisher", "prob": 20, "charges": 10 },
-      [ "fire_ax", 60 ],
+      [ "fire_axe", 60 ],
       [ "halligan", 50 ],
       { "group": "used_1st_aid", "prob": 10 },
       [ "bandages", 5 ],

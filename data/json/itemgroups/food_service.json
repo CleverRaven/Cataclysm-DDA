@@ -21,7 +21,7 @@
     "id": "chair_hat",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "hat_newsboy", "prob": 10 }, { "item": "bowhat", "prob": 40 }, { "item": "porkpie", "prob": 20 } ]
+    "entries": [ { "item": "hat_newsboy", "prob": 10 }, { "item": "hat_bowler", "prob": 40 }, { "item": "hat_pork_pie", "prob": 20 } ]
   },
   {
     "id": "chair_torso",

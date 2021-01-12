@@ -367,13 +367,13 @@
         "x": -5,
         "y": -1,
         "chance": 7,
-        "items": [ "fire_ax", "hammer_sledge", "hammer_sledge_short", "shovel", "throw_extinguisher", "ny_hook", "pike_pole" ]
+        "items": [ "fire_axe", "hammer_sledge", "hammer_sledge_short", "shovel", "throw_extinguisher", "ny_hook", "pike_pole" ]
       },
       {
         "x": -5,
         "y": 3,
         "chance": 1,
-        "items": [ "fire_ax", "chainsaw_off", "halligan", "throw_extinguisher", "ny_hook", "pike_pole" ]
+        "items": [ "fire_axe", "chainsaw_off", "halligan", "throw_extinguisher", "ny_hook", "pike_pole" ]
       },
       { "x": -6, "y": 0, "chance": 1, "items": [ "nomex_suit", "nomex_hood", "nomex_gloves", "nomex_socks" ] },
       {

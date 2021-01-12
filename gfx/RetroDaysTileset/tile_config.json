@@ -4394,8 +4394,8 @@
         { "id": "coffeemaker", "fg": 1392, "rotates": false },
         { "id": [ "fan", "polisher" ], "fg": 1393, "rotates": false },
         { "id": [ "fishing_hook_basic", "fishing_hook_bone", "needle_curved" ], "fg": 1394, "rotates": false },
-        { "id": "copper_ax", "fg": 1395, "rotates": false },
-        { "id": [ "hatchet", "ax" ], "fg": 1396, "rotates": false },
+        { "id": "copper_axe", "fg": 1395, "rotates": false },
+        { "id": [ "hatchet", "axe" ], "fg": 1396, "rotates": false },
         { "id": [ "mace", "paint_brush" ], "fg": 1397, "rotates": false },
         { "id": [ "pilot_light", "crude_firestarter" ], "fg": 1398, "rotates": false },
         { "id": "pocketwatch", "fg": 1399, "rotates": false },
@@ -4515,7 +4515,7 @@
         { "id": "firekatana_on", "fg": 1488, "rotates": false },
         { "id": [ "shishkebab_off", "firemachete_off" ], "fg": 1489, "rotates": false },
         { "id": [ "shishkebab_on", "firemachete_on" ], "fg": 1490, "rotates": false },
-        { "id": "fire_ax", "fg": 1491, "rotates": false },
+        { "id": "fire_axe", "fg": 1491, "rotates": false },
         { "id": [ "fire_drill_large", "fire_drill" ], "fg": 1492, "rotates": false },
         { "id": "fishing_rod_professional", "fg": 1493, "rotates": false },
         { "id": "fishing_rod_basic", "fg": 1494, "rotates": false },
@@ -4848,7 +4848,7 @@
         { "id": "football_armor", "fg": 1669, "rotates": false },
         { "id": "swat_armor", "fg": 1670, "rotates": false },
         {
-          "id": [ "mask_ski_loose", "thermal_mask", "thermal_mask_on", "balclava", "mask_ski" ],
+          "id": [ "mask_ski_loose", "thermal_mask", "thermal_mask_on", "balaclava", "mask_ski" ],
           "fg": 1671,
           "rotates": false
         },
@@ -4943,7 +4943,7 @@
         { "id": "copper_bracelet", "fg": 1715, "rotates": false },
         { "id": "gold_bracelet", "fg": 1716, "rotates": false },
         { "id": [ "silver_bracelet", "rad_monitor" ], "fg": 1717, "rotates": false },
-        { "id": [ "bowhat", "porkpie" ], "fg": 1718, "rotates": false },
+        { "id": [ "hat_bowler", "hat_pork_pie" ], "fg": 1718, "rotates": false },
         { "id": [ "straw_hat", "hat_sombrero", "straw_fedora" ], "fg": 1719, "rotates": false },
         { "id": "tarp", "fg": 1720, "rotates": false },
         {

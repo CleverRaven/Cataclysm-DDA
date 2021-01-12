@@ -168,8 +168,8 @@
       { "x": 1, "y": 1, "parts": [ "frame_wood_cross", "wooden_aisle_horizontal", "boat_board" ] },
       { "x": 1, "y": 2, "parts": [ "frame_wood_vertical", "boat_board" ] },
       { "x": 2, "y": -1, "parts": [ "frame_wood_nw", "boat_board" ] },
-      { "x": 2, "y": 0, "parts": [ "frame_wood_cross", "wood box", "boat_board" ] },
-      { "x": 2, "y": 1, "parts": [ "frame_wood_cross", "wood box", "boat_board" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_wood_cross", "wood_box", "boat_board" ] },
+      { "x": 2, "y": 1, "parts": [ "frame_wood_cross", "wood_box", "boat_board" ] },
       { "x": 2, "y": 2, "parts": [ "frame_wood_ne", "boat_board" ] },
       { "x": 3, "y": 0, "parts": [ "frame_wood_nw", "boat_board" ] },
       { "x": 3, "y": 1, "parts": [ "frame_wood_ne", "boat_board" ] }

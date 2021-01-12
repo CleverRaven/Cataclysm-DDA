@@ -830,7 +830,7 @@
         { "group": "everyday_corpse", "x": 17, "y": 15 },
         { "group": "everyday_corpse", "x": 8, "y": 3 },
         { "group": "everyday_corpse", "x": 10, "y": 3 },
-        { "item": "fire_ax", "x": 18, "y": 15 }
+        { "item": "fire_axe", "x": 18, "y": 15 }
       ],
       "place_monster": [ { "monster": "mon_zombie", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 50, "pack_size": [ 2, 3 ] } ]
     }

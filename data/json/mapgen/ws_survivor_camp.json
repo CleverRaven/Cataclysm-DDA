@@ -41,7 +41,7 @@
       { "item": "matches", "prob": 30, "charges": [ 0, 20 ] },
       [ "sunglasses", 30 ],
       [ "fitover_sunglasses", 20 ],
-      [ "ax", 10 ],
+      [ "axe", 10 ],
       [ "saw", 10 ]
     ]
   },

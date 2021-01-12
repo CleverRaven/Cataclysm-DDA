@@ -204,7 +204,7 @@
       { "item": "gloves_wool", "new": [ "gloves_leather" ] },
       { "item": "socks_wool", "new": [ "socks" ] },
       { "item": "kilt", "new": [ "kilt_leather" ] },
-      { "item": "mask_ski", "new": [ "balclava" ] }
+      { "item": "mask_ski", "new": [ "balaclava" ] }
     ]
   },
   {
@@ -1134,7 +1134,7 @@
     ],
     "items": {
       "both": {
-        "items": [ "suit", "bowhat", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses", "wristwatch" ],
+        "items": [ "suit", "hat_bowler", "socks", "dress_shoes", "knit_scarf", "cig", "switchblade", "mag_porn", "sunglasses", "wristwatch" ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
@@ -1781,7 +1781,7 @@
     "items": {
       "both": {
         "items": [ "jeans", "socks", "boots", "hat_hunting", "jacket_flannel", "knit_scarf", "vest", "wristwatch", "axe_ring" ],
-        "entries": [ { "group": "charged_cell_phone" }, { "item": "ax", "custom-flags": [ "auto_wield" ] } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "axe", "custom-flags": [ "auto_wield" ] } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boxer_shorts" ]
@@ -2295,7 +2295,7 @@
         "striped_shirt",
         "hoodie",
         "gloves_light",
-        "balclava",
+        "balaclava",
         "swag_bag",
         "crowbar",
         "hacksaw",
@@ -2759,7 +2759,7 @@
           "socks",
           "pants_army",
           "jacket_army",
-          "balclava",
+          "balaclava",
           "boots_combat",
           "gloves_tactical",
           "tac_helmet",

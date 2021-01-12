@@ -64,7 +64,7 @@
   {
     "type": "item_group",
     "id": "hatstore_hats_afs",
-    "items": [ [ "hat_cotton", 30 ], [ "hat_knit", 40 ], [ "hat_faux_fur", 30 ], [ "hat_fur", 20 ], [ "balclava", 20 ] ]
+    "items": [ [ "hat_cotton", 30 ], [ "hat_knit", 40 ], [ "hat_faux_fur", 30 ], [ "hat_fur", 20 ], [ "balaclava", 20 ] ]
   },
   {
     "id": "scarfs_unisex_afs",
@@ -73,7 +73,7 @@
     "subtype": "distribution",
     "items": [
       { "item": "bandana", "prob": 90 },
-      { "item": "balclava", "prob": 50 },
+      { "item": "balaclava", "prob": 50 },
       { "item": "headscarf", "prob": 50 },
       { "item": "scarf_fur_long", "prob": 10 },
       { "item": "scarf_fur", "prob": 20 },

@@ -184,19 +184,19 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical" ] },
-      { "x": 0, "y": -1, "parts": [ "frame_wood_vertical_left", "wood box" ] },
-      { "x": 0, "y": 1, "parts": [ "frame_wood_vertical_right", "wood box" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_wood_vertical_left", "wood_box" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_wood_vertical_right", "wood_box" ] },
       { "x": 1, "y": -1, "parts": [ "frame_wood_nw", "seat_wood", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
       { "x": 1, "y": 0, "parts": [ "frame_wood_cross", "seat_wood", "controls" ] },
       { "x": 1, "y": 1, "parts": [ "frame_wood_ne", "seat_wood", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
       { "x": 2, "y": -1, "part": "yoke_harness" },
       { "x": 2, "y": 1, "part": "yoke_harness" },
-      { "x": -1, "y": -1, "parts": [ "frame_wood_vertical_left", "wood box" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_wood_vertical_left", "wood_box" ] },
       { "x": -1, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical" ] },
-      { "x": -1, "y": 1, "parts": [ "frame_wood_vertical_right", "wood box" ] },
-      { "x": -2, "y": -1, "parts": [ "frame_wood_sw", "wood box", "wheel_mount_wood", "wheel_wood_b" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_wood_vertical_right", "wood_box" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_wood_sw", "wood_box", "wheel_mount_wood", "wheel_wood_b" ] },
       { "x": -2, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical" ] },
-      { "x": -2, "y": 1, "parts": [ "frame_wood_se", "wood box", "wheel_mount_wood", "wheel_wood_b" ] }
+      { "x": -2, "y": 1, "parts": [ "frame_wood_se", "wood_box", "wheel_mount_wood", "wheel_wood_b" ] }
     ]
   },
   {
@@ -213,8 +213,8 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical", "roof_cloth" ] },
-      { "x": 0, "y": -1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
-      { "x": 0, "y": 1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_wood_cross", "wood_box", "roof_cloth" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_wood_cross", "wood_box", "roof_cloth" ] },
       { "x": 0, "y": -2, "parts": [ "frame_wood_vertical_left", "clothboard_vertical_left", "roof_cloth" ] },
       { "x": 0, "y": 2, "parts": [ "frame_wood_vertical_right", "clothboard_vertical_right", "roof_cloth" ] },
       { "x": 1, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical", "roof_cloth" ] },
@@ -237,14 +237,14 @@
       },
       { "x": 3, "y": -1, "part": "yoke_harness" },
       { "x": 3, "y": 1, "part": "yoke_harness" },
-      { "x": -1, "y": -1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_wood_cross", "wood_box", "roof_cloth" ] },
       { "x": -1, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical", "roof_cloth" ] },
-      { "x": -1, "y": 1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_wood_cross", "wood_box", "roof_cloth" ] },
       { "x": -1, "y": -2, "parts": [ "frame_wood_vertical_left", "clothboard_vertical_left", "roof_cloth" ] },
       { "x": -1, "y": 2, "parts": [ "frame_wood_vertical_right", "clothboard_vertical_right", "roof_cloth" ] },
-      { "x": -2, "y": -1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_wood_cross", "wood_box", "roof_cloth" ] },
       { "x": -2, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical", "roof_cloth" ] },
-      { "x": -2, "y": 1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      { "x": -2, "y": 1, "parts": [ "frame_wood_cross", "wood_box", "roof_cloth" ] },
       {
         "x": -2,
         "y": -2,
@@ -321,7 +321,7 @@
         "parts": [ "frame_wood_se", "woodboard_se", "roof_wood", "wheel_mount_wood", "wheel_wood_b" ]
       },
       { "x": -6, "y": 0, "parts": [ "frame_wood_sw", "seat_wood" ] },
-      { "x": -6, "y": 1, "parts": [ "frame_wood_se", "wood box" ] }
+      { "x": -6, "y": 1, "parts": [ "frame_wood_se", "wood_box" ] }
     ]
   },
   {

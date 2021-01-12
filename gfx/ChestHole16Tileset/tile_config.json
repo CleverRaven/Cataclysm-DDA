@@ -20302,7 +20302,7 @@
           "rotates": false
         },
         {
-          "id": "balclava",
+          "id": "balaclava",
           "fg": 257,
           "bg": 632,
           "rotates": false
@@ -20567,7 +20567,7 @@
           "rotates": false
         },
         {
-          "id": "bowhat",
+          "id": "hat_bowler",
           "fg": 282,
           "bg": 632,
           "rotates": false
@@ -25764,7 +25764,7 @@
           "rotates": false
         },
         {
-          "id": "porkpie",
+          "id": "hat_pork_pie",
           "fg": 560
         },
         {
@@ -26991,7 +26991,7 @@
           "rotates": false
         },
         {
-          "id": "ax",
+          "id": "axe",
           "fg": 2306,
           "bg": 632,
           "rotates": false
@@ -42087,7 +42087,7 @@
           "rotates": false
         },
        {
-          "id": "copper_ax",
+          "id": "copper_axe",
           "fg": 3617,
           "bg": 632,
           "rotates": false
@@ -49760,7 +49760,7 @@
           "rotates": false
         },
         {
-          "id": "fire_ax",
+          "id": "fire_axe",
           "fg": 2871,
           "rotates": false
         },

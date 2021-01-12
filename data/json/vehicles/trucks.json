@@ -142,7 +142,7 @@
       { "x": -2, "y": 1, "chance": 12, "items": [ "jack", "wheel" ] },
       { "x": -3, "y": 1, "chance": 10, "item_groups": [ "car_kit" ] },
       { "x": -3, "y": 0, "chance": 8, "item_groups": [ "fuel_gasoline" ] },
-      { "x": -2, "y": 1, "chance": 3, "items": [ "ax" ] }
+      { "x": -2, "y": 1, "chance": 3, "items": [ "axe" ] }
     ]
   },
   {
@@ -442,7 +442,7 @@
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 6, "items": [ "vodka" ] },
-      { "x": 0, "y": 1, "chance": 2, "items": [ "ax" ] },
+      { "x": 0, "y": 1, "chance": 2, "items": [ "axe" ] },
       { "x": 0, "y": 2, "chance": 2, "items": [ "jumper_cable" ] }
     ]
   },

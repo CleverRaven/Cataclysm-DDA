@@ -119,7 +119,7 @@
       { "item": "hat_newsboy", "prob": 5 },
       { "item": "hat_boonie", "prob": 10 },
       { "item": "cowboy_hat", "prob": 10 },
-      { "item": "porkpie", "prob": 5 }
+      { "item": "hat_pork_pie", "prob": 5 }
     ]
   },
   {
@@ -209,7 +209,7 @@
   {
     "type": "item_group",
     "id": "refugee_cutting",
-    "items": [ [ "machete", 200 ], [ "hatchet", 500 ], [ "fire_ax", 10 ] ]
+    "items": [ [ "machete", 200 ], [ "hatchet", 500 ], [ "fire_axe", 10 ] ]
   },
   {
     "type": "item_group",

@@ -76,7 +76,7 @@
     "color": "yellow"
   },
   {
-    "copy-from": "fire_ax",
+    "copy-from": "fire_axe",
     "type": "TOOL",
     "id": "orich_fire_ax",
     "name": { "str": "orichalcum fire axe" },

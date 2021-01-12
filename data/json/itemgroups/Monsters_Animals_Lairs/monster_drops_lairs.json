@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "shia_stuff",
     "subtype": "distribution",
-    "entries": [ { "item": "knife_steak", "prob": 3 }, { "item": "ax", "prob": 1 } ]
+    "entries": [ { "item": "knife_steak", "prob": 3 }, { "item": "axe", "prob": 1 } ]
   },
   {
     "type": "item_group",
@@ -184,7 +184,7 @@
       { "item": "stick", "prob": 95 },
       { "item": "hatchet", "prob": 10 },
       { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
-      { "item": "ax", "prob": 8 },
+      { "item": "axe", "prob": 8 },
       { "item": "bee_sting", "prob": 5 },
       { "item": "chitin_piece", "prob": 10 },
       { "item": "vest", "prob": 15 },
@@ -256,7 +256,7 @@
       { "item": "e_tool", "prob": 10 },
       { "item": "survivormap", "prob": 5 },
       { "item": "halligan", "prob": 10 },
-      { "item": "fire_ax", "prob": 5 },
+      { "item": "fire_axe", "prob": 5 },
       { "item": "miner_hat", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "grapnel", "prob": 2 },
       { "group": "tools_toolbox", "prob": 1 },

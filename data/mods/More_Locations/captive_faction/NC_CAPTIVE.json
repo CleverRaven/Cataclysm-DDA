@@ -7,7 +7,7 @@
   {
     "type": "item_group",
     "id": "NC_TALENTED_REFUGEE_cutting",
-    "items": [ [ "fire_ax", 50 ], [ "kukri", 50 ], [ "machete", 200 ], [ "halberd", 1 ], [ "cutlass", 1 ] ]
+    "items": [ [ "fire_axe", 50 ], [ "kukri", 50 ], [ "machete", 200 ], [ "halberd", 1 ], [ "cutlass", 1 ] ]
   },
   {
     "type": "item_group",

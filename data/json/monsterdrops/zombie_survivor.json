@@ -100,7 +100,7 @@
   {
     "id": "survivor_cutting",
     "type": "item_group",
-    "items": [ [ "ax", 5 ], [ "hatchet", 5 ], [ "machete", 5 ], [ "makeshift_halberd", 5 ], [ "makeshift_machete", 15 ] ]
+    "items": [ [ "axe", 5 ], [ "hatchet", 5 ], [ "machete", 5 ], [ "makeshift_halberd", 5 ], [ "makeshift_machete", 15 ] ]
   },
   {
     "id": "survivor_knife",

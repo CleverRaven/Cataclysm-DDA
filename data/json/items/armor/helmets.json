@@ -35,7 +35,7 @@
     "to_hit": 1,
     "material": [ "plastic", "leather" ],
     "symbol": "[",
-    "looks_like": "balclava",
+    "looks_like": "balaclava",
     "color": "red",
     "covers": [ "head" ],
     "coverage": 75,
@@ -208,7 +208,7 @@
   },
   {
     "id": "helmet_bike",
-    "repairs_like": "balclava",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "bike helmet" },
@@ -318,7 +318,7 @@
   },
   {
     "id": "helmet_football",
-    "repairs_like": "balclava",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "football helmet" },
@@ -457,7 +457,7 @@
   },
   {
     "id": "helmet_liner",
-    "repairs_like": "balclava",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": { "str": "helmet liner" },
     "description": "This goes inside a helmet to help keep your head warm in cold climates.",
@@ -469,7 +469,7 @@
     "bashing": 1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "looks_like": "balclava",
+    "looks_like": "balaclava",
     "color": "green",
     "covers": [ "head" ],
     "coverage": 100,
@@ -576,7 +576,7 @@
     "to_hit": -3,
     "material": [ "cotton", "leather" ],
     "symbol": "[",
-    "looks_like": "balclava",
+    "looks_like": "balaclava",
     "color": "white",
     "armor_portion_data": [
       { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },

@@ -1,6 +1,6 @@
 [
   {
-    "id": "ax",
+    "id": "axe",
     "type": "TOOL",
     "name": { "str": "wood axe" },
     "description": "This is a large, two-handed wood axe.  It makes a good melee weapon, but is a bit slow to recover between swings.",
@@ -105,7 +105,7 @@
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
-    "id": "copper_ax",
+    "id": "copper_axe",
     "type": "TOOL",
     "name": { "str": "copper axe" },
     "description": "This is a decent-sized chunk of worked copper affixed to a wooden shaft, to make a crude yet effective axe.",

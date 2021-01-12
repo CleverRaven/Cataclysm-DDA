@@ -601,7 +601,7 @@
     "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ]
   },
   {
-    "id": "lucern_hammer",
+    "id": "lucerne_hammer",
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",

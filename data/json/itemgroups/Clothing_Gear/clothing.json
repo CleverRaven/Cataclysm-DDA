@@ -81,7 +81,7 @@
     "//": "Clothes that hunters take on hunting trips.",
     "subtype": "distribution",
     "entries": [
-      { "item": "balclava", "prob": 50 },
+      { "item": "balaclava", "prob": 50 },
       { "item": "hat_cotton", "prob": 50 },
       { "item": "hat_faux_fur", "prob": 25 },
       { "item": "hat_fur", "prob": 50 },
@@ -154,7 +154,7 @@
       { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
       { "item": "boots_combat" },
       {
-        "collection": [ { "distribution": [ { "item": "balclava", "prob": 90 }, { "item": "balaclava_cut_resistant", "prob": 10 } ] } ],
+        "collection": [ { "distribution": [ { "item": "balaclava", "prob": 90 }, { "item": "balaclava_cut_resistant", "prob": 10 } ] } ],
         "prob": 25
       },
       {
@@ -1198,7 +1198,7 @@
       [ "suit", 60 ],
       [ "waistcoat", 30 ],
       [ "tophat", 10 ],
-      [ "bowhat", 10 ],
+      [ "hat_bowler", 10 ],
       [ "cowboy_hat", 10 ],
       [ "bullwhip", 1 ],
       [ "10gal_hat", 5 ],
@@ -1417,7 +1417,7 @@
       [ "tights", 20 ],
       [ "arm_warmers", 20 ],
       [ "leg_warmers", 20 ],
-      [ "balclava", 15 ]
+      [ "balaclava", 15 ]
     ]
   },
   {
@@ -1502,14 +1502,14 @@
       [ "hat_ball", 100 ],
       [ "postman_hat", 10 ],
       [ "tophat", 50 ],
-      [ "bowhat", 50 ],
+      [ "hat_bowler", 50 ],
       [ "cowboy_hat", 100 ],
       [ "10gal_hat", 100 ],
       [ "kufi", 30 ],
       [ "kippah", 30 ],
       [ "eboshi", 30 ],
-      [ "balclava", 20 ],
-      [ "porkpie", 30 ]
+      [ "balaclava", 20 ],
+      [ "hat_pork_pie", 30 ]
     ]
   },
   {
@@ -1651,7 +1651,7 @@
       { "item": "suit", "prob": 60 },
       { "item": "waistcoat", "prob": 30 },
       { "item": "tophat", "prob": 10 },
-      { "item": "bowhat", "prob": 10 },
+      { "item": "hat_bowler", "prob": 10 },
       { "item": "cowboy_hat", "prob": 10 },
       { "item": "boots_western", "prob": 8 },
       { "item": "glasses_monocle", "prob": 2 },
@@ -1715,7 +1715,7 @@
       { "item": "tights", "prob": 20 },
       { "item": "leggings", "prob": 20 },
       { "item": "stockings", "prob": 20 },
-      { "item": "balclava", "prob": 15 },
+      { "item": "balaclava", "prob": 15 },
       { "item": "pants_ski", "prob": 60 },
       { "item": "long_underpants", "prob": 40 },
       { "item": "long_undertop", "prob": 40 },
@@ -1775,7 +1775,7 @@
       { "item": "long_glove_white", "prob": 1 },
       { "item": "veil_wedding", "prob": 1 },
       { "item": "dress_wedding", "prob": 1 },
-      { "item": "porkpie", "prob": 5 },
+      { "item": "hat_pork_pie", "prob": 5 },
       { "item": "tie_bow", "prob": 5 },
       { "item": "tie_clipon", "prob": 5 },
       { "item": "tie_necktie", "prob": 5 },
@@ -2452,7 +2452,7 @@
       [ "hat_boonie", 16 ],
       [ "beret", 18 ],
       [ "beret_wool", 14 ],
-      [ "balclava", 12 ],
+      [ "balaclava", 12 ],
       [ "mask_survivorxl", 2 ],
       [ "combatsaw_off", 1 ],
       [ "bigun", 2 ],
@@ -2753,7 +2753,7 @@
       },
       {
         "distribution": [
-          { "item": "bowhat", "prob": 10 },
+          { "item": "hat_bowler", "prob": 10 },
           { "item": "fedora", "prob": 40 },
           { "item": "hat_newsboy", "prob": 5 },
           { "item": "cowboy_hat", "prob": 20 },
@@ -2762,7 +2762,7 @@
           { "item": "straw_hat", "prob": 15 },
           { "item": "beret_wool", "prob": 5 },
           { "item": "beret", "prob": 10 },
-          { "item": "porkpie", "prob": 15 }
+          { "item": "hat_pork_pie", "prob": 15 }
         ],
         "prob": 50
       },
@@ -2804,7 +2804,7 @@
     "subtype": "distribution",
     "items": [
       { "item": "bandana", "prob": 90 },
-      { "item": "balclava", "prob": 50 },
+      { "item": "balaclava", "prob": 50 },
       { "item": "headscarf", "prob": 50 },
       { "item": "scarf_fur_long", "prob": 10 },
       { "item": "scarf_fur", "prob": 20 },

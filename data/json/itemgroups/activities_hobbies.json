@@ -270,7 +270,7 @@
       [ "canteen", 15 ],
       [ "2lcanteen", 10 ],
       [ "camelbak", 5 ],
-      [ "ax", 8 ],
+      [ "axe", 8 ],
       [ "heatpack", 60 ],
       { "item": "glowstick", "prob": 60, "charges": 1400 },
       { "item": "handflare", "prob": 40, "charges": 300 },

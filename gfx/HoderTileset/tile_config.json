@@ -6850,7 +6850,7 @@
          "multitile" : false
       },
       {
-         "id" : "balclava",
+         "id" : "balaclava",
          "fg" : 800,
          "bg" : 193,
          "rotates" : false,
@@ -6948,7 +6948,7 @@
          "multitile" : false
       },
       {
-         "id" : "bowhat",
+         "id" : "hat_bowler",
          "fg" : 814,
          "bg" : 193,
          "rotates" : false,
@@ -12332,7 +12332,7 @@
          "multitile" : false
       },
       {
-         "id" : "ax",
+         "id" : "axe",
          "fg" : 1602,
          "bg" : 193,
          "rotates" : false,

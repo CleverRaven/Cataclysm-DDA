@@ -151,7 +151,7 @@
       { "item": "pants_cargo" },
       { "item": "kevlar" },
       { "item": "leather_pouch" },
-      { "item": "balclava", "prob": 75 },
+      { "item": "balaclava", "prob": 75 },
       { "item": "bootsheath" }
     ]
   },
@@ -189,7 +189,7 @@
       [ "quiver_large", 5 ],
       [ "crowbar", 25 ],
       [ "machete", 25 ],
-      [ "ax", 25 ],
+      [ "axe", 25 ],
       [ "arrow_metal", 25 ],
       [ "bolt_steel", 10 ]
     ]

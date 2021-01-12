@@ -525,7 +525,7 @@
         "                    "
       ],
       "terrain": { "w": "t_wall", ".": "t_dirt", "[": "t_window_boarded_noglass" },
-      "place_item": [ { "item": "ax", "x": 13, "y": 18 } ]
+      "place_item": [ { "item": "axe", "x": 13, "y": 18 } ]
     }
   },
   {

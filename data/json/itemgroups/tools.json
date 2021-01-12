@@ -183,7 +183,7 @@
     "type": "item_group",
     "//": "Portable tools for earthworking or farming",
     "items": [
-      [ "ax", 80 ],
+      [ "axe", 80 ],
       [ "bucket", 40 ],
       { "item": "chainsaw_off", "prob": 30, "charges": [ 0, 450 ] },
       { "item": "elec_chainsaw_off", "prob": 30, "charges": [ 0, 500 ] },
@@ -636,7 +636,7 @@
       [ "wrench", 50 ],
       [ "hammer", 40 ],
       [ "saw", 50 ],
-      [ "ax", 20 ],
+      [ "axe", 20 ],
       [ "hacksaw", 50 ],
       [ "chipper", 60 ],
       [ "boltcutters", 50 ],
@@ -664,7 +664,7 @@
     "type": "item_group",
     "//": "Axes and saws.",
     "items": [
-      [ "ax", 100 ],
+      [ "axe", 100 ],
       { "item": "chainsaw_off", "prob": 80, "charges": [ 0, 400 ] },
       [ "saw", 100 ],
       { "item": "circsaw_off", "prob": 50, "charges": [ 0, 500 ] },

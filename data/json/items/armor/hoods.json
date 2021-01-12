@@ -1,7 +1,7 @@
 [
   {
     "id": "beekeeping_hood",
-    "repairs_like": "balclava",
+    "repairs_like": "balaclava",
     "type": "ARMOR",
     "name": { "str": "beekeeping hood" },
     "description": "A beekeeping hood.  Keeps the bees out, but lets fresh air in.",
@@ -35,7 +35,7 @@
     "to_hit": -1,
     "material": [ "iron", "cotton" ],
     "symbol": "[",
-    "looks_like": "balclava",
+    "looks_like": "balaclava",
     "color": "light_red",
     "covers": [ "head" ],
     "coverage": 95,

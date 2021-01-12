@@ -182,7 +182,7 @@
       { "id": "armguard_scrap", "description": " Craft: Armor, Scrap Arm Guards" },
       { "id": "legguard_scrap", "description": " Craft: Armor, Scrap Leg Guards" },
       { "id": "boots_scrap", "description": " Craft: Armor, Scrap Boots" },
-      { "id": "copper_ax", "description": " Craft: Axe, Copper" },
+      { "id": "copper_axe", "description": " Craft: Axe, Copper" },
       { "id": "spear_copper", "description": " Craft: Spear, Copper" }
     ]
   },
@@ -249,7 +249,7 @@
       { "id": "armor_lightplate", "description": " Craft: Armor, Plate" },
       { "id": "broadsword", "description": " Craft: Sword, Broadsword" },
       { "id": "scimitar", "description": " Craft: Sword, Scimitar" },
-      { "id": "fire_ax", "description": " Craft: Axe, Fire" },
+      { "id": "fire_axe", "description": " Craft: Axe, Fire" },
       { "id": "hacksaw", "description": " Craft: Hacksaw" },
       { "id": "saw", "description": " Craft: Woodsaw" },
       { "id": "pike", "description": " Craft: Spear, Awl Pike" },

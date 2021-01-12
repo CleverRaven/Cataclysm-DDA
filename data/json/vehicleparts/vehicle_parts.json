@@ -766,7 +766,7 @@
   },
   {
     "type": "vehicle_part",
-    "id": "wood box",
+    "id": "wood_box",
     "name": { "str": "wood box" },
     "symbol": "o",
     "looks_like": "f_crate_o",
@@ -793,7 +793,7 @@
     "id": "folding wood box",
     "name": { "str": "folding wood box" },
     "symbol": "o",
-    "looks_like": "wood box",
+    "looks_like": "wood_box",
     "categories": [ "cargo" ],
     "color": "brown",
     "broken_symbol": "#",
