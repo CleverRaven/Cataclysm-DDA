@@ -4098,7 +4098,6 @@ void overmap::place_special(
 
         overmap_special_placements[location] = special.id;
         ter_set( location, tid );
-        debugmsg("Placed a %s.", special.id.c_str());
 
         if( blob ) {
             for( int x = -2; x <= 2; x++ ) {
