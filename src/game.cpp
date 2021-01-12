@@ -8650,7 +8650,7 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "scraps that can be used in other ways." ),
                                        msgFactor ) );
     smenu.addentry_col( static_cast<int>( butcher_type::BLEED ), enough_light && has_blood,
-                        's', _( "Bleed corpse" ),
+                        'l', _( "Bleed corpse" ),
                         enough_light ? ( has_blood ? cut_time( butcher_type::BLEED ) : colorize( _( "has no blood" ),
                                          c_red ) ) : cannot_see,
                         string_format( "%s  %s",
