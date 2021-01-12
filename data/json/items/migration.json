@@ -1325,16 +1325,6 @@
     "replace": "lucerne_hammer"
   },
   {
-    "id": "wood box",
-    "type": "MIGRATION",
-    "replace": "wood_box"
-  },
-  {
-    "id": "foldable wood box",
-    "type": "MIGRATION",
-    "replace": "foldable_wood_box"
-  },
-  {
     "id": "bowhat",
     "type": "MIGRATION",
     "replace": "hat_bowler"
