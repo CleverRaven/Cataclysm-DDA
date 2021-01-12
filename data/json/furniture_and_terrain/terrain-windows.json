@@ -557,6 +557,7 @@
     "name": "window frame with metal bars",
     "looks_like": "t_bars",
     "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed for high-value stores, or at least stores in bad neighborhoods.",
+    "examine_action":"bars",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
