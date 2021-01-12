@@ -35,5 +35,50 @@
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
-  }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "wood box",
+    "name": { "str": "wood box" },
+    "symbol": "o",
+    "looks_like": "wood_box",
+    "categories": [ "cargo" ],
+    "color": "brown",
+    "broken_symbol": "#",
+    "broken_color": "brown",
+    "damage_modifier": 60,
+    "durability": 70,
+    "size": 150,
+    "item": "frame_wood",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
+    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
+    "damage_reduction": { "all": 16, "stab": 6, "cut": 6 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "folding wood box",
+    "name": { "str": "folding wood box" },
+    "symbol": "o",
+    "looks_like": "folding_wood_box",
+    "categories": [ "cargo" ],
+    "color": "brown",
+    "broken_symbol": "#",
+    "broken_color": "brown",
+    "damage_modifier": 60,
+    "durability": 65,
+    "folded_volume": "1500 ml",
+    "size": 120,
+    "item": "foldwoodframe",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    }
 ]
