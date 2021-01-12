@@ -245,7 +245,7 @@
     "id": "mutant_blood",
     "type": "COMESTIBLE",
     "copy-from": "mutant_meat",
-    "name": { "str": "mutant blood", "str_pl": "mutant blood" },
+    "name": { "str_sp": "mutant blood" },
     "description": "Fresh blood extracted from a heavily mutated creature.",
     "comestible_type": "DRINK",
     "healthy": 0,
