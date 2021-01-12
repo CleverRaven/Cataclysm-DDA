@@ -467,7 +467,7 @@
     "id": "bb",
     "price": 500,
     "price_postapoc": 50,
-    "name": { "str: "BB" },
+    "name": { "str": "BB" },
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "pebble",
