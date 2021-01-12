@@ -1313,5 +1313,55 @@
     "id": "rifle_3006",
     "type": "MIGRATION",
     "replace": "remington_700"
+  },
+  {
+    "id": "balclava",
+    "type": "MIGRATION",
+    "replace": "balaclava"
+  },
+  {
+    "id": "lucern_hammer",
+    "type": "MIGRATION",
+    "replace": "lucerne_hammer"
+  },
+  {
+    "id": "wood box",
+    "type": "MIGRATION",
+    "replace": "wood_box"
+  },
+  {
+    "id": "foldable wood box",
+    "type": "MIGRATION",
+    "replace": "foldable_wood_box"
+  },
+  {
+    "id": "bowhat",
+    "type": "MIGRATION",
+    "replace": "hat_bowler"
+  },
+  {
+    "id": "porkpie",
+    "type": "MIGRATION",
+    "replace": "hat_pork_pie"
+  },
+  {
+    "id": "roller_blades ",
+    "type": "MIGRATION",
+    "replace": "rollerblades"
+  },
+  {
+    "id": "ax",
+    "type": "MIGRATION",
+    "replace": "axe"
+  },
+  {
+    "id": "copper_ax",
+    "type": "MIGRATION",
+    "replace": "copper_axe"
+  },
+  {
+    "id": "fire_ax",
+    "type": "MIGRATION",
+    "replace": "fire_axe"
   }
 ]
