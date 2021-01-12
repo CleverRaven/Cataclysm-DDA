@@ -1295,8 +1295,8 @@ void iexamine::bars( player &p, const tripoint &examp )
         return;
     }
     map &here = get_map();
-    if( ( ( p.encumb( bodypart_id( "torso" ) ) ) >= 10 ) &&
-        ( ( p.encumb( bodypart_id( "head" ) ) ) >= 10 ) &&
+    if( ( ( p.encumb( bodypart_id( "torso" ) ) ) >= 10 ) ||
+        ( ( p.encumb( bodypart_id( "head" ) ) ) >= 10 ) ||
         ( p.encumb( bodypart_id( "foot_l" ) ) >= 10 ||
           p.encumb( bodypart_id( "foot_r" ) ) >=
           10 ) ) { // Most likely places for rigid gear that would catch on the bars.
