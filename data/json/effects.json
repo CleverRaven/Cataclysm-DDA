@@ -1202,26 +1202,19 @@
     "id": "hot",
     "name": [ "Warm", "Hot", "Scorching" ],
     "desc": [ "Your %s feels warm.", "Your %s is sweating from the heat.", "Your %s is sweating profusely!" ],
-    "resist_traits": [ "M_SKIN2", "M_SKIN3" ],
     "max_intensity": 3,
     "part_descs": true,
     "base_mods": {
-      "thirst_tick": [ 2400, 0 ],
-      "thirst_chance": [ 2, 0 ],
-      "pain_min": [ 1, 0 ],
-      "pain_chance": [ 2, 0 ],
-      "pain_max_val": [ -1, 0 ],
-      "hurt_min": [ 1, 0 ],
-      "hurt_chance": [ -300, 0 ],
-      "stamina_chance": [ 2, 0 ]
+      "thirst_tick": [ 2400 ],
+      "thirst_chance": [ 2 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 2 ],
+      "pain_max_val": [ -1 ],
+      "hurt_min": [ 1 ],
+      "hurt_chance": [ -300 ],
+      "stamina_chance": [ 2 ]
     },
-    "scaling_mods": {
-      "thirst_min": [ 1, 0 ],
-      "thirst_tick": [ -600, 0 ],
-      "pain_max_val": [ 10, 0 ],
-      "hurt_chance": [ 200, 0 ],
-      "stamina_min": [ -1, 0 ]
-    }
+    "scaling_mods": { "thirst_min": [ 1 ], "thirst_tick": [ -600 ], "pain_max_val": [ 10 ], "hurt_chance": [ 200 ], "stamina_min": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -1229,11 +1222,10 @@
     "name": [ "Slowdown", "Hampered", "Crushed" ],
     "desc": [ "The heat slows you down.", "You struggle to move in this heat.", "The heat is crushing you." ],
     "speed_name": "Heat slowdown",
-    "resist_traits": [ "M_SKIN2", "M_SKIN3" ],
     "max_intensity": 3,
     "part_descs": true,
-    "base_mods": { "speed_mod": [ -2, 0 ] },
-    "scaling_mods": { "speed_mod": [ -4, 0 ] }
+    "base_mods": { "speed_mod": [ -2 ] },
+    "scaling_mods": { "speed_mod": [ -4 ] }
   },
   {
     "type": "effect_type",
