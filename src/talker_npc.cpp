@@ -51,6 +51,7 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
 std::string talker_npc::distance_to_goal() const
 {
@@ -435,12 +436,18 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = _( "It doesn't look like a good idea to consume this…" );
             return REFUSED;
         } else {
+            if( to_eat.rotten() && !p.as_character()->has_trait( trait_SAPROVORE ) ) {
+                //TODO: once npc needs are operational again check npc hunger state and allow eating if desperate
+                reason = _( "This is rotten!  I won't eat that." );
+                return REFUSED;
+            }
+
             const time_duration &consume_time = p.get_consume_time( to_eat );
             p.moves -= to_moves<int>( consume_time );
             p.consume( to_eat );
             reason = _( "Thanks, that hit the spot." );
-
         }
+
     } else if( to_eat.is_medication() ) {
         if( !comest->tool.is_null() ) {
             bool has = p.has_amount( comest->tool, 1 );

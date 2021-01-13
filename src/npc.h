@@ -813,6 +813,7 @@ class npc : public player
         std::string opinion_text() const;
         int faction_display( const catacurses::window &fac_w, int width ) const;
         std::string describe_mission() const;
+        std::string name_and_activity() const;
 
         // Interaction with the player
         void form_opinion( const player &u );

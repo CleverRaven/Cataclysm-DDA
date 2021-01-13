@@ -674,9 +674,9 @@ void Character::suffer_from_asthma( const int current_stim )
             if( charges == 0 ) {
                 add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
             } else {
-                add_msg_if_player( m_info, ngettext( "You use your inhaler, "
+                add_msg_if_player( m_info, ngettext( "You use your inhaler; "
                                                      "only %d charge left.",
-                                                     "You use your inhaler, "
+                                                     "You use your inhaler; "
                                                      "only %d charges left.", charges ),
                                    charges );
             }
@@ -685,13 +685,13 @@ void Character::suffer_from_asthma( const int current_stim )
             moves -= 500; // synched with use action
             charges = charges_of( itype_oxygen_tank ) + charges_of( itype_smoxygen_tank );
             if( charges == 0 ) {
-                add_msg_if_player( m_bad, _( "You breathe in last bit of oxygen "
+                add_msg_if_player( m_bad, _( "You breathe in the last bit of oxygen "
                                              "from the tank." ) );
             } else {
                 add_msg_if_player( m_info, ngettext( "You take a deep breath from your oxygen "
-                                                     "tank, only %d charge left.",
+                                                     "tank; only %d charge left.",
                                                      "You take a deep breath from your oxygen "
-                                                     "tank, only %d charges left.", charges ),
+                                                     "tank; only %d charges left.", charges ),
                                    charges );
             }
         }
@@ -813,13 +813,13 @@ void Character::suffer_from_sunburn()
         if( !one_turn_in( 1_minutes ) ) {
             return;
         }
-        sunlight_effect = _( "The sunlight is really irritating" );
+        sunlight_effect = _( "The sunlight is really irritating." );
     } else if( has_trait( trait_SUNBURN ) ) {
         // Sunburn effects occur about 3 times per minute
         if( !one_turn_in( 20_seconds ) ) {
             return;
         }
-        sunlight_effect = _( "The sunlight burns" );
+        sunlight_effect = _( "The sunlight burns!" );
     }
 
     // Sunglasses can keep the sun off the eyes.
@@ -1169,8 +1169,12 @@ void Character::suffer_from_bad_bionics()
     // Negative bionics effects
     if( has_bionic( bio_dis_shock ) && get_power_level() > 9_kJ && one_turn_in( 2_hours ) &&
         !has_effect( effect_narcosis ) ) {
-        add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
-        mod_pain( 1 );
+        if( !has_trait( trait_NOPAIN ) ) {
+            add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
+            mod_pain( 1 );
+        } else {
+            add_msg_if_player( m_bad, _( "You experience an electrical discharge!" ) );
+        }
         moves -= 150;
         mod_power_level( -10_kJ );
 
@@ -1186,7 +1190,11 @@ void Character::suffer_from_bad_bionics()
         sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }
     if( has_bionic( bio_dis_acid ) && one_turn_in( 150_minutes ) ) {
-        add_msg_if_player( m_bad, _( "You suffer a burning acidic discharge!" ) );
+        if( !has_trait( trait_NOPAIN ) ) {
+            add_msg_if_player( m_bad, _( "You suffer a burning acidic discharge!" ) );
+        } else {
+            add_msg_if_player( m_bad, _( "You experience an acidic discharge!" ) );
+        }
         hurtall( 1, nullptr );
         sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
         sfx::do_player_death_hurt( get_player_character(), false );
@@ -1328,7 +1336,7 @@ static void apply_weary_message( const Character &you, int level, int old )
                 msg = _( "You're beginning to feel like you've exerted yourself a bit." );
                 break;
             case 2:
-                msg = _( "You're tiring out mildly, and slowing down as a result" );
+                msg = _( "You're tiring out mildly, and slowing down as a result." );
                 break;
             case 3:
                 msg = _( "The day's labors are taking their toll, and slowing you down." );
@@ -1401,7 +1409,7 @@ void Character::suffer_from_exertion()
     int chance = activity ? 2000 : 60;
     if( attempted_activity_level > max_activity && one_in( chance ) && !in_sleep_state() ) {
         add_msg_if_player( m_bad,
-                           _( "You're tiring out, continuing to work at this rate will be slower." ) );
+                           _( "You're tiring out; continuing to work at this rate will be slower." ) );
     }
 
     // This must happen at the end, for hopefully obvious reasons
@@ -1832,7 +1840,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
     if( torso_wetness >= get_part_drench_capacity( bodypart_id( "torso" ) ) / 2.0 &&
         has_effect( effect_masked_scent ) &&
         get_value( "waterproof_scent" ).empty() ) {
-        add_msg_if_player( m_info, _( "The water wash away the scent." ) );
+        add_msg_if_player( m_info, _( "The water washes away the scent." ) );
         restore_scent();
     }
 

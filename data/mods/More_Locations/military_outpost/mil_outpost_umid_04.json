@@ -34,6 +34,7 @@
         "....|##########|........"
       ],
       "palettes": [ "mil_outpost_underground" ],
+      "furniture": { "o": "f_oven" },
       "items": { "x": { "item": "mechanics", "chance": 25 }, "X": { "item": "mechanics", "chance": 80 } }
     }
   }

@@ -661,6 +661,25 @@
   },
   {
     "type": "faction",
+    "id": "fisherman_family",
+    "name": "Fisherman Family",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 3,
+    "power": 3,
+    "food_supply": 100,
+    "wealth": 20000,
+    "relations": {
+      "free_merchants": { "knows your voice": true },
+      "old_guard": { "knows your voice": true },
+      "your_followers": { "knows your voice": true },
+      "no_faction": { "knows your voice": true }
+    },
+    "description": "A small family trying to survive in this new world."
+  },
+  {
+    "type": "faction",
     "id": "prisoners",
     "name": "Prisoners",
     "likes_u": 0,

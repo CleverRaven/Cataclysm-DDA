@@ -17,6 +17,7 @@
 #include "game.h"
 #include "iexamine.h"
 #include "input.h"
+#include "inventory.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -44,8 +45,6 @@ static const std::string flag_CONSOLE( "CONSOLE" );
 static const std::string flag_GOES_DOWN( "GOES_DOWN" );
 static const std::string flag_GOES_UP( "GOES_UP" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
-
-class inventory;
 
 static void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                           std::set<action_id> &unbound_keymap );

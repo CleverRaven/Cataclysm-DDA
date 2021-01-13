@@ -331,7 +331,7 @@ class game
         monster *place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint &p );
         monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
         monster *place_critter_around( const shared_ptr_fast<monster> &mon, const tripoint &center,
-                                       int radius );
+                                       int radius, bool forced = false );
         monster *place_critter_within( const mtype_id &id, const tripoint_range<tripoint> &range );
         monster *place_critter_within( const shared_ptr_fast<monster> &mon,
                                        const tripoint_range<tripoint> &range );
@@ -552,7 +552,7 @@ class game
         void reset_light_level();
         character_id assign_npc_id();
         Creature *is_hostile_nearby();
-        Creature *is_hostile_very_close();
+        Creature *is_hostile_very_close( bool dangerous = false );
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
         point update_map( Character &p );
@@ -940,7 +940,13 @@ class game
                 cata::optional<IRLTimeMs> start_time = cata::nullopt;
         } debug_hour_timer;
 
-        Creature *is_hostile_within( int distance );
+        /**
+         * Checks if there's a hostile creature within given distance.
+         * @param dangerous If true, makes additional checks for monsters with ranged attack capabilities within distance OR
+         * if there's a route from monster to player, and returns this particular monster.
+         * @return Hostile creature within given distance.
+         */
+        Creature *is_hostile_within( int distance, bool dangerous = false );
 
         void move_save_to_graveyard();
         bool save_player_data();

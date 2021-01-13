@@ -60,6 +60,7 @@
     "result": "xl_armguard_chitin",
     "type": "recipe",
     "copy-from": "armguard_chitin",
+    "time": "520 m",
     "byproducts": [ [ "scrap_leather", 100 ] ],
     "using": [ [ "armor_chitin", 4 ], [ "tailoring_leather_small", 3 ] ]
   },
@@ -88,6 +89,7 @@
     "result": "xl_armguard_acidchitin",
     "type": "recipe",
     "copy-from": "armguard_acidchitin",
+    "time": "520 m",
     "byproducts": [ [ "scrap_leather", 100 ] ],
     "using": [ [ "armor_acidchitin", 4 ], [ "tailoring_leather_small", 3 ] ]
   },
@@ -110,7 +112,7 @@
     "result": "xl_armguard_hard",
     "type": "recipe",
     "copy-from": "armguard_hard",
-    "time": "260 m",
+    "time": "390 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
     "byproducts": [ [ "scrap_neoprene", 67 ] ],
     "using": [ [ "plastic_molding", 3 ], [ "tailoring_neoprene_patchwork", 3 ] ]
@@ -188,7 +190,9 @@
     "copy-from": "armguard_metal",
     "time": "45 m",
     "using": [ [ "cordage", 2 ] ],
-    "components": [ [ [ "sheet_metal_small", 6 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 6 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ]
   },
   {
     "result": "armguard_paper",
@@ -224,7 +228,9 @@
     "copy-from": "armguard_scrap",
     "time": "45 m",
     "using": [ [ "cordage", 2 ] ],
-    "components": [ [ [ "scrap", 80 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 80 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ]
   },
   {
     "result": "armguard_soft",

@@ -70,6 +70,8 @@ void leave( npc & );                 // p becomes indifferent
 void stop_following( npc & );
 void stranger_neutral( npc & );      // p is now neutral towards you
 
+bool drop_stolen_item( item &cur_item, npc &p );
+
 void start_mugging( npc & );
 void player_leaving( npc & );
 

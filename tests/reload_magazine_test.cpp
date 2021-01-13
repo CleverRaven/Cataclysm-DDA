@@ -87,7 +87,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                 }
                 AND_THEN( "a single correctly sized ammo stack remains in the inventory" ) {
                     std::vector<const item *> found;
-                    player_character.visit_items( [&ammo_id, &found]( const item * e ) {
+                    player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
                         if( e->typeId() == ammo_id ) {
                             found.push_back( e );
                         }
@@ -118,7 +118,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                 }
                 AND_THEN( "the ammo stack was completely used" ) {
                     std::vector<const item *> found;
-                    player_character.visit_items( [&ammo_id, &found]( const item * e ) {
+                    player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
                         if( e->typeId() == ammo_id ) {
                             found.push_back( e );
                         }
@@ -144,7 +144,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                     }
                     AND_THEN( "a single correctly sized ammo stack remains in the inventory" ) {
                         std::vector<const item *> found;
-                        player_character.visit_items( [&ammo_id, &found]( const item * e ) {
+                        player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
                             if( e->typeId() == ammo_id ) {
                                 found.push_back( e );
                             }
@@ -289,7 +289,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                         }
                         AND_THEN( "a single correctly sized ammo stack remains in the inventory" ) {
                             std::vector<const item *> found;
-                            player_character.visit_items( [&ammo_id, &found]( const item * e ) {
+                            player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
                                 if( e->typeId() == ammo_id ) {
                                     found.push_back( e );
                                 }
@@ -378,7 +378,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location]" )
                 }
                 AND_THEN( "a single correctly sized ammo stack remains in the inventory" ) {
                     std::vector<const item *> found;
-                    player_character.visit_items( [&ammo_id, &found]( const item * e ) {
+                    player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
                         if( e->typeId() == ammo_id ) {
                             found.push_back( e );
                         }
@@ -409,7 +409,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location]" )
                 }
                 AND_THEN( "the ammo stack was completely used" ) {
                     std::vector<const item *> found;
-                    player_character.visit_items( [&ammo_id, &found]( const item * e ) {
+                    player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
                         if( e->typeId() == ammo_id ) {
                             found.push_back( e );
                         }
@@ -435,7 +435,7 @@ TEST_CASE( "reload_revolver", "[visitable] [item] [item_location]" )
                     }
                     AND_THEN( "a single correctly sized ammo stack remains in the inventory" ) {
                         std::vector<const item *> found;
-                        player_character.visit_items( [&ammo_id, &found]( const item * e ) {
+                        player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
                             if( e->typeId() == ammo_id ) {
                                 found.push_back( e );
                             }
