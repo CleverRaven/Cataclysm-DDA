@@ -10715,8 +10715,10 @@ void Character::start_hauling()
 
 void Character::stop_hauling()
 {
-    add_msg( _( "You stop hauling items." ) );
-    hauling = false;
+    if( hauling ) {
+        add_msg( _( "You stop hauling items." ) );
+        hauling = false;
+    }
     if( has_activity( ACT_MOVE_ITEMS ) ) {
         cancel_activity();
     }
