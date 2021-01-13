@@ -7178,8 +7178,8 @@
     "locations": [ "field" ],
     "connections": [ { "point": [ 3, -2, 0 ] } ],
     "city_distance": [ 5, -1 ],
-    "city_sizes": [ 6, -1 ],
-    "occurrences": [ 10, 100 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 15, 100 ],
     "flags": [ "MILITARY", "UNIQUE" ]
   },
   {
