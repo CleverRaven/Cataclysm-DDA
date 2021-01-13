@@ -1821,7 +1821,9 @@ void basecamp::job_assignment_ui()
 
         const std::string action = ctxt.handle_input();
         if( action == "INSPECT_NPC" ) {
-            cur_npc->disp_info();
+            if( cur_npc ) {
+                cur_npc->disp_info();
+            }
         } else if( action == "DOWN" ) {
             selection++;
             if( selection >= stationed_npcs.size() ) {
