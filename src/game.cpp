@@ -2130,6 +2130,17 @@ static hint_rating rate_action_wield( const avatar &you, const item &it )
     return you.can_wield( it ).success() ? hint_rating::good : hint_rating::iffy;
 }
 
+static hint_rating rate_action_insert( const avatar &you, const item_location &loc )
+{
+    if( loc->will_spill_if_unsealed()
+        && loc.where() != item_location::type::map
+        && !you.is_wielding( *loc ) ) {
+
+        return hint_rating::cant;
+    }
+    return hint_rating::good;
+}
+
 /* item submenu for 'i' and '/'
 * It use draw_item_info to draw item info and action menu
 *
@@ -2193,7 +2204,7 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
         if( oThisItem.has_pockets() ) {
-            addentry( 'i', pgettext( "action", "insert" ), hint_rating::good );
+            addentry( 'i', pgettext( "action", "insert" ), rate_action_insert( u, locThisItem ) );
             if( oThisItem.contents.num_item_stacks() > 0 ) {
                 addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
             }
@@ -2285,31 +2296,41 @@ int game::inventory_item_menu( item_location locThisItem,
                 ui = nullptr;
             }
 
-            handle_contents_changed_helper handler( u, locThisItem );
             switch( cMenu ) {
-                case 'a':
+                case 'a': {
+                    contents_change_handler handler;
+                    handler.unseal_pocket_containing( locThisItem );
                     avatar_action::use_item( u, locThisItem );
-                    handler.handle();
+                    handler.handle_by( u );
                     break;
+                }
                 case 'E':
                     avatar_action::eat( u, locThisItem );
                     break;
-                case 'W':
+                case 'W': {
+                    contents_change_handler handler;
+                    handler.unseal_pocket_containing( locThisItem );
                     u.wear( locThisItem );
-                    handler.handle();
+                    handler.handle_by( u );
                     break;
+                }
                 case 'w':
                     if( u.can_wield( *locThisItem ).success() ) {
+                        contents_change_handler handler;
+                        handler.unseal_pocket_containing( locThisItem );
                         wield( locThisItem );
+                        handler.handle_by( u );
                     } else {
                         add_msg( m_info, "%s", u.can_wield( *locThisItem ).c_str() );
                     }
-                    handler.handle();
                     break;
-                case 't':
+                case 't': {
+                    contents_change_handler handler;
+                    handler.unseal_pocket_containing( locThisItem );
                     avatar_action::plthrow( u, locThisItem );
-                    handler.handle();
+                    handler.handle_by( u );
                     break;
+                }
                 case 'c':
                     u.change_side( locThisItem );
                     break;
@@ -2318,35 +2339,36 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'd':
                     u.drop( locThisItem, u.pos() );
-                    handler.handle();
                     break;
                 case 'U':
                     u.unload( locThisItem );
-                    handler.handle();
                     break;
                 case 'r':
                     reload( locThisItem );
-                    handler.handle();
                     break;
                 case 'p':
                     reload( locThisItem, true );
-                    handler.handle();
                     break;
                 case 'm':
                     avatar_action::mend( u, locThisItem );
-                    handler.handle();
                     break;
                 case 'R':
                     u.read( oThisItem );
-                    handler.handle();
                     break;
                 case 'D':
                     u.disassemble( locThisItem, false );
-                    handler.handle();
                     break;
                 case 'f':
                     oThisItem.is_favorite = !oThisItem.is_favorite;
-                    handler.handle();
+                    if( locThisItem.has_parent() ) {
+                        item_location parent = locThisItem.parent_item();
+                        item_pocket *const pocket = parent->contained_where( oThisItem );
+                        if( pocket ) {
+                            pocket->restack();
+                        } else {
+                            debugmsg( "parent container does not contain item" );
+                        }
+                    }
                     break;
                 case 'v':
                     if( oThisItem.has_pockets() ) {
@@ -2362,7 +2384,6 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( oThisItem.has_pockets() && oThisItem.contents.num_item_stacks() > 0 ) {
                         game_menus::inv::common( locThisItem, u );
                     }
-                    handler.handle();
                     break;
                 case '=':
                     game_menus::inv::reassign_letter( u, oThisItem );
@@ -5932,7 +5953,7 @@ void game::examine( const tripoint &examp )
                 if( monexamine::pay_bot( *mon ) ) {
                     return;
                 }
-            } else if( mon->attitude_to( u ) == Creature::Attitude::FRIENDLY ) {
+            } else if( mon->attitude_to( u ) == Creature::Attitude::FRIENDLY && !u.is_mounted() ) {
                 if( monexamine::mfriend_menu( *mon ) ) {
                     return;
                 }

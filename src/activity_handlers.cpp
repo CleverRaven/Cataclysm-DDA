@@ -4272,6 +4272,10 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             if( spell_being_cast.get_level() != old_level ) {
                 get_event_bus().send<event_type::player_levels_spell>( p->getID(),
                         spell_being_cast.id(), spell_being_cast.get_level() );
+                // Level 0-1 message is printed above - notify player when leveling up further
+                if( old_level > 0 ) {
+                    p->add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );
+                }
             }
         }
     }
@@ -4279,13 +4283,16 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
 void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
 {
+    // Stop if there is not enough light to study
     if( p->fine_detail_vision_mod() > 4 ) {
         act->values[2] = -1;
         act->moves_left = 0;
         return;
     }
+    // str_value 1 is "study" if we already know the spell, and want to study it more
     if( act->get_str_value( 1 ) == "study" ) {
         spell &studying = p->magic->get_spell( spell_id( act->name ) );
+        // If we are studying to gain a level, keep studying until level changes
         if( act->get_str_value( 0 ) == "gain_level" ) {
             if( studying.get_level() < act->get_value( 1 ) ) {
                 act->moves_left = 1000000;
@@ -4293,9 +4300,15 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
                 act->moves_left = 0;
             }
         }
+        const int old_level = studying.get_level();
+        // Gain some experience from studying
         const int xp = roll_remainder( studying.exp_modifier( *p ) / to_turns<float>( 6_seconds ) );
         act->values[0] += xp;
         studying.gain_exp( xp );
+        // Notify player if the spell leveled up
+        if( studying.get_level() > old_level ) {
+            p->add_msg_if_player( m_good, _( "You gained a level in %s!" ), studying.name() );
+        }
     }
 }
 

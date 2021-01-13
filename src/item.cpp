@@ -1080,9 +1080,10 @@ bool item::merge_charges( const item &rhs )
     return true;
 }
 
-ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type )
+ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type,
+                            const bool unseal_pockets )
 {
-    ret_val<bool> result = contents.insert_item( payload, pk_type );
+    ret_val<item_pocket *> result = contents.insert_item( payload, pk_type );
     if( !result.success() ) {
         debugmsg( "tried to put an item (%s) count (%d) in a container (%s) that cannot contain it: %s",
                   payload.typeId().str(), payload.count(), typeId().str(), result.str() );
@@ -1090,8 +1091,15 @@ ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_typ
     if( pk_type == item_pocket::pocket_type::MOD ) {
         update_modified_pockets();
     }
+    if( unseal_pockets && result.success() ) {
+        result.value()->unseal();
+    }
     on_contents_changed();
-    return result;
+    if( result.success() ) {
+        return ret_val<bool>::make_success( result.str() );
+    } else {
+        return ret_val<bool>::make_failure( result.str() );
+    }
 }
 
 void item::set_var( const std::string &name, const int value )
@@ -7210,10 +7218,12 @@ bool item::can_contain_partial( const item &it ) const
     return can_contain( i_copy );
 }
 
-std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent )
+std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent,
+        const bool allow_sealed )
 {
     item_location nested_location( parent, this );
-    return contents.best_pocket( it, nested_location, false );
+    return contents.best_pocket( it, nested_location, false,
+                                 /*allow_sealed=*/allow_sealed );
 }
 
 bool item::spill_contents( Character &c )
@@ -8813,7 +8823,9 @@ void item::set_item_temperature( float new_temperature )
     reset_temp_check();
 }
 
-int item::fill_with( const item &contained, const int amount )
+int item::fill_with( const item &contained, const int amount,
+                     const bool unseal_pockets,
+                     const bool allow_sealed )
 {
     if( amount <= 0 ) {
         return 0;
@@ -8832,7 +8844,8 @@ int item::fill_with( const item &contained, const int amount )
             if( count_by_charges ) {
                 contained_item.charges = 1;
             }
-            pocket = best_pocket( contained_item, loc ).second;
+            pocket = best_pocket( contained_item, loc,
+                                  /*allow_sealed=*/allow_sealed ).second;
         }
         if( pocket == nullptr ) {
             break;
@@ -8844,8 +8857,8 @@ int item::fill_with( const item &contained, const int amount )
                                                    pocket->remaining_ammo_capacity( ammo ) );
             } else {
                 contained_item.charges = std::min( { amount - num_contained,
-                                                     contained_item.charges_per_volume( pocket->remaining_volume() ),
-                                                     contained_item.charges_per_weight( pocket->remaining_weight() )
+                                                     pocket->charges_per_remaining_volume( contained_item ),
+                                                     pocket->charges_per_remaining_weight( contained_item )
                                                    } );
             }
         }
@@ -8864,6 +8877,9 @@ int item::fill_with( const item &contained, const int amount )
             num_contained += contained_item.charges;
         } else {
             num_contained++;
+        }
+        if( unseal_pockets ) {
+            pocket->unseal();
         }
     }
     if( num_contained == 0 ) {
@@ -9151,6 +9167,11 @@ bool item::can_holster( const item &obj, bool ) const
 bool item::will_spill() const
 {
     return contents.will_spill();
+}
+
+bool item::will_spill_if_unsealed() const
+{
+    return contents.will_spill_if_unsealed();
 }
 
 std::string item::components_to_string() const

@@ -39,6 +39,7 @@ jobs:
           - compiler: g++-9
             cmake: 0
             tiles: 0
+            test-stage: 1
           - compiler: g++-7
             cmake: 1
             tiles: 1
@@ -57,6 +58,8 @@ jobs:
         TILES: ${{ matrix.tiles }}
         SOUND: ${{ matrix.tiles }}
         SANITIZE: ${{ matrix.sanitize }}
+        TEST_STAGE: ${{ matrix.test-stage }}
+        EXTRA_TEST_OPTS: --error-format=github-action
         RELEASE: 1
     steps:
     - name: checkout repository

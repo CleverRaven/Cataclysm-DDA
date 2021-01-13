@@ -22,7 +22,8 @@
       { "item": "brandied_fruit", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "fish_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "sauce_red", "prob": 60, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "kompot", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" }
+      { "item": "kompot", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "freeze_dried_meal", "prob": 10 }
     ]
   },
   {
@@ -44,7 +45,8 @@
       { "item": "salted_fish", "prob": 15 },
       { "item": "dry_beans", "prob": 40 },
       { "item": "dry_lentils", "prob": 30 },
-      { "item": "dry_rice", "prob": 40 }
+      { "item": "dry_rice", "prob": 40 },
+      { "item": "freeze_dried_meal", "prob": 10 }
     ]
   },
   {

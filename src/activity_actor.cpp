@@ -1577,17 +1577,14 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     bool actually_unloaded = false;
 
     if( it.is_container() ) {
-
+        contents_change_handler handler;
         bool changed = false;
         for( item *contained : it.contents.all_items_top() ) {
             int old_charges = contained->charges;
             const bool consumed = who.add_or_drop_with_msg( *contained, true, &it );
             if( consumed || contained->charges != old_charges ) {
                 changed = true;
-                item_pocket *const parent_pocket = it.contained_where( *contained );
-                if( parent_pocket ) {
-                    parent_pocket->unseal();
-                }
+                handler.unseal_pocket_containing( item_location( target, contained ) );
             }
             if( consumed ) {
                 it.remove_item( *contained );
@@ -1597,6 +1594,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         if( changed ) {
             it.on_contents_changed();
             who.invalidate_weight_carried_cache();
+            handler.handle_by( who );
         }
         return;
     }
@@ -2089,7 +2087,7 @@ static void debug_drop_list( const std::vector<drop_or_stash_item_info> &items )
 // Return a list of items to be dropped by the given item-dropping activity in the current turn.
 static std::list<item> obtain_activity_items(
     std::vector<drop_or_stash_item_info> &items,
-    std::vector<item_location> &unhandled_containers,
+    contents_change_handler &handler,
     Character &who )
 {
     std::list<item> res;
@@ -2111,6 +2109,19 @@ static std::list<item> obtain_activity_items(
 
         who.mod_moves( -consumed_moves );
 
+        // If item is inside another (container/pocket), unseal it, and update encumbrance
+        if( loc.has_parent() ) {
+            // Save parent items to be handled when finishing or canceling activity,
+            // in case there are still other items to drop from the same container.
+            // This assumes that an item and any of its parents/ancestors are not
+            // dropped at the same time.
+            handler.unseal_pocket_containing( loc );
+        } else {
+            // when parent's encumbrance cannot be marked as dirty,
+            // mark character's encumbrance as dirty instead (correctness over performance)
+            who.set_check_encumbrance( true );
+        }
+
         // Take off the item or remove it from the player's inventory
         if( who.is_worn( *loc ) ) {
             who.as_player()->takeoff( *loc, &res );
@@ -2118,29 +2129,6 @@ static std::list<item> obtain_activity_items(
             res.push_back( who.as_player()->reduce_charges( &*loc, it->count() ) );
         } else {
             res.push_back( who.i_rem( &*loc ) );
-        }
-
-        // If item is inside another (container/pocket), unseal it, and update encumbrance
-        if( loc.has_parent() ) {
-            item_location parent = loc.parent_item();
-            item_pocket *const parent_pocket = parent->contained_where( *loc );
-            if( parent_pocket ) {
-                parent_pocket->on_contents_changed();
-            }
-            // Update encumbrance on the parent item
-            parent->on_contents_changed();
-            // Save parent items to be handled when finishing or canceling activity,
-            // in case there are still other items to drop from the same container.
-            // This assumes that an item and any of its parents/ancestors are not
-            // dropped at the same time.
-            if( std::find( unhandled_containers.begin(), unhandled_containers.end(),
-                           parent ) == unhandled_containers.end() ) {
-                unhandled_containers.emplace_back( parent );
-            }
-        } else {
-            // when parent's encumbrance cannot be marked as dirty,
-            // mark character's encumbrance as dirty instead (correctness over performance)
-            who.set_check_encumbrance( true );
         }
     }
 
@@ -2154,20 +2142,6 @@ static std::list<item> obtain_activity_items(
     }
 
     return res;
-}
-
-static void handle_containers(
-    std::vector<item_location> &unhandled_containers,
-    Character &who )
-{
-    // some containers could have been destroyed by e.g. monster attack
-    auto it = std::remove_if( unhandled_containers.begin(), unhandled_containers.end(),
-    []( const item_location & loc ) -> bool {
-        return !loc;
-    } );
-    unhandled_containers.erase( it, unhandled_containers.end() );
-    who.handle_contents_changed( unhandled_containers );
-    unhandled_containers.clear();
 }
 
 void drop_or_stash_item_info::serialize( JsonOut &jsout ) const
@@ -2190,20 +2164,20 @@ void drop_activity_actor::do_turn( player_activity &, Character &who )
     const tripoint pos = placement + who.pos();
     who.invalidate_weight_carried_cache();
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
-                              obtain_activity_items( items, unhandled_containers, who ),
+                              obtain_activity_items( items, handler, who ),
                               pos, force_ground );
 }
 
 void drop_activity_actor::canceled( player_activity &, Character &who )
 {
-    handle_containers( unhandled_containers, who );
+    handler.handle_by( who );
 }
 
 void drop_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "items", items );
-    jsout.member( "unhandled_containers", unhandled_containers );
+    jsout.member( "unhandled_containers", handler );
     jsout.member( "placement", placement );
     jsout.member( "force_ground", force_ground );
     jsout.end_object();
@@ -2215,7 +2189,7 @@ std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
 
     JsonObject jsobj = jsin.get_object();
     jsobj.read( "items", actor.items );
-    jsobj.read( "unhandled_containers", actor.unhandled_containers );
+    jsobj.read( "unhandled_containers", actor.handler );
     jsobj.read( "placement", actor.placement );
     jsobj.read( "force_ground", actor.force_ground );
 
@@ -2253,7 +2227,7 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 
     monster *pet = g->critter_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-        stash_on_pet( obtain_activity_items( items, unhandled_containers, who ),
+        stash_on_pet( obtain_activity_items( items, handler, who ),
                       *pet, who );
     } else {
         who.add_msg_if_player( _( "The pet has moved somewhere else." ) );
@@ -2263,14 +2237,14 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 
 void stash_activity_actor::canceled( player_activity &, Character &who )
 {
-    handle_containers( unhandled_containers, who );
+    handler.handle_by( who );
 }
 
 void stash_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "items", items );
-    jsout.member( "unhandled_containers", unhandled_containers );
+    jsout.member( "unhandled_containers", handler );
     jsout.member( "placement", placement );
     jsout.end_object();
 }
@@ -2281,7 +2255,7 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
 
     JsonObject jsobj = jsin.get_object();
     jsobj.read( "items", actor.items );
-    jsobj.read( "unhandled_containers", actor.unhandled_containers );
+    jsobj.read( "unhandled_containers", actor.handler );
     jsobj.read( "placement", actor.placement );
 
     return actor.clone();

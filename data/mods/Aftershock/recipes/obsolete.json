@@ -54,6 +54,31 @@
   },
   {
     "type": "recipe",
+    "result": "afs_basin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_rope_lighter",
+    "obsolete": true
+  },
+  {
+    "result": "rolling_pin",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "afs_rolling_pin_barbed_wire",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_chain_wrench",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "survivor_belt",
     "id_suffix": "afs_convert",
     "obsolete": true

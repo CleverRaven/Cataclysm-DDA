@@ -93,7 +93,7 @@
     "name": { "str": "brick kiln" },
     "description": "This is a portable charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
     "weight": "9600 g",
-    "volume": "9 L",
+    "volume": "30 L",
     "price": 25000,
     "price_postapoc": 1000,
     "to_hit": -3,
@@ -101,7 +101,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 1000 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 1000 } } ],
     "ammo": [ "charcoal" ],
     "max_charges": 1000,
     "flags": [ "ALLOWS_REMOTE_USE" ]

@@ -109,6 +109,9 @@ TEST_CASE( "lunar month is scaled by season default ratio", "[calendar][moon][mo
             CHECK( get_moon_phase( zero + 7_days ) == MOON_FULL );
         }
     }
+
+    calendar::set_season_length( 91 ); // Reset to default
+    REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );
 }
 
 // With 8 discrete phases during a 29-day period, each phase lasts three or four days.
