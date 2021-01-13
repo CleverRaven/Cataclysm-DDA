@@ -102,7 +102,7 @@
         "no_ammo_sound": "*zZzzz*-TARGET ACQUIRED.  *beeeeeeeeep*.  OUT OF AMMO.-*zZzZ*"
       }
     ],
-    "description": "A shiny finned dinosaur corpse covered with bloody armor and crackling bionics.  It shambles quickly as it hunts.  Is... is that a laser rifle on its head?",
+    "description": "A shiny finned dinosaur corpse covered with bloody armor and crackling bionics.  It shambles quickly as it hunts.  Is...  is that a laser rifle on its head?",
     "special_when_hit": [ "ZAPBACK", 20 ],
     "harvest": "CBM_ZINO"
   }
