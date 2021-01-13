@@ -7222,7 +7222,7 @@ std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_
         const bool allow_sealed )
 {
     item_location nested_location( parent, this );
-    return contents.best_pocket( it, nested_location, false,
+    return contents.best_pocket( it, nested_location,
                                  /*allow_sealed=*/allow_sealed );
 }
 

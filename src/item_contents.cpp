@@ -471,7 +471,7 @@ void item_contents::force_insert_item( const item &it, item_pocket::pocket_type 
 }
 
 std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
-        item_location &parent, bool nested, const bool allow_sealed )
+        item_location &parent, const bool allow_sealed )
 {
     if( !can_contain( it ).success() ) {
         return { item_location(), nullptr };
