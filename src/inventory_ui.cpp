@@ -231,6 +231,11 @@ inventory_entry *inventory_column::find_by_invlet( int invlet ) const
     return nullptr;
 }
 
+void group_entry::set_number_of_children( const int n )
+{
+    n_children = n;
+}
+
 size_t inventory_column::get_width() const
 {
     return std::max( get_cells_width(), reserved_width );
@@ -841,8 +846,6 @@ void inventory_column::order_by_parent()
 
 void inventory_column::add_entry( const inventory_entry &entry )
 {
-    // FIXME: remove group entries first
-    grouped = false;
     if( std::find( entries.begin(), entries.end(), entry ) != entries.end() ) {
         debugmsg( "Tried to add a duplicate entry." );
         return;
@@ -875,12 +878,14 @@ void inventory_column::add_entry( const inventory_entry &entry )
             std::vector<item_location> locations = entry_with_loc->locations;
             locations.insert( locations.end(), entry.locations.begin(), entry.locations.end() );
             entries.erase( entry_with_loc );
+            grouped = false;
             inventory_entry nentry( locations, entry.get_category_ptr() );
             add_entry( nentry );
         }
     }
     if( !has_loc ) {
         entries.insert( iter.base(), entry );
+        grouped = false;
     }
     entries_unfiltered.clear();
     entries_cell_cache.clear();
@@ -953,60 +958,65 @@ void inventory_column::prepare_paging( const std::string &filter )
         }
     }
 
-    // FIXME: remove this, it's only here for debug needs to be implemented in `inventory_entry`
-    bool expand_group = false;
-    bool in_master_group = false;
-
-    std::vector<item_location> group;
-    std::vector<inventory_entry>::iterator it, nx, gp;
-    it = nx = gp = entries.begin();
-
-    while( it != entries.end() ) {
-        nx++;
-        if( nx != entries.end() && it->is_item() && nx->is_item() &&
-            it->any_item()->typeId() == nx->any_item()->typeId() ) {
-            if( !grouped || in_master_group ) {
-                // save item
-                group.insert( group.end(), it->locations.begin(), it->locations.end() );
-            } else {
-                gp++;
-            }
-            in_master_group = true;
-        } else if( !group.empty() ) {
-            // save item
-            group.insert( group.end(), it->locations.begin(), it->locations.end() );
-            // create group entry
-            inventory_entry g_entry( group, gp->get_category_ptr() );
-            g_entry.update_cache();
-            g_entry.highlight_as_parent = true;
-            if( !expand_group ) { // TODO: change it to per-group condition
-                // pop group
-                entries.erase( gp, nx );
-            }
-            if( !grouped ) {
-                if( nx != entries.end() ) { // NOTE: should be a better way
-                    entries.insert( gp, g_entry );
-                    nx++;
-                } else { // end is near
-                    entries.insert( gp, g_entry );
-                    nx = entries.end();
-                }
-                expand_to_fit( *gp );
-            }
-            if( !expand_group ) { // TODO: change it to per-group condition
-                gp++; // because insert
-                nx = gp;
-            } else {
-                gp = nx;
-            }
-            group.clear();
-            in_master_group = false;
-        } else {
-            gp++; // nx
+    if( !grouped ) {
+        // remove group entries
+        for( const std::shared_ptr< group_entry > &g_iter : group_entries_ ) {
+            // TODO: child entries need to be put back!
+            std::remove( entries.begin(), entries.end(), *g_iter );
         }
-        it = nx;
+        group_entries_.clear();
+
+        std::vector<item_location> group;
+        bool inside_group = false;
+        std::vector<inventory_entry>::iterator it, nx, gp;
+        it = nx = gp = entries.begin();
+        while( it != entries.end() ) {
+            nx++;
+            if( nx != entries.end() && it->is_item() && nx->is_item() &&
+                it->any_item()->typeId() == nx->any_item()->typeId() ) {
+                // save items
+                group.insert( group.end(), it->locations.begin(), it->locations.end() );
+                if( !inside_group ) {
+                    gp = it;
+                    inside_group = true;
+                }
+            } else if( inside_group ) {
+                // save items
+                group.insert( group.end(), it->locations.begin(), it->locations.end() );
+                // create group entry
+                int children = std::distance( gp, nx );
+                group_entry g_entry( group, it->get_category_ptr() );
+                g_entry.update_cache();
+                g_entry.highlight_as_parent = true;
+                g_entry.set_number_of_children( children );
+                group_entries_.push_back(  // cant't be in main scope?
+                    std::make_shared<group_entry> ( g_entry ) );
+
+                nx = entries.insert( gp, g_entry );
+                expand_to_fit( *gp );
+
+                std::advance( nx, children + 1 );
+                group.clear();
+                inside_group = false;
+            }
+            it = nx;
+        }
+        grouped = true;
     }
-    grouped = true;
+
+    for( const std::shared_ptr< group_entry > &g_iter : group_entries_ ) {
+        // FIXME: it's only here for debug, replace with state check
+        volatile bool expd = g_iter->expanded;
+        if( !expd ) { // TODO: change on change
+            // pop group
+            std::vector<inventory_entry>::iterator gp =
+                std::find( entries.begin(), entries.end(), *g_iter );
+            gp++;
+            entries.erase( gp, gp + g_iter->get_number_of_children() );
+            // TODO: not yet, implement proper state maitanence for `group_entry` first
+            // g_iter->expanded = false;
+        }
+    }
 
     // Recover categories
     const item_category *current_category = nullptr;
@@ -1052,6 +1062,8 @@ void inventory_column::clear()
     entries.clear();
     entries_unfiltered.clear();
     entries_cell_cache.clear();
+    group_entries_.clear();
+    grouped = true;
     paging_is_valid = false;
 }
 

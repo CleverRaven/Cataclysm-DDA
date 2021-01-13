@@ -116,8 +116,8 @@ class inventory_entry
         * */
         bool is_hidden() const;
         /** Whether the entry is a group */
-        bool is_item_group() const {
-            return locations.size() > 1;
+        bool is_group() const {
+            return !locations.empty() && !is_item();
         }
         /** Whether the entry can be selected */
         bool is_selectable() const {
@@ -156,6 +156,44 @@ class inventory_entry
         // indents the entry if it is contained in an item
         bool _indent = true;
 
+};
+
+class group_entry: public inventory_entry
+{
+    public:
+        bool expanded = true;
+
+        group_entry();
+
+        group_entry( const item_category *custom_category ) :
+            inventory_entry( custom_category ) {};
+
+        group_entry( const inventory_entry &entry, const item_category *custom_category ) :
+            inventory_entry( entry, custom_category ) {};
+
+        group_entry( const std::vector<item_location> &locations,
+                     const item_category *custom_category = nullptr, bool enabled = true,
+                     const size_t chosen_count = 0 ) :
+            inventory_entry( locations, custom_category, enabled, chosen_count ) {};
+
+
+        // TODO: override, override, override
+
+        /**
+         * Group entry is not an item.
+         */
+        bool is_item() const {
+            return false;
+        }
+
+        int get_number_of_children() const {
+            return n_children;
+        }
+
+        void set_number_of_children( const int n );
+
+    private:
+        int n_children = 0;
 };
 
 class inventory_selector_preset
@@ -468,8 +506,14 @@ class inventory_column
         mutable std::vector<entry_cell_cache_t> entries_cell_cache;
 
         cata::optional<bool> indent_entries_override = cata::nullopt;
-        /** flags if entries have been grouped and group entries have been added*/
+        /** move this if needs to be disclosed not grouped */
+        bool is_grouped() {
+            return grouped && group_entries_.empty();
+        }
+        /** flags if entries have been grouped and group entries have been added */
         bool grouped = true;
+        /** stores pointers for group entries */
+        std::vector < std::shared_ptr<group_entry> > group_entries_;
         /** @return Number of visible cells */
         size_t visible_cells() const;
 };
