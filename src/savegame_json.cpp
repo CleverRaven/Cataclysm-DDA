@@ -2328,7 +2328,7 @@ void item::craft_data::deserialize( const JsonObject &obj )
 {
     obj.allow_omitted_members();
     std::string recipe_string = obj.get_string( "making" );
-    disassembly = obj.get_bool("disassembly", false);
+    disassembly = obj.get_bool( "disassembly", false );
     if( disassembly ) {
         making = &recipe_dictionary::get_uncraft( itype_id( recipe_string ) );
     } else {
