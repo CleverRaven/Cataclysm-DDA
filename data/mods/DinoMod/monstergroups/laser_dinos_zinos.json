@@ -1,0 +1,29 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTRAL_LAB",
+    "default": "mon_zombie_scientist",
+    "monsters": [
+      { "monster": "mon_spinosaurus_bio_op", "freq": 25, "cost_multiplier": 30 },
+      { "monster": "mon_zpinosaurus_bio_op", "freq": 25, "cost_multiplier": 30, "starts": 72 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB_CYBORG",
+    "default": "mon_broken_cyborg",
+    "monsters": [
+      { "monster": "mon_spinosaurus_bio_op", "freq": 40, "cost_multiplier": 25 },
+      { "monster": "mon_zpinosaurus_bio_op", "freq": 40, "cost_multiplier": 25, "starts": 72 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB",
+    "default": "mon_zombie_scientist",
+    "monsters": [
+      { "monster": "mon_spinosaurus_bio_op", "freq": 25, "cost_multiplier": 30 },
+      { "monster": "mon_zpinosaurus_bio_op", "freq": 25, "cost_multiplier": 35, "starts": 72 }
+    ]
+  }
+]
