@@ -1,5 +1,5 @@
 # Design Document
-* As it becomes a total conversion mod, it will look very different from the base game of Cataclysm: Dark Days Ahead and may not interact kindly with other mods.  If you've been away for a while, you may wonder where some parts of Aftershock have gone.  In the process of becoming a total conversion mod, we are eliminating items that no longer fit the theme.  For example, all the Mad Max aesthetics have been removed.  Any additions must either fit the general theme or have story driven reasons for the divergence, such as NPC quests to special locations. 
+* As it becomes a total conversion mod, it will look very different from the base game of Cataclysm: Dark Days Ahead and may not interact kindly with other mods.  If you've been away for a while, you may wonder where some parts of Aftershock have gone.  In the process of becoming a total conversion mod, we are eliminating items that no longer fit the theme.  For example, all the Mad Max aesthetics have been removed.  Any additions must either fit the general theme or have story driven reasons for the divergence, such as NPC quests to special locations.
 
 * Aftershock is being developed into a full conversion mod set in a mostly abandoned extrasolar colony named Salus 4.  The PC has arrived on Salus for various reasons depending on their profession.  Eventually we hope to have multiple potential end game situations such as finding what you came here for and leaving the planet with enough money to retire to more secret endings.  There will no longer be zombies but instead a variety of alien and human based enemies.  Toe to toe combat will likely be more deadly in Aftershock with more emphasis on picking your battles and only fighting when absolutely necessary.  Special locations may have a different combat aesthetic for example you may enter a dungeon like zone with hordes of small weak enemies that can't be avoided.  As part of this concept where different situations require different solutions we have implemented bionic slots but made the process of changing out CBMs much easier with less chance of failure.  This is to encourage players to change their loadout based on where they are going and what they are doing.
 
@@ -9,6 +9,7 @@
 3. Hi-tech item recipes.  Aftershock has its own special crafting for ultratech and we'd love to see what you come up with.
 4. Missions, locations, and lore snippets we want this to feel like a world just as real as Cataclysm Prime.
 Please feel free to reach out to us about ideas and implementations.
+5. Alien world basics would be especially desirable at this time.  Flora, fauna, terrain and furniture that make it clear we are no longer on earth.
 
 
 # Here be dragons!
