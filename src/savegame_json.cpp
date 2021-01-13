@@ -127,6 +127,7 @@ struct oter_type_t;
 
 static const efftype_id effect_riding( "riding" );
 
+static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_radio( "radio" );
 static const itype_id itype_radio_on( "radio_on" );
@@ -2310,6 +2311,7 @@ void item::craft_data::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "making", making->ident().str() );
+    jsout.member( "disassembly", disassembly );
     jsout.member( "comps_used", comps_used );
     jsout.member( "next_failure_point", next_failure_point );
     jsout.member( "tools_to_continue", tools_to_continue );
@@ -2325,7 +2327,13 @@ void item::craft_data::deserialize( JsonIn &jsin )
 void item::craft_data::deserialize( const JsonObject &obj )
 {
     obj.allow_omitted_members();
-    making = &recipe_id( obj.get_string( "making" ) ).obj();
+    std::string recipe_string = obj.get_string( "making" );
+    disassembly = obj.get_bool("disassembly", false);
+    if( disassembly ) {
+        making = &recipe_dictionary::get_uncraft( itype_id( recipe_string ) );
+    } else {
+        making = &recipe_id( recipe_string ).obj();
+    }
     obj.read( "comps_used", comps_used );
     next_failure_point = obj.get_int( "next_failure_point", -1 );
     tools_to_continue = obj.get_bool( "tools_to_continue", false );
