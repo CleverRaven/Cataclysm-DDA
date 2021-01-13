@@ -127,7 +127,6 @@ struct oter_type_t;
 
 static const efftype_id effect_riding( "riding" );
 
-static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_radio( "radio" );
 static const itype_id itype_radio_on( "radio_on" );
