@@ -6408,8 +6408,9 @@ void Character::update_bodytemp()
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
+    const bool heat_immune = has_trait( trait_M_SKIN2 ) || has_trait( trait_M_SKIN3 );
     const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( itype_rm13_armor_on ) ||
-                              has_trait( trait_M_SKIN2 ) || has_trait( trait_M_SKIN3 );
+                              heat_immune;
     const bool has_common_cold = has_effect( effect_common_cold );
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
@@ -6675,17 +6676,17 @@ void Character::update_bodytemp()
             add_effect( effect_cold, 1_turns, bp, true, 2 );
         } else if( temp_after < BODYTEMP_COLD ) {
             add_effect( effect_cold, 1_turns, bp, true, 1 );
-        } else if( temp_after > BODYTEMP_SCORCHING ) {
+        } else if( temp_after > BODYTEMP_SCORCHING && !heat_immune ) {
             add_effect( effect_hot, 1_turns, bp, true, 3 );
             if( bp->main_part == bp.id() ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 3 );
             }
-        } else if( temp_after > BODYTEMP_VERY_HOT ) {
+        } else if( temp_after > BODYTEMP_VERY_HOT && !heat_immune ) {
             add_effect( effect_hot, 1_turns, bp, true, 2 );
             if( bp->main_part == bp.id() ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 2 );
             }
-        } else if( temp_after > BODYTEMP_HOT ) {
+        } else if( temp_after > BODYTEMP_HOT && !heat_immune ) {
             add_effect( effect_hot, 1_turns, bp, true, 1 );
             if( bp->main_part == bp.id() ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 1 );

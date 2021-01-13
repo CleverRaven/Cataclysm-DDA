@@ -38,6 +38,8 @@ static const trait_id trait_LEAVES2( "LEAVES2" );
 static const trait_id trait_LEAVES3( "LEAVES3" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_M_SKIN2( "M_SKIN2" );
+static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_OPTIMISTIC( "OPTIMISTIC" );
 static const trait_id trait_ROOTS1( "ROOTS1" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
@@ -1045,7 +1047,7 @@ void player_morale::update_bodytemp_penalty( const time_duration &ticks )
         add( MORALE_COLD, -2 * to_turns<int>( ticks ), -std::abs( max_cold_penalty ), 1_minutes, 30_seconds,
              true );
     }
-    if( max_hot_penalty != 0 ) {
+    if( max_hot_penalty != 0 && !( has_mutation( trait_M_SKIN2 ) || has_mutation( trait_M_SKIN3 ) ) ) {
         add( MORALE_HOT, -2 * to_turns<int>( ticks ), -std::abs( max_hot_penalty ), 1_minutes, 30_seconds,
              true );
     }
