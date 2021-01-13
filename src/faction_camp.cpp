@@ -1641,13 +1641,12 @@ void basecamp::worker_assignment_ui()
     ui.mark_resize();
 
     size_t selection = 0;
-    input_context ctxt( "FACTION MANAGER" );
+    input_context ctxt( "FACTION_MANAGER" );
+    ctxt.register_action( "INSPECT_NPC" );
     ctxt.register_updown();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    // for displaying npc's information
-    ctxt.register_action( "ANY_INPUT" );
     validate_assignees();
     g->validate_npc_followers();
 
@@ -1678,7 +1677,7 @@ void basecamp::worker_assignment_ui()
             mvwprintz( w_followers, point( 1, 4 ), c_light_red, no_npcs );
         }
         mvwprintz( w_followers, point( 1, FULL_SCREEN_HEIGHT - 2 ), c_light_gray,
-                   _("Press i to inspect this follower."));
+                   _("Press %s to inspect this follower."), ctxt.get_desc( "INSPECT_NPC" ) );
         mvwprintz( w_followers, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
                    _( "Press %s to assign this follower to this camp." ), ctxt.get_desc( "CONFIRM" ) );
         wnoutrefresh( w_followers );
@@ -1702,8 +1701,7 @@ void basecamp::worker_assignment_ui()
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        std::string sInput = ctxt.get_raw_input().text;
-        if (sInput == "i") {
+        if (action == "INSPECT_NPC") {
             cur_npc->disp_info();
         } else if( action == "DOWN" ) {
             selection++;
@@ -1746,13 +1744,12 @@ void basecamp::job_assignment_ui()
     ui.mark_resize();
 
     size_t selection = 0;
-    input_context ctxt( "FACTION MANAGER" );
+    input_context ctxt( "FACTION_MANAGER" );
+    ctxt.register_action( "INSPECT_NPC" );
     ctxt.register_updown();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    // for displaying npc's information
-    ctxt.register_action( "ANY_INPUT" );
     validate_assignees();
 
     std::vector<npc *> stationed_npcs;
@@ -1798,7 +1795,7 @@ void basecamp::job_assignment_ui()
             mvwprintz( w_jobs, point( 46, 4 ), c_light_red, no_npcs );
         }
         mvwprintz( w_jobs, point( 1, FULL_SCREEN_HEIGHT - 2 ), c_light_gray,
-                   _("Press i to inspect this follower."));
+                   _("Press %s to inspect this follower."), ctxt.get_desc( "INSPECT_NPC" ) );
         mvwprintz( w_jobs, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
                    _( "Press %s to change this workers job priorities." ), ctxt.get_desc( "CONFIRM" ) );
         wnoutrefresh( w_jobs );
@@ -1821,8 +1818,7 @@ void basecamp::job_assignment_ui()
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
-        std::string sInput = ctxt.get_raw_input().text;
-        if (sInput == "i") {
+        if (action == "INSPECT_NPC") {
             cur_npc->disp_info();
         } else if( action == "DOWN" ) {
             selection++;
