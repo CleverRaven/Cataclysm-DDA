@@ -377,10 +377,13 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     //Wooden Fence Gate (or equivalently walkable doors):
     // open it if we are walking
     // vault over it if we are running
+    std::string door_name = m.obstacle_name( dest_loc );
     if( m.passable_ter_furn( dest_loc )
         && you.is_walking()
+        && !veh_closed_door
         && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
+        you.add_msg_if_player( _( "You open the %s." ), door_name );
         // if auto-move is on, continue moving next turn
         if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
@@ -397,13 +400,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( !veh1->handle_potential_theft( dynamic_cast<player &>( you ) ) ) {
             return true;
         } else {
+            door_name = veh1->part( dpart ).name();
             if( outside_vehicle ) {
                 veh1->open_all_at( dpart );
             } else {
                 veh1->open( dpart );
-                add_msg( _( "You open the %1$s's %2$s." ), veh1->name,
-                         veh1->part_info( dpart ).name() );
             }
+            //~ %1$s - vehicle name, %2$s - part name
+            you.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
         }
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
@@ -415,6 +419,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 
     if( m.furn( dest_loc ) != f_safe_c && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
+        if( veh1 != nullptr ) {
+            //~ %1$s - vehicle name, %2$s - part name
+            you.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
+        } else {
+            you.add_msg_if_player( _( "You open the %s." ), door_name );
+        }
         // if auto-move is on, continue moving next turn
         if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
@@ -591,7 +601,11 @@ void avatar_action::autoattack( avatar &you, map &m )
 {
     int reach = you.weapon.reach_range( you );
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
-    critters.erase( std::remove_if( critters.begin(), critters.end(), []( const Creature * c ) {
+    critters.erase( std::remove_if( critters.begin(), critters.end(), [&you,
+    reach]( const Creature * c ) {
+        if( reach == 1 && !you.is_adjacent( c, true ) ) {
+            return true;
+        }
         if( !c->is_npc() ) {
             return false;
         }
@@ -1019,7 +1033,7 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         // Adjustment because in player::wield_contents this amount is refunded.
         you.mod_moves( -loc.obtain_cost( you ) );
     } else {
-        loc = loc.obtain( you );
+        loc = loc.obtain( you, 1 );
         if( !loc ) {
             debugmsg( "Failed to obtain target item" );
             return;

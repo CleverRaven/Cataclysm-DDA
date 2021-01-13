@@ -15,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
@@ -994,7 +995,7 @@ void draw(
         if( weather_is_visible ) {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwprintz( wbar, point( 1, 1 ), get_weather_at_point( center )->color,
-                       get_weather_at_point( center )->name );
+                       get_weather_at_point( center )->name.translated() );
         } else {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
@@ -1623,7 +1624,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                         vehicle *player_veh = veh_pointer_or_null( here.veh_at( player_character.pos() ) );
                         player_veh->omt_path = player_character.omt_path;
                         player_veh->is_autodriving = true;
-                        player_character.assign_activity( ACT_AUTODRIVE );
+                        player_character.assign_activity( player_activity( autodrive_activity_actor() ) );
                     } else {
                         player_character.reset_move_mode();
                         player_character.assign_activity( ACT_TRAVELLING );

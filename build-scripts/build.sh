@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Build script intended for use in Travis CI
+# Build script intended for use in Travis CI and Github workflow
 
 set -exo pipefail
 
@@ -36,7 +36,7 @@ fi
 
 ccache --zero-stats
 # Increase cache size because debug builds generate large object files
-ccache -M 2G
+ccache -M 5G
 ccache --show-stats
 
 if [ "$CMAKE" = "1" ]
@@ -189,13 +189,13 @@ else
         # Run the tests one more time, without actually running any tests, just to verify that all
         # the mod data can be successfully loaded
 
-        # Use a blacklist of mods that currently fail to load cleanly.  Hopefully this list will
-        # shrink over time.
-        blacklist=build-scripts/mod_test_blacklist
-        mods="$(./build-scripts/get_all_mods.py $blacklist)"
+        mods="$(./build-scripts/get_all_mods.py)"
         run_tests ./tests/cata_test --user-dir=all_modded --mods="$mods" '~*'
     fi
 fi
 ccache --show-stats
+# Shrink the ccache back down to 2GB in preperation for pushing to shared storage.
+ccache -M 2G
+ccache -c
 
 # vim:tw=0

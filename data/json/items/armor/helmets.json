@@ -201,7 +201,7 @@
     "id": "xl_helmet_barbute",
     "type": "ARMOR",
     "copy-from": "helmet_barbute",
-    "name": { "str": "oversized barbute helm" },
+    "name": { "str": "XL barbute helm" },
     "description": "A medieval helmet that provides excellent protection for the head, with a Y shaped opening for the face.  This one is ogre sized.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
@@ -258,7 +258,7 @@
     "id": "xl_helmet_chitin",
     "type": "ARMOR",
     "copy-from": "helmet_chitin",
-    "name": { "str": "oversized chitinous helm" },
+    "name": { "str": "XL chitinous helmet" },
     "description": "A helmet made from giant insects for giant humanoids.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "WATERPROOF", "STURDY", "OVERSIZE" ]
@@ -290,7 +290,7 @@
     "id": "xl_helmet_conical",
     "type": "ARMOR",
     "copy-from": "helmet_conical",
-    "name": { "str": "oversized conical helm" },
+    "name": { "str": "XL conical helm" },
     "description": "A helmet made for a giant Mongolian warrior from a pulp novel.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
@@ -311,7 +311,7 @@
     "id": "xl_helmet_acidchitin",
     "type": "ARMOR",
     "copy-from": "helmet_acidchitin",
-    "name": { "str": "oversized biosilicified chitin helmet" },
+    "name": { "str": "XL biosilicified chitin helmet" },
     "description": "A helmet made from giant acidic insects for giant humanoids.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "WATERPROOF", "STURDY", "OVERSIZE" ]
@@ -432,7 +432,7 @@
     "id": "xl_helmet_larmor",
     "type": "ARMOR",
     "copy-from": "helmet_larmor",
-    "name": { "str": "oversized leather armor helmet" },
+    "name": { "str": "XL leather armor helmet" },
     "description": "A thick leather helmet that provides excellent protection for the head.  This one is quite large.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OVERSIZE" ]
@@ -559,7 +559,7 @@
     "id": "xl_helmet_nasal",
     "type": "ARMOR",
     "copy-from": "helmet_nasal",
-    "name": { "str": "oversized nasal helm" },
+    "name": { "str": "XL nasal helm" },
     "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper Jotunn gear, unlike the stereotypical horned helm.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
@@ -600,7 +600,7 @@
     "id": "helmet_plate",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "great helm", "str_pl": "great helmets" },
+    "name": { "str": "great helm" },
     "description": "A medieval helmet that provides excellent protection to the entire head, at the cost of great encumbrance.",
     "weight": "2175 g",
     "volume": "2750 ml",
@@ -626,7 +626,7 @@
     "id": "xl_helmet_plate",
     "type": "ARMOR",
     "copy-from": "helmet_plate",
-    "name": { "str": "gigantic great helm", "str_pl": "gigantic great helmets" },
+    "name": { "str": "XL great helm" },
     "description": "A medieval helmet that provides excellent protection to the entire head, at the cost of great encumbrance.  Larger than average.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "HELMET_COMPAT", "OVERSIZE" ]
@@ -658,7 +658,7 @@
     "id": "xl_helmet_scavenger",
     "type": "ARMOR",
     "copy-from": "helmet_scavenger",
-    "name": { "str": "scavenger cowl" },
+    "name": { "str": "XL scavenger cowl" },
     "description": "A sturdy protective cowl extending down to the neck, fitted with a respirator and eye protection.  For oversized dangerous scavenging ventures.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "SUN_GLASSES", "OVERSIZE" ]
@@ -692,8 +692,8 @@
     "id": "xl_helmet_scrap",
     "type": "ARMOR",
     "copy-from": "helmet_scrap",
-    "name": { "str": "extra large scrap helmet" },
-    "description": "A oversized helmet made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "name": { "str": "XL scrap helmet" },
+    "description": "An oversized helmet made from scraps of metal secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "OUTER", "OVERSIZE" ]
   },
@@ -774,7 +774,7 @@
     "id": "xl_helmet_corinthian",
     "type": "ARMOR",
     "copy-from": "helmet_corinthian",
-    "name": { "str": "Corinthian helm" },
+    "name": { "str": "XL Corinthian helm" },
     "description": "An ancient Greek bronze helmet that provides excellent protection for the head, with slits for the eyes and mouth.  Of godlike proportions.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]

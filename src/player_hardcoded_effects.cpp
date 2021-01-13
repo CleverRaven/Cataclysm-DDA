@@ -1590,6 +1590,7 @@ void Character::hardcoded_effects( effect &it )
                     } else if( limb == "hand" ) {
                         if( is_armed() && can_drop( weapon ).success() ) {
                             if( dice( 4, 4 ) > get_dex() ) {
+                                cancel_activity();  //Prevent segfaults from activities trying to access missing item
                                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { remove_weapon() } );
                             } else {
                                 add_msg_if_player( m_neutral, _( "However, you manage to keep hold of your weapon." ) );

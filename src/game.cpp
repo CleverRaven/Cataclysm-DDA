@@ -236,6 +236,7 @@ static const efftype_id effect_fungus( "fungus" );
 static const bionic_id bio_remote( "bio_remote" );
 
 static const itype_id itype_battery( "battery" );
+static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_holybook_bible1( "holybook_bible1" );
 static const itype_id itype_holybook_bible2( "holybook_bible2" );
@@ -1532,12 +1533,14 @@ bool game::do_turn()
 
             mon_info_update();
 
-            // If player is performing a task and a monster is dangerously close, warn them
-            // regardless of previous safemode warnings
+            // If player is performing a task, a monster is dangerously close,
+            // and monster can reach to the player or it has some sort of a ranged attack,
+            // warn them regardless of previous safemode warnings
             if( u.activity && !u.has_activity( activity_id( "ACT_AIM" ) ) &&
                 u.activity.moves_left > 0 &&
                 !u.activity.is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
-                Creature *hostile_critter = is_hostile_very_close();
+                Creature *hostile_critter = is_hostile_very_close( true );
+
                 if( hostile_critter != nullptr ) {
                     cancel_activity_or_ignore_query( distraction_type::hostile_spotted_near,
                                                      string_format( _( "The %s is dangerously close!" ),
@@ -2127,6 +2130,17 @@ static hint_rating rate_action_wield( const avatar &you, const item &it )
     return you.can_wield( it ).success() ? hint_rating::good : hint_rating::iffy;
 }
 
+static hint_rating rate_action_insert( const avatar &you, const item_location &loc )
+{
+    if( loc->will_spill_if_unsealed()
+        && loc.where() != item_location::type::map
+        && !you.is_wielding( *loc ) ) {
+
+        return hint_rating::cant;
+    }
+    return hint_rating::good;
+}
+
 /* item submenu for 'i' and '/'
 * It use draw_item_info to draw item info and action menu
 *
@@ -2190,7 +2204,7 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
         if( oThisItem.has_pockets() ) {
-            addentry( 'i', pgettext( "action", "insert" ), hint_rating::good );
+            addentry( 'i', pgettext( "action", "insert" ), rate_action_insert( u, locThisItem ) );
             if( oThisItem.contents.num_item_stacks() > 0 ) {
                 addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
             }
@@ -2282,31 +2296,41 @@ int game::inventory_item_menu( item_location locThisItem,
                 ui = nullptr;
             }
 
-            handle_contents_changed_helper handler( u, locThisItem );
             switch( cMenu ) {
-                case 'a':
+                case 'a': {
+                    contents_change_handler handler;
+                    handler.unseal_pocket_containing( locThisItem );
                     avatar_action::use_item( u, locThisItem );
-                    handler.handle();
+                    handler.handle_by( u );
                     break;
+                }
                 case 'E':
                     avatar_action::eat( u, locThisItem );
                     break;
-                case 'W':
+                case 'W': {
+                    contents_change_handler handler;
+                    handler.unseal_pocket_containing( locThisItem );
                     u.wear( locThisItem );
-                    handler.handle();
+                    handler.handle_by( u );
                     break;
+                }
                 case 'w':
                     if( u.can_wield( *locThisItem ).success() ) {
+                        contents_change_handler handler;
+                        handler.unseal_pocket_containing( locThisItem );
                         wield( locThisItem );
+                        handler.handle_by( u );
                     } else {
                         add_msg( m_info, "%s", u.can_wield( *locThisItem ).c_str() );
                     }
-                    handler.handle();
                     break;
-                case 't':
+                case 't': {
+                    contents_change_handler handler;
+                    handler.unseal_pocket_containing( locThisItem );
                     avatar_action::plthrow( u, locThisItem );
-                    handler.handle();
+                    handler.handle_by( u );
                     break;
+                }
                 case 'c':
                     u.change_side( locThisItem );
                     break;
@@ -2315,35 +2339,36 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'd':
                     u.drop( locThisItem, u.pos() );
-                    handler.handle();
                     break;
                 case 'U':
                     u.unload( locThisItem );
-                    handler.handle();
                     break;
                 case 'r':
                     reload( locThisItem );
-                    handler.handle();
                     break;
                 case 'p':
                     reload( locThisItem, true );
-                    handler.handle();
                     break;
                 case 'm':
                     avatar_action::mend( u, locThisItem );
-                    handler.handle();
                     break;
                 case 'R':
                     u.read( oThisItem );
-                    handler.handle();
                     break;
                 case 'D':
                     u.disassemble( locThisItem, false );
-                    handler.handle();
                     break;
                 case 'f':
                     oThisItem.is_favorite = !oThisItem.is_favorite;
-                    handler.handle();
+                    if( locThisItem.has_parent() ) {
+                        item_location parent = locThisItem.parent_item();
+                        item_pocket *const pocket = parent->contained_where( oThisItem );
+                        if( pocket ) {
+                            pocket->restack();
+                        } else {
+                            debugmsg( "parent container does not contain item" );
+                        }
+                    }
                     break;
                 case 'v':
                     if( oThisItem.has_pockets() ) {
@@ -2359,7 +2384,6 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( oThisItem.has_pockets() && oThisItem.contents.num_item_stacks() > 0 ) {
                         game_menus::inv::common( locThisItem, u );
                     }
-                    handler.handle();
                     break;
                 case '=':
                     game_menus::inv::reassign_letter( u, oThisItem );
@@ -4060,15 +4084,28 @@ Creature *game::is_hostile_nearby()
     return is_hostile_within( distance );
 }
 
-Creature *game::is_hostile_very_close()
+Creature *game::is_hostile_very_close( bool dangerous )
 {
-    return is_hostile_within( DANGEROUS_PROXIMITY );
+    return is_hostile_within( DANGEROUS_PROXIMITY, dangerous );
 }
 
-Creature *game::is_hostile_within( int distance )
+Creature *game::is_hostile_within( int distance, bool dangerous )
 {
     for( auto &critter : u.get_visible_creatures( distance ) ) {
         if( u.attitude_to( *critter ) == Creature::Attitude::HOSTILE ) {
+            if( dangerous ) {
+                if( critter->is_ranged_attacker() ) {
+                    return critter;
+                }
+
+                const pathfinding_settings pf_settings = pathfinding_settings { 8, distance, distance * 2, 4, true, false, true, false, false };
+                static const std::set<tripoint> path_avoid = {};
+
+                if( !get_map().route( u.pos(), critter->pos(), pf_settings, path_avoid ).empty() ) {
+                    return critter;
+                }
+                continue;
+            }
             return critter;
         }
     }
@@ -5104,10 +5141,11 @@ monster *game::place_critter_around( const mtype_id &id, const tripoint &center,
 
 monster *game::place_critter_around( const shared_ptr_fast<monster> &mon,
                                      const tripoint &center,
-                                     const int radius )
+                                     const int radius,
+                                     bool forced )
 {
     cata::optional<tripoint> where;
-    if( can_place_monster( *mon, center ) ) {
+    if( forced || can_place_monster( *mon, center ) ) {
         where = center;
     }
 
@@ -5901,17 +5939,24 @@ void game::examine( const tripoint &examp )
     Creature *c = critter_at( examp );
     if( c != nullptr ) {
         monster *mon = dynamic_cast<monster *>( c );
-        if( mon != nullptr && mon->has_effect( effect_pet ) && !u.is_mounted() ) {
-            if( monexamine::pet_menu( *mon ) ) {
-                return;
-            }
-        } else if( mon && mon->has_flag( MF_RIDEABLE_MECH ) && !mon->has_effect( effect_pet ) ) {
-            if( monexamine::mech_hack( *mon ) ) {
-                return;
-            }
-        } else if( mon && mon->has_flag( MF_PAY_BOT ) ) {
-            if( monexamine::pay_bot( *mon ) ) {
-                return;
+        if( mon != nullptr ) {
+            add_msg( _( "There is a %s." ), mon->get_name() );
+            if( mon->has_effect( effect_pet ) && !u.is_mounted() ) {
+                if( monexamine::pet_menu( *mon ) ) {
+                    return;
+                }
+            } else if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->has_effect( effect_pet ) ) {
+                if( monexamine::mech_hack( *mon ) ) {
+                    return;
+                }
+            } else if( mon->has_flag( MF_PAY_BOT ) ) {
+                if( monexamine::pay_bot( *mon ) ) {
+                    return;
+                }
+            } else if( mon->attitude_to( u ) == Creature::Attitude::FRIENDLY && !u.is_mounted() ) {
+                if( monexamine::mfriend_menu( *mon ) ) {
+                    return;
+                }
             }
         } else if( u.is_mounted() ) {
             add_msg( m_warning, _( "You cannot do that while mounted." ) );
@@ -6253,11 +6298,15 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 {
     const int max_width = getmaxx( w_look ) - column - 1;
 
-    // Print OMT type and terrain type on first line.
-    std::string tile = m.tername( lp );
-    trim_and_print( w_look, point( column, line ), max_width, c_white, area_name );
-    trim_and_print( w_look, point( column + utf8_width( area_name ) + 1, line ), max_width,
-                    c_light_gray, tile );
+    // Print OMT type and terrain type on first line, or first two lines if can't fit in one line.
+    const std::string tile = m.tername( lp );
+    if( utf8_width( tile ) + utf8_width( area_name ) + 1 > max_width ) {
+        trim_and_print( w_look, point( column, line++ ), max_width, c_white, area_name );
+        trim_and_print( w_look, point( column, line++ ), max_width, c_light_gray, tile );
+    } else {
+        mvwprintz( w_look, point( column, line ), c_white, area_name );
+        mvwprintz( w_look, point( column + utf8_width( area_name ) + 1, line++ ), c_light_gray, tile );
+    }
 
     // Furniture on second line if any.
     if( m.has_furn( lp ) ) {
@@ -6275,7 +6324,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
         mvwprintz( w_look, point( column, ++line ), c_light_gray, lines[i] );
     }
 
-    // Move cost from terrain and furntiure and vehicle parts.
+    // Move cost from terrain and furniture and vehicle parts.
     // Vehicle part information is printed in a different function.
     if( m.impassable( lp ) ) {
         mvwprintz( w_look, point( column, ++line ), c_light_red, _( "Impassable" ) );
@@ -6288,7 +6337,9 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
         std::string sign_string = u.has_trait( trait_ILLITERATE ) ? "???" : signage;
-        mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Sign: %s" ), sign_string );
+        const int lines = fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
+                                          _( "Sign: %s" ), sign_string );
+        line += lines - 1;
     }
 
     // Print light level on the selected tile.
@@ -8519,9 +8570,15 @@ static void add_disassemblables( uilist &menu,
             //~ Name, number of items and time to complete disassembling
             const auto &msg = string_format( pgettext( "butchery menu", "%s (%d)" ),
                                              it.tname(), stack.second );
+            recipe uncraft_recipe;
+            if( it.typeId() == itype_disassembly ) {
+                uncraft_recipe = it.get_making();
+            } else {
+                uncraft_recipe = recipe_dictionary::get_uncraft( it.typeId() );
+            }
             menu.addentry_col( menu_index++, true, hotkey, msg,
-                               to_string_clipped( recipe_dictionary::get_uncraft(
-                                       it.typeId() ).time_to_craft( get_player_character(), recipe_time_flag::ignore_proficiencies ) ) );
+                               to_string_clipped( uncraft_recipe.time_to_craft( get_player_character(),
+                                                  recipe_time_flag::ignore_proficiencies ) ) );
             hotkey = cata::nullopt;
         }
     }
@@ -8782,7 +8839,7 @@ void game::butcher()
         return;
     }
 
-    Creature *hostile_critter = is_hostile_very_close();
+    Creature *hostile_critter = is_hostile_very_close( true );
     if( hostile_critter != nullptr ) {
         if( !query_yn( _( "You see %s nearby!  Start butchering anyway?" ),
                        hostile_critter->disp_name() ) ) {
@@ -8832,11 +8889,25 @@ void game::butcher()
             int time_to_disassemble_once = 0;
             int time_to_disassemble_recursive = 0;
             for( const auto &stack : disassembly_stacks ) {
-                const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time_to_craft_moves(
+                recipe uncraft_recipe;
+                if( stack.first->typeId() == itype_disassembly ) {
+                    uncraft_recipe = stack.first->get_making();
+                } else {
+                    uncraft_recipe = recipe_dictionary::get_uncraft( stack.first->typeId() );
+                }
+
+                const int time = uncraft_recipe.time_to_craft_moves(
                                      get_player_character(), recipe_time_flag::ignore_proficiencies );
                 time_to_disassemble_once += time * stack.second;
-                time_to_disassemble_recursive += stack.first->get_recursive_disassemble_moves(
-                                                     get_player_character() ) * stack.second;
+                if( stack.first->typeId() == itype_disassembly ) {
+                    item test( uncraft_recipe.result(), calendar::turn, 1 );
+                    time_to_disassemble_recursive += test.get_recursive_disassemble_moves(
+                                                         get_player_character() ) * stack.second;
+                } else {
+                    time_to_disassemble_recursive += stack.first->get_recursive_disassemble_moves(
+                                                         get_player_character() ) * stack.second;
+                }
+
             }
 
             kmenu.addentry_col( MULTIDISASSEMBLE_ONE, true, 'D', _( "Disassemble everything once" ),

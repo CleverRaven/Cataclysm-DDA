@@ -439,7 +439,8 @@ int item_contents::insert_cost( const item &it ) const
     }
 }
 
-ret_val<bool> item_contents::insert_item( const item &it, item_pocket::pocket_type pk_type )
+ret_val<item_pocket *> item_contents::insert_item( const item &it,
+        item_pocket::pocket_type pk_type )
 {
     if( pk_type == item_pocket::pocket_type::LAST ) {
         // LAST is invalid, so we assume it will be a regular container
@@ -447,15 +448,15 @@ ret_val<bool> item_contents::insert_item( const item &it, item_pocket::pocket_ty
     }
 
     ret_val<item_pocket *> pocket = find_pocket_for( it, pk_type );
-    if( pocket.value() == nullptr ) {
-        return ret_val<bool>::make_failure( pocket.str() );
+    if( !pocket.success() ) {
+        return pocket;
     }
 
     ret_val<item_pocket::contain_code> pocket_contain_code = pocket.value()->insert_item( it );
     if( pocket_contain_code.success() ) {
-        return ret_val<bool>::make_success();
+        return pocket;
     }
-    return ret_val<bool>::make_failure( pocket.str() );
+    return ret_val<item_pocket *>::make_failure( nullptr, pocket_contain_code.str() );
 }
 
 void item_contents::force_insert_item( const item &it, item_pocket::pocket_type pk_type )
@@ -469,17 +470,8 @@ void item_contents::force_insert_item( const item &it, item_pocket::pocket_type 
     debugmsg( "ERROR: Could not insert item %s as contents does not have pocket type", it.tname() );
 }
 
-void item_contents::fill_with( const item &contained )
-{
-    for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
-            pocket.fill_with( contained );
-        }
-    }
-}
-
 std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
-        item_location &parent, bool nested )
+        item_location &parent, bool nested, const bool allow_sealed )
 {
     if( !can_contain( it ).success() ) {
         return { item_location(), nullptr };
@@ -495,7 +487,7 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
         if( nested && !pocket.rigid() ) {
             continue;
         }
-        if( pocket.sealed() ) {
+        if( !allow_sealed && pocket.sealed() ) {
             // we don't want to unseal a pocket to put something in it automatically
             // that needs to be something a player explicitly does
             continue;
@@ -785,6 +777,17 @@ bool item_contents::will_spill() const
 {
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) && pocket.will_spill() ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool item_contents::will_spill_if_unsealed() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER )
+            && pocket.will_spill_if_unsealed() ) {
             return true;
         }
     }

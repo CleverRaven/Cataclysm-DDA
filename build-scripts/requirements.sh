@@ -20,7 +20,6 @@ function just_json
 # (See https://github.com/actions/toolkit/blob/master/docs/problem-matchers.md)
 echo "::add-matcher::build-scripts/problem-matchers/catch2.json"
 echo "::add-matcher::build-scripts/problem-matchers/debugmsg.json"
-echo "::add-matcher::build-scripts/problem-matchers/json.json"
 
 if which travis_retry &>/dev/null
 then
@@ -71,11 +70,19 @@ if [ -n "${MXE_TARGET}" ]; then
   export CXX="$COMPILER"
   export CCACHE=1
 
-  curl -L -o libbacktrace-i686-w64-mingw32.tar.gz https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-i686-w64-mingw32.tar.gz
-  if ! shasum -a 256 -c ./build-scripts/libbacktrace-i686-w64-mingw32-sha256; then
-    echo "Checksum failed for libbacktrace-i686-w64-mingw32.tar.gz"
+  set +e
+  retry=0
+  until [[ "$retry" -ge 5 ]]; do
+    curl -L -o libbacktrace-i686-w64-mingw32.tar.gz https://github.com/Qrox/libbacktrace/releases/download/2020-01-03/libbacktrace-i686-w64-mingw32.tar.gz && shasum -a 256 -c ./build-scripts/libbacktrace-i686-w64-mingw32-sha256 && break
+    retry=$((retry+1))
+    rm -f libbacktrace-i686-w64-mingw32.tar.gz
+    sleep 10
+  done
+  if [[ "$retry" -ge 5 ]]; then
+    echo "Error downloading or checksum failed for libbacktrace-i686-w64-mingw32.tar.gz"
     exit 1
   fi
+  set -e
   sudo tar -xzf libbacktrace-i686-w64-mingw32.tar.gz --exclude=LICENSE -C ${MXE_DIR}/../${PLATFORM}
 fi
 

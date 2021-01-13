@@ -262,7 +262,7 @@ void player::process_turn()
         mod_power_level( get_max_power_level() );
     }
 
-    visit_items( [this]( item * e ) {
+    visit_items( [this]( item * e, item * ) {
         e->process_relic( this, pos() );
         return VisitResponse::NEXT;
     } );
@@ -1547,7 +1547,7 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
                                    base.tname() );
 
             } else if( ammo_match_found ) {
-                add_msg_if_player( m_info, _( "You can't reload anything with the ammo you have on hand" ) );
+                add_msg_if_player( m_info, _( "You can't reload anything with the ammo you have on hand." ) );
             } else {
                 std::string name;
                 if( base.ammo_data() ) {

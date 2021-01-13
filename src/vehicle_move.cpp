@@ -433,7 +433,11 @@ void vehicle::thrust( int thd, int z )
     }
     if( thrusting && accel == 0 ) {
         if( pl_ctrl ) {
-            add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
+            if( has_engine_type( fuel_type_muscle, true ) ) {
+                add_msg( _( "The %s is too heavy to move!" ), name );
+            } else {
+                add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
+            }
         }
         return;
     }
@@ -565,7 +569,7 @@ void vehicle::cruise_thrust( int amount )
         return;
     }
     int safe_vel = safe_velocity();
-    int max_vel = max_velocity();
+    int max_vel = is_autodriving ? safe_velocity() : max_velocity();
     int max_rev_vel = max_reverse_velocity();
 
     //if the safe velocity is between the cruise velocity and its next value, set to safe velocity
