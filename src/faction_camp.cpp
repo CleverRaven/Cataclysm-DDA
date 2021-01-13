@@ -1634,7 +1634,7 @@ void basecamp::worker_assignment_ui()
 
         w_followers = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                           point( term.y, term.x ) );
-        entries_per_page = FULL_SCREEN_HEIGHT - 4;
+        entries_per_page = FULL_SCREEN_HEIGHT - 5;
 
         ui.position_from_window( w_followers );
     } );
@@ -1646,6 +1646,8 @@ void basecamp::worker_assignment_ui()
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    // for displaying npc's information
+    ctxt.register_action( "ANY_INPUT" );
     validate_assignees();
     g->validate_npc_followers();
 
@@ -1658,7 +1660,7 @@ void basecamp::worker_assignment_ui()
         // entries_per_page * page number
         const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
 
-        for( int i = 0; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
+        for( int i = 0; i < FULL_SCREEN_HEIGHT - 2; i++ ) {
             mvwputch( w_followers, point( 45, i ), BORDER_COLOR, LINE_XOXO );
         }
         draw_border( w_followers );
@@ -1675,6 +1677,8 @@ void basecamp::worker_assignment_ui()
         } else {
             mvwprintz( w_followers, point( 1, 4 ), c_light_red, no_npcs );
         }
+        mvwprintz( w_followers, point( 1, FULL_SCREEN_HEIGHT - 2 ), c_light_gray,
+                   _("Press i to inspect this follower."));
         mvwprintz( w_followers, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
                    _( "Press %s to assign this follower to this camp." ), ctxt.get_desc( "CONFIRM" ) );
         wnoutrefresh( w_followers );
@@ -1698,7 +1702,10 @@ void basecamp::worker_assignment_ui()
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if( action == "DOWN" ) {
+        std::string sInput = ctxt.get_raw_input().text;
+        if (sInput == "i") {
+            cur_npc->disp_info();
+        } else if( action == "DOWN" ) {
             selection++;
             if( selection >= followers.size() ) {
                 selection = 0;
@@ -1732,7 +1739,7 @@ void basecamp::job_assignment_ui()
         w_jobs = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                      point( term.y, term.x ) );
 
-        entries_per_page = FULL_SCREEN_HEIGHT - 4;
+        entries_per_page = FULL_SCREEN_HEIGHT - 5;
 
         ui.position_from_window( w_jobs );
     } );
@@ -1744,6 +1751,8 @@ void basecamp::job_assignment_ui()
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    // for displaying npc's information
+    ctxt.register_action( "ANY_INPUT" );
     validate_assignees();
 
     std::vector<npc *> stationed_npcs;
@@ -1752,7 +1761,7 @@ void basecamp::job_assignment_ui()
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_jobs );
         const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
-        for( int i = 0; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
+        for( int i = 0; i < FULL_SCREEN_HEIGHT - 2; i++ ) {
             mvwputch( w_jobs, point( 45, i ), BORDER_COLOR, LINE_XOXO );
         }
         draw_border( w_jobs );
@@ -1788,6 +1797,8 @@ void basecamp::job_assignment_ui()
         } else {
             mvwprintz( w_jobs, point( 46, 4 ), c_light_red, no_npcs );
         }
+        mvwprintz( w_jobs, point( 1, FULL_SCREEN_HEIGHT - 2 ), c_light_gray,
+                   _("Press i to inspect this follower."));
         mvwprintz( w_jobs, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
                    _( "Press %s to change this workers job priorities." ), ctxt.get_desc( "CONFIRM" ) );
         wnoutrefresh( w_jobs );
@@ -1810,7 +1821,10 @@ void basecamp::job_assignment_ui()
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
-        if( action == "DOWN" ) {
+        std::string sInput = ctxt.get_raw_input().text;
+        if (sInput == "i") {
+            cur_npc->disp_info();
+        } else if( action == "DOWN" ) {
             selection++;
             if( selection >= stationed_npcs.size() ) {
                 selection = 0;
