@@ -484,9 +484,6 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             // containers are the only pockets that are available for such
             continue;
         }
-        if( nested && !pocket.rigid() ) {
-            continue;
-        }
         if( !allow_sealed && pocket.sealed() ) {
             // we don't want to unseal a pocket to put something in it automatically
             // that needs to be something a player explicitly does
@@ -507,7 +504,8 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             for( item *contained : all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                 std::pair<item_location, item_pocket *> internal_pocket =
                     contained->contents.best_pocket( it, parent, true );
-                if( internal_pocket.second != nullptr && ret.second->better_pocket( pocket, it ) ) {
+                if( internal_pocket.second != nullptr &&
+                    ret.second->better_pocket( *internal_pocket.second, it ) ) {
                     ret = internal_pocket;
                 }
             }
