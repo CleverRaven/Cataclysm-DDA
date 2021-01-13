@@ -1702,7 +1702,9 @@ void basecamp::worker_assignment_ui()
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( action == "INSPECT_NPC" ) {
-            cur_npc->disp_info();
+            if( cur_npc ) {
+                cur_npc->disp_info();
+            }
         } else if( action == "DOWN" ) {
             selection++;
             if( selection >= followers.size() ) {
