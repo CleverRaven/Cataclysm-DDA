@@ -190,7 +190,7 @@ class group_entry: public inventory_entry
             return n_children;
         }
 
-        void set_number_of_children( const int n );
+        void set_number_of_children( const int &n );
 
     private:
         int n_children = 0;
