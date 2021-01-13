@@ -336,7 +336,7 @@
         "topic": "TALK_DONE",
         "condition": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "accepted", "value": "yes" }
       },
-	  {
+      {
         "text": "I don't know if I'll take your advice, but thanks nevertheless.",
         "topic": "TALK_DONE",
         "condition": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "completed", "value": "yes" }
@@ -350,7 +350,7 @@
             {
               "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "accepted", "value": "yes" }
             },
-			{
+            {
               "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "completed", "value": "yes" }
             }
           ]
