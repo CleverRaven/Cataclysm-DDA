@@ -183,9 +183,12 @@ class tileset_loader
 
         void ensure_default_item_highlight();
 
-        void copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset,
+        /** Returns false if failed to create texture. */
+        bool copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset,
                                       std::vector<texture> &target );
-        void create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, const point &offset );
+
+        /** Returns false if failed to create texture(s). */
+        bool create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, const point &offset );
 
         void process_variations_after_loading( weighted_int_list<std::vector<int>> &v );
 

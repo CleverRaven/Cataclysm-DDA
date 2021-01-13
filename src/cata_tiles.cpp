@@ -344,7 +344,7 @@ static bool is_contained( const SDL_Rect &smaller, const SDL_Rect &larger )
            smaller.y + smaller.h <= larger.y + larger.h;
 }
 
-void tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset,
+bool tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const point &offset,
         std::vector<texture> &target )
 {
     assert( surf );
@@ -352,7 +352,9 @@ void tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const
                                             surf->h / sprite_height ) );
 
     const std::shared_ptr<SDL_Texture> texture_ptr = CreateTextureFromSurface( renderer, surf );
-    assert( texture_ptr );
+    if( !texture_ptr ) {
+        return false;
+    }
 
     for( const SDL_Rect rect : input_range ) {
         assert( offset.x % sprite_width == 0 );
@@ -366,9 +368,10 @@ void tileset_loader::copy_surface_to_texture( const SDL_Surface_Ptr &surf, const
         assert( target[index].dimension() == std::make_pair( 0, 0 ) );
         target[index] = texture( texture_ptr, rect );
     }
+    return true;
 }
 
-void tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas,
+bool tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas,
         const point &offset )
 {
     assert( tile_atlas );
@@ -387,14 +390,19 @@ void tileset_loader::create_textures_from_tile_atlas( const SDL_Surface_Ptr &til
         std::vector<texture> *tile_values = std::get<0>( entry );
         color_pixel_function_pointer color_pixel_function = get_color_pixel_function( std::get<1>
                 ( entry ) );
+        bool success;
         if( !color_pixel_function ) {
             // TODO: Move it inside apply_color_filter.
-            copy_surface_to_texture( tile_atlas, offset, *tile_values );
+            success = copy_surface_to_texture( tile_atlas, offset, *tile_values );
         } else {
-            copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_function ), offset,
-                                     *tile_values );
+            success = copy_surface_to_texture( apply_color_filter( tile_atlas, color_pixel_function ), offset,
+                                               *tile_values );
+        }
+        if( !success ) {
+            return false;
         }
     }
+    return true;
 }
 
 template<typename T>
@@ -496,7 +504,12 @@ void tileset_loader::load_tileset( const std::string &img_path )
         const SDL_Surface_Ptr &surf_to_use = smaller_surf ? smaller_surf : tile_atlas;
         assert( surf_to_use );
 
-        create_textures_from_tile_atlas( surf_to_use, point( sub_rect.x, sub_rect.y ) );
+        if( !create_textures_from_tile_atlas( surf_to_use, point( sub_rect.x, sub_rect.y ) ) ) {
+            // May happen on some old systems - there's nothing we can do about it
+            throw std::runtime_error(
+                _( "Video error. Try another tileset or a different renderer." )
+            );
+        }
     }
 
     size = expected_tilecount;
