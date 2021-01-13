@@ -378,7 +378,7 @@
     "name": "Challenge - Island Prison",
     "points": -6,
     "description": "You were at a high-security prison right before the Cataclysm.  You managed to make it outside the inner walls…  Too bad it's located on a remote island, and now you need to find out how to escape it too.",
-    "allowed_locs": [ "sloc_prison_alcatraz" ],
+    "allowed_locs": [ "sloc_prison_alcatraz", "sloc_prison_island" ],
     "start_name": "Island prison",
     "professions": [
       "convict",
@@ -390,7 +390,7 @@
       "k9_cop",
       "cop"
     ],
-    "flags": [ "LONE_START", "CHALLENGE", "OUTDOOR" ]
+    "flags": [ "LONE_START", "CHALLENGE" ]
   },
   {
     "type": "scenario",
