@@ -1677,7 +1677,7 @@ void basecamp::worker_assignment_ui()
             mvwprintz( w_followers, point( 1, 4 ), c_light_red, no_npcs );
         }
         mvwprintz( w_followers, point( 1, FULL_SCREEN_HEIGHT - 2 ), c_light_gray,
-                   _("Press %s to inspect this follower."), ctxt.get_desc( "INSPECT_NPC" ) );
+                   _( "Press %s to inspect this follower." ), ctxt.get_desc( "INSPECT_NPC" ) );
         mvwprintz( w_followers, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
                    _( "Press %s to assign this follower to this camp." ), ctxt.get_desc( "CONFIRM" ) );
         wnoutrefresh( w_followers );
@@ -1701,7 +1701,7 @@ void basecamp::worker_assignment_ui()
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if (action == "INSPECT_NPC") {
+        if( action == "INSPECT_NPC" ) {
             cur_npc->disp_info();
         } else if( action == "DOWN" ) {
             selection++;
@@ -1795,7 +1795,7 @@ void basecamp::job_assignment_ui()
             mvwprintz( w_jobs, point( 46, 4 ), c_light_red, no_npcs );
         }
         mvwprintz( w_jobs, point( 1, FULL_SCREEN_HEIGHT - 2 ), c_light_gray,
-                   _("Press %s to inspect this follower."), ctxt.get_desc( "INSPECT_NPC" ) );
+                   _( "Press %s to inspect this follower." ), ctxt.get_desc( "INSPECT_NPC" ) );
         mvwprintz( w_jobs, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
                    _( "Press %s to change this workers job priorities." ), ctxt.get_desc( "CONFIRM" ) );
         wnoutrefresh( w_jobs );
@@ -1818,7 +1818,7 @@ void basecamp::job_assignment_ui()
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
-        if (action == "INSPECT_NPC") {
+        if( action == "INSPECT_NPC" ) {
             cur_npc->disp_info();
         } else if( action == "DOWN" ) {
             selection++;
