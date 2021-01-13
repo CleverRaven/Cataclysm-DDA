@@ -2111,14 +2111,28 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
 item_location Character::create_in_progress_disassembly( item_location target )
 {
     const auto &r = recipe_dictionary::get_uncraft( target->typeId() );
-    item &temp = *target.get_item();
+    item &orig_item = *target.get_item();
 
-    if( temp.is_container() ) {
-        temp.spill_contents( pos() );
+    // Remove any batteries, ammo, contents and mods first
+    remove_ammo( orig_item, *this );
+    remove_radio_mod( orig_item, *this );
+    if( orig_item.is_container() ) {
+        orig_item.spill_contents( pos() );
     }
-
-    item new_disassembly( &r, temp );
-    target.remove_item();
+    if( orig_item.count_by_charges() ) {
+        // remove the charges that one would get from crafting it
+        if( orig_item.is_ammo() && !r.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
+            //subtract selected number of rounds to disassemble
+            orig_item.charges -= activity.position;
+        } else {
+            orig_item.charges -= r.create_result().charges;
+        }
+    }
+    item new_disassembly( &r, orig_item );
+    // remove the item, except when it's counted by charges and still has some
+    if( !orig_item.count_by_charges() || orig_item.charges <= 0 ) {
+        target.remove_item();
+    }
 
     item_location disassembly_in_world;
 
@@ -2394,23 +2408,9 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level() ), 1.0 );
 
     add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
-    // Remove any batteries, ammo and mods first
-    remove_ammo( dis_item, *this );
-    remove_radio_mod( dis_item, *this );
 
-    if( dis_item.count_by_charges() ) {
-        // remove the charges that one would get from crafting it
-        if( org_item.is_ammo() && !dis.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
-            //subtract selected number of rounds to disassemble
-            org_item.charges -= activity.position;
-        } else {
-            org_item.charges -= dis.create_result().charges;
-        }
-    }
-    // remove the item, except when it's counted by charges and still has some
-    if( !org_item.count_by_charges() || org_item.charges <= 0 ) {
-        target.remove_item();
-    }
+    // Get rid of the disassembly item
+    target.remove_item();
 
     // Consume tool charges
     for( const auto &it : dis_requirements.get_tools() ) {
