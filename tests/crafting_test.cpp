@@ -736,7 +736,20 @@ static void test_skill_progression( const recipe_id &test_recipe, int expected_t
 
 TEST_CASE( "crafting skill gain" )
 {
-    // lvl 0?
+    SECTION( "lvl 0 -> 1" ) {
+        GIVEN( "nominal morale" ) {
+            test_skill_progression( recipe_id( "blanket" ), 3375, 0, false );
+            test_skill_progression( recipe_id( "blanket" ), 3375, 0, true );
+        }
+        GIVEN( "high morale" ) {
+            test_skill_progression( recipe_id( "blanket" ), 2893, 50, false );
+            test_skill_progression( recipe_id( "blanket" ), 2893, 50, true );
+        }
+        GIVEN( "very high morale" ) {
+            test_skill_progression( recipe_id( "blanket" ), 2893, 100, false );
+            test_skill_progression( recipe_id( "blanket" ), 2893, 100, true );
+        }
+    }
     SECTION( "lvl 1 -> 2" ) {
         GIVEN( "nominal morale" ) {
             test_skill_progression( recipe_id( "2byarm_guard" ), 4957, 0, false );
@@ -835,28 +848,46 @@ TEST_CASE( "crafting skill gain" )
             test_skill_progression( recipe_id( "armguard_lightplate" ), 216220, 100, true );
         }
     }
-    /*
-    // lvl 8
-    recipe_id test_recipe( "armguard_larmor" );
-    // using tailoring_leather 2
-
-    // lvl 9
-    recipe_id test_recipe( "armguard_larmor" );
-    // using tailoring_leather 2
-
-    // lvl 10
-    recipe_id test_recipe( "armguard_larmor" );
-    // using tailoring_leather 2
-    */
-    SECTION( "long craft with proficiency delays" ) {
+    SECTION( "lvl 8 -> 9" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_id( "longbow" ), 311597, 0 );
+            test_skill_progression( recipe_id( "helmet_scavenger" ), 405851, 0, false );
+            test_skill_progression( recipe_id( "helmet_scavenger" ), 151200, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_id( "longbow" ), 253625, 50 );
+            test_skill_progression( recipe_id( "helmet_scavenger" ), 331175, 50, false );
+            test_skill_progression( recipe_id( "helmet_scavenger" ), 121501, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_id( "longbow" ), 239132, 100 );
+            test_skill_progression( recipe_id( "helmet_scavenger" ), 308447, 100, false );
+            test_skill_progression( recipe_id( "helmet_scavenger" ), 112321, 100, true );
+        }
+    }
+    SECTION( "lvl 9 -> 10" ) {
+        GIVEN( "nominal morale" ) {
+            test_skill_progression( recipe_id( "helmet_kabuto" ), 1677423, 0, false );
+            test_skill_progression( recipe_id( "helmet_kabuto" ), 353263, 0, true );
+        }
+        GIVEN( "high morale" ) {
+            test_skill_progression( recipe_id( "helmet_kabuto" ), 1370971, 50, false );
+            test_skill_progression( recipe_id( "helmet_kabuto" ), 288046, 50, true );
+        }
+        GIVEN( "very high morale" ) {
+            test_skill_progression( recipe_id( "helmet_kabuto" ), 1274196, 100, false );
+            test_skill_progression( recipe_id( "helmet_kabuto" ), 268118, 100, true );
+        }
+    }
+    SECTION( "long craft with proficiency delays" ) {
+        GIVEN( "nominal morale" ) {
+            test_skill_progression( recipe_id( "longbow" ), 311597, 0, false );
+            test_skill_progression( recipe_id( "longbow" ), 110954, 0, true );
+        }
+        GIVEN( "high morale" ) {
+            test_skill_progression( recipe_id( "longbow" ), 253625, 50, false );
+            test_skill_progression( recipe_id( "longbow" ), 90781, 50, true );
+        }
+        GIVEN( "very high morale" ) {
+            test_skill_progression( recipe_id( "longbow" ), 239132, 100, false );
+            test_skill_progression( recipe_id( "longbow" ), 83576, 100, true );
         }
     }
 }
