@@ -4,7 +4,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "tyrant serum",
-    "description": "A super-concentrated mutagen strongly resembling a children's slime.  You need a syringe to inject it… if you really want to?",
+    "description": "A super-concentrated mutagen strongly resembling children's toy slime.  You need a syringe to inject it… if you really want to?",
     "price": 1000000,
     "color": "light_green",
     "healthy": -4,
