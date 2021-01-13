@@ -14,7 +14,8 @@
     "min_range": 1,
     "max_range": 1,
     "min_duration": 200,
-    "max_duration": 200
+    "max_duration": 200,
+    "damage_type": "pure"
   },
   {
     "type": "enchantment",
