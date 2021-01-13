@@ -44,11 +44,11 @@
         "targeting_timeout_extend": -1,
         "targeting_sound": "\"TARGET ACQUIRED.\"",
         "targeting_volume": 70,
-        "no_ammo_sound": "TARGET ACQUIRED. *beeeeeeeeep*. OUT OF AMMO."
+        "no_ammo_sound": "TARGET ACQUIRED.  *beeeeeeeeep*.  OUT OF AMMO."
       }
     ],
     "zombify_into": "mon_zpinosaurus_bio_op",
-    "description": "A massive therapod with a huge fin on its back and a crocodile-like snout. It is silver from armor plating and cybernetics crackle all over its body. There seems to be a laser rifle mounted to its head. It scans endlessly for its next target.",
+    "description": "A massive therapod with a huge fin on its back and a crocodile-like snout.  It is silver from armor plating and cybernetics crackle all over its body.  There seems to be a laser rifle mounted to its head.  It scans endlessly for its next target.",
     "special_when_hit": [ "ZAPBACK", 10 ],
     "harvest": "CBM_DINO_LARGE"
   },
@@ -99,10 +99,10 @@
         "targeting_timeout_extend": -1,
         "targeting_sound": "\"TARGET *zZzZzz* ACQUIRED.\"",
         "targeting_volume": 70,
-        "no_ammo_sound": "*zZzzz*-TARGET ACQUIRED. *beeeeeeeeep*. OUT OF AMMO.-*zZzZ*"
+        "no_ammo_sound": "*zZzzz*-TARGET ACQUIRED.  *beeeeeeeeep*.  OUT OF AMMO.-*zZzZ*"
       }
     ],
-    "description": "A shiny finned dinosaur corpse covered with armor and crackling bionics. It shambles quickly as it hunts. Is... is that a laser rifle on its head?",
+    "description": "A shiny finned dinosaur corpse covered with bloody armor and crackling bionics.  It shambles quickly as it hunts.  Is... is that a laser rifle on its head?",
     "special_when_hit": [ "ZAPBACK", 20 ],
     "harvest": "CBM_ZINO"
   }
