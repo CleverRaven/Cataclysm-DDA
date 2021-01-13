@@ -7,7 +7,7 @@
 1. Faction interactions and new factions.  Currently there are two new factions in Aftershock. PrepNet and the Whately Clan.  PrepNet is seeking to build an independent colony and the Whatelys are mad scientists.  
 2. Uplifted animal mobs and mutation lines are always wanted.  I'd love to see someone make a Snow Hare or Yeti line.  Currently we have Mi-Go, Mastodon, and Cecaelian mutation trees.
 3. Hi-tech item recipes.  Aftershock has its own special crafting for ultratech and we'd love to see what you come up with.
-4. Missions, locations, and lore snippets we want this to feel like a world just as real as Cataclysm Prime.
+4. Missions, locations, and lore snippets.  We want this to feel like a world just as real as Cataclysm Prime.
 Please feel free to reach out to us about ideas and implementations.
 5. Alien world basics would be especially desirable at this time.  Flora, fauna, terrain and furniture that make it clear we are no longer on earth.
 
