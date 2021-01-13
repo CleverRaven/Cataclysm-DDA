@@ -1295,11 +1295,11 @@ void iexamine::bars( player &p, const tripoint &examp )
         return;
     }
     map &here = get_map();
-    for (const bodypart_id &bp : p.get_all_body_parts()) {
-        if (p.encumb(bp) >= 10) {
-            add_msg(m_info,
-                    _("Your amorphous body could slip though the %s, but your cumbersome gear can't."),
-                    here.tername(examp));
+    for( const bodypart_id &bp : p.get_all_body_parts() ) {
+        if( p.encumb( bp ) >= 10 ) {
+            add_msg( m_info,
+                     _( "Your amorphous body could slip though the %s, but your cumbersome gear can't." ),
+                     here.tername( examp ) );
             return;
         }
     }
