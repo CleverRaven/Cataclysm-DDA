@@ -3434,6 +3434,6 @@
     "category": "FACTION_MANAGER",
     "id": "INSPECT_NPC",
     "name": "Inspect NPC",
-    "bindings": [ { "input_method": "keyboard_char", "key": "i" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
   }
 ]
