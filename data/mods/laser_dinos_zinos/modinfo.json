@@ -4,7 +4,7 @@
     "id": "laser_dinos_zinos",
     "name": "Laser Dinosaurs and Zinosaurs",
     "maintainers": [ "Jackledead" ],
-    "description": "Adds laser cyborg dinosaurs. Generally more challenging to fight than their non laser counterparts.",
+    "description": "Adds laser cyborg dinosaurs.  Generally more challenging to fight than their non laser counterparts.",
     "category": "creatures",
     "dependencies": [ "dda", "DinoMod" ]
   }
