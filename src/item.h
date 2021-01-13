@@ -2304,7 +2304,8 @@ class item : public visitable
                 // If the crafter has insufficient tools to continue to the next 5% progress step
                 bool tools_to_continue = false;
                 std::vector<comp_selection<tool_comp>> cached_tool_selections;
-
+                // if this is an in progress disassembly as opposed to craft
+                bool disassembly = false;
                 void serialize( JsonOut &jsout ) const;
                 void deserialize( JsonIn &jsin );
                 void deserialize( const JsonObject &obj );
