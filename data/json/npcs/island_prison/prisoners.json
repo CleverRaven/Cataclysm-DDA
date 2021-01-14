@@ -389,7 +389,7 @@
         "text": "Please!  I don't want to get back there!  I'm tired and hungry!  I just need time to rest!",
         "topic": "TALK_PRISONER_LEADER_ANNOYED"
       },
-      { "text": "Shit! Looks like I'm on my own now.  Thanks for nothing.  Bye.", "topic": "TALK_DONE" }
+      { "text": "Shit!  Looks like I'm on my own now.  Thanks for nothing.  Bye.", "topic": "TALK_DONE" }
     ]
   },
   {
