@@ -2444,11 +2444,6 @@ void item::io( Archive &archive )
         return i.id.str();
     } );
     archive.io( "craft_data", craft_data_, decltype( craft_data_ )() );
-    // Hello someone from the future!
-    // Is the game not compiling, and complaining about this bit?
-    // That's fine, it's never worked.
-    // That's because I am not sure how to make archive.io do what I want
-    // I add a workaround in the next commit, so you can steal that, or just rip this out
     const auto gvload = [this]( const std::string & variant ) {
         set_gun_variant( variant );
     };
