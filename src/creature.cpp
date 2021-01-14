@@ -45,6 +45,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "options.h"
 
 struct mutation_branch;
 
@@ -54,6 +55,7 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_fluid" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -178,6 +180,26 @@ void Creature::process_turn()
 bool Creature::is_underwater() const
 {
     return underwater;
+}
+
+bool Creature::is_ranged_attacker() const
+{
+    if( has_flag( MF_RANGED_ATTACKER ) ) {
+        return true;
+    }
+
+    const monster *mon = as_monster();
+    if( mon ) {
+        for( const std::pair<const std::string, mtype_special_attack> &attack :
+             mon->type->special_attacks ) {
+            if( attack.second->id == "gun" ) {
+                return true;
+            }
+        }
+    }
+    //TODO Potentially add check for this as npc wielding ranged weapon
+
+    return false;
 }
 
 bool Creature::digging() const
@@ -508,7 +530,7 @@ int Creature::size_melee_penalty() const
     return 0;
 }
 
-bool Creature::is_adjacent( Creature *target, const bool allow_z_levels ) const
+bool Creature::is_adjacent( const Creature *target, const bool allow_z_levels ) const
 {
     if( target == nullptr ) {
         return false;
@@ -530,12 +552,14 @@ bool Creature::is_adjacent( Creature *target, const bool allow_z_levels ) const
         return false;
     }
 
-    // The square above must have no floor (currently only open air).
-    // The square below must have no ceiling (i.e. be outside).
+    // The square above must have no floor.
+    // The square below must have no ceiling (i.e. no floor on the tile above it).
     const bool target_above = target->posz() > posz();
     const tripoint &up   = target_above ? target->pos() : pos();
     const tripoint &down = target_above ? pos() : target->pos();
-    return here.ter( up ) == t_open_air && here.is_outside( down );
+    const tripoint above{ down.xy(), up.z };
+    return ( !here.has_floor( up ) || here.ter( up )->has_flag( TFLAG_GOES_DOWN ) ) &&
+           ( !here.has_floor( above ) || here.ter( above )->has_flag( TFLAG_GOES_DOWN ) );
 }
 
 int Creature::deal_melee_attack( Creature *source, int hitroll )
@@ -584,16 +608,6 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     bodypart_id bp_hit =  select_body_part( source, hit_spread );
     block_hit( source, bp_hit, d );
 
-    // Bashing critical
-    if( critical_hit && !is_immune_effect( effect_stunned ) ) {
-        if( d.type_damage( damage_type::BASH ) * hit_spread > get_hp_max() ) {
-            add_effect( source, effect_stunned, 1_turns ); // 1 turn is enough
-            if( source->is_avatar() ) {
-                add_msg( m_good, _( "You stun %s with your blow." ), disp_name() );
-            }
-        }
-    }
-
     // Stabbing effects
     int stab_moves = rng( d.type_damage( damage_type::STAB ) / 2,
                           d.type_damage( damage_type::STAB ) * 1.5 );
@@ -618,6 +632,18 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     on_hit( source, bp_hit ); // trigger on-gethit events
     dealt_dam = deal_damage( source, bp_hit, d );
     dealt_dam.bp_hit = bp_hit;
+
+    // Bashing critical
+    if( critical_hit && !is_immune_effect( effect_stunned ) &&
+        dealt_dam.type_damage( damage_type::BASH ) > 0 ) {
+        // check if raw bash damage is enough to stun
+        if( d.type_damage( damage_type::BASH ) * hit_spread > get_hp_max() ) {
+            add_effect( source, effect_stunned, 1_turns ); // 1 turn is enough
+            if( source->is_avatar() ) {
+                add_msg( m_good, _( "You stun %s with your blow." ), disp_name() );
+            }
+        }
+    }
 }
 
 /**
@@ -713,17 +739,18 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const int max_damage = proj.impact.total_damage();
     std::string message;
     game_message_type gmtSCTcolor = m_neutral;
+    float world_multiplier = get_option<int>( "MONSTER_RESILIENCE" ) / 100.0f;
     if( magic ) {
         damage_mult *= rng_float( 0.9, 1.1 );
     } else if( goodhit < accuracy_headshot &&
-               max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) ) {
+               max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) / world_multiplier ) {
         message = _( "Headshot!" );
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float( 0.95, 1.05 );
         damage_mult *= crit_multiplier;
         bp_hit = bodypart_id( "head" ); // headshot hits the head, of course
     } else if( goodhit < accuracy_critical &&
-               max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) ) {
+               max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) / world_multiplier ) {
         message = _( "Critical!" );
         gmtSCTcolor = m_critical;
         damage_mult *= rng_float( 0.75, 1.0 );
@@ -984,6 +1011,8 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
             // these are bleed inducing damage types
             if( is_avatar() || is_npc() ) {
                 as_character()->make_bleed( source, bp, 1_minutes * rng( 1, adjusted_damage ) );
+            } else if( in_species( species_ROBOT ) ) {
+                add_effect( source, effect_dripping_mechanical_fluid, 1_seconds * rng( 1, adjusted_damage ), bp );
             } else {
                 add_effect( source, effect_bleed, 1_minutes * rng( 1, adjusted_damage ), bp );
             }

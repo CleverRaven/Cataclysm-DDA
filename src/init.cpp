@@ -128,9 +128,8 @@ shared_ptr_fast<std::istream> DynamicDataLoader::get_cached_stream( const std::s
 {
     cata_assert( !finalized &&
                  "Cannot open data file after finalization." );
-    if( !stream_cache ) {
-        stream_cache = std::make_unique<cached_streams>();
-    }
+    cata_assert( stream_cache &&
+                 "Stream cache is only available during finalization" );
     shared_ptr_fast<std::istringstream> cached = stream_cache->cache.get( path, nullptr );
     // Create a new stream if the file is not opened yet, or if some code is still
     // using the previous stream (in such case, `cached` and `stream_cache` have
@@ -603,6 +602,13 @@ void DynamicDataLoader::finalize_loaded_data()
 void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
 {
     cata_assert( !finalized && "Can't finalize the data twice." );
+    cata_assert( !stream_cache && "Expected stream cache to be null before finalization" );
+
+    on_out_of_scope reset_stream_cache( [this]() {
+        stream_cache.reset();
+    } );
+    stream_cache = std::make_unique<cached_streams>();
+
     ui.new_context( _( "Finalizing" ) );
 
     using named_entry = std::pair<std::string, std::function<void()>>;
@@ -676,7 +682,6 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     }
 
     check_consistency( ui );
-    stream_cache.reset();
     finalized = true;
 }
 

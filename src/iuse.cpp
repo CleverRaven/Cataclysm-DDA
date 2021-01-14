@@ -444,7 +444,7 @@ void remove_radio_mod( item &it, Character &p )
     if( !it.has_flag( flag_RADIO_MOD ) ) {
         return;
     }
-    p.add_msg_if_player( _( "You remove the radio modification from your %s!" ), it.tname() );
+    p.add_msg_if_player( _( "You remove the radio modification from your %s." ), it.tname() );
     item mod( "radio_mod" );
     p.i_add_or_drop( mod, 1 );
     it.unset_flag( flag_RADIO_ACTIVATION );
@@ -481,9 +481,6 @@ int iuse::sewage( player *p, item *it, bool, const tripoint & )
 
     get_event_bus().send<event_type::eats_sewage>();
     p->vomit();
-    if( one_in( 4 ) ) {
-        p->mutate();
-    }
     return it->type->charges_to_use();
 }
 
@@ -568,18 +565,11 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
     }
 
     item cig;
-    if( it->typeId() == itype_cig ) {
+    if( it->typeId() == itype_cig || it->typeId() == itype_handrolled_cig ) {
         cig = item( "cig_lit", calendar::turn );
         cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_hunger( -3 );
         p->mod_thirst( 2 );
-    } else if( it->typeId() == itype_handrolled_cig ) {
-        // This transforms the hand-rolled into a normal cig, which isn't exactly
-        // what I want, but leaving it for now.
-        cig = item( "cig_lit", calendar::turn );
-        cig.item_counter = to_turns<int>( 4_minutes );
-        p->mod_thirst( 2 );
-        p->mod_hunger( -3 );
     } else if( it->typeId() == itype_cigar ) {
         cig = item( "cigar_lit", calendar::turn );
         cig.item_counter = to_turns<int>( 12_minutes );
@@ -595,7 +585,7 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
         }
     } else {
         p->add_msg_if_player( m_bad,
-                              _( "Please let the devs know you should be able to smoke a %s but the smoking code does not know how." ),
+                              _( "Please let the devs know you should be able to smoke a %s, but the smoking code does not know how." ),
                               it->tname() );
         return 0;
     }
@@ -662,7 +652,7 @@ int iuse::antibiotic( player *p, item *it, bool, const tripoint & )
     }
     if( p->has_effect( effect_infected ) && !p->has_effect( effect_antibiotic ) ) {
         p->add_msg_if_player( m_good,
-                              _( "Maybe just placebo effect, but you feel a little better as the dose settles in." ) );
+                              _( "Maybe this is just the placebo effect, but you feel a little better as the dose settles in." ) );
     }
     p->add_effect( effect_antibiotic, 12_hours );
     p->add_effect( effect_antibiotic_visible, rng( 9_hours, 15_hours ) );
@@ -702,7 +692,7 @@ int iuse::fungicide( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    p->add_msg_player_or_npc( _( "You use your fungicide." ), _( "<npcname> uses some fungicide" ) );
+    p->add_msg_player_or_npc( _( "You use your fungicide." ), _( "<npcname> uses some fungicide." ) );
     if( has_fungus && ( one_in( 3 ) ) ) {
         // this is not a medicine, the effect is shorter
         p->add_effect( effect_antifungal, 1_hours );
@@ -834,7 +824,7 @@ int iuse::anticonvulsant( player *p, item *it, bool, const tripoint & )
 int iuse::weed_cake( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player(
-        _( "You start scarfing down the delicious cake.  It tastes a little funny though…" ) );
+        _( "You start scarfing down the delicious cake.  It tastes a little funny, though…" ) );
     time_duration duration = 12_minutes;
     if( p->has_trait( trait_TOLERANCE ) ) {
         duration = 9_minutes;
@@ -939,14 +929,6 @@ int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::antiasthmatic( player *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player( m_good,
-                          _( "You no longer need to worry about asthma attacks, at least for a while." ) );
-    p->add_effect( effect_took_antiasthmatic, 1_days, true );
-    return it->type->charges_to_use();
-}
-
 int iuse::poison( player *p, item *it, bool, const tripoint & )
 {
     if( ( p->has_trait( trait_EATDEAD ) ) ) {
@@ -975,7 +957,7 @@ int iuse::meditate( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     if( p->has_trait( trait_SPIRITUAL ) ) {
@@ -1052,7 +1034,7 @@ int iuse::datura( player *p, item *it, bool, const tripoint & )
 int iuse::flumed( player *p, item *it, bool, const tripoint & )
 {
     p->add_effect( effect_took_flumed, 10_hours );
-    p->add_msg_if_player( _( "You take some %s" ), it->tname() );
+    p->add_msg_if_player( _( "You take some %s." ), it->tname() );
     return it->type->charges_to_use();
 }
 
@@ -1060,7 +1042,7 @@ int iuse::flusleep( player *p, item *it, bool, const tripoint & )
 {
     p->add_effect( effect_took_flumed, 12_hours );
     p->mod_fatigue( 30 );
-    p->add_msg_if_player( _( "You take some %s" ), it->tname() );
+    p->add_msg_if_player( _( "You take some %s." ), it->tname() );
     p->add_msg_if_player( m_warning, _( "You feel very sleepy…" ) );
     return it->type->charges_to_use();
 }
@@ -1082,9 +1064,9 @@ int iuse::inhaler( player *p, item *it, bool, const tripoint & )
 int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
 {
     p->moves -= to_moves<int>( 10_seconds );
-    p->add_msg_player_or_npc( m_neutral, string_format( _( "You breathe deeply from the %s" ),
+    p->add_msg_player_or_npc( m_neutral, string_format( _( "You breathe deeply from the %s." ),
                               it->tname() ),
-                              string_format( _( "<npcname> breathes from the %s" ),
+                              string_format( _( "<npcname> breathes from the %s." ),
                                       it->tname() ) );
     if( p->has_effect( effect_smoke ) ) {
         p->remove_effect( effect_smoke );
@@ -1139,11 +1121,11 @@ int iuse::blech_because_unclean( player *p, item *it, bool, const tripoint & )
 {
     if( !p->is_npc() ) {
         if( it->made_of( phase_id::LIQUID ) ) {
-            if( !p->query_yn( _( "This looks unclean, sure you want to drink it?" ) ) ) {
+            if( !p->query_yn( _( "This looks unclean; are you sure you want to drink it?" ) ) ) {
                 return 0;
             }
         } else { //Assume that if a blech consumable isn't a drink, it will be eaten.
-            if( !p->query_yn( _( "This looks unclean, sure you want to eat it?" ) ) ) {
+            if( !p->query_yn( _( "This looks unclean; are you sure you want to eat it?" ) ) ) {
                 return 0;
             }
         }
@@ -1285,7 +1267,9 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    int mutation_index = uilist( _( "Choose a mutation to purify" ), valid_names );
+    int mutation_index = uilist( _( "Choose a mutation to purify: " ), valid_names );
+    // Because valid_names doesn't start with a space,
+    // include one here to prettify the output
     if( mutation_index < 0 ) {
         return 0;
     }
@@ -1467,13 +1451,13 @@ static bool marloss_prevented( const player &p )
     }
     if( p.has_trait( trait_MARLOSS_AVOID ) ) {
         p.add_msg_if_player( m_warning,
-                             //~ "Uh-uh" is a sound used for "nope", "no", etc.
-                             _( "After what happened that last time?  uh-uh.  You're not eating that alien poison." ) );
+                             //~ "Nuh-uh" is a sound used for "nope", "no", etc.
+                             _( "After what happened that last time?  Nuh-uh.  You're not eating that alien poison." ) );
         return true;
     }
     if( p.has_trait( trait_THRESH_MYCUS ) ) {
         p.add_msg_if_player( m_info,
-                             _( "We no longer require this scaffolding.  We reserve it for other uses." ) );
+                             _( "we no longer require this scaffolding.  we reserve it for other uses." ) );
         return true;
     }
 
@@ -1494,7 +1478,7 @@ int iuse::marloss( player *p, item *it, bool, const tripoint & )
 
 int iuse::marloss_seed( player *p, item *it, bool, const tripoint & )
 {
-    if( !query_yn( _( "Sure you want to eat the %s?  You could plant it in a mound of dirt." ),
+    if( !query_yn( _( "Are you sure you want to eat the %s?  You could plant it in a mound of dirt." ),
                    colorize( it->tname(), it->color_in_inventory() ) ) ) {
         return 0; // Save the seed for later!
     }
@@ -1527,6 +1511,11 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         return it->type->charges_to_use();
     }
     // Welcome our guide.  Welcome.  To. The Mycus.
+
+    // From an end-user perspective, dialogue should be presented uniformly:
+    // initial caps, as in human writing, or all lowercase letters.
+    // I think that all lowercase, because it contrasts with normal convention, reinforces the Mycus' alien nature
+
     if( p->has_trait( trait_THRESH_MARLOSS ) ) {
         get_event_bus().send<event_type::crosses_mycus_threshold>( p->getID() );
         p->add_msg_if_player( m_neutral,
@@ -1549,27 +1538,27 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         //~ The Mycus does not use the term (or encourage the concept of) "you".  The PC is a local/native organism, but is now the Mycus.
         //~ It still understands the concept, but uninitelligent fungaloids and mind-bent symbiotes should not need it.
         //~ We are the Mycus.
-        popup( _( "We welcome into us.  We have endured long in this forbidding world." ) );
+        popup( _( "we welcome into us.  we have endured long in this forbidding world." ) );
         p->add_msg_if_player( " " );
         p->add_msg_if_player( m_good,
                               _( "A sea of white caps, waving gently.  A haze of spores wafting silently over a forest." ) );
         g->invalidate_main_ui_adaptor();
-        popup( _( "The natives have a saying: \"E Pluribus Unum.\"  Out of many, one." ) );
+        popup( _( "the natives have a saying: \"e pluribus unum.\"  out of many, one." ) );
         p->add_msg_if_player( " " );
         p->add_msg_if_player( m_good,
-                              _( "The blazing pink redness of the berry.  The juices spreading across your tongue, the warmth draping over us like a lover's embrace." ) );
+                              _( "The blazing pink redness of the berry.  The juices spreading across our tongue, the warmth draping over us like a lover's embrace." ) );
         g->invalidate_main_ui_adaptor();
-        popup( _( "We welcome the union of our lines in our local guide.  We will prosper, and unite this world.  Even now, our fruits adapt to better serve local physiology." ) );
+        popup( _( "we welcome the union of our lines in our local guide.  we will prosper, and unite this world.  even now, our fruits adapt to better serve local physiology." ) );
         p->add_msg_if_player( " " );
         p->add_msg_if_player( m_good,
                               _( "The sky-blue of the seed.  The nutty, creamy flavors intermingling with the berry, a memory that will never leave us." ) );
         g->invalidate_main_ui_adaptor();
-        popup( _( "As, in time, shall we adapt to better welcome those who have not received us." ) );
+        popup( _( "as, in time, shall we adapt to better welcome those who have not received us." ) );
         p->add_msg_if_player( " " );
         p->add_msg_if_player( m_good,
                               _( "The amber-yellow of the sap.  Feel it flowing through our veins, taking the place of the strange, thin red gruel called \"blood.\"" ) );
         g->invalidate_main_ui_adaptor();
-        popup( _( "We are the Mycus." ) );
+        popup( _( "we are the Mycus." ) );
         /*p->add_msg_if_player( m_good,
                               _( "We welcome into us.  We have endured long in this forbidding world." ) );
         p->add_msg_if_player( m_good,
@@ -1659,7 +1648,7 @@ static int petfood( player &p, item &it, Petfood animal_food_type )
                     p.consume_charges( it, 1 );
                     return 0;
                 } else {
-                    p.add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name );
+                    p.add_msg_if_player( _( "%s knocks it from your hand!" ), person.name );
                     person.make_angry();
                     p.consume_charges( it, 1 );
                     return 0;
@@ -1674,7 +1663,7 @@ static int petfood( player &p, item &it, Petfood animal_food_type )
         monster &mon = *mon_ptr;
 
         if( mon.is_hallucination() ) {
-            p.add_msg_if_player( _( "You try to feed the %s some %s, but it vanishes!" ),
+            p.add_msg_if_player( _( "You try to feed the %1$s some %2$s, but it vanishes!" ),
                                  mon.type->nname(), it.tname() );
             mon.die( nullptr );
             return 0;
@@ -1688,7 +1677,7 @@ static int petfood( player &p, item &it, Petfood animal_food_type )
                     p.add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
                     if( one_in( 5 ) ) {
                         p.add_msg_if_player(
-                            _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
+                            _( "Apparently, it's more interested in your flesh than the dog food in your hand!" ) );
                         p.consume_charges( it, 1 );
                         return 0;
                     }
@@ -1752,7 +1741,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
                             filter, *p->as_avatar(), _( "Modify what?" ) );
 
     if( !loc ) {
-        p->add_msg_if_player( _( "You do not have that item!" ) );
+        p->add_msg_if_player( _( "You don't have that item!" ) );
         return 0;
     }
     item &modded = *loc;
@@ -1788,7 +1777,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint & )
     remove_radio_mod( modded, *p );
 
     p->add_msg_if_player(
-        _( "You modify your %1$s to listen for %2$s activation signal on the radio." ),
+        _( "You modify your %1$s to listen for the %2$s activation signal on the radio." ),
         modded.tname(), colorname );
     modded.set_flag( flag_RADIO_ACTIVATION )
     .set_flag( flag_RADIOCARITEM )
@@ -1845,7 +1834,7 @@ static bool good_fishing_spot( const tripoint &pos, player *p )
     std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !here.has_flag( "CURRENT", pos ) &&
         om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
-        p->add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here" ) );
+        p->add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here." ) );
         return false;
     }
     return true;
@@ -1858,7 +1847,7 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     map &here = get_map();
@@ -1891,7 +1880,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( p->is_mounted() ) {
-            p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+            p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
             return 0;
         }
         if( p->is_underwater() ) {
@@ -1900,7 +1889,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( it->ammo_remaining() == 0 ) {
-            p->add_msg_if_player( _( "Fish are not foolish enough to go in here without bait." ) );
+            p->add_msg_if_player( _( "Fish aren't foolish enough to go in here without bait." ) );
             return 0;
         }
 
@@ -1922,7 +1911,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
         here.add_item_or_charges( pnt, *it );
         p->i_rem( it );
         p->add_msg_if_player( m_info,
-                              _( "You place the fish trap, in three hours or so you may catch some fish." ) );
+                              _( "You place the fish trap; in three hours or so, you may catch some fish." ) );
 
         return 0;
 
@@ -2160,8 +2149,7 @@ int iuse::pack_item( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     if( t ) { // Normal use
-        // Numbers below -1 are reserved for worn items
-    } else if( p->get_item_position( it ) < -1 ) {
+    } else if( p->is_worn( *it ) ) {
         p->add_msg_if_player( m_info, _( "You can't pack your %s until you take it off." ),
                               it->tname() );
         return 0;
@@ -2192,7 +2180,7 @@ static int cauterize_elec( player &p, item &it )
             return cauterize_actor::cauterize_effect( p, it, true ) ? it.type->charges_to_use() : 0;
         } else {
             p.add_msg_if_player( m_info,
-                                 _( "You are not bleeding or bitten, there is no need to cauterize yourself." ) );
+                                 _( "You aren't bleeding or bitten; there is no need to cauterize yourself." ) );
             return 0;
         }
     } else if( p.is_npc() || query_yn( _( "Cauterize any open wounds?" ) ) ) {
@@ -2204,7 +2192,7 @@ static int cauterize_elec( player &p, item &it )
 int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     item_location obj = g->inv_map_splice( []( const item & e ) {
@@ -2214,7 +2202,7 @@ int iuse::water_purifier( player *p, item *it, bool, const tripoint & )
     }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
 
     if( !obj ) {
-        p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
+        p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
         return 0;
     }
 
@@ -2265,11 +2253,11 @@ int iuse::directional_antenna( player *p, item *it, bool, const tripoint & )
         }
     }
     if( radios.empty() ) {
-        add_msg( m_info, _( "Must have an active radio to check for signal direction." ) );
+        add_msg( m_info, _( "You must have an active radio to check for signal direction." ) );
         return 0;
     }
     const item radio = *radios.front();
-    // Find the radio station its tuned to (if any)
+    // Find the radio station it's tuned to (if any)
     const radio_tower_reference tref = overmap_buffer.find_radio_station( radio.frequency );
     if( !tref ) {
         p->add_msg_if_player( m_info, _( "You can't find the direction if your radio isn't tuned." ) );
@@ -2413,7 +2401,7 @@ int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
 int iuse::hammer( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     const std::set<ter_id> allowed_ter_id {
@@ -2474,7 +2462,7 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
 int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
 {
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     const std::set<ter_id> allowed_ter_id {
@@ -2518,7 +2506,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     const furn_id furn = here.furn( pnt );
     if( !f( pnt ) ) {
         if( pnt == p->pos() ) {
-            p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet "
+            p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet, "
                                              "but alas.  You are just too miserly." ) );
         } else {
             p->add_msg_if_player( m_info, _( "You can't pry that." ) );
@@ -2534,14 +2522,14 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
 
     if( type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
         succ_action = _( "You pry open the door." );
-        fail_action = _( "You pry, but cannot pry open the door." );
+        fail_action = _( "You pry, but can't pry open the door." );
         new_type = t_door_o;
         pry_quality = 2;
         noisy = true;
         difficulty = 6;
     } else if( type == t_door_locked_peep ) {
         succ_action = _( "You pry open the door." );
-        fail_action = _( "You pry, but cannot pry open the door." );
+        fail_action = _( "You pry, but can't pry open the door." );
         new_type = t_door_o_peep;
         pry_quality = 2;
         noisy = true;
@@ -2558,14 +2546,14 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         return 0;
     } else if( type == t_manhole_cover ) {
         succ_action = _( "You lift the manhole cover." );
-        fail_action = _( "You pry, but cannot lift the manhole cover." );
+        fail_action = _( "You pry, but can't lift the manhole cover." );
         pry_quality = 1;
         new_type = t_manhole;
         noisy = false;
         difficulty = 4;
     } else if( furn == f_crate_c ) {
         succ_action = _( "You pop open the crate." );
-        fail_action = _( "You pry, but cannot pop open the crate." );
+        fail_action = _( "You pry, but can't pop open the crate." );
         pry_quality = 1;
         noisy = true;
         difficulty = 6;
@@ -2577,7 +2565,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         difficulty = 5;
     } else if( type == t_window_domestic || type == t_curtains || type == t_window_no_curtains ) {
         succ_action = _( "You pry open the window." );
-        fail_action = _( "You pry, but cannot pry open the window." );
+        fail_action = _( "You pry, but can't pry open the window." );
         new_type = ( type == t_window_no_curtains ) ? t_window_no_curtains_open : t_window_open;
         pry_quality = 2;
         noisy = true;
@@ -2594,6 +2582,8 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     const int pry_level = it->get_quality( quality_id( "PRY" ) );
 
     if( pry_level < pry_quality ) {
+        // This doesn't really make it clear to the player
+        // why their attempt is failing.
         p->add_msg_if_player( _( "You can't get sufficient leverage to open that with your %s." ),
                               it->tname() );
         p->mod_moves( 10 ); // spend a few moves trying it.
@@ -2661,7 +2651,7 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Till soil where?" ) );
@@ -2672,7 +2662,7 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
 
     if( pnt == p->pos() ) {
         p->add_msg_if_player( m_info,
-                              _( "You think about jumping on a shovel, but then change up your mind." ) );
+                              _( "You think about jumping on a shovel, but then change your mind." ) );
         return 0;
     }
 
@@ -2715,7 +2705,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     // and be digging a foundation footing. Referencing the 2018 IBC
     // https://codes.iccsafe.org/content/IRC2018/chapter-4-foundations we can see in
     // R403.1.4 the requirement that "exterior footings shall be placed not less than
-    // 12 inches (305 mm) below the undisturbed ground surface. You'd need even more
+    // 12 inches (305 mm) below the undisturbed ground surface." You'd need even more
     // space for the actual footing, but that's close enough. I don't think survivors
     // care about building to code, but let's call it 12 inches (0.3048 meters) at the
     // maximum for a shallow pit depth.
@@ -2825,7 +2815,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     const tripoint dig_point = p->pos();
@@ -2883,7 +2873,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
             }
         } else if( p->has_trait( trait_PSYCHOPATH ) ) {
             p->add_msg_if_player( m_good,
-                                  _( "Exhuming a grave is fun now, where there is no one to object." ) );
+                                  _( "Exhuming a grave is fun now, when there is no one to object." ) );
             p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
         } else if( !p->has_trait( trait_EATDEAD ) &&
                    !p->has_trait( trait_SAPROVORE ) ) {
@@ -2896,9 +2886,8 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     }
 
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
+    for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
 
     digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
@@ -2922,7 +2911,7 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     const tripoint dig_point = p->pos();
@@ -2965,9 +2954,8 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     }
 
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
+    for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
 
     digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, false,
@@ -2990,7 +2978,7 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     const std::set<ter_id> allowed_ter_id {
@@ -3061,7 +3049,7 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
 int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
@@ -3081,12 +3069,11 @@ int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
 
     int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
-    }
-    const int helpersize = p->get_num_crafting_helpers( 3 );
+    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
     const int moves = to_moves<int>( 30_seconds ) * ( 1.0f - ( helpersize / 10.0f ) );
+    for( std::size_t i = 0; i < helpersize; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
+    }
     player_activity act( ACT_CLEAR_RUBBLE, moves / bonus, bonus );
     p->assign_activity( act );
     p->activity.placement = pnt;
@@ -3096,7 +3083,7 @@ int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
 int iuse::siphon( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     map &here = get_map();
@@ -3126,7 +3113,7 @@ int iuse::siphon( player *p, item *it, bool, const tripoint & )
     }
     if( found_more_than_one ) {
         cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
-                                            _( "Siphon from where?" ), _( "There is nothing to siphon nearby." ), f, false );
+                                            _( "Siphon from where?" ), _( "There is nothing to siphon from nearby." ), f, false );
         if( !pnt_ ) {
             return 0;
         }
@@ -3196,7 +3183,7 @@ int iuse::chainsaw_off( player *p, item *it, bool, const tripoint & )
     return toolweapon_off( *p, *it,
                            false,
                            rng( 0, 10 ) - it->damage_level() > 5 && !p->is_underwater(),
-                           20, _( "With a roar, the chainsaw leaps to life!" ),
+                           20, _( "With a roar, the chainsaw screams to life!" ),
                            _( "You yank the cord, but nothing happens." ) );
 }
 
@@ -3205,7 +3192,7 @@ int iuse::elec_chainsaw_off( player *p, item *it, bool, const tripoint & )
     return toolweapon_off( *p, *it,
                            false,
                            rng( 0, 10 ) - it->damage_level() > 5 && !p->is_underwater(),
-                           20, _( "With a roar, the electric chainsaw leaps to life!" ),
+                           20, _( "With a roar, the electric chainsaw screams to life!" ),
                            _( "You flip the switch, but nothing happens." ) );
 }
 
@@ -3214,7 +3201,7 @@ int iuse::cs_lajatang_off( player *p, item *it, bool, const tripoint & )
     return toolweapon_off( *p, *it,
                            false,
                            rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
-                           40, _( "With a roar, the chainsaws leap to life!" ),
+                           40, _( "With a roar, the chainsaws scream to life!" ),
                            _( "You yank the cords, but nothing happens." ) );
 }
 
@@ -3223,8 +3210,8 @@ int iuse::ecs_lajatang_off( player *p, item *it, bool, const tripoint & )
     return toolweapon_off( *p, *it,
                            false,
                            rng( 0, 10 ) - it->damage_level() > 5 && it->ammo_remaining() > 1 && !p->is_underwater(),
-                           40, _( "With a buzz, the chainsaws leap to life!" ),
-                           _( "You flip the on switch, but nothing happens." ) );
+                           40, _( "With a buzz, the chainsaws scream to life!" ),
+                           _( "You flip the switch, but nothing happens." ) );
 }
 
 int iuse::carver_off( player *p, item *it, bool, const tripoint & )
@@ -3354,7 +3341,7 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     if( p->is_underwater() ) {
@@ -3394,12 +3381,13 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
 
-    p->assign_activity( ACT_JACKHAMMER, moves, -1, p->get_item_position( it ) );
+    p->assign_activity( ACT_JACKHAMMER, moves );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.placement = here.getabs( pnt );
     p->add_msg_if_player( _( "You start drilling into the %1$s with your %2$s." ),
                           here.tername( pnt ), it->tname() );
 
-    return it->type->charges_to_use();
+    return 0; // handled when the activity finishes
 }
 
 int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
@@ -3460,7 +3448,7 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     if( p->is_underwater() ) {
@@ -3516,7 +3504,7 @@ int iuse::burrow( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     if( p->is_underwater() ) {
@@ -3646,7 +3634,7 @@ int iuse::teleport( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     if( !it->ammo_sufficient() ) {
@@ -3674,7 +3662,7 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
     }
     if( monster *const mon_ptr = g->critter_at<monster>( goop ) ) {
         monster &critter = *mon_ptr;
-        add_msg_if_player_sees( goop, _( "Black goo emerges from the canister and envelopes a %s!" ),
+        add_msg_if_player_sees( goop, _( "Black goo emerges from the canister and envelopes the %s!" ),
                                 critter.name() );
         critter.poly( mon_blob );
 
@@ -3725,7 +3713,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
         sounds::sound( pos, 0, sounds::sound_t::electronic_speech, _( "Merged!" ),
                        true, "speech", it->typeId().str() );
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already pulled the %s's pin, try throwing it instead." ),
+        p->add_msg_if_player( m_info, _( "You've already pulled the %s's pin; try throwing it instead." ),
                               it->tname() );
         return 0;
     } else { // When that timer runs down...
@@ -3900,7 +3888,7 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
         // Vol 0 = only heard if you hold it
         sounds::sound( pos, 0, sounds::sound_t::alarm, _( "Tick!" ), true, "misc", "bomb_ticking" );
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already released the handle, try throwing it instead." ) );
+        p->add_msg_if_player( m_info, _( "You've already released the handle; try throwing it instead." ) );
         return 0;
     } else {  // blow up
         map &here = get_map();
@@ -3955,7 +3943,7 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
         }
         return 1;
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
+        p->add_msg_if_player( m_info, _( "You've already lit the %s; try throwing it instead." ),
                               it->tname() );
         return 0;
     } else if( p->has_item( *it ) && it->charges == 0 ) {
@@ -4035,7 +4023,7 @@ int iuse::firecracker_act( player *p, item *it, bool t, const tripoint &pos )
     if( t ) { // Simple timer effects
         sounds::sound( pos, 0,  sounds::sound_t::alarm, _( "ssss…" ), true, "misc", "lit_fuse" );
     } else if( it->charges > 0 ) {
-        p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
+        p->add_msg_if_player( m_info, _( "You've already lit the %s; try throwing it instead." ),
                               it->tname() );
         return 0;
     } else { // When that timer runs down...
@@ -4112,7 +4100,7 @@ int iuse::portal( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     tripoint t( p->posx() + rng( -2, 2 ), p->posy() + rng( -2, 2 ), p->posz() );
@@ -4149,7 +4137,7 @@ int iuse::tazer( player *p, item *it, bool, const tripoint &pos )
     npc *foe = dynamic_cast<npc *>( target );
     if( foe != nullptr &&
         !foe->is_enemy() &&
-        !p->query_yn( _( "Really shock %s?" ), target->disp_name() ) ) {
+        !p->query_yn( _( "Do you really want to shock %s?" ), target->disp_name() ) ) {
         return 0;
     }
 
@@ -4372,7 +4360,7 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
 int iuse::rpgdie( player *you, item *die, bool, const tripoint & )
 {
     if( you->is_mounted() ) {
-        you->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        you->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     int num_sides = die->get_var( "die_num_sides", 0 );
@@ -4445,7 +4433,7 @@ int iuse::solarpack( player *p, item *it, bool, const tripoint & )
     const bionic_id rem_bid = p->get_remote_fueled_bionic();
     if( rem_bid.is_empty() ) {  // Cable CBM required
         p->add_msg_if_player(
-            _( "You have no cable charging system to plug it in, so you leave it alone." ) );
+            _( "You have no cable charging system to plug it into, so you leave it alone." ) );
         return 0;
     } else if( !p->has_active_bionic( rem_bid ) ) {  // when OFF it takes no effect
         p->add_msg_if_player( _( "Activate your cable charging system to take advantage of it." ) );
@@ -4458,12 +4446,12 @@ int iuse::solarpack( player *p, item *it, bool, const tripoint & )
     }
     // no doubled sources of power
     if( p->worn_with_flag( flag_SOLARPACK_ON ) ) {
-        p->add_msg_if_player( m_neutral, _( "You cannot use the %1$s with another of it's kind." ),
+        p->add_msg_if_player( m_neutral, _( "You can't use the %1$s with another of its kind." ),
                               it->tname() );
         return 0;
     }
     p->add_msg_if_player(
-        _( "You unfold solar array from the pack.  You still need to connect it with a cable." ) );
+        _( "You unfold the solar array from the pack.  You still need to connect it with a cable." ) );
 
     it->convert( itype_id( it->typeId().str() + "_on" ) );
     return 0;
@@ -4474,7 +4462,7 @@ int iuse::solarpack_off( player *p, item *it, bool, const tripoint & )
     if( !p->is_worn( *it ) ) {  // folding when not worn
         p->add_msg_if_player( _( "You fold your portable solar array into the pack." ) );
     } else {
-        p->add_msg_if_player( _( "You unplug and fold your portable solar array into the pack." ) );
+        p->add_msg_if_player( _( "You unplug your portable solar array, and fold it into the pack." ) );
     }
 
     // 3 = "_on"
@@ -4502,8 +4490,8 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
             if( it->ammo_remaining() == 0 ) {
                 p->add_msg_player_or_npc(
                     m_bad,
-                    _( "Your %s requires new filter!" ),
-                    _( "<npcname> needs new gas mask filter!" )
+                    _( "Your %s requires new filters!" ),
+                    _( "<npcname> needs new gas mask filters!" )
                     , it->tname() );
             }
         }
@@ -4511,7 +4499,7 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
         if( it->ammo_remaining() == 0 ) {
             p->add_msg_if_player( _( "Your %s doesn't have a filter." ), it->tname() );
         } else {
-            p->add_msg_if_player( _( "You prepared your %s." ), it->tname() );
+            p->add_msg_if_player( _( "You prepare your %s." ), it->tname() );
             it->active = true;
             it->set_var( "overwrite_env_resist", it->get_base_env_resist_w_filter() );
         }
@@ -4536,7 +4524,7 @@ int iuse::portable_game( player *p, item *it, bool active, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     if( p->is_underwater() ) {
@@ -4593,6 +4581,7 @@ int iuse::portable_game( player *p, item *it, bool active, const tripoint & )
         if( loaded_software == "null" ) {
             p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
                                 p->get_item_position( it ), "gaming" );
+            p->activity.targets.push_back( item_location( *p, it ) );
             return 0;
         }
         p->assign_activity( ACT_GAME, moves, -1, 0, "gaming" );
@@ -4640,7 +4629,7 @@ int iuse::fitness_check( player *p, item *it, bool, const tripoint & )
         const std::string exercise = p->activity_level_str();
         if( exercise == "NO_EXERCISE" ) {
             p->add_msg_if_player( _( "Your %s shows your overall activity:  "
-                                     "'You are not really active today.  Try going for a walk!'." ), it->tname() );
+                                     "'You haven't really been active today.  Try going for a walk!'." ), it->tname() );
         } else if( exercise == "LIGHT_EXERCISE" ) {
             p->add_msg_if_player( _( "Your %s shows your overall activity:  "
                                      "'Good start!  Keep it up and move more.'" ), it->tname() );
@@ -4702,14 +4691,14 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do… that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do… that while mounted." ) );
         return 0;
     }
     if( ( p->is_underwater() ) && ( !( ( p->has_trait( trait_GILLS ) ) ||
                                        ( p->is_wearing( itype_rebreather_on ) ) ||
                                        ( p->is_wearing( itype_rebreather_xl_on ) ) ||
                                        ( p->is_wearing( itype_mask_h20survivor_on ) ) ) ) ) {
-        p->add_msg_if_player( m_info, _( "It's waterproof, but oxygen maybe?" ) );
+        p->add_msg_if_player( m_info, _( "It might be waterproof, but your lungs aren't." ) );
         return 0;
     }
     if( !it->units_sufficient( *p ) ) {
@@ -4806,7 +4795,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
         return 0;    // No NPCs for now!
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     if( !it->contents.empty() ) {
@@ -4870,7 +4859,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
 int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     for( item &map_it : get_map().i_at( point( p->posx(), p->posy() ) ) ) {
@@ -4909,7 +4898,7 @@ int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
 void iuse::cut_log_into_planks( Character &p )
 {
     if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return;
     }
     const int moves = to_moves<int>( 20_minutes );
@@ -4925,7 +4914,7 @@ int iuse::lumber( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     map &here = get_map();
@@ -4949,7 +4938,7 @@ int iuse::lumber( player *p, item *it, bool t, const tripoint & )
     }
 
     if( !loc ) {
-        p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
+        p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
         return 0;
     }
     p->i_rem( &*loc );
@@ -4977,7 +4966,7 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     map &here = get_map();
@@ -5004,9 +4993,8 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
     }
     int moves = chop_moves( p, it );
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
+    for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
     p->assign_activity( ACT_CHOP_TREE, moves, -1, p->get_item_position( it ) );
     p->activity.placement = here.getabs( pnt );
@@ -5020,7 +5008,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
 
@@ -5048,9 +5036,8 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
 
     int moves = chop_moves( p, it );
     const std::vector<npc *> helpers = p->get_crafting_helpers();
-    for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task…" ), np->name );
-        break;
+    for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
     p->assign_activity( ACT_CHOP_LOGS, moves, -1, p->get_item_position( it ) );
     p->activity.placement = here.getabs( pnt );
@@ -5065,7 +5052,7 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     static const quality_id GLARE( "GLARE" );
@@ -5171,7 +5158,7 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     const std::set<ter_id> allowed_ter_id {
@@ -5246,7 +5233,7 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
 int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     const std::set<ter_id> allowed_ter_id {
@@ -5275,7 +5262,7 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
     if( !f( pnt ) ) {
         if( pnt == p->pos() ) {
             p->add_msg_if_player( m_info,
-                                  _( "You neatly sever all of the veins and arteries in your body.  Oh wait, Never mind." ) );
+                                  _( "You neatly sever all of the veins and arteries in your body.  Oh, wait; never mind." ) );
         } else {
             p->add_msg_if_player( m_info, _( "You can't cut that." ) );
         }
@@ -5310,7 +5297,7 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
 int iuse::mop( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     map &here = get_map();
@@ -5441,7 +5428,7 @@ static bool heat_item( player &p )
     item_location loc = g->inv_map_splice( []( const item & itm ) {
         const item *food = itm.get_food();
         return food && !food->has_own_flag( flag_HOT );
-    }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
+    }, _( "Heat up what?" ), 1, _( "You don't have any appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
     if( heat == nullptr ) {
@@ -5451,7 +5438,7 @@ static bool heat_item( player &p )
     item *target = heat->get_food();
     // simulates heat capacity of food, more weight = longer heating time
     // this is x2 to simulate larger delta temperature of frozen food in relation to
-    // heating non-frozen food (x1); no real life physics here, only aproximations
+    // heating non-frozen food (x1); no real life physics here, only approximations
     int duration = to_turns<int>( time_duration::from_seconds( to_gram( target->weight() ) ) ) * 10;
     if( target->has_own_flag( flag_FROZEN ) && !target->has_flag( flag_EATEN_COLD ) ) {
         duration *= 2;
@@ -5475,12 +5462,13 @@ int iuse::heat_food( player *p, item *it, bool, const tripoint & )
     if( get_map().has_nearby_fire( p->pos() ) ) {
         heat_item( *p );
     } else if( p->has_active_bionic( bio_tools ) && p->get_power_level() > 10_kJ &&
-               query_yn( _( "There is no fire around, use your integrated toolset instead?" ) ) ) {
+               query_yn( _( "There is no fire around; use your integrated toolset instead?" ) ) ) {
         if( heat_item( *p ) ) {
             p->mod_power_level( -10_kJ );
         }
     } else {
-        p->add_msg_if_player( m_info, _( "You need to be next to fire to heat something up with the %s." ),
+        p->add_msg_if_player( m_info,
+                              _( "You need to be next to a fire to heat something up with the %s." ),
                               it->tname() );
     }
     return 0;
@@ -5489,7 +5477,7 @@ int iuse::heat_food( player *p, item *it, bool, const tripoint & )
 int iuse::hotplate( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     if( it->typeId() != itype_atomic_coffeepot && ( !it->units_sufficient( *p ) ) ) {
@@ -5567,7 +5555,7 @@ int iuse::towel_common( Character *p, item *it, bool t )
 
         // default message
     } else {
-        p->add_msg_if_player( _( "You are already dry, the %s does nothing." ), name );
+        p->add_msg_if_player( _( "You are already dry; the %s does nothing." ), name );
     }
 
     // towel was used
@@ -5597,7 +5585,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     map &here = get_map();
@@ -5731,8 +5719,8 @@ int iuse::radglove( player *p, item *it, bool, const tripoint & )
                                       p->get_rad() );
         } else {
             p->add_msg_player_or_say( m_info,
-                                      _( "You are not currently irradiated." ),
-                                      _( "It says I'm not irradiated" ) );
+                                      _( "You aren't currently irradiated." ),
+                                      _( "It says I'm not irradiated." ) );
         }
         p->add_msg_if_player( _( "Have a nice day!" ) );
     }
@@ -5800,7 +5788,7 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     /** @EFFECT_MECHANICS >1 allows gun repair */
@@ -5809,9 +5797,9 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     item_location loc = game_menus::inv::titled_menu( get_avatar(),
-                        ( "Select the firearm to repair" ) );
+                        ( "Select the firearm to repair:" ) );
     if( !loc ) {
-        p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
+        p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
         return 0;
     }
     item &fix = *loc;
@@ -5820,11 +5808,11 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     if( fix.has_flag( flag_NO_REPAIR ) ) {
-        p->add_msg_if_player( m_info, _( "You cannot repair your %s." ), fix.tname() );
+        p->add_msg_if_player( m_info, _( "You can't repair your %s." ), fix.tname() );
         return 0;
     }
     if( fix.damage() <= fix.min_damage() ) {
-        p->add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
+        p->add_msg_if_player( m_info, _( "You can't improve your %s any more this way." ),
                               fix.tname() );
         return 0;
     }
@@ -5861,6 +5849,7 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         resultdurability = fix.durability_indicator( true );
         p->add_msg_if_player( m_good, _( "You repair your %s completely!  ( %s-> %s)" ),
                               fix.tname( 1, false ), startdurability, resultdurability );
+        // Do these need to use the %1$s syntax used elsewhere?
     }
     return it->type->charges_to_use();
 }
@@ -5921,7 +5910,7 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
             return false;
         }
 
-        // cannot mod non-tool, or a tool with existing mods, or a battery currently installed
+        // can't mod non-tool, or a tool with existing mods, or a battery currently installed
         if( !e.is_tool() || !e.toolmods().empty() || e.magazine_current() ) {
             return false;
         }
@@ -5933,7 +5922,7 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
         } );
     };
 
-    item_location loc = g->inv_map_splice( filter, _( "Select tool to modify" ), 1,
+    item_location loc = g->inv_map_splice( filter, _( "Select tool to modify:" ), 1,
                                            _( "You don't have compatible tools." ) );
 
     if( !loc ) {
@@ -5977,7 +5966,7 @@ int iuse::bell( player *p, item *it, bool, const tripoint & )
 int iuse::seed( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ||
-        query_yn( _( "Sure you want to eat the %s?  You could plant it in a mound of dirt." ),
+        query_yn( _( "Are you sure you want to eat the %s?  You could plant it in a mound of dirt." ),
                   colorize( it->tname(), it->color_in_inventory() ) ) ) {
         return it->type->charges_to_use(); //This eats the seed object.
     }
@@ -6004,7 +5993,7 @@ int iuse::robotcontrol( player *p, item *it, bool active, const tripoint & )
 
     }
     if( p->has_trait( trait_ILLITERATE ) ) {
-        p->add_msg_if_player( _( "You cannot read a computer screen." ) );
+        p->add_msg_if_player( _( "You can't read a computer screen." ) );
         return 0;
     }
 
@@ -6015,7 +6004,7 @@ int iuse::robotcontrol( player *p, item *it, bool active, const tripoint & )
         return 0;
     }
 
-    int choice = uilist( _( "Welcome to hackPRO!:" ), {
+    int choice = uilist( _( "Welcome to hackPRO!" ), {
         _( "Prepare IFF protocol override" ),
         _( "Set friendly robots to passive mode" ),
         _( "Set friendly robots to combat mode" )
@@ -6058,8 +6047,8 @@ int iuse::robotcontrol( player *p, item *it, bool active, const tripoint & )
             shared_ptr_fast< monster > z = mons[mondex];
             p->add_msg_if_player( _( "You start reprogramming the %s into an ally." ), z->name() );
 
-            /** @EFFECT_INT speeds up hacking preperation */
-            /** @EFFECT_COMPUTER speeds up hacking preperation */
+            /** @EFFECT_INT speeds up hacking preparation */
+            /** @EFFECT_COMPUTER speeds up hacking preparation */
             int move_cost = std::max( 100, 1000 - p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 );
             player_activity act( ACT_ROBOT_CONTROL, move_cost );
             act.monsters.emplace_back( z );
@@ -6080,7 +6069,7 @@ int iuse::robotcontrol( player *p, item *it, bool active, const tripoint & )
                 }
             }
             if( f == 0 ) {
-                p->add_msg_if_player( _( "You are not commanding any robots." ) );
+                p->add_msg_if_player( _( "You aren't commanding any robots." ) );
                 return 0;
             }
             return it->type->charges_to_use();
@@ -6097,7 +6086,7 @@ int iuse::robotcontrol( player *p, item *it, bool active, const tripoint & )
                 }
             }
             if( f == 0 ) {
-                p->add_msg_if_player( _( "You are not commanding any robots." ) );
+                p->add_msg_if_player( _( "You aren't commanding any robots." ) );
                 return 0;
             }
             return it->type->charges_to_use();
@@ -6190,8 +6179,8 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         int new_photos = mc.get_var( "MC_PHOTOS", 0 );
         mc.erase_var( "MC_PHOTOS" );
 
-        p.add_msg_if_player( m_good, ngettext( "You download %d new photo into internal memory.",
-                                               "You download %d new photos into internal memory.", new_photos ), new_photos );
+        p.add_msg_if_player( m_good, ngettext( "You download %d new photo into the internal memory.",
+                                               "You download %d new photos into the internal memory.", new_photos ), new_photos );
 
         const int old_photos = eink.get_var( "EIPC_PHOTOS", 0 );
         eink.set_var( "EIPC_PHOTOS", old_photos + new_photos );
@@ -6203,8 +6192,8 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         int new_songs = mc.get_var( "MC_MUSIC", 0 );
         mc.erase_var( "MC_MUSIC" );
 
-        p.add_msg_if_player( m_good, ngettext( "You download %d new song into internal memory.",
-                                               "You download %d new songs into internal memory.", new_songs ), new_songs );
+        p.add_msg_if_player( m_good, ngettext( "You download %d new song into the internal memory.",
+                                               "You download %d new songs into the internal memory.", new_songs ), new_songs );
 
         const int old_songs = eink.get_var( "EIPC_MUSIC", 0 );
         eink.set_var( "EIPC_MUSIC", old_songs + new_songs );
@@ -6361,12 +6350,12 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         } else {
             it->active = false;
             it->erase_var( "EIPC_MUSIC_ON" );
-            p->add_msg_if_player( m_info, _( "Tablet's batteries are dead." ) );
+            p->add_msg_if_player( m_info, _( "The tablet's batteries are dead." ) );
         }
 
         return 0;
     } else if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     } else if( !p->is_npc() ) {
 
@@ -6379,7 +6368,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
         if( p->has_trait( trait_ILLITERATE ) ) {
-            p->add_msg_if_player( m_info, _( "You cannot read a computer screen." ) );
+            p->add_msg_if_player( m_info, _( "You can't read a computer screen." ) );
             return 0;
         }
         if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
@@ -6452,7 +6441,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             p->moves -= to_moves<int>( rng( 3_seconds, 7_seconds ) );
 
             if( p->has_trait( trait_PSYCHOPATH ) ) {
-                p->add_msg_if_player( m_info, _( "Wasted time, these pictures do not provoke your senses." ) );
+                p->add_msg_if_player( m_info, _( "Wasted time.  These pictures do not provoke your senses." ) );
             } else {
                 p->add_morale( MORALE_PHOTOS, rng( 15, 30 ), 100 );
 
@@ -6496,12 +6485,12 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
                 it->active = false;
                 it->erase_var( "EIPC_MUSIC_ON" );
 
-                p->add_msg_if_player( m_info, _( "You turned off music on your %s." ), it->tname() );
+                p->add_msg_if_player( m_info, _( "You turned off the music on your %s." ), it->tname() );
             } else {
                 it->active = true;
                 it->set_var( "EIPC_MUSIC_ON", "1" );
 
-                p->add_msg_if_player( m_info, _( "You turned on music on your %s." ), it->tname() );
+                p->add_msg_if_player( m_info, _( "You turned on the music on your %s." ), it->tname() );
 
             }
 
@@ -6589,7 +6578,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         auto filter = []( const item & it ) {
             return it.has_flag( flag_MC_MOBILE );
         };
-        const std::string title = _( "Insert memory card" );
+        const std::string title = _( "Insert memory card:" );
 
         if( ei_download == choice ) {
 
@@ -6599,7 +6588,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
                 loc = game_menus::inv::titled_filter_menu( filter, *you, title );
             }
             if( !loc ) {
-                p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
+                p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
                 return it->type->charges_to_use();
             }
             item &mc = *loc;
@@ -6631,7 +6620,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
                 loc = game_menus::inv::titled_filter_menu( filter, *you, title );
             }
             if( !loc ) {
-                p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
+                p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
                 return it->type->charges_to_use();
             }
             item &mc = *loc;
@@ -7311,7 +7300,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
     // TODO: fix point types
     const oter_id &cur_ter =
         overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( aim_point ) ) ) );
-    std::string overmap_desc = string_format( _( "In the background you can see a %s" ),
+    std::string overmap_desc = string_format( _( "In the background you can see a %s." ),
                                colorize( cur_ter->get_name(), cur_ter->get_color() ) );
     if( outside_tiles_num == total_tiles_num ) {
         photo_text += _( "\n\nThis photo was taken <color_dark_gray>outside</color>." );
@@ -7386,7 +7375,7 @@ static void item_save_monsters( player &p, item &it, const std::vector<monster *
                     p.add_msg_if_player( m_good, _( "The quality of %s image is better than the previous one." ),
                                          colorize( name, c_light_blue ) );
                 } else if( old_quality == 5 ) {
-                    p.add_msg_if_player( _( "The quality of stored %s image is already maximally detailed." ),
+                    p.add_msg_if_player( _( "The quality of the stored %s image is already maximally detailed." ),
                                          colorize( name, c_light_blue ) );
                 } else {
                     p.add_msg_if_player( m_bad, _( "But the quality of %s image is worse than the previous one." ),
@@ -7581,14 +7570,14 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     } else if( trajectory_point != aim_point ) { // shoot past mon that will be in photo anyway
                         continue;
                     }
-                    // get an special message if the target is a hallucination
+                    // get a special message if the target is a hallucination
                     if( trajectory_point == aim_point && ( z.is_hallucination() ||
                                                            z.type->in_species( species_HALLUCINATION ) ) ) {
-                        p->add_msg_if_player( _( "Strange… there's nothing in the center of picture?" ) );
+                        p->add_msg_if_player( _( "Strange… there's nothing in the center of this picture?" ) );
                     }
                 } else if( guy ) {
                     if( trajectory_point == aim_point && guy->is_hallucination() ) {
-                        p->add_msg_if_player( _( "Strange… %s's not visible on the picture?" ), guy->name );
+                        p->add_msg_if_player( _( "Strange… %s isn't visible on the picture?" ), guy->name );
                     } else if( !aim_bounds.is_point_inside( trajectory_point ) ) {
                         // take a photo of the monster that's in the way
                         p->add_msg_if_player( m_warning, _( "%s got in the way of your photo." ), guy->name );
@@ -7733,7 +7722,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             }, *you, _( "Insert memory card" ) );
         }
         if( !loc ) {
-            p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
+            p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
             return it->type->charges_to_use();
         }
         item &mc = *loc;
@@ -7764,7 +7753,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         mc.set_var( "MC_MONSTER_PHOTOS", it->get_var( "CAMERA_MONSTER_PHOTOS" ) );
         mc.set_var( "MC_EXTENDED_PHOTOS", it->get_var( "CAMERA_EXTENDED_PHOTOS" ) );
         p->add_msg_if_player( m_info,
-                              _( "You upload your photos and monster collection to memory card." ) );
+                              _( "You upload your photos and monster collection to the memory card." ) );
 
         return it->type->charges_to_use();
     }
@@ -7792,7 +7781,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
             it->active = false;
 
             if( p->has_item( *it ) && p->weapon.typeId() == itype_e_handcuffs ) {
-                add_msg( m_good, _( "%s on your hands opened!" ), it->tname() );
+                add_msg( m_good, _( "%s on your wrists opened!" ), it->tname() );
             }
 
             return it->type->charges_to_use();
@@ -7920,7 +7909,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
         it->convert( itype_radio_car_on ).active = true;
 
         p->add_msg_if_player(
-            _( "You turned on your RC car, now place it on ground, and use radio control to play." ) );
+            _( "You turned on your RC car; now place it on the ground, and use your radio control to play." ) );
 
         return 0;
     }
@@ -7937,7 +7926,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
                 }, *you, _( "Arm what?" ) );
             }
             if( !loc ) {
-                p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
+                p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
                 return 0;
             }
             item &put = *loc;
@@ -7949,7 +7938,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
                                       put.tname() );
                 it->put_in( p->i_rem( &put ), item_pocket::pocket_type::CONTAINER );
             } else if( !put.has_flag( flag_RADIOCARITEM ) ) {
-                p->add_msg_if_player( _( "RC car with %s?  How?" ),
+                p->add_msg_if_player( _( "You want to arm your RC car with %s?  But how?" ),
                                       put.tname() );
             } else {
                 p->add_msg_if_player( _( "Your %s is too heavy or bulky for this RC car." ),
@@ -7982,7 +7971,7 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
         return 0;
     }
 
-    int choice = uilist( _( "What to do with activated RC car?" ), {
+    int choice = uilist( _( "What to do with your activated RC car?" ), {
         _( "Turn off" )
     } );
 
@@ -8049,7 +8038,7 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
         car_action = _( "Stop controlling RC car" );
     }
 
-    int choice = uilist( _( "What to do with radio control?" ), {
+    int choice = uilist( _( "What to do with the radio control?" ), {
         car_action,
         _( "Press red button" ), _( "Press blue button" ), _( "Press green button" )
     } );
@@ -8246,7 +8235,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
     }
 
     bool controlling = it->active && remote != nullptr;
-    int choice = uilist( _( "What to do with remote vehicle control:" ), {
+    int choice = uilist( _( "What to do with the remote vehicle control:" ), {
         controlling ? _( "Stop controlling the vehicle." ) : _( "Take control of a vehicle." ),
         _( "Execute one vehicle action" )
     } );
@@ -8357,7 +8346,7 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) {
         if( !it->units_sufficient( *p ) ) {
-            add_msg( m_bad, _( "The autoclave ran out of battery and stopped before completing its cycle." ) );
+            add_msg( m_bad, _( "The autoclave ran out of charge and stopped before completing its cycle." ) );
             it->active = false;
             it->erase_var( "CYCLETIME" );
             it->unset_flag( flag_NO_UNLOAD );
@@ -8506,7 +8495,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
         if( p->has_trait( trait_ILLITERATE ) ) {
             p->add_msg_if_player( m_info,
-                                  _( "You cannot read, and don't understand the screen or the buttons!" ) );
+                                  _( "You can't read, and don't understand the screen or the buttons!" ) );
             return 0;
         }
 
@@ -8868,7 +8857,7 @@ int iuse::tow_attach( player *p, item *it, bool, const tripoint & )
             }
             if( source_veh == target_veh ) {
                 if( p->has_item( *it ) ) {
-                    p->add_msg_if_player( m_warning, _( "You cannot set a vehicle to tow itself!" ) );
+                    p->add_msg_if_player( m_warning, _( "You can't set a vehicle to tow itself!" ) );
                 }
                 return 0;
             }
@@ -9096,7 +9085,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             it->set_var( "source_y", abspos.y );
             it->set_var( "source_z", here.get_abs_sub().z );
             set_cable_active( p, it, "cable_charger_link" );
-            p->add_msg_if_player( m_good, _( "You are now plugged to the vehicle." ) );
+            p->add_msg_if_player( m_good, _( "You are now plugged into the vehicle." ) );
             return 0;
         } else {
             vehicle *const target_veh = &target_vp->vehicle();
@@ -9143,7 +9132,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
 int iuse::shavekit( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     if( !it->ammo_sufficient() ) {
@@ -9158,7 +9147,7 @@ int iuse::shavekit( player *p, item *it, bool, const tripoint & )
 int iuse::hairkit( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     const int moves = to_moves<int>( 30_minutes );
@@ -9268,7 +9257,7 @@ int iuse::directional_hologram( player *p, item *it, bool, const tripoint &pos )
 int iuse::capture_monster_veh( player *p, item *it, bool, const tripoint &pos )
 {
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     if( !it->has_flag( flag_VEHICLE ) ) {
@@ -9322,7 +9311,7 @@ int item::contain_monster( const tripoint &target )
 int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
 {
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot capture a creature mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't capture a creature mounted." ) );
         return 0;
     }
     if( it->has_var( "contained_name" ) ) {
@@ -9349,7 +9338,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
                 p->add_msg_if_player( _( "You release the %s." ), contained_name );
                 return 0;
             }
-            p->add_msg_if_player( m_info, _( "You cannot place the %s there!" ), contained_name );
+            p->add_msg_if_player( m_info, _( "You can't place the %s there!" ), contained_name );
             return 0;
         }
     } else {
@@ -9372,7 +9361,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         const cata::optional<tripoint> target_ = choose_adjacent_highlight( query,
                 _( "There is no creature nearby you can capture." ), adjacent_capturable, false );
         if( !target_ ) {
-            p->add_msg_if_player( m_info, _( "You cannot use a %s there." ), it->tname() );
+            p->add_msg_if_player( m_info, _( "You can't use a %s there." ), it->tname() );
             return 0;
         }
         const tripoint target = *target_;
@@ -9416,7 +9405,7 @@ int iuse::ladder( player *p, item *, bool, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Put the ladder where?" ) );
@@ -9451,7 +9440,7 @@ int iuse::wash_soft_items( player *p, item *, bool, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
@@ -9472,7 +9461,7 @@ int iuse::wash_hard_items( player *p, item *, bool, const tripoint & )
         return 0;
     }
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
@@ -9507,7 +9496,7 @@ int iuse::wash_all_items( player *p, item *, bool, const tripoint & )
 int iuse::wash_items( player *p, bool soft_items, bool hard_items )
 {
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     p->inv->restack( *p );
@@ -9662,7 +9651,7 @@ int iuse::strong_antibiotic( player *p, item *it, bool, const tripoint & )
 int iuse::craft( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     if( !p->is_wielding( *it ) ) {
@@ -9710,7 +9699,7 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
 int iuse::disassemble( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return 0;
     }
     if( !p->has_item( *it ) ) {
@@ -9771,7 +9760,7 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
             translate_marker( "Reply hazy, try again." ),
             translate_marker( "Ask again later." ),
             translate_marker( "Better not tell you now." ),
-            translate_marker( "Cannot predict now." ),
+            translate_marker( "Can't predict now." ),
             translate_marker( "Concentrate and ask again." ),
             translate_marker( "Don't count on it." ),
             translate_marker( "My reply is no." ),

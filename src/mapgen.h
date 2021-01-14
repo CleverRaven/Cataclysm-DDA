@@ -58,11 +58,11 @@ class mapgen_function_builtin : public virtual mapgen_function
 /////////////////////////////////////////////////////////////////////////////////
 ///// json mapgen (and friends)
 /*
- * Actually a pair of shorts that can rng, for numbers that will never exceed 32768
+ * Actually a pair of integers that can rng, for numbers that will never exceed INT_MAX
  */
 struct jmapgen_int {
-    short val;
-    short valmax;
+    int val;
+    int valmax;
     jmapgen_int( int v ) : val( v ), valmax( v ) {}
     jmapgen_int( int v, int v2 ) : val( v ), valmax( v2 ) {}
     jmapgen_int( point p );
@@ -74,7 +74,8 @@ struct jmapgen_int {
      * Throws is the json is malformed (e.g. a string not an integer, but does not throw
      * if the member is just missing (the default values are used instead).
      */
-    jmapgen_int( const JsonObject &jo, const std::string &tag, short def_val, short def_valmax );
+    jmapgen_int( const JsonObject &jo, const std::string &tag, const int &def_val,
+                 const int &def_valmax );
 
     int get() const;
 };

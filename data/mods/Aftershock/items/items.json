@@ -30,34 +30,6 @@
     "color": "yellow"
   },
   {
-    "id": "afs_basin",
-    "type": "GENERIC",
-    "name": { "ctxt": "container", "str": "basin" },
-    "description": "A wide, shallow basin used to hold liquid, hammered from a piece of sheet metal.  Ideal for collecting water.",
-    "weight": "5 kg",
-    "looks_like": "ceramic_bowl",
-    "volume": "2625 ml",
-    "price": 1000,
-    "to_hit": -1,
-    "bashing": 1,
-    "material": [ "steel" ],
-    "symbol": ")",
-    "color": "dark_gray",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "watertight": true,
-        "rigid": true,
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "10 kg",
-        "open_container": true,
-        "moves": 400
-      }
-    ],
-    "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ]
-  },
-  {
     "id": "afs_fridge",
     "category": "veh_parts",
     "type": "GENERIC",

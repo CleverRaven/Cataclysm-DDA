@@ -642,8 +642,8 @@ jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag )
     }
 }
 
-jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag, const short def_val,
-                          const short def_valmax )
+jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag, const int &def_val,
+                          const int &def_valmax )
     : val( def_val )
     , valmax( def_valmax )
 {

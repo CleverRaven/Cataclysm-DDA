@@ -124,7 +124,6 @@ static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
-static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
@@ -291,7 +290,6 @@ activity_handlers::do_turn_functions = {
     { ACT_BUTCHER, butcher_do_turn },
     { ACT_BUTCHER_FULL, butcher_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
-    { ACT_AUTODRIVE, drive_do_turn },
     { ACT_FIELD_DRESS, butcher_do_turn },
     { ACT_SKIN, butcher_do_turn },
     { ACT_QUARTER, butcher_do_turn },
@@ -354,7 +352,6 @@ activity_handlers::finish_functions = {
     { ACT_WAIT_STAMINA, wait_stamina_finish },
     { ACT_SOCIALIZE, socialize_finish },
     { ACT_OPERATION, operation_finish },
-    { ACT_DISASSEMBLE, disassemble_finish },
     { ACT_VIBE, vibe_finish },
     { ACT_ATM, atm_finish },
     { ACT_EAT_MENU, eat_menu_finish },
@@ -1708,14 +1705,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     here.maybe_trigger_trap( bush_pos, *p, true );
 }
 
-void activity_handlers::generic_game_do_turn( player_activity * /*act*/, player *p )
-{
-    if( calendar::once_every( 1_minutes ) ) {
-        p->add_morale( MORALE_GAME, 4, 60 );
-    }
-}
-
-void activity_handlers::game_do_turn( player_activity *act, player *p )
+void activity_handlers::generic_game_turn_handler( player_activity *act, player *p,
+        int morale_bonus, int morale_max_bonus )
 {
     item &game_item = *act->targets.front();
 
@@ -1731,12 +1722,22 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 
         if( !fail ) {
             //1 points/min, almost 2 hours to fill
-            p->add_morale( MORALE_GAME, 1, 100 );
+            p->add_morale( MORALE_GAME, morale_bonus, morale_max_bonus );
         } else {
             act->moves_left = 0;
             add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
         }
     }
+}
+
+void activity_handlers::generic_game_do_turn( player_activity *act, player *p )
+{
+    generic_game_turn_handler( act, p, 4, 60 );
+}
+
+void activity_handlers::game_do_turn( player_activity *act, player *p )
+{
+    generic_game_turn_handler( act, p, 1, 100 );
 }
 
 void activity_handlers::longsalvage_finish( player_activity *act, player *p )
@@ -2712,6 +2713,12 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
         target->set_var( "dirt", 0 );
     }
+
+    //get skill list from mending method, iterate through and give xp
+    for( const std::pair<const skill_id, int> &e : method->skills ) {
+        p->practice( e.first, 10, static_cast<int>( e.second * 1.25 ) );
+    }
+
     add_msg( m_good, method->success_msg.translated(), target->tname() );
 }
 
@@ -2846,41 +2853,6 @@ void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
 {
     p->cancel_activity();
     create_advanced_inv();
-}
-
-void activity_handlers::drive_do_turn( player_activity *act, player *p )
-{
-    map &here = get_map();
-    vehicle *player_veh = veh_pointer_or_null( here.veh_at( p->pos() ) );
-    if( !player_veh ) {
-        act->set_to_null();
-        p->cancel_activity();
-        return;
-    }
-    Character &player_character = get_player_character();
-    if( p->in_vehicle && p->controlling_vehicle && player_veh->is_autodriving &&
-        !player_character.omt_path.empty() && !player_veh->omt_path.empty() ) {
-        player_veh->do_autodrive();
-        if( player_character.global_omt_location() == player_character.omt_path.back() ) {
-            player_character.omt_path.pop_back();
-        }
-        p->moves = 0;
-    } else {
-        p->add_msg_if_player( m_info, _( "Auto-drive canceled." ) );
-        if( !player_veh->omt_path.empty() ) {
-            player_veh->omt_path.clear();
-        }
-        player_veh->is_autodriving = false;
-        act->set_to_null();
-        p->cancel_activity();
-        return;
-    }
-    if( player_veh->omt_path.empty() ) {
-        act->set_to_null();
-        player_veh->is_autodriving = false;
-        p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
-        p->cancel_activity();
-    }
 }
 
 void activity_handlers::travel_do_turn( player_activity *act, player *p )
@@ -3042,14 +3014,15 @@ void activity_handlers::butcher_do_turn( player_activity * /*act*/, player *p )
 
 void activity_handlers::read_do_turn( player_activity *act, player *p )
 {
-    if( p->fine_detail_vision_mod() > 4 ) {
-        //It got too dark during the process of reading, bail out.
-        act->set_to_null();
-        p->add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
-        return;
-    }
-
     if( p->is_player() ) {
+        // next check doesn't work for NPCs because it is counted for player's submap and z-level only
+        if( p->fine_detail_vision_mod() > 4 ) {
+            //It got too dark during the process of reading, bail out.
+            act->set_to_null();
+            p->add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
+            return;
+        }
+
         if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
             if( act->values.empty() ) {
                 act->values.push_back( p->get_stamina() );
@@ -3525,11 +3498,6 @@ void activity_handlers::multiple_farm_do_turn( player_activity *act, player *p )
 void activity_handlers::fetch_do_turn( player_activity *act, player *p )
 {
     generic_multi_activity_handler( *act, *p );
-}
-
-void activity_handlers::disassemble_finish( player_activity *, player *p )
-{
-    p->complete_disassemble();
 }
 
 void activity_handlers::vibe_finish( player_activity *act, player *p )
@@ -4308,6 +4276,10 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             if( spell_being_cast.get_level() != old_level ) {
                 get_event_bus().send<event_type::player_levels_spell>( p->getID(),
                         spell_being_cast.id(), spell_being_cast.get_level() );
+                // Level 0-1 message is printed above - notify player when leveling up further
+                if( old_level > 0 ) {
+                    p->add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );
+                }
             }
         }
     }
@@ -4315,13 +4287,16 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
 void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
 {
+    // Stop if there is not enough light to study
     if( p->fine_detail_vision_mod() > 4 ) {
         act->values[2] = -1;
         act->moves_left = 0;
         return;
     }
+    // str_value 1 is "study" if we already know the spell, and want to study it more
     if( act->get_str_value( 1 ) == "study" ) {
         spell &studying = p->magic->get_spell( spell_id( act->name ) );
+        // If we are studying to gain a level, keep studying until level changes
         if( act->get_str_value( 0 ) == "gain_level" ) {
             if( studying.get_level() < act->get_value( 1 ) ) {
                 act->moves_left = 1000000;
@@ -4329,9 +4304,15 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
                 act->moves_left = 0;
             }
         }
+        const int old_level = studying.get_level();
+        // Gain some experience from studying
         const int xp = roll_remainder( studying.exp_modifier( *p ) / to_turns<float>( 6_seconds ) );
         act->values[0] += xp;
         studying.gain_exp( xp );
+        // Notify player if the spell leveled up
+        if( studying.get_level() > old_level ) {
+            p->add_msg_if_player( m_good, _( "You gained a level in %s!" ), studying.name() );
+        }
     }
 }
 

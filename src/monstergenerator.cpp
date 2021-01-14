@@ -182,6 +182,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_LOUDMOVES: return "LOUDMOVES";
         case MF_DROPS_AMMO: return "DROPS_AMMO";
         case MF_INSECTICIDEPROOF: return "INSECTICIDEPROOF";
+        case MF_RANGED_ATTACKER: return "RANGED_ATTACKER";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -974,6 +975,8 @@ void species_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
     optional( jo, was_loaded, "placate_triggers", placate, trigger_reader );
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
+
+    optional( jo, was_loaded, "bleeds", bleeds, auto_flags_reader<field_type_str_id> {}, fd_null );
 }
 
 const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const
