@@ -271,8 +271,8 @@
       { "item": "motor_tiny", "count": [ 4, 10 ] },
       { "item": "plutonium", "count": [ 6, 12 ] },
       { "item": "lead", "count": [ 60, 80 ] }
-     ]
-   }
+    ]
+  }
 ]
 
 
