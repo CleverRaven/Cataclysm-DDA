@@ -543,6 +543,23 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "JOY" ) );
 
             append_cell( []( const item_location & loc ) {
+                const int health = loc->is_comestible() ? loc->get_comestible()->healthy : 0;
+                if( health > 3 ) {
+                    return "<good>+++</good>";
+                } else if( health > 0 ) {
+                    return "<good>+</good>";
+                } else if( health < -3 ) {
+                    return "<bad>!!!</bad>";
+                } else if( health < 0 ) {
+                    return "<bad>-</bad>";
+                } else if( loc->is_medication() ) {
+                    return "";
+                } else {
+                    return "";
+                }
+            }, _( "HEALTH" ) );
+
+            append_cell( []( const item_location & loc ) {
                 const time_duration spoils = loc->is_comestible() ? loc->get_comestible()->spoils :
                                              calendar::INDEFINITELY_LONG_DURATION;
                 if( spoils > 0_turns ) {
