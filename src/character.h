@@ -580,7 +580,7 @@ class Character : public Creature, public visitable<Character>
         bool has_watch() const;
         /** Called after every action, invalidates player caches */
         void action_taken();
-        /** Returns true if the player is knocked over or has broken legs */
+        /** Returns true if the player is knocked over, has broken legs or is lying down */
         bool is_on_ground() const override;
         /** Returns the player's speed for swimming across water tiles */
         int  swim_speed() const;
@@ -708,6 +708,8 @@ class Character : public Creature, public visitable<Character>
         bool is_running() const;
         bool is_walking() const;
         bool is_crouching() const;
+        bool is_lying_down() const;
+
 
         bool can_switch_to( const move_mode_id &mode ) const;
 

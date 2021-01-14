@@ -1410,10 +1410,12 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
     return actor.clone();
 }
 
-void try_sleep_activity_actor::start( player_activity &act, Character &/*who*/ )
+void try_sleep_activity_actor::start( player_activity &act, Character &who )
 {
     act.moves_total = to_moves<int>( duration );
     act.moves_left = act.moves_total;
+    who.set_movement_mode(move_mode_id( "lie_down" ));
+    who.add_msg_if_player("You lie down preparing to fall asleep");
 }
 
 void try_sleep_activity_actor::do_turn( player_activity &act, Character &who )

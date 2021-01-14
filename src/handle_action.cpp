@@ -1786,6 +1786,10 @@ bool game::handle_action()
                 player_character.toggle_crouch_mode();
                 break;
 
+            case ACTION_TOGGLE_LIE_DOWN:
+                player_character.toggle_lie_mode();
+                break;
+
             case ACTION_OPEN_MOVEMENT:
                 open_movement_mode_menu();
                 break;

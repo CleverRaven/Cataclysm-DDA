@@ -1523,6 +1523,15 @@ void avatar::toggle_crouch_mode()
     }
 }
 
+void avatar::toggle_lie_mode()
+{
+    if( is_lying_down() ) {
+        set_movement_mode( move_mode_id( "walk" ) );
+    } else {
+        set_movement_mode( move_mode_id( "lie_down" ) );
+    }
+}
+
 void avatar::reset_move_mode()
 {
     if( !is_walking() ) {

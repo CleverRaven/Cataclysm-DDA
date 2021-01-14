@@ -35,6 +35,7 @@ bool move_mode_id::is_valid() const
 }
 
 static const std::map<std::string, move_mode_type> move_types {
+    { "lying", move_mode_type::LYING },
     { "crouching", move_mode_type::CROUCHING },
     { "walking",   move_mode_type::WALKING },
     { "running",   move_mode_type::RUNNING }
