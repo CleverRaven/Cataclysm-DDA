@@ -420,6 +420,8 @@ void map_data_common_t::examine( player &guy, const tripoint &examp ) const
 
 void map_data_common_t::load_symbol( const JsonObject &jo )
 {
+    using namespace std::placeholders;
+
     if( jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
     }
@@ -441,7 +443,8 @@ void map_data_common_t::load_symbol( const JsonObject &jo )
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
-        load_season_array( jo, "color", color_, color_from_string );
+        load_season_array( jo, "color", color_,
+                           std::bind( color_from_string, _1, report_color_error::yes ) );
     } else if( has_bgcolor ) {
         load_season_array( jo, "bgcolor", color_, bgcolor_from_string );
     } else {
