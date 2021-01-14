@@ -238,7 +238,7 @@
     "id": "veh_kiln",
     "symbol": "&",
     "type": "vehicle_part"
-  },  
+  },
   {
     "type": "vehicle_part",
     "id": "ASRG",
@@ -274,4 +274,5 @@
     ]
   }
 ]
+
 
