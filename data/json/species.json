@@ -137,7 +137,8 @@
     "type": "SPECIES",
     "id": "ROBOT",
     "description": "a robot",
-    "footsteps": "mechanical whirring."
+    "footsteps": "mechanical whirring.",
+    "bleeds": "fd_mechanical_fluid"
   },
   {
     "type": "SPECIES",
