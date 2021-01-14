@@ -3429,7 +3429,7 @@ void player::use( item_location loc )
     } else {
         add_msg( m_info, _( "You can't do anything interesting with your %s." ),
                  used.tname() );
-    recalculate_enchantment_cache();
+        recalculate_enchantment_cache();
     }
 }
 
