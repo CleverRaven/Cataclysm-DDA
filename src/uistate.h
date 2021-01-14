@@ -225,6 +225,7 @@ class uistatedata
         template<typename JsonStream>
         void deserialize( JsonStream &jsin ) {
             auto jo = jsin.get_object();
+            jo.allow_omitted_members();
 
             transfer_save.deserialize( jo, "transfer_save_" );
             // the rest
@@ -233,6 +234,7 @@ class uistatedata
             jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
             jo.read( "adv_inv_container_type", adv_inv_container_type );
             jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
+            jo.read( "editmap_nsa_viewmode", editmap_nsa_viewmode );
             jo.read( "overmap_blinking", overmap_blinking );
             jo.read( "overmap_show_overlays", overmap_show_overlays );
             jo.read( "overmap_show_map_notes", overmap_show_map_notes );

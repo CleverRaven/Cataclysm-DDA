@@ -32,7 +32,7 @@ enum class description_affix : int {
     DESCRIPTION_AFFIX_COVERED_IN,
     DESCRIPTION_AFFIX_ON,
     DESCRIPTION_AFFIX_UNDER,
-    DESCRIPTION_AFFIX_ILLUMINTED_BY,
+    DESCRIPTION_AFFIX_ILLUMINATED_BY,
     DESCRIPTION_AFFIX_NUM
 };
 
@@ -156,6 +156,7 @@ extern const field_type_str_id fd_fungicidal_gas;
 extern const field_type_str_id fd_insecticidal_gas;
 extern const field_type_str_id fd_smoke_vent;
 extern const field_type_str_id fd_tindalos_rift;
+extern const field_type_str_id fd_mechanical_fluid;
 
 struct field_type {
     public:

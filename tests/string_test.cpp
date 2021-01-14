@@ -22,3 +22,19 @@ TEST_CASE( "string_test" )
                                 "TestStringWithMultipleColorTags" );
     }
 }
+
+TEST_CASE( "trim_by_length" )
+{
+    CHECK( trim_by_length( "ABC", 2 ) == "A…" );
+    CHECK( trim_by_length( "ABC", 3 ) == "ABC" );
+    CHECK( trim_by_length( "ABCDEF", 4 ) == "ABC…" );
+    CHECK( trim_by_length( "AB文字", 6 ) == "AB文字" );
+    CHECK( trim_by_length( "AB文字", 5 ) == "AB文…" );
+    CHECK( trim_by_length( "AB文字", 4 ) == "AB…" );
+    CHECK( trim_by_length( "MRE 主菜（鸡肉意大利香蒜沙司通心粉）（新鲜）",
+                           5 ) == "MRE …" );
+    CHECK( trim_by_length( "MRE 主菜（鸡肉意大利香蒜沙司通心粉）（新鲜）",
+                           6 ) == "MRE …" );
+    CHECK( trim_by_length( "MRE 主菜（鸡肉意大利香蒜沙司通心粉）（新鲜）",
+                           36 ) == "MRE 主菜（鸡肉意大利香蒜沙司通心粉…" );
+}

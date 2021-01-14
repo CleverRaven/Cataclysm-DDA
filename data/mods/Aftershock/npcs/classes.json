@@ -162,6 +162,36 @@
   },
   {
     "type": "npc",
+    "id": "cryo_hacker",
+    "name_suffix": "thawed hacker",
+    "class": "CRYO_HACKER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_THAWED_1",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "cryo_doctor",
+    "name_suffix": "thawed doctor",
+    "class": "CRYO_DOCTOR",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_THAWED_1",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "cryo_scientist",
+    "name_suffix": "thawed scientist",
+    "class": "CRYO_SCIENTIST",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_THAWED_1",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
     "id": "sadie",
     "name_unique": "Sadie",
     "name_suffix": "forgotten experiment",

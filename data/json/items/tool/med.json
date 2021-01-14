@@ -138,6 +138,7 @@
     ],
     "max_charges": 12,
     "charges_per_use": 1,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "OXYGEN_BOTTLE" ]
   },
   {
@@ -191,6 +192,7 @@
     ],
     "max_charges": 24,
     "charges_per_use": 1,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "OXYGEN_BOTTLE" ]
   },
   {
@@ -216,7 +218,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "300 g"
+        "max_contains_weight": "500 g"
       }
     ]
   },

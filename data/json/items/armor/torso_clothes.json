@@ -13,10 +13,10 @@
     "symbol": "[",
     "looks_like": "vest_leather",
     "color": "brown",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 70,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 70, "encumbrance": [ 2, 5 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 70, "encumbrance": [ 2, 2 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
@@ -49,10 +49,10 @@
     "symbol": "[",
     "looks_like": "jacket_light",
     "color": "dark_gray",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 85,
-    "encumbrance": 16,
-    "max_encumbrance": 20,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 16, 20 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 16, 16 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 80 },
@@ -100,10 +100,10 @@
     "symbol": "[",
     "looks_like": "longshirt",
     "color": "white",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 4,
-    "max_encumbrance": 5,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 4, 5 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 4, 4 ] }
+    ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
     "warmth": 10,
     "material_thickness": 1,
@@ -251,10 +251,10 @@
     "symbol": "[",
     "looks_like": "sweater",
     "color": "dark_gray",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 6,
-    "max_encumbrance": 12,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 6, 12 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -439,10 +439,11 @@
     "symbol": "[",
     "looks_like": "dress",
     "color": "blue",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 75,
-    "encumbrance": 5,
-    "max_encumbrance": 7,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 75, "encumbrance": [ 5, 7 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 75, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 75, "encumbrance": [ 5, 5 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
@@ -510,12 +511,33 @@
     "symbol": "[",
     "looks_like": "dress_shirt",
     "color": "light_gray",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 3,
-    "max_encumbrance": 5,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 3, 5 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 3, 3 ] }
+    ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
     "warmth": 15,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "shirt_straw",
+    "type": "ARMOR",
+    "name": { "str": "grass shirt" },
+    "description": "A crude and bulky short-sleeved shirt woven from grass.  Definitely not the most comfortable thing to wear.",
+    "weight": "500 g",
+    "volume": "2500 ml",
+    "price": 100,
+    "price_postapoc": 5,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "camisole",
+    "color": "yellow",
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": 8 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 25, "encumbrance": 1 }
+    ],
+    "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
   },
@@ -722,6 +744,29 @@
     ]
   },
   {
+    "id": "uttarasanga",
+    "repairs_like": "tshirt",
+    "type": "ARMOR",
+    "name": { "str": "uttarasanga" },
+    "description": "A traditional Buddhist shirt, covering most of the upper body, but not the arms.",
+    "weight": "250 g",
+    "volume": "750 ml",
+    "price": 6500,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "longshirt",
+    "color": "brown",
+    "covers": [ "torso" ],
+    "coverage": 50,
+    "encumbrance": 4,
+    "max_encumbrance": 5,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "FANCY" ]
+  },
+  {
     "id": "vest_leather",
     "type": "ARMOR",
     "name": { "str": "leather vest" },
@@ -764,10 +809,10 @@
     "symbol": "[",
     "looks_like": "hoodie",
     "color": "dark_gray",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 6,
-    "max_encumbrance": 12,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 6, 12 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },

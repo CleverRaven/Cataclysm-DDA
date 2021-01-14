@@ -12220,6 +12220,7 @@
           "fg": 3310,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "overlay_wielded_broken",
@@ -14081,6 +14082,7 @@
           "fg": 3554,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "overlay_wielded_broken",
@@ -14224,6 +14226,7 @@
           "fg": 2640,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "overlay_wielded_broken",
@@ -23283,6 +23286,7 @@
           "fg": 3849,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -23295,6 +23299,7 @@
           "fg": 3850,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -23307,6 +23312,7 @@
           "fg": 3851,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -23319,6 +23325,7 @@
           "fg": 3852,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -23331,6 +23338,7 @@
           "fg": 3853,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -23343,6 +23351,7 @@
           "fg": 3854,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -23355,6 +23364,7 @@
           "fg": 3855,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -23367,6 +23377,7 @@
           "fg": 3863,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -23379,6 +23390,7 @@
           "fg": 3864,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -23391,6 +23403,7 @@
           "fg": 3867,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34139,6 +34152,7 @@
           "fg": 2933,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34253,6 +34267,7 @@
           "fg": 3306,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34265,6 +34280,7 @@
           "fg": 3306,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34277,6 +34293,7 @@
           "fg": 3306,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34289,6 +34306,7 @@
           "fg": 3309,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34301,6 +34319,7 @@
           "fg": 3310,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34313,6 +34332,7 @@
           "fg": 3310,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34325,6 +34345,7 @@
           "fg": 3327,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34403,6 +34424,7 @@
           "fg": 3320,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34415,6 +34437,7 @@
           "fg": 3320,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34427,6 +34450,7 @@
           "fg": 3320,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34439,6 +34463,7 @@
           "fg": 3321,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34451,6 +34476,7 @@
           "fg": 3321,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34463,6 +34489,7 @@
           "fg": 3322,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34475,6 +34502,7 @@
           "fg": 3322,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34487,6 +34515,7 @@
           "fg": 3323,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34499,6 +34528,7 @@
           "fg": 3323,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34511,6 +34541,7 @@
           "fg": 3324,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34523,6 +34554,7 @@
           "fg": 3324,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34535,6 +34567,7 @@
           "fg": 3325,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34546,6 +34579,7 @@
           "fg": 3325,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -34557,6 +34591,7 @@
           "fg": 3325,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -36718,6 +36753,7 @@
           "fg": 3554,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -36861,6 +36897,7 @@
           "fg": 2640,
           "bg": 632,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",
@@ -44907,6 +44944,7 @@
           "fg": 2655,
           "bg": 677,
           "rotates": false,
+          "multitile": true,
           "additional_tiles": [
             {
               "id": "broken",

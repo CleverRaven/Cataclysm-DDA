@@ -141,6 +141,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::CHANGE_WEATHER: return "CHANGE_WEATHER";
         case debug_menu::debug_menu_index::WIND_DIRECTION: return "WIND_DIRECTION";
         case debug_menu::debug_menu_index::WIND_SPEED: return "WIND_SPEED";
+        case debug_menu::debug_menu_index::GEN_SOUND: return "GEN_SOUND";
         case debug_menu::debug_menu_index::KILL_MONS: return "KILL_MONS";
         case debug_menu::debug_menu_index::DISPLAY_HORDES: return "DISPLAY_HORDES";
         case debug_menu::debug_menu_index::TEST_IT_GROUP: return "TEST_IT_GROUP";
@@ -329,6 +330,7 @@ static int map_uilist()
         { uilist_entry( debug_menu_index::CHANGE_WEATHER, true, 'w', _( "Change weather" ) ) },
         { uilist_entry( debug_menu_index::WIND_DIRECTION, true, 'd', _( "Change wind direction" ) ) },
         { uilist_entry( debug_menu_index::WIND_SPEED, true, 's', _( "Change wind speed" ) ) },
+        { uilist_entry( debug_menu_index::GEN_SOUND, true, 'S', _( "Generate sound" ) ) },
         { uilist_entry( debug_menu_index::KILL_MONS, true, 'K', _( "Kill all monsters" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_TIME, true, 't', _( "Change time" ) ) },
         { uilist_entry( debug_menu_index::OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
@@ -1315,7 +1317,11 @@ void debug()
     };
     bool should_disable_achievements = action && !non_cheaty_options.count( *action );
     if( should_disable_achievements && achievements.is_enabled() ) {
-        if( query_yn( _( "Using this will disable achievements.  Proceed?" ) ) ) {
+        static const std::string query(
+            translate_marker(
+                "Using this will disable achievements.  Proceed?"
+                "\nThey can be reenabled in the 'game' section of the menu." ) );
+        if( query_yn( _( query ) ) ) {
             achievements.set_enabled( false );
         } else {
             action = cata::nullopt;
@@ -1573,7 +1579,7 @@ void debug()
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( size_t i = 0; i < weather_types::get_all().size(); i++ ) {
                 weather_menu.addentry( i, true, MENU_AUTOASSIGN,
-                                       weather_types::get_all()[i].name );
+                                       weather_types::get_all()[i].name.translated() );
             }
 
             weather_menu.query();
@@ -1626,6 +1632,26 @@ void debug()
                 g->weather.windspeed_override = selected_wind_speed;
                 g->weather.set_nextweather( calendar::turn );
             }
+        }
+        break;
+
+        case debug_menu_index::GEN_SOUND: {
+            const cata::optional<tripoint> where = g->look_around();
+            if( !where ) {
+                return;
+            }
+
+            int volume;
+            if( !query_int( volume, _( "Volume of sound: " ) ) ) {
+                return;
+            }
+
+            if( volume < 0 ) {
+                return;
+            }
+
+            sounds::sound( *where, volume, sounds::sound_t::order, string_format( _( "DEBUG SOUND ( %d )" ),
+                           volume ) );
         }
         break;
 
@@ -1791,7 +1817,7 @@ void debug()
             g->display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
             break;
         case debug_menu_index::DISPLAY_REACHABILITY_ZONES:
-            g->display_reahability_zones();
+            g->display_reachability_zones();
             break;
         case debug_menu_index::HOUR_TIMER:
             g->toggle_debug_hour_timer();

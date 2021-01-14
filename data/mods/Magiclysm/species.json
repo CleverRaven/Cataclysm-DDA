@@ -1,22 +1,36 @@
 [
   {
     "type": "SPECIES",
-    "id": "MAGICAL_BEAST"
+    "id": "MAGICAL_BEAST",
+    "description": "a magical beast"
   },
   {
     "type": "SPECIES",
     "id": "DRAGON",
+    "description": "a dragon",
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK" ]
   },
   {
     "type": "SPECIES",
     "id": "LIZARDFOLK",
+    "description": "a lizard-like humanoid",
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "FIRE" ]
   },
   {
     "type": "SPECIES",
     "id": "GOBLIN",
+    "description": "a short and cruel humanoid",
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "ORC",
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "OGRE",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
   }
 ]

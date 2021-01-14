@@ -1,0 +1,66 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "afs_heat_1",
+    "copy-from": "afs_scrap_1",
+    "name": { "str": "conductive thermoplastic" },
+    "description": "An excellent heat conductor and electrical insulator.  Conductive thermoplastics were introduced to the civilian market nearly two centuries ago, and have tightly integrated themselves into the modern society since then.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "afs_heat_2",
+    "category": "chems",
+    "name": { "str_sp": "supercritical coolant" },
+    "description": "Capable of withstanding extreme temperature gradients, fulleroclathrate supercritical coolants are the lifeblood of high-energy systems, from cutting-edge aerospace engines to experimental small arms tech.  Liquid at room conditions, it has to be used in a pressurized closed-loop system at 450 psi or greater.",
+    "looks_like": "napalm",
+    "container": "metal_tank",
+    "symbol": "~",
+    "color": "black",
+    "weight": "283 g",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "price": 5000,
+    "price_postapoc": 10000,
+    "quench": -120,
+    "healthy": -60,
+    "fun": -40
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_heat_3",
+    "copy-from": "afs_scrap_3",
+    "name": { "str": "carbon-lattice heatsink" },
+    "description": "Sections of dark, translucent, monocrystalline carbon fins, functionally identical to diamond.  Microscopic etches on the inside allows the flow of high-pressure coolant.  Crystalline carbon lattices exhibit far superior thermal conductivity and deformation resistance than any other conventional metals.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_heat_4",
+    "copy-from": "afs_scrap_4",
+    "name": { "str": "fermionic nanoribbon" },
+    "description": "This delicate bundle of silvery, iridescent cables is capable of transporting heat energy between its connections instantly without ever heating up by itself.  Even the slightest damage to the casing will annihilate the ground-state quantum uniformity of the fermionic superfluid matrix - Handle with care!",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_heat_5",
+    "copy-from": "afs_scrap_5",
+    "name": { "str": "maxwellian entropic chirality generator" },
+    "description": "A nondescript square piece of metal about the size of a computer chip.  One side is cold to the touch, while the other is uncomfortably hot.  Hermetically sealed and devoid of any identifying feature, this peculiar device gives off an unexplainable, sinister aura.",
+    "looks_like": "scrap"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_heat_2_salvage",
+    "copy-from": "afs_scrap_2",
+    "//": "This item drops from disassembly instead of afs_heat_2 because that is a liquid. Intended as a QOL detail in case player forgot/didn't know to bring watertight containers when disassembling a relevant object. DO NOT use in crafting recipes, use afs_heat_2 instead.",
+    "name": { "str": "salvaged coolant system" },
+    "description": "Rusty fluid reservoirs and decomposing high-pressure tubing containing still usable supercritical coolant.  You could disassemble it to separate the liquid coolant from the rest of the scrap.",
+    "looks_like": "scrap",
+    "price": 1,
+    "price_postapoc": 1,
+    "weight": "4500 g",
+    "volume": "3200 ml"
+  }
+]
