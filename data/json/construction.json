@@ -4267,13 +4267,18 @@
     "id": "constr_asrg_transport",
     "group": "convert_asrg_transport",
     "category": "FURN",
-    "required_skills": [ 
-     [ "fabrication", 4 ], [ "electronics", 4 ], [ "mechanics", 6 ] ],
-    "time": 180 ,
+    "required_skills": [ [ "fabrication", 4 ], [ "electronics", 4 ], [ "mechanics", 6 ] ],
+    "time": 180,
     "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 2 },{ "id": "WRENCH", "level": 2 },{ "id": "DRILL", "level": 1 },{ "id": "GLARE", "level": 2 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "GLARE", "level": 2 }
+    ],
     "components": [ [ [ "minifridge", 1 ] ], [ [ "lead", 4600 ] ] ],
-    "pre_note": "Packs the ACSRG into a minifridge",
     "pre_terrain": "f_compact_ASRG",
     "post_terrain": "f_ASRG_deployed"
   }
