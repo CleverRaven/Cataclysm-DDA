@@ -263,6 +263,7 @@
     "//": "20+2/s dmg, from max duration avg 260 (range 20-480)"
   },
   {
+    "type": "effect_type",
     "id": "dripping_mechanical_fluid",
     "name": [ "Mechanical fluid dripping" ],
     "desc": [ "AI tag used for robot monsters losing mechanical fluid.  This is a bug if you have it." ],
