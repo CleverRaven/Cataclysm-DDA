@@ -11178,11 +11178,9 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
 bool Character::use_charges_if_avail( const itype_id &it, int quantity )
 {
     if( has_charges( it, quantity ) ) {
-        add_msg( _( "HAS CHARGES!!!" ) );
         use_charges( it, quantity );
         return true;
     }
-    add_msg( "NO CHARGES" );
     return false;
 }
 
