@@ -217,5 +217,23 @@
     "category": "veh_parts",
     "price": 3000,
     "price_postapoc": 50
+  },
+  {
+    "id": "ASRG",
+    "category": "veh_parts",
+    "type": "GENERIC",
+    "name": { "str": "Compact Advanced Stirling Radioisotope Generator" },
+    "description": "A Compact Advanced Stirling Radioisotope Generator stuffed into a lead-lined minifridge. You can see the heatsink sticking out in the back.",
+    "symbol": "*",
+    "color": "green",
+    "weight": "400000 g",
+    "volume": "175 L",
+    "price": 4000000,
+    "price_postapoc": 10000,
+    "material": [ "steel" ],
+    "to_hit": -4,
+    "bashing": 8,
+    "flags": [ "DURABLE_MELEE" ],
+    "looks_like": "minifridge"
   }
 ]
