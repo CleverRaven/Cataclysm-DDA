@@ -36,23 +36,16 @@ endif
 
 ifeq ($(PCH), 1)
   PCHFLAGS += -DCATA_CATCH_PCH
-  PCH_H = pch/tests-pch.hpp
+
+  PCH_BASE = pch/tests-pch
+  PCH_H = $(PCH_BASE).hpp
 
   ifeq ($(CLANG), 0)
-    TEST_PCH_P = $(PCH_H).gch
+    PCH_P = $(PCH_BASE)$(PCH_SUFFIX).hpp.gch
   else
-    TEST_PCH_P = $(PCH_H).pch
+    PCH_P = $(PCH_BASE)$(PCH_SUFFIX).hpp.pch
     CXXFLAGS += -Wno-unused-macros
   endif
-
-  # Otherwise use PCH_P from .. (to keep same as PCHFLAGS)
-  ifndef $(PCH_P)
-    PCH_P = $(TEST_PCH_P)
-  else
-    PCH_P := $(subst main-pch,tests-pch,$(PCH_P)) 
-  endif
-  PCHFLAGS := $(subst main-pch,tests-pch,$(PCHFLAGS))
-
 endif
 
 ifeq ($(TARGETSYSTEM), WINDOWS)
@@ -60,6 +53,8 @@ ifeq ($(TARGETSYSTEM), WINDOWS)
 else
   TEST_TARGET = $(BUILD_PREFIX)cata_test
 endif
+
+PCHFLAGS := $(subst main-pch,tests-pch,$(PCHFLAGS))
 
 tests: $(TEST_TARGET)
 

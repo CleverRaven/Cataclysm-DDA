@@ -395,8 +395,9 @@ ifeq ($(PCH), 1)
   
   PCH_BASE = pch/main-pch
   PCH_H = $(PCH_BASE).hpp
-
-  PCH_P = $(PCH_BASE)$(if $(TILES),-tiles)$(if $(SOUND),-sound)$(if $(BACKTRACE),-back$(if $(LIBBACKTRACE),-libbacktrace))$(if $(DYNAMIC_LINKING),-dynamic)$(if $(MSYS2),-msys2).hpp
+  
+  PCH_SUFFIX = $(if $(TILES),-tiles)$(if $(SOUND),-sound)$(if $(BACKTRACE),-back$(if $(LIBBACKTRACE),-libbacktrace))$(if $(DYNAMIC_LINKING),-dynamic)$(if $(MSYS2),-msys2)
+  PCH_P = $(PCH_BASE)$(PCH_SUFFIX).hpp
   
   ifeq ($(CLANG), 0)
     PCHFLAGS += -fpch-preprocess -include main-pch.hpp
@@ -1123,7 +1124,7 @@ ifdef LANGUAGES
 endif
 	$(BINDIST_CMD)
 
-export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM CLANG PCH PCHFLAGS PCH_P
+export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM CLANG PCH PCHFLAGS PCH_SUFFIX
 
 ctags: $(ASTYLE_SOURCES)
 	ctags $^
