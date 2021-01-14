@@ -3506,6 +3506,10 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
     for( const auto &cf : custom_flags ) {
         modifier.custom_flags.emplace_back( cf );
     }
+    if( obj.has_member( "variant" ) ) {
+        modifier.variant = obj.get_string( "variant" );
+        use_modifier = true;
+    }
 
     if( use_modifier ) {
         sptr->modifier.emplace( std::move( modifier ) );
