@@ -1,45 +1,36 @@
 [
   {
-  "type": "furniture",
-  "id": "f_ASRG_deployed",
-  "name": "Compact Advanced Stirling Radioisotope Generator",
-  "symbol": "*",
-  "description": "This Compact Advanced Stirling Radioisotope Generator has been placed inside a minifridge.",
-  "color": "white",
-  "move_cost_mod": -1,
-  "required_str": 10,
-  "flags": [
-    "CONTAINER",
-    "PLACE_ITEM",
-    "BLOCKSDOOR",
-    "MINEABLE",
-    "EASY_DECONSTRUCT"
-  ],
-  "deconstruct": {
-    "items": [ { "item": "ASRG", "count": 1 } ]
-  },
-  "max_volume": "1000 L",
-  "deployed_item": "ASRG",
-  "examine_action": "deployed_furniture",
-  "bash": {
-    "str_min": 18,
-    "str_max": 50,
-    "sound": "metal screeching!",
-    "sound_fail": "clang!",
-    "items": [
-      { "item": "sheet_metal", "count": [ 6, 8 ] },
-      { "item": "sheet_metal_small", "count": [ 16, 24 ] },
-      { "item": "steel_chunk", "count": [ 80, 100 ] },
-      { "item": "scrap", "count": [ 160, 200 ] },
-      { "item": "cable", "charges": [ 80, 120 ] },
-      { "item": "cu_pipe", "count": [ 20, 40 ] },
-      { "item": "scrap_copper", "count": [ 60, 80 ] },
-      { "item": "motor_tiny", "count": 10 },
-      { "item": "plutonium", "count": 12 },
-      { "item": "lead", "count": 120 }
-    ]
-  },
-  "looks_like": "minifridge"
-}
-
+    "type": "furniture",
+    "id": "f_ASRG_deployed",
+    "name": "Compact Advanced Stirling Radioisotope Generator",
+    "symbol": "*",
+    "description": "This Compact Advanced Stirling Radioisotope Generator has been placed inside a minifridge.",
+    "color": "white",
+    "move_cost_mod": -1,
+    "required_str": 10,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "ASRG", "count": 1 } ] },
+    "max_volume": "1000 L",
+    "deployed_item": "ASRG",
+    "examine_action": "deployed_furniture",
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "sheet_metal", "count": [ 6, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 16, 24 ] },
+        { "item": "steel_chunk", "count": [ 80, 100 ] },
+        { "item": "scrap", "count": [ 160, 200 ] },
+        { "item": "cable", "charges": [ 80, 120 ] },
+        { "item": "cu_pipe", "count": [ 20, 40 ] },
+        { "item": "scrap_copper", "count": [ 60, 80 ] },
+        { "item": "motor_tiny", "count": 10 },
+        { "item": "plutonium", "count": 12 },
+        { "item": "lead", "count": 120 }
+      ]
+    },
+    "looks_like": "minifridge"
+  }
 ]
