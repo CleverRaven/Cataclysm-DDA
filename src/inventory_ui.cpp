@@ -985,14 +985,14 @@ void inventory_column::prepare_paging( const std::string &filter )
                 group.insert( group.end(), it->locations.begin(), it->locations.end() );
                 // create group entry
                 int children = std::distance( gp, nx );
-                group_entry g_entry( group, it->get_category_ptr() );
-                g_entry.update_cache();
-                g_entry.highlight_as_parent = true;
-                g_entry.set_number_of_children( children );
-                group_entries_.push_back(  // cant't be in main scope?
-                    std::make_shared<group_entry> ( g_entry ) );
+                std::shared_ptr< group_entry > g_entry = std::make_shared<group_entry> (
+                            group_entry( group, it->get_category_ptr() ) );
+                g_entry->update_cache();
+                g_entry->highlight_as_parent = true;
+                g_entry->set_number_of_children( children );
 
-                nx = entries.insert( gp, g_entry );
+                group_entries_.push_back( g_entry );
+                nx = entries.insert( gp, *g_entry );
                 expand_to_fit( *gp );
 
                 std::advance( nx, children + 1 );
