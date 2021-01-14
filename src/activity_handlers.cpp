@@ -1705,14 +1705,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     here.maybe_trigger_trap( bush_pos, *p, true );
 }
 
-void activity_handlers::generic_game_do_turn( player_activity * /*act*/, player *p )
-{
-    if( calendar::once_every( 1_minutes ) ) {
-        p->add_morale( MORALE_GAME, 4, 60 );
-    }
-}
-
-void activity_handlers::game_do_turn( player_activity *act, player *p )
+void activity_handlers::generic_game_turn_handler( player_activity *act, player *p,
+        int morale_bonus, int morale_max_bonus )
 {
     item &game_item = *act->targets.front();
 
@@ -1728,12 +1722,22 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 
         if( !fail ) {
             //1 points/min, almost 2 hours to fill
-            p->add_morale( MORALE_GAME, 1, 100 );
+            p->add_morale( MORALE_GAME, morale_bonus, morale_max_bonus );
         } else {
             act->moves_left = 0;
             add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
         }
     }
+}
+
+void activity_handlers::generic_game_do_turn( player_activity *act, player *p )
+{
+    generic_game_turn_handler( act, p, 4, 60 );
+}
+
+void activity_handlers::game_do_turn( player_activity *act, player *p )
+{
+    generic_game_turn_handler( act, p, 1, 100 );
 }
 
 void activity_handlers::longsalvage_finish( player_activity *act, player *p )

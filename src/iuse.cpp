@@ -4581,6 +4581,7 @@ int iuse::portable_game( player *p, item *it, bool active, const tripoint & )
         if( loaded_software == "null" ) {
             p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
                                 p->get_item_position( it ), "gaming" );
+            p->activity.targets.push_back( item_location( *p, it ) );
             return 0;
         }
         p->assign_activity( ACT_GAME, moves, -1, 0, "gaming" );
