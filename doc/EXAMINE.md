@@ -64,6 +64,12 @@ Optional, defaults to true.
 Boolean (true/false).
 Whether or not to remove hostile monsters with the `ID_CARD_DESPAWN` flag.
 
+### `mapgen_id`
+Optional.
+String.
+Update mapgen ID to apply on opening the door.
+Conflicts with `radius`, `terrain_changes`, and `furn_changes`.
+
 #### `radius`
 Optional, defaults to 3.
 Integer.

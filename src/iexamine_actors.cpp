@@ -4,6 +4,7 @@
 #include "generic_factory.h"
 #include "itype.h"
 #include "map.h"
+#include "mapgen_functions.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "output.h"
@@ -36,6 +37,38 @@ void cardreader_examine_actor::consume_card( player &guy ) const
     guy.use_amount( cards[0], 1 );
 }
 
+bool cardreader_examine_actor::apply( const tripoint &examp ) const
+{
+    bool open = true;
+
+    map &here = get_map();
+    if( map_regen ) {
+        tripoint_abs_omt omt_pos( ms_to_omt_copy( here.getabs( examp ) ) );
+        if( !run_mapgen_update_func( mapgen_id, omt_pos, nullptr, false ) ) {
+            debugmsg( "Failed to apply magen function %s", mapgen_id );
+        }
+        here.set_seen_cache_dirty( examp );
+        here.set_transparency_cache_dirty( examp.z );
+    } else {
+        open = false;
+        const tripoint_range<tripoint> points = here.points_in_radius( examp, radius );
+        for( const tripoint &tmp : points ) {
+            const auto ter_iter = terrain_changes.find( here.ter( tmp ).id() );
+            const auto furn_iter = furn_changes.find( here.furn( tmp ).id() );
+            if( ter_iter != terrain_changes.end() ) {
+                here.ter_set( tmp, ter_iter->second );
+                open = true;
+            }
+            if( furn_iter != furn_changes.end() ) {
+                here.furn_set( tmp, furn_iter->second );
+                open = true;
+            }
+        }
+    }
+
+    return open;
+}
+
 /**
  * Use id/hack reader. Using an id despawns turrets.
  */
@@ -55,19 +88,7 @@ void cardreader_examine_actor::call( player &guy, const tripoint &examp ) const
 
     if( has_item && query_yn( _( query_msg ) ) ) {
         guy.mod_moves( -to_moves<int>( 1_seconds ) );
-        const tripoint_range<tripoint> points = here.points_in_radius( examp, radius );
-        for( const tripoint &tmp : points ) {
-            const auto ter_iter = terrain_changes.find( here.ter( tmp ).id() );
-            const auto furn_iter = furn_changes.find( here.furn( tmp ).id() );
-            if( ter_iter != terrain_changes.end() ) {
-                here.ter_set( tmp, ter_iter->second );
-                open = true;
-            }
-            if( furn_iter != furn_changes.end() ) {
-                here.furn_set( tmp, furn_iter->second );
-                open = true;
-            }
-        }
+        open = apply( examp );
         for( monster &critter : g->all_monsters() ) {
             if( !despawn_monsters ) {
                 break;
@@ -96,13 +117,19 @@ void cardreader_examine_actor::load( const JsonObject &jo )
     optional( jo, false, "consume_card", consume, true );
     optional( jo, false, "allow_hacking", allow_hacking, true );
     optional( jo, false, "despawn_monsters", despawn_monsters, true );
-    optional( jo, false, "radius", radius, 3 );
-    optional( jo, false, "terrain_changes", terrain_changes );
-    optional( jo, false, "furn_changes", furn_changes );
+    if( jo.has_string( "mapgen_id" ) ) {
+        optional( jo, false, "mapgen_id", mapgen_id );
+        map_regen = true;
+    } else {
+        optional( jo, false, "radius", radius, 3 );
+        optional( jo, false, "terrain_changes", terrain_changes );
+        optional( jo, false, "furn_changes", furn_changes );
+    }
     optional( jo, false, "query", query, true );
     optional( jo, false, "query_msg", query_msg );
     mandatory( jo, false, "success_msg", success_msg );
     mandatory( jo, false, "redundant_msg", redundant_msg );
+
 }
 
 void cardreader_examine_actor::finalize() const
@@ -117,7 +144,7 @@ void cardreader_examine_actor::finalize() const
         }
     }
 
-    if( terrain_changes.empty() && furn_changes.empty() ) {
+    if( terrain_changes.empty() && furn_changes.empty() && mapgen_id.empty() ) {
         debugmsg( "Cardreader examine actor does not change either terrain or furniture" );
     }
 
