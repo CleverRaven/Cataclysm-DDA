@@ -20,6 +20,7 @@
 #include "item.h"
 #include "make_static.h"
 #include "morale_types.h"
+#include "mutation.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
