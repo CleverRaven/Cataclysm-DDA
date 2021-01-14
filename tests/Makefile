@@ -35,14 +35,21 @@ ifndef CLANG
 endif
 
 ifeq ($(PCH), 1)
-PCHFLAGS += -DCATA_CATCH_PCH
-PCH_H = pch/tests-pch.hpp
-ifeq ($(CLANG), 0)
-PCH_P = $(PCH_H).gch
-else
-PCH_P = $(PCH_H).pch
-CXXFLAGS += -Wno-unused-macros
-endif
+  PCHFLAGS += -DCATA_CATCH_PCH
+  PCH_H = pch/tests-pch.hpp
+
+  ifeq ($(CLANG), 0)
+    TEST_PCH_P = $(PCH_H).gch
+  else
+    TEST_PCH_P = $(PCH_H).pch
+    CXXFLAGS += -Wno-unused-macros
+  endif
+
+  # Otherwise use PCH_P from .. (to keep same as PCHFLAGS)
+  ifndef $(PCH_P)
+    PCH_P = $(TEST_PCH_P)
+  endif
+
 endif
 
 ifeq ($(TARGETSYSTEM), WINDOWS)
