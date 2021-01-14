@@ -5,8 +5,8 @@
     "name_unique": "Heather Frolova",
     "gender": "female",
     "class": "NC_NONE",
-    "attitude": 0,
-    "mission": 7,
+    "attitude": 1,
+    "mission": 8,
     "chat": "TALK_lighthouse_woman_start",
     "faction": "fisherman_family"
   },
@@ -16,7 +16,12 @@
     "dynamic_line": "I'm scared.  Where is my husband?",
     "speaker_effect": { "sentinel": "met", "effect": [ "follow_only", { "add_mission": "MISSION_lighthouse_woman_0" } ] },
     "responses": [
-      { "text": "I want you to use this item.", "topic": "TALK_lighthouse_woman_start", "effect": "npc_gets_item_to_use" },
+      {
+        "text": "I want you to use this item.",
+        "topic": "TALK_lighthouse_woman_start",
+        "condition": "npc_following",
+        "effect": "npc_gets_item_to_use"
+      },
       {
         "text": "We're here.",
         "topic": "TALK_lighthouse_woman_safe",
@@ -59,7 +64,8 @@
         "text": "Hi.",
         "condition": { "u_has_var": "lighthouse_family_safe", "type": "flag", "context": "help", "value": "yes" },
         "topic": "TALK_lighthouse_woman_1",
-        "effect": { "npc_first_topic": "TALK_lighthouse_woman_1" }
+        "effect": { "npc_first_topic": "TALK_lighthouse_woman_1" },
+        "switch": true
       },
       {
         "truefalsetext": {
@@ -67,7 +73,8 @@
           "false": "…",
           "condition": { "u_has_var": "lighthouse_girl_dead", "type": "flag", "context": "death", "value": "yes" }
         },
-        "topic": "TALK_DONE"
+        "topic": "TALK_DONE",
+        "switch": true
       }
     ]
   },
