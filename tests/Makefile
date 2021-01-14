@@ -48,7 +48,10 @@ ifeq ($(PCH), 1)
   # Otherwise use PCH_P from .. (to keep same as PCHFLAGS)
   ifndef $(PCH_P)
     PCH_P = $(TEST_PCH_P)
+  else
+    PCH_P := $(subst main-pch,tests-pch,$(PCH_P)) 
   endif
+  PCHFLAGS := $(subst main-pch,tests-pch,$(PCHFLAGS))
 
 endif
 
@@ -82,7 +85,7 @@ $(shell mkdir -p $(ODIR))
 
 # Adding ../tests/ so that the directory appears in __FILE__ for log messages
 $(ODIR)/%.o: %.cpp $(PCH_P)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c ../tests/$< -o $@
 
 .PHONY: clean check tests precompile_header
 
