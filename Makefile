@@ -328,10 +328,7 @@ ifeq ($(RELEASE), 1)
       # O3 (inclusive)
       OPTLEVEL = -O3
     endif
-  endif
-  CXXFLAGS += $(OPTLEVEL)
 
-  ifeq ($(LTO), 1)
     ifeq ($(NATIVE), osx)
       ifneq ($(CLANG), 0)
         LTOFLAGS += -flto=full
@@ -346,6 +343,7 @@ ifeq ($(RELEASE), 1)
       LTOFLAGS += -flto=jobserver -flto-odr-type-merging
     endif
   endif
+  CXXFLAGS += $(OPTLEVEL)
   CXXFLAGS += $(LTOFLAGS)
 
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
@@ -394,13 +392,18 @@ endif
 
 ifeq ($(PCH), 1)
   PCHFLAGS = -Ipch -Winvalid-pch
-  PCH_H = pch/main-pch.hpp
+  
+  PCH_BASE = pch/main-pch
+  PCH_H = $(PCH_BASE).hpp
 
+  PCH_P = $(PCH_BASE)$(if $(TILES),-tiles)$(if $(SOUND),-sound)$(if $(BACKTRACE),-back$(if $(LIBBACKTRACE),-libbacktrace))$(if $(DYNAMIC_LINKING),-dynamic)$(if $(MSYS2),-msys2)
+  
   ifeq ($(CLANG), 0)
     PCHFLAGS += -fpch-preprocess -include main-pch.hpp
-    PCH_P = $(PCH_H).gch
+    PCH_P := $(addsuffix .gch, $(PCH_P))
   else
-    PCH_P = $(PCH_H).pch
+    PCH_P := $(addsuffix .pch, $(PCH_P))
+    # PCH_P = .pch
     PCHFLAGS += -include-pch $(PCH_P)
 
     # FIXME: dirty hack ahead
