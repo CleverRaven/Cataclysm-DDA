@@ -187,12 +187,16 @@ bool Creature::is_ranged_attacker() const
         return true;
     }
 
-    for( const std::pair<const std::string, mtype_special_attack> &attack :
-         as_monster()->type->special_attacks ) {
-        if( attack.second->id == "gun" ) {
-            return true;
+    const monster *mon = as_monster();
+    if( mon ) {
+        for( const std::pair<const std::string, mtype_special_attack> &attack :
+             mon->type->special_attacks ) {
+            if( attack.second->id == "gun" ) {
+                return true;
+            }
         }
     }
+    //TODO Potentially add check for this as npc wielding ranged weapon
 
     return false;
 }
