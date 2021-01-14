@@ -929,14 +929,6 @@ int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::antiasthmatic( player *p, item *it, bool, const tripoint & )
-{
-    p->add_msg_if_player( m_good,
-                          _( "You no longer need to worry about asthma attacks, at least for a while." ) );
-    p->add_effect( effect_took_antiasthmatic, 1_days, true );
-    return it->type->charges_to_use();
-}
-
 int iuse::poison( player *p, item *it, bool, const tripoint & )
 {
     if( ( p->has_trait( trait_EATDEAD ) ) ) {
@@ -2157,8 +2149,7 @@ int iuse::pack_item( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     if( t ) { // Normal use
-        // Numbers below -1 are reserved for worn items
-    } else if( p->get_item_position( it ) < -1 ) {
+    } else if( p->is_worn( *it ) ) {
         p->add_msg_if_player( m_info, _( "You can't pack your %s until you take it off." ),
                               it->tname() );
         return 0;
@@ -3390,12 +3381,13 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
     }
 
-    p->assign_activity( ACT_JACKHAMMER, moves, -1, p->get_item_position( it ) );
+    p->assign_activity( ACT_JACKHAMMER, moves );
+    p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.placement = here.getabs( pnt );
     p->add_msg_if_player( _( "You start drilling into the %1$s with your %2$s." ),
                           here.tername( pnt ), it->tname() );
 
-    return it->type->charges_to_use();
+    return 0; // handled when the activity finishes
 }
 
 int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
@@ -4589,6 +4581,7 @@ int iuse::portable_game( player *p, item *it, bool active, const tripoint & )
         if( loaded_software == "null" ) {
             p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
                                 p->get_item_position( it ), "gaming" );
+            p->activity.targets.push_back( item_location( *p, it ) );
             return 0;
         }
         p->assign_activity( ACT_GAME, moves, -1, 0, "gaming" );

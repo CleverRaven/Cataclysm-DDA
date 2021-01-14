@@ -385,10 +385,10 @@ static void melee_train( Character &p, int lo, int hi, const item &weap )
     }
 }
 
-void Character::melee_attack( Creature &t, bool allow_special )
+bool Character::melee_attack( Creature &t, bool allow_special )
 {
     static const matec_id no_technique_id( "" );
-    melee_attack( t, allow_special, no_technique_id );
+    return melee_attack( t, allow_special, no_technique_id );
 }
 
 damage_instance Creature::modify_damage_dealt_with_enchantments( const damage_instance &dam ) const
@@ -458,12 +458,23 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-void Character::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
+bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
                               bool allow_unarmed )
 {
     if( has_effect( effect_incorporeal ) ) {
         add_msg_if_player( m_info, _( "You lack the substance to affect anything." ) );
+        return false;
     }
+    if( !is_adjacent( &t, true ) ) {
+        return false;
+    }
+    return melee_attack_abstract( t, allow_special, force_technique, allow_unarmed );
+}
+
+bool Character::melee_attack_abstract( Creature &t, bool allow_special,
+                                       const matec_id &force_technique,
+                                       bool allow_unarmed )
+{
     melee::melee_stats.attack_count += 1;
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( !t.is_player() ) {
@@ -476,7 +487,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "The %s has dead batteries and will not move its arms." ),
                          mons->get_name() );
-                return;
+                return false;
             }
             if( mons->type->has_special_attack( "SMASH" ) && one_in( 3 ) ) {
                 add_msg( m_info, _( "The %s hisses as its hydraulic arm pumps forward!" ),
@@ -487,7 +498,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
                 mons->melee_attack( t );
             }
             mod_moves( -mons->type->attack_cost );
-            return;
+            return true;
         }
     }
 
@@ -515,7 +526,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
 
     if( cur_weapon->attack_time() > attack_speed( *cur_weapon ) * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
-        return;
+        return false;
     }
 
     int move_cost = attack_speed( *cur_weapon );
@@ -753,6 +764,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         dealt_projectile_attack dp = dealt_projectile_attack();
         t.as_character()->on_hit( this, bodypart_id( "bp_null" ), 0.0f, &dp );
     }
+    return true;
 }
 
 void Character::reach_attack( const tripoint &p )
@@ -818,7 +830,7 @@ void Character::reach_attack( const tripoint &p )
     }
 
     reach_attacking = true;
-    melee_attack( *critter, false, force_technique, false );
+    melee_attack_abstract( *critter, false, force_technique, false );
     reach_attacking = false;
 }
 

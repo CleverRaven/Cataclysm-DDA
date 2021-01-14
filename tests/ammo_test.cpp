@@ -102,14 +102,14 @@ TEST_CASE( "ammo types", "[ammo][ammo_types]" )
 
     // These items have NO ammo_types:
 
-    SECTION( "GUN items with MAGAZINE_WELL pockets do NOT have ammo_types" ) {
+    SECTION( "GUN items with MAGAZINE_WELL pockets also have ammo_types" ) {
         REQUIRE_FALSE( item( "m1911" ).magazine_integral() );
 
-        CHECK_FALSE( has_ammo_types( item( "m1911" ) ) );
-        CHECK_FALSE( has_ammo_types( item( "usp_9mm" ) ) );
-        CHECK_FALSE( has_ammo_types( item( "tommygun" ) ) );
-        CHECK_FALSE( has_ammo_types( item( "ak74" ) ) );
-        CHECK_FALSE( has_ammo_types( item( "ak47" ) ) );
+        CHECK( has_ammo_types( item( "m1911" ) ) );
+        CHECK( has_ammo_types( item( "usp_9mm" ) ) );
+        CHECK( has_ammo_types( item( "tommygun" ) ) );
+        CHECK( has_ammo_types( item( "ak74" ) ) );
+        CHECK( has_ammo_types( item( "ak47" ) ) );
     }
 
     SECTION( "TOOL items with MAGAZINE_WELL pockets do NOT have ammo_types" ) {
@@ -149,15 +149,13 @@ TEST_CASE( "ammo types", "[ammo][ammo_types]" )
 // The same items with no ammo_types, also have no ammo_default.
 TEST_CASE( "ammo default", "[ammo][ammo_default]" )
 {
-    // TOOLMOD type, and TOOL/GUN type items with MAGAZINE_WELL pockets have no ammo_default
+    // TOOLMOD type, and TOOL type items with MAGAZINE_WELL pockets have no ammo_default
     SECTION( "items without ammo_default" ) {
         item flashlight( "flashlight" );
         item med_mod( "magazine_battery_medium_mod" );
-        item tommygun( "tommygun" );
 
         CHECK( flashlight.ammo_default().is_null() );
         CHECK( med_mod.ammo_default().is_null() );
-        CHECK( tommygun.ammo_default().is_null() );
     }
 
     // MAGAZINE type, and TOOL/GUN items with integral MAGAZINE pockets do have ammo_default

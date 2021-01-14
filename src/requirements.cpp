@@ -1426,10 +1426,6 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
     // equivalent set of requirement_data alternatives, where each alternative
     // has the property that no item type appears more than once.
     //
-    // We only deal with item requirements.  Tool requirements could be handled
-    // similarly, but no examples where they are a problem have yet been
-    // raised.
-    //
     // We maintain a queue of requirement_data component info to be split.
     // Each to_check struct has a vector of component requirements, and an
     // index.  The index is the position within the vector to be checked next.
@@ -1440,12 +1436,20 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
     std::stack<to_check, std::vector<to_check>> pending;
     pending.push( { in.get_components(), 0 } );
 
+    // Make sure the tools are not duplicated.
+    requirement_data::alter_tool_comp_vector tools_unique;
+    for( auto tools : in.get_tools() ) {
+        std::sort( tools.begin(), tools.end() );
+        tools.erase( std::unique( tools.begin(), tools.end() ), tools.end() );
+        tools_unique.push_back( tools );
+    }
+
     while( !pending.empty() ) {
         to_check next = pending.top();
         pending.pop();
 
         if( next.index == next.components.size() ) {
-            alternatives_.emplace_back( in.get_tools(), in.get_qualities(), next.components );
+            alternatives_.emplace_back( tools_unique, in.get_qualities(), next.components );
             continue;
         }
 

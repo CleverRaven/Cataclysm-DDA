@@ -36,6 +36,8 @@ class player_activity
 
         std::set<distraction_type> ignored_distractions;
 
+        bool ignoreQuery = false;
+
     public:
         /** Total number of moves required to complete the activity */
         int moves_total = 0;

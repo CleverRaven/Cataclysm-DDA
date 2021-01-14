@@ -2608,6 +2608,7 @@ Guns can be defined like this:
 "burst": 5,                // Number of shots fired in burst mode
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
 "ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
+"ammo_to_fire" 1,          // Amount of ammo used
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.

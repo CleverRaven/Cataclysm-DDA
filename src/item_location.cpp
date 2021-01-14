@@ -598,20 +598,25 @@ class item_location::impl::item_in_container : public item_location::impl
             container->on_contents_changed();
         }
 
-        item_location obtain( Character &ch, int qty ) override {
+        item_location obtain( Character &ch, const int qty ) override {
             ch.mod_moves( -obtain_cost( ch, qty ) );
 
             on_contents_changed();
-            item obj = target()->split( qty );
-            if( !obj.is_null() ) {
-                return item_location( ch, &ch.i_add( obj, should_stack ) );
-            } else if( container.held_by( ch ) ) {
+            if( container.held_by( ch ) ) {
                 // we don't need to move it in this case, it's in a pocket
                 // we just charge the obtain cost and leave it in place. otherwise
                 // it's liable to end up back in the same pocket, where shenanigans ensue
                 return item_location( container, target() );
+            }
+            const item obj = target()->split( qty );
+            if( !obj.is_null() ) {
+                return item_location( ch, &ch.i_add( obj, should_stack,
+                                                     /*avoid=*/nullptr,
+                                                     /*allow_drop=*/false ) );
             } else {
-                item *inv = &ch.i_add( *target(), should_stack );
+                item *const inv = &ch.i_add( *target(), should_stack,
+                                             /*avoid=*/nullptr,
+                                             /*allow_drop=*/false );
                 if( inv->is_null() ) {
                     debugmsg( "failed to add item to character inventory while obtaining from container" );
                 }

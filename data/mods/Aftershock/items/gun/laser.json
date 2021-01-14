@@ -101,14 +101,15 @@
     "ammo": [ "battery" ],
     "skill": "rifle",
     "range": 10,
-    "ranged_damage": { "damage_type": "heat", "amount": 10 },
+    "ranged_damage": { "damage_type": "heat", "amount": 6 },
     "dispersion": 150,
     "durability": 10,
     "loudness": 8,
     "reload": 500,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ammo_effects": [ "LASER", "DRAW_AS_LINE" ],
-    "flags": [ "NEVER_JAMS", "FIRE_20", "NON_FOULING" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING" ],
+    "ammo_to_fire": 20,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

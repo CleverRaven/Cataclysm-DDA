@@ -31,5 +31,13 @@
     "name": "wonder_forge",
     "hate": [ "zombie", "fungus" ],
     "friendly": "forge_lords"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "orcs"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ogre"
   }
 ]

@@ -18,7 +18,7 @@
     "min_aoe": 7,
     "max_aoe": 7,
     "min_duration": 1500,
-    "duration_increment": 100,
+    "duration_increment": 115,
     "max_duration": 5500,
     "base_energy_cost": 140,
     "components": "spy_wasp",
