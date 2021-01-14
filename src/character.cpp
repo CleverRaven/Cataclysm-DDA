@@ -10793,6 +10793,7 @@ void Character::cancel_activity()
         backlog.front().auto_resume = false;
     }
     if( activity && activity.is_suspendable() ) {
+        activity.allow_distractions();
         backlog.push_front( activity );
     }
     sfx::end_activity_sounds(); // kill activity sounds when canceled
@@ -10803,6 +10804,8 @@ void Character::resume_backlog_activity()
 {
     if( !backlog.empty() && backlog.front().auto_resume ) {
         activity = backlog.front();
+        activity.auto_resume = false;
+        activity.allow_distractions();
         backlog.pop_front();
     }
 }
