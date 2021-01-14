@@ -396,7 +396,7 @@ ifeq ($(PCH), 1)
   PCH_BASE = pch/main-pch
   PCH_H = $(PCH_BASE).hpp
 
-  PCH_P = $(PCH_BASE)$(if $(TILES),-tiles)$(if $(SOUND),-sound)$(if $(BACKTRACE),-back$(if $(LIBBACKTRACE),-libbacktrace))$(if $(DYNAMIC_LINKING),-dynamic)$(if $(MSYS2),-msys2)
+  PCH_P = $(PCH_BASE)$(if $(TILES),-tiles)$(if $(SOUND),-sound)$(if $(BACKTRACE),-back$(if $(LIBBACKTRACE),-libbacktrace))$(if $(DYNAMIC_LINKING),-dynamic)$(if $(MSYS2),-msys2).hpp
   
   ifeq ($(CLANG), 0)
     PCHFLAGS += -fpch-preprocess -include main-pch.hpp
