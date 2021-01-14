@@ -238,5 +238,40 @@
     "id": "veh_kiln",
     "symbol": "&",
     "type": "vehicle_part"
+  },  
+  {
+    "type": "vehicle_part",
+    "id": "ASRG",
+    "name": { "str": "Compact Advanced Stirling Radioisotope Generator" },
+    "symbol": "*",
+    "categories": [ "energy" ],
+    "color": "white",
+    "broken_color": "green",
+    "looks_like": "minifridge",
+    "durability": 150,
+    "description": "A Compact Advanced Stirling Radioisotope Generator stuffed in a leadlined minifridge. You feel the heat radiating off the external heatsink",
+    "epower": 2052,
+    "size": 1200,
+    "item": "ASRG",
+    "location": "fuel_source",
+    "flags": [ "REACTOR", "PERPETUAL" ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 5 ], [ "electronics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+     },
+    "breaks_into": [
+        { "item": "sheet_metal", "count": [ 6, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 16, 24 ] },
+        { "item": "steel_chunk", "count": [ 80, 100 ] },
+        { "item": "scrap", "count": [ 160, 200 ] },
+        { "item": "cable", "charges": [ 80, 120 ] },
+        { "item": "cu_pipe", "count": [ 10, 20 ] },
+        { "item": "scrap_copper", "count": [ 80, 100 ] },
+        { "item": "motor_tiny", "count": [ 4, 10 ] },
+        { "item": "plutonium", "count": [ 6, 12 ] },
+        { "item": "lead", "count": [ 60, 80 ] } 
+    ]
   }
+  
 ]
