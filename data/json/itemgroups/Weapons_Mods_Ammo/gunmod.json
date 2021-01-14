@@ -125,6 +125,13 @@
   },
   {
     "type": "item_group",
+    "id": "m38dmr_mods",
+    "//": "Default mods for the m38dmr variant of the NATO assault rifle",
+    "subtype": "collection",
+    "entries": [ { "item": "suppressor" }, { "item": "rifle_scope" }, { "item": "bipod" } ]
+  },
+  {
+    "type": "item_group",
     "id": "sights_shotgun_readied",
     "subtype": "distribution",
     "//": "For non-static shotguns (not in stores, closets ).",
