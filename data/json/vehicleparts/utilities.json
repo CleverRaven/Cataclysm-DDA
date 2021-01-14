@@ -249,7 +249,7 @@
     "broken_color": "green",
     "looks_like": "minifridge",
     "durability": 150,
-    "description": "A Compact Advanced Stirling Radioisotope Generator stuffed in a leadlined minifridge. You feel the heat radiating off the external heatsink",
+    "description": "A Compact Advanced Stirling Radioisotope Generator stuffed in a leadlined minifridge, you feel the heat radiating off the external heatsink",
     "epower": 2052,
     "size": 1200,
     "item": "ASRG",
