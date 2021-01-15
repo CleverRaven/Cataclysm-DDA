@@ -208,7 +208,7 @@
       "context": "annoyed_greeter",
       "value": "yes",
       "no": "<get_lost>",
-      "yes": "Are you deaf or stupid?  I said I don't give a fuck to you and your problems.  Bother me one more time, and you'll regret that.  <get_lost>"
+      "yes": "Are you deaf or stupid?  I said I don't give a fuck for you and your <swear> problems.  Bother me one more time, and you'll regret that.  <get_lost>"
     },
     "speaker_effect": { "effect": { "u_add_var": "talked_to_greeter", "type": "dialogue", "context": "angry_greeter", "value": "yes" } },
     "responses": [
@@ -256,7 +256,7 @@
         "type": "mission",
         "context": "completed",
         "value": "yes",
-        "yes": "I don't know if you know, but there are sewers underneath the prison.  I was planning the escape long before <the_cataclysm>, and while I was working on cleaning the sewers, I noticed there is a damaged section of the wall.  There was a flow of fresh air coming out of this section, so I think it's leading to the surface.  It could be you way to the freedom.  Feel free to use it.",
+        "yes": "I don't know if you know, but there are sewers underneath the prison.  I was planning an escape long before <the_cataclysm>, and while I was working on cleaning the sewers, I noticed a damaged wall section.  There was a flow of fresh air coming out of it, so I think it's leading to the surface.  It could be your way to freedom.  Feel free to use it.",
         "no": {
           "u_has_var": "talked_to_leader",
           "type": "dialogue",
@@ -317,7 +317,7 @@
         }
       },
       {
-        "text": "I want to get off this <swear> prison.  I hoped you could help me with that.",
+        "text": "I want to get out of this <swear> prison.  I hoped you could help me with that.",
         "topic": "TALK_PRISONER_LEADER_GIVES_WORK",
         "condition": {
           "and": [
@@ -375,7 +375,7 @@
     ],
     "responses": [
       {
-        "text": "I want to get off this <swear> prison.  I hoped you could help me with that.",
+        "text": "I want to get out of this <swear> prison.  I hoped you could help me with that.",
         "topic": "TALK_PRISONER_LEADER_GIVES_WORK"
       }
     ]
@@ -386,7 +386,7 @@
     "dynamic_line": [ "Hold the horses, pal.  Nobody allowed you to stay here - yet." ],
     "responses": [
       {
-        "text": "Please!  I don't want to get back there!  I'm tired and hungry!  I just need time to rest!",
+        "text": "Please!  I don't want to go back there!  I'm tired and hungry!  I just need time to rest!",
         "topic": "TALK_PRISONER_LEADER_ANNOYED"
       },
       { "text": "Shit!  Looks like I'm on my own now.  Thanks for nothing.  Bye.", "topic": "TALK_DONE" }
@@ -416,7 +416,7 @@
     "id": "TALK_PRISONER_LEADER_NO",
     "type": "talk_topic",
     "dynamic_line": [
-      "The answer is still no.  In fact it might be better for us to kill you right away, as, you know, the less mouths to feed, the better.  But I'm in good mood today, so I decided to help you get out of this island."
+      "The answer is still no.  In fact it might be better for us to kill you right away - you know, the less mouths to feed, the better.  But I'm in a good mood today, so I've decided to help you get out of this island."
     ],
     "responses": [
       { "text": "Ok, I'm listening.", "topic": "TALK_PRISONER_LEADER_GIVES_WORK" },
@@ -476,7 +476,7 @@
   {
     "id": "TALK_PRISONER_LEADER_ASKED_ABOUT_WHAT_FOR_DO_YOU_NEED_IT",
     "type": "talk_topic",
-    "dynamic_line": [ "Let's say that's not of your <swear> business.  Other questions?" ],
+    "dynamic_line": [ "Let's say that's none of your <swear> business.  Other questions?" ],
     "responses": [
       { "text": "That's weird.", "topic": "TALK_NONE" },
       { "text": "I have a bad feeling about this.  Sorry, I'll pass.", "topic": "TALK_DONE" }
