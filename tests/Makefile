@@ -54,7 +54,7 @@ else
   TEST_TARGET = $(BUILD_PREFIX)cata_test
 endif
 
-PCHFLAGS := $(subst main-pch,tests-pch,$(PCHFLAGS))
+PCHFLAGS := $(subst main-pch,tests$(PCH_SUFFIX)-pch,$(PCHFLAGS))
 
 tests: $(TEST_TARGET)
 
