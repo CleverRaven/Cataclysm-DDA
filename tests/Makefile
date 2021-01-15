@@ -36,8 +36,8 @@ endif
 
 ifeq ($(PCH), 1)
   PCHFLAGS += -DCATA_CATCH_PCH
-  PCH_BASE = tests-pch
-  PCH_H = pch/$(PCH_BASE).hpp
+  PCH_BASE = pch/tests-pch
+  PCH_H = $(PCH_BASE).hpp
   ifeq ($(CLANG), 0)
     PCH_P = $(PCH_BASE)$(PCH_SUFFIX).gch
   else
