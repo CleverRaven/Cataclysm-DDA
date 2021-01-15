@@ -8619,6 +8619,7 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                    ? string_format( _( "Your best tool has <color_cyan>%d fine cutting</color>." ), factorD )
                                    :  _( "You have no fine cutting tool." );
 
+    bool has_blood = false;
     bool has_skin = false;
     bool has_organs = false;
 
@@ -8626,11 +8627,18 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
         const mtype *dead_mon = corpses[index]->get_mtype();
         if( dead_mon ) {
             for( const harvest_entry &entry : dead_mon->harvest.obj() ) {
-                if( entry.type == "skin" ) {
+                if( entry.type == "skin" && !corpses[index]->has_flag( flag_SKINNED ) ) {
                     has_skin = true;
                 }
-                if( entry.type == "offal" ) {
+                if( entry.type == "offal" && !( corpses[index]->has_flag( flag_QUARTERED ) ||
+                                                corpses[index]->has_flag( flag_FIELD_DRESS ) ||
+                                                corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
                     has_organs = true;
+                }
+                if( entry.type == "blood" && !( corpses[index]->has_flag( flag_QUARTERED ) ||
+                                                corpses[index]->has_flag( flag_FIELD_DRESS ) ||
+                                                corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) || corpses[index]->has_flag( flag_BLED ) ) ) {
+                    has_blood = true;
                 }
             }
         }
@@ -8684,6 +8692,16 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "too small to yield a full-sized hide and will instead produce "
                                           "scraps that can be used in other ways." ),
                                        msgFactor ) );
+    smenu.addentry_col( static_cast<int>( butcher_type::BLEED ), enough_light && has_blood,
+                        'l', _( "Bleed corpse" ),
+                        enough_light ? ( has_blood ? cut_time( butcher_type::BLEED ) : colorize( _( "has no blood" ),
+                                         c_red ) ) : cannot_see,
+                        string_format( "%s  %s",
+                                       _( "Bleeding involves severing the carotid arteries and jugular "
+                                          "veins, or the blood vessels from which they arise.  "
+                                          "You need skill and an appropriately sharp and precise knife "
+                                          "to do a good job." ),
+                                       msgFactor ) );
     smenu.addentry_col( static_cast<int>( butcher_type::QUARTER ), enough_light,
                         'k', _( "Quarter corpse" ),
                         enough_light ? cut_time( butcher_type::QUARTER ) : cannot_see,
@@ -8725,6 +8743,9 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
             break;
         case static_cast<int>( butcher_type::SKIN ):
             player_character.assign_activity( activity_id( "ACT_SKIN" ), 0, true );
+            break;
+        case static_cast<int>( butcher_type::BLEED ) :
+            player_character.assign_activity( activity_id( "ACT_BLEED" ), 0, true );
             break;
         case static_cast<int>( butcher_type::QUARTER ):
             player_character.assign_activity( activity_id( "ACT_QUARTER" ), 0, true );

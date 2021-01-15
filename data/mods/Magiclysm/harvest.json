@@ -228,7 +228,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.1 },
-      { "drop": "dragon_blood", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "dragon_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_dragon", "type": "flesh", "mass_ratio": 0.18 },
       { "drop": "dragon_black_scale", "type": "skin", "mass_ratio": 0.05 },
       { "drop": "black_dragon_hide_raw", "type": "skin", "mass_ratio": 0.1 },
@@ -240,7 +240,7 @@
     "//": "your bog standard zombie",
     "type": "harvest",
     "entries": [
-      { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "tainted_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
@@ -252,7 +252,7 @@
     "//": "any zombie that might drop leather.  mostly animals.",
     "type": "harvest",
     "entries": [
-      { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "tainted_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
@@ -265,7 +265,7 @@
     "//": "any zombie that might drop leather.  mostly animals.",
     "type": "harvest",
     "entries": [
-      { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "tainted_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
@@ -278,7 +278,7 @@
     "//": "no bones or organs",
     "type": "harvest",
     "entries": [
-      { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "tainted_blood", "type": "blood", "mass_ratio": 0.2 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "offal", "mass_ratio": 0.1 }
@@ -289,7 +289,7 @@
     "//": "a monstrous horror, probably the most destructive entity you will ever see",
     "type": "harvest",
     "entries": [
-      { "drop": "blood", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "human_flesh", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "hstomach", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
       { "drop": "human_fat", "type": "flesh", "mass_ratio": 0.1 },
@@ -303,7 +303,7 @@
     "//": "mainly arachnid drops with leather and proboscis",
     "type": "harvest",
     "entries": [
-      { "drop": "blood", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
@@ -327,7 +327,7 @@
     "//": "nothing much aside from big pile of meat and maybe demon blood in future.  But for now, tainted will do.",
     "type": "harvest",
     "entries": [
-      { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "tainted_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.4 }
     ]
   },

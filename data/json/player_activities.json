@@ -163,6 +163,13 @@
     "auto_needs": true
   },
   {
+    "id": "ACT_BLEED",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "bleeding",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_BUTCHER",
     "type": "activity_type",
     "activity_level": "BRISK_EXERCISE",

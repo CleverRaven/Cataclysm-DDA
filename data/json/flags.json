@@ -152,6 +152,11 @@
     "context": [ "GENERIC" ]
   },
   {
+    "id": "BLED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
     "id": "CANT_HEAL_EVERYONE",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],

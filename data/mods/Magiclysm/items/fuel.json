@@ -37,16 +37,10 @@
   {
     "type": "AMMO",
     "id": "blood",
+    "copy-from": "blood",
     "name": { "str_sp": "blood" },
-    "weight": "265 g",
     "color": "red",
-    "container": "flask_glass",
     "symbol": "~",
-    "description": "Blood, possibly that of a human.  Disgusting!",
-    "price": 0,
-    "material": [ "blood" ],
-    "volume": "1 ml",
-    "phase": "liquid",
     "category": "fuel",
     "ammo_type": "blood"
   },
