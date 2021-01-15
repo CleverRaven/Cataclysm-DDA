@@ -702,7 +702,7 @@ void faction_manager::display() const
     g->validate_npc_followers();
     tab_mode tab = tab_mode::FIRST_TAB;
     size_t selection = 0;
-    input_context ctxt( "FACTION MANAGER" );
+    input_context ctxt( "FACTION_MANAGER" );
     ctxt.register_cardinal();
     ctxt.register_updown();
     ctxt.register_action( "ANY_INPUT" );
