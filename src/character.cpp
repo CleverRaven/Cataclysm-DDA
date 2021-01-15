@@ -1831,7 +1831,7 @@ bool Character::is_crouching() const
 
 bool Character::is_lying_down() const
 {
-    return move_mode->type() == move_mode_type::LYING;
+    return move_mode->type() == move_mode_type::PRONE;
 }
 
 steed_type Character::get_steed_type() const
