@@ -415,6 +415,7 @@ ifeq ($(PCH), 1)
         PCHFLAGS = ""
         PCH_H = ""
         PCH_P = ""
+        PCH_SUFFIX = ""
         PCH = 0
         $(warning your clang version does not support -fno-pch-timestamp: $(CLANGVER) ($(.SHELLSTATUS)))
       else
