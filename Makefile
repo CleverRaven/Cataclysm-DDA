@@ -392,18 +392,18 @@ endif
 
 ifeq ($(PCH), 1)
   PCHFLAGS = -Ipch -Winvalid-pch
-  
+
   PCH_BASE = pch/main-pch
   PCH_H = $(PCH_BASE).hpp
-  
+
   PCH_SUFFIX = $(if $(TILES),-tiles)$(if $(SOUND),-sound)$(if $(BACKTRACE),-back$(if $(LIBBACKTRACE),-libbacktrace))$(if $(DYNAMIC_LINKING),-dynamic)$(if $(MSYS2),-msys2)
   PCH_P = $(PCH_BASE)$(PCH_SUFFIX).hpp
-  
+
   ifeq ($(CLANG), 0)
     PCHFLAGS += -fpch-preprocess -include main-pch.hpp
-    PCH_P := $(addsuffix .hpp.gch, $(PCH_P))
+    PCH_P := $(addsuffix .gch, $(PCH_P))
   else
-    PCH_P := $(addsuffix .hpp.pch, $(PCH_P))
+    PCH_P := $(addsuffix .pch, $(PCH_P))
     # PCH_P = .pch
     PCHFLAGS += -include-pch $(PCH_P)
 
@@ -827,7 +827,8 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
   _OBJS += $(RSRC:$(SRC_DIR)/%.rc=%.o)
 endif
-OBJS = $(sort $(patsubst %,$(ODIR)/%,$(_OBJS)))
+_OBJS := $(sort $(patsubst %.o,%$(PCH_SUFFIX).o,$(_OBJS)))
+OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
 ifdef LANGUAGES
   L10N = localization
