@@ -1122,11 +1122,17 @@ void Character::suffer_from_radiation()
         } else if( get_rad() > 2000 ) {
             set_rad( 2000 );
         }
+        // Linear increase in chance to mutate with irriadation level.
+        // 100 rads = 1 / 10000
+        // 110 rads = 10 / 10000 = 1 / 1000
+        // 200 rads = 100 / 10000 = 1 / 100
+        // 1000 rads = 900 / 10000 = 9 / 100 = 10% !!!
+        // 2000 rads = 2000 / 10000 = 1 / 5 = 20% !!!
         if( get_option<bool>( "RAD_MUTATION" ) && rng( 100, 10000 ) < get_rad() ) {
             mutate();
-            mod_rad( -50 );
-        } else if( get_rad() > 50 && rng( 1, 3000 ) < get_rad() && ( stomach.contains() > 0_ml ||
-                   radiation_increasing || !in_sleep_state() ) ) {
+        }
+        if( get_rad() > 50 && rng( 1, 3000 ) < get_rad() &&
+            ( stomach.contains() > 0_ml || radiation_increasing || !in_sleep_state() ) ) {
             vomit();
             mod_rad( -1 );
         }
@@ -1148,8 +1154,9 @@ void Character::suffer_from_radiation()
     if( !radiogenic && get_rad() > 0 ) {
         // Even if you heal the radiation itself, the damage is done.
         const int hmod = get_healthy_mod();
-        if( hmod > 200 - get_rad() ) {
-            set_healthy_mod( std::max( -200, 200 - get_rad() ) );
+        const int health_mod_cap = std::max( -200, 200 - get_rad() );
+        if( hmod > health_mod_cap ) {
+            set_healthy_mod( health_mod_cap );
         }
     }
 
