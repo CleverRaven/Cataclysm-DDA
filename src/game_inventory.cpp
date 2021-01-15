@@ -543,6 +543,23 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "JOY" ) );
 
             append_cell( []( const item_location & loc ) {
+                const int health = loc->is_comestible() ? loc->get_comestible()->healthy : 0;
+                if( health > 3 ) {
+                    return "<good>+++</good>";
+                } else if( health > 0 ) {
+                    return "<good>+</good>";
+                } else if( health < -3 ) {
+                    return "<bad>!!!</bad>";
+                } else if( health < 0 ) {
+                    return "<bad>-</bad>";
+                } else if( loc->is_medication() ) {
+                    return "";
+                } else {
+                    return "";
+                }
+            }, _( "HEALTH" ) );
+
+            append_cell( []( const item_location & loc ) {
                 const time_duration spoils = loc->is_comestible() ? loc->get_comestible()->spoils :
                                              calendar::INDEFINITELY_LONG_DURATION;
                 if( spoils > 0_turns ) {
@@ -1348,6 +1365,14 @@ drop_locations game_menus::inv::holster( player &p, const item_location &holster
 
 void game_menus::inv::insert_items( avatar &you, item_location &holster )
 {
+    if( holster->will_spill_if_unsealed()
+        && holster.where() != item_location::type::map
+        && !get_player_character().is_wielding( *holster ) ) {
+
+        you.add_msg_if_player( m_info, _( "The %s would spill unless it's on the ground or wielded." ),
+                               holster->type_name() );
+        return;
+    }
     drop_locations holstered_list = game_menus::inv::holster( you, holster );
     bool all_pockets_rigid = holster->contents.all_pockets_rigid();
     contents_change_handler handler;

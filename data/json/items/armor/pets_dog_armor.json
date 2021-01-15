@@ -16,7 +16,7 @@
     "to_hit": -1,
     "flags": [ "IS_PET_ARMOR", "NO_SALVAGE" ],
     "material_thickness": 2,
-    "max_pet_vol": "35000 ml",
+    "max_pet_vol": "60 L",
     "min_pet_vol": "25000 ml",
     "pet_bodytype": "dog",
     "pocket_data": [

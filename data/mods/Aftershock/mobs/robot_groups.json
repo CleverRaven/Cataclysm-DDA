@@ -32,7 +32,6 @@
       { "monster": "mon_utilibot", "freq": 5, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_secubot", "freq": 0, "cost_multiplier": 10 },
       { "monster": "mon_milbot_556", "freq": 1, "cost_multiplier": 10 },
-      { "monster": "mon_milbot_8x40mm", "freq": 1, "cost_multiplier": 10 },
       { "monster": "mon_milbot_needle", "freq": 1, "cost_multiplier": 10 },
       { "monster": "mon_laserturret_xray", "freq": 2, "cost_multiplier": 20 },
       { "monster": "mon_medibot", "freq": 5, "cost_multiplier": 3, "pack_size": [ 1, 2 ] }
@@ -47,8 +46,6 @@
       { "monster": "mon_secubot", "freq": 0, "cost_multiplier": 10 },
       { "monster": "mon_utilibot", "freq": 5, "cost_multiplier": 0 },
       { "monster": "mon_milbot_556", "freq": 1, "cost_multiplier": 10 },
-      { "monster": "mon_milbot_308", "freq": 1, "cost_multiplier": 20 },
-      { "monster": "mon_milbot_8x40mm", "freq": 1, "cost_multiplier": 10 },
       { "monster": "mon_milbot_needle", "freq": 1, "cost_multiplier": 10 },
       { "monster": "mon_advbot_laser", "freq": 2, "cost_multiplier": 20 },
       { "monster": "mon_medibot", "freq": 3, "cost_multiplier": 3 }
@@ -64,10 +61,7 @@
       { "monster": "mon_skitterbot", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_defbot_shot", "freq": 10, "cost_multiplier": 0 },
       { "monster": "mon_milbot_556", "freq": 10, "cost_multiplier": 0 },
-      { "monster": "mon_milbot_308", "freq": 10, "cost_multiplier": 0 },
-      { "monster": "mon_milbot_8x40mm", "freq": 10, "cost_multiplier": 0 },
       { "monster": "mon_milbot_needle", "freq": 10, "cost_multiplier": 0 },
-      { "monster": "mon_milbot_flame", "freq": 1, "cost_multiplier": 0 },
       { "monster": "mon_advbot_laser", "freq": 20, "cost_multiplier": 0 },
       { "monster": "mon_wraitheon_irradiant", "freq": 1, "cost_multiplier": 0 },
       { "monster": "mon_molebot", "freq": 0, "cost_multiplier": 0 },

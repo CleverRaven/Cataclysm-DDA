@@ -365,6 +365,7 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
 {
     craft_data_ = cata::make_value<craft_data>();
     craft_data_->making = rec;
+    craft_data_->disassembly = false;
     components = items;
     craft_data_->comps_used = selections;
 
@@ -398,6 +399,7 @@ item::item( const recipe *rec, item &component )
 {
     craft_data_ = cata::make_value<craft_data>();
     craft_data_->making = rec;
+    craft_data_->disassembly = true;
     std::list<item>items( { component } );
     components = items;
 
@@ -6738,7 +6740,8 @@ bool item::is_food_container() const
     return ( !is_food() && has_item_with( []( const item & food ) {
         return food.is_food();
     } ) ) ||
-    ( is_craft() && craft_data_->making->create_result().is_food_container() );
+    ( is_craft() && !craft_data_->disassembly &&
+      craft_data_->making->create_result().is_food_container() );
 }
 
 bool item::has_temperature() const
@@ -9169,6 +9172,11 @@ bool item::will_spill() const
     return contents.will_spill();
 }
 
+bool item::will_spill_if_unsealed() const
+{
+    return contents.will_spill_if_unsealed();
+}
+
 std::string item::components_to_string() const
 {
     using t_count_map = std::map<std::string, int>;
@@ -10559,7 +10567,7 @@ const std::vector<comp_selection<tool_comp>> &item::get_cached_tool_selections()
 
 const cata::value_ptr<islot_comestible> &item::get_comestible() const
 {
-    if( is_craft() ) {
+    if( is_craft() && !craft_data_->disassembly ) {
         return find_type( craft_data_->making->result() )->comestible;
     } else {
         return type->comestible;

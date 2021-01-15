@@ -1,6 +1,6 @@
 # Contribute
 
-**Opening new issue?** Please read [ISSUES.md](../ISSUES.md) first.
+**Opening a new issue?** Please read [ISSUES.md](../ISSUES.md) first.
 
 Contributing to Cataclysm: Dark Days Ahead is easy — simply fork the repository here on GitHub, make your changes, and then send us a pull request.
 
@@ -141,7 +141,6 @@ For further details about commit message guidelines please visit:
         $ git push origin new_feature
         # origin was automatically set to point to your fork when you cloned it
 
-
 3. Once you're finished working on your branch, and have committed and pushed all your changes, submit a pull request from your `new_feature` branch to this repository's `master` branch.
 
  * Note: any new commits to the `new_feature` branch on GitHub will automatically be included in the pull request, so make sure to only commit related changes to the same branch.
@@ -196,7 +195,7 @@ The "???" is the issue number. This automatically closes the issue when the PR i
 
 See https://help.github.com/articles/closing-issues-using-keywords/ for more.
 
-## Keep you PR description relevant
+## Keep your PR description relevant
 
 Make sure your PR description is still relevant every time you change your branch after discussion or additional thought.
 
@@ -266,6 +265,8 @@ Running `test/cata_test` with no arguments will run the entire test suite; runni
 I recommend habitually invoking make like ``make YOUR BUILD OPTIONS && make check``.
 
 If you're working with Visual Studio (and don't have `make`), see [Visual Studio-specific advice](../doc/COMPILING/COMPILING-VS-VCPKG.md#running-unit-tests).
+
+If you want/need to add a test, see [TESTING.md](../doc/TESTING.md)
 
 ## In-game testing, test environment and the debug menu
 
