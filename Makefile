@@ -400,10 +400,10 @@ ifeq ($(PCH), 1)
   PCH_P = $(PCH_BASE)$(PCH_SUFFIX).hpp
   
   ifeq ($(CLANG), 0)
-    PCHFLAGS += -fpch-preprocess -include ${PCH_H}
-    PCH_P := $(addsuffix .gch, $(PCH_P))
+    PCHFLAGS += -fpch-preprocess -include main-pch.hpp
+    PCH_P := $(addsuffix .hpp.gch, $(PCH_P))
   else
-    PCH_P := $(addsuffix .pch, $(PCH_P))
+    PCH_P := $(addsuffix .hpp.pch, $(PCH_P))
     # PCH_P = .pch
     PCHFLAGS += -include-pch $(PCH_P)
 

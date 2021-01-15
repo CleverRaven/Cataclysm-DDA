@@ -39,9 +39,9 @@ ifeq ($(PCH), 1)
   PCH_BASE = pch/tests-pch
   PCH_H = $(PCH_BASE).hpp
   ifeq ($(CLANG), 0)
-    PCH_P = $(PCH_BASE)$(PCH_SUFFIX).gch
+    PCH_P = $(PCH_BASE)$(PCH_SUFFIX).hpp.gch
   else
-    PCH_P = $(PCH_BASE)$(PCH_SUFFIX).pch
+    PCH_P = $(PCH_BASE)$(PCH_SUFFIX).hpp.pch
     CXXFLAGS += -Wno-unused-macros
   endif
 endif
