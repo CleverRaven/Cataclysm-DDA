@@ -914,7 +914,7 @@ version:
 # Unconditionally create the object dir on every invocation.
 $(shell mkdir -p $(ODIR))
 
-$(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
+$(ODIR)/%$(PCH_SUFFIX).o: $(SRC_DIR)/%.cpp $(PCH_P)
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
