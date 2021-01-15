@@ -3140,6 +3140,19 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             info.push_back( iteminfo( "BOOK", "", fmt, iteminfo::no_flags, unread ) );
         }
 
+        if( !book.proficiencies.empty() ) {
+            const auto enumerate_profs = []( const book_proficiency_bonus & prof ) {
+                return prof.id->name();
+            };
+            const std::string profs = string_format(
+                                          _( "This book can help with the following proficiencies: %s" ),
+                                          enumerate_as_string(
+                                              book.proficiencies.begin(),
+                                              book.proficiencies.end(),
+                                              enumerate_profs ) );
+            info.push_back( iteminfo( "BOOK", profs ) );
+        }
+
         if( parts->test( iteminfo_parts::BOOK_INCLUDED_RECIPES ) ) {
             std::vector<std::string> recipe_list;
             for( const islot_book::recipe_with_description_t &elem : book.recipes ) {
