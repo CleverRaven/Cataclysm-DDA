@@ -233,7 +233,6 @@ class Tilesheet:
         Find and process all JSON and PNG files within sheet directory
         '''
         for subdir_fpath, dirnames, filenames in os.walk(self.subdir_path):
-            dirnames.sort()
             for filename in sorted(filenames):
                 filepath = os.path.join(subdir_fpath, filename)
                 if filename.endswith('.png'):
