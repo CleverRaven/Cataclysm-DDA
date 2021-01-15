@@ -36,14 +36,12 @@ endif
 
 ifeq ($(PCH), 1)
   PCHFLAGS += -DCATA_CATCH_PCH
-
   PCH_BASE = pch/tests-pch
   PCH_H = $(PCH_BASE).hpp
-
   ifeq ($(CLANG), 0)
-    PCH_P = $(PCH_BASE)$(PCH_SUFFIX).hpp.gch
+    PCH_P = $(PCH_H).gch
   else
-    PCH_P = $(PCH_BASE)$(PCH_SUFFIX).hpp.pch
+    PCH_P = $(PCH_H).pch
     CXXFLAGS += -Wno-unused-macros
   endif
 endif
@@ -54,7 +52,7 @@ else
   TEST_TARGET = $(BUILD_PREFIX)cata_test
 endif
 
-PCHFLAGS := $(subst main-pch,tests$(PCH_SUFFIX)-pch,$(PCHFLAGS))
+PCHFLAGS := $(subst main-pch,tests-pch,$(PCHFLAGS))
 
 tests: $(TEST_TARGET)
 
