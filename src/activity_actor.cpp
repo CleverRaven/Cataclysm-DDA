@@ -1478,7 +1478,7 @@ void try_sleep_activity_actor::start( player_activity &act, Character &who )
     act.moves_total = to_moves<int>( duration );
     act.moves_left = act.moves_total;
     who.set_movement_mode( move_mode_id( "lie_down" ) );
-    who.add_msg_if_player( "You lie down preparing to fall asleep" );
+    who.add_msg_if_player( _( "You lie down preparing to fall asleep." ) );
 }
 
 void try_sleep_activity_actor::do_turn( player_activity &act, Character &who )
