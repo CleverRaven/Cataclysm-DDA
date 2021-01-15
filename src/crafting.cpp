@@ -296,7 +296,7 @@ float Character::crafting_speed_multiplier( const item &craft,
         }
         if( bench_multi <= 0.5f ) {
             add_msg_if_player( m_bad,
-                               _( "The %s is to large and/or heavy to work on comfortably.  You are"
+                               _( "The %s is too large and/or heavy to work on comfortably.  You are"
                                   " working slowly." ), craft.tname() );
         }
         if( morale_multi <= 0.5f ) {
