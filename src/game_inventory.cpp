@@ -1721,8 +1721,13 @@ static item_location autodoc_internal( player &u, player &patient,
         }
     }
 
-    hint += string_format(
-                _( "\n<color_light_green>Found bionic installation data.  Affected CBMs are marked with an asterisk.</color>" ) );
+    std::vector<const item *> install_programs = patient.crafting_inventory().items_with( [](
+                const item & it ) -> bool { return it.has_quality( quality_id( "BIONIC_INSTALL" ) ); } );
+
+    if( !install_programs.empty() ) {
+        hint += string_format(
+                    _( "\n<color_light_green>Found bionic installation data.  Affected CBMs are marked with an asterisk.</color>" ) );
+    }
 
     inv_s.set_title( string_format( _( "Bionic installation patient: %s" ), patient.get_name() ) );
 
