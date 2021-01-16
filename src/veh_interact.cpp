@@ -1422,7 +1422,11 @@ void veh_interact::calc_overview()
     input_event hotkey = main_context.first_unassigned_hotkey( hotkeys );
 
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        if( vpr.part().is_engine() && vpr.part().is_available() ) {
+        if( !vpr.part().is_available() ) {
+            continue;
+        }
+
+        if( vpr.part().is_engine() ) {
             // if tank contains something then display the contents in milliliters
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 right_print(
@@ -1446,8 +1450,8 @@ void veh_interact::calc_overview()
                                         msg_cb );
         }
 
-        if( vpr.part().is_available() && ( vpr.part().is_tank() || ( vpr.part().is_fuel_store() &&
-                                           !( vpr.part().is_turret() || vpr.part().is_battery() || vpr.part().is_reactor() ) ) ) ) {
+        if( vpr.part().is_tank() || ( vpr.part().is_fuel_store() &&
+                                      !( vpr.part().is_turret() || vpr.part().is_battery() || vpr.part().is_reactor() ) ) ) {
             auto tank_details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( !pt.ammo_current().is_null() ) {
                     std::string specials;
@@ -1523,7 +1527,7 @@ void veh_interact::calc_overview()
             }
         }
 
-        if( vpr.part().is_available() && ( vpr.part().is_reactor() || vpr.part().is_turret() ) ) {
+        if( vpr.part().is_reactor() || vpr.part().is_turret() ) {
             auto details_ammo = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( pt.ammo_remaining() ) {
                     int offset = 1;
@@ -1546,7 +1550,7 @@ void veh_interact::calc_overview()
             }
         }
 
-        if( vpr.part().is_seat() && vpr.part().is_available() ) {
+        if( vpr.part().is_seat() ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 const npc *who = pt.crew();
                 if( who ) {
