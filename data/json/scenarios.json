@@ -377,7 +377,7 @@
     "id": "alcatraz",
     "name": "Challenge - Island Prison",
     "points": -6,
-    "description": "You were in a high-security prison right before the Cataclysm.  Unfortunately, you're still in it, so you need to figure out how to escape.  It's located on a remote island to boot; you'll eventually need to escape that also.)",
+    "description": "You were in a high-security prison right before the Cataclysm.  Unfortunately, you're still in it, so you need to figure out how to escape.  It's located on a remote island to boot; you'll eventually need to escape that also.",
     "allowed_locs": [ "sloc_prison_alcatraz", "sloc_prison_island" ],
     "start_name": "Island prison",
     "professions": [
