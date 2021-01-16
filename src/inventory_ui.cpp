@@ -1598,7 +1598,7 @@ size_t inventory_selector::get_layout_height() const
 
 size_t inventory_selector::get_header_height() const
 {
-    return display_stats || !hint.empty() ? 2 : 1;
+    return display_stats || !hint.empty() ? 3 : 1;
 }
 
 size_t inventory_selector::get_header_min_width() const
