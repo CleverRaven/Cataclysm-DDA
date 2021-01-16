@@ -54,6 +54,8 @@ struct damage_instance;
 struct damage_unit;
 struct dealt_damage_instance;
 struct dealt_projectile_attack;
+struct projectile;
+struct projectile_attack_results;
 struct pathfinding_settings;
 struct trap;
 
@@ -293,7 +295,7 @@ class Creature : public location, public viewer
 
         /** Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual float hit_roll() const = 0;
-        virtual float dodge_roll() = 0;
+        virtual float dodge_roll() const = 0;
         virtual float stability_roll() const = 0;
 
         /**
@@ -1134,6 +1136,16 @@ class Creature : public location, public viewer
 
     private:
         int pain;
+
+
+        // calculate how well the projectile hits
+        double accuracy_projectile_attack( dealt_projectile_attack &attack ) const;
+        // what bodypart does the projectile hit
+        projectile_attack_results select_body_part_projectile_attack( const projectile &proj,
+                double goodhit, double missed_by ) const;
+        // do messaging and SCT for projectile hit
+        void messaging_projectile_attack( const Creature *source,
+                                          const projectile_attack_results &hit_selection, int total_damage ) const;
 };
 
 #endif // CATA_SRC_CREATURE_H
