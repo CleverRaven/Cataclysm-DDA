@@ -1,5 +1,21 @@
 [
   {
+    "id": "folding_bicycle",
+    "type": "TOOL",
+    "name": { "str": "folding bicycle" },
+    "description": "This is a bicycle folded into a relatively portable package.",
+    "weight": "10160 g",
+    "volume": "76651 ml",
+    "//": "Data taken from given values/dimensions for the Brompton S1E folding bicycle",
+    "price": 35000,
+    "price_postapoc": 2000,
+    "to_hit": -5,
+    "bashing": 10,
+    "material": [ "steel" ],
+    "symbol": "0",
+    "color": "light_gray"
+  },
+  {
     "type": "GENERIC",
     "id": "leaf_spring",
     "symbol": ",",
