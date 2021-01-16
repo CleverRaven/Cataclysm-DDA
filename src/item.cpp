@@ -2035,33 +2035,33 @@ void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *par
 void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /* batch */,
                       bool /* debug */ ) const
 {
-    // Skip this section for guns, items without ammo data, and items with "battery" ammo
-    if( is_gun() || !ammo_data() || ammo_data()->nname( 1 ) == "battery" ||
+    // Skip this section for guns and items without ammo data
+    if( is_gun() || !ammo_data() ||
         !parts->test( iteminfo_parts::AMMO_REMAINING_OR_TYPES ) ) {
         return;
     }
 
-    if( ammo_remaining() > 0 ) {
-        info.emplace_back( "AMMO", _( "<bold>Ammunition</bold>: " ),
-                           ammo_data()->nname( ammo_remaining() ) );
-    } else if( is_ammo() ) {
-        info.emplace_back( "AMMO", _( "<bold>Ammunition type</bold>: " ), ammo_type()->name() );
-    }
-
     const islot_ammo &ammo = *ammo_data()->ammo;
     if( !ammo.damage.empty() || ammo.force_stat_display ) {
+        if( ammo_remaining() > 0 ) {
+            info.emplace_back( "AMMO", _( "<bold>Ammunition</bold>: " ),
+                               ammo_data()->nname( ammo_remaining() ) );
+        } else if( is_ammo() ) {
+            info.emplace_back( "AMMO", _( "<bold>Ammunition type</bold>: " ), ammo_type()->name() );
+        }
+
         const std::string space = "  ";
         if( !ammo.damage.empty() && ammo.damage.damage_units.front().amount > 0 ) {
             if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
                 info.emplace_back( "AMMO", _( "Damage: " ), "",
                                    iteminfo::no_newline, ammo.damage.total_damage() );
             }
-        } else {
-            if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
-                info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
-                                   iteminfo::no_newline | iteminfo::is_decimal,
-                                   ammo.damage.damage_units.front().unconditional_damage_mult );
-            }
+        } else if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
+            const float multiplier = ammo.damage.empty() ? 1.0f
+                                     : ammo.damage.damage_units.front().unconditional_damage_mult;
+            info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
+                               iteminfo::no_newline | iteminfo::is_decimal,
+                               multiplier );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_AP ) ) {
             info.emplace_back( "AMMO", space + _( "Armor-pierce: " ), get_ranged_pierce( ammo ) );

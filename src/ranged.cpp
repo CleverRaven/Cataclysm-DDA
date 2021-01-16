@@ -1832,7 +1832,7 @@ double Character::gun_value( const item &weap, int ammo ) const
     }
 
     float damage_factor = gun_damage.total_damage();
-    if( damage_factor > 0 ) {
+    if( damage_factor > 0 && !gun_damage.empty() ) {
         // TODO: Multiple damage types
         damage_factor += 0.5f * gun_damage.damage_units.front().res_pen;
     }
