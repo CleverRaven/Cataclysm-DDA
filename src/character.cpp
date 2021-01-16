@@ -5043,9 +5043,13 @@ std::string Character::debug_weary_info() const
     int input = weary.tracker;
     int thresh = weary_threshold();
     int current = weariness_level();
+    int morale = get_morale_level();
+    int weight = units::to_gram<int>( bodyweight() );
+    float bmi = get_bmi();
 
-    return string_format( "Weariness: %s Max Exertion: %s Mult: %g\nBMR: %d Intake: %d Tracker: %d Thresh: %d At: %d\nCalories: %d",
-                          amt, max_act, move_mult, bmr, intake, input, thresh, current, stored_calories );
+    return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\nBMR: %d Intake: %d Tracker: %d Thresh: %d At: %d\nCal: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)",
+                          amt, max_act, move_mult, bmr, intake, input, thresh, current, stored_calories,
+                          healthy_calories, fatigue, morale, weight, bmi );
 }
 
 void weariness_tracker::clear()
