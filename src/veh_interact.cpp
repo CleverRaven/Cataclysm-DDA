@@ -1500,6 +1500,14 @@ void veh_interact::calc_overview( const vehicle *car, const bool is_carried )
     for( const vpart_reference &vpr : car->get_all_parts() ) {
         if( !vpr.part().is_available() ||
             is_carried != vpr.part().has_flag( vehicle_part::carried_flag ) ) {
+            if (is_carried && vpr.part().is_available()) {
+
+                std::string x = "false";
+                if (vpr.part().has_flag(vehicle_part::carried_flag)) {
+                    x = "true";
+                }
+                debugmsg("carry mode found bad flag matchup:"+ x + " name:"+ vpr.part().name() );
+            }
             continue;
         }
 
