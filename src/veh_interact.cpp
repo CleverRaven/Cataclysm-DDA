@@ -1448,7 +1448,7 @@ void veh_interact::calc_overview(const vehicle* car, const bool is_carried)
     };
 
     int epower_w = car->net_battery_charge_rate_w();
-    overview_headers["ENGINE"] = [car]( const catacurses::window & w, int y ) {
+    overview_headers["ENGINE"] = [this, car]( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
                         string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),
                                        health_color( true ), car->total_power_w( true, true ) / 1000,
@@ -1471,7 +1471,7 @@ void veh_interact::calc_overview(const vehicle* car, const bool is_carried)
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, batt );
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
-    overview_headers["REACTOR"] = [this, epower_w]( const catacurses::window & w, int y ) {
+    overview_headers["REACTOR"] = [this, epower_w, &car]( const catacurses::window & w, int y ) {
         int reactor_epower_w = car->max_reactor_epower_w();
         if( reactor_epower_w > 0 && epower_w < 0 ) {
             reactor_epower_w += epower_w;
