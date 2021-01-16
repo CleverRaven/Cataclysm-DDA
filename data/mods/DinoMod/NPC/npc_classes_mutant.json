@@ -36,9 +36,7 @@
       { "group": "BG_survival_story_UNIVERSAL" },
       { "group": "NPC_starting_traits" },
       { "group": "trait_group_dino" },
-      {
-        "distribution": [ { "group": "trait_group_tyrant_nonthres" }, { "group": "trait_group_medical_postthres" } ]
-      }
+      { "distribution": [ { "group": "trait_group_tyrant_nonthres" }, { "group": "trait_group_medical_postthres" } ] }
     ]
   }
 ]

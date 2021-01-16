@@ -31,12 +31,13 @@
     "type": "trait_group",
     "id": "trait_group_stego_nonthres",
     "subtype": "collection",
-    "traits": [ { "trait": "FANGS", "prob": 50 },
+    "traits": [
+      { "trait": "FANGS", "prob": 50 },
       { "trait": "TOUGH", "prob": 70 },
       { "trait": "ANIMALEMPATH", "prob": 50 },
       { "trait": "HUGE", "prob": 50 },
       { "trait": "VEGETARIAN", "prob": 50 }
-     ]
+    ]
   },
   {
     "type": "trait_group",
@@ -60,13 +61,14 @@
     "type": "trait_group",
     "id": "trait_group_tyrant_nonthres",
     "subtype": "collection",
-    "traits": [ { "trait": "FANGS", "prob": 50 },
+    "traits": [
+      { "trait": "FANGS", "prob": 50 },
       { "trait": "QUICK", "prob": 50 },
       { "trait": "DEX_UP_2" },
       { "trait": "CARNIVORE", "prob": 50 },
       { "trait": "ANIMALDISCORD", "prob": 50 },
       { "trait": "HUGE", "prob": 50 }
-     ]
+    ]
   },
   {
     "type": "trait_group",
