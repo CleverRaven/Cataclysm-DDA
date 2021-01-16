@@ -1385,82 +1385,6 @@ void veh_interact::calc_overview()
         overview_opts.insert( overview_opts.end(), tmp_overview.begin(), tmp_overview.end() );
         tmp_car = new vehicle();
     }
-
-
-
-    //-------------------
-    /*
-    std::vector<std::vector<std::vector <int>>> found_vehicle_rack_lines;
-    for( const vpart_reference &vpr : veh->get_avail_parts( "BIKE_RACK_VEH" ) ) {
-        if( !vpr.part().has_flag( vehicle_part::carrying_flag ) ) {
-            continue;
-        }
-
-        std::vector<std::vector <int>> line_of_vehicle_rack_parts = veh->find_lines_of_parts(
-                                        vpr.part_index(), "BIKE_RACK_VEH" );
-        //sort for comparison
-        std::sort( line_of_vehicle_rack_parts.begin(), line_of_vehicle_rack_parts.end() );
-        bool is_new = true;
-
-        for( const std::vector<std::vector <int>> &found_vehicle_rack_line : found_vehicle_rack_lines ) {
-            if( found_vehicle_rack_line == line_of_vehicle_rack_parts ) {
-                is_new = false;
-                break;
-            }
-        }
-        if( is_new ) {
-            found_vehicle_rack_lines.push_back( line_of_vehicle_rack_parts );
-        }
-    }
-
-    //generate neighbouring vehicle parts from racks
-    int size = static_cast<int>( found_vehicle_rack_lines.size() );
-    debugmsg( "found vehicles to search for parts:" + std::to_string( size ) + ";" );
-    for( std::vector<std::vector <int>> &vehicle_rack_line : found_vehicle_rack_lines ) {
-
-        debugmsg( "number of racks in this line:" + std::to_string( ( int )vehicle_rack_line.size() ) );
-        for( std::vector <int> &vehicle_racks : vehicle_rack_line ) {
-
-            vehicle *tmp_car = new vehicle;
-            for( const int &vehicle_rack : vehicle_racks ) {
-
-                for( const point &mount_dir : five_cardinal_directions ) {
-                    point near_loc = veh->part( vehicle_rack ).mount + mount_dir;
-                    std::vector<int> nearby_parts = veh->parts_at_relative( near_loc, true );
-
-                    if( nearby_parts.empty() || veh->name == veh->part( nearby_parts[0] ).carried_name() ) {
-                        continue;
-                    }
-
-                    if( tmp_car->name.empty() ) {
-                        tmp_car->name = veh->part( nearby_parts[0] ).carried_name();
-                    }
-
-                    for( const int &part : nearby_parts ) {
-                        if( veh->part( part ).has_flag( vehicle_part::carried_flag ) ) {
-                            tmp_car->install_part( point_zero, veh->part( part ) );
-
-                            if (veh->part(part).is_engine()) {
-                                tmp_car->engines.emplace_back(part);
-                            }
-                        }
-                    }
-                }
-            }
-
-            if( tmp_car->get_all_parts().part_count() > 0 ) {
-                tmp_car->enable_refresh();
-                for( int idx : tmp_car->engines ) {
-                    tmp_car->part( idx ).enabled = false;
-                }
-                std::vector<part_option> tmp_overview = get_vehicle_overview( tmp_car, true );
-                overview_opts.insert( overview_opts.end(), tmp_overview.begin(), tmp_overview.end() );
-            }
-            tmp_car = new vehicle();
-        }
-
-    }
-    */
 }
 
 void veh_interact::calc_vehicle_header( const vehicle *car )
@@ -1472,13 +1396,13 @@ void veh_interact::calc_vehicle_header( const vehicle *car )
     };
     overview_headers["1_ENGINE"] = [this, car]( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
-                        string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),
+                        string_format( _( "Engines %sSafe %4d kW</color> %sMax %4d kW</color>" ),
                                        health_color( true ), car->total_power_w( true, true ) / 1000,
                                        health_color( false ), car->total_power_w() / 1000 ) );
         right_print( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
     };
     overview_headers["1_CARRIED_ENGINE"] = [this]( const catacurses::window & w, int y ) {
-        trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "Engines: " ) );
+        trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "Engines " ) );
         right_print( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
     };
     overview_headers["2_TANK"] = []( const catacurses::window & w, int y ) {
@@ -1488,10 +1412,10 @@ void veh_interact::calc_vehicle_header( const vehicle *car )
     overview_headers["3_BATTERY"] = [epower_w]( const catacurses::window & w, int y ) {
         std::string batt;
         if( std::abs( epower_w ) < 10000 ) {
-            batt = string_format( _( "Batteries: %s%+4d W</color>" ),
+            batt = string_format( _( "Batteries %s%+4d W</color>" ),
                                   health_color( epower_w >= 0 ), epower_w );
         } else {
-            batt = string_format( _( "Batteries: %s%+4.1f kW</color>" ),
+            batt = string_format( _( "Batteries %s%+4.1f kW</color>" ),
                                   health_color( epower_w >= 0 ), epower_w / 1000.0 );
         }
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, batt );
@@ -1506,18 +1430,14 @@ void veh_interact::calc_vehicle_header( const vehicle *car )
         if( reactor_epower_w == 0 ) {
             reactor = _( "Reactors" );
         } else if( reactor_epower_w < 10000 ) {
-            reactor = string_format( _( "Reactors: Up to %s%+4d W</color>" ),
+            reactor = string_format( _( "Reactors Up to %s%+4d W</color>" ),
                                      health_color( reactor_epower_w ), reactor_epower_w );
         } else {
-            reactor = string_format( _( "Reactors: Up to %s%+4.1f kW</color>" ),
+            reactor = string_format( _( "Reactors Up to %s%+4.1f kW</color>" ),
                                      health_color( reactor_epower_w ), reactor_epower_w / 1000.0 );
         }
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, reactor );
         right_print( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
-    };
-    overview_headers["4_CARRIED_REACTOR"] = [this, epower_w, car]( const catacurses::window & w,
-    int y ) {
-        //todo: most likley need a different display ui for carried reactors
     };
     overview_headers["5_TURRET"] = []( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "Turrets" ) );
@@ -1537,7 +1457,7 @@ std::vector<veh_interact::part_option> veh_interact::get_vehicle_overview( const
     const hotkey_queue &hotkeys = hotkey_queue::alphabets();
 
     const auto next_hotkey = [&]( const vehicle_part & pt, input_event & evt ) {
-        if( overview_action && overview_enable && overview_enable( pt ) ) {
+        if( overview_action && overview_enable && overview_enable( pt ) && !is_carried ) {
             const input_event prev = evt;
             evt = main_context.next_unassigned_hotkey( hotkeys, evt );
             return prev;
@@ -1547,7 +1467,6 @@ std::vector<veh_interact::part_option> veh_interact::get_vehicle_overview( const
     };
 
     input_event hotkey = main_context.first_unassigned_hotkey( hotkeys );
-    //meep
     bool add_seperator = is_carried;
 
     for( const vpart_reference &vpr : car->get_all_parts() ) {
@@ -1556,16 +1475,20 @@ std::vector<veh_interact::part_option> veh_interact::get_vehicle_overview( const
             continue;
         }
 
-        if( add_seperator ) {
-            auto details = [car]( const vehicle_part & pt, const catacurses::window & w, int y ) {
+        if( add_seperator && !car->name.empty() ) {
+            auto details = [this, car]( const vehicle_part & pt, const catacurses::window & w, int y ) {
+                std::string text = " <color_green>" + car->name + "</color> ";
+
+                int max_w = ( ( TERMX - 2 ) / 3 ) - 1;
+                std::string sperator_line = std::string( std::max( ( int )( max_w - 1 - car->name.size() - 2 ), 0 ),
+                                            '=' );
+                sperator_line.insert( ( int )( sperator_line.length() / 2 ), text );
                 right_print(
                     w, y, 1, c_light_gray,
-                    string_format( "<color_green>%s</color>", car->name ) );
+                    _( sperator_line ) );
             };
 
-            //meep
-            vehicle_part test = vpr.part();
-            tmp_overview_opts.emplace_back( "0_CARRIED_NAME", &test, next_hotkey( test, hotkey ),
+            tmp_overview_opts.emplace_back( "0_CARRIED_NAME", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
                                             details );
 
             add_seperator = false;
