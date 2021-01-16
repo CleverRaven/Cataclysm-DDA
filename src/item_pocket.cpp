@@ -1333,6 +1333,11 @@ void item_pocket::process( player *carrier, const tripoint &pos, float insulatio
     }
 }
 
+bool item_pocket::is_default_state() const
+{
+    return empty() && settings.is_null() && !sealable();
+}
+
 bool item_pocket::empty() const
 {
     return contents.empty();
