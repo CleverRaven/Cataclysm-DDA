@@ -1357,73 +1357,70 @@ void veh_interact::calc_overview()
     overview_headers.clear();
 
     //call for parent vehicle ui
-    calc_overview(veh, false);
+    calc_overview( veh, false );
 
 
     //split vehicle into subvehicles
     std::vector<std::vector<std::vector <int>>> found_vehicle_rack_lines;
-    for (const vpart_reference& vpr : veh->get_avail_parts("BIKE_RACK_VEH")) {
-        if (!vpr.part().has_flag(vehicle_part::carrying_flag)) {
+    for( const vpart_reference &vpr : veh->get_avail_parts( "BIKE_RACK_VEH" ) ) {
+        if( !vpr.part().has_flag( vehicle_part::carrying_flag ) ) {
             continue;
         }
 
         std::vector<std::vector <int>> line_of_vehicle_rack_parts = veh->find_lines_of_parts(
-            vpr.part_index(), "BIKE_RACK_VEH");
+                                        vpr.part_index(), "BIKE_RACK_VEH" );
         //sort for comparison
-        std::sort(line_of_vehicle_rack_parts.begin(), line_of_vehicle_rack_parts.end());
+        std::sort( line_of_vehicle_rack_parts.begin(), line_of_vehicle_rack_parts.end() );
         bool is_new = true;
 
-        for (const std::vector<std::vector <int>>& found_vehicle_rack_line : found_vehicle_rack_lines) {
-            if (found_vehicle_rack_line == line_of_vehicle_rack_parts) {
+        for( const std::vector<std::vector <int>> &found_vehicle_rack_line : found_vehicle_rack_lines ) {
+            if( found_vehicle_rack_line == line_of_vehicle_rack_parts ) {
                 is_new = false;
                 break;
             }
         }
-        if (is_new) {
-            found_vehicle_rack_lines.push_back(line_of_vehicle_rack_parts);
+        if( is_new ) {
+            found_vehicle_rack_lines.push_back( line_of_vehicle_rack_parts );
         }
     }
 
     //generate neighbouring vehicle parts from racks
-    for (std::vector<std::vector <int>>& vehicle_rack_line : found_vehicle_rack_lines) {
+    for( std::vector<std::vector <int>> &vehicle_rack_line : found_vehicle_rack_lines ) {
 
-        for (std::vector <int>& vehicle_racks : vehicle_rack_line) {
+        for( std::vector <int> &vehicle_racks : vehicle_rack_line ) {
 
-            vehicle* tmp_car = new vehicle;
-            for (const int& vehicle_rack : vehicle_racks) {
+            vehicle *tmp_car = new vehicle;
+            for( const int &vehicle_rack : vehicle_racks ) {
 
-                if (!veh->part(vehicle_rack).has_flag(vehicle_part::carrying_flag)) {
-                    continue;
-                }
+                for( const point &mount_dir : five_cardinal_directions ) {
+                    point near_loc = veh->part( vehicle_rack ).mount + mount_dir;
+                    std::vector<int> nearby_parts = veh->parts_at_relative( near_loc, true );
 
-                for (const point& mount_dir : five_cardinal_directions) {
-                    point near_loc = veh->part(vehicle_rack).mount + mount_dir;
-                    std::vector<int> nearby_parts = veh->parts_at_relative(near_loc, true);
-
-                    if (nearby_parts.empty() || veh->name == veh->part(nearby_parts[0]).carried_name()) {
+                    if( nearby_parts.empty() || veh->name == veh->part( nearby_parts[0] ).carried_name() ) {
                         continue;
                     }
 
-                    if (tmp_car->name.empty()) {
-                        debugmsg("vehicle name set to:" + veh->part(nearby_parts[0]).name());
+                    if( tmp_car->name.empty() ) {
+                        tmp_car->name = veh->part( nearby_parts[0] ).carried_name();
                     }
 
-                    for (const int& part : nearby_parts) {
-                        if (veh->part(part).has_flag(vehicle_part::carried_flag)) {
-                            tmp_car->install_part(point_zero, veh->part(part));
+                    for( const int &part : nearby_parts ) {
+                        if( veh->part( part ).has_flag( vehicle_part::carried_flag ) ) {
+                            tmp_car->install_part( point_zero, veh->part( part ) );
                         }
                     }
                 }
             }
 
-            if (tmp_car->get_all_parts().part_count() > 0) {
+            if( tmp_car->get_all_parts().part_count() > 0 ) {
                 tmp_car->enable_refresh();
-                for (int idx : tmp_car->engines) {
-                    if (!tmp_car->part(idx).is_broken()) {
-                        tmp_car->part(idx).enabled = true;
+                for( int idx : tmp_car->engines ) {
+                    if( !tmp_car->part( idx ).is_broken() ) {
+                        tmp_car->part( idx ).enabled = true;
                     }
                 }
-                calc_overview(tmp_car, true);
+                //debugmsg("sending vehicle:" + tmp_car->name);
+                calc_overview( tmp_car, true );
                 tmp_car = new vehicle();
             }
         }
@@ -1432,7 +1429,7 @@ void veh_interact::calc_overview()
 }
 
 
-void veh_interact::calc_overview(const vehicle* car, const bool is_carried)
+void veh_interact::calc_overview( const vehicle *car, const bool is_carried )
 {
     //hotkeys might need to be taken outside of this or get overwritten?
     const hotkey_queue &hotkeys = hotkey_queue::alphabets();
@@ -1471,7 +1468,7 @@ void veh_interact::calc_overview(const vehicle* car, const bool is_carried)
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, batt );
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
-    overview_headers["REACTOR"] = [this, epower_w, &car]( const catacurses::window & w, int y ) {
+    overview_headers["REACTOR"] = [this, epower_w, car]( const catacurses::window & w, int y ) {
         int reactor_epower_w = car->max_reactor_epower_w();
         if( reactor_epower_w > 0 && epower_w < 0 ) {
             reactor_epower_w += epower_w;
@@ -1501,11 +1498,13 @@ void veh_interact::calc_overview(const vehicle* car, const bool is_carried)
     input_event hotkey = main_context.first_unassigned_hotkey( hotkeys );
 
     for( const vpart_reference &vpr : car->get_all_parts() ) {
-        if (!vpr.part().is_available() || is_carried != vpr.part().has_flag(vehicle_part::carrying_flag)) {
+        if( !vpr.part().is_available() ||
+            is_carried != vpr.part().has_flag( vehicle_part::carried_flag ) ) {
             continue;
         }
 
-        if( vpr.part().is_engine()) {
+        if( vpr.part().is_engine() ) {
+            debugmsg("found engine:" + vpr.part().name());
             // if tank contains something then display the contents in milliliters
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 right_print(
@@ -1530,7 +1529,7 @@ void veh_interact::calc_overview(const vehicle* car, const bool is_carried)
         }
 
         if( ( vpr.part().is_tank() || ( vpr.part().is_fuel_store() &&
-                                           !( vpr.part().is_turret() || vpr.part().is_battery() || vpr.part().is_reactor() ) ) ) ) {
+                                        !( vpr.part().is_turret() || vpr.part().is_battery() || vpr.part().is_reactor() ) ) ) ) {
             auto tank_details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( !pt.ammo_current().is_null() ) {
                     std::string specials;
