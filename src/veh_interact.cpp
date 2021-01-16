@@ -1502,7 +1502,8 @@ void veh_interact::calc_overview()
             };
 
             if( vpr.part().is_tank() ) {
-                overview_opts.emplace_back( "2_TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ), tank_details );
+                overview_opts.emplace_back( "2_TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                                            tank_details );
             } else if( vpr.part().is_fuel_store() && !( vpr.part().is_turret() ||
                        vpr.part().is_battery() || vpr.part().is_reactor() ) ) {
                 overview_opts.emplace_back( "2_TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
@@ -1510,21 +1511,21 @@ void veh_interact::calc_overview()
             }
         }
 
-        if (vpr.part().is_battery()) {
+        if( vpr.part().is_battery() ) {
             // always display total battery capacity and percentage charge
-            auto details = [](const vehicle_part& pt, const catacurses::window& w, int y) {
-                int pct = (static_cast<double>(pt.ammo_remaining()) / pt.ammo_capacity(
-                    ammotype("battery"))) * 100;
+            auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
+                int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity(
+                                ammotype( "battery" ) ) ) * 100;
                 int offset = 1;
                 std::string fmtstring = "%i    %3i%%";
-                if (pt.is_leaking()) {
+                if( pt.is_leaking() ) {
                     fmtstring = "%i   " + leak_marker + "%3i%%" + leak_marker;
                     offset = 0;
                 }
-                right_print(w, y, offset, item::find_type(pt.ammo_current())->color,
-                    string_format(fmtstring, pt.ammo_capacity(ammotype("battery")), pct));
+                right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+                             string_format( fmtstring, pt.ammo_capacity( ammotype( "battery" ) ), pct ) );
             };
-            overview_opts.emplace_back("3_BATTERY", &vpr.part(), next_hotkey(vpr.part(), hotkey), details);
+            overview_opts.emplace_back( "3_BATTERY", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
         }
 
         if( vpr.part().is_reactor() || vpr.part().is_turret() ) {
