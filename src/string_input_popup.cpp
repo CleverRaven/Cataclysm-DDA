@@ -302,7 +302,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     if( _position == -1 ) {
         _position = ret.length();
     }
-    const int scrmax = _endx - _startx;
+    const int scrmax = std::max( 0, _endx - _startx );
     // in output (console) cells, not characters of the string!
     int shift = 0;
 
@@ -324,33 +324,32 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     _canceled = false;
     _confirmed = false;
     do {
-
         if( _position < 0 ) {
             _position = 0;
         }
-
-        const size_t left_shift = ret.substr( 0, _position ).display_width();
-        if( static_cast<int>( left_shift ) < shift ) {
-            shift = 0;
-        } else if( _position < static_cast<int>( ret.length() ) &&
-                   static_cast<int>( left_shift ) + 1 >= shift + scrmax ) {
-            // if the cursor is inside the input string, keep one cell right of
-            // the cursor visible, because the cursor might be on a multi-cell
-            // character.
-            shift = left_shift - scrmax + 2;
-        } else if( _position == static_cast<int>( ret.length() ) &&
-                   static_cast<int>( left_shift ) >= shift + scrmax ) {
-            // cursor is behind the end of the input string, keep the
-            // trailing '_' visible (always a single cell character)
-            shift = left_shift - scrmax + 1;
-        } else if( shift < 0 ) {
+        if( shift < 0 ) {
             shift = 0;
         }
-        const size_t xleft_shift = ret.substr_display( 0, shift ).display_width();
-        if( static_cast<int>( xleft_shift ) != shift ) {
+
+        const size_t width_to_cursor_start = ret.substr( 0, _position ).display_width();
+        size_t width_to_cursor_end = width_to_cursor_start;
+        if( static_cast<size_t>( _position ) < ret.length() ) {
+            width_to_cursor_end += ret.substr( _position, 1 ).display_width();
+        } else {
+            width_to_cursor_end += 1;
+        }
+        if( width_to_cursor_start < static_cast<size_t>( shift ) ) {
+            shift = width_to_cursor_start;
+        } else if( width_to_cursor_end > static_cast<size_t>( shift + scrmax ) ) {
+            shift = width_to_cursor_end - scrmax;
+        }
+        const utf8_wrapper text_before_start = ret.substr_display( 0, shift );
+        const size_t width_before_start = text_before_start.display_width();
+        if( width_before_start != static_cast<size_t>( shift ) ) {
             // This prevents a multi-cell character from been split, which is not possible
             // instead scroll a cell further to make that character disappear completely
-            shift++;
+            const size_t width_at_start = ret.substr( text_before_start.length(), 1 ).display_width();
+            shift = width_before_start + width_at_start;
         }
 
         if( ui ) {
