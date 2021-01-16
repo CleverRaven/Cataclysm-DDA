@@ -151,7 +151,10 @@ const field_type &string_id<field_type>::obj() const
 template<>
 int_id<field_type> string_id<field_type>::id_or( const int_id<field_type> &fallback ) const
 {
-    return all_field_types.convert( *this, fallback, false );
+    if( all_field_types.initialized ) {
+        return all_field_types.convert( *this, fallback, false );
+    }
+    return fallback;
 }
 
 /** @relates string_id */
