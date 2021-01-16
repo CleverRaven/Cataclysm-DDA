@@ -426,11 +426,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( ch == 0x15 ) {                      // ctrl-u: delete all the things
             _position = 0;
             ret.erase( 0 );
-            // Move the cursor back and re-draw it
         } else if( ch == KEY_BACKSPACE ) {
-            // but silently drop input if we're at 0, instead of adding '^'
             if( _position > 0 && _position <= static_cast<int>( ret.size() ) ) {
-                // TODO: it is safe now since you only input ASCII chars
                 _position--;
                 ret.erase( _position, 1 );
             }
@@ -456,16 +453,14 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             const utf8_wrapper t( ev.text );
             ret.insert( _position, t );
             _position += t.length();
-            edit.erase( 0 );
-            ctxt->set_edittext( edit.c_str() );
+            edit = utf8_wrapper();
+            ctxt->set_edittext( std::string() );
         } else if( ev.edit_refresh ) {
-            const utf8_wrapper t( ev.edit );
-            edit.erase( 0 );
-            edit.insert( 0, t );
-            ctxt->set_edittext( edit.c_str() );
+            edit = utf8_wrapper( ev.edit );
+            ctxt->set_edittext( ev.edit );
         } else if( ev.edit.empty() ) {
-            edit.erase( 0 );
-            ctxt->set_edittext( edit.c_str() );
+            edit = utf8_wrapper();
+            ctxt->set_edittext( std::string() );
         } else {
             _handled = false;
         }
