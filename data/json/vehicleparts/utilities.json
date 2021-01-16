@@ -250,7 +250,7 @@
     "looks_like": "minifridge",
     "durability": 150,
     "description": "A Compact Advanced Stirling Radioisotope Generator stuffed in a leadlined minifridge.  You feel the heat radiating off the external heatsink.",
-    "epower": 2052,
+    "epower": 1710,
     "size": 1200,
     "item": "ASRG",
     "location": "fuel_source",
