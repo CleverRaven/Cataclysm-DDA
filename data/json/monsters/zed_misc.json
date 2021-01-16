@@ -1202,6 +1202,7 @@
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 14, "into": "mon_zombie_swimmer" },
+    "categories": [ "CLASSIC" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -1212,7 +1213,6 @@
       "GROUP_BASH",
       "POISON",
       "NO_BREATHE",
-      "SWIMS",
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
