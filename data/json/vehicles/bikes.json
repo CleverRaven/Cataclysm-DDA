@@ -15,6 +15,25 @@
     ]
   },
   {
+    "id": "bicycle_folding",
+    "type": "vehicle",
+    "name": { "str": "Folding Bicycle" },
+    "blueprint": [ "o#o" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "folding_frame" },
+      { "x": 1, "y": 0, "part": "folding_frame" },
+      { "x": 2, "y": 0, "part": "folding_frame" },
+      { "x": 2, "y": 0, "part": "wheel_mount_light_steerable" },
+      { "x": 0, "y": 0, "part": "wheel_mount_light" },
+      { "x": 0, "y": 0, "part": "wheel_bicycle" },
+      { "x": 0, "y": 0, "part": "basketsm" },
+      { "x": 1, "y": 0, "part": "horn_bicycle" },
+      { "x": 1, "y": 0, "part": "saddle" },
+      { "x": 1, "y": 0, "part": "foot_pedals" },
+      { "x": 2, "y": 0, "part": "wheel_bicycle" }
+    ]
+  },
+  {
     "id": "bicycle_dirt",
     "type": "vehicle",
     "name": "Mountain bike",
