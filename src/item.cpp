@@ -2012,7 +2012,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
                           bool /*debug*/ ) const
 {
-    if( !is_magazine() || has_flag( flag_NO_RELOAD ) ) {
+    if( !is_magazine() || has_flag( flag_NO_RELOAD ) || is_tool() ) {
         return;
     }
 
