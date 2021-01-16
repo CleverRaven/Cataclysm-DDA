@@ -58,7 +58,7 @@ Use the `Home` key to return to the top.
       - [`achievement`](#achievement)
       - [`conduct`](#conduct)
     + [Skills](#skills)
-    + [Traits/Mutations](#traits-mutations)
+    + [Traits/Mutations](#traitsmutations)
     + [Traps](#traps)
     + [Vehicle Groups](#vehicle-groups)
     + [Vehicle Parts](#vehicle-parts)
