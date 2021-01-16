@@ -206,6 +206,7 @@ class veh_interact
         int overview_pos = -1;
 
         void calc_overview();
+        void calc_overview(const vehicle* car, const bool is_carried = false);
         void display_overview();
         /**
          * Display overview of parts, optionally with interactive selection of one part

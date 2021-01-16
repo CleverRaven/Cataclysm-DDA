@@ -1404,6 +1404,10 @@ void veh_interact::calc_overview()
                         continue;
                     }
 
+                    if (tmp_car->name.empty()) {
+                        debugmsg("vehicle name set to:" + veh->part(nearby_parts[0]).name());
+                    }
+
                     for (const int& part : nearby_parts) {
                         if (veh->part(part).has_flag(vehicle_part::carried_flag)) {
                             tmp_car->install_part(point_zero, veh->part(part));
@@ -1415,7 +1419,6 @@ void veh_interact::calc_overview()
             if (tmp_car->get_all_parts().part_count() > 0) {
                 tmp_car->enable_refresh();
                 for (int idx : tmp_car->engines) {
-                    debugmsg("inside");
                     if (!tmp_car->part(idx).is_broken()) {
                         tmp_car->part(idx).enabled = true;
                     }
@@ -1445,7 +1448,7 @@ void veh_interact::calc_overview(const vehicle* car, const bool is_carried)
     };
 
     int epower_w = car->net_battery_charge_rate_w();
-    overview_headers["ENGINE"] = [this]( const catacurses::window & w, int y ) {
+    overview_headers["ENGINE"] = [car]( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
                         string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),
                                        health_color( true ), car->total_power_w( true, true ) / 1000,
@@ -1498,9 +1501,10 @@ void veh_interact::calc_overview(const vehicle* car, const bool is_carried)
     input_event hotkey = main_context.first_unassigned_hotkey( hotkeys );
 
     for( const vpart_reference &vpr : car->get_all_parts() ) {
-        if (!vpr.part().is_available()) {
+        if (!vpr.part().is_available() || is_carried != vpr.part().has_flag(vehicle_part::carrying_flag)) {
             continue;
         }
+
         if( vpr.part().is_engine()) {
             // if tank contains something then display the contents in milliliters
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
