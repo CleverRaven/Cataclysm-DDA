@@ -79,14 +79,14 @@
   {
     "type": "mutation",
     "id": "TOUGH2",
-    "copy-from": "TOUGH",
+    "copy-from": "TOUGH2",
     "valid": true,
     "extend": { "category": [ "STEGO", "TYRANT" ] }
   },
   {
     "type": "mutation",
     "id": "TOUGH3",
-    "copy-from": "TOUGH",
+    "copy-from": "TOUGH3",
     "valid": true,
     "extend": { "category": [ "STEGO", "TYRANT" ] }
   },
