@@ -1793,8 +1793,8 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
             }
             // Needed for tools that can have power in a different location, such as a UPS.
             // Will only populate if no other options were found.
-            if( player_inv && crafting_inventory().has_charges( type, count )
-                && player_has.size() + map_has.size() == 0 ) {
+            if( player_inv && player_has.size() + map_has.size() == 0 &&
+                crafting_inventory().has_charges( type, count ) ) {
                 both_has.push_back( *it );
             }
         } else if( ( player_inv && has_amount( type, 1 ) ) || map_inv.has_tools( type, 1 ) ) {
