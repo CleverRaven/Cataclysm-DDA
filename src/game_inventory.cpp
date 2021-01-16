@@ -1721,6 +1721,9 @@ static item_location autodoc_internal( player &u, player &patient,
         }
     }
 
+    hint += string_format(
+                _( "\n<color_light_green>Found bionic installation data.  Affected CBMs are marked with an asterisk.</color>" ) );
+
     inv_s.set_title( string_format( _( "Bionic installation patient: %s" ), patient.get_name() ) );
 
     inv_s.set_hint( hint );
@@ -1828,13 +1831,27 @@ class bionic_install_preset: public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
+            std::vector<const item *> install_programs = p.crafting_inventory().items_with( [](
+                        const item & it ) -> bool { return it.has_quality( quality_id( "BIONIC_INSTALL" ) ); } );
+
+            bool has_install_program = false;
+
+            if( !install_programs.empty() ) {
+                for( const item *progs : install_programs ) {
+                    has_install_program = progs->get_quality( quality_id( "BIONIC_INSTALL" ) ) >= difficulty;
+                    break;
+                }
+            }
+
             if( get_player_character().has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
-                chance_of_failure = 100 - bionic_success_chance( true, -1, difficulty, installer );
+                chance_of_failure = 100 - bionic_success_chance( true, has_install_program ? 10 : -1, difficulty,
+                                    installer );
             }
 
-            return string_format( _( "%i%%" ), chance_of_failure );
+            return string_format( has_install_program ? _( "<color_white>*</color> %i%%" ) : _( "%i%%" ),
+                                  chance_of_failure );
         }
 
         std::string get_anesth_amount( const item_location &loc ) {
