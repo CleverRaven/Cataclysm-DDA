@@ -204,6 +204,7 @@ void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
 void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit ) const
 {
     if( !custom_window ) {
+        werase( w );
         draw_border( w );
 
         for( size_t i = 0; i < descformatted.size(); ++i ) {
