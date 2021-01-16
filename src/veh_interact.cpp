@@ -1353,10 +1353,89 @@ void veh_interact::do_refill()
 
 void veh_interact::calc_overview()
 {
+    overview_opts.clear();
+    overview_headers.clear();
+
+    //call for parent vehicle ui
+    calc_overview(veh, false);
+
+
+    //split vehicle into subvehicles
+    std::vector<std::vector<std::vector <int>>> found_vehicle_rack_lines;
+    for (const vpart_reference& vpr : veh->get_avail_parts("BIKE_RACK_VEH")) {
+        if (!vpr.part().has_flag(vehicle_part::carrying_flag)) {
+            continue;
+        }
+
+        std::vector<std::vector <int>> line_of_vehicle_rack_parts = veh->find_lines_of_parts(
+            vpr.part_index(), "BIKE_RACK_VEH");
+        //sort for comparison
+        std::sort(line_of_vehicle_rack_parts.begin(), line_of_vehicle_rack_parts.end());
+        bool is_new = true;
+
+        for (const std::vector<std::vector <int>>& found_vehicle_rack_line : found_vehicle_rack_lines) {
+            if (found_vehicle_rack_line == line_of_vehicle_rack_parts) {
+                is_new = false;
+                break;
+            }
+        }
+        if (is_new) {
+            found_vehicle_rack_lines.push_back(line_of_vehicle_rack_parts);
+        }
+    }
+
+    //generate neighbouring vehicle parts from racks
+    for (std::vector<std::vector <int>>& vehicle_rack_line : found_vehicle_rack_lines) {
+
+        for (std::vector <int>& vehicle_racks : vehicle_rack_line) {
+
+            vehicle* tmp_car = new vehicle;
+            for (const int& vehicle_rack : vehicle_racks) {
+
+                if (!veh->part(vehicle_rack).has_flag(vehicle_part::carrying_flag)) {
+                    continue;
+                }
+
+                for (const point& mount_dir : five_cardinal_directions) {
+                    point near_loc = veh->part(vehicle_rack).mount + mount_dir;
+                    std::vector<int> nearby_parts = veh->parts_at_relative(near_loc, true);
+
+                    if (nearby_parts.empty() || veh->name == veh->part(nearby_parts[0]).carried_name()) {
+                        continue;
+                    }
+
+                    for (const int& part : nearby_parts) {
+                        if (veh->part(part).has_flag(vehicle_part::carried_flag)) {
+                            tmp_car->install_part(point_zero, veh->part(part));
+                        }
+                    }
+                }
+            }
+
+            if (tmp_car->get_all_parts().part_count() > 0) {
+                tmp_car->enable_refresh();
+                for (int idx : tmp_car->engines) {
+                    debugmsg("inside");
+                    if (!tmp_car->part(idx).is_broken()) {
+                        tmp_car->part(idx).enabled = true;
+                    }
+                }
+                calc_overview(tmp_car, true);
+                tmp_car = new vehicle();
+            }
+        }
+
+    }
+}
+
+
+void veh_interact::calc_overview(const vehicle* car, const bool is_carried)
+{
+    //hotkeys might need to be taken outside of this or get overwritten?
     const hotkey_queue &hotkeys = hotkey_queue::alphabets();
 
     const auto next_hotkey = [&]( const vehicle_part & pt, input_event & evt ) {
-        if( overview_action && overview_enable && overview_enable( pt ) ) {
+        if( overview_action && overview_enable && overview_enable( pt ) && !is_carried ) {
             const input_event prev = evt;
             evt = main_context.next_unassigned_hotkey( hotkeys, evt );
             return prev;
@@ -1365,15 +1444,12 @@ void veh_interact::calc_overview()
         }
     };
 
-    overview_opts.clear();
-    overview_headers.clear();
-
-    int epower_w = veh->net_battery_charge_rate_w();
+    int epower_w = car->net_battery_charge_rate_w();
     overview_headers["ENGINE"] = [this]( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
                         string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),
-                                       health_color( true ), veh->total_power_w( true, true ) / 1000,
-                                       health_color( false ), veh->total_power_w() / 1000 ) );
+                                       health_color( true ), car->total_power_w( true, true ) / 1000,
+                                       health_color( false ), car->total_power_w() / 1000 ) );
         right_print( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
     };
     overview_headers["TANK"] = []( const catacurses::window & w, int y ) {
@@ -1393,7 +1469,7 @@ void veh_interact::calc_overview()
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
     overview_headers["REACTOR"] = [this, epower_w]( const catacurses::window & w, int y ) {
-        int reactor_epower_w = veh->max_reactor_epower_w();
+        int reactor_epower_w = car->max_reactor_epower_w();
         if( reactor_epower_w > 0 && epower_w < 0 ) {
             reactor_epower_w += epower_w;
         }
@@ -1421,8 +1497,11 @@ void veh_interact::calc_overview()
 
     input_event hotkey = main_context.first_unassigned_hotkey( hotkeys );
 
-    for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        if( vpr.part().is_engine() && vpr.part().is_available() ) {
+    for( const vpart_reference &vpr : car->get_all_parts() ) {
+        if (!vpr.part().is_available()) {
+            continue;
+        }
+        if( vpr.part().is_engine()) {
             // if tank contains something then display the contents in milliliters
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 right_print(
@@ -1446,7 +1525,7 @@ void veh_interact::calc_overview()
                                         msg_cb );
         }
 
-        if( vpr.part().is_available() && ( vpr.part().is_tank() || ( vpr.part().is_fuel_store() &&
+        if( ( vpr.part().is_tank() || ( vpr.part().is_fuel_store() &&
                                            !( vpr.part().is_turret() || vpr.part().is_battery() || vpr.part().is_reactor() ) ) ) ) {
             auto tank_details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( !pt.ammo_current().is_null() ) {
@@ -1523,7 +1602,7 @@ void veh_interact::calc_overview()
             }
         }
 
-        if( vpr.part().is_available() && ( vpr.part().is_reactor() || vpr.part().is_turret() ) ) {
+        if( ( vpr.part().is_reactor() || vpr.part().is_turret() ) ) {
             auto details_ammo = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( pt.ammo_remaining() ) {
                     int offset = 1;
@@ -1546,7 +1625,7 @@ void veh_interact::calc_overview()
             }
         }
 
-        if( vpr.part().is_seat() && vpr.part().is_available() ) {
+        if( vpr.part().is_seat() ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 const npc *who = pt.crew();
                 if( who ) {
