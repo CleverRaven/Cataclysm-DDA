@@ -1,5 +1,11 @@
 [
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_orc_archer",
+    "entries": [ { "item": "arrow_wood_heavy", "charges": 60 } ]
+  },
+  {
     "id": "mon_orc_warrior",
     "type": "MONSTER",
     "name": { "str": "Orc Warrior" },
@@ -56,10 +62,11 @@
         { "item": "armguard_scrap", "prob": 40 },
         { "item": "cuirass_scrap", "prob": 40 },
         { "item": "longbow", "prob": 100 },
-        { "item": "sheath", "contents-item": "knife_combat", "prob": 50 }
+        { "item": "sheath", "contents-item": "knife_combat", "prob": 50 },
+        { "item": "quiver_large", "contents-group": "quiver_orc_archer", "prob": 100 }
       ]
     },
-    "starting_ammo": { "arrow_wood_heavy": 75 },
+    "starting_ammo": { "arrow_wood_heavy": 60 },
     "extend": {
       "special_attacks": [
         {
