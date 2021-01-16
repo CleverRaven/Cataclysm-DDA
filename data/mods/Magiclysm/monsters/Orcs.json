@@ -76,9 +76,9 @@
           "ranges": [ [ 12, 13, "DEFAULT" ] ],
           "no_ammo_sound": "grunting"
         }
-      ]
-    },
-    "extend": { "flags": [ "DROPS_AMMO" ] }
+      ],
+      { "flags": [ "DROPS_AMMO" ] }
+    }
   },
   {
     "id": "mon_orc_blood_warrior",
