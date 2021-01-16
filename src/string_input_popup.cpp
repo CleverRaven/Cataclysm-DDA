@@ -201,8 +201,7 @@ void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
     _position = ret.length();
 }
 
-void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit,
-                               const int shift ) const
+void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit ) const
 {
     if( !custom_window ) {
         draw_border( w );
@@ -303,8 +302,6 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         _position = ret.length();
     }
     const int scrmax = std::max( 0, _endx - _startx );
-    // in output (console) cells, not characters of the string!
-    int shift = 0;
 
     std::unique_ptr<ui_adaptor> ui;
     if( !draw_only && !custom_window ) {
@@ -315,7 +312,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             ui.position_from_window( w );
         } );
         ui->on_redraw( [&]( const ui_adaptor & ) {
-            draw( ret, edit, shift );
+            draw( ret, edit );
         } );
     }
 
@@ -355,7 +352,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         if( ui ) {
             ui_manager::redraw();
         } else {
-            draw( ret, edit, shift );
+            draw( ret, edit );
         }
 
         if( draw_only ) {
