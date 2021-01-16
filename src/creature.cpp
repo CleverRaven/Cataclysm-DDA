@@ -270,7 +270,7 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
     if( ch != nullptr ) {
-        if( ch->is_crouching() || ch->is_lying_down()) {
+        if( ch->is_crouching() || ch->is_lying_down() ) {
             const int coverage = here.obstacle_coverage( pos(), critter.pos() );
             if( coverage < 30 ) {
                 return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
@@ -295,12 +295,12 @@ bool Creature::sees( const Creature &critter ) const
                     debugmsg( "ERROR: Creature has invalid size class." );
                     break;
             }
-            
-            int vision_modifier;
 
-            if(ch->is_crouching()) {
+            int vision_modifier {0};
+
+            if( ch->is_crouching() ) {
                 vision_modifier = 30 - 0.5 * coverage * size_modifier;
-            } else if(ch->is_lying_down()) {
+            } else if( ch->is_lying_down() ) {
                 vision_modifier = 30 - 0.9 * coverage * size_modifier;
             }
 
