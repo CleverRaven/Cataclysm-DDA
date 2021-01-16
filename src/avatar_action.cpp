@@ -94,6 +94,12 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         }
         return false;
     }
+
+    //If both legs broken without splints and not already on the ground topple over
+    if (you.get_working_leg_count() < 2 && !you.is_lying_down() && !you.worn_with_flag(flag_SPLINT)) {
+        you.set_movement_mode(move_mode_id("prone"));
+    }
+
     const bool is_riding = you.is_mounted();
     tripoint dest_loc;
     if( d.z == 0 && you.has_effect( effect_stunned ) ) {
@@ -118,6 +124,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         dest_loc.z -= 1;
         via_ramp = true;
     }
+ 
 
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
