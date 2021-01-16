@@ -88,5 +88,18 @@
     "description": "Huge archives of numerous IC circuit datasheets from several major manufacturers.  Probably valuable to the right person, as it would be hard to salvage and reuse these components without them.",
     "price": 40000,
     "price_postapoc": 0
+  },
+  {
+    "id": "software_autodoc_install_basic",
+    "type": "GENERIC",
+    "name": { "str_sp": "basic autodoc installation data" },
+    "symbol": "#",
+    "description": "Precise step-by-step instructions and other required data for installation of several basic bionics, stored on a data card of proprietary form-factor, designed to be used extensively by an autodoc, and allowing bionic installation with minimal failure chance.  Integrated security subroutine renders it unusable after only one installation.",
+    "price": 20000,
+    "price_postapoc": 5000,
+    "weight": "150 g",
+    "volume": "50 ml",
+    "looks_like": "data_card",
+    "qualities": [ [ "BIONIC_INSTALL", 3 ] ]
   }
 ]
