@@ -2260,6 +2260,11 @@ void mapgen_palette::check_definitions()
     }
 }
 
+void mapgen_palette::reset()
+{
+    palettes.clear();
+}
+
 void mapgen_palette::add( const palette_id &rh )
 {
     add( get( rh ) );
