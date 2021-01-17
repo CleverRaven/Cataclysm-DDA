@@ -465,10 +465,10 @@ static bool check_litcig( player &u )
     return false;
 }
 
-/* iuse methods return the number of charges expended, which is usually it->charges_to_use().
+/* iuse methods return the number of charges expended or no value, which is usually it->charges_to_use().
  * Some items that don't normally use charges return 1 to indicate they're used up.
  * Regardless, returning 0 indicates the item has not been used up,
- * though it may have been successfully activated.
+ * though it may have been successfully activated.  A return of no value means it was not used.
  */
 cata::optional<int> iuse::sewage( player *p, item *it, bool, const tripoint & )
 {
