@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "no_scifi",
+    "id": "no_scifi",
     "name": "No Sci-Fi Equipment",
     "authors": [ "Rivet-the-Zombie" ],
     "maintainers": [ "mugling" ],

@@ -1,7 +1,7 @@
 [
   {
     "type": "scenario",
-    "ident": "evacuee",
+    "id": "evacuee",
     "name": "Evacuee",
     "points": 0,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.",
@@ -11,7 +11,7 @@
   },
   {
     "type": "scenario",
-    "ident": "missed",
+    "id": "missed",
     "name": "Missed",
     "points": 0,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a city full of the risen dead.",
@@ -35,7 +35,7 @@
   },
   {
     "type": "scenario",
-    "ident": "largebuilding",
+    "id": "largebuilding",
     "name": "Large Building",
     "points": -2,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a large building full of the risen dead.",
@@ -45,7 +45,7 @@
   },
   {
     "type": "scenario",
-    "ident": "surrounded",
+    "id": "surrounded",
     "name": "Surrounded",
     "points": -2,
     "description": "You've attracted the attention of living dead in some way, now they're all around and you'll likely have to fight thorough them if you want to escape.",
@@ -72,7 +72,7 @@
   },
   {
     "type": "scenario",
-    "ident": "isolationist",
+    "id": "isolationist",
     "name": "Safe Place",
     "points": 1,
     "description": "You've found some distant safe place, devoid of the living dead.  Looks like you're on your own...",
@@ -94,7 +94,7 @@
     "name": "Infected",
     "description": "In the chaos and panic of evacuation, you got bitten by something!  You didn't get proper medical care, and now the wound has started turning green.",
     "flags": [ "INFECTED", "CITY_START" ],
-    "ident": "infected",
+    "id": "infected",
     "points": -4,
     "start_name": "In Town",
     "allowed_locs": [
@@ -120,7 +120,7 @@
     "name": "Burning Building",
     "description": "The building you had chosen to reside in has suddenly caught fire!  You might want to leave.",
     "flags": [ "FIRE_START", "CITY_START" ],
-    "ident": "fire",
+    "id": "fire",
     "points": -2,
     "start_name": "In Town",
     "allowed_locs": [
@@ -142,7 +142,7 @@
   },
   {
     "type": "scenario",
-    "ident": "bad_day",
+    "id": "bad_day",
     "name": "Challenge - Really Bad Day",
     "points": -8,
     "description": "You start drunk to the point of incapacitation, depressed, infected, surrounded by fire, and sick with the flu.  This day went downhill really fast.",
@@ -172,7 +172,7 @@
   },
   {
     "type": "scenario",
-    "ident": "medieval",
+    "id": "medieval",
     "name": "Challenge - Medieval Peasant",
     "points": -8,
     "description": "Som nigromancie hath brought yow hidder!  Ye have only the hoose on youre legges and the knyf at youre syde and youre prayeres to Marie moder of God.",
@@ -185,7 +185,7 @@
   },
   {
     "type": "scenario",
-    "ident": "lab_chal",
+    "id": "lab_chal",
     "name": "Challenge - Lab Patient",
     "points": -8,
     "description": "The scientists stopped their experiments on you abruptly, leaving you behind while they evacuated before lockdown.  Find a way to escape or starve to death.",
@@ -238,7 +238,7 @@
   },
   {
     "type": "scenario",
-    "ident": "lab_staff",
+    "id": "lab_staff",
     "name": "Challenge - Lab Staff",
     "points": -8,
     "description": "You were deemed non-essential and made to stay behind during the lab evacuation.  Find a way to escape or starve to death.",
@@ -249,7 +249,7 @@
   },
   {
     "type": "scenario",
-    "ident": "ambushed",
+    "id": "ambushed",
     "name": "Ambush",
     "points": -3,
     "description": "It is the winter after zero hour.  As you were scavenging for food and a warm place to stay at, you heard the sound of lots of movement nearby.",
@@ -269,7 +269,7 @@
   },
   {
     "type": "scenario",
-    "ident": "summer_advanced_start",
+    "id": "summer_advanced_start",
     "name": "The Next Summer",
     "points": 0,
     "description": "A little over a year has passed since the apocalypse started, and you're about to face your second summer in Hell.",
@@ -291,7 +291,7 @@
   },
   {
     "type": "scenario",
-    "ident": "alone",
+    "id": "alone",
     "name": "Sheltered",
     "points": -3,
     "description": "When the apocalypse broke out, you were funneled into a nearby shelter.  Here you have lived, never leaving, lest the unknowns of the outside world hurt you.  Supplies are running low, and for the first time since the Cataclysm, you will be forced to face the outside world.",
@@ -302,7 +302,7 @@
   },
   {
     "type": "scenario",
-    "ident": "patient",
+    "id": "patient",
     "name": "Challenge - Abandoned",
     "points": -8,
     "description": "Sickly and frail, you have spent most of your life in the patient's ward of the hospital.  When yours was evacuated, you were left behind because you were a lost cause.  You awaken to the sound of movement around the hospital.",
@@ -315,7 +315,7 @@
   },
   {
     "type": "scenario",
-    "ident": "prisonbreak",
+    "id": "prisonbreak",
     "name": "Prison",
     "points": -4,
     "description": "When the Cataclysm happened, you were convicted or working in a prison.  Now the prisoners have turned into mindless horrors and the security bots are shooting on sight… you might need to expedite your escape plans.",
@@ -335,7 +335,7 @@
   },
   {
     "type": "scenario",
-    "ident": "alcatraz",
+    "id": "alcatraz",
     "name": "Challenge - Island Prison",
     "points": -6,
     "description": "You were at a high-security prison right before the Cataclysm.  You managed to make it outside the inner walls…  Too bad it's located on a remote island, and now you need to find out how to escape it too.",
@@ -355,7 +355,7 @@
   },
   {
     "type": "scenario",
-    "ident": "migo_prisoner",
+    "id": "migo_prisoner",
     "name": "Challenge - Mi-Go Camp",
     "points": -8,
     "description": "You find yourself in the most alien place you've ever seen.  The hot humid air and the organic aspect of the structure makes you feel like you're trapped inside a giant creature.  Whatever it is, you need to get out of here before They find you.",
@@ -366,7 +366,7 @@
   },
   {
     "type": "scenario",
-    "ident": "mutant",
+    "id": "mutant",
     "name": "Experiment",
     "points": 2,
     "description": "Since birth, your sole purpose in life has been the advancement of genetic science, willingly or not.  Once the Cataclysm struck, you left the lab, and wandered aimlessly, ending up in a forest.",
@@ -417,7 +417,7 @@
   },
   {
     "type": "scenario",
-    "ident": "foodplace",
+    "id": "foodplace",
     "name": "The Mascot Rises",
     "points": 0,
     "description": "You just finished your shift and got back in the break room when you heard the alarms and the security door shutting down behind you.  There's a lot of customers out there and you're not sure Foodplace's delicious food™ is going to be enough for them.",
@@ -428,7 +428,7 @@
   },
   {
     "type": "scenario",
-    "ident": "last_delivery",
+    "id": "last_delivery",
     "name": "The Last Delivery",
     "points": 2,
     "description": "While the world was falling apart someone called to order some of Foodplace's delicious food™ and they sent you to do the delivery.  You're not sure about much, but one thing is certain: that delicious food™ is going to get delivered even if that's the last thing you do!",
@@ -441,7 +441,7 @@
   },
   {
     "type": "scenario",
-    "ident": "wilderness",
+    "id": "wilderness",
     "name": "Wilderness",
     "points": 0,
     "description": "You find yourself amongst trees.  The screaming and the moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
@@ -451,7 +451,7 @@
   },
   {
     "type": "scenario",
-    "ident": "heli_crash",
+    "id": "heli_crash",
     "name": "Helicopter Crash",
     "points": -5,
     "description": "While being transported to a different military base, the pilot lost control of the helicopter and crashed in the middle of nowhere.  Hopefully some of the soldiers that were with you also survived the accident.",
@@ -463,7 +463,7 @@
   },
   {
     "type": "scenario",
-    "ident": "Mine_bottom",
+    "id": "Mine_bottom",
     "name": "Bottom of a Mine",
     "points": 1,
     "description": "You were participating in a mining operation when you found… something.  You're not sure what, but it sure is dark down here.",
@@ -474,7 +474,7 @@
   },
   {
     "type": "scenario",
-    "ident": "cyberpunk",
+    "id": "cyberpunk",
     "name": "High Tech, Low Life",
     "description": "Before the world ended, bionics were reserved for the rich and the famous.  You might not have been either, but you wanted in.  Hidden offices sequestered away in basements, anesthetic smuggled out of hospitals, and desperate people with little to lose could get you what you wanted.  If you went too deep, however, your augmentation may have come at a price...",
     "flags": [ "CITY_START", "LONE_START" ],
@@ -485,7 +485,7 @@
   },
   {
     "type": "scenario",
-    "ident": "overrun",
+    "id": "overrun",
     "name": "Overrun",
     "points": 3,
     "description": "Despite all the soldiers, guns and minefields, the base you were on got overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and you are now stuck in the warehouse all alone.  You are not sure if anyone made it to the armory, or if you are the last man alive.",
@@ -496,7 +496,7 @@
   },
   {
     "type": "scenario",
-    "ident": "presort",
+    "id": "presort",
     "name": "Crazy Party",
     "points": 0,
     "description": "You thought things couldn't get any worse when the cops came over to bust your wild party, even though you booked it at a private resort.  When the guests started fighting with the police you tried to get them to calm down, only to find out they hungered for more.",

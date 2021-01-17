@@ -10,7 +10,7 @@
   },
   {
     "type": "profession",
-    "ident": "bio_specops",
+    "id": "bio_specops",
     "name": "Bionic Special Operator",
     "description": "Once bionic augmentation proved safe, you were chosen for a top secret soldier augmentation program.  As if being a top-tier special forces operator before the procedure wasn't enough, your new enhancements allow you to handle any combat scenario be it human or not.",
     "points": 8,
@@ -68,7 +68,7 @@
   },
   {
     "type": "profession",
-    "ident": "seasoned_tourist",
+    "id": "seasoned_tourist",
     "name": "Seasoned Tourist",
     "description": "Due to your thirst for adventure, hunger for good food, and disposable income, you have been able to travel extensively.  You've traveled here to get a taste of New England; now you hope New England won't get a taste of you!",
     "points": 5,
@@ -110,7 +110,7 @@
   },
   {
     "type": "profession",
-    "ident": "trans_human",
+    "id": "trans_human",
     "name": "Post-Human Cyborg",
     "description": "As a wealthy trans-humanist you decided to put yourself on the frontline of augmentative technology to bring forth the future.  You are now a walking example of what humanity could have become.",
     "points": 8,
@@ -135,7 +135,7 @@
   },
   {
     "type": "profession",
-    "ident": "janitor",
+    "id": "janitor",
     "name": "Janitor",
     "description": "You earned a living from sweeping up chocolate wrappers and picking chewing gum from under tables.  Now the only thing you'll be sweeping are the brains of the dead.",
     "points": -1,
@@ -143,7 +143,7 @@
   },
   {
     "type": "profession",
-    "ident": "poor_student",
+    "id": "poor_student",
     "name": "Poor Student",
     "description": "You come from a low-income family, and got mocked for your old hand-me-down clothes and for getting free school lunches in the cafeteria.  Even worse, your ratty old backpack finally fell apart at the worst time.  At least no one's mocking you now.",
     "points": -1,
@@ -151,7 +151,7 @@
   },
   {
     "type": "profession",
-    "ident": "elementary_student",
+    "id": "elementary_student",
     "name": "Elementary Student",
     "description": "You're just a kid, and now the world has turned into something out of one of your bad dreams.  The grown-ups you relied on are all dead--or undead--now.  What are you going to do?",
     "points": 0,
@@ -174,7 +174,7 @@
   },
   {
     "type": "profession",
-    "ident": "goalie",
+    "id": "goalie",
     "name": "Hockey Player",
     "description": "You were a minor-league hockey goalie before the rest of your team became zombies.  It's just you and your hockey equipment versus the undead, but at least you can cross-check them now.",
     "points": 0,
@@ -187,7 +187,7 @@
   },
   {
     "type": "profession",
-    "ident": "batter",
+    "id": "batter",
     "name": "Baseball Player",
     "description": "You were a batter on a local minor league team before the Cataclysm.  You escaped with your equipment, but how long can you survive until your innings are up?",
     "points": 0,
@@ -200,7 +200,7 @@
   },
   {
     "type": "profession",
-    "ident": "linebacker",
+    "id": "linebacker",
     "name": "Football Player",
     "description": "You were the star player for the local football team, adored by teammates and fans alike.  Now they just adore your brain.  You've still got your bulky football gear on.",
     "points": 0,
@@ -213,7 +213,7 @@
   },
   {
     "type": "profession",
-    "ident": "prep_student",
+    "id": "prep_student",
     "name": "Preppy Student",
     "description": "Your parents were busy, important people, who wanted you to have every advantage and pushed you to be \"successful,\" whatever that meant.  If only they'd ever let you experience childhood, or ever shown you their love.  You're certainly not getting either one now.",
     "points": 1,
@@ -245,7 +245,7 @@
   },
   {
     "type": "profession",
-    "ident": "waken",
+    "id": "waken",
     "name": "Awakened",
     "description": "You were awoken in the middle of the night by a noise.  Armed only with a flashlight you went to investigate, now you face the Cataclysm.",
     "points": 0,
@@ -257,7 +257,7 @@
   },
   {
     "type": "profession",
-    "ident": "bio_cyclist",
+    "id": "bio_cyclist",
     "name": "Bionic Cyclist",
     "description": "Your training and augmentation for the Cyber-Olympics cycling competition gave you an edge on escaping the start of the Cataclysm.  Can you keep on running from it forever?",
     "points": 6,
@@ -281,7 +281,7 @@
   },
   {
     "type": "profession",
-    "ident": "welder",
+    "id": "welder",
     "name": "Welder",
     "description": "You worked as a welder for an off shore company before the Cataclysm.  You were on your way back home when it struck.  At least you got the tools of your craft.",
     "points": 4,
@@ -300,7 +300,7 @@
   },
   {
     "type": "profession",
-    "ident": "pri-sur",
+    "id": "pri-sur",
     "name": "Primitive Survivalist",
     "description": "You knew the day would come, the day it all went to shit.  You prepared yourself, not by gear but sheer skill; all those days in the woods paid off.  If your ancestors survived with no tech, you'll be damned if you don't",
     "points": 6,

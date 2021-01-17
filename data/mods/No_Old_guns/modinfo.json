@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "no_olg_guns",
+    "id": "no_olg_guns",
     "name": "No Antique Firearms",
     "authors": [ "Rivet-the-Zombie" ],
     "maintainers": [ "Rivet-the-Zombie", "Cyrano7" ],

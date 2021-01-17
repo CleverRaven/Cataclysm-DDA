@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "Heavy miners",
+    "id": "Heavy miners",
     "name": "Roadheader and other mining vehicles",
     "authors": [ "Ckpyt" ],
     "maintainers": [ "Ckpyt in the forest" ],

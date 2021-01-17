@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "No_Anthills",
+    "id": "No_Anthills",
     "name": "No Ants",
     "authors": [ "Inglonias" ],
     "description": "Removes ants and anthills from the game",

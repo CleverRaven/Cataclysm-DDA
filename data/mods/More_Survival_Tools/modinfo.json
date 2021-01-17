@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "More_Survival_Tools",
+    "id": "More_Survival_Tools",
     "name": "More Survival Tools",
     "authors": [ "Chaosvolt" ],
     "maintainers": [ "DangerNoodle" ],

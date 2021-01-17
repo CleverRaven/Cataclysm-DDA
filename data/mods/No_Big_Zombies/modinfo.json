@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "No_Big_Zombies",
+    "id": "No_Big_Zombies",
     "name": "No Big Zombies",
     "authors": [ "Inglonias" ],
     "description": "Removes shocker brutes, zombie hulks, and skeletal juggernauts from the game.",

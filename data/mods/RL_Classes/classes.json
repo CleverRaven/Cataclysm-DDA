@@ -1,7 +1,7 @@
 [
   {
     "type": "profession",
-    "ident": "fighter",
+    "id": "fighter",
     "name": "Fighter",
     "description": "A master of arms and armor and a fearsome martial combatant; you are a fighter, forged in warfare and tempered on the battlefield.",
     "points": 0,
@@ -35,7 +35,7 @@
   },
   {
     "type": "profession",
-    "ident": "rogue",
+    "id": "rogue",
     "name": "Rogue",
     "description": "A street urchin skilled in legerdemain and deadly with a blade; you are a rogue, a resourceful trickster and master thief.",
     "points": 0,
@@ -68,7 +68,7 @@
   },
   {
     "type": "profession",
-    "ident": "barbarian",
+    "id": "barbarian",
     "name": "Barbarian",
     "description": "A child of Crom hailing from the bitter north; you are a barbarian, as fearsome and formidable as the untamed land you call home.",
     "points": 0,
@@ -105,7 +105,7 @@
   },
   {
     "type": "profession",
-    "ident": "skald",
+    "id": "skald",
     "name": "Skald",
     "description": "A mysterious wandering minstrel and storyteller hailing from the northern highlands; you are a skald, a noble barbarian lore-keeper and speaker to the spirits.",
     "points": 0,
@@ -142,7 +142,7 @@
   },
   {
     "type": "profession",
-    "ident": "ranger",
+    "id": "ranger",
     "name": "Ranger",
     "description": "One of the few who wander but are never lost; you are a ranger, wise in the ways of the forest and deadly with a bow.",
     "points": 0,
@@ -180,7 +180,7 @@
   },
   {
     "type": "profession",
-    "ident": "monk",
+    "id": "monk",
     "name": "Monk",
     "description": "Servant to an exotic order of ascetics; you are a monk, a pious devotee with extensive knowledge of unarmed combat.",
     "points": 0,
@@ -201,7 +201,7 @@
   },
   {
     "type": "profession",
-    "ident": "knight",
+    "id": "knight",
     "name": "Knight",
     "description": "Sworn defender of the land; you are a knight, an educated warrior trained since childhood in the ways of honorable combat.",
     "points": 0,
@@ -233,7 +233,7 @@
   },
   {
     "type": "profession",
-    "ident": "wizard",
+    "id": "wizard",
     "name": { "male": "Sorcerer", "female": "Sorceress" },
     "description": "A wise student of ancient and forbidden knowledge; you are a wizard, a mystical practitioner of the (bionic) arcane arts.",
     "points": 0,

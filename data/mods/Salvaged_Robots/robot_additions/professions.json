@@ -1,7 +1,7 @@
 [
   {
     "type": "profession",
-    "ident": "robo_hacker",
+    "id": "robo_hacker",
     "name": "Robo-Hacker",
     "description": "Before the end, your hobby was illegally reprogramming and repurposing commercial robots, but you never thought your survival might depend on it.",
     "points": 2,
@@ -29,7 +29,7 @@
   },
   {
     "type": "profession",
-    "ident": "robo_expert",
+    "id": "robo_expert",
     "name": "Robotics Engineer",
     "description": "You were a low-level engineer at a robotics manufacturer.  The management kept telling you putting flamethrowers on manhacks was 'unnecessary' and 'too dangerous,' but there's nothing to stop you now.",
     "points": 5,
@@ -44,7 +44,7 @@
   },
   {
     "type": "profession",
-    "ident": "robo_prodigy",
+    "id": "robo_prodigy",
     "name": "Robotics Prodigy",
     "description": "You've been building robots since you could hold a soldering iron, and you don't intend to let the end of the world stop that from continuing.",
     "points": 8,
@@ -57,7 +57,7 @@
   },
   {
     "type": "profession",
-    "ident": "robo_adoptee",
+    "id": "robo_adoptee",
     "name": "Robot Adoptee",
     "description": "During the riots a military robot came out of nowhere to rescue you.  Maybe it thinks you're someone important, who knows.",
     "points": 6,
@@ -72,7 +72,7 @@
   },
   {
     "type": "profession",
-    "ident": "robo_hunter",
+    "id": "robo_hunter",
     "name": "Robo-hunter",
     "description": "You paid a local hacker to build you a robotic hunting dog.  It's almost as good as the real thing, but it doesn't respond well to being pet.",
     "points": 2,

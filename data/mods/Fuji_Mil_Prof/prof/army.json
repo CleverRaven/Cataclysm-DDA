@@ -1,7 +1,7 @@
 [
   {
     "type": "profession",
-    "ident": "mil_rifleman",
+    "id": "mil_rifleman",
     "name": "Military Rifleman",
     "description": "Frontline infantry, frontline infantry, frontline infantry, frontline infantry.",
     "points": 2,
@@ -36,7 +36,7 @@
   },
   {
     "type": "profession",
-    "ident": "mil_marksman",
+    "id": "mil_marksman",
     "name": "Military Marksman",
     "description": "You like to think you're a real sniper, but really you're just infantry with a bigger gun.",
     "points": 4,
@@ -69,7 +69,7 @@
   },
   {
     "type": "profession",
-    "ident": "mil_auto_rifleman",
+    "id": "mil_auto_rifleman",
     "name": "Military Automatic Rifleman",
     "description": "S stands for suppressing fire!",
     "points": 3,
@@ -100,7 +100,7 @@
   },
   {
     "type": "profession",
-    "ident": "mil_grenadier",
+    "id": "mil_grenadier",
     "name": "Military Grenadier",
     "description": "There's no kill like overkill.",
     "points": 3,
@@ -140,7 +140,7 @@
   },
   {
     "type": "profession",
-    "ident": "mil_breacher",
+    "id": "mil_breacher",
     "name": "Military Breacher",
     "description": "Doors and windows everywhere dare not speak your name.",
     "points": 3,

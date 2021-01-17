@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "fast_healing",
+    "id": "fast_healing",
     "name": "EZ-Mode Medical",
     "authors": [ "anothersimulacrum" ],
     "maintainers": [  ],

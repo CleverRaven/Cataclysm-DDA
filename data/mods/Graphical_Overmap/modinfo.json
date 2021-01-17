@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "Graphical_Overmap",
+    "id": "Graphical_Overmap",
     "name": "Graphical Overmap",
     "authors": [ "Larwick" ],
     "maintainers": [ "Larwick" ],

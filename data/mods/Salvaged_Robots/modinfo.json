@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "Salvaged_Robots",
+    "id": "Salvaged_Robots",
     "name": "Salvaged Robots",
     "authors": [ "Sunshine" ],
     "maintainers": [ "Anyone" ],

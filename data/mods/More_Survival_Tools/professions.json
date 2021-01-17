@@ -1,7 +1,7 @@
 [
   {
     "type": "profession",
-    "ident": "wanderer",
+    "id": "wanderer",
     "name": "Wanderer",
     "description": "You always preferred the comfort of the open sky, far from the complexities of modern life.  Though from the looks of it, things have changed since last time you've been anywhere near civilization.",
     "points": 5,
@@ -38,7 +38,7 @@
   },
   {
     "type": "profession",
-    "ident": "caveman",
+    "id": "caveman",
     "name": "Prehistoric Hunter",
     "description": "An out-of-place living relic of prehistory, stranded in an unfamiliar and terrifying world.  Life as a hunter-gatherer was hard, but at least you didn't have to fight the living dead, and you had your kin to stand beside you.  Here, you're on your own.",
     "points": 2,

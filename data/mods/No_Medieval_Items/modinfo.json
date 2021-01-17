@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "no_medieval_items",
+    "id": "no_medieval_items",
     "name": "No Medieval Items",
     "authors": [ "Rivet-the-Zombie" ],
     "maintainers": [ "Rivet-the-Zombie" ],

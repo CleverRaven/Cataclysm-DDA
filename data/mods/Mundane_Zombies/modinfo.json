@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "Mundane_Zombies",
+    "id": "Mundane_Zombies",
     "name": "Mundane Zombies",
     "authors": [ "Theundyingcode", "daftfad" ],
     "maintainers": [ "Theundyingcode" ],
