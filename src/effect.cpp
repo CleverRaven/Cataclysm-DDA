@@ -1081,7 +1081,7 @@ double effect::get_percentage( const std::string &arg, int val, bool reduced ) c
 
     double ret = 0;
     // If both bot values are zero the formula is one_in(top), else the formula is x_in_y(top, bot)
-    if( bot_base != 0 && bot_scale != 0 ) {
+    if( bot_base != 0 || bot_scale != 0 ) {
         if( bot_base + bot_scale == 0 ) {
             // Special crash avoidance case, in most effect fields 0 = "nothing happens"
             // so assume false here for consistency
