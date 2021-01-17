@@ -941,9 +941,8 @@ def extract_vehicle_part_category(item):
     short_name = item.get("short_name")
     comment = item.get("//")
     short_comment = "(short name, optimal 1 symbol) " + comment
-    writestr(outfile, name, context="vpart_category_name", comment=comment)
-    writestr(outfile, short_name, context="vpart_category_short_name",
-             comment=short_comment)
+    writestr(outfile, name, comment=comment)
+    writestr(outfile, short_name, comment=short_comment)
 
 
 # these objects need to have their strings specially extracted
@@ -1040,6 +1039,9 @@ def gettextify(string, context=None, plural=None):
             return "_(%r)\n" % string
 
 
+# `context` is deprecated and only for use in legacy code. Use
+# `class translation` to read the text in c++ and specify the context in json
+# instead.
 def writestr(filename, string, context=None, format_strings=False,
              comment=None, pl_fmt=False, _local_fp_cache=dict()):
     "Wrap the string and write to the file."
