@@ -1920,9 +1920,10 @@ void vehicle::use_bike_rack( int part )
                     carry_size += 1;
                     found_vehicle = true;
                     // found a carried vehicle part
-                    if( parts[ near_parts[ 0 ] ].carried_name() != cur_vehicle ) {
+                    if( parts[ near_parts[ 0 ] ].carry_names.top().substr( vehicle_part::name_offset ) !=
+                        cur_vehicle ) {
                         add_vehicle( carried_parts, carried_vehicles, carry_rack, carrying_racks );
-                        cur_vehicle = parts[ near_parts[ 0 ] ].carried_name();
+                        cur_vehicle = parts[ near_parts[ 0 ] ].carry_names.top().substr( vehicle_part::name_offset );
                     }
                     for( const int &carried_part : near_parts ) {
                         carried_parts.push_back( carried_part );
@@ -1965,6 +1966,8 @@ void vehicle::use_bike_rack( int part )
         map &here = get_map();
         here.invalidate_map_cache( here.get_abs_sub().z );
         here.rebuild_vehicle_level_caches();
+        //ensures that the turn timer used as id is moved along after each successfull bike rack interaction
+        calendar::turn = calendar::turn + 1_turns;
     }
 }
 

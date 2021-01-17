@@ -1361,13 +1361,13 @@ void veh_interact::calc_overview()
     //call for main vehicle ui
     overview_opts = get_vehicle_overview( veh, false );
 
-
-    //group carried vehicle parts by their vehicle name
+    //group carried vehicle parts by their assigned carry_names stacks top element
     std::map<std::string, std::vector<vehicle_part>> carried_vehicles;
 
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
         if( vpr.part().has_flag( vehicle_part::carried_flag ) ) {
-            carried_vehicles[vpr.part().carried_name()].push_back( vpr.part() );
+            carried_vehicles[vpr.part().carry_names.top().substr( vehicle_part::name_offset )].push_back(
+                vpr.part() );
         }
     }
 
@@ -1475,7 +1475,9 @@ std::vector<veh_interact::part_option> veh_interact::get_vehicle_overview( const
             continue;
         }
 
-        if( add_seperator && !car->name.empty() ) {
+        if( add_seperator && !car->name.empty() && ( vpr.part().is_engine() || vpr.part().is_tank() ||
+                vpr.part().is_battery() || vpr.part().is_reactor() || vpr.part().is_turret() ||
+                vpr.part().is_seat() ) ) {
             auto details = [this, car]( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 std::string text = " <color_green>" + car->name + "</color> ";
 

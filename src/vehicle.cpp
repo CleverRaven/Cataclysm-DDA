@@ -1795,6 +1795,12 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
             std::string unique_id = string_format( "%s%3d%s", offset,
                                                    static_cast<int>( to_degrees( relative_dir ) ),
                                                    carry_veh->name );
+
+            //todo: find a less awkward replacement (idealy one that can stay within the scope of vehicle.cpp)
+            //add current turn as unique id equivalent
+            int now = to_turn<int>( calendar::turn );
+            unique_id.append( "<turn>" + std::to_string( now ) + "</turn>" );
+
             for( const int &carry_part : carry_map.carry_parts_here ) {
                 parts.push_back( carry_veh->parts[ carry_part ] );
                 vehicle_part &carried_part = parts.back();
@@ -2086,7 +2092,10 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     }
 
     std::vector<point> new_mounts;
-    new_vehicle->name = veh_record.substr( vehicle_part::name_offset );
+    std::size_t pos = ( int )veh_record.find( "<turn>" );
+    pos = ( pos != veh_record.length() ) ? pos - 7 : pos;
+
+    new_vehicle->name = veh_record.substr( vehicle_part::name_offset, pos );
     for( int carried_part : carried_parts ) {
         point new_mount;
         std::string mount_str;
