@@ -233,7 +233,7 @@ class Tilesheet:
         Find and process all JSON and PNG files within sheet directory
         '''
         for subdir_fpath, dirnames, filenames in os.walk(self.subdir_path):
-            for filename in filenames:
+            for filename in sorted(filenames):
                 filepath = os.path.join(subdir_fpath, filename)
                 if filename.endswith('.png'):
                     self.process_png(filepath, filename)
@@ -264,7 +264,10 @@ class Tilesheet:
         '''
         Load and verify an image using pyvips
         '''
-        image = Vips.Image.pngload(png_path)
+        try:
+            image = Vips.Image.pngload(png_path)
+        except pyvips.error.Error as error:
+            sys.exit(f'Cannot load {png_path}: {error.message}')
         if image.interpretation != 'srgb':
             image = image.colourspace('srgb')
 
