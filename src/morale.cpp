@@ -39,8 +39,6 @@ static const trait_id trait_LEAVES2( "LEAVES2" );
 static const trait_id trait_LEAVES3( "LEAVES3" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
-static const trait_id trait_M_SKIN2( "M_SKIN2" );
-static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_OPTIMISTIC( "OPTIMISTIC" );
 static const trait_id trait_ROOTS1( "ROOTS1" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
@@ -841,6 +839,19 @@ bool player_morale::has_mutation( const trait_id &mid )
     return ( mutation != mutations.end() && mutation->second.get_active() );
 }
 
+
+bool player_morale::has_mutation_flag( const std::string &flag )
+{
+    for( const std::pair<const trait_id, const player_morale::mutation_data> &mut : mutations ) {
+        const mutation_branch &mut_data = mut.first.obj();
+        if( mut_data.flags.count( flag ) > 0 ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void player_morale::set_mutation( const trait_id &mid, bool active )
 {
     const auto &mutation = mutations.find( mid );
@@ -1048,7 +1059,7 @@ void player_morale::update_bodytemp_penalty( const time_duration &ticks )
         add( MORALE_COLD, -2 * to_turns<int>( ticks ), -std::abs( max_cold_penalty ), 1_minutes, 30_seconds,
              true );
     }
-    if( max_hot_penalty != 0 && !( has_mutation( trait_M_SKIN2 ) || has_mutation( trait_M_SKIN3 ) ) ) {
+    if( max_hot_penalty != 0 && !has_mutation_flag( "HEATPROOF" ) ) {
         add( MORALE_HOT, -2 * to_turns<int>( ticks ), -std::abs( max_hot_penalty ), 1_minutes, 30_seconds,
              true );
     }
