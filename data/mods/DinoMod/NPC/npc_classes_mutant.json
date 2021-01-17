@@ -5,7 +5,7 @@
     "name": "Stego Mutant",
     "job_description": "I'm looking for stego mutagen… I'm going to become a thunder lizard.",
     "skills": [
-      { "skill": "bash", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "bashing", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
     ],
