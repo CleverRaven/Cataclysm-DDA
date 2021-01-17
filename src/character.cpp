@@ -11275,9 +11275,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
 
 const item *Character::find_firestarter_with_charges( const int quantity ) const
 {
-    auto firestarters = all_items_with_flag( flag_FIRESTARTER );
-
-    for( auto &i : firestarters ) {
+    for( const item *i : all_items_with_flag( flag_FIRESTARTER ) ) {
         if( !i->typeId()->can_have_charges() ) {
             const use_function *usef = i->type->get_use( "firestarter" );
             const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
@@ -11355,7 +11353,7 @@ void Character::use_fire( const int quantity )
         return;
     } else if( has_item_with_flag( flag_FIRE ) ) {
         return;
-    } else if( const auto &firestarter = find_firestarter_with_charges( quantity ) ) {
+    } else if( const item *firestarter = find_firestarter_with_charges( quantity ) ) {
         if( firestarter->typeId()->can_have_charges() ) {
             use_charges( firestarter->typeId(), quantity );
             return;
