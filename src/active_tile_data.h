@@ -4,6 +4,7 @@
 
 #include <string>
 #include "calendar.h"
+#include "point.h"
 
 class JsonObject;
 class JsonOut;
@@ -20,6 +21,11 @@ class active_tile_data
         time_point last_updated;
 
     protected:
+        /**
+         * @param to the time to update to
+         * @param p absolute map coordinates (@ref map::getabs) of the tile being updated
+         * @param grid distribution grid being updated, containing the tile being updated
+         */
         virtual void update_internal( time_point to, const tripoint &p, distribution_grid &grid ) = 0;
 
     public:
@@ -92,6 +98,22 @@ class charger_tile : public active_tile_data
         const std::string &get_type() const override;
         void store( JsonOut &jsout ) const override;
         void load( JsonObject &jo ) override;
+};
+
+class vehicle_connector_tile : public active_tile_data
+{
+    private:
+        // VERY ugly hack, don't merge!!!!!!!!111
+        tripoint pos;
+    public:
+        void update_internal( time_point to, const tripoint &p, distribution_grid &grid ) override;
+        active_tile_data *clone() const override;
+        const std::string &get_type() const override;
+        void store( JsonOut &jsout ) const override;
+        void load( JsonObject &jo ) override;
+
+        int get_resource() const override;
+        int mod_resource( int amt ) override;
 };
 
 #endif // CATA_SRC_ACTIVE_TILE_DATA_H

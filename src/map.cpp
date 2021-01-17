@@ -4774,7 +4774,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     if( itt != nullptr && itt->item_tags.count( flag_USES_GRID_POWER ) > 0 ) {
         item furn_item( itt, -1, m->distribution_grid_at( p ).get_resource() );
         if( filter( furn_item ) ) {
-            quantity = m->distribution_grid_at( p ).mod_resource( -quantity );
+            quantity = -m->distribution_grid_at( p ).mod_resource( -quantity );
         }
     } else if( itt != nullptr && itt->tool && !itt->tool->ammo_id.empty() ) {
         const itype_id ammo = ammotype( *itt->tool->ammo_id.begin() )->default_ammotype();

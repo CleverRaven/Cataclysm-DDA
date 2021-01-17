@@ -679,5 +679,27 @@
         { "item": "small_storage_battery", "count": [ 5, 10 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cable_connector",
+    "looks_like": "f_utility_shelf",
+    "name": "jumper cable connector",
+    "description": "Power outlet connecting a building's electrical grid to a vehicle.  To use, connect a jumper cable to a vehicle, then place the other end on the connector.",
+    "symbol": "*",
+    "color": "blue_white",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": -1,
+    "max_volume": "5000 ml",
+    "active": [ "vehicle_connector", {  } ],
+    "deconstruct": { "items": [ { "item": "power_supply" } ] },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "power_supply", "prob": 50 } ]
+    }
   }
 ]
