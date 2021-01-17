@@ -1628,15 +1628,33 @@ bool item_pocket::favorite_settings::accepts_item( const item &it ) const
     const itype_id &id = it.typeId();
     const item_category_id &cat = it.get_category_of_contents().id;
 
-    bool accept_category = ( category_whitelist.empty() || category_whitelist.count( cat ) ) &&
-                           !category_blacklist.count( cat );
-    if( accept_category ) {
-        // Allowed unless explicitly disallowed by the item filters.
-        return ( item_whitelist.empty() || item_whitelist.count( id ) ) && !item_blacklist.count( id );
-    } else {
-        // Disallowed unless explicitly whitelisted
-        return item_whitelist.count( id );
+    // If the item is explicitly listed in either of the lists, then it's clear what to do with it
+    if( item_blacklist.count( id ) ) {
+        return false;
     }
+    if( item_whitelist.count( id ) ) {
+        return true;
+    }
+
+    // otherwise check the category, the same way
+    if( category_blacklist.count( cat ) ) {
+        return false;
+    }
+    if( category_whitelist.count( cat ) ) {
+        return true;
+    }
+
+    // Finally, if no match was found, see if there were any filters at all,
+    // and either allow or deny everything that's fallen through to here.
+    if( !category_whitelist.empty() ) {
+        return false;  // we've whitelisted only some categories, and this item is not out of those.
+    }
+    if( !item_whitelist.empty() && category_blacklist.empty() ) {
+        // Whitelisting only certain items, and not as a means to tweak blacklist.
+        return false;
+    }
+    // No whitelist - everything goes.
+    return true;
 }
 
 template<typename T>
