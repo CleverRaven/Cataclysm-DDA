@@ -206,7 +206,7 @@ class group_entry: public inventory_entry
          * Assigns number of children
          * @param n number of same items as this, after this in `inventory_column::entries`
          */
-        void set_number_of_children( const int n );
+        void set_number_of_children( int n );
 
     protected:
         bool _expanded = true;
