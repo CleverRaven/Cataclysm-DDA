@@ -23,6 +23,9 @@ Do not enter the square brackets [].  Category must be one of these:
 - Build
 - I18N
 
+Example:
+SUMMARY: Infrastructure "Refactor Creature::deal_projectile_attack into smaller parts"
+
 For more on the meaning of each category, see:
 https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/CHANGELOG_GUIDELINES.md
 
