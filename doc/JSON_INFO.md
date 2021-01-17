@@ -1799,7 +1799,7 @@ it is present to help catch errors.
 "debug": false,     //Trait is for debug purposes (default: false)
 "player_display": true, //Trait is displayed in the `@` player display menu
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
-// prereqs and prereqs2 specify prerequisits of the current mutation
+// prereqs and prereqs2 specify prerequisites of the current mutation
 // Both are optional, but if prereqs2 is specified prereqs must also be specified
 // The example below means: ( "SLOWREADER" OR "ILLITERATE") AND ("CEPH_EYES" OR "LIZ_EYE")
 "prereqs": [ "SLOWREADER", "ILLITERATE"],
