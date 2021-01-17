@@ -8563,16 +8563,6 @@ void item::process_relic( Character *carrier )
             active_enchantments.emplace_back( ench );
         }
     }
-
-    for( const enchantment &ench : active_enchantments ) {
-        ench.activate_passive( *carrier );
-    }
-
-    // Recalculate, as it might have changed (by mod_*_bonus above)
-    carrier->str_cur = carrier->get_str();
-    carrier->int_cur = carrier->get_int();
-    carrier->dex_cur = carrier->get_dex();
-    carrier->per_cur = carrier->get_per();
 }
 
 bool item::process_corpse( player *carrier, const tripoint &pos )

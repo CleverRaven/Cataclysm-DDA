@@ -7648,8 +7648,8 @@ std::string Character::get_highest_category() const
 
 void Character::recalculate_enchantment_cache()
 {
-    // start by resetting the cache to all inventory items
-    enchantment_cache = inv.get_active_enchantment_cache( *this );
+    // start by resetting the cache
+    enchantment_cache = enchantment();
 
     visit_items( [&]( const item * it ) {
         for( const enchantment &ench : it->get_enchantments() ) {

@@ -195,7 +195,7 @@
         {
           "has": "HELD",
           "condition": "ACTIVE",
-          "values": [ { "value": "INTELLIGENCE", "add": -4 }, { "value": "PERCEPTION", "add": -4 } ],
+          "values": [ { "value": "INTELLIGENCE", "add": -2 }, { "value": "PERCEPTION", "add": -2 } ],
           "ench_effects": [ { "effect": "debug_clairvoyance", "intensity": 1 } ]
         }
       ]

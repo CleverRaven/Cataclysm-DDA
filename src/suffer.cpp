@@ -1458,6 +1458,8 @@ void Character::suffer()
 
     suffer_without_sleep( sleep_deprivation );
     suffer_from_pain();
+    //Suffer from enchantments
+    enchantment_cache.activate_passive( *this );
 
     if( calendar::once_every( 1_hours ) ) {
         add_effect( effect_accumulated_mutagen, 1_hours, num_bp, true );

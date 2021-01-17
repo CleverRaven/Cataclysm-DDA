@@ -3406,6 +3406,7 @@ void player::use( item_location loc )
         add_msg( m_info, _( "You can't do anything interesting with your %s." ),
                  used.tname() );
     }
+    recalculate_enchantment_cache();
 }
 
 void player::reassign_item( item &it, int invlet )
