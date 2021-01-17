@@ -725,14 +725,23 @@ bool veh_interact::update_part_requirements()
     std::string additional_requirements;
     bool lifting_or_jacking_required = false;
 
+    bool allow_more_eng = engines < 2 || g->u.has_trait( trait_DEBUG_HS );
+
     if( dif_eng > 0 ) {
-        if( g->u.get_skill_level( skill_mechanics ) < dif_eng ) {
+        if( !allow_more_eng || g->u.get_skill_level( skill_mechanics ) < dif_eng ) {
             ok = false;
         }
-        //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
-        additional_requirements += string_format( _( "> %1$s%2$s %3$i</color> for extra engines." ),
-                                   status_color( g->u.get_skill_level( skill_mechanics ) >= dif_eng ),
-                                   skill_mechanics.obj().name(), dif_eng ) + "\n";
+        if( allow_more_eng ) {
+            //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
+            additional_requirements += string_format( _( "> %1$s%2$s %3$i</color> for extra engines." ),
+                                       status_color( g->u.get_skill_level( skill_mechanics ) >= dif_eng ),
+                                       skill_mechanics.obj().name(), dif_eng ) + "\n";
+        } else {
+            additional_requirements +=
+                _( "> <color_red>You cannot install any more engines on this vehicle.</color>" ) +
+                std::string( "\n" );
+        }
+
     }
 
     if( dif_steering > 0 ) {
@@ -1994,8 +2003,22 @@ int veh_interact::part_at( const point &d )
  */
 bool veh_interact::can_potentially_install( const vpart_info &vpart )
 {
-    return g->u.has_trait( trait_DEBUG_HS ) ||
-           vpart.install_requirements().can_make_with_inventory( crafting_inv, is_crafting_component );
+    bool engine_reqs_met = true;
+    bool can_make = vpart.install_requirements().can_make_with_inventory( crafting_inv,
+                    is_crafting_component );
+    bool hammerspace = g->u.has_trait( trait_DEBUG_HS );
+
+    int engines = 0;
+    if( vpart.has_flag( VPFLAG_ENGINE ) && vpart.has_flag( "E_HIGHER_SKILL" ) ) {
+        for( const vpart_reference &vp : veh->get_avail_parts( "ENGINE" ) ) {
+            if( vp.has_feature( "E_HIGHER_SKILL" ) ) {
+                engines++;
+            }
+        }
+        engine_reqs_met = engines < 2;
+    }
+
+    return hammerspace || ( can_make && engine_reqs_met );
 }
 
 /**

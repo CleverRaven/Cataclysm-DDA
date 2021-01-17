@@ -24,6 +24,7 @@
 #include "init.h"
 #include "json.h"
 #include "loading_ui.h"
+#include "messages.h"
 #include "options.h"
 #include "path_info.h"
 #include "rng.h"
@@ -442,6 +443,8 @@ static Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
 
 void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume )
 {
+    add_msg( m_debug, "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
+
     if( !check_sound( volume ) ) {
         return;
     }
@@ -466,6 +469,8 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
 void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume,
                               int angle, double pitch_min, double pitch_max )
 {
+    add_msg( m_debug, "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
+
     if( !check_sound( volume ) ) {
         return;
     }

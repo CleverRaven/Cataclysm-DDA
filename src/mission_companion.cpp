@@ -377,6 +377,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
     base_camps::tab_mode tab_mode = base_camps::TAB_MAIN;
 
     size_t sel = 0;
+    int name_offset = 0;
 
     // The following are for managing the right pane scrollbar.
     size_t info_offset = 0;
@@ -432,6 +433,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        name_offset = 0;
+        info_offset = 0;
         part_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
         part_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
         maxy = part_y ? TERMY - 2 * part_y : FULL_SCREEN_HEIGHT;
@@ -460,51 +463,70 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         mvwprintz( w_list, point( 1, 1 ), c_white, name_mission_tabs( omt_pos, role_id, title,
                    tab_mode ) );
 
-        std::vector<std::vector<std::string>> folded_names;
+        struct disp_entry {
+            std::vector<std::string> lines;
+            nc_color col;
+        };
+
+        std::vector<disp_entry> disp_names;
         size_t folded_names_lines = 0;
-        for( const auto &cur_key_entry : cur_key_list ) {
-            std::vector<std::string> f_name = foldstring( cur_key_entry.name_display, MAX_FAC_NAME_SIZE - 5,
-                                              ' ' );
-            folded_names_lines += f_name.size();
-            folded_names.emplace_back( f_name );
-        }
+        for( size_t i = 0; i < cur_key_list.size(); i++ ) {
+            const mission_entry &e = cur_key_list[i];
+            std::vector<std::string> lines = foldstring( e.name_display, MAX_FAC_NAME_SIZE - 5, ' ' );
+            nc_color col = i == sel ? h_white : c_white;
 
-        int name_offset = 0;
-        calcStartPos( name_offset, sel, info_height, folded_names_lines );
-
-        size_t list_line = 2;
-        for( size_t current = name_offset; list_line < info_height &&
-             current < cur_key_list.size(); current++ ) {
-            nc_color col = ( current == sel ? h_white : c_white );
             //highlight important missions
             for( const auto &k : mission_key.entries[0] ) {
-                if( cur_key_list[current].id == k.id ) {
-                    col = ( current == sel ? h_white : c_yellow );
+                if( e.id == k.id ) {
+                    col = ( i == sel ? h_white : c_yellow );
                     break;
                 }
             }
             //dull uncraftable items
             for( const auto &k : mission_key.entries[10] ) {
-                if( cur_key_list[current].id == k.id ) {
-                    col = ( current == sel ? h_white : c_dark_gray );
+                if( e.id == k.id ) {
+                    col = ( i == sel ? h_white : c_dark_gray );
                     break;
                 }
             }
-            std::vector<std::string> &name_text = folded_names[current];
-            for( size_t name_line = 0; name_line < name_text.size(); name_line++ ) {
-                print_colored_text( w_list, point( name_line ? 5 : 1, list_line ),
-                                    col, col, name_text[name_line] );
-                list_line += 1;
+
+            folded_names_lines += lines.size();
+            disp_names.push_back( { lines, col } );
+        }
+
+        size_t sel_pos_min = 0;
+        for( size_t i = 0; i < sel; i++ ) {
+            sel_pos_min += disp_names[i].lines.size();
+        }
+        size_t sel_pos_max = sel_pos_min + disp_names[sel].lines.size() - 1;
+
+        // Make sure the selected entry is fully visible,
+        // and the cursor is positioned at 1st line of the entry.
+        calcStartPos( name_offset, sel_pos_max, info_height, folded_names_lines );
+        calcStartPos( name_offset, sel_pos_min, info_height, folded_names_lines );
+
+        // Some entries may be shown only partially,
+        // but that's fine since it makes scrolling smoother.
+        int name_curr = 0;
+        int name_max = name_offset + static_cast<int>( info_height );
+        for( const disp_entry &e : disp_names ) {
+            for( size_t i = 0; i < e.lines.size() && name_curr < name_max; i++, name_curr++ ) {
+                if( name_curr < name_offset ) {
+                    continue;
+                }
+                point p( i == 0 ? 1 : 5, name_curr - name_offset + 2 );
+                nc_color col = e.col;
+                print_colored_text( w_list, p, col, col, e.lines[i] );
             }
         }
 
-        if( cur_key_list.size() > info_height + 1 ) {
+        if( folded_names_lines > info_height ) {
             scrollbar()
             .offset_x( 0 )
             .offset_y( 1 )
             .content_size( folded_names_lines )
-            .viewport_pos( sel )
-            .viewport_size( info_height + 1 )
+            .viewport_pos( name_offset )
+            .viewport_size( info_height )
             .apply( w_list );
         }
         wnoutrefresh( w_list );
@@ -569,6 +591,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             info_offset++;
         } else if( action == "NEXT_TAB" && role_id == "FACTION_CAMP" ) {
             sel = 0;
+            name_offset = 0;
             info_offset = 0;
 
             do {
@@ -582,6 +605,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             } while( cur_key_list.empty() );
         } else if( action == "PREV_TAB" && role_id == "FACTION_CAMP" ) {
             sel = 0;
+            name_offset = 0;
             info_offset = 0;
 
             do {
