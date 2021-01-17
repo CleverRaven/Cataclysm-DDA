@@ -230,8 +230,8 @@ int towel_common( Character *, item *, bool );
 bool robotcontrol_can_target( player *, const monster & );
 
 // Helper for handling pesky wannabe-artists
-int handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
-                            const tripoint &where );
+cata::optional<int> handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
+        const tripoint &where );
 
 } // namespace iuse
 

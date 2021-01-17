@@ -211,27 +211,27 @@ cata::optional<int> iuse_transform::use( player &p, item &it, bool t, const trip
 
     if( possess && need_worn && !p.is_worn( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
-        return 0;
+        return cata::nullopt;
     }
     if( possess && need_wielding && !p.is_wielding( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
-        return 0;
+        return cata::nullopt;
     }
     if( need_charges && it.units_remaining( p ) < need_charges ) {
         if( possess ) {
             p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
         }
-        return 0;
+        return cata::nullopt;
     }
 
     if( need_fire && possess ) {
         if( !p.use_charges_if_avail( itype_fire, need_fire ) ) {
             p.add_msg_if_player( m_info, need_fire_msg, it.tname() );
-            return 0;
+            return cata::nullopt;
         }
         if( p.is_underwater() ) {
             p.add_msg_if_player( m_info, _( "You can't do that while underwater" ) );
-            return 0;
+            return cata::nullopt;
         }
     }
 
@@ -615,25 +615,25 @@ cata::optional<int> unfold_vehicle_iuse::use( player &p, item &it, bool, const t
 {
     if( p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return 0;
+        return cata::nullopt;
     }
     if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
+        return cata::nullopt;
     }
     for( const auto &tool : tools_needed ) {
         // Amount == -1 means need one, but don't consume it.
         if( !p.has_amount( tool.first, 1 ) ) {
             p.add_msg_if_player( _( "You need %s to do it!" ),
                                  item::nname( tool.first ) );
-            return 0;
+            return cata::nullopt;
         }
     }
 
     vehicle *veh = get_map().add_vehicle( vehicle_id, p.pos(), 0_degrees, 0, 0, false );
     if( veh == nullptr ) {
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
-        return 0;
+        return cata::nullopt;
     }
     veh->set_owner( p );
 
@@ -850,7 +850,8 @@ int delayed_transform_iuse::time_to_do( const item &it ) const
     return transform_age - to_turns<int>( it.age() );
 }
 
-cata::optional<int> delayed_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
+cata::optional<int> delayed_transform_iuse::use( player &p, item &it, bool t,
+        const tripoint &pos ) const
 {
     if( time_to_do( it ) > 0 ) {
         p.add_msg_if_player( m_info, "%s", not_ready_msg );
@@ -891,18 +892,18 @@ cata::optional<int> place_monster_iuse::use( player &p, item &it, bool, const tr
         if( !g->place_critter_around( newmon_ptr, p.pos(), 1 ) ) {
             p.add_msg_if_player( m_info, _( "There is no adjacent square to release the %s in!" ),
                                  newmon.name() );
-            return 0;
+            return cata::nullopt;
         }
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name() );
         const cata::optional<tripoint> pnt_ = choose_adjacent( query );
         if( !pnt_ ) {
-            return 0;
+            return cata::nullopt;
         }
         // place_critter_at returns the same pointer as its parameter (or null)
         if( !g->place_critter_at( newmon_ptr, *pnt_ ) ) {
             p.add_msg_if_player( m_info, _( "You cannot place a %s there." ), newmon.name() );
-            return 0;
+            return cata::nullopt;
         }
     }
     p.moves -= moves;
@@ -1133,14 +1134,14 @@ cata::optional<int> reveal_map_actor::use( player &p, item &it, bool, const trip
 {
     if( it.already_used_by_player( p ) ) {
         p.add_msg_if_player( _( "There isn't anything new on the %s." ), it.tname() );
-        return 0;
+        return cata::nullopt;
     } else if( get_map().get_abs_sub().z < 0 ) {
         p.add_msg_if_player( _( "You should read your %s when you get to the surface." ),
                              it.tname() );
-        return 0;
+        return cata::nullopt;
     } else if( p.fine_detail_vision_mod() > 4 ) {
         p.add_msg_if_player( _( "It's too dark to read." ) );
-        return 0;
+        return cata::nullopt;
     }
     const tripoint_abs_omt center( it.get_var( "reveal_map_center_omt",
                                    p.global_omt_location().raw() ) );
@@ -1282,16 +1283,17 @@ int firestarter_actor::moves_cost_by_fuel( const tripoint &pos ) const
     return moves_cost_slow;
 }
 
-cata::optional<int> firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) const
+cata::optional<int> firestarter_actor::use( player &p, item &it, bool t,
+        const tripoint &spos ) const
 {
     if( t ) {
-        return 0;
+        return cata::nullopt;
     }
 
     tripoint pos = spos;
     float light = light_mod( p.pos() );
     if( !prep_firestarter_use( p, pos ) ) {
-        return 0;
+        return cata::nullopt;
     }
 
     double skill_level = p.get_skill_level( skill_survival );
@@ -2024,7 +2026,8 @@ void musical_instrument_actor::load( const JsonObject &obj )
     obj.read( "npc_descriptions", npc_descriptions );
 }
 
-cata::optional<int> musical_instrument_actor::use( player &p, item &it, bool t, const tripoint & ) const
+cata::optional<int> musical_instrument_actor::use( player &p, item &it, bool t,
+        const tripoint & ) const
 {
     if( p.is_mounted() ) {
         p.add_msg_player_or_npc( m_bad, _( "You can't play music while mounted." ),
@@ -2293,11 +2296,11 @@ cata::optional<int> cast_spell_actor::use( player &p, item &it, bool, const trip
 {
     if( need_worn && !p.is_worn( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
-        return 0;
+        return cata::nullopt;
     }
     if( need_wielding && !p.is_wielding( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
-        return 0;
+        return cata::nullopt;
     }
 
     spell casting = spell( spell_id( item_spell ) );
@@ -2377,7 +2380,7 @@ cata::optional<int> holster_actor::use( player &p, item &it, bool, const tripoin
 {
     if( p.is_wielding( it ) ) {
         p.add_msg_if_player( _( "You need to unwield your %s before using it." ), it.tname() );
-        return 0;
+        return cata::nullopt;
     }
 
     int pos = 0;
@@ -2412,7 +2415,7 @@ cata::optional<int> holster_actor::use( player &p, item &it, bool, const tripoin
 
     if( pos < -1 ) {
         p.add_msg_if_player( _( "Never mind." ) );
-        return 0;
+        return cata::nullopt;
     }
 
     if( pos >= 0 ) {
@@ -2566,7 +2569,8 @@ static item_location get_item_location( player &p, item &it, const tripoint &pos
     return item_location( map_cursor( pos ), &it );
 }
 
-cata::optional<int> repair_item_actor::use( player &p, item &it, bool, const tripoint &position ) const
+cata::optional<int> repair_item_actor::use( player &p, item &it, bool,
+        const tripoint &position ) const
 {
     if( !can_use_tool( p, it, true ) ) {
         return 0;
@@ -3663,21 +3667,21 @@ cata::optional<int> place_trap_actor::use( player &p, item &it, bool, const trip
     const bool could_bury = !bury_question.empty();
     if( !allow_underwater && p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return 0;
+        return cata::nullopt;
     }
     if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return 0;
+        return cata::nullopt;
     }
     const cata::optional<tripoint> pos_ = choose_adjacent( string_format( _( "Place %s where?" ),
                                           it.tname() ) );
     if( !pos_ ) {
-        return 0;
+        return cata::nullopt;
     }
     tripoint pos = *pos_;
 
     if( !is_allowed( p, pos, it.tname() ) ) {
-        return 0;
+        return cata::nullopt;
     }
 
     map &here = get_map();
@@ -3693,7 +3697,7 @@ cata::optional<int> place_trap_actor::use( player &p, item &it, bool, const trip
                 p.add_msg_if_player( m_info,
                                      _( "That trap needs a space in %d tiles radius to be clear, centered %d tiles from you." ),
                                      outer_layer_trap.obj().get_trap_radius(), distance_to_trap_center );
-                return 0;
+                return cata::nullopt;
             }
         }
     }
@@ -3841,7 +3845,7 @@ cata::optional<int> install_bionic_actor::use( player &p, item &it, bool, const 
         }
         return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
     } else {
-        return 0;
+        return cata::nullopt;
     }
 }
 
@@ -3931,7 +3935,7 @@ cata::optional<int> detach_gunmods_actor::use( player &p, item &it, bool, const 
     }
 
     p.add_msg_if_player( _( "Never mind." ) );
-    return 0;
+    return cata::nullopt;
 }
 
 ret_val<bool> detach_gunmods_actor::can_use( const Character &p, const item &it, bool,
@@ -4123,12 +4127,12 @@ cata::optional<int> deploy_tent_actor::use( player &p, item &it, bool, const tri
     int diam = 2 * radius + 1;
     if( p.is_mounted() ) {
         p.add_msg_if_player( _( "You cannot do that while mounted." ) );
-        return 0;
+        return cata::nullopt;
     }
     const cata::optional<tripoint> dir = choose_direction( string_format(
             _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
     if( !dir ) {
-        return 0;
+        return cata::nullopt;
     }
     const tripoint direction = *dir;
 
@@ -4141,20 +4145,20 @@ cata::optional<int> deploy_tent_actor::use( player &p, item &it, bool, const tri
     for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
         if( const optional_vpart_position vp = here.veh_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), vp->vehicle().name );
-            return 0;
+            return cata::nullopt;
         }
         if( const Creature *const c = g->critter_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), c->disp_name() );
-            return 0;
+            return cata::nullopt;
         }
         if( here.impassable( dest ) || !here.has_flag( "FLAT", dest ) ) {
             add_msg( m_info, _( "The %s in that direction isn't suitable for placing the %s." ),
                      here.name( dest ), it.tname() );
-            return 0;
+            return cata::nullopt;
         }
         if( here.has_furn( dest ) ) {
             add_msg( m_info, _( "There is already furniture (%s) there." ), here.furnname( dest ) );
-            return 0;
+            return cata::nullopt;
         }
     }
     // Make a square of floor surrounded by wall.
@@ -4251,20 +4255,20 @@ void sew_advanced_actor::load( const JsonObject &obj )
 cata::optional<int> sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( p.is_npc() ) {
-        return 0;
+        return cata::nullopt;
     }
     if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return 0;
+        return cata::nullopt;
     }
     if( p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return 0;
+        return cata::nullopt;
     }
 
     if( p.fine_detail_vision_mod() > 4 ) {
         add_msg( m_info, _( "You can't see to sew!" ) );
-        return 0;
+        return cata::nullopt;
     }
 
     auto filter = [this]( const item & itm ) {
@@ -4276,13 +4280,13 @@ cata::optional<int> sew_advanced_actor::use( player &p, item &it, bool, const tr
                             filter, *p.as_avatar(), _( "Enhance which clothing?" ) );
     if( !loc ) {
         p.add_msg_if_player( m_info, _( "You do not have that item!" ) );
-        return 0;
+        return cata::nullopt;
     }
     item &mod = *loc;
     if( &mod == &it ) {
         p.add_msg_if_player( m_info,
                              _( "This can be used to repair or modify other items, not itself." ) );
-        return 0;
+        return cata::nullopt;
     }
 
     // Gives us an item with the mod added or removed (toggled)
@@ -4397,7 +4401,7 @@ cata::optional<int> sew_advanced_actor::use( player &p, item &it, bool, const tr
     const int choice = tmenu.ret;
 
     if( choice < 0 || choice >= static_cast<int>( clothing_mods.size() ) ) {
-        return 0;
+        return cata::nullopt;
     }
 
     // The mod player picked

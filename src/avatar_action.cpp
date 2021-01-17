@@ -1032,13 +1032,13 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         you.mod_moves( -loc.obtain_cost( you ) );
     } else {
         item_location::type loc_where = loc.where();
-        if (loc_where != item_location::type::character && loc_where != item_location::type::container) {
-            you.add_msg_if_player("You pick up the %s", loc.get_item()->display_name());
+        if( loc_where != item_location::type::character && loc_where != item_location::type::container ) {
+            you.add_msg_if_player( "You pick up the %s", loc.get_item()->display_name() );
             pre_obtain_moves = -1;
 
         }
         loc = loc.obtain( you, 1 );
-        if (pre_obtain_moves == -1) {
+        if( pre_obtain_moves == -1 ) {
             pre_obtain_moves = you.moves;
         }
         if( !loc ) {

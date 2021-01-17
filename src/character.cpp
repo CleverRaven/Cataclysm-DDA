@@ -8786,7 +8786,8 @@ bool Character::invoke_item( item *used, const std::string &method )
     return invoke_item( used, method, pos() );
 }
 
-bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt, int pre_obtain_moves )
+bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt,
+                             int pre_obtain_moves )
 {
     if( !has_enough_charges( *used, true ) ) {
         moves = pre_obtain_moves;
@@ -8806,12 +8807,13 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
-    cata::optional<int> charges_used = actually_used->type->invoke( *this->as_player(), *actually_used, pt, method );
+    cata::optional<int> charges_used = actually_used->type->invoke( *this->as_player(), *actually_used,
+                                       pt, method );
     if( !charges_used.has_value() ) {
         moves = pre_obtain_moves;
         return false;
     }
-    if (charges_used.value() == 0) {
+    if( charges_used.value() == 0 ) {
         return false;
     }
     // Prevent accessing the item as it may have been deleted by the invoked iuse function.

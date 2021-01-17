@@ -1680,9 +1680,10 @@ bool avatar::invoke_item( item *used )
     return Character::invoke_item( used );
 }
 
-bool avatar::invoke_item( item *used, const std::string &method, const tripoint &pt, int pre_obtain_moves )
+bool avatar::invoke_item( item *used, const std::string &method, const tripoint &pt,
+                          int pre_obtain_moves )
 {
-    if (pre_obtain_moves == -1) {
+    if( pre_obtain_moves == -1 ) {
         pre_obtain_moves = moves;
     }
     return Character::invoke_item( used, method, pt, pre_obtain_moves );

@@ -2000,7 +2000,7 @@ void player::use( int inventory_position )
 void player::use( item_location loc, int pre_obtain_moves )
 {
     // if -1 is passed in we don't want to change moves at all
-    if (pre_obtain_moves == -1) {
+    if( pre_obtain_moves == -1 ) {
         pre_obtain_moves = moves;
     }
     if( !loc ) {
@@ -2044,7 +2044,7 @@ void player::use( item_location loc, int pre_obtain_moves )
     } else if( used.is_book() ) {
         // TODO: Handle this with dynamic dispatch.
         if( avatar *u = as_avatar() ) {
-            if (!u->read(used)) {
+            if( !u->read( used ) ) {
                 moves = pre_obtain_moves;
             }
         }
