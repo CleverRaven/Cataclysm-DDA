@@ -185,12 +185,18 @@ class group_entry: public inventory_entry
         bool is_item() const {
             return false;
         }
-
+        /**
+         * Number of children
+         * @return number of same items as this, after this in `inventory_column::entries`
+         */
         int get_number_of_children() const {
             return n_children;
         }
-
-        void set_number_of_children( const int &n );
+        /**
+         * Assigns number of children
+         * @param n number of same items as this, after this in `inventory_column::entries`
+         */
+        void set_number_of_children( const int n );
 
     private:
         int n_children = 0;

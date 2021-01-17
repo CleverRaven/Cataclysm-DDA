@@ -231,7 +231,7 @@ inventory_entry *inventory_column::find_by_invlet( int invlet ) const
     return nullptr;
 }
 
-void group_entry::set_number_of_children( const int &n )
+void group_entry::set_number_of_children( const int n )
 {
     n_children = n;
 }
@@ -1004,15 +1004,19 @@ void inventory_column::prepare_paging( const std::string &filter )
         grouped = true;
     }
 
-    for( const std::shared_ptr< group_entry > &g_iter : group_entries_ ) {
+    for( const std::shared_ptr< group_entry > &g_ptr : group_entries_ ) {
         // FIXME: it's only here for debug, replace with state check
-        volatile bool expd = g_iter->expanded;
-        if( !expd ) { // TODO: change on change
+        volatile bool expd = g_ptr->expanded;
+        if( !expd ) {  // TODO: change on change
             // pop group
             std::vector<inventory_entry>::iterator gp =
-                std::find( entries.begin(), entries.end(), *g_iter );
+                std::find( entries.begin(), entries.end(), *g_ptr );
             gp++;
-            entries.erase( gp, gp + g_iter->get_number_of_children() );
+            if( gp + g_ptr->get_number_of_children() <= entries.end() ) {
+                entries.erase( gp, gp + g_ptr->get_number_of_children() );
+            } else {
+                debugmsg( "Couldn't close inventory group, due to lack of enoght entries" );
+            }
             // TODO: not yet, implement proper state maitanence for `group_entry` first
             // g_iter->expanded = false;
         }
