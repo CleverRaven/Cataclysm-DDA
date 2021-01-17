@@ -228,9 +228,9 @@
           { "item": "leather_shop_accessories", "chance": 10 }
         ],
         "B": [
-          { "item": "SUS_tailoring_tool_drawer", "chance": 60, "repeat": [ 0, 1 ] },
-          { "item": "tailorbooks", "chance": 60, "repeat": [ 0, 1 ] },
-          { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
+          { "item": "coke", "chance": 60, "repeat": [ 13, 126 ] },
+          { "item": "funnel", "chance": 60, "repeat": [ 0, 1 ] },
+          { "item": "plastic_bag", "chance": 90, "repeat": [ 2, 6 ] }
         ]
       }
     }
