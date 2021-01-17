@@ -646,7 +646,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_corn",
-    "name": "dehydrated corn kernels",
+    "name": { "str_sp": "dehydrated corn kernels" },
     "weight": "180 g",
     "color": "yellow",
     "comestible_type": "FOOD",
