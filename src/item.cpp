@@ -994,9 +994,6 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     if( !count_by_charges() && charges != rhs.charges ) {
         return false;
     }
-    if( is_favorite != rhs.is_favorite ) {
-        return false;
-    }
     if( damage_ != rhs.damage_ ) {
         return false;
     }
