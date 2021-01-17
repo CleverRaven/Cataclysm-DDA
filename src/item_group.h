@@ -244,6 +244,11 @@ class Item_modifier
          */
         std::vector<flag_id> custom_flags;
 
+        /**
+         * Custom sub set of snippets to be randomly chosen from and then applied to the item.
+         */
+        std::vector<snippet_id> snippets;
+
         Item_modifier();
         Item_modifier( Item_modifier && ) = default;
 

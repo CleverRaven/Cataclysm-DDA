@@ -1,0 +1,109 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "afs_astrobiology_lab_n1" ],
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "                ,,      ",
+        "               /44/     ",
+        "     /     /   /../     ",
+        "    //QQQQ//QQQ/33//    ",
+        "   //..hh../t???...//   ",
+        "   /..htt..3......../   ",
+        "  //..htth./...dd5d.//  ",
+        "  /5...hh../...d.h..^/  ",
+        "  ///////////33////3//  ",
+        "  /h..B/R...3.../&..S/  ",
+        "  /dd.B/R.bb/:==//////  ",
+        "  /hh..//////...=d..E/  ",
+        "  /===:/FFFS/==:=dh.E/  ",
+        "  /................ö./  ",
+        "  /.hccc..chccch..ch./  ",
+        "  /.Tchc..ccchcc..cc./  ",
+        "  ó..................ó  ",
+        "  /S..((((((((((((..O/  ",
+        "  /S..(Iii____IIi(.hc/  ",
+        "  //=:(I77_iA___i(:=//  ",
+        "   /..(____iii___(../   ",
+        "   //.3__7I___II_3.//   ",
+        "    //------------//    ",
+        "                        "
+      ],
+      "palettes": [ "afs_generic_building" ],
+      "terrain": {
+        "A": "t_basaltfloor",
+        "R": "t_metal_floor",
+        ",": "t_sidewalk",
+        "_": [ "t_deaddirt", "t_deaddirt", "t_ice" ],
+        "i": [ "t_lichenyum", "t_lichen", "t_lichendirt" ],
+        "I": [ "t_lichen", "t_lichendirt" ],
+        "7": [ "t_tree_worm", "t_tree_lichen" ]
+      },
+      "furniture": {
+        "A": "f_geo_vent",
+        "I": "f_shrub_moss",
+        "T": "f_crispr",
+        "F": "f_glass_fridge",
+        "E": "f_machinery_electronic",
+        "R": "f_locker",
+        "O": "f_monomolecularsaw"
+      },
+      "items": {
+        "c": [
+          { "item": "tools_science", "chance": 80, "repeat": [ 1, 3 ] },
+          { "item": "afs_basic_biomedical_scrapgroup", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "supplies_reagents_lab", "chance": 80, "repeat": [ 1, 3 ] }
+        ],
+        "d": { "item": "office", "chance": 60 },
+        "B": [ { "item": "textbooks", "chance": 50 }, { "item": "manuals", "chance": 50 } ],
+        "F": [
+          { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 2, 5 ] },
+          { "item": "supplies_xenoreagents_lab", "chance": 70, "repeat": [ 2, 5 ] }
+        ],
+        "R": [ { "item": "decontamination_room", "chance": 60 }, { "item": "clothing_work_set", "chance": 30 } ],
+        "t": [ { "item": "office_paper", "chance": 60 }, { "item": "tools_science", "chance": 10, "repeat": [ 1, 2 ] } ]
+      },
+      "item": { "c": { "item": "recipe_lichenlog", "chance": 6 } },
+      "monster": { "ö": { "monster": "mon_skitterbot" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_astrobiology_lab_n2",
+    "object": {
+      "fill_ter": "t_metal_flat_roof",
+      "rows": [
+        "                        ",
+        "               ....     ",
+        "     .     .   ....     ",
+        "    ................    ",
+        "   ..........&.......   ",
+        "   ..X............X..   ",
+        "  ....................  ",
+        "  ....................  ",
+        "  ....................  ",
+        "  ....................  ",
+        "  ....................  ",
+        "  ....................  ",
+        "  ....................  ",
+        "  ....................  ",
+        "  ....................  ",
+        "  ....................  ",
+        "  ....................  ",
+        "  ....................  ",
+        "  ....................  ",
+        "  ..........&=====....  ",
+        "   ..............=...   ",
+        "   ..............&...   ",
+        "    ................    ",
+        "                        "
+      ],
+      "terrain": { " ": "t_open_air" },
+      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe", "X": "f_small_satelitte_dish" }
+    }
+  }
+]

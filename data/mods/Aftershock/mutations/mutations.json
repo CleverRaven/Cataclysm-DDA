@@ -662,5 +662,17 @@
     "id": "LEG_TENTACLES",
     "copy-from": "LEG_TENTACLES",
     "extend": { "allow_soft_gear": true }
+  },
+  {
+    "type": "mutation",
+    "id": "CHEMIMBALANCE",
+    "copy-from": "CHEMIMBALANCE",
+    "extend": { "category": [ "MIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SCHIZOPHRENIC",
+    "copy-from": "SCHIZOPHRENIC",
+    "extend": { "category": [ "MIGO" ] }
   }
 ]

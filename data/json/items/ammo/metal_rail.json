@@ -20,7 +20,7 @@
     "range": 40,
     "damage": { "damage_type": "stab", "amount": 70, "armor_penetration": 25 },
     "dispersion": 150,
-    "effects": [ "RECYCLED", "NON-FOULING" ]
+    "effects": [ "RECYCLED", "NON_FOULING" ]
   },
   {
     "id": "steel_rail",
@@ -37,7 +37,7 @@
     "material": [ "steel" ],
     "color": "light_gray",
     "dispersion": 0,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ],
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
     "relative": { "range": 10, "damage": { "damage_type": "stab", "amount": -5, "armor_penetration": 15 } }
   }
 ]

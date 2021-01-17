@@ -209,7 +209,7 @@ mission *avatar::get_active_mission() const
     return active_mission;
 }
 
-void avatar::reset_all_misions()
+void avatar::reset_all_missions()
 {
     active_mission = nullptr;
     active_missions.clear();
@@ -269,11 +269,16 @@ void avatar::on_mission_finished( mission &cur_mission )
 const player *avatar::get_book_reader( const item &book, std::vector<std::string> &reasons ) const
 {
     const player *reader = nullptr;
+
     if( !book.is_book() ) {
-        reasons.push_back( string_format( _( "Your %s is not good reading material." ),
-                                          book.tname() ) );
+        reasons.push_back( string_format( _( "Your %s is not good reading material." ), book.tname() ) );
         return nullptr;
     }
+
+    const cata::value_ptr<islot_book> &type = book.type->book;
+    const skill_id &book_skill = type->skill;
+    const int book_skill_requirement = type->req;
+    const bool book_requires_intelligence = type->intel > 0;
 
     // Check for conditions that immediately disqualify the player from reading:
     const optional_vpart_position vp = get_map().veh_at( pos() );
@@ -281,22 +286,19 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
         reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
         return nullptr;
     }
-    const auto &type = book.type->book;
     if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
         // Low morale still permits skimming
         reasons.emplace_back( _( "What's the point of studying?  (Your morale is too low!)" ) );
         return nullptr;
     }
-    const skill_id &skill = type->skill;
-    const int skill_level = get_skill_level( skill );
-    if( skill && skill_level < type->req && has_identified( book.typeId() ) ) {
+    if( get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
         reasons.push_back( string_format( _( "%s %d needed to understand.  You have %d" ),
-                                          skill.obj().name(), type->req, skill_level ) );
+                                          book_skill->name(), book_skill_requirement, get_skill_level( book_skill ) ) );
         return nullptr;
     }
 
     // Check for conditions that disqualify us only if no NPCs can read to us
-    if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
+    if( book_requires_intelligence && has_trait( trait_ILLITERATE ) ) {
         reasons.emplace_back( _( "You're illiterate!" ) );
     } else if( has_trait( trait_HYPEROPIC ) &&
                !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
@@ -322,13 +324,13 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
 
     for( const npc *elem : candidates ) {
         // Check for disqualifying factors:
-        if( type->intel > 0 && elem->has_trait( trait_ILLITERATE ) ) {
+        if( book_requires_intelligence && elem->has_trait( trait_ILLITERATE ) ) {
             reasons.push_back( string_format( _( "%s is illiterate!" ),
                                               elem->disp_name() ) );
-        } else if( skill && elem->get_skill_level( skill ) < type->req &&
-                   has_identified( book.typeId() ) ) {
+        } else if( elem->get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
             reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
-                                              skill.obj().name(), type->req, elem->disp_name(), elem->get_skill_level( skill ) ) );
+                                              book_skill->name(), book_skill_requirement, elem->disp_name(),
+                                              elem->get_skill_level( book_skill ) ) );
         } else if( elem->has_trait( trait_HYPEROPIC ) &&
                    !elem->worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
                    !elem->has_effect( effect_contacts ) ) {
@@ -459,32 +461,34 @@ bool avatar::read( item &it, const bool continuous )
     std::map<npc *, std::string> nonlearners;
     auto candidates = get_crafting_helpers();
     for( npc *elem : candidates ) {
-        const int lvl = elem->get_skill_level( skill );
-        const bool skill_req = ( elem->fun_to_read( it ) && ( !skill || lvl >= type->req ) ) ||
-                               ( skill && lvl < type->level && lvl >= type->req );
+        const book_mastery mastery = elem->get_book_mastery( it );
         const bool morale_req = elem->fun_to_read( it ) || elem->has_morale_to_read();
 
-        if( !skill_req && elem != reader ) {
-            if( skill && lvl < type->req ) {
-                nonlearners.insert( { elem, string_format( _( " (needs %d %s)" ), type->req, skill_name ) } );
-            } else if( skill ) {
-                nonlearners.insert( { elem, string_format( _( " (already has %d %s)" ), type->level, skill_name ) } );
-            } else {
-                nonlearners.insert( { elem, _( " (uninterested)" ) } );
-            }
-        } else if( elem->is_deaf() && reader != elem ) {
+        // Note that the reader cannot be a nonlearner
+        // since a reader should always have enough morale to read
+        // and at the very least be able to understand the book
+
+        if( elem->is_deaf() && elem != reader ) {
             nonlearners.insert( { elem, _( " (deaf)" ) } );
-        } else if( !morale_req ) {
-            nonlearners.insert( { elem, _( " (too sad)" ) } );
-        } else if( skill && lvl < type->level ) {
-            const double penalty = static_cast<double>( time_taken ) / time_to_read( it, *reader, elem );
-            learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
-            act.values.push_back( elem->getID().get_value() );
-            act.str_values.push_back( to_string( penalty ) );
-        } else {
+        } else if( mastery == book_mastery::MASTERED && elem->fun_to_read( it ) ) {
             fun_learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : "" } );
             act.values.push_back( elem->getID().get_value() );
             act.str_values.emplace_back( "1" );
+        } else if( mastery == book_mastery::LEARNING && morale_req ) {
+            learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : ""} );
+            const double penalty = static_cast<double>( time_taken ) / time_to_read( it, *reader, elem );
+            act.values.push_back( elem->getID().get_value() );
+            act.str_values.push_back( to_string( penalty ) );
+        } else {
+            std::string reason = _( " (uninterested)" );
+            if( !morale_req ) {
+                reason = _( " (too sad)" );
+            } else if( mastery == book_mastery::CANT_UNDERSTAND ) {
+                reason = string_format( _( " (needs %d %s)" ), type->req, skill_name );
+            } else if( mastery == book_mastery::MASTERED ) {
+                reason = string_format( _( " (already has %d %s)" ), type->level, skill_name );
+            }
+            nonlearners.insert( { elem, reason } );
         }
     }
 
@@ -648,7 +652,7 @@ bool avatar::read( item &it, const bool continuous )
                  complex_player->disp_name() );
     }
 
-    // push an indentifier of martial art book to the action handling
+    // push an identifier of martial art book to the action handling
     if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 
         if( get_stamina() < get_stamina_max() / 10 ) {
@@ -672,7 +676,7 @@ bool avatar::read( item &it, const bool continuous )
         apply_morale.insert( elem.first );
     }
     for( player *elem : apply_morale ) {
-        //Fun bonuses for spritual and To Serve Man are no longer calculated here.
+        //Fun bonuses for spiritual and To Serve Man are no longer calculated here.
         elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 30_minutes,
                           decay_start, false, it.type );
     }
@@ -962,6 +966,11 @@ void avatar::identify( const item &item )
     }
 }
 
+void avatar::clear_identified()
+{
+    items_identified.clear();
+}
+
 void avatar::wake_up()
 {
     if( has_effect( effect_sleep ) ) {
@@ -1027,8 +1036,9 @@ nc_color avatar::basic_symbol_color() const
 
 int avatar::print_info( const catacurses::window &w, int vStart, int, int column ) const
 {
-    mvwprintw( w, point( column, vStart++ ), _( "You (%s)" ), name );
-    return vStart;
+    return vStart + fold_and_print( w, point( column, vStart ), getmaxx( w ) - column - 1, c_dark_gray,
+                                    _( "You (%s)" ),
+                                    name ) - 1;
 }
 
 void avatar::disp_morale()
@@ -1063,12 +1073,12 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
     int focus_equilibrium = 100;
 
     if( activity.id() == ACT_READ ) {
-        const item &book = *activity.targets[0].get_item();
-        if( book.is_book() && get_item_position( &book ) != INT_MIN ) {
-            auto &bt = *book.type->book;
+        const item *book = activity.targets[0].get_item();
+        if( book && book->is_book() && get_item_position( book ) != INT_MIN ) {
+            auto &bt = book->type->book;
             // apply a penalty when we're actually learning something
-            const SkillLevel &skill_level = get_skill_level_object( bt.skill );
-            if( skill_level.can_train() && skill_level < bt.level ) {
+            const SkillLevel &skill_level = get_skill_level_object( bt->skill );
+            if( skill_level.can_train() && skill_level < bt->level ) {
                 focus_equilibrium -= 50;
             }
         }
@@ -1396,28 +1406,19 @@ int avatar::free_upgrade_points() const
     return lvl - str_upgrade - dex_upgrade - int_upgrade - per_upgrade;
 }
 
-static int xp_to_next( const avatar &you )
-{
-    const int cur_xp = you.kill_xp();
-    // Initialize to 'already max level' sentinel
-    int xp_next = -1;
-    // Iterate in reverse: { 405k, 355k, 305k, ..., 300 }
-    for( std::array<int, 20>::const_reverse_iterator iter = xp_cutoffs.crbegin();
-         iter != xp_cutoffs.crend(); ++iter ) {
-        if( cur_xp < *iter ) {
-            xp_next = *iter;
-        }
-    }
-    return xp_next;
-}
-
 void avatar::upgrade_stat_prompt( const character_stat &stat )
 {
     const int free_points = free_upgrade_points();
-    const int next_lvl_xp = xp_to_next( *this );
 
     if( free_points <= 0 ) {
-        popup( _( "No available stat points to spend.  Experience to next level: %d" ), next_lvl_xp );
+        std::array<int, 20>::const_iterator xp_next_level = std::lower_bound( xp_cutoffs.begin(),
+                xp_cutoffs.end(), kill_xp() );
+        if( xp_next_level == xp_cutoffs.end() ) {
+            popup( _( "You've already reached maximum level." ) );
+        } else {
+            popup( _( "Needs %d more experience to gain next level." ),
+                   *xp_next_level - kill_xp() );
+        }
         return;
     }
 
@@ -1463,6 +1464,7 @@ void avatar::upgrade_stat_prompt( const character_stat &stat )
                 break;
         }
     }
+    recalc_hp();
 }
 
 faction *avatar::get_faction() const
@@ -1472,28 +1474,16 @@ faction *avatar::get_faction() const
 
 void avatar::set_movement_mode( const move_mode_id &new_mode )
 {
-    steed_type steed;
-    if( is_mounted() ) {
-        if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-            steed = steed_type::MECH;
-        } else {
-            steed = steed_type::ANIMAL;
-        }
-    } else {
-        steed = steed_type::NONE;
-    }
-
     if( can_switch_to( new_mode ) ) {
-        add_msg( new_mode->change_message( true, steed ) );
+        if( is_hauling() && new_mode->stop_hauling() ) {
+            stop_hauling();
+        }
+        add_msg( new_mode->change_message( true, get_steed_type() ) );
         move_mode = new_mode;
         // crouching affects visibility
         get_map().set_seen_cache_dirty( pos().z );
-
-        if( new_mode->stop_hauling() ) {
-            stop_hauling();
-        }
     } else {
-        add_msg( new_mode->change_message( false, steed ) );
+        add_msg( new_mode->change_message( false, get_steed_type() ) );
     }
 }
 

@@ -32,7 +32,7 @@ TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][
     m.add_item( pos, item( "jeans" ) );
     map_cursor cursor( pos );
     item *tshirt = nullptr;
-    cursor.visit_items( [&tshirt]( item * i ) {
+    cursor.visit_items( [&tshirt]( item * i, item * ) {
         if( i->typeId() == itype_id( "tshirt" ) ) {
             tshirt = i;
             return VisitResponse::ABORT;

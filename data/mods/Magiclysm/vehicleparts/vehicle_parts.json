@@ -6,6 +6,12 @@
     "entries": [ { "item": "orichalcum_lump", "count": [ 4, 6 ] }, { "item": "orichalcum_sliver", "count": [ 4, 6 ] } ]
   },
   {
+    "type": "item_group",
+    "id": "light_orichalcum_frame_break",
+    "subtype": "collection",
+    "entries": [ { "item": "orichalcum_lump", "count": [ 2, 3 ] }, { "item": "orichalcum_sliver", "count": [ 1, 5 ] } ]
+  },
+  {
     "abstract": "mana_engine",
     "copy-from": "engine_combustion",
     "type": "vehicle_part",

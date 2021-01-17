@@ -596,13 +596,14 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 
     JsonIn config_json( config_file );
     JsonObject config = config_json.get_object();
+    config.allow_omitted_members();
 
     // "tile_info" section must exist.
     if( !config.has_member( "tile_info" ) ) {
         config.throw_error( "\"tile_info\" missing" );
     }
 
-    for( const JsonObject &curr_info : config.get_array( "tile_info" ) ) {
+    for( const JsonObject curr_info : config.get_array( "tile_info" ) ) {
         ts.tile_height = curr_info.get_int( "height" );
         ts.tile_width = curr_info.get_int( "width" );
         tile_iso = curr_info.get_bool( "iso", false );
@@ -641,9 +642,13 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 
         int num_in_file = 1;
         if( mod_config_json.test_array() ) {
-            for( const JsonObject &mod_config : mod_config_json.get_array() ) {
+            for( const JsonObject mod_config : mod_config_json.get_array() ) {
                 if( mod_config.get_string( "type" ) == "mod_tileset" ) {
                     if( num_in_file == mts.num_in_file() ) {
+                        // visit this if it exists, it's used elsewhere
+                        if( mod_config.has_member( "compatibility" ) ) {
+                            mod_config.get_member( "compatibility" );
+                        }
                         load_internal( mod_config, tileset_root, img_path );
                         break;
                     }
@@ -686,7 +691,7 @@ void tileset_loader::load_internal( const JsonObject &config, const std::string 
         // new system, several entries
         // When loading multiple tileset images this defines where
         // the tiles from the most recently loaded image start from.
-        for( const JsonObject &tile_part_def : config.get_array( "tiles-new" ) ) {
+        for( const JsonObject tile_part_def : config.get_array( "tiles-new" ) ) {
             const std::string tileset_image_path = tileset_root + '/' +
                                                    tile_part_def.get_string( "file" );
             R = -1;
@@ -784,7 +789,7 @@ void tileset_loader::load_ascii( const JsonObject &config )
     if( !config.has_member( "ascii" ) ) {
         config.throw_error( "\"ascii\" section missing" );
     }
-    for( const JsonObject &entry : config.get_array( "ascii" ) ) {
+    for( const JsonObject entry : config.get_array( "ascii" ) ) {
         load_ascii_set( entry );
     }
 }
@@ -904,7 +909,7 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
         config.throw_error( "\"tiles\" section missing" );
     }
 
-    for( const JsonObject &entry : config.get_array( "tiles" ) ) {
+    for( const JsonObject entry : config.get_array( "tiles" ) ) {
         std::vector<std::string> ids;
         if( entry.has_string( "id" ) ) {
             ids.push_back( entry.get_string( "id" ) );
@@ -919,7 +924,7 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
             int t_h3d = entry.get_int( "height_3d", 0 );
             if( t_multi ) {
                 // fetch additional tiles
-                for( const JsonObject &subentry : entry.get_array( "additional_tiles" ) ) {
+                for( const JsonObject subentry : entry.get_array( "additional_tiles" ) ) {
                     const std::string s_id = subentry.get_string( "id" );
                     const std::string m_id = t_id + "_" + s_id;
                     tile_type &curr_subtile = load_tile( subentry, m_id );
@@ -928,6 +933,8 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
                     curr_subtile.height_3d = t_h3d;
                     curr_tile.available_subtiles.push_back( s_id );
                 }
+            } else if( entry.has_array( "additional_tiles" ) ) {
+                entry.throw_error( "Additional tiles defined, but 'multitile' is not true." );
             }
             // write the information of the base tile to curr_tile
             curr_tile.multitile = t_multi;
@@ -982,7 +989,7 @@ void tileset_loader::load_tile_spritelists( const JsonObject &entry,
         // object elements of array indicates variations
         // create one variation per object
         else if( g_array.test_object() ) {
-            for( const JsonObject &vo : g_array ) {
+            for( const JsonObject vo : g_array ) {
                 std::vector<int> v;
                 int weight = vo.get_int( "weight" );
                 // negative weight is invalid
@@ -2124,6 +2131,13 @@ bool cata_tiles::draw_sprite_at(
                 break;
             case 1:
                 // 90 degrees (and 270, with just two sprites)
+#if defined(_WIN32) && defined(CROSS_LINUX)
+                // For an unknown reason, additional offset is required in direct3d mode
+                // for cross-compilation from Linux to Windows
+                if( direct3d_mode ) {
+                    destination.y -= 1;
+                }
+#endif
                 if( !tile_iso ) {
                     // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, -90, nullptr,
@@ -2146,6 +2160,13 @@ bool cata_tiles::draw_sprite_at(
                 break;
             case 3:
                 // 270 degrees
+#if defined(_WIN32) && defined(CROSS_LINUX)
+                // For an unknown reason, additional offset is required in direct3d mode
+                // for cross-compilation from Linux to Windows
+                if( direct3d_mode ) {
+                    destination.x -= 1;
+                }
+#endif
                 if( !tile_iso ) {
                     // never rotate isometric tiles
                     ret = sprite_tex->render_copy_ex( renderer, &destination, 90, nullptr,
@@ -3480,7 +3501,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
                                            iter->getStep() >= SCT.iMaxSteps / 2 );
 
             if( use_font ) {
-                const direction direction = iter->getDirecton();
+                const direction direction = iter->getDirection();
                 // Compensate for string length offset added at SCT creation
                 // (it will be readded using font size and proper encoding later).
                 const int direction_offset = ( -direction_XY( direction ).x + 1 ) *

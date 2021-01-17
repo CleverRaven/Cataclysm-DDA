@@ -478,8 +478,9 @@
       { "distribution": [ { "item": "coffeemaker", "prob": 90 }, { "item": "atomic_coffeepot", "prob": 10 } ], "prob": 75 },
       {
         "distribution": [
-          { "item": "coffee_raw", "prob": 50 },
-          { "item": "coffee_raw", "prob": 50, "charges": [ 1, 200 ], "container-item": "can_food_big" }
+          { "item": "coffee_raw", "prob": 30 },
+          { "item": "instant_coffee", "prob": 40, "count": [ 1, 5 ] },
+          { "item": "coffee_raw", "prob": 30, "charges": [ 1, 200 ], "container-item": "can_food_big" }
         ],
         "prob": 80
       },
@@ -760,7 +761,7 @@
     "//": "clothing and wearable items for domestic desks, tables, etc.",
     "subtype": "collection",
     "entries": [
-      { "group": "accesories_personal_unisex", "prob": 70, "count": [ 1, 4 ] },
+      { "group": "accesories_personal_unisex", "prob": 70 },
       { "group": "accesories_personal_womens", "prob": 50 },
       { "group": "accesories_personal_mens", "prob": 50 },
       { "group": "masks_unisex", "prob": 20 },
@@ -778,17 +779,15 @@
     "subtype": "collection",
     "entries": [
       { "group": "shoes_unisex", "prob": 50 },
-      { "item": "fishing_waders", "prob": 2 },
-      { "item": "kilt", "prob": 3 },
-      { "item": "football_armor", "prob": 3 },
-      { "item": "sleeping_bag", "prob": 10 },
-      { "item": "sleeping_bag_roll", "prob": 10 },
+      { "group": "pants_mens", "prob": 1 },
+      { "item": "fishing_waders", "prob": 1 },
+      { "item": "football_armor", "prob": 2 },
+      { "item": "sleeping_bag_roll", "prob": 5 },
       { "item": "bscabbard", "prob": 1 },
-      { "item": "kilt_leather", "prob": 2 },
-      { "item": "chaps_leather", "prob": 3 },
+      { "item": "chaps_leather", "prob": 1 },
       { "group": "coats_unisex", "prob": 50 },
-      { "group": "suits_unisex", "prob": 30 },
-      { "group": "suits_mens", "prob": 30 },
+      { "group": "suits_unisex", "prob": 50 },
+      { "group": "suits_mens", "prob": 10 },
       { "group": "bags_unisex", "prob": 20 },
       { "group": "hats_unisex", "prob": 20 },
       { "group": "scarfs_unisex", "prob": 30 }
@@ -803,16 +802,14 @@
       { "group": "shoes_unisex", "prob": 50 },
       { "group": "shoes_womens", "prob": 60 },
       { "item": "fishing_waders", "prob": 1 },
-      { "item": "football_armor", "prob": 2 },
-      { "item": "skirt", "prob": 20 },
-      { "item": "skirt_leather", "prob": 10 },
-      { "item": "bscabbard", "prob": 3 },
-      { "item": "sleeping_bag", "prob": 10 },
-      { "item": "sleeping_bag_roll", "prob": 10 },
-      { "item": "chaps_leather", "prob": 3 },
+      { "item": "football_armor", "prob": 1 },
+      { "group": "pants_womens", "prob": 10 },
+      { "item": "bscabbard", "prob": 1 },
+      { "item": "sleeping_bag_roll", "prob": 5 },
+      { "item": "chaps_leather", "prob": 1 },
       { "group": "coats_unisex", "prob": 50 },
-      { "group": "suits_unisex", "prob": 30 },
-      { "group": "suits_womens", "prob": 40 },
+      { "group": "suits_unisex", "prob": 40 },
+      { "group": "suits_womens", "prob": 50 },
       { "group": "bags_unisex", "prob": 20 },
       { "group": "hats_unisex", "prob": 20 },
       { "group": "scarfs_unisex", "prob": 20 }
@@ -833,7 +830,7 @@
       { "group": "underwear_mens", "prob": 80 },
       { "group": "underwear_unisex", "prob": 80 },
       { "group": "pants_unisex", "prob": 50 },
-      { "group": "pants_mens", "prob": 60 },
+      { "group": "pants_male", "prob": 60 },
       { "group": "gloves_unisex", "prob": 30 },
       { "group": "hats_unisex", "prob": 10 }
     ]
@@ -854,7 +851,7 @@
       { "group": "underwear_womens", "prob": 80 },
       { "group": "underwear_unisex", "prob": 80 },
       { "group": "pants_unisex", "prob": 50 },
-      { "group": "pants_womens", "prob": 60 },
+      { "group": "pants_female", "prob": 60 },
       { "group": "gloves_womens", "prob": 5 },
       { "group": "gloves_unisex", "prob": 30 },
       { "group": "hats_unisex", "prob": 10 }

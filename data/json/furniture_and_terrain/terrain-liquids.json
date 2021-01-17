@@ -267,6 +267,7 @@
     "color": "red",
     "move_cost": 4,
     "light_emitted": 50,
+    "heat_radiation": 3,
     "trap": "tr_lava",
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "DESTROY_ITEM", "USABLE_FIRE" ],
     "//": "lava-seared moose meat? yes, please"
@@ -389,6 +390,19 @@
       "str_min_supported": 100,
       "items": [ { "item": "rock", "count": [ 2, 10 ] } ]
     },
+    "connects_to": "WATER",
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_hot",
+    "name": "hot spring water",
+    "description": "Scalding hot water, not particulary safe for swimming.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
+    "symbol": "~",
+    "color": "light_blue",
+    "move_cost": 5,
+    "heat_radiation": 1,
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHALLOW_WATER" ],
     "connects_to": "WATER",
     "examine_action": "water_source"
   }

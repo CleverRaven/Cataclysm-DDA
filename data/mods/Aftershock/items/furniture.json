@@ -26,5 +26,57 @@
         { "item": "scrap", "count": [ 10, 20 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_diamond_press",
+    "name": "diamond press on a stand",
+    "description": "Matrioshka Fabritechnics Diamond Press deployed and ready to crush some things on a molecular level.  DO NOT INSERT ANY PART OF YOUR ANATOMY.",
+    "symbol": "H",
+    "color": "light_cyan",
+    "crafting_pseudo_item": "pseudo_diamond_press",
+    "move_cost_mod": -1,
+    "coverage": 70,
+    "required_str": -1,
+    "flags": [ "NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "EASY_DECONSTRUCT", "CONTAINER", "LIQUIDCONT" ],
+    "deconstruct": { "items": [ { "item": "diamond_press", "count": 1 } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 6, 8 ] },
+        { "item": "water_faucet", "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 10, 20 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nano_forge",
+    "name": "deployed nano forge rig",
+    "description": "Matrioshka Fabritechnics nano forge looks like a solid black box.  Apertures for ingredients open with a hum as the console commands are entered.  DO NOT INSERT ANY PART OF YOUR ANATOMY.",
+    "symbol": "H",
+    "color": "light_cyan",
+    "crafting_pseudo_item": "nano_pseudo_forge",
+    "move_cost_mod": -1,
+    "coverage": 70,
+    "required_str": -1,
+    "flags": [ "NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "EASY_DECONSTRUCT", "CONTAINER", "LIQUIDCONT" ],
+    "deconstruct": { "items": [ { "item": "nano_forge", "count": 1 } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 6, 8 ] },
+        { "item": "water_faucet", "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 10, 20 ] }
+      ]
+    }
   }
 ]

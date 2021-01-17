@@ -358,7 +358,7 @@ class Creature : public location, public viewer
         /**
          * For fake-players (turrets, mounted turrets) this functions
          * chooses a target. This is for creatures that are friendly towards
-         * the player and therefor choose a target that is hostile
+         * the player and therefore choose a target that is hostile
          * to the player.
          *
          * @param range The maximal range to look for monsters, anything
@@ -392,8 +392,15 @@ class Creature : public location, public viewer
         // returns hit - dodge (>=0 = hit, <0 = miss)
         virtual int deal_melee_attack( Creature *source, int hitroll );
 
+        // Distance == 1 and on the same z-level or with a clear shot up/down.
+        // If allow_zlev is false, don't allow attacking up/down at all.
+        // If allow_zlev is true, also allow distance == 1 and on different z-level
+        // as long as floor/ceiling doesn't exist.
+        // Also check other factors, like vehicle separating deep water/air
+        bool is_adjacent( const Creature *target, bool allow_z_levels ) const;
+
         // modifies the damage dealt based on the creature's enchantments
-        // since creatures currently don't have enchantmnts, this is just virtual
+        // since creatures currently don't have enchantments, this is just virtual
         virtual damage_instance modify_damage_dealt_with_enchantments( const damage_instance &dam ) const;
         // completes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
@@ -441,6 +448,11 @@ class Creature : public location, public viewer
          */
         virtual void on_hit( Creature *source, bodypart_id bp_hit,
                              float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) = 0;
+
+        /** Returns true if this monster has any sort of ranged attack. This doesn't necessarily mean direct damage ranged attack,
+        * but also includes any sort of potentially dangerous ranged interaction, e.g. monster with RANGED_PULL special attack will fit here too.
+         */
+        virtual bool is_ranged_attacker() const;
 
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
@@ -673,6 +685,8 @@ class Creature : public location, public viewer
         int get_part_temp_conv( const bodypart_id &id ) const;
         int get_part_frostbite_timer( const bodypart_id &id )const;
 
+        std::array<int, NUM_WATER_TOLERANCE> get_part_mut_drench( const bodypart_id &id ) const;
+
         float get_part_wetness_percentage( const bodypart_id &id ) const;
 
         const encumbrance_data &get_part_encumbrance_data( const bodypart_id &id )const;
@@ -689,6 +703,8 @@ class Creature : public location, public viewer
         void set_part_temp_cur( const bodypart_id &id, int set );
         void set_part_temp_conv( const bodypart_id &id, int set );
         void set_part_frostbite_timer( const bodypart_id &id, int set );
+
+        void set_part_mut_drench( const bodypart_id &id, std::pair<water_tolerance, int> set );
 
         void mod_part_hp_cur( const bodypart_id &id, int mod );
         void mod_part_hp_max( const bodypart_id &id, int mod );
@@ -787,7 +803,25 @@ class Creature : public location, public viewer
          */
         virtual int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const = 0;
 
+        /** Describe this creature as seen by the avatar via infrared vision. */
+        void describe_infrared( std::vector<std::string> &buf ) const;
+
+        /** Describe this creature as detected by the avatar's special senses. */
+        void describe_specials( std::vector<std::string> &buf ) const;
+
         // Message related stuff
+        // These functions print to the sidebar message log. Unlike add_msg which prints messages
+        // unconditionally, these only print messages when invoked for certain creature types:
+        //
+        // add_msg_if_player - only printed for avatar, not NPCs/monsters
+        // add_msg_if_npc - only printed for NPCs, not players/monsters
+        // add_msg_player_or_npc - printed for avatar or NPC, not monsters
+        //
+        // Examples:
+        // add_msg_if_player( "You feel that you need to eat more calorie-dense food." );
+        // add_msg_if_npc( "<npcname> falls off their mount!" );
+        // add_msg_if_player_or_npc( "You open the door.", "<npcname> opens the door." );
+        //
         virtual void add_msg_if_player( const std::string &/*msg*/ ) const {}
         virtual void add_msg_if_player( const game_message_params &/*params*/,
                                         const std::string &/*msg*/ ) const {}

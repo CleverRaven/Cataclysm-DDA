@@ -59,9 +59,9 @@ static class json_item_substitution
             std::vector<info> infos;
         };
         std::map<itype_id, std::vector<substitution>> substitutions;
-        std::vector<std::pair<itype_id, trait_requirements>> bonuses;
+        std::vector<std::pair<item_group_id, trait_requirements>> bonuses;
     public:
-        std::vector<itype_id> get_bonus_items( const std::vector<trait_id> &traits ) const;
+        std::vector<item> get_bonus_items( const std::vector<trait_id> &traits ) const;
         std::vector<item> get_substitution( const item &it, const std::vector<trait_id> &traits ) const;
 } item_substitutions;
 
@@ -321,7 +321,7 @@ void profession::check_definition() const
     }
     for( const auto &elem : _starting_pets ) {
         if( !elem.is_valid() ) {
-            debugmsg( "startng pet %s for profession %s does not exist", elem.c_str(), id.c_str() );
+            debugmsg( "starting pet %s for profession %s does not exist", elem.c_str(), id.c_str() );
         }
     }
     for( const auto &elem : _starting_skills ) {
@@ -405,10 +405,10 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
     result.insert( result.begin(), group_gender.begin(), group_gender.end() );
 
     if( !has_flag( "NO_BONUS_ITEMS" ) ) {
-        std::vector<itype_id> bonus = item_substitutions.get_bonus_items( traits );
-        for( const itype_id &elem : bonus ) {
-            if( elem != no_bonus ) {
-                result.push_back( item( elem, advanced_spawn_time(), item::default_charges_tag {} ) );
+        const std::vector<item> &items = item_substitutions.get_bonus_items( traits );
+        for( const item &it : items ) {
+            if( it.typeId() != no_bonus ) {
+                result.push_back( it );
             }
         }
     }
@@ -422,7 +422,7 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
     for( item &it : result ) {
-        it.visit_items( []( item * it ) {
+        it.visit_items( []( item * it, item * ) {
             clear_faults( *it );
             return VisitResponse::NEXT;
         } );
@@ -573,24 +573,14 @@ json_item_substitution::trait_requirements::trait_requirements( const JsonObject
 
 void json_item_substitution::load( const JsonObject &jo )
 {
-    const bool item_mode = jo.has_string( "item" );
-    const std::string title = jo.get_string( item_mode ? "item" : "trait" );
-
     auto check_duplicate_item = [&]( const itype_id & it ) {
-        return substitutions.find( it ) != substitutions.end() ||
-               std::find_if( bonuses.begin(), bonuses.end(),
-        [&it]( const std::pair<itype_id, trait_requirements> &p ) {
-            return p.first == it;
-        } ) != bonuses.end();
+        return substitutions.find( it ) != substitutions.end();
     };
-    if( item_mode && check_duplicate_item( itype_id( title ) ) ) {
-        jo.throw_error( "Duplicate definition of item" );
-    }
 
-    if( item_mode ) {
-        if( jo.has_member( "bonus" ) ) {
-            bonuses.emplace_back( itype_id( title ),
-                                  trait_requirements( jo.get_object( "bonus" ) ) );
+    if( jo.has_member( "item" ) ) {
+        // items mode
+        if( check_duplicate_item( itype_id( jo.get_string( "item" ) ) ) ) {
+            jo.throw_error( "Duplicate definition of item" );
         }
 
         for( const JsonValue sub : jo.get_array( "sub" ) ) {
@@ -600,9 +590,10 @@ void json_item_substitution::load( const JsonObject &jo )
             for( const JsonValue info : obj.get_array( "new" ) ) {
                 s.infos.emplace_back( info );
             }
-            substitutions[itype_id( title )].push_back( s );
+            substitutions[itype_id( jo.get_string( "item" ) )].push_back( s );
         }
-    } else {
+    } else if( jo.has_member( "trait" ) ) {
+        // traits mode
         for( const JsonObject sub : jo.get_array( "sub" ) ) {
             substitution s;
             itype_id old_it;
@@ -610,12 +601,17 @@ void json_item_substitution::load( const JsonObject &jo )
             if( check_duplicate_item( old_it ) ) {
                 sub.throw_error( "Duplicate definition of item" );
             }
-            s.trait_reqs.present.push_back( trait_id( title ) );
+            s.trait_reqs.present.push_back( trait_id( jo.get_string( "trait" ) ) );
             for( const JsonValue info : sub.get_array( "new" ) ) {
                 s.infos.emplace_back( info );
             }
             substitutions[old_it].push_back( s );
         }
+    } else if( jo.has_member( "bonus" ) ) {
+        // bonuses mode
+        const item_group_id &bonus_items = item_group::load_item_group( jo.get_member( "group" ),
+                                           "collection", "bonus items" );
+        bonuses.emplace_back( bonus_items, trait_requirements( jo.get_object( "bonus" ) ) );
     }
 }
 
@@ -629,6 +625,11 @@ void json_item_substitution::check_consistency()
     auto check_if_itype = []( const itype_id & i ) {
         if( !item::type_is_defined( i ) ) {
             debugmsg( "%s is not an itype_id", i.c_str() );
+        }
+    };
+    auto check_if_igroup = []( const item_group_id & gr ) {
+        if( !item_group::group_is_defined( gr ) ) {
+            debugmsg( "%s is not an item_group_id", gr.c_str() );
         }
     };
     auto check_trait_reqs = [&check_if_trait]( const trait_requirements & tr ) {
@@ -650,7 +651,7 @@ void json_item_substitution::check_consistency()
         }
     }
     for( const auto &pair : bonuses ) {
-        check_if_itype( pair.first );
+        check_if_igroup( pair.first );
         check_trait_reqs( pair.second );
     }
 }
@@ -706,13 +707,16 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
     return ret;
 }
 
-std::vector<itype_id> json_item_substitution::get_bonus_items( const std::vector<trait_id>
-        &traits ) const
+std::vector<item> json_item_substitution::get_bonus_items( const std::vector<trait_id> &traits )
+const
 {
-    std::vector<itype_id> ret;
+    std::vector<item> ret;
     for( const auto &pair : bonuses ) {
         if( pair.second.meets_condition( traits ) ) {
-            ret.push_back( pair.first );
+            const std::vector<item> &items = item_group::items_from( pair.first, advanced_spawn_time() );
+            // ret = ret + items
+            ret.reserve( ret.size() + items.size() );
+            ret.insert( ret.end(), items.begin(), items.end() );
         }
     }
     return ret;

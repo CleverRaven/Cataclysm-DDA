@@ -112,6 +112,7 @@ void clear_character( player &dummy )
 void clear_avatar()
 {
     clear_character( get_avatar() );
+    get_avatar().clear_identified();
 }
 
 void process_activity( player &dummy )

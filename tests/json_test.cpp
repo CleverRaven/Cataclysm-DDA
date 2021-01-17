@@ -11,6 +11,8 @@
 #include <vector>
 
 #include "mutation.h"
+#include "cached_options.h"
+#include "cata_utility.h"
 #include "colony.h"
 #include "string_formatter.h"
 #include "type_id.h"
@@ -255,6 +257,8 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
 {
     // this test case is mainly for checking the format of debug messages.
     // the text style check itself is tested in the lit test of clang-tidy.
+    restore_on_out_of_scope<error_log_format_t> restore_error_log_format( error_log_format );
+    error_log_format = error_log_format_t::human_readable;
 
     // string, ascii
     test_translation_text_style_check(
@@ -400,6 +404,9 @@ TEST_CASE( "translation_text_style_check", "[json][translation]" )
 
 TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" )
 {
+    restore_on_out_of_scope<error_log_format_t> restore_error_log_format( error_log_format );
+    error_log_format = error_log_format_t::human_readable;
+
     SECTION( "string" ) {
         const std::string json =
             R"([)" "\n"
@@ -499,6 +506,9 @@ static void test_string_error_throws_matches( Matcher &&matcher, const std::stri
 
 TEST_CASE( "jsonin_get_string", "[json]" )
 {
+    restore_on_out_of_scope<error_log_format_t> restore_error_log_format( error_log_format );
+    error_log_format = error_log_format_t::human_readable;
+
     // read plain text
     test_get_string( "foo", R"("foo")" );
     // ignore starting spaces

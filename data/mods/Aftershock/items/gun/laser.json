@@ -15,7 +15,7 @@
     "dispersion": 500,
     "ups_charges": 25,
     "ammo_effects": [ "LASER", "BEANBAG" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "id": "afs_sentinel_laser",
@@ -29,7 +29,7 @@
     "ups_charges": 30,
     "modes": [ [ "MULTI", "trilaser", 3 ] ],
     "ammo_effects": [ "LASER" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "id": "afs_sentinel_laser_mon",
@@ -37,7 +37,7 @@
     "copy-from": "afs_sentinel_laser",
     "name": { "str": "wrist-trilaser" },
     "ups_charges": 0,
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "id": "laser_cannon_xray",
@@ -74,7 +74,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "id": "laser_cannon_xray_mon",
@@ -82,7 +82,7 @@
     "copy-from": "laser_cannon_xray",
     "name": { "str": "mounted x-ray cannon" },
     "ups_charges": 0,
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "id": "laser_rifle_cheap",
@@ -101,14 +101,15 @@
     "ammo": [ "battery" ],
     "skill": "rifle",
     "range": 10,
-    "ranged_damage": { "damage_type": "heat", "amount": 10 },
+    "ranged_damage": { "damage_type": "heat", "amount": 6 },
     "dispersion": 150,
     "durability": 10,
     "loudness": 8,
     "reload": 500,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ammo_effects": [ "LASER", "DRAW_AS_LINE" ],
-    "flags": [ "NEVER_JAMS", "FIRE_20", "NON-FOULING" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING" ],
+    "ammo_to_fire": 20,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

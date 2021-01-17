@@ -154,7 +154,7 @@ TEST_CASE( "starting_items", "[slow]" )
 
                     player_character.add_profession_items();
                     std::set<const item *> items_visited;
-                    const auto visitable_counter = [&items_visited]( const item * it ) {
+                    const auto visitable_counter = [&items_visited]( const item * it, auto ) {
                         items_visited.emplace( it );
                         return VisitResponse::NEXT;
                     };

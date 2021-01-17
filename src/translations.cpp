@@ -176,13 +176,7 @@ void select_language()
 std::string locale_dir()
 {
     std::string loc_dir;
-#if defined(__ANDROID__)
-    // HACK: Since we're using libintl-lite instead of libintl on Android, we hack the locale_dir to point directly to the .mo file.
-    // This is because of our hacky libintl-lite bindtextdomain() implementation.
-    auto env = getenv( "LANGUAGE" );
-    loc_dir = std::string( PATH_INFO::base_path() + "lang/mo/" + ( env ? env : "none" ) +
-                           "/LC_MESSAGES/cataclysm-dda.mo" );
-#elif (defined(__linux__) || (defined(MACOSX) && !defined(TILES)))
+#if !defined(__ANDROID__) && ((defined(__linux__) || (defined(MACOSX) && !defined(TILES))))
     if( !PATH_INFO::base_path().empty() ) {
         loc_dir = PATH_INFO::base_path() + "share/locale";
     } else {
@@ -240,6 +234,12 @@ void set_language()
 
     // Step 2. Bind to gettext domain.
     std::string loc_dir = locale_dir();
+#if defined(__ANDROID__)
+    // HACK: Since we're using libintl-lite instead of libintl on Android, we hack the locale_dir to point directly to the .mo file.
+    // This is because of our hacky libintl-lite bindtextdomain() implementation.
+    const char *env = getenv( "LANGUAGE" );
+    loc_dir += std::string( ( env ? env : "none" ) ) + "/LC_MESSAGES/cataclysm-dda.mo";
+#endif
 
     const char *locale_dir_char = loc_dir.c_str();
     bindtextdomain( "cataclysm-dda", locale_dir_char );

@@ -317,6 +317,10 @@ static void WinCreate()
         renderer_name = get_option<std::string>( "RENDERER" );
     }
 
+    if( renderer_name == "direct3d" ) {
+        direct3d_mode = true;
+    }
+
     const int numRenderDrivers = SDL_GetNumRenderDrivers();
     for( int i = 0; i < numRenderDrivers; i++ ) {
         SDL_RendererInfo ri;
@@ -483,12 +487,12 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
     // draw it at the top of the screen so it doesn't get covered up
     // by the virtual keyboard. Otherwise just center it.
     SDL_Rect dstrect;
-    float DisplayBufferAspect = DisplayBufferWidth / ( float )DisplayBufferHeight;
-    float WindowHeightLessShortcuts = ( float )WindowHeight;
+    float DisplayBufferAspect = DisplayBufferWidth / static_cast<float>( DisplayBufferHeight );
+    float WindowHeightLessShortcuts = static_cast<float>( WindowHeight );
     if( !get_option<bool>( "ANDROID_SHORTCUT_OVERLAP" ) && quick_shortcuts_enabled ) {
         WindowHeightLessShortcuts -= get_option<int>( "ANDROID_SHORTCUT_HEIGHT" );
     }
-    float WindowAspect = WindowWidth / ( float )WindowHeightLessShortcuts;
+    float WindowAspect = WindowWidth / static_cast<float>( WindowHeightLessShortcuts );
     if( WindowAspect < DisplayBufferAspect ) {
         dstrect.x = 0;
         dstrect.y = 0;
@@ -597,6 +601,9 @@ void reinitialize_framebuffer()
         for( int i = 0; i < new_height; i++ ) {
             terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
         }
+    } else {
+        invalidate_framebuffer( oversized_framebuffer );
+        invalidate_framebuffer( terminal_framebuffer );
     }
 }
 
@@ -973,7 +980,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     } else if( g && w == g->w_overmap && overmap_font ) {
         // Special font for the terrain window
         update = draw_window( overmap_font, w );
-    } else if( g && w == g->w_pixel_minimap && g->pixel_minimap_option ) {
+    } else if( g && w == g->w_pixel_minimap && pixel_minimap_option ) {
         // ensure the space the minimap covers is "dirtied".
         // this is necessary when it's the only part of the sidebar being drawn
         // TODO: Figure out how to properly make the minimap code do whatever it is this does
@@ -1855,9 +1862,9 @@ void draw_quick_shortcuts()
             }
         }
         if( shortcut_right )
-            rect = { WindowWidth - ( int )( ( i + 1 ) * width + border ), ( int )( WindowHeight - height ), ( int )( width - border * 2 ), ( int )( height ) };
+            rect = { WindowWidth - static_cast<int>( ( i + 1 ) * width + border ), static_cast<int>( WindowHeight - height ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
         else
-            rect = { ( int )( i * width + border ), ( int )( WindowHeight - height ), ( int )( width - border * 2 ), ( int )( height ) };
+            rect = { static_cast<int>( i * width + border ), static_cast<int>( WindowHeight - height ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
         if( hovered ) {
             SetRenderDrawColor( renderer, 0, 0, 0, 255 );
         } else {
@@ -1869,15 +1876,15 @@ void draw_quick_shortcuts()
         if( hovered ) {
             // draw a second button hovering above the first one
             if( shortcut_right )
-                rect = { WindowWidth - ( int )( ( i + 1 ) * width + border ), ( int )( WindowHeight - height * 2.2f ), ( int )( width - border * 2 ), ( int )( height ) };
+                rect = { WindowWidth - static_cast<int>( ( i + 1 ) * width + border ), static_cast<int>( WindowHeight - height * 2.2f ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
             else
-                rect = { ( int )( i * width + border ), ( int )( WindowHeight - height * 2.2f ), ( int )( width - border * 2 ), ( int )( height ) };
+                rect = { static_cast<int>( i * width + border ), static_cast<int>( WindowHeight - height * 2.2f ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
             SetRenderDrawColor( renderer, 0, 0, 196, 255 );
             RenderFillRect( renderer, &rect );
 
             if( show_hint ) {
                 // draw a backdrop for the hint text
-                rect = { 0, ( int )( ( WindowHeight - height ) * 0.5f ), ( int )WindowWidth, ( int )height };
+                rect = { 0, static_cast<int>( ( WindowHeight - height ) * 0.5f ), static_cast<int>( WindowWidth ), static_cast<int>( height ) };
                 SetRenderDrawColor( renderer, 0, 0, 0,
                                     get_option<int>( "ANDROID_SHORTCUT_OPACITY_BG" ) * 0.01f * 255.0f );
                 RenderFillRect( renderer, &rect );
@@ -1974,29 +1981,21 @@ void draw_virtual_joystick()
 
 }
 
-float clmp( float value, float low, float high )
-{
-    return ( value < low ) ? low : ( ( value > high ) ? high : value );
-}
-float lerp( float t, float a, float b )
-{
-    return ( 1.0f - t ) * a + t * b;
-}
-
 void update_finger_repeat_delay()
 {
     float delta_x = finger_curr_x - finger_down_x;
     float delta_y = finger_curr_y - finger_down_y;
     float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y );
     float longest_window_edge = std::max( WindowWidth, WindowHeight );
-    float t = clmp( ( dist - ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) * longest_window_edge ) ) /
-                    std::max( 0.01f, ( get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge ),
-                    0.0f, 1.0f );
-    finger_repeat_delay = lerp( std::pow( t, get_option<float>( "ANDROID_SENSITIVITY_POWER" ) ),
-                                static_cast<uint32_t>( std::max( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ),
-                                        get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) ) ),
-                                static_cast<uint32_t>( std::min( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ),
-                                        get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) ) ) );
+    float t = clamp<float>( ( dist - ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) *
+                                       longest_window_edge ) ) /
+                            std::max( 0.01f, ( get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge ),
+                            0.0f, 1.0f );
+    float repeat_delay_min = static_cast<float>( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ) );
+    float repeat_delay_max = static_cast<float>( get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) );
+    finger_repeat_delay = lerp<float>( std::max( repeat_delay_min, repeat_delay_max ),
+                                       std::min( repeat_delay_min, repeat_delay_max ),
+                                       std::pow( t, get_option<float>( "ANDROID_SENSITIVITY_POWER" ) ) );
 }
 
 // TODO: Is there a better way to detect when string entry is allowed?
@@ -3348,7 +3347,7 @@ bool save_screenshot( const std::string &file_path )
     // Note: the viewport is returned by SDL and we don't have to manage its lifetime.
     SDL_Rect viewport;
 
-    // Get the viewport size (width and heigth of the screen)
+    // Get the viewport size (width and height of the screen)
     SDL_RenderGetViewport( renderer.get(), &viewport );
 
     // Create SDL_Surface with depth of 32 bits (note: using zeros for the RGB masks sets a default value, based on the depth; Alpha mask will be 0).

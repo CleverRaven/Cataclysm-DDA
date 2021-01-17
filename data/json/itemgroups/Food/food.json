@@ -22,7 +22,8 @@
       { "item": "brandied_fruit", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "fish_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "sauce_red", "prob": 60, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "kompot", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" }
+      { "item": "kompot", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "freeze_dried_meal", "prob": 10 }
     ]
   },
   {
@@ -44,7 +45,8 @@
       { "item": "salted_fish", "prob": 15 },
       { "item": "dry_beans", "prob": 40 },
       { "item": "dry_lentils", "prob": 30 },
-      { "item": "dry_rice", "prob": 40 }
+      { "item": "dry_rice", "prob": 40 },
+      { "item": "freeze_dried_meal", "prob": 10 }
     ]
   },
   {
@@ -188,7 +190,8 @@
       { "item": "grahmcrackers", "prob": 10 },
       { "item": "marshmallow", "prob": 10 },
       { "item": "syrup", "prob": 15 },
-      { "item": "coffee_syrup", "prob": 10 },
+      { "item": "coffee_syrup", "prob": 15 },
+      { "item": "instant_coffee", "prob": 15 },
       { "item": "soup_veggy", "prob": 15 },
       { "item": "soup_meat", "prob": 15 },
       { "item": "soup_chicken", "prob": 15 },
@@ -420,6 +423,7 @@
       { "item": "candy", "prob": 70 },
       { "item": "candy2", "prob": 70 },
       { "item": "candy3", "prob": 70 },
+      { "item": "cow_candy", "prob": 20 },
       { "item": "maltballs", "prob": 60 },
       { "item": "mintpatties", "prob": 60 },
       { "item": "neccowafers", "prob": 55 },
@@ -461,7 +465,7 @@
       { "item": "cookies", "prob": 80 },
       { "item": "tea_raw", "prob": 10 },
       { "item": "tea_green_raw", "prob": 5 },
-      { "item": "coffee_raw", "prob": 15 },
+      { "item": "instant_coffee", "prob": 20 },
       { "item": "choco_coffee_beans", "prob": 10 },
       { "item": "salt", "prob": 10 },
       { "item": "pepper", "prob": 10 },
@@ -633,6 +637,7 @@
     "entries": [
       { "item": "beer", "prob": 35 },
       { "item": "european_pilsner", "prob": 25 },
+      { "item": "drink_hard_seltzer", "prob": 25 },
       { "item": "pale_ale", "prob": 25 },
       { "item": "india_pale_ale", "prob": 25 },
       { "item": "stout", "prob": 15 },
@@ -813,7 +818,9 @@
       { "item": "tea_bag", "prob": 20, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
       { "item": "tea_fruit_bag", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
       { "item": "tea_green_bag", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
-      { "item": "herbal_tea_bag", "prob": 5, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 }
+      { "item": "tea_bag_chamomile", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
+      { "item": "herbal_tea_bag", "prob": 5, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
+      { "item": "tea_bag_dandelion", "prob": 5, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 }
     ]
   }
 ]

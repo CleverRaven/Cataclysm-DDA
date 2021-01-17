@@ -190,7 +190,7 @@
     "difficulty": 2,
     "value": 140000,
     "item": "record_accounting",
-    "start": { "reveal_om_ter": "office_tower_1" },
+    "start": { "reveal_om_ter": "office_tower" },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_GET_SAFE_BOX",
     "dialogue": {

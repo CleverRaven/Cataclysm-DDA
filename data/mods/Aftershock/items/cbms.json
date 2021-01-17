@@ -95,5 +95,15 @@
     "price": 100000,
     "price_postapoc": 1500,
     "difficulty": 16
+  },
+  {
+    "id": "bio_cold_absorber",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Emergency Insulation" },
+    "description": "A system designed to prevent instantaneous frostbite in workers exposed to things like hard vacuum and liquid nitrogen.",
+    "price": 100000,
+    "price_postapoc": 1500,
+    "difficulty": 16
   }
 ]

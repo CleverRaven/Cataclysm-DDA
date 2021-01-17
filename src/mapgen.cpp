@@ -9,7 +9,6 @@
 #include <map>
 #include <memory>
 #include <set>
-#include <sstream>
 #include <stdexcept>
 #include <unordered_map>
 
@@ -318,7 +317,7 @@ class mapgen_factory
             for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
                 omw.second.setup();
             }
-            // Dummy entry, overmap terrain null should never appear and is therefor never generated.
+            // Dummy entry, overmap terrain null should never appear and is therefore never generated.
             mapgens_.erase( "null" );
         }
         void check_consistency() {
@@ -443,9 +442,11 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
             jio.throw_error( "function does not exist", "name" );
         }
     } else if( mgtype == "json" ) {
-        const std::string jstr = jio.get_object( "object" ).str();
+        JsonObject jo = jio.get_object( "object" );
+        const json_source_location jsrc = jo.get_source_location();
+        jo.allow_omitted_members();
         ret = std::make_shared<mapgen_function_json>(
-                  jstr, mgweight, "mapgen " + id_base, offset );
+                  jsrc, mgweight, "mapgen " + id_base, offset );
         oter_mapgen.add( id_base, ret );
     } else {
         jio.throw_error( R"(invalid value: must be "builtin" or "json")", "method" );
@@ -460,9 +461,10 @@ static void load_nested_mapgen( const JsonObject &jio, const std::string &id_bas
         if( jio.has_object( "object" ) ) {
             int weight = jio.get_int( "weight", 1000 );
             JsonObject jo = jio.get_object( "object" );
-            std::string jstr = jo.str();
+            const json_source_location jsrc = jo.get_source_location();
+            jo.allow_omitted_members();
             nested_mapgen[id_base].add(
-                std::make_shared<mapgen_function_json_nested>( jstr, "nested mapgen " + id_base ),
+                std::make_shared<mapgen_function_json_nested>( jsrc, "nested mapgen " + id_base ),
                 weight );
         } else {
             debugmsg( "Nested mapgen: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
@@ -479,10 +481,11 @@ static void load_update_mapgen( const JsonObject &jio, const std::string &id_bas
     if( mgtype == "json" ) {
         if( jio.has_object( "object" ) ) {
             JsonObject jo = jio.get_object( "object" );
-            std::string jstr = jo.str();
+            const json_source_location jsrc = jo.get_source_location();
+            jo.allow_omitted_members();
             update_mapgen[id_base].push_back(
                 std::make_unique<update_mapgen_function_json>(
-                    jstr, "update mapgen " + id_base ) );
+                    jsrc, "update mapgen " + id_base ) );
         } else {
             debugmsg( "Update mapgen: Invalid mapgen function (missing \"object\" object)",
                       id_base.c_str() );
@@ -588,8 +591,8 @@ bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmap
 }
 
 mapgen_function_json_base::mapgen_function_json_base(
-    const std::string &s, const std::string &context )
-    : jdata( s )
+    const json_source_location &jsrcloc, const std::string &context )
+    : jsrcloc( jsrcloc )
     , context_( context )
     , do_format( false )
     , is_ready( false )
@@ -600,10 +603,10 @@ mapgen_function_json_base::mapgen_function_json_base(
 
 mapgen_function_json_base::~mapgen_function_json_base() = default;
 
-mapgen_function_json::mapgen_function_json( const std::string &s, const int w,
+mapgen_function_json::mapgen_function_json( const json_source_location &jsrcloc, const int w,
         const std::string &context, const point &grid_offset )
     : mapgen_function( w )
-    , mapgen_function_json_base( s, context )
+    , mapgen_function_json_base( jsrcloc, context )
     , fill_ter( t_null )
     , rotation( 0 )
 {
@@ -613,8 +616,8 @@ mapgen_function_json::mapgen_function_json( const std::string &s, const int w,
 }
 
 mapgen_function_json_nested::mapgen_function_json_nested(
-    const std::string &s, const std::string &context )
-    : mapgen_function_json_base( s, context )
+    const json_source_location &jsrcloc, const std::string &context )
+    : mapgen_function_json_base( jsrcloc, context )
     , rotation( 0 )
 {
 }
@@ -639,8 +642,8 @@ jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag )
     }
 }
 
-jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag, const short def_val,
-                          const short def_valmax )
+jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag, const int &def_val,
+                          const int &def_valmax )
     : val( def_val )
     , valmax( def_valmax )
 {
@@ -819,13 +822,13 @@ map_key::map_key( const JsonMember &member ) : str( member.name() )
  * it at random.
  */
 template<typename PieceType>
-class jmapgen_alternativly : public jmapgen_piece
+class jmapgen_alternatively : public jmapgen_piece
 {
     public:
         // Note: this bypasses virtual function system, all items in this vector are of type
         // PieceType, they *can not* be of any other type.
         std::vector<PieceType> alternatives;
-        jmapgen_alternativly() = default;
+        jmapgen_alternatively() = default;
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             if( const auto chosen = random_entry_opt( alternatives ) ) {
@@ -1313,7 +1316,7 @@ class jmapgen_monster : public jmapgen_piece
                 const JsonObject &sd = jsi.get_object( "spawn_data" );
                 if( sd.has_array( "ammo" ) ) {
                     const JsonArray &ammos = sd.get_array( "ammo" );
-                    for( const JsonObject &adata : ammos ) {
+                    for( const JsonObject adata : ammos ) {
                         data.ammo.emplace( itype_id( adata.get_string( "ammo_id" ) ), jmapgen_int( adata, "qty" ) );
                     }
                 }
@@ -1325,7 +1328,7 @@ class jmapgen_monster : public jmapgen_piece
             int raw_odds = chance.get();
 
             // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
-            // Instead, apply a multipler to the number of monsters for really high densities.
+            // Instead, apply a multiplier to the number of monsters for really high densities.
             // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
             int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" );
             int max_odds = ( 100 + raw_odds ) / 2;
@@ -1390,7 +1393,7 @@ class jmapgen_vehicle : public jmapgen_piece
             , fuel( jsi.get_int( "fuel", -1 ) )
             , status( jsi.get_int( "status", -1 ) ) {
             if( jsi.has_array( "rotation" ) ) {
-                for( const JsonValue &elt : jsi.get_array( "rotation" ) ) {
+                for( const JsonValue elt : jsi.get_array( "rotation" ) ) {
                     rotation.push_back( units::from_degrees( elt.get_int() ) );
                 }
             } else {
@@ -2074,7 +2077,7 @@ void load_place_mapings_string(
 }
 /*
 This function is like load_place_mapings_string, except if the input is an array it will create an
-instance of jmapgen_alternativly which will chose the mapgen piece to apply to the map randomly.
+instance of jmapgen_alternatively which will chose the mapgen piece to apply to the map randomly.
 Use this with terrain or traps or other things that can not be applied twice to the same place.
 */
 template<typename PieceType>
@@ -2085,7 +2088,7 @@ void load_place_mapings_alternatively(
     if( !value.test_array() ) {
         load_place_mapings_string<PieceType>( value, vect, context );
     } else {
-        auto alter = make_shared_fast< jmapgen_alternativly<PieceType> >();
+        auto alter = make_shared_fast< jmapgen_alternatively<PieceType> >();
         for( const JsonValue entry : value.get_array() ) {
             if( entry.test_string() ) {
                 try {
@@ -2255,6 +2258,11 @@ void mapgen_palette::check_definitions()
     for( auto &p : palettes ) {
         p.second.check();
     }
+}
+
+void mapgen_palette::reset()
+{
+    palettes.clear();
 }
 
 void mapgen_palette::add( const palette_id &rh )
@@ -2431,8 +2439,13 @@ void mapgen_function_json_base::setup_common()
     if( is_ready ) {
         return;
     }
-    std::istringstream iss( jdata );
-    JsonIn jsin( iss );
+    if( !jsrcloc.path ) {
+        debugmsg( "null json source location path" );
+        return;
+    }
+    shared_ptr_fast<std::istream> stream = DynamicDataLoader::get_instance().get_cached_stream(
+            *jsrcloc.path );
+    JsonIn jsin( *stream, jsrcloc );
     JsonObject jo = jsin.get_object();
     mapgen_defer::defer = false;
     if( !setup_common( jo ) ) {
@@ -2499,21 +2512,21 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                 const bool has_placing = fpi != format_placings.end();
 
                 if( !has_terrain && !fallback_terrain_exists ) {
-                    parray.throw_error(
+                    parray.string_error(
                         string_format( "format: rows: row %d column %d: "
                                        "'%s' is not in 'terrain', and no 'fill_ter' is set!",
-                                       c + 1, i + 1, key.str ) );
+                                       c + 1, i + 1, key.str ), c, i + 1 );
                 }
-                if( test_mode && !has_terrain && !has_furn && !has_placing &&
+                if( !has_terrain && !has_furn && !has_placing &&
                     key.str != " " && key.str != "." ) {
-                    // TODO: Once all the in-tree mods don't report this error,
-                    // it should be changed to happen in regular games (not
-                    // just test_mode) and be non-fatal, so that mappers find
-                    // out about their issues before they PR their changes.
-                    parray.throw_error(
-                        string_format( "format: rows: row %d column %d: "
-                                       "'%s' has no terrain, furniture, or other definition",
-                                       c + 1, i + 1, key.str ) );
+                    try {
+                        parray.string_error(
+                            string_format( "format: rows: row %d column %d: "
+                                           "'%s' has no terrain, furniture, or other definition",
+                                           c + 1, i + 1, key.str ), c, i + 1 );
+                    } catch( const JsonError &e ) {
+                        debugmsg( "(json-error)\n%s", e.what() );
+                    }
                 }
                 if( has_terrain ) {
                     format[ calc_index( p ) ].ter = iter_ter->second;
@@ -2953,8 +2966,6 @@ void map::draw_map( mapgendata &dat )
             draw_slimepit( dat );
         } else if( is_ot_match( "triffid", terrain_type, ot_match_type::prefix ) ) {
             draw_triffid( dat );
-        } else if( is_ot_match( "office", terrain_type, ot_match_type::prefix ) ) {
-            draw_office_tower( dat );
         } else if( is_ot_match( "spider", terrain_type, ot_match_type::prefix ) ) {
             draw_spider_pit( dat );
         } else if( is_ot_match( "spiral", terrain_type, ot_match_type::prefix ) ) {
@@ -2985,594 +2996,6 @@ void map::draw_map( mapgendata &dat )
 
 static const int SOUTH_EDGE = 2 * SEEY - 1;
 static const int EAST_EDGE = 2 * SEEX  - 1;
-
-void map::draw_office_tower( const mapgendata &dat )
-{
-    const oter_id &terrain_type = dat.terrain_type();
-    const auto place_office_chairs = [&]() {
-        int num_chairs = rng( 0, 6 );
-        for( int i = 0; i < num_chairs; i++ ) {
-            add_vehicle( vproto_id( "swivel_chair" ), point( rng( 6, 16 ), rng( 6, 16 ) ),
-                         0_degrees, -1, -1, false );
-        }
-    };
-
-    const auto ter_key = mapf::ter_bind( "E > < R # X G C , _ r V H 6 x % ^ . - | "
-                                         "t + = D w T S e o h c d l s", t_elevator, t_stairs_down,
-                                         t_stairs_up, t_railing, t_rock, t_door_metal_locked,
-                                         t_door_glass_c, t_floor, t_pavement_y, t_pavement,
-                                         t_floor, t_wall_glass, t_wall_glass, t_console,
-                                         t_console_broken, t_shrub, t_floor, t_floor, t_wall,
-                                         t_wall, t_floor, t_door_c, t_door_locked,
-                                         t_door_locked_alarm, t_window, t_floor, t_floor, t_floor,
-                                         t_floor, t_floor, t_floor, t_floor, t_floor, t_sidewalk );
-    const auto fur_key = mapf::furn_bind( "E > < R # X G C , _ r V H 6 x % ^ . - | "
-                                          "t + = D w T S e o h c d l s", f_null, f_null, f_null,
-                                          f_null, f_null, f_null, f_null, f_crate_c, f_null,
-                                          f_null, f_rack, f_null, f_null, f_null, f_null, f_null,
-                                          f_indoor_plant, f_null, f_null, f_null, f_table, f_null,
-                                          f_null, f_null, f_null, f_toilet, f_sink, f_fridge,
-                                          f_bookcase, f_chair, f_counter, f_desk,  f_locker,
-                                          f_null );
-    const auto b_ter_key = mapf::ter_bind( "E s > < R # X G C , . r V H 6 x % ^ _ - | "
-                                           "t + = D w T S e o h c d l", t_elevator, t_rock,
-                                           t_stairs_down, t_stairs_up, t_railing, t_floor,
-                                           t_door_metal_locked, t_door_glass_c, t_floor,
-                                           t_pavement_y, t_pavement, t_floor, t_wall_glass,
-                                           t_wall_glass, t_console, t_console_broken, t_shrub,
-                                           t_floor, t_floor, t_wall, t_wall, t_floor, t_door_c,
-                                           t_door_locked, t_door_locked_alarm, t_window, t_floor,
-                                           t_sidewalk, t_floor, t_floor, t_floor, t_floor,
-                                           t_floor, t_floor );
-    const auto b_fur_key = mapf::furn_bind( "E s > < R # X G C , . r V H 6 x % ^ _ - | "
-                                            "t + = D w T S e o h c d l", f_null, f_null, f_null,
-                                            f_null, f_null, f_bench, f_null, f_null, f_crate_c,
-                                            f_null, f_null, f_rack, f_null, f_null, f_null,
-                                            f_null, f_null, f_indoor_plant, f_null, f_null,
-                                            f_null, f_table, f_null, f_null, f_null, f_null,
-                                            f_toilet, f_null,  f_fridge, f_bookcase, f_chair,
-                                            f_counter, f_desk,  f_locker );
-
-    if( terrain_type == "office_tower_1_entrance" ) {
-        dat.fill_groundcover();
-        mapf::formatted_set_simple( this, point_zero,
-                                    "ss%|....+...|...|EEED...\n"
-                                    "ss%|----|...|...|EEx|...\n"
-                                    "ss%Vcdc^|...|-+-|---|...\n"
-                                    "ss%Vch..+...............\n"
-                                    "ss%V....|...............\n"
-                                    "ss%|----|-|-+--ccc--|...\n"
-                                    "ss%|..C..C|.....h..r|-+-\n"
-                                    "sss=......+..h.....r|...\n"
-                                    "ss%|r..CC.|.ddd....r|T.S\n"
-                                    "ss%|------|---------|---\n"
-                                    "ss%|####################\n"
-                                    "ss%|#|------||------|###\n"
-                                    "ss%|#|......||......|###\n"
-                                    "ss%|||......||......|###\n"
-                                    "ss%||x......||......||##\n"
-                                    "ss%|||......||......x|##\n"
-                                    "ss%|#|......||......||##\n"
-                                    "ss%|#|......||......|###\n"
-                                    "ss%|#|XXXXXX||XXXXXX|###\n"
-                                    "ss%|-|__,,__||__,,__|---\n"
-                                    "ss%% x_,,,,_  __,,__  %%\n"
-                                    "ss    __,,__  _,,,,_    \n"
-                                    "ssssss__,,__ss__,,__ssss\n"
-                                    "ssssss______ss______ssss\n", ter_key, fur_key );
-        place_items( item_group_id( "office" ), 75, point( 4, 2 ), point( 6, 2 ), false,
-                     calendar::start_of_cataclysm );
-        place_items( item_group_id( "office" ), 75, point( 19, 6 ), point( 19, 6 ), false,
-                     calendar::start_of_cataclysm );
-        place_items( item_group_id( "office" ), 75, point( 12, 8 ), point( 14, 8 ), false,
-                     calendar::start_of_cataclysm );
-        if( dat.monster_density() > 1 ) {
-            place_spawns( GROUP_ZOMBIE, 2, point_zero, point( 12, 3 ), dat.monster_density() );
-        } else {
-            place_spawns( GROUP_PLAIN, 2, point( 15, 1 ), point( 22, 7 ), 1, true );
-            place_spawns( GROUP_PLAIN, 2, point( 15, 1 ), point( 22, 7 ), 0.15 );
-            place_spawns( GROUP_ZOMBIE_COP, 2, point( 10, 10 ), point( 14, 10 ), 0.1 );
-        }
-        place_office_chairs();
-
-        if( dat.north() == "office_tower_1" && dat.west() == "office_tower_1" ) {
-            rotate( 3 );
-        } else if( dat.north() == "office_tower_1" && dat.east() == "office_tower_1" ) {
-            rotate( 0 );
-        } else if( dat.south() == "office_tower_1" && dat.east() == "office_tower_1" ) {
-            rotate( 1 );
-        } else if( dat.west() == "office_tower_1" && dat.south() == "office_tower_1" ) {
-            rotate( 2 );
-        }
-    } else if( terrain_type == "office_tower_1" ) {
-        // Init to grass & dirt;
-        dat.fill_groundcover();
-        if( ( dat.south() == "office_tower_1_entrance" && dat.east() == "office_tower_1" ) ||
-            ( dat.north() == "office_tower_1" && dat.east() == "office_tower_1_entrance" ) ||
-            ( dat.west() == "office_tower_1" && dat.north() == "office_tower_1_entrance" ) ||
-            ( dat.south() == "office_tower_1" && dat.west() == "office_tower_1_entrance" ) ) {
-            mapf::formatted_set_simple( this, point_zero,
-                                        " ssssssssssssssssssssssss\n"
-                                        "ssssssssssssssssssssssss\n"
-                                        "ss                      \n"
-                                        "ss%%%%%%%%%%%%%%%%%%%%%%\n"
-                                        "ss%|-HH-|-HH-|-HH-|HH|--\n"
-                                        "ss%Vdcxl|dxdl|lddx|..|.S\n"
-                                        "ss%Vdh..|dh..|..hd|..+..\n"
-                                        "ss%|-..-|-..-|-..-|..|--\n"
-                                        "ss%V.................|.T\n"
-                                        "ss%V.................|..\n"
-                                        "ss%|-..-|-..-|-..-|..|--\n"
-                                        "ss%V.h..|..hd|..hd|..|..\n"
-                                        "ss%Vdxdl|^dxd|.xdd|..G..\n"
-                                        "ss%|----|----|----|..G..\n"
-                                        "ss%|llll|..htth......|..\n"
-                                        "ss%V.................|..\n"
-                                        "ss%V.ddd..........|+-|..\n"
-                                        "ss%|..hd|.hh.ceocc|.l|..\n"
-                                        "ss%|----|---------|--|..\n"
-                                        "ss%Vcdcl|...............\n"
-                                        "ss%V.h..+...............\n"
-                                        "ss%V...^|...|---|---|...\n"
-                                        "ss%|----|...|.R>|EEE|...\n"
-                                        "ss%|rrrr|...|.R.|EEED...\n", ter_key, fur_key );
-            if( dat.monster_density() > 1 ) {
-                place_spawns( GROUP_ZOMBIE, 2, point_zero, point( 2, 8 ), dat.monster_density() );
-            } else {
-                place_spawns( GROUP_PLAIN, 1, point( 5, 7 ), point( 15, 20 ), 0.1 );
-            }
-            place_items( item_group_id( "office" ), 75, point( 4, 23 ), point( 7, 23 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( item_group_id( "office" ), 75, point( 4, 19 ), point( 7, 19 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( item_group_id( "office" ), 75, point( 4, 14 ), point( 7, 14 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( item_group_id( "office" ), 75, point( 5, 16 ), point( 7, 16 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( item_group_id( "fridge" ), 80, point( 14, 17 ), point( 14, 17 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( item_group_id( "cleaning" ), 75, point( 19, 17 ), point( 20, 17 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( item_group_id( "cubical_office" ), 75, point( 6, 12 ), point( 7, 12 ),
-                         false, calendar::start_of_cataclysm );
-            place_items( item_group_id( "cubical_office" ), 75, point( 12, 11 ), point( 12, 12 ),
-                         false, calendar::start_of_cataclysm );
-            place_items( item_group_id( "cubical_office" ), 75, point( 16, 11 ), point( 17, 12 ),
-                         false, calendar::start_of_cataclysm );
-            place_items( item_group_id( "cubical_office" ), 75, point( 4, 5 ), point( 5, 5 ),
-                         false, calendar::start_of_cataclysm );
-            place_items( item_group_id( "cubical_office" ), 75, point( 11, 5 ), point( 12, 5 ),
-                         false, calendar::start_of_cataclysm );
-            place_items( item_group_id( "cubical_office" ), 75, point( 14, 5 ), point( 16, 5 ),
-                         false, calendar::start_of_cataclysm );
-            place_office_chairs();
-
-            if( dat.west() == "office_tower_1_entrance" ) {
-                rotate( 1 );
-            }
-            if( dat.north() == "office_tower_1_entrance" ) {
-                rotate( 2 );
-            }
-            if( dat.east() == "office_tower_1_entrance" ) {
-                rotate( 3 );
-            }
-        } else if( ( dat.west() == "office_tower_1_entrance" && dat.north() == "office_tower_1" ) ||
-                   ( dat.north() == "office_tower_1_entrance" && dat.east() == "office_tower_1" ) ||
-                   ( dat.west() == "office_tower_1" && dat.south() == "office_tower_1_entrance" ) ||
-                   ( dat.south() == "office_tower_1" && dat.east() == "office_tower_1_entrance" ) ) {
-            mapf::formatted_set_simple( this, point_zero,
-                                        "...DEEE|...|..|-----|%ss\n"
-                                        "...|EEE|...|..|^...lV%ss\n"
-                                        "...|---|-+-|......hdV%ss\n"
-                                        "...........G..|..dddV%ss\n"
-                                        "...........G..|-----|%ss\n"
-                                        ".......|---|..|...ddV%ss\n"
-                                        "|+-|...|...+......hdV%ss\n"
-                                        "|.l|...|rr.|.^|l...dV%ss\n"
-                                        "|--|...|---|--|-----|%ss\n"
-                                        "|...........c.......V%ss\n"
-                                        "|.......cxh.c.#####.Vsss\n"
-                                        "|.......ccccc.......Gsss\n"
-                                        "|...................Gsss\n"
-                                        "|...................Vsss\n"
-                                        "|#..................Gsss\n"
-                                        "|#..................Gsss\n"
-                                        "|#..................Vsss\n"
-                                        "|#............#####.V%ss\n"
-                                        "|...................|%ss\n"
-                                        "--HHHHHGGHHGGHHHHH--|%ss\n"
-                                        "%%%%% ssssssss %%%%%%%ss\n"
-                                        "      ssssssss        ss\n"
-                                        "ssssssssssssssssssssssss\n"
-                                        "ssssssssssssssssssssssss\n", ter_key, fur_key );
-            place_items( item_group_id( "office" ), 75, point( 19, 1 ), point( 19, 3 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( item_group_id( "office" ), 75, point( 17, 3 ), point( 18, 3 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( item_group_id( "office" ), 90, point( 8, 7 ), point( 9, 7 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( item_group_id( "cubical_office" ), 75, point( 19, 5 ), point( 19, 7 ),
-                         false, calendar::start_of_cataclysm );
-            place_items( item_group_id( "cleaning" ), 80, point( 1, 7 ), point( 2, 7 ), false,
-                         calendar::start_of_cataclysm );
-            if( dat.monster_density() > 1 ) {
-                place_spawns( GROUP_ZOMBIE, 2, point_zero, point( 14, 10 ), dat.monster_density() );
-            } else {
-                place_spawns( GROUP_PLAIN, 1, point( 10, 10 ), point( 14, 10 ), 0.15 );
-                place_spawns( GROUP_ZOMBIE_COP, 2, point( 10, 10 ), point( 14, 10 ), 0.1 );
-            }
-            place_office_chairs();
-
-            if( dat.north() == "office_tower_1_entrance" ) {
-                rotate( 1 );
-            }
-            if( dat.east() == "office_tower_1_entrance" ) {
-                rotate( 2 );
-            }
-            if( dat.south() == "office_tower_1_entrance" ) {
-                rotate( 3 );
-            }
-        } else {
-            mapf::formatted_set_simple( this, point_zero,
-                                        "ssssssssssssssssssssssss\n"
-                                        "ssssssssssssssssssssssss\n"
-                                        "                      ss\n"
-                                        "%%%%%%%%%%%%%%%%%%%%%%ss\n"
-                                        "--|---|--HHHH-HHHH--|%ss\n"
-                                        ".T|..l|............^|%ss\n"
-                                        "..|-+-|...hhhhhhh...V%ss\n"
-                                        "--|...G...ttttttt...V%ss\n"
-                                        ".S|...G...ttttttt...V%ss\n"
-                                        "..+...|...hhhhhhh...V%ss\n"
-                                        "--|...|.............|%ss\n"
-                                        "..|...|-------------|%ss\n"
-                                        "..G....|l.......dxd^|%ss\n"
-                                        "..G....G...h....dh..V%ss\n"
-                                        "..|....|............V%ss\n"
-                                        "..|....|------|llccc|%ss\n"
-                                        "..|...........|-----|%ss\n"
-                                        "..|...........|...ddV%ss\n"
-                                        "..|----|---|......hdV%ss\n"
-                                        ".......+...|..|l...dV%ss\n"
-                                        ".......|rrr|..|-----|%ss\n"
-                                        "...|---|---|..|l.dddV%ss\n"
-                                        "...|xEE|.R>|......hdV%ss\n"
-                                        "...DEEE|.R.|..|.....V%ss\n", ter_key, fur_key );
-            spawn_item( point( 18, 15 ), "record_accounting" );
-            place_items( item_group_id( "cleaning" ), 75, point( 3, 5 ), point( 5, 5 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( item_group_id( "office" ), 75, point( 10, 7 ), point( 16, 8 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( item_group_id( "cubical_office" ), 75, point( 15, 15 ), point( 19, 15 ),
-                         false, calendar::start_of_cataclysm );
-            place_items( item_group_id( "cubical_office" ), 75, point( 16, 12 ), point( 16, 13 ),
-                         false, calendar::start_of_cataclysm );
-            place_items( item_group_id( "cubical_office" ), 75, point( 17, 19 ), point( 19, 19 ),
-                         false, calendar::start_of_cataclysm );
-            place_items( item_group_id( "office" ), 75, point( 17, 21 ), point( 19, 21 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( item_group_id( "office" ), 75, point( 16, 11 ), point( 17, 12 ), false,
-                         calendar::start_of_cataclysm );
-            place_items( item_group_id( "cleaning" ), 75, point( 8, 20 ), point( 10, 20 ), false,
-                         calendar::start_of_cataclysm );
-            if( dat.monster_density() > 1 ) {
-                place_spawns( GROUP_ZOMBIE, 2, point_zero, point( 9, 15 ), dat.monster_density() );
-            } else {
-                place_spawns( GROUP_PLAIN, 1, point_zero, point( 9, 15 ), 0.1 );
-            }
-            place_office_chairs();
-
-            if( dat.west() == "office_tower_1" && dat.north() == "office_tower_1" ) {
-                rotate( 1 );
-            } else if( dat.east() == "office_tower_1" && dat.north() == "office_tower_1" ) {
-                rotate( 2 );
-            } else if( dat.east() == "office_tower_1" && dat.south() == "office_tower_1" ) {
-                rotate( 3 );
-            }
-        }
-    } else if( terrain_type == "office_tower_b_entrance" ) {
-        dat.fill_groundcover();
-        mapf::formatted_set_simple( this, point_zero,
-                                    "sss|........|...|EEED___\n"
-                                    "sss|........|...|EEx|___\n"
-                                    "sss|........|-+-|---|HHG\n"
-                                    "sss|....................\n"
-                                    "sss|....................\n"
-                                    "sss|....................\n"
-                                    "sss|....................\n"
-                                    "sss|....,,......,,......\n"
-                                    "sss|...,,,,.....,,......\n"
-                                    "sss|....,,.....,,,,..xS.\n"
-                                    "sss|....,,......,,...SS.\n"
-                                    "sss|-|XXXXXX||XXXXXX|---\n"
-                                    "sss|s|EEEEEE||EEEEEE|sss\n"
-                                    "sss|||EEEEEE||EEEEEE|sss\n"
-                                    "sss||xEEEEEE||EEEEEE||ss\n"
-                                    "sss|||EEEEEE||EEEEEEx|ss\n"
-                                    "sss|s|EEEEEE||EEEEEE||ss\n"
-                                    "sss|s|EEEEEE||EEEEEE|sss\n"
-                                    "sss|s|------||------|sss\n"
-                                    "sss|--------------------\n"
-                                    "ssssssssssssssssssssssss\n"
-                                    "ssssssssssssssssssssssss\n"
-                                    "ssssssssssssssssssssssss\n"
-                                    "ssssssssssssssssssssssss\n", ter_key, fur_key );
-        if( dat.monster_density() > 1 ) {
-            place_spawns( GROUP_ZOMBIE, 2, point_zero, point( EAST_EDGE, SOUTH_EDGE ), dat.monster_density() );
-        } else {
-            place_spawns( GROUP_PLAIN, 1, point_zero, point( EAST_EDGE, SOUTH_EDGE ), 0.1 );
-        }
-        if( dat.north() == "office_tower_b" && dat.west() == "office_tower_b" ) {
-            rotate( 3 );
-        } else if( dat.north() == "office_tower_b" && dat.east() == "office_tower_b" ) {
-            rotate( 0 );
-        } else if( dat.south() == "office_tower_b" && dat.east() == "office_tower_b" ) {
-            rotate( 1 );
-        } else if( dat.west() == "office_tower_b" && dat.south() == "office_tower_b" ) {
-            rotate( 2 );
-        }
-    } else if( terrain_type == "office_tower_b" ) {
-        // Init to grass & dirt;
-        dat.fill_groundcover();
-        if( ( dat.south() == "office_tower_b_entrance" && dat.east() == "office_tower_b" ) ||
-            ( dat.north() == "office_tower_b" && dat.east() == "office_tower_b_entrance" ) ||
-            ( dat.west() == "office_tower_b" && dat.north() == "office_tower_b_entrance" ) ||
-            ( dat.south() == "office_tower_b" && dat.west() == "office_tower_b_entrance" ) ) {
-            mapf::formatted_set_simple( this, point_zero,
-                                        "ssssssssssssssssssssssss\n"
-                                        "ssssssssssssssssssssssss\n"
-                                        "sss|--------------------\n"
-                                        "sss|,.....,.....,.....,S\n"
-                                        "sss|,.....,.....,.....,S\n"
-                                        "sss|,.....,.....,.....,S\n"
-                                        "sss|,.....,.....,.....,S\n"
-                                        "sss|,.....,.....,.....,S\n"
-                                        "sss|,.....,.....,.....,S\n"
-                                        "sss|....................\n"
-                                        "sss|....................\n"
-                                        "sss|....................\n"
-                                        "sss|....................\n"
-                                        "sss|....................\n"
-                                        "sss|....................\n"
-                                        "sss|...,,...,....,....,S\n"
-                                        "sss|..,,,,..,....,....,S\n"
-                                        "sss|...,,...,....,....,S\n"
-                                        "sss|...,,...,....,....,S\n"
-                                        "sss|........,....,....,S\n"
-                                        "sss|........,....,....,S\n"
-                                        "sss|........|---|---|HHG\n"
-                                        "sss|........|.R<|EEE|___\n"
-                                        "sss|........|.R.|EEED___\n", b_ter_key, b_fur_key );
-            if( dat.monster_density() > 1 ) {
-                place_spawns( GROUP_ZOMBIE, 2, point_zero, point( EAST_EDGE, SOUTH_EDGE ), dat.monster_density() );
-            } else {
-                place_spawns( GROUP_PLAIN, 1, point_zero, point( EAST_EDGE, SOUTH_EDGE ), 0.1 );
-            }
-            if( dat.west() == "office_tower_b_entrance" ) {
-                rotate( 1 );
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 17, 7 ), 180_degrees );
-                }
-                if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "motorcycle" ), point( 17, 13 ), 180_degrees );
-                }
-                if( x_in_y( 1, 5 ) ) {
-                    if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "fire_truck" ), point( 6, 13 ), 0_degrees );
-                    } else {
-                        add_vehicle( vproto_id( "pickup" ), point( 17, 19 ), 180_degrees );
-                    }
-                }
-            } else if( dat.north() == "office_tower_b_entrance" ) {
-                rotate( 2 );
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 10, 17 ), 270_degrees );
-                }
-                if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "motorcycle" ), point( 4, 18 ), 270_degrees );
-                }
-                if( x_in_y( 1, 5 ) ) {
-                    if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "fire_truck" ), point( 6, 13 ), 0_degrees );
-                    } else {
-                        add_vehicle( vproto_id( "pickup" ), point( 16, 17 ), 270_degrees );
-                    }
-                }
-            } else if( dat.east() == "office_tower_b_entrance" ) {
-                rotate( 3 );
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 6, 4 ), 0_degrees );
-                }
-                if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "motorcycle" ), point( 6, 10 ), 180_degrees );
-                }
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), point( 6, 16 ), 0_degrees );
-                }
-
-            } else {
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), point( 7, 6 ), 90_degrees );
-                }
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 14, 6 ), 90_degrees );
-                }
-                if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "motorcycle" ), point( 19, 6 ), 90_degrees );
-                }
-            }
-        } else if( ( dat.west() == "office_tower_b_entrance" && dat.north() == "office_tower_b" ) ||
-                   ( dat.north() == "office_tower_b_entrance" && dat.east() == "office_tower_b" ) ||
-                   ( dat.west() == "office_tower_b" && dat.south() == "office_tower_b_entrance" ) ||
-                   ( dat.south() == "office_tower_b" && dat.east() == "office_tower_b_entrance" ) ) {
-            mapf::formatted_set_simple( this, point_zero,
-                                        "___DEEE|...|...,,...|sss\n"
-                                        "___|EEE|...|..,,,,..|sss\n"
-                                        "GHH|---|-+-|...,,...|sss\n"
-                                        "....................|sss\n"
-                                        "....................|sss\n"
-                                        "....................|sss\n"
-                                        "....................|sss\n"
-                                        "....................|sss\n"
-                                        "....................|sss\n"
-                                        "....................|sss\n"
-                                        "....................|sss\n"
-                                        "|...................|sss\n"
-                                        "|...................|sss\n"
-                                        "|,.....,.....,.....,|sss\n"
-                                        "|,.....,.....,.....,|sss\n"
-                                        "|,.....,.....,.....,|sss\n"
-                                        "|,.....,.....,.....,|sss\n"
-                                        "|,.....,.....,.....,|sss\n"
-                                        "|,.....,.....,.....,|sss\n"
-                                        "|-------------------|sss\n"
-                                        "ssssssssssssssssssssssss\n"
-                                        "ssssssssssssssssssssssss\n"
-                                        "ssssssssssssssssssssssss\n"
-                                        "ssssssssssssssssssssssss\n", b_ter_key, b_fur_key );
-            if( dat.monster_density() > 1 ) {
-                place_spawns( GROUP_ZOMBIE, 2, point_zero, point( EAST_EDGE, SOUTH_EDGE ), dat.monster_density() );
-            } else {
-                place_spawns( GROUP_PLAIN, 1, point_zero, point( EAST_EDGE, SOUTH_EDGE ), 0.1 );
-            }
-            if( dat.north() == "office_tower_b_entrance" ) {
-                rotate( 1 );
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 8, 15 ), 0_degrees );
-                }
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), point( 7, 10 ), 180_degrees );
-                }
-                if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "beetle" ), point( 7, 3 ), 0_degrees );
-                }
-            } else if( dat.east() == "office_tower_b_entrance" ) {
-                rotate( 2 );
-                if( x_in_y( 1, 5 ) ) {
-                    if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "fire_truck" ), point( 6, 13 ), 0_degrees );
-                    } else {
-                        add_vehicle( vproto_id( "pickup" ), point( 7, 7 ), 270_degrees );
-                    }
-                }
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 13, 8 ), 90_degrees );
-                }
-                if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "beetle" ), point( 20, 7 ), 90_degrees );
-                }
-            } else if( dat.south() == "office_tower_b_entrance" ) {
-                rotate( 3 );
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), point( 16, 7 ), 0_degrees );
-                }
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 15, 13 ), 180_degrees );
-                }
-                if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "beetle" ), point( 15, 20 ), 180_degrees );
-                }
-            } else {
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), point( 16, 16 ), 90_degrees );
-                }
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 9, 15 ), 270_degrees );
-                }
-                if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "beetle" ), point( 4, 16 ), 270_degrees );
-                }
-            }
-        } else {
-            mapf::formatted_set_simple( this, point_zero,
-                                        "ssssssssssssssssssssssss\n"
-                                        "ssssssssssssssssssssssss\n"
-                                        "--------------------|sss\n"
-                                        "S,.....,.....,.....,|sss\n"
-                                        "S,.....,.....,.....,|sss\n"
-                                        "S,.....,.....,.....,|sss\n"
-                                        "S,.....,.....,.....,|sss\n"
-                                        "S,.....,.....,.....,|sss\n"
-                                        "S,.....,.....,.....,|sss\n"
-                                        "....................|sss\n"
-                                        "....................|sss\n"
-                                        "....................|sss\n"
-                                        "....................|sss\n"
-                                        "....................|sss\n"
-                                        "....................|sss\n"
-                                        "S,....,....,........|sss\n"
-                                        "S,....,....,........|sss\n"
-                                        "S,....,....,........|sss\n"
-                                        "S,....,....,........|sss\n"
-                                        "S,....,....,........|sss\n"
-                                        "S,....,....,........|sss\n"
-                                        "GHH|---|---|........|sss\n"
-                                        "___|xEE|.R<|........|sss\n"
-                                        "___DEEE|.R.|...,,...|sss\n", b_ter_key, b_fur_key );
-            if( dat.monster_density() > 1 ) {
-                place_spawns( GROUP_ZOMBIE, 2, point_zero, point( EAST_EDGE, SOUTH_EDGE ), dat.monster_density() );
-            } else {
-                place_spawns( GROUP_PLAIN, 1, point_zero, point( EAST_EDGE, SOUTH_EDGE ), 0.1 );
-            }
-            if( dat.west() == "office_tower_b" && dat.north() == "office_tower_b" ) {
-                rotate( 1 );
-                if( x_in_y( 1, 5 ) ) {
-                    if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "cube_van" ), point( 17, 4 ), 180_degrees );
-                    } else {
-                        add_vehicle( vproto_id( "cube_van_cheap" ), point( 17, 4 ), 180_degrees );
-                    }
-                }
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), point( 17, 10 ), 180_degrees );
-                }
-                if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 17, 17 ), 180_degrees );
-                }
-            } else if( dat.east() == "office_tower_b" && dat.north() == "office_tower_b" ) {
-                rotate( 2 );
-                if( x_in_y( 1, 5 ) ) {
-                    if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "cube_van" ), point( 6, 17 ), 270_degrees );
-                    } else {
-                        add_vehicle( vproto_id( "cube_van_cheap" ), point( 6, 17 ), 270_degrees );
-                    }
-                }
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "pickup" ), point( 12, 17 ), 270_degrees );
-                }
-                if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "fire_truck" ), point( 18, 17 ), 270_degrees );
-                }
-            } else if( dat.east() == "office_tower_b" && dat.south() == "office_tower_b" ) {
-                rotate( 3 );
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "cube_van_cheap" ), point( 6, 6 ), 0_degrees );
-                }
-                if( x_in_y( 1, 5 ) ) {
-                    if( one_in( 3 ) ) {
-                        add_vehicle( vproto_id( "fire_truck" ), point( 6, 13 ), 0_degrees );
-                    } else {
-                        add_vehicle( vproto_id( "pickup" ), point( 6, 13 ), 0_degrees );
-                    }
-                }
-                if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 5, 19 ), 180_degrees );
-                }
-            } else {
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "flatbed_truck" ), point( 16, 6 ), 90_degrees );
-                }
-                if( x_in_y( 1, 5 ) ) {
-                    add_vehicle( vproto_id( "cube_van_cheap" ), point( 10, 6 ), 90_degrees );
-                }
-                if( x_in_y( 1, 3 ) ) {
-                    add_vehicle( vproto_id( "car" ), point( 4, 6 ), 90_degrees );
-                }
-            }
-        }
-    }
-}
 
 void map::draw_lab( mapgendata &dat )
 {
@@ -6212,7 +5635,7 @@ void map::rotate( int turns, const bool setpos_safe )
         }
     }
 
-    clear_vehicle_cache( abs_sub.z );
+    clear_vehicle_level_caches();
     clear_vehicle_list( abs_sub.z );
 
     submap *pz = get_submap_at_grid( point_zero );
@@ -6266,7 +5689,7 @@ void map::rotate( int turns, const bool setpos_safe )
             update_vehicle_list( sm, abs_sub.z );
         }
     }
-    reset_vehicle_cache( abs_sub.z );
+    rebuild_vehicle_level_caches();
 
     // rotate zones
     zone_manager &mgr = zone_manager::get_manager();
@@ -7074,8 +6497,8 @@ void add_corpse( map *m, const point &p )
 
 //////////////////// mapgen update
 update_mapgen_function_json::update_mapgen_function_json(
-    const std::string &s, const std::string &context ) :
-    mapgen_function_json_base( s, context )
+    const json_source_location &jsrcloc, const std::string &context ) :
+    mapgen_function_json_base( jsrcloc, context )
 {
 }
 
@@ -7168,7 +6591,8 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
         return update_function;
     }
 
-    update_mapgen_function_json json_data( "", "unknown object in add_mapgen_update_func" );
+    update_mapgen_function_json json_data( json_source_location {},
+                                           "unknown object in add_mapgen_update_func" );
     mapgen_defer::defer = defer;
     if( !json_data.setup_update( jo ) ) {
         const auto null_function = []( const tripoint_abs_omt &, mission * ) {

@@ -502,7 +502,7 @@
   {
     "id": "thorns_electric",
     "type": "ARMOR",
-    "name": "aura of repelling arc",
+    "name": { "str": "aura of repelling arc", "str_pl": "auras of repelling arc" },
     "description": "An invisible aura that strikes melee attackers with arcs of electricity.",
     "weight": "1 g",
     "volume": "1 ml",

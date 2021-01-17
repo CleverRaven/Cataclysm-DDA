@@ -29,6 +29,7 @@
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
+#include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -319,9 +320,17 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
                                       player_character.get_skill_level( r.skill_used ) ) );
     player_character.moves--;
     const inventory &crafting_inv = player_character.crafting_inventory();
-    bool can_craft = r.deduped_requirements().can_make_with_inventory(
-                         crafting_inv, r.get_component_filter() );
-    REQUIRE( can_craft == expect_craftable );
+
+    SECTION( "can craft with crafting inv" ) {
+        bool can_craft = r.deduped_requirements().can_make_with_inventory(
+                             crafting_inv, r.get_component_filter() );
+        REQUIRE( can_craft == expect_craftable );
+    }
+    SECTION( "can craft with temp inv" ) {
+        bool can_craft = r.deduped_requirements().can_make_with_inventory(
+                             temp_crafting_inventory( crafting_inv ), r.get_component_filter() );
+        REQUIRE( can_craft == expect_craftable );
+    }
 }
 
 static time_point midnight = calendar::turn_zero + 0_hours;
@@ -491,6 +500,30 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
         prep_craft( recipe_id( "water_clean" ), tools, true );
     }
+    SECTION( "clean_water_in_loaded_mess_kit" ) {
+        std::vector<item> tools;
+        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        item plastic_bottle( "bottle_plastic" );
+        plastic_bottle.put_in(
+            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+        tools.push_back( plastic_bottle );
+        tools.push_back( tool_with_ammo( "mess_kit", 20 ) );
+
+        // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
+        prep_craft( recipe_id( "water_clean" ), tools, true );
+    }
+    SECTION( "clean_water_in_loaded_survivor_mess_kit" ) {
+        std::vector<item> tools;
+        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        item plastic_bottle( "bottle_plastic" );
+        plastic_bottle.put_in(
+            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+        tools.push_back( plastic_bottle );
+        tools.push_back( tool_with_ammo( "survivor_mess_kit", 20 ) );
+
+        // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
+        prep_craft( recipe_id( "water_clean" ), tools, true );
+    }
     SECTION( "clean_water_in_occupied_cooking_vessel" ) {
         std::vector<item> tools;
         tools.push_back( tool_with_ammo( "hotplate", 20 ) );
@@ -608,4 +641,11 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
             }
         }
     }
+}
+
+TEST_CASE( "check-tool_qualities" )
+{
+    CHECK( tool_with_ammo( "mess_kit", 20 ).has_quality( quality_id( "BOIL" ), 2, 1 ) );
+    CHECK( tool_with_ammo( "survivor_mess_kit", 20 ).has_quality( quality_id( "BOIL" ), 2, 1 ) );
+    CHECK( tool_with_ammo( "survivor_mess_kit", 20 ).get_quality( quality_id( "BOIL" ) ) > 0 );
 }

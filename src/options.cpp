@@ -2506,14 +2506,14 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
         try {
             tilecontext->reinit();
             tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
-            //g->init_ui is called when zoom is changed
+            //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             tilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
         }
-    } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
+    } else if( ingame && pixel_minimap_option && pixel_minimap_height_changed ) {
         g->mark_main_ui_adaptor_resize();
     }
 }

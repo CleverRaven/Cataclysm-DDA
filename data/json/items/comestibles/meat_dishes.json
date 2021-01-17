@@ -200,6 +200,37 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "human_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "copy-from": "cracklins",
+    "material": [ "hflesh" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutant_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "copy-from": "cracklins",
+    "material": [ "flesh" ],
+    "vitamins": [ [ "mutant_toxin", 52 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutant_human_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "copy-from": "cracklins",
+    "material": [ "hflesh" ],
+    "vitamins": [ [ "mutant_toxin", 52 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "demihuman_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "copy-from": "cracklins",
+    "material": [ "flesh" ],
+    "flags": [ "STRICT_HUMANITARIANISM" ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "glazed_tenderloin",
     "name": { "str_sp": "glazed tenderloins" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "grisly %s" } } ],

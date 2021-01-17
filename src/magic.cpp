@@ -51,6 +51,30 @@
 
 static const trait_id trait_NONE( "NONE" );
 
+static std::string target_to_string( spell_target data )
+{
+    switch( data ) {
+        case spell_target::ally:
+            return pgettext( "Valid spell target", "ally" );
+        case spell_target::hostile:
+            return pgettext( "Valid spell target", "hostile" );
+        case spell_target::self:
+            return pgettext( "Valid spell target", "self" );
+        case spell_target::ground:
+            return pgettext( "Valid spell target", "ground" );
+        case spell_target::none:
+            return pgettext( "Valid spell target", "none" );
+        case spell_target::item:
+            return pgettext( "Valid spell target", "item" );
+        case spell_target::field:
+            return pgettext( "Valid spell target", "field" );
+        case spell_target::num_spell_targets:
+            break;
+    }
+    debugmsg( "Invalid valid_target" );
+    return "THIS IS A BUG";
+}
+
 namespace io
 {
 // *INDENT-OFF*
@@ -1239,7 +1263,7 @@ std::string spell::enumerate_targets() const
     for( int i = 0; i < last_target; ++i ) {
         spell_target t = static_cast<spell_target>( i );
         if( is_valid_target( t ) && t != spell_target::none ) {
-            all_valid_targets.emplace_back( io::enum_to_string( t ) );
+            all_valid_targets.emplace_back( target_to_string( t ) );
         }
     }
     if( all_valid_targets.size() == 1 ) {
@@ -1964,7 +1988,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     // One line for damage / healing / spawn / summon effect
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, damage_string );
 
-    // todo: damage over time here, when it gets implemeted
+    // todo: damage over time here, when it gets implemented
 
     // Show duration for spells that endure
     if( sp.duration() > 0 || sp.has_flag( spell_flag::PERMANENT ) ) {

@@ -189,7 +189,7 @@ CachedTTFFont::CachedTTFFont(
 {
     int faceIndex = 0;
     std::vector<std::string> typefaces;
-    std::vector<std::string> known_suffixes = { ".ttf", ".fon" };
+    std::vector<std::string> known_suffixes = { ".ttf", ".otf", ".ttc", ".fon" };
     bool add_suffix = true;
     for( const std::string &ks : known_suffixes ) {
         if( string_ends_with( typeface, ks ) ) {
@@ -248,17 +248,17 @@ CachedTTFFont::CachedTTFFont(
             typefaces.emplace_back( typeface + ( add_suffix ? ks : "" ) );
         }
     }
-    if( typefaces.empty() ) {
+    if( add_suffix ) {
         typefaces.emplace_back( typeface );
     }
     ensure_unifont_loaded( typefaces );
 
     for( const std::string &tf : typefaces ) {
         if( !file_exist( tf ) ) {
-            dbg( D_ERROR ) << "Not found " << tf;
+            dbg( D_INFO ) << "Not found " << tf;
             continue;
         }
-        dbg( D_ERROR ) << "Loading truetype font " << tf;
+        dbg( D_INFO ) << "Loading truetype font " << tf;
         typeface = tf;
         break;
     }

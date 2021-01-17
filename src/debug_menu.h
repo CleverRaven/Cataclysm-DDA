@@ -43,6 +43,7 @@ enum class debug_menu_index : int {
     CHANGE_WEATHER,
     WIND_DIRECTION,
     WIND_SPEED,
+    GEN_SOUND,
     KILL_MONS,
     DISPLAY_HORDES,
     TEST_IT_GROUP,

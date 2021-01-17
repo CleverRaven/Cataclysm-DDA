@@ -826,8 +826,23 @@
     "type": "COMESTIBLE",
     "name": { "str": "herbal tea bag" },
     "copy-from": "tea_bag",
-    "color": "green",
-    "description": "Paper sachet with dried wild herbs inside.  Put it into boiling water to make some healthy warm drink."
+    "calories": 9,
+    "description": "A paper sachet with dried wild herbs inside.  Put it into boiling water to make a cup of herbal tea."
+  },
+  {
+    "id": "tea_bag_dandelion",
+    "type": "COMESTIBLE",
+    "name": { "str": "dandelion tea bag" },
+    "copy-from": "tea_bag",
+    "calories": 26,
+    "description": "A paper sachet with dried dandelion roots inside.  Put it into boiling water to make a cup of dandelion tea."
+  },
+  {
+    "id": "tea_bag_chamomile",
+    "type": "COMESTIBLE",
+    "name": { "str": "chamomile tea bag" },
+    "copy-from": "tea_bag",
+    "description": "A paper sachet with dried chamomile inside.  Put it into boiling water to make a cup of chamomile tea."
   },
   {
     "id": "instant_coffee",

@@ -766,7 +766,7 @@ static void assign_dmg_proportional( const JsonObject &jo, const std::string &na
 
             // If it's 1, it wasn't loaded (or was loaded as 1)
             if( scalar.damage_multiplier <= 0 ) {
-                jo.throw_error( "Proportional damage multipler is not a valid scalar", name );
+                jo.throw_error( "Proportional damage multiplier is not a valid scalar", name );
             }
 
             // If it's 1, it wasn't loaded (or was loaded as 1)

@@ -1013,7 +1013,7 @@
         "|T+..S|[.............=..#h.|ss  ______________________________________________________,,,,b ,,,x",
         "--------ww-------|-+-|Y.#..wssssssss__________________________________________________,,,,b,,, x",
         "sssssssssss~|T+.S|...|O...$|ssssssss            sssssss            sXsssXXXXXXXXXs    ,,, b,,,,x",
-        "ssssssssssss|--.c|...|------------ss         sssssssssssss         sXs sGsssXsssGs     ,,,b,,, x",
+        "ssssssssssss|--.c|...|------------ss         sssssssssssss         sXspsGsssXsssGs     ,,,b,,, x",
         "          ss|T+..+...d..||>|uuuuu|{s        ssss_______ssss        sXsssXs*sXs*sXs     ,,,b ,, x",
         "          ss-----|...|uS||.|.....|{s      ssss___________ssss      sXsssXs*sXs*sXs     ,, b ,, x",
         "ssssssssssssw.hhh....|----d---D--|ss     sss_______________sss     sXsssGsssXsssGs     ,,,b ,,,x",
@@ -1106,8 +1106,7 @@
         "W": [ { "item": "mil_base_iv", "chance": 70 } ],
         "^": [ { "item": "mil_base_iv", "chance": 70 } ]
       },
-      "place_terrain": [ { "ter": "t_diesel_pump", "x": 70, "y": 24 } ],
-      "place_liquids": [ { "liquid": "diesel", "x": 70, "y": 24, "repeat": [ 800, 4000 ] } ],
+      "gaspumps": { "p": { "fuel": "diesel", "amount": [ 200000, 1000000 ] } },
       "place_loot": [
         { "group": "mil_base_hmg", "x": 65, "y": 46, "chance": 10, "magazine": 100 },
         { "group": "SUS_janitors_closet", "x": 22, "y": 26, "chance": 90, "repeat": [ 1, 2 ] },

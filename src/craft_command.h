@@ -13,7 +13,7 @@
 class Character;
 class JsonIn;
 class JsonOut;
-class inventory;
+class read_only_visitable;
 class item;
 struct item_comp;
 struct tool_comp;
@@ -116,10 +116,10 @@ class craft_command
 
         /** Checks if tools we selected in a previous call to execute() are still available. */
         std::vector<comp_selection<item_comp>> check_item_components_missing(
-                                                const inventory &map_inv ) const;
+                                                const read_only_visitable &map_inv ) const;
         /** Checks if items we selected in a previous call to execute() are still available. */
         std::vector<comp_selection<tool_comp>> check_tool_components_missing(
-                                                const inventory &map_inv ) const;
+                                                const read_only_visitable &map_inv ) const;
 
         /** Creates a continue pop up asking to continue crafting and listing the missing components */
         bool query_continue( const std::vector<comp_selection<item_comp>> &missing_items,

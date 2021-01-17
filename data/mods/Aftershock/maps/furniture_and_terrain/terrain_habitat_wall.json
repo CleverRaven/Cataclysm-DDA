@@ -1,0 +1,155 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_wall_prefab_metal",
+    "name": "habitat wall",
+    "description": "An industrially fabricated assembly of lightweight metallic framing and insulated cover sheets, used to quickly assemble standardized colonial infrastructure.  Capable of resisting the merciless cold and not much else.",
+    "roof": "t_metal_flat_roof",
+    "symbol": "LINE_XOXO",
+    "looks_like": "t_wall_metal",
+    "color": "light_gray",
+    "connects_to": "WALL",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 39,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_broken_prefab",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "afs_material_1", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_prefab_glass",
+    "name": "habitat window",
+    "description": "A prefabricated porthole style window, equipped with metallic shutters for both protection and privacy purposes.  It cannot be opened, but with its shutters are retracted, it could be smashed with no particular difficulty.",
+    "roof": "t_metal_flat_roof",
+    "symbol": "LINE_XOXO",
+    "color": "light_cyan",
+    "close": "t_wall_prefab_glass_shutters",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 2,
+      "sound": "glass breaking!",
+      "sound_fail": "clang!",
+      "ter_set": "t_wall_prefab_bglass",
+      "items": [ { "item": "glass_shard", "count": [ 22, 33 ] }, { "item": "scrap", "count": [ 0, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_prefab_glass_shutters",
+    "name": "habitat window (shutters)",
+    "description": "A porthole style window of standard design, completely covered by sturdy metallic shutters.",
+    "roof": "t_metal_flat_roof",
+    "looks_like": "t_reinforced_glass_shutter",
+    "symbol": "=",
+    "color": "light_gray",
+    "open": "t_wall_prefab_glass",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_broken_prefab",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "afs_material_1", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_prefab_bglass_shutters",
+    "name": "broken habitat window (shutters)",
+    "looks_like": "t_reinforced_glass_shutter",
+    "symbol": "=",
+    "color": "yellow",
+    "move_cost": 0,
+    "coverage": 100,
+    "description": "The shutters of this porthole are deployed, but the lack of a window between them allows the frozen air to leak into the room.",
+    "open": "t_wall_prefab_glass",
+    "flags": [ "NOITEM", "WALL", "PERMEABLE", "OPENCLOSE_INSIDE" ],
+    "roof": "t_metal_flat_roof",
+    "bash": {
+      "str_min": 20,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_broken_prefab",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "afs_material_1", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_prefab_bglass",
+    "name": "broken habitat window",
+    "looks_like": "t_window_empty",
+    "symbol": "0",
+    "move_cost": 8,
+    "coverage": 60,
+    "color": "yellow",
+    "description": "The glass panel that would have covered this porthole has been broken, allowing unfettered access to the rooms within.",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "MOUNTABLE", "CONNECT_TO_WALL", "SMALL_PASSAGE", "WINDOW" ],
+    "roof": "t_metal_flat_roof",
+    "bash": {
+      "str_min": 20,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_broken_prefab",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "afs_material_1", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_broken_prefab",
+    "name": "broken habitat segment",
+    "symbol": "#",
+    "move_cost": 8,
+    "color": "light_blue",
+    "looks_like": "dark_",
+    "description": "Exposed structural ribs and battered plate metal are all what remains of this habitat segment.",
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "THIN_OBSTACLE", "SMALL_PASSAGE", "WINDOW" ],
+    "roof": "t_metal_flat_roof",
+    "bash": {
+      "str_min": 20,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_ice",
+      "items": [
+        { "item": "steel_lump", "count": [ 2, 2 ] },
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "afs_material_1", "count": [ 0, 1 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  }
+]

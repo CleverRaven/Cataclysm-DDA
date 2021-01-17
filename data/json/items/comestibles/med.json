@@ -1403,6 +1403,29 @@
     "use_action": [ "FLUSLEEP" ]
   },
   {
+    "id": "prophylactic_antivenom",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "prophylactic antivenom pill" },
+    "description": "An experimental, cutting-edge antivenom in the form of some small amber vials, designed to be injected a few hours before venom exposure.  It was developed in top secret by the military in response to increasing biological/chemical warfare.",
+    "weight": "40 g",
+    "volume": "250 ml",
+    "price": 10000,
+    "price_postapoc": 50000,
+    "charges": 5,
+    "stack_size": 10,
+    "symbol": "!",
+    "color": "brown",
+    "healthy": -1,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject a vial of prophylactic antivenom into your arm.  You feel a bit queasy.",
+      "tools_needed": { "syringe": -1 },
+      "effects": [ { "id": "prophylactic_antivenom", "duration": "120 m" }, { "id": "nausea", "duration": "5 m" } ]
+    },
+    "flags": [ "NO_INGEST", "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
+  },
+  {
     "id": "prozac",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -1677,6 +1700,49 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "charges": 10,
     "stack_size": 10
+  },
+  {
+    "id": "homeopathic_pills",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "homeopathic pill",
+    "description": "Some homeopathic pills, prepared through the repeated dilution of an active ingredient with water.  The label purports that these pills are able to maintain general wellness.",
+    "weight": "1 g",
+    "volume": "100 ml",
+    "price": 1000,
+    "price_postapoc": 1,
+    "fun": 1,
+    "charges": 20,
+    "stack_size": 20,
+    "symbol": "!",
+    "color": "white",
+    "use_action": { "type": "consume_drug", "activation_message": "You swallow the %s.  You wait in anticipation of its effects." },
+    "snippet_category": [
+      {
+        "id": "pill1",
+        "text": "Some Oscillococcinum homeopathic pills, prepared through the dilution of one part duck offal with 10^400 parts water.  The label purports that these pills are able to treat flu-like symptoms and maintain general wellness."
+      },
+      {
+        "id": "pill2",
+        "text": "Some Arsenicum album homeopathic pills, prepared through the dilution of one part arsenic trioxide with 10^24 parts water.  These pills are meant to treat anxiety, various digestive disorders, and arsenic poisoning."
+      },
+      {
+        "id": "pill3",
+        "text": "Some Allium cepa homeopathic pills, prepared through the dilution of one part onion with 10^30 parts water.  The label states that these pills can ameliorate symptoms of asthma, gastrointestinal disorders, and bronchitis.  You briefly wonder if they may cure fungal infections."
+      },
+      {
+        "id": "pill4",
+        "text": "Some Arum tryphillum homeopathic pills, prepared through the dilution of the jack-in-the-pulpit plant with 10^30 parts water.  The label claims that the pills are able to treat voice loss."
+      },
+      {
+        "id": "pill5",
+        "text": "Some Aesculus hippocastanum homeopathic pills, prepared through the dilution of horse chestnut with 10^30 parts water.  These pills are meant to treat dysentry and hemorrhoids."
+      },
+      {
+        "id": "pill6",
+        "text": "Some Lachesis mutus pills, prepared through the dilution of the venom of the bushmaster snake with 10^1000 parts water.  These pills are claimed to be an effective treatment for sore throat."
+      }
+    ]
   },
   {
     "id": "inj_vitb",

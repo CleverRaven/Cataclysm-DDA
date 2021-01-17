@@ -612,7 +612,7 @@
     "id": "fancy_transition_glasses_bifocal",
     "repairs_like": "survivor_goggles",
     "type": "ARMOR",
-    "name": { "str": "pair of stylish transtition bifocal glasses", "str_pl": "pairs of stylish transition bifocal glasses" },
+    "name": { "str": "pair of stylish transition bifocal glasses", "str_pl": "pairs of stylish transition bifocal glasses" },
     "description": "A pair of stylish bifocal glasses for those who are both near-sighted and far-sighted.  Contains photochromic dyes causing the lens to activate, or darken, when exposed to ultraviolet rays from sunlight.  When the UV light diminishes, the lenses fade back.",
     "weight": "30 g",
     "volume": "250 ml",

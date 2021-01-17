@@ -124,7 +124,7 @@ std::string move_mode::change_message( bool success, steed_type steed ) const
 {
     if( steed == steed_type::NUM ) {
         debugmsg( "Attempted to switch to bad movement mode!" );
-        //~ This should never occur - this is the message when the character swtiches to
+        //~ This should never occur - this is the message when the character switches to
         //~ an invalid move mode or there's not a message for failing to switch to a move
         //~ mode
         return _( "You feel bugs crawl over your skin." );

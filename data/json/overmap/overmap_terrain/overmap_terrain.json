@@ -334,6 +334,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "hot_springs",
+    "name": "hot spring",
+    "sym": ".",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
     "id": "pond_forest",
     "name": "basin",
     "sym": "F",

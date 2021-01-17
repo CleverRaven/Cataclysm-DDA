@@ -542,7 +542,7 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
     }
 }
 
-TEST_CASE( "achievments_tracker", "[stats]" )
+TEST_CASE( "achievements_tracker", "[stats]" )
 {
     override_option opt( "24_HOUR", "military" );
 

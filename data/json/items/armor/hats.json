@@ -24,6 +24,7 @@
   {
     "id": "bandana_head",
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "name": { "str": "head bandana" },
     "description": "A cotton bandana, worn over the head.",
     "weight": "42 g",
@@ -105,6 +106,24 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "FANCY", "VARSIZE" ]
+  },
+  {
+    "id": "chaplet",
+    "type": "ARMOR",
+    "name": { "str": "chaplet" },
+    "description": "A headdress in the form of wreath made from plant material and woven into a ring.",
+    "weight": "46 g",
+    "volume": "150 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "hat_cotton",
+    "color": "dark_gray",
+    "covers": [ "head" ],
+    "coverage": 40,
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "cowboy_hat",

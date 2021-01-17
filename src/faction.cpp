@@ -702,7 +702,7 @@ void faction_manager::display() const
     g->validate_npc_followers();
     tab_mode tab = tab_mode::FIRST_TAB;
     size_t selection = 0;
-    input_context ctxt( "FACTION MANAGER" );
+    input_context ctxt( "FACTION_MANAGER" );
     ctxt.register_cardinal();
     ctxt.register_updown();
     ctxt.register_action( "ANY_INPUT" );
@@ -900,16 +900,16 @@ void faction_manager::display() const
             } else {
                 selection--;
             }
-        } else if( action == "CONFIRM" && guy ) {
-            if( guy->has_companion_mission() ) {
-                guy->reset_companion_mission();
-                popup( _( "%s returns from their mission" ), guy->disp_name() );
-            } else {
-                if( tab == tab_mode::TAB_FOLLOWERS && ( interactable || radio_interactable ) ) {
+        } else if( action == "CONFIRM" ) {
+            if( tab == tab_mode::TAB_FOLLOWERS && guy ) {
+                if( guy->has_companion_mission() ) {
+                    guy->reset_companion_mission();
+                    popup( _( "%s returns from their mission" ), guy->disp_name() );
+                } else if( interactable || radio_interactable ) {
                     player_character.talk_to( get_talker_for( *guy ), false, radio_interactable );
-                } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
-                    camp->query_new_name();
                 }
+            } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
+                camp->query_new_name();
             }
         } else if( action == "QUIT" ) {
             break;

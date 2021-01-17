@@ -179,6 +179,7 @@ class generic_factory
         const T dummy_obj;
 
     public:
+        const bool initialized;
         /**
          * @param type_name A string used in debug messages as the name of `T`,
          * for example "vehicle type".
@@ -192,7 +193,8 @@ class generic_factory
             : type_name( type_name ),
               id_member_name( id_member_name ),
               alias_member_name( alias_member_name ),
-              dummy_obj() {
+              dummy_obj(),
+              initialized( true ) {
         }
 
         /**
@@ -221,7 +223,8 @@ class generic_factory
                         def = ab->second;
                     } else {
                         def.was_loaded = false;
-                        deferred.emplace_back( jo.str(), src );
+                        deferred.emplace_back( jo.get_source_location(), src );
+                        jo.allow_omitted_members();
                         return false;
                     }
                 }
@@ -304,7 +307,7 @@ class generic_factory
                 }
 
             } else if( jo.has_array( legacy_id_member_name ) ) {
-                for( const auto &e : jo.get_array( legacy_id_member_name ) ) {
+                for( const JsonValue e : jo.get_array( legacy_id_member_name ) ) {
                     T def;
                     if( !handle_inheritance( def, jo, src ) ) {
                         break;

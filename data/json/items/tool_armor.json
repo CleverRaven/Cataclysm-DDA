@@ -181,7 +181,7 @@
     "encumbrance": 70,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT" ]
+    "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT", "ALLOWS_TAIL" ]
   },
   {
     "id": "leg_xlsplint",
@@ -194,7 +194,7 @@
     "price": 25000,
     "price_postapoc": 50,
     "encumbrance": 140,
-    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
+    "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT", "ALLOWS_TAIL" ]
   },
   {
     "id": "miner_hat",
@@ -2533,6 +2533,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "turtleneck" },
     "description": "A tasteful wool turtleneck, modeled after cashmere.  Unemcumbering and warm, but lacking storage.",
+    "category": "clothing",
     "weight": "478 g",
     "volume": "2500 ml",
     "price": 5000,
@@ -2551,8 +2552,9 @@
   {
     "id": "turtleneck_rolled",
     "type": "TOOL_ARMOR",
-    "name": { "str": "turtleneck (rolled)" },
+    "name": { "str": "turtleneck (rolled)", "str_pl": "turtlenecks (rolled)" },
     "description": "This wool turtleneck's neck is rolled out of the way of the mouth.",
+    "category": "clothing",
     "weight": "478 g",
     "volume": "2500 ml",
     "price": 5000,
@@ -2573,6 +2575,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "turtleneck shirt" },
     "description": "A tasteful cotton turtleneck shirt, thick for a shirt, thin for a sweater and completely lacking storage.",
+    "category": "clothing",
     "weight": "300 g",
     "volume": "2000 ml",
     "price": 2000,
@@ -2595,8 +2598,9 @@
   {
     "id": "turtleneck_shirt_rolled",
     "type": "TOOL_ARMOR",
-    "name": { "str": "turtleneck shirt (rolled)" },
+    "name": { "str": "turtleneck shirt (rolled)", "str_pl": "turtleneck shirts (rolled)" },
     "description": "This turtleneck shirt's neck is rolled out of the way of the mouth.",
+    "category": "clothing",
     "weight": "300 g",
     "volume": "2000 ml",
     "price": 2000,

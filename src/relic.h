@@ -223,6 +223,8 @@ class relic
 
         // what is the power level of this artifact, given a specific ruleset
         int power_level( const relic_procgen_id &ruleset ) const;
+
+        friend bool operator==( const relic &source_relic, const relic &target_relic );
 };
 
 template <typename E> struct enum_traits;

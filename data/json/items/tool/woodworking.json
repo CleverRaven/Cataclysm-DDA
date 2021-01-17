@@ -39,7 +39,7 @@
     "max_charges": 450,
     "techniques": [ "SWEEP" ],
     "use_action": [ "CHAINSAW_OFF" ],
-    "flags": [ "NONCONDUCTIVE" ]
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ]
   },
   {
     "id": "chainsaw_on",
@@ -161,7 +161,7 @@
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
     "use_action": [ "ELEC_CHAINSAW_OFF" ],
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -195,7 +195,7 @@
     "name": { "str": "stone axe head" },
     "description": "This is a broad piece of stone with an edge narrow enough to roughly chop wood.",
     "weight": "453 g",
-    "volume": "500 ml",
+    "volume": "230 ml",
     "price": 0,
     "price_postapoc": 50,
     "to_hit": -3,

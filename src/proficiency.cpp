@@ -7,6 +7,10 @@
 #include "debug.h"
 #include "generic_factory.h"
 
+const float book_proficiency_bonus::default_time_factor = 0.5f;
+const float book_proficiency_bonus::default_fail_factor = 0.5f;
+const float book_proficiency_bonus::default_include_prereqs = true;
+
 namespace
 {
 generic_factory<proficiency> proficiency_factory( "proficiency" );
@@ -345,7 +349,7 @@ void proficiency_set::deserialize( JsonIn &jsin )
 
 void proficiency_set::deserialize_legacy( const JsonArray &jo )
 {
-    for( const std::string &prof : jo ) {
+    for( const std::string prof : jo ) {
         known.insert( proficiency_id( prof ) );
     }
 }
@@ -366,4 +370,98 @@ void learning_proficiency::deserialize( JsonIn &jsin )
 
     jo.read( "id", id );
     jo.read( "practiced", practiced );
+}
+
+void book_proficiency_bonus::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+
+    mandatory( jo, was_loaded, "proficiency", id );
+    optional( jo, was_loaded, "fail_factor", fail_factor, default_fail_factor );
+    optional( jo, was_loaded, "time_factor", time_factor, default_time_factor );
+    optional( jo, was_loaded, "include_prereqs", include_prereqs, default_include_prereqs );
+}
+
+book_proficiency_bonus &book_proficiency_bonus::operator+=( const book_proficiency_bonus &rhs )
+{
+    if( !id.is_empty() && id != rhs.id ) {
+        debugmsg( "ERROR: Tried to add two book proficiency bonuses with different ids" );
+        // can't add them together unless the ids are the same
+        return *this;
+    }
+    fail_factor += rhs.fail_factor;
+    time_factor += rhs.time_factor;
+    // includ_prereqs is not included
+    return *this;
+}
+
+void book_proficiency_bonuses::add( const book_proficiency_bonus &bonus )
+{
+    std::set<proficiency_id> ret;
+    add( bonus, ret );
+}
+
+void book_proficiency_bonuses::add( const book_proficiency_bonus &bonus,
+                                    std::set<proficiency_id> &already_included )
+{
+    bonuses.push_back( bonus );
+    if( bonus.include_prereqs ) {
+        for( const proficiency_id &prereqs : bonus.id->required_proficiencies() ) {
+            if( !already_included.count( prereqs ) ) {
+                already_included.emplace( prereqs );
+                book_proficiency_bonus inherited_bonus = bonus;
+                inherited_bonus.id = prereqs;
+                add( inherited_bonus );
+            }
+        }
+    }
+}
+
+book_proficiency_bonuses &book_proficiency_bonuses::operator+=( const book_proficiency_bonuses
+        &rhs )
+{
+    for( const book_proficiency_bonus &bonus : rhs.bonuses ) {
+        add( bonus );
+    }
+    return *this;
+}
+
+float book_proficiency_bonuses::fail_factor( const proficiency_id &id ) const
+{
+    float ret = 0.0f;
+    bool found_bonus = false;
+
+    for( const book_proficiency_bonus &bonus : bonuses ) {
+        if( id != bonus.id ) {
+            continue;
+        }
+        found_bonus = true;
+        ret += std::pow( 1 - bonus.fail_factor, 2 );
+    }
+
+    if( !found_bonus ) {
+        return 1.0f;
+    }
+
+    return 1 - std::sqrt( ret );
+}
+
+float book_proficiency_bonuses::time_factor( const proficiency_id &id ) const
+{
+    float ret = 0.0f;
+    bool found_bonus = false;
+
+    for( const book_proficiency_bonus &bonus : bonuses ) {
+        if( id != bonus.id ) {
+            continue;
+        }
+        found_bonus = true;
+        ret += std::pow( 1 - bonus.time_factor, 2 );
+    }
+
+    if( !found_bonus ) {
+        return 1.0f;
+    }
+
+    return 1 - std::sqrt( ret );
 }
