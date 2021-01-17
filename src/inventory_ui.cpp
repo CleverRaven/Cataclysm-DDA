@@ -992,7 +992,9 @@ void inventory_column::prepare_paging( const std::string &filter )
         // remove group entries
         for( const std::shared_ptr< group_entry > &g_iter : group_entries_ ) {
             // TODO: child entries need to be put back!
-            std::remove( entries.begin(), entries.end(), *g_iter );
+            str::vector<inventory_entry>::const_iterator new_end =
+                std::remove( entries.begin(), entries.end(), *g_iter );
+            entries.erase( new_end, entries.end() );
         }
         group_entries_.clear();
 
