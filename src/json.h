@@ -500,14 +500,12 @@ class JsonIn
                             read( run_l, throw_on_error ) &&
                             end_array()
                           ) { // all is good
-                            for( int i = run_l - 1; i >= 0; i-- ) {
-                                if( i != 0 ) {
-                                    v.insert( element );
-                                } else {
-                                    // micro-optimization, moving last element
-                                    v.insert( std::move( element ) );
-                                }
+                            // first insert (run_l-1) elements
+                            for( int i = 0; i < run_l - 1; i++ ) {
+                                v.insert( element );
                             }
+                            // micro-optimization, move last element
+                            v.insert( std::move( element ) );
                         } else { // array is malformed, skipping it entirely
                             error_or_false( throw_on_error, "Expected end of array" );
                             seek( prev_pos );
