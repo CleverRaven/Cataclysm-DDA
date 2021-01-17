@@ -226,7 +226,7 @@
         "om_special": "Isherwood Farms",
         "reveal_radius": 3,
         "random": true,
-        "search_range": 280
+        "search_range": 560
       }
     },
     "goal_condition": { "u_has_var": "u_met_carlos_isherwood", "type": "dialogue", "context": "isherwood", "value": "yes" },
