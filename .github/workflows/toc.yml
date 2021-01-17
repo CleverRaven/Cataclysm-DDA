@@ -2,6 +2,8 @@ on:
   push:
     branches:
     - master
+    paths:
+    - 'doc/JSON_INFO.md'
 name: TOC Generator
 jobs:
   generateTOC:
