@@ -435,7 +435,9 @@ static void damage_targets( const spell &sp, Creature &caster,
             cr->deal_projectile_attack( &caster, atk, true );
         } else if( sp.damage() < 0 ) {
             sp.heal( target );
-            add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
+            if( g->u.sees( cr->pos() ) ) {
+                add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
+            }
         }
     }
 }

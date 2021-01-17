@@ -1418,8 +1418,8 @@ void overmapbuffer::spawn_monster( const tripoint &p )
         // The monster position must be local to the main map when added to the game
         const tripoint local = tripoint( g->m.getlocal( ms ), p.z );
         assert( g->m.inbounds( local ) );
-        monster *const placed = g->place_critter_at( make_shared_fast<monster>( this_monster ),
-                                local );
+        monster *const placed = g->place_critter_around( make_shared_fast<monster>( this_monster ),
+                                local, 0, true );
         if( placed ) {
             placed->on_load();
         }
