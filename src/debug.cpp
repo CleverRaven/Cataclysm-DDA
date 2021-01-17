@@ -88,6 +88,9 @@ static int debugClass = D_MAIN;
 
 extern bool test_mode;
 
+/** True during game startup, when debugmsgs cannot be displayed yet. */
+static bool buffering_debugmsgs = true;
+
 /** Set to true when any error is logged. */
 static bool error_observed = false;
 
@@ -224,9 +227,10 @@ static void debug_error_prompt(
 
 void replay_buffered_debugmsg_prompts()
 {
-    if( buffered_prompts().empty() || !catacurses::stdscr ) {
+    if( !buffering_debugmsgs ) {
         return;
     }
+    buffering_debugmsgs = false;
     for( const auto &prompt : buffered_prompts() ) {
         debug_error_prompt(
             prompt.filename.c_str(),
@@ -252,7 +256,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         return;
     }
 
-    if( !catacurses::stdscr ) {
+    if( buffering_debugmsgs ) {
         buffered_prompts().push_back( {filename, line, funcname, text } );
         return;
     }
