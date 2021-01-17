@@ -161,8 +161,6 @@ class inventory_entry
 class group_entry: public inventory_entry
 {
     public:
-        bool expanded = true;
-
         group_entry();
 
         group_entry( const item_category *custom_category ) :
@@ -176,9 +174,21 @@ class group_entry: public inventory_entry
                      const size_t chosen_count = 0 ) :
             inventory_entry( locations, custom_category, enabled, chosen_count ) {};
 
+        // FIXME: might be possible to remove this, when change implemented
+        bool expanded = true;
+
 
         // TODO: override, override, override
 
+
+        /**
+         * Checks state and removes children
+         * @param entry_list is a `inventory_column::entries` containing this
+         */
+        void collapse( std::vector<inventory_entry> &entry_list );
+
+        // TODO: doc!
+        void expand( std::vector<inventory_entry> &entry_list );
         /**
          * Group entry is not an item.
          */
@@ -198,7 +208,8 @@ class group_entry: public inventory_entry
          */
         void set_number_of_children( const int n );
 
-    private:
+    protected:
+        bool _expanded = true;
         int n_children = 0;
 };
 

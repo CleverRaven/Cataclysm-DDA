@@ -214,6 +214,41 @@ const item_category *inventory_entry::get_category_ptr() const
     return &any_item()->get_category_of_contents();
 }
 
+void group_entry::expand( std::vector<inventory_entry> &/*entry_list*/ )
+{
+    if( expanded ) {
+        return;
+    }
+
+    // TODO: insert entries
+
+    expanded = true;
+}
+
+void group_entry::collapse( std::vector<inventory_entry> &entry_list )
+{
+    if( !expanded ) {
+        return;
+    }
+
+    // pop group
+    std::vector<inventory_entry>::const_iterator gp =
+        std::find( entry_list.begin(), entry_list.end(), *this );
+    gp++;
+    if( gp + n_children <= entry_list.end() ) {
+        entry_list.erase( gp, gp + n_children );
+    } else {
+        debugmsg( "Couldn't close inventory group, due to lack of enought entries" );
+    }
+
+    expanded = false;
+}
+
+void group_entry::set_number_of_children( const int n )
+{
+    n_children = n;
+}
+
 bool inventory_column::activatable() const
 {
     return std::any_of( entries.begin(), entries.end(), []( const inventory_entry & e ) {
@@ -229,11 +264,6 @@ inventory_entry *inventory_column::find_by_invlet( int invlet ) const
         }
     }
     return nullptr;
-}
-
-void group_entry::set_number_of_children( const int n )
-{
-    n_children = n;
 }
 
 size_t inventory_column::get_width() const
@@ -1007,18 +1037,11 @@ void inventory_column::prepare_paging( const std::string &filter )
     for( const std::shared_ptr< group_entry > &g_ptr : group_entries_ ) {
         // FIXME: it's only here for debug, replace with state check
         volatile bool expd = g_ptr->expanded;
-        if( !expd ) {  // TODO: change on change
-            // pop group
-            std::vector<inventory_entry>::iterator gp =
-                std::find( entries.begin(), entries.end(), *g_ptr );
-            gp++;
-            if( gp + g_ptr->get_number_of_children() <= entries.end() ) {
-                entries.erase( gp, gp + g_ptr->get_number_of_children() );
-            } else {
-                debugmsg( "Couldn't close inventory group, due to lack of enoght entries" );
-            }
-            // TODO: not yet, implement proper state maitanence for `group_entry` first
-            // g_iter->expanded = false;
+        // TODO: change on change
+        if( expd ) {
+            g_ptr->expand( entries );
+        } else {
+            g_ptr->collapse( entries );
         }
     }
 
