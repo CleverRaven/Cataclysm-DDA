@@ -1701,19 +1701,19 @@ trinary player::consume( item_location loc, bool force )
         debugmsg( "Null loc to consume." );
         return trinary::NONE;
     }
-    handle_contents_changed_helper handler( *this, loc );
+    contents_change_handler handler;
     item &target = *loc;
     trinary result = consume( target, force );
+    if( result != trinary::NONE ) {
+        handler.unseal_pocket_containing( loc );
+    }
     if( result == trinary::ALL ) {
         if( loc.where() == item_location::type::character ) {
             i_rem( loc.get_item() );
         } else {
             loc.remove_item();
         }
-
     }
-    if( result != trinary::NONE ) {
-        handler.handle();
-    }
+    handler.handle_by( *this );
     return result;
 }

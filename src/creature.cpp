@@ -55,6 +55,7 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_fluid" );
 static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -187,12 +188,16 @@ bool Creature::is_ranged_attacker() const
         return true;
     }
 
-    for( const std::pair<const std::string, mtype_special_attack> &attack :
-         as_monster()->type->special_attacks ) {
-        if( attack.second->id == "gun" ) {
-            return true;
+    const monster *mon = as_monster();
+    if( mon ) {
+        for( const std::pair<const std::string, mtype_special_attack> &attack :
+             mon->type->special_attacks ) {
+            if( attack.second->id == "gun" ) {
+                return true;
+            }
         }
     }
+    //TODO Potentially add check for this as npc wielding ranged weapon
 
     return false;
 }
@@ -1006,6 +1011,8 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
             // these are bleed inducing damage types
             if( is_avatar() || is_npc() ) {
                 as_character()->make_bleed( source, bp, 1_minutes * rng( 1, adjusted_damage ) );
+            } else if( in_species( species_ROBOT ) ) {
+                add_effect( source, effect_dripping_mechanical_fluid, 1_seconds * rng( 1, adjusted_damage ), bp );
             } else {
                 add_effect( source, effect_bleed, 1_minutes * rng( 1, adjusted_damage ), bp );
             }

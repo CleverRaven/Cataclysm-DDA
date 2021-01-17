@@ -255,6 +255,8 @@ class mapgen_palette
         static const mapgen_palette &get( const palette_id &id );
 
         static void check_definitions();
+
+        static void reset();
     private:
         static mapgen_palette load_internal( const JsonObject &jo, const std::string &src, bool require_id,
                                              bool allow_recur );

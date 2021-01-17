@@ -140,7 +140,7 @@ void vehicle::add_toggle_to_opts( std::vector<uilist_entry> &options,
         {
             vehicle_part &e = vp.part();
             if( e.enabled != state ) {
-                add_msg( state ? _( "Turned on %s" ) : _( "Turned off %s." ), e.name() );
+                add_msg( state ? _( "Turned on %s." ) : _( "Turned off %s." ), e.name() );
                 e.enabled = state;
             }
         }
@@ -647,7 +647,7 @@ void vehicle::use_controls( const tripoint &pos )
     }
 
     if( get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() && !has_electronic_controls ) {
-        add_msg( m_info, _( "No controls there" ) );
+        add_msg( m_info, _( "No controls there." ) );
         return;
     }
 
@@ -780,7 +780,7 @@ void vehicle::use_controls( const tripoint &pos )
 
     if( is_alarm_on ) {
         if( velocity == 0 && !remote ) {
-            options.emplace_back( _( "Try to disarm alarm." ), keybind( "TOGGLE_ALARM" ) );
+            options.emplace_back( _( "Try to disarm alarm" ), keybind( "TOGGLE_ALARM" ) );
             actions.push_back( [&] { smash_security_system(); refresh(); } );
 
         } else if( has_electronic_controls && has_part( "SECURITY" ) ) {
@@ -1010,7 +1010,7 @@ bool vehicle::start_engine( const int e )
             backfire( e );
         } else {
             sounds::sound( pos, start_moves / 10, sounds::sound_t::movement,
-                           string_format( _( "the %s bang as it starts" ), eng.name() ), true, "vehicle",
+                           string_format( _( "the %s bang as it starts!" ), eng.name() ), true, "vehicle",
                            "engine_bangs_start" );
         }
     }
@@ -1018,7 +1018,7 @@ bool vehicle::start_engine( const int e )
     // Immobilizers need removing before the vehicle can be started
     if( eng.has_fault_flag( "IMMOBILIZER" ) ) {
         sounds::sound( pos, 5, sounds::sound_t::alarm,
-                       string_format( _( "the %s making a long beep" ), eng.name() ), true, "vehicle",
+                       string_format( _( "the %s making a long beep." ), eng.name() ), true, "vehicle",
                        "fault_immobiliser_beep" );
         return false;
     }
@@ -1027,7 +1027,7 @@ bool vehicle::start_engine( const int e )
     if( eng.faults_potential().count( fault_engine_starter ) ) {
         if( eng.has_fault_flag( "BAD_STARTER" ) ) {
             sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::alarm,
-                           string_format( _( "the %s clicking once" ), eng.name() ), true, "vehicle",
+                           string_format( _( "the %s clicking once." ), eng.name() ), true, "vehicle",
                            "engine_single_click_fail" );
             return false;
         }
@@ -1037,7 +1037,7 @@ bool vehicle::start_engine( const int e )
                                    1_turns * start_moves / 100 );
         if( discharge_battery( start_draw_bat, true ) != 0 ) {
             sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::alarm,
-                           string_format( _( "the %s rapidly clicking" ), eng.name() ), true, "vehicle",
+                           string_format( _( "the %s rapidly clicking." ), eng.name() ), true, "vehicle",
                            "engine_multi_click_fail" );
             return false;
         }
@@ -1054,12 +1054,12 @@ bool vehicle::start_engine( const int e )
     // Damaged non-electric engines have a chance of failing to start
     if( !is_engine_type( e, fuel_type_battery ) && x_in_y( dmg * 100, 120 ) ) {
         sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
-                       string_format( _( "the %s clanking and grinding" ), eng.name() ), true, "vehicle",
+                       string_format( _( "the %s clanking and grinding." ), eng.name() ), true, "vehicle",
                        "engine_clanking_fail" );
         return false;
     }
     sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
-                   string_format( _( "the %s starting" ), eng.name() ) );
+                   string_format( _( "the %s starting." ), eng.name() ) );
 
     if( sfx::has_variant_sound( "engine_start", eng.info().get_id().str() ) ) {
         sfx::play_variant_sound( "engine_start", eng.info().get_id().str(),
@@ -1625,9 +1625,9 @@ void vehicle::use_autoclave( int p )
         add_msg( m_bad,
                  _( "You turn the autoclave off before it's finished the program, and open its door." ) );
     } else if( items.empty() ) {
-        add_msg( m_bad, _( "The autoclave is empty, there's no point in starting it." ) );
+        add_msg( m_bad, _( "The autoclave is empty; there's no point in starting it." ) );
     } else if( fuel_left( itype_water ) < 8 && fuel_left( itype_water_clean ) < 8 ) {
-        add_msg( m_bad, _( "You need 8 charges of water in tanks of the %s for the autoclave to run." ),
+        add_msg( m_bad, _( "You need 8 charges of water in the tanks of the %s for the autoclave to run." ),
                  name );
     } else if( filthy_items ) {
         add_msg( m_bad,
@@ -1674,12 +1674,13 @@ void vehicle::use_washing_machine( int p )
     if( parts[p].enabled ) {
         parts[p].enabled = false;
         add_msg( m_bad,
-                 _( "You turn the washing machine off before it's finished the program, and open its lid." ) );
+                 _( "You turn the washing machine off before it's finished its cycle, and open its lid." ) );
     } else if( items.empty() ) {
         add_msg( m_bad,
-                 _( "The washing machine is empty, there's no point in starting it." ) );
+                 _( "The washing machine is empty; there's no point in starting it." ) );
     } else if( fuel_left( itype_water ) < 24 && fuel_left( itype_water_clean ) < 24 ) {
-        add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the washing machine." ),
+        add_msg( m_bad,
+                 _( "You need 24 charges of water in the tanks of the %s to fill the washing machine." ),
                  name );
     } else if( detergents.empty() ) {
         add_msg( m_bad, _( "You need 5 charges of a detergent for the washing machine." ) );
@@ -1734,7 +1735,7 @@ void vehicle::use_washing_machine( int p )
         player_character.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
-                 _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled with water from vehicle tanks." ) );
+                 _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled with water from your vehicle's tanks." ) );
     }
 }
 
@@ -1748,7 +1749,7 @@ void vehicle::use_dishwasher( int p )
     } );
 
     std::string buffer;
-    buffer += _( "Soft items can't be cleaned in a dishwasher, you should use a washing machine for that.  You need to remove them:" );
+    buffer += _( "Soft items can't be cleaned in a dishwasher; you should use a washing machine for that.  You need to remove them:" );
     bool soft_items = false;
     for( const item &it : items ) {
         if( it.is_soft() ) {
@@ -1760,15 +1761,15 @@ void vehicle::use_dishwasher( int p )
     if( parts[p].enabled ) {
         parts[p].enabled = false;
         add_msg( m_bad,
-                 _( "You turn the dishwasher off before it's finished the program, and open its lid." ) );
+                 _( "You turn the dishwasher off before it's finished its cycle, and open its lid." ) );
     } else if( items.empty() ) {
         add_msg( m_bad,
                  _( "The dishwasher is empty, there's no point in starting it." ) );
     } else if( fuel_left( itype_water ) < 24 && fuel_left( itype_water_clean ) < 24 ) {
-        add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the dishwasher." ),
+        add_msg( m_bad, _( "You need 24 charges of water in the tanks of the %s to fill the dishwasher." ),
                  name );
     } else if( !detergent_is_enough ) {
-        add_msg( m_bad, _( "You need 5 charges of detergent for the dishwasher." ) );
+        add_msg( m_bad, _( "You need 5 charges of a detergent for the dishwasher." ) );
     } else if( !filthy_items ) {
         add_msg( m_bad,
                  _( "You need to remove all non-filthy items from the dishwasher to start the washing program." ) );
@@ -1791,7 +1792,7 @@ void vehicle::use_dishwasher( int p )
         player_character.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
-                 _( "You pour some detergent into the dishwasher, close its lid, and turn it on.  The dishwasher is being filled with water from vehicle tanks." ) );
+                 _( "You pour some detergent into the dishwasher, close its lid, and turn it on.  The dishwasher is being filled with water from your vehicle's tanks." ) );
     }
 }
 

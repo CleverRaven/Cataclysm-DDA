@@ -2725,5 +2725,10 @@
     "type": "recipe",
     "result": "knuckle_steel",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mp3",
+    "obsolete": true
   }
 ]

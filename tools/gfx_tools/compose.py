@@ -316,7 +316,7 @@ class Tilesheet:
 
         # count empty spaces in the last row
         self.tileset.pngnum += self.sheet_width - \
-            (len(self.sprites) % self.sheet_width)
+            ((len(self.sprites) % self.sheet_width) or self.sheet_width)
 
         if self.sprites:
             sheet_image = Vips.Image.arrayjoin(

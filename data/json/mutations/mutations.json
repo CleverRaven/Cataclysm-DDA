@@ -22,6 +22,7 @@
     "hunger": true,
     "encumbrance_covered": [ [ "head", 5 ] ],
     "changes_to": [ "BIOLUM1" ],
+    "types": [ "BIOLUM" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
     "triggers": [
       [
@@ -71,6 +72,7 @@
     "time": 810000,
     "hunger": true,
     "encumbrance_covered": [ [ "head", 5 ] ],
+    "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM0" ],
     "changes_to": [ "BIOLUM2" ],
     "transform": { "target": "BIOLUM1_active", "msg_transform": "Your photophore starts glowing.", "active": true, "moves": 10 },
@@ -97,6 +99,7 @@
     "time": 405000,
     "hunger": true,
     "encumbrance_covered": [ [ "head", 5 ] ],
+    "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM1" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
     "transform": { "target": "BIOLUM2_active", "msg_transform": "Your photophore starts glowing.", "active": true, "moves": 10 }

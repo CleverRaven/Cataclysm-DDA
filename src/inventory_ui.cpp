@@ -328,9 +328,34 @@ void inventory_selector_preset::append_cell( const
     cells.emplace_back( func, title, stub );
 }
 
-std::string  inventory_selector_preset::cell_t::get_text( const inventory_entry &entry ) const
+std::string inventory_selector_preset::cell_t::get_text( const inventory_entry &entry ) const
 {
     return replace_colors( func( entry ) );
+}
+
+bool inventory_holster_preset::is_shown( const item_location &contained ) const
+{
+    if( contained.where() != item_location::type::container
+        && contained->made_of( phase_id::LIQUID ) ) {
+        // spilt liquid cannot be picked up
+        return false;
+    }
+    item item_copy( *contained );
+    item_copy.charges = 1;
+    if( !holster->contents.can_contain( item_copy ).success() ) {
+        return false;
+    }
+    if( holster->has_item( *contained ) ) {
+        return false;
+    }
+    if( contained->is_bucket_nonempty() ) {
+        return false;
+    }
+    if( !holster->contents.all_pockets_rigid() &&
+        !holster.parents_can_contain_recursive( &item_copy ) ) {
+        return false;
+    }
+    return true;
 }
 
 void inventory_column::select( size_t new_index, scroll_direction dir )
@@ -1926,6 +1951,7 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "VIEW_CATEGORY_MODE" );
     ctxt.register_action( "ANY_INPUT" ); // For invlets
     ctxt.register_action( "INVENTORY_FILTER" );
+    ctxt.register_action( "EXAMINE" );
 
     append_column( own_inv_column );
     append_column( map_column );
@@ -2190,10 +2216,32 @@ item_location inventory_pick_selector::execute()
             }
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
+        } else if( input.action == "EXAMINE" ) {
+            const inventory_entry &selected = get_active_column().get_selected();
+            if( selected ) {
+                const item *sitem = selected.any_item().get_item();
+                action_examine( sitem );
+            }
         } else {
             on_input( input );
         }
     }
+}
+
+void inventory_selector::action_examine( const item *sitem )
+{
+    // Code below pulled from the action_examine function in advanced_inv.cpp
+    std::vector<iteminfo> vThisItem;
+    std::vector<iteminfo> vDummy;
+    sitem->info( true, vThisItem );
+    item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy );
+    data.handle_scrolling = true;
+
+    draw_item_info( [&]() -> catacurses::window {
+        int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
+        int width = std::min( 80, maxwidth );
+        return catacurses::newwin( 0, width, point( maxwidth / 2 - width / 2, 0 ) ); },
+    data ).get_first_input();
 }
 
 void inventory_selector::highlight()

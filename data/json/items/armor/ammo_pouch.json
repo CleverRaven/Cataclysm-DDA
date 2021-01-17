@@ -91,6 +91,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -119,6 +120,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -147,6 +149,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -154,6 +157,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -161,6 +165,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -168,6 +173,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -181,7 +187,7 @@
     "id": "xl_chestrig",
     "type": "ARMOR",
     "copy-from": "chestrig",
-    "name": { "str": "oversize chestrig" },
+    "name": { "str": "XL chest rig" },
     "description": "Popularized during the Vietnam War, chest rigs like these are typically plain, barebones affairs consisting of three or more pouches in a row, with straps to secure them on your chest.  This one can hold four magazines in its pouches and fits larger-than-human forms.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
@@ -274,6 +280,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "250 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -303,6 +310,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -310,6 +318,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "2 kg",
         "moves": 40,
@@ -426,6 +435,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -434,6 +444,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -442,6 +453,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -450,6 +462,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "300 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -463,7 +476,7 @@
     "id": "xl_tacvest",
     "type": "ARMOR",
     "copy-from": "tacvest",
-    "name": { "str": "oversize tac vest" },
+    "name": { "str": "XL tac vest" },
     "description": "This light vest is meant to carry your gear and ammunition comfortably distributed about your torso.  They are popular amongst law enforcement, but less so than combination tactical vests incorporating Kevlar.  Oversized and easy to don, this vest can hold four magazines close at hand in its many pouches.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
@@ -492,6 +505,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -500,6 +514,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -508,6 +523,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
@@ -516,6 +532,7 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",

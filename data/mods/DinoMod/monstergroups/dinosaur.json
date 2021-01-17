@@ -8,7 +8,7 @@
       { "monster": "mon_coelophysis", "freq": 4, "cost_multiplier": 5, "pack_size": [ 4, 8 ] },
       { "monster": "mon_dilophosaurus", "freq": 1, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ceratosaurus", "freq": 1, "cost_multiplier": 30 },
-      { "monster": "mon_spinosaurus", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_spinosaurus", "freq": 1, "cost_multiplier": 40 },
       { "monster": "mon_allosaurus", "freq": 8, "cost_multiplier": 30 },
       { "monster": "mon_acrocanthosaurus", "freq": 8, "cost_multiplier": 40 },
       { "monster": "mon_siats", "freq": 8, "cost_multiplier": 40 },
@@ -117,7 +117,7 @@
       { "monster": "mon_coelophysis_hatchling", "freq": 4, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dilophosaurus_hatchling", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ceratosaurus_hatchling", "freq": 1, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_spinosaurus_hatchling", "freq": 1, "cost_multiplier": 50, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_spinosaurus_hatchling", "freq": 1, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
       { "monster": "mon_allosaurus_hatchling", "freq": 8, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_acrocanthosaurus_hatchling", "freq": 8, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
       { "monster": "mon_siats_hatchling", "freq": 8, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
@@ -154,7 +154,7 @@
     "monsters": [
       { "monster": "mon_dilophosaurus_juvenile", "freq": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ceratosaurus_juvenile", "freq": 1, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_spinosaurus_juvenile", "freq": 1, "cost_multiplier": 50, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_spinosaurus_juvenile", "freq": 1, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
       { "monster": "mon_allosaurus_juvenile", "freq": 8, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_deinonychus_juvenile", "freq": 10, "cost_multiplier": 15, "pack_size": [ 1, 2 ] },
       { "monster": "mon_utahraptor_juvenile", "freq": 5, "cost_multiplier": 30 }
@@ -190,7 +190,7 @@
     "name": "GROUP_DINOSAUR_MEGA_CARNIVORE",
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_spinosaurus", "freq": 1, "cost_multiplier": 50 },
+      { "monster": "mon_spinosaurus", "freq": 3, "cost_multiplier": 40 },
       { "monster": "mon_acrocanthosaurus", "freq": 8, "cost_multiplier": 40 },
       { "monster": "mon_siats", "freq": 8, "cost_multiplier": 40 },
       { "monster": "mon_tyrannosaurus", "freq": 8, "cost_multiplier": 40 },
@@ -210,7 +210,10 @@
   {
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_SWIM",
-    "default": "mon_mosasaurus",
-    "monsters": [ { "monster": "mon_mosasaurus", "freq": 4, "cost_multiplier": 60 } ]
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_mosasaurus", "freq": 4, "cost_multiplier": 60 },
+      { "monster": "mon_spinosaurus", "freq": 4, "cost_multiplier": 40 }
+    ]
   }
 ]

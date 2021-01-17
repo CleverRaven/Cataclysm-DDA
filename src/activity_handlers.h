@@ -28,6 +28,7 @@ enum class requirement_check_result : int {
 };
 
 enum class butcher_type : int {
+    BLEED,          // bleeding a corpse
     QUICK,          // quick butchery
     FULL,           // full workshop butchery
     FIELD_DRESS,    // field dressing a corpse
@@ -124,6 +125,9 @@ namespace activity_handlers
 {
 
 bool resume_for_multi_activities( player &p );
+void generic_game_turn_handler( player_activity *act, player *p, int morale_bonus,
+                                int morale_max_bonus );
+
 /** activity_do_turn functions: */
 void fill_liquid_do_turn( player_activity *act, player *p );
 void pickaxe_do_turn( player_activity *act, player *p );

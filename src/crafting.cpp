@@ -296,7 +296,7 @@ float Character::crafting_speed_multiplier( const item &craft,
         }
         if( bench_multi <= 0.5f ) {
             add_msg_if_player( m_bad,
-                               _( "The %s is to large and/or heavy to work on comfortably.  You are"
+                               _( "The %s is too large and/or heavy to work on comfortably.  You are"
                                   " working slowly." ), craft.tname() );
         }
         if( morale_multi <= 0.5f ) {
@@ -372,13 +372,14 @@ int Character::available_assistant_count( const recipe &rec ) const
     } );
 }
 
-int Character::base_time_to_craft( const recipe &rec, int batch_size ) const
+int64_t Character::base_time_to_craft( const recipe &rec, int batch_size ) const
 {
     const size_t assistants = available_assistant_count( rec );
     return rec.batch_time( *this, batch_size, 1.0f, assistants );
 }
 
-int Character::expected_time_to_craft( const recipe &rec, int batch_size, bool in_progress ) const
+int64_t Character::expected_time_to_craft( const recipe &rec, int batch_size,
+        bool in_progress ) const
 {
     const size_t assistants = available_assistant_count( rec );
     float modifier = crafting_speed_multiplier( rec, in_progress );
@@ -1769,11 +1770,10 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
 {
 
     comp_selection<tool_comp> selected;
-
-    auto calc_charges = [&]( const tool_comp & t ) {
+    auto calc_charges = [&]( const tool_comp & t, bool ui = false ) {
         const int full_craft_charges = item::find_type( t.type )->charge_factor() * t.count * batch;
         const int modified_charges = charges_required_modifier( full_craft_charges );
-        return std::max( modified_charges, 1 );
+        return std::max( ui ? full_craft_charges : modified_charges, 1 );
     };
 
     bool found_nocharge = false;
@@ -1793,8 +1793,8 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
             }
             // Needed for tools that can have power in a different location, such as a UPS.
             // Will only populate if no other options were found.
-            if( player_inv && crafting_inventory().has_charges( type, count )
-                && player_has.size() + map_has.size() == 0 ) {
+            if( player_inv && player_has.size() + map_has.size() == 0 &&
+                crafting_inventory().has_charges( type, count ) ) {
                 both_has.push_back( *it );
             }
         } else if( ( player_inv && has_amount( type, 1 ) ) || map_inv.has_tools( type, 1 ) ) {
@@ -1826,9 +1826,8 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
         uilist tmenu;
         for( auto &map_ha : map_has ) {
             if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
-                const int charge_count = calc_charges( map_ha );
                 std::string tmpStr = string_format( _( "%s (%d/%d charges nearby)" ),
-                                                    item::nname( map_ha.type ), charge_count,
+                                                    item::nname( map_ha.type ), calc_charges( map_ha, true ),
                                                     map_inv.charges_of( map_ha.type ) );
                 tmenu.addentry( tmpStr );
             } else {
@@ -1838,9 +1837,8 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
         }
         for( auto &player_ha : player_has ) {
             if( item::find_type( player_ha.type )->maximum_charges() > 1 ) {
-                const int charge_count = calc_charges( player_ha );
                 std::string tmpStr = string_format( _( "%s (%d/%d charges on person)" ),
-                                                    item::nname( player_ha.type ), charge_count,
+                                                    item::nname( player_ha.type ), calc_charges( player_ha, true ),
                                                     charges_of( player_ha.type ) );
                 tmenu.addentry( tmpStr );
             } else {
@@ -1849,9 +1847,8 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
         }
         for( auto &both_ha : both_has ) {
             if( item::find_type( both_ha.type )->maximum_charges() > 1 ) {
-                const int charge_count = calc_charges( both_ha );
                 std::string tmpStr = string_format( _( "%s (%d/%d charges nearby or on person)" ),
-                                                    item::nname( both_ha.type ), charge_count,
+                                                    item::nname( both_ha.type ), calc_charges( both_ha, true ),
                                                     charges_of( both_ha.type ) );
                 tmenu.addentry( tmpStr );
             } else {
@@ -2110,14 +2107,28 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
 item_location Character::create_in_progress_disassembly( item_location target )
 {
     const auto &r = recipe_dictionary::get_uncraft( target->typeId() );
-    item &temp = *target.get_item();
+    item &orig_item = *target.get_item();
 
-    if( temp.is_container() ) {
-        temp.spill_contents( pos() );
+    // Remove any batteries, ammo, contents and mods first
+    remove_ammo( orig_item, *this );
+    remove_radio_mod( orig_item, *this );
+    if( orig_item.is_container() ) {
+        orig_item.spill_contents( pos() );
     }
-
-    item new_disassembly( &r, temp );
-    target.remove_item();
+    if( orig_item.count_by_charges() ) {
+        // remove the charges that one would get from crafting it
+        if( orig_item.is_ammo() && !r.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
+            //subtract selected number of rounds to disassemble
+            orig_item.charges -= activity.position;
+        } else {
+            orig_item.charges -= r.create_result().charges;
+        }
+    }
+    item new_disassembly( &r, orig_item );
+    // remove the item, except when it's counted by charges and still has some
+    if( !orig_item.count_by_charges() || orig_item.charges <= 0 ) {
+        target.remove_item();
+    }
 
     item_location disassembly_in_world;
 
@@ -2393,23 +2404,9 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level() ), 1.0 );
 
     add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
-    // Remove any batteries, ammo and mods first
-    remove_ammo( dis_item, *this );
-    remove_radio_mod( dis_item, *this );
 
-    if( dis_item.count_by_charges() ) {
-        // remove the charges that one would get from crafting it
-        if( org_item.is_ammo() && !dis.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
-            //subtract selected number of rounds to disassemble
-            org_item.charges -= activity.position;
-        } else {
-            org_item.charges -= dis.create_result().charges;
-        }
-    }
-    // remove the item, except when it's counted by charges and still has some
-    if( !org_item.count_by_charges() || org_item.charges <= 0 ) {
-        target.remove_item();
-    }
+    // Get rid of the disassembly item
+    target.remove_item();
 
     // Consume tool charges
     for( const auto &it : dis_requirements.get_tools() ) {
