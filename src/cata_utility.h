@@ -97,7 +97,7 @@ T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
 bool isBetween( int test, int down, int up );
 
 /**
- * Perform case sensitive search for a query string inside a subject string.
+ * Perform case insensitive search for a query string inside a subject string.
  *
  * Searches for string given by qry inside a subject string given by str.
  *
