@@ -1046,7 +1046,7 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             return;
         }
     }
-    bool used = false;
+
     if( use_in_place ) {
         update_lum( loc, false );
         you.use( loc, pre_obtain_moves );
