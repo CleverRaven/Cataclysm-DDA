@@ -7202,26 +7202,27 @@ bodypart_id Character::body_window( const std::string &menu_header,
 
         // BITTEN block
         if( bitten ) {
-            desc += colorize( string_format( "%s: ", get_effect( effect_bite, bp ).get_speed_name() ), c_red );
+            desc += string_format( "%s: ", get_effect( effect_bite, bp ).get_speed_name() );
             if( bite > 0 ) {
                 desc += colorize( string_format( _( "Chance to clean and disinfect: %d %%" ),
-                                                 static_cast<int>( bite * 100 ) ), c_light_green ) + "\n";
+                                                 static_cast<int>( bite * 100 ) ), c_light_green );
             } else {
-                desc += colorize( _( "It has a deep bite wound that needs cleaning." ), c_red ) + "\n";
+                desc += colorize( _( "It has a deep bite wound that needs cleaning." ), c_red );
             }
+            desc += "\n";
         }
 
         // INFECTED block
         if( infected ) {
-            desc += colorize( string_format( "%s: ", get_effect( effect_infected, bp ).get_speed_name() ),
-                              c_red );
+            desc += string_format( "%s: ", get_effect( effect_infected, bp ).get_speed_name() );
             if( infect > 0 ) {
                 desc += colorize( string_format( _( "Chance to cure infection: %d %%" ),
                                                  static_cast<int>( infect * 100 ) ), c_light_green ) + "\n";
             } else {
                 desc += colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
-                                  c_red ) + "\n";
+                                  c_red );
             }
+            desc += "\n";
         }
         // END of blocks
 
