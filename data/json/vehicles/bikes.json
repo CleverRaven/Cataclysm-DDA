@@ -66,7 +66,11 @@
           "alternator_motorbike"
         ]
       },
-      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "muffler", "wheel_mount_light", "wheel_motorbike_or" ] }
+      {
+        "x": -1,
+        "y": 0,
+        "parts": [ "xlframe_vertical", "muffler", "wheel_mount_light", "wheel_motorbike_or", "saddle" ]
+      }
     ]
   },
   {
@@ -95,7 +99,7 @@
           "alternator_motorbike"
         ]
       },
-      { "x": -1, "y": 0, "parts": [ "frame_handle", "muffler", "wheel_mount_light", "wheel_motorbike_or" ] }
+      { "x": -1, "y": 0, "parts": [ "frame_handle", "muffler", "wheel_mount_light", "wheel_motorbike_or", "saddle" ] }
     ]
   },
   {
@@ -106,7 +110,7 @@
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "saddle_motor", "motorcycle_kickstand" ] },
       { "x": 1, "y": 0, "parts": [ "frame_handle", { "part": "tank_small", "fuel": "gasoline" } ] },
-      { "x": -1, "y": 0, "parts": [ "frame_vertical", "wheel_mount_light", "wheel_motorbike" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_vertical", "wheel_mount_light", "wheel_motorbike", "saddle" ] },
       { "x": 2, "y": 0, "parts": [ "frame_vertical", "wheel_mount_light_steerable", "wheel_motorbike" ] },
       { "x": 0, "y": 0, "parts": [ "controls", "controls_electronic", "vehicle_alarm" ] },
       { "x": 0, "y": 0, "parts": [ "horn_car", "engine_vtwin", "alternator_motorbike" ] },
@@ -233,7 +237,7 @@
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "saddle_motor", "motorcycle_kickstand" ] },
       { "x": 1, "y": 0, "parts": [ "frame_handle", { "part": "tank_small", "fuel": "gasoline" } ] },
-      { "x": -1, "y": 0, "parts": [ "frame_vertical", "wheel_mount_light", "wheel_motorbike" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_vertical", "wheel_mount_light", "wheel_motorbike", "saddle" ] },
       { "x": 2, "y": 0, "parts": [ "frame_vertical", "wheel_mount_light_steerable", "wheel_motorbike" ] },
       { "x": 0, "y": 0, "parts": [ "controls", "controls_electronic", "vehicle_alarm" ] },
       { "x": 0, "y": 0, "parts": [ "horn_car", "engine_inline4", "alternator_motorbike" ] },
