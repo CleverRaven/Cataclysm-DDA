@@ -7165,7 +7165,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
 
         // BLEEDING block
         if( bleeding ) {
-            desc += string_format( "Bleeding: %s",
+            desc += string_format( _( "Bleeding: %s" ),
                                    colorize( get_effect( effect_bleed, bp ).get_speed_name(),
                                              colorize_bleeding_intensity( get_effect_int( effect_bleed, bp ) ) ) );
             if( bleed > 0 ) {
@@ -7178,11 +7178,11 @@ bodypart_id Character::body_window( const std::string &menu_header,
 
         // BANDAGE block
         if( e.allowed && ( new_b_power > 0 || b_power > 0 ) ) {
-            desc += string_format( "Bandaged: %s", texitify_healing_power( b_power ) );
+            desc += string_format( _( "Bandaged: %s" ), texitify_healing_power( b_power ) );
             if( new_b_power > 0 ) {
                 desc += string_format( " -> %s", texitify_healing_power( new_b_power ) );
                 if( new_b_power <= b_power ) {
-                    desc += " (no improvement)";
+                    desc += _( " (no improvement)" );
                 }
             }
             desc += "\n";
@@ -7190,11 +7190,11 @@ bodypart_id Character::body_window( const std::string &menu_header,
 
         // DISINFECTANT block
         if( e.allowed && ( d_power > 0 || new_d_power > 0 ) ) {
-            desc += string_format( "Disinfected: %s", texitify_healing_power( d_power ) );
+            desc += string_format( _( "Disinfected: %s" ), texitify_healing_power( d_power ) );
             if( new_d_power > 0 ) {
                 desc += string_format( " -> %s",  texitify_healing_power( new_d_power ) );
                 if( new_d_power <= d_power ) {
-                    desc +=  " (no improvement)";
+                    desc += _( " (no improvement)" );
                 }
             }
             desc += "\n";
