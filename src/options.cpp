@@ -3190,8 +3190,16 @@ void options_manager::update_global_locale()
     try {
         if( lang == "en" ) {
             std::locale::global( std::locale( "en_US.UTF-8" ) );
+        } else if( lang == "ar" ) {
+            std::locale::global( std::locale( "ar_SA.UTF-8" ) );
+        } else if( lang == "cs" ) {
+            std::locale::global( std::locale( "cs_CZ.UTF-8" ) );
+        } else if( lang == "da" ) {
+            std::locale::global( std::locale( "da_DK.UTF-8" ) );
         } else if( lang == "de" ) {
             std::locale::global( std::locale( "de_DE.UTF-8" ) );
+        } else if( lang == "el" ) {
+            std::locale::global( std::locale( "el_GR.UTF-8" ) );
         } else if( lang == "es_AR" ) {
             std::locale::global( std::locale( "es_AR.UTF-8" ) );
         } else if( lang == "es_ES" ) {
@@ -3200,16 +3208,32 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "fr_FR.UTF-8" ) );
         } else if( lang == "hu" ) {
             std::locale::global( std::locale( "hu_HU.UTF-8" ) );
+        } else if( lang == "id" ) {
+            std::locale::global( std::locale( "id_ID.UTF-8" ) );
+        } else if( lang == "is" ) {
+            std::locale::global( std::locale( "is_IS.UTF-8" ) );
+        } else if( lang == "it_IT" ) {
+            std::locale::global( std::locale( "it_IT.UTF-8" ) );
         } else if( lang == "ja" ) {
             std::locale::global( std::locale( "ja_JP.UTF-8" ) );
         } else if( lang == "ko" ) {
             std::locale::global( std::locale( "ko_KR.UTF-8" ) );
+        } else if( lang == "nb" ) {
+            std::locale::global( std::locale( "no_NO.UTF-8" ) );
+        } else if( lang == "nl" ) {
+            std::locale::global( std::locale( "nl_NL.UTF-8" ) );
         } else if( lang == "pl" ) {
             std::locale::global( std::locale( "pl_PL.UTF-8" ) );
         } else if( lang == "pt_BR" ) {
             std::locale::global( std::locale( "pt_BR.UTF-8" ) );
         } else if( lang == "ru" ) {
             std::locale::global( std::locale( "ru_RU.UTF-8" ) );
+        } else if( lang == "sr" ) {
+            std::locale::global( std::locale( "sr_CS.UTF-8" ) );
+        } else if( lang == "tr" ) {
+            std::locale::global( std::locale( "tr_TR.UTF-8" ) );
+        } else if( lang == "uk_UA" ) {
+            std::locale::global( std::locale( "uk_UA.UTF-8" ) );
         } else if( lang == "zh_CN" ) {
             std::locale::global( std::locale( "zh_CN.UTF-8" ) );
         } else if( lang == "zh_TW" ) {
