@@ -2313,7 +2313,10 @@ void Character::disassemble_all( bool one_pass )
 
     bool found_any = false;
     for( item &it : get_map().i_at( pos() ) ) {
-        if( disassemble( item_location( map_cursor( pos() ), &it ), false ) ) {
+        // Prevent disassembling an in process disassembly because it could have been created by a previous iteration of this loop
+        // and choosing to place it on the ground
+        if( it.typeId() != itype_disassembly &&
+            disassemble( item_location( map_cursor( pos() ), &it ), false ) ) {
             found_any = true;
         }
     }
@@ -2356,11 +2359,15 @@ void Character::complete_disassemble( item_location target )
             return;
         }
     }
-    item next_item = *activity.targets.back().get_item();
-
+    item *next_item = activity.targets.back().get_item();
+    if( !next_item || next_item->is_null() ) {
+        debugmsg( "bad item" );
+        activity.set_to_null();
+        return;
+    }
     // Set get and set duration of next uncraft
-    const recipe &next_recipe = recipe_dictionary::get_uncraft( ( next_item.typeId() ==
-                                itype_disassembly ) ? next_item.components.front().typeId() : next_item.typeId() );
+    const recipe &next_recipe = recipe_dictionary::get_uncraft( ( next_item->typeId() ==
+                                itype_disassembly ) ? next_item->components.front().typeId() : next_item->typeId() );
 
     if( !next_recipe ) {
         debugmsg( "bad disassembly recipe" );
