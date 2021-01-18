@@ -205,7 +205,7 @@ TEST_CASE( "effective food volume and satiety", "[character][food][satiety]" )
     REQUIRE( apple_nutr.kcal == 95 );
     // If kcal per gram < 1.0, return 1.0
     CHECK( u.compute_effective_food_volume_ratio( apple ) == Approx( 1.0f ).margin( 0.01f ) );
-    CHECK( u.compute_calories_per_effective_volume( apple ) == 500 );
+    CHECK( u.compute_calories_per_effective_volume( apple ) == 514 );
     CHECK( satiety_bar( 500 ) == "<color_c_yellow>||\\</color>.." );
 
     // Egg: 80 kcal / 40 g (1 serving)
