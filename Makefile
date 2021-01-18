@@ -401,9 +401,11 @@ ifeq ($(PCH), 1)
 
   ifeq ($(CLANG), 0)
     PCHFLAGS += -fpch-preprocess -include main-pch.hpp
-    PCH_P := $(addsuffix .gch, $(PCH_P))
+    PCH_P := $(PCH_P).gch
+    PCH_C = $(PCH_H).gch
   else
-    PCH_P := $(addsuffix .pch, $(PCH_P))
+    PCH_P := $(PCH_P).pch
+    PCH_C = $(PCH_H).pch
     # PCH_P = .pch
     PCHFLAGS += -include-pch $(PCH_P)
 
@@ -900,6 +902,9 @@ endif
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -c $(PCH_H) -o $(PCH_P)
 
+pchcopy: $(PCH_P)
+	cp -f $(PCH_P) $(PCH_C)
+
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
@@ -914,7 +919,7 @@ version:
 # Unconditionally create the object dir on every invocation.
 $(shell mkdir -p $(ODIR))
 
-$(ODIR)/%$(PCH_SUFFIX).o: $(SRC_DIR)/%.cpp $(PCH_P)
+$(ODIR)/%$(PCH_SUFFIX).o: $(SRC_DIR)/%.cpp pchcopy
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
