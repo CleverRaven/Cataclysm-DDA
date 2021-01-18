@@ -1677,8 +1677,7 @@
       [ "software_math", 15 ],
       [ "software_useless", 25 ],
       [ "software_medical", 5 ],
-      [ "software_hacking", 1 ],
-      [ "software_autodoc_install_basic", 30 ]
+      [ "software_hacking", 1 ]
     ]
   },
   {

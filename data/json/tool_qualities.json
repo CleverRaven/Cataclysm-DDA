@@ -319,10 +319,5 @@
     "id": "SURFACE",
     "//": "A flat surface, like a table or a mat. 1 would be the size of a cutting board.",
     "name": { "str": "clean surface" }
-  },
-  {
-    "type": "tool_quality",
-    "id": "BIONIC_INSTALL",
-    "name": { "str": "bionic installation" }
   }
 ]
