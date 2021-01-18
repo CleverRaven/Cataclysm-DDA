@@ -1722,7 +1722,7 @@ static item_location autodoc_internal( player &u, player &patient,
     }
 
     std::vector<const item *> install_programs = patient.crafting_inventory().items_with( [](
-                const item & it ) -> bool { return it.has_quality( quality_id( "BIONIC_INSTALL" ) ); } );
+                const item & it ) -> bool { return it.has_flag( flag_BIONIC_INSTALLATION_DATA ); } );
 
     if( !install_programs.empty() ) {
         hint += string_format(
@@ -1836,14 +1836,17 @@ class bionic_install_preset: public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
+            const std::string bionic_name = loc.get_item()->typeId().c_str();
+
             std::vector<const item *> install_programs = p.crafting_inventory().items_with( [](
-                        const item & it ) -> bool { return it.has_quality( quality_id( "BIONIC_INSTALL" ) ); } );
+                        const item & it ) -> bool { return it.has_flag( flag_BIONIC_INSTALLATION_DATA ); } );
 
             bool has_install_program = false;
 
             if( !install_programs.empty() ) {
                 for( const item *progs : install_programs ) {
-                    has_install_program = progs->get_quality( quality_id( "BIONIC_INSTALL" ) ) >= difficulty;
+                    const std::string AID_name = progs->typeId().c_str();
+                    has_install_program = AID_name.substr( 4 ) == bionic_name;
                     break;
                 }
             }
