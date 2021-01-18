@@ -4953,6 +4953,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             const itype *itemtype = bionic.get_item()->type;
+            const std::string bionic_name = bionic.get_item()->typeId().c_str();
 
             player &installer = best_installer( p, null_player, itemtype->bionic->difficulty );
             if( &installer == &null_player ) {
@@ -4963,12 +4964,16 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             std::vector<item_comp> progs;
             std::vector<const item *> filter = p.crafting_inventory().items_with(
             [itemtype]( const item & it ) {
-                return it.get_quality( quality_id( "BIONIC_INSTALL" ) ) >= itemtype->bionic->difficulty;
+                return it.has_flag( flag_BIONIC_INSTALLATION_DATA );
             } );
-            for( const item *prog_item : filter ) {
-                progs.push_back( item_comp( prog_item->typeId(), 1 ) );
-                has_install_program = true;
-                break;
+
+            if( !filter.empty() ) {
+                for( const item *prog_item : filter ) {
+                    const std::string AID_name = prog_item->typeId().c_str();
+                    has_install_program = AID_name.substr( 4 ) == bionic_name;
+                    progs.push_back( item_comp( prog_item->typeId(), 1 ) );
+                    break;
+                }
             }
 
             const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
