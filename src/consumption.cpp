@@ -1268,9 +1268,9 @@ int Character::compute_calories_per_effective_volume( const item &food,
     } else {
         kcalories = compute_effective_nutrients( food ).kcal;
     }
-    double food_vol = units::to_milliliter( masticated_volume( food ) );
+    double food_vol = round_up( units::to_milliliter( masticated_volume( food ) ) * 0.001, 2 );
     const double energy_density_ratio = compute_effective_food_volume_ratio( food );
-    const double effective_volume = food_vol * energy_density_ratio * 0.001;
+    const double effective_volume = food_vol * energy_density_ratio;
     return std::round( kcalories / effective_volume );
 }
 
