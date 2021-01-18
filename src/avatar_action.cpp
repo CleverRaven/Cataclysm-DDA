@@ -1033,7 +1033,7 @@ void avatar_action::use_item( avatar &you, item_location &loc )
     } else {
         item_location::type loc_where = loc.where();
         if( loc_where != item_location::type::character && loc_where != item_location::type::container ) {
-            you.add_msg_if_player( "You pick up the %s", loc.get_item()->display_name() );
+            you.add_msg_if_player( _( "You pick up the %s." ), loc.get_item()->display_name() );
             pre_obtain_moves = -1;
 
         }
