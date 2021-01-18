@@ -787,8 +787,8 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
     SECTION( "incorrect items in json are skipped" ) {
         // first item is an array without the run length defined (illegal)
         std::istringstream is(
-            "[[{\"typeid\":\"test_rag\",\"item_vars\":{\"magazine_converted\":\"1\"}}],\n"
-            "    {\"typeid\":\"test_rag\",\"item_vars\":{\"magazine_converted\":\"1\"}}]" );
+            R"([[{"typeid":"test_rag","item_vars":{"magazine_converted":"1"}}],)" "\n"
+            R"(    {"typeid":"test_rag","item_vars":{"magazine_converted":"1"}}])" );
         JsonIn jsin( is );
         cata::colony<item> read_val;
         {
