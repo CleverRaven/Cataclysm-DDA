@@ -689,9 +689,9 @@ class comestible_inventory_preset : public inventory_selector_preset
 
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
             // Sort by comestibility first
-            const auto lhs_comestible = is_comestible(lhs.any_item());
-            const auto rhs_comestible = is_comestible(rhs.any_item());
-            if (lhs_comestible != rhs_comestible) {
+            const auto lhs_comestible = lhs.any_item()->is_comestible();
+            const auto rhs_comestible = rhs.any_item()->is_comestible();
+            if( lhs_comestible != rhs_comestible ) {
                 return !lhs_comestible && rhs_comestible;
             }
 
@@ -699,7 +699,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             const auto lhs_rotten = lhs.any_item()->rotten();
             const auto rhs_rotten = rhs.any_item()->rotten();
             if( lhs_rotten != rhs_rotten ) {
-                return prefer_rotten() ^ (!lhs_rotten && rhs_rotten);
+                return prefer_rotten() ^ ( !lhs_rotten && rhs_rotten );
             }
 
             // Then by perishability
@@ -708,11 +708,11 @@ class comestible_inventory_preset : public inventory_selector_preset
             if( lhs_imperishable != rhs_imperishable ) {
                 return !lhs_imperishable && rhs_imperishable;
             }
-            
+
             // Then by sealed status, skipping imperishable items
             const auto lhs_sealed = is_sealed( lhs.any_item() );
             const auto rhs_sealed = is_sealed( rhs.any_item() );
-            if( lhs_sealed != rhs_sealed && lhs.any_item()->goes_bad()) {
+            if( lhs_sealed != rhs_sealed && lhs.any_item()->goes_bad() ) {
                 return !lhs_sealed && rhs_sealed;
             }
 
@@ -733,7 +733,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         bool prefer_rotten() const {
             return p.has_trait( trait_SAPROPHAGE ) || p.has_trait( trait_SAPROVORE );
         }
-        
+
         const islot_comestible &get_edible_comestible( const item &it ) const {
             if( it.is_comestible() && p.can_eat( it ).success() ) {
                 // Ok since can_eat() returns false if is_craft() is true
@@ -743,10 +743,6 @@ class comestible_inventory_preset : public inventory_selector_preset
             return dummy;
         }
 
-        bool is_comestible( const item_location &loc ) const {
-            return loc->is_comestible();
-        }
-        
         bool is_sealed( const item_location &loc ) const {
             if( loc.has_parent() ) {
                 const auto &pocket = loc.parent_item()->contained_where( *loc );
@@ -757,7 +753,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
         time_duration get_shelf_life( const item_location &loc ) const {
             return loc->is_comestible() ?
-                loc->get_comestible()->spoils : calendar::INDEFINITELY_LONG_DURATION;
+                   loc->get_comestible()->spoils : calendar::INDEFINITELY_LONG_DURATION;
         }
 
         time_duration get_time_left( const item_location &loc ) const {
