@@ -1383,7 +1383,9 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
         item &it = *holstered_item.first;
         bool success = false;
         if( !it.count_by_charges() ) {
-            if( all_pockets_rigid || holster.parents_can_contain_recursive( &it ) ) {
+            if( ( all_pockets_rigid || holster.parents_can_contain_recursive( &it ) ) &&
+                holster.get_item()->best_pocket( it, holster ).second != nullptr ) {
+
                 success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
                                            /*unseal_pockets=*/true ).success();
                 if( success ) {
@@ -1391,6 +1393,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
                     handler.unseal_pocket_containing( holstered_item.first );
                     holstered_item.first.remove_item();
                 }
+
             }
         } else {
             int charges = all_pockets_rigid ? holstered_item.second : std::min( holstered_item.second,
