@@ -7168,11 +7168,11 @@ bodypart_id Character::body_window( const std::string &menu_header,
         if( bleeding ) {
             desc += string_format( "Bleeding: %s",
                                    colorize( get_effect( effect_bleed, bp ).get_speed_name(),
-                                             colorize_bleeding_intensity( bleeding ) ) );
+                                             colorize_bleeding_intensity( get_effect_int( effect_bleed, bp ) ) ) );
             if( bleed > 0 ) {
                 int percent = static_cast<int>( bleed * 100 / get_effect_int( effect_bleed, bp ) );
                 percent = std::min( percent, 100 );
-                desc +=  colorize( string_format( _( " -> %d %% improvement" ), percent ), c_green );
+                desc += " -> " + colorize( string_format( _( "%d %% improvement" ), percent ), c_green );
             };
             desc += "\n";
         }
