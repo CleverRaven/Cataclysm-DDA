@@ -4963,7 +4963,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             bool has_install_program = false;
             std::vector<item_comp> progs;
             std::vector<const item *> filter = p.crafting_inventory().items_with(
-            [itemtype]( const item & it ) {
+            []( const item & it ) {
                 return it.has_flag( flag_BIONIC_INSTALLATION_DATA );
             } );
 
