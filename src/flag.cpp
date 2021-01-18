@@ -33,6 +33,7 @@ const flag_id flag_BASH_IMMUNE( "BASH_IMMUNE" );
 const flag_id flag_BELTED( "BELTED" );
 const flag_id flag_BELT_CLIP( "BELT_CLIP" );
 const flag_id flag_BIO_IMMUNE( "BIO_IMMUNE" );
+const flag_id flag_BIONIC_INSTALLATION_DATA( "BIONIC_INSTALLATION_DATA" );
 const flag_id flag_BIPOD( "BIPOD" );
 const flag_id flag_BIRD( "BIRD" );
 const flag_id flag_BLIND( "BLIND" );
