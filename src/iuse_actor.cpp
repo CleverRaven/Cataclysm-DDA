@@ -2965,7 +2965,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     if( roll == FAILURE ) {
         if( chance.first <= 0.0f ) {
             pl.add_msg_if_player( m_good,
-                                  _( "It seems repairing your %s is just beyond your current level of expertise." ),
+                                  _( "It seems working on your %s is just beyond your current level of expertise." ),
                                   fix->tname() );
         }
         return damage_item( pl, fix ) ? AS_DESTROYED : AS_FAILURE;
