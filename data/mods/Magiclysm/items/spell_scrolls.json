@@ -294,7 +294,7 @@
     "id": "spell_scroll_summon_wolf",
     "//": "Druid spell",
     "name": { "str": "Scroll of Summon Wolf", "str_pl": "Scrolls of Summon Wolf" },
-    "description": "Call to the wild for aid from some wolves",
+    "description": "Call to the wild for aid from some wolves.",
     "use_action": { "type": "learn_spell", "spells": [ "summon_wolf_druid" ] }
   },
   {
