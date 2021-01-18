@@ -2606,7 +2606,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
     const int iWorldOffset = world_options_only ? 2 : 0;
     int iMinScreenWidth = 0;
-    const int iTooltipHeight = 4;
+    const int iTooltipHeight = 5;
     int iContentHeight = 0;
 
     catacurses::window w_options_border;
