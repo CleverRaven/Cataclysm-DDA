@@ -65,7 +65,7 @@ $(TEST_TARGET): $(OBJS) $(CATA_LIB)
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
 
-pchcopy: $(PHC_P)
+pchcopy: $(PCH_P)
 	cp -f $(PCH_P) $(PCH_C)
 
 # Iterate over all the individual tests.
