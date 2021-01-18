@@ -1251,6 +1251,7 @@ units::volume Character::masticated_volume( const item &food ) const
         units::to_gram( food_dry_weight ) < units::to_milliliter( food_dry_volume ) ) {
         food_dry_volume = units::from_milliliter( units::to_gram( food_dry_weight ) );
     }
+
     return food_dry_volume;
 }
 
