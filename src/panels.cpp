@@ -1004,6 +1004,23 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
+static std::pair<translation, nc_color> weariness_description( size_t weariness )
+{
+    static const std::array<std::pair<translation, nc_color>, 6> weary_descriptions { {
+            { to_translation( "Fresh" ),    c_white },
+            { to_translation( "Light" ),    c_green },
+            { to_translation( "Moderate" ), c_light_green },
+            { to_translation( "Weary" ),    c_yellow },
+            { to_translation( "Very" ),     c_light_red  },
+            { to_translation( "Extreme" ),  c_red }
+        } };
+    // We can have more than level 5, but we don't really care about it
+    if( weariness >= weary_descriptions.size() ) {
+        weariness = 5;
+    }
+    return weary_descriptions[weariness];
+}
+
 static void draw_stats( avatar &u, const catacurses::window &w )
 {
     werase( w );
@@ -2067,20 +2084,23 @@ static void print_weary( const player &u, const catacurses::window &w,
 {
     werase( w );
 
-    std::pair<std::string, nc_color> weary_pair = get_hp_bar( u.weary_threshold(), u.weariness() );
-    int activity_level = u.attempted_activity_level;
+    std::pair<int, int> transition = u.weariness_transition_progress();
+    std::pair<std::string, nc_color> weary_bar = get_hp_bar( transition.first, transition.second );
+    const float activity_level = u.instantaneous_activity_level();
+    int weariness = u.weariness_level();
+    std::pair<translation, nc_color> weary_label = weariness_description( weariness );
 
-    int no_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier(
+    int no_speed = static_cast<int>( std::round( 100 / u.exertion_adjusted_move_multiplier(
                                          NO_EXERCISE ) ) );
-    int light_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier(
+    int light_speed = static_cast<int>( std::round( 100 / u.exertion_adjusted_move_multiplier(
                                             LIGHT_EXERCISE ) ) );
-    int moderate_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier(
+    int moderate_speed = static_cast<int>( std::round( 100 / u.exertion_adjusted_move_multiplier(
             MODERATE_EXERCISE ) ) );
-    int brisk_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier(
+    int brisk_speed = static_cast<int>( std::round( 100 / u.exertion_adjusted_move_multiplier(
                                             BRISK_EXERCISE ) ) );
-    int active_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier(
+    int active_speed = static_cast<int>( std::round( 100 / u.exertion_adjusted_move_multiplier(
             ACTIVE_EXERCISE ) ) );
-    int extra_speed = static_cast<int>( std::round( 100 * u.exertion_adjusted_move_multiplier(
+    int extra_speed = static_cast<int>( std::round( 100 / u.exertion_adjusted_move_multiplier(
                                             EXTRA_EXERCISE ) ) );
 
     nc_color gray = c_light_gray;
@@ -2099,14 +2119,15 @@ static void print_weary( const player &u, const catacurses::window &w,
 
     const std::string weary_string = string_format( fmt_string,
                                      utf8_justify( _( "Weary" ), j1 ),
-                                     colorize( utf8_justify( weary_pair.first, -5 ), weary_pair.second ) );
+                                     colorize( utf8_justify( weary_label.first.translated(), -8 ), weary_label.second ) );
     const std::string penalty_string = string_format( fmt_string,
                                        utf8_justify( _( "Speed" ), j1 ),
                                        speeds );
     print_colored_text( w, point_zero, gray, gray, weary_string );
     print_colored_text( w, point( 0, 1 ), gray, gray, penalty_string );
 
-    int width = utf8_width( weary_pair.first );
+    mvwprintz( w, point( j2 - 4, 0 ), weary_bar.second, weary_bar.first );
+    int width = utf8_width( weary_bar.first );
     for( int i = 0; i < 5 - width; i++ ) {
         mvwprintz( w, point( j2 - i, 0 ), c_white, "." );
     }
@@ -2116,22 +2137,22 @@ static void print_weary( const player &u, const catacurses::window &w,
 
 static void draw_weary_wide( const player &u, const catacurses::window &w )
 {
-    print_weary( u, w, " %s: %s", 5, 12 );
+    print_weary( u, w, " %s: %s", 5, 27 );
 }
 
 static void draw_weary_narrow( const player &u, const catacurses::window &w )
 {
-    print_weary( u, w, " %s: %s", 5, 12 );
+    print_weary( u, w, " %s: %s", 5, 23 );
 }
 
 static void draw_weary_compact( const player &u, const catacurses::window &w )
 {
-    print_weary( u, w, "%s%s", 5, 9 );
+    print_weary( u, w, "%s%s", 5, 20 );
 }
 
 static void draw_weary_classic( const player &u, const catacurses::window &w )
 {
-    print_weary( u, w, "%s   : %s", 5, 14 );
+    print_weary( u, w, "%s   : %s", 5, 25 );
 }
 
 // ============
