@@ -328,10 +328,7 @@ ifeq ($(RELEASE), 1)
       # O3 (inclusive)
       OPTLEVEL = -O3
     endif
-  endif
-  CXXFLAGS += $(OPTLEVEL)
 
-  ifeq ($(LTO), 1)
     ifeq ($(NATIVE), osx)
       ifneq ($(CLANG), 0)
         LTOFLAGS += -flto=full
@@ -346,6 +343,7 @@ ifeq ($(RELEASE), 1)
       LTOFLAGS += -flto=jobserver -flto-odr-type-merging
     endif
   endif
+  CXXFLAGS += $(OPTLEVEL)
   CXXFLAGS += $(LTOFLAGS)
 
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
@@ -393,14 +391,23 @@ WARNINGS += -Wimplicit-fallthrough=0
 endif
 
 ifeq ($(PCH), 1)
+  PCH_CP = pchcopy
   PCHFLAGS = -Ipch -Winvalid-pch
-  PCH_H = pch/main-pch.hpp
+
+  PCH_BASE = pch/main-pch
+  PCH_H = $(PCH_BASE).hpp
+
+  PCH_SUFFIX = $(if $(TILES),-tiles)$(if $(SOUND),-sound)$(if $(BACKTRACE),-back$(if $(LIBBACKTRACE),-libbacktrace))$(if $(DYNAMIC_LINKING),-dynamic)$(if $(MSYS2),-msys2)
+  PCH_P = $(PCH_BASE)$(PCH_SUFFIX).hpp
 
   ifeq ($(CLANG), 0)
     PCHFLAGS += -fpch-preprocess -include main-pch.hpp
-    PCH_P = $(PCH_H).gch
+    PCH_P := $(PCH_P).gch
+    PCH_C = $(PCH_H).gch
   else
-    PCH_P = $(PCH_H).pch
+    PCH_P := $(PCH_P).pch
+    PCH_C = $(PCH_H).pch
+    # PCH_P = .pch
     PCHFLAGS += -include-pch $(PCH_P)
 
     # FIXME: dirty hack ahead
@@ -411,6 +418,7 @@ ifeq ($(PCH), 1)
         PCHFLAGS = ""
         PCH_H = ""
         PCH_P = ""
+        PCH_SUFFIX = ""
         PCH = 0
         $(warning your clang version does not support -fno-pch-timestamp: $(CLANGVER) ($(.SHELLSTATUS)))
       else
@@ -822,7 +830,8 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
   _OBJS += $(RSRC:$(SRC_DIR)/%.rc=%.o)
 endif
-OBJS = $(sort $(patsubst %,$(ODIR)/%,$(_OBJS)))
+_OBJS := $(sort $(patsubst %.o,%$(PCH_SUFFIX).o,$(_OBJS)))
+OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
 ifdef LANGUAGES
   L10N = localization
@@ -894,6 +903,9 @@ endif
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -c $(PCH_H) -o $(PCH_P)
 
+pchcopy: $(PCH_P)
+	cp -f $(PCH_P) $(PCH_C)
+
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
@@ -908,7 +920,7 @@ version:
 # Unconditionally create the object dir on every invocation.
 $(shell mkdir -p $(ODIR))
 
-$(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
+$(ODIR)/%$(PCH_SUFFIX).o: $(SRC_DIR)/%.cpp $(PCH_CP)
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
@@ -1120,7 +1132,7 @@ ifdef LANGUAGES
 endif
 	$(BINDIST_CMD)
 
-export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM CLANG PCH PCHFLAGS
+export ODIR LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM CLANG PCH PCHFLAGS PCH_SUFFIX
 
 ctags: $(ASTYLE_SOURCES)
 	ctags $^

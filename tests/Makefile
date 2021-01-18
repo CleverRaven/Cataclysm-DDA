@@ -35,14 +35,18 @@ ifndef CLANG
 endif
 
 ifeq ($(PCH), 1)
-PCHFLAGS += -DCATA_CATCH_PCH
-PCH_H = pch/tests-pch.hpp
-ifeq ($(CLANG), 0)
-PCH_P = $(PCH_H).gch
-else
-PCH_P = $(PCH_H).pch
-CXXFLAGS += -Wno-unused-macros
-endif
+  PCH_CP = pchcopy
+  PCHFLAGS += -DCATA_CATCH_PCH
+  PCH_BASE = pch/tests-pch
+  PCH_H = $(PCH_BASE).hpp
+  ifeq ($(CLANG), 0)
+    PCH_P = $(PCH_BASE)$(PCH_SUFFIX).hpp.gch
+    PCH_C = $(PCH_BASE).hpp.gch
+  else
+    PCH_P = $(PCH_BASE)$(PCH_SUFFIX).hpp.pch
+    PCH_C = $(PCH_BASE).hpp.pch
+    CXXFLAGS += -Wno-unused-macros
+  endif
 endif
 
 ifeq ($(TARGETSYSTEM), WINDOWS)
@@ -51,6 +55,8 @@ else
   TEST_TARGET = $(BUILD_PREFIX)cata_test
 endif
 
+PCHFLAGS := $(subst main-pch,tests-pch,$(PCHFLAGS))
+
 tests: $(TEST_TARGET)
 
 $(TEST_TARGET): $(OBJS) $(CATA_LIB)
@@ -58,6 +64,9 @@ $(TEST_TARGET): $(OBJS) $(CATA_LIB)
 
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
+
+pchcopy: $(PCH_P)
+	cp -f $(PCH_P) $(PCH_C)
 
 # Iterate over all the individual tests.
 check: $(TEST_TARGET)
@@ -74,8 +83,8 @@ clean:
 $(shell mkdir -p $(ODIR))
 
 # Adding ../tests/ so that the directory appears in __FILE__ for log messages
-$(ODIR)/%.o: %.cpp $(PCH_P)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
+$(ODIR)/%.o: %.cpp ${PCH_CP}
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c ../tests/$< -o $@
 
 .PHONY: clean check tests precompile_header
 
