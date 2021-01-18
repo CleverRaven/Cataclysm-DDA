@@ -842,7 +842,7 @@ bool player_morale::has_mutation( const trait_id &mid )
 
 bool player_morale::has_mutation_flag( const std::string &flag )
 {
-    for( const std::pair<const trait_id, const player_morale::mutation_data> &mut : mutations ) {
+    for( const std::pair<const trait_id, player_morale::mutation_data> &mut : mutations ) {
         const mutation_branch &mut_data = mut.first.obj();
         if( mut_data.flags.count( flag ) > 0 ) {
             return true;
