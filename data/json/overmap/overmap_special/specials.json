@@ -6559,8 +6559,8 @@
       { "point": [ 29, 29, 0 ], "overmap": "forest_thick" }
     ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 5, 40 ],
-    "occurrences": [ 40, 100 ],
+    "city_distance": [ 5, -1 ],
+    "occurrences": [ 80, 100 ],
     "flags": [ "CLASSIC", "FARM", "UNIQUE" ]
   },
   {
