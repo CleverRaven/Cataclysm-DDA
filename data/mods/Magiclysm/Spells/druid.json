@@ -373,7 +373,7 @@
     "id": "summon_wolf_druid",
     "type": "SPELL",
     "name": "Summon Wolf",
-    "description": "Call to the wilds for aid from some wolves",
+    "description": "Call to the wilds for aid from some wolves.",
     "valid_targets": [ "ground" ],
     "min_damage": 1,
     "max_damage": 3,
