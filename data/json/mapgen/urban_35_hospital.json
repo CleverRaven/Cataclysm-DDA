@@ -208,7 +208,7 @@
           { "item": "hospital_medical_items", "chance": 20, "repeat": [ 1, 2 ] }
         ]
       },
-      "place_loot": [ { "item": "software_autodoc_install_basic", "x": 1, "y": [ 12, 14 ], "chance": 75, "repeat": 3 } ],
+      "place_loot": [ { "group": "autodoc_installation_programs", "x": 1, "y": [ 12, 14 ], "chance": 75, "repeat": 3 } ],
       "computers": {
         "6": {
           "name": "Centrifuge",

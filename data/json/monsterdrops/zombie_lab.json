@@ -20,7 +20,7 @@
           { "group": "bionics", "prob": 10 },
           { "group": "radio", "prob": 15 },
           { "group": "textbooks", "prob": 25 },
-          { "item": "software_autodoc_install_basic", "prob": 5 }
+          { "group": "autodoc_installation_programs", "prob": 5 }
         ]
       },
       { "group": "wallets_science", "damage": [ 1, 4 ], "prob": 5 }
