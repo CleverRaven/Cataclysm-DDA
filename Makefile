@@ -391,6 +391,7 @@ WARNINGS += -Wimplicit-fallthrough=0
 endif
 
 ifeq ($(PCH), 1)
+  PCH_CP = pchcopy
   PCHFLAGS = -Ipch -Winvalid-pch
 
   PCH_BASE = pch/main-pch
@@ -919,7 +920,7 @@ version:
 # Unconditionally create the object dir on every invocation.
 $(shell mkdir -p $(ODIR))
 
-$(ODIR)/%$(PCH_SUFFIX).o: $(SRC_DIR)/%.cpp pchcopy
+$(ODIR)/%$(PCH_SUFFIX).o: $(SRC_DIR)/%.cpp $(PCH_CP)
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc

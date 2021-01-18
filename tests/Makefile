@@ -35,6 +35,7 @@ ifndef CLANG
 endif
 
 ifeq ($(PCH), 1)
+  PCH_CP = pchcopy
   PCHFLAGS += -DCATA_CATCH_PCH
   PCH_BASE = pch/tests-pch
   PCH_H = $(PCH_BASE).hpp
@@ -65,7 +66,7 @@ $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
 
 pchcopy: $(PHC_P)
-	cp -f $(PCH_P) $(PHC_C)
+	cp -f $(PCH_P) $(PCH_C)
 
 # Iterate over all the individual tests.
 check: $(TEST_TARGET)
@@ -82,7 +83,7 @@ clean:
 $(shell mkdir -p $(ODIR))
 
 # Adding ../tests/ so that the directory appears in __FILE__ for log messages
-$(ODIR)/%.o: %.cpp pchcopy
+$(ODIR)/%.o: %.cpp ${PCH_CP}
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c ../tests/$< -o $@
 
 .PHONY: clean check tests precompile_header
