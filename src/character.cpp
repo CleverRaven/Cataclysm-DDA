@@ -4115,7 +4115,7 @@ int Character::rust_rate() const
 
     // Stat window shows stat effects on based on current stat
     int intel = get_int();
-    /** @EFFECT_INT reduces skill rust by 10% per level above 8 */
+    /** @EFFECT_INT increases skill rust delay by 10% per level above 8 */
     int ret = ( ( rate_option == "vanilla" || rate_option == "capped" ) ?
                 100 : 100 + 10 * ( 8 - intel ) );
 
