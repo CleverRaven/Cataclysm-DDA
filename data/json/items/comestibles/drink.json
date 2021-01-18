@@ -98,7 +98,7 @@
     "stim": 1,
     "quench": 34,
     "healthy": 1,
-    "calories": 9,
+    "calories": 2,
     "description": "A healthy beverage made from bee balm steeped in boiling water.  Can be used to reduce negative effects of common cold or flu.",
     "price": 100,
     "price_postapoc": 25,
@@ -936,7 +936,6 @@
     "name": { "str_sp": "spurge tea" },
     "copy-from": "tea",
     "color": "green",
-    "use_action": [ "ANTIASTHMATIC" ],
     "spoils_in": "10 days",
     "quench": 34,
     "healthy": 1,
@@ -944,7 +943,12 @@
     "description": "A healthy beverage made from spurge flowers steeped in boiling water.  Can be used to prevent asthma attacks.",
     "price": 100,
     "price_postapoc": 25,
-    "fun": 1
+    "fun": 1,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You no longer need to worry about asthma attacks, at least for a while.",
+      "effects": [ { "id": "took_antiasthmatic", "duration": 86400 } ]
+    }
   },
   {
     "type": "COMESTIBLE",
@@ -1081,6 +1085,7 @@
     "container": "bottle_plastic",
     "sealed": true,
     "color": "light_cyan",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "use_action": [  ]
   },
   {

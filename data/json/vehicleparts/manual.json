@@ -10,7 +10,6 @@
     "broken_symbol": "#",
     "broken_color": "red",
     "damage_modifier": 50,
-    "difficulty": 1,
     "noise_factor": 5,
     "m2c": 45,
     "exclusions": [ "manual" ],

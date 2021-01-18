@@ -1798,7 +1798,7 @@ double Character::gun_value( const item &weap, int ammo ) const
         return 0.0;
     }
 
-    if( ammo <= 0 ) {
+    if( ammo <= 0 || !meets_requirements( weap ) ) {
         return 0.0;
     }
 

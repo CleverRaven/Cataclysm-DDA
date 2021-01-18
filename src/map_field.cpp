@@ -76,6 +76,7 @@ static const bionic_id bio_heatsink( "bio_heatsink" );
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_poison( "poison" );
@@ -1707,6 +1708,11 @@ void map::player_in_field( player &u )
                 }
             }
         }
+        if( ft == fd_mechanical_fluid ) {
+            if( !u.in_vehicle && x_in_y( cur.get_field_intensity(), 20 ) ) {
+                u.add_effect( effect_downed, 2_turns );
+            }
+        }
     }
 }
 
@@ -2028,11 +2034,14 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_insecticidal_gas ) {
-            if( z.type->in_species( species_INSECT ) || z.type->in_species( species_SPIDER ) ) {
+            if( z.made_of( material_id( "iflesh" ) ) && !z.has_flag( MF_INSECTICIDEPROOF ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.moves -= rng( 10 * intensity, 30 * intensity );
                 dam += rng( 4, 7 * intensity );
             }
+        }
+        if( cur_field_type == fd_mechanical_fluid && x_in_y( cur.get_field_intensity(), 20 ) ) {
+            z.add_effect( effect_downed, 2_turns );
         }
     }
 

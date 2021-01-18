@@ -53,7 +53,8 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "RANGED_ATTACKER"
     ]
   },
   {
@@ -283,7 +284,8 @@
       "REVIVES",
       "PUSH_MON",
       "PUSH_VEH",
-      "FILTHY"
+      "FILTHY",
+      "RANGED_ATTACKER"
     ]
   },
   {
@@ -470,7 +472,8 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "RANGED_ATTACKER"
     ]
   },
   {
@@ -1170,14 +1173,60 @@
       "REVIVES",
       "PUSH_MON",
       "PUSH_VEH",
+      "FILTHY",
+      "RANGED_ATTACKER"
+    ]
+  },
+  {
+    "id": "mon_zombie_swimmer_base",
+    "type": "MONSTER",
+    "name": { "str": "swimmer zombie" },
+    "description": "A human body, clad in swimwear.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 60,
+    "speed": 90,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "light_blue",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_cut": 3,
+    "dodge": 1,
+    "vision_night": 3,
+    "harvest": "zombie",
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "death_drops": "mon_zombie_swimmer_death_drops",
+    "death_function": [ "NORMAL" ],
+    "burn_into": "mon_zombie_scorched",
+    "upgrades": { "half_life": 14, "into": "mon_zombie_swimmer" },
+    "categories": [ "CLASSIC" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
       "FILTHY"
     ]
   },
   {
     "id": "mon_zombie_swimmer",
     "type": "MONSTER",
-    "name": { "str": "swimmer zombie" },
-    "description": "A slick and glistening human body.  Its hands and feet are webbed, and it is clad in swimwear.",
+    "name": { "str": "webbed zombie" },
+    "description": "A slick and glistening human body.  Its hands and feet are heavily webbed, and it is clad in swimwear.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -1250,7 +1299,19 @@
     "special_attacks": [ [ "PULL_METAL_WEAPON", 25 ], { "type": "bite", "cooldown": 20 } ],
     "death_drops": "mon_zombie_technician_death_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY",
+      "RANGED_ATTACKER"
+    ]
   },
   {
     "id": "mon_zombie_thorny",

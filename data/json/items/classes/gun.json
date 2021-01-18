@@ -18,7 +18,8 @@
     "ammo": [ "flammable" ],
     "ammo_effects": [ "FLARE" ],
     "reload": 4,
-    "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER" ],
+    "flags": [ "NEVER_JAMS", "FIRESTARTER" ],
+    "ammo_to_fire": 100,
     "faults": [  ]
   },
   {

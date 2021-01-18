@@ -87,10 +87,9 @@ class invlet_favorites
         std::array<itype_id, 256> ids_by_invlet;
 };
 
-class inventory : public visitable<inventory>
+class inventory : public visitable
 {
     public:
-        friend visitable<inventory>;
 
         invslice slice();
         const_invslice const_slice() const;
@@ -178,13 +177,6 @@ class inventory : public visitable<inventory>
         std::list<item> use_amount( const itype_id &it, int quantity,
                                     const std::function<bool( const item & )> &filter = return_true<item> );
 
-        bool has_tools( const itype_id &it, int quantity,
-                        const std::function<bool( const item & )> &filter = return_true<item> ) const;
-        bool has_components( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter = return_true<item> ) const;
-        bool has_charges( const itype_id &it, int quantity,
-                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
-
         int leak_level( const flag_id &flag ) const; // level of leaked bad stuff from items
 
         // NPC/AI functions
@@ -236,6 +228,21 @@ class inventory : public visitable<inventory>
         enchantment get_active_enchantment_cache( const Character &owner ) const;
 
         int count_item( const itype_id &item_type ) const;
+
+        book_proficiency_bonuses get_book_proficiency_bonuses() const;
+
+        // inherited from `visitable`
+        bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
+        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
+        override;
+        std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
+                                           int count = INT_MAX ) override;
+        int charges_of( const itype_id &what, int limit = INT_MAX,
+                        const std::function<bool( const item & )> &filter = return_true<item>,
+                        const std::function<void( int )> &visitor = nullptr ) const override;
+        int amount_of( const itype_id &what, bool pseudo = true,
+                       int limit = INT_MAX,
+                       const std::function<bool( const item & )> &filter = return_true<item> ) const override;
 
     private:
         invlet_favorites invlet_cache;

@@ -152,6 +152,11 @@
     "context": [ "GENERIC" ]
   },
   {
+    "id": "BLED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
     "id": "CANT_HEAL_EVERYONE",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
@@ -706,6 +711,11 @@
     "type": "json_flag",
     "context": [ "GENERIC" ],
     "info": "This item provides comfort during sleep."
+  },
+  {
+    "id": "SLEEP_AID_CONTAINER",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
   },
   {
     "id": "REVIVE_SPECIAL",
@@ -1888,21 +1898,6 @@
   },
   {
     "id": "DETERGENT",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_100",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_50",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_20",
     "type": "json_flag",
     "context": [  ]
   },

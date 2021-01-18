@@ -488,7 +488,7 @@
     "name": { "str": "handheld game system" },
     "description": "This is a portable games console in working condition, with a backlit screen allowing you to play in the dark.  You can use it to play it for a little while, but this requires batteries.",
     "weight": "200 g",
-    "volume": "500 ml",
+    "volume": "230 ml",
     "price": 12000,
     "price_postapoc": 100,
     "material": [ "plastic" ],

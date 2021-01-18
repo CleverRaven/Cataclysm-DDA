@@ -17,6 +17,7 @@
 
 #include "colony.h"
 #include "enum_conversions.h"
+#include "memory_fast.h"
 #include "string_id.h"
 
 /* Cataclysm-DDA homegrown JSON tools
@@ -91,6 +92,11 @@ struct number_sci_notation {
     uint64_t number = 0;
     // AKA the order of magnitude
     int64_t exp = 0;
+};
+
+struct json_source_location {
+    shared_ptr_fast<std::string> path;
+    int offset = 0;
 };
 
 /* JsonIn
@@ -177,8 +183,7 @@ class JsonIn
 {
     private:
         std::istream *stream;
-        // Used for error message and thus intentionally untranslated
-        std::string name = "<unknown source file>";
+        shared_ptr_fast<std::string> path;
         bool ate_separator = false;
 
         void skip_separator();
@@ -187,9 +192,18 @@ class JsonIn
 
     public:
         JsonIn( std::istream &s ) : stream( &s ) {}
-        JsonIn( std::istream &s, const std::string &name ) : stream( &s ), name( name ) {}
+        JsonIn( std::istream &s, const std::string &path )
+            : stream( &s ), path( make_shared_fast<std::string>( path ) ) {}
+        JsonIn( std::istream &s, const json_source_location &loc )
+            : stream( &s ), path( loc.path ) {
+            seek( loc.offset );
+        }
         JsonIn( const JsonIn & ) = delete;
         JsonIn &operator=( const JsonIn & ) = delete;
+
+        shared_ptr_fast<std::string> get_path() const {
+            return path;
+        }
 
         bool get_ate_separator() {
             return ate_separator;
@@ -895,6 +909,7 @@ class JsonObject
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name ) const;
         JsonValue get_member( const std::string &name ) const;
+        json_source_location get_source_location() const;
 
         // values by name
         // variants with no fallback throw an error if the name is not found.
@@ -1070,6 +1085,8 @@ class JsonArray
         std::string str(); // copy array json as string
         [[noreturn]] void throw_error( const std::string &err );
         [[noreturn]] void throw_error( const std::string &err, int idx );
+        // See JsonIn::string_error
+        [[noreturn]] void string_error( const std::string &err, int idx, int offset );
 
         // iterative access
         bool next_bool();

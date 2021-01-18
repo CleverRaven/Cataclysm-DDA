@@ -287,8 +287,6 @@ class basecamp
         /// Called when a companion is sent to start fortifications
         void start_fortifications( std::string &bldg_exp );
         void start_combat_mission( const std::string &miss );
-        /// Called when a companion starts a chop shop @ref task mission
-        bool start_garage_chop( const point &dir, const tripoint_abs_omt &omt_tgt );
         void start_farm_op( const point &dir, const tripoint_abs_omt &omt_tgt, farm_ops op );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.

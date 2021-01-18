@@ -272,6 +272,7 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
     }
 
     if( optional_vpart_position vp = m.veh_at( closep ) ) {
+        // There is a vehicle part here; see if it has anything that can be closed
         vehicle *const veh = &vp->vehicle();
         const int vpart = vp->part_index();
         const int closable = veh->next_part_to_close( vpart,
@@ -282,8 +283,13 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
             if( !veh->handle_potential_theft( get_avatar() ) ) {
                 return;
             }
-            veh->close( closable );
-            didit = true;
+            Character *ch = who.as_character();
+            if( ch && veh->can_close( closable, *ch ) ) {
+                veh->close( closable );
+                //~ %1$s - vehicle name, %2$s - part name
+                who.add_msg_if_player( _( "You close the %1$s's %2$s." ), veh->name, veh->part( closable ).name() );
+                didit = true;
+            }
         } else if( inside_closable >= 0 ) {
             who.add_msg_if_player( m_info, _( "That %s can only be closed from the inside." ),
                                    veh->part( inside_closable ).name() );
@@ -335,7 +341,9 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
                 }
             }
         } else {
+            const std::string door_name = m.obstacle_name( closep );
             m.close_door( closep, inside, false );
+            who.add_msg_if_player( _( "You close the %s." ), door_name );
             didit = true;
         }
     }

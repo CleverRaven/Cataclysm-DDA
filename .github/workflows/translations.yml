@@ -1,8 +1,19 @@
+name: "Push translation template"
+
 on:
   push:
     branches:
       - master
-name: "Push translation template"
+    paths:
+      - '**.json'
+      - 'src/**.cpp'
+      - 'src/**.h'
+      - 'lang/extract_json_strings.py'
+      - 'lang/strip_line_numbers.py'
+      - 'lang/update_pot.sh'
+      - 'lang/unicode_check.py'
+
+
 jobs:
   push-template:
     runs-on: ubuntu-20.04

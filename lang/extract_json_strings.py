@@ -41,7 +41,9 @@ git_files_list = {os.path.normpath(i) for i in {
 # no warning will be given if an untranslatable object is found in those files
 warning_suppressed_list = {os.path.normpath(i) for i in {
     "data/json/flags.json",
+    "data/json/npcs/npc.json",
     "data/json/overmap_terrain.json",
+    "data/json/statistics.json",
     "data/json/traps.json",
     "data/json/vehicleparts/",
     "data/raw/keybindings.json",
@@ -49,7 +51,7 @@ warning_suppressed_list = {os.path.normpath(i) for i in {
     "data/mods/DeoxyMod/Deoxy_vehicle_parts.json",
     "data/mods/More_Survival_Tools/start_locations.json",
     "data/mods/NPC_Traits/npc_classes.json",
-    "data/mods/Tanks/monsters.json"
+    "data/mods/Tanks/monsters.json",
 }}
 
 
@@ -63,6 +65,7 @@ def warning_supressed(filename):
 # these files will not be parsed. Full related path.
 ignore_files = {os.path.normpath(i) for i in {
     "data/json/anatomy.json",
+    "data/json/items/book/abstract.json",
     "data/mods/replacements.json",
     "data/raw/color_templates/no_bright_background.json"
 }}
@@ -938,9 +941,8 @@ def extract_vehicle_part_category(item):
     short_name = item.get("short_name")
     comment = item.get("//")
     short_comment = "(short name, optimal 1 symbol) " + comment
-    writestr(outfile, name, context="vpart_category_name", comment=comment)
-    writestr(outfile, short_name, context="vpart_category_short_name",
-             comment=short_comment)
+    writestr(outfile, name, comment=comment)
+    writestr(outfile, short_name, comment=short_comment)
 
 
 # these objects need to have their strings specially extracted
@@ -1037,6 +1039,9 @@ def gettextify(string, context=None, plural=None):
             return "_(%r)\n" % string
 
 
+# `context` is deprecated and only for use in legacy code. Use
+# `class translation` to read the text in c++ and specify the context in json
+# instead.
 def writestr(filename, string, context=None, format_strings=False,
              comment=None, pl_fmt=False, _local_fp_cache=dict()):
     "Wrap the string and write to the file."

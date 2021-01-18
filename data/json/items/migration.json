@@ -1298,5 +1298,20 @@
     "id": "jug_plastic_sealed",
     "type": "MIGRATION",
     "replace": "jug_plastic"
+  },
+  {
+    "id": "surv_carbine_223",
+    "type": "MIGRATION",
+    "replace": "ar15"
+  },
+  {
+    "id": "rifle_308",
+    "type": "MIGRATION",
+    "replace": "m1a"
+  },
+  {
+    "id": "rifle_3006",
+    "type": "MIGRATION",
+    "replace": "remington_700"
   }
 ]

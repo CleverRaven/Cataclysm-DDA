@@ -318,6 +318,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "candy3gator",
+    "name": { "str": "chewy reptilian candy", "str_pl": "chewy reptilian candies" },
+    "copy-from": "candy3",
+    "description": "A handful of colorful fruit-flavored chewy candy shaped in a reptilian fashion.  Made by SugarRush."
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "cow_candy",
     "name": "candy cattle",
     "description": "A handful of chocolate candies shaped like cows.",
@@ -412,6 +419,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "grahmcrackers_roe",
+    "name": "graham cracker chunk",
+    "copy-from": "grahmcrackers",
+    "description": "Dry and sugary, these cracker pellets will leave you thirsty, but go well with some chocolate and marshmallows.  Made by SugarRush!"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "cookies",
     "name": "cookie",
     "weight": "33 g",
@@ -432,6 +446,13 @@
     "stack_size": 20,
     "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
     "fun": 7
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "cookies_egg",
+    "name": "cookie egg",
+    "copy-from": "cookies",
+    "description": "Sweet and delicious cookies, shaped like eggs.  Made by SugarRush!"
   },
   {
     "type": "COMESTIBLE",
@@ -1187,5 +1208,47 @@
     "charges": 4,
     "vitamins": [ [ "calcium", 4 ] ],
     "fun": 6
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "freeze_dried_meal",
+    "name": "freeze-dried meal",
+    "weight": "175 g",
+    "color": "red",
+    "spoils_in": "1461 days",
+    "container": "bag_plastic",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -8,
+    "calories": 879,
+    "description": "A sealed plastic bag containing a full dehydrated meal.  This one contains a hearty cooked beef and egg breakfast.",
+    "price": 1200,
+    "price_postapoc": 1400,
+    "material": [ "flesh", "egg", "junk" ],
+    "volume": "250ml",
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ] ],
+    "fun": -2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "freeze_dried_meal_hydrated",
+    "name": "rehydrated freeze-dried meal",
+    "weight": "675 g",
+    "color": "brown",
+    "spoils_in": "1 day",
+    "container": "bag_plastic",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 1,
+    "calories": 879,
+    "description": "This is a rehydrated meal meant for camping or hiking.",
+    "price": 1200,
+    "price_postapoc": 1400,
+    "material": [ "flesh", "egg", "junk" ],
+    "volume": "500ml",
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ] ],
+    "fun": 4
   }
 ]

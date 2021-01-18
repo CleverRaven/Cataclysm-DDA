@@ -601,6 +601,9 @@ void reinitialize_framebuffer()
         for( int i = 0; i < new_height; i++ ) {
             terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
         }
+    } else {
+        invalidate_framebuffer( oversized_framebuffer );
+        invalidate_framebuffer( terminal_framebuffer );
     }
 }
 
@@ -1988,11 +1991,11 @@ void update_finger_repeat_delay()
                                        longest_window_edge ) ) /
                             std::max( 0.01f, ( get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge ),
                             0.0f, 1.0f );
-    finger_repeat_delay = lerp<float>( std::pow( t, get_option<float>( "ANDROID_SENSITIVITY_POWER" ) ),
-                                       static_cast<uint32_t>( std::max( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ),
-                                               get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) ) ),
-                                       static_cast<uint32_t>( std::min( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ),
-                                               get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) ) ) );
+    float repeat_delay_min = static_cast<float>( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ) );
+    float repeat_delay_max = static_cast<float>( get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) );
+    finger_repeat_delay = lerp<float>( std::max( repeat_delay_min, repeat_delay_max ),
+                                       std::min( repeat_delay_min, repeat_delay_max ),
+                                       std::pow( t, get_option<float>( "ANDROID_SENSITIVITY_POWER" ) ) );
 }
 
 // TODO: Is there a better way to detect when string entry is allowed?

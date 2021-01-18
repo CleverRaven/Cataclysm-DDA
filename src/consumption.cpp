@@ -1507,7 +1507,7 @@ bool Character::can_consume( const item &it ) const
 item &Character::get_consumable_from( item &it ) const
 {
     item *ret = nullptr;
-    it.visit_items( [&]( item * it ) {
+    it.visit_items( [&]( item * it, item * ) {
         if( can_consume_as_is( *it ) ) {
             ret = it;
             return VisitResponse::ABORT;
@@ -1701,19 +1701,19 @@ trinary player::consume( item_location loc, bool force )
         debugmsg( "Null loc to consume." );
         return trinary::NONE;
     }
-    handle_contents_changed_helper handler( *this, loc );
+    contents_change_handler handler;
     item &target = *loc;
     trinary result = consume( target, force );
+    if( result != trinary::NONE ) {
+        handler.unseal_pocket_containing( loc );
+    }
     if( result == trinary::ALL ) {
         if( loc.where() == item_location::type::character ) {
             i_rem( loc.get_item() );
         } else {
             loc.remove_item();
         }
-
     }
-    if( result != trinary::NONE ) {
-        handler.handle();
-    }
+    handler.handle_by( *this );
     return result;
 }

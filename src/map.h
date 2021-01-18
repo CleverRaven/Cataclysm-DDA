@@ -81,7 +81,6 @@ struct MonsterGroupResult;
 struct mongroup;
 struct projectile;
 struct veh_collision;
-template<typename T>
 class visitable;
 
 struct wrapped_vehicle {
@@ -183,7 +182,8 @@ struct bash_params {
 class map
 {
         friend class editmap;
-        friend class visitable<map_cursor>;
+        friend std::list<item> map_cursor::remove_items_with( const std::function<bool( const item & )> &,
+                int );
 
     public:
         // Constructors & Initialization

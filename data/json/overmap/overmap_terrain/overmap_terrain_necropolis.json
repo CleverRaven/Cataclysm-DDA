@@ -315,6 +315,7 @@
   {
     "type": "overmap_terrain",
     "abstract": "generic_necropolis_underground",
+    "name": "underground",
     "color": "yellow",
     "see_cost": 999,
     "mondensity": 2

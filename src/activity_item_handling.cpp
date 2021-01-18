@@ -57,6 +57,7 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
@@ -166,8 +167,8 @@ static bool same_type( const std::list<item> &items )
     } );
 }
 
-// See also handle_contents_changed_helper and Character::handle_contents_changed
-// for contents handling of item_location.
+// Deprecated. See `contents_change_handler` and `Character::handle_contents_changed`
+// for contents handling with item_location.
 static bool handle_spillable_contents( Character &c, item &it, map &m )
 {
     if( it.is_bucket_nonempty() ) {
@@ -899,7 +900,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                                      const bool in_loot_zones, const tripoint &src_loc )
 {
     zone_manager &mgr = zone_manager::get_manager();
-    inventory temp_inv;
+    temp_crafting_inventory temp_inv;
     units::volume volume_allowed = p.volume_capacity() - p.volume_carried();
     units::mass weight_allowed = p.weight_capacity() - p.weight_carried();
     static const auto check_weight_if = []( const activity_id & id ) {
@@ -919,7 +920,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
         if( elem->has_quality( qual_WELD ) ) {
             found_welder = true;
         }
-        temp_inv += *elem;
+        temp_inv.add_item_ref( *elem );
     }
     map &here = get_map();
     for( const tripoint &elem : loot_spots ) {
@@ -935,7 +936,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 continue;
             }
         }
-        for( const item &elem2 : here.i_at( elem ) ) {
+        for( item &elem2 : here.i_at( elem ) ) {
             if( in_loot_zones && elem2.made_of_from_type( phase_id::LIQUID ) ) {
                 continue;
             }
@@ -946,7 +947,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                     continue;
                 }
             }
-            temp_inv += elem2;
+            temp_inv.add_item_ref( elem2 );
         }
         if( !in_loot_zones ) {
             if( const cata::optional<vpart_reference> vp = here.veh_at( elem ).part_with_feature( "CARGO",
@@ -954,7 +955,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 vehicle &src_veh = vp->vehicle();
                 int src_part = vp->part_index();
                 for( item &it : src_veh.get_items( src_part ) ) {
-                    temp_inv += it;
+                    temp_inv.add_item_ref( it );
                 }
             }
         }
@@ -970,11 +971,11 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 item welder( itype_welder, calendar::turn_zero );
                 welder.charges = veh_battery;
                 welder.set_flag( flag_PSEUDO );
-                temp_inv.add_item( welder );
+                temp_inv.add_item_copy( welder );
                 item soldering_iron( itype_soldering_iron, calendar::turn_zero );
                 soldering_iron.charges = veh_battery;
                 soldering_iron.set_flag( flag_PSEUDO );
-                temp_inv.add_item( soldering_iron );
+                temp_inv.add_item_copy( soldering_iron );
             }
         }
     }
@@ -2743,6 +2744,7 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
         // but now we are here, we check
         if( activity_to_restore != ACT_TIDY_UP &&
             activity_to_restore != ACT_MOVE_LOOT &&
+            activity_to_restore != ACT_FETCH_REQUIRED &&
             p.fine_detail_vision_mod( p.pos() ) > 4.0 ) {
             p.add_msg_if_player( m_info, _( "It is too dark to work here." ) );
             return false;
@@ -2879,10 +2881,13 @@ int get_auto_consume_moves( player &p, const bool food )
         const optional_vpart_position vp = here.veh_at( here.getlocal( loc ) );
         std::vector<item *> items_here;
         if( vp ) {
-            vehicle_stack vehitems = vp->vehicle().get_items( vp->vehicle().part_with_feature( vp->part_index(),
-                                     "CARGO", false ) );
-            for( item &it : vehitems ) {
-                items_here.push_back( &it );
+            vehicle &veh = vp->vehicle();
+            int index = veh.part_with_feature( vp->part_index(), "CARGO", false );
+            if( index >= 0 ) {
+                vehicle_stack vehitems = veh.get_items( index );
+                for( item &it : vehitems ) {
+                    items_here.push_back( &it );
+                }
             }
         } else {
             map_stack mapitems = here.i_at( here.getlocal( loc ) );

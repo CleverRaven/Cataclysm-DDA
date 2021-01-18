@@ -28,6 +28,7 @@ enum class requirement_check_result : int {
 };
 
 enum class butcher_type : int {
+    BLEED,          // bleeding a corpse
     QUICK,          // quick butchery
     FULL,           // full workshop butchery
     FIELD_DRESS,    // field dressing a corpse
@@ -124,6 +125,9 @@ namespace activity_handlers
 {
 
 bool resume_for_multi_activities( player &p );
+void generic_game_turn_handler( player_activity *act, player *p, int morale_bonus,
+                                int morale_max_bonus );
+
 /** activity_do_turn functions: */
 void fill_liquid_do_turn( player_activity *act, player *p );
 void pickaxe_do_turn( player_activity *act, player *p );
@@ -155,7 +159,6 @@ void chop_trees_do_turn( player_activity *act, player *p );
 void fetch_do_turn( player_activity *act, player *p );
 void move_loot_do_turn( player_activity *act, player *p );
 void travel_do_turn( player_activity *act, player *p );
-void drive_do_turn( player_activity *act, player *p );
 void adv_inventory_do_turn( player_activity *act, player *p );
 void armor_layers_do_turn( player_activity *act, player *p );
 void atm_do_turn( player_activity *act, player *p );
@@ -215,7 +218,6 @@ void wait_npc_finish( player_activity *act, player *p );
 void wait_stamina_finish( player_activity *act, player *p );
 void socialize_finish( player_activity *act, player *p );
 void operation_finish( player_activity *act, player *p );
-void disassemble_finish( player_activity *act, player *p );
 void vibe_finish( player_activity *act, player *p );
 void hand_crank_finish( player_activity *act, player *p );
 void atm_finish( player_activity *act, player *p );

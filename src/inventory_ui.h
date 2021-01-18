@@ -79,8 +79,10 @@ class inventory_entry
 
         inventory_entry( const std::vector<item_location> &locations,
                          const item_category *custom_category = nullptr,
-                         bool enabled = true ) :
+                         bool enabled = true,
+                         const size_t chosen_count = 0 ) :
             locations( locations ),
+            chosen_count( chosen_count ),
             custom_category( custom_category ),
             enabled( enabled )
         {}
@@ -238,13 +240,7 @@ class inventory_holster_preset : public inventory_selector_preset
         inventory_holster_preset( const item_location &holster ) : holster( holster ) {}
 
         /** Does this entry satisfy the basic preset conditions? */
-        bool is_shown( const item_location &contained ) const override {
-            item item_copy( *contained );
-            item_copy.charges = 1;
-            return holster->contents.can_contain( item_copy ).success() && !holster->has_item( *contained ) &&
-                   !contained->is_bucket_nonempty() && ( holster->contents.all_pockets_rigid() ||
-                           holster.parents_can_contain_recursive( &item_copy ) );
-        }
+        bool is_shown( const item_location &contained ) const override;
     private:
         // this is the item that we are putting something into
         item_location holster;
@@ -358,7 +354,7 @@ class inventory_column
          */
         virtual void on_input( const inventory_input &input );
         /** The entry has been changed. */
-        virtual void on_change( const inventory_entry & ) {}
+        virtual void on_change( const inventory_entry &entry );
         /** The column has been activated. */
         virtual void on_activate() {
             active = true;
@@ -372,7 +368,7 @@ class inventory_column
             this->mode = mode;
         }
 
-        void set_filter( const std::string &filter );
+        virtual void set_filter( const std::string &filter );
 
         // whether or not to indent contained entries
         bool indent_entries() const {
@@ -485,6 +481,8 @@ class selection_column : public inventory_column
             // Intentionally ignore mode change.
         }
 
+        void set_filter( const std::string &filter ) override;
+
     private:
         const pimpl<item_category> selected_cat;
         inventory_entry last_changed;
@@ -544,7 +542,8 @@ class inventory_selector
 
         void add_entry( inventory_column &target_column,
                         std::vector<item_location> &&locations,
-                        const item_category *custom_category = nullptr );
+                        const item_category *custom_category = nullptr,
+                        size_t chosen_count = 0 );
 
         void add_item( inventory_column &target_column,
                        item_location &&location,
@@ -603,6 +602,8 @@ class inventory_selector
         /** Highlight parent and contents of selected item.
         */
         void highlight();
+        /** Show detailed item information for selected item. */
+        void action_examine( const item *sitem );
 
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor
@@ -776,7 +777,8 @@ class inventory_drop_selector : public inventory_multiselector
     public:
         inventory_drop_selector( Character &p,
                                  const inventory_selector_preset &preset = default_preset,
-                                 const std::string &selection_column_title = _( "ITEMS TO DROP" ) );
+                                 const std::string &selection_column_title = _( "ITEMS TO DROP" ),
+                                 bool warn_liquid = true );
         drop_locations execute();
     protected:
         stats get_raw_stats() const override;
@@ -788,6 +790,7 @@ class inventory_drop_selector : public inventory_multiselector
         void deselect_contained_items();
         std::vector<std::pair<item_location, int>> dropping;
         size_t max_chosen_count;
+        bool warn_liquid;
 };
 
 #endif // CATA_SRC_INVENTORY_UI_H

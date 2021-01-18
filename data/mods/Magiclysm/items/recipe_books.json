@@ -170,5 +170,24 @@
     "intelligence": 10,
     "time": "25 m",
     "fun": -1
+  },
+  {
+    "id": "enchantment_basic",
+    "type": "BOOK",
+    "name": { "str": "The art of Enchantment", "str_pl": "copies of The art of Enchantment" },
+    "description": "A paperback tome on the art of imbuing items with magic properties.",
+    "weight": "1 kg",
+    "volume": "750 ml",
+    "price": 7900,
+    "bashing": 5,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "white",
+    "skill": "fabrication",
+    "required_level": 6,
+    "max_level": 8,
+    "intelligence": 10,
+    "time": "25 m",
+    "fun": -1
   }
 ]

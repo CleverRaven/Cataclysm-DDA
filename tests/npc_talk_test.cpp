@@ -97,6 +97,7 @@ static npc &prep_test( dialogue &d )
 {
     clear_avatar();
     clear_vehicles();
+    clear_map();
     avatar &player_character = get_avatar();
     player_character.name = "Alpha Avatar";
     REQUIRE_FALSE( player_character.in_vehicle );

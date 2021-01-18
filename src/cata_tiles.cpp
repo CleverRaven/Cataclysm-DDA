@@ -645,6 +645,10 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
             for( const JsonObject mod_config : mod_config_json.get_array() ) {
                 if( mod_config.get_string( "type" ) == "mod_tileset" ) {
                     if( num_in_file == mts.num_in_file() ) {
+                        // visit this if it exists, it's used elsewhere
+                        if( mod_config.has_member( "compatibility" ) ) {
+                            mod_config.get_member( "compatibility" );
+                        }
                         load_internal( mod_config, tileset_root, img_path );
                         break;
                     }

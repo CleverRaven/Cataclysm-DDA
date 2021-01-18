@@ -13,6 +13,7 @@
 #include "input.h"
 #include "json.h"
 #include "output.h"
+#include "panels.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -472,8 +473,9 @@ Messages::dialog::dialog()
 
 void Messages::dialog::init( ui_adaptor &ui )
 {
-    w_width = std::min( TERMX, FULL_SCREEN_WIDTH );
-    w_height = std::min( TERMY, FULL_SCREEN_HEIGHT );
+    w_width = std::max( 45, TERMX - 2 * ( panel_manager::get_manager().get_width_right() +
+                                          panel_manager::get_manager().get_width_left() ) );
+    w_height = TERMY;
     w_x = ( TERMX - w_width ) / 2;
     w_y = ( TERMY - w_height ) / 2;
 
