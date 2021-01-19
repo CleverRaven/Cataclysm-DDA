@@ -1243,8 +1243,8 @@ units::volume Character::masticated_volume( const item &food ) const
 {
     units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
                               5_ml : 0_ml;
-    units::mass food_dry_weight = units::from_gram( units::to_gram( food.weight() ) / food.count() -
-                                  units::to_milliliter( water_vol ) );
+    units::mass water_weight = units::from_gram( units::to_milliliter( water_vol ) );
+    units::mass food_dry_weight = food.weight() / food.count() - water_weight;
     units::volume food_dry_volume = food.volume() / food.count() - water_vol ;
 
     if( units::to_milliliter( food_dry_volume ) != 0 &&
