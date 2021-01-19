@@ -490,8 +490,34 @@ character_id Character::getID() const
 
 void Character::randomize_blood()
 {
-    my_blood_type = static_cast<blood_type>( rng( 0, static_cast<int>( blood_type::num_bt ) - 1 ) );
-    blood_rh_factor = one_in( 2 );
+    // Blood type distribution data is taken from this study on blood types of
+    // COVID-19 patients presented to five major hospitals in Massachusetts:
+    // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7354354/
+    // and is adjusted for racial/ethnic distribution in game, which is defined in
+    // data/json/npcs/appearance_trait_groups.json
+    static const std::array<std::tuple<double, blood_type, bool>, 8> blood_type_distribution = {{
+            std::make_tuple( 0.3821, blood_type::blood_O, true ),
+            std::make_tuple( 0.0387, blood_type::blood_O, false ),
+            std::make_tuple( 0.3380, blood_type::blood_A, true ),
+            std::make_tuple( 0.0414, blood_type::blood_A, false ),
+            std::make_tuple( 0.1361, blood_type::blood_B, true ),
+            std::make_tuple( 0.0134, blood_type::blood_B, false ),
+            std::make_tuple( 0.0437, blood_type::blood_AB, true ),
+            std::make_tuple( 0.0066, blood_type::blood_AB, false )
+        }
+    };
+    const double x = rng_float( 0.0, 1.0 );
+    double cumulative_prob = 0.0;
+    for( const std::tuple<double, blood_type, bool> &type : blood_type_distribution ) {
+        cumulative_prob += std::get<0>( type );
+        if( x <= cumulative_prob ) {
+            my_blood_type = std::get<1>( type );
+            blood_rh_factor = std::get<2>( type );
+            return;
+        }
+    }
+    my_blood_type = blood_type::blood_AB;
+    blood_rh_factor = false;
 }
 
 field_type_id Character::bloodType() const
@@ -9722,7 +9748,7 @@ ret_val<bool> Character::can_wield( const item &it ) const
 
 bool Character::has_wield_conflicts( const item &it ) const
 {
-    return is_armed() && !it.can_combine( weapon );
+    return is_wielding( it ) || ( is_armed() && !it.can_combine( weapon ) );
 }
 
 bool Character::unwield()
@@ -11282,6 +11308,23 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
     return use_charges( what, qty, -1, filter );
 }
 
+const item *Character::find_firestarter_with_charges( const int quantity ) const
+{
+    for( const item *i : all_items_with_flag( flag_FIRESTARTER ) ) {
+        if( !i->typeId()->can_have_charges() ) {
+            const use_function *usef = i->type->get_use( "firestarter" );
+            const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+            if( actor->can_use( *this->as_character(), *i, false, tripoint_zero ).success() ) {
+                return i;
+            }
+        } else if( has_charges( i->typeId(), quantity ) ) {
+            return i;
+        }
+    }
+
+    return nullptr;
+}
+
 bool Character::has_fire( const int quantity ) const
 {
     // TODO: Replace this with a "tool produces fire" flag.
@@ -11290,19 +11333,8 @@ bool Character::has_fire( const int quantity ) const
         return true;
     } else if( has_item_with_flag( flag_FIRE ) ) {
         return true;
-    } else if( has_item_with_flag( flag_FIRESTARTER ) ) {
-        auto firestarters = all_items_with_flag( flag_FIRESTARTER );
-        for( auto &i : firestarters ) {
-            if( !i->typeId()->can_have_charges() ) {
-                const use_function *usef = i->type->get_use( "firestarter" );
-                const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                if( actor->can_use( *this->as_character(), *i, false, tripoint_zero ).success() ) {
-                    return true;
-                }
-            } else if( has_charges( i->typeId(), quantity ) ) {
-                return true;
-            }
-        }
+    } else if( find_firestarter_with_charges( quantity ) ) {
+        return true;
     } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
         return true;
     } else if( has_bionic( bio_lighter ) && get_power_level() > quantity * 5_kJ ) {
@@ -11313,6 +11345,7 @@ bool Character::has_fire( const int quantity ) const
         // HACK: A hack to make NPCs use their Molotovs
         return true;
     }
+
     return false;
 }
 
@@ -11355,13 +11388,10 @@ void Character::use_fire( const int quantity )
         return;
     } else if( has_item_with_flag( flag_FIRE ) ) {
         return;
-    } else if( has_item_with_flag( flag_FIRESTARTER ) ) {
-        auto firestarters = all_items_with_flag( flag_FIRESTARTER );
-        for( auto &i : firestarters ) {
-            if( has_charges( i->typeId(), quantity ) ) {
-                use_charges( i->typeId(), quantity );
-                return;
-            }
+    } else if( const item *firestarter = find_firestarter_with_charges( quantity ) ) {
+        if( firestarter->typeId()->can_have_charges() ) {
+            use_charges( firestarter->typeId(), quantity );
+            return;
         }
     } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
         mod_power_level( -quantity * 5_kJ );

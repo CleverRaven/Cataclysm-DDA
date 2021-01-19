@@ -179,6 +179,7 @@ class generic_factory
         const T dummy_obj;
 
     public:
+        const bool initialized;
         /**
          * @param type_name A string used in debug messages as the name of `T`,
          * for example "vehicle type".
@@ -192,7 +193,8 @@ class generic_factory
             : type_name( type_name ),
               id_member_name( id_member_name ),
               alias_member_name( alias_member_name ),
-              dummy_obj() {
+              dummy_obj(),
+              initialized( true ) {
         }
 
         /**

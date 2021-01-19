@@ -100,8 +100,8 @@ struct weariness_events {
         std::vector<weary_transition> transitions;
 
     public:
-        void log( int old_level, int new_level, const time_duration &when, int new_weariness,
-                  int new_threshold );
+        void log( int old_level, int new_level, const time_duration &when,
+                  int new_weariness, int new_threshold );
 
         // Return the first time a transition between `from` and `to` occurs, in minutes
         // if around = 0_seconds or equivalent, otherwise return the time closest to around

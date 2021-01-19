@@ -28,6 +28,7 @@ enum class requirement_check_result : int {
 };
 
 enum class butcher_type : int {
+    BLEED,          // bleeding a corpse
     QUICK,          // quick butchery
     FULL,           // full workshop butchery
     FIELD_DRESS,    // field dressing a corpse
