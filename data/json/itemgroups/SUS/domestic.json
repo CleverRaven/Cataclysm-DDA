@@ -518,11 +518,18 @@
         "collection": [
           { "item": "toaster" },
           {
-            "distribution": [ { "item": "bread", "charges": [ 2, 12 ], "prob": 70 }, { "item": "sourdough_bread", "charges": [ 2, 12 ], "prob": 30 } ],
+            "distribution": [
+              { "item": "bread", "charges": [ 2, 12 ], "prob": 70 },
+              { "item": "sourdough_bread", "charges": [ 2, 12 ], "prob": 30 }
+            ],
             "prob": 80
           },
           {
-            "distribution": [ { "item": "toastem", "charges": [ 1, 8 ], "prob": 40 }, { "item": "toastem2", "charges": [ 1, 8 ], "prob": 30 }, { "item": "toastem3", "charges": [ 1, 8 ], "prob": 30 } ],
+            "distribution": [
+              { "item": "toastem", "charges": [ 1, 8 ], "prob": 40 },
+              { "item": "toastem2", "charges": [ 1, 8 ], "prob": 30 },
+              { "item": "toastem3", "charges": [ 1, 8 ], "prob": 30 }
+            ],
             "prob": 60
           }
         ],
