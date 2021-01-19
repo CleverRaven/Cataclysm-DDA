@@ -1661,7 +1661,7 @@ craft_activity_actor::craft_activity_actor( item_location &it, const bool is_lon
 {
 }
 
-static bool check_if_craft_okay( item_location &craft_item, Character &crafter )
+bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Character &crafter )
 {
     item *craft = craft_item.get_item();
 
@@ -1681,7 +1681,10 @@ static bool check_if_craft_okay( item_location &craft_item, Character &crafter )
         return false;
     }
 
-    return crafter.can_continue_craft( *craft );
+    if( !cached_continuation_requirements ) {
+        cached_continuation_requirements = craft->get_continue_reqs();
+    }
+    return crafter.can_continue_craft( *craft, *cached_continuation_requirements );
 }
 
 void craft_activity_actor::start( player_activity &act, Character &crafter )

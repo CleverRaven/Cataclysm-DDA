@@ -90,6 +90,7 @@ static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
 
 static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 
@@ -871,11 +872,20 @@ void Character::craft_skill_gain( const item &craft, const int &multiplier )
     std::vector<npc *> helpers = get_crafting_helpers();
 
     if( making.skill_used ) {
+        // What we're doing here is taking the amount of time the craft will actually take and
+        // the amount of time it will take without factoring in proficiency losses or
+        // assistants or batch efficiencies and averaging them.
+        // The reason for this is gaining skill practice at "full" rate for slowed down crafting is
+        // incredibly generous, and gaining skill practice at the reduced rate for
+        // missing proficiencies is incredibly harsh, so we're just splitting the difference.
+        const double actual_craft_time = base_time_to_craft( making, batch_size );
+        const double nominal_craft_time = making.time_to_craft_moves( *this,
+                                          recipe_time_flag::ignore_proficiencies );
+        const double adjusted_craft_time = ( actual_craft_time + nominal_craft_time ) / 2.0;
         // Normalize experience gain to crafting time, giving a bonus for longer crafting
-        const double batch_mult = batch_size + base_time_to_craft( making, batch_size ) / 30000.0;
+        const double batch_mult = batch_size + ( adjusted_craft_time / 30000.0 );
         // This is called after every 5% crafting progress, so divide by 20
-        const int base_practice = roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult /
-                                  20.0 ) * multiplier;
+        const int base_practice = ( making.difficulty * 15 + 10 ) * ( batch_mult / 20.0 ) * multiplier;
         const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
         practice( making.skill_used, base_practice, skill_cap, true );
 
@@ -949,6 +959,9 @@ void Character::craft_proficiency_gain( const item &craft, const time_duration &
 
 double Character::crafting_success_roll( const recipe &making ) const
 {
+    if( has_trait( trait_DEBUG_CNF ) ) {
+        return 1.0;
+    }
     int secondary_dice = 0;
     int secondary_difficulty = 0;
     for( const auto &pr : making.required_skills ) {
@@ -1335,10 +1348,12 @@ bool Character::can_continue_craft( item &craft )
         return false;
     }
 
+    return can_continue_craft( craft, craft.get_continue_reqs() );
+}
+
+bool Character::can_continue_craft( item &craft, const requirement_data &continue_reqs )
+{
     const recipe &rec = craft.get_making();
-
-    const requirement_data continue_reqs = craft.get_continue_reqs();
-
     if( !rec.character_has_required_proficiencies( *this ) ) {
         return false;
     }
