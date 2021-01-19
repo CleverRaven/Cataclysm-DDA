@@ -1606,10 +1606,7 @@
   {
     "id": "toolbox_workshop",
     "type": "TOOL",
-    "name": {
-      "str": "workshop toolbox",
-      "str_pl": "workshop toolboxes"
-    },
+    "name": { "str": "workshop toolbox", "str_pl": "workshop toolboxes" },
     "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities, as well as additional tools used in workshops for advanced fabrication jobs.",
     "looks_like": "toolbox",
     "weight": "3994 g",
@@ -1640,26 +1637,5 @@
       [ "VISE", 1 ]
     ],
     "use_action": [ "HAMMER", "CROWBAR" ]
-  },
-  {
-    "id": "towel_soiled",
-    "type": "TOOL_ARMOR",
-    "repairs_like": "towel",
-    "symbol": ",",
-    "color": "magenta",
-    "name": { "str": "soiled towel" },
-    "description": "This is a large towel, covered in a thick, gooey liquid.  You'll need to wash it in some water to make it usable again.  Don't panic.",
-    "price": 2000,
-    "price_postapoc": 0,
-    "material": [ "cotton" ],
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "weight": "400 g",
-    "volume": "500 ml",
-    "to_hit": -1,
-    "revert_to": "towel",
-    "use_action": [ "TOWEL" ],
-    "flags": [ "WET" ],
-    "coverage": 50,
-    "material_thickness": 1
   }
 ]
