@@ -207,7 +207,7 @@ class veh_interact
 
         void calc_overview();
         void calc_vehicle_header( const vehicle *car );
-        std::vector<part_option> get_vehicle_overview( const vehicle *car, const bool is_carried = false );
+        std::vector<part_option> get_vehicle_overview( const vehicle *car, bool is_carried = false );
         void display_overview();
         /**
          * Display overview of parts, optionally with interactive selection of one part
