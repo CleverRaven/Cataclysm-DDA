@@ -5069,6 +5069,16 @@ std::string Character::debug_weary_info() const
                           get_healthy_kcal(), fatigue, morale, weight, bmi );
 }
 
+int Character::weary_tracker() const
+{
+    return weary.tracker;
+}
+
+int Character::weary_intake() const
+{
+    return weary.intake;
+}
+
 void weariness_tracker::clear()
 {
     tracker = 0;
