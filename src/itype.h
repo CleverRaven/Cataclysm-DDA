@@ -731,7 +731,7 @@ struct islot_ammo : common_ranged_data {
      * Some combat ammo might not have a damage value
      * Set this to make it show as combat ammo anyway
      */
-    cata::optional<bool> force_stat_display;
+    bool force_stat_display;
 
     bool was_loaded = false;
 

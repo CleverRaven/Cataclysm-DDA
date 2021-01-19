@@ -2130,6 +2130,17 @@ static hint_rating rate_action_wield( const avatar &you, const item &it )
     return you.can_wield( it ).success() ? hint_rating::good : hint_rating::iffy;
 }
 
+static hint_rating rate_action_insert( const avatar &you, const item_location &loc )
+{
+    if( loc->will_spill_if_unsealed()
+        && loc.where() != item_location::type::map
+        && !you.is_wielding( *loc ) ) {
+
+        return hint_rating::cant;
+    }
+    return hint_rating::good;
+}
+
 /* item submenu for 'i' and '/'
 * It use draw_item_info to draw item info and action menu
 *
@@ -2193,7 +2204,7 @@ int game::inventory_item_menu( item_location locThisItem,
         addentry( 'm', pgettext( "action", "mend" ), rate_action_mend( u, oThisItem ) );
         addentry( 'D', pgettext( "action", "disassemble" ), rate_action_disassemble( u, oThisItem ) );
         if( oThisItem.has_pockets() ) {
-            addentry( 'i', pgettext( "action", "insert" ), hint_rating::good );
+            addentry( 'i', pgettext( "action", "insert" ), rate_action_insert( u, locThisItem ) );
             if( oThisItem.contents.num_item_stacks() > 0 ) {
                 addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
             }
@@ -2285,31 +2296,41 @@ int game::inventory_item_menu( item_location locThisItem,
                 ui = nullptr;
             }
 
-            handle_contents_changed_helper handler( u, locThisItem );
             switch( cMenu ) {
-                case 'a':
+                case 'a': {
+                    contents_change_handler handler;
+                    handler.unseal_pocket_containing( locThisItem );
                     avatar_action::use_item( u, locThisItem );
-                    handler.handle();
+                    handler.handle_by( u );
                     break;
+                }
                 case 'E':
                     avatar_action::eat( u, locThisItem );
                     break;
-                case 'W':
+                case 'W': {
+                    contents_change_handler handler;
+                    handler.unseal_pocket_containing( locThisItem );
                     u.wear( locThisItem );
-                    handler.handle();
+                    handler.handle_by( u );
                     break;
+                }
                 case 'w':
                     if( u.can_wield( *locThisItem ).success() ) {
+                        contents_change_handler handler;
+                        handler.unseal_pocket_containing( locThisItem );
                         wield( locThisItem );
+                        handler.handle_by( u );
                     } else {
                         add_msg( m_info, "%s", u.can_wield( *locThisItem ).c_str() );
                     }
-                    handler.handle();
                     break;
-                case 't':
+                case 't': {
+                    contents_change_handler handler;
+                    handler.unseal_pocket_containing( locThisItem );
                     avatar_action::plthrow( u, locThisItem );
-                    handler.handle();
+                    handler.handle_by( u );
                     break;
+                }
                 case 'c':
                     u.change_side( locThisItem );
                     break;
@@ -2318,35 +2339,36 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'd':
                     u.drop( locThisItem, u.pos() );
-                    handler.handle();
                     break;
                 case 'U':
                     u.unload( locThisItem );
-                    handler.handle();
                     break;
                 case 'r':
                     reload( locThisItem );
-                    handler.handle();
                     break;
                 case 'p':
                     reload( locThisItem, true );
-                    handler.handle();
                     break;
                 case 'm':
                     avatar_action::mend( u, locThisItem );
-                    handler.handle();
                     break;
                 case 'R':
                     u.read( oThisItem );
-                    handler.handle();
                     break;
                 case 'D':
                     u.disassemble( locThisItem, false );
-                    handler.handle();
                     break;
                 case 'f':
                     oThisItem.is_favorite = !oThisItem.is_favorite;
-                    handler.handle();
+                    if( locThisItem.has_parent() ) {
+                        item_location parent = locThisItem.parent_item();
+                        item_pocket *const pocket = parent->contained_where( oThisItem );
+                        if( pocket ) {
+                            pocket->restack();
+                        } else {
+                            debugmsg( "parent container does not contain item" );
+                        }
+                    }
                     break;
                 case 'v':
                     if( oThisItem.has_pockets() ) {
@@ -2362,7 +2384,6 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( oThisItem.has_pockets() && oThisItem.contents.num_item_stacks() > 0 ) {
                         game_menus::inv::common( locThisItem, u );
                     }
-                    handler.handle();
                     break;
                 case '=':
                     game_menus::inv::reassign_letter( u, oThisItem );
@@ -5932,7 +5953,7 @@ void game::examine( const tripoint &examp )
                 if( monexamine::pay_bot( *mon ) ) {
                     return;
                 }
-            } else if( mon->attitude_to( u ) == Creature::Attitude::FRIENDLY ) {
+            } else if( mon->attitude_to( u ) == Creature::Attitude::FRIENDLY && !u.is_mounted() ) {
                 if( monexamine::mfriend_menu( *mon ) ) {
                     return;
                 }
@@ -6221,7 +6242,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
     auto this_sound = sounds::sound_at( lp );
     if( !this_sound.empty() ) {
         const int lines = fold_and_print( w_look, point( 1, ++line ), max_width, c_light_gray,
-                                          _( "You heard %s from here." ),
+                                          _( "From here you heard %s" ),
                                           this_sound );
         line += lines - 1;
     } else {
@@ -6236,7 +6257,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
             if( !zlev_sound.empty() ) {
                 const int lines = fold_and_print( w_look, point( 1, ++line ), max_width, c_light_gray,
                                                   tmp.z > lp.z ?
-                                                  _( "You heard %s from above." ) : _( "You heard %s from below." ), this_sound );
+                                                  _( "From above you heard %s" ) : _( "From below you heard %s" ), zlev_sound );
                 line += lines - 1;
             }
         }
@@ -8598,6 +8619,7 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                    ? string_format( _( "Your best tool has <color_cyan>%d fine cutting</color>." ), factorD )
                                    :  _( "You have no fine cutting tool." );
 
+    bool has_blood = false;
     bool has_skin = false;
     bool has_organs = false;
 
@@ -8605,11 +8627,18 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
         const mtype *dead_mon = corpses[index]->get_mtype();
         if( dead_mon ) {
             for( const harvest_entry &entry : dead_mon->harvest.obj() ) {
-                if( entry.type == "skin" ) {
+                if( entry.type == "skin" && !corpses[index]->has_flag( flag_SKINNED ) ) {
                     has_skin = true;
                 }
-                if( entry.type == "offal" ) {
+                if( entry.type == "offal" && !( corpses[index]->has_flag( flag_QUARTERED ) ||
+                                                corpses[index]->has_flag( flag_FIELD_DRESS ) ||
+                                                corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
                     has_organs = true;
+                }
+                if( entry.type == "blood" && !( corpses[index]->has_flag( flag_QUARTERED ) ||
+                                                corpses[index]->has_flag( flag_FIELD_DRESS ) ||
+                                                corpses[index]->has_flag( flag_FIELD_DRESS_FAILED ) || corpses[index]->has_flag( flag_BLED ) ) ) {
+                    has_blood = true;
                 }
             }
         }
@@ -8663,6 +8692,16 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "too small to yield a full-sized hide and will instead produce "
                                           "scraps that can be used in other ways." ),
                                        msgFactor ) );
+    smenu.addentry_col( static_cast<int>( butcher_type::BLEED ), enough_light && has_blood,
+                        'l', _( "Bleed corpse" ),
+                        enough_light ? ( has_blood ? cut_time( butcher_type::BLEED ) : colorize( _( "has no blood" ),
+                                         c_red ) ) : cannot_see,
+                        string_format( "%s  %s",
+                                       _( "Bleeding involves severing the carotid arteries and jugular "
+                                          "veins, or the blood vessels from which they arise.  "
+                                          "You need skill and an appropriately sharp and precise knife "
+                                          "to do a good job." ),
+                                       msgFactor ) );
     smenu.addentry_col( static_cast<int>( butcher_type::QUARTER ), enough_light,
                         'k', _( "Quarter corpse" ),
                         enough_light ? cut_time( butcher_type::QUARTER ) : cannot_see,
@@ -8704,6 +8743,9 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
             break;
         case static_cast<int>( butcher_type::SKIN ):
             player_character.assign_activity( activity_id( "ACT_SKIN" ), 0, true );
+            break;
+        case static_cast<int>( butcher_type::BLEED ) :
+            player_character.assign_activity( activity_id( "ACT_BLEED" ), 0, true );
             break;
         case static_cast<int>( butcher_type::QUARTER ):
             player_character.assign_activity( activity_id( "ACT_QUARTER" ), 0, true );

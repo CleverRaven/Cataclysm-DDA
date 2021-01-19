@@ -462,7 +462,8 @@
           { "item": "dissection", "chance": 60 },
           { "item": "bionics_common", "chance": 10 },
           { "item": "mut_lab", "chance": 5 }
-        ]
+        ],
+        "?": { "item": "autodoc_supplies", "chance": 100 }
       },
       "monster": { "Z": { "monster": "mon_zombie_prisoner" }, "C": { "monster": "mon_broken_cyborg" } }
     }

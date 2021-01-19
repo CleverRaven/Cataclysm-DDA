@@ -543,6 +543,23 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "JOY" ) );
 
             append_cell( []( const item_location & loc ) {
+                const int health = loc->is_comestible() ? loc->get_comestible()->healthy : 0;
+                if( health > 3 ) {
+                    return "<good>+++</good>";
+                } else if( health > 0 ) {
+                    return "<good>+</good>";
+                } else if( health < -3 ) {
+                    return "<bad>!!!</bad>";
+                } else if( health < 0 ) {
+                    return "<bad>-</bad>";
+                } else if( loc->is_medication() ) {
+                    return "";
+                } else {
+                    return "";
+                }
+            }, _( "HEALTH" ) );
+
+            append_cell( []( const item_location & loc ) {
                 const time_duration spoils = loc->is_comestible() ? loc->get_comestible()->spoils :
                                              calendar::INDEFINITELY_LONG_DURATION;
                 if( spoils > 0_turns ) {
@@ -1216,24 +1233,24 @@ class weapon_inventory_preset: public inventory_selector_preset
 
                 if( loc->ammo_data() && loc->ammo_remaining() ) {
                     const int basic_damage = loc->gun_damage( false ).total_damage();
-                    if( loc->ammo_data()->ammo->damage.damage_units.front().unconditional_damage_mult != 1.0f ) {
-                        const float ammo_mult =
-                            loc->ammo_data()->ammo->damage.damage_units.front().unconditional_damage_mult;
-
-                        return string_format( "%s<color_light_gray>*</color>%s <color_light_gray>=</color> %s",
-                                              get_damage_string( basic_damage, true ),
-                                              get_damage_string( ammo_mult, true ),
-                                              get_damage_string( total_damage, true )
-                                            );
-                    } else {
-                        const int ammo_damage = loc->ammo_data()->ammo->damage.total_damage();
-
-                        return string_format( "%s<color_light_gray>+</color>%s <color_light_gray>=</color> %s",
-                                              get_damage_string( basic_damage, true ),
-                                              get_damage_string( ammo_damage, true ),
-                                              get_damage_string( total_damage, true )
-                                            );
+                    const damage_instance &damage = loc->ammo_data()->ammo->damage;
+                    if( !damage.empty() ) {
+                        const float ammo_mult = damage.damage_units.front().unconditional_damage_mult;
+                        if( ammo_mult != 1.0f ) {
+                            return string_format( "%s<color_light_gray>*</color>%s <color_light_gray>=</color> %s",
+                                                  get_damage_string( basic_damage, true ),
+                                                  get_damage_string( ammo_mult, true ),
+                                                  get_damage_string( total_damage, true )
+                                                );
+                        }
                     }
+                    const int ammo_damage = damage.total_damage();
+
+                    return string_format( "%s<color_light_gray>+</color>%s <color_light_gray>=</color> %s",
+                                          get_damage_string( basic_damage, true ),
+                                          get_damage_string( ammo_damage, true ),
+                                          get_damage_string( total_damage, true )
+                                        );
                 } else {
                     return get_damage_string( total_damage );
                 }
@@ -1348,8 +1365,17 @@ drop_locations game_menus::inv::holster( player &p, const item_location &holster
 
 void game_menus::inv::insert_items( avatar &you, item_location &holster )
 {
+    if( holster->will_spill_if_unsealed()
+        && holster.where() != item_location::type::map
+        && !get_player_character().is_wielding( *holster ) ) {
+
+        you.add_msg_if_player( m_info, _( "The %s would spill unless it's on the ground or wielded." ),
+                               holster->type_name() );
+        return;
+    }
     drop_locations holstered_list = game_menus::inv::holster( you, holster );
     bool all_pockets_rigid = holster->contents.all_pockets_rigid();
+    contents_change_handler handler;
     for( drop_location holstered_item : holstered_list ) {
         if( !holstered_item.first ) {
             continue;
@@ -1358,8 +1384,11 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
         bool success = false;
         if( !it.count_by_charges() ) {
             if( all_pockets_rigid || holster.parents_can_contain_recursive( &it ) ) {
-                success = holster->put_in( it, item_pocket::pocket_type::CONTAINER ).success();
+                success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
+                                           /*unseal_pockets=*/true ).success();
                 if( success ) {
+                    handler.add_unsealed( holster );
+                    handler.unseal_pocket_containing( holstered_item.first );
                     holstered_item.first.remove_item();
                 }
             }
@@ -1368,10 +1397,14 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
                           holster.max_charges_by_parent_recursive( it ) );
 
             if( charges > 0 && holster->can_contain_partial( it ) ) {
-                int result = holster->fill_with( it, charges );
+                int result = holster->fill_with( it, charges,
+                                                 /*unseal_pockets=*/true,
+                                                 /*allow_sealed=*/true );
                 success = result > 0;
 
                 if( success ) {
+                    handler.add_unsealed( holster );
+                    handler.unseal_pocket_containing( holstered_item.first );
                     it.charges -= result;
                     if( it.charges == 0 ) {
                         holstered_item.first.remove_item();
@@ -1385,6 +1418,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
                                        _( "Could not put %s into %s, aborting." ), it.tname(), holster->tname() ) );
         }
     }
+    handler.handle_by( you );
 }
 
 class saw_barrel_inventory_preset: public weapon_inventory_preset

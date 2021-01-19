@@ -597,6 +597,7 @@
       [ "bronze_medal", 3 ],
       [ "silver_medal", 2 ],
       [ "gold_medal", 1 ],
+      [ "freeze_dried_meal", 5 ],
       { "group": "tinware", "prob": 10 },
       { "item": "pen", "prob": 10, "charges": [ 0, 300 ] }
     ]
@@ -627,6 +628,7 @@
     "id": "mil_surplus",
     "items": [
       { "group": "mags_surplus", "prob": 400 },
+      [ "freeze_dried_meal", 20 ],
       [ "knife_combat", 14 ],
       [ "knife_rm42", 1 ],
       [ "kukri", 2 ],

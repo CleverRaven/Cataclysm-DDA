@@ -1672,7 +1672,7 @@ void islot_ammo::load( const JsonObject &jo )
     optional( jo, was_loaded, "loudness", loudness, -1 );
     assign( jo, "effects", ammo_effects );
     optional( jo, was_loaded, "critical_multiplier", critical_multiplier, 2.0 );
-    optional( jo, was_loaded, "show_stats", force_stat_display, cata::nullopt );
+    optional( jo, was_loaded, "show_stats", force_stat_display, false );
 }
 
 void islot_ammo::deserialize( JsonIn &jsin )

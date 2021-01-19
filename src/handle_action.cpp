@@ -288,7 +288,7 @@ input_context game::get_player_input( std::string &action )
                 }
             }
             // don't bother calculating SCT if we won't show it
-            if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) ) {
+            if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) && !SCT.vSCT.empty() ) {
                 invalidate_main_ui_adaptor();
 
                 SCT.advanceAllSteps();
@@ -1943,6 +1943,7 @@ bool game::handle_action()
                 } else if( mouse_target ) {
                     pickup( *mouse_target );
                 } else {
+                    player_character.stop_hauling();
                     pickup();
                 }
                 break;
@@ -1953,6 +1954,7 @@ bool game::handle_action()
                 } else if( u.has_effect( effect_incorporeal ) ) {
                     add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else {
+                    player_character.stop_hauling();
                     pickup_feet();
                 }
                 break;

@@ -1799,8 +1799,11 @@ it is present to help catch errors.
 "debug": false,     //Trait is for debug purposes (default: false)
 "player_display": true, //Trait is displayed in the `@` player display menu
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
-"prereqs": ["SKIN_ROUGH"], // Needs these mutations before you can mutate toward this mutation
-"prereqs2": ["LEAVES"], //Also need these mutations before you can mutate towards this mutation. When both set creates 2 different mutation paths, random from one is picked. Only use together with "prereqs"
+// prereqs and prereqs2 specify prerequisites of the current mutation
+// Both are optional, but if prereqs2 is specified prereqs must also be specified
+// The example below means: ( "SLOWREADER" OR "ILLITERATE") AND ("CEPH_EYES" OR "LIZ_EYE")
+"prereqs": [ "SLOWREADER", "ILLITERATE"],
+"prereqs2": [ "CEPH_EYES", "LIZ_EYE" ],
 "threshreq": ["THRESH_SPIDER"], //Required threshold for this mutation to be possible
 "cancels": ["ROT1", "ROT2", "ROT3"], // Cancels these mutations when mutating
 "changes_to": ["FASTHEALER2"], // Can change into these mutations when mutating further

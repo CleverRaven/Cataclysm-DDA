@@ -2310,6 +2310,7 @@ void item::craft_data::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "making", making->ident().str() );
+    jsout.member( "disassembly", disassembly );
     jsout.member( "comps_used", comps_used );
     jsout.member( "next_failure_point", next_failure_point );
     jsout.member( "tools_to_continue", tools_to_continue );
@@ -2325,7 +2326,13 @@ void item::craft_data::deserialize( JsonIn &jsin )
 void item::craft_data::deserialize( const JsonObject &obj )
 {
     obj.allow_omitted_members();
-    making = &recipe_id( obj.get_string( "making" ) ).obj();
+    std::string recipe_string = obj.get_string( "making" );
+    disassembly = obj.get_bool( "disassembly", false );
+    if( disassembly ) {
+        making = &recipe_dictionary::get_uncraft( itype_id( recipe_string ) );
+    } else {
+        making = &recipe_id( recipe_string ).obj();
+    }
     obj.read( "comps_used", comps_used );
     next_failure_point = obj.get_int( "next_failure_point", -1 );
     tools_to_continue = obj.get_bool( "tools_to_continue", false );
@@ -2434,7 +2441,8 @@ void item::io( Archive &archive )
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
 
-    archive.io( "relic_data", relic_data );
+    static const cata::value_ptr<relic> null_relic_ptr = nullptr;
+    archive.io( "relic_data", relic_data, null_relic_ptr );
 
     item_controller->migrate_item( orig, *this );
 
@@ -2575,7 +2583,7 @@ void item::deserialize( JsonIn &jsin )
         for( const item &it : items ) {
             migrate_content_item( it );
         }
-    } else {
+    } else if( data.has_object( "contents" ) ) { // non-empty contents
         item_contents read_contents;
         data.read( "contents", read_contents );
         contents.read_mods( read_contents );
@@ -2594,6 +2602,8 @@ void item::deserialize( JsonIn &jsin )
                 }
             }
         }
+    } else { // empty contents was not serialized, recreate pockets from the type
+        contents = item_contents( type->pockets );
     }
 
     // Remove after 0.F: artifact migration code
@@ -4140,18 +4150,17 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             int i = jsin.get_int();
             int j = jsin.get_int();
             const point p( i, j );
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                item tmp;
-                jsin.read( tmp );
 
-                if( tmp.is_emissive() ) {
-                    update_lum_add( p, tmp );
+            if( !jsin.read( itm[p.x][p.y], false ) ) {
+                debugmsg( "Items array is corrupt in submap at: %s, skipping", p.to_string() );
+            }
+            // some portion could've been read even if error occurred
+            for( item &it : itm[p.x][p.y] ) {
+                if( it.is_emissive() ) {
+                    update_lum_add( p, it );
                 }
-
-                const cata::colony<item>::iterator it = itm[p.x][p.y].insert( tmp );
-                if( tmp.needs_processing() ) {
-                    active_items.add( *it, p );
+                if( it.needs_processing() ) {
+                    active_items.add( it, p );
                 }
             }
         }

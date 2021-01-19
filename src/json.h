@@ -40,6 +40,8 @@ class JsonObject;
 class JsonSerializer;
 class JsonValue;
 
+class item;
+
 namespace cata
 {
 template<typename T>
@@ -478,9 +480,59 @@ class JsonIn
             return true;
         }
 
+        // special case for colony<item> as it supports RLE
+        // see corresponding `write` for details
+        template <typename T, std::enable_if_t<std::is_same<T, item>::value> * = nullptr >
+        bool read( cata::colony<T> &v, bool throw_on_error = false ) {
+            if( !test_array() ) {
+                return error_or_false( throw_on_error, "Expected json array" );
+            }
+            try {
+                start_array();
+                v.clear();
+                while( !end_array() ) {
+                    T element;
+                    const int prev_pos = tell();
+                    if( test_array() ) {
+                        start_array();
+                        int run_l;
+                        if( read( element, throw_on_error ) &&
+                            read( run_l, throw_on_error ) &&
+                            end_array()
+                          ) { // all is good
+                            // first insert (run_l-1) elements
+                            for( int i = 0; i < run_l - 1; i++ ) {
+                                v.insert( element );
+                            }
+                            // micro-optimization, move last element
+                            v.insert( std::move( element ) );
+                        } else { // array is malformed, skipping it entirely
+                            error_or_false( throw_on_error, "Expected end of array" );
+                            seek( prev_pos );
+                            skip_array();
+                        }
+                    } else {
+                        if( read( element, throw_on_error ) ) {
+                            v.insert( std::move( element ) );
+                        } else {
+                            skip_value();
+                        }
+                    }
+                }
+            } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
+                return false;
+            }
+
+            return true;
+        }
+
         // special case for colony as it uses `insert()` instead of `push_back()`
         // and therefore doesn't fit with vector/deque/list
-        template <typename T>
+        // for colony of items there is another specialization with RLE
+        template < typename T, std::enable_if_t < !std::is_same<T, item>::value > * = nullptr >
         bool read( cata::colony<T> &v, bool throw_on_error = false ) {
             if( !test_array() ) {
                 return error_or_false( throw_on_error, "Expected json array" );
@@ -740,8 +792,37 @@ class JsonOut
             write_as_array( container );
         }
 
+        // special case for item colony, adds simple RLE-based compression
+        template <typename T, std::enable_if_t<std::is_same<T, item>::value> * = nullptr>
+        void write( const cata::colony<T> &container ) {
+            start_array();
+            // simple RLE implementation:
+            // run_l is the length of the "running sequence" of identical items, ending with the current item.
+            // when sequence ends, it's written as either the single item object (run_l==1) or as a two-element
+            // array (run_l > 1), where the first element is the item and second element is the size of the sequence.
+            int run_l = 1;
+            for( auto it = container.begin(); it != container.end(); ++it ) {
+                const auto nxt = std::next( it );
+                if( nxt == container.end() || !it->same_for_rle( *nxt ) ) {
+                    if( run_l == 1 ) {
+                        write( *it );
+                    } else {
+                        start_array();
+                        write( *it );
+                        write( run_l );
+                        end_array();
+                    }
+                    run_l = 1;
+                } else {
+                    run_l++;
+                }
+            }
+            end_array();
+        }
+
         // special case for colony, since it doesn't fit in other categories
-        template <typename T>
+        // for colony of items there is another specialization with RLE
+        template < typename T, std::enable_if_t < !std::is_same<T, item>::value > * = nullptr >
         void write( const cata::colony<T> &container ) {
             write_as_array( container );
         }
