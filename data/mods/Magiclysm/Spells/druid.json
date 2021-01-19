@@ -387,7 +387,7 @@
     "base_casting_time": 500,
     "energy_source": "MANA",
     "max_level": 25,
-    "difficulty": 4,
+    "difficulty": 6,
     "min_duration": 6000,
     "max_duration": 25000,
     "duration_increment": 600,
