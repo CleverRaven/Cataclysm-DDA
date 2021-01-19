@@ -29,12 +29,8 @@
           }
         ]
       },
-      {
-        "//": "repeat last entry"
-      },
-      {
-        "//": "repeat last entry"
-          }
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,
