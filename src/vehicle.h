@@ -716,6 +716,7 @@ class vehicle
         /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
         void leak_fuel( vehicle_part &pt );
 
+    public:
         /**
          * Find a possibly off-map vehicle. If necessary, loads up its submap through
          * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -724,6 +725,7 @@ class vehicle
          */
         static vehicle *find_vehicle( const tripoint &where );
 
+    private:
         /**
          * Traverses the graph of connected vehicles, starting from start_veh, and continuing
          * along all vehicles connected by some kind of POWER_TRANSFER part.

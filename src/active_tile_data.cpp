@@ -259,24 +259,7 @@ static vehicle *get_vehicle( const item &it )
     int source_y = it.get_var( "source_y", 0 );
     int source_z = it.get_var( "source_z", 0 );
     tripoint abs_ms( source_x, source_y, source_z );
-    tripoint abs_ms_minus_local( source_x - ( source_x % SEEX ),
-                                 source_y - ( source_y % SEEY ),
-                                 source_z );
-    // TODO: Cache, finding this is expensive
-    tripoint sm_coord = ms_to_sm_copy( abs_ms );
-    submap *sm = MAPBUFFER.lookup_submap( sm_coord );
-    for( const std::unique_ptr<vehicle> &veh : sm->vehicles ) {
-        for( auto iter : veh->get_all_parts() ) {
-            point mount_point = iter.part().precalc[0];
-            point part_pos_local = veh->pos + mount_point;
-            tripoint global_pos = abs_ms_minus_local + part_pos_local;
-            if( global_pos == abs_ms ) {
-                return veh.get();
-            }
-        }
-    }
-
-    return nullptr;
+    return vehicle::find_vehicle( abs_ms );
 }
 
 int vehicle_connector_tile::get_resource() const
