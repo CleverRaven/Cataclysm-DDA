@@ -173,7 +173,7 @@
     "max_damage": 100,
     "min_range": 6,
     "max_range": 12,
-    "range_increment": 0.02,
+    "range_increment": 0.2,
     "damage_increment": 3,
     "difficulty": 10,
     "spell_class": "STORMSHAPER",
