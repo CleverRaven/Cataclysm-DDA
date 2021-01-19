@@ -1383,7 +1383,6 @@ void veh_interact::calc_overview()
 
         std::vector<part_option> tmp_overview = get_vehicle_overview( tmp_car, true );
         overview_opts.insert( overview_opts.end(), tmp_overview.begin(), tmp_overview.end() );
-        tmp_car = new vehicle();
     }
 }
 
