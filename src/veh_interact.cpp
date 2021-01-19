@@ -1391,17 +1391,17 @@ void veh_interact::calc_vehicle_header( const vehicle *car )
 {
     int epower_w = car->net_battery_charge_rate_w();
 
-    overview_headers["0_CARRIED_NAME"] = [this]( const catacurses::window & w, int y ) {
+    overview_headers["0_CARRIED_NAME"] = []( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "" ) );
     };
-    overview_headers["1_ENGINE"] = [this, car]( const catacurses::window & w, int y ) {
+    overview_headers["1_ENGINE"] = [car]( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
                         string_format( _( "Engines %sSafe %4d kW</color> %sMax %4d kW</color>" ),
                                        health_color( true ), car->total_power_w( true, true ) / 1000,
                                        health_color( false ), car->total_power_w() / 1000 ) );
         right_print( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
     };
-    overview_headers["1_CARRIED_ENGINE"] = [this]( const catacurses::window & w, int y ) {
+    overview_headers["1_CARRIED_ENGINE"] = []( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "Engines " ) );
         right_print( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
     };
@@ -1421,7 +1421,7 @@ void veh_interact::calc_vehicle_header( const vehicle *car )
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, batt );
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
-    overview_headers["4_REACTOR"] = [this, epower_w, car]( const catacurses::window & w, int y ) {
+    overview_headers["4_REACTOR"] = [epower_w, car]( const catacurses::window & w, int y ) {
         int reactor_epower_w = car->max_reactor_epower_w();
         if( reactor_epower_w > 0 && epower_w < 0 ) {
             reactor_epower_w += epower_w;
@@ -1478,13 +1478,13 @@ std::vector<veh_interact::part_option> veh_interact::get_vehicle_overview( const
         if( add_seperator && !car->name.empty() && ( vpr.part().is_engine() || vpr.part().is_tank() ||
                 vpr.part().is_battery() || vpr.part().is_reactor() || vpr.part().is_turret() ||
                 vpr.part().is_seat() ) ) {
-            auto details = [this, car]( const vehicle_part & pt, const catacurses::window & w, int y ) {
+            auto details = [car]( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 std::string text = " <color_green>" + car->name + "</color> ";
 
                 int max_w = ( ( TERMX - 2 ) / 3 ) - 1;
                 std::string sperator_line = std::string( std::max( ( int )( max_w - 1 - car->name.size() - 2 ), 0 ),
                                             '=' );
-                sperator_line.insert( ( int )( sperator_line.length() / 2 ), text );
+                sperator_line.insert( ( sperator_line.length() / 2 ), text );
                 right_print(
                     w, y, 1, c_light_gray,
                     _( sperator_line ) );
