@@ -175,7 +175,7 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 }
 ```
 
-`--obsolete-fillers`: print what fillers were skipped and thus ready to be removed.
+`--obsolete-fillers`: print which fillers were skipped and are thus ready to be removed.
 
 Requires `pyvips` module.
 
