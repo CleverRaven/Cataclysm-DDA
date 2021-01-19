@@ -570,6 +570,7 @@
       { "item": "flatbread", "prob": 7 },
       { "item": "crackers", "prob": 20 },
       { "item": "grahmcrackers", "prob": 20 },
+      { "item": "oyster_crackers", "prob": 15 },
       { "item": "marshmallow", "prob": 20 },
       { "item": "biscuit", "prob": 12 },
       { "item": "hardtack", "prob": 2 },
@@ -786,8 +787,10 @@
       { "item": "milkshake", "prob": 4 },
       { "item": "milkshake_fastfood", "prob": 8 },
       { "item": "milkshake_deluxe", "prob": 2 },
+      { "item": "frozen_lemonade", "prob": 3 },
       { "item": "icecream_artificial", "prob": 3 },
-      { "item": "icecream_candy", "prob": 3 }
+      { "item": "icecream_candy", "prob": 3 },
+      { "item": "sundae_cup", "prob": 5 }
     ]
   },
   {
