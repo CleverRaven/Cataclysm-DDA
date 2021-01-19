@@ -14,48 +14,16 @@
   },
   {
     "type": "trap",
-    "id": "tr_forge_vault1",
-    "name": "trapped floor",
+    "id": "tr_forge_vault",
+    "name": "summon hounds",
     "color": "brown",
     "symbol": ".",
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "map_regen",
-    "map_regen": "forge_trap1",
+    "trap_radius": 2,
+    "action": "spell",
+    "spell_data": { "id": "forge_trap" },
     "benign": false
-  },
-  {
-    "type": "trap",
-    "id": "tr_forge_vault2",
-    "name": "trapped floor",
-    "color": "brown",
-    "symbol": ".",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "map_regen",
-    "map_regen": "forge_trap2",
-    "benign": false
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "forge_trap2",
-    "method": "json",
-    "object": {
-      "place_terrain": [ { "ter": "t_strconc_floor", "x": 76, "y": [ 8, 14 ] } ],
-      "place_monsters": [ { "monster": "GROUP_FORGEDEMONS", "x": [ 73, 77 ], "y": [ 7, 14 ], "density": 0.5, "repeat": [ 1, 3 ] } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "forge_trap1",
-    "method": "json",
-    "object": {
-      "place_monsters": [
-        { "monster": "GROUP_FORGEDEMONS", "x": [ 72, 94 ], "y": [ 7, 14 ], "density": 0.5, "repeat": [ 1, 3 ] },
-        { "monster": "GROUP_FORGEDEMONS", "x": [ 96, 117 ], "y": [ 7, 14 ], "density": 0.5, "repeat": [ 1, 3 ] }
-      ]
-    }
   }
 ]
