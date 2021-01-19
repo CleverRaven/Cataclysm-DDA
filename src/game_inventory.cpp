@@ -689,36 +689,36 @@ class comestible_inventory_preset : public inventory_selector_preset
 
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
             // Sort by comestibility first
-            const auto lhs_comestible = lhs.any_item()->is_comestible();
-            const auto rhs_comestible = rhs.any_item()->is_comestible();
+            const bool lhs_comestible = lhs.any_item()->is_comestible();
+            const bool rhs_comestible = rhs.any_item()->is_comestible();
             if( lhs_comestible != rhs_comestible ) {
                 return !lhs_comestible && rhs_comestible;
             }
 
             // Then by rotten/fresh status depending on player's traits
-            const auto lhs_rotten = lhs.any_item()->rotten();
-            const auto rhs_rotten = rhs.any_item()->rotten();
+            const bool lhs_rotten = lhs.any_item()->rotten();
+            const bool rhs_rotten = rhs.any_item()->rotten();
             if( lhs_rotten != rhs_rotten ) {
                 return prefer_rotten() ^ ( !lhs_rotten && rhs_rotten );
             }
 
             // Then by perishability
-            const auto lhs_imperishable = !lhs.any_item()->goes_bad();
-            const auto rhs_imperishable = !rhs.any_item()->goes_bad();
+            const bool lhs_imperishable = !lhs.any_item()->goes_bad();
+            const bool rhs_imperishable = !rhs.any_item()->goes_bad();
             if( lhs_imperishable != rhs_imperishable ) {
                 return !lhs_imperishable && rhs_imperishable;
             }
 
             // Then by sealed status, skipping imperishable items
-            const auto lhs_sealed = is_sealed( lhs.any_item() );
-            const auto rhs_sealed = is_sealed( rhs.any_item() );
+            const bool lhs_sealed = is_sealed( lhs.any_item() );
+            const bool rhs_sealed = is_sealed( rhs.any_item() );
             if( lhs_sealed != rhs_sealed && lhs.any_item()->goes_bad() ) {
                 return !lhs_sealed && rhs_sealed;
             }
 
             // Then by remaining freshness time, ascending
-            const auto lhs_time_left = get_time_left( lhs.any_item() );
-            const auto rhs_time_left = get_time_left( rhs.any_item() );
+            const time_duration lhs_time_left = get_time_left( lhs.any_item() );
+            const time_duration rhs_time_left = get_time_left( rhs.any_item() );
             if( lhs_time_left != rhs_time_left ) {
                 return lhs_time_left < rhs_time_left;
             }
@@ -726,7 +726,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             // Finally sort by item's generic name
             const auto lhs_name = lhs.any_item()->type_name();
             const auto rhs_name = rhs.any_item()->type_name();
-            return lhs_name < rhs_name;
+            return localized_compare( lhs_name, rhs_name );
         }
 
     protected:
