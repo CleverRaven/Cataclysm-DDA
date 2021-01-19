@@ -107,10 +107,10 @@
     }
   },
   {
-    "type": "furniture",
+    "type": "terrain",
     "id": "t_vault_vent",
     "name": "vault vent",
-    "description": "This is a pool of murky water, it occasionally bubbles, releasing a mildly toxic gas.",
+    "description": "This concrete flooring has a vent pouring fresh, clean air into the vault.",
     "looks_like": "t_strconc_floor",
     "copy-from": "t_strconc_floor",
     "flags": [ "TRANSPARENT" ],

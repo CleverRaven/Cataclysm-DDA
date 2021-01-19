@@ -106,7 +106,7 @@
       "1": "t_strconc_floor",
       "z": "t_strconc_floor",
       "Z": "t_strconc_floor",
-      "$": [ [ "t_strconc_floor", "t_vault_vent" ] ],
+      "$": [ "t_strconc_floor", "t_vault_vent" ],
       "f": "t_strconc_floor",
       "F": "t_strconc_floor",
       "8": "t_strconc_floor",
