@@ -896,7 +896,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                                string_format( _( "Contained items spoil at <neutral>%.0f%%</neutral> their original rate." ),
                                               spoil_multiplier() * 100 ) );
         } else {
-            info.emplace_back( "DESCRIPTION", "Contained items <info>won't spoil</info>." );
+            info.emplace_back( "DESCRIPTION", _( "Contained items <info>won't spoil</info>." ) );
         }
     }
     if( data->weight_multiplier != 1.0f ) {
