@@ -160,13 +160,13 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 
 ### Usage
 
-`compose.py [-h] [--use-all] source_dir [output_dir]`
+`compose.py [-h] [--use-all] [--obsolete-fillers] source_dir [output_dir]`
 
 `source_dir` - the compositing tileset directory.
 
 `output_dir` will be set to the `source_dir` unless provided separately. Expected to have `tileset.txt` and `fallback.png`.
 
-`--use-all` instead of warning about unused sprites, will treat their [root name](#root-name) as the `id` value to use them as `fg` for. In other words, just naming your sprite `overlay_wielded_spear_survivor.png` will imply this tile entry **unless** any tile entry already references `overlay_wielded_spear_survivor` in the `id`:
+`--use-all`: instead of warning about unused sprites, will treat their [root name](#root-name) as the `id` value to use them as `fg` for. In other words, just naming your sprite `overlay_wielded_spear_survivor.png` will imply this tile entry **unless** any tile entry already references `overlay_wielded_spear_survivor` in the `id`:
 ```JSON
 {
     "id": "overlay_wielded_spear_survivor",
@@ -174,6 +174,8 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
     "bg": ""
 }
 ```
+
+`--obsolete-fillers`: print what fillers were skipped and thus ready to be removed.
 
 Requires `pyvips` module.
 
