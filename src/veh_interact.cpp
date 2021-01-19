@@ -1482,7 +1482,7 @@ std::vector<veh_interact::part_option> veh_interact::get_vehicle_overview( const
                 std::string text = " <color_green>" + car->name + "</color> ";
 
                 int max_w = ( ( TERMX - 2 ) / 3 ) - 1;
-                std::string sperator_line = std::string( std::max( int( max_w - 1 - car->name.size() - 2 ), 0 ),
+                std::string sperator_line = std::string( std::max( static_cast<int>( max_w - 1 - car->name.size() - 2 ), 0 ),
                                             '=' );
                 sperator_line.insert( ( sperator_line.length() / 2 ), text );
                 right_print(
