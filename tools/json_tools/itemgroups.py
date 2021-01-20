@@ -201,12 +201,13 @@ if __name__ == "__main__":
             name = orphan[oid].get("name")
             if not name:
                 name = "*no name entry*"
-            if "str" in name:
-                name = name["str"]
-            elif "str_sp" in name:
-                name = name["str_sp"]
-            elif "str_pl" in name:
-                name = name["str_pl"]
+            if isinstance(name, dict):
+                if "str" in name:
+                    name = name["str"]
+                elif "str_sp" in name:
+                    name = name["str_sp"]
+                elif "str_pl" in name:
+                    name = name["str_pl"]
             print("%s ('%s')" % (oid, name))
     if args.map:
         print("item to itemgroup mapping:")
