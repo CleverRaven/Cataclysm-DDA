@@ -116,7 +116,8 @@
       [ "spell_scroll_stormshaper_ionization", 40 ],
       [ "spell_scroll_improved_knock", 35 ],
       [ "spell_scroll_knifeshot", 35 ],
-      [ "spell_scroll_feralform", 30 ]
+      [ "spell_scroll_feralform", 30 ],
+      [ "spell_scroll_summon_wolf", 30 ]
     ]
   },
   {
