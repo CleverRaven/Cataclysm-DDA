@@ -1374,11 +1374,12 @@ void veh_interact::calc_overview()
     for( std::pair<std::string, std::vector<vehicle_part>> it : carried_vehicles ) {
         vehicle *tmp_car = new vehicle();
 
+        if( !it.second.empty() && tmp_car->name.empty() ) {
+            tmp_car->name = it.second[0].carried_name();
+        }
+
         for( vehicle_part &part : it.second ) {
             tmp_car->install_part( point_zero, part );
-            if( tmp_car->name.empty() ) {
-                tmp_car->name = part.carried_name();
-            }
         }
 
         std::vector<part_option> tmp_overview = get_vehicle_overview( tmp_car, true );
