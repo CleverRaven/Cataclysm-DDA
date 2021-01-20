@@ -1740,25 +1740,25 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 void activity_handlers::generic_game_turn_handler( player_activity *act, player *p,
         int morale_bonus, int morale_max_bonus )
 {
-    item &game_item = *act->targets.front();
-
     // Consume battery charges for every minute spent playing
     if( calendar::once_every( 1_minutes ) ) {
-        bool fail = false;
-        int const ammo_required = game_item.ammo_required();
-        if( game_item.has_flag( flag_USE_UPS ) ) {
-            fail = !p->use_charges_if_avail( itype_UPS, ammo_required );
-        } else {
-            fail = game_item.ammo_consume( ammo_required, p->pos() ) == 0;
+        if( !act->targets.empty() ) {
+            item &game_item = *act->targets.front();
+            const int ammo_required = game_item.ammo_required();
+            bool fail = false;
+            if( game_item.has_flag( flag_USE_UPS ) ) {
+                fail = !p->use_charges_if_avail( itype_UPS, ammo_required );
+            } else {
+                fail = game_item.ammo_consume( ammo_required, p->pos() ) == 0;
+            }
+            if( fail ) {
+                act->moves_left = 0;
+                add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
+                return;
+            }
         }
-
-        if( !fail ) {
-            //1 points/min, almost 2 hours to fill
-            p->add_morale( MORALE_GAME, morale_bonus, morale_max_bonus );
-        } else {
-            act->moves_left = 0;
-            add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
-        }
+        //1 points/min, almost 2 hours to fill
+        p->add_morale( MORALE_GAME, morale_bonus, morale_max_bonus );
     }
 }
 
