@@ -3219,7 +3219,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
     } );
 
     if( recurse && ftype == fuel_type_battery ) {
-        auto fuel_counting_visitor = [&]( vehicle const * veh, int amount, int ) {
+        auto fuel_counting_visitor = [&]( vehicle const * veh, int amount ) {
             return amount + veh->fuel_left( ftype, false );
         };
 
@@ -4792,9 +4792,9 @@ vehicle *vehicle::find_vehicle( const tripoint &where )
 }
 
 void vehicle::enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
-                                  std::set<vehicle *> &vehicle_list )
+                                  const std::set<vehicle *> &vehicle_list )
 {
-    auto enumerate_visitor = [&connected_vehicles]( vehicle * veh, int amount, int ) {
+    auto enumerate_visitor = [&connected_vehicles]( vehicle * veh, int amount ) {
         // Only emplaces if element is not present already.
         connected_vehicles.emplace( veh, false );
         return amount;
@@ -4810,14 +4810,12 @@ template <typename Func, typename Vehicle>
 int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action )
 {
     // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
-    std::queue< std::pair<Vehicle *, int> > connected_vehs;
+    std::queue<Vehicle *> connected_vehs;
     std::set<Vehicle *> visited_vehs;
-    connected_vehs.push( std::make_pair( start_veh, 0 ) );
+    connected_vehs.push( start_veh );
 
     while( amount > 0 && !connected_vehs.empty() ) {
-        auto current_node = connected_vehs.front();
-        Vehicle *current_veh = current_node.first;
-        int current_loss = current_node.second;
+        Vehicle *current_veh = connected_vehs.front();
 
         visited_vehs.insert( current_veh );
         connected_vehs.pop();
@@ -4839,14 +4837,9 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
             // Add this connected vehicle to the queue of vehicles to search next,
             // but only if we haven't seen this one before.
             if( visited_vehs.count( target_veh ) < 1 ) {
-                int target_loss = current_loss + current_veh->part_info( p ).epower;
-                connected_vehs.push( std::make_pair( target_veh, target_loss ) );
+                connected_vehs.push( target_veh );
 
-                float loss_amount = ( static_cast<float>( amount ) * static_cast<float>( target_loss ) ) / 100;
-                g->u.add_msg_if_player( m_debug, "Visiting remote %p with %d power (loss %f, which is %d percent)",
-                                        static_cast<void *>( target_veh ), amount, loss_amount, target_loss );
-
-                amount = action( target_veh, amount, static_cast<int>( loss_amount ) );
+                amount = action( target_veh, amount );
                 g->u.add_msg_if_player( m_debug, "After remote %p, %d power", static_cast<void *>( target_veh ),
                                         amount );
 
@@ -4886,9 +4879,9 @@ int vehicle::charge_battery( int amount, bool include_other_vehicles )
         }
     }
 
-    auto charge_visitor = []( vehicle * veh, int amount, int lost ) {
-        g->u.add_msg_if_player( m_debug, "CH: %d", amount - lost );
-        return veh->charge_battery( amount - lost, false );
+    auto charge_visitor = []( vehicle * veh, int amount ) {
+        g->u.add_msg_if_player( m_debug, "CH: %d", amount );
+        return veh->charge_battery( amount, false );
     };
 
     if( amount > 0 && include_other_vehicles ) { // still a bit of charge we could send out...
@@ -4923,9 +4916,9 @@ int vehicle::discharge_battery( int amount, bool recurse )
         }
     }
 
-    auto discharge_visitor = []( vehicle * veh, int amount, int lost ) {
-        g->u.add_msg_if_player( m_debug, "CH: %d", amount + lost );
-        return veh->discharge_battery( amount + lost, false );
+    auto discharge_visitor = []( vehicle * veh, int amount ) {
+        g->u.add_msg_if_player( m_debug, "CH: %d", amount );
+        return veh->discharge_battery( amount, false );
     };
     if( amount > 0 && recurse ) { // need more power!
         amount = traverse_vehicle_graph( this, amount, discharge_visitor );
@@ -5304,7 +5297,7 @@ void vehicle::gain_moves()
     // Force off-map vehicles to load by visiting them every time we gain moves.
     // Shouldn't be too expensive if there aren't fifty trillion vehicles in the graph...
     // ...and if there are, it's the player's fault for putting them there.
-    auto nil_visitor = []( vehicle *, int amount, int ) {
+    auto nil_visitor = []( vehicle *, int amount ) {
         return amount;
     };
     traverse_vehicle_graph( this, 1, nil_visitor );

@@ -244,7 +244,7 @@ void vehicle_connector_tile::load( JsonObject &jo )
     ( void )jo;
 }
 
-static vehicle *get_vehicle( const item &it )
+static vehicle *get_cable_vehicle( const item &it )
 {
     if( !it.has_flag( flag_CABLE_SPOOL ) ) {
         return nullptr;
@@ -272,7 +272,7 @@ int vehicle_connector_tile::get_resource() const
     point local_offset = point( this->pos.x % SEEX, this->pos.y % SEEY );
 
     for( const item &it : sm->get_items( local_offset ) ) {
-        vehicle *veh = get_vehicle( it );
+        vehicle *veh = get_cable_vehicle( it );
         if( veh != nullptr ) {
             // TODO: Handle cabled up vehicles without including any of them more than once
             resource_sum += veh->fuel_left( "battery", false );
@@ -291,7 +291,7 @@ int vehicle_connector_tile::mod_resource( int amt )
     point local_offset = point( this->pos.x % SEEX, this->pos.y % SEEY );
 
     for( const item &it : sm->get_items( local_offset ) ) {
-        vehicle *veh = get_vehicle( it );
+        vehicle *veh = get_cable_vehicle( it );
         if( veh != nullptr ) {
             // TODO: Handle cabled up vehicles without including any of them more than once
             if( amt > 0 ) {
