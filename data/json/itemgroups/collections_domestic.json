@@ -1043,7 +1043,8 @@
       { "item": "chem_hydrogen_peroxide", "prob": 20 },
       { "item": "plunger_toilet", "prob": 30 },
       { "item": "plunger_futuristic", "prob": 15 },
-      { "item": "toilet_paper", "prob": 10 }
+      { "item": "toilet_paper", "prob": 10 },
+      ( "item": "kitchen_towel", "prob": 20}
     ]
   },
   {
