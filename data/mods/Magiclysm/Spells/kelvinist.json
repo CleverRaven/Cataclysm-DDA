@@ -45,8 +45,8 @@
     "max_level": 16,
     "base_casting_time": 300,
     "energy_source": "MANA"
-    },
-    {   
+  },
+  {
     "id": "create_lighter",
     "type": "SPELL",
     "name": "Finger Firelighter",
