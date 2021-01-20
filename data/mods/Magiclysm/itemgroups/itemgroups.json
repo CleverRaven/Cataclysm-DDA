@@ -722,7 +722,8 @@
           { "item": "wizard_beginner", "prob": 30 },
           { "item": "wizard_utility", "prob": 20 },
           { "item": "spell_scroll_magic_missile", "prob": 70 },
-          { "item": "spell_scroll_phase_door", "prob": 50 }
+          { "item": "spell_scroll_phase_door", "prob": 50 },
+          { "item": "spell_scroll_shadow_field", "prob": 40 }
         ],
         "prob": 45
       },

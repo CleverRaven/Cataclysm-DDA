@@ -471,6 +471,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_shadow_field",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Shadow Field", "str_pl": "Scrolls of Shadow Field" },
+    "description": "Cast a field of shadows.",
+    "use_action": { "type": "learn_spell", "spells": [ "shadow_field" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_magic_missile",
     "//": "Magus spell",
     "name": { "str": "Scroll of Magic Missile", "str_pl": "Scrolls of Magic Missile" },
