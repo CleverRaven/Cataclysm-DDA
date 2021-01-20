@@ -1477,11 +1477,12 @@ std::vector<veh_interact::part_option> veh_interact::get_vehicle_overview( const
         if( add_seperator && !car->name.empty() && ( vpr.part().is_engine() || vpr.part().is_tank() ||
                 vpr.part().is_battery() || vpr.part().is_reactor() || vpr.part().is_turret() ||
                 vpr.part().is_seat() ) ) {
-            auto details = [car]( const vehicle_part & pt, const catacurses::window & w, int y ) {
-                std::string text = " <color_green>" + car->name + "</color> ";
+            auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
+                std::string text = " <color_green>" + pt.carried_name() + "</color> ";
 
                 int max_w = ( ( TERMX - 2 ) / 3 ) - 1;
-                std::string sperator_line = std::string( std::max( static_cast<int>( max_w - 1 - car->name.size() -
+                std::string sperator_line = std::string( std::max( static_cast<int>( max_w - 1 -
+                                            pt.carried_name().size() -
                                             2 ), 0 ),
                                             '=' );
                 sperator_line.insert( ( sperator_line.length() / 2 ), text );
