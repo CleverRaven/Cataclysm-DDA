@@ -1315,7 +1315,7 @@ def extract(item, infilename):
                     wrote = True
                 if "monster_message" in special_attack:
                     comment = ("Attack message of monster \"{}\"'s spell \"{}\""
-                            .format(name, special_attack.get("spell_id")))
+                            .format(name["str"] if name and "str" in name else name, special_attack.get("spell_id")))
                     writestr(outfile, special_attack["monster_message"],
                             format_strings=True, comment=comment, **kwargs)
                     wrote = True
