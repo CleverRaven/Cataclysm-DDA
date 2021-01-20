@@ -335,6 +335,15 @@ std::string inventory_selector_preset::cell_t::get_text( const inventory_entry &
 
 bool inventory_holster_preset::is_shown( const item_location &contained ) const
 {
+
+    if( holster.has_parent() ) {
+        const item *holster_parent = holster.parent_item().get_item();
+        const item *contained_item = contained.get_item();
+        if( holster_parent == contained_item ) {
+            return false;
+        }
+    }
+
     if( contained.where() != item_location::type::container
         && contained->made_of( phase_id::LIQUID ) ) {
         // spilt liquid cannot be picked up
