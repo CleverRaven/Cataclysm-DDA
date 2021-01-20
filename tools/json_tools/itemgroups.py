@@ -208,6 +208,9 @@ if __name__ == "__main__":
                     name = name["str_sp"]
                 elif "str_pl" in name:
                     name = name["str_pl"]
+            else:
+                print("WARNING: the 'name' property of '%s' is not a dict" % (oid), file=sys.stderr)
+                print(orphan[oid], file=sys.stderr)
             print("%s ('%s')" % (oid, name))
     if args.map:
         print("item to itemgroup mapping:")
