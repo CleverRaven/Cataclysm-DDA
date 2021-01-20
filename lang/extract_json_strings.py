@@ -1208,8 +1208,9 @@ def extract(item, infilename):
         else:
             writestr(outfile, name, **kwargs)
         wrote = True
+
     def do_extract(item):
-        nonlocal wrote
+        wrote = False
         if "name_suffix" in item:
             writestr(outfile, item["name_suffix"], **kwargs)
             wrote = True
@@ -1220,15 +1221,15 @@ def extract(item, infilename):
             writestr(outfile, item["job_description"], **kwargs)
             wrote = True
         if "use_action" in item:
-            extract_use_action_msgs(outfile, item["use_action"], item.get("name"),
-                                    kwargs)
+            extract_use_action_msgs(outfile, item["use_action"],
+                                    item.get("name"), kwargs)
             wrote = True
         if "conditional_names" in item:
             for cname in item["conditional_names"]:
                 c = "Conditional name for {} when {} matches {}".format(
                     name, cname["type"], cname["condition"])
-                writestr(outfile, cname["name"], comment=c, format_strings=True,
-                        pl_fmt=True, **kwargs)
+                writestr(outfile, cname["name"], comment=c,
+                         format_strings=True, pl_fmt=True, **kwargs)
                 wrote = True
         if "description" in item:
             if name:
@@ -1237,7 +1238,7 @@ def extract(item, infilename):
                 c = None
             if object_type in needs_plural_desc:
                 writestr(outfile, item["description"], comment=c, pl_fmt=True,
-                        **kwargs)
+                         **kwargs)
             else:
                 writestr(outfile, item["description"], comment=c, **kwargs)
             wrote = True
@@ -1250,9 +1251,10 @@ def extract(item, infilename):
         if "sound_description" in item:
             comment = "description for the sound of spell '{}'".format(name)
             writestr(outfile, item["sound_description"], comment=comment,
-                    **kwargs)
+                     **kwargs)
             wrote = True
-        if "snippet_category" in item and type(item["snippet_category"]) is list:
+        if ("snippet_category" in item and
+                type(item["snippet_category"]) is list):
             # snippet_category is either a simple string (the category ident)
             # which is not translated, or an array of snippet texts.
             for entry in item["snippet_category"]:
@@ -1286,8 +1288,8 @@ def extract(item, infilename):
             wrote = True
         if "message" in item:
             writestr(outfile, item["message"], format_strings=True,
-                    comment="Message for {} '{}'".format(object_type, name),
-                    **kwargs)
+                     comment="Message for {} '{}'".format(object_type, name),
+                     **kwargs)
             wrote = True
         if "messages" in item:
             for message in item["messages"]:
@@ -1314,10 +1316,13 @@ def extract(item, infilename):
                     writestr(outfile, special_attack["description"], **kwargs)
                     wrote = True
                 if "monster_message" in special_attack:
-                    comment = ("Attack message of monster \"{}\"'s spell \"{}\""
-                            .format(name["str"] if name and "str" in name else name, special_attack.get("spell_id")))
+                    comment = (
+                        "Attack message of monster \"{}\"'s spell \"{}\""
+                        .format(name["str"] if name and "str" in name
+                                else name,
+                                special_attack.get("spell_id")))
                     writestr(outfile, special_attack["monster_message"],
-                            format_strings=True, comment=comment, **kwargs)
+                             format_strings=True, comment=comment, **kwargs)
                     wrote = True
         if "footsteps" in item:
             writestr(outfile, item["footsteps"], **kwargs)
@@ -1325,9 +1330,10 @@ def extract(item, infilename):
         if "revert_msg" in item:
             writestr(outfile, item["revert_msg"], **kwargs)
             wrote = True
-    do_extract(item)
+        return wrote
+    wrote |= do_extract(item)
     if "extend" in item:
-        do_extract(item["extend"])
+        wrote |= do_extract(item["extend"])
     if not wrote and "copy-from" not in item:
         if not warning_supressed(infilename):
             print("WARNING: {}: nothing translatable found in item: "
