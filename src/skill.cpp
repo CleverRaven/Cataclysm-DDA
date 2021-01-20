@@ -287,7 +287,7 @@ void SkillLevel::practice()
 void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
 {
     if( _level < maximumLevel || maximumLevel < 0 ) {
-        train( ( _level + 1 ) * rng( minimumGain, maximumGain ) );
+        train( ( _level + 1 ) * rng( minimumGain, maximumGain ) * 100 );
     }
 
     practice();
