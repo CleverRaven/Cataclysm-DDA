@@ -3,7 +3,7 @@
     "id": "point_flare",
     "type": "SPELL",
     "name": "Point Flare",
-    "description": "Causes an intense heat at the location, damaging the target.",
+    "description": "Causes an intense heat at the location, greatly damaging the target.",
     "valid_targets": [ "hostile" ],
     "flags": [ "CONCENTRATE", "SOMATIC", "LOUD", "NO_PROJECTILE" ],
     "effect": "attack",
