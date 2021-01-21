@@ -169,7 +169,7 @@ std::string iloc_entry_name( iloc_entry const &it, int /* width */ )
     item const &i = *it.stack[0];
     std::string name = i.count_by_charges() ? i.tname() : i.display_name();
     if( !i.is_owned_by( get_avatar(), true ) ) {
-        name = string_format( "%s %s", "<color_light_red>!</color>", name );
+        name = string_format( "%s %s", colorize( "!", c_light_red ), name );
     }
     nc_color const basecolor = i.color_in_inventory();
     nc_color const color =
@@ -209,7 +209,13 @@ bool iloc_entry_price_sorter( iloc_entry const &l, iloc_entry const &r )
 
 bool iloc_entry_name_sorter( iloc_entry const &l, iloc_entry const &r )
 {
-    return localized_compare( l.stack[0]->tname(), r.stack[0]->tname() );
+    std::string const &_ln = l.stack[0]->tname( 1, false );
+    std::string const &_rn = r.stack[0]->tname( 1, false );
+    if( _ln == _rn ) {
+        return localized_compare( l.stack[0]->tname(), r.stack[0]->tname() );
+    }
+
+    return localized_compare( _ln, _rn );
 }
 
 bool iloc_entry_gsort( iloc_entry const &l, iloc_entry const &r )
