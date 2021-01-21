@@ -337,9 +337,19 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
 {
 
     if( holster.has_parent() ) {
-        const item *holster_parent = holster.parent_item().get_item();
-        const item *contained_item = contained.get_item();
-        if( holster_parent == contained_item ) {
+        std::function<bool( const item_location )> is_recursive_parent = [contained,
+        &is_recursive_parent]( const item_location tocheck )->bool {
+            if( tocheck.has_parent() )
+            {
+                if( tocheck.parent_item() == contained ) {
+                    return true;
+                }
+                return is_recursive_parent( tocheck.parent_item() );
+            }
+            return false;
+        };
+
+        if( is_recursive_parent( holster.parent_item() ) ) {
             return false;
         }
     }
