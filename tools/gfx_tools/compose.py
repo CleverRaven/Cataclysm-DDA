@@ -250,14 +250,15 @@ class Tilesheet:
         pngname = filename.split('.png')[0]
         if pngname in self.tileset.pngname_to_pngnum:
             if not self.is_filler:
-                print(f'skipping {pngname}.png')
+                print(f'Error: duplicate {pngname}.png')
+                global ERROR_LOGGED
+                ERROR_LOGGED = True
 
-            if self.is_filler:
-                if self.tileset.obsolete_fillers:
-                    print(f'Error: {pngname}.png is already present in a '
-                          'non-filler sheet')
-                    global ERROR_LOGGED
-                    ERROR_LOGGED = True
+            if self.is_filler and self.tileset.obsolete_fillers:
+                print(f'Error: {pngname}.png is already present in a '
+                      'non-filler sheet')
+                global ERROR_LOGGED
+                ERROR_LOGGED = True
 
             return
 
