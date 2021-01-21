@@ -50,8 +50,8 @@
     "color": "white",
     "use_action": [ "WASH_HARD_ITEMS" ],
     "snippet_category": [
-      { "id": "ktowel1", "text": "An elegant, monogrammed kitchen towel. Unfortunately, it's not your initial." },
-      { "id": "ktowel2", "text": "An elegant, monogrammed kitchen towel. It even has your initial!" },
+      { "id": "ktowel1", "text": "An elegant, monogrammed kitchen towel.  Unfortunately, it's not your initial." },
+      { "id": "ktowel2", "text": "An elegant, monogrammed kitchen towel.  It even has your initial!" },
       { "id": "ktowel3", "text": "A well used kitchen towel, judging by the stains." },
       { "id": "ktowel4", "text": "A novelty kitchen towel, featuring a popular children's cartoon character." },
       { "id": "ktowel5", "text": "A novelty kitchen towel which reads \"ITS WINE O CLOCK\"." },
