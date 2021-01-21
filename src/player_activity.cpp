@@ -78,7 +78,7 @@ void player_activity::set_to_null()
     sfx::end_activity_sounds(); // kill activity sounds when activity is nullified
 }
 
-void player_activity::sychronize_type_with_actor()
+void player_activity::synchronize_type_with_actor()
 {
     if( actor && type != activity_id::NULL_ID() ) {
         type = actor->get_type();
@@ -159,7 +159,6 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             type == activity_id( "ACT_HACKSAW" ) ||
             type == activity_id( "ACT_JACKHAMMER" ) ||
             type == activity_id( "ACT_PICKAXE" ) ||
-            type == activity_id( "ACT_DISASSEMBLE" ) ||
             type == activity_id( "ACT_VEHICLE" ) ||
             type == activity_id( "ACT_FILL_PIT" ) ||
             type == activity_id( "ACT_CHOP_TREE" ) ||
@@ -200,7 +199,7 @@ void player_activity::start_or_resume( Character &who, bool resuming )
         who.rooted_message();
     }
     // last, as start function may have changed the type
-    sychronize_type_with_actor();
+    synchronize_type_with_actor();
 }
 
 void player_activity::do_turn( player &p )
@@ -212,10 +211,10 @@ void player_activity::do_turn( player &p )
         return;
     }
     // first to ensure sync with actor
-    sychronize_type_with_actor();
+    synchronize_type_with_actor();
     // Should happen before activity or it may fail du to 0 moves
-    if( *this && type->will_refuel_fires() ) {
-        try_fuel_fire( *this, p );
+    if( *this && type->will_refuel_fires() && !no_fire ) {
+        no_fire = !try_fuel_fire( *this, p );
     }
     if( calendar::once_every( 30_minutes ) ) {
         no_food_nearby_for_auto_consume = false;
@@ -295,9 +294,29 @@ void player_activity::do_turn( player &p )
         if( one_in( 50 ) ) {
             p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
         }
+
         auto_resume = true;
-        player_activity new_act( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 1_minutes ) );
-        new_act.values.push_back( 200 + p.get_stamina_max() / 3 );
+        player_activity new_act( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 5_minutes ) );
+        new_act.values.push_back( p.get_stamina_max() );
+        if( p.is_avatar() && !ignoreQuery ) {
+            uilist tired_query;
+            tired_query.text = _( "You struggle to continue.  Keep trying?" );
+            tired_query.addentry( 1, true, 'c', _( "Continue after a break." ) );
+            tired_query.addentry( 2, true, 'm', _( "Maybe later." ) );
+            tired_query.addentry( 3, true, 'f', _( "Finish it." ) );
+            tired_query.query();
+            switch( tired_query.ret ) {
+                case UILIST_CANCEL:
+                case 2:
+                    auto_resume = false;
+                    break;
+                case 3:
+                    ignoreQuery = true;
+                    break;
+                default:
+                    break;
+            }
+        }
         p.assign_activity( new_act );
         return;
     }

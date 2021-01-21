@@ -19,6 +19,37 @@
     "obsolete": true
   },
   {
+    "id": "survival_kit",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "survival kit" },
+    "description": "A small box filled with tools and items to help you survive in case of an emergency.  Disassemble to get its content.",
+    "weight": "1612 g",
+    "volume": "1 L",
+    "price": 5000,
+    "price_postapoc": 250,
+    "material": [ "aluminum" ],
+    "symbol": "!",
+    "color": "green",
+    "use_action": [ "DISASSEMBLE" ],
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
+    "id": "premium_survival_kit",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "survival kit" },
+    "description": "The ultimate survival kit purchased either by the wealthy or the dedicated urban survivalist.  It contains tools and items to help you survive in case of an emergency.  Disassemble to get its contents.",
+    "weight": "1612 g",
+    "volume": "1 L",
+    "price": 15000,
+    "material": [ "aluminum" ],
+    "symbol": "!",
+    "color": "green",
+    "use_action": { "type": "unpack", "group": "premium_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
     "id": "radio_car_box",
     "type": "GENERIC",
     "category": "other",
@@ -1847,7 +1878,7 @@
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
     "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 300, "durability": 10 },
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
-    "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE", "NON-FOULING" ],
+    "flags": [ "PUMP_RAIL_COMPATIBLE", "NON_FOULING" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -2001,7 +2032,7 @@
     "price": 240000,
     "price_postapoc": 12000,
     "material": [ "steel", "wood" ],
-    "flags": [ "STR_RELOAD", "RELOAD_ONE", "NON-FOULING" ],
+    "flags": [ "STR_RELOAD", "RELOAD_ONE", "NON_FOULING" ],
     "skill": "rifle",
     "ammo": [ "pebble" ],
     "weight": "4211 g",
@@ -2040,7 +2071,7 @@
     "price": 290000,
     "price_postapoc": 12000,
     "material": [ "steel", "wood" ],
-    "flags": [ "RELOAD_ONE", "STR_RELOAD", "NON-FOULING" ],
+    "flags": [ "RELOAD_ONE", "STR_RELOAD", "NON_FOULING" ],
     "skill": "rifle",
     "ammo": [ "bolt" ],
     "weight": "3110 g",
@@ -2077,7 +2108,7 @@
     "description": "A double-barreled pneumatic air shotgun handcrafted from scrap.  Though it's firepower is lacking compared to more conventional shotguns, this thing can still pack quite a punch.  That is, if your target is directly in front of you.",
     "price": 220000,
     "material": [ "steel", "wood" ],
-    "flags": [ "RELOAD_ONE", "STR_RELOAD", "NON-FOULING" ],
+    "flags": [ "RELOAD_ONE", "STR_RELOAD", "NON_FOULING" ],
     "skill": "shotgun",
     "ammo": [ "shotcanister" ],
     "weight": "3410 g",
@@ -2228,7 +2259,8 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "relative": { "weight": "1 kg", "volume": "1500 ml", "range": 3, "ranged_damage": { "damage_type": "stab", "amount": 4 } },
+    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "relative": { "weight": "1 kg", "volume": "1500 ml", "range": 3 },
     "proportional": { "price": 3, "dispersion": 0.5 },
     "pocket_data": [
       {
@@ -2750,7 +2782,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "type": "GENERIC",

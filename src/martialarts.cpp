@@ -400,7 +400,7 @@ class ma_buff_effect_type : public effect_type
         }
 };
 
-void finialize_martial_arts()
+void finalize_martial_arts()
 {
     // This adds an effect type for each ma_buff, so we can later refer to it and don't need a
     // redundant definition of those effects in json.

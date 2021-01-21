@@ -28,7 +28,6 @@ namespace iuse
 int alcohol_medium( player *, item *, bool, const tripoint & );
 int alcohol_strong( player *, item *, bool, const tripoint & );
 int alcohol_weak( player *, item *, bool, const tripoint & );
-int antiasthmatic( player *, item *, bool, const tripoint & );
 int antibiotic( player *, item *, bool, const tripoint & );
 int anticonvulsant( player *, item *, bool, const tripoint & );
 int antifungal( player *, item *, bool, const tripoint & );

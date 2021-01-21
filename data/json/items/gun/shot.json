@@ -177,6 +177,7 @@
     "volume": "4495 ml",
     "longest_side": "971 mm",
     "price": 140000,
+    "price_postapoc": 4000,
     "to_hit": -1,
     "bashing": 9,
     "material": [ "steel", "plastic" ],
@@ -289,6 +290,7 @@
     "looks_like": "mossberg_500",
     "default_mods": [ "sights_mount", "underbarrel_mount" ],
     "price": 70000,
+    "price_postapoc": 2400,
     "barrel_volume": "0 ml",
     "clip_size": 9,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 9 } } ]
@@ -466,6 +468,7 @@
     "clip_size": 7,
     "barrel_volume": "20 ml",
     "price": 33800,
+    "price_postapoc": 2750,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 7 } } ]
   },
   {
@@ -854,7 +857,6 @@
     "dispersion": 360,
     "durability": 8,
     "clip_size": 6,
-    "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "2 rd.", 2 ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "stock mount", 1 ],

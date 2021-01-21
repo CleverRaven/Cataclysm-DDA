@@ -302,7 +302,7 @@ void worldfactory::init()
         }
     };
 
-    // This returns files as well, but they are going to be discared later as
+    // This returns files as well, but they are going to be discarded later as
     // we look for files *within* these dirs. If it's a file, there won't be
     // be any of those inside it and is_save_dir will return false.
     for( const std::string &dir : get_files_from_path( "", PATH_INFO::savedir(), false ) ) {
@@ -1596,6 +1596,10 @@ void load_external_option( const JsonObject &jo )
         opt.setValue( jo.get_string( "value" ) );
     } else {
         jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
+    }
+    // Just visit this member if it exists
+    if( jo.has_member( "info" ) ) {
+        jo.get_string( "info" );
     }
 }
 

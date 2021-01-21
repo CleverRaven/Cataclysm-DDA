@@ -26,7 +26,7 @@ static void write_object( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wr
         if( name == "rows" || name == "blueprint" ) {
             // Introspect into the row, if it has more than one element, force it to wrap.
             int in_start_pos = jsin.tell();
-            bool ate_seperator = jsin.get_ate_separator();
+            bool ate_separator = jsin.get_ate_separator();
             {
                 JsonArray arr = jsin.get_array();
                 if( arr.size() > 1 ) {
@@ -34,7 +34,7 @@ static void write_object( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wr
                 }
             }
             jsin.seek( in_start_pos );
-            jsin.set_ate_separator( ate_seperator );
+            jsin.set_ate_separator( ate_separator );
         }
         formatter::format( jsin, jsout, depth, override_wrap );
     }
@@ -49,7 +49,7 @@ static void format_collection( JsonIn &jsin, JsonOut &jsout, int depth,
         // We're backtracking by storing jsin and jsout state before formatting
         // and restoring it afterwards if necessary.
         int in_start_pos = jsin.tell();
-        bool ate_seperator = jsin.get_ate_separator();
+        bool ate_separator = jsin.get_ate_separator();
         int out_start_pos = jsout.tell();
         bool need_separator = jsout.get_need_separator();
         write_func( jsin, jsout, depth, false );
@@ -60,7 +60,7 @@ static void format_collection( JsonIn &jsin, JsonOut &jsout, int depth,
             // Reset jsin and jsout to their initial state,
             // and we'll serialize while forcing wrapping.
             jsin.seek( in_start_pos );
-            jsin.set_ate_separator( ate_seperator );
+            jsin.set_ate_separator( ate_separator );
             jsout.seek( out_start_pos );
             if( need_separator ) {
                 jsout.set_need_separator();

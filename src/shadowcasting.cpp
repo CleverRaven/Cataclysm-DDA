@@ -286,7 +286,7 @@ void cast_horizontal_zlight_segment(
                         continue;
                     }
 
-                    // Handle spliting the span into up to 4 separate spans
+                    // Handle splitting the span into up to 4 separate spans
                     split_span<T, is_transparent, accumulate>( spans, this_span, current_transparency,
                             new_transparency, last_intensity,
                             distance, new_start_minor,
@@ -452,7 +452,7 @@ void cast_vertical_zlight_segment(
                         continue;
                     }
 
-                    // Handle spliting the span into up to 4 separate spans
+                    // Handle splitting the span into up to 4 separate spans
                     split_span<T, is_transparent, accumulate>( spans, this_span, current_transparency,
                             new_transparency, last_intensity,
                             distance, new_start_minor,

@@ -174,7 +174,7 @@ Use the `Home` key to return to the top.
 - [Field types](#-field-types-)
 
 # Introduction
-This document describes the contents of the json files used in Cataclysm: Dark Days Ahead. You are probably reading this if you want to add or change content of Catacysm: Dark Days Ahead and need to learn more about what to find where and what each file and property does.
+This document describes the contents of the json files used in Cataclysm: Dark Days Ahead. You are probably reading this if you want to add or change content of Cataclysm: Dark Days Ahead and need to learn more about what to find where and what each file and property does.
 
 ## Overall structure
 The game data is distributed amongst many JSON files in `data`.  Most of the
@@ -578,11 +578,11 @@ For information about tools with option to export ASCII art in format ready to b
 | hot_morale_mod    | (_optional_) Mood effect of being too hot on this part. (default: `0`)
 | cold_morale_mod   | (_optional_) Mood effect of being too cold on this part. (default: `0`)
 | squeamish_penalty | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
-| stat_hp_mods      | (_optional_) Values modifiying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodifed value of the X stat and get_healthy() being the hidden health stat of the character.
+| stat_hp_mods      | (_optional_) Values modifying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodified value of the X stat and get_healthy() being the hidden health stat of the character.
 | bionic_slots      | (_optional_) How many bionic slots does this part have.
 | is_limb           | (_optional_) Is this bodypart a limb. (default: `false`)
 | smash_message      | (_optional_) The message displayed when using that part to smash something.
-| smash_efficiency  | (_optional_) Modifier applyed to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
+| smash_efficiency  | (_optional_) Modifier applied to your smashing strength when using this part to smash terrain or furniture unarmed. (default: `0.5`)
 
 ```C++
   {
@@ -649,9 +649,9 @@ For information about tools with option to export ASCII art in format ready to b
 | stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
 | enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.)
 | learned_spells              | (_optional_) Map of {spell:level} you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
-| learned_proficiencies       | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when unintalling
-| installation_requirement    | (_optional_) Requirment id pointing to a requirment defining the tools and componentsnt necessary to install this CBM.
-| vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorbtion, affects all vitamins. (default: `1.0`)
+| learned_proficiencies       | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when uninstalling
+| installation_requirement    | (_optional_) Requirement id pointing to a requirement defining the tools and components necessary to install this CBM.
+| vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorption, affects all vitamins. (default: `1.0`)
 
 ```C++
 {
@@ -964,7 +964,7 @@ A Mutation Category identifies a set of interrelated mutations that as a whole e
 | `iv_sound_id`      | The id of a sound clip to play depicting the noise made by the character.
 | `iv_sound_variant` | The id of a variant clip to play depicting the noise made by the character.
 | `iv_noise`         | The volume of the noise the character makes.
-| `iv_sleep`         | A flag indicating that the player will involuntarally sleep after taking the matching mutation serum.
+| `iv_sleep`         | A flag indicating that the player will involuntarily sleep after taking the matching mutation serum.
 | `iv_sleep_message` | The message to display notifying the player that their character has fallen sleep.
 | `iv_sleep_dur`     | The duration of the involuntary sleep in seconds.
 | `memorial_message` | The memorial message to display when a character crosses the associated mutation threshold.
@@ -1007,10 +1007,35 @@ If the JSON objects contains a "trait" member, it defines a replacement for mult
     { "item": "hat_hunting", "new": [ { "item": "hat_cotton", "ratio": 2 } ] }
   ]
 }
-```C++
+```
 This defines characters with the WOOLALLERGY trait get some items replaced:
 - "blazer" is converted into "jacket_leather_red",
 - each "hat_hunting" is converted into *two* "hat_cotton" items.
+
+If the JSON objects contains a "bonus" member, it defines which items will be received, like this:
+```C++
+{
+  "type": "profession_item_substitutions",
+  "group": {
+    "items": [ "winter_pants_army", "undershirt", "socks", "sweatshirt", "boots_hiking", "knife_folding", "wristwatch" ],
+    "entries": [
+      { "group": "charged_two_way_radio" },
+      { "group": "charged_matches" },
+      { "item": "ear_plugs" },
+      { "item": "water_clean", "container-item": "canteen" },
+      { "item": "m1911", "ammo-item": "45_acp", "charges": 7, "container-item": "holster" },
+      { "item": "45_acp", "charges": 23 },
+      { "item": "garand", "ammo-item": "3006", "charges": 8, "contents-item": "shoulder_strap" },
+      { "item": "3006", "charges": 8, "container-item": "garandclip" },
+      { "item": "3006", "charges": 4 }
+    ]
+  },
+  "bonus": {
+    "present": [ "ALBINO" ],
+    "absent": [ "HYPEROPIC" ]
+  }
+}
+```
 
 ### Professions
 
@@ -1414,7 +1439,7 @@ These overlap because both list the high-quality lens.
 A small amount of overlap (such as the above) can be handled, but if you have
 too many component lists which overlap in too many ways, then you may see an
 error during recipe finalization that your recipe is too complex.  In this
-case, the game may not be able to corectly predict whether it can be crafted.
+case, the game may not be able to correctly predict whether it can be crafted.
 
 To work around this issue, if you do not wish to simplify the recipe
 requirements, then you can split your recipe into multiple steps.  For
@@ -1774,8 +1799,11 @@ it is present to help catch errors.
 "debug": false,     //Trait is for debug purposes (default: false)
 "player_display": true, //Trait is displayed in the `@` player display menu
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
-"prereqs": ["SKIN_ROUGH"], // Needs these mutations before you can mutate toward this mutation
-"prereqs2": ["LEAVES"], //Also need these mutations before you can mutate towards this mutation. When both set creates 2 different mutation paths, random from one is picked. Only use together with "prereqs"
+// prereqs and prereqs2 specify prerequisites of the current mutation
+// Both are optional, but if prereqs2 is specified prereqs must also be specified
+// The example below means: ( "SLOWREADER" OR "ILLITERATE") AND ("CEPH_EYES" OR "LIZ_EYE")
+"prereqs": [ "SLOWREADER", "ILLITERATE"],
+"prereqs2": [ "CEPH_EYES", "LIZ_EYE" ],
 "threshreq": ["THRESH_SPIDER"], //Required threshold for this mutation to be possible
 "cancels": ["ROT1", "ROT2", "ROT3"], // Cancels these mutations when mutating
 "changes_to": ["FASTHEALER2"], // Can change into these mutations when mutating further
@@ -2240,6 +2268,7 @@ See also VEHICLE_JSON.md
 "explosion": {                               // Physical explosion data
     "power": 10,                             // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
     "distance_factor": 0.9,                  // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
+    "max_noise": 25,                         // Maximum amount of (auditory) noise the explosion might produce.
     "fire": true,                            // Should the explosion leave fire
     "shrapnel": 200,                         // Total mass of casing, rest of fragmentation variables set to reasonable defaults.
     "shrapnel": {
@@ -2582,6 +2611,7 @@ Guns can be defined like this:
 "burst": 5,                // Number of shots fired in burst mode
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
 "ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
+"ammo_to_fire" 1,          // Amount of ammo used
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
@@ -3844,13 +3874,13 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
     "bash": {
       "str_min": 1, // lower bracket of bashing damage required to bash
       "str_max": 3, // higher bracket
-      "sound_vol": 2, // noise made when succesfully bashing the field
+      "sound_vol": 2, // noise made when successfully bashing the field
       "sound_fail_vol": 2, // noise made when failing to bash the field
       "sound": "shwip", // sound on success
       "sound_fail": "shwomp", // sound on failure
       "msg_success": "You brush the gum web aside.", // message on success
-      "move_cost": 120, // how many moves it costs to succesfully bash that field (default: 100)
-      "items": [                                   // item dropped upon succesful bashing
+      "move_cost": 120, // how many moves it costs to successfully bash that field (default: 100)
+      "items": [                                   // item dropped upon successful bashing
         { "item": "2x4", "count": [ 5, 8 ] },
         { "item": "nail", "charges": [ 6, 8 ] },
         { "item": "splinter", "count": [ 3, 6 ] },

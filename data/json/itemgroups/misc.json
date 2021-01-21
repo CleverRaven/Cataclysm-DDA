@@ -159,7 +159,7 @@
     "id": "premium_contents",
     "type": "item_group",
     "subtype": "collection",
-    "//": "Items generated from a premium survival kit",
+    "container-item": "large_survival_kit_box",
     "items": [
       { "item": "knife_folding" },
       { "item": "flint_steel" },

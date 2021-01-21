@@ -52,10 +52,11 @@
     "symbol": "[",
     "looks_like": "wetsuit_spring",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 11,
-    "max_encumbrance": 15,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 11, 14 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 11, 13 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 11, 11 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -128,10 +129,11 @@
     "symbol": "[",
     "looks_like": "wetsuit",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 10,
-    "max_encumbrance": 20,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 16 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 14 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
@@ -181,10 +183,10 @@
     "symbol": "[",
     "looks_like": "wetsuit",
     "color": "pink",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 2, 5 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 2, 4 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },

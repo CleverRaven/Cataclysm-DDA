@@ -162,6 +162,7 @@
     "name": { "str": "vault leaflet" },
     "snippet_category": "necropolis_intro",
     "description": "A folded glossy handout that appears to be an introduction to living in a massive underground complex.",
+    "looks_like": "flyer",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],

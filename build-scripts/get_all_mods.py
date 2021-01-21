@@ -1,12 +1,8 @@
 #!/usr/bin/env python3
 
-import sys
 import glob
 import json
 
-blacklist_filename, = sys.argv[1:]
-with open(blacklist_filename) as blacklist_file:
-    blacklist = {s.rstrip('\n') for s in blacklist_file.readlines()}
 
 mods_to_keep = []
 
@@ -29,8 +25,7 @@ for info in glob.glob('data/mods/*/modinfo.json'):
     for e in mod_info:
         if e["type"] == "MOD_INFO":
             ident = e["id"]
-            if ident not in blacklist:
-                all_mod_dependencies[ident] = e.get("dependencies", [])
+            all_mod_dependencies[ident] = e.get("dependencies", [])
 
 for mod in all_mod_dependencies:
     if mod not in mods_to_keep:

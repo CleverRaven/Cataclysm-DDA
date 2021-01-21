@@ -13,6 +13,7 @@ class vehicle;
 struct vehicle_part;
 class player;
 class vpart_info;
+class inventory;
 
 enum vpart_bitflags : int;
 class vpart_reference;

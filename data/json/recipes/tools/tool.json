@@ -523,7 +523,7 @@
     "autolearn": true,
     "book_learn": [ [ "atomic_survival", 0 ], [ "textbook_survival", 0 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "proficiencies": [ { "proficiency": "prof_knapping" } ],
     "components": [
       [ [ "rock", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],

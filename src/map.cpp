@@ -212,14 +212,17 @@ VehicleList map::get_vehicles()
                          tripoint( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, OVERMAP_HEIGHT ) );
 }
 
-void map::reset_vehicle_cache( const int zlev )
+void map::rebuild_vehicle_level_caches()
 {
-    clear_vehicle_cache( zlev );
-    // Cache all vehicles
-    auto &ch = get_cache( zlev );
-    ch.veh_in_active_range = false;
-    for( const auto &elem : ch.vehicle_list ) {
-        add_vehicle_to_cache( elem );
+    clear_vehicle_level_caches();
+
+    for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+        // Cache all vehicles
+        level_cache &ch = get_cache( gridz );
+
+        for( const auto &elem : ch.vehicle_list ) {
+            add_vehicle_to_cache( elem );
+        }
     }
 }
 
@@ -237,10 +240,9 @@ void map::add_vehicle_to_cache( vehicle *veh )
         }
         const tripoint p = veh->global_part_pos3( vpr.part() );
         level_cache &ch = get_cache( p.z );
-        ch.veh_in_active_range = true;
-        ch.veh_cached_parts[p] = std::make_pair( veh,  static_cast<int>( vpr.part_index() ) );
+        ch.set_veh_cached_parts( p, *veh, static_cast<int>( vpr.part_index() ) );
         if( inbounds( p ) ) {
-            ch.veh_exists_at[p.x][p.y] = true;
+            ch.set_veh_exists_at( p, true );
         }
     }
 }
@@ -254,27 +256,17 @@ void map::clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt )
 
     level_cache &ch = get_cache( pt.z );
     if( inbounds( pt ) ) {
-        ch.veh_exists_at[pt.x][pt.y] = false;
+        ch.set_veh_exists_at( pt, false );
     }
-    auto it = ch.veh_cached_parts.find( pt );
-    if( it != ch.veh_cached_parts.end() && it->second.first == veh ) {
-        ch.veh_cached_parts.erase( it );
-    }
-
+    ch.clear_veh_from_veh_cached_parts( pt, veh );
 }
 
-void map::clear_vehicle_cache( const int zlev )
+void map::clear_vehicle_level_caches( )
 {
-    level_cache &ch = get_cache( zlev );
-    while( !ch.veh_cached_parts.empty() ) {
-        const auto part = ch.veh_cached_parts.begin();
-        const auto &p = part->first;
-        if( inbounds( p ) ) {
-            ch.veh_exists_at[p.x][p.y] = false;
-        }
-        ch.veh_cached_parts.erase( part );
+    for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+        level_cache &ch = get_cache( gridz );
+        ch.clear_vehicle_cache();
     }
-    ch.veh_in_active_range = false;
 }
 
 void map::clear_vehicle_list( const int zlev )
@@ -331,13 +323,13 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
         if( current_submap->vehicles[i].get() == veh ) {
             ch.vehicle_list.erase( veh );
             ch.zone_vehicles.erase( veh );
-            reset_vehicle_cache( z );
             std::unique_ptr<vehicle> result = std::move( current_submap->vehicles[i] );
             current_submap->vehicles.erase( current_submap->vehicles.begin() + i );
             if( veh->tracking_on ) {
                 overmap_buffer.remove_vehicle( veh );
             }
             dirty_vehicle_list.erase( veh );
+            rebuild_vehicle_level_caches();
             return result;
         }
     }
@@ -443,22 +435,6 @@ bool map::vehproceed( VehicleList &vehicle_list )
     cur_veh->v = cur_veh->v->act_on_map();
     if( cur_veh->v == nullptr ) {
         vehicle_list = get_vehicles();
-    }
-
-    // confirm that veh_in_active_range is still correct for each z-level
-    int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
-    int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    for( int zlev = minz; zlev <= maxz; ++zlev ) {
-        level_cache &cache = get_cache( zlev );
-
-        // Check if any vehicles exist in the active range for this z-level
-        cache.veh_in_active_range = cache.veh_in_active_range &&
-                                    std::any_of( std::begin( cache.veh_exists_at ),
-        std::end( cache.veh_exists_at ), []( const auto & row ) {
-            return std::any_of( std::begin( row ), std::end( row ), []( bool veh_exists ) {
-                return veh_exists;
-            } );
-        } );
     }
 
     return true;
@@ -961,7 +937,7 @@ VehicleList map::get_vehicles( const tripoint &start, const tripoint &end )
 
 optional_vpart_position map::veh_at( const tripoint &p ) const
 {
-    if( !inbounds( p ) || !const_cast<map *>( this )->get_cache( p.z ).veh_in_active_range ) {
+    if( !inbounds( p ) || !const_cast<map *>( this )->get_cache( p.z ).get_veh_in_active_range() ) {
         return optional_vpart_position( cata::nullopt );
     }
 
@@ -978,15 +954,15 @@ const vehicle *map::veh_at_internal( const tripoint &p, int &part_num ) const
 {
     // This function is called A LOT. Move as much out of here as possible.
     const level_cache &ch = get_cache( p.z );
-    if( !ch.veh_in_active_range || !ch.veh_exists_at[p.x][p.y] ) {
+    if( !ch.get_veh_in_active_range() || !ch.get_veh_exists_at( p ) ) {
         part_num = -1;
         return nullptr; // Clear cache indicates no vehicle. This should optimize a great deal.
     }
 
-    const auto it = ch.veh_cached_parts.find( p );
-    if( it != ch.veh_cached_parts.end() ) {
-        part_num = it->second.second;
-        return it->second.first;
+    std::pair<vehicle *, int> ret = ch.get_veh_cached_parts( p );
+    if( ret.first ) {
+        part_num = ret.second;
+        return ret.first;
     }
 
     debugmsg( "vehicle part cache indicated vehicle not found: %d %d %d", p.x, p.y, p.z );
@@ -1603,7 +1579,7 @@ uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
 const harvest_id &map::get_harvest( const tripoint &pos ) const
 {
     const auto furn_here = furn( pos );
-    if( furn_here->examine != iexamine::none ) {
+    if( furn_here->can_examine() ) {
         // Note: if furniture can be examined, the terrain can NOT (until furniture is removed)
         if( furn_here->has_flag( TFLAG_HARVESTED ) ) {
             return harvest_id::NULL_ID();
@@ -1624,7 +1600,7 @@ const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 {
     static const std::set<std::string> null_harvest_names = {};
     const auto furn_here = furn( pos );
-    if( furn_here->examine != iexamine::none ) {
+    if( furn_here->can_examine() ) {
         if( furn_here->has_flag( TFLAG_HARVESTED ) ) {
             return null_harvest_names;
         }
@@ -1655,7 +1631,7 @@ ter_id map::get_ter_transforms_into( const tripoint &p ) const
 void map::examine( Character &p, const tripoint &pos )
 {
     const furn_t furn_here = furn( pos ).obj();
-    if( furn_here.examine != iexamine::none ) {
+    if( furn_here.can_examine() ) {
         furn_here.examine( dynamic_cast<player &>( p ), pos );
     } else {
         ter( pos ).obj().examine( dynamic_cast<player &>( p ), pos );
@@ -2061,7 +2037,7 @@ bool map::has_floor( const tripoint &p ) const
         return true;
     }
 
-    return get_cache_ref( p.z ).floor_cache[p.x][p.y];
+    return !ter( p )->has_flag( TFLAG_NO_FLOOR );
 }
 
 bool map::supports_above( const tripoint &p ) const
@@ -2698,19 +2674,20 @@ bool map::flammable_items_at( const tripoint &p, int threshold )
 
 bool map::is_flammable( const tripoint &p )
 {
-    if( flammable_items_at( p ) ) {
+
+    if( has_flag( TFLAG_FLAMMABLE, p ) ) {
         return true;
     }
 
-    if( has_flag( "FLAMMABLE", p ) ) {
-        return true;
-    }
-
-    if( has_flag( "FLAMMABLE_ASH", p ) ) {
+    if( has_flag( TFLAG_FLAMMABLE_ASH, p ) ) {
         return true;
     }
 
     if( get_field_intensity( p, fd_web ) > 0 ) {
+        return true;
+    }
+
+    if( flammable_items_at( p ) ) {
         return true;
     }
 
@@ -3668,9 +3645,12 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     };
 
     ter_id terrain = ter( p );
-    if( terrain == t_wall_wood_broken ||
-        terrain == t_wall_log_broken ||
-        terrain == t_door_b ) {
+    if( terrain->has_flag( TFLAG_NO_SHOOT ) ) {
+        dam = 0.0f;
+        add_msg( _( "The shot is stopped by the %s" ), terrain->name() );
+    } else if( terrain == t_wall_wood_broken ||
+               terrain == t_wall_log_broken ||
+               terrain == t_door_b ) {
         if( hit_items || one_in( 8 ) ) { // 1 in 8 chance of hitting the door
             dam -= rng( 20, 40 );
             if( dam > 0 ) {
@@ -4521,6 +4501,13 @@ item map::water_from( const tripoint &p )
         return ret;
     }
 
+    if( has_flag( "CHOCOLATE", p ) ) {
+        item ret( "liquid_cacao", calendar::turn, item::INFINITE_CHARGES );
+        ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+                                  temperatures::cold ) ) );
+        return ret;
+    }
+
     const ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
         item ret( "water_sewage", calendar::turn, item::INFINITE_CHARGES );
@@ -4534,7 +4521,7 @@ item map::water_from( const tripoint &p )
     ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
                               temperatures::cold ) ) );
     // iexamine::water_source requires a valid liquid from this function.
-    if( terrain_id.obj().examine == &iexamine::water_source ) {
+    if( terrain_id->has_examine( iexamine::water_source ) ) {
         int poison_chance = 0;
         if( terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) ) {
             if( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) {
@@ -4554,7 +4541,7 @@ item map::water_from( const tripoint &p )
         }
         return ret;
     }
-    if( furn( p ).obj().examine == &iexamine::water_source ) {
+    if( furn( p )->has_examine( iexamine::water_source ) ) {
         return ret;
     }
     return item();
@@ -6584,11 +6571,14 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
     submaps_with_active_items.clear();
     // TODO: fix point types
     set_abs_sub( w.raw() );
+    clear_vehicle_level_caches();
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             loadn( point( gridx, gridy ), update_vehicle, false );
         }
     }
+    rebuild_vehicle_level_caches();
+
     // actualize after loading all submaps to prevent errors
     // with entities at the edges
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
@@ -6707,11 +6697,11 @@ void map::shift( const point &sp )
     // Shift the map sx submaps to the right and sy submaps down.
     // sx and sy should never be bigger than +/-1.
     // absx and absy are our position in the world, for saving/loading purposes.
+    clear_vehicle_level_caches();
     for( int gridz = zmin; gridz <= zmax; gridz++ ) {
         // Clear vehicle list and rebuild after shift
         // mlangsdorf 2020 - this is kind of insane, building the cache is not free, why are
         // we doing this?
-        clear_vehicle_cache( gridz );
         clear_vehicle_list( gridz );
         shift_bitset_cache<MAPSIZE_X, SEEX>( get_cache( gridz ).map_memory_seen_cache, sp );
         shift_bitset_cache<MAPSIZE, 1>( get_cache( gridz ).field_cache, sp );
@@ -6801,8 +6791,8 @@ void map::shift( const point &sp )
             }
         }
 
-        reset_vehicle_cache( gridz );
     }
+    rebuild_vehicle_level_caches();
 
     g->setremoteveh( remoteveh );
 
@@ -6953,6 +6943,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
     if( tmpsub->field_count > 0 ) {
         get_cache( grid.z ).field_cache.set( grid.x + grid.y * MAPSIZE );
     }
+
     // Destroy bugged no-part vehicles
     auto &veh_vec = tmpsub->vehicles;
     for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
@@ -6962,7 +6953,6 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
             veh->sm_pos = grid;
             iter++;
         } else {
-            reset_vehicle_cache( grid.z );
             if( veh->tracking_on ) {
                 overmap_buffer.remove_vehicle( veh );
             }
@@ -6981,7 +6971,6 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
                 if( !veh->loot_zones.empty() ) {
                     map_cache.zone_vehicles.insert( veh.get() );
                 }
-                add_vehicle_to_cache( veh.get() );
             }
         }
     }
@@ -7584,7 +7573,9 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
 
         for( int j = 0; j < i.count; j++ ) {
             monster tmp( i.type );
-            tmp.mission_id = i.mission_id;
+            if( i.mission_id > 0 ) {
+                tmp.mission_ids = { i.mission_id };
+            }
             if( i.name != "NONE" ) {
                 tmp.unique_name = i.name;
             }
@@ -8027,7 +8018,7 @@ bool map::build_floor_cache( const int zlev )
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     point sp( sx, sy );
                     const ter_t &terrain = cur_submap->get_ter( sp ).obj();
-                    if( terrain.has_flag( TFLAG_NO_FLOOR ) ) {
+                    if( terrain.has_flag( TFLAG_NO_FLOOR ) || terrain.has_flag( TFLAG_GOES_DOWN ) ) {
                         if( below_submap && ( below_submap->get_furn( sp ).obj().has_flag( TFLAG_SUN_ROOF_ABOVE ) ) ) {
                             continue;
                         }
@@ -8650,27 +8641,6 @@ const level_cache &map::access_cache( int zlev ) const
 
     debugmsg( "access_cache called with invalid z-level: %d", zlev );
     return nullcache;
-}
-
-level_cache::level_cache()
-{
-    const int map_dimensions = MAPSIZE_X * MAPSIZE_Y;
-    transparency_cache_dirty.set();
-    outside_cache_dirty = true;
-    floor_cache_dirty = false;
-    constexpr four_quadrants four_zeros( 0.0f );
-    std::fill_n( &lm[0][0], map_dimensions, four_zeros );
-    std::fill_n( &sm[0][0], map_dimensions, 0.0f );
-    std::fill_n( &light_source_buffer[0][0], map_dimensions, 0.0f );
-    std::fill_n( &outside_cache[0][0], map_dimensions, false );
-    std::fill_n( &floor_cache[0][0], map_dimensions, false );
-    std::fill_n( &transparency_cache[0][0], map_dimensions, 0.0f );
-    std::fill_n( &vision_transparency_cache[0][0], map_dimensions, 0.0f );
-    std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
-    std::fill_n( &camera_cache[0][0], map_dimensions, 0.0f );
-    std::fill_n( &visibility_cache[0][0], map_dimensions, lit_level::DARK );
-    veh_in_active_range = false;
-    std::fill_n( &veh_exists_at[0][0], map_dimensions, false );
 }
 
 pathfinding_cache::pathfinding_cache()

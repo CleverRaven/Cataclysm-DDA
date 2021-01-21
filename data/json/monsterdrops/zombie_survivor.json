@@ -25,7 +25,10 @@
         ]
       },
       { "item": "cash_card", "charges-min": 25000, "charges-max": 100000 },
-      { "item": "survival_kit", "prob": 5, "damage": [ 1, 4 ] }
+      {
+        "distribution": [ { "group": "full_survival_kit", "damage": [ 1, 4 ] }, { "group": "used_survival_kit", "damage": [ 1, 4 ] } ],
+        "prob": 5
+      }
     ]
   },
   {

@@ -718,7 +718,7 @@
         "motel_city": 10,
         "fishing_pond_city": 10,
         "trailerpark_city": 15,
-        "railroad_city": 10
+        "railroad_city": 5
       },
       "parks": {
         "park": 400,
@@ -932,6 +932,7 @@
         "hospital": 175,
         "urban_35_hospital": 175,
         "public_works": 200,
+        "office_tower": 150,
         "office_tower_2": 150,
         "office_tower_large": 500,
         "office_tower_hiddenlab": 50,

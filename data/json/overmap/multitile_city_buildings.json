@@ -2006,14 +2006,14 @@
     "id": "office_tower",
     "locations": [ "land" ],
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "office_tower_1" },
-      { "point": [ 1, 0, 0 ], "overmap": "office_tower_1_entrance" },
-      { "point": [ 0, 1, 0 ], "overmap": "office_tower_1" },
-      { "point": [ 1, 1, 0 ], "overmap": "office_tower_1" },
-      { "point": [ 0, 0, -1 ], "overmap": "office_tower_b" },
-      { "point": [ 1, 0, -1 ], "overmap": "office_tower_b_entrance" },
-      { "point": [ 0, 1, -1 ], "overmap": "office_tower_b" },
-      { "point": [ 1, 1, -1 ], "overmap": "office_tower_b" }
+      { "point": [ 0, 0, 0 ], "overmap": "office_tower_nw_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "office_tower_ne_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "office_tower_sw_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "office_tower_se_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "office_tower_underground_nw_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "office_tower_underground_ne_north" },
+      { "point": [ 0, 1, -1 ], "overmap": "office_tower_underground_sw_north" },
+      { "point": [ 1, 1, -1 ], "overmap": "office_tower_underground_se_north" }
     ]
   },
   {

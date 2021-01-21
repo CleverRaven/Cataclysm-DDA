@@ -84,6 +84,9 @@ void clear_character( player &dummy )
     dummy.set_speed_base( 100 );
     dummy.set_speed_bonus( 0 );
     dummy.set_sleep_deprivation( 0 );
+    for( const proficiency_id &prof : dummy.known_proficiencies() ) {
+        dummy.lose_proficiency( prof, true );
+    }
 
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
@@ -112,6 +115,7 @@ void clear_character( player &dummy )
 void clear_avatar()
 {
     clear_character( get_avatar() );
+    get_avatar().clear_identified();
 }
 
 void process_activity( player &dummy )

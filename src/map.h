@@ -26,6 +26,7 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_stack.h"
+#include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
 #include "lru_cache.h"
@@ -80,7 +81,6 @@ struct MonsterGroupResult;
 struct mongroup;
 struct projectile;
 struct veh_collision;
-template<typename T>
 class visitable;
 
 struct wrapped_vehicle {
@@ -158,80 +158,6 @@ struct bash_params {
     bool bashing_from_above = false;
 };
 
-struct level_cache {
-    // Zeros all relevant values
-    level_cache();
-    level_cache( const level_cache &other ) = default;
-
-    std::bitset<MAPSIZE *MAPSIZE> transparency_cache_dirty;
-    bool outside_cache_dirty = false;
-    bool floor_cache_dirty = false;
-    bool seen_cache_dirty = false;
-    // This is a single value indicating that the entire level is floored.
-    bool no_floor_gaps = false;
-
-    four_quadrants lm[MAPSIZE_X][MAPSIZE_Y];
-    float sm[MAPSIZE_X][MAPSIZE_Y];
-    // To prevent redundant ray casting into neighbors: precalculate bulk light source positions.
-    // This is only valid for the duration of generate_lightmap
-    float light_source_buffer[MAPSIZE_X][MAPSIZE_Y];
-
-    // if false, means tile is under the roof ("inside"), true means tile is "outside"
-    // "inside" tiles are protected from sun, rain, etc. (see "INDOORS" flag)
-    bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
-
-    // true when vehicle below has "ROOF" or "OPAQUE" part, furniture below has "SUN_ROOF_ABOVE"
-    //      or terrain doesn't have "NO_FLOOR" flag
-    // false otherwise
-    // i.e. true == has floor
-    bool floor_cache[MAPSIZE_X][MAPSIZE_Y];
-
-    // stores cached transparency of the tiles
-    // units: "transparency" (see LIGHT_TRANSPARENCY_OPEN_AIR)
-    float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
-
-    // materialized  (transparency_cache[i][j] > LIGHT_TRANSPARENCY_SOLID)
-    // doesn't consider fields (i.e. if tile is covered in thick smoke, it's still
-    // considered transparent for the purpuses of this cache)
-    // true, if tile is not opaque
-    std::array<std::bitset<MAPSIZE_Y>, MAPSIZE_X> transparent_cache_wo_fields;
-
-    // stores "adjusted transparency" of the tiles
-    // initial values derived from transparency_cache, uses same units
-    // examples of adjustment: changed transparency on player's tile and special case for crouching
-    float vision_transparency_cache[MAPSIZE_X][MAPSIZE_Y];
-
-    // stores "visibility" of the tiles to the player
-    // values range from 1 (fully visible to player) to 0 (not visible)
-    float seen_cache[MAPSIZE_X][MAPSIZE_Y];
-
-    // same as `seen_cache` (same units) but contains values for cameras and mirrors
-    // effective "visibility_cache" is calculated as "max(seen_cache, camera_cache)"
-    float camera_cache[MAPSIZE_X][MAPSIZE_Y];
-
-    // reachability caches
-    // Note: indirection here is introduced, because caches are quite large:
-    // at least (MAPSIZE_X * MAPSIZE_Y) * 4 bytes (≈69,696 bytes) each
-    // so having them directly as part of the level_cache interferes with
-    // CPU cache coherency of level_cache
-    cata::value_ptr<reachability_cache_horizontal>r_hor_cache =
-        cata::make_value<reachability_cache_horizontal>();
-    cata::value_ptr<reachability_cache_vertical> r_up_cache =
-        cata::make_value<reachability_cache_vertical>();
-
-    // stores resulting apparent brightness to player, calculated by map::apparent_light_at
-    lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
-    std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
-    std::bitset<MAPSIZE *MAPSIZE> field_cache;
-
-    bool veh_in_active_range = false;
-    bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
-    std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
-    std::set<vehicle *> vehicle_list;
-    std::set<vehicle *> zone_vehicles;
-
-};
-
 /**
  * Manage and cache data about a part of the map.
  *
@@ -256,7 +182,8 @@ struct level_cache {
 class map
 {
         friend class editmap;
-        friend class visitable<map_cursor>;
+        friend std::list<item> map_cursor::remove_items_with( const std::function<bool( const item & )> &,
+                int );
 
     public:
         // Constructors & Initialization
@@ -401,7 +328,7 @@ class map
             bool obstructed;
             float apparent_light;
         };
-        /** Helper function for light claculation; exposed here for map editor
+        /** Helper function for light calculation; exposed here for map editor
          */
         static apparent_light_info apparent_light_helper( const level_cache &map_cache,
                 const tripoint &p );
@@ -659,8 +586,10 @@ class map
         VehicleList get_vehicles();
         void add_vehicle_to_cache( vehicle * );
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
-        void reset_vehicle_cache( int zlev );
-        void clear_vehicle_cache( int zlev );
+        // clears all vehicle level caches
+        void clear_vehicle_level_caches();
+        // clears and build vehicle level caches
+        void rebuild_vehicle_level_caches();
         void clear_vehicle_list( int zlev );
         void update_vehicle_list( const submap *to, int zlev );
         //Returns true if vehicle zones are dirty and need to be recached
@@ -1684,7 +1613,6 @@ class map
         void copy_grid( const tripoint &to, const tripoint &from );
         void draw_map( mapgendata &dat );
 
-        void draw_office_tower( const mapgendata &dat );
         void draw_lab( mapgendata &dat );
         void draw_temple( const mapgendata &dat );
         void draw_mine( mapgendata &dat );
@@ -1804,7 +1732,7 @@ class map
         /**
          * Conditionally invalidates max_pupulated_zlev cache if the submap uniformity change occurs above current
          *  max_pupulated_zlev value
-         * @param zlev zlevel where uniformity change occured
+         * @param zlev zlevel where uniformity change occurred
          */
         void invalidate_max_populated_zlev( int zlev );
 
@@ -1902,7 +1830,7 @@ class map
          */
         std::vector<submap *> grid;
         /**
-         * This vector contains an entry for each trap type, it has therefor the same size
+         * This vector contains an entry for each trap type, it has therefore the same size
          * as the traplist vector. Each entry contains a list of all point on the map that
          * contain a trap of that type. The first entry however is always empty as it denotes the
          * tr_null trap.

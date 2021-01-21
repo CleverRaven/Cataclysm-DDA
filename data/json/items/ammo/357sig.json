@@ -2,7 +2,7 @@
   {
     "id": "357sig_fmj",
     "type": "AMMO",
-    "name": { "str": ".357 SIG FMJ" },
+    "name": { "str_sp": ".357 SIG FMJ" },
     "description": "Jacketed .357 SIG ammunition.  The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.",
     "weight": "8 g",
     "volume": "132 ml",
@@ -26,7 +26,7 @@
     "id": "357sig_jhp",
     "copy-from": "357sig_fmj",
     "type": "AMMO",
-    "name": { "str": ".357 SIG JHP" },
+    "name": { "str_sp": ".357 SIG JHP" },
     "description": "Jacketed hollow point .357 SIG ammunition.  The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -2 } }
   },
@@ -34,7 +34,7 @@
     "id": "reloaded_357sig_fmj",
     "copy-from": "357sig_fmj",
     "type": "AMMO",
-    "name": { "str": ".357 SIG FMJ, reloaded" },
+    "name": { "str_sp": ".357 SIG FMJ, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -43,7 +43,7 @@
     "id": "reloaded_357sig_jhp",
     "copy-from": "357sig_jhp",
     "type": "AMMO",
-    "name": { "str": ".357 SIG JHP, reloaded" },
+    "name": { "str_sp": ".357 SIG JHP, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -52,7 +52,7 @@
     "id": "bp_357sig_fmj",
     "copy-from": "357sig_fmj",
     "type": "AMMO",
-    "name": { "str": ".357 SIG FMJ, black powder" },
+    "name": { "str_sp": ".357 SIG FMJ, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -66,7 +66,7 @@
     "id": "bp_357sig_jhp",
     "copy-from": "357sig_jhp",
     "type": "AMMO",
-    "name": { "str": ".357 SIG JHP, black powder" },
+    "name": { "str_sp": ".357 SIG JHP, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },

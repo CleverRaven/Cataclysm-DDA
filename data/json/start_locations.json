@@ -241,6 +241,13 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_river",
+    "name": "River",
+    "terrain": [ "river" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_bridge",
     "name": "Bridge",
     "terrain": [ "bridgehead_ground" ],

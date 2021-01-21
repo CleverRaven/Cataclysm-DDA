@@ -24,8 +24,8 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "friendly": [ "slime", "cult", "zombie_aquatic" ],
-    "neutral": [ "small_animal", "insect", "fish" ],
-    "by_mood": "bee"
+    "neutral": [ "small_animal", "fish", "insect" ],
+    "by_mood": [ "bee", "wasp" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -265,7 +265,9 @@
   {
     "type": "MONSTER_FACTION",
     "name": "wasp",
-    "//": "TODO assign base faction and/or attitude"
+    "base_faction": "insect",
+    "neutral": [ "spider", "centipede" ],
+    "hate": [ "insect", "small_animal" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -291,12 +293,14 @@
     "base_faction": "insect",
     "by_mood": [ "centipede", "spider" ],
     "hate": [ "insect", "small_animal" ],
-    "neutral": [ "dragonfly" ]
+    "neutral": [ "dragonfly", "aquatic_predator" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "centipede",
-    "base_faction": "insect"
+    "base_faction": "insect",
+    "neutral": [ "spider", "bee", "wasp" ],
+    "hate": [ "insect", "animal" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -307,6 +311,8 @@
     "type": "MONSTER_FACTION",
     "name": "spider",
     "base_faction": "insect",
+    "neutral": [ "centipede", "bee", "wasp", "zombie" ],
+    "hate": [ "insect", "animal" ],
     "by_mood": "spider"
   },
   {
@@ -368,7 +374,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "aquatic_predator",
-    "neutral": "bot",
+    "neutral": [ "bot", "dragonfly" ],
     "hate": "fish"
   }
 ]

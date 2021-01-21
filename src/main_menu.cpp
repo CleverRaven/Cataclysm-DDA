@@ -1239,7 +1239,7 @@ void main_menu::world_tab()
                 points.limit = points_left::TRANSFER;
 
                 player_character.setID( character_id(), true );
-                player_character.reset_all_misions();
+                player_character.reset_all_missions();
                 player_character.save_template( player_character.name, points );
 
                 player_character = avatar();

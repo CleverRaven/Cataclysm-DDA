@@ -121,7 +121,7 @@ struct talk_effect_fun_t {
         void set_npc_cbm_reserve_rule( const std::string &setting );
         void set_npc_cbm_recharge_rule( const std::string &setting );
         void set_mapgen_update( const JsonObject &jo, const std::string &member );
-        void set_bulk_trade_accept( bool is_trade, bool is_npc = false );
+        void set_bulk_trade_accept( bool is_trade, int quantity, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
         void set_add_mission( const std::string &mission_id );
         const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;

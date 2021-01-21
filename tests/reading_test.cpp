@@ -20,6 +20,23 @@ static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
+TEST_CASE( "clearing identified books", "[reading][book][identify][clear]" )
+{
+    item book( "child_book" );
+    SECTION( "using local avatar" ) {
+        avatar dummy;
+        dummy.identify( book );
+        dummy.clear_identified();
+        REQUIRE_FALSE( dummy.has_identified( book.typeId() ) );
+    }
+    SECTION( "test helper clear_avatar() also clears items identified" ) {
+        avatar &dummy = get_avatar();
+        dummy.identify( book );
+        clear_avatar();
+        REQUIRE_FALSE( dummy.has_identified( book.typeId() ) );
+    }
+}
+
 TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 {
     clear_avatar();

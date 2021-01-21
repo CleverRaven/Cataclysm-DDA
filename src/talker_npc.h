@@ -67,6 +67,7 @@ class talker_npc : public talker_character
         int cash_to_favor( int value ) const override;
         std::string give_item_to( bool to_use ) override;
         bool buy_from( int amount ) override;
+        int value( const item &it ) const override;
 
         // missions
         std::vector<mission *> available_missions() const override;

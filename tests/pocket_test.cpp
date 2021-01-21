@@ -1271,9 +1271,9 @@ TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
             item_pocket::favorite_settings settings;
             settings.whitelist_category( test_item.get_category_shallow().id );
             settings.whitelist_item( test_item.typeId() );
-            THEN( "both category and item must match" ) {
+            THEN( "either category or item must match" ) {
                 REQUIRE( settings.accepts_item( test_item ) );
-                REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE( settings.accepts_item( test_item_same_category ) );
                 REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
             }
         }
@@ -1285,21 +1285,23 @@ TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
             THEN( "item allowance override category restrictions" ) {
                 REQUIRE( settings.accepts_item( test_item ) );
                 REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
-                // Not blacklisted, but not whitelisted either
-                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+                // Not blacklisted, there's no category whitelist
+                REQUIRE( settings.accepts_item( test_item_different_category ) );
             }
         }
 
         WHEN( "category blacklisted and item blacklisted" ) {
             item_pocket::favorite_settings settings;
-            settings.blacklist_category( test_item_different_category.get_category_shallow().id );
-            settings.blacklist_item( test_item_same_category.typeId() );
+            settings.blacklist_category( test_item.get_category_shallow().id );
+            settings.blacklist_item( test_item.typeId() );
             THEN( "both category and item are blocked" ) {
-                REQUIRE( settings.accepts_item( test_item ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item ) );
                 REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
-                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+                // Not blacklisted
+                REQUIRE( settings.accepts_item( test_item_different_category ) );
             }
         }
+
     }
 }
 

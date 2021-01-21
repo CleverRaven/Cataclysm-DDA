@@ -12,6 +12,7 @@
 #include <utility>
 
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "ammo.h"
 #include "avatar.h"
@@ -135,6 +136,7 @@ static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_charcoal( "charcoal" );
 static const itype_id itype_chem_carbide( "chem_carbide" );
 static const itype_id itype_corpse( "corpse" );
+static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_hickory_root( "hickory_root" );
 static const itype_id itype_fake_milling_item( "fake_milling_item" );
@@ -217,6 +219,7 @@ static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
 static const std::string flag_PICKABLE( "PICKABLE" );
+static const std::string flag_NANOFAB_TABLE( "NANOFAB_TABLE" );
 static const std::string flag_WALL( "WALL" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
@@ -272,15 +275,17 @@ void iexamine::cvdmachine( player &p, const tripoint & )
 }
 
 /**
- * UI FOR LAB_FINALE NANO FABRICATOR.
+ * TEMPLATE FABRICATORS
+ * Generate items from found blueprints.
  */
 void iexamine::nanofab( player &p, const tripoint &examp )
 {
     bool table_exists = false;
     tripoint spawn_point;
     map &here = get_map();
+    std::set<itype_id> allowed_template = here.ter( examp )->allowed_template_id;
     for( const auto &valid_location : here.points_in_radius( examp, 1 ) ) {
-        if( here.ter( valid_location ) == ter_str_id( "t_nanofab_body" ) ) {
+        if( here.has_flag( flag_NANOFAB_TABLE, valid_location ) ) {
             spawn_point = valid_location;
             table_exists = true;
             break;
@@ -289,11 +294,21 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     if( !table_exists ) {
         return;
     }
+    //Create a list of the names of all acceptable templates.
+    std::set<std::string> templatenames;
+    for( const itype_id &id : allowed_template ) {
+        templatenames.insert( id->nname( 1 ) );
+    }
+    std::string name_list =  enumerate_as_string( templatenames );
 
-    item_location nanofab_template = g->inv_map_splice( []( const item & e ) {
-        return e.has_var( "NANOFAB_ITEM_ID" );
-    }, _( "Introduce Nanofabricator template" ), PICKUP_RANGE,
-    _( "You don't have any usable templates." ) );
+    //Template selection
+    item_location nanofab_template = g->inv_map_splice( [&]( const item & e ) {
+        return  std::any_of( allowed_template.begin(), allowed_template.end(),
+        [&e]( const itype_id itid ) {
+            return e.typeId() == itid;
+        } );
+    }, _( "Introduce a compatible template." ), PICKUP_RANGE,
+    _( "You don't have any usable templates.\n\nCompatible templates are: " ) + name_list );
 
     if( !nanofab_template ) {
         return;
@@ -302,8 +317,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     item new_item( nanofab_template->get_var( "NANOFAB_ITEM_ID" ), calendar::turn );
 
     int qty = std::max( 1, new_item.volume() / 250_ml );
-    requirement_data reqs = *requirement_id( "nanofabricator" ) * qty;
-
+    requirement_data reqs = *nanofab_template->type->template_requirements * qty;
     if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;
@@ -1281,15 +1295,13 @@ void iexamine::bars( player &p, const tripoint &examp )
         return;
     }
     map &here = get_map();
-    if( ( ( p.encumb( bodypart_id( "torso" ) ) ) >= 10 ) &&
-        ( ( p.encumb( bodypart_id( "head" ) ) ) >= 10 ) &&
-        ( p.encumb( bodypart_id( "foot_l" ) ) >= 10 ||
-          p.encumb( bodypart_id( "foot_r" ) ) >=
-          10 ) ) { // Most likely places for rigid gear that would catch on the bars.
-        add_msg( m_info,
-                 _( "Your amorphous body could slip though the %s, but your cumbersome gear can't." ),
-                 here.tername( examp ) );
-        return;
+    for( const bodypart_id &bp : p.get_all_body_parts() ) {
+        if( p.encumb( bp ) >= 10 ) {
+            add_msg( m_info,
+                     _( "Your amorphous body could slip though the %s, but your cumbersome gear can't." ),
+                     here.tername( examp ) );
+            return;
+        }
     }
     if( !query_yn( _( "Slip through the %s?" ), here.tername( examp ) ) ) {
         none( p, examp );
@@ -1619,8 +1631,12 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
     } );
 
     for( item *it : picklocks ) {
+        if( !query_yn( _( "Pick lock the lock of %1$s using your %2$s?" ),
+                       here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() ) ) {
+            return;
+        }
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
-        p.add_msg_if_player( _( "You attempt to pick lock of %1$s using your %2$s…" ),
+        p.add_msg_if_player( _( "You attempt to pick the lock of %1$s using your %2$s…" ),
                              here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
         const ret_val<bool> can_use = iuse_fn->can_call( p, *it, false, examp );
         if( can_use.success() ) {
@@ -2723,14 +2739,14 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
     }
 
     if( !fuel_present ) {
-        add_msg( _( "This furance is empty.  Fill it with powdered coke and lime mix, and try again." ) );
+        add_msg( _( "This furnace is empty.  Fill it with powdered coke and lime mix, and try again." ) );
         return;
     }
 
     ///\EFFECT_FABRICATION decreases loss when firing a furnace
     const int skill = p.get_skill_level( skill_fabrication );
     int loss = 60 - 2 *
-               skill; // Inefficency is still fine, coal and limestone is abundant
+               skill; // Inefficiency is still fine, coal and limestone is abundant
 
     // Burn stuff that should get charred, leave out the rest
     units::volume total_volume = 0_ml;
@@ -2741,7 +2757,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
     const itype *char_type = item::find_type( itype_unfinished_cac2 );
     int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
     if( char_charges < 1 ) {
-        add_msg( _( "The batch in this furance is too small to yield usable calcium carbide." ) );
+        add_msg( _( "The batch in this furnace is too small to yield usable calcium carbide." ) );
         return;
     }
     //arc furnaces require a huge amount of current, so 1 full storage battery would work as a stand in
@@ -3541,7 +3557,7 @@ static item_location maple_tree_sap_container()
     const item maple_sap = item( "maple_sap", calendar::turn_zero );
     return g->inv_map_splice( [&]( const item & it ) {
         return it.get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
-    }, _( "Which container?" ), PICKUP_RANGE );
+    }, _( "Use which container to collect sap?" ), PICKUP_RANGE );
 }
 
 void iexamine::tree_maple( player &p, const tripoint &examp )
@@ -3572,13 +3588,14 @@ void iexamine::tree_maple( player &p, const tripoint &examp )
     p.mod_moves( -to_moves<int>( 20_seconds ) );
     map &here = get_map();
     here.ter_set( examp, t_tree_maple_tapped );
+    add_msg( m_info, _( "You drill the maple tree crust and tap a spile into the prepared hole." ) );
 
     item_location cont_loc = maple_tree_sap_container();
 
     item *container = cont_loc.get_item();
     if( container ) {
         here.add_item_or_charges( examp, *container, false );
-
+        add_msg( m_info, _( "You hang the %s under the spile to collect sap." ), container->tname( 1 ) );
         cont_loc.remove_item();
     } else {
         add_msg( m_info, _( "No container added.  The sap will just spill on the ground." ) );
@@ -3600,7 +3617,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         if( it.will_spill() || it.is_watertight_container() ) {
             container = &it;
 
-            it.visit_items( [&charges, &has_sap]( const item * it ) {
+            it.visit_items( [&charges, &has_sap]( const item * it, item * ) {
                 if( it->typeId() == itype_maple_syrup ) {
                     has_sap = true;
                     charges = it->charges;
@@ -3656,7 +3673,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
             container = cont_loc.get_item();
             if( container ) {
                 here.add_item_or_charges( examp, *container, false );
-
+                add_msg( m_info, _( "You hang the %s under the spile to collect sap." ), container->tname( 1 ) );
                 cont_loc.remove_item();
             } else {
                 add_msg( m_info, _( "No container added.  The sap will just spill on the ground." ) );
@@ -3948,7 +3965,7 @@ void trap::examine( const tripoint &examp ) const
                 player_character.practice( skill_traps, 2 * difficulty );
             }
         }
-        //Picking up bubblewrap continously could powerlevel trap proficiencies, with no risk involved.
+        //Picking up bubblewrap continuously could powerlevel trap proficiencies, with no risk involved.
         if( difficulty != 0 ) {
             player_character.practice_proficiency( proficiency_prof_traps, 5_minutes );
             // Disarming a trap gives you a token bonus to learning to set them properly.
@@ -4576,7 +4593,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         }
         if( amount_money ) {
             add_msg( m_info, _( "All cash cards at maximum capacity." ) );
-            // all fuel already removed from pump, so remaning amount_money simply ignored
+            // all fuel already removed from pump, so remaining amount_money simply ignored
         }
         add_msg( m_info, _( "Your cash cards now hold %s." ),
                  format_money( p.charges_of( itype_cash_card ) ) );
@@ -5131,7 +5148,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
             if( patient.leak_level( flag_RADIOACTIVE ) ) {
-                popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's posession.  Urgent decontamination procedures highly recommended." ),
+                popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's possession.  Urgent decontamination procedures highly recommended." ),
                        patient.leak_level( flag_RADIOACTIVE ) );
             }
             break;
@@ -6088,7 +6105,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         vehicle_stack items_at_part = part->vehicle().get_items( part->part_index() );
 
         for( item &it : items_at_part ) {
-            if( it.is_craft() ) {
+            if( it.is_craft() && it.typeId() != itype_disassembly ) {
                 crafts.emplace_back( item_location( vehicle_cursor( part->vehicle(), part->part_index() ), &it ) );
             }
         }
@@ -6102,7 +6119,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         items_at_loc = !items_at_furn.empty();
 
         for( item &it : items_at_furn ) {
-            if( it.is_craft() ) {
+            if( it.is_craft() && it.typeId() != itype_disassembly ) {
                 crafts.emplace_back( item_location( map_cursor( examp ), &it ) );
             }
         }

@@ -1403,6 +1403,29 @@
     "use_action": [ "FLUSLEEP" ]
   },
   {
+    "id": "prophylactic_antivenom",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "prophylactic antivenom pill" },
+    "description": "An experimental, cutting-edge antivenom in the form of some small amber vials, designed to be injected a few hours before venom exposure.  It was developed in top secret by the military in response to increasing biological/chemical warfare.",
+    "weight": "40 g",
+    "volume": "250 ml",
+    "price": 10000,
+    "price_postapoc": 50000,
+    "charges": 5,
+    "stack_size": 10,
+    "symbol": "!",
+    "color": "brown",
+    "healthy": -1,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject a vial of prophylactic antivenom into your arm.  You feel a bit queasy.",
+      "tools_needed": { "syringe": -1 },
+      "effects": [ { "id": "prophylactic_antivenom", "duration": "120 m" }, { "id": "nausea", "duration": "5 m" } ]
+    },
+    "flags": [ "NO_INGEST", "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
+  },
+  {
     "id": "prozac",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
