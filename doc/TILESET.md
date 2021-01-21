@@ -185,9 +185,9 @@ Requires `pyvips` module.
 - Download `libvips` https://libvips.github.io/libvips/install.html
 - Make sure  directories with `python`, `pip` and `libvips` are in your `PATH` [environment variable](https://en.wikipedia.org/wiki/Environment_variable#Windows)
 - Press `Windows key + r` to open the "Run" dialog box
-- type `cmd` to get the console
-- run: `pip install --user pyvips`
-- run: `py -m pip install --upgrade pip`
+- run `cmd`, it should open the console
+- run `py -m pip install --upgrade pip` to get the latest version of `pip`
+- run `pip install --user pyvips` to install `pyvips`
 
 ## Legacy tilesets
 
