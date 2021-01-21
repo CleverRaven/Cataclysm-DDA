@@ -156,9 +156,19 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
     } else if( square.id == AIM_WORN ) {
         square.volume = 0_ml;
         square.weight = 0_gram;
+
+        if( u.weapon.is_container() ) {
+            advanced_inv_listitem it( &u.weapon, 0, 1, square.id, false );
+            if( !is_filtered( *it.items.front() ) ) {
+                square.volume += it.volume;
+                square.weight += it.weight;
+                items.push_back( it );
+            }
+        }
+
         auto iter = u.worn.begin();
         for( size_t i = 0; i < u.worn.size(); ++i, ++iter ) {
-            advanced_inv_listitem it( &*iter, i, 1, square.id, false );
+            advanced_inv_listitem it( &*iter, i + 1, 1, square.id, false );
             if( is_filtered( *it.items.front() ) ) {
                 continue;
             }
