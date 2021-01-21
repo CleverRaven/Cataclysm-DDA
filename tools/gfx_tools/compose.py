@@ -101,9 +101,14 @@ class Tileset:
     '''
     Referenced sprites memory and handling, tile entries conversion
     '''
-    def __init__(self, source_dir: str, output_dir: str) -> None:
+    def __init__(
+            self,
+            source_dir: str,
+            output_dir: str,
+            obsolete_fillers: bool = False,) -> None:
         self.source_dir = source_dir
         self.output_dir = output_dir
+        self.obsolete_fillers = obsolete_fillers
 
         self.pngnum = 1
         self.referenced_pngnames = []
@@ -177,14 +182,12 @@ class Tilesheet:
             self,
             tileset: Tileset,
             config_index: int,
-            obsolete_fillers: bool = False,
             sheet_width: int = 16) -> None:
         self.sheet_width = sheet_width  # sprites across, could be anything
         tilesheet_config_obj = tileset.info[config_index]
         self.name = next(iter(tilesheet_config_obj))
         self.specs = tilesheet_config_obj[self.name] or {}
         self.tileset = tileset
-        self.obsolete_fillers = obsolete_fillers
 
         self.sprite_width = self.specs.get(
             'sprite_width', tileset.sprite_width)
@@ -248,13 +251,14 @@ class Tilesheet:
         if pngname in self.tileset.pngname_to_pngnum:
             if not self.is_filler:
                 print(f'skipping {pngname}.png')
-            return
-        if self.is_filler and pngname in self.tileset.pngname_to_pngnum:
-            if self.obsolete_fillers:
-                print(f'Error: {pngname}.png is already present in a '
-                      'non-filler sheet')
-                global ERROR_LOGGED
-                ERROR_LOGGED = True
+
+            if self.is_filler:
+                if self.tileset.obsolete_fillers:
+                    print(f'Error: {pngname}.png is already present in a '
+                          'non-filler sheet')
+                    global ERROR_LOGGED
+                    ERROR_LOGGED = True
+
             return
 
         self.sprites.append(self.load_image(filepath))
@@ -482,7 +486,7 @@ if __name__ == '__main__':
     obsolete_fillers = args_dict.get('obsolete_fillers', False)
 
     # init tileset
-    tileset = Tileset(source_dir, output_dir)
+    tileset = Tileset(source_dir, output_dir, obsolete_fillers)
     tileset_confpath = os.path.join(
         output_dir, tileset.determine_conffile())
 
@@ -497,7 +501,7 @@ if __name__ == '__main__':
     # create sheet images
     # TODO: move into Tileset
     for config_index in range(1, len(tileset.info)):
-        sheet = Tilesheet(tileset, config_index, obsolete_fillers)
+        sheet = Tilesheet(tileset, config_index)
         sheet.set_first_index()
 
         if sheet.is_filler:
