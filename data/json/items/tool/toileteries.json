@@ -48,7 +48,7 @@
     "material": [ "cotton" ],
     "symbol": ",",
     "color": "white",
-   "use_action": [ "WASH_HARD_ITEMS" ],
+    "use_action": [ "WASH_HARD_ITEMS" ],
     "snippet_category": [
       { "id": "ktowel1", "text": "An elegant, monogrammed kitchen towel. Unfortunately, it's not your initial." },
       { "id": "ktowel2", "text": "An elegant, monogrammed kitchen towel. It even has your initial!" },
