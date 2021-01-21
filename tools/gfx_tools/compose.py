@@ -60,8 +60,11 @@ ERROR_LOGGED = False
 
 
 def write_to_json(pathname: str, data: Union[dict, list]) -> None:
-    with open(pathname, 'w') as fp:
-        json.dump(data, fp)
+    '''
+    Write data to a JSON file
+    '''
+    with open(pathname, 'w') as file:
+        json.dump(data, file)
 
     json_formatter = './tools/format/json_formatter.cgi'
     if os.path.isfile(json_formatter):
@@ -70,6 +73,10 @@ def write_to_json(pathname: str, data: Union[dict, list]) -> None:
 
 
 def find_or_make_dir(pathname: str) -> None:
+    '''
+    Autocreate needed directory if it doesn't exist
+    TODO: just use pathlib
+    '''
     try:
         os.stat(pathname)
     except OSError:
@@ -87,9 +94,9 @@ def read_properties(filepath: str) -> dict:
     '''
     tileset.txt reader
     '''
-    with open(filepath, 'r') as fp:
+    with open(filepath, 'r') as file:
         pairs = {}
-        for line in fp.readlines():
+        for line in file.readlines():
             line = line.strip()
             if line and not line.startswith('#'):
                 key, value = line.split(':')
@@ -109,6 +116,7 @@ class Tileset:
         self.source_dir = source_dir
         self.output_dir = output_dir
         self.obsolete_fillers = obsolete_fillers
+        self.output_conf_file = None
 
         self.pngnum = 1
         self.referenced_pngnames = []
@@ -129,8 +137,8 @@ class Tileset:
         self.info = [{}]
         if not os.access(info_path, os.R_OK):
             sys.exit(f'Error: cannot open {info_path}')
-        with open(info_path, 'r') as fp:
-            self.info = json.load(fp)
+        with open(info_path, 'r') as file:
+            self.info = json.load(file)
             self.sprite_width = self.info[0].get('width')
             self.sprite_height = self.info[0].get('height')
 
@@ -212,10 +220,6 @@ class Tilesheet:
             Vips.Image.grey(self.sprite_width, self.sprite_height)
         self.sprites = [self.null_image] if config_index == 1 else []
 
-    def set_first_index(self) -> None:
-        '''
-        Set initial indexes.
-        '''
         self.first_index = self.tileset.pngnum
         self.max_index = self.tileset.pngnum
 
@@ -304,9 +308,9 @@ class Tilesheet:
         '''
         Load and store tile entries from the file
         '''
-        with open(filepath, 'r') as fp:
+        with open(filepath, 'r') as file:
             try:
-                tile_entries = json.load(fp)
+                tile_entries = json.load(file)
             except Exception:
                 print(f'error loading {filepath}')
                 raise
@@ -336,6 +340,9 @@ class Tilesheet:
 
 
 class TileEntry:
+    '''
+    Tile entry handling
+    '''
     def __init__(self, tileset: Tileset, data) -> None:
         self.tileset = tileset
         self.data = data
@@ -453,12 +460,12 @@ class TileEntry:
                 if sprite_name not in self.tileset.referenced_pngnames:
                     self.tileset.referenced_pngnames.append(sprite_name)
                 return True
-            else:
-                print(f'Error: sprite {sprite_name} has no matching PNG file.'
-                      ' It will not be added to '
-                      f'{self.tileset.output_conf_file}')
-                global ERROR_LOGGED
-                ERROR_LOGGED = True
+
+            print(f'Error: sprite {sprite_name} has no matching PNG file.'
+                  ' It will not be added to '
+                  f'{self.tileset.output_conf_file}')
+            global ERROR_LOGGED
+            ERROR_LOGGED = True
         return False
 
 
@@ -503,7 +510,6 @@ if __name__ == '__main__':
     # TODO: move into Tileset
     for config_index in range(1, len(tileset.info)):
         sheet = Tilesheet(tileset, config_index)
-        sheet.set_first_index()
 
         if sheet.is_filler:
             sheet_type = 'filler'
@@ -566,7 +572,7 @@ if __name__ == '__main__':
     for unused_png in unused:
         unused_num = tileset.pngname_to_pngnum[unused_png]
         sheet_min_index = 0
-        for sheet_max_index in tiles_new_dict.keys():
+        for sheet_max_index in tiles_new_dict:
             if sheet_min_index < unused_num <= sheet_max_index:
                 tiles_new_dict[sheet_max_index]['tiles'].append(
                     {'id': unused_png.split('.png')[0],
@@ -575,7 +581,7 @@ if __name__ == '__main__':
             sheet_min_index = sheet_max_index
 
     # finalizing "tiles-new" config
-    tiles_new = [v for v in tiles_new_dict.values()]
+    tiles_new = list(tiles_new_dict.values())
 
     FALLBACK['file'] = fallback_name
     tiles_new.append(FALLBACK)
