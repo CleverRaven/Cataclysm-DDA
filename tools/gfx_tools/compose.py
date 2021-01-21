@@ -276,8 +276,11 @@ class Tilesheet:
         '''
         try:
             image = Vips.Image.pngload(png_path)
-        except (pyvips.error.Error, UnicodeDecodeError) as error:
+        except pyvips.error.Error as error:
             sys.exit(f'Cannot load {png_path}: {error.message}')
+        except UnicodeDecodeError:
+            sys.exit(f'Cannot load {png_path} with UnicodeDecodeError, '
+                     'please report')
         if image.interpretation != 'srgb':
             image = image.colourspace('srgb')
 
