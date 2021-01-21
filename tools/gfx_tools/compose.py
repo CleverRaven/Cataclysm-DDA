@@ -28,7 +28,7 @@ try:
     Vips = pyvips
 except ImportError:
     import gi
-    gi.require_version('Vips', '8.0')
+    gi.require_version('Vips', '8.0')  # NoQA
     from gi.repository import Vips
 
 PROPERTIES_FILENAME = 'tileset.txt'
@@ -341,6 +341,8 @@ class TileEntry:
         '''
         tile_id = entry.get('id')
         id_as_prefix = None
+        skipping_filler = False
+
         if tile_id:
             if not isinstance(tile_id, list):
                 tile_id = [tile_id]
@@ -351,25 +353,20 @@ class TileEntry:
                 full_id = f'{prefix}{an_id}'
                 if full_id in self.tileset.processed_ids:
                     print(f'Info: skipping filler for {full_id}')
-                    return None
-        fg_layer = entry.get('fg')
+                    skipping_filler = True
+        fg_layer = entry.get('fg', None)
         if fg_layer:
             entry['fg'] = list_or_first(
                 self.convert_entry_layer(fg_layer))
         else:
-            del entry['fg']
+            entry.pop('fg', None)
 
-        bg_layer = entry.get('bg')
+        bg_layer = entry.get('bg', None)
         if bg_layer:
             entry['bg'] = list_or_first(
                 self.convert_entry_layer(bg_layer))
         else:
-            try:
-                del entry['bg']
-            except Exception:
-                print(f'Error: Cannot find bg for tile with id {tile_id}')
-                global ERROR_LOGGED
-                ERROR_LOGGED = True
+            entry.pop('bg', None)
 
         additional_entries = entry.get('additional_tiles', [])
         for additional_entry in additional_entries:
@@ -381,6 +378,10 @@ class TileEntry:
                 full_id = f'{prefix}{an_id}'
                 if full_id not in self.tileset.processed_ids:
                     self.tileset.processed_ids.append(full_id)
+                else:
+                    print(f'Info: {full_id} encountered more than once')
+            if skipping_filler:
+                return None
             return entry
         print(f'skipping empty entry for {prefix}{tile_id}')
         return None
