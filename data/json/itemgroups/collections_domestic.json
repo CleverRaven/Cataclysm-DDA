@@ -1044,7 +1044,7 @@
       { "item": "plunger_toilet", "prob": 30 },
       { "item": "plunger_futuristic", "prob": 15 },
       { "item": "toilet_paper", "prob": 10 },
-      ( "item": "kitchen_towel", "prob": 20}
+      { "item": "kitchen_towel", "prob": 20 }
     ]
   },
   {
