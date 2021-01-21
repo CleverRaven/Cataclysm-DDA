@@ -255,10 +255,8 @@ class Tilesheet:
                 ERROR_LOGGED = True
 
             if self.is_filler and self.tileset.obsolete_fillers:
-                print(f'Error: {pngname}.png is already present in a '
+                print(f'Warning: {pngname}.png is already present in a '
                       'non-filler sheet')
-                global ERROR_LOGGED
-                ERROR_LOGGED = True
 
             return
 
@@ -359,7 +357,8 @@ class TileEntry:
             for an_id in tile_id:
                 full_id = f'{prefix}{an_id}'
                 if full_id in self.tileset.processed_ids:
-                    print(f'Info: skipping filler for {full_id}')
+                    if self.tileset.obsolete_fillers:
+                        print(f'Warning: skipping filler for {full_id}')
                     skipping_filler = True
         fg_layer = entry.get('fg', None)
         if fg_layer:
