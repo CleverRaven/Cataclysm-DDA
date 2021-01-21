@@ -183,9 +183,9 @@ Requires `pyvips` module.
 
 - Download Python https://www.python.org/downloads/
 - Download `libvips` https://libvips.github.io/libvips/install.html
-- Make sure  directories with `python`, `pip` and `libvips` are in your `PATH` [environment variable](https://en.wikipedia.org/wiki/Environment_variable#Windows)
+- Make sure  directories with `python`, `pip`, and `libvips` are in your `PATH` [environment variable](https://en.wikipedia.org/wiki/Environment_variable#Windows)
 - Press `Windows key + r` to open the "Run" dialog box
-- run `cmd`, it should open the console
+- run `cmd`; it should open the console
 - run `py -m pip install --upgrade pip` to get the latest version of `pip`
 - run `pip install --user pyvips` to install `pyvips`
 
