@@ -35,8 +35,8 @@ template <class Container, typename T = typename Container::value_type>
 class advuilist
 {
     public:
-        /// column printer function
-        using fcol_t = std::function<std::string( T const & )>;
+        /// column printer function. entry, colwidth. colwidth = 0 means unlimited
+        using fcol_t = std::function<std::string( T const &, int )>;
         using cwidth_t = float;
         /// name, column printer function, width weight
         using col_t = std::tuple<std::string, fcol_t, cwidth_t>;
@@ -187,7 +187,9 @@ class advuilist
 
         void _initctxt();
         void _print();
+        int _colwidth( col_t const &col, point const &p );
         int _printcol( col_t const &col, std::string const &str, point const &p, nc_color const &color );
+        int _printcol( col_t const &col, T const &it, point const &p, nc_color const &color, bool hilited );
         void _printheaders();
         void _printfooters();
         void _sort( typename sortcont_t::size_type idx );
@@ -257,8 +259,8 @@ void advuilist<Container, T>::setColumns( std::vector<col_t> const &columns, boo
             typename colscont_t::size_type const idx = _columns.size() - 1;
             tmp.emplace_back( std::get<std::string>( v ),
             [this, idx]( T const & lhs, T const & rhs ) -> bool {
-                return localized_compare( std::get<fcol_t>( _columns[idx] )( lhs ),
-                                          std::get<fcol_t>( _columns[idx] )( rhs ) );
+                return localized_compare( std::get<fcol_t>( _columns[idx] )( lhs, 0 ),
+                                          std::get<fcol_t>( _columns[idx] )( rhs, 0 ) );
             } );
         }
     }
@@ -646,9 +648,7 @@ void advuilist<Container, T>::_print()
         }
 
         for( col_t const &col : _columns ) {
-            std::string const rawmsg = std::get<fcol_t>( col )( it );
-            std::string const msg = hilited ? remove_color_tags( rawmsg ) : rawmsg;
-            lpos.x += _printcol( col, msg, lpos, color );
+            lpos.x += _printcol( col, it, lpos, color, hilited );
         }
         lpos.y += 1;
     }
@@ -657,16 +657,33 @@ void advuilist<Container, T>::_print()
 }
 
 template <class Container, typename T>
-int advuilist<Container, T>::_printcol( col_t const &col, std::string const &str, point const &p,
-                                        nc_color const &color )
+int advuilist<Container, T>::_colwidth( col_t const &col, point const &p )
 {
     int const colwidth =
         std::min( _innerw - p.x,
-                  static_cast<int>( std::ceil(
-                                        std::get<cwidth_t>( col ) * _innerw / _tweight ) ) );
+                  static_cast<int>( std::ceil( std::get<cwidth_t>( col ) * _innerw / _tweight ) ) );
     bool const last = p.x + colwidth < _innerw;
-    trim_and_print( _w, p, colwidth - ( last ? _colspacing : 0 ), color, str );
-    return colwidth;
+    return colwidth - ( last ? _colspacing : 0 );
+}
+
+template <class Container, typename T>
+int advuilist<Container, T>::_printcol( col_t const &col, std::string const &str, point const &p,
+                                        nc_color const &color )
+{
+    int const colwidth = _colwidth( col, p );
+    trim_and_print( _w, p, colwidth, color, str );
+    return colwidth + _colspacing;
+}
+
+template <class Container, typename T>
+int advuilist<Container, T>::_printcol( col_t const &col, T const &it, point const &p,
+                                        nc_color const &color, bool hilited )
+{
+    int const colwidth = _colwidth( col, p );
+    std::string const &rawmsg = std::get<fcol_t>( col )( it, colwidth );
+    std::string const &msg = hilited ? remove_color_tags( rawmsg ) : rawmsg;
+    trim_and_print( _w, p, colwidth, color, msg );
+    return colwidth + _colspacing;
 }
 
 template <class Container, typename T>
@@ -854,7 +871,7 @@ template <class Container, typename T>
 bool advuilist<Container, T>::_basicfilter( T const &it, std::string const &filter ) const
 {
     for( col_t const &col : _columns ) {
-        if( lcmatch( remove_color_tags( std::get<fcol_t>( col )( it ) ), filter ) ) {
+        if( lcmatch( remove_color_tags( std::get<fcol_t>( col )( it, 0 ) ), filter ) ) {
             return true;
         }
     }
