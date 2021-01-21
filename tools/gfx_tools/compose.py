@@ -379,7 +379,9 @@ class TileEntry:
                 if full_id not in self.tileset.processed_ids:
                     self.tileset.processed_ids.append(full_id)
                 else:
-                    print(f'Info: {full_id} encountered more than once')
+                    print(f'Error: {full_id} encountered more than once')
+                    global ERROR_LOGGED
+                    ERROR_LOGGED = True
             if skipping_filler:
                 return None
             return entry
