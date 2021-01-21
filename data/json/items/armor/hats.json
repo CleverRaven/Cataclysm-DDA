@@ -44,7 +44,7 @@
     "covers": [ "head" ],
     "coverage": 80,
     "warmth": 5,
-    "material_thickness": 1
+    "material_thickness": 0.1
   },
   {
     "id": "beret",
@@ -63,7 +63,7 @@
     "covers": [ "head" ],
     "coverage": 40,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "FANCY" ]
   },
   {
@@ -82,7 +82,7 @@
     "covers": [ "head" ],
     "coverage": 40,
     "warmth": 15,
-    "material_thickness": 2,
+    "material_thickness": 0.3,
     "flags": [ "VARSIZE", "WATERPROOF", "FANCY" ]
   },
   {
@@ -103,7 +103,7 @@
     "coverage": 50,
     "encumbrance": 15,
     "warmth": 5,
-    "material_thickness": 2,
+    "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "FANCY", "VARSIZE" ]
   },
@@ -122,7 +122,7 @@
     "color": "dark_gray",
     "covers": [ "head" ],
     "coverage": 40,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -142,7 +142,7 @@
     "coverage": 50,
     "encumbrance": 10,
     "warmth": 7,
-    "material_thickness": 2,
+    "material_thickness": 0.2,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "SUN_GLASSES" ]
   },
@@ -162,7 +162,7 @@
     "encumbrance": 5,
     "covers": [ "head" ],
     "coverage": 15,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
@@ -184,7 +184,7 @@
     "coverage": 60,
     "encumbrance": 10,
     "warmth": 4,
-    "material_thickness": 1
+    "material_thickness": 0.1
   },
   {
     "id": "hat_boonie",
@@ -203,7 +203,7 @@
     "coverage": 65,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "SUN_GLASSES" ]
   },
@@ -226,7 +226,7 @@
     "coverage": 50,
     "encumbrance": 10,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "environmental_protection": 2,
     "flags": [ "SUN_GLASSES" ]
   },
@@ -248,7 +248,7 @@
     "coverage": 75,
     "encumbrance": 15,
     "warmth": 5,
-    "material_thickness": 2,
+    "material_thickness": 0.1,
     "environmental_protection": 1
   },
   {
@@ -267,7 +267,7 @@
     "covers": [ "head" ],
     "coverage": 65,
     "warmth": 20,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "HELMET_COMPAT" ]
   },
   {
@@ -287,7 +287,7 @@
     "coverage": 95,
     "encumbrance": 10,
     "warmth": 70,
-    "material_thickness": 3
+    "material_thickness": 0.3
   },
   {
     "id": "hat_faux_fur",
@@ -363,7 +363,7 @@
     "coverage": 85,
     "encumbrance": 10,
     "warmth": 50,
-    "material_thickness": 3,
+    "material_thickness": 0.3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE" ]
   },
@@ -383,7 +383,7 @@
     "covers": [ "head" ],
     "coverage": 65,
     "warmth": 40,
-    "material_thickness": 2,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "HELMET_COMPAT" ]
   },
   {
@@ -403,7 +403,7 @@
     "covers": [ "head" ],
     "coverage": 50,
     "warmth": 30,
-    "material_thickness": 2,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -423,7 +423,7 @@
     "coverage": 5,
     "encumbrance": 17,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "DEAF", "HELMET_COMPAT" ]
   },
   {
@@ -445,7 +445,7 @@
     "coverage": 50,
     "encumbrance": 20,
     "warmth": 2,
-    "material_thickness": 2,
+    "material_thickness": 0.1,
     "environmental_protection": 4,
     "flags": [ "FANCY", "OUTER", "SUN_GLASSES" ]
   },
@@ -466,7 +466,7 @@
     "covers": [ "head" ],
     "coverage": 40,
     "warmth": 3,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "HELMET_COMPAT" ]
   },
   {
@@ -487,7 +487,7 @@
     "coverage": 50,
     "encumbrance": 10,
     "warmth": 6,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "environmental_protection": 1
   },
   {
@@ -508,7 +508,7 @@
     "coverage": 25,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.05,
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
@@ -529,7 +529,7 @@
     "coverage": 50,
     "encumbrance": 15,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "FANCY", "VARSIZE" ]
   },
@@ -551,7 +551,7 @@
     "coverage": 60,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "environmental_protection": 2,
     "flags": [ "SUN_GLASSES" ]
   },
@@ -571,7 +571,7 @@
     "covers": [ "head" ],
     "coverage": 40,
     "warmth": 2,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "SUN_GLASSES" ]
   },
@@ -612,7 +612,7 @@
     "coverage": 50,
     "encumbrance": 20,
     "warmth": 5,
-    "material_thickness": 2,
+    "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUPER_FANCY" ]
   },
@@ -633,8 +633,8 @@
     "coverage": 50,
     "encumbrance": 10,
     "warmth": 7,
-    "material_thickness": 3,
-    "environmental_protection": 2,
+    "material_thickness": 0.2,
+    "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATERPROOF", "WATER_FRIENDLY", "FANCY" ]
   },
   {
@@ -656,7 +656,7 @@
     "coverage": 50,
     "encumbrance": 5,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.3,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -678,7 +678,7 @@
     "coverage": 40,
     "encumbrance": 10,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ]
   }

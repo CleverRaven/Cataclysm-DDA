@@ -550,7 +550,7 @@
         "moves": 80
       }
     ],
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -582,7 +582,7 @@
         "moves": 80
       }
     ],
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -642,7 +642,7 @@
       "coverage": 5,
       "encumbrance": 10,
       "max_encumbrance": 100,
-      "material_thickness": 1
+      "material_thickness": 0.1
     },
     "pocket_data": [
       {
@@ -673,7 +673,7 @@
       "coverage": 5,
       "encumbrance": 10,
       "max_encumbrance": 100,
-      "material_thickness": 1
+      "material_thickness": 0.1
     },
     "pocket_data": [
       {
@@ -768,7 +768,7 @@
         "moves": 80
       }
     ],
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -805,7 +805,7 @@
         "moves": 200
       }
     ],
-    "material_thickness": 2,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ]
   },
   {
@@ -835,7 +835,7 @@
       }
     ],
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -1039,7 +1039,7 @@
       { "sided": true }
     ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "3 kg", "moves": 150 } ],
-    "material_thickness": 1,
+    "material_thickness": 0.01,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
@@ -1071,7 +1071,7 @@
         "moves": 150
       }
     ],
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -1101,7 +1101,7 @@
         "moves": 200
       }
     ],
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -1157,7 +1157,7 @@
       }
     ],
     "warmth": 8,
-    "material_thickness": 2,
+    "material_thickness": 0.2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -1190,7 +1190,7 @@
       }
     ],
     "warmth": 2,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -1580,7 +1580,7 @@
       }
     ],
     "warmth": 5,
-    "material_thickness": 2,
+    "material_thickness": 0.4,
     "flags": [ "VARSIZE" ]
   },
   {
