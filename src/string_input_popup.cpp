@@ -336,10 +336,12 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else {
             width_to_cursor_end += 1;
         }
-        if( width_to_cursor_start < static_cast<size_t>( shift ) ) {
-            shift = width_to_cursor_start;
-        } else if( width_to_cursor_end > static_cast<size_t>( shift + scrmax ) ) {
-            shift = width_to_cursor_end - scrmax;
+        // starts scrolling when the cursor is this far from the start or end
+        const size_t scroll_width = std::min( 10, scrmax / 5 );
+        if( width_to_cursor_start < static_cast<size_t>( shift ) + scroll_width ) {
+            shift = std::max( width_to_cursor_start, scroll_width ) - scroll_width;
+        } else if( width_to_cursor_end > static_cast<size_t>( shift + scrmax ) - scroll_width ) {
+            shift = std::min( width_to_cursor_end + scroll_width, ret.display_width() ) - scrmax;
         }
         const utf8_wrapper text_before_start = ret.substr_display( 0, shift );
         const size_t width_before_start = text_before_start.display_width();
