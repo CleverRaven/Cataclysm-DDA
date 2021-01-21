@@ -245,8 +245,9 @@ class Tilesheet:
         Verify image root name is unique, load it and register
         '''
         pngname = filename.split('.png')[0]
-        if (pngname in self.tileset.pngname_to_pngnum):
-            print(f'skipping {pngname}')
+        if pngname in self.tileset.pngname_to_pngnum:
+            if not self.is_filler:
+                print(f'skipping {pngname}.png')
             return
         if self.is_filler and pngname in self.tileset.pngname_to_pngnum:
             if self.obsolete_fillers:
