@@ -1,6 +1,7 @@
 #include "advuilist_helpers.h"
 
 #include <algorithm>     // for __niter_base, max, copy
+#include <cmath>         // for log10
 #include <functional>    // for function
 #include <iterator>      // for move_iterator, operator!=, __nite...
 #include <list>          // for list
@@ -144,22 +145,26 @@ aim_advuilist_t::count_t iloc_entry_counter( iloc_entry const &it )
     return it.stack[0]->count_by_charges() ? it.stack[0]->charges : it.stack.size();
 }
 
-std::string iloc_entry_count( iloc_entry const &it )
+std::string iloc_entry_count( iloc_entry const &it, int width )
 {
-    return std::to_string( iloc_entry_counter( it ) );
+    return string_format( "%*d", width, iloc_entry_counter( it ) );
 }
 
-std::string iloc_entry_weight( iloc_entry const &it )
+std::string iloc_entry_weight( iloc_entry const &it, int width )
 {
-    return string_format( "%3.2f", convert_weight( _iloc_entry_weight( it ) ) );
+    // FIXME: why is there no format_weight like format_volume?
+    double const weight = convert_weight( _iloc_entry_weight( it ) );
+    int const digits = static_cast<int>( std::log10( std::max( 1., weight ) ) ) + 1;
+    int const decimals = std::max( 0, std::min( 2, width - digits - 1 ) );
+    return string_format( "%*.*f", width, decimals, weight );
 }
 
-std::string iloc_entry_volume( iloc_entry const &it )
+std::string iloc_entry_volume( iloc_entry const &it, int width )
 {
-    return format_volume( _iloc_entry_volume( it ) );
+    return format_volume( _iloc_entry_volume( it ), -width, nullptr, nullptr );
 }
 
-std::string iloc_entry_name( iloc_entry const &it )
+std::string iloc_entry_name( iloc_entry const &it, int /* width */ )
 {
     item const &i = *it.stack[0];
     std::string name = i.count_by_charges() ? i.tname() : i.display_name();

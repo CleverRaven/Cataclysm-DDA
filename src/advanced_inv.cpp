@@ -307,7 +307,7 @@ void reset_mutex( aim_transaction_ui_t *ui, pane_mutex_t *mutex )
     set_mutex( mutex, rsrc, ricon, true );
 }
 
-std::string iloc_entry_src( iloc_entry const &it )
+std::string iloc_entry_src( iloc_entry const &it, int /* width */ )
 {
     tripoint const off = it.stack.front().position() - get_avatar().pos();
     _sourcearray::size_type idx = offset_to_slotidx( off );

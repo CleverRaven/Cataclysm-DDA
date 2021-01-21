@@ -51,10 +51,10 @@ iloc_stack_t get_stacks( Iterable items, filoc_t const &iloc_helper );
 iloc_stack_t get_stacks( std::list<item *> const &items, filoc_t const &iloc_helper );
 
 aim_advuilist_t::count_t iloc_entry_counter( iloc_entry const &it );
-std::string iloc_entry_count( iloc_entry const &it );
-std::string iloc_entry_weight( iloc_entry const &it );
-std::string iloc_entry_volume( iloc_entry const &it );
-std::string iloc_entry_name( iloc_entry const &it );
+std::string iloc_entry_count( iloc_entry const &it, int width );
+std::string iloc_entry_weight( iloc_entry const &it, int width );
+std::string iloc_entry_volume( iloc_entry const &it, int width );
+std::string iloc_entry_name( iloc_entry const &it, int width );
 
 bool iloc_entry_count_sorter( iloc_entry const &l, iloc_entry const &r );
 bool iloc_entry_weight_sorter( iloc_entry const &l, iloc_entry const &r );
