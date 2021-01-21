@@ -108,7 +108,6 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
 {
     std::vector<advanced_inv_listitem> items;
     size_t item_index = 0;
-    int worn_index = -2;
 
     for( item &worn_item : worn ) {
         if( worn_item.contents.empty() || worn_item.has_flag( flag_NO_UNLOAD ) ) {
@@ -123,17 +122,18 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
                 items.push_back( adv_it );
             }
         }
-        worn_index--;
     }
 
     if( weapon.is_container() ) {
-        advanced_inv_listitem adv_it( &weapon, item_index++, 1, square.id, false );
-        if( !pane.is_filtered( *adv_it.items.front() ) ) {
-            square.volume += adv_it.volume;
-            square.weight += adv_it.weight;
-            items.push_back( adv_it );
+        for( const std::vector<item *> &it_stack : item_list_to_stack(
+                 weapon.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) ) {
+            advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
+            if( !pane.is_filtered( *adv_it.items.front() ) ) {
+                square.volume += adv_it.volume;
+                square.weight += adv_it.weight;
+                items.push_back( adv_it );
+            }
         }
-        worn_index--;
     }
     return items;
 }
