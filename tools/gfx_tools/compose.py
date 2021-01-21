@@ -251,7 +251,8 @@ class Tilesheet:
             return
         if self.is_filler and pngname in self.tileset.pngname_to_pngnum:
             if self.obsolete_fillers:
-                print(f'filler for {pngname} is obsolete')
+                print(f'Error: {pngname}.png is already present in a '
+                      'non-filler sheet')
                 global ERROR_LOGGED
                 ERROR_LOGGED = True
             return
