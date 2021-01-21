@@ -5161,15 +5161,25 @@ units::length item::length() const
     if( made_of( phase_id::LIQUID ) || ( is_soft() && is_container_empty() ) ) {
         return 0_mm;
     }
+
     if( is_corpse() ) {
         return units::default_length_from_volume<int>( corpse->volume );
+    }
+
+    if( is_gun() && gunmod_find( itype_barrel_small ) ) {
+        int barrel_percentage = type->gun->barrel_volume / ( type->volume / 100 );
+        units::length reduce_by = ( type->longest_side / 100 ) * barrel_percentage;
+
+        if( reduce_by > type->longest_side * 0.4 ) {
+            reduce_by = type->longest_side * 0.4;
+        }
+        return type->longest_side - reduce_by;
     }
 
     units::length max = is_soft() ? 0_mm : type->longest_side;
     for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         max = std::max( it->length(), max );
     }
-
     return max;
 }
 
