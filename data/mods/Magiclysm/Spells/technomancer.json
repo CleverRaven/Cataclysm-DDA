@@ -380,7 +380,7 @@
     "range_increment": 1,
     "min_duration": 400000,
     "max_duration": 9600000,
-    "duration_increment": 200
+    "duration_increment": 460000
   },
   {
     "id": "summon_magic_motorcycle",
