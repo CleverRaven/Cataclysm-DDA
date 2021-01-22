@@ -160,13 +160,13 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 
 ### Usage
 
-`compose.py [-h] [--use-all] source_dir [output_dir]`
+`compose.py [-h] [--use-all] [--obsolete-fillers] source_dir [output_dir]`
 
 `source_dir` - the compositing tileset directory.
 
 `output_dir` will be set to the `source_dir` unless provided separately. Expected to have `tileset.txt` and `fallback.png`.
 
-`--use-all` instead of warning about unused sprites, will treat their [root name](#root-name) as the `id` value to use them as `fg` for. In other words, just naming your sprite `overlay_wielded_spear_survivor.png` will imply this tile entry **unless** any tile entry already references `overlay_wielded_spear_survivor` in the `id`:
+`--use-all`: instead of warning about unused sprites, will treat their [root name](#root-name) as the `id` value to use them as `fg` for. In other words, just naming your sprite `overlay_wielded_spear_survivor.png` will imply this tile entry **unless** any tile entry already references `overlay_wielded_spear_survivor` in the `id`:
 ```JSON
 {
     "id": "overlay_wielded_spear_survivor",
@@ -175,17 +175,19 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 }
 ```
 
+`--obsolete-fillers`: print which fillers were skipped and are thus ready to be removed.
+
 Requires `pyvips` module.
 
 ### Installing pyvips on Windows
 
 - Download Python https://www.python.org/downloads/
 - Download `libvips` https://libvips.github.io/libvips/install.html
-- Add both to your `PATH` environment variable
+- Make sure  directories with `python`, `pip`, and `libvips` are in your `PATH` [environment variable](https://en.wikipedia.org/wiki/Environment_variable#Windows)
 - Press `Windows key + r` to open the "Run" dialog box
-- type `cmd` to get the console
-- run: `pip install --user pyvips`
-- run: `py -m pip install --upgrade pip`
+- run `cmd`; it should open the console
+- run `py -m pip install --upgrade pip` to get the latest version of `pip`
+- run `pip install --user pyvips` to install `pyvips`
 
 ## Legacy tilesets
 
