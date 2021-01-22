@@ -13,7 +13,7 @@
     "type": "proficiency",
     "id": "prof_cooking",
     "name": { "str": "General Cooking" },
-    "description": "An understanding of cooking food and how to prepare meals.",
+    "description": "An understanding of cooking food and how to prepare simple meals.",
     "can_learn": true,
     "default_time_multiplier": 1,
     "default_fail_multiplier": 1.1,
