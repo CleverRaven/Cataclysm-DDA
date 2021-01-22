@@ -130,9 +130,10 @@ TEST_CASE( "Rate of temperature change" )
         calendar::turn += 11_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
 
-        calendar::turn += 30_minutes;
+        calendar::turn += 40_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
+		
         // 0C
         // not frozen
         CHECK( meat1.temperature == Approx( 27315000 ).margin( 10 ) );
@@ -242,7 +243,7 @@ TEST_CASE( "Rate of temperature change" )
         calendar::turn += 20_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
 
-        calendar::turn += 20_minutes;
+        calendar::turn += 40_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
         // 13.3 C
