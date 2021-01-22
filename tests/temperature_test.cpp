@@ -201,8 +201,8 @@ TEST_CASE( "Rate of temperature change" )
 
         calendar::turn += 11_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
-        // -5.2 C
-        CHECK( meat1.temperature == Approx( 26789608 ).margin( 10 ) );
+        // about -9.3 C
+        CHECK( meat1.temperature == Approx( 26389390 ).margin( 10 ) );
 
         calendar::turn += 11_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
