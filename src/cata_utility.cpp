@@ -215,7 +215,7 @@ double temp_to_kelvin( double fahrenheit )
 
 double celsius_to_kelvin( double celcius )
 {
-    return celcius - 273.15;
+    return celcius + 273.15;
 }
 
 double kelvin_to_fahrenheit( double kelvin )
