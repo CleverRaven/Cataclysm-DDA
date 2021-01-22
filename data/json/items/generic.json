@@ -3298,7 +3298,7 @@
     "material": [ "steel", "plastic" ],
     "weight": "10 kg",
     "volume": "5 L",
-    "length": "20cm",
+    "longest_side": "20 cm",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
