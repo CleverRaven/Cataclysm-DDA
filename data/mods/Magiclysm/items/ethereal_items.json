@@ -751,15 +751,7 @@
     "name": { "str": "holy sword" },
     "description": "This is a summoned medieval sword, in between the lighter arming sword and later two-handed swords in size.  It glows slightly and it's edge is exceedingly sharp.",
     "material": [ "superalloy" ],
-    "flags": [
-      "UNBREAKABLE_MELEE",
-      "NONCONDUCTIVE",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "MAGIC_FOCUS",
-      "LIGHT_2",
-      "TRADER_AVOID"
-    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "LIGHT_2", "TRADER_AVOID" ],
     "bashing": 11,
     "cutting": 42,
     "relic_data": {
