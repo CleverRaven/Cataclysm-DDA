@@ -5166,14 +5166,30 @@ units::length item::length() const
         return units::default_length_from_volume<int>( corpse->volume );
     }
 
-    if( is_gun() && gunmod_find( itype_barrel_small ) ) {
-        int barrel_percentage = type->gun->barrel_volume / ( type->volume / 100 );
-        units::length reduce_by = ( type->longest_side / 100 ) * barrel_percentage;
+    if( is_gun() ) {
+        units::length length_adjusted = type->longest_side;
 
-        if( reduce_by > type->longest_side * 0.4 ) {
-            reduce_by = type->longest_side * 0.4;
+        if( gunmod_find( itype_barrel_small ) ) {
+            int barrel_percentage = type->gun->barrel_volume / ( type->volume / 100 );
+            units::length reduce_by = ( type->longest_side / 100 ) * barrel_percentage;
+
+            if( reduce_by > type->longest_side * 0.4 ) {
+                reduce_by = type->longest_side * 0.4;
+            }
+            length_adjusted = type->longest_side - reduce_by;
         }
-        return type->longest_side - reduce_by;
+
+        std::vector<const item *> mods = gunmods();
+        for( const item *mod : mods ) {
+            itype_id itype_location( "location" );
+            if( mod->type->gunmod ) {
+                if( mod->type->gunmod->location.str() == "muzzle" ) {
+                    length_adjusted += mod->length();
+                }
+            }
+        }
+
+        return length_adjusted;
     }
 
     units::length max = is_soft() ? 0_mm : type->longest_side;
