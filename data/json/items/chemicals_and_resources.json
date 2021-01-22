@@ -224,7 +224,7 @@
     "charges": 2,
     "category": "chems",
     "fun": -30,
-    "freezing_point": 17,
+    "freezing_point": -8,
     "conditional_names": [ { "type": "FLAG", "condition": "DIRTY", "name": "bleach spill" } ]
   },
   {
@@ -248,7 +248,7 @@
     "charges": 2,
     "category": "chems",
     "fun": -30,
-    "freezing_point": -108
+    "freezing_point": -78
   },
   {
     "type": "COMESTIBLE",
@@ -365,7 +365,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
-    "freezing_point": 28,
+    "freezing_point": -2,
     "fun": -1
   },
   {
@@ -386,7 +386,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "category": "chems",
-    "freezing_point": 28,
+    "freezing_point": -2,
     "fun": -1
   },
   {

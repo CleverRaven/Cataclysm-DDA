@@ -240,7 +240,7 @@
     "price_postapoc": 0,
     "material": [ "paper" ],
     "volume": "250 ml",
-    "freezing_point": -490,
+    "freezing_point": -274,
     "charges": 50,
     "fun": -20
   },
@@ -259,7 +259,7 @@
     "price_postapoc": 0,
     "material": [ "cardboard" ],
     "volume": "250 ml",
-    "freezing_point": -490,
+    "freezing_point": -274,
     "charges": 10,
     "fun": -20
   },
