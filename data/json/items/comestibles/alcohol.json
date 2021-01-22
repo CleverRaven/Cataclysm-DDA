@@ -407,7 +407,7 @@
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
     "fun": 10,
-    "freezing_point": 22
+    "freezing_point": -6
   },
   {
     "type": "COMESTIBLE",
@@ -490,7 +490,7 @@
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
     "fun": 2,
-    "freezing_point": 20
+    "freezing_point": -7
   },
   {
     "type": "COMESTIBLE",
@@ -736,7 +736,7 @@
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
     "fun": 16,
-    "freezing_point": 25
+    "freezing_point": -4
   },
   {
     "type": "COMESTIBLE",
@@ -763,7 +763,7 @@
     "charges": 7,
     "flags": [ "EATEN_COLD" ],
     "fun": 16,
-    "freezing_point": 25
+    "freezing_point": -4
   },
   {
     "type": "COMESTIBLE",
