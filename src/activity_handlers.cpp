@@ -181,6 +181,7 @@ static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
+static const activity_id ACT_BIKERACK("ACT_BIKERACK");
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
@@ -337,6 +338,7 @@ activity_handlers::finish_functions = {
     { ACT_CHURN, churn_finish },
     { ACT_PLANT_SEED, plant_seed_finish },
     { ACT_VEHICLE, vehicle_finish },
+    { ACT_BIKERACK, bikerack_finish },
     { ACT_START_ENGINES, start_engines_finish },
     { ACT_OXYTORCH, oxytorch_finish },
     { ACT_PULP, pulp_finish },
@@ -2136,6 +2138,11 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
             }
         }
     }
+}
+
+void activity_handlers::bikerack_finish(player_activity* act, player* p)
+{
+    act->set_to_null();
 }
 
 void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
