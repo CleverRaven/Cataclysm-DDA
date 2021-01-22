@@ -734,7 +734,7 @@ static void test_skill_progression( const recipe_id &test_recipe, int expected_t
     CHECK( actual_turns_taken == expected_turns_taken );
 }
 
-TEST_CASE( "crafting skill gain" )
+TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
 {
     SECTION( "lvl 0 -> 1" ) {
         GIVEN( "nominal morale" ) {
