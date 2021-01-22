@@ -60,7 +60,7 @@
     "id": "Riverside Dwelling",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "riverside_dwelling_north" } ],
     "locations": [ "water" ],
-    "city_distance": [ 4, 25 ],
+    "city_distance": [ 4, 60 ],
     "occurrences": [ 0, 6 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
@@ -336,7 +336,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 25, -1 ],
     "occurrences": [ 50, 100 ],
-	"//": "Inflated chance, effective rate ~40%",
+    "//": "Inflated chance, effective rate ~40%",
     "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE" ]
   },
   {
@@ -721,7 +721,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 15, -1 ],
     "occurrences": [ 40, 100 ],
-	"//": "Inflated chance, effective rate ~25%",
+    "//": "Inflated chance, effective rate ~25%",
     "flags": [ "UNIQUE", "LAB" ],
     "rotate": false
   },
@@ -799,7 +799,7 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outpost_north" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 15, -1 ],
-    "occurrences": [ 0, 4 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "MILITARY" ]
   },
   {
@@ -3367,7 +3367,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 3, -1 ],
     "rotate": false,
-    "occurrences": [ 15, 100 ],
+    "occurrences": [ 30, 100 ],
     "flags": [ "UNIQUE" ]
   },
   {
@@ -3375,9 +3375,8 @@
     "id": "campsite",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "campsite_north" } ],
     "locations": [ "forest" ],
-	
     "city_distance": [ 20, -1 ],
-	"city_sizes": [ 4, -1 ],
+    "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
@@ -3387,7 +3386,7 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "campsite_cabin_incomplete_north" } ],
     "locations": [ "forest" ],
     "city_distance": [ 25, -1 ],
-	"city_sizes": [ 4, -1 ],
+    "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
@@ -3397,7 +3396,7 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "campsite_field_biker_north" } ],
     "locations": [ "field" ],
     "city_distance": [ 20, -1 ],
-	"city_sizes": [ 4, -1 ],
+    "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
@@ -3407,7 +3406,7 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "campsite_a_north" } ],
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
-	"city_sizes": [ 4, -1 ],
+    "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
@@ -3417,7 +3416,7 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "campsite_field_biker_destroyed_north" } ],
     "locations": [ "field" ],
     "city_distance": [ 20, -1 ],
-	"city_sizes": [ 4, -1 ],
+    "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
@@ -4207,8 +4206,8 @@
     "locations": [ "land", "forest" ],
     "city_distance": [ -1, 20 ],
     "city_sizes": [ 3, 12 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "URBAN" ]
+    "occurrences": [ 50, 100 ],
+    "flags": [ "CLASSIC", "UNIQUE", "URBAN" ]
   },
   {
     "type": "overmap_special",
@@ -4861,7 +4860,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 6, -1 ],
     "occurrences": [ 70, 100 ],
-	"//": "Inflated chance, effective rate ~40%",
+    "//": "Inflated chance, effective rate ~40%",
     "flags": [ "CLASSIC", "UNIQUE" ]
   },
   {
@@ -4961,7 +4960,7 @@
     "city_distance": [ 5, 20 ],
     "city_sizes": [ 6, -1 ],
     "occurrences": [ 40, 100 ],
-	"//": "Inflated chance, in effect 15%",
+    "//": "Inflated chance, in effect 15%",
     "flags": [ "CLASSIC", "UNIQUE" ]
   },
   {
@@ -5621,7 +5620,7 @@
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, -1 ],
-    "occurrences": [ 50, 100 ],
+    "occurrences": [ 80, 100 ],
     "flags": [ "MI-GO", "UNIQUE" ],
     "spawns": { "group": "GROUP_MI-GO_CAMP_OM", "population": [ 20, 50 ], "radius": [ 2, 30 ] }
   },
@@ -6568,7 +6567,7 @@
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 95, 100 ],
-	"//": "Inflated chance, effective rate ~ 30%",
+    "//": "Inflated chance, effective rate ~ 30%",
     "flags": [ "CLASSIC", "FARM", "UNIQUE" ]
   },
   {
@@ -6758,7 +6757,7 @@
     "city_distance": [ 5, 40 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 75, 100 ],
-	"//": "Inflated chance, effective rate ~55%",
+    "//": "Inflated chance, effective rate ~55%",
     "flags": [ "CLASSIC", "UNIQUE" ]
   },
   {
@@ -6850,7 +6849,7 @@
     "city_distance": [ 8, 40 ],
     "city_sizes": [ 6, -1 ],
     "occurrences": [ 50, 100 ],
-	"//": "Inflated chance, effective rate ~30%",
+    "//": "Inflated chance, effective rate ~30%",
     "flags": [ "CLASSIC", "URBAN", "UNIQUE" ]
   },
   {
@@ -7114,7 +7113,7 @@
     "city_distance": [ 5, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 45, 100 ],
-	"//": "Inflated chance, in effect ~10%",
+    "//": "Inflated chance, in effect ~10%",
     "flags": [ "MILITARY", "UNIQUE" ]
   },
   {
