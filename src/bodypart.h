@@ -248,7 +248,7 @@ class bodypart
         std::array<int, NUM_WATER_TOLERANCE> mut_drench;
 
     public:
-        bodypart(): id( bodypart_str_id::NULL_ID() ), hp_cur( 0 ), hp_max( 0 ), mut_drench() {}
+        bodypart(): id( bodypart_str_id::NULL_ID() ), mut_drench() {}
         explicit bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ),
             mut_drench() {}
 
