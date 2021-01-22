@@ -84,6 +84,7 @@ class advuilist_sourced : public advuilist<Container, T>
         point _size, _osize;
         point _origin, _oorigin;
         point _map_size;
+        point _cursor;
         slotidx_t _cslot = 0;
         bool _setsourcestat = false;
         bool needsinit = true;
@@ -238,6 +239,7 @@ void advuilist_sourced<Container, T>::initui()
         werase( _w );
         draw_border( _w );
         _printmap();
+        wmove( _w, _cursor );
         wnoutrefresh( _w );
     } );
 
@@ -344,10 +346,8 @@ void advuilist_sourced<Container, T>::_printmap()
     icon_t const ci = std::get<icon_t>( _sources[_cslot] );
     nc_color bc = c_light_gray;
     std::string const &label = std::get<flabel_t>( std::get<slotcont_t>( _sources[_cslot] )[ci] )();
-    int labely = _headersize;
-    for( std::string const &str : foldstring( label, _size.x ) ) {
-        print_colored_text( _w, { _firstcol, labely++ }, bc, bc, str );
-    }
+    _cursor = { _firstcol, _headersize };
+    fold_and_print( _w, _cursor, _size.x, bc, label );
 
     for( typename srccont_t::value_type &it : _sources ) {
         slotidx_t const slotidx = it.first;

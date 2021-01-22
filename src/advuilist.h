@@ -141,6 +141,7 @@ class advuilist
 
         point _size, _osize;
         point _origin, _oorigin;
+        point _cursor;
         typename list_t::size_type _pagesize = 0;
         list_t _list;
         colscont_t _columns;
@@ -466,6 +467,7 @@ void advuilist<Container, T>::initui()
         if( _fdraw ) {
             _fdraw( this );
         }
+        wmove( _w, _cursor );
         wnoutrefresh( _w );
     } );
 }
@@ -644,6 +646,7 @@ void advuilist<Container, T>::_print()
         nc_color const color = hilited ? hilite( basecolor ) : basecolor;
 
         if( hilited ) {
+            _cursor = lpos;
             mvwprintz( _w, lpos, color, string_format( "%*s", _innerw, std::string() ) );
         }
 
