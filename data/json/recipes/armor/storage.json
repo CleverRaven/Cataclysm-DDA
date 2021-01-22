@@ -388,7 +388,7 @@
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 10 ] ] ]
   },
-  {  
+  {
     "result": "armrig",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
