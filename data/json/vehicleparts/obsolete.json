@@ -2,6 +2,7 @@
   {
     "type": "vehicle_part",
     "id": "solar_panel_v3",
+    "categories": [ "energy" ],
     "copy-from": "solar_panel",
     "name": "quantum solar panel",
     "looks_like": "solar_panel_v2",

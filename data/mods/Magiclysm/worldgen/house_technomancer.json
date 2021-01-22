@@ -255,6 +255,7 @@
       },
       "place_loot": [
         { "item": "mbelt_technomancer_toolbelt", "x": 8, "y": 6, "chance": 10 },
+        { "item": "mring_wizardry_minor", "x": 8, "y": 6, "chance": 100 },
         { "item": "spell_scroll_summon_magic_motorcycle", "x": 8, "y": 6, "chance": 100 }
       ],
       "place_vehicles": [

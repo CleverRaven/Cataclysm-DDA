@@ -181,6 +181,7 @@
         { "item": "power_supply", "prob": 50 },
         { "item": "RAM", "count": 1 },
         { "item": "pipe", "count": 2 },
+        { "item": "pipe_fittings", "count": [ 2, 6 ] },
         { "item": "glass_sheet", "count": 1 },
         { "item": "bearing", "charges": [ 10, 16 ] }
       ]

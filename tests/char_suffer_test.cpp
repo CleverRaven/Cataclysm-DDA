@@ -1,6 +1,7 @@
 #include "catch/catch.hpp"
 
 #include "avatar.h"
+#include "flag.h"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -26,9 +27,9 @@ static int test_suffer_focus_lost( Character &dummy, const time_duration &dur )
     int focus_lost = 0;
     const int num_turns = to_turns<int>( dur );
     for( int turn = 0; turn < num_turns; ++turn ) {
-        dummy.focus_pool = 100;
+        dummy.set_focus( 100 );
         dummy.suffer();
-        focus_lost += 100 - dummy.focus_pool;
+        focus_lost += 100 - dummy.get_focus();
     }
     return focus_lost;
 }
@@ -128,10 +129,10 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
 
         WHEN( "wielding an umbrella and wearing sunglasses" ) {
             dummy.wield( umbrella );
-            REQUIRE( dummy.weapon.has_flag( "RAIN_PROTECT" ) );
+            REQUIRE( dummy.weapon.has_flag( flag_RAIN_PROTECT ) );
 
             dummy.wear_item( shades, false );
-            REQUIRE( dummy.worn_with_flag( "SUN_GLASSES" ) );
+            REQUIRE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
             THEN( "they suffer no pain or loss of focus" ) {
                 focus_lost = test_suffer_focus_lost( dummy, 1_hours );
@@ -145,7 +146,7 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
             dummy.wear_item( zentai, false );
 
             WHEN( "not wearing sunglasses" ) {
-                REQUIRE_FALSE( dummy.worn_with_flag( "SUN_GLASSES" ) );
+                REQUIRE_FALSE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
                 THEN( "they suffer about 1 pain per hour" ) {
                     test_suffer( dummy, 1_hours );
@@ -160,7 +161,7 @@ TEST_CASE( "suffering from albinism", "[char][suffer][albino]" )
 
             AND_WHEN( "wearing sunglasses" ) {
                 dummy.wear_item( shades, false );
-                REQUIRE( dummy.worn_with_flag( "SUN_GLASSES" ) );
+                REQUIRE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
                 THEN( "they suffer no pain or loss of focus" ) {
                     focus_lost = test_suffer_focus_lost( dummy, 1_hours );
@@ -228,7 +229,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
         WHEN( "naked and wielding an umbrella, with or without sunglasses" ) {
             dummy.worn.clear();
             dummy.wield( umbrella );
-            REQUIRE( dummy.weapon.has_flag( "RAIN_PROTECT" ) );
+            REQUIRE( dummy.weapon.has_flag( flag_RAIN_PROTECT ) );
 
             // Umbrella completely shields the skin from exposure when wielded
             THEN( "they suffer no injury" ) {
@@ -240,7 +241,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
             }
 
             WHEN( "not wearing sunglasses" ) {
-                REQUIRE_FALSE( dummy.worn_with_flag( "SUN_GLASSES" ) );
+                REQUIRE_FALSE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
                 THEN( "they suffer pain" ) {
                     // Only about 3 pain per hour from exposed eyes
                     // This assertion will pass when pain is between 0 and 13 in an hour
@@ -252,7 +253,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
             // Sunglasses protect from glare and pain
             WHEN( "wearing sunglasses" ) {
                 dummy.wear_item( shades, false );
-                REQUIRE( dummy.worn_with_flag( "SUN_GLASSES" ) );
+                REQUIRE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
                 THEN( "they suffer no pain" ) {
                     pain_felt = test_suffer_pain_felt( dummy, 10_minutes );
@@ -299,7 +300,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
             }
 
             WHEN( "not wearing sunglasses" ) {
-                REQUIRE_FALSE( dummy.worn_with_flag( "SUN_GLASSES" ) );
+                REQUIRE_FALSE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
                 THEN( "they suffer loss of focus" ) {
                     // Lose focus about 3x the rate of Albino, about 59 focus every 20 minutes
@@ -316,7 +317,7 @@ TEST_CASE( "suffering from sunburn", "[char][suffer][sunburn]" )
 
             WHEN( "wearing sunglasses" ) {
                 dummy.wear_item( shades, false );
-                REQUIRE( dummy.worn_with_flag( "SUN_GLASSES" ) );
+                REQUIRE( dummy.worn_with_flag( flag_SUN_GLASSES ) );
 
                 THEN( "they suffer no pain or loss of focus" ) {
                     focus_lost = test_suffer_focus_lost( dummy, 1_hours );

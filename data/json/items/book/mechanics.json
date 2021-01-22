@@ -15,7 +15,7 @@
     "skill": "mechanics",
     "required_level": 4,
     "max_level": 8,
-    "intelligence": 6,
+    "intelligence": 8,
     "time": "30 m",
     "fun": -1
   },
@@ -60,7 +60,7 @@
     "color": "green",
     "skill": "mechanics",
     "max_level": 3,
-    "intelligence": 5,
+    "intelligence": 8,
     "time": "18 m"
   },
   {
@@ -104,6 +104,7 @@
     "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "textbook_mechanics",
     "color": "blue",
     "skill": "mechanics",
     "required_level": 7,

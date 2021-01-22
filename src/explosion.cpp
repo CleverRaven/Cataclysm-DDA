@@ -34,6 +34,7 @@
 #include "itype.h"
 #include "json.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -61,9 +62,6 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teleglow( "teleglow" );
-
-static const std::string flag_BLIND( "BLIND" );
-static const std::string flag_FLASH_PROTECTION( "FLASH_PROTECTION" );
 
 static const itype_id fuel_type_none( "null" );
 
@@ -99,6 +97,7 @@ explosion_data load_explosion_data( const JsonObject &jo )
     jo.read( "power", ret.power );
     // Rest isn't
     ret.distance_factor = jo.get_float( "distance_factor", 0.8f );
+    ret.max_noise = jo.get_int( "max_noise", 90000000 );
     ret.fire = jo.get_bool( "fire", false );
     if( jo.has_int( "shrapnel" ) ) {
         ret.shrapnel.casing_mass = jo.get_int( "shrapnel" );
@@ -422,7 +421,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
             frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
             // dealt_dam.total_damage() == 0 means armor block
             // dealt_dam.total_damage() > 0 means took damage
-            // Need to diffentiate target among player, npc, and monster
+            // Need to differentiate target among player, npc, and monster
             // Do we even print monster damage?
             int damage_taken = 0;
             int damaging_hits = 0;
@@ -504,7 +503,13 @@ void explosion( const tripoint &p, float power, float factor, bool fire,
 
 void explosion( const tripoint &p, const explosion_data &ex )
 {
-    const int noise = ex.power * ( ex.fire ? 2 : 10 );
+    _explosions.emplace_back( p, ex );
+}
+
+void _make_explosion( const tripoint &p, const explosion_data &ex )
+{
+    int noise = ex.power * ( ex.fire ? 2 : 10 );
+    noise = ( noise > ex.max_noise ) ? ex.max_noise : noise;
     if( noise >= 30 ) {
         sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ), false, "explosion",
                        "huge" );
@@ -574,8 +579,8 @@ void flashbang( const tripoint &p, bool player_immune )
             } else if( player_character.has_bionic( bio_sunglasses ) ||
                        player_character.is_wearing( itype_rm13_armor_on ) ) {
                 flash_mod = 6;
-            } else if( player_character.worn_with_flag( flag_BLIND ) ||
-                       player_character.worn_with_flag( flag_FLASH_PROTECTION ) ) {
+            } else if( player_character.worn_with_flag( STATIC( flag_id( "BLIND" ) ) ) ||
+                       player_character.worn_with_flag( STATIC( flag_id( "FLASH_PROTECTION" ) ) ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
             player_character.add_env_effect( effect_blind, bodypart_id( "eyes" ), ( 12 - flash_mod - dist ) / 2,
@@ -655,27 +660,25 @@ void scrambler_blast( const tripoint &p )
 
 void emp_blast( const tripoint &p )
 {
-    // TODO: Implement z part
-    point p2( p.xy() );
     Character &player_character = get_player_character();
     const bool sight = player_character.sees( p );
     map &here = get_map();
-    if( here.has_flag( "CONSOLE", p2 ) ) {
+    if( here.has_flag( "CONSOLE", p ) ) {
         if( sight ) {
-            add_msg( _( "The %s is rendered non-functional!" ), here.tername( p2 ) );
+            add_msg( _( "The %s is rendered non-functional!" ), here.tername( p ) );
         }
-        here.furn_set( p2, furn_str_id( "f_machinery_electronic" ) );
+        here.furn_set( p, furn_str_id( "f_machinery_electronic" ) );
         return;
     }
     // TODO: More terrain effects.
-    if( here.ter( p2 ) == t_card_science || here.ter( p2 ) == t_card_military ||
-        here.ter( p2 ) == t_card_industrial ) {
+    if( here.ter( p ) == t_card_science || here.ter( p ) == t_card_military ||
+        here.ter( p ) == t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
                 add_msg( _( "The card reader is rendered non-functional." ) );
             }
-            here.ter_set( p2, t_card_reader_broken );
+            here.ter_set( p, t_card_reader_broken );
         }
         if( rn > 80 ) {
             if( sight ) {
@@ -683,8 +686,8 @@ void emp_blast( const tripoint &p )
             }
             for( int i = -3; i <= 3; i++ ) {
                 for( int j = -3; j <= 3; j++ ) {
-                    if( here.ter( p2 + point( i, j ) ) == t_door_metal_locked ) {
-                        here.ter_set( p2 + point( i, j ), t_floor );
+                    if( here.ter( p + tripoint( i, j, 0 ) ) == t_door_metal_locked ) {
+                        here.ter_set( p + tripoint( i, j, 0 ), t_floor );
                     }
                 }
             }
@@ -751,7 +754,8 @@ void emp_blast( const tripoint &p )
             add_msg( _( "The %s is unaffected by the EMP blast." ), critter.name() );
         }
     }
-    if( player_character.posx() == p2.x && player_character.posy() == p2.y ) {
+    if( player_character.posx() == p.x && player_character.posy() == p.y &&
+        player_character.posz() == p.z ) {
         if( player_character.get_power_level() > 0_kJ ) {
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
             int max_drain = ( player_character.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
@@ -761,7 +765,7 @@ void emp_blast( const tripoint &p )
         // TODO: More effects?
         //e-handcuffs effects
         if( player_character.weapon.typeId() == itype_e_handcuffs && player_character.weapon.charges > 0 ) {
-            player_character.weapon.item_tags.erase( "NO_UNWIELD" );
+            player_character.weapon.unset_flag( STATIC( flag_id( "NO_UNWIELD" ) ) );
             player_character.weapon.charges = 0;
             player_character.weapon.active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
@@ -769,7 +773,7 @@ void emp_blast( const tripoint &p )
         }
     }
     // Drain any items of their battery charge
-    for( item &it : here.i_at( p2 ) ) {
+    for( item &it : here.i_at( p ) ) {
         if( it.is_tool() && it.ammo_current() == itype_battery ) {
             it.charges = 0;
         }
@@ -862,6 +866,14 @@ void resonance_cascade( const tripoint &p )
     }
 }
 
+void process_explosions()
+{
+    for( const queued_explosion &ex : _explosions ) {
+        _make_explosion( ex.first, ex.second );
+    }
+    _explosions.clear();
+}
+
 } // namespace explosion_handler
 
 // This is only ever used to zero the cloud values, which is what makes it work.
@@ -915,8 +927,8 @@ fragment_cloud accumulate_fragment_cloud( const fragment_cloud &cumulative_cloud
         const fragment_cloud &current_cloud, const int &distance )
 {
     // Velocity is the cumulative and continuous decay of speed,
-    // so it is accumulated the same way as light attentuation.
-    // Density is the accumulation of discrete attenuaton events encountered in the traversed squares,
+    // so it is accumulated the same way as light attenuation.
+    // Density is the accumulation of discrete attenuation events encountered in the traversed squares,
     // so each term is added to the series via multiplication.
     return fragment_cloud( ( ( distance - 1 ) * cumulative_cloud.velocity + current_cloud.velocity ) /
                            distance,

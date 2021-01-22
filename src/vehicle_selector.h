@@ -10,18 +10,24 @@
 class vehicle;
 struct tripoint;
 
-class vehicle_cursor : public visitable<vehicle_cursor>
+class vehicle_cursor : public visitable
 {
     public:
         vehicle_cursor( vehicle &veh, std::ptrdiff_t part ) : veh( veh ), part( part ) {}
         vehicle &veh;
         std::ptrdiff_t part;
+
+        // inherited from visitable
+        bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
+        int max_quality( const quality_id &qual ) const override;
+        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
+        override;
+        std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
+                                           int count = INT_MAX ) override;
 };
 
-class vehicle_selector : public visitable<vehicle_selector>
+class vehicle_selector : public visitable
 {
-        friend visitable<vehicle_selector>;
-
     public:
         using value_type = vehicle_cursor;
         using size_type = std::vector<value_type>::size_type;
@@ -87,6 +93,14 @@ class vehicle_selector : public visitable<vehicle_selector>
         const_reference back() const {
             return data.back();
         }
+
+        //inherited from visitable
+        bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
+        int max_quality( const quality_id &qual ) const override;
+        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
+        override;
+        std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
+                                           int count = INT_MAX ) override;
 
     private:
         std::vector<value_type> data;

@@ -15,7 +15,7 @@
 #include "string_id.h"
 
 projectile::projectile() :
-    speed( 0 ), range( 0 ), critical_multiplier( 2.0 ), drop( nullptr ), custom_explosion( nullptr )
+    critical_multiplier( 2.0 ), drop( nullptr ), custom_explosion( nullptr )
 { }
 
 projectile::~projectile() = default;

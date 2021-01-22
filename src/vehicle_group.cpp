@@ -11,6 +11,7 @@
 #include "memory_fast.h"
 #include "point.h"
 #include "translations.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -81,10 +82,10 @@ VehicleFacings::VehicleFacings( const JsonObject &jo, const std::string &key )
 {
     if( jo.has_array( key ) ) {
         for( const int i : jo.get_array( key ) ) {
-            values.push_back( i );
+            values.push_back( units::from_degrees( i ) );
         }
     } else {
-        values.push_back( jo.get_int( key ) );
+        values.push_back( units::from_degrees( jo.get_int( key ) ) );
     }
 }
 
@@ -220,17 +221,18 @@ static void builtin_jackknifed_semi( map &m, const std::string &terrainid )
         return;
     }
 
-    const int facing = loc->pick_facing();
+    const units::angle facing = loc->pick_facing();
+    int facing_degrees = std::lround( to_degrees( facing ) );
     const point semi_p = loc->pick_point();
     point trailer_p;
 
-    if( facing == 0 ) {
+    if( facing_degrees == 0 ) {
         trailer_p.x = semi_p.x + 4;
         trailer_p.y = semi_p.y - 10;
-    } else if( facing == 90 ) {
+    } else if( facing_degrees == 90 ) {
         trailer_p.x = semi_p.x + 12;
         trailer_p.y = semi_p.y + 1;
-    } else if( facing == 180 ) {
+    } else if( facing_degrees == 180 ) {
         trailer_p.x = semi_p.x - 4;
         trailer_p.y = semi_p.y + 10;
     } else {
@@ -238,8 +240,10 @@ static void builtin_jackknifed_semi( map &m, const std::string &terrainid )
         trailer_p.y = semi_p.y - 1;
     }
 
-    m.add_vehicle( vgroup_id( "semi_truck" ), semi_p, ( facing + 135 ) % 360, -1, 1 );
-    m.add_vehicle( vgroup_id( "truck_trailer" ), trailer_p, ( facing + 90 ) % 360, -1, 1 );
+    m.add_vehicle( vgroup_id( "semi_truck" ), semi_p,
+                   units::fmod( facing + 135_degrees, 360_degrees ), -1, 1 );
+    m.add_vehicle( vgroup_id( "truck_trailer" ), trailer_p,
+                   units::fmod( facing + 90_degrees, 360_degrees ), -1, 1 );
 }
 
 static void builtin_pileup( map &m, const std::string &, const std::string &vg )
@@ -283,8 +287,13 @@ static void builtin_parkinglot( map &m, const std::string & )
         pos_p.z = m.get_abs_sub().z;
 
         if( !m.veh_at( pos_p ) ) {
-            m.add_vehicle( vgroup_id( "parkinglot" ), pos_p,
-                           ( one_in( 2 ) ? 0 : 180 ) + one_in( 10 ) * rng( 0, 179 ), -1, -1 );
+            units::angle facing;
+            if( one_in( 10 ) ) {
+                facing = random_direction();
+            } else {
+                facing = one_in( 2 ) ? 0_degrees : 180_degrees;
+            }
+            m.add_vehicle( vgroup_id( "parkinglot" ), pos_p, facing, -1, -1 );
         }
     }
 }

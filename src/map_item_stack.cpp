@@ -10,12 +10,13 @@
 #include "item_search.h"
 #include "line.h"
 
-map_item_stack::item_group::item_group() : count( 0 )
+map_item_stack::item_group::item_group() : count( 0 ), it( nullptr )
 {
 }
 
-map_item_stack::item_group::item_group( const tripoint &p, const int arg_count ) : pos( p ),
-    count( arg_count )
+map_item_stack::item_group::item_group( const tripoint &p, const int arg_count,
+                                        const item *itm ) : pos( p ),
+    count( arg_count ), it( itm )
 {
 }
 
@@ -27,7 +28,7 @@ map_item_stack::map_item_stack() : example( nullptr ), totalcount( 0 )
 map_item_stack::map_item_stack( const item *const it, const tripoint &pos ) : example( it ),
     totalcount( it->count() )
 {
-    vIG.emplace_back( pos, totalcount );
+    vIG.emplace_back( pos, totalcount, it );
 }
 
 void map_item_stack::add_at_pos( const item *const it, const tripoint &pos )
@@ -35,7 +36,7 @@ void map_item_stack::add_at_pos( const item *const it, const tripoint &pos )
     const int amount = it->count();
 
     if( vIG.empty() || vIG.back().pos != pos ) {
-        vIG.emplace_back( pos, amount );
+        vIG.emplace_back( pos, amount, it );
     } else {
         vIG.back().count += amount;
     }

@@ -33,7 +33,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     }
     const int grabbed_part = grabbed_vehicle_vp->part_index();
     for( int part_index = 0; part_index < grabbed_vehicle->part_count(); ++part_index ) {
-        monster *mon = grabbed_vehicle->get_pet( part_index );
+        monster *mon = grabbed_vehicle->get_monster( part_index );
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             add_msg( m_info, _( "You cannot move this vehicle whilst your %s is harnessed!" ),
                      mon->get_name() );
@@ -135,7 +135,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         }
     } else {
         u.moves -= 100;
-        add_msg( m_bad, _( "You lack the strength to move the %s" ), grabbed_vehicle->name );
+        add_msg( m_bad, _( "You lack the strength to move the %s." ), grabbed_vehicle->name );
         return true;
     }
 

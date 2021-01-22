@@ -3,6 +3,7 @@
 #define CATA_SRC_TILERAY_H
 
 #include "point.h"
+#include "units.h"
 
 // Class for calculating tile coordinates
 // of a point that moves along the ray with given
@@ -28,25 +29,30 @@ class tileray
         point delta;            // ray delta
         int leftover = 0;       // counter to shift coordinates
         point abs_d;            // absolute value of delta
-        int direction = 0;      // ray direction
+        units::angle direction = 0_degrees; // ray direction
         point last_d;           // delta of last advance
         int steps = 0;          // how many steps we advanced so far
         bool infinite = false;  // ray is infinite (end will always return true)
     public:
         tileray();
         tileray( const point &ad );
-        tileray( int adir );
+        tileray( units::angle adir );
 
-        void init( const point &ad );  // init ray with ad
-        void init( int adir );         // init ray with direction
+        void init( const point &ad );   // init ray with ad
+        void init( const units::angle &adir ); // init ray with direction
 
         int dx() const;       // return dx of last advance (-1 to 1)
         int dy() const;       // return dy of last advance (-1 to 1)
-        int dir() const;      // return direction of ray (degrees)
+        units::angle dir() const;      // return direction of ray
+        int quadrant() const;
         int dir4() const;     // return 4-sided direction (0 = east, 1 = south, 2 = west, 3 = north)
         int dir8() const;     // return 8-sided direction (0 = east, 1 = southeast, 2 = south ...)
         // convert certain symbols from north-facing variant into current dir facing
         int dir_symbol( int sym ) const;
+
+        /** convert to a string representation of the azimuth from north, in integer degrees */
+        std::string to_string_azimuth_from_north() const;
+
         // return dx for point at "od" distance in orthogonal direction
         int ortho_dx( int od ) const;
         // return dy for point at "od" distance in orthogonal direction

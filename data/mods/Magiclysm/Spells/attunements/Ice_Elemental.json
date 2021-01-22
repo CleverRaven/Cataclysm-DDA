@@ -10,6 +10,7 @@
     "max_damage": 1,
     "effect": "spawn_item",
     "effect_str": "subzero_talons",
+    "shape": "blast",
     "energy_source": "MANA",
     "spell_class": "ICE_ELEMENTAL",
     "difficulty": 7,

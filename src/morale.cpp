@@ -18,6 +18,7 @@
 #include "input.h"
 #include "int_id.h"
 #include "item.h"
+#include "make_static.h"
 #include "morale_types.h"
 #include "output.h"
 #include "point.h"
@@ -400,7 +401,7 @@ int player_morale::get_total_negative_value() const
     return std::sqrt( sum );
 }
 
-int player_morale::get_percieved_pain() const
+int player_morale::get_perceived_pain() const
 {
     return perceived_pain;
 }
@@ -917,9 +918,9 @@ void player_morale::on_effect_int_change( const efftype_id &eid, int intensity,
 
 void player_morale::set_worn( const item &it, bool worn )
 {
-    const bool fancy = it.has_flag( "FANCY" );
-    const bool super_fancy = it.has_flag( "SUPER_FANCY" );
-    const bool filthy_gear = it.has_flag( "FILTHY" );
+    const bool fancy = it.has_flag( STATIC( flag_id( "FANCY" ) ) );
+    const bool super_fancy = it.has_flag( STATIC( flag_id( "SUPER_FANCY" ) ) );
+    const bool filthy_gear = it.has_flag( STATIC( flag_id( "FILTHY" ) ) );
     const int sign = ( worn ) ? 1 : -1;
 
     const auto update_body_part = [&]( body_part_data & bp_data ) {

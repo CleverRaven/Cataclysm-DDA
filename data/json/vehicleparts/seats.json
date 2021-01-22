@@ -27,6 +27,7 @@
     "breaks_into": "ig_vp_seat",
     "broken_color": "red",
     "broken_symbol": "*",
+    "categories": [ "operations", "passengers" ],
     "color": "red",
     "comfort": 2,
     "damage_modifier": 60,
@@ -62,6 +63,7 @@
     "breaks_into": "ig_vp_seat",
     "broken_color": "red",
     "broken_symbol": "*",
+    "categories": [ "operations", "passengers" ],
     "color": "red",
     "comfort": 3,
     "damage_modifier": 60,
@@ -96,6 +98,7 @@
     "type": "vehicle_part",
     "abstract": "saddle_abstract",
     "name": { "str": "saddle" },
+    "categories": [ "operations", "passengers" ],
     "symbol": "#",
     "looks_like": "seat",
     "color": "red",
@@ -114,13 +117,14 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE" ],
+    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE", "NONBELTABLE" ],
     "breaks_into": [ { "item": "leather", "prob": 50 }, { "item": "scrap", "count": [ 1, 2 ] } ]
   },
   {
     "type": "vehicle_part",
     "abstract": "folding_seat_abstract",
     "name": { "str": "foldable seat" },
+    "categories": [ "operations", "passengers" ],
     "symbol": "#",
     "looks_like": "seat",
     "color": "red",
@@ -137,7 +141,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE" ],
+    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE", "NONBELTABLE" ],
     "breaks_into": [ { "item": "rag", "count": [ 1, 6 ] } ]
   },
   {

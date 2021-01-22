@@ -62,7 +62,7 @@ static void calculate_bodypart_distribution( const creature_size asize, const cr
 
 TEST_CASE( "Check distribution of attacks to body parts for same sized opponents." )
 {
-    srand( 4242424242 );
+    rng_set_engine_seed( 4242424242 );
 
     calculate_bodypart_distribution( creature_size::small, creature_size::small, 0,
                                      expected_weights_base[1] );
@@ -74,7 +74,7 @@ TEST_CASE( "Check distribution of attacks to body parts for same sized opponents
 
 TEST_CASE( "Check distribution of attacks to body parts for smaller attacker." )
 {
-    srand( 4242424242 );
+    rng_set_engine_seed( 4242424242 );
 
     calculate_bodypart_distribution( creature_size::small, creature_size::medium, 0,
                                      expected_weights_base[0] );
@@ -86,7 +86,7 @@ TEST_CASE( "Check distribution of attacks to body parts for smaller attacker." )
 
 TEST_CASE( "Check distribution of attacks to body parts for larger attacker." )
 {
-    srand( 4242424242 );
+    rng_set_engine_seed( 4242424242 );
 
     calculate_bodypart_distribution( creature_size::medium, creature_size::small, 0,
                                      expected_weights_base[2] );
@@ -122,4 +122,14 @@ TEST_CASE( "body_part_sorting_main", "[bodypart]" )
         get_player_character().get_all_body_parts(
             get_body_part_flags::sorted | get_body_part_flags::only_main );
     CHECK( observed == expected );
+}
+
+TEST_CASE( "mtype_species_test", "[monster]" )
+{
+    CHECK( mtype_id( "mon_zombie" )->same_species( *mtype_id( "mon_zombie" ) ) );
+    CHECK( mtype_id( "mon_zombie" )->same_species( *mtype_id( "mon_zombie_cop" ) ) );
+    CHECK( mtype_id( "mon_zombie_cop" )->same_species( *mtype_id( "mon_zombie" ) ) );
+
+    CHECK_FALSE( mtype_id( "mon_zombie" )->same_species( *mtype_id( "mon_fish_trout" ) ) );
+    CHECK_FALSE( mtype_id( "mon_fish_trout" )->same_species( *mtype_id( "mon_zombie" ) ) );
 }

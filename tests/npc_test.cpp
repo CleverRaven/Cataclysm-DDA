@@ -35,9 +35,9 @@ class Creature;
 
 static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
-    calendar::turn = to_turn<int>( calendar::turn_zero + from );
+    calendar::turn = calendar::turn_zero + from;
     who.on_unload();
-    calendar::turn = to_turn<int>( calendar::turn_zero + to );
+    calendar::turn = calendar::turn_zero + to;
     who.on_load();
 }
 
@@ -345,7 +345,7 @@ TEST_CASE( "npc-movement" )
             }
             // create vehicles
             if( type == 'V' || type == 'W' || type == 'M' ) {
-                vehicle *veh = here.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
+                vehicle *veh = here.add_vehicle( vproto_id( "none" ), p, 270_degrees, 0, 0 );
                 REQUIRE( veh != nullptr );
                 veh->install_part( point_zero, vpart_frame_vertical );
                 veh->install_part( point_zero, vpart_seat );

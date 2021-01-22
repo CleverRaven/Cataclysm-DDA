@@ -35,6 +35,7 @@ struct species_type {
     enum_bitset<mon_trigger> anger;
     enum_bitset<mon_trigger> fear;
     enum_bitset<mon_trigger> placate;
+    field_type_str_id bleeds;
     std::string get_footsteps() const {
         return footsteps.translated();
     }
@@ -69,12 +70,13 @@ class MonsterGenerator
 
         void check_monster_definitions() const;
 
+        cata::optional<mon_action_death> get_death_function( const std::string &f ) const;
         const std::vector<mtype> &get_all_mtypes() const;
         mtype_id get_valid_hallucination() const;
         friend struct mtype;
         friend struct species_type;
         friend class mattack_actor;
-        std::map<m_flag, int> m_flag_usage_stats;
+        std::array<int, m_flag::MF_MAX> m_flag_usage_stats;
 
     private:
         MonsterGenerator();
@@ -94,7 +96,7 @@ class MonsterGenerator
 
         // finalization
         void apply_species_attributes( mtype &mon );
-        void set_species_ids( mtype &mon );
+        void validate_species_ids( mtype &mon );
         void finalize_pathfinding_settings( mtype &mon );
 
         friend class string_id<mtype>;

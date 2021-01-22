@@ -193,7 +193,7 @@
     "looks_like": "optical_cloak",
     "type": "TOOL_ARMOR",
     "name": { "str": "FB51 optical cloak (on)", "str_pl": "FB51 optical cloaks (on)" },
-    "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  It is turned on, and continually draining power from an UPS.  Use it to turn it off. ",
+    "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  It is turned on, and continually draining power from an UPS.  Use it to turn it off.",
     "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE", "ACTIVE_CLOAKING", "TRADER_AVOID" ],
     "power_draw": 20000000,
     "revert_to": "optical_cloak",

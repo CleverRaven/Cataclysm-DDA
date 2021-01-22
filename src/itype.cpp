@@ -1,10 +1,10 @@
 #include "itype.h"
 
 #include <cstdlib>
-#include <utility>
 
 #include "debug.h"
 #include "item.h"
+#include "make_static.h"
 #include "player.h"
 #include "ret_val.h"
 #include "translations.h"
@@ -67,6 +67,16 @@ int itype::charges_per_volume( const units::volume &vol ) const
 bool itype::has_use() const
 {
     return !use_methods.empty();
+}
+
+bool itype::has_flag( const flag_id &flag ) const
+{
+    return item_tags.count( flag );
+}
+
+const itype::FlagsSetType &itype::get_flags() const
+{
+    return item_tags;
 }
 
 bool itype::can_use( const std::string &iuse_name ) const
@@ -141,7 +151,7 @@ bool itype::can_have_charges() const
     if( gun && gun->clip > 0 ) {
         return true;
     }
-    if( item_tags.count( "CAN_HAVE_CHARGES" ) ) {
+    if( has_flag( STATIC( flag_id( "CAN_HAVE_CHARGES" ) ) ) ) {
         return true;
     }
     return false;

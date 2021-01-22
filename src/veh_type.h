@@ -189,6 +189,38 @@ std::pair<std::string, std::string> get_vpart_str_variant( const std::string &vp
 std::pair<vpart_id, std::string> get_vpart_id_variant( const vpart_id &vpid );
 std::pair<vpart_id, std::string> get_vpart_id_variant( const std::string &vpid );
 
+class vpart_category
+{
+    public:
+        static const std::vector<vpart_category> &all();
+
+        static void load( const JsonObject &jo );
+        static void finalize();
+        static void reset();
+
+        std::string get_id() const {
+            return id_;
+        }
+
+        std::string name() const {
+            return name_.translated();
+        }
+
+        std::string short_name() const {
+            return short_name_.translated();
+        }
+
+        bool operator < ( const vpart_category &cat ) const {
+            return priority_ < cat.priority_;
+        }
+
+    private:
+        std::string id_;
+        translation name_;
+        translation short_name_;
+        int priority_ = 0; // order of tab in the UI
+};
+
 class vpart_info
 {
     public:
@@ -221,6 +253,19 @@ class vpart_info
             return bitflags.test( flag );
         }
         void set_flag( const std::string &flag );
+
+        bool has_tool( const itype_id &tool ) const {
+            return std::find_if( pseudo_tools.cbegin(),
+            pseudo_tools.cend(), [&tool]( std::pair<itype_id, int>p ) {
+                return p.first == tool;
+            } ) != pseudo_tools.cend();
+        }
+
+        /** Gets all categories of this part */
+        const std::set<std::string> &get_categories() const;
+
+        /** Gets whether part is in a category for display */
+        bool has_category( const std::string &category ) const;
 
         /** Format the description for display */
         int format_description( std::string &msg, const nc_color &format_color, int width ) const;
@@ -274,8 +319,11 @@ class vpart_info
          */
         const cata::optional<vpslot_workbench> &get_workbench_info() const;
 
+        std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
     private:
         std::set<std::string> flags;
+        // category list for installation ui breakdown
+        std::set<std::string> categories;
         // flags checked so often that things slow down due to string cmp
         std::bitset<NUM_VPFLAGS> bitflags;
 
@@ -283,6 +331,9 @@ class vpart_info
         std::vector<std::pair<requirement_id, int>> install_reqs;
         std::vector<std::pair<requirement_id, int>> removal_reqs;
         std::vector<std::pair<requirement_id, int>> repair_reqs;
+
+        /** Pseudo tools this provides when installed, second is the hotkey */
+        std::set<std::pair<itype_id, int>> pseudo_tools;
 
         cata::optional<vpslot_engine> engine_info;
         cata::optional<vpslot_wheel> wheel_info;
@@ -305,7 +356,7 @@ class vpart_info
         std::map<skill_id, int> removal_skills;
 
         /** @ref item_group this part breaks into when destroyed */
-        std::string breaks_into_group = "EMPTY_GROUP";
+        item_group_id breaks_into_group = item_group_id( "EMPTY_GROUP" );
 
         /** Flat decrease of damage of a given type. */
         std::array<float, static_cast<int>( damage_type::NUM )> damage_reduction = {};
@@ -350,7 +401,7 @@ class vpart_info
         translation description;
 
         /** base item for this part */
-        itype_id item;
+        itype_id base_item;
 
         /** What slot of the vehicle tile does this part occupy? */
         std::string location;
@@ -387,9 +438,6 @@ class vpart_info
          */
         int power = 0;
 
-        /** Mechanics skill required to install item */
-        int difficulty = 0;
-
         /** Installation time (in moves) for component (@see install_time), default 1 hour */
         int install_moves = to_moves<int>( 1_hours );
         /** Repair time (in moves) to fully repair a component (@see repair_time) */
@@ -398,7 +446,7 @@ class vpart_info
          *  default is half @ref install_moves */
         int removal_moves = -1;
 
-        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharing (power) */
+        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharging (power) */
         int bonus = 0;
 
         /** cargo weight modifier (percentage) */
@@ -426,7 +474,7 @@ struct vehicle_item_spawn {
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
     int with_magazine = 0;
     std::vector<itype_id> item_ids;
-    std::vector<std::string> item_groups;
+    std::vector<item_group_id> item_groups;
 };
 
 /**

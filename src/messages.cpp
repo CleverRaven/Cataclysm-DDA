@@ -13,6 +13,7 @@
 #include "input.h"
 #include "json.h"
 #include "output.h"
+#include "panels.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -35,7 +36,7 @@ namespace
 
 struct game_message : public JsonDeserializer, public JsonSerializer {
     std::string       message;
-    time_point timestamp_in_turns  = 0;
+    time_point timestamp_in_turns  = calendar::turn_zero;
     int               timestamp_in_user_actions = 0;
     int               count = 1;
     // number of times this message has been seen while it was in cooldown.
@@ -116,7 +117,7 @@ class messages_impl
     public:
         std::deque<game_message> messages;   // Messages to be printed
         std::vector<game_message> cooldown_templates; // Message cooldown
-        time_point curmes = 0; // The last-seen message.
+        time_point curmes = calendar::turn_zero; // The last-seen message.
         bool active = true;
 
         bool has_undisplayed_messages() const {
@@ -201,7 +202,7 @@ class messages_impl
         void hide_message_in_cooldown( game_message &message ) {
             message.cooldown_hidden = false;
 
-            if( message_cooldown <= 0 || message.turn() <= 0 ) {
+            if( message_cooldown <= 0 || message.turn() <= calendar::turn_zero ) {
                 return;
             }
 
@@ -262,7 +263,7 @@ class messages_impl
          */
         void refresh_cooldown( const game_message &message, const game_message_flags flags ) {
             // is cooldown used? (also checks for messages arriving here at game initialization: we don't care about them).
-            if( message_cooldown <= 0 || message.turn() <= 0 ) {
+            if( message_cooldown <= 0 || message.turn() <= calendar::turn_zero ) {
                 return;
             }
 
@@ -472,8 +473,9 @@ Messages::dialog::dialog()
 
 void Messages::dialog::init( ui_adaptor &ui )
 {
-    w_width = std::min( TERMX, FULL_SCREEN_WIDTH );
-    w_height = std::min( TERMY, FULL_SCREEN_HEIGHT );
+    w_width = std::max( 45, TERMX - 2 * ( panel_manager::get_manager().get_width_right() +
+                                          panel_manager::get_manager().get_width_left() ) );
+    w_height = TERMY;
     w_x = ( TERMX - w_width ) / 2;
     w_y = ( TERMY - w_height ) / 2;
 

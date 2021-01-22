@@ -240,6 +240,7 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.impassable( p ) ||
+        m.is_divable( p ) ||
         checked[p.x][p.y] > 0 ) {
         return 0;
     }
@@ -405,7 +406,7 @@ void start_location::handle_heli_crash( player &u ) const
             // Damage + Bleed
             case 1:
             case 2:
-                u.make_bleed( bp, 6_minutes );
+                u.make_bleed( effect_source::empty(), bp, 6_minutes );
             /* fallthrough */
             case 3:
             case 4:

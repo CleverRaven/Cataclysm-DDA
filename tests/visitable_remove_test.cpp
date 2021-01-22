@@ -28,7 +28,7 @@ template <typename T>
 static int count_items( const T &src, const itype_id &id )
 {
     int n = 0;
-    src.visit_items( [&n, &id]( const item * e ) {
+    src.visit_items( [&n, &id]( const item * e, item * ) {
         n += ( e->typeId() == id );
         return VisitResponse::NEXT;
     } );
@@ -235,13 +235,13 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                 THEN( "all of the bottles remain in the players possession" ) {
                     REQUIRE( count_items( p, container_id ) == 5 );
                     AND_THEN( "all of the bottles are now empty" ) {
-                        REQUIRE( p.visit_items( [&container_id]( const item * e ) {
+                        REQUIRE( p.visit_items( [&container_id]( const item * e, item * ) {
                             return ( e->typeId() != container_id || e->contents.empty() ) ?
                                    VisitResponse::NEXT : VisitResponse::ABORT;
                         } ) != VisitResponse::ABORT );
                     }
                 }
-                THEN( "the hip flask remains in the players posession" ) {
+                THEN( "the hip flask remains in the players possession" ) {
                     auto found = p.items_with( [&worn_id]( const item & e ) {
                         return e.typeId() == worn_id;
                     } );
@@ -277,7 +277,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                         REQUIRE( count_items( p, liquid_id ) == 0 );
                     }
 
-                    THEN( "the hip flask remains in the players posession" ) {
+                    THEN( "the hip flask remains in the players possession" ) {
                         auto found = p.items_with( [&worn_id]( const item & e ) {
                             return e.typeId() == worn_id;
                         } );
@@ -416,7 +416,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         std::vector<tripoint> tiles = closest_points_first( p.pos(), 1 );
         tiles.erase( tiles.begin() ); // player tile
         tripoint veh = random_entry( tiles );
-        REQUIRE( here.add_vehicle( vproto_id( "shopping_cart" ), veh, 0, 0, 0 ) );
+        REQUIRE( here.add_vehicle( vproto_id( "shopping_cart" ), veh, 0_degrees, 0, 0 ) );
 
         REQUIRE( std::count_if( tiles.begin(), tiles.end(), [&here]( const tripoint & e ) {
             return static_cast<bool>( here.veh_at( e ) );

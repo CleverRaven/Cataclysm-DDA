@@ -1952,7 +1952,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_door_metal_o",
     "bash": {
       "str_min": 80,
@@ -1977,7 +1977,7 @@
     "color": "cyan",
     "move_cost": 0,
     "roof": "t_metal_floor",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "AUTO_WALL_SYMBOL", "MINEABLE" ],
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "AUTO_WALL_SYMBOL" ],
     "open": "t_secretdoor_metal_o",
     "bash": {
       "str_min": 80,
@@ -1998,7 +1998,7 @@
     "color": "cyan",
     "move_cost": 2,
     "roof": "t_metal_floor",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "close": "t_secretdoor_metal_c",
     "bash": {
       "str_min": 80,
@@ -2020,7 +2020,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE" ],
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL" ],
     "open": "t_door_metal_lab_o",
     "bash": {
       "str_min": 80,
@@ -2045,7 +2045,7 @@
     "color": "cyan",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "close": "t_door_metal_c",
     "bash": {
       "str_min": 80,
@@ -2070,7 +2070,7 @@
     "color": "cyan",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "close": "t_door_metal_lab_c",
     "bash": {
       "str_min": 80,
@@ -2096,7 +2096,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_door_metal_o_peep",
     "examine_action": "door_peephole",
     "bash": {
@@ -2123,7 +2123,7 @@
     "color": "cyan",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
     "close": "t_door_metal_c_peep",
     "bash": {
       "str_min": 80,
@@ -2151,7 +2151,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "LOCKED", "BLOCK_WIND" ],
     "bash": {
       "str_min": 80,
       "str_max": 250,
@@ -2177,7 +2177,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "MINEABLE", "BLOCK_WIND", "PICKABLE" ],
+    "flags": [ "NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "BLOCK_WIND", "PICKABLE" ],
     "open": "t_door_metal_o",
     "examine_action": "locked_object_pickable",
     "bash": {
@@ -2432,7 +2432,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_metal_flat_roof",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_door_metal_bulkhead_o",
     "bash": {
       "str_min": 80,
@@ -2454,7 +2454,7 @@
     "move_cost": 1,
     "coverage": 95,
     "roof": "t_metal_flat_roof",
-    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "close": "t_door_metal_bulkhead_c",
     "bash": {
       "str_min": 80,

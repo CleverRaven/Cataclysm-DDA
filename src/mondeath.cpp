@@ -27,6 +27,7 @@
 #include "itype.h"
 #include "kill_tracker.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mattack_actors.h"
@@ -85,32 +86,36 @@ void mdeath::normal( monster &z )
         return;
     }
 
-    if( z.type->in_species( species_ZOMBIE ) ) {
-        sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos() ) );
-    }
-
-    //Currently it is possible to get multiple messages that a monster died.
-    add_msg_if_player_sees( z, m_good, _( "The %s dies!" ), z.name() );
-
-    const int max_hp = std::max( z.get_hp_max(), 1 );
-    const float overflow_damage = std::max( -z.get_hp(), 0 );
-    const float corpse_damage = 2.5 * overflow_damage / max_hp;
-    const bool pulverized = corpse_damage > 5 && overflow_damage > z.get_hp_max();
-
-    z.bleed(); // leave some blood if we have to
-
-    if( !pulverized ) {
-        make_mon_corpse( z, static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
-    }
-    // if mdeath::splatter was set along normal makes sure it is not called twice
-    bool splatt = false;
-    for( const auto &deathfunction : z.type->dies ) {
-        if( deathfunction == mdeath::splatter ) {
-            splatt = true;
+    if( !z.quiet_death ) {
+        if( z.type->in_species( species_ZOMBIE ) ) {
+            sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z.pos() ) );
         }
+
+        //Currently it is possible to get multiple messages that a monster died.
+        add_msg_if_player_sees( z, m_good, _( "The %s dies!" ), z.name() );
     }
-    if( !splatt ) {
-        splatter( z );
+
+    if( z.death_drops ) {
+        const int max_hp = std::max( z.get_hp_max(), 1 );
+        const float overflow_damage = std::max( -z.get_hp(), 0 );
+        const float corpse_damage = 2.5 * overflow_damage / max_hp;
+        const bool pulverized = corpse_damage > 5 && overflow_damage > z.get_hp_max();
+
+        z.bleed(); // leave some blood if we have to
+
+        if( !pulverized ) {
+            make_mon_corpse( z, static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
+        }
+        // if mdeath::splatter was set along normal makes sure it is not called twice
+        bool splatt = false;
+        for( const auto &deathfunction : z.type->dies ) {
+            if( deathfunction == mdeath::splatter ) {
+                splatt = true;
+            }
+        }
+        if( !splatt ) {
+            splatter( z );
+        }
     }
 }
 
@@ -223,7 +228,7 @@ void mdeath::splatter( monster &z )
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name, z.get_upgrade_time() );
         // Set corpse to damage that aligns with being pulped
         corpse.set_damage( 4000 );
-        corpse.set_flag( "GIBBED" );
+        corpse.set_flag( STATIC( flag_id( "GIBBED" ) ) );
         if( z.has_effect( effect_no_ammo ) ) {
             corpse.set_var( "no_ammo", "no_ammo" );
         }
@@ -480,7 +485,7 @@ void mdeath::blobsplit( monster &z )
         if( z.type->dies.size() == 1 ) {
             add_msg( m_good, _( "The %s splits in two!" ), z.name() );
         } else {
-            add_msg( m_bad, _( "Two small blobs slither out of the corpse." ) );
+            add_msg( m_bad, _( "Two small slimes slither out of the corpse." ) );
         }
     }
 
@@ -641,11 +646,8 @@ void mdeath::broken( monster &z )
                     if( attack.second->id == "gun" ) {
                         item gun = item( dynamic_cast<const gun_actor *>( attack.second.get() )->gun_type );
                         bool same_ammo = false;
-                        for( const ammotype &at : gun.ammo_types() ) {
-                            if( at == item( ammo_entry.first ).ammo_type() ) {
-                                same_ammo = true;
-                                break;
-                            }
+                        if( gun.typeId()->magazine_default.count( item( ammo_entry.first ).ammo_type() ) ) {
+                            same_ammo = true;
                         }
                         const bool uses_mags = !gun.magazine_compatible().empty();
                         if( same_ammo && uses_mags ) {
@@ -731,7 +733,7 @@ void mdeath::jabberwock( monster &z )
     Character *ch = dynamic_cast<Character *>( z.get_killer() );
 
     bool vorpal = ch && ch->is_player() &&
-                  ch->weapon.has_flag( "DIAMOND" ) &&
+                  ch->weapon.has_flag( STATIC( flag_id( "DIAMOND" ) ) ) &&
                   ch->weapon.volume() > 750_ml;
 
     if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {

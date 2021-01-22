@@ -16,8 +16,10 @@
 #include "map_test_case.h"
 #include "point.h"
 #include "type_id.h"
+#include "vehicle.h"
+#include "vpart_range.h"
 
-static int get_actual_light_level( map_test_case::tile t )
+static int get_actual_light_level( const map_test_case::tile &t )
 {
     const map &here = get_map();
     const visibility_variables &vvcache = here.get_visibility_variables_cache();
@@ -448,4 +450,99 @@ TEST_CASE( "vision_single_tile_skylight", "[shadowcasting][vision]" )
     };
 
     t.test_all();
+}
+
+TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision]" )
+{
+    clear_vehicles();
+
+    bool door_open = GENERATE( false, true );
+
+    vision_test_case t {
+        {
+            "  M M  ", // left M is origin location of meth lab (driver's seat)
+            "       ",
+            "       ",
+            "   U   ",
+            "       ",
+            "       ",
+            "   D   ", // D mark door to be opened
+            "       "
+        },
+        door_open ?
+        std::vector<std::string> {
+            // when door is open, light shines inside, forming a cone
+            "6666666",
+            "6444446",
+            "6444446",
+            "6444446",
+            "6444446",
+            "6144416",
+            "6444446",
+            "6644466"
+} :
+        std::vector<std::string> {
+            // when door is closed, everything is dark
+            "6666666",
+            "6111116",
+            "6111116",
+            "6111116",
+            "6111116",
+            "6111116",
+            "6111116",
+            "6666666"
+        },
+        midday
+    };
+
+    vehicle *v = nullptr;
+    cata::optional<tripoint> door = cata::nullopt;
+
+    // opens or closes a specific door (marked as 'D')
+    // this is called twice: after either vehicle or door is set
+    // and it executed a single time when both vehicle and door position are available
+    auto open_door = [&]() {
+        if( !door_open || !v || !door ) {
+            return;
+        }
+        // open door at `door` location
+        for( const vehicle_part *vp : v->get_parts_at( *door, "OPENABLE", part_status_flag::any ) ) {
+            v -> open( v->index_of_part( vp ) );
+        }
+    };
+
+    tile_predicate set_door_location = [&]( map_test_case::tile tile ) {
+        door = tile.p;
+        open_door();
+        return true;
+    };
+
+    tile_predicate spawn_meth_lab = [&]( map_test_case::tile tile ) {
+        cata::optional<units::angle> dir;
+        if( tile.p_local == point( 2, 0 ) ) {
+            dir = 270_degrees;
+        } else if( tile.p_local == point( 4, 7 ) ) {
+            dir = 90_degrees;
+        } else if( tile.p_local == point( 0, 4 ) ) {
+            dir = 180_degrees;
+        } else if( tile.p_local == point( 7, 2 ) ) {
+            dir = 0_degrees;
+        }
+        if( dir ) {
+            v = get_map().add_vehicle( vproto_id( "meth_lab" ), tile.p, *dir, 0, 0 );
+            for( const vpart_reference &vp : v->get_avail_parts( "OPENABLE" ) ) {
+                v -> close( vp.part_index() );
+            }
+            open_door();
+        }
+        return true;
+    };
+
+    t.set_up_tiles =
+        ifchar( 'M', spawn_meth_lab ) ||
+        ifchar( 'D', set_door_location ) ||
+        t.set_up_tiles;
+
+    t.test_all();
+    clear_vehicles();
 }

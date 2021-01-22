@@ -2,7 +2,7 @@
   {
     "result": "2byshin_guard",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
@@ -15,6 +15,48 @@
     "components": [ [ [ "2x4", 1 ] ], [ [ "rag", 4 ] ] ]
   },
   {
+    "result": "legguard_chitin",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ [ "fabrication", 3 ] ],
+    "time": "520 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_arthropod", 4 ] ],
+    "byproducts": [ [ "scrap_leather", 92 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_articulation" }
+    ],
+    "using": [ [ "armor_chitin", 6 ], [ "tailoring_leather_small", 4 ] ]
+  },
+  {
+    "result": "legguard_acidchitin",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ [ "fabrication", 3 ], [ "chemistry", 2 ] ],
+    "time": "520 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_arthropod", 5 ] ],
+    "byproducts": [ [ "scrap_leather", 92 ] ],
+    "using": [ [ "armor_acidchitin", 6 ], [ "tailoring_leather_small", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_articulation" }
+    ]
+  },
+  {
     "result": "bikini_bottom",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -25,7 +67,7 @@
     "time": "2 h",
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
     "using": [ [ "tailoring_lycra", 1 ], [ "filament", 10 ] ]
   },
   {
@@ -110,9 +152,9 @@
     "time": "5 h",
     "autolearn": true,
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures" }
     ],
     "using": [ [ "tailoring_leather", 4 ], [ "button", 5 ] ]
   },
@@ -139,10 +181,7 @@
     "difficulty": 2,
     "time": "3 h",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_elastics", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_elastics" }, { "proficiency": "prof_closures" } ],
     "using": [ [ "tailoring_lycra", 2 ], [ "fastener_small", 1 ] ]
   },
   {
@@ -156,9 +195,9 @@
     "type": "recipe",
     "copy-from": "hot_pants",
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures" }
     ],
     "using": [ [ "tailoring_leather", 1 ], [ "fastener_small", 1 ] ]
   },
@@ -172,7 +211,7 @@
     "difficulty": 2,
     "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 5 ], [ "manual_tailor", 3 ], [ "survival_book", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
     "using": [ [ "tailoring_cotton", 1 ], [ "fastener_small", 1 ] ]
   },
   {
@@ -185,13 +224,13 @@
     "difficulty": 4,
     "time": "6 h",
     "book_learn": [ [ "scots_tailor", 4 ], [ "scots_cookbook", 7 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
     "using": [ [ "tailoring_felt", 11 ], [ "strap_small", 1 ], [ "clasps", 1 ] ]
   },
   {
     "result": "knee_pads",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
@@ -199,10 +238,7 @@
     "time": "2 h",
     "book_learn": [ [ "plastics_book", 2 ] ],
     "reversible": true,
-    "proficiencies": [
-      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" }, { "proficiency": "prof_closures" } ],
     "using": [ [ "plastic_molding", 4 ], [ "clasps", 2 ], [ "strap_small", 2 ] ]
   },
   {
@@ -243,10 +279,7 @@
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "tailoring_cotton", 2 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_furriery", "required": false, "time_multiplier": 2 }
-    ]
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
   },
   {
     "result": "leggings",
@@ -261,22 +294,19 @@
     "reversible": true,
     "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "using": [ [ "tailoring_lycra", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics", "required": false, "time_multiplier": 3 } ]
+    "proficiencies": [ { "proficiency": "prof_elastics" } ]
   },
   {
     "result": "legguard_hard",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
     "difficulty": 3,
     "time": "2 h",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "plastics_book", 2 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_elastics", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" }, { "proficiency": "prof_elastics" } ],
     "using": [ [ "strap_small", 2 ], [ "plastic_molding", 4 ], [ "tailoring_neoprene", 1 ] ]
   },
   {
@@ -291,11 +321,20 @@
     "book_learn": [ [ "textbook_armwest", 6 ] ],
     "using": [ [ "blacksmithing_standard", 28 ], [ "steel_standard", 7 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 2.5 },
-      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_armorsmithing" },
+      { "proficiency": "prof_articulation" }
     ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ]
+  },
+  {
+    "result": "xl_legguard_lightplate",
+    "type": "recipe",
+    "copy-from": "legguard_lightplate",
+    "time": "5 h",
+    "using": [ [ "blacksmithing_standard", 42 ], [ "steel_standard", 9 ], [ "strap_small", 5 ], [ "clasps", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
   },
@@ -311,16 +350,21 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "steel_tiny", 4 ], [ "strap_large", 2 ], [ "clasps", 4 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ]
+  },
+  {
+    "result": "xl_legguard_metal",
+    "type": "recipe",
+    "copy-from": "legguard_metal",
+    "time": "2 h",
+    "using": [ [ "steel_tiny", 6 ], [ "strap_large", 3 ], [ "clasps", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ]
   },
   {
     "result": "legguard_paper",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "survival",
@@ -340,18 +384,24 @@
     "time": "40 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "strap_large", 2 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
-    ],
+    "using": [ [ "strap_large", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 60 ] ] ]
   },
   {
+    "result": "xl_legguard_scrap",
+    "type": "recipe",
+    "copy-from": "legguard_scrap",
+    "time": "2 h",
+    "using": [ [ "strap_large", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 90 ] ] ]
+  },
+  {
     "result": "loincloth",
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -395,7 +445,7 @@
   {
     "result": "lsurvivor_pants",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "tailor",
@@ -410,9 +460,32 @@
       [ "fastener_small", 1 ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" }
+    ],
+    "components": [
+      [
+        [ "legrig", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 4 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ]
+    ]
+  },
+  {
+    "result": "xl_lsurvivor_pants",
+    "type": "recipe",
+    "copy-from": "lsurvivor_pants",
+    "time": "16 h",
+    "using": [
+      [ "tailoring_cotton_patchwork", 4 ],
+      [ "waterproofing_plastic_bags", 10 ],
+      [ "tailoring_kevlar_fabric", 6 ],
+      [ "fastener_small", 1 ]
     ],
     "components": [
       [
@@ -452,7 +525,7 @@
     "decomp_learn": 2,
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "using": [ [ "tailoring_cotton", 7 ], [ "fastener_small", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 } ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "type": "recipe",
@@ -466,10 +539,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_fur", 2 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_furriery", "required": false, "time_multiplier": 2 }
-    ]
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" } ]
   },
   {
     "result": "pants_fur",
@@ -485,9 +555,9 @@
     "reversible": true,
     "using": [ [ "tailoring_fur", 3 ], [ "fastener_small", 1 ] ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_furriery", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_furriery" }
     ]
   },
   {
@@ -502,9 +572,9 @@
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
     "using": [ [ "tailoring_faux_fur", 3 ], [ "tailoring_cotton", 5 ], [ "fastener_small", 1 ] ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_furriery", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_furriery" }
     ]
   },
   {
@@ -520,9 +590,9 @@
     "reversible": true,
     "using": [ [ "tailoring_leather", 5 ], [ "fastener_small", 1 ] ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_leatherworking", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
     ]
   },
   {
@@ -543,12 +613,38 @@
       [ "fastener_small", 1 ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_closures_waterproofing", "required": false, "time_multiplier": 2 },
-      { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" }
     ],
     "components": [
       [ [ "pants_army", 1 ], [ "pants_cargo", 1 ] ],
+      [
+        [ "tacvest", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 4 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ]
+    ]
+  },
+  {
+    "result": "xl_pants_survivor",
+    "type": "recipe",
+    "copy-from": "pants_survivor",
+    "time": "18 h",
+    "using": [
+      [ "tailoring_kevlar_fabric", 6 ],
+      [ "tailoring_cotton", 6 ],
+      [ "waterproofing_plastic_bags", 10 ],
+      [ "fastener_small", 1 ]
+    ],
+    "components": [
+      [ [ "pants_army", 2 ], [ "pants_cargo", 2 ] ],
       [
         [ "tacvest", 1 ],
         [ "legrig", 1 ],
@@ -574,7 +670,7 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_cotton_patchwork", 3 ], [ "fastener_small", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 } ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "shorts_cargo",
@@ -589,7 +685,7 @@
     "reversible": true,
     "book_learn": [ [ "manual_tailor", 1 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 4 ], [ "fastener_small", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures", "required": false, "time_multiplier": 3 } ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "shorts_cargo",
@@ -618,7 +714,7 @@
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "reversible": true,
     "using": [ [ "tailoring_cotton", 3 ], [ "fastener_small", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures", "required": false, "time_multiplier": 2 } ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "shorts_denim",
@@ -633,6 +729,19 @@
     "flags": [ "NO_RESIZE" ],
     "byproducts": [ [ "rag", 4 ] ],
     "components": [ [ [ "jeans", 1 ] ] ]
+  },
+  {
+    "result": "skirt_grass",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "straw_pile", 3 ], [ "withered", 3 ] ], [ [ "cordage_short", 2, "LIST" ] ] ]
   },
   {
     "result": "stockings_tent_legs",
@@ -672,13 +781,13 @@
     "time": "3 h",
     "autolearn": true,
     "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_elastics", "required": false, "time_multiplier": 3 } ],
+    "proficiencies": [ { "proficiency": "prof_elastics" } ],
     "using": [ [ "tailoring_lycra", 3 ] ]
   },
   {
     "result": "chainmail_legs",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
@@ -686,7 +795,14 @@
     "time": "4 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "armor_chainmail_assembling", 4 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 } ]
+    "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
+  },
+  {
+    "result": "xl_chainmail_legs",
+    "type": "recipe",
+    "copy-from": "chainmail_legs",
+    "time": "6 h",
+    "using": [ [ "armor_chainmail_assembling", 6 ], [ "strap_small", 4 ], [ "clasps", 4 ] ]
   },
   {
     "result": "legguard_bronze",
@@ -702,9 +818,18 @@
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
     "proficiencies": [
-      { "proficiency": "prof_redsmithing", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2 }
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_articulation" }
     ],
     "components": [ [ [ "scrap_bronze", 12 ] ] ]
+  },
+  {
+    "result": "xl_legguard_bronze",
+    "type": "recipe",
+    "copy-from": "legguard_bronze",
+    "time": "10 h",
+    "using": [ [ "forging_standard", 8 ], [ "bronzesmithing_tools", 1 ], [ "strap_small", 4 ], [ "clasps", 4 ] ],
+    "components": [ [ [ "scrap_bronze", 16 ] ] ]
   }
 ]

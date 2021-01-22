@@ -30,6 +30,9 @@ using bodypart_str_id = string_id<body_part_type>;
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
 
+struct construction_group;
+using construction_group_str_id = string_id<construction_group>;
+
 struct clothing_mod;
 using clothing_mod_id = string_id<clothing_mod>;
 
@@ -70,6 +73,10 @@ using harvest_id = string_id<harvest_list>;
 
 class item_category;
 using item_category_id = string_id<item_category>;
+
+class Item_spawn_data;
+// note: "dynamic" string id, see string_id_params in string_id.h
+using item_group_id = string_id<Item_spawn_data>;
 
 struct itype;
 using itype_id = string_id<itype>;
@@ -163,6 +170,7 @@ class Trait_group;
 namespace trait_group
 {
 using Trait_group_tag = string_id<Trait_group>;
+// note: "dynamic" string id, see string_id_params in string_id.h
 } // namespace trait_group
 
 struct trap;
@@ -199,5 +207,8 @@ using snippet_id = string_id<translation>;
 struct construction;
 using construction_id = int_id<construction>;
 using construction_str_id = string_id<construction>;
+
+class json_flag;
+using flag_id = string_id<json_flag>;
 
 #endif // CATA_SRC_TYPE_ID_H

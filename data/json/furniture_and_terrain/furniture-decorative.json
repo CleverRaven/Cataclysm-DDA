@@ -154,6 +154,28 @@
   },
   {
     "type": "furniture",
+    "id": "f_gazing_ball",
+    "name": "gazing ball",
+    "description": "A mirrored glass globe mounted on a cement pedestal.  It warps your reflection when you look into it",
+    "symbol": "o",
+    "color": "white",
+    "move_cost_mod": -1,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR", "MINEABLE" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "rock", "count": [ 2, 4 ] },
+        { "item": "rebar", "count": [ 0, 1 ] },
+        { "item": "glass_shard", "count": [ 10, 15 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_rotary_clothesline",
     "name": "rotary clothes dryer line",
     "description": "A central metal pole holding up a wide rotating frame, this would be used to hang up clothes to dry in the sunlight.",
@@ -163,7 +185,12 @@
     "required_str": 10,
     "flags": [ "TRANSPARENT", "BLOCKSDOOR", "BASHABLE", "PLACE_ITEM" ],
     "deconstruct": {
-      "items": [ { "item": "pipe", "count": 6 }, { "item": "steel_chunk", "count": [ 2, 6 ] }, { "item": "wire", "count": 10 } ]
+      "items": [
+        { "item": "pipe", "count": 6 },
+        { "item": "steel_chunk", "count": [ 2, 6 ] },
+        { "item": "pipe_fittings", "count": [ 1, 3 ] },
+        { "item": "wire", "count": 10 }
+      ]
     },
     "bash": {
       "str_min": 6,
@@ -190,6 +217,7 @@
         { "item": "amplifier", "count": [ 1, 4 ] },
         { "item": "light_bulb", "count": [ 1, 4 ] },
         { "item": "steel_lump", "count": 1 },
+        { "item": "pipe_fittings", "count": 1 },
         { "item": "pipe", "count": 1 }
       ]
     },
@@ -199,7 +227,7 @@
       "sound": "metal screeching!",
       "sound_fail": "bonk!",
       "items": [
-        { "item": "scrap", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 0, 1 ] },
         { "item": "e_scrap", "count": [ 0, 1 ] },
         { "item": "glass_shard", "count": [ 0, 8 ] },

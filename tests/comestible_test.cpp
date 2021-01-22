@@ -2,14 +2,13 @@
 
 #include <algorithm>
 #include <cstdio>
-#include <memory>
 #include <utility>
 #include <vector>
 
 #include "character.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
+#include "make_static.h"
 #include "output.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -126,7 +125,7 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
         const recipe &recipe_obj = recipe_pair.first.obj();
         item res_it = food_or_food_container( recipe_obj.create_result() );
         const bool is_food = res_it.is_food();
-        const bool has_override = res_it.has_flag( "NUTRIENT_OVERRIDE" );
+        const bool has_override = res_it.has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) );
         if( is_food && !has_override ) {
             // Collection of kcal values of all ingredient permutations
             all_stats mystats = run_stats(
@@ -206,8 +205,8 @@ TEST_CASE( "effective food volume and satiety", "[character][food][satiety]" )
     REQUIRE( apple_nutr.kcal == 95 );
     // If kcal per gram < 1.0, return 1.0
     CHECK( u.compute_effective_food_volume_ratio( apple ) == Approx( 1.0f ).margin( 0.01f ) );
-    CHECK( u.compute_calories_per_effective_volume( apple ) == 396 );
-    CHECK( satiety_bar( 396 ) == "<color_c_yellow>||\\</color>.." );
+    CHECK( u.compute_calories_per_effective_volume( apple ) == 500 );
+    CHECK( satiety_bar( 500 ) == "<color_c_yellow>||\\</color>.." );
 
     // Egg: 80 kcal / 40 g (1 serving)
     const item egg( "test_egg" );
@@ -218,8 +217,8 @@ TEST_CASE( "effective food volume and satiety", "[character][food][satiety]" )
     REQUIRE( egg_nutr.kcal == 80 );
     // If kcal per gram > 1.0 but less than 3.0, return ( kcal / gram )
     CHECK( u.compute_effective_food_volume_ratio( egg ) == Approx( 2.0f ).margin( 0.01f ) );
-    CHECK( u.compute_calories_per_effective_volume( egg ) == 1333 );
-    CHECK( satiety_bar( 1333 ) == "<color_c_green>||||\\</color>" );
+    CHECK( u.compute_calories_per_effective_volume( egg ) == 2000 );
+    CHECK( satiety_bar( 2000 ) == "<color_c_green>|||||</color>" );
 
     // Pine nuts: 202 kcal / 30 g (4 servings)
     const item nuts( "test_pine_nuts" );
@@ -232,8 +231,8 @@ TEST_CASE( "effective food volume and satiety", "[character][food][satiety]" )
     // If kcal per gram > 3.0, return sqrt( 3 * kcal / gram )
     expect_ratio = std::sqrt( 3.0f * 202 / 30 );
     CHECK( u.compute_effective_food_volume_ratio( nuts ) == Approx( expect_ratio ).margin( 0.01f ) );
-    CHECK( u.compute_calories_per_effective_volume( nuts ) == 642 );
-    CHECK( satiety_bar( 642 ) == "<color_c_light_green>|||</color>.." );
+    CHECK( u.compute_calories_per_effective_volume( nuts ) == 1498 );
+    CHECK( satiety_bar( 1498 ) == "<color_c_green>||||\\</color>" );
 }
 
 // satiety_bar returns a colorized string indicating a satiety level, similar to hit point bars

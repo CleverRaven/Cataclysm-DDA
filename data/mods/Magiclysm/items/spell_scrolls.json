@@ -291,6 +291,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_wolf",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Summon Wolf", "str_pl": "Scrolls of Summon Wolf" },
+    "description": "Call to the wild for aid from some wolves.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_wolf_druid" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_stonefist",
     "//": "Earthshaper spell",
     "name": { "str": "Scroll of Stonefist", "str_pl": "Scrolls of Stonefist" },
@@ -764,15 +773,6 @@
     "name": { "str": "Scroll of Clairvoyance", "str_pl": "Scrolls of Clairvoyance" },
     "description": "You close your eyes and the earth surrenders its secrets to you.",
     "use_action": { "type": "learn_spell", "spells": [ "clairvoyance" ] }
-  },
-  {
-    "type": "BOOK",
-    "copy-from": "spell_scroll",
-    "id": "spell_scroll_lava_bomb",
-    "//": "Earthshaper spell",
-    "name": { "str": "Scroll of Lava Bomb", "str_pl": "Scrolls of Lava Bomb" },
-    "description": "You tear up the ground beneath you to fire a lava bomb: a globe of lava surrounded by hot, solid rock.  It shatters upon impact, spraying shards of rock and lava everywhere.",
-    "use_action": { "type": "learn_spell", "spells": [ "lava_bomb_main" ] }
   },
   {
     "type": "BOOK",

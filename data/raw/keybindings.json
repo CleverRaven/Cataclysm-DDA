@@ -215,17 +215,17 @@
   },
   {
     "type": "keybinding",
-    "id": "SCROLL_UP",
+    "id": "SCROLL_ITEM_INFO_UP",
     "category": "PICKUP",
     "name": "Scroll item info up",
-    "bindings": [ { "input_method": "keyboard_any", "key": "PPAGE" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
-    "id": "SCROLL_DOWN",
+    "id": "SCROLL_ITEM_INFO_DOWN",
     "category": "PICKUP",
     "name": "Scroll item info down",
-    "bindings": [ { "input_method": "keyboard_any", "key": "NPAGE" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -663,17 +663,17 @@
   },
   {
     "type": "keybinding",
-    "id": "SCROLL_UP",
+    "id": "SCROLL_ITEM_INFO_UP",
     "category": "CRAFTING",
     "name": "Scroll item info up",
-    "bindings": [ { "input_method": "keyboard_any", "key": "PPAGE" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
-    "id": "SCROLL_DOWN",
+    "id": "SCROLL_ITEM_INFO_DOWN",
     "category": "CRAFTING",
     "name": "Scroll item info down",
-    "bindings": [ { "input_method": "keyboard_any", "key": "NPAGE" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -1072,13 +1072,6 @@
   },
   {
     "type": "keybinding",
-    "id": "SWITCH_AIM",
-    "category": "TARGET",
-    "name": "Switch Aiming Mode",
-    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "SWITCH_AMMO",
     "category": "TARGET",
     "name": "Switch ammo",
@@ -1303,17 +1296,17 @@
   },
   {
     "type": "keybinding",
-    "id": "SCROLL_UP",
+    "id": "SCROLL_SKILL_INFO_UP",
     "category": "NEW_CHAR_SKILLS",
     "name": "Scroll description up",
-    "bindings": [ { "input_method": "keyboard_any", "key": "PPAGE" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
-    "id": "SCROLL_DOWN",
+    "id": "SCROLL_SKILL_INFO_DOWN",
     "category": "NEW_CHAR_SKILLS",
     "name": "Scroll description down",
-    "bindings": [ { "input_method": "keyboard_any", "key": "NPAGE" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -1463,14 +1456,14 @@
     "id": "SCROLL_STAGE_UP",
     "category": "CONSTRUCTION",
     "name": "Scroll to previous stage",
-    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
     "id": "SCROLL_STAGE_DOWN",
     "category": "CONSTRUCTION",
     "name": "Scroll to next stage",
-    "bindings": [ { "input_method": "keyboard_any", "key": "n" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -1624,6 +1617,17 @@
   },
   {
     "type": "keybinding",
+    "id": "EXAMINE",
+    "category": "INVENTORY",
+    "name": "Examine",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "e" },
+      { "input_method": "keyboard_char", "key": "E" },
+      { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_FAVORITE",
     "category": "INVENTORY",
     "name": "Toggle item as favorite",
@@ -1684,8 +1688,7 @@
     "type": "keybinding",
     "name": "Toggle Map Memory",
     "category": "DEFAULTMODE",
-    "id": "toggle_map_memory",
-    "bindings": [ { "input_method": "keyboard_char", "key": "{" }, { "input_method": "keyboard_code", "key": "[", "mod": [ "shift" ] } ]
+    "id": "toggle_map_memory"
   },
   {
     "type": "keybinding",
@@ -2253,7 +2256,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle Panel Admin",
+    "name": "Sidebar Options",
     "category": "DEFAULTMODE",
     "id": "toggle_panel_adm",
     "bindings": [ { "input_method": "keyboard_char", "key": "}" }, { "input_method": "keyboard_code", "key": "]", "mod": [ "shift" ] } ]
@@ -2458,6 +2461,20 @@
     "id": "cast_spell",
     "name": "Spellcasting",
     "category": "DEFAULTMODE"
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_UP",
+    "category": "LIST_ITEMS",
+    "name": "Scroll item info up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_DOWN",
+    "category": "LIST_ITEMS",
+    "name": "Scroll item info down",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -3411,5 +3428,12 @@
     "id": "CHECK_OPINION",
     "name": "Check opinion",
     "bindings": [ { "input_method": "keyboard_char", "key": "O" }, { "input_method": "keyboard_code", "key": "o", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "FACTION_MANAGER",
+    "id": "INSPECT_NPC",
+    "name": "Inspect NPC",
+    "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
   }
 ]

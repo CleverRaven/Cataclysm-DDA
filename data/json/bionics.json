@@ -383,7 +383,7 @@
     "name": { "str": "Ethanol Burner" },
     "description": "You burn alcohol as fuel in an extremely efficient reaction.",
     "occupied_bodyparts": [ [ "torso", 26 ] ],
-    "fuel_options": [ "chem_ethanol", "chem_methanol", "denat_alcohol" ],
+    "fuel_options": [ "alcohol" ],
     "fuel_capacity": 500,
     "fuel_efficiency": 0.5,
     "exothermic_power_gen": true,
@@ -713,11 +713,11 @@
     "id": "bio_nanobots",
     "type": "bionic",
     "name": { "str": "Repair Nanobots" },
-    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage at 1 HP per minute and stopping bleeding at the cost of extra power and stored calories.",
+    "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage at 1 HP per minute and stopping bleeding at the cost of extra power and stored calories.  No power is consumed if there is nothing to heal.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": "80 J",
-    "react_cost": "4 J",
+    "react_cost": "40 J",
     "time": 1
   },
   {

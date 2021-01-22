@@ -4,6 +4,7 @@
     "id": "afs_cargo_trough",
     "copy-from": "trunk",
     "name": { "str": "cargo trough" },
+    "categories": [ "cargo" ],
     "color": "light_gray",
     "broken_color": "light_gray",
     "looks_like": "trunk",
@@ -20,6 +21,7 @@
     "description": "A piece of sheet metal welded onto a vehicle as armor.  Thin, and not as protective as proper armor, but it'll do if there's nothing else available.",
     "symbol": ")",
     "looks_like": "steel_plate",
+    "categories": [ "warfare" ],
     "color": "light_gray",
     "broken_symbol": ")",
     "broken_color": "dark_gray",
@@ -41,6 +43,7 @@
     "copy-from": "minifridge",
     "name": { "str": "refrigerator" },
     "symbol": "{",
+    "categories": [ "cargo" ],
     "color": "white",
     "broken_color": "white",
     "looks_like": "minifridge",
@@ -56,6 +59,7 @@
     "copy-from": "minifreezer",
     "name": { "str": "freezer" },
     "symbol": "{",
+    "categories": [ "cargo" ],
     "color": "light_blue",
     "broken_color": "light_blue",
     "looks_like": "minifridge",
@@ -70,6 +74,7 @@
     "id": "afs_metal_rig",
     "name": { "str": "MetalMaster forge buddy" },
     "symbol": "&",
+    "categories": [ "utility" ],
     "color": "red",
     "broken_symbol": "x",
     "broken_color": "red",
@@ -85,7 +90,8 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "CARGO", "OBSTACLE", "WELDRIG", "FORGE", "KILN", "COVERED" ],
+    "flags": [ "CARGO", "OBSTACLE", "COVERED" ],
+    "pseudo_tools": [ { "id": "welder", "hotkey": "w" }, { "id": "soldering_iron", "hotkey": "s" }, { "id": "forge" }, { "id": "kiln" } ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 6 ] },
       { "item": "steel_chunk", "count": [ 3, 6 ] },
@@ -100,6 +106,7 @@
     "id": "afs_cooking_rig",
     "name": { "str": "cooking rig" },
     "symbol": "&",
+    "categories": [ "utility" ],
     "color": "blue",
     "broken_symbol": "x",
     "broken_color": "blue",
@@ -115,7 +122,15 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "CARGO", "OBSTACLE", "KITCHEN", "CHEMLAB", "FAUCET", "COVERED" ],
+    "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF" ],
+    "pseudo_tools": [
+      { "id": "water_faucet" },
+      { "id": "hotplate", "hotkey": "h" },
+      { "id": "pot" },
+      { "id": "pan" },
+      { "id": "chemistry_set" },
+      { "id": "electrolysis_kit" }
+    ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 9 ] },
       { "item": "steel_chunk", "count": [ 6, 9 ] },
@@ -131,6 +146,7 @@
     "id": "afs_kitchen_rig",
     "name": { "str": "KitchenMaster cooking buddy" },
     "symbol": "&",
+    "categories": [ "utility" ],
     "color": "yellow",
     "broken_symbol": "x",
     "broken_color": "yellow",
@@ -146,7 +162,21 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "CARGO", "OBSTACLE", "KITCHEN", "CHEMLAB", "CRAFTRIG", "FAUCET", "WATER_PURIFIER", "COVERED" ],
+    "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF" ],
+    "pseudo_tools": [
+      { "id": "water_faucet" },
+      { "id": "vac_sealer" },
+      { "id": "dehydrator" },
+      { "id": "food_processor" },
+      { "id": "press" },
+      { "id": "puller" },
+      { "id": "hotplate", "hotkey": "h" },
+      { "id": "pot" },
+      { "id": "pan" },
+      { "id": "chemistry_set" },
+      { "id": "electrolysis_kit" },
+      { "id": "water_purifier", "hotkey": "p" }
+    ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 9, 18 ] },
       { "item": "steel_chunk", "count": [ 9, 18 ] },
@@ -159,7 +189,7 @@
       { "item": "vac_sealer", "charges": 0, "prob": 50 },
       { "item": "dehydrator", "charges": 0, "prob": 50 },
       { "item": "food_processor", "charges": 0, "prob": 50 },
-      { "item": "press", "charges": 0, "prob": 50 }
+      { "item": "press", "prob": 50 }
     ]
   },
   {
@@ -168,6 +198,7 @@
     "name": { "str": "control station" },
     "symbol": "$",
     "looks_like": "vehicle_dashboard",
+    "categories": [ "operations" ],
     "color": "red",
     "broken_symbol": "$",
     "broken_color": "light_gray",
@@ -204,6 +235,7 @@
   },
   {
     "id": "afs_mounted_external_tank",
+    "categories": [ "movement" ],
     "copy-from": "external_tank_small",
     "type": "vehicle_part",
     "name": { "str": "mounted external tank (200L)" },
@@ -217,7 +249,9 @@
     "name": { "str": "ultralight frame" },
     "item": "afs_titanium_frame",
     "location": "structure",
+    "categories": [ "hull" ],
     "color": "light_gray",
+    "symbol": "c",
     "durability": 100,
     "description": "An ultralight titanium framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": [ { "item": "afs_scrap_titanium", "count": [ 1, 3 ] } ],
@@ -295,6 +329,7 @@
     "name": { "str": "ultralight foldable frame" },
     "item": "afs_titanium_foldable_frame",
     "location": "structure",
+    "categories": [ "hull" ],
     "color": "light_gray",
     "durability": 75,
     "symbol": "H",
@@ -382,6 +417,7 @@
   {
     "type": "vehicle_part",
     "id": "solar_panel_v3",
+    "categories": [ "energy" ],
     "copy-from": "solar_panel",
     "name": "quantum solar panel",
     "looks_like": "solar_panel_v2",
@@ -406,6 +442,7 @@
     "id": "robot_cargo",
     "name": "robot_carrier",
     "symbol": "=",
+    "categories": [ "cargo", "passengers" ],
     "color": "light_gray",
     "looks_like": "cargo_space",
     "broken_symbol": "#",

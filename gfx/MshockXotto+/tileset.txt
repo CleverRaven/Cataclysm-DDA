@@ -1,0 +1,19 @@
+#MSHOCKXOTTO+ TILESET
+#Update: 21-01-11
+
+#Name of the tileset
+NAME: MshockXottoplus
+
+#Viewing (Option) name of the tileset
+VIEW: MSXotto+
+
+#JSON Path - Default of tile_config.json
+JSON: tile_config.json
+
+#Tileset Path - Default of tinytile.png
+TILESET: tiles.png
+
+
+#Visit https://discord.gg/kAXNZuy to discuss and contribute to this community-driven tileset!
+#Development ongoing constantly!
+#Find source github at https://github.com/I-am-Erk/CDDA-Tilesets/tree/master/gfx/MShockXotto%2B

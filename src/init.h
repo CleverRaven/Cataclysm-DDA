@@ -9,6 +9,9 @@
 #include <vector>
 #include <utility>
 
+#include "json.h"
+#include "memory_fast.h"
+
 class loading_ui;
 class JsonObject;
 class JsonIn;
@@ -59,12 +62,15 @@ class DynamicDataLoader
 
         /**
          * JSON data dependent upon as-yet unparsed definitions
-         * first: JSON data, second: source identifier
+         * first: JSON source location, second: source identifier
          */
-        using deferred_json = std::list<std::pair<std::string, std::string>>;
+        using deferred_json = std::list<std::pair<json_source_location, std::string>>;
 
     private:
         bool finalized = false;
+
+        struct cached_streams;
+        std::unique_ptr<cached_streams> stream_cache;
 
     protected:
         /**
@@ -161,6 +167,14 @@ class DynamicDataLoader
         bool is_data_finalized() const {
             return finalized;
         }
+
+        /**
+         * Get a possibly cached stream for deferred data loading. If the cached
+         * stream is still in use by outside code, this returns a new stream to
+         * avoid conflict of stream cursor. The stream cursor is not reset if a
+         * cached stream is returned.
+         */
+        shared_ptr_fast<std::istream> get_cached_stream( const std::string &path );
 };
 
 #endif // CATA_SRC_INIT_H

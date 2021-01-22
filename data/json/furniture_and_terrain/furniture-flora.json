@@ -54,7 +54,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "entries": [ { "drop": "chamomile", "base_num": [ 1, 2 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "entries": [ { "drop": "chamomile", "base_num": [ 4, 8 ] } ] } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -367,6 +367,108 @@
       "sound_fail": "whack!",
       "ter_set": "t_dirt",
       "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hedge_short",
+    "name": "short hedge",
+    "description": "A shrub with small green leaves, trimmed into a squared shape.",
+    "symbol": "LINE_OXOX",
+    "color": "green",
+    "looks_like": "t_shrub",
+    "move_cost_mod": 3,
+    "coverage": 50,
+    "required_str": -1,
+    "connects_to": "WOODFENCE",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SHRUB", "PERMEABLE" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [ { "item": "stick_long", "count": [ 2, 3 ] }, { "item": "splinter", "count": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hedge_tall",
+    "name": "tall hedge",
+    "description": "A tall shrub with small green leaves, trimmed into a squared shape.  You can't see past this thick hedgerow.",
+    "symbol": "LINE_OXOX",
+    "color": "green",
+    "looks_like": "t_shrub",
+    "move_cost_mod": -1,
+    "coverage": 90,
+    "required_str": 14,
+    "connects_to": "WOODFENCE",
+    "flags": [ "FLAMMABLE_ASH", "SHRUB", "PERMEABLE", "BLOCK_WIND", "NOITEM" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [ { "item": "stick_long", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 8, 16 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_topiary_abstract",
+    "name": "abstract topiary",
+    "description": "A tall shrub with small green leaves, trimmed into a fanciful abstract shape.",
+    "symbol": "^",
+    "color": "green",
+    "looks_like": "t_shrub_hydrangea",
+    "move_cost_mod": 4,
+    "coverage": 60,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_ASH", "SHRUB", "PERMEABLE" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [ { "item": "stick_long", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 8, 16 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_topiary_animal",
+    "name": "animal topiary",
+    "description": "A tall shrub with small green leaves, trimmed into an animal shape.",
+    "symbol": "^",
+    "color": "green",
+    "looks_like": "t_shrub_hydrangea",
+    "move_cost_mod": 4,
+    "coverage": 60,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_ASH", "SHRUB", "PERMEABLE" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [ { "item": "stick_long", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 8, 16 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_topiary_dragon",
+    "name": "animal topiary",
+    "description": "A tall shrub with small green leaves, trimmed into a dragon shape.",
+    "symbol": "^",
+    "color": "green",
+    "looks_like": "t_shrub_hydrangea",
+    "move_cost_mod": 4,
+    "coverage": 60,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_ASH", "SHRUB", "PERMEABLE" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [ { "item": "stick_long", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 8, 16 ] } ]
     }
   }
 ]

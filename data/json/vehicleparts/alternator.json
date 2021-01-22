@@ -6,6 +6,8 @@
     "symbol": "*",
     "color": "yellow",
     "broken_color": "red",
+    "categories": [ "energy" ],
+    "description": "An alternator.",
     "flags": [ "ALTERNATOR" ]
   },
   {
@@ -112,7 +114,6 @@
     "name": { "str": "7.5kW generator" },
     "//": "625A @12VDC ~ 14HP drain @ 72% efficiency",
     "item": "generator_7500w",
-    "difficulty": 3,
     "durability": 400,
     "power": -10444,
     "epower": 7500,

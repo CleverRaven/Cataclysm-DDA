@@ -141,6 +141,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::CHANGE_WEATHER: return "CHANGE_WEATHER";
         case debug_menu::debug_menu_index::WIND_DIRECTION: return "WIND_DIRECTION";
         case debug_menu::debug_menu_index::WIND_SPEED: return "WIND_SPEED";
+        case debug_menu::debug_menu_index::GEN_SOUND: return "GEN_SOUND";
         case debug_menu::debug_menu_index::KILL_MONS: return "KILL_MONS";
         case debug_menu::debug_menu_index::DISPLAY_HORDES: return "DISPLAY_HORDES";
         case debug_menu::debug_menu_index::TEST_IT_GROUP: return "TEST_IT_GROUP";
@@ -175,7 +176,9 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_VISIBILITY: return "DISPLAY_VISIBILITY";
         case debug_menu::debug_menu_index::DISPLAY_LIGHTING: return "DISPLAY_LIGHTING";
         case debug_menu::debug_menu_index::DISPLAY_TRANSPARENCY: return "DISPLAY_TRANSPARENCY";
+        case debug_menu::debug_menu_index::DISPLAY_REACHABILITY_ZONES: return "DISPLAY_REACHABILITY_ZONES";
         case debug_menu::debug_menu_index::DISPLAY_RADIATION: return "DISPLAY_RADIATION";
+        case debug_menu::debug_menu_index::HOUR_TIMER: return "HOUR_TIMER";
         case debug_menu::debug_menu_index::LEARN_SPELLS: return "LEARN_SPELLS";
         case debug_menu::debug_menu_index::LEVEL_SPELLS: return "LEVEL_SPELLS";
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
@@ -252,9 +255,11 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_TRANSPARENCY, true, 'p', _( "Toggle display transparency" ) ) },
+            { uilist_entry( debug_menu_index::DISPLAY_REACHABILITY_ZONES, true, 'z', _( "Toggle display reachability zones" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
             { uilist_entry( debug_menu_index::SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( debug_menu_index::BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
+            { uilist_entry( debug_menu_index::HOUR_TIMER, true, 'E', _( "Toggle hour timer" ) ) },
             { uilist_entry( debug_menu_index::TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ) },
             { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
@@ -325,6 +330,7 @@ static int map_uilist()
         { uilist_entry( debug_menu_index::CHANGE_WEATHER, true, 'w', _( "Change weather" ) ) },
         { uilist_entry( debug_menu_index::WIND_DIRECTION, true, 'd', _( "Change wind direction" ) ) },
         { uilist_entry( debug_menu_index::WIND_SPEED, true, 's', _( "Change wind speed" ) ) },
+        { uilist_entry( debug_menu_index::GEN_SOUND, true, 'S', _( "Generate sound" ) ) },
         { uilist_entry( debug_menu_index::KILL_MONS, true, 'K', _( "Kill all monsters" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_TIME, true, 't', _( "Change time" ) ) },
         { uilist_entry( debug_menu_index::OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
@@ -565,13 +571,14 @@ void character_edit_menu()
     }
 
     enum {
-        D_DESC, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+        D_DESC, D_SKILLS, D_PROF, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA
     };
     nmenu.addentry( D_DESC, true, 'D', "%s",
                     _( "Edit [D]escription - Name, Age, Height or Blood type" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
+    nmenu.addentry( D_PROF, true, 'P', "%s", _( "Edit [P]roficiencies" ) );
     nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
     nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant [i]tems" ) );
     nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _( "[d]elete (all) items" ) );
@@ -636,6 +643,9 @@ void character_edit_menu()
             }
         }
         break;
+        case D_PROF:
+            wishproficiency( &p );
+            break;
         case D_ITEMS:
             wishitem( &p );
             break;
@@ -687,27 +697,27 @@ void character_edit_menu()
 
             switch( smenu.ret ) {
                 case 0:
-                    bp = bodypart_str_id( "torso" );
+                    bp = body_part_torso;
                     bp_ptr = torso_hp;
                     break;
                 case 1:
-                    bp = bodypart_str_id( "head" );
+                    bp = body_part_head;
                     bp_ptr = head_hp;
                     break;
                 case 2:
-                    bp = bodypart_str_id( "arm_l" );
+                    bp = body_part_arm_l;
                     bp_ptr = arm_l_hp;
                     break;
                 case 3:
-                    bp = bodypart_str_id( "arm_r" );
+                    bp = body_part_arm_r;
                     bp_ptr = arm_r_hp;
                     break;
                 case 4:
-                    bp = bodypart_str_id( "leg_l" );
+                    bp = body_part_leg_l;
                     bp_ptr = leg_l_hp;
                     break;
                 case 5:
-                    bp = bodypart_str_id( "leg_r" );
+                    bp = body_part_leg_r;
                     bp_ptr = leg_r_hp;
                     break;
                 case 6:
@@ -727,7 +737,9 @@ void character_edit_menu()
                 int value;
                 if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), p.get_lowest_hp() ) &&
                     value >= 0 ) {
-                    p.set_all_parts_hp_cur( value );
+                    for( bodypart_id part_id : p.get_all_body_parts( get_body_part_flags::only_main ) ) {
+                        p.set_part_hp_cur( part_id, value );
+                    }
                     p.reset_stats();
                 }
             }
@@ -1305,7 +1317,11 @@ void debug()
     };
     bool should_disable_achievements = action && !non_cheaty_options.count( *action );
     if( should_disable_achievements && achievements.is_enabled() ) {
-        if( query_yn( _( "Using this will disable achievements.  Proceed?" ) ) ) {
+        static const std::string query(
+            translate_marker(
+                "Using this will disable achievements.  Proceed?"
+                "\nThey can be reenabled in the 'game' section of the menu." ) );
+        if( query_yn( _( query ) ) ) {
             achievements.set_enabled( false );
         } else {
             action = cata::nullopt;
@@ -1373,9 +1389,10 @@ void debug()
 
         case debug_menu_index::GAME_STATE: {
             std::string mfus;
-            std::vector<std::pair<m_flag, int>> sorted(
-                                                 MonsterGenerator::generator().m_flag_usage_stats.begin(),
-                                                 MonsterGenerator::generator().m_flag_usage_stats.end() );
+            std::vector<std::pair<m_flag, int>> sorted;
+            for( int f = 0; f < m_flag::MF_MAX; f++ ) {
+                sorted.push_back( {static_cast<m_flag>( f ), MonsterGenerator::generator().m_flag_usage_stats[f]} );
+            }
             std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
                 return a.second != b.second ? a.second > b.second : a.first < b.first;
             } );
@@ -1385,7 +1402,8 @@ void debug()
                                        m_flag_stat.second );
             }
             DebugLog( D_INFO, DC_ALL ) << "Monster flag usage statistics:\nFLAG;COUNT\n" << mfus;
-            MonsterGenerator::generator().m_flag_usage_stats.clear();
+            std::fill( MonsterGenerator::generator().m_flag_usage_stats.begin(),
+                       MonsterGenerator::generator().m_flag_usage_stats.end(), 0 );
             popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
 
             std::string s = _( "Location %d:%d in %d:%d, %s\n" );
@@ -1497,7 +1515,8 @@ void debug()
 
                     if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 3 ) {
                         // TODO: Allow picking this when add_vehicle has 3d argument
-                        vehicle *veh = here.add_vehicle( selected_opt, dest, -90, 100, veh_cond_menu.ret - 1 );
+                        vehicle *veh = here.add_vehicle(
+                                           selected_opt, dest, -90_degrees, 100, veh_cond_menu.ret - 1 );
                         if( veh != nullptr ) {
                             here.board_vehicle( dest, &player_character );
                         }
@@ -1560,7 +1579,7 @@ void debug()
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( size_t i = 0; i < weather_types::get_all().size(); i++ ) {
                 weather_menu.addentry( i, true, MENU_AUTOASSIGN,
-                                       weather_types::get_all()[i].name );
+                                       weather_types::get_all()[i].name.translated() );
             }
 
             weather_menu.query();
@@ -1613,6 +1632,26 @@ void debug()
                 g->weather.windspeed_override = selected_wind_speed;
                 g->weather.set_nextweather( calendar::turn );
             }
+        }
+        break;
+
+        case debug_menu_index::GEN_SOUND: {
+            const cata::optional<tripoint> where = g->look_around();
+            if( !where ) {
+                return;
+            }
+
+            int volume;
+            if( !query_int( volume, _( "Volume of sound: " ) ) ) {
+                return;
+            }
+
+            if( volume < 0 ) {
+                return;
+            }
+
+            sounds::sound( *where, volume, sounds::sound_t::order, string_format( _( "DEBUG SOUND ( %d )" ),
+                           volume ) );
         }
         break;
 
@@ -1717,7 +1756,7 @@ void debug()
                     break;
             }
             if( query_int( intensity, _( "Add bleeding duration in minutes, equal to intensity:" ) ) ) {
-                player_character.make_bleed( part, 1_minutes * intensity );
+                player_character.make_bleed( effect_source::empty(), part, 1_minutes * intensity );
             }
         }
         break;
@@ -1776,6 +1815,12 @@ void debug()
             break;
         case debug_menu_index::DISPLAY_TRANSPARENCY:
             g->display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
+            break;
+        case debug_menu_index::DISPLAY_REACHABILITY_ZONES:
+            g->display_reachability_zones();
+            break;
+        case debug_menu_index::HOUR_TIMER:
+            g->toggle_debug_hour_timer();
             break;
         case debug_menu_index::CHANGE_TIME: {
             auto set_turn = [&]( const int initial, const time_duration & factor, const char *const msg ) {

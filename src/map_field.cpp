@@ -36,6 +36,7 @@
 #include "item_contents.h"
 #include "itype.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -75,6 +76,7 @@ static const bionic_id bio_heatsink( "bio_heatsink" );
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_corroding( "corroding" );
+static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_poison( "poison" );
@@ -84,7 +86,6 @@ static const efftype_id effect_teargas( "teargas" );
 static const efftype_id effect_webbed( "webbed" );
 
 static const std::string flag_FUNGUS( "FUNGUS" );
-static const std::string flag_GAS_PROOF( "GAS_PROOF" );
 
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
@@ -252,15 +253,12 @@ void map::gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p )
 }
 
 void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
-                      const time_duration &outdoor_age_speedup, scent_block &sblk )
+                      const time_duration &outdoor_age_speedup, scent_block &sblk, const oter_id &om_ter )
 {
-    map &here = get_map();
     // TODO: fix point types
-    const oter_id &cur_om_ter =
-        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( p ) ) ) );
     const bool sheltered = g->is_sheltered( p );
     const int winddirection = g->weather.winddirection;
-    const int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
+    const int windpower = get_local_windpower( g->weather.windspeed, om_ter, p, winddirection,
                           sheltered );
 
     const int current_intensity = cur.get_field_intensity();
@@ -321,7 +319,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     const maptile remove_tile3 = std::get<2>( maptiles );
     if( !spread.empty() && ( !zlevels || one_in( spread.size() ) ) ) {
         // Construct the destination from offset and p
-        if( g->is_sheltered( p ) || windpower < 5 ) {
+        if( sheltered || windpower < 5 ) {
             std::pair<tripoint, maptile> &n = neighs[ random_entry( spread ) ];
             gas_spread_to( cur, n.second, n.first );
         } else {
@@ -417,6 +415,7 @@ void map::process_fields_in_submap( submap *const current_submap,
     map &here = get_map();
     tripoint thep;
     thep.z = submap.z;
+    const oter_id &om_ter = overmap_buffer.ter( tripoint_abs_omt( sm_to_omt_copy( submap ) ) );
 
     // Initialize the map tile wrapper
     maptile map_tile( current_submap, point_zero );
@@ -533,7 +532,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                     sblk.apply_slime( p, cur.get_field_intensity() * cur_fd_type.apply_slime_factor );
                 }
                 if( cur_fd_type_id == fd_fire ) {
-                    if( process_fire_field_in_submap( map_tile, p, cur ) ) {
+                    if( process_fire_field_in_submap( map_tile, p, cur, om_ter ) ) {
                         break;
                     }
                 }
@@ -543,7 +542,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                     const int gas_percent_spread = cur_fd_type.percent_spread;
                     if( gas_percent_spread > 0 ) {
                         const time_duration outdoor_age_speedup = cur_fd_type.outdoor_age_speedup;
-                        spread_gas( cur, p, gas_percent_spread, outdoor_age_speedup, sblk );
+                        spread_gas( cur, p, gas_percent_spread, outdoor_age_speedup, sblk, om_ter );
                     }
                 }
 
@@ -686,16 +685,16 @@ void map::process_fields_in_submap( submap *const current_submap,
                             pushee->age() < 1_turns ) {
                             pushee++;
                         } else {
-                            item tmp = *pushee;
-                            tmp.set_age( 0_turns );
-                            pushee = items.erase( pushee );
                             std::vector<tripoint> valid;
                             for( const tripoint &dst : points_in_radius( p, 1 ) ) {
-                                if( get_field( dst, fd_push_items ) != nullptr ) {
+                                if( dst != p and get_field( dst, fd_push_items ) != nullptr ) {
                                     valid.push_back( dst );
                                 }
                             }
                             if( !valid.empty() ) {
+                                item tmp = *pushee;
+                                tmp.set_age( 0_turns );
+                                pushee = items.erase( pushee );
                                 tripoint newp = random_entry( valid );
                                 add_item_or_charges( newp, tmp );
                                 if( player_character.pos() == newp ) {
@@ -717,6 +716,8 @@ void map::process_fields_in_submap( submap *const current_submap,
                                     add_msg_if_player_sees( newp, _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );
                                     mon->check_dead_state();
                                 }
+                            } else {
+                                pushee++;
                             }
                         }
                     }
@@ -831,7 +832,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
                         } else {
-                            spread_gas( cur, p, 5, 0_turns, sblk );
+                            spread_gas( cur, p, 5, 0_turns, sblk, om_ter );
                         }
                     }
                 }
@@ -868,13 +869,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                     }
                 }
 
-                cur.set_field_age( cur.get_field_age() + 1_turns );
-                const auto &fdata = *cur.get_field_type();
-                if( fdata.half_life > 0_turns && cur.get_field_age() > 0_turns &&
-                    dice( 2, to_turns<int>( cur.get_field_age() ) ) > to_turns<int>( fdata.half_life ) ) {
-                    cur.set_field_age( 0_turns );
-                    cur.set_field_intensity( cur.get_field_intensity() - 1 );
-                }
+                cur.do_decay();
                 if( !cur.is_field_alive() ) {
                     --current_submap->field_count;
                     curfield.remove_field( it++ );
@@ -884,7 +879,7 @@ void map::process_fields_in_submap( submap *const current_submap,
             }
 
             if( dirty_transparency_cache ) {
-                set_transparency_cache_dirty( thep );
+                set_transparency_cache_dirty( thep, true );
                 set_seen_cache_dirty( thep );
             }
         }
@@ -911,20 +906,18 @@ void map::process_fields_in_submap( submap *const current_submap,
     sblk.commit_modifications();
 }
 
-bool map::process_fire_field_in_submap( maptile &map_tile, const tripoint &p, field_entry &cur )
+bool map::process_fire_field_in_submap( maptile &map_tile, const tripoint &p, field_entry &cur,
+                                        const oter_id &om_ter )
 {
-    const field_type_id fd_fire( "fd_fire" );
+    const field_type_id fd_fire = ::fd_fire;
 
     bool breaks_loop = false;
-    map &here = get_map();
     field_entry *tmpfld = nullptr;
     cur.set_field_age( std::max( -24_hours, cur.get_field_age() ) );
     // Entire objects for ter/frn for flags
-    const oter_id &cur_om_ter = overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs(
-                                    p ) ) ) );
     bool sheltered = g->is_sheltered( p );
     int winddirection = g->weather.winddirection;
-    int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
+    int windpower = get_local_windpower( g->weather.windspeed, om_ter, p, winddirection,
                                          sheltered );
     const ter_t &ter = map_tile.get_ter_t();
     const furn_t &frn = map_tile.get_furn_t();
@@ -1280,16 +1273,14 @@ bool map::process_fire_field_in_submap( maptile &map_tile, const tripoint &p, fi
             // Allow weaker fires to spread occasionally
             const int power = cur.get_field_intensity() + one_in( 5 );
             if( can_spread && rng( 1, 100 ) < spread_chance &&
-                ( dster.is_flammable() || dsfrn.is_flammable() ) &&
                 ( in_pit == ( dster.id.id() == t_pit ) ) &&
                 (
-                    ( power >= 3 && cur.get_field_age() < 0_turns && one_in( 20 ) ) ||
                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
                     ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
-                    nearwebfld || ( dst.get_item_count() > 0 &&
-                                    flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
-                                    one_in( 5 ) )
+                    nearwebfld ||
+                    ( one_in( 5 ) && dst.get_item_count() > 0 &&
+                      flammable_items_at( p + eight_horizontal_neighbors[i] ) )
                 ) ) {
                 // Nearby open flammable ground? Set it on fire.
                 add_field( dst_p, fd_fire, 1, 0_turns, false );
@@ -1342,17 +1333,15 @@ bool map::process_fire_field_in_submap( maptile &map_tile, const tripoint &p, fi
             const furn_t &dsfrn = dst.get_furn_t();
             // Allow weaker fires to spread occasionally
             const int power = cur.get_field_intensity() + one_in( 5 );
-            if( can_spread && rng( 1, 100 - windpower ) < spread_chance &&
-                ( dster.is_flammable() || dsfrn.is_flammable() ) &&
+            if( can_spread && rng( 1, 100 ) < spread_chance &&
                 ( in_pit == ( dster.id.id() == t_pit ) ) &&
                 (
-                    ( power >= 3 && cur.get_field_age() < 0_turns && one_in( 20 ) ) ||
                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
                     ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
-                    nearwebfld || ( dst.get_item_count() > 0 &&
-                                    flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
-                                    one_in( 5 ) )
+                    nearwebfld ||
+                    ( one_in( 5 ) && dst.get_item_count() > 0 &&
+                      flammable_items_at( p + eight_horizontal_neighbors[i] ) )
                 ) ) {
                 // Nearby open flammable ground? Set it on fire.
                 add_field( dst_p, fd_fire, 1, 0_turns, false );
@@ -1554,7 +1543,7 @@ void map::player_in_field( player &u )
                     }
 
                     int total_damage = 0;
-                    for( const bodypart_id part_burned : parts_burned ) {
+                    for( const bodypart_id &part_burned : parts_burned ) {
                         const dealt_damage_instance dealt = u.deal_damage( nullptr, part_burned,
                                                             damage_instance( damage_type::HEAT, rng( burn_min, burn_max ) ) );
                         total_damage += dealt.type_damage( damage_type::HEAT );
@@ -1699,7 +1688,8 @@ void map::player_in_field( player &u )
             // The gas won't harm you inside a vehicle.
             if( !inside ) {
                 // Full body suits protect you from the effects of the gas.
-                if( !( u.worn_with_flag( flag_GAS_PROOF ) && u.get_env_resist( bodypart_id( "mouth" ) ) >= 15 &&
+                if( !( u.worn_with_flag( STATIC( flag_id( "GAS_PROOF" ) ) ) &&
+                       u.get_env_resist( bodypart_id( "mouth" ) ) >= 15 &&
                        u.get_env_resist( bodypart_id( "eyes" ) ) >= 15 ) ) {
                     const int intensity = cur.get_field_intensity();
                     bool inhaled = u.add_env_effect( effect_poison, bodypart_id( "mouth" ), 5, intensity * 1_minutes );
@@ -1716,6 +1706,11 @@ void map::player_in_field( player &u )
                         u.add_msg_if_player( m_bad, _( "The %s makes you feel sick." ), cur.name() );
                     }
                 }
+            }
+        }
+        if( ft == fd_mechanical_fluid ) {
+            if( !u.in_vehicle && x_in_y( cur.get_field_intensity(), 20 ) ) {
+                u.add_effect( effect_downed, 2_turns );
             }
         }
     }
@@ -1781,7 +1776,8 @@ void map::creature_in_field( Creature &critter )
                 effect_added = critter.add_env_effect( fe.id, fe.bp.id(), fe.intensity,  fe.get_duration() );
             } else {
                 effect_added = true;
-                critter.add_effect( field_fx );
+                critter.add_effect( field_fx.get_id(), field_fx.get_duration(), field_fx.get_bp(),
+                                    field_fx.is_permanent(), field_fx.get_intensity() );
             }
             if( effect_added ) {
                 critter.add_msg_player_or_npc( fe.env_message_type, fe.get_message(), fe.get_message_npc() );
@@ -2038,11 +2034,14 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_insecticidal_gas ) {
-            if( z.type->in_species( species_INSECT ) || z.type->in_species( species_SPIDER ) ) {
+            if( z.made_of( material_id( "iflesh" ) ) && !z.has_flag( MF_INSECTICIDEPROOF ) ) {
                 const int intensity = cur.get_field_intensity();
                 z.moves -= rng( 10 * intensity, 30 * intensity );
                 dam += rng( 4, 7 * intensity );
             }
+        }
+        if( cur_field_type == fd_mechanical_fluid && x_in_y( cur.get_field_intensity(), 20 ) ) {
+            z.add_effect( effect_downed, 2_turns );
         }
     }
 

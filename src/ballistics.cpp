@@ -53,7 +53,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     if( effects.count( "SHATTER_SELF" ) ) {
         // Drop the contents, not the thrown item
         add_msg_if_player_sees( pt, _( "The %s shatters!" ), drop_item.tname() );
-        drop_item.visit_items( [&pt]( const item * it ) {
+        drop_item.visit_items( [&pt]( const item * it, item * ) {
             get_map().add_item_or_charges( pt, *it );
             return VisitResponse::NEXT;
         } );
@@ -130,10 +130,11 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             } else {
                 sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );
             }
-            const trap &tr = here.tr_at( pt );
-            if( tr.triggered_by_item( dropped_item ) ) {
-                tr.trigger( pt, dropped_item );
-            }
+        }
+
+        const trap &tr = here.tr_at( pt );
+        if( tr.triggered_by_item( dropped_item ) ) {
+            tr.trigger( pt, dropped_item );
         }
     }
 }
@@ -164,7 +165,7 @@ projectile_attack_aim projectile_attack_roll( const dispersion_sources &dispersi
     aim.dispersion = dispersion.roll();
 
     // an isosceles triangle is formed by the intended and actual target tiles
-    aim.missed_by_tiles = iso_tangent( range, aim.dispersion );
+    aim.missed_by_tiles = iso_tangent( range, units::from_arcmin( aim.dispersion ) );
 
     // fraction we missed a monster target by (0.0 = perfect hit, 1.0 = miss)
     if( target_size > 0.0 ) {
@@ -217,7 +218,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     // Determines whether it can penetrate obstacles
     const bool is_bullet = proj_arg.speed >= 200 && !proj_effects.count( "NO_PENETRATE_OBSTACLES" );
 
-    // If we were targetting a tile rather than a monster, don't overshoot
+    // If we were targeting a tile rather than a monster, don't overshoot
     // Unless the target was a wall, then we are aiming high enough to overshoot
     const bool no_overshoot = proj_effects.count( "NO_OVERSHOOT" ) ||
                               ( g->critter_at( target_arg ) == nullptr && here.passable( target_arg ) );
@@ -230,10 +231,12 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         // We missed enough to target a different tile
         double dx = target_arg.x - source.x;
         double dy = target_arg.y - source.y;
-        double rad = atan2( dy, dx );
+        units::angle rad = units::atan2( dy, dx );
 
         // cap wild misses at +/- 30 degrees
-        rad += ( one_in( 2 ) ? 1 : -1 ) * std::min( ARCMIN( aim.dispersion ), DEGREES( 30 ) );
+        units::angle dispersion_angle =
+            std::min( units::from_arcmin( aim.dispersion ), 30_degrees );
+        rad += ( one_in( 2 ) ? 1 : -1 ) * dispersion_angle;
 
         // TODO: This should also represent the miss on z axis
         const int offset = std::min<int>( range, std::sqrt( aim.missed_by_tiles ) );
@@ -242,8 +245,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                         rng( range - offset, proj_arg.range );
         new_range = std::max( new_range, 1 );
 
-        target.x = source.x + roll_remainder( new_range * std::cos( rad ) );
-        target.y = source.y + roll_remainder( new_range * std::sin( rad ) );
+        target.x = source.x + roll_remainder( new_range * cos( rad ) );
+        target.y = source.y + roll_remainder( new_range * sin( rad ) );
 
         if( target == source ) {
             target.x = source.x + sgn( dx );

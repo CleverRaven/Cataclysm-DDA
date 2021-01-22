@@ -1,0 +1,7 @@
+[
+  {
+    "id": "LOW_RANGE_VAPORIZATION",
+    "type": "ammo_effect",
+    "explosion": { "power": 12000, "max_noise": 25, "distance_factor": 0.2 }
+  }
+]

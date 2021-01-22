@@ -25,11 +25,11 @@ class activity_schedule : public schedule
         void setup( avatar &guy ) const override;
         void do_turn( avatar &guy ) const override;
 
-        activity_schedule( const activity_id &id, const time_duration ticks ) : act( id ) {
+        activity_schedule( const activity_id &id, const time_duration &ticks ) : act( id ) {
             interval = ticks;
         }
         activity_schedule( const activity_actor &assigned,
-                           const time_duration ticks ) : actor( assigned.clone() ) {
+                           const time_duration &ticks ) : actor( assigned.clone() ) {
             interval = ticks;
         }
 };
@@ -43,7 +43,7 @@ class meal_schedule : public schedule
         void do_turn( avatar & ) const override;
         bool instantaneous() const override;
 
-        meal_schedule( const itype_id &eaten ) : food( eaten ) {};
+        meal_schedule( const itype_id &eaten ) : food( eaten ) {}
 };
 
 class clear_guts : public schedule
@@ -78,9 +78,9 @@ class tasklist
     public:
         const schedule &next_task();
 
-        void advance( time_duration how_long );
+        void advance( const time_duration &how_long );
 
-        void enschedule( const schedule &added, time_duration how_long );
+        void enschedule( const schedule &added, const time_duration &how_long );
 
         void clear();
 
@@ -93,16 +93,19 @@ struct weariness_events {
             int minutes = 0;
             int from = 0;
             int to = 0;
+            int new_weariness = 0;
+            int new_threshold = 0;
         };
 
         std::vector<weary_transition> transitions;
 
     public:
-        void log( int old_level, int new_level, time_duration when );
+        void log( int old_level, int new_level, const time_duration &when,
+                  int new_weariness, int new_threshold );
 
         // Return the first time a transition between `from` and `to` occurs, in minutes
         // if around = 0_seconds or equivalent, otherwise return the time closest to around
-        int transition_minutes( int from, int to, time_duration around ) const;
+        int transition_minutes( int from, int to, const time_duration &around ) const;
 
         std::string summarize() const;
 

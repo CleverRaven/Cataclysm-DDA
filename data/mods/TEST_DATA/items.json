@@ -18,7 +18,7 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -2,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_80" ],
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -352,7 +352,7 @@
     "qualities": [ [ "SCREW", 2 ], [ "SCREW_FINE", 1 ], [ "WRENCH", 1 ], [ "PRY", 2 ], [ "LOCKPICK", 30 ] ],
     "use_action": [ "PICK_LOCK" ],
     "flags": [ "SPEAR", "BELT_CLIP" ],
-    "min_skills": [ [ "electronics", 3 ], [ "lockpick", 2 ] ],
+    "min_skills": [ [ "electronics", 3 ], [ "traps", 2 ] ],
     "min_intelligence": 9,
     "min_perception": 5
   },
@@ -1057,7 +1057,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": [ "9mm" ],
+    "ammo": [ "test_9mm" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -1 },
     "dispersion": 480,
     "durability": 6,
@@ -1087,10 +1087,10 @@
     "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "9mm" ],
+    "ammo_type": [ "test_9mm" ],
     "capacity": 15,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "test_9mm": 15 } } ]
   },
   {
     "id": "test_glockbigmag",
@@ -1105,11 +1105,11 @@
     "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "9mm" ],
+    "ammo_type": [ "test_9mm" ],
     "capacity": 30,
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "test_9mm": 30 } } ]
   },
   {
     "id": "test_9mm_ammo",
@@ -1126,7 +1126,7 @@
     "color": "yellow",
     "count": 50,
     "stack_size": 50,
-    "ammo_type": "9mm",
+    "ammo_type": "test_9mm",
     "casing": "9mm_casing",
     "range": 14,
     "damage": { "damage_type": "bullet", "amount": 26 },
@@ -1268,6 +1268,29 @@
     "handling_modifier": 1,
     "loudness_modifier": -30,
     "flags": [ "DISABLE_SIGHTS", "CONSUMABLE", "REACH_ATTACK" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "test_milk",
+    "name": { "str_sp": "intolerant milk" },
+    "weight": "258 g",
+    "color": "white",
+    "spoils_in": "1 d",
+    "container": "jug_plastic",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 25,
+    "healthy": 1,
+    "calories": 132,
+    "description": "You can only push a drink so far before it spoils.",
+    "price": 38,
+    "price_postapoc": 50,
+    "material": [ "milk" ],
+    "volume": "250 ml",
+    "phase": "liquid",
+    "flags": [ "EATEN_COLD" ],
+    "vitamins": [ [ "vitA", 10 ], [ "vitB", 6 ], [ "vitC", 4 ], [ "calcium", 25 ] ],
+    "fun": 1
   },
   {
     "type": "COMESTIBLE",

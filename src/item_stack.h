@@ -71,6 +71,17 @@ class item_stack
         /** Return the item (or nullptr) that stacks with the argument */
         item *stacks_with( const item &it );
         const item *stacks_with( const item &it ) const;
+
+        /**
+        * Consumes specified charges (or fewer) from the stack
+        * @param what specific type of charge required, e.g. 'battery'
+        * @param qty maximum charges to consume. On return set to number of charges not found (or zero)
+        * @param pos position at which the charges are being consumed
+        * @param filter Must return true for use to occur.
+        * @return Duplicates of each item that provided consumed charges
+        */
+        std::list<item> use_charges( const itype_id &type, int &quantity, const tripoint &pos,
+                                     const std::function<bool( const item & )> &filter );
 };
 
 #endif // CATA_SRC_ITEM_STACK_H

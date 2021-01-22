@@ -84,6 +84,9 @@ void clear_character( player &dummy )
     dummy.set_speed_base( 100 );
     dummy.set_speed_bonus( 0 );
     dummy.set_sleep_deprivation( 0 );
+    for( const proficiency_id &prof : dummy.known_proficiencies() ) {
+        dummy.lose_proficiency( prof, true );
+    }
 
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
@@ -112,6 +115,7 @@ void clear_character( player &dummy )
 void clear_avatar()
 {
     clear_character( get_avatar() );
+    get_avatar().clear_identified();
 }
 
 void process_activity( player &dummy )
@@ -160,7 +164,7 @@ void give_and_activate_bionic( player &p, bionic_id const &bioid )
 
     // turn on if possible
     if( bio.id->has_flag( "BIONIC_TOGGLED" ) && !bio.powered ) {
-        const std::vector<itype_id> fuel_opts = bio.info().fuel_opts;
+        const std::vector<material_id> fuel_opts = bio.info().fuel_opts;
         if( !fuel_opts.empty() ) {
             p.set_value( fuel_opts.front().str(), "2" );
         }

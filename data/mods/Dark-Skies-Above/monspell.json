@@ -5,13 +5,14 @@
     "name": "camera",
     "description": "an attack that blinds the target for a few turns",
     "valid_targets": [ "hostile" ],
-    "effect": "target_attack",
+    "effect": "attack",
     "effect_str": "blind",
+    "shape": "blast",
     "message": "",
     "min_range": 1,
     "max_range": 1,
     "min_duration": 425,
     "max_duration": 425,
-    "flags": [ "SILENT" ]
+    "flags": [ "SILENT", "NO_PROJECTILE" ]
   }
 ]

@@ -53,6 +53,12 @@ value_ptr<T> make_value( Args &&...args )
     return value_ptr<T>( new T( std::forward<Args>( args )... ) );
 }
 
+template <class T>
+bool value_ptr_equals( const value_ptr<T> &lhs, const value_ptr<T> &rhs )
+{
+    return ( !lhs && !rhs ) || ( lhs && rhs && *lhs == *rhs );
+}
+
 } // namespace cata
 
 #endif // CATA_SRC_VALUE_PTR_H

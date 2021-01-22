@@ -7,10 +7,9 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "json.h"
+#include "options_helpers.h"
 #include "units.h"
 #include "units_utility.h"
-
-#include "options_helpers.h"
 
 TEST_CASE( "units_have_correct_ratios", "[units]" )
 {
@@ -40,6 +39,10 @@ TEST_CASE( "units_have_correct_ratios", "[units]" )
     CHECK( 1_minutes == time_duration::from_minutes( 1 ) );
     CHECK( 1_hours == time_duration::from_hours( 1 ) );
     CHECK( 1_days == time_duration::from_days( 1 ) );
+
+    CHECK( M_PI * 1_radians == 1_pi_radians );
+    CHECK( 2_pi_radians == 360_degrees );
+    CHECK( 60_arcmin == 1_degrees );
 }
 
 static units::energy parse_energy_quantity( const std::string &json )
@@ -110,14 +113,18 @@ TEST_CASE( "convert_length", "[units][convert][length]" )
     SECTION( "imperial length" ) {
         override_option opt_imperial( "DISTANCE_UNITS", "imperial" );
 
+        // Converting metric to imperial is always gonna be a bit messy.
+        // Different compilers may have slightly different edge conditions.
+        // For instance 254 mm is 10 inches on clang, but only 9 inches on MinGW.
+        // Values are fudged slightly (by 1 mm) to make the tests less likely to fail.
         SECTION( "non-multiples of 12 inches expressed in inches" ) {
             // 1 inch == 25.4 mm
             CHECK( convert_length( 26_mm ) == 1 );
             CHECK( length_units( 26_mm ) == "in." );
-            CHECK( convert_length( 254_mm ) == 10 );
-            CHECK( length_units( 254_mm ) == "in." );
-            CHECK( convert_length( 2540_mm ) == 100 );
-            CHECK( length_units( 2540_mm ) == "in." );
+            CHECK( convert_length( 255_mm ) == 10 );
+            CHECK( length_units( 255_mm ) == "in." );
+            CHECK( convert_length( 2541_mm ) == 100 );
+            CHECK( length_units( 2541_mm ) == "in." );
         }
         SECTION( "multiples of 12 inches expressed in feet" ) {
             // 12 inches == 304.8 mm
@@ -135,8 +142,8 @@ TEST_CASE( "convert_length", "[units][convert][length]" )
         }
         SECTION( "multiples of 63360 inches expressed in miles" ) {
             // 1 mile == 1,609,344 mm
-            CHECK( convert_length( 1609344_mm ) == 1 );
-            CHECK( length_units( 1609344_mm ) == "mi" );
+            CHECK( convert_length( 1609345_mm ) == 1 );
+            CHECK( length_units( 1609345_mm ) == "mi" );
         }
     }
 
@@ -244,3 +251,49 @@ TEST_CASE( "convert_velocity", "[units][convert][velocity]" )
     CHECK( convert_velocity( 100, VU_WIND ) == Approx( 0.447f ) );
 }
 
+static units::angle parse_angle( const std::string &json )
+{
+    std::istringstream buffer( json );
+    JsonIn jsin( buffer );
+    return read_from_json_string<units::angle>( jsin, units::angle_units );
+}
+
+TEST_CASE( "angle parsing from JSON", "[units]" )
+{
+    CHECK_THROWS( parse_angle( "\"\"" ) ); // empty string
+    CHECK_THROWS( parse_angle( "27" ) ); // not a string at all
+    CHECK_THROWS( parse_angle( "\"    \"" ) ); // only spaces
+    CHECK_THROWS( parse_angle( "\"27\"" ) ); // no time unit
+
+    CHECK( parse_angle( "\"1 rad\"" ) == 1_radians );
+    CHECK( parse_angle( "\"1 °\"" ) == 1_degrees );
+    CHECK( parse_angle( "\"+1 arcmin\"" ) == 1_arcmin );
+}
+
+TEST_CASE( "angles_to_trig_functions" )
+{
+    CHECK( sin( 0_radians ) == 0 );
+    CHECK( sin( 0.5_pi_radians ) == Approx( 1 ) );
+    CHECK( sin( 270_degrees ) == Approx( -1 ) );
+    CHECK( cos( 1_pi_radians ) == Approx( -1 ) );
+    CHECK( cos( 360_degrees ) == Approx( 1 ) );
+    CHECK( units::atan2( 0, -1 ) == 1_pi_radians );
+    CHECK( units::atan2( 0, 1 ) == 0_radians );
+    CHECK( units::atan2( 1, 0 ) == 90_degrees );
+    CHECK( units::atan2( -1, 0 ) == -90_degrees );
+}
+
+TEST_CASE( "rounding" )
+{
+    CHECK( round_to_multiple_of( 0_degrees, 15_degrees ) == 0_degrees );
+    CHECK( round_to_multiple_of( 1_degrees, 15_degrees ) == 0_degrees );
+    CHECK( round_to_multiple_of( 7_degrees, 15_degrees ) == 0_degrees );
+    CHECK( round_to_multiple_of( 8_degrees, 15_degrees ) == 15_degrees );
+    CHECK( round_to_multiple_of( 15_degrees, 15_degrees ) == 15_degrees );
+    CHECK( round_to_multiple_of( 360_degrees, 15_degrees ) == 360_degrees );
+    CHECK( round_to_multiple_of( -1_degrees, 15_degrees ) == 0_degrees );
+    CHECK( round_to_multiple_of( -7_degrees, 15_degrees ) == 0_degrees );
+    CHECK( round_to_multiple_of( -8_degrees, 15_degrees ) == -15_degrees );
+    CHECK( round_to_multiple_of( -15_degrees, 15_degrees ) == -15_degrees );
+    CHECK( round_to_multiple_of( -360_degrees, 15_degrees ) == -360_degrees );
+}

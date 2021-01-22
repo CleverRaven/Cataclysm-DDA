@@ -114,7 +114,8 @@ void game::serialize( std::ostream &fout )
 
 std::string scent_map::serialize( bool is_type ) const
 {
-    std::stringstream rle_out;
+    std::ostringstream rle_out;
+    rle_out.imbue( std::locale::classic() );
     if( is_type ) {
         rle_out << typescent.str();
     } else {
@@ -185,8 +186,8 @@ void game::unserialize( std::istream &fin )
         data.read( "om_x", com.x() );
         data.read( "om_y", com.y() );
 
-        calendar::turn = tmpturn;
-        calendar::start_of_cataclysm = tmpcalstart;
+        calendar::turn = time_point( tmpturn );
+        calendar::start_of_cataclysm = time_point( tmpcalstart );
 
         if( !data.read( "game_start", calendar::start_of_game ) ) {
             calendar::start_of_game = calendar::start_of_cataclysm;
@@ -247,6 +248,7 @@ void game::unserialize( std::istream &fin )
 void scent_map::deserialize( const std::string &data, bool is_type )
 {
     std::istringstream buffer( data );
+    buffer.imbue( std::locale::classic() );
     if( is_type ) {
         std::string str;
         buffer >> str;
@@ -350,7 +352,8 @@ void overmap::convert_terrain(
 
         if( old == "fema" || old == "fema_entrance" || old == "fema_1_3" ||
             old == "fema_2_1" || old == "fema_2_2" || old == "fema_2_3" ||
-            old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ) {
+            old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ||
+            old == "s_lot" ) {
             ter_set( pos, oter_id( old + "_north" ) );
         } else if( old.compare( 0, 6, "bridge" ) == 0 ) {
             ter_set( pos, oter_id( old ) );
@@ -363,6 +366,16 @@ void overmap::convert_terrain(
             }
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
+        } else if( old.compare( 0, 23, "office_tower_1_entrance" ) == 0 ) {
+            ter_set( pos, oter_id( "office_tower_ne_north" ) );
+            ter_set( pos + point_west, oter_id( "office_tower_nw_north" ) );
+            ter_set( pos + point_south, oter_id( "office_tower_se_north" ) );
+            ter_set( pos + point_south_west, oter_id( "office_tower_sw_north" ) );
+        } else if( old.compare( 0, 23, "office_tower_b_entrance" ) == 0 ) {
+            ter_set( pos, oter_id( "office_tower_underground_ne_north" ) );
+            ter_set( pos + point_west, oter_id( "office_tower_underground_nw_north" ) );
+            ter_set( pos + point_south, oter_id( "office_tower_underground_se_north" ) );
+            ter_set( pos + point_south_west, oter_id( "office_tower_underground_sw_north" ) );
         }
 
         for( const auto &conv : nearby ) {
@@ -1064,7 +1077,9 @@ void mongroup::io( Archive &archive )
 
 void mongroup::deserialize( JsonIn &data )
 {
-    io::JsonObjectInputArchive archive( data );
+    JsonObject jo = data.get_object();
+    jo.allow_omitted_members();
+    io::JsonObjectInputArchive archive( jo );
     io( archive );
 }
 

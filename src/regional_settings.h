@@ -127,7 +127,7 @@ struct forest_biome {
     int sparseness_adjacency_factor = 0;
     int item_group_chance = 0;
     int item_spawn_iterations = 0;
-    std::string item_group;
+    item_group_id item_group;
     bool clear_components = false;
     bool clear_groundcover = false;
     bool clear_terrain_furniture = false;

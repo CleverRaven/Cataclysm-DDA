@@ -17,6 +17,7 @@
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "monstergenerator.h"
 #include "options.h"
 #include "options_helpers.h"
 #include "point.h"
@@ -299,6 +300,7 @@ static void monster_check()
 TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 {
     clear_map_and_put_player_underground();
+    restore_on_out_of_scope<bool> restore_trigdist( trigdist );
     override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     test_moves_to_squares( "mon_zombie_dog", true );
@@ -308,6 +310,7 @@ TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 {
     clear_map_and_put_player_underground();
+    restore_on_out_of_scope<bool> restore_trigdist( trigdist );
     override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     test_moves_to_squares( "mon_zombie_dog", true );
@@ -319,6 +322,7 @@ TEST_CASE( "write_slope_to_speed_map_square", "[.]" )
 TEST_CASE( "monster_speed_square", "[speed]" )
 {
     clear_map_and_put_player_underground();
+    restore_on_out_of_scope<bool> restore_trigdist( trigdist );
     override_option opt( "CIRCLEDIST", "false" );
     trigdist = false;
     monster_check();
@@ -327,6 +331,7 @@ TEST_CASE( "monster_speed_square", "[speed]" )
 TEST_CASE( "monster_speed_trig", "[speed]" )
 {
     clear_map_and_put_player_underground();
+    restore_on_out_of_scope<bool> restore_trigdist( trigdist );
     override_option opt( "CIRCLEDIST", "true" );
     trigdist = true;
     monster_check();
@@ -345,4 +350,31 @@ TEST_CASE( "monster_extend_flags", "[monster]" )
     const mtype &m = *mtype_id( "mon_dog_zombie_brute" );
     CHECK( m.has_flag( MF_SEES ) );
     CHECK( m.has_flag( MF_PUSH_VEH ) );
+}
+
+TEST_CASE( "monster_broken_verify", "[monster]" )
+{
+    // verify monsters with death_function = BROKEN
+    // actually have appropriate broken_name items
+    const MonsterGenerator &generator = MonsterGenerator::generator();
+    const mon_action_death func = generator.get_death_function( "BROKEN" ).value();
+    for( const mtype &montype : generator.get_all_mtypes() ) {
+        const std::vector<mon_action_death> &die_funcs = montype.dies;
+        const auto broken_func_it = std::find( die_funcs.cbegin(), die_funcs.cend(), func );
+
+        if( broken_func_it == die_funcs.cend() ) {
+            continue;
+        }
+
+        // this contraption should match mdeath::broken in mondeath.cpp
+        std::string broken_id_str = montype.id.str();
+        if( broken_id_str.compare( 0, 4, "mon_" ) == 0 ) {
+            broken_id_str.erase( 0, 4 );
+        }
+        broken_id_str.insert( 0, "broken_" ); // "broken_manhack", or "broken_eyebot", ...
+        const itype_id targetitemid( broken_id_str );
+
+        CAPTURE( montype.id.c_str() );
+        CHECK( targetitemid.is_valid() );
+    }
 }

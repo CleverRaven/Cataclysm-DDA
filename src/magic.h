@@ -33,6 +33,11 @@ class spell;
 class time_duration;
 struct requirement_data;
 
+namespace spell_effect
+{
+struct override_parameters;
+} // namespace spell_effect
+
 namespace cata
 {
 class event;
@@ -42,6 +47,7 @@ template <typename E> struct enum_traits;
 enum class spell_flag : int {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
     IGNORE_WALLS, // spell's aoe goes through walls
+    NO_PROJECTILE, // spell's original targeting area can be targeted through walls
     SWAP_POS, // a projectile spell swaps the positions of the caster and target
     HOSTILE_SUMMON, // summon spell always spawns a hostile monster
     HOSTILE_50, // summoned monster spawns friendly 50% of the time
@@ -66,7 +72,7 @@ enum class spell_flag : int {
     NO_FAIL, // this spell cannot fail when you cast it
     WITH_CONTAINER, // items spawned with container
     SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
-    IGNITE_FLAMMABLE, // if spell effect area has any thing flamable, a fire will be produced
+    IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced
     LAST
 };
 
@@ -91,9 +97,24 @@ enum class spell_target : int {
     num_spell_targets
 };
 
+enum class spell_shape : int {
+    // circular blast area
+    blast,
+    // hits anything in a line from the caster to the target with a width
+    line,
+    // aoe is radius of the arc
+    cone,
+    num_shapes
+};
+
 template<>
 struct enum_traits<magic_energy_type> {
     static constexpr magic_energy_type last = magic_energy_type::last;
+};
+
+template<>
+struct enum_traits<spell_shape> {
+    static constexpr spell_shape last = spell_shape::num_shapes;
 };
 
 template<>
@@ -187,6 +208,10 @@ class spell_type
         // spell effect string. used to look up spell function
         std::string effect_name;
         std::function<void( const spell &, Creature &, const tripoint & )> effect;
+        std::function<std::set<tripoint>( const spell_effect::override_parameters &params,
+                                          const tripoint &source, const tripoint &target )> spell_area_function;
+        // the spell shape found in the json
+        spell_shape spell_area = spell_shape::line;
         // extra information about spell effect. allows for combinations for effects
         std::string effect_str;
         // list of additional "spell effects"
@@ -408,6 +433,7 @@ class spell
         // what is the max level of the spell
         int get_max_level() const;
 
+        spell_shape shape() const;
         // what is the intensity of the field the spell generates ( 0 if no field )
         int field_intensity() const;
         // how much damage does the spell do
@@ -418,6 +444,9 @@ class spell
         damage_instance get_damage_instance() const;
         // how big is the spell's radius
         int aoe() const;
+        std::set<tripoint> effect_area( const spell_effect::override_parameters &params,
+                                        const tripoint &source, const tripoint &target ) const;
+        std::set<tripoint> effect_area( const tripoint &source, const tripoint &target ) const;
         // distance spell can be cast
         int range() const;
         // how much energy does the spell cost
@@ -589,31 +618,38 @@ class known_magic
 
 namespace spell_effect
 {
+// a struct available for override parameters.
+// is a separate struct for later extensibility
+// used for spell shapes to be lighter weight than passing the whole spell
+// and allows for overrides for these values
+struct override_parameters {
+    int aoe_radius;
+    int range;
+    bool ignore_walls;
+
+    override_parameters( const spell &sp ) {
+        aoe_radius = sp.aoe();
+        range = sp.range();
+        ignore_walls = sp.has_flag( spell_flag::IGNORE_WALLS );
+    }
+};
 
 void teleport_random( const spell &sp, Creature &caster, const tripoint & );
 void pain_split( const spell &, Creature &, const tripoint & );
-void target_attack( const spell &sp, Creature &caster,
-                    const tripoint &epicenter );
+void attack( const spell &sp, Creature &caster,
+             const tripoint &epicenter );
 void targeted_polymorph( const spell &sp, Creature &caster, const tripoint &target );
-
-void projectile_attack( const spell &sp, Creature &caster,
-                        const tripoint &target );
-void cone_attack( const spell &sp, Creature &caster,
-                  const tripoint &target );
-void line_attack( const spell &sp, Creature &caster,
-                  const tripoint &target );
 
 void area_pull( const spell &sp, Creature &caster, const tripoint &center );
 void area_push( const spell &sp, Creature &caster, const tripoint &center );
+void directed_push( const spell &sp, Creature &caster, const tripoint &target );
 
-std::set<tripoint> spell_effect_blast( const spell &, const tripoint &, const tripoint &target,
-                                       int aoe_radius, bool ignore_walls );
-std::set<tripoint> spell_effect_cone( const spell &sp, const tripoint &source,
-                                      const tripoint &target,
-                                      int aoe_radius, bool ignore_walls );
-std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
-                                      const tripoint &target,
-                                      int aoe_radius, bool ignore_walls );
+std::set<tripoint> spell_effect_blast( const override_parameters &params, const tripoint &,
+                                       const tripoint &target );
+std::set<tripoint> spell_effect_cone( const override_parameters &params, const tripoint &source,
+                                      const tripoint &target );
+std::set<tripoint> spell_effect_line( const override_parameters &params, const tripoint &source,
+                                      const tripoint &target );
 
 void spawn_ethereal_item( const spell &sp, Creature &, const tripoint & );
 void recover_energy( const spell &sp, Creature &, const tripoint &target );
@@ -636,6 +672,45 @@ void bash( const spell &sp, Creature &caster, const tripoint &target );
 void dash( const spell &sp, Creature &caster, const tripoint &target );
 void banishment( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
+
+static const std::map<spell_shape, std::function<std::set<tripoint>
+( const override_parameters &, const tripoint &, const tripoint & )>> shape_map = {
+    { spell_shape::blast, spell_effect_blast },
+    { spell_shape::line, spell_effect_line },
+    { spell_shape::cone, spell_effect_cone }
+};
+
+static const
+std::map<std::string, std::function<void( const spell &, Creature &, const tripoint & )>>
+effect_map{
+    { "pain_split", spell_effect::pain_split },
+    { "attack", spell_effect::attack },
+    { "targeted_polymorph", spell_effect::targeted_polymorph },
+    { "teleport_random", spell_effect::teleport_random },
+    { "spawn_item", spell_effect::spawn_ethereal_item },
+    { "recover_energy", spell_effect::recover_energy },
+    { "summon", spell_effect::spawn_summoned_monster },
+    { "summon_vehicle", spell_effect::spawn_summoned_vehicle },
+    { "translocate", spell_effect::translocate },
+    { "area_pull", spell_effect::area_pull },
+    { "area_push", spell_effect::area_push },
+    { "directed_push", spell_effect::directed_push },
+    { "timed_event", spell_effect::timed_event },
+    { "ter_transform", spell_effect::transform_blast },
+    { "noise", spell_effect::noise },
+    { "vomit", spell_effect::vomit },
+    { "explosion", spell_effect::explosion },
+    { "flashbang", spell_effect::flashbang },
+    { "mod_moves", spell_effect::mod_moves },
+    { "map", spell_effect::map },
+    { "morale", spell_effect::morale },
+    { "charm_monster", spell_effect::charm_monster },
+    { "mutate", spell_effect::mutate },
+    { "bash", spell_effect::bash },
+    { "dash", spell_effect::dash },
+    { "banishment", spell_effect::banishment },
+    { "none", spell_effect::none }
+};
 } // namespace spell_effect
 
 class spellbook_callback : public uilist_callback

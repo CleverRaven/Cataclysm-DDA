@@ -718,7 +718,7 @@
         "motel_city": 10,
         "fishing_pond_city": 10,
         "trailerpark_city": 15,
-        "railroad_city": 10
+        "railroad_city": 5
       },
       "parks": {
         "park": 400,
@@ -730,6 +730,7 @@
         "pool_5": 20,
         "pool_6": 20,
         "skate_park": 100,
+        "park_maze": 50,
         "small_wooded_trail": 300,
         "pavilion": 100,
         "pavilion_1": 100,
@@ -759,6 +760,7 @@
         "s_apt_2": 50,
         "urban_13_dense_house_apt_house": 300,
         "urban_14_dense_house_mart_food": 200,
+        "urban_25_dense_diner_apt": 200,
         "urban_29_dense_row": 200,
         "town_hall": 150,
         "craft_shop": 200,
@@ -930,6 +932,7 @@
         "hospital": 175,
         "urban_35_hospital": 175,
         "public_works": 200,
+        "office_tower": 150,
         "office_tower_2": 150,
         "office_tower_large": 500,
         "office_tower_hiddenlab": 50,

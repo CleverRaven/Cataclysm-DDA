@@ -19,6 +19,7 @@
     "spoils_in": "2 days",
     "phase": "liquid",
     "container": "bottle_plastic",
+    "sealed": false,
     "material": [ "water" ],
     "calories": 100,
     "quench": 40,

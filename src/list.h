@@ -2084,7 +2084,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     --number_of_full_groups;
                 }
             } else if( reserve_amount != 0 ) {
-                // Create a group at least as large as the last group - may allocate more than necessary, but better solution than creating a veyr small group in the middle of the group vector, I think:
+                // Create a group at least as large as the last group - may allocate more than necessary, but better solution than creating a very small group in the middle of the group vector, I think:
                 const group_size_type last_endpoint_group_capacity = static_cast<group_size_type>
                         ( groups.last_endpoint_group->beyond_end - groups.last_endpoint_group->nodes );
                 groups.add_new( static_cast<group_size_type>( ( reserve_amount < last_endpoint_group_capacity ) ?

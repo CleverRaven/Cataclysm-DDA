@@ -137,7 +137,8 @@
     "copy-from": "223_speedloader5",
     "type": "MAGAZINE",
     "ammo_type": [ "ammo_rifle", "223", "300blk" ],
-    "name": { "str": "LW-5 speedloader" }
+    "name": { "str": "LW-5 speedloader" },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle": 5 } } ]
   },
   {
     "id": "belt223",

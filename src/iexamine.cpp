@@ -12,6 +12,7 @@
 #include <utility>
 
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "ammo.h"
 #include "avatar.h"
@@ -26,6 +27,7 @@
 #include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
+#include "construction_group.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "craft_command.h"
@@ -67,6 +69,7 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -133,6 +136,7 @@ static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_charcoal( "charcoal" );
 static const itype_id itype_chem_carbide( "chem_carbide" );
 static const itype_id itype_corpse( "corpse" );
+static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_hickory_root( "hickory_root" );
 static const itype_id itype_fake_milling_item( "fake_milling_item" );
@@ -162,9 +166,13 @@ static const itype_id itype_water( "water" );
 
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_fabrication( "fabrication" );
-static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
+
+static const proficiency_id proficiency_prof_disarming( "prof_disarming" );
+static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
+static const proficiency_id proficiency_prof_traps( "prof_traps" );
+static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -208,29 +216,11 @@ static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
 static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
-static const std::string flag_COOKED( "COOKED" );
-static const std::string flag_DIAMOND( "DIAMOND" );
-static const std::string flag_FERTILIZER( "FERTILIZER" );
-static const std::string flag_FILTHY( "FILTHY" );
-static const std::string flag_FIRE( "FIRE" );
-static const std::string flag_FIRESTARTER( "FIRESTARTER" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
-static const std::string flag_IN_CBM( "IN_CBM" );
-static const std::string flag_NO_CVD( "NO_CVD" );
-static const std::string flag_NO_PACKED( "NO_PACKED" );
-static const std::string flag_NO_STERILE( "NO_STERILE" );
-static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
 static const std::string flag_PICKABLE( "PICKABLE" );
-static const std::string flag_PROCESSING( "PROCESSING" );
-static const std::string flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
-static const std::string flag_SAFECRACK( "SAFECRACK" );
-static const std::string flag_SMOKABLE( "SMOKABLE" );
-static const std::string flag_SMOKED( "SMOKED" );
-static const std::string flag_SPLINT( "SPLINT" );
-static const std::string flag_VARSIZE( "VARSIZE" );
+static const std::string flag_NANOFAB_TABLE( "NANOFAB_TABLE" );
 static const std::string flag_WALL( "WALL" );
-static const std::string flag_WRITE_MESSAGE( "WRITE_MESSAGE" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -279,21 +269,23 @@ void iexamine::cvdmachine( player &p, const tripoint & )
     p.invalidate_crafting_inventory();
 
     // Apply flag to item
-    loc->item_tags.insert( "DIAMOND" );
+    loc->set_flag( flag_DIAMOND );
     add_msg( m_good, _( "You apply a diamond coating to your %s" ), loc->type_name() );
     p.mod_moves( -to_turns<int>( 10_seconds ) );
 }
 
 /**
- * UI FOR LAB_FINALE NANO FABRICATOR.
+ * TEMPLATE FABRICATORS
+ * Generate items from found blueprints.
  */
 void iexamine::nanofab( player &p, const tripoint &examp )
 {
     bool table_exists = false;
     tripoint spawn_point;
     map &here = get_map();
+    std::set<itype_id> allowed_template = here.ter( examp )->allowed_template_id;
     for( const auto &valid_location : here.points_in_radius( examp, 1 ) ) {
-        if( here.ter( valid_location ) == ter_str_id( "t_nanofab_body" ) ) {
+        if( here.has_flag( flag_NANOFAB_TABLE, valid_location ) ) {
             spawn_point = valid_location;
             table_exists = true;
             break;
@@ -302,11 +294,21 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     if( !table_exists ) {
         return;
     }
+    //Create a list of the names of all acceptable templates.
+    std::set<std::string> templatenames;
+    for( const itype_id &id : allowed_template ) {
+        templatenames.insert( id->nname( 1 ) );
+    }
+    std::string name_list =  enumerate_as_string( templatenames );
 
-    item_location nanofab_template = g->inv_map_splice( []( const item & e ) {
-        return e.has_var( "NANOFAB_ITEM_ID" );
-    }, _( "Introduce Nanofabricator template" ), PICKUP_RANGE,
-    _( "You don't have any usable templates." ) );
+    //Template selection
+    item_location nanofab_template = g->inv_map_splice( [&]( const item & e ) {
+        return  std::any_of( allowed_template.begin(), allowed_template.end(),
+        [&e]( const itype_id itid ) {
+            return e.typeId() == itid;
+        } );
+    }, _( "Introduce a compatible template." ), PICKUP_RANGE,
+    _( "You don't have any usable templates.\n\nCompatible templates are: " ) + name_list );
 
     if( !nanofab_template ) {
         return;
@@ -315,8 +317,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     item new_item( nanofab_template->get_var( "NANOFAB_ITEM_ID" ), calendar::turn );
 
     int qty = std::max( 1, new_item.volume() / 250_ml );
-    requirement_data reqs = *requirement_id( "nanofabricator" ) * qty;
-
+    requirement_data reqs = *nanofab_template->type->template_requirements * qty;
     if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;
@@ -332,7 +333,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     p.invalidate_crafting_inventory();
 
     if( new_item.is_armor() && new_item.has_flag( flag_VARSIZE ) ) {
-        new_item.item_tags.insert( "FIT" );
+        new_item.set_flag( flag_FIT );
     }
 
     here.add_item_or_charges( spawn_point, new_item );
@@ -375,6 +376,98 @@ void iexamine::gaspump( player &p, const tripoint &examp )
         }
     }
     add_msg( m_info, _( "Out of order." ) );
+}
+
+static bool has_attunement_spell_prereqs( player &p, const trait_id &attunement )
+{
+    // for each prereq we need to check that the player has 2 level 15 spells
+    for( const trait_id &prereq : attunement->prereqs ) {
+        int spells_known = 0;
+        for( const spell &sp : p.spells_known_of_class( prereq ) ) {
+            if( sp.get_level() >= 15 ) {
+                spells_known++;
+            }
+        }
+        if( spells_known < 2 ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void iexamine::attunement_altar( player &p, const tripoint & )
+{
+    std::set<trait_id> attunements;
+    for( const mutation_branch &mut : mutation_branch::get_all() ) {
+        if( mut.flags.count( "ATTUNEMENT" ) ) {
+            attunements.emplace( mut.id );
+        }
+    }
+    // remove the attunements the player does not have prereqs for
+    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
+        bool has_prereq = true;
+        // the normal usage of prereqs only needs one, but attunements put all their prereqs into the same array
+        // each prereqs is required for it as well
+        for( const trait_id &prereq : ( *iter )->prereqs ) {
+            if( !p.has_trait( prereq ) ) {
+                has_prereq = false;
+                break;
+            }
+        }
+        if( has_prereq ) {
+            ++iter;
+        } else {
+            iter = attunements.erase( iter );
+        }
+    }
+    if( attunements.empty() ) {
+        // the player doesn't have at least two base classes
+        p.add_msg_if_player( _( "This altar gives you the creeps." ) );
+        return;
+    }
+    // remove the attunements the player has conflicts for
+    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
+        if( !p.has_opposite_trait( *iter ) && p.mutation_ok( *iter, false, false ) ) {
+            ++iter;
+        } else {
+            iter = attunements.erase( iter );
+        }
+    }
+    if( attunements.empty() ) {
+        p.add_msg_if_player( _( "You've attained what you can for now." ) );
+        return;
+    }
+    for( auto iter = attunements.begin(); iter != attunements.end(); ) {
+        if( has_attunement_spell_prereqs( p, *iter ) ) {
+            ++iter;
+        } else {
+            iter = attunements.erase( iter );
+        }
+    }
+    if( attunements.empty() ) {
+        p.add_msg_if_player( _( "You feel that the altar does not deem you worthy, yet." ) );
+        return;
+    }
+    uilist attunement_list;
+    attunement_list.title = _( "Pick an Attunement to show the world your Worth." );
+    for( const trait_id &attunement : attunements ) {
+        attunement_list.addentry( attunement->name() );
+    }
+    attunement_list.query();
+    if( attunement_list.ret == UILIST_CANCEL ) {
+        p.add_msg_if_player( _( "Maybe later." ) );
+        return;
+    }
+    auto attunement_iter = attunements.begin();
+    std::advance( attunement_iter, attunement_list.ret );
+    const trait_id &attunement = *attunement_iter;
+    if( query_yn( string_format( _( "Are you sure you want to pick %s?  This selection is permanent." ),
+                                 attunement->name() ) ) ) {
+        p.toggle_trait( attunement );
+        p.add_msg_if_player( m_info, attunement->desc() );
+    } else {
+        p.add_msg_if_player( _( "Maybe later." ) );
+    }
 }
 
 void iexamine::translocator( player &, const tripoint &examp )
@@ -614,7 +707,7 @@ class atm_menu
             }
 
             if( remaining ) {
-                add_msg( m_info, _( "All cash cards at maximum capacity" ) );
+                add_msg( m_info, _( "All cash cards at maximum capacity." ) );
             }
 
             //dst->charges += amount;
@@ -1202,15 +1295,13 @@ void iexamine::bars( player &p, const tripoint &examp )
         return;
     }
     map &here = get_map();
-    if( ( ( p.encumb( bodypart_id( "torso" ) ) ) >= 10 ) &&
-        ( ( p.encumb( bodypart_id( "head" ) ) ) >= 10 ) &&
-        ( p.encumb( bodypart_id( "foot_l" ) ) >= 10 ||
-          p.encumb( bodypart_id( "foot_r" ) ) >=
-          10 ) ) { // Most likely places for rigid gear that would catch on the bars.
-        add_msg( m_info,
-                 _( "Your amorphous body could slip though the %s, but your cumbersome gear can't." ),
-                 here.tername( examp ) );
-        return;
+    for( const bodypart_id &bp : p.get_all_body_parts() ) {
+        if( p.encumb( bp ) >= 10 ) {
+            add_msg( m_info,
+                     _( "Your amorphous body could slip though the %s, but your cumbersome gear can't." ),
+                     here.tername( examp ) );
+            return;
+        }
     }
     if( !query_yn( _( "Slip through the %s?" ), here.tername( examp ) ) ) {
         none( p, examp );
@@ -1402,44 +1493,54 @@ void iexamine::slot_machine( player &p, const tripoint & )
  * Time per attempt affected by perception and mechanics. 30 minutes per attempt minimum.
  * Small chance of just guessing the combo without listening device.
  */
-void iexamine::safe( player &p, const tripoint &examp )
+void iexamine::safe( player &guy, const tripoint &examp )
 {
-    auto cracking_tool = p.crafting_inventory().items_with( []( const item & it ) -> bool {
+    auto cracking_tool = guy.crafting_inventory().items_with( []( const item & it ) -> bool {
         item temporary_item( it.type );
         return temporary_item.has_flag( flag_SAFECRACK );
     } );
 
-    if( !( !cracking_tool.empty() || p.has_bionic( bio_ears ) ) ) {
-        p.moves -= to_turns<int>( 10_seconds );
-        // one_in(30^3) chance of guessing
-        if( one_in( 27000 ) ) {
-            p.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
+    if( !( !cracking_tool.empty() || guy.has_bionic( bio_ears ) ) ) {
+        guy.moves -= to_turns<int>( 10_seconds );
+        // Assume a 3 digit 100-number code. Many safes allow adjacent + 1 dial locations to match,
+        // so 1/20^3, or 1/8,000 odds.
+        // Additionally, safes can be left-handed or right-handed, doubling the problem space.
+        // The dialing procedures for safes vary, I'm estimating 5 procedures.
+        // See https://hoogerhydesafe.com/resources/combination-lock-dialing-procedures/
+        // At the end of the day, that means a 1 / 80,000 chance per attempt.
+        // If someone is interested, they can feel free to add a proficiency for
+        // "safe recognition" to mitigate or eliminate this 2x and 5x factor.
+        if( one_in( 80000 ) ) {
+            guy.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
             get_map().furn_set( examp, f_safe_o );
             return;
         } else {
-            p.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
+            guy.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
             return;
         }
     }
 
-    if( p.is_deaf() ) {
+    if( guy.is_deaf() ) {
         add_msg( m_info, _( "You can't crack a safe while deaf!" ) );
         return;
-    } else if( p.has_effect( effect_earphones ) ) {
+    } else if( guy.has_effect( effect_earphones ) ) {
         add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
         return;
     } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
         add_msg( m_info, _( "You start cracking the safe." ) );
-        // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
-        // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
-        ///\EFFECT_PER speeds up safe cracking
+        // 150 minutes +/- 20 minutes per devices point away from 3 +/- 10 minutes per
+        // perception point away from 8; capped at 30 minutes minimum. Multiply by 3 if you
+        // don't have safecracking proficiency.
 
-        ///\EFFECT_MECHANICS speeds up safe cracking
-        const time_duration time = std::max( 150_minutes - 20_minutes * ( p.get_skill_level(
-                skill_mechanics ) - 3 ) - 10_minutes * ( p.get_per() - 8 ), 30_minutes );
+        time_duration time_base = std::max( 150_minutes - 20_minutes * ( guy.get_skill_level(
+                                                skill_traps ) - 3 ) - 10_minutes * ( guy.get_per() - 8 ), 30_minutes );
+        int time = to_moves<int>( time_base );
+        if( !guy.has_proficiency( proficiency_prof_safecracking ) ) {
+            time = time * 3;
+        }
+        guy.assign_activity( ACT_CRACKING, time );
+        guy.activity.placement = examp;
 
-        p.assign_activity( ACT_CRACKING, to_moves<int>( time ) );
-        p.activity.placement = examp;
     }
 }
 
@@ -1530,8 +1631,12 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
     } );
 
     for( item *it : picklocks ) {
+        if( !query_yn( _( "Pick lock the lock of %1$s using your %2$s?" ),
+                       here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() ) ) {
+            return;
+        }
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
-        p.add_msg_if_player( _( "You attempt to pick lock of %1$s using your %2$s…" ),
+        p.add_msg_if_player( _( "You attempt to pick the lock of %1$s using your %2$s…" ),
                              here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
         const ret_val<bool> can_use = iuse_fn->can_call( p, *it, false, examp );
         if( can_use.success() ) {
@@ -2634,14 +2739,14 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
     }
 
     if( !fuel_present ) {
-        add_msg( _( "This furance is empty.  Fill it with powdered coke and lime mix, and try again." ) );
+        add_msg( _( "This furnace is empty.  Fill it with powdered coke and lime mix, and try again." ) );
         return;
     }
 
     ///\EFFECT_FABRICATION decreases loss when firing a furnace
     const int skill = p.get_skill_level( skill_fabrication );
     int loss = 60 - 2 *
-               skill; // Inefficency is still fine, coal and limestone is abundant
+               skill; // Inefficiency is still fine, coal and limestone is abundant
 
     // Burn stuff that should get charred, leave out the rest
     units::volume total_volume = 0_ml;
@@ -2652,7 +2757,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
     const itype *char_type = item::find_type( itype_unfinished_cac2 );
     int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
     if( char_charges < 1 ) {
-        add_msg( _( "The batch in this furance is too small to yield usable calcium carbide." ) );
+        add_msg( _( "The batch in this furnace is too small to yield usable calcium carbide." ) );
         return;
     }
     //arc furnaces require a huge amount of current, so 1 full storage battery would work as a stand in
@@ -3049,7 +3154,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         }
     }
     if( to_deposit ) {
-        item brew( brew_type, 0 );
+        item brew( brew_type, calendar::turn_zero );
         int charges_held = p.charges_of( brew_type );
         brew.charges = charges_on_ground;
         for( int i = 0; i < charges_held && !vat_full; i++ ) {
@@ -3257,7 +3362,7 @@ void iexamine::keg( player &p, const tripoint &examp )
         //Store liquid chosen in the keg
         itype_id drink_type = drink_types[ drink_index ];
         int charges_held = p.charges_of( drink_type );
-        item drink( drink_type, 0 );
+        item drink( drink_type, calendar::turn_zero );
         drink.set_relative_rot( drink_rot[ drink_index ] );
         drink.charges = 0;
         bool keg_full = false;
@@ -3449,10 +3554,10 @@ void iexamine::tree_hickory( player &p, const tripoint &examp )
 
 static item_location maple_tree_sap_container()
 {
-    const item maple_sap = item( "maple_sap", 0 );
+    const item maple_sap = item( "maple_sap", calendar::turn_zero );
     return g->inv_map_splice( [&]( const item & it ) {
         return it.get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
-    }, _( "Which container?" ), PICKUP_RANGE );
+    }, _( "Use which container to collect sap?" ), PICKUP_RANGE );
 }
 
 void iexamine::tree_maple( player &p, const tripoint &examp )
@@ -3483,13 +3588,14 @@ void iexamine::tree_maple( player &p, const tripoint &examp )
     p.mod_moves( -to_moves<int>( 20_seconds ) );
     map &here = get_map();
     here.ter_set( examp, t_tree_maple_tapped );
+    add_msg( m_info, _( "You drill the maple tree crust and tap a spile into the prepared hole." ) );
 
     item_location cont_loc = maple_tree_sap_container();
 
     item *container = cont_loc.get_item();
     if( container ) {
         here.add_item_or_charges( examp, *container, false );
-
+        add_msg( m_info, _( "You hang the %s under the spile to collect sap." ), container->tname( 1 ) );
         cont_loc.remove_item();
     } else {
         add_msg( m_info, _( "No container added.  The sap will just spill on the ground." ) );
@@ -3511,7 +3617,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         if( it.will_spill() || it.is_watertight_container() ) {
             container = &it;
 
-            it.visit_items( [&charges, &has_sap]( const item * it ) {
+            it.visit_items( [&charges, &has_sap]( const item * it, item * ) {
                 if( it->typeId() == itype_maple_syrup ) {
                     has_sap = true;
                     charges = it->charges;
@@ -3567,7 +3673,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
             container = cont_loc.get_item();
             if( container ) {
                 here.add_item_or_charges( examp, *container, false );
-
+                add_msg( m_info, _( "You hang the %s under the spile to collect sap." ), container->tname( 1 ) );
                 cont_loc.remove_item();
             } else {
                 add_msg( m_info, _( "No container added.  The sap will just spill on the ground." ) );
@@ -3708,7 +3814,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     choose_output.text = string_format( _( "Compact %1$.3f %2$s of %3$s into:" ),
                                         convert_weight( sum_weight ), weight_units(), m.name() );
     for( const itype_id &ci : m.compacts_into() ) {
-        item it = item( ci, 0, item::solitary_tag{} );
+        item it = item( ci, calendar::turn_zero, item::solitary_tag{} );
         const int amount = norm_recover_weight / it.weight();
         //~ %1$d: number of, %2$s: output item
         choose_output.addentry( string_format( _( "about %1$d %2$s" ), amount,
@@ -3733,7 +3839,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     bool out_desired = false;
     bool out_any = false;
     for( auto it = m.compacts_into().begin() + o_idx; it != m.compacts_into().end(); ++it ) {
-        const units::mass ow = item( *it, 0, item::solitary_tag{} ).weight();
+        const units::mass ow = item( *it, calendar::turn_zero, item::solitary_tag{} ).weight();
         int count = sum_weight / ow;
         sum_weight -= count * ow;
         if( count > 0 ) {
@@ -3784,7 +3890,7 @@ void trap::examine( const tripoint &examp ) const
         }
         const construction &built = pc->id.obj();
         if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
-                       built.description, pc->counter / 100000 ) ) {
+                       built.group->name(), pc->counter / 100000 ) ) {
             if( query_yn( _( "Cancel construction?" ) ) ) {
                 on_disarmed( here, examp );
                 for( const item &it : pc->components ) {
@@ -3814,40 +3920,44 @@ void trap::examine( const tripoint &examp ) const
     }
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
-        const int tSkillLevel = player_character.get_skill_level( skill_traps );
-        int roll = rng( tSkillLevel, 4 * tSkillLevel );
-
-        ///\EFFECT_PER increases chance of disarming trap
-
-        ///\EFFECT_DEX increases chance of disarming trap
-
-        ///\EFFECT_TRAPS increases chance of disarming trap
-        while( ( rng( 5, 20 ) < player_character.per_cur ||
-                 rng( 1, 20 ) < player_character.dex_cur ) && roll < 50 ) {
-            roll++;
+        const int traps_skill_level = player_character.get_skill_level( skill_traps );
+        const float weighted_stat_average = ( 2.0f * player_character.per_cur + 3.0f *
+                                              player_character.dex_cur +
+                                              player_character.int_cur ) / 6.0f;
+        int proficiency_effect = -2;
+        // Without at least a basic traps proficiency, your skill level is effectively 2 levels lower.
+        if( player_character.has_proficiency( proficiency_prof_traps ) ) {
+            proficiency_effect = 0;
+            // If you have the basic traps prof, negate the above penalty
         }
-        if( roll >= difficulty ) {
+        if( player_character.has_proficiency( proficiency_prof_disarming ) ) {
+            proficiency_effect = 4;
+            // If you have the disarming proficiency, your skill level is effectively 4 levels higher.
+        }
+        if( player_character.has_proficiency( proficiency_prof_trapsetting ) ) {
+            proficiency_effect += 1;
+            // Knowing how to set traps does give you a small bonus to disarming them as well, regardless of your other bonuses.
+        }
+        const float mean_roll = traps_skill_level + ( weighted_stat_average / 4.0f ) + proficiency_effect;
+
+        int roll = std::round( normal_roll( mean_roll, 3 ) );
+
+        add_msg( m_debug, _( "Rolled %i, mean_roll %g. difficulty %i." ), roll, mean_roll, difficulty );
+
+        //Difficulty 0 traps should succeed regardless of proficiencies. (i.e caltrops and nailboards)
+        if( roll >= difficulty || difficulty == 0 ) {
             add_msg( _( "You disarm the trap!" ) );
-            const int morale_buff = avoidance * 0.4 + difficulty + rng( 0, 4 );
-            player_character.rem_morale( MORALE_FAILURE );
-            player_character.add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
             on_disarmed( here, examp );
-            if( difficulty > 1.25 * tSkillLevel ) { // failure might have set off trap
-                player_character.practice( skill_traps, 1.5 * ( difficulty - tSkillLevel ) );
+            if( difficulty > 1.25 * traps_skill_level ) { // failure might have set off trap
+                player_character.practice( skill_traps, 1.5 * ( difficulty - traps_skill_level ) );
             }
-        } else if( roll >= difficulty * .8 ) {
+        } else if( roll >= ( difficulty * .8 ) ) {
             add_msg( _( "You fail to disarm the trap." ) );
-            const int morale_debuff = -rng( 6, 18 );
-            player_character.rem_morale( MORALE_ACCOMPLISHMENT );
-            player_character.add_morale( MORALE_FAILURE, morale_debuff, -40 );
-            if( difficulty > 1.25 * tSkillLevel ) {
-                player_character.practice( skill_traps, 1.5 * ( difficulty - tSkillLevel ) );
+            if( difficulty > 1.25 * traps_skill_level ) {
+                player_character.practice( skill_traps, 1.5 * ( difficulty - traps_skill_level ) );
             }
         } else {
             add_msg( m_bad, _( "You fail to disarm the trap, and you set it off!" ) );
-            const int morale_debuff = -rng( 12, 24 );
-            player_character.rem_morale( MORALE_ACCOMPLISHMENT );
-            player_character.add_morale( MORALE_FAILURE, morale_debuff, -40 );
             trigger( examp, player_character );
             if( difficulty - roll <= 6 ) {
                 // Give xp for failing, but not if we failed terribly (in which
@@ -3855,6 +3965,14 @@ void trap::examine( const tripoint &examp ) const
                 player_character.practice( skill_traps, 2 * difficulty );
             }
         }
+        //Picking up bubblewrap continuously could powerlevel trap proficiencies, with no risk involved.
+        if( difficulty != 0 ) {
+            player_character.practice_proficiency( proficiency_prof_traps, 5_minutes );
+            // Disarming a trap gives you a token bonus to learning to set them properly.
+            player_character.practice_proficiency( proficiency_prof_trapsetting, 30_seconds );
+            player_character.practice_proficiency( proficiency_prof_disarming, 5_minutes );
+        }
+
         return;
     }
 }
@@ -3870,7 +3988,7 @@ void iexamine::water_source( player &p, const tripoint &examp )
 
 void iexamine::clean_water_source( player &, const tripoint &examp )
 {
-    item water = item( "water_clean", 0, item::INFINITE_CHARGES );
+    item water = item( "water_clean", calendar::turn_zero, item::INFINITE_CHARGES );
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
@@ -4079,10 +4197,10 @@ static int getNearPumpCount( const tripoint &p, std::string &fuel_type )
         const auto t = here.ter( tmp );
         if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
             result++;
-            fuel_type = "gasoline";
+            fuel_type = _( "gasoline" );
         } else if( t == ter_str_id( "t_diesel_pump" ) || t == ter_str_id( "t_diesel_pump_a" ) ) {
             result++;
-            fuel_type = "diesel";
+            fuel_type = _( "diesel" );
         }
     }
     return result;
@@ -4100,12 +4218,12 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
 
         auto check_for_fuel_tank = here.furn( tmp );
 
-        if( fuel_type == "gasoline" ) {
+        if( fuel_type == _( "gasoline" ) ) {
             if( check_for_fuel_tank != furn_str_id( "f_gas_tank" ) &&
                 here.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
                 continue;
             }
-        } else if( fuel_type == "diesel" ) {
+        } else if( fuel_type == _( "diesel" ) ) {
             if( check_for_fuel_tank != furn_str_id( "f_diesel_tank" ) &&
                 here.ter( tmp ) != ter_str_id( "t_diesel_tank" ) ) {
                 continue;
@@ -4135,15 +4253,12 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
 
 static int getGasDiscountCardQuality( const item &it )
 {
-    std::set<std::string> tags = it.type->item_tags;
-
-    for( const std::string &tag : tags ) {
-
-        if( tag.size() > 15 && tag.substr( 0, 15 ) == "DISCOUNT_VALUE_" ) {
-            return atoi( tag.substr( 15 ).c_str() );
+    for( const flag_id &tag : it.type->get_flags() ) {
+        int discount_value;
+        if( sscanf( tag->id.c_str(), "DISCOUNT_VALUE_%i", &discount_value ) == 1 ) {
+            return discount_value;
         }
     }
-
     return 0;
 }
 
@@ -4151,16 +4266,8 @@ static int findBestGasDiscount( player &p )
 {
     int discount = 0;
 
-    for( size_t i = 0; i < p.inv->size(); i++ ) {
-        item &it = p.inv->find_item( i );
-
-        if( it.has_flag( "GAS_DISCOUNT" ) ) {
-
-            int q = getGasDiscountCardQuality( it );
-            if( q > discount ) {
-                discount = q;
-            }
-        }
+    for( const item *it : p.all_items_with_flag( flag_GAS_DISCOUNT ) ) {
+        discount = std::max( discount, getGasDiscountCardQuality( *it ) );
     }
 
     return discount;
@@ -4237,10 +4344,7 @@ bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
 
             item liq_d( item_it->type, calendar::turn, units );
 
-            const auto backup_pump = here.ter( dst );
-            here.ter_set( dst, ter_str_id::NULL_ID() );
             here.add_item_or_charges( dst, liq_d );
-            here.ter_set( dst, backup_pump );
 
             if( item_it->charges < 1 ) {
                 items.erase( item_it );
@@ -4260,16 +4364,19 @@ static int fromPumpFuel( const tripoint &dst, const tripoint &src )
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of( phase_id::LIQUID ) ) {
             // how much do we have in the pump?
-            item liq_d( item_it->type, calendar::turn, item_it->charges );
+            const int amount = item_it->charges;
+            item liq_d( item_it->type, calendar::turn, amount );
 
             // add the charges to the destination
-            const auto backup_tank = here.ter( dst );
+            const ter_id backup_ter = here.ter( dst );
+            const furn_id backup_furn = here.furn( dst );
             here.ter_set( dst, ter_str_id::NULL_ID() );
+            here.furn_set( dst, furn_str_id::NULL_ID() );
             here.add_item_or_charges( dst, liq_d );
-            here.ter_set( dst, backup_tank );
+            here.ter_set( dst, backup_ter );
+            here.furn_set( dst, backup_furn );
 
             // remove the liquid from the pump
-            int amount = item_it->charges;
             items.erase( item_it );
             return amount;
         }
@@ -4283,7 +4390,7 @@ static void turnOnSelectedPump( const tripoint &p, int number, const std::string
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( p, 12 ) ) {
         const auto t = here.ter( tmp );
-        if( fuel_type == "gasoline" ) {
+        if( fuel_type == _( "gasoline" ) ) {
             if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
                 if( number == k++ ) {
                     here.ter_set( tmp, ter_str_id( "t_gas_pump_a" ) );
@@ -4291,7 +4398,7 @@ static void turnOnSelectedPump( const tripoint &p, int number, const std::string
                     here.ter_set( tmp, ter_str_id( "t_gas_pump" ) );
                 }
             }
-        } else if( fuel_type == "diesel" ) {
+        } else if( fuel_type == _( "diesel" ) ) {
             if( t == ter_str_id( "t_diesel_pump" ) || t == ter_str_id( "t_diesel_pump_a" ) ) {
                 if( number == k++ ) {
                     here.ter_set( tmp, ter_str_id( "t_diesel_pump_a" ) );
@@ -4453,30 +4560,45 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( refund == choice ) {
-        const int pos = p.inv->position_by_type( itype_id( "cash_card" ) );
-
-        if( pos == INT_MIN ) {
-            add_msg( _( "Never mind." ) );
+        std::vector<item *> cash_cards = p.items_with( []( const item & i ) {
+            return i.typeId() == itype_cash_card;
+        } );
+        if( cash_cards.empty() ) {
+            popup( _( "You do not have a cash card to refund money!" ) );
             return;
         }
 
-        item *cashcard = &( p.i_at( pos ) );
-        // Okay, we have a cash card. Now we need to know what's left in the pump.
         const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
-        int amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0;
-        if( amount >= 0 ) {
-            sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool",
-                           "gaspump" );
-            cashcard->charges += amount * pricePerUnit / 1000.0f;
-            add_msg( m_info, _( "Your cash cards now hold %s." ),
-                     format_money( p.charges_of( itype_cash_card ) ) );
-            p.moves -= to_moves<int>( 5_seconds );
-            return;
-        } else {
+        int amount_fuel = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : -1;
+        if( amount_fuel < 0 ) {
             popup( _( "Unable to refund, no fuel in pump." ) );
             return;
         }
+        sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool",
+                       "gaspump" );
+
+        // getGasPricePerLiter( platinum_discount) min price to avoid exploit
+        int amount_money = amount_fuel * getGasPricePerLiter( 3 ) / 1000.0f;
+        std::sort( cash_cards.begin(), cash_cards.end(), []( item * l, const item * r ) {
+            return l->ammo_remaining() > r->ammo_remaining();
+        } );
+        for( item * const &cc : cash_cards ) {
+            if( amount_money == 0 ) {
+                break;
+            }
+            const int transfer = std::min( amount_money, cc->remaining_ammo_capacity() );
+            cc->ammo_set( cc->ammo_default(), transfer + cc->ammo_remaining() );
+            amount_money -= transfer;
+        }
+        if( amount_money ) {
+            add_msg( m_info, _( "All cash cards at maximum capacity." ) );
+            // all fuel already removed from pump, so remaining amount_money simply ignored
+        }
+        add_msg( m_info, _( "Your cash cards now hold %s." ),
+                 format_money( p.charges_of( itype_cash_card ) ) );
+        p.moves -= to_moves<int>( 5_seconds );
+        return;
     }
 }
 
@@ -4870,40 +4992,22 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            Character &player_character = get_player_character();
+            std::vector<bionic_id> bio_list;
+            std::vector<std::string> bionic_names;
             for( const bionic &bio : installed_bionics ) {
                 if( bio.id != bio_power_storage ||
                     bio.id != bio_power_storage_mkII ) {
-                    if( item::type_is_defined( bio.info().itype() ) ) {// put cbm items in your inventory
-                        item bionic_to_uninstall( bio.id.str(), calendar::turn );
-                        bionic_to_uninstall.set_flag( flag_IN_CBM );
-                        bionic_to_uninstall.set_flag( flag_NO_STERILE );
-                        bionic_to_uninstall.set_flag( flag_NO_PACKED );
-                        // TODO: refactor this whole bit. adding items to the inventory will
-                        // cause major issues when inv gets removed. this is a shim for now
-                        // in order to reduce lines of change for nested containers.
-                        player_character.inv->push_back( bionic_to_uninstall );
-                    }
+                    bio_list.emplace_back( bio.id );
+                    bionic_names.emplace_back( bio.info().name.translated() );
                 }
             }
-
-            const item_location bionic = game_menus::inv::uninstall_bionic( p, patient );
-            if( !bionic ) {
-                player_character.remove_items_with( []( const item & it ) {// remove cbm items from inventory
-                    return it.has_flag( flag_IN_CBM );
-                } );
+            int bionic_index = uilist( _( "Choose bionic to uninstall" ), bionic_names );
+            if( bionic_index < 0 ) {
                 return;
             }
-            const item *it = bionic.get_item();
-            const itype *itemtype = it->type;
-            const bionic_id &bid = itemtype->bionic->id;
 
-            player_character.remove_items_with( []( const item & it ) {// remove cbm items from inventory
-                return it.has_flag( flag_IN_CBM );
-            } );
-
-            // Malfunctioning bionics that don't have associated items and get a difficulty of 12
-            const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
+            const bionic_id &bid = bio_list[bionic_index];
+            const int difficulty =  bid->itype()->bionic->difficulty;
             const float volume_anesth = difficulty * 20 * 2; // 2ml/min
 
             player &installer = best_installer( p, null_player, difficulty );
@@ -4944,13 +5048,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 if( !patient.worn_with_flag( flag_SPLINT, part ) ) {
                     item splint;
                     if( part == bodypart_id( "arm_l" ) || part == bodypart_id( "arm_r" ) ) {
-                        splint = item( "arm_splint", 0 );
+                        splint = item( "arm_splint", calendar::turn_zero );
                     } else if( part == bodypart_id( "leg_l" ) || part == bodypart_id( "leg_r" ) ) {
-                        splint = item( "leg_splint", 0 );
+                        splint = item( "leg_splint", calendar::turn_zero );
                     }
-                    item &equipped_splint = patient.i_add( splint );
-                    cata::optional<std::list<item>::iterator> worn_item =
-                        patient.wear( equipped_splint, false );
+                    patient.wear_item( splint, false );
                 }
                 patient.add_effect( effect_mending, 0_turns, part, true );
                 effect &mending_effect = patient.get_effect( effect_mending, part );
@@ -5045,9 +5147,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     patient.add_effect( effect_pblue, 1_hours );
                 }
             }
-            if( patient.leak_level( "RADIOACTIVE" ) ) {
-                popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's posession.  Urgent decontamination procedures highly recommended." ),
-                       patient.leak_level( "RADIOACTIVE" ) );
+            if( patient.leak_level( flag_RADIOACTIVE ) ) {
+                popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's possession.  Urgent decontamination procedures highly recommended." ),
+                       patient.leak_level( flag_RADIOACTIVE ) );
             }
             break;
         }
@@ -5280,8 +5382,8 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
                          ( it.count_by_charges() ? it.charges : 1 ) * mdata.conversion_rate_ );
             result.components.push_back( it );
             // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-            for( const std::string &f : it.type->item_tags ) {
-                if( json_flag::get( f ).craft_inherit() ) {
+            for( const flag_id &f : it.type->get_flags() ) {
+                if( f->craft_inherit() ) {
                     result.set_flag( f );
                 }
             }
@@ -6003,7 +6105,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         vehicle_stack items_at_part = part->vehicle().get_items( part->part_index() );
 
         for( item &it : items_at_part ) {
-            if( it.is_craft() ) {
+            if( it.is_craft() && it.typeId() != itype_disassembly ) {
                 crafts.emplace_back( item_location( vehicle_cursor( part->vehicle(), part->part_index() ), &it ) );
             }
         }
@@ -6017,7 +6119,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         items_at_loc = !items_at_furn.empty();
 
         for( item &it : items_at_furn ) {
-            if( it.is_craft() ) {
+            if( it.is_craft() && it.typeId() != itype_disassembly ) {
                 crafts.emplace_back( item_location( map_cursor( examp ), &it ) );
             }
         }
@@ -6144,6 +6246,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
 {
     static const std::map<std::string, iexamine_function> function_map = {{
             { "none", &iexamine::none },
+            { "attunement_altar", &iexamine::attunement_altar },
             { "deployed_furniture", &iexamine::deployed_furniture },
             { "cvdmachine", &iexamine::cvdmachine },
             { "nanofab", &iexamine::nanofab },

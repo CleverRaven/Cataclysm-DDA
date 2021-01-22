@@ -72,6 +72,8 @@ class veh_interact
         /* starting offset for the overview and the max offset for scrolling */
         int overview_offset = 0;
         int overview_limit = 0;
+        // starting offset for installation scrolling
+        int w_msg_scroll_offset = 0;
 
         const vpart_info *sel_vpart_info = nullptr;
         std::string sel_vpart_variant;
@@ -105,6 +107,10 @@ class veh_interact
         struct install_info_t;
 
         std::unique_ptr<install_info_t> install_info;
+
+        struct remove_info_t;
+
+        std::unique_ptr<remove_info_t> remove_info;
 
         vehicle *veh;
         inventory crafting_inv;
@@ -224,12 +230,12 @@ class veh_interact
         /** Returns the index of the part that needs repair the most.
          * This may not be mostDamagedPart since not all parts can be repaired
          * If there are no damaged parts this returns -1 */
-        vehicle_part *get_most_repariable_part() const;
+        vehicle_part *get_most_repairable_part() const;
 
         //do_remove supporting operation, writes requirements to ui
         bool can_remove_part( int idx, const player &p );
         //do install support, writes requirements to ui
-        bool can_install_part();
+        bool update_part_requirements();
         //true if trying to install foot crank with electric engines for example
         //writes failure to ui
         bool is_drive_conflict();

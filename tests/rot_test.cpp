@@ -71,7 +71,7 @@ TEST_CASE( "Rate of rotting" )
         CHECK( freeze_item.get_rot() == 0_turns );
 
         // The item in freezer should still not be frozen
-        CHECK( !freeze_item.item_tags.count( "FROZEN" ) );
+        CHECK( !freeze_item.has_own_flag( flag_id( "FROZEN" ) ) );
     }
 }
 

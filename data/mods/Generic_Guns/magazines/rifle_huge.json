@@ -9,7 +9,7 @@
     "linkage": "ammolinkrifle_huge",
     "capacity": 100,
     "count": 100,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle_huge": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle_huge": 100 }, "rigid": true } ]
   },
   {
     "id": "rifle_huge_amr_mag",
@@ -18,6 +18,6 @@
     "name": { "str": "anti-materiel rifle magazine" },
     "description": "A huge 10 round magazine for anti-materiel rifles.",
     "ammo_type": [ "ammo_rifle_huge" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle_huge": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_rifle_huge": 10 }, "rigid": true } ]
   }
 ]

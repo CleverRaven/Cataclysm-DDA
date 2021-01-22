@@ -10,7 +10,7 @@
     "move_cost_mod": 1,
     "coverage": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT" ],
     "emissions": [ "emit_swamp_gas_leak" ],
     "//": "a very mild toxicant, inducing nausea.",
     "bash": { "str_min": 30, "str_max": 60, "sound": "splash!", "sound_fail": "splash!", "furn_set": "f_swamp_gas" }
@@ -26,7 +26,7 @@
     "move_cost_mod": 2,
     "coverage": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT" ],
     "emissions": [ "emit_fog_plume" ]
   }
 ]

@@ -117,7 +117,7 @@
     "material": [ "powder", "fruit" ],
     "primary_material": "powder",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "SOFT" ],
     "charges": 10,
     "vitamins": [ [ "vitC", 7 ] ],
     "fun": 1
@@ -269,5 +269,29 @@
     "stack_size": 24,
     "fun": 3,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "brandied_fruit",
+    "name": "brandied fruit",
+    "weight": "180 g",
+    "color": "red",
+    "spoils_in": "365 days",
+    "container": "jar_3l_glass_sealed",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "calories": 90,
+    "description": "Whole fruits preserved in 40 proof or higher alcohol.",
+    "price": 50,
+    "price_postapoc": 50,
+    "addiction_type": "alcohol",
+    "addiction_potential": 5,
+    "material": [ "fruit", "alcohol" ],
+    "volume": "250 ml",
+    "phase": "liquid",
+    "fun": 9,
+    "//": "this item is intended to generally be inherited from the fruit and alcohol used.",
+    "vitamins": [ [ "vitC", 20 ] ],
+    "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
   }
 ]

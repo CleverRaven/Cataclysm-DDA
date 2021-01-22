@@ -18,7 +18,6 @@
 template<typename T>
 class generic_factory;
 
-using Group_tag = std::string;
 class item;
 class JsonObject;
 class avatar;
@@ -57,9 +56,9 @@ class profession
         itypedecvec legacy_starting_items;
         itypedecvec legacy_starting_items_male;
         itypedecvec legacy_starting_items_female;
-        Group_tag _starting_items = "EMPTY_GROUP";
-        Group_tag _starting_items_male = "EMPTY_GROUP";
-        Group_tag _starting_items_female = "EMPTY_GROUP";
+        item_group_id _starting_items = item_group_id( "EMPTY_GROUP" );
+        item_group_id _starting_items_male = item_group_id( "EMPTY_GROUP" );
+        item_group_id _starting_items_female = item_group_id( "EMPTY_GROUP" );
         itype_id no_bonus; // See profession::items and class json_item_substitution in profession.cpp
 
         std::vector<addiction> _starting_addictions;

@@ -146,7 +146,7 @@ struct mission_fail {
 struct mission_target_params {
     std::string overmap_terrain;
     ot_match_type overmap_terrain_match_type = ot_match_type::type;
-    mission *mission_pointer;
+    mission *mission_pointer = nullptr;
 
     bool origin_u = true;
     cata::optional<tripoint_rel_omt> offset;
@@ -234,7 +234,7 @@ struct mission_type {
         // Points of origin
         std::vector<mission_origin> origins;
         itype_id item_id = itype_id::NULL_ID();
-        Group_tag group_id = "null";
+        item_group_id group_id = item_group_id::NULL_ID();
         itype_id container_id = itype_id::NULL_ID();
         bool remove_container = false;
         itype_id empty_container = itype_id::NULL_ID();
@@ -446,6 +446,8 @@ class mission
          */
         /*@{*/
         static void on_creature_death( Creature &poor_dead_dude );
+        // returns: whether any mission is tranferred to fuser
+        static bool on_creature_fusion( Creature &fuser, Creature &fused );
         /*@}*/
 
         // Serializes and unserializes all missions
@@ -468,7 +470,7 @@ class mission
 
         static void get_all_item_group_matches(
             std::vector<item *> &items,
-            Group_tag &grp_type,
+            item_group_id &grp_type,
             std::map<itype_id, int> &matches,
             const itype_id &required_container,
             const itype_id &actual_container,

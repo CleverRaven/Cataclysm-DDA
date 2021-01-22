@@ -179,13 +179,13 @@
           "mre_veggy_box",
           "crt_la_boots",
           "two_way_radio",
-          "ifak",
           "bandages",
           "crt_backpack",
           "knife_swissarmy",
           "UPS_off"
         ],
         "entries": [
+          { "group": "full_ifak" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sleeping_bag", "custom-flags": [ "no_auto_equip" ] },
           { "item": "crt_laser_pistol", "container-item": "holster" }

@@ -249,7 +249,7 @@
             "id":"t_metal_floor",
             "bg":0,
             "fg":501,
-            "multitile":false,
+            "multitile": true,
             "additional_tiles":
             [
                 {
@@ -2076,7 +2076,7 @@
         {
             "id":"fd_fire",
             "bg":182,
-            "multitile":false,
+            "multitile": true,
             "additional_tiles":
             [
                 {

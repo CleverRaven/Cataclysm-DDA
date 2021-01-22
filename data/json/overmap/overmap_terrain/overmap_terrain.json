@@ -334,6 +334,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "hot_springs",
+    "name": "hot spring",
+    "sym": ".",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
     "id": "pond_forest",
     "name": "basin",
     "sym": "F",
@@ -615,5 +624,38 @@
     "color": "green",
     "see_cost": 5,
     "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "fort_1a",
+      "fort_2a",
+      "fort_3a",
+      "fort_4a",
+      "fort_1b",
+      "fort_2b",
+      "fort_3b",
+      "fort_4b",
+      "fort_1c",
+      "fort_2c",
+      "fort_3c",
+      "fort_4c",
+      "fort_1a_1",
+      "fort_2a_1",
+      "fort_3a_1",
+      "fort_4a_1",
+      "fort_1b_1",
+      "fort_2b_1",
+      "fort_3b_1",
+      "fort_4b_1",
+      "fort_1c_1",
+      "fort_2c_1",
+      "fort_3c_1",
+      "fort_4c_1"
+    ],
+    "name": "bastion fort",
+    "sym": "F",
+    "color": "red",
+    "see_cost": 5
   }
 ]

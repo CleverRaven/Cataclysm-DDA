@@ -61,6 +61,13 @@
     "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
   },
   {
+    "id": "shot_explosive",
+    "copy-from": "shot_he",
+    "type": "AMMO",
+    "name": { "str_sp": "shotshell, explosive" },
+    "ammo_type": "ammo_shot"
+  },
+  {
     "id": "reloaded_shot_junk",
     "copy-from": "shot_buck",
     "type": "AMMO",
@@ -110,7 +117,7 @@
     "id": "reloaded_shot_dart",
     "copy-from": "shot_buck",
     "name": { "str_sp": "shotshell, flechette (reloaded)" },
-    "//": "intentionally reload only",
+    "//": "intentionally reload only because flechette shot is not available commercially or used by the military",
     "type": "AMMO",
     "description": "A shotgun shell filled with tiny steel darts, definitely not a factory loading.  Flechettes won't pattern as well as normal shot, and they'll likely do less damage.  However, they may fare better against armor than other shotgun loads.",
     "relative": { "pierce": 12 },

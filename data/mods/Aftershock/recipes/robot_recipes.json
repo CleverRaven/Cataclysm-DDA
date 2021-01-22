@@ -27,7 +27,7 @@
       [ [ "laser_cannon_xray", 1 ] ],
       [ [ "medium_storage_battery", 1 ] ],
       [ [ "xray_laser_barrel", 3 ] ],
-      [ [ "power_supply", 1 ] ],
+      [ [ "afs_energy_storage_3", 1 ] ],
       [ [ "robot_controls", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]
@@ -63,7 +63,7 @@
       [ [ "afs_circuitry_3", 1 ] ],
       [ [ "afs_circuitry_1", 4 ] ],
       [ [ "afs_energy_storage_3", 1 ] ],
-      [ [ "afs_material_1", 2 ] ]
+      [ [ "afs_material_1", 7 ] ]
     ]
   },
   {
@@ -75,7 +75,7 @@
       [ [ "broken_utilibot_beehive", 1 ] ],
       [ [ "afs_circuitry_1", 4 ] ],
       [ [ "afs_energy_storage_3", 1 ] ],
-      [ [ "afs_material_1", 6 ] ],
+      [ [ "afs_material_1", 8 ] ],
       [ [ "robot_controls", 1 ] ]
     ]
   }

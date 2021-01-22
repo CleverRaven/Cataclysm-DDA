@@ -10,6 +10,7 @@
 #include <type_traits>
 
 #include "optional.h"
+#include "units_fwd.h"
 
 class map;
 class time_duration;
@@ -29,6 +30,16 @@ unsigned int rng_bits();
 
 int rng( int lo, int hi );
 double rng_float( double lo, double hi );
+
+template<typename U>
+units::quantity<double, U> rng_float( units::quantity<double, U> lo,
+                                      units::quantity<double, U> hi )
+{
+    return { rng_float( lo.value(), hi.value() ), U{} };
+}
+
+units::angle random_direction();
+
 bool one_in( int chance );
 bool one_turn_in( const time_duration &duration );
 bool x_in_y( double x, double y );

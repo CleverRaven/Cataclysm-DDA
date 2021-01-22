@@ -4,6 +4,7 @@
 
 #include <functional>
 #include <iosfwd>
+#include <string>
 
 #include "enum_traits.h"
 
@@ -42,6 +43,7 @@ enum class debug_menu_index : int {
     CHANGE_WEATHER,
     WIND_DIRECTION,
     WIND_SPEED,
+    GEN_SOUND,
     KILL_MONS,
     DISPLAY_HORDES,
     TEST_IT_GROUP,
@@ -76,7 +78,9 @@ enum class debug_menu_index : int {
     DISPLAY_VISIBILITY,
     DISPLAY_LIGHTING,
     DISPLAY_TRANSPARENCY,
+    DISPLAY_REACHABILITY_ZONES,
     DISPLAY_RADIATION,
+    HOUR_TIMER,
     LEARN_SPELLS,
     LEVEL_SPELLS,
     TEST_MAP_EXTRA_DISTRIBUTION,
@@ -96,10 +100,58 @@ void wishitem( player *p, const tripoint & );
 void wishmonster( const cata::optional<tripoint> &p );
 void wishmutate( player *p );
 void wishskill( player *p );
+void wishproficiency( player *p );
 void mutation_wish();
 void draw_benchmark( int max_difference );
 
 void debug();
+
+/* Splits a string by @param delimiter and push_back's the elements into _Container */
+template<typename _Container>
+_Container string_to_iterable( const std::string &str, const std::string &delimiter )
+{
+    _Container res;
+
+    size_t pos = 0;
+    size_t start = 0;
+    while( ( pos = str.find( delimiter, start ) ) != std::string::npos ) {
+        if( pos > start ) {
+            res.push_back( str.substr( start, pos - start ) );
+        }
+        start = pos + delimiter.length();
+    }
+    if( start != str.length() ) {
+        res.push_back( str.substr( start, str.length() - start ) );
+    }
+
+    return res;
+}
+
+/* Merges iterable elements into std::string with
+ * @param delimiter between them
+ * @param f is callable that is called to transform each value
+ * */
+template<typename _Container, typename Mapper>
+std::string iterable_to_string( const _Container &values, const std::string &delimiter,
+                                const Mapper &f )
+{
+    std::string res;
+    for( auto iter = values.begin(); iter != values.end(); ++iter ) {
+        if( iter != values.begin() ) {
+            res += delimiter;
+        }
+        res += f( *iter );
+    }
+    return res;
+}
+
+template<typename _Container>
+std::string iterable_to_string( const _Container &values, const std::string &delimiter )
+{
+    return iterable_to_string( values, delimiter, []( const std::string & f ) {
+        return f;
+    } );
+}
 
 } // namespace debug_menu
 

@@ -7,6 +7,7 @@
 #include "cata_variant.h"
 #include "character_id.h"
 #include "event_bus.h"
+#include "event_field_transformations.h"
 #include "event_subscriber.h"
 #include "type_id.h"
 

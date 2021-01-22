@@ -15,6 +15,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
@@ -178,7 +179,8 @@ static void update_note_preview( const std::string &note,
 
     werase( *w_preview_title );
     nc_color default_color = c_unset;
-    print_colored_text( *w_preview_title, point_zero, default_color, note_color, note_text );
+    print_colored_text( *w_preview_title, point_zero, default_color, note_color, note_text,
+                        report_color_error::no );
     int note_text_width = utf8_width( note_text );
     mvwputch( *w_preview_title, point( note_text_width, 0 ), c_white, LINE_XOXO );
     for( int i = 0; i < note_text_width; i++ ) {
@@ -428,6 +430,7 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
     uilist nmenu;
     while( refresh ) {
         refresh = false;
+        nmenu.color_error( false );
         nmenu.init();
         nmenu.desc_enabled = true;
         nmenu.input_category = "OVERMAP_NOTES";
@@ -922,7 +925,8 @@ void draw(
             mvwputch( w, point( 1, i + 2 ), c_white, LINE_XOXO );
             mvwprintz( w, point( 2, i + 2 ), c_yellow, spacer );
             nc_color default_color = c_unset;
-            print_colored_text( w, point( 2, i + 2 ), default_color, pr.first, pr.second );
+            print_colored_text( w, point( 2, i + 2 ), default_color, pr.first, pr.second,
+                                report_color_error::no );
             mvwputch( w, point( maxlen + 2, i + 2 ), c_white, LINE_XOXO );
         }
         mvwputch( w, point( maxlen + 2, 1 ), c_white, LINE_OOXX );
@@ -994,7 +998,7 @@ void draw(
         if( weather_is_visible ) {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwprintz( wbar, point( 1, 1 ), get_weather_at_point( center )->color,
-                       get_weather_at_point( center )->name );
+                       get_weather_at_point( center )->name.translated() );
         } else {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
@@ -1115,7 +1119,7 @@ void create_note( const tripoint_abs_omt &curs )
     std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n\n",
                               _( "Type GLYPH<color_yellow>:</color>TEXT to set a custom glyph." ),
                               _( "Type COLOR<color_yellow>;</color>TEXT to set a custom color." ),
-                              // NOLINTNEXTLINE(cata-text-style): literal exclaimation mark
+                              // NOLINTNEXTLINE(cata-text-style): literal exclamation mark
                               _( "Examples: B:Base | g;Loot | !:R;Minefield" ) );
     color_notes = color_notes.replace( color_notes.end() - 2, color_notes.end(),
                                        helper_text );
@@ -1170,6 +1174,7 @@ void create_note( const tripoint_abs_omt &curs )
         } else if( input_popup.confirmed() ) {
             break;
         }
+        ui.invalidate_ui();
     } while( true );
 
     if( !esc_pressed && new_note.empty() && !old_note.empty() ) {
@@ -1236,40 +1241,61 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
     catacurses::window w_search;
 
     ui_adaptor ui;
+    int search_width = OVERMAP_LEGEND_WIDTH - 1;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        w_search = catacurses::newwin( 13, 27, point( TERMX - 27, 3 ) );
+        w_search = catacurses::newwin( 13, search_width, point( TERMX - search_width, 3 ) );
 
         ui.position_from_window( w_search );
     } );
     ui.mark_resize();
 
     input_context ctxt( "OVERMAP_SEARCH" );
-    ctxt.register_leftright();
-    ctxt.register_action( "NEXT_TAB", to_translation( "Next target" ) );
-    ctxt.register_action( "PREV_TAB", to_translation( "Previous target" ) );
-    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "NEXT_TAB", to_translation( "Next result" ) );
+    ctxt.register_action( "PREV_TAB", to_translation( "Previous result" ) );
     ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         //Draw search box
+
+        int a = utf8_width( _( "Search:" ) );
+        int b = utf8_width( _( "Result:" ) );
+        int c = utf8_width( _( "Results:" ) );
+        int d = utf8_width( _( "Direction:" ) );
+        int align_width = 0;
+        int align_w_value[4] = { a, b, c, d};
+        for( int n : align_w_value ) {
+            if( n > align_width ) {
+                align_width = n + 2;
+            }
+        }
+
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_search, point( 1, 1 ), c_light_blue, _( "Search:" ) );
-        mvwprintz( w_search, point( 10, 1 ), c_light_red, "%s", right_justify( term, 12 ) );
+        mvwprintz( w_search, point( align_width, 1 ), c_light_red, "%s", term );
 
-        mvwprintz( w_search, point( 1, 2 ), c_light_blue, _( "Result(s):" ) );
-        mvwprintz( w_search, point( 16, 2 ), c_light_red, "%*d/%d", 3, i + 1, locations.size() );
+        mvwprintz( w_search, point( 1, 2 ), c_light_blue,
+                   locations.size() == 1 ? _( "Result:" ) : _( "Results:" ) );
+        mvwprintz( w_search, point( align_width, 2 ), c_light_red, "%d/%d     ", i + 1,
+                   locations.size() );
 
         mvwprintz( w_search, point( 1, 3 ), c_light_blue, _( "Direction:" ) );
-        mvwprintz( w_search, point( 14, 3 ), c_white, "%*d %s",
-                   5, static_cast<int>( trig_dist( orig, tripoint_abs_omt( locations[i], orig.z() ) ) ),
-                   direction_name_short( direction_from( orig, tripoint_abs_omt( locations[i], orig.z() ) ) )
-                 );
+        mvwprintz( w_search, point( align_width, 3 ), c_light_red, "%d %s",
+                   static_cast<int>( trig_dist( orig, tripoint_abs_omt( locations[i], orig.z() ) ) ),
+                   direction_name_short( direction_from( orig, tripoint_abs_omt( locations[i], orig.z() ) ) ) );
 
-        mvwprintz( w_search, point( 1, 6 ), c_white, _( "'<-' '->' Cycle targets." ) );
-        mvwprintz( w_search, point( 1, 10 ), c_white, _( "Enter/Spacebar to select." ) );
-        mvwprintz( w_search, point( 1, 11 ), c_white, _( "q or ESC to return." ) );
+        if( locations.size() > 1 ) {
+            fold_and_print( w_search, point( 1, 6 ), search_width, c_white,
+                            _( "Press [<color_yellow>%s</color>] or [<color_yellow>%s</color>] "
+                               "to cycle through search results." ),
+                            ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
+        }
+        fold_and_print( w_search, point( 1, 10 ), search_width, c_white,
+                        _( "Press [<color_yellow>%s</color>] to confirm." ), ctxt.get_desc( "CONFIRM" ) );
+        fold_and_print( w_search, point( 1, 11 ), search_width, c_white,
+                        _( "Press [<color_yellow>%s</color>] to quit." ), ctxt.get_desc( "QUIT" ) );
         draw_border( w_search );
         wnoutrefresh( w_search );
     } );
@@ -1284,9 +1310,9 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
         if( uistate.overmap_blinking ) {
             uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
         }
-        if( action == "NEXT_TAB" || action == "RIGHT" ) {
+        if( action == "NEXT_TAB" ) {
             i = ( i + 1 ) % locations.size();
-        } else if( action == "PREV_TAB" || action == "LEFT" ) {
+        } else if( action == "PREV_TAB" ) {
             i = ( i + locations.size() - 1 ) % locations.size();
         } else if( action == "QUIT" ) {
             curs = prev_curs;
@@ -1602,7 +1628,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                         vehicle *player_veh = veh_pointer_or_null( here.veh_at( player_character.pos() ) );
                         player_veh->omt_path = player_character.omt_path;
                         player_veh->is_autodriving = true;
-                        player_character.assign_activity( ACT_AUTODRIVE );
+                        player_character.assign_activity( player_activity( autodrive_activity_actor() ) );
                     } else {
                         player_character.reset_move_mode();
                         player_character.assign_activity( ACT_TRAVELLING );

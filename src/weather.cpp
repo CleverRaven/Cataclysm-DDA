@@ -59,7 +59,9 @@ static const itype_id itype_water( "water" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 
-static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
+static const flag_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
+static const flag_id json_flag_RAINPROOF( "RAINPROOF" );
+static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -88,16 +90,16 @@ weather_type_id get_bad_weather()
 /**
  * Glare.
  * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
- * @param intensity Level of sun brighthess
+ * @param intensity Level of sun brightness
  */
 void glare( const weather_type_id &w )
 {
     Character &player_character = get_player_character();//todo npcs, also
-    //General prepequisites for glare
+    //General prerequisites for glare
     if( !is_creature_outside( player_character ) ||
         !g->is_in_sunlight( player_character.pos() ) ||
         player_character.in_sleep_state() ||
-        player_character.worn_with_flag( flag_SUN_GLASSES ) ||
+        player_character.worn_with_flag( json_flag_SUN_GLASSES ) ||
         player_character.has_bionic( bio_sunglasses ) ||
         player_character.is_blind() ) {
         return;
@@ -121,7 +123,7 @@ void glare( const weather_type_id &w )
         if( player_character.has_trait( trait_CEPH_VISION ) ) {
             dur = dur * 2;
         }
-        player_character.add_env_effect( *effect, bodypart_id( "eyes" ), 2, dur );
+        player_character.add_env_effect( *effect, body_part_eyes, 2, dur );
     }
 }
 
@@ -307,7 +309,7 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
     }
 
     // Calculate once, because that part is expensive
-    static const item water( "water", 0 );
+    static const item water( "water", calendar::turn_zero );
     // 250ml
     static const double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
                                     water.charges;
@@ -405,26 +407,26 @@ void wet( Character &target, int amount )
     if( !is_creature_outside( target ) ||
         amount <= 0 ||
         target.has_trait( trait_FEATHERS ) ||
-        target.weapon.has_flag( "RAIN_PROTECT" ) ||
-        ( !one_in( 50 ) && target.worn_with_flag( "RAINPROOF" ) ) ) {
+        target.weapon.has_flag( json_flag_RAIN_PROTECT ) ||
+        ( !one_in( 50 ) && target.worn_with_flag( json_flag_RAINPROOF ) ) ) {
         return;
     }
     // Coarse correction to get us back to previously intended soaking rate.
     if( !calendar::once_every( 6_seconds ) ) {
         return;
     }
-    const int warmth_delay = target.warmth( bodypart_id( "torso" ) ) * 4 / 5 + target.warmth(
-                                 bodypart_id( "head" ) ) / 5;
+    const int warmth_delay = target.warmth( body_part_torso ) * 4 / 5 + target.warmth(
+                                 body_part_head ) / 5;
     if( rng( 0, 100 - amount + warmth_delay ) > 10 ) {
         // Thick clothing slows down (but doesn't cap) soaking
         return;
     }
 
-    body_part_set drenched_parts{ { bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ) } };
-    if( get_player_character().get_part_wetness( bodypart_id( "torso" ) ) * 100 >=
-        get_player_character().get_part_drench_capacity( bodypart_id( "torso" ) ) * 50 ) {
+    body_part_set drenched_parts{ { body_part_torso, body_part_arm_l, body_part_arm_r, body_part_head } };
+    if( get_player_character().get_part_wetness( body_part_torso ) * 100 >=
+        get_player_character().get_part_drench_capacity( body_part_torso ) * 50 ) {
         // Once upper body is 50%+ drenched, start soaking the legs too
-        drenched_parts.unify_set( { { bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } } );
+        drenched_parts.unify_set( { { body_part_leg_l, body_part_leg_r } } );
     }
 
     target.drench( amount, drenched_parts, false );
@@ -438,14 +440,16 @@ void weather_sound( const translation &sound_message, const std::string &sound_e
         if( here.get_abs_sub().z >= 0 ) {
             add_msg( sound_message );
             if( !sound_effect.empty() ) {
-                sfx::play_variant_sound( "environment", sound_effect, 80, rng( 0, 359 ) );
+                sfx::play_variant_sound( "environment", sound_effect, 80, random_direction() );
             }
         } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
                                      player_character.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
             add_msg( sound_message );
             if( !sound_effect.empty() ) {
-                sfx::play_variant_sound( "environment", sound_effect,
-                                         ( 80 * player_character.mutation_value( "hearing_modifier" ) ), rng( 0, 359 ) );
+                sfx::play_variant_sound(
+                    "environment", sound_effect,
+                    ( 80 * player_character.mutation_value( "hearing_modifier" ) ),
+                    random_direction() );
             }
         }
     }
@@ -509,11 +513,11 @@ void handle_weather_effects( const weather_type_id &w )
             } else if( w->precip >= precip_class::heavy ) {
                 chance = 4;
             }
-            if( player_character.weapon.has_flag( "RAIN_PROTECT" ) && one_in( chance ) ) {
+            if( player_character.weapon.has_flag( json_flag_RAIN_PROTECT ) && one_in( chance ) ) {
                 add_msg( _( "Your %s protects you from the weather." ), player_character.weapon.tname() );
                 continue;
             } else {
-                if( player_character.worn_with_flag( "RAINPROOF" ) && one_in( chance * 2 ) ) {
+                if( player_character.worn_with_flag( json_flag_RAINPROOF ) && one_in( chance * 2 ) ) {
                     add_msg( _( "Your clothing protects you from the weather." ) );
                     continue;
                 } else {

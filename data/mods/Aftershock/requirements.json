@@ -1,0 +1,234 @@
+[
+  {
+    "id": "nanosmithing_standard",
+    "type": "requirement",
+    "//": "Includes forging resources as well as tools needed for most physical material hypertech crafting",
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "DIAMONDPRESS", "level": 1 }, { "id": "NANO_FORGE", "level": 1 } ],
+    "tools": [ [ [ "nano_forge", 20 ] ], [ [ "tongs", -1 ] ] ]
+  },
+  {
+    "id": "bone_edible",
+    "type": "requirement",
+    "//": "Any kind of non-poisonous bones, human or not.",
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_demihuman", 1 ], [ "frost_bone_human", 1 ], [ "alien_bone", 1 ] ] ]
+  },
+  {
+    "id": "bone_sturdy",
+    "type": "requirement",
+    "//": "Any kind of bones, human or not.  Tainted bones are too brittle and won't work for this purpose.",
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_demihuman", 1 ], [ "frost_bone_human", 1 ], [ "alien_bone", 1 ] ] ]
+  },
+  {
+    "id": "edible_fat",
+    "type": "requirement",
+    "//": "Any type of edible raw fat.",
+    "components": [
+      [
+        [ "fat", 1 ],
+        [ "mutant_fat", 1 ],
+        [ "human_fat", 1 ],
+        [ "mutant_human_fat", 1 ],
+        [ "demihuman_fat", 1 ],
+        [ "frost_human_fat", 1 ],
+        [ "alien_fat", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "edible_tallow",
+    "type": "requirement",
+    "//": "Any type of edible tallow.",
+    "components": [
+      [
+        [ "tallow", 1 ],
+        [ "mutant_tallow", 1 ],
+        [ "human_tallow", 1 ],
+        [ "mutant_human_tallow", 1 ],
+        [ "demihuman_tallow", 1 ],
+        [ "frost_human_tallow", 1 ],
+        [ "alien_tallow", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "edible_lard",
+    "type": "requirement",
+    "//": "Lard that is 'safe' for consumption.",
+    "components": [
+      [
+        [ "lard", 1 ],
+        [ "mutant_lard", 1 ],
+        [ "human_lard", 1 ],
+        [ "mutant_human_lard", 1 ],
+        [ "demihuman_lard", 1 ],
+        [ "frost_human_lard", 1 ],
+        [ "alien_lard", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_offal",
+    "type": "requirement",
+    "//": "Anything you might consider offal or intestines.",
+    "components": [
+      [
+        [ "meat_lung", 4, "LIST" ],
+        [ "liver", 4 ],
+        [ "alien_liver", 4 ],
+        [ "kidney", 4 ],
+        [ "alien_kidney", 4 ],
+        [ "sweetbread", 4 ],
+        [ "alien_sweetbread", 4 ],
+        [ "offal", 1 ],
+        [ "mutant_bug_organs", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_raw_steak",
+    "type": "requirement",
+    "//": "An unbroken slab of raw meat.  For when scraps just aren't good enough.",
+    "components": [
+      [
+        [ "meat", 1 ],
+        [ "mutant_meat", 1 ],
+        [ "human_flesh", 1 ],
+        [ "mutant_human_flesh", 1 ],
+        [ "demihuman_flesh", 1 ],
+        [ "frost_human_flesh", 1 ],
+        [ "alien_flesh", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_red_raw",
+    "type": "requirement",
+    "//": "Anything you might consider raw, unpreserved 'red' meat.  About 250mL of meat.",
+    "components": [
+      [
+        [ "meat_raw_steak", 1, "LIST" ],
+        [ "meat_scrap", 10 ],
+        [ "mutant_meat_scrap", 10 ],
+        [ "alien_meat_scrap", 10 ],
+        [ "porkbelly", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_lung",
+    "type": "requirement",
+    "//": "Anything you might consider raw lung.  About 250mL of lungs.",
+    "components": [ [ [ "lung", 1 ], [ "mutant_bug_lungs", 1 ], [ "alien_lung", 1 ] ] ]
+  },
+  {
+    "id": "meat_stomach_boiled",
+    "type": "requirement",
+    "//": "Anything you might consider a boiled stomach.  About 500mL of stomachs.",
+    "components": [
+      [
+        [ "small_stomach_boiled", 2 ],
+        [ "stomach_boiled", 1 ],
+        [ "small_hstomach_boiled", 2 ],
+        [ "hstomach_boiled", 1 ],
+        [ "small_demihuman_stomach_boiled", 2 ],
+        [ "demihuman_stomach_boiled", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_stomach_large",
+    "type": "requirement",
+    "//": "Anything you might consider a large raw stomach.",
+    "components": [ [ [ "stomach_large", 1 ], [ "hstomach_large", 1 ], [ "demihuman_stomach_large", 1 ], [ "alien_stomach_large", 1 ] ] ]
+  },
+  {
+    "id": "meat_stomach_small",
+    "type": "requirement",
+    "//": "Anything you might consider a small raw stomach.",
+    "components": [ [ [ "stomach", 1 ], [ "hstomach", 1 ], [ "demihuman_stomach", 1 ], [ "alien_stomach", 1 ], [ "frost_hstomach", 1 ] ] ]
+  },
+  {
+    "id": "meat_nofish",
+    "type": "requirement",
+    "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
+    "components": [
+      [
+        [ "meat_red", 1, "LIST" ],
+        [ "liver", 5 ],
+        [ "alien_liver", 5 ],
+        [ "kidney", 5 ],
+        [ "alien_kidney", 5 ],
+        [ "meat_lung", 5, "LIST" ],
+        [ "sweetbread", 5 ],
+        [ "alien_sweetbread", 5 ],
+        [ "bacon", 4 ],
+        [ "lunchmeat", 5 ],
+        [ "bologna", 5 ],
+        [ "can_spam", 2 ],
+        [ "can_chicken", 1 ],
+        [ "meat_pickled", 1 ],
+        [ "dry_meat", 1 ],
+        [ "jerky", 1 ],
+        [ "meat_smoked", 1 ],
+        [ "meat_salted", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_cooked",
+    "type": "requirement",
+    "//": "meat you'd put on a sandwich",
+    "components": [
+      [
+        [ "meat_cooked", 1 ],
+        [ "meat_fatty_cooked", 1 ],
+        [ "meat_scrap_cooked", 10 ],
+        [ "mutant_meat_cooked", 1 ],
+        [ "mutant_meat_scrap_cooked", 10 ],
+        [ "human_cooked", 1 ],
+        [ "mutant_human_cooked", 1 ],
+        [ "demihuman_cooked", 1 ],
+        [ "alien_flesh_cooked", 1 ],
+        [ "alien_meat_scrap_cooked", 10 ],
+        [ "frost_human_cooked", 1 ],
+        [ "meat_pickled", 1 ],
+        [ "meat_smoked", 1 ],
+        [ "meat_salted", 1 ],
+        [ "dry_meat", 1 ],
+        [ "rehydrated_meat", 1 ],
+        [ "jerky", 1 ],
+        [ "bacon", 1 ],
+        [ "lunchmeat", 2 ],
+        [ "bologna", 5 ],
+        [ "can_spam", 2 ],
+        [ "fried_spam", 2 ],
+        [ "can_chicken", 1 ],
+        [ "fish_cooked", 1 ],
+        [ "fish_smoked", 1 ],
+        [ "can_herring", 1 ],
+        [ "can_salmon", 1 ],
+        [ "can_tuna", 1 ],
+        [ "can_sardine", 1 ],
+        [ "can_clams", 1 ],
+        [ "fish_pickled", 1 ],
+        [ "cracklins", 1 ],
+        [ "meat_aspic", 1 ],
+        [ "sausage", 1 ],
+        [ "sausage_cooked", 1 ],
+        [ "bratwurst_sausage", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "human_meat",
+    "type": "requirement",
+    "//": "Raw meat that non-cannibals would be unhappy eating.",
+    "components": [ [ [ "human_flesh", 1 ], [ "mutant_human_flesh", 1 ], [ "frost_human_flesh", 1 ] ] ]
+  },
+  {
+    "id": "human_meat_cooked",
+    "type": "requirement",
+    "//": "Cooked meat that non-cannibals would be unhappy eating.",
+    "components": [ [ [ "human_cooked", 1 ], [ "mutant_human_cooked", 1 ], [ "frost_human_cooked", 1 ] ] ]
+  }
+]

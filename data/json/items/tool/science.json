@@ -634,7 +634,7 @@
       }
     ],
     "looks_like": "oxygen_tank",
-    "flags": [ "EXPLOSIVE", "EXPLODES" ],
+    "flags": [  ],
     "explosion": {
       "power": 90100,
       "distance_factor": 0.5,

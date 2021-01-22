@@ -151,7 +151,7 @@ struct weather_type {
         bool was_loaded = false;
         weather_type_id id;
         // UI name of weather type.
-        std::string name;
+        translation name;
         // UI color of weather type.
         nc_color color = c_white;
         // Map color of weather type.

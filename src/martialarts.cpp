@@ -42,7 +42,7 @@ static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_cqb( "bio_cqb" );
 
-static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
+static const flag_id json_flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 
 namespace
 {
@@ -136,7 +136,7 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
-    optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<> {} );
+    optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<flag_id> {} );
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
@@ -400,7 +400,7 @@ class ma_buff_effect_type : public effect_type
         }
 };
 
-void finialize_martial_arts()
+void finalize_martial_arts()
 {
     // This adds an effect type for each ma_buff, so we can later refer to it and don't need a
     // redundant definition of those effects in json.
@@ -453,7 +453,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
     bool melee_style = u.martial_arts_data->selected_strictly_melee();
     bool is_armed = u.is_armed();
-    bool unarmed_weapon = is_armed && u.used_weapon().has_flag( flag_UNARMED_WEAPON );
+    bool unarmed_weapon = is_armed && u.used_weapon().has_flag( json_flag_UNARMED_WEAPON );
     bool forced_unarmed = u.martial_arts_data->selected_force_unarmed();
     bool weapon_ok = is_valid_weapon( u.weapon );
     bool style_weapon = u.martial_arts_data->selected_has_weapon( u.weapon.typeId() );
@@ -484,7 +484,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
 
 bool ma_requirements::is_valid_weapon( const item &i ) const
 {
-    for( const std::string &flag : req_flags ) {
+    for( const flag_id &flag : req_flags ) {
         if( !i.has_flag( flag ) ) {
             return false;
         }
@@ -510,7 +510,13 @@ std::string ma_requirements::get_description( bool buff ) const
 
         dump += enumerate_as_string( min_skill.begin(),
         min_skill.end(), []( const std::pair<skill_id, int>  &pr ) {
-            return string_format( "%s: <stat>%d</stat>", pr.first->name(), pr.second );
+            Character &u = get_player_character();
+            int player_skill = u.get_skill_level( skill_id( pr.first ) );
+            if( u.has_active_bionic( bio_cqb ) ) {
+                player_skill = BIO_CQB_LEVEL;
+            }
+            return string_format( "%s: <stat>%d</stat>/<stat>%d</stat>", pr.first->name(), player_skill,
+                                  pr.second );
         }, enumeration_conjunction::none ) + "\n";
     }
 
@@ -855,7 +861,8 @@ bool martialart::weapon_valid( const item &it ) const
         return true;
     }
 
-    if( !strictly_unarmed && !strictly_melee && !it.is_null() && it.has_flag( "UNARMED_WEAPON" ) ) {
+    if( !strictly_unarmed && !strictly_melee && !it.is_null() &&
+        it.has_flag( json_flag_UNARMED_WEAPON ) ) {
         return true;
     }
 
@@ -1449,13 +1456,18 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
             ma.leg_block_with_bio_armor_legs || ma.leg_block != 99 ) {
+            Character &u = get_player_character();
+            int unarmed_skill =  u.get_skill_level( skill_unarmed );
+            if( u.has_active_bionic( bio_cqb ) ) {
+                unarmed_skill = BIO_CQB_LEVEL;
+            }
             if( ma.arm_block_with_bio_armor_arms ) {
                 buffer += _( "You can <info>arm block</info> by installing the <info>Arms Alloy Plating CBM</info>" );
                 buffer += "\n";
             } else if( ma.arm_block != 99 ) {
                 buffer += string_format(
-                              _( "You can <info>arm block</info> at <info>unarmed combat:</info> <stat>%s</stat>" ),
-                              ma.arm_block ) + "\n";
+                              _( "You can <info>arm block</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
+                              unarmed_skill, ma.arm_block ) + "\n";
             }
 
             if( ma.leg_block_with_bio_armor_legs ) {
@@ -1463,8 +1475,8 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 buffer += "\n";
             } else if( ma.leg_block != 99 ) {
                 buffer += string_format(
-                              _( "You can <info>leg block</info> at <info>unarmed combat:</info> <stat>%s</stat>" ),
-                              ma.leg_block );
+                              _( "You can <info>leg block</info> at <info>unarmed combat:</info> <stat>%s</stat>/<stat>%s</stat>" ),
+                              unarmed_skill, ma.leg_block );
                 buffer += "\n";
             }
             buffer += "--\n";
@@ -1502,7 +1514,16 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         if( !ma.weapons.empty() ) {
             std::vector<std::string> weapons;
             std::transform( ma.weapons.begin(), ma.weapons.end(),
-                            std::back_inserter( weapons ), []( const itype_id & wid )-> std::string { return item::nname( wid ); } );
+            std::back_inserter( weapons ), []( const itype_id & wid )-> std::string {
+                // Colorize wielded weapon and move it to the front of the list
+                Character &player_character = get_player_character();
+                if( item::nname( wid ) == player_character.weapon.display_name() )
+                {
+                    return colorize( item::nname( wid ) + _( " (wielded)" ), c_light_cyan );
+                } else
+                {
+                    return item::nname( wid );
+                } } );
             // Sorting alphabetically makes it easier to find a specific weapon
             std::sort( weapons.begin(), weapons.end(), localized_compare );
             // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
@@ -1547,6 +1568,8 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         input_context ict;
         ict.register_action( "UP" );
         ict.register_action( "DOWN" );
+        ict.register_action( "PAGE_UP" );
+        ict.register_action( "PAGE_DOWN" );
         ict.register_action( "QUIT" );
         ict.register_action( "HELP_KEYBINDINGS" );
 
@@ -1568,7 +1591,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             }
 
             ui_manager::redraw();
-
+            const int scroll_lines = catacurses::getmaxy( w ) - 4;
             std::string action = ict.handle_input();
 
             if( action == "QUIT" ) {
@@ -1577,6 +1600,10 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 selected++;
             } else if( action == "UP" ) {
                 selected--;
+            } else if( action == "PAGE_DOWN" ) {
+                selected += scroll_lines;
+            } else if( action == "PAGE_UP" ) {
+                selected -= scroll_lines;
             }
         } while( true );
     }

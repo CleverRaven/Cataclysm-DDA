@@ -538,10 +538,10 @@
   {
     "name": "GROUP_HOTEL_POOL",
     "type": "monstergroup",
-    "default": "mon_zombie_swimmer",
+    "default": "mon_zombie_swimmer_base",
     "monsters": [
       { "monster": "mon_zombie_swimmer", "freq": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_swimmer", "freq": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] },
+      { "monster": "mon_zombie_swimmer_base", "freq": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] },
       { "monster": "mon_zombie_child", "freq": 35, "cost_multiplier": 1 }
     ]
   },
@@ -558,9 +558,9 @@
   {
     "name": "GROUP_POOL_NOKIDS",
     "type": "monstergroup",
-    "default": "mon_zombie_swimmer",
+    "default": "mon_zombie_swimmer_base",
     "monsters": [
-      { "monster": "mon_zombie_swimmer", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_swimmer_base", "freq": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer", "freq": 50, "cost_multiplier": 10, "pack_size": [ 3, 8 ] }
     ]
   },
@@ -580,6 +580,35 @@
     "monsters": [
       { "monster": "mon_zombie_anklebiter", "freq": 5, "cost_multiplier": 10 },
       { "monster": "mon_zombie_waif", "freq": 5, "cost_multiplier": 7 }
+    ]
+  },
+  {
+    "name": "GROUP_FORT",
+    "type": "monstergroup",
+    "default": "mon_zombie_reenactor",
+    "monsters": [
+      { "monster": "mon_zombie", "freq": 25, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_child", "freq": 25, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zombie_reenactor", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "name": "GROUP_FERROUS_UPGRADE",
+    "type": "monstergroup",
+    "default": "mon_zombie_rust",
+    "monsters": [
+      { "monster": "mon_zombie_plated", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_urchin", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_hammer_hands", "freq": 100, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "name": "GROUP_FERROUS",
+    "type": "monstergroup",
+    "default": "mon_zombie_rust",
+    "monsters": [
+      { "monster": "mon_zombie_plated", "freq": 50, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_shell", "freq": 20, "cost_multiplier": 2 }
     ]
   }
 ]

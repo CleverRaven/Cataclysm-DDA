@@ -23,14 +23,16 @@ TEST_CASE( "set_and_get_overmap_scents" )
     for( int x = 0; x < 180; ++x ) {
         for( int y = 0; y < 180; ++y ) {
             for( int z = -10; z < 10; ++z ) {
-                REQUIRE( test_overmap->scent_at( { x, y, z } ).creation_time == -1 );
+                REQUIRE( test_overmap->scent_at( { x, y, z } ).creation_time ==
+                         calendar::before_time_starts );
             }
         }
     }
 
-    scent_trace test_scent( 50, 90 );
+    time_point creation_time = calendar::turn_zero + 50_turns;
+    scent_trace test_scent( creation_time, 90 );
     test_overmap->set_scent( { 75, 85, 0 }, test_scent );
-    REQUIRE( test_overmap->scent_at( { 75, 85, 0} ).creation_time == 50 );
+    REQUIRE( test_overmap->scent_at( { 75, 85, 0} ).creation_time == creation_time );
     REQUIRE( test_overmap->scent_at( { 75, 85, 0} ).initial_strength == 90 );
 }
 
