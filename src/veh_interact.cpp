@@ -1482,14 +1482,10 @@ std::vector<veh_interact::part_option> veh_interact::get_vehicle_overview( const
                 std::string text = " <color_green>" + pt.carried_name() + "</color> ";
 
                 int max_w = ( ( TERMX - 2 ) / 3 ) - 1;
-                std::string sperator_line = std::string( std::max( static_cast<int>( max_w - 1 -
-                                            pt.carried_name().size() -
-                                            2 ), 0 ),
-                                            '=' );
+                std::string sperator_line = std::string( std::max( static_cast<int>( max_w - 1 - utf8_width(
+                                                pt.carried_name() ) - 2 ), 0 ), '=' );
                 sperator_line.insert( ( sperator_line.length() / 2 ), text );
-                right_print(
-                    w, y, 1, c_light_gray,
-                    _( sperator_line ) );
+                right_print( w, y, 1, c_light_gray, sperator_line );
             };
 
             tmp_overview_opts.emplace_back( "0_CARRIED_NAME", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
