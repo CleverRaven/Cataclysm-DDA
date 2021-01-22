@@ -2092,7 +2092,7 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
     }
 
     std::vector<point> new_mounts;
-    std::size_t pos = static_cast<int>( veh_record.find( "<turn>" ) );
+    std::size_t pos = static_cast<int>( veh_record.rfind( "<turn>" ) );
     pos = ( pos != veh_record.length() ) ? pos - 7 : pos;
 
     new_vehicle->name = veh_record.substr( vehicle_part::name_offset, pos );

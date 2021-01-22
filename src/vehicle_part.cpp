@@ -645,7 +645,7 @@ std::string vehicle_part::carried_name() const
         return std::string();
     }
     //<turn>turnnumber</turn> is used as id for vehicle racking/unracking
-    std::size_t pos = static_cast<int>( carry_names.top().find( "<turn>" ) );
+    std::size_t pos = static_cast<int>( carry_names.top().rfind( "<turn>" ) );
     pos = ( pos != carry_names.top().length() ) ? pos - 7 : pos;
     return carry_names.top().substr( name_offset, pos );
 }
