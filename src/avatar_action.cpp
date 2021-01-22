@@ -95,9 +95,9 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return false;
     }
 
-    //If both legs broken without splints and not already on the ground topple over
+    //If both legs broken without crutches and not already on the ground topple over
     if( you.get_working_leg_count() < 2 && !you.is_lying_down() &&
-        !you.worn_with_flag( flag_SPLINT ) ) {
+        !you.worn_with_flag( flag_CRUTCHES ) ) {
         you.set_movement_mode( move_mode_id( "prone" ) );
     }
 
