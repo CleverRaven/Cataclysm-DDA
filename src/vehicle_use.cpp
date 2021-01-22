@@ -1969,8 +1969,10 @@ void vehicle::use_bike_rack( int part )
         here.rebuild_vehicle_level_caches();
 
         //ensures that the turn timer used as id is moved along after each successfull bike rack interaction
-        const activity_id ACT_WAIT( "ACT_WAIT" );
-        activity_id actType = ACT_WAIT;
+        calendar::turn += 1_turns;
+
+        const activity_id ACT_BIKERACK("ACT_BIKERACK");
+        activity_id actType = ACT_BIKERACK;
         player_activity new_act( actType, 100 * ( to_turns<int>( 5_minutes ) ), 0 );
         get_player_character().assign_activity( new_act, false );
     }
