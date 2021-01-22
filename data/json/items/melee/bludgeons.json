@@ -353,7 +353,7 @@
     "price": 2500,
     "material": [ "aluminum" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "CRUTCHES" ],
+    "flags": [ "CRUTCHES" ],
     "weight": "2200 g",
     "volume": "1500 ml",
     "longest_side": "150 cm",

@@ -95,9 +95,11 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return false;
     }
 
+    // auto workingLegs = you.get_working_leg_count();
+    // auto hasFlagCrutches = you.weapon.has_flag(flag_CRUTCHES);
+    // auto isOnGround = you.is_prone();
     //If both legs broken without crutches and not already on the ground topple over
-    if( you.get_working_leg_count() < 2 && !you.is_lying_down() &&
-        !you.worn_with_flag( flag_CRUTCHES ) ) {
+    if ( (you.get_working_leg_count() < 2 && !you.weapon.has_flag(flag_CRUTCHES)) && !you.is_prone()) {
         you.set_movement_mode( move_mode_id( "prone" ) );
     }
 

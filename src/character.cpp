@@ -984,8 +984,8 @@ int Character::swim_speed() const
 
 bool Character::is_on_ground() const
 {
-    return ( get_working_leg_count() < 2 && !worn_with_flag( flag_CRUTCHES ) ) ||
-           has_effect( effect_downed ) || is_lying_down();
+    return ( (get_working_leg_count() < 2 && !weapon.has_flag(flag_CRUTCHES) )) ||
+           has_effect( effect_downed ) || is_prone();
 }
 
 bool Character::can_stash( const item &it )
@@ -1830,7 +1830,7 @@ bool Character::is_crouching() const
     return move_mode->type() == move_mode_type::CROUCHING;
 }
 
-bool Character::is_lying_down() const
+bool Character::is_prone() const
 {
     return move_mode->type() == move_mode_type::PRONE;
 }

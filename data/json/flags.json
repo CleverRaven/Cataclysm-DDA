@@ -99,6 +99,11 @@
     "info": "This clothing has <info>built-in or attached climate control</info>, keeping you at a <good>comfortable temperature</good>."
   },
   {
+    "id": "CRUTCHES",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "COLLAR",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

@@ -728,7 +728,7 @@ class Character : public Creature, public visitable
         bool is_running() const;
         bool is_walking() const;
         bool is_crouching() const;
-        bool is_lying_down() const;
+        bool is_prone() const;
 
 
         bool can_switch_to( const move_mode_id &mode ) const;

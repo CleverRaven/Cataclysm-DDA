@@ -1507,7 +1507,7 @@ void avatar::toggle_crouch_mode()
 
 void avatar::toggle_prone_mode()
 {
-    if( is_lying_down() ) {
+    if( is_prone() ) {
         set_movement_mode( move_mode_id( "walk" ) );
     } else {
         set_movement_mode( move_mode_id( "prone" ) );
