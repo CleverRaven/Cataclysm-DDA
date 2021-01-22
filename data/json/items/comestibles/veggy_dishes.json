@@ -436,7 +436,7 @@
   {
     "type": "COMESTIBLE",
     "id": "carrot_roasted",
-    "name": { "str": "roasted carrot", "str_pl": "roasted carrots" },
+    "name": { "str": "roasted carrot" },
     "weight": "72 g",
     "color": "light_red",
     "spoils_in": "2 days",
