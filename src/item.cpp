@@ -5171,17 +5171,7 @@ units::length item::length() const
 
         if( gunmod_find( itype_barrel_small ) ) {
             int barrel_percentage = type->gun->barrel_volume / ( type->volume / 100 );
-            //todo: adjust to desired volume to inch ratio once barrel_volume is standardised and enforced in the jsons
-            units::length reduce_by = ( type->longest_side / 100 ) * barrel_percentage * 2;
-
-            //todo: adjust/remove once barrel_volume is standardised and enforced in the jsons
-            if( reduce_by > type->longest_side * 0.4 ) {
-                reduce_by = type->longest_side * 0.4;
-            }
-            if( reduce_by < type->longest_side * 0.25 ) {
-                reduce_by = type->longest_side * 0.25;
-            }
-
+            units::length reduce_by = ( type->longest_side / 100 ) * barrel_percentage;
             length_adjusted = type->longest_side - reduce_by;
         }
 
