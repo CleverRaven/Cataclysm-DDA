@@ -5560,7 +5560,7 @@ bool map::point_within_camp( const tripoint &point_check ) const
     for( int x2 = -2; x2 < 2; x2++ ) {
         for( int y2 = -2; y2 < 2; y2++ ) {
             if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p + point( x2, y2 ) ) ) {
-                return ( *bcp )->camp_omt_pos().z() == point_check.z;
+                return ( *bcp )->point_within_camp( omt_check );
             }
         }
     }
