@@ -5702,7 +5702,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         guts.ingest( digested_to_guts );
         // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled.
         if( !npc_no_food ) {
-            mod_stored_kcal( digested_to_body.nutr.kcal );
+            mod_stored_kcal( digested_to_body.nutr.kcal() );
             log_activity_level( activity_level() );
             vitamins_mod( digested_to_body.nutr.vitamins, false );
         }

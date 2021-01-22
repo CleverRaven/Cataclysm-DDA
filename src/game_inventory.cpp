@@ -526,7 +526,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( [&p]( const item_location & loc ) {
                 const nutrients nutr = p.compute_effective_nutrients( *loc );
-                return good_bad_none( nutr.kcal );
+                return good_bad_none( nutr.kcal() );
             }, _( "CALORIES" ) );
 
             append_cell( []( const item_location & loc ) {
