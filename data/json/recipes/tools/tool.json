@@ -312,7 +312,7 @@
     "difficulty": 1,
     "time": "50 m",
     "autolearn": true,
-    "qualities": [ {"id": "FILE", "level": 1 } ],
+    "qualities": [ { "id": "FILE", "level": 1 } ],
     "components": [ [ [ "screwdriver", 1 ] ] ]
   },
   {
