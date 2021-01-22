@@ -519,7 +519,7 @@
     "move_cost": 0,
     "coverage": 40,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL" ],
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL", "NO_SPOIL" ],
     "bash": {
       "str_min": 2,
       "str_max": 80,
