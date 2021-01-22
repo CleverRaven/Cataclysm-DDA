@@ -244,7 +244,8 @@ stomach_digest_rates stomach_contents::get_digest_rates( const needs_rates &meta
         // Solids rate doesn't do anything impactful here so just make it big enough to avoid overflow.
         rates.solids = 250_ml;
         rates.water = 250_ml;
-        rates.min_calories = roll_remainder( metabolic_rates.kcal / 24.0 * metabolic_rates.hunger ) * 1000;
+        // Explicitly floor it, because casting it to an int will do so anyways
+        rates.min_calories = std::floor( metabolic_rates.kcal / 24.0 * metabolic_rates.hunger * 1000 );
         rates.percent_kcal = 0.05f * metabolic_rates.hunger;
         rates.min_vitamin = std::round( 100.0 / 24.0 * metabolic_rates.hunger );
         rates.percent_vitamin = 0.05f * metabolic_rates.hunger;

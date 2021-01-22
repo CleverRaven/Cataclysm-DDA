@@ -5721,7 +5721,8 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         if( !foodless && rates.hunger > 0.0f ) {
             mod_hunger( roll_remainder( rates.hunger * five_mins ) );
             // instead of hunger keeping track of how you're living, burn calories instead
-            mod_stored_kcal( -roll_remainder( five_mins * kcal_per_time ) );
+            // Explicitly floor it here, the int cast will do so anyways
+            mod_stored_calories( -std::floor( five_mins * kcal_per_time * 1000 ) );
         }
     }
     // if npc_no_food no need to calc hunger, and set hunger_effect
