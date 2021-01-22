@@ -213,7 +213,7 @@ double temp_to_kelvin( double fahrenheit )
     return temp_to_celsius( fahrenheit ) + 273.15;
 }
 
-double celsius_to_kelvin( double celcius )
+double celsius_to_kelvin( double celsius )
 {
     return celcius + 273.15;
 }
