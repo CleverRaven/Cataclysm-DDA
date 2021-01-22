@@ -984,7 +984,7 @@ int Character::swim_speed() const
 
 bool Character::is_on_ground() const
 {
-    return ( (get_working_leg_count() < 2 && !weapon.has_flag(flag_CRUTCHES) )) ||
+    return ( ( get_working_leg_count() < 2 && !weapon.has_flag( flag_CRUTCHES ) ) ) ||
            has_effect( effect_downed ) || is_prone();
 }
 

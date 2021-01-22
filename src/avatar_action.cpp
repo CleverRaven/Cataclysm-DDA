@@ -99,7 +99,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     // auto hasFlagCrutches = you.weapon.has_flag(flag_CRUTCHES);
     // auto isOnGround = you.is_prone();
     //If both legs broken without crutches and not already on the ground topple over
-    if ( (you.get_working_leg_count() < 2 && !you.weapon.has_flag(flag_CRUTCHES)) && !you.is_prone()) {
+    if( ( you.get_working_leg_count() < 2 && !you.weapon.has_flag( flag_CRUTCHES ) ) &&
+        !you.is_prone() ) {
         you.set_movement_mode( move_mode_id( "prone" ) );
     }
 
