@@ -5182,6 +5182,16 @@ units::length item::length() const
                 if( mod->type->gunmod->location.str() == "muzzle" ) {
                     length_adjusted += mod->length();
                 }
+
+                if( mod->type->gunmod->location.str() == "underbarrel" ) {
+                    //checks for melee gunmods (like bayonets)
+                    for( const std::pair<const gun_mode_id, gun_modifier_data> &m : mod->type->gunmod->mode_modifier ) {
+                        if( m.first == gun_mode_REACH ) {
+                            length_adjusted += mod->length();
+                            break;
+                        }
+                    }
+                }
             }
         }
 
