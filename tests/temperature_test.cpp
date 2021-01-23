@@ -133,11 +133,14 @@ TEST_CASE( "Rate of temperature change" )
         calendar::turn += 30_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
+		calendar::turn += 11_minutes;
+        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
 		
         // 0C
         // not frozen
-        CHECK( meat1.temperature == Approx( 27315000 ).margin( 10 ) );
-        CHECK( meat2.temperature == Approx( 27315000 ).margin( 10 ) );
+        CHECK( meat1.temperature == 27315000 );
+        CHECK( meat2.temperature == 27315000 );
         CHECK( !meat1.has_own_flag( flag_FROZEN ) );
         CHECK( !meat2.has_own_flag( flag_FROZEN ) );
 
@@ -151,7 +154,7 @@ TEST_CASE( "Rate of temperature change" )
         // 0C
         // frozen
         // same energy as meat 2
-        CHECK( meat1.temperature == Approx( 27315000 ).margin( 10 ) );
+        CHECK( meat1.temperature == 27315000 );
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
         CHECK( meat2.has_own_flag( flag_FROZEN ) );
         CHECK( meat1.specific_energy == Approx( meat2.specific_energy ).margin( 10 ) );
@@ -164,11 +167,14 @@ TEST_CASE( "Rate of temperature change" )
         calendar::turn += 20_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
+		calendar::turn += 50_minutes;
+        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
 
-        // -7.2 C
+        // about -5.2 C
         // frozen
         // same temp as meat 2
-        CHECK( meat1.temperature == Approx( 26595062 ).margin( 10 ) );
+        CHECK( meat1.temperature == Approx( 26798050 ).margin( 10 ) );
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
         CHECK( meat1.temperature == Approx( meat2.temperature ).margin( 10 ) );
     }
@@ -218,8 +224,8 @@ TEST_CASE( "Rate of temperature change" )
         // 0C
         // same temp
         // frozen
-        CHECK( meat1.temperature == Approx( 27315000 ).margin( 10 ) );
-        CHECK( meat2.temperature == Approx( meat1.temperature ).margin( 10 ) );
+        CHECK( meat1.temperature == 27315000 );
+        CHECK( meat2.temperature == meat1.temperature );
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
         CHECK( meat2.has_own_flag( flag_FROZEN ) );
 
@@ -234,8 +240,8 @@ TEST_CASE( "Rate of temperature change" )
         // 0C
         // same temp
         // not frozen
-        CHECK( meat1.temperature == Approx( 27315000 ).margin( 10 ) );
-        CHECK( meat2.temperature == Approx( meat1.temperature ).margin( 10 ) );
+        CHECK( meat1.temperature == 27315000 );
+        CHECK( meat2.temperature == meat1.temperature );
         CHECK( !meat1.has_own_flag( flag_FROZEN ) );
 
         calendar::turn += 11_minutes;
@@ -246,9 +252,12 @@ TEST_CASE( "Rate of temperature change" )
         calendar::turn += 20_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
-        // 13.3 C
+		calendar::turn += 50_minutes;
+        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
+        // 2.2 C
         // same temp
-        CHECK( meat1.temperature == Approx( 28654986 ).margin( 10 ) );
+        CHECK( meat1.temperature == Approx( 27532468 ).margin( 10 ) );
         CHECK( meat1.temperature == Approx( meat2.temperature ).margin( 10 ) );
     }
 }
