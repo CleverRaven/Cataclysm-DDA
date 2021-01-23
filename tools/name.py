@@ -31,12 +31,14 @@ def gen_new(path):
                 continue
             if type(jo['name']) == dict:
                 continue
-            if jo.get['type'] not in [ 'AMMO', 'ARMOR', 'BATTERY', 'bionic', 'BIONIC_ITEM', 'BIONIC_ITEM', 'BOOK',
-            'COMESTIBLE', 'ENGINE', 'fault', 'GENERIC', 'GUN', 'GUNMOD', 'item_action',
-            'ITEM_CATEGORY', 'MAGAZINE', 'map_extra', 'martial_art', 'mission_definition',
-            'MONSTER', 'mutation', 'npc_class', 'PET_ARMOR', 'proficiency', 'skill', 'TOOL',
-            'TOOL_ARMOR', 'tool_quality', 'TOOLMOD', 'vehicle_part', 'vehicle_part_category',
-            'vitamin', 'WHEEL','SPELL']:
+            if jo.get['type'] not in ['AMMO', 'ARMOR', 'BATTERY', 'bionic', 
+            'BIONIC_ITEM', 'BIONIC_ITEM', 'BOOK','COMESTIBLE', 'ENGINE', 
+            'fault', 'GENERIC', 'GUN', 'GUNMOD', 'item_action', 
+            'ITEM_CATEGORY', 'MAGAZINE', 'map_extra', 'martial_art', 
+            'mission_definition', 'MONSTER', 'mutation', 'npc_class', 
+            'PET_ARMOR', 'proficiency', 'skill', 'TOOL', 'TOOL_ARMOR', 
+            'tool_quality', 'TOOLMOD', 'vehicle_part', 
+            'vehicle_part_category', 'vitamin', 'WHEEL', 'SPELL']:
                 continue
             if jo.get('name_plural'):
                 if jo['name'] == jo['name_plural']:
