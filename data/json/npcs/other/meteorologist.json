@@ -218,7 +218,7 @@
     "type": "mission_definition",
     "has_generic_rewards": false,
     "name": { "str": "Find lens_small 5" },
-    "description": "The meteorologist asked to bring him 5 little high-quality lanses.",
+    "description": "The meteorologist asked to bring him 5 little high-quality lenses.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "lens_small",
     "count": 6,
