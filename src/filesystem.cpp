@@ -69,7 +69,8 @@ bool dir_exist( const std::string &path )
 bool file_exist( const std::string &path )
 {
     struct stat buffer;
-    return ( stat( path.c_str(), &buffer ) == 0 );
+    bool success = stat( path.c_str(), &buffer ) == 0;
+    return success && S_ISREG( buffer.st_mode );
 }
 
 #if defined(_WIN32)
