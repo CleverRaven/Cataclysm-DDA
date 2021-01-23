@@ -237,7 +237,7 @@
   {
     "type": "SPELL",
     "id": "centipede_mom_summon",
-    "name": "Summon Centipede",
+    "name": { "str": "Summon Centipede" },
     "description": "Summons a small, pissed off centipede.",
     "flags": [ "HOSTILE_SUMMON", "PERMANENT", "RANDOM_TARGET", "NO_PROJECTILE" ],
     "valid_targets": [ "ground" ],
@@ -278,7 +278,7 @@
   {
     "type": "SPELL",
     "id": "dermatik_emergence",
-    "name": "Dermatik Emergence",
+    "name": { "str": "Dermatik Emergence" },
     "description": "The incubating dermatik larvae flee their host.",
     "flags": [ "HOSTILE_SUMMON", "PERMANENT", "RANDOM_DAMAGE" ],
     "valid_targets": [ "ground", "self" ],
