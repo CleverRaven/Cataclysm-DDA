@@ -265,10 +265,10 @@ sewers, subways), and have JSON-defined rules guiding their placement.
 ### Special placement
 
 There are a finite number of sectors in which overmap specials can be placed during overmap
-generation, each being a square with side length equal to `OMSPEC_FREQ` ( defined in omdata.h, at
+generation, each being a square with side length equal to `OMSPEC_FREQ` (defined in omdata.h; at
 the time of writing `OMSPEC_FREQ`= 15 meaning each overmap has 144 sectors for placing specials). 
 At the beginning of overmap generation, a list of eligable map specials is built 
-( `overmap_special_batch` ). Next, a free sector is chosen where a special will be placed. A random
+(`overmap_special_batch`).  Next, a free sector is chosen where a special will be placed.  A random
 point in that sector is checked against a random rotation of a special from the special batch to see
 if it can be placed there. If not, a new random point in the sector is checked against a new special, 
 and so on until a valid spawn is rolled.
@@ -288,7 +288,7 @@ The overmap special can be connected to the road, subway or sewer networks. Spec
 point causes the appropriate connection to be automatically generated from the nearest matching terrain
 , unless `existing` is set to true. In that case the special can only be placed if the connection point
 intersects an existing road/etc. Since the road network is sparse, and most roads will be generated to 
-connect up other specials this lowers the chances of the special spawning considerably.
+connect up other specials, this lowers the chances of the special spawning considerably.
 
 ### Occurrences (default)
 
@@ -297,19 +297,19 @@ by default, it sets the minimum and maximum occurrences of the special per overm
 overmap specials have a minimum occurrence of 0, to keep the overmaps from being too similar to each
 other. In addition, there are no specials with a maximum occurrence of 1. This is important because 
 each normal special has a very high chance of being placed at least once per overmap, owing to some 
-quirks of the code ( the number of specials is only slightly higher than the number of slots per overmap,
-specials that failed placement don't get disqualified and can be rolled for again, placement iterating until
-all sectors are occupied ). For specials that are not common enough to warrant appearing on all overmaps
+quirks of the code (most notably, the number of specials is only slightly more than the number of slots per
+overmap, specials that failed placement don't get disqualified and can be rolled for again, and placement iterates
+until all sectors are occupied). For specials that are not common enough to warrant appearing on all overmaps
 please use the "UNIQUE" flag.
 
 ### Occurrences ( UNIQUE )
 
 When the special has the "UNIQUE" flag, instead of defining the minimum and maximum number placed 
 the occurrences field defines the chance of the special to be included in any one given overmap.
-Before any placement rolls, all specials with this flag have to succeed in a x_in_y ( first value, second
-value) roll to be included in the `overmap_special_batch` for the currently generated overmap, meaning that 
-any special that failed this roll won't ever be considered for placement. Currently all UNIQUE specials
-use [ x, 100 ] occurrences for ease of understanding, but this is not binding.
+Before any placement rolls, all specials with this flag have to succeed in an x_in_y (first value, second
+value) roll to be included in the `overmap_special_batch` for the currently generated overmap;
+any special that failed this roll will never be considered for placement.  Currently all UNIQUE specials
+use [x, 100] occurrences - percentages - for ease of understanding, but this is not required.
 
 
 ### Locations
@@ -327,7 +327,7 @@ level value and then only specify it for individual entries that differ.
 During generation of a new overmap, cities and their connecting roads will be generated before 
 specials are placed. Each city gets assigned a size at generation and will begin its life as a single 
 intersection. The city distance field specifies the minimum and maximum distance the special can be 
-placed from this intersection, *not* from the edge of the city, meaning a special with a low minimum
+placed from _this_ intersection, *not* from the edge of the city, meaning a special with a low minimum
 distance and a relaxed city size restriction may be placed on the outer border of a larger city.
 
 
