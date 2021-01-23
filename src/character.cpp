@@ -7180,7 +7180,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
         } else if( limb_is_broken ) {
             desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
             hp_str = "==%==";
-        } else if( !precise && has_trait( trait_NOPAIN ) ) {
+        } else if( is_player() && has_trait( trait_NOPAIN ) ) {
             if( current_hp < maximal_hp * 0.25 ) {
                 hp_str = colorize( _( "Very Bad" ), c_red );
             } else if( current_hp < maximal_hp * 0.5 ) {
