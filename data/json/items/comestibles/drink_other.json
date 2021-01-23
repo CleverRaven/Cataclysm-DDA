@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauce_red",
-    "name": "red sauce",
+    "name": { "str": "red sauce" },
     "weight": "64 g",
     "color": "red",
     "spoils_in": "3 days",
@@ -75,7 +75,7 @@
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "red",
-    "name": "ketchup",
+    "name": { "str": "ketchup" },
     "description": "A viscous paste of tomato, salt, and vinegar.",
     "price": 1875,
     "price_postapoc": 100,
