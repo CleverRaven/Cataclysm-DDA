@@ -86,6 +86,11 @@ bool lcmatch( const translation &str, const std::string &qry )
     return lcmatch( str.translated(), qry );
 }
 
+bool lcequal( const std::string &str1, const std::string &str2 )
+{
+    return to_lower_case( str1 ) == to_lower_case( str2 );
+}
+
 bool match_include_exclude( const std::string &text, std::string filter )
 {
     size_t iPos;

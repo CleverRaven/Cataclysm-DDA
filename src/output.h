@@ -566,6 +566,8 @@ std::string trim( const std::string &s );
 std::string trim_punctuation_marks( const std::string &s );
 // Converts the string to upper case.
 std::string to_upper_case( const std::string &s );
+// Converts the string to lower case.
+std::string to_lower_case( const std::string &s );
 
 // TODO: move these elsewhere
 // string manipulations.

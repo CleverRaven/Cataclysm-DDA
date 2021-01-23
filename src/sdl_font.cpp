@@ -1,18 +1,7 @@
 #if defined(TILES)
 #include "sdl_font.h"
 #include "output.h"
-
-#if defined(_WIN32)
-#   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
-#       include "platform_win.h"
-#   endif
-#   include <shlwapi.h>
-#   if !defined(strcasecmp)
-#       define strcasecmp StrCmpI
-#   endif
-#else
-#   include <strings.h> // for strcasecmp
-#endif
+#include "platform_win.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -30,7 +19,7 @@ static int test_face_size( const std::string &f, int size, int faceIndex )
                 char *ts = nullptr;
                 if( tf ) {
                     if( nullptr != ( ts = TTF_FontFaceStyleName( tf.get() ) ) ) {
-                        if( 0 == strcasecmp( ts, style ) && TTF_FontHeight( tf.get() ) <= size ) {
+                        if( lcequal( ts, style ) && TTF_FontHeight( tf.get() ) <= size ) {
                             return i;
                         }
                     }
@@ -268,8 +257,7 @@ CachedTTFFont::CachedTTFFont(
         fontsize = height - 1;
     }
     // SDL_ttf handles bitmap fonts size incorrectly
-    if( typeface.length() > 4 &&
-        strcasecmp( typeface.substr( typeface.length() - 4 ).c_str(), ".fon" ) == 0 ) {
+    if( typeface.length() > 4 && lcequal( typeface.substr( typeface.length() - 4 ), ".fon" ) ) {
         faceIndex = test_face_size( typeface, fontsize, faceIndex );
     }
     font.reset( TTF_OpenFontIndex( typeface.c_str(), fontsize, faceIndex ) );

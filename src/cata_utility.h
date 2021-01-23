@@ -110,6 +110,9 @@ bool isBetween( int test, int down, int up );
 bool lcmatch( const std::string &str, const std::string &qry );
 bool lcmatch( const translation &str, const std::string &qry );
 
+/** Perform case insensitive comparison of 2 strings. */
+bool lcequal( const std::string &str1, const std::string &str2 );
+
 /**
  * Matches text case insensitive with the include/exclude rules of the filter
  *
