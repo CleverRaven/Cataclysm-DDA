@@ -111,6 +111,12 @@ bool Character::has_trait_flag( const std::string &b ) const
         const mutation_branch &mut_data = mut.obj();
         if( mut_data.flags.count( b ) > 0 ) {
             return true;
+        } else if( mut_data.activated ) {
+            Character &player = get_player_character();
+            if( ( mut_data.active_flags.count( b ) > 0 && player.has_active_mutation( mut ) ) ||
+                ( mut_data.inactive_flags.count( b ) > 0 && !player.has_active_mutation( mut ) ) ) {
+                return true;
+            }
         }
     }
 

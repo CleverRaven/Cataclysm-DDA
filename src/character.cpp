@@ -275,7 +275,6 @@ static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blaster( "bio_blaster" );
-static const bionic_id bio_blindfold( "bio_blindfold" );
 static const bionic_id bio_climate( "bio_climate" );
 static const bionic_id bio_earplugs( "bio_earplugs" );
 static const bionic_id bio_ears( "bio_ears" );
@@ -392,6 +391,8 @@ static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const std::string flag_PLOWABLE( "PLOWABLE" );
+
+static const std::string char_flag_blind( "BLIND" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -7599,7 +7600,7 @@ bool Character::is_blind() const
 {
     return ( worn_with_flag( flag_BLIND ) ||
              has_effect( effect_blind ) ||
-             has_active_bionic( bio_blindfold ) );
+             has_flag( char_flag_blind ) );
 }
 
 bool Character::is_invisible() const
@@ -13084,4 +13085,27 @@ int Character::book_fun_for( const item &book, const Character &p ) const
     }
 
     return fun_bonus;
+}
+
+bool Character::has_bionic_with_flag( const std::string &flag ) const
+{
+    for( const bionic &bio : *my_bionics ) {
+        if( bio.info().has_flag( flag ) ) {
+            return true;
+        }
+        if( bio.info().activated ) {
+            if( ( bio.info().has_active_flag( flag ) && has_active_bionic( bio.id ) ) ||
+                ( bio.info().has_inactive_flag( flag ) && !has_active_bionic( bio.id ) ) ) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool Character::has_flag( const std::string &flag ) const
+{
+    // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate
+    return has_trait_flag( flag ) || has_bionic_with_flag( flag );
 }

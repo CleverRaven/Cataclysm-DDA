@@ -249,6 +249,16 @@ bool bionic_data::has_flag( const std::string &flag ) const
     return flags.count( flag ) > 0;
 }
 
+bool bionic_data::has_active_flag( const std::string &flag ) const
+{
+    return active_flags.count( flag ) > 0;
+}
+
+bool bionic_data::has_inactive_flag( const std::string &flag ) const
+{
+    return inactive_flags.count( flag ) > 0;
+}
+
 itype_id bionic_data::itype() const
 {
     // For now we just assume that the bionic id matches the corresponding item
@@ -278,6 +288,8 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "time", charge_time, 0 );
 
     optional( jsobj, was_loaded, "flags", flags );
+    optional( jsobj, was_loaded, "active_flags", active_flags );
+    optional( jsobj, was_loaded, "inactive_flags", inactive_flags );
 
     optional( jsobj, was_loaded, "fuel_efficiency", fuel_efficiency, 0 );
     optional( jsobj, was_loaded, "passive_fuel_efficiency", passive_fuel_efficiency, 0 );

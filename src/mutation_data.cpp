@@ -497,6 +497,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "changes_to", replacements, trait_reader{} );
     optional( jo, was_loaded, "leads_to", additions, trait_reader{} );
     optional( jo, was_loaded, "flags", flags, string_reader{} );
+    optional( jo, was_loaded, "active_flags", active_flags, string_reader{} );
+    optional( jo, was_loaded, "inactive_flags", inactive_flags, string_reader{} );
     optional( jo, was_loaded, "types", types, string_reader{} );
     optional( jo, was_loaded, "enchantments", enchantments );
 

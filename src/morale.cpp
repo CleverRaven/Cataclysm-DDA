@@ -839,13 +839,18 @@ bool player_morale::has_mutation( const trait_id &mid )
     return ( mutation != mutations.end() && mutation->second.get_active() );
 }
 
-
 bool player_morale::has_mutation_flag( const std::string &flag )
 {
     for( const std::pair<const trait_id, player_morale::mutation_data> &mut : mutations ) {
         const mutation_branch &mut_data = mut.first.obj();
         if( mut_data.flags.count( flag ) > 0 ) {
             return true;
+        } else if( mut_data.activated ) {
+            Character &player = get_player_character();
+            if( ( mut_data.active_flags.count( flag ) > 0 && player.has_active_mutation( mut.first ) ) ||
+                ( mut_data.inactive_flags.count( flag ) > 0 && !player.has_active_mutation( mut.first ) ) ) {
+                return true;
+            }
         }
     }
 
