@@ -338,7 +338,6 @@ activity_handlers::finish_functions = {
     { ACT_CHURN, churn_finish },
     { ACT_PLANT_SEED, plant_seed_finish },
     { ACT_VEHICLE, vehicle_finish },
-    { ACT_BIKERACK, bikerack_finish },
     { ACT_START_ENGINES, start_engines_finish },
     { ACT_OXYTORCH, oxytorch_finish },
     { ACT_PULP, pulp_finish },
@@ -2138,12 +2137,6 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
             }
         }
     }
-}
-
-void activity_handlers::bikerack_finish( player_activity *act, player *p )
-{
-    p->add_msg_if_player( _( "You finish working on the bike rack." ) );
-    act->set_to_null();
 }
 
 void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
