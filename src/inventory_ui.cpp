@@ -723,54 +723,69 @@ void inventory_column::on_change( const inventory_entry &entry )
 
 void inventory_column::order_by_parent()
 {
-    std::vector<inventory_entry> base_entries;
-    std::vector<inventory_entry> child_entries;
-    for( const inventory_entry &entry : entries ) {
-        if( entry.is_item() && entry.locations.front().where() ==
-            item_location::type::container ) {
-            child_entries.push_back( entry );
+    std::unordered_map<std::uintptr_t, size_t> original_order;
+    original_order.reserve( entries.size() );
+    for( size_t idx = 0; idx < entries.size(); ++idx ) {
+        std::uintptr_t uintptr;
+        if( entries[idx].is_item() ) {
+            const item *const ptr = &*entries[idx].any_item();
+            uintptr = reinterpret_cast<std::uintptr_t>( ptr );
         } else {
-            base_entries.push_back( entry );
+            const inventory_entry *const ptr = &entries[idx];
+            uintptr = reinterpret_cast<std::uintptr_t>( ptr );
         }
+        original_order.emplace( uintptr, idx );
     }
 
-    int tries = 0;
-    const int max_tries = entries.size() * 2;
-    while( !child_entries.empty() ) {
-        const inventory_entry &possible = child_entries.back();
-        const item_location parent = possible.locations.front().parent_item();
-        bool found = false;
-        for( auto base_entry_iter = base_entries.begin(); base_entry_iter != base_entries.end(); ) {
-            if( base_entry_iter->is_item() ) {
-                for( const item_location &loc : base_entry_iter->locations ) {
-                    if( loc == parent ) {
-                        base_entries.insert( base_entry_iter + 1, possible );
-                        child_entries.pop_back();
-                        found = true;
+    struct entry_info {
+        inventory_entry entry;
+        std::vector<size_t> recursive_order;
+
+        entry_info( inventory_entry &&moved_entry,
+                    const std::unordered_map<std::uintptr_t, size_t> &original_order )
+            : entry( std::move( moved_entry ) ) {
+            if( entry.is_item() ) {
+                item_location loc = entry.any_item();
+                while( true ) {
+                    const std::uintptr_t uintptr = reinterpret_cast<std::uintptr_t>( &*loc );
+                    const auto it = original_order.find( uintptr );
+                    if( it != original_order.end() ) {
+                        recursive_order.emplace_back( it->second );
+                    }
+                    if( loc.has_parent() ) {
+                        loc = loc.parent_item();
+                    } else {
                         break;
                     }
                 }
-                if( found ) {
-                    tries = 0;
-                    break;
+                std::reverse( recursive_order.begin(), recursive_order.end() );
+            } else {
+                const std::uintptr_t uintptr = reinterpret_cast<std::uintptr_t>( &moved_entry );
+                const auto it = original_order.find( uintptr );
+                if( it != original_order.end() ) {
+                    recursive_order.emplace_back( it->second );
                 }
             }
-            ++base_entry_iter;
         }
-        if( !found ) {
-            // move it to the front of the vector to check it again later
-            child_entries.insert( child_entries.begin(), possible );
-            child_entries.pop_back();
-            tries++;
-        }
-        if( tries > max_tries ) {
-            // the parent might not be in the list, so we add it to the top
-            base_entries.insert( base_entries.begin(), child_entries.begin(), child_entries.end() );
-            child_entries.clear();
-        }
-    }
 
-    entries = base_entries;
+        operator inventory_entry &&() && { // *NOPAD*
+            return std::move( entry );
+        }
+
+        bool operator<( const entry_info &rhs ) const {
+            return recursive_order < rhs.recursive_order;
+        }
+    };
+
+    std::vector<entry_info> sorted_entries;
+    sorted_entries.reserve( entries.size() );
+    for( auto it = entries.begin(); it != entries.end(); ++it ) {
+        sorted_entries.emplace_back( std::move( *it ), original_order );
+    }
+    std::stable_sort( sorted_entries.begin(), sorted_entries.end() );
+
+    entries.assign( std::make_move_iterator( sorted_entries.begin() ),
+                    std::make_move_iterator( sorted_entries.end() ) );
 }
 
 void inventory_column::add_entry( const inventory_entry &entry )
