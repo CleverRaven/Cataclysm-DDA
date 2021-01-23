@@ -175,7 +175,7 @@
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": "30 m",
+    "time": "60 m",
     "batch_time_factors": [ 95, 4 ],
     "book_learn": [ [ "brewing_cookbook", 4 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
@@ -288,7 +288,7 @@
     "batch_time_factors": [ 95, 4 ],
     "book_learn": [ [ "brewing_cookbook", 4 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "corn", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 1 ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "corn", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 1 ], [ "wheat", 1 ] ] ]
   },
   {
     "type": "recipe",
