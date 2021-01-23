@@ -167,6 +167,18 @@ class stats_tracker_state
 {
     public:
         virtual ~stats_tracker_state() = 0;
+        virtual const cata_variant &get_value() const = 0;
+};
+
+class stats_tracker_value_state : public stats_tracker_state
+{
+    public:
+};
+
+class stats_tracker_multiset_state : public stats_tracker_state
+{
+    public:
+        [[noreturn]] const cata_variant &get_value() const final;
 };
 
 class stats_tracker : public event_subscriber
@@ -181,7 +193,8 @@ class stats_tracker : public event_subscriber
 
         void add_watcher( event_type, event_multiset_watcher * );
         void add_watcher( const string_id<event_transformation> &, event_multiset_watcher * );
-        void add_watcher( const string_id<event_statistic> &, stat_watcher * );
+        // Returns the current value of the watched statistic
+        const cata_variant &add_watcher( const string_id<event_statistic> &, stat_watcher * );
 
         void unwatch( base_watcher * );
 
