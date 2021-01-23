@@ -2119,6 +2119,10 @@ void inventory_selector::toggle_categorize_contained()
     const auto return_item = []( const inventory_entry & entry ) {
         return entry.is_item();
     };
+    std::vector<item_location> selected;
+    if( get_selected().is_item() ) {
+        selected = get_selected().locations;
+    }
     if( own_inv_column.empty() ) {
         inventory_column replacement_column;
         for( inventory_entry *entry : own_gear_column.get_entries( return_item ) ) {
@@ -2165,6 +2169,9 @@ void inventory_selector::toggle_categorize_contained()
         }
         own_gear_column.order_by_parent();
         own_inv_column.clear();
+    }
+    if( !selected.empty() ) {
+        select_one_of( selected );
     }
 
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
