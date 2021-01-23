@@ -162,7 +162,7 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
-    "id": "bag_paper_powder_small",
+    "id": "bag_paper_powder",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "small powder paper bag" },
