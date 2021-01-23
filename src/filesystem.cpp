@@ -439,9 +439,13 @@ const char *CBN = "Q2F0YWNseXNtQnJpZ2h0TmlnaHRz";
 
 bool can_write_to_dir( const std::string &dir_path )
 {
-    // TODO: remove this hack once c++17 is a thing
+    std::string dummy_file;
+    if( string_ends_with( dir_path, "/" ) ) {
+        dummy_file = dir_path + CBN;
+    } else {
+        dummy_file = dir_path + "/" + CBN;
+    }
 
-    std::string dummy_file = dir_path + CBN;
     if( file_exist( dummy_file ) ) {
         if( !remove_file( dummy_file ) ) {
             return false;
