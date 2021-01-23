@@ -277,7 +277,14 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
         const bool recursive_search,
         Predicate predicate )
 {
-    std::deque<std::string>  directories {!root_path.empty() ? root_path : "."};
+    std::deque<std::string>  directories;
+    if( root_path.empty() ) {
+        directories.emplace_back( "./" );
+    } else if( string_ends_with( root_path, "/" ) ) {
+        directories.emplace_back( root_path );
+    } else {
+        directories.emplace_back( root_path + "/" );
+    }
     std::vector<std::string> results;
 
     while( !directories.empty() ) {
@@ -293,7 +300,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
                 return;
             }
 
-            const auto full_path = path + "/" + entry.d_name;
+            const auto full_path = path + entry.d_name;
 
             // don't add files ending in '~'.
             if( full_path.back() == '~' ) {
@@ -303,7 +310,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
             // add sub directories to recursive_search if requested
             const auto is_dir = is_directory( entry, full_path );
             if( recursive_search && is_dir ) {
-                directories.emplace_back( full_path );
+                directories.emplace_back( full_path + "/" );
             }
 
             // check the file
