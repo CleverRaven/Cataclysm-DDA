@@ -36,11 +36,11 @@ def gen_new(path):
                                       'COMESTIBLE', 'ENGINE', 'fault',
                                       'GENERIC', 'GUN', 'GUNMOD',
                                       'item_action', 'ITEM_CATEGORY',
-                                      'MAGAZINE','map_extra', 'martial_art',
+                                      'MAGAZINE', 'map_extra', 'martial_art',
                                       'mission_definition', 'MONSTER',
-                                      'mutation','npc_class', 'PET_ARMOR',
+                                      'mutation', 'npc_class', 'PET_ARMOR',
                                       'proficiency', 'skill', 'TOOL',
-                                      'TOOL_ARMOR', 'tool_quality','TOOLMOD',
+                                      'TOOL_ARMOR', 'tool_quality', 'TOOLMOD',
                                       'vehicle_part', 'vehicle_part_category',
                                       'vitamin', 'WHEEL', 'SPELL']:
                 continue
