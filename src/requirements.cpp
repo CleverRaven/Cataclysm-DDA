@@ -10,6 +10,7 @@
 #include <memory>
 #include <set>
 #include <stack>
+#include <unordered_map>
 #include <unordered_set>
 
 #include "cata_assert.h"

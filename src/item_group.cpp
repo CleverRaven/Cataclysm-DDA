@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <set>
+#include <unordered_map>
 
 #include "calendar.h"
 #include "cata_assert.h"
