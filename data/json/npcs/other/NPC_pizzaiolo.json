@@ -107,7 +107,7 @@
     "followup": "MISSION_pizzaiolo_2",
     "dialogue": {
       "describe": "-",
-      "offer": "I'm so <swear> angry!  I have an enemy that ruined my life, and I want revenge for it!  I don't care about <the_cataclysm>, I just want to burn his <swear> restaurant!  Would you help me?",
+      "offer": "I'm so <swear> angry!  I have an enemy that ruined my life, and I want revenge for it!  I don't care about <the_cataclysm>, I just want to burn his <swear> restaurant!  Will you help me?",
       "accepted": "Good.  Let's go to his restaurant and <swear> burn it!  Oh, by the way, could you bring gasoline with you, <name_g>?  I was so angry I forgot to bring it with me…",
       "rejected": "What?!  Why do you… ah, forget it.",
       "advice": "Maybe we can find some gasoline at gas station.",
