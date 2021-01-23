@@ -1558,6 +1558,7 @@ void inventory_selector::rearrange_columns( size_t client_width )
 void inventory_selector::prepare_layout( size_t client_width, size_t client_height )
 {
     // This block adds categories and should go before any width evaluations
+    const bool initial = get_active_column().get_selected_index() == static_cast<size_t>( -1 );
     for( auto &elem : columns ) {
         elem->set_height( client_height );
         elem->reset_width( columns );
@@ -1565,6 +1566,9 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
     }
     // Handle screen overflow
     rearrange_columns( client_width );
+    if( initial ) {
+        get_active_column().select( 0, scroll_direction::FORWARD );
+    }
     // If we have a single column and it occupies more than a half of
     // the available with -> expand it
     auto visible_columns = get_visible_columns();
