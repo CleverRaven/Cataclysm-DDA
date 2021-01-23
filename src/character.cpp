@@ -7190,12 +7190,14 @@ bodypart_id Character::body_window( const std::string &menu_header,
             } else {
                 hp_str = colorize( _( "Good" ), c_green );
             }
-        } else if( precise ) {
-            hp_str = string_format( "%d", current_hp );
         } else {
             std::pair<std::string, nc_color> h_bar = get_hp_bar( current_hp, maximal_hp, false );
             hp_str = colorize( h_bar.first, h_bar.second ) +
                      colorize( std::string( 5 - utf8_width( h_bar.first ), '.' ), c_white );
+
+            if( precise ) {
+                hp_str = string_format( "%s %d/%d", hp_str, current_hp, maximal_hp );
+            }
         }
         msg += colorize( aligned_name, all_state_col ) + " " + hp_str;
 
