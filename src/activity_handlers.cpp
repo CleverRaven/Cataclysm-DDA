@@ -2142,6 +2142,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
 
 void activity_handlers::bikerack_finish( player_activity *act, player *p )
 {
+    p->add_msg_if_player( _( "You finish working on the bike rack." ) );
     act->set_to_null();
 }
 
