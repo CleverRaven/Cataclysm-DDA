@@ -817,7 +817,7 @@
     "volume": "550 ml",
     "price": 3000,
     "price_postapoc": 250,
-    "material": [ "cotton" ],
+    "material": [ "cotton", "plastic" ],
     "symbol": "[",
     "looks_like": "armguard_soft",
     "color": "dark_gray",
