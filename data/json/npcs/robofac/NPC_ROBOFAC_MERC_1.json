@@ -266,7 +266,7 @@
   {
     "id": "MISSION_ROBOFAC_MERC_1_RADIO",
     "type": "mission_definition",
-    "name": "Active Noise Control",
+    "name": { "str": "Active Noise Control" },
     "description": "Investigate Hub 01's radio tower, discover the source of the interference, and fix the problem.",
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 5,
@@ -300,7 +300,7 @@
   {
     "id": "MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB",
     "type": "mission_definition",
-    "name": "Return to Hub 01",
+    "name": { "str": "Return to Hub 01" },
     "description": "Return to Hub 01.",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "robofachq_surface_entrance",
