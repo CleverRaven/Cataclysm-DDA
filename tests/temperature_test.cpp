@@ -130,7 +130,7 @@ TEST_CASE( "Rate of temperature change" )
         calendar::turn += 11_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
 
-        calendar::turn += 40_minutes;
+        calendar::turn += 30_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
 		
@@ -243,7 +243,7 @@ TEST_CASE( "Rate of temperature change" )
         calendar::turn += 20_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
 
-        calendar::turn += 40_minutes;
+        calendar::turn += 20_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
         // 13.3 C
