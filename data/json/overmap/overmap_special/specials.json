@@ -232,6 +232,19 @@
   },
   {
     "type": "overmap_special",
+    "id": "Large Dermatik Nest",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "nest_dermatik_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "nest_dermatik_roof_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 20, -1 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "WILDERNESS" ],
+    "spawns": { "group": "GROUP_DERMATIK", "population": [ 10, 20 ], "radius": [ 10, 15 ] }
+  },
+  {
+    "type": "overmap_special",
     "id": "Rural Gas Station",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_gas_rural_north" },

@@ -657,5 +657,13 @@
     "sym": "F",
     "color": "red",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nest_dermatik", "nest_dermatik_roof" ],
+    "name": "mound of dirt",
+    "sym": "O",
+    "color": "brown",
+    "see_cost": 2
   }
 ]
