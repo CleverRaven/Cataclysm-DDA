@@ -97,10 +97,10 @@ TEST_CASE( "Rate of temperature change" )
     SECTION( "Hot liquid to frozen" ) {
         // 2x cooked meat (50 C) cooling in -20 C environment for several hours
         // 1) Both at 50C and hot
-        // 2) Wait a short time then Meat 1 at 33.5 C and not hot
-        // 3) Wait less than an hour then Meat 1 and 2 at 0 C not frozen
-        // 4) Wait a few hours then Meat 1 and 2 at 0 C frozen
-        // 5) Wait a short time then Meat 1 and 2 at -x C
+        // 2) Wait a short time then Meat 1 at about 34.6 C and not hot
+        // 3) Wait an hour at different intervals then Meat 1 and 2 at 0 C not frozen
+        // 4) Wait two hours then Meat 1 and 2 at 0 C frozen
+        // 5) Wait a bit over hour then Meat 1 and 2 at about -5.2 C
 
         item meat1( "meat_cooked" );
         item meat2( "meat_cooked" );
@@ -179,17 +179,15 @@ TEST_CASE( "Rate of temperature change" )
     }
 
     SECTION( "Cold solid to liquid" ) {
-        // 2x cooked meat (-20 C) warming in 20 C environment for ~190 minutes
-        // 0 min: both at -20 C and frozen
-        // 11 min: meat 1 at -5.2 C
-        // 22 min: meat 1 step
-        // 33 min: meat 1 step
-        // 53 min: Meat 1, 2 at 0 C an frozen
-        // 143 min: Meat 1 and 2 at 0 C not frozen.
-        //          Both have same energy (within rounding error)
-        // 154 min: meat 1 step
-        // 174 min: meat 1 step
-        // 194 min: Meat 1 and 2 at 13.3 C
+        // 2x cooked meat (-20 C) warming in 20 C environment
+        // Start: both at -20 C and frozen
+        // 11 min: meat 1 at about -9.3 C
+        // Process 32 min in different steps
+        // Both meats frozen at 0 C
+        // Process 90 min
+        // Both meats not frozen at 9 C
+        // Process 100 min in different steps
+        // Both meats at about 2.2 C
 
         item meat1( "meat_cooked" );
         item meat2( "meat_cooked" );
@@ -254,8 +252,8 @@ TEST_CASE( "Rate of temperature change" )
         calendar::turn += 50_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
-        // 2.2 C
-        // same temp
+        
+        // about 2.2 C
         CHECK( meat1.temperature == Approx( 27532468 ).margin( 0 ) );
         CHECK( meat1.temperature == Approx( meat2.temperature ).margin( 0 ) );
     }
