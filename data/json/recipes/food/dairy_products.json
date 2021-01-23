@@ -13,7 +13,7 @@
     "book_learn": [ [ "dairy_book", 3 ] ],
     "//": "Book Things to do with milk.  Add curdled milk and cheese recipes to the book.  Also consider adding to brewing json Airag from this book.",
     "components": [ [ [ "milk_cream", 5 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_cooking", "required": false, "time_multiplier": 1.1 } ]
+    "proficiencies": [ { "proficiency": "prof_cooking_basic", "required": false, "time_multiplier": 1.1 } ]
   },
   {
     "type": "recipe",
@@ -62,6 +62,6 @@
       [ [ "colander_steel", -1 ], [ "sieve_steel", -1 ], [ "sieve_primitive", -1 ], [ "rag", -1 ] ]
     ],
     "components": [ [ [ "raw_butter", 8 ], [ "butter", 8 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_cooking", "required": false, "time_multiplier": 1.1 } ]
+    "proficiencies": [ { "proficiency": "prof_cooking_basic", "required": false, "time_multiplier": 1.1 } ]
   }
 ]

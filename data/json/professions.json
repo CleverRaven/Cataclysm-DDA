@@ -343,7 +343,7 @@
     "name": "Vagabond",
     "description": "Circumstance left you wandering the world, alone.  Now there is nothing to go back to, even if you wanted to.  Perhaps your experience in fending for yourself will prove useful in this new world.",
     "points": 2,
-    "proficiencies": [ "prof_cooking" ],
+    "proficiencies": [ "prof_cooking_basic" ],
     "skills": [
       { "level": 1, "name": "unarmed" },
       { "level": 1, "name": "tailor" },
@@ -397,7 +397,7 @@
     "name": "Sheltered Survivor",
     "description": "At the start of the Cataclysm, you hunkered down in a bomb shelter.  You've spent the past months eating canned food, reading books, and tinkering with stuff in the bunker.  Now it is winter - time to face the world above.",
     "points": 4,
-    "proficiencies": [ "prof_fibers", "prof_knitting", "prof_cooking" ],
+    "proficiencies": [ "prof_fibers", "prof_knitting", "prof_cooking_basic" ],
     "skills": [
       { "level": 2, "name": "tailor" },
       { "level": 2, "name": "computer" },
@@ -477,7 +477,7 @@
     "name": "Chef",
     "description": "Bork bork!  Years in the kitchen have left you carrying a prodigious bulk, but you managed to escape the carnage with your trusty butcher knife and only a small collection of stains on your uniform.",
     "points": 1,
-    "proficiencies": [ "prof_cooking", "prof_baking_basic" ],
+    "proficiencies": [ "prof_cooking_basic", "prof_baking_basic" ],
     "skills": [ { "name": "cooking", "level": 4 } ],
     "items": {
       "both": {
@@ -794,7 +794,7 @@
     "name": { "male": "Butler", "female": "Maid" },
     "description": "You were hired to take care of the housekeeping for a wealthy family.  Naturally, when things got bad, they all took off on a family vacation to somewhere unknown, leaving you to your fate.",
     "points": 1,
-    "proficiencies": [ "prof_cooking" ],
+    "proficiencies": [ "prof_cooking_basic" ],
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "driving" }, { "level": 2, "name": "tailor" } ],
     "items": {
       "both": { "items": [ "pocketwatch", "knife_steak" ], "entries": [ { "group": "charged_cell_phone" } ] },
@@ -979,7 +979,7 @@
       "prof_fibers_rope",
       "prof_leatherworking_basic",
       "prof_metalworking",
-      "prof_cooking",
+      "prof_cooking_basic",
       "prof_lockpicking"
     ],
     "skills": [
@@ -1561,7 +1561,7 @@
     "name": "Fast Food Cook",
     "description": "The diners at the fancy burger joint where you work seem even more irritable and unreasonable than usual today.  Time to show the meaning of fast food… by running for your life!",
     "points": 0,
-    "proficiencies": [ "prof_cooking" ],
+    "proficiencies": [ "prof_cooking_basic" ],
     "skills": [ { "level": 1, "name": "cooking" } ],
     "items": {
       "both": { "items": [ "pants", "sneakers", "tshirt", "socks", "knife_steak" ], "entries": [ { "group": "charged_cell_phone" } ] },

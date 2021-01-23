@@ -11,7 +11,7 @@
   },
   {
     "type": "proficiency",
-    "id": "prof_cooking",
+    "id": "prof_cooking_basic",
     "name": { "str": "General Cooking" },
     "description": "An understanding of cooking food and how to prepare simple meals.",
     "can_learn": true,
