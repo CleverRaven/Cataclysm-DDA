@@ -122,6 +122,13 @@ void cata::string_formatter::add_long_long_length_modifier()
     current_format.insert( current_format.size() - 1, "ll" );
 }
 
+void cata::string_formatter::discard_oct_hex_sign_flag()
+{
+    current_format.erase( std::remove_if( current_format.begin(), current_format.end(), []( char c ) {
+        return c == ' ' || c == '+';
+    } ), current_format.end() );
+}
+
 namespace cata
 {
 void string_formatter::do_formating( int value )

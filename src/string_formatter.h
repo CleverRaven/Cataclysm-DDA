@@ -256,6 +256,7 @@ class string_formatter
         /**@}*/
 
         void add_long_long_length_modifier();
+        void discard_oct_hex_sign_flag();
 
         template<typename ...Args>
         void read_conversion( const int format_arg_index, Args &&... args ) {
@@ -284,9 +285,13 @@ class string_formatter
                     return do_formating( get_nth_arg_as<signed long long int, 0>( format_arg_index,
                                          std::forward<Args>( args )... ) );
                 case 'o':
-                case 'u':
                 case 'x':
                 case 'X':
+                    // Workaround for fmtlib prepending number with ' '/'+'
+                    // when formatting with ' '/'+' flags and 'o'/'x'/'X' specifiers
+                    discard_oct_hex_sign_flag();
+                // intentional fall-through
+                case 'u':
                     add_long_long_length_modifier();
                     return do_formating( get_nth_arg_as<unsigned long long int, 0>( format_arg_index,
                                          std::forward<Args>( args )... ) );
