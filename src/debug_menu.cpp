@@ -2129,10 +2129,11 @@ void debug()
         case debug_menu_index::GENERATE_EFFECT_LIST:
             write_to_file( "effect_list.output", [&]( std::ostream & testfile ) {
                 testfile << "|;id;duration;intensity;perm;bp" << std::endl;
-                
+
                 for( const effect &eff :  get_player_character().get_effects() ) {
                     testfile << "|;" << eff.get_id().str() << ";" << to_string( eff.get_duration() ) << ";" <<
-                             eff.get_intensity() << ";" << ( eff.is_permanent() ? "true" : "false" ) << ";" << eff.get_bp().id().str()
+                             eff.get_intensity() << ";" << ( eff.is_permanent() ? "true" : "false" ) << ";" <<
+                             eff.get_bp().id().str()
                              << std::endl;
                 }
 
