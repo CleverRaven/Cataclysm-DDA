@@ -269,9 +269,9 @@ generation, each being a square with side length equal to `OMSPEC_FREQ` (defined
 the time of writing `OMSPEC_FREQ`= 15 meaning each overmap has 144 sectors for placing specials). 
 At the beginning of overmap generation, a list of eligable map specials is built 
 (`overmap_special_batch`).  Next, a free sector is chosen where a special will be placed.  A random
-point in that sector is checked against a random rotation of a special from the special batch to see
-if it can be placed there. If not, a new random point in the sector is checked against a new special, 
-and so on until a valid spawn is rolled.
+point in that sector is checked against a random rotation of a random special from the special batch 
+to see if it can be placed there. If not, a new random point in the sector is checked against a new 
+special, and so on until a valid spawn is rolled.
 
 ### Rotation
 
@@ -328,7 +328,9 @@ During generation of a new overmap, cities and their connecting roads will be ge
 specials are placed. Each city gets assigned a size at generation and will begin its life as a single 
 intersection. The city distance field specifies the minimum and maximum distance the special can be 
 placed from _this_ intersection, *not* from the edge of the city, meaning a special with a low minimum
-distance and a relaxed city size restriction may be placed on the outer border of a larger city.
+distance and a high or unbounded maximum city size may be placed on the outer border of a larger city.
+Both city size and city distance requirements are only checked for the "nearest" city, measured from the 
+original intersection.
 
 
 ### Fields
