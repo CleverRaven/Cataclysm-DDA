@@ -395,7 +395,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "fitness_band",
-    "name": "fitness band",
+    "name": { "str": "fitness band" },
     "category": "clothing",
     "volume": "100 ml",
     "description": "A fitness band that can track your heartbeat, exercise level and also has a clock.  Activate to see your metrics.",

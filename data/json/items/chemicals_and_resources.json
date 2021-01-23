@@ -392,7 +392,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sewage",
-    "name": "sewage sample",
+    "name": { "str": "sewage sample" },
     "weight": "280 g",
     "color": "green",
     "use_action": [ "SEWAGE" ],
@@ -962,7 +962,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pur_tablets",
-    "name": "water purification tablet",
+    "name": { "str": "water purification tablet" },
     "category": "chems",
     "material": [ "powder" ],
     "weight": "1 g",
