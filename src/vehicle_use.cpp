@@ -1971,7 +1971,7 @@ void vehicle::use_bike_rack( int part )
         //ensures that the turn timer used as id is moved along after each successfull bike rack interaction
         calendar::turn += 1_turns;
 
-        const activity_id ACT_BIKERACK("ACT_BIKERACK");
+        const activity_id ACT_BIKERACK( "ACT_BIKERACK" );
         activity_id actType = ACT_BIKERACK;
         player_activity new_act( actType, 100 * ( to_turns<int>( 5_minutes ) ), 0 );
         get_player_character().assign_activity( new_act, false );
