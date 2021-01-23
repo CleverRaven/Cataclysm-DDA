@@ -769,7 +769,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 default:
                                     current.clear();
                             }
-                        } else if( qry_filter_str.size() > 2 && qry_filter_str[0] == '-' ) {
+                        } else if( qry_filter_str.size() > 1 && qry_filter_str[0] == '-' ) {
                             filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 1 ),
                                                recipe_subset::search_type::exclude_name, progress_callback );
                         } else {
