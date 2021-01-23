@@ -102,5 +102,5 @@ TEST_CASE( "Wield time test", "[wield]" )
         clear_character( guy );
         wield_check_from_ground( guy, itype_id( "metal_tank" ), 300 );
         clear_character( guy );
-        }
-        }
+    }
+}
