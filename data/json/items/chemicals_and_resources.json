@@ -1414,6 +1414,7 @@
     "description": "This is a wooden bead.  It can be used to craft inscribable jewelry or create a beaded curtain door.",
     "weight": "1 g",
     "volume": "250 ml",
+    "count": 100,
     "price": 1,
     "price_postapoc": 10,
     "material": [ "wood" ],
