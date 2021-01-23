@@ -42,7 +42,7 @@
   {
     "id": "fog_machine",
     "type": "SPELL",
-    "name": "fog ex machina",
+    "name": { "str": "fog ex machina" },
     "description": "You see fog bubbling out of the device.",
     "effect": "attack",
     "shape": "cone",
