@@ -530,7 +530,7 @@ class requirement_watcher : stat_watcher
             current_value_( req.statistic->value( stats ) ),
             tracker_( &tracker ),
             requirement_( &req ) {
-            stats.add_watcher( req.statistic, this );
+            stats.add_watcher( req.statistic, this, &current_value_ );
         }
 
         const cata_variant &current_value() const {

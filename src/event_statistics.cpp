@@ -157,7 +157,8 @@ class event_statistic::impl
     public:
         virtual ~impl() = default;
         virtual cata_variant value( stats_tracker & ) const = 0;
-        virtual std::unique_ptr<stats_tracker_state> watch( stats_tracker & ) const = 0;
+        virtual std::unique_ptr<stats_tracker_state> watch(
+            stats_tracker &, const cata_variant *value_hint ) const = 0;
         virtual void check( const std::string &/*name*/ ) const {}
         virtual cata_variant_type type() const = 0;
         virtual monotonically monotonicity() const = 0;
@@ -516,7 +517,10 @@ struct event_transformation_impl : public event_transformation::impl {
             trans->source_->add_watcher( stats, this );
             for( const auto &p : trans->constraints_ ) {
                 if( p.second.equals_statistic_ ) {
-                    stats.add_watcher( *p.second.equals_statistic_, this );
+                    // TODO: we need a version of value_constraint that is
+                    // itself a watcher so that it can cache the statistic
+                    // value it cares about and not constantly recompute it.
+                    stats.add_watcher( *p.second.equals_statistic_, this, nullptr );
                 }
             }
         }
@@ -633,9 +637,10 @@ struct event_statistic_count : event_statistic::impl {
     }
 
     struct state : stats_tracker_state, event_multiset_watcher {
-        state( const event_statistic_count *s, stats_tracker &stats ) :
+        state( const event_statistic_count *s, stats_tracker &stats,
+               const cata_variant *value_hint ) :
             stat( s ),
-            value( s->value( stats ).get<int>() ) {
+            value( ( value_hint ? * value_hint : s->value( stats ) ).get<int>() ) {
             stat->source->add_watcher( stats, this );
         }
 
@@ -653,8 +658,9 @@ struct event_statistic_count : event_statistic::impl {
         int value;
     };
 
-    std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
-        return std::make_unique<state>( this, stats );
+    std::unique_ptr<stats_tracker_state> watch(
+        stats_tracker &stats, const cata_variant *value_hint ) const override {
+        return std::make_unique<state>( this, stats, value_hint );
     }
 
     cata_variant_type type() const override {
@@ -728,9 +734,10 @@ struct event_statistic_total : event_statistic_field_summary<true> {
     }
 
     struct state : stats_tracker_state, event_multiset_watcher {
-        state( const event_statistic_total *s, stats_tracker &stats ) :
+        state( const event_statistic_total *s, stats_tracker &stats,
+               const cata_variant *value_hint ) :
             stat( s ),
-            value( s->value( stats ).get<int>() ) {
+            value( ( value_hint ? * value_hint : s->value( stats ) ).get<int>() ) {
             stat->source->add_watcher( stats, this );
         }
 
@@ -748,8 +755,9 @@ struct event_statistic_total : event_statistic_field_summary<true> {
         int value;
     };
 
-    std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
-        return std::make_unique<state>( this, stats );
+    std::unique_ptr<stats_tracker_state> watch(
+        stats_tracker &stats, const cata_variant *value_hint ) const override {
+        return std::make_unique<state>( this, stats, value_hint );
     }
 
     monotonically monotonicity() const override {
@@ -770,9 +778,10 @@ struct event_statistic_maximum : event_statistic_field_summary<true> {
     }
 
     struct state : stats_tracker_state, event_multiset_watcher {
-        state( const event_statistic_maximum *s, stats_tracker &stats ) :
+        state( const event_statistic_maximum *s, stats_tracker &stats,
+               const cata_variant *value_hint ) :
             stat( s ),
-            value( s->value( stats ).get<int>() ) {
+            value( ( value_hint ? * value_hint : s->value( stats ) ).get<int>() ) {
             stat->source->add_watcher( stats, this );
         }
 
@@ -793,8 +802,9 @@ struct event_statistic_maximum : event_statistic_field_summary<true> {
         int value;
     };
 
-    std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
-        return std::make_unique<state>( this, stats );
+    std::unique_ptr<stats_tracker_state> watch(
+        stats_tracker &stats, const cata_variant *value_hint ) const override {
+        return std::make_unique<state>( this, stats, value_hint );
     }
 
     monotonically monotonicity() const override {
@@ -815,9 +825,10 @@ struct event_statistic_minimum : event_statistic_field_summary<true> {
     }
 
     struct state : stats_tracker_state, event_multiset_watcher {
-        state( const event_statistic_minimum *s, stats_tracker &stats ) :
+        state( const event_statistic_minimum *s, stats_tracker &stats,
+               const cata_variant *value_hint ) :
             stat( s ),
-            value( s->value( stats ).get<int>() ) {
+            value( ( value_hint ? * value_hint : s->value( stats ) ).get<int>() ) {
             stat->source->add_watcher( stats, this );
         }
 
@@ -838,8 +849,9 @@ struct event_statistic_minimum : event_statistic_field_summary<true> {
         int value;
     };
 
-    std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
-        return std::make_unique<state>( this, stats );
+    std::unique_ptr<stats_tracker_state> watch(
+        stats_tracker &stats, const cata_variant *value_hint ) const override {
+        return std::make_unique<state>( this, stats, value_hint );
     }
 
     monotonically monotonicity() const override {
@@ -875,15 +887,16 @@ struct event_statistic_unique_value : event_statistic_field_summary<false> {
     }
 
     struct state : stats_tracker_state, event_multiset_watcher {
-        state( const event_statistic_unique_value *s, stats_tracker &stats ) :
+        state( const event_statistic_unique_value *s, stats_tracker &stats,
+               const cata_variant *value_hint ) :
             stat( s ) {
-            init( stats );
+            init( stats, value_hint );
             stat->source->add_watcher( stats, this );
         }
 
-        void init( stats_tracker &stats ) {
+        void init( stats_tracker &stats, const cata_variant *value_hint ) {
             count = stat->source->get( stats ).count();
-            value = stat->value( stats );
+            value = value_hint ? *value_hint : stat->value( stats );
         }
 
         void event_added( const cata::event &e, stats_tracker &stats ) override {
@@ -899,7 +912,7 @@ struct event_statistic_unique_value : event_statistic_field_summary<false> {
         }
 
         void events_reset( const event_multiset &, stats_tracker &stats ) override {
-            init( stats );
+            init( stats, nullptr );
             stats.stat_value_changed( stat->id, value );
         }
 
@@ -908,8 +921,9 @@ struct event_statistic_unique_value : event_statistic_field_summary<false> {
         cata_variant value;
     };
 
-    std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
-        return std::make_unique<state>( this, stats );
+    std::unique_ptr<stats_tracker_state> watch(
+        stats_tracker &stats, const cata_variant *value_hint ) const override {
+        return std::make_unique<state>( this, stats, value_hint );
     }
 
     monotonically monotonicity() const override {
@@ -942,15 +956,16 @@ struct event_statistic_first_value : event_statistic_field_summary<false> {
     }
 
     struct state : stats_tracker_state, event_multiset_watcher {
-        state( const event_statistic_first_value *s, stats_tracker &stats ) :
+        state( const event_statistic_first_value *s, stats_tracker &stats,
+               const cata_variant *value_hint ) :
             stat( s ) {
-            init( stats );
+            init( stats, value_hint );
             stat->source->add_watcher( stats, this );
         }
 
-        void init( stats_tracker &stats ) {
+        void init( stats_tracker &stats, const cata_variant *value_hint ) {
             count = stat->source->get( stats ).count();
-            value = stat->value( stats );
+            value = value_hint ? *value_hint : stat->value( stats );
         }
 
         void event_added( const cata::event &e, stats_tracker &stats ) override {
@@ -964,7 +979,7 @@ struct event_statistic_first_value : event_statistic_field_summary<false> {
         }
 
         void events_reset( const event_multiset &, stats_tracker &stats ) override {
-            init( stats );
+            init( stats, nullptr );
             stats.stat_value_changed( stat->id, value );
         }
 
@@ -973,8 +988,9 @@ struct event_statistic_first_value : event_statistic_field_summary<false> {
         cata_variant value;
     };
 
-    std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
-        return std::make_unique<state>( this, stats );
+    std::unique_ptr<stats_tracker_state> watch(
+        stats_tracker &stats, const cata_variant *value_hint ) const override {
+        return std::make_unique<state>( this, stats, value_hint );
     }
 
     monotonically monotonicity() const override {
@@ -1007,14 +1023,15 @@ struct event_statistic_last_value : event_statistic_field_summary<false> {
     }
 
     struct state : stats_tracker_state, event_multiset_watcher {
-        state( const event_statistic_last_value *s, stats_tracker &stats ) :
+        state( const event_statistic_last_value *s, stats_tracker &stats,
+               const cata_variant *value_hint ) :
             stat( s ) {
-            init( stats );
+            init( stats, value_hint );
             stat->source->add_watcher( stats, this );
         }
 
-        void init( stats_tracker &stats ) {
-            value = stat->value( stats );
+        void init( stats_tracker &stats, const cata_variant *value_hint ) {
+            value = value_hint ? *value_hint : stat->value( stats );
         }
 
         void event_added( const cata::event &e, stats_tracker &stats ) override {
@@ -1023,7 +1040,7 @@ struct event_statistic_last_value : event_statistic_field_summary<false> {
         }
 
         void events_reset( const event_multiset &, stats_tracker &stats ) override {
-            init( stats );
+            init( stats, nullptr );
             stats.stat_value_changed( stat->id, value );
         }
 
@@ -1031,8 +1048,9 @@ struct event_statistic_last_value : event_statistic_field_summary<false> {
         cata_variant value;
     };
 
-    std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
-        return std::make_unique<state>( this, stats );
+    std::unique_ptr<stats_tracker_state> watch(
+        stats_tracker &stats, const cata_variant *value_hint ) const override {
+        return std::make_unique<state>( this, stats, value_hint );
     }
 
     monotonically monotonicity() const override {
@@ -1053,9 +1071,10 @@ cata_variant event_statistic::value( stats_tracker &stats ) const
     return impl_->value( stats );
 }
 
-std::unique_ptr<stats_tracker_state> event_statistic::watch( stats_tracker &stats ) const
+std::unique_ptr<stats_tracker_state> event_statistic::watch(
+    stats_tracker &stats, const cata_variant *value_hint ) const
 {
-    return impl_->watch( stats );
+    return impl_->watch( stats, value_hint );
 }
 
 void event_statistic::load( const JsonObject &jo, const std::string & )

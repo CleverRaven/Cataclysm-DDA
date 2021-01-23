@@ -417,13 +417,13 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
         watch_stat swam_watcher;
         watch_stat swam_underwater_watcher;
 
-        s.add_watcher( stat_moves, &moves_watcher );
-        s.add_watcher( stat_walked, &walked_watcher );
-        s.add_watcher( stat_mounted, &mounted_watcher );
-        s.add_watcher( stat_ran, &ran_watcher );
-        s.add_watcher( stat_crouched, &crouched_watcher );
-        s.add_watcher( stat_swam, &swam_watcher );
-        s.add_watcher( stat_swam_underwater, &swam_underwater_watcher );
+        s.add_watcher( stat_moves, &moves_watcher, nullptr );
+        s.add_watcher( stat_walked, &walked_watcher, nullptr );
+        s.add_watcher( stat_mounted, &mounted_watcher, nullptr );
+        s.add_watcher( stat_ran, &ran_watcher, nullptr );
+        s.add_watcher( stat_crouched, &crouched_watcher, nullptr );
+        s.add_watcher( stat_swam, &swam_watcher, nullptr );
+        s.add_watcher( stat_swam_underwater, &swam_underwater_watcher, nullptr );
 
         CHECK( moves_watcher.value == cata_variant() );
         CHECK( walked_watcher.value == cata_variant() );
@@ -511,8 +511,8 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
 
         watch_stat kills_watcher;
         watch_stat zombie_kills_watcher;
-        s.add_watcher( num_avatar_monster_kills, &kills_watcher );
-        s.add_watcher( num_avatar_zombie_kills, &zombie_kills_watcher );
+        s.add_watcher( num_avatar_monster_kills, &kills_watcher, nullptr );
+        s.add_watcher( num_avatar_zombie_kills, &zombie_kills_watcher, nullptr );
 
         send_game_start( b, u_id );
         CHECK( kills_watcher.value == cata_variant( 0 ) );
@@ -532,7 +532,7 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
             cata::event::make<event_type::character_takes_damage>( u_id, 2 );
         const string_id<event_statistic> damage_taken( "avatar_damage_taken" );
         watch_stat damage_watcher;
-        s.add_watcher( damage_taken, &damage_watcher );
+        s.add_watcher( damage_taken, &damage_watcher, nullptr );
 
         CHECK( damage_watcher.value == cata_variant() );
         send_game_start( b, u_id );

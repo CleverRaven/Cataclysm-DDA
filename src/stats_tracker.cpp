@@ -256,13 +256,14 @@ void stats_tracker::add_watcher( const string_id<event_transformation> &id,
     }
 }
 
-void stats_tracker::add_watcher( const string_id<event_statistic> &id, stat_watcher *watcher )
+void stats_tracker::add_watcher( const string_id<event_statistic> &id, stat_watcher *watcher,
+                                 const cata_variant *value_hint )
 {
     stat_watchers[id].insert( watcher );
     watcher->on_subscribe( this );
     std::unique_ptr<stats_tracker_state> &state = stat_states[ id ];
     if( !state ) {
-        state = id->watch( *this );
+        state = id->watch( *this, value_hint );
     }
 }
 

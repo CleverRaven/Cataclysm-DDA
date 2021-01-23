@@ -181,7 +181,11 @@ class stats_tracker : public event_subscriber
 
         void add_watcher( event_type, event_multiset_watcher * );
         void add_watcher( const string_id<event_transformation> &, event_multiset_watcher * );
-        void add_watcher( const string_id<event_statistic> &, stat_watcher * );
+        // If you already know the value of the statistic being watched, then
+        // pass that via value_hint so that the new watcher need not recompute
+        // it (otherwise, pass nullptr).
+        void add_watcher( const string_id<event_statistic> &, stat_watcher *,
+                          const cata_variant *value_hint );
 
         void unwatch( base_watcher * );
 

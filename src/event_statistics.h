@@ -65,7 +65,8 @@ class event_statistic
 {
     public:
         cata_variant value( stats_tracker & ) const;
-        std::unique_ptr<stats_tracker_state> watch( stats_tracker & ) const;
+        std::unique_ptr<stats_tracker_state> watch(
+            stats_tracker &, const cata_variant *value_hint ) const;
 
         void load( const JsonObject &, const std::string & );
         void check() const;
