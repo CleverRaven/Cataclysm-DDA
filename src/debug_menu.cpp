@@ -184,6 +184,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
+        case debug_menu::debug_menu_index::GENERATE_EFFECT_LIST: return "GENERATE_EFFECT_LIST";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -266,6 +267,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
+            { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
                                    debug_only_options.end() );
@@ -2122,6 +2124,19 @@ void debug()
         }
         case debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION:
             MapExtras::debug_spawn_test();
+            break;
+
+        case debug_menu_index::GENERATE_EFFECT_LIST:
+            write_to_file( "effect_list.output", [&]( std::ostream & testfile ) {
+                testfile << "|;id;duration;intensity;perm;bp" << std::endl;
+                
+                for( const effect &eff :  get_player_character().get_effects() ) {
+                    testfile << "|;" << eff.get_id().str() << ";" << to_string( eff.get_duration() ) << ";" <<
+                             eff.get_intensity() << ";" << ( eff.is_permanent() ? "true" : "false" ) << ";" << eff.get_bp().id().str()
+                             << std::endl;
+                }
+
+            }, "effect_list" );
             break;
 
         case debug_menu_index::VEHICLE_BATTERY_CHARGE: {
