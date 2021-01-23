@@ -969,7 +969,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 _( "\nUse <color_red>up/down arrow</color> to go through your search history." );
             description += "\n\n\n";
 
-            string_input_popup()
+            string_input_popup popup;
+            popup
             .title( _( "Search:" ) )
             .width( 85 )
             .description( description )
@@ -977,7 +978,15 @@ const recipe *select_crafting_recipe( int &batch_size )
             .identifier( "craft_recipe_filter" )
             .hist_use_uilist( false )
             .edit( filterstring );
-            recalc = true;
+
+            if( popup.confirmed() ) {
+                recalc = true;
+                if( batch ) {
+                    // exit from batch selection
+                    batch = false;
+                    line = batch_line;
+                }
+            }
         } else if( action == "QUIT" ) {
             chosen = nullptr;
             done = true;
