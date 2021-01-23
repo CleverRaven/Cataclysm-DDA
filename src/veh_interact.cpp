@@ -1442,7 +1442,7 @@ void veh_interact::calc_vehicle_header()
 std::vector<veh_interact::part_option> veh_interact::get_vehicle_overview(
     const std::string carried_vehicle_name )
 {
-    bool is_carried = !std::empty( carried_vehicle_name );
+    bool is_carried =  !carried_vehicle_name.empty();
     std::vector<veh_interact::part_option> tmp_overview_opts;
     const hotkey_queue &hotkeys = hotkey_queue::alphabets();
 
