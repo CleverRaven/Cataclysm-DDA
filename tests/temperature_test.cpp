@@ -133,10 +133,10 @@ TEST_CASE( "Rate of temperature change" )
         calendar::turn += 30_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
-		calendar::turn += 11_minutes;
+        calendar::turn += 11_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
-		
+
         // 0C
         // not frozen
         CHECK( meat1.temperature == 27315000 );
@@ -167,7 +167,7 @@ TEST_CASE( "Rate of temperature change" )
         calendar::turn += 20_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
-		calendar::turn += 50_minutes;
+        calendar::turn += 50_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
 
@@ -252,7 +252,7 @@ TEST_CASE( "Rate of temperature change" )
         calendar::turn += 20_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
-		calendar::turn += 50_minutes;
+        calendar::turn += 50_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
         // 2.2 C
@@ -276,18 +276,21 @@ TEST_CASE( "Temperature controlled location" )
         water1.process_temperature_rot( 1, tripoint_zero, nullptr,
                                         temperature_flag::HEATER );
 
-        CHECK( water1.temperature == Approx( 100000 * temp_to_kelvin( temperatures::normal ) ).margin( 10 ) );
+        CHECK( water1.temperature == Approx( 100000 * temp_to_kelvin( temperatures::normal ) ).margin(
+                   10 ) );
 
         calendar::turn += 15_minutes;
         water1.process_temperature_rot( 1, tripoint_zero, nullptr,
                                         temperature_flag::HEATER );
 
-        CHECK( water1.temperature == Approx( 100000 * temp_to_kelvin( temperatures::normal ) ).margin( 10 ) );
+        CHECK( water1.temperature == Approx( 100000 * temp_to_kelvin( temperatures::normal ) ).margin(
+                   10 ) );
 
         calendar::turn += 2_hours + 3_minutes;
         water1.process_temperature_rot( 1, tripoint_zero, nullptr,
                                         temperature_flag::HEATER );
 
-        CHECK( water1.temperature == Approx( 100000 * temp_to_kelvin( temperatures::normal ) ).margin( 10 ) );
+        CHECK( water1.temperature == Approx( 100000 * temp_to_kelvin( temperatures::normal ) ).margin(
+                   10 ) );
     }
 }
