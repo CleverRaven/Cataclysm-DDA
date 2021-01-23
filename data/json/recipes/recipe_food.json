@@ -4459,7 +4459,7 @@
     "components": [
       [ [ "bag_plastic", 1 ], [ "plastic_bag_vac", 1 ] ],
       [ [ "meat_red_raw", 2, "LIST" ] ],
-      [ [ "salt_preservation", 2, "LIST" ] ] 
+      [ [ "salt_preservation", 2, "LIST" ] ]
     ]
   },
   {
@@ -4478,11 +4478,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "vac_sealer", 10 ], [ "makeshift_sealer", 20 ] ] ],
-    "components": [
-      [ [ "bag_plastic", 1 ], [ "plastic_bag_vac", 1 ] ],
-      [ [ "fish", 5 ] ],
-      [ [ "salt_preservation", 5, "LIST" ] ] 
-    ]
+    "components": [ [ [ "bag_plastic", 1 ], [ "plastic_bag_vac", 1 ] ], [ [ "fish", 5 ] ], [ [ "salt_preservation", 5, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4503,7 +4499,7 @@
     "components": [
       [ [ "bag_plastic", 1 ], [ "plastic_bag_vac", 1 ] ],
       [ [ "veggy_any_uncooked", 2, "LIST" ] ],
-      [ [ "salt_preservation", 2, "LIST" ] ] 
+      [ [ "salt_preservation", 2, "LIST" ] ]
     ]
   },
   {
