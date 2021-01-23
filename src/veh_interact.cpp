@@ -1356,50 +1356,38 @@ void veh_interact::calc_overview()
     overview_opts.clear();
     overview_headers.clear();
 
-    veh_interact::calc_vehicle_header( veh );
-
+    veh_interact::calc_vehicle_header();
     //call for main vehicle ui
-    overview_opts = get_vehicle_overview( veh, false );
+    overview_opts = get_vehicle_overview();
 
-    //group carried vehicle parts by their assigned carry_names stacks top element
-    std::map<std::string, std::vector<vehicle_part>> carried_vehicles;
-
+    std::vector<std::string> carried_vehicles;
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        if( vpr.part().has_flag( vehicle_part::carried_flag ) ) {
-            carried_vehicles[vpr.part().carry_names.top().substr( vehicle_part::name_offset )].push_back(
-                vpr.part() );
+        if( vpr.part().has_flag( vehicle_part::carried_flag ) && ( carried_vehicles.empty() ||
+                std::find( carried_vehicles.begin(), carried_vehicles.end(),
+                           vpr.part().carry_names.top().substr( vehicle_part::name_offset ) ) == carried_vehicles.end() ) ) {
+
+
+            std::vector<part_option> tmp_overview = get_vehicle_overview( vpr.part().carry_names.top().substr(
+                    vehicle_part::name_offset ) );
+            overview_opts.insert( overview_opts.end(), tmp_overview.begin(), tmp_overview.end() );
+            carried_vehicles.push_back( vpr.part().carry_names.top().substr( vehicle_part::name_offset ) );
+
         }
-    }
-
-    for( std::pair<std::string, std::vector<vehicle_part>> it : carried_vehicles ) {
-        vehicle *tmp_car = new vehicle();
-
-        if( !it.second.empty() && tmp_car->name.empty() ) {
-            tmp_car->name = it.second[0].carried_name();
-        }
-
-        for( vehicle_part &part : it.second ) {
-            tmp_car->install_part( point_zero, part );
-        }
-
-        std::vector<part_option> tmp_overview = get_vehicle_overview( tmp_car, true );
-        overview_opts.insert( overview_opts.end(), tmp_overview.begin(), tmp_overview.end() );
-        free( tmp_car );
     }
 }
 
-void veh_interact::calc_vehicle_header( const vehicle *car )
+void veh_interact::calc_vehicle_header()
 {
-    int epower_w = car->net_battery_charge_rate_w();
+    int epower_w = veh->net_battery_charge_rate_w();
 
     overview_headers["0_CARRIED_NAME"] = []( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "" ) );
     };
-    overview_headers["1_ENGINE"] = [car]( const catacurses::window & w, int y ) {
+    overview_headers["1_ENGINE"] = [this]( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
                         string_format( _( "Engines %sSafe %4d kW</color> %sMax %4d kW</color>" ),
-                                       health_color( true ), car->total_power_w( true, true ) / 1000,
-                                       health_color( false ), car->total_power_w() / 1000 ) );
+                                       health_color( true ), veh->total_power_w( true, true ) / 1000,
+                                       health_color( false ), veh->total_power_w() / 1000 ) );
         right_print( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
     };
     overview_headers["1_CARRIED_ENGINE"] = []( const catacurses::window & w, int y ) {
@@ -1422,8 +1410,8 @@ void veh_interact::calc_vehicle_header( const vehicle *car )
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, batt );
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
-    overview_headers["4_REACTOR"] = [epower_w, car]( const catacurses::window & w, int y ) {
-        int reactor_epower_w = car->max_reactor_epower_w();
+    overview_headers["4_REACTOR"] = [this, epower_w]( const catacurses::window & w, int y ) {
+        int reactor_epower_w = veh->max_reactor_epower_w();
         if( reactor_epower_w > 0 && epower_w < 0 ) {
             reactor_epower_w += epower_w;
         }
@@ -1451,9 +1439,10 @@ void veh_interact::calc_vehicle_header( const vehicle *car )
 
 }
 
-std::vector<veh_interact::part_option> veh_interact::get_vehicle_overview( const vehicle *car,
-        const bool is_carried )
+std::vector<veh_interact::part_option> veh_interact::get_vehicle_overview(
+    const std::string carried_vehicle_name )
 {
+    bool is_carried = !std::empty( carried_vehicle_name );
     std::vector<veh_interact::part_option> tmp_overview_opts;
     const hotkey_queue &hotkeys = hotkey_queue::alphabets();
 
@@ -1470,13 +1459,15 @@ std::vector<veh_interact::part_option> veh_interact::get_vehicle_overview( const
     input_event hotkey = main_context.first_unassigned_hotkey( hotkeys );
     bool add_seperator = is_carried;
 
-    for( const vpart_reference &vpr : car->get_all_parts() ) {
+    for( const vpart_reference &vpr : veh->get_all_parts() ) {
+        //skip conditions
         if( vpr.part().is_broken() ||
-            is_carried != vpr.part().has_flag( vehicle_part::carried_flag ) ) {
+            !( is_carried == vpr.part().has_flag( vehicle_part::carried_flag ) ) || ( is_carried &&
+                    vpr.part().carry_names.top().substr( vehicle_part::name_offset ) != carried_vehicle_name ) ) {
             continue;
         }
 
-        if( add_seperator && !car->name.empty() && ( vpr.part().is_engine() || vpr.part().is_tank() ||
+        if( add_seperator && !veh->name.empty() && ( vpr.part().is_engine() || vpr.part().is_tank() ||
                 vpr.part().is_battery() || vpr.part().is_reactor() || vpr.part().is_turret() ||
                 vpr.part().is_seat() ) ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
@@ -1494,6 +1485,7 @@ std::vector<veh_interact::part_option> veh_interact::get_vehicle_overview( const
 
             add_seperator = false;
         }
+
         if( vpr.part().is_engine() ) {
             // if tank contains something then display the contents in milliliters
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
@@ -1641,7 +1633,9 @@ std::vector<veh_interact::part_option> veh_interact::get_vehicle_overview( const
         // NOLINTNEXTLINE cata-use-localized-sorting
         return  s1.key <  s2.key;
     };
-    std::sort( tmp_overview_opts.begin(), tmp_overview_opts.end(), compare );
+    if( !tmp_overview_opts.empty() ) {
+        std::sort( tmp_overview_opts.begin(), tmp_overview_opts.end(), compare );
+    }
     return tmp_overview_opts;
 }
 
