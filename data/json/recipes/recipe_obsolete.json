@@ -2716,11 +2716,7 @@
     "result": "element",
     "obsolete": true
   },
- {
-    "type": "recipe",
-    "result": "foot_crank",
-    "obsolete": true
-  }, {
+  {
     "type": "recipe",
     "result": "foot_crank",
     "obsolete": true
