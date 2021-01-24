@@ -152,7 +152,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     }
 
     // As float to avoid rounding too many times
-    float kcal = comest.get_comestible()->default_nutrition.kcal;
+    float kcal = comest.get_comestible()->default_nutrition.kcal();
 
     // Many raw foods give less calories, as your body has expends more energy digesting them.
     bool cooked = comest.has_flag( flag_COOKED ) || extra_flags.count( flag_COOKED );
@@ -231,7 +231,8 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
 static nutrients compute_default_effective_nutrients( const item &comest,
         const Character &you, const cata::flat_set<flag_id> &extra_flags = {} )
 {
-    return { compute_default_effective_kcal( comest, you, extra_flags ),
+    // Multiply by 1000 to get it in calories
+    return { compute_default_effective_kcal( comest, you, extra_flags ) * 1000,
              compute_default_effective_vitamins( comest, you ) };
 }
 
@@ -373,7 +374,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
 
 int Character::nutrition_for( const item &comest ) const
 {
-    return compute_effective_nutrients( comest ).kcal / islot_comestible::kcal_per_nutr;
+    return compute_effective_nutrients( comest ).kcal() / islot_comestible::kcal_per_nutr;
 }
 
 std::pair<int, int> Character::fun_for( const item &comest ) const
@@ -1228,7 +1229,8 @@ double Character::compute_effective_food_volume_ratio( const item &food ) const
     units::mass food_weight = ( food.weight() / food.count() );
     double ratio = 1.0f;
     if( units::to_gram( food_weight ) != 0 ) {
-        ratio = std::max( static_cast<double>( food_nutrients.kcal ) / units::to_gram( food_weight ), 1.0 );
+        ratio = std::max( static_cast<double>( food_nutrients.kcal() ) / units::to_gram( food_weight ),
+                          1.0 );
         if( ratio > 3.0f ) {
             ratio = std::sqrt( 3 * ratio );
         }
@@ -1264,9 +1266,9 @@ int Character::compute_calories_per_effective_volume( const item &food,
     int kcalories;
     if( nutrient ) {
         // if given the optional nutrient argument, we will compute kcal based on that. ( Crafting menu ).
-        kcalories = nutrient->kcal;
+        kcalories = nutrient->kcal();
     } else {
-        kcalories = compute_effective_nutrients( food ).kcal;
+        kcalories = compute_effective_nutrients( food ).kcal();
     }
     double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
     const double energy_density_ratio = compute_effective_food_volume_ratio( food );
@@ -1391,7 +1393,7 @@ bool Character::consume_effects( item &food )
     add_msg_debug(
         "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
         units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
-        food_nutrients.kcal, units::to_gram( food_weight ) );
+        food_nutrients.kcal(), units::to_gram( food_weight ) );
     // Maybe move tapeworm to digestion
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
