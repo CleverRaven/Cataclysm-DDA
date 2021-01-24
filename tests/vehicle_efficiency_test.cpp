@@ -321,7 +321,7 @@ static void print_test_strings( const std::string &type )
     int v4 = avg_from_stat( find_inner( type, expected_mass, "t_dirt", 5, false, false ) );
 
     cata_printf(
-        "    test_vehicle( \"%s\", %d; %d, %d, %d, %d );",
+        "    test_vehicle( \"%s\", %d; %d, %d, %d, %d );\n",
         type, expm, v1, v2, v3, v4
     );
 }
