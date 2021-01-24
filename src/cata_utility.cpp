@@ -488,6 +488,10 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
 
 void ofstream_wrapper::open( const std::ios::openmode mode )
 {
+    if( dir_exist( path ) ) {
+        throw std::runtime_error( "target path is a directory" );
+    }
+
     // Create a *unique* temporary path. No other running program should
     // use this path. If the file exists, it must be of a *former* program
     // instance and can savely be deleted.
