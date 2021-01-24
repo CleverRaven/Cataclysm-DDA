@@ -161,7 +161,7 @@ std::string iloc_entry_weight( iloc_entry const &it, int width )
 
 std::string iloc_entry_volume( iloc_entry const &it, int width )
 {
-    return format_volume( _iloc_entry_volume( it ), -width, nullptr, nullptr );
+    return format_volume( _iloc_entry_volume( it ), width, nullptr, nullptr );
 }
 
 std::string iloc_entry_name( iloc_entry const &it, int /* width */ )
