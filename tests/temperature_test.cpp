@@ -40,8 +40,8 @@ TEST_CASE( "Rate of temperature change" )
 {
     // Fahrenheits and kelvins get used and converted around
     // So there are small rounding errors everywhere. Use margins.
-    // The calculations are done once every 101 turns (10 min 6 seconds)
-    // Don't bother with times shorter than this
+    // The calculations are done once every 10 minutes.
+    // Don't bother with times shorter than that.
 
     // Note: If process interval is longer than 1 hour the calculations will be done using the environment temperature
     // IMPORTANT: Processing intervals should be kept below 1 hour to avoid this.
