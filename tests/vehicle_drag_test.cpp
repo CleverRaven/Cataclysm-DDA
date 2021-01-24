@@ -11,6 +11,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
+#include "string_formatter.h"
 #include "test_statistics.h"
 #include "type_id.h"
 #include "vehicle.h"
@@ -119,17 +120,10 @@ static bool test_drag(
         valid &= i_in_bounds( expected_max, max_v );
     }
     if( !valid ) {
-        printf( "    test_vehicle_drag( \"%s\", %f, %f, %f, %d, %d );\n",
-                veh_id.c_str(), c_air, c_rolling, c_water, safe_v, max_v );
-        fflush( stdout );
+        cata_printf( "    test_vehicle_drag( \"%s\", %f, %f, %f, %d, %d );\n",
+                     veh_id.c_str(), c_air, c_rolling, c_water, safe_v, max_v );
     }
     return valid;
-}
-
-static void print_drag_test_strings( const std::string &type )
-{
-    test_drag( vproto_id( type ) );
-    fflush( stdout );
 }
 
 static void test_vehicle_drag(
@@ -220,7 +214,7 @@ std::vector<std::string> vehs_to_test_drag = {
 TEST_CASE( "vehicle_drag_calc_baseline", "[.]" )
 {
     for( const std::string &veh : vehs_to_test_drag ) {
-        print_drag_test_strings( veh );
+        test_drag( vproto_id( veh ) );
     }
 }
 

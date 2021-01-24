@@ -10,6 +10,7 @@
 #include "map_helpers.h"
 #include "player.h"
 #include "player_helpers.h"
+#include "string_formatter.h"
 #include "item.h"
 #include "point.h"
 
@@ -22,7 +23,7 @@ static void wield_check_internal( player &dummy, item &the_item, const char *sec
     dummy.wield( the_item );
     int move_cost = old_moves - dummy.moves;
     if( expected_cost < 0 ) {
-        printf( "    wield_check( %s, dummy, %s, %d );\n", section_text, var_name.c_str(), move_cost );
+        cata_printf( "    wield_check( %s, dummy, %s, %d );\n", section_text, var_name.c_str(), move_cost );
     } else {
         INFO( "Strength:" << dummy.get_str() );
         int max_cost = expected_cost * 1.1f;

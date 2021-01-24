@@ -21,6 +21,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
+#include "string_formatter.h"
 #include "test_statistics.h"
 #include "type_id.h"
 #include "units.h"
@@ -275,10 +276,10 @@ static efficiency_stat find_inner(
 static void print_stats( const efficiency_stat &st )
 {
     if( st.min() == st.max() ) {
-        printf( "All results %d.\n", st.min() );
+        cata_printf( "All results %d.\n", st.min() );
     } else {
-        printf( "Min %d, Max %d, Midpoint %f.\n", st.min(), st.max(),
-                ( st.min() + st.max() ) / 2.0 );
+        cata_printf( "Min %d, Max %d, Midpoint %f.\n", st.min(), st.max(),
+                     ( st.min() + st.max() ) / 2.0 );
     }
 }
 
@@ -286,8 +287,8 @@ static void print_efficiency(
     const std::string &type, int expected_mass, const std::string &terrain, const int delay,
     const bool smooth )
 {
-    printf( "Testing %s on %s with %s: ",
-            type.c_str(), terrain.c_str(), ( delay < 0 ) ? "no resets" : "resets every 5 turns" );
+    cata_printf( "Testing %s on %s with %s: ",
+                 type.c_str(), terrain.c_str(), ( delay < 0 ) ? "no resets" : "resets every 5 turns" );
     print_stats( find_inner( type, expected_mass, terrain, delay, smooth ) );
 }
 
@@ -301,7 +302,7 @@ static void find_efficiency( const std::string &type )
     }
 }
 
-static int average_from_stat( const efficiency_stat &st )
+static int avg_from_stat( const efficiency_stat &st )
 {
     const int ugly_integer = ( st.min() + st.max() ) / 2.0;
     // Round to 4 most significant places
@@ -310,25 +311,19 @@ static int average_from_stat( const efficiency_stat &st )
     return ugly_integer - ugly_integer % precision;
 }
 
-// Behold: power of laziness
 static void print_test_strings( const std::string &type )
 {
-    std::ostringstream ss;
     int expected_mass = 0;
-    ss << "    test_vehicle( \"" << type << "\", ";
-    const int d_pave = average_from_stat( find_inner( type, expected_mass, "t_pavement", -1,
-                                          false, false ) );
-    ss << expected_mass << ", " << d_pave << ", ";
-    ss << average_from_stat( find_inner( type, expected_mass, "t_dirt", -1,
-                                         false, false ) ) << ", ";
-    ss << average_from_stat( find_inner( type, expected_mass, "t_pavement", 5,
-                                         false, false ) ) << ", ";
-    ss << average_from_stat( find_inner( type, expected_mass, "t_dirt", 5, false, false ) );
-    //ss << average_from_stat( find_inner( type, "t_pavement", 5, true ) ) << ", ";
-    //ss << average_from_stat( find_inner( type, "t_dirt", 5, true ) );
-    ss << " );" << std::endl;
-    printf( "%s", ss.str().c_str() );
-    fflush( stdout );
+    int v1 = avg_from_stat( find_inner( type, expected_mass, "t_pavement", -1, false, false ) );
+    int expm = expected_mass;
+    int v2 = avg_from_stat( find_inner( type, expected_mass, "t_dirt", -1, false, false ) );
+    int v3 = avg_from_stat( find_inner( type, expected_mass, "t_pavement", 5, false, false ) );
+    int v4 = avg_from_stat( find_inner( type, expected_mass, "t_dirt", 5, false, false ) );
+
+    cata_printf(
+        "    test_vehicle( \"%s\", %d; %d, %d, %d, %d );",
+        type, expm, v1, v2, v3, v4
+    );
 }
 
 static void test_vehicle(

@@ -15,6 +15,7 @@
 #include "requirements.h"
 #include "stomach.h"
 #include "string_id.h"
+#include "string_formatter.h"
 #include "test_statistics.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -152,9 +153,9 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
             CHECK( mystats.calories.avg() <= upper_bound );
             if( mystats.calories.min() < 0 || lower_bound > mystats.calories.avg() ||
                 mystats.calories.avg() > upper_bound ) {
-                printf( "\n\nRecipeID: %s, Lower Bound: %f, Average: %f, Upper Bound: %f\n\n",
-                        recipe_pair.first.c_str(), lower_bound, mystats.calories.avg(),
-                        upper_bound );
+                cata_printf( "\n\nRecipeID: %s, Lower Bound: %f, Average: %f, Upper Bound: %f\n\n",
+                             recipe_pair.first.c_str(), lower_bound, mystats.calories.avg(),
+                             upper_bound );
             }
         }
     }

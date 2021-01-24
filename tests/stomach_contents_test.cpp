@@ -53,9 +53,9 @@ static void print_stomach_contents( player &p, const bool print )
     if( !print ) {
         return;
     }
-    printf( "stomach: %d player: %d/%d hunger: %0.1f\n", p.stomach.get_calories(),
-            p.get_stored_kcal(), p.get_healthy_kcal(), p.get_hunger() );
-    printf( "metabolic rate: %.2f\n", p.metabolic_rate() );
+    cata_printf( "stomach: %d player: %d/%d hunger: %0.1f\n", p.stomach.get_calories(),
+                 p.get_stored_kcal(), p.get_healthy_kcal(), p.get_hunger() );
+    cata_printf( "metabolic rate: %.2f\n", p.metabolic_rate() );
 }
 
 // this represents an amount of food you can eat to keep you fed for an entire day
@@ -149,12 +149,12 @@ TEST_CASE( "all_nutrition_starve_test", "[starve][slow]" )
     clear_stomach( dummy );
     eat_all_nutrients( dummy );
     if( print_tests ) {
-        printf( "\n\n" );
+        cata_printf( "\n\n" );
     }
 
     for( unsigned int day = 0; day <= 20; day++ ) {
         if( print_tests ) {
-            printf( "day %u: %d\n", day, dummy.get_stored_kcal() );
+            cata_printf( "day %u: %d\n", day, dummy.get_stored_kcal() );
         }
         pass_time( dummy, 1_days );
         dummy.set_thirst( 0 );
@@ -163,13 +163,13 @@ TEST_CASE( "all_nutrition_starve_test", "[starve][slow]" )
         print_stomach_contents( dummy, print_tests );
     }
     if( print_tests ) {
-        printf( "vitamins: vitA %d vitB %d vitC %d calcium %d iron %d\n",
-                dummy.vitamin_get( vitamin_id( "vitA" ) ), dummy.vitamin_get( vitamin_id( "vitB" ) ),
-                dummy.vitamin_get( vitamin_id( "vitC" ) ), dummy.vitamin_get( vitamin_id( "calcium" ) ),
-                dummy.vitamin_get( vitamin_id( "iron" ) ) );
-        printf( "\n" );
+        cata_printf( "vitamins: vitA %d vitB %d vitC %d calcium %d iron %d\n",
+                     dummy.vitamin_get( vitamin_id( "vitA" ) ), dummy.vitamin_get( vitamin_id( "vitB" ) ),
+                     dummy.vitamin_get( vitamin_id( "vitC" ) ), dummy.vitamin_get( vitamin_id( "calcium" ) ),
+                     dummy.vitamin_get( vitamin_id( "iron" ) ) );
+        cata_printf( "\n" );
         print_stomach_contents( dummy, print_tests );
-        printf( "\n" );
+        cata_printf( "\n" );
     }
     CHECK( dummy.get_stored_kcal() < dummy.get_healthy_kcal() );
     // We need to account for a day's worth of error since we're passing a day at a time and we are
