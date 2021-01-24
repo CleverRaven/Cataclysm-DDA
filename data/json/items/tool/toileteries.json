@@ -36,11 +36,11 @@
     "use_action": [ "WASH_HARD_ITEMS" ]
   },
   {
-    "id": "kitchen_towel",
+    "id": "dish_towel",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": { "str": "kitchen towel" },
-    "description": "This is a kitchen towel, useful for cleaning hard surfaces.",
+    "name": { "str": "dish towel" },
+    "description": "This is a dish towel, useful for cleaning hard surfaces.",
     "weight": "80 g",
     "volume": "250 ml",
     "price": 200,
@@ -50,14 +50,14 @@
     "color": "white",
     "use_action": [ "WASH_HARD_ITEMS" ],
     "snippet_category": [
-      { "id": "ktowel1", "text": "An elegant, monogrammed kitchen towel.  Unfortunately, they aren't your initials." },
-      { "id": "ktowel2", "text": "An elegant, monogrammed kitchen towel.  It even has your initials!" },
-      { "id": "ktowel3", "text": "A well used kitchen towel, judging by the stains." },
-      { "id": "ktowel4", "text": "A novelty kitchen towel, featuring a popular children's cartoon character." },
-      { "id": "ktowel5", "text": "A novelty kitchen towel which reads \"IT'S WINE O CLOCK\"." },
-      { "id": "ktowel6", "text": "A kitchen towel with a floral pattern." },
-      { "id": "ktowel7", "text": "A kitchen towel with a gingham pattern." },
-      { "id": "ktowel8", "text": "A kitchen towel with a cat pattern." }
+      { "id": "dtowel1", "text": "An elegant, monogrammed dish towel.  Unfortunately, they aren't your initials." },
+      { "id": "dtowel2", "text": "An elegant, monogrammed dish towel.  It even has your initials!" },
+      { "id": "dtowel3", "text": "A well used dish towel, judging by the stains." },
+      { "id": "dtowel4", "text": "A novelty dish towel, featuring a popular children's cartoon character." },
+      { "id": "dtowel5", "text": "A novelty dish towel which reads \"IT'S WINE O CLOCK\"." },
+      { "id": "dtowel6", "text": "A dish towel with a floral pattern." },
+      { "id": "dtowel7", "text": "A dish towel with a gingham pattern." },
+      { "id": "dtowel8", "text": "A dish towel with a cat pattern." }
     ]
   },
   {
