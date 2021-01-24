@@ -76,6 +76,12 @@ static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_visuals( "visuals" );
 
+static const flag_id json_flag_PRED1( "PRED1" );
+static const flag_id json_flag_PRED2( "PRED2" );
+static const flag_id json_flag_PRED3( "PRED3" );
+static const flag_id json_flag_PRED4( "PRED4" );
+static const flag_id json_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
+
 static const item_category_id item_category_chems( "chems" );
 
 static const itype_id itype_apparatus( "apparatus" );
@@ -732,12 +738,13 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         }
     }
 
-    if( food.has_flag( flag_STRICT_HUMANITARIANISM ) && !has_trait_flag( "STRICT_HUMANITARIAN" ) ) {
+    if( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
+        !has_trait_flag( json_flag_STRICT_HUMANITARIAN ) ) {
         add_consequence( _( "The thought of eating demihuman flesh makes you feel sick." ), CANNIBALISM );
     }
 
     const bool carnivore = has_trait( trait_CARNIVORE );
-    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( "CANNIBAL" ) ) {
+    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( flag_CANNIBAL ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
@@ -1148,10 +1155,10 @@ void Character::modify_morale( item &food, const int nutr )
     // The PREDATOR_FUN flag shouldn't be on human flesh, to not interfere with sapiovores/cannibalism.
     if( food.has_flag( flag_PREDATOR_FUN ) ) {
         const bool carnivore = has_trait( trait_CARNIVORE );
-        const bool culler = has_trait_flag( "PRED1" );
-        const bool hunter = has_trait_flag( "PRED2" );
-        const bool predator = has_trait_flag( "PRED3" );
-        const bool apex_predator = has_trait_flag( "PRED4" );
+        const bool culler = has_trait_flag( json_flag_PRED1 );
+        const bool hunter = has_trait_flag( json_flag_PRED2 );
+        const bool predator = has_trait_flag( json_flag_PRED3 );
+        const bool apex_predator = has_trait_flag( json_flag_PRED4 );
         if( apex_predator ) {
             // Largest bonus, balances out to around +5 or +10. Some organs may still be negative.
             add_morale( MORALE_MEATARIAN, 20, 10 );

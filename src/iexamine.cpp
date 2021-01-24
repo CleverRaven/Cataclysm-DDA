@@ -129,6 +129,8 @@ static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
+static const flag_id json_flag_ATTUNEMENT( "ATTUNEMENT" );
+
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
 static const itype_id itype_bot_prototype_cyborg( "bot_prototype_cyborg" );
@@ -399,7 +401,7 @@ void iexamine::attunement_altar( player &p, const tripoint & )
 {
     std::set<trait_id> attunements;
     for( const mutation_branch &mut : mutation_branch::get_all() ) {
-        if( mut.flags.count( "ATTUNEMENT" ) ) {
+        if( mut.flags.count( json_flag_ATTUNEMENT ) ) {
             attunements.emplace( mut.id );
         }
     }

@@ -100,6 +100,7 @@
 #include "loading_ui.h"
 #include "location.h"
 #include "magic.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
@@ -10865,7 +10866,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
 
         const int cost = u.climbing_cost( u.pos(), stairs );
-        const bool can_climb_here = cost > 0 || u.has_trait_flag( "CLIMB_NO_LADDER" );
+        const bool can_climb_here = cost > 0 || u.has_trait_flag( STATIC( flag_id( "CLIMB_NO_LADDER" ) ) );
         if( !can_climb_here ) {
             add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
             return;

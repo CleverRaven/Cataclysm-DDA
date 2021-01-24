@@ -96,7 +96,7 @@ class talker
         }
         virtual void set_mutation( const trait_id & ) {}
         virtual void unset_mutation( const trait_id & ) {}
-        virtual bool has_trait_flag( const std::string & ) const {
+        virtual bool has_trait_flag( const flag_id & ) const {
             return false;
         }
         virtual bool crossed_threshold() const {

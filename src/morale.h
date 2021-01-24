@@ -148,7 +148,7 @@ class player_morale
         void set_worn( const item &it, bool worn );
         void set_mutation( const trait_id &mid, bool active );
         bool has_mutation( const trait_id &mid );
-        bool has_mutation_flag( const std::string &flag );
+        bool has_mutation_flag( const flag_id &flag );
 
         void remove_if( const std::function<bool( const morale_point & )> &func );
         void remove_expired();

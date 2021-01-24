@@ -57,6 +57,11 @@ static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_no_ammo( "no_ammo" );
 static const efftype_id effect_rat( "rat" );
 
+static const flag_id json_flag_PRED1( "PRED1" );
+static const flag_id json_flag_PRED2( "PRED2" );
+static const flag_id json_flag_PRED3( "PRED3" );
+static const flag_id json_flag_PRED4( "PRED4" );
+
 static const itype_id itype_processor( "processor" );
 
 static const species_id species_SLIME( "SLIME" );
@@ -418,8 +423,9 @@ void mdeath::guilt( monster &z )
     guilt_tresholds[25] = _( "You feel remorse for killing %s." );
 
     Character &player_character = get_player_character();
-    if( player_character.has_trait( trait_PSYCHOPATH ) || player_character.has_trait_flag( "PRED3" ) ||
-        player_character.has_trait_flag( "PRED4" ) || player_character.has_trait( trait_KILLER ) ) {
+    if( player_character.has_trait( trait_PSYCHOPATH ) ||
+        player_character.has_trait_flag( json_flag_PRED3 ) ||
+        player_character.has_trait_flag( json_flag_PRED4 ) || player_character.has_trait( trait_KILLER ) ) {
         return;
     }
     if( rl_dist( z.pos(), player_character.pos() ) > MAX_GUILT_DISTANCE ) {
@@ -438,8 +444,8 @@ void mdeath::guilt( monster &z )
                                 "about their deaths anymore." ), z.name( maxKills ) );
         }
         return;
-    } else if( ( player_character.has_trait_flag( "PRED1" ) ) ||
-               ( player_character.has_trait_flag( "PRED2" ) ) ) {
+    } else if( ( player_character.has_trait_flag( json_flag_PRED1 ) ) ||
+               ( player_character.has_trait_flag( json_flag_PRED2 ) ) ) {
         msg = ( _( "Culling the weak is distasteful, but necessary." ) );
         msgtype = m_neutral;
     } else {
@@ -461,9 +467,9 @@ void mdeath::guilt( monster &z )
         moraleMalus /= 10;
         if( player_character.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
-        } else if( player_character.has_trait_flag( "PRED1" ) ) {
+        } else if( player_character.has_trait_flag( json_flag_PRED1 ) ) {
             moraleMalus /= 4;
-        } else if( player_character.has_trait_flag( "PRED2" ) ) {
+        } else if( player_character.has_trait_flag( json_flag_PRED2 ) ) {
             moraleMalus /= 5;
         }
     }

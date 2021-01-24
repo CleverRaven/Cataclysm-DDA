@@ -235,9 +235,9 @@ static const quality_id qual_CUT_FINE( "CUT_FINE" );
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
-static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
-static const std::string trait_flag_PSYCHOPATH( "PSYCHOPATH" );
-static const std::string trait_flag_SAPIOVORE( "SAPIOVORE" );
+static const flag_id json_flag_CANNIBAL( "CANNIBAL" );
+static const flag_id json_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const flag_id json_flag_SAPIOVORE( "SAPIOVORE" );
 
 static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
@@ -617,9 +617,9 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     // applies to all butchery actions
     const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( species_HUMAN ) &&
                           !corpse.in_species( species_ZOMBIE ) );
-    if( is_human && !( u.has_trait_flag( trait_flag_CANNIBAL ) ||
-                       u.has_trait_flag( trait_flag_PSYCHOPATH ) ||
-                       u.has_trait_flag( trait_flag_SAPIOVORE ) ) ) {
+    if( is_human && !( u.has_trait_flag( json_flag_CANNIBAL ) ||
+                       u.has_trait_flag( json_flag_PSYCHOPATH ) ||
+                       u.has_trait_flag( json_flag_SAPIOVORE ) ) ) {
 
         if( u.is_player() ) {
             if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {

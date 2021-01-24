@@ -102,7 +102,7 @@ void talker_character::unset_mutation( const trait_id &old_trait )
     me_chr->unset_mutation( old_trait );
 }
 
-bool talker_character::has_trait_flag( const std::string &trait_flag_to_check ) const
+bool talker_character::has_trait_flag( const flag_id &trait_flag_to_check ) const
 {
     return me_chr->has_trait_flag( trait_flag_to_check );
 }
