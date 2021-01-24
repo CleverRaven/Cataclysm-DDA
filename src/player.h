@@ -290,6 +290,9 @@ class player : public Character
         bool takeoff( item &it, std::list<item> *res = nullptr );
         bool takeoff( int pos );
 
+        /**This is a temporary overload to keep track of which calls I have and haven't converted. **/
+        bool takeoff( item_location loc, std::list<item> *res = nullptr );
+
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
          * @param container Container containing the item to be wielded

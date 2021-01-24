@@ -1976,6 +1976,14 @@ bool player::takeoff( item &it, std::list<item> *res )
     return true;
 }
 
+bool player::takeoff( item_location loc, std::list<item> *res )
+{
+    item it = *loc;
+
+    return takeoff( it );
+}
+
+
 bool player::takeoff( int pos )
 {
     return takeoff( i_at( pos ) );
