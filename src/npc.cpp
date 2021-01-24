@@ -1112,7 +1112,10 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
                 return armor.covers( bp );
             } );
             if( iter != worn.end() && !( is_limb_broken( bp ) && iter->has_flag( flag_SPLINT ) ) ) {
-                took_off = takeoff( *iter ); //Can I turn this *iter into an item_location?
+                //create an item_location for player::takeoff to handle.
+                item &item_for_takeoff = *iter;
+                item_location loc_for_takeoff = item_location( *this, &item_for_takeoff );
+                took_off = takeoff( loc_for_takeoff );
                 break;
             }
         }
