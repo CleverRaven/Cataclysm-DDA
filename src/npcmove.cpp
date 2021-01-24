@@ -4593,7 +4593,8 @@ bool npc::adjust_worn()
         if( !covers_broken( elem, elem.get_side() ) ) {
             const bool needs_change = covers_broken( elem, opposite_side( elem.get_side() ) );
             // Try to change side (if it makes sense), or take off.
-            if( ( needs_change && change_side( elem ) ) || takeoff( elem ) ) { //Can I turn this elem into an item_location?
+            if( ( needs_change && change_side( elem ) ) ||
+                takeoff( elem ) ) { //Can I turn this elem into an item_location?
                 return true;
             }
         }

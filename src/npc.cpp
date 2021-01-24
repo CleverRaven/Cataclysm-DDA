@@ -1112,7 +1112,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
                 return armor.covers( bp );
             } );
             if( iter != worn.end() && !( is_limb_broken( bp ) && iter->has_flag( flag_SPLINT ) ) ) {
-                took_off = takeoff( *iter ); //Can I turn this *iter into an item_location? 
+                took_off = takeoff( *iter ); //Can I turn this *iter into an item_location?
                 break;
             }
         }
