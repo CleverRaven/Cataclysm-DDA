@@ -310,10 +310,12 @@ class string_formatter
             }
         }
 
-        template<typename T>
-        void do_formating( T &&value ) {
-            output.append( raw_string_format( current_format.c_str(), value ) );
-        }
+        void do_formating( int value );
+        void do_formating( signed long long int value );
+        void do_formating( unsigned long long int value );
+        void do_formating( double value );
+        void do_formating( void *value );
+        void do_formating( const char *value );
 
     public:
         /// @param format The format string as required by `sprintf`.
@@ -358,22 +360,6 @@ class string_formatter
         std::string get_output() const {
             return output;
         }
-#if defined(__clang__)
-#define PRINTF_LIKE(a,b) __attribute__((format(printf,a,b)))
-#elif defined(__GNUC__)
-#define PRINTF_LIKE(a,b) __attribute__((format(gnu_printf,a,b)))
-#else
-#define PRINTF_LIKE(a,b)
-#endif
-        /**
-         * Wrapper for calling @ref vsprintf - see there for documentation. Try to avoid it as it's
-         * not type safe and may easily lead to undefined behavior - use @ref string_format instead.
-         * @throws std::exception if the format is invalid / does not match the arguments, but that's
-         * not guaranteed - technically it's undefined behavior.
-         */
-        // Implemented in output.cpp
-        static std::string raw_string_format( const char *format, ... ) PRINTF_LIKE( 1, 2 );
-#undef PRINTF_LIKE
 };
 
 } // namespace cata

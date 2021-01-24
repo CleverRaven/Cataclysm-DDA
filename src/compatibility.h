@@ -24,93 +24,16 @@
 // CATA_NO_CPP11_STRING_CONVERSIONS is also defined in Makefile for TARGETSYSTEM=CYGWIN
 
 #if defined(CATA_NO_CPP11_STRING_CONVERSIONS)
-#include <cstdio>
-#include <limits>
 
 // NOLINTNEXTLINE(cata-no-long)
-inline std::string to_string( const long n )
-{
-    //- and \0
-    constexpr int size = std::numeric_limits<long>::digits10 + 2;
-    char buffer[size];
-    snprintf( buffer, size, "%ld", n );
-    return buffer;
-}
-
+std::string to_string( const long n );
 // NOLINTNEXTLINE(cata-no-long)
-inline std::string to_string( const unsigned long n )
-{
-    //- and \0
-    constexpr int size = std::numeric_limits<unsigned long>::digits10 + 2;
-    char buffer[size];
-    snprintf( buffer, size, "%lu", n );
-    return buffer;
-}
-
-inline std::string to_string( const long long n )
-{
-    //- and \0
-    constexpr int size = std::numeric_limits<long long>::digits10 + 2;
-    char buffer[size];
-    const char *format;
-#if !defined(__USE_MINGW_ANSI_STDIO) && (defined(__MINGW32__) || defined(__MINGW64__))
-    if( sizeof( signed long long int ) == 4 ) {
-        format = "%I32d";
-    } else {
-        format = "%I64d";
-    }
-#else
-    format = "%lld";
-#endif
-    snprintf( buffer, size, format, n );
-    return buffer;
-}
-
-inline std::string to_string( const unsigned long long n )
-{
-    //- and \0
-    constexpr int size = std::numeric_limits<unsigned long long>::digits10 + 2;
-    char buffer[size];
-    const char *format;
-#if !defined(__USE_MINGW_ANSI_STDIO) && (defined(__MINGW32__) || defined(__MINGW64__))
-    if( sizeof( signed long long int ) == 4 ) {
-        format = "%I32u";
-    } else {
-        format = "%I64u";
-    }
-#else
-    format = "%llu";
-#endif
-    snprintf( buffer, size, format, n );
-    return buffer;
-}
-
-inline std::string to_string( const int n )
-{
-    //- and \0
-    constexpr int size = std::numeric_limits<int>::digits10 + 2;
-    char buffer[size];
-    snprintf( buffer, size, "%d", n );
-    return buffer;
-}
-
-inline std::string to_string( unsigned const int n )
-{
-    //+ and \0 (no -)
-    constexpr int size = std::numeric_limits<unsigned int>::digits10 + 2;
-    char buffer[size];
-    snprintf( buffer, size, "%u", n );
-    return buffer;
-}
-
-inline std::string to_string( const double n )
-{
-    //- . \0 + snprintf default precision.
-    constexpr int size = std::numeric_limits<double>::max_exponent10 + 6 + 3;
-    char buffer[size];
-    snprintf( buffer, size, "%f", n );
-    return buffer;
-}
+std::string to_string( const unsigned long n );
+std::string to_string( const long long n );
+std::string to_string( const unsigned long long n );
+std::string to_string( const int n );
+std::string to_string( unsigned const int n );
+std::string to_string( const double n );
 #else //all other platforms
 #include <type_traits>
 

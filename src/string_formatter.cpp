@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <exception>
 
+#include "fmtlib_printf.h"
+
 char cata::string_formatter::consume_next_input()
 {
     return current_index_in_format < format.size() ? format[current_index_in_format++] : '\0';
@@ -117,19 +119,77 @@ std::string cata::handle_string_format_error()
 
 void cata::string_formatter::add_long_long_length_modifier()
 {
-    const char *modifier;
-#if !defined(__USE_MINGW_ANSI_STDIO) && (defined(__MINGW32__) || defined(__MINGW64__))
-    // mingw does not support '%llu' normally (it does with __USE_MINGW_ANSI_STDIO)
-    // instead one has to use '%I64u'/'I32u'
-    if( sizeof( signed long long int ) == 4 ) {
-        modifier = "I32";
-    } else {
-        static_assert( sizeof( signed long long int ) == 8,
-                       "unexpected size of long long, format specifier 'I64' does not work" );
-        modifier = "I64";
-    }
-#else
-    modifier = "ll";
-#endif
-    current_format.insert( current_format.size() - 1, modifier );
+    current_format.insert( current_format.size() - 1, "ll" );
 }
+
+namespace cata
+{
+void string_formatter::do_formating( int value )
+{
+    output.append( fmt::sprintf( current_format, value ) );
+}
+
+void string_formatter::do_formating( signed long long int value )
+{
+    output.append( fmt::sprintf( current_format, value ) );
+}
+
+void string_formatter::do_formating( unsigned long long int value )
+{
+    output.append( fmt::sprintf( current_format, value ) );
+}
+
+void string_formatter::do_formating( double value )
+{
+    output.append( fmt::sprintf( current_format, value ) );
+}
+
+void string_formatter::do_formating( void *value )
+{
+    output.append( fmt::sprintf( current_format, value ) );
+}
+
+void string_formatter::do_formating( const char *value )
+{
+    output.append( fmt::sprintf( current_format, value ) );
+}
+} // namespace
+
+#if defined(CATA_NO_CPP11_STRING_CONVERSIONS)
+
+std::string to_string( const long n )
+{
+    return fmt::sprintf( "%ld", n );
+}
+
+std::string to_string( const unsigned long n )
+{
+    return fmt::sprintf( "%lu", n );
+}
+
+std::string to_string( const long long n )
+{
+    return fmt::sprintf( "%lld", n );
+}
+
+std::string to_string( const unsigned long long n )
+{
+    return fmt::sprintf( "%llu", n );
+}
+
+std::string to_string( const int n )
+{
+    return fmt::sprintf( "%d", n );
+}
+
+std::string to_string( unsigned const int n )
+{
+    return fmt::sprintf( "%u", n );
+}
+
+std::string to_string( const double n )
+{
+    return fmt::sprintf( "%f", n );
+}
+
+#endif // CATA_NO_CPP11_STRING_CONVERSIONS
