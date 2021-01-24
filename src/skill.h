@@ -147,7 +147,7 @@ class SkillLevel
         }
 
         int exercise( bool raw = false ) const {
-            return raw ? _exercise : _exercise / ( ( _level + 1 ) * ( _level + 1 ) );
+            return raw ? _exercise : _exercise / ( 100 * ( _level + 1 ) * ( _level + 1 ) );
         }
 
         int exercised_level() const {

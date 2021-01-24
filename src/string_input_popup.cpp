@@ -201,10 +201,10 @@ void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
     _position = ret.length();
 }
 
-void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit,
-                               const int shift ) const
+void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit ) const
 {
     if( !custom_window ) {
+        werase( w );
         draw_border( w );
 
         for( size_t i = 0; i < descformatted.size(); ++i ) {
@@ -302,9 +302,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     if( _position == -1 ) {
         _position = ret.length();
     }
-    const int scrmax = _endx - _startx;
-    // in output (console) cells, not characters of the string!
-    int shift = 0;
+    const int scrmax = std::max( 0, _endx - _startx );
 
     std::unique_ptr<ui_adaptor> ui;
     if( !draw_only && !custom_window ) {
@@ -315,7 +313,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             ui.position_from_window( w );
         } );
         ui->on_redraw( [&]( const ui_adaptor & ) {
-            draw( ret, edit, shift );
+            draw( ret, edit );
         } );
     }
 
@@ -324,39 +322,40 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     _canceled = false;
     _confirmed = false;
     do {
-
         if( _position < 0 ) {
             _position = 0;
         }
-
-        const size_t left_shift = ret.substr( 0, _position ).display_width();
-        if( static_cast<int>( left_shift ) < shift ) {
-            shift = 0;
-        } else if( _position < static_cast<int>( ret.length() ) &&
-                   static_cast<int>( left_shift ) + 1 >= shift + scrmax ) {
-            // if the cursor is inside the input string, keep one cell right of
-            // the cursor visible, because the cursor might be on a multi-cell
-            // character.
-            shift = left_shift - scrmax + 2;
-        } else if( _position == static_cast<int>( ret.length() ) &&
-                   static_cast<int>( left_shift ) >= shift + scrmax ) {
-            // cursor is behind the end of the input string, keep the
-            // trailing '_' visible (always a single cell character)
-            shift = left_shift - scrmax + 1;
-        } else if( shift < 0 ) {
+        if( shift < 0 ) {
             shift = 0;
         }
-        const size_t xleft_shift = ret.substr_display( 0, shift ).display_width();
-        if( static_cast<int>( xleft_shift ) != shift ) {
+
+        const size_t width_to_cursor_start = ret.substr( 0, _position ).display_width();
+        size_t width_to_cursor_end = width_to_cursor_start;
+        if( static_cast<size_t>( _position ) < ret.length() ) {
+            width_to_cursor_end += ret.substr( _position, 1 ).display_width();
+        } else {
+            width_to_cursor_end += 1;
+        }
+        // starts scrolling when the cursor is this far from the start or end
+        const size_t scroll_width = std::min( 10, scrmax / 5 );
+        if( width_to_cursor_start < static_cast<size_t>( shift ) + scroll_width ) {
+            shift = std::max( width_to_cursor_start, scroll_width ) - scroll_width;
+        } else if( width_to_cursor_end > static_cast<size_t>( shift + scrmax ) - scroll_width ) {
+            shift = std::min( width_to_cursor_end + scroll_width, ret.display_width() ) - scrmax;
+        }
+        const utf8_wrapper text_before_start = ret.substr_display( 0, shift );
+        const size_t width_before_start = text_before_start.display_width();
+        if( width_before_start != static_cast<size_t>( shift ) ) {
             // This prevents a multi-cell character from been split, which is not possible
             // instead scroll a cell further to make that character disappear completely
-            shift++;
+            const size_t width_at_start = ret.substr( text_before_start.length(), 1 ).display_width();
+            shift = width_before_start + width_at_start;
         }
 
         if( ui ) {
             ui_manager::redraw();
         } else {
-            draw( ret, edit, shift );
+            draw( ret, edit );
         }
 
         if( draw_only ) {
@@ -429,11 +428,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( ch == 0x15 ) {                      // ctrl-u: delete all the things
             _position = 0;
             ret.erase( 0 );
-            // Move the cursor back and re-draw it
         } else if( ch == KEY_BACKSPACE ) {
-            // but silently drop input if we're at 0, instead of adding '^'
             if( _position > 0 && _position <= static_cast<int>( ret.size() ) ) {
-                // TODO: it is safe now since you only input ASCII chars
                 _position--;
                 ret.erase( _position, 1 );
             }
@@ -459,16 +455,14 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             const utf8_wrapper t( ev.text );
             ret.insert( _position, t );
             _position += t.length();
-            edit.erase( 0 );
-            ctxt->set_edittext( edit.c_str() );
+            edit = utf8_wrapper();
+            ctxt->set_edittext( std::string() );
         } else if( ev.edit_refresh ) {
-            const utf8_wrapper t( ev.edit );
-            edit.erase( 0 );
-            edit.insert( 0, t );
-            ctxt->set_edittext( edit.c_str() );
+            edit = utf8_wrapper( ev.edit );
+            ctxt->set_edittext( ev.edit );
         } else if( ev.edit.empty() ) {
-            edit.erase( 0 );
-            ctxt->set_edittext( edit.c_str() );
+            edit = utf8_wrapper();
+            ctxt->set_edittext( std::string() );
         } else {
             _handled = false;
         }

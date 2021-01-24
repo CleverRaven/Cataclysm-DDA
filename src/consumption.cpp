@@ -1243,9 +1243,9 @@ units::volume Character::masticated_volume( const item &food ) const
 {
     units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
                               5_ml : 0_ml;
-    units::mass food_dry_weight = units::from_gram( units::to_gram( food.weight() ) -
-                                  units::to_milliliter( water_vol ) ) / food.count();
-    units::volume food_dry_volume = ( food.volume() - water_vol ) / food.count();
+    units::mass water_weight = units::from_gram( units::to_milliliter( water_vol ) );
+    units::mass food_dry_weight = food.weight() / food.count() - water_weight;
+    units::volume food_dry_volume = food.volume() / food.count() - water_vol ;
 
     if( units::to_milliliter( food_dry_volume ) != 0 &&
         units::to_gram( food_dry_weight ) < units::to_milliliter( food_dry_volume ) ) {
@@ -1268,12 +1268,9 @@ int Character::compute_calories_per_effective_volume( const item &food,
     } else {
         kcalories = compute_effective_nutrients( food ).kcal;
     }
-    units::volume food_vol = masticated_volume( food ) * food.count();
-    // Divide by 1000 to convert to L. Final quantity is essentially dimensionless, so unit of measurement does not matter.
-    const double converted_volume = round_up( ( static_cast<float>( food_vol.value() ) / food.count() )
-                                    * 0.001, 2 );
+    double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
     const double energy_density_ratio = compute_effective_food_volume_ratio( food );
-    const double effective_volume = converted_volume * energy_density_ratio;
+    const double effective_volume = food_vol * energy_density_ratio;
     return std::round( kcalories / effective_volume );
 }
 

@@ -1233,24 +1233,24 @@ class weapon_inventory_preset: public inventory_selector_preset
 
                 if( loc->ammo_data() && loc->ammo_remaining() ) {
                     const int basic_damage = loc->gun_damage( false ).total_damage();
-                    if( loc->ammo_data()->ammo->damage.damage_units.front().unconditional_damage_mult != 1.0f ) {
-                        const float ammo_mult =
-                            loc->ammo_data()->ammo->damage.damage_units.front().unconditional_damage_mult;
-
-                        return string_format( "%s<color_light_gray>*</color>%s <color_light_gray>=</color> %s",
-                                              get_damage_string( basic_damage, true ),
-                                              get_damage_string( ammo_mult, true ),
-                                              get_damage_string( total_damage, true )
-                                            );
-                    } else {
-                        const int ammo_damage = loc->ammo_data()->ammo->damage.total_damage();
-
-                        return string_format( "%s<color_light_gray>+</color>%s <color_light_gray>=</color> %s",
-                                              get_damage_string( basic_damage, true ),
-                                              get_damage_string( ammo_damage, true ),
-                                              get_damage_string( total_damage, true )
-                                            );
+                    const damage_instance &damage = loc->ammo_data()->ammo->damage;
+                    if( !damage.empty() ) {
+                        const float ammo_mult = damage.damage_units.front().unconditional_damage_mult;
+                        if( ammo_mult != 1.0f ) {
+                            return string_format( "%s<color_light_gray>*</color>%s <color_light_gray>=</color> %s",
+                                                  get_damage_string( basic_damage, true ),
+                                                  get_damage_string( ammo_mult, true ),
+                                                  get_damage_string( total_damage, true )
+                                                );
+                        }
                     }
+                    const int ammo_damage = damage.total_damage();
+
+                    return string_format( "%s<color_light_gray>+</color>%s <color_light_gray>=</color> %s",
+                                          get_damage_string( basic_damage, true ),
+                                          get_damage_string( ammo_damage, true ),
+                                          get_damage_string( total_damage, true )
+                                        );
                 } else {
                     return get_damage_string( total_damage );
                 }
@@ -1383,7 +1383,9 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
         item &it = *holstered_item.first;
         bool success = false;
         if( !it.count_by_charges() ) {
-            if( all_pockets_rigid || holster.parents_can_contain_recursive( &it ) ) {
+            if( holster->can_contain( it ) && ( all_pockets_rigid ||
+                                                holster.parents_can_contain_recursive( &it ) ) ) {
+
                 success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
                                            /*unseal_pockets=*/true ).success();
                 if( success ) {
@@ -1391,6 +1393,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
                     handler.unseal_pocket_containing( holstered_item.first );
                     holstered_item.first.remove_item();
                 }
+
             }
         } else {
             int charges = all_pockets_rigid ? holstered_item.second : std::min( holstered_item.second,

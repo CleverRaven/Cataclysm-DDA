@@ -601,6 +601,9 @@ void reinitialize_framebuffer()
         for( int i = 0; i < new_height; i++ ) {
             terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
         }
+    } else {
+        invalidate_framebuffer( oversized_framebuffer );
+        invalidate_framebuffer( terminal_framebuffer );
     }
 }
 

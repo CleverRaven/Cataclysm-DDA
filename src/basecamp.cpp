@@ -691,6 +691,13 @@ std::string basecamp::expansion_tab( const point &dir ) const
     return _( "Empty Expansion" );
 }
 
+bool basecamp::point_within_camp( const tripoint_abs_omt &p ) const
+{
+    return std::any_of( expansions.begin(), expansions.end(), [ p ]( auto & e ) {
+        return p == e.second.pos;
+    } );
+}
+
 // legacy load and save
 void basecamp::load_data( const std::string &data )
 {

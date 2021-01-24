@@ -545,6 +545,14 @@ class item : public visitable
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         bool stacks_with( const item &rhs, bool check_components = false,
                           bool combine_liquid = false ) const;
+        /**
+         * Whether item is the same as `rhs` for RLE compression purposes.
+         * Essentially a stricter version of `stacks_with`.
+         * @return true if items are same, i.e. *this is "equal" to `item(rhs)`
+         * @note false negative results are OK
+         * @note must be transitive
+         */
+        bool same_for_rle( const item &rhs ) const;
         /** combines two items together if possible. returns false if it fails. */
         bool combine( const item &rhs );
         bool can_combine( const item &rhs ) const;
@@ -2304,6 +2312,9 @@ class item : public visitable
                 // If the crafter has insufficient tools to continue to the next 5% progress step
                 bool tools_to_continue = false;
                 std::vector<comp_selection<tool_comp>> cached_tool_selections;
+                cata::optional<units::mass> cached_weight;
+                cata::optional<units::volume> cached_volume;
+
                 // if this is an in progress disassembly as opposed to craft
                 bool disassembly = false;
                 void serialize( JsonOut &jsout ) const;

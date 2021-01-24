@@ -852,6 +852,9 @@ tab_direction set_stats( avatar &u, points_left &points )
     // on the map (like -1,0) and instead returns a dummy default value.
     u.setx( -1 );
     u.reset();
+    // set position back to 0 to prevent out-of-bound access to lightmap
+    // array in map::build_seen_cache()
+    u.setx( 0 );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
@@ -940,7 +943,7 @@ tab_direction set_stats( avatar &u, points_left &points )
                                                         ( read_spd < 100 ? COL_STAT_BONUS : COL_STAT_PENALTY ) ),
                            _( "Read times: %d%%" ), read_spd );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
-                mvwprintz( w_description, point( 0, 1 ), COL_STAT_PENALTY, _( "Skill rust: %d%%" ),
+                mvwprintz( w_description, point( 0, 1 ), COL_STAT_PENALTY, _( "Skill rust delay: %d%%" ),
                            u.rust_rate() );
                 mvwprintz( w_description, point( 0, 2 ), COL_STAT_BONUS, _( "Crafting bonus: %2d%%" ),
                            u.get_int() );
@@ -3320,7 +3323,7 @@ void Character::clear_mutations()
 void Character::empty_skills()
 {
     for( auto &sk : *_skills ) {
-        sk.second.level( 0 );
+        sk.second = SkillLevel();
     }
 }
 

@@ -977,6 +977,20 @@ bool item::combine( const item &rhs )
     return true;
 }
 
+bool item::same_for_rle( const item &rhs ) const
+{
+    if( type != rhs.type ) {
+        return false;
+    }
+    if( charges != rhs.charges ) {
+        return false;
+    }
+    if( !contents.empty_real() || !rhs.contents.empty_real() ) {
+        return false;
+    }
+    return stacks_with( rhs, true, false );
+}
+
 bool item::stacks_with( const item &rhs, bool check_components, bool combine_liquid ) const
 {
     if( type != rhs.type ) {
@@ -2012,7 +2026,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
                           bool /*debug*/ ) const
 {
-    if( !is_magazine() || has_flag( flag_NO_RELOAD ) ) {
+    if( !is_magazine() || has_flag( flag_NO_RELOAD ) || is_tool() ) {
         return;
     }
 
@@ -2035,33 +2049,33 @@ void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *par
 void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /* batch */,
                       bool /* debug */ ) const
 {
-    // Skip this section for guns, items without ammo data, and items with "battery" ammo
-    if( is_gun() || !ammo_data() || ammo_data()->nname( 1 ) == "battery" ||
+    // Skip this section for guns and items without ammo data
+    if( is_gun() || !ammo_data() ||
         !parts->test( iteminfo_parts::AMMO_REMAINING_OR_TYPES ) ) {
         return;
     }
 
-    if( ammo_remaining() > 0 ) {
-        info.emplace_back( "AMMO", _( "<bold>Ammunition</bold>: " ),
-                           ammo_data()->nname( ammo_remaining() ) );
-    } else if( is_ammo() ) {
-        info.emplace_back( "AMMO", _( "<bold>Ammunition type</bold>: " ), ammo_type()->name() );
-    }
-
     const islot_ammo &ammo = *ammo_data()->ammo;
     if( !ammo.damage.empty() || ammo.force_stat_display ) {
+        if( ammo_remaining() > 0 ) {
+            info.emplace_back( "AMMO", _( "<bold>Ammunition</bold>: " ),
+                               ammo_data()->nname( ammo_remaining() ) );
+        } else if( is_ammo() ) {
+            info.emplace_back( "AMMO", _( "<bold>Ammunition type</bold>: " ), ammo_type()->name() );
+        }
+
         const std::string space = "  ";
         if( !ammo.damage.empty() && ammo.damage.damage_units.front().amount > 0 ) {
             if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
                 info.emplace_back( "AMMO", _( "Damage: " ), "",
                                    iteminfo::no_newline, ammo.damage.total_damage() );
             }
-        } else {
-            if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
-                info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
-                                   iteminfo::no_newline | iteminfo::is_decimal,
-                                   ammo.damage.damage_units.front().unconditional_damage_mult );
-            }
+        } else if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
+            const float multiplier = ammo.damage.empty() ? 1.0f
+                                     : ammo.damage.damage_units.front().unconditional_damage_mult;
+            info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
+                               iteminfo::no_newline | iteminfo::is_decimal,
+                               multiplier );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_AP ) ) {
             info.emplace_back( "AMMO", space + _( "Armor-pierce: " ), get_ranged_pierce( ammo ) );
@@ -3138,6 +3152,19 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                         "This book has <num> <info>unread chapters</info>.",
                                         unread );
             info.push_back( iteminfo( "BOOK", "", fmt, iteminfo::no_flags, unread ) );
+        }
+
+        if( !book.proficiencies.empty() ) {
+            const auto enumerate_profs = []( const book_proficiency_bonus & prof ) {
+                return prof.id->name();
+            };
+            const std::string profs = string_format(
+                                          _( "This book can help with the following proficiencies: %s" ),
+                                          enumerate_as_string(
+                                              book.proficiencies.begin(),
+                                              book.proficiencies.end(),
+                                              enumerate_profs ) );
+            info.push_back( iteminfo( "BOOK", profs ) );
         }
 
         if( parts->test( iteminfo_parts::BOOK_INCLUDED_RECIPES ) ) {
@@ -5042,11 +5069,14 @@ units::mass item::weight( bool, bool integral ) const
     }
 
     if( is_craft() ) {
-        units::mass ret = 0_gram;
-        for( const item &it : components ) {
-            ret += it.weight();
+        if( !craft_data_->cached_weight ) {
+            units::mass ret = 0_gram;
+            for( const item &it : components ) {
+                ret += it.weight();
+            }
+            craft_data_->cached_weight = ret;
         }
-        return ret;
+        return *craft_data_->cached_weight;
     }
 
     units::mass ret;
@@ -5233,11 +5263,14 @@ units::volume item::volume( bool integral ) const
     }
 
     if( is_craft() ) {
-        units::volume ret = 0_ml;
-        for( const item &it : components ) {
-            ret += it.volume();
+        if( !craft_data_->cached_volume ) {
+            units::volume ret = 0_ml;
+            for( const item &it : components ) {
+                ret += it.volume();
+            }
+            craft_data_->cached_volume = ret;
         }
-        return ret;
+        return *craft_data_->cached_volume;
     }
 
     const int local_volume = get_var( "volume", -1 );
@@ -8337,7 +8370,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
         if( container ) {
             container->on_contents_changed();
         }
-        item contents( ammo->type );
+        item contents( *ammo );
         fill_with( contents, qty );
         if( ammo.has_parent() ) {
             ammo.parent_item()->contained_where( *ammo.get_item() )->on_contents_changed();
