@@ -416,4 +416,25 @@ string_format( T &&format, Args &&...args )
 }
 /**@}*/
 
+/** Print string to stdout. */
+void cata_print_stdout( const std::string &s );
+/** Print string to stderr. */
+void cata_print_stderr( const std::string &s );
+
+/** Same as @ref string_format, but prints its result to stdout. */
+/**@{*/
+template<typename ...Args>
+inline void cata_printf( std::string format, Args &&...args )
+{
+    std::string s = string_format( std::move( format ), std::forward<Args>( args )... );
+    cata_print_stdout( s );
+}
+
+template<typename ...Args>
+inline void cata_printf( const char *const format, Args &&...args )
+{
+    cata_printf( std::string( format ), std::forward<Args>( args )... );
+}
+/**@}*/
+
 #endif // CATA_SRC_STRING_FORMATTER_H

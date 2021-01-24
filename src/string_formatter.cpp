@@ -3,6 +3,7 @@
 #include <cassert>
 #include <stdexcept>
 #include <exception>
+#include <iostream>
 
 #include "fmtlib_printf.h"
 
@@ -200,3 +201,13 @@ std::string to_string( const double n )
 }
 
 #endif // CATA_NO_CPP11_STRING_CONVERSIONS
+
+void cata_print_stdout( const std::string &s )
+{
+    std::cout << s;
+}
+
+void cata_print_stderr( const std::string &s )
+{
+    std::cerr << s;
+}
