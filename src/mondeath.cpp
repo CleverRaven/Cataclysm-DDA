@@ -826,7 +826,7 @@ void mdeath::conflagration( monster &z )
 void mdeath::necro_boomer( monster &z )
 {
     map &here = get_map();
-    std::string explode = string_format( _( "a %s explodes!" ), z.name() );
+    std::string explode = string_format( _( "a %s explode!" ), z.name() );
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
     for( const tripoint &aoe : here.points_in_radius( z.pos(), 10 ) ) {
         for( item &corpse : here.i_at( aoe ) ) {
