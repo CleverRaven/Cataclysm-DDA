@@ -84,7 +84,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "knuckle_scrap",
+    "id": "knuckle_steel",
     "symbol": "3",
     "color": "dark_gray",
     "name": { "str": "pair of scrap knuckles", "str_pl": "pairs of scrap knuckles" },
