@@ -5,17 +5,7 @@ NOTE: Please grant permission for repository maintainers to edit your PR.  It is
 
 Category "Brief description"
 <!-- This section should consist of exactly one line, edit the one above.
-Category must be one of these:
-- Features
-- Content
-- Interface
-- Mods
-- Balance
-- Bugfixes
-- Performance
-- Infrastructure
-- Build
-- I18N
+Category must be one of these: Features, Content, Interface, Mods, Balance, Bugfixes, Performance, Infrastructure, Build, I18N. Or replace the whole line with just the word None for no changelog entry.
 
 For more on the meaning of each category, see:
 https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/CHANGELOG_GUIDELINES.md
