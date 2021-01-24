@@ -53,36 +53,8 @@ constexpr std::size_t const aim_nsources = 18;
 using pane_mutex_t = std::array<bool, aim_nsources * 2>;
 constexpr point const aimlayout{ 6, 3 };
 
-constexpr char const *SOURCE_ALL = "Surrounding area";
-constexpr char const SOURCE_ALL_i = 'A';
-constexpr char const *SOURCE_CENTER = "Directly below you";
-constexpr char const SOURCE_CENTER_i = '5';
-constexpr char const *SOURCE_CONT = "Container";
-constexpr char const SOURCE_CONT_i = 'C';
-constexpr char const *SOURCE_DRAGGED = "Grabbed Vehicle";
 constexpr char const SOURCE_DRAGGED_i = 'D';
-constexpr char const *SOURCE_E = "East";
-constexpr char const SOURCE_E_i = '6';
-constexpr char const *SOURCE_INV = "Inventory";
-constexpr char const SOURCE_INV_i = 'I';
-constexpr char const *SOURCE_N = "North";
-constexpr char const SOURCE_N_i = '8';
-constexpr char const *SOURCE_NE = "North East";
-constexpr char const SOURCE_NE_i = '9';
-constexpr char const *SOURCE_NW = "North West";
-constexpr char const SOURCE_NW_i = '7';
-constexpr char const *SOURCE_S = "South";
-constexpr char const SOURCE_S_i = '2';
-constexpr char const *SOURCE_SE = "South East";
-constexpr char const SOURCE_SE_i = '3';
-constexpr char const *SOURCE_SW = "South West";
-constexpr char const SOURCE_SW_i = '1';
-constexpr char const *SOURCE_W = "West";
-constexpr char const SOURCE_W_i = '4';
-constexpr char const *SOURCE_WORN = "Worn Items";
-constexpr char const SOURCE_WORN_i = 'W';
 constexpr char const SOURCE_VEHICLE_i = 'V';
-
 constexpr char const *ACTION_EXAMINE = "EXAMINE";
 constexpr char const *ACTION_ITEMS_DEFAULT = "ITEMS_DEFAULT";
 constexpr char const *ACTION_SAVE_DEFAULT = "SAVE_DEFAULT";
@@ -105,24 +77,24 @@ constexpr std::size_t const _tuple_abrev_idx = 2;
 using _sourcearray = std::array<_sourcetuple, aim_nsources>;
 constexpr char const *_error = "error";
 constexpr _sourcearray const aimsources = {
-    _sourcetuple{ false, SOURCE_CONT, _error, SOURCE_CONT_i, tripoint_zero },
-    _sourcetuple{ false, SOURCE_DRAGGED, _error, SOURCE_DRAGGED_i, tripoint_zero },
+    _sourcetuple{ false, "Container", _error, 'C', tripoint_zero },
+    _sourcetuple{ false, "Grabbed Vehicle", _error, SOURCE_DRAGGED_i, tripoint_zero },
     _sourcetuple{ false, _error, _error, 0, tripoint_zero },
-    _sourcetuple{ true, SOURCE_NW, "NW", SOURCE_NW_i, tripoint_north_west },
-    _sourcetuple{ true, SOURCE_N, "N", SOURCE_N_i, tripoint_north },
-    _sourcetuple{ true, SOURCE_NE, "NE", SOURCE_NE_i, tripoint_north_east },
+    _sourcetuple{ true, "North West", "NW", '7', tripoint_north_west },
+    _sourcetuple{ true, "North", "N", '8', tripoint_north },
+    _sourcetuple{ true, "North East", "NE", '9', tripoint_north_east },
     _sourcetuple{ false, _error, _error, 0, tripoint_zero },
-    _sourcetuple{ false, SOURCE_INV, _error, SOURCE_INV_i, tripoint_zero },
+    _sourcetuple{ false, "Inventory", _error, 'I', tripoint_zero },
     _sourcetuple{ false, _error, _error, 0, tripoint_zero },
-    _sourcetuple{ true, SOURCE_W, "W", SOURCE_W_i, tripoint_west },
-    _sourcetuple{ true, SOURCE_CENTER, "DN", SOURCE_CENTER_i, tripoint_zero },
-    _sourcetuple{ true, SOURCE_E, "E", SOURCE_E_i, tripoint_east },
-    _sourcetuple{ false, SOURCE_ALL, _error, SOURCE_ALL_i, tripoint_zero },
-    _sourcetuple{ false, SOURCE_WORN, _error, SOURCE_WORN_i, tripoint_zero },
+    _sourcetuple{ true, "West", "W", '4', tripoint_west },
+    _sourcetuple{ true, "Directly below you", "DN", '5', tripoint_zero },
+    _sourcetuple{ true, "East", "E", '6', tripoint_east },
+    _sourcetuple{ false, "Surrounding area", _error, 'A', tripoint_zero },
+    _sourcetuple{ false, "Worn Items", _error, 'W', tripoint_zero },
     _sourcetuple{ false, _error, _error, 0, tripoint_zero },
-    _sourcetuple{ true, SOURCE_SW, "SW", SOURCE_SW_i, tripoint_south_west },
-    _sourcetuple{ true, SOURCE_S, "S", SOURCE_S_i, tripoint_south },
-    _sourcetuple{ true, SOURCE_SE, "SE", SOURCE_SE_i, tripoint_south_east },
+    _sourcetuple{ true, "South West", "SW", '1', tripoint_south_west },
+    _sourcetuple{ true, "South", "S", '2', tripoint_south },
+    _sourcetuple{ true, "South East", "SE", '3', tripoint_south_east },
 };
 
 #ifdef __clang__
