@@ -456,7 +456,7 @@
         { "id": "overlay_wielded_knuckle_brass", "fg": 206, "rotates": false },
         { "id": "overlay_wielded_knuckle_katar", "fg": 207, "rotates": false },
         { "id": "overlay_wielded_knuckle_nail", "fg": 207, "rotates": false },
-        { "id": "overlay_wielded_knuckle_scrap", "fg": 206, "rotates": false },
+        { "id": "overlay_wielded_knuckle_steel", "fg": 206, "rotates": false },
         { "id": "overlay_wielded_kris", "fg": 339, "rotates": false },
         { "id": "overlay_wielded_kris_fake", "fg": 339, "rotates": false },
         { "id": "overlay_wielded_ksg", "fg": 257, "rotates": false },
