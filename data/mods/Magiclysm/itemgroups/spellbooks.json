@@ -76,8 +76,7 @@
       [ "spell_scroll_impactsling", 20 ],
       [ "spell_scroll_boneclub", 20 ],
       [ "spell_scroll_flamesword", 35 ],
-      [ "spell_scroll_flamebreath", 30 ],
-      [ "spell_scroll_nova_flare", 25 ]
+      [ "spell_scroll_flamebreath", 30 ]
     ]
   },
   {
@@ -130,7 +129,8 @@
       [ "spell_scroll_obfuscated_body", 10 ],
       [ "spell_scroll_druidic_healing", 20 ],
       [ "spell_scroll_summon_magic_motorcycle", 5 ],
-      [ "bio_sneeze_beam", 50 ]
+      [ "bio_sneeze_beam", 50 ],
+      [ "spell_scroll_nova_flare", 25 ]
     ]
   },
   {
