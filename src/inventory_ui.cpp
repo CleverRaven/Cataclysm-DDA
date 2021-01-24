@@ -779,8 +779,8 @@ void inventory_column::order_by_parent()
 
     std::vector<entry_info> sorted_entries;
     sorted_entries.reserve( entries.size() );
-    for( auto it = entries.begin(); it != entries.end(); ++it ) {
-        sorted_entries.emplace_back( std::move( *it ), original_order );
+    for( inventory_entry &entry : entries ) {
+        sorted_entries.emplace_back( std::move( entry ), original_order );
     }
     std::stable_sort( sorted_entries.begin(), sorted_entries.end() );
 
