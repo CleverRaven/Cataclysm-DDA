@@ -1300,11 +1300,6 @@
     "replace": "jug_plastic"
   },
   {
-    "id": "knuckle_steel",
-    "type": "MIGRATION",
-    "replace": "knuckle_scrap"
-  },
-  {
     "id": "surv_carbine_223",
     "type": "MIGRATION",
     "replace": "ar15"
