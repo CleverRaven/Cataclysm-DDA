@@ -28,16 +28,13 @@
 #include "ui_manager.h"         // for redraw, ui_adaptor
 #include "uistate.h"            // for advuilist_save_state
 
-// TODO:
-//     mark element & expand SELECT
-
 template <class Container, typename T = typename Container::value_type>
 class advuilist
 {
     public:
         /// column printer function. entry, colwidth. colwidth = 0 means unlimited
         using fcol_t = std::function<std::string( T const &, int )>;
-        using cwidth_t = float;
+        using cwidth_t = int;
         /// name, column printer function, width weight
         using col_t = std::tuple<std::string, fcol_t, cwidth_t>;
         using count_t = std::size_t;
@@ -664,7 +661,8 @@ int advuilist<Container, T>::_colwidth( col_t const &col, point const &p )
 {
     int const colwidth =
         std::min( _innerw - p.x,
-                  static_cast<int>( std::ceil( std::get<cwidth_t>( col ) * _innerw / _tweight ) ) );
+                  static_cast<int>( std::ceil(
+                                        static_cast<float>( std::get<cwidth_t>( col ) * _innerw ) / _tweight ) ) );
     bool const last = p.x + colwidth < _innerw;
     return colwidth - ( last ? _colspacing : 0 );
 }
