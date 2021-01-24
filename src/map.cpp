@@ -8558,6 +8558,33 @@ void map::on_saved()
     }
 }
 
+template<typename T>
+const T *map::active_furniture_at( const tripoint &p ) const
+{
+    return const_cast<map *>( this )->active_furniture_at<T>( p );
+}
+
+template<typename T>
+T *map::active_furniture_at( const tripoint &p )
+{
+    point offset;
+    submap *sm = get_submap_at( p, offset );
+    auto iter = sm->active_furniture.find( offset );
+    if( iter == sm->active_furniture.end() ) {
+        return nullptr;
+    }
+
+    return dynamic_cast<T *>( &*iter->second );
+}
+
+template const active_tile_data *map::active_furniture_at<active_tile_data>
+( const tripoint & ) const;
+template const vehicle_connector_tile *map::active_furniture_at<vehicle_connector_tile>
+( const tripoint & ) const;
+template active_tile_data *map::active_furniture_at<active_tile_data>( const tripoint & );
+template vehicle_connector_tile *map::active_furniture_at<vehicle_connector_tile>
+( const tripoint & );
+
 void map::process_distribution_grids()
 {
     if( !get_option<bool>( "ELECTRIC_GRID" ) ) {

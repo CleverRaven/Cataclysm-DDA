@@ -102,10 +102,10 @@ class charger_tile : public active_tile_data
 
 class vehicle_connector_tile : public active_tile_data
 {
-    private:
-        // VERY ugly hack, don't merge!!!!!!!!111
-        tripoint pos;
     public:
+        /* In absolute map square coordinates */
+        std::vector<tripoint> connected_vehicles;
+
         void update_internal( time_point to, const tripoint &p, distribution_grid &grid ) override;
         active_tile_data *clone() const override;
         const std::string &get_type() const override;

@@ -3211,10 +3211,6 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
 {
     int fl = std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs,
     const vehicle_part & rhs ) {
-        // don't count frozen liquid
-        if( rhs.is_tank() && rhs.base.contents_made_of( SOLID ) ) {
-            return lhs;
-        }
         return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_remaining() : 0 );
     } );
 

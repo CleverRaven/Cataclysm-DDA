@@ -193,7 +193,8 @@ struct vehicle_part {
                      animal_flag = 2,
                      carried_flag = 4,
                      carrying_flag = 8,
-                     tracked_flag = 16 //carried vehicle part with tracking enabled
+                     tracked_flag = 16, //carried vehicle part with tracking enabled
+                     targets_grid = 32, // Jumper cable is to grid, not vehicle
                    };
 
         vehicle_part(); /** DefaultConstructible */
@@ -203,6 +204,7 @@ struct vehicle_part {
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
 
+        // TODO: Make all of those use the above enum
         bool has_flag( const int flag ) const noexcept {
             return flag & flags;
         }

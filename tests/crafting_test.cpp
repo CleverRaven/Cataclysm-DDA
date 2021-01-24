@@ -553,7 +553,6 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
     }
 }
 
-#include "output.h"
 TEST_CASE( "oven electric grid test", "[crafting][overmap][grids][slow]" )
 {
     constexpr tripoint start_pos = tripoint( 60, 60, 0 );

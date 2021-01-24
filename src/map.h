@@ -43,6 +43,7 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+class active_tile_data;
 class Character;
 class Creature;
 class basecamp;
@@ -1874,6 +1875,12 @@ class map
         void make_distribution_grid_at( const tripoint &omt_pos );
 
     public:
+        template <typename T = active_tile_data>
+        T * active_furniture_at( const tripoint &pos );
+
+        template <typename T = active_tile_data>
+        const T * active_furniture_at( const tripoint &pos ) const;
+
         const level_cache &get_cache_ref( int zlev ) const {
             return *caches[zlev + OVERMAP_DEPTH];
         }

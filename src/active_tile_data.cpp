@@ -218,9 +218,8 @@ void charger_tile::load( JsonObject &jo )
     jo.read( "power", power );
 }
 
-void vehicle_connector_tile::update_internal( time_point, const tripoint &pos, distribution_grid & )
+void vehicle_connector_tile::update_internal( time_point, const tripoint &, distribution_grid & )
 {
-    this->pos = pos;
 }
 
 active_tile_data *vehicle_connector_tile::clone() const
@@ -236,72 +235,49 @@ const std::string &vehicle_connector_tile::get_type() const
 
 void vehicle_connector_tile::store( JsonOut &jsout ) const
 {
-    ( void )jsout;
+    jsout.member( "connected_vehicles", connected_vehicles );
 }
 
 void vehicle_connector_tile::load( JsonObject &jo )
 {
-    ( void )jo;
-}
-
-static vehicle *get_cable_vehicle( const item &it )
-{
-    if( !it.has_flag( flag_CABLE_SPOOL ) ) {
-        return nullptr;
-    }
-    // TODO: Common functions instead of copypaste of stringly typed code
-    const std::string &state = it.get_var( "state" );
-    if( state != "pay_out_cable" && state != "cable_charger_link" ) {
-        return nullptr;
-    }
-    // In absolute coords
-    int source_x = it.get_var( "source_x", 0 );
-    int source_y = it.get_var( "source_y", 0 );
-    int source_z = it.get_var( "source_z", 0 );
-    tripoint abs_ms( source_x, source_y, source_z );
-    return vehicle::find_vehicle( abs_ms );
+    jo.read( "connected_vehicles", connected_vehicles );
 }
 
 int vehicle_connector_tile::get_resource() const
 {
     int resource_sum = 0;
-    // TODO: Avoid using submaps here
-    tripoint sm_coord = ms_to_sm_copy( this->pos );
-    submap *sm = MAPBUFFER.lookup_submap( sm_coord );
-    // This duplicates what @ref map does, that's not good
-    point local_offset = point( this->pos.x % SEEX, this->pos.y % SEEY );
-
-    for( const item &it : sm->get_items( local_offset ) ) {
-        vehicle *veh = get_cable_vehicle( it );
-        if( veh != nullptr ) {
-            // TODO: Handle cabled up vehicles without including any of them more than once
-            resource_sum += veh->fuel_left( "battery", false );
+    for( const tripoint &veh_abs : connected_vehicles ) {
+        vehicle *veh = vehicle::find_vehicle( veh_abs );
+        if( veh == nullptr ) {
+            // TODO
+            debugmsg( "lost vehicle at %d,%d,%d", veh_abs.x, veh_abs.y, veh_abs.z );
+            continue;
         }
+
+        resource_sum += veh->fuel_left( "battery", false );
     }
 
     return resource_sum;
 }
-// TODO: Extract common function with the above
+
 int vehicle_connector_tile::mod_resource( int amt )
 {
-    // TODO: Avoid using submaps here
-    tripoint sm_coord = ms_to_sm_copy( this->pos );
-    submap *sm = MAPBUFFER.lookup_submap( sm_coord );
-    // This duplicates what @ref map does, that's not good
-    point local_offset = point( this->pos.x % SEEX, this->pos.y % SEEY );
+    for( const tripoint &veh_abs : connected_vehicles ) {
+        vehicle *veh = vehicle::find_vehicle( veh_abs );
+        if( veh == nullptr ) {
+            // TODO
+            debugmsg( "lost vehicle at %d,%d,%d", veh_abs.x, veh_abs.y, veh_abs.z );
+            continue;
+        }
 
-    for( const item &it : sm->get_items( local_offset ) ) {
-        vehicle *veh = get_cable_vehicle( it );
-        if( veh != nullptr ) {
-            // TODO: Handle cabled up vehicles without including any of them more than once
-            if( amt > 0 ) {
-                amt = veh->charge_battery( amt, false );
-            } else {
-                amt = -veh->discharge_battery( -amt, false );
-            }
-            if( amt == 0 ) {
-                return 0;
-            }
+        // TODO: Handle cabled up vehicles without including any of them more than once
+        if( amt > 0 ) {
+            amt = veh->charge_battery( amt, false );
+        } else {
+            amt = -veh->discharge_battery( -amt, false );
+        }
+        if( amt == 0 ) {
+            return 0;
         }
     }
 

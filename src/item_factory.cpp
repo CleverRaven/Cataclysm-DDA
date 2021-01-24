@@ -1342,6 +1342,10 @@ void Item_factory::check_definitions() const
             if( !actor->is_valid() ) {
                 msg += string_format( "item action \"%s\" was not described.\n", actor->type.c_str() );
             }
+
+            if( actor->type == "CABLE_ATTACH" && !vpart_id( type->id ).is_valid() ) {
+                msg += string_format( "no valid vehicle part for CABLE_ATTACH action\n" );
+            }
         }
 
         if( type->fuel && !type->count_by_charges() ) {
