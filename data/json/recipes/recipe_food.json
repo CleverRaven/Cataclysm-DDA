@@ -1357,6 +1357,20 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "carrot_roasted",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "carrot", 1 ], [ "irradiated_carrot", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chips2",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
