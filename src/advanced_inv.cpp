@@ -164,21 +164,31 @@ constexpr bool is_vehicle( aim_advuilist_sourced_t::icon_t icon )
     return icon == SOURCE_DRAGGED_i or icon == SOURCE_VEHICLE_i;
 }
 
+bool source_player_dragged_avail()
+{
+    avatar &u = get_avatar();
+    if( u.get_grab_type() == object_type::VEHICLE ) {
+        return source_vehicle_avail( u.pos() + u.grab_point );
+    }
+
+    return false;
+}
+
 std::string aim_sourcelabel( _sourcearray::size_type idx, bool veh = false )
 {
     _sourcetuple const &src = aimsources[idx];
     std::string const &srcname = std::get<_tuple_label_idx>( src );
 
     tripoint const pos = get_avatar().pos() + slotidx_to_offset( idx );
-    std::string prefix;
+    std::string prefix = srcname;
     std::string label;
 
-    if( veh or idx == DRAGGED_IDX ) {
+    if( ( veh and source_vehicle_avail( pos ) ) or
+        ( idx == DRAGGED_IDX and source_player_dragged_avail() ) ) {
         cata::optional<vpart_reference> vp = veh_cargo_at( pos );
         prefix = vp->vehicle().name;
         label = vp->get_label().value_or( vp->info().name() );
     } else {
-        prefix = srcname;
         if( std::get<bool>( src ) ) {
             label = get_map().name( pos );
         }
@@ -196,16 +206,6 @@ aim_container_t source_player_ground( tripoint const &offset )
 bool source_player_ground_avail( tripoint const &offset )
 {
     return get_map().can_put_items_ter_furn( get_avatar().pos() + offset );
-}
-
-bool source_player_dragged_avail()
-{
-    avatar &u = get_avatar();
-    if( u.get_grab_type() == object_type::VEHICLE ) {
-        return source_vehicle_avail( u.pos() + u.grab_point );
-    }
-
-    return false;
 }
 
 aim_container_t source_player_vehicle( tripoint const &offset )
