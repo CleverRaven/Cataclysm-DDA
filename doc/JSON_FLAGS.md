@@ -13,6 +13,7 @@
   - [Bionics](#bionics)
   - [Books](#books)
     - [Use actions](#use-actions)
+  - [Character - (Bionic/Mutation)](#character)
   - [Comestibles](#comestibles)
     - [Comestible type](#comestible-type)
     - [Addiction type](#addiction-type)
@@ -1115,13 +1116,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 
 #### Flags
 
-- ```HEATPROOF``` Immune to very hot temperatures.
 - ```UNARMED_BONUS``` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
-- ```NO_DISEASE``` This mutation grants immunity to diseases.
-- ```NO_THIRST``` Your thirst is not modified by food or drinks.
-- ```NO_RADIATION``` This mutation grants immunity to radiations.
-- ```NO_MINIMAL_HEALING``` This mutation disables the minimal healing of 1 hp a day.
-
 
 ### Categories
 
@@ -1511,3 +1506,11 @@ Gun fault flags:
 
 - ```turns_into``` Causes this fault to apply to the item just mended.
 - ```also_mends``` Causes this fault to be mended (in addition to fault selected) once that fault is mended.
+
+## Character
+
+- ```HEATPROOF``` Immune to very hot temperatures.
+- ```NO_DISEASE``` This mutation grants immunity to diseases.
+- ```NO_THIRST``` Your thirst is not modified by food or drinks.
+- ```NO_RADIATION``` This mutation grants immunity to radiations.
+- ```NO_MINIMAL_HEALING``` This mutation disables the minimal healing of 1 hp a day.

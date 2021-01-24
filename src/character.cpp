@@ -351,7 +351,6 @@ static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
 static const trait_id trait_NIGHTVISION2( "NIGHTVISION2" );
 static const trait_id trait_NIGHTVISION3( "NIGHTVISION3" );
-static const trait_id trait_NO_THIRST( "NO_THIRST" );
 static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
@@ -5234,7 +5233,7 @@ std::pair<std::string, nc_color> Character::get_fatigue_description() const
 
 void Character::mod_thirst( int nthirst )
 {
-    if( has_trait_flag( json_flag_NO_THIRST ) || ( is_npc() && get_option<bool>( "NO_NPC_FOOD" ) ) ) {
+    if( has_flag( json_flag_NO_THIRST ) || ( is_npc() && get_option<bool>( "NO_NPC_FOOD" ) ) ) {
         return;
     }
     set_thirst( std::max( -100, thirst + nthirst ) );
@@ -5513,7 +5512,7 @@ void Character::update_body( const time_point &from, const time_point &to )
         // TODO: change @ref med to take time_duration
         mend( five_mins * to_turns<int>( 5_minutes ) );
     }
-    if( ticks_between( from, to, 24_hours ) > 0 && !has_trait_flag( json_flag_NO_MINIMAL_HEALING ) ) {
+    if( ticks_between( from, to, 24_hours ) > 0 && !has_flag( json_flag_NO_MINIMAL_HEALING ) ) {
         enforce_minimum_healing();
     }
 
@@ -5697,7 +5696,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     // No food/thirst, capped fatigue clock (only up to tired)
     const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
     const bool foodless = debug_ls || npc_no_food;
-    const bool mouse = has_trait( trait_NO_THIRST );
+    const bool no_thirst = has_flag( json_flag_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
     const float kcal_per_time = get_bmr() / ( 12.0f * 24.0f );
     const int five_mins = ticks_between( from, to, 5_minutes );
@@ -5774,7 +5773,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     }
     // Mycus and Metabolic Rehydration makes thirst unnecessary
     // since water is not limited by intake but by absorption, we can just set thirst to zero
-    if( mycus || mouse ) {
+    if( mycus || no_thirst ) {
         set_thirst( 0 );
     }
 
@@ -6314,7 +6313,7 @@ void Character::check_needs_extremes()
 void Character::get_sick()
 {
     // NPCs are too dumb to handle infections now
-    if( is_npc() || has_trait_flag( json_flag_NO_DISEASE ) ) {
+    if( is_npc() || has_flag( json_flag_NO_DISEASE ) ) {
         // In a shocking twist, disease immunity prevents diseases.
         return;
     }
@@ -6426,7 +6425,7 @@ void Character::update_bodytemp()
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
-    const bool heat_immune = has_trait_flag( json_flag_HEATPROOF );
+    const bool heat_immune = has_flag( json_flag_HEATPROOF );
     const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( itype_rm13_armor_on ) ||
                               heat_immune;
     const bool has_common_cold = has_effect( effect_common_cold );
@@ -8561,7 +8560,7 @@ void Character::set_rad( int new_rad )
 
 void Character::mod_rad( int mod )
 {
-    if( has_trait_flag( json_flag_NO_RADIATION ) ) {
+    if( has_flag( json_flag_NO_RADIATION ) ) {
         return;
     }
     set_rad( std::max( 0, get_rad() + mod ) );
