@@ -2900,14 +2900,14 @@
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "mechanics" },
       { "level": 1, "name": "cooking" }
-              ],
+    ],
     "items": {
       "both": {
         "items": [
-          "stockings", 
-	        "pockknife", 
+          "stockings",
+          "pockknife",
           "pipe_tobacco",
-          "tobacco", 
+          "tobacco",
           "backpack",
           "knee_high_boots",
           "breeches",
@@ -2926,11 +2926,11 @@
           { "item": "flintlock_ammo", "charges": 15 },
           { "item": "vinegar", "container-item": "bottle_plastic_small" },
           { "item": "lamp_oil", "container-item": "bottle_plastic_small" },
-	        { "group": "charged_cell_phone" }, 
+          { "group": "charged_cell_phone" },
           { "group": "charged_matches" }
-                   ]
-              }
-             }
+        ]
+      }
+    }
   },
   {
     "type": "profession",
@@ -2944,14 +2944,14 @@
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "mechanics" },
       { "level": 1, "name": "cooking" }
-              ],
+    ],
     "items": {
       "both": {
-        "items": [ 
-          "stockings", 
-          "pockknife", 
-          "pipe_tobacco", 
-          "tobacco", 
+        "items": [
+          "stockings",
+          "pockknife",
+          "pipe_tobacco",
+          "tobacco",
           "backpack",
           "dress",
           "apron_leather",
@@ -2963,15 +2963,15 @@
           "pot",
           "cornmeal",
           "salt"
-                 ],
-        "entries": [ 
-          { "item": "needle_wood", "ammo-item": "thread", "charges": 200 }, 
-          { "item": "oil_lamp", "charges": 750 }, 
-          { "group": "charged_cell_phone" }, 
+        ],
+        "entries": [
+          { "item": "needle_wood", "ammo-item": "thread", "charges": 200 },
+          { "item": "oil_lamp", "charges": 750 },
+          { "group": "charged_cell_phone" },
           { "group": "charged_matches" }
-                   ]
-              }
-             }
+        ]
+      }
+    }
   },
   {
     "type": "profession",
