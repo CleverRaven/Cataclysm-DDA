@@ -601,7 +601,11 @@ void avatar_action::autoattack( avatar &you, map &m )
 {
     int reach = you.weapon.reach_range( you );
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
-    critters.erase( std::remove_if( critters.begin(), critters.end(), []( const Creature * c ) {
+    critters.erase( std::remove_if( critters.begin(), critters.end(), [&you,
+    reach]( const Creature * c ) {
+        if( reach == 1 && !you.is_adjacent( c, true ) ) {
+            return true;
+        }
         if( !c->is_npc() ) {
             return false;
         }

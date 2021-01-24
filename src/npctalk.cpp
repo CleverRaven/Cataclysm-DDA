@@ -1451,6 +1451,13 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
 
     d_win.add_history_separator();
 
+    ui_adaptor ui;
+    const auto resize_cb = [&]( ui_adaptor & ui ) {
+        d_win.resize_dialogue( ui );
+    };
+    ui.on_screen_resize( resize_cb );
+    resize_cb( ui );
+
     // Number of lines to highlight
     const size_t hilight_lines = d_win.add_to_history( challenge );
 
@@ -1492,12 +1499,6 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
         }
     };
     generate_response_lines();
-
-    ui_adaptor ui;
-    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        d_win.resize_dialogue( ui );
-    } );
-    ui.mark_resize();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         d_win.print_header( npc_name );

@@ -863,7 +863,7 @@ void talk_function::attack_random( const std::vector<npc_ptr> &attacker,
     }
     const auto att = random_entry( attacker );
     monster *def = random_entry( group );
-    att->melee_attack( *def, false );
+    att->melee_attack_abstract( *def, false, matec_id( "" ) );
     if( def->get_hp() <= 0 ) {
         popup( _( "%s is wasted by %s!" ), def->type->nname(), att->name );
     }

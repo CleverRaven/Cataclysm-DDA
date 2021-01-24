@@ -205,7 +205,7 @@ player::player()
     controlling_vehicle = false;
     grab_point = tripoint_zero;
     hauling = false;
-    focus_pool = 100;
+    set_focus( 100 );
     last_item = itype_id( "null" );
     sight_max = 9999;
     last_batch = 0;
@@ -1156,7 +1156,7 @@ void player::process_items()
             continue;
         }
         if( it->needs_processing() ) {
-            if( it->process( this, pos(), false ) ) {
+            if( it->process( this, pos() ) ) {
                 removed_items.push_back( it );
             }
         }
@@ -1547,7 +1547,7 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
                                    base.tname() );
 
             } else if( ammo_match_found ) {
-                add_msg_if_player( m_info, _( "You can't reload anything with the ammo you have on hand" ) );
+                add_msg_if_player( m_info, _( "You can't reload anything with the ammo you have on hand." ) );
             } else {
                 std::string name;
                 if( base.ammo_data() ) {
@@ -2123,7 +2123,7 @@ std::pair<int, int> player::gunmod_installation_odds( const item &gun, const ite
     // cap success from skill alone to 1 in 5 (~83% chance)
     roll = std::min( static_cast<double>( chances ), 5.0 ) / 6.0 * 100;
     // focus is either a penalty or bonus of at most +/-10%
-    roll += ( std::min( std::max( focus_pool, 140 ), 60 ) - 100 ) / 4;
+    roll += ( std::min( std::max( get_focus(), 140 ), 60 ) - 100 ) / 4;
     // dexterity and intelligence give +/-2% for each point above or below 12
     roll += ( get_dex() - 12 ) * 2;
     roll += ( get_int() - 12 ) * 2;

@@ -1687,7 +1687,7 @@
     "charges_per_use": 0,
     "revert_to": "ecs_lajatang_off",
     "use_action": [ "ECS_LAJATANG_ON" ],
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "cutlass",
@@ -1736,7 +1736,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "combat chainsaw (off)", "str_pl": "combat chainsaws (off)" },
-    "description": "This is a chainsaw that has been lightened, tuned, and extensively modified to be a more effective weapon.  Unfortunately, these modifications have rendered it much less effective as a woodcutting tool.",
+    "description": "This is a chainsaw that has been lightened, tuned, and extensively modified to be easier to handle as a weapon.  Unfortunately, these modifications have rendered it much less effective as a woodcutting tool.",
     "weight": "5122 g",
     "volume": "2250 ml",
     "longest_side": "70 cm",
@@ -1752,7 +1752,7 @@
     "max_charges": 450,
     "use_action": [ "COMBATSAW_OFF" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "ALWAYS_TWOHAND" ]
+    "flags": [ "ALWAYS_TWOHAND", "FRAGILE_MELEE" ]
   },
   {
     "id": "combatsaw_on",
@@ -1767,14 +1767,14 @@
     "revert_to": "combatsaw_off",
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
     "use_action": [ "COMBATSAW_ON" ],
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "e_combatsaw_off",
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "electric combat chainsaw (off)", "str_pl": "electric combat chainsaws (off)" },
-    "description": "This is an electric chainsaw that has been lightened, tuned, and extensively modified to be a more effective weapon.  Unfortunately, these modifications have rendered it much less effective as a woodcutting tool.",
+    "description": "This is an electric chainsaw that has been lightened, tuned, and extensively modified to be easier to handle as a weapon.  Unfortunately, these modifications have rendered it much less effective as a woodcutting tool.",
     "weight": "5122 g",
     "volume": "2250 ml",
     "longest_side": "70 cm",
@@ -1789,7 +1789,7 @@
     "charges_per_use": 5,
     "use_action": [ "E_COMBATSAW_OFF" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "ALWAYS_TWOHAND" ],
+    "flags": [ "ALWAYS_TWOHAND", "FRAGILE_MELEE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1814,6 +1814,6 @@
     "revert_to": "e_combatsaw_off",
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": [ "E_COMBATSAW_ON" ],
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
+    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
   }
 ]

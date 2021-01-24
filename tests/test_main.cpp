@@ -285,6 +285,16 @@ int main( int argc, const char *argv[] )
 
     std::string user_dir = extract_user_dir( arg_vec );
 
+    std::string error_fmt = extract_argument( arg_vec, "--error-format=" );
+    if( error_fmt == "github-action" ) {
+        error_log_format = error_log_format_t::github_action;
+    } else if( error_fmt == "human-readable" || error_fmt.empty() ) {
+        error_log_format = error_log_format_t::human_readable;
+    } else {
+        printf( "Unknown format %s", error_fmt.c_str() );
+        return EXIT_FAILURE;
+    }
+
     // Note: this must not be invoked before all DDA-specific flags are stripped from arg_vec!
     int result = session.applyCommandLine( arg_vec.size(), &arg_vec[0] );
     if( result != 0 || session.configData().showHelp ) {
@@ -294,6 +304,9 @@ int main( int argc, const char *argv[] )
         printf( "  -D, --drop-world             Don't save the world on test failure.\n" );
         printf( "  --option_overrides=n:v[,…]   Name-value pairs of game options for tests.\n" );
         printf( "                               (overrides config/options.json values)\n" );
+        printf( "  --error-format=<value>       Format of error messages.  Possible values are:\n" );
+        printf( "                                   human-readable (default)\n" );
+        printf( "                                   github-action\n" );
         return result;
     }
 

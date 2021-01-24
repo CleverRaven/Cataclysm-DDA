@@ -271,7 +271,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     // uses assign because optional doesn't handle loading units as strings
     assign( jsobj, "react_cost", power_over_time, false, 0_kJ );
     assign( jsobj, "capacity", capacity, false, 0_kJ );
-    assign( jsobj, "weight_capacity_bonus", weight_capacity_bonus, false, 0_gram );
+    assign( jsobj, "weight_capacity_bonus", weight_capacity_bonus, false );
     assign( jsobj, "act_cost", power_activate, false, 0_kJ );
     assign( jsobj, "deact_cost", power_deactivate, false, 0_kJ );
 
@@ -1097,8 +1097,11 @@ bool Character::deactivate_bionic( int b, bool eff_only )
         if( weapon.typeId() == bio.info().fake_item ) {
             add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
             if( get_player_view().sees( pos() ) ) {
-                add_msg_if_npc( m_info, _( "<npcname> withdraws %s %s." ), disp_name( true ),
-                                weapon.tname() );
+                if( male ) {
+                    add_msg_if_npc( m_info, _( "<npcname> withdraws his %s." ), weapon.tname() );
+                } else {
+                    add_msg_if_npc( m_info, _( "<npcname> withdraws her %s." ), weapon.tname() );
+                }
             }
             bio.ammo_loaded =
                 weapon.ammo_data() != nullptr ? weapon.ammo_data()->get_id() : itype_id::NULL_ID();

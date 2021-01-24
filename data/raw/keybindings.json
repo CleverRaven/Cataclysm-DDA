@@ -1617,6 +1617,17 @@
   },
   {
     "type": "keybinding",
+    "id": "EXAMINE",
+    "category": "INVENTORY",
+    "name": "Examine",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "e" },
+      { "input_method": "keyboard_char", "key": "E" },
+      { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_FAVORITE",
     "category": "INVENTORY",
     "name": "Toggle item as favorite",
@@ -3417,5 +3428,12 @@
     "id": "CHECK_OPINION",
     "name": "Check opinion",
     "bindings": [ { "input_method": "keyboard_char", "key": "O" }, { "input_method": "keyboard_code", "key": "o", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "FACTION_MANAGER",
+    "id": "INSPECT_NPC",
+    "name": "Inspect NPC",
+    "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
   }
 ]

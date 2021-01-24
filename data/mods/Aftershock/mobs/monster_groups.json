@@ -5,10 +5,7 @@
     "monsters": [
       { "monster": "mon_afs_headless_horror", "freq": 20, "cost_multiplier": 2, "starts": 400 },
       { "monster": "mon_zombie_upliftedbear", "freq": 5, "cost_multiplier": 10, "starts": 1086 },
-      { "monster": "mon_uplifted_ape_zed", "freq": 8, "cost_multiplier": 10, "starts": 1086 },
-      { "monster": "mon_moxie_elder", "freq": 20, "cost_multiplier": 2, "starts": 400 },
-      { "monster": "mon_moxie_bloodhound", "freq": 20, "cost_multiplier": 2, "pack_size": [ 2, 4 ], "starts": 400 },
-      { "monster": "mon_moxphore_emetic", "freq": 20, "cost_multiplier": 2, "starts": 400 }
+      { "monster": "mon_uplifted_ape_zed", "freq": 8, "cost_multiplier": 10, "starts": 1086 }
     ]
   },
   {
@@ -17,10 +14,7 @@
     "monsters": [
       { "monster": "mon_afs_headless_horror", "freq": 10, "cost_multiplier": 20 },
       { "monster": "mon_zombie_upliftedbear", "freq": 3, "cost_multiplier": 10, "starts": 1086 },
-      { "monster": "mon_uplifted_ape_zed", "freq": 5, "cost_multiplier": 10, "starts": 1086 },
-      { "monster": "mon_moxie_elder", "freq": 10, "cost_multiplier": 20 },
-      { "monster": "mon_moxie_bloodhound", "freq": 10, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_moxphore_emetic", "freq": 10, "cost_multiplier": 20 }
+      { "monster": "mon_uplifted_ape_zed", "freq": 5, "cost_multiplier": 10, "starts": 1086 }
     ]
   },
   {

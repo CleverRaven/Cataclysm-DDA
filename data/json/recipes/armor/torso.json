@@ -318,6 +318,8 @@
     "copy-from": "cuirass_lightplate",
     "time": "12 h",
     "using": [ [ "blacksmithing_standard", 44 ], [ "steel_standard", 10 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "fur", 12 ], [ "tanned_pelt", 2 ], [ "leather", 12 ], [ "tanned_hide", 2 ] ] ]
   },
   {
@@ -345,6 +347,7 @@
     "copy-from": "cuirass_scrap",
     "time": "6 h",
     "using": [ [ "cordage", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 120 ] ] ]
   },
   {
@@ -498,11 +501,11 @@
     "result": "xl_duster_survivor",
     "type": "recipe",
     "copy-from": "duster_survivor",
-    "time": "12 h",
+    "time": "15 h",
     "using": [ [ "sewing_standard", 175 ] ],
     "components": [
       [ [ "coat_rain", 2 ] ],
-      [ [ "duster", 2 ], [ "jacket_army", 1 ] ],
+      [ [ "jacket_army", 2 ], [ "xl_duster", 1 ] ],
       [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "sheet_kevlar_layered", 32 ] ],
       [ [ "rag", 26 ] ],
       [

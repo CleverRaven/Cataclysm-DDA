@@ -135,7 +135,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         }
     } else {
         u.moves -= 100;
-        add_msg( m_bad, _( "You lack the strength to move the %s" ), grabbed_vehicle->name );
+        add_msg( m_bad, _( "You lack the strength to move the %s." ), grabbed_vehicle->name );
         return true;
     }
 

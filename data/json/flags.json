@@ -152,6 +152,11 @@
     "context": [ "GENERIC" ]
   },
   {
+    "id": "BLED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
     "id": "CANT_HEAL_EVERYONE",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
@@ -1893,21 +1898,6 @@
   },
   {
     "id": "DETERGENT",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_100",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_50",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_20",
     "type": "json_flag",
     "context": [  ]
   },

@@ -1019,20 +1019,67 @@ void computer_session::action_srcf_seal()
 void computer_session::action_srcf_elevator()
 {
     Character &player_character = get_player_character();
-    if( !player_character.has_amount( itype_sarcophagus_access_code, 1 ) ) {
-        print_error( _( "Access code required!" ) );
-    } else {
-        player_character.use_amount( itype_sarcophagus_access_code, 1 );
+    map &here = get_map();
+    tripoint surface_elevator;
+    tripoint underground_elevator;
+    bool is_surface_elevator_on = false;
+    bool is_surface_elevator_exist = false;
+    bool is_underground_elevator_on = false;
+    bool is_underground_elevator_exist = false;
+
+    for( const tripoint &p : here.points_on_zlevel( 0 ) ) {
+        if( here.ter( p ) == t_elevator_control_off || here.ter( p ) == t_elevator_control ) {
+            surface_elevator = p;
+            is_surface_elevator_on = here.ter( p ) == t_elevator_control;
+            is_surface_elevator_exist = true;
+        }
+    }
+    for( const tripoint &p : here.points_on_zlevel( -2 ) ) {
+        if( here.ter( p ) == t_elevator_control_off || here.ter( p ) == t_elevator_control ) {
+            underground_elevator = p;
+            is_underground_elevator_on = here.ter( p ) == t_elevator_control;
+            is_underground_elevator_exist = true;
+        }
+    }
+
+    //If some are destroyed
+    if( !is_surface_elevator_exist || !is_underground_elevator_exist ) {
+        reset_terminal();
+        print_error(
+            _( "\nElevator control network unreachable!\n\n" ) );
+    }
+
+    //If both are disabled try to enable
+    else if( !is_surface_elevator_on && !is_underground_elevator_on ) {
+        if( !player_character.has_amount( itype_sarcophagus_access_code, 1 ) ) {
+            print_error( _( "Access code required!\n\n" ) );
+        } else {
+            player_character.use_amount( itype_sarcophagus_access_code, 1 );
+            here.ter_set( surface_elevator, t_elevator_control );
+            is_surface_elevator_on = true;
+            here.ter_set( underground_elevator, t_elevator_control );
+            is_underground_elevator_on = true;
+        }
+    }
+
+    //If only one is enabled, enable the other one. Fix for before this change
+    else if( is_surface_elevator_on && !is_underground_elevator_on && is_underground_elevator_exist ) {
+        here.ter_set( underground_elevator, t_elevator_control );
+        is_underground_elevator_on = true;
+    }
+
+    else if( is_underground_elevator_on && !is_surface_elevator_on && is_surface_elevator_exist ) {
+        here.ter_set( surface_elevator, t_elevator_control );
+        is_surface_elevator_on = true;
+    }
+
+    //If the elevator is working
+    if( is_surface_elevator_on && is_underground_elevator_on ) {
         reset_terminal();
         print_line(
             _( "\nPower:         Backup Only\nRadiation Level:  Very Dangerous\nOperational:   Overridden\n\n" ) );
-        map &here = get_map();
-        for( const tripoint &p : here.points_on_zlevel() ) {
-            if( here.ter( p ) == t_elevator_control_off ) {
-                here.ter_set( p, t_elevator_control );
-            }
-        }
     }
+
     query_any( _( "Press any key…" ) );
 }
 

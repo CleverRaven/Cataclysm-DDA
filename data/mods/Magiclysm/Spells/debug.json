@@ -13,6 +13,8 @@
     "shape": "blast",
     "//4": "base_casting_time is in moves",
     "base_casting_time": 100,
+    "casting_time_increment": 1,
+    "final_casting_time": 110,
     "base_energy_cost": 10,
     "//5": "Available energy sourcese are: MANA, STAMINA, HP, BIONIC, NONE",
     "energy_source": "MANA",

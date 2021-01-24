@@ -64,12 +64,12 @@ time_duration recipe::time_to_craft( const Character &guy, recipe_time_flag flag
     return time_duration::from_seconds( time_to_craft_moves( guy, flags ) / 100 );
 }
 
-int recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flags ) const
+int64_t recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flags ) const
 {
     if( flags == recipe_time_flag::ignore_proficiencies ) {
         return time;
     }
-    int ret = time;
+    int64_t ret = time;
     for( const recipe_proficiency &prof : proficiencies ) {
         if( !prof.required ) {
             if( !guy.has_proficiency( prof.id ) &&
@@ -81,7 +81,8 @@ int recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flags ) 
     return ret;
 }
 
-int recipe::batch_time( const Character &guy, int batch, float multiplier, size_t assistants ) const
+int64_t recipe::batch_time( const Character &guy, int batch, float multiplier,
+                            size_t assistants ) const
 {
     // 1.0f is full speed
     // 0.33f is 1/3 speed
@@ -90,14 +91,14 @@ int recipe::batch_time( const Character &guy, int batch, float multiplier, size_
         multiplier = 1.0f;
     }
 
-    const float local_time = static_cast<float>( time_to_craft_moves( guy ) ) / multiplier;
+    const double local_time = static_cast<double>( time_to_craft_moves( guy ) ) / multiplier;
 
     // if recipe does not benefit from batching and we have no assistants, don't do unnecessary additional calculations
     if( batch_rscale == 0.0 && assistants == 0 ) {
-        return static_cast<int>( local_time ) * batch;
+        return static_cast<int64_t>( local_time ) * batch;
     }
 
-    float total_time = 0.0f;
+    double total_time = 0.0;
     // if recipe does not benefit from batching but we do have assistants, skip calculating the batching scale factor
     if( batch_rscale == 0.0f ) {
         total_time = local_time * batch;
@@ -122,7 +123,7 @@ int recipe::batch_time( const Character &guy, int batch, float multiplier, size_
         total_time = local_time;
     }
 
-    return static_cast<int>( total_time );
+    return static_cast<int64_t>( total_time );
 }
 
 bool recipe::has_flag( const std::string &flag_name ) const
@@ -609,7 +610,8 @@ struct prof_penalty {
 };
 
 static std::string profstring( const prof_penalty &prof,
-                               std::string &color )
+                               std::string &color,
+                               const std::string &name_color = "cyan" )
 {
     std::string mitigated_str;
     if( prof.mitigated ) {
@@ -617,16 +619,16 @@ static std::string profstring( const prof_penalty &prof,
     }
 
     if( prof.time_mult == 1.0f ) {
-        return string_format( _( "<color_cyan>%s</color> (<color_%s>%gx\u00a0failure</color>%s)" ),
-                              prof.id->name(), color, prof.failure_mult, mitigated_str );
+        return string_format( _( "<color_%s>%s</color> (<color_%s>%gx\u00a0failure</color>%s)" ),
+                              name_color, prof.id->name(), color, prof.failure_mult, mitigated_str );
     } else if( prof.failure_mult == 1.0f ) {
-        return string_format( _( "<color_cyan>%s</color> (<color_%s>%gx\u00a0time</color>%s)" ),
-                              prof.id->name(), color, prof.time_mult, mitigated_str );
+        return string_format( _( "<color_%s>%s</color> (<color_%s>%gx\u00a0time</color>%s)" ),
+                              name_color, prof.id->name(), color, prof.time_mult, mitigated_str );
     }
 
     return string_format(
-               _( "<color_cyan>%s</color> (<color_%s>%gx\u00a0time, %gx\u00a0failure</color>%s)" ),
-               prof.id->name(), color, prof.time_mult, prof.failure_mult, mitigated_str );
+               _( "<color_%s>%s</color> (<color_%s>%gx\u00a0time, %gx\u00a0failure</color>%s)" ),
+               name_color, prof.id->name(), color, prof.time_mult, prof.failure_mult, mitigated_str );
 }
 
 std::string recipe::used_proficiencies_string( const Character *c ) const
@@ -682,7 +684,7 @@ std::string recipe::missing_proficiencies_string( Character *c ) const
     std::string color = "yellow";
     std::string missing = enumerate_as_string( missing_profs.begin(),
     missing_profs.end(), [&]( const prof_penalty & prof ) {
-        return profstring( prof, color );
+        return profstring( prof, color, c->has_prof_prereqs( prof.id ) ? "cyan" : "red" );
     } );
 
     return missing;
@@ -840,7 +842,7 @@ std::string recipe::required_all_skills_string() const
 std::string recipe::batch_savings_string() const
 {
     return ( batch_rsize != 0 ) ?
-           string_format( _( "%s%% at >%s units" ), static_cast<int>( batch_rscale * 100 ), batch_rsize )
+           string_format( _( "%d%% at >%d units" ), static_cast<int>( batch_rscale * 100 ), batch_rsize )
            : _( "none" );
 }
 

@@ -5748,10 +5748,10 @@ bool mattack::zombie_fuse( monster *z )
     z->add_effect( effect_grown_of_fuse, 10_days, true,
                    critter->get_hp_max() + z->get_effect( effect_grown_of_fuse ).get_intensity() );
     z->heal( critter->get_hp(), true );
-    z->mission_fused.emplace_back( critter->name() );
-    z->mission_fused.insert( z->mission_fused.end(),
-                             critter->mission_fused.begin(), critter->mission_fused.end() );
     if( mission::on_creature_fusion( *z, *critter ) ) {
+        z->mission_fused.emplace_back( critter->name() );
+        z->mission_fused.insert( z->mission_fused.end(),
+                                 critter->mission_fused.begin(), critter->mission_fused.end() );
         // let the player know that they still need to kill the fusing monster
         add_msg_if_player_sees( *z, _( "%1$s still seems to be moving inside %2$s…" ),
                                 critter->name(), z->name() );

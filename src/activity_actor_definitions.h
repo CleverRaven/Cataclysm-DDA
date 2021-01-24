@@ -10,6 +10,7 @@
 
 #include "activity_type.h"
 #include "calendar.h"
+#include "character.h"
 #include "clone_ptr.h"
 #include "handle_liquid.h"
 #include "item.h"
@@ -645,7 +646,9 @@ class craft_activity_actor : public activity_actor
         bool is_long;
 
         float activity_override = NO_EXERCISE;
+        cata::optional<requirement_data> cached_continuation_requirements;
 
+        bool check_if_craft_okay( item_location &craft_item, Character &crafter );
     public:
         craft_activity_actor( item_location &it, bool is_long );
 
@@ -766,7 +769,7 @@ class drop_activity_actor : public activity_actor
 
     private:
         std::vector<drop_or_stash_item_info> items;
-        std::vector<item_location> unhandled_containers;
+        contents_change_handler handler;
         tripoint placement;
         bool force_ground = false;
 };
@@ -801,7 +804,7 @@ class stash_activity_actor: public activity_actor
 
     private:
         std::vector<drop_or_stash_item_info> items;
-        std::vector<item_location> unhandled_containers;
+        contents_change_handler handler;
         tripoint placement;
 };
 

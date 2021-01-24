@@ -16,7 +16,7 @@ The following table lists the currently planned/implemented scrap categories and
 | `Material`        | Composite Superalloy | vacuum cast Carbide      | Nanoprinted Alloys         | crystal forged neutrite   | phase-uneven matter                  |
 | `Cloth`           | E-textile            | monofilament silk        | graphene weave             | woven metamaterial        |                                      |
 | `Magnet`          | Emag                 | cryo electromagnet       | super conductive emag      | ferrofluid dynamo         |                                      |
-| `Optics  `        |                      | Laser Optics             | Phased Array Optics        | Nano-optics               |                                      |
+| `Optics  `        |                      |                          | Laser Optics               | Metamaterial lens         |                                      |
 | `Neural I/O`      | peripheral electrode | neural electrode         | Brain implant prod         | Synthetic Neural Tissue   | neurosynaptic interface matrix       |
 | `Biomaterial`     | monomeric slurry     | micellular growth medium | artificial muscle fibers   | self healing polymers     | autologous totipotent tissue culture |
 | `Heat Transfer`   | conductive thermoplastic | supercritical coolant | carbon-lattice heatsink   | fermionic nanoribbon   | maxwellian entropic chirality generator |

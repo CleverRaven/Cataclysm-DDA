@@ -274,5 +274,25 @@
     "field_chance": 3,
     "min_field_intensity": 1,
     "max_field_intensity": 3
+  },
+  {
+    "type": "SPELL",
+    "id": "dermatik_emergence",
+    "name": "Dermatik Emergence",
+    "description": "The incubating dermatik larvae flee their host.",
+    "flags": [ "HOSTILE_SUMMON", "PERMANENT", "RANDOM_DAMAGE" ],
+    "valid_targets": [ "ground", "self" ],
+    "base_casting_time": 20,
+    "min_range": 1,
+    "max_range": 5,
+    "min_damage": 1,
+    "max_damage": 3,
+    "damage_type": "stab",
+    "min_aoe": 2,
+    "max_aoe": 3,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_dermatik_larva",
+    "extra_effects": [ { "id": "frog_mother_hurt_self", "hit_self": true } ]
   }
 ]

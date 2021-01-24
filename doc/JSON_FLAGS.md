@@ -566,6 +566,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NO_SIGHT``` Creature on this tile have their sight reduced to one tile
 - ```NO_SCENT``` This tile cannot have scent values, which prevents scent diffusion through this tile
 - ```NO_SHOOT``` Terrain with this flag cannot be damaged by ranged attacks, and ranged attacks will not pass through it.
+- ```NO_SPOIL``` Items placed in this tile do not spoil.
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```PAINFUL``` May cause a small amount of pain.
 - ```PERMEABLE``` Permeable for gases.
@@ -723,8 +724,6 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun (excluding any mods). Does not include wield time penalty (see NEEDS_UNFOLD).
 - ```CONSUMABLE``` Makes a gunpart have a chance to get damaged depending on ammo fired, and definable fields 'consume_chance' and 'consume_divisor'.
 - ```DISABLE_SIGHTS``` Prevents use of the base weapon sights
-- ```FIRE_100``` Uses 100 shots per firing.
-- ```FIRE_50``` Uses 50 shots per firing.
 - ```FIRE_TWOHAND``` Gun can only be fired if player has two free hands.
 - ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.
 - ```MECH_BAT```    This is an exotic battery designed to power military mechs.
@@ -984,6 +983,7 @@ Other monster flags.
 - ```POISON``` Poisonous to eat.
 - ```PUSH_MON``` Can push creatures out of its way.
 - ```QUEEN``` When it dies, local populations start to die off too.
+- ```RANGED_ATTACKER``` Monster has any sort of ranged attack.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
 - ```RIDEABLE_MECH``` This monster is a mech suit that can be piloted.
 - ```SEES``` It can see you (and will run/follow).
@@ -1115,6 +1115,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 
 #### Flags
 
+- ```HEATPROOF``` Immune to very hot temperatures.
 - ```UNARMED_BONUS``` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.

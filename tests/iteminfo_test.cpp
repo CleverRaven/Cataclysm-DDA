@@ -1370,11 +1370,9 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
     }
 
     SECTION( "gun type and current magazine" ) {
-        std::vector<iteminfo_parts> gun_type = { iteminfo_parts::GUN_TYPE };
         std::vector<iteminfo_parts> magazine = { iteminfo_parts::GUN_MAGAZINE };
 
-        // When unloaded, the "Type:" and "Magazine:" sections should not be shown
-        CHECK( item_info_str( glock, gun_type ).empty() );
+        // When unloaded, the "Magazine:" section should not be shown
         CHECK( item_info_str( glock, magazine ).empty() );
 
         // TODO: Test guns having "Type:" (not many exist; ex. ar15_retool_300blk)
@@ -1675,7 +1673,7 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "<color_c_white>Calories (kcal)</color>:"
-               " <color_c_yellow>127</color>-<color_c_yellow>469</color>"
+               " <color_c_yellow>126</color>-<color_c_yellow>467</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
 
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==

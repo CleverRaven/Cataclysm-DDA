@@ -69,6 +69,7 @@
     "time": "15 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ], [ "pocket_survival", 1 ], [ "book_archery", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
@@ -88,6 +89,7 @@
     "time": "15 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ], [ "book_archery", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching", "learning_time_multiplier": 0.1 }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
   },
@@ -104,6 +106,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
@@ -126,6 +129,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
@@ -148,6 +152,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
@@ -169,6 +174,7 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
@@ -187,6 +193,7 @@
     "difficulty": 3,
     "time": "20 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
@@ -207,6 +214,7 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ], [ "pocket_survival", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
@@ -235,6 +243,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
@@ -257,6 +266,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
@@ -279,6 +289,7 @@
     "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ] ],
     "components": [
@@ -300,6 +311,7 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
@@ -319,6 +331,7 @@
     "time": "15 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ], [ "book_archery", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching", "learning_time_multiplier": 0.1 }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
   },
@@ -334,6 +347,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
@@ -353,6 +367,7 @@
     "time": "15 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ], [ "pocket_survival", 1 ], [ "book_archery", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
@@ -372,6 +387,7 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 2 ], [ "pocket_survival", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_fletching" }, { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
@@ -703,7 +719,7 @@
     "time": "60 m",
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "book_learn": {
-      "textbook_gaswarfare": { "skill_level": 8, "recipe_name": "" },
+      "textbook_gaswarfare": { "skill_level": 8 },
       "textbook_anarch": { "skill_level": 7, "recipe_name": "Stuff THE MAN doesn't want you to know" },
       "recipe_labchem": { "skill_level": 6 }
     },

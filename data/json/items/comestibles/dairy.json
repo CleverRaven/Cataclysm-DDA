@@ -270,7 +270,8 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "vitamins": [ [ "vitA", 3 ], [ "vitB", 2 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
-    "fun": -5
+    "fun": -5,
+    "freezing_point": -459
   },
   {
     "type": "COMESTIBLE",

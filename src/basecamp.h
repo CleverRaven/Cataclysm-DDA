@@ -165,6 +165,8 @@ class basecamp
         void define_camp( const tripoint_abs_omt &p, const std::string &camp_type = "default" );
 
         std::string expansion_tab( const point &dir ) const;
+        // check whether the point is the part of camp
+        bool point_within_camp( const tripoint_abs_omt &p ) const;
         // upgrade levels
         bool has_provides( const std::string &req, const expansion_data &e_data, int level = 0 ) const;
         bool has_provides( const std::string &req, const cata::optional<point> &dir = cata::nullopt,

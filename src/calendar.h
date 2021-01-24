@@ -373,12 +373,14 @@ constexpr time_duration operator"" _weeks( const unsigned long long int v )
  * (the 1 additional second is clipped). An input of 3601 will return "1 hour"
  * (the second is clipped again and the number of additional minutes would be
  * 0 so it's skipped).
+ * @param compact True for compact display of time. Example: 1 min 15 secs
  */
-std::string to_string( const time_duration &d );
+std::string to_string( const time_duration &d, bool compact = false );
 
 enum class clipped_align : int {
     none,
     right,
+    compact
 };
 
 enum class clipped_unit : int {
@@ -408,6 +410,7 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d );
  * The chosen unit will be the smallest unit, that is at least as much as the
  * given duration. E.g. an input of 60 minutes will return "1 hour", an input of
  * 59 minutes will return "59 minutes".
+ * @param align none, right, or compact.
  */
 std::string to_string_clipped( const time_duration &d, clipped_align align = clipped_align::none );
 /**

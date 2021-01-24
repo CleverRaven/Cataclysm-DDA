@@ -96,6 +96,7 @@ template <typename E> struct enum_traits;
 
 enum npc_attitude : int;
 enum action_id : int;
+enum class steed_type : int;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
@@ -337,23 +338,42 @@ enum class character_stat : char {
 };
 
 /**
- * Secures the container and pocket of an item (if any), and calls
- * `Character::handle_contents_changed` when `handle()` is called.
+ * Records a batch of unsealed containers and handles spilling at once. This
+ * is preferred over handling containers right after unsealing because the latter
+ * can cause items to be invalidated when later code still needs to access them.
+ * See @ref `Character::handle_contents_changed` for more detail.
  */
-class handle_contents_changed_helper
+class contents_change_handler
 {
     public:
+        contents_change_handler() = default;
         /**
-         * @param guy The guy who's manipulating the item.
-         * @param content The manipulated item. Parent item and pocket of this
-         *        item should remain valid before `handle()` is called.
+         * Add an already unsealed container to the list. This item location
+         * should remain valid when `handle_by` is called.
          */
-        handle_contents_changed_helper( Character &guy, const item_location &content );
-        void handle();
+        void add_unsealed( const item_location &loc );
+        /**
+         * Unseal the pocket containing `loc` and add `loc`'s parent to the list.
+         * Does nothing if `loc` does not have a parent container. The parent of
+         * `loc` should remain valid when `handle_by` is called, but `loc` only
+         * needs to be valid here (for example, the item may be consumed afterwards).
+         */
+        void unseal_pocket_containing( const item_location &loc );
+        /**
+         * Let the guy handle any container that needs spilling. This may invalidate
+         * items in and out of the list of containers. The list is cleared after handling.
+         */
+        void handle_by( Character &guy );
+        /**
+         * Serialization for activities
+         */
+        void serialize( JsonOut &jsout ) const;
+        /**
+         * Deserialization for activities
+         */
+        void deserialize( JsonIn &jsin );
     private:
-        Character *guy;
-        item_location parent;
-        item_pocket *pocket;
+        std::vector<item_location> unsealed;
 };
 
 enum class book_mastery {
@@ -497,6 +517,14 @@ class Character : public Creature, public visitable
         virtual void set_fatigue( fatigue_levels nfatigue );
         virtual void set_sleep_deprivation( int nsleep_deprivation );
 
+    protected:
+
+        // These accept values in calories, 1/1000s of kcals (or Calories)
+        virtual void mod_stored_calories( int ncal );
+        virtual void set_stored_calories( int cal );
+
+    public:
+
         void mod_stat( const std::string &stat, float modifier ) override;
 
         int get_standard_stamina_cost( item *thrown_item = nullptr );
@@ -554,7 +582,7 @@ class Character : public Creature, public visitable
         /** Combat getters */
         float get_dodge_base() const override;
         /** Returns the player's dodge_roll to be compared against an aggressor's hit_roll() */
-        float dodge_roll() override;
+        float dodge_roll() const override;
         /** Returns Creature::get_dodge() modified by any Character effects */
         float get_dodge() const override;
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
@@ -710,7 +738,7 @@ class Character : public Creature, public visitable
         bool is_crouching() const;
 
         bool can_switch_to( const move_mode_id &mode ) const;
-
+        steed_type get_steed_type() const;
         virtual void set_movement_mode( const move_mode_id &mode ) = 0;
 
         /**Determine if character is susceptible to dis_type and if so apply the symptoms*/
@@ -791,8 +819,10 @@ class Character : public Creature, public visitable
          * @param force_technique special technique to use in attack.
          * @param allow_unarmed always uses the wielded weapon regardless of martialarts style
          */
-        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
+        bool melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
                            bool allow_unarmed = true );
+        bool melee_attack_abstract( Creature &t, bool allow_special, const matec_id &force_technique,
+                                    bool allow_unarmed = true );
 
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &p );
@@ -801,7 +831,7 @@ class Character : public Creature, public visitable
          * Calls the to other melee_attack function with an empty technique id (meaning no specific
          * technique should be used).
          */
-        void melee_attack( Creature &t, bool allow_special );
+        bool melee_attack( Creature &t, bool allow_special );
         /** Handles combat effects, returns a string of any valid combat effect messages */
         std::string melee_special_effects( Creature &t, damage_instance &d, item &weap );
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */
@@ -929,6 +959,9 @@ class Character : public Creature, public visitable
         trait_id random_good_trait();
         /** Returns the id of a random starting trait that costs < 0 points */
         trait_id random_bad_trait();
+        /** Returns the id of a random trait matching the given predicate */
+        trait_id get_random_trait( const std::function<bool( const mutation_branch & )> &func );
+        void randomize_cosmetic_trait( std::string mutation_type );
 
         // In mutation.cpp
         /** Returns true if the player has a conflicting trait to the entered trait
@@ -1541,19 +1574,19 @@ class Character : public Creature, public visitable
         bool i_add_or_drop( item &it, int qty = 1, const item *avoid = nullptr );
 
         /**
-         * Update items in `containers` and their parent/ancestor items after
-         * their contents are changed. Specifically, handle contents that would
-         * spill in unsealed pockets of items in `containers`, and unseal and
-         * handle any parent/ancestor pockets in the process.
+         * Check any already unsealed pockets in items pointed to by `containers`
+         * and propagate the unsealed status through the container tree. In the
+         * process the player may be asked to handle containers or spill contents,
+         * so make sure all unsealed containers are passed to this fucntion in a
+         * single batch; items (not limited to the ones listed in `containers` and
+         * their contents) may be invalidated or moved after a call to this function.
          *
-         * Pockets of items in `container` should be unsealed before calling
-         * this method
-         *
-         * @param containers Item locations of containers to handle. Item locations
+         * @param containers Item locations pointing to containers. Item locations
          *        in this vector can contain each other, but should always be valid
          *        (i.e. if A contains B and B contains C, A and C can be in the vector
-         *        at the same time, but B shouldn't be removed in such case, otherwise
-         *        C is invalidated.). Item location in this vector should be unique.
+         *        at the same time and should be valid, but B shouldn't be invalidated
+         *        either, otherwise C is invalidated). Item location in this vector
+         *        should be unique.
          */
         void handle_contents_changed( const std::vector<item_location> &containers );
 
@@ -1805,6 +1838,7 @@ class Character : public Creature, public visitable
 
         // --------------- Proficiency Stuff ----------------
         bool has_proficiency( const proficiency_id &prof ) const;
+        bool has_prof_prereqs( const proficiency_id &prof ) const;
         void add_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
         void lose_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
         void practice_proficiency( const proficiency_id &prof, const time_duration &amount,
@@ -1960,7 +1994,19 @@ class Character : public Creature, public visitable
         // Randomizes characters' blood type and Rh
         void randomize_blood();
 
+        int get_focus() const {
+            return std::max( 1, focus_pool / 1000 );
+        }
+        void mod_focus( int amount ) {
+            focus_pool += amount * 1000;
+        }
+        // Set the focus pool directly, only use for debugging.
+        void set_focus( int amount ) {
+            focus_pool = amount * 1000;
+        }
+    protected:
         int focus_pool = 0;
+    public:
         int cash = 0;
         std::set<character_id> follower_ids;
         weak_ptr_fast<Creature> last_target;
@@ -2029,6 +2075,7 @@ class Character : public Creature, public visitable
         std::list<item> use_charges( const itype_id &what, int qty, int radius,
                                      const std::function<bool( const item & )> &filter = return_true<item> );
 
+        const item *find_firestarter_with_charges( int quantity ) const;
         bool has_fire( int quantity ) const;
         void use_fire( int quantity );
         void assign_stashed_activity();
@@ -2489,11 +2536,12 @@ class Character : public Creature, public visitable
         /**
          * Time to craft not including speed multiplier
          */
-        int base_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
+        int64_t base_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
         /**
          * Expected time to craft a recipe, with assumption that multipliers stay constant.
          */
-        int expected_time_to_craft( const recipe &rec, int batch_size = 1, bool in_progress = false ) const;
+        int64_t expected_time_to_craft( const recipe &rec, int batch_size = 1,
+                                        bool in_progress = false ) const;
         std::vector<const item *> get_eligible_containers_for_crafting() const;
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool can_make( const recipe *r, int batch_size = 1 );  // have components?
@@ -2535,6 +2583,7 @@ class Character : public Creature, public visitable
          * @return if the craft can be continued
          */
         bool can_continue_craft( item &craft );
+        bool can_continue_craft( item &craft, const requirement_data &continue_reqs );
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
         int get_num_crafting_helpers( int max ) const;
@@ -2662,6 +2711,8 @@ class Character : public Creature, public visitable
         time_duration get_consume_time( const item &it );
 
         int weariness_level() const;
+        int weary_threshold() const;
+        int weariness() const;
         float activity_level() const;
         float exertion_adjusted_move_multiplier( float level = -1.0f ) const;
         void try_reduce_weariness( float exertion );
@@ -2727,8 +2778,6 @@ class Character : public Creature, public visitable
         int healthy_mod = 0;
 
         weariness_tracker weary;
-        int weary_threshold() const;
-        int weariness() const;
         // Our bmr at no activity level
         int base_bmr() const;
 
@@ -2870,6 +2919,7 @@ class Character : public Creature, public visitable
         int old_weary_level = 0;
 
         /// @brief Needs (hunger, starvation, thirst, fatigue, etc.)
+        // Stored calories is a value in 'calories' - 1/1000s of kcals (or Calories)
         int stored_calories;
         int healthy_calories;
 

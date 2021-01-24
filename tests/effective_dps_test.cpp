@@ -46,7 +46,7 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
             defender.set_hp( starting_hp );
 
             // Attack once
-            attacker.melee_attack( defender, false );
+            attacker.melee_attack_abstract( defender, false, matec_id( "" ) );
 
             // Tally total damage and moves
             total_damage += std::max( 0, starting_hp - defender.get_hp() );
@@ -308,6 +308,8 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "lucern_hammerfake", 14.0 );
         calc_expected_dps( test_guy, "spear_survivor", 26.0 );
         calc_expected_dps( test_guy, "long_pole", 13.0 );
+        calc_expected_dps( test_guy, "scythe_war", 30.5 );
+        calc_expected_dps( test_guy, "makeshift_scythe_war", 24.5 );
     }
     SECTION( "two-handed axes" ) { // typical value around 29
         calc_expected_dps( test_guy, "battleaxe", 29.0 );

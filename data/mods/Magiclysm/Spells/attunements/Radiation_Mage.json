@@ -54,6 +54,8 @@
     "damage_type": "pure",
     "energy_source": "MANA",
     "spell_class": "RADIATION_MAGE",
+    "difficulty": 7,
+    "max_level": 35,
     "base_casting_time": 75,
     "base_energy_cost": 350,
     "min_aoe": 6,

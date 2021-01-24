@@ -6,7 +6,7 @@
     "name": { "str_sp": "foie gras" },
     "symbol": "%",
     "looks_like": "meat_cooked",
-    "description": "Thought it's not technically foie gras, you don't have to think about that.",
+    "description": "Though it's not technically foie gras, you don't have to think about that.",
     "price_postapoc": 150,
     "material": [ "flesh", "fruit" ],
     "color": "brown",

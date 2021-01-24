@@ -552,7 +552,7 @@ class game
         void reset_light_level();
         character_id assign_npc_id();
         Creature *is_hostile_nearby();
-        Creature *is_hostile_very_close();
+        Creature *is_hostile_very_close( bool dangerous = false );
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
         point update_map( Character &p );
@@ -940,7 +940,13 @@ class game
                 cata::optional<IRLTimeMs> start_time = cata::nullopt;
         } debug_hour_timer;
 
-        Creature *is_hostile_within( int distance );
+        /**
+         * Checks if there's a hostile creature within given distance.
+         * @param dangerous If true, makes additional checks for monsters with ranged attack capabilities within distance OR
+         * if there's a route from monster to player, and returns this particular monster.
+         * @return Hostile creature within given distance.
+         */
+        Creature *is_hostile_within( int distance, bool dangerous = false );
 
         void move_save_to_graveyard();
         bool save_player_data();

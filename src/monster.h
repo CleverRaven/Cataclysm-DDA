@@ -313,8 +313,8 @@ class monster : public Creature
 
         void absorb_hit( const bodypart_id &bp, damage_instance &dam ) override;
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
-        void melee_attack( Creature &target );
-        void melee_attack( Creature &target, float accuracy );
+        bool melee_attack( Creature &target );
+        bool melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
                                      bool print_messages = true ) override;
@@ -366,7 +366,7 @@ class monster : public Creature
         float  get_dodge() const override;       // Natural dodge, or 0 if we're occupied
         float  get_melee() const override; // For determining attack skill when awarding dodge practice.
         float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
-        float  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
+        float  dodge_roll() const override;  // For the purposes of comparing to player::hit_roll()
 
         int get_grab_strength() const; // intensity of grabbed effect
 

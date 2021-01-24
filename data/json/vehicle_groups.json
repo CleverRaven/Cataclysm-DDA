@@ -160,14 +160,18 @@
   {
     "type": "vehicle_group",
     "id": "suburban_home",
+    "//": "Do not add vehicles over 8 tiles long or 4 wide. This is for indoor garages/spaces",
     "vehicles": [
       [ "car", 1000 ],
+      [ "car_rack", 700 ],
       [ "car_anmlcmpt", 150 ],
       [ "car_hatch", 500 ],
+      [ "car_hatch_rack", 500 ],
       [ "car_luxury", 300 ],
       [ "car_mini", 250 ],
       [ "electric_car", 500 ],
       [ "car_hybrid", 400 ],
+      [ "car_hybrid_rack", 400 ],
       [ "beetle", 300 ],
       [ "car_sports", 100 ],
       [ "car_sports_electric", 50 ],
@@ -181,6 +185,7 @@
       [ "scooter_electric", 100 ],
       [ "suv", 500 ],
       [ "suv_electric", 120 ],
+      [ "suv_electric_rack", 120 ],
       [ "pickup", 300 ],
       [ "portable_generator", 50 ],
       [ "bicycle", 200 ],
@@ -188,8 +193,34 @@
       [ "bicycle_electric", 100 ],
       [ "tricycle", 5 ],
       [ "4x4_car", 200 ],
-      [ "wheelbarrow", 100 ],
-      [ "underlift_tow_truck", 250 ]
+      [ "wheelbarrow", 100 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "suburban_home_compact",
+    "//": "Do not add vehicles over 5 tiles long or 4 wide. This is for compact car garages/spaces",
+    "vehicles": [
+      [ "car_hatch", 500 ],
+      [ "car_hatch_rack", 500 ],
+      [ "car_mini", 250 ],
+      [ "beetle", 300 ],
+      [ "car_sports", 100 ],
+      [ "car_sports_electric", 50 ],
+      [ "car_racing_electric", 5 ],
+      [ "superbike", 50 ],
+      [ "motorcycle", 200 ],
+      [ "motorcycle_cross", 25 ],
+      [ "motorcycle_enduro", 50 ],
+      [ "motorcycle_sidecart", 100 ],
+      [ "scooter", 100 ],
+      [ "scooter_electric", 100 ],
+      [ "portable_generator", 50 ],
+      [ "bicycle", 200 ],
+      [ "bicycle_dirt", 150 ],
+      [ "bicycle_electric", 100 ],
+      [ "tricycle", 5 ],
+      [ "wheelbarrow", 100 ]
     ]
   },
   {
