@@ -1137,7 +1137,7 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 17 + utf8_width( pair.second ), 1 ), arrow.first, arrow.second );
 
     mvwprintz( w, point( 17, 2 ), c_light_gray, _( "Focus" ) );
-    mvwprintz( w, point( 24, 2 ), focus_color( u.focus_pool ), to_string( u.focus_pool ) );
+    mvwprintz( w, point( 24, 2 ), focus_color( u.get_focus() ), to_string( u.get_focus() ) );
 
     wnoutrefresh( w );
 }
@@ -1235,10 +1235,10 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 12 - i, 1 ), c_white, "." );
     }
 
-    mvwprintz( w, point( 8, 2 ), focus_color( u.focus_pool ), "%s", u.focus_pool );
-    if( u.focus_pool < u.calc_focus_equilibrium() ) {
+    mvwprintz( w, point( 8, 2 ), focus_color( u.get_focus() ), "%s", u.get_focus() );
+    if( u.get_focus() < u.calc_focus_equilibrium() ) {
         mvwprintz( w, point( 11, 2 ), c_light_green, "↥" );
-    } else if( u.focus_pool > u.calc_focus_equilibrium() ) {
+    } else if( u.get_focus() > u.calc_focus_equilibrium() ) {
         mvwprintz( w, point( 11, 2 ), c_light_red, "↧" );
     }
     mvwprintz( w, point( 26, 0 ), morale_pair.first, "%s", smiley );
@@ -1268,7 +1268,7 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
 
     mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
     mvwprintz( w, point( 23, 0 ), morale_pair.first, "%s", smiley );
-    mvwprintz( w, point( 38, 0 ), focus_color( u.focus_pool ), "%s", u.focus_pool );
+    mvwprintz( w, point( 38, 0 ), focus_color( u.get_focus() ), "%s", u.get_focus() );
 
     // print stamina
     auto needs_pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,
@@ -1632,7 +1632,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     needs_pair = u.get_thirst_description();
     mvwprintz( w, point( 21, 2 ), needs_pair.second, needs_pair.first );
     mvwprintz( w, point( 21, 4 ), c_white, _( "Focus" ) );
-    mvwprintz( w, point( 27, 4 ), c_white, to_string( u.focus_pool ) );
+    mvwprintz( w, point( 27, 4 ), c_white, to_string( u.get_focus() ) );
     needs_pair = u.get_fatigue_description();
     mvwprintz( w, point( 21, 3 ), needs_pair.second, needs_pair.first );
     auto pain_pair = u.get_pain_description();

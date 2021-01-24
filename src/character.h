@@ -517,6 +517,14 @@ class Character : public Creature, public visitable
         virtual void set_fatigue( fatigue_levels nfatigue );
         virtual void set_sleep_deprivation( int nsleep_deprivation );
 
+    protected:
+
+        // These accept values in calories, 1/1000s of kcals (or Calories)
+        virtual void mod_stored_calories( int ncal );
+        virtual void set_stored_calories( int cal );
+
+    public:
+
         void mod_stat( const std::string &stat, float modifier ) override;
 
         int get_standard_stamina_cost( item *thrown_item = nullptr );
@@ -574,7 +582,7 @@ class Character : public Creature, public visitable
         /** Combat getters */
         float get_dodge_base() const override;
         /** Returns the player's dodge_roll to be compared against an aggressor's hit_roll() */
-        float dodge_roll() override;
+        float dodge_roll() const override;
         /** Returns Creature::get_dodge() modified by any Character effects */
         float get_dodge() const override;
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
@@ -1986,7 +1994,19 @@ class Character : public Creature, public visitable
         // Randomizes characters' blood type and Rh
         void randomize_blood();
 
+        int get_focus() const {
+            return std::max( 1, focus_pool / 1000 );
+        }
+        void mod_focus( int amount ) {
+            focus_pool += amount * 1000;
+        }
+        // Set the focus pool directly, only use for debugging.
+        void set_focus( int amount ) {
+            focus_pool = amount * 1000;
+        }
+    protected:
         int focus_pool = 0;
+    public:
         int cash = 0;
         std::set<character_id> follower_ids;
         weak_ptr_fast<Creature> last_target;
@@ -2563,6 +2583,7 @@ class Character : public Creature, public visitable
          * @return if the craft can be continued
          */
         bool can_continue_craft( item &craft );
+        bool can_continue_craft( item &craft, const requirement_data &continue_reqs );
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
         int get_num_crafting_helpers( int max ) const;
@@ -2900,6 +2921,7 @@ class Character : public Creature, public visitable
         int old_weary_level = 0;
 
         /// @brief Needs (hunger, starvation, thirst, fatigue, etc.)
+        // Stored calories is a value in 'calories' - 1/1000s of kcals (or Calories)
         int stored_calories;
         int healthy_calories;
 

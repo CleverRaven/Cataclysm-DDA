@@ -561,6 +561,10 @@ void Character::load( const JsonObject &data )
     data.read( "weary", weary );
     data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stored_calories", stored_calories );
+    // stored_calories was changed from being in kcal to being in just cal
+    if( savegame_loading_version <= 31 ) {
+        stored_calories *= 1000;
+    }
     data.read( "radiation", radiation );
     data.read( "oxygen", oxygen );
     data.read( "pkill", pkill );
@@ -4150,18 +4154,17 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             int i = jsin.get_int();
             int j = jsin.get_int();
             const point p( i, j );
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                item tmp;
-                jsin.read( tmp );
 
-                if( tmp.is_emissive() ) {
-                    update_lum_add( p, tmp );
+            if( !jsin.read( itm[p.x][p.y], false ) ) {
+                debugmsg( "Items array is corrupt in submap at: %s, skipping", p.to_string() );
+            }
+            // some portion could've been read even if error occurred
+            for( item &it : itm[p.x][p.y] ) {
+                if( it.is_emissive() ) {
+                    update_lum_add( p, it );
                 }
-
-                const cata::colony<item>::iterator it = itm[p.x][p.y].insert( tmp );
-                if( tmp.needs_processing() ) {
-                    active_items.add( *it, p );
+                if( it.needs_processing() ) {
+                    active_items.add( it, p );
                 }
             }
         }

@@ -560,7 +560,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
-                    string_format( _( "Dark craftable?  <color_cyan>%s</color>" ),
+                    string_format( _( "Craftable in the dark?  <color_cyan>%s</color>" ),
                                    current[line]->has_flag( flag_BLIND_EASY ) ? _( "Easy" ) :
                                    current[line]->has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
                                    _( "Impossible" ) ) );

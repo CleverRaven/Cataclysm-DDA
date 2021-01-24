@@ -1208,121 +1208,132 @@ def extract(item, infilename):
         else:
             writestr(outfile, name, **kwargs)
         wrote = True
-    if "name_suffix" in item:
-        writestr(outfile, item["name_suffix"], **kwargs)
-        wrote = True
-    if "name_unique" in item:
-        writestr(outfile, item["name_unique"], **kwargs)
-        wrote = True
-    if "job_description" in item:
-        writestr(outfile, item["job_description"], **kwargs)
-        wrote = True
-    if "use_action" in item:
-        extract_use_action_msgs(outfile, item["use_action"], item.get("name"),
-                                kwargs)
-        wrote = True
-    if "conditional_names" in item:
-        for cname in item["conditional_names"]:
-            c = "Conditional name for {} when {} matches {}".format(
-                name, cname["type"], cname["condition"])
-            writestr(outfile, cname["name"], comment=c, format_strings=True,
-                     pl_fmt=True, **kwargs)
+
+    def do_extract(item):
+        wrote = False
+        if "name_suffix" in item:
+            writestr(outfile, item["name_suffix"], **kwargs)
             wrote = True
-    if "description" in item:
-        if name:
-            c = "Description for {}".format(name)
-        else:
-            c = None
-        if object_type in needs_plural_desc:
-            writestr(outfile, item["description"], comment=c, pl_fmt=True,
-                     **kwargs)
-        else:
-            writestr(outfile, item["description"], comment=c, **kwargs)
-        wrote = True
-    if "detailed_definition" in item:
-        writestr(outfile, item["detailed_definition"], **kwargs)
-        wrote = True
-    if "sound" in item:
-        writestr(outfile, item["sound"], **kwargs)
-        wrote = True
-    if "sound_description" in item:
-        comment = "description for the sound of spell '{}'".format(name)
-        writestr(outfile, item["sound_description"], comment=comment,
-                 **kwargs)
-        wrote = True
-    if "snippet_category" in item and type(item["snippet_category"]) is list:
-        # snippet_category is either a simple string (the category ident)
-        # which is not translated, or an array of snippet texts.
-        for entry in item["snippet_category"]:
-            # Each entry is a json-object with an id and text
-            if type(entry) is dict:
-                writestr(outfile, entry["text"], **kwargs)
+        if "name_unique" in item:
+            writestr(outfile, item["name_unique"], **kwargs)
+            wrote = True
+        if "job_description" in item:
+            writestr(outfile, item["job_description"], **kwargs)
+            wrote = True
+        if "use_action" in item:
+            extract_use_action_msgs(outfile, item["use_action"],
+                                    item.get("name"), kwargs)
+            wrote = True
+        if "conditional_names" in item:
+            for cname in item["conditional_names"]:
+                c = "Conditional name for {} when {} matches {}".format(
+                    name, cname["type"], cname["condition"])
+                writestr(outfile, cname["name"], comment=c,
+                         format_strings=True, pl_fmt=True, **kwargs)
                 wrote = True
+        if "description" in item:
+            if name:
+                c = "Description for {}".format(name)
             else:
-                # or a simple string
-                writestr(outfile, entry, **kwargs)
+                c = None
+            if object_type in needs_plural_desc:
+                writestr(outfile, item["description"], comment=c, pl_fmt=True,
+                         **kwargs)
+            else:
+                writestr(outfile, item["description"], comment=c, **kwargs)
+            wrote = True
+        if "detailed_definition" in item:
+            writestr(outfile, item["detailed_definition"], **kwargs)
+            wrote = True
+        if "sound" in item:
+            writestr(outfile, item["sound"], **kwargs)
+            wrote = True
+        if "sound_description" in item:
+            comment = "description for the sound of spell '{}'".format(name)
+            writestr(outfile, item["sound_description"], comment=comment,
+                     **kwargs)
+            wrote = True
+        if ("snippet_category" in item and
+                type(item["snippet_category"]) is list):
+            # snippet_category is either a simple string (the category ident)
+            # which is not translated, or an array of snippet texts.
+            for entry in item["snippet_category"]:
+                # Each entry is a json-object with an id and text
+                if type(entry) is dict:
+                    writestr(outfile, entry["text"], **kwargs)
+                    wrote = True
+                else:
+                    # or a simple string
+                    writestr(outfile, entry, **kwargs)
+                    wrote = True
+        if "bash" in item and type(item["bash"]) is dict:
+            # entries of type technique have a bash member, too.
+            # but it's a int, not an object.
+            bash = item["bash"]
+            if "sound" in bash:
+                writestr(outfile, bash["sound"], **kwargs)
                 wrote = True
-    if "bash" in item and type(item["bash"]) is dict:
-        # entries of type technique have a bash member, too.
-        # but it's a int, not an object.
-        bash = item["bash"]
-        if "sound" in bash:
-            writestr(outfile, bash["sound"], **kwargs)
-            wrote = True
-        if "sound_fail" in bash:
-            writestr(outfile, bash["sound_fail"], **kwargs)
-            wrote = True
-    if "seed_data" in item:
-        seed_data = item["seed_data"]
-        writestr(outfile, seed_data["plant_name"], **kwargs)
-        wrote = True
-    if "relic_data" in item and "name" in item["relic_data"]:
-        writestr(outfile, item["relic_data"]["name"], **kwargs)
-        wrote = True
-    if "text" in item:
-        writestr(outfile, item["text"], **kwargs)
-        wrote = True
-    if "message" in item:
-        writestr(outfile, item["message"], format_strings=True,
-                 comment="Message for {} '{}'".format(object_type, name),
-                 **kwargs)
-        wrote = True
-    if "messages" in item:
-        for message in item["messages"]:
-            writestr(outfile, message, **kwargs)
-            wrote = True
-    if "valid_mod_locations" in item:
-        for mod_loc in item["valid_mod_locations"]:
-            writestr(outfile, mod_loc[0], **kwargs)
-            wrote = True
-    if "info" in item:
-        c = "Please leave anything in <angle brackets> unchanged."
-        writestr(outfile, item["info"], comment=c, **kwargs)
-        wrote = True
-    if "restriction" in item:
-        writestr(outfile, item["restriction"], **kwargs)
-        wrote = True
-    if "verb" in item:
-        writestr(outfile, item["verb"], **kwargs)
-        wrote = True
-    if "special_attacks" in item:
-        special_attacks = item["special_attacks"]
-        for special_attack in special_attacks:
-            if "description" in special_attack:
-                writestr(outfile, special_attack["description"], **kwargs)
+            if "sound_fail" in bash:
+                writestr(outfile, bash["sound_fail"], **kwargs)
                 wrote = True
-            if "monster_message" in special_attack:
-                comment = ("Attack message of monster \"{}\"'s spell \"{}\""
-                           .format(name, special_attack.get("spell_id")))
-                writestr(outfile, special_attack["monster_message"],
-                         format_strings=True, comment=comment, **kwargs)
+        if "seed_data" in item:
+            seed_data = item["seed_data"]
+            writestr(outfile, seed_data["plant_name"], **kwargs)
+            wrote = True
+        if "relic_data" in item and "name" in item["relic_data"]:
+            writestr(outfile, item["relic_data"]["name"], **kwargs)
+            wrote = True
+        if "text" in item:
+            writestr(outfile, item["text"], **kwargs)
+            wrote = True
+        if "message" in item:
+            writestr(outfile, item["message"], format_strings=True,
+                     comment="Message for {} '{}'".format(object_type, name),
+                     **kwargs)
+            wrote = True
+        if "messages" in item:
+            for message in item["messages"]:
+                writestr(outfile, message, **kwargs)
                 wrote = True
-    if "footsteps" in item:
-        writestr(outfile, item["footsteps"], **kwargs)
-        wrote = True
-    if "revert_msg" in item:
-        writestr(outfile, item["revert_msg"], **kwargs)
-        wrote = True
+        if "valid_mod_locations" in item:
+            for mod_loc in item["valid_mod_locations"]:
+                writestr(outfile, mod_loc[0], **kwargs)
+                wrote = True
+        if "info" in item:
+            c = "Please leave anything in <angle brackets> unchanged."
+            writestr(outfile, item["info"], comment=c, **kwargs)
+            wrote = True
+        if "restriction" in item:
+            writestr(outfile, item["restriction"], **kwargs)
+            wrote = True
+        if "verb" in item:
+            writestr(outfile, item["verb"], **kwargs)
+            wrote = True
+        if "special_attacks" in item:
+            special_attacks = item["special_attacks"]
+            for special_attack in special_attacks:
+                if "description" in special_attack:
+                    writestr(outfile, special_attack["description"], **kwargs)
+                    wrote = True
+                if "monster_message" in special_attack:
+                    comment = (
+                        "Attack message of monster \"{}\"'s spell \"{}\""
+                        .format(name["str"] if name and "str" in name
+                                else name,
+                                special_attack.get("spell_id")))
+                    writestr(outfile, special_attack["monster_message"],
+                             format_strings=True, comment=comment, **kwargs)
+                    wrote = True
+        if "footsteps" in item:
+            writestr(outfile, item["footsteps"], **kwargs)
+            wrote = True
+        if "revert_msg" in item:
+            writestr(outfile, item["revert_msg"], **kwargs)
+            wrote = True
+        return wrote
+    wrote |= do_extract(item)
+    if "extend" in item:
+        wrote |= do_extract(item["extend"])
     if not wrote and "copy-from" not in item:
         if not warning_supressed(infilename):
             print("WARNING: {}: nothing translatable found in item: "

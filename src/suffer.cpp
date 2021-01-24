@@ -831,7 +831,7 @@ void Character::suffer_from_sunburn()
         if( one_turn_in( 1_minutes ) ) {
             mod_pain( 1 );
         } else {
-            focus_pool --;
+            mod_focus( -1 );
         }
     }
     // Umbrellas can keep the sun off the skin
@@ -930,7 +930,7 @@ void Character::suffer_from_sunburn()
         if( one_turn_in( 1_minutes ) ) {
             mod_pain( 1 );
         } else {
-            focus_pool --;
+            mod_focus( -1 );
         }
     }
 }

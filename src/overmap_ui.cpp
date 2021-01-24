@@ -1174,6 +1174,7 @@ void create_note( const tripoint_abs_omt &curs )
         } else if( input_popup.confirmed() ) {
             break;
         }
+        ui.invalidate_ui();
     } while( true );
 
     if( !esc_pressed && new_note.empty() && !old_note.empty() ) {

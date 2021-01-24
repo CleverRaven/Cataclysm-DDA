@@ -1672,7 +1672,7 @@ void islot_ammo::load( const JsonObject &jo )
     optional( jo, was_loaded, "loudness", loudness, -1 );
     assign( jo, "effects", ammo_effects );
     optional( jo, was_loaded, "critical_multiplier", critical_multiplier, 2.0 );
-    optional( jo, was_loaded, "show_stats", force_stat_display, cata::nullopt );
+    optional( jo, was_loaded, "show_stats", force_stat_display, false );
 }
 
 void islot_ammo::deserialize( JsonIn &jsin )
@@ -2263,19 +2263,24 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     bool got_calories = false;
 
     if( jo.has_member( "calories" ) ) {
-        slot.default_nutrition.kcal = jo.get_int( "calories" );
+        // The value here is in kcal, but is stored as simply calories
+        slot.default_nutrition.calories = 1000 * jo.get_int( "calories" );
         got_calories = true;
 
     } else if( relative.has_member( "calories" ) ) {
-        slot.default_nutrition.kcal += relative.get_int( "calories" );
+        // The value here is in kcal, but is stored as simply calories
+        slot.default_nutrition.calories += 1000 * relative.get_int( "calories" );
         got_calories = true;
 
     } else if( proportional.has_member( "calories" ) ) {
-        slot.default_nutrition.kcal *= proportional.get_float( "calories" );
+        // The value here is in kcal, but is stored as simply calories
+        slot.default_nutrition.calories *= proportional.get_float( "calories" );
         got_calories = true;
 
     } else if( jo.has_member( "nutrition" ) ) {
-        slot.default_nutrition.kcal = jo.get_int( "nutrition" ) * islot_comestible::kcal_per_nutr;
+        // The value here is in kcal, but is stored as simply calories
+        slot.default_nutrition.calories = jo.get_int( "nutrition" ) * islot_comestible::kcal_per_nutr *
+                                          1000;
     }
 
     if( jo.has_member( "nutrition" ) && got_calories ) {
