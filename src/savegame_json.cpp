@@ -561,6 +561,10 @@ void Character::load( const JsonObject &data )
     data.read( "weary", weary );
     data.read( "sleep_deprivation", sleep_deprivation );
     data.read( "stored_calories", stored_calories );
+    // stored_calories was changed from being in kcal to being in just cal
+    if( savegame_loading_version <= 31 ) {
+        stored_calories *= 1000;
+    }
     data.read( "radiation", radiation );
     data.read( "oxygen", oxygen );
     data.read( "pkill", pkill );

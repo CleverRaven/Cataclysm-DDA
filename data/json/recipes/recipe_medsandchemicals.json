@@ -1154,6 +1154,33 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_hmtd",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "time": "55 m",
+    "charges": 2,
+    "book_learn": [ [ "recipe_labchem", 8 ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 } ],
+    "components": [ [ [ "chem_hexamine", 25 ] ], [ [ "chem_hydrogen_peroxide_conc", 5 ] ], [ [ "chem_citric_acid", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "chem_apex",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "75 m",
+    "book_learn": [ [ "recipe_labchem", 8 ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 } ],
+    "components": [ [ [ "chem_acetone", 5 ] ], [ [ "chem_hydrogen_peroxide_conc", 5 ] ], [ [ "chem_muriatic_acid", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "chem_rocket_fuel",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",

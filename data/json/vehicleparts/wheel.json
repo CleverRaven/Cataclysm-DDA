@@ -420,7 +420,7 @@
     "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "FOLDABLE", "STEERABLE" ]
   },
   {
-    "id": "wheel_motorbike",
+    "abstract": "wheel_motorbike_abstract",
     "type": "vehicle_part",
     "name": { "str": "motorbike wheel" },
     "item": "wheel_motorbike",
@@ -450,8 +450,32 @@
     "damage_reduction": { "bash": 10 }
   },
   {
+    "copy-from": "wheel_motorbike_abstract",
+    "id": "wheel_motorbike",
+    "looks_like": "wheel",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "wheel_motorbike_abstract",
+    "id": "wheel_motorbike_rear",
+    "looks_like": "wheel",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
     "id": "wheel_motorbike_or",
-    "copy-from": "wheel_motorbike",
+    "copy-from": "wheel_motorbike_abstract",
+    "type": "vehicle_part",
+    "name": { "str": "off-road motorbike wheel" },
+    "item": "wheel_motorbike_or",
+    "contact_area": 60,
+    "wheel_type": "off-road",
+    "damage_reduction": { "bash": 10, "cut": 8, "stab": 4 }
+  },
+  {
+    "id": "wheel_motorbike_or_rear",
+    "copy-from": "wheel_motorbike_abstract",
     "type": "vehicle_part",
     "name": { "str": "off-road motorbike wheel" },
     "item": "wheel_motorbike_or",

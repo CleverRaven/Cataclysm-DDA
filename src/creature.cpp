@@ -646,6 +646,244 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     }
 }
 
+double Creature::accuracy_projectile_attack( dealt_projectile_attack &attack ) const
+{
+
+    const int avoid_roll = dodge_roll();
+    // Do dice(10, speed) instead of dice(speed, 10) because speed could potentially be > 10000
+    const int diff_roll = dice( 10, attack.proj.speed );
+    // Partial dodge, capped at [0.0, 1.0], added to missed_by
+    const double dodge_rescaled = avoid_roll / static_cast<double>( diff_roll );
+
+    return attack.missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) );
+}
+
+void projectile::apply_effects_nodamage( Creature &target, Creature *source ) const
+{
+    if( proj_effects.count( "BOUNCE" ) ) {
+        target.add_effect( source, effect_bounced, 1_turns );
+    }
+}
+
+void projectile::apply_effects_damage( Creature &target, Creature *source,
+                                       const dealt_damage_instance &dealt_dam, bool critical ) const
+{
+    // Apply ammo effects to target.
+    if( proj_effects.count( "TANGLE" ) ) {
+        // if its a tameable animal, its a good way to catch them if they are running away, like them ranchers do!
+        // we assume immediate success, then certain monster types immediately break free in monster.cpp move_effects()
+        if( target.is_monster() ) {
+            const item &drop_item = get_drop();
+            if( !drop_item.is_null() ) {
+                target.add_effect( source, effect_tied, 1_turns, true );
+                target.as_monster()->tied_item = cata::make_value<item>( drop_item );
+            } else {
+                add_msg_debug( "projectile with TANGLE effect, but no drop item specified" );
+            }
+        } else if( ( target.is_npc() || target.is_avatar() ) &&
+                   !target.is_immune_effect( effect_downed ) ) {
+            // no tied up effect for people yet, just down them and stun them, its close enough to the desired effect.
+            // we can assume a person knows how to untangle their legs eventually and not panic like an animal.
+            target.add_effect( source, effect_downed, 1_turns );
+            // stunned to simulate staggering around and stumbling trying to get the entangled thing off of them.
+            target.add_effect( source, effect_stunned, rng( 3_turns, 8_turns ) );
+        }
+    }
+    if( proj_effects.count( "INCENDIARY" ) ) {
+        if( target.made_of( material_id( "veggy" ) ) || target.made_of_any( Creature::cmat_flammable ) ) {
+            target.add_effect( source, effect_onfire, rng( 2_turns, 6_turns ), dealt_dam.bp_hit );
+        } else if( target.made_of_any( Creature::cmat_flesh ) && one_in( 4 ) ) {
+            target.add_effect( source, effect_onfire, rng( 1_turns, 4_turns ), dealt_dam.bp_hit );
+        }
+    } else if( proj_effects.count( "IGNITE" ) ) {
+        if( target.made_of( material_id( "veggy" ) ) || target.made_of_any( Creature::cmat_flammable ) ) {
+            target.add_effect( source, effect_onfire, 6_turns, dealt_dam.bp_hit );
+        } else if( target.made_of_any( Creature::cmat_flesh ) ) {
+            target.add_effect( source, effect_onfire, 10_turns, dealt_dam.bp_hit );
+        }
+    }
+
+    if( proj_effects.count( "ROBOT_DAZZLE" ) ) {
+        if( critical && target.in_species( species_ROBOT ) ) {
+            time_duration duration = rng( 6_turns, 8_turns );
+            target.add_effect( source, effect_stunned, duration );
+            target.add_effect( source, effect_sensor_stun, duration );
+            add_msg( source->is_player() ?
+                     _( "You land a clean shot on the %1$s sensors, stunning it." ) :
+                     _( "The %1$s is stunned!" ),
+                     target.disp_name( true ) );
+        }
+    }
+
+    if( dealt_dam.bp_hit == bodypart_id( "head" ) && proj_effects.count( "BLINDS_EYES" ) ) {
+        // TODO: Change this to require bp_eyes
+        target.add_env_effect( effect_blind, bodypart_id( "eyes" ), 5, rng( 3_turns, 10_turns ) );
+    }
+
+    if( proj_effects.count( "APPLY_SAP" ) ) {
+        target.add_effect( source, effect_sap, 1_turns * dealt_dam.total_damage() );
+    }
+    if( proj_effects.count( "PARALYZEPOISON" ) && dealt_dam.total_damage() > 0 ) {
+        target.add_msg_if_player( m_bad, _( "You feel poison coursing through your body!" ) );
+        target.add_effect( source, effect_paralyzepoison, 5_minutes );
+    }
+
+    if( proj_effects.count( "FOAMCRETE" ) && effect_foamcrete_slow.is_valid() ) {
+        target.add_msg_if_player( m_bad, _( "The foamcrete stiffens around you!" ) );
+        target.add_effect( source, effect_foamcrete_slow, 5_minutes );
+    }
+
+    int stun_strength = 0;
+    if( proj_effects.count( "BEANBAG" ) ) {
+        stun_strength = 4;
+    }
+    if( proj_effects.count( "LARGE_BEANBAG" ) ) {
+        stun_strength = 16;
+    }
+    if( stun_strength > 0 ) {
+        switch( target.get_size() ) {
+            case creature_size::tiny:
+                stun_strength *= 4;
+                break;
+            case creature_size::small:
+                stun_strength *= 2;
+                break;
+            case creature_size::medium:
+            default:
+                break;
+            case creature_size::large:
+                stun_strength /= 2;
+                break;
+            case creature_size::huge:
+                stun_strength /= 4;
+                break;
+        }
+        target.add_effect( source, effect_stunned, 1_turns * rng( stun_strength / 2, stun_strength ) );
+    }
+}
+
+struct projectile_attack_results {
+    int max_damage;
+    std::string message;
+    game_message_type gmtSCTcolor = m_neutral;
+    double damage_mult = 1.0;
+    bodypart_id bp_hit;
+
+    projectile_attack_results( const projectile &proj ) {
+        max_damage = proj.impact.total_damage();
+    }
+};
+
+projectile_attack_results Creature::select_body_part_projectile_attack(
+    const projectile &proj, const double goodhit, const double missed_by ) const
+{
+    projectile_attack_results ret( proj );
+    const bool magic = proj.proj_effects.count( "magic" ) > 0;
+    double hit_value = missed_by + rng_float( -0.5, 0.5 );
+    // Headshots considered elsewhere
+    if( hit_value <= 0.4 || magic ) {
+        ret.bp_hit = bodypart_id( "torso" );
+    } else if( one_in( 4 ) ) {
+        if( one_in( 2 ) ) {
+            ret.bp_hit = bodypart_id( "leg_l" );
+        } else {
+            ret.bp_hit = bodypart_id( "leg_r" );
+        }
+    } else {
+        if( one_in( 2 ) ) {
+            ret.bp_hit = bodypart_id( "arm_l" );
+        } else {
+            ret.bp_hit = bodypart_id( "arm_r" );
+        }
+    }
+
+    const float crit_multiplier = proj.critical_multiplier;
+    float world_multiplier = get_option<int>( "MONSTER_RESILIENCE" ) / 100.0f;
+    if( magic ) {
+        ret.damage_mult *= rng_float( 0.9, 1.1 );
+    } else if( goodhit < accuracy_headshot &&
+               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) / world_multiplier ) {
+        ret.message = _( "Headshot!" );
+        ret.gmtSCTcolor = m_headshot;
+        ret.damage_mult *= rng_float( 0.95, 1.05 );
+        ret.damage_mult *= crit_multiplier;
+        ret.bp_hit = bodypart_id( "head" ); // headshot hits the head, of course
+    } else if( goodhit < accuracy_critical &&
+               ret.max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) / world_multiplier ) {
+        ret.message = _( "Critical!" );
+        ret.gmtSCTcolor = m_critical;
+        ret.damage_mult *= rng_float( 0.75, 1.0 );
+        ret.damage_mult *= crit_multiplier;
+    } else if( goodhit < accuracy_goodhit ) {
+        ret.message = _( "Good hit!" );
+        ret.gmtSCTcolor = m_good;
+        ret.damage_mult *= rng_float( 0.5, 0.75 );
+        ret.damage_mult *= std::sqrt( 2.0 * crit_multiplier );
+    } else if( goodhit < accuracy_standard ) {
+        ret.damage_mult *= rng_float( 0.5, 1 );
+
+    } else if( goodhit < accuracy_grazing ) {
+        ret.message = _( "Grazing hit." );
+        ret.gmtSCTcolor = m_grazing;
+        ret.damage_mult *= rng_float( 0, .25 );
+    }
+
+    return ret;
+}
+
+void Creature::messaging_projectile_attack( const Creature *source,
+        const projectile_attack_results &hit_selection, const int total_damage ) const
+{
+    const viewer &player_view = get_player_view();
+    const bool u_see_this = player_view.sees( *this );
+
+    if( u_see_this ) {
+        if( hit_selection.damage_mult == 0 ) {
+            if( source != nullptr ) {
+                add_msg( source->is_player() ? _( "You miss!" ) : _( "The shot misses!" ) );
+            }
+        } else if( total_damage == 0 ) {
+            //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
+            add_msg( _( "The shot reflects off %1$s %2$s!" ), disp_name( true ),
+                     is_monster() ?
+                     skin_name() :
+                     body_part_name_accusative( hit_selection.bp_hit ) );
+        } else if( is_player() ) {
+            //monster hits player ranged
+            //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
+            add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
+                               body_part_name_accusative( hit_selection.bp_hit ),
+                               total_damage );
+        } else if( source != nullptr ) {
+            if( source->is_player() ) {
+                //player hits monster ranged
+                SCT.add( point( posx(), posy() ),
+                         direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
+                         get_hp_bar( total_damage, get_hp_max(), true ).first,
+                         m_good, hit_selection.message, hit_selection.gmtSCTcolor );
+
+                if( get_hp() > 0 ) {
+                    SCT.add( point( posx(), posy() ),
+                             direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
+                             get_hp_bar( get_hp(), get_hp_max(), true ).first, m_good,
+                             //~ "hit points", used in scrolling combat text
+                             _( "hp" ), m_neutral, "hp" );
+                } else {
+                    SCT.removeCreatureHP();
+                }
+
+                //~ %1$s: creature name, %2$d: damage value
+                add_msg( m_good, _( "You hit %1$s for %2$d damage." ),
+                         disp_name(), total_damage );
+            } else if( u_see_this ) {
+                //~ 1$ - shooter, 2$ - target
+                add_msg( _( "%1$s shoots %2$s." ),
+                         source->disp_name(), disp_name() );
+            }
+        }
+    }
+}
+
 /**
  * Attempts to harm a creature with a projectile.
  *
@@ -664,7 +902,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
     if( has_effect( effect_ridden ) ) {
-        monster *mons = dynamic_cast<monster *>( this );
+        monster *mons = as_monster();
         if( mons && mons->mounted_player ) {
             if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
                 one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
@@ -680,12 +918,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     viewer &player_view = get_player_view();
     const bool u_see_this = player_view.sees( *this );
 
-    const int avoid_roll = dodge_roll();
-    // Do dice(10, speed) instead of dice(speed, 10) because speed could potentially be > 10000
-    const int diff_roll = dice( 10, proj.speed );
-    // Partial dodge, capped at [0.0, 1.0], added to missed_by
-    const double dodge_rescaled = avoid_roll / static_cast<double>( diff_roll );
-    const double goodhit = missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) );
+    const double goodhit = accuracy_projectile_attack( attack );
 
     if( goodhit >= 1.0 && !magic ) {
         attack.missed_by = 1.0; // Arbitrary value
@@ -709,228 +942,39 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         return;
     }
 
-    // Bounce applies whether it does damage or not.
-    if( proj.proj_effects.count( "BOUNCE" ) ) {
-        add_effect( source, effect_bounced, 1_turns );
-    }
+    proj.apply_effects_nodamage( *this, source );
 
-    bodypart_id bp_hit;
-    double hit_value = missed_by + rng_float( -0.5, 0.5 );
-    // Headshots considered elsewhere
-    if( hit_value <= 0.4 || magic ) {
-        bp_hit = bodypart_id( "torso" );
-    } else if( one_in( 4 ) ) {
-        if( one_in( 2 ) ) {
-            bp_hit = bodypart_id( "leg_l" );
-        } else {
-            bp_hit = bodypart_id( "leg_r" );
-        }
-    } else {
-        if( one_in( 2 ) ) {
-            bp_hit = bodypart_id( "arm_l" );
-        } else {
-            bp_hit = bodypart_id( "arm_r" );
-        }
-    }
+    projectile_attack_results hit_selection = select_body_part_projectile_attack( proj, goodhit,
+            missed_by );
 
-    double damage_mult = 1.0;
-
-    const float crit_multiplier = proj.critical_multiplier;
-    const int max_damage = proj.impact.total_damage();
-    std::string message;
-    game_message_type gmtSCTcolor = m_neutral;
-    float world_multiplier = get_option<int>( "MONSTER_RESILIENCE" ) / 100.0f;
-    if( magic ) {
-        damage_mult *= rng_float( 0.9, 1.1 );
-    } else if( goodhit < accuracy_headshot &&
-               max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) / world_multiplier ) {
-        message = _( "Headshot!" );
-        gmtSCTcolor = m_headshot;
-        damage_mult *= rng_float( 0.95, 1.05 );
-        damage_mult *= crit_multiplier;
-        bp_hit = bodypart_id( "head" ); // headshot hits the head, of course
-    } else if( goodhit < accuracy_critical &&
-               max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) / world_multiplier ) {
-        message = _( "Critical!" );
-        gmtSCTcolor = m_critical;
-        damage_mult *= rng_float( 0.75, 1.0 );
-        damage_mult *= crit_multiplier;
-    } else if( goodhit < accuracy_goodhit ) {
-        message = _( "Good hit!" );
-        gmtSCTcolor = m_good;
-        damage_mult *= rng_float( 0.5, 0.75 );
-        damage_mult *= std::sqrt( 2.0 * crit_multiplier );
-    } else if( goodhit < accuracy_standard ) {
-        damage_mult *= rng_float( 0.5, 1 );
-
-    } else if( goodhit < accuracy_grazing ) {
-        message = _( "Grazing hit." );
-        gmtSCTcolor = m_grazing;
-        damage_mult *= rng_float( 0, .25 );
-    }
-
-    if( print_messages && source != nullptr && !message.empty() && u_see_this ) {
-        source->add_msg_if_player( m_good, message );
+    if( print_messages && source != nullptr && !hit_selection.message.empty() && u_see_this ) {
+        source->add_msg_if_player( m_good, hit_selection.message );
     }
 
     attack.missed_by = goodhit;
 
     // copy it, since we're mutating
     damage_instance impact = proj.impact;
-    if( damage_mult > 0.0f && proj_effects.count( "NO_DAMAGE_SCALING" ) ) {
-        damage_mult = 1.0f;
+    if( hit_selection.damage_mult > 0.0f && proj_effects.count( "NO_DAMAGE_SCALING" ) ) {
+        hit_selection.damage_mult = 1.0f;
     }
 
-    impact.mult_damage( damage_mult );
+    impact.mult_damage( hit_selection.damage_mult );
 
     if( proj_effects.count( "NOGIB" ) > 0 ) {
-        float dmg_ratio = static_cast<float>( impact.total_damage() ) / get_hp_max( bp_hit );
+        float dmg_ratio = static_cast<float>( impact.total_damage() ) / get_hp_max( hit_selection.bp_hit );
         if( dmg_ratio > 1.25f ) {
             impact.mult_damage( 1.0f / dmg_ratio );
         }
     }
 
-    dealt_dam = deal_damage( source, bp_hit, impact );
-    dealt_dam.bp_hit = bp_hit;
+    dealt_dam = deal_damage( source, hit_selection.bp_hit, impact );
+    dealt_dam.bp_hit = hit_selection.bp_hit;
 
-    // Apply ammo effects to target.
-    if( proj.proj_effects.count( "TANGLE" ) ) {
-        monster *z = dynamic_cast<monster *>( this );
-        Character *n = dynamic_cast<Character *>( this );
-        // if its a tameable animal, its a good way to catch them if they are running away, like them ranchers do!
-        // we assume immediate success, then certain monster types immediately break free in monster.cpp move_effects()
-        if( z ) {
-            const item &drop_item = proj.get_drop();
-            if( !drop_item.is_null() ) {
-                z->add_effect( source, effect_tied, 1_turns, true );
-                z->tied_item = cata::make_value<item>( drop_item );
-            } else {
-                add_msg_debug( "projectile with TANGLE effect, but no drop item specified" );
-            }
-        } else if( n && !is_immune_effect( effect_downed ) ) {
-            // no tied up effect for people yet, just down them and stun them, its close enough to the desired effect.
-            // we can assume a person knows how to untangle their legs eventually and not panic like an animal.
-            add_effect( source, effect_downed, 1_turns );
-            // stunned to simulate staggering around and stumbling trying to get the entangled thing off of them.
-            add_effect( source, effect_stunned, rng( 3_turns, 8_turns ) );
-        }
-    }
-    if( proj.proj_effects.count( "INCENDIARY" ) ) {
-        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( source, effect_onfire, rng( 2_turns, 6_turns ), bp_hit );
-        } else if( made_of_any( cmat_flesh ) && one_in( 4 ) ) {
-            add_effect( source, effect_onfire, rng( 1_turns, 4_turns ), bp_hit );
-        }
-    } else if( proj.proj_effects.count( "IGNITE" ) ) {
-        if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( source, effect_onfire, 6_turns, bp_hit );
-        } else if( made_of_any( cmat_flesh ) ) {
-            add_effect( source, effect_onfire, 10_turns, bp_hit );
-        }
-    }
+    proj.apply_effects_damage( *this, source, dealt_dam, goodhit < accuracy_critical );
 
-    if( proj.proj_effects.count( "ROBOT_DAZZLE" ) ) {
-        if( goodhit < accuracy_critical && in_species( species_ROBOT ) ) {
-            time_duration duration = rng( 6_turns, 8_turns );
-            add_effect( source, effect_stunned, duration );
-            add_effect( source, effect_sensor_stun, duration );
-            add_msg( source->is_player() ?
-                     _( "You land a clean shot on the %1$s sensors, stunning it." ) :
-                     _( "The %1$s is stunned!" ),
-                     disp_name( true ) );
-        }
-    }
-
-    if( bp_hit == bodypart_id( "head" ) && proj_effects.count( "BLINDS_EYES" ) ) {
-        // TODO: Change this to require bp_eyes
-        add_env_effect( effect_blind, bodypart_id( "eyes" ), 5, rng( 3_turns, 10_turns ) );
-    }
-
-    if( proj_effects.count( "APPLY_SAP" ) ) {
-        add_effect( source, effect_sap, 1_turns * dealt_dam.total_damage() );
-    }
-    if( proj_effects.count( "PARALYZEPOISON" ) && dealt_dam.total_damage() > 0 ) {
-        add_msg_if_player( m_bad, _( "You feel poison coursing through your body!" ) );
-        add_effect( source, effect_paralyzepoison, 5_minutes );
-    }
-
-    if( proj_effects.count( "FOAMCRETE" ) &&  effect_foamcrete_slow.is_valid() ) {
-        add_msg_if_player( m_bad, _( "The foamcrete stiffens around you!" ) );
-        add_effect( source, effect_foamcrete_slow, 5_minutes );
-    }
-
-    int stun_strength = 0;
-    if( proj.proj_effects.count( "BEANBAG" ) ) {
-        stun_strength = 4;
-    }
-    if( proj.proj_effects.count( "LARGE_BEANBAG" ) ) {
-        stun_strength = 16;
-    }
-    if( stun_strength > 0 ) {
-        switch( get_size() ) {
-            case creature_size::tiny:
-                stun_strength *= 4;
-                break;
-            case creature_size::small:
-                stun_strength *= 2;
-                break;
-            case creature_size::medium:
-            default:
-                break;
-            case creature_size::large:
-                stun_strength /= 2;
-                break;
-            case creature_size::huge:
-                stun_strength /= 4;
-                break;
-        }
-        add_effect( source, effect_stunned, 1_turns * rng( stun_strength / 2, stun_strength ) );
-    }
-
-    if( u_see_this && print_messages ) {
-        if( damage_mult == 0 ) {
-            if( source != nullptr ) {
-                add_msg( source->is_player() ? _( "You miss!" ) : _( "The shot misses!" ) );
-            }
-        } else if( dealt_dam.total_damage() == 0 ) {
-            //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
-            add_msg( _( "The shot reflects off %1$s %2$s!" ), disp_name( true ),
-                     is_monster() ?
-                     skin_name() :
-                     body_part_name_accusative( bp_hit ) );
-        } else if( is_player() ) {
-            //monster hits player ranged
-            //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
-            add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                               body_part_name_accusative( bp_hit ),
-                               dealt_dam.total_damage() );
-        } else if( source != nullptr ) {
-            if( source->is_player() ) {
-                //player hits monster ranged
-                SCT.add( point( posx(), posy() ),
-                         direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
-                         get_hp_bar( dealt_dam.total_damage(), get_hp_max(), true ).first,
-                         m_good, message, gmtSCTcolor );
-
-                if( get_hp() > 0 ) {
-                    SCT.add( point( posx(), posy() ),
-                             direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
-                             get_hp_bar( get_hp(), get_hp_max(), true ).first, m_good,
-                             //~ "hit points", used in scrolling combat text
-                             _( "hp" ), m_neutral, "hp" );
-                } else {
-                    SCT.removeCreatureHP();
-                }
-
-                //~ %1$s: creature name, %2$d: damage value
-                add_msg( m_good, _( "You hit %1$s for %2$d damage." ),
-                         disp_name(), dealt_dam.total_damage() );
-            } else if( u_see_this ) {
-                //~ 1$ - shooter, 2$ - target
-                add_msg( _( "%1$s shoots %2$s." ),
-                         source->disp_name(), disp_name() );
-            }
-        }
+    if( print_messages ) {
+        messaging_projectile_attack( source, hit_selection, dealt_dam.total_damage() );
     }
 
     check_dead_state();
