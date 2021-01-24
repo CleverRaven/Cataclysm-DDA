@@ -83,7 +83,8 @@ TEST_CASE( "lru_cache_perf", "[.]" )
     const auto end1 = std::chrono::high_resolution_clock::now();
     const long long diff1 = std::chrono::duration_cast<std::chrono::microseconds>
                             ( end1 - start1 ).count();
-    printf( "completed %d insertions in %lld microseconds.\n", max_size, diff1 );
+    std::cout << "completed " << max_size << " insertions in " << diff1 << " microseconds." <<
+              std::endl;
     /*
      * Original tripoint hash    completed 1000000 insertions in 96136925 microseconds.
      * Table based interleave v1 completed 1000000 insertions in 41435604 microseconds.

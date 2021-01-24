@@ -2,6 +2,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -67,9 +68,9 @@ static void gen_response_lines( dialogue &d, size_t expected_count )
         response.create_option_line( d, ' ' );
     }
     if( d.responses.size() != expected_count ) {
-        printf( "Test failure in %s\n", d.topic_stack.back().id.c_str() );
+        std::cout << "Test failure in " << d.topic_stack.back().id.c_str() << std::endl;
         for( talk_response &response : d.responses ) {
-            printf( "response: %s\n", response.text.c_str() );
+            std::cout << "response: " << response.text.c_str() << std::endl;
         }
     }
     CAPTURE( d.responses );

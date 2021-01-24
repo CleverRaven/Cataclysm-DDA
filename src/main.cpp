@@ -31,6 +31,7 @@
 #include "input.h"
 #include "loading_ui.h"
 #include "runtime_handlers.h"
+#include "string_formatter.h"
 #include "main_menu.h"
 #include "mapsharing.h"
 #include "options.h"
@@ -545,7 +546,7 @@ int main( int argc, char *argv[] )
                         argv++;
                         int args_consumed = arg_handler.handler( argc, const_cast<const char **>( argv ) );
                         if( args_consumed < 0 ) {
-                            printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
+                            cata_printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
                             exit( 1 );
                         }
                         argc -= args_consumed;
@@ -570,7 +571,7 @@ int main( int argc, char *argv[] )
                     ++saved_argv;
                     int args_consumed = arg_handler.handler( saved_argc, saved_argv );
                     if( args_consumed < 0 ) {
-                        printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
+                        cata_printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
                         exit( 1 );
                     }
                     saved_argc -= args_consumed;
@@ -798,24 +799,24 @@ void printHelpMessage( const arg_handler *first_pass_arguments,
         help_map.insert( std::make_pair( help_group, &second_pass_arguments[i] ) );
     }
 
-    printf( "Command line parameters:\n" );
+    cata_printf( "Command line parameters:\n" );
     std::string current_help_group;
     auto it = help_map.begin();
     auto it_end = help_map.end();
     for( ; it != it_end; ++it ) {
         if( it->first != current_help_group ) {
             current_help_group = it->first;
-            printf( "\n%s\n", current_help_group.c_str() );
+            cata_printf( "\n%s\n", current_help_group.c_str() );
         }
 
         const arg_handler *handler = it->second;
-        printf( "%s", handler->flag );
+        cata_printf( "%s", handler->flag );
         if( handler->param_documentation ) {
-            printf( " %s", handler->param_documentation );
+            cata_printf( " %s", handler->param_documentation );
         }
-        printf( "\n" );
+        cata_printf( "\n" );
         if( handler->documentation ) {
-            printf( "    %s\n", handler->documentation );
+            cata_printf( "    %s\n", handler->documentation );
         }
     }
 }

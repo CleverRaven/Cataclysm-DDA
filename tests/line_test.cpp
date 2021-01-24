@@ -5,6 +5,7 @@
 #include <ctime>
 #include <memory>
 #include <vector>
+#include <iostream>
 
 #include "catch/catch.hpp"
 #include "line.h"
@@ -378,10 +379,10 @@ static void line_to_comparison( const int iterations )
             const long long diff2 =
                 std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
 
-            printf( "line_to() executed %d times in %lld microseconds.\n",
-                    iterations, diff1 );
-            printf( "canonical_line_to() executed %d times in %lld microseconds.\n",
-                    iterations, diff2 );
+            std::cout << "line_to() executed " << iterations << " times in " << diff1 << " microseconds." <<
+                      std::endl;
+            std::cout << "canonical_line_to() executed " << iterations << " times in " << diff2 <<
+                      " microseconds." << std::endl;
         }
     }
 }

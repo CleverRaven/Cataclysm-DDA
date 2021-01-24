@@ -256,6 +256,7 @@ class string_formatter
         /**@}*/
 
         void add_long_long_length_modifier();
+        void discard_oct_hex_sign_flag();
 
         template<typename ...Args>
         void read_conversion( const int format_arg_index, Args &&... args ) {
@@ -284,9 +285,13 @@ class string_formatter
                     return do_formating( get_nth_arg_as<signed long long int, 0>( format_arg_index,
                                          std::forward<Args>( args )... ) );
                 case 'o':
-                case 'u':
                 case 'x':
                 case 'X':
+                    // Workaround for fmtlib prepending number with ' '/'+'
+                    // when formatting with ' '/'+' flags and 'o'/'x'/'X' specifiers
+                    discard_oct_hex_sign_flag();
+                // intentional fall-through
+                case 'u':
                     add_long_long_length_modifier();
                     return do_formating( get_nth_arg_as<unsigned long long int, 0>( format_arg_index,
                                          std::forward<Args>( args )... ) );
@@ -310,10 +315,12 @@ class string_formatter
             }
         }
 
-        template<typename T>
-        void do_formating( T &&value ) {
-            output.append( raw_string_format( current_format.c_str(), value ) );
-        }
+        void do_formating( int value );
+        void do_formating( signed long long int value );
+        void do_formating( unsigned long long int value );
+        void do_formating( double value );
+        void do_formating( void *value );
+        void do_formating( const char *value );
 
     public:
         /// @param format The format string as required by `sprintf`.
@@ -358,22 +365,6 @@ class string_formatter
         std::string get_output() const {
             return output;
         }
-#if defined(__clang__)
-#define PRINTF_LIKE(a,b) __attribute__((format(printf,a,b)))
-#elif defined(__GNUC__)
-#define PRINTF_LIKE(a,b) __attribute__((format(gnu_printf,a,b)))
-#else
-#define PRINTF_LIKE(a,b)
-#endif
-        /**
-         * Wrapper for calling @ref vsprintf - see there for documentation. Try to avoid it as it's
-         * not type safe and may easily lead to undefined behavior - use @ref string_format instead.
-         * @throws std::exception if the format is invalid / does not match the arguments, but that's
-         * not guaranteed - technically it's undefined behavior.
-         */
-        // Implemented in output.cpp
-        static std::string raw_string_format( const char *format, ... ) PRINTF_LIKE( 1, 2 );
-#undef PRINTF_LIKE
 };
 
 } // namespace cata
@@ -422,6 +413,27 @@ inline typename std::enable_if<cata::is_translation<T>::value, std::string>::typ
 string_format( T &&format, Args &&...args )
 {
     return string_format( format.translated(), std::forward<Args>( args )... );
+}
+/**@}*/
+
+/** Print string to stdout. */
+void cata_print_stdout( const std::string &s );
+/** Print string to stderr. */
+void cata_print_stderr( const std::string &s );
+
+/** Same as @ref string_format, but prints its result to stdout. */
+/**@{*/
+template<typename ...Args>
+inline void cata_printf( std::string format, Args &&...args )
+{
+    std::string s = string_format( std::move( format ), std::forward<Args>( args )... );
+    cata_print_stdout( s );
+}
+
+template<typename ...Args>
+inline void cata_printf( const char *const format, Args &&...args )
+{
+    cata_printf( std::string( format ), std::forward<Args>( args )... );
 }
 /**@}*/
 

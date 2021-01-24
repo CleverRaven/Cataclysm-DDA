@@ -45,6 +45,7 @@
 #include "pldata.h"
 #include "point.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "weather.h"
 #include "worldfactory.h"
@@ -270,12 +271,12 @@ int main( int argc, const char *argv[] )
     // Note: this must not be invoked before all DDA-specific flags are stripped from arg_vec!
     int result = session.applyCommandLine( arg_vec.size(), &arg_vec[0] );
     if( result != 0 || session.configData().showHelp ) {
-        printf( "CataclysmDDA specific options:\n" );
-        printf( "  --mods=<mod1,mod2,…>         Loads the list of mods before executing tests.\n" );
-        printf( "  --user-dir=<dir>             Set user dir (where test world will be created).\n" );
-        printf( "  -D, --drop-world             Don't save the world on test failure.\n" );
-        printf( "  --option_overrides=n:v[,…]   Name-value pairs of game options for tests.\n" );
-        printf( "                               (overrides config/options.json values)\n" );
+        cata_printf( "CataclysmDDA specific options:\n" );
+        cata_printf( "  --mods=<mod1,mod2,…>         Loads the list of mods before executing tests.\n" );
+        cata_printf( "  --user-dir=<dir>             Set user dir (where test world will be created).\n" );
+        cata_printf( "  -D, --drop-world             Don't save the world on test failure.\n" );
+        cata_printf( "  --option_overrides=n:v[,…]   Name-value pairs of game options for tests.\n" );
+        cata_printf( "                               (overrides config/options.json values)\n" );
         return result;
     }
 
@@ -293,9 +294,8 @@ int main( int argc, const char *argv[] )
         // TODO: Only init game if we're running tests that need it.
         init_global_game_state( mods, option_overrides_for_test_suite, user_dir );
     } catch( const std::exception &err ) {
-        fprintf( stderr, "Terminated: %s\n", err.what() );
-        fprintf( stderr,
-                 "Make sure that you're in the correct working directory and your data isn't corrupted.\n" );
+        cata_print_stderr( string_format( "Terminated: %s\n", err.what() ) );
+        cata_print_stderr( "Make sure that you're in the correct working directory and your data isn't corrupted.\n" );
         return EXIT_FAILURE;
     }
 
@@ -305,7 +305,7 @@ int main( int argc, const char *argv[] )
     std::time_t start_time = std::chrono::system_clock::to_time_t( start );
     // Leading newline in case there were debug messages during
     // initialization.
-    printf( "\nStarting the actual test at %s", std::ctime( &start_time ) );
+    cata_printf( "\nStarting the actual test at %s", std::ctime( &start_time ) );
     result = session.run();
     const auto end = std::chrono::system_clock::now();
     std::time_t end_time = std::chrono::system_clock::to_time_t( end );
@@ -314,12 +314,12 @@ int main( int argc, const char *argv[] )
     if( result == 0 || dont_save ) {
         world_generator->delete_world( world_name, true );
     } else {
-        printf( "Test world \"%s\" left for inspection.\n", world_name.c_str() );
+        cata_printf( "Test world \"%s\" left for inspection.\n", world_name.c_str() );
     }
 
     std::chrono::duration<double> elapsed_seconds = end - start;
-    printf( "Ended test at %sThe test took %.3f seconds\n", std::ctime( &end_time ),
-            elapsed_seconds.count() );
+    cata_printf( "Ended test at %sThe test took %.3f seconds\n", std::ctime( &end_time ),
+                 elapsed_seconds.count() );
 
     if( seed ) {
         // Also print the seed at the end so it can be easily found
@@ -327,18 +327,18 @@ int main( int argc, const char *argv[] )
     }
 
     if( error_during_initialization ) {
-        printf( "\nTreating result as failure due to error logged during initialization.\n" );
-        printf( "Randomness seeded to: %u\n", seed );
+        cata_printf( "\nTreating result as failure due to error logged during initialization.\n" );
+        cata_printf( "Randomness seeded to: %u\n", seed );
         return 1;
     }
 
     if( debug_has_error_been_observed() ) {
-        printf( "\nTreating result as failure due to error logged during tests.\n" );
-        printf( "Randomness seeded to: %u\n", seed );
+        cata_printf( "\nTreating result as failure due to error logged during tests.\n" );
+        cata_printf( "Randomness seeded to: %u\n", seed );
         return 1;
     }
 
-    printf( "\n" );
+    cata_printf( "\n" );
 
     return result;
 }

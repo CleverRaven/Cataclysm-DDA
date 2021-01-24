@@ -22,22 +22,9 @@ void importet_test( const int serial, const char *const expected, const char *co
     CAPTURE( serial );
     CAPTURE( format );
 
-    const std::string original_result = cata::string_formatter::raw_string_format( format,
-                                        std::forward<Args>( args )... );
-    const std::string new_result = throwing_string_format( format, std::forward<Args>( args )... );
-
-    // The expected string *is* what the raw printf would return.
-    CHECK( original_result == expected );
-    CHECK( original_result == new_result );
-}
-
-template<typename ...Args>
-void test_for_expected( const std::string &expected, const char *const format, Args &&... args )
-{
-    CAPTURE( format );
-
     const std::string result = throwing_string_format( format, std::forward<Args>( args )... );
-    CHECK( result == expected );
+
+    CHECK( expected == result );
 }
 
 template<typename ...Args>
@@ -46,11 +33,11 @@ void test_for_error( const char *const format, Args &&... args )
     CAPTURE( format );
 
     const std::string result = throwing_string_format( format, std::forward<Args>( args )... );
+
     CAPTURE( result );
 }
-// Test whether raw printf and string_formatter return the same string (using
-// old_pattern in both). Test whether the new pattern (if any) yields the same
-// output via string_formatter (not used on raw printf).
+
+// Test whether string_formatter yields the same output for two strings.
 template<typename ...Args>
 void test_new_old_pattern( const char *const old_pattern, const char *const new_pattern,
                            Args &&...args )
@@ -58,46 +45,34 @@ void test_new_old_pattern( const char *const old_pattern, const char *const new_
     CAPTURE( old_pattern );
     CAPTURE( new_pattern );
 
-    std::string original_result = cata::string_formatter::raw_string_format( old_pattern,
-                                  std::forward<Args>( args )... );
     std::string old_result = throwing_string_format( old_pattern, std::forward<Args>( args )... );
-    CHECK( original_result == old_result );
+    std::string new_result = throwing_string_format( new_pattern, std::forward<Args>( args )... );
 
-    if( new_pattern ) {
-        std::string new_result = throwing_string_format( new_pattern, std::forward<Args>( args )... );
-        CHECK( original_result == new_result );
-    }
+    CHECK( old_result == new_result );
 }
+
 // Test that supplying `T&&`, `T&` and `const T&` as arguments will work the same.
 template<typename T>
-void test_lvalues( const std::string &expected, const char *const pattern, const T &value )
+void test_lvalues( const int serial_base, const char *expected, const char *format, const T &value )
 {
-    test_for_expected( expected, pattern, T( value ) ); // T &&
+    importet_test( serial_base + 1, expected, format, T( value ) ); // T &&
     T lvalue( value );
-    test_for_expected( expected, pattern, lvalue ); // T &
+    importet_test( serial_base + 2, expected, format, lvalue ); // T &
     // NOLINTNEXTLINE(performance-unnecessary-copy-initialization)
     const T const_lvalue( value );
-    test_for_expected( expected, pattern, const_lvalue ); // const T &
+    importet_test( serial_base + 3, expected, format, const_lvalue ); // const T &
 }
-// Test whether formatting min and max values of a given type works. Uses old_pattern
-// for raw printf (which is assumed to match type) and new_pattern for use with
-// string_formatter, which may be different (e.g. "%lli" requires a long long int
-// in raw printf, but string_formatter will accept an int as well.
+
+// Test whether formatting min and max values of a given type works.
+// Uses old_pattern, which would normally be used for raw printf and is assumed to match type,
+// and new_pattern for use with string_formatter, which may be different
+// (e.g. "%lli" requires a long long int in raw printf,
+// but string_formatter will accept an int as well).
 template<typename T>
 void test_typed_printf( const char *const old_pattern, const char *const new_pattern )
 {
     test_new_old_pattern( old_pattern, new_pattern, std::numeric_limits<T>::min() );
     test_new_old_pattern( old_pattern, new_pattern, std::numeric_limits<T>::max() );
-}
-
-template<typename T>
-void mingw_test( const char *const old_pattern, const char *const new_pattern, const T &value )
-{
-    CAPTURE( old_pattern );
-    CAPTURE( new_pattern );
-    std::string original_result = cata::string_formatter::raw_string_format( old_pattern, value );
-    std::string new_result = throwing_string_format( new_pattern, value );
-    CHECK( original_result == new_result );
 }
 
 TEST_CASE( "string_formatter" )
@@ -108,79 +83,49 @@ TEST_CASE( "string_formatter" )
     test_typed_printf<signed short int>( "%hi", "%i" );
     test_typed_printf<unsigned short int>( "%hu", "%u" );
 
-    test_typed_printf<signed int>( "%i", nullptr );
-    test_typed_printf<unsigned int>( "%u", nullptr );
-
     test_typed_printf<size_t>( "%zu", "%u" );
     test_typed_printf<ptrdiff_t>( "%td", "%d" );
 
-#if !defined(__USE_MINGW_ANSI_STDIO) && (defined(__MINGW32__) || defined(__MINGW64__))
-    mingw_test( "%I32i", "%i", std::numeric_limits<signed long int>::max() );
-    mingw_test( "%I32u", "%u", std::numeric_limits<unsigned long int>::max() );
-#else
     test_typed_printf<signed long int>( "%li", "%i" );
     test_typed_printf<unsigned long int>( "%lu", "%u" );
-#endif
 
-#if !defined(__USE_MINGW_ANSI_STDIO) && (!defined(__MINGW32__) && defined(__MINGW64__))
-    mingw_test( "%I64i", "%i", std::numeric_limits<signed long long int>::max() );
-    mingw_test( "%I64u", "%u", std::numeric_limits<unsigned long long int>::max() );
-#else
     test_typed_printf<signed long long int>( "%lli", "%i" );
     test_typed_printf<unsigned long long int>( "%llu", "%u" );
-#endif
 
     test_typed_printf<float>( "%f", "%f" );
     test_typed_printf<double>( "%f", "%f" );
 
-    // format string with width and precision
-    test_new_old_pattern( "%-*.*f", nullptr, 4, 7, 100.44 );
-
-    // sprintf of some systems doesn't support the 'N$' syntax, if it's
-    // not supported, the result is either empty, or the input string
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wformat"
-    if( cata::string_formatter::raw_string_format( "%2$s||%1$s", "", "" ) == "||" ) {
-#pragma GCC diagnostic pop
-        test_new_old_pattern( "%6$-*5$.*4$f%3$s%2$s%1$s", "%6$-*5$.*4$f", "", "", "", 7, 4, 100.44 );
-    }
-    CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3 ) );
-    CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3, 4 ) );
-    CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3, 4, 5 ) );
-
-    // invalid format specifier
-    CHECK_THROWS( test_for_error( "%k" ) );
-    // can't print a void pointer
-    CHECK_THROWS( test_for_error( "%s", static_cast<void *>( nullptr ) ) );
-    CHECK_THROWS( test_for_error( "%d", static_cast<void *>( nullptr ) ) );
-    CHECK_THROWS( test_for_error( "%d", "some string" ) );
-
-    test_for_expected( "", "", "whatever", 5, 0.4 );
-    CHECK_THROWS( test_for_error( "%d %d %d %d %d", 1, 2, 3, 4 ) );
-    test_for_expected( "1 2 3 4 5", "%d %d %d %d %d", 1, 2, 3, 4, 5 );
+    importet_test( 417, "", "", "whatever", 5, 0.4 );
+    importet_test( 418, "1 2 3 4 5", "%d %d %d %d %d", 1, 2, 3, 4, 5 );
 
     // test automatic type conversion
-    test_for_expected( "53", "%d", '5' );
-    test_for_expected( "5", "%c", '5' );
-    test_for_expected( "5", "%s", '5' );
-    test_for_expected( "5", "%c", '5' );
-    test_for_expected( "5", "%c", static_cast<int>( '5' ) );
-    test_for_expected( "5", "%s", '5' );
-    test_for_expected( "55", "%s", "55" );
-    test_for_expected( "5", "%s", 5 );
+    importet_test( 419, "53", "%d", '5' );
+    importet_test( 420, "5", "%c", '5' );
+    importet_test( 421, "5", "%s", '5' );
+    importet_test( 422, "5", "%c", '5' );
+    importet_test( 423, "5", "%c", static_cast<int>( '5' ) );
+    importet_test( 424, "5", "%s", '5' );
+    importet_test( 425, "55", "%s", "55" );
+    importet_test( 426, "5", "%s", 5 );
 
-    test_lvalues<std::string>( "foo", "%s", "foo" );
-    test_lvalues<const char *>( "bar", "%s", "bar" );
-    test_lvalues<int>( "0", "%i", 0 );
+    test_lvalues<std::string>( 500, "foo", "%s", "foo" );
+    test_lvalues<const char *>( 510, "bar", "%s", "bar" );
+    test_lvalues<int>( 520, "0", "%i", 0 );
 
     {
         std::string long_string( 100000, 'a' );
         const std::string expected = "b" + long_string + "b";
         // moving into string_format should *not* consume the string.
-        test_for_expected( expected, "b%sb", std::move( long_string ) );
+        importet_test( 427, expected.c_str(), "b%sb", std::move( long_string ) );
         // NOLINTNEXTLINE(bugprone-use-after-move)
         CHECK( long_string.size() == 100000 );
     }
+
+    // test positional values
+    importet_test( 428, "100.4400000", "%-*.*f", 4, 7, 100.44 );
+    importet_test( 429, "100.4400000", "%3$-*1$.*2$f", 4, 7, 100.44 );
+    importet_test( 430, "100.4400000", "%1$-*2$.*3$f", 100.44, 4, 7 );
+    importet_test( 431, "100.4400000", "%2$-*3$.*1$f", 7, 100.44, 4 );
 
     // These calls should cause *compile* errors. Try it out.
 #if 0
@@ -283,7 +228,7 @@ TEST_CASE( "string_formatter" )
     importet_test( 101, "-00100", "% .5lld", -100LL );
     importet_test( 102, "   00100", "% 8.5lld", 100LL );
     importet_test( 103, "  -00100", "% 8.5lld", -100LL );
-    importet_test( 104, "", "%.0lld", 0LL );
+    importet_test( 104, "0", "%.0lld", 0LL );
     importet_test( 105, " 0x00ffffffffffffff9c", "%#+21.18llx", -100LL );
     importet_test( 106, "0001777777777777777777634", "%#.25llo", -100LL );
     importet_test( 107, " 01777777777777777777634", "%#+24.20llo", -100LL );
@@ -542,22 +487,22 @@ TEST_CASE( "string_formatter" )
     importet_test( 384, "                    ", "%20.s", "Hallo heimur" );
     importet_test( 385, "                1024", "%20.0d", 1024 );
     importet_test( 386, "               -1024", "%20.d", -1024 );
-    importet_test( 387, "                    ", "%20.d", 0 );
+    importet_test( 387, "                   0", "%20.d", 0 );
     importet_test( 388, "                1024", "%20.0i", 1024 );
     importet_test( 389, "               -1024", "%20.i", -1024 );
-    importet_test( 390, "                    ", "%20.i", 0 );
+    importet_test( 390, "                   0", "%20.i", 0 );
     importet_test( 391, "                1024", "%20.u", 1024 );
     importet_test( 392, "          4294966272", "%20.0u", 4294966272U );
-    importet_test( 393, "                    ", "%20.u", 0U );
+    importet_test( 393, "                   0", "%20.u", 0U );
     importet_test( 394, "                 777", "%20.o", 511 );
     importet_test( 395, "         37777777001", "%20.0o", 4294966785U );
-    importet_test( 396, "                    ", "%20.o", 0U );
+    importet_test( 396, "                   0", "%20.o", 0U );
     importet_test( 397, "            1234abcd", "%20.x", 305441741 );
     importet_test( 398, "            edcb5433", "%20.0x", 3989525555U );
-    importet_test( 399, "                    ", "%20.x", 0U );
+    importet_test( 399, "                   0", "%20.x", 0U );
     importet_test( 400, "            1234ABCD", "%20.X", 305441741 );
     importet_test( 401, "            EDCB5433", "%20.0X", 3989525555U );
-    importet_test( 402, "                    ", "%20.X", 0U );
+    importet_test( 402, "                   0", "%20.X", 0U );
     importet_test( 403, "Hallo               ", "% -0+*.*s", 20, 5, "Hallo heimur" );
     importet_test( 404, "+01024              ", "% -0+*.*d", 20, 5, 1024 );
     importet_test( 405, "-01024              ", "% -0+*.*d", 20, 5, -1024 );
@@ -569,4 +514,20 @@ TEST_CASE( "string_formatter" )
     importet_test( 413, "00edcb5433          ", "%+ -0*.*x", 20, 10, 3989525555U );
     importet_test( 414, "1234ABCD            ", "% -+0*.*X", 20, 5, 305441741 );
     importet_test( 415, "00EDCB5433          ", "% -+0*.*X", 20, 10, 3989525555U );
+}
+
+TEST_CASE( "string_formatter_errors" )
+{
+    CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3 ) );
+    CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3, 4 ) );
+    CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3, 4, 5 ) );
+
+    // invalid format specifier
+    CHECK_THROWS( test_for_error( "%k" ) );
+    // can't print a void pointer
+    CHECK_THROWS( test_for_error( "%s", static_cast<void *>( nullptr ) ) );
+    CHECK_THROWS( test_for_error( "%d", static_cast<void *>( nullptr ) ) );
+    CHECK_THROWS( test_for_error( "%d", "some string" ) );
+
+    CHECK_THROWS( test_for_error( "%d %d %d %d %d", 1, 2, 3, 4 ) );
 }

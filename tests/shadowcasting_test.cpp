@@ -14,6 +14,7 @@
 #include "point.h"
 #include "rng.h"
 #include "shadowcasting.h"
+#include "string_formatter.h"
 
 // Constants setting the ratio of set to unset tiles.
 constexpr unsigned int NUMERATOR = 1;
@@ -187,9 +188,9 @@ void print_grid_comparison( const int offsetX, const int offsetY,
             if( x == offsetX && y == offsetY ) {
                 output = '@';
             }
-            printf( "%c", output );
+            cata_printf( "%c", output );
         }
-        printf( "\n" );
+        cata_printf( "\n" );
     }
     for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
         for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
@@ -199,9 +200,9 @@ void print_grid_comparison( const int offsetX, const int offsetY,
             } else if( control[x][y] > LIGHT_TRANSPARENCY_SOLID ) {
                 output = 'X';
             }
-            printf( "%c", output );
+            cata_printf( "%c", output );
         }
-        printf( "    " );
+        cata_printf( "    " );
         for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
             char output = ' ';
             if( transparency_cache[x][y] == LIGHT_TRANSPARENCY_SOLID ) {
@@ -209,9 +210,9 @@ void print_grid_comparison( const int offsetX, const int offsetY,
             } else if( is_nonzero( experiment[x][y] ) ) {
                 output = 'X';
             }
-            printf( "%c", output );
+            cata_printf( "%c", output );
         }
-        printf( "\n" );
+        cata_printf( "\n" );
     }
 }
 
@@ -258,10 +259,10 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
                                 ( end1 - start1 ).count();
         const long long diff2 = std::chrono::duration_cast<std::chrono::microseconds>
                                 ( end2 - start2 ).count();
-        printf( "oldCastLight() executed %d times in %lld microseconds.\n",
-                iterations, diff1 );
-        printf( "castLight() executed %d times in %lld microseconds.\n",
-                iterations, diff2 );
+        cata_printf( "oldCastLight() executed %d times in %lld microseconds.\n",
+                     iterations, diff1 );
+        cata_printf( "castLight() executed %d times in %lld microseconds.\n",
+                     iterations, diff2 );
     }
 
     bool passed = grids_are_equivalent( seen_squares_control, seen_squares_experiment );
@@ -320,12 +321,12 @@ static void shadowcasting_float_quad(
                                 ( end1 - start1 ).count();
         const long long diff2 = std::chrono::duration_cast<std::chrono::microseconds>
                                 ( end2 - start2 ).count();
-        printf( "castLight on four_quadrants (denominator %u) "
-                "executed %d times in %lld microseconds.\n",
-                denominator, iterations, diff1 );
-        printf( "castLight on floats (denominator %u) "
-                "executed %d times in %lld microseconds.\n",
-                denominator, iterations, diff2 );
+        cata_printf( "castLight on four_quadrants (denominator %u) "
+                     "executed %d times in %lld microseconds.\n",
+                     denominator, iterations, diff1 );
+        cata_printf( "castLight on floats (denominator %u) "
+                     "executed %d times in %lld microseconds.\n",
+                     denominator, iterations, diff2 );
     }
 
     bool passed = grids_are_equivalent( lit_squares_float, lit_squares_quad );
@@ -385,11 +386,11 @@ static void shadowcasting_3d_2d( const int iterations )
             std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
         const long long diff2 =
             std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
-        printf( "castLight() executed %d times in %lld microseconds.\n",
-                iterations, diff1 );
-        printf( "cast_zlight() executed %d times in %lld microseconds.\n",
-                iterations, diff2 );
-        printf( "new/old execution time ratio: %.02f.\n", static_cast<double>( diff2 ) / diff1 );
+        cata_printf( "castLight() executed %d times in %lld microseconds.\n",
+                     iterations, diff1 );
+        cata_printf( "cast_zlight() executed %d times in %lld microseconds.\n",
+                     iterations, diff2 );
+        cata_printf( "new/old execution time ratio: %.02f.\n", static_cast<double>( diff2 ) / diff1 );
     }
 
     bool passed = grids_are_equivalent( seen_squares_control, seen_squares_experiment );

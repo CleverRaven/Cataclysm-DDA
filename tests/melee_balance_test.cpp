@@ -12,6 +12,7 @@
 #include "npc.h"
 #include "player.h"
 #include "point.h"
+#include "string_formatter.h"
 #include "type_id.h"
 
 static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
@@ -40,7 +41,7 @@ static void print_stats( const player &p, const std::vector<const itype *> &weap
         return l.second < r.second;
     } );
     for( const auto &pr : weapon_stats ) {
-        printf( "%-30s : %.1f\n", pr.first.c_str(), pr.second );
+        cata_printf( "%-30s : %.1f\n", pr.first.c_str(), pr.second );
     }
 }
 
