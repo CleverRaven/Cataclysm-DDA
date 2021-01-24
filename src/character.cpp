@@ -7113,6 +7113,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
     uilist bmenu;
     bmenu.desc_enabled = true;
     bmenu.text = menu_header;
+    bmenu.textwidth = 60;
 
     bmenu.hilight_disabled = true;
     bool is_valid_choice = false;
@@ -7151,7 +7152,6 @@ bodypart_id Character::body_window( const std::string &menu_header,
         bool bitten = has_effect( effect_bite, bp.id() );
         bool infected = has_effect( effect_infected, bp.id() );
         bool bandaged = has_effect( effect_bandaged, bp.id() );
-        bool disinfected = has_effect( effect_disinfected, bp.id() );
         const int b_power = get_effect_int( effect_bandaged, bp );
         const int d_power = get_effect_int( effect_disinfected, bp );
         int new_b_power = static_cast<int>( std::floor( bandage_power ) );
@@ -7202,70 +7202,64 @@ bodypart_id Character::body_window( const std::string &menu_header,
 
         // BLEEDING block
         if( bleeding ) {
-            desc += colorize( string_format( "%s: %s", get_effect( effect_bleed, bp ).get_speed_name(),
-                                             get_effect( effect_bleed, bp ).disp_short_desc() ), c_red ) + "\n";
+            desc += string_format( _( "Bleeding: %s" ),
+                                   colorize( get_effect( effect_bleed, bp ).get_speed_name(),
+                                             colorize_bleeding_intensity( get_effect_int( effect_bleed, bp ) ) ) );
             if( bleed > 0 ) {
                 int percent = static_cast<int>( bleed * 100 / get_effect_int( effect_bleed, bp ) );
                 percent = std::min( percent, 100 );
-                desc += colorize( string_format( _( "Expected bleeding reduction: %d %%" ), percent ),
-                                  c_light_green ) + "\n";
-            } else {
-                desc += colorize( _( "This will not affect the bleeding." ),
-                                  c_yellow ) + "\n";
-            }
+                desc += " -> " + colorize( string_format( _( "%d %% improvement" ), percent ), c_green );
+            };
+            desc += "\n";
         }
+
         // BANDAGE block
-        if( bandaged ) {
-            desc += string_format( _( "Bandaged [%s]" ), texitify_healing_power( b_power ) ) + "\n";
-            if( new_b_power > b_power ) {
-                desc += colorize( string_format( _( "Expected quality improvement: %s" ),
-                                                 texitify_healing_power( new_b_power ) ), c_light_green ) + "\n";
-            } else if( new_b_power > 0 ) {
-                desc += colorize( _( "You don't expect any improvement from using this." ), c_yellow ) + "\n";
+        if( e.allowed && ( new_b_power > 0 || b_power > 0 ) ) {
+            desc += string_format( _( "Bandaged: %s" ), texitify_healing_power( b_power ) );
+            if( new_b_power > 0 ) {
+                desc += string_format( " -> %s", texitify_healing_power( new_b_power ) );
+                if( new_b_power <= b_power ) {
+                    desc += _( " (no improvement)" );
+                }
             }
-        } else if( new_b_power > 0 && e.allowed ) {
-            desc += colorize( string_format( _( "Expected bandage quality: %s" ),
-                                             texitify_healing_power( new_b_power ) ), c_light_green ) + "\n";
+            desc += "\n";
         }
+
+        // DISINFECTANT block
+        if( e.allowed && ( d_power > 0 || new_d_power > 0 ) ) {
+            desc += string_format( _( "Disinfected: %s" ), texitify_healing_power( d_power ) );
+            if( new_d_power > 0 ) {
+                desc += string_format( " -> %s",  texitify_healing_power( new_d_power ) );
+                if( new_d_power <= d_power ) {
+                    desc += _( " (no improvement)" );
+                }
+            }
+            desc += "\n";
+        }
+
         // BITTEN block
         if( bitten ) {
-            desc += colorize( string_format( "%s: ", get_effect( effect_bite, bp ).get_speed_name() ), c_red );
-            desc += colorize( _( "It has a deep bite wound that needs cleaning." ), c_red ) + "\n";
+            desc += string_format( "%s: ", get_effect( effect_bite, bp ).get_speed_name() );
             if( bite > 0 ) {
                 desc += colorize( string_format( _( "Chance to clean and disinfect: %d %%" ),
-                                                 static_cast<int>( bite * 100 ) ), c_light_green ) + "\n";
+                                                 static_cast<int>( bite * 100 ) ), c_light_green );
             } else {
-                desc += colorize( _( "This will not help in cleaning this wound." ), c_yellow ) + "\n";
+                desc += colorize( _( "It has a deep bite wound that needs cleaning." ), c_red );
             }
+            desc += "\n";
         }
+
         // INFECTED block
         if( infected ) {
-            desc += colorize( string_format( "%s: ", get_effect( effect_infected, bp ).get_speed_name() ),
-                              c_red );
-            desc += colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
-                              c_red ) + "\n";
+            desc += string_format( "%s: ", get_effect( effect_infected, bp ).get_speed_name() );
             if( infect > 0 ) {
                 desc += colorize( string_format( _( "Chance to cure infection: %d %%" ),
                                                  static_cast<int>( infect * 100 ) ), c_light_green ) + "\n";
             } else {
-                desc += colorize( _( "This will not help in curing infection." ), c_yellow ) + "\n";
+                desc += colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
+                                  c_red );
             }
-        }
-        // DISINFECTANT (general) block
-        if( disinfected ) {
-            desc += string_format( _( "Disinfected [%s]" ),
-                                   texitify_healing_power( d_power ) ) + "\n";
-            if( new_d_power > d_power ) {
-                desc += colorize( string_format( _( "Expected quality improvement: %s" ),
-                                                 texitify_healing_power( new_d_power ) ), c_light_green ) + "\n";
-            } else if( new_d_power > 0 ) {
-                desc += colorize( _( "You don't expect any improvement from using this." ),
-                                  c_yellow ) + "\n";
-            }
-        } else if( new_d_power > 0 && e.allowed ) {
-            desc += colorize( string_format(
-                                  _( "Expected disinfection quality: %s" ),
-                                  texitify_healing_power( new_d_power ) ), c_light_green ) + "\n";
+            desc += "\n";
         }
         // END of blocks
 
@@ -7316,13 +7310,7 @@ nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bo
     }
     switch( color_bit ) {
         case 1:
-            if( intense < 11 ) {
-                i_color = c_light_red;
-            } else if( intense < 21 ) {
-                i_color = c_red;
-            } else {
-                i_color = c_red_red;
-            }
+            i_color = colorize_bleeding_intensity( intense );
             break;
         case 10:
             i_color = c_blue;
