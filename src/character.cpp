@@ -117,7 +117,6 @@ static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 
-static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 static const bionic_id bio_watch( "bio_watch" );
@@ -391,6 +390,7 @@ static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const flag_id json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
 static const flag_id json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
 static const flag_id json_flag_DEAF( "DEAF" );
+static const flag_id json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const flag_id json_flag_HEATPROOF( "HEATPROOF" );
 static const flag_id json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
 static const flag_id json_flag_NO_DISEASE( "NO_DISEASE" );
@@ -857,7 +857,7 @@ int Character::overmap_sight_range( int light_level ) const
 
     float multiplier = mutation_value( "overmap_multiplier" );
     // Binoculars double your sight range.
-    const bool has_optic = ( has_item_with_flag( flag_ZOOM ) || has_bionic( bio_eye_optic ) ||
+    const bool has_optic = ( has_item_with_flag( flag_ZOOM ) || has_flag( json_flag_ENHANCED_VISION ) ||
                              ( is_mounted() &&
                                mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) );
     if( has_optic ) {
@@ -897,7 +897,7 @@ bool Character::sight_impaired() const
              ( ( has_trait( trait_MYOPIC ) || ( in_light && has_trait( trait_URSINE_EYE ) ) ) &&
                !worn_with_flag( flag_FIX_NEARSIGHT ) &&
                !has_effect( effect_contacts ) &&
-               !has_bionic( bio_eye_optic ) ) ||
+               !has_flag( json_flag_ENHANCED_VISION ) ) ||
              has_trait( trait_PER_SLIME ) || is_blind() );
 }
 

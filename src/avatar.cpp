@@ -77,7 +77,6 @@
 static const activity_id ACT_READ( "ACT_READ" );
 
 static const bionic_id bio_cloak( "bio_cloak" );
-static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_watch( "bio_watch" );
 
@@ -302,7 +301,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
         reasons.emplace_back( _( "You're illiterate!" ) );
     } else if( has_trait( trait_HYPEROPIC ) &&
                !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
-               !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
+               !has_effect( effect_contacts ) && !has_flag( STATIC( flag_id( "ENHANCED_VISION" ) ) ) ) {
         reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
         // Too dark to read only applies if the player can read to himself

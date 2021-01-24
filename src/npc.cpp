@@ -40,6 +40,7 @@
 #include "iuse_actor.h"
 #include "json.h"
 #include "magic.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -108,7 +109,6 @@ static const skill_id skill_speech( "speech" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_throw( "throw" );
 
-static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
 
 static const trait_id trait_BEE( "BEE" );
@@ -893,7 +893,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         fail_reasons.emplace_back( _( "I can't read!" ) );
     } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
-               !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
+               !has_effect( effect_contacts ) && !has_bionic( STATIC(flag_id("ENHANCED_VISION" ) ) ) ) {
         fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
         // Too dark to read only applies if the player can read to himself
