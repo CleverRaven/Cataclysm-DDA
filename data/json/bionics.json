@@ -347,9 +347,10 @@
     "id": "bio_earplugs",
     "type": "bionic",
     "name": { "str": "Sound Dampeners" },
-    "description": "When this bionic is active, you can block hearing completely (with Enhanced Hearing deactivated) or dampen sound slightly (with Enhanced Hearing activated).",
+    "description": "When this bionic is active, you can block hearing completely.",
     "included": true,
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "DEAF" ]
   },
   {
     "id": "bio_ears",
@@ -357,7 +358,7 @@
     "name": { "str": "Enhanced Hearing" },
     "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing.",
     "occupied_bodyparts": [ [ "head", 3 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
+    "flags": [ "BIONIC_TOGGLED", "IMMUNE_HEARING_DAMAGE", "SUPER_HEARING" ],
     "included_bionics": [ "bio_earplugs" ]
   },
   {

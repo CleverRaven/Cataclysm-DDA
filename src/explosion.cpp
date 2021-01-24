@@ -77,7 +77,6 @@ static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
-static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_sunglasses( "bio_sunglasses" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
@@ -564,7 +563,7 @@ void flashbang( const tripoint &p, bool player_immune )
     int dist = rl_dist( player_character.pos(), p );
     map &here = get_map();
     if( dist <= 8 && !player_immune ) {
-        if( !player_character.has_bionic( bio_ears ) &&
+        if( !player_character.has_flag( STATIC(flag_id("IMMUNE_HEARING_DAMAGE")) ) &&
             !player_character.is_wearing( itype_rm13_armor_on ) ) {
             player_character.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }

@@ -1038,7 +1038,8 @@
     "starting_trait": true,
     "prereqs": [ "BADHEARING" ],
     "cancels": [ "GOODHEARING" ],
-    "hearing_modifier": 0.0
+    "hearing_modifier": 0.0,
+    "flags":[ "DEAF" ]
   },
   {
     "type": "mutation",

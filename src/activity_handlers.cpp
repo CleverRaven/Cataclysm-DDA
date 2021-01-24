@@ -238,8 +238,8 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 static const flag_id json_flag_CANNIBAL( "CANNIBAL" );
 static const flag_id json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const flag_id json_flag_SAPIOVORE( "SAPIOVORE" );
+static const flag_id json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
-static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -3018,7 +3018,7 @@ void activity_handlers::cracking_do_turn( player_activity *act, player *p )
         item temporary_item( it.type );
         return temporary_item.has_flag( flag_SAFECRACK );
     } );
-    if( cracking_tool.empty() && !p->has_bionic( bio_ears ) ) {
+    if( cracking_tool.empty() && !p->has_flag( json_flag_SUPER_HEARING ) ) {
         // We lost our cracking tool somehow, bail out.
         act->set_to_null();
         return;

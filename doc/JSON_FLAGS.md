@@ -1514,3 +1514,7 @@ Gun fault flags:
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
 - ```NO_MINIMAL_HEALING``` This mutation disables the minimal healing of 1 hp a day.
+- ```SUPER_HEARING``` You can hear much better than a normal person.
+- ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
+- ```DEAF``` Makes you deaf.
+- 

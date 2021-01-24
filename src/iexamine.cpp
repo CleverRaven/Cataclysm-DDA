@@ -58,6 +58,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "make_static.h"
 #include "magic_teleporter_list.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -207,7 +208,6 @@ static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
 static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 
-static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
@@ -1502,7 +1502,7 @@ void iexamine::safe( player &guy, const tripoint &examp )
         return temporary_item.has_flag( flag_SAFECRACK );
     } );
 
-    if( !( !cracking_tool.empty() || guy.has_bionic( bio_ears ) ) ) {
+    if( !( !cracking_tool.empty() || guy.has_flag( STATIC(flag_id("IMMUNE_HEARING_DAMAGE")) ) ) ) {
         guy.moves -= to_turns<int>( 10_seconds );
         // Assume a 3 digit 100-number code. Many safes allow adjacent + 1 dial locations to match,
         // so 1/20^3, or 1/8,000 odds.

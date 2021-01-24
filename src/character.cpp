@@ -276,8 +276,6 @@ static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_climate( "bio_climate" );
-static const bionic_id bio_earplugs( "bio_earplugs" );
-static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_voice( "bio_voice" );
 static const bionic_id bio_faraday( "bio_faraday" );
 static const bionic_id bio_flashlight( "bio_flashlight" );
@@ -314,7 +312,6 @@ static const trait_id trait_COLDBLOOD( "COLDBLOOD" );
 static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
 static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
-static const trait_id trait_DEAF( "DEAF" );
 static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
@@ -393,7 +390,9 @@ static const std::string flag_PLOWABLE( "PLOWABLE" );
 
 static const flag_id json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
 static const flag_id json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
+static const flag_id json_flag_DEAF( "DEAF" );
 static const flag_id json_flag_HEATPROOF( "HEATPROOF" );
+static const flag_id json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
 static const flag_id json_flag_NO_DISEASE( "NO_DISEASE" );
 static const flag_id json_flag_NO_MINIMAL_HEALING( "NO_MINIMAL_HEALING" );
 static const flag_id json_flag_NO_RADIATION( "NO_RADIATION" );
@@ -404,6 +403,7 @@ static const flag_id json_flag_PRED3( "PRED3" );
 static const flag_id json_flag_PRED4( "PRED4" );
 static const flag_id json_flag_STEADY( "STEADY" );
 static const flag_id json_flag_SUPER_CLAIRVOYANCE( "SUPER_CLAIRVOYANCE" );
+static const flag_id json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const flag_id json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
@@ -5311,8 +5311,7 @@ std::pair<std::string, nc_color> Character::get_pain_description() const
 bool Character::is_deaf() const
 {
     return get_effect_int( effect_deaf ) > 2 || worn_with_flag( flag_DEAF ) ||
-           has_trait( trait_DEAF ) ||
-           ( has_active_bionic( bio_earplugs ) && !has_active_bionic( bio_ears ) ) ||
+           has_flag( json_flag_DEAF ) ||
            ( has_trait( trait_M_SKIN3 ) && get_map().has_flag_ter_or_furn( "FUNGUS", pos() )
              && in_sleep_state() );
 }
@@ -7469,7 +7468,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
         return is_immune_damage( damage_type::HEAT );
     } else if( eff == effect_deaf ) {
         return worn_with_flag( flag_DEAF ) || worn_with_flag( flag_PARTIAL_DEAF ) ||
-               has_bionic( bio_ears ) ||
+               has_flag( json_flag_IMMUNE_HEARING_DAMAGE ) ||
                is_wearing( itype_rm13_armor_on );
     } else if( eff == effect_mute ) {
         return has_bionic( bio_voice );
@@ -12026,7 +12025,7 @@ float Character::hearing_ability() const
     float volume_multiplier = 1.0f;
 
     // Mutation/Bionic volume modifiers
-    if( has_active_bionic( bio_ears ) && !has_active_bionic( bio_earplugs ) ) {
+    if( has_flag( json_flag_SUPER_HEARING ) ) {
         volume_multiplier *= 3.5f;
     }
     if( has_trait( trait_PER_SLIME ) ) {
