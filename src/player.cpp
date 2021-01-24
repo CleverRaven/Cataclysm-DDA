@@ -1978,9 +1978,7 @@ bool player::takeoff( item &it, std::list<item> *res )
 
 bool player::takeoff( item_location loc, std::list<item> *res )
 {
-    item it = *loc;
-
-    return takeoff( it );
+    return takeoff( *loc );
 }
 
 
