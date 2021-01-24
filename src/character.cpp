@@ -7130,10 +7130,10 @@ bodypart_id Character::body_window( const std::string &menu_header,
 
     bmenu.hilight_disabled = true;
     bool is_valid_choice = false;
-    
+
     // If this is an NPC, the player is the one examining them and so the fact
     // that they can't self-diagnose effectively doesn't matter
-    bool no_feeling = is_player() && has_trait( trait_NOPAIN )
+    bool no_feeling = is_player() && has_trait( trait_NOPAIN );
 
     for( size_t i = 0; i < parts.size(); i++ ) {
         const healable_bp &e = parts[i];
@@ -7186,7 +7186,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
         if( limb_is_mending ) {
             desc += colorize( _( "It is broken, but has been set, and just needs time to heal." ),
                               c_blue ) + "\n";
-            if ( no_feeling ) {
+            if( no_feeling ) {
                 hp_str = colorize( "==%==", c_blue );
             } else {
                 const auto &eff = get_effect( effect_mending, bp );
