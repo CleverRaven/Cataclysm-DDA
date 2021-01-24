@@ -7185,11 +7185,10 @@ bodypart_id Character::body_window( const std::string &menu_header,
             const auto &eff = get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
+            const int num = mend_perc / 20;
+            hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), c_blue );
             if( precise ) {
-                hp_str = colorize( string_format( "=%2d%%=", mend_perc ), c_blue );
-            } else {
-                const int num = mend_perc / 20;
-                hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), c_blue );
+                hp_str = string_format( "%s %3d%%", hp_str, mend_perc );
             }
         } else if( limb_is_broken ) {
             desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
@@ -7210,7 +7209,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
                      colorize( std::string( 5 - utf8_width( h_bar.first ), '.' ), c_white );
 
             if( precise ) {
-                hp_str = string_format( "%s %d/%d", hp_str, current_hp, maximal_hp );
+                hp_str = string_format( "%s %3d/%d", hp_str, current_hp, maximal_hp );
             }
         }
         msg += colorize( aligned_name, all_state_col ) + " " + hp_str;
