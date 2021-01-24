@@ -7130,6 +7130,10 @@ bodypart_id Character::body_window( const std::string &menu_header,
 
     bmenu.hilight_disabled = true;
     bool is_valid_choice = false;
+    
+    // If this is an NPC, the player is the one examining them and so the fact
+    // that they can't self-diagnose effectively doesn't matter
+    bool no_feeling = is_player() && has_trait( trait_NOPAIN )
 
     for( size_t i = 0; i < parts.size(); i++ ) {
         const healable_bp &e = parts[i];
@@ -7182,18 +7186,22 @@ bodypart_id Character::body_window( const std::string &menu_header,
         if( limb_is_mending ) {
             desc += colorize( _( "It is broken, but has been set, and just needs time to heal." ),
                               c_blue ) + "\n";
-            const auto &eff = get_effect( effect_mending, bp );
-            const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
+            if ( no_feeling ) {
+                hp_str = colorize( "==%==", c_blue );
+            } else {
+                const auto &eff = get_effect( effect_mending, bp );
+                const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
-            const int num = mend_perc / 20;
-            hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), c_blue );
-            if( precise ) {
-                hp_str = string_format( "%s %3d%%", hp_str, mend_perc );
+                const int num = mend_perc / 20;
+                hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), c_blue );
+                if( precise ) {
+                    hp_str = string_format( "%s %3d%%", hp_str, mend_perc );
+                }
             }
         } else if( limb_is_broken ) {
             desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
             hp_str = "==%==";
-        } else if( is_player() && has_trait( trait_NOPAIN ) ) {
+        } else if( no_feeling ) {
             if( current_hp < maximal_hp * 0.25 ) {
                 hp_str = colorize( _( "Very Bad" ), c_red );
             } else if( current_hp < maximal_hp * 0.5 ) {
