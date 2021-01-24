@@ -85,6 +85,17 @@ void _get_stacks( item *elem, iloc_stack_t *stacks, stack_cache_t *cache,
     }
 }
 
+void _append_stacks( Character *guy, item *i, aim_container_t *ret )
+{
+    aim_container_t temp =
+        get_stacks( i->contents.all_items_top( item_pocket::pocket_type::CONTAINER ),
+    [guy]( item * it ) {
+        return iloc_character( guy, it );
+    } );
+    ret->insert( ret->end(), std::make_move_iterator( temp.begin() ),
+                 std::make_move_iterator( temp.end() ) );
+}
+
 } // namespace
 
 namespace advuilist_helpers
@@ -288,13 +299,11 @@ aim_container_t source_char_inv( Character *guy )
 {
     aim_container_t ret;
     for( item &worn_item : guy->worn ) {
-        aim_container_t temp =
-            get_stacks( worn_item.contents.all_items_top( item_pocket::pocket_type::CONTAINER ),
-        [guy]( item * it ) {
-            return iloc_character( guy, it );
-        } );
-        ret.insert( ret.end(), std::make_move_iterator( temp.begin() ),
-                    std::make_move_iterator( temp.end() ) );
+        _append_stacks( guy, &worn_item, &ret );
+    }
+
+    if( guy->weapon.is_container() ) {
+        _append_stacks( guy, &guy->weapon, &ret );
     }
 
     return ret;
@@ -305,6 +314,10 @@ aim_container_t source_char_worn( Character *guy )
     aim_container_t ret;
     for( item &worn_item : guy->worn ) {
         ret.emplace_back( iloc_entry{ { item_location( *guy, &worn_item ) } } );
+    }
+
+    if( guy->weapon.is_container() ) {
+        ret.emplace_back( iloc_entry{ { item_location( *guy, &guy->weapon ) } } );
     }
 
     return ret;
