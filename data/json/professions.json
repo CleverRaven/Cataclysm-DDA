@@ -2900,7 +2900,7 @@
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "mechanics" },
       { "level": 1, "name": "cooking" }
-    ],
+              ],
     "items": {
       "both": {
         "items": [
@@ -2928,10 +2928,10 @@
           { "item": "lamp_oil", "container-item": "bottle_plastic_small" },
 	        { "group": "charged_cell_phone" }, 
           { "group": "charged_matches" }
-        ]
-      }
-      }
-    },
+                   ]
+              }
+             }
+  },
   {
     "type": "profession",
     "id": "reenactor2",
@@ -2943,7 +2943,7 @@
       { "level": 2, "name": "gun" },
       { "level": 1, "name": "mechanics" },
       { "level": 1, "name": "cooking" }
-    ],
+              ],
     "items": {
       "both": {
         "items": [ 
@@ -2962,15 +2962,15 @@
           "pot",
           "cornmeal",
           "salt"
-        ],
+                 ],
         "entries": [ 
           { "item": "needle_wood", "ammo-item": "thread", "charges": 200 }, 
           { "item": "oil_lamp", "charges": 750 }, 
           { "group": "charged_cell_phone" }, 
           { "group": "charged_matches" }
-        ]
-      }
-    }
+                   ]
+              }
+             }
   },
   {
     "type": "profession",
