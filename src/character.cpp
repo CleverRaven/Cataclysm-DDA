@@ -258,6 +258,7 @@ static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
 static const trait_id trait_FUR( "FUR" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
@@ -348,6 +349,7 @@ static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
 static const trait_id trait_NIGHTVISION2( "NIGHTVISION2" );
@@ -13085,4 +13087,275 @@ int Character::book_fun_for( const item &book, const Character &p ) const
     }
 
     return fun_bonus;
+}
+
+namespace read_criteria
+{
+
+namespace // unnamed
+{
+// these are the actual check functions for criterias
+
+bool _item_is_book( const read_criteria_context &ctx )
+{
+    return ctx.reading_material.is_book();
+}
+
+bool _not_driving( const read_criteria_context &ctx )
+{
+    const optional_vpart_position vp = get_map().veh_at( ctx.reader.pos() );
+    return !vp || !vp->vehicle().player_in_control( ctx.reader );
+}
+
+bool _has_enough_morale( const read_criteria_context &ctx )
+{
+    if( !ctx.reader.has_identified( ctx.reading_material.typeId() ) ) {
+        // skimming/identification does not require morale
+        return true;
+    }
+    if( ctx.reader.fun_to_read( ctx.reading_material ) ) {
+        return true;
+    }
+    return ctx.reader.has_morale_to_read();
+}
+
+bool _has_enough_skill( const read_criteria_context &ctx )
+{
+    using m = book_mastery;
+
+    if( !ctx.reader.has_identified( ctx.reading_material.typeId() ) ) {
+        // skimming/identification requires no skill
+        return true;
+    }
+
+    const book_mastery mastery = ctx.reader.get_book_mastery( ctx.reading_material );
+    return mastery == m::LEARNING || mastery == m::MASTERED;
+}
+
+bool _can_learn( const read_criteria_context &ctx )
+{
+    return ctx.reader.get_book_mastery( ctx.reading_material ) == book_mastery::LEARNING;
+}
+
+bool _doesnt_need_reading_glasses( const read_criteria_context &ctx )
+{
+    if( !ctx.reader.has_trait( trait_HYPEROPIC ) ) {
+        return true;
+    }
+    if( ctx.reader.has_effect( effect_contacts ) ) {
+        return true;
+    }
+    if( ctx.reader.has_bionic( bio_eye_optic ) ) {
+        return true;
+    }
+    if( ctx.reader.worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) ) {
+        return true;
+    }
+    return false;
+}
+
+bool _not_illiterate( const read_criteria_context &ctx )
+{
+    const cata::value_ptr<islot_book> type = ctx.reading_material.type->book;
+    if( type->intel <= 0 ) {
+        // skip check if intelligence not required
+        return true;
+    }
+    return !ctx.reader.has_trait( trait_ILLITERATE );
+}
+
+bool _not_blind( const read_criteria_context &ctx )
+{
+    return !ctx.reader.is_blind();
+}
+
+bool _can_see_listener( const read_criteria_context &ctx )
+{
+    return ctx.reader.sees( ctx.listener );
+}
+
+bool _not_too_dark( const read_criteria_context &ctx )
+{
+    // irl, the reader and listener can just swap places if it's too dark
+    const float vision_mod = std::min( ctx.reader.fine_detail_vision_mod(),
+                                       ctx.listener.fine_detail_vision_mod() );
+    return vision_mod <= 4;
+}
+
+} // end unnamed namespace
+
+using fail_reason = read_fail_reason;
+const type item_is_book                 { _item_is_book,                 fail_reason::item_not_readable };
+const type not_driving                  { _not_driving,                  fail_reason::driving };
+const type has_enough_morale            { _has_enough_morale,            fail_reason::not_enough_morale };
+const type has_enough_skill             { _has_enough_skill,             fail_reason::not_enough_skill };
+const type can_learn                    { _can_learn,                    fail_reason::cant_learn };
+const type doesnt_need_reading_glasses  { _doesnt_need_reading_glasses,  fail_reason::needs_reading_glasses };
+const type not_illiterate               { _not_illiterate,               fail_reason::illiterate };
+const type not_blind                    { _not_blind,                    fail_reason::blind };
+const type can_see_listener             { _can_see_listener,             fail_reason::cant_see_listener };
+const type not_too_dark                 { _not_too_dark,                 fail_reason::too_dark };
+
+bool can_be_assisted( read_fail_reason reason )
+{
+    using r = read_fail_reason;
+    switch( reason ) {
+        case r::illiterate:
+        case r::needs_reading_glasses:
+        case r::blind:
+            return true;
+
+        case r::item_not_readable:
+        case r::driving:
+        case r::not_enough_morale:
+        case r::not_enough_skill:
+        case r::cant_learn:
+        case r::cant_see_listener:
+        case r::too_dark:
+            return false;
+
+        default:
+            debugmsg( "Unhandled read_fail_reason" );
+            return false;
+    }
+}
+
+std::string get_fail_message( const read_criteria_context &ctx, read_fail_reason fail_reason )
+{
+    using r = read_fail_reason;
+
+    const Character &reader = ctx.reader;
+    const Character &listener = ctx.listener;
+    const item &book = ctx.reading_material;
+
+    const bool reading_to_self = ( reader.getID() == listener.getID() );
+
+    // the cases handled below are the things actually being used within the game
+    // since different contexts only cares about a subset of all fail reasons
+
+    if( reader.is_avatar() ) {
+        // does not matter if reading to self or not
+        switch( fail_reason ) {
+            case r::item_not_readable:
+                return string_format( _( "Your %s is not good reading material." ), book.tname() );
+            case r::driving:
+                return _( "It's a bad idea to read while driving!" );
+            case r::not_enough_morale:
+                return _( "What's the point of studying?  (Your morale is too low!)" );
+            case r::not_enough_skill: {
+                const auto &type = book.type->book;
+                const skill_id &skill = type->skill;
+                const std::string fmt = _( "%s %d needed to understand.  You have %d" );
+                return string_format( fmt, skill->name(), type->req, reader.get_skill_level( skill ) );
+            }
+            case r::illiterate:
+                return _( "You're illiterate!" );
+            case r::needs_reading_glasses:
+                return _( "Your eyes won't focus without reading glasses." );
+            case r::too_dark:
+                return _( "It's too dark to read!" );
+            case r::blind:
+                return _( "You're blind!" );
+            default:
+                // do nothing, will be handled outside
+                break;
+        }
+    } else if( reader.is_npc() && reading_to_self ) {
+        // npc is asked to study by player
+        switch( fail_reason ) {
+            case r::item_not_readable:
+                return string_format( _( "This %s is not good reading material." ), book.tname() );
+            case r::not_enough_skill:
+                return _( "I'm not smart enough to read this book." );
+            case r::illiterate:
+                return _( "I can't read!" );
+            case r::needs_reading_glasses:
+                return _( "I can't read without my glasses." );
+            case r::too_dark:
+                return _( "It's too dark to read!" );
+            case r::cant_learn:
+                return _( "I won't learn anything from this book." );
+            default:
+                // do nothing, will be handled outside
+                break;
+        }
+    } else if( reader.is_npc() && !reading_to_self ) {
+        // player is looking for an NPC to be the reader, see avatar::get_book_reader
+        switch( fail_reason ) {
+            case r::not_enough_morale:
+                return string_format( _( "%s morale is too low!" ), reader.disp_name( true ) );
+            case r::not_enough_skill: {
+                const auto &type = book.type->book;
+                const skill_id &skill = type->skill;
+                const std::string fmt = _( "%s %d needed to understand.  %s has %d" );
+                return string_format( fmt, skill->name(), type->req, reader.disp_name(),
+                                      reader.get_skill_level( skill ) );
+            }
+            case r::illiterate:
+                return string_format( _( "%s is illiterate!" ), reader.disp_name() );
+            case r::needs_reading_glasses:
+                return string_format( _( "%s needs reading glasses!" ), reader.disp_name() );
+            case r::too_dark:
+                return string_format( _( "It's too dark for %s to read!" ), reader.disp_name() );
+            case r::blind:
+                return string_format( _( "%s is blind." ), reader.disp_name() );
+            case r::cant_see_listener:
+                return string_format( _( "%s could read that to you, but they can't see you." ),
+                                      reader.disp_name() );
+            default:
+                // do nothing, will be handled outside
+                break;
+        }
+    }
+
+    debugmsg( "Unhandled read_fail_reason" );
+    return string_format( _( "%s can't read %s." ), reader.disp_name(), book.tname() );
+}
+
+} // end namespace read_criteria
+
+reader_eval reader_eval::make_success()
+{
+    return reader_eval();
+}
+reader_eval reader_eval::make_fail( read_fail_reason reason, const std::string &message )
+{
+    return reader_eval( reason, message );
+}
+bool reader_eval::can_read() const
+{
+    return !fail_reason.has_value();
+}
+bool reader_eval::can_be_assisted() const
+{
+    if( can_read() ) {
+        return false;
+    }
+    return read_criteria::can_be_assisted( get_fail_reason() );
+}
+read_fail_reason reader_eval::get_fail_reason() const
+{
+    return fail_reason.value();
+}
+std::string reader_eval::get_fail_message() const
+{
+    return fail_message.value();
+}
+
+reader_eval reader_evaluator::do_eval( const Character &reader, const item &item,
+                                       const Character &listener ) const
+{
+    const read_criteria_context ctx( reader, item, listener );
+    for( const read_criteria::type &criteria : criterias ) {
+        if( !criteria.check( ctx ) ) {
+            const std::string fail_message = read_criteria::get_fail_message( ctx, criteria.fail_reason );
+            return reader_eval::make_fail( criteria.fail_reason, fail_message );
+        }
+    }
+    return reader_eval::make_success();
+}
+
+reader_eval reader_evaluator::do_eval( const Character &reader, const item &item ) const
+{
+    return do_eval( reader, item, reader );
 }

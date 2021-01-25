@@ -107,8 +107,6 @@ static const trait_id trait_CHITIN3( "CHITIN3" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
@@ -268,87 +266,51 @@ void avatar::on_mission_finished( mission &cur_mission )
 
 const player *avatar::get_book_reader( const item &book, std::vector<std::string> &reasons ) const
 {
-    const player *reader = nullptr;
+    using namespace read_criteria;
 
-    if( !book.is_book() ) {
-        reasons.push_back( string_format( _( "Your %s is not good reading material." ), book.tname() ) );
-        return nullptr;
-    }
+    static const reader_evaluator player_evaluator( {
+        item_is_book,
+        not_driving,
+        has_enough_morale,
+        has_enough_skill,
+        not_illiterate,
+        doesnt_need_reading_glasses,
+        not_too_dark,
+    } );
 
-    const cata::value_ptr<islot_book> &type = book.type->book;
-    const skill_id &book_skill = type->skill;
-    const int book_skill_requirement = type->req;
-    const bool book_requires_intelligence = type->intel > 0;
-
-    // Check for conditions that immediately disqualify the player from reading:
-    const optional_vpart_position vp = get_map().veh_at( pos() );
-    if( vp && vp->vehicle().player_in_control( *this ) ) {
-        reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
-        return nullptr;
-    }
-    if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
-        // Low morale still permits skimming
-        reasons.emplace_back( _( "What's the point of studying?  (Your morale is too low!)" ) );
-        return nullptr;
-    }
-    if( get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
-        reasons.push_back( string_format( _( "%s %d needed to understand.  You have %d" ),
-                                          book_skill->name(), book_skill_requirement, get_skill_level( book_skill ) ) );
-        return nullptr;
-    }
-
-    // Check for conditions that disqualify us only if no NPCs can read to us
-    if( book_requires_intelligence && has_trait( trait_ILLITERATE ) ) {
-        reasons.emplace_back( _( "You're illiterate!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) &&
-               !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
-               !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
-        reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
-    } else if( fine_detail_vision_mod() > 4 ) {
-        // Too dark to read only applies if the player can read to himself
-        reasons.emplace_back( _( "It's too dark to read!" ) );
-        return nullptr;
-    } else {
+    const reader_eval eval = player_evaluator.do_eval( *this, book );
+    if( eval.can_read() ) {
         return this;
     }
 
-    //Check for NPCs to read for you, negates Illiterate and Far Sighted
-    //The fastest-reading NPC is chosen
-    if( is_deaf() ) {
+    reasons.push_back( eval.get_fail_message() );
+    if( !eval.can_read() && !eval.can_be_assisted() ) {
+        return nullptr;
+    }
+    if( eval.can_be_assisted() && is_deaf() ) {
         reasons.emplace_back( _( "Maybe someone could read that to you, but you're deaf!" ) );
         return nullptr;
     }
 
+    //Check for NPCs to read for you, the fastest reader is chosen
     int time_taken = INT_MAX;
     auto candidates = get_crafting_helpers();
+    const player *reader = nullptr;
 
     for( const npc *elem : candidates ) {
-        // Check for disqualifying factors:
-        if( book_requires_intelligence && elem->has_trait( trait_ILLITERATE ) ) {
-            reasons.push_back( string_format( _( "%s is illiterate!" ),
-                                              elem->disp_name() ) );
-        } else if( elem->get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
-            reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
-                                              book_skill->name(), book_skill_requirement, elem->disp_name(),
-                                              elem->get_skill_level( book_skill ) ) );
-        } else if( elem->has_trait( trait_HYPEROPIC ) &&
-                   !elem->worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
-                   !elem->has_effect( effect_contacts ) ) {
-            reasons.push_back( string_format( _( "%s needs reading glasses!" ),
-                                              elem->disp_name() ) );
-        } else if( std::min( fine_detail_vision_mod(), elem->fine_detail_vision_mod() ) > 4 ) {
-            reasons.push_back( string_format(
-                                   _( "It's too dark for %s to read!" ),
-                                   elem->disp_name() ) );
-        } else if( !elem->sees( *this ) ) {
-            reasons.push_back( string_format( _( "%s could read that to you, but they can't see you." ),
-                                              elem->disp_name() ) );
-        } else if( !elem->fun_to_read( book ) && !elem->has_morale_to_read() &&
-                   has_identified( book.typeId() ) ) {
-            // Low morale still permits skimming
-            reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ) ) );
-        } else if( elem->is_blind() ) {
-            reasons.push_back( string_format( _( "%s is blind." ), elem->disp_name() ) );
+        static const reader_evaluator npc_evaluator( {
+            not_illiterate,
+            has_enough_skill,
+            doesnt_need_reading_glasses,
+            not_too_dark,
+            can_see_listener,
+            has_enough_morale,
+            not_blind
+        } );
+
+        const reader_eval eval = npc_evaluator.do_eval( *elem, book, *this );
+        if( !eval.can_read() ) {
+            reasons.push_back( eval.get_fail_message() );
         } else {
             int proj_time = time_to_read( book, *elem );
             if( proj_time < time_taken ) {

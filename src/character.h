@@ -337,6 +337,97 @@ enum class character_stat : char {
     DUMMY_STAT
 };
 
+enum class read_fail_reason {
+    item_not_readable,
+    driving,
+    not_enough_morale,
+    not_enough_skill,
+    cant_learn,
+    needs_reading_glasses,
+    illiterate,
+    blind,
+    cant_see_listener,
+    too_dark
+};
+
+struct read_criteria_context {
+    const item &reading_material;
+    const Character &reader;
+    const Character &listener;
+
+    read_criteria_context( const Character &reader, const item &reading_material,
+                           const Character &listener )
+        : reading_material( reading_material ), reader( reader ), listener( listener ) {}
+
+    // reader is also the listener
+    read_criteria_context( const Character &reader, const item &reading_material )
+        : reading_material( reading_material ), reader( reader ), listener( reader ) {}
+};
+
+namespace read_criteria
+{
+
+// a criteria func returns true only if it is satisfied in the current context
+using criteria_func_type = std::function<bool( const read_criteria_context & )>;
+struct type {
+    const criteria_func_type &check;
+    const read_fail_reason fail_reason;
+};
+
+extern const type item_is_book;
+extern const type not_driving;
+extern const type has_enough_morale;
+extern const type has_enough_skill;
+extern const type can_learn;
+extern const type doesnt_need_reading_glasses;
+extern const type not_illiterate;
+extern const type not_blind;
+extern const type can_see_listener;
+extern const type not_too_dark;
+
+// Can someone else read for a character given they failed due to reason X?
+bool can_be_assisted( read_fail_reason reason );
+std::string get_fail_message( const read_criteria_context &ctx, read_fail_reason fail_reason );
+
+} // end namespace read_criteria
+
+class reader_eval
+{
+    public:
+        static reader_eval make_success();
+        static reader_eval make_fail( read_fail_reason reason, const std::string &message );
+
+        bool can_read() const;
+        bool can_be_assisted() const;
+        read_fail_reason get_fail_reason() const;
+        std::string get_fail_message() const;
+
+    private:
+        reader_eval() = default;
+        reader_eval( read_fail_reason fail_reason, const std::string &fail_message )
+            : fail_reason( fail_reason ), fail_message( fail_message ) {}
+
+        const cata::optional<read_fail_reason> fail_reason;
+        const cata::optional<std::string> fail_message;
+};
+
+// Determine if a reader can read a certain book
+// And if present, if the reader can read to another listener
+class reader_evaluator
+{
+    public:
+        reader_evaluator( const std::vector<read_criteria::type> &criterias )
+            : criterias( criterias ) {}
+
+        reader_eval do_eval( const Character &reader, const item &item, const Character &listener ) const;
+
+        // reader is also listener
+        reader_eval do_eval( const Character &reader, const item &item ) const;
+
+    private:
+        const std::vector<read_criteria::type> criterias;
+};
+
 /**
  * Records a batch of unsealed containers and handles spilling at once. This
  * is preferred over handling containers right after unsealing because the latter
