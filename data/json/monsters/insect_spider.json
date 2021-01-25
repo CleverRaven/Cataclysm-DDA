@@ -1790,7 +1790,7 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "LARVA", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
   {
-      "id": "mon_stag_beetle",
+    "id": "mon_stag_beetle",
     "type": "MONSTER",
     "name": { "str": "Huge Stag Beetle" },
     "description": "Once a priceless bug, it has grown to the size of a calf.  Although you doubt that it's going to attack you, those large pincers could probably break your leg.",
