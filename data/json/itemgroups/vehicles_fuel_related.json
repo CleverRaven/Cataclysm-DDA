@@ -19,6 +19,7 @@
     "type": "item_group",
     "id": "car_kit",
     "items": [
+      [ "tire_iron", 20 ],
       [ "jack", 18 ],
       [ "wheel", 14 ],
       [ "jerrycan", 10 ],

@@ -1,0 +1,17 @@
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - 'doc/JSON_INFO.md'
+name: TOC Generator
+jobs:
+  generateTOC:
+    name: TOC Generator
+    runs-on: ubuntu-latest
+    steps:
+      - uses: technote-space/toc-generator@v2.6.1
+        with:
+          TARGET_PATHS: "doc/JSON_INFO.md"
+          COMMIT_NAME: "TOC Generator"
+          COMMIT_EMAIL: "noreply@example.invalid"

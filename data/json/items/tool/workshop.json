@@ -93,7 +93,7 @@
     "name": { "str": "brick kiln" },
     "description": "This is a portable charcoal-fired kiln.  It is designed for firing bricks, but you could use it to fire anything made of clay.",
     "weight": "9600 g",
-    "volume": "9 L",
+    "volume": "30 L",
     "price": 25000,
     "price_postapoc": 1000,
     "to_hit": -3,
@@ -101,7 +101,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 1000 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 1000 } } ],
     "ammo": [ "charcoal" ],
     "max_charges": 1000,
     "flags": [ "ALLOWS_REMOTE_USE" ]
@@ -470,6 +470,7 @@
       [ "SAW_M", 2 ],
       [ "WRENCH_FINE", 1 ],
       [ "WRENCH", 2 ],
+      [ "WHEEL_FAST", 1 ],
       [ "SCREW_FINE", 1 ],
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
@@ -817,6 +818,7 @@
       [ "SAW_W", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "WRENCH", 2 ],
+      [ "WHEEL_FAST", 1 ],
       [ "SCREW_FINE", 1 ],
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
@@ -880,6 +882,23 @@
         ]
       }
     ]
+  },
+  {
+    "id": "tire_iron",
+    "type": "TOOL",
+    "name": { "str": "tire iron" },
+    "description": "A steel rod bent 90 degrees with a socket on the shorter end, made to hold the lug nuts of a car's wheels to either fasten or loosen for convenient removal and replacement.  Makes for a decent melee weapon in a pinch.",
+    "weight": "454 g",
+    "longest_side": "46 cm",
+    "volume": "1500 ml",
+    "price": 1200,
+    "price_postapoc": 2000,
+    "to_hit": 1,
+    "bashing": 11,
+    "material": [ "steel" ],
+    "symbol": "L",
+    "color": "light_gray",
+    "qualities": [ [ "WHEEL_FAST", 1 ] ]
   },
   {
     "id": "toolbox_empty",
@@ -964,6 +983,7 @@
       [ "SAW_M_FINE", 1 ],
       [ "WRENCH", 2 ],
       [ "WRENCH_FINE", 1 ],
+      [ "WHEEL_FAST", 1 ],
       [ "SCREW", 1 ],
       [ "SCREW_FINE", 1 ],
       [ "CUT", 2 ],
@@ -1117,7 +1137,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
+    "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ], [ "WHEEL_FAST", 1 ] ],
     "flags": [ "BELT_CLIP" ]
   },
   {

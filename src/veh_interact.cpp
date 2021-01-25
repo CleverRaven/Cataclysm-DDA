@@ -1325,7 +1325,7 @@ void veh_interact::do_refill()
     auto act = [&]( const vehicle_part & pt ) {
         auto validate = [&]( const item & obj ) {
             if( pt.is_tank() ) {
-                if( obj.is_watertight_container() && !obj.contents.empty() ) {
+                if( obj.is_watertight_container() && obj.contents.num_item_stacks() == 1 ) {
                     // we are assuming only one pocket here, and it's a liquid so only one item
                     return pt.can_reload( obj.contents.only_item() );
                 }
@@ -1369,18 +1369,18 @@ void veh_interact::calc_overview()
     overview_headers.clear();
 
     int epower_w = veh->net_battery_charge_rate_w();
-    overview_headers["ENGINE"] = [this]( const catacurses::window & w, int y ) {
+    overview_headers["1_ENGINE"] = [this]( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
                         string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),
                                        health_color( true ), veh->total_power_w( true, true ) / 1000,
                                        health_color( false ), veh->total_power_w() / 1000 ) );
         right_print( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
     };
-    overview_headers["TANK"] = []( const catacurses::window & w, int y ) {
+    overview_headers["2_TANK"] = []( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "Tanks" ) );
         right_print( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
     };
-    overview_headers["BATTERY"] = [epower_w]( const catacurses::window & w, int y ) {
+    overview_headers["3_BATTERY"] = [epower_w]( const catacurses::window & w, int y ) {
         std::string batt;
         if( std::abs( epower_w ) < 10000 ) {
             batt = string_format( _( "Batteries: %s%+4d W</color>" ),
@@ -1392,7 +1392,7 @@ void veh_interact::calc_overview()
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, batt );
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
-    overview_headers["REACTOR"] = [this, epower_w]( const catacurses::window & w, int y ) {
+    overview_headers["4_REACTOR"] = [this, epower_w]( const catacurses::window & w, int y ) {
         int reactor_epower_w = veh->max_reactor_epower_w();
         if( reactor_epower_w > 0 && epower_w < 0 ) {
             reactor_epower_w += epower_w;
@@ -1410,11 +1410,11 @@ void veh_interact::calc_overview()
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, reactor );
         right_print( w, y, 1, c_light_gray, _( "Contents     Qty" ) );
     };
-    overview_headers["TURRET"] = []( const catacurses::window & w, int y ) {
+    overview_headers["5_TURRET"] = []( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "Turrets" ) );
         right_print( w, y, 1, c_light_gray, _( "Ammo     Qty" ) );
     };
-    overview_headers["SEAT"] = []( const catacurses::window & w, int y ) {
+    overview_headers["6_SEAT"] = []( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "Seats" ) );
         right_print( w, y, 1, c_light_gray, _( "Who" ) );
     };
@@ -1422,7 +1422,11 @@ void veh_interact::calc_overview()
     input_event hotkey = main_context.first_unassigned_hotkey( hotkeys );
 
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        if( vpr.part().is_engine() && vpr.part().is_available() ) {
+        if( !vpr.part().is_available() ) {
+            continue;
+        }
+
+        if( vpr.part().is_engine() ) {
             // if tank contains something then display the contents in milliliters
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 right_print(
@@ -1442,71 +1446,72 @@ void veh_interact::calc_overview()
                                                        colorize( e->description(), c_light_gray ) );
                 }
             };
-            overview_opts.emplace_back( "ENGINE", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details,
+            overview_opts.emplace_back( "1_ENGINE", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details,
                                         msg_cb );
         }
-    }
 
-    for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        auto tank_details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-            if( !pt.ammo_current().is_null() ) {
-                std::string specials;
-                // vehicle parts can only have one pocket, and we are showing a liquid,
-                // which can only be one.
-                const item &it = pt.base.contents.legacy_front();
-                // a space isn't actually needed in front of the tags here,
-                // but item::display_name tags use a space so this prevents
-                // needing *second* translation for the same thing with a
-                // space in front of it
-                if( it.has_own_flag( flag_FROZEN ) ) {
-                    specials += _( " (frozen)" );
-                } else if( it.rotten() ) {
-                    specials += _( " (rotten)" );
+        if( vpr.part().is_tank() || ( vpr.part().is_fuel_store() &&
+                                      !( vpr.part().is_turret() || vpr.part().is_battery() || vpr.part().is_reactor() ) ) ) {
+            auto tank_details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
+                if( !pt.ammo_current().is_null() ) {
+                    std::string specials;
+                    // vehicle parts can only have one pocket, and we are showing a liquid,
+                    // which can only be one.
+                    const item &it = pt.base.contents.legacy_front();
+                    // a space isn't actually needed in front of the tags here,
+                    // but item::display_name tags use a space so this prevents
+                    // needing *second* translation for the same thing with a
+                    // space in front of it
+                    if( it.has_own_flag( flag_FROZEN ) ) {
+                        specials += _( " (frozen)" );
+                    } else if( it.rotten() ) {
+                        specials += _( " (rotten)" );
+                    }
+                    const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
+                    int offset = 1;
+                    std::string fmtstring = "%s %s  %5.1fL";
+                    if( pt.is_leaking() ) {
+                        fmtstring = "%s %s " + leak_marker + "%5.1fL" + leak_marker;
+                        offset = 0;
+                    }
+                    right_print( w, y, offset, pt_ammo_cur->color,
+                                 string_format( fmtstring, specials, pt_ammo_cur->nname( 1 ),
+                                                round_up( units::to_liter( it.volume() ), 1 ) ) );
+                } else {
+                    if( pt.is_leaking() ) {
+                        std::string outputstr = leak_marker + "      " + leak_marker;
+                        right_print( w, y, 0, c_light_gray, outputstr );
+                    }
                 }
-                const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
-                int offset = 1;
-                std::string fmtstring = "%s %s  %5.1fL";
-                if( pt.is_leaking() ) {
-                    fmtstring = "%s %s " + leak_marker + "%5.1fL" + leak_marker;
-                    offset = 0;
+            };
+            auto no_tank_details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
+                if( !pt.ammo_current().is_null() ) {
+                    const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
+                    double vol_L = to_liter( pt.ammo_remaining() * units::legacy_volume_factor /
+                                             pt_ammo_cur->stack_size );
+                    int offset = 1;
+                    std::string fmtstring = "%s  %5.1fL";
+                    if( pt.is_leaking() ) {
+                        fmtstring = "%s  " + leak_marker + "%5.1fL" + leak_marker;
+                        offset = 0;
+                    }
+                    right_print( w, y, offset, pt_ammo_cur->color,
+                                 string_format( fmtstring, item::nname( pt.ammo_current() ),
+                                                round_up( vol_L, 1 ) ) );
                 }
-                right_print( w, y, offset, pt_ammo_cur->color,
-                             string_format( fmtstring, specials, pt_ammo_cur->nname( 1 ),
-                                            round_up( units::to_liter( it.volume() ), 1 ) ) );
-            } else {
-                if( pt.is_leaking() ) {
-                    std::string outputstr = leak_marker + "      " + leak_marker;
-                    right_print( w, y, 0, c_light_gray, outputstr );
-                }
-            }
-        };
-        auto no_tank_details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-            if( !pt.ammo_current().is_null() ) {
-                const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
-                double vol_L = to_liter( pt.ammo_remaining() * units::legacy_volume_factor /
-                                         pt_ammo_cur->stack_size );
-                int offset = 1;
-                std::string fmtstring = "%s  %5.1fL";
-                if( pt.is_leaking() ) {
-                    fmtstring = "%s  " + leak_marker + "%5.1fL" + leak_marker;
-                    offset = 0;
-                }
-                right_print( w, y, offset, pt_ammo_cur->color,
-                             string_format( fmtstring, item::nname( pt.ammo_current() ),
-                                            round_up( vol_L, 1 ) ) );
-            }
-        };
+            };
 
-        vehicle_part &vp = vpr.part();
-        if( vp.is_tank() && vp.is_available() ) {
-            overview_opts.emplace_back( "TANK", &vp, next_hotkey( vp, hotkey ), tank_details );
-        } else if( vp.is_fuel_store() && !( vp.is_turret() || vp.is_battery() || vp.is_reactor() ) ) {
-            overview_opts.emplace_back( "TANK", &vp, next_hotkey( vp, hotkey ), no_tank_details );
+            if( vpr.part().is_tank() ) {
+                overview_opts.emplace_back( "2_TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                                            tank_details );
+            } else if( vpr.part().is_fuel_store() && !( vpr.part().is_turret() ||
+                       vpr.part().is_battery() || vpr.part().is_reactor() ) ) {
+                overview_opts.emplace_back( "2_TANK", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                                            no_tank_details );
+            }
         }
-    }
 
-    for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        if( vpr.part().is_battery() && vpr.part().is_available() ) {
+        if( vpr.part().is_battery() ) {
             // always display total battery capacity and percentage charge
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity(
@@ -1520,48 +1525,51 @@ void veh_interact::calc_overview()
                 right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
                              string_format( fmtstring, pt.ammo_capacity( ammotype( "battery" ) ), pct ) );
             };
-            overview_opts.emplace_back( "BATTERY", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
+            overview_opts.emplace_back( "3_BATTERY", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
+        }
+
+        if( vpr.part().is_reactor() || vpr.part().is_turret() ) {
+            auto details_ammo = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
+                if( pt.ammo_remaining() ) {
+                    int offset = 1;
+                    std::string fmtstring = "%s   %5i";
+                    if( pt.is_leaking() ) {
+                        fmtstring = "%s  " + leak_marker + "%5i" + leak_marker;
+                        offset = 0;
+                    }
+                    right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+                                 string_format( fmtstring, item::nname( pt.ammo_current() ), pt.ammo_remaining() ) );
+                }
+            };
+            if( vpr.part().is_reactor() ) {
+                overview_opts.emplace_back( "4_REACTOR", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                                            details_ammo );
+            }
+            if( vpr.part().is_turret() ) {
+                overview_opts.emplace_back( "5_TURRET", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
+                                            details_ammo );
+            }
+        }
+
+        if( vpr.part().is_seat() ) {
+            auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
+                const npc *who = pt.crew();
+                if( who ) {
+                    right_print( w, y, 1, pt.passenger_id == who->getID() ? c_green : c_light_gray, who->name );
+                }
+            };
+            overview_opts.emplace_back( "6_SEAT", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
         }
     }
 
-    auto details_ammo = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-        if( pt.ammo_remaining() ) {
-            int offset = 1;
-            std::string fmtstring = "%s   %5i";
-            if( pt.is_leaking() ) {
-                fmtstring = "%s  " + leak_marker + "%5i" + leak_marker;
-                offset = 0;
-            }
-            right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
-                         string_format( fmtstring, item::nname( pt.ammo_current() ), pt.ammo_remaining() ) );
-        }
+
+    auto compare = []( veh_interact::part_option & s1,
+    veh_interact::part_option & s2 ) {
+        // NOLINTNEXTLINE cata-use-localized-sorting
+        return  s1.key <  s2.key;
     };
+    std::sort( overview_opts.begin(), overview_opts.end(), compare );
 
-    for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        if( vpr.part().is_reactor() && vpr.part().is_available() ) {
-            overview_opts.emplace_back( "REACTOR", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
-                                        details_ammo );
-        }
-    }
-
-    for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        if( vpr.part().is_turret() && vpr.part().is_available() ) {
-            overview_opts.emplace_back( "TURRET", &vpr.part(), next_hotkey( vpr.part(), hotkey ),
-                                        details_ammo );
-        }
-    }
-
-    for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
-            const npc *who = pt.crew();
-            if( who ) {
-                right_print( w, y, 1, pt.passenger_id == who->getID() ? c_green : c_light_gray, who->name );
-            }
-        };
-        if( vpr.part().is_seat() && vpr.part().is_available() ) {
-            overview_opts.emplace_back( "SEAT", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
-        }
-    }
 }
 
 void veh_interact::display_overview()

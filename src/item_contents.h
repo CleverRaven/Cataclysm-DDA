@@ -174,8 +174,6 @@ class item_contents
          */
         ret_val<item_pocket *> insert_item( const item &it, item_pocket::pocket_type pk_type );
         void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
-        // fills the contents to the brim of this item
-        void fill_with( const item &contained );
         bool can_unload_liquid() const;
 
         /**
@@ -234,6 +232,7 @@ class item_contents
         void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
         // returns true if any of the pockets will spill if placed into a pocket
         bool will_spill() const;
+        bool will_spill_if_unsealed() const;
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
         void casings_handle( const std::function<bool( item & )> &func );
 

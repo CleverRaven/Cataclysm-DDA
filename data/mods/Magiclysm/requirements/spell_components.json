@@ -66,5 +66,11 @@
     "type": "requirement",
     "//": "A kilo of metal fragments suitable for the Shardspray spell",
     "components": [ [ [ "scrap", 40 ], [ "copper", 500 ], [ "gold", 200 ], [ "silver", 333 ], [ "lead", 333 ] ] ]
+  },
+  {
+    "id": "spell_components_nova_flare",
+    "type": "requirement",
+    "//": "Fire starting items suitable for the Nova Flare spell",
+    "components": [ [ [ "coal_lump", 30 ], [ "lamp_oil", 5 ] ] ]
   }
 ]

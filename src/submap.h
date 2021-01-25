@@ -59,7 +59,6 @@ struct maptile_soa {
     int                rad[sx][sy];  // Irradiation of each square
 
     void swap_soa_tile( const point &p1, const point &p2 );
-    void swap_soa_tile( const point &p, maptile_soa<1, 1> &other );
 };
 
 class submap : maptile_soa<SEEX, SEEY>

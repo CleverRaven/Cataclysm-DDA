@@ -365,6 +365,7 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
 {
     craft_data_ = cata::make_value<craft_data>();
     craft_data_->making = rec;
+    craft_data_->disassembly = false;
     components = items;
     craft_data_->comps_used = selections;
 
@@ -398,6 +399,7 @@ item::item( const recipe *rec, item &component )
 {
     craft_data_ = cata::make_value<craft_data>();
     craft_data_->making = rec;
+    craft_data_->disassembly = true;
     std::list<item>items( { component } );
     components = items;
 
@@ -973,6 +975,20 @@ bool item::combine( const item &rhs )
     }
     charges += rhs.charges;
     return true;
+}
+
+bool item::same_for_rle( const item &rhs ) const
+{
+    if( type != rhs.type ) {
+        return false;
+    }
+    if( charges != rhs.charges ) {
+        return false;
+    }
+    if( !contents.empty_real() || !rhs.contents.empty_real() ) {
+        return false;
+    }
+    return stacks_with( rhs, true, false );
 }
 
 bool item::stacks_with( const item &rhs, bool check_components, bool combine_liquid ) const
@@ -1829,13 +1845,13 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         }
     }
 
-    if( max_nutr.kcal != 0 || food_item->get_comestible()->quench != 0 ) {
+    if( max_nutr.kcal() != 0 || food_item->get_comestible()->quench != 0 ) {
         if( parts->test( iteminfo_parts::FOOD_NUTRITION ) ) {
             info.push_back( iteminfo( "FOOD", _( "<bold>Calories (kcal)</bold>: " ),
-                                      "", iteminfo::no_newline, min_nutr.kcal ) );
-            if( max_nutr.kcal != min_nutr.kcal ) {
+                                      "", iteminfo::no_newline, min_nutr.kcal() ) );
+            if( max_nutr.kcal() != min_nutr.kcal() ) {
                 info.push_back( iteminfo( "FOOD", _( "-" ),
-                                          "", iteminfo::no_newline, max_nutr.kcal ) );
+                                          "", iteminfo::no_newline, max_nutr.kcal() ) );
             }
         }
         if( parts->test( iteminfo_parts::FOOD_QUENCH ) ) {
@@ -1845,7 +1861,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         }
         if( parts->test( iteminfo_parts::FOOD_SATIATION ) ) {
 
-            if( max_nutr.kcal == min_nutr.kcal ) {
+            if( max_nutr.kcal() == min_nutr.kcal() ) {
                 info.push_back( iteminfo( "FOOD", _( "<bold>Satiety: </bold>" ),
                                           satiety_bar( player_character.compute_calories_per_effective_volume( *food_item ) ) ) );
             } else {
@@ -2010,7 +2026,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
                           bool /*debug*/ ) const
 {
-    if( !is_magazine() || has_flag( flag_NO_RELOAD ) ) {
+    if( !is_magazine() || has_flag( flag_NO_RELOAD ) || is_tool() ) {
         return;
     }
 
@@ -2033,33 +2049,33 @@ void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *par
 void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /* batch */,
                       bool /* debug */ ) const
 {
-    // Skip this section for guns, items without ammo data, and items with "battery" ammo
-    if( is_gun() || !ammo_data() || ammo_data()->nname( 1 ) == "battery" ||
+    // Skip this section for guns and items without ammo data
+    if( is_gun() || !ammo_data() ||
         !parts->test( iteminfo_parts::AMMO_REMAINING_OR_TYPES ) ) {
         return;
     }
 
-    if( ammo_remaining() > 0 ) {
-        info.emplace_back( "AMMO", _( "<bold>Ammunition</bold>: " ),
-                           ammo_data()->nname( ammo_remaining() ) );
-    } else if( is_ammo() ) {
-        info.emplace_back( "AMMO", _( "<bold>Ammunition type</bold>: " ), ammo_type()->name() );
-    }
-
     const islot_ammo &ammo = *ammo_data()->ammo;
     if( !ammo.damage.empty() || ammo.force_stat_display ) {
+        if( ammo_remaining() > 0 ) {
+            info.emplace_back( "AMMO", _( "<bold>Ammunition</bold>: " ),
+                               ammo_data()->nname( ammo_remaining() ) );
+        } else if( is_ammo() ) {
+            info.emplace_back( "AMMO", _( "<bold>Ammunition type</bold>: " ), ammo_type()->name() );
+        }
+
         const std::string space = "  ";
         if( !ammo.damage.empty() && ammo.damage.damage_units.front().amount > 0 ) {
             if( parts->test( iteminfo_parts::AMMO_DAMAGE_VALUE ) ) {
                 info.emplace_back( "AMMO", _( "Damage: " ), "",
                                    iteminfo::no_newline, ammo.damage.total_damage() );
             }
-        } else {
-            if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
-                info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
-                                   iteminfo::no_newline | iteminfo::is_decimal,
-                                   ammo.damage.damage_units.front().unconditional_damage_mult );
-            }
+        } else if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
+            const float multiplier = ammo.damage.empty() ? 1.0f
+                                     : ammo.damage.damage_units.front().unconditional_damage_mult;
+            info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
+                               iteminfo::no_newline | iteminfo::is_decimal,
+                               multiplier );
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_AP ) ) {
             info.emplace_back( "AMMO", space + _( "Armor-pierce: " ), get_ranged_pierce( ammo ) );
@@ -3136,6 +3152,19 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                         "This book has <num> <info>unread chapters</info>.",
                                         unread );
             info.push_back( iteminfo( "BOOK", "", fmt, iteminfo::no_flags, unread ) );
+        }
+
+        if( !book.proficiencies.empty() ) {
+            const auto enumerate_profs = []( const book_proficiency_bonus & prof ) {
+                return prof.id->name();
+            };
+            const std::string profs = string_format(
+                                          _( "This book can help with the following proficiencies: %s" ),
+                                          enumerate_as_string(
+                                              book.proficiencies.begin(),
+                                              book.proficiencies.end(),
+                                              enumerate_profs ) );
+            info.push_back( iteminfo( "BOOK", profs ) );
         }
 
         if( parts->test( iteminfo_parts::BOOK_INCLUDED_RECIPES ) ) {
@@ -5040,11 +5069,14 @@ units::mass item::weight( bool, bool integral ) const
     }
 
     if( is_craft() ) {
-        units::mass ret = 0_gram;
-        for( const item &it : components ) {
-            ret += it.weight();
+        if( !craft_data_->cached_weight ) {
+            units::mass ret = 0_gram;
+            for( const item &it : components ) {
+                ret += it.weight();
+            }
+            craft_data_->cached_weight = ret;
         }
-        return ret;
+        return *craft_data_->cached_weight;
     }
 
     units::mass ret;
@@ -5231,11 +5263,14 @@ units::volume item::volume( bool integral ) const
     }
 
     if( is_craft() ) {
-        units::volume ret = 0_ml;
-        for( const item &it : components ) {
-            ret += it.volume();
+        if( !craft_data_->cached_volume ) {
+            units::volume ret = 0_ml;
+            for( const item &it : components ) {
+                ret += it.volume();
+            }
+            craft_data_->cached_volume = ret;
         }
-        return ret;
+        return *craft_data_->cached_volume;
     }
 
     const int local_volume = get_var( "volume", -1 );
@@ -6738,7 +6773,8 @@ bool item::is_food_container() const
     return ( !is_food() && has_item_with( []( const item & food ) {
         return food.is_food();
     } ) ) ||
-    ( is_craft() && craft_data_->making->create_result().is_food_container() );
+    ( is_craft() && !craft_data_->disassembly &&
+      craft_data_->making->create_result().is_food_container() );
 }
 
 bool item::has_temperature() const
@@ -8334,7 +8370,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
         if( container ) {
             container->on_contents_changed();
         }
-        item contents( ammo->type );
+        item contents( *ammo );
         fill_with( contents, qty );
         if( ammo.has_parent() ) {
             ammo.parent_item()->contained_where( *ammo.get_item() )->on_contents_changed();
@@ -8857,8 +8893,8 @@ int item::fill_with( const item &contained, const int amount,
                                                    pocket->remaining_ammo_capacity( ammo ) );
             } else {
                 contained_item.charges = std::min( { amount - num_contained,
-                                                     contained_item.charges_per_volume( pocket->remaining_volume() ),
-                                                     contained_item.charges_per_weight( pocket->remaining_weight() )
+                                                     pocket->charges_per_remaining_volume( contained_item ),
+                                                     pocket->charges_per_remaining_weight( contained_item )
                                                    } );
             }
         }
@@ -9167,6 +9203,11 @@ bool item::can_holster( const item &obj, bool ) const
 bool item::will_spill() const
 {
     return contents.will_spill();
+}
+
+bool item::will_spill_if_unsealed() const
+{
+    return contents.will_spill_if_unsealed();
 }
 
 std::string item::components_to_string() const
@@ -10559,7 +10600,7 @@ const std::vector<comp_selection<tool_comp>> &item::get_cached_tool_selections()
 
 const cata::value_ptr<islot_comestible> &item::get_comestible() const
 {
-    if( is_craft() ) {
+    if( is_craft() && !craft_data_->disassembly ) {
         return find_type( craft_data_->making->result() )->comestible;
     } else {
         return type->comestible;

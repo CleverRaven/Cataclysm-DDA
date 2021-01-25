@@ -372,6 +372,20 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "oyster_crackers",
+    "name": { "ctxt": "oyster crackers", "str_sp": "oyster crackers" },
+    "copy-from": "crackers",
+    "weight": "25 g",
+    "container": "plastic_bag_vac",
+    "description": "These bite-sized crackers go well with soups, but will make you thirsty on their own.",
+    "looks_like": "crackers",
+    "price": 55,
+    "price_postapoc": 300,
+    "volume": "250 ml",
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 4 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "pie",
     "name": "fruit pie",
     "weight": "125 g",

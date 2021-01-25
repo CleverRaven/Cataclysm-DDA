@@ -108,24 +108,6 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
-    "id": "afs_chain_wrench",
-    "type": "TOOL",
-    "name": { "str": "chain wrench", "str_pl": "chain wrenches" },
-    "description": "An adjustable chain wrench, designed for hard-to-reach places.  Being handmade, it lacks the precision of a proper wrench.",
-    "weight": "1614 g",
-    "volume": "250 ml",
-    "price": 4000,
-    "price_postapoc": 1200,
-    "to_hit": 1,
-    "bashing": 9,
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "qualities": [ [ "WRENCH", 2 ] ],
-    "flags": [ "BELT_CLIP" ],
-    "looks_like": "wrench"
-  },
-  {
     "id": "afs_power_cutter",
     "type": "TOOL",
     "name": { "str": "power cutter (off)", "str_pl": "power cutters (off)" },
@@ -195,24 +177,6 @@
     "use_action": { "target": "afs_murdersaw", "msg": "Your murdersaw falls quiet.", "menu_text": "Turn off", "type": "transform" },
     "qualities": [ [ "CUT", 1 ], [ "SAW_M", 1 ], [ "BUTCHER", -50 ] ],
     "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
-  },
-  {
-    "id": "afs_rope_lighter",
-    "type": "TOOL",
-    "name": { "str": "rope lighter" },
-    "description": "A rope lighter made from simple materials.  Windproof and flameless, it consists of a length of rope run through a copper tube; a flint strike sparks embers in the rope that smolder and are used to ignite fires.  Specialized for outdoor use, it lasts for a very long time, but it's much slower to use than a normal lighter.",
-    "weight": "200 g",
-    "volume": "100 ml",
-    "price": 500,
-    "material": [ "cotton", "copper" ],
-    "symbol": ",",
-    "color": "brown",
-    "initial_charges": 300,
-    "max_charges": 300,
-    "charges_per_use": 1,
-    "use_action": { "type": "firestarter", "moves": 150 },
-    "flags": [ "FIRESTARTER" ],
-    "looks_like": "rope_30"
   },
   {
     "id": "UPS_off",

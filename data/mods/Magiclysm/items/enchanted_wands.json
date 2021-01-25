@@ -5,7 +5,7 @@
     "type": "TOOL",
     "weight": "230 g",
     "volume": "500 ml",
-    "price": 10000,
+    "price": "400 USD",
     "bashing": 3,
     "to_hit": 1,
     "material": [ "wood" ],
@@ -45,6 +45,7 @@
     "id": "wand_magic_missile_minor",
     "name": { "str": "minor wand of magic missile", "str_pl": "minor wands of magic missile" },
     "copy-from": "spell_wand",
+    "price_postapoc": "150 USD",
     "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts magic missile.",
     "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 5, "need_wielding": true }
   },

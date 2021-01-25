@@ -525,6 +525,12 @@
     ]
   },
   {
+    "id": "charged_inhaler",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "inhaler", "charges": 100 } ]
+  },
+  {
     "id": "fuel_barrel",
     "type": "item_group",
     "//": "barrel with gasoline, diesel or motor oil like you would find at fuel depot",

@@ -2141,6 +2141,12 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
         }
         here.dirty_vehicle_list.insert( this );
         part_removal_cleanup();
+        new_vehicle->enable_refresh();
+        for( int idx : new_vehicle->engines ) {
+            if( !new_vehicle->parts[idx].is_broken() ) {
+                new_vehicle->parts[idx].enabled = true;
+            }
+        }
     } else {
         //~ %s is the vehicle being loaded onto the bicycle rack
         add_msg( m_bad, _( "You can't unload the %s from the bike rack." ), new_vehicle->name );
@@ -3342,8 +3348,9 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
 {
     return std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs,
     const vehicle_part & rhs ) {
-        return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_capacity( item::find_type(
-                           ftype )->ammo->type ) : 0 );
+        return lhs + ( ( rhs.is_available() &&
+                         rhs.ammo_current() == ftype ) ? rhs.ammo_capacity( item::find_type(
+                                     ftype )->ammo->type ) : 0 );
     } );
 }
 

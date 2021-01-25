@@ -41,8 +41,8 @@
     "looks_like": "reclining_seat",
     "name": { "str": "seat" },
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "size": 100,
@@ -77,8 +77,8 @@
     "looks_like": "seat",
     "name": { "str": "reclining seat" },
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "size": 25,
@@ -92,6 +92,43 @@
     "item": "seat_leather",
     "looks_like": "seat_leather",
     "name": { "str": "reclining leather seat" },
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "seat_back_abstract",
+    "breaks_into": "ig_vp_seat",
+    "broken_color": "red",
+    "broken_symbol": "*",
+    "categories": [ "operations", "passengers" ],
+    "color": "red",
+    "comfort": 4,
+    "damage_modifier": 60,
+    "damage_reduction": { "all": 3 },
+    "description": "A benchlike seat.  Mostly found in the second row, also known as the back or rear seat.",
+    "durability": 300,
+    "flags": [ "BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO" ],
+    "floor_bedding_warmth": 500,
+    "item": "seat",
+    "location": "center",
+    "looks_like": "seat",
+    "name": { "str": "back seat" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "size": 120,
+    "standard_symbols": false,
+    "symbols": { "vertical": "#", "vertical_left": "#", "vertical_right": "#", "left": "#", "right": "#" },
+    "type": "vehicle_part"
+  },
+  {
+    "abstract": "seat_back_leather_abstract",
+    "breaks_into": "ig_vp_seat_leather",
+    "copy-from": "seat_back",
+    "item": "seat_leather",
+    "looks_like": "seat_leather",
+    "name": { "str": "leather back seat" },
     "type": "vehicle_part"
   },
   {
@@ -113,8 +150,8 @@
     "item": "saddle",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "SEAT", "BOARDABLE", "FOLDABLE", "NONBELTABLE" ],
@@ -137,8 +174,8 @@
     "folded_volume": "2500 ml",
     "location": "anywhere",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "SEAT", "BOARDABLE", "FOLDABLE", "NONBELTABLE" ],
@@ -165,6 +202,18 @@
   {
     "copy-from": "reclining_seat_leather_abstract",
     "id": "reclining_seat_leather",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_back_abstract",
+    "id": "seat_back",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_back_leather_abstract",
+    "id": "seat_back_leather",
     "symbol": "#",
     "type": "vehicle_part"
   },

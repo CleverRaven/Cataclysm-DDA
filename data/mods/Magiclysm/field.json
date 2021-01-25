@@ -11,5 +11,33 @@
     "half_life": "1 seconds",
     "phase": "solid",
     "display_field": false
+  },
+  {
+    "id": "fd_vault_atmosphere",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "crisp air",
+        "effects": [
+          {
+            "effect_id": "vault_atmosphere",
+            "body_part": "mouth",
+            "intensity": 1,
+            "min_duration": "100 seconds",
+            "max_duration": "350 seconds",
+            "immune_inside_vehicle": false
+          }
+        ]
+      },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 30,
+    "outdoor_age_speedup": "3 minutes",
+    "priority": 8,
+    "half_life": "10 minutes",
+    "phase": "gas"
   }
 ]

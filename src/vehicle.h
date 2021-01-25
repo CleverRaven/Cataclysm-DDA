@@ -1118,7 +1118,7 @@ class vehicle
          *
          * Prints: `target speed` `<` `current speed` `speed unit`
          * @param spacing Sets size of space between components
-         * @throws std::invalid_argument if spacing is negative
+         * @warning if spacing is negative it is changed to 0
          */
         void print_speed_gauge( const catacurses::window &win, const point &, int spacing = 0 );
 

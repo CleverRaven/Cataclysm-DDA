@@ -288,7 +288,7 @@ input_context game::get_player_input( std::string &action )
                 }
             }
             // don't bother calculating SCT if we won't show it
-            if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) ) {
+            if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) && !SCT.vSCT.empty() ) {
                 invalidate_main_ui_adaptor();
 
                 SCT.advanceAllSteps();

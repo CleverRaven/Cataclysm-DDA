@@ -77,56 +77,5 @@
       "explosion": { "power": 540, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.25 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
-  },
-  {
-    "id": "molotov",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": { "str": "Molotov cocktail" },
-    "description": "A bottle of flammable liquid with a rag inserted.  Use this item to light the rag.  You will, of course, need a lighter or matches in your inventory to do this.  After lighting it, throw it to cause fires.",
-    "weight": "742 g",
-    "volume": "750 ml",
-    "price": 500,
-    "price_postapoc": 500,
-    "to_hit": 1,
-    "bashing": 5,
-    "material": [ "glass", "cotton" ],
-    "symbol": "*",
-    "color": "light_gray",
-    "initial_charges": 1,
-    "max_charges": 1,
-    "use_action": {
-      "need_wielding": true,
-      "target": "molotov_lit",
-      "msg": "You light the Molotov cocktail!",
-      "target_charges": 1,
-      "active": true,
-      "moves": 75,
-      "need_fire": 1,
-      "menu_text": "Light rag",
-      "type": "transform"
-    },
-    "flags": [ "NPC_ACTIVATE", "NO_REPAIR" ]
-  },
-  {
-    "id": "molotov_lit",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": { "str": "Molotov cocktail" },
-    "description": "A bottle of flammable liquid with a flaming rag stoppered in its neck.  Throwing it will shatter the bottle on impact and ignite a fireball.  Dropping it will set you on fire, so don't do that unless you want to burn to death.",
-    "weight": "742 g",
-    "volume": "750 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": 1,
-    "bashing": 5,
-    "material": [ "glass", "cotton" ],
-    "symbol": "*",
-    "color": "light_gray",
-    "initial_charges": 1,
-    "max_charges": 1,
-    "turns_per_charge": 1,
-    "use_action": [ "MOLOTOV_LIT" ],
-    "flags": [ "LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH" ]
   }
 ]

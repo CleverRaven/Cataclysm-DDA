@@ -68,6 +68,7 @@ enum class mod : int {
     ARMOR_ACID,
     ARMOR_BIO,
     // effects for the item that has the enchantment
+    ITEM_DAMAGE_PURE,
     ITEM_DAMAGE_BASH,
     ITEM_DAMAGE_CUT,
     ITEM_DAMAGE_STAB,

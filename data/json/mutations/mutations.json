@@ -1884,6 +1884,7 @@
     "description": "We have spliced the dense, amphibole fibers from Mycus core towers with the resilient, adaptive flesh of local physiology.  This reduces our speed by a moderate amount, but provides powerful armor across our body, nullifies wet effects, and provides complete protection from fire.",
     "valid": false,
     "purifiable": false,
+    "flags": [ "HEATPROOF" ],
     "category": [ "MYCUS" ],
     "prereqs": [ "M_SKIN" ],
     "prereqs2": [ "M_DEFENDER" ],
@@ -1920,6 +1921,7 @@
     "description": "Local physiology has been fully incorporated with that of Mycus silicate fibers.  In addition to benefits conferred by previous developments, we may join with Mycus fibers beneath us - sleeping on top of fungal areas places us into a dormant state, which spreads spores around us as we sleep and revitalizes our body much more quickly than regular sleep.",
     "valid": false,
     "purifiable": false,
+    "flags": [ "HEATPROOF" ],
     "category": [ "MYCUS" ],
     "prereqs": [ "M_SKIN2" ],
     "threshreq": [ "THRESH_MYCUS" ],
@@ -6777,6 +6779,15 @@
     "points": 99,
     "valid": false,
     "description": "Crafting and construction requirements bugger off with this one.  Apply with care.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_CNF",
+    "name": { "str": "Debug Crafting Virtuoso" },
+    "points": 99,
+    "valid": false,
+    "description": "Crafting failures won't bug you any more.",
     "debug": true
   },
   {

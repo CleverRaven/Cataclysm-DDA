@@ -938,10 +938,10 @@ float spell::spell_fail( const Character &guy ) const
     }
     // concentration spells work better than you'd expect with a higher focus pool
     if( has_flag( spell_flag::CONCENTRATE ) ) {
-        if( guy.focus_pool <= 0 ) {
+        if( guy.get_focus() <= 0 ) {
             return 0.0f;
         }
-        fail_chance /= guy.focus_pool / 100.0f;
+        fail_chance /= guy.get_focus() / 100.0f;
     }
     return clamp( fail_chance, 0.0f, 1.0f );
 }
@@ -1253,7 +1253,7 @@ int spell::casting_exp( const Character &guy ) const
     // the amount of xp you would get with no modifiers
     const int base_casting_xp = 75;
 
-    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) );
+    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) / 100.0 );
 }
 
 std::string spell::enumerate_targets() const

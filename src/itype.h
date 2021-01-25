@@ -181,11 +181,11 @@ struct islot_comestible {
         static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 
         bool has_calories() const {
-            return default_nutrition.kcal > 0;
+            return default_nutrition.calories > 0;
         }
 
         int get_default_nutr() const {
-            return default_nutrition.kcal / kcal_per_nutr;
+            return default_nutrition.kcal() / kcal_per_nutr;
         }
 
         /** The monster group that is drawn from when the item rots away */
@@ -731,7 +731,7 @@ struct islot_ammo : common_ranged_data {
      * Some combat ammo might not have a damage value
      * Set this to make it show as combat ammo anyway
      */
-    cata::optional<bool> force_stat_display;
+    bool force_stat_display;
 
     bool was_loaded = false;
 

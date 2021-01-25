@@ -441,7 +441,10 @@ void map_data_common_t::load_symbol( const JsonObject &jo )
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
-        load_season_array( jo, "color", color_, color_from_string );
+        load_season_array( jo, "color", color_, []( const std::string & str ) {
+            // has to use a lambda because of default params
+            return color_from_string( str );
+        } );
     } else if( has_bgcolor ) {
         load_season_array( jo, "bgcolor", color_, bgcolor_from_string );
     } else {

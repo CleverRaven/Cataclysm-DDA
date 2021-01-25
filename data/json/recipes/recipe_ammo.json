@@ -719,7 +719,7 @@
     "time": "60 m",
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "book_learn": {
-      "textbook_gaswarfare": { "skill_level": 8, "recipe_name": "" },
+      "textbook_gaswarfare": { "skill_level": 8 },
       "textbook_anarch": { "skill_level": 7, "recipe_name": "Stuff THE MAN doesn't want you to know" },
       "recipe_labchem": { "skill_level": 6 }
     },
