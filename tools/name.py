@@ -69,7 +69,7 @@ def change_file(json_dir):
                 if new is not None:
                     with open(path, "w") as jf:
                         json.dump(new, jf, ensure_ascii=False)
-                    os.system(".\\json_formatter.exe {0}".format(path))
+                    os.system(f".\\json_formatter.exe {path}")
 
 
 if __name__ == "__main__":
