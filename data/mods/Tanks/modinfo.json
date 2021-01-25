@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "Tanks",
+    "id": "Tanks",
     "name": "Tanks and Other Vehicles",
     "authors": [ "Chaosvolt" ],
     "maintainers": [ "BorkBorkGoesTheCode" ],

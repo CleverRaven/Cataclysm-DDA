@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "hydroponics",
+    "id": "hydroponics",
     "name": "Hydroponics",
     "authors": [ "Unknown" ],
     "maintainers": [ "Tiny Hippo" ],

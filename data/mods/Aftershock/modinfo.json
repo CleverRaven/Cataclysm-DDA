@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "aftershock",
+    "id": "aftershock",
     "name": "Aftershock",
     "authors": [ "Esther", "Coolthulu", "Maleclypse", "Candlebury" ],
     "maintainers": [ "Maleclypse", "Candlebury" ],

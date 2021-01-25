@@ -449,6 +449,7 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
 void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src, loading_ui &,
         const std::string &base_path, const std::string &full_path )
 {
+    // TEMPORARY until 0.G: Remove single object support for consistency
     if( jsin.test_object() ) {
         // find type and dispatch single object
         JsonObject jo = jsin.get_object();

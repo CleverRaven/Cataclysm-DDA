@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "deoxymod",
+    "id": "deoxymod",
     "name": "Folding Parts pack",
     "authors": [ "Deoxy", "Llamageddon" ],
     "description": "Makes solar panels and several other parts foldable, and adds foldable quarterboards.",

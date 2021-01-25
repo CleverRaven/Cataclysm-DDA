@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "more_classes_scenarios",
+    "id": "more_classes_scenarios",
     "name": "Classes and Scenarios Mod",
     "authors": [ "Noctifer-de-Mortem" ],
     "maintainers": [ "Noctifer-de-Mortem" ],

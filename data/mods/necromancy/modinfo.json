@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "necromancy",
+    "id": "necromancy",
     "name": "Necromancy",
     "authors": [ "dambuk1" ],
     "description": "Adds the ability to revive creatures as minions.",

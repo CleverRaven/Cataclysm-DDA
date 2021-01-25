@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "novitamins",
+    "id": "novitamins",
     "name": "Simplified Nutrition",
     "authors": [ "mugling" ],
     "description": "Disables vitamin requirements.",

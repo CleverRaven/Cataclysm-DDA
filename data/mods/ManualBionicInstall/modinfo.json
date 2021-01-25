@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "manualbionicinstall",
+    "id": "manualbionicinstall",
     "name": "Manual Bionic Installation",
     "authors": [ "Xhuis" ],
     "maintainers": [ "Xhuis" ],

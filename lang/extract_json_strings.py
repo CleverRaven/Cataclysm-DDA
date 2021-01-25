@@ -760,7 +760,7 @@ def extract_ter_furn_transform_messages(item):
 
 def extract_skill_display_type(item):
     outfile = get_outfile("skill_display_type")
-    writestr(outfile, item["display_string"], comment="display string for skill display type '{}'".format(item["ident"]))
+    writestr(outfile, item["display_string"], comment="display string for skill display type '{}'".format(item["id"]))
 
 def extract_fault(item):
     outfile = get_outfile("fault")

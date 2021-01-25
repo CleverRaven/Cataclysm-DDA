@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "Tolerate_This",
+    "id": "Tolerate_This",
     "name": "Bens GF recipes",
     "authors": [ "TechyBen" ],
     "maintainers": [ "TechyBen" ],

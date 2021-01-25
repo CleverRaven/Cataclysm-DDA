@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "growable-pots",
+    "id": "growable-pots",
     "name": "Garden Pots",
     "authors": [ "Honcharuk" ],
     "description": "Allows you to grow seeds in craftable garden pots that can be carried around as items.  Perfect for the nomadic botanist.",

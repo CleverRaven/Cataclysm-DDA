@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "No_Acid_Zombies",
+    "id": "No_Acid_Zombies",
     "name": "No Acid Zombies",
     "description": "Removes all acid-based zombies from the game.",
     "category": "monster_exclude",

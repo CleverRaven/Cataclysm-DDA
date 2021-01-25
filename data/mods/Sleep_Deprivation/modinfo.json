@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "sleepdeprivation",
+    "id": "sleepdeprivation",
     "name": "Sleep Deprivation",
     "authors": [ "Kevin Giovinazzo" ],
     "maintainers": [ "Kevin Giovinazzo" ],

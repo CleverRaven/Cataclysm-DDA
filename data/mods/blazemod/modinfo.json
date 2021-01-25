@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "blazemod",
+    "id": "blazemod",
     "name": "Vehicle Additions Pack",
     "authors": [ "Blaze-whatdoyoumeanitsalreadytaken" ],
     "maintainers": [ "Blaze-whatdoyoumeanitsalreadytaken" ],

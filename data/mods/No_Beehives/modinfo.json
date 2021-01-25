@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "No_Bees",
+    "id": "No_Bees",
     "name": "No Bees",
     "authors": [ "Inglonias" ],
     "description": "Removes bees and beehives from the game",

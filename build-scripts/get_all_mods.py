@@ -26,7 +26,7 @@ for info in glob.glob('data/mods/*/modinfo.json'):
     mod_info = json.load(open(info))
     for e in mod_info:
         if e["type"] == "MOD_INFO":
-            ident = e["ident"]
+            ident = e["id"]
             if not ident in blacklist:
                 all_mod_dependencies[ident] = e.get("dependencies", [])
 

@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "mapgen_demo",
+    "id": "mapgen_demo",
     "name": "Mapgen Demo",
     "authors": [ "Sunshine" ],
     "description": "Demo for JSONized mapgens (megastore, missile silo).",

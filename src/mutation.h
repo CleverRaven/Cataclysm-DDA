@@ -386,7 +386,7 @@ struct mutation_branch {
          * \code
          * {
          *      "subtype": "depends on is_collection parameter",
-         *      "id": "ident",
+         *      "id": "identfier",
          *      "entries": [ x, y, z ]
          * }
          * \endcode

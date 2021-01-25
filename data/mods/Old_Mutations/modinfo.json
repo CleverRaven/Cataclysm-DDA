@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "Old_Mutations",
+    "id": "Old_Mutations",
     "name": "Old Mutations",
     "authors": [ "Coolthulhu" ],
     "description": "Makes mutations work like before, without balancing changes and mutagen accumulation.",

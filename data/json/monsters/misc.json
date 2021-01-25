@@ -40,7 +40,7 @@
     "luminance": 8,
     "aggression": 100,
     "morale": 100,
-    "//": "ahh! it sees you!",
+    "//2": "ahh! it sees you!",
     "vision_day": 50,
     "vision_night": 50,
     "harvest": "exempt",

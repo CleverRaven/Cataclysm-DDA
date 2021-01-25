@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "craftgp",
+    "id": "craftgp",
     "name": "Craftable Gun Pack",
     "authors": [ "Zaweri" ],
     "maintainers": [ "Noctifer-de-Mortem" ],

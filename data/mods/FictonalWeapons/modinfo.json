@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "FIC_Weapons",
+    "id": "FIC_Weapons",
     "name": "DeadLeaves' Fictional Guns",
     "authors": [ "DeadLeaves", "BorkBorkGoesTheCode" ],
     "maintainers": [ "BorkBorkGoesTheCode" ],

@@ -1,7 +1,7 @@
 [
   {
     "type": "scenario",
-    "ident": "robot_dispatch",
+    "id": "robot_dispatch",
     "name": "Robots",
     "points": 1,
     "description": "During the riots and chaos, you hid in a robot dispatch center hoping the robots would protect you, but they may prove more dangerous than the zombies.",
@@ -11,13 +11,13 @@
   },
   {
     "type": "scenario",
-    "ident": "prisonbreak",
+    "id": "prisonbreak",
     "copy-from": "prisonbreak",
     "extend": { "professions": [ "robo_hacker" ] }
   },
   {
     "type": "scenario",
-    "ident": "lab_chal",
+    "id": "lab_chal",
     "copy-from": "lab_chal",
     "extend": { "professions": [ "robo_hacker", "robo_expert", "robo_prodigy" ] }
   }

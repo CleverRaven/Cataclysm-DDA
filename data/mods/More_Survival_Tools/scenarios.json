@@ -1,13 +1,13 @@
 [
   {
     "type": "scenario",
-    "ident": "wilderness",
+    "id": "wilderness",
     "copy-from": "wilderness",
     "extend": { "allowed_locs": [ "sloc_swamp" ] }
   },
   {
     "type": "scenario",
-    "ident": "summer_advanced_start",
+    "id": "summer_advanced_start",
     "copy-from": "summer_advanced_start",
     "extend": { "professions": [ "wanderer" ] }
   }

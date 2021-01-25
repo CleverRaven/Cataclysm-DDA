@@ -17,7 +17,7 @@
         "switch": true,
         "effect": { "npc_add_trait": "BGSS_No_Past_1" },
         "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story.",
-        "//": "This is a stand-in for some kind of better system to add a random trait."
+        "//2": "This is a stand-in for some kind of better system to add a random trait."
       },
       { "text": "Good point, let's find a more appropriate place.", "topic": "TALK_NONE" },
       { "text": "You're right.  Forget I said anything, let's get moving.", "topic": "TALK_DONE" }

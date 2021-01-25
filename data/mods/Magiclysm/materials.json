@@ -1,7 +1,7 @@
 [
   {
     "type": "material",
-    "ident": "arcane_skin",
+    "id": "arcane_skin",
     "name": "Arcane Skin",
     "density": 38,
     "specific_heat_liquid": 0.82,
@@ -21,7 +21,7 @@
   },
   {
     "type": "material",
-    "ident": "black_dragon_hide",
+    "id": "black_dragon_hide",
     "name": "Black Dragon Hide",
     "density": 20,
     "specific_heat_liquid": 4.186,
@@ -41,7 +41,7 @@
   },
   {
     "type": "material",
-    "ident": "demon_chitin",
+    "id": "demon_chitin",
     "name": "Demon Chitin",
     "density": 15,
     "specific_heat_liquid": 4.186,
@@ -66,7 +66,7 @@
   },
   {
     "type": "material",
-    "ident": "orichalcum_metal",
+    "id": "orichalcum_metal",
     "name": "Orichalcum",
     "density": 40,
     "bash_resist": 13,

@@ -6,7 +6,7 @@
     "name_suffix": "Doctor",
     "class": "NC_DOCTOR",
     "attitude": 0,
-    "//": "Possibly should change to NPC_MISSION_SHOPKEEP and sell medical supplies.",
+    "//2": "Possibly should change to NPC_MISSION_SHOPKEEP and sell medical supplies.",
     "mission": 7,
     "chat": "TALK_SCIENCE_REP",
     "faction": "old_guard",

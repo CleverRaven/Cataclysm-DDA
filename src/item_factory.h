@@ -111,7 +111,7 @@ class Item_factory
          * \code
          * {
          *      "subtype": "depends on is_collection parameter",
-         *      "id": "ident",
+         *      "id": "identifier",
          *      "entries": [ x, y, z ]
          * }
          * \endcode
