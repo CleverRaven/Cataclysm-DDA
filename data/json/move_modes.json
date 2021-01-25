@@ -64,7 +64,7 @@
     "exertion_level": "NO_EXERCISE",
     "change_good_none": "You lie down.",
     "change_good_animal": "You stop your steed.",
-    "change_good_mech": "You turn off your mech's leg servos",
+    "change_good_mech": "You turn off your mech's leg servos.",
     "move_type": "lying",
     "sound_multiplier": 0.2,
     "move_speed_multiplier": 0.2,
