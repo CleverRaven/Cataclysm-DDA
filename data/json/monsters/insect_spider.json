@@ -1801,7 +1801,7 @@
     "weight": "81500 g",
     "hp": 50,
     "speed": 110,
-    "material": [ "flesh" ],
+    "material": [ "iflesh" ],
     "symbol": "B",
     "color": "black",
     "aggression": 0,
