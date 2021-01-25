@@ -1113,8 +1113,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
             } );
             if( iter != worn.end() && !( is_limb_broken( bp ) && iter->has_flag( flag_SPLINT ) ) ) {
                 //create an item_location for player::takeoff to handle.
-                item &item_for_takeoff = *iter;
-                item_location loc_for_takeoff = item_location( *this, &item_for_takeoff );
+                item_location loc_for_takeoff = item_location( *this, &*iter );
                 took_off = takeoff( loc_for_takeoff );
                 break;
             }
