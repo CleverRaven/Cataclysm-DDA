@@ -2,7 +2,6 @@
 
 # Make sure you have python3 installed.
 # Ensure that the json_formatter is kept in Tools with this script.
-# They must be in the same folder!
 # For Windows:
 # Using command prompt type "python material_ammo_update.py"
 # For Max OS X or Linux:
@@ -18,10 +17,10 @@ def gen_new(path):
         try:
             json_data = json.load(json_file)
         except UnicodeDecodeError:
-            print("UnicodeDecodeError in {0}".format(path))
+            print(f"UnicodeDecodeError in {path}")
             return None
         except json.decoder.JSONDecodeError:
-            print("JSONDecodeError in {0}".format(path))
+            print(f"UnicodeDecodeError in {path}")
             return None
         for jo in json_data:
             # We only want JsonObjects
@@ -48,7 +47,7 @@ def change_file(json_dir):
                 if new is not None:
                     with open(path, "w") as jf:
                         json.dump(new, jf, ensure_ascii=False)
-                    os.system(".\\json_formatter.exe {0}".format(path))
+                    os.system(f".\\json_formatter.exe {path}")
 
 
 if __name__ == "__main__":
