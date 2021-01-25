@@ -381,9 +381,13 @@ void sounds::process_sound_markers( player *p )
     bool is_deaf = p->is_deaf();
     const float volume_multiplier = p->hearing_ability();
     const int weather_vol = get_weather().weather_id->sound_attn;
-    for( const auto &sound_event_pair : sounds_since_last_turn ) {
-        const tripoint &pos = sound_event_pair.first;
-        const sound_event &sound = sound_event_pair.second;
+    // NOLINTNEXTLINE(modernize-loop-convert)
+    for( std::size_t i = 0; i < sounds_since_last_turn.size(); i++ ) {
+        // copy values instead of making references here to fix use-after-free error
+        // sounds_since_last_turn may be inserted with new elements inside the loop
+        // so the references may become invalid after the vector enlarged its internal buffer
+        const tripoint pos = sounds_since_last_turn[i].first;
+        const sound_event sound = sounds_since_last_turn[i].second;
         const int distance_to_sound = sound_distance( p->pos(), pos );
         const int raw_volume = sound.volume;
 
