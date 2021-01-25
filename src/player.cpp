@@ -1942,8 +1942,11 @@ ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
     return ret_val<bool>::make_success();
 }
 
-bool player::takeoff( item &it, std::list<item> *res )
+bool player::takeoff( item_location loc, std::list<item> *res )
 {
+    item it = *loc;
+
+
     const auto ret = can_takeoff( it, res );
     if( !ret.success() ) {
         add_msg( m_info, "%s", ret.c_str() );
@@ -1974,11 +1977,6 @@ bool player::takeoff( item &it, std::list<item> *res )
     calc_encumbrance();
 
     return true;
-}
-
-bool player::takeoff( item_location loc, std::list<item> *res )
-{
-    return takeoff( *loc, res );
 }
 
 
