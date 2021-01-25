@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 # Make sure you have python3 installed.
-# Ensure that the json_formatter is kept in Tools with this script.
 # For Windows:
 # Using command prompt type "python vehicle_code.py"
 # For Max OS X or Linux:
@@ -17,10 +16,10 @@ def gen_new(path):
         try:
             json_data = json.load(json_file)
         except UnicodeDecodeError:
-            print("UnicodeDecodeError in {0}".format(path))
+            print(f"UnicodeDecodeError in {path}")
             return None
         except json.decoder.JSONDecodeError:
-            print("JSONDecodeError in {0}".format(path))
+            print(f"UnicodeDecodeError in {path}")
             return None
         for jo in json_data:
             locations = {}
@@ -53,7 +52,7 @@ def gen_new(path):
 
 
 def change_file(json_dir):
-    for root, directories, filenames in os.walk("..\\{0}".format(json_dir)):
+    for root, directories, filenames in os.walk(f"..\\{json_dir}"):
         for filename in filenames:
             path = os.path.join(root, filename)
             if path.endswith(".json"):
@@ -61,7 +60,7 @@ def change_file(json_dir):
                 if new is not None:
                     with open(path, "w") as jf:
                         json.dump(new, jf, ensure_ascii=False)
-                    os.system(".\\json_formatter.exe {0}".format(path))
+                    os.system(f".\\json_formatter.exe {path}")
 
 
 if __name__ == "__main__":
