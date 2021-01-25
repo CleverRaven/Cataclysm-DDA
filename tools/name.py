@@ -18,7 +18,7 @@ def gen_new(path):
         try:
             json_data = json.load(json_file)
         except UnicodeDecodeError:
-            print("UnicodeDecodeError in {0}".format(path))
+            print(f"UnicodeDecodeError in {path}")
             return None
         except json.decoder.JSONDecodeError:
             print(f"JSONDecodeError in {path}")
