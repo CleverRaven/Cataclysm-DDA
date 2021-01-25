@@ -282,7 +282,7 @@ class uilist // NOLINT(cata-xy)
         bool desc_enabled;
 
         bool filtering;
-        bool filtering_nocase;
+        bool filtering_igncase;
 
         // return on selecting disabled entry, default false
         bool allow_disabled = false;

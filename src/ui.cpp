@@ -188,7 +188,7 @@ void uilist::init()
     fentries.clear();        // fentries is the actual display after filtering, and maps displayed entry number to actual entry number
     fselected = 0;           // fentries[selected]
     filtering = true;        // enable list display filtering via '/' or '.'
-    filtering_nocase = true; // ignore case when filtering
+    filtering_igncase = true; // ignore case when filtering
     max_entry_len = 0;
     max_column_len = 0;      // for calculating space for second column
 
@@ -202,33 +202,34 @@ void uilist::init()
  */
 void uilist::filterlist()
 {
-    bool notfiltering = ( !filtering || filter.empty() );
-    int num_entries = entries.size();
+    bool filtering = ( this->filtering && !filter.empty() );
+
     // TODO: && is_all_lc( filter )
-    bool nocase = filtering_nocase;
-    std::string fstr;
-    fstr.reserve( filter.size() );
-    if( nocase ) {
-        transform( filter.begin(), filter.end(), std::back_inserter( fstr ), tolower );
-    } else {
-        fstr = filter;
-    }
+    bool ignore_case = filtering_igncase;
     fentries.clear();
     fselected = -1;
+
     int f = 0;
+    int num_entries = entries.size();
     for( int i = 0; i < num_entries; i++ ) {
-        if( notfiltering || ( !nocase && static_cast<int>( entries[i].txt.find( filter ) ) != -1 ) ||
-            lcmatch( entries[i].txt, fstr ) ) {
-            fentries.push_back( i );
-            if( i == selected && ( hilight_disabled || entries[i].enabled ) ) {
-                fselected = f;
-            } else if( i > selected && fselected == -1 && ( hilight_disabled || entries[i].enabled ) ) {
-                // Past the previously selected entry, which has been filtered out,
-                // choose another nearby entry instead.
-                fselected = f;
+        if( filtering ) {
+            if( ignore_case ) {
+                if( !lcmatch( entries[i].txt, filter ) ) {
+                    continue;
+                }
+            } else if( entries[i].txt.find( filter ) == entries[i].txt.npos ) {
+                continue;
             }
-            f++;
         }
+        fentries.push_back( i );
+        if( i == selected && ( hilight_disabled || entries[i].enabled ) ) {
+            fselected = f;
+        } else if( i > selected && fselected == -1 && ( hilight_disabled || entries[i].enabled ) ) {
+            // Past the previously selected entry, which has been filtered out,
+            // choose another nearby entry instead.
+            fselected = f;
+        }
+        f++;
     }
     if( fselected == -1 ) {
         fselected = 0;
