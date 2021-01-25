@@ -1984,7 +1984,8 @@ bool player::takeoff( item_location loc, std::list<item> *res )
 
 bool player::takeoff( int pos )
 {
-    return takeoff( i_at( pos ) );
+    item_location loc = item_location( *this, &i_at( pos ) );
+    return takeoff( loc );
 }
 
 void player::use_wielded()
