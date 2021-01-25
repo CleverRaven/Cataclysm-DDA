@@ -290,7 +290,7 @@
     "volume": "500 ml",
     "price": 1600,
     "price_postapoc": 10,
-    "material": "paper",
+    "material": [ "paper" ],
     "symbol": "`",
     "color": "brown",
     "qualities": [ [ "FILE", 1 ] ]

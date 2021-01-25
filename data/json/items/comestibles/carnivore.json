@@ -131,7 +131,7 @@
     "description": "Fresh blood extracted from a living creature.",
     "healthy": 0,
     "parasites": 0,
-    "material": "blood",
+    "material": [ "blood" ],
     "quench": 5,
     "comestible_type": "DRINK",
     "looks_like": "blood",
@@ -253,7 +253,7 @@
     "quench": 5,
     "looks_like": "blood",
     "symbol": "~",
-    "material": "blood",
+    "material": [ "blood" ],
     "phase": "liquid",
     "delete": { "flags": [ "SMOKABLE" ] }
   },
@@ -290,7 +290,7 @@
     "quench": 5,
     "looks_like": "blood",
     "symbol": "~",
-    "material": "hblood",
+    "material": [ "hblood" ],
     "phase": "liquid",
     "delete": { "flags": [ "SMOKABLE" ] }
   },
@@ -884,7 +884,7 @@
     "quench": 5,
     "looks_like": "blood",
     "symbol": "~",
-    "material": "blood",
+    "material": [ "blood" ],
     "phase": "liquid",
     "delete": { "flags": [ "SMOKABLE" ] }
   },
@@ -1277,7 +1277,7 @@
     "quench": 5,
     "looks_like": "blood",
     "symbol": "~",
-    "material": "blood",
+    "material": [ "blood" ],
     "phase": "liquid",
     "delete": { "flags": [ "SMOKABLE" ] }
   },

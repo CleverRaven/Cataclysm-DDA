@@ -50,7 +50,7 @@
     "volume": "150 ml",
     "price": 600,
     "price_postapoc": 200,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": "!",
     "color": "white",
     "charges": 10,
