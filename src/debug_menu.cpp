@@ -2138,6 +2138,8 @@ void debug()
                 }
 
             }, "effect_list" );
+
+            popup( _( "Effect list written to effect_list.output" ) );
             break;
 
         case debug_menu_index::VEHICLE_BATTERY_CHARGE: {
