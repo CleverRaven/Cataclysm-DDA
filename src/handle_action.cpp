@@ -809,13 +809,13 @@ static void wait()
 
     const bool has_watch = u.has_watch() || setting_alarm;
 
-    const auto add_menu_item = [ &as_m, &durations, has_watch ]
+    const auto add_menu_item = [ &as_m, &durations ]
                                ( int retval, int hotkey, const std::string &caption = "",
     const time_duration &duration = time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
 
         std::string text( caption );
 
-        if( has_watch && duration != time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
+        if( duration != time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
             const std::string dur_str( to_string( duration ) );
             text += ( text.empty() ? dur_str : string_format( " (%s)", dur_str ) );
         }
