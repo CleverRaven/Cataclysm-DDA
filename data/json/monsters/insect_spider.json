@@ -1814,6 +1814,7 @@
     "vision_day": 10,
     "harvest": "mammal",
     "death_function": [ "NORMAL" ],
+    "special_attacks": [ { "type": "grab", "cooldown": 4 }, [ "EAT_CROP", 180 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ]
   }
 ]
