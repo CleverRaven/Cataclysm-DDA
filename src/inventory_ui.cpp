@@ -742,54 +742,67 @@ void inventory_column::on_change( const inventory_entry &entry )
 
 void inventory_column::order_by_parent()
 {
-    std::vector<inventory_entry> base_entries;
-    std::vector<inventory_entry> child_entries;
-    for( const inventory_entry &entry : entries ) {
-        if( entry.is_item() && entry.locations.front().where() ==
-            item_location::type::container ) {
-            child_entries.push_back( entry );
+    std::unordered_map<std::uintptr_t, size_t> original_order;
+    original_order.reserve( entries.size() );
+    for( size_t idx = 0; idx < entries.size(); ++idx ) {
+        if( entries[idx].is_item() ) {
+            for( const item_location &loc : entries[idx].locations ) {
+                original_order.emplace( reinterpret_cast<std::uintptr_t>( &*loc ), idx );
+            }
         } else {
-            base_entries.push_back( entry );
+            original_order.emplace( reinterpret_cast<std::uintptr_t>( &entries[idx] ), idx );
         }
     }
 
-    int tries = 0;
-    const int max_tries = entries.size() * 2;
-    while( !child_entries.empty() ) {
-        const inventory_entry &possible = child_entries.back();
-        const item_location parent = possible.locations.front().parent_item();
-        bool found = false;
-        for( auto base_entry_iter = base_entries.begin(); base_entry_iter != base_entries.end(); ) {
-            if( base_entry_iter->is_item() ) {
-                for( const item_location &loc : base_entry_iter->locations ) {
-                    if( loc == parent ) {
-                        base_entries.insert( base_entry_iter + 1, possible );
-                        child_entries.pop_back();
-                        found = true;
+    struct entry_info {
+        inventory_entry entry;
+        std::vector<size_t> recursive_order;
+
+        entry_info( inventory_entry &&moved_entry,
+                    const std::unordered_map<std::uintptr_t, size_t> &original_order )
+            : entry( std::move( moved_entry ) ) {
+            if( entry.is_item() ) {
+                item_location loc = entry.any_item();
+                while( true ) {
+                    const std::uintptr_t uintptr = reinterpret_cast<std::uintptr_t>( &*loc );
+                    const auto it = original_order.find( uintptr );
+                    if( it != original_order.end() ) {
+                        recursive_order.emplace_back( it->second );
+                    }
+                    if( loc.has_parent() ) {
+                        loc = loc.parent_item();
+                    } else {
                         break;
                     }
                 }
-                if( found ) {
-                    tries = 0;
-                    break;
+                std::reverse( recursive_order.begin(), recursive_order.end() );
+            } else {
+                const std::uintptr_t uintptr = reinterpret_cast<std::uintptr_t>( &moved_entry );
+                const auto it = original_order.find( uintptr );
+                if( it != original_order.end() ) {
+                    recursive_order.emplace_back( it->second );
                 }
             }
-            ++base_entry_iter;
         }
-        if( !found ) {
-            // move it to the front of the vector to check it again later
-            child_entries.insert( child_entries.begin(), possible );
-            child_entries.pop_back();
-            tries++;
-        }
-        if( tries > max_tries ) {
-            // the parent might not be in the list, so we add it to the top
-            base_entries.insert( base_entries.begin(), child_entries.begin(), child_entries.end() );
-            child_entries.clear();
-        }
-    }
 
-    entries = base_entries;
+        operator inventory_entry &&() && { // *NOPAD*
+            return std::move( entry );
+        }
+
+        bool operator<( const entry_info &rhs ) const {
+            return recursive_order < rhs.recursive_order;
+        }
+    };
+
+    std::vector<entry_info> sorted_entries;
+    sorted_entries.reserve( entries.size() );
+    for( inventory_entry &entry : entries ) {
+        sorted_entries.emplace_back( std::move( entry ), original_order );
+    }
+    std::stable_sort( sorted_entries.begin(), sorted_entries.end() );
+
+    entries.assign( std::make_move_iterator( sorted_entries.begin() ),
+                    std::make_move_iterator( sorted_entries.end() ) );
 }
 
 void inventory_column::add_entry( const inventory_entry &entry )
@@ -880,7 +893,7 @@ void inventory_column::prepare_paging( const std::string &filter )
                 std::advance( to, 1 );
             }
             if( ordered_categories.count( from->get_category_ptr()->get_id().c_str() ) == 0 ) {
-                std::sort( from, to, [ this ]( const inventory_entry & lhs, const inventory_entry & rhs ) {
+                std::stable_sort( from, to, [ this ]( const inventory_entry & lhs, const inventory_entry & rhs ) {
                     if( lhs.is_selectable() != rhs.is_selectable() ) {
                         return lhs.is_selectable(); // Disabled items always go last
                     }
@@ -1374,7 +1387,8 @@ void inventory_selector::add_contained_items( item_location &container )
     add_contained_items( container, own_inv_column );
 }
 
-void inventory_selector::add_contained_items( item_location &container, inventory_column &column )
+void inventory_selector::add_contained_items( item_location &container, inventory_column &column,
+        const item_category *const custom_category )
 {
     if( container->has_flag( STATIC( flag_id( "NO_UNLOAD" ) ) ) ) {
         return;
@@ -1382,8 +1396,14 @@ void inventory_selector::add_contained_items( item_location &container, inventor
 
     for( item *it : container->contents.all_items_top() ) {
         item_location child( container, it );
-        add_contained_items( child, column );
-        add_entry( column, std::vector<item_location>( 1, child ) );
+        add_contained_items( child, column, custom_category );
+        const item_category *nat_category = nullptr;
+        if( custom_category == nullptr ) {
+            nat_category = &child->get_category_of_contents();
+        } else if( preset.is_shown( child ) ) {
+            nat_category = naturalize_category( *custom_category, child.position() );
+        }
+        add_entry( column, std::vector<item_location>( 1, child ), nat_category );
     }
 }
 
@@ -1403,10 +1423,12 @@ void inventory_selector::add_character_items( Character &character )
     for( std::list<item> *elem : character.inv->slice() ) {
         add_items( own_inv_column, [&character]( item * it ) {
             return item_location( character, it );
-        }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ) );
+        }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ),
+        &item_category_id( "ITEMS_WORN" ).obj() );
         for( item &it_elem : *elem ) {
             item_location parent( character, &it_elem );
-            add_contained_items( parent, own_inv_column );
+            add_contained_items( parent, own_inv_column,
+                                 &item_category_id( "ITEMS_WORN" ).obj() );
         }
     }
     // this is a little trick; we want the default behavior for contained items to be in own_inv_column
@@ -1429,7 +1451,7 @@ void inventory_selector::add_map_items( const tripoint &target )
 
         for( item &it_elem : items ) {
             item_location parent( map_cursor( target ), &it_elem );
-            add_contained_items( parent, map_column );
+            add_contained_items( parent, map_column, &map_cat );
         }
     }
 }
@@ -1455,7 +1477,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
 
     for( item &it_elem : items ) {
         item_location parent( vehicle_cursor( *veh, part ), &it_elem );
-        add_contained_items( parent, map_column );
+        add_contained_items( parent, map_column, &vehicle_cat );
     }
 }
 
@@ -2118,12 +2140,25 @@ void inventory_selector::toggle_categorize_contained()
     const auto return_item = []( const inventory_entry & entry ) {
         return entry.is_item();
     };
+    std::vector<item_location> selected;
+    if( get_selected().is_item() ) {
+        selected = get_selected().locations;
+    }
     if( own_inv_column.empty() ) {
         inventory_column replacement_column;
         for( inventory_entry *entry : own_gear_column.get_entries( return_item ) ) {
             if( entry->any_item().where() == item_location::type::container ) {
+                item_location ancestor = entry->any_item();
+                while( ancestor.has_parent() ) {
+                    ancestor = ancestor.parent_item();
+                }
+                const item_category *custom_category = nullptr;
+                if( ancestor.where() != item_location::type::character ) {
+                    // might have been merged from the map column
+                    custom_category = entry->get_category_ptr();
+                }
                 add_entry( own_inv_column, std::move( entry->locations ),
-                           /*custom_category=*/nullptr,
+                           /*custom_category=*/custom_category,
                            /*chosen_count=*/entry->chosen_count );
             } else {
                 replacement_column.add_entry( *entry );
@@ -2136,24 +2171,28 @@ void inventory_selector::toggle_categorize_contained()
         own_inv_column.set_indent_entries_override( false );
     } else {
         for( inventory_entry *entry : own_inv_column.get_entries( return_item ) ) {
-            item_location parent = entry->any_item().has_parent()
-                                   ? entry->any_item().parent_item() : item_location::nowhere;
-            while( parent.where() == item_location::type::container ) {
-                parent = parent.parent_item();
+            item_location ancestor = entry->any_item();
+            while( ancestor.has_parent() ) {
+                ancestor = ancestor.parent_item();
             }
-
-            if( parent.get_item() == &u.weapon ) {
-                add_entry( own_gear_column, std::move( entry->locations ),
-                           &item_category_id( "WEAPON_HELD" ).obj(),
-                           /*chosen_count=*/entry->chosen_count );
-            } else {
-                add_entry( own_gear_column, std::move( entry->locations ),
-                           &item_category_id( "ITEMS_WORN" ).obj(),
-                           /*chosen_count=*/entry->chosen_count );
+            const item_category *custom_category = nullptr;
+            if( ancestor.where() != item_location::type::character ) {
+                // might have been merged from the map column
+                custom_category = entry->get_category_ptr();
+            } else if( &*ancestor == &u.weapon ) {
+                custom_category = &item_category_id( "WEAPON_HELD" ).obj();
+            } else if( u.is_worn( *ancestor ) ) {
+                custom_category = &item_category_id( "ITEMS_WORN" ).obj();
             }
+            add_entry( own_gear_column, std::move( entry->locations ),
+                       /*custom_category=*/custom_category,
+                       /*chosen_count=*/entry->chosen_count );
         }
         own_gear_column.order_by_parent();
         own_inv_column.clear();
+    }
+    if( !selected.empty() ) {
+        select_one_of( selected );
     }
 
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
