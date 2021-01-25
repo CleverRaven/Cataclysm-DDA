@@ -274,20 +274,20 @@ TEST_CASE( "Temperature controlled location" )
                                         temperature_flag::HEATER );
 
         CHECK( water1.temperature == Approx( 100000 * temp_to_kelvin( temperatures::normal ) ).margin(
-                   0 ) );
+                   1 ) );
 
         calendar::turn += 15_minutes;
         water1.process_temperature_rot( 1, tripoint_zero, nullptr,
                                         temperature_flag::HEATER );
 
         CHECK( water1.temperature == Approx( 100000 * temp_to_kelvin( temperatures::normal ) ).margin(
-                   0 ) );
+                   1 ) );
 
         calendar::turn += 2_hours + 3_minutes;
         water1.process_temperature_rot( 1, tripoint_zero, nullptr,
                                         temperature_flag::HEATER );
 
         CHECK( water1.temperature == Approx( 100000 * temp_to_kelvin( temperatures::normal ) ).margin(
-                   0 ) );
+                   1 ) );
     }
 }
