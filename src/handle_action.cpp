@@ -1273,8 +1273,7 @@ static void takeoff()
     item_location loc = game_menus::inv::take_off( player_character );
 
     if( loc ) {
-        loc.obtain( player_character );
-        player_character.takeoff( loc );
+        player_character.takeoff( loc.obtain( player_character ) );
     } else {
         add_msg( _( "Never mind." ) );
     }
