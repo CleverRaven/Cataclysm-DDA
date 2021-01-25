@@ -164,7 +164,7 @@ struct islot_comestible {
         int radiation = 0;
 
         /** freezing point in degrees celsius, below this temperature item can freeze */
-        float freeze_point = 273.15;
+        int freeze_point = 0;
 
         /**List of diseases carried by this comestible and their associated probability*/
         std::map<diseasetype_id, int> contamination;

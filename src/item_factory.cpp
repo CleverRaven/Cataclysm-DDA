@@ -2207,7 +2207,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
     assign( jo, "radiation", slot.radiation, strict );
-    //assign( jo, "freezing_point", slot.freeze_point, strict );
+    assign( jo, "freezing_point", slot.freeze_point, strict );
     assign( jo, "spoils_in", slot.spoils, strict, 1_hours );
     assign( jo, "cooks_like", slot.cooks_like, strict );
     assign( jo, "smoking_result", slot.smoking_result, strict );
@@ -2217,9 +2217,6 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
                                     jsobj.get_int( "probability" ) );
     }
 
-    if( jo.has_member( "freezing_point" ) ) {
-        slot.freeze_point = jo.get_int( "freezing_point" ) + 273.15;
-    }
     if( jo.has_member( "primary_material" ) ) {
         std::string mat = jo.get_string( "primary_material" );
         slot.specific_heat_solid = material_id( mat )->specific_heat_solid();

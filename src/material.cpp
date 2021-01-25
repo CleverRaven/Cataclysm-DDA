@@ -69,7 +69,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "specific_heat_liquid", _specific_heat_liquid );
     optional( jsobj, was_loaded, "specific_heat_solid", _specific_heat_solid );
     optional( jsobj, was_loaded, "latent_heat", _latent_heat );
-    //optional( jsobj, was_loaded, "freezing_point", _freeze_point );
+    optional( jsobj, was_loaded, "freezing_point", _freeze_point );
 
     assign( jsobj, "salvaged_into", _salvaged_into );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, itype_id::NULL_ID() );
@@ -87,9 +87,6 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
 
     mandatory( jsobj, was_loaded, "dmg_adj", _dmg_adj );
 
-    if(jsobj.has_member( "freezing_point" ) ) {
-        _freeze_point = jsobj.get_int( "freezing_point" ) + 273.15;
-    }
     if( jsobj.has_array( "burn_data" ) ) {
         for( JsonObject brn : jsobj.get_array( "burn_data" ) ) {
             _burn_data.emplace_back( load_mat_burn_data( brn ) );
@@ -231,7 +228,7 @@ float material_type::latent_heat() const
     return _latent_heat;
 }
 
-float material_type::freeze_point() const
+int material_type::freeze_point() const
 {
     return _freeze_point;
 }
