@@ -4,7 +4,7 @@
 # Ensure that the json_formatter is kept in Tools with this script.
 # They must be in the same folder!
 # For Windows:
-# Using command prompt type "python barrellength_volume.py"
+# Using command prompt type "python name.py"
 # For Max OS X or Linux:
 # Swap any "\\" with "/", then run the script as in windows.
 
