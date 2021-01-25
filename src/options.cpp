@@ -50,6 +50,8 @@
 #include <sstream>
 #include <string>
 
+int memorized_tile_count;
+
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 
@@ -2006,6 +2008,13 @@ void options_manager::add_options_graphics()
          to_translation( "Use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
          false, COPT_CURSES_HIDE
        );
+       
+       // Allows the player to override default map tile memory limit.
+       // WARNING: Increasing this value without bound can quickly exhaust system memory!
+    add( "MEMORIZED_TILE_COUNT", "debug", to_translation( "Map tile memory capacity" ),
+         to_translation( "Controls number of memorized seen map tiles.  High values increase memory usage and time to recall a tile." ),
+         0, INT_MAX, 2 * SEEX * 2 * SEEY * 1000
+         );
 
 #if defined(__ANDROID__)
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
@@ -3110,6 +3119,8 @@ bool options_manager::save()
     const auto savefile = PATH_INFO::options();
 
     update_options_cache();
+    
+    memorized_tile_count = ::get_option<int>( "MEMORIZED_TILE_COUNT" );
 
     update_music_volume();
 

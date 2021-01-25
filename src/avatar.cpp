@@ -74,6 +74,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+extern int memorized_tile_count;
+
 static const activity_id ACT_READ( "ACT_READ" );
 
 static const bionic_id bio_cloak( "bio_cloak" );
@@ -156,32 +158,17 @@ memorized_terrain_tile avatar::get_memorized_tile( const tripoint &pos ) const
 void avatar::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
                             const int rotation )
 {
-    player_map_memory.memorize_tile( max_memorized_tiles(), pos, ter, subtile, rotation );
+    player_map_memory.memorize_tile( memorized_tile_count, pos, ter, subtile, rotation );
 }
 
 void avatar::memorize_symbol( const tripoint &pos, const int symbol )
 {
-    player_map_memory.memorize_symbol( max_memorized_tiles(), pos, symbol );
+    player_map_memory.memorize_symbol( memorized_tile_count, pos, symbol );
 }
 
 int avatar::get_memorized_symbol( const tripoint &p ) const
 {
     return player_map_memory.get_symbol( p );
-}
-
-size_t avatar::max_memorized_tiles() const
-{
-    // Only check traits once a turn since this is called a huge number of times.
-    if( current_map_memory_turn != calendar::turn ) {
-        current_map_memory_turn = calendar::turn;
-        float map_memory_capacity_multiplier =
-            mutation_value( "map_memory_capacity_multiplier" );
-        if( has_active_bionic( bio_memory ) ) {
-            map_memory_capacity_multiplier = 50;
-        }
-        current_map_memory_capacity = 2 * SEEX * 2 * SEEY * 100 * map_memory_capacity_multiplier;
-    }
-    return current_map_memory_capacity;
 }
 
 void avatar::clear_memorized_tile( const tripoint &pos )
