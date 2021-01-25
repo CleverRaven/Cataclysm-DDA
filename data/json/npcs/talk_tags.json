@@ -758,6 +758,7 @@
       "Bombs away!",
       "Shrapnel, incoming!  Watch it!",
       "Making some noise!",
+      "It's gonna blow!",
       "Hit the deck!"
     ]
   },
@@ -925,6 +926,7 @@
       "<swear!>!  This is the end,",
       "I can <swear> take on",
       "Time to die,",
+      "Prepare to die,",
       "Say your prayers,"
     ]
   },
@@ -977,6 +979,8 @@
       "What was that?",
       "Huh?  Is someone there?",
       "Who's there?",
+      "Did anyone else hear that?",
+      "Sounds like someone said something.",
       "Who goes there?"
     ]
   },
@@ -991,6 +995,8 @@
       "What's that noise?",
       "Is something over there?",
       "Sounds like something bad's going on.",
+      "What's going on over there?",
+      "Sounds like a fight's going on.",
       "What was that?"
     ]
   },
@@ -1005,6 +1011,8 @@
       "Did you hear that?  Sounded like",
       "What is making that sound?  I can hear the",
       "I could swear I heard",
+      "Huh?  I think I just heard",
+      "Huh?  That sounded like",
       "I could have sworn I just heard"
     ]
   },
@@ -1072,7 +1080,14 @@
     "type": "snippet",
     "category": "<crack_smoke>",
     "//": "Complaint when the NPC is near the avatar who is smoking crack.",
-    "text": [ "Ew, smells like burning rubber!", "Ugh, that smells rancid!", "Why are you smoking crack cocaine?", "<meth_smoke>" ]
+    "text": [
+      "Ew, smells like burning rubber!",
+      "Ugh, that smells rancid!",
+      "Why are you smoking crack cocaine?",
+      "Crack cocaine smells awful!",
+      "Are you seriously going to be a crackhead around me?",
+      "<meth_smoke>"
+    ]
   },
   {
     "type": "snippet",
@@ -1095,6 +1110,7 @@
       "Pass some ethanol, I need to power my ethanol burner.",
       "Waiter!  I need a refill, my ethanol burner is running out of charge!",
       "I require ethanol for my internal power supply.  Anything on you?",
+      "I need some ethanol to power up my CBMs.",
       "Got any alcohol to spare?  Need to recharge my drives.  Methanol, would do."
     ]
   },
@@ -1106,6 +1122,7 @@
       "I need some junk to power my internal furnace.",
       "I can't recharge my CBMs without some firewood for my internal furnace.",
       "I need something to use as fuel for my furnace.",
+      "I need something to burn for my furnace.  Can you help?",
       "Hey, <name_g>, can I get some waste paper or withered plants?  I need to recharge."
     ]
   },
@@ -1116,6 +1133,7 @@
     "text": [
       "I need some fuel to power my bionics.",
       "I can't recharge my CBMs without some fuel.",
+      "Could I get some fuel for my bionics?",
       "Hey, <name_g>, can I get some fuel?  I need to recharge."
     ]
   },
@@ -1144,6 +1162,7 @@
       "What was the Cataclysm like for you?",
       "How did you make it through the initial chaos?",
       "Tell me how you survived the initial wave of the Cataclysm.",
+      "How did you survive those first few days?",
       "Was it rough surviving thus far?"
     ]
   },
@@ -1164,6 +1183,7 @@
     "text": [
       "Let's talk about something else.",
       "Let's change the subject.",
+      "I'd like to ask you about something else.",
       "I'd like to ask you about something else.",
       "Moving on…",
       "Anyway…"
@@ -1287,6 +1307,7 @@
       "<swear>!  Die, you <name_b>!  I want to live!",
       "My feet failed me!  Arms, don't fail me!",
       "Can't run!  Have to fight!",
+      "I can't run away from this!",
       "If I die, I'm taking you all with me!"
     ]
   },
@@ -1336,6 +1357,7 @@
       "Clean water, the taste that refreshes!",
       "I was parched, but not I am not.",
       "Water is nice, but I should get a grog ration.",
+      "Nothing quite like clean water.",
       "That wasn't Evian, but I'm not thirsty."
     ]
   },
@@ -1347,6 +1369,7 @@
       "And now I have eaten and am not hungry.",
       "That food was good, but I miss real restaurants.",
       "Well, that satisfied me.",
+      "Nice to have food once in a while.",
       "I just had some food, but I'm still peckish.  Would you mind if I ate more?"
     ]
   },
@@ -1357,6 +1380,7 @@
     "text": [
       "Hey, <name_g>, we're out of food.",
       "Hey, the larder is empty!  We're going to starve.",
+      "There's no food in the larder!",
       "Uhm, <name_g>, I don't meant to criticize, but we should focus on distributing some food into the basecamp larder."
     ]
   },
