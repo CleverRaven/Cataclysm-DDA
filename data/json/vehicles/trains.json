@@ -137,6 +137,13 @@
       [ "O-O" ]
     ],
     "parts": [
+      { "x": -1, "y": -1, "parts": [ "xlframe_sw", "rail_wheel" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_horizontal" ] },
+      { "x": -1, "y": 1, "parts": [ "xlframe_horizontal" ] },
+      { "x": -1, "y": 2, "parts": [ "xlframe_horizontal" ] },
+      { "x": -1, "y": 3, "parts": [ "xlframe_se", "rail_wheel" ] },
+      { "x": 0, "y": -1, "parts": [ "xlframe_vertical" ] },
+      { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "seat", "controls" ] },
       {
         "x": 0,
         "y": 1,
@@ -148,20 +155,13 @@
           { "part": "tank_small", "fuel": "gasoline" }
         ]
       },
-      { "x": 1, "y": 1, "part": "xlframe_horizontal" },
-      { "x": -1, "y": 1, "part": "xlframe_horizontal" },
-      { "x": -1, "y": 2, "part": "xlframe_horizontal" },
-      { "x": -1, "y": 3, "parts": [ "xlframe_se", "rail_wheel" ] },
-      { "x": 0, "y": 3, "part": "xlframe_vertical" },
       { "x": 0, "y": 2, "parts": [ "xlframe_vertical_2", "seat" ] },
-      { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "seat", "controls" ] },
-      { "x": 1, "y": 2, "part": "xlframe_horizontal" },
-      { "x": 1, "y": 0, "part": "xlframe_horizontal" },
-      { "x": -1, "y": 0, "part": "xlframe_horizontal" },
-      { "x": 1, "y": 3, "parts": [ "xlframe_ne", "rail_wheel_steerable" ] },
+      { "x": 0, "y": 3, "parts": [ "xlframe_vertical" ] },
       { "x": 1, "y": -1, "parts": [ "xlframe_nw", "rail_wheel_steerable" ] },
-      { "x": -1, "y": -1, "parts": [ "xlframe_sw", "rail_wheel" ] },
-      { "x": 0, "y": -1, "part": "xlframe_vertical" }
+      { "x": 1, "y": 0, "parts": [ "xlframe_horizontal" ] },
+      { "x": 1, "y": 1, "parts": [ "xlframe_horizontal" ] },
+      { "x": 1, "y": 2, "parts": [ "xlframe_horizontal" ] },
+      { "x": 1, "y": 3, "parts": [ "xlframe_ne", "rail_wheel_steerable" ] }
     ]
   },
   {
@@ -176,33 +176,33 @@
       [ "O-----O" ]
     ],
     "parts": [
-      { "x": -2, "y": 1, "part": "xlframe_vertical_2" },
-      { "x": -2, "y": 0, "parts": [ "xlframe_vertical_2", "seat" ] },
-      { "x": -3, "y": 0, "part": "xlframe_horizontal" },
-      { "x": -3, "y": 1, "part": "xlframe_horizontal" },
-      { "x": -3, "y": 2, "part": "xlframe_horizontal" },
-      { "x": -4, "y": 1, "part": "xlframe_vertical_2" },
-      { "x": -4, "y": 0, "parts": [ "xlframe_vertical_2", "seat" ] },
-      { "x": -5, "y": 1, "parts": [ "xlframe_horizontal", "xlhalfboard_horizontal" ] },
-      { "x": -5, "y": 0, "parts": [ "xlframe_horizontal", "xlhalfboard_horizontal" ] },
       { "x": -5, "y": -1, "parts": [ "xlframe_sw", "rail_wheel" ] },
-      { "x": -4, "y": 2, "parts": [ "xlframe_vertical_2", "seat" ] },
-      { "x": -2, "y": 2, "parts": [ "xlframe_vertical_2", "seat" ] },
-      { "x": -4, "y": 3, "part": "xlframe_vertical" },
-      { "x": -3, "y": 3, "part": "xlframe_vertical" },
-      { "x": -4, "y": -1, "part": "xlframe_vertical" },
-      { "x": -3, "y": -1, "part": "xlframe_vertical" },
-      { "x": -2, "y": -1, "part": "xlframe_vertical" },
-      { "x": -2, "y": 3, "part": "xlframe_vertical" },
-      { "x": -1, "y": 0, "part": "xlframe_horizontal" },
-      { "x": -1, "y": 1, "part": "xlframe_horizontal" },
-      { "x": -1, "y": 2, "part": "xlframe_horizontal" },
-      { "x": 0, "y": 2, "parts": [ "xlframe_vertical_2", "seat" ] },
-      { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "seat", "controls" ] },
+      { "x": -5, "y": 0, "parts": [ "xlframe_horizontal", "xlhalfboard_horizontal" ] },
+      { "x": -5, "y": 1, "parts": [ "xlframe_horizontal", "xlhalfboard_horizontal" ] },
       { "x": -5, "y": 2, "parts": [ "xlframe_horizontal", "xlhalfboard_horizontal" ] },
       { "x": -5, "y": 3, "parts": [ "xlframe_se", "rail_wheel" ] },
-      { "x": -1, "y": 3, "part": "xlframe_vertical" },
-      { "x": -1, "y": -1, "part": "xlframe_vertical" },
+      { "x": -4, "y": -1, "parts": [ "xlframe_vertical" ] },
+      { "x": -4, "y": 0, "parts": [ "xlframe_vertical_2", "seat" ] },
+      { "x": -4, "y": 1, "parts": [ "xlframe_vertical_2" ] },
+      { "x": -4, "y": 2, "parts": [ "xlframe_vertical_2", "seat" ] },
+      { "x": -4, "y": 3, "parts": [ "xlframe_vertical" ] },
+      { "x": -3, "y": -1, "parts": [ "xlframe_vertical" ] },
+      { "x": -3, "y": 0, "parts": [ "xlframe_horizontal" ] },
+      { "x": -3, "y": 1, "parts": [ "xlframe_horizontal" ] },
+      { "x": -3, "y": 2, "parts": [ "xlframe_horizontal" ] },
+      { "x": -3, "y": 3, "parts": [ "xlframe_vertical" ] },
+      { "x": -2, "y": -1, "parts": [ "xlframe_vertical" ] },
+      { "x": -2, "y": 0, "parts": [ "xlframe_vertical_2", "seat" ] },
+      { "x": -2, "y": 1, "parts": [ "xlframe_vertical_2" ] },
+      { "x": -2, "y": 2, "parts": [ "xlframe_vertical_2", "seat" ] },
+      { "x": -2, "y": 3, "parts": [ "xlframe_vertical" ] },
+      { "x": -1, "y": -1, "parts": [ "xlframe_vertical" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_horizontal" ] },
+      { "x": -1, "y": 1, "parts": [ "xlframe_horizontal" ] },
+      { "x": -1, "y": 2, "parts": [ "xlframe_horizontal" ] },
+      { "x": -1, "y": 3, "parts": [ "xlframe_vertical" ] },
+      { "x": 0, "y": -1, "parts": [ "xlframe_vertical" ] },
+      { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "seat", "controls" ] },
       {
         "x": 0,
         "y": 1,
@@ -214,13 +214,13 @@
           { "part": "tank_small", "fuel": "gasoline" }
         ]
       },
-      { "x": 1, "y": 2, "parts": [ "xlframe_horizontal", "xlhalfboard_horizontal" ] },
+      { "x": 0, "y": 2, "parts": [ "xlframe_vertical_2", "seat" ] },
+      { "x": 0, "y": 3, "parts": [ "xlframe_vertical" ] },
+      { "x": 1, "y": -1, "parts": [ "xlframe_nw", "rail_wheel_steerable" ] },
       { "x": 1, "y": 0, "parts": [ "xlframe_horizontal", "xlhalfboard_horizontal" ] },
       { "x": 1, "y": 1, "parts": [ "xlframe_horizontal", "xlhalfboard_horizontal" ] },
-      { "x": 1, "y": 3, "parts": [ "xlframe_ne", "rail_wheel_steerable" ] },
-      { "x": 1, "y": -1, "parts": [ "xlframe_nw", "rail_wheel_steerable" ] },
-      { "x": 0, "y": -1, "part": "xlframe_vertical" },
-      { "x": 0, "y": 3, "part": "xlframe_vertical" }
+      { "x": 1, "y": 2, "parts": [ "xlframe_horizontal", "xlhalfboard_horizontal" ] },
+      { "x": 1, "y": 3, "parts": [ "xlframe_ne", "rail_wheel_steerable" ] }
     ]
   },
   {
@@ -229,14 +229,28 @@
     "name": "Rail Motorcycle",
     "blueprint": [ "o#>o" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "saddle", "motorcycle_kickstand" ] },
-      { "x": 1, "y": 0, "parts": [ "frame_handle", { "part": "tank_small", "fuel": "gasoline" } ] },
-      { "x": -1, "y": 0, "parts": [ "frame_vertical", "rail_wheel" ] },
-      { "x": 2, "y": 0, "parts": [ "frame_vertical", "rail_wheel_steerable" ] },
-      { "x": 0, "y": 0, "parts": [ "controls", "controls_electronic", "vehicle_alarm" ] },
-      { "x": 0, "y": 0, "parts": [ "horn_car", "engine_vtwin", "alternator_motorbike" ] },
-      { "x": 1, "y": 0, "parts": [ "headlight", "battery_motorbike" ] },
-      { "x": -1, "y": 0, "parts": [ "muffler", "box" ] }
+      { "x": -1, "y": 0, "parts": [ "frame_vertical", "rail_wheel", "muffler", "box" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame_vertical_2",
+          "saddle",
+          "motorcycle_kickstand",
+          "controls",
+          "controls_electronic",
+          "vehicle_alarm",
+          "horn_car",
+          "engine_vtwin",
+          "alternator_motorbike"
+        ]
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "parts": [ "frame_handle", { "part": "tank_small", "fuel": "gasoline" }, "headlight", "battery_motorbike" ]
+      },
+      { "x": 2, "y": 0, "parts": [ "frame_vertical", "rail_wheel_steerable" ] }
     ]
   },
   {
@@ -245,9 +259,12 @@
     "name": "Miniature Train Locomotive",
     "blueprint": [ "oo" ],
     "parts": [
-      { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "engine_steam_small", "rail_wheel_small_pair" ] },
-      { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "seat", "rail_wheel_small_pair", "controls" ] },
-      { "x": 0, "y": 0, "parts": [ { "part": "fuel_bunker", "fuel": "coal_lump" } ] }
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "frame_vertical_2", "seat", "rail_wheel_small_pair", "controls", { "part": "fuel_bunker", "fuel": "coal_lump" } ]
+      },
+      { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "engine_steam_small", "rail_wheel_small_pair" ] }
     ]
   }
 ]
