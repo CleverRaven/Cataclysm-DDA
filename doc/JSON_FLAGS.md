@@ -1517,4 +1517,4 @@ Gun fault flags:
 - ```SUPER_HEARING``` You can hear much better than a normal person.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
 - ```DEAF``` Makes you deaf.
-- 
+- ```EYE_MEMBRANE``` Lets you see underwater.

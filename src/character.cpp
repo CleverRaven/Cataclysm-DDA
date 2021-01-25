@@ -287,7 +287,6 @@ static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_leukocyte( "bio_leukocyte" );
 static const bionic_id bio_lighter( "bio_lighter" );
-static const bionic_id bio_membrane( "bio_membrane" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_night_vision( "bio_night_vision" );
 static const bionic_id bio_railgun( "bio_railgun" );
@@ -303,7 +302,6 @@ static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_copro
 static const trait_id trait_BADTEMPER( "BADTEMPER" );
 static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
-static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
@@ -342,7 +340,6 @@ static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_MEMBRANE( "MEMBRANE" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
 static const trait_id trait_NIGHTVISION2( "NIGHTVISION2" );
@@ -391,6 +388,7 @@ static const flag_id json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
 static const flag_id json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
 static const flag_id json_flag_DEAF( "DEAF" );
 static const flag_id json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
+static const flag_id json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const flag_id json_flag_HEATPROOF( "HEATPROOF" );
 static const flag_id json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
 static const flag_id json_flag_NO_DISEASE( "NO_DISEASE" );
@@ -891,9 +889,8 @@ bool Character::sight_impaired() const
     return ( ( ( has_effect( effect_boomered ) || has_effect( effect_no_sight ) ||
                  has_effect( effect_darkness ) ) &&
                ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) ||
-             ( underwater && !has_bionic( bio_membrane ) && !has_trait( trait_MEMBRANE ) &&
-               !worn_with_flag( flag_SWIM_GOGGLES ) && !has_trait( trait_PER_SLIME_OK ) &&
-               !has_trait( trait_CEPH_EYES ) && !has_trait( trait_SEESLEEP ) ) ||
+             ( underwater && !has_flag( json_flag_EYE_MEMBRANE ) &&
+               !worn_with_flag( flag_SWIM_GOGGLES ) ) ||
              ( ( has_trait( trait_MYOPIC ) || ( in_light && has_trait( trait_URSINE_EYE ) ) ) &&
                !worn_with_flag( flag_FIX_NEARSIGHT ) &&
                !has_effect( effect_contacts ) &&
@@ -2049,9 +2046,7 @@ void Character::recalc_sight_limits()
         sight_max = 1;
         vision_mode_cache.set( BOOMERED );
     } else if( has_effect( effect_in_pit ) || has_effect( effect_no_sight ) ||
-               ( underwater && !has_bionic( bio_membrane ) &&
-                 !has_trait( trait_MEMBRANE ) && !worn_with_flag( flag_SWIM_GOGGLES ) &&
-                 !has_trait( trait_CEPH_EYES ) && !has_trait( trait_PER_SLIME_OK ) ) ) {
+               ( underwater && !has_flag( json_flag_EYE_MEMBRANE ) && !worn_with_flag( flag_SWIM_GOGGLES ) ) ) {
         sight_max = 1;
     } else if( has_active_mutation( trait_SHELL2 ) ) {
         // You can kinda see out a bit.

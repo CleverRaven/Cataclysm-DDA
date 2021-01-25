@@ -1525,6 +1525,7 @@
     "description": "Your eyes still bulge, yet your pupils look different somehow.  Water doesn't seem to cause any trouble at all, though.",
     "leads_to": [ "CEPH_VISION" ],
     "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES", "ELFAEYES" ],
+    "flags": [ "EYE_MEMBRANE" ],
     "category": [ "CEPHALOPOD" ]
   },
   {
@@ -1814,6 +1815,7 @@
     "description": "You have a set of clear lenses which lower over your eyes while underwater, allowing you to see as though you were wearing goggles.  Slightly decreases wet penalties.",
     "prereqs": [ "EYEBULGE" ],
     "category": [ "LIZARD", "FISH" ],
+    "flags": [ "EYE_MEMBRANE" ],
     "wet_protection": [ { "part": "eyes", "neutral": 1 } ]
   },
   {
@@ -4518,6 +4520,7 @@
     "prereqs2": [ "AMORPHOUS" ],
     "threshreq": [ "THRESH_SLIME" ],
     "category": [ "SLIME" ],
+    "flags": [ "EYE_MEMBRANE" ],
     "passive_mods": { "per_mod": 5 }
   },
   {
@@ -6354,6 +6357,7 @@
     "category": [ "FISH" ],
     "threshreq": [ "THRESH_FISH" ],
     "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
+    "flags": [ "EYE_MEMBRANE" ],
     "active": true
   },
   {
