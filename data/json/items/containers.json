@@ -650,7 +650,7 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
-    "material": [ "paper" ],
+    "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown",
     "pocket_data": [
