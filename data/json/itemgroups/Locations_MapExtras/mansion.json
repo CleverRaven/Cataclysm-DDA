@@ -909,9 +909,9 @@
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
       { "group": "tinware", "prob": 20 },
-      [ "permanent_marker", 10 ],
       [ "bone_tainted", 5 ],
-      { "group": "corpse_mansion", "prob": 5 }
+      { "group": "corpse_mansion", "prob": 5 },
+      { "group": "writing_utensils", "prob": 10 }
     ]
   },
   {
@@ -1352,7 +1352,7 @@
       [ "pants_army", 10 ],
       [ "jersey", 40 ],
       [ "linuxtshirt", 20 ],
-      [ "kilt", 5 ]
+      [ "kilt", 3 ]
     ]
   },
   {
@@ -1472,7 +1472,7 @@
       { "group": "neckties", "prob": 5 },
       [ "tieclip", 2 ],
       [ "collarpin", 2 ],
-      [ "kilt", 5 ],
+      [ "kilt", 3 ],
       [ "fedora", 5 ],
       [ "kufi", 2 ],
       [ "kippah", 2 ],
@@ -1550,7 +1550,8 @@
       [ "arrow_metal", 60 ],
       [ "bolt_metal", 60 ],
       { "group": "ammo_reloaded", "prob": 30 },
-      { "group": "mags_obscure", "prob": 30 }
+      { "group": "mags_obscure", "prob": 30 },
+      { "group": "ammo_cannon", "prob": 10 }
     ]
   },
   {

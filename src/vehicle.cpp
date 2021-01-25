@@ -95,7 +95,7 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 
 static const bionic_id bio_jointservo( "bio_jointservo" );
 
-static const proficiency_id proficiency_aircraft_mechanic( "aircraft_mechanic" );
+static const proficiency_id proficiency_prof_aircraft_mechanic( "prof_aircraft_mechanic" );
 
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_winded( "winded" );
@@ -105,17 +105,6 @@ static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 
-static const itype_id itype_chemistry_set( "chemistry_set" );
-static const itype_id itype_dehydrator( "dehydrator" );
-static const itype_id itype_electrolysis_kit( "electrolysis_kit" );
-static const itype_id itype_food_processor( "food_processor" );
-static const itype_id itype_forge( "forge" );
-static const itype_id itype_hotplate( "hotplate" );
-static const itype_id itype_kiln( "kiln" );
-static const itype_id itype_press( "press" );
-static const itype_id itype_soldering_iron( "soldering_iron" );
-static const itype_id itype_vac_sealer( "vac_sealer" );
-static const itype_id itype_welder( "welder" );
 static const itype_id itype_water_purifier( "water_purifier" );
 
 static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
@@ -330,77 +319,6 @@ bool vehicle::remote_controlled( const Character &p ) const
     return false;
 }
 
-/** Checks all parts to see if frames are missing (as they might be when
- * loading from a game saved before the vehicle construction rules overhaul). */
-void vehicle::add_missing_frames()
-{
-    static const vpart_id frame_id( "frame" );
-    //No need to check the same spot more than once
-    std::set<point> locations_checked;
-    for( vehicle_part &i : parts ) {
-        if( locations_checked.count( i.mount ) != 0 ) {
-            continue;
-        }
-        locations_checked.insert( i.mount );
-
-        bool found = false;
-        for( const int &elem : parts_at_relative( i.mount, false ) ) {
-            if( part_info( elem ).location == part_location_structure ) {
-                found = true;
-                break;
-            }
-        }
-        if( !found ) {
-            // Install missing frame
-            parts.emplace_back( frame_id, "vertical", i.mount, item( frame_id->item ) );
-        }
-    }
-}
-
-// Called when loading a vehicle that predates steerable wheels.
-// Tries to convert some wheels to steerable versions on the front axle.
-void vehicle::add_steerable_wheels()
-{
-    int axle = INT_MIN;
-    std::vector< std::pair<int, vpart_id> > wheels;
-
-    // Find wheels that have steerable versions.
-    // Convert the wheel(s) with the largest x value.
-    for( const vpart_reference &vp : get_all_parts() ) {
-        if( vp.has_feature( "STEERABLE" ) || vp.has_feature( "TRACKED" ) ) {
-            // Has a wheel that is inherently steerable
-            // (e.g. unicycle, casters), this vehicle doesn't
-            // need conversion.
-            return;
-        }
-
-        if( vp.mount().x < axle ) {
-            // there is another axle in front of this
-            continue;
-        }
-
-        if( vp.has_feature( VPFLAG_WHEEL ) ) {
-            vpart_id steerable_id( vp.info().get_id().str() + "_steerable" );
-            if( steerable_id.is_valid() ) {
-                // We can convert this.
-                if( vp.mount().x != axle ) {
-                    // Found a new axle further forward than the
-                    // existing one.
-                    wheels.clear();
-                    axle = vp.mount().x;
-                }
-
-                wheels.push_back( std::make_pair( static_cast<int>( vp.part_index() ), steerable_id ) );
-            }
-        }
-    }
-
-    // Now convert the wheels to their new types.
-    for( auto &wheel : wheels ) {
-        parts[ wheel.first ].id = wheel.second;
-    }
-}
-
 void vehicle::init_state( int init_veh_fuel, int init_veh_status )
 {
     // vehicle parts excluding engines are by default turned off
@@ -419,7 +337,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
     bool destroyAlarm = false;
 
     // More realistically it should be -5 days old
-    last_update = 0;
+    last_update = calendar::turn_zero;
 
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 7% to 35%
@@ -713,7 +631,7 @@ void vehicle::activate_animal_follow()
     for( size_t e = 0; e < parts.size(); e++ ) {
         vehicle_part &vp = parts[ e ];
         if( vp.info().fuel_type == fuel_type_animal ) {
-            monster *mon = get_pet( e );
+            monster *mon = get_monster( e );
             if( mon && mon->has_effect( effect_harnessed ) ) {
                 vp.enabled = true;
                 is_following = true;
@@ -795,7 +713,7 @@ void vehicle::autopilot_patrol()
     drive_to_local_target( autodrive_local_target, false );
 }
 
-std::set<point> vehicle::immediate_path( units::angle rotate )
+std::set<point> vehicle::immediate_path( const units::angle &rotate )
 {
     std::set<point> points_to_check;
     const int distance_to_check = 10 + ( velocity / 800 );
@@ -905,7 +823,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
                 break;
             }
             for( const vehicle_part &p : parts ) {
-                monster *mon = get_pet( index_of_part( &p ) );
+                monster *mon = get_monster( index_of_part( &p ) );
                 if( mon && mon->pos().xy() == elem ) {
                     its_a_pet = true;
                     break;
@@ -933,7 +851,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     int turn_x = get_turn_from_angle( angle, vehpos, target );
     int accel_y = 0;
     // best to cruise around at a safe velocity or 40mph, whichever is lowest
-    // accelerate when it dosnt need to turn.
+    // accelerate when it doesn't need to turn.
     // when following player, take distance to player into account.
     // we really want to avoid running the player over.
     // If its a helicopter, we dont need to worry about airborne obstacles so much
@@ -1238,7 +1156,7 @@ void vehicle::backfire( const int e ) const
     const int power = part_vpower_w( engines[e], true );
     const tripoint pos = global_part_pos3( engines[e] );
     sounds::sound( pos, 40 + power / 10000, sounds::sound_t::movement,
-                   // single space after the exclaimation mark because it does not end the sentence
+                   // single space after the exclamation mark because it does not end the sentence
                    //~ backfire sound
                    string_format( _( "a loud BANG! from the %s" ), // NOLINT(cata-text-style)
                                   parts[ engines[ e ] ].name() ), true, "vehicle", "engine_backfire" );
@@ -1265,7 +1183,7 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
             pwr = vhp_to_watts( vp.base.engine_displacement() );
         }
         if( vp.info().fuel_type == fuel_type_animal ) {
-            monster *mon = get_pet( index );
+            monster *mon = get_monster( index );
             if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
                 // An animal that can carry twice as much weight, can pull a cart twice as hard.
                 pwr = mon->get_speed() * ( mon->get_size() - 1 ) * 3
@@ -1670,7 +1588,7 @@ int vehicle::install_part( const point &dp, const vpart_id &id, const std::strin
     if( !( force || can_mount( dp, id ) ) ) {
         return -1;
     }
-    return install_part( dp, vehicle_part( id, variant_id, dp, item( id.obj().item ) ) );
+    return install_part( dp, vehicle_part( id, variant_id, dp, item( id.obj().base_item ) ) );
 }
 
 int vehicle::install_part( const point &dp, const vpart_id &id, item &&obj,
@@ -1910,7 +1828,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
 
         map &here = get_map();
         //~ %1$s is the vehicle being loaded onto the bicycle rack
-        add_msg( _( "You load the %1$s on the rack" ), carry_veh->name );
+        add_msg( _( "You load the %1$s on the rack." ), carry_veh->name );
         here.destroy_vehicle( carry_veh );
         here.dirty_vehicle_list.insert( this );
         here.set_transparency_cache_dirty( sm_pos.z );
@@ -1918,7 +1836,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         refresh();
     } else {
         //~ %1$s is the vehicle being loaded onto the bicycle rack
-        add_msg( m_bad, _( "You can't get the %1$s on the rack" ), carry_veh->name );
+        add_msg( m_bad, _( "You can't get the %1$s on the rack." ), carry_veh->name );
     }
     return found_all_parts;
 }
@@ -2223,6 +2141,12 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
         }
         here.dirty_vehicle_list.insert( this );
         part_removal_cleanup();
+        new_vehicle->enable_refresh();
+        for( int idx : new_vehicle->engines ) {
+            if( !new_vehicle->parts[idx].is_broken() ) {
+                new_vehicle->parts[idx].enabled = true;
+            }
+        }
     } else {
         //~ %s is the vehicle being loaded onto the bicycle rack
         add_msg( m_bad, _( "You can't unload the %s from the bike rack." ), new_vehicle->name );
@@ -2671,7 +2595,6 @@ cata::optional<vpart_reference> optional_vpart_position::part_with_tool(
 {
     return has_value() ? value().part_with_tool( tool_type ) : cata::nullopt;
 }
-
 
 int vehicle::part_with_feature( int part, vpart_bitflags const flag, bool unbroken ) const
 {
@@ -3172,7 +3095,7 @@ point vehicle::coord_translate( const point &p ) const
     return q.xy();
 }
 
-void vehicle::coord_translate( units::angle dir, const point &pivot, const point &p,
+void vehicle::coord_translate( const units::angle &dir, const point &pivot, const point &p,
                                tripoint &q ) const
 {
     tileray tdir( dir );
@@ -3209,7 +3132,7 @@ tripoint vehicle::mount_to_tripoint( const point &mount, const point &offset ) c
     return global_pos3() + mnt_translated;
 }
 
-void vehicle::precalc_mounts( int idir, units::angle dir, const point &pivot )
+void vehicle::precalc_mounts( int idir, const units::angle &dir, const point &pivot )
 {
     if( idir < 0 || idir > 1 ) {
         idir = 0;
@@ -3267,7 +3190,7 @@ player *vehicle::get_passenger( int p ) const
     return nullptr;
 }
 
-monster *vehicle::get_pet( int p ) const
+monster *vehicle::get_monster( int p ) const
 {
     p = part_with_feature( p, VPFLAG_BOARDABLE, false );
     if( p >= 0 ) {
@@ -3425,8 +3348,9 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
 {
     return std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs,
     const vehicle_part & rhs ) {
-        return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_capacity( item::find_type(
-                           ftype )->ammo->type ) : 0 );
+        return lhs + ( ( rhs.is_available() &&
+                         rhs.ammo_current() == ftype ) ? rhs.ammo_capacity( item::find_type(
+                                     ftype )->ammo->type ) : 0 );
     } );
 }
 
@@ -4202,7 +4126,7 @@ bool vehicle::can_float() const
     return draft_m < hull_height;
 }
 
-// apologies for the imperial measurements, theyll get converted before used finally in the vehicle speed at the end of the function.
+// apologies for the imperial measurements, they'll get converted before used finally in the vehicle speed at the end of the function.
 // sources for the equations to calculate rotor lift thrust were only available in imperial, and the constants used are designed for that.
 // r= radius or d = diameter of rotor blades.
 // area A [ft^2] = Pi * r^2 -or- A [ft^2] = (Pi/4) * D^2
@@ -4261,7 +4185,7 @@ bool vehicle::would_install_prevent_flyable( const vpart_info &vpinfo, Character
 {
     if( flyable && !rotors.empty() && !( vpinfo.has_flag( "SIMPLE_PART" ) ||
                                          vpinfo.has_flag( "AIRCRAFT_REPAIRABLE_NOPROF" ) ) ) {
-        return !pc.has_proficiency( proficiency_aircraft_mechanic );
+        return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
     } else {
         return false;
     }
@@ -4276,7 +4200,7 @@ bool vehicle::would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) co
                                                    index_of_part( const_cast<vehicle_part *>( &vp ) ) );
             return !vppos.is_inside();
         } else {
-            return !pc.has_proficiency( proficiency_aircraft_mechanic );
+            return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
         }
     } else {
         return false;
@@ -4286,7 +4210,7 @@ bool vehicle::would_repair_prevent_flyable( vehicle_part &vp, Character &pc ) co
 bool vehicle::would_removal_prevent_flyable( vehicle_part &vp, Character &pc ) const
 {
     if( flyable && !rotors.empty() && !vp.info().has_flag( "SIMPLE_PART" ) ) {
-        return !pc.has_proficiency( proficiency_aircraft_mechanic );
+        return !pc.has_proficiency( proficiency_prof_aircraft_mechanic );
     } else {
         return false;
     }
@@ -4388,7 +4312,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
 
 int vehicle::static_drag( bool actual ) const
 {
-    return extra_drag + ( actual && !engine_on ? -1500 : 0 );
+    return extra_drag + ( actual && !engine_on && !is_towed() ? -1500 : 0 );
 }
 
 float vehicle::strain() const
@@ -4574,7 +4498,7 @@ float vehicle::steering_effectiveness() const
     // is not steerable.
     const vehicle_part &vp = parts[ steering[0] ];
     if( steering.size() == 1 && vp.info().fuel_type == fuel_type_animal ) {
-        monster *mon = get_pet( steering[0] );
+        monster *mon = get_monster( steering[0] );
         if( mon == nullptr || !mon->has_effect( effect_harnessed ) ) {
             return -2.0f;
         }
@@ -5252,7 +5176,7 @@ void vehicle::idle( bool on_map )
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
         }
-        // helicopters use basicaly nearly all of their power just to hover.
+        // helicopters use basically nearly all of their power just to hover.
         // it becomes more efficient the closer they reach their safe cruise speed.
         if( is_rotorcraft() && is_flying_in_air() ) {
             idle_rate = 1000;
@@ -5817,7 +5741,7 @@ void vehicle::refresh()
         if( vpi.has_flag( "UNMOUNT_ON_MOVE" ) ) {
             loose_parts.push_back( p );
         }
-        if( vpi.has_flag( "EMITTER" ) ) {
+        if( !vpi.emissions.empty() || !vpi.exhaust.empty() ) {
             emitters.push_back( p );
         }
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
@@ -6024,7 +5948,7 @@ void vehicle::do_towing_move()
     }
     vehicle *towed_veh = tow_data.get_towed();
     if( !towed_veh ) {
-        debugmsg( "tried to do towing move, but towed vehicle dosnt exist." );
+        debugmsg( "tried to do towing move, but towed vehicle doesn't exist." );
         invalidate_towing();
         return;
     }
@@ -6564,7 +6488,7 @@ void vehicle::shift_parts( const point &delta )
     pivot_anchor[0] -= delta;
     refresh();
     //Need to also update the map after this
-    get_map().reset_vehicle_cache( sm_pos.z );
+    get_map().rebuild_vehicle_level_caches();
 }
 
 /**
@@ -6696,7 +6620,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
     if( !fuel.has_explosion_data() ) {
         return false;
     }
-    fuel_explosion data = fuel.get_explosion_data();
+    const fuel_explosion_data &data = fuel.get_explosion_data();
 
     if( parts[ p ].is_broken() ) {
         leak_fuel( parts[ p ] );
@@ -6772,13 +6696,13 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     if( parts[p].is_fuel_store() ) {
         explode_fuel( p, type );
     } else if( parts[ p ].is_broken() && part_flag( p, "UNMOUNT_ON_DAMAGE" ) ) {
-        here.spawn_item( global_part_pos3( p ), part_info( p ).item, 1, 0, calendar::turn );
-        monster *mon = get_pet( p );
+        here.spawn_item( global_part_pos3( p ), part_info( p ).base_item, 1, 0, calendar::turn );
+        monster *mon = get_monster( p );
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             mon->remove_effect( effect_harnessed );
         }
         if( part_flag( p, "TOW_CABLE" ) ) {
-            invalidate_towing();
+            invalidate_towing( true );
         } else {
             remove_part( p );
         }
@@ -6883,7 +6807,7 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
     const cata::optional<vpart_reference> cargo_vp = vp.part_with_feature( "CARGO", true );
 
     const auto tool_wants_battery = []( const itype_id & type ) {
-        item tool( type, 0 ), mag( tool.magazine_default() );
+        item tool( type, calendar::turn_zero ), mag( tool.magazine_default() );
         mag.contents.clear_items();
 
         return tool.contents.insert_item( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
@@ -6892,7 +6816,7 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
 
     if( tool_vp ) { // handle vehicle tools
         itype_id fuel_type = tool_wants_battery( type ) ? itype_battery : type;
-        item tmp( type, 0 ); // TODO: add a sane birthday arg
+        item tmp( type, calendar::turn_zero ); // TODO: add a sane birthday arg
         // TODO: Handle water poison when crafting starts respecting it
         tmp.charges = tool_vp->vehicle().drain( fuel_type, quantity );
         quantity -= tmp.charges;

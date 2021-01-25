@@ -212,7 +212,7 @@ struct mutation_branch {
 
         cata::value_ptr<mut_transform> transform;
 
-        std::vector<std::vector<reflex_activation_data>> triger_list;
+        std::vector<std::vector<reflex_activation_data>> trigger_list;
 
         /**Map of crafting skills modifiers, can be negative*/
         std::map<skill_id, int> craft_skill_bonus;
@@ -267,7 +267,7 @@ struct mutation_branch {
         // Multiplier for reading speed, defaulting to 1.
         cata::optional<float> reading_speed_multiplier = cata::nullopt;
 
-        // Multiplier for skill rust, defaulting to 1.
+        // Multiplier for skill rust delay, defaulting to 1.
         cata::optional<float> skill_rust_multiplier = cata::nullopt;
 
         // Multiplier for consume time, defaulting to 1.
@@ -292,7 +292,7 @@ struct mutation_branch {
         std::set<itype_id> can_only_heal_with;
         std::set<itype_id> can_heal_with;
 
-        /**List of allowed mutatrion category*/
+        /**List of allowed mutation category*/
         std::set<mutation_category_id> allowed_category;
 
         /**List of body parts locked out of bionics*/
@@ -347,6 +347,8 @@ struct mutation_branch {
         std::map<bodypart_str_id, float> encumbrance_multiplier_always;
         // Body parts that now need OVERSIZE gear
         std::set<bodypart_str_id> restricts_gear;
+        // item flags that allow wearing gear even if its body part is restricted
+        std::set<flag_id> allowed_items;
         // Mutation stat mods
         /** Key pair is <active: bool, mod type: "STR"> */
         std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> mods;
@@ -453,7 +455,7 @@ struct mutation_branch {
          * \code
          * {
          *      "subtype": "depends on is_collection parameter",
-         *      "id": "identfier",
+         *      "id": "identifier",
          *      "entries": [ x, y, z ]
          * }
          * \endcode

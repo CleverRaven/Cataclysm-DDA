@@ -64,7 +64,7 @@ class talker
             return {};
         }
         virtual void check_missions() {}
-        virtual void update_missions( const std::vector<mission *> &, const character_id & ) {}
+        virtual void update_missions( const std::vector<mission *> & ) {}
         virtual bool check_hostile_response( int ) const {
             return false;
         }
@@ -182,7 +182,7 @@ class talker
         virtual std::list<item> use_amount( const itype_id &, int ) {
             return {};
         }
-        virtual int value( const item & ) {
+        virtual int value( const item & ) const {
             return 0;
         }
         virtual int cash() const {

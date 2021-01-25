@@ -37,7 +37,7 @@ static void temperature_check( Character *p, const int ambient_temp, const int t
 
 static void equip_clothing( Character *p, const std::string &clothing )
 {
-    const item article( clothing, 0 );
+    const item article( clothing, calendar::turn_zero );
     p->wear_item( article );
 }
 

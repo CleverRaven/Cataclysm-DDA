@@ -6,6 +6,7 @@
 #include <string>
 
 #include "map_selector.h"
+#include "units_fwd.h"
 
 struct tripoint;
 class item;
@@ -102,6 +103,16 @@ class item_location
          * exists because calling parent_item() naively causes debug messages
          **/
         bool has_parent() const;
+
+        /**
+        * Returns available volume capacity where this item is located.
+        */
+        units::volume volume_capacity() const;
+
+        /**
+        * Returns available weight capacity where this item is located.
+        */
+        units::mass weight_capacity() const;
 
         bool parents_can_contain_recursive( item *it ) const;
         int max_charges_by_parent_recursive( const item &it ) const;

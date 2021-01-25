@@ -324,7 +324,8 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     if( jo.has_string( "copy-from" ) ) {
         auto base = recipe_id( jo.get_string( "copy-from" ) );
         if( !out.count( base ) ) {
-            deferred.emplace_back( jo.str(), src );
+            deferred.emplace_back( jo.get_source_location(), src );
+            jo.allow_omitted_members();
             return null_recipe;
         }
         r = out[ base ];
@@ -390,7 +391,7 @@ void recipe_dictionary::find_items_on_loops()
     items_on_loops.clear();
     std::unordered_map<itype_id, std::vector<itype_id>> potential_components_of;
     for( const itype *i : item_controller->all() ) {
-        if( !i->comestible || i->has_flag( STATIC( flag_str_id( "NUTRIENT_OVERRIDE" ) ) ) ) {
+        if( !i->comestible || i->has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) ) ) {
             continue;
         }
         std::vector<itype_id> &potential_components = potential_components_of[i->get_id()];

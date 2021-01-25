@@ -15,14 +15,29 @@
     "default": "mon_gummy_cub"
   },
   {
+    "name": "GROUP_EGG_GUMMY_GATOR",
+    "type": "monstergroup",
+    "default": "mon_gummy_gator"
+  },
+  {
     "name": "GROUP_EGG_CRACKER",
     "type": "monstergroup",
     "default": "mon_small_cracker"
   },
   {
+    "name": "GROUP_EGG_CRACKER_ROE",
+    "type": "monstergroup",
+    "default": "mon_cracker_lbass"
+  },
+  {
     "name": "GROUP_EGG_COOKIE",
     "type": "monstergroup",
     "default": "mon_cookie"
+  },
+  {
+    "name": "GROUP_EGG_COOKIE_EGG",
+    "type": "monstergroup",
+    "default": "mon_cookie_hydra_youth"
   },
   {
     "name": "GROUP_EGG_GUM",
@@ -38,5 +53,10 @@
     "name": "GROUP_EGG_CHOC_COW",
     "type": "monstergroup",
     "default": "mon_cow_calf_choc"
+  },
+  {
+    "name": "GROUP_EGG_LICORICE",
+    "type": "monstergroup",
+    "default": "mon_licorice_snake_hatchling"
   }
 ]

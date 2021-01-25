@@ -50,7 +50,7 @@ class query_popup
          * true and "QUIT" action occurs, or "ANY_INPUT" if `allow_anykey` is
          * set to true and an unknown action occurs. In `query_once`, action
          * can also be other actions such as "LEFT" or "RIGHT" which are used
-         * for moving the cursor. If an error occured, such as when the popup
+         * for moving the cursor. If an error occurred, such as when the popup
          * is not properly set up, `action` will be "ERROR".
          *
          * `evt` is the actual `input_event` that triggers the action. Note that

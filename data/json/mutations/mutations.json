@@ -22,18 +22,19 @@
     "hunger": true,
     "encumbrance_covered": [ [ "head", 5 ] ],
     "changes_to": [ "BIOLUM1" ],
+    "types": [ "BIOLUM" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
     "triggers": [
       [
         {
           "trigger_type": "MOOD",
           "threshold_low": 20,
-          "msg_on": { "text": "You're so happy you're glowing!", "rating": "mixed" }
+          "msg_on": { "text": "You're so happy, you're glowing!", "rating": "mixed" }
         },
         {
           "trigger_type": "HUNGER",
           "threshold_low": 110,
-          "msg_on": { "text": "You're feeling hungry, time to lure some preys!", "rating": "mixed" }
+          "msg_on": { "text": "You're feeling hungry; time to lure some prey!", "rating": "mixed" }
         }
       ]
     ],
@@ -65,12 +66,13 @@
     "id": "BIOLUM1",
     "name": { "str": "Weak Photophore" },
     "points": 1,
-    "description": "A photophore has grown from your head, you can make it glow softly.  This will make you very visible in the dark, ideal to attract a partner during mating season.",
+    "description": "A photophore has grown from your head; you can make it glow softly.  This will make you very visible in the dark, ideal for attracting a partner during mating season.",
     "active": true,
     "cost": 1,
     "time": 810000,
     "hunger": true,
     "encumbrance_covered": [ [ "head", 5 ] ],
+    "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM0" ],
     "changes_to": [ "BIOLUM2" ],
     "transform": { "target": "BIOLUM1_active", "msg_transform": "Your photophore starts glowing.", "active": true, "moves": 10 },
@@ -97,6 +99,7 @@
     "time": 405000,
     "hunger": true,
     "encumbrance_covered": [ [ "head", 5 ] ],
+    "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM1" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
     "transform": { "target": "BIOLUM2_active", "msg_transform": "Your photophore starts glowing.", "active": true, "moves": 10 }
@@ -116,7 +119,7 @@
     "id": "JEKYLL",
     "name": { "str": "Normal Human" },
     "points": 0,
-    "description": "You're a normal human, there's nothing wrong with you.  No need to worry.",
+    "description": "You're a normal human; there's nothing wrong with you.  No need to worry.",
     "category": [ "MEDICAL" ],
     "triggers": [
       [
@@ -143,7 +146,7 @@
     "valid": false,
     "name": { "str": "Violent Monster" },
     "points": -1,
-    "description": "Anger clouds your mind, you can't think straight but you feel strong.",
+    "description": "Anger clouds your mind; you can't think straight, but you feel strong.",
     "mixed_effect": true,
     "category": [ "MEDICAL" ],
     "triggers": [
@@ -152,7 +155,7 @@
           "trigger_type": "TIME",
           "threshold_low": 6,
           "threshold_high": 21,
-          "msg_on": { "text": "As the morning comes you return back to normal.", "rating": "good" }
+          "msg_on": { "text": "As the morning comes, you return back to normal.", "rating": "good" }
         }
       ]
     ],
@@ -178,7 +181,7 @@
     "id": "FEYHEARING",
     "name": { "str": "Fey Hearing" },
     "points": 2,
-    "description": "Your not sure the shape of your ears are helping, but regardless you have become very sensitive to sounds.",
+    "description": "You're not sure the shape of your ears is helping you any; regardless, you have become very sensitive to sounds.",
     "prereqs": [ "GOODHEARING" ],
     "prereqs2": [ "ELFA_EARS" ],
     "threshreq": [ "THRESH_ELFA" ],
@@ -223,7 +226,7 @@
     "id": "GOODCARDIO",
     "name": { "str": "Indefatigable" },
     "points": 2,
-    "description": "Whether due to exercise and good diet, or due to a natural propensity to physical endurance, you tire due to physical exertion much less readily than others.  Your maximum stamina is 25% higher than usual.",
+    "description": "Whether due to exercise and good diet, or due to a natural abundance of physical endurance, you tire due to physical exertion much less readily than others.  Your maximum stamina is 25% higher than usual.",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "BADCARDIO" ],
@@ -269,7 +272,7 @@
     "id": "FASTHEALER",
     "name": { "str": "Fast Healer" },
     "points": 2,
-    "description": "Your wounds heal themselves quicker than usual.  You heal 50% faster whilst asleep and 20% faster whilst awake.  Your broken limbs also heal twice as fast.",
+    "description": "Your wounds heal themselves quicker than usual.  You heal 50% faster whilst asleep, and 20% faster whilst awake.  Your broken limbs also heal twice as fast.",
     "starting_trait": true,
     "types": [ "HEALING" ],
     "changes_to": [ "FASTHEALER2", "REGEN_LIZ" ],
@@ -364,7 +367,7 @@
     "id": "TOUGH_FEET",
     "name": { "str": "Tough Feet" },
     "points": 1,
-    "description": "The bottoms of your feet are tough and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes.",
+    "description": "The bottoms of your feet are tough, and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes.",
     "starting_trait": true,
     "valid": false
   },
@@ -411,13 +414,13 @@
     "id": "THICKSKIN",
     "name": { "str": "Thick-Skinned" },
     "points": 1,
-    "description": "Your skin is tough.  Cutting and bash damage is slightly reduced for you.  There's a small chance you don't cut yourself on sharp terrain.",
+    "description": "Your skin is tough.  Cutting and bashing damage is slightly reduced for you.  There's a small chance you don't cut yourself on sharp terrain.",
     "starting_trait": true,
     "category": [ "LIZARD", "CATTLE", "CHIMERA", "RAPTOR" ],
     "cancels": [ "THINSKIN" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 1,
         "bash": 1
       }
@@ -461,7 +464,7 @@
     "name": { "str": "Rigid Table Manners" },
     "points": -1,
     "consume_time_modifier": 1.5,
-    "description": "You've been taught proper table manners from your early childhood on.  Now you can't even think about eating without being seated at a table and taking your time.  Eating without a table and chair frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
+    "description": "You've been taught proper table manners from your early childhood on; now, you can't even think about eating without being seated at a table and taking your time.  Eating without a table and chair frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
     "starting_trait": true,
     "valid": false
   },
@@ -470,7 +473,7 @@
     "id": "STRONGSTOMACH",
     "name": { "str": "Strong Stomach" },
     "points": 1,
-    "description": "You are less likely to throw up from food poisoning, alcohol, etc.  If you throw up nevertheless, you won't suffer a residual nausea.",
+    "description": "You are less likely to throw up from food poisoning, alcohol, etc.  If you throw up despite this, you won't suffer any residual nausea.",
     "starting_trait": true,
     "vomit_multiplier": 0.5,
     "changes_to": [ "NAUSEA" ],
@@ -587,7 +590,7 @@
     "id": "DISRESISTANT",
     "name": { "str": "Disease Resistant" },
     "points": 1,
-    "description": "It's very unlikely that you will catch ambient diseases like a cold or the flu.",
+    "description": "It's very unlikely that you will catch ambient diseases like the cold or flu.",
     "starting_trait": true,
     "changes_to": [ "DISIMMUNE" ],
     "category": [ "CATTLE", "RAT", "MEDICAL" ]
@@ -618,7 +621,7 @@
     "id": "SELFAWARE",
     "name": { "str": "Self-Aware" },
     "points": 1,
-    "description": "You get to see your exact amount of HP remaining and health, instead of only having a vague idea of whether you're in good condition or not.",
+    "description": "You get to see your exact amount of HP remaining and health, instead of having only a vague idea of whether you're in good condition or not.",
     "starting_trait": true,
     "valid": false,
     "active": true,
@@ -831,7 +834,7 @@
     "id": "XS",
     "name": { "str": "Weight: XS" },
     "points": -1,
-    "description": "You lost an awful lot of weight before Cataclysm.  Whatever the reason, your skeletal figure is now an extra burden, when food is not at hand's reach.  You need to gain weight or die trying.",
+    "description": "You lost an awful lot of weight before the Cataclysm.  Whatever the reason, now that food is not always close at hand, your skeletal figure presents an additional danger.  You need to gain weight or die trying.",
     "starting_trait": true,
     "purifiable": false,
     "valid": false,
@@ -842,7 +845,7 @@
     "id": "XXXL",
     "name": { "str": "Weight: XXXL" },
     "points": -1,
-    "description": "You gained an awful lot of weight before Cataclysm.  Whatever the reason, your bloated figure is now an extra burden, when mobility is a key to survival.  You need to go on a diet or die trying.",
+    "description": "You gained an awful lot of weight before the Cataclysm.  Whatever the reason, now that mobility is key to survival, your bloated figure presents an additional danger.  You need to lose weight or die trying.",
     "starting_trait": true,
     "purifiable": false,
     "valid": false,
@@ -877,7 +880,7 @@
     "id": "BADCARDIO",
     "name": { "str": "Languorous" },
     "points": -2,
-    "description": "Whether due to lack of exercise and poor diet, or due to a natural disinclination to physical endurance, you tire due to physical exertion much more readily than others.  Your maximum stamina is 25% lower than usual.",
+    "description": "Whether due to lack of exercise and poor diet, or due to a natural lack of physical endurance, you tire from physical exertion much more readily than others.  Your maximum stamina is 25% lower than usual.",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "GOODCARDIO" ],
@@ -898,7 +901,7 @@
     "id": "SLOWHEALER",
     "name": { "str": "Slow Healer" },
     "points": -2,
-    "description": "Your wounds heal a little slower than most.  Your HP whilst asleep as well as your broken limbs heal at 75% the regular rate.",
+    "description": "Your wounds heal a little slower than most.  Your HP whilst asleep, as well as your broken limbs, heal at 75% of the regular rate.",
     "starting_trait": true,
     "types": [ "HEALING" ],
     "healing_resting": -0.25,
@@ -909,7 +912,7 @@
     "id": "SLOWHEALER2",
     "name": { "str": "Poor Healer" },
     "points": -4,
-    "description": "Your health recovery is severely impaired.  Your HP whilst asleep as well as your broken limbs heal at 33% the regular rate.",
+    "description": "Your health recovery is severely impaired.  Your HP whilst asleep, as well as your broken limbs, heal at 33% of the regular rate.",
     "starting_trait": true,
     "valid": false,
     "purifiable": false,
@@ -922,7 +925,7 @@
     "id": "SLOWHEALER3",
     "name": { "str": "Imperceptive Healer" },
     "points": -8,
-    "description": "Wounds are incredibly dangerous to you, as they barely heal at all.  Your HP whilst asleep as well as your broken limbs heal at 10% the regular rate.",
+    "description": "Wounds are incredibly dangerous to you, as they barely heal at all.  Your HP whilst asleep, as well as your broken limbs, heal at 10% of the regular rate.",
     "starting_trait": true,
     "valid": false,
     "purifiable": false,
@@ -1042,7 +1045,7 @@
     "id": "SLOWLEARNER",
     "name": { "str": "Slow Learner" },
     "points": -3,
-    "description": "You are slow to grasp new ideas and thus learn things more slowly than others.  Note that this only applies to real-world experience, not to skill gain from other sources like books.",
+    "description": "You are slow to grasp new ideas, and thus learn things more slowly than others.  Note that this only applies to real-world experience, not to skill gain from other sources like books.",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "FASTLEARNER" ]
@@ -1075,12 +1078,12 @@
     "id": "THINSKIN",
     "name": { "str": "Thin-Skinned" },
     "points": -1,
-    "description": "Your skin is fragile.  Cutting and bash damage is slightly increased for you.",
+    "description": "Your skin is fragile.  Cutting and bashing damage is slightly increased for you.",
     "starting_trait": true,
     "cancels": [ "THICKSKIN" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": -1,
         "bash": -1
       }
@@ -1143,7 +1146,7 @@
     "id": "ANTIWHEAT",
     "name": { "str": "Grain Intolerance" },
     "points": -2,
-    "description": "You have a rare allergy that prevents you from eating most types of grains such as wheat or oats.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
+    "description": "You have a rare allergy that prevents you from eating wheat.  It's possible for you to eat wheat-based products, but you will suffer morale penalties and obtain less nutrition from them.",
     "vitamins_absorb_multi": [ [ "wheat", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
     "starting_trait": true
   },
@@ -1283,7 +1286,7 @@
     "id": "SCHIZOPHRENIC",
     "name": { "str": "Kaluptic Psychosis" },
     "points": -3,
-    "description": "Ever since the sky first broke you have felt unwell, with your head split by alien thoughts.  You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of Thorazine.",
+    "description": "Ever since the sky first broke, you have felt unwell, your head split by alien thoughts.  You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of antipsychotics.",
     "starting_trait": true,
     "valid": false,
     "category": [ "MEDICAL" ]
@@ -1426,7 +1429,7 @@
     "id": "FLIMSY",
     "name": { "str": "Flimsy" },
     "points": -4,
-    "description": "Your body can't take much abuse.  Its maximum HP is 25% lower than usual and you heal slightly slower.  Stacks with Glass Jaw.",
+    "description": "Your body can't take much abuse.  Its maximum HP is 25% lower than usual, and you heal slightly slower.  Stacks with Glass Jaw.",
     "starting_trait": true,
     "valid": false,
     "social_modifiers": { "intimidate": -2 },
@@ -1440,7 +1443,7 @@
     "id": "FLIMSY2",
     "name": { "str": "Frail" },
     "points": -6,
-    "description": "Your body breaks very easily.  Its maximum HP is 50% lower than usual and you heal slower.  Stacks with Glass Jaw.",
+    "description": "Your body breaks very easily.  Its maximum HP is 50% lower than usual, and you heal slower.  Stacks with Glass Jaw.",
     "starting_trait": true,
     "valid": false,
     "social_modifiers": { "intimidate": -3 },
@@ -1454,7 +1457,7 @@
     "id": "FLIMSY3",
     "name": { "str": "Fragile" },
     "points": -8,
-    "description": "Your body is extremely fragile.  Its maximum HP is 75% lower than usual and you heal much slower.  Stacks with Glass Jaw.",
+    "description": "Your body is extremely fragile.  Its maximum HP is 75% lower than usual, and you heal much slower.  Stacks with Glass Jaw.",
     "starting_trait": true,
     "valid": false,
     "social_modifiers": { "intimidate": -4 },
@@ -1540,7 +1543,7 @@
     "id": "ELFAEYES",
     "name": { "str": "Fey Eyes" },
     "points": 1,
-    "description": "Your eyes have turned… green.  It's tough to tell the exact shade as it seems to shift.  The effect is… pleasant.",
+    "description": "Your eyes have turned… green.  It's tough to tell the exact shade, as it seems to shift.  The effect is… pleasant.",
     "leads_to": [ "ELFA_NV" ],
     "valid": false,
     "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES" ],
@@ -1565,7 +1568,7 @@
     "id": "ELFA_FNV",
     "name": { "str": "Fey Nightsight" },
     "points": 5,
-    "description": "You have great low-light vision now, though that doesn't allow you to perform fine tasks such as crafting and reading in darkness.  Activate to toggle NV-visible areas on or off.",
+    "description": "You have great low-light vision now, but it doesn't allow you to perform fine tasks such as crafting and reading in darkness.  Activate to toggle NV-visible areas on or off.",
     "prereqs": [ "ELFA_NV" ],
     "cancels": [ "LIZ_IR", "FEL_NV", "NIGHTVISION", "NIGHTVISION2", "NIGHTVISION3" ],
     "category": [ "ELFA" ],
@@ -1579,7 +1582,7 @@
     "points": 0,
     "visibility": 2,
     "ugliness": 1,
-    "description": "Your eyes have mutated, now having a slitted pupil and glittering in light, much like those of cats.  This is visually striking, but it isn't helping you see at night.",
+    "description": "Your eyes have mutated; now you have slit pupils, and they glitter in the light, much like a cat's.  This is visually striking, but it isn't helping you see at night.",
     "social_modifiers": { "lie": 2, "persuade": 2 },
     "leads_to": [ "FEL_NV" ],
     "cancels": [ "ELFAEYES", "LIZ_EYE", "BIRD_EYE", "URSINE_EYE", "COMPOUND_EYES" ],
@@ -1865,7 +1868,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "cut": 1,
         "bash": 2
       }
@@ -1881,6 +1884,7 @@
     "description": "We have spliced the dense, amphibole fibers from Mycus core towers with the resilient, adaptive flesh of local physiology.  This reduces our speed by a moderate amount, but provides powerful armor across our body, nullifies wet effects, and provides complete protection from fire.",
     "valid": false,
     "purifiable": false,
+    "flags": [ "HEATPROOF" ],
     "category": [ "MYCUS" ],
     "prereqs": [ "M_SKIN" ],
     "prereqs2": [ "M_DEFENDER" ],
@@ -1900,7 +1904,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "cut": 2,
         "bash": 3
       }
@@ -1917,6 +1921,7 @@
     "description": "Local physiology has been fully incorporated with that of Mycus silicate fibers.  In addition to benefits conferred by previous developments, we may join with Mycus fibers beneath us - sleeping on top of fungal areas places us into a dormant state, which spreads spores around us as we sleep and revitalizes our body much more quickly than regular sleep.",
     "valid": false,
     "purifiable": false,
+    "flags": [ "HEATPROOF" ],
     "category": [ "MYCUS" ],
     "prereqs": [ "M_SKIN2" ],
     "threshreq": [ "THRESH_MYCUS" ],
@@ -1934,7 +1939,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "cut": 3,
         "bash": 5
       }
@@ -1968,7 +1973,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 2
       }
     ]
@@ -2000,7 +2005,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 4
       }
     ],
@@ -2032,7 +2037,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 1
       }
     ]
@@ -2064,7 +2069,7 @@
     "category": [ "BIRD" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 1
       }
     ]
@@ -2108,14 +2113,14 @@
     "ugliness": 3,
     "bodytemp_modifiers": [ 750, 1500 ],
     "bodytemp_sleep": 500,
-    "description": "Thick black fur has grown to cover your entire body, providing a marginal protection against attacks, and considerable protection from cold.",
+    "description": "Thick black fur has grown to cover your entire body, providing marginal protection against attacks, and considerable protection from cold.",
     "types": [ "SKIN" ],
     "changes_to": [ "URSINE_FUR" ],
     "prereqs": [ "LIGHTFUR" ],
     "category": [ "BEAST", "CATTLE", "RAT" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 1
       }
     ]
@@ -2130,12 +2135,13 @@
     "bodytemp_modifiers": [ 750, 1500 ],
     "bodytemp_sleep": 500,
     "description": "Your fur has grown out and thickened, providing noticeable protection from attacks as well as considerable insulation.",
+    "//": "Weak, marginal, and noticeable protection all translate to +1. Is this intended?",
     "types": [ "SKIN" ],
     "prereqs": [ "LIGHTFUR" ],
     "category": [ "URSINE" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 1
       }
     ]
@@ -2149,13 +2155,13 @@
     "ugliness": 3,
     "bodytemp_modifiers": [ 750, 1500 ],
     "bodytemp_sleep": 500,
-    "description": "Dense gray fur has grown to cover your entire body, providing a marginal protection against attacks, and considerable protection from cold.",
+    "description": "Dense gray fur has grown to cover your entire body, providing marginal protection against attacks, and considerable protection from cold.",
     "types": [ "SKIN" ],
     "prereqs": [ "LIGHTFUR" ],
     "category": [ "LUPINE" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 1
       }
     ]
@@ -2214,7 +2220,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 2,
         "cut": 2
       }
@@ -2248,7 +2254,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 4,
         "cut": 4
       }
@@ -2263,7 +2269,7 @@
     "visibility": 8,
     "ugliness": 5,
     "bash_dmg_bonus": 3,
-    "description": "You've grown a chitin exoskeleton made of thick, stiff plates.  It provides excellent physical protection, make your punches hit harder but reduces your Dexterity by 1 and encumbers all body parts but your eyes and mouth.  Greatly reduces wet effects.",
+    "description": "You've grown a chitin exoskeleton made of thick, stiff plates.  It provides excellent physical protection and makes your punches hit harder, but reduces your Dexterity by 1 and encumbers all body parts but your eyes and mouth.  Greatly reduces wet effects.",
     "types": [ "SKIN" ],
     "prereqs": [ "CHITIN2", "CHITIN_FUR2" ],
     "category": [ "SPIDER" ],
@@ -2295,7 +2301,7 @@
     "restricts_gear": [ "head" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 8,
         "cut": 8,
         "bullet": 1
@@ -2319,7 +2325,7 @@
     "changes_to": [ "CHITIN_FUR2" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 2,
         "cut": 2
       }
@@ -2341,7 +2347,7 @@
     "changes_to": [ "CHITIN_FUR3", "CHITIN3" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 4,
         "cut": 4
       }
@@ -2356,7 +2362,7 @@
     "ugliness": 4,
     "bodytemp_modifiers": [ 150, 250 ],
     "bodytemp_sleep": 75,
-    "description": "Your exoskeleton has hardened considerably--restricting movement, granted--and boasts a fine coat of hairs that put feline whiskers to shame.",
+    "description": "Your exoskeleton has hardened considerably, imposing a further -1 to Dexterity, and boasts a fine coat of hairs that put feline whiskers to shame.",
     "encumbrance_always": [
       [ "torso", 10 ],
       [ "head", 10 ],
@@ -2376,7 +2382,7 @@
     "restricts_gear": [ "head" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 8,
         "cut": 8,
         "bullet": 1
@@ -2456,7 +2462,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 1
       }
     ],
@@ -2487,7 +2493,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 2
       }
     ]
@@ -2614,7 +2620,7 @@
     "points": 6,
     "visibility": 5,
     "ugliness": 3,
-    "description": "Local organisms seem to regard open spore-dispersal as a danger, and attack the Mycus.  Accordingly, our local spore sacs remain quiescent, until local guidance determines that it is safe to germinate.  Rapid development taxes local nutrient reserves but ensures swift and effective growth.",
+    "description": "Local organisms seem to regard overt spore dispersal as a danger, and attack the Mycus.  Accordingly, our local spore sacs remain quiescent, until local guidance determines that it is safe to germinate.  Rapid development taxes local nutrient reserves but ensures swift and effective growth.",
     "valid": false,
     "changes_to": [ "M_PROVENANCE" ],
     "prereqs": [ "M_SPORES" ],
@@ -2649,7 +2655,7 @@
     "points": 6,
     "visibility": 10,
     "ugliness": 1,
-    "description": "Local organisms seem to regard open spore-dispersal as a danger, and attack the Mycus.  Accordingly, our local blossoms remain quiescent, until local guidance determines that it is safe to germinate.  Rapid development taxes local nutrient reserves but ensures swift and effective growth.",
+    "description": "Local organisms seem to regard overt spore dispersal as a danger, and attack the Mycus.  Accordingly, our local blossoms remain quiescent, until local guidance determines that it is safe to germinate.  Rapid development taxes local nutrient reserves but ensures swift and effective growth.",
     "valid": false,
     "changes_to": [ "M_PROVENANCE" ],
     "cancels": [ "M_SPORES", "M_FERTILE" ],
@@ -2981,7 +2987,7 @@
     "visibility": 5,
     "ugliness": 4,
     "rand_cut_bonus": { "min": 2, "max": 3 },
-    "description": "The skin on your hands is a mucous membrane and produces a thick, acrid slime.  Attacks using your hand will cause minor acid damage.  Slightly increases wet benefits.",
+    "description": "The skin on your hands is now a mucous membrane that produces a thick, acrid slime.  Attacks using your hand will cause minor acid damage.  Slightly increases wet benefits.",
     "prereqs": [ "SLIMY" ],
     "category": [ "SLIME" ],
     "wet_protection": [ { "part": "hand_l", "good": 5 }, { "part": "hand_r", "good": 5 } ]
@@ -3040,7 +3046,7 @@
     "points": 2,
     "visibility": 9,
     "ugliness": 5,
-    "description": "Your eyes are compound, like those of an insect.  This increases your Perception by 2 so long as you aren't wearing eyewear.",
+    "description": "Your eyes are compound, like those of an insect.  This increases your Perception by 2 whenever you aren't wearing eyewear.",
     "cancels": [ "ELFAEYES", "FEL_EYE", "URSINE_EYE", "BIRD_EYE", "LIZ_EYE" ],
     "prereqs": [ "EYEBULGE" ],
     "category": [ "INSECT" ]
@@ -3127,7 +3133,8 @@
     "points": 0,
     "visibility": 3,
     "ugliness": 2,
-    "description": "Your frame has adapted for life in confined spaces.  You seem a little shorter and bulkier, trading muscle mass for mobility.  (+2 Strength, -2 Dexterity)",
+    "description": "Your frame has adapted for life in confined spaces.  You seem a little shorter and bulkier, trading mobility for muscle mass.  (+2 Strength, -2 Dexterity)",
+    "//": "Trading X for Y usually means reducing X to gain Y, so I switched the order.",
     "threshreq": [ "THRESH_TROGLOBITE" ],
     "category": [ "TROGLOBITE" ],
     "passive_mods": { "str_mod": 2, "dex_mod": -2 }
@@ -3175,7 +3182,7 @@
     "id": "M_DEPENDENT",
     "name": { "str": "Mycus Feeder" },
     "points": -5,
-    "description": "We have streamlined our nutritional requirements.  We rely on the Mycus for sustenance, as it relies on us.  We may locate sources of sustenance within the close proximity of Mycus core towers, and in forested areas that the Mycus has grown into.",
+    "description": "We have streamlined our nutritional requirements.  We rely on the Mycus for sustenance, as it relies on us.  We may locate sources of sustenance in close proximity to Mycus core towers, and in forested areas that the Mycus has grown into.",
     "valid": false,
     "purifiable": false,
     "threshreq": [ "THRESH_MYCUS" ],
@@ -3279,13 +3286,32 @@
     "id": "EATHEALTH",
     "name": { "str": "Hyper-Metabolism" },
     "points": 15,
-    "description": "You metabolize nutrients so rapidly that you can convert food directly into useful tissue.  Excess nutrition will convert to HP, rather than being wasted.  Activate to skip prompt for overeating.",
+    "description": "Your particular metabolism allows you to burn calories at a prodigious rate to regenerate tissues in a matter of minutes; this is, however, a very wasteful process.  Activate to start healing.",
     "prereqs": [ "HUNGER3" ],
     "types": [ "METABOLISM" ],
     "threshreq": [ "THRESH_CHIMERA" ],
     "category": [ "CHIMERA" ],
     "valid": false,
-    "active": true
+    "active": true,
+    "transform": {
+      "target": "EATHEALTH_active",
+      "msg_transform": "Your hyper-metabolism starts burning up calories.",
+      "active": true,
+      "moves": 0
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "EATHEALTH_active",
+    "name": { "str": "Hyper-Metabolism: burning" },
+    "description": "You're burning calories like crazy to heal your wounds.",
+    "copy-from": "EATHEALTH",
+    "cost": 1,
+    "time": 1,
+    "hunger": true,
+    "healing_awake": 300.0,
+    "healing_resting": 350.0,
+    "transform": { "target": "EATHEALTH", "msg_transform": "Your hyper-metabolism slows down.", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
@@ -3419,6 +3445,7 @@
     "wet_protection": [ { "part": "leg_l", "good": 3 }, { "part": "leg_r", "good": 3 } ],
     "movecost_swim_modifier": 0.75,
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true
   },
   {
@@ -3434,6 +3461,7 @@
     "changes_to": [ "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_CATTLE", "TAIL_RAT" ],
     "category": [ "FELINE" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "dodge_modifier": 2
   },
@@ -3449,6 +3477,7 @@
     "prereqs": [ "TAIL_LONG" ],
     "category": [ "CATTLE" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "dodge_modifier": 1
   },
@@ -3464,6 +3493,7 @@
     "prereqs": [ "TAIL_LONG", "TAIL_STUB" ],
     "category": [ "RAT", "MOUSE" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "dodge_modifier": 2
   },
@@ -3480,6 +3510,7 @@
     "changes_to": [ "TAIL_CLUB" ],
     "category": [ "LIZARD" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You whap %s with your tail",
@@ -3496,11 +3527,12 @@
     "points": 1,
     "visibility": 8,
     "ugliness": 2,
-    "description": "You have a long and semi-stiff lizardlike tail.  You can't effectively lash it in combat, but it significantly improves your balance.  Prevents wearing non-fabric pants.",
+    "description": "You have a long and semi-stiff lizardlike tail.  You can't effectively strike with it in combat, but it significantly improves your balance.  Prevents wearing non-fabric pants.",
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_STUB" ],
     "category": [ "RAPTOR" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "dodge_modifier": 3
   },
@@ -3515,6 +3547,7 @@
     "prereqs": [ "TAIL_LONG" ],
     "category": [ "BEAST", "LUPINE" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "social_modifiers": { "lie": -20, "persuade": 10 },
     "dodge_modifier": 4
@@ -3530,6 +3563,7 @@
     "types": [ "TAIL" ],
     "prereqs": [ "TAIL_LONG" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You sting %s with your tail",
@@ -3550,6 +3584,7 @@
     "prereqs": [ "TAIL_THICK" ],
     "category": [ "CHIMERA" ],
     "restricts_gear": [ "leg_l", "leg_r" ],
+    "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
       "attack_text_u": "You club %s with your tail",
@@ -3695,7 +3730,7 @@
     "id": "MORE_PAIN",
     "name": { "str": "Pain Sensitive" },
     "points": -2,
-    "description": "For some reason things always seem to hurt you more.  Pain dealt to you is increased by 25%.",
+    "description": "For some reason, things always seem to hurt you more.  Pain dealt to you is increased by 25%.",
     "starting_trait": true,
     "//": "The MORE_PAIN mutations will always increase the pain you receive by at least 1.",
     "cancels": [ "PAINRESIST", "NOPAIN" ],
@@ -3961,7 +3996,7 @@
     "points": 1,
     "visibility": 4,
     "ugliness": 1,
-    "description": "Your hearing has evolved further and is now on par with wolves.  You can hear things significantly farther away.",
+    "description": "Your hearing has evolved further and is now on par with that of wolves.  You can hear things significantly farther away.",
     "types": [ "EARS" ],
     "category": [ "LUPINE" ],
     "hearing_modifier": 1.75
@@ -4115,7 +4150,7 @@
     "movecost_swim_modifier": 0.95,
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "bash": 1
       }
     ],
@@ -4390,7 +4425,7 @@
     "category": [ "SLIME" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "bash": -3
       }
     ]
@@ -4644,7 +4679,7 @@
     "points": -1,
     "visibility": 10,
     "ugliness": -2,
-    "description": "You have a very large and very beautiful pair of brightly-colored wings.  They can't lift you, and they make balancing tricky, but they certainly catch air and attention!",
+    "description": "You have a very large pair of brightly-colored, very beautiful wings.  They can't lift you, and they make balancing tricky, but they certainly catch air and attention!",
     "valid": false,
     "purifiable": false,
     "encumbrance_always": [ [ "torso", 10 ] ],
@@ -4910,7 +4945,8 @@
     "id": "NAUSEA",
     "name": { "str": "Nausea" },
     "points": -2,
-    "description": "You feel nauseous almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.  You can, if desired, think yourself into vomiting, too.",
+    "description": "You feel nauseated almost constantly, and are more liable to throw up from food poisoning, alcohol, etc.  You can, if desired, think yourself into vomiting, too.",
+    "//": "Nauseous means 'to induce nausea.'",
     "vomit_multiplier": 3,
     "prereqs": [ "WEAKSTOMACH" ],
     "changes_to": [ "VOMITOUS", "EATPOISON" ],
@@ -4965,7 +5001,7 @@
     "id": "HUNGER2",
     "name": { "str": "Very Fast Metabolism" },
     "points": -2,
-    "description": "You need about twice as much food as the average human to maintain your expanded cardiovascular and respiratory systems.  On a plus side, it doesn't take you much time to recover from any strenuous activity.",
+    "description": "You need about twice as much food as the average human to maintain your expanded cardiovascular and respiratory systems.  On the plus side, it doesn't take you much time to recover from any strenuous activity.",
     "prereqs": [ "HUNGER" ],
     "changes_to": [ "HUNGER3" ],
     "types": [ "METABOLISM" ],
@@ -5183,7 +5219,7 @@
     "visibility": 4,
     "ugliness": 3,
     "mixed_effect": true,
-    "description": "Your paws are much larger now.  Manual dexterity is difficult: permanent hand encumbrance of 20, serious problems crafting, and no gloves.  But you can swim more effectively.",
+    "description": "Your paws are much larger now.  Manual dexterity is difficult: permanent hand encumbrance of 20, serious problems crafting, and no gloves.  In return, though, you can swim better.",
     "craft_skill_bonus": [
       [ "electronics", -4 ],
       [ "tailor", -4 ],
@@ -5331,7 +5367,7 @@
     "points": 2,
     "visibility": 7,
     "ugliness": 6,
-    "description": "Your body is coated with a fine slime.  Protects from long term effects of acid, though not short term ones.  Greatly increases wet benefits.",
+    "description": "Your body is coated with a fine slime.  Protects from long-term effects of acid, though not short-term ones.  Greatly increases wet benefits.",
     "leads_to": [ "SLIME_HANDS" ],
     "changes_to": [ "VISCOUS" ],
     "category": [ "FISH", "SLIME", "TROGLOBITE", "CEPHALOPOD" ],
@@ -5355,7 +5391,7 @@
     "points": 4,
     "visibility": 7,
     "ugliness": 8,
-    "description": "Your body's slime output has become sticky and gel-like.  Protects from acid somewhat.  Greatly increases wet benefits.",
+    "description": "Your body's slime output has become sticky and gel-like.  Somewhat protects from acid.  Greatly increases wet benefits.",
     "leads_to": [ "AMORPHOUS" ],
     "prereqs": [ "SLIMY" ],
     "threshreq": [ "THRESH_SLIME" ],
@@ -5374,7 +5410,7 @@
     ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "acid": 2
       }
     ]
@@ -5396,7 +5432,7 @@
     "category": [ "SLIME" ],
     "armor": [
       {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
         "bash": 4
       }
     ],
@@ -5493,7 +5529,7 @@
     "points": -2,
     "visibility": 8,
     "ugliness": 5,
-    "description": "You have developed several vines sprouting from your shoulder area.  They're bulky and get in the way.",
+    "description": "You have developed several vines sprouting from your shoulder area.  They're bulky, and get in the way.",
     "types": [ "WINGS" ],
     "prereqs": [ "PLANTSKIN", "BARK" ],
     "changes_to": [ "VINES2" ],
@@ -5557,7 +5593,7 @@
     "points": 0,
     "visibility": 4,
     "ugliness": 2,
-    "description": "Roots have started growing from your leaf like hair, they don't seem to do much.",
+    "description": "Roots have started growing from your leaf-like hair.  They don't seem to do much.",
     "prereqs": [ "LEAVES" ],
     "category": [ "PLANT", "ELFA" ]
   },
@@ -5763,7 +5799,7 @@
     "points": -2,
     "visibility": 8,
     "ugliness": 2,
-    "description": "Your arms have grown vibrantly colored feathers.  They effectively waterproof your arms and take the edge off hits, but really get in the way.  They're simply too small to help you in the air.",
+    "description": "Your arms have grown vibrantly-colored feathers.  They effectively waterproof your arms and take the edge off hits, but really get in the way.  They're simply too small to help you in the air.",
     "category": [ "RAPTOR" ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 50 },
@@ -5781,7 +5817,7 @@
     "points": -5,
     "visibility": 8,
     "ugliness": 5,
-    "description": "You've *finally* sprouted a pair of arms from your midsection.  They flail more-or-less uncontrollably, making you feel rather larval.",
+    "description": "You've *finally* sprouted a pair of arms from your midsection.  They flail more or less uncontrollably, making you feel rather larval.",
     "purifiable": false,
     "encumbrance_always": [ [ "arm_l", 30 ], [ "arm_r", 30 ] ],
     "types": [ "HANDS" ],
@@ -5816,7 +5852,7 @@
     "points": -7,
     "visibility": 10,
     "ugliness": 10,
-    "description": "There's the last two limbs you were expecting.  Unfortunately you still can't coordinate them, so you're getting in your own way.  A lot.",
+    "description": "There's the last two limbs you were expecting.  Unfortunately, you still can't coordinate them, so you're getting in your own way.  A lot.",
     "valid": false,
     "purifiable": false,
     "encumbrance_always": [ [ "arm_l", 40 ], [ "arm_r", 40 ] ],
@@ -5853,7 +5889,7 @@
     "visibility": 7,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your arms have transformed into tentacles, resulting in a bonus of 1 to Dexterity, permanent hand encumbrance of 30, and inability to wear gloves.  Somewhat decreases wet penalties.",
+    "description": "Your arms have transformed into tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  Somewhat decreases wet penalties.",
     "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
     "restricts_gear": [ "hand_l", "hand_r" ],
     "types": [ "HANDS" ],
@@ -5891,7 +5927,7 @@
     "points": -2,
     "visibility": 8,
     "ugliness": 5,
-    "description": "Your arms have transformed into four tentacles, resulting in a bonus of 1 to Dexterity, permanent hand encumbrance of 30, and inability to wear gloves.  You can make up to 3 extra attacks with them.  Somewhat decreases wet penalties.",
+    "description": "Your arms have transformed into four tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  You can make up to 3 extra attacks with them.  Somewhat decreases wet penalties.",
     "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
     "restricts_gear": [ "hand_l", "hand_r" ],
     "types": [ "HANDS" ],
@@ -5929,7 +5965,7 @@
     "points": -1,
     "visibility": 9,
     "ugliness": 6,
-    "description": "Your arms have transformed into eight tentacles, resulting in a bonus of 1 to Dexterity, permanent hand encumbrance of 30, and inability to wear gloves.  You can make up to 7 extra attacks with them.  Somewhat decreases wet penalties.",
+    "description": "Your arms have transformed into eight tentacles, resulting in a +1 bonus to Dexterity, permanent hand encumbrance of 30, and an inability to wear gloves.  You can make up to 7 extra attacks with them.  Somewhat decreases wet penalties.",
     "encumbrance_always": [ [ "hand_l", 30 ], [ "hand_r", 30 ] ],
     "restricts_gear": [ "hand_l", "hand_r" ],
     "types": [ "HANDS" ],
@@ -5967,7 +6003,7 @@
     "points": -5,
     "visibility": 8,
     "ugliness": 3,
-    "description": "You have grown a thick shell over your torso, providing excellent armor, but cannot wear anything on your torso.  Somewhat reduces wet effects.",
+    "description": "You have grown a thick shell over your torso, providing excellent armor, but you cannot wear anything on your torso.  Somewhat reduces wet effects.",
     "prereqs": [ "CHITIN" ],
     "cancels": [ "CHITIN3" ],
     "changes_to": [ "SHELL2" ],
@@ -6029,7 +6065,7 @@
     "visibility": 4,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "Your lower-tentacles have developed suckers.  They make land movement marginally more tiring, but do a good job of keeping you set in place.",
+    "description": "Your lower tentacles have developed suckers.  They make land movement marginally more tiring, but do a good job of keeping you set in place.",
     "prereqs": [ "LEG_TENTACLES" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
     "category": [ "CEPHALOPOD" ]
@@ -6099,7 +6135,7 @@
     "id": "THRESH_URSINE",
     "name": { "str": "Bear" },
     "points": 1,
-    "description": "So the humans died, what's the worry?  Now they won't ruin the woods.",
+    "description": "So the humans died; what's the worry?  Now they won't ruin the woods.",
     "cancels": [ "CARNIVORE" ],
     "valid": false,
     "purifiable": false,
@@ -6120,7 +6156,7 @@
     "id": "THRESH_INSECT",
     "name": { "str": "Insect" },
     "points": 1,
-    "description": "It would be good to be a Queen, having workers constantly servicing your every need… but how would you keep them in line?",
+    "description": "It would be good to be a queen, having workers constantly servicing your every need… but how would you keep them in line?",
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -6130,7 +6166,7 @@
     "id": "THRESH_PLANT",
     "name": { "str": "Plant" },
     "points": 1,
-    "description": "Well, you still have those other walking flowers-and the mushrooms too-to deal with.  But you'll manage.",
+    "description": "Well, you still have those other walking flowers--and the mushrooms, too--to deal with.  But you'll manage.",
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -6140,7 +6176,7 @@
     "id": "THRESH_SLIME",
     "name": { "str": "Aqueous" },
     "points": 1,
-    "description": "What was that old advertisement, 'paint the planet'?  That might be a good long-term goal, but for now…",
+    "description": "What was that old advertisement?  'Paint the planet'?  That might be a good long-term goal, but for now…",
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -6150,7 +6186,7 @@
     "id": "THRESH_TROGLOBITE",
     "name": { "str": "Subterranean" },
     "points": 1,
-    "description": "Not much point to rebuilding up in that horribly bright roofless wasteland.  Now that you've become accustomed to your new digs, there's the beginnings of a great empire right here, underground.",
+    "description": "Not much point to rebuilding up in that horribly bright, roofless wasteland.  Now that you've become accustomed to your new digs, there's the beginning of a great empire right here, underground.",
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -6160,7 +6196,7 @@
     "id": "THRESH_CEPHALOPOD",
     "name": { "str": "Cephalopod" },
     "points": 1,
-    "description": "Strange aeons, true, but Death seems to be slacking and you are doing just fine.",
+    "description": "Strange aeons, true, but Death seems to be slacking, and you are doing just fine.",
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -6170,7 +6206,7 @@
     "id": "THRESH_SPIDER",
     "name": { "str": "Arachnid" },
     "points": 1,
-    "description": "Well, maybe you'll just have to make your own world-wide web.",
+    "description": "Well, maybe you'll just have to make your own worldwide web.",
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -6366,7 +6402,7 @@
     "visibility": 10,
     "ugliness": 8,
     "consume_time_modifier": 0.3,
-    "description": "Your teeth have grown incredibly sharp and are formed of very dense calcium material.  In addition to making you eat much faster, you can use them as a lethal natural weapon, as long as your anatomy favors it.  They also grow very fast, and you harmlessly shed them more or less at random.",
+    "description": "Your teeth have grown incredibly sharp, and have calcified even further.  In addition to letting you eat much faster, you can use them as a lethal natural weapon, as long as your anatomy favors it.  They also grow very fast, and you harmlessly shed them more or less at random.",
     "prereqs": [ "FANGS" ],
     "types": [ "TEETH" ],
     "category": [ "FISH" ],
@@ -6397,7 +6433,7 @@
     "id": "PROF_SWAT",
     "name": { "str": "SWAT Officer" },
     "points": 0,
-    "description": "You are a duly sworn law enforcer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
+    "description": "You are a duly sworn law enforcement officer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
     "valid": false,
     "purifiable": false,
     "profession": true
@@ -6407,7 +6443,7 @@
     "id": "PROF_CYBERCOP",
     "name": { "str": "Bionic Officer" },
     "points": 0,
-    "description": "You are a cybernetically-resurrected law enforcer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether you can do for the law what the law did for you is another question.",
+    "description": "You are a cybernetically-resurrected law enforcement officer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether you can do for the law what the law did for you is another question.",
     "valid": false,
     "purifiable": false,
     "profession": true
@@ -6447,7 +6483,7 @@
     "id": "PROF_FOODP",
     "name": { "str": "True Foodperson" },
     "points": 0,
-    "description": "You are the true Foodperson, some might think Foodperson is just a mascot, but you know better.  You are Foodperson, the mask has become your face, you are real and the only thing standing between this world and oblivion is you.",
+    "description": "You are the true Foodperson, some might think Foodperson is just a mascot, but you know better.  You are Foodperson, the mask has become your face; you are real, and the only thing standing between this world and oblivion is you.",
     "valid": false,
     "purifiable": false,
     "profession": true
@@ -6468,7 +6504,7 @@
     "id": "PROF_SKATER",
     "name": { "str": "Skater" },
     "points": 1,
-    "description": "You are skilled in maneuvering on skates.  You suffer less dodging penalties and are less likely to fall down if hit in melee combat while you're wearing rollerskates or rollerblades.",
+    "description": "You are skilled in maneuvering on skates.  You suffer lower penalties to dodging and are less likely to fall down if hit in melee combat while you're wearing rollerskates or rollerblades.",
     "starting_trait": true,
     "valid": false
   },
@@ -6733,7 +6769,7 @@
     "name": { "str": "Debug Invincibility" },
     "points": 99,
     "valid": false,
-    "description": "Bug repellent forcefield.",
+    "description": "Bug-repellent forcefield.",
     "debug": true
   },
   {
@@ -6743,6 +6779,15 @@
     "points": 99,
     "valid": false,
     "description": "Crafting and construction requirements bugger off with this one.  Apply with care.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_CNF",
+    "name": { "str": "Debug Crafting Virtuoso" },
+    "points": 99,
+    "valid": false,
+    "description": "Crafting failures won't bug you any more.",
     "debug": true
   },
   {

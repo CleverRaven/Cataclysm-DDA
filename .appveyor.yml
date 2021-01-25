@@ -1,7 +1,7 @@
 version: '{branch}.{build}'
 image: Visual Studio 2019
 configuration: Release
-platform: x64
+platform: x86
 shallow_clone: true
 clone_folder: C:\Projects\Cataclysm-DDA
 cache:
@@ -12,4 +12,10 @@ build:
   parallel: true
   verbosity: minimal
 test_script:
-  - cmd: Cataclysm-test-vcpkg-static-Release-x64.exe --rng-seed time --min-duration 0.2
+  - cmd: Cataclysm-test-vcpkg-static-Release-Win32.exe --rng-seed time --min-duration 0.2
+skip_commits:
+  files:
+    - 'doc/**'
+    - 'lgtm/**'
+    - 'tools/**'
+    - '.github/**'

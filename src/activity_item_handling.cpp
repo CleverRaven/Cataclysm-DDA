@@ -57,6 +57,7 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
@@ -166,8 +167,8 @@ static bool same_type( const std::list<item> &items )
     } );
 }
 
-// See also handle_contents_changed_helper and Character::handle_contents_changed
-// for contents handling of item_location.
+// Deprecated. See `contents_change_handler` and `Character::handle_contents_changed`
+// for contents handling with item_location.
 static bool handle_spillable_contents( Character &c, item &it, map &m )
 {
     if( it.is_bucket_nonempty() ) {
@@ -899,7 +900,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                                      const bool in_loot_zones, const tripoint &src_loc )
 {
     zone_manager &mgr = zone_manager::get_manager();
-    inventory temp_inv;
+    temp_crafting_inventory temp_inv;
     units::volume volume_allowed = p.volume_capacity() - p.volume_carried();
     units::mass weight_allowed = p.weight_capacity() - p.weight_carried();
     static const auto check_weight_if = []( const activity_id & id ) {
@@ -919,7 +920,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
         if( elem->has_quality( qual_WELD ) ) {
             found_welder = true;
         }
-        temp_inv += *elem;
+        temp_inv.add_item_ref( *elem );
     }
     map &here = get_map();
     for( const tripoint &elem : loot_spots ) {
@@ -935,7 +936,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 continue;
             }
         }
-        for( const item &elem2 : here.i_at( elem ) ) {
+        for( item &elem2 : here.i_at( elem ) ) {
             if( in_loot_zones && elem2.made_of_from_type( phase_id::LIQUID ) ) {
                 continue;
             }
@@ -946,7 +947,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                     continue;
                 }
             }
-            temp_inv += elem2;
+            temp_inv.add_item_ref( elem2 );
         }
         if( !in_loot_zones ) {
             if( const cata::optional<vpart_reference> vp = here.veh_at( elem ).part_with_feature( "CARGO",
@@ -954,7 +955,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 vehicle &src_veh = vp->vehicle();
                 int src_part = vp->part_index();
                 for( item &it : src_veh.get_items( src_part ) ) {
-                    temp_inv += it;
+                    temp_inv.add_item_ref( it );
                 }
             }
         }
@@ -967,14 +968,14 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             if( vp ) {
                 const int veh_battery = vp->vehicle().fuel_left( itype_battery, true );
 
-                item welder( itype_welder, 0 );
+                item welder( itype_welder, calendar::turn_zero );
                 welder.charges = veh_battery;
                 welder.set_flag( flag_PSEUDO );
-                temp_inv.add_item( welder );
-                item soldering_iron( itype_soldering_iron, 0 );
+                temp_inv.add_item_copy( welder );
+                item soldering_iron( itype_soldering_iron, calendar::turn_zero );
                 soldering_iron.charges = veh_battery;
                 soldering_iron.set_flag( flag_PSEUDO );
-                temp_inv.add_item( soldering_iron );
+                temp_inv.add_item_copy( soldering_iron );
             }
         }
     }
@@ -1063,7 +1064,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 if( !has_skill_for_vehicle_work( vpinfo.removal_skills, p ) ) {
                     continue;
                 }
-                item base( vpinfo.item );
+                item base( vpinfo.base_item );
                 if( base.is_wheel() ) {
                     // no wheel removal yet
                     continue;
@@ -1597,7 +1598,7 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
             for( auto it = requirement_map.begin(); it != requirement_map.end(); ) {
                 tripoint pos_here = std::get<0>( *it );
                 itype_id item_here = std::get<1>( *it );
-                item test_item = item( item_here, 0 );
+                item test_item = item( item_here, calendar::turn_zero );
                 if( test_item.has_quality( tool_qual, qual_level ) ) {
                     // it's just this spot that can fulfil the requirement on its own
                     final_map.push_back( std::make_tuple( pos_here, item_here, 1 ) );
@@ -1790,7 +1791,7 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
             }
         }
     }
-    // if we got here, then the fetch failed for reasons that werent predicted before setting it.
+    // if we got here, then the fetch failed for reasons that weren't predicted before setting it.
     // nothing was moved or picked up, and nothing can be moved or picked up
     // so call the whole thing off to stop it looping back to this point ad nauseum.
     p.set_moves( 0 );
@@ -2031,7 +2032,11 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             // checks whether the item is already on correct loot zone or not
             // if it is, we can skip such item, if not we move the item to correct pile
             // think empty bag on food pile, after you ate the content
-            if( mgr.has( id, src ) ) {
+            if( id != zone_type_id( "LOOT_CUSTOM" ) && mgr.has( id, src ) ) {
+                continue;
+            }
+
+            if( id == zone_type_id( "LOOT_CUSTOM" ) && mgr.custom_loot_has( src, &thisitem ) ) {
                 continue;
             }
 
@@ -2103,7 +2108,7 @@ static int chop_moves( player &p, item *it )
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = p.get_num_crafting_helpers( 3 );
-    moves = moves * ( 1 - ( helpersize / 10 ) );
+    moves *= ( 1.0f - ( helpersize / 10.0f ) );
     return moves;
 }
 
@@ -2739,13 +2744,14 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
         // but now we are here, we check
         if( activity_to_restore != ACT_TIDY_UP &&
             activity_to_restore != ACT_MOVE_LOOT &&
+            activity_to_restore != ACT_FETCH_REQUIRED &&
             p.fine_detail_vision_mod( p.pos() ) > 4.0 ) {
             p.add_msg_if_player( m_info, _( "It is too dark to work here." ) );
             return false;
         }
         if( !check_only ) {
             if( !generic_multi_activity_do( p, activity_to_restore, act_info, src, src_loc ) ) {
-                // if the activity was succesful
+                // if the activity was successful
                 // then a new activity was assigned
                 // and the backlog was given the multi-act
                 return false;
@@ -2867,7 +2873,7 @@ int get_auto_consume_moves( player &p, const bool food )
     if( dest_set.empty() ) {
         return 0;
     }
-    for( const tripoint loc : dest_set ) {
+    for( const tripoint &loc : dest_set ) {
         if( loc.z != p.pos().z ) {
             continue;
         }
@@ -2875,10 +2881,13 @@ int get_auto_consume_moves( player &p, const bool food )
         const optional_vpart_position vp = here.veh_at( here.getlocal( loc ) );
         std::vector<item *> items_here;
         if( vp ) {
-            vehicle_stack vehitems = vp->vehicle().get_items( vp->vehicle().part_with_feature( vp->part_index(),
-                                     "CARGO", false ) );
-            for( item &it : vehitems ) {
-                items_here.push_back( &it );
+            vehicle &veh = vp->vehicle();
+            int index = veh.part_with_feature( vp->part_index(), "CARGO", false );
+            if( index >= 0 ) {
+                vehicle_stack vehitems = veh.get_items( index );
+                for( item &it : vehitems ) {
+                    items_here.push_back( &it );
+                }
             }
         } else {
             map_stack mapitems = here.i_at( here.getlocal( loc ) );
@@ -2896,7 +2905,7 @@ int get_auto_consume_moves( player &p, const bool food )
             if( !p.can_consume( comest ) ) {
                 continue;
             }
-            if( food && p.compute_effective_nutrients( comest ).kcal < 50 ) {
+            if( food && p.compute_effective_nutrients( comest ).kcal() < 50 ) {
                 // not filling enough
                 continue;
             }
@@ -2918,7 +2927,7 @@ int get_auto_consume_moves( player &p, const bool food )
             }
             int consume_moves = -Pickup::cost_to_move_item( p, *it ) * std::max( rl_dist( p.pos(),
                                 here.getlocal( loc ) ), 1 );
-            consume_moves += to_moves<int>( p.get_consume_time( *it ) );
+            consume_moves += to_moves<int>( p.get_consume_time( comest ) );
             item_location item_loc;
             if( vp ) {
                 item_loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), &comest );
@@ -2938,7 +2947,7 @@ int get_auto_consume_moves( player &p, const bool food )
     return 0;
 }
 
-void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
+bool try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();
     std::vector<tripoint> adjacent = closest_points_first( pos, PICKUP_RANGE );
@@ -2949,14 +2958,14 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 
     map &here = get_map();
     if( !best_fire || !here.accessible_items( *best_fire ) ) {
-        return;
+        return false;
     }
 
     cata::optional<tripoint> refuel_spot = find_refuel_spot_zone( pos );
     if( !refuel_spot ) {
         refuel_spot = find_refuel_spot_trap( adjacent, pos );
         if( !refuel_spot ) {
-            return;
+            return false;
         }
     }
 
@@ -2977,14 +2986,14 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
             // Move item back to refueling pile
             // Note: move_item() handles messages (they're the generic "you drop x")
             move_item( p, it, 0, *best_fire, *refuel_spot, nullptr, -1 );
-            return;
+            return true;
         }
     }
 
     // Enough to sustain the fire
     // TODO: It's not enough in the rain
     if( !starting_fire && ( fd.fuel_produced >= 1.0f || fire_age < 10_minutes ) ) {
-        return;
+        return true;
     }
 
     // We need to move fuel from stash to fire
@@ -3000,7 +3009,8 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
             int quantity = std::max( 1, std::min( it.charges, it.charges_per_volume( 250_ml ) ) );
             // Note: move_item() handles messages (they're the generic "you drop x")
             move_item( p, it, quantity, *refuel_spot, *best_fire, nullptr, -1 );
-            return;
+            return true;
         }
     }
+    return true;
 }

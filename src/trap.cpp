@@ -23,8 +23,6 @@
 
 static const skill_id skill_traps( "traps" );
 
-static const efftype_id effect_lack_sleep( "lack_sleep" );
-
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
@@ -221,7 +219,7 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
     const float encumbrance_penalty = p.encumb( bodypart_id( "eyes" ) ) / 10.0f;
 
     // Your current focus strongly affects your ability to spot things.
-    const float focus_effect = ( p.focus_pool / 25.0f ) - 2.0f;
+    const float focus_effect = ( p.get_focus() / 25.0f ) - 2.0f;
 
     // The further away the trap is, the harder it is to spot.
     // Subtract 1 so that we don't get an unfair penalty when not quite on top of the trap.

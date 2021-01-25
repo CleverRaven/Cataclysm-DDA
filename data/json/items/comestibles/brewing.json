@@ -433,7 +433,7 @@
     "type": "COMESTIBLE",
     "id": "young_yeast",
     "name": "growing wild yeast",
-    "description": "Mixture of water, sugar and fruits with some naturally occuring yeast, that will eventually produce a more sizeable yeast culture.",
+    "description": "Mixture of water, sugar and fruits with some naturally occurring yeast, that will eventually produce a more sizeable yeast culture.",
     "weight": "250 g",
     "color": "yellow",
     "container": "jug_plastic",

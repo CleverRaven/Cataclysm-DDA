@@ -43,7 +43,8 @@
       { "group": "newspaper_recent", "prob": 15 },
       { "item": "survnote", "prob": 2 },
       { "item": "eclipse_glasses", "prob": 1 },
-      { "item": "thermos", "prob": 10 }
+      { "item": "thermos", "prob": 10 },
+      { "group": "writing_utensils", "prob": 10 }
     ]
   },
   {
@@ -97,7 +98,8 @@
       [ "metal_file", 15 ],
       [ "pin_reamer", 10 ],
       [ "sandbox_kit", 5 ],
-      [ "survival_kit", 5 ]
+      { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 5 },
+      { "group": "writing_utensils", "prob": 40 }
     ]
   },
   {
@@ -124,6 +126,7 @@
     "type": "item_group",
     "items": [
       { "group": "candy_chocolate", "prob": 45 },
+      { "item": "licorice", "prob": 15 },
       { "group": "salty_snacks", "prob": 80 },
       [ "peanut_unshelled", 20 ],
       [ "almond_unshelled", 20 ],
@@ -150,6 +153,7 @@
     "id": "coffee_shop",
     "items": [
       { "group": "candy_chocolate", "prob": 530 },
+      { "item": "licorice", "prob": 15 },
       { "group": "softdrinks_canned", "prob": 470 },
       { "group": "snacks", "prob": 560 },
       [ "coffee_raw", 70 ],
@@ -593,7 +597,9 @@
       [ "bronze_medal", 3 ],
       [ "silver_medal", 2 ],
       [ "gold_medal", 1 ],
-      { "group": "tinware", "prob": 10 }
+      [ "freeze_dried_meal", 5 ],
+      { "group": "tinware", "prob": 10 },
+      { "item": "pen", "prob": 10, "charges": [ 0, 300 ] }
     ]
   },
   {
@@ -622,6 +628,7 @@
     "id": "mil_surplus",
     "items": [
       { "group": "mags_surplus", "prob": 400 },
+      [ "freeze_dried_meal", 20 ],
       [ "knife_combat", 14 ],
       [ "knife_rm42", 1 ],
       [ "kukri", 2 ],
@@ -669,8 +676,8 @@
       [ "recipe_arrows", 7 ],
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 30, "charges": [ 0, 300 ] },
-      [ "survival_kit", 35 ],
-      [ "premium_survival_kit", 8 ],
+      { "group": "full_survival_kit", "prob": 35 },
+      { "group": "premium_contents", "prob": 8 },
       [ "mess_kit", 9 ],
       [ "popcan_stove", 2 ],
       [ "denat_alcohol", 2 ],
@@ -783,7 +790,6 @@
       { "item": "paper", "prob": 150 },
       { "item": "wrapper", "prob": 25 },
       { "item": "bubblewrap", "prob": 25 },
-      { "item": "permanent_marker", "prob": 50, "charges": [ 0, 500 ] },
       { "item": "scissors", "prob": 25 },
       { "item": "roadmap", "prob": 10 },
       { "item": "trailmap", "prob": 20 },
@@ -794,7 +800,8 @@
       { "item": "string_6", "prob": 25 },
       { "item": "candle", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "reading_light", "prob": 25, "charges": [ 0, 100 ] },
-      { "item": "survnote", "prob": 1 }
+      { "item": "survnote", "prob": 1 },
+      { "group": "writing_utensils", "prob": 30 }
     ]
   },
   {
@@ -980,7 +987,9 @@
       { "item": "wrapper", "prob": 50 },
       { "item": "ceramic_plate", "prob": 40 },
       { "item": "news_regional", "prob": 20 },
-      { "item": "mag_news", "prob": 20 }
+      { "item": "mag_news", "prob": 20 },
+      { "item": "scorecard", "prob": 30 },
+      { "group": "writing_utensils", "prob": 10 }
     ]
   },
   {
@@ -1014,7 +1023,8 @@
       { "item": "rag", "prob": 20 },
       { "item": "bag_plastic", "prob": 20 },
       { "item": "news_regional", "prob": 15 },
-      { "item": "mag_news", "prob": 15 }
+      { "item": "mag_news", "prob": 15 },
+      { "item": "scorecard", "prob": 40 }
     ]
   },
   {
@@ -1247,7 +1257,8 @@
       { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
       [ "file", 40 ],
       [ "mag_mechanics", 20 ],
-      [ "manual_mechanics", 10 ]
+      [ "manual_mechanics", 10 ],
+      { "group": "writing_utensils", "prob": 20 }
     ]
   },
   {
@@ -1294,7 +1305,8 @@
       { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
       [ "file", 40 ],
       [ "mag_mechanics", 20 ],
-      [ "manual_mechanics", 10 ]
+      [ "manual_mechanics", 10 ],
+      { "group": "writing_utensils", "prob": 20 }
     ]
   },
   {

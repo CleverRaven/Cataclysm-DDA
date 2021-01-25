@@ -29,7 +29,7 @@ void active_item_cache::remove( const item *it )
 
 void active_item_cache::add( item &it, point location )
 {
-    // If the item is alread in the cache for some reason, don't add a second reference
+    // If the item is already in the cache for some reason, don't add a second reference
     std::list<item_reference> &target_list = active_items[it.processing_speed()];
     if( std::find_if( target_list.begin(),
     target_list.end(), [&it]( const item_reference & active_item_ref ) {

@@ -20,6 +20,7 @@
 #include "cached_options.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "output.h"
 #include "string_formatter.h"
 
 // JSON parsing and serialization tools for Cataclysm-DDA.
@@ -108,7 +109,7 @@ void JsonObject::mark_visited( const std::string &name ) const
 void JsonObject::report_unvisited() const
 {
 #ifndef CATA_IN_TOOL
-    if( test_mode && report_unvisited_members && !reported_unvisited_members &&
+    if( report_unvisited_members && !reported_unvisited_members &&
         !std::uncaught_exception() ) {
         reported_unvisited_members = true;
         for( const std::pair<const std::string, int> &p : positions ) {
@@ -150,6 +151,15 @@ void JsonObject::allow_omitted_members() const
 #endif
 }
 
+void JsonObject::copy_visited_members( const JsonObject &rhs ) const
+{
+#ifndef CATA_IN_TOOL
+    visited_members = rhs.visited_members;
+#else
+    static_cast<void>( rhs );
+#endif
+}
+
 int JsonObject::verify_position( const std::string &name,
                                  const bool throw_exception ) const
 {
@@ -157,7 +167,7 @@ int JsonObject::verify_position( const std::string &name,
         if( throw_exception ) {
             throw JsonError( std::string( "member lookup on empty object: " ) + name );
         }
-        // 0 is always the opening brace,
+        // 0 is always before the opening brace,
         // so it will never indicate a valid member position
         return 0;
     }
@@ -167,7 +177,7 @@ int JsonObject::verify_position( const std::string &name,
             jsin->seek( start );
             jsin->error( "member not found: " + name );
         }
-        // 0 is always the opening brace,
+        // 0 is always before the opening brace,
         // so it will never indicate a valid member position
         return 0;
     }
@@ -204,7 +214,10 @@ void JsonObject::throw_error( const std::string &err, const std::string &name ) 
     if( !jsin ) {
         throw JsonError( err );
     }
-    jsin->seek( verify_position( name, false ) );
+    const int pos = verify_position( name, false );
+    if( pos ) {
+        jsin->seek( pos );
+    }
     jsin->error( err );
 }
 
@@ -227,6 +240,17 @@ void JsonArray::throw_error( const std::string &err, int idx )
     jsin->error( err );
 }
 
+void JsonArray::string_error( const std::string &err, const int idx,
+                              const int offset )
+{
+    if( jsin && idx >= 0 && static_cast<size_t>( idx ) < positions.size() ) {
+        jsin->seek( positions[idx] );
+        jsin->string_error( err, offset );
+    } else {
+        throw_error( err );
+    }
+}
+
 void JsonObject::throw_error( const std::string &err ) const
 {
     if( !jsin ) {
@@ -241,6 +265,21 @@ JsonIn *JsonObject::get_raw( const std::string &name ) const
     mark_visited( name );
     jsin->seek( pos );
     return jsin;
+}
+
+json_source_location JsonObject::get_source_location() const
+{
+    if( !jsin ) {
+        throw JsonError( "JsonObject::get_source_location called when stream is null" );
+    }
+    json_source_location loc;
+    loc.path = jsin->get_path();
+    if( !loc.path ) {
+        jsin->seek( start );
+        jsin->error( "JsonObject::get_source_location called but the path is unknown" );
+    }
+    loc.offset = start;
+    return loc;
 }
 
 /* returning values by name */
@@ -1615,15 +1654,111 @@ bool JsonIn::read( JsonDeserializer &j, bool throw_on_error )
     }
 }
 
+/**
+ * Get the normal form of a relative path. Does not work on absolute paths.
+ * Slash and backslash are both treated as path separators and replaced with
+ * slash. Trailing slashes are always removed.
+ */
+static std::string normalize_relative_path( const std::string &path )
+{
+    if( path.empty() ) {
+        // normal form of an empty path is an empty path
+        return path;
+    }
+    std::vector<std::string> names;
+    for( size_t name_start = 0; name_start < path.size(); ) {
+        const size_t name_end = std::min( path.find_first_of( "\\/", name_start ),
+                                          path.size() );
+        if( name_start < name_end ) {
+            const std::string name = path.substr( name_start, name_end - name_start );
+            if( name == "." ) {
+                // do nothing
+            } else if( name == ".." ) {
+                if( names.empty() || names.back() == ".." ) {
+                    names.emplace_back( name );
+                } else {
+                    names.pop_back();
+                }
+            } else {
+                names.emplace_back( name );
+            }
+        }
+        name_start = std::min( path.find_first_not_of( "\\/", name_end ),
+                               path.size() );
+    }
+    if( names.empty() ) {
+        return ".";
+    } else {
+        std::string normpath;
+        for( auto it = names.begin(); it != names.end(); ++it ) {
+            if( it != names.begin() ) {
+                normpath += "/";
+            }
+            normpath += *it;
+        }
+        return normpath;
+    }
+}
+
+/**
+ * Escape special chars in github action command properties.
+ * See https://github.com/actions/toolkit/blob/main/packages/core/src/command.ts
+ */
+static std::string escape_property( std::string str )
+{
+    switch( error_log_format ) {
+        case error_log_format_t::human_readable:
+            break;
+        case error_log_format_t::github_action:
+            replace_substring( str, "%", "%25", true );
+            replace_substring( str, "\r", "%0D", true ); // NOLINT(cata-text-style)
+            replace_substring( str, "\n", "%0A", true );
+            replace_substring( str, ":", "%3A", true );
+            replace_substring( str, ",", "%2C", true );
+            break;
+    }
+    return str;
+}
+
+/**
+ * Escape special chars in github action command messages.
+ * See https://github.com/actions/toolkit/blob/main/packages/core/src/command.ts
+ */
+static std::string escape_data( std::string str )
+{
+    switch( error_log_format ) {
+        case error_log_format_t::human_readable:
+            break;
+        case error_log_format_t::github_action:
+            replace_substring( str, "%", "%25", true );
+            replace_substring( str, "\r", "%0D", true ); // NOLINT(cata-text-style)
+            replace_substring( str, "\n", "%0A", true );
+            break;
+    }
+    return str;
+}
+
 /* error display */
 
 // WARNING: for occasional use only.
 std::string JsonIn::line_number( int offset_modifier )
 {
+    const std::string name = escape_property( path ? normalize_relative_path( *path )
+                             : "<unknown source file>" );
     if( stream && stream->eof() ) {
-        return name + ":EOF";
+        switch( error_log_format ) {
+            case error_log_format_t::human_readable:
+                return name + ":EOF";
+            case error_log_format_t::github_action:
+                return "file=" + name + ",line=EOF";
+        }
     } else if( !stream || stream->fail() ) {
-        return name + ":???";
+        switch( error_log_format ) {
+            case error_log_format_t::human_readable:
+                return name + ":???";
+            case error_log_format_t::github_action:
+                return "file=" + name + ",line=???";
+        }
     } // else stream is fine
     int pos = tell();
     int line = 1;
@@ -1651,18 +1786,41 @@ std::string JsonIn::line_number( int offset_modifier )
     }
     seek( pos );
     std::stringstream ret;
-    ret << name << ":" << line << ":" << offset;
+    switch( error_log_format ) {
+        case error_log_format_t::human_readable:
+            ret << name << ":" << line << ":" << offset;
+            break;
+        case error_log_format_t::github_action:
+            ret.imbue( std::locale::classic() );
+            ret << "file=" << name << ",line=" << line << ",col=" << offset;
+            break;
+    }
     return ret.str();
 }
 
 void JsonIn::error( const std::string &message, int offset )
 {
-    std::ostringstream err;
-    err << "Json error: " << line_number( offset ) << ": " << message;
+    std::ostringstream err_header;
+    switch( error_log_format ) {
+        case error_log_format_t::human_readable:
+            err_header << "Json error: " << line_number( offset ) << ": ";
+            break;
+        case error_log_format_t::github_action:
+            err_header << "::error " << line_number( offset ) << "::";
+            break;
+    }
     // if we can't get more info from the stream don't try
     if( !stream->good() ) {
-        throw JsonError( err.str() );
+        throw JsonError( err_header.str() + escape_data( message ) );
     }
+    // Seek to eof after throwing to avoid continue reading from the incorrect
+    // location. The calling code of json error methods is supposed to restore
+    // the stream location if it wishes to recover from the error.
+    on_out_of_scope seek_to_eof( [this]() {
+        stream->seekg( 0, std::istream::end );
+    } );
+    std::ostringstream err;
+    err << message;
     // also print surrounding few lines of context, if not too large
     err << "\n\n";
     stream->seekg( offset, std::istream::cur );
@@ -1685,7 +1843,7 @@ void JsonIn::error( const std::string &message, int offset )
             err << *it;
         }
     }
-    if( !is_whitespace( peek() ) ) {
+    if( !is_whitespace( peek() ) && stream->good() ) {
         err << peek();
     }
     // display a pointer to the position
@@ -1732,7 +1890,7 @@ void JsonIn::error( const std::string &message, int offset )
     if( !msg.empty() && msg.back() != '\n' ) {
         msg.push_back( '\n' );
     }
-    throw JsonError( msg );
+    throw JsonError( err_header.str() + escape_data( msg ) );
 }
 
 void JsonIn::string_error( const std::string &message, const int offset )
@@ -1855,7 +2013,7 @@ void JsonOut::write_separator()
     }
     stream->put( ',' );
     if( pretty_print ) {
-        // Wrap after seperator between objects and between members of top-level objects.
+        // Wrap after separator between objects and between members of top-level objects.
         if( indent_level < 2 || need_wrap.back() ) {
             stream->put( '\n' );
             write_indent();

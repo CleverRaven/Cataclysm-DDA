@@ -2,7 +2,7 @@
   {
     "id": "mon_bear_mutant_3headed",
     "type": "MONSTER",
-    "name": { "str": "Cerbearus" },
+    "name": { "str": "Cerbearus", "str_pl": "Cerberuses" },
     "description": "Sometime between the Cataclysm and now, this black bear has gained two extra heads.  This doesn't seem to have improved its disposition.",
     "default_faction": "bear",
     "bodytype": "bear",
@@ -260,7 +260,7 @@
   {
     "id": "mon_wolf_mutant_huge",
     "type": "MONSTER",
-    "name": { "str": "dire wolf" },
+    "name": { "str": "dire wolf", "str_pl": "dire wolves" },
     "description": "This wolf has grown to terrifying proportions, rivalling a small car.  Its teeth give steak knives a run for their money, and it definitely doesn't look friendly.",
     "default_faction": "wolf",
     "bodytype": "dog",

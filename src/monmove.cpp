@@ -22,6 +22,7 @@
 #include "game_constants.h"
 #include "int_id.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -87,7 +88,7 @@ bool monster::is_immune_field( const field_type_id &fid ) const
         return !type->in_species( species_FUNGUS );
     }
     if( fid == fd_insecticidal_gas ) {
-        return !type->in_species( species_INSECT ) && !type->in_species( species_SPIDER );
+        return !made_of( material_id( "iflesh" ) ) || has_flag( MF_INSECTICIDEPROOF );
     }
     const field_type &ft = fid.obj();
     if( ft.has_fume ) {
@@ -135,7 +136,11 @@ bool monster::will_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( has_flag( MF_AQUATIC ) && !here.has_flag( "SWIMMABLE", p ) ) {
+    if( has_flag( MF_AQUATIC ) && (
+            !here.has_flag( "SWIMMABLE", p ) ||
+            // AQUATIC (confined to water) monster avoid vehicles, unless they are already underneath one
+            ( here.veh_at( p ) && !here.veh_at( pos() ) )
+        ) ) {
         return false;
     }
 
@@ -389,7 +394,7 @@ void monster::plan()
         return;
     }
 
-    int valid_targets = ( target == nullptr ) ? 1 : 0;
+    int valid_targets = ( target == nullptr ) ? 0 : 1;
     for( npc &who : g->all_npcs() ) {
         mf_attitude faction_att = faction.obj().attitude( who.get_monster_faction() );
         if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
@@ -493,7 +498,7 @@ void monster::plan()
 
     // Friendly monsters here
     // Avoid for hordes of same-faction stuff or it could get expensive
-    const auto actual_faction = friendly == 0 ? faction : mfaction_str_id( "player" );
+    const auto actual_faction = friendly == 0 ? faction : STATIC( mfaction_str_id( "player" ) );
     const auto &myfaction_iter = factions.find( actual_faction );
     if( myfaction_iter == factions.end() ) {
         DebugLog( D_ERROR, D_GAME ) << disp_name() << " tried to find faction "
@@ -786,7 +791,8 @@ void monster::move()
     optional_vpart_position vp = here.veh_at( pos() );
     bool harness_part = static_cast<bool>( here.veh_at( pos() ).part_with_feature( "ANIMAL_CTRL",
                                            true ) );
-    if( vp && vp->vehicle().is_moving() && vp->vehicle().get_pet( vp->part_index() ) ) {
+    if( friendly != 0 && vp && vp->vehicle().is_moving() &&
+        vp->vehicle().get_monster( vp->part_index() ) ) {
         moves = 0;
         return;
         // Don't move if harnessed, even if vehicle is stationary
@@ -1473,15 +1479,10 @@ bool monster::attack_at( const tripoint &p )
     if( has_flag( MF_PACIFIST ) ) {
         return false;
     }
-    if( p.z != posz() ) {
-        // TODO: Remove this
-        return false;
-    }
 
     Character &player_character = get_player_character();
     if( p == player_character.pos() ) {
-        melee_attack( player_character );
-        return true;
+        return melee_attack( player_character );
     }
 
     if( monster *mon_ = g->critter_at<monster>( p, is_hallucination() ) ) {
@@ -1501,8 +1502,7 @@ bool monster::attack_at( const tripoint &p )
         Creature::Attitude attitude = attitude_to( mon );
         // MF_ATTACKMON == hulk behavior, whack everything in your way
         if( attitude == Attitude::HOSTILE || has_flag( MF_ATTACKMON ) ) {
-            melee_attack( mon );
-            return true;
+            return melee_attack( mon );
         }
 
         return false;
@@ -1514,8 +1514,7 @@ bool monster::attack_at( const tripoint &p )
         // way. This is consistent with how it worked previously, but
         // later on not hitting allied NPCs would be cool.
         guy->on_attacked( *this ); // allow NPC hallucination to be one shot by monsters
-        melee_attack( *guy );
-        return true;
+        return melee_attack( *guy );
     }
 
     // Nothing to attack.
@@ -1603,8 +1602,12 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     }
 
     //Check for moving into/out of water
-    bool was_water = here.is_divable( pos() );
-    bool will_be_water = on_ground && can_submerge() && here.is_divable( destination );
+    bool was_water = underwater;
+    bool will_be_water =
+        on_ground && (
+            // AQUATIC monsters always "swim under" the vehicles, while other swimming monsters are forced to surface
+            has_flag( MF_AQUATIC ) || ( can_submerge() && !here.veh_at( destination ) )
+        ) && here.is_divable( destination );
 
     //Birds and other flying creatures flying over the deep water terrain
     if( was_water && flies() ) {

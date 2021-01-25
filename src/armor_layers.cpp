@@ -376,7 +376,7 @@ struct layering_item_info {
     bool operator ==( const layering_item_info &o ) const {
         // This is used to merge e.g. both arms into one entry when their items
         // are equivalent.  For that purpose we don't care about the exact
-        // penalities because they will list different body parts; we just
+        // penalties because they will list different body parts; we just
         // check that the badness is the same (which is all that matters for
         // rendering the right-hand list).
         return this->penalties.badness() == o.penalties.badness() &&
@@ -652,7 +652,7 @@ void player::sort_armor()
         cata::flat_set<bodypart_id> rl;
         // Right list
         rightListSize = 0;
-        for( const bodypart_id cover : armor_cat ) {
+        for( const bodypart_id &cover : armor_cat ) {
             if( !combine_bp( cover ) || rl.count( cover.obj().opposite_part ) == 0 ) {
                 rightListSize += items_cover_bp( *this, cover ).size() + 1;
                 rl.insert( cover );
@@ -664,7 +664,7 @@ void player::sort_armor()
             rightListOffset = rightListSize - rightListLines;
         }
         int pos = 1, curr = 0;
-        for( const bodypart_id cover : rl ) {
+        for( const bodypart_id &cover : rl ) {
             if( cover == bodypart_id( "bp_null" ) ) {
                 continue;
             }
@@ -823,7 +823,7 @@ void player::sort_armor()
             if( loc ) {
                 // wear the item
                 cata::optional<std::list<item>::iterator> new_equip_it =
-                    wear( *loc.obtain( *this ) );
+                    wear( loc.obtain( *this ) );
                 if( new_equip_it ) {
                     const bodypart_id &bp = armor_cat[ tabindex ];
                     if( tabindex == num_of_parts || ( **new_equip_it ).covers( bp ) ) {
@@ -844,13 +844,14 @@ void player::sort_armor()
             }
         } else if( action == "EQUIP_ARMOR_HERE" ) {
             // filter inventory for all items that are armor/clothing
-            item_location loc = game_menus::inv::wear( *this );
+            item_location loc = game_menus::inv::wear( *this, armor_cat[tabindex] );
 
             // only equip if something valid selected!
             if( loc ) {
                 // wear the item
-                if( cata::optional<std::list<item>::iterator> new_equip_it =
-                        wear( *loc.obtain( *this ) ) ) {
+                cata::optional<std::list<item>::iterator> new_equip_it =
+                    wear( loc.obtain( *this ) );
+                if( new_equip_it ) {
                     // save iterator to cursor's position
                     std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
                     // reorder `worn` vector to place new item at cursor

@@ -108,7 +108,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
     return high_damage_iterator->part();
 }
 
-bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
+bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c, const std::string &variant )
 {
     // TODO: Get rid of this cast after moving relevant functions down to Character
     player &who = static_cast<player &>( who_c );
@@ -133,11 +133,11 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     }
 
     // consume items extracting any base item (which we will need if replacing broken part)
-    item base( vp.item );
+    item base( vp.base_item );
     for( const auto &e : reqs.get_components() ) {
         for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1,
                                             is_crafting_component ) ) {
-            if( obj.typeId() == vp.item ) {
+            if( obj.typeId() == vp.base_item ) {
                 base = obj;
             }
         }
@@ -164,7 +164,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
         auto replacement_id = pt.info().get_id();
         get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );
         veh.remove_part( part_index );
-        const int partnum = veh.install_part( loc, replacement_id, std::move( base ) );
+        const int partnum = veh.install_part( loc, replacement_id, std::move( base ), variant );
         veh.part( partnum ).direction = dir;
         veh.part_removal_cleanup();
     } else {

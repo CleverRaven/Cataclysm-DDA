@@ -383,16 +383,12 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                "--\n"
                "<color_c_white>Encumbrance</color>:\n"
                "L. Arm:  <color_c_yellow>30</color>  "
-               "When Full:  <color_c_yellow>30</color>  "
                "Coverage:  <color_c_yellow>10</color>\n"
                "R. Arm:  <color_c_yellow>30</color>  "
-               "When Full:  <color_c_yellow>30</color>  "
                "Coverage:  <color_c_yellow>10</color>\n"
                "L. Hand:  <color_c_yellow>30</color>  "
-               "When Full:  <color_c_yellow>30</color>  "
                "Coverage:  <color_c_yellow>10</color>\n"
                "R. Hand:  <color_c_yellow>30</color>  "
-               "When Full:  <color_c_yellow>30</color>  "
                "Coverage:  <color_c_yellow>10</color>\n" );
     }
 
@@ -430,10 +426,10 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "--\n"
                    "<color_c_white>Encumbrance</color>:\n"
                    "L. Leg:  <color_c_yellow>0</color>  "
-                   "When Full:  <color_c_yellow>6</color>  "
+                   "When full:  <color_c_yellow>6</color>  "
                    "Coverage:  <color_c_yellow>5</color>\n"
                    "R. Leg:  <color_c_yellow>0</color>  "
-                   "When Full:  <color_c_yellow>6</color>  "
+                   "When full:  <color_c_yellow>6</color>  "
                    "Coverage:  <color_c_yellow>5</color>\n" );
 
             // test_backpack has an explicit "encumbrance" and "max_encumbrance"
@@ -441,7 +437,7 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "--\n"
                    "<color_c_white>Encumbrance</color>:\n"
                    "Torso:  <color_c_yellow>2</color>  "
-                   "When Full:  <color_c_yellow>15</color>  "
+                   "When full:  <color_c_yellow>15</color>  "
                    "Coverage:  <color_c_yellow>30</color>\n" );
 
             // quiver has no volume, only an implicit volume via ammo
@@ -449,10 +445,10 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
                    "--\n"
                    "<color_c_white>Encumbrance</color>:\n"
                    "L. Leg:  <color_c_yellow>3</color>  "
-                   "When Full:  <color_c_yellow>11</color>  "
+                   "When full:  <color_c_yellow>11</color>  "
                    "Coverage:  <color_c_yellow>10</color>\n"
                    "R. Leg:  <color_c_yellow>3</color>  "
-                   "When Full:  <color_c_yellow>11</color>  "
+                   "When full:  <color_c_yellow>11</color>  "
                    "Coverage:  <color_c_yellow>10</color>\n" );
         }
     }
@@ -727,10 +723,8 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "--\n"
                "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
                "Arms:  <color_c_yellow>3</color>  "
-               "When Full:  <color_c_yellow>3</color>  "
                "Coverage:  <color_c_yellow>90</color>\n"
                "Torso:  <color_c_yellow>3</color>  "
-               "When Full:  <color_c_yellow>3</color>  "
                "Coverage:  <color_c_yellow>90</color>\n" );
 
         item swat_armor( "test_swat_armor" );
@@ -813,13 +807,13 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "--\n"
                "<color_c_white>Encumbrance</color>:\n"
                "Arms:  <color_c_yellow>12</color>  "
-               "When Full:  <color_c_yellow>25</color>  "
+               "When full:  <color_c_yellow>25</color>  "
                "Coverage:  <color_c_yellow>95</color>\n"
                "Legs:  <color_c_yellow>12</color>  "
-               "When Full:  <color_c_yellow>25</color>  "
+               "When full:  <color_c_yellow>25</color>  "
                "Coverage:  <color_c_yellow>95</color>\n"
                "Torso:  <color_c_yellow>12</color>  "
-               "When Full:  <color_c_yellow>25</color>  "
+               "When full:  <color_c_yellow>25</color>  "
                "Coverage:  <color_c_yellow>95</color>\n" );
 
         // Test copy-from
@@ -976,22 +970,22 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "--\n"
                "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
                "L. Arm:  <color_c_yellow>5</color>  "
-               "When Full:  <color_c_yellow>9</color>  "
+               "When full:  <color_c_yellow>9</color>  "
                "Coverage:  <color_c_yellow>50</color>\n"
                "R. Arm:  <color_c_yellow>10</color>  "
-               "When Full:  <color_c_yellow>25</color>  "
+               "When full:  <color_c_yellow>25</color>  "
                "Coverage:  <color_c_yellow>100</color>\n"
                "Head:  <color_c_yellow>5</color>  "
-               "When Full:  <color_c_yellow>9</color>  "
+               "When full:  <color_c_yellow>9</color>  "
                "Coverage:  <color_c_yellow>50</color>\n"
                "L. Leg:  <color_c_yellow>5</color>  "
-               "When Full:  <color_c_yellow>9</color>  "
+               "When full:  <color_c_yellow>9</color>  "
                "Coverage:  <color_c_yellow>50</color>\n"
                "R. Leg:  <color_c_yellow>10</color>  "
-               "When Full:  <color_c_yellow>25</color>  "
+               "When full:  <color_c_yellow>25</color>  "
                "Coverage:  <color_c_yellow>100</color>\n"
                "Torso:  <color_c_yellow>10</color>  "
-               "When Full:  <color_c_yellow>25</color>  "
+               "When full:  <color_c_yellow>25</color>  "
                "Coverage:  <color_c_yellow>100</color>\n" );
     }
 
@@ -1350,7 +1344,7 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
         CHECK( item_info_str( glock, default_ammo ) ==
                "--\n"
                "Weapon is <color_c_red>not loaded</color>, so stats below assume the default ammo:"
-               " <color_c_light_blue>9x19mm JHP</color>\n" );
+               " <color_c_light_blue>Test 9mm ammo</color>\n" );
     }
 
     SECTION( "critical multiplier" ) {
@@ -1376,11 +1370,9 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
     }
 
     SECTION( "gun type and current magazine" ) {
-        std::vector<iteminfo_parts> gun_type = { iteminfo_parts::GUN_TYPE };
         std::vector<iteminfo_parts> magazine = { iteminfo_parts::GUN_MAGAZINE };
 
-        // When unloaded, the "Type:" and "Magazine:" sections should not be shown
-        CHECK( item_info_str( glock, gun_type ).empty() );
+        // When unloaded, the "Magazine:" section should not be shown
         CHECK( item_info_str( glock, magazine ).empty() );
 
         // TODO: Test guns having "Type:" (not many exist; ex. ar15_retool_300blk)
@@ -1681,7 +1673,7 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "<color_c_white>Calories (kcal)</color>:"
-               " <color_c_yellow>127</color>-<color_c_yellow>469</color>"
+               " <color_c_yellow>126</color>-<color_c_yellow>467</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
 
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
@@ -2158,10 +2150,8 @@ TEST_CASE( "bionic info", "[iteminfo][bionic]" )
 
     CHECK( item_info_str( burner, {} ) ==
            "--\n"
-           "* This bionic can produce power from the following fuels:"
-           " <color_c_cyan>ethanol</color>,"
-           " <color_c_cyan>methanol</color>,"
-           " and <color_c_cyan>denatured alcohol</color>\n" );
+           "* This bionic can produce power from the following fuel:"
+           " <color_c_cyan>Alcohol</color>\n" );
 
     // NOTE: No trailing newline
     CHECK( item_info_str( power, {} ) ==

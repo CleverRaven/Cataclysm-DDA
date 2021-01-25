@@ -179,7 +179,7 @@ Where id describes the id of the sound effect, and a list of variants separated 
     # player death and end-game sounds
 * `clean_up_at_end game_over|death_m|death_f`
 
-    # variuos bionic sounds
+    # various bionic sounds
 * `bionic elec_discharge|elec_crackle_low|elec_crackle_med|elec_crackle_high|elec_blast|elec_blast_muffled|acid_discharge|pixelated`
 * `bionic bio_resonator|bio_hydraulics|`
 
@@ -198,7 +198,7 @@ Where id describes the id of the sound effect, and a list of variants separated 
     # various shouts and screams
 * `shout default|scream|scream_tortured|roar|squeak|shriek|wail|howl`
 
-    # speach, it is currently linked with either item or monster id, or is special `NPC` or `NPC_loud`
+    # speech, it is currently linked with either item or monster id, or is special `NPC` or `NPC_loud`
     # TODO: full vocalization of speech.json
 * `speech <item_id>` # examples: talking_doll, creepy_doll, Granade, 
 * `speech <monster_id>` # examples: eyebot, minitank, mi-go, many robots

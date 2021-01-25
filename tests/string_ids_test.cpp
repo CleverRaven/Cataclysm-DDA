@@ -10,7 +10,7 @@
 TEST_CASE( "sizeof_new_id", "[.][int_id][string_id]" )
 {
     DYNAMIC_SECTION( "sizeof: int_id: " << sizeof( flag_id ) ) {}
-    DYNAMIC_SECTION( "sizeof: interned string_id: " << sizeof( flag_str_id ) ) {}
+    DYNAMIC_SECTION( "sizeof: interned string_id: " << sizeof( flag_id ) ) {}
     DYNAMIC_SECTION( "sizeof: dynamic string_id: " << sizeof( trait_group::Trait_group_tag ) ) {}
 }
 
@@ -90,7 +90,7 @@ TEST_CASE( "string_id_sorting_test", "[string_id]" )
         }
 
         int i = 0;
-        for( const std::pair<const id, int> p : sorted_lex( m ) ) {
+        for( const std::pair<id, int> &p : sorted_lex( m ) ) {
             // values (and ids) are iterated in order
             CHECK( p.second == i );
             i++;
@@ -104,7 +104,7 @@ TEST_CASE( "string_id_sorting_test", "[string_id]" )
         }
 
         int i = 0;
-        for( const std::pair<const id, int> p : sorted_lex( vec ) ) {
+        for( const std::pair<id, int> &p : sorted_lex( vec ) ) {
             // values (and ids) are iterated in order
             CHECK( p.second == i );
             i++;

@@ -20,6 +20,7 @@
 #include "item.h"
 #include "make_static.h"
 #include "morale_types.h"
+#include "mutation.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -401,7 +402,7 @@ int player_morale::get_total_negative_value() const
     return std::sqrt( sum );
 }
 
-int player_morale::get_percieved_pain() const
+int player_morale::get_perceived_pain() const
 {
     return perceived_pain;
 }
@@ -838,6 +839,19 @@ bool player_morale::has_mutation( const trait_id &mid )
     return ( mutation != mutations.end() && mutation->second.get_active() );
 }
 
+
+bool player_morale::has_mutation_flag( const std::string &flag )
+{
+    for( const std::pair<const trait_id, player_morale::mutation_data> &mut : mutations ) {
+        const mutation_branch &mut_data = mut.first.obj();
+        if( mut_data.flags.count( flag ) > 0 ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void player_morale::set_mutation( const trait_id &mid, bool active )
 {
     const auto &mutation = mutations.find( mid );
@@ -918,9 +932,9 @@ void player_morale::on_effect_int_change( const efftype_id &eid, int intensity,
 
 void player_morale::set_worn( const item &it, bool worn )
 {
-    const bool fancy = it.has_flag( STATIC( flag_str_id( "FANCY" ) ) );
-    const bool super_fancy = it.has_flag( STATIC( flag_str_id( "SUPER_FANCY" ) ) );
-    const bool filthy_gear = it.has_flag( STATIC( flag_str_id( "FILTHY" ) ) );
+    const bool fancy = it.has_flag( STATIC( flag_id( "FANCY" ) ) );
+    const bool super_fancy = it.has_flag( STATIC( flag_id( "SUPER_FANCY" ) ) );
+    const bool filthy_gear = it.has_flag( STATIC( flag_id( "FILTHY" ) ) );
     const int sign = ( worn ) ? 1 : -1;
 
     const auto update_body_part = [&]( body_part_data & bp_data ) {
@@ -1045,7 +1059,7 @@ void player_morale::update_bodytemp_penalty( const time_duration &ticks )
         add( MORALE_COLD, -2 * to_turns<int>( ticks ), -std::abs( max_cold_penalty ), 1_minutes, 30_seconds,
              true );
     }
-    if( max_hot_penalty != 0 ) {
+    if( max_hot_penalty != 0 && !has_mutation_flag( "HEATPROOF" ) ) {
         add( MORALE_HOT, -2 * to_turns<int>( ticks ), -std::abs( max_hot_penalty ), 1_minutes, 30_seconds,
              true );
     }

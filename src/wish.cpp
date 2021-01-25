@@ -444,9 +444,9 @@ static item wishitem_produce( const itype &type, std::string &flags, bool incont
 
     granted.unset_flags();
     for( const auto &tag : debug_menu::string_to_iterable<std::vector<std::string>>( flags, " " ) ) {
-        const flag_str_id flag( tag );
+        const flag_id flag( tag );
         if( flag.is_valid() ) {
-            granted.set_flag( flag_str_id( tag ) );
+            granted.set_flag( flag_id( tag ) );
         }
     }
 
@@ -468,6 +468,7 @@ class wish_item_callback: public uilist_callback
         bool spawn_everything;
         std::string msg;
         std::string flags;
+        std::string itype_flags;
         const std::vector<const itype *> &standard_itype_ids;
         wish_item_callback( const std::vector<const itype *> &ids ) :
             incontainer( false ), spawn_everything( false ), standard_itype_ids( ids ) {
@@ -478,12 +479,14 @@ class wish_item_callback: public uilist_callback
                 return;
             }
             const itype &selected_itype = *standard_itype_ids[menu->selected];
+            // Make liquids "contained" by default (toggled with CONTAINER action)
             incontainer = selected_itype.phase == phase_id::LIQUID;
-
-            // grab default flags for the itype
-            flags = debug_menu::iterable_to_string( selected_itype.get_flags(), " ",
+            // Clear instance flags when switching items
+            flags.clear();
+            // Grab default flags for the itype (added with the FLAG action)
+            itype_flags = debug_menu::iterable_to_string( selected_itype.get_flags(), " ",
             []( const flag_id & f ) {
-                return f.id().str();
+                return f.str();
             } );
         }
 
@@ -496,13 +499,22 @@ class wish_item_callback: public uilist_callback
                 return true;
             }
             if( action == "FLAG" ) {
+                std::string edit_flags;
+                if( flags.empty() ) {
+                    // If this is the first time using the FLAG action on this item, start with itype flags
+                    edit_flags = itype_flags;
+                } else {
+                    // Otherwise, edit the existing list of user-defined instance flags
+                    edit_flags = flags;
+                }
                 string_input_popup popup;
                 popup
                 .title( _( "Flags:" ) )
                 .description( _( "UPPERCASE, no quotes, separate with spaces" ) )
                 .max_length( 100 )
-                .text( flags )
+                .text( edit_flags )
                 .query();
+                // Save instance flags on this item (will be reset when selecting another item)
                 if( popup.confirmed() ) {
                     flags = popup.text();
                     return true;
@@ -562,7 +574,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     }
     std::vector<std::pair<std::string, const itype *>> opts;
     for( const itype *i : item_controller->all() ) {
-        opts.emplace_back( item( i, 0 ).tname( 1, false ), i );
+        opts.emplace_back( item( i, calendar::turn_zero ).tname( 1, false ), i );
     }
     std::sort( opts.begin(), opts.end(), localized_compare );
     std::vector<const itype *> itypes;
@@ -592,7 +604,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     wmenu.callback = &cb;
 
     for( size_t i = 0; i < opts.size(); i++ ) {
-        item ity( opts[i].second, 0 );
+        item ity( opts[i].second, calendar::turn_zero );
         wmenu.addentry( i, true, 0, opts[i].first );
         mvwzstr &entry_extra_text = wmenu.entries[i].extratxt;
         entry_extra_text.txt = ity.symbol();
@@ -859,7 +871,7 @@ void debug_menu::wishproficiency( player *p )
             if( know_prof ) {
                 prmenu.entries[prmenu.selected].txt = string_format( _( "(known) %s" ), cur.first->name() );
                 prmenu.entries[prmenu.selected].text_color = c_yellow;
-                p->add_msg_if_player( m_good, _( "You are now proficient in %s" ), prof->name() );
+                p->add_msg_if_player( m_good, _( "You are now proficient in %s!" ), prof->name() );
                 p->add_proficiency( prof, true );
                 continue;
             }
@@ -867,9 +879,8 @@ void debug_menu::wishproficiency( player *p )
             know_all = false;
             prmenu.entries[prmenu.selected].txt = string_format( "%s", cur.first->name() );
             prmenu.entries[prmenu.selected].text_color = prmenu.text_color;
-            p->add_msg_if_player( m_bad, _( "You are no longer proficient in %s" ), prof->name() );
+            p->add_msg_if_player( m_bad, _( "You are no longer proficient in %s." ), prof->name() );
             p->lose_proficiency( prof, true );
         }
     } while( prmenu.ret != UILIST_CANCEL );
 }
-

@@ -476,10 +476,36 @@ bool talk_function::display_and_choose_opts(
         }
 
         int name_offset = 0;
-        calcStartPos( name_offset, sel, info_height, folded_names_lines );
+        size_t sel_pos = 0;
+        // Translate from entry index to line index
+        for( size_t i = 0; i < sel; i++ ) {
+            sel_pos += folded_names[i].size();
+        }
+
+        calcStartPos( name_offset, sel_pos, info_height, folded_names_lines );
+
+        int name_index = 0;
+        // Are we so far down the list that we bump into the end?
+        bool last_section = folded_names_lines < info_height ||
+                            folded_names_lines - info_height <= size_t( name_offset );
+
+        // Translate back from desired line index to the corresponding entry, making sure to round up
+        // near the end to ensure the last line gets included.
+        if( name_offset > 0 ) {
+            for( size_t i = 0; i < cur_key_list.size(); i++ ) {
+                name_offset -= folded_names[i].size();
+                if( name_offset <= 0 ) {
+                    if( name_offset == 0 || last_section ) {
+                        name_index++;
+                    }
+                    break;
+                }
+                name_index++;
+            }
+        }
 
         size_t list_line = 2;
-        for( size_t current = name_offset; list_line < info_height &&
+        for( size_t current = name_index; list_line < info_height + 2 &&
              current < cur_key_list.size(); current++ ) {
             nc_color col = ( current == sel ? h_white : c_white );
             //highlight important missions
@@ -497,6 +523,9 @@ bool talk_function::display_and_choose_opts(
                 }
             }
             std::vector<std::string> &name_text = folded_names[current];
+            if( list_line + name_text.size() > info_height + 2 ) {
+                break;  //  Skip last entry that would spill over into the bar.
+            }
             for( size_t name_line = 0; name_line < name_text.size(); name_line++ ) {
                 print_colored_text( w_list, point( name_line ? 5 : 1, list_line ),
                                     col, col, name_text[name_line] );
@@ -504,13 +533,13 @@ bool talk_function::display_and_choose_opts(
             }
         }
 
-        if( cur_key_list.size() > info_height + 1 ) {
+        if( folded_names_lines > info_height ) {
             scrollbar()
             .offset_x( 0 )
             .offset_y( 1 )
             .content_size( folded_names_lines )
-            .viewport_pos( sel )
-            .viewport_size( info_height + 1 )
+            .viewport_pos( sel_pos )
+            .viewport_size( info_height )
             .apply( w_list );
         }
         wnoutrefresh( w_list );
@@ -834,7 +863,7 @@ void talk_function::attack_random( const std::vector<npc_ptr> &attacker,
     }
     const auto att = random_entry( attacker );
     monster *def = random_entry( group );
-    att->melee_attack( *def, false );
+    att->melee_attack_abstract( *def, false, matec_id( "" ) );
     if( def->get_hp() <= 0 ) {
         popup( _( "%s is wasted by %s!" ), def->type->nname(), att->name );
     }

@@ -85,7 +85,8 @@
     "entries": [
       { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 90 },
       { "item": "quikclot", "prob": 60 },
-      { "collection": [ { "item": "morphine" }, { "item": "syringe" } ], "prob": 30 }
+      { "collection": [ { "item": "morphine" }, { "item": "syringe" } ], "prob": 30 },
+      { "item": "prophylactic_antivenom", "prob": 10 }
     ]
   },
   {
@@ -139,6 +140,7 @@
       { "item": "sholster", "prob": 10 },
       { "item": "bandolier_shotgun", "prob": 12 },
       { "item": "torso_bandolier_shotgun", "prob": 8 },
+      { "item": "torso_bandolier_grenade", "prob": 8 },
       { "item": "bootstrap", "prob": 3 },
       { "item": "legpouch", "prob": 8 },
       { "item": "legpouch_large", "prob": 4 },
@@ -459,7 +461,8 @@
       { "item": "smoxygen_tank", "prob": 20, "charges": [ 0, 12 ] },
       { "item": "bfipowder", "prob": 15 },
       { "item": "quikclot", "prob": 10 },
-      { "item": "weak_antibiotic", "prob": 40 }
+      { "item": "weak_antibiotic", "prob": 40 },
+      { "item": "prophylactic_antivenom", "prob": 5 }
     ]
   },
   {
@@ -474,6 +477,7 @@
       { "item": "pork_beans", "prob": 40 },
       { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 35 },
       { "item": "saline", "prob": 10 },
+      { "item": "instant_coffee", "prob": 25 },
       { "item": "con_milk", "prob": 10 },
       { "item": "milk_UHT", "prob": 25 },
       { "item": "cereal", "prob": 20 },
@@ -545,7 +549,7 @@
       { "item": "legrig", "prob": 10 },
       { "item": "rucksack", "prob": 20 },
       { "item": "gobag", "prob": 2 },
-      { "item": "survival_kit", "prob": 3 },
+      { "group": "full_survival_kit", "prob": 3 },
       { "item": "recipe_raptor", "prob": 2 },
       { "item": "tac_helmet", "prob": 5 },
       { "item": "tac_fullhelmet", "prob": 2 },

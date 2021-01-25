@@ -313,8 +313,8 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CYCLE_MODE" );
-    ctxt.register_action( "PAGE_UP" );
-    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
     ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
     ctxt.register_action( "PREV_TAB" );
@@ -560,7 +560,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
-                    string_format( _( "Dark craftable?  <color_cyan>%s</color>" ),
+                    string_format( _( "Craftable in the dark?  <color_cyan>%s</color>" ),
                                    current[line]->has_flag( flag_BLIND_EASY ) ? _( "Easy" ) :
                                    current[line]->has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
                                    _( "Impossible" ) ) );
@@ -678,7 +678,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if( batch ) {
                 current.clear();
-                for( int i = 1; i <= 20; i++ ) {
+                for( int i = 1; i <= 50; i++ ) {
                     current.push_back( chosen );
                     available.push_back( availability( chosen, i ) );
                 }
@@ -836,8 +836,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         ui_manager::redraw();
         const int scroll_item_info_lines = catacurses::getmaxy( w_iteminfo ) - 4;
         const std::string action = ctxt.handle_input();
-        int recmax = current.size();
-        int scroll_rate = recmax > 20 ? 10 : 3;
+        const int recmax = static_cast<int>( current.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "CYCLE_MODE" ) {
             display_mode = display_mode + 1;
             if( display_mode <= 0 ) {
@@ -944,9 +944,9 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             std::string description =
                 _( "The default is to search result names.  Some single-character prefixes "
-                   "can be used with a colon (:) to search in other ways.  Additional filters "
-                   "are separated by commas (,).\n"
-                   "\n"
+                   "can be used with a colon <color_red>:</color> to search in other ways.  Additional filters "
+                   "are separated by commas <color_red>,</color>.\n"
+                   "\n\n"
                    "<color_white>Examples:</color>\n" );
 
             {
@@ -966,9 +966,11 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             description +=
-                _( "\nYou can use <color_white>arrow keys</color> to go through search history\n\n" );
+                _( "\nUse <color_red>up/down arrow</color> to go through your search history." );
+            description += "\n\n\n";
 
-            string_input_popup()
+            string_input_popup popup;
+            popup
             .title( _( "Search:" ) )
             .width( 85 )
             .description( description )
@@ -976,7 +978,15 @@ const recipe *select_crafting_recipe( int &batch_size )
             .identifier( "craft_recipe_filter" )
             .hist_use_uilist( false )
             .edit( filterstring );
-            recalc = true;
+
+            if( popup.confirmed() ) {
+                recalc = true;
+                if( batch ) {
+                    // exit from batch selection
+                    batch = false;
+                    line = batch_line;
+                }
+            }
         } else if( action == "QUIT" ) {
             chosen = nullptr;
             done = true;
@@ -1125,14 +1135,14 @@ int related_menu_fill( uilist &rmenu,
         std::vector<const recipe *> current_part = available.search_result( p.first );
         if( !current_part.empty() ) {
 
-            bool defferent_recipes = false;
+            bool different_recipes = false;
 
             // 1st pass: check if we need to add group
             for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
                 if( current_part[recipe_n]->result_name() != recipe_name ) {
                     // add group
                     rmenu.addentry( ++np_last, false, -1, recipe_name );
-                    defferent_recipes = true;
+                    different_recipes = true;
                     break;
                 } else if( recipe_n == current_part.size() - 1 ) {
                     // only one result
@@ -1140,9 +1150,9 @@ int related_menu_fill( uilist &rmenu,
                 }
             }
 
-            if( defferent_recipes ) {
+            if( different_recipes ) {
                 std::string prev_item_name;
-                // 2nd pass: add defferent recipes
+                // 2nd pass: add different recipes
                 for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
                     std::string cur_item_name = current_part[recipe_n]->result_name();
                     if( cur_item_name != prev_item_name ) {

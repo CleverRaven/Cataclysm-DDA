@@ -148,8 +148,8 @@
     "price_postapoc": 500,
     "material": [ "flesh" ],
     "charges": 2,
-    "flags": [ "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 5 ], [ "vitB", 39 ] ],
+    "flags": [ "EATEN_HOT", "SMOKED" ],
+    "vitamins": [ [ "calcium", 0 ], [ "iron", 2 ] ],
     "fun": 5
   },
   {
@@ -197,6 +197,37 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 4
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "human_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "copy-from": "cracklins",
+    "material": [ "hflesh" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutant_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "copy-from": "cracklins",
+    "material": [ "flesh" ],
+    "vitamins": [ [ "mutant_toxin", 52 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mutant_human_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "copy-from": "cracklins",
+    "material": [ "hflesh" ],
+    "vitamins": [ [ "mutant_toxin", 52 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "demihuman_cracklins",
+    "name": { "str_sp": "cracklins" },
+    "copy-from": "cracklins",
+    "material": [ "flesh" ],
+    "flags": [ "STRICT_HUMANITARIANISM" ]
   },
   {
     "type": "COMESTIBLE",
@@ -346,6 +377,33 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 10,
     "vitamins": [ [ "calcium", 3 ], [ "iron", 5 ], [ "vitB", 94 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "crab_cakes",
+    "name": { "str": "crab cake" },
+    "copy-from": "fish_fried",
+    "weight": "150 g",
+    "calories": 572,
+    "description": "A delicious deep-fried biscuit loaded with crab meat.",
+    "//": "Currently only found in worldgen and is uncraftable. If crab gets added please make a recipe for crab cakes.",
+    "volume": "175 ml",
+    "looks_like": "fish_fried",
+    "fun": 13
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "stuffed_clams",
+    "name": "stuffed clam",
+    "copy-from": "fish_fried",
+    "weight": "150 g",
+    "calories": 572,
+    "description": "Quahog clams stuffed with bread crumbs and fried.",
+    "volume": "175 ml",
+    "looks_like": "fish_fried",
+    "fun": 13,
+    "charges": 5,
+    "vitamins": [ [ "vitA", 6 ], [ "calcium", 2 ], [ "iron", 5 ], [ "vitB", 22 ] ]
   },
   {
     "type": "COMESTIBLE",

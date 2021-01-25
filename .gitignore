@@ -41,6 +41,7 @@ cataclysmdda-*
 chkjson*
 debug.log
 logg.txt
+json_formatter
 
 # Visual Studio files
 *.code-workspace
@@ -72,6 +73,7 @@ Cataclysm.exe.lastcodeanalysissucceeded
 
 #vcpkg
 /msvc-full-features/vcpkg_installed
+/msvc-object_creator/vcpkg_installed
 
 # PVS Studio
 /msvc-full-features/*PVS-Studio*
@@ -92,6 +94,7 @@ cscope.*
 tags
 
 # Generated translation source
+/lang/po/cataclysm-dda.pot
 /lang/po/en.po
 
 # Compiled binary translations
@@ -166,9 +169,6 @@ Cataclysm.i64
 Cataclysm.id*
 Cataclysm.til
 Cataclysm.nam
-
-# Transifex Client
-.tx/
 
 # Snapcraft build directories
 prime

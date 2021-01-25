@@ -285,9 +285,9 @@ int weather_generator::get_water_temperature() const
     int annual_mean_water_temperature = 54.5 + 20.7 * std::sin( tau * ( day - season_length * 0.5 ) /
                                         ( season_length * 4.0 ) );
     // Temperature varies between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
-    int daily_water_temperature_varaition = 2.0 + 2.0 * std::sin( tau * ( hour - 6.0 ) / 24.0 );
+    int daily_water_temperature_variation = 2.0 + 2.0 * std::sin( tau * ( hour - 6.0 ) / 24.0 );
 
-    water_temperature = annual_mean_water_temperature + daily_water_temperature_varaition;
+    water_temperature = annual_mean_water_temperature + daily_water_temperature_variation;
 
     return water_temperature;
 }
@@ -307,7 +307,7 @@ void weather_generator::test_weather( unsigned seed,
         const time_point begin = calendar::turn;
         const time_point end = begin + 2 * calendar::year_length();
         for( time_point i = begin; i < end; i += 20_minutes ) {
-            w_point w = get_weather( tripoint_zero, to_turn<int>( i ), seed );
+            w_point w = get_weather( tripoint_zero, i, seed );
             weather_type_id conditions = get_weather_conditions( w, next_instance_allowed );
 
             int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>

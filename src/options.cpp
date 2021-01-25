@@ -994,17 +994,21 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
 
 std::unordered_set<std::string> options_manager::get_langs_with_translation_files()
 {
-    std::vector<std::string> lang_dirs = get_directories_with( PATH_INFO::lang_file(),
-                                         PATH_INFO::langdir(), true );
-    const std::string start_str = "mo/";
+#if defined(LOCALIZE)
+    const std::string start_str = locale_dir();
+    std::vector<std::string> lang_dirs =
+        get_directories_with( PATH_INFO::lang_file(), start_str, true );
     const std::size_t start_len = start_str.length();
     const std::string end_str = "/LC_MESSAGES";
     std::for_each( lang_dirs.begin(), lang_dirs.end(), [&]( std::string & dir ) {
-        const std::size_t start = dir.find( start_str ) + start_len;
+        const std::size_t start = dir.find( start_str ) + start_len + 1;
         const std::size_t len = dir.rfind( end_str ) - start;
         dir = dir.substr( start, len );
     } );
     return std::unordered_set<std::string>( lang_dirs.begin(), lang_dirs.end() );
+#else // !LOCALIZE
+    return std::unordered_set<std::string>();
+#endif // LOCALIZE
 }
 
 std::vector<options_manager::id_and_option> options_manager::get_lang_options()
@@ -1015,16 +1019,28 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
         // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
         // http://en.wikipedia.org/wiki/List_of_language_names
         { "en", no_translation( R"(English)" ) },
+        { "ar", no_translation( R"(العربية)" )},
+        { "cs", no_translation( R"(Český Jazyk)" )},
+        { "da", no_translation( R"(Dansk)" )},
         { "de", no_translation( R"(Deutsch)" ) },
+        { "el", no_translation( R"(Ελληνικά)" )},
         { "es_AR", no_translation( R"(Español (Argentina))" ) },
         { "es_ES", no_translation( R"(Español (España))" ) },
         { "fr", no_translation( R"(Français)" ) },
         { "hu", no_translation( R"(Magyar)" ) },
+        { "id", no_translation( R"(Bahasa Indonesia)" )},
+        { "is", no_translation( R"(Íslenska)" )},
+        { "it_IT", no_translation( R"(Italiano)" )},
         { "ja", no_translation( R"(日本語)" ) },
         { "ko", no_translation( R"(한국어)" ) },
+        { "nb", no_translation( R"(Norsk)" )},
+        { "nl", no_translation( R"(Nederlands)" )},
         { "pl", no_translation( R"(Polski)" ) },
         { "pt_BR", no_translation( R"(Português (Brasil))" )},
         { "ru", no_translation( R"(Русский)" ) },
+        { "sr", no_translation( R"(Српски)" )},
+        { "tr", no_translation( R"(Türkçe)" )},
+        { "uk_UA", no_translation( R"(український)" )},
         { "zh_CN", no_translation( R"(中文 (天朝))" ) },
         { "zh_TW", no_translation( R"(中文 (台灣))" ) },
     };
@@ -1554,7 +1570,7 @@ void options_manager::add_options_interface()
        );
 
     add( "ACHIEVEMENT_COMPLETED_POPUP", "interface",
-         to_translation( "Popup window when achievmement completed" ),
+         to_translation( "Popup window when achievement completed" ),
          to_translation( "Whether to trigger a popup window when completing an achievement.  "
                          "First: when completing an achievement that has not been completed in "
     "a previous game." ), {
@@ -2502,14 +2518,14 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
         try {
             tilecontext->reinit();
             tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
-            //g->init_ui is called when zoom is changed
+            //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             tilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
         }
-    } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
+    } else if( ingame && pixel_minimap_option && pixel_minimap_height_changed ) {
         g->mark_main_ui_adaptor_resize();
     }
 }
@@ -2580,6 +2596,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
     input_context ctxt( "OPTIONS" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
@@ -2588,7 +2606,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
     const int iWorldOffset = world_options_only ? 2 : 0;
     int iMinScreenWidth = 0;
-    const int iTooltipHeight = 4;
+    const int iTooltipHeight = 5;
     int iContentHeight = 0;
 
     catacurses::window w_options_border;
@@ -2819,11 +2837,13 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                    get_options().get_option( current_opt.getPrerequisite() ).getMenuText() );
             continue;
         }
+        const int recmax = static_cast<int>( page_items.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "DOWN" ) {
             do {
                 iCurrentLine++;
-                if( iCurrentLine >= static_cast<int>( page_items.size() ) ) {
+                if( iCurrentLine >= recmax ) {
                     iCurrentLine = 0;
                 }
             } while( !page_items[iCurrentLine] );
@@ -2834,6 +2854,28 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                     iCurrentLine = page_items.size() - 1;
                 }
             } while( !page_items[iCurrentLine] );
+        } else if( action == "PAGE_DOWN" ) {
+            if( iCurrentLine == recmax - 1 ) {
+                iCurrentLine = 0;
+            } else if( iCurrentLine + scroll_rate >= recmax ) {
+                iCurrentLine = recmax - 1;
+            } else {
+                iCurrentLine += +scroll_rate;
+                do {
+                    iCurrentLine++;
+                } while( !page_items[iCurrentLine] );
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( iCurrentLine == 0 ) {
+                iCurrentLine = recmax - 1;
+            } else if( iCurrentLine <= scroll_rate ) {
+                iCurrentLine = 0;
+            } else {
+                iCurrentLine += -scroll_rate;
+                do {
+                    iCurrentLine--;
+                } while( !page_items[iCurrentLine] );
+            }
         } else if( action == "RIGHT" ) {
             current_opt.setNext();
         } else if( action == "LEFT" ) {
@@ -3148,8 +3190,16 @@ void options_manager::update_global_locale()
     try {
         if( lang == "en" ) {
             std::locale::global( std::locale( "en_US.UTF-8" ) );
+        } else if( lang == "ar" ) {
+            std::locale::global( std::locale( "ar_SA.UTF-8" ) );
+        } else if( lang == "cs" ) {
+            std::locale::global( std::locale( "cs_CZ.UTF-8" ) );
+        } else if( lang == "da" ) {
+            std::locale::global( std::locale( "da_DK.UTF-8" ) );
         } else if( lang == "de" ) {
             std::locale::global( std::locale( "de_DE.UTF-8" ) );
+        } else if( lang == "el" ) {
+            std::locale::global( std::locale( "el_GR.UTF-8" ) );
         } else if( lang == "es_AR" ) {
             std::locale::global( std::locale( "es_AR.UTF-8" ) );
         } else if( lang == "es_ES" ) {
@@ -3158,16 +3208,32 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "fr_FR.UTF-8" ) );
         } else if( lang == "hu" ) {
             std::locale::global( std::locale( "hu_HU.UTF-8" ) );
+        } else if( lang == "id" ) {
+            std::locale::global( std::locale( "id_ID.UTF-8" ) );
+        } else if( lang == "is" ) {
+            std::locale::global( std::locale( "is_IS.UTF-8" ) );
+        } else if( lang == "it_IT" ) {
+            std::locale::global( std::locale( "it_IT.UTF-8" ) );
         } else if( lang == "ja" ) {
             std::locale::global( std::locale( "ja_JP.UTF-8" ) );
         } else if( lang == "ko" ) {
             std::locale::global( std::locale( "ko_KR.UTF-8" ) );
+        } else if( lang == "nb" ) {
+            std::locale::global( std::locale( "no_NO.UTF-8" ) );
+        } else if( lang == "nl" ) {
+            std::locale::global( std::locale( "nl_NL.UTF-8" ) );
         } else if( lang == "pl" ) {
             std::locale::global( std::locale( "pl_PL.UTF-8" ) );
         } else if( lang == "pt_BR" ) {
             std::locale::global( std::locale( "pt_BR.UTF-8" ) );
         } else if( lang == "ru" ) {
             std::locale::global( std::locale( "ru_RU.UTF-8" ) );
+        } else if( lang == "sr" ) {
+            std::locale::global( std::locale( "sr_CS.UTF-8" ) );
+        } else if( lang == "tr" ) {
+            std::locale::global( std::locale( "tr_TR.UTF-8" ) );
+        } else if( lang == "uk_UA" ) {
+            std::locale::global( std::locale( "uk_UA.UTF-8" ) );
         } else if( lang == "zh_CN" ) {
             std::locale::global( std::locale( "zh_CN.UTF-8" ) );
         } else if( lang == "zh_TW" ) {

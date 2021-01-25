@@ -187,6 +187,8 @@ void user_interface::show()
     bStuffChanged = false;
     input_context ctxt( "AUTO_PICKUP" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     if( tabs.size() > 1 ) {
@@ -219,6 +221,8 @@ void user_interface::show()
 
         ui_manager::redraw();
 
+        const int recmax = static_cast<int>( cur_rules.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
         const std::string action = ctxt.handle_input();
 
         if( action == "NEXT_TAB" ) {
@@ -239,7 +243,7 @@ void user_interface::show()
         } else if( action == "DOWN" ) {
             iLine++;
             iColumn = 1;
-            if( iLine >= static_cast<int>( cur_rules.size() ) ) {
+            if( iLine >= recmax ) {
                 iLine = 0;
             }
         } else if( action == "UP" ) {
@@ -248,10 +252,28 @@ void user_interface::show()
             if( iLine < 0 ) {
                 iLine = cur_rules.size() - 1;
             }
+        } else if( action == "PAGE_DOWN" ) {
+            if( iLine == recmax - 1 ) {
+                iLine = 0;
+            } else if( iLine + scroll_rate >= recmax ) {
+                iLine = recmax - 1;
+            } else {
+                iLine += +scroll_rate;
+                iColumn = 1;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( iLine == 0 ) {
+                iLine = recmax - 1;
+            } else if( iLine <= scroll_rate ) {
+                iLine = 0;
+            } else {
+                iLine += -scroll_rate;
+                iColumn = 1;
+            }
         } else if( action == "REMOVE_RULE" && currentPageNonEmpty ) {
             bStuffChanged = true;
             cur_rules.erase( cur_rules.begin() + iLine );
-            if( iLine > static_cast<int>( cur_rules.size() ) - 1 ) {
+            if( iLine > recmax - 1 ) {
                 iLine--;
             }
             if( iLine < 0 ) {
@@ -351,7 +373,7 @@ void user_interface::show()
             }
         } else if( action == "MOVE_RULE_UP" && currentPageNonEmpty ) {
             bStuffChanged = true;
-            if( iLine < static_cast<int>( cur_rules.size() ) - 1 ) {
+            if( iLine < recmax - 1 ) {
                 std::swap( cur_rules[iLine], cur_rules[iLine + 1] );
                 iLine++;
                 iColumn = 1;
@@ -465,6 +487,8 @@ void rule::test_pattern() const
 
     input_context ctxt( "AUTO_PICKUP_TEST" );
     ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
@@ -509,16 +533,34 @@ void rule::test_pattern() const
     while( true ) {
         ui_manager::redraw();
 
+        const int recmax = static_cast<int>( vMatchingItems.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
             iLine++;
-            if( iLine >= static_cast<int>( vMatchingItems.size() ) ) {
+            if( iLine >= recmax ) {
                 iLine = 0;
             }
         } else if( action == "UP" ) {
             iLine--;
             if( iLine < 0 ) {
-                iLine = vMatchingItems.size() - 1;
+                iLine = recmax - 1;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( iLine == recmax - 1 ) {
+                iLine = 0;
+            } else if( iLine + scroll_rate >= recmax ) {
+                iLine = recmax - 1;
+            } else {
+                iLine += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( iLine == 0 ) {
+                iLine = recmax - 1;
+            } else if( iLine <= scroll_rate ) {
+                iLine = 0;
+            } else {
+                iLine += -scroll_rate;
             }
         } else if( action == "QUIT" ) {
             break;

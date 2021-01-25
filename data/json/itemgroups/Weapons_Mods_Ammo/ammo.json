@@ -604,5 +604,11 @@
     "id": "ammo_pocket_batteries_full",
     "subtype": "distribution",
     "entries": [ { "group": "ammo_light_batteries_full", "prob": 5 }, { "group": "ammo_medium_batteries_full", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_cannon",
+    "subtype": "distribution",
+    "entries": [ { "item": "cannon_shot", "prob": 100 } ]
   }
 ]

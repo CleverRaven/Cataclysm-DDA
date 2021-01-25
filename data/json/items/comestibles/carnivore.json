@@ -46,7 +46,8 @@
     "type": "COMESTIBLE",
     "name": "human stomach",
     "description": "The stomach of a human.  It is surprisingly durable.",
-    "material": [ "hflesh" ]
+    "material": [ "hflesh" ],
+    "delete": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
     "id": "hstomach_large",
@@ -88,7 +89,8 @@
     "cooks_like": "human_cooked",
     "name": { "str": "human flesh", "str_pl": "human fleshes" },
     "description": "Freshly butchered from a human body.",
-    "material": [ "hflesh" ]
+    "material": [ "hflesh" ],
+    "delete": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
     "id": "human_cooked",
@@ -118,8 +120,102 @@
     "fun": -10,
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "vitB", 778 ] ],
-    "flags": [ "SMOKABLE", "RAW" ],
+    "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
     "smoking_result": "meat_smoked"
+  },
+  {
+    "id": "animal_blood",
+    "type": "COMESTIBLE",
+    "copy-from": "meat",
+    "name": { "str_sp": "blood" },
+    "description": "Fresh blood extracted from a living creature.",
+    "healthy": 0,
+    "parasites": 0,
+    "material": "blood",
+    "quench": 5,
+    "comestible_type": "DRINK",
+    "looks_like": "blood",
+    "symbol": "~",
+    "phase": "liquid",
+    "delete": { "flags": [ "SMOKABLE" ] }
+  },
+  {
+    "id": "porkbelly",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": { "str": "chunk of porkbelly", "str_pl": "chunks of porkbelly" },
+    "description": "Fatty cut of pork from the belly, popular in some cuisine.  With proper technique, can be used to create bacon.  Not safe to consume in its current raw form.",
+    "weight": "296 g",
+    "volume": "250 ml",
+    "price": 650,
+    "price_postapoc": 150,
+    "spoils_in": "1 day",
+    "calories": 1300,
+    "healthy": -1,
+    "fun": -10,
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "vitB", 0 ] ],
+    "flags": [ "SMOKABLE", "RAW", "PREDATOR_FUN" ],
+    "smoking_result": "meat_smoked"
+  },
+  {
+    "id": "raw_cured_fatty_meat",
+    "type": "COMESTIBLE",
+    "copy-from": "flesh",
+    "name": { "str": "slab of raw cured porkbelly", "str_pl": "slabs of raw cured porkbelly" },
+    "description": "Porkbelly that has been preserved and flavored with salt & sugar in order to withdraw the moisture from the first layer.  Still raw, it is ready for smoking into bacon.",
+    "weight": "250 g",
+    "volume": "250ml",
+    "calories": 1556,
+    "price": 650,
+    "price_postapoc": 300,
+    "spoils_in": "14 days",
+    "healthy": -5,
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ],
+    "flags": [ "SMOKABLE", "RAW" ],
+    "smoking_result": "bacon_uncut"
+  },
+  {
+    "id": "bacon_uncut",
+    "type": "COMESTIBLE",
+    "copy-from": "meat_cooked",
+    "name": { "str": "large slab of uncut bacon", "str_pl": "large slabs of uncut bacon" },
+    "description": "A huge slab of uncut smoked bacon.  You can eat as is, but it would be more efficient to cut it into smaller portions with a knife.",
+    "volume": "250ml",
+    "calories": 1566,
+    "price": 2000,
+    "price_postapoc": 3000,
+    "//": "High price to reflect the rarity and value of bacon. Note that this is three pieces of it.",
+    "spoils_in": "24 days",
+    "healthy": -1,
+    "fun": 5,
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 1 ], [ "iron", 3 ] ],
+    "flags": [ "EATEN_HOT", "SMOKED" ]
+  },
+  {
+    "id": "raw_curing_fatty_meat",
+    "type": "COMESTIBLE",
+    "copy-from": "flesh",
+    "name": { "str": "slab of raw curing porkbelly", "str_pl": "slices of raw curing porkbelly" },
+    "description": "Porkbelly in the process of becoming fully cured with salt & sugar, capable of becoming bacon.  The flavor is slowly developing at this stage, and is significantly unpleasant with the residue salt.  Activate it once completed to make use of the final product.",
+    "weight": "296 g",
+    "volume": "250ml",
+    "calories": 1556,
+    "price": 500,
+    "price_postapoc": 250,
+    "spoils_in": "14 days",
+    "healthy": -5,
+    "fun": -15,
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "vitB", 0 ] ],
+    "flags": [  ],
+    "use_action": {
+      "target": "raw_cured_fatty_meat",
+      "msg": "You pat off a bit of extra brine from the slice, this piece of meat is now fully cured.",
+      "moves": 150,
+      "type": "delayed_transform",
+      "transform_age": 4800,
+      "not_ready_msg": "The meat isn't fully cured yet.",
+      "//": "8 hours"
+    }
   },
   {
     "id": "meat_scrap",
@@ -143,7 +239,23 @@
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 26 ], [ "vitB", 389 ], [ "mutant_toxin", 25 ] ],
-    "flags": [ "SMOKABLE", "BAD_TASTE", "RAW" ]
+    "flags": [ "SMOKABLE", "BAD_TASTE", "RAW", "PREDATOR_FUN" ]
+  },
+  {
+    "id": "mutant_blood",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_meat",
+    "name": { "str_sp": "mutant blood" },
+    "description": "Fresh blood extracted from a heavily mutated creature.",
+    "comestible_type": "DRINK",
+    "healthy": 0,
+    "parasites": 0,
+    "quench": 5,
+    "looks_like": "blood",
+    "symbol": "~",
+    "material": "blood",
+    "phase": "liquid",
+    "delete": { "flags": [ "SMOKABLE" ] }
   },
   {
     "id": "mutant_meat_scrap",
@@ -165,6 +277,22 @@
     "name": "mutant humanoid meat",
     "description": "Freshly butchered from the body of a heavily mutated creature that was unsettlingly humanoid in appearance.  It has odd bits of fur and other tissue lodged in it that clearly don't belong.  You'd have to be crazy or starving to eat this.",
     "material": [ "hflesh" ]
+  },
+  {
+    "id": "mutant_human_blood",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_human_flesh",
+    "name": { "str_sp": "mutant human blood" },
+    "description": "Fresh blood extracted from a heavily mutated human.",
+    "comestible_type": "DRINK",
+    "healthy": 0,
+    "parasites": 0,
+    "quench": 5,
+    "looks_like": "blood",
+    "symbol": "~",
+    "material": "hblood",
+    "phase": "liquid",
+    "delete": { "flags": [ "SMOKABLE" ] }
   },
   {
     "id": "mutant_human_cooked",
@@ -214,6 +342,25 @@
     "calories": 402,
     "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 69 ], [ "vitB", 778 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
+  },
+  {
+    "id": "meat_fatty_cooked",
+    "copy-from": "flesh",
+    "weight": "296 g",
+    "volume": "250 ml",
+    "spoils_in": "1 day",
+    "type": "COMESTIBLE",
+    "name": "cooked fatty meat",
+    "description": "This is a chunk of freshly cooked fatty meat.  Although absent of vitamins, it is very filling and delightfully greasy.",
+    "calories": 1300,
+    "price": 900,
+    "price_postapoc": 300,
+    "//": "Luxury good.",
+    "healthy": -1,
+    "fun": 2,
+    "parasites": 0,
+    "vitamins": [  ],
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "id": "meat_scrap_cooked",
@@ -334,7 +481,8 @@
     "calories": 60,
     "quench": 1,
     "healthy": -1,
-    "fun": -15
+    "fun": -15,
+    "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
     "id": "stomach_large",
@@ -435,7 +583,8 @@
     "quench": 2,
     "fun": -10,
     "calories": 50,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "vitB", 22 ] ]
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "vitB", 22 ] ],
+    "extend": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
     "id": "lung_cooked",
@@ -445,7 +594,7 @@
     "name": { "str": "cooked piece of lung", "str_pl": "cooked pieces of lung" },
     "description": " Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
     "parasites": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
     "id": "mutant_bug_lungs",
@@ -483,7 +632,7 @@
     "price_postapoc": 50,
     "fun": -2,
     "healthy": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
     "id": "brain",
@@ -512,7 +661,7 @@
     "parasites": 0,
     "healthy": -2,
     "fun": -8,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
     "id": "kidney",
@@ -540,7 +689,7 @@
     "quench": -2,
     "fun": -3,
     "parasites": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
     "id": "sweetbread",
@@ -566,27 +715,26 @@
     "fun": -1,
     "description": "Normally a delicacy, it needs a little… something.",
     "parasites": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
     "type": "COMESTIBLE",
     "id": "blood",
     "name": { "str_sp": "blood" },
+    "copy-from": "human_flesh",
     "weight": "262 g",
     "color": "red",
     "container": "bag_iv",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 5,
-    "healthy": -8,
     "price_postapoc": 10,
-    "calories": 43,
     "description": "Blood, possibly that of a human.  Disgusting!",
     "price": 0,
-    "material": [ "hflesh" ],
+    "material": [ "hblood" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "fun": -50
+    "delete": { "flags": [ "SMOKABLE" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -636,7 +784,7 @@
     "symbol": "%",
     "quench": -10,
     "healthy": -1,
-    "calories": 992,
+    "calories": 496,
     "description": "A smooth white block of cleaned and rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
     "price": 500,
     "price_postapoc": 800,
@@ -725,6 +873,20 @@
     "fun": -10,
     "flags": [ "TRADER_AVOID", "SMOKABLE", "NUTRIENT_OVERRIDE", "RAW" ],
     "smoking_result": "dry_meat_tainted"
+  },
+  {
+    "id": "blood_tainted",
+    "type": "COMESTIBLE",
+    "copy-from": "meat_tainted",
+    "name": { "str_sp": "tainted blood" },
+    "description": "Blood that's obviously unhealthy.  You could eat it, but it will poison you.",
+    "comestible_type": "DRINK",
+    "quench": 5,
+    "looks_like": "blood",
+    "symbol": "~",
+    "material": "blood",
+    "phase": "liquid",
+    "delete": { "flags": [ "SMOKABLE" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -960,7 +1122,8 @@
     "material": [ "flesh" ],
     "volume": "500 ml",
     "fun": -25,
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": false }
+    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": false },
+    "flags": [ "PREDATOR_FUN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -979,7 +1142,8 @@
     "material": [ "flesh" ],
     "volume": "1 L",
     "fun": -25,
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": true }
+    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": true },
+    "flags": [ "PREDATOR_FUN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -1100,6 +1264,22 @@
     "description": "Freshly butchered from a demihuman body.",
     "material": [ "flesh" ],
     "flags": [ "STRICT_HUMANITARIANISM" ]
+  },
+  {
+    "id": "demihuman_blood",
+    "type": "COMESTIBLE",
+    "copy-from": "demihuman_flesh",
+    "name": { "str_sp": "demihuman blood" },
+    "description": "Fresh blood extracted from a demihuman.",
+    "comestible_type": "DRINK",
+    "healthy": 0,
+    "parasites": 0,
+    "quench": 5,
+    "looks_like": "blood",
+    "symbol": "~",
+    "material": "blood",
+    "phase": "liquid",
+    "delete": { "flags": [ "SMOKABLE" ] }
   },
   {
     "id": "demihuman_cooked",

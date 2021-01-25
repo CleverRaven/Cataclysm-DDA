@@ -2,20 +2,9 @@
   {
     "type": "npc",
     "id": "old_guard_rep",
-    "//": "Appears in the refugee center as a source of missions and info.  Faction critical.",
-    "//2": "name_suffix is appended to the end of the npc's name.",
-    "//3": "using 'name_unique' instead will set the guy's name as is.",
     "name_suffix": "Representative",
-    "//4": "Class is based on the enum in npc.h.  The important ones are 0=NC_NONE, 2=NC_SHOPKEEP,",
-    "//5": "3=NC_HACKER, 4=NC_DOCTOR, 5=NC_TRADER, 6=NC_NINJA, 7=NC_COWBOY, 8=NC_SCIENTIST,",
-    "//6": "9=NC_BOUNTY_HUNTER, 10=NC_THUG, 11=NC_SCAVENGER, 13=NC_HUNTER, 14=NC_SOLDIER.",
     "class": "NC_COWBOY",
-    "//7": "Attitude is based on the enum in npc.h.  The important ones are 0=NPCATT_NULL, 1=NPCATT_TALK",
-    "//8": "3=NPCATT_FOLLOW, 7=NPCATT_DEFEND, 10=NPCATT_KILL, and 11=NPCATT_FLEE",
     "attitude": 0,
-    "//9": "Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP",
-    "//10": "and 7=NPC_MISSION_GUARD",
-    "//11": "8 = NPC_MISSION_GUARD_PATROL will actively investigate noises",
     "mission": 7,
     "chat": "TALK_OLD_GUARD_REP",
     "faction": "old_guard",
@@ -26,6 +15,20 @@
     "type": "talk_topic",
     "dynamic_line": { "u_has_any_trait": [ "PROF_FED" ], "yes": "Marshal…", "no": "Citizen…" },
     "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 15 },
+        "failure": { "topic": "TALK_OLD_GUARD_REP_Refuse_Boris_Mission_1" },
+        "success": { "topic": "TALK_OLD_GUARD_REP_Accept_Boris_Mission_1" }
+      },
       { "text": "Who are you?", "topic": "TALK_OLD_GUARD_REP_NEW" },
       { "text": "Heard anything about the outside world?", "topic": "TALK_OLD_GUARD_REP_WORLD" },
       { "text": "Is there any way I can join the 'Old Guard'?", "topic": "TALK_OLD_GUARD_REP_ASK_JOIN" },
@@ -86,6 +89,25 @@
     "type": "talk_topic",
     "dynamic_line": "You can't actually join unless you go through a recruiter.  We can usually use help though, ask me from time to time if there is any work available.  Completing missions as a contractor is a great way to make a name for yourself among the most powerful men left in the world.",
     "responses": [ { "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_Refuse_Boris_Mission_1",
+    "type": "talk_topic",
+    "dynamic_line": "I'm sorry, but I can't leave my post here, and I just don't have the human resources even for a project like that.",
+    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
+    "responses": [ { "text": "Well, thanks anyway…", "topic": "TALK_OLD_GUARD_REP" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_Accept_Boris_Mission_1",
+    "type": "talk_topic",
+    "dynamic_line": "It's your lucky day: I just made contact with a couple volunteers like yourself, and that's exactly the sort of project I can put them to.",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 2 }
+      ]
+    },
+    "responses": [ { "text": "Thanks, that's great news!", "topic": "TALK_OLD_GUARD_REP" } ]
   },
   {
     "id": "MISSION_OLD_GUARD_REP_1",

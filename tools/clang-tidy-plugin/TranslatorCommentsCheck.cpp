@@ -150,10 +150,16 @@ class TranslatorCommentsCheck::TranslationMacroCallback : public PPCallbacks
 
             StringRef MacroName = MacroNameTok.getIdentifierInfo()->getName();
 
+            bool is_marker;
             unsigned int RawStringInd;
-            if( MacroName == "translate_marker" ) {
+            if( MacroName == "_" ) {
+                is_marker = false;
+                RawStringInd = 0;
+            } else if( MacroName == "translate_marker" ) {
+                is_marker = true;
                 RawStringInd = 0;
             } else if( MacroName == "translate_marker_context" ) {
+                is_marker = true;
                 RawStringInd = 1;
             } else {
                 return;
@@ -173,7 +179,9 @@ class TranslatorCommentsCheck::TranslationMacroCallback : public PPCallbacks
                 }
                 for( ; Tok->isNot( tok::eof ); ++Tok ) {
                     if( !tok::isStringLiteral( Tok->getKind() ) ) {
-                        Check.diag( Tok->getLocation(), "Translation marker macros only accepts string literal arguments" );
+                        if( is_marker ) {
+                            Check.diag( Tok->getLocation(), "Translation marker macros only accepts string literal arguments" );
+                        }
                         return;
                     }
                 }

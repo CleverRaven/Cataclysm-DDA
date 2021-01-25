@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "ballistics.h"
 #include "bodypart.h"
@@ -96,7 +97,6 @@ static const trap_str_id tr_practice_target( "tr_practice_target" );
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
-static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
 
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
@@ -112,6 +112,9 @@ static const std::string flag_MOUNTABLE( "MOUNTABLE" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
+// Maximum duration of aim-and-fire loop, in turns
+static constexpr int AIF_DURATION_LIMIT = 10;
+
 static projectile make_gun_projectile( const item &gun );
 static int time_to_attack( const Character &p, const itype &firing );
 /**
@@ -120,7 +123,7 @@ static int time_to_attack( const Character &p, const itype &firing );
 * @param ammo   Ammo used.
 * @param pos    Character position.
 */
-static void cycle_action( item &weap, itype_id ammo, const tripoint &pos );
+static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos );
 static void make_gun_sound_effect( const player &p, bool burst, item *weapon );
 
 class target_ui
@@ -268,21 +271,22 @@ class target_ui
         // Updates 'targets' for current range
         void update_target_list();
 
-        // Tries to find something to aim at.
-        // reentered - true if UI was re-entered (e.g. during multi-turn aiming)
-        // Validates pc.last_target and pc.last_target_pos.
-        // Sets 'new_dst' as the initial aiming point.
-        // Returns 'true' if we can proceed with aim-and-shoot.
-        bool choose_initial_target( bool reentered, tripoint &new_dst );
+        // Choose where to position the cursor when opening the ui
+        tripoint choose_initial_target();
+
+        /**
+         * Try to re-acquire target for aim-and-fire.
+         * @param critter whether were aiming at a critter, or a tile
+         * @param new_dst where to move aim cursor (if e.g. critter moved)
+         * @returns true on success
+         */
+        bool try_reacquire_target( bool critter, tripoint &new_dst );
 
         // Update 'status' variable
         void update_status();
 
         // Calculates distance from 'src'. For consistency, prefer using this over rl_dist.
         int dist_fn( const tripoint &p );
-
-        // Checks if player can see target. For consistency, prefer using this over pc.sees()
-        bool pl_can_target( const Creature *cr );
 
         // Set creature (or tile) under cursor as player's last target
         void set_last_target();
@@ -540,7 +544,7 @@ bool player::handle_gun_damage( item &it )
     int dirt = it.get_var( "dirt", 0 );
     int dirtadder = 0;
     double dirt_dbl = static_cast<double>( dirt );
-    if( it.faults.count( fault_gun_chamber_spent ) ) {
+    if( it.has_fault_flag( "JAMMED_GUN" ) ) {
         return false;
     }
 
@@ -631,33 +635,28 @@ bool player::handle_gun_damage( item &it )
             }
         }
     }
-    if( it.has_fault( fault_gun_unlubricated ) &&
+    if( it.has_fault_flag( "UNLUBRICATED" ) &&
         x_in_y( dirt_dbl, dirt_max_dbl ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s emits a grimace-inducing screech!" ),
                                _( "<npcname>'s %s emits a grimace-inducing screech!" ),
                                it.tname() );
         it.inc_damage();
     }
-    if( ( ( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( flag_NON_FOULING ) ) ||
-          ( it.has_fault( fault_gun_unlubricated ) ) ) &&
-        !it.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
-        if( curammo_effects.count( "BLACKPOWDER" ) ||
-            it.has_fault( fault_gun_unlubricated ) ) {
-            if( ( ( it.ammo_data()->ammo->recoil < firing.min_cycle_recoil ) ||
-                  ( it.has_fault( fault_gun_unlubricated ) && one_in( 16 ) ) ) &&
-                it.faults_potential().count( fault_gun_chamber_spent ) ) {
-                add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
-                                       _( "<npcname>'s %s fails to cycle!" ),
-                                       it.tname() );
-                it.faults.insert( fault_gun_chamber_spent );
-                // Don't return false in this case; this shot happens, follow-up ones won't.
-            }
+    if( !it.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
+        if( it.ammo_data() != nullptr && ( ( it.ammo_data()->ammo->recoil < firing.min_cycle_recoil ) ||
+                                           ( it.has_fault_flag( "BAD_CYCLING" ) && one_in( 16 ) ) ) &&
+            it.faults_potential().count( fault_gun_chamber_spent ) ) {
+            add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
+                                   _( "<npcname>'s %s fails to cycle!" ),
+                                   it.tname() );
+            it.faults.insert( fault_gun_chamber_spent );
+            // Don't return false in this case; this shot happens, follow-up ones won't.
         }
         // These are the dirtying/fouling mechanics
-        if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( flag_NON_FOULING ) ) {
+        if( !curammo_effects.count( "NON_FOULING" ) && !it.has_flag( flag_NON_FOULING ) ) {
             if( dirt < static_cast<int>( dirt_max_dbl ) ) {
-                dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing.blackpowder_tolerance *
-                            2 ) );
+                dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - firing.blackpowder_tolerance *
+                            2 );
                 // dirtadder is the dirt-increasing number for shots fired with gunpowder-based ammo. Usually dirt level increases by 1, unless it's blackpowder, in which case it increases by a higher number, but there is a reduction for blackpowder resistance of a weapon.
                 if( dirtadder < 0 ) {
                     dirtadder = 0;
@@ -670,7 +669,7 @@ bool player::handle_gun_damage( item &it )
             }
             dirt = it.get_var( "dirt", 0 );
             dirt_dbl = static_cast<double>( dirt );
-            if( dirt > 0 && !it.faults.count( fault_gun_blackpowder ) ) {
+            if( dirt > 0 && !it.has_fault_flag( "NO_DIRTYING" ) ) {
                 it.faults.insert( fault_gun_dirt );
             }
             if( dirt > 0 && curammo_effects.count( "BLACKPOWDER" ) ) {
@@ -766,7 +765,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
-        if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
+        if( gun.has_fault_flag( "JAMMED_GUN" ) && curshot == 0 ) {
             moves -= 50;
             gun.faults.erase( fault_gun_chamber_spent );
             add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
@@ -1387,11 +1386,20 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     return line_number;
 }
 
+// Whether player character knows creature's position and can roughly track it with the aim cursor
+static bool pl_sees( const Creature &cr )
+{
+    Character &u = get_player_character();
+    return u.sees( cr ) || u.sees_with_infrared( cr ) || u.sees_with_specials( cr );
+}
+
 // Handle capping aim level when the player cannot see the target tile or there is nothing to aim at.
 static double calculate_aim_cap( const player &p, const tripoint &target )
 {
     double min_recoil = 0.0;
     const Creature *victim = g->critter_at( target, true );
+    // No p.sees_with_specials() here because special senses are not precise enough
+    // to give creature's exact size & position, only which tile it occupies
     if( victim == nullptr || ( !p.sees( *victim ) && !p.sees_with_infrared( *victim ) ) ) {
         const int range = rl_dist( p.pos(), target );
         // Get angle of triangle that spans the target square.
@@ -1568,7 +1576,7 @@ int time_to_attack( const Character &p, const itype &firing )
                      info.base_time - info.time_reduction_per_level * p.get_skill_level( skill_used ) );
 }
 
-static void cycle_action( item &weap, itype_id ammo, const tripoint &pos )
+static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos )
 {
     map &here = get_map();
     // eject casings and linkages in random direction avoiding walls using player position as fallback
@@ -1790,7 +1798,7 @@ double Character::gun_value( const item &weap, int ammo ) const
         return 0.0;
     }
 
-    if( ammo <= 0 ) {
+    if( ammo <= 0 || !meets_requirements( weap ) ) {
         return 0.0;
     }
 
@@ -1824,7 +1832,7 @@ double Character::gun_value( const item &weap, int ammo ) const
     }
 
     float damage_factor = gun_damage.total_damage();
-    if( damage_factor > 0 ) {
+    if( damage_factor > 0 && !gun_damage.empty() ) {
         // TODO: Multiple damage types
         damage_factor += 0.5f * gun_damage.damage_units.front().res_pen;
     }
@@ -1952,6 +1960,7 @@ target_handler::trajectory target_ui::run()
     std::string action;
     bool attack_was_confirmed = false;
     bool reentered = false;
+    bool resume_critter = false;
     if( mode == TargetMode::Fire && !activity->first_turn ) {
         // We were in this UI during previous turn...
         reentered = true;
@@ -1967,26 +1976,37 @@ target_handler::trajectory target_ui::run()
         // Load state to keep the ui consistent across turns
         snap_to_target = activity->snap_to_target;
         shifting_view = activity->shifting_view;
+        resume_critter = activity->aiming_at_critter;
     }
 
     // Initialize cursor position
     src = you->pos();
-    tripoint initial_dst = src;
     update_target_list();
-    if( !choose_initial_target( reentered, initial_dst ) ) {
-        // We've lost our target from previous turn
-        action.clear();
-        attack_was_confirmed = false;
-        you->last_target.reset();
+
+    tripoint initial_dst = src;
+    if( reentered ) {
+        if( !try_reacquire_target( resume_critter, initial_dst ) ) {
+            // Target lost
+            action.clear();
+            attack_was_confirmed = false;
+        }
+    } else {
+        initial_dst = choose_initial_target();
     }
     set_cursor_pos( initial_dst );
     if( dst != initial_dst ) {
         // Our target moved out of range
         action.clear();
         attack_was_confirmed = false;
-        you->last_target.reset();
     }
     if( mode == TargetMode::Fire ) {
+        if( activity->aif_duration > AIF_DURATION_LIMIT ) {
+            // Break long (potentially infinite) aim-and-fire loop.
+            // May happen if e.g. avatar tries to get 'precise' shot while being
+            // attacked by multiple zombies, which triggers dodges and corresponding aim loss.
+            action.clear();
+            attack_was_confirmed = false;
+        }
         if( !activity->first_turn && !action.empty() && !prompt_friendlies_in_lof() ) {
             // A friendly creature moved into line of fire during aim-and-shoot,
             // and player decided to stop aiming
@@ -1994,6 +2014,11 @@ target_handler::trajectory target_ui::run()
             attack_was_confirmed = false;
         }
         activity->acceptable_losses.clear();
+        if( action.empty() ) {
+            activity->aif_duration = 0;
+        } else {
+            activity->aif_duration += 1;
+        }
     }
 
     // Event loop!
@@ -2109,6 +2134,7 @@ target_handler::trajectory target_ui::run()
             activity->action = timed_out_action;
             activity->snap_to_target = snap_to_target;
             activity->shifting_view = shifting_view;
+            activity->aiming_at_critter = !!dst_critter;
             break;
         }
         case ExitCode::Reload: {
@@ -2352,7 +2378,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     // Cache creature under cursor
     if( src != dst ) {
         Creature *cr = g->critter_at( dst, true );
-        if( cr && pl_can_target( cr ) ) {
+        if( cr && pl_sees( *cr ) ) {
             dst_critter = cr;
         } else {
             dst_critter = nullptr;
@@ -2413,64 +2439,59 @@ void target_ui::update_target_list()
     } );
 }
 
-bool target_ui::choose_initial_target( bool reentered, tripoint &new_dst )
+tripoint target_ui::choose_initial_target()
 {
+    // Try previously targeted creature
+    shared_ptr_fast<Creature> cr = you->last_target.lock();
+    if( cr && pl_sees( *cr ) && dist_fn( cr->pos() ) <= range ) {
+        return cr->pos();
+    }
+
+    // Try closest creature
+    if( !targets.empty() ) {
+        return targets[0]->pos();
+    }
+
+    // Try closest practice target
     map &here = get_map();
-    // Determine if we had a target and it is still visible
-    if( !you->last_target.expired() ) {
-        Creature *cr = you->last_target.lock().get();
-        if( pl_can_target( cr ) ) {
-            // There it is!
+    const std::vector<tripoint> nearby = closest_points_first( src, range );
+    const auto target_spot = std::find_if( nearby.begin(), nearby.end(),
+    [this, &here]( const tripoint & pt ) {
+        return here.tr_at( pt ).id == tr_practice_target && this->you->sees( pt );
+    } );
+    if( target_spot != nearby.end() ) {
+        return *target_spot;
+    }
+
+    // We've got nothing.
+    return src;
+}
+
+bool target_ui::try_reacquire_target( bool critter, tripoint &new_dst )
+{
+    if( critter ) {
+        // Try to re-acquire the creature
+        shared_ptr_fast<Creature> cr = you->last_target.lock();
+        if( cr && pl_sees( *cr ) && dist_fn( cr->pos() ) <= range ) {
             new_dst = cr->pos();
-            you->last_target_pos = here.getabs( new_dst );
             return true;
         }
     }
 
-    // Check if we were aiming at a tile or a (now missing) creature in a tile
-    // and still can aim at that tile.
-    cata::optional<tripoint> local_last_tgt_pos = cata::nullopt;
-    if( you->last_target_pos ) {
-        tripoint local = here.getlocal( *you->last_target_pos );
-        if( dist_fn( local ) > range ) {
-            // No luck
-            you->last_target_pos = cata::nullopt;
-        } else if( reentered ) {
-            local_last_tgt_pos = local;
-        }
-    }
-    if( mode == TargetMode::Fire && you->recoil == MAX_RECOIL ) {
-        // We've either moved away, used a bow or a gun with MASSIVE recoil. It doesn't really matter
-        // where we were aiming at, might as well start from scratch.
-        you->last_target_pos = cata::nullopt;
-        local_last_tgt_pos = cata::nullopt;
-    }
-    if( local_last_tgt_pos ) {
-        new_dst = *local_last_tgt_pos;
+    if( !you->last_target_pos.has_value() ) {
+        // This shouldn't happen
         return false;
     }
 
-    // Try to find at least something
-    if( targets.empty() ) {
-        // The closest practice target
-        const std::vector<tripoint> nearby = closest_points_first( src, range );
-        const auto target_spot = std::find_if( nearby.begin(), nearby.end(),
-        [this, &here]( const tripoint & pt ) {
-            return here.tr_at( pt ).id == tr_practice_target && this->you->sees( pt );
-        } );
-
-        if( target_spot != nearby.end() ) {
-            new_dst = *target_spot;
-            return false;
-        }
-    } else {
-        // The closest living target
-        new_dst = targets[0]->pos();
-        return false;
+    // Try to re-acquire target tile or tile where the target creature used to be
+    tripoint local_lt = get_map().getlocal( *you->last_target_pos );
+    if( dist_fn( local_lt ) <= range ) {
+        new_dst = local_lt;
+        // Abort aiming if a creature moved in
+        return !critter && !g->critter_at( local_lt, true );
     }
 
-    // We've got nothing.
-    new_dst = src;
+    // We moved out of range
     return false;
 }
 
@@ -2506,11 +2527,6 @@ void target_ui::update_status()
 int target_ui::dist_fn( const tripoint &p )
 {
     return static_cast<int>( std::round( rl_dist_exact( src, p ) ) );
-}
-
-bool target_ui::pl_can_target( const Creature *cr )
-{
-    return you->sees( *cr ) || you->sees_with_infrared( *cr );
 }
 
 void target_ui::set_last_target()
@@ -2578,7 +2594,7 @@ std::vector<weak_ptr_fast<Creature>> target_ui::list_friendlies_in_lof()
     for( const tripoint &p : traj ) {
         if( p != dst && p != src ) {
             Creature *cr = g->critter_at( p, true );
-            if( cr && pl_can_target( cr ) ) {
+            if( cr && you->sees( *cr ) ) {
                 Creature::Attitude a = cr->attitude_to( *this->you );
                 if(
                     ( cr->is_npc() && a != Creature::Attitude::HOSTILE ) ||
@@ -3275,13 +3291,28 @@ void target_ui::panel_target_info( int &text_y, bool fill_with_blank_if_no_targe
 {
     int max_lines = 4;
     if( dst_critter ) {
-        // FIXME: print_info doesn't really care about line limit
-        //        and can always occupy up to 4 of them (or even more?).
-        //        To make things consistent, we ask it for 2 lines
-        //        and somewhat reliably get 4.
-        int fix_for_print_info = max_lines - 2;
-        dst_critter->print_info( w_target, text_y, fix_for_print_info, 1 );
-        text_y += max_lines;
+        if( you->sees( *dst_critter ) ) {
+            // FIXME: print_info doesn't really care about line limit
+            //        and can always occupy up to 4 of them (or even more?).
+            //        To make things consistent, we ask it for 2 lines
+            //        and somewhat reliably get 4.
+            int fix_for_print_info = max_lines - 2;
+            dst_critter->print_info( w_target, text_y, fix_for_print_info, 1 );
+            text_y += max_lines;
+        } else {
+            std::vector<std::string> buf;
+            if( you->sees_with_infrared( *dst_critter ) ) {
+                dst_critter->describe_infrared( buf );
+            } else if( you->sees_with_specials( *dst_critter ) ) {
+                dst_critter->describe_specials( buf );
+            }
+            for( size_t i = 0; i < static_cast<size_t>( max_lines ); i++, text_y++ ) {
+                if( i >= buf.size() ) {
+                    continue;
+                }
+                mvwprintw( w_target, point( 1, text_y ), buf[i] );
+            }
+        }
     } else if( fill_with_blank_if_no_target ) {
         // Fill with blank lines to prevent other panels from jumping around
         // when the cursor moves.

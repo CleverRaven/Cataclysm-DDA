@@ -189,6 +189,7 @@
         ],
         "prob": 100
       },
+      { "item": "pencil", "prob": 20, "charges": [ 0, 100 ] },
       [ "rigid_plastic_sheet", 5 ],
       [ "plastic_sheet", 5 ],
       [ "pine_bough", 3 ]
@@ -231,7 +232,7 @@
       [ "foot_crank", 10 ],
       [ "spray_can", 50 ],
       [ "bearing", 1 ],
-      { "item": "permanent_marker", "prob": 20, "charges": [ 0, 500 ] },
+      { "group": "writing_utensils", "prob": 25 },
       [ "cu_pipe", 50 ],
       [ "fungicide", 5 ],
       [ "insecticide", 5 ],
@@ -479,7 +480,7 @@
       [ "cig", 5 ],
       [ "purse", 2 ],
       [ "pipe_tobacco", 1 ],
-      { "item": "permanent_marker", "prob": 5, "charges": [ 0, 500 ] }
+      { "group": "writing_utensils", "prob": 35 }
     ]
   },
   {
@@ -487,7 +488,7 @@
     "type": "item_group",
     "items": [
       [ "paper", 100 ],
-      { "item": "permanent_marker", "prob": 35, "charges": [ 0, 500 ] },
+      { "group": "writing_utensils", "prob": 35 },
       [ "file", 15 ],
       [ "duct_tape", 15 ],
       [ "file", 15 ],
@@ -524,6 +525,12 @@
     ]
   },
   {
+    "id": "charged_inhaler",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "inhaler", "charges": 100 } ]
+  },
+  {
     "id": "fuel_barrel",
     "type": "item_group",
     "//": "barrel with gasoline, diesel or motor oil like you would find at fuel depot",
@@ -547,5 +554,24 @@
     "//": "barrel with aviation gas like you would find at a fuel depot for planes or helicopters",
     "subtype": "distribution",
     "entries": [ { "item": "jp8", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 30 } ]
+  },
+  {
+    "id": "writing_utensils",
+    "type": "item_group",
+    "items": [
+      { "item": "permanent_marker", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "pen", "prob": 15, "charges": [ 0, 300 ] },
+      { "item": "pencil", "prob": 35, "charges": [ 0, 100 ] },
+      { "item": "black_pen", "prob": 35, "charges": [ 0, 100 ] },
+      { "item": "blue_pen", "prob": 20, "charges": [ 0, 100 ] },
+      { "item": "red_pen", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "green_pen", "prob": 5, "charges": [ 0, 100 ] }
+    ]
+  },
+  {
+    "id": "autodoc_supplies",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "anesthetic_kit", "charges": [ 0, 6000 ] } ]
   }
 ]

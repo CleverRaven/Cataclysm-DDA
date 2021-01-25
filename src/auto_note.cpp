@@ -216,6 +216,8 @@ void auto_note_manager_gui::show()
 
     if( !emptyMode ) {
         ctx.register_cardinal();
+        ctx.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+        ctx.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
         ctx.register_action( "CONFIRM" );
         ctx.register_action( "QUIT" );
         ctx.register_action( "ENABLE_MAPEXTRA_NOTE" );
@@ -343,6 +345,7 @@ void auto_note_manager_gui::show()
 
         const string_id<map_extra> &currentItem = displayCache[currentLine];
         std::pair<const map_extra, bool> &entry = mapExtraCache[currentItem];
+        const int scroll_rate = cacheSize > 20 ? 10 : 3;
 
         if( currentAction == "UP" ) {
             if( currentLine > 0 ) {
@@ -355,6 +358,22 @@ void auto_note_manager_gui::show()
                 currentLine = 0;
             } else {
                 ++currentLine;
+            }
+        } else if( currentAction == "PAGE_DOWN" ) {
+            if( currentLine == cacheSize - 1 ) {
+                currentLine = 0;
+            } else if( currentLine + scroll_rate >= cacheSize ) {
+                currentLine = cacheSize - 1;
+            } else {
+                currentLine += +scroll_rate;
+            }
+        } else if( currentAction == "PAGE_UP" ) {
+            if( currentLine == 0 ) {
+                currentLine = cacheSize - 1;
+            } else if( currentLine <= scroll_rate ) {
+                currentLine = 0;
+            } else {
+                currentLine += -scroll_rate;
             }
         }  else if( currentAction == "ENABLE_MAPEXTRA_NOTE" ) {
             entry.second = true;

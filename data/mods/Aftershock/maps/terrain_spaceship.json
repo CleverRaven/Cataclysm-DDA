@@ -1,0 +1,120 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_afs_space_ship_hull_wall",
+    "name": "spaceship hull",
+    "description": "A hull segment from a civilian spaceship.  Only sufficiently armored to defend against the vacuum and radiation of space, the only dangers you'd expect to find on the other side.",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_wall_metal",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "bash": {
+      "str_min": 25,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_material_2", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_escapepod_g",
+    "name": "escape pod guidance system",
+    "description": "The rudimentary descent guidance system and easy-use control console of an escape pod.  It apparently broke during the descent.",
+    "roof": "t_metal_flat_roof",
+    "looks_like": "t_intercom",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "symbol": "o",
+    "color": "white",
+    "copy-from": "t_afs_space_ship_hull_wall",
+    "deconstruct": {
+      "ter_set": "t_afs_space_ship_hull_wall",
+      "items": [
+        { "item": "afs_circuitry_3", "count": [ 1, 2 ] },
+        { "item": "afs_circuitry_2", "count": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 6 ] },
+        { "item": "small_lcd_screen", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 4 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
+        { "item": "afs_energy_storage_3", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "afs_material_2", "count": [ 0, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 25,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "cable", "charges": [ 2, 6 ] },
+        { "item": "plastic_chunk", "count": [ 6, 10 ] },
+        { "item": "afs_energy_storage_2", "count": [ 0, 2 ] },
+        { "item": "afs_energy_storage_2", "count": [ 1, 2 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
+        { "item": "afs_material_2", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_space_ship_hatch_c",
+    "name": "closed spaceship hatch",
+    "description": "An armored and airtight spaceship hatch.  A side mounted lever allows for its manual operation.",
+    "roof": "t_metal_flat_roof",
+    "symbol": "+",
+    "color": "light_red",
+    "open": "t_afs_space_ship_hatch_o",
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE" ],
+    "copy-from": "t_door_metal_lab_c",
+    "bash": {
+      "str_min": 25,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 0, 2 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
+        { "item": "afs_material_2", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_space_ship_hatch_o",
+    "name": "open spaceship hatch",
+    "description": "An armored and airtight spaceship hatch.  A side mounted lever allows for its manual operation.",
+    "roof": "t_metal_flat_roof",
+    "close": "t_afs_space_ship_hatch_c",
+    "copy-from": "t_door_metal_lab_o",
+    "symbol": "'",
+    "color": "light_red",
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 0, 2 ] },
+        { "item": "afs_circuitry_1", "count": [ 0, 2 ] },
+        { "item": "afs_material_2", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 2, 12 ] },
+        { "item": "scrap", "count": [ 6, 24 ] }
+      ]
+    }
+  }
+]

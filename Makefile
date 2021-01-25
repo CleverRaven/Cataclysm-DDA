@@ -157,6 +157,11 @@ SRC_DIR = src
 LOCALIZE = 1
 ASTYLE_BINARY = astyle
 
+# Enable debug by default
+ifndef RELEASE
+  RELEASE = 0
+endif
+
 # Enable astyle by default
 ifndef ASTYLE
   ASTYLE = 1
@@ -302,16 +307,10 @@ endif
 # enable optimizations. slow to build
 ifeq ($(RELEASE), 1)
   ifeq ($(NATIVE), osx)
-    ifdef OSXCROSS
-      OPTLEVEL = -O0
-    else ifeq ($(shell expr $(OSX_MIN) \<= 10.11), 1)
-      OPTLEVEL = -O0
+    ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
+      OPTLEVEL = -Os
     else
-      ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
-        OPTLEVEL = -Os
-      else
-        OPTLEVEL = -O3
-      endif
+      OPTLEVEL = -O3
     endif
   else
     # MXE ICE Workaround
@@ -366,9 +365,7 @@ ifeq ($(RELEASE), 1)
   ifeq ($(LINTJSON), 1)
     CHECKS += style-json
   endif
-endif
-
-ifndef RELEASE
+else
   ifeq ($(NOOPT), 1)
     # While gcc claims to include all information required for
     # debugging at -Og, at least with gcc 8.3, control flow
@@ -498,10 +495,16 @@ ifeq ($(NATIVE), osx)
       LDFLAGS += -L$(LIBSDIR)/gettext/lib
       CXXFLAGS += -I$(LIBSDIR)/gettext/include
     endif
+    # recent versions of brew will not allow you to link
     ifeq ($(BREWGETTEXT), 1)
-      # recent versions of brew will not allow you to link
-      LDFLAGS += -L/usr/local/opt/gettext/lib
-      CXXFLAGS += -I/usr/local/opt/gettext/include
+      # native ARM Homebrew is installed to /opt/homebrew
+      ifneq ("$(wildcard /opt/homebrew)", "")
+        LDFLAGS += -L/opt/homebrew/lib
+        CXXFLAGS += -I/opt/homebrew/include
+      else
+        LDFLAGS += -L/usr/local/opt/gettext/lib
+        CXXFLAGS += -I/usr/local/opt/gettext/include
+      endif
     endif
     ifeq ($(MACPORTS), 1)
       ifneq ($(TILES), 1)
@@ -924,7 +927,7 @@ $(CHKJSON_BIN): $(CHKJSON_SOURCES)
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
-clean: clean-tests
+clean: clean-tests clean-object_creator
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
@@ -1170,6 +1173,12 @@ check: version $(BUILD_PREFIX)cataclysm.a
 
 clean-tests:
 	$(MAKE) -C tests clean
+
+object_creator: version $(BUILD_PREFIX)cataclysm.a
+	$(MAKE) -C object_creator
+
+clean-object_creator:
+	$(MAKE) -C object_creator clean
 
 validate-pr:
 ifneq ($(CYGWIN),1)

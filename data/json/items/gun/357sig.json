@@ -19,6 +19,7 @@
     "ammo": [ "357sig" ],
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 540,
     "pocket_data": [
       {
         "magazine_well": "250 ml",
@@ -41,6 +42,7 @@
     "volume": "443 ml",
     "longest_side": "234 mm",
     "price_postapoc": 2250,
+    "min_cycle_recoil": 450,
     "ammo": [ "357sig" ],
     "pocket_data": [
       {
@@ -73,6 +75,7 @@
     "ammo": [ "357sig" ],
     "dispersion": 480,
     "durability": 6,
+    "min_cycle_recoil": 540,
     "pocket_data": [
       {
         "magazine_well": "250 ml",

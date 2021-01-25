@@ -3,7 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_liquor" ],
-    "weight": 1000,
+    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -183,7 +183,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_liquor" ],
-    "weight": 1000,
+    "weight": 500,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

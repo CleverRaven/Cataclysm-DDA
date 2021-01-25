@@ -566,19 +566,19 @@
         "  |.................3   ",
         "  |.................3   ",
         "  |-----------------3   ",
-        "  NNNNNNNNNNNNNNNNNNN   ",
-        "  NNNNNNNNNNNNNNNNNNN   ",
-        "  N  N           N  N   ",
-        "  N                 N   ",
-        "  N                 N   ",
-        "  N                 N   ",
-        "  N                 N   ",
-        "  N                 N   ",
-        "  N                 N   ",
-        "  NNNNNNNNNNNNNNNNNNN   "
+        "  ???????????????????   ",
+        "  ???????????????????   ",
+        "  ?  ?           ?  ?   ",
+        "  ?                 ?   ",
+        "  ?                 ?   ",
+        "  ?                 ?   ",
+        "  ?                 ?   ",
+        "  ?                 ?   ",
+        "  ?                 ?   ",
+        "  ???????????????????   "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "N": "t_open_air_rooved" },
+      "terrain": { "?": "t_open_air_rooved" },
       "place_nested": [
         {
           "chunks": [

@@ -200,6 +200,9 @@ class uilist // NOLINT(cata-xy)
 
         ~uilist();
 
+        // whether to report invalid color tag with debug message.
+        void color_error( bool report );
+
         void init();
         void setup();
         // initialize the window or reposition it after screen size change.
@@ -302,6 +305,9 @@ class uilist // NOLINT(cata-xy)
         // and unhandled by callback, default false.
         bool allow_additional = false;
         bool hilight_disabled = false;
+
+    private:
+        report_color_error _color_error = report_color_error::yes;
 
     public:
         // Iternal states

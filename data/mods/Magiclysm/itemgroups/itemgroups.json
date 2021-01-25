@@ -61,6 +61,21 @@
   },
   {
     "type": "item_group",
+    "id": "guns_rifle_common",
+    "items": [ { "item": "boreal_mosin", "prob": 3, "charges-min": 0, "charges-max": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display",
+    "items": [ { "item": "boreal_mosin", "prob": 3, "charges-min": 0, "charges-max": 0 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "mags_rifle_rare",
+    "items": [ [ "borealmosin_clip", 5 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "displays",
     "items": [
       [ "mana_potion_lesser", 50 ],
@@ -162,6 +177,7 @@
       [ "glow_light_off", 1 ],
       [ "bulette_plate", 10 ],
       [ "cauldron_orichalcum", 7 ],
+      [ "mithril_ingot", 2 ],
       { "item": "bulette_pearl", "prob": 8, "count-min": 1, "count-max": 2 }
     ]
   },
@@ -300,8 +316,8 @@
       { "item": "mkey_opening", "prob": 100 },
       { "item": "mtorch_everburning", "prob": 100 },
       { "item": "mflask_hip_whiskey", "prob": 100 },
-      { "item": "mtailors_kit", "prob": 100 },
-      { "item": "mspider_box", "prob": 100 },
+      { "item": "mtailors_kit", "prob": 100, "charges-min": 3, "charges-max": 24 },
+      { "item": "mspider_box", "prob": 100, "charges-min": 3, "charges-max": 24 },
       { "item": "cauldron_demon_chitin", "prob": 20 },
       { "item": "fridge_holding_1", "prob": 12 },
       { "item": "bag_holding_1", "prob": 8 },
@@ -330,7 +346,6 @@
     "//": "all the tool tokens",
     "subtype": "collection",
     "items": [
-      { "item": "mtoken_toolbox", "prob": 5 },
       { "item": "mtoken_hammer", "prob": 20 },
       { "item": "mtoken_screwdriver_set", "prob": 30 },
       { "item": "mtoken_crowbar", "prob": 20 }

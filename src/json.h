@@ -17,6 +17,7 @@
 
 #include "colony.h"
 #include "enum_conversions.h"
+#include "memory_fast.h"
 #include "string_id.h"
 
 /* Cataclysm-DDA homegrown JSON tools
@@ -38,6 +39,8 @@ class JsonDeserializer;
 class JsonObject;
 class JsonSerializer;
 class JsonValue;
+
+class item;
 
 namespace cata
 {
@@ -91,6 +94,11 @@ struct number_sci_notation {
     uint64_t number = 0;
     // AKA the order of magnitude
     int64_t exp = 0;
+};
+
+struct json_source_location {
+    shared_ptr_fast<std::string> path;
+    int offset = 0;
 };
 
 /* JsonIn
@@ -177,8 +185,7 @@ class JsonIn
 {
     private:
         std::istream *stream;
-        // Used for error message and thus intentionally untranslated
-        std::string name = "<unknown source file>";
+        shared_ptr_fast<std::string> path;
         bool ate_separator = false;
 
         void skip_separator();
@@ -187,9 +194,18 @@ class JsonIn
 
     public:
         JsonIn( std::istream &s ) : stream( &s ) {}
-        JsonIn( std::istream &s, const std::string &name ) : stream( &s ), name( name ) {}
+        JsonIn( std::istream &s, const std::string &path )
+            : stream( &s ), path( make_shared_fast<std::string>( path ) ) {}
+        JsonIn( std::istream &s, const json_source_location &loc )
+            : stream( &s ), path( loc.path ) {
+            seek( loc.offset );
+        }
         JsonIn( const JsonIn & ) = delete;
         JsonIn &operator=( const JsonIn & ) = delete;
+
+        shared_ptr_fast<std::string> get_path() const {
+            return path;
+        }
 
         bool get_ate_separator() {
             return ate_separator;
@@ -464,9 +480,59 @@ class JsonIn
             return true;
         }
 
+        // special case for colony<item> as it supports RLE
+        // see corresponding `write` for details
+        template <typename T, std::enable_if_t<std::is_same<T, item>::value> * = nullptr >
+        bool read( cata::colony<T> &v, bool throw_on_error = false ) {
+            if( !test_array() ) {
+                return error_or_false( throw_on_error, "Expected json array" );
+            }
+            try {
+                start_array();
+                v.clear();
+                while( !end_array() ) {
+                    T element;
+                    const int prev_pos = tell();
+                    if( test_array() ) {
+                        start_array();
+                        int run_l;
+                        if( read( element, throw_on_error ) &&
+                            read( run_l, throw_on_error ) &&
+                            end_array()
+                          ) { // all is good
+                            // first insert (run_l-1) elements
+                            for( int i = 0; i < run_l - 1; i++ ) {
+                                v.insert( element );
+                            }
+                            // micro-optimization, move last element
+                            v.insert( std::move( element ) );
+                        } else { // array is malformed, skipping it entirely
+                            error_or_false( throw_on_error, "Expected end of array" );
+                            seek( prev_pos );
+                            skip_array();
+                        }
+                    } else {
+                        if( read( element, throw_on_error ) ) {
+                            v.insert( std::move( element ) );
+                        } else {
+                            skip_value();
+                        }
+                    }
+                }
+            } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
+                return false;
+            }
+
+            return true;
+        }
+
         // special case for colony as it uses `insert()` instead of `push_back()`
         // and therefore doesn't fit with vector/deque/list
-        template <typename T>
+        // for colony of items there is another specialization with RLE
+        template < typename T, std::enable_if_t < !std::is_same<T, item>::value > * = nullptr >
         bool read( cata::colony<T> &v, bool throw_on_error = false ) {
             if( !test_array() ) {
                 return error_or_false( throw_on_error, "Expected json array" );
@@ -726,8 +792,37 @@ class JsonOut
             write_as_array( container );
         }
 
+        // special case for item colony, adds simple RLE-based compression
+        template <typename T, std::enable_if_t<std::is_same<T, item>::value> * = nullptr>
+        void write( const cata::colony<T> &container ) {
+            start_array();
+            // simple RLE implementation:
+            // run_l is the length of the "running sequence" of identical items, ending with the current item.
+            // when sequence ends, it's written as either the single item object (run_l==1) or as a two-element
+            // array (run_l > 1), where the first element is the item and second element is the size of the sequence.
+            int run_l = 1;
+            for( auto it = container.begin(); it != container.end(); ++it ) {
+                const auto nxt = std::next( it );
+                if( nxt == container.end() || !it->same_for_rle( *nxt ) ) {
+                    if( run_l == 1 ) {
+                        write( *it );
+                    } else {
+                        start_array();
+                        write( *it );
+                        write( run_l );
+                        end_array();
+                    }
+                    run_l = 1;
+                } else {
+                    run_l++;
+                }
+            }
+            end_array();
+        }
+
         // special case for colony, since it doesn't fit in other categories
-        template <typename T>
+        // for colony of items there is another specialization with RLE
+        template < typename T, std::enable_if_t < !std::is_same<T, item>::value > * = nullptr >
         void write( const cata::colony<T> &container ) {
             write_as_array( container );
         }
@@ -884,6 +979,10 @@ class JsonObject
         bool empty() const;
 
         void allow_omitted_members() const;
+        // If we're making a copy of the JsonObject (because it is required) to pass to a function,
+        // use this to count the members visited on that one as visited on this one
+        // See item::deserialize for a use case
+        void copy_visited_members( const JsonObject &rhs ) const;
         bool has_member( const std::string &name ) const; // true iff named member exists
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( const std::string &err ) const;
@@ -891,6 +990,7 @@ class JsonObject
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name ) const;
         JsonValue get_member( const std::string &name ) const;
+        json_source_location get_source_location() const;
 
         // values by name
         // variants with no fallback throw an error if the name is not found.
@@ -1066,6 +1166,8 @@ class JsonArray
         std::string str(); // copy array json as string
         [[noreturn]] void throw_error( const std::string &err );
         [[noreturn]] void throw_error( const std::string &err, int idx );
+        // See JsonIn::string_error
+        [[noreturn]] void string_error( const std::string &err, int idx, int offset );
 
         // iterative access
         bool next_bool();
@@ -1249,7 +1351,7 @@ inline JsonArray::const_iterator JsonArray::end() const
     return const_iterator( *this, size() );
 }
 /**
- * Represents a member of a @ref JsonObject. This is retured when one iterates over
+ * Represents a member of a @ref JsonObject. This is returned when one iterates over
  * a JsonObject.
  * It *is* @ref JsonValue, which is the value of the member, which allows one to write:
 <code>

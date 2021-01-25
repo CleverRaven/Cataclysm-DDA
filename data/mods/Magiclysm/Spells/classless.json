@@ -74,7 +74,7 @@
     "max_level": 20,
     "min_damage": 30,
     "max_damage": 100,
-    "damage_increment": 3.25,
+    "damage_increment": 3.5,
     "min_range": 3,
     "max_range": 12,
     "range_increment": 0.45,
@@ -243,7 +243,7 @@
     "base_energy_cost": 150,
     "min_duration": 84000,
     "max_duration": 360000,
-    "duration_increment": 18000,
+    "duration_increment": 18400,
     "learn_spells": { "acid_resistance_greater": 15 }
   },
   {

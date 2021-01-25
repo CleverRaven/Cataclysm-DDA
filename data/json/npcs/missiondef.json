@@ -190,7 +190,7 @@
     "difficulty": 2,
     "value": 140000,
     "item": "record_accounting",
-    "start": { "reveal_om_ter": "office_tower_1" },
+    "start": { "reveal_om_ter": "office_tower" },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_GET_SAFE_BOX",
     "dialogue": {
@@ -375,7 +375,10 @@
     "difficulty": 2,
     "value": 150000,
     "item": "visions_solitude",
-    "start": { "assign_mission_target": { "om_terrain": "prison_1_5", "om_special": "Prison", "reveal_radius": 3 } },
+    "start": {
+      "assign_mission_target": { "om_terrain": "prison_1_4", "om_special": "Prison", "reveal_radius": 3 },
+      "update_mapgen": { "om_terrain": "prison_1_4", "place_item": [ { "item": "visions_solitude", "x": 15, "y": 22 } ] }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle…",

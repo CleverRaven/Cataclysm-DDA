@@ -81,6 +81,7 @@ void map::add_light_from_items( const tripoint &p, const item_stack::iterator &b
 bool map::build_transparency_cache( const int zlev )
 {
     auto &map_cache = get_cache( zlev );
+    auto &transparent_cache_wo_fields = map_cache.transparent_cache_wo_fields;
     auto &transparency_cache = map_cache.transparency_cache;
     auto &outside_cache = map_cache.outside_cache;
 
@@ -95,6 +96,9 @@ bool map::build_transparency_cache( const int zlev )
         // Default to just barely not transparent.
         std::uninitialized_fill_n( &transparency_cache[0][0], MAPSIZE_X * MAPSIZE_Y,
                                    static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
+        for( auto &row : transparent_cache_wo_fields ) {
+            row.set(); // true means transparent
+        }
     }
 
     const float sight_penalty = get_weather().weather_id->sight_penalty;
@@ -123,7 +127,7 @@ bool map::build_transparency_cache( const int zlev )
 
                 if( !( cur_submap->get_ter( sp ).obj().transparent &&
                        cur_submap->get_furn( sp ).obj().transparent ) ) {
-                    return LIGHT_TRANSPARENCY_SOLID;
+                    return std::make_pair( LIGHT_TRANSPARENCY_SOLID, LIGHT_TRANSPARENCY_SOLID );
                 }
                 if( outside_cache[p.x][p.y] ) {
                     // FIXME: Places inside vehicles haven't been marked as
@@ -131,6 +135,7 @@ bool map::build_transparency_cache( const int zlev )
                     // weather in vehicles.
                     value *= sight_penalty;
                 }
+                float value_wo_fields = value;
                 for( const auto &fld : cur_submap->get_field( sp ) ) {
                     const field_entry &cur = fld.second;
                     if( cur.is_transparent() ) {
@@ -140,16 +145,24 @@ bool map::build_transparency_cache( const int zlev )
                     value = value * cur.translucency();
                 }
                 // TODO: [lightmap] Have glass reduce light as well
-                return value;
+                return std::make_pair( value, value_wo_fields );
             };
 
             if( cur_submap->is_uniform ) {
-                float value = calc_transp( sm_offset );
+                float value, dummy;
+                std::tie( value, dummy ) = calc_transp( sm_offset );
                 // if rebuild_all==true all values were already set to LIGHT_TRANSPARENCY_OPEN_AIR
                 if( !rebuild_all || value != LIGHT_TRANSPARENCY_OPEN_AIR ) {
+                    bool opaque = value <= LIGHT_TRANSPARENCY_SOLID;
                     for( int sx = 0; sx < SEEX; ++sx ) {
                         // init all sy indices in one go
                         std::uninitialized_fill_n( &transparency_cache[sm_offset.x + sx][sm_offset.y], SEEY, value );
+                        if( opaque ) {
+                            auto &bs = transparent_cache_wo_fields[sm_offset.x + sx];
+                            for( int i = 0; i < SEEY; i++ ) {
+                                bs[sm_offset.y + i] = false;
+                            }
+                        }
                     }
                 }
             } else {
@@ -157,7 +170,9 @@ bool map::build_transparency_cache( const int zlev )
                     const int x = sx + sm_offset.x;
                     for( int sy = 0; sy < SEEY; ++sy ) {
                         const int y = sy + sm_offset.y;
-                        transparency_cache[x][y] = calc_transp( { x, y } );
+                        float transp_wo_fields;
+                        std::tie( transparency_cache[x][y], transp_wo_fields ) = calc_transp( {x, y } );
+                        transparent_cache_wo_fields[x][y] = transp_wo_fields > LIGHT_TRANSPARENCY_SOLID;
                     }
                 }
             }
@@ -1078,6 +1093,7 @@ float fastexp( float x )
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wpragmas"
+#pragma GCC diagnostic ignored "-Wunknown-warning-option"
 #pragma GCC diagnostic ignored "-Wimplicit-int-float-conversion"
     u.i = static_cast<long long>( 6051102 * x + 1056478197 );
     v.i = static_cast<long long>( 1056478197 - 6051102 * x );
@@ -1216,8 +1232,8 @@ void map::apply_directional_light( const tripoint &p, int direction, float lumin
     }
 }
 
-void map::apply_light_arc( const tripoint &p, units::angle angle, float luminance,
-                           units::angle wideangle )
+void map::apply_light_arc( const tripoint &p, const units::angle &angle, float luminance,
+                           const units::angle &wideangle )
 {
     if( luminance <= LIGHT_SOURCE_LOCAL ) {
         return;

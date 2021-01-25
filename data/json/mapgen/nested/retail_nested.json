@@ -1407,5 +1407,98 @@
         ]
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pizza_loot",
+    "object": {
+      "mapgensize": [ 18, 18 ],
+      "rows": [
+        "D,BrrW|66Q,U|t|Y|t",
+        "FB,,h,|Q,,,,|,+,+,",
+        "E,A,,,,,,DFE|S|,|S",
+        "|,,||+|||||||||,||",
+        "k,O|7,JA,llmmY,,HH",
+        "k,O|7,ƃ,,,,,,,,,ff",
+        "2,K|J,JA,hh,hh,,HH",
+        "3,K0J,JA,ff,ff,,,,",
+        "1,K0J,JA,hh,hh,,HH",
+        "4,K|J,JA,,,,,,,,ff",
+        "J,,+,,v,,hh,hh,,HH",
+        "5,J|J,v,,ff,ff,,,,",
+        "JnJ|J,9,,hh,hh,,,,",
+        "####uuu,,,,,,,,,,,",
+        "   #HHH,,,,,,,,,,,",
+        "   #Hff,,HffH,HffH",
+        "   #Hff,,HffH,HffH",
+        "   #HHH,,HHHHyHHHH"
+      ],
+      "palettes": [ "commercial_restaurant_palette" ],
+      "terrain": { "|": "t_wall_r" },
+      "items": {
+        "f": [ { "item": "dishes_dining", "chance": 30 }, { "item": "pizza_table", "chance": 10, "repeat": [ 1, 2 ] } ],
+        "l": { "item": "pizza_soda", "chance": 80, "repeat": [ 1, 3 ] },
+        "m": { "item": "pizza_beer", "chance": 80, "repeat": [ 1, 3 ] },
+        "W": { "item": "pizza_locker", "chance": 80, "repeat": [ 1, 3 ] },
+        "q": [ { "item": "pizza_kitchen", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "u": { "item": "pizza_display", "chance": 30, "repeat": [ 1, 3 ] },
+        "v": [ { "item": "baked_goods", "chance": 60, "repeat": [ 1, 3 ] } ],
+        "Q": [ { "item": "pizza_kitchen", "chance": 20, "repeat": [ 1, 3 ] } ],
+        "D": { "item": "pizza_display", "chance": 70, "repeat": [ 1, 3 ] },
+        "E": { "item": "produce", "chance": 70, "repeat": [ 1, 3 ] },
+        "F": { "item": "pizza_fridge", "chance": 70, "repeat": [ 1, 3 ] },
+        "J": { "item": "pizza_table", "chance": 5, "repeat": [ 1, 3 ] },
+        "K": { "item": "pizza_kitchen", "chance": 15, "repeat": [ 1, 3 ] },
+        "S": [ { "item": "pizza_bathroom", "chance": 30 }, { "item": "SUS_bathroom_medicine", "chance": 10 } ],
+        "Y": { "item": "pizza_trash", "chance": 30, "repeat": [ 1, 4 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "diner_loot",
+    "object": {
+      "mapgensize": [ 18, 18 ],
+      "rows": [
+        "6 q|DFKOKKJlmYQQ5J",
+        "6  +             n",
+        "6 W|EKKOKSK   JJJJ",
+        "|||||||||||  |||||",
+        "KKKKKKKK77Y,,JY,hh",
+        "K,,,,,,,,,,,,ƃ,,ff",
+        "K,,|JJJJJJJJJJ,,hh",
+        "l,B|AA,AAA,AAA,,,,",
+        "m,B|hh,hh,hh,,,hfh",
+        "|+||ff,ff,ff,,,hfh",
+        "6 r|hh,hh,hh,,,,,,",
+        "6Ar|hh,hh,hh,,,u,,",
+        "6QQ|ff,ff,ff,,A9,,",
+        "####hh,hh,hh,,,u,,",
+        "   #,,,,,,,,,,,,,i",
+        "   #|+|+||Æ,,,,,,i",
+        "   # Y| Y|,A,,,,,i",
+        "   #tS|tS|Æ,,iii,y"
+      ],
+      "palettes": [ "commercial_restaurant_palette" ],
+      "terrain": { "|": "t_wall_y", ".": "t_thconc_floor" },
+      "items": {
+        "f": [ { "item": "dishes_dining", "chance": 30 }, { "item": "diner_food", "chance": 20 } ],
+        "l": { "item": "coffee_freezer", "chance": 80, "repeat": [ 1, 3 ] },
+        "m": { "item": "pizza_beer", "chance": 80, "repeat": [ 1, 3 ] },
+        "W": { "item": "coffee_locker", "chance": 80, "repeat": [ 1, 3 ] },
+        "q": [ { "item": "diner_back", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "u": { "item": "baked_goods", "chance": 30, "repeat": [ 1, 3 ] },
+        "Q": [ { "item": "diner_back", "chance": 20, "repeat": [ 1, 3 ] } ],
+        "D": { "item": "butcher_meat", "chance": 70, "repeat": [ 1, 3 ] },
+        "E": { "item": "produce", "chance": 70, "repeat": [ 1, 3 ] },
+        "F": { "item": "restaur_fridge", "chance": 70, "repeat": [ 1, 3 ] },
+        "J": { "item": "diner_food", "chance": 5, "repeat": [ 1, 3 ] },
+        "K": { "item": "diner_back", "chance": 5, "repeat": [ 1, 3 ] },
+        "S": [ { "item": "pizza_bathroom", "chance": 30 }, { "item": "SUS_bathroom_medicine", "chance": 10 } ],
+        "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] }
+      }
+    }
   }
 ]

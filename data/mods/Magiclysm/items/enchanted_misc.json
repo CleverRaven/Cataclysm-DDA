@@ -72,6 +72,7 @@
     "weight": "831 g",
     "volume": "750 ml",
     "price": 0,
+    "price_postapoc": "150 USD",
     "to_hit": 1,
     "bashing": 8,
     "material": [ "wood" ],
@@ -111,7 +112,9 @@
     "id": "mflask_hip_whiskey",
     "type": "GENERIC",
     "copy-from": "flask_hip",
+    "price_postapoc": "850 USD",
     "category": "clothing",
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "use_action": {
       "target": "whiskey",
       "msg": "You open the flask and discover it full of sweet, sweet, whiskey!",
@@ -131,6 +134,7 @@
     "name": "enchanted tailor's kit",
     "description": "This is a high quality, engraved steel kit with a variety of needles, some plastic spools for thread, some small scissors, even a small heating element for melting and joining plastic.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.  It also contains one of those magic spiders that constantly, if slowly, makes new thread.",
     "price": 100000,
+    "price_postapoc": "1700 USD",
     "material": [ "steel" ],
     "charges_per_use": 1,
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
@@ -176,6 +180,7 @@
     "weight": "100 g",
     "volume": "100 ml",
     "price": 100000,
+    "price_postapoc": "1150 USD",
     "to_hit": -2,
     "material": [ "glass" ],
     "symbol": ";",
@@ -185,5 +190,23 @@
     "max_charges": 1000,
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 1000 } } ]
+  },
+  {
+    "id": "borealmosin_clip",
+    "looks_like": "762R_clip",
+    "type": "MAGAZINE",
+    "name": { "str": "91/30 Boreal clip" },
+    "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load a bolt-action rifle.",
+    "weight": "40 g",
+    "volume": "50ml",
+    "price": 1000,
+    "price_postapoc": 50,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "308" ],
+    "capacity": 5,
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 5 } } ]
   }
 ]

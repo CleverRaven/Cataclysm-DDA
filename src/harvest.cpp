@@ -55,6 +55,16 @@ bool harvest_list::is_null() const
     return id_ == harvest_id::NULL_ID();
 }
 
+bool harvest_list::has_entry_type( std::string type ) const
+{
+    for( const harvest_entry &entry : entries() ) {
+        if( entry.type == type ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 harvest_entry harvest_entry::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
@@ -149,6 +159,7 @@ void harvest_list::check_consistency()
                     }
                     errorlist += "null type";
                 } else if( !( entry.type == "flesh" || entry.type == "bone" || entry.type == "skin" ||
+                              entry.type == "blood" ||
                               entry.type == "offal" || entry.type == "bionic" || entry.type == "bionic_group" ) ) {
                     if( !item_valid ) {
                         errorlist += ", ";
