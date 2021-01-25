@@ -381,6 +381,7 @@ void sounds::process_sound_markers( player *p )
     bool is_deaf = p->is_deaf();
     const float volume_multiplier = p->hearing_ability();
     const int weather_vol = get_weather().weather_id->sound_attn;
+    // NOLINTNEXTLINE(modernize-loop-convert)
     for( std::size_t i = 0; i < sounds_since_last_turn.size(); i++ ) {
         // copy values instead of making references here to fix use-after-free error
         // sounds_since_last_turn may be inserted with new elements inside the loop
