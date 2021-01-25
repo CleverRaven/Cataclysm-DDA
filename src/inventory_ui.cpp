@@ -726,15 +726,13 @@ void inventory_column::order_by_parent()
     std::unordered_map<std::uintptr_t, size_t> original_order;
     original_order.reserve( entries.size() );
     for( size_t idx = 0; idx < entries.size(); ++idx ) {
-        std::uintptr_t uintptr;
         if( entries[idx].is_item() ) {
-            const item *const ptr = &*entries[idx].any_item();
-            uintptr = reinterpret_cast<std::uintptr_t>( ptr );
+            for( const item_location &loc : entries[idx].locations ) {
+                original_order.emplace( reinterpret_cast<std::uintptr_t>( &*loc ), idx );
+            }
         } else {
-            const inventory_entry *const ptr = &entries[idx];
-            uintptr = reinterpret_cast<std::uintptr_t>( ptr );
+            original_order.emplace( reinterpret_cast<std::uintptr_t>( &entries[idx] ), idx );
         }
-        original_order.emplace( uintptr, idx );
     }
 
     struct entry_info {
