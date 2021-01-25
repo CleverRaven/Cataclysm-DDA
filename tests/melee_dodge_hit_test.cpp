@@ -56,7 +56,10 @@ static float dodge_wearing_item( avatar &dummy, item &clothing )
 {
     // Get nekkid and wear just this one item
     std::list<item> temp;
-    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) ) {}
+
+
+    item_location loc = item_location( *dummy.as_character(), &dummy.i_at( -2 ) );
+    while( dummy.takeoff( loc, &temp ) ) {}
     dummy.wear_item( clothing );
 
     return dummy.get_dodge();
