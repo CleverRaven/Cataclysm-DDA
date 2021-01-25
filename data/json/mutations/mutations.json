@@ -6748,7 +6748,8 @@
     "points": 99,
     "valid": false,
     "description": "Smell that bug?  Smell's certainly not coming from you!",
-    "debug": true
+    "debug": true,
+    "flags": [ "NO_SCENT" ]
   },
   {
     "type": "mutation",

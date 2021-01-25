@@ -1518,3 +1518,4 @@ Gun fault flags:
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
 - ```DEAF``` Makes you deaf.
 - ```EYE_MEMBRANE``` Lets you see underwater.
+- ```NO_SCENT``` You have no scent.
