@@ -1815,7 +1815,7 @@
     "dodge": 1,
     "melee_cut": 0,
     "vision_day": 10,
-    "harvest": "mammal",
+    "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
     "special_attacks": [ { "type": "grab", "cooldown": 4 }, [ "EAT_CROP", 180 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ]
