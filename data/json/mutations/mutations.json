@@ -1039,7 +1039,7 @@
     "prereqs": [ "BADHEARING" ],
     "cancels": [ "GOODHEARING" ],
     "hearing_modifier": 0.0,
-    "flags":[ "DEAF" ]
+    "flags": [ "DEAF" ]
   },
   {
     "type": "mutation",

@@ -1502,7 +1502,7 @@ void iexamine::safe( player &guy, const tripoint &examp )
         return temporary_item.has_flag( flag_SAFECRACK );
     } );
 
-    if( !( !cracking_tool.empty() || guy.has_flag( STATIC(flag_id("IMMUNE_HEARING_DAMAGE")) ) ) ) {
+    if( !( !cracking_tool.empty() || guy.has_flag( STATIC( flag_id( "IMMUNE_HEARING_DAMAGE" ) ) ) ) ) {
         guy.moves -= to_turns<int>( 10_seconds );
         // Assume a 3 digit 100-number code. Many safes allow adjacent + 1 dial locations to match,
         // so 1/20^3, or 1/8,000 odds.
