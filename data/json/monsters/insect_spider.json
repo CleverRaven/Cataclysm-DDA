@@ -1788,5 +1788,33 @@
     "death_function": [ "NORMAL" ],
     "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 4, "allow_no_target": true }, [ "EAT_CROP", 120 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "LARVA", "STUMBLES", "PATH_AVOID_FIRE" ]
+  },
+  {
+      "id": "mon_stag_beetle",
+    "type": "MONSTER",
+    "name": { "str": "Huge Stag Beetle" },
+    "description": "Once a priceless bug, it has grown to the size of a calf. Although you doubt that it's going to attack you, those large pincers could probably break your leg.",
+    "default_faction": "stag_beetle",
+    "bodytype": "flying insect",
+    "species": [ "INSECT" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 50,
+    "speed": 75,
+    "material": [ "flesh" ],
+    "symbol": "B",
+    "color": "black",
+    "aggression": -25,
+    "morale": 10,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 8,
+    "dodge": 1,
+    "melee_cut": 0,
+    "vision_day": 10,
+    "harvest": "mammal",
+    "death_function": [ "NORMAL" ],
+    "special_attacks": [ { "type": "grab", "cooldown": 4 }, [ "EAT_CROP", 180 ] ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ]
   }
 ]
