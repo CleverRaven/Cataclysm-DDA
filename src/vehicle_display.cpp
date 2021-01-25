@@ -328,7 +328,8 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 {
     std::set<itype_id> opts;
     for( const auto &pt : parts ) {
-        if( pt.is_fuel_store() && !pt.ammo_current().is_null() ) {
+        if( !pt.has_flag( vehicle_part::carried_flag ) && pt.is_fuel_store() &&
+            !pt.ammo_current().is_null() ) {
             opts.emplace( pt.ammo_current() );
         }
     }

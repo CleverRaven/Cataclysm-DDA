@@ -454,7 +454,8 @@ Character::Character() :
     update_type_of_scent( true );
     pkill = 0;
     // 45 days to starve to death
-    healthy_calories = 55000;
+    // 55 Mcal or 55k kcal
+    healthy_calories = 55'000'000;
     stored_calories = healthy_calories;
     initialize_stomach_contents();
 
@@ -490,8 +491,34 @@ character_id Character::getID() const
 
 void Character::randomize_blood()
 {
-    my_blood_type = static_cast<blood_type>( rng( 0, static_cast<int>( blood_type::num_bt ) - 1 ) );
-    blood_rh_factor = one_in( 2 );
+    // Blood type distribution data is taken from this study on blood types of
+    // COVID-19 patients presented to five major hospitals in Massachusetts:
+    // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7354354/
+    // and is adjusted for racial/ethnic distribution in game, which is defined in
+    // data/json/npcs/appearance_trait_groups.json
+    static const std::array<std::tuple<double, blood_type, bool>, 8> blood_type_distribution = {{
+            std::make_tuple( 0.3821, blood_type::blood_O, true ),
+            std::make_tuple( 0.0387, blood_type::blood_O, false ),
+            std::make_tuple( 0.3380, blood_type::blood_A, true ),
+            std::make_tuple( 0.0414, blood_type::blood_A, false ),
+            std::make_tuple( 0.1361, blood_type::blood_B, true ),
+            std::make_tuple( 0.0134, blood_type::blood_B, false ),
+            std::make_tuple( 0.0437, blood_type::blood_AB, true ),
+            std::make_tuple( 0.0066, blood_type::blood_AB, false )
+        }
+    };
+    const double x = rng_float( 0.0, 1.0 );
+    double cumulative_prob = 0.0;
+    for( const std::tuple<double, blood_type, bool> &type : blood_type_distribution ) {
+        cumulative_prob += std::get<0>( type );
+        if( x <= cumulative_prob ) {
+            my_blood_type = std::get<1>( type );
+            blood_rh_factor = std::get<2>( type );
+            return;
+        }
+    }
+    my_blood_type = blood_type::blood_AB;
+    blood_rh_factor = false;
 }
 
 field_type_id Character::bloodType() const
@@ -2341,6 +2368,8 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         }
     }
     if( amount > 0 && level.isTraining() ) {
+        int focus_drain_cap = std::sqrt( focus_pool * 1000 );
+        amount = std::min( amount, focus_drain_cap );
         int oldLevel = get_skill_level( id );
         get_skill_level_object( id ).train( amount );
         int newLevel = get_skill_level( id );
@@ -2357,14 +2386,18 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
                      skill_name );
         }
 
-        int chance_to_drop = focus_pool;
-        focus_pool -= chance_to_drop / 100;
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
-        if( ( rng( 1, 100 ) <= ( chance_to_drop % 100 ) ) && ( !( has_trait_flag( "PRED4" ) &&
-                skill.is_combat_skill() ) ) ) {
-            focus_pool--;
+        if( !( has_trait_flag( "PRED4" ) && skill.is_combat_skill() ) ) {
+            // Base reduction on the larger of 1% of total, or practice amount.
+            // The latter kicks in when long actions like crafting
+            // apply many turns of gains at once.
+            int focus_drain = std::max( focus_pool / 100, amount );
+            // The purpose of having this squared is that it makes focus drain dramatically slower
+            // as it approaches zero.
+            focus_pool -= ( focus_drain * focus_drain ) / 1000;
         }
+        focus_pool = std::max( focus_pool, 0 );
     }
 
     get_skill_level_object( id ).practice();
@@ -4095,9 +4128,9 @@ int Character::rust_rate() const
 
     // Stat window shows stat effects on based on current stat
     int intel = get_int();
-    /** @EFFECT_INT reduces skill rust by 10% per level above 8 */
+    /** @EFFECT_INT increases skill rust delay by 10% per level above 8 */
     int ret = ( ( rate_option == "vanilla" || rate_option == "capped" ) ?
-                100 : 100 + 10 * ( 8 - intel ) );
+                100 : 100 + 10 * ( intel - 8 ) );
 
     ret *= mutation_value( "skill_rust_multiplier" );
 
@@ -4993,7 +5026,7 @@ void Character::mod_healthy_mod( int nhealthy_mod, int cap )
 
 int Character::get_stored_kcal() const
 {
-    return stored_calories;
+    return stored_calories / 1000;
 }
 
 static std::string exert_lvl_to_str( float level )
@@ -5023,9 +5056,13 @@ std::string Character::debug_weary_info() const
     int input = weary.tracker;
     int thresh = weary_threshold();
     int current = weariness_level();
+    int morale = get_morale_level();
+    int weight = units::to_gram<int>( bodyweight() );
+    float bmi = get_bmi();
 
-    return string_format( "Weariness: %s Max Exertion: %s Mult: %g\nBMR: %d Intake: %d Tracker: %d Thresh: %d At: %d\nCalories: %d",
-                          amt, max_act, move_mult, bmr, intake, input, thresh, current, stored_calories );
+    return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\nBMR: %d Intake: %d Tracker: %d Thresh: %d At: %d\nCal: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)",
+                          amt, max_act, move_mult, bmr, intake, input, thresh, current, get_stored_kcal(),
+                          get_healthy_kcal(), fatigue, morale, weight, bmi );
 }
 
 void weariness_tracker::clear()
@@ -5038,6 +5075,12 @@ void weariness_tracker::clear()
 
 void Character::mod_stored_kcal( int nkcal )
 {
+    mod_stored_calories( nkcal * 1000 );
+}
+
+void Character::mod_stored_calories( int ncal )
+{
+    int nkcal = ncal / 1000;
     if( nkcal > 0 ) {
         add_gained_calories( nkcal );
         weary.intake += nkcal;
@@ -5046,7 +5089,7 @@ void Character::mod_stored_kcal( int nkcal )
         // nkcal is negative, we need positive
         weary.tracker -= nkcal;
     }
-    set_stored_kcal( stored_calories + nkcal );
+    set_stored_calories( stored_calories + ncal );
 }
 
 void Character::mod_stored_nutr( int nnutr )
@@ -5057,8 +5100,13 @@ void Character::mod_stored_nutr( int nnutr )
 
 void Character::set_stored_kcal( int kcal )
 {
-    if( stored_calories != kcal ) {
-        stored_calories = kcal;
+    set_stored_calories( kcal * 1000 );
+}
+
+void Character::set_stored_calories( int cal )
+{
+    if( stored_calories != cal ) {
+        stored_calories = cal;
 
         //some mutant change their max_hp according to their bmi
         recalc_hp();
@@ -5067,7 +5115,7 @@ void Character::set_stored_kcal( int kcal )
 
 int Character::get_healthy_kcal() const
 {
-    return healthy_calories;
+    return healthy_calories / 1000;
 }
 
 float Character::get_kcal_percent() const
@@ -5672,14 +5720,15 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         guts.ingest( digested_to_guts );
         // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled.
         if( !npc_no_food ) {
-            mod_stored_kcal( digested_to_body.nutr.kcal );
+            mod_stored_kcal( digested_to_body.nutr.kcal() );
             log_activity_level( activity_level() );
             vitamins_mod( digested_to_body.nutr.vitamins, false );
         }
         if( !foodless && rates.hunger > 0.0f ) {
             mod_hunger( roll_remainder( rates.hunger * five_mins ) );
             // instead of hunger keeping track of how you're living, burn calories instead
-            mod_stored_kcal( -roll_remainder( five_mins * kcal_per_time ) );
+            // Explicitly floor it here, the int cast will do so anyways
+            mod_stored_calories( -std::floor( five_mins * kcal_per_time * 1000 ) );
         }
     }
     // if npc_no_food no need to calc hunger, and set hunger_effect
@@ -5926,7 +5975,7 @@ void Character::update_needs( int rate_multiplier )
             }
 
             mod_pain( rng( 4, 6 ) );
-            focus_pool -= 1;
+            mod_focus( -1 );
         }
     }
 }
@@ -6384,8 +6433,9 @@ void Character::update_bodytemp()
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
+    const bool heat_immune = has_trait_flag( "HEATPROOF" );
     const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( itype_rm13_armor_on ) ||
-                              has_trait( trait_M_SKIN2 ) || has_trait( trait_M_SKIN3 );
+                              heat_immune;
     const bool has_common_cold = has_effect( effect_common_cold );
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
@@ -6651,17 +6701,17 @@ void Character::update_bodytemp()
             add_effect( effect_cold, 1_turns, bp, true, 2 );
         } else if( temp_after < BODYTEMP_COLD ) {
             add_effect( effect_cold, 1_turns, bp, true, 1 );
-        } else if( temp_after > BODYTEMP_SCORCHING ) {
+        } else if( temp_after > BODYTEMP_SCORCHING && !heat_immune ) {
             add_effect( effect_hot, 1_turns, bp, true, 3 );
             if( bp->main_part == bp.id() ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 3 );
             }
-        } else if( temp_after > BODYTEMP_VERY_HOT ) {
+        } else if( temp_after > BODYTEMP_VERY_HOT && !heat_immune ) {
             add_effect( effect_hot, 1_turns, bp, true, 2 );
             if( bp->main_part == bp.id() ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 2 );
             }
-        } else if( temp_after > BODYTEMP_HOT ) {
+        } else if( temp_after > BODYTEMP_HOT && !heat_immune ) {
             add_effect( effect_hot, 1_turns, bp, true, 1 );
             if( bp->main_part == bp.id() ) {
                 add_effect( effect_hot_speed, 1_turns, bp, true, 1 );
@@ -7082,6 +7132,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
     uilist bmenu;
     bmenu.desc_enabled = true;
     bmenu.text = menu_header;
+    bmenu.textwidth = 60;
 
     bmenu.hilight_disabled = true;
     bool is_valid_choice = false;
@@ -7120,7 +7171,6 @@ bodypart_id Character::body_window( const std::string &menu_header,
         bool bitten = has_effect( effect_bite, bp.id() );
         bool infected = has_effect( effect_infected, bp.id() );
         bool bandaged = has_effect( effect_bandaged, bp.id() );
-        bool disinfected = has_effect( effect_disinfected, bp.id() );
         const int b_power = get_effect_int( effect_bandaged, bp );
         const int d_power = get_effect_int( effect_disinfected, bp );
         int new_b_power = static_cast<int>( std::floor( bandage_power ) );
@@ -7171,70 +7221,64 @@ bodypart_id Character::body_window( const std::string &menu_header,
 
         // BLEEDING block
         if( bleeding ) {
-            desc += colorize( string_format( "%s: %s", get_effect( effect_bleed, bp ).get_speed_name(),
-                                             get_effect( effect_bleed, bp ).disp_short_desc() ), c_red ) + "\n";
+            desc += string_format( _( "Bleeding: %s" ),
+                                   colorize( get_effect( effect_bleed, bp ).get_speed_name(),
+                                             colorize_bleeding_intensity( get_effect_int( effect_bleed, bp ) ) ) );
             if( bleed > 0 ) {
                 int percent = static_cast<int>( bleed * 100 / get_effect_int( effect_bleed, bp ) );
                 percent = std::min( percent, 100 );
-                desc += colorize( string_format( _( "Expected bleeding reduction: %d %%" ), percent ),
-                                  c_light_green ) + "\n";
-            } else {
-                desc += colorize( _( "This will not affect the bleeding." ),
-                                  c_yellow ) + "\n";
-            }
+                desc += " -> " + colorize( string_format( _( "%d %% improvement" ), percent ), c_green );
+            };
+            desc += "\n";
         }
+
         // BANDAGE block
-        if( bandaged ) {
-            desc += string_format( _( "Bandaged [%s]" ), texitify_healing_power( b_power ) ) + "\n";
-            if( new_b_power > b_power ) {
-                desc += colorize( string_format( _( "Expected quality improvement: %s" ),
-                                                 texitify_healing_power( new_b_power ) ), c_light_green ) + "\n";
-            } else if( new_b_power > 0 ) {
-                desc += colorize( _( "You don't expect any improvement from using this." ), c_yellow ) + "\n";
+        if( e.allowed && ( new_b_power > 0 || b_power > 0 ) ) {
+            desc += string_format( _( "Bandaged: %s" ), texitify_healing_power( b_power ) );
+            if( new_b_power > 0 ) {
+                desc += string_format( " -> %s", texitify_healing_power( new_b_power ) );
+                if( new_b_power <= b_power ) {
+                    desc += _( " (no improvement)" );
+                }
             }
-        } else if( new_b_power > 0 && e.allowed ) {
-            desc += colorize( string_format( _( "Expected bandage quality: %s" ),
-                                             texitify_healing_power( new_b_power ) ), c_light_green ) + "\n";
+            desc += "\n";
         }
+
+        // DISINFECTANT block
+        if( e.allowed && ( d_power > 0 || new_d_power > 0 ) ) {
+            desc += string_format( _( "Disinfected: %s" ), texitify_healing_power( d_power ) );
+            if( new_d_power > 0 ) {
+                desc += string_format( " -> %s",  texitify_healing_power( new_d_power ) );
+                if( new_d_power <= d_power ) {
+                    desc += _( " (no improvement)" );
+                }
+            }
+            desc += "\n";
+        }
+
         // BITTEN block
         if( bitten ) {
-            desc += colorize( string_format( "%s: ", get_effect( effect_bite, bp ).get_speed_name() ), c_red );
-            desc += colorize( _( "It has a deep bite wound that needs cleaning." ), c_red ) + "\n";
+            desc += string_format( "%s: ", get_effect( effect_bite, bp ).get_speed_name() );
             if( bite > 0 ) {
                 desc += colorize( string_format( _( "Chance to clean and disinfect: %d %%" ),
-                                                 static_cast<int>( bite * 100 ) ), c_light_green ) + "\n";
+                                                 static_cast<int>( bite * 100 ) ), c_light_green );
             } else {
-                desc += colorize( _( "This will not help in cleaning this wound." ), c_yellow ) + "\n";
+                desc += colorize( _( "It has a deep bite wound that needs cleaning." ), c_red );
             }
+            desc += "\n";
         }
+
         // INFECTED block
         if( infected ) {
-            desc += colorize( string_format( "%s: ", get_effect( effect_infected, bp ).get_speed_name() ),
-                              c_red );
-            desc += colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
-                              c_red ) + "\n";
+            desc += string_format( "%s: ", get_effect( effect_infected, bp ).get_speed_name() );
             if( infect > 0 ) {
                 desc += colorize( string_format( _( "Chance to cure infection: %d %%" ),
                                                  static_cast<int>( infect * 100 ) ), c_light_green ) + "\n";
             } else {
-                desc += colorize( _( "This will not help in curing infection." ), c_yellow ) + "\n";
+                desc += colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
+                                  c_red );
             }
-        }
-        // DISINFECTANT (general) block
-        if( disinfected ) {
-            desc += string_format( _( "Disinfected [%s]" ),
-                                   texitify_healing_power( d_power ) ) + "\n";
-            if( new_d_power > d_power ) {
-                desc += colorize( string_format( _( "Expected quality improvement: %s" ),
-                                                 texitify_healing_power( new_d_power ) ), c_light_green ) + "\n";
-            } else if( new_d_power > 0 ) {
-                desc += colorize( _( "You don't expect any improvement from using this." ),
-                                  c_yellow ) + "\n";
-            }
-        } else if( new_d_power > 0 && e.allowed ) {
-            desc += colorize( string_format(
-                                  _( "Expected disinfection quality: %s" ),
-                                  texitify_healing_power( new_d_power ) ), c_light_green ) + "\n";
+            desc += "\n";
         }
         // END of blocks
 
@@ -7285,13 +7329,7 @@ nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bo
     }
     switch( color_bit ) {
         case 1:
-            if( intense < 11 ) {
-                i_color = c_light_red;
-            } else if( intense < 21 ) {
-                i_color = c_red;
-            } else {
-                i_color = c_red_red;
-            }
+            i_color = colorize_bleeding_intensity( intense );
             break;
         case 10:
             i_color = c_blue;
@@ -9724,7 +9762,7 @@ ret_val<bool> Character::can_wield( const item &it ) const
 
 bool Character::has_wield_conflicts( const item &it ) const
 {
-    return is_armed() && !it.can_combine( weapon );
+    return is_wielding( it ) || ( is_armed() && !it.can_combine( weapon ) );
 }
 
 bool Character::unwield()
@@ -11284,6 +11322,23 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
     return use_charges( what, qty, -1, filter );
 }
 
+const item *Character::find_firestarter_with_charges( const int quantity ) const
+{
+    for( const item *i : all_items_with_flag( flag_FIRESTARTER ) ) {
+        if( !i->typeId()->can_have_charges() ) {
+            const use_function *usef = i->type->get_use( "firestarter" );
+            const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+            if( actor->can_use( *this->as_character(), *i, false, tripoint_zero ).success() ) {
+                return i;
+            }
+        } else if( has_charges( i->typeId(), quantity ) ) {
+            return i;
+        }
+    }
+
+    return nullptr;
+}
+
 bool Character::has_fire( const int quantity ) const
 {
     // TODO: Replace this with a "tool produces fire" flag.
@@ -11292,19 +11347,8 @@ bool Character::has_fire( const int quantity ) const
         return true;
     } else if( has_item_with_flag( flag_FIRE ) ) {
         return true;
-    } else if( has_item_with_flag( flag_FIRESTARTER ) ) {
-        auto firestarters = all_items_with_flag( flag_FIRESTARTER );
-        for( auto &i : firestarters ) {
-            if( !i->typeId()->can_have_charges() ) {
-                const use_function *usef = i->type->get_use( "firestarter" );
-                const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-                if( actor->can_use( *this->as_character(), *i, false, tripoint_zero ).success() ) {
-                    return true;
-                }
-            } else if( has_charges( i->typeId(), quantity ) ) {
-                return true;
-            }
-        }
+    } else if( find_firestarter_with_charges( quantity ) ) {
+        return true;
     } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
         return true;
     } else if( has_bionic( bio_lighter ) && get_power_level() > quantity * 5_kJ ) {
@@ -11315,6 +11359,7 @@ bool Character::has_fire( const int quantity ) const
         // HACK: A hack to make NPCs use their Molotovs
         return true;
     }
+
     return false;
 }
 
@@ -11357,13 +11402,10 @@ void Character::use_fire( const int quantity )
         return;
     } else if( has_item_with_flag( flag_FIRE ) ) {
         return;
-    } else if( has_item_with_flag( flag_FIRESTARTER ) ) {
-        auto firestarters = all_items_with_flag( flag_FIRESTARTER );
-        for( auto &i : firestarters ) {
-            if( has_charges( i->typeId(), quantity ) ) {
-                use_charges( i->typeId(), quantity );
-                return;
-            }
+    } else if( const item *firestarter = find_firestarter_with_charges( quantity ) ) {
+        if( firestarter->typeId()->can_have_charges() ) {
+            use_charges( firestarter->typeId(), quantity );
+            return;
         }
     } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
         mod_power_level( -quantity * 5_kJ );
@@ -11574,7 +11616,7 @@ bool Character::has_opposite_trait( const trait_id &flag ) const
 
 int Character::adjust_for_focus( int amount ) const
 {
-    int effective_focus = focus_pool;
+    int effective_focus = get_focus();
     if( has_trait( trait_FASTLEARNER ) ) {
         effective_focus += 15;
     }
@@ -11586,8 +11628,8 @@ int Character::adjust_for_focus( int amount ) const
     }
     effective_focus += ( get_int() - get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
                        get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" );
-    double tmp = amount * ( effective_focus / 100.0 );
-    return roll_remainder( tmp );
+    effective_focus = std::max( effective_focus, 1 );
+    return effective_focus * std::min( amount, 1000 );
 }
 
 std::set<tripoint> Character::get_path_avoid() const
@@ -12680,7 +12722,7 @@ void Character::practice_proficiency( const proficiency_id &prof, const time_dur
 {
     int amt = to_seconds<int>( amount );
     const float pct_before = _proficiencies->pct_practiced( prof );
-    time_duration focused_amount = time_duration::from_seconds( adjust_for_focus( amt ) );
+    time_duration focused_amount = time_duration::from_seconds( adjust_for_focus( amt ) / 100 );
     const bool learned = _proficiencies->practice( prof, focused_amount, max );
     const float pct_after = _proficiencies->pct_practiced( prof );
 

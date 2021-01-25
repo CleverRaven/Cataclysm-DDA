@@ -65,7 +65,7 @@
         "yes": "Boss, here's the thing… just don't be mad, please.  I lied that I'm good at this… I thought I could figure it out, but it's far beyond my comprehension.  I'm sorry.",
         "no": {
           "npc_has_trait": "Exp_Eng_Electrical0Fake2",
-          "yes": "Boss, here's the thing… just don't be mad, please.  I lied that I'm good at this… I thought I could figure it out, but it's far beyond my comprehension.  I'm sorry.",
+          "yes": "Boss, here's the thing… just don't be mad, please.  I lied that I know something about this… I thought I could figure it out, but it's far beyond my comprehension.  I'm sorry.",
           "no": "All done, boss.  Tell that fisherman to try it in action."
         }
       },

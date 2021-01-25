@@ -1097,8 +1097,11 @@ bool Character::deactivate_bionic( int b, bool eff_only )
         if( weapon.typeId() == bio.info().fake_item ) {
             add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
             if( get_player_view().sees( pos() ) ) {
-                add_msg_if_npc( m_info, _( "<npcname> withdraws %s %s." ), disp_name( true ),
-                                weapon.tname() );
+                if( male ) {
+                    add_msg_if_npc( m_info, _( "<npcname> withdraws his %s." ), weapon.tname() );
+                } else {
+                    add_msg_if_npc( m_info, _( "<npcname> withdraws her %s." ), weapon.tname() );
+                }
             }
             bio.ammo_loaded =
                 weapon.ammo_data() != nullptr ? weapon.ammo_data()->get_id() : itype_id::NULL_ID();

@@ -335,6 +335,25 @@ std::string inventory_selector_preset::cell_t::get_text( const inventory_entry &
 
 bool inventory_holster_preset::is_shown( const item_location &contained ) const
 {
+
+    if( holster.has_parent() ) {
+        std::function<bool( const item_location )> is_recursive_parent = [contained,
+        &is_recursive_parent]( const item_location tocheck )->bool {
+            if( tocheck.has_parent() )
+            {
+                if( tocheck.parent_item() == contained ) {
+                    return true;
+                }
+                return is_recursive_parent( tocheck.parent_item() );
+            }
+            return false;
+        };
+
+        if( is_recursive_parent( holster.parent_item() ) ) {
+            return false;
+        }
+    }
+
     if( contained.where() != item_location::type::container
         && contained->made_of( phase_id::LIQUID ) ) {
         // spilt liquid cannot be picked up
@@ -1539,6 +1558,7 @@ void inventory_selector::rearrange_columns( size_t client_width )
 void inventory_selector::prepare_layout( size_t client_width, size_t client_height )
 {
     // This block adds categories and should go before any width evaluations
+    const bool initial = get_active_column().get_selected_index() == static_cast<size_t>( -1 );
     for( auto &elem : columns ) {
         elem->set_height( client_height );
         elem->reset_width( columns );
@@ -1546,6 +1566,9 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
     }
     // Handle screen overflow
     rearrange_columns( client_width );
+    if( initial ) {
+        get_active_column().select( 0, scroll_direction::FORWARD );
+    }
     // If we have a single column and it occupies more than a half of
     // the available with -> expand it
     auto visible_columns = get_visible_columns();

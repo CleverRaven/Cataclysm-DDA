@@ -1126,7 +1126,7 @@
         { "item": "adrenaline_injector", "x": 29, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
         { "item": "vitamins", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "calcium_tablet", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
-        { "item": "inhaler", "x": 28, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
+        { "group": "charged_inhaler", "x": 28, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
         { "item": "bandages", "x": 29, "y": 25, "chance": 30, "repeat": [ 20, 60 ] },
         { "item": "adhesive_bandages", "x": 29, "y": 25, "chance": 30, "repeat": [ 20, 60 ] },
         { "item": "medical_gauze", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },

@@ -342,7 +342,8 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
         if( !cur.known && cur.id->can_learn() ) {
             static_assert( grid_width == 26, "Reminder to update formatting"
                            "for this string when grid width changes" );
-            name = string_format( "%-21s %2.0f%%", trim_by_length( cur.id->name(), width - 4 ),
+            name = string_format( "%s %2.0f%%",
+                                  left_justify( trim_by_length( cur.id->name(), width - 4 ), 21 ),
                                   std::floor( cur.practice * 100 ) );
         } else {
             name = trim_by_length( cur.id->name(), width );
@@ -489,7 +490,7 @@ static void draw_stats_info( const catacurses::window &w_info,
                            "electronics crafting.  It also affects how much skill you can pick up from reading a book." ) );
         if( you.rust_rate() ) {
             print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                                string_format( _( "Skill rust: <color_white>%d%%</color>" ), you.rust_rate() ) );
+                                string_format( _( "Skill rust delay: <color_white>%d%%</color>" ), you.rust_rate() ) );
         }
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Read times: <color_white>%d%%</color>" ), you.read_speed( false ) ) );

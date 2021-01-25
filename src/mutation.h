@@ -267,7 +267,7 @@ struct mutation_branch {
         // Multiplier for reading speed, defaulting to 1.
         cata::optional<float> reading_speed_multiplier = cata::nullopt;
 
-        // Multiplier for skill rust, defaulting to 1.
+        // Multiplier for skill rust delay, defaulting to 1.
         cata::optional<float> skill_rust_multiplier = cata::nullopt;
 
         // Multiplier for consume time, defaulting to 1.

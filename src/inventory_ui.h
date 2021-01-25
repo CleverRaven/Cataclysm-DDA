@@ -430,7 +430,7 @@ class inventory_column
         bool paging_is_valid = false;
         bool visibility = true;
 
-        size_t selected_index = 0;
+        size_t selected_index = std::numeric_limits<size_t>::max();
         size_t page_offset = 0;
         size_t entries_per_page = std::numeric_limits<size_t>::max();
         size_t height = std::numeric_limits<size_t>::max();

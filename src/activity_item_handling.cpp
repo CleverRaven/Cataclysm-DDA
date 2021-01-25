@@ -2905,7 +2905,7 @@ int get_auto_consume_moves( player &p, const bool food )
             if( !p.can_consume( comest ) ) {
                 continue;
             }
-            if( food && p.compute_effective_nutrients( comest ).kcal < 50 ) {
+            if( food && p.compute_effective_nutrients( comest ).kcal() < 50 ) {
                 // not filling enough
                 continue;
             }
@@ -2947,7 +2947,7 @@ int get_auto_consume_moves( player &p, const bool food )
     return 0;
 }
 
-void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
+bool try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();
     std::vector<tripoint> adjacent = closest_points_first( pos, PICKUP_RANGE );
@@ -2958,14 +2958,14 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 
     map &here = get_map();
     if( !best_fire || !here.accessible_items( *best_fire ) ) {
-        return;
+        return false;
     }
 
     cata::optional<tripoint> refuel_spot = find_refuel_spot_zone( pos );
     if( !refuel_spot ) {
         refuel_spot = find_refuel_spot_trap( adjacent, pos );
         if( !refuel_spot ) {
-            return;
+            return false;
         }
     }
 
@@ -2986,14 +2986,14 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
             // Move item back to refueling pile
             // Note: move_item() handles messages (they're the generic "you drop x")
             move_item( p, it, 0, *best_fire, *refuel_spot, nullptr, -1 );
-            return;
+            return true;
         }
     }
 
     // Enough to sustain the fire
     // TODO: It's not enough in the rain
     if( !starting_fire && ( fd.fuel_produced >= 1.0f || fire_age < 10_minutes ) ) {
-        return;
+        return true;
     }
 
     // We need to move fuel from stash to fire
@@ -3009,7 +3009,8 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
             int quantity = std::max( 1, std::min( it.charges, it.charges_per_volume( 250_ml ) ) );
             // Note: move_item() handles messages (they're the generic "you drop x")
             move_item( p, it, quantity, *refuel_spot, *best_fire, nullptr, -1 );
-            return;
+            return true;
         }
     }
+    return true;
 }

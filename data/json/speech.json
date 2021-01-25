@@ -2519,5 +2519,29 @@
     "speaker": [ "mon_dog_auscattle", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "BARK!",
     "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
+    "sound": "heavy breathing",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
+    "sound": "labored breathing",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_dog" ],
+    "sound": "a whimper",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dermatik_incubator_bear", "mon_dermatik_incubator_dog" ],
+    "sound": "a rasping growl",
+    "volume": 10
   }
 ]

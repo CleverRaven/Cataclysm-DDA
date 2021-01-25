@@ -3,6 +3,7 @@
     "id": "belt_str",
     "copy-from": "leather_belt",
     "type": "ARMOR",
+    "price_postapoc": "1750 USD",
     "name": { "str": "belt of strength +2", "str_pl": "belts of strength +2" },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ] }
   },
@@ -10,6 +11,7 @@
     "id": "belt_haste",
     "copy-from": "leather_belt",
     "type": "ARMOR",
+    "price_postapoc": "3500 USD",
     "name": { "str": "belt of haste", "str_pl": "belts of haste" },
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.15, "add": 5 } ] } ]
@@ -31,6 +33,7 @@
     },
     "weight": "1400 g",
     "volume": "3 L",
+    "longest_side": "170 cm",
     "bashing": 17,
     "category": "weapons",
     "to_hit": 3
@@ -51,6 +54,7 @@
     },
     "weight": "1400 g",
     "volume": "3 L",
+    "longest_side": "170 cm",
     "bashing": 17,
     "category": "weapons",
     "to_hit": 3
@@ -71,6 +75,7 @@
     },
     "weight": "1400 g",
     "volume": "3 L",
+    "longest_side": "170 cm",
     "bashing": 17,
     "category": "weapons",
     "to_hit": 3
@@ -83,6 +88,7 @@
     "weight": "390 g",
     "volume": "2 L",
     "price": 9500,
+    "price_postapoc": "1200 USD",
     "material": [ "cotton" ],
     "symbol": "^",
     "color": "light_blue",
