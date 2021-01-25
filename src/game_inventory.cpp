@@ -526,7 +526,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             append_cell( [&p]( const item_location & loc ) {
                 const nutrients nutr = p.compute_effective_nutrients( *loc );
-                return good_bad_none( nutr.kcal );
+                return good_bad_none( nutr.kcal() );
             }, _( "CALORIES" ) );
 
             append_cell( []( const item_location & loc ) {
@@ -1383,7 +1383,9 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
         item &it = *holstered_item.first;
         bool success = false;
         if( !it.count_by_charges() ) {
-            if( all_pockets_rigid || holster.parents_can_contain_recursive( &it ) ) {
+            if( holster->can_contain( it ) && ( all_pockets_rigid ||
+                                                holster.parents_can_contain_recursive( &it ) ) ) {
+
                 success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
                                            /*unseal_pockets=*/true ).success();
                 if( success ) {
@@ -1391,6 +1393,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
                     handler.unseal_pocket_containing( holstered_item.first );
                     holstered_item.first.remove_item();
                 }
+
             }
         } else {
             int charges = all_pockets_rigid ? holstered_item.second : std::min( holstered_item.second,

@@ -2725,5 +2725,10 @@
     "type": "recipe",
     "result": "mp3",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "towel",
+    "obsolete": true
   }
 ]

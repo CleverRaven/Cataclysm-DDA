@@ -1992,7 +1992,7 @@ float monster::get_melee() const
     return type->melee_skill;
 }
 
-float monster::dodge_roll()
+float monster::dodge_roll() const
 {
     return get_dodge() * 5;
 }

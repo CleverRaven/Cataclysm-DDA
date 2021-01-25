@@ -12,6 +12,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "color.h"
 #include "hash_utils.h"
 #include "string_id.h"
 #include "translations.h"
@@ -328,6 +329,7 @@ void reset_effect_types();
 std::string texitify_base_healing_power( int power );
 std::string texitify_healing_power( int power );
 std::string texitify_bandage_power( int power );
+nc_color colorize_bleeding_intensity( int intensity );
 
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int_id to make things easier for hash and JSON

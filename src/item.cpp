@@ -1845,13 +1845,13 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         }
     }
 
-    if( max_nutr.kcal != 0 || food_item->get_comestible()->quench != 0 ) {
+    if( max_nutr.kcal() != 0 || food_item->get_comestible()->quench != 0 ) {
         if( parts->test( iteminfo_parts::FOOD_NUTRITION ) ) {
             info.push_back( iteminfo( "FOOD", _( "<bold>Calories (kcal)</bold>: " ),
-                                      "", iteminfo::no_newline, min_nutr.kcal ) );
-            if( max_nutr.kcal != min_nutr.kcal ) {
+                                      "", iteminfo::no_newline, min_nutr.kcal() ) );
+            if( max_nutr.kcal() != min_nutr.kcal() ) {
                 info.push_back( iteminfo( "FOOD", _( "-" ),
-                                          "", iteminfo::no_newline, max_nutr.kcal ) );
+                                          "", iteminfo::no_newline, max_nutr.kcal() ) );
             }
         }
         if( parts->test( iteminfo_parts::FOOD_QUENCH ) ) {
@@ -1861,7 +1861,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         }
         if( parts->test( iteminfo_parts::FOOD_SATIATION ) ) {
 
-            if( max_nutr.kcal == min_nutr.kcal ) {
+            if( max_nutr.kcal() == min_nutr.kcal() ) {
                 info.push_back( iteminfo( "FOOD", _( "<bold>Satiety: </bold>" ),
                                           satiety_bar( player_character.compute_calories_per_effective_volume( *food_item ) ) ) );
             } else {

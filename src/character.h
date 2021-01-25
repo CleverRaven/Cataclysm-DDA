@@ -517,6 +517,14 @@ class Character : public Creature, public visitable
         virtual void set_fatigue( fatigue_levels nfatigue );
         virtual void set_sleep_deprivation( int nsleep_deprivation );
 
+    protected:
+
+        // These accept values in calories, 1/1000s of kcals (or Calories)
+        virtual void mod_stored_calories( int ncal );
+        virtual void set_stored_calories( int cal );
+
+    public:
+
         void mod_stat( const std::string &stat, float modifier ) override;
 
         int get_standard_stamina_cost( item *thrown_item = nullptr );
@@ -574,7 +582,7 @@ class Character : public Creature, public visitable
         /** Combat getters */
         float get_dodge_base() const override;
         /** Returns the player's dodge_roll to be compared against an aggressor's hit_roll() */
-        float dodge_roll() override;
+        float dodge_roll() const override;
         /** Returns Creature::get_dodge() modified by any Character effects */
         float get_dodge() const override;
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
@@ -2911,6 +2919,7 @@ class Character : public Creature, public visitable
         int old_weary_level = 0;
 
         /// @brief Needs (hunger, starvation, thirst, fatigue, etc.)
+        // Stored calories is a value in 'calories' - 1/1000s of kcals (or Calories)
         int stored_calories;
         int healthy_calories;
 

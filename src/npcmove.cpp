@@ -388,7 +388,8 @@ void npc::assess_danger()
                                    rules.engagement == combat_engagement::NONE;
     const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
     const bool must_retreat = rules.has_flag( ally_rule::follow_close ) &&
-                              !too_close( pos(), player_character.pos(), follow_distance() );
+                              !too_close( pos(), player_character.pos(), follow_distance() ) &&
+                              !is_guarding();
 
     if( is_player_ally() ) {
         if( rules.engagement == combat_engagement::FREE_FIRE ) {
