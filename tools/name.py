@@ -61,7 +61,7 @@ def gen_new(path):
 
 
 def change_file(json_dir):
-    for root, directories, filenames in os.walk("..\\{0}".format(json_dir)):
+    for root, directories, filenames in os.walk(f"..\\{json_dir}"):
         for filename in filenames:
             path = os.path.join(root, filename)
             if path.endswith(".json"):
