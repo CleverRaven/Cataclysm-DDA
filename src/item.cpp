@@ -1777,7 +1777,7 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           get_latent_heat() ) );
                 info.push_back( iteminfo( "BASE", _( "Freeze point: " ), "",
                                           iteminfo::lower_is_better,
-                                          get_freeze_point() ) );
+                                          get_freeze_point()*1000 ) );
             }
         }
     }

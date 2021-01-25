@@ -228,7 +228,7 @@ float material_type::latent_heat() const
     return _latent_heat;
 }
 
-int material_type::freeze_point() const
+float material_type::freeze_point() const
 {
     return _freeze_point;
 }
