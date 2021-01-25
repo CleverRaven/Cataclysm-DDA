@@ -471,7 +471,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                        const matec_id &force_technique,
                                        bool allow_unarmed )
 {
-    if( weapon.has_flag( flag_CRUTCHES ) && get_working_leg_count() < 2 ) {
+    if( get_working_leg_count() < 2 ) {
         if( !movement_mode_is( move_mode_id( "prone" ) ) ) {
             add_msg_if_player( "Your broken legs cannot hold you and you fall down" );
             set_movement_mode( move_mode_id( "prone" ) );
