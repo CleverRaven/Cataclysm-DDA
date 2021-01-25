@@ -1259,7 +1259,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 
 ### Tags
 
-- ```combat_skill``` The skill is considered a combat skill. It's affected by "PACIFIST", "PRED1", "PRED2", "PRED3", and "PRED4" traits.
+- ```combat_skill``` The skill is considered a combat skill. It's affected by "PACIFIST", "PRED1", "PRED2", "PRED3", "PRED4", and "PACK_HUNTER" traits.
 - ```contextual_skill``` The skill is abstract, it depends on context (an indirect item to which it's applied). Neither player nor NPCs can possess it.
 
 
