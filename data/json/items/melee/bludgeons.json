@@ -348,7 +348,7 @@
     "type": "GENERIC",
     "symbol": "/",
     "color": "dark_gray",
-    "name": { "str": "crutches" },
+    "name": { "str": "crutches", "str_pl": "pairs of crutches" },
     "description": "A pair of crutches",
     "price": 2500,
     "material": [ "aluminum" ],
