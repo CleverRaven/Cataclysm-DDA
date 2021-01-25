@@ -201,6 +201,41 @@ const item_category *inventory_entry::get_category_ptr() const
     return &any_item()->get_category_of_contents();
 }
 
+void group_entry::expand( std::vector<inventory_entry> &/*entry_list*/ )
+{
+    if( expanded ) {
+        return;
+    }
+
+    // TODO: insert entries
+
+    expanded = true;
+}
+
+void group_entry::collapse( std::vector<inventory_entry> &entry_list )
+{
+    if( !expanded ) {
+        return;
+    }
+
+    // pop group
+    std::vector<inventory_entry>::const_iterator gp =
+        std::find( entry_list.begin(), entry_list.end(), *this );
+    gp++;
+    if( gp + n_children <= entry_list.end() ) {
+        entry_list.erase( gp, gp + n_children );
+    } else {
+        debugmsg( "Couldn't close inventory group, due to lack of enought entries" );
+    }
+
+    expanded = false;
+}
+
+void group_entry::set_number_of_children( const int n )
+{
+    n_children = n;
+}
+
 bool inventory_column::activatable() const
 {
     return std::any_of( entries.begin(), entries.end(), []( const inventory_entry & e ) {
@@ -826,12 +861,14 @@ void inventory_column::add_entry( const inventory_entry &entry )
             std::vector<item_location> locations = entry_with_loc->locations;
             locations.insert( locations.end(), entry.locations.begin(), entry.locations.end() );
             entries.erase( entry_with_loc );
+            grouped = false;
             inventory_entry nentry( locations, entry.get_category_ptr() );
             add_entry( nentry );
         }
     }
     if( !has_loc ) {
         entries.insert( iter.base(), entry );
+        grouped = false;
     }
     entries_unfiltered.clear();
     entries_cell_cache.clear();
@@ -858,29 +895,30 @@ void inventory_column::prepare_paging( const std::string &filter )
         return;
     }
 
-    const auto filter_fn = filter_from_string<inventory_entry>(
-    filter, [this]( const std::string & filter ) {
+    const std::function<bool( const inventory_entry & )> filter_fn = \
+    filter_from_string<inventory_entry>( filter, [this]( const std::string & filter ) {
         return preset.get_filter( filter );
     } );
 
     // First, remove all non-items
-    const auto new_end = std::remove_if( entries.begin(),
-    entries.end(), [&filter_fn]( const inventory_entry & entry ) {
+    std::vector<inventory_entry>::const_iterator new_end = std::remove_if(
+    entries.begin(), entries.end(), [&filter_fn]( const inventory_entry & entry ) {
         return !entry.is_item() || !filter_fn( entry );
     } );
     entries.erase( new_end, entries.end() );
     // Then sort them with respect to categories (sort only once each UI session)
     if( entries_unfiltered.empty() ) {
-        auto from = entries.begin();
+        std::vector<inventory_entry>::iterator from = entries.begin();
         while( from != entries.end() ) {
             from->update_cache();
-            auto to = std::next( from );
+            std::vector<inventory_entry>::iterator to = std::next( from );
             while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
                 to->update_cache();
                 std::advance( to, 1 );
             }
             if( ordered_categories.count( from->get_category_ptr()->get_id().c_str() ) == 0 ) {
-                std::sort( from, to, [ this ]( const inventory_entry & lhs, const inventory_entry & rhs ) {
+                std::sort( from, to, [ this ]( const inventory_entry & lhs,
+                const inventory_entry & rhs ) {
                     if( lhs.is_selectable() != rhs.is_selectable() ) {
                         return lhs.is_selectable(); // Disabled items always go last
                     }
@@ -903,9 +941,70 @@ void inventory_column::prepare_paging( const std::string &filter )
             from = to;
         }
     }
+
+    if( !grouped ) {
+        // remove group entries
+        for( const std::shared_ptr< group_entry > &g_iter : group_entries_ ) {
+            // TODO: child entries need to be put back!
+            std::vector<inventory_entry>::const_iterator new_end =
+                std::remove( entries.begin(), entries.end(), *g_iter );
+            entries.erase( new_end, entries.end() );
+        }
+        group_entries_.clear();
+
+        std::vector<item_location> group;
+        bool inside_group = false;
+        std::vector<inventory_entry>::iterator it, nx, gp;
+        it = nx = gp = entries.begin();
+        while( it != entries.end() ) {
+            nx++;
+            if( nx != entries.end() && it->is_item() && nx->is_item() &&
+                it->any_item()->typeId() == nx->any_item()->typeId() ) {
+                // save items
+                group.insert( group.end(), it->locations.begin(), it->locations.end() );
+                if( !inside_group ) {
+                    gp = it;
+                    inside_group = true;
+                }
+            } else if( inside_group ) {
+                // save items
+                group.insert( group.end(), it->locations.begin(), it->locations.end() );
+                // create group entry
+                int children = std::distance( gp, nx );
+                std::shared_ptr< group_entry > g_entry = std::make_shared<group_entry> (
+                            group_entry( group, it->get_category_ptr() ) );
+                g_entry->update_cache();
+                g_entry->highlight_as_parent = true;
+                g_entry->set_number_of_children( children );
+
+                group_entries_.push_back( g_entry );
+                nx = entries.insert( gp, *g_entry );
+                expand_to_fit( *gp );
+
+                std::advance( nx, children + 1 );
+                group.clear();
+                inside_group = false;
+            }
+            it = nx;
+        }
+        grouped = true;
+    }
+
+    for( const std::shared_ptr< group_entry > &g_ptr : group_entries_ ) {
+        // FIXME: it's only here for debug, replace with state check
+        volatile bool expd = g_ptr->expanded;
+        // TODO: change on change
+        if( expd ) {
+            g_ptr->expand( entries );
+        } else {
+            g_ptr->collapse( entries );
+        }
+    }
+
     // Recover categories
     const item_category *current_category = nullptr;
-    for( auto iter = entries.begin(); iter != entries.end(); ++iter ) {
+    for( std::vector<inventory_entry>::iterator iter = entries.begin();
+         iter != entries.end(); ++iter ) {
         if( iter->get_category_ptr() == current_category ) {
             continue;
         }
@@ -918,7 +1017,7 @@ void inventory_column::prepare_paging( const std::string &filter )
     if( entries.size() > entries_per_page ) {
         entries_per_page -= 1;  // Make room for the page number.
         for( size_t i = entries_per_page - 1; i < entries.size(); i += entries_per_page ) {
-            auto iter = std::next( entries.begin(), i );
+            std::vector<inventory_entry>::iterator iter = std::next( entries.begin(), i );
             if( iter->is_category() ) {
                 // The last item on the page must not be a category.
                 entries.insert( iter, inventory_entry() );
@@ -946,6 +1045,8 @@ void inventory_column::clear()
     entries.clear();
     entries_unfiltered.clear();
     entries_cell_cache.clear();
+    group_entries_.clear();
+    grouped = true;
     paging_is_valid = false;
 }
 
