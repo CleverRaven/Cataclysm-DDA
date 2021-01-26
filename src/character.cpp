@@ -2347,10 +2347,6 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         amount *= 2;
     }
 
-    if( has_trait_flag( "PACK_HUNTER" ) && skill.is_combat_skill() ) {
-        amount *= 2;
-    }
-
     if( has_trait_flag( "PRED4" ) && skill.is_combat_skill() ) {
         amount *= 3;
     }
@@ -4253,7 +4249,6 @@ void Character::do_skill_rust()
     const int rust_rate_tmp = rust_rate();
     static const std::string PRED2( "PRED2" );
     static const std::string PRED3( "PRED3" );
-    static const std::string PACK_HUNTER( "PACK_HUNTER" );
     static const std::string PRED4( "PRED4" );
     for( std::pair<const skill_id, SkillLevel> &pair : *_skills ) {
         const Skill &aSkill = *pair.first;
@@ -4262,7 +4257,6 @@ void Character::do_skill_rust()
         if( aSkill.is_combat_skill() &&
             ( ( has_trait_flag( PRED2 ) && calendar::once_every( 8_hours ) ) ||
               ( has_trait_flag( PRED3 ) && calendar::once_every( 4_hours ) ) ||
-              ( has_trait_flag( PACK_HUNTER ) && calendar::once_every( 4_hours ) ) ||
               ( has_trait_flag( PRED4 ) && calendar::once_every( 3_hours ) ) ) ) {
             // Their brain is optimized to remember this
             if( one_in( 13 ) ) {
@@ -4271,9 +4265,9 @@ void Character::do_skill_rust()
                 // then.
                 //
                 // 13 combat skills.
-                // This means PRED2/PRED3/PACK_HUNTER /PRED4 think of
-                // hunting on average every 8/4/4/3 hours, enough for
-                // immersion without becoming an annoyance.
+                // This means PRED2/PRED3/PRED4 think of hunting on
+                // average every 8/4/3 hours, enough for immersion
+                // without becoming an annoyance.
                 //
                 add_msg_if_player( _( "Your heart races as you recall your most recent hunt." ) );
                 mod_stim( 1 );

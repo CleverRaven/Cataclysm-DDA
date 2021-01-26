@@ -1152,14 +1152,13 @@ void Character::modify_morale( item &food, const int nutr )
         const bool culler = has_trait_flag( "PRED1" );
         const bool hunter = has_trait_flag( "PRED2" );
         const bool predator = has_trait_flag( "PRED3" );
-        const bool pack_hunter = has_trait_flag( "PACK_HUNTER" );
         const bool apex_predator = has_trait_flag( "PRED4" );
         if( apex_predator ) {
             // Largest bonus, balances out to around +5 or +10. Some organs may still be negative.
             add_morale( MORALE_MEATARIAN, 20, 10 );
             add_msg_if_player( m_good,
                                _( "As you tear into the raw flesh, you feel satisfied with your meal." ) );
-        } else if( predator || hunter || pack_hunter) {
+        } else if( predator || hunter ) {
             // Should approximately balance the fun to 0 for normal meat.
             add_morale( MORALE_MEATARIAN, 15, 5 );
             add_msg_if_player( m_good,
