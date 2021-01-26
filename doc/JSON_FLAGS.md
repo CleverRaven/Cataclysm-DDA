@@ -1533,3 +1533,5 @@ Gun fault flags:
 - ```STAB_IMMUNE``` You are immune to stabbing damage.
 - ```ACID_IMMUNE``` You are immune to acid damage.
 - ```BULLET_IMMUNE``` You are immune to bullet damage.
+- ```WATCH``` You always know what time it is.
+- ```ALARMCLOCK``` You always can set alarms.

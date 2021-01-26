@@ -119,7 +119,6 @@ static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 
 static const bionic_id bio_soporific( "bio_soporific" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
-static const bionic_id bio_watch( "bio_watch" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -376,7 +375,7 @@ static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const std::string flag_PLOWABLE( "PLOWABLE" );
-
+static const flag_id json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const flag_id json_flag_ACID_IMMUNE( "ACID_IMMUNE" );
 static const flag_id json_flag_BASH_IMMUNE( "BASH_IMMUNE" );
 static const flag_id json_flag_BIO_IMMUNE( "BIO_IMMUNE" );
@@ -408,6 +407,8 @@ static const flag_id json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" 
 static const flag_id json_flag_SUPER_CLAIRVOYANCE( "SUPER_CLAIRVOYANCE" );
 static const flag_id json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const flag_id json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
+static const flag_id json_flag_WATCH( "WATCH" );
+
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const vitamin_id vitamin_blood( "blood" );
@@ -908,7 +909,7 @@ bool Character::has_alarm_clock() const
     return ( has_item_with_flag( flag_ALARMCLOCK, true ) ||
              ( here.veh_at( pos() ) &&
                !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "ALARMCLOCK" ) ) ) ||
-             has_bionic( bio_watch ) );
+             has_flag( json_flag_ALARMCLOCK ) );
 }
 
 bool Character::has_watch() const
@@ -917,7 +918,7 @@ bool Character::has_watch() const
     return ( has_item_with_flag( flag_WATCH, true ) ||
              ( here.veh_at( pos() ) &&
                !empty( here.veh_at( pos() )->vehicle().get_avail_parts( "WATCH" ) ) ) ||
-             has_bionic( bio_watch ) );
+             has_flag( json_flag_WATCH ) );
 }
 
 void Character::react_to_felt_pain( int intensity )

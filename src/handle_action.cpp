@@ -114,7 +114,6 @@ static const skill_id skill_melee( "melee" );
 static const quality_id qual_CUT( "CUT" );
 
 static const bionic_id bio_remote( "bio_remote" );
-static const bionic_id bio_watch( "bio_watch" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
@@ -124,6 +123,8 @@ static const trait_id trait_WAYFARER( "WAYFARER" );
 static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_pilot" );
 
 static const std::string flag_LOCKED( "LOCKED" );
+
+static const flag_id json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1074,7 +1075,7 @@ static void sleep()
 
     time_duration try_sleep_dur = 24_hours;
     std::string deaf_text;
-    if( player_character.is_deaf() && !player_character.has_bionic( bio_watch ) ) {
+    if( player_character.is_deaf() && !player_character.has_flag( json_flag_ALARMCLOCK ) ) {
         deaf_text = _( "<color_c_red> (DEAF!)</color>" );
     }
     if( player_character.has_alarm_clock() ) {
