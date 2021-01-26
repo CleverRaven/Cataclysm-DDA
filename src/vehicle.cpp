@@ -1664,7 +1664,6 @@ bool vehicle::try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of
         partial_matches.assign( 4, veh_partial_match );
 
         //do not attempt to rack onto already filled bike racks
-        std::vector<int> empty_bike_racks = this_bike_rack;
         this_bike_rack.erase( std::remove_if( this_bike_rack.begin(),
         this_bike_rack.end(), [this]( const int &rack ) {
             return parts[rack].has_flag( vehicle_part::carrying_flag );
