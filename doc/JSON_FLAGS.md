@@ -1519,3 +1519,4 @@ Gun fault flags:
 - ```DEAF``` Makes you deaf.
 - ```EYE_MEMBRANE``` Lets you see underwater.
 - ```NO_SCENT``` You have no scent.
+- ```STOP_SLEEP_DEPRIVATION``` Stops Sleep Deprivation while awake and boosts it while sleeping.

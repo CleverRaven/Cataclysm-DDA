@@ -292,7 +292,6 @@ static const bionic_id bio_night_vision( "bio_night_vision" );
 static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_recycler( "bio_recycler" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
-static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 static const bionic_id bio_tattoo_led( "bio_tattoo_led" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
@@ -400,6 +399,7 @@ static const flag_id json_flag_PRED2( "PRED2" );
 static const flag_id json_flag_PRED3( "PRED3" );
 static const flag_id json_flag_PRED4( "PRED4" );
 static const flag_id json_flag_STEADY( "STEADY" );
+static const flag_id json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
 static const flag_id json_flag_SUPER_CLAIRVOYANCE( "SUPER_CLAIRVOYANCE" );
 static const flag_id json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const flag_id json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
@@ -5864,7 +5864,7 @@ void Character::update_needs( int rate_multiplier )
             mod_fatigue( fatigue_roll );
 
             // Synaptic regen bionic stops SD while awake and boosts it while sleeping
-            if( !has_active_bionic( bio_synaptic_regen ) ) {
+            if( !has_flag( json_flag_STOP_SLEEP_DEPRIVATION ) ) {
                 // fatigue_roll should be around 1 - so the counter increases by 1 every minute on average,
                 // but characters who need less sleep will also get less sleep deprived, and vice-versa.
 
@@ -5898,7 +5898,7 @@ void Character::update_needs( int rate_multiplier )
                 // Sleeping on the ground, bionic    = 3x rest_modifier
                 // Sleeping on a bed, bionic         = 6x rest_modifier
                 // Sleeping on a comfy bed, bionic   = 9x rest_modifier
-                float rest_modifier = ( has_active_bionic( bio_synaptic_regen ) ? 3 : 1 );
+                float rest_modifier = ( has_flag( json_flag_STOP_SLEEP_DEPRIVATION ) ? 3 : 1 );
                 // Melatonin supplements also add a flat bonus to recovery speed
                 if( has_effect( effect_melatonin ) ) {
                     rest_modifier += 1;

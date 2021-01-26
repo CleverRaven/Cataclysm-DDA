@@ -936,6 +936,7 @@
     "name": { "str": "Synaptic Regeneration System" },
     "description": "An electromagnetic stimulator has been surgically implanted on the back of your head and along your spine, continually draining power.  As long as it's active, you won't become sleep deprived; and if you're sleep deprived already, it will boost the rate of recovery while you sleep.",
     "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "STOP_SLEEP_DEPRIVATION" ],
     "occupied_bodyparts": [ [ "head", 1 ], [ "torso", 1 ] ],
     "act_cost": 0,
     "react_cost": "1 kJ",
