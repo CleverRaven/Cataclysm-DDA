@@ -692,7 +692,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     // Print health bar, monster name, then statuses on the first line.
     nc_color bar_color = c_white;
-    std::string bar_str, dot_str;
+    std::string bar_str;
     get_HP_Bar( bar_color, bar_str );
     std::ostringstream oss;
     oss << get_tag_from_color( bar_color ) << bar_str << "</color>";
