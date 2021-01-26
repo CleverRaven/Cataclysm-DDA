@@ -627,7 +627,7 @@
     "id": "xl_boots_wsurvivor",
     "type": "ARMOR",
     "name": { "str": "pair of XL winter survivor boots", "str_pl": "pairs of XL winter survivor boots" },
-    "copy-from": "boots_larmor",
+    "copy-from": "boots_wsurvivor",
     "proportional": { "weight": 1.3, "volume": 1.3 },
     "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
   },
