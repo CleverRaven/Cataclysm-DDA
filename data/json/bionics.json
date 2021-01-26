@@ -742,6 +742,7 @@
     "description": "When active, this bionic will amplify existing light, allowing you to see in the dark.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "NIGHT_VISION" ],
     "act_cost": "10 J",
     "react_cost": "10 J",
     "time": 1

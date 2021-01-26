@@ -288,7 +288,6 @@ static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_leukocyte( "bio_leukocyte" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_memory( "bio_memory" );
-static const bionic_id bio_night_vision( "bio_night_vision" );
 static const bionic_id bio_railgun( "bio_railgun" );
 static const bionic_id bio_recycler( "bio_recycler" );
 static const bionic_id bio_shock_absorber( "bio_shock_absorber" );
@@ -390,6 +389,7 @@ static const flag_id json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const flag_id json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const flag_id json_flag_HEATPROOF( "HEATPROOF" );
 static const flag_id json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
+static const flag_id json_flag_NIGHT_VISION( "NIGHT_VISION" );
 static const flag_id json_flag_NO_DISEASE( "NO_DISEASE" );
 static const flag_id json_flag_NO_MINIMAL_HEALING( "NO_MINIMAL_HEALING" );
 static const flag_id json_flag_NO_RADIATION( "NO_RADIATION" );
@@ -4360,7 +4360,7 @@ bool Character::has_nv()
     if( !nv_cached ) {
         nv_cached = true;
         nv = ( worn_with_flag( flag_GNV_EFFECT ) ||
-               has_active_bionic( bio_night_vision ) ||
+               has_flag( json_flag_NIGHT_VISION ) ||
                has_effect_with_flag( flag_EFFECT_NIGHT_VISION ) );
     }
 
