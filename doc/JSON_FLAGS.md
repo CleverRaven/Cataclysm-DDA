@@ -1526,7 +1526,6 @@ Gun fault flags:
 - ```INFRARED``` You can see infrared, aka heat vision.
 - ```ELECTRIC_IMMUNE``` You are immune to electric damage.
 - ```COLD_IMMUNE``` You are immune to cold damage.
-- ```HEAT_IMMUNE``` You are immune to heat damage.
 - ```BIO_IMMUNE``` You are immune to biological damage.
 - ```BASH_IMMUNE``` You are immune to bashing damage.
 - ```CUT_IMMUNE``` You are immune to cutting damage.

@@ -388,7 +388,6 @@ static const flag_id json_flag_DEAF( "DEAF" );
 static const flag_id json_flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
 static const flag_id json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const flag_id json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
-static const flag_id json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 static const flag_id json_flag_HEATPROOF( "HEATPROOF" );
 static const flag_id json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
 static const flag_id json_flag_INFRARED( "INFRARED" );
@@ -7512,9 +7511,7 @@ bool Character::is_immune_damage( const damage_type dt ) const
                    has_effect_with_flag( flag_EFFECT_BULLET_IMMUNE ) ||
                    worn_with_flag( flag_BULLET_IMMUNE );
         case damage_type::HEAT:
-            return has_flag( json_flag_HEAT_IMMUNE ) ||
-                   has_trait( trait_M_SKIN2 ) ||
-                   has_trait( trait_M_SKIN3 ) ||
+            return has_flag( json_flag_HEATPROOF ) ||
                    has_effect_with_flag( flag_EFFECT_HEAT_IMMUNE ) ||
                    worn_with_flag( flag_HEAT_IMMUNE );
         case damage_type::COLD:
