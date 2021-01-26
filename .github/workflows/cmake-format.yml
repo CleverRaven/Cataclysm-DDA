@@ -27,7 +27,7 @@ jobs:
     - name: install cmakelang
       run: python3 -m pip install -U cmakelang
     - name: run cmake-lint
-      run: cmake-lint \
+      run: python3 -m cmakelang.lint \
         CMakeLists.txt \
         src/CMakeLists.txt \
         data/CMakeLists.txt \
