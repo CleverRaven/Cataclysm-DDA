@@ -1309,8 +1309,8 @@ class weapon_inventory_preset: public inventory_selector_preset
         }
 
         std::string get_damage_string( float damage, bool display_zeroes = false ) const {
-            return damage ||
-                   display_zeroes ? string_format( "<color_yellow>%g</color>", damage ) : std::string();
+            return ( damage || display_zeroes ) ?
+                   string_format( "<color_yellow>%g</color>", damage ) : std::string();
         }
 
         const player &p;
