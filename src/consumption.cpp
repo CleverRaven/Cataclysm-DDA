@@ -1159,7 +1159,7 @@ void Character::modify_morale( item &food, const int nutr )
             add_morale( MORALE_MEATARIAN, 20, 10 );
             add_msg_if_player( m_good,
                                _( "As you tear into the raw flesh, you feel satisfied with your meal." ) );
-        } else if( predator || hunter || pack_hunter) {
+        } else if( predator || hunter || pack_hunter ) {
             // Should approximately balance the fun to 0 for normal meat.
             add_morale( MORALE_MEATARIAN, 15, 5 );
             add_msg_if_player( m_good,

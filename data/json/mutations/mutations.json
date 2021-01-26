@@ -3815,7 +3815,7 @@
     "prereqs": [ "CARNIVORE", "THRESH_URSINE" ],
     "prereqs2": [ "PRED2" ],
     "leads_to": [ "SAPIOVORE" ],
-    "changes_to": [ "PRED4" , "PACK_HUNTER" ],
+    "changes_to": [ "PRED4", "PACK_HUNTER" ],
     "threshreq": [
       "THRESH_BEAST",
       "THRESH_RAPTOR",
