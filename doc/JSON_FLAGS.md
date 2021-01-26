@@ -1523,3 +1523,13 @@ Gun fault flags:
 - ```STOP_SLEEP_DEPRIVATION``` Stops Sleep Deprivation while awake and boosts it while sleeping.
 - ```GLARE_RESIST``` Protect your eyes from glare like sunglasses.
 - ```NIGHT_VISION``` You can see in the dark.
+- ```INFRARED``` You can see infrared, aka heat vision.
+- ```ELECTRIC_IMMUNE``` You are immune to electric damage.
+- ```COLD_IMMUNE``` You are immune to cold damage.
+- ```HEAT_IMMUNE``` You are immune to heat damage.
+- ```BIO_IMMUNE``` You are immune to biological damage.
+- ```BASH_IMMUNE``` You are immune to bashing damage.
+- ```CUT_IMMUNE``` You are immune to cutting damage.
+- ```STAB_IMMUNE``` You are immune to stabbing damage.
+- ```ACID_IMMUNE``` You are immune to acid damage.
+- ```BULLET_IMMUNE``` You are immune to bullet damage.

@@ -466,6 +466,7 @@
       [ "foot_r", 1 ]
     ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "active_flags": [ "ELECTRIC_IMMUNE" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
     "time": 1
@@ -599,6 +600,7 @@
     "description": "Your range of vision extends into the infrared, allowing you to see warm-blooded creatures in the dark or through smoke.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "INFRARED" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
     "time": 1

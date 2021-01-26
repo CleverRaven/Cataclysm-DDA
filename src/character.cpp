@@ -239,7 +239,6 @@ static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
-static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
@@ -276,13 +275,11 @@ static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_climate( "bio_climate" );
 static const bionic_id bio_voice( "bio_voice" );
-static const bionic_id bio_faraday( "bio_faraday" );
 static const bionic_id bio_flashlight( "bio_flashlight" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
-static const bionic_id bio_infrared( "bio_infrared" );
 static const bionic_id bio_jointservo( "bio_jointservo" );
 static const bionic_id bio_laser( "bio_laser" );
 static const bionic_id bio_leukocyte( "bio_leukocyte" );
@@ -329,11 +326,9 @@ static const trait_id trait_HOARDER( "HOARDER" );
 static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
 static const trait_id trait_HOOVES( "HOOVES" );
 static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
-static const trait_id trait_INFRARED( "INFRARED" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
-static const trait_id trait_LIZ_IR( "LIZ_IR" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN2( "M_SKIN2" );
@@ -382,13 +377,22 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 
+static const flag_id json_flag_ACID_IMMUNE( "ACID_IMMUNE" );
+static const flag_id json_flag_BASH_IMMUNE( "BASH_IMMUNE" );
+static const flag_id json_flag_BIO_IMMUNE( "BIO_IMMUNE" );
+static const flag_id json_flag_BULLET_IMMUNE( "BULLET_IMMUNE" );
 static const flag_id json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
 static const flag_id json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
+static const flag_id json_flag_COLD_IMMUNE( "COLD_IMMUNE" );
+static const flag_id json_flag_CUT_IMMUNE( "CUT_IMMUNE" );
 static const flag_id json_flag_DEAF( "DEAF" );
+static const flag_id json_flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
 static const flag_id json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const flag_id json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
+static const flag_id json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 static const flag_id json_flag_HEATPROOF( "HEATPROOF" );
 static const flag_id json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
+static const flag_id json_flag_INFRARED( "INFRARED" );
 static const flag_id json_flag_NIGHT_VISION( "NIGHT_VISION" );
 static const flag_id json_flag_NO_DISEASE( "NO_DISEASE" );
 static const flag_id json_flag_NO_MINIMAL_HEALING( "NO_MINIMAL_HEALING" );
@@ -398,12 +402,12 @@ static const flag_id json_flag_NON_THRESH( "NON_THRESH" );
 static const flag_id json_flag_PRED2( "PRED2" );
 static const flag_id json_flag_PRED3( "PRED3" );
 static const flag_id json_flag_PRED4( "PRED4" );
+static const flag_id json_flag_STAB_IMMUNE( "STAB_IMMUNE" );
 static const flag_id json_flag_STEADY( "STEADY" );
 static const flag_id json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
 static const flag_id json_flag_SUPER_CLAIRVOYANCE( "SUPER_CLAIRVOYANCE" );
 static const flag_id json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const flag_id json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
-
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const vitamin_id vitamin_blood( "blood" );
@@ -2100,9 +2104,7 @@ void Character::recalc_sight_limits()
     }
 
     // Not exactly a sight limit thing, but related enough
-    if( has_active_bionic( bio_infrared ) ||
-        has_trait( trait_INFRARED ) ||
-        has_trait( trait_LIZ_IR ) ||
+    if( has_flag( json_flag_INFRARED ) ||
         worn_with_flag( flag_IR_EFFECT ) || ( is_mounted() &&
                 mounted_creature->has_flag( MF_MECH_RECON_VISION ) ) ) {
         vision_mode_cache.set( IR_VISION );
@@ -7485,33 +7487,41 @@ bool Character::is_immune_damage( const damage_type dt ) const
         case damage_type::PURE:
             return false;
         case damage_type::BIOLOGICAL:
-            return has_effect_with_flag( flag_EFFECT_BIO_IMMUNE ) ||
+            return has_flag( json_flag_BIO_IMMUNE ) ||
+                   has_effect_with_flag( flag_EFFECT_BIO_IMMUNE ) ||
                    worn_with_flag( flag_BIO_IMMUNE );
         case damage_type::BASH:
-            return has_effect_with_flag( flag_EFFECT_BASH_IMMUNE ) ||
+            return has_flag( json_flag_BASH_IMMUNE ) ||
+                   has_effect_with_flag( flag_EFFECT_BASH_IMMUNE ) ||
                    worn_with_flag( flag_BASH_IMMUNE );
         case damage_type::CUT:
-            return has_effect_with_flag( flag_EFFECT_CUT_IMMUNE ) ||
+            return has_flag( json_flag_CUT_IMMUNE ) ||
+                   has_effect_with_flag( flag_EFFECT_CUT_IMMUNE ) ||
                    worn_with_flag( flag_CUT_IMMUNE );
         case damage_type::ACID:
-            return has_trait( trait_ACIDPROOF ) ||
+            return has_flag( json_flag_ACID_IMMUNE ) ||
                    has_effect_with_flag( flag_EFFECT_ACID_IMMUNE ) ||
                    worn_with_flag( flag_ACID_IMMUNE );
         case damage_type::STAB:
-            return has_effect_with_flag( flag_EFFECT_STAB_IMMUNE ) ||
+            return has_flag( json_flag_STAB_IMMUNE ) ||
+                   has_effect_with_flag( flag_EFFECT_STAB_IMMUNE ) ||
                    worn_with_flag( flag_STAB_IMMUNE );
         case damage_type::BULLET:
-            return has_effect_with_flag( flag_EFFECT_BULLET_IMMUNE ) || worn_with_flag( flag_BULLET_IMMUNE );
+            return has_flag( json_flag_BULLET_IMMUNE ) ||
+                   has_effect_with_flag( flag_EFFECT_BULLET_IMMUNE ) ||
+                   worn_with_flag( flag_BULLET_IMMUNE );
         case damage_type::HEAT:
-            return has_trait( trait_M_SKIN2 ) ||
+            return has_flag( json_flag_HEAT_IMMUNE ) ||
+                   has_trait( trait_M_SKIN2 ) ||
                    has_trait( trait_M_SKIN3 ) ||
                    has_effect_with_flag( flag_EFFECT_HEAT_IMMUNE ) ||
                    worn_with_flag( flag_HEAT_IMMUNE );
         case damage_type::COLD:
-            return has_effect_with_flag( flag_EFFECT_COLD_IMMUNE ) ||
+            return has_flag( json_flag_COLD_IMMUNE ) ||
+                   has_effect_with_flag( flag_EFFECT_COLD_IMMUNE ) ||
                    worn_with_flag( flag_COLD_IMMUNE );
         case damage_type::ELECTRIC:
-            return has_active_bionic( bio_faraday ) ||
+            return has_flag( json_flag_ELECTRIC_IMMUNE ) ||
                    worn_with_flag( flag_ELECTRIC_IMMUNE ) ||
                    has_effect_with_flag( flag_EFFECT_ELECTRIC_IMMUNE );
         default:

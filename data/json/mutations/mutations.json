@@ -1642,6 +1642,7 @@
     "name": { "str": "Infrared Vision" },
     "points": 5,
     "description": "Your eyes have mutated to pick up radiation in the infrared spectrum.",
+    "flags": [ "INFRARED" ],
     "prereqs": [ "NIGHTVISION3" ],
     "cancels": [ "LIZ_IR" ],
     "category": [ "INSECT", "TROGLOBITE", "SPIDER" ]
@@ -1665,6 +1666,7 @@
     "name": { "str": "Reptilian IR" },
     "points": 5,
     "description": "Your optic nerves and brain have mutated to catch up with your eyes, allowing you to see in the infrared spectrum.",
+    "flags": [ "INFRARED" ],
     "prereqs": [ "LIZ_EYE" ],
     "cancels": [ "ELFA_NV", "ELFA_FNV", "FEL_NV", "INFRARED" ],
     "category": [ "LIZARD", "RAPTOR" ]
@@ -6313,6 +6315,7 @@
     "id": "ACIDPROOF",
     "name": { "str": "Acidproof" },
     "points": 3,
+    "flags": [ "ACID_IMMUNE" ],
     "description": "Your mutated flesh is immune to the damaging effects of acid.",
     "threshreq": [ "THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME" ],
     "category": [ "INSECT", "CHIMERA", "MEDICAL", "SLIME" ]
