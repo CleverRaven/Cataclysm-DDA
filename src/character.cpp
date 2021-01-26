@@ -5069,7 +5069,10 @@ void weariness_tracker::clear()
 
 void Character::mod_stored_kcal( int nkcal )
 {
-    mod_stored_calories( nkcal * 1000 );
+    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
+    if( !npc_no_food ) {
+        mod_stored_calories( nkcal * 1000 );
+    }
 }
 
 void Character::mod_stored_calories( int ncal )
@@ -5124,7 +5127,10 @@ int Character::get_hunger() const
 
 void Character::mod_hunger( int nhunger )
 {
-    set_hunger( hunger + nhunger );
+    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
+    if( !npc_no_food ) {
+        set_hunger( hunger + nhunger );
+    }
 }
 
 void Character::set_hunger( int nhunger )
@@ -5712,12 +5718,13 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         // Water from stomach skips guts and gets absorbed by body
         mod_thirst( -units::to_milliliter<int>( digested_to_guts.water ) / 5 );
         guts.ingest( digested_to_guts );
-        // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled.
-        if( !npc_no_food ) {
-            mod_stored_kcal( digested_to_body.nutr.kcal() );
+
+        mod_stored_kcal( digested_to_body.nutr.kcal() );
+        vitamins_mod( digested_to_body.nutr.vitamins, false );
+        if( is_avatar() ) {
             log_activity_level( activity_level() );
-            vitamins_mod( digested_to_body.nutr.vitamins, false );
         }
+
         if( !foodless && rates.hunger > 0.0f ) {
             mod_hunger( roll_remainder( rates.hunger * five_mins ) );
             // instead of hunger keeping track of how you're living, burn calories instead
