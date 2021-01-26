@@ -159,7 +159,7 @@ void talker_character::remove_effect( const efftype_id &old_effect )
     me_chr->remove_effect( old_effect );
 }
 
-std::string talker_character:: get_value( const std::string &var_name ) const
+std::string talker_character::get_value( const std::string &var_name ) const
 {
     return me_chr->get_value( var_name );
 }

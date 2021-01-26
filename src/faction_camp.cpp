@@ -477,7 +477,7 @@ static bool update_time_left( std::string &entry, const comp_list &npc_list )
     bool avail = false;
     Character &player_character = get_player_character();
     for( const auto &comp : npc_list ) {
-        if( comp->companion_mission_time_ret < calendar:: turn ) {
+        if( comp->companion_mission_time_ret < calendar::turn ) {
             entry = entry +  _( " [DONE]\n" );
             avail = true;
         } else {
