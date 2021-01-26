@@ -1348,7 +1348,7 @@
     "starting_trait": true,
     "social_modifiers": { "intimidate": -10 },
     "valid": false,
-    "cancels": [ "PSYCHOPATH", "KILLER", "PRED1", "PRED2", "PRED3", "PRED4" ]
+    "cancels": [ "PSYCHOPATH", "KILLER", "PRED1", "PRED2", "PRED3", "PRED4", "PACK_HUNTER" ]
   },
   {
     "type": "mutation",
@@ -3878,7 +3878,7 @@
     "cancels": [ "PACIFIST" ],
     "threshreq": [ "THRESH_LUPINE" ],
     "category": [ "LUPINE" ],
-    "flags": [ "PRED3" ]
+    "flags": [ "PACK_HUNTER" ]
   },
   {
     "type": "mutation",
