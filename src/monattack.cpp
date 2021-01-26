@@ -753,7 +753,7 @@ bool mattack::acid_barf( monster *z )
                                        _( "The %s barfs acid at <npcname>, but they dodge!" ),
                                        z->name() );
 
-        target->on_dodge( z, z->type->melee_skill );
+        target->on_dodge( z, z->type->melee_skill * 2 );
         return true;
     }
 
@@ -1245,8 +1245,7 @@ bool mattack::smash( monster *z )
         target->add_msg_player_or_npc( _( "The %s takes a powerful swing at you, but you dodge it!" ),
                                        _( "The %s takes a powerful swing at <npcname>, who dodges it!" ),
                                        z->name() );
-
-        target->on_dodge( z, z->type->melee_skill );
+        target->on_dodge( z, z->type->melee_skill * 2 );
         return true;
     }
 
@@ -2224,7 +2223,7 @@ bool mattack::impale( monster *z )
                                        _( "The %s lunges at <npcname>, but they dodge!" ),
                                        z->name() );
 
-        target->on_dodge( z, z->type->melee_skill );
+        target->on_dodge( z, z->type->melee_skill * 2);
         return true;
     }
 
@@ -2799,7 +2798,7 @@ bool mattack::ranged_pull( monster *z )
                                        _( "The %s's arms fly out at <npcname>, but they dodge!" ),
                                        z->name() );
 
-        target->on_dodge( z, z->type->melee_skill );
+        target->on_dodge( z, z->type->melee_skill * 2 );
         return true;
     }
 
@@ -2921,7 +2920,7 @@ bool mattack::grab( monster *z )
                                        _( "The %s gropes at <npcname>, but they dodge!" ),
                                        z->name() );
 
-        target->on_dodge( z, z->type->melee_skill );
+        target->on_dodge( z, z->type->melee_skill * 2 );
         return true;
     }
 
@@ -4443,7 +4442,7 @@ bool mattack::stretch_bite( monster *z )
                                        _( "The %s's head extends to bite <npcname>, but they dodge and the head sails past!" ),
                                        z->name() );
 
-        target->on_dodge( z, z->type->melee_skill );
+        target->on_dodge( z, z->type->melee_skill * 2 );
         return true;
     }
 
@@ -5203,7 +5202,7 @@ bool mattack::evolve_kill_strike( monster *z )
                                        _( "The %s lunges at <npcname>, but they dodge!" ),
                                        z->name() );
 
-        target->on_dodge( z, z->type->melee_skill );
+        target->on_dodge( z, z->type->melee_skill * 2 );
         target->add_msg_player_or_npc( msg_type, _( "The %s lunges at you, but you dodge!" ),
                                        _( "The %s lunges at <npcname>, but they dodge!" ),
                                        z->name() );
