@@ -32,7 +32,7 @@ add_library(CataAnalyzerPlugin MODULE
 target_include_directories(CataAnalyzerPlugin SYSTEM PRIVATE
         ${LLVM_INCLUDE_DIRS} ${CLANG_INCLUDE_DIRS})
 
-if (${CATA_CLANG_TIDY_INCLUDE_DIR} STREQUAL "")
+if ("${CATA_CLANG_TIDY_INCLUDE_DIR}" STREQUAL "")
     set(CTPS_RELEASES https://github.com/jbytheway/clang-tidy-plugin-support/releases/download)
     set(CTPS_VERSION llvm-8.0.1-r12)
     set(CTPS_SRC ${CMAKE_CURRENT_BINARY_DIR}/clang-tidy-plugin-support)
