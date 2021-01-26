@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "cached_options.h"
 #include "color.h"
 #include "output.h"
 #include "translations.h"
@@ -16,8 +17,6 @@
 #       include <SDL.h>
 #   endif
 #endif // TILES
-
-extern bool test_mode;
 
 loading_ui::loading_ui( bool display )
 {

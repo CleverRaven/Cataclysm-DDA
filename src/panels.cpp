@@ -15,6 +15,7 @@
 #include "avatar.h"
 #include "behavior.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -186,7 +187,7 @@ static nc_color focus_color( int focus )
 int window_panel::get_height() const
 {
     if( height == -1 ) {
-        if( g->pixel_minimap_option ) {
+        if( pixel_minimap_option ) {
             return  get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) > 0 ?
                     get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) :
                     width / 2;

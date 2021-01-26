@@ -46,17 +46,10 @@ static const std::string SAVE_EXTENSION_LOG( ".log" );
 static const std::string SAVE_EXTENSION_WEATHER( ".weather" );
 static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
 
-extern bool test_mode;
-
 // The reference to the one and only game instance.
 class game;
 
 extern std::unique_ptr<game> g;
-
-extern bool use_tiles;
-extern bool fov_3d;
-extern int fov_3d_z_range;
-extern bool tile_iso;
 
 extern const int core_version;
 
@@ -203,8 +196,6 @@ class game
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
     public:
-        /** Initializes the UI. */
-        void init_ui( bool resized = false );
         void setup();
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
@@ -1043,9 +1034,6 @@ class game
         bool was_fullscreen = false;
         bool auto_travel_mode = false;
         safe_mode_type safe_mode;
-
-        //pixel minimap management
-        int pixel_minimap_option = 0;
         int turnssincelastmon = 0; // needed for auto run mode
 
         weather_manager weather;

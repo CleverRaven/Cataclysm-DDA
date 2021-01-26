@@ -18,6 +18,7 @@
 #include <type_traits>
 #include <cmath>
 
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -61,10 +62,6 @@ int OVERMAP_LEGEND_WIDTH;
 static std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
 
 scrollingcombattext SCT;
-extern bool tile_iso;
-extern bool use_tiles;
-
-extern bool test_mode;
 
 // utf8 version
 std::vector<std::string> foldstring( const std::string &str, int width, const char split )

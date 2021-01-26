@@ -24,6 +24,7 @@
 #include <vector>
 
 #include "cata_utility.h"
+#include "cached_options.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
@@ -86,8 +87,6 @@ static int debugLevel = D_ERROR;
 static int debugClass = D_MAIN;
 #endif
 
-extern bool test_mode;
-
 /** True during game startup, when debugmsgs cannot be displayed yet. */
 static bool buffering_debugmsgs = true;
 
@@ -98,8 +97,6 @@ bool debug_has_error_been_observed()
 {
     return error_observed;
 }
-
-bool debug_mode = false;
 
 struct buffered_prompt_info {
     std::string filename;

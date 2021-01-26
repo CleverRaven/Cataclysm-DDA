@@ -18,10 +18,9 @@
 #include <vector>
 
 #include "cata_utility.h"
+#include "cached_options.h"
 #include "debug.h"
 #include "string_formatter.h"
-
-extern bool test_mode;
 
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
