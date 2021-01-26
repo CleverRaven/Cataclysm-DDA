@@ -1587,7 +1587,7 @@ bool avatar::wield( item &target, const int obtain_cost )
     last_item = weapon.typeId();
     recoil = MAX_RECOIL;
 
-    weapon.on_wield( *this, mv );
+    weapon.on_wield( *this );
 
     get_event_bus().send<event_type::character_wields_item>( getID(), last_item );
 

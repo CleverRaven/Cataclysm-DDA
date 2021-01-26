@@ -2431,7 +2431,7 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
 
     moves -= mv;
 
-    weapon.on_wield( *this, mv );
+    weapon.on_wield( *this );
 
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 

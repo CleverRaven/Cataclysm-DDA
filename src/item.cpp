@@ -4496,10 +4496,9 @@ int item::on_wield_cost( const player &p ) const
     return mv;
 }
 
-void item::on_wield( player &p, int mv )
+void item::on_wield( player &p )
 {
     int wield_cost = on_wield_cost( p );
-    mv += wield_cost;
     p.moves -= wield_cost;
 
     std::string msg;
