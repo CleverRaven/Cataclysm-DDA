@@ -2285,7 +2285,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         here.spawn_item( pos, itype_steel_plate, rng( 0, 1 ) );
         here.spawn_item( pos, itype_steel_chunk, rng( 3, 8 ) );
     } else if( ter == t_wall_metal ) {
-        here.ter_set( pos, t_dirt );
+        here.ter_set( pos, t_scrap_wall_halfway );
         here.spawn_item( pos, itype_steel_plate, rng( 2, 3 ) );
         here.spawn_item( pos, itype_steel_chunk, rng( 12, 20 ) );
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
