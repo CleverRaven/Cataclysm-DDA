@@ -60,7 +60,8 @@ foreach (LANG ${LANGUAGES})
     add_custom_command(
             TARGET translations_prepare
             PRE_BUILD
-            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES
+            COMMAND ${CMAKE_COMMAND} -E
+                    make_directory ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     if (${LANG} STREQUAL en)
         # English is special: we do not actually need translation for English, but
@@ -71,7 +72,8 @@ foreach (LANG ${LANGUAGES})
                 TARGET translations_prepare
                 PRE_BUILD
                 COMMAND lang/update_pot.sh
-                COMMAND msgen ${CMAKE_SOURCE_DIR}/lang/po/cataclysm-dda.pot --output-file=${CMAKE_SOURCE_DIR}/lang/po/en.po
+                COMMAND msgen ${CMAKE_SOURCE_DIR}/lang/po/cataclysm-dda.pot
+                        --output-file=${CMAKE_SOURCE_DIR}/lang/po/en.po
                 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     endif ()
     add_custom_command(
