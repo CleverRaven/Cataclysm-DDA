@@ -5721,9 +5721,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
 
         mod_stored_kcal( digested_to_body.nutr.kcal() );
         vitamins_mod( digested_to_body.nutr.vitamins, false );
-        if( is_avatar() ) {
-            log_activity_level( activity_level() );
-        }
+        log_activity_level( activity_level() );
 
         if( !foodless && rates.hunger > 0.0f ) {
             mod_hunger( roll_remainder( rates.hunger * five_mins ) );
