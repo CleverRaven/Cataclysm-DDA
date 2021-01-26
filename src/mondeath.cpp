@@ -419,7 +419,7 @@ void mdeath::guilt( monster &z )
 
     Character &player_character = get_player_character();
     if( player_character.has_trait( trait_PSYCHOPATH ) || player_character.has_trait_flag( "PRED3" ) ||
-        player_character.has_trait_flag( "PACK_HUNTER" ) ||
+        player_character.has_trait_flag( "PACK_HUNTER" ) || 
         player_character.has_trait_flag( "PRED4" ) || player_character.has_trait( trait_KILLER ) ) {
         return;
     }
