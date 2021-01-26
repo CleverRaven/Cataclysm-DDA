@@ -1767,17 +1767,17 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           iteminfo::lower_is_better,
                                           specific_energy ) );
                 info.push_back( iteminfo( "BASE", _( "Spec heat lq: " ), "",
-                                          iteminfo::lower_is_better,
-                                          1000 * get_specific_heat_liquid() ) );
+                                          iteminfo::lower_is_better | iteminfo::is_decimal,
+                                          get_specific_heat_liquid() ) );
                 info.push_back( iteminfo( "BASE", _( "Spec heat sld: " ), "",
-                                          iteminfo::lower_is_better,
-                                          1000 * get_specific_heat_solid() ) );
+                                          iteminfo::lower_is_better | iteminfo::is_decimal,
+                                          get_specific_heat_solid() ) );
                 info.push_back( iteminfo( "BASE", _( "latent heat: " ), "",
                                           iteminfo::lower_is_better,
                                           get_latent_heat() ) );
                 info.push_back( iteminfo( "BASE", _( "Freeze point: " ), "",
-                                          iteminfo::lower_is_better,
-                                          get_freeze_point() * 1000 ) );
+                                          iteminfo::lower_is_better | iteminfo::is_decimal,
+                                          get_freeze_point() ) );
             }
         }
     }
