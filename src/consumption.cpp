@@ -152,7 +152,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     }
 
     // As float to avoid rounding too many times
-    float kcal = comest.get_comestible()->default_nutrition.kcal();
+    float kcal = comest.get_comestible()->default_nutrition.kcal;
 
     // Many raw foods give less calories, as your body has expends more energy digesting them.
     bool cooked = comest.has_flag( flag_COOKED ) || extra_flags.count( flag_COOKED );
@@ -231,8 +231,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
 static nutrients compute_default_effective_nutrients( const item &comest,
         const Character &you, const cata::flat_set<flag_id> &extra_flags = {} )
 {
-    // Multiply by 1000 to get it in calories
-    return { compute_default_effective_kcal( comest, you, extra_flags ) * 1000,
+    return { compute_default_effective_kcal( comest, you, extra_flags ),
              compute_default_effective_vitamins( comest, you ) };
 }
 
@@ -374,7 +373,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
 
 int Character::nutrition_for( const item &comest ) const
 {
-    return compute_effective_nutrients( comest ).kcal() / islot_comestible::kcal_per_nutr;
+    return compute_effective_nutrients( comest ).kcal / islot_comestible::kcal_per_nutr;
 }
 
 std::pair<int, int> Character::fun_for( const item &comest ) const
@@ -1152,14 +1151,13 @@ void Character::modify_morale( item &food, const int nutr )
         const bool culler = has_trait_flag( "PRED1" );
         const bool hunter = has_trait_flag( "PRED2" );
         const bool predator = has_trait_flag( "PRED3" );
-        const bool pack_hunter = has_trait_flag( "PACK_HUNTER" );
         const bool apex_predator = has_trait_flag( "PRED4" );
         if( apex_predator ) {
             // Largest bonus, balances out to around +5 or +10. Some organs may still be negative.
             add_morale( MORALE_MEATARIAN, 20, 10 );
             add_msg_if_player( m_good,
                                _( "As you tear into the raw flesh, you feel satisfied with your meal." ) );
-        } else if( predator || hunter || pack_hunter ) {
+        } else if( predator || hunter ) {
             // Should approximately balance the fun to 0 for normal meat.
             add_morale( MORALE_MEATARIAN, 15, 5 );
             add_msg_if_player( m_good,
@@ -1230,8 +1228,7 @@ double Character::compute_effective_food_volume_ratio( const item &food ) const
     units::mass food_weight = ( food.weight() / food.count() );
     double ratio = 1.0f;
     if( units::to_gram( food_weight ) != 0 ) {
-        ratio = std::max( static_cast<double>( food_nutrients.kcal() ) / units::to_gram( food_weight ),
-                          1.0 );
+        ratio = std::max( static_cast<double>( food_nutrients.kcal ) / units::to_gram( food_weight ), 1.0 );
         if( ratio > 3.0f ) {
             ratio = std::sqrt( 3 * ratio );
         }
@@ -1246,9 +1243,9 @@ units::volume Character::masticated_volume( const item &food ) const
 {
     units::volume water_vol = ( food.get_comestible()->quench > 0 ) ? food.get_comestible()->quench *
                               5_ml : 0_ml;
-    units::mass water_weight = units::from_gram( units::to_milliliter( water_vol ) );
-    units::mass food_dry_weight = food.weight() / food.count() - water_weight;
-    units::volume food_dry_volume = food.volume() / food.count() - water_vol ;
+    units::mass food_dry_weight = units::from_gram( units::to_gram( food.weight() ) -
+                                  units::to_milliliter( water_vol ) ) / food.count();
+    units::volume food_dry_volume = ( food.volume() - water_vol ) / food.count();
 
     if( units::to_milliliter( food_dry_volume ) != 0 &&
         units::to_gram( food_dry_weight ) < units::to_milliliter( food_dry_volume ) ) {
@@ -1267,13 +1264,16 @@ int Character::compute_calories_per_effective_volume( const item &food,
     int kcalories;
     if( nutrient ) {
         // if given the optional nutrient argument, we will compute kcal based on that. ( Crafting menu ).
-        kcalories = nutrient->kcal();
+        kcalories = nutrient->kcal;
     } else {
-        kcalories = compute_effective_nutrients( food ).kcal();
+        kcalories = compute_effective_nutrients( food ).kcal;
     }
-    double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
+    units::volume food_vol = masticated_volume( food ) * food.count();
+    // Divide by 1000 to convert to L. Final quantity is essentially dimensionless, so unit of measurement does not matter.
+    const double converted_volume = round_up( ( static_cast<float>( food_vol.value() ) / food.count() )
+                                    * 0.001, 2 );
     const double energy_density_ratio = compute_effective_food_volume_ratio( food );
-    const double effective_volume = food_vol * energy_density_ratio;
+    const double effective_volume = converted_volume * energy_density_ratio;
     return std::round( kcalories / effective_volume );
 }
 
@@ -1394,7 +1394,7 @@ bool Character::consume_effects( item &food )
     add_msg_debug(
         "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
         units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
-        food_nutrients.kcal(), units::to_gram( food_weight ) );
+        food_nutrients.kcal, units::to_gram( food_weight ) );
     // Maybe move tapeworm to digestion
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;

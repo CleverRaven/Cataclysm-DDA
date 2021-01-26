@@ -566,7 +566,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NO_SIGHT``` Creature on this tile have their sight reduced to one tile
 - ```NO_SCENT``` This tile cannot have scent values, which prevents scent diffusion through this tile
 - ```NO_SHOOT``` Terrain with this flag cannot be damaged by ranged attacks, and ranged attacks will not pass through it.
-- ```NO_SPOIL``` Items placed in this tile do not spoil.
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```PAINFUL``` May cause a small amount of pain.
 - ```PERMEABLE``` Permeable for gases.
@@ -1115,7 +1114,6 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 
 #### Flags
 
-- ```HEATPROOF``` Immune to very hot temperatures.
 - ```UNARMED_BONUS``` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
@@ -1259,7 +1257,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 
 ### Tags
 
-- ```combat_skill``` The skill is considered a combat skill. It's affected by "PACIFIST", "PRED1", "PRED2", "PRED3", "PRED4", and "PACK_HUNTER" traits.
+- ```combat_skill``` The skill is considered a combat skill. It's affected by "PACIFIST", "PRED1", "PRED2", "PRED3", and "PRED4" traits.
 - ```contextual_skill``` The skill is abstract, it depends on context (an indirect item to which it's applied). Neither player nor NPCs can possess it.
 
 
