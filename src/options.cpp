@@ -1972,6 +1972,13 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
+    add( "PICKUP_RANGE", "debug", translate_marker( "Crafting range" ),
+         translate_marker( "Maximum distance at which items are considered available for crafting (or some other actions)." ),
+         1, 30, 6
+       );
+
+    add_empty_line();
+
     add( "FOV_3D", "debug", translate_marker( "Experimental 3D field of vision" ),
          translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level.  Currently very bugged!" ),
          false
@@ -2991,6 +2998,7 @@ void options_manager::cache_to_globals()
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
+    PICKUP_RANGE = ::get_option<int>( "PICKUP_RANGE" );
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif

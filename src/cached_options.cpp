@@ -11,3 +11,4 @@ bool fov_3d;
 int fov_3d_z_range;
 bool tile_iso;
 bool pixel_minimap_option = false;
+int PICKUP_RANGE;

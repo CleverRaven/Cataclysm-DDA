@@ -52,4 +52,10 @@ extern bool tile_iso;
  */
 extern bool pixel_minimap_option;
 
+/**
+ * Items on the map with at most this distance to the player are considered
+ * available for crafting, see inventory::form_from_map
+*/
+extern int PICKUP_RANGE;
+
 #endif // CATA_SRC_CACHED_OPTIONS_H
