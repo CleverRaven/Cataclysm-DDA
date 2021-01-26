@@ -2982,11 +2982,8 @@ std::string options_manager::migrateOptionValue( const std::string &name,
     return iter_val != iter->second.second.end() ? iter_val->second : val;
 }
 
-bool options_manager::save()
+void options_manager::cache_to_globals()
 {
-    const auto savefile = PATH_INFO::options();
-
-    // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
@@ -2994,7 +2991,15 @@ bool options_manager::save()
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
+#if defined(SDL_SOUND)
+    sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
+#endif
+}
 
+bool options_manager::save()
+{
+    const auto savefile = PATH_INFO::options();
+    cache_to_globals();
     update_music_volume();
 
     return write_to_file( savefile, [&]( std::ostream & fout ) {
@@ -3018,18 +3023,7 @@ void options_manager::load()
     }
 
     update_global_locale();
-
-    // cache to global due to heavy usage.
-    trigdist = ::get_option<bool>( "CIRCLEDIST" );
-    use_tiles = ::get_option<bool>( "USE_TILES" );
-    log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
-    message_ttl = ::get_option<int>( "MESSAGE_TTL" );
-    message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
-    fov_3d = ::get_option<bool>( "FOV_3D" );
-    fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
-#if defined(SDL_SOUND)
-    sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
-#endif
+    cache_to_globals();
 }
 
 bool options_manager::load_legacy()
