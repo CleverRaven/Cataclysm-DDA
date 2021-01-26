@@ -1698,6 +1698,13 @@ bool Character::is_dead_state() const
     return false;
 }
 
+void Character::on_try_dodge()
+{
+    const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
+    mod_stamina( -base_burn_rate * 6 );
+    increase_activity_level( EXTRA_EXERCISE );
+}
+
 void Character::on_dodge( Creature *source, float difficulty )
 {
     // Each avoided hit consumes an available dodge

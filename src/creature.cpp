@@ -701,14 +701,15 @@ float Creature::get_crit_factor( const bodypart_id &bp ) const
 
 int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
+    const float dodge = dodge_roll();
+    int hit_chance = hitroll - size_melee_penalty();
+    int hit_spread = hit_chance - dodge;
+
     add_msg_debug( debugmode::DF_CREATURE, "Base hitroll %d",
                    hitroll );
-
-    float dodge = dodge_roll();
     add_msg_debug( debugmode::DF_CREATURE, "Dodge roll %.1f",
                    dodge );
 
-    int hit_spread = hitroll - dodge - size_melee_penalty();
     if( has_flag( MF_IMMOBILE ) ) {
         // Under normal circumstances, even a clumsy person would
         // not miss a turret.  It should, however, be possible to
@@ -717,9 +718,12 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
         hit_spread += 40;
     }
 
-    // If attacker missed call targets on_dodge event
-    if( dodge > 0.0 && hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {
-        on_dodge( source, source->get_melee() );
+    if( hit_chance > 0 && dodge > 0.0 && source != nullptr && !source->is_hallucination() ) {
+        on_try_dodge();
+        // If attacker missed call targets on_dodge event.
+        if( hit_spread <= 0 ) {
+            on_dodge( source, std::max( 0.0, source->get_melee() + hit_spread / 5.0 ) );
+        }
     }
     add_msg_debug( debugmode::DF_CREATURE, "Final hitspread %d",
                    hit_spread );
