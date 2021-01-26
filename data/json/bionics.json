@@ -1163,7 +1163,7 @@
     "name": { "str": "Internal Chronometer" },
     "description": "You have been equipped with an internal atomic clock, ensuring that you will always know the current time.  Additionally, it includes a silent alarm clock function.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
-    "flags": [ "WATCH" ]
+    "flags": [ "WATCH", "ALARMCLOCK" ]
   },
   {
     "id": "bio_water_extractor",
