@@ -161,7 +161,7 @@
     "id": "t_jp8_pump",
     "name": "JP8 pump",
     "looks_like": "t_gas_pump",
-    "description": "This pump is filled with JP8. If this gas dispenser doesn't give up the goods for free, you may have to pay at a nearby terminal.",
+    "description": "This pump is filled with JP8.  If this gas dispenser doesn't give up the goods for free, you may have to pay at a nearby terminal.",
     "symbol": "&",
     "color": "red",
     "move_cost": 0,
