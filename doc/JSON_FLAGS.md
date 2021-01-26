@@ -1520,3 +1520,4 @@ Gun fault flags:
 - ```EYE_MEMBRANE``` Lets you see underwater.
 - ```NO_SCENT``` You have no scent.
 - ```STOP_SLEEP_DEPRIVATION``` Stops Sleep Deprivation while awake and boosts it while sleeping.
+- ```GLARE_RESIST``` Protect your eyes from glare like sunglasses.

@@ -1034,7 +1034,7 @@
     "description": "Your eyes have quick-reacting transition lenses surgically installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "included_bionics": [ "bio_blindfold" ],
-    "flags": [ "BIONIC_NPC_USABLE" ],
+    "flags": [ "BIONIC_NPC_USABLE", "GLARE_RESIST" ],
     "fake_item": "fake_goggles"
   },
   {

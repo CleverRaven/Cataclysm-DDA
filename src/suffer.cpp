@@ -72,7 +72,6 @@ static const bionic_id bio_power_weakness( "bio_power_weakness" );
 static const bionic_id bio_shakes( "bio_shakes" );
 static const bionic_id bio_sleepy( "bio_sleepy" );
 static const bionic_id bio_spasm( "bio_spasm" );
-static const bionic_id bio_sunglasses( "bio_sunglasses" );
 static const bionic_id bio_trip( "bio_trip" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
@@ -163,6 +162,8 @@ static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
 static const std::string flag_PLOWABLE( "PLOWABLE" );
+
+static const flag_id json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
 {
@@ -823,7 +824,7 @@ void Character::suffer_from_sunburn()
     }
 
     // Sunglasses can keep the sun off the eyes.
-    if( !has_bionic( bio_sunglasses ) &&
+    if( !has_flag( json_flag_GLARE_RESIST ) &&
         !( wearing_something_on( bodypart_id( "eyes" ) ) &&
            ( worn_with_flag( flag_SUN_GLASSES ) || worn_with_flag( flag_BLIND ) ) ) ) {
         add_msg_if_player( m_bad, _( "%s your eyes." ), sunlight_effect );
