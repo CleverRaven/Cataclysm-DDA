@@ -41,7 +41,7 @@ TEST_CASE( "acid_field_expiry_on_map", "[field]" )
         calendar::turn += 1_seconds;
     }
 
-    CHECK( count_fields( field_type ) == Approx( 8712 ).margin( 200 ) );
+    CHECK( count_fields( field_type ) == Approx( 8712 ).margin( 300 ) );
 }
 
 static void test_field_expiry( const std::string &field_type_str )
