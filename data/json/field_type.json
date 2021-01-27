@@ -647,7 +647,11 @@
     "id": "fd_flame_burst",
     "type": "field_type",
     "legacy_enum_id": 18,
-    "intensity_levels": [ { "name": { "ctxt": "noun", "str": "fire" }, "sym": "5", "color": "red", "dangerous": true, "light_emitted": 20 } ],
+    "intensity_levels": [
+      { "name": { "ctxt": "noun", "str": "fire" }, "sym": "5", "color": "red", "dangerous": true, "light_emitted": 20 },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
     "description_affix": "on",
     "has_fire": true,
     "priority": 4,

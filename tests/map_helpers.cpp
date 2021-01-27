@@ -24,6 +24,19 @@ void clear_vehicles()
     }
 }
 
+void clear_radiation()
+{
+    map &here = get_map();
+    const int mapsize = here.getmapsize() * SEEX;
+    for( int z = -1; z <= OVERMAP_HEIGHT; ++z ) {
+        for( int x = 0; x < mapsize; ++x ) {
+            for( int y = 0; y < mapsize; ++y ) {
+                here.set_radiation( { x, y, z}, 0 );
+            }
+        }
+    }
+}
+
 void wipe_map_terrain()
 {
     map &here = get_map();
