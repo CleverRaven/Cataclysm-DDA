@@ -1944,7 +1944,7 @@ ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
 
 bool player::takeoff( item_location loc, std::list<item> *res )
 {
-    item &it = *loc;
+    item it = *loc;
 
 
     const auto ret = can_takeoff( it, res );
