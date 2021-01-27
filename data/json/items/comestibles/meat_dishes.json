@@ -1338,7 +1338,7 @@
     "material": [ "flesh" ],
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": -4
+    "fun": -7
   },
   {
     "type": "COMESTIBLE",
