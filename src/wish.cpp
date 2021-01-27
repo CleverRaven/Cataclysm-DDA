@@ -222,7 +222,7 @@ class wish_mutate_callback: public uilist_callback
                            _( "[a] show active traits (active)" ) );
             } else {
                 mvwprintz( menu->window, point( startx, menu->w_height - 2 ), c_white,
-                           _( "[a] show active traits         " ) );
+                           _( "[a] show active traits" ) );
             }
 
             wnoutrefresh( menu->window );
