@@ -11,7 +11,7 @@ function run_tests
     # --min-duration shows timing lines for tests with a duration of at least that many seconds.
     $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS "crafting_skill_gain"&
     pids[0]=$!
-    $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS "[slow] !crafting_skill_gain"&
+    $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS "[slow] ~crafting_skill_gain"&
     pids[1]=$!
     $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS "~[slow] ~[.]"&
     pids[2]=$!
