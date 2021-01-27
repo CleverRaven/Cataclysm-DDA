@@ -124,7 +124,10 @@
     "difficulty": 2,
     "value": 150000,
     "item": "black_box_transcript",
-    "start": { "effect": { "u_buy_item": "black_box" }, "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3, "search_range": 360 } },
+    "start": {
+      "effect": { "u_buy_item": "black_box" },
+      "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3, "search_range": 360 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
     "dialogue": {
@@ -352,7 +355,9 @@
     "difficulty": 2,
     "value": 150000,
     "item": "etched_skull",
-    "start": { "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3, "search_range": 360 } },
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3, "search_range": 360 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "dialogue": {
