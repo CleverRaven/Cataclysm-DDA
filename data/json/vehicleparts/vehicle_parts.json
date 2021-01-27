@@ -2295,7 +2295,7 @@
   {
     "type": "vehicle_part",
     "id": "hd_tow_cable",
-    "name": "heavy duty tow cable",
+    "name": { "str": "heavy duty tow cable" },
     "symbol": "{",
     "categories": [ "other" ],
     "color": "light_blue",

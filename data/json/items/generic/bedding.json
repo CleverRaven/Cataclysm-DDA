@@ -107,7 +107,7 @@
   {
     "id": "quilt",
     "type": "ARMOR",
-    "name": "quilt",
+    "name": { "str": "quilt" },
     "description": "A big, comfy quilt made of thick wool in a triangle pattern.  Extremely cozy!",
     "weight": "1814 g",
     "volume": "5 L",
@@ -129,7 +129,7 @@
     "id": "quilt_patchwork",
     "type": "ARMOR",
     "copy-from": "quilt",
-    "name": "patchwork quilt",
+    "name": { "str": "patchwork quilt" },
     "description": "A huge, patchwork wool quilt.  Very, very warm.",
     "encumbrance": 50,
     "warmth": 70

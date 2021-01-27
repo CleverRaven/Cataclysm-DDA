@@ -2,7 +2,7 @@
   {
     "abstract": "holybook_abstract",
     "type": "BOOK",
-    "name": "holybook abstract",
+    "name": { "str": "holybook abstract" },
     "description": "theoretically this isn't a book at all",
     "price": 550,
     "price_postapoc": 550,

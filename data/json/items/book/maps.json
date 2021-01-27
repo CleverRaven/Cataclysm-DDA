@@ -104,7 +104,7 @@
     "id": "subwaymap",
     "copy-from": "abstractmap",
     "type": "GENERIC",
-    "name": "subway maintenance map",
+    "name": { "str": "subway maintenance map" },
     "looks_like": "roadmap",
     "description": "This is a map of subway tunnels formerly used by public maintenance workers.  Using it will add subway lines and underground stations to your map.",
     "color": "light_blue",

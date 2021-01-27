@@ -310,7 +310,7 @@
   {
     "type": "COMESTIBLE",
     "id": "waffles",
-    "name": "waffle",
+    "name": { "str": "waffle" },
     "weight": "75 g",
     "color": "yellow",
     "spoils_in": "10 days",
@@ -330,7 +330,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fruit_waffles",
-    "name": "fruit waffle",
+    "name": { "str": "fruit waffle" },
     "weight": "156 g",
     "color": "yellow",
     "spoils_in": "10 days",
@@ -351,7 +351,7 @@
   {
     "type": "COMESTIBLE",
     "id": "crackers",
-    "name": "cracker",
+    "name": { "str": "cracker" },
     "weight": "56 g",
     "color": "brown",
     "spoils_in": "90 days",
@@ -387,7 +387,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pie",
-    "name": "fruit pie",
+    "name": { "str": "fruit pie" },
     "weight": "125 g",
     "color": "brown",
     "spoils_in": "3 days",
@@ -411,7 +411,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pizza_cheese",
-    "name": "cheese pizza",
+    "name": { "str": "cheese pizza" },
     "weight": "170 g",
     "color": "yellow",
     "spoils_in": "2 days",
@@ -457,7 +457,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pie_maple",
-    "name": "maple pie",
+    "name": { "str": "maple pie" },
     "weight": "74 g",
     "color": "brown",
     "spoils_in": "3 days",
@@ -501,7 +501,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cloutie_dumpling",
-    "name": "cloutie dumpling",
+    "name": { "str": "cloutie dumpling" },
     "weight": "91 g",
     "color": "brown",
     "spoils_in": "2 days",
@@ -522,7 +522,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brioche",
-    "name": "brioche",
+    "name": { "str": "brioche" },
     "weight": "77 g",
     "color": "brown",
     "spoils_in": "10 days",
@@ -546,7 +546,7 @@
     "id": "sponge_cake",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": "sponge cake",
+    "name": { "str": "sponge cake" },
     "description": "Plain, fluffy cake for the proletariat.",
     "container": "box_small",
     "weight": "68 g",
@@ -566,7 +566,7 @@
   {
     "id": "space_cake",
     "type": "COMESTIBLE",
-    "name": "space cake",
+    "name": { "str": "space cake" },
     "copy-from": "sponge_cake",
     "price_postapoc": 500,
     "description": "This cake's destiny is to take you on a gnarly trip.",
@@ -576,7 +576,7 @@
   {
     "id": "brownie",
     "type": "COMESTIBLE",
-    "name": "brownie",
+    "name": { "str": "brownie" },
     "copy-from": "sponge_cake",
     "description": "A rich chocolate brownie, just like how grandma used to bake them.",
     "price_postapoc": 400,
