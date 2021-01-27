@@ -2377,6 +2377,15 @@
   },
   {
     "type": "vehicle_part",
+    "id": "seat_wood_bench",
+    "name": { "str": "wooden bench" },
+    "copy-from": "seat_wood",
+    "looks_like": "seat_wood",
+    "durability": 150,
+    "description": "A benchlike place to sit."
+  },
+  {
+    "type": "vehicle_part",
     "id": "spike_wood",
     "name": { "str": "wooden spike" },
     "symbol": ".",

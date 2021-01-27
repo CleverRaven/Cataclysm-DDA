@@ -542,10 +542,9 @@ TEST_CASE( "activity levels and calories in daily diary", "[avatar][biometrics][
         test_activity_duration( dummy, ACTIVE_EXERCISE, 15_minutes );
         test_activity_duration( dummy, EXTRA_EXERCISE, 10_minutes );
 
-        // Spent calories are randomized; get expected spent/net from expected gain
-        int expect_gained_kcal = 1286; // FIXME: Could this be random too?
-        int expect_net_kcal = dummy.get_stored_kcal() - 55000;
-        int expect_spent_kcal = expect_gained_kcal - expect_net_kcal;
+        int expect_gained_kcal = 1283;
+        int expect_net_kcal = 551;
+        int expect_spent_kcal = 732;
 
         CHECK( condensed_spaces( dummy.total_daily_calories_string() ) == string_format(
                    "<color_c_white> Minutes at each exercise level Calories per day</color>\n"

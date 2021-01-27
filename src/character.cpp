@@ -454,7 +454,8 @@ Character::Character() :
     update_type_of_scent( true );
     pkill = 0;
     // 45 days to starve to death
-    healthy_calories = 55000;
+    // 55 Mcal or 55k kcal
+    healthy_calories = 55'000'000;
     stored_calories = healthy_calories;
     initialize_stomach_contents();
 
@@ -5019,7 +5020,7 @@ void Character::mod_healthy_mod( int nhealthy_mod, int cap )
 
 int Character::get_stored_kcal() const
 {
-    return stored_calories;
+    return stored_calories / 1000;
 }
 
 static std::string exert_lvl_to_str( float level )
@@ -5054,8 +5055,8 @@ std::string Character::debug_weary_info() const
     float bmi = get_bmi();
 
     return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\nBMR: %d Intake: %d Tracker: %d Thresh: %d At: %d\nCal: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)",
-                          amt, max_act, move_mult, bmr, intake, input, thresh, current, stored_calories,
-                          healthy_calories, fatigue, morale, weight, bmi );
+                          amt, max_act, move_mult, bmr, intake, input, thresh, current, get_stored_kcal(),
+                          get_healthy_kcal(), fatigue, morale, weight, bmi );
 }
 
 void weariness_tracker::clear()
@@ -5068,6 +5069,15 @@ void weariness_tracker::clear()
 
 void Character::mod_stored_kcal( int nkcal )
 {
+    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
+    if( !npc_no_food ) {
+        mod_stored_calories( nkcal * 1000 );
+    }
+}
+
+void Character::mod_stored_calories( int ncal )
+{
+    int nkcal = ncal / 1000;
     if( nkcal > 0 ) {
         add_gained_calories( nkcal );
         weary.intake += nkcal;
@@ -5076,7 +5086,7 @@ void Character::mod_stored_kcal( int nkcal )
         // nkcal is negative, we need positive
         weary.tracker -= nkcal;
     }
-    set_stored_kcal( stored_calories + nkcal );
+    set_stored_calories( stored_calories + ncal );
 }
 
 void Character::mod_stored_nutr( int nnutr )
@@ -5087,8 +5097,13 @@ void Character::mod_stored_nutr( int nnutr )
 
 void Character::set_stored_kcal( int kcal )
 {
-    if( stored_calories != kcal ) {
-        stored_calories = kcal;
+    set_stored_calories( kcal * 1000 );
+}
+
+void Character::set_stored_calories( int cal )
+{
+    if( stored_calories != cal ) {
+        stored_calories = cal;
 
         //some mutant change their max_hp according to their bmi
         recalc_hp();
@@ -5097,7 +5112,7 @@ void Character::set_stored_kcal( int kcal )
 
 int Character::get_healthy_kcal() const
 {
-    return healthy_calories;
+    return healthy_calories / 1000;
 }
 
 float Character::get_kcal_percent() const
@@ -5112,7 +5127,10 @@ int Character::get_hunger() const
 
 void Character::mod_hunger( int nhunger )
 {
-    set_hunger( hunger + nhunger );
+    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
+    if( !npc_no_food ) {
+        set_hunger( hunger + nhunger );
+    }
 }
 
 void Character::set_hunger( int nhunger )
@@ -5700,16 +5718,16 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         // Water from stomach skips guts and gets absorbed by body
         mod_thirst( -units::to_milliliter<int>( digested_to_guts.water ) / 5 );
         guts.ingest( digested_to_guts );
-        // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled.
-        if( !npc_no_food ) {
-            mod_stored_kcal( digested_to_body.nutr.kcal );
-            log_activity_level( activity_level() );
-            vitamins_mod( digested_to_body.nutr.vitamins, false );
-        }
+
+        mod_stored_kcal( digested_to_body.nutr.kcal() );
+        vitamins_mod( digested_to_body.nutr.vitamins, false );
+        log_activity_level( activity_level() );
+
         if( !foodless && rates.hunger > 0.0f ) {
             mod_hunger( roll_remainder( rates.hunger * five_mins ) );
             // instead of hunger keeping track of how you're living, burn calories instead
-            mod_stored_kcal( -roll_remainder( five_mins * kcal_per_time ) );
+            // Explicitly floor it here, the int cast will do so anyways
+            mod_stored_calories( -std::floor( five_mins * kcal_per_time * 1000 ) );
         }
     }
     // if npc_no_food no need to calc hunger, and set hunger_effect
@@ -7113,9 +7131,14 @@ bodypart_id Character::body_window( const std::string &menu_header,
     uilist bmenu;
     bmenu.desc_enabled = true;
     bmenu.text = menu_header;
+    bmenu.textwidth = 60;
 
     bmenu.hilight_disabled = true;
     bool is_valid_choice = false;
+
+    // If this is an NPC, the player is the one examining them and so the fact
+    // that they can't self-diagnose effectively doesn't matter
+    bool no_feeling = is_player() && has_trait( trait_NOPAIN );
 
     for( size_t i = 0; i < parts.size(); i++ ) {
         const healable_bp &e = parts[i];
@@ -7151,7 +7174,6 @@ bodypart_id Character::body_window( const std::string &menu_header,
         bool bitten = has_effect( effect_bite, bp.id() );
         bool infected = has_effect( effect_infected, bp.id() );
         bool bandaged = has_effect( effect_bandaged, bp.id() );
-        bool disinfected = has_effect( effect_disinfected, bp.id() );
         const int b_power = get_effect_int( effect_bandaged, bp );
         const int d_power = get_effect_int( effect_disinfected, bp );
         int new_b_power = static_cast<int>( std::floor( bandage_power ) );
@@ -7169,19 +7191,22 @@ bodypart_id Character::body_window( const std::string &menu_header,
         if( limb_is_mending ) {
             desc += colorize( _( "It is broken, but has been set, and just needs time to heal." ),
                               c_blue ) + "\n";
-            const auto &eff = get_effect( effect_mending, bp );
-            const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
-
-            if( precise ) {
-                hp_str = colorize( string_format( "=%2d%%=", mend_perc ), c_blue );
+            if( no_feeling ) {
+                hp_str = colorize( "==%==", c_blue );
             } else {
+                const auto &eff = get_effect( effect_mending, bp );
+                const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
+
                 const int num = mend_perc / 20;
                 hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), c_blue );
+                if( precise ) {
+                    hp_str = string_format( "%s %3d%%", hp_str, mend_perc );
+                }
             }
         } else if( limb_is_broken ) {
             desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
             hp_str = "==%==";
-        } else if( has_trait( trait_NOPAIN ) ) {
+        } else if( no_feeling ) {
             if( current_hp < maximal_hp * 0.25 ) {
                 hp_str = colorize( _( "Very Bad" ), c_red );
             } else if( current_hp < maximal_hp * 0.5 ) {
@@ -7191,81 +7216,77 @@ bodypart_id Character::body_window( const std::string &menu_header,
             } else {
                 hp_str = colorize( _( "Good" ), c_green );
             }
-        } else if( precise ) {
-            hp_str = string_format( "%d", current_hp );
         } else {
             std::pair<std::string, nc_color> h_bar = get_hp_bar( current_hp, maximal_hp, false );
             hp_str = colorize( h_bar.first, h_bar.second ) +
                      colorize( std::string( 5 - utf8_width( h_bar.first ), '.' ), c_white );
+
+            if( precise ) {
+                hp_str = string_format( "%s %3d/%d", hp_str, current_hp, maximal_hp );
+            }
         }
         msg += colorize( aligned_name, all_state_col ) + " " + hp_str;
 
         // BLEEDING block
         if( bleeding ) {
-            desc += colorize( string_format( "%s: %s", get_effect( effect_bleed, bp ).get_speed_name(),
-                                             get_effect( effect_bleed, bp ).disp_short_desc() ), c_red ) + "\n";
+            desc += string_format( _( "Bleeding: %s" ),
+                                   colorize( get_effect( effect_bleed, bp ).get_speed_name(),
+                                             colorize_bleeding_intensity( get_effect_int( effect_bleed, bp ) ) ) );
             if( bleed > 0 ) {
                 int percent = static_cast<int>( bleed * 100 / get_effect_int( effect_bleed, bp ) );
                 percent = std::min( percent, 100 );
-                desc += colorize( string_format( _( "Expected bleeding reduction: %d %%" ), percent ),
-                                  c_light_green ) + "\n";
-            } else {
-                desc += colorize( _( "This will not affect the bleeding." ),
-                                  c_yellow ) + "\n";
-            }
+                desc += " -> " + colorize( string_format( _( "%d %% improvement" ), percent ), c_green );
+            };
+            desc += "\n";
         }
+
         // BANDAGE block
-        if( bandaged ) {
-            desc += string_format( _( "Bandaged [%s]" ), texitify_healing_power( b_power ) ) + "\n";
-            if( new_b_power > b_power ) {
-                desc += colorize( string_format( _( "Expected quality improvement: %s" ),
-                                                 texitify_healing_power( new_b_power ) ), c_light_green ) + "\n";
-            } else if( new_b_power > 0 ) {
-                desc += colorize( _( "You don't expect any improvement from using this." ), c_yellow ) + "\n";
+        if( e.allowed && ( new_b_power > 0 || b_power > 0 ) ) {
+            desc += string_format( _( "Bandaged: %s" ), texitify_healing_power( b_power ) );
+            if( new_b_power > 0 ) {
+                desc += string_format( " -> %s", texitify_healing_power( new_b_power ) );
+                if( new_b_power <= b_power ) {
+                    desc += _( " (no improvement)" );
+                }
             }
-        } else if( new_b_power > 0 && e.allowed ) {
-            desc += colorize( string_format( _( "Expected bandage quality: %s" ),
-                                             texitify_healing_power( new_b_power ) ), c_light_green ) + "\n";
+            desc += "\n";
         }
+
+        // DISINFECTANT block
+        if( e.allowed && ( d_power > 0 || new_d_power > 0 ) ) {
+            desc += string_format( _( "Disinfected: %s" ), texitify_healing_power( d_power ) );
+            if( new_d_power > 0 ) {
+                desc += string_format( " -> %s",  texitify_healing_power( new_d_power ) );
+                if( new_d_power <= d_power ) {
+                    desc += _( " (no improvement)" );
+                }
+            }
+            desc += "\n";
+        }
+
         // BITTEN block
         if( bitten ) {
-            desc += colorize( string_format( "%s: ", get_effect( effect_bite, bp ).get_speed_name() ), c_red );
-            desc += colorize( _( "It has a deep bite wound that needs cleaning." ), c_red ) + "\n";
+            desc += string_format( "%s: ", get_effect( effect_bite, bp ).get_speed_name() );
             if( bite > 0 ) {
                 desc += colorize( string_format( _( "Chance to clean and disinfect: %d %%" ),
-                                                 static_cast<int>( bite * 100 ) ), c_light_green ) + "\n";
+                                                 static_cast<int>( bite * 100 ) ), c_light_green );
             } else {
-                desc += colorize( _( "This will not help in cleaning this wound." ), c_yellow ) + "\n";
+                desc += colorize( _( "It has a deep bite wound that needs cleaning." ), c_red );
             }
+            desc += "\n";
         }
+
         // INFECTED block
         if( infected ) {
-            desc += colorize( string_format( "%s: ", get_effect( effect_infected, bp ).get_speed_name() ),
-                              c_red );
-            desc += colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
-                              c_red ) + "\n";
+            desc += string_format( "%s: ", get_effect( effect_infected, bp ).get_speed_name() );
             if( infect > 0 ) {
                 desc += colorize( string_format( _( "Chance to cure infection: %d %%" ),
                                                  static_cast<int>( infect * 100 ) ), c_light_green ) + "\n";
             } else {
-                desc += colorize( _( "This will not help in curing infection." ), c_yellow ) + "\n";
+                desc += colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
+                                  c_red );
             }
-        }
-        // DISINFECTANT (general) block
-        if( disinfected ) {
-            desc += string_format( _( "Disinfected [%s]" ),
-                                   texitify_healing_power( d_power ) ) + "\n";
-            if( new_d_power > d_power ) {
-                desc += colorize( string_format( _( "Expected quality improvement: %s" ),
-                                                 texitify_healing_power( new_d_power ) ), c_light_green ) + "\n";
-            } else if( new_d_power > 0 ) {
-                desc += colorize( _( "You don't expect any improvement from using this." ),
-                                  c_yellow ) + "\n";
-            }
-        } else if( new_d_power > 0 && e.allowed ) {
-            desc += colorize( string_format(
-                                  _( "Expected disinfection quality: %s" ),
-                                  texitify_healing_power( new_d_power ) ), c_light_green ) + "\n";
+            desc += "\n";
         }
         // END of blocks
 
@@ -7316,13 +7337,7 @@ nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bo
     }
     switch( color_bit ) {
         case 1:
-            if( intense < 11 ) {
-                i_color = c_light_red;
-            } else if( intense < 21 ) {
-                i_color = c_red;
-            } else {
-                i_color = c_red_red;
-            }
+            i_color = colorize_bleeding_intensity( intense );
             break;
         case 10:
             i_color = c_blue;

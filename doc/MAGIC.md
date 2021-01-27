@@ -504,6 +504,7 @@ Effects for the character that has the enchantment:
 
 Effects for the item that has the enchantment:
 
+* ITEM_DAMAGE_PURE
 * ITEM_DAMAGE_BASH
 * ITEM_DAMAGE_CUT
 * ITEM_DAMAGE_STAB
@@ -516,6 +517,7 @@ Effects for the item that has the enchantment:
 The damage enchantment values are for melee only.
 
 * ITEM_DAMAGE_AP
+* ITEM_DAMAGE_PURE
 * ITEM_ARMOR_BASH
 * ITEM_ARMOR_CUT
 * ITEM_ARMOR_STAB

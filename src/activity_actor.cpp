@@ -1002,19 +1002,27 @@ std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonIn &
     return actor.clone();
 }
 
+static void cancel_pickup( Character &who )
+{
+    who.cancel_activity();
+    if( who.is_hauling() && !get_map().has_items( who.pos() ) ) {
+        who.stop_hauling();
+    }
+}
+
 void pickup_activity_actor::do_turn( player_activity &, Character &who )
 {
     // If we don't have target items bail out
     if( target_items.empty() ) {
-        who.cancel_activity();
+        cancel_pickup( who );
         return;
     }
 
     // If the player moves while picking up (i.e.: in a moving vehicle) cancel
     // the activity, only populate starting_pos when grabbing from the ground
     if( starting_pos && *starting_pos != who.pos() ) {
-        who.cancel_activity();
         who.add_msg_if_player( _( "Moving canceled auto-pickup." ) );
+        cancel_pickup( who );
         return;
     }
 
@@ -1027,7 +1035,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     // If there are items left we ran out of moves, so continue the activity
     // Otherwise, we are done.
     if( !keep_going || target_items.empty() ) {
-        who.cancel_activity();
+        cancel_pickup( who );
 
         if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
             who.set_value( "THIEF_MODE", "THIEF_ASK" );

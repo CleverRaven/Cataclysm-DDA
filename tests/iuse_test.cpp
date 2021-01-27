@@ -415,8 +415,8 @@ TEST_CASE( "towel", "[iuse][towel]" )
                 CHECK_FALSE( dummy.has_effect( efftype_id( "boomered" ) ) );
                 CHECK_FALSE( dummy.has_effect( efftype_id( "glowing" ) ) );
 
-                AND_THEN( "the towel becomes soiled" ) {
-                    CHECK( towel.typeId() == itype_id( "towel_soiled" ) );
+                AND_THEN( "the towel becomes filthy" ) {
+                    CHECK( towel.is_filthy() );
                 }
             }
         }
@@ -435,8 +435,8 @@ TEST_CASE( "towel", "[iuse][towel]" )
                 CHECK_FALSE( dummy.has_effect( efftype_id( "boomered" ) ) );
                 CHECK( std::abs( dummy.has_morale( MORALE_WET ) ) );
 
-                AND_THEN( "the towel becomes soiled" ) {
-                    CHECK( towel.typeId() == itype_id( "towel_soiled" ) );
+                AND_THEN( "the towel becomes filthy" ) {
+                    CHECK( towel.is_filthy() );
                 }
             }
         }

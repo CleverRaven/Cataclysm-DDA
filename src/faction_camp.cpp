@@ -3821,7 +3821,7 @@ bool basecamp::distribute_food()
         if( it.rotten() ) {
             return false;
         }
-        const int kcal = it.get_comestible()->default_nutrition.kcal * it.count() * rot_multip( it,
+        const int kcal = it.get_comestible()->default_nutrition.kcal() * it.count() * rot_multip( it,
                          container );
         if( kcal <= 0 ) {
             // can happen if calories is low and rot is high.
