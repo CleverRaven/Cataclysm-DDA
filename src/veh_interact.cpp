@@ -848,12 +848,23 @@ bool veh_interact::update_part_requirements()
     }
 
     std::string str_suffix;
+    int adjusted_strength = player_character.get_str();
     if( player_character.has_trait( trait_id( "STRONGBACK" ) ) ) {
-        str_suffix = std::to_string( std::max( static_cast<int>( str / 1.35 ), 1 ) ) + " (Strong Back)";
+        adjusted_strength *= 1.35;
     } else if( player_character.has_trait( trait_id( "BADBACK" ) ) ) {
-        str_suffix = std::to_string( static_cast<int>( str * 1.35 ) ) + " (Bad Back)";
-    } else {
-        str_suffix = std::to_string( str );
+        adjusted_strength /= 1.35;
+    }
+    adjusted_strength += player_character.get_lift_assist();
+
+    if( player_character.has_trait( trait_id( "STRONGBACK" ) ) && adjusted_strength >= str &&
+        player_character.get_str() < str ) {
+        str_suffix = "(Strong Back helped with +" + std::to_string( adjusted_strength -
+                     player_character.get_str() ) + " strength)\n";
+
+    } else if( player_character.has_trait( trait_id( "BADBACK" ) ) &&
+               player_character.get_str() >= str && adjusted_strength < str ) {
+        str_suffix = "(Bad Back hindered by " + std::to_string( adjusted_strength -
+                     player_character.get_str() ) + " strength)\n";
     }
 
     nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
@@ -861,9 +872,9 @@ bool veh_interact::update_part_requirements()
     const auto helpers = player_character.get_crafting_helpers();
     std::string str_string;
     if( !helpers.empty() ) {
-        str_string = string_format( _( "strength ( assisted ) %s" ), str_suffix );
+        str_string = string_format( _( "strength ( assisted ) %d %s" ), str, str_suffix );
     } else {
-        str_string = string_format( _( "strength %s" ), str_suffix );
+        str_string = string_format( _( "strength %d %s" ), str, str_suffix );
     }
     //~ %1$s is quality name, %2$d is quality level
     std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
@@ -1816,12 +1827,23 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     }
 
     std::string str_suffix;
+    int adjusted_strength = player_character.get_str();
     if( player_character.has_trait( trait_id( "STRONGBACK" ) ) ) {
-        str_suffix = std::to_string( std::max( static_cast<int>( str / 1.35 ), 1 ) ) + " (Strong Back)";
+        adjusted_strength *= 1.35;
     } else if( player_character.has_trait( trait_id( "BADBACK" ) ) ) {
-        str_suffix = std::to_string( static_cast<int>( str * 1.35 ) ) + " (Bad Back)";
-    } else {
-        str_suffix = std::to_string( str );
+        adjusted_strength /= 1.35;
+    }
+    adjusted_strength += player_character.get_lift_assist();
+
+    if( player_character.has_trait( trait_id( "STRONGBACK" ) ) && adjusted_strength >= str &&
+        player_character.get_str() < str ) {
+        str_suffix = "(Strong Back helped with +" + std::to_string( adjusted_strength -
+                     player_character.get_str() ) + " strength)\n";
+
+    } else if( player_character.has_trait( trait_id( "BADBACK" ) ) &&
+               player_character.get_str() >= str && adjusted_strength < str ) {
+        str_suffix = "(Bad Back hindered by " + std::to_string( adjusted_strength -
+                     player_character.get_str() ) + " strength)\n";
     }
 
     nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
@@ -1833,9 +1855,9 @@ bool veh_interact::can_remove_part( int idx, const player &p )
 
     std::string str_string;
     if( !helpers.empty() ) {
-        str_string = string_format( _( "strength ( assisted ) %s" ), str_suffix );
+        str_string = string_format( _( "strength ( assisted ) %d %s" ), str, str_suffix );
     } else {
-        str_string = string_format( _( "strength %s" ), str_suffix );
+        str_string = string_format( _( "strength %d %s" ), str, str_suffix );
     }
 
     nmsg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
