@@ -65,7 +65,7 @@
     "change_good_none": "You lie down.",
     "change_good_animal": "You stop your steed.",
     "change_good_mech": "You turn off your mech's leg servos.",
-    "move_type": "lying",
+    "move_type": "prone",
     "sound_multiplier": 0.2,
     "move_speed_multiplier": 0.2,
     "swim_speed_mod": 50

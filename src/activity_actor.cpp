@@ -1518,6 +1518,7 @@ void try_sleep_activity_actor::finish( player_activity &act, Character &who )
     if( !who.has_effect( effect_sleep ) ) {
         who.add_msg_if_player( _( "You try to sleep, but can't." ) );
     }
+    who.set_movement_mode( move_mode_id( "walk" ) );
 }
 
 void try_sleep_activity_actor::query_keep_trying( player_activity &act, Character &who )
