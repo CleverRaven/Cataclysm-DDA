@@ -186,6 +186,10 @@ ifdef MSYSTEM
   MSYS2 = 1
 endif
 
+ifneq (,$(findstring clang,$(COMPILER)))
+  CLANG = $(COMPILER)
+endif
+
 # Default to disabling clang
 ifndef CLANG
   CLANG = 0
@@ -278,9 +282,14 @@ else
   endif
 
   # Expand at reference time to avoid recursive reference
-  OS_COMPILER := $(CXX)
+  ifneq ($(COMPILER),)
+    OS_COMPILER := $(COMPILER)
+    OS_LINKER := $(COMPILER)
+  else
+    OS_COMPILER := $(CXX)
+    OS_LINKER := $(CXX)
+  endif
   # Appears that the default value of $LD is unsuitable on most systems
-  OS_LINKER := $(CXX)
   ifeq ($(CCACHE), 1)
     CXX = $(CCACHEBIN) $(CROSS)$(OS_COMPILER)
     LD  = $(CCACHEBIN) $(CROSS)$(OS_LINKER)
