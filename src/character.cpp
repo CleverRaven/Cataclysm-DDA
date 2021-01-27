@@ -8453,7 +8453,7 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
 
 int Character::get_armor_bash_base( bodypart_id bp ) const
 {
-    int ret = 0;
+    float ret = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
             ret += i.bash_resist();
@@ -8472,7 +8472,7 @@ int Character::get_armor_bash_base( bodypart_id bp ) const
 
 int Character::get_armor_cut_base( bodypart_id bp ) const
 {
-    int ret = 0;
+    float ret = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
             ret += i.cut_resist();
@@ -8491,7 +8491,7 @@ int Character::get_armor_cut_base( bodypart_id bp ) const
 
 int Character::get_armor_bullet_base( bodypart_id bp ) const
 {
-    int ret = 0;
+    float ret = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
             ret += i.bullet_resist();
@@ -8511,7 +8511,7 @@ int Character::get_armor_bullet_base( bodypart_id bp ) const
 
 int Character::get_env_resist( bodypart_id bp ) const
 {
-    int ret = 0;
+    float ret = 0;
     for( const item &i : worn ) {
         // Head protection works on eyes too (e.g. baseball cap)
         if( i.covers( bp ) || ( bp == body_part_eyes && i.covers( body_part_head ) ) ) {
@@ -9642,8 +9642,8 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     armor.mitigate_damage( du );
 
     // We want armor's own resistance to this type, not the resistance it grants
-    const int armors_own_resist = armor.damage_resist( du.type, true );
-    if( armors_own_resist > 1000 ) {
+    const float armors_own_resist = armor.damage_resist( du.type, true );
+    if( armors_own_resist > 1000.0f ) {
         // This is some weird type that doesn't damage armors
         return false;
     }
@@ -9658,7 +9658,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
 
     // Don't damage armor as much when bypassed by armor piercing
     // Most armor piercing damage comes from bypassing armor, not forcing through
-    const int raw_dmg = du.amount;
+    const float raw_dmg = du.amount;
     if( raw_dmg > armors_own_resist ) {
         // If damage is above armor value, the chance to avoid armor damage is
         // 50% + 50% * 1/dmg
