@@ -50,23 +50,22 @@ TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
         // based on the current state of json
         REQUIRE( attitude( "animal", "small_animal" ) == MFA_NEUTRAL );
         REQUIRE( mfaction_str_id( "small_animal" )->base_faction == mfaction_str_id( "animal" ) );
-        REQUIRE( mfaction_str_id( "fish" )->base_faction == mfaction_str_id( "small_animal" ) );
+        REQUIRE( mfaction_str_id( "fish" )->base_faction == mfaction_str_id( "animal" ) );
+        REQUIRE( attitude( "animal", "small_animal" ) == MFA_NEUTRAL );
+
+        INFO( "default attitude towards self takes precedence over inheritance from parents" );
+        CHECK( attitude( "small_animal", "small_animal" ) == MFA_FRIENDLY );
+
+        INFO( "fish is inherited from animal and should be neutral toward small_animal" );
+        CHECK( attitude( "fish", "small_animal" ) == MFA_NEUTRAL );
 
         INFO( "fish is a child of small_animal, and small_animal is friendly to itself" );
-        CHECK( attitude( "small_animal", "small_animal" ) == MFA_FRIENDLY );
-		
-        INFO( "default attitude towards self takes precedence over inheritance from parents" );
-        CHECK( attitude( "small_animal", "fish" ) == MFA_NEUTRAL );
-		CHECK( attitude( "fish", "fish" ) == MFA_FRIENDLY);
-
-        INFO( "fish is inherited from small animal and should be neutral toward herbivore" );
-        CHECK( attitude( "fish", "herbivore" ) == MFA_NEUTRAL );
-
+        CHECK( attitude( "small_animal", "fish" ) == MFA_FRIENDLY );
     }
 
     SECTION( "some random samples" ) {
         CHECK( attitude( "aquatic_predator", "fish" ) == MFA_HATE );
-        CHECK( attitude( "robofac", "zombie" ) == MFA_HATE );
+        CHECK( attitude( "robofac", "cop_zombie" ) == MFA_HATE );
 
         CHECK( attitude( "dragonfly", "defense_bot" ) == MFA_NEUTRAL );
         CHECK( attitude( "dragonfly", "dermatik" ) == MFA_HATE );
@@ -74,16 +73,10 @@ TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
         CHECK( attitude( "zombie_aquatic", "zombie" ) == MFA_FRIENDLY );
         CHECK( attitude( "zombie", "zombie_aquatic" ) == MFA_FRIENDLY );
         CHECK( attitude( "zombie", "spider_web" ) == MFA_NEUTRAL );
-        CHECK(attitude("zombie", "small_animal") == MFA_NEUTRAL);
 
         CHECK( attitude( "plant", "triffid" ) == MFA_FRIENDLY );
         CHECK( attitude( "plant", "utility_bot" ) == MFA_NEUTRAL );
 
         CHECK( attitude( "bee", "military" ) == MFA_NEUTRAL );
-
-        CHECK(attitude("bear", "bee") == MFA_HATE);
-        CHECK(attitude("bear", "vermin") == MFA_HATE);
-        CHECK(attitude("wolf", "pig") == MFA_HATE);
-        CHECK(attitude("small_animal", "zombie") == MFA_NEUTRAL);
     }
 }
