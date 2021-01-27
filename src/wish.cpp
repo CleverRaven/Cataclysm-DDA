@@ -65,14 +65,13 @@ class wish_mutate_callback: public uilist_callback
         wish_mutate_callback() = default;
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override {
             if( event.get_first_input() == 't' && p->has_trait( vTraits[ entnum ] ) ) {
-                if( p->has_base_trait( vTraits[ entnum ] ) ) {
-                    p->toggle_trait( vTraits[ entnum ] );
+                if( !p->has_base_trait( vTraits[ entnum ] ) ) {
                     p->unset_mutation( vTraits[ entnum ] );
-
-                } else {
-                    p->set_mutation( vTraits[ entnum ] );
-                    p->toggle_trait( vTraits[ entnum ] );
                 }
+
+                p->toggle_trait( vTraits[ entnum ] );
+                p->set_mutation( vTraits[ entnum ] );
+
                 menu->entries[ entnum ].text_color = p->has_trait( vTraits[ entnum ] ) ? c_green : menu->text_color;
                 menu->entries[ entnum ].extratxt.txt = p->has_base_trait( vTraits[ entnum ] ) ? "T" : "";
                 return true;
