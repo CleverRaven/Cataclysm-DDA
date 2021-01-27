@@ -825,6 +825,16 @@ int item_location::max_charges_by_parent_recursive( const item &it ) const
                      } );
 }
 
+bool item_location::eventually_contains( item_location loc ) const
+{
+    while( loc.has_parent() ) {
+        if( ( loc = loc.parent_item() ) == *this ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 item_location::type item_location::where() const
 {
     return ptr->where();

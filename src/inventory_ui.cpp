@@ -335,25 +335,9 @@ std::string inventory_selector_preset::cell_t::get_text( const inventory_entry &
 
 bool inventory_holster_preset::is_shown( const item_location &contained ) const
 {
-
-    if( holster.has_parent() ) {
-        std::function<bool( const item_location )> is_recursive_parent = [contained,
-        &is_recursive_parent]( const item_location tocheck )->bool {
-            if( tocheck.has_parent() )
-            {
-                if( tocheck.parent_item() == contained ) {
-                    return true;
-                }
-                return is_recursive_parent( tocheck.parent_item() );
-            }
-            return false;
-        };
-
-        if( is_recursive_parent( holster.parent_item() ) ) {
-            return false;
-        }
+    if( contained.eventually_contains( holster ) ) {
+        return false;
     }
-
     if( contained.where() != item_location::type::container
         && contained->made_of( phase_id::LIQUID ) ) {
         // spilt liquid cannot be picked up
