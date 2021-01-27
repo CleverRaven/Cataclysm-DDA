@@ -2146,13 +2146,6 @@ static std::list<item> obtain_activity_items(
 
     // Remove handled items from activity
     items.erase( items.begin(), it );
-    // And cancel if its empty. If its not, we modified in place and we will continue
-    // to resolve the drop next turn. This is different from the pickup logic which
-    // creates a brand new activity every turn and cancels the old activity
-    if( items.empty() ) {
-        who.cancel_activity();
-    }
-
     return res;
 }
 
@@ -2178,6 +2171,12 @@ void drop_activity_actor::do_turn( player_activity &, Character &who )
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
                               obtain_activity_items( items, handler, who ),
                               pos, force_ground );
+    // Cancel activity if items is empty. Otherwise, we modified in place and we will continue
+    // to resolve the drop next turn. This is different from the pickup logic which creates
+    // a brand new activity every turn and cancels the old activity
+    if( items.empty() ) {
+        who.cancel_activity();
+    }
 }
 
 void drop_activity_actor::canceled( player_activity &, Character &who )
@@ -2241,6 +2240,9 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
         stash_on_pet( obtain_activity_items( items, handler, who ),
                       *pet, who );
+        if( items.empty() ) {
+            who.cancel_activity();
+        }
     } else {
         who.add_msg_if_player( _( "The pet has moved somewhere else." ) );
         who.cancel_activity();
