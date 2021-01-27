@@ -243,7 +243,7 @@ void debug_menu::wishmutate( player *p )
         wmenu.entries[ c ].extratxt.txt.clear();
         wmenu.entries[ c ].extratxt.color = c_light_green;
         if( p->has_trait( traits_iter.id ) ) {
-            wmenu.entries[ c ].txt = string_format( "%s (active)", traits_iter.name() );
+            wmenu.entries[ c ].txt = string_format( _( "%s (active)" ), traits_iter.name() );
             wmenu.entries[ c ].text_color = c_green;
             if( p->has_base_trait( traits_iter.id ) ) {
                 wmenu.entries[ c ].extratxt.txt = "T";
@@ -303,7 +303,7 @@ void debug_menu::wishmutate( player *p )
                     uilist_entry &entry = wmenu.entries[ i ];
                     entry.extratxt.txt.clear();
                     if( p->has_trait( cb.vTraits[ i ] ) ) {
-                        entry.txt = string_format( "%s (active)", cb.vTraits[ i ].obj().name() );
+                        entry.txt = string_format( _( "%s (active)" ), cb.vTraits[ i ].obj().name() );
                         entry.enabled = true;
                         entry.text_color = c_green;
                         cb.pTraits[ cb.vTraits[ i ] ] = true;
