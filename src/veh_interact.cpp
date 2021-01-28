@@ -1832,7 +1832,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
                                     lift_strength - player_character.get_str() );
     } else if( player_character.has_trait( trait_id( "BADBACK" ) ) && total_base_strength >= str &&
                total_lift_strength < str ) {
-        str_suffix = string_format( _( "(Bad Back hindered by %d strength)\n" ),
+        str_suffix = string_format( _( "(Bad Back reduced usable strength by %d)\n" ),
                                     lift_strength - player_character.get_str() );
     }
 
