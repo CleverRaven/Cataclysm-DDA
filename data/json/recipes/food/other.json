@@ -173,7 +173,7 @@
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ], ["sweet_water", 1] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
       [ [ "gelatin_powder", 25 ], [ "gelatin_fresh", 1 ] ],
       [ [ "sugar", 100 ] ],
       [ [ "sweet_juice", 1, "LIST" ], [ "soda_pop", 1, "LIST" ] ]
