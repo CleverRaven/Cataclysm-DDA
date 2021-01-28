@@ -56,15 +56,14 @@ static float dodge_wearing_item( avatar &dummy, item &clothing )
 {
     // Get nekkid and wear just this one item
 
+    std::list<item> temp;
     while( true ) {
         item &it = dummy.i_at( -2 );
 
-        //If the item is a null pointer then we don't need to take it off.
         if( it.is_null() ) {
             break;
         }
-
-        if( !dummy.takeoff( item_location( *dummy.as_character(), &it ) ) ) {
+        if( !dummy.takeoff( item_location( *dummy.as_character(), &it ), &temp ) ) {
             break;
         }
     }
