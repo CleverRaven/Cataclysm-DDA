@@ -137,12 +137,12 @@ bool map::build_transparency_cache( const int zlev )
                 }
                 float value_wo_fields = value;
                 for( const auto &fld : cur_submap->get_field( sp ) ) {
-                    const field_entry &cur = fld.second;
-                    if( cur.is_transparent() ) {
+                    const field_intensity_level &i_level = fld.second.get_intensity_level();
+                    if( i_level.transparent ) {
                         continue;
                     }
                     // Fields are either transparent or not, however we want some to be translucent
-                    value = value * cur.translucency();
+                    value = value * i_level.translucency;
                 }
                 // TODO: [lightmap] Have glass reduce light as well
                 return std::make_pair( value, value_wo_fields );
@@ -480,11 +480,11 @@ void map::generate_lightmap( const int zlev )
 
                     for( const auto &fld : cur_submap->get_field( { sx, sy } ) ) {
                         const field_entry *cur = &fld.second;
-                        const int light_emitted = cur->light_emitted();
+                        const int light_emitted = cur->get_intensity_level().light_emitted;
                         if( light_emitted > 0 ) {
                             add_light_source( p, light_emitted );
                         }
-                        const float light_override = cur->local_light_override();
+                        const float light_override = cur->get_intensity_level().local_light_override;
                         if( light_override >= 0.0f ) {
                             lm_override.push_back( std::pair<tripoint, float>( p, light_override ) );
                         }

@@ -8,100 +8,24 @@
 #include "make_static.h"
 #include "rng.h"
 
-int field_entry::move_cost() const
+std::string field_entry::symbol() const
 {
-    return type.obj().get_move_cost( intensity - 1 );
-}
-
-int field_entry::extra_radiation_min() const
-{
-    return type.obj().get_extra_radiation_min( intensity - 1 );
-}
-
-int field_entry::extra_radiation_max() const
-{
-    return type.obj().get_extra_radiation_max( intensity - 1 );
-}
-
-int field_entry::radiation_hurt_damage_min() const
-{
-    return type.obj().get_radiation_hurt_damage_min( intensity - 1 );
-}
-
-int field_entry::radiation_hurt_damage_max() const
-{
-    return type.obj().get_radiation_hurt_damage_max( intensity - 1 );
-}
-
-std::string field_entry::radiation_hurt_message() const
-{
-    return type.obj().get_radiation_hurt_message( intensity - 1 );
-}
-
-int field_entry::intensity_upgrade_chance() const
-{
-    return type.obj().get_intensity_upgrade_chance( intensity - 1 );
-}
-
-time_duration field_entry::intensity_upgrade_duration() const
-{
-    return type.obj().get_intensity_upgrade_duration( intensity - 1 );
-}
-
-int field_entry::monster_spawn_chance() const
-{
-    return type.obj().get_monster_spawn_chance( intensity - 1 );
-}
-
-int field_entry::monster_spawn_count() const
-{
-    return type.obj().get_monster_spawn_count( intensity - 1 );
-}
-
-int field_entry::monster_spawn_radius() const
-{
-    return type.obj().get_monster_spawn_radius( intensity - 1 );
-}
-
-mongroup_id field_entry::monster_spawn_group() const
-{
-    return type.obj().get_monster_spawn_group( intensity - 1 );
-}
-
-float field_entry::light_emitted() const
-{
-    return type.obj().get_light_emitted( intensity - 1 );
-}
-
-float field_entry::local_light_override() const
-{
-    return type.obj().get_local_light_override( intensity - 1 );
-}
-
-float field_entry::translucency() const
-{
-    return type.obj().get_translucency( intensity - 1 );
-}
-
-bool field_entry::is_transparent() const
-{
-    return type.obj().get_transparent( intensity - 1 );
-}
-
-int field_entry::convection_temperature_mod() const
-{
-    return type.obj().get_convection_temperature_mod( intensity - 1 );
+    return get_field_type()->get_symbol( get_field_intensity() - 1 );
 }
 
 nc_color field_entry::color() const
 {
-    return type.obj().get_color( intensity - 1 );
+    return get_intensity_level().color;
 }
 
-std::string field_entry::symbol() const
+const field_intensity_level &field_entry::get_intensity_level() const
 {
-    return type.obj().get_symbol( intensity - 1 );
+    return get_field_type()->get_intensity_level( intensity - 1 );
+}
 
+bool field_entry::is_dangerous() const
+{
+    return get_intensity_level().dangerous;
 }
 
 field_type_id field_entry::get_field_type() const
@@ -312,7 +236,7 @@ int field::total_move_cost() const
 {
     int current_cost = 0;
     for( const auto &fld : _field_type_list ) {
-        current_cost += fld.second.move_cost();
+        current_cost += fld.second.get_intensity_level().move_cost;
     }
     return current_cost;
 }
