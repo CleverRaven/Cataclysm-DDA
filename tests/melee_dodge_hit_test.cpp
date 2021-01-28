@@ -55,14 +55,9 @@ static float dodge_with_effect( Creature &critter, const std::string &effect_nam
 static float dodge_wearing_item( avatar &dummy, item &clothing )
 {
     // Get nekkid and wear just this one item
-    std::list<item> temp;
 
-    //Only take off the shoes if they are worn.
-    item shoes = dummy.i_at(-2);
-    if( &shoes ) {
-        item_location loc = item_location( *dummy.as_character(), &dummy.i_at( -2 ) );
-        while( dummy.takeoff( loc, &temp ) ) {}
-    }
+    item_location loc = item_location( *dummy.as_character(), &dummy.i_at( -2 ) );
+    while( dummy.takeoff( loc ) ) {}
 
     dummy.wear_item( clothing );
 
