@@ -285,7 +285,7 @@
       [ [ "beet_syrup", 1 ] ],
       [ [ "chem_agar", 50 ] ],
       [ [ "sugar", 200 ] ],
-      [ [ "sweet_juice", 1, "LIST" ], [ "soda_pop", 1, "LIST" ] ] 
+      [ [ "sweet_juice", 1, "LIST" ], [ "soda_pop", 1, "LIST" ] ]
     ]
   }
 ]
