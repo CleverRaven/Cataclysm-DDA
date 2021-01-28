@@ -2008,9 +2008,9 @@ void options_manager::add_options_graphics()
          to_translation( "Use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
          false, COPT_CURSES_HIDE
        );
-       
-       // Allows the player to override default map tile memory limit.
-       // WARNING: Increasing this value without bound can quickly exhaust system memory!
+
+    // Allows the player to override default map tile memory limit.
+    // WARNING: Increasing this value without bound can quickly exhaust system memory!
     add( "MEMORIZED_TILE_COUNT", "debug", to_translation( "Map tile memory capacity" ),
          to_translation( "Controls number of memorized seen map tiles.  High values increase memory usage and time to recall a tile." ),
          0, INT_MAX, 2 * SEEX * 2 * SEEY * 1000
