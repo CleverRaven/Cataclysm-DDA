@@ -263,7 +263,7 @@
       [ [ "beet_syrup", 1 ]],
       [ [ "gelatin_powder", 50 ], [ "gelatin_fresh", 2 ] ],
       [ [ "sugar", 200 ] ],
-      [ [ "sweet_juice", 1, "LIST" ], [ "soda_pop", 1, "LIST" ] ] 
+      [ [ "sweet_juice", 1, "LIST" ], [ "soda_pop", 1, "LIST" ] ]
     ]
   },
   {
