@@ -3119,7 +3119,6 @@ bool options_manager::save()
     const auto savefile = PATH_INFO::options();
 
     update_options_cache();
-    
     memorized_tile_count = ::get_option<int>( "MEMORIZED_TILE_COUNT" );
 
     update_music_volume();
