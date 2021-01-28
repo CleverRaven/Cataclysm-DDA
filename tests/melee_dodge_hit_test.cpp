@@ -58,7 +58,8 @@ static float dodge_wearing_item( avatar &dummy, item &clothing )
     std::list<item> temp;
 
     //Only take off the shoes if they are worn.
-    if( &dummy.i_at( -2 ) ) {
+    item shoes = dummy.i_at(-2);
+    if( &shoes ) {
         item_location loc = item_location( *dummy.as_character(), &dummy.i_at( -2 ) );
         while( dummy.takeoff( loc, &temp ) ) {}
     }
