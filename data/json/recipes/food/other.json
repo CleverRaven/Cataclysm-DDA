@@ -238,7 +238,7 @@
     "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
-      [ [ "chem_agar", 25 ]],
+      [ [ "chem_agar", 25 ] ],
       [ [ "sugar", 100 ] ],
       [ [ "sweet_juice", 1, "LIST" ], [ "soda_pop", 1, "LIST" ] ],
       [ [ "sweet_fruit", 1, "LIST" ] ]
