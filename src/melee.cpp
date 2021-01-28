@@ -473,7 +473,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 {
     if( get_working_leg_count() < 2 ) {
         if( !movement_mode_is( move_mode_id( "prone" ) ) ) {
-            add_msg_if_player( "Your broken legs cannot hold you and you fall down" );
+            add_msg_if_player( m_bad, _( "Your broken legs cannot hold you and you fall down." ) );
             set_movement_mode( move_mode_id( "prone" ) );
         } else if( is_on_ground() ) {
             add_msg_if_player( m_warning, _( "You cannot fight while on the ground." ) );
