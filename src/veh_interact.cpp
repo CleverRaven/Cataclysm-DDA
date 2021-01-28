@@ -1828,7 +1828,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
 
     if( player_character.has_trait( trait_id( "STRONGBACK" ) ) && total_lift_strength >= str &&
         total_base_strength < str ) {
-        str_suffix = string_format( _( "(Strong Back helped with +%d strength)\n" ),
+        str_suffix = string_format( _( "(Strong Back helped, giving +%d strength)\n" ),
                                     lift_strength - player_character.get_str() );
     } else if( player_character.has_trait( trait_id( "BADBACK" ) ) && total_base_strength >= str &&
                total_lift_strength < str ) {
