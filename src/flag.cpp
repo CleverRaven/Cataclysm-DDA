@@ -281,6 +281,7 @@ const flag_id flag_SUPER_FANCY( "SUPER_FANCY" );
 const flag_id flag_SWIM_GOGGLES( "SWIM_GOGGLES" );
 const flag_id flag_TACK( "TACK" );
 const flag_id flag_TANGLE( "TANGLE" );
+const flag_id flag_NON_FLIERS( "NON_FLIERS" );
 const flag_id flag_TARDIS( "TARDIS" );
 const flag_id flag_THERMOMETER( "THERMOMETER" );
 const flag_id flag_THIN_OBSTACLE( "THIN_OBSTACLE" );

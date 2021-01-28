@@ -1756,6 +1756,12 @@
     "context": [  ]
   },
   {
+    "id": "NON_FLIERS",
+    "type": "json_flag",
+    "context": [  ],
+    "//": "This effect is ignored by monsters with FLIES flag"
+  },
+  {
     "id": "TARDIS",
     "type": "json_flag",
     "context": [  ]

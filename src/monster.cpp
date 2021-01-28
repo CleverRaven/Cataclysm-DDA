@@ -60,6 +60,7 @@
 #include "units.h"
 #include "viewer.h"
 #include "weather.h"
+#include "flag.h"
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_beartrap( "beartrap" );
@@ -1327,6 +1328,10 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 
     if( effect == effect_stunned ) {
         return has_flag( MF_STUN_IMMUNE );
+    }
+
+    if( effect->has_flag( flag_NON_FLIERS ) ) {
+        return has_flag( MF_FLIES );
     }
 
     return false;

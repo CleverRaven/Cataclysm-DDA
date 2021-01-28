@@ -83,7 +83,8 @@
     "apply_message": "Roots and vines entangle your foes to slow them!",
     "remove_message": "The roots and vines wither up and die.",
     "base_mods": { "speed_mod": [ -60 ] },
-    "scaling_mods": { "speed_mod": [ -10 ] }
+    "scaling_mods": { "speed_mod": [ -10 ] },
+    "flags": [ "NON_FLIERS" ]
   },
   {
     "type": "effect_type",
@@ -95,7 +96,8 @@
     "apply_message": "Roots rip out from the ground and impale your enemies!",
     "remove_message": "The roots wither up and die.",
     "base_mods": { "speed_mod": [ -30 ] },
-    "scaling_mods": { "speed_mod": [ -10 ] }
+    "scaling_mods": { "speed_mod": [ -10 ] },
+    "flags": [ "NON_FLIERS" ]
   },
   {
     "type": "effect_type",
