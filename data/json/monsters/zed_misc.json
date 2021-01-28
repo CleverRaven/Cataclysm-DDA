@@ -909,7 +909,7 @@
     "id": "mon_zombie_regenerate", 
     "type": "MONSTER",
     "name": { "str": "regenerating zombie" },
-    "description": "A hairless zombie with pale pinkish flesh that appears to be squirming and moving across it's body, quickly covering and fixing any wounds that it recieves. bullet sized holes in whatever scraps of clothes still remain on it suggest someone else tried to take it down before you.",
+    "description": "A hairless zombie with pale pinkish flesh that appears to be squirming and moving across it's body, quickly covering and fixing any wounds that it recieves. it's clothing is riddled with holes, suggesting someone else tried to take it down before you.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
