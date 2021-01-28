@@ -537,7 +537,7 @@ static void field_processor_fd_acid( const tripoint &p, field_entry &cur, field_
     }
 
     // TODO: Allow spreading to the sides if age < 0 && intensity == 3
-};
+}
 
 static void field_processor_fd_extinguisher( const tripoint &p, field_entry &cur,
         field_proc_data &pd )
