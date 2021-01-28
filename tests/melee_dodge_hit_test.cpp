@@ -56,8 +56,18 @@ static float dodge_wearing_item( avatar &dummy, item &clothing )
 {
     // Get nekkid and wear just this one item
 
-    item_location loc = item_location( *dummy.as_character(), &dummy.i_at( -2 ) );
-    while( dummy.takeoff( loc ) ) {}
+    while( true ) {
+        item &it = dummy.i_at( -2 );
+
+        //If the item is a null pointer then we don't need to take it off.
+        if( it.is_null() ) {
+            break;
+        }
+
+        if( !dummy.takeoff( item_location( *dummy.as_character(), &it ) ) ) {
+            break;
+        }
+    }
 
     dummy.wear_item( clothing );
 
