@@ -2014,7 +2014,7 @@ void options_manager::add_options_graphics()
     add( "MEMORIZED_TILE_COUNT", "debug", to_translation( "Map tile memory capacity" ),
          to_translation( "Controls number of memorized seen map tiles.  High values increase memory usage and time to recall a tile." ),
          0, INT_MAX, 2 * SEEX * 2 * SEEY * 1000
-         );
+       );
 
 #if defined(__ANDROID__)
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
