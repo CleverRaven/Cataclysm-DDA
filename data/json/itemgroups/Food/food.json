@@ -47,6 +47,8 @@
       { "item": "dry_lentils", "prob": 30 },
       { "item": "dry_rice", "prob": 40 },
       { "item": "freeze_dried_meal", "prob": 10 },
+      { "item": "gelatin_powder", "prob": 40 },
+      { "item": "chem_agar", "prob": 15 },
       { "item": "gelatin_dessert_powder_cherry", "prob": 40 },
       { "item": "gelatin_dessert_powder_lime", "prob": 40 },
       { "item": "gelatin_dessert_powder_grape", "prob": 40 },

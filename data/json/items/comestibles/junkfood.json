@@ -328,14 +328,35 @@
     "symbol": "%",
     "healthy": -1,
     "calories": 85,
-    "description": "A handful of colorful fruit-flavored gummy candies.",
+    "description": "A handful of colorful fruit and soda pop flavored gummy candies.",
     "price": 180,
     "price_postapoc": 200,
-    "material": [ "junk" ],
+    "material": [ "junk", "flesh" ],
     "volume": "90 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 3,
     "fun": 5
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "candy5",
+    "name": { "str_sp": "gummy candy" },
+    "weight": "46 g",
+    "color": "light_green",
+    "spoils_in": "360 days",
+    "container": "bag_plastic",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": -1,
+    "calories": 85,
+    "description": "A handful of colorful fruit and soda pop flavored vegan gummy candies made from agar. They have kind of a strange texture, but they're still tasty.",
+    "price": 180,
+    "price_postapoc": 200,
+    "material": [ "junk", "veggy" ],
+    "volume": "90 ml",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "charges": 3,
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
@@ -1376,9 +1397,10 @@
     "description": "An unflavored jiggly, sugary treat made from gelatin and sugar. This would taste better with some flavor.",
     "price": 210,
     "price_postapoc": 250,
+    "material": [ "flesh", "junk" ],
     "volume": "250 ml",
     "phase": "solid",
-    "fun": 5    
+    "fun": 5
   },
   {
     "type": "COMESTIBLE",
@@ -1386,7 +1408,7 @@
     "name": "cherry gelatin dessert",
     "color": "red",
     "description": "A cherry flavored jiggly, sugary treat made from gelatin and sugar. A kid favorite pre-Cataclysm.",
-    "fun": 20, 
+    "fun": 20,
     "copy-from": "gelatin_dessert_base"
   },
   {
@@ -1433,7 +1455,27 @@
     "description": "A jiggly, sugary treat made from gelatin and sugar flavored with fruit juice and set with fruit. A kid favorite pre-Cataclysm and a healthy treat",
     "fun": 20,
     "healthy": 1,
-    "copy-from": "gelatin_dessert_powder_base"
+    "copy-from": "gelatin_dessert_base"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "gelatin_dessert_vegan",
+    "name": "vegan gelatin dessert",
+    "color": "light_green",
+    "description": "A vegan friendly homemade jiggly, sugary treat made from agar and sugar flavored with fruit juice. A kid favorite pre-Cataclysm. They'll never know the difference.",
+    "fun": 20,
+    "material": [ "veggy", "junk" ],
+    "copy-from": "gelatin_dessert_base"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "gelatin_dessert_vegan_fruit",
+    "name": "fruit filled vegan gelatin dessert",
+    "color": "light_green",
+    "description": "A vegan friendly jiggly, sugary treat made from agar and sugar flavored with fruit juice and set with fruit. A kid favorite pre-Cataclysm and a healthy treat",
+    "fun": 15,
+    "material": [ "veggy", "junk" ],
+    "healthy": 1,
+    "copy-from": "gelatin_dessert_base"
   }
-  
 ]

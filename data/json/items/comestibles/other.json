@@ -171,7 +171,6 @@
     "charges": 25,
     "fun": -10
   },
-  
   {
     "type": "COMESTIBLE",
     "id": "meal_bone",
@@ -911,5 +910,44 @@
     "price_postapoc": 200,
     "freezing_point": -459,
     "description": "A small packet of commercial instant coffee powder.  No creamer or sweetener added."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "acid_soaked_hide",
+    "name": "acid soaked hide",
+    "description": "Raw hide soaking in a dilute acid solution to extract collagen. After 24 hours the solution can be strained to extract fresh gelatin.",
+    "weight": "500 g",
+    "color": "yellow",
+    "sealed": false,
+    "symbol": "~",
+    "calories": 9,
+    "quench": 6,
+    "fun": -10,
+    "price": 0,
+    "volume": "10L",
+    "price_postapoc": 10,
+    "phase": "liquid",
+    "comestible_type": "DRINK",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "brewable": { "time": "24 hours", "results": [ "gelatin_extracted" ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "gelatin_extracted",
+    "name": "extracted gelatin",
+    "description": "Freshly extracted gelatin in a dilute acid solution. It needs to be strained to separate the gelatin from the acid.",
+    "weight": "500 g",
+    "color": "yellow",
+    "sealed": false,
+    "symbol": "~",
+    "calories": 9,
+    "quench": 6,
+    "fun": -10,
+    "price": 0,
+    "volume": "10L",
+    "price_postapoc": 10,
+    "phase": "liquid",
+    "comestible_type": "DRINK",
+    "flags": [ "NUTRIENT_OVERRIDE" ]
   }
 ]
