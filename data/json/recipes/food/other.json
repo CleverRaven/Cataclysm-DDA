@@ -259,8 +259,8 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 16, "LIST" ] ], [ [ "mold_plastic", 1 ] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ], ["sweet_water", 1] ],
-      [ [ "beet_syrup", 1 ]],
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
+      [ [ "beet_syrup", 1 ] ],
       [ [ "gelatin_powder", 50 ], [ "gelatin_fresh", 2 ] ],
       [ [ "sugar", 200 ] ],
       [ [ "sweet_juice", 1, "LIST" ], [ "soda_pop", 1, "LIST" ] ]
