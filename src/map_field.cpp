@@ -495,7 +495,7 @@ static void field_processor_upgrade_intensity( const tripoint &, field_entry &cu
         one_in( int_level.intensity_upgrade_chance ) ) {
         cur.mod_field_intensity( 1 );
     }
-};
+}
 
 static void field_processor_underwater_dissipation( const tripoint &, field_entry &cur,
         field_proc_data &pd )
