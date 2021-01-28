@@ -848,23 +848,18 @@ bool veh_interact::update_part_requirements()
     }
 
     std::string str_suffix;
-    int adjusted_strength = player_character.get_str();
-    if( player_character.has_trait( trait_id( "STRONGBACK" ) ) ) {
-        adjusted_strength *= 1.35;
-    } else if( player_character.has_trait( trait_id( "BADBACK" ) ) ) {
-        adjusted_strength /= 1.35;
-    }
-    adjusted_strength += player_character.get_lift_assist();
+    int lift_strength = player_character.get_lift_str();
+    int total_lift_strength = lift_strength + player_character.get_lift_assist();
+    int total_base_strength = player_character.get_str() + player_character.get_lift_assist();
 
-    if( player_character.has_trait( trait_id( "STRONGBACK" ) ) && adjusted_strength >= str &&
-        ( player_character.get_str() + player_character.get_lift_assist() ) < str ) {
-        str_suffix = "(Strong Back helped with +" + std::to_string( static_cast<int>
-                     ( player_character.get_str() * 1.35 ) - player_character.get_str() ) + " strength)\n";
-    } else if( player_character.has_trait( trait_id( "BADBACK" ) ) &&
-               ( player_character.get_str() + player_character.get_lift_assist() ) >= str &&
-               adjusted_strength < str ) {
-        str_suffix = "(Bad Back hindered by " + std::to_string( static_cast<int>
-                     ( player_character.get_str() / 1.35 ) - player_character.get_str() ) + " strength)\n";
+    if( player_character.has_trait( trait_id( "STRONGBACK" ) ) && total_lift_strength >= str &&
+        total_base_strength < str ) {
+        str_suffix = string_format( _( "(Strong Back helped with +%d strength)\n" ),
+                                    lift_strength - player_character.get_str() );
+    } else if( player_character.has_trait( trait_id( "BADBACK" ) ) && total_base_strength >= str &&
+               total_lift_strength < str ) {
+        str_suffix = string_format( _( "(Bad Back hindered by %d strength)\n" ),
+                                    lift_strength - player_character.get_str() );
     }
 
     nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
@@ -1827,23 +1822,18 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     }
 
     std::string str_suffix;
-    int adjusted_strength = player_character.get_str();
-    if( player_character.has_trait( trait_id( "STRONGBACK" ) ) ) {
-        adjusted_strength *= 1.35;
-    } else if( player_character.has_trait( trait_id( "BADBACK" ) ) ) {
-        adjusted_strength /= 1.35;
-    }
-    adjusted_strength += player_character.get_lift_assist();
+    int lift_strength = player_character.get_lift_str();
+    int total_lift_strength = lift_strength + player_character.get_lift_assist();
+    int total_base_strength = player_character.get_str() + player_character.get_lift_assist();
 
-    if( player_character.has_trait( trait_id( "STRONGBACK" ) ) && adjusted_strength >= str &&
-        ( player_character.get_str() + player_character.get_lift_assist() ) < str ) {
-        str_suffix = "(Strong Back helped with +" + std::to_string( static_cast<int>
-                     ( player_character.get_str() * 1.35 ) - player_character.get_str() ) + " strength)\n";
-    } else if( player_character.has_trait( trait_id( "BADBACK" ) ) &&
-               ( player_character.get_str() + player_character.get_lift_assist() ) >= str &&
-               adjusted_strength < str ) {
-        str_suffix = "(Bad Back hindered by " + std::to_string( static_cast<int>
-                     ( player_character.get_str() / 1.35 ) - player_character.get_str() ) + " strength)\n";
+    if( player_character.has_trait( trait_id( "STRONGBACK" ) ) && total_lift_strength >= str &&
+        total_base_strength < str ) {
+        str_suffix = string_format( _( "(Strong Back helped with +%d strength)\n" ),
+                                    lift_strength - player_character.get_str() );
+    } else if( player_character.has_trait( trait_id( "BADBACK" ) ) && total_base_strength >= str &&
+               total_lift_strength < str ) {
+        str_suffix = string_format( _( "(Bad Back hindered by %d strength)\n" ),
+                                    lift_strength - player_character.get_str() );
     }
 
     nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
