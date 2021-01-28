@@ -491,6 +491,10 @@ def extract_gun(item):
     if "reload_noise" in item:
         item_reload_noise = item.get("reload_noise")
         writestr(outfile, item_reload_noise)
+    if "use_action" in item:
+        use_action = item.get("use_action")
+        item_name = item.get("name")
+        extract_use_action_msgs(outfile, use_action, item_name, {})
 
 
 def extract_gunmod(item):
