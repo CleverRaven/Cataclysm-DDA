@@ -495,7 +495,7 @@
     "id": "laptop_boris",
     "copy-from": "laptop",
     "type": "TOOL",
-    "name": "Ash's laptop computer",
+    "name": { "str": "Ash's laptop computer" },
     "description": "A small, somewhat worn-out laptop computer.  The flip-top is decorated with various stickers."
   }
 ]

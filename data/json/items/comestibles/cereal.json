@@ -109,7 +109,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cereal",
-    "name": "sugary cereal",
+    "name": { "str": "sugary cereal" },
     "weight": "38 g",
     "color": "yellow",
     "spoils_in": "90 days",
@@ -144,7 +144,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cereal3",
-    "name": "corn cereal",
+    "name": { "str": "corn cereal" },
     "weight": "39 g",
     "color": "yellow",
     "spoils_in": "90 days",

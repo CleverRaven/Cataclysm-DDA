@@ -40,7 +40,7 @@
   {
     "id": "AO_FORCE_PULL",
     "type": "SPELL",
-    "name": "Artifact Force Pull",
+    "name": { "str": "Artifact Force Pull" },
     "description": "Pull objects.",
     "effect": "area_pull",
     "shape": "blast",
@@ -55,7 +55,7 @@
   {
     "id": "AO_TELEPORTITIS",
     "type": "SPELL",
-    "name": "Artifact Teleportitis",
+    "name": { "str": "Artifact Teleportitis" },
     "description": "Causes you to teleport uncontrollably.",
     "message": "The world loses coherence, with images of nearby places forming and disappearing around you.",
     "valid_targets": [ "self" ],
@@ -69,7 +69,7 @@
   {
     "id": "AO_SLOW",
     "type": "SPELL",
-    "name": "Artifact Slow",
+    "name": { "str": "Artifact Slow" },
     "description": "Slows you for a few turns.",
     "message": "The world shifts blue, and reality accelerates around you.",
     "valid_targets": [ "self" ],
@@ -83,7 +83,7 @@
   {
     "id": "AO_TIME_STOP",
     "type": "SPELL",
-    "name": "Artifact Time Stop",
+    "name": { "str": "Artifact Time Stop" },
     "description": "Grants you a few turns of super speed.",
     "message": "Stale golden light floods the world, and reality stands still.",
     "valid_targets": [ "self" ],

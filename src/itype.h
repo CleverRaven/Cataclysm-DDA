@@ -181,11 +181,11 @@ struct islot_comestible {
         static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 
         bool has_calories() const {
-            return default_nutrition.kcal > 0;
+            return default_nutrition.calories > 0;
         }
 
         int get_default_nutr() const {
-            return default_nutrition.kcal / kcal_per_nutr;
+            return default_nutrition.kcal() / kcal_per_nutr;
         }
 
         /** The monster group that is drawn from when the item rots away */
@@ -238,9 +238,10 @@ struct islot_armor {
     */
     bool sided = false;
     /**
-     * TODO: document me.
+     * Material protection stats are multiplied by this number
+     * to determine armor protection values.
      */
-    int thickness = 0;
+    float thickness = 0.0f;
     /**
      * Resistance to environmental effects.
      */

@@ -1998,7 +1998,7 @@ void islot_armor::load( const JsonObject &jo )
         }
     }
 
-    optional( jo, was_loaded, "material_thickness", thickness, 0 );
+    optional( jo, was_loaded, "material_thickness", thickness, 0.0f );
     optional( jo, was_loaded, "environmental_protection", env_resist, 0 );
     optional( jo, was_loaded, "environmental_protection_with_filter", env_resist_w_filter, 0 );
     optional( jo, was_loaded, "warmth", warmth, 0 );
@@ -2263,19 +2263,24 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     bool got_calories = false;
 
     if( jo.has_member( "calories" ) ) {
-        slot.default_nutrition.kcal = jo.get_int( "calories" );
+        // The value here is in kcal, but is stored as simply calories
+        slot.default_nutrition.calories = 1000 * jo.get_int( "calories" );
         got_calories = true;
 
     } else if( relative.has_member( "calories" ) ) {
-        slot.default_nutrition.kcal += relative.get_int( "calories" );
+        // The value here is in kcal, but is stored as simply calories
+        slot.default_nutrition.calories += 1000 * relative.get_int( "calories" );
         got_calories = true;
 
     } else if( proportional.has_member( "calories" ) ) {
-        slot.default_nutrition.kcal *= proportional.get_float( "calories" );
+        // The value here is in kcal, but is stored as simply calories
+        slot.default_nutrition.calories *= proportional.get_float( "calories" );
         got_calories = true;
 
     } else if( jo.has_member( "nutrition" ) ) {
-        slot.default_nutrition.kcal = jo.get_int( "nutrition" ) * islot_comestible::kcal_per_nutr;
+        // The value here is in kcal, but is stored as simply calories
+        slot.default_nutrition.calories = jo.get_int( "nutrition" ) * islot_comestible::kcal_per_nutr *
+                                          1000;
     }
 
     if( jo.has_member( "nutrition" ) && got_calories ) {

@@ -39,11 +39,15 @@
       { "item": "yoghurt", "prob": 80 },
       { "item": "butter", "prob": 80 },
       { "item": "pudding", "prob": 30 },
+<<<<<<< HEAD
       { "item": "gelatin_dessert_cherry", "prob": 20 },
       { "item": "gelatin_dessert_lime", "prob": 20 },
       { "item": "gelatin_dessert_grape", "prob": 20 },
       { "item": "gelatin_dessert_raspberry", "prob": 20 },
       { "item": "egg_bird_unfert", "prob": 85, "count-min": 1, "count-max": 12 },
+=======
+      { "item": "egg_bird_unfert", "prob": 85, "charges-min": 1, "charges-max": 12, "container-item": "carton_egg" },
+>>>>>>> 854f10d0c1df776ffc58bc81914675643511374c
       { "item": "bacon", "prob": 25 },
       {
         "distribution": [ { "item": "lunchmeat", "prob": 60 }, { "item": "bologna", "prob": 40 }, { "item": "tofu", "prob": 30 } ],
@@ -316,7 +320,7 @@
       { "item": "yoghurt", "prob": 20 },
       { "item": "butter", "prob": 30 },
       { "item": "pudding", "prob": 10 },
-      { "item": "egg_bird_unfert", "prob": 55, "count-min": 1, "count-max": 2 },
+      { "item": "egg_bird_unfert", "prob": 55, "charges-min": 1, "charges-max": 2, "container-item": "carton_egg" },
       { "item": "bacon", "prob": 65 },
       {
         "distribution": [
@@ -627,11 +631,15 @@
       { "item": "yoghurt", "prob": 20 },
       { "item": "butter", "prob": 20 },
       { "item": "pudding", "prob": 20 },
+<<<<<<< HEAD
       { "item": "gelatin_dessert_cherry", "prob": 10 },
       { "item": "gelatin_dessert_lime", "prob": 10 },
       { "item": "gelatin_dessert_grape", "prob": 10 },
       { "item": "gelatin_dessert_raspberry", "prob": 10 },
       { "item": "egg_bird_unfert", "prob": 20, "count-min": 1, "count-max": 12 },
+=======
+      { "item": "egg_bird_unfert", "prob": 20, "charges-min": 1, "charges-max": 12, "container-item": "carton_egg" },
+>>>>>>> 854f10d0c1df776ffc58bc81914675643511374c
       { "item": "bacon", "prob": 25 },
       {
         "distribution": [ { "item": "lunchmeat", "prob": 60 }, { "item": "bologna", "prob": 40 }, { "item": "tofu", "prob": 30 } ],

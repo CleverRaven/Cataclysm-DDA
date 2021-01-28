@@ -771,6 +771,39 @@
   },
   {
     "type": "item_group",
+    "id": "food_vendor_cart_kitchen",
+    "subtype": "collection",
+    "entries": [
+      { "item": "cheeseburger", "count": [ 0, 3 ] },
+      { "item": "hamburger", "count": [ 0, 3 ] },
+      { "item": "hamburger", "count": [ 0, 3 ] },
+      { "item": "sloppyjoe", "count": [ 0, 3 ] },
+      { "item": "fries", "count": [ 0, 3 ] },
+      { "item": "bacon", "count": [ 0, 3 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "food_vendor_cart_fridge",
+    "subtype": "collection",
+    "entries": [
+      { "item": "lemonade", "count": [ 0, 3 ] },
+      { "item": "cola", "count": [ 0, 3 ] },
+      { "item": "sports_drink", "count": [ 0, 3 ] },
+      { "item": "rootbeer", "count": [ 0, 3 ] },
+      { "item": "pickle", "count": [ 0, 3 ] },
+      { "item": "ketchup", "count": [ 0, 3 ], "charges": [ 10, 16 ] },
+      { "item": "mustard", "count": [ 0, 3 ], "charges": [ 10, 48 ] },
+      { "item": "mayonnaise", "count": [ 0, 3 ], "charges": [ 10, 16 ] },
+      { "item": "onion", "count": [ 0, 3 ] },
+      { "item": "chili_pepper", "count": [ 0, 3 ], "charges": [ 1, 3 ] },
+      { "item": "lettuce", "count": [ 0, 3 ], "charges": [ 5, 10 ] },
+      { "item": "tomato", "count": [ 0, 3 ] },
+      { "item": "cheese", "count": [ 0, 3 ], "charges": [ 4, 8 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "fast_food",
     "subtype": "distribution",
     "entries": [

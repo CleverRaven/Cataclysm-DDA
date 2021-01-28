@@ -128,6 +128,7 @@ class recipe_subset
 
         enum class search_type : int {
             name,
+            exclude_name,
             skill,
             primary_skill,
             component,

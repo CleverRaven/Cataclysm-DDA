@@ -1970,7 +1970,7 @@
   {
     "type": "GENERIC",
     "id": "solar_panel_v3",
-    "name": "quantum solar panel",
+    "name": { "str": "quantum solar panel" },
     "description": "This solar panel is obviously cutting-edge technology and given where you found it, should probably provide a LOT of power.  It's covered in strange-looking material, but the covering looks rather fragile; it doesn't look like it could support a reinforcing sheet, either.",
     "to_hit": -5,
     "material": [ "glass", "steel" ],
@@ -2317,7 +2317,7 @@
   {
     "type": "COMESTIBLE",
     "id": "taint_tornado",
-    "name": "tainted tornado",
+    "name": { "str": "tainted tornado" },
     "category": "mutagen",
     "weight": "100 g",
     "color": "red",
@@ -2344,7 +2344,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_sewerbrew",
-    "name": "sewer brew",
+    "name": { "str": "sewer brew" },
     "weight": "250 g",
     "color": "yellow",
     "addiction_type": "alcohol",

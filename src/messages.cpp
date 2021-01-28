@@ -473,11 +473,18 @@ Messages::dialog::dialog()
 
 void Messages::dialog::init( ui_adaptor &ui )
 {
-    w_width = std::max( 45, TERMX - 2 * ( panel_manager::get_manager().get_width_right() +
-                                          panel_manager::get_manager().get_width_left() ) );
+    const int left_panel_width = panel_manager::get_manager().get_width_left();
+    const int right_panel_width = panel_manager::get_manager().get_width_right();
     w_height = TERMY;
-    w_x = ( TERMX - w_width ) / 2;
-    w_y = ( TERMY - w_height ) / 2;
+    w_y = 0;
+    // try to center and not obscure sidebar
+    w_x = std::max( left_panel_width, right_panel_width );
+    w_width = TERMX - 2 * w_x;
+    if( w_width < w_height * 3 ) {
+        // try not to obscure sidebar
+        w_x = left_panel_width;
+        w_width = TERMX - left_panel_width - right_panel_width;
+    }
 
     w = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
 
