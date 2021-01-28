@@ -296,14 +296,12 @@ static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_thermometer( "thermometer" );
 static const itype_id itype_towel( "towel" );
-static const itype_id itype_towel_soiled( "towel_soiled" );
 static const itype_id itype_towel_wet( "towel_wet" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_wax( "wax" );
 static const itype_id itype_weather_reader( "weather_reader" );
-
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
@@ -5525,7 +5523,10 @@ int iuse::towel_common( Character *p, item *it, bool t )
     const std::string name = it ? it->tname() : _( "towel" );
 
     // can't use an already wet towel!
-    if( it && it->has_flag( flag_WET ) ) {
+    if( it && it->is_filthy() ) {
+        p->add_msg_if_player( m_info, _( "That %s is too filthy to clean anything!" ),
+                              it->tname() );
+    } else if( it && it->has_flag( flag_WET ) ) {
         p->add_msg_if_player( m_info, _( "That %s is too wet to soak up any more liquid!" ),
                               it->tname() );
         // clean off the messes first, more important
@@ -5538,7 +5539,7 @@ int iuse::towel_common( Character *p, item *it, bool t )
 
         towelUsed = true;
         if( it && it->typeId() == itype_towel ) {
-            it->convert( itype_towel_soiled );
+            it->set_flag( flag_FILTHY );
         }
 
         // dry off from being wet
@@ -5549,8 +5550,10 @@ int iuse::towel_common( Character *p, item *it, bool t )
                               name );
 
         towelUsed = true;
-        if( it ) {
+        if( it && it->typeId() == itype_towel ) {
             it->item_counter = to_turns<int>( 30_minutes );
+            // change "towel" to a "towel_wet" (different flavor text/color)
+            it->convert( itype_towel_wet );
         }
 
         // default message
@@ -5565,11 +5568,6 @@ int iuse::towel_common( Character *p, item *it, bool t )
         }
         p->moves -= 50 * mult;
         if( it ) {
-            // change "towel" to a "towel_wet" (different flavor text/color)
-            if( it->typeId() == itype_towel ) {
-                it->convert( itype_towel_wet );
-            }
-
             // WET, active items have their timer decremented every turn
             it->set_flag( flag_WET );
             it->active = true;

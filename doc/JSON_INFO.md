@@ -2,6 +2,8 @@
 
 Use the `Home` key to return to the top.
 
+<!-- XXX: REMOVE ME. Touch JSON_INFO.md to see if it triggers the bot -->
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
@@ -2368,7 +2370,7 @@ Armor can be defined like this:
 "weight_capacity_bonus": "20 kg",    // (Optional, default = 0) Bonus to weight carrying capacity, can be negative. Strings must be used - "5000 g" or "5 kg"
 "weight_capacity_modifier": 1.5, // (Optional, default = 1) Factor modifying base weight carrying capacity.
 "coverage" : 80,      // What percentage of body part
-"material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
+"material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Ordinary clothes range from 0.1 to 0.5. Particularly rugged cloth may reach as high as 1, and armor or protective equipment can range as high as 10 or rarely more.
 "power_armor" : false, // If this is a power armor item (those are special).
 "valid_mods" : ["steel_padded"] // List of valid clothing mods. Note that if the clothing mod doesn't have "restricted" listed, this isn't needed.
 ```

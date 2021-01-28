@@ -80,7 +80,7 @@
   {
     "id": "mon_leech_radio",
     "type": "MONSTER",
-    "name": "signal tree",
+    "name": { "str": "signal tree" },
     "description": "A trunk reaches tall into the sky, its topmost branches glowing with yellow light.  A low drum periodically shakes its vicinities.",
     "default_faction": "nether",
     "species": [ "LEECH_PLANT" ],

@@ -430,7 +430,7 @@ class inventory_column
         bool paging_is_valid = false;
         bool visibility = true;
 
-        size_t selected_index = 0;
+        size_t selected_index = std::numeric_limits<size_t>::max();
         size_t page_offset = 0;
         size_t entries_per_page = std::numeric_limits<size_t>::max();
         size_t height = std::numeric_limits<size_t>::max();
@@ -495,7 +495,8 @@ class inventory_selector
         virtual ~inventory_selector();
         /** These functions add items from map / vehicles. */
         void add_contained_items( item_location &container );
-        void add_contained_items( item_location &container, inventory_column &column );
+        void add_contained_items( item_location &container, inventory_column &column,
+                                  const item_category *custom_category = nullptr );
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );

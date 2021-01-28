@@ -978,7 +978,7 @@
     "id": "delay_fuze",
     "symbol": ",",
     "color": "light_gray",
-    "name": "delayed fuze",
+    "name": { "str": "delayed fuze" },
     "category": "spare_parts",
     "description": "A complex mechanical fuze.  It seems it can be used to detonate stable explosives after a short time by triggering it.",
     "price": 1000,
@@ -992,7 +992,7 @@
     "id": "impact_fuze",
     "symbol": ",",
     "color": "light_gray",
-    "name": "impact fuze",
+    "name": { "str": "impact fuze" },
     "category": "spare_parts",
     "description": "A complex mechanical fuze.  It seems it can be used to detonate stable explosives upon a solid impact.",
     "price": 1000,
@@ -3257,7 +3257,8 @@
           "fp_loyalty_card",
           "scorecard",
           "robofac_test_data",
-          "icon"
+          "icon",
+          "labmap"
         ]
       },
       {

@@ -398,7 +398,6 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
 
     enum_bitset<damage_type> types_used;
     // ignore the damage types that are not modified by enchantments
-    types_used.set( damage_type::PURE, true );
     types_used.set( damage_type::NONE, true );
 
     auto dt_to_ench_dt = []( damage_type dt ) {
@@ -421,6 +420,8 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
                 return enchant_vals::mod::ITEM_DAMAGE_HEAT;
             case damage_type::STAB:
                 return enchant_vals::mod::ITEM_DAMAGE_STAB;
+            case damage_type::PURE:
+                return enchant_vals::mod::ITEM_DAMAGE_PURE;
             default:
                 return enchant_vals::mod::NUM_MOD;
         }
@@ -969,7 +970,7 @@ float Character::get_dodge() const
     return std::max( 0.0f, ret );
 }
 
-float Character::dodge_roll()
+float Character::dodge_roll() const
 {
     return get_dodge() * 5;
 }

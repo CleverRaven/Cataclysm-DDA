@@ -89,6 +89,7 @@ namespace io
             case enchant_vals::mod::ARMOR_HEAT: return "ARMOR_HEAT";
             case enchant_vals::mod::ARMOR_STAB: return "ARMOR_STAB";
             case enchant_vals::mod::ARMOR_BULLET: return "ARMOR_BULLET";
+            case enchant_vals::mod::ITEM_DAMAGE_PURE: return "ITEM_DAMAGE_PURE";
             case enchant_vals::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
             case enchant_vals::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
             case enchant_vals::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";

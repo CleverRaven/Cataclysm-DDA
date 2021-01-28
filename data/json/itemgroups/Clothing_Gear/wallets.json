@@ -155,6 +155,7 @@
       { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
       { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
       { "item": "condom", "prob": 1 },
+      { "item": "labmap", "prob": 20 },
       [ "scorecard", 20 ]
     ]
   },
@@ -172,6 +173,7 @@
       { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
       { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
       { "item": "condom", "prob": 1 },
+      { "item": "labmap", "prob": 20 },
       [ "scorecard", 20 ]
     ]
   },
@@ -189,6 +191,7 @@
       { "item": "money_twenty", "prob": 1600, "count": [ 5, 10 ] },
       { "group": "discount_cards", "prob": 60, "count": [ 2, 5 ] },
       { "item": "condom", "prob": 1 },
+      { "item": "labmap", "prob": 20 },
       [ "scorecard", 5 ]
     ]
   },

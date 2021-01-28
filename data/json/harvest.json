@@ -835,6 +835,20 @@
     ]
   },
   {
+    "id": "incubator_mammal",
+    "//": "the larvae ate a lot of the good stuff, mutant meat represents the grubs",
+    "type": "harvest",
+    "message": "<incubator_mammal>",
+    "entries": [
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "stomach", "scale_num": [ 0, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
+    ]
+  },
+  {
     "id": "zombie_leather",
     "//": "any zombie that might drop leather. mostly animals.",
     "type": "harvest",

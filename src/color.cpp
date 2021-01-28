@@ -586,11 +586,11 @@ std::string string_from_color( const nc_color &color )
 {
     std::string sColor = all_colors.get_name( color );
 
-    if( sColor != "unset" ) {
+    if( sColor != "c_unset" ) {
         return sColor;
     }
 
-    return "white";
+    return "c_white";
 }
 
 /**

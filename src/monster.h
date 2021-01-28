@@ -366,7 +366,7 @@ class monster : public Creature
         float  get_dodge() const override;       // Natural dodge, or 0 if we're occupied
         float  get_melee() const override; // For determining attack skill when awarding dodge practice.
         float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
-        float  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
+        float  dodge_roll() const override;  // For the purposes of comparing to player::hit_roll()
 
         int get_grab_strength() const; // intensity of grabbed effect
 

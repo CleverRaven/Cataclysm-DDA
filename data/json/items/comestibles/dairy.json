@@ -71,7 +71,7 @@
   {
     "type": "COMESTIBLE",
     "id": "yoghurt",
-    "name": "yogurt",
+    "name": { "str": "yogurt" },
     "weight": "238 g",
     "color": "magenta",
     "spoils_in": "20 hours",
@@ -147,7 +147,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pudding",
-    "name": "pudding",
+    "name": { "str": "pudding" },
     "weight": "232 g",
     "color": "light_gray",
     "spoils_in": "7 days 12 hours",
@@ -167,7 +167,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_curdled",
-    "name": "curdled milk",
+    "name": { "str": "curdled milk" },
     "weight": "236 g",
     "color": "white",
     "spoils_in": "28 days",
@@ -230,7 +230,7 @@
   {
     "type": "COMESTIBLE",
     "id": "quesadilla_cheese",
-    "name": "quesadilla",
+    "name": { "str": "quesadilla" },
     "weight": "116 g",
     "color": "brown",
     "spoils_in": "20 days",
@@ -270,7 +270,8 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "vitamins": [ [ "vitA", 3 ], [ "vitB", 2 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
-    "fun": -5
+    "fun": -5,
+    "freezing_point": -459
   },
   {
     "type": "COMESTIBLE",
