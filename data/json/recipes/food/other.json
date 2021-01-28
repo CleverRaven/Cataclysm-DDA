@@ -281,7 +281,7 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 16, "LIST" ] ], [ [ "mold_plastic", 1] ] ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ], ["sweet_water", 1] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
       [ [ "beet_syrup", 1 ] ],
       [ [ "chem_agar", 50 ] ],
       [ [ "sugar", 200 ] ],
