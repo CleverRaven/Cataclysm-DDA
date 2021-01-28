@@ -761,31 +761,27 @@ static void field_processor_fd_shock_vent( const tripoint &p, field_entry &cur,
         cur.set_field_intensity( 3 );
         int num_bolts = rng( 3, 6 );
         for( int i = 0; i < num_bolts; i++ ) {
-            int xdir = 0;
-            int ydir = 0;
-            while( xdir == 0 && ydir == 0 ) {
-                xdir = rng( -1, 1 );
-                ydir = rng( -1, 1 );
+            point dir;
+            while( dir == point_zero ) {
+                dir = { rng( -1, 1 ), rng( -1, 1 ) };
             }
             int dist = rng( 4, 12 );
-            int boltx = p.x;
-            int bolty = p.y;
+            point bolt = p.xy();
             for( int n = 0; n < dist; n++ ) {
-                boltx += xdir;
-                bolty += ydir;
-                pd.here.add_field( tripoint( boltx, bolty, p.z ), fd_electricity, rng( 2, 3 ) );
+                bolt += dir;
+                pd.here.add_field( tripoint( bolt, p.z ), fd_electricity, rng( 2, 3 ) );
                 if( one_in( 4 ) ) {
-                    if( xdir == 0 ) {
-                        xdir = rng( 0, 1 ) * 2 - 1;
+                    if( dir.x == 0 ) {
+                        dir.x = rng( 0, 1 ) * 2 - 1;
                     } else {
-                        xdir = 0;
+                        dir.x = 0;
                     }
                 }
                 if( one_in( 4 ) ) {
-                    if( ydir == 0 ) {
-                        ydir = rng( 0, 1 ) * 2 - 1;
+                    if( dir.y == 0 ) {
+                        dir.y = rng( 0, 1 ) * 2 - 1;
                     } else {
-                        ydir = 0;
+                        dir.y = 0;
                     }
                 }
             }
