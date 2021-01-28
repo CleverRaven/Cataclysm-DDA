@@ -972,7 +972,7 @@ static void apply_replacements( std::vector<std::vector<T>> &vec,
     for( std::vector<T> &opts : vec ) {
         for( typename std::vector<T>::iterator iiter = opts.begin(); iiter != opts.end(); ) {
             auto riter = replacements.find( iiter->type );
-            if( riter != replacements.cend() ) {
+            if( riter != replacements.end() ) {
                 itype_id to_id = riter->second;
                 // Replace an item or outright remove it if its replacement
                 // is already present in the vector, to prevent duplicates

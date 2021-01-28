@@ -297,7 +297,7 @@ void Single_item_creator::replace_items( const std::unordered_map<itype_id, ityp
     }
     if( type == S_ITEM ) {
         auto it = replacements.find( itype_id( id ) );
-        if( it != replacements.cend() ) {
+        if( it != replacements.end() ) {
             id = it->second.str();
         }
     } else if( type == S_ITEM_GROUP ) {
