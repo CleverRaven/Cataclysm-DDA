@@ -99,7 +99,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( ( you.get_working_leg_count() < 2 && !you.weapon.has_flag( flag_CRUTCHES ) ) &&
         !you.is_prone() ) {
         you.set_movement_mode( move_mode_id( "prone" ) );
-        you.add_msg_if_player( m_bad, _( "Your broken legs can't hold your weight and you fall down in pain." ) );
+        you.add_msg_if_player( m_bad,
+                               _( "Your broken legs can't hold your weight and you fall down in pain." ) );
     }
 
     const bool is_riding = you.is_mounted();
