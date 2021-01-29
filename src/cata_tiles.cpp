@@ -1721,10 +1721,23 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         return false;
     }
 
-    cata::optional<tile_lookup_res> res = find_tile_looks_like( id, category );
     const tile_type *tt = nullptr;
-    if( res ) {
-        tt = &( res -> tile() );
+    cata::optional<tile_lookup_res> res;
+
+    // check if there is an available intensity tile and if there is use that instead of the basic tile
+    // this is only relevant for fields
+    if( intensity_level > 0 ) {
+        res = find_tile_looks_like( id + "_" + std::to_string(intensity_level), category );
+        if( res ) {
+            tt = &( res -> tile() );
+        }
+    }
+
+    if( !tt ) {
+        res = find_tile_looks_like( id, category );
+        if( res ) {
+            tt = &( res -> tile() );
+        }
     }
     const std::string &found_id = res ? ( res->id() ) : id;
 
