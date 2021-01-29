@@ -4,7 +4,7 @@
     "type": "vehicle",
     "name": "Engine Crane",
     "blueprint": [ "#" ],
-    "parts": [ { "x": 0, "y": 0, "part": "folding_frame", "wheel_10", "crane_small" } ]
+    "parts": [ { "x": 0, "y": 0, "parts": [ "folding_frame", "wheel_10", "crane_small" ] } ]
   },
   {
     "id": "food_cart",
@@ -103,7 +103,7 @@
     "type": "vehicle",
     "name": "Handjack",
     "blueprint": [ "=" ],
-    "parts": [ { "x": 0, "y": 0, "part": "frame_handle", "wheel_10", "crane_small" } ]
+    "parts": [ { "x": 0, "y": 0, "parts": [ "frame_handle", "wheel_10", "crane_small" ] } ]
   },
   {
     "id": "ice_cream_cart",
@@ -123,7 +123,7 @@
     "type": "vehicle",
     "name": "Luggage Cart",
     "blueprint": [ "H" ],
-    "parts": [ { "x": 0, "y": 0, "part": "xlframe_vertical_2", "wheel_caster", "trunk" } ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_caster", "trunk" ] } ],
     "items": [
       {
         "x": 0,
@@ -151,7 +151,7 @@
     "type": "vehicle",
     "name": "Shopping Cart",
     "blueprint": [ "o" ],
-    "parts": [ { "x": 0, "y": 0, "part": "xlframe_vertical_2", "wheel_caster", "basketlg_cart" } ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_caster", "basketlg_cart" ] } ],
     "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "trash_cart" ] } ]
   },
   {
@@ -173,14 +173,14 @@
     "type": "vehicle",
     "name": "Swivel Chair",
     "blueprint": [ "#" ],
-    "parts": [ { "x": 0, "y": 0, "part": "xlframe_vertical_2", "wheel_caster", "seat" } ]
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_caster", "seat" ] } ]
   },
   {
     "id": "water_cart",
     "type": "vehicle",
     "name": "Water Cart",
     "blueprint": [ "o" ],
-    "parts": [ { "x": 0, "y": 0, "part": "xlframe_vertical_2", "wheel_caster", "water_faucet", "basketsm" } ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_caster", "water_faucet", "basketsm" ] } ],
     "items": [
       { "x": 0, "y": 0, "chance": 15, "items": [ "whistle" ] },
       { "x": 0, "y": 0, "chance": 25, "items": [ "sports_drink" ] },
@@ -211,7 +211,7 @@
     "type": "vehicle",
     "name": "Welding Cart",
     "blueprint": [ "&" ],
-    "parts": [ { "x": 0, "y": 0, "part": "xlframe_vertical_2", "wheel_caster", "small_storage_battery", "welding_rig" } ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_caster", "small_storage_battery", "welding_rig" ] } ],
     "items": [ { "x": 0, "y": 0, "chance": 30, "items": [ "goggles_welding" ] } ]
   },
   {
@@ -219,7 +219,7 @@
     "type": "vehicle",
     "name": "Wheelbarrow",
     "blueprint": [ "o" ],
-    "parts": [ { "x": 0, "y": 0, "part": "frame_handle", "wheel_mount_light", "wheel_barrow", "box_wheelbarrow" } ]
+    "parts": [ { "x": 0, "y": 0, "parts": [ "frame_handle", "wheel_mount_light", "wheel_barrow", "box_wheelbarrow" ] } ]
   },
   {
     "id": "wheelchair",
@@ -256,7 +256,7 @@
     "type": "vehicle",
     "name": "Laundry Cart",
     "blueprint": [ "o" ],
-    "parts": [ { "x": 0, "y": 0, "part": "xlframe_vertical_2", "wheel_caster", "basketlg_cart" } ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_caster", "basketlg_cart" ] } ],
     "items": [
       { "x": 0, "y": 0, "chance": 40, "item_groups": [ "shirts" ] },
       { "x": 0, "y": 0, "chance": 40, "item_groups": [ "pants" ] },
