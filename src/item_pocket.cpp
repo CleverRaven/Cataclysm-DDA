@@ -896,7 +896,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                                string_format( _( "Contained items spoil at <neutral>%.0f%%</neutral> their original rate." ),
                                               spoil_multiplier() * 100 ) );
         } else {
-            info.emplace_back( "DESCRIPTION", "Contained items <info>won't spoil</info>." );
+            info.emplace_back( "DESCRIPTION", _( "Contained items <info>won't spoil</info>." ) );
         }
     }
     if( data->weight_multiplier != 1.0f ) {
@@ -972,20 +972,17 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
         if( !contents_header ) {
             info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this pocket</bold>:" ) );
             contents_header = true;
-        } else {
-            // Separate items with a blank line
-            info.emplace_back( "DESCRIPTION", space );
         }
 
         const translation &description = contents_item.type->description;
 
         if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
-            info.emplace_back( "DESCRIPTION", colorize( contents_item.display_name(),
+            info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
                                contents_item.color_in_inventory() ) );
             info.emplace_back( vol_to_info( "CONTAINER", description + space,
                                             contents_item.volume() ) );
         } else {
-            info.emplace_back( "DESCRIPTION", colorize( contents_item.display_name(),
+            info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
                                contents_item.color_in_inventory() ) );
         }
     }
@@ -1336,6 +1333,11 @@ void item_pocket::process( player *carrier, const tripoint &pos, float insulatio
     }
 }
 
+bool item_pocket::is_default_state() const
+{
+    return empty() && settings.is_null() && !sealable();
+}
+
 bool item_pocket::empty() const
 {
     return contents.empty();
@@ -1626,15 +1628,33 @@ bool item_pocket::favorite_settings::accepts_item( const item &it ) const
     const itype_id &id = it.typeId();
     const item_category_id &cat = it.get_category_of_contents().id;
 
-    bool accept_category = ( category_whitelist.empty() || category_whitelist.count( cat ) ) &&
-                           !category_blacklist.count( cat );
-    if( accept_category ) {
-        // Allowed unless explicitly disallowed by the item filters.
-        return ( item_whitelist.empty() || item_whitelist.count( id ) ) && !item_blacklist.count( id );
-    } else {
-        // Disallowed unless explicitly whitelisted
-        return item_whitelist.count( id );
+    // If the item is explicitly listed in either of the lists, then it's clear what to do with it
+    if( item_blacklist.count( id ) ) {
+        return false;
     }
+    if( item_whitelist.count( id ) ) {
+        return true;
+    }
+
+    // otherwise check the category, the same way
+    if( category_blacklist.count( cat ) ) {
+        return false;
+    }
+    if( category_whitelist.count( cat ) ) {
+        return true;
+    }
+
+    // Finally, if no match was found, see if there were any filters at all,
+    // and either allow or deny everything that's fallen through to here.
+    if( !category_whitelist.empty() ) {
+        return false;  // we've whitelisted only some categories, and this item is not out of those.
+    }
+    if( !item_whitelist.empty() && category_blacklist.empty() ) {
+        // Whitelisting only certain items, and not as a means to tweak blacklist.
+        return false;
+    }
+    // No whitelist - everything goes.
+    return true;
 }
 
 template<typename T>

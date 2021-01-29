@@ -130,18 +130,30 @@ std::string getLangFromLCID( const int &lcid )
     static std::map<std::string, std::set<int>> lang_lcid;
     if( lang_lcid.empty() ) {
         lang_lcid["en"] = {{ 1033, 2057, 3081, 4105, 5129, 6153, 7177, 8201, 9225, 10249, 11273 }};
-        lang_lcid["fr"] = {{ 1036, 2060, 3084, 4108, 5132 }};
+        lang_lcid["ar"] = {{ 1025, 2049, 3073, 4097, 5121, 6145, 7169, 8193, 9217, 10241, 11265, 12289, 13313, 14337, 15361, 16385 }};
+        lang_lcid["cs"] = { 1029 };
+        lang_lcid["da"] = { 1030 };
         lang_lcid["de"] = {{ 1031, 2055, 3079, 4103, 5127 }};
-        lang_lcid["it_IT"] = {{ 1040, 2064 }};
+        lang_lcid["el"] = { 1032 };
         lang_lcid["es_AR"] = { 11274 };
         lang_lcid["es_ES"] = {{ 1034, 2058, 3082, 4106, 5130, 6154, 7178, 8202, 9226, 10250, 12298, 13322, 14346, 15370, 16394, 17418, 18442, 19466, 20490 }};
+        lang_lcid["fr"] = {{ 1036, 2060, 3084, 4108, 5132 }};
+        lang_lcid["hu"] = { 1038 };
+        lang_lcid["id"] = { 1057 };
+        lang_lcid["is"] = { 1039 };
+        lang_lcid["it_IT"] = {{ 1040, 2064 }};
         lang_lcid["ja"] = { 1041 };
         lang_lcid["ko"] = { 1042 };
+        lang_lcid["nb"] = {{ 1044, 2068 }};
+        lang_lcid["nl"] = { 1043 };
         lang_lcid["pl"] = { 1045 };
         lang_lcid["pt_BR"] = {{ 1046, 2070 }};
-        lang_lcid["ru"] = { 1049 };
-        lang_lcid["zh_CN"] = {{ 2052, 3076, 4100 }};
-        lang_lcid["zh_TW"] = { 1028 };
+        lang_lcid["ru"] = {{ 25, 1049, 2073 }};
+        lang_lcid["sr"] = { 3098 };
+        lang_lcid["tr"] = { 1055 };
+        lang_lcid["uk_UA"] = { 1058 };
+        lang_lcid["zh_CN"] = {{ 4, 2052, 4100, 30724 }};
+        lang_lcid["zh_TW"] = {{ 1028, 3076, 5124, 31748 }};
     }
 
     for( auto &lang : lang_lcid ) {

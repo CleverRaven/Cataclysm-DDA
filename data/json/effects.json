@@ -245,6 +245,13 @@
     "desc": [ "AI tag used for monsters pushing each other.  This is a bug if you have it." ]
   },
   {
+    "type": "effect_type",
+    "id": "dripping_mechanical_fluid",
+    "name": [ "Mechanical fluid dripping" ],
+    "desc": [ "AI tag used for robot monsters losing mechanical fluid.  This is a bug if you have it." ],
+    "show_in_info": true
+  },
+  {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
     "type": "effect_type",
     "id": "downed",
@@ -511,6 +518,7 @@
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
     "blood_analysis_description": "Systemic Inflammatory Agents",
+    "speed_name": "Poisoned",
     "resist_effects": [ "prophylactic_antivenom" ],
     "max_intensity": 125,
     "max_effective_intensity": 100,
@@ -879,23 +887,37 @@
     "int_dur_factor": "8 h",
     "max_intensity": 3,
     "base_mods": {
-      "pain_chance": [ 2, 1 ],
-      "pain_chance_bot": [ 200 ],
-      "pain_min": [ 1 ],
-      "pain_max_val": [ 30, 20 ],
-      "str_mod": [ -1 ],
-      "dex_mod": [ -1 ],
-      "vomit_chance": [ 1000, 1200 ],
-      "fatigue_min": [ 360, 180 ],
-      "fatigue_chance": [ -102 ]
+      "str_mod": [ -2 ],
+      "dex_mod": [ -3 ],
+      "int_mod": [ -2 ],
+      "vomit_chance": [ 900, 1200 ],
+      "vomit_tick": [ 180 ],
+      "thirst_min": [ 2 ],
+      "thirst_chance": [ 10, 100 ],
+      "thirst_tick": [ 30 ],
+      "speed_mod": [ -10, 0 ],
+      "stamina_min": [ -8, -4 ],
+      "stamina_max": [ -50, -20 ],
+      "stamina_chance": [ 3, 10 ],
+      "fatigue_min": [ 2, 0 ],
+      "fatigue_max": [ 10, 5 ],
+      "fatigue_chance": [ 110 ],
+      "fatigue_max_val": [ 700, 250 ],
+      "healing_rate": [ 0.01, 1 ]
     },
     "scaling_mods": {
-      "pain_max_val": [ 30, 20 ],
       "str_mod": [ -1, -0.5 ],
       "dex_mod": [ -1, -0.5 ],
+      "int_mod": [ -3, -1 ],
       "vomit_chance": [ -400 ],
-      "fatigue_chance": [ 101 ]
+      "speed_mod": [ -10, -5 ],
+      "stamina_min": [ -6, -4 ],
+      "stamina_max": [ 15, 4 ],
+      "stamina_chance": [ -1, -2.5 ],
+      "fatigue_chance": [ -50 ],
+      "fatigue_tick": [ 0.5 ]
     },
+    "//": "Stamina regen stops completely at int 3, but no stamina loss from then on",
     "blood_analysis_description": "Bacterial Infection"
   },
   {
@@ -904,22 +926,38 @@
     "name": [ "Recovering From Infection" ],
     "desc": [ "You are recovering from an infection." ],
     "rating": "bad",
+    "resist_traits": [ "INFRESIST" ],
     "max_intensity": 3,
     "int_dur_factor": "32 h",
     "base_mods": {
-      "pain_chance": [ 100 ],
-      "pain_min": [ 1 ],
-      "pain_max_val": [ 30 ],
       "str_mod": [ -1 ],
       "dex_mod": [ -1 ],
-      "vomit_chance": [ 1000 ],
-      "fatigue_min": [ 360 ],
-      "fatigue_chance": [ -102 ],
-      "fatigue_tick": [ 6 ],
-      "pain_tick": [ 6 ],
-      "vomit_tick": [ 6 ]
+      "int_mod": [ -1 ],
+      "vomit_chance": [ 1200, 1800 ],
+      "vomit_tick": [ 180 ],
+      "thirst_min": [ 1, 0 ],
+      "thirst_max": [ 3, 2 ],
+      "thirst_chance": [ 10, 100 ],
+      "thirst_tick": [ 60 ],
+      "speed_mod": [ -5, 0 ],
+      "stamina_min": [ -8 ],
+      "stamina_chance": [ 10, 20 ],
+      "fatigue_min": [ 1, 0 ],
+      "fatigue_max": [ 5, 3 ],
+      "fatigue_chance": [ 210 ],
+      "fatigue_max_val": [ 500, 125 ],
+      "healing_rate": [ 0.5 ]
     },
-    "scaling_mods": { "pain_max_val": [ 30 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "vomit_chance": [ -400 ], "fatigue_chance": [ 101 ] }
+    "scaling_mods": {
+      "str_mod": [ -1, -0.5 ],
+      "dex_mod": [ -1, -0.5 ],
+      "int_mod": [ -2, -1 ],
+      "vomit_chance": [ -500 ],
+      "speed_mod": [ -5, -4 ],
+      "stamina_min": [ -6, -3 ],
+      "stamina_chance": [ -1, -2.5 ],
+      "fatigue_chance": [ -60 ]
+    }
   },
   {
     "type": "effect_type",

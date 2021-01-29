@@ -1167,7 +1167,7 @@
       [ "flour", 30 ],
       [ "milk_powder", 30 ],
       [ "powder_eggs", 10 ],
-      [ "egg_bird_unfert", 10 ],
+      { "item": "egg_bird_unfert", "charges": 10, "container-item": "carton_egg" },
       [ "cooking_oil", 20 ],
       [ "irradiated_apple", 5 ],
       [ "irradiated_banana", 5 ],

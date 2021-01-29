@@ -1295,15 +1295,13 @@ void iexamine::bars( player &p, const tripoint &examp )
         return;
     }
     map &here = get_map();
-    if( ( ( p.encumb( bodypart_id( "torso" ) ) ) >= 10 ) &&
-        ( ( p.encumb( bodypart_id( "head" ) ) ) >= 10 ) &&
-        ( p.encumb( bodypart_id( "foot_l" ) ) >= 10 ||
-          p.encumb( bodypart_id( "foot_r" ) ) >=
-          10 ) ) { // Most likely places for rigid gear that would catch on the bars.
-        add_msg( m_info,
-                 _( "Your amorphous body could slip though the %s, but your cumbersome gear can't." ),
-                 here.tername( examp ) );
-        return;
+    for( const bodypart_id &bp : p.get_all_body_parts() ) {
+        if( p.encumb( bp ) >= 10 ) {
+            add_msg( m_info,
+                     _( "Your amorphous body could slip though the %s, but your cumbersome gear can't." ),
+                     here.tername( examp ) );
+            return;
+        }
     }
     if( !query_yn( _( "Slip through the %s?" ), here.tername( examp ) ) ) {
         none( p, examp );
@@ -1633,8 +1631,12 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
     } );
 
     for( item *it : picklocks ) {
+        if( !query_yn( _( "Pick lock the lock of %1$s using your %2$s?" ),
+                       here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() ) ) {
+            return;
+        }
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
-        p.add_msg_if_player( _( "You attempt to pick lock of %1$s using your %2$s…" ),
+        p.add_msg_if_player( _( "You attempt to pick the lock of %1$s using your %2$s…" ),
                              here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
         const ret_val<bool> can_use = iuse_fn->can_call( p, *it, false, examp );
         if( can_use.success() ) {

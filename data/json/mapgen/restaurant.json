@@ -268,7 +268,8 @@
       "place_monsters": [
         { "monster": "GROUP_GROCERY", "x": [ 5, 9 ], "y": [ 9, 14 ], "chance": 5 },
         { "monster": "GROUP_ROACH", "x": [ 7, 19 ], "y": 19, "chance": 20 }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ [ "NPC_pizzaiolo_spawn", 5 ], [ "null", 50 ] ], "x": 7, "y": 5 } ]
     }
   },
   {

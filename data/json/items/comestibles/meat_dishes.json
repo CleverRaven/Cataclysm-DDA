@@ -380,6 +380,33 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "crab_cakes",
+    "name": { "str": "crab cake" },
+    "copy-from": "fish_fried",
+    "weight": "150 g",
+    "calories": 572,
+    "description": "A delicious deep-fried biscuit loaded with crab meat.",
+    "//": "Currently only found in worldgen and is uncraftable. If crab gets added please make a recipe for crab cakes.",
+    "volume": "175 ml",
+    "looks_like": "fish_fried",
+    "fun": 13
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "stuffed_clams",
+    "name": "stuffed clam",
+    "copy-from": "fish_fried",
+    "weight": "150 g",
+    "calories": 572,
+    "description": "Quahog clams stuffed with bread crumbs and fried.",
+    "volume": "175 ml",
+    "looks_like": "fish_fried",
+    "fun": 13,
+    "charges": 5,
+    "vitamins": [ [ "vitA", 6 ], [ "calcium", 2 ], [ "iron", 5 ], [ "vitB", 22 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "lunchmeat",
     "name": "lunch meat",
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "loathsome %s" } } ],

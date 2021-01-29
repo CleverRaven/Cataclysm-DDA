@@ -517,6 +517,14 @@ class Character : public Creature, public visitable
         virtual void set_fatigue( fatigue_levels nfatigue );
         virtual void set_sleep_deprivation( int nsleep_deprivation );
 
+    protected:
+
+        // These accept values in calories, 1/1000s of kcals (or Calories)
+        virtual void mod_stored_calories( int ncal );
+        virtual void set_stored_calories( int cal );
+
+    public:
+
         void mod_stat( const std::string &stat, float modifier ) override;
 
         int get_standard_stamina_cost( item *thrown_item = nullptr );
@@ -574,7 +582,7 @@ class Character : public Creature, public visitable
         /** Combat getters */
         float get_dodge_base() const override;
         /** Returns the player's dodge_roll to be compared against an aggressor's hit_roll() */
-        float dodge_roll() override;
+        float dodge_roll() const override;
         /** Returns Creature::get_dodge() modified by any Character effects */
         float get_dodge() const override;
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
@@ -951,6 +959,9 @@ class Character : public Creature, public visitable
         trait_id random_good_trait();
         /** Returns the id of a random starting trait that costs < 0 points */
         trait_id random_bad_trait();
+        /** Returns the id of a random trait matching the given predicate */
+        trait_id get_random_trait( const std::function<bool( const mutation_branch & )> &func );
+        void randomize_cosmetic_trait( std::string mutation_type );
 
         // In mutation.cpp
         /** Returns true if the player has a conflicting trait to the entered trait
@@ -1983,7 +1994,19 @@ class Character : public Creature, public visitable
         // Randomizes characters' blood type and Rh
         void randomize_blood();
 
+        int get_focus() const {
+            return std::max( 1, focus_pool / 1000 );
+        }
+        void mod_focus( int amount ) {
+            focus_pool += amount * 1000;
+        }
+        // Set the focus pool directly, only use for debugging.
+        void set_focus( int amount ) {
+            focus_pool = amount * 1000;
+        }
+    protected:
         int focus_pool = 0;
+    public:
         int cash = 0;
         std::set<character_id> follower_ids;
         weak_ptr_fast<Creature> last_target;
@@ -2052,6 +2075,7 @@ class Character : public Creature, public visitable
         std::list<item> use_charges( const itype_id &what, int qty, int radius,
                                      const std::function<bool( const item & )> &filter = return_true<item> );
 
+        const item *find_firestarter_with_charges( int quantity ) const;
         bool has_fire( int quantity ) const;
         void use_fire( int quantity );
         void assign_stashed_activity();
@@ -2559,6 +2583,7 @@ class Character : public Creature, public visitable
          * @return if the craft can be continued
          */
         bool can_continue_craft( item &craft );
+        bool can_continue_craft( item &craft, const requirement_data &continue_reqs );
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
         int get_num_crafting_helpers( int max ) const;
@@ -2686,6 +2711,8 @@ class Character : public Creature, public visitable
         time_duration get_consume_time( const item &it );
 
         int weariness_level() const;
+        int weary_threshold() const;
+        int weariness() const;
         float activity_level() const;
         float exertion_adjusted_move_multiplier( float level = -1.0f ) const;
         void try_reduce_weariness( float exertion );
@@ -2751,8 +2778,6 @@ class Character : public Creature, public visitable
         int healthy_mod = 0;
 
         weariness_tracker weary;
-        int weary_threshold() const;
-        int weariness() const;
         // Our bmr at no activity level
         int base_bmr() const;
 
@@ -2894,6 +2919,7 @@ class Character : public Creature, public visitable
         int old_weary_level = 0;
 
         /// @brief Needs (hunger, starvation, thirst, fatigue, etc.)
+        // Stored calories is a value in 'calories' - 1/1000s of kcals (or Calories)
         int stored_calories;
         int healthy_calories;
 

@@ -287,6 +287,9 @@ class item_pocket
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
+        // true if pocket state is the same as if freshly created from the pocket type
+        bool is_default_state() const;
+
         bool same_contents( const item_pocket &rhs ) const;
         /** stacks like items inside the pocket */
         void restack();

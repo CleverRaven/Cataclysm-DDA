@@ -1313,5 +1313,11 @@
     "id": "rifle_3006",
     "type": "MIGRATION",
     "replace": "remington_700"
+  },
+  {
+    "id": "towel_soiled",
+    "type": "MIGRATION",
+    "replace": "towel",
+    "flags": [ "FILTHY" ]
   }
 ]

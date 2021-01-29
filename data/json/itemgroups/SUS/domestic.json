@@ -423,8 +423,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "detergent", "charges": [ 1, 40 ], "container-item": "box_small" },
-      { "item": "rag", "count": [ 1, 6 ] },
-      { "item": "towel", "count": [ 1, 3 ] },
+      { "item": "rag", "count": [ 1, 3 ] },
+      { "item": "dish_towel", "count": [ 1, 6 ] },
       { "item": "brush" },
       { "item": "sponge" },
       { "item": "brush", "prob": 85 },
