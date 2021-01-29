@@ -164,6 +164,7 @@ class CDDAPullRequest(PullRequest):
 
     EXAMPLE_SUMMARIES_IN_TEMPLATE = (
         ("Category", "description"),
+        ("Category", "Brief description"),
         ("Content", "Adds new mutation category 'Mouse'"),
     )
 
