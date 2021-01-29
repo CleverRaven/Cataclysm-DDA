@@ -349,7 +349,7 @@
     "symbol": "%",
     "healthy": -1,
     "calories": 85,
-    "description": "A handful of colorful fruit and soda pop flavored vegan gummy candies made from agar. They have kind of a strange texture, but they're still tasty.",
+    "description": "A handful of colorful fruit and soda pop flavored vegan gummy candies made from agar.  They have kind of a strange texture, but they're still tasty.",
     "price": 180,
     "price_postapoc": 200,
     "material": [ "junk", "veggy" ],
@@ -1402,7 +1402,7 @@
     "id": "gelatin_dessert_vegan",
     "name": "vegan gelatin dessert",
     "color": "light_green",
-    "description": "A vegan friendly homemade jiggly, sugary treat made from agar and sugar flavored with fruit juice.  A kid favorite pre-Cataclysm. They'll never know the difference.",
+    "description": "A vegan friendly homemade jiggly, sugary treat made from agar and sugar flavored with fruit juice.  A kid favorite pre-Cataclysm.  They'll never know the difference.",
     "fun": 20,
     "material": [ "veggy", "junk" ],
     "copy-from": "gelatin_dessert_base"

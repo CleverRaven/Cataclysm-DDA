@@ -191,7 +191,7 @@
   {
     "type": "COMESTIBLE",
     "id": "gelatin_powder",
-    "name": { "str": "powdered gelatin", "str_pl": "powdered gelatin" },
+    "name": { "str_sp": "powdered gelatin" },
     "weight": "11 g",
     "color": "yellow",
     "container": "bag_plastic",
@@ -211,7 +211,7 @@
   {
     "type": "COMESTIBLE",
     "id": "gelatin_fresh",
-    "name": { "str": "fresh gelatin" },
+    "name": { "str_sp": "fresh gelatin" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "abomination %s" } },
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "amoral %s" } },
@@ -915,7 +915,7 @@
     "type": "COMESTIBLE",
     "id": "acid_soaked_hide",
     "name": "acid soaked hide",
-    "description": "Raw hide soaking in a dilute acid solution to extract collagen. After 24 hours the solution can be strained to extract fresh gelatin.",
+    "description": "Raw hide soaking in a dilute acid solution to extract collagen.  After 24 hours the solution can be strained to extract fresh gelatin.",
     "weight": "500 g",
     "color": "yellow",
     "sealed": false,
@@ -935,7 +935,7 @@
     "type": "COMESTIBLE",
     "id": "gelatin_extracted",
     "name": "extracted gelatin",
-    "description": "Freshly extracted gelatin in a dilute acid solution. It needs to be strained to separate the gelatin from the acid.",
+    "description": "Freshly extracted gelatin in a dilute acid solution.  It needs to be strained to separate the gelatin from the acid.",
     "weight": "500 g",
     "color": "yellow",
     "sealed": false,
