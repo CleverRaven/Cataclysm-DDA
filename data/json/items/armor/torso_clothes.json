@@ -60,7 +60,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 120 }
     ],
     "warmth": 20,
-    "material_thickness": 3,
+    "material_thickness": 2,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "FANCY" ]
   },
@@ -83,7 +83,7 @@
     "coverage": 85,
     "encumbrance": 7,
     "warmth": 15,
-    "material_thickness": 2,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
@@ -106,7 +106,7 @@
     ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
@@ -128,7 +128,7 @@
     "coverage": 90,
     "encumbrance": 45,
     "warmth": 30,
-    "material_thickness": 2,
+    "material_thickness": 0.3,
     "flags": [ "VARSIZE", "SUPER_FANCY" ]
   },
   {
@@ -148,7 +148,7 @@
     "covers": [ "torso" ],
     "coverage": 90,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -214,7 +214,7 @@
     "coverage": 75,
     "encumbrance": 14,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.3,
     "flags": [ "VARSIZE", "SUPER_FANCY" ]
   },
   {
@@ -235,7 +235,7 @@
     "covers": [ "torso" ],
     "coverage": 25,
     "warmth": 2,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -261,7 +261,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 }
     ],
     "warmth": 30,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
   },
   {
@@ -283,7 +283,7 @@
     "coverage": 90,
     "encumbrance": 7,
     "warmth": 25,
-    "material_thickness": 3,
+    "material_thickness": 0.5,
     "snippet_category": [
       {
         "id": "decatur",
@@ -347,7 +347,7 @@
     "covers": [ "torso" ],
     "coverage": 55,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
@@ -368,7 +368,7 @@
     "coverage": 90,
     "encumbrance": 5,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "snippet_category": [
       {
         "id": "tux",
@@ -422,7 +422,7 @@
     "coverage": 90,
     "encumbrance": 3,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -449,7 +449,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
     ],
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.3,
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
@@ -470,7 +470,7 @@
     "coverage": 90,
     "encumbrance": 7,
     "warmth": 15,
-    "material_thickness": 2,
+    "material_thickness": 0.3,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -494,7 +494,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 }
     ],
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -517,7 +517,7 @@
     ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
     "warmth": 15,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -538,7 +538,7 @@
       { "covers": [ "arm_l", "arm_r" ], "coverage": 25, "encumbrance": 1 }
     ],
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -559,7 +559,7 @@
     "coverage": 90,
     "encumbrance": 5,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -578,7 +578,7 @@
     "color": "yellow",
     "covers": [ "torso", "leg_l", "leg_r" ],
     "coverage": 65,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
@@ -598,7 +598,7 @@
     "coverage": 95,
     "encumbrance": 10,
     "warmth": 40,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE" ]
   },
@@ -620,7 +620,7 @@
     "coverage": 95,
     "encumbrance": 10,
     "warmth": 30,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE" ]
   },
@@ -644,7 +644,7 @@
     "max_encumbrance": 5,
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
     "warmth": 8,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "snippet_category": [
       { "id": "technician_shirt_blue", "text": "A blue work t-shirt with a small front pocket." },
       { "id": "technician_shirt_gray", "text": "A gray work t-shirt with a small front pocket." },
@@ -668,7 +668,7 @@
     "covers": [ "torso" ],
     "coverage": 90,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -688,7 +688,7 @@
     "covers": [ "torso" ],
     "coverage": 90,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "snippet_category": [
       {
         "id": "allyourbase",
@@ -763,14 +763,14 @@
     "max_encumbrance": 5,
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
     "id": "vest_leather",
     "type": "ARMOR",
     "name": { "str": "leather vest" },
-    "description": "A vest made from thick leather.  Offers excellent protection from cuts.",
+    "description": "A vest made from thick leather.",
     "weight": "997 g",
     "volume": "2500 ml",
     "price": 5500,
@@ -791,7 +791,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
     ],
     "warmth": 20,
-    "material_thickness": 3,
+    "material_thickness": 0.5,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
@@ -819,7 +819,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 }
     ],
     "warmth": 45,
-    "material_thickness": 3,
+    "material_thickness": 2,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
   }

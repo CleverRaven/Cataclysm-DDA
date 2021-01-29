@@ -666,8 +666,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                                   best_skill().obj().name(), best_skill_level() );
     mvwprintz( fac_w, point( width, ++y ), col, best_skill_text );
     mvwprintz( fac_w, point( width, ++y ), col, best_three_noncombat + skill_strs[0] );
-    mvwprintz( fac_w, point( width + 20, ++y ), col, skill_strs[1] );
-    mvwprintz( fac_w, point( width + 20, ++y ), col, skill_strs[2] );
+    mvwprintz( fac_w, point( width + utf8_width( best_three_noncombat ), ++y ), col, skill_strs[1] );
+    mvwprintz( fac_w, point( width + utf8_width( best_three_noncombat ), ++y ), col, skill_strs[2] );
     return retval;
 }
 

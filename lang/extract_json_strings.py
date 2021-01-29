@@ -491,6 +491,10 @@ def extract_gun(item):
     if "reload_noise" in item:
         item_reload_noise = item.get("reload_noise")
         writestr(outfile, item_reload_noise)
+    if "use_action" in item:
+        use_action = item.get("use_action")
+        item_name = item.get("name")
+        extract_use_action_msgs(outfile, use_action, item_name, {})
 
 
 def extract_gunmod(item):
@@ -1208,6 +1212,10 @@ def extract(item, infilename):
         else:
             writestr(outfile, name, **kwargs)
         wrote = True
+        if type(name) is dict and "str" in name:
+            singular_name = name["str"]
+        else:
+            singular_name = name
 
     def do_extract(item):
         wrote = False
@@ -1222,7 +1230,7 @@ def extract(item, infilename):
             wrote = True
         if "use_action" in item:
             extract_use_action_msgs(outfile, item["use_action"],
-                                    item.get("name"), kwargs)
+                                    singular_name, kwargs)
             wrote = True
         if "conditional_names" in item:
             for cname in item["conditional_names"]:
@@ -1233,7 +1241,7 @@ def extract(item, infilename):
                 wrote = True
         if "description" in item:
             if name:
-                c = "Description for {}".format(name)
+                c = "Description for {}".format(singular_name)
             else:
                 c = None
             if object_type in needs_plural_desc:

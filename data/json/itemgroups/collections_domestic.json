@@ -653,7 +653,7 @@
         "container-item": "jar_glass_sealed",
         "sealed": false
       },
-      { "item": "egg_bird_unfert", "prob": 65, "count-min": 1, "count-max": 12 },
+      { "item": "egg_bird_unfert", "prob": 65, "charges-min": 1, "charges-max": 12, "container-item": "carton_egg" },
       { "item": "yoghurt", "prob": 50 },
       { "item": "pudding", "prob": 60 },
       { "item": "veggy_salad", "prob": 25 },

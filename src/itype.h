@@ -238,9 +238,10 @@ struct islot_armor {
     */
     bool sided = false;
     /**
-     * TODO: document me.
+     * Material protection stats are multiplied by this number
+     * to determine armor protection values.
      */
-    int thickness = 0;
+    float thickness = 0.0f;
     /**
      * Resistance to environmental effects.
      */

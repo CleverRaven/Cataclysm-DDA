@@ -242,7 +242,7 @@
     "covers": [ "eyes", "mouth" ],
     "coverage": 100,
     "encumbrance": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.01,
     "environmental_protection": 1,
     "flags": [ "SUPER_FANCY", "OUTER", "OVERSIZE" ]
   },
@@ -264,7 +264,7 @@
     "coverage": 90,
     "encumbrance": 30,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "OUTER", "WATERPROOF", "ALLOWS_NATURAL_ATTACKS" ]
   }
