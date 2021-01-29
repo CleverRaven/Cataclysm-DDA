@@ -1565,6 +1565,16 @@ bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos
                                             rota, ll, apply_night_vision_goggles, height_3d, 0 );
 }
 
+bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                      const std::string &subcategory, const tripoint &pos,
+                                      int subtile, int rota, lit_level ll,
+                                      bool apply_night_vision_goggles, int &height_3d  )
+{
+    return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
+                                            ll, apply_night_vision_goggles, height_3d, 0 );
+}
+
+
 cata::optional<tile_lookup_res>
 cata_tiles::find_tile_with_season( const std::string &id ) const
 {
@@ -2697,7 +2707,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
         get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
 
         //get field intensity
-        int intensity = -1;
+        int intensity = 0;
         if(!fld_overridden) {
             //-1 is needed since it seems intensity in the field is counted from 1 instead of 0
             intensity = here.field_at( p ).displayed_intensity() - 1;
