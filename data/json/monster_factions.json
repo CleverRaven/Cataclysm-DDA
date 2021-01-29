@@ -24,7 +24,7 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "friendly": [  "cult", "zombie_aquatic" ],
-    "neutral": [ "slime", "small_animal", "insect" ],
+    "neutral": [ "slime", "small_animal", "insect", "aquatic_predator" ],
     "by_mood": [ "ant", "acid_ant", "bee", "wasp" ]
   },
   {
@@ -37,7 +37,7 @@
     "type": "MONSTER_FACTION",
     "name": "science",
     "base_faction": "zombie",
-    "neutral": [ "bot" ]
+    "neutral": [ "defense_bot" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -48,6 +48,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "animal",
+	"by_mood": "animal",
     "neutral": [ "small_animal", "bot", "aquatic_predator" ]
   },
   {
@@ -89,24 +90,19 @@
   {
     "type": "MONSTER_FACTION",
     "name": "cat",
-	"base_faction": "animal",
+	"base_faction": "small_animal",
 	"hate": "small_animal"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "dog",
-	"base_faction": "animal"
+	"base_faction": "animal",
+	"hate": "small_animal"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "pig",
     "base_faction": "herbivore"
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "otter",
-    "base_faction": "small_animal",
-    "by_mood": "fish"
   },
   {
     "type": "MONSTER_FACTION",
@@ -128,7 +124,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "nether",
-    "friendly": [ "slime", "cult" ]
+    "neutral": [ "slime", "cult" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -168,7 +164,7 @@
     "name": "frog",
 	"base_faction": "mutant",
 	"by_mood": [ "animal" ],
-	"hate": [ "small_animal" ]
+	"hate": [ "small_animal", "insect" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -193,8 +189,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "crayfish",
-	"base_faction": "mutant",
-	"hate": "fish"
+	"base_faction": "mutant"
   },
   {
     "type": "MONSTER_FACTION",
@@ -239,7 +234,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "insect",
-    "neutral": [ "fish", "bot", "zombie", "fungus" ],
+    "neutral": [ "fish", "bot", "zombie", "fungus", "aquatic_predator" ],
     "by_mood": [ "insect", "animal" ]
   },
   {
@@ -252,7 +247,7 @@
     "name": "wasp",
     "base_faction": "insect",
     "neutral": [ "spider", "centipede" ],
-	"by_mood": [ "zombie", "fungus", "ant", "acid_ant" ],
+	"by_mood": [ "zombie", "fungus", "ant", "acid_ant", "bee" ],
     "hate": [ "insect", "small_animal" ]
   },
   {
@@ -260,7 +255,7 @@
     "name": "bee",
     "base_faction": "insect",
     "friendly": "plant",
-    "by_mood": [ "zombie", "fungus", "ant", "acid_ant" ] 
+    "by_mood": [ "zombie", "fungus" ] 
   },
   {
     "type": "MONSTER_FACTION",
@@ -278,7 +273,7 @@
     "base_faction": "insect",
     "by_mood": [ "centipede", "spider", "ant", "acid_ant" ],
     "hate": [ "insect", "small_animal" ],
-    "neutral": "aquatic_predator"
+    "neutral": [ "bee" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -335,13 +330,13 @@
     "type": "MONSTER_FACTION",
     "name": "ant",
 	"base_faction": "insect",
-	"by_mood": [ "zombie", "fungus" ]
+	"by_mood": [ "zombie", "fungus", "animal" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "acid_ant",
 	"base_faction": "insect",
-	"by_mood": [ "zombie", "fungus" ]
+	"by_mood": [ "zombie", "fungus", "animal" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -386,7 +381,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "aquatic_predator",
-    "neutral": [ "bot", "insect", "animal" ],
-    "hate": "fish"
+    "neutral": [ "bot", "insect", "animal", "zombie" ],
+    "hate": [ "fish" ]
   }
 ]

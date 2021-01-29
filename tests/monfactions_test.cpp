@@ -51,6 +51,7 @@ TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
         REQUIRE( attitude( "animal", "small_animal" ) == MFA_NEUTRAL );
         REQUIRE( mfaction_str_id( "small_animal" )->base_faction == mfaction_str_id( "animal" ) );
         REQUIRE( mfaction_str_id( "fish" )->base_faction == mfaction_str_id( "small_animal" ) );
+        REQUIRE( mfaction_str_id( "bear" )->base_faction == mfaction_str_id( "animal" ) );
 
         INFO( "fish is a child of small_animal, and small_animal is friendly to itself" );
         CHECK( attitude( "small_animal", "small_animal" ) == MFA_FRIENDLY );
@@ -61,6 +62,10 @@ TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
 
         INFO( "fish is inherited from small animal and should be neutral toward herbivore" );
         CHECK( attitude( "fish", "herbivore" ) == MFA_NEUTRAL );
+
+        INFO("bear is inherited from animal, but hates small animals, of which vermin is a child");
+        CHECK(attitude("bear", "vermin") == MFA_HATE);
+        CHECK(attitude("bear", "fish") == MFA_NEUTRAL);
 
     }
 
@@ -82,7 +87,6 @@ TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
         CHECK( attitude( "bee", "military" ) == MFA_NEUTRAL );
 
         CHECK(attitude("bear", "bee") == MFA_HATE);
-        CHECK(attitude("bear", "vermin") == MFA_HATE);
         CHECK(attitude("wolf", "pig") == MFA_HATE);
         CHECK(attitude("small_animal", "zombie") == MFA_NEUTRAL);
     }
