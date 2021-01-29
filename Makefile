@@ -463,7 +463,7 @@ ifeq ($(NATIVE), linux64)
   TARGETSYSTEM=LINUX
   ifdef GOLD
     CXXFLAGS += -fuse-ld=gold
-    LDFLAGS += -fuse-ld=gold
+    LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
   endif
 else
   # Linux 32-bit
@@ -473,7 +473,7 @@ else
     TARGETSYSTEM=LINUX
     ifdef GOLD
       CXXFLAGS += -fuse-ld=gold
-      LDFLAGS += -fuse-ld=gold
+      LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
     endif
   endif
 endif
