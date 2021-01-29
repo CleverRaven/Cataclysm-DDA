@@ -236,6 +236,12 @@
     "type": "vehicle_part"
   },
   {
+    "copy-from": "saddle_abstract",
+    "id": "saddle_scooter",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
     "copy-from": "folding_seat_abstract",
     "id": "folding_seat",
     "symbol": "#",
