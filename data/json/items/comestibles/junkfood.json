@@ -1333,7 +1333,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "gelatin_dessert_powder_base",
+    "id": "gelatin_dessert_powder",
     "name": "gelatin dessert powder",
     "weight": "175 g",
     "color": "white",
@@ -1343,45 +1343,13 @@
     "symbol": "%",
     "quench": -8,
     "calories": 20,
-    "description": "A small box of gelatin dessert powder. Just add water and set. Comes in a variety of flavors.",
+    "description": "A small box of gelatin dessert powder.  Just add water and set.  Comes in a variety of flavors.",
     "price": 5,
     "price_postapoc": 10,
     "material": [ "flesh", "junk" ],
     "volume": "250ml",
     "flags": [ "EATEN_COLD" ],
     "fun": -2
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "gelatin_dessert_powder_cherry",
-    "name": "cherry gelatin dessert powder",
-    "color": "red",
-    "description": "A small box of cherry gelatin dessert powder. Just add water and set.",
-    "copy-from": "gelatin_dessert_powder_base"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "gelatin_dessert_powder_lime",
-    "name": "lime gelatin dessert powder",
-    "color": "light_green",
-    "description": "A small box of lime gelatin dessert powder. Just add water and set.",
-    "copy-from": "gelatin_dessert_powder_base"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "gelatin_dessert_powder_grape",
-    "name": "grape gelatin dessert powder",
-    "color": "magenta",
-    "description": "A small box of grape gelatin dessert powder. Just add water and set.",
-    "copy-from": "gelatin_dessert_powder_base"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "gelatin_dessert_powder_raspberry",
-    "name": "blue raspberry gelatin dessert powder",
-    "color": "cyan",
-    "description": "A small box of blue raspberry gelatin dessert powder. Just add water and set.",
-    "copy-from": "gelatin_dessert_powder_base"
   },
   {
     "type": "COMESTIBLE",
@@ -1394,7 +1362,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 100,
-    "description": "An unflavored jiggly, sugary treat made from gelatin and sugar. This would taste better with some flavor.",
+    "description": "An unflavored jiggly, sugary treat made from gelatin and sugar.  This would taste better with some flavor.",
     "price": 210,
     "price_postapoc": 250,
     "material": [ "flesh", "junk" ],
@@ -1404,37 +1372,9 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "gelatin_dessert_cherry",
-    "name": "cherry gelatin dessert",
-    "color": "red",
-    "description": "A cherry flavored jiggly, sugary treat made from gelatin and sugar. A kid favorite pre-Cataclysm.",
-    "fun": 20,
-    "copy-from": "gelatin_dessert_base"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "gelatin_dessert_lime",
-    "name": "lime gelatin dessert",
-    "color": "light_green",
-    "description": "A lime flavored jiggly, sugary treat made from gelatin and sugar. A kid favorite pre-Cataclysm.",
-    "fun": 20,
-    "copy-from": "gelatin_dessert_base"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "gelatin_dessert_grape",
-    "name": "grape gelatin dessert",
-    "color": "magenta",
-    "description": "A grape flavored jiggly, sugary treat made from gelatin and sugar. A kid favorite pre-Cataclysm.",
-    "fun": 20,
-    "copy-from": "gelatin_dessert_base"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "gelatin_dessert_raspberry",
-    "name": "blue raspberry gelatin dessert",
-    "color": "cyan",
-    "description": "A blue raspberry flavored jiggly, sugary treat made from gelatin and sugar. A kid favorite pre-Cataclysm.",
+    "id": "gelatin_dessert_processed",
+    "name": "processed gelatin dessert",
+    "description": "A jiggly, sugary treat made from gelatin and sugar.  Comes in a variety of flavors.  A kid favorite pre-Cataclysm.",
     "fun": 20,
     "copy-from": "gelatin_dessert_base"
   },
@@ -1443,7 +1383,7 @@
     "id": "gelatin_dessert_homemade",
     "name": "homemade gelatin dessert",
     "color": "light_red",
-    "description": "A homemade jiggly, sugary treat made from gelatin and sugar flavored with fruit juice. A kid favorite pre-Cataclysm.",
+    "description": "A homemade jiggly, sugary treat made from gelatin and sugar flavored with fruit juice.  A kid favorite pre-Cataclysm.",
     "fun": 25,
     "copy-from": "gelatin_dessert_base"
   },
@@ -1452,7 +1392,7 @@
     "id": "gelatin_dessert_fruit",
     "name": "fruit filled gelatin dessert",
     "color": "light_red",
-    "description": "A jiggly, sugary treat made from gelatin and sugar flavored with fruit juice and set with fruit. A kid favorite pre-Cataclysm and a healthy treat",
+    "description": "A jiggly, sugary treat made from gelatin and sugar flavored with fruit juice and set with fruit.  A kid favorite pre-Cataclysm and a healthy treat",
     "fun": 20,
     "healthy": 1,
     "copy-from": "gelatin_dessert_base"
@@ -1462,7 +1402,7 @@
     "id": "gelatin_dessert_vegan",
     "name": "vegan gelatin dessert",
     "color": "light_green",
-    "description": "A vegan friendly homemade jiggly, sugary treat made from agar and sugar flavored with fruit juice. A kid favorite pre-Cataclysm. They'll never know the difference.",
+    "description": "A vegan friendly homemade jiggly, sugary treat made from agar and sugar flavored with fruit juice.  A kid favorite pre-Cataclysm. They'll never know the difference.",
     "fun": 20,
     "material": [ "veggy", "junk" ],
     "copy-from": "gelatin_dessert_base"
@@ -1472,7 +1412,7 @@
     "id": "gelatin_dessert_vegan_fruit",
     "name": "fruit filled vegan gelatin dessert",
     "color": "light_green",
-    "description": "A vegan friendly jiggly, sugary treat made from agar and sugar flavored with fruit juice and set with fruit. A kid favorite pre-Cataclysm and a healthy treat",
+    "description": "A vegan friendly jiggly, sugary treat made from agar and sugar flavored with fruit juice and set with fruit.  A kid favorite pre-Cataclysm and a healthy treat",
     "fun": 15,
     "material": [ "veggy", "junk" ],
     "healthy": 1,

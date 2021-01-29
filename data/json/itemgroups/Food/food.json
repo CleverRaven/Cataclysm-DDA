@@ -49,10 +49,7 @@
       { "item": "freeze_dried_meal", "prob": 10 },
       { "item": "gelatin_powder", "prob": 40 },
       { "item": "chem_agar", "prob": 15 },
-      { "item": "gelatin_dessert_powder_cherry", "prob": 40 },
-      { "item": "gelatin_dessert_powder_lime", "prob": 40 },
-      { "item": "gelatin_dessert_powder_grape", "prob": 40 },
-      { "item": "gelatin_dessert_powder_raspberry", "prob": 40 }
+      { "item": "gelatin_dessert_powder", "prob": 40 }
     ]
   },
   {
@@ -561,10 +558,7 @@
       { "item": "pie_veggy", "prob": 18 },
       { "item": "pie_meat", "prob": 18 },
       { "item": "pie_maple", "prob": 9 },
-      { "item": "gelatin_dessert_cherry", "prob": 40 },
-      { "item": "gelatin_dessert_lime", "prob": 40 },
-      { "item": "gelatin_dessert_grape", "prob": 40 },
-      { "item": "gelatin_dessert_raspberry", "prob": 40 }
+      { "item": "gelatin_dessert_processed", "prob": 40 }
     ]
   },
   {
