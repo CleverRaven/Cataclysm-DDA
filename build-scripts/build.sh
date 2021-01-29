@@ -179,7 +179,6 @@ then
 else
     if [ "$OS" == "macos-10.15" ]
     then
-        export NATIVE=osx
         # if OSX_MIN we specify here is lower than 10.15 then linker is going
         # to throw warnings because SDL and gettext libraries installed from 
         # Homebrew are built with minimum target osx version 10.15
