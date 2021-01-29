@@ -1039,12 +1039,12 @@ class item : public visitable
          * resistance (to allow hypothetical calculations for gas masks).
          */
         /*@{*/
-        int acid_resist( bool to_self = false, int base_env_resist = 0 ) const;
-        int fire_resist( bool to_self = false, int base_env_resist = 0 ) const;
-        int bash_resist( bool to_self = false ) const;
-        int cut_resist( bool to_self = false )  const;
-        int stab_resist( bool to_self = false ) const;
-        int bullet_resist( bool to_self = false ) const;
+        float acid_resist( bool to_self = false, int base_env_resist = 0 ) const;
+        float fire_resist( bool to_self = false, int base_env_resist = 0 ) const;
+        float bash_resist( bool to_self = false ) const;
+        float cut_resist( bool to_self = false )  const;
+        float stab_resist( bool to_self = false ) const;
+        float bullet_resist( bool to_self = false ) const;
         /*@}*/
 
         /**
@@ -1055,7 +1055,7 @@ class item : public visitable
         /**
          * Resistance provided by this item against damage type given by an enum.
          */
-        int damage_resist( damage_type dt, bool to_self = false ) const;
+        float damage_resist( damage_type dt, bool to_self = false ) const;
 
         /**
          * Returns resistance to being damaged by attack against the item itself.
@@ -1630,7 +1630,7 @@ class item : public visitable
          * Returns the @ref islot_armor::thickness value, or 0 for non-armor. Thickness is are
          * relative value that affects the items resistance against bash / cutting / bullet damage.
          */
-        int get_thickness() const;
+        float get_thickness() const;
         /**
          * Returns clothing layer for item.
          */

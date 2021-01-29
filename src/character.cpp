@@ -5069,7 +5069,10 @@ void weariness_tracker::clear()
 
 void Character::mod_stored_kcal( int nkcal )
 {
-    mod_stored_calories( nkcal * 1000 );
+    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
+    if( !npc_no_food ) {
+        mod_stored_calories( nkcal * 1000 );
+    }
 }
 
 void Character::mod_stored_calories( int ncal )
@@ -5124,7 +5127,10 @@ int Character::get_hunger() const
 
 void Character::mod_hunger( int nhunger )
 {
-    set_hunger( hunger + nhunger );
+    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
+    if( !npc_no_food ) {
+        set_hunger( hunger + nhunger );
+    }
 }
 
 void Character::set_hunger( int nhunger )
@@ -5712,12 +5718,11 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         // Water from stomach skips guts and gets absorbed by body
         mod_thirst( -units::to_milliliter<int>( digested_to_guts.water ) / 5 );
         guts.ingest( digested_to_guts );
-        // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled.
-        if( !npc_no_food ) {
-            mod_stored_kcal( digested_to_body.nutr.kcal() );
-            log_activity_level( activity_level() );
-            vitamins_mod( digested_to_body.nutr.vitamins, false );
-        }
+
+        mod_stored_kcal( digested_to_body.nutr.kcal() );
+        vitamins_mod( digested_to_body.nutr.vitamins, false );
+        log_activity_level( activity_level() );
+
         if( !foodless && rates.hunger > 0.0f ) {
             mod_hunger( roll_remainder( rates.hunger * five_mins ) );
             // instead of hunger keeping track of how you're living, burn calories instead
@@ -7131,6 +7136,10 @@ bodypart_id Character::body_window( const std::string &menu_header,
     bmenu.hilight_disabled = true;
     bool is_valid_choice = false;
 
+    // If this is an NPC, the player is the one examining them and so the fact
+    // that they can't self-diagnose effectively doesn't matter
+    bool no_feeling = is_player() && has_trait( trait_NOPAIN );
+
     for( size_t i = 0; i < parts.size(); i++ ) {
         const healable_bp &e = parts[i];
         const bodypart_id &bp = e.bp;
@@ -7182,19 +7191,22 @@ bodypart_id Character::body_window( const std::string &menu_header,
         if( limb_is_mending ) {
             desc += colorize( _( "It is broken, but has been set, and just needs time to heal." ),
                               c_blue ) + "\n";
-            const auto &eff = get_effect( effect_mending, bp );
-            const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
-
-            if( precise ) {
-                hp_str = colorize( string_format( "=%2d%%=", mend_perc ), c_blue );
+            if( no_feeling ) {
+                hp_str = colorize( "==%==", c_blue );
             } else {
+                const auto &eff = get_effect( effect_mending, bp );
+                const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
+
                 const int num = mend_perc / 20;
                 hp_str = colorize( std::string( num, '#' ) + std::string( 5 - num, '=' ), c_blue );
+                if( precise ) {
+                    hp_str = string_format( "%s %3d%%", hp_str, mend_perc );
+                }
             }
         } else if( limb_is_broken ) {
             desc += colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) + "\n";
             hp_str = "==%==";
-        } else if( has_trait( trait_NOPAIN ) ) {
+        } else if( no_feeling ) {
             if( current_hp < maximal_hp * 0.25 ) {
                 hp_str = colorize( _( "Very Bad" ), c_red );
             } else if( current_hp < maximal_hp * 0.5 ) {
@@ -7204,12 +7216,14 @@ bodypart_id Character::body_window( const std::string &menu_header,
             } else {
                 hp_str = colorize( _( "Good" ), c_green );
             }
-        } else if( precise ) {
-            hp_str = string_format( "%d", current_hp );
         } else {
             std::pair<std::string, nc_color> h_bar = get_hp_bar( current_hp, maximal_hp, false );
             hp_str = colorize( h_bar.first, h_bar.second ) +
                      colorize( std::string( 5 - utf8_width( h_bar.first ), '.' ), c_white );
+
+            if( precise ) {
+                hp_str = string_format( "%s %3d/%d", hp_str, current_hp, maximal_hp );
+            }
         }
         msg += colorize( aligned_name, all_state_col ) + " " + hp_str;
 
@@ -8439,7 +8453,7 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
 
 int Character::get_armor_bash_base( bodypart_id bp ) const
 {
-    int ret = 0;
+    float ret = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
             ret += i.bash_resist();
@@ -8458,7 +8472,7 @@ int Character::get_armor_bash_base( bodypart_id bp ) const
 
 int Character::get_armor_cut_base( bodypart_id bp ) const
 {
-    int ret = 0;
+    float ret = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
             ret += i.cut_resist();
@@ -8477,7 +8491,7 @@ int Character::get_armor_cut_base( bodypart_id bp ) const
 
 int Character::get_armor_bullet_base( bodypart_id bp ) const
 {
-    int ret = 0;
+    float ret = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
             ret += i.bullet_resist();
@@ -8497,7 +8511,7 @@ int Character::get_armor_bullet_base( bodypart_id bp ) const
 
 int Character::get_env_resist( bodypart_id bp ) const
 {
-    int ret = 0;
+    float ret = 0;
     for( const item &i : worn ) {
         // Head protection works on eyes too (e.g. baseball cap)
         if( i.covers( bp ) || ( bp == body_part_eyes && i.covers( body_part_head ) ) ) {
@@ -9628,8 +9642,8 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     armor.mitigate_damage( du );
 
     // We want armor's own resistance to this type, not the resistance it grants
-    const int armors_own_resist = armor.damage_resist( du.type, true );
-    if( armors_own_resist > 1000 ) {
+    const float armors_own_resist = armor.damage_resist( du.type, true );
+    if( armors_own_resist > 1000.0f ) {
         // This is some weird type that doesn't damage armors
         return false;
     }
@@ -9644,7 +9658,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
 
     // Don't damage armor as much when bypassed by armor piercing
     // Most armor piercing damage comes from bypassing armor, not forcing through
-    const int raw_dmg = du.amount;
+    const float raw_dmg = du.amount;
     if( raw_dmg > armors_own_resist ) {
         // If damage is above armor value, the chance to avoid armor damage is
         // 50% + 50% * 1/dmg

@@ -72,8 +72,9 @@ class player_activity
          */
         bool auto_resume = false;
         /** Flag that will suppress the relatively expensive fire refueling search process.
-        */
-        bool no_fire = true;
+         *  Initially assume there is a fire unless the activity proves not to have one.
+         */
+        bool have_fire = true;
 
         player_activity();
         // This constructor does not work with activities using the new activity_actor system

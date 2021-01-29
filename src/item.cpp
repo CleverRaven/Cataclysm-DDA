@@ -6050,11 +6050,11 @@ const armor_portion_data *item::portion_for_bodypart( const bodypart_id &bodypar
     return nullptr;
 }
 
-int item::get_thickness() const
+float item::get_thickness() const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
-        return is_pet_armor() ? type->pet_armor->thickness : 0;
+        return is_pet_armor() ? type->pet_armor->thickness : 0.0f;
     }
     return t->thickness;
 }
@@ -6185,10 +6185,10 @@ bool item::craft_has_charges()
 #pragma optimize( "", off )
 #endif
 
-int item::bash_resist( bool to_self ) const
+float item::bash_resist( bool to_self ) const
 {
     if( is_null() ) {
-        return 0;
+        return 0.0f;
     }
 
     float resist = 0.0f;
@@ -6197,8 +6197,8 @@ int item::bash_resist( bool to_self ) const
     // base resistance
     // Don't give reinforced items +armor, just more resistance to ripping
     const int dmg = damage_level();
-    const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
-    const int eff_thickness = std::max( 1, get_thickness() - eff_damage );
+    const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
+    const float eff_thickness = std::max( 0.1f, get_thickness() - eff_damage );
 
     const std::vector<const material_type *> mat_types = made_of_types();
     if( !mat_types.empty() ) {
@@ -6209,24 +6209,24 @@ int item::bash_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return std::lround( ( resist * eff_thickness ) + mod );
+    return ( resist * eff_thickness ) + mod;
 }
 
-int item::cut_resist( bool to_self ) const
+float item::cut_resist( bool to_self ) const
 {
     if( is_null() ) {
-        return 0;
+        return 0.0f;
     }
 
-    const int base_thickness = get_thickness();
+    const float base_thickness = get_thickness();
     float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_cut );
 
     // base resistance
     // Don't give reinforced items +armor, just more resistance to ripping
     const int dmg = damage_level();
-    const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
-    const int eff_thickness = std::max( 1, base_thickness - eff_damage );
+    const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
+    const float eff_thickness = std::max( 0.1f, base_thickness - eff_damage );
 
     const std::vector<const material_type *> mat_types = made_of_types();
     if( !mat_types.empty() ) {
@@ -6237,34 +6237,34 @@ int item::cut_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return std::lround( ( resist * eff_thickness ) + mod );
+    return ( resist * eff_thickness ) + mod;
 }
 
 #if defined(_MSC_VER)
 #pragma optimize( "", on )
 #endif
 
-int item::stab_resist( bool to_self ) const
+float item::stab_resist( bool to_self ) const
 {
     // Better than hardcoding it in multiple places
-    return static_cast<int>( 0.8f * cut_resist( to_self ) );
+    return 0.8f * cut_resist( to_self );
 }
 
-int item::bullet_resist( bool to_self ) const
+float item::bullet_resist( bool to_self ) const
 {
     if( is_null() ) {
-        return 0;
+        return 0.0f;
     }
 
-    const int base_thickness = get_thickness();
+    const float base_thickness = get_thickness();
     float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_bullet );
 
     // base resistance
     // Don't give reinforced items +armor, just more resistance to ripping
     const int dmg = damage_level();
-    const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
-    const int eff_thickness = std::max( 1, base_thickness - eff_damage );
+    const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
+    const float eff_thickness = std::max( 0.1f, base_thickness - eff_damage );
 
     const std::vector<const material_type *> mat_types = made_of_types();
     if( !mat_types.empty() ) {
@@ -6275,14 +6275,14 @@ int item::bullet_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return std::lround( ( resist * eff_thickness ) + mod );
+    return ( resist * eff_thickness ) + mod;
 }
 
-int item::acid_resist( bool to_self, int base_env_resist ) const
+float item::acid_resist( bool to_self, int base_env_resist ) const
 {
     if( to_self ) {
         // Currently no items are damaged by acid
-        return INT_MAX;
+        return std::numeric_limits<float>::max();
     }
 
     float resist = 0.0f;
@@ -6309,14 +6309,14 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
-    return std::lround( resist + mod );
+    return resist + mod;
 }
 
-int item::fire_resist( bool to_self, int base_env_resist ) const
+float item::fire_resist( bool to_self, int base_env_resist ) const
 {
     if( to_self ) {
         // Fire damages items in a different way
-        return INT_MAX;
+        return std::numeric_limits<float>::max();
     }
 
     float resist = 0.0f;
@@ -6340,7 +6340,7 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
-    return std::lround( resist + mod );
+    return resist + mod;
 }
 
 int item::chip_resistance( bool worst ) const
@@ -6522,12 +6522,12 @@ void item::mitigate_damage( damage_unit &du ) const
     du.amount = std::max( 0.0f, du.amount );
 }
 
-int item::damage_resist( damage_type dt, bool to_self ) const
+float item::damage_resist( damage_type dt, bool to_self ) const
 {
     switch( dt ) {
         case damage_type::NONE:
         case damage_type::NUM:
-            return 0;
+            return 0.0f;
         case damage_type::PURE:
         case damage_type::BIOLOGICAL:
         case damage_type::ELECTRIC:
@@ -6535,7 +6535,7 @@ int item::damage_resist( damage_type dt, bool to_self ) const
             // Currently hardcoded:
             // Items can never be damaged by those types
             // But they provide 0 protection from them
-            return to_self ? INT_MAX : 0;
+            return to_self ? std::numeric_limits<float>::max() : 0.0f;
         case damage_type::BASH:
             return bash_resist( to_self );
         case damage_type::CUT:
@@ -6552,7 +6552,7 @@ int item::damage_resist( damage_type dt, bool to_self ) const
             debugmsg( "Invalid damage type: %d", dt );
     }
 
-    return 0;
+    return 0.0f;
 }
 
 bool item::is_two_handed( const Character &guy ) const
