@@ -4,7 +4,7 @@
     "type": "vehicle",
     "name": "Floating disk",
     "blueprint": [ "o" ],
-    "parts": [ { "x": 0, "y": 0, "parts": [ "mana_frame" ] } ]
+    "parts": [ { "x": 0, "y": 0, "part": "mana_frame" } ]
   },
   {
     "id": "mana_wheel",
