@@ -130,7 +130,7 @@ static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
-static const flag_id json_flag_ATTUNEMENT( "ATTUNEMENT" );
+static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
@@ -1502,7 +1502,8 @@ void iexamine::safe( player &guy, const tripoint &examp )
         return temporary_item.has_flag( flag_SAFECRACK );
     } );
 
-    if( !( !cracking_tool.empty() || guy.has_flag( STATIC( flag_id( "IMMUNE_HEARING_DAMAGE" ) ) ) ) ) {
+    if( !( !cracking_tool.empty() ||
+           guy.has_flag( STATIC( json_character_flag( "IMMUNE_HEARING_DAMAGE" ) ) ) ) ) {
         guy.moves -= to_turns<int>( 10_seconds );
         // Assume a 3 digit 100-number code. Many safes allow adjacent + 1 dial locations to match,
         // so 1/20^3, or 1/8,000 odds.

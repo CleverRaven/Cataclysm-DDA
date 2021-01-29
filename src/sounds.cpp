@@ -494,7 +494,7 @@ void sounds::process_sound_markers( player *p )
         }
 
         if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) &&
-            !p->has_flag( STATIC( flag_id( "ALARMCLOCK" ) ) ) ) {
+            !p->has_flag( STATIC( json_character_flag( "ALARMCLOCK" ) ) ) ) {
             // if we don't have effect_sleep but we're in_sleep_state, either
             // we were trying to fall asleep for so long our alarm is now going
             // off or something disturbed us while trying to sleep

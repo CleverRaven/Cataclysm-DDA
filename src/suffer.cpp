@@ -163,7 +163,7 @@ static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 
-static const flag_id json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
 {

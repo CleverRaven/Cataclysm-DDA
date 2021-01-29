@@ -23,7 +23,7 @@ using TraitGroupMap =
     std::map<trait_group::Trait_group_tag, shared_ptr_fast<Trait_group>>;
 using TraitSet = std::set<trait_id>;
 using trait_reader = auto_flags_reader<trait_id>;
-using flag_reader = auto_flags_reader<flag_id>;
+using flag_reader = auto_flags_reader<json_character_flag>;
 
 static TraitSet trait_blacklist;
 static TraitGroupMap trait_groups;
@@ -671,7 +671,7 @@ void mutation_branch::check_consistency()
 
 nc_color mutation_branch::get_display_color() const
 {
-    if( flags.count( STATIC( flag_id( "ATTUNEMENT" ) ) ) ) {
+    if( flags.count( STATIC( json_character_flag( "ATTUNEMENT" ) ) ) ) {
         return c_green;
     } else if( threshold || profession ) {
         return c_white;

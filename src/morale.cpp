@@ -839,7 +839,7 @@ bool player_morale::has_mutation( const trait_id &mid )
     return ( mutation != mutations.end() && mutation->second.get_active() );
 }
 
-bool player_morale::has_flag( const flag_id &flag )
+bool player_morale::has_flag( const json_character_flag &flag )
 {
     return get_player_character().has_flag( flag );
 }
@@ -1051,7 +1051,7 @@ void player_morale::update_bodytemp_penalty( const time_duration &ticks )
         add( MORALE_COLD, -2 * to_turns<int>( ticks ), -std::abs( max_cold_penalty ), 1_minutes, 30_seconds,
              true );
     }
-    if( max_hot_penalty != 0 && !has_flag( STATIC( flag_id( "HEATPROOF" ) ) ) ) {
+    if( max_hot_penalty != 0 && !has_flag( STATIC( json_character_flag( "HEATPROOF" ) ) ) ) {
         add( MORALE_HOT, -2 * to_turns<int>( ticks ), -std::abs( max_hot_penalty ), 1_minutes, 30_seconds,
              true );
     }

@@ -1562,7 +1562,7 @@ bool game::do_turn()
     }
 
     // No-scent debug mutation has to be processed here or else it takes time to start working
-    if( !u.has_flag( STATIC( flag_id( "NO_SCENT" ) ) ) ) {
+    if( !u.has_flag( STATIC( json_character_flag( "NO_SCENT" ) ) ) ) {
         scent.set( u.pos(), u.scent, u.get_type_of_scent() );
         overmap_buffer.set_scent( u.global_omt_location(),  u.scent );
     }
@@ -4978,7 +4978,8 @@ void game::use_computer( const tripoint &p )
         return;
     }
     if( u.has_trait( trait_id( "HYPEROPIC" ) ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !u.has_effect( effect_contacts ) && !u.has_flag( STATIC( flag_id( "ENHANCED_VISION" ) ) ) ) {
+        !u.has_effect( effect_contacts ) &&
+        !u.has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
         return;
     }
@@ -10865,7 +10866,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
 
         const int cost = u.climbing_cost( u.pos(), stairs );
-        const bool can_climb_here = cost > 0 || u.has_trait_flag( STATIC( flag_id( "CLIMB_NO_LADDER" ) ) );
+        const bool can_climb_here = cost > 0 ||
+                                    u.has_trait_flag( STATIC( json_character_flag( "CLIMB_NO_LADDER" ) ) );
         if( !can_climb_here ) {
             add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
             return;

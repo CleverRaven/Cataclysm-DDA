@@ -373,7 +373,7 @@ static const mtype_id mon_wasp( "mon_wasp" );
 static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_tools( "bio_tools" );
 
-static const flag_id json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
+static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 
 // terrain/furn flags
 static const std::string flag_CURRENT( "CURRENT" );

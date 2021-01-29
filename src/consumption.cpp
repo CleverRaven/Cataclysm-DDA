@@ -26,6 +26,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "material.h"
 #include "messages.h"
@@ -76,11 +77,11 @@ static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_visuals( "visuals" );
 
-static const flag_id json_flag_PRED1( "PRED1" );
-static const flag_id json_flag_PRED2( "PRED2" );
-static const flag_id json_flag_PRED3( "PRED3" );
-static const flag_id json_flag_PRED4( "PRED4" );
-static const flag_id json_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
+static const json_character_flag json_flag_PRED1( "PRED1" );
+static const json_character_flag json_flag_PRED2( "PRED2" );
+static const json_character_flag json_flag_PRED3( "PRED3" );
+static const json_character_flag json_flag_PRED4( "PRED4" );
+static const json_character_flag json_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
 
 static const item_category_id item_category_chems( "chems" );
 
@@ -744,7 +745,8 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     }
 
     const bool carnivore = has_trait( trait_CARNIVORE );
-    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( flag_CANNIBAL ) ) {
+    if( food.has_flag( flag_CANNIBALISM ) &&
+        !has_trait_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 

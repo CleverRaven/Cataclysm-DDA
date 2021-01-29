@@ -141,12 +141,12 @@ struct bionic_data {
     /**Requirement to bionic installation*/
     requirement_id installation_requirement;
 
-    cata::flat_set<flag_id> flags;
-    cata::flat_set<flag_id> active_flags;
-    cata::flat_set<flag_id> inactive_flags;
-    bool has_flag( const flag_id &flag ) const;
-    bool has_active_flag( const flag_id &flag ) const;
-    bool has_inactive_flag( const flag_id &flag ) const;
+    cata::flat_set<json_character_flag> flags;
+    cata::flat_set<json_character_flag> active_flags;
+    cata::flat_set<json_character_flag> inactive_flags;
+    bool has_flag( const json_character_flag &flag ) const;
+    bool has_active_flag( const json_character_flag &flag ) const;
+    bool has_inactive_flag( const json_character_flag &flag ) const;
 
     itype_id itype() const;
 

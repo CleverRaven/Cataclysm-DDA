@@ -126,7 +126,7 @@ static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
-static const flag_id json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
 static void eff_fun_onfire( Character &u, effect &it )
 {

@@ -794,7 +794,7 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( Character &guy ) const
 {
-    if( guy.has_trait_flag( STATIC( flag_id( "NO_SPELLCASTING" ) ) ) ) {
+    if( guy.has_trait_flag( STATIC( json_character_flag( "NO_SPELLCASTING" ) ) ) ) {
         return false;
     }
 
@@ -926,14 +926,15 @@ float spell::spell_fail( const Character &guy ) const
     }
     float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
     if( has_flag( spell_flag::SOMATIC ) &&
-        !guy.has_trait_flag( STATIC( flag_id( "SUBTLE_SPELL" ) ) ) ) {
+        !guy.has_trait_flag( STATIC( json_character_flag( "SUBTLE_SPELL" ) ) ) ) {
         // the first 20 points of encumbrance combined is ignored
         const int arms_encumb = std::max( 0,
                                           guy.encumb( bodypart_id( "arm_l" ) ) + guy.encumb( bodypart_id( "arm_r" ) ) - 20 );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
         fail_chance += arms_encumb / 200.0f;
     }
-    if( has_flag( spell_flag::VERBAL ) && !guy.has_trait_flag( STATIC( flag_id( "SILENT_SPELL" ) ) ) ) {
+    if( has_flag( spell_flag::VERBAL ) &&
+        !guy.has_trait_flag( STATIC( json_character_flag( "SILENT_SPELL" ) ) ) ) {
         // a little bit of mouth encumbrance is allowed, but not much
         const int mouth_encumb = std::max( 0, guy.encumb( bodypart_id( "mouth" ) ) - 5 );
         fail_chance += mouth_encumb / 100.0f;

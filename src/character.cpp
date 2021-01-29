@@ -375,38 +375,40 @@ static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const std::string flag_PLOWABLE( "PLOWABLE" );
-static const flag_id json_flag_ALARMCLOCK( "ALARMCLOCK" );
-static const flag_id json_flag_ACID_IMMUNE( "ACID_IMMUNE" );
-static const flag_id json_flag_BASH_IMMUNE( "BASH_IMMUNE" );
-static const flag_id json_flag_BIO_IMMUNE( "BIO_IMMUNE" );
-static const flag_id json_flag_BULLET_IMMUNE( "BULLET_IMMUNE" );
-static const flag_id json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
-static const flag_id json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
-static const flag_id json_flag_COLD_IMMUNE( "COLD_IMMUNE" );
-static const flag_id json_flag_CUT_IMMUNE( "CUT_IMMUNE" );
-static const flag_id json_flag_DEAF( "DEAF" );
-static const flag_id json_flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
-static const flag_id json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
-static const flag_id json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
-static const flag_id json_flag_HEATPROOF( "HEATPROOF" );
-static const flag_id json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
-static const flag_id json_flag_INFRARED( "INFRARED" );
-static const flag_id json_flag_NIGHT_VISION( "NIGHT_VISION" );
-static const flag_id json_flag_NO_DISEASE( "NO_DISEASE" );
-static const flag_id json_flag_NO_MINIMAL_HEALING( "NO_MINIMAL_HEALING" );
-static const flag_id json_flag_NO_RADIATION( "NO_RADIATION" );
-static const flag_id json_flag_NO_THIRST( "NO_THIRST" );
-static const flag_id json_flag_NON_THRESH( "NON_THRESH" );
-static const flag_id json_flag_PRED2( "PRED2" );
-static const flag_id json_flag_PRED3( "PRED3" );
-static const flag_id json_flag_PRED4( "PRED4" );
-static const flag_id json_flag_STAB_IMMUNE( "STAB_IMMUNE" );
-static const flag_id json_flag_STEADY( "STEADY" );
-static const flag_id json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
-static const flag_id json_flag_SUPER_CLAIRVOYANCE( "SUPER_CLAIRVOYANCE" );
-static const flag_id json_flag_SUPER_HEARING( "SUPER_HEARING" );
-static const flag_id json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
-static const flag_id json_flag_WATCH( "WATCH" );
+
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_ACID_IMMUNE( "ACID_IMMUNE" );
+static const json_character_flag json_flag_BASH_IMMUNE( "BASH_IMMUNE" );
+static const json_character_flag json_flag_BIO_IMMUNE( "BIO_IMMUNE" );
+static const json_character_flag json_flag_BLIND( "BLIND" );
+static const json_character_flag json_flag_BULLET_IMMUNE( "BULLET_IMMUNE" );
+static const json_character_flag json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
+static const json_character_flag json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
+static const json_character_flag json_flag_COLD_IMMUNE( "COLD_IMMUNE" );
+static const json_character_flag json_flag_CUT_IMMUNE( "CUT_IMMUNE" );
+static const json_character_flag json_flag_DEAF( "DEAF" );
+static const json_character_flag json_flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
+static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
+static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
+static const json_character_flag json_flag_HEATPROOF( "HEATPROOF" );
+static const json_character_flag json_flag_IMMUNE_HEARING_DAMAGE( "IMMUNE_HEARING_DAMAGE" );
+static const json_character_flag json_flag_INFRARED( "INFRARED" );
+static const json_character_flag json_flag_NIGHT_VISION( "NIGHT_VISION" );
+static const json_character_flag json_flag_NO_DISEASE( "NO_DISEASE" );
+static const json_character_flag json_flag_NO_MINIMAL_HEALING( "NO_MINIMAL_HEALING" );
+static const json_character_flag json_flag_NO_RADIATION( "NO_RADIATION" );
+static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
+static const json_character_flag json_flag_NON_THRESH( "NON_THRESH" );
+static const json_character_flag json_flag_PRED2( "PRED2" );
+static const json_character_flag json_flag_PRED3( "PRED3" );
+static const json_character_flag json_flag_PRED4( "PRED4" );
+static const json_character_flag json_flag_STAB_IMMUNE( "STAB_IMMUNE" );
+static const json_character_flag json_flag_STEADY( "STEADY" );
+static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
+static const json_character_flag json_flag_SUPER_CLAIRVOYANCE( "SUPER_CLAIRVOYANCE" );
+static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+static const json_character_flag json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
+static const json_character_flag json_flag_WATCH( "WATCH" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -5331,8 +5333,8 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, const 
                 continue;
             }
             const auto &info = i.info();
-            if( info.has_flag( STATIC( flag_id( "BIONIC_SHOCKPROOF" ) ) ) ||
-                info.has_flag( STATIC( flag_id( "BIONIC_FAULTY" ) ) ) ) {
+            if( info.has_flag( STATIC( json_character_flag( "BIONIC_SHOCKPROOF" ) ) ) ||
+                info.has_flag( STATIC( json_character_flag( "BIONIC_FAULTY" ) ) ) ) {
                 continue;
             }
             const std::map<bodypart_str_id, size_t> &bodyparts = info.occupied_bodyparts;
@@ -6069,7 +6071,7 @@ bool Character::can_interface_armor() const
 {
     bool okay = std::any_of( my_bionics->begin(), my_bionics->end(),
     []( const bionic & b ) {
-        return b.powered && b.info().has_flag( STATIC( flag_id( "BIONIC_ARMOR_INTERFACE" ) ) );
+        return b.powered && b.info().has_flag( STATIC( json_character_flag( "BIONIC_ARMOR_INTERFACE" ) ) );
     } );
     return okay;
 }
@@ -7612,7 +7614,7 @@ bool Character::is_blind() const
 {
     return ( worn_with_flag( flag_BLIND ) ||
              has_effect( effect_blind ) ||
-             has_flag( flag_BLIND ) );
+             has_flag( json_flag_BLIND ) );
 }
 
 bool Character::is_invisible() const
@@ -9399,7 +9401,7 @@ void Character::recalculate_enchantment_cache()
         for( const enchantment_id &ench_id : bid->enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this, bio.powered &&
-                                bid->has_flag( STATIC( flag_id( "BIONIC_TOGGLED" ) ) ) ) ) {
+                                bid->has_flag( STATIC( json_character_flag( "BIONIC_TOGGLED" ) ) ) ) ) {
                 enchantment_cache->force_add( ench );
             }
         }
@@ -13100,7 +13102,7 @@ int Character::book_fun_for( const item &book, const Character &p ) const
     return fun_bonus;
 }
 
-bool Character::has_bionic_with_flag( const flag_id &flag ) const
+bool Character::has_bionic_with_flag( const json_character_flag &flag ) const
 {
     for( const bionic &bio : *my_bionics ) {
         if( bio.info().has_flag( flag ) ) {
@@ -13117,7 +13119,7 @@ bool Character::has_bionic_with_flag( const flag_id &flag ) const
     return false;
 }
 
-bool Character::has_flag( const flag_id &flag ) const
+bool Character::has_flag( const json_character_flag &flag ) const
 {
     // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate
     return has_trait_flag( flag ) || has_bionic_with_flag( flag );

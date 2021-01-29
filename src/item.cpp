@@ -148,7 +148,7 @@ static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
 static const species_id species_ROBOT( "ROBOT" );
 
-static const flag_id json_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
 

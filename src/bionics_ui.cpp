@@ -310,7 +310,7 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
                               : string_format( _( "%s/%d turns" ), units::display( bio_data.power_over_time ),
                                                bio_data.charge_time ) );
     }
-    if( bio_data.has_flag( STATIC( flag_id( "BIONIC_TOGGLED" ) ) ) ) {
+    if( bio_data.has_flag( STATIC( json_character_flag( "BIONIC_TOGGLED" ) ) ) ) {
         properties.push_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
     if( bio.incapacitated_time > 0_turns ) {
@@ -496,7 +496,7 @@ static void draw_connectors( const catacurses::window &win, const point &start,
 static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
 {
     nc_color type = c_white;
-    bool is_power_source = bio.id->has_flag( STATIC( flag_id( "BIONIC_POWER_SOURCE" ) ) );
+    bool is_power_source = bio.id->has_flag( STATIC( json_character_flag( "BIONIC_POWER_SOURCE" ) ) );
     if( bio.id->activated ) {
         if( isHighlightedBionic ) {
             if( bio.powered && !is_power_source ) {

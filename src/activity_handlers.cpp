@@ -235,10 +235,10 @@ static const quality_id qual_CUT_FINE( "CUT_FINE" );
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
-static const flag_id json_flag_CANNIBAL( "CANNIBAL" );
-static const flag_id json_flag_PSYCHOPATH( "PSYCHOPATH" );
-static const flag_id json_flag_SAPIOVORE( "SAPIOVORE" );
-static const flag_id json_flag_SUPER_HEARING( "SUPER_HEARING" );
+static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
+static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 

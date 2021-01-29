@@ -77,7 +77,7 @@ static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
-static const flag_id json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
@@ -563,7 +563,7 @@ void flashbang( const tripoint &p, bool player_immune )
     int dist = rl_dist( player_character.pos(), p );
     map &here = get_map();
     if( dist <= 8 && !player_immune ) {
-        if( !player_character.has_flag( STATIC( flag_id( "IMMUNE_HEARING_DAMAGE" ) ) ) &&
+        if( !player_character.has_flag( STATIC( json_character_flag( "IMMUNE_HEARING_DAMAGE" ) ) ) &&
             !player_character.is_wearing( itype_rm13_armor_on ) ) {
             player_character.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }

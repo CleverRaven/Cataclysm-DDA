@@ -57,10 +57,10 @@ static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_no_ammo( "no_ammo" );
 static const efftype_id effect_rat( "rat" );
 
-static const flag_id json_flag_PRED1( "PRED1" );
-static const flag_id json_flag_PRED2( "PRED2" );
-static const flag_id json_flag_PRED3( "PRED3" );
-static const flag_id json_flag_PRED4( "PRED4" );
+static const json_character_flag json_flag_PRED1( "PRED1" );
+static const json_character_flag json_flag_PRED2( "PRED2" );
+static const json_character_flag json_flag_PRED3( "PRED3" );
+static const json_character_flag json_flag_PRED4( "PRED4" );
 
 static const itype_id itype_processor( "processor" );
 

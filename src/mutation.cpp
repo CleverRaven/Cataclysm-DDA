@@ -104,7 +104,7 @@ bool Character::has_trait( const trait_id &b ) const
     return my_mutations.count( b ) || enchantment_cache->get_mutations().count( b );
 }
 
-bool Character::has_trait_flag( const flag_id &b ) const
+bool Character::has_trait_flag( const json_character_flag &b ) const
 {
     // UGLY, SLOW, should be cached as my_mutation_flags or something
     for( const trait_id &mut : get_mutations() ) {

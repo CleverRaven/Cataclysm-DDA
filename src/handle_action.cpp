@@ -124,7 +124,7 @@ static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_
 
 static const std::string flag_LOCKED( "LOCKED" );
 
-static const flag_id json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1024,7 +1024,7 @@ static void sleep()
         // some bionics
         // bio_alarm is useful for waking up during sleeping
         // turning off bio_leukocyte has 'unpleasant side effects'
-        if( bio.info().has_flag( STATIC( flag_id( "BIONIC_SLEEP_FRIENDLY" ) ) ) ) {
+        if( bio.info().has_flag( STATIC( json_character_flag( "BIONIC_SLEEP_FRIENDLY" ) ) ) ) {
             continue;
         }
 

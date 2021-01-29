@@ -118,7 +118,7 @@ static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
 
-static const flag_id json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
 avatar::avatar()
 {
@@ -302,7 +302,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
         reasons.emplace_back( _( "You're illiterate!" ) );
     } else if( has_trait( trait_HYPEROPIC ) &&
                !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
-               !has_effect( effect_contacts ) && !has_flag( STATIC( flag_id( "ENHANCED_VISION" ) ) ) ) {
+               !has_effect( effect_contacts ) &&
+               !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
         reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
         // Too dark to read only applies if the player can read to himself

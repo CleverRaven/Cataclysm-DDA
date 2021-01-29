@@ -57,7 +57,8 @@ static const itype_id itype_water( "water" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 
-static const flag_id json_flag_GLARE_RESIST( "GLARE_RESIST" );
+static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+
 static const flag_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
 static const flag_id json_flag_RAINPROOF( "RAINPROOF" );
 static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
