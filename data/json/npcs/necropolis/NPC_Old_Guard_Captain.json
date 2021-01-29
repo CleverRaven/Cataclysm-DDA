@@ -93,7 +93,9 @@
     "difficulty": 5,
     "value": 250000,
     "monster_type": "mon_charred_nightmare",
-    "start": { "assign_mission_target": { "om_terrain": "necropolis_c_44", "om_special": "Necropolis", "z": -2 } },
+    "start": {
+      "assign_mission_target": { "om_terrain": "necropolis_c_44", "om_special": "Necropolis", "z": -2, "search_range": 360 }
+    },
     "monster_kill_goal": 20,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

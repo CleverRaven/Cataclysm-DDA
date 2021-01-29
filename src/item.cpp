@@ -6282,7 +6282,7 @@ float item::acid_resist( bool to_self, int base_env_resist ) const
 {
     if( to_self ) {
         // Currently no items are damaged by acid
-        return INT_MAX;
+        return std::numeric_limits<float>::max();
     }
 
     float resist = 0.0f;
@@ -6316,7 +6316,7 @@ float item::fire_resist( bool to_self, int base_env_resist ) const
 {
     if( to_self ) {
         // Fire damages items in a different way
-        return INT_MAX;
+        return std::numeric_limits<float>::max();
     }
 
     float resist = 0.0f;
