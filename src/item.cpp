@@ -2619,23 +2619,25 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
     if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
         const std::string space = "  ";
         info.push_back( iteminfo( "ARMOR", _( "<bold>Protection</bold>: Bash: " ), "",
-                                  iteminfo::no_newline, bash_resist() ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ), "", iteminfo::no_newline, cut_resist() ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Ballistic: " ), bullet_resist() ) );
+                                  iteminfo::no_newline | iteminfo::is_decimal, bash_resist() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ), "",
+                                  iteminfo::no_newline | iteminfo::is_decimal, cut_resist() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Ballistic: " ), "", iteminfo::is_decimal,
+                                  bullet_resist() ) );
         info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
-                                  iteminfo::no_newline, acid_resist() ) );
+                                  iteminfo::no_newline | iteminfo::is_decimal, acid_resist() ) );
         info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
-                                  iteminfo::no_newline, fire_resist() ) );
+                                  iteminfo::no_newline | iteminfo::is_decimal, fire_resist() ) );
         info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
                                   get_base_env_resist( *this ) ) );
         if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
             info.push_back( iteminfo( "ARMOR",
                                       _( "<bold>Protection when active</bold>: " ) ) );
             info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
-                                      iteminfo::no_newline,
+                                      iteminfo::no_newline | iteminfo::is_decimal,
                                       acid_resist( false, get_base_env_resist_w_filter() ) ) );
             info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
-                                      iteminfo::no_newline,
+                                      iteminfo::no_newline | iteminfo::is_decimal,
                                       fire_resist( false, get_base_env_resist_w_filter() ) ) );
             info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
                                       get_env_resist( get_base_env_resist_w_filter() ) ) );
