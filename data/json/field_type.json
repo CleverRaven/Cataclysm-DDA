@@ -42,7 +42,7 @@
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
-    "phase": "solid",
+    "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_blood"
@@ -61,7 +61,7 @@
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
-    "phase": "solid",
+    "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_blood_veggy"
@@ -913,7 +913,7 @@
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
-    "phase": "solid",
+    "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_blood_insect"
@@ -932,7 +932,7 @@
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
-    "phase": "solid",
+    "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_blood_invertebrate"
