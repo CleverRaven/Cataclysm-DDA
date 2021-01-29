@@ -3,7 +3,7 @@
     "id": "apron_leather",
     "type": "ARMOR",
     "name": { "str": "leather apron" },
-    "description": "An apron made of thick leather.  Cumbersome, but offers excellent protection from cuts.",
+    "description": "An apron made of thick leather.",
     "weight": "1950 g",
     "volume": "2250 ml",
     "price": 1500,
@@ -22,7 +22,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
     ],
     "warmth": 15,
-    "material_thickness": 3,
+    "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "POCKETS", "BELTED", "WATER_FRIENDLY" ]
   },
@@ -60,7 +60,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 120 }
     ],
     "warmth": 20,
-    "material_thickness": 2,
+    "material_thickness": 1.5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "FANCY" ]
   },
@@ -106,7 +106,7 @@
     ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
     "warmth": 10,
-    "material_thickness": 0.2,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
@@ -128,7 +128,7 @@
     "coverage": 90,
     "encumbrance": 45,
     "warmth": 30,
-    "material_thickness": 0.3,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SUPER_FANCY" ]
   },
   {
@@ -283,7 +283,7 @@
     "coverage": 90,
     "encumbrance": 7,
     "warmth": 25,
-    "material_thickness": 0.5,
+    "material_thickness": 0.3,
     "snippet_category": [
       {
         "id": "decatur",
@@ -347,7 +347,7 @@
     "covers": [ "torso" ],
     "coverage": 55,
     "warmth": 5,
-    "material_thickness": 0.1,
+    "material_thickness": 0.01,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
   {
@@ -368,7 +368,7 @@
     "coverage": 90,
     "encumbrance": 5,
     "warmth": 5,
-    "material_thickness": 0.2,
+    "material_thickness": 0.1,
     "snippet_category": [
       {
         "id": "tux",
@@ -449,7 +449,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
     ],
     "warmth": 5,
-    "material_thickness": 0.3,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
@@ -470,7 +470,7 @@
     "coverage": 90,
     "encumbrance": 7,
     "warmth": 15,
-    "material_thickness": 0.3,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -494,7 +494,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 }
     ],
     "warmth": 5,
-    "material_thickness": 0.2,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -578,7 +578,7 @@
     "color": "yellow",
     "covers": [ "torso", "leg_l", "leg_r" ],
     "coverage": 65,
-    "material_thickness": 0.2,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
@@ -668,7 +668,7 @@
     "covers": [ "torso" ],
     "coverage": 90,
     "warmth": 5,
-    "material_thickness": 0.2,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -688,7 +688,7 @@
     "covers": [ "torso" ],
     "coverage": 90,
     "warmth": 5,
-    "material_thickness": 0.2,
+    "material_thickness": 0.1,
     "snippet_category": [
       {
         "id": "allyourbase",
@@ -763,7 +763,7 @@
     "max_encumbrance": 5,
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 } ],
     "warmth": 5,
-    "material_thickness": 0.5,
+    "material_thickness": 0.4,
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
@@ -791,7 +791,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
     ],
     "warmth": 20,
-    "material_thickness": 0.5,
+    "material_thickness": 1.5,
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
@@ -819,7 +819,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 }
     ],
     "warmth": 45,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
   }

@@ -2370,7 +2370,7 @@ Armor can be defined like this:
 "weight_capacity_bonus": "20 kg",    // (Optional, default = 0) Bonus to weight carrying capacity, can be negative. Strings must be used - "5000 g" or "5 kg"
 "weight_capacity_modifier": 1.5, // (Optional, default = 1) Factor modifying base weight carrying capacity.
 "coverage" : 80,      // What percentage of body part
-"material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Ordinary clothes range from 0.1 to 0.5. Particularly rugged cloth may reach as high as 1, and armor or protective equipment can range as high as 10 or rarely more.
+"material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Ordinary clothes range from 0.1 to 0.5. Particularly rugged cloth may reach as high as 1-2mm, and armor or protective equipment can range as high as 10 or rarely more.
 "power_armor" : false, // If this is a power armor item (those are special).
 "valid_mods" : ["steel_padded"] // List of valid clothing mods. Note that if the clothing mod doesn't have "restricted" listed, this isn't needed.
 ```
@@ -2388,6 +2388,31 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
     "power_armor" : false
 }
 ```
+Guidelines for thickness.
+According to https://propercloth.com/reference/fabric-thickness-weight/
+Dress shirts and similar fine clothing ranges from 0.15mm to 0.35mm.
+According to https://leathersupreme.com/leather-hide-thickness-in-leather-jackets/
+Fashion leather such as thin leather jackets, skirts, and thin vests are 1.0mm or less.
+Heavy leather clothes such as motorcycle suits average 1.5mm.
+According to http://cci.one/site/marine/design-tips-fabrication-overview/tables-of-weights-and-measures/?doing_wp_cron=1611725817.5850219726562500000000
+An equivalency guideline for fabric weight to mm.
+2.3 oz/yd2 fiberglass (plain weave cloth) 	78 gm/m2 	0.004″ 	0.10 mm
+6.0 oz/yd2 fiberglass (plain weave cloth) 	203 gm/m2 	0.007″ 	0.17 mm
+5.0 oz/yd2 Kevlar (TM) (plain weave cloth) 	170 gm/m2 	0.010″ 	0.25 mm
+5.8 oz/yd2 Carbon Fiber (plain weave cloth) 	197 gm/m2 	0.009″ 	0.23 mm
+9.0 oz/yd2 Carbon Fiber (unidirectional) 	305 gm/m2 	0.011″ 	0.28 mm
+
+Chart cobbled together from several sources
+Very lightweight fabrics are between 0-4oz. (up to 136 gsm) 0.006″-0.007″ 0.15mm
+Light fabrics are between 4-7oz. (up to 237 gsm) 0.008″ 0.2mm
+Medium fabrics are between 7-11oz. (up to 373 gsm) 0.009″-0.011" 0.25mm
+Heavy fabrics are between 11-14oz. (up to 475 gsm) 0.012″-0.014″ 0.3mm
+
+Shoe thicknesses outlined at https://secretcobbler.com/choosing-leather/
+TL;DR upper 1.2 - 2.0mm, lining 0.8 - 1.2mm, for a total of 2.0 - 3.2mm
+
+Reference for turnout gear http://bolivar.mo.us/media/uploads/2014/09/2014-06-bid-fire-gear-packet.pdf
+
 
 ### Pet Armor
 Pet armor can be defined like this:
