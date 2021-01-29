@@ -2947,6 +2947,7 @@ int get_auto_consume_moves( player &p, const bool food )
     return 0;
 }
 
+// Try to add fuel to a fire. Return true if there is both fire and fuel; return false otherwise.
 bool try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();
