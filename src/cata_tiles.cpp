@@ -1543,7 +1543,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos
 {
     int nullint = 0;
     return cata_tiles::draw_from_id_string( id, C_NONE, empty_string, pos, subtile,
-                                            rota, ll, apply_night_vision_goggles, nullint );
+                                            rota, ll, apply_night_vision_goggles, nullint, 0 );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
@@ -1553,7 +1553,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
 {
     int nullint = 0;
     return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota,
-                                            ll, apply_night_vision_goggles, nullint );
+                                            ll, apply_night_vision_goggles, nullint, 0 );
 }
 
 bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos, int subtile,
@@ -1562,7 +1562,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos
                                       int &height_3d )
 {
     return cata_tiles::draw_from_id_string( id, C_NONE, empty_string, pos, subtile,
-                                            rota, ll, apply_night_vision_goggles, height_3d );
+                                            rota, ll, apply_night_vision_goggles, height_3d, 0 );
 }
 
 cata::optional<tile_lookup_res>
@@ -1696,7 +1696,7 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                       const std::string &subcategory, const tripoint &pos,
                                       int subtile, int rota, lit_level ll,
-                                      bool apply_night_vision_goggles, int &height_3d )
+                                      bool apply_night_vision_goggles, int &height_3d, int intensity_level)
 {
     // If the ID string does not produce a drawable tile
     // it will revert to the "unknown" tile.
@@ -1772,9 +1772,8 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             }
         } else if( category == C_FIELD ) {
             const field_type_id fid = field_type_id( found_id );
-            sym = fid.obj().get_codepoint();
-            // TODO: field intensity?
-            col = fid.obj().get_color();
+            sym = fid.obj().get_codepoint(intensity_level);
+            col = fid.obj().get_color(intensity_level);
         } else if( category == C_TRAP ) {
             const trap_str_id tmp( found_id );
             if( tmp.is_valid() ) {
@@ -2697,8 +2696,16 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
         int rotation = 0;
         get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
 
+        //get field intensity
+        int intensity = -1;
+        if(!fld_overridden) {
+            //-1 is needed since it seems intensity in the field is counted from 1 instead of 0
+            intensity = here.field_at( p ).displayed_intensity() - 1;
+        }
+
+        int nullint = 0;
         ret_draw_field = draw_from_id_string( fld.id().str(), C_FIELD, empty_string, p, subtile,
-                                              rotation, lit, nv );
+                                              rotation, lit, nv, nullint, intensity );
     }
     if( fld.obj().display_items ) {
         const auto it_override = item_override.find( p );
