@@ -173,6 +173,11 @@ class Tileset:
         unused = dict()
         for pngname, pngnum in self.pngname_to_pngnum.items():
             if pngnum and pngname not in self.referenced_pngnames:
+                if pngname in self.processed_ids:
+                    print(f'Error: {pngname}.png not used when {pngname} ID '
+                          'is mentioned in a tile entry')
+                    global ERROR_LOGGED
+                    ERROR_LOGGED = True
                 if use_all:
                     unused[pngname] = pngnum
                 else:
