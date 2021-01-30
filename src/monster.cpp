@@ -303,7 +303,7 @@ void monster::poly( const mtype_id &id )
     biosignatures = type->biosignatures;
 }
 
-bool monster::can_upgrade()
+bool monster::can_upgrade() const
 {
     return upgrades && get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0.0;
 }
@@ -641,6 +641,11 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
         col = c_red;
     }
 
+    if( debug_mode ) {
+        damage_info += "  ";
+        damage_info += string_format( _( "%1$d/%2$d HP" ), cur_hp, max_hp );
+    }
+
     return std::make_pair( damage_info, col );
 }
 
@@ -865,6 +870,39 @@ std::string monster::extended_description() const
 
     if( !type->has_flag( m_flag::MF_NOHEAD ) ) {
         ss += std::string( _( "It has a head." ) ) + "\n";
+    }
+
+    if( debug_mode ) {
+        ss += "--\n";
+
+        ss += string_format( _( "Current Speed: %1$d" ), get_speed() ) + "\n";
+        ss += string_format( _( "Anger: %1$d" ), anger ) + "\n";
+        ss += string_format( _( "Friendly: %1$d" ), friendly ) + "\n";
+        ss += string_format( _( "Morale: %1$d" ), morale ) + "\n";
+
+        const time_duration current_time = calendar::turn - calendar::turn_zero;
+        ss += string_format( _( "Current Time: Turn %1$d  |  Day: %2$d" ),
+                             to_turns<int>( current_time ),
+                             to_days<int>( current_time ) ) + "\n";
+
+        ss += string_format( _( "Upgrade time: %1$d (turns left %2$d) %3$s" ),
+                             upgrade_time,
+                             to_turns<int>( time_duration::from_days( upgrade_time ) - current_time ),
+                             can_upgrade() ? "" : _( "<color_red>(can't upgrade)</color>" ) ) + "\n";
+
+        if( baby_timer.has_value() ) {
+            ss += string_format( _( "Reproduce time: %1$d (turns left %2$d) %3$s" ),
+                                 to_turn<int>( baby_timer.value() ),
+                                 to_turn<int>( baby_timer.value() - current_time ),
+                                 reproduces ? "" : _( "<color_red>(can't reproduce)</color>" ) ) + "\n";
+        }
+
+        if( biosig_timer.has_value() ) {
+            ss += string_format( _( "Biosignature time: %1$d (turns left %2$d) %3$s" ),
+                                 to_turn<int>( biosig_timer.value() ),
+                                 to_turn<int>( biosig_timer.value()  - current_time ),
+                                 biosignatures ? "" : _( "<color_red>(no biosignature)</color>" ) ) + "\n";
+        }
     }
 
     return replace_colors( ss );
