@@ -248,29 +248,36 @@
     "dynamic_line": {
       "u_has_var": "prisoner_leader_mission",
       "type": "mission",
-      "context": "accepted",
+      "context": "military_id",
       "value": "yes",
-      "yes": "So, what are you waiting for?",
+      "yes": "I have nothing more to say to you.  <get_lost>",
       "no": {
         "u_has_var": "prisoner_leader_mission",
         "type": "mission",
-        "context": "completed",
+        "context": "accepted",
         "value": "yes",
-        "yes": "I don't know if you know, but there are sewers underneath the prison.  I was planning an escape long before <the_cataclysm>, and while I was working on cleaning the sewers, I noticed a damaged wall section.  There was a flow of fresh air coming out of it, so I think it's leading to the surface.  It could be your way to freedom.  Feel free to use it.",
+        "yes": "So, what are you waiting for?",
         "no": {
-          "u_has_var": "talked_to_leader",
-          "type": "dialogue",
-          "context": "first_meeting",
+          "u_has_var": "prisoner_leader_mission",
+          "type": "mission",
+          "context": "completed",
           "value": "yes",
-          "yes": {
+          "yes": "I don't know if you know, but there are sewers underneath the prison.  I was planning an escape long before <the_cataclysm>, and while I was working on cleaning the sewers, I noticed a damaged wall section.  There was a flow of fresh air coming out of it, so I think it's leading to the surface.  It could be your way to freedom.  Feel free to use it.",
+          "no": {
             "u_has_var": "talked_to_leader",
             "type": "dialogue",
-            "context": "cannibal",
+            "context": "first_meeting",
             "value": "yes",
-            "no": "It's you again.",
-            "yes": "You are what you eat, as they say."
-          },
-          "no": "Hello there.  Haven't seen you around before.  You must be from the other wing.  Managed to survive, huh?"
+            "yes": {
+              "u_has_var": "talked_to_leader",
+              "type": "dialogue",
+              "context": "cannibal",
+              "value": "yes",
+              "no": "It's you again.",
+              "yes": "You are what you eat, as they say."
+            },
+            "no": "Hello there.  Haven't seen you around before.  You must be from the other wing.  Managed to survive, huh?"
+          }
         }
       }
     },
@@ -327,6 +334,9 @@
             },
             {
               "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "completed", "value": "yes" }
+            },
+            {
+              "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "military_id", "value": "yes" }
             }
           ]
         }
@@ -352,9 +362,17 @@
             },
             {
               "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "completed", "value": "yes" }
+            },
+            {
+              "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "military_id", "value": "yes" }
             }
           ]
         }
+      },
+      {
+        "text": "Okay.",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "military_id", "value": "yes" }
       }
     ]
   },
@@ -436,19 +454,52 @@
     },
     "responses": [
       {
+        "text": "[Show the military id card] You mean this stuff?",
+        "topic": "TALK_PRISONER_LEADER_SHOW_MILITARY_ID",
+        "condition": {
+          "and": [
+            { "u_has_item": "id_military" },
+            {
+              "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "accepted", "value": "yes" }
+            }
+          ]
+        }
+      },
+      {
         "text": "What's in the safe?",
         "topic": "TALK_PRISONER_LEADER_ASKED_ABOUT_SAFE_CONTENTS",
-        "condition": { "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "accepted", "value": "yes" } }
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "military_id", "value": "yes" } },
+            {
+              "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "accepted", "value": "yes" }
+            }
+          ]
+        }
       },
       {
         "text": "What for do you need it?",
         "topic": "TALK_PRISONER_LEADER_ASKED_ABOUT_WHAT_FOR_DO_YOU_NEED_IT",
-        "condition": { "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "accepted", "value": "yes" } }
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "military_id", "value": "yes" } },
+            {
+              "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "accepted", "value": "yes" }
+            }
+          ]
+        }
       },
       {
         "text": "Yeah, sure.",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "accepted", "value": "yes" } }
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "military_id", "value": "yes" } },
+            {
+              "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "accepted", "value": "yes" }
+            }
+          ]
+        }
       },
       {
         "text": "I have a bad feeling about this.  Sorry, I'll pass.",
@@ -458,7 +509,12 @@
       {
         "text": "I'm on my way.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "accepted", "value": "yes" }
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "military_id", "value": "yes" } },
+            { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "accepted", "value": "yes" }
+          ]
+        }
       }
     ]
   },
@@ -483,6 +539,40 @@
     ]
   },
   {
+    "id": "TALK_PRISONER_LEADER_SHOW_MILITARY_ID",
+    "type": "talk_topic",
+    "speaker_effect": { "effect": { "u_add_var": "prisoner_leader_mission", "type": "mission", "context": "military_id", "value": "yes" } },
+    "dynamic_line": [ "Hey, where did you get it?  Nevermind, just give it to me.  Just <swear> now." ],
+    "responses": [
+      {
+        "text": "Hey, no need to be hostile.  Here you go, I don't need it anyway.",
+        "topic": "TALK_DONE",
+        "effect": { "u_sell_item": "id_military" }
+      },
+      {
+        "text": "I went through incredible hardships to get it.  Please, can I keep this to myself?",
+        "trial": { "type": "PERSUADE", "difficulty": 5, "mod": [ [ "ALTRUISM", 3 ], [ "TRUST", 1 ] ] },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" },
+        "success": { "topic": "TALK_PRISONER_LEADER_TRIAL_SUCCESS" }
+      },
+      {
+        "text": "I killed tons of <zombies> while I was trying to get this thing.  Do you really think you and your handful of losers pose a threat to me?",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30, "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ] },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" },
+        "success": { "topic": "TALK_PRISONER_LEADER_TRIAL_SUCCESS" }
+      },
+      { "text": "What, <no>!", "topic": "TALK_DONE", "effect": "hostile" }
+    ]
+  },
+  {
+    "id": "TALK_PRISONER_LEADER_TRIAL_SUCCESS",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Okay.  It was convincing.  I'll still get what I want, one way or another.  You better watch your back from now on."
+    ],
+    "responses": [ { "text": "Noted.  Bye.", "topic": "TALK_DONE" } ]
+  },
+  {
     "id": "MISSION_PRISONER_LEADER_GET_ID_CARD",
     "type": "mission_definition",
     "name": { "str": "Get The Thing from the chief's office" },
@@ -498,15 +588,17 @@
       "rejected": "Fine, I'll get the thing in any case, sooner or later.",
       "advice": "The chief's office is on the other side of the prison.  I think the road there is full of <zombies>, so you better find a weapon.  Also you probably will need some tools to crack the safe open.",
       "inquire": "Did you get the stuff already?",
-      "success": "At last!  Give me a few moments to check if it isn't damaged, and talk to me once again.",
+      "success": "At last!  Give me a few moments to check if it isn't damaged.  Here, take this for your troubles.",
       "success_lie": "Huh.  This isn't going to work like I thought.",
       "failure": "You're useless.  I should've killed you when I met you."
     },
+    "has_generic_rewards": false,
     "start": { "effect": [ { "u_add_var": "prisoner_leader_mission", "type": "mission", "context": "accepted", "value": "yes" } ] },
     "end": {
       "effect": [
         { "u_add_var": "prisoner_leader_mission", "type": "mission", "context": "completed", "value": "yes" },
-        { "u_lose_var": "prisoner_leader_mission", "type": "mission", "context": "accepted" }
+        { "u_lose_var": "prisoner_leader_mission", "type": "mission", "context": "accepted" },
+        { "u_buy_item": "can_beans", "container": "can_medium" }
       ]
     }
   }
