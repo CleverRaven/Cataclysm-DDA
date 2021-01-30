@@ -109,7 +109,7 @@ Each JSON file can have either a single object or an array of one or more object
 [
     { "id": "mon_zombie", "fg": "mon_zombie", "bg": "mon_zombie_bg" },
     { "id": "corpse_mon_zombie", "fg": "mon_zombie_corpse", "bg": "mon_zombie_bg" },
-    { "id": "overlay_wielding_corse_mon_zombie", "fg": "wielded_mon_zombie_corpse" }
+    { "id": "overlay_wielded_corpse_mon_zombie", "fg": "wielded_mon_zombie_corpse" }
 ]
 ```
 
