@@ -3539,7 +3539,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
             if( bid.is_valid() ) {
                 p->perform_install( bid, upbid, act->values[0], act->values[1], act->values[3],
-                                    act->str_values[installer_name], bid->canceled_mutations, p->pos() );
+                                    act->str_values[installer_name], bid->canceled_mutations );
             } else {
                 debugmsg( _( "%s is no a valid bionic_id" ), bid.c_str() );
                 p->remove_effect( effect_under_op );
@@ -3606,22 +3606,41 @@ void activity_handlers::operation_finish( player_activity *act, player *p )
                            "Autodoc",
                            "success" );
         } else {
-            add_msg( m_bad,
-                     _( "The Autodoc jerks back to its resting position after failing the operation." ) );
-            const std::list<tripoint> autodocs = g->m.find_furnitures_with_flag_in_radius( p->pos(), 1,
-                                                 flag_AUTODOC );
-            sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
-                           _( "a sad beeping noise: \"Operation failed\"" ), true,
-                           "Autodoc",
-                           "failure" );
+            if( act->str_values[0] == "install" ) {
+                add_msg( m_warning,
+                         _( "The Autodoc completes installation and activates bionic but reports about complications during operation." ) );
+                const std::list<tripoint> autodocs = g->m.find_furnitures_with_flag_in_radius( p->pos(), 1,
+                                                     flag_AUTODOC );
+                sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
+                               _( "a sad beeping noise: \"Complications detected!  Report to medical personnel immediately!\"" ),
+                               true,
+                               "Autodoc",
+                               "failure" );
+            } else {
+                add_msg( m_bad,
+                         _( "The Autodoc jerks back to its resting position after failing the operation." ) );
+                const std::list<tripoint> autodocs = g->m.find_furnitures_with_flag_in_radius( p->pos(), 1,
+                                                     flag_AUTODOC );
+                sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
+                               _( "a sad beeping noise: \"Operation failed\"" ), true,
+                               "Autodoc",
+                               "failure" );
+            }
+
         }
     } else {
         if( act->values[1] > 0 ) {
             add_msg( m_good,
                      _( "The operation is a success." ) );
         } else {
-            add_msg( m_bad,
-                     _( "The operation is a failure." ) );
+            if( act->str_values[0] == "install" ) {
+                add_msg( m_warning,
+                         _( "Bionic was installed and activated but a complication happened during operation!" ) );
+            } else {
+                add_msg( m_bad,
+                         _( "The operation is a failure." ) );
+            }
+
         }
     }
     p->remove_effect( effect_under_op );

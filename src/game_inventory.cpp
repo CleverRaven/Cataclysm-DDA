@@ -1616,7 +1616,7 @@ class bionic_install_preset: public inventory_selector_preset
             p( pl ), pa( patient ) {
             append_cell( [ this ]( const item_location & loc ) {
                 return get_failure_chance( loc );
-            }, _( "FAILURE CHANCE" ) );
+            }, _( "COMPLICATION CHANCE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
                 return get_operation_duration( loc );

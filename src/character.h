@@ -1096,9 +1096,10 @@ class Character : public Creature, public visitable<Character>
         /**Success or failure of installation happens here*/
         void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
                               int pl_skill, const std::string &installer_name,
-                              const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos );
-        void bionics_install_failure( const bionic_id &bid, const std::string &installer, int difficulty,
-                                      int success, float adjusted_skill, const tripoint &patient_pos );
+                              const std::vector<trait_id> &trait_to_rem );
+        void do_damage_for_bionic_failure( int min_damage, int max_damage );
+        void bionics_install_failure( const std::string &installer, int difficulty,
+                                      int success, float adjusted_skill );
 
         /**Is The uninstallation possible*/
         bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
