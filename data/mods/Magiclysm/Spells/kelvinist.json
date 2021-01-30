@@ -402,7 +402,7 @@
     "id": "freezing_touch_slow_effect",
     "type": "SPELL",
     "name": "Freezing Touch",
-    "description": " this is a sub-spell of Freezing touch.",
+    "description": " This is a sub-spell of Freezing touch.",
     "shape": "blast",
     "effect": "attack",
     "effect_str": "slow_freeze_effect",
