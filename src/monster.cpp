@@ -644,6 +644,45 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
     return std::make_pair( damage_info, col );
 }
 
+
+static std::pair<std::string, nc_color> speed_description( float mon_speed_rating,
+        bool immobile = false )
+{
+
+    if( immobile ) {
+        return std::make_pair( _( "It is immobile." ), c_green );
+    }
+
+    std::string speed_info;
+    nc_color color;
+
+    const std::array<std::tuple<float, nc_color, std::string>, 8> cases = {
+        std::make_tuple( 1.30f, c_red, _( "It is much faster than you." ) ),
+        std::make_tuple( 1.00f, c_yellow, _( "It is faster than you." ) ),
+        std::make_tuple( 0.70f, c_white_yellow, _( "It is a bit faster than you." ) ),
+        std::make_tuple( 0.55f, c_white, _( "It is about as fast as you." ) ),
+        std::make_tuple( 0.50f, c_white_cyan, _( "It is a bit slower than you." ) ),
+        std::make_tuple( 0.40f, c_cyan, _( "It is slower than you." ) ),
+        std::make_tuple( 0.20f, c_green, _( "It is much slower than you." ) ),
+        std::make_tuple( 0.00f, c_green, _( "It is practically immobile." ) )
+    };
+
+    const float player_speed_rating = get_player_character().speed_rating();
+    const float ratio = player_speed_rating == 0 ?
+                        2.00f : mon_speed_rating / player_speed_rating;
+
+    for( const std::tuple<float, nc_color, std::string> &speed_case : cases ) {
+        if( ratio >= std::get<0>( speed_case ) ) {
+            return std::make_pair( std::get<2>( speed_case ), std::get<1>( speed_case ) );
+        }
+    }
+
+    return std::make_pair( speed_info, color );
+
+    debugmsg( "speed_description: no ratio value matched" );
+    return std::make_pair( _( "Unknown" ), c_white );
+}
+
 int monster::print_info( const catacurses::window &w, int vStart, int vLines, int column ) const
 {
     const int vEnd = vStart + vLines;
@@ -744,6 +783,11 @@ std::string monster::extended_description() const
     ss += "--\n";
     auto hp_bar = hp_description( hp, type->hp );
     ss += colorize( hp_bar.first, hp_bar.second ) + "\n";
+
+    const std::pair<std::string, nc_color> speed_desc = speed_description(
+                speed_rating(),
+                has_flag( MF_IMMOBILE ) );
+    ss += colorize( speed_desc.first, speed_desc.second ) + "\n";
 
     ss += "--\n";
     ss += string_format( "<dark>%s</dark>", type->get_description() ) + "\n";
