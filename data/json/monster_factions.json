@@ -23,8 +23,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "zombie",
-    "friendly": [ "cult", "zombie_aquatic" ],
-    "neutral": [ "slime", "small_animal", "insect", "aquatic_predator" ],
+    "friendly": [ "cult", "zombie_aquatic", "slime" ],
+    "neutral": [ "small_animal", "insect", "aquatic_predator" ],
     "by_mood": [ "ant", "acid_ant", "bee", "wasp" ]
   },
   {
@@ -124,7 +124,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "nether",
-    "neutral": [ "slime", "cult" ]
+    "neutral": [ "cult" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -135,7 +135,8 @@
     "type": "MONSTER_FACTION",
     "name": "slime",
     "base_faction": "nether",
-    "neutral": [ "zombie", "cult" ]
+	"friendly": "zombie",
+	"by_mood": "leech_plant"
   },
   {
     "type": "MONSTER_FACTION",
