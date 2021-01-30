@@ -404,7 +404,7 @@
     "name": "Freezing Touch",
     "description": " this is a sub-spell of Freezing touch.",
     "shape": "blast",
-    "effect":"attack",
+    "effect": "attack",
     "effect_str": "slow_freeze_effect",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT" ],
