@@ -809,9 +809,9 @@ bool mattack::pull_metal_weapon( monster *z )
             }
             game_message_type m_type = foe->is_avatar() ? m_bad : m_neutral;
             if( rng( 1, 100 ) <= success ) {
-                target->add_msg_player_or_npc( m_type, _( "%s is pulled away from your hands!" ),
-                                               _( "%s is pulled away from <npcname>'s hands!" ), foe->weapon.tname() );
-                z->add_item( foe->remove_weapon() );
+                target->add_msg_player_or_npc( m_type, _( "The %s is pulled away from your hands!" ),
+                                               _( "The %s is pulled away from <npcname>'s hands!" ), foe->weapon.tname() );
+                get_map().add_item( z->pos(), foe->remove_weapon() );
                 if( foe->has_activity( ACT_RELOAD ) ) {
                     foe->cancel_activity();
                 }
