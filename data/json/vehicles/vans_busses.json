@@ -2208,13 +2208,13 @@
         "y": 3,
         "parts": [ "frame_vertical_right", "windshield_vertical_right", "roof", "wheel_mount_medium_steerable", "wheel_wide" ]
       },
-      { "x": 1, "y": -2, "parts": [ "wing_mirror_left" ] },
+      { "x": 1, "y": -2, "part": "wing_mirror_left" },
       { "x": 1, "y": -1, "parts": [ "frame_nw", "windshield_nw_edge" ] },
       { "x": 1, "y": 0, "parts": [ "frame_horizontal_front", "windshield_horizontal_front", "headlight" ] },
       { "x": 1, "y": 1, "parts": [ "frame_horizontal_front", "windshield_horizontal_front" ] },
       { "x": 1, "y": 2, "parts": [ "frame_horizontal_front", "windshield_horizontal_front", "headlight" ] },
       { "x": 1, "y": 3, "parts": [ "frame_ne", "windshield_ne_edge" ] },
-      { "x": 1, "y": 4, "parts": [ "wing_mirror_right" ] }
+      { "x": 1, "y": 4, "parts": "wing_mirror_right" }
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 15, "item_groups": [ "car_misc" ] },
