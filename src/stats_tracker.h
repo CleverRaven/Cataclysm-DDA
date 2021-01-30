@@ -178,7 +178,7 @@ class stats_tracker_value_state : public stats_tracker_state
 class stats_tracker_multiset_state : public stats_tracker_state
 {
     public:
-        [[noreturn]] const cata_variant &get_value() const final;
+        [[noreturn]] const cata_variant &get_value() const override;
 };
 
 class stats_tracker : public event_subscriber
