@@ -997,7 +997,7 @@
     "id": "spell_scroll_freezing_touch",
     "//": "Kelvinist spell",
     "name": { "str": "Scroll of freezing touch", "str_pl": "Scrolls of freezing touch" },
-    "description": "Your hands freeze anything they touch at temperatures so cold it slows down your foes",
+    "description": "Your hands freeze anything they touch at temperatures so cold it slows down your foes.",
     "use_action": { "type": "learn_spell", "spells": [ "freezing_touch" ] }
   }
 ]
