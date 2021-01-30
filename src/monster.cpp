@@ -753,7 +753,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 std::string monster::extended_description() const
 {
     std::string ss;
-    const auto att = get_attitude();
+    const std::pair<std::string, nc_color> att = get_attitude();
     std::string att_colored = colorize( att.first, att.second );
     std::string difficulty_str;
     if( debug_mode ) {
@@ -781,7 +781,7 @@ std::string monster::extended_description() const
     }
 
     ss += "--\n";
-    auto hp_bar = hp_description( hp, type->hp );
+    const std::pair<std::string, nc_color> hp_bar = hp_description( hp, type->hp );
     ss += colorize( hp_bar.first, hp_bar.second ) + "\n";
 
     const std::pair<std::string, nc_color> speed_desc = speed_description(
