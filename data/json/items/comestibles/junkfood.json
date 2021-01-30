@@ -1342,7 +1342,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -8,
-    "calories": 20,
+    "calories": 400,
     "description": "A small box of gelatin dessert powder.  Just add water and set.  Comes in a variety of flavors.",
     "price": 5,
     "price_postapoc": 10,

@@ -108,7 +108,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],
-    "components": [ [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "gelatin_powder", 25 ], [ "gelatin_fresh", 1 ] ], [ [ "sugar", 100 ] ] ]
+    "components": [ [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "gelatin_powder", 10 ], [ "gelatin_fresh", 1 ] ], [ [ "sugar", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -127,7 +127,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
       [ [ "gelatin_powder", 5 ], [ "gelatin_fresh", 1 ] ],
-      [ [ "sugar", 10 ] ],
+      [ [ "sugar", 20 ] ],
       [ [ "sweet_juice", 1, "LIST" ], [ "soda_pop", 1, "LIST" ] ]
     ]
   },
@@ -170,7 +170,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
       [ [ "chem_agar", 5 ] ],
-      [ [ "sugar", 10 ] ],
+      [ [ "sugar", 20 ] ],
       [ [ "sweet_juice", 1, "LIST" ], [ "soda_pop", 1, "LIST" ] ]
     ]
   },
@@ -191,7 +191,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
       [ [ "chem_agar", 5 ] ],
-      [ [ "sugar", 10 ] ],
+      [ [ "sugar", 20 ] ],
       [ [ "sweet_juice", 1, "LIST" ], [ "soda_pop", 1, "LIST" ] ],
       [ [ "sweet_fruit", 1, "LIST" ] ]
     ]
@@ -213,8 +213,8 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
       [ [ "beet_syrup", 1 ] ],
-      [ [ "gelatin_powder", 5 ], [ "gelatin_fresh", 2 ] ],
-      [ [ "sugar", 20 ] ],
+      [ [ "gelatin_powder", 25 ], [ "gelatin_fresh", 2 ] ],
+      [ [ "sugar", 50 ] ],
       [ [ "sweet_juice", 1, "LIST" ], [ "soda_pop", 1, "LIST" ] ]
     ]
   },
@@ -235,8 +235,8 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
       [ [ "beet_syrup", 1 ] ],
-      [ [ "chem_agar", 5 ] ],
-      [ [ "sugar", 20 ] ],
+      [ [ "chem_agar", 25 ] ],
+      [ [ "sugar", 50 ] ],
       [ [ "sweet_juice", 1, "LIST" ], [ "soda_pop", 1, "LIST" ] ]
     ]
   }
