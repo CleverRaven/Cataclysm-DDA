@@ -1898,21 +1898,27 @@ player::wear( item_location item_wear, bool interactive )
     return result;
 }
 
-template <typename T>
-bool player::can_lift( const T &obj ) const
+int player::get_lift_str() const
 {
-    // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
     int str = get_str();
-    if( mounted_creature ) {
-        const auto mons = mounted_creature.get();
-        str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
-    }
-    const int npc_str = get_lift_assist();
     if( has_trait( trait_id( "STRONGBACK" ) ) ) {
         str *= 1.35;
     } else if( has_trait( trait_id( "BADBACK" ) ) ) {
         str /= 1.35;
     }
+    return str;
+}
+
+template <typename T>
+bool player::can_lift( const T &obj ) const
+{
+    // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
+    int str = get_lift_str();
+    if( mounted_creature ) {
+        const auto mons = mounted_creature.get();
+        str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
+    }
+    const int npc_str = get_lift_assist();
     return str + npc_str >= obj.lift_strength();
 }
 template bool player::can_lift<item>( const item &obj ) const;
