@@ -84,7 +84,8 @@ void load_recipe_category( const JsonObject &jsobj )
         jsobj.throw_error( "Crafting category id has to be prefixed with 'CC_'" );
     }
 
-    if( !is_hidden ) {
+    if( !is_hidden &&
+        std::find( craft_cat_list.begin(), craft_cat_list.end(), category ) == craft_cat_list.end() ) {
         craft_cat_list.push_back( category );
     }
 
@@ -95,7 +96,10 @@ void load_recipe_category( const JsonObject &jsobj )
         if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
             jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
         }
-        craft_subcat_list[category].push_back( subcat_id );
+        if( find( craft_subcat_list[category].begin(), craft_subcat_list[category].end(),
+                  subcat_id ) == craft_subcat_list[category].end() ) {
+            craft_subcat_list[category].push_back( subcat_id );
+        }
     }
 }
 
