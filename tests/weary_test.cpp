@@ -172,9 +172,9 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
         CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 470_minutes ) == Approx( 470 ).margin( 5 ) );
         CHECK( info.transition_minutes( 4, 5, 595_minutes ) == Approx( 595 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 5, 6, 725_minutes ) == Approx( 725 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 5, 6, 730_minutes ) == Approx( 730 ).margin( 5 ) );
         CHECK( info.transition_minutes( 6, 7, 835_minutes ) == Approx( 835 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 7, 8, 895_minutes ) == Approx( 895 ).margin( 10 ) );
+        CHECK( info.transition_minutes( 7, 8, 915_minutes ) == Approx( 915 ).margin( 10 ) );
         // TODO: You should collapse from this - currently we
         // just get really high levels of weariness
         CHECK( guy.weariness_level() > 8 );
