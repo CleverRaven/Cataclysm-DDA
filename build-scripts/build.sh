@@ -177,20 +177,33 @@ then
     # fills the log with nonsense.
     TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
 else
-    make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
+    if [ "$OS" == "macos-10.15" ]
+    then
+        export NATIVE=osx
+        # if OSX_MIN we specify here is lower than 10.15 then linker is going
+        # to throw warnings because SDL and gettext libraries installed from 
+        # Homebrew are built with minimum target osx version 10.15
+        export OSX_MIN=10.15
+    else
+        export BACKTRACE=1
+    fi
+    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
 
     export UBSAN_OPTIONS=print_stacktrace=1
-    if [ "$TRAVIS_OS_NAME" == "osx" ]
+    if [ "$TRAVIS_OS_NAME" == "osx" ] || [ "$OS" == "macos-10.15" ]
     then
         run_tests ./tests/cata_test
     else
         run_tests ./tests/cata_test &
+        pids[0]=$!
         if [ -n "$MODS" ]
         then
             run_tests ./tests/cata_test --user-dir=modded $MODS 2>&1 | sed 's/^/MOD> /' &
-            wait -n
+            pids[1]=$!
         fi
-        wait -n
+        for pid in ${pids[@]}; do
+            wait $pid
+        done
     fi
 
     if [ -n "$TEST_STAGE" ]

@@ -37,24 +37,39 @@ jobs:
       matrix:
         include:
           - compiler: g++-9
+            os: ubuntu-latest
             cmake: 0
             tiles: 0
             test-stage: 1
+            title: GCC 9, Ubuntu, Curses
           - compiler: g++-7
+            os: ubuntu-latest
             cmake: 1
             tiles: 1
+            title: GCC 7, Ubuntu, Tiles, CMake
           - compiler: g++-8
+            os: ubuntu-latest
             cmake: 0
             tiles: 1
             sanitize: address
+            title: GCC 8, Ubuntu, Tiles, ASan
           - compiler: clang++-9
+            os: ubuntu-latest
             cmake: 0
             tiles: 1
             sanitize: address,undefined
-    runs-on: ubuntu-latest
+            title: Clang 9, Ubuntu, Tiles, ASan, UBSan
+          - compiler: clang++
+            os: macos-10.15
+            cmake: 0
+            tiles: 1
+            title: Clang 12, macOS 10.15, Tiles
+    name: ${{ matrix.title }}
+    runs-on: ${{ matrix.os }}
     env:
         CMAKE: ${{ matrix.cmake }}
         COMPILER: ${{ matrix.compiler }}
+        OS: ${{ matrix.os }}
         TILES: ${{ matrix.tiles }}
         SOUND: ${{ matrix.tiles }}
         SANITIZE: ${{ matrix.sanitize }}
@@ -66,11 +81,16 @@ jobs:
       uses: actions/checkout@v1
       with:
         fetch-depth: 1
-    - name: install dependencies
+    - name: install dependencies (ubuntu)
+      if: runner.os == 'Linux'
       run: |
           sudo apt-get update
           sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext
+    - name: install dependencies (mac)
+      if: runner.os == 'macOS'
+      run: |
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache
     - name: prepare
       run: bash ./build-scripts/requirements.sh
     - name: Get Date
@@ -78,14 +98,22 @@ jobs:
       run: |
         echo "::set-output name=date::$(/bin/date -u "+%Y%m%d%H%M")"
       shell: bash
-    - name: ccache cache files
+    - name: ccache cache files (ubuntu)
+      if: runner.os == 'Linux'
       uses: actions/cache@v2
       with:
         path: ~/.ccache
-        key: ccache-${{ matrix.compiler }}-${{ steps.get-date.outputs.date }}
+        key: ccache-linux-${{ matrix.compiler }}-${{ steps.get-date.outputs.date }}
         restore-keys: |
-          ccache-${{ matrix.compiler }}-
-          ccache-
+          ccache-linux-${{ matrix.compiler }}-
+    - name: ccache cache files (mac)
+      if: runner.os == 'macOS'
+      uses: actions/cache@v2
+      with:
+        path: /Users/runner/Library/Caches/ccache
+        key: ccache-mac-${{ matrix.compiler }}-${{ steps.get-date.outputs.date }}
+        restore-keys: |
+          ccache-mac-${{ matrix.compiler }}-
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
       run: bash ./build-scripts/build.sh
