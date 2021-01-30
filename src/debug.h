@@ -195,13 +195,6 @@ void replay_buffered_debugmsg_prompts();
 // See documentation at the top.
 std::ostream &DebugLog( DebugLevel, DebugClass );
 
-/**
- * Extended debugging mode, can be toggled during game.
- * If enabled some debug message in the normal player message log are shown,
- * and other windows might have verbose display (e.g. vehicle window).
- */
-extern bool debug_mode;
-
 #if defined(BACKTRACE)
 /**
  * Write a stack backtrace to the given ostream

@@ -17,7 +17,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "debug.h"
+#include "cached_options.h"
 #include "enums.h"
 
 enum game_message_type : int;

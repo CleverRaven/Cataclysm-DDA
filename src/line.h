@@ -10,8 +10,7 @@
 
 #include "math_defines.h"
 #include "point.h"
-
-extern bool trigdist;
+#include "cached_options.h"
 
 /** Converts degrees to radians */
 constexpr double DEGREES( double v )

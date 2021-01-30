@@ -29,12 +29,6 @@
 #include <deque>
 #include <iterator>
 #include <memory>
-
-// sidebar messages flow direction
-extern bool log_from_top;
-extern int message_ttl;
-extern int message_cooldown;
-
 namespace
 {
 

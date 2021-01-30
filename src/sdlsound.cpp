@@ -236,8 +236,6 @@ void stop_music()
 
 void update_music_volume()
 {
-    sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
-
     if( !sounds::sound_enabled ) {
         stop_music();
         return;

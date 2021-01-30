@@ -14,8 +14,6 @@
 #include "output.h"
 #include "enums.h"
 
-bool trigdist;
-
 void bresenham( const point &p1, const point &p2, int t,
                 const std::function<bool( const point & )> &interact )
 {

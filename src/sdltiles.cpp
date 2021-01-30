@@ -969,7 +969,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     } else if( g && w == g->w_overmap && overmap_font ) {
         // Special font for the terrain window
         update = draw_window( overmap_font, w );
-    } else if( g && w == g->w_pixel_minimap && g->pixel_minimap_option ) {
+    } else if( g && w == g->w_pixel_minimap && pixel_minimap_option ) {
         // ensure the space the minimap covers is "dirtied".
         // this is necessary when it's the only part of the sidebar being drawn
         // TODO: Figure out how to properly make the minimap code do whatever it is this does

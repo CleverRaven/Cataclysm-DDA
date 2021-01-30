@@ -49,14 +49,6 @@
 #include <sstream>
 #include <string>
 
-bool use_tiles;
-bool log_from_top;
-int message_ttl;
-int message_cooldown;
-bool fov_3d;
-int fov_3d_z_range;
-bool tile_iso;
-
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 
@@ -1980,6 +1972,13 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
+    add( "PICKUP_RANGE", "debug", translate_marker( "Crafting range" ),
+         translate_marker( "Maximum distance at which items are considered available for crafting (or some other actions)." ),
+         1, 30, 6
+       );
+
+    add_empty_line();
+
     add( "FOV_3D", "debug", translate_marker( "Experimental 3D field of vision" ),
          translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level.  Currently very bugged!" ),
          false
@@ -2442,14 +2441,14 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
         try {
             tilecontext->reinit();
             tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
-            //g->init_ui is called when zoom is changed
+            //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             tilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
         }
-    } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
+    } else if( ingame && pixel_minimap_option && pixel_minimap_height_changed ) {
         g->mark_main_ui_adaptor_resize();
     }
 }
@@ -2990,11 +2989,8 @@ std::string options_manager::migrateOptionValue( const std::string &name,
     return iter_val != iter->second.second.end() ? iter_val->second : val;
 }
 
-bool options_manager::save()
+void options_manager::cache_to_globals()
 {
-    const auto savefile = PATH_INFO::options();
-
-    // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
@@ -3002,7 +2998,16 @@ bool options_manager::save()
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
+    PICKUP_RANGE = ::get_option<int>( "PICKUP_RANGE" );
+#if defined(SDL_SOUND)
+    sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
+#endif
+}
 
+bool options_manager::save()
+{
+    const auto savefile = PATH_INFO::options();
+    cache_to_globals();
     update_music_volume();
 
     return write_to_file( savefile, [&]( std::ostream & fout ) {
@@ -3026,18 +3031,7 @@ void options_manager::load()
     }
 
     update_global_locale();
-
-    // cache to global due to heavy usage.
-    trigdist = ::get_option<bool>( "CIRCLEDIST" );
-    use_tiles = ::get_option<bool>( "USE_TILES" );
-    log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
-    message_ttl = ::get_option<int>( "MESSAGE_TTL" );
-    message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
-    fov_3d = ::get_option<bool>( "FOV_3D" );
-    fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
-#if defined(SDL_SOUND)
-    sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
-#endif
+    cache_to_globals();
 }
 
 bool options_manager::load_legacy()

@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "string_formatter.h"
 #include "enums.h"
 #include "debug.h"

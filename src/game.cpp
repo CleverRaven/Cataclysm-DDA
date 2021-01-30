@@ -180,9 +180,6 @@ class computer;
 const int core_version = 6;
 static constexpr int DANGEROUS_PROXIMITY = 5;
 
-/** Will be set to true when running unit tests */
-bool test_mode = false;
-
 static const mtype_id mon_manhack( "mon_manhack" );
 
 static const skill_id skill_melee( "melee" );
@@ -274,7 +271,6 @@ game::game() :
     uquit( QUIT_NO ),
     new_game( false ),
     safe_mode( SAFE_MODE_ON ),
-    pixel_minimap_option( 0 ),
     mostseen( 0 ),
     u_shared_ptr( &u, null_deleter{} ),
     safe_mode_warning_logged( false ),
@@ -435,7 +431,7 @@ void check_encoding();
 void ensure_term_size();
 #endif
 
-void game::init_ui( const bool resized )
+void game_ui::init_ui()
 {
     // clear the screen
     static bool first_init = true;
@@ -459,13 +455,10 @@ void game::init_ui( const bool resized )
     TERMX = get_terminal_width();
     TERMY = get_terminal_height();
 
-    if( resized ) {
-        get_options().get_option( "TERMINAL_X" ).setValue( TERMX * get_scaling_factor() );
-        get_options().get_option( "TERMINAL_Y" ).setValue( TERMY * get_scaling_factor() );
-        get_options().save();
-    }
+    get_options().get_option( "TERMINAL_X" ).setValue( TERMX * get_scaling_factor() );
+    get_options().get_option( "TERMINAL_Y" ).setValue( TERMY * get_scaling_factor() );
+    get_options().save();
 #else
-    ( void ) resized;
     ensure_term_size();
 
     TERMY = getmaxy( catacurses::stdscr );

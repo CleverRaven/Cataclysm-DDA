@@ -22,6 +22,7 @@
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "cursesdef.h"
@@ -31,8 +32,6 @@
 #include "path_info.h"
 #include "rng.h"
 #include "text_style_check.h"
-
-extern bool test_mode;
 
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the

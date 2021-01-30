@@ -7,6 +7,7 @@
 #include <sstream>
 
 #include "assign.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -30,8 +31,6 @@
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
-
-extern bool test_mode;
 
 static const std::string flag_FIT( "FIT" );
 static const std::string flag_VARSIZE( "VARSIZE" );
