@@ -1222,7 +1222,7 @@
         "distribution": [
           { "item": "nachosc", "prob": 60, "container-item": "ceramic_bowl" },
           { "item": "nachosmc", "prob": 60, "container-item": "ceramic_bowl" },
-          { "item": "nachosv", "prob": 60, "container-item": "ceramic_bowl" },
+          { "item": "nachosv", "prob": 60, "container-item": "bowl_plastic" },
           { "item": "nachosvc", "prob": 60, "container-item": "ceramic_bowl" },
           { "item": "nachosm", "prob": 60, "container-item": "ceramic_bowl" }
         ],
