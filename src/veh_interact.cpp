@@ -381,6 +381,7 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
                 veh->print_vparts_descs( w_msg, getmaxy( w_msg ), getmaxx( w_msg ), cpart, start_at, start_limit );
             } else {
                 const int height = catacurses::getmaxy( w_msg );
+                const int width = catacurses::getmaxx( w_msg ) - 2;
 
                 // the following contraption is splitting buffer into separate lines for scrolling
                 // since earlier code relies on msg already being folded
@@ -389,7 +390,12 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
                 while( !msg_stream.eof() ) {
                     std::string line;
                     getline( msg_stream, line );
-                    buffer.push_back( line );
+                    if( utf8_width( line ) <= width ) {
+                        buffer.emplace_back( line );
+                    } else {
+                        std::vector<std::string> folded = foldstring( line, width );
+                        std::copy( folded.begin(), folded.end(), std::back_inserter( buffer ) );
+                    }
                 }
 
                 const int pages = static_cast<int>( buffer.size() / ( height - 2 ) );
@@ -399,7 +405,8 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
                     if( static_cast<size_t>( idx ) >= buffer.size() ) {
                         break;
                     }
-                    fold_and_print( w_msg, point( 1, line ), getmaxx( w_msg ) - 2, c_unset, buffer[idx] );
+                    nc_color dummy = c_unset;
+                    print_colored_text( w_msg, point( 1, line ), dummy, c_unset, buffer[idx] );
                 }
             }
             wnoutrefresh( w_msg );
