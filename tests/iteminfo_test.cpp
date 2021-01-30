@@ -1097,11 +1097,11 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
         CHECK( item_info_str( longshirt, protection ) ==
                "--\n"
                "<color_c_white>Protection</color>:"
-               " Bash: <color_c_yellow>0</color>"
-               "  Cut: <color_c_yellow>0</color>"
-               "  Ballistic: <color_c_yellow>0</color>\n"
-               "  Acid: <color_c_yellow>0</color>"
-               "  Fire: <color_c_yellow>0</color>"
+               " Bash: <color_c_yellow>0.20</color>"
+               "  Cut: <color_c_yellow>0.20</color>"
+               "  Ballistic: <color_c_yellow>0.20</color>\n"
+               "  Acid: <color_c_yellow>0.00</color>"
+               "  Fire: <color_c_yellow>0.00</color>"
                "  Environmental: <color_c_yellow>0</color>\n" );
     }
 
@@ -1117,11 +1117,11 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
         CHECK( item_info_str( hazmat, protection ) ==
                "--\n"
                "<color_c_white>Protection</color>:"
-               " Bash: <color_c_yellow>4</color>"
-               "  Cut: <color_c_yellow>4</color>"
-               "  Ballistic: <color_c_yellow>4</color>\n"
-               "  Acid: <color_c_yellow>9</color>"
-               "  Fire: <color_c_yellow>1</color>"
+               " Bash: <color_c_yellow>4.00</color>"
+               "  Cut: <color_c_yellow>4.00</color>"
+               "  Ballistic: <color_c_yellow>4.00</color>\n"
+               "  Acid: <color_c_yellow>9.00</color>"
+               "  Fire: <color_c_yellow>1.00</color>"
                "  Environmental: <color_c_yellow>20</color>\n" );
     }
 
@@ -1136,11 +1136,11 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
         CHECK( item_info_str( meower_armor, protection ) ==
                "--\n"
                "<color_c_white>Protection</color>:"
-               " Bash: <color_c_yellow>4</color>"
-               "  Cut: <color_c_yellow>6</color>"
-               "  Ballistic: <color_c_yellow>10</color>\n"
-               "  Acid: <color_c_yellow>5</color>"
-               "  Fire: <color_c_yellow>3</color>"
+               " Bash: <color_c_yellow>4.00</color>"
+               "  Cut: <color_c_yellow>6.00</color>"
+               "  Ballistic: <color_c_yellow>10.00</color>\n"
+               "  Acid: <color_c_yellow>5.00</color>"
+               "  Fire: <color_c_yellow>3.00</color>"
                "  Environmental: <color_c_yellow>10</color>\n" );
     }
 }
