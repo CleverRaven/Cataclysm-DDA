@@ -9004,8 +9004,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
         const tripoint vpos = *vpos_;
 
         const optional_vpart_position target_vp = g->m.veh_at( vpos );
-        // TODO: MEGA UGLY! Don't merge!
-        vehicle_connector_tile *grid_connection = g->m.active_furniture_at<vehicle_connector_tile>( vpos );
+        vehicle_connector_tile *grid_connection = active_tiles::furn_at<vehicle_connector_tile>( vpos );
         if( !target_vp && !grid_connection ) {
             p->add_msg_if_player( _( "There's no vehicle or grid connection there." ) );
             return 0;

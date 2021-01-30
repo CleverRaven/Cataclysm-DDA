@@ -18,6 +18,31 @@ static const std::string flag_CABLE_SPOOL( "CABLE_SPOOL" );
 static const std::string flag_RECHARGE( "RECHARGE" );
 static const std::string flag_USE_UPS( "USE_UPS" );
 
+namespace active_tiles
+{
+
+template<typename T>
+T *furn_at( const tripoint &p )
+{
+    point offset( p.x % SEEX, p.y % SEEY );
+    submap *sm = MAPBUFFER.lookup_submap( ms_to_sm_copy( p ) );
+    if( sm == nullptr ) {
+        return nullptr;
+    }
+    auto iter = sm->active_furniture.find( offset );
+    if( iter == sm->active_furniture.end() ) {
+        return nullptr;
+    }
+
+    return dynamic_cast<T *>( &*iter->second );
+}
+
+template active_tile_data *furn_at<active_tile_data>( const tripoint & );
+template vehicle_connector_tile *furn_at<vehicle_connector_tile>( const tripoint & );
+template battery_tile *furn_at<battery_tile>( const tripoint & );
+
+} // namespace active_tiles
+
 active_tile_data::~active_tile_data() {}
 
 void active_tile_data::serialize( JsonOut &jsout ) const

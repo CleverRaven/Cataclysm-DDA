@@ -33,6 +33,7 @@
 #include "catch/catch.hpp"
 #include "color.h"
 #include "debug.h"
+#include "distribution_grid.h"
 #include "filesystem.h"
 #include "game.h"
 #include "loading_ui.h"
@@ -151,6 +152,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     overmap_buffer.create_custom_overmap( point_zero, empty_specials );
 
     g->m.load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
+    get_distribution_grid_tracker().load( g->m );
 
     g->weather.update_weather();
 }

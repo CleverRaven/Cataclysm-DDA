@@ -58,6 +58,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "dependency_tree.h"
+#include "distribution_grid.h"
 #include "editmap.h"
 #include "enums.h"
 #include "event.h"
@@ -264,6 +265,7 @@ game::game() :
     liveview( *liveview_ptr ),
     scent_ptr( *this ),
     achievements_tracker_ptr( *stats_tracker_ptr, achievement_attained ),
+    grid_tracker_ptr( MAPBUFFER ),
     m( *map_ptr ),
     u( *u_ptr ),
     scent( *scent_ptr ),
@@ -604,6 +606,7 @@ special_game_id game::gametype() const
 void game::load_map( const tripoint &pos_sm )
 {
     m.load( pos_sm, true );
+    grid_tracker_ptr->load( m );
 }
 
 // Set up all default values for a new game
@@ -1507,8 +1510,8 @@ bool game::do_turn()
     m.vehmove();
     m.process_fields();
     m.process_items();
-    m.process_distribution_grids();
     m.creature_in_field( u );
+    grid_tracker_ptr->update( calendar::turn );
 
     // Apply sounds from previous turn to monster and NPC AI.
     sounds::process_sounds();
@@ -10943,6 +10946,9 @@ point game::update_map( int &x, int &y )
         remaining_shift -= this_shift;
     }
 
+    // TODO: Shift, don't reload
+    grid_tracker_ptr->load( m );
+
     // Shift monsters
     shift_monsters( tripoint( shift, 0 ) );
     const point shift_ms = sm_to_ms_copy( shift );
@@ -12300,3 +12306,8 @@ void avatar_moves( const avatar &u, const map &m, const tripoint &p )
             u.get_movement_mode(), u.is_underwater(), p.z );
 }
 } // namespace cata_event_dispatch
+
+distribution_grid_tracker &get_distribution_grid_tracker()
+{
+    return *g->grid_tracker_ptr;
+}

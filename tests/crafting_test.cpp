@@ -555,24 +555,31 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
 
 TEST_CASE( "oven electric grid test", "[crafting][overmap][grids][slow]" )
 {
+    map &m = g->m;
     constexpr tripoint start_pos = tripoint( 60, 60, 0 );
+    const tripoint start_pos_abs = m.getabs( start_pos );
     g->u.setpos( start_pos );
     clear_avatar();
     clear_map();
     GIVEN( "player is near an oven on an electric grid with a battery on it" ) {
-        auto om = overmap_buffer.get_om_global( sm_to_omt_copy( g->m.getabs( g->u.pos() ) ) );
+        auto om = overmap_buffer.get_om_global( sm_to_omt_copy( m.getabs( g->u.pos() ) ) );
         // TODO: That's a lot of setup, implying barely testable design
         om.om->set_electric_grid_connections( om.local, {} );
-        // Mega ugly
-        g->load_map( g->m.get_abs_sub() );
-        g->m.furn_set( start_pos + point( 10, 0 ), furn_str_id( "f_battery" ) );
-        g->m.furn_set( start_pos + point( 1, 0 ), furn_str_id( "f_oven" ) );
 
-        distribution_grid &grid = g->m.distribution_grid_at( start_pos + point( 10, 0 ) );
-        REQUIRE( &grid == &g->m.distribution_grid_at( start_pos + point( 1, 0 ) ) );
+        m.furn_set( start_pos + point( 10, 0 ), furn_str_id( "f_battery" ) );
+        m.furn_set( start_pos + point( 1, 0 ), furn_str_id( "f_oven" ) );
+
+        distribution_grid_tracker grid_tracker;
+        grid_tracker.load( rectangle( m.get_abs_sub().xy(),
+                                      m.get_abs_sub().xy() + point( m.getmapsize(), m.getmapsize() ) ) );
+        distribution_grid &grid = grid_tracker.grid_at( start_pos_abs + point( 10, 0 ) );
+        REQUIRE( !grid.empty() );
+        // We need the grid to be the same for both the oven and the battery
+        REQUIRE( &grid == &grid_tracker.grid_at( start_pos_abs + point( 1, 0 ) ) );
         WHEN( "the grid is charged with 10 units of power" ) {
             REQUIRE( grid.get_resource() == 0 );
-            grid.mod_resource( 10 );
+            int excess = grid.mod_resource( 10 );
+            REQUIRE( excess == 0 );
             REQUIRE( grid.get_resource() == 10 );
             AND_WHEN( "crafting inventory is built" ) {
                 g->u.invalidate_crafting_inventory();

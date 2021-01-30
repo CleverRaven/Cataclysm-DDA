@@ -89,7 +89,6 @@ struct pathfinding_cache;
 struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
-class distribution_grid;
 
 class map_stack : public item_stack
 {
@@ -1423,8 +1422,6 @@ class map
          */
         void process_falling();
 
-        void process_distribution_grids();
-
         bool is_cornerfloor( const tripoint &p ) const;
 
         // mapgen.cpp functions
@@ -1864,23 +1861,7 @@ class map
 
         visibility_variables visibility_variables_cache;
 
-        /**
-         * Mapping of omt position to grid it belongs to.
-         */
-        std::map<tripoint, shared_ptr_fast<distribution_grid>> parent_distribution_grids;
-
-        /**
-         * @param omt_pos Absolute overmap tile position of one of the tiles of the grid.
-         */
-        void make_distribution_grid_at( const tripoint &omt_pos );
-
     public:
-        template <typename T = active_tile_data>
-        T * active_furniture_at( const tripoint &pos );
-
-        template <typename T = active_tile_data>
-        const T * active_furniture_at( const tripoint &pos ) const;
-
         const level_cache &get_cache_ref( int zlev ) const {
             return *caches[zlev + OVERMAP_DEPTH];
         }
@@ -1925,17 +1906,6 @@ class map
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
         bool need_draw_lower_floor( const tripoint &p );
-
-        /**
-         * Returns the grid at given local coord.
-         * The grid can be empty.
-         */
-        /*@{*/
-        const distribution_grid &distribution_grid_at( const tripoint &p ) const;
-        distribution_grid &distribution_grid_at( const tripoint &p );
-        /*@}*/
-
-        void on_saved();
 };
 
 template<int SIZE, int MULTIPLIER>

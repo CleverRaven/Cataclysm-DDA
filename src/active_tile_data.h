@@ -116,4 +116,13 @@ class vehicle_connector_tile : public active_tile_data
         int mod_resource( int amt ) override;
 };
 
+// TODO: Better place for this
+namespace active_tiles
+{
+
+template <typename T = active_tile_data>
+T * furn_at( const tripoint &pos );
+
+} // namespace active_tiles
+
 #endif // CATA_SRC_ACTIVE_TILE_DATA_H

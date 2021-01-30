@@ -26,6 +26,7 @@
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "distribution_grid.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -4912,12 +4913,17 @@ int vehicle::discharge_battery( int amount, bool recurse )
         }
     }
 
-    auto discharge_visitor = []( vehicle * veh, int amount ) {
-        g->u.add_msg_if_player( m_debug, "CH: %d", amount );
+    auto discharge_vehicle = []( vehicle * veh, int amount ) {
+        g->u.add_msg_if_player( m_debug, "CHv: %d", amount );
         return veh->discharge_battery( amount, false );
     };
+    auto discharge_grid = []( distribution_grid * grid, int amount ) {
+        g->u.add_msg_if_player( m_debug, "CHg: %d", amount );
+        return -grid->mod_resource( -amount );
+    };
     if( amount > 0 && recurse ) { // need more power!
-        amount = traverse_vehicle_graph( this, amount, discharge_visitor );
+        auto &tracker = get_distribution_grid_tracker();
+        amount = tracker.traverse_graph( this, amount, discharge_vehicle, discharge_grid );
     }
 
     return amount; // non-zero if we weren't able to fulfill demand.

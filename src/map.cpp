@@ -1341,11 +1341,12 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
 
     if( old_t.active ) {
         current_submap->active_furniture.erase( l );
-        make_distribution_grid_at( ms_to_omt_copy( getabs( p ) ) );
+        // TODO: Only for g->m? Observer pattern?
+        get_distribution_grid_tracker().on_changed( getabs( p ) );
     }
     if( new_t.active ) {
         current_submap->active_furniture[l].reset( new_t.active->clone() );
-        make_distribution_grid_at( ms_to_omt_copy( getabs( p ) ) );
+        get_distribution_grid_tracker().on_changed( getabs( p ) );
     }
 }
 
@@ -4772,9 +4773,11 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
 
     const itype *itt = f.crafting_pseudo_item_type();
     if( itt != nullptr && itt->item_tags.count( flag_USES_GRID_POWER ) > 0 ) {
-        item furn_item( itt, -1, m->distribution_grid_at( p ).get_resource() );
+        const tripoint abspos = m->getabs( p );
+        auto &grid = get_distribution_grid_tracker().grid_at( abspos );
+        item furn_item( itt, -1, grid.get_resource() );
         if( filter( furn_item ) ) {
-            quantity = -m->distribution_grid_at( p ).mod_resource( -quantity );
+            quantity = -grid.mod_resource( -quantity );
         }
     } else if( itt != nullptr && itt->tool && !itt->tool->ammo_id.empty() ) {
         const itype_id ammo = ammotype( *itt->tool->ammo_id.begin() )->default_ammotype();
@@ -6396,7 +6399,6 @@ void map::load( const tripoint &w, const bool update_vehicle )
     }
     field_furn_locs.clear();
     submaps_with_active_items.clear();
-    parent_distribution_grids.clear();
     set_abs_sub( w );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
@@ -6780,10 +6782,6 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
                 add_vehicle_to_cache( veh.get() );
             }
         }
-    }
-
-    if( get_option<bool>( "ELECTRIC_GRID" ) && !tmpsub->active_furniture.empty() ) {
-        make_distribution_grid_at( sm_to_omt_copy( grid_abs_sub ) );
     }
 
     actualize( grid );
@@ -8504,101 +8502,6 @@ void map::calc_max_populated_zlev()
     // This will be the same for every zlevel in the cache, so just put it in all of them
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         get_cache( z ).max_populated_zlev = max_z;
-    }
-}
-
-const distribution_grid &map::distribution_grid_at( const tripoint &p ) const
-{
-    static distribution_grid null_grid;
-    const tripoint coord = ms_to_omt_copy( getabs( p ) );
-    auto iter = parent_distribution_grids.find( coord );
-    if( iter != parent_distribution_grids.end() ) {
-        return *iter->second;
-    }
-
-    return null_grid;
-}
-
-distribution_grid &map::distribution_grid_at( const tripoint &p )
-{
-    return const_cast<distribution_grid &>( const_cast<const map *>( this )->distribution_grid_at(
-            p ) );
-}
-
-void map::make_distribution_grid_at( const tripoint &grid )
-{
-    const std::set<tripoint> overmap_positions = overmap_buffer.electric_grid_at( grid );
-    std::vector<tripoint> submap_positions;
-    for( const tripoint &omp : overmap_positions ) {
-        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point( 0, 0 ) );
-        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point( 1, 0 ) );
-        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point( 0, 1 ) );
-        submap_positions.emplace_back( omt_to_sm_copy( omp ) + point( 1, 1 ) );
-    }
-    shared_ptr_fast<distribution_grid> dist_grid = make_shared_fast<distribution_grid>
-            ( submap_positions );
-    if( dist_grid->empty() ) {
-        for( const tripoint &omp : overmap_positions ) {
-            parent_distribution_grids.erase( omp );
-        }
-        return;
-    }
-    for( const tripoint &omp : overmap_positions ) {
-        parent_distribution_grids[omp] = dist_grid;
-    }
-}
-
-void map::on_saved()
-{
-    parent_distribution_grids.clear();
-    const tripoint low = sm_to_omt_copy( { get_abs_sub().xy(), -OVERMAP_DEPTH } );
-    const tripoint high = sm_to_omt_copy( { get_abs_sub().xy() + point( my_MAPSIZE, my_MAPSIZE ), OVERMAP_HEIGHT } );
-    for( const tripoint &om_pos : tripoint_range( low, high ) ) {
-        make_distribution_grid_at( om_pos );
-    }
-}
-
-template<typename T>
-const T *map::active_furniture_at( const tripoint &p ) const
-{
-    return const_cast<map *>( this )->active_furniture_at<T>( p );
-}
-
-template<typename T>
-T *map::active_furniture_at( const tripoint &p )
-{
-    point offset;
-    submap *sm = get_submap_at( p, offset );
-    auto iter = sm->active_furniture.find( offset );
-    if( iter == sm->active_furniture.end() ) {
-        return nullptr;
-    }
-
-    return dynamic_cast<T *>( &*iter->second );
-}
-
-template const active_tile_data *map::active_furniture_at<active_tile_data>
-( const tripoint & ) const;
-template const vehicle_connector_tile *map::active_furniture_at<vehicle_connector_tile>
-( const tripoint & ) const;
-template active_tile_data *map::active_furniture_at<active_tile_data>( const tripoint & );
-template vehicle_connector_tile *map::active_furniture_at<vehicle_connector_tile>
-( const tripoint & );
-
-void map::process_distribution_grids()
-{
-    if( !get_option<bool>( "ELECTRIC_GRID" ) ) {
-        return;
-    }
-
-    std::unordered_set<const distribution_grid *> checked;
-    for( const auto &pr : parent_distribution_grids ) {
-        if( checked.count( &*pr.second ) != 0 ) {
-            continue;
-        }
-
-        checked.insert( &*pr.second );
-        pr.second->update( calendar::turn );
     }
 }
 
