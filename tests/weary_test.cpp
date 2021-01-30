@@ -40,6 +40,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 
     SECTION( "Light tasks" ) {
         INFO( "\nFirst Aid 8 hours:" );
+        clear_avatar();
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( desk_8h );
         INFO( info.summarize() );
@@ -118,6 +119,7 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
 
     SECTION( "Heavy tasks" ) {
         INFO( "\nDigging Pits 8 hours, then waiting 8:" );
+        clear_avatar();
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( soldier_8h );
         INFO( info.summarize() );
@@ -153,6 +155,7 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
     digging_24h.enschedule( task_dig, 24_hours );
 
     SECTION( "Waiting 24 hours" ) {
+        clear_avatar();
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( waiting_24h );
         INFO( info.summarize() );
