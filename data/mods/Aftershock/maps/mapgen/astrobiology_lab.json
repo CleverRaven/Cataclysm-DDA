@@ -54,7 +54,7 @@
       "items": {
         "c": [
           { "item": "tools_science", "chance": 80, "repeat": [ 1, 3 ] },
-          { "item": "afs_basic_biomedical_scrapgroup", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "afs_biomedical_scrapgroup", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "supplies_reagents_lab", "chance": 80, "repeat": [ 1, 3 ] }
         ],
         "d": { "item": "office", "chance": 60 },
