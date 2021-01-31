@@ -50,8 +50,6 @@
 #include <sstream>
 #include <string>
 
-int memorized_tile_count;
-
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 
