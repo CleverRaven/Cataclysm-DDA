@@ -238,7 +238,7 @@
     "type": "MONSTER_FACTION",
     "name": "insect",
     "neutral": [ "fish", "bot", "zombie", "fungus", "aquatic_predator" ],
-    "by_mood": [ "insect", "animal" ]
+    "by_mood": [ "insect" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -269,7 +269,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "mosquito",
-    "base_faction": "insect"
+    "base_faction": "insect",
+	"hate": [ "animal", "small_animal" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -333,13 +334,13 @@
     "type": "MONSTER_FACTION",
     "name": "ant",
     "base_faction": "insect",
-    "by_mood": [ "zombie", "fungus", "animal" ]
+    "by_mood": [ "zombie", "fungus" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "acid_ant",
     "base_faction": "insect",
-    "by_mood": [ "zombie", "fungus", "animal" ]
+    "by_mood": [ "zombie", "fungus" ]
   },
   {
     "type": "MONSTER_FACTION",
