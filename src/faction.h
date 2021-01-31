@@ -71,7 +71,7 @@ class faction_template
         explicit faction_template( const JsonObject &jsobj );
 
     public:
-        explicit faction_template( const faction_template & ) = default;
+        faction_template( const faction_template & ) = default;
         static void load( const JsonObject &jsobj );
         static void check_consistency();
         static void reset();
@@ -97,7 +97,7 @@ class faction : public faction_template
 {
     public:
         faction() = default;
-        faction( const faction_template &templ );
+        explicit faction( const faction_template &templ );
 
         void deserialize( JsonIn &jsin );
         void serialize( JsonOut &json ) const;

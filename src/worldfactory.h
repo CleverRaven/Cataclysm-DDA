@@ -29,7 +29,7 @@ class save_t
     private:
         std::string name;
 
-        save_t( const std::string &name );
+        explicit save_t( const std::string &name );
 
     public:
         std::string player_name() const;

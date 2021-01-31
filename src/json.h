@@ -51,7 +51,7 @@ class optional;
 class JsonError : public std::runtime_error
 {
     public:
-        JsonError( const std::string &msg );
+        explicit JsonError( const std::string &msg );
         const char *c_str() const noexcept {
             return what();
         }
@@ -193,7 +193,7 @@ class JsonIn
         void end_value();
 
     public:
-        JsonIn( std::istream &s ) : stream( &s ) {}
+        explicit JsonIn( std::istream &s ) : stream( &s ) {}
         JsonIn( std::istream &s, const std::string &path )
             : stream( &s ), path( make_shared_fast<std::string>( path ) ) {}
         JsonIn( std::istream &s, const json_source_location &loc )
@@ -649,7 +649,7 @@ class JsonOut
         bool need_separator = false;
 
     public:
-        JsonOut( std::ostream &stream, bool pretty_print = false, int depth = 0 );
+        explicit JsonOut( std::ostream &stream, bool pretty_print = false, int depth = 0 );
         JsonOut( const JsonOut & ) = delete;
         JsonOut &operator=( const JsonOut & ) = delete;
 
@@ -956,7 +956,7 @@ class JsonObject
                              bool throw_exception = true ) const;
 
     public:
-        JsonObject( JsonIn &jsin );
+        explicit JsonObject( JsonIn &jsin );
         JsonObject() :
             start( 0 ), end_( 0 ), final_separator( false ), jsin( nullptr ) {}
         JsonObject( const JsonObject & ) = default;
@@ -1150,7 +1150,7 @@ class JsonArray
         void verify_index( size_t i ) const;
 
     public:
-        JsonArray( JsonIn &jsin );
+        explicit JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &ja );
         JsonArray() : start( 0 ), index( 0 ), end_( 0 ), final_separator( false ), jsin( nullptr ) {}
         ~JsonArray() {
@@ -1249,21 +1249,27 @@ class JsonValue
     public:
         JsonValue( JsonIn &jsin, int pos ) : jsin_( jsin ), pos_( pos ) { }
 
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator std::string() const {
             return seek().get_string();
         }
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator int() const {
             return seek().get_int();
         }
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator bool() const {
             return seek().get_bool();
         }
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator double() const {
             return seek().get_float();
         }
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator JsonObject() const {
             return seek().get_object();
         }
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator JsonArray() const {
             return seek().get_array();
         }

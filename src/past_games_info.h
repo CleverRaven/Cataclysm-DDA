@@ -17,7 +17,7 @@ class stats_tracker;
 class past_game_info
 {
     public:
-        past_game_info( JsonIn &jsin );
+        explicit past_game_info( JsonIn &jsin );
 
         stats_tracker &stats() {
             return *stats_;

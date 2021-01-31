@@ -265,7 +265,7 @@ class list_circularizer
         std::vector<T> *_list;
     public:
         /** Construct list_circularizer from an existing std::vector. */
-        list_circularizer( std::vector<T> &_list ) : _list( &_list ) {
+        explicit list_circularizer( std::vector<T> &_list ) : _list( &_list ) {
         }
 
         /** Advance list to next item, wrapping back to 0 at end of list */
@@ -509,7 +509,7 @@ class on_out_of_scope
     private:
         std::function<void()> func;
     public:
-        on_out_of_scope( const std::function<void()> &func ) : func( func ) {
+        explicit on_out_of_scope( const std::function<void()> &func ) : func( func ) {
         }
 
         ~on_out_of_scope() {
@@ -532,11 +532,11 @@ class restore_on_out_of_scope
         on_out_of_scope impl;
     public:
         // *INDENT-OFF*
-        restore_on_out_of_scope( T &t_in ) : t( t_in ), orig_t( t_in ),
+        explicit restore_on_out_of_scope( T &t_in ) : t( t_in ), orig_t( t_in ),
             impl( [this]() { t = std::move( orig_t ); } ) {
         }
 
-        restore_on_out_of_scope( T &&t_in ) : t( t_in ), orig_t( std::move( t_in ) ),
+        explicit restore_on_out_of_scope( T &&t_in ) : t( t_in ), orig_t( std::move( t_in ) ),
             impl( [this]() { t = std::move( orig_t ); } ) {
         }
         // *INDENT-ON*

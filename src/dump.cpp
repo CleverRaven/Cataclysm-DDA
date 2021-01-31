@@ -166,19 +166,19 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             "Aim time", "Effective range", "Snapshot range", "Max range"
         };
 
-        std::set<std::string> locations;
+        std::set<gunmod_location> locations;
         for( const itype *e : item_controller->all() ) {
             if( e->gun ) {
                 std::transform( e->gun->valid_mod_locations.begin(),
                                 e->gun->valid_mod_locations.end(),
                                 std::inserter( locations, locations.begin() ),
                 []( const std::pair<gunmod_location, int> &q ) {
-                    return q.first.name();
+                    return q.first;
                 } );
             }
         }
         for( const auto &e : locations ) {
-            header.push_back( e );
+            header.push_back( e.name() );
         }
 
         auto dump = [&rows, &locations]( const standard_npc & who, const item & obj ) {

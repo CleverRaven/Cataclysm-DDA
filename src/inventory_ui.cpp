@@ -769,6 +769,7 @@ void inventory_column::order_by_parent()
             }
         }
 
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator inventory_entry &&() && { // *NOPAD*
             return std::move( entry );
         }
@@ -1430,7 +1431,7 @@ void inventory_selector::add_map_items( const tripoint &target )
         const item_category map_cat( name, no_translation( name ), 100 );
 
         add_items( map_column, [ &target ]( item * it ) {
-            return item_location( target, it );
+            return item_location( map_cursor( target ), it );
         }, restack_items( items.begin(), items.end(), preset.get_checking_components() ), &map_cat );
 
         for( item &it_elem : items ) {

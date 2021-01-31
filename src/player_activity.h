@@ -79,12 +79,12 @@ class player_activity
         player_activity();
         // This constructor does not work with activities using the new activity_actor system
         // TODO: delete this constructor once migration to the activity_actor system is complete
-        player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
-                         const std::string &name_in = "" );
+        explicit player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
+                                  const std::string &name_in = "" );
         /**
          * Create a new activity with the given actor
          */
-        player_activity( const activity_actor &actor );
+        explicit player_activity( const activity_actor &actor );
 
         player_activity( player_activity && ) noexcept = default;
         player_activity( const player_activity & ) = default;

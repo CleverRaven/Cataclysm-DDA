@@ -241,7 +241,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
     std::vector<const recipe *> current;
     struct availability {
-        availability( const recipe *r, int batch_size = 1 ) {
+        explicit availability( const recipe *r, int batch_size = 1 ) {
             Character &player = get_player_character();
             const inventory &inv = player.crafting_inventory();
             auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );

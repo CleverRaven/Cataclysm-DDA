@@ -2560,7 +2560,7 @@ static item_location get_item_location( player &p, item &it, const tripoint &pos
     }
 
     // Item on the map
-    return item_location( pos, &it );
+    return item_location( map_cursor( pos ), &it );
 }
 
 int repair_item_actor::use( player &p, item &it, bool, const tripoint &position ) const

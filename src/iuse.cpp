@@ -3430,9 +3430,10 @@ int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
                                      you.get_skill_level( skill_traps ) ) ) * duration_proficiency_factor );
     }
 
-    you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
+    you.assign_activity(
+        player_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
                          item_location( you, it ),
-                         get_map().getabs( *target ) ) );
+                         get_map().getabs( *target ) ) ) );
     you.practice_proficiency( proficiency_prof_lockpicking, duration / duration_proficiency_factor );
     you.practice_proficiency( proficiency_prof_lockpicking_expert,
                               duration / duration_proficiency_factor );
@@ -6842,7 +6843,7 @@ static std::string effects_description_for_creature( Creature *const creature, s
             status( status ), pose( pose ), intensity_lower_limit( 0 ) {}
         ef_con( const translation &status, int intensity_lower_limit ) :
             status( status ), intensity_lower_limit( intensity_lower_limit ) {}
-        ef_con( const translation &status ) :
+        explicit ef_con( const translation &status ) :
             status( status ), intensity_lower_limit( 0 ) {}
     };
     static const std::unordered_map<efftype_id, ef_con> vec_effect_status = {

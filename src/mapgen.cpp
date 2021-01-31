@@ -1179,7 +1179,7 @@ class jmapgen_loot : public jmapgen_piece
         friend jmapgen_objects;
 
     public:
-        jmapgen_loot( const JsonObject &jsi ) :
+        explicit jmapgen_loot( const JsonObject &jsi ) :
             result_group( Item_group::Type::G_COLLECTION, 100, jsi.get_int( "ammo", 0 ),
                           jsi.get_int( "magazine", 0 ), "mapgen loot entry" )
             , chance( jsi.get_int( "chance", 100 ) ) {
@@ -1472,7 +1472,7 @@ class jmapgen_trap : public jmapgen_piece
             id = sid.id();
         }
 
-        jmapgen_trap( const std::string &tid ) :
+        explicit jmapgen_trap( const std::string &tid ) :
             id( 0 ) {
             const trap_str_id sid( tid );
             if( !sid.is_valid() ) {
@@ -1499,7 +1499,7 @@ class jmapgen_furniture : public jmapgen_piece
         furn_id id;
         jmapgen_furniture( const JsonObject &jsi, const std::string &/*context*/ ) :
             jmapgen_furniture( jsi.get_string( "furn" ) ) {}
-        jmapgen_furniture( const std::string &fid ) : id( furn_id( fid ) ) {}
+        explicit jmapgen_furniture( const std::string &fid ) : id( furn_id( fid ) ) {}
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             dat.m.furn_set( point( x.get(), y.get() ), id );
@@ -1518,7 +1518,7 @@ class jmapgen_terrain : public jmapgen_piece
         ter_id id;
         jmapgen_terrain( const JsonObject &jsi, const std::string &/*context*/ ) :
             jmapgen_terrain( jsi.get_string( "ter" ) ) {}
-        jmapgen_terrain( const std::string &tid ) : id( ter_id( tid ) ) {}
+        explicit jmapgen_terrain( const std::string &tid ) : id( ter_id( tid ) ) {}
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             dat.m.ter_set( point( x.get(), y.get() ), id );
@@ -1545,7 +1545,8 @@ class jmapgen_ter_furn_transform: public jmapgen_piece
         ter_furn_transform_id id;
         jmapgen_ter_furn_transform( const JsonObject &jsi, const std::string &/*context*/ ) :
             jmapgen_ter_furn_transform( jsi.get_string( "transform" ) ) {}
-        jmapgen_ter_furn_transform( const std::string &rid ) : id( ter_furn_transform_id( rid ) ) {}
+        explicit jmapgen_ter_furn_transform( const std::string &rid ) : id( ter_furn_transform_id(
+                        rid ) ) {}
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             id->transform( dat.m, tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
@@ -1841,7 +1842,7 @@ class jmapgen_nested : public jmapgen_piece
                 std::array<std::set<oter_str_id>, om_direction::size> neighbors;
                 std::set<oter_str_id> above;
             public:
-                neighborhood_check( const JsonObject &jsi ) {
+                explicit neighborhood_check( const JsonObject &jsi ) {
                     for( om_direction::type dir : om_direction::all ) {
                         int index = static_cast<int>( dir );
                         neighbors[index] = jsi.get_tags<oter_str_id>( om_direction::id( dir ) );
@@ -6541,7 +6542,7 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
     class rotation_guard
     {
         public:
-            rotation_guard( const mapgendata &md )
+            explicit rotation_guard( const mapgendata &md )
                 : md( md ), rotation( oter_get_rotation( md.terrain_type() ) ) {
                 // If the existing map is rotated, we need to rotate it back to the north
                 // orientation before applying our updates.

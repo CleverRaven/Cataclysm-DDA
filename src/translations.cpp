@@ -429,7 +429,7 @@ translation::translation( const std::string &str, const no_translation_tag ) : r
 
 translation translation::to_translation( const std::string &raw )
 {
-    return { raw };
+    return translation{ raw };
 }
 
 translation translation::to_translation( const std::string &ctxt, const std::string &raw )

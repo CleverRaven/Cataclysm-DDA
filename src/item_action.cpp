@@ -65,7 +65,7 @@ class actmenu_cb : public uilist_callback
     private:
         const action_map am;
     public:
-        actmenu_cb( const action_map &acm ) : am( acm ) { }
+        explicit actmenu_cb( const action_map &acm ) : am( acm ) { }
         ~actmenu_cb() override = default;
 
         bool key( const input_context &ctxt, const input_event &event, int /*idx*/,

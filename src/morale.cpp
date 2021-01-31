@@ -70,7 +70,7 @@ bool is_permanent_morale( const morale_type &id )
 struct morale_mult {
     morale_mult(): good( 1.0 ), bad( 1.0 ) {}
     morale_mult( double good, double bad ): good( good ), bad( bad ) {}
-    morale_mult( double both ): good( both ), bad( both ) {}
+    explicit morale_mult( double both ): good( both ), bad( both ) {}
 
     double good;    // For good morale
     double bad;     // For bad morale
@@ -502,7 +502,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
 
         public:
             morale_line() = default;
-            morale_line( const separation_line ) : sep_line( true ) {}
+            explicit morale_line( const separation_line ) : sep_line( true ) {}
             morale_line( const std::string &text, const nc_color &color )
                 : left( text ), color( color ) {}
             morale_line( const std::string &left, const std::string &right,
@@ -597,7 +597,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
     const std::vector<morale_line> top_lines {
         {},
         { _( "Morale" ), c_white },
-        { morale_line::separation_line {} },
+        morale_line{ morale_line::separation_line {} },
 
         positive_morale.empty() &&negative_morale.empty() ?
         morale_line( _( "Nothing affects your morale" ), c_dark_gray ) :

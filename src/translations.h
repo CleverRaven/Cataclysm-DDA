@@ -223,7 +223,7 @@ class translation
         /**
          * Same as `translation()`, but with plural form enabled.
          **/
-        translation( plural_tag );
+        explicit translation( plural_tag );
 
         /**
          * Store a string, an optional plural form, and an optional context for translation
@@ -307,16 +307,16 @@ class translation
         cata::optional<int> legacy_hash() const;
     private:
         translation( const std::string &ctxt, const std::string &raw );
-        translation( const std::string &raw );
+        explicit translation( const std::string &raw );
         translation( const std::string &raw, const std::string &raw_pl, plural_tag );
         translation( const std::string &ctxt, const std::string &raw, const std::string &raw_pl,
                      plural_tag );
         struct no_translation_tag {};
         translation( const std::string &str, no_translation_tag );
 
-        cata::value_ptr<std::string> ctxt = nullptr;
+        cata::value_ptr<std::string> ctxt;
         std::string raw;
-        cata::value_ptr<std::string> raw_pl = nullptr;
+        cata::value_ptr<std::string> raw_pl;
         bool needs_translation = false;
         // translation cache. For "plural" translation only latest `num` is optimistically cached
         mutable int cached_language_version = INVALID_LANGUAGE_VERSION;

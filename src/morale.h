@@ -80,7 +80,7 @@ class player_morale
         class morale_point
         {
             public:
-                morale_point(
+                explicit morale_point(
                     const morale_type &type = MORALE_NULL,
                     const itype *item_type = nullptr,
                     int bonus = 0,
@@ -184,7 +184,7 @@ class player_morale
         struct mutation_data {
             public:
                 mutation_data() = default;
-                mutation_data( const mutation_handler &on_gain_and_loss ) :
+                explicit mutation_data( const mutation_handler &on_gain_and_loss ) :
                     on_gain( on_gain_and_loss ),
                     on_loss( on_gain_and_loss ) {}
                 mutation_data( const mutation_handler &on_gain, const mutation_handler &on_loss ) :

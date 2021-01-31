@@ -249,7 +249,7 @@ using use_function_pointer = int ( * )( player *, item *, bool, const tripoint &
 class iuse_actor
 {
     protected:
-        iuse_actor( const std::string &type, int cost = -1 ) : type( type ), cost( cost ) {}
+        explicit iuse_actor( const std::string &type, int cost = -1 ) : type( type ), cost( cost ) {}
 
     public:
         /**
@@ -299,7 +299,7 @@ struct use_function {
     public:
         use_function() = default;
         use_function( const std::string &type, use_function_pointer f );
-        use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
+        explicit use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
         int call( player &, item &, bool, const tripoint & ) const;
         ret_val<bool> can_call( const Character &, const item &, bool t, const tripoint &pos ) const;

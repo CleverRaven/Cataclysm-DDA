@@ -18,7 +18,7 @@ class loading_ui
 
         void init();
     public:
-        loading_ui( bool display );
+        explicit loading_ui( bool display );
         ~loading_ui();
 
         /**
