@@ -1642,7 +1642,7 @@
     "difficulty": 3,
     "time": "30 m",
     "//": "This is not actually accurate; producing rubber from formic acid and latex generally takes around 12 hours. However, it will be better if we simply create some kind of curing rubber, and let it naturally evolve into rubber chunks from there. Nobody has twelve hours to watch rubber form in a zombie apocalypse.",
-    "components": [ [ [ "latex", 5 ], [ "formic_acid", 2 ] ] ]
+    "components": [ [ [ "latex", 5 ] ], [ [ "formic_acid", 2 ] ] ]
   },
   {
     "type": "recipe",
