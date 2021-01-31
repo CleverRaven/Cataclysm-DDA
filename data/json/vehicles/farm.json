@@ -9,7 +9,7 @@
       [ " O  O " ]
     ],
     "parts": [
-      { "x": -2, "y": 0, "parts": [ "seed_drill" ] },
+      { "x": -2, "y": 0, "part": "seed_drill" },
       { "x": -1, "y": -1, "parts": [ "frame_vertical_T_left", "wheel_mount_medium", "wheel_wide_or" ] },
       { "x": -1, "y": 0, "parts": [ "frame_horizontal_rear", "plow" ] },
       { "x": -1, "y": 1, "parts": [ "frame_vertical_T_right", "wheel_mount_medium", "wheel_wide_or" ] },
@@ -22,7 +22,7 @@
       { "x": 2, "y": -1, "parts": [ "frame_vertical_T_left", "wheel_mount_medium_steerable", "wheel_wide_or" ] },
       { "x": 2, "y": 0, "parts": [ "frame_horizontal_front", "halfboard_vertical" ] },
       { "x": 2, "y": 1, "parts": [ "frame_vertical_T_right", "wheel_mount_medium_steerable", "wheel_wide_or" ] },
-      { "x": 3, "y": 0, "parts": [ "reaper" ] }
+      { "x": 3, "y": 0, "part": "reaper" }
     ],
     "items": [  ]
   },
@@ -49,7 +49,7 @@
           "wheel_wide_or"
         ]
       },
-      { "x": -2, "y": 0, "parts": [ "seed_drill_advanced" ] },
+      { "x": -2, "y": 0, "part": "seed_drill_advanced" },
       {
         "x": -2,
         "y": 1,
@@ -99,9 +99,9 @@
     ],
     "parts": [
       { "x": -2, "y": -2, "parts": [ "frame_cross", "plow" ] },
-      { "x": -2, "y": -1, "parts": [ "frame_cross" ] },
+      { "x": -2, "y": -1, "part": "frame_cross" },
       { "x": -2, "y": 0, "parts": [ "frame_cross", "plow" ] },
-      { "x": -2, "y": 1, "parts": [ "frame_cross" ] },
+      { "x": -2, "y": 1, "part": "frame_cross" },
       { "x": -2, "y": 2, "parts": [ "frame_cross", "plow" ] },
       { "x": -1, "y": -1, "parts": [ "frame_vertical_T_left", "wheel_mount_medium", "wheel_wide_or" ] },
       { "x": -1, "y": 0, "parts": [ "frame_cross", { "part": "tank", "fuel": "diesel" }, "halfboard_vertical" ] },
@@ -130,11 +130,11 @@
       [ "&    " ]
     ],
     "parts": [
-      { "x": -2, "y": -2, "parts": [ "reaper" ] },
-      { "x": -2, "y": -1, "parts": [ "frame_cross" ] },
-      { "x": -2, "y": 0, "parts": [ "reaper" ] },
-      { "x": -2, "y": 1, "parts": [ "frame_cross" ] },
-      { "x": -2, "y": 2, "parts": [ "reaper" ] },
+      { "x": -2, "y": -2, "part": "reaper" },
+      { "x": -2, "y": -1, "part": "frame_cross" },
+      { "x": -2, "y": 0, "part": "reaper" },
+      { "x": -2, "y": 1, "part": "frame_cross" },
+      { "x": -2, "y": 2, "part": "reaper" },
       { "x": -1, "y": -1, "parts": [ "frame_vertical_T_left", "wheel_mount_medium", "wheel_wide_or" ] },
       { "x": -1, "y": 0, "parts": [ "frame_cross", { "part": "tank", "fuel": "diesel" }, "halfboard_vertical" ] },
       { "x": -1, "y": 1, "parts": [ "frame_vertical_T_right", "wheel_mount_medium", "wheel_wide_or" ] },
@@ -162,11 +162,11 @@
       [ "&    " ]
     ],
     "parts": [
-      { "x": -2, "y": -2, "parts": [ "seed_drill" ] },
-      { "x": -2, "y": -1, "parts": [ "frame_cross" ] },
-      { "x": -2, "y": 0, "parts": [ "seed_drill" ] },
-      { "x": -2, "y": 1, "parts": [ "frame_cross" ] },
-      { "x": -2, "y": 2, "parts": [ "seed_drill" ] },
+      { "x": -2, "y": -2, "part": "seed_drill" },
+      { "x": -2, "y": -1, "part": "frame_cross" },
+      { "x": -2, "y": 0, "part": "seed_drill" },
+      { "x": -2, "y": 1, "part": "frame_cross" },
+      { "x": -2, "y": 2, "part": "seed_drill" },
       { "x": -1, "y": -1, "parts": [ "frame_vertical_T_left", "wheel_mount_medium", "wheel_wide_or" ] },
       { "x": -1, "y": 0, "parts": [ "frame_cross", { "part": "tank", "fuel": "diesel" }, "halfboard_vertical" ] },
       { "x": -1, "y": 1, "parts": [ "frame_vertical_T_right", "wheel_mount_medium", "wheel_wide_or" ] },
@@ -206,8 +206,8 @@
       { "x": 1, "y": -1, "parts": [ "frame_wood_nw", "seat_wood", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
       { "x": 1, "y": 0, "parts": [ "frame_wood_cross", "seat_wood", "controls" ] },
       { "x": 1, "y": 1, "parts": [ "frame_wood_ne", "seat_wood", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
-      { "x": 2, "y": -1, "parts": [ "yoke_harness" ] },
-      { "x": 2, "y": 1, "parts": [ "yoke_harness" ] }
+      { "x": 2, "y": -1, "part": "yoke_harness" },
+      { "x": 2, "y": 1, "part": "yoke_harness" }
     ]
   },
   {
@@ -269,8 +269,8 @@
         "y": 2,
         "parts": [ "frame_wood_ne", "wooden_aisle_horizontal", "wheel_mount_wood_steerable", "wheel_wood_b" ]
       },
-      { "x": 3, "y": -1, "parts": [ "yoke_harness" ] },
-      { "x": 3, "y": 1, "parts": [ "yoke_harness" ] }
+      { "x": 3, "y": -1, "part": "yoke_harness" },
+      { "x": 3, "y": 1, "part": "yoke_harness" }
     ]
   },
   {
@@ -329,10 +329,10 @@
       },
       { "x": 0, "y": 0, "parts": [ "frame_wood_nw", "seat_wood", "controls" ] },
       { "x": 0, "y": 1, "parts": [ "frame_wood_ne", "seat_wood" ] },
-      { "x": 1, "y": 0, "parts": [ "yoke_harness" ] },
-      { "x": 1, "y": 1, "parts": [ "yoke_harness" ] },
-      { "x": 2, "y": 0, "parts": [ "yoke_harness" ] },
-      { "x": 2, "y": 1, "parts": [ "yoke_harness" ] }
+      { "x": 1, "y": 0, "part": "yoke_harness" },
+      { "x": 1, "y": 1, "part": "yoke_harness" },
+      { "x": 2, "y": 0, "part": "yoke_harness" },
+      { "x": 2, "y": 1, "part": "yoke_harness" }
     ]
   },
   {
@@ -348,8 +348,8 @@
       { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "seat_wood", "controls" ] },
       { "x": 0, "y": 1, "parts": [ "frame_wood_cross", "seat_wood" ] },
       { "x": 0, "y": 2, "parts": [ "frame_wood_cross", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
-      { "x": 1, "y": 0, "parts": [ "yoke_harness" ] },
-      { "x": 1, "y": 1, "parts": [ "yoke_harness" ] }
+      { "x": 1, "y": 0, "part": "yoke_harness" },
+      { "x": 1, "y": 1, "part": "yoke_harness" }
     ]
   }
 ]

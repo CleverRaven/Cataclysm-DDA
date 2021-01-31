@@ -92,7 +92,7 @@
         "parts": [ "frame_vertical_right", "roof", "wheel_mount_medium_steerable", "wheel", "reinforced_windshield_ne" ]
       },
       { "x": 2, "y": -1, "parts": [ "frame_nw", "halfboard_nw", "headlight_reinforced" ] },
-      { "x": 2, "y": 0, "parts": [ "crane_medium" ] },
+      { "x": 2, "y": 0, "part": "crane_medium" },
       { "x": 2, "y": 1, "parts": [ "frame_ne", "halfboard_ne", "headlight_reinforced" ] }
     ]
   },
@@ -199,8 +199,8 @@
       },
       { "x": 1, "y": 0, "parts": [ "frame_nw", "halfboard_nw", "wheel_mount_light_steerable", "wheel_small" ] },
       { "x": 1, "y": 1, "parts": [ "frame_ne", "halfboard_ne", "wheel_mount_light_steerable", "wheel_small" ] },
-      { "x": 2, "y": 0, "parts": [ "forklift_fork" ] },
-      { "x": 2, "y": 1, "parts": [ "forklift_fork" ] }
+      { "x": 2, "y": 0, "part": "forklift_fork" },
+      { "x": 2, "y": 1, "part": "forklift_fork" }
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 5, "items": [ "hat_hard" ] },
@@ -253,7 +253,7 @@
       { "x": 2, "y": -1, "parts": [ "frame_nw", "halfboard_nw", "headlight_reinforced" ] },
       { "x": 2, "y": 0, "parts": [ "frame_horizontal_front", "halfboard_horizontal_front" ] },
       { "x": 2, "y": 1, "parts": [ "frame_ne", "halfboard_ne", "headlight_reinforced" ] },
-      { "x": 3, "y": 0, "parts": [ "rockwheel" ] }
+      { "x": 3, "y": 0, "part": "rockwheel" }
     ]
   }
 ]

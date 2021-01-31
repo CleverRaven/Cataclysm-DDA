@@ -132,7 +132,7 @@
       [ "-" ]
     ],
     "parts": [
-      { "x": -1, "y": 0, "parts": [ "cart_handle" ] },
+      { "x": -1, "y": 0, "part": "cart_handle" },
       { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_caster", "basketlg_cart" ] }
     ],
     "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "trash_cart" ] } ]

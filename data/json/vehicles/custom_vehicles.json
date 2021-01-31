@@ -121,10 +121,10 @@
         "y": 2,
         "parts": [ "frame_ne", "halfboard_ne", "wheel_mount_medium_steerable", "wheel", "spring_plate", "headlight" ]
       },
-      { "x": 3, "y": -1, "parts": [ "ram_spiked" ] },
-      { "x": 3, "y": 0, "parts": [ "ram_spiked" ] },
-      { "x": 3, "y": 1, "parts": [ "ram_spiked" ] },
-      { "x": 3, "y": 2, "parts": [ "ram_spiked" ] }
+      { "x": 3, "y": -1, "part": "ram_spiked" },
+      { "x": 3, "y": 0, "part": "ram_spiked" },
+      { "x": 3, "y": 1, "part": "ram_spiked" },
+      { "x": 3, "y": 2, "part": "ram_spiked" }
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 15, "item_groups": "car_misc" },
