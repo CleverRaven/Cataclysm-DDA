@@ -74,7 +74,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-extern int memorized_tile_count;
+int memorized_tile_count;
 
 static const activity_id ACT_READ( "ACT_READ" );
 

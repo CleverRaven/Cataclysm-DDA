@@ -23,6 +23,8 @@
 #include "string_id.h"
 #include "type_id.h"
 
+extern int memorized_tile_count;
+
 class JsonIn;
 class JsonObject;
 class JsonOut;
