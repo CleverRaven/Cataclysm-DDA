@@ -11,6 +11,8 @@
 #include "overmapbuffer.h"
 #include "vehicle.h"
 
+static itype_id itype_battery = itype_id( "battery" );
+
 static void connect_grid_vehicle( vehicle &veh, vehicle_connector_tile &connector,
                                   const tripoint &connector_abs_pos )
 {
@@ -25,42 +27,7 @@ static void connect_grid_vehicle( vehicle &veh, vehicle_connector_tile &connecto
     REQUIRE( part_index >= 0 );
 }
 
-TEST_CASE( "drain vehicle with grid", "[grids][vehicle]" )
-{
-    clear_map_and_put_player_underground();
-    const tripoint vehicle_local_pos = tripoint( 10, 10, 0 );
-    const tripoint connector_local_pos = tripoint( 13, 10, 0 );
-
-    map &m = g->m;
-    const tripoint connector_abs_pos = m.getabs( connector_local_pos );
-
-    m.furn_set( connector_local_pos, furn_str_id( "f_cable_connector" ) );
-    vehicle *veh = m.add_vehicle( vproto_id( "car" ), vehicle_local_pos, 0, 100, 0, false );
-    vehicle_connector_tile *grid_connector = active_tiles::furn_at<vehicle_connector_tile>
-            ( connector_abs_pos );
-
-    m.save();
-
-    REQUIRE( veh );
-    REQUIRE( grid_connector );
-
-    connect_grid_vehicle( *veh, *grid_connector, connector_abs_pos );
-
-    distribution_grid &grid = get_distribution_grid_tracker().grid_at( connector_abs_pos );
-    REQUIRE( !grid.empty() );
-    CHECK( grid.get_resource() == veh->fuel_left( itype_id( "battery" ), false ) );
-
-    int vehicle_battery_before = veh->fuel_left( itype_id( "battery" ), false );
-    int missing = grid.mod_resource( -10 );
-    CHECK( missing == 0 );
-    CHECK( grid.get_resource() == vehicle_battery_before - 10 );
-    CHECK( veh->fuel_left( itype_id( "battery" ), false ) == vehicle_battery_before - 10 );
-
-    missing = grid.mod_resource( -veh->fuel_left( itype_id( "battery" ), false ) - 10 );
-    CHECK( missing == -10 );
-}
-
-TEST_CASE( "drain grid with vehicle", "[grids][vehicle]" )
+TEST_CASE( "grid_and_vehicle_in_bubble", "[grids][vehicle]" )
 {
     clear_map_and_put_player_underground();
     const tripoint vehicle_local_pos = tripoint( 10, 10, 0 );
@@ -71,34 +38,71 @@ TEST_CASE( "drain grid with vehicle", "[grids][vehicle]" )
     const tripoint connector_abs_pos = m.getabs( connector_local_pos );
     const tripoint battery_abs_pos = m.getabs( battery_local_pos );
 
-    m.furn_set( connector_local_pos, furn_str_id( "f_cable_connector" ) );
-    m.furn_set( battery_local_pos, furn_str_id( "f_battery" ) );
-    vehicle *veh = m.add_vehicle( vproto_id( "car" ), vehicle_local_pos, 0, 100, 0, false );
-    vehicle_connector_tile *grid_connector =
-        active_tiles::furn_at<vehicle_connector_tile>( connector_abs_pos );
-    battery_tile *battery = active_tiles::furn_at<battery_tile>( battery_abs_pos );
+    GIVEN( "vehicle and battery on one grid" ) {
+        m.furn_set( connector_local_pos, furn_str_id( "f_cable_connector" ) );
+        m.furn_set( battery_local_pos, furn_str_id( "f_battery" ) );
+        vehicle *veh = m.add_vehicle( vproto_id( "car" ), vehicle_local_pos, 0, 0, 0, false );
+        vehicle_connector_tile *grid_connector =
+            active_tiles::furn_at<vehicle_connector_tile>( connector_abs_pos );
+        battery_tile *battery = active_tiles::furn_at<battery_tile>( battery_abs_pos );
 
-    m.save();
+        REQUIRE( veh );
+        REQUIRE( grid_connector );
+        REQUIRE( battery );
 
-    REQUIRE( veh );
-    REQUIRE( grid_connector );
-    REQUIRE( battery );
+        connect_grid_vehicle( *veh, *grid_connector, connector_abs_pos );
 
-    connect_grid_vehicle( *veh, *grid_connector, connector_abs_pos );
+        distribution_grid &grid = get_distribution_grid_tracker().grid_at( connector_abs_pos );
+        REQUIRE( !grid.empty() );
+        REQUIRE( &grid == &get_distribution_grid_tracker().grid_at( battery_abs_pos ) );
+        WHEN( "the vehicle is fully charged" ) {
+            veh->charge_battery( veh->fuel_capacity( itype_battery ), false );
+            REQUIRE( veh->fuel_left( itype_battery, false ) ==
+                     veh->fuel_capacity( itype_battery ) );
+            AND_WHEN( "the grid is discharged without energy in battery" ) {
+                int deficit = veh->discharge_battery( grid.get_resource() - 10 );
+                CHECK( deficit == 0 );
+                THEN( "the power is drained from vehicle" ) {
+                    CHECK( grid.get_resource() == 10 );
+                    CHECK( veh->fuel_left( itype_battery, false ) == 10 );
+                }
+            }
 
-    distribution_grid &grid = get_distribution_grid_tracker().grid_at( connector_abs_pos );
-    REQUIRE( !grid.empty() );
-    REQUIRE( &grid == &get_distribution_grid_tracker().grid_at( battery_abs_pos ) );
-    CHECK( grid.get_resource() == veh->fuel_left( itype_id( "battery" ), false ) );
-    int excess = grid.mod_resource( 10 );
-    CHECK( excess == 0 );
-    CHECK( grid.get_resource() == veh->fuel_left( itype_id( "battery" ), false ) + 10 );
+            AND_WHEN( "the vehicle is charged despite being full" ) {
+                int excess = veh->charge_battery( 10 );
+                THEN( "the grid contains the added energy" ) {
+                    CHECK( excess == 0 );
+                    CHECK( grid.get_resource() == veh->fuel_left( itype_battery, false ) + 10 );
+                    AND_THEN( "the added energy is in the battery" ) {
+                        CHECK( battery->get_resource() == 10 );
+                    }
+                }
+            }
+        }
 
-    int missing = veh->discharge_battery( grid.get_resource() - 5 );
-    CHECK( missing == 0 );
-    CHECK( grid.get_resource() == 5 );
-    CHECK( veh->fuel_left( itype_id( "battery" ), false ) == 0 );
+        WHEN( "the battery is fully charged" ) {
+            int excess = battery->mod_resource( battery->max_stored );
+            REQUIRE( excess == 0 );
+            AND_WHEN( "the vehicle is discharged despite being empty" ) {
+                int deficit = veh->discharge_battery( 10, true );
+                THEN( "the grid provides the needed power" ) {
+                    CHECK( deficit == 0 );
+                    AND_THEN( "this power comes from the battery" ) {
+                        CHECK( battery->get_resource() == battery->max_stored - 10 );
+                    }
+                }
+            }
 
-    missing = veh->discharge_battery( 10 );
-    CHECK( missing == 5 );
+            AND_WHEN( "the grid is charged some more" ) {
+                int excess = grid.mod_resource( 10 );
+                THEN( "the grid contains the added energy" ) {
+                    CHECK( excess == 0 );
+                    CHECK( grid.get_resource() == battery->max_stored + 10 );
+                    AND_THEN( "the added energy is in the vehicle" ) {
+                        CHECK( veh->fuel_left( itype_battery, false ) == 10 );
+                    }
+                }
+            }
+        }
+    }
 }
