@@ -30,11 +30,14 @@ class distribution_grid
 {
     private:
         friend class distribution_grid_tracker;
+        // TODO: Remove that public
+    public:
         /**
          * Map of submap coords to points on this submap
          * that contain an active tile.
          */
         std::map<tripoint, std::vector<tile_location>> contents;
+    private:
         std::vector<tripoint> submap_coords;
 
         mapbuffer &mb;
@@ -98,16 +101,19 @@ class distribution_grid_tracker
          */
         void on_changed( const tripoint &p );
         void on_saved();
-
-        /**
-         * Traverses the graph of connected vehicles and grids.
-         */
-        template <typename VehFunc, typename GridFunc, typename StartPoint>
-        int traverse_graph( StartPoint *start, int amount,
-                            VehFunc veh_action, GridFunc grid_action );
 };
 
+namespace distribution_graph
+{
 
+/**
+* Traverses the graph of connected vehicles and grids.
+*/
+template <typename VehFunc, typename GridFunc, typename StartPoint>
+int traverse( StartPoint *start, int amount,
+              VehFunc veh_action, GridFunc grid_action );
+
+}
 
 /**
  * Returns distribution grid tracker that is a part of the global game *g. @ref game

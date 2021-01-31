@@ -4849,6 +4849,143 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
     return amount;
 }
 
+// TODO: It looks out of place in vehicle.cpp
+namespace distribution_graph
+{
+
+template <typename VehFunc, typename GridFunc, typename StartPoint>
+int traverse( StartPoint *start, int amount,
+              VehFunc veh_action, GridFunc grid_action )
+{
+
+    struct vehicle_or_grid {
+        enum class type_t : char {
+            vehicle,
+            grid
+        } type;
+
+        vehicle *veh = nullptr;
+        distribution_grid *grid = nullptr;
+
+        vehicle_or_grid( vehicle *veh )
+            : type( type_t::vehicle )
+            , veh( veh )
+        {}
+
+        vehicle_or_grid( distribution_grid *grid )
+            : type( type_t::grid )
+            , grid( grid )
+        {}
+
+        bool operator==( const vehicle_or_grid &other ) const {
+            return veh == other.veh && grid == other.grid;
+        }
+
+        bool operator==( const vehicle *veh ) const {
+            return this->veh == veh;
+        }
+
+        bool operator==( const distribution_grid *grid ) const {
+            return this->grid == grid;
+        }
+    };
+
+    struct hash {
+        const std::hash<char> char_hash = std::hash<char>();
+        const std::hash<size_t> ptr_hash = std::hash<size_t>();
+        auto operator()( const vehicle_or_grid &elem ) const {
+            return char_hash( static_cast<char>( elem.type ) ) ^
+                   ( ptr_hash( reinterpret_cast<size_t>( elem.veh ) | reinterpret_cast<size_t>( elem.grid ) ) );
+        }
+    };
+
+    std::queue<vehicle_or_grid> connected_elements;
+    std::unordered_set<vehicle_or_grid, hash> visited_elements;
+    connected_elements.emplace( start );
+    auto &grid_tracker = get_distribution_grid_tracker();
+
+    auto process_vehicle = [&]( const tripoint & target_pos ) {
+        auto *veh = vehicle::find_vehicle( target_pos );
+        // Add this connected vehicle to the queue of vehicles to search next,
+        // but only if we haven't seen this one before.
+        if( veh != nullptr && visited_elements.count( veh ) < 1 ) {
+            connected_elements.emplace( veh );
+
+            amount = veh_action( veh, amount );
+            g->u.add_msg_if_player( m_debug, "After remote veh %p, %d power", static_cast<void *>( veh ),
+                                    amount );
+
+            return amount < 1;
+        }
+
+        return false;
+    };
+
+    auto process_grid = [&]( const tripoint & target_pos ) {
+        auto *grid = &grid_tracker.grid_at( target_pos );
+        if( *grid && visited_elements.count( grid ) < 1 ) {
+            connected_elements.emplace( grid );
+
+            amount = grid_action( grid, amount );
+            g->u.add_msg_if_player( m_debug, "After remote grid %p, %d power", static_cast<void *>( grid ),
+                                    amount );
+
+            return amount < 1;
+        }
+
+        return false;
+    };
+
+    while( amount > 0 && !connected_elements.empty() ) {
+        vehicle_or_grid current = connected_elements.front();
+
+        visited_elements.insert( current );
+        connected_elements.pop();
+
+        if( current.type == vehicle_or_grid::type_t::vehicle ) {
+            auto &current_veh = *current.veh;
+            for( auto &p : current_veh.loose_parts ) {
+                if( !current_veh.part_info( p ).has_flag( "POWER_TRANSFER" ) ) {
+                    // Ignore loose parts that aren't power transfer cables
+                    continue;
+                }
+
+                const tripoint target_pos = current_veh.parts[p].target.second;
+                if( current_veh.parts[p].has_flag( vehicle_part::targets_grid ) ) {
+                    if( process_grid( target_pos ) ) {
+                        break;
+                    }
+                } else {
+                    if( process_vehicle( target_pos ) ) {
+                        break;
+                    }
+                }
+            }
+        } else {
+            // Grids can only be connected to vehicles at the moment
+            auto &current_grid = *current.grid;
+            for( auto &pr : current_grid.contents ) {
+                for( const tile_location &loc : pr.second ) {
+                    const vehicle_connector_tile *connector = active_tiles::furn_at<vehicle_connector_tile>
+                            ( loc.absolute );
+                    if( connector == nullptr ) {
+                        continue;
+                    }
+
+                    for( const tripoint &target_pos : connector->connected_vehicles ) {
+                        if( process_vehicle( target_pos ) ) {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return amount;
+}
+
+} // namespace distribution_graph
+
 int vehicle::charge_battery( int amount, bool include_other_vehicles )
 {
     // Key parts by percentage charge level.
@@ -4876,14 +5013,20 @@ int vehicle::charge_battery( int amount, bool include_other_vehicles )
         }
     }
 
-    auto charge_visitor = []( vehicle * veh, int amount ) {
-        g->u.add_msg_if_player( m_debug, "CH: %d", amount );
+    auto charge_veh = []( vehicle * veh, int amount ) {
+        g->u.add_msg_if_player( m_debug, "CHv: %d", amount );
         return veh->charge_battery( amount, false );
     };
+    auto charge_grid = []( distribution_grid * grid, int amount ) {
+        g->u.add_msg_if_player( m_debug, "CHg: %d", amount );
+        return grid->mod_resource( amount );
+    };
 
-    if( amount > 0 && include_other_vehicles ) { // still a bit of charge we could send out...
-        amount = traverse_vehicle_graph( this, amount, charge_visitor );
+    if( amount > 0 && include_other_vehicles ) {
+        // still a bit of charge we could send out...
+        amount = distribution_graph::traverse( this, amount, charge_veh, charge_grid );
     }
+
 
     return amount;
 }
@@ -4922,8 +5065,7 @@ int vehicle::discharge_battery( int amount, bool recurse )
         return -grid->mod_resource( -amount );
     };
     if( amount > 0 && recurse ) { // need more power!
-        auto &tracker = get_distribution_grid_tracker();
-        amount = tracker.traverse_graph( this, amount, discharge_vehicle, discharge_grid );
+        amount = distribution_graph::traverse( this, amount, discharge_vehicle, discharge_grid );
     }
 
     return amount; // non-zero if we weren't able to fulfill demand.
