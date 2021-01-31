@@ -413,13 +413,14 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
 
 bool copy_file( const std::string &source_path, const std::string &dest_path )
 {
-    std::ifstream source_stream( source_path.c_str(), std::ifstream::in | std::ifstream::binary );
-    if( !source_stream ) {
+    cata_ifstream source_stream = std::move( cata_ifstream().binary( true ).open( source_path ) );
+    if( !source_stream.is_open() ) {
         return false;
     }
-    return write_to_file( dest_path, [&]( std::ostream & dest_stream ) {
-        dest_stream << source_stream.rdbuf();
-    }, nullptr ) &&source_stream;
+    bool res = write_to_file( dest_path, [&]( std::ostream & dest_stream ) {
+        dest_stream << source_stream->rdbuf();
+    }, nullptr );
+    return res && !source_stream.fail();
 }
 
 std::string ensure_valid_file_name( const std::string &file_name )

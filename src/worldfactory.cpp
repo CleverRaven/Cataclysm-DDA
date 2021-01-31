@@ -570,12 +570,12 @@ void worldfactory::remove_world( const std::string &worldname )
 
 void worldfactory::load_last_world_info()
 {
-    std::ifstream file = utf8_ifstream( PATH_INFO::lastworld(), std::ios::in | std::ios::binary );
-    if( !file.good() ) {
+    cata_ifstream file = std::move( cata_ifstream().binary( true ).open( PATH_INFO::lastworld() ) );
+    if( !file.is_open() ) {
         return;
     }
 
-    JsonIn jsin( file );
+    JsonIn jsin( *file );
     JsonObject data = jsin.get_object();
     last_world_name = data.get_string( "world_name" );
     last_character_name = data.get_string( "character_name" );
