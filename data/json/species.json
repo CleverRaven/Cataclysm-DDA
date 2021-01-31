@@ -17,7 +17,7 @@
     "type": "SPECIES",
     "id": "BIRD",
     "description": "a bird",
-    "fear_triggers": [ "HURT", "SOUND" ],
+    "fear_triggers": [ "HURT", "SOUND", "FRIEND_ATTACKED" ],
     "bleeds": "fd_blood"
   },
   {

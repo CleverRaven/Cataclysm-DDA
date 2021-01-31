@@ -24,14 +24,14 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "friendly": [ "cult", "zombie_aquatic", "slime" ],
-    "neutral": [ "small_animal", "insect", "aquatic_predator" ],
+    "neutral": [ "small_animal", "fish", "insect", "aquatic_predator" ],
     "by_mood": [ "ant", "acid_ant", "bee", "wasp" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "zombie_aquatic",
     "base_faction": "zombie",
-    "hate": "fish"
+    "hate": [ "fish", "aquatic_predator" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -124,19 +124,21 @@
   {
     "type": "MONSTER_FACTION",
     "name": "nether",
-    "neutral": [ "cult" ]
+    "neutral": [ "cult" ],
+    "by_mood": [ "leech_plant", "vortex" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "vortex",
-    "base_faction": "nether"
+    "base_faction": "nether",
+    "by_mood": "nether"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "slime",
     "base_faction": "nether",
-	"friendly": "zombie",
-	"by_mood": "leech_plant"
+    "friendly": "zombie",
+    "by_mood": "leech_plant"
   },
   {
     "type": "MONSTER_FACTION",
@@ -190,7 +192,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "bot",
-    "neutral": [ "cop_bot", "defense_bot", "utility_bot", "small_animal" ]
+    "neutral": [ "bot", "animal", "insect", "plant" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -201,31 +203,36 @@
     "type": "MONSTER_FACTION",
     "name": "military",
     "base_faction": "bot",
-    "neutral": [ "bot", "small_animal" ]
+    "neutral": [ "small_animal" ],
+    "by_mood": [ "animal", "insect" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "defense_bot",
     "base_faction": "bot",
-    "neutral": [ "cop_bot", "military", "utility_bot", "science", "small_animal" ]
+    "neutral": [ "science" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "cop_bot",
-    "base_faction": "bot",
-    "neutral": [ "military", "defense_bot", "utility_bot", "small_animal" ]
+    "base_faction": "bot"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "mech_bot",
     "base_faction": "bot",
-    "neutral": [ "cop_bot", "military", "utility_bot", "science", "small_animal", "player" ]
+    "neutral": [ "science", "player" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "nurse_bot",
     "base_faction": "bot",
     "by_mood": "zombie"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "berserk_bot",
+    "//": "No base_faction to allow normally bot-neutral to fight back"
   },
   {
     "type": "MONSTER_FACTION",
@@ -251,6 +258,7 @@
     "name": "bee",
     "base_faction": "insect",
     "friendly": "plant",
+    "neutral": [ "spider", "centipede" ],
     "by_mood": [ "zombie", "fungus" ]
   },
   {
@@ -382,6 +390,6 @@
     "type": "MONSTER_FACTION",
     "name": "aquatic_predator",
     "neutral": [ "bot", "insect", "animal", "zombie" ],
-    "hate": [ "fish" ]
+    "hate": [ "fish", "zombie_aquatic" ]
   }
 ]
