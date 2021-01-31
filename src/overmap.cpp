@@ -1669,12 +1669,6 @@ bool overmap::generate_sub( const int z )
     subway_points.insert( subway_points.end(), subway_lab_train_points.begin(),
                           subway_lab_train_points.end() );
     connect_closest_points( subway_points, z, *subway_tunnel );
-    // If on z = 4 and central lab is present, be sure to connect normal labs and central labs (just in case).
-    if( z == -4 && !central_lab_points.empty() ) {
-        std::vector<point_om_omt> extra_route;
-        extra_route.push_back( subway_lab_train_points.back() );
-        connect_closest_points( extra_route, z, *subway_tunnel );
-    }
 
     for( auto &i : subway_points ) {
         if( is_ot_match( "sub_station", ter( tripoint_om_omt( i, z + 2 ) ), ot_match_type::type ) ) {
