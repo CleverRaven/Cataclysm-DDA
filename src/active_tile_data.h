@@ -41,14 +41,6 @@ class active_tile_data
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
 
-        virtual int get_resource() const {
-            return 0;
-        }
-
-        virtual int mod_resource( int amt ) {
-            return amt;
-        }
-
         virtual ~active_tile_data();
         virtual active_tile_data *clone() const = 0;
         virtual const std::string &get_type() const = 0;
@@ -83,8 +75,8 @@ class battery_tile : public active_tile_data
         void store( JsonOut &jsout ) const override;
         void load( JsonObject &jo ) override;
 
-        int get_resource() const override;
-        int mod_resource( int amt ) override;
+        int get_resource() const;
+        int mod_resource( int amt );
 };
 
 class charger_tile : public active_tile_data
@@ -111,9 +103,6 @@ class vehicle_connector_tile : public active_tile_data
         const std::string &get_type() const override;
         void store( JsonOut &jsout ) const override;
         void load( JsonObject &jo ) override;
-
-        int get_resource() const override;
-        int mod_resource( int amt ) override;
 };
 
 // TODO: Better place for this

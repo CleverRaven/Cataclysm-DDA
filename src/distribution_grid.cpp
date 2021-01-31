@@ -35,7 +35,7 @@ bool distribution_grid::empty() const
 
 distribution_grid::operator bool() const
 {
-    return !empty();
+    return !empty() && !submap_coords.empty();
 }
 
 void distribution_grid::update( time_point to )
@@ -59,19 +59,46 @@ void distribution_grid::update( time_point to )
     }
 }
 
-int distribution_grid::mod_resource( int amt )
+#include "vehicle.h"
+int distribution_grid::mod_resource( int amt, bool recurse )
 {
+    std::vector<vehicle *> connected_vehicles;
     for( const std::pair<const tripoint, std::vector<tile_location>> &c : contents ) {
-        if( amt == 0 ) {
-            return 0;
-        }
-        submap *sm = mb.lookup_submap( c.first );
-        if( sm == nullptr ) {
-            continue;
-        }
-
         for( const tile_location &loc : c.second ) {
-            amt = sm->active_furniture[loc.on_submap]->mod_resource( amt );
+            battery_tile *battery = active_tiles::furn_at<battery_tile>( loc.absolute );
+            if( battery != nullptr ) {
+                amt = battery->mod_resource( amt );
+                if( amt == 0 ) {
+                    return 0;
+                }
+                continue;
+            }
+
+            if( !recurse ) {
+                continue;
+            }
+
+            vehicle_connector_tile *connector = active_tiles::furn_at<vehicle_connector_tile>( loc.absolute );
+            if( connector != nullptr ) {
+                for( const tripoint &veh_abs : connector->connected_vehicles ) {
+                    vehicle *veh = vehicle::find_vehicle( veh_abs );
+                    if( veh == nullptr ) {
+                        // TODO: Disconnect
+                        debugmsg( "lost vehicle at %d,%d,%d", veh_abs.x, veh_abs.y, veh_abs.z );
+                        continue;
+                    }
+                    connected_vehicles.push_back( veh );
+                }
+            }
+        }
+    }
+
+    // TODO: Giga ugly. We only charge the first vehicle to get it to use its recursive graph traversal because it's inaccessible from here due to being a template method
+    if( !connected_vehicles.empty() ) {
+        if( amt > 0 ) {
+            amt = connected_vehicles.front()->charge_battery( amt, true );
+        } else {
+            amt = -connected_vehicles.front()->discharge_battery( -amt, true );
         }
     }
 
@@ -82,13 +109,26 @@ int distribution_grid::get_resource() const
 {
     int res = 0;
     for( const std::pair<const tripoint, std::vector<tile_location>> &c : contents ) {
-        submap *sm = mb.lookup_submap( c.first );
-        if( sm == nullptr ) {
-            continue;
-        }
-
         for( const tile_location &loc : c.second ) {
-            res += sm->active_furniture[loc.on_submap]->get_resource();
+            battery_tile *battery = active_tiles::furn_at<battery_tile>( loc.absolute );
+            if( battery != nullptr ) {
+                res += battery->stored;
+                continue;
+            }
+
+            vehicle_connector_tile *connector = active_tiles::furn_at<vehicle_connector_tile>( loc.absolute );
+            if( connector != nullptr ) {
+                for( const tripoint &veh_abs : connector->connected_vehicles ) {
+                    vehicle *veh = vehicle::find_vehicle( veh_abs );
+                    if( veh == nullptr ) {
+                        // TODO: Disconnect
+                        debugmsg( "lost vehicle at %d,%d,%d", veh_abs.x, veh_abs.y, veh_abs.z );
+                        continue;
+                    }
+
+                    res += veh->fuel_left( "battery", false );
+                }
+            }
         }
     }
 

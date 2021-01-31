@@ -268,47 +268,6 @@ void vehicle_connector_tile::load( JsonObject &jo )
     jo.read( "connected_vehicles", connected_vehicles );
 }
 
-int vehicle_connector_tile::get_resource() const
-{
-    int resource_sum = 0;
-    for( const tripoint &veh_abs : connected_vehicles ) {
-        vehicle *veh = vehicle::find_vehicle( veh_abs );
-        if( veh == nullptr ) {
-            // TODO
-            debugmsg( "lost vehicle at %d,%d,%d", veh_abs.x, veh_abs.y, veh_abs.z );
-            continue;
-        }
-
-        resource_sum += veh->fuel_left( "battery", false );
-    }
-
-    return resource_sum;
-}
-
-int vehicle_connector_tile::mod_resource( int amt )
-{
-    for( const tripoint &veh_abs : connected_vehicles ) {
-        vehicle *veh = vehicle::find_vehicle( veh_abs );
-        if( veh == nullptr ) {
-            // TODO
-            debugmsg( "lost vehicle at %d,%d,%d", veh_abs.x, veh_abs.y, veh_abs.z );
-            continue;
-        }
-
-        // TODO: Handle cabled up vehicles without including any of them more than once
-        if( amt > 0 ) {
-            amt = veh->charge_battery( amt, false );
-        } else {
-            amt = -veh->discharge_battery( -amt, false );
-        }
-        if( amt == 0 ) {
-            return 0;
-        }
-    }
-
-    return amt;
-}
-
 static std::map<std::string, std::unique_ptr<active_tile_data>> build_type_map()
 {
     std::map<std::string, std::unique_ptr<active_tile_data>> type_map;

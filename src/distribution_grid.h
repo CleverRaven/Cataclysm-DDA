@@ -47,7 +47,7 @@ class distribution_grid
         bool empty() const;
         explicit operator bool() const;
         void update( time_point to );
-        int mod_resource( int amt );
+        int mod_resource( int amt, bool recurse = true );
         int get_resource() const;
 };
 
@@ -112,6 +112,8 @@ namespace distribution_graph
 template <typename VehFunc, typename GridFunc, typename StartPoint>
 int traverse( StartPoint *start, int amount,
               VehFunc veh_action, GridFunc grid_action );
+
+
 
 }
 

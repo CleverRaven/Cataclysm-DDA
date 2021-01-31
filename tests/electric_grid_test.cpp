@@ -51,9 +51,13 @@ TEST_CASE( "drain vehicle with grid", "[grids][vehicle]" )
     CHECK( grid.get_resource() == veh->fuel_left( itype_id( "battery" ), false ) );
 
     int vehicle_battery_before = veh->fuel_left( itype_id( "battery" ), false );
-    CHECK( grid.mod_resource( -10 ) == 0 );
+    int missing = grid.mod_resource( -10 );
+    CHECK( missing == 0 );
     CHECK( grid.get_resource() == vehicle_battery_before - 10 );
     CHECK( veh->fuel_left( itype_id( "battery" ), false ) == vehicle_battery_before - 10 );
+
+    missing = grid.mod_resource( -veh->fuel_left( itype_id( "battery" ), false ) - 10 );
+    CHECK( missing == -10 );
 }
 
 TEST_CASE( "drain grid with vehicle", "[grids][vehicle]" )
@@ -94,4 +98,7 @@ TEST_CASE( "drain grid with vehicle", "[grids][vehicle]" )
     CHECK( missing == 0 );
     CHECK( grid.get_resource() == 5 );
     CHECK( veh->fuel_left( itype_id( "battery" ), false ) == 0 );
+
+    missing = veh->discharge_battery( 10 );
+    CHECK( missing == 5 );
 }
