@@ -5,7 +5,8 @@
     "type": "AMMO",
     "name": { "str": ".38 FMJ" },
     "description": ".38 Special ammunition with brass jacketed 130gr bullets.  The .38 Special round has been known from its inception for its accuracy and low recoil.",
-    "relative": { "damage": { "damage_type": "stab", "amount": -2, "armor_penetration": 4 } }
+    "//": "Base damage of 20, balance increase of two-nineths.",
+    "relative": { "damage": { "damage_type": "stab", "amount": -6, "armor_penetration": 9 } }
   },
   {
     "id": "38_special",
@@ -25,23 +26,11 @@
     "ammo_type": "38",
     "casing": "38_casing",
     "range": 14,
-    "damage": { "damage_type": "stab", "amount": 22 },
+    "//": "Hollowpoint damage bonus of 25%.",
+    "damage": { "damage_type": "stab", "amount": 30 },
     "dispersion": 30,
     "recoil": 250,
     "effects": [ "COOKOFF" ]
-  },
-  {
-    "id": "38_super",
-    "copy-from": "38_special",
-    "type": "AMMO",
-    "name": { "str": ".38 Super" },
-    "description": ".38 Super ammunition with 90gr JHP bullets.  Designed in 1929, the .38 super cartridge was designed to penetrate body armor and vehicles.",
-    "price": 240,
-    "price_postapoc": 600,
-    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "count": 20,
-    "relative": { "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 4 }, "dispersion": -10 },
-    "proportional": { "recoil": 1.5 }
   },
   {
     "id": "reloaded_38_fmj",
@@ -57,15 +46,6 @@
     "copy-from": "38_special",
     "type": "AMMO",
     "name": { "str": ".38 Special, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
-  },
-  {
-    "id": "reloaded_38_super",
-    "copy-from": "38_super",
-    "type": "AMMO",
-    "name": { "str": ".38 Super, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
