@@ -40,7 +40,7 @@
     "type": "GUN",
     "name": { "str": "PAM-41 2g" },
     "copy-from": "afs_plasma_base",
-    "description": "A short and stubby 2g plasma railgun occasionally used by espatiers as a hull breaching tool.  Like larger plasma weapons, it propels a toroids of plasma that detonate on contact, but its reduced size heavily hampers its range and damage output.  Fired within an atmosphere, its very low range makes it dangerous to shooter and victim alike.",
+    "description": "A short and stubby 2g plasma railgun occasionally used by espatiers as a hull breaching tool.  Like larger plasma weapons, it propels toroids of plasma that detonate on contact, but its reduced size heavily hampers its range and damage output.  Fired within an atmosphere, its very low range makes it dangerous to shooter and target alike.",
     "weight": "2500 g",
     "volume": "1 L",
     "longest_side": "45 cm",
