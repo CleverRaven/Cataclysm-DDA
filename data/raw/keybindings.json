@@ -1988,6 +1988,12 @@
   },
   {
     "type": "keybinding",
+    "name": "View Submap Grid",
+    "category": "DEFAULTMODE",
+    "id": "debug_submap_grid"
+  },
+  {
+    "type": "keybinding",
     "name": "Switch Sidebar Style",
     "category": "DEFAULTMODE",
     "id": "toggle_sidebar_style"

@@ -23,6 +23,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "color.h"
+#include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
@@ -37,6 +38,7 @@
 #include "json.h"
 #include "map.h"
 #include "map_memory.h"
+#include "mapbuffer.h"
 #include "mapdata.h"
 #include "mod_tileset.h"
 #include "monster.h"
@@ -1455,6 +1457,70 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             draw_from_id_string( "cursor", C_NONE, empty_string, indicator_offset->xy() + tripoint( g->u.posx(),
                                  g->u.posy(), center.z ),
                                  0, 0, LL_LIT, false );
+        }
+    }
+
+    if( g->debug_submap_grid_overlay && !iso_mode ) {
+        point sm_start = ms_to_sm_copy( g->m.getabs( point( min_col, min_row ) + o ) );
+        point sm_end = ms_to_sm_copy( g->m.getabs( point( max_col, max_row ) + o ) );
+
+        bool zlevs = g->m.has_zlevels();
+        int mapsize = g->m.getmapsize();
+        tripoint mappos = g->m.get_abs_sub();
+        rectangle maprect( mappos.xy(), mappos.xy() + point( mapsize, mapsize ) );
+
+        const auto is_map = [mappos, zlevs, maprect]( const tripoint & p ) {
+            if( !maprect.contains_half_open( p.xy() ) ) {
+                return false;
+            }
+            if( zlevs ) {
+                return true;
+            } else {
+                return p.z == mappos.z;
+            }
+        };
+
+        const auto is_mapbuffer = []( const tripoint & p ) {
+            for( const auto &it : MAPBUFFER ) {
+                if( it.first == p ) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        constexpr int THICC = 1; // line thickness
+        for( int sm_x = sm_start.x; sm_x <= sm_end.x; sm_x++ ) {
+            for( int sm_y = sm_start.y; sm_y <= sm_end.y; sm_y++ ) {
+                point sm_p = point( sm_x, sm_y );
+                tripoint sm_tp = tripoint( sm_x, sm_y, center.z );
+                point p1 = player_to_screen( g->m.getlocal( sm_to_ms_copy( sm_p ) ) );
+                point p3 = player_to_screen( g->m.getlocal( sm_to_ms_copy( sm_p + point( 1, 1 ) ) ) );
+                p3 -= point( THICC, THICC ); // Don't draw over other lines
+
+                // Leave a small gap to indicate omt boundaries
+                point tmp = omt_to_sm_copy( sm_to_omt_copy( sm_tp ) ).xy();
+                if( tmp.x == sm_tp.x ) {
+                    p1.x += 2;
+                }
+                if( tmp.y == sm_tp.y ) {
+                    p1.y += 2;
+                }
+
+                SDL_Color col;
+                if( is_map( sm_tp ) ) {
+                    col = {0, 220, 0, 255};
+                } else if( is_mapbuffer( sm_tp ) ) {
+                    col = {0, 180, 180, 255};
+                } else {
+                    col = {0, 0, 220, 255};
+                }
+
+                geometry->vertical_line( renderer, p1, p3.y, THICC, col );
+                geometry->vertical_line( renderer, point( p3.x, p1.y ), p3.y, THICC, col );
+                geometry->horizontal_line( renderer, p1, p3.x, THICC, col );
+                geometry->horizontal_line( renderer, point( p1.x, p3.y ), p3.x, THICC, col );
+            }
         }
     }
 

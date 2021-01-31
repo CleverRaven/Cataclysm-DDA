@@ -1007,6 +1007,7 @@ class game
         point driving_view_offset;
 
         bool debug_pathfinding = false; // show NPC pathfinding on overmap ui
+        bool debug_submap_grid_overlay = false;
 
         /* tile overlays */
         // Toggle all other overlays off and flip the given overlay on/off.

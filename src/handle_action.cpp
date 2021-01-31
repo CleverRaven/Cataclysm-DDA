@@ -2413,6 +2413,10 @@ bool game::handle_action()
                 display_radiation();
                 break;
 
+            case ACTION_DISPLAY_SUBMAP_GRID:
+                g->debug_submap_grid_overlay = !g->debug_submap_grid_overlay;
+                break;
+
             case ACTION_TOGGLE_HOUR_TIMER:
                 toggle_debug_hour_timer();
                 break;
