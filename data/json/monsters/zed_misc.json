@@ -948,6 +948,8 @@
       "POISON",
       "NO_BREATHE",
       "REVIVES",
+      "REVIVES_HEALTHY",
+      "NO_NECRO",
       "PUSH_MON",
       "FILTHY"
     ]
