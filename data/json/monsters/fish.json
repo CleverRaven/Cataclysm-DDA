@@ -430,7 +430,7 @@
     "melee_skill": 3,
     "melee_dice_sides": 6,
     "melee_cut": 4,
-	"anger_triggers": [ "PLAYER_CLOSE" ],
+    "anger_triggers": [ "PLAYER_CLOSE" ],
     "description": "A northern pike.  Pike can be a pretty aggressive fish, careful around those teeth."
   },
   {
@@ -446,11 +446,11 @@
     "copy-from": "mon_fish_large",
     "name": { "str": "muskellunge" },
     "aggression": 0,
-	"morale": 0,
+    "morale": 0,
     "melee_skill": 3,
     "melee_dice_sides": 6,
     "melee_cut": 3,
-	"anger_triggers": [ "PLAYER_CLOSE" ],
+    "anger_triggers": [ "PLAYER_CLOSE" ],
     "looks_like": "mon_fish_pike",
     "description": "A muskellunge.  Closely related to pike, it shares the same aggression and sharp teeth."
   },
