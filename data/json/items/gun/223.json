@@ -294,25 +294,19 @@
   },
   {
     "id": "hk_g36",
-    "copy-from": "rifle_auto",
+    "copy-from": "nato_assault_rifle",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "H&K G36" },
-    "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much-lighter .223 round, allowing for a higher ammo capacity.",
-    "weight": "3630 g",
-    "volume": "4640 ml",
-    "longest_side": "1004 mm",
-    "price": 210000,
-    "price_postapoc": 6000,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
-    "dispersion": 150,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
+    "name": { "str": "G36 assault rifle" },
+    "description": "An assault rifle chamber in 5.56x45mm and accepting G36 magazines.",
+    "variants": [
+      {
+        "id": "hk_g36",
+        "name": { "str": "H&K G36" },
+        "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much-lighter .223 round, allowing for a higher ammo capacity.",
+        "weight": 1
+      }
+    ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "pocket_data": [
       {
@@ -397,49 +391,20 @@
   },
   {
     "id": "m16a4",
-    "copy-from": "rifle_semi",
+    "copy-from": "nato_assault_rifle",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "M16A4" },
-    "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.",
-    "weight": "3260 g",
-    "volume": "5030 ml",
-    "longest_side": "1003 mm",
-    "price": 240000,
-    "price_postapoc": 5000,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
-    "dispersion": 150,
-    "durability": 7,
-    "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
-    "pocket_data": [
+    "name": { "str": "NATO burst rifle" },
+    "description": "An assault rifle used by a NATO member state.  Unlike other assault rifles, this one does not have an auto-fire mode, and instead has a burst fire mode.  As per NATO's STANAG agreement, it is chambered in 5.56x45mm.",
+    "variants": [
       {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag10",
-          "stanag20",
-          "stanag40",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
+        "id": "m16a4",
+        "name": { "str": "M16A4" },
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.",
+        "weight": 1
       }
-    ]
+    ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ]
   },
   {
     "id": "m231pfw",
@@ -568,71 +533,37 @@
   },
   {
     "id": "sig552",
-    "copy-from": "rifle_auto",
+    "copy-from": "nato_assault_rifle",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "SIG 552" },
-    "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.",
-    "weight": "3200 g",
-    "volume": "2950 ml",
-    "longest_side": "741 mm",
-    "price": 320000,
-    "price_postapoc": 6000,
-    "to_hit": -1,
-    "bashing": 10,
-    "material": [ "steel", "plastic" ],
-    "ammo": [ "223" ],
-    "dispersion": 180,
-    "durability": 9,
-    "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
-    "built_in_mods": [ "folding_stock" ],
-    "pocket_data": [
+    "//": "This could use a better name, I just wanted to differentiate it from assault rifles, as it also has a burst mode",
+    "name": { "str": "NATO assault rifle with burst" },
+    "description": "An assault rifle used by a NATO member state.  Unlike other assault rifles, this one has a burst fire mode in addition to semi-automatic and fully-automatic modes.  As per NATO's STANAG agreement, it is chambered in 5.56x45mm.",
+    "variants": [
       {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag10",
-          "stanag20",
-          "stanag40",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
+        "id": "sig552",
+        "name": { "str": "SIG 552" },
+        "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.",
+        "weight": 1
       }
-    ]
+    ],
+    "built_in_mods": [ "folding_stock" ]
   },
   {
     "id": "steyr_aug",
-    "copy-from": "rifle_auto",
+    "copy-from": "nato_assault_rifle",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "Steyr AUG" },
-    "description": "The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is used in the armed forces and police forces of many nations, and enjoys low recoil and high accuracy.",
-    "weight": "3500 g",
-    "volume": "3520 ml",
-    "longest_side": "715 mm",
-    "price": 490000,
-    "price_postapoc": 6000,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "light_gray",
-    "ammo": [ "223" ],
-    "dispersion": 140,
-    "durability": 8,
-    "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "name": { "str": "AUG assault rifle" },
+    "description": "An assault rifle chambered in 5.56x45mm and accepting AUG magazines",
+    "variants": [
+      {
+        "id": "steyr_aug",
+        "name": { "str": "Steyr AUG" },
+        "description": "The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is used in the armed forces and police forces of many nations, and enjoys low recoil and high accuracy.",
+        "weight": 1
+      }
+    ],
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
