@@ -207,7 +207,7 @@
     "price": "150 USD",
     "price_postapoc": "150 USD",
     "ammo": [ "battery" ],
-    "ranged_damage": { "damage_type": "heat", "amount": 5 },
+    "ranged_damage": { "damage_type": "heat", "amount": 4 },
     "range": 15,
     "ammo_to_fire": 5,
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
