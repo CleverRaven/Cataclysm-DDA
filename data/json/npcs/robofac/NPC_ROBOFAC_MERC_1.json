@@ -307,7 +307,7 @@
     "difficulty": 0,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "robofachq_surface_entrance", "om_special": "hub_01", "reveal_radius": 1, "search_range": 90, "z": 0 }
+      "assign_mission_target": { "om_terrain": "robofachq_surface_entrance", "om_special": "hub_01", "reveal_radius": 1, "search_range": 360, "z": 0 }
     },
     "end": {
       "effect": [

@@ -117,6 +117,11 @@ class item_location
         bool parents_can_contain_recursive( item *it ) const;
         int max_charges_by_parent_recursive( const item &it ) const;
 
+        /**
+         * Returns whether another item is eventually contained by this item
+         */
+        bool eventually_contains( item_location loc ) const;
+
     private:
         class impl;
 

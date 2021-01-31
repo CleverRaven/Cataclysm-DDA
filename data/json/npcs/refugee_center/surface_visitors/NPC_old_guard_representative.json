@@ -118,7 +118,7 @@
     "difficulty": 5,
     "value": 50000,
     "start": {
-      "assign_mission_target": { "om_terrain": "bandit_cabin", "om_special": "bandit_cabin", "reveal_radius": 1 },
+      "assign_mission_target": { "om_terrain": "bandit_cabin", "om_special": "bandit_cabin", "reveal_radius": 1, "search_range": 360 },
       "update_mapgen": {
         "set": [
           { "point": "trap", "id": "tr_landmine_buried", "x": 7, "y": 6 },

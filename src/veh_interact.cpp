@@ -381,6 +381,7 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
                 veh->print_vparts_descs( w_msg, getmaxy( w_msg ), getmaxx( w_msg ), cpart, start_at, start_limit );
             } else {
                 const int height = catacurses::getmaxy( w_msg );
+                const int width = catacurses::getmaxx( w_msg ) - 2;
 
                 // the following contraption is splitting buffer into separate lines for scrolling
                 // since earlier code relies on msg already being folded
@@ -389,7 +390,12 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
                 while( !msg_stream.eof() ) {
                     std::string line;
                     getline( msg_stream, line );
-                    buffer.push_back( line );
+                    if( utf8_width( line ) <= width ) {
+                        buffer.emplace_back( line );
+                    } else {
+                        std::vector<std::string> folded = foldstring( line, width );
+                        std::copy( folded.begin(), folded.end(), std::back_inserter( buffer ) );
+                    }
                 }
 
                 const int pages = static_cast<int>( buffer.size() / ( height - 2 ) );
@@ -399,7 +405,8 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
                     if( static_cast<size_t>( idx ) >= buffer.size() ) {
                         break;
                     }
-                    fold_and_print( w_msg, point( 1, line ), getmaxx( w_msg ) - 2, c_unset, buffer[idx] );
+                    nc_color dummy = c_unset;
+                    print_colored_text( w_msg, point( 1, line ), dummy, c_unset, buffer[idx] );
                 }
             }
             wnoutrefresh( w_msg );
@@ -847,15 +854,29 @@ bool veh_interact::update_part_requirements()
         ok = false;
     }
 
+    std::string str_suffix;
+    int lift_strength = player_character.get_lift_str();
+    int total_lift_strength = lift_strength + player_character.get_lift_assist();
+    int total_base_strength = player_character.get_str() + player_character.get_lift_assist();
+
+    if( player_character.has_trait( trait_id( "STRONGBACK" ) ) && total_lift_strength >= str &&
+        total_base_strength < str ) {
+        str_suffix = string_format( _( "(Strong Back helped, giving +%d strength)" ),
+                                    lift_strength - player_character.get_str() );
+    } else if( player_character.has_trait( trait_id( "BADBACK" ) ) && total_base_strength >= str &&
+               total_lift_strength < str ) {
+        str_suffix = string_format( _( "(Bad Back reduced usable strength by %d)" ),
+                                    lift_strength - player_character.get_str() );
+    }
+
     nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
     nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
-
     const auto helpers = player_character.get_crafting_helpers();
     std::string str_string;
     if( !helpers.empty() ) {
-        str_string = string_format( _( "strength ( assisted ) %d" ), str );
+        str_string = string_format( _( "strength ( assisted ) %d %s" ), str, str_suffix );
     } else {
-        str_string = string_format( _( "strength %d" ), str );
+        str_string = string_format( _( "strength %d %s" ), str, str_suffix );
     }
     //~ %1$s is quality name, %2$d is quality level
     std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
@@ -1806,6 +1827,22 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     if( !( use_aid || use_str ) ) {
         ok = false;
     }
+
+    std::string str_suffix;
+    int lift_strength = player_character.get_lift_str();
+    int total_lift_strength = lift_strength + player_character.get_lift_assist();
+    int total_base_strength = player_character.get_str() + player_character.get_lift_assist();
+
+    if( player_character.has_trait( trait_id( "STRONGBACK" ) ) && total_lift_strength >= str &&
+        total_base_strength < str ) {
+        str_suffix = string_format( _( "(Strong Back helped, giving +%d strength)" ),
+                                    lift_strength - player_character.get_str() );
+    } else if( player_character.has_trait( trait_id( "BADBACK" ) ) && total_base_strength >= str &&
+               total_lift_strength < str ) {
+        str_suffix = string_format( _( "(Bad Back reduced usable strength by %d)" ),
+                                    lift_strength - player_character.get_str() );
+    }
+
     nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
     nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
     const auto helpers = player_character.get_crafting_helpers();
@@ -1815,9 +1852,9 @@ bool veh_interact::can_remove_part( int idx, const player &p )
 
     std::string str_string;
     if( !helpers.empty() ) {
-        str_string = string_format( _( "strength ( assisted ) %d" ), str );
+        str_string = string_format( _( "strength ( assisted ) %d %s" ), str, str_suffix );
     } else {
-        str_string = string_format( _( "strength %d" ), str );
+        str_string = string_format( _( "strength %d %s" ), str, str_suffix );
     }
 
     nmsg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
