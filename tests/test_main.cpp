@@ -13,6 +13,9 @@
 #include <string>
 #include <utility>
 #include <utility>
+#ifndef _WIN32
+#include <unistd.h>
+#endif
 
 #include "avatar.h"
 #include "cached_options.h"
@@ -126,7 +129,12 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     world_generator->set_active_world( nullptr );
     world_generator->init();
-    WORLDPTR test_world = world_generator->make_new_world( mods );
+#ifndef _WIN32
+    const std::string test_world_name = "Test World " + std::to_string( getpid() );
+#else
+    const std::string test_world_name = "Test World";
+#endif
+    WORLDPTR test_world = world_generator->make_new_world( test_world_name, mods );
     cata_assert( test_world != nullptr );
     world_generator->set_active_world( test_world );
     cata_assert( world_generator->active_world != nullptr );
