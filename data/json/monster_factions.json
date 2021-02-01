@@ -66,7 +66,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "vermin",
-    "base_faction": "small_animal"
+    "base_faction": "small_animal",
+	"hate": "cat"
   },
   {
     "type": "MONSTER_FACTION",
@@ -182,7 +183,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "gator",
-    "base_faction": "mutant"
+    "base_faction": "mutant",
+	"hate": "fish"
   },
   {
     "type": "MONSTER_FACTION",
@@ -345,7 +347,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "crayfish",
-    "base_faction": "insect"
+    "base_faction": "insect",
+	"hate": "fish"
   },
   {
     "type": "MONSTER_FACTION",
