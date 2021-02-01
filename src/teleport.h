@@ -1,7 +1,7 @@
 #pragma once
 #ifndef CATA_SRC_TELEPORT_H
 #define CATA_SRC_TELEPORT_H
-#include "point.h"
+struct tripoint;
 
 class Creature;
 

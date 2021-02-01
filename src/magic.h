@@ -152,7 +152,7 @@ struct fake_spell {
     translation npc_trigger_message;
 
     fake_spell() = default;
-    fake_spell( const spell_id &sp_id, bool hit_self = false,
+    explicit fake_spell( const spell_id &sp_id, bool hit_self = false,
                 const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
         max_level( max_level ), self( hit_self ) {}
 
@@ -414,7 +414,7 @@ class spell
 
     public:
         spell() = default;
-        spell( spell_id sp, int xp = 0 );
+        explicit spell( spell_id sp, int xp = 0 );
 
         // sets the message to be different than the spell_type specifies
         void set_message( const translation &msg );
@@ -654,7 +654,7 @@ struct override_parameters {
     int range;
     bool ignore_walls;
 
-    override_parameters( const spell &sp ) {
+    explicit override_parameters( const spell &sp ) {
         aoe_radius = sp.aoe();
         range = sp.range();
         ignore_walls = sp.has_flag( spell_flag::IGNORE_WALLS );
@@ -789,7 +789,7 @@ struct area_expander {
     std::map<tripoint, int> area_search;
 
     struct area_node_comparator {
-        area_node_comparator( std::vector<area_expander::node> &area ) : area( area ) {
+        explicit area_node_comparator( std::vector<area_expander::node> &area ) : area( area ) {
         }
 
         bool operator()( int a, int b ) const {

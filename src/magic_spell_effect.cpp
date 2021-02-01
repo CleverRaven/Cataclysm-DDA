@@ -207,10 +207,8 @@ void spell_effect::teleport_to( const spell &sp, Creature &caster, const tripoin
             potential_targets.push_back( potential_target );
         }
     }
-    int random_point = rng( 0, potential_targets.size() );
-    std::list<tripoint>::iterator it = potential_targets.begin();
-    std::advance( it, random_point );
-    teleport::teleport_to_point( caster, *it, safe, false );
+    tripoint where = random_entry( potential_targets );
+    teleport::teleport_to_point( caster, where, safe, false );
 }
 
 std::set<tripoint> spell_effect::spell_effect_blast( const override_parameters &params,
