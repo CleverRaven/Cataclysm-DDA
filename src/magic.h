@@ -153,7 +153,7 @@ struct fake_spell {
 
     fake_spell() = default;
     explicit fake_spell( const spell_id &sp_id, bool hit_self = false,
-                const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
+                         const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
         max_level( max_level ), self( hit_self ) {}
 
     bool operator==( const fake_spell &rhs ) const {
