@@ -465,14 +465,14 @@
       { "x": 5, "y": 1, "parts": [ "hdframe_horizontal", "hdhalfboard_horizontal_front", "plating_military" ] },
       { "x": 5, "y": 2, "parts": [ "hdframe_ne", "hdhalfboard_ne", "plating_military" ] }
     ],
-    "items": [ { "y": -1, "x": 3, "chance": 2, "items": [ "id_military" ] } ]
+    "items": [ { "x": 3, "y": -1, "chance": 2, "items": [ "id_military" ] } ]
   },
   {
     "id": "apc-gl",
     "type": "vehicle",
     "name": "Armored Personnel Carrier",
     "//": "grenade launcher version",
-    "items": [ { "y": -1, "x": 3, "chance": 2, "items": [ "id_military" ] } ],
+    "items": [ { "x": 3, "y": -1, "chance": 2, "items": [ "id_military" ] } ],
     "parts": [
       { "x": -2, "y": -2, "parts": [ "hdframe_sw", "hdboard_sw", "muffler", "plating_military" ] },
       { "x": -2, "y": -1, "parts": [ "hdframe_horizontal_rear", "hdboard_horizontal_rear", "plating_military" ] },
