@@ -639,7 +639,7 @@
       { "item": "colamdew", "prob": 15, "container-item": "bottle_twoliter" },
       { "item": "rootbeer", "prob": 15, "container-item": "bottle_twoliter" },
       { "item": "milk", "prob": 50 },
-      { "item": "milk_UHT", "prob": 5 },
+      { "item": "milk_UHT", "prob": 5, "charges": [ 1, 6 ], "sealed": false },
       { "item": "milk_raw", "prob": 2 },
       { "item": "almond_milk", "prob": 50 },
       { "item": "soy_milk", "prob": 50 },

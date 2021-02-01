@@ -742,7 +742,7 @@
       [ "water_clean", 30 ],
       [ "water_mineral", 15 ],
       { "group": "softdrinks_canned", "prob": 121 },
-      [ "milk_UHT", 10 ],
+      { "item": "milk_UHT", "prob": 10, "charges": [ 1, 6 ], "sealed": false },
       [ "juice", 31 ],
       [ "pie", 40 ],
       [ "pie_meat", 28 ],
