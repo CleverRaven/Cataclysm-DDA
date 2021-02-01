@@ -44,10 +44,10 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         new_pos.y = origin.y + rdistance * std::sin( rangle );
         tries++;
     } while( here.impassable( new_pos ) && tries < 20 );
-    teleport_to_point( critter, new_pos, safe, add_teleglow);
+    teleport_to_point( critter, new_pos, safe, add_teleglow );
 }
 
-bool teleport::teleport_to_point(Creature &critter, const tripoint &target, bool safe, bool add_teleglow) {
+bool teleport::teleport_to_point( Creature &critter, const tripoint &target, bool safe, bool add_teleglow ) {
     
     if( critter.pos() == target ) {
         return false;
