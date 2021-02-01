@@ -69,7 +69,30 @@
     "spell_class": "MAGUS",
     "base_casting_time": 100,
     "energy_source": "MANA",
-    "base_energy_cost": 100
+    "base_energy_cost": 100,
+    "learn_spells": { "dimension_door": 10 }
+  },
+  {
+    "id": "dimension_door",
+    "type": "SPELL",
+    "name": "Dimension Door",
+    "description": "Teleports you randomly near a target location.",
+    "effect": "teleport_to",
+    "shape": "blast",
+    "valid_targets": [ "ground" ],
+    "flags": [ "SOMATIC", "SILENT", "NO_LEGS" ],
+    "min_range": 10,
+    "max_range": 20,
+    "range_increment": 1,
+    "min_aoe": 6,
+    "max_aoe": 3,
+    "aoe_increment": -0.3,
+    "max_level": 10,
+    "difficulty": 5,
+    "spell_class": "MAGUS",
+    "base_casting_time": 100,
+    "energy_source": "MANA",
+    "base_energy_cost": 200
   },
   {
     "id": "gravity_well",

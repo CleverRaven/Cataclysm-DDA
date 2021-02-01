@@ -192,6 +192,28 @@ static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int 
     return true;
 }
 
+void spell_effect::teleport_to( const spell &sp, Creature &caster, const tripoint &target )
+{
+    bool safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );
+
+    if( sp.aoe() == 0 ) {
+        teleport::teleport_to_point( caster, target, safe, false );
+        return;
+    }
+
+    std::list<tripoint> potential_targets;
+    for( const tripoint &potential_target : get_map().points_in_radius( target, sp.aoe() ) ) {
+        if( in_spell_aoe( target, potential_target, sp.aoe(), sp.has_flag( spell_flag::IGNORE_WALLS ) ) ) {
+            potential_targets.push_back( potential_target );
+        }
+    }
+    int random_point = rng( 0, potential_targets.size() );
+    std::list<tripoint>::iterator it = potential_targets.begin();
+    std::advance(it, random_point);
+    const tripoint where = *it;
+    teleport::teleport_to_point( caster, *it, safe, false);
+}
+
 std::set<tripoint> spell_effect::spell_effect_blast( const override_parameters &params,
         const tripoint &,
         const tripoint &target )
