@@ -653,13 +653,9 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
 static std::pair<std::string, nc_color> speed_description( float mon_speed_rating,
         bool immobile = false )
 {
-
     if( immobile ) {
         return std::make_pair( _( "It is immobile." ), c_green );
     }
-
-    std::string speed_info;
-    nc_color color;
 
     const std::array<std::tuple<float, nc_color, std::string>, 8> cases = {
         std::make_tuple( 1.30f, c_red, _( "It is much faster than you." ) ),
@@ -681,8 +677,6 @@ static std::pair<std::string, nc_color> speed_description( float mon_speed_ratin
             return std::make_pair( std::get<2>( speed_case ), std::get<1>( speed_case ) );
         }
     }
-
-    return std::make_pair( speed_info, color );
 
     debugmsg( "speed_description: no ratio value matched" );
     return std::make_pair( _( "Unknown" ), c_white );
