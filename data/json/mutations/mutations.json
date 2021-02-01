@@ -6700,22 +6700,22 @@
   },
   {
     "type": "mutation",
-    "id": "DEBUG_CLAIRVOYANCE",
+    "id": "DEBUG_CLAIRVOYANCE_PLUS",
     "name": { "str": "Debug Clairvoyance" },
     "points": 99,
     "valid": false,
     "description": "You can clearly see that this is for dev purposes only.",
-    "flags": [ "SUPER_CLAIRVOYANCE" ],
+    "flags": [ "CLAIRVOYANCE_PLUS" ],
     "debug": true
   },
   {
     "type": "mutation",
-    "id": "DEBUG_CLAIRVOYANCE_PLUS",
-    "name": { "str": "Debug Clairvoyance Plus" },
+    "id": "DEBUG_CLAIRVOYANCE",
+    "name": { "str": "Debug Clairvoyance Super" },
     "points": 99,
     "valid": false,
-    "description": "You can clearly see that this is for dev purposes only.",
-    "flags": [ "CLAIRVOYANCE_PLUS" ],
+    "description": "You can see all the bugs with this one.",
+    "flags": [ "SUPER_CLAIRVOYANCE" ],
     "debug": true
   },
   {
