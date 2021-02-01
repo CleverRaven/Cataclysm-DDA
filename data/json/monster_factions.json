@@ -23,8 +23,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "zombie",
-    "friendly": [ "cult", "slime" ],
-    "neutral": [ "small_animal", "fish", "insect", "aquatic_predator" ],
+    "friendly": [ "slime" ],
+    "neutral": [ "cult", "small_animal", "fish", "insect", "aquatic_predator" ],
     "by_mood": [ "ant", "acid_ant", "bee", "wasp" ]
   },
   {
