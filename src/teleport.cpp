@@ -47,8 +47,10 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     teleport_to_point( critter, new_pos, safe, add_teleglow );
 }
 
-bool teleport::teleport_to_point( Creature &critter, const tripoint &target, bool safe, bool add_teleglow ) {
-    
+bool teleport::teleport_to_point( Creature &critter, const tripoint &target, bool safe,
+                                  bool add_teleglow )
+{
+
     if( critter.pos() == target ) {
         return false;
     }
