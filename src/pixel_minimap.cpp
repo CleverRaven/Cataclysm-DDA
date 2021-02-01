@@ -342,7 +342,7 @@ pixel_minimap::submap_cache &pixel_minimap::get_cache_at( const tripoint &abs_sm
     auto it = cache.find( abs_sm_pos );
 
     if( it == cache.end() ) {
-        it = cache.emplace( abs_sm_pos, submap_cache( *tex_pool ) ).first;
+        it = cache.emplace( abs_sm_pos, *tex_pool ).first;
     }
 
     return it->second;
