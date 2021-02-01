@@ -1063,10 +1063,14 @@ bool vehicle::has_engine_type( const itype_id &ft, const bool enabled ) const
     }
     return false;
 }
-bool vehicle::has_engine_type_not( const itype_id &ft, const bool enabled ) const
+bool vehicle::has_engine_type_not( const itype_id &ft, const bool enabled,
+                                   const bool generators_only ) const
 {
-    for( size_t e = 0; e < engines.size(); ++e ) {
-        if( !is_engine_type( e, ft ) && ( !enabled || is_engine_on( e ) ) ) {
+    std::vector<int> motors = generators_only ? generators : engines;
+
+    for( size_t e = 0; e < motors.size(); ++e ) {
+        if( !is_engine_type( e, ft, generators_only ) && ( !enabled ||
+                is_engine_on( e, generators_only ) ) ) {
             return true;
         }
     }
@@ -1111,9 +1115,11 @@ bool vehicle::is_combustion_engine_type( const int e ) const
     return parts[engines[e]].info().has_flag( flag_E_COMBUSTION );
 }
 
-bool vehicle::is_perpetual_type( const int e ) const
+bool vehicle::is_perpetual_type( const int e, bool for_generators ) const
 {
-    const itype_id  &ft = part_info( engines[e] ).fuel_type;
+    std::vector<int> motors = for_generators ? generators : engines;
+
+    const itype_id  &ft = part_info( motors[e] ).fuel_type;
     return item( ft ).has_flag( flag_PERPETUAL );
 }
 
@@ -4569,50 +4575,53 @@ float vehicle::handling_difficulty() const
     return velocity * diff_mod / vehicles::vmiph_per_tile;
 }
 
-int vehicle::engine_fuel_usage( int e ) const
+int vehicle::engine_fuel_usage( int e, bool for_generators ) const
 {
-    if( !is_engine_on( e ) ) {
+    std::vector<int> motors = for_generators ? generators : engines;
+
+    if( !is_engine_on( e, for_generators ) ) {
         return 0;
     }
 
     static const itype_id null_fuel_type( "null" );
-    const itype_id &cur_fuel = parts[engines[e]].fuel_current();
+    const itype_id &cur_fuel = parts[motors[e]].fuel_current();
     if( cur_fuel  == null_fuel_type ) {
         return 0;
     }
 
-    if( is_perpetual_type( e ) ) {
+    if( is_perpetual_type( e, for_generators ) ) {
         return 0;
     }
-    const auto &info = part_info( engines[ e ] );
+    const auto &info = part_info( motors[ e ] );
 
     int usage = info.energy_consumption;
-    if( parts[ engines[ e ] ].has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
+    if( parts[ motors[ e ] ].has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
         usage *= 2;
     }
 
     return usage;
 }
-
-std::map<itype_id, int> vehicle::fuel_usage() const
+std::map<itype_id, int> vehicle::fuel_usage( bool for_generators ) const
 {
+    std::vector<int> motors = for_generators ? generators : engines;
+
     std::map<itype_id, int> ret;
-    for( size_t i = 0; i < engines.size(); i++ ) {
+    for( size_t i = 0; i < motors.size(); i++ ) {
         // Note: functions with "engine" in name do NOT take part indices
         // TODO: Use part indices and not engine vector indices
-        if( !is_engine_on( i ) ) {
+        if( !is_engine_on( i, for_generators ) ) {
             continue;
         }
 
-        const size_t e = engines[ i ];
+        const size_t e = motors[ i ];
         static const itype_id null_fuel_type( "null" );
         const itype_id &cur_fuel = parts[ e ].fuel_current();
         if( cur_fuel  == null_fuel_type ) {
             continue;
         }
 
-        if( !is_perpetual_type( i ) ) {
-            ret[cur_fuel] += engine_fuel_usage( i );
+        if( !is_perpetual_type( i, for_generators ) ) {
+            ret[cur_fuel] += engine_fuel_usage( i, for_generators );
         }
     }
 
@@ -4641,6 +4650,11 @@ void vehicle::consume_fuel( int load, bool idling )
     double st = strain();
     std::map<itype_id, fuel_consumption_data> fuel_used_tmp;
     for( const auto &fuel_pr : fuel_usage() ) {
+    std::map<itype_id, int> fuel_use = fuel_usage( true );
+    std::map<itype_id, int> fuel_use_engines = fuel_usage( false );
+    fuel_use.insert( fuel_use_engines.begin(), fuel_use_engines.end() );
+
+    for( const auto &fuel_pr : fuel_use ) {
         const itype_id &ft = fuel_pr.first;
         if( idling && ft == fuel_type_battery ) {
             continue;
@@ -4788,7 +4802,7 @@ bool vehicle::start_engine( int e, bool turn_on, bool generators_only )
 int vehicle::total_alternator_epower_w() const
 {
     int epower = 0;
-    if( engine_on ) {
+    if( engine_on || generator_on ) {
         // If the engine is on, the alternators are working.
         for( size_t p = 0; p < alternators.size(); ++p ) {
             if( is_alternator_on( p ) ) {
@@ -4801,15 +4815,25 @@ int vehicle::total_alternator_epower_w() const
 
 int vehicle::total_engine_epower_w() const
 {
+    int engines_power = total_engine_epower_w( true );
+    int generators_power = total_engine_epower_w( false );
+    return engines_power + generators_power;
+}
+
+
+int vehicle::total_engine_epower_w( const bool generators_only ) const
+{
+    const std::vector<int> motors = generators_only ? generators : engines;
+
     int epower = 0;
 
     // Engines: can both produce (plasma) or consume (gas, diesel) epower.
     // Gas engines require epower to run for ignition system, ECU, etc.
     // Electric motor consumption not included, see @ref vpart_info::energy_consumption
-    if( engine_on ) {
-        for( size_t e = 0; e < engines.size(); ++e ) {
-            if( is_engine_on( e ) ) {
-                epower += part_epower_w( engines[e] );
+    if( engine_on || ( generator_on && generators_only ) ) {
+        for( size_t e = 0; e < motors.size(); ++e ) {
+            if( is_engine_on( e, generators_only ) ) {
+                epower += part_epower_w( motors[e] );
             }
         }
     }
@@ -4904,12 +4928,20 @@ int vehicle::max_reactor_epower_w() const
 
 void vehicle::update_alternator_load()
 {
+    alternator_load = get_alternator_load( true ) + get_alternator_load( false );
+}
+
+
+int vehicle::get_alternator_load( const bool generators_only ) const
+{
+    const std::vector<int> motors = generators_only ? generators : engines;
+
     // Update alternator load
-    if( engine_on ) {
+    if( engine_on || ( generator_on && generators_only ) ) {
         int engine_vpower = 0;
-        for( size_t e = 0; e < engines.size(); ++e ) {
-            if( is_engine_on( e ) && parts[engines[e]].info().has_flag( "E_ALTERNATOR" ) ) {
-                engine_vpower += part_vpower_w( engines[e] );
+        for( size_t e = 0; e < motors.size(); ++e ) {
+            if( is_engine_on( e, generators_only ) && parts[motors[e]].info().has_flag( "E_ALTERNATOR" ) ) {
+                engine_vpower += part_vpower_w( motors[e] );
             }
         }
         int alternators_power = 0;
@@ -4918,12 +4950,11 @@ void vehicle::update_alternator_load()
                 alternators_power += part_vpower_w( alternators[p] );
             }
         }
-        alternator_load =
-            engine_vpower
-            ? 1000 * ( std::abs( alternators_power ) + std::abs( extra_drag ) ) / engine_vpower
-            : 0;
+        return engine_vpower
+               ? 1000 * ( std::abs( alternators_power ) + std::abs( extra_drag ) ) / engine_vpower
+               : 0;
     } else {
-        alternator_load = 0;
+        return 0;
     }
 }
 
@@ -5227,8 +5258,8 @@ void vehicle::idle( bool on_map )
     avg_velocity = ( velocity + avg_velocity ) / 2;
 
     power_parts();
-    Character &player_character = get_player_character();
-    if( engine_on && total_power_w() > 0 ) {
+    Character &player_character  = get_player_character();
+    if( engine_on && total_power_w() > 0 || generator_on ) {
         int idle_rate = alternator_load;
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
@@ -5238,7 +5269,8 @@ void vehicle::idle( bool on_map )
         if( is_rotorcraft() && is_flying_in_air() ) {
             idle_rate = 1000;
         }
-        if( has_engine_type_not( fuel_type_muscle, true ) ) {
+        if( has_engine_type_not( fuel_type_muscle, true, false ) ||
+            has_engine_type_not( fuel_type_muscle, true, true ) ) {
             consume_fuel( idle_rate, true );
         }
 
@@ -5246,12 +5278,12 @@ void vehicle::idle( bool on_map )
             noise_and_smoke( idle_rate, 1_turns );
         }
     } else {
-        if( engine_on &&
+        if( ( engine_on || generator_on ) &&
             ( has_engine_type_not( fuel_type_muscle, true ) && has_engine_type_not( fuel_type_animal, true ) &&
               has_engine_type_not( fuel_type_wind, true ) && has_engine_type_not( fuel_type_mana, true ) ) ) {
             add_msg_if_player_sees( global_pos3(), _( "The %s's engine dies!" ), name );
         }
-        engine_on = false;
+        engine_on = generator_on = false;
     }
 
     if( !warm_enough_to_plant( player_character.pos() ) ) {

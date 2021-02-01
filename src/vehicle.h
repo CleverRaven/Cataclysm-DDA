@@ -1208,10 +1208,10 @@ class vehicle
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
          */
-        std::map<itype_id, int> fuel_usage() const;
+        std::map<itype_id, int> fuel_usage( bool for_generators = false ) const;
 
-        // current fuel usage for specific engine
-        int engine_fuel_usage( int e ) const;
+        // current fuel usage for specific engine or generator
+        int engine_fuel_usage( int e, bool for_generators = false ) const;
         /**
          * Get all vehicle lights (excluding any that are destroyed)
          * @param active if true return only lights which are enabled
@@ -1219,9 +1219,11 @@ class vehicle
         std::vector<vehicle_part *> lights( bool active = false );
 
         void update_alternator_load();
+        int get_alternator_load( bool generators_only ) const;
 
         // Total drain or production of electrical power from engines.
         int total_engine_epower_w() const;
+        int total_engine_epower_w( bool generators_only ) const;
         // Total production of electrical power from alternators.
         int total_alternator_epower_w() const;
         // Total power currently being produced by all solar panels.
@@ -1749,12 +1751,13 @@ class vehicle
         bool has_harnessed_animal() const;
         //true if an engine exists without the specified type
         //If enabled true, this engine must be enabled to return true
-        bool has_engine_type_not( const itype_id &ft, bool enabled ) const;
+        //If generators_only searches for generator instead of engine
+        bool has_engine_type_not( const itype_id &ft, bool enabled, bool generators_only = false ) const;
         //returns true if there's another engine with the same exclusion list; conflict_type holds
         //the exclusion
         bool has_engine_conflict( const vpart_info *possible_conflict, std::string &conflict_type ) const;
         //returns true if the engine doesn't consume fuel
-        bool is_perpetual_type( int e ) const;
+        bool is_perpetual_type( int e, bool for_generators = false ) const;
         //if necessary, damage this engine
         void do_engine_damage( size_t e, int strain );
         //remotely open/close doors
