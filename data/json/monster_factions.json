@@ -160,7 +160,6 @@
     "name": "razorclaw",
     "base_faction": "mutant",
     "//": "Protect their nest, grumpy",
-    "neutral": [ "bot" ],
     "by_mood": [ "small_animal" ]
   },
   {
@@ -370,7 +369,6 @@
   {
     "type": "MONSTER_FACTION",
     "name": "exodii",
-    "neutral": [ "bot" ],
     "by_mood": [ "animal", "nether" ],
     "hate": [ "zombie", "fungus", "cult", "triffid" ]
   },
