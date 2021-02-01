@@ -67,7 +67,7 @@ struct WORLD {
         std::vector<mod_id> active_mod_order;
 
         WORLD();
-        WORLD( const std::string &name );
+        explicit WORLD( const std::string &name );
         void COPY_WORLD( const WORLD *world_to_copy );
 
         bool save_exists( const save_t &name ) const;
