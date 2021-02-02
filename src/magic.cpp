@@ -205,8 +205,6 @@ const float spell_type::pierce_increment_default = 0.0f;
 const int spell_type::max_pierce_default = 0;
 const int spell_type::base_energy_cost_default = 0;
 const float spell_type::energy_increment_default = 0.0f;
-const int spell_type::base_sound_at_target_default = 0;
-const float spell_type::sound_at_target_increment_default = 0.0f;
 const trait_id spell_type::spell_class_default = trait_id( "NONE" );
 const magic_energy_type spell_type::energy_source_default = magic_energy_type::none;
 const damage_type spell_type::dmg_type_default = damage_type::NONE;
@@ -329,12 +327,6 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "final_energy_cost", final_energy_cost, base_energy_cost );
     optional( jo, was_loaded, "energy_increment", energy_increment, energy_increment_default );
 
-    optional( jo, was_loaded, "base_sound_at_target", base_sound_at_target,
-              base_sound_at_target_default );
-    optional( jo, was_loaded, "final_sound_at_target", final_sound_at_target, base_sound_at_target );
-    optional( jo, was_loaded, "sound_at_target_increment", sound_at_target_increment,
-              sound_at_target_increment_default );
-
     optional( jo, was_loaded, "spell_class", spell_class, spell_class_default );
     optional( jo, was_loaded, "energy_source", energy_source, energy_source_default );
     optional( jo, was_loaded, "damage_type", dmg_type, dmg_type_default );
@@ -409,8 +401,6 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "pierce_increment", pierce_increment, pierce_increment_default );
     json.member( "base_energy_cost", base_energy_cost, base_energy_cost_default );
     json.member( "final_energy_cost", final_energy_cost, base_energy_cost );
-    json.member( "base_sound_at_target", base_sound_at_target, base_sound_at_target_default );
-    json.member( "final_sound_at_target", final_sound_at_target, base_sound_at_target );
     json.member( "energy_increment", energy_increment, energy_increment_default );
     json.member( "spell_class", spell_class, spell_class_default );
     json.member( "energy_source", io::enum_to_string( energy_source ),
@@ -1101,26 +1091,9 @@ void spell::make_sound( const tripoint &target ) const
 {
     if( !has_flag( spell_flag::SILENT ) ) {
         int loudness = std::abs( damage() ) / 3;
-
         if( has_flag( spell_flag::LOUD ) ) {
             loudness += 1 + damage() / 3;
         }
-
-        // if sound at target has been manually set then use that instead of the default calculation
-        if( type->base_sound_at_target != 0  || type->final_sound_at_target != 0 ) {
-            if( type->base_sound_at_target < type->final_sound_at_target ) {
-                loudness = std::min( type->final_sound_at_target,
-                                     static_cast<int>( std::round( type->base_sound_at_target + type->sound_at_target_increment *
-                                                       get_level() ) ) );
-            } else if( type->base_sound_at_target > type->final_sound_at_target ) {
-                loudness = std::max( type->final_sound_at_target,
-                                     static_cast<int>( std::round( type->base_sound_at_target + type->sound_at_target_increment *
-                                                       get_level() ) ) );
-            } else {
-                loudness = type->base_sound_at_target;
-            }
-        }
-
         make_sound( target, loudness );
     }
 }
@@ -2263,9 +2236,6 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
                        sp.final_energy_cost );
     rows.emplace_back( _( "Cast Time" ), sp.base_casting_time, sp.casting_time_increment,
                        sp.final_casting_time );
-
-    rows.emplace_back( _( "Sound at Target" ), sp.base_sound_at_target, sp.sound_at_target_increment,
-                       sp.final_sound_at_target );
 
     for( std::tuple<std::string, int, float, int> &row : rows ) {
         mvwprintz( w, point( start_x, line ), c_light_gray, std::get<0>( row ) );

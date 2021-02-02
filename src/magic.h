@@ -288,13 +288,6 @@ class spell_type
         // max or min energy cost, based on sign of energy_increment
         int final_energy_cost = 0.0f;
 
-        // base sound_at_target of spell
-        int base_sound_at_target = 0;
-        // increment of sound_at_target per spell level
-        float sound_at_target_increment = 0.0f;
-        // max or min sound_at_target cost, based on sign of sound_at_target_increment
-        int final_sound_at_target= 0.0f;
-
         // spell is restricted to being cast by only this class
         // if spell_class is empty, spell is unrestricted
         trait_id spell_class;
@@ -378,8 +371,6 @@ class spell_type
         static const int max_pierce_default;
         static const int base_energy_cost_default;
         static const float energy_increment_default;
-        static const int base_sound_at_target_default;
-        static const float sound_at_target_increment_default;
         static const trait_id spell_class_default;
         static const magic_energy_type energy_source_default;
         static const damage_type dmg_type_default;
