@@ -193,15 +193,16 @@ CachedTTFFont::CachedTTFFont(
     };
 
 #if defined(_WIN32)
-    constexpr UINT max_dir_len = 256;
-    char buf[max_dir_len];
-    const UINT dir_len = GetSystemWindowsDirectory( buf, max_dir_len );
-    if( dir_len == 0 ) {
-        throw std::runtime_error( "GetSystemWindowsDirectory failed" );
-    } else if( dir_len >= max_dir_len ) {
-        throw std::length_error( "GetSystemWindowsDirectory failed due to insufficient buffer" );
+    const UINT buf_len = GetSystemWindowsDirectoryW( nullptr, 0 ) + 1;
+    if( buf_len == 0 ) {
+        throw std::runtime_error( "GetSystemWindowsDirectory failed: " + to_string( GetLastError() ) );
     }
-    known_prefixes.emplace_back( buf + std::string( "\\fonts\\" ) );
+    std::wstring buf( buf_len, '\0' );
+    const UINT buf_fin = GetSystemWindowsDirectoryW( &buf[0], buf_len );
+    if( buf_fin == 0 ) {
+        throw std::runtime_error( "GetSystemWindowsDirectory failed: " + to_string( GetLastError() ) );
+    }
+    known_prefixes.emplace_back( wstr_to_utf8( buf ) + std::string( "\\fonts\\" ) );
 #elif defined(_APPLE_) && defined(_MACH_)
     /*
     // Well I don't know how osx actually works ....

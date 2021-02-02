@@ -16,44 +16,34 @@
 
 #include "debug.h"
 #include "cata_utility.h"
+#include "catacharset.h"
 
-#if defined(_MSC_VER)
-#   include <direct.h>
-
+#if defined(_WIN32)
 #   include "wdirent.h"
+#   include "platform_win.h"
 #else
 #   include <dirent.h>
 #   include <unistd.h>
 #endif
 
-#if defined(_WIN32)
-#   include "platform_win.h"
-#endif
-
-namespace
+#if defined _WIN32
+static bool do_mkdir( const std::string &path )
 {
-
-#if defined(_WIN32)
-bool do_mkdir( const std::string &path, const int /*mode*/ )
-{
-#if defined(_MSC_VER)
-    return _mkdir( path.c_str() ) == 0;
-#else
-    return mkdir( path.c_str() ) == 0;
-#endif
+    return CreateDirectoryW( utf8_to_wstr( path ).c_str(), nullptr ) != 0;
 }
 #else
-bool do_mkdir( const std::string &path, const int mode )
+static bool do_mkdir( const std::string &path )
 {
-    return mkdir( path.c_str(), mode ) == 0;
+    return mkdir( path.c_str(), 0777 ) == 0;
 }
 #endif
-
-} //anonymous namespace
 
 bool assure_dir_exist( const std::string &path )
 {
-    return do_mkdir( path, 0777 ) || ( errno == EEXIST && dir_exist( path ) );
+    if( dir_exist( path ) ) {
+        return true;
+    }
+    return do_mkdir( path );
 }
 
 bool dir_exist( const std::string &path )
@@ -66,17 +56,27 @@ bool dir_exist( const std::string &path )
     return false;
 }
 
+#if defined(_WIN32)
+bool file_exist( const std::string &path )
+{
+    DWORD dwAttrib = GetFileAttributesW( utf8_to_wstr( path ).c_str() );
+
+    return ( dwAttrib != INVALID_FILE_ATTRIBUTES &&
+             !( dwAttrib & FILE_ATTRIBUTE_DIRECTORY ) );
+}
+#else
 bool file_exist( const std::string &path )
 {
     struct stat buffer;
     bool success = stat( path.c_str(), &buffer ) == 0;
     return success && S_ISREG( buffer.st_mode );
 }
+#endif
 
 #if defined(_WIN32)
 bool remove_file( const std::string &path )
 {
-    return DeleteFile( path.c_str() ) != 0;
+    return DeleteFileW( utf8_to_wstr( path ).c_str() ) != 0;
 }
 #else
 bool remove_file( const std::string &path )
@@ -88,15 +88,11 @@ bool remove_file( const std::string &path )
 #if defined(_WIN32)
 bool rename_file( const std::string &old_path, const std::string &new_path )
 {
-    // Windows rename function does not override existing targets, so we
-    // have to remove the target to make it compatible with the Linux rename
-    if( file_exist( new_path ) ) {
-        if( !remove_file( new_path ) ) {
-            return false;
-        }
-    }
-
-    return rename( old_path.c_str(), new_path.c_str() ) == 0;
+    return MoveFileExW(
+               utf8_to_wstr( old_path ).c_str(),
+               utf8_to_wstr( new_path ).c_str(),
+               MOVEFILE_REPLACE_EXISTING
+           ) != 0;
 }
 #else
 bool rename_file( const std::string &old_path, const std::string &new_path )
@@ -108,7 +104,7 @@ bool rename_file( const std::string &old_path, const std::string &new_path )
 bool remove_directory( const std::string &path )
 {
 #if defined(_WIN32)
-    return RemoveDirectory( path.c_str() );
+    return RemoveDirectoryW( utf8_to_wstr( path ).c_str() ) != 0;
 #else
     return remove( path.c_str() ) == 0;
 #endif
