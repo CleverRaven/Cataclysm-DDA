@@ -2415,15 +2415,15 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
-    item &reloadable = *reload_targets[0];
-    item &ammo = *reload_targets[1];
+    item &reloadable = *reload_targets[ 0 ];
+    item &ammo = *reload_targets[ 1 ];
     const std::string reloadable_name = reloadable.tname();
     // cache check results because reloading deletes the ammo item
     const std::string ammo_name = ammo.tname();
     const bool ammo_is_filthy = ammo.is_filthy();
     const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
 
-    if( !reloadable.reload( who, std::move( reload_targets[1] ), quantity ) ) {
+    if( !reloadable.reload( who, std::move( reload_targets[ 1 ] ), quantity ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable_name );
         return;
     }
