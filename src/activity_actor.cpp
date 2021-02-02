@@ -1072,7 +1072,7 @@ lockpick_activity_actor lockpick_activity_actor::use_item(
     const tripoint &target
 )
 {
-    return lockpick_activity_actor{
+    return lockpick_activity_actor {
         moves_total,
         lockpick,
         cata::nullopt,
@@ -1084,7 +1084,7 @@ lockpick_activity_actor lockpick_activity_actor::use_bionic(
     const tripoint &target
 )
 {
-    return lockpick_activity_actor{
+    return lockpick_activity_actor {
         to_moves<int>( 4_seconds ),
         cata::nullopt,
         item( itype_pseudo_bio_picklock ),
@@ -2362,7 +2362,7 @@ void burrow_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> burrow_activity_actor::deserialize( JsonIn &jsin )
 {
-    burrow_activity_actor actor{};
+    burrow_activity_actor actor {};
 
     JsonObject data = jsin.get_object();
     data.read( "moves_total", actor.moves_total );
