@@ -184,8 +184,14 @@ bool is_directory_stat( const std::string &full_path )
         return false;
     }
 
+#if defined(_WIN32)
+    struct _stat result;
+    int stat_ret = _wstat( utf8_to_wstr( full_path ).c_str(), &result );
+#else
     struct stat result;
-    if( stat( full_path.c_str(), &result ) != 0 ) {
+    int stat_ret = stat( full_path.c_str(), &result );
+#endif
+    if( stat_ret != 0 ) {
         const auto e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "stat [" << full_path << "] failed with \"" << e_str << "\".";
         return false;
