@@ -657,7 +657,7 @@
     "//": "Special monster for Old Guard questline",
     "name": { "str": "chained Pachycephalosaurus zombie" },
     "copy-from": "mon_zachycephalosaurus",
-    "description": "A huge scaly dinosaur with a broad toothless beak, dead and walking, eyes vacant and swollen.",
+    "description": "A feathered dinosaur corpse with a domed head chained to the ground and straining against its bonds.",
     "upgrades": {  },
     "extend": { "flags": [ "IMMOBILE" ] }
   },
