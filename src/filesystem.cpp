@@ -19,8 +19,12 @@
 #include "catacharset.h"
 
 #if defined(_WIN32)
-#   include "wdirent.h"
 #   include "platform_win.h"
+#   pragma GCC diagnostic push
+#   pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
+#   include "wdirent.h"
+#   pragma GCC diagnostic pop
+#   include <direct.h>
 #else
 #   include <dirent.h>
 #   include <unistd.h>
