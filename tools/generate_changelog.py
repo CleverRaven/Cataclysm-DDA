@@ -144,8 +144,8 @@ class CDDAPullRequest(PullRequest):
     "Summary" descriptions"""
 
     SUMMARY_REGEX = re.compile(
-        r'(?i:####\sSummary)(?i:\s+SUMMARY:?)?\s*'
-        r'`*(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?',
+        r'(?i:####\sSummary)\s*'
+        r'`*(?i:SUMMARY:?\s*)?(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?',
         re.MULTILINE)
 
     VALID_SUMMARY_CATEGORIES = (
