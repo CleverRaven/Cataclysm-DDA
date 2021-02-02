@@ -59,7 +59,9 @@ void distribution_grid::update( time_point to )
     }
 }
 
+// TODO: Shouldn't be here
 #include "vehicle.h"
+static itype_id itype_battery( "battery" );
 int distribution_grid::mod_resource( int amt, bool recurse )
 {
     std::vector<vehicle *> connected_vehicles;
@@ -126,7 +128,7 @@ int distribution_grid::get_resource() const
                         continue;
                     }
 
-                    res += veh->fuel_left( "battery", false );
+                    res += veh->fuel_left( itype_battery, false );
                 }
             }
         }
@@ -144,8 +146,9 @@ distribution_grid_tracker::distribution_grid_tracker( mapbuffer &buffer )
 {
 }
 
-void distribution_grid_tracker::make_distribution_grid_at( const tripoint &sm_pos )
+distribution_grid &distribution_grid_tracker::make_distribution_grid_at( const tripoint &sm_pos )
 {
+    static distribution_grid empty_grid( {}, MAPBUFFER );
     const std::set<tripoint> overmap_positions = overmap_buffer.electric_grid_at( sm_to_omt_copy(
                 sm_pos ) );
     std::vector<tripoint> submap_positions;
@@ -161,11 +164,14 @@ void distribution_grid_tracker::make_distribution_grid_at( const tripoint &sm_po
         for( const tripoint &smp : submap_positions ) {
             parent_distribution_grids.erase( smp );
         }
-        return;
+
+        return empty_grid;
     }
     for( const tripoint &smp : submap_positions ) {
         parent_distribution_grids[smp] = dist_grid;
     }
+
+    return *dist_grid;
 }
 
 void distribution_grid_tracker::on_saved()
@@ -184,7 +190,8 @@ void distribution_grid_tracker::on_saved()
 void distribution_grid_tracker::on_changed( const tripoint &p )
 {
     tripoint sm_pos = ms_to_sm_copy( p );
-    if( bounds.contains_half_open( sm_pos.xy() ) ) {
+    // TODO: If not in bounds, just drop the grid, rebuild lazily
+    if( parent_distribution_grids.count( sm_pos ) > 0 ) {
         // TODO: Don't rebuild, update
         make_distribution_grid_at( sm_pos );
     }
@@ -193,16 +200,14 @@ void distribution_grid_tracker::on_changed( const tripoint &p )
 
 distribution_grid &distribution_grid_tracker::grid_at( const tripoint &p )
 {
-    // TODO: empty mapbuffer for this case
-    static distribution_grid empty_grid( {}, MAPBUFFER );
     tripoint sm_pos = ms_to_sm_copy( p );
-    // TODO: This should load a grid, not just expect to find loaded ones!
     auto iter = parent_distribution_grids.find( sm_pos );
     if( iter != parent_distribution_grids.end() ) {
         return *iter->second;
     }
 
-    return empty_grid;
+    // This is ugly for the const case
+    return make_distribution_grid_at( sm_pos );
 }
 
 const distribution_grid &distribution_grid_tracker::grid_at( const tripoint &p ) const

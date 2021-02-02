@@ -4878,8 +4878,8 @@ int traverse( StartPoint *start, int amount,
             connected_elements.emplace( veh );
 
             amount = veh_action( veh, amount );
-            g->u.add_msg_if_player( m_debug, "After remote veh %p, %d power", static_cast<void *>( veh ),
-                                    amount );
+            g->u.add_msg_if_player( m_debug, "After remote veh %p, %d power",
+                                    static_cast<void *>( veh ), amount );
 
             return amount < 1;
         }
@@ -4893,8 +4893,8 @@ int traverse( StartPoint *start, int amount,
             connected_elements.emplace( grid );
 
             amount = grid_action( grid, amount );
-            g->u.add_msg_if_player( m_debug, "After remote grid %p, %d power", static_cast<void *>( grid ),
-                                    amount );
+            g->u.add_msg_if_player( m_debug, "After remote grid %p, %d power",
+                                    static_cast<void *>( grid ), amount );
 
             return amount < 1;
         }
@@ -5030,7 +5030,8 @@ int vehicle::discharge_battery( int amount, bool recurse )
         g->u.add_msg_if_player( m_debug, "CHg: %d", amount );
         return -grid->mod_resource( -amount, false );
     };
-    if( amount > 0 && recurse ) { // need more power!
+    if( amount > 0 && recurse ) {
+        // need more power!
         amount = distribution_graph::traverse( this, amount, discharge_vehicle, discharge_grid );
     }
 

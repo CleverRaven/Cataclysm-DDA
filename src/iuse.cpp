@@ -8930,7 +8930,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
         kmenu.text = _( "Using cable:" );
         kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
         kmenu.addentry( 1, ( paying_out || cable_cbm ) && !solar_pack &&
-                        !UPS, -1, _( "Attach loose end to vehicle" ) );
+                        !UPS, -1, _( "Attach loose end to vehicle or grid connector" ) );
 
         if( has_bio_cable && loose_ends ) {
             kmenu.addentry( 2, !cable_cbm, -1, _( "Attach loose end to self" ) );
@@ -8997,14 +8997,16 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             return 0;
         }
 
-        const cata::optional<tripoint> vpos_ = choose_adjacent( _( "Attach cable to vehicle where?" ) );
+        const cata::optional<tripoint> vpos_ = choose_adjacent( _( "Attach cable where?" ) );
         if( !vpos_ ) {
             return 0;
         }
         const tripoint vpos = *vpos_;
 
         const optional_vpart_position target_vp = g->m.veh_at( vpos );
-        vehicle_connector_tile *grid_connection = active_tiles::furn_at<vehicle_connector_tile>( vpos );
+        tripoint target_global = g->m.getabs( vpos );
+        vehicle_connector_tile *grid_connection = active_tiles::furn_at<vehicle_connector_tile>
+                ( target_global );
         if( !target_vp && !grid_connection ) {
             p->add_msg_if_player( _( "There's no vehicle or grid connection there." ) );
             return 0;
@@ -9017,19 +9019,9 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player( m_good, _( "You are now plugged to the vehicle." ) );
             return 0;
         } else {
-            vehicle *const target_veh = &target_vp->vehicle();
-            if( source_veh == target_veh ) {
-                if( p != nullptr && p->has_item( *it ) ) {
-                    p->add_msg_if_player( m_warning, _( "The %s already has access to its own electric system!" ),
-                                          source_veh->name );
-                }
-                return 0;
-            }
-
             tripoint source_global( it->get_var( "source_x", 0 ),
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
-            tripoint target_global = g->m.getabs( vpos );
             const vpart_id vpid( it->typeId() );
 
             point vcoords = source_vp->mount();
@@ -9045,6 +9037,15 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
                     source_veh->install_part( vcoords, source_part );
                 }
             } else {
+                vehicle *const target_veh = &target_vp->vehicle();
+                if( source_veh == target_veh ) {
+                    if( p != nullptr && p->has_item( *it ) ) {
+                        p->add_msg_if_player( m_warning, _( "The %s already has access to its own electric system!" ),
+                                              source_veh->name );
+                    }
+                    return 0;
+                }
+
                 source_part.target.first = target_global;
                 source_part.target.second = g->m.getabs( target_veh->global_pos3() );
                 source_veh->install_part( vcoords, source_part );

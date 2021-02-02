@@ -65,7 +65,7 @@ class distribution_grid_tracker
         /**
          * @param omt_pos Absolute submap position of one of the tiles of the grid.
          */
-        void make_distribution_grid_at( const tripoint &sm_pos );
+        distribution_grid &make_distribution_grid_at( const tripoint &sm_pos );
 
         /**
          * In submap coords, to mirror @ref map
