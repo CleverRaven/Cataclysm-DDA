@@ -16,6 +16,8 @@ bool remove_directory( const std::string &path );
 bool rename_file( const std::string &old_path, const std::string &new_path );
 // Check if can write to the given directory
 bool can_write_to_dir( const std::string &dir_path );
+/** Get process id string. Used for temporary file paths. */
+std::string get_pid_string();
 
 namespace cata_files
 {

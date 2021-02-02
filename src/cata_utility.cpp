@@ -486,6 +486,44 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
     } );
 }
 
+void ofstream_wrapper::open( const std::ios::openmode mode )
+{
+    // Create a *unique* temporary path. No other running program should
+    // use this path. If the file exists, it must be of a *former* program
+    // instance and can savely be deleted.
+    temp_path = path + "." + get_pid_string() + ".temp";
+
+    if( file_exist( temp_path ) ) {
+        remove_file( temp_path );
+    }
+
+    file_stream.open( temp_path, mode );
+    if( !file_stream.is_open() ) {
+        throw std::runtime_error( "opening file failed" );
+    }
+}
+
+void ofstream_wrapper::close()
+{
+    if( !file_stream.is_open() ) {
+        return;
+    }
+
+    file_stream.flush();
+    bool failed = file_stream.fail();
+    file_stream.close();
+    if( failed ) {
+        // Remove the incomplete or otherwise faulty file (if possible).
+        // Failures from it are ignored as we can't really do anything about them.
+        remove_file( temp_path );
+        throw std::runtime_error( "writing to file failed" );
+    }
+    if( !rename_file( temp_path, path ) ) {
+        // Leave the temp path, so the user can move it if possible.
+        throw std::runtime_error( "moving temporary file \"" + temp_path + "\" failed" );
+    }
+}
+
 std::string obscure_message( const std::string &str, std::function<char()> f )
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is

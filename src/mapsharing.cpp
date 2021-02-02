@@ -1,19 +1,7 @@
 #include "mapsharing.h"
 
 #include <cstdlib>
-#include <fstream>
 #include <stdexcept>
-
-#include "cata_utility.h"
-#include "filesystem.h"
-
-#if defined(__linux__)
-#include <unistd.h>
-#endif // __linux__
-
-#if defined(_WIN32)
-#include "platform_win.h"
-#endif
 
 bool MAP_SHARING::sharing;
 bool MAP_SHARING::competitive;
@@ -99,52 +87,4 @@ void MAP_SHARING::setDefaults()
         MAP_SHARING::setUsername( getenv( "USER" ) );
     }
     MAP_SHARING::addAdmin( "admin" );
-}
-
-void ofstream_wrapper::open( const std::ios::openmode mode )
-{
-    // Create a *unique* temporary path. No other running program should
-    // use this path. If the file exists, it must be of a *former* program
-    // instance and can savely be deleted.
-#if defined(__linux__)
-    temp_path = path + "." + std::to_string( getpid() ) + ".temp";
-
-#elif defined(_WIN32)
-    temp_path = path + "." + std::to_string( GetCurrentProcessId() ) + ".temp";
-
-#else
-    // TODO: exclusive I/O for other systems
-    temp_path = path + ".temp";
-
-#endif
-
-    if( file_exist( temp_path ) ) {
-        remove_file( temp_path );
-    }
-
-    file_stream.open( temp_path, mode );
-    if( !file_stream.is_open() ) {
-        throw std::runtime_error( "opening file failed" );
-    }
-}
-
-void ofstream_wrapper::close()
-{
-    if( !file_stream.is_open() ) {
-        return;
-    }
-
-    file_stream.flush();
-    bool failed = file_stream.fail();
-    file_stream.close();
-    if( failed ) {
-        // Remove the incomplete or otherwise faulty file (if possible).
-        // Failures from it are ignored as we can't really do anything about them.
-        remove_file( temp_path );
-        throw std::runtime_error( "writing to file failed" );
-    }
-    if( !rename_file( temp_path, path ) ) {
-        // Leave the temp path, so the user can move it if possible.
-        throw std::runtime_error( "moving temporary file \"" + temp_path + "\" failed" );
-    }
 }

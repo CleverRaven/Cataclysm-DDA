@@ -5,18 +5,9 @@
 #include "string_formatter.h"
 #include "path_info.h"
 #include "game.h"
-#include "rng.h"
 #include "cata_utility.h"
 
-#if defined(__linux__)
-#include <unistd.h>
-#endif // __linux__
-
-#if defined(_WIN32)
-#include "platform_win.h"
-#endif
-
-std::string str_to_hex( const std::string &s )
+static std::string str_to_hex( const std::string &s )
 {
     std::stringstream ss;
     for( char c : s ) {
@@ -26,21 +17,8 @@ std::string str_to_hex( const std::string &s )
     return ss.str();
 }
 
-std::string pid_string()
-{
-#ifdef _WIN32
-    return std::to_string( GetCurrentProcessId() );
-#else
-#ifdef __linux__
-    return std::to_string( getpid() );
-#else
-    return std::to_string( rng( 1, 10000 ) );
-#endif // __linux__
-#endif // _WIN32
-}
-
-void filesystem_test_group( int serial, const std::string &s1, const std::string &s2,
-                            const std::string &s3 )
+static void filesystem_test_group( int serial, const std::string &s1, const std::string &s2,
+                                   const std::string &s3 )
 {
     CAPTURE( serial );
     CAPTURE( s1 );
@@ -52,7 +30,7 @@ void filesystem_test_group( int serial, const std::string &s1, const std::string
 
     // Make sure there's no interference from e.g. uncleaned old runs
     std::string base = g->get_world_base_save_path() + "/fs_test_" +
-                       pid_string() + "_" + to_string( serial ) + "/";
+                       get_pid_string() + "_" + to_string( serial ) + "/";
     REQUIRE( !dir_exist( base ) );
     REQUIRE( assure_dir_exist( base ) );
     REQUIRE( can_write_to_dir( base ) );
