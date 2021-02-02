@@ -203,9 +203,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "military",
-    "base_faction": "bot",
-    "neutral": [ "small_animal" ],
-    "by_mood": [ "animal", "insect" ]
+    "base_faction": "bot"
   },
   {
     "type": "MONSTER_FACTION",
