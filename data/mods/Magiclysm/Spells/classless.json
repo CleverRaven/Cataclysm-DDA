@@ -106,6 +106,27 @@
     "duration_increment": 2000
   },
   {
+    "id": "make_sound",
+    "type": "SPELL",
+    "name": "Project Sound",
+    "description": "Projects a magical sound at the location of your choice.",
+    "valid_targets": [ "ground" ],
+    "min_range": 10,
+    "range_increment": 1,
+    "max_range": 60,
+    "effect": "attack",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "flags": [ "SOMATIC", "NO_LEGS" ],
+    "difficulty": 1,
+    "max_level": 60,
+    "base_casting_time": 1000,
+    "base_energy_cost": 100,
+    "base_sound_at_target": 5,
+    "final_sound_at_target": 20,
+    "sound_at_target_increment": 1
+  },
+  {
     "id": "blinding_flash",
     "type": "SPELL",
     "name": { "str": "Blinding Flash" },
