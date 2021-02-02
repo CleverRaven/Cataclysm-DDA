@@ -146,6 +146,13 @@
   },
   {
     "type": "item_group",
+    "id": "mk23_mods",
+    "//": "Default mods for the mk23 variant of the USP .45 pistol",
+    "subtype": "collection",
+    "entries": [ { "item": "suppressor" }, { "item": "laser_sight" } ]
+  },
+  {
+    "type": "item_group",
     "id": "sights_launcher",
     "//": "Aftermarket sights that are for launchers.",
     "items": [ [ "improve_sights", 84 ], [ "red_dot_sight", 42 ], [ "holo_sight", 18 ] ]
