@@ -47,6 +47,11 @@
         "topic": "TALK_MISSION_LIST",
         "condition": { "u_has_var": "asked_about_kill_dinos", "type": "dialogue", "context": "dino", "value": "yes" }
       },
+      {
+        "text": "Mission update for you Red.",
+        "topic": "TALK_MISSION_INQUIRE",
+        "condition": { "and": [ "has_assigned_mission" ] }
+      },
       { "text": "Anyway.  Take care, Red.", "topic": "TALK_DONE" }
     ]
   },
