@@ -92,7 +92,9 @@
     "spell_class": "MAGUS",
     "base_casting_time": 100,
     "energy_source": "MANA",
-    "base_energy_cost": 200
+    "base_energy_cost": 600,
+    "energy_increment": -25,
+    "final_energy_cost": 350
   },
   {
     "id": "gravity_well",
