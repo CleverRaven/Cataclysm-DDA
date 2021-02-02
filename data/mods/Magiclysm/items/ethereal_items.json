@@ -92,6 +92,20 @@
     "flags": [ "LIGHT_5", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
   },
   {
+    "id": "magic_noise_emitter",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "magic noise",
+    "description": "Incomprehensible noises are coming from here.  They sound far and yet so close.",
+    "weight": "0 kg",
+    "volume": "0 L",
+    "price": 0,
+    "symbol": ",",
+    "color": "light_green",
+    "use_action": [ "NOISE_EMITTER_ON" ],
+    "flags": [ "ZERO_WEIGHT" ]
+  },
+  {
     "id": "shield_ice",
     "type": "ARMOR",
     "name": { "str": "large shield of magical ice", "str_pl": "large shields of magical ice" },
