@@ -102,6 +102,12 @@ def read_properties(filepath: str) -> dict:
     return pairs
 
 
+class ComposingException(Exception):
+    '''
+    Base class for all composing exceptions
+    '''
+
+
 class Tileset:
     '''
     Referenced sprites memory and handling, tile entries conversion
@@ -128,7 +134,8 @@ class Tileset:
 
         if not os.access(self.source_dir, os.R_OK) \
                 or not os.path.isdir(self.source_dir):
-            sys.exit(f'Error: cannot open directory {self.source_dir}')
+            raise ComposingException(
+                f'Error: cannot open directory {self.source_dir}')
 
         self.processed_ids = []
         info_path = os.path.join(self.source_dir, 'tile_info.json')
@@ -137,7 +144,7 @@ class Tileset:
         self.info = [{}]
 
         if not os.access(info_path, os.R_OK):
-            sys.exit(f'Error: cannot open {info_path}')
+            raise ComposingException(f'Error: cannot open {info_path}')
 
         with open(info_path, 'r') as file:
             self.info = json.load(file)
@@ -161,12 +168,13 @@ class Tileset:
                     break
 
         if not properties:
-            sys.exit(f'No valid {PROPERTIES_FILENAME} found')
+            raise ComposingException(f'No valid {PROPERTIES_FILENAME} found')
 
         conf_filename = properties.get('JSON', None)
 
         if not conf_filename:
-            sys.exit(f'No JSON key found in {PROPERTIES_FILENAME}')
+            raise ComposingException(
+                f'No JSON key found in {PROPERTIES_FILENAME}')
 
         self.output_conf_file = conf_filename
         return self.output_conf_file
@@ -186,7 +194,6 @@ class Tileset:
 
         # loop through tilesheets and parse all configs in subdirectories,
         # create sheet images
-        # TODO: move into Tileset
         for config_index in range(1, len(self.info)):
             sheet = Tilesheet(self, config_index)
 
@@ -388,11 +395,14 @@ class Tilesheet:
         '''
         try:
             image = Vips.Image.pngload(png_path)
-        except pyvips.error.Error as error:
-            sys.exit(f'Cannot load {png_path}: {error.message}')
-        except UnicodeDecodeError:
-            sys.exit(f'Cannot load {png_path} with UnicodeDecodeError, '
-                     'please report')
+        except pyvips.error.Error as exception:
+            raise ComposingException(
+                f'Cannot load {png_path}: {exception.message}') from None
+        except UnicodeDecodeError as exception:
+            raise ComposingException(
+                f'Cannot load {png_path} with UnicodeDecodeError, '
+                'please report your setup at '
+                'https://github.com/libvips/pyvips/issues/80') from None
         if image.interpretation != 'srgb':
             image = image.colourspace('srgb')
 
@@ -601,13 +611,16 @@ if __name__ == '__main__':
     args_dict = vars(arg_parser.parse_args())
 
     # compose the tileset
-    tileset_worker = Tileset(
-        args_dict.get('source_dir'),
-        args_dict.get('output_dir') or args_dict.get('source_dir'),
-        args_dict.get('use_all', False),
-        args_dict.get('obsolete_fillers', False)
-    )
-    tileset_worker.compose()
+    try:
+        tileset_worker = Tileset(
+            args_dict.get('source_dir'),
+            args_dict.get('output_dir') or args_dict.get('source_dir'),
+            args_dict.get('use_all', False),
+            args_dict.get('obsolete_fillers', False)
+        )
+        tileset_worker.compose()
+    except ComposingException as exception:
+        sys.exit(exception)
 
     if tileset_worker.error_logged:
         sys.exit(1)
