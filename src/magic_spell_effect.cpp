@@ -130,9 +130,45 @@ static void build_line( spell_detail::line_iterable line, const tripoint &source
 }
 } // namespace spell_detail
 
-void spell_effect::teleport_random( const spell &sp, Creature &caster, const tripoint & )
+static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int &radius,
+                          const bool ignore_walls )
+{
+    if( rl_dist( start, end ) > radius ) {
+        return false;
+    }
+    if( ignore_walls ) {
+        return true;
+    }
+    map &here = get_map();
+    const std::vector<tripoint> trajectory = line_to( start, end );
+    for( const tripoint &pt : trajectory ) {
+        if( here.impassable( pt ) ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void spell_effect::short_range_teleport( const spell &sp, Creature &caster, const tripoint &target )
 {
     bool safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );
+    bool target_teleport = sp.has_flag( spell_flag::TARGET_TELEPORT );
+    if( target_teleport ) {
+        if( sp.aoe() == 0 ) {
+            teleport::teleport_to_point( caster, target, safe, false );
+            return;
+        }
+
+        std::list<tripoint> potential_targets;
+        for( const tripoint &potential_target : get_map().points_in_radius( target, sp.aoe() ) ) {
+            if( in_spell_aoe( target, potential_target, sp.aoe(), sp.has_flag( spell_flag::IGNORE_WALLS ) ) ) {
+                potential_targets.push_back( potential_target );
+            }
+        }
+        tripoint where = random_entry( potential_targets );
+        teleport::teleport_to_point( caster, where, safe, false );
+        return;
+    }
     const int min_distance = sp.range();
     const int max_distance = sp.range() + sp.aoe();
     if( min_distance > max_distance || min_distance < 0 || max_distance < 0 ) {
@@ -171,44 +207,6 @@ void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint
     }
     const int hp_each = total_hp / num_limbs;
     p->set_all_parts_hp_cur( hp_each );
-}
-
-static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int &radius,
-                          const bool ignore_walls )
-{
-    if( rl_dist( start, end ) > radius ) {
-        return false;
-    }
-    if( ignore_walls ) {
-        return true;
-    }
-    map &here = get_map();
-    const std::vector<tripoint> trajectory = line_to( start, end );
-    for( const tripoint &pt : trajectory ) {
-        if( here.impassable( pt ) ) {
-            return false;
-        }
-    }
-    return true;
-}
-
-void spell_effect::teleport_to( const spell &sp, Creature &caster, const tripoint &target )
-{
-    bool safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );
-
-    if( sp.aoe() == 0 ) {
-        teleport::teleport_to_point( caster, target, safe, false );
-        return;
-    }
-
-    std::list<tripoint> potential_targets;
-    for( const tripoint &potential_target : get_map().points_in_radius( target, sp.aoe() ) ) {
-        if( in_spell_aoe( target, potential_target, sp.aoe(), sp.has_flag( spell_flag::IGNORE_WALLS ) ) ) {
-            potential_targets.push_back( potential_target );
-        }
-    }
-    tripoint where = random_entry( potential_targets );
-    teleport::teleport_to_point( caster, where, safe, false );
 }
 
 std::set<tripoint> spell_effect::spell_effect_blast( const override_parameters &params,
