@@ -89,7 +89,7 @@
     "symbol": ",",
     "color": "light_green",
     "covers": [ "head" ],
-    "flags": [ "LIGHT_5", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
+    "flags": [ "LIGHT_8", "AURA", "SEMITANGIBLE" ]
   },
   {
     "id": "shield_ice",
