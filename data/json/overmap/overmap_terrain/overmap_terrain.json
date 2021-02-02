@@ -260,7 +260,12 @@
       "radio_tower_odd",
       "radio_tower_top",
       "radio_tower_1",
-      "radio_tower_roof_1"
+      "radio_tower_roof_1",
+	  "wasp_tower_odd_1",
+	  "wasp_tower_odd_2",
+	  "wasp_tower_even_1",
+	  "wasp_tower_even_2",
+	  "wasp_tower_top"
     ],
     "name": "radio tower",
     "sym": "X",
@@ -562,7 +567,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "airliner_2a_1", "airliner_2c_1" ],
+    "id": [ "airliner_2a_1", "airliner_2c_1", "wasp_tower_roof" ],
     "name": "open air",
     "sym": ".",
     "color": "blue",
