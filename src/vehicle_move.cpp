@@ -825,7 +825,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             tripoint start_pos;
             const units::angle angle =
                 move.dir() + 45_degrees * ( parts[part].mount.x > pivot_point().x ? -1 : 1 );
-            std::set<tripoint> &cur_points = get_points( true );
+            const std::set<tripoint> &cur_points = get_points( true );
             // push the animal out of way until it's no longer in our vehicle and not in
             // anyone else's position
             while( g->critter_at( end_pos, true ) ||

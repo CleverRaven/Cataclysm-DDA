@@ -6780,7 +6780,7 @@ bool vehicle::restore( const std::string &data )
     return true;
 }
 
-std::set<tripoint> &vehicle::get_points( const bool force_refresh )
+const std::set<tripoint> &vehicle::get_points( const bool force_refresh ) const
 {
     if( force_refresh || occupied_cache_pos != global_pos3() ||
         occupied_cache_direction != face.dir() ) {
