@@ -164,7 +164,7 @@
     },
     "dialogue": {
       "describe": "We need help…",
-      "offer": "While we were out on a hunting party a couple of those big ugly ones came back and ate a whole mob of the dead I wanted to take out.  We lost a lot of soldiers too while we were out too, good ones, and they died bad.  Slow.  I made sure of it, the traitors.  These dinosaurs have gone too far.  They're making us crazy.  We need to rack up some serious numbers to catch up.  We need some serious risk taking, I'm talking explosives and fire and drugs and rock and roll here. I don't care if it's living dinos or dead, they all need to be taken down.",
+      "offer": "While we were out on a hunting party a couple of those big ugly ones came back and ate a whole mob of the dead I wanted to take out.  We lost a lot of soldiers too while we were out too, good ones, and they died bad.  Slow.  I made sure of it, the traitors.  These dinosaurs have gone too far.  They're making us crazy.  We need to rack up some serious numbers to catch up.  We need some serious risk taking, I'm talking explosives and fire and drugs and rock and roll here.  I don't care if it's living dinos or dead, they all need to be taken down.",
       "accepted": "Kill all dinos.",
       "rejected": "I'm right on the edge soldier.  Whose side are you on here?",
       "advice": "You can kill a lot of dinos without taking a lot of pills, but I don't see how.",
@@ -198,7 +198,7 @@
       "rejected": "I'm right on the edge soldier.  Whose side are you on here?",
       "advice": "You're a dino killing machine like me.  You know what to do.",
       "inquire": "You got my body yet?",
-      "success": "All right, we've got the body here.  Watch this, I'm going to climb into its dead mouth and when you see me again I'll be a god. *SWALLOW*",
+      "success": "All right, we've got the body here.  Watch this, I'm going to climb into its dead mouth and when you see me again I'll be a god.  *SWALLOW*",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     }
