@@ -77,13 +77,8 @@
       { "text": "Let's trade items.", "topic": "TALK_SWAMPER", "effect": "start_trade" },
       {
         "text": "Is there a way I can help feed the eaters?",
-        "topic": "TALK_MISSION_LIST",
+        "topic": "TALK_MISSION_LIST_SWAMPER",
         "condition": { "u_has_var": "asked_about_eating", "type": "dialogue", "context": "eating", "value": "yes" }
-      },
-      {
-        "text": "I'd like to update you on my current workload sir.",
-        "topic": "TALK_MISSION_INQUIRE",
-        "condition": { "and": [ "has_assigned_mission" ] }
       },
       { "text": "I have to get going.  Take care, CEO Baronyx.", "topic": "TALK_DONE" }
     ]
@@ -153,7 +148,6 @@
     "id": "MISSION_SWAMPER_GATHER_MEAT",
     "type": "mission_definition",
     "name": { "str": "Gather meat for Bo Baronyx.  About 8 should do it." },
-    "description": "Gather meat",
     "difficulty": 1,
     "value": 10000,
     "goal": "MGOAL_FIND_ITEM",
@@ -179,32 +173,40 @@
     }
   },
   {
-    "id": "MISSION_SWAMPER_LOST_RAPTOR",
-    "type": "mission_definition",
-    "name": { "str": "Raptor Rescue" },
-    "description": "Rescue a raptor",
-    "difficulty": 3,
-    "value": 10000,
-    "start": {
-      "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 40, "min_distance": 20, "z": 0 },
-      "update_mapgen": {
-        "place_monster": [ { "monster": "mon_velociraptor", "x": 12, "y": 12, "target": true, "friendly": true, "name": "Marsh" } ]
+    "id": "TALK_MISSION_LIST_SWAMPER",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "has_no_available_mission": {
+        "has_no_assigned_mission": "The eaters have fed.  They will be hungry again in time",
+        "no": { "has_many_assigned_missions": "You know what to do.", "no": "That is all for now." }
+      },
+      "no": {
+        "has_many_available_missions": {
+          "has_no_assigned_mission": "The great eaters must be fed.  Are you ready?",
+          "no": {
+            "has_many_assigned_missions": "There is still more work to do.  Are you ready?",
+            "no": "There is meat ready for the feeding.  Are you ready to gather it?"
+          }
+        },
+        "no": {
+          "has_no_assigned_mission": "The eaters are hungry.",
+          "no": { "has_many_assigned_missions": "There is more meat needed.", "no": "I know of eaters ready for meat." }
+        }
       }
     },
-    "goal": "MGOAL_FIND_MONSTER",
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "end": { "effect": [ { "u_add_var": "NC_SWAMPER_MISSION_2", "type": "general", "context": "mission", "value": "yes" } ] },
-    "dialogue": {
-      "describe": "We serve the eaters",
-      "offer": "A little eater has been lost in all of this chaos.  Go search for her and bring her back safely.",
-      "accepted": "Excellent.  We serve the eaters.",
-      "rejected": "Understood.  The great eaters will feed either way.",
-      "advice": "The eaters are very brave, and they do not understand the creatures of this world, new or old.  Do what you can to clear a safe path.  If one false eater comes, others may follow and your little eater could become swarmed.  I have seen it before.",
-      "inquire": "Have you found the little eater?",
-      "success": "The eaters will feed.  Oh, this one seems to like you.",
-      "success_lie": "The eaters will feed I am sure.",
-      "failure": "I understand, it is as I feared.  There are more eaters to feed."
-    }
+    "responses": [
+      { "text": "I see.", "topic": "TALK_NONE", "condition": "has_no_available_mission" },
+      {
+        "text": "I'm listening.",
+        "topic": "TALK_MISSION_OFFER_SWAMPER",
+        "condition": { "not": "has_no_available_mission" }
+      },
+      {
+        "text": "Maybe another time CEO Baronyx.",
+        "topic": "TALK_NONE",
+        "condition": { "not": "has_no_available_mission" }
+      }
+    ]
   },
   {
     "id": "TALK_MISSION_OFFER_SWAMPER",
