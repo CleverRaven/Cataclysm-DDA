@@ -7684,12 +7684,20 @@ int item::ammo_required() const
         if( type->gun->ammo.empty() ) {
             return 0;
         } else {
-            return type->gun->ammo_to_fire;
+            int modifier = 0;
+            float multiplier = 1.0f;
+            for( const item *mod : gunmods() ) {
+                modifier += mod->type->gunmod->ammo_to_fire_modifier;
+                multiplier *= mod->type->gunmod->ammo_to_fire_multiplier;
+            }
+            return ( type->gun->ammo_to_fire * multiplier ) + modifier;
         }
     }
 
     return 0;
 }
+
+
 
 bool item::ammo_sufficient( int qty ) const
 {
