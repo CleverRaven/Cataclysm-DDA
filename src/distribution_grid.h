@@ -25,19 +25,19 @@ struct tile_location {
 /**
  * A cache that organizes producers, storage and consumers
  * of some resource, like electricity.
+ * WARNING: Shouldn't be stored, as out of date grids are not updated.
  */
 class distribution_grid
 {
     private:
         friend class distribution_grid_tracker;
-        // TODO: Remove that public
-    public:
+
         /**
          * Map of submap coords to points on this submap
          * that contain an active tile.
          */
         std::map<tripoint, std::vector<tile_location>> contents;
-    private:
+        std::vector<tripoint> flat_contents;
         std::vector<tripoint> submap_coords;
 
         mapbuffer &mb;
@@ -48,7 +48,10 @@ class distribution_grid
         explicit operator bool() const;
         void update( time_point to );
         int mod_resource( int amt, bool recurse = true );
-        int get_resource() const;
+        int get_resource( bool recurse = true ) const;
+        const std::vector<tripoint> &get_contents() const {
+            return flat_contents;
+        }
 };
 
 /**

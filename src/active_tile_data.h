@@ -109,6 +109,7 @@ class vehicle_connector_tile : public active_tile_data
 namespace active_tiles
 {
 
+// TODO: Don't return a raw pointer
 template <typename T = active_tile_data>
 T * furn_at( const tripoint &pos );
 

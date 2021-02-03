@@ -580,7 +580,7 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "active": [ "solar", { "power": 50 } ],
-    "flags": [ "TRANSPARENT", "BASHABLE", "ELECTRIC_GRID" ],
+    "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": 6 },
@@ -683,16 +683,17 @@
   {
     "type": "furniture",
     "id": "f_cable_connector",
-    "looks_like": "f_utility_shelf",
+    "looks_like": "f_TV_antenna",
     "name": "jumper cable connector",
-    "description": "Power outlet connecting a building's electrical grid to a vehicle.  To use, connect a jumper cable to a vehicle, then place the other end on the connector.",
+    "description": "Power outlet connecting a building's electrical grid to a vehicle.  To use, attach a jumper cable to a vehicle and then to the connector.",
     "symbol": "*",
     "color": "blue_white",
-    "move_cost_mod": -1,
+    "move_cost_mod": 2,
     "coverage": 10,
     "required_str": -1,
     "max_volume": "5000 ml",
     "active": [ "vehicle_connector", {  } ],
+    "flags": [ "TRANSPARENT" ],
     "deconstruct": { "items": [ { "item": "power_supply" } ] },
     "bash": {
       "str_min": 16,

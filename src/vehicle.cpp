@@ -3219,11 +3219,15 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
         auto fuel_counting_visitor = [&]( vehicle const * veh, int amount ) {
             return amount + veh->fuel_left( ftype, false );
         };
+        auto power_counting_visitor = [&]( distribution_grid const * grid, int amount ) {
+            return amount + grid->get_resource( false );
+        };
 
         // HAX: add 1 to the initial amount so traversal doesn't immediately stop just
         // 'cause we have 0 fuel left in the current vehicle. Subtract the 1 immediately
         // after traversal.
-        fl = traverse_vehicle_graph( this, fl + 1, fuel_counting_visitor ) - 1;
+        fl = distribution_graph::traverse( this, fl + 1,
+                                           fuel_counting_visitor, power_counting_visitor ) - 1;
     }
 
     //muscle engines have infinite fuel
@@ -4868,14 +4872,19 @@ int traverse( StartPoint *start, int amount,
     std::queue<vehicle_or_grid<IsConst>> connected_elements;
     std::unordered_set<vehicle_or_grid<IsConst>, hash> visited_elements;
     connected_elements.emplace( start );
+    visited_elements.insert( start );
     auto &grid_tracker = get_distribution_grid_tracker();
 
     auto process_vehicle = [&]( const tripoint & target_pos ) {
         auto *veh = vehicle::find_vehicle( target_pos );
+        if( veh == nullptr ) {
+            debugmsg( "lost vehicle at %d,%d,%d", target_pos.x, target_pos.y, target_pos.z );
+        }
         // Add this connected vehicle to the queue of vehicles to search next,
         // but only if we haven't seen this one before.
-        if( veh != nullptr && visited_elements.count( veh ) < 1 ) {
+        if( veh != nullptr && visited_elements.count( veh ) == 0 ) {
             connected_elements.emplace( veh );
+            visited_elements.insert( veh );
 
             amount = veh_action( veh, amount );
             g->u.add_msg_if_player( m_debug, "After remote veh %p, %d power",
@@ -4889,8 +4898,12 @@ int traverse( StartPoint *start, int amount,
 
     auto process_grid = [&]( const tripoint & target_pos ) {
         auto *grid = &grid_tracker.grid_at( target_pos );
-        if( *grid && visited_elements.count( grid ) < 1 ) {
+        if( !*grid ) {
+            debugmsg( "lost grid at %d,%d,%d", target_pos.x, target_pos.y, target_pos.z );
+        }
+        if( *grid && visited_elements.count( grid ) == 0 ) {
             connected_elements.emplace( grid );
+            visited_elements.insert( grid );
 
             amount = grid_action( grid, amount );
             g->u.add_msg_if_player( m_debug, "After remote grid %p, %d power",
@@ -4904,8 +4917,6 @@ int traverse( StartPoint *start, int amount,
 
     while( amount > 0 && !connected_elements.empty() ) {
         auto current = connected_elements.front();
-
-        visited_elements.insert( current );
         connected_elements.pop();
 
         if( current.type == vehicle_or_grid<IsConst>::type_t::vehicle ) {
@@ -4930,18 +4941,15 @@ int traverse( StartPoint *start, int amount,
         } else {
             // Grids can only be connected to vehicles at the moment
             auto &current_grid = *current.grid;
-            for( auto &pr : current_grid.contents ) {
-                for( const tile_location &loc : pr.second ) {
-                    const vehicle_connector_tile *connector = active_tiles::furn_at<vehicle_connector_tile>
-                            ( loc.absolute );
-                    if( connector == nullptr ) {
-                        continue;
-                    }
+            for( auto &p : current_grid.get_contents() ) {
+                const vehicle_connector_tile *connector = active_tiles::furn_at<vehicle_connector_tile>( p );
+                if( connector == nullptr ) {
+                    continue;
+                }
 
-                    for( const tripoint &target_pos : connector->connected_vehicles ) {
-                        if( process_vehicle( target_pos ) ) {
-                            break;
-                        }
+                for( const tripoint &target_pos : connector->connected_vehicles ) {
+                    if( process_vehicle( target_pos ) ) {
+                        break;
                     }
                 }
             }
@@ -6065,6 +6073,18 @@ bool vehicle::no_towing_slack() const
 
 void vehicle::remove_remote_part( int part_num )
 {
+    if( parts[part_num].has_flag( vehicle_part::targets_grid ) ) {
+        vehicle_connector_tile *connector =
+            active_tiles::furn_at<vehicle_connector_tile>( parts[part_num].target.second );
+        if( connector != nullptr ) {
+            auto &vehs = connector->connected_vehicles;
+            auto iter = std::find( vehs.begin(), vehs.end(), g->m.getabs( global_pos3() ) );
+            if( iter != vehs.end() ) {
+                vehs.erase( iter );
+            }
+        }
+        return;
+    }
     auto veh = find_vehicle( parts[part_num].target.second );
 
     // If the target vehicle is still there, ask it to remove its part

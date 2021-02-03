@@ -8901,7 +8901,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             const auto abspos = g->m.getabs( posp );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", g->get_levz() );
+            it->set_var( "source_z", abspos.z );
             set_cable_active( p, it, "pay_out_cable" );
         }
     } else {
@@ -9033,7 +9033,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
                 if( p != nullptr && p->has_item( *it ) ) {
                     p->add_msg_if_player( m_good, _( "You connect the %s to the electric grid." ),
                                           source_veh->name );
-                    grid_connection->connected_vehicles.emplace_back( source_global );
+                    grid_connection->connected_vehicles.emplace_back( g->m.getabs( source_veh->global_pos3() ) );
                     source_veh->install_part( vcoords, source_part );
                 }
             } else {

@@ -26,7 +26,9 @@ distribution_grid::distribution_grid( const std::vector<tripoint> &global_submap
 
         for( auto &active : sm->active_furniture ) {
             const tripoint ms_pos = sm_to_ms_copy( sm_coord );
-            contents[sm_coord].emplace_back( active.first, ms_pos + active.first );
+            const tripoint abs_pos = ms_pos + active.first;
+            contents[sm_coord].emplace_back( active.first, abs_pos );
+            flat_contents.emplace_back( abs_pos );
         }
     }
 }
@@ -110,14 +112,19 @@ int distribution_grid::mod_resource( int amt, bool recurse )
     return amt;
 }
 
-int distribution_grid::get_resource() const
+int distribution_grid::get_resource( bool recurse ) const
 {
     int res = 0;
+    std::vector<vehicle *> connected_vehicles;
     for( const std::pair<const tripoint, std::vector<tile_location>> &c : contents ) {
         for( const tile_location &loc : c.second ) {
             battery_tile *battery = active_tiles::furn_at<battery_tile>( loc.absolute );
             if( battery != nullptr ) {
-                res += battery->stored;
+                res += battery->get_resource();
+                continue;
+            }
+
+            if( !recurse ) {
                 continue;
             }
 
@@ -130,11 +137,15 @@ int distribution_grid::get_resource() const
                         debugmsg( "lost vehicle at %d,%d,%d", veh_abs.x, veh_abs.y, veh_abs.z );
                         continue;
                     }
-
-                    res += veh->fuel_left( itype_battery, false );
+                    connected_vehicles.push_back( veh );
                 }
             }
         }
+    }
+
+    // TODO: Giga ugly. We only charge the first vehicle to get it to use its recursive graph traversal because it's inaccessible from here due to being a template method
+    if( !connected_vehicles.empty() ) {
+        res = connected_vehicles.front()->fuel_left( itype_battery, true );
     }
 
     return res;

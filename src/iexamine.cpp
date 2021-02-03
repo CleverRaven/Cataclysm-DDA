@@ -5643,6 +5643,10 @@ void iexamine::dimensional_portal( player &p, const tripoint &pos )
 void iexamine::check_power( player &, const tripoint &pos )
 {
     tripoint abspos = g->m.getabs( pos );
+    battery_tile *battery = active_tiles::furn_at<battery_tile>( abspos );
+    if( battery != nullptr ) {
+        add_msg( m_info, _( "This battery stores %d kJ of electric power." ), battery->get_resource() );
+    }
     int amt = get_distribution_grid_tracker().grid_at( abspos ).get_resource();
     add_msg( m_info, _( "This electric grid stores %d kJ of electric power." ), amt );
 }
