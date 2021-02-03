@@ -401,6 +401,24 @@ item_location game::inv_map_splice( const item_filter &filter, const std::string
                          title, radius, none_message );
 }
 
+class liquid_inventory_filter_preset : public inventory_filter_preset
+{
+public:
+    explicit liquid_inventory_filter_preset(const item_location_filter& filter) :
+        inventory_filter_preset(filter) {
+        append_cell([this](const item_location& loc) {
+            if (loc.get_item()) {
+                units::volume vol = loc.get_item()->max_containable_volume();
+                return string_format("%.2f L", units::to_liter(vol));
+            }
+            return std::string("");
+            }, _("Storage (L)"));
+    }
+
+private:
+    item_location_filter filter;
+};
+
 item_location game_menus::inv::container_for( Character &you, const item &liquid, int radius,
         const item *const avoid )
 {
@@ -422,8 +440,10 @@ item_location game_menus::inv::container_for( Character &you, const item &liquid
         return location->get_remaining_capacity_for_liquid( liquid, allow_buckets ) > 0;
     };
 
-    return inv_internal( you, inventory_filter_preset( filter ),
-                         string_format( _( "Container for %s" ), liquid.display_name( liquid.charges ) ), radius,
+    units::volume vol = liquid.volume();
+    return inv_internal( you, liquid_inventory_filter_preset( filter ),
+                         string_format( _( "Container for %s | %.2f L" ), liquid.display_name( liquid.charges ),
+                                        units::to_liter( vol ) ), radius,
                          string_format( _( "You don't have a suitable container for carrying %s." ),
                                         liquid.tname() ) );
 }
