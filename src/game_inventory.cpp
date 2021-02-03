@@ -406,7 +406,7 @@ class liquid_inventory_filter_preset : public inventory_filter_preset
     public:
         explicit liquid_inventory_filter_preset( const item_location_filter &filter ) :
             inventory_filter_preset( filter ) {
-            append_cell( [this]( const item_location & loc ) {
+            append_cell( []( const item_location & loc ) {
                 if( loc.get_item() ) {
                     units::volume vol = loc.get_item()->max_containable_volume();
                     return string_format( "%.2f L", units::to_liter( vol ) );
