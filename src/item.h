@@ -37,6 +37,7 @@
 
 class book_proficiency_bonuses;
 class Character;
+class Creature;
 class JsonIn;
 class JsonObject;
 class JsonOut;
@@ -621,7 +622,7 @@ class item : public visitable
         * Calculate the item's effective damage per second past armor when wielded by a
          * character against a monster.
          */
-        double effective_dps( const Character &guy, monster &mon ) const;
+        double effective_dps( const Character &guy, Creature &mon ) const;
         /**
          * calculate effective dps against a stock set of monsters.  by default, assume g->u
          * is wielding
