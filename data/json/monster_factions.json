@@ -9,7 +9,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "factionless",
-    "//": "TODO assign base faction and/or attitude"
+	"by_mood": "factionless"
   },
   {
     "type": "MONSTER_FACTION",
