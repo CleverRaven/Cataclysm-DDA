@@ -1332,6 +1332,14 @@ def extract(item, infilename):
                     writestr(outfile, special_attack["monster_message"],
                              format_strings=True, comment=comment, **kwargs)
                     wrote = True
+                if "targeting_sound" in special_attack:
+                    writestr(outfile, special_attack["targeting_sound"],
+                             **kwargs)
+                    wrote = True
+                if "no_ammo_sound" in special_attack:
+                    writestr(outfile, special_attack["no_ammo_sound"],
+                             **kwargs)
+                    wrote = True
         if "footsteps" in item:
             writestr(outfile, item["footsteps"], **kwargs)
             wrote = True
