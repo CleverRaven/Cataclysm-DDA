@@ -1134,6 +1134,7 @@
       "I need some fuel to power my bionics.",
       "I can't recharge my CBMs without some fuel.",
       "Could I get some fuel for my bionics?",
+      "I need more fuel.  Can you help me out here?",
       "Hey, <name_g>, can I get some fuel?  I need to recharge."
     ]
   },
@@ -1173,6 +1174,8 @@
     "text": [
       "How do you think we ended up here?  What even happened?",
       "What's going on?  Like, big picture, what the hell happened?",
+      "What do you think the cataclysm even was?",
+      "So how do you think the end of the world happened?",
       "Have you heard anything about how the apocalypse came about?"
     ]
   },
@@ -1184,7 +1187,7 @@
       "Let's talk about something else.",
       "Let's change the subject.",
       "I'd like to ask you about something else.",
-      "I'd like to ask you about something else.",
+      "I'd like to talk about about something else.",
       "Moving on…",
       "Anyway…"
     ]
