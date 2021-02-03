@@ -1336,15 +1336,15 @@ tab_direction set_traits( avatar &u, points_left &points )
             }
 
             if( !filterstring.empty() ) {
-                for( int i = 0; i < 3; i++ ) {
+                for( std::vector<const trait_id *> &traits : sorted_traits ) {
                     const auto new_end_iter = std::remove_if(
-                                                  sorted_traits[i].begin(),
-                                                  sorted_traits[i].end(),
+                                                  traits.begin(),
+                                                  traits.end(),
                     [&filterstring]( const trait_id * trait ) {
                         return !lcmatch( trait->obj().name(), filterstring );
                     } );
 
-                    sorted_traits[i].erase( new_end_iter, sorted_traits[i].end() );
+                    traits.erase( new_end_iter, traits.end() );
                 }
             }
 
@@ -1365,13 +1365,13 @@ tab_direction set_traits( avatar &u, points_left &points )
             iCurrentLine[0] = 0;
             iCurrentLine[1] = 0;
             iCurrentLine[2] = 0;
-            if( !sorted_traits[iCurWorkingPage].size() ) {
+            if( sorted_traits[iCurWorkingPage].empty() ) {
                 iCurWorkingPage = 0;
-                if( sorted_traits[0].size() ) {
+                if( !sorted_traits[0].empty() ) {
                     iCurWorkingPage = 0;
-                } else if( sorted_traits[1].size() ) {
+                } else if( !sorted_traits[1].empty() ) {
                     iCurWorkingPage = 1;
-                } else if( sorted_traits[2].size() ) {
+                } else if( !sorted_traits[2].empty() ) {
                     iCurWorkingPage = 2;
                 }
             }
