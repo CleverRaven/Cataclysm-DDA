@@ -40,12 +40,15 @@
 
 static const skill_id skill_speech( "speech" );
 
-static const flag_str_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
+static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
 
-void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
-                                  player &receiver, std::list<item_location *> &from_map,
-                                  bool npc_gives )
+std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
+        player &receiver, std::list<item_location *> &from_map, bool npc_gives )
 {
+    // escrow is used only when the npc is the destination. Item transfer to the npc is deferred.
+    const bool use_escrow = !npc_gives;
+    std::list<item> escrow = std::list<item>();
+
     for( item_pricing &ip : stuff ) {
         if( !ip.selected ) {
             continue;
@@ -61,8 +64,13 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
         int charges = npc_gives ? ip.u_charges : ip.npc_charges;
         int count = npc_gives ? ip.u_has : ip.npc_has;
 
-        if( ip.charges ) {
-            gift.charges = charges;
+        // Items are moving to escrow.
+        if( use_escrow && ip.charges ) {
+            escrow.emplace_back( gift );
+        } else if( use_escrow ) {
+            std::fill_n( std::back_inserter( escrow ), count, gift );
+            // No escrow in use. Items moving from giver to receiver.
+        } else if( ip.charges ) {
             receiver.i_add( gift );
         } else {
             for( int i = 0; i < count; i++ ) {
@@ -87,13 +95,14 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
             from_map.push_back( &ip.loc );
         }
     }
+    return escrow;
 }
 
 std::vector<item_pricing> npc_trading::init_selling( npc &np )
 {
     std::vector<item_pricing> result;
-    const auto inv_all = np.items_with( []( const item & ) {
-        return true;
+    const std::vector<item *> inv_all = np.items_with( []( const item & it ) {
+        return !it.made_of( phase_id::LIQUID );
     } );
     for( item *i : inv_all ) {
         item &it = *i;
@@ -136,7 +145,7 @@ double npc_trading::net_price_adjustment( const player &buyer, const player &sel
 template <typename T, typename Callback>
 void buy_helper( T &src, Callback cb )
 {
-    src.visit_items( [&src, &cb]( item * node ) {
+    src.visit_items( [&src, &cb]( item * node, item * ) {
         cb( std::move( item_location( src, node ) ), 1 );
 
         return VisitResponse::SKIP;
@@ -162,6 +171,11 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         }
         item &it = *loc;
 
+        // Don't sell items that are loose liquid
+        if( it.made_of( phase_id::LIQUID ) ) {
+            return;
+        }
+
         // Don't sell items we don't own.
         if( !it.is_owned_by( seller ) ) {
             return;
@@ -175,7 +189,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         const int market_price = it.price( true );
         int val = np.value( it, market_price );
         if( ( is_npc && np.wants_to_sell( it, val, market_price ) ) ||
-            np.wants_to_buy( it, val, market_price ) ) {
+            ( !is_npc && np.wants_to_buy( it, val, market_price ) ) ) {
             result.emplace_back( std::move( loc ), val, count );
             result.back().adjust_values( adjust, fac );
         }
@@ -691,9 +705,15 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 
         std::list<item_location *> from_map;
 
+        std::list<item> escrow;
         avatar &player_character = get_avatar();
-        npc_trading::transfer_items( trade_win.yours, player_character, np, from_map, false );
+        // Movement of items in 3 steps: player to escrow - npc to player - escrow to npc.
+        escrow = npc_trading::transfer_items( trade_win.yours, player_character, np, from_map, false );
         npc_trading::transfer_items( trade_win.theirs, np, player_character, from_map, true );
+        // Now move items from escrow to the npc. Keep the weapon wielded.
+        for( const item &i : escrow ) {
+            np.i_add( i, true, nullptr, true, false );
+        }
 
         for( item_location *loc_ptr : from_map ) {
             if( !loc_ptr ) {

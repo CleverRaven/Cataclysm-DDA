@@ -27,5 +27,20 @@
     "material": [ "junk" ],
     "calories": 10,
     "vitamins": [  ]
+  },
+  {
+    "id": "rock_candy_chunk",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "rock candy chunk" },
+    "description": "This is a chunk of hard rock candy.  It can be broken down into sugar.",
+    "weight": "50 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "rock_candy" ],
+    "symbol": ",",
+    "color": "light_gray",
+    "flags": [ "NO_SALVAGE" ]
   }
 ]

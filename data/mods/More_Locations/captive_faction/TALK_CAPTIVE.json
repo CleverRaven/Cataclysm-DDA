@@ -21,8 +21,7 @@
           "topic": "TALK_DONE",
           "effect": "follow",
           "opinion": { "trust": 1, "fear": 0, "value": 10, "anger": -1, "owed": 0, "favors": 1 }
-        },
-        "topic": "TALK_DONE"
+        }
       }
     ]
   }

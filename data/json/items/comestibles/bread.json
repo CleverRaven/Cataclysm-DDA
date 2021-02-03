@@ -87,7 +87,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sourdough_bread",
-    "name": "sourdough bread",
+    "name": { "str": "sourdough bread" },
     "weight": "56 g",
     "color": "brown",
     "spoils_in": "8 days",
@@ -109,7 +109,7 @@
   {
     "type": "COMESTIBLE",
     "id": "flatbread",
-    "name": "flatbread",
+    "name": { "str": "flatbread" },
     "weight": "85 g",
     "color": "brown",
     "spoils_in": "11 days 16 hours",
@@ -128,7 +128,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bread",
-    "name": "bread",
+    "name": { "str": "bread" },
     "weight": "60 g",
     "color": "brown",
     "spoils_in": "10 days",
@@ -150,7 +150,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cornbread",
-    "name": "cornbread",
+    "name": { "str": "cornbread" },
     "weight": "60 g",
     "color": "yellow",
     "spoils_in": "30 days",
@@ -173,7 +173,7 @@
   {
     "type": "COMESTIBLE",
     "id": "johnnycake",
-    "name": "johnnycake",
+    "name": { "str": "johnnycake" },
     "weight": "49 g",
     "color": "yellow",
     "spoils_in": "20 days",
@@ -194,7 +194,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tortilla_corn",
-    "name": "corn tortilla",
+    "name": { "str": "corn tortilla" },
     "weight": "24 g",
     "color": "brown",
     "spoils_in": "20 days",
@@ -217,7 +217,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hardtack",
-    "name": "hardtack",
+    "name": { "str": "hardtack" },
     "weight": "80 g",
     "color": "white",
     "spoils_in": "360 days",
@@ -260,7 +260,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wastebread",
-    "name": "wastebread",
+    "name": { "str": "wastebread" },
     "weight": "60 g",
     "color": "white",
     "spoils_in": 990,
@@ -281,5 +281,27 @@
     "fun": -1,
     "vitamins": [ [ "calcium", 12 ] ],
     "//": "this item will generally inherit its values, so it is essentially a copy of bread"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "brown_bread",
+    "name": { "str_sp": "brown bread" },
+    "weight": "45 g",
+    "color": "brown",
+    "spoils_in": "10 days",
+    "container": "bag_plastic",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "healthy": 1,
+    "calories": 74,
+    "description": "A sweet bread, like cake.",
+    "price": "272 cent",
+    "price_postapoc": "4 USD",
+    "material": [ "wheat" ],
+    "volume": "48 ml",
+    "charges": 10,
+    "flags": [ "EATEN_HOT", "EATEN_COLD" ],
+    "fun": 3,
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ]
   }
 ]

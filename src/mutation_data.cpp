@@ -376,7 +376,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         transform->load( jo, "transform" );
     }
 
-    optional( jo, was_loaded, "triggers", triger_list );
+    optional( jo, was_loaded, "triggers", trigger_list );
 
     optional( jo, was_loaded, "initial_ma_styles", initial_ma_styles );
 
@@ -560,6 +560,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
         restricts_gear.insert( bodypart_str_id( line ) );
     }
 
+    for( const std::string line : jo.get_array( "allowed_items" ) ) {
+        allowed_items.insert( flag_id( line ) );
+    }
+
     for( JsonObject ao : jo.get_array( "armor" ) ) {
         const resistances res = load_resistances_instance( ao );
 
@@ -722,14 +726,11 @@ void dream::load( const JsonObject &jsobj )
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
 {
-    if( a->get_display_color() > b->get_display_color() ) {
-        return true;
-    }
-    if( a->get_display_color() < b->get_display_color() ) {
-        return false;
-    }
+    auto trait_sort_key = []( const trait_id & t ) {
+        return std::make_pair( -t->get_display_color().to_int(), t->name() );
+    };
 
-    return localized_compare( a->name(), b->name() );
+    return localized_compare( trait_sort_key( a ), trait_sort_key( b ) );
 }
 
 bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept

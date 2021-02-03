@@ -17,7 +17,7 @@
 TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {
     avatar dummy;
-    item eyedrops( "saline", 0, item::default_charges_tag{} );
+    item eyedrops( "saline", calendar::turn_zero, item::default_charges_tag{} );
 
     int charges_before = eyedrops.charges;
     REQUIRE( charges_before > 0 );
@@ -55,7 +55,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 TEST_CASE( "antifungal", "[iuse][antifungal]" )
 {
     avatar dummy;
-    item antifungal( "antifungal", 0, item::default_charges_tag{} );
+    item antifungal( "antifungal", calendar::turn_zero, item::default_charges_tag{} );
 
     int charges_before = antifungal.charges;
     REQUIRE( charges_before > 0 );
@@ -106,7 +106,7 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
 TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
 {
     avatar dummy;
-    item antiparasitic( "antiparasitic", 0, item::default_charges_tag{} );
+    item antiparasitic( "antiparasitic", calendar::turn_zero, item::default_charges_tag{} );
 
     int charges_before = antiparasitic.charges;
     REQUIRE( charges_before > 0 );
@@ -162,7 +162,7 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
 TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
 {
     avatar dummy;
-    item anticonvulsant( "diazepam", 0, item::default_charges_tag{} );
+    item anticonvulsant( "diazepam", calendar::turn_zero, item::default_charges_tag{} );
 
     int charges_before = anticonvulsant.charges;
     REQUIRE( charges_before > 0 );
@@ -309,14 +309,14 @@ TEST_CASE( "caffeine and atomic caffeine", "[iuse][caff][atomic_caff]" )
     REQUIRE( dummy.get_rad() == 0 );
 
     SECTION( "coffee reduces fatigue, but does not give stimulant effect" ) {
-        item coffee( "coffee", 0, item::default_charges_tag{} );
+        item coffee( "coffee", calendar::turn_zero, item::default_charges_tag{} );
         dummy.consume( coffee );
         CHECK( dummy.get_fatigue() == fatigue_before - coffee.get_comestible()->fatigue_mod );
         CHECK( dummy.get_stim() == coffee.get_comestible()->stim );
     }
 
     SECTION( "atomic caffeine greatly reduces fatigue, and increases stimulant effect" ) {
-        item atomic_coffee( "atomic_coffee", 0, item::default_charges_tag{} );
+        item atomic_coffee( "atomic_coffee", calendar::turn_zero, item::default_charges_tag{} );
         dummy.consume( atomic_coffee );
         CHECK( dummy.get_fatigue() == fatigue_before - atomic_coffee.get_comestible()->fatigue_mod );
         CHECK( dummy.get_stim() == atomic_coffee.get_comestible()->stim );
@@ -327,7 +327,7 @@ TEST_CASE( "towel", "[iuse][towel]" )
 {
     avatar dummy;
     dummy.set_body();
-    item towel( "towel", 0, item::default_charges_tag{} );
+    item towel( "towel", calendar::turn_zero, item::default_charges_tag{} );
 
     GIVEN( "avatar is wet" ) {
         // Saturate torso, head, and both arms
@@ -415,8 +415,8 @@ TEST_CASE( "towel", "[iuse][towel]" )
                 CHECK_FALSE( dummy.has_effect( efftype_id( "boomered" ) ) );
                 CHECK_FALSE( dummy.has_effect( efftype_id( "glowing" ) ) );
 
-                AND_THEN( "the towel becomes soiled" ) {
-                    CHECK( towel.typeId() == itype_id( "towel_soiled" ) );
+                AND_THEN( "the towel becomes filthy" ) {
+                    CHECK( towel.is_filthy() );
                 }
             }
         }
@@ -435,8 +435,8 @@ TEST_CASE( "towel", "[iuse][towel]" )
                 CHECK_FALSE( dummy.has_effect( efftype_id( "boomered" ) ) );
                 CHECK( std::abs( dummy.has_morale( MORALE_WET ) ) );
 
-                AND_THEN( "the towel becomes soiled" ) {
-                    CHECK( towel.typeId() == itype_id( "towel_soiled" ) );
+                AND_THEN( "the towel becomes filthy" ) {
+                    CHECK( towel.is_filthy() );
                 }
             }
         }
@@ -447,7 +447,7 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
 {
     avatar dummy;
     dummy.set_fatigue( 0 );
-    item thorazine( "thorazine", 0, item::default_charges_tag{} );
+    item thorazine( "thorazine", calendar::turn_zero, item::default_charges_tag{} );
 
     int charges_before = thorazine.charges;
     REQUIRE( charges_before >= 2 );
@@ -495,7 +495,7 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
 TEST_CASE( "prozac", "[iuse][prozac]" )
 {
     avatar dummy;
-    item prozac( "prozac", 0, item::default_charges_tag{} );
+    item prozac( "prozac", calendar::turn_zero, item::default_charges_tag{} );
 
     SECTION( "prozac gives prozac and visible prozac effect" ) {
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_prozac" ) ) );
@@ -557,7 +557,7 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
 TEST_CASE( "panacea", "[iuse][panacea]" )
 {
     avatar dummy;
-    item panacea( "panacea", 0, item::default_charges_tag{} );
+    item panacea( "panacea", calendar::turn_zero, item::default_charges_tag{} );
 
     SECTION( "panacea gives cure-all effect" ) {
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "cureall" ) ) );
@@ -570,7 +570,7 @@ TEST_CASE( "panacea", "[iuse][panacea]" )
 TEST_CASE( "xanax", "[iuse][xanax]" )
 {
     avatar dummy;
-    item xanax( "xanax", 0, item::default_charges_tag{} );
+    item xanax( "xanax", calendar::turn_zero, item::default_charges_tag{} );
 
     SECTION( "xanax gives xanax and visible xanax effects" ) {
         REQUIRE_FALSE( dummy.has_effect( efftype_id( "took_xanax" ) ) );

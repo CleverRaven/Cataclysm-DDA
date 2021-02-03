@@ -15,10 +15,10 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "yellow",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 22,
-    "max_encumbrance": 30,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 22, 26 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 22, 22 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
@@ -66,10 +66,10 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "brown",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 26,
-    "max_encumbrance": 30,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 26, 30 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 26, 26 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
@@ -81,6 +81,14 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
+    "id": "xl_coat_fur",
+    "type": "ARMOR",
+    "name": { "str": "XL fur coat" },
+    "copy-from": "coat_fur",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE" ]
+  },
+  {
     "id": "coat_faux_fur",
     "type": "ARMOR",
     "copy-from": "coat_fur",
@@ -89,9 +97,16 @@
     "description": "A garishly-colored faux fur coat with a couple small pockets.  Although not as warm as the natural fur, it gives you some of that unique flair.",
     "material": [ "faux_fur", "cotton" ],
     "color": "pink",
-    "covers": [ "torso", "arm_l", "arm_r" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "SUPER_FANCY" ],
     "warmth": 70
+  },
+  {
+    "id": "xl_coat_faux_fur",
+    "type": "ARMOR",
+    "name": { "str": "XL faux fur coat" },
+    "copy-from": "coat_faux_fur",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "OVERSIZE", "SUPER_FANCY" ]
   },
   {
     "id": "coat_fur_sf",
@@ -108,10 +123,10 @@
     "symbol": "[",
     "looks_like": "coat_fur",
     "color": "brown",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 30,
-    "max_encumbrance": 35,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 30, 35 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 30, 30 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 }
@@ -137,10 +152,10 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "white",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 2, 5 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 2, 2 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 80 },
@@ -163,10 +178,10 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "yellow",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 7,
-    "max_encumbrance": 15,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 7, 15 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 7 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 120 }
@@ -175,6 +190,28 @@
     "material_thickness": 2,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ]
+  },
+  {
+    "id": "coat_straw",
+    "type": "ARMOR",
+    "name": { "str": "straw cape" },
+    "description": "A bulky traditional Japanese raincoat made from straw, which covers the entire body.  Also known as mino.",
+    "weight": "907 g",
+    "volume": "4 L",
+    "price": 9000,
+    "price_postapoc": 25,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "yellow",
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": 12 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 40, "encumbrance": 2 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 50, "encumbrance": 0 }
+    ],
+    "warmth": 15,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "WATERPROOF", "OUTER" ]
   },
   {
     "id": "coat_gut",
@@ -212,10 +249,10 @@
     "symbol": "[",
     "looks_like": "coat_rain",
     "color": "light_red",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 18,
-    "max_encumbrance": 30,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 18, 27 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 18, 21 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1250 ml", "max_contains_weight": "3kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1250 ml", "max_contains_weight": "3 kg", "moves": 80 },
@@ -242,10 +279,11 @@
     "symbol": "[",
     "looks_like": "trenchcoat",
     "color": "dark_gray",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 90,
-    "encumbrance": 7,
-    "max_encumbrance": 15,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 7, 13 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 7, 9 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 7, 7 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -273,10 +311,11 @@
     "symbol": "[",
     "looks_like": "duster_leather",
     "color": "brown",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 90,
-    "encumbrance": 9,
-    "max_encumbrance": 19,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 16 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 9, 11 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 9, 9 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -292,6 +331,22 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
+    "id": "xl_duster_fur",
+    "type": "ARMOR",
+    "name": { "str": "XL fur duster" },
+    "copy-from": "duster_fur",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "OVERSIZE" ]
+  },
+  {
+    "id": "xl_duster",
+    "type": "ARMOR",
+    "name": { "str": "XL duster" },
+    "copy-from": "duster",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "OVERSIZE" ]
+  },
+  {
     "id": "duster_faux_fur",
     "type": "ARMOR",
     "copy-from": "duster_fur",
@@ -299,9 +354,16 @@
     "name": { "str": "faux fur duster" },
     "description": "A thick faux fur duster, falling below your knees.  Has many pockets for storing things.",
     "material": [ "faux_fur", "cotton" ],
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
     "warmth": 40
+  },
+  {
+    "id": "xl_duster_faux_fur",
+    "type": "ARMOR",
+    "name": { "str": "XL faux fur duster" },
+    "copy-from": "duster_faux_fur",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "FANCY", "OVERSIZE" ]
   },
   {
     "id": "duster_leather",
@@ -317,10 +379,11 @@
     "symbol": "[",
     "looks_like": "duster",
     "color": "brown",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 90,
-    "encumbrance": 8,
-    "max_encumbrance": 17,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 8, 15 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 8, 10 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 8, 8 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -334,6 +397,14 @@
     "environmental_protection": 1,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+  },
+  {
+    "id": "xl_duster_leather",
+    "type": "ARMOR",
+    "name": { "str": "XL leather duster" },
+    "copy-from": "duster_leather",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "OVERSIZE" ]
   },
   {
     "id": "duster_survivor",
@@ -350,10 +421,11 @@
     "symbol": "[",
     "looks_like": "duster_leather",
     "color": "brown",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 85,
-    "encumbrance": 7,
-    "max_encumbrance": 15,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 13 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 7, 9 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 7, 7 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
@@ -369,6 +441,14 @@
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
   },
   {
+    "id": "xl_duster_survivor",
+    "type": "ARMOR",
+    "name": { "str": "XL survivor duster" },
+    "copy-from": "duster_survivor",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER", "OVERSIZE" ]
+  },
+  {
     "id": "greatcoat",
     "type": "ARMOR",
     "name": { "str": "greatcoat" },
@@ -382,10 +462,11 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "blue",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 11,
-    "max_encumbrance": 23,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 11, 20 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 11, 13 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 11, 11 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1750 ml", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1750 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -453,10 +534,11 @@
     "symbol": "[",
     "looks_like": "coat_lab",
     "color": "blue",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 85,
-    "encumbrance": 5,
-    "max_encumbrance": 10,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 5, 10 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 5, 5 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 5, 5 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 }
@@ -480,10 +562,10 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "green",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 7,
-    "max_encumbrance": 15,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 7, 15 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 9 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
@@ -511,10 +593,10 @@
     "symbol": "[",
     "looks_like": "coat_lab",
     "color": "white",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 8,
-    "max_encumbrance": 13,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 8, 13 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 8, 8 ] }
+    ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1250 ml", "max_contains_weight": "2 kg", "moves": 80 } ],
     "warmth": 25,
     "material_thickness": 3,
@@ -534,10 +616,10 @@
     "symbol": "[",
     "looks_like": "jacket_leather",
     "color": "cyan",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 13,
-    "max_encumbrance": 15,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 13, 15 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 13, 13 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 }
@@ -560,10 +642,10 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_red",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 9,
-    "max_encumbrance": 13,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 13 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 9, 9 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
@@ -586,10 +668,10 @@
     "symbol": "[",
     "looks_like": "jacket_windbreaker",
     "color": "light_blue",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 9,
-    "max_encumbrance": 11,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 11 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 9, 9 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 }
@@ -618,10 +700,10 @@
     "symbol": "[",
     "looks_like": "jacket_windbreaker",
     "color": "dark_gray",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 10,
-    "max_encumbrance": 15,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 10, 15 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 10, 10 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 }
@@ -645,11 +727,12 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "jacket_leather",
+    "repairs_like": "jacket_leather",
     "color": "red",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 15,
-    "max_encumbrance": 20,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 15, 20 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 15, 15 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 }
@@ -674,10 +757,10 @@
     "symbol": "[",
     "looks_like": "jacket_windbreaker",
     "color": "blue",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 4,
-    "max_encumbrance": 8,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 4, 8 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 4, 4 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 }
@@ -700,10 +783,10 @@
     "symbol": "[",
     "looks_like": "jacket_light",
     "color": "cyan",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 6,
-    "max_encumbrance": 12,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 6, 9 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 6, 7 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "3 kg", "moves": 80 },
@@ -778,6 +861,28 @@
     "flags": [ "VARSIZE" ]
   },
   {
+    "id": "kasaya",
+    "repairs_like": "trenchcoat",
+    "type": "ARMOR",
+    "name": { "str": "kasaya" },
+    "description": "A traditional, ankle-length Buddhist robe, stitched together from three pieces of traditional saffron dyed cloth.",
+    "weight": "1550 g",
+    "volume": "5000 ml",
+    "price": 20000,
+    "price_postapoc": 50,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "kimono",
+    "color": "brown",
+    "covers": [ "leg_l", "leg_r", "torso" ],
+    "coverage": 90,
+    "encumbrance": 2,
+    "warmth": 20,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "FANCY" ]
+  },
+  {
     "id": "keikogi",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
@@ -811,10 +916,11 @@
     "symbol": "[",
     "looks_like": "robe",
     "color": "white",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 2,
-    "max_encumbrance": 5,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 2, 5 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 2, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 2, 2 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "3 kg", "moves": 80 }
@@ -837,10 +943,11 @@
     "symbol": "[",
     "looks_like": "kimono",
     "color": "blue",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 80,
-    "encumbrance": 1,
-    "max_encumbrance": 3,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 80, "encumbrance": [ 1, 3 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 80, "encumbrance": [ 1, 1 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "3 kg", "moves": 80 }
@@ -906,10 +1013,10 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "blue",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 85,
-    "encumbrance": 10,
-    "max_encumbrance": 20,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 10, 20 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 10, 10 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "moves": 80 },
@@ -936,10 +1043,11 @@
     "symbol": "[",
     "looks_like": "cloak",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 80,
-    "encumbrance": 8,
-    "max_encumbrance": 17,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 80, "encumbrance": [ 8, 15 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 8, 10 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 80, "encumbrance": [ 8, 8 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 120 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 120 },
@@ -951,6 +1059,28 @@
     "warmth": 20,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "OUTER" ]
+  },
+  {
+    "id": "samghati",
+    "repairs_like": "trenchcoat",
+    "type": "ARMOR",
+    "name": { "str": "samghati" },
+    "description": "A traditional, double layered Buddhist coat, used as an outer cloak for various occasions.",
+    "weight": "800 g",
+    "volume": "2250 ml",
+    "price": 6500,
+    "price_postapoc": 50,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "trenchcoat",
+    "color": "brown",
+    "covers": [ "leg_l", "leg_r", "torso" ],
+    "coverage": 90,
+    "encumbrance": 2,
+    "warmth": 12,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "FANCY" ]
   },
   {
     "id": "ski_jacket",
@@ -966,10 +1096,10 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_blue",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 15,
-    "max_encumbrance": 22,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 15, 22 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 15, 15 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
@@ -997,10 +1127,10 @@
     "symbol": "[",
     "looks_like": "duster",
     "color": "dark_gray",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 90,
-    "encumbrance": 7,
-    "max_encumbrance": 15,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 7, 12 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 7, 10 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -1029,10 +1159,10 @@
     "symbol": "[",
     "looks_like": "duster_fur",
     "color": "brown",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 90,
-    "encumbrance": 9,
-    "max_encumbrance": 19,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 17 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 9, 11 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -1054,7 +1184,6 @@
     "name": { "str": "sleeveless faux fur duster" },
     "description": "A thick, sleeveless faux fur duster, falling below your knees.  Has many pockets for storing things.",
     "material": [ "faux_fur", "cotton" ],
-    "covers": [ "torso", "leg_l", "leg_r" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
     "warmth": 40
   },
@@ -1073,10 +1202,10 @@
     "symbol": "[",
     "looks_like": "duster_leather",
     "color": "brown",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 90,
-    "encumbrance": 8,
-    "max_encumbrance": 17,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 8, 15 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 8, 10 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -1107,10 +1236,10 @@
     "symbol": "[",
     "looks_like": "duster_survivor",
     "color": "brown",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 85,
-    "encumbrance": 7,
-    "max_encumbrance": 15,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 13 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 7, 9 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
@@ -1197,7 +1326,6 @@
     "name": { "str": "sleeveless faux fur trenchcoat" },
     "description": "A thick faux fur trenchcoat without sleeves.  Has plenty of storage space, and looks pretty good.",
     "material": [ "faux_fur", "cotton" ],
-    "covers": [ "torso" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
     "warmth": 40
   },
@@ -1325,10 +1453,10 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "dark_gray",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 7,
-    "max_encumbrance": 15,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 7, 15 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 7, 7 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -1356,10 +1484,10 @@
     "symbol": "[",
     "looks_like": "trenchcoat_leather",
     "color": "brown",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 9,
-    "max_encumbrance": 19,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 19 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 9, 9 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -1381,7 +1509,6 @@
     "name": { "str": "faux fur trenchcoat" },
     "description": "A thick faux fur trenchcoat, lined with pockets.  Great for storage, and makes you the talk of the town.",
     "material": [ "faux_fur", "cotton" ],
-    "covers": [ "torso", "arm_l", "arm_r" ],
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ],
     "warmth": 40
   },
@@ -1399,10 +1526,10 @@
     "symbol": "[",
     "looks_like": "trenchcoat",
     "color": "brown",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 8,
-    "max_encumbrance": 17,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 8, 17 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 8, 8 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -1432,10 +1559,10 @@
     "symbol": "[",
     "looks_like": "trenchcoat",
     "color": "brown",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 85,
-    "encumbrance": 7,
-    "max_encumbrance": 15,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 15 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 7, 7 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "6 kg", "moves": 80 },
@@ -1506,10 +1633,11 @@
     "symbol": "[",
     "looks_like": "suit",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 13,
-    "max_encumbrance": 17,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 13, 16 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 13, 14 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 13, 13 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "2 kg", "moves": 80 },
@@ -1562,10 +1690,10 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "white",
-    "covers": [ "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 10,
-    "max_encumbrance": 20,
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 10, 20 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 10, 10 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },

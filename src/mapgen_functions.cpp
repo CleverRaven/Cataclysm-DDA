@@ -833,6 +833,14 @@ void mapgen_road( mapgendata &dat )
         // draw round pavement for cul de sac late, to overdraw the yellow dots
         if( cul_de_sac ) {
             circle( m, t_pavement, static_cast<double>( SEEX ) - 0.5, static_cast<double>( SEEY ) - 0.5, 11.0 );
+
+            // place streetlights for cul de sacs
+            m->furn_set( point( 0, SEEY ), f_street_light );
+            m->furn_set( point( SEEX * 2 - 1, SEEY ), f_street_light );
+            m->furn_set( point( 3, 4 ), f_street_light );
+            m->furn_set( point( 3, 19 ), f_street_light );
+            m->furn_set( point( 20, 4 ), f_street_light );
+            m->furn_set( point( 20, 19 ), f_street_light );
         }
 
         // overwrite part of intersection with rotary/plaza
@@ -863,6 +871,126 @@ void mapgen_road( mapgendata &dat )
                 if( one_in( 3 ) ) {
                     circle( m, t_water_sh, point( 4, SEEY * 2 - 5 ), 3 );
                 }
+            }
+        }
+    }
+
+    // place street and traffic lights and draw stop lines
+    if( neighbor_sidewalks ) {
+        if( diag ) { // diagonal roads
+            if( m->ter( point( 12, 12 ) ) == t_sidewalk ) {
+                m->furn_set( point( 12, 12 ), f_street_light );
+            }
+        } else if( num_dirs == 3 ) { // tee-shaped intersections
+            if( m->ter( point( 12, 20 ) ) == t_sidewalk ) {
+                m->furn_set( point( 12, 20 ), f_street_light );
+            }
+        } else if( num_dirs == 2 || num_dirs == 1 ) { // ordinary roads and dead ends
+            if( m->ter( point( 3, 12 ) ) == t_sidewalk ) {
+                m->furn_set( point( 3, 12 ), f_street_light );
+            }
+            if( m->ter( point( 20, 12 ) ) == t_sidewalk ) {
+                m->furn_set( point( 20, 12 ), f_street_light );
+            }
+        }
+
+        // four-way intersections
+        if( num_dirs == 4 ) {
+            if( one_in( 2 ) &&
+                m->ter( point( 3, 1 ) ) == t_sidewalk && m->ter( point( 20, 2 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 11, 1 ), point( 12, 3 ) );
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( i, 1 ), t_zebra );
+                    m->ter_set( point( i, 2 ), t_zebra );
+                }
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 21, 3 ) ) == t_sidewalk && m->ter( point( 22, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 20, 11 ), point( 23, 12 ) );
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( 21, i ), t_zebra );
+                    m->ter_set( point( 22, i ), t_zebra );
+                }
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 3, 21 ) ) == t_sidewalk && m->ter( point( 20, 22 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 11, 21 ), point( 12, 22 ) );
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( i, 21 ), t_zebra );
+                    m->ter_set( point( i, 22 ), t_zebra );
+                }
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 1, 3 ) ) == t_sidewalk && m->ter( point( 2, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 1, 11 ), point( 2, 12 ) );
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( 1, i ), t_zebra );
+                    m->ter_set( point( 2, i ), t_zebra );
+                }
+            }
+
+            if( one_in( 2 ) ) {
+                m->furn_set( point( 3, 3 ), f_traffic_light );
+                m->furn_set( point( 3, 20 ), f_traffic_light );
+                m->furn_set( point( 20, 3 ), f_traffic_light );
+                m->furn_set( point( 20, 20 ), f_traffic_light );
+
+                line( m, t_pavement_y, point( 4, 0 ), point( 10, 0 ) );
+                line( m, t_pavement_y, point( 23, 4 ), point( 23, 10 ) );
+                line( m, t_pavement_y, point( 13, 23 ), point( 19, 23 ) );
+                line( m, t_pavement_y, point( 0, 13 ), point( 0, 19 ) );
+            }
+
+        }
+
+        // tee-shaped roads
+        if( num_dirs == 3 ) {
+            if( one_in( 2 ) &&
+                m->ter( point( 3, 1 ) ) == t_sidewalk && m->ter( point( 20, 2 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 11, 1 ), point( 12, 3 ) );
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( i, 1 ), t_zebra );
+                    m->ter_set( point( i, 2 ), t_zebra );
+                }
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 21, 3 ) ) == t_sidewalk && m->ter( point( 22, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 20, 11 ), point( 23, 13 ) );
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( 21, i ), t_zebra );
+                    m->ter_set( point( 22, i ), t_zebra );
+                }
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 1, 3 ) ) == t_sidewalk && m->ter( point( 2, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 1, 11 ), point( 2, 13 ) );
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( 1, i ), t_zebra );
+                    m->ter_set( point( 2, i ), t_zebra );
+                }
+            }
+
+            if( one_in( 2 ) ) {
+                m->furn_set( point( 3, 3 ), f_traffic_light );
+                m->furn_set( point( 20, 3 ), f_traffic_light );
+                m->furn_set( point( 3, 20 ), f_traffic_light );
+
+                line( m, t_pavement_y, point( 23, 4 ), point( 23, 10 ) );
+                line( m, t_pavement_y, point( 4, 0 ), point( 10, 0 ) );
+                line( m, t_pavement_y, point( 0, 13 ), point( 0, 19 ) );
+            }
+        }
+
+        // ordinary straight roads
+        if( num_dirs == 2 && !diag && one_in( 10 ) ) {
+            square( m, t_pavement, point( 4, 12 ), point( 19, 15 ) );
+            for( int i = 4; i < 20; i += 2 ) {
+                m->ter_set( point( i, 13 ), t_zebra );
+                m->ter_set( point( i, 14 ), t_zebra );
+            }
+            if( one_in( 2 ) ) {
+                m->furn_set( point( 3, 12 ), f_traffic_light );
+                m->furn_set( point( 20, 15 ), f_traffic_light );
             }
         }
     }
@@ -2466,7 +2594,7 @@ void mapgen_forest( mapgendata &dat )
             // to specify biomes in the forest regional settings that are not
             // rendered by this forest map gen method, in order to control
             // how terrains are blended together (e.g. specify roads with an equal
-            // sparsness adjacency factor to forests so that forests don't fade out
+            // sparseness adjacency factor to forests so that forests don't fade out
             // as they transition to roads.
             return 0;
         }
@@ -2510,7 +2638,7 @@ void mapgen_forest( mapgendata &dat )
         return *max_element( std::begin( factors ), std::end( factors ) );
     };
 
-    // Get the sparesness factor for this terrain, and fill it.
+    // Get the sparseness factor for this terrain, and fill it.
     const int factor = get_sparseness_adjacency_factor( dat.terrain_type() );
     fill_adjacency_factor( factor );
 

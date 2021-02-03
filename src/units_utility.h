@@ -23,7 +23,7 @@ T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
  *
  * With a second argument, can use a different maximum.
  */
-units::angle normalize( units::angle, units::angle mod = 360_degrees );
+units::angle normalize( units::angle a, const units::angle &mod = 360_degrees );
 
 template<typename T, typename U, std::enable_if_t<std::is_floating_point<T>::value>* = nullptr>
 units::quantity<T, U> round_to_multiple_of( units::quantity<T, U> val, units::quantity<T, U> of )
@@ -79,6 +79,10 @@ double convert_weight( const units::mass &weight );
  */
 int convert_length( const units::length &length );
 std::string length_units( const units::length &length );
+
+/** Convert length to inches or cm. Used in pickup UI */
+double convert_length_cm_in( const units::length &length );
+
 
 /** convert a mass unit to a string readable by a human */
 std::string weight_to_string( const units::mass &weight );

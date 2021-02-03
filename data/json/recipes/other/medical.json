@@ -160,6 +160,7 @@
   },
   {
     "result": "cattail_jelly",
+    "byproducts": [ [ "plant_fibre" ] ],
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",

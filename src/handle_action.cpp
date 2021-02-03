@@ -8,6 +8,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "advanced_inv.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
@@ -112,6 +113,7 @@ static const skill_id skill_melee( "melee" );
 static const quality_id qual_CUT( "CUT" );
 
 static const bionic_id bio_remote( "bio_remote" );
+static const bionic_id bio_watch( "bio_watch" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
@@ -286,14 +288,14 @@ input_context game::get_player_input( std::string &action )
                 }
             }
             // don't bother calculating SCT if we won't show it
-            if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) ) {
+            if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) && !SCT.vSCT.empty() ) {
                 invalidate_main_ui_adaptor();
 
                 SCT.advanceAllSteps();
 
                 //Check for creatures on all drawing positions and offset if necessary
                 for( auto iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter ) {
-                    const direction oCurDir = iter->getDirecton();
+                    const direction oCurDir = iter->getDirection();
                     const int width = utf8_width( iter->getText() );
                     for( int i = 0; i < width; ++i ) {
                         tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_map().get_abs_sub().z );
@@ -303,7 +305,7 @@ input_context game::get_player_input( std::string &action )
                             i = -1;
                             int iPos = iter->getStep() + iter->getStepOffset();
                             for( auto iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2 ) {
-                                if( iter2->getDirecton() == oCurDir &&
+                                if( iter2->getDirection() == oCurDir &&
                                     iter2->getStep() + iter2->getStepOffset() <= iPos ) {
                                     if( iter2->getType() == "hp" ) {
                                         iter2->advanceStepOffset();
@@ -484,19 +486,25 @@ static void open()
 
     player_character.moves -= 100;
 
+    // Is a vehicle part here?
     if( const optional_vpart_position vp = here.veh_at( openp ) ) {
         vehicle *const veh = &vp->vehicle();
+        // Check for potential thievery, and restore moves if action is canceled
+        if( !veh->handle_potential_theft( player_character ) ) {
+            player_character.moves += 100;
+            return;
+        }
+        // Check if vehicle has a part here that can be opened
         int openable = veh->next_part_to_open( vp->part_index() );
         if( openable >= 0 ) {
+            // If player is inside vehicle, open the door/window/curtain
             const vehicle *player_veh = veh_pointer_or_null( here.veh_at( player_character.pos() ) );
+            const std::string part_name = veh->part( openable ).name();
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
-                if( !veh->handle_potential_theft( player_character ) ) {
-                    player_character.moves += 100;
-                    return;
-                } else {
-                    veh->open( openable );
-                }
+                veh->open( openable );
+                //~ %1$s - vehicle name, %2$s - part name
+                player_character.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh->name, part_name );
             } else {
                 // Outside means we check if there's anything in that tile outside-openable.
                 // If there is, we open everything on tile. This means opening a closed,
@@ -504,16 +512,12 @@ static void open()
                 // curtains as well.
                 int outside_openable = veh->next_part_to_open( vp->part_index(), true );
                 if( outside_openable == -1 ) {
-                    const std::string name = veh->part_info( openable ).name();
-                    add_msg( m_info, _( "That %s can only opened from the inside." ), name );
+                    add_msg( m_info, _( "That %s can only be opened from the inside." ), part_name );
                     player_character.moves += 100;
                 } else {
-                    if( !veh->handle_potential_theft( player_character ) ) {
-                        player_character.moves += 100;
-                        return;
-                    } else {
-                        veh->open_all_at( openable );
-                    }
+                    veh->open_all_at( openable );
+                    //~ %1$s - vehicle name, %2$s - part name
+                    player_character.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh->name, part_name );
                 }
             }
         } else {
@@ -527,10 +531,11 @@ static void open()
         }
         return;
     }
-
+    // Not a vehicle part, just a regular door
     bool didit = here.open_door( openp, !here.is_outside( player_character.pos() ) );
-
-    if( !didit ) {
+    if( didit ) {
+        player_character.add_msg_if_player( _( "You open the %s." ), here.name( openp ) );
+    } else {
         const ter_str_id tid = here.ter( openp ).id();
 
         if( here.has_flag( flag_LOCKED, openp ) ) {
@@ -919,16 +924,16 @@ static void wait()
 
         add_menu_item( 7,  'd',
                        setting_alarm ? _( "Set alarm for dawn" ) : _( "Wait till daylight" ),
-                       diurnal_time_before( to_turns<int>( daylight_time( calendar::turn ) - calendar::turn_zero ) ) );
+                       diurnal_time_before( daylight_time( calendar::turn ) ) );
         add_menu_item( 8,  'n',
                        setting_alarm ? _( "Set alarm for noon" ) : _( "Wait till noon" ),
                        diurnal_time_before( last_midnight + 12_hours ) );
         add_menu_item( 9,  'k',
                        setting_alarm ? _( "Set alarm for dusk" ) : _( "Wait till night" ),
-                       diurnal_time_before( to_turns<int>( night_time( calendar::turn ) - calendar::turn_zero ) ) );
+                       diurnal_time_before( night_time( calendar::turn ) ) );
         add_menu_item( 10, 'm',
                        setting_alarm ? _( "Set alarm for midnight" ) : _( "Wait till midnight" ),
-                       diurnal_time_before( last_midnight + 0_hours ) );
+                       diurnal_time_before( last_midnight ) );
         if( setting_alarm ) {
             if( player_character.has_effect( effect_alarm_clock ) ) {
                 add_menu_item( 11, 'x', _( "Cancel the currently set alarm." ),
@@ -972,7 +977,7 @@ static void wait()
             actType = ACT_WAIT;
         }
 
-        player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) - 1 ), 0 );
+        player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) ), 0 );
 
         player_character.assign_activity( new_act, false );
     }
@@ -1068,7 +1073,7 @@ static void sleep()
 
     time_duration try_sleep_dur = 24_hours;
     std::string deaf_text;
-    if( player_character.is_deaf() ) {
+    if( player_character.is_deaf() && !player_character.has_bionic( bio_watch ) ) {
         deaf_text = _( "<color_c_red> (DEAF!)</color>" );
     }
     if( player_character.has_alarm_clock() ) {
@@ -1256,7 +1261,7 @@ static void wear()
     item_location loc = game_menus::inv::wear( player_character );
 
     if( loc ) {
-        player_character.wear( *loc.obtain( player_character ) );
+        player_character.wear( loc );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -2255,7 +2260,7 @@ bool game::handle_action()
                     mostseen = 0;
                     add_msg( m_info, _( "Safe mode ON!" ) );
                 } else {
-                    turnssincelastmon = 0;
+                    turnssincelastmon = 0_turns;
                     set_safe_mode( SAFE_MODE_OFF );
                     add_msg( m_info, get_option<bool>( "AUTOSAFEMODE" )
                              ? _( "Safe mode OFF!  (Auto safe mode still enabled!)" ) : _( "Safe mode OFF!" ) );
@@ -2550,6 +2555,13 @@ bool game::handle_action()
                     break;    //don't do anything when sharing and not debugger
                 }
                 display_transparency();
+                break;
+
+            case ACTION_DISPLAY_REACHABILITY_ZONES:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_reachability_zones();
                 break;
 
             case ACTION_TOGGLE_DEBUG_MODE:

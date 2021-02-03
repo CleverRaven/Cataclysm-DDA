@@ -116,7 +116,8 @@
       [ "spell_scroll_stormshaper_ionization", 40 ],
       [ "spell_scroll_improved_knock", 35 ],
       [ "spell_scroll_knifeshot", 35 ],
-      [ "spell_scroll_feralform", 30 ]
+      [ "spell_scroll_feralform", 30 ],
+      [ "spell_scroll_summon_wolf", 30 ]
     ]
   },
   {
@@ -129,7 +130,8 @@
       [ "spell_scroll_obfuscated_body", 10 ],
       [ "spell_scroll_druidic_healing", 20 ],
       [ "spell_scroll_summon_magic_motorcycle", 5 ],
-      [ "bio_sneeze_beam", 50 ]
+      [ "bio_sneeze_beam", 50 ],
+      [ "spell_scroll_nova_flare", 25 ]
     ]
   },
   {

@@ -322,7 +322,7 @@ void npc::randomize( const npc_class_id &type )
         setID( g->assign_npc_id() );
     }
 
-    weapon   = item( "null", 0 );
+    weapon   = item( "null", calendar::turn_zero );
     inv->clear();
     personality.aggression = rng( -10, 10 );
     personality.bravery    = rng( -3, 10 );
@@ -595,7 +595,12 @@ void starting_inv( npc &who, const npc_class_id &type )
         return;
     }
 
-    res.emplace_back( "lighter" );
+    item lighter( "lighter" );
+    // Set lighter ammo
+    if( !lighter.ammo_default().is_null() ) {
+        lighter.ammo_set( lighter.ammo_default(), rng( 10, 100 ) );
+    }
+    res.emplace_back( lighter );
     // If wielding a gun, get some additional ammo for it
     if( who.weapon.is_gun() ) {
         item ammo;
@@ -838,6 +843,21 @@ void npc::starting_weapon( const npc_class_id &type )
             weapon.ammo_set( weapon.ammo_default() );
         } else {
             debugmsg( "tried setting ammo for %s which has no magazine or ammo", weapon.typeId().c_str() );
+        }
+        //You should be able to wield your starting weapon
+        if( !meets_stat_requirements( weapon ) ) {
+            if( weapon.get_min_str() > get_str() ) {
+                str_max = weapon.get_min_str();
+            }
+            if( weapon.type->min_dex > get_dex() ) {
+                dex_max = weapon.type->min_dex;
+            }
+            if( weapon.type->min_int > get_int() ) {
+                int_max = weapon.type->min_int;
+            }
+            if( weapon.type->min_per > get_per() ) {
+                per_max = weapon.type->min_per;
+            }
         }
     }
 
@@ -1083,7 +1103,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
-        for( const bodypart_id bp : get_all_body_parts() ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
             if( !it.covers( bp ) ) {
                 continue;
             }
@@ -1604,17 +1624,14 @@ bool npc::wants_to_sell( const item &it ) const
 
 bool npc::wants_to_sell( const item &it, int at_price, int market_price ) const
 {
-    if( mission == NPC_MISSION_SHOPKEEP ) {
-        // Keep items that we never want to trade.
-        if( it.has_flag( flag_TRADER_KEEP ) ) {
-            return false;
-        }
-        // Also ones we don't want to trade while in use.
-        return !( it.has_flag( flag_TRADER_KEEP_EQUIPPED ) && ( is_worn( it ) || is_wielding( it ) ) );
+    if( will_exchange_items_freely() ) {
+        return true;
     }
 
-    if( is_player_ally() ) {
-        return true;
+    // Keep items that we never want to trade and the ones we don't want to trade while in use.
+    if( it.has_flag( flag_TRADER_KEEP ) ||
+        ( it.has_flag( flag_TRADER_KEEP_EQUIPPED ) && ( is_worn( it ) || is_wielding( it ) ) ) ) {
+        return false;
     }
 
     // TODO: Base on inventory
@@ -1627,10 +1644,14 @@ bool npc::wants_to_buy( const item &it ) const
     return wants_to_buy( it, value( it, market_price ), market_price );
 }
 
-bool npc::wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const
+bool npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) const
 {
-    if( is_player_ally() ) {
+    if( will_exchange_items_freely() ) {
         return true;
+    }
+
+    if( it.has_flag( flag_TRADER_AVOID ) ) {
+        return false;
     }
 
     // TODO: Base on inventory
@@ -1892,7 +1913,7 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
     can_fix.clear_all();
     healing_options *fix_p = &can_fix;
 
-    visit_items( [&fix_p, try_to_fix]( item * node ) {
+    visit_items( [&fix_p, try_to_fix]( item * node, item * ) {
         const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
@@ -1931,7 +1952,7 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
 item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
 {
     item *best = &null_item_reference();
-    visit_items( [&best, try_to_fix, first_best]( item * node ) {
+    visit_items( [&best, try_to_fix, first_best]( item * node, item * ) {
         const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
@@ -2276,7 +2297,7 @@ nc_color npc::basic_symbol_color() const
 int npc::print_info( const catacurses::window &w, int line, int vLines, int column ) const
 {
     const int last_line = line + vLines;
-    const int iWidth = getmaxx( w ) - 2;
+    const int iWidth = getmaxx( w ) - 1 - column;
     // First line of w is the border; the next 4 are terrain info, and after that
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
@@ -2290,25 +2311,27 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     for( int i = 0; i < bar_max_width - bar_width; ++i ) {
         mvwprintz( w, point( column + 4 - i, line ), c_white, "." );
     }
-    trim_and_print( w, point( column + bar.first.length() + 1, line ), iWidth, basic_symbol_color(),
-                    name );
+    line += fold_and_print( w, point( column + bar_max_width + 1, line ),
+                            iWidth - bar_max_width - 1, basic_symbol_color(), name );
 
     Character &player_character = get_player_character();
     // Hostility indicator in the second line.
     Attitude att = attitude_to( player_character );
     const std::pair<translation, nc_color> res = Creature::get_attitude_ui_data( att );
-    mvwprintz( w, point( column, ++line ), res.second, res.first.translated() );
+    mvwprintz( w, point( column, line++ ), res.second, res.first.translated() );
 
     // Awareness indicator on the third line.
     std::string senses_str = sees( player_character ) ? _( "Aware of your presence" ) :
                              _( "Unaware of you" );
-    mvwprintz( w, point( column, ++line ), sees( player_character ) ? c_yellow : c_green, senses_str );
+    line += fold_and_print( w, point( column, line ), iWidth,
+                            sees( player_character ) ? c_yellow : c_green,
+                            senses_str );
 
     // Print what item the NPC is holding if any on the fourth line.
     if( is_armed() ) {
-        mvwprintz( w, point( column, ++line ), c_light_gray, _( "Wielding: " ) );
-        trim_and_print( w, point( column + utf8_width( _( "Wielding: " ) ), line ), iWidth, c_red,
-                        weapon.tname() );
+        line += fold_and_print( w, point( column, line ), iWidth, c_red,
+                                std::string( "<color_light_gray>" ) + _( "Wielding: " ) + std::string( "</color>" ) +
+                                weapon.tname() );
     }
 
     // Worn gear list on following lines.
@@ -2319,8 +2342,15 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         std::vector<std::string> worn_lines = foldstring( _( "Wearing: " ) + worn_str, iWidth );
         int worn_numlines = worn_lines.size();
         for( int i = 0; i < worn_numlines && line < last_line; i++ ) {
-            trim_and_print( w, point( column, ++line ), iWidth, c_light_gray, worn_lines[i] );
+            if( line + 1 == last_line ) {
+                worn_lines[i].append( "…" );
+            }
+            trim_and_print( w, point( column, line++ ), iWidth, c_light_gray, worn_lines[i] );
         }
+    }
+
+    if( line == last_line ) {
+        return line;
     }
 
     // as of now, visibility of mutations is between 0 and 10
@@ -2343,7 +2373,10 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         std::vector<std::string> trait_lines = foldstring( _( "Traits: " ) + trait_str, iWidth );
         int trait_numlines = trait_lines.size();
         for( int i = 0; i < trait_numlines && line < last_line; i++ ) {
-            trim_and_print( w, point( column, ++line ), iWidth, c_light_gray, trait_lines[i] );
+            if( line + 1 == last_line ) {
+                trait_lines[i].append( "…" );
+            }
+            trim_and_print( w, point( column, line++ ), iWidth, c_light_gray, trait_lines[i] );
         }
     }
 
@@ -2959,9 +2992,8 @@ std::set<tripoint> npc::get_path_avoid() const
 mfaction_id npc::get_monster_faction() const
 {
     if( my_fac ) {
-        string_id<monfaction> my_mon_fac = string_id<monfaction>( my_fac->mon_faction );
-        if( my_mon_fac.is_valid() ) {
-            return my_mon_fac;
+        if( my_fac->mon_faction.is_valid() ) {
+            return my_fac->mon_faction;
         }
     }
 
@@ -3343,6 +3375,17 @@ std::string npc::describe_mission() const
             return string_format( "ERROR: Someone forgot to code an npc_mission text for "
                                   "mission: %d.", static_cast<int>( mission ) );
     } // switch (mission)
+}
+
+std::string npc::name_and_activity() const
+{
+    if( current_activity_id ) {
+        const std::string activity_name = current_activity_id.obj().verb().translated();
+        //~ %1$s - npc name, %2$s - npc current activity name.
+        return string_format( _( "%1$s (%2$s)" ), name, activity_name );
+    } else {
+        return name;
+    }
 }
 
 std::unique_ptr<talker> get_talker_for( npc &guy )

@@ -43,6 +43,7 @@ enum class debug_menu_index : int {
     CHANGE_WEATHER,
     WIND_DIRECTION,
     WIND_SPEED,
+    GEN_SOUND,
     KILL_MONS,
     DISPLAY_HORDES,
     TEST_IT_GROUP,
@@ -77,6 +78,7 @@ enum class debug_menu_index : int {
     DISPLAY_VISIBILITY,
     DISPLAY_LIGHTING,
     DISPLAY_TRANSPARENCY,
+    DISPLAY_REACHABILITY_ZONES,
     DISPLAY_RADIATION,
     HOUR_TIMER,
     LEARN_SPELLS,
@@ -84,6 +86,7 @@ enum class debug_menu_index : int {
     TEST_MAP_EXTRA_DISTRIBUTION,
     NESTED_MAPGEN,
     VEHICLE_BATTERY_CHARGE,
+    GENERATE_EFFECT_LIST,
     last
 };
 

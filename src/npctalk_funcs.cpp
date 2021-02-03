@@ -489,7 +489,7 @@ void talk_function::bionic_remove( npc &p )
                 bio.id != bio_power_storage_mkII ) {
                 bionic_types.push_back( bio.info().itype() );
                 if( item::type_is_defined( bio.info().itype() ) ) {
-                    item tmp = item( bio.id.str(), 0 );
+                    item tmp = item( bio.id.str(), calendar::turn_zero );
                     bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
                 } else {
                     bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
@@ -508,7 +508,7 @@ void talk_function::bionic_remove( npc &p )
 
     signed int price;
     if( item::type_is_defined( bionic_types[bionic_index] ) ) {
-        price = 50000 + ( item( bionic_types[bionic_index], 0 ).price( true ) / 4 );
+        price = 50000 + ( item( bionic_types[bionic_index], calendar::turn_zero ).price( true ) / 4 );
     } else {
         price = 50000;
     }
@@ -833,17 +833,41 @@ void talk_function::stranger_neutral( npc &p )
     p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
 }
 
-void talk_function::drop_stolen_item( npc &p )
+bool talk_function::drop_stolen_item( item &cur_item, npc &p )
 {
     Character &player_character = get_player_character();
     map &here = get_map();
-    for( auto &elem : player_character.inv_dump() ) {
-        if( elem->is_old_owner( p ) ) {
-            item to_drop = player_character.i_rem( elem );
-            to_drop.remove_old_owner();
-            to_drop.set_owner( p );
-            here.add_item_or_charges( player_character.pos(), to_drop );
+    bool dropped = false;
+    if( cur_item.is_old_owner( p ) ) {
+        item to_drop = player_character.i_rem( &cur_item );
+        to_drop.remove_old_owner();
+        to_drop.set_owner( p );
+        here.add_item_or_charges( player_character.pos(), to_drop );
+        dropped = true;
+    } else if( cur_item.is_container() ) {
+        bool changed = false;
+        for( item *contained : cur_item.contents.all_items_top() ) {
+            changed |= drop_stolen_item( *contained, p );
         }
+        if( changed ) {
+            dropped = true;
+            cur_item.on_contents_changed();
+        }
+    }
+    return dropped;
+}
+
+void talk_function::drop_stolen_item( npc &p )
+{
+    bool dropped = false;
+    Character &player_character = get_player_character();
+    for( item *&elem : player_character.inv_dump() ) {
+        dropped |= drop_stolen_item( *elem, p );
+    }
+    if( dropped ) {
+        player_character.invalidate_weight_carried_cache();
+    } else {
+        debugmsg( "Failed to drop any stolen items." );
     }
     if( p.known_stolen_item ) {
         p.known_stolen_item = nullptr;

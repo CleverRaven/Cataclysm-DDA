@@ -70,6 +70,7 @@ static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_fluid" );
 static const efftype_id effect_emp( "emp" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
@@ -96,7 +97,6 @@ static const itype_id itype_milk_raw( "milk_raw" );
 
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
-static const species_id species_INSECT( "INSECT" );
 static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MOLLUSK( "MOLLUSK" );
 static const species_id species_ROBOT( "ROBOT" );
@@ -208,7 +208,6 @@ monster::monster()
     anger = 0;
     morale = 2;
     faction = mfaction_id( 0 );
-    mission_id = -1;
     no_extra_death_drops = false;
     dead = false;
     death_drops = true;
@@ -217,8 +216,8 @@ monster::monster()
     ignoring = 0;
     upgrades = false;
     upgrade_time = -1;
-    last_updated = 0;
-    biosig_timer = -1;
+    last_updated = calendar::turn_zero;
+    biosig_timer = calendar::before_time_starts;
     udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
     set_anatomy( anatomy_id( "default_anatomy" ) );
@@ -248,7 +247,7 @@ monster::monster( const mtype_id &id ) : monster()
         itype_id mech_bat = itype_id( type->mech_battery );
         const itype &type = *item::find_type( mech_bat );
         int max_charge = type.magazine->capacity;
-        item mech_bat_item = item( mech_bat, 0 );
+        item mech_bat_item = item( mech_bat, calendar::turn_zero );
         mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
         battery_item = cata::make_value<item>( mech_bat_item );
     }
@@ -546,24 +545,30 @@ std::string monster::name( unsigned int quantity ) const
         debugmsg( "monster::name empty type!" );
         return std::string();
     }
+    std::string result = type->nname( quantity );
     if( !unique_name.empty() ) {
-        return string_format( "%s: %s", type->nname( quantity ), unique_name );
+        //~ %1$s: monster name, %2$s: unique name
+        result = string_format( pgettext( "unique monster name", "%1$s: %2$s" ),
+                                result, unique_name );
     }
-    return type->nname( quantity );
+    if( !mission_fused.empty() ) {
+        //~ name when a monster fuses with a mission target
+        result = string_format( pgettext( "fused mission monster", "*%s" ), result );
+    }
+    return result;
 }
 
 // TODO: MATERIALS put description in materials.json?
 std::string monster::name_with_armor() const
 {
     std::string ret;
-    if( type->in_species( species_INSECT ) ) {
+    if( made_of( material_id( "iflesh" ) ) ) {
         ret = _( "carapace" );
     } else if( made_of( material_id( "veggy" ) ) ) {
         ret = _( "thick bark" );
     } else if( made_of( material_id( "bone" ) ) ) {
         ret = _( "exoskeleton" );
-    } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ||
-               made_of( material_id( "iflesh" ) ) ) {
+    } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "hflesh" ) ) ) {
         ret = _( "thick hide" );
     } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ) {
         ret = _( "armor plating" );
@@ -645,34 +650,43 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     const int max_width = getmaxx( w ) - column - 1;
 
     // Print health bar, monster name, then statuses on the first line.
-    nc_color color = c_white;
-    std::string bar_str;
-    get_HP_Bar( color, bar_str );
-    mvwprintz( w, point( column, vStart ), color, bar_str );
-    const int bar_max_width = 5;
-    const int bar_width = utf8_width( bar_str );
-    for( int i = 0; i < bar_max_width - bar_width; ++i ) {
-        mvwprintz( w, point( column + 4 - i, vStart ), c_white, "." );
-    }
-    mvwprintz( w, point( column + bar_max_width + 1, vStart ), basic_symbol_color(), name() );
-    trim_and_print( w, point( column + bar_max_width + utf8_width( " " + name() + " " ), vStart ),
-                    max_width - bar_max_width - utf8_width( " " + name() + " " ), h_white, get_effect_status() );
+    nc_color bar_color = c_white;
+    std::string bar_str, dot_str;
+    get_HP_Bar( bar_color, bar_str );
+    std::ostringstream oss;
+    oss << get_tag_from_color( bar_color ) << bar_str << "</color>";
+    oss << "<color_white>" << std::string( 5 - utf8_width( bar_str ), '.' ) << "</color> ";
+    oss << get_tag_from_color( basic_symbol_color() ) << name() << "</color> ";
+    oss << "<color_h_white>" << get_effect_status() << "</color>";
+    vStart += fold_and_print( w, point( column, vStart ), max_width, c_white, oss.str() );
 
     // Hostility indicator on the second line.
     std::pair<std::string, nc_color> att = get_attitude();
-    mvwprintz( w, point( column, ++vStart ), att.second, att.first );
+    mvwprintz( w, point( column, vStart++ ), att.second, att.first );
 
     // Awareness indicator in the third line.
     bool sees_player = sees( get_player_character() );
     std::string senses_str = sees_player ? _( "Can see to your current location" ) :
                              _( "Can't see to your current location" );
-    mvwprintz( w, point( column, ++vStart ), sees_player ? c_red : c_green, senses_str );
+    vStart += fold_and_print( w, point( column, vStart ), max_width, sees_player ? c_red : c_green,
+                              senses_str );
 
     // Monster description on following lines.
     std::vector<std::string> lines = foldstring( type->get_description(), max_width );
     int numlines = lines.size();
     for( int i = 0; i < numlines && vStart < vEnd; i++ ) {
-        mvwprintz( w, point( column, ++vStart ), c_light_gray, lines[i] );
+        mvwprintz( w, point( column, vStart++ ), c_light_gray, lines[i] );
+    }
+
+    if( !mission_fused.empty() ) {
+        // Mission monsters fused into this monster
+        const std::string fused_desc = string_format( _( "Parts of %s protrude from its body." ),
+                                       enumerate_as_string( mission_fused ) );
+        lines = foldstring( fused_desc, max_width );
+        numlines = lines.size();
+        for( int i = 0; i < numlines && vStart < vEnd; i++ ) {
+            mvwprintz( w, point( column, ++vStart ), c_light_gray, lines[i] );
+        }
     }
 
     // Riding indicator on next line after description.
@@ -734,6 +748,13 @@ std::string monster::extended_description() const
     ss += "--\n";
     ss += string_format( "<dark>%s</dark>", type->get_description() ) + "\n";
     ss += "--\n";
+    if( !mission_fused.empty() ) {
+        // Mission monsters fused into this monster
+        const std::string fused_desc = string_format( _( "Parts of %s protrude from its body." ),
+                                       enumerate_as_string( mission_fused ) );
+        ss += string_format( "<dark>%s</dark>", fused_desc ) + "\n";
+        ss += "--\n";
+    }
 
     ss += string_format( _( "It is %s in size." ),
                          size_names.at( get_size() ) ) + "\n";
@@ -1079,13 +1100,20 @@ monster_attitude monster::attitude( const Character *u ) const
 
     if( u != nullptr ) {
         // Those are checked quite often, so avoiding string construction is a good idea
+        static const string_id<monfaction> faction_acid_ant( "acid_ant" );
+        static const string_id<monfaction> faction_ant( "ant" );
         static const string_id<monfaction> faction_bee( "bee" );
+        static const string_id<monfaction> faction_wasp( "wasp" );
         if( faction == faction_bee ) {
             if( u->has_trait( trait_BEE ) ) {
                 return MATT_FRIEND;
             } else if( u->has_trait( trait_FLOWERS ) ) {
                 effective_anger -= 10;
             }
+        }
+        auto *u_fac = u->get_faction();
+        if( u_fac && faction == u_fac->mon_faction ) {
+            return MATT_FRIEND;
         }
 
         if( type->in_species( species_FUNGUS ) && ( u->has_trait( trait_THRESH_MYCUS ) ||
@@ -1094,8 +1122,12 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         if( effective_anger >= 10 &&
-            ( ( type->in_species( species_MAMMAL ) && u->has_trait( trait_PHEROMONE_MAMMAL ) ) ||
-              ( type->in_species( species_INSECT ) && u->has_trait( trait_PHEROMONE_INSECT ) ) ) ) {
+            type->in_species( species_MAMMAL ) && u->has_trait( trait_PHEROMONE_MAMMAL ) ) {
+            effective_anger -= 20;
+        }
+
+        if( ( faction == faction_acid_ant || faction == faction_ant || faction == faction_bee ||
+              faction == faction_wasp ) && effective_anger >= 10 && u->has_trait( trait_PHEROMONE_INSECT ) ) {
             effective_anger -= 20;
         }
 
@@ -1132,17 +1164,18 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         for( const trait_id &mut : u->get_mutations() ) {
-            for( const std::pair<const species_id, int> &elem : mut.obj().anger_relations ) {
-                if( type->in_species( elem.first ) ) {
-                    effective_anger += elem.second;
-                }
+            const mutation_branch &branch = *mut;
+            if( branch.ignored_by.empty() && branch.anger_relations.empty() ) {
+                continue;
             }
-        }
-
-        for( const trait_id &mut : u->get_mutations() ) {
-            for( const species_id &spe : mut.obj().ignored_by ) {
+            for( const species_id &spe : branch.ignored_by ) {
                 if( type->in_species( spe ) ) {
                     return MATT_IGNORE;
+                }
+            }
+            for( const std::pair<const species_id, int> &elem : branch.anger_relations ) {
+                if( type->in_species( elem.first ) ) {
+                    effective_anger += elem.second;
                 }
             }
         }
@@ -1282,8 +1315,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     }
 
     if( effect == effect_bleed ) {
-        return !has_flag( MF_WARM ) ||
-               !made_of( material_id( "flesh" ) );
+        return type->bloodType() == fd_null;
     }
 
     if( effect == effect_paralyzepoison ||
@@ -1354,23 +1386,24 @@ void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
     }
 }
 
-void monster::melee_attack( Creature &target )
+bool monster::melee_attack( Creature &target )
 {
-    melee_attack( target, get_hit() );
+    return melee_attack( target, get_hit() );
 }
 
-void monster::melee_attack( Creature &target, float accuracy )
+bool monster::melee_attack( Creature &target, float accuracy )
 {
-    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
+    // Note: currently this method must consume move even if attack hasn't actually happen
+    // otherwise infinite loop will happen
     mod_moves( -type->attack_cost );
-    if( type->melee_dice == 0 ) {
-        // We don't attack, so just return
-        return;
+    if( /*This happens sometimes*/ this == &target || !is_adjacent( &target, true ) ) {
+        return false;
     }
 
-    if( this == &target ) {
-        // This happens sometimes
-        return;
+    int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
+    if( type->melee_dice == 0 ) {
+        // We don't hit, so just return
+        return true;
     }
 
     Character &player_character = get_player_character();
@@ -1493,11 +1526,11 @@ void monster::melee_attack( Creature &target, float accuracy )
         if( one_in( 7 ) ) {
             die( nullptr );
         }
-        return;
+        return true;
     }
 
     if( total_dealt <= 0 ) {
-        return;
+        return true;
     }
 
     // Add any on damage effects
@@ -1526,6 +1559,7 @@ void monster::melee_attack( Creature &target, float accuracy )
         target.add_msg_if_player( m_bad, _( "You feel venom enter your body!" ) );
         target.add_effect( effect_paralyzepoison, 10_minutes );
     }
+    return true;
 }
 
 void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
@@ -1958,7 +1992,7 @@ float monster::get_melee() const
     return type->melee_skill;
 }
 
-float monster::dodge_roll()
+float monster::dodge_roll() const
 {
     return get_dodge() * 5;
 }
@@ -2197,10 +2231,7 @@ void monster::die( Creature *nkiller )
     g->set_critter_died();
     dead = true;
     set_killer( nkiller );
-    if( !death_drops ) {
-        return;
-    }
-    if( !no_extra_death_drops ) {
+    if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death();
     }
     // TODO: should actually be class Character
@@ -2221,22 +2252,24 @@ void monster::die( Creature *nkiller )
             ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
         }
     }
-    // Drop items stored in optionals
-    move_special_item_to_inv( tack_item );
-    move_special_item_to_inv( armor_item );
-    move_special_item_to_inv( storage_item );
-    move_special_item_to_inv( tied_item );
+    if( death_drops ) {
+        // Drop items stored in optionals
+        move_special_item_to_inv( tack_item );
+        move_special_item_to_inv( armor_item );
+        move_special_item_to_inv( storage_item );
+        move_special_item_to_inv( tied_item );
 
-    if( has_effect( effect_lightsnare ) ) {
-        add_item( item( "string_36", 0 ) );
-        add_item( item( "snare_trigger", 0 ) );
-    }
-    if( has_effect( effect_heavysnare ) ) {
-        add_item( item( "rope_6", 0 ) );
-        add_item( item( "snare_trigger", 0 ) );
-    }
-    if( has_effect( effect_beartrap ) ) {
-        add_item( item( "beartrap", 0 ) );
+        if( has_effect( effect_lightsnare ) ) {
+            add_item( item( "string_36", calendar::turn_zero ) );
+            add_item( item( "snare_trigger", calendar::turn_zero ) );
+        }
+        if( has_effect( effect_heavysnare ) ) {
+            add_item( item( "rope_6", calendar::turn_zero ) );
+            add_item( item( "snare_trigger", calendar::turn_zero ) );
+        }
+        if( has_effect( effect_beartrap ) ) {
+            add_item( item( "beartrap", calendar::turn_zero ) );
+        }
     }
     map &here = get_map();
     if( has_effect( effect_grabbing ) ) {
@@ -2261,7 +2294,7 @@ void monster::die( Creature *nkiller )
             }
         }
     }
-    if( !is_hallucination() ) {
+    if( death_drops && !is_hallucination() ) {
         for( const auto &it : inv ) {
             here.add_item_or_charges( pos(), it );
         }
@@ -2372,7 +2405,7 @@ void monster::drop_items_on_death()
         std::vector<item> remaining;
         for( const item &it : items ) {
             // Mission items are not affected by item spawn rate
-            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( STATIC( flag_str_id( "MISSION_ITEM" ) ) ) ) {
+            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( STATIC( flag_id( "MISSION_ITEM" ) ) ) ) {
                 remaining.push_back( it );
             }
         }
@@ -2389,7 +2422,7 @@ void monster::drop_items_on_death()
         for( const auto &it : dropped ) {
             if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
                 // handle wearable guns as a special case
-                it->set_flag( STATIC( flag_str_id( "FILTHY" ) ) );
+                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
             }
         }
     }
@@ -2442,12 +2475,15 @@ void monster::process_one_effect( effect &it, bool is_new )
         effect_cache[FLEEING] = true;
     } else if( id == effect_no_sight || id == effect_blind ) {
         effect_cache[VISION_IMPAIRED] = true;
-    } else if( id == effect_bleed && x_in_y( it.get_intensity(), it.get_max_intensity() ) ) {
-        // monsters are simplified so they just take damage from bleeding
-        apply_damage( it.get_source().resolve_creature(), bodypart_id( "torso" ), 1 );
+    } else if( ( id == effect_bleed || id == effect_dripping_mechanical_fluid ) &&
+               x_in_y( it.get_intensity(), it.get_max_intensity() ) ) {
         // this is for balance only
         it.mod_duration( -rng( 1_turns, it.get_int_dur_factor() / 2 ) );
         bleed();
+        if( id == effect_bleed ) {
+            // monsters are simplified so they just take damage from bleeding
+            apply_damage( it.get_source().resolve_creature(), bodypart_id( "torso" ), 1 );
+        }
     }
 }
 

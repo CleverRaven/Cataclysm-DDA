@@ -56,7 +56,7 @@
     "color": "yellow_red",
     "move_cost": 0,
     "coverage": 65,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "LIQUIDCONT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "LIQUIDCONT" ],
     "examine_action": "gaspump"
   },
   {
@@ -453,7 +453,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 65,
-    "flags": [ "PLACE_ITEM" ],
+    "flags": [ "PLACE_ITEM", "NANOFAB_TABLE" ],
     "bash": {
       "str_min": 120,
       "str_max": 150,
@@ -481,6 +481,7 @@
     "name": "nanofabricator control panel",
     "symbol": "&",
     "description": "A small computer panel attached to a nanofabricator.  It has a single slot for reading templates.",
+    "allowed_template_ids": [ "standard_template_construct", "debug_template" ],
     "color": "red",
     "looks_like": "f_console",
     "move_cost": 0,
@@ -518,7 +519,7 @@
     "move_cost": 0,
     "coverage": 40,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL" ],
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL", "NO_SPOIL" ],
     "bash": {
       "str_min": 2,
       "str_max": 80,

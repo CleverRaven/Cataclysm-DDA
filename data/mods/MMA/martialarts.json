@@ -3,7 +3,7 @@
     "type": "martial_art",
     "id": "style_mma_desert_wind",
     "name": { "str": "Desert Wind" },
-    "description": "Desert Wind maneuvers focus on quick movement and swirling, flaming strikes.  The complex spinning and slashing of the curved blade incorporated into many Desert Wind maneuvers are in fact carefully honed gestures that evoke the power of fire, if performed correctly and with the proper focus.",
+    "description": "Followers of the Desert Wind discipline learn to channel their inner strength into powerful spirals of fire.  Always on the move, Desert Wind students use their weapons as a conduit to burn their opponents with searing flames.  Furthermore, these flames expand outward with explosive force, damaging anyone nearby.",
     "initiate": [
       "You feel a wave of heat wash over you as you assume a running combat stance.",
       "%s assumes into a running combat stance."
@@ -15,7 +15,7 @@
       {
         "id": "mma_buff_desert_wind_ondodge",
         "name": "Zephyr Dance",
-        "description": "You spin gracefully away from attacks, whirling like the dersert zephyr racing across the sands.\n\n+1.0 Dodging skill, +1 Dodge attempt\nLasts 1 turn.",
+        "description": "Your graceful and fluid movements allow you to avoid attacks with ease.\n\n+1.0 Dodging skill, +1 Dodge attempt\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "buff_duration": 2,
@@ -27,7 +27,7 @@
       {
         "id": "mma_buff_desert_wind_onmove",
         "name": "Wind Stride",
-        "description": "A warm breeze swirls about you as you move speedily away.\n\n+1.0 Dodging skill.\nLasts 1 turn.",
+        "description": "Your movement is hastened as if a strong wind is always at your back.\n\n+1.0 Dodging skill.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "buff_duration": 1,
@@ -66,7 +66,7 @@
     "type": "martial_art",
     "id": "style_mma_diamond_mind",
     "name": { "str": "Diamond Mind" },
-    "description": "True quickness lies in the mind, not the body.  A student of the Diamond Mind discipline seeks to hone his perceptions and discipline his thoughts so that he can act in slivers of time so narrow that others cannot even perceive them.  A corollary of this speed of thought and action is the concept of the mind as the battleground.  An enemy defeated in his mind must inevitably.",
+    "description": "A student of the Diamond Mind discipline has honed their mind to defeat any opponent.  With quick reflexes and surgical percision, they are able to move so fast that their opponents are unable react.  Marked by unparrelled confidence, those that hesitate for even a moment will fall before them in the blink of an eye.",
     "initiate": [ "You concentrate and become very still for a moment.", "%s becomes very still for a moment." ],
     "learn_difficulty": 10,
     "primary_skill": "cutting",
@@ -75,7 +75,7 @@
       {
         "id": "mma_buff_diamond_mind_static",
         "name": "Stance of Alacrity",
-        "description": "You move slightly faster than normal due to a combination of confidence, raining, and clarity of mind.  This slight edge adds up with each action.\n\n-10% move cost",
+        "description": "Your mind is clearer than normal.  This clarity allows you to move slightly faster in combat.\n\n-10% move cost",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "mult_bonuses": [ { "stat": "movecost", "scale": 0.85 } ]
@@ -85,7 +85,7 @@
       {
         "id": "mma_buff_diamond_mind_ondodge",
         "name": "Pearl of Black Doubt",
-        "description": "With every miss, your opponents become more uncertain, their doubt growing like an irritating pearl in the mouth of a helpless oyster.\n\n+1 Dodge attempt\nLasts 1 turn.  Stacks 2 times",
+        "description": "Each attack that misses you casts doubt on your opponents' skill.  It becomes more obvious with each failed attack how untouchable you are.\n\n+1 Dodge attempt\nLasts 1 turn.  Stacks 2 times",
         "melee_allowed": true,
         "buff_duration": 1,
         "max_stacks": 2,
@@ -96,7 +96,7 @@
       {
         "id": "mma_buff_diamond_mind_ongethit",
         "name": "Mind over Body",
-        "description": "Your training and mental toughness allow you to use your focus to overcome physical threats.\n\n+1 Accuracy.\nLasts 1 turn.  Stacks 2 times",
+        "description": "Your well trained mind allows you to briefly shrug off the effects of pain while in combat.\n\n+1 Accuracy.\nLasts 1 turn.  Stacks 2 times",
         "skill_requirements": [ { "name": "melee", "level": 2 } ],
         "melee_allowed": true,
         "buff_duration": 1,
@@ -108,7 +108,7 @@
       {
         "id": "mma_buff_diamond_mind_onpause",
         "name": "Quicksilver Motion",
-        "description": "In the blink of an eye, you make your move.  Your speed, reflexes, and boundless confidence combine to allow you to make a fast, bold move that catches your foes off guard.\n\n+50 Speed.\nLasts 1 turn.",
+        "description": "Taking a moment to concentrate, you surge foward with incredible speed and act in the blink of an eye.\n\n+50 Speed.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 5 } ],
         "melee_allowed": true,
         "buff_duration": 1,
@@ -234,7 +234,7 @@
     "type": "martial_art",
     "id": "style_mma_iron_heart",
     "name": { "str": "Iron Heart" },
-    "description": "Absolute mastery of the sword is the goal of the Iron Heart discipline.  Through unending practice and study, the Iron Heart adept achieves superhuman skill with her weapons.  Iron Heart maneuvers are demonstrations of uncanny martial skill—weaving patterns of steel that dizzy, confuse, and ultimately kill with no recourse.",
+    "description": "The Iron Heart discipline is the study of combat.  Nothing more but also nothing less.  Iron Heart students practice endlessly to achieve a complete and absolute mastery of their weapon.  Users of Iron Heart are easily able to disable and dispatch opponents with superior skill and technique.  Only the fool would attempt to fight an Iron Heart student head-on.",
     "initiate": [ "You push away your fear and stand tall.", "%s takes a bold and fearless stance." ],
     "learn_difficulty": 10,
     "primary_skill": "cutting",
@@ -365,7 +365,7 @@
     "type": "martial_art",
     "id": "style_mma_setting_sun",
     "name": { "str": "Setting Sun" },
-    "description": "The Setting Sun discipline teaches its initiates to turn their opponents' strength against them.  With a quick shift in stance and carefully aimed attack, a Setting Sun warrior sends a charging enemy tumbling in a new direction.",
+    "description": "The Setting Sun discipline teaches its initiates to turn their opponents' advantages into disadvantages.  Students of this discipline are able to able to fool their opponents and then turn their strength against them with a powerful throw.",
     "initiate": [ "You shift your weight and prepare to defend yourself.", "%s shifts their weight and assumes a new stance." ],
     "arm_block": 0,
     "learn_difficulty": 10,
@@ -374,7 +374,7 @@
       {
         "id": "mma_buff_setting_sun_ongethit",
         "name": "Feigned Opening",
-        "description": "By intentionally openning your guard, you force your opponent to overextend and are able to take full advantage of your next attack!\n\n+20 Speed.\nLasts 1 turn.",
+        "description": "By faking an opening, you able to throw your opponent off balance and act quicker for a short time.\n\n+20 Speed.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
@@ -386,7 +386,7 @@
       {
         "id": "mma_buff_setting_sun_onpause",
         "name": "Baffling Defense",
-        "description": "You intentionally move and position yourself awkwardly to confuse and throw off your opponents.\n\nDodging Skill increased by 20% of Intelligence, enables \"Mighty Throw\" and \"Ballista Throw\" techniques.\nLasts 1 turn.",
+        "description": "You ready yourself for your opponent attack while preparing to send them flying!\n\nDodging Skill increased by 20% of Intelligence, enables \"Mighty Throw\" and \"Ballista Throw\" techniques.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
@@ -488,7 +488,7 @@
     "type": "martial_art",
     "id": "style_mma_stone_dragon",
     "name": { "str": "Stone Dragon" },
-    "description": "The Stone Dragon discipline for focuses on strength, power, and toughness.  Its teachings grant a martial adept the ability to splinter steel with a single, focused blow.  Stone Dragon's defensive abilities focus on tapping into the enduring power of stone to turn aside attacks.",
+    "description": "Strength, endurance, and patience are the cornerstones of the Stone Dragon discipline.  Stone Dragon students are taught to end battles with a single, powerful blow.  By standing still for a moment, the user can fortify themselves with the power of stone.",
     "initiate": [ "You dig your heels into the ground and steady yourself.", "%s digs their heels into the ground." ],
     "learn_difficulty": 10,
     "primary_skill": "cutting",
@@ -496,7 +496,7 @@
       {
         "id": "mma_buff_stone_dragon_static",
         "name": "Stonefoot Stance",
-        "description": "You crouch and set your feet flat on the ground, drawing the resilience of the earth into your body.  However, moving too much will break your stance.\n\n+10% damage, +2 bash, cut, and stab armor.",
+        "description": "You maintain a steady stance that improves your combat prowless.  However, moving too much will break your stance.\n\n+10% damage, +2 bash, cut, and stab armor.",
         "melee_allowed": true,
         "unarmed_allowed": true,
         "flat_bonuses": [
@@ -515,7 +515,7 @@
       {
         "id": "mma_buff_stone_dragon_oncrit",
         "name": "Iron Bones",
-        "description": "When you make a successful attack, you enter a meditative state that leaves you almost invulnerable to harm.\n\n+5 bash, cut, and stab armor.\nLasts 1 turn.",
+        "description": "With a powerful strike, you further fortify yourself again counterattacks!\n\n+5 bash, cut, and stab armor.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 2 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
@@ -531,7 +531,7 @@
       {
         "id": "mma_buff_stone_dragon_onhit",
         "name": "Stone Bones",
-        "description": "You focus your energy to enhance your defenses, drawing on the power of your weapon's impact with a foe to toughen yourself against a counterattack.\n\n+1 bash, cut, and stab armor.\nLasts 1 turn.  Stacks 5 times.",
+        "description": "Each attack against your opponents slowly steels your defenses.\n\n+1 bash, cut, and stab armor.\nLasts 1 turn.  Stacks 5 times.",
         "skill_requirements": [ { "name": "melee", "level": 2 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
@@ -590,7 +590,7 @@
     "type": "martial_art",
     "id": "style_mma_tiger_claw",
     "name": { "str": "Tiger Claw" },
-    "description": "The Tiger Claw discipline embraces a feral rage that lurks within the heart of its initiates.  In battle, such warriors growl like wild animals, attack with a furry similar to that of a barbarian, and rely on overwhelming, vicious assaults to defeat their enemies.",
+    "description": "The Tiger Claw discipline embraces the fury and power of a wild beast.  Attacks from a Tiger Claw student are vicious and very few can stand against the might of a frenzied animal.",
     "initiate": [ "You emit a low growl as you prepare for battle.", "%s hunkers down like a wild animal." ],
     "learn_difficulty": 10,
     "primary_skill": "cutting",
@@ -609,7 +609,7 @@
       {
         "id": "mma_buff_tiger_claw_oncrit",
         "name": "Blood In The Water",
-        "description": "The smell of blood drives you into a fury.  You want more.  NOW!\n\n+1 Accuracy, +15% damage.\nLasts 1 turn.  Stacks 2 times.",
+        "description": "The scent of blood is near.  You want more.  NOW!\n\n+1 Accuracy, +15% damage.\nLasts 1 turn.  Stacks 2 times.",
         "skill_requirements": [ { "name": "melee", "level": 4 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
@@ -639,7 +639,7 @@
       {
         "id": "mma_buff_tiger_claw_onkill",
         "name": "Prey on the Weak",
-        "description": "You scythe through weaker foes like a mighty predator turned loose among a herd of prey.\n\n+30 Speed.\nLasts 2 turns.  Stacks 2 times",
+        "description": "You have started culling the herd.  It should be easier remove the rest now.\n\n+30 Speed.\nLasts 2 turns.  Stacks 2 times",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,
@@ -652,7 +652,7 @@
       {
         "id": "mma_buff_tiger_claw_onmove",
         "name": "Pounching Charge",
-        "description": "With the roar of a wild beast, you throw yourself into the fray.  Strike first and strike hard.\n\n+2 Accuracy, +10% damage.\nLasts 1 turn.",
+        "description": "You recklessly throw yourself into battle to overpower your prey.  Strike first and strike hard.\n\n+2 Accuracy, +10% damage.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
         "unarmed_allowed": true,

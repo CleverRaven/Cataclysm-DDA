@@ -502,7 +502,7 @@
   {
     "id": "thorns_electric",
     "type": "ARMOR",
-    "name": "aura of repelling arc",
+    "name": { "str": "aura of repelling arc", "str_pl": "auras of repelling arc" },
     "description": "An invisible aura that strikes melee attackers with arcs of electricity.",
     "weight": "1 g",
     "volume": "1 ml",
@@ -742,6 +742,20 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 6 } ] } ]
+    }
+  },
+  {
+    "id": "longsword_holy",
+    "type": "GENERIC",
+    "copy-from": "longsword",
+    "name": { "str": "holy sword" },
+    "description": "This is a summoned medieval sword, between the lighter arming sword and later two-handed swords in size.  It glows slightly and its edge is exceedingly sharp.",
+    "material": [ "superalloy" ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "LIGHT_2", "TRADER_AVOID" ],
+    "bashing": 11,
+    "cutting": 42,
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 10 } ] } ]
     }
   }
 ]

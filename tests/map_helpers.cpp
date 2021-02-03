@@ -13,6 +13,7 @@
 #include "npc.h"
 #include "point.h"
 #include "type_id.h"
+#include "clzones.h"
 
 // Remove all vehicles from the map
 void clear_vehicles()
@@ -20,6 +21,19 @@ void clear_vehicles()
     map &here = get_map();
     for( wrapped_vehicle &veh : here.get_vehicles() ) {
         here.destroy_vehicle( veh.v );
+    }
+}
+
+void clear_radiation()
+{
+    map &here = get_map();
+    const int mapsize = here.getmapsize() * SEEX;
+    for( int z = -1; z <= OVERMAP_HEIGHT; ++z ) {
+        for( int x = 0; x < mapsize; ++x ) {
+            for( int y = 0; y < mapsize; ++y ) {
+                here.set_radiation( { x, y, z}, 0 );
+            }
+        }
     }
 }
 
@@ -85,6 +99,19 @@ void clear_items( const int zlevel )
     }
 }
 
+void clear_zones()
+{
+    zone_manager &zm = zone_manager::get_manager();
+    for( auto zone_ref : zm.get_zones( faction_id( "your_followers" ) ) ) {
+        if( !zone_ref.get().get_is_vehicle() ) {
+            // Trying to delete vehicle zones fails with a message that the zone isn't loaded.
+            // Don't need it right now and the errors spam up the test output, so skip.
+            continue;
+        }
+        zm.remove( zone_ref.get() );
+    }
+}
+
 void clear_map()
 {
     // Clearing all z-levels is rather slow, so just clear the ones I know the
@@ -92,6 +119,7 @@ void clear_map()
     for( int z = -2; z <= 0; ++z ) {
         clear_fields( z );
     }
+    clear_zones();
     wipe_map_terrain();
     clear_npcs();
     clear_creatures();

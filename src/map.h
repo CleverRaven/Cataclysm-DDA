@@ -26,6 +26,7 @@
 #include "game_constants.h"
 #include "item.h"
 #include "item_stack.h"
+#include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
 #include "lru_cache.h"
@@ -36,6 +37,7 @@
 #include "string_id.h"
 #include "type_id.h"
 #include "units_fwd.h"
+#include "reachability_cache.h"
 
 struct scent_block;
 template <typename T> class safe_reference;
@@ -79,7 +81,6 @@ struct MonsterGroupResult;
 struct mongroup;
 struct projectile;
 struct veh_collision;
-template<typename T>
 class visitable;
 
 struct wrapped_vehicle {
@@ -157,64 +158,6 @@ struct bash_params {
     bool bashing_from_above = false;
 };
 
-struct level_cache {
-    // Zeros all relevant values
-    level_cache();
-    level_cache( const level_cache &other ) = default;
-
-    std::bitset<MAPSIZE *MAPSIZE> transparency_cache_dirty;
-    bool outside_cache_dirty = false;
-    bool floor_cache_dirty = false;
-    bool seen_cache_dirty = false;
-    // This is a single value indicating that the entire level is floored.
-    bool no_floor_gaps = false;
-
-    four_quadrants lm[MAPSIZE_X][MAPSIZE_Y];
-    float sm[MAPSIZE_X][MAPSIZE_Y];
-    // To prevent redundant ray casting into neighbors: precalculate bulk light source positions.
-    // This is only valid for the duration of generate_lightmap
-    float light_source_buffer[MAPSIZE_X][MAPSIZE_Y];
-
-    // if false, means tile is under the roof ("inside"), true means tile is "outside"
-    // "inside" tiles are protected from sun, rain, etc. (see "INDOORS" flag)
-    bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
-
-    // true when vehicle below has "ROOF" or "OPAQUE" part, furniture below has "SUN_ROOF_ABOVE"
-    //      or terrain doesn't have "NO_FLOOR" flag
-    // false otherwise
-    // i.e. true == has floor
-    bool floor_cache[MAPSIZE_X][MAPSIZE_Y];
-
-    // stores cached transparency of the tiles
-    // units: "transparency" (see LIGHT_TRANSPARENCY_OPEN_AIR)
-    float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
-
-    // stores "adjusted transparency" of the tiles
-    // initial values derived from transparency_cache, uses same units
-    // examples of adjustment: changed transparency on player's tile and special case for crouching
-    float vision_transparency_cache[MAPSIZE_X][MAPSIZE_Y];
-
-    // stores "visibility" of the tiles to the player
-    // values range from 1 (fully visible to player) to 0 (not visible)
-    float seen_cache[MAPSIZE_X][MAPSIZE_Y];
-
-    // same as `seen_cache` (same units) but contains values for cameras and mirrors
-    // effective "visibility_cache" is calculated as "max(seen_cache, camera_cache)"
-    float camera_cache[MAPSIZE_X][MAPSIZE_Y];
-
-    // stores resulting apparent brightness to player, calculated by map::apparent_light_at
-    lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
-    std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
-    std::bitset<MAPSIZE *MAPSIZE> field_cache;
-
-    bool veh_in_active_range = false;
-    bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
-    std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
-    std::set<vehicle *> vehicle_list;
-    std::set<vehicle *> zone_vehicles;
-
-};
-
 /**
  * Manage and cache data about a part of the map.
  *
@@ -239,12 +182,13 @@ struct level_cache {
 class map
 {
         friend class editmap;
-        friend class visitable<map_cursor>;
+        friend std::list<item> map_cursor::remove_items_with( const std::function<bool( const item & )> &,
+                int );
 
     public:
         // Constructors & Initialization
-        map( int mapsize = MAPSIZE, bool zlev = true );
-        map( bool zlev ) : map( MAPSIZE, zlev ) { }
+        explicit map( int mapsize = MAPSIZE, bool zlev = true );
+        explicit map( bool zlev ) : map( MAPSIZE, zlev ) { }
         virtual ~map();
 
         map &operator=( map && ) = default;
@@ -260,16 +204,25 @@ class map
         void set_transparency_cache_dirty( const int zlev ) {
             if( inbounds_z( zlev ) ) {
                 get_cache( zlev ).transparency_cache_dirty.set();
+                get_cache( zlev ).r_hor_cache->invalidate();
+                get_cache( zlev ).r_up_cache->invalidate();
             }
         }
 
         // more granular version of the transparency cache invalidation
         // preferred over map::set_transparency_cache_dirty( const int zlev )
         // p is in local coords ("ms")
-        void set_transparency_cache_dirty( const tripoint &p ) {
+        // @param field denotes if change comes from the field
+        //      fields are not considered for some caches, such as reachability_caches
+        //      so passing field=true allows to skip rebuilding of such caches
+        void set_transparency_cache_dirty( const tripoint &p, bool field = false ) {
             if( inbounds( p ) ) {
                 const tripoint smp = ms_to_sm_copy( p );
                 get_cache( smp.z ).transparency_cache_dirty.set( smp.x * MAPSIZE + smp.y );
+                if( !field ) {
+                    get_cache( smp.z ).r_hor_cache->invalidate( p.xy() );
+                    get_cache( smp.z ).r_up_cache->invalidate( p.xy() );
+                }
             }
         }
 
@@ -320,9 +273,9 @@ class map
             if( inbounds_z( zlev ) ) {
                 level_cache &ch = get_cache( zlev );
                 ch.floor_cache_dirty = true;
-                ch.transparency_cache_dirty.set();
                 ch.seen_cache_dirty = true;
                 ch.outside_cache_dirty = true;
+                set_transparency_cache_dirty( zlev );
             }
         }
 
@@ -342,6 +295,31 @@ class map
         }
 
         /**
+         * A pre-filter for bresenham LOS.
+         * true, if there might be is a potential bresenham path between two points.
+         * false, if such path definitely not possible.
+         */
+        bool has_potential_los( const tripoint &from, const tripoint &to,
+                                bool bounds_check = true ) const {
+            if( bounds_check && ( !inbounds( from ) || !inbounds( to ) ) ) {
+                return false;
+            }
+            if( from.z == to.z ) {
+                level_cache &cache = get_cache( from.z );
+                return cache.r_hor_cache->has_potential_los( from.xy(), to.xy(), cache ) &&
+                       cache.r_hor_cache->has_potential_los( to.xy(), from.xy(), cache ) ;
+            }
+            tripoint upper, lower;
+            std::tie( upper, lower ) = from.z > to.z ? std::make_pair( from, to ) : std::make_pair( to, from );
+            // z-bounds depend on the invariant that both points are inbounds and their z are different
+            return get_cache( lower.z ).r_up_cache->has_potential_los(
+                       lower.xy(), upper.xy(), get_cache( lower.z ), get_cache( lower.z + 1 ) );
+        }
+
+        int reachability_cache_value( const tripoint &p, bool vertical_cache,
+                                      reachability_cache_quadrant quadrant ) const;
+
+        /**
          * Callback invoked when a vehicle has moved.
          */
         void on_vehicle_moved( int smz );
@@ -350,7 +328,7 @@ class map
             bool obstructed;
             float apparent_light;
         };
-        /** Helper function for light claculation; exposed here for map editor
+        /** Helper function for light calculation; exposed here for map editor
          */
         static apparent_light_info apparent_light_helper( const level_cache &map_cache,
                 const tripoint &p );
@@ -449,7 +427,8 @@ class map
         std::pair<tripoint, maptile> maptile_has_bounds( const tripoint &p, bool bounds_checked );
         std::array<std::pair<tripoint, maptile>, 8> get_neighbors( const tripoint &p );
         void spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
-                         const time_duration &outdoor_age_speedup, scent_block &sblk );
+                         const time_duration &outdoor_age_speedup, scent_block &sblk,
+                         const oter_id &om_ter );
         void create_hot_air( const tripoint &p, int intensity );
         bool gas_can_spread_to( field_entry &cur, const maptile &dst );
         void gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p );
@@ -607,8 +586,10 @@ class map
         VehicleList get_vehicles();
         void add_vehicle_to_cache( vehicle * );
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
-        void reset_vehicle_cache( int zlev );
-        void clear_vehicle_cache( int zlev );
+        // clears all vehicle level caches
+        void clear_vehicle_level_caches();
+        // clears and build vehicle level caches
+        void rebuild_vehicle_level_caches();
         void clear_vehicle_list( int zlev );
         void update_vehicle_list( const submap *to, int zlev );
         //Returns true if vehicle zones are dirty and need to be recached
@@ -1234,6 +1215,7 @@ class map
 
         void remove_trap( const tripoint &p );
         const std::vector<tripoint> &get_furn_field_locations() const;
+        const std::vector<tripoint> &get_ter_field_locations() const;
         const std::vector<tripoint> &trap_locations( const trap_id &type ) const;
 
         /**
@@ -1249,7 +1231,8 @@ class map
         // See fields.cpp
         void process_fields();
         void process_fields_in_submap( submap *current_submap, const tripoint &submap_pos );
-        bool process_fire_field_in_submap( maptile &map_tile, const tripoint &p, field_entry &cur );
+        bool process_fire_field_in_submap( maptile &map_tile, const tripoint &p, field_entry &cur,
+                                           const oter_id &om_ter );
         /**
          * Apply field effects to the creature when it's on a square with fields.
          */
@@ -1320,6 +1303,10 @@ class map
          */
         int set_field_intensity( const tripoint &p, const field_type_id &type, int new_intensity,
                                  bool isoffset = false );
+
+        // returns true, if there **might** be a field at `p`
+        // if false, there's no fields at `p`
+        bool has_field_at( const tripoint &p, bool check_bounds = true );
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
@@ -1448,16 +1435,16 @@ class map
         void build_obstacle_cache( const tripoint &start, const tripoint &end,
                                    fragment_cloud( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] );
 
-        vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, units::angle dir,
+        vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
-        vehicle *add_vehicle( const vgroup_id &type, const point &p, units::angle dir,
+        vehicle *add_vehicle( const vgroup_id &type, const point &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
-        vehicle *add_vehicle( const vproto_id &type, const tripoint &p, units::angle dir,
+        vehicle *add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
-        vehicle *add_vehicle( const vproto_id &type, const point &p, units::angle dir,
+        vehicle *add_vehicle( const vproto_id &type, const point &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,
                               bool merge_wrecks = true );
         // Light/transparency
@@ -1626,7 +1613,6 @@ class map
         void copy_grid( const tripoint &to, const tripoint &from );
         void draw_map( mapgendata &dat );
 
-        void draw_office_tower( const mapgendata &dat );
         void draw_lab( mapgendata &dat );
         void draw_temple( const mapgendata &dat );
         void draw_mine( mapgendata &dat );
@@ -1746,7 +1732,7 @@ class map
         /**
          * Conditionally invalidates max_pupulated_zlev cache if the submap uniformity change occurs above current
          *  max_pupulated_zlev value
-         * @param zlev zlevel where uniformity change occured
+         * @param zlev zlevel where uniformity change occurred
          */
         void invalidate_max_populated_zlev( int zlev );
 
@@ -1788,8 +1774,8 @@ class map
         void add_light_source( const tripoint &p, float luminance );
         // Handle just cardinal directions and 45 deg angles.
         void apply_directional_light( const tripoint &p, int direction, float luminance );
-        void apply_light_arc( const tripoint &p, units::angle, float luminance,
-                              units::angle wideangle = 30_degrees );
+        void apply_light_arc( const tripoint &p, const units::angle &angle, float luminance,
+                              const units::angle &wideangle = 30_degrees );
         void apply_light_ray( bool lit[MAPSIZE_X][MAPSIZE_Y],
                               const tripoint &s, const tripoint &e, float luminance );
         void add_light_from_items( const tripoint &p, const item_stack::iterator &begin,
@@ -1844,7 +1830,7 @@ class map
          */
         std::vector<submap *> grid;
         /**
-         * This vector contains an entry for each trap type, it has therefor the same size
+         * This vector contains an entry for each trap type, it has therefore the same size
          * as the traplist vector. Each entry contains a list of all point on the map that
          * contain a trap of that type. The first entry however is always empty as it denotes the
          * tr_null trap.
@@ -1854,6 +1840,10 @@ class map
          * Vector of tripoints containing active field-emitting furniture
          */
         std::vector<tripoint> field_furn_locs;
+        /**
+         * Vector of tripoints containing active field-emitting terrain
+         */
+        std::vector<tripoint> field_ter_locs;
         /**
          * Holds caches for visibility, light, transparency and vehicles
          */
@@ -1942,7 +1932,7 @@ class tinymap : public map
 {
         friend class editmap;
     public:
-        tinymap( int mapsize = 2, bool zlevels = false );
+        explicit tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
 };
 

@@ -44,7 +44,7 @@ template <class T1, class T2>
 struct ContainsPredicate {
     const T1 &container;
 
-    ContainsPredicate( const T1 &container ) : container( container ) { }
+    explicit ContainsPredicate( const T1 &container ) : container( container ) { }
 
     // Operator overload required to leverage std functional interface.
     bool operator()( T2 c ) {
@@ -317,7 +317,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             }
 
             if( keybinding.has_member( "mod" ) ) {
-                for( const JsonValue &val : keybinding.get_array( "mod" ) ) {
+                for( const JsonValue val : keybinding.get_array( "mod" ) ) {
                     const std::string str = val;
                     keymod_t mod = keymod_t::ctrl;
                     if( str == "ctrl" ) {

@@ -5,6 +5,8 @@
 
 #include "calendar.h"
 #include "int_id.h"
+#include "make_static.h"
+#include "rng.h"
 
 int field_entry::move_cost() const
 {
@@ -142,7 +144,34 @@ time_duration field_entry::get_field_age() const
 
 time_duration field_entry::set_field_age( const time_duration &new_age )
 {
+    decay_time = time_point();
     return age = new_age;
+}
+
+void field_entry::do_decay()
+{
+    // Bypass set_field_age() so we don't reset decay_time;
+    age += 1_turns;
+    if( type.obj().half_life > 0_turns && get_field_age() > 0_turns ) {
+        // Legacy handling for fire because it's weird and complicated.
+        if( type == STATIC( field_type_str_id( "fd_fire" ) ) ) {
+            if( to_turns<int>( type->half_life ) < dice( 2, to_turns<int>( age ) ) ) {
+                set_field_age( 0_turns );
+                set_field_intensity( get_field_intensity() - 1 );
+            }
+            return;
+        }
+        if( decay_time == calendar::turn_zero ) {
+            std::exponential_distribution<> d( 1.0f / ( M_LOG2E * to_turns<float>
+                                               ( type.obj().half_life ) ) );
+            const time_duration decay_delay = time_duration::from_turns( d( rng_get_engine() ) );
+            decay_time = calendar::turn - age + decay_delay;
+        }
+        if( decay_time <= calendar::turn ) {
+            set_field_age( 0_turns );
+            set_field_intensity( get_field_intensity() - 1 );
+        }
+    }
 }
 
 field::field()

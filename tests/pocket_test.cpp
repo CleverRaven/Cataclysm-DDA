@@ -6,6 +6,7 @@
 #include "enums.h"
 #include "flag.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "optional.h"
@@ -289,7 +290,7 @@ TEST_CASE( "max container volume", "[pocket][max_contains_volume]" )
 
         // 9mm ammo is 50 rounds per 250ml (or 200 rounds per liter), so this ammo box
         // should be exactly 1 liter in size, so it can contain this much ammo.
-        data_ammo_box.ammo_restriction.emplace( ammotype( "9mm" ), 200 );
+        data_ammo_box.ammo_restriction.emplace( ammotype( "test_9mm" ), 200 );
         REQUIRE_FALSE( data_ammo_box.ammo_restriction.empty() );
 
         // And because actual volume is derived from ammo needs, this volume should be ignored.
@@ -334,20 +335,20 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
         //      "ammo_restriction": { "9mm", 10 }
         //
         const int full_clip_qty = 10;
-        data_mag.ammo_restriction.emplace( ammotype( "9mm" ), full_clip_qty );
+        data_mag.ammo_restriction.emplace( ammotype( "test_9mm" ), full_clip_qty );
         item_pocket pocket_mag( &data_mag );
 
         WHEN( "it does not already contain any ammo" ) {
             REQUIRE( pocket_mag.empty() );
 
             THEN( "it can contain a full clip of 9mm ammo" ) {
-                const item ammo_9mm( "test_9mm_ammo", 0, full_clip_qty );
+                const item ammo_9mm( "test_9mm_ammo", calendar::turn_zero, full_clip_qty );
                 expect_can_contain( pocket_mag, ammo_9mm );
             }
 
             THEN( "it cannot contain items of the wrong ammo type" ) {
                 item rock( "test_rock" );
-                item ammo_45( "test_45_ammo", 0, 1 );
+                item ammo_45( "test_45_ammo", calendar::turn_zero, 1 );
                 expect_cannot_contain( pocket_mag, rock, "item is not the correct ammo type",
                                        item_pocket::contain_code::ERR_AMMO );
                 expect_cannot_contain( pocket_mag, ammo_45, "item is not the correct ammo type",
@@ -363,16 +364,18 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
 
         WHEN( "it is partly full of ammo" ) {
             const int half_clip_qty = full_clip_qty / 2;
-            item ammo_9mm_half_clip( "test_9mm_ammo", 0, half_clip_qty );
+            item ammo_9mm_half_clip( "test_9mm_ammo", calendar::turn_zero, half_clip_qty );
             expect_can_insert( pocket_mag, ammo_9mm_half_clip );
 
             THEN( "it can contain more of the same ammo" ) {
-                item ammo_9mm_refill( "test_9mm_ammo", 0, full_clip_qty - half_clip_qty );
+                item ammo_9mm_refill( "test_9mm_ammo", calendar::turn_zero,
+                                      full_clip_qty - half_clip_qty );
                 expect_can_contain( pocket_mag, ammo_9mm_refill );
             }
 
             THEN( "it cannot contain more ammo than ammo_restriction allows" ) {
-                item ammo_9mm_overfill( "test_9mm_ammo", 0, full_clip_qty - half_clip_qty + 1 );
+                item ammo_9mm_overfill( "test_9mm_ammo", calendar::turn_zero,
+                                        full_clip_qty - half_clip_qty + 1 );
                 expect_cannot_contain( pocket_mag, ammo_9mm_overfill,
                                        "tried to put too many charges of ammo in item",
                                        item_pocket::contain_code::ERR_NO_SPACE );
@@ -380,11 +383,11 @@ TEST_CASE( "magazine with ammo restriction", "[pocket][magazine][ammo_restrictio
         }
 
         WHEN( "it is completely full of ammo" ) {
-            item ammo_9mm_full_clip( "test_9mm_ammo", 0, full_clip_qty );
+            item ammo_9mm_full_clip( "test_9mm_ammo", calendar::turn_zero, full_clip_qty );
             expect_can_insert( pocket_mag, ammo_9mm_full_clip );
 
             THEN( "it cannot contain any more of the same ammo" ) {
-                item ammo_9mm_bullet( "test_9mm_ammo", 0, 1 );
+                item ammo_9mm_bullet( "test_9mm_ammo", calendar::turn_zero, 1 );
                 expect_cannot_contain( pocket_mag, ammo_9mm_bullet,
                                        "tried to put too many charges of ammo in item",
                                        item_pocket::contain_code::ERR_NO_SPACE );
@@ -625,8 +628,8 @@ TEST_CASE( "holster can contain one fitting item", "[pocket][holster]" )
 TEST_CASE( "pockets containing liquids", "[pocket][watertight][liquid]" )
 {
     // Liquids
-    item ketchup( "ketchup", 0, item::default_charges_tag{} );
-    item mustard( "mustard", 0, item::default_charges_tag{} );
+    item ketchup( "ketchup", calendar::turn_zero, item::default_charges_tag{} );
+    item mustard( "mustard", calendar::turn_zero, item::default_charges_tag{} );
 
     // Non-liquids
     item rock( "test_rock" );
@@ -724,7 +727,7 @@ TEST_CASE( "pockets containing liquids", "[pocket][watertight][liquid]" )
 //
 TEST_CASE( "pockets containing gases", "[pocket][airtight][gas]" )
 {
-    item gas( "test_gas", 0, item::default_charges_tag{} );
+    item gas( "test_gas", calendar::turn_zero, item::default_charges_tag{} );
 
     // A potentially airtight container
     pocket_data data_balloon( item_pocket::pocket_type::CONTAINER );
@@ -1061,6 +1064,14 @@ static bool has_best_pocket( item &container, const item &thing )
     return container.best_pocket( thing, loc ).second != nullptr;
 }
 
+/** Returns the only pocket for an item. */
+static item_pocket *get_only_pocket( item &container )
+{
+    ret_val<std::vector<item_pocket *>> pockets = container.contents.get_all_contained_pockets();
+    REQUIRE( pockets.value().size() == 1 );
+    return pockets.value()[0];
+}
+
 TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
 {
     item_location loc;
@@ -1092,7 +1103,7 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
         REQUIRE( util_belt.can_contain( halligan ) );
         // It can contain liquid and gas
         item liquid( "test_liquid" );
-        item gas( "test_gas", 0, item::default_charges_tag{} );
+        item gas( "test_gas", calendar::turn_zero, item::default_charges_tag{} );
         REQUIRE( util_belt.can_contain( liquid ) );
         REQUIRE( util_belt.can_contain( gas ) );
 
@@ -1115,7 +1126,7 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
         REQUIRE( glockmag.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) );
         REQUIRE( glockmag.ammo_remaining() == 0 );
         // A single 9mm bullet
-        item glockammo( "9mm", calendar::turn, 1 );
+        item glockammo( "test_9mm_ammo", calendar::turn, 1 );
         REQUIRE( glockammo.is_ammo() );
         REQUIRE( glockammo.charges == 1 );
 
@@ -1144,6 +1155,153 @@ TEST_CASE( "best pocket in item contents", "[pocket][item][best]" )
         REQUIRE( can.seal() ); // This must succeed, or next assertion is meaningless
         // Now sealed, the can cannot be best_pocket for liquid
         CHECK_FALSE( has_best_pocket( can, liquid ) );
+    }
+
+    SECTION( "pockets with favorite settings" ) {
+        item liquid( "test_liquid" );
+
+        WHEN( "item is blacklisted" ) {
+            item skin( "test_waterskin" );
+            REQUIRE( has_best_pocket( skin, liquid ) );
+            get_only_pocket( skin )->settings.blacklist_item( liquid.typeId() );
+
+            THEN( "pocket cannot be best pocket" ) {
+                CHECK_FALSE( has_best_pocket( skin, liquid ) );
+            }
+        }
+
+        WHEN( "item is whitelisted" ) {
+            item skin( "test_waterskin" );
+            REQUIRE( has_best_pocket( skin, liquid ) );
+            get_only_pocket( skin )->settings.whitelist_item( liquid.typeId() );
+
+            THEN( "pocket can be best pocket" ) {
+                CHECK( has_best_pocket( skin, liquid ) );
+            }
+        }
+    }
+}
+
+TEST_CASE( "pocket favorites allow or restrict items", "[pocket][item][best]" )
+{
+    item_location loc;
+
+    item test_item( "test_rock" );
+
+    item test_item_same_category( "test_rag" );
+    REQUIRE( test_item.get_category_shallow().id ==
+             test_item_same_category.get_category_shallow().id );
+    REQUIRE_FALSE( test_item.typeId() == test_item_same_category.typeId() );
+
+    item test_item_different_category( "test_apple" );
+    REQUIRE_FALSE( test_item.get_category_shallow().id ==
+                   test_item_different_category.get_category_shallow().id );
+    REQUIRE_FALSE( test_item.typeId() == test_item_different_category.typeId() );
+
+    // Default settings allow all items
+    SECTION( "no favourites" ) {
+        WHEN( "no whitelist or blacklist specified" ) {
+            item_pocket::favorite_settings settings;
+            THEN( "all items allowed" ) {
+                CHECK( settings.accepts_item( test_item ) );
+                CHECK( settings.accepts_item( test_item_same_category ) );
+                CHECK( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+    }
+
+    SECTION( "blacklists" ) {
+        WHEN( "item category blacklisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.blacklist_category( test_item.get_category_shallow().id );
+            THEN( "that category blocked" ) {
+                REQUIRE_FALSE( settings.accepts_item( test_item ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
+        WHEN( "item blacklisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.blacklist_item( test_item.typeId() );
+            THEN( "that item blocked" ) {
+                REQUIRE_FALSE( settings.accepts_item( test_item ) );
+                REQUIRE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+    }
+
+    SECTION( "whitelists" ) {
+        WHEN( "item category whitelisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.whitelist_category( test_item.get_category_shallow().id );
+            THEN( "other categories blocked" ) {
+                REQUIRE( settings.accepts_item( test_item ) );
+                REQUIRE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
+        WHEN( "item whitelisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.whitelist_item( test_item.typeId() );
+            THEN( "other items blocked" ) {
+                REQUIRE( settings.accepts_item( test_item ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+    }
+
+    SECTION( "mixing whitelist and blacklists" ) {
+        WHEN( "category whitelisted but item blacklisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.whitelist_category( test_item.get_category_shallow().id );
+            settings.blacklist_item( test_item.typeId() );
+            THEN( "item blacklist override category allownace" ) {
+                REQUIRE_FALSE( settings.accepts_item( test_item ) );
+                REQUIRE( settings.accepts_item( test_item_same_category ) );
+                // Not blacklisted, but not whitelisted either
+                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
+        WHEN( "category whitelisted and item whitelisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.whitelist_category( test_item.get_category_shallow().id );
+            settings.whitelist_item( test_item.typeId() );
+            THEN( "either category or item must match" ) {
+                REQUIRE( settings.accepts_item( test_item ) );
+                REQUIRE( settings.accepts_item( test_item_same_category ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
+        WHEN( "category blacklisted but item whitelisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.blacklist_category( test_item.get_category_shallow().id );
+            settings.whitelist_item( test_item.typeId() );
+            THEN( "item allowance override category restrictions" ) {
+                REQUIRE( settings.accepts_item( test_item ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
+                // Not blacklisted, there's no category whitelist
+                REQUIRE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
+        WHEN( "category blacklisted and item blacklisted" ) {
+            item_pocket::favorite_settings settings;
+            settings.blacklist_category( test_item.get_category_shallow().id );
+            settings.blacklist_item( test_item.typeId() );
+            THEN( "both category and item are blocked" ) {
+                REQUIRE_FALSE( settings.accepts_item( test_item ) );
+                REQUIRE_FALSE( settings.accepts_item( test_item_same_category ) );
+                // Not blacklisted
+                REQUIRE( settings.accepts_item( test_item_different_category ) );
+            }
+        }
+
     }
 }
 

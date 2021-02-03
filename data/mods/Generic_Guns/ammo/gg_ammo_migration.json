@@ -78,6 +78,7 @@
   {
     "id": [
       "bp_10mm_fmj",
+      "bp_357sig_fmj",
       "bp_38_fmj",
       "bp_380_FMJ",
       "bp_40ball",
@@ -128,7 +129,17 @@
     "replace": "reloaded_pistol_jhp"
   },
   {
-    "id": [ "bp_38_special", "bp_380_JHP", "bp_40sw", "bp_45_jhp", "bp_762_25", "bp_9mm", "bp_9x18mm" ],
+    "id": [
+      "bp_357sig_jhp",
+      "bp_38_special",
+      "bp_380_JHP",
+      "bp_40sw",
+      "bp_45_jhp",
+      "bp_45colt_jhp",
+      "bp_762_25",
+      "bp_9mm",
+      "bp_9x18mm"
+    ],
     "type": "MIGRATION",
     "replace": "bp_pistol_jhp"
   },
@@ -207,7 +218,7 @@
     "replace": "reloaded_rifle_ball"
   },
   {
-    "id": [ "bp_223", "bp_270win_jsp", "bp_300_winmag", "bp_3006", "bp_300blk", "bp_308" ],
+    "id": [ "bp_223", "bp_270win_jsp", "bp_300_winmag", "bp_3006", "bp_300blk", "bp_308", "bp_545", "bp_762_54R", "bp_762_m87" ],
     "type": "MIGRATION",
     "replace": "bp_rifle_ball"
   },
@@ -246,7 +257,16 @@
     "replace": "reloaded_rifle_AP"
   },
   {
-    "id": [ "bp_3006_incendiary", "bp_3006fmj", "bp_556", "bp_556_incendiary", "bp_762_51", "bp_762_51_incendiary" ],
+    "id": [
+      "bp_3006_incendiary",
+      "bp_3006fmj",
+      "bp_545_ap",
+      "bp_556",
+      "bp_556_incendiary",
+      "bp_762_51",
+      "bp_762_51_incendiary",
+      "bp_762_m43"
+    ],
     "type": "MIGRATION",
     "replace": "bp_rifle_AP"
   },
@@ -269,6 +289,16 @@
     "id": [ "reloaded_50ss", "reloaded_700nx" ],
     "type": "MIGRATION",
     "replace": "reloaded_rifle_huge_AP"
+  },
+  {
+    "id": [ "bp_50ss", "bp_700nx" ],
+    "type": "MIGRATION",
+    "replace": "bp_rifle_huge_AP"
+  },
+  {
+    "id": [ "bp_50_incendiary", "bp_50match" ],
+    "type": "MIGRATION",
+    "replace": "bp_rifle_huge_ball"
   },
   {
     "id": [ "12mm" ],
@@ -309,13 +339,26 @@
       "40x46mm_flechette_m199",
       "40x53mm_m1001",
       "40x53mm_flechette_m169",
-      "40x53mm_buckshot_m169"
+      "40x53mm_buckshot_m169",
+      "bp_40x46mm_buckshot_m118",
+      "bp_40x46mm_buckshot_m199",
+      "bp_40x46mm_flechette_m118",
+      "bp_40x46mm_flechette_m199",
+      "bp_40x53mm_flechette_m169",
+      "bp_40x53mm_buckshot_m169"
     ],
     "type": "MIGRATION",
     "replace": "grenade_ammo_shot"
   },
   {
-    "id": [ "40x46mm_slug_m118", "40x46mm_slug_m199", "40x53mm_slug_m169" ],
+    "id": [
+      "40x46mm_slug_m118",
+      "40x46mm_slug_m199",
+      "40x53mm_slug_m169",
+      "bp_40x46mm_slug_m118",
+      "bp_40x46mm_slug_m199",
+      "bp_40x53mm_slug_m169"
+    ],
     "type": "MIGRATION",
     "replace": "grenade_ammo_slug"
   },

@@ -1,0 +1,23 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "afs_mealgrub_procesing",
+    "entries": [
+      { "item": "afs_mealgrub_jelly", "count-min": 5, "count-max": 20 },
+      { "item": "afs_mealgrubs", "prob": 15, "count-min": 5, "count-max": 25 },
+      { "item": "afs_mealgrubs", "prob": 5, "count-min": 5, "count-max": 25 },
+      { "item": "water", "prob": 10, "charges-min": 20, "charges-max": 40, "container-item": "jerrycan" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "afs_mealgrub_precursor",
+    "entries": [
+      { "item": "afs_mealgrub_spores", "count-min": 1, "count-max": 6 },
+      { "item": "afs_mealgrub_medium", "prob": 80, "count-min": 23, "count-max": 6 },
+      { "item": "afs_mealgrub_medium", "prob": 33, "count-min": 2, "count-max": 6 }
+    ]
+  }
+]

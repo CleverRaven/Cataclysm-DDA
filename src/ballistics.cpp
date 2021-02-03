@@ -53,7 +53,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     if( effects.count( "SHATTER_SELF" ) ) {
         // Drop the contents, not the thrown item
         add_msg_if_player_sees( pt, _( "The %s shatters!" ), drop_item.tname() );
-        drop_item.visit_items( [&pt]( const item * it ) {
+        drop_item.visit_items( [&pt]( const item * it, item * ) {
             get_map().add_item_or_charges( pt, *it );
             return VisitResponse::NEXT;
         } );
@@ -130,10 +130,11 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             } else {
                 sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );
             }
-            const trap &tr = here.tr_at( pt );
-            if( tr.triggered_by_item( dropped_item ) ) {
-                tr.trigger( pt, dropped_item );
-            }
+        }
+
+        const trap &tr = here.tr_at( pt );
+        if( tr.triggered_by_item( dropped_item ) ) {
+            tr.trigger( pt, dropped_item );
         }
     }
 }
@@ -217,7 +218,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     // Determines whether it can penetrate obstacles
     const bool is_bullet = proj_arg.speed >= 200 && !proj_effects.count( "NO_PENETRATE_OBSTACLES" );
 
-    // If we were targetting a tile rather than a monster, don't overshoot
+    // If we were targeting a tile rather than a monster, don't overshoot
     // Unless the target was a wall, then we are aiming high enough to overshoot
     const bool no_overshoot = proj_effects.count( "NO_OVERSHOOT" ) ||
                               ( g->critter_at( target_arg ) == nullptr && here.passable( target_arg ) );

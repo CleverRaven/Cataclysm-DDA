@@ -94,7 +94,8 @@
       "sloc_lmoe",
       "sloc_horse_ranch",
       "sloc_lighthouse_ground",
-      "sloc_cabin_lake"
+      "sloc_cabin_lake",
+      "sloc_freshwater_research_station"
     ],
     "start_name": "Safe Building",
     "flags": [ "LONE_START" ]
@@ -225,7 +226,7 @@
     "points": -8,
     "description": "The scientists stopped their experiments on you abruptly, leaving you behind while they evacuated before lockdown.  Find a way to escape or starve to death.",
     "start_name": "Locked Lab",
-    "professions": [ "unemployed", "mutant_patient", "mutant_volunteer", "labtech" ],
+    "professions": [ "unemployed", "mutant_patient", "mutant_volunteer" ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
     "traits": [
       "ELFAEYES",
@@ -298,7 +299,8 @@
       "sloc_campground"
     ],
     "start_name": "Outside Town",
-    "flags": [ "SUR_START", "WIN_START", "LONE_START" ],
+    "flags": [ "SUR_START", "LONE_START" ],
+    "custom_initial_date": { "season": "winter" },
     "add_professions": true,
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
   },
@@ -320,7 +322,8 @@
       "sloc_lighthouse_ground"
     ],
     "start_name": "Outside Town",
-    "flags": [ "SUM_ADV_START", "LONE_START" ],
+    "flags": [ "LONE_START" ],
+    "custom_initial_date": { "season": "summer", "year": 2 },
     "add_professions": true,
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
   },
@@ -332,7 +335,8 @@
     "description": "When the apocalypse broke out, you were funneled into a nearby shelter.  Here you have lived, never leaving, lest the unknowns of the outside world hurt you.  Supplies are running low, and for the first time since the Cataclysm, you will be forced to face the outside world.",
     "allowed_locs": [ "sloc_lmoe_empty", "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Enclosed Shelter",
-    "flags": [ "WIN_START", "LONE_START" ],
+    "flags": [ "LONE_START" ],
+    "custom_initial_date": { "season": "winter" },
     "professions": [ "sheltered_militia", "sheltered_survivor", "unemployed" ]
   },
   {
@@ -397,7 +401,8 @@
     "allowed_locs": [ "sloc_mi-go_camp" ],
     "start_name": "Mi-Go Camp",
     "professions": [ "captive", "rescuer" ],
-    "flags": [ "LONE_START", "CHALLENGE", "WIN_START" ]
+    "flags": [ "LONE_START", "CHALLENGE" ],
+    "custom_initial_date": { "season": "winter" }
   },
   {
     "type": "scenario",
@@ -494,7 +499,7 @@
     "points": 0,
     "description": "You find yourself amongst trees.  The screaming and the moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
     "start_name": "Wilderness",
-    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_campsite", "sloc_campground", "sloc_desert_island" ],
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_campsite", "sloc_campground", "sloc_desert_island", "sloc_river" ],
     "flags": [ "LONE_START" ]
   },
   {
@@ -505,7 +510,20 @@
     "description": "While being transported to a different military base, the pilot lost control of the helicopter and crashed in the middle of nowhere.  Hopefully some of the soldiers that were with you also survived the accident.",
     "start_name": "Crash site",
     "allowed_locs": [ "sloc_field", "sloc_forest" ],
-    "professions": [ "soldier", "specops", "national_guard", "politician", "mili_pilot", "mili_medic", "mili_burner" ],
+    "professions": [
+      "rifleman",
+      "recruit",
+      "specops",
+      "national_guard",
+      "politician",
+      "mili_pilot",
+      "mili_medic",
+      "mili_burner",
+      "major-general",
+      "nco",
+      "combat-mechanic",
+      "combat-engineer"
+    ],
     "map_extra": "mx_helicopter",
     "flags": [ "HELI_CRASH", "LONE_START" ]
   },
@@ -528,14 +546,29 @@
     "description": "Despite all the soldiers, guns and minefields, the base you were on got overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and you are now stuck in the warehouse all alone.  You are not sure if anyone made it to the armory, or if you are the last man alive.",
     "start_name": "Military Base Warehouse",
     "allowed_locs": [ "sloc_military_base_warehouse" ],
-    "professions": [ "unemployed", "soldier", "specops", "labtech", "medic", "mili_pilot", "mili_medic", "mili_burner", "hazmat_unit" ],
+    "professions": [
+      "unemployed",
+      "recruit",
+      "rifleman",
+      "specops",
+      "labtech",
+      "medic",
+      "mili_pilot",
+      "mili_medic",
+      "mili_burner",
+      "hazmat_unit",
+      "major-general",
+      "nco",
+      "combat-mechanic",
+      "combat-engineer"
+    ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
     "type": "scenario",
     "id": "presort",
     "name": "Crazy Party",
-    "points": 0,
+    "points": -2,
     "description": "You thought things couldn't get any worse when the cops came over to bust your wild party, even though you booked it at a private resort.  When the guests started fighting with the police you tried to get them to calm down, only to find out they hungered for more.",
     "start_name": "Private resort",
     "allowed_locs": [ "sloc_private_resort" ],

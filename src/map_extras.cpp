@@ -61,6 +61,9 @@
 #include "vpart_range.h"
 #include "weighted_list.h"
 
+static const trap_str_id tr_caltrops( "tr_caltrops" );
+static const trap_str_id tr_nailboard( "tr_nailboard" );
+
 static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_FLOWER( "FLOWER" );
@@ -842,32 +845,70 @@ static bool mx_bandits_block( map &m, const tripoint &abs_sub )
 
     if( forest_at_north && forest_at_south &&
         road_at_west && road_at_east ) {
-        line( &m, t_trunk, point( 1, 3 ), point( 1, 6 ) );
-        line( &m, t_trunk, point( 1, 8 ), point( 1, 13 ) );
-        line( &m, t_trunk, point( 2, 14 ), point( 2, 17 ) );
-        line( &m, t_trunk, point( 1, 18 ), point( 2, 22 ) );
-        m.ter_set( point( 1, 2 ), t_stump );
-        m.ter_set( point( 1, 20 ), t_stump );
-        m.ter_set( point_south_east, t_improvised_shelter );
-        m.place_npc( point( 2, 19 ), string_id<npc_template>( "bandit" ) );
         if( one_in( 2 ) ) {
-            m.place_npc( point_south_east, string_id<npc_template>( "bandit" ) );
+            line( &m, t_trunk, point( 1, 3 ), point( 1, 6 ) );
+            line( &m, t_trunk, point( 1, 8 ), point( 1, 13 ) );
+            line( &m, t_trunk, point( 2, 14 ), point( 2, 17 ) );
+            line( &m, t_trunk, point( 1, 18 ), point( 2, 22 ) );
+            m.ter_set( point( 1, 2 ), t_stump );
+            m.ter_set( point( 1, 20 ), t_stump );
+            m.ter_set( point_south_east, t_improvised_shelter );
+            m.place_npc( point( 2, 19 ), string_id<npc_template>( "bandit" ) );
+            if( one_in( 2 ) ) {
+                m.place_npc( point_south_east, string_id<npc_template>( "bandit" ) );
+            }
+        } else {
+            trap_str_id trap_type = one_in( 2 ) ? tr_nailboard : tr_caltrops;
+            for( int x = SEEX - 1; x < SEEX + 1; x++ ) {
+                for( int y = 0; y < SEEY * 2 - 1; y += 2 ) {
+                    if( x_in_y( 8, 10 ) ) {
+                        m.trap_set( { x, y, abs_sub.z }, trap_type );
+                    }
+                }
+            }
+
+            rough_circle( &m, t_underbrush, point( 8, 2 ), 2 );
+            m.ter_set( point( 8, 2 ), t_dirt );
+            m.place_npc( point( 8, 2 ), string_id<npc_template>( "bandit" ) );
+
+            rough_circle( &m, t_underbrush, point( 16, 22 ), 2 );
+            m.ter_set( point( 16, 22 ), t_dirt );
+            m.place_npc( point( 16, 22 ), string_id<npc_template>( "bandit" ) );
         }
 
         return true;
     }
 
     if( forest_at_west && forest_at_east && road_at_north && road_at_south ) {
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        line( &m, t_trunk, point( 1, 1 ), point( 3, 1 ) );
-        line( &m, t_trunk, point( 5, 1 ), point( 10, 1 ) );
-        line( &m, t_trunk, point( 11, 3 ), point( 16, 3 ) );
-        line( &m, t_trunk, point( 17, 2 ), point( 21, 2 ) );
-        m.ter_set( point( 22, 2 ), t_stump );
-        m.ter_set( point_south, t_improvised_shelter );
-        m.place_npc( point( 20, 3 ), string_id<npc_template>( "bandit" ) );
         if( one_in( 2 ) ) {
-            m.place_npc( point_south, string_id<npc_template>( "bandit" ) );
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            line( &m, t_trunk, point( 1, 1 ), point( 3, 1 ) );
+            line( &m, t_trunk, point( 5, 1 ), point( 10, 1 ) );
+            line( &m, t_trunk, point( 11, 3 ), point( 16, 3 ) );
+            line( &m, t_trunk, point( 17, 2 ), point( 21, 2 ) );
+            m.ter_set( point( 22, 2 ), t_stump );
+            m.ter_set( point_south, t_improvised_shelter );
+            m.place_npc( point( 20, 3 ), string_id<npc_template>( "bandit" ) );
+            if( one_in( 2 ) ) {
+                m.place_npc( point_south, string_id<npc_template>( "bandit" ) );
+            }
+        } else {
+            trap_str_id trap_type = one_in( 2 ) ? tr_nailboard : tr_caltrops;
+            for( int x = 0; x < SEEX * 2 - 1; x += 2 ) {
+                for( int y = SEEY - 1; y < SEEY + 1; y++ ) {
+                    if( x_in_y( 8, 10 ) ) {
+                        m.trap_set( { x, y, abs_sub.z }, trap_type );
+                    }
+                }
+            }
+
+            rough_circle( &m, t_underbrush, point( 1, 8 ), 2 );
+            m.ter_set( point( 1, 8 ), t_dirt );
+            m.place_npc( point( 1, 8 ), string_id<npc_template>( "bandit" ) );
+
+            rough_circle( &m, t_underbrush, point( 22, 15 ), 2 );
+            m.ter_set( point( 22, 15 ), t_dirt );
+            m.place_npc( point( 22, 15 ), string_id<npc_template>( "bandit" ) );
         }
 
         return true;
@@ -1594,9 +1635,11 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //Place beds in a tent
         m.furn_set( { 21, 5, abs_sub.z }, f_makeshift_bed );
-        m.put_items_from_loc( item_group_id( "army_bed" ), { 21, 5, abs_sub.z }, 0 );
+        m.put_items_from_loc( item_group_id( "army_bed" ), { 21, 5, abs_sub.z },
+                              calendar::turn_zero );
         m.furn_set( { 22, 6, abs_sub.z }, f_makeshift_bed );
-        m.put_items_from_loc( item_group_id( "army_bed" ), { 22, 6, abs_sub.z }, 0 );
+        m.put_items_from_loc( item_group_id( "army_bed" ), { 22, 6, abs_sub.z },
+                              calendar::turn_zero );
 
         //Spawn 6-20 mines in the leftmost submap.
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
@@ -1793,12 +1836,12 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             for( const auto &loc : m.points_in_radius( portal_location, 5 ) ) {
                 m.place_spawns( GROUP_MI_GO_CAMP_OM, 30, loc.xy(), loc.xy(), 1, true );
             }
-            point pos;
-            do {
-                pos = p + point( rng( -5, 5 ), rng( -5, 5 ) );
-            } while( pos.x >= 1 && pos.y >= 1 && pos.x < SEEX * 2 - 1 && pos.y < SEEY * 2 - 1 );
-            circle( &m, ter_id( "t_wall_resin" ), pos, 6 );
-            rough_circle( &m, ter_id( "t_floor_resin" ), pos, 5 );
+            const int radius = 6;
+            const point pos = point( rng( std::max( p.x - radius, radius ),
+                                          SEEX * 2 - std::min( SEEX * 2 - p.x, SEEX - radius ) ),
+                                     rng( std::max( p.y - radius, radius ), SEEY * 2 - std::min( SEEY * 2 - p.y, SEEY - radius ) ) );
+            circle( &m, ter_id( "t_wall_resin" ), pos, radius );
+            rough_circle( &m, ter_id( "t_floor_resin" ), pos, radius - 1 );
             break;
         }
         //Anomaly caused by the portal and spawned an artifact
@@ -1859,7 +1902,7 @@ static bool mx_spider( map &m, const tripoint &abs_sub )
 
 static bool mx_jabberwock( map &m, const tripoint &loc )
 {
-    // A rare chance to spawn a jabberwock. This was extracted from the harcoded forest mapgen
+    // A rare chance to spawn a jabberwock. This was extracted from the hardcoded forest mapgen
     // and moved into a map extra. It still has a one_in chance of spawning because otherwise
     // the rarity skewed the values for all the other extras too much. I considered moving it
     // into the monster group, but again the hardcoded rarity it had in the forest mapgen was
@@ -2236,7 +2279,7 @@ static bool mx_point_burned_ground( map &m, const tripoint &abs_sub )
 static bool mx_burned_ground( map &m, const tripoint &abs_sub )
 {
     // This map extra simulates effects of extensive past fire event; it destroys most vegetation,
-    // and flamable objects, swaps vehicles with wreckage, levels houses, scatters ash etc.
+    // and flammable objects, swaps vehicles with wreckage, levels houses, scatters ash etc.
 
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
@@ -2564,7 +2607,7 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
             equipment.y = rng( 0, 3 );
         }
     } else {
-        return false; // cossroads and strange roads - no generation, bail out
+        return false; // crossroads and strange roads - no generation, bail out
     }
     // road defects generator
     switch( rng( 1, 5 ) ) {
@@ -2637,7 +2680,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
             m.add_corpse( { 23, 1, abs_sub.z } );
             break;
         }
-        //Some cocky moron with friends got dragged out of limo and shooted down by a military
+        //Some cocky moron with friends got dragged out of limo and shot down by a military
         case 2: {
             m.add_vehicle( vproto_id( "limousine" ), point( 18, 9 ), 270_degrees );
 

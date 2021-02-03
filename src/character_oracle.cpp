@@ -61,7 +61,7 @@ status_t character_oracle_t::can_make_fire( const std::string & ) const
     bool tool = false;
     bool fuel = false;
     bool found_fire_stuff = subject->has_item_with( [&tool, &fuel]( const item & candidate ) {
-        if( candidate.has_flag( STATIC( flag_str_id( "FIRESTARTER" ) ) ) ) {
+        if( candidate.has_flag( STATIC( flag_id( "FIRESTARTER" ) ) ) ) {
             tool = true;
             if( fuel ) {
                 return true;

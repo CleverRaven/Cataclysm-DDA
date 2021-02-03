@@ -116,7 +116,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_FUR: return "FUR";
         case MF_LEATHER: return "LEATHER";
         case MF_WOOL: return "WOOL";
-        case MF_FEATHER: return "FEATHER";
         case MF_CBM_CIV: return "CBM_CIV";
         case MF_BONES: return "BONES";
         case MF_FAT: return "FAT";
@@ -182,6 +181,8 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_STUN_IMMUNE: return "STUN_IMMUNE";
         case MF_LOUDMOVES: return "LOUDMOVES";
         case MF_DROPS_AMMO: return "DROPS_AMMO";
+        case MF_INSECTICIDEPROOF: return "INSECTICIDEPROOF";
+        case MF_RANGED_ATTACKER: return "RANGED_ATTACKER";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -366,8 +367,15 @@ void MonsterGenerator::finalize_mtypes()
     mon_templates->finalize();
     for( const mtype &elem : mon_templates->get_all() ) {
         mtype &mon = const_cast<mtype &>( elem );
+
+        if( !mon.default_faction.is_valid() ) {
+            debugmsg( "Monster type '%s' has invalid default_faction: '%s'. "
+                      "Add this faction to json as MONSTER_FACTION type.",
+                      mon.id.str(), mon.default_faction.str() );
+        }
+
         apply_species_attributes( mon );
-        set_species_ids( mon );
+        validate_species_ids( mon );
         mon.size = volume_to_size( mon.volume );
 
         // adjust for worldgen difficulty parameters
@@ -655,12 +663,10 @@ void MonsterGenerator::init_defense()
     defense_map["RETURN_FIRE"] = &mdefense::return_fire;
 }
 
-void MonsterGenerator::set_species_ids( mtype &mon )
+void MonsterGenerator::validate_species_ids( mtype &mon )
 {
     for( const auto &s : mon.species ) {
-        if( s.is_valid() ) {
-            mon.species_ptrs.insert( &s.obj() );
-        } else {
+        if( !s.is_valid() ) {
             debugmsg( "Tried to assign species %s to monster %s, but no entry for the species exists",
                       s.c_str(), mon.id.c_str() );
         }
@@ -716,8 +722,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     // See monfaction.cpp
     if( !was_loaded || jo.has_member( "default_faction" ) ) {
-        const auto faction = mfaction_str_id( jo.get_string( "default_faction" ) );
-        default_faction = monfactions::get_or_add_faction( faction );
+        default_faction = mfaction_str_id( jo.get_string( "default_faction" ) );
     }
 
     if( !was_loaded || jo.has_member( "symbol" ) ) {
@@ -807,7 +812,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "death_drops" ) ) {
         death_drops =
-            item_group::load_item_group( jo.get_member( "death_drops" ), "distribution" );
+            item_group::load_item_group( jo.get_member( "death_drops" ), "distribution",
+                                         "death_drops for mtype " + id.str() );
     }
 
     assign( jo, "harvest", harvest );
@@ -969,6 +975,8 @@ void species_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
     optional( jo, was_loaded, "placate_triggers", placate, trigger_reader );
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
+
+    optional( jo, was_loaded, "bleeds", bleeds, auto_flags_reader<field_type_str_id> {}, fd_null );
 }
 
 const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const

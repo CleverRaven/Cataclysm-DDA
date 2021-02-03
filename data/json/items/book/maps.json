@@ -15,6 +15,29 @@
     "color": "light_gray"
   },
   {
+    "id": "labmap",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": { "str": "handwritten note" },
+    "description": "A small, meticulously folded piece of paper, filled with tiny handwriting and some surprisingly precise diagrams of subway tunnels, access codes, ventilation shafts, and…guard shifts?  You have the feeling they weren't supposed to write any of this stuff down.",
+    "color": "blue",
+    "volume": "10 ml",
+    "weight": "10 g",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 120,
+      "message": "You add the hidden stations to your map",
+      "terrain": [
+        "subway",
+        "sub_station",
+        "microlab_sub_connector",
+        "microlab_sub_station",
+        "central_lab_train_depot",
+        "lab_train_depot"
+      ]
+    }
+  },
+  {
     "id": "militarymap",
     "copy-from": "abstractmap",
     "type": "GENERIC",
@@ -81,7 +104,7 @@
     "id": "subwaymap",
     "copy-from": "abstractmap",
     "type": "GENERIC",
-    "name": "subway maintenance map",
+    "name": { "str": "subway maintenance map" },
     "looks_like": "roadmap",
     "description": "This is a map of subway tunnels formerly used by public maintenance workers.  Using it will add subway lines and underground stations to your map.",
     "color": "light_blue",

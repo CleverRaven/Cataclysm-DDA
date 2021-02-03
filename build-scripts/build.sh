@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Build script intended for use in Travis CI
+# Build script intended for use in Travis CI and Github workflow
 
 set -exo pipefail
 
@@ -9,7 +9,15 @@ num_jobs=3
 function run_tests
 {
     # --min-duration shows timing lines for tests with a duration of at least that many seconds.
-    $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS
+    $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS "crafting_skill_gain"&
+    pids[0]=$!
+    $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS "[slow] ~crafting_skill_gain"&
+    pids[1]=$!
+    $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS "~[slow] ~[.]"&
+    pids[2]=$!
+    for pid in ${pids[@]}; do
+        wait $pid
+    done
 }
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
@@ -36,7 +44,7 @@ fi
 
 ccache --zero-stats
 # Increase cache size because debug builds generate large object files
-ccache -M 2G
+ccache -M 5G
 ccache --show-stats
 
 if [ "$CMAKE" = "1" ]
@@ -169,19 +177,33 @@ then
     # fills the log with nonsense.
     TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
 else
-    make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
+    if [ "$OS" == "macos-10.15" ]
+    then
+        export NATIVE=osx
+        # if OSX_MIN we specify here is lower than 10.15 then linker is going
+        # to throw warnings because SDL and gettext libraries installed from 
+        # Homebrew are built with minimum target osx version 10.15
+        export OSX_MIN=10.15
+    else
+        export BACKTRACE=1
+    fi
+    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
 
-    if [ "$TRAVIS_OS_NAME" == "osx" ]
+    export UBSAN_OPTIONS=print_stacktrace=1
+    if [ "$TRAVIS_OS_NAME" == "osx" ] || [ "$OS" == "macos-10.15" ]
     then
         run_tests ./tests/cata_test
     else
         run_tests ./tests/cata_test &
+        pids[0]=$!
         if [ -n "$MODS" ]
         then
             run_tests ./tests/cata_test --user-dir=modded $MODS 2>&1 | sed 's/^/MOD> /' &
-            wait -n
+            pids[1]=$!
         fi
-        wait -n
+        for pid in ${pids[@]}; do
+            wait $pid
+        done
     fi
 
     if [ -n "$TEST_STAGE" ]
@@ -189,13 +211,13 @@ else
         # Run the tests one more time, without actually running any tests, just to verify that all
         # the mod data can be successfully loaded
 
-        # Use a blacklist of mods that currently fail to load cleanly.  Hopefully this list will
-        # shrink over time.
-        blacklist=build-scripts/mod_test_blacklist
-        mods="$(./build-scripts/get_all_mods.py $blacklist)"
+        mods="$(./build-scripts/get_all_mods.py)"
         run_tests ./tests/cata_test --user-dir=all_modded --mods="$mods" '~*'
     fi
 fi
 ccache --show-stats
+# Shrink the ccache back down to 2GB in preperation for pushing to shared storage.
+ccache -M 2G
+ccache -c
 
 # vim:tw=0

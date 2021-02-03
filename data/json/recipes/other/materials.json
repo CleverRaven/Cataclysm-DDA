@@ -91,7 +91,7 @@
     "components": [
       [
         [ "stopcock", 11 ],
-        [ "button_plastic", 3 ],
+        [ "button_plastic", 25 ],
         [ "bottle_folding", 4 ],
         [ "plastic_straw", 3 ],
         [ "plastic_knife", 2 ],
@@ -289,6 +289,21 @@
     "components": [ [ [ "cotton_ball", 3 ] ] ]
   },
   {
+    "result": "grass_yarn",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "distaff_spindle", -1 ] ] ],
+    "components": [ [ [ "straw_pile", 5 ], [ "withered", 5 ] ] ]
+  },
+  {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "rag",
@@ -364,6 +379,7 @@
     "time": "10 m",
     "charges": 1,
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_weaving" } ],
     "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "thread", 5 ] ] ]
@@ -393,6 +409,19 @@
     "autolearn": true,
     "qualities": [ { "id": "SEW_CURVED", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "neoprene", 5 ] ], [ [ "filament", 15, "LIST" ] ] ]
+  },
+  {
+    "result": "sheet_nomex_patchwork",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "270 m",
+    "charges": 4,
+    "autolearn": true,
+    "qualities": [ { "id": "SEW_CURVED", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "nomex", 5 ] ], [ [ "thread_nomex", 15 ] ] ]
   },
   {
     "type": "recipe",
@@ -610,7 +639,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "button_wood",
-    "category": "CC_WEAPON",
+    "category": "CC_OTHER",
     "skill_used": "fabrication",
     "skills_required": [ "fabrication", 1 ],
     "difficulty": 3,
@@ -620,5 +649,35 @@
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "FILE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.25, "fail_multiplier": 1.25 } ],
     "components": [ [ [ "mop", 1 ], [ "stick", 1 ], [ "broom", 1 ] ], [ [ "wax", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "button_plastic",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 h 30 m",
+    "charges": 50,
+    "autolearn": true,
+    "qualities": [ { "id": "DRILL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
+    "components": [ [ [ "plastic_chunk", 2 ] ] ]
+  },
+  {
+    "result": "cannonball_4lb",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "60 m",
+    "batch_time_factors": [ 90, 4 ],
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 8 ], [ "steel_tiny", 8 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   }
 ]

@@ -251,6 +251,7 @@
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
     "skills_required": [ "bashing", 1 ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
@@ -464,7 +465,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "components": [ [ [ "stick_long", 1 ] ], [ [ "leather", 2 ] ] ]
+    "components": [ [ [ "stick_long", 1 ] ] ]
   },
   {
     "type": "recipe",

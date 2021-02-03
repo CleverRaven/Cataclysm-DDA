@@ -11,6 +11,7 @@
     "volume": "554 ml",
     "longest_side": "250 mm",
     "price": 65000,
+    "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
@@ -28,7 +29,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "m9mag", "m9bigmag" ]
+        "item_restriction": [ "m9mag", "m9mag_10rd", "m9mag_17rd", "m9mag_18rd", "m9mag_20rd", "m9bigmag", "m9mag_32rd", "m9mag_35rd" ]
       }
     ]
   },
@@ -78,7 +79,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "calicomag" ]
+        "item_restriction": [ "calicomag", "calicomag_100rd" ]
       }
     ]
   },
@@ -128,7 +129,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "m9bigmag", "m9mag" ]
+        "item_restriction": [ "m9bigmag", "m9mag_10rd", "m9mag", "m9mag_17rd", "m9mag_18rd", "m9mag_20rd", "m9mag_32rd", "m9mag_35rd" ]
       }
     ]
   },
@@ -214,7 +215,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "mp5mag", "mp5bigmag" ]
+        "item_restriction": [ "mp5mag", "mp5mag_10rd", "mp5mag_15rd", "mp5mag_20rd", "mp5mag_38rd", "mp5mag_40rd", "mp5bigmag", "mp5mag_100rd" ]
       }
     ]
   },
@@ -246,7 +247,7 @@
     "price_postapoc": 3500,
     "bashing": 8,
     "dispersion": 270,
-    "ranged_damage": 0,
+    "ranged_damage": { "damage_type": "bullet", "amount": 0 },
     "built_in_mods": [ "folding_stock", "grip" ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -290,7 +291,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "ranged_damage": 0
+    "ranged_damage": { "damage_type": "bullet", "amount": 0 }
   },
   {
     "id": "briefcase_smg",
@@ -323,7 +324,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "mp5mag" ]
+        "item_restriction": [ "mp5mag", "mp5mag_10rd", "mp5mag_15rd", "mp5mag_20rd" ]
       }
     ]
   },
@@ -469,6 +470,7 @@
     "weight": "1070 g",
     "volume": "615 ml",
     "price": 90000,
+    "price_postapoc": 500,
     "pocket_data": [
       {
         "magazine_well": "60 ml",
@@ -537,6 +539,7 @@
     "weight": "3722 g",
     "volume": "2020 ml",
     "price": 90000,
+    "price_postapoc": 1000,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -633,7 +636,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "m9mag", "m9bigmag" ]
+        "item_restriction": [ "m9mag", "m9mag_10rd", "m9mag_17rd", "m9mag_18rd", "m9mag_20rd", "m9bigmag", "m9mag_32rd", "m9mag_35rd" ]
       }
     ]
   },
@@ -648,6 +651,7 @@
     "volume": "520 ml",
     "longest_side": "231 mm",
     "price": 65000,
+    "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
@@ -665,7 +669,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "px4mag" ]
+        "item_restriction": [ "px4mag", "px4mag_10rd", "px4mag_15rd", "px4mag_20rd" ]
       }
     ]
   },
@@ -850,7 +854,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "tec9mag" ]
+        "item_restriction": [ "tec9mag", "tec9mag_10rd", "tec9mag_20rd", "tec9mag_30rd", "tec9mag_36rd", "tec9mag_50rd", "tec9mag_72rd" ]
       }
     ]
   },
@@ -859,7 +863,7 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str_sp": "USP 9mm" },
+    "name": { "str_sp": "USP 9x19mm" },
     "description": "A popular pistol, widely used among law enforcement.  Extensively tested for durability, it has been found to stay accurate even after being subjected to extreme abuse.",
     "weight": "771 g",
     "volume": "460 ml",
@@ -884,7 +888,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "usp9mag" ]
+        "item_restriction": [ "usp9mag", "usp9mag_10rd", "usp9mag_18rd", "usp9mag_20rd", "usp9mag_32rd" ]
       }
     ]
   },
@@ -893,7 +897,7 @@
     "copy-from": "smg_base",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "name": { "str_sp": "Uzi 9mm" },
+    "name": { "str_sp": "Uzi 9x19mm" },
     "//": "SMGs aren't as commercially traded as rifles/handguns/SGs, so no cite for price points.  Total weight of gun 3500 grams.  Current weight of folding stock 200 grams.",
     "description": "The Uzi 9x19mm has enjoyed immense popularity, selling more units than any other submachine gun.  It is widely used as a personal defense weapon, or as a primary weapon by elite frontline forces.",
     "weight": "3500 g",
@@ -932,7 +936,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "uzimag" ]
+        "item_restriction": [ "uzimag", "uzimag_20rd", "uzimag_25rd", "uzimag_40rd", "uzimag_50rd", "uzimag_100rd" ]
       }
     ]
   },
@@ -1005,7 +1009,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "kpf9mag" ]
+        "item_restriction": [ "kpf9mag", "kpf9mag_8rd" ]
       }
     ]
   },
@@ -1321,7 +1325,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "ccpmag" ]
+        "item_restriction": [ "ccpmag", "ccpmag_9rd" ]
       }
     ]
   },
@@ -1369,7 +1373,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "uzimag" ]
+        "item_restriction": [ "uzimag", "uzimag_20rd", "uzimag_25rd", "uzimag_40rd", "uzimag_50rd", "uzimag_100rd" ]
       }
     ]
   },
@@ -1414,7 +1418,14 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "btmp9mag_9x19mm_15", "btmp9mag_9x19mm_20", "btmp9mag_9x19mm_25", "btmp9mag_9x19mm_30" ]
+        "item_restriction": [
+          "btmp9mag_9x19mm_15",
+          "btmp9mag_9x19mm_10rd",
+          "btmp9mag_9x19mm_20",
+          "btmp9mag_9x19mm_25",
+          "btmp9mag_9x19mm_30",
+          "btmp9mag_9x19mm_50rd"
+        ]
       }
     ]
   }

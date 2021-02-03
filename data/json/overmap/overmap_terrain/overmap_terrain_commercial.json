@@ -60,33 +60,32 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "office_tower_1_entrance", "office_tower_1" ],
+    "id": [ "office_tower_ne" ],
+    "copy-from": "generic_city_building",
     "name": "office tower",
     "sym": "T",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
-    "id": "office_tower_1",
+    "id": [ "office_tower_nw", "office_tower_sw", "office_tower_se" ],
+    "copy-from": "generic_city_building",
     "name": "office tower",
     "sym": "t",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "office_tower_b_entrance", "office_tower_b" ],
+    "id": [
+      "office_tower_underground_nw",
+      "office_tower_underground_ne",
+      "office_tower_underground_sw",
+      "office_tower_underground_se"
+    ],
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "tower parking",
     "sym": "p",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -1520,7 +1519,16 @@
       "city_block2_roof_1",
       "city_block2_roof_2",
       "city_block2_roof_3",
-      "city_block2_roof_4"
+      "city_block2_roof_4",
+      "urban_25_3",
+      "urban_25_4",
+      "urban_25_5",
+      "urban_25_6",
+      "urban_25_7",
+      "urban_25_8",
+      "urban_25_9",
+      "urban_25_10",
+      "urban_25_12"
     ],
     "copy-from": "generic_city_building",
     "name": "urban city block",
@@ -1528,7 +1536,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "urban_14_1", "urban_14_2" ],
+    "id": [ "urban_14_1", "urban_14_2", "urban_25_1", "urban_25_2" ],
     "copy-from": "generic_city_house_basement"
   },
   {

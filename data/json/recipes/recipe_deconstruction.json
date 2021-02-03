@@ -2133,6 +2133,14 @@
     "components": [ [ [ "neoprene", 1 ] ], [ [ "scrap_neoprene", 20 ] ] ]
   },
   {
+    "result": "sheet_nomex_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "nomex", 1 ] ], [ [ "scrap_nomex", 20 ] ] ]
+  },
+  {
     "result": "tanned_hide",
     "type": "uncraft",
     "time": "2 m",
@@ -2665,15 +2673,6 @@
   {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "knife_butter",
-    "time": "2 m",
-    "//": "I have no clue how this makes sense, but im not removing it -Esoop1 2020",
-    "components": [ [ [ "spike", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "knife_butcher",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
@@ -3162,28 +3161,19 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "electronics",
-    "time": "6 m",
+    "time": "20 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "antenna", 1 ] ],
-      [ [ "cable", 4 ] ],
-      [ [ "e_scrap", 2 ] ],
-      [ [ "motor_micro", 1 ] ],
+      [ [ "cable", 8 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_micro", 2 ] ],
+      [ [ "amplifier", 2 ] ],
       [ [ "plastic_chunk", 8 ] ],
       [ [ "receiver", 1 ] ],
-      [ [ "scrap", 1 ] ]
-    ]
-  },
-  {
-    "result": "radio_car_box",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "2 m",
-    "components": [
-      [ [ "radio_car", 1 ] ],
-      [ [ "radiocontrol", 1 ] ],
-      [ [ "light_minus_battery_cell", 1 ] ],
-      [ [ "light_battery_cell", 1 ] ]
+      [ [ "e_scrap", 2 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "radio_car_wheel", 1 ] ]
     ]
   },
   {
@@ -4211,6 +4201,16 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "nomex",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "fabrication",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "time": "1 h",
+    "components": [ [ [ "thread_nomex", 50 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "1st_aid",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
@@ -4242,24 +4242,6 @@
       [ [ "pur_tablets", 3 ] ],
       [ [ "gloves_medical", 1 ] ],
       [ [ "scissors", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "survival_kit",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "15 s",
-    "components": [
-      [ [ "knife_folding", 1 ] ],
-      [ [ "flint_steel", 1 ] ],
-      [ [ "whistle_multitool", 1 ] ],
-      [ [ "bottle_folding", 1 ] ],
-      [ [ "glowstick", 1 ] ],
-      [ [ "handflare", 4 ] ],
-      [ [ "pur_tablets", 15 ] ],
-      [ [ "pocket_survival", 1 ] ],
-      [ [ "survival_kit_box", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
   },
@@ -5039,5 +5021,12 @@
     "time": "12 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "result": "salt_lick",
+    "type": "uncraft",
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "material_rocksalt", 10 ] ] ]
   }
 ]

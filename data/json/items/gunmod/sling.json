@@ -9,7 +9,7 @@
     "integral_volume": "250 ml",
     "price": 480,
     "price_postapoc": 10,
-    "install_time": "5 m",
+    "install_time": "20 s",
     "material": [ "cotton" ],
     "symbol": ":",
     "color": "green",

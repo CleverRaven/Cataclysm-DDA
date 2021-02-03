@@ -395,7 +395,7 @@ void basecamp::add_resource( const itype_id &camp_resource )
 {
     basecamp_resource bcp_r;
     bcp_r.fake_id = camp_resource;
-    item camp_item( bcp_r.fake_id, 0 );
+    item camp_item( bcp_r.fake_id, calendar::turn_zero );
     bcp_r.ammo_id = camp_item.ammo_default();
     resources.emplace_back( bcp_r );
     fuel_types.insert( bcp_r.ammo_id );
@@ -559,17 +559,15 @@ void basecamp::query_new_name()
 {
     std::string camp_name;
     string_input_popup popup;
-    popup.title( _( "Name this camp" ) )
-    .width( 40 )
-    .text( "" )
-    .max_length( 25 )
-    .query();
-    if( popup.canceled() || popup.text().empty() ) {
-        camp_name = "faction_camp";
-    } else {
-        camp_name = popup.text();
-    }
-    name = camp_name;
+    do {
+        popup.title( _( "Name this camp" ) )
+        .width( 40 )
+        .text( "" )
+        .max_length( 25 )
+        .query();
+    } while( popup.canceled() || popup.text().empty() );
+
+    name = popup.text();;
 }
 
 void basecamp::set_name( const std::string &new_name )
@@ -589,7 +587,7 @@ std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
     }
     for( basecamp_resource &bcp_r : resources ) {
         if( bcp_r.fake_id == fake_id ) {
-            item camp_item( bcp_r.fake_id, 0 );
+            item camp_item( bcp_r.fake_id, calendar::turn_zero );
             camp_item.charges = std::min( bcp_r.available, quantity );
             quantity -= camp_item.charges;
             bcp_r.available -= camp_item.charges;
@@ -646,8 +644,8 @@ void basecamp::form_crafting_inventory( map &target_map )
     }
     for( basecamp_resource &bcp_r : resources ) {
         bcp_r.consumed = 0;
-        item camp_item( bcp_r.fake_id, 0 );
-        camp_item.set_flag( STATIC( flag_str_id( "PSEUDO" ) ) );
+        item camp_item( bcp_r.fake_id, calendar::turn_zero );
+        camp_item.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
         if( !bcp_r.ammo_id.is_null() ) {
             for( basecamp_fuel &bcp_f : fuels ) {
                 if( bcp_f.ammo_id == bcp_r.ammo_id ) {
@@ -691,6 +689,13 @@ std::string basecamp::expansion_tab( const point &dir ) const
         }
     }
     return _( "Empty Expansion" );
+}
+
+bool basecamp::point_within_camp( const tripoint_abs_omt &p ) const
+{
+    return std::any_of( expansions.begin(), expansions.end(), [ p ]( auto & e ) {
+        return p == e.second.pos;
+    } );
 }
 
 // legacy load and save

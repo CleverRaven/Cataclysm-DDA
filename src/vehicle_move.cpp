@@ -433,7 +433,11 @@ void vehicle::thrust( int thd, int z )
     }
     if( thrusting && accel == 0 ) {
         if( pl_ctrl ) {
-            add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
+            if( has_engine_type( fuel_type_muscle, true ) ) {
+                add_msg( _( "The %s is too heavy to move!" ), name );
+            } else {
+                add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
+            }
         }
         return;
     }
@@ -451,7 +455,7 @@ void vehicle::thrust( int thd, int z )
     //so 1000 = 100% and 453 = 45.3%
     int load;
     // Keep exact cruise control speed
-    if( cruise_on ) {
+    if( cruise_on && accel != 0 ) {
         int effective_cruise = std::min( cruise_velocity, max_vel );
         if( thd > 0 ) {
             vel_inc = std::min( vel_inc, effective_cruise - velocity );
@@ -547,7 +551,7 @@ void vehicle::thrust( int thd, int z )
     for( size_t e = 0; e < parts.size(); e++ ) {
         const vehicle_part &vp = parts[ e ];
         if( vp.info().fuel_type == fuel_type_animal && engines.size() != 1 ) {
-            monster *mon = get_pet( e );
+            monster *mon = get_monster( e );
             if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
                 if( velocity > mon->get_speed() * 12 ) {
                     add_msg( m_bad, _( "Your %s is not fast enough to keep up with the %s" ), mon->get_name(), name );
@@ -565,7 +569,7 @@ void vehicle::cruise_thrust( int amount )
         return;
     }
     int safe_vel = safe_velocity();
-    int max_vel = max_velocity();
+    int max_vel = is_autodriving ? safe_velocity() : max_velocity();
     int max_rev_vel = max_reverse_velocity();
 
     //if the safe velocity is between the cruise velocity and its next value, set to safe velocity
@@ -812,7 +816,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
     if( is_body_collision ) {
         // critters on a BOARDABLE part in this vehicle aren't colliding
-        if( ovp && ( &ovp->vehicle() == this ) && get_pet( ovp->part_index() ) ) {
+        if( ovp && ( &ovp->vehicle() == this ) && get_monster( ovp->part_index() ) ) {
             return ret;
         }
         // we just ran into a fish, so move it out of the way
@@ -898,7 +902,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                        to_kilogram( parts[ part ].base.weight() ) : to_kilogram( total_mass() );
 
     //Calculate damage resulting from d_E
-    const itype *type = item::find_type( part_info( ret.part ).item );
+    const itype *type = item::find_type( part_info( ret.part ).base_item );
     const auto &mats = type->materials;
     float vpart_dens = 0.0f;
     if( !mats.empty() ) {
@@ -1212,7 +1216,7 @@ bool vehicle::has_harnessed_animal() const
     for( size_t e = 0; e < parts.size(); e++ ) {
         const vehicle_part &vp = parts[ e ];
         if( vp.info().fuel_type == fuel_type_animal ) {
-            monster *mon = get_pet( e );
+            monster *mon = get_monster( e );
             if( mon && mon->has_effect( effect_harnessed ) && mon->has_effect( effect_pet ) ) {
                 return true;
             }
@@ -1227,7 +1231,7 @@ void vehicle::autodrive( const point &p )
         for( size_t e = 0; e < parts.size(); e++ ) {
             const vehicle_part &vp = parts[ e ];
             if( vp.info().fuel_type == fuel_type_animal ) {
-                monster *mon = get_pet( e );
+                monster *mon = get_monster( e );
                 if( !mon || !mon->has_effect( effect_harnessed ) || !mon->has_effect( effect_pet ) ) {
                     is_following = false;
                     return;
@@ -1489,7 +1493,7 @@ rl_vec2d vehicle::velo_vec() const
     return ret;
 }
 
-static inline rl_vec2d angle_to_vec( units::angle angle )
+static inline rl_vec2d angle_to_vec( const units::angle &angle )
 {
     return rl_vec2d( units::cos( angle ), units::sin( angle ) );
 }
@@ -1613,7 +1617,8 @@ void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool chec
 }
 
 // rounds turn_dir to 45*X degree, respecting face_dir
-static units::angle get_corrected_turn_dir( units::angle turn_dir, units::angle face_dir )
+static units::angle get_corrected_turn_dir( const units::angle &turn_dir,
+        const units::angle &face_dir )
 {
     units::angle corrected_turn_dir = 0_degrees;
 
@@ -1932,11 +1937,17 @@ void vehicle::check_falling_or_floating()
     }
     is_flying = false;
 
-    auto has_support = [&here]( const tripoint & position ) {
-        if( !here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, position ) ) {
+    auto has_support = [&here]( const tripoint & position, const bool water_supports ) {
+        // if we're at the bottom of the z-levels, we're supported
+        if( position.z == -OVERMAP_DEPTH ) {
             return true;
         }
-        if( position.z == -OVERMAP_DEPTH ) {
+        // water counts as support if we're swimming and checking to see if we're falling, but
+        // not to see if the wheels are supported at all
+        if( here.has_flag_ter_or_furn( TFLAG_SWIMMABLE, position ) ) {
+            return water_supports;
+        }
+        if( !here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, position ) ) {
             return true;
         }
         tripoint below( position.xy(), position.z - 1 );
@@ -1946,7 +1957,7 @@ void vehicle::check_falling_or_floating()
     int supported_wheels = 0;
     for( int wheel_index : wheelcache ) {
         const tripoint &position = global_part_pos3( wheel_index );
-        if( has_support( position ) ) {
+        if( has_support( position, false ) ) {
             ++supported_wheels;
         }
     }
@@ -1978,7 +1989,7 @@ void vehicle::check_falling_or_floating()
         if( !is_falling ) {
             continue;
         }
-        is_falling = !has_support( position );
+        is_falling = !has_support( position, true );
     }
     // floating if 2/3rds of the vehicle is in deep water
     is_floating = 3 * deep_water_tiles >= 2 * pts.size();

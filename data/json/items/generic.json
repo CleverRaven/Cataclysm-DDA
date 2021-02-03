@@ -10,8 +10,8 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "material": [ "animal" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
     "type": "GENERIC",
@@ -36,8 +36,8 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "material": [ "muscle" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
     "type": "GENERIC",
@@ -50,8 +50,8 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "material": [ "wind" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
     "type": "GENERIC",
@@ -64,8 +64,8 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "material": [ "sunlight" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
     "type": "GENERIC",
@@ -78,8 +78,8 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "material": [ "metabolism" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
     "type": "GENERIC",
@@ -359,7 +359,7 @@
     "symbol": "o",
     "color": "light_gray",
     "name": { "str": "cluster of gas sacs", "str_pl": "clusters of gas sacs" },
-    "description": "This is a cluster of membranous bubbles, each about the size of a grape, retrieved from inside a mutant insect.  They float like tiny helium balloons, and are likely full of a lighter-than-air gas helping the bug to fly.",
+    "description": "This is a cluster of membranous bubbles, each about the size of a grape, retrieved from inside a mutant insect.  They float like tiny helium balloons - perhaps they are full of a lighter-than-air gas.",
     "price": 0,
     "material": [ "flesh" ],
     "flags": [ "NO_SALVAGE" ],
@@ -451,6 +451,22 @@
     "material": [ "wood" ],
     "symbol": "H",
     "color": "brown"
+  },
+  {
+    "id": "bundle_rebar",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "bundle of rebars", "str_pl": "bundles of rebars" },
+    "description": "Ten pieces of rebar securely tied together for easier transport.  Disassemble to untie them.",
+    "//": "total volume is equal to 10 rebars, assuming uniformity and tight stacking",
+    "volume": "1600 ml",
+    "weight": "12500 g",
+    "longest_side": "80 cm",
+    "price": 75000,
+    "price_postapoc": 250,
+    "material": [ "steel" ],
+    "symbol": "H",
+    "color": "light_gray"
   },
   {
     "id": "bundle_branch",
@@ -590,6 +606,20 @@
     "weight": "18 g",
     "volume": "1 ml",
     "pocket_data": [ { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" } ],
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "fema_data",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str_sp": "FEMA data" },
+    "description": "Evacuation plans, disaster risk projections, personnel lists and last minute communications from just before the end, all scrubbed from FEMA servers and stored in an external hdd.",
+    "price": 10000,
+    "price_postapoc": 50,
+    "material": [ "plastic" ],
+    "weight": "30 g",
+    "volume": "250 ml",
     "to_hit": -3
   },
   {
@@ -948,7 +978,7 @@
     "id": "delay_fuze",
     "symbol": ",",
     "color": "light_gray",
-    "name": "delayed fuze",
+    "name": { "str": "delayed fuze" },
     "category": "spare_parts",
     "description": "A complex mechanical fuze.  It seems it can be used to detonate stable explosives after a short time by triggering it.",
     "price": 1000,
@@ -962,7 +992,7 @@
     "id": "impact_fuze",
     "symbol": ",",
     "color": "light_gray",
-    "name": "impact fuze",
+    "name": { "str": "impact fuze" },
     "category": "spare_parts",
     "description": "A complex mechanical fuze.  It seems it can be used to detonate stable explosives upon a solid impact.",
     "price": 1000,
@@ -1604,10 +1634,22 @@
     "price": 150000,
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
+    "nanofab_template_group": "nanofab_recipes",
+    "template_requirements": "nanofabricator",
     "weight": "317 g",
     "volume": "250 ml",
     "to_hit": -1,
     "flags": [ "NANOFAB_TEMPLATE", "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "debug_template",
+    "copy-from": "standard_template_construct",
+    "color": "yellow",
+    "name": { "str": "nanofabricator template" },
+    "description": "A state-of-the-art optical storage system, containing the instruction set to replicate itself.",
+    "nanofab_template_group": "debug_template_item",
+    "template_requirements": "copper_scrap_equivalent"
   },
   {
     "type": "GENERIC",
@@ -1927,11 +1969,11 @@
     "id": "chamomile",
     "name": { "str_sp": "chamomile flowers" },
     "description": "White chamomile flowers, used as a herbal remedy since the ancient times.",
-    "weight": "50 g",
+    "weight": "10 g",
     "color": "white",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": "250 ml",
+    "volume": "20 ml",
     "price": 0,
     "price_postapoc": 0
   },
@@ -1940,7 +1982,7 @@
     "id": "lotus",
     "name": { "str": "lotus flower" },
     "description": "A lovely flower that grows on the surface of bodies of freshwater.  Traditionally connected with many Eastern cultures.",
-    "weight": "50 g",
+    "weight": "20 g",
     "color": "white",
     "symbol": ",",
     "material": [ "veggy" ],
@@ -2338,6 +2380,7 @@
     "price_postapoc": 10,
     "material": [ "cotton" ],
     "weight": "514 g",
+    "container": "pillowcase",
     "volume": "1 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
@@ -2368,6 +2411,7 @@
     "price_postapoc": 10,
     "material": [ "cotton" ],
     "weight": "514 g",
+    "container": "pillowcase",
     "volume": "1 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
@@ -2954,6 +2998,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "disassembly",
+    "symbol": "%",
+    "color": "white",
+    "name": { "str": "in progress disassembly" },
+    "description": "This is an in progress disassembly.",
+    "price": 0,
+    "price_postapoc": 0,
+    "weight": "1 g",
+    "volume": "250 ml",
+    "use_action": [ "DISASSEMBLE" ],
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "CAN_HAVE_CHARGES" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "spare_tire_carrier",
     "category": "spare_parts",
     "symbol": "t",
@@ -3112,37 +3170,6 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "id": "survival_kit",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "survival kit" },
-    "description": "A small box filled with tools and items to help you survive in case of an emergency.  Disassemble to get its content.",
-    "weight": "1612 g",
-    "volume": "1 L",
-    "price": 5000,
-    "price_postapoc": 250,
-    "material": [ "aluminum" ],
-    "symbol": "!",
-    "color": "green",
-    "use_action": [ "DISASSEMBLE" ],
-    "flags": [ "NO_REPAIR" ]
-  },
-  {
-    "id": "premium_survival_kit",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "survival kit" },
-    "description": "The ultimate survival kit purchased either by the wealthy or the dedicated urban survivalist.  It contains tools and items to help you survive in case of an emergency.  Disassemble to get its contents.",
-    "weight": "1612 g",
-    "volume": "1 L",
-    "price": 15000,
-    "material": [ "aluminum" ],
-    "symbol": "!",
-    "color": "green",
-    "use_action": { "type": "unpack", "group": "premium_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
-    "flags": [ "NO_REPAIR" ]
-  },
-  {
     "id": "plastic_six_dice",
     "type": "GENERIC",
     "category": "other",
@@ -3230,7 +3257,8 @@
           "fp_loyalty_card",
           "scorecard",
           "robofac_test_data",
-          "icon"
+          "icon",
+          "labmap"
         ]
       },
       {

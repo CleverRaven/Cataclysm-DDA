@@ -80,21 +80,20 @@ void PATH_INFO::init_user_dir( std::string dir )
 void PATH_INFO::set_standard_filenames()
 {
     // Special: data_dir and gfx_dir
+    std::string prefix;
     if( !base_path_value.empty() ) {
 #if defined(DATA_DIR_PREFIX)
         datadir_value = base_path_value + "share/cataclysm-dda/";
-        gfxdir_value = datadir_value + "gfx/";
-        langdir_value = datadir_value + "lang/";
+        prefix = datadir_value;
 #else
         datadir_value = base_path_value + "data/";
-        gfxdir_value = base_path_value + "gfx/";
-        langdir_value = base_path_value + "lang/";
+        prefix = base_path_value;
 #endif
     } else {
         datadir_value = "data/";
-        gfxdir_value = "gfx/";
-        langdir_value = "lang/";
     }
+    gfxdir_value = prefix + "gfx/";
+    langdir_value = prefix + "lang/mo/";
 
     // Shared dirs
 
@@ -232,10 +231,6 @@ std::string PATH_INFO::fontdir()
 std::string PATH_INFO::user_font()
 {
     return user_dir_value + "font/";
-}
-std::string PATH_INFO::fontlist()
-{
-    return config_dir_value + "fontlist.txt";
 }
 std::string PATH_INFO::graveyarddir()
 {

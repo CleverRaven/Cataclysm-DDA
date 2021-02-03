@@ -251,11 +251,6 @@
   },
   {
     "type": "item_action",
-    "id": "ANTIASTHMATIC",
-    "name": { "str": "Take" }
-  },
-  {
-    "type": "item_action",
     "id": "ANTIBIOTIC",
     "name": { "str": "Take" }
   },
@@ -747,7 +742,7 @@
   {
     "type": "item_action",
     "id": "FITNESS_CHECK",
-    "name": "Check health metrics"
+    "name": { "str": "Check health metrics" }
   },
   {
     "type": "item_action",

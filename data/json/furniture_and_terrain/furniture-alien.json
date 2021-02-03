@@ -31,7 +31,7 @@
     "coverage": 30,
     "required_str": -1,
     "light_emitted": 3,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT" ],
     "emissions": [ "emit_hot_air_migo_seep" ],
     "bash": {
       "str_min": 13,
@@ -52,7 +52,7 @@
     "move_cost_mod": 6,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT" ],
     "emissions": [ "emit_migo_atmosphere", "emit_hot_air_migo_blast" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
     "bash": {
@@ -74,7 +74,7 @@
     "move_cost_mod": 4,
     "coverage": 20,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT" ],
     "emissions": [ "emit_glimmer", "emit_shock_burst" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
     "bash": { "str_min": 30, "str_max": 60, "sound": "splorch!", "sound_fail": "whump!", "furn_set": "f_alien_scar" }
@@ -89,7 +89,7 @@
     "move_cost_mod": 6,
     "coverage": 40,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "flags": [ "TRANSPARENT" ],
     "emissions": [ "emit_hot_air_migo_seep", "emit_shock_burst" ],
     "//": "TODO: Make a custom toxic gas emission that is not visible to the player",
     "bash": {
@@ -186,7 +186,7 @@
         { "item": "antenna", "count": [ 0, 1 ] },
         { "item": "exodii_module", "count": [ 0, 1 ] },
         { "item": "exodii_motor", "count": [ 0, 1 ] },
-        { "item": "cable", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 0, 2 ] },
         { "item": "scrap_copper", "count": [ 2, 10 ] }
       ]
     }
@@ -195,7 +195,7 @@
     "type": "furniture",
     "id": "f_exodii_botrack",
     "name": "rack of robots",
-    "looks_like": "f_server_stack",
+    "looks_like": "f_server",
     "description": "This is a wire cage containing a number of robot parts, from chassis to limbs, firmly clamped on to sturdy hanging rods.  It looks like it would be exceptionally difficult to open it and get at them without damaging them, probably by design.",
     "symbol": "E",
     "color": "light_gray",
@@ -244,7 +244,7 @@
         { "item": "scrap_copper", "count": [ 2, 10 ] },
         { "item": "exodii_computer", "count": [ 0, 1 ] },
         { "item": "exodii_motor", "count": [ 0, 1 ] },
-        { "item": "cable", "count": [ 0, 3 ] },
+        { "item": "cable", "charges": [ 0, 3 ] },
         { "item": "exodii_scanner_dish", "count": [ 0, 1 ] }
       ]
     }
@@ -273,7 +273,7 @@
         { "item": "scrap_copper", "count": [ 2, 10 ] },
         { "item": "amplifier", "count": [ 0, 5 ] },
         { "item": "power_supply", "count": [ 0, 1 ] },
-        { "item": "cable", "count": [ 0, 5 ] }
+        { "item": "cable", "charges": [ 0, 5 ] }
       ]
     }
   },
@@ -517,7 +517,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "sheet_metal", "count": [ 0, 1 ] },
         { "item": "sheet_metal_small", "count": [ 4, 8 ] },
         { "item": "e_scrap", "count": [ 2, 6 ] },
@@ -549,7 +549,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "sheet_metal", "count": [ 0, 1 ] },
         { "item": "sheet_metal_small", "count": [ 4, 8 ] },
         { "item": "e_scrap", "count": [ 2, 6 ] },
@@ -582,7 +582,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 2, 5 ] },
         { "item": "amplifier", "count": [ 2, 5 ] },
@@ -611,7 +611,7 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-        { "item": "cable", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 4 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 1, 3 ] },
         { "item": "amplifier", "count": [ 1, 3 ] },

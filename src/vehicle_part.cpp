@@ -47,9 +47,9 @@ vehicle_part::vehicle_part( const vpart_id &vp, const std::string &variant_id, c
     // Mark base item as being installed as a vehicle part
     base.set_flag( flag_VEHICLE );
 
-    if( base.typeId() != vp->item ) {
+    if( base.typeId() != vp->base_item ) {
         debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
-                  vp->item.c_str(), base.typeId().c_str() );
+                  vp->base_item.c_str(), base.typeId().c_str() );
     }
 }
 

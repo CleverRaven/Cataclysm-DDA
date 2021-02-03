@@ -40,7 +40,7 @@ void tileray::init( const point &ad )
     infinite = false;
 }
 
-void tileray::init( units::angle adir )
+void tileray::init( const units::angle &adir )
 {
     leftover = 0;
     // Clamp adir to the range [0, 360)

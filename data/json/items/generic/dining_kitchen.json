@@ -516,7 +516,6 @@
     "description": "A plastic spoon designed for use by children.",
     "looks_like": "spoon",
     "copy-from": "base_plastic_silverware",
-    "qualities": [ [ "CONTAIN", 1 ] ],
     "snippet_category": [
       { "id": "kspoon1", "text": "This spoon is striped in bright primary colors." },
       { "id": "kspoon2", "text": "This spoon is styled to look like a bulldozer." },
@@ -712,6 +711,7 @@
     "name": { "str": "rolling pin" },
     "description": "A stout piece of hardwood, turned and sanded smooth, with rounded handles at the ends.  This timeless kitchen tool also doubles as a very effective club.",
     "weight": "725 g",
+    "longest_side": "45 cm",
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
@@ -732,6 +732,7 @@
     "color": "light_gray",
     "weight": "550 g",
     "volume": "2100 ml",
+    "longest_side": "23 cm",
     "bashing": 6,
     "pocket_data": [
       {
@@ -754,6 +755,7 @@
     "color": "dark_gray",
     "weight": "3000 g",
     "volume": "2375 ml",
+    "longest_side": "24 cm",
     "bashing": 10,
     "pocket_data": [
       {
@@ -776,6 +778,7 @@
     "color": "light_red",
     "weight": "750 g",
     "volume": "2100 ml",
+    "longest_side": "23 cm",
     "bashing": 6,
     "to_hit": -2,
     "pocket_data": [
@@ -799,6 +802,7 @@
     "color": "white",
     "weight": "650 g",
     "volume": "2100 ml",
+    "longest_side": "23 cm",
     "bashing": 4,
     "pocket_data": [
       {
@@ -821,6 +825,7 @@
     "color": "light_gray",
     "weight": "2490 g",
     "volume": "12800 ml",
+    "longest_side": "25 cm",
     "bashing": 8,
     "pocket_data": [
       {
@@ -840,6 +845,7 @@
     "description": "A very large 25 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
     "weight": "5625 g",
     "volume": "26250 ml",
+    "longest_side": "27 cm",
     "price": 20000,
     "to_hit": -2,
     "bashing": 10,
@@ -870,6 +876,7 @@
     "color": "dark_gray",
     "weight": "2628 g",
     "volume": "1335 ml",
+    "longest_side": "36 cm",
     "bashing": 12,
     "to_hit": -3,
     "pocket_data": [
@@ -896,6 +903,7 @@
     "looks_like": "pan",
     "weight": "528 g",
     "volume": "1 L",
+    "longest_side": "35 cm",
     "bashing": 8,
     "to_hit": -2,
     "pocket_data": [
@@ -922,6 +930,7 @@
     "looks_like": "pan",
     "weight": "628 g",
     "volume": "1050 ml",
+    "longest_side": "35 cm",
     "bashing": 7,
     "to_hit": -2,
     "pocket_data": [
@@ -944,6 +953,7 @@
     "description": "A sheet of metal crudely hammered into a cooking pot.  Good enough to cook food and boil water, but not as useful as proper cookware.",
     "weight": "6000 g",
     "volume": "1050 ml",
+    "longest_side": "20 cm",
     "price": 200,
     "price_postapoc": 5,
     "to_hit": 1,
@@ -971,6 +981,7 @@
     "description": "A cooking pot crudely hammered out of copper.  Good enough to cook food and boil water, but not as useful as proper cookware.",
     "weight": "884 g",
     "volume": "1050 ml",
+    "longest_side": "20 cm",
     "price": 200,
     "price_postapoc": 5,
     "to_hit": 1,

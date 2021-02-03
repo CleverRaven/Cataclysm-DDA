@@ -905,6 +905,27 @@
   },
   {
     "type": "terrain",
+    "id": "t_wall_dirt",
+    "name": "smooth dirt wall",
+    "looks_like": "t_wall_rammed_earth",
+    "description": "A solid wall of compressed dirt, mixed with… something to keep it stable.  Its surface glistens slightly, and it smells like rotten milk.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 30,
+      "str_max": 200,
+      "sound": "heavy rumbling!",
+      "sound_fail": "thump",
+      "ter_set": "t_mud_underground",
+      "items": [ { "item": "material_soil", "count": [ 50, 100 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_junk_palisade",
     "name": "junk metal barrier",
     "looks_like": "t_scrap_wall_halfway",

@@ -1,6 +1,64 @@
 [
   {
     "type": "material",
+    "id": "pseudo_fuel",
+    "name": "Pseudo fuel",
+    "density": 1,
+    "bash_resist": 0,
+    "cut_resist": 0,
+    "bullet_resist": 0,
+    "acid_resist": 0,
+    "fire_resist": 0,
+    "elec_resist": 0,
+    "chip_resist": 0,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "gouged",
+    "fuel_data": { "energy": 1 }
+  },
+  {
+    "type": "material",
+    "id": "battery",
+    "name": "Battery",
+    "copy-from": "pseudo_fuel"
+  },
+  {
+    "type": "material",
+    "id": "wind",
+    "name": "Wind",
+    "fuel_data": { "energy": 1, "perpetual": true },
+    "copy-from": "pseudo_fuel"
+  },
+  {
+    "type": "material",
+    "id": "sunlight",
+    "name": "Sunlight",
+    "fuel_data": { "energy": 1, "perpetual": true },
+    "copy-from": "pseudo_fuel"
+  },
+  {
+    "type": "material",
+    "id": "animal",
+    "name": "Animal",
+    "fuel_data": { "energy": 1, "perpetual": true },
+    "copy-from": "pseudo_fuel"
+  },
+  {
+    "type": "material",
+    "id": "muscle",
+    "name": "Muscle",
+    "fuel_data": { "energy": 1, "perpetual": true },
+    "copy-from": "pseudo_fuel"
+  },
+  {
+    "type": "material",
+    "id": "metabolism",
+    "name": "Metabolism",
+    "fuel_data": { "energy": 1, "perpetual": true },
+    "copy-from": "pseudo_fuel"
+  },
+  {
+    "type": "material",
     "id": "alcohol",
     "name": "Alcohol",
     "density": 1,
@@ -18,6 +76,10 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "fuel_data": {
+      "energy": 15.6,
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    },
     "burn_data": [
       { "fuel": 150, "smoke": 0, "burn": 1 },
       { "fuel": 300, "smoke": 0, "burn": 2 },
@@ -211,9 +273,9 @@
     "specific_heat_liquid": 1,
     "specific_heat_solid": 1,
     "latent_heat": 333,
-    "bash_resist": 2,
-    "cut_resist": 4,
-    "bullet_resist": 7,
+    "bash_resist": 3,
+    "cut_resist": 5,
+    "bullet_resist": 6,
     "acid_resist": 10,
     "fire_resist": 10,
     "elec_resist": 10,
@@ -692,6 +754,80 @@
   },
   {
     "type": "material",
+    "id": "diesel",
+    "name": "Diesel",
+    "copy-from": "hydrocarbons",
+    "fuel_data": {
+      "energy": 35.8,
+      "pump_terrain": "t_diesel_pump",
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
+    "id": "jp8",
+    "name": "JP8",
+    "copy-from": "hydrocarbons",
+    "fuel_data": {
+      "energy": 34.7,
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
+    "id": "avgas",
+    "name": "avgas fuel",
+    "copy-from": "hydrocarbons",
+    "fuel_data": {
+      "energy": 45.8,
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
+    "id": "biodiesel",
+    "name": "Biodiesel",
+    "copy-from": "hydrocarbons",
+    "fuel_data": {
+      "energy": 29.6,
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
+    "id": "gasoline",
+    "name": "Gasoline",
+    "copy-from": "hydrocarbons",
+    "fuel_data": {
+      "energy": 34.2,
+      "pump_terrain": "t_gas_pump",
+      "explosion_data": { "chance_hot": 2, "chance_cold": 5, "factor": 1, "fiery": true, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
+    "id": "lamp_oil",
+    "name": "Lamp oil",
+    "copy-from": "hydrocarbons",
+    "fuel_data": {
+      "//": "Roughly equivalent to LPG",
+      "energy": 26,
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
+    "id": "motor_oil",
+    "name": "Motor oil",
+    "copy-from": "hydrocarbons",
+    "fuel_data": {
+      "//": "Roughly equivalent to LPG",
+      "energy": 26,
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
     "id": "iflesh",
     "name": "Insect Flesh",
     "density": 5,
@@ -1166,7 +1302,8 @@
     "chip_resist": 0,
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
-    "cut_dmg_verb": "damaged"
+    "cut_dmg_verb": "damaged",
+    "fuel_data": { "energy": 5.2 }
   },
   {
     "type": "material",
@@ -1266,6 +1403,54 @@
   },
   {
     "type": "material",
+    "id": "plut_cell",
+    "name": "Energetic Nanocompound",
+    "density": 30,
+    "bash_resist": 6,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "cut_resist": 6,
+    "bullet_resist": 3,
+    "acid_resist": 7,
+    "fire_resist": 3,
+    "elec_resist": 0,
+    "chip_resist": 20,
+    "repaired_with": "scrap",
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 1 ] ],
+    "fuel_data": { "energy": 10 }
+  },
+  {
+    "type": "material",
+    "id": "hydrogen_cell",
+    "name": "Pressurized hydrogen",
+    "density": 30,
+    "bash_resist": 6,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "cut_resist": 6,
+    "bullet_resist": 3,
+    "acid_resist": 7,
+    "fire_resist": 3,
+    "elec_resist": 0,
+    "chip_resist": 20,
+    "repaired_with": "scrap",
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 1 ] ],
+    "fuel_data": {
+      "//": "Compressed gaseous hydrogen has 9.2 MJ/L.  This stuff has a very high energy density but is also bulky and explosive.",
+      "energy": 4000,
+      "explosion_data": { "chance_hot": 2, "chance_cold": 2, "factor": 1, "fiery": true, "size_factor": 0.15 }
+    }
+  },
+  {
+    "type": "material",
     "id": "stone",
     "name": "Stone",
     "density": 17,
@@ -1336,9 +1521,9 @@
     "latent_heat": 42,
     "soft": true,
     "reinforces": true,
-    "bash_resist": 3,
-    "cut_resist": 3,
-    "bullet_resist": 2,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "bullet_resist": 3,
     "acid_resist": 9,
     "fire_resist": 2,
     "elec_resist": 2,
@@ -1570,6 +1755,19 @@
   },
   {
     "type": "material",
+    "id": "blood",
+    "name": "blood",
+    "copy-from": "water",
+    "vitamins": [ [ "calcium", 0.1 ], [ "vitB", 1 ], [ "iron", 1.3 ] ]
+  },
+  {
+    "type": "material",
+    "id": "hblood",
+    "name": "human blood",
+    "copy-from": "blood"
+  },
+  {
+    "type": "material",
     "id": "wheat",
     "name": "Wheat",
     "density": 4,
@@ -1616,7 +1814,22 @@
       { "fuel": 2, "smoke": 1, "burn": 0.02, "volume_per_turn": "825 ml" },
       { "fuel": 3, "smoke": 1, "burn": 0.03 }
     ],
-    "burn_products": [ [ "ash", 0.018 ] ]
+    "burn_products": [ [ "ash", 0.018 ] ],
+    "fuel_data": { "energy": 1 }
+  },
+  {
+    "type": "material",
+    "id": "charcoal",
+    "name": "Charcoal",
+    "copy-from": "wood",
+    "fuel_data": { "energy": 1.6 }
+  },
+  {
+    "type": "material",
+    "id": "coal",
+    "name": "Coal",
+    "copy-from": "wood",
+    "fuel_data": { "energy": 30 }
   },
   {
     "type": "material",

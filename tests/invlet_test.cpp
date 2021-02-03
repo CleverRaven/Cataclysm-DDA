@@ -10,6 +10,7 @@
 #include <utility>
 
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "inventory.h"
 #include "item.h"
@@ -67,7 +68,7 @@ template <typename T>
 static item *retrieve_item( const T &sel, int id )
 {
     item *obj = nullptr;
-    sel.visit_items( [&id, &obj]( const item * e ) {
+    sel.visit_items( [&id, &obj]( const item * e, item * ) {
         if( get_id( *e ) == id ) {
             obj = const_cast<item *>( e );
             return VisitResponse::ABORT;
@@ -379,14 +380,14 @@ static void move_item( player &p, const int id, const inventory_location from,
                     FAIL( "unimplemented" );
                     break;
                 case WORN:
-                    p.wear( item_at( p, id, from ), false );
+                    p.wear( item_location( *p.as_character(), &item_at( p, id, from ) ), false );
                     break;
                 case WIELDED_OR_WORN:
                     if( p.weapon.is_null() ) {
                         p.wield( item_at( p, id, from ) );
                     } else {
                         // since we can only wield one item, wear the item instead
-                        p.wear( item_at( p, id, from ), false );
+                        p.wear( item_location( *p.as_character(), &item_at( p, id, from ) ), false );
                     }
                     break;
             }

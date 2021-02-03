@@ -59,8 +59,8 @@ class player_morale
         int get_total_positive_value() const;
         int get_total_negative_value() const;
 
-        /** Returns percieved pain. Only used in morale_test.cpp*/
-        int get_percieved_pain() const;
+        /** Returns perceived pain. Only used in morale_test.cpp*/
+        int get_perceived_pain() const;
 
         void on_mutation_gain( const trait_id &mid );
         void on_mutation_loss( const trait_id &mid );
@@ -80,7 +80,7 @@ class player_morale
         class morale_point
         {
             public:
-                morale_point(
+                explicit morale_point(
                     const morale_type &type = MORALE_NULL,
                     const itype *item_type = nullptr,
                     int bonus = 0,
@@ -111,7 +111,7 @@ class player_morale
                           time_duration new_decay_start, bool new_cap );
                 void decay( const time_duration &ticks = 1_turns );
                 /*
-                 *contribution should be bettween [0,100] (inclusive)
+                 *contribution should be between [0,100] (inclusive)
                  */
                 void set_percent_contribution( double contribution );
                 double get_percent_contribution() const;
@@ -148,6 +148,7 @@ class player_morale
         void set_worn( const item &it, bool worn );
         void set_mutation( const trait_id &mid, bool active );
         bool has_mutation( const trait_id &mid );
+        bool has_mutation_flag( const std::string &flag );
 
         void remove_if( const std::function<bool( const morale_point & )> &func );
         void remove_expired();
@@ -183,7 +184,7 @@ class player_morale
         struct mutation_data {
             public:
                 mutation_data() = default;
-                mutation_data( const mutation_handler &on_gain_and_loss ) :
+                explicit mutation_data( const mutation_handler &on_gain_and_loss ) :
                     on_gain( on_gain_and_loss ),
                     on_loss( on_gain_and_loss ) {}
                 mutation_data( const mutation_handler &on_gain, const mutation_handler &on_loss ) :

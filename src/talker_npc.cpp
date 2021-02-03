@@ -51,6 +51,7 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
 std::string talker_npc::distance_to_goal() const
 {
@@ -194,15 +195,8 @@ void talker_npc::check_missions()
     me_npc->chatbin.check_missions();
 }
 
-void talker_npc::update_missions( const std::vector<mission *> &missions_assigned,
-                                  const character_id &charID )
+void talker_npc::update_missions( const std::vector<mission *> &missions_assigned )
 {
-    if( me_npc->chatbin.mission_selected != nullptr ) {
-        if( me_npc->chatbin.mission_selected->get_assigned_player_id() != charID ) {
-            // Don't talk about a mission that is assigned to someone else.
-            me_npc->chatbin.mission_selected = nullptr;
-        }
-    }
     if( me_npc->chatbin.mission_selected == nullptr ) {
         // if possible, select a mission to talk about
         if( !me_npc->chatbin.missions.empty() ) {
@@ -287,7 +281,7 @@ std::string talker_npc::skill_training_text( const talker &student,
     SkillLevel skill_level_obj = pupil->get_skill_level_object( skill );
     const int cur_level = skill_level_obj.level();
     const int cur_level_exercise = skill_level_obj.exercise();
-    skill_level_obj.train( 100 );
+    skill_level_obj.train( 10000 );
     const int next_level = skill_level_obj.level();
     const int next_level_exercise = skill_level_obj.exercise();
 
@@ -403,6 +397,11 @@ int talker_npc::cash_to_favor( const int value ) const
     return npc_trading::cash_to_favor( *me_npc, value );
 }
 
+int talker_npc::value( const item &it ) const
+{
+    return me_npc->value( it );
+}
+
 enum consumption_result {
     REFUSED = 0,
     CONSUMED_SOME, // Consumption didn't fail, but don't delete the item
@@ -437,12 +436,18 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = _( "It doesn't look like a good idea to consume this…" );
             return REFUSED;
         } else {
+            if( to_eat.rotten() && !p.as_character()->has_trait( trait_SAPROVORE ) ) {
+                //TODO: once npc needs are operational again check npc hunger state and allow eating if desperate
+                reason = _( "This is rotten!  I won't eat that." );
+                return REFUSED;
+            }
+
             const time_duration &consume_time = p.get_consume_time( to_eat );
             p.moves -= to_moves<int>( consume_time );
             p.consume( to_eat );
             reason = _( "Thanks, that hit the spot." );
-
         }
+
     } else if( to_eat.is_medication() ) {
         if( !comest->tool.is_null() ) {
             bool has = p.has_amount( comest->tool, 1 );
@@ -495,9 +500,9 @@ std::string talker_npc::give_item_to( const bool to_use )
     item &given = *loc;
 
     if( ( &given == &player_character.weapon &&
-          given.has_flag( STATIC( flag_str_id( "NO_UNWIELD" ) ) ) ) ||
+          given.has_flag( STATIC( flag_id( "NO_UNWIELD" ) ) ) ) ||
         ( player_character.is_worn( given ) &&
-          given.has_flag( STATIC( flag_str_id( "NO_TAKEOFF" ) ) ) ) ) {
+          given.has_flag( STATIC( flag_id( "NO_TAKEOFF" ) ) ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }

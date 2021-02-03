@@ -187,5 +187,39 @@
     "ammo_type": [ "45" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 9 } } ]
+  },
+  {
+    "id": "glock_21mag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Glock 21 13-round magazine" },
+    "description": "A standard capacity magazine for use with the Glock 21.",
+    "weight": "85 g",
+    "volume": "105 ml",
+    "price": 4000,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "45" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 13 } } ]
+  },
+  {
+    "id": "glock_21mag26",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Glock 21 26-round magazine" },
+    "description": "A double capacity magazine for use with the Glock 21.",
+    "weight": "85 g",
+    "volume": "205 ml",
+    "price": 4000,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "45" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 26 } } ]
   }
 ]

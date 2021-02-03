@@ -233,9 +233,10 @@
     "symbol": ")",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
-    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
-    "coverage": 5,
-    "encumbrance": 50,
+    "armor_portion_data": [
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 5, "encumbrance": [ 50, 50 ] },
+      { "covers": [ "hand_l", "hand_r" ], "coverage": 5, "encumbrance": [ 50, 50 ] }
+    ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -319,11 +320,11 @@
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
-    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
-    "sided": true,
-    "coverage": 4,
-    "encumbrance": 30,
-    "max_encumbrance": 35,
+    "armor_portion_data": [
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 4, "encumbrance": [ 30, 33 ] },
+      { "covers": [ "hand_l", "hand_r" ], "coverage": 4, "encumbrance": [ 30, 32 ] },
+      { "sided": true }
+    ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "15 kg", "moves": 300 } ],
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
@@ -549,7 +550,7 @@
         "moves": 80
       }
     ],
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -581,7 +582,7 @@
         "moves": 80
       }
     ],
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -629,7 +630,7 @@
     "copy-from": "raw_leather",
     "type": "COMESTIBLE",
     "category": "clothing",
-    "name": "hide bag",
+    "name": { "str": "hide bag" },
     "description": "The raw skin of an animal, quickly turned into a makeshift bag for storage.  It will still rot, and needs to be cured and tanned.",
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
@@ -641,7 +642,7 @@
       "coverage": 5,
       "encumbrance": 10,
       "max_encumbrance": 100,
-      "material_thickness": 1
+      "material_thickness": 0.1
     },
     "pocket_data": [
       {
@@ -659,7 +660,7 @@
     "copy-from": "raw_tainted_leather",
     "type": "COMESTIBLE",
     "category": "clothing",
-    "name": "tainted hide bag",
+    "name": { "str": "tainted hide bag" },
     "description": "The raw skin of a monster, quickly turned into a makeshift bag for storage.  It will still rot, and needs to be cured and tanned.",
     "symbol": "[",
     "looks_like": "hide_bag",
@@ -672,7 +673,7 @@
       "coverage": 5,
       "encumbrance": 10,
       "max_encumbrance": 100,
-      "material_thickness": 1
+      "material_thickness": 0.1
     },
     "pocket_data": [
       {
@@ -767,7 +768,7 @@
         "moves": 80
       }
     ],
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -804,7 +805,7 @@
         "moves": 200
       }
     ],
-    "material_thickness": 2,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ]
   },
   {
@@ -834,7 +835,7 @@
       }
     ],
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -960,6 +961,34 @@
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
+    "id": "net_backpack",
+    "type": "ARMOR",
+    "name": { "str": "net backpack" },
+    "description": "A bag woven together from strings, with straps to wear it on back.  Lighter than a standard backpack, but more awkward to carry when loaded and unable to hold small or heavy items.",
+    "weight": "192 g",
+    "volume": "750 ml",
+    "price": 1000,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "green",
+    "covers": [ "torso" ],
+    "coverage": 20,
+    "encumbrance": 1,
+    "max_encumbrance": 25,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "100 ml",
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "40 cm",
+        "moves": 300
+      }
+    ],
+    "material_thickness": 1,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "petpack",
     "type": "ARMOR",
     "name": { "str": "petpack" },
@@ -1004,13 +1033,13 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
-    "sided": true,
-    "coverage": 4,
-    "encumbrance": 1,
-    "max_encumbrance": 60,
+    "armor_portion_data": [
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 4, "encumbrance": [ 1, 30 ] },
+      { "covers": [ "hand_l", "hand_r" ], "coverage": 4, "encumbrance": [ 1, 30 ] },
+      { "sided": true }
+    ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "3 kg", "moves": 150 } ],
-    "material_thickness": 1,
+    "material_thickness": 0.01,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
@@ -1042,7 +1071,7 @@
         "moves": 150
       }
     ],
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -1072,7 +1101,7 @@
         "moves": 200
       }
     ],
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -1128,7 +1157,7 @@
       }
     ],
     "warmth": 8,
-    "material_thickness": 2,
+    "material_thickness": 0.2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -1161,7 +1190,7 @@
       }
     ],
     "warmth": 2,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -1430,11 +1459,11 @@
     "symbol": "[",
     "looks_like": "duffelbag",
     "color": "brown",
-    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
-    "sided": true,
-    "coverage": 5,
-    "encumbrance": 4,
-    "max_encumbrance": 100,
+    "armor_portion_data": [
+      { "covers": [ "hand_l", "hand_r" ], "coverage": 5, "encumbrance": [ 4, 48 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 5, "encumbrance": [ 4, 48 ] },
+      { "sided": true }
+    ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1551,8 +1580,37 @@
       }
     ],
     "warmth": 5,
-    "material_thickness": 2,
+    "material_thickness": 0.4,
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "wicker_backpack",
+    "type": "ARMOR",
+    "name": { "str": "wicker backpack" },
+    "description": "A large handmade straw basket with a lid and shoulder straps to wear it like a backpack.  Less comfortable than a proper backpack, but will do the job.",
+    "weight": "712 g",
+    "volume": "15004 ml",
+    "longest_side": "42 cm",
+    "price": 1000,
+    "material": [ "dry_plant" ],
+    "symbol": "[",
+    "color": "green",
+    "covers": [ "torso" ],
+    "coverage": 25,
+    "encumbrance": 5,
+    "max_encumbrance": 20,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "35 cm",
+        "moves": 300
+      }
+    ],
+    "material_thickness": 2,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "debug_backpack",
@@ -1835,5 +1893,46 @@
     "warmth": 1,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "camera_bag",
+    "repairs_like": "backpack",
+    "type": "ARMOR",
+    "name": { "str": "camera bag" },
+    "description": "A simple bag used to hold a camera, with a small pocket on the side for accessories.  Comes with a carry strap.",
+    "weight": "600 g",
+    "volume": "7000 ml",
+    "price": 5500,
+    "price_postapoc": 700,
+    "bashing": 1,
+    "material": [ "cotton", "plastic" ],
+    "symbol": "[",
+    "looks_like": "slingpack",
+    "color": "yellow",
+    "covers": [ "torso" ],
+    "coverage": 25,
+    "encumbrance": 3,
+    "max_encumbrance": 5,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3750 ml",
+        "max_contains_weight": "16 kg",
+        "max_item_length": "26 cm",
+        "magazine_well": "2 L",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "23 cm",
+        "magazine_well": "500 ml",
+        "moves": 115
+      }
+    ],
+    "warmth": 2,
+    "material_thickness": 1,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   }
 ]

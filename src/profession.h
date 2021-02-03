@@ -33,7 +33,8 @@ class profession
             /** Snippet id, @see snippet_library. */
             snippet_id snip_id;
             // compatible with when this was just a std::string
-            itypedec( const std::string &t ) : type_id( t ), snip_id( snippet_id::NULL_ID() ) {
+            explicit itypedec( const std::string &t ) :
+                type_id( t ), snip_id( snippet_id::NULL_ID() ) {
             }
             itypedec( const std::string &t, const snippet_id &d ) : type_id( t ), snip_id( d ) {
             }

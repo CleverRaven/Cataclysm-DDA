@@ -121,7 +121,7 @@ class Item_factory
          * @throw JsonError if the json object contains invalid data.
          */
         void load_item_group( const JsonObject &jsobj, const item_group_id &group_id,
-                              const std::string &subtype );
+                              const std::string &subtype, std::string context = {} );
         /**
          * Like above, but the above loads data from several members of the object, this function
          * assume the given array is the "entries" member of the item group.
@@ -141,7 +141,8 @@ class Item_factory
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
         void load_item_group( const JsonArray &entries, const item_group_id &group_id,
-                              bool is_collection, int ammo_chance, int magazine_chance );
+                              bool is_collection, int ammo_chance, int magazine_chance,
+                              std::string context = {} );
         /**
          * Get the item group object. Returns null if the item group does not exists.
          */
@@ -181,7 +182,6 @@ class Item_factory
         void load_comestible( const JsonObject &jo, const std::string &src );
         void load_engine( const JsonObject &jo, const std::string &src );
         void load_wheel( const JsonObject &jo, const std::string &src );
-        void load_fuel( const JsonObject &jo, const std::string &src );
         void load_gunmod( const JsonObject &jo, const std::string &src );
         void load_magazine( const JsonObject &jo, const std::string &src );
         void load_battery( const JsonObject &jo, const std::string &src );
@@ -308,7 +308,6 @@ class Item_factory
         void load( islot_tool &slot, const JsonObject &jo, const std::string &src );
         void load( islot_comestible &slot, const JsonObject &jo, const std::string &src );
         void load( islot_mod &slot, const JsonObject &jo, const std::string &src );
-        void load( islot_fuel &slot, const JsonObject &jo, const std::string &src );
         void load( islot_gun &slot, const JsonObject &jo, const std::string &src );
         void load( islot_gunmod &slot, const JsonObject &jo, const std::string &src );
         void load( islot_magazine &slot, const JsonObject &jo, const std::string &src );
@@ -342,7 +341,7 @@ class Item_factory
         bool load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, const JsonObject &obj,
                            const std::string &name, const Item_group &parent );
         bool load_string( std::vector<std::string> &vec, const JsonObject &obj, const std::string &name );
-        void add_entry( Item_group &ig, const JsonObject &obj );
+        void add_entry( Item_group &ig, const JsonObject &obj, const std::string &context );
 
         void load_basic_info( const JsonObject &jo, itype &def, const std::string &src );
         void set_qualities_from_json( const JsonObject &jo, const std::string &member, itype &def );

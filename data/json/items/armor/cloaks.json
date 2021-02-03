@@ -18,7 +18,7 @@
     "coverage": 60,
     "encumbrance": 50,
     "warmth": 20,
-    "material_thickness": 1,
+    "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
   },
@@ -41,7 +41,7 @@
     "coverage": 50,
     "encumbrance": 4,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.3,
     "flags": [ "OVERSIZE", "BELTED" ]
   },
   {
@@ -62,7 +62,7 @@
     "coverage": 65,
     "encumbrance": 4,
     "warmth": 30,
-    "material_thickness": 2,
+    "material_thickness": 0.4,
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "HOOD", "OUTER" ]
   },
@@ -84,7 +84,7 @@
     "coverage": 65,
     "encumbrance": 6,
     "warmth": 60,
-    "material_thickness": 2,
+    "material_thickness": 0.6,
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
@@ -92,7 +92,7 @@
     "id": "cloak_leather",
     "type": "ARMOR",
     "name": { "str": "leather cloak" },
-    "description": "A heavy leather cloak meant to be thrown over your body.  Provides decent protection.",
+    "description": "A heavy leather cloak meant to be thrown over your body.",
     "weight": "2060 g",
     "volume": "3500 ml",
     "price": 24500,
@@ -106,7 +106,7 @@
     "coverage": 65,
     "encumbrance": 6,
     "warmth": 40,
-    "material_thickness": 2,
+    "material_thickness": 0.5,
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
@@ -128,7 +128,7 @@
     "coverage": 65,
     "encumbrance": 5,
     "warmth": 50,
-    "material_thickness": 2,
+    "material_thickness": 0.5,
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "HOOD", "OUTER" ]
   },
@@ -151,7 +151,7 @@
     "coverage": 65,
     "encumbrance": 3,
     "warmth": 50,
-    "material_thickness": 2,
+    "material_thickness": 0.3,
     "environmental_protection": 5,
     "flags": [ "OVERSIZE", "OUTER", "HELMET_COMPAT" ]
   },
@@ -173,7 +173,7 @@
     "coverage": 65,
     "encumbrance": 50,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "environmental_protection": 4,
     "ammo": "battery",
     "use_action": {
@@ -223,7 +223,7 @@
     "coverage": 85,
     "encumbrance": 5,
     "warmth": 35,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "OUTER" ]
   },
@@ -245,7 +245,7 @@
     "coverage": 85,
     "encumbrance": 20,
     "warmth": 50,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "OUTER" ]
   }

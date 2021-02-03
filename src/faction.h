@@ -71,7 +71,7 @@ class faction_template
         explicit faction_template( const JsonObject &jsobj );
 
     public:
-        explicit faction_template( const faction_template & ) = default;
+        faction_template( const faction_template & ) = default;
         static void load( const JsonObject &jsobj );
         static void check_consistency();
         static void reset();
@@ -89,7 +89,7 @@ class faction_template
         bool lone_wolf_faction; // is this a faction for just one person?
         itype_id currency; // id of the faction currency
         std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
-        std::string mon_faction; // mon_faction_id of the monster faction; defaults to human
+        mfaction_str_id mon_faction; // mon_faction_id of the monster faction; defaults to human
         std::set<std::tuple<int, int, snippet_id>> epilogue_data;
 };
 
@@ -97,7 +97,7 @@ class faction : public faction_template
 {
     public:
         faction() = default;
-        faction( const faction_template &templ );
+        explicit faction( const faction_template &templ );
 
         void deserialize( JsonIn &jsin );
         void serialize( JsonOut &json ) const;

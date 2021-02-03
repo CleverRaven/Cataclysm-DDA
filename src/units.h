@@ -50,7 +50,9 @@ class quantity
          * `quantity<float, foo>`. The unit type stays the same!
          */
         template<typename other_value_type>
-        constexpr quantity( const quantity<other_value_type, unit_type> &other ) : value_( other.value() ) {
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        constexpr quantity( const quantity<other_value_type, unit_type> &other ) :
+            value_( other.value() ) {
         }
 
         /**

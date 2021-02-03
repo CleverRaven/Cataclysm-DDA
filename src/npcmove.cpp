@@ -80,11 +80,9 @@ static const ammotype ammo_plutonium( "plutonium" );
 static const skill_id skill_firstaid( "firstaid" );
 
 static const bionic_id bio_ads( "bio_ads" );
-static const bionic_id bio_advreactor( "bio_advreactor" );
 static const bionic_id bio_blade( "bio_blade" );
 static const bionic_id bio_claws( "bio_claws" );
 static const bionic_id bio_faraday( "bio_faraday" );
-static const bionic_id bio_furnace( "bio_furnace" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_heatsink( "bio_heatsink" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
@@ -96,7 +94,6 @@ static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 static const bionic_id bio_plutfilter( "bio_plutfilter" );
 static const bionic_id bio_radscrubber( "bio_radscrubber" );
-static const bionic_id bio_reactor( "bio_reactor" );
 static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_soporific( "bio_soporific" );
 
@@ -120,16 +117,17 @@ static const efftype_id effect_npc_run_away( "npc_run_away" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_stunned( "stunned" );
 
-static const itype_id itype_battery( "battery" );
-static const itype_id itype_chem_ethanol( "chem_ethanol" );
-static const itype_id itype_chem_methanol( "chem_methanol" );
-static const itype_id itype_denat_alcohol( "denat_alcohol" );
 static const itype_id itype_inhaler( "inhaler" );
 static const itype_id itype_lsd( "lsd" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
 static const itype_id itype_UPS( "UPS" );
+
+static const material_id material_battery( "battery" );
+static const material_id material_chem_ethanol( "chem_ethanol" );
+static const material_id material_chem_methanol( "chem_methanol" );
+static const material_id material_denat_alcohol( "denat_alcohol" );
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -159,12 +157,6 @@ enum npc_action : int {
 
 namespace
 {
-const std::vector<bionic_id> power_cbms = { {
-        bio_advreactor,
-        bio_furnace,
-        bio_reactor,
-    }
-};
 const std::vector<bionic_id> defense_cbms = { {
         bio_ads,
         bio_faraday,
@@ -396,7 +388,8 @@ void npc::assess_danger()
                                    rules.engagement == combat_engagement::NONE;
     const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
     const bool must_retreat = rules.has_flag( ally_rule::follow_close ) &&
-                              !too_close( pos(), player_character.pos(), follow_distance() );
+                              !too_close( pos(), player_character.pos(), follow_distance() ) &&
+                              !is_guarding();
 
     if( is_player_ally() ) {
         if( rules.engagement == combat_engagement::FREE_FIRE ) {
@@ -441,27 +434,31 @@ void npc::assess_danger()
         cur_threat_map[ threat_dir ] = 0.25f * ai_cache.threat_map[ threat_dir ];
     }
     map &here = get_map();
+    // cache string_id -> int_id conversion before hot loop
+    const field_type_id fd_fire = ::fd_fire;
     // first, check if we're about to be consumed by fire
-    // TODO: Use the field cache
+    // `map::get_field` uses `field_cache`, so in general case (no fire) it provides an early exit
     for( const tripoint &pt : here.points_in_radius( pos(), 6 ) ) {
-        if( pt == pos() || here.has_flag( TFLAG_FIRE_CONTAINER,  pt ) ) {
+        if( pt == pos() || !here.get_field( pt, fd_fire ) || here.has_flag( TFLAG_FIRE_CONTAINER,  pt ) ) {
             continue;
         }
-        if( here.get_field( pt, fd_fire ) != nullptr ) {
-            int dist = rl_dist( pos(), pt );
-            cur_threat_map[direction_from( pos(), pt )] += 2.0f * ( NPC_DANGER_MAX - dist );
-            if( dist < 3 && !has_effect( effect_npc_fire_bad ) ) {
-                warn_about( "fire_bad", 1_minutes );
-                add_effect( effect_npc_fire_bad, 5_turns );
-                path.clear();
-            }
+        int dist = rl_dist( pos(), pt );
+        cur_threat_map[direction_from( pos(), pt )] += 2.0f * ( NPC_DANGER_MAX - dist );
+        if( dist < 3 && !has_effect( effect_npc_fire_bad ) ) {
+            warn_about( "fire_bad", 1_minutes );
+            add_effect( effect_npc_fire_bad, 5_turns );
+            path.clear();
         }
     }
 
     // find our Character friends and enemies
     std::vector<weak_ptr_fast<Creature>> hostile_guys;
+    const bool clairvoyant = clairvoyance();
     for( const npc &guy : g->all_npcs() ) {
         if( &guy == this ) {
+            continue;
+        }
+        if( !clairvoyant && !here.has_potential_los( pos(), guy.pos() ) ) {
             continue;
         }
 
@@ -480,6 +477,9 @@ void npc::assess_danger()
     }
 
     for( const monster &critter : g->all_monsters() ) {
+        if( !clairvoyant && !here.has_potential_los( pos(), critter.pos() ) ) {
+            continue;
+        }
         Creature::Attitude att = critter.attitude_to( *this );
         if( att == Attitude::FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( critter ) );
@@ -745,7 +745,6 @@ void npc::move()
         set_attitude( NPCATT_NULL );
     }
     regen_ai_cache();
-    adjust_power_cbms();
     // NPCs under operation should just stay still
     if( activity.id() == ACT_OPERATION ) {
         execute_action( npc_player_activity );
@@ -1535,7 +1534,7 @@ item &npc::find_reloadable()
     // TODO: Cache items checked for reloading to avoid re-checking same items every turn
     // TODO: Make it understand smaller and bigger magazines
     item *reloadable = nullptr;
-    visit_items( [this, &reloadable]( item * node ) {
+    visit_items( [this, &reloadable]( item * node, item * ) {
         if( !wants_to_reload( *this, *node ) ) {
             return VisitResponse::NEXT;
         }
@@ -1587,16 +1586,6 @@ item_location npc::find_usable_ammo( const item &weap )
 item_location npc::find_usable_ammo( const item &weap ) const
 {
     return const_cast<npc *>( this )->find_usable_ammo( weap );
-}
-
-void npc::adjust_power_cbms()
-{
-    if( !is_player_ally() || wants_to_recharge_cbm() ) {
-        return;
-    }
-    for( const bionic_id &cbm_id : power_cbms ) {
-        deactivate_bionic_by_id( cbm_id );
-    }
 }
 
 void npc::activate_combat_cbms()
@@ -1725,8 +1714,9 @@ bool npc::recharge_cbm()
             return true;
         } else {
             const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
-                for( const itype_id &fid : bid->fuel_opts ) {
-                    return ( it.typeId() == fid ) || ( it.is_magazine() && it.ammo_current() == fid );
+                for( const material_id &fid : bid->fuel_opts ) {
+                    return ( it.get_base_material().id == fid ) || ( it.is_magazine() &&
+                            item( it.ammo_current() ).get_base_material().id == fid );
                 }
                 return false;
             };
@@ -1735,16 +1725,16 @@ bool npc::recharge_cbm()
                 use_bionic_by_id( bid );
                 return true;
             } else {
-                const std::vector<itype_id> fuel_op = bid->fuel_opts;
+                const std::vector<material_id> fuel_op = bid->fuel_opts;
                 const bool need_alcohol =
-                    std::find( fuel_op.begin(), fuel_op.end(), itype_chem_ethanol ) !=
+                    std::find( fuel_op.begin(), fuel_op.end(), material_chem_ethanol ) !=
                     fuel_op.end() ||
-                    std::find( fuel_op.begin(), fuel_op.end(), itype_chem_methanol ) !=
+                    std::find( fuel_op.begin(), fuel_op.end(), material_chem_methanol ) !=
                     fuel_op.end() ||
-                    std::find( fuel_op.begin(), fuel_op.end(), itype_denat_alcohol ) !=
+                    std::find( fuel_op.begin(), fuel_op.end(), material_denat_alcohol ) !=
                     fuel_op.end();
 
-                if( std::find( fuel_op.begin(), fuel_op.end(), itype_battery ) != fuel_op.end() ) {
+                if( std::find( fuel_op.begin(), fuel_op.end(), material_battery ) != fuel_op.end() ) {
                     complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
                 } else if( need_alcohol ) {
                     complain_about( "need_booze", 3_hours, "<need_booze>", false );
@@ -1752,30 +1742,6 @@ bool npc::recharge_cbm()
                     complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
                 }
             }
-        }
-    }
-
-    if( use_bionic_by_id( bio_furnace ) ) {
-        const std::function<bool( const item & )> furnace_filter = []( const item & it ) {
-            return it.typeId() == itype_id( "withered" ) || it.typeId() == itype_id( "file" ) ||
-                   it.has_flag( flag_FIREWOOD );
-        };
-        if( consume_cbm_items( furnace_filter ) ) {
-            return true;
-        } else {
-            complain_about( "need_junk", 3_hours, "<need_junk>", false );
-        }
-    }
-
-    if( use_bionic_by_id( bio_reactor ) || use_bionic_by_id( bio_advreactor ) ) {
-        const std::function<bool( const item & )> reactor_filter = []( const item & it ) {
-            return it.is_ammo() && ( it.ammo_type() == ammo_plutonium ||
-                                     it.ammo_type() == ammo_reactor_slurry );
-        };
-        if( consume_cbm_items( reactor_filter ) ) {
-            return true;
-        } else {
-            complain_about( "need_radioactives", 3_hours, "<need_radioactives>", false );
         }
     }
 
@@ -1787,33 +1753,31 @@ healing_options npc::patient_assessment( const Character &c )
     healing_options try_to_fix;
     try_to_fix.clear_all();
 
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : c.get_body() ) {
-
-        if( c.has_effect( effect_bleed, elem.first ) ) {
+    for( bodypart_id part_id : c.get_all_body_parts( get_body_part_flags::only_main ) ) {
+        if( c.has_effect( effect_bleed, part_id ) ) {
             try_to_fix.bleed = true;
         }
-
-        if( c.has_effect( effect_bite, elem.first ) ) {
+        if( c.has_effect( effect_bite, part_id ) ) {
             try_to_fix.bite = true;
         }
-
-        if( c.has_effect( effect_infected, elem.first ) ) {
+        if( c.has_effect( effect_infected, part_id ) ) {
             try_to_fix.infect = true;
         }
+
         int part_threshold = 75;
-        if( elem.first == bodypart_str_id( "head" ) ) {
+        if( part_id.id() == body_part_head ) {
             part_threshold += 20;
-        } else if( elem.first == bodypart_str_id( "torso" ) ) {
+        } else if( part_id.id() == body_part_torso ) {
             part_threshold += 10;
         }
         part_threshold = std::min( 80, part_threshold );
-        part_threshold = part_threshold * elem.second.get_hp_max() / 100;
+        part_threshold = part_threshold * c.get_part_hp_max( part_id ) / 100;
 
-        if( elem.second.get_hp_cur() <= part_threshold ) {
-            if( !c.has_effect( effect_bandaged, elem.first ) ) {
+        if( c.get_part_hp_cur( part_id ) <= part_threshold ) {
+            if( !c.has_effect( effect_bandaged, part_id ) ) {
                 try_to_fix.bandage = true;
             }
-            if( !c.has_effect( effect_disinfected, elem.first ) ) {
+            if( !c.has_effect( effect_disinfected, part_id ) ) {
                 try_to_fix.disinfect = true;
             }
         }
@@ -3368,7 +3332,7 @@ bool npc::do_player_activity()
             current_activity_id = activity.id();
         } else {
             if( is_player_ally() ) {
-                add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
+                add_msg( m_info, string_format( _( "%s completed the assigned task." ), disp_name() ) );
             }
             current_activity_id = activity_id::NULL_ID();
             revert_after_activity();
@@ -3421,7 +3385,7 @@ bool npc::wield_better_weapon()
     // Fists aren't checked below
     compare_weapon( null_item_reference() );
 
-    visit_items( [&compare_weapon]( item * node ) {
+    visit_items( [&compare_weapon]( item * node, item * ) {
         // Only compare melee weapons, guns, or holstered items
         if( node->is_melee() || node->is_gun() ) {
             compare_weapon( *node );
@@ -4121,40 +4085,40 @@ void npc::set_omt_destination()
     // We need that, otherwise find_closest won't work properly
     surface_omt_loc.z() = 0;
 
-    // also, don't bother looking if the CITY_SIZE is 0, just go somewhere at random
-    const int city_size = get_option<int>( "CITY_SIZE" );
-    if( city_size == 0 ) {
-        goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
-        return;
-    }
-
     decide_needs();
     if( needs.empty() ) { // We don't need anything in particular.
         needs.push_back( need_none );
+
+        // also, don't bother looking if the CITY_SIZE is 0, just go somewhere at random
+        const int city_size = get_option<int>( "CITY_SIZE" );
+        if( city_size == 0 ) {
+            goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
+            return;
+        }
     }
 
     std::string dest_type;
     for( const auto &fulfill : needs ) {
-        // look for the closest occurence of any of that locations terrain types
-        std::vector<oter_type_id> loc_list = get_location_for( fulfill )->get_all_terrains();
-        std::shuffle( loc_list.begin(), loc_list.end(), rng_get_engine() );
+        // look for the closest occurrence of any of that locations terrain types
         omt_find_params find_params;
-        std::vector<std::pair<std::string, ot_match_type>> temp_types;
-        for( const oter_type_id &elem : loc_list ) {
+        for( const oter_type_str_id &elem : get_location_for( fulfill )->get_all_terrains() ) {
             std::pair<std::string, ot_match_type> temp_pair;
-            temp_pair.first = elem.id().str();
+            temp_pair.first = elem.str();
             temp_pair.second = ot_match_type::type;
-            temp_types.push_back( temp_pair );
+            find_params.types.push_back( temp_pair );
         }
+        // note: no shuffle of `find_params.types` is needed, because `find_closest`
+        // disregards `types` order anyway, and already returns random result among
+        // those having equal minimal distance
         find_params.search_range = 75;
-        find_params.types = temp_types;
         find_params.existing_only = false;
         goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
-        omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+        omt_path.clear();
         if( goal != overmap::invalid_tripoint ) {
             omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
         }
         if( !omt_path.empty() ) {
+            dest_type = overmap_buffer.ter( goal )->get_type_id().str();
             break;
         }
     }

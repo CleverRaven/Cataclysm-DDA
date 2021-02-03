@@ -1,0 +1,168 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "afs_urban_aquaponicsw_n1" ],
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_metal_floor_no_roof",
+      "rows": [
+        "                 ,,     ",
+        "                 ,,     ",
+        "  -ó----------  -..---- ",
+        "  -.-0..ht..0-  -33-..- ",
+        "  -.-0...t..0-  -..(dh- ",
+        "  -.-0.YhtY.0-  -..(d.- ",
+        "  -.--...t..--óó-44--3- ",
+        "  -.öó .ht. ó...-.....- ",
+        "  -.--...t..--E.-.....- ",
+        "  -.-0..ht..0-Eö--3-<<- ",
+        "  ó.-0......0-..-b.---- ",
+        "  -----(:(----ó--b..R-  ",
+        "    -G:...-<<-..-b..R-  ",
+        "    -G:Y.Y...3..3...R-  ",
+        "    -G:......-..-bb.R-  ",
+        "    ---(:(----33------  ",
+        "    -0......0-.......-  ",
+        "    -0..th..0-.htWth.-  ",
+        "    -0..t...0-.ht.th.-  ",
+        "    -0.YthY.0-.ht.th.-  ",
+        "    -0..t...0-.ht.th.-  ",
+        "    -0..th..0-.htWth.-  ",
+        "    ------------------  ",
+        "                        "
+      ],
+      "palettes": [ "afs_generic_building" ],
+      "terrain": { "'": "t_door_glass_o", ".": "t_metal_floor_no_roof", ",": "t_sidewalk", "E": "t_machinery_electronic" },
+      "furniture": {
+        "0": "f_fvat_empty",
+        "/": "f_autodoc_couch",
+        "T": "f_table",
+        "n": "f_trashcan",
+        "R": "f_locker",
+        "B": "f_monomolecularsaw"
+      },
+      "items": {
+        "G": { "item": "afs_mealgrub_precursor", "chance": 80, "repeat": [ 1, 3 ] },
+        "d": { "item": "office", "chance": 60 },
+        "W": { "item": "oa_ig_sb_water" },
+        "R": [ { "item": "decontamination_room", "chance": 60 }, { "item": "clothing_work_set", "chance": 30 } ],
+        "t": [
+          { "item": "office_paper", "chance": 60 },
+          { "item": "tools_science", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "afs_mealgrub_procesing", "chance": 60, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "monster": { "ö": { "monster": "mon_skitterbot" } },
+      "vendingmachines": { "V": { "item_group": "afs_vending_medicine", "reinforced": true } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "afs_urban_aquaponicsw_n2" ],
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_metal_floor_no_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "  -ó----------  ------- ",
+        "  -.-E      E-  -h...^- ",
+        "  -.-E      E-  -Ddh.f- ",
+        "  -.-E      E-  -.....- ",
+        "---ó--(((((((----:====- ",
+        "hh.d^|..........-.....- ",
+        "...dh|..........3YY...- ",
+        ".....3..........-..->>- ",
+        "------(((((((----33---- ",
+        "    -G.th.3..3..3..dh-  ",
+        "    -G.th.(>>-bR-..d.-  ",
+        "    -G.th.(((----...n-  ",
+        "    -G..YY...-^hd..d.-  ",
+        "    --(((((((-..d..dh-  ",
+        "    -E  1   E-f......-  ",
+        "    -E  1111E-n.d..d.-  ",
+        "    -E  1   E-.hd..dh-  ",
+        "    -E111   E--=====--  ",
+        "    -E      E-%,,,,,U,  ",
+        "    -E      E-U,,,,,,,  ",
+        "    ----------,,,,,,,,  ",
+        "                        "
+      ],
+      "palettes": [ "afs_generic_building" ],
+      "terrain": { " ": "t_open_air", ",": "t_flat_roof" },
+      "furniture": {
+        "U": "f_air_conditioner",
+        "/": "f_autodoc_couch",
+        "E": "f_water_purifier",
+        "1": "f_vent_pipe",
+        "G": "f_utility_shelf",
+        "R": "f_locker",
+        "%": "f_machinery_electronic",
+        "f": "f_filing_cabinet",
+        "D": "f_desk",
+        "n": "f_trashcan"
+      },
+      "items": {
+        "G": { "item": "afs_mealgrub_precursor", "chance": 80, "repeat": [ 1, 3 ] },
+        "d": { "item": "office", "chance": 60 },
+        "f": { "item": "office_paper", "chance": 90 },
+        "W": { "item": "oa_ig_sb_water" },
+        "R": [ { "item": "decontamination_room", "chance": 60 }, { "item": "clothing_work_set", "chance": 30 } ],
+        "t": [
+          { "item": "office_paper", "chance": 60 },
+          { "item": "tools_science", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "afs_mealgrub_procesing", "chance": 60, "repeat": [ 1, 3 ] }
+        ]
+      },
+      "item": { "d": { "item": "afs_bugbrew_book" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "afs_urban_aquaponicsw_n3",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "  622222222223  6222223 ",
+        "  6..........3  6.....3 ",
+        "  6.....&&...3  6.ooo.3 ",
+        "  6..===&&...3  6.....3 ",
+        ".....=.......3226.....3 ",
+        ".....=................3 ",
+        ".....=ooooooo.........3 ",
+        ".....=................3 ",
+        ".....=...............33 ",
+        "    6=...............3  ",
+        "    6===&&...........3  ",
+        "    6...&&...........3  ",
+        "    6....=...........3  ",
+        "    6....=...........3  ",
+        "    6....=...........3  ",
+        "    6....=...........3  ",
+        "    6....=...........3  ",
+        "    6...&&..3--------3  ",
+        "    6...&&..3           ",
+        "    6.......3           ",
+        "    6-------3           ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_flat_roof",
+        "=": "t_flat_roof",
+        "&": "t_flat_roof",
+        " ": "t_open_air",
+        "o": "t_glass_roof",
+        "2": "t_gutter_north",
+        "-": "t_gutter_south",
+        "3": "t_gutter_east",
+        "6": "t_gutter_west"
+      },
+      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe" }
+    }
+  }
+]

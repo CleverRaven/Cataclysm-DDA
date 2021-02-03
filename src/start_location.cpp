@@ -240,6 +240,7 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.impassable( p ) ||
+        m.is_divable( p ) ||
         checked[p.x][p.y] > 0 ) {
         return 0;
     }

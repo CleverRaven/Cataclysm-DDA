@@ -327,8 +327,11 @@ android {
             }
             externalNativeBuild {
                 ndkBuild {
-                    cFlags "-DNDEBUG", "-DRELEASE", "-Os"
+                    cFlags "-DNDEBUG", "-DRELEASE", "-Os", "-g"
                 }
+            }
+            ndk {
+                debugSymbolLevel 'SYMBOL_TABLE'
             }
         }
 
@@ -340,8 +343,11 @@ android {
             }
             externalNativeBuild {
                 ndkBuild {
-
+                    cFlags "-g"
                 }
+            }
+            ndk {
+                debugSymbolLevel 'FULL'
             }
         }
     }

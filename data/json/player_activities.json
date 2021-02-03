@@ -163,6 +163,13 @@
     "auto_needs": true
   },
   {
+    "id": "ACT_BLEED",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "bleeding",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_BUTCHER",
     "type": "activity_type",
     "activity_level": "BRISK_EXERCISE",
@@ -902,5 +909,14 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": { "ctxt": "training", "str": "working out" },
     "based_on": "time"
+  },
+  {
+    "id": "ACT_FURNITURE_MOVE",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "moving",
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
   }
 ]

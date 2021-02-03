@@ -277,19 +277,19 @@ class string_formatter
             current_format.push_back( c );
             switch( c ) {
                 case 'c':
-                    return do_formating( get_nth_arg_as<int, 0>( format_arg_index, std::forward<Args>( args )... ) );
+                    return do_formatting( get_nth_arg_as<int, 0>( format_arg_index, std::forward<Args>( args )... ) );
                 case 'd':
                 case 'i':
                     add_long_long_length_modifier();
-                    return do_formating( get_nth_arg_as<signed long long int, 0>( format_arg_index,
-                                         std::forward<Args>( args )... ) );
+                    return do_formatting( get_nth_arg_as<signed long long int, 0>( format_arg_index,
+                                          std::forward<Args>( args )... ) );
                 case 'o':
                 case 'u':
                 case 'x':
                 case 'X':
                     add_long_long_length_modifier();
-                    return do_formating( get_nth_arg_as<unsigned long long int, 0>( format_arg_index,
-                                         std::forward<Args>( args )... ) );
+                    return do_formatting( get_nth_arg_as<unsigned long long int, 0>( format_arg_index,
+                                          std::forward<Args>( args )... ) );
                 case 'a':
                 case 'A':
                 case 'g':
@@ -298,26 +298,27 @@ class string_formatter
                 case 'F':
                 case 'e':
                 case 'E':
-                    return do_formating( get_nth_arg_as<double, 0>( format_arg_index, std::forward<Args>( args )... ) );
+                    return do_formatting( get_nth_arg_as<double, 0>( format_arg_index,
+                                          std::forward<Args>( args )... ) );
                 case 'p':
-                    return do_formating( get_nth_arg_as<void *, 0>( format_arg_index,
-                                         std::forward<Args>( args )... ) );
+                    return do_formatting( get_nth_arg_as<void *, 0>( format_arg_index,
+                                          std::forward<Args>( args )... ) );
                 case 's':
-                    return do_formating( get_nth_arg_as<const char *, 0>( format_arg_index,
-                                         std::forward<Args>( args )... ) );
+                    return do_formatting( get_nth_arg_as<const char *, 0>( format_arg_index,
+                                          std::forward<Args>( args )... ) );
                 default:
                     throw_error( "Unsupported format conversion: " + std::string( 1, c ) );
             }
         }
 
         template<typename T>
-        void do_formating( T &&value ) {
+        void do_formatting( T &&value ) {
             output.append( raw_string_format( current_format.c_str(), value ) );
         }
 
     public:
         /// @param format The format string as required by `sprintf`.
-        string_formatter( std::string format ) : format( std::move( format ) ) { }
+        explicit string_formatter( std::string format ) : format( std::move( format ) ) { }
         /// Does the actual `sprintf`. It uses @ref format and puts the formatted
         /// string into @ref output.
         /// Note: use @ref get_output to get the formatted string after a successful

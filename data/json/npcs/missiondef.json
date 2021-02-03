@@ -8,7 +8,7 @@
     "value": 50000,
     "start": {
       "effect": [ "follow", { "u_buy_item": "sarcophagus_access_code" } ],
-      "assign_mission_target": { "om_terrain": "haz_sar_1_1", "om_special": "Hazardous Waste Sarcophagus", "reveal_radius": 3 }
+      "assign_mission_target": { "om_terrain": "haz_sar_1_1", "om_special": "Hazardous Waste Sarcophagus", "reveal_radius": 3, "search_range": 360 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "destination": "haz_sar_b_1",
@@ -62,20 +62,20 @@
     "id": "MISSION_GET_ANTIBIOTICS",
     "type": "mission_definition",
     "name": { "str": "Find Antibiotics" },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
     "difficulty": 2,
     "value": 150000,
     "urgent": true,
-    "item": "antibiotics",
+    "goal_condition": { "or": [ { "u_has_item": "antibiotics" }, { "u_has_item": "strong_antibiotic" }, { "u_has_item": "panacea" } ] },
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "deadline_low": 24,
     "deadline_high": 48,
     "dialogue": {
       "describe": "This infection is bad, <very> bad…",
-      "offer": "I'm infected.  Badly.  I need you to get some antibiotics for me…",
+      "offer": "I'm infected.  Badly.  I need you to get some good antibiotics for me…",
       "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry…",
       "rejected": "What?!  Please, <ill_die> without your help!",
-      "advice": "There's a town nearby.  Check pharmacies; it'll be behind the counter.",
+      "advice": "There's a town nearby.  Check pharmacies; it'll be behind the counter, either antibiotics or broad-spectrum antibiotics will do.",
       "inquire": "Find any antibiotics yet?",
       "success": "Oh thank god!  I'll be right as rain in no time.",
       "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
@@ -124,7 +124,10 @@
     "difficulty": 2,
     "value": 150000,
     "item": "black_box_transcript",
-    "start": { "effect": { "u_buy_item": "black_box" }, "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3 } },
+    "start": {
+      "effect": { "u_buy_item": "black_box" },
+      "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3, "search_range": 360 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_EXPLORE_SARCOPHAGUS",
     "dialogue": {
@@ -190,7 +193,7 @@
     "difficulty": 2,
     "value": 140000,
     "item": "record_accounting",
-    "start": { "reveal_om_ter": "office_tower_1" },
+    "start": { "reveal_om_ter": "office_tower" },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "followup": "MISSION_GET_SAFE_BOX",
     "dialogue": {
@@ -329,7 +332,7 @@
     "item": "software_blood_data",
     "start": {
       "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
-      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "hospital", "reveal_radius": 3 }
+      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "hospital", "reveal_radius": 3, "search_range": 360 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -352,7 +355,9 @@
     "difficulty": 2,
     "value": 150000,
     "item": "etched_skull",
-    "start": { "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3 } },
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin_strange", "om_special": "Strange Cabin", "reveal_radius": 3, "search_range": 360 }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
     "dialogue": {
@@ -375,7 +380,10 @@
     "difficulty": 2,
     "value": 150000,
     "item": "visions_solitude",
-    "start": { "assign_mission_target": { "om_terrain": "prison_1_5", "om_special": "Prison", "reveal_radius": 3 } },
+    "start": {
+      "assign_mission_target": { "om_terrain": "prison_1_4", "om_special": "Prison", "reveal_radius": 3, "search_range": 360 },
+      "update_mapgen": { "om_terrain": "prison_1_4", "place_item": [ { "item": "visions_solitude", "x": 15, "y": 22 } ] }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle…",
@@ -598,7 +606,7 @@
     "difficulty": 1,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "s_air_hangars", "reveal_radius": 5, "om_special": "o_airport", "search_range": 100 }
+      "assign_mission_target": { "om_terrain": "s_air_hangars", "reveal_radius": 5, "om_special": "o_airport", "search_range": 360 }
     },
     "origins": [ "ORIGIN_GAME_START" ]
   },

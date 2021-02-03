@@ -43,6 +43,14 @@
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
+    "id": "xl_boots",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL boots", "str_pl": "pairs of XL boots" },
+    "copy-from": "boots",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
+  },
+  {
     "id": "boots_bone",
     "type": "ARMOR",
     "category": "armor",
@@ -59,7 +67,7 @@
     "color": "dark_gray",
     "covers": [ "foot_l", "foot_r" ],
     "encumbrance": 16,
-    "material_thickness": 4,
+    "material_thickness": 3,
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
@@ -111,6 +119,14 @@
     "flags": [ "STURDY" ]
   },
   {
+    "id": "xl_boots_chitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL chitinous boots", "str_pl": "pairs of XL chitinous boots" },
+    "copy-from": "boots_chitin",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
+  },
+  {
     "id": "boots_acidchitin",
     "copy-from": "boots_chitin",
     "type": "ARMOR",
@@ -120,6 +136,14 @@
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
     "relative": { "bashing": 2, "material_thickness": 1 }
+  },
+  {
+    "id": "xl_boots_acidchitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL biosilicified chitin boots", "str_pl": "pairs of XL biosilicified chitin boots" },
+    "copy-from": "boots_acidchitin",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
   },
   {
     "id": "boots_combat",
@@ -212,6 +236,14 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "xl_boots_fsurvivor",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL survivor fireboots", "str_pl": "pairs of XL survivor fireboots" },
+    "copy-from": "boots_fsurvivor",
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
+  },
+  {
     "id": "boots_fur",
     "type": "ARMOR",
     "name": { "str": "pair of fur boots", "str_pl": "pairs of fur boots" },
@@ -233,6 +265,14 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF" ]
+  },
+  {
+    "id": "xl_boots_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL fur boots", "str_pl": "pairs of XL fur boots" },
+    "copy-from": "boots_fur",
+    "proportional": { "weight": 1.15, "volume": 1.15 },
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
   },
   {
     "id": "boots_h20survivor",
@@ -307,6 +347,14 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "xl_boots_hsurvivor",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL heavy survivor boots", "str_pl": "pairs of XL heavy survivor boots" },
+    "copy-from": "boots_hsurvivor",
+    "proportional": { "weight": 1.2, "volume": 1.2 },
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
+  },
+  {
     "id": "boots_larmor",
     "type": "ARMOR",
     "category": "armor",
@@ -329,6 +377,14 @@
     "material_thickness": 5,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "xl_boots_larmor",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL leather armor boots", "str_pl": "pairs of XL leather armor boots" },
+    "copy-from": "boots_larmor",
+    "proportional": { "weight": 1.3, "volume": 1.3 },
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
   },
   {
     "id": "boots_lsurvivor",
@@ -355,6 +411,14 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "xl_boots_lsurvivor",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL light survivor boots", "str_pl": "pairs of XL light survivor boots" },
+    "copy-from": "boots_lsurvivor",
+    "proportional": { "weight": 1.4, "volume": 1.4 },
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
+  },
+  {
     "id": "boots_plate",
     "type": "ARMOR",
     "category": "armor",
@@ -377,6 +441,14 @@
     "material_thickness": 4,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "xl_boots_plate",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL armored boots", "str_pl": "pairs of XL armored boots" },
+    "copy-from": "boots_plate",
+    "proportional": { "weight": 1.25, "volume": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
   },
   {
     "id": "boots_rubber",
@@ -423,6 +495,14 @@
     "warmth": 20,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "WATERPROOF" ]
+  },
+  {
+    "id": "xl_boots_scrap",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL scrap boots", "str_pl": "pairs of XL scrap boots" },
+    "copy-from": "boots_scrap",
+    "proportional": { "weight": 1.3, "volume": 1.3 },
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
   },
   {
     "id": "boots_steel",
@@ -512,6 +592,14 @@
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
+    "id": "xl_boots_winter",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL winter boots", "str_pl": "pairs of XL winter boots" },
+    "copy-from": "boots_winter",
+    "proportional": { "weight": 1.3, "volume": 1.3 },
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
+  },
+  {
     "id": "boots_wsurvivor",
     "type": "ARMOR",
     "category": "armor",
@@ -534,6 +622,14 @@
     "material_thickness": 6,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "xl_boots_wsurvivor",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL winter survivor boots", "str_pl": "pairs of XL winter survivor boots" },
+    "copy-from": "boots_wsurvivor",
+    "proportional": { "weight": 1.3, "volume": 1.3 },
+    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE", "STURDY" ]
   },
   {
     "id": "boots_xlsurvivor",
@@ -578,7 +674,7 @@
     "coverage": 80,
     "encumbrance": 15,
     "warmth": 20,
-    "material_thickness": 3,
+    "material_thickness": 2,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -600,7 +696,7 @@
     "coverage": 70,
     "encumbrance": 12,
     "warmth": 15,
-    "material_thickness": 3,
+    "material_thickness": 2,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -669,7 +765,7 @@
     "coverage": 60,
     "encumbrance": 5,
     "warmth": 10,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
@@ -692,7 +788,7 @@
     "coverage": 60,
     "encumbrance": 15,
     "warmth": 10,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
@@ -754,7 +850,7 @@
     "coverage": 65,
     "encumbrance": 2,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -774,7 +870,7 @@
     "coverage": 65,
     "encumbrance": 5,
     "warmth": 20,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -794,7 +890,7 @@
     "coverage": 65,
     "encumbrance": 5,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -814,7 +910,7 @@
     "coverage": 65,
     "encumbrance": 5,
     "warmth": 15,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -882,7 +978,7 @@
     "coverage": 65,
     "encumbrance": 20,
     "warmth": 20,
-    "material_thickness": 3,
+    "material_thickness": 2,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
@@ -924,7 +1020,7 @@
     "covers": [ "foot_l", "foot_r" ],
     "coverage": 80,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -944,7 +1040,7 @@
     "coverage": 50,
     "encumbrance": 2,
     "warmth": 20,
-    "material_thickness": 2,
+    "material_thickness": 0.5,
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
@@ -1034,7 +1130,7 @@
     "coverage": 50,
     "encumbrance": 15,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.3,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -1055,7 +1151,7 @@
     "coverage": 80,
     "encumbrance": 10,
     "warmth": 20,
-    "material_thickness": 3,
+    "material_thickness": 2,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -1077,7 +1173,7 @@
     "coverage": 30,
     "encumbrance": 30,
     "warmth": 25,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -1098,7 +1194,7 @@
     "coverage": 80,
     "encumbrance": 4,
     "warmth": 20,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "VARSIZE" ]
   },
   {
@@ -1118,7 +1214,7 @@
     "covers": [ "foot_l", "foot_r" ],
     "coverage": 30,
     "encumbrance": 14,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -1161,7 +1257,7 @@
     "coverage": 80,
     "encumbrance": 25,
     "warmth": 20,
-    "material_thickness": 3,
+    "material_thickness": 2,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "FANCY" ]
   },
@@ -1250,6 +1346,14 @@
     "flags": [ "VARSIZE", "STURDY" ]
   },
   {
+    "id": "xl_chainmail_feet",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL chainmail chausses", "str_pl": "pairs of XL chainmail chausses" },
+    "copy-from": "chainmail_feet",
+    "proportional": { "weight": 2, "volume": 2 },
+    "flags": [ "VARSIZE", "OVERSIZE" ]
+  },
+  {
     "id": "leg_warmers_xlf",
     "type": "ARMOR",
     "name": { "str": "pair of fetlock furs", "str_pl": "pairs of fetlock furs" },
@@ -1287,7 +1391,7 @@
     "coverage": 100,
     "encumbrance": 6,
     "warmth": 5,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
   },
@@ -1317,7 +1421,7 @@
     "covers": [ "foot_l", "foot_r" ],
     "coverage": 100,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -1345,7 +1449,7 @@
     "color": "light_gray",
     "covers": [ "foot_l", "foot_r" ],
     "coverage": 80,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -1364,7 +1468,7 @@
     "covers": [ "foot_l", "foot_r" ],
     "coverage": 70,
     "encumbrance": 3,
-    "material_thickness": 1,
+    "material_thickness": 0.01,
     "flags": [ "WATERPROOF", "OVERSIZE" ]
   },
   {
@@ -1403,7 +1507,7 @@
     "coverage": 100,
     "encumbrance": 5,
     "warmth": 30,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -1433,7 +1537,7 @@
     "coverage": 75,
     "encumbrance": 5,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -1453,7 +1557,7 @@
     "coverage": 75,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
   },
   {
@@ -1472,7 +1576,7 @@
     "covers": [ "foot_l", "foot_r" ],
     "coverage": 100,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
@@ -1492,7 +1596,7 @@
     "covers": [ "foot_l", "foot_r" ],
     "coverage": 100,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   }
 ]

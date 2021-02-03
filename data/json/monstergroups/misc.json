@@ -64,6 +64,7 @@
       { "monster": "mon_chicken", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_chipmunk", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_crow", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_pigeon", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_deer", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_duck", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_cat", "freq": 1, "cost_multiplier": 1 },
@@ -115,6 +116,13 @@
     "monsters": [
       { "monster": "mon_fly", "freq": 100, "cost_multiplier": 1 },
       { "monster": "mon_crow", "freq": 100, "cost_multiplier": 1 },
+      {
+        "monster": "mon_pigeon",
+        "freq": 100,
+        "cost_multiplier": 1,
+        "conditions": [ "DAWN", "DUSK", "DAY", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      { "monster": "mon_pigeon", "freq": 50, "cost_multiplier": 1, "conditions": [ "DAWN", "DUSK", "DAY", "WINTER" ] },
       { "monster": "mon_fox_gray", "freq": 15, "cost_multiplier": 1 },
       { "monster": "mon_fox_red", "freq": 15, "cost_multiplier": 1 },
       { "monster": "mon_dog", "freq": 15, "cost_multiplier": 2 },

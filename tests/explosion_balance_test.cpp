@@ -60,6 +60,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
         item grenade( explosive_id );
         grenade.charges = 0;
         grenade.type->invoke( get_avatar(), grenade, origin );
+        explosion_handler::process_explosions();
         // see how many monsters survive
         std::vector<Creature *> survivors = g->get_creatures_if( []( const Creature & critter ) {
             return critter.is_monster();
@@ -124,6 +125,7 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     item grenade( explosive_id );
     grenade.charges = 0;
     grenade.type->invoke( get_avatar(), grenade, origin );
+    explosion_handler::process_explosions();
 
     std::vector<int> after_hp = get_part_hp( target_vehicle );
 

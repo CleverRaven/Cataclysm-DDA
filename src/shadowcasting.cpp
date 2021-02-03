@@ -157,7 +157,7 @@ void cast_horizontal_zlight_segment(
 
     slope new_start_minor( 1, 1 );
 
-    T last_intensity = 0.0;
+    T last_intensity( 0.0 );
     tripoint delta;
     tripoint current;
 
@@ -168,14 +168,14 @@ void cast_horizontal_zlight_segment(
     cata::list<span<T>> spans = { {
             slope( 0, 1 ), slope( 1, 1 ),
             slope( 0, 1 ), slope( 1, 1 ),
-            LIGHT_TRANSPARENCY_OPEN_AIR
+            T( LIGHT_TRANSPARENCY_OPEN_AIR )
         }
     };
     // At each "depth", a.k.a. distance from the origin, we iterate once over the list of spans,
     // possibly splitting them.
     for( int distance = 1; distance <= radius; distance++ ) {
         delta.y = distance;
-        T current_transparency = 0.0f;
+        T current_transparency( 0.0f );
 
         for( auto this_span = spans.begin(); this_span != spans.end(); ) {
             bool started_block = false;
@@ -286,7 +286,7 @@ void cast_horizontal_zlight_segment(
                         continue;
                     }
 
-                    // Handle spliting the span into up to 4 separate spans
+                    // Handle splitting the span into up to 4 separate spans
                     split_span<T, is_transparent, accumulate>( spans, this_span, current_transparency,
                             new_transparency, last_intensity,
                             distance, new_start_minor,
@@ -339,7 +339,7 @@ void cast_vertical_zlight_segment(
 
     slope new_start_minor( 1, 1 );
 
-    T last_intensity = 0.0;
+    T last_intensity( 0.0 );
     tripoint delta;
     tripoint current;
 
@@ -350,14 +350,14 @@ void cast_vertical_zlight_segment(
     cata::list<span<T>> spans = { {
             slope( 0, 1 ), slope( 1, 1 ),
             slope( 0, 1 ), slope( 1, 1 ),
-            LIGHT_TRANSPARENCY_OPEN_AIR
+            T( LIGHT_TRANSPARENCY_OPEN_AIR )
         }
     };
     // At each "depth", a.k.a. distance from the origin, we iterate once over the list of spans,
     // possibly splitting them.
     for( int distance = 1; distance <= radius; distance++ ) {
         delta.z = distance;
-        T current_transparency = 0.0f;
+        T current_transparency( 0.0f );
 
         for( auto this_span = spans.begin(); this_span != spans.end(); ) {
             bool started_block = false;
@@ -452,7 +452,7 @@ void cast_vertical_zlight_segment(
                         continue;
                     }
 
-                    // Handle spliting the span into up to 4 separate spans
+                    // Handle splitting the span into up to 4 separate spans
                     split_span<T, is_transparent, accumulate>( spans, this_span, current_transparency,
                             new_transparency, last_intensity,
                             distance, new_start_minor,
