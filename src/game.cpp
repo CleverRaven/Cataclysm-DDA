@@ -10055,6 +10055,7 @@ void game::on_options_changed()
 #if defined(TILES)
     tilecontext->on_options_changed();
 #endif
+    grid_tracker_ptr->on_options_changed();
 }
 
 void game::fling_creature( Creature *c, const int &dir, float flvel, bool controlled )

@@ -2002,8 +2002,8 @@ void options_manager::add_options_debug()
        );
 
     add( "ELECTRIC_GRID", "debug", translate_marker( "Electric grid testing" ),
-         translate_marker( "If true, enables completely unfinished electric grid system that only slows downs the game." ),
-         false
+         translate_marker( "If true, enables somewhat unfinished electric grid system that may slow the game down." ),
+         true
        );
 }
 

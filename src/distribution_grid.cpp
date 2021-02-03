@@ -7,7 +7,10 @@
 #include "mapbuffer.h"
 #include "map_iterator.h"
 #include "submap.h"
+#include "options.h"
 #include "overmapbuffer.h"
+
+static distribution_grid empty_grid( {}, MAPBUFFER );
 
 distribution_grid::distribution_grid( const std::vector<tripoint> &global_submap_coords,
                                       mapbuffer &buffer ) :
@@ -148,7 +151,9 @@ distribution_grid_tracker::distribution_grid_tracker( mapbuffer &buffer )
 
 distribution_grid &distribution_grid_tracker::make_distribution_grid_at( const tripoint &sm_pos )
 {
-    static distribution_grid empty_grid( {}, MAPBUFFER );
+    if( !get_option<bool>( "ELECTRIC_GRID" ) ) {
+        return empty_grid;
+    }
     const std::set<tripoint> overmap_positions = overmap_buffer.electric_grid_at( sm_to_omt_copy(
                 sm_pos ) );
     std::vector<tripoint> submap_positions;
@@ -177,6 +182,9 @@ distribution_grid &distribution_grid_tracker::make_distribution_grid_at( const t
 void distribution_grid_tracker::on_saved()
 {
     parent_distribution_grids.clear();
+    if( !get_option<bool>( "ELECTRIC_GRID" ) ) {
+        return;
+    }
     tripoint min_bounds = tripoint( bounds.p_min, -OVERMAP_DEPTH );
     tripoint max_bounds = tripoint( bounds.p_max, OVERMAP_HEIGHT );
     // TODO: Only those which existed before the save
@@ -191,11 +199,17 @@ void distribution_grid_tracker::on_changed( const tripoint &p )
 {
     tripoint sm_pos = ms_to_sm_copy( p );
     // TODO: If not in bounds, just drop the grid, rebuild lazily
-    if( parent_distribution_grids.count( sm_pos ) > 0 ) {
+    if( parent_distribution_grids.count( sm_pos ) > 0 ||
+        bounds.contains_half_open( sm_pos.xy() ) ) {
         // TODO: Don't rebuild, update
         make_distribution_grid_at( sm_pos );
     }
 
+}
+
+void distribution_grid_tracker::on_options_changed()
+{
+    on_saved();
 }
 
 distribution_grid &distribution_grid_tracker::grid_at( const tripoint &p )

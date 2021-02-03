@@ -101,6 +101,7 @@ class distribution_grid_tracker
          */
         void on_changed( const tripoint &p );
         void on_saved();
+        void on_options_changed();
 };
 
 namespace distribution_graph
@@ -112,8 +113,6 @@ namespace distribution_graph
 template <typename VehFunc, typename GridFunc, typename StartPoint>
 int traverse( StartPoint *start, int amount,
               VehFunc veh_action, GridFunc grid_action );
-
-
 
 }
 
