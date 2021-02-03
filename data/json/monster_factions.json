@@ -31,7 +31,8 @@
     "type": "MONSTER_FACTION",
     "name": "zombie_aquatic",
     "base_faction": "zombie",
-    "hate": [ "fish", "aquatic_predator" ]
+    "hate": [ "aquatic_predator" ],
+    "by_mood": [ "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -67,7 +68,7 @@
     "type": "MONSTER_FACTION",
     "name": "vermin",
     "base_faction": "small_animal",
-    "hate": "cat"
+    "by_mood": "cat"
   },
   {
     "type": "MONSTER_FACTION",
@@ -220,7 +221,7 @@
     "type": "MONSTER_FACTION",
     "name": "mech_bot",
     "base_faction": "bot",
-    "neutral": [ "science", "player" ]
+    "neutral": [ "science", "human" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -289,7 +290,7 @@
     "type": "MONSTER_FACTION",
     "name": "dermatik",
     "base_faction": "insect",
-    "hate": "small_animal"
+    "hate": [ "small_animal", "herbivore", "dog" ]
   },
   {
     "type": "MONSTER_FACTION",
