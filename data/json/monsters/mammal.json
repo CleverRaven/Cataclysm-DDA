@@ -165,7 +165,7 @@
   {
     "id": "mon_boar_wild_piglet",
     "type": "MONSTER",
-    "name": "wild boar piglet",
+    "name": { "str": "wild boar piglet"},
     "description": "Originally not native in the US, this wild omnivore is a crossbreed between the Eurasian wild boar escaped from hunting reserves and the domesticated pig went feral in the wilderness.  Its population has skyrocketed in the US during the last few decades.",
     "default_faction": "pig",
     "bodytype": "pig",
@@ -199,7 +199,7 @@
   {
     "id": "mon_boar_wild",
     "type": "MONSTER",
-    "name": "wild boar",
+    "name": { "str": "wild boar" },
     "description": "Originally not native in the US, this wild omnivore is a crossbreed between the Eurasian wild boar escaped from hunting reserves and the domesticated pig went feral in the wilderness.  Its population has skyrocketed in the US during the last few decades.",
     "looks_like": "mon_pig",
     "default_faction": "pig",
@@ -267,7 +267,7 @@
   {
     "id": "mon_cat_kitten",
     "type": "MONSTER",
-    "copy-from": "mon_cat",
+    "copy-from": { "str": "mon_cat" },
     "name": { "str": "shorthair kitten" },
     "description": "A cuddly kitten meowing and scampering amidst the death.  Currently feral.",
     "default_faction": "cat",
@@ -348,7 +348,7 @@
     "id": "mon_cat_longhair",
     "type": "MONSTER",
     "copy-from": "mon_cat",
-    "name": "longhair cat",
+    "name": { "str": "longhair cat" },
     "description": "This cat's long fur appears difficult to groom, but the cat seems to manage it despite the environmental conditions.",
     "volume": "6000 ml",
     "weight": "6 kg",
@@ -358,7 +358,7 @@
     "id": "mon_cat_longhair_kitten",
     "type": "MONSTER",
     "copy-from": "mon_cat_kitten",
-    "name": "longhair kitten",
+    "name": { "str": "longhair kitten" },
     "description": "Barely more than a ball of fluff with eyes, this kitten looks like a longhair breed.",
     "upgrades": { "age_grow": 120, "into": "mon_cat_longhair" }
   },
@@ -366,7 +366,7 @@
     "id": "mon_cat_maine_coon",
     "type": "MONSTER",
     "copy-from": "mon_cat",
-    "name": "Maine coon cat",
+    "name": { "str": "Maine coon cat" },
     "description": "Impressively large for a domestic cat, this thick-haired breed was once native to the state of Maine.",
     "volume": "8000 ml",
     "weight": "9 kg",
@@ -377,7 +377,7 @@
     "id": "mon_cat_maine_coon_kitten",
     "type": "MONSTER",
     "copy-from": "mon_cat_kitten",
-    "name": "Maine coon kitten",
+    "name": { "str": "Maine coon kitten" },
     "description": "This young Maine coon has tufted ears and a striking pattern on its face.",
     "upgrades": { "age_grow": 120, "into": "mon_cat_maine_coon" }
   },
@@ -385,7 +385,7 @@
     "id": "mon_cat_siamese",
     "type": "MONSTER",
     "copy-from": "mon_cat",
-    "name": "Siamese cat",
+    "name": { "str": "Siamese cat" },
     "description": "This cat has the distinctive dark extremities of a Siamese, first native to Asia but a common domestic breed in North America.",
     "reproduction": { "baby_monster": "mon_cat_siamese_kitten", "baby_count": 4, "baby_timer": 60 }
   },
@@ -393,7 +393,7 @@
     "id": "mon_cat_siamese_kitten",
     "type": "MONSTER",
     "copy-from": "mon_cat_kitten",
-    "name": "Siamese kitten",
+    "name": { "str": "Siamese kitten" },
     "description": "With cream-colored fur and dark points, you guess this kitten must be a young Siamese.",
     "upgrades": { "age_grow": 120, "into": "mon_cat_siamese" }
   },
@@ -401,7 +401,7 @@
     "id": "mon_cat_persian",
     "type": "MONSTER",
     "copy-from": "mon_cat",
-    "name": "Persian cat",
+    "name": { "str": "Persian cat" },
     "description": "The short nose and rounded face of this cat suggest it comes from the popular Persian breed.",
     "reproduction": { "baby_monster": "mon_cat_persian_kitten", "baby_count": 4, "baby_timer": 60 }
   },
@@ -409,7 +409,7 @@
     "id": "mon_cat_persian_kitten",
     "type": "MONSTER",
     "copy-from": "mon_cat_kitten",
-    "name": "Persian kitten",
+    "name": { "str": "Persian kitten" },
     "description": "An adorably squashed nose and sad pleading eyes beg you to adopt this tiny Persian.",
     "upgrades": { "age_grow": 120, "into": "mon_cat_persian" }
   },
@@ -417,7 +417,7 @@
     "id": "mon_cat_bengal",
     "type": "MONSTER",
     "copy-from": "mon_cat",
-    "name": "Bengal cat",
+    "name": { "str": "Bengal cat" },
     "description": "Looking like a spotted wild cat, the Bengal breed derives from the Asian leopard cat and Egyptian Mau.",
     "volume": "5000 ml",
     "weight": "5 kg",
@@ -427,7 +427,7 @@
     "id": "mon_cat_bengal_kitten",
     "type": "MONSTER",
     "copy-from": "mon_cat_kitten",
-    "name": "Bengal kitten",
+    "name": { "str": "Bengal kitten" },
     "description": "You have seen spots like this on Bengal cats, but this one is just a kitten.",
     "upgrades": { "age_grow": 120, "into": "mon_cat_bengal" }
   },
@@ -435,7 +435,7 @@
     "id": "mon_cat_devon_rex",
     "type": "MONSTER",
     "copy-from": "mon_cat",
-    "name": "Devon Rex cat",
+    "name": { "str": "Devon Rex cat" },
     "description": "An unusual-looking cat with strikingly large eyes and ears, sporting a soft curly coat of fur.",
     "reproduction": { "baby_monster": "mon_cat_devon_rex_kitten", "baby_count": 4, "baby_timer": 60 }
   },
@@ -443,7 +443,7 @@
     "id": "mon_cat_devon_rex_kitten",
     "type": "MONSTER",
     "copy-from": "mon_cat_kitten",
-    "name": "Devon Rex kitten",
+    "name": { "str": "Devon Rex kitten" },
     "description": "This curly-coated kitten has enormous ears and inquisitive eyes, possibly a Devon Rex.",
     "upgrades": { "age_grow": 120, "into": "mon_cat_devon_rex" }
   },
@@ -451,7 +451,7 @@
     "id": "mon_cat_sphynx",
     "type": "MONSTER",
     "copy-from": "mon_cat",
-    "name": "Sphynx cat",
+    "name": { "str": "Sphynx cat" },
     "description": "The Sphynx cat has practically no fur on its body, exposing its curiously wrinkled skin.",
     "reproduction": { "baby_monster": "mon_cat_sphynx_kitten", "baby_count": 4, "baby_timer": 60 }
   },
@@ -459,7 +459,7 @@
     "id": "mon_cat_sphynx_kitten",
     "type": "MONSTER",
     "copy-from": "mon_cat_kitten",
-    "name": "Sphynx kitten",
+    "name": { "str": "Sphynx kitten" },
     "description": "An almost total lack of fur on this kitten suggests it is of the hairless Sphynx breed.",
     "upgrades": { "age_grow": 120, "into": "mon_cat_sphynx" }
   },
@@ -467,7 +467,7 @@
     "id": "mon_cat_tabby",
     "type": "MONSTER",
     "copy-from": "mon_cat",
-    "name": "tabby cat",
+    "name": { "str": "tabby cat" },
     "description": "Marked with the characteristic 'M' on its forehead and decorated with swirling stripes, the tabby's markings must provide excellent camouflage.",
     "reproduction": { "baby_monster": "mon_cat_tabby_kitten", "baby_count": 4, "baby_timer": 60 }
   },
@@ -475,7 +475,7 @@
     "id": "mon_cat_tabby_kitten",
     "type": "MONSTER",
     "copy-from": "mon_cat_kitten",
-    "name": "tabby kitten",
+    "name": { "str": "tabby kitten" },
     "description": "Sharp lines around the eyes and familiar wavy stripes mark this kitten as a common tabby.",
     "upgrades": { "age_grow": 120, "into": "mon_cat_tabby" }
   },
@@ -483,7 +483,7 @@
     "id": "mon_cat_calico",
     "type": "MONSTER",
     "copy-from": "mon_cat",
-    "name": "calico cat",
+    "name": { "str": "calico cat" },
     "description": "Partly white with patches of orange and black, the calico coloring tells you this cat is probably female.  The Calico was the Maryland State cat (back when there were still states).",
     "reproduction": { "baby_monster": "mon_cat_calico_kitten", "baby_count": 4, "baby_timer": 60 }
   },
@@ -491,7 +491,7 @@
     "id": "mon_cat_calico_kitten",
     "type": "MONSTER",
     "copy-from": "mon_cat_kitten",
-    "name": "calico kitten",
+    "name": { "str": "calico kitten" },
     "description": "Splotches of tan and grey mark this young cat as a calico, and probably female.",
     "upgrades": { "age_grow": 120, "into": "mon_cat_calico" }
   },
@@ -499,7 +499,7 @@
     "id": "mon_cat_chonker",
     "type": "MONSTER",
     "copy-from": "mon_cat",
-    "name": "golden chonker",
+    "name": { "str": "golden chonker" },
     "description": "Lawd, he comin!  This impressive feline would once have been celebrated on internet cat forums for its chonkiness and majestic golden mane.  Appears surprisingly well-groomed for a feral cat.",
     "volume": "8000 ml",
     "weight": "10 kg",
@@ -510,7 +510,7 @@
     "id": "mon_cat_chonker_kitten",
     "type": "MONSTER",
     "copy-from": "mon_cat_kitten",
-    "name": "yellow kitten",
+    "name": { "str": "yellow kitten" },
     "description": "This poor little kitten is starving!  You wonder if you have some cat food around…",
     "upgrades": { "age_grow": 120, "into": "mon_cat_chonker" }
   },
