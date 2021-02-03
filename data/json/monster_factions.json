@@ -371,13 +371,14 @@
     "name": "exodii",
     "neutral": [ "fish", "small_animal" ],
     "by_mood": [ "animal", "nether" ],
-    "hate": [ "zombie", "fungus", "cult", "triffid" ]
+    "hate": [ "zombie", "fungus", "triffid", "mi-go" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "mi-go",
     "neutral": [ "fish", "small_animal" ],
-    "hate": [ "zombie", "triffid", "fungus" ]
+	"by_mood": "nether",
+    "hate": [ "zombie", "triffid", "fungus", "exodii" ]
   },
   {
     "type": "MONSTER_FACTION",
