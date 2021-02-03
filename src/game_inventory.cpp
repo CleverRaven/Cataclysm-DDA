@@ -403,20 +403,20 @@ item_location game::inv_map_splice( const item_filter &filter, const std::string
 
 class liquid_inventory_filter_preset : public inventory_filter_preset
 {
-public:
-    explicit liquid_inventory_filter_preset(const item_location_filter& filter) :
-        inventory_filter_preset(filter) {
-        append_cell([this](const item_location& loc) {
-            if (loc.get_item()) {
-                units::volume vol = loc.get_item()->max_containable_volume();
-                return string_format("%.2f L", units::to_liter(vol));
-            }
-            return std::string("");
-            }, _("Storage (L)"));
-    }
+    public:
+        explicit liquid_inventory_filter_preset( const item_location_filter &filter ) :
+            inventory_filter_preset( filter ) {
+            append_cell( [this]( const item_location & loc ) {
+                if( loc.get_item() ) {
+                    units::volume vol = loc.get_item()->max_containable_volume();
+                    return string_format( "%.2f L", units::to_liter( vol ) );
+                }
+                return std::string( "" );
+            }, _( "Storage (L)" ) );
+        }
 
-private:
-    item_location_filter filter;
+    private:
+        item_location_filter filter;
 };
 
 item_location game_menus::inv::container_for( Character &you, const item &liquid, int radius,
