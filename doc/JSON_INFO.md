@@ -2388,30 +2388,34 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
     "power_armor" : false
 }
 ```
-Guidelines for thickness.
-According to https://propercloth.com/reference/fabric-thickness-weight/
-Dress shirts and similar fine clothing ranges from 0.15mm to 0.35mm.
-According to https://leathersupreme.com/leather-hide-thickness-in-leather-jackets/
-Fashion leather such as thin leather jackets, skirts, and thin vests are 1.0mm or less.
-Heavy leather clothes such as motorcycle suits average 1.5mm.
-According to http://cci.one/site/marine/design-tips-fabrication-overview/tables-of-weights-and-measures/?doing_wp_cron=1611725817.5850219726562500000000
-An equivalency guideline for fabric weight to mm.
-2.3 oz/yd2 fiberglass (plain weave cloth) 	78 gm/m2 	0.004″ 	0.10 mm
-6.0 oz/yd2 fiberglass (plain weave cloth) 	203 gm/m2 	0.007″ 	0.17 mm
-5.0 oz/yd2 Kevlar (TM) (plain weave cloth) 	170 gm/m2 	0.010″ 	0.25 mm
-5.8 oz/yd2 Carbon Fiber (plain weave cloth) 	197 gm/m2 	0.009″ 	0.23 mm
-9.0 oz/yd2 Carbon Fiber (unidirectional) 	305 gm/m2 	0.011″ 	0.28 mm
+#### Guidelines for thickness: ####
+According to <https://propercloth.com/reference/fabric-thickness-weight/>, dress shirts and similar fine clothing range from 0.15mm to 0.35mm.
+According to <https://leathersupreme.com/leather-hide-thickness-in-leather-jackets/>:
+* Fashion leather clothes such as thin leather jackets, skirts, and thin vests are 1.0mm or less.
+* Heavy leather clothes such as motorcycle suits average 1.5mm.
 
-Chart cobbled together from several sources
-Very lightweight fabrics are between 0-4oz. (up to 136 gsm) 0.006″-0.007″ 0.15mm
-Light fabrics are between 4-7oz. (up to 237 gsm) 0.008″ 0.2mm
-Medium fabrics are between 7-11oz. (up to 373 gsm) 0.009″-0.011" 0.25mm
-Heavy fabrics are between 11-14oz. (up to 475 gsm) 0.012″-0.014″ 0.3mm
+From [this site](http://cci.one/site/marine/design-tips-fabrication-overview/tables-of-weights-and-measures/?doing_wp_cron=1611725817.5850219726562500000000), an equivalency guideline for fabric weight to mm:
 
-Shoe thicknesses outlined at https://secretcobbler.com/choosing-leather/
-TL;DR upper 1.2 - 2.0mm, lining 0.8 - 1.2mm, for a total of 2.0 - 3.2mm
+| Cloth | oz/yd2 | g/m2 | Inches | mm |
+| ----- | ------- | ----- | ------- | ---- |
+|  Fiberglass (plain weave)  | 2.3 |  78  | 0.004 | 0.10 |
+|  Fiberglass (plain weave)  | 6.0 | 203 | 0.007 | 0.17 |
+| Kevlar (TM) (plain weave) | 5.0 | 170 | 0.010 | 0.25 |
+| Carbon Fiber (plain weave) | 5.8 | 197 | 0.009 | 0.23 |
+| Carbon Fiber (unidirectional) | 9.0 | 305 | 0.011 | 0.28 |
 
-Reference for turnout gear http://bolivar.mo.us/media/uploads/2014/09/2014-06-bid-fire-gear-packet.pdf
+Chart cobbled together from several sources for more general materials:
+
+|  Fabric  | oz/yd2 | Max g/m2 | Inches | mm to use |
+| ------- | --------| ---------- | ------- | ---------- |
+| Very light | 0-4 | 136 | 0.006-0.007 | 0.15 |
+|   Light   | 4-7 | 237 |    0.008    |  0.2  |
+|  Medium  | 7-11 | 373 | 0.009-0.011 | 0.25 |
+|   Heavy   | 11-14 | 475 | 0.012-0.014 | 0.3 |
+
+Shoe thicknesses are outlined at <https://secretcobbler.com/choosing-leather/>; TL;DR: upper 1.2 - 2.0mm, lining 0.8 - 1.2mm, for a total of 2.0 - 3.2mm.
+
+For turnout gear, see <http://bolivar.mo.us/media/uploads/2014/09/2014-06-bid-fire-gear-packet.pdf>.
 
 
 ### Pet Armor
