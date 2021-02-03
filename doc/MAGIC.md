@@ -173,7 +173,7 @@ Spells may have any number of flags, for example:
 | `PAIN_NORESIST` | pain altering spells can't be resisted (like with the deadened trait)
 | `WITH_CONTAINER` | items spawned with container
 | `UNSAFE_TELEPORT` | teleport spell risks killing the caster or others
-| `TARGET_TELEPORT` | teleport spell changes to aoe variation around target
+| `TARGET_TELEPORT` | teleport spell changes to maximum range target with aoe as variation around target
 | `SPAWN_GROUP` | spawn or summon from an item or monster group, instead of individual item/monster ID
 | `NO_PROJECTILE` | the "projectile" portion of the spell phases through walls. the epicenter of the spell effect is exactly where you target it with no regards to obstacles
 
