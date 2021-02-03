@@ -376,5 +376,9 @@
     "name": "aquatic_predator",
     "neutral": [ "bot", "dragonfly" ],
     "hate": "fish"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "stag_beetle"
   }
 ]
