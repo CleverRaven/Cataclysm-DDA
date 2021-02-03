@@ -267,7 +267,7 @@
   {
     "id": "mon_cat_kitten",
     "type": "MONSTER",
-    "copy-from": { "str": "mon_cat" },
+    "copy-from": "mon_cat",
     "name": { "str": "shorthair kitten" },
     "description": "A cuddly kitten meowing and scampering amidst the death.  Currently feral.",
     "default_faction": "cat",
