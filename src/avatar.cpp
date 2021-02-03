@@ -30,6 +30,7 @@
 #include "faction.h"
 #include "game.h"
 #include "game_constants.h"
+#include "global_vars.h"
 #include "help.h"
 #include "inventory.h"
 #include "item.h"
@@ -75,6 +76,7 @@
 #include "vpart_position.h"
 
 int memorized_tile_count;
+//will be defined in options.cpp
 
 static const activity_id ACT_READ( "ACT_READ" );
 
