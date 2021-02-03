@@ -485,7 +485,7 @@
     "id": "GOODMEMORY",
     "name": { "str": "Good Memory" },
     "points": 2,
-    "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual. ((Should not be taken if skill rust is disabled.))",
+    "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual.  ((Should not be taken if skill rust is disabled.))",
     "skill_rust_multiplier": 1.33,
     "starting_trait": true,
     "valid": false,
