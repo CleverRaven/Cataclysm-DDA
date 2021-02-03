@@ -377,7 +377,7 @@
     "type": "MONSTER_FACTION",
     "name": "mi-go",
     "neutral": [ "fish", "small_animal" ],
-	"by_mood": "nether",
+    "by_mood": "nether",
     "hate": [ "zombie", "triffid", "fungus", "exodii" ]
   },
   {

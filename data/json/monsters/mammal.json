@@ -165,7 +165,7 @@
   {
     "id": "mon_boar_wild_piglet",
     "type": "MONSTER",
-    "name": { "str": "wild boar piglet"},
+    "name": { "str": "wild boar piglet" },
     "description": "Originally not native in the US, this wild omnivore is a crossbreed between the Eurasian wild boar escaped from hunting reserves and the domesticated pig went feral in the wilderness.  Its population has skyrocketed in the US during the last few decades.",
     "default_faction": "pig",
     "bodytype": "pig",
