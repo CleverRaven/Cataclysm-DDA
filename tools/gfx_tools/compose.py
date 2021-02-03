@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-
-# compose.py
-
 '''
 Merge all tile entries and PNGs in a compositing tileset directory into
 a tile_config.json and tilesheet .png file(s) ready for use in CDDA.
