@@ -232,8 +232,7 @@ class Tileset:
             for tile_entry in sheet.tile_entries:
                 # TODO: pop?
                 converted_tile_entry = tile_entry.convert(
-                    tile_entry.data,  # FIXME
-                    sheet.is_filler)
+                    is_filler=sheet.is_filler)
                 if converted_tile_entry:
                     sheet_entries.append(converted_tile_entry)
 
@@ -471,11 +470,17 @@ class TileEntry:
         self.tileset = tileset
         self.data = data
 
-    def convert(self, entry: dict, is_filler: bool = False, prefix: str = '')\
+    def convert(
+            self,
+            entry: Union[dict, None] = None,
+            is_filler: bool = False,
+            prefix: str = '')\
             -> Optional[dict]:
         '''
         Recursively compile input into game-compatible objects in-place
         '''
+        if entry is None:
+            entry = self.data
         tile_id = entry.get('id')
         id_as_prefix = None
         skipping_filler = False
