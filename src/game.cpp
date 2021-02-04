@@ -2393,6 +2393,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "debug_visibility" );
     ctxt.register_action( "debug_lighting" );
     ctxt.register_action( "debug_radiation" );
+    ctxt.register_action( "debug_submap_grid" );
     ctxt.register_action( "debug_hour_timer" );
     ctxt.register_action( "debug_mode" );
     ctxt.register_action( "zoom_out" );
@@ -6779,6 +6780,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
     ctxt.register_action( "debug_visibility" );
     ctxt.register_action( "debug_lighting" );
     ctxt.register_action( "debug_radiation" );
+    ctxt.register_action( "debug_submap_grid" );
     ctxt.register_action( "debug_hour_timer" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
@@ -6927,6 +6929,8 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_radiation();
             }
+        } else if( action == "debug_submap_grid" ) {
+            g->debug_submap_grid_overlay = !g->debug_submap_grid_overlay;
         } else if( action == "debug_hour_timer" ) {
             toggle_debug_hour_timer();
         } else if( action == "EXTENDED_DESCRIPTION" ) {
@@ -11362,26 +11366,16 @@ void game::perhaps_add_random_npc()
 
 bool game::display_overlay_state( const action_id action )
 {
-    const auto it = displaying_overlays.find( action );
-    if( it == displaying_overlays.end() ) {
-        return false;
-    }
-
-    return displaying_overlays[action];
+    return displaying_overlays && *displaying_overlays == action;
 }
 
 void game::display_toggle_overlay( const action_id action )
 {
-    const auto it = displaying_overlays.find( action );
-    if( it == displaying_overlays.end() ) {
-        return;
+    if( display_overlay_state( action ) ) {
+        displaying_overlays.reset();
+    } else {
+        displaying_overlays = action;
     }
-
-    const bool action_flag = it->second;
-    std::for_each( displaying_overlays.begin(), displaying_overlays.end(), []( auto & p ) {
-        p.second = false;
-    } );
-    displaying_overlays[action] = !action_flag;
 }
 
 void game::display_scent()

@@ -928,16 +928,8 @@ class game
         void disp_NPC_epilogues();  // Display NPC endings
 
         /* Debug functions */
-        // overlays flags (on / off)
-        std::map<action_id, bool> displaying_overlays{
-            { ACTION_DISPLAY_SCENT, false },
-            { ACTION_DISPLAY_SCENT_TYPE, false },
-            { ACTION_DISPLAY_TEMPERATURE, false },
-            { ACTION_DISPLAY_VEHICLE_AI, false },
-            { ACTION_DISPLAY_VISIBILITY, false },
-            { ACTION_DISPLAY_LIGHTING, false },
-            { ACTION_DISPLAY_RADIATION, false },
-        };
+        // currently displayed overlay (none is displayed if empty)
+        cata::optional<action_id> displaying_overlays;
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
         void display_vehicle_ai(); // Displays vehicle autopilot AI overlay
@@ -1015,6 +1007,7 @@ class game
         point driving_view_offset;
 
         bool debug_pathfinding = false; // show NPC pathfinding on overmap ui
+        bool debug_submap_grid_overlay = false;
 
         /* tile overlays */
         // Toggle all other overlays off and flip the given overlay on/off.
