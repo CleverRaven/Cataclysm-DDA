@@ -373,8 +373,11 @@ int npc_short_term_cache::closest_enemy_to_friendly_distance() const
 {
     int distance = INT_MAX;
     for( const weak_ptr_fast<Creature> &buddy : friends ) {
+        if( buddy.expired() ) {
+            continue;
+        }
         for( const weak_ptr_fast<Creature> &enemy : hostile_guys ) {
-            if( buddy.expired() || enemy.expired() ) {
+            if( enemy.expired() ) {
                 continue;
             }
             distance = std::min( distance, rl_dist( buddy.lock()->pos(), enemy.lock()->pos() ) );
