@@ -1999,6 +1999,7 @@ class Character : public Creature, public visitable
         }
         void mod_focus( int amount ) {
             focus_pool += amount * 1000;
+            focus_pool = std::max( focus_pool, 0 );
         }
         // Set the focus pool directly, only use for debugging.
         void set_focus( int amount ) {
