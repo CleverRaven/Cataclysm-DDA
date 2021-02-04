@@ -53,6 +53,7 @@
 #include "material.h"
 #include "memorial_logger.h"
 #include "messages.h"
+#include "mission.h"
 #include "mondefense.h"
 #include "monfaction.h"
 #include "monster.h"
@@ -275,37 +276,6 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
     }
 }
 
-// Distance == 1 and on the same z-level or with a clear shot up/down.
-// If allow_zlev is false, don't allow attacking up/down at all.
-// If allow_zlev is true, also allow distance == 1 and on different z-level
-// as long as floor/ceiling doesn't exist.
-static bool is_adjacent( const monster *z, const Creature *target, const bool allow_zlev )
-{
-    if( target == nullptr ) {
-        return false;
-    }
-
-    if( rl_dist( z->pos(), target->pos() ) != 1 ) {
-        return false;
-    }
-
-    if( z->posz() == target->posz() ) {
-        return true;
-    }
-
-    if( !allow_zlev ) {
-        return false;
-    }
-
-    // The square above must have no floor (currently only open air).
-    // The square below must have no ceiling (i.e. be outside).
-    const bool target_above = target->posz() > z->posz();
-    const tripoint &up   = target_above ? target->pos() : z->pos();
-    const tripoint &down = target_above ? z->pos() : target->pos();
-    map &here = get_map();
-    return here.ter( up ) == t_open_air && here.is_outside( down );
-}
-
 static npc make_fake_npc( monster *z, int str, int dex, int inte, int per )
 {
     npc tmp;
@@ -355,6 +325,10 @@ bool mattack::eat_food( monster *z )
     for( const auto &p : here.points_in_radius( z->pos(), 1 ) ) {
         //Protect crop seeds from carnivores, give omnivores eat_crop special also
         if( here.has_flag( "PLANT", p ) ) {
+            continue;
+        }
+        // Don't snap up food RIGHT under the player's nose.
+        if( z->friendly && rl_dist( get_player_location().pos(), p ) <= 2 ) {
             continue;
         }
         map_stack items = here.i_at( p );
@@ -646,7 +620,7 @@ bool mattack::acid_barf( monster *z )
 
     // Let it be used on non-player creatures
     Creature *target = z->attack_target();
-    if( target == nullptr || !is_adjacent( z, target, false ) ) {
+    if( target == nullptr || !z->is_adjacent( target, false ) ) {
         return false;
     }
 
@@ -824,7 +798,7 @@ bool mattack::pull_metal_weapon( monster *z )
               foe->weapon.made_of( material_id( "hardsteel" ) ) ||
               foe->weapon.made_of( material_id( "steel" ) ) ||
               foe->weapon.made_of( material_id( "budget_steel" ) ) ) ) {
-            int wp_skill = foe->get_skill_level( skill_melee );
+            const int wp_skill = foe->get_skill_level( skill_melee );
             // It takes a while
             z->moves -= att_cost_pull;
             int success = 100;
@@ -835,9 +809,19 @@ bool mattack::pull_metal_weapon( monster *z )
             }
             game_message_type m_type = foe->is_avatar() ? m_bad : m_neutral;
             if( rng( 1, 100 ) <= success ) {
-                target->add_msg_player_or_npc( m_type, _( "%s is pulled away from your hands!" ),
-                                               _( "%s is pulled away from <npcname>'s hands!" ), foe->weapon.tname() );
-                z->add_item( foe->remove_weapon() );
+                item pulled_weapon = foe->remove_weapon();
+                projectile proj;
+                proj.speed  = 50;
+                proj.impact = damage_instance::physical( pulled_weapon.weight() / 250_gram, 0, 0, 0 );
+                // make the projectile stop one tile short to prevent hitting the monster
+                proj.range = rl_dist( foe->pos(), z->pos() ) - 1;
+                proj.proj_effects = { { "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" } };
+
+                dealt_projectile_attack dealt = projectile_attack( proj, foe->pos(), z->pos(), dispersion_sources { 0 },
+                                                z );
+                get_map().add_item( dealt.end_point, pulled_weapon );
+                target->add_msg_player_or_npc( m_type, _( "The %s is pulled away from your hands!" ),
+                                               _( "The %s is pulled away from <npcname>'s hands!" ), pulled_weapon.tname() );
                 if( foe->has_activity( ACT_RELOAD ) ) {
                     foe->cancel_activity();
                 }
@@ -1083,7 +1067,7 @@ bool mattack::resurrect( monster *z )
 
 void mattack::smash_specific( monster *z, Creature *target )
 {
-    if( target == nullptr || !is_adjacent( z, target, false ) ) {
+    if( target == nullptr || !z->is_adjacent( target, false ) ) {
         return;
     }
     if( z->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -1100,7 +1084,7 @@ bool mattack::smash( monster *z )
     }
 
     Creature *target = z->attack_target();
-    if( target == nullptr || !is_adjacent( z, target, false ) ) {
+    if( target == nullptr || !z->is_adjacent( target, false ) ) {
         return false;
     }
 
@@ -1499,7 +1483,7 @@ bool mattack::growplants( monster *z )
 bool mattack::grow_vine( monster *z )
 {
     if( z->friendly ) {
-        if( rl_dist( get_player_character().pos(), z->pos() ) <= 3 ) {
+        if( rl_dist( get_player_location().pos(), z->pos() ) <= 3 ) {
             // Friendly vines keep the area around you free, so you can move.
             return false;
         }
@@ -1666,10 +1650,7 @@ bool mattack::fungus( monster *z )
     // TODO: Infect NPCs?
     // It takes a while
     z->moves -= 200;
-    Character &player_character = get_player_character();
-    if( player_character.has_trait( trait_THRESH_MYCUS ) ) {
-        z->friendly = 100;
-    }
+
     //~ the sound of a fungus releasing spores
     sounds::sound( z->pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
     add_msg_if_player_sees( *z, m_warning, _( "Spores are released from the %s!" ), z->name() );
@@ -1869,7 +1850,7 @@ bool mattack::fungus_bristle( monster *z )
     }
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        !is_adjacent( z, target, true ) ||
+        !z->is_adjacent( target, true ) ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -2090,7 +2071,7 @@ bool mattack::impale( monster *z )
         return false;
     }
     Creature *target = z->attack_target();
-    if( target == nullptr || !is_adjacent( z, target, false ) ) {
+    if( target == nullptr || !z->is_adjacent( target, false ) ) {
         return false;
     }
 
@@ -2146,7 +2127,7 @@ bool mattack::dermatik( monster *z )
 
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        !is_adjacent( z, target, true ) ||
+        !z->is_adjacent( target, true ) ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -2400,7 +2381,7 @@ bool mattack::callblobs( monster *z )
     // if we want to deal with NPCS and friendly monsters as well.
     // The strategy is to send about 1/3 of the available blobs after the player,
     // and keep the rest near the brain blob for protection.
-    tripoint enemy = get_player_character().pos();
+    tripoint enemy = get_player_location().pos();
     std::list<monster *> allies;
     std::vector<tripoint> nearby_points = closest_points_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
@@ -2687,7 +2668,7 @@ bool mattack::grab( monster *z )
         return false;
     }
     Creature *target = z->attack_target();
-    if( target == nullptr || !is_adjacent( z, target, false ) ) {
+    if( target == nullptr || !z->is_adjacent( target, false ) ) {
         return false;
     }
 
@@ -3284,7 +3265,7 @@ bool mattack::photograph( monster *z )
 bool mattack::tazer( monster *z )
 {
     Creature *target = z->attack_target();
-    if( target == nullptr || !is_adjacent( z, target, false ) ) {
+    if( target == nullptr || !z->is_adjacent( target, false ) ) {
         return false;
     }
 
@@ -3768,7 +3749,7 @@ bool mattack::copbot( monster *z )
     bool sees_u = foe != nullptr && z->sees( *foe );
     bool cuffed = foe != nullptr && foe->weapon.typeId() == itype_e_handcuffs;
     // Taze first, then ask questions (simplifies later checks for non-humans)
-    if( !cuffed && is_adjacent( z, target, true ) ) {
+    if( !cuffed && z->is_adjacent( target, true ) ) {
         taze( z, target );
         return true;
     }
@@ -4219,7 +4200,7 @@ bool mattack::flesh_golem( monster *z )
         }
         return false;
     }
-    if( !is_adjacent( z, target, true ) ) {
+    if( !z->is_adjacent( target, true ) ) {
         // No attacking through floor, even if we can see the target somehow
         return false;
     }
@@ -4341,7 +4322,7 @@ bool mattack::lunge( monster *z )
         return false;
     }
 
-    if( !is_adjacent( z, target, false ) ) {
+    if( !z->is_adjacent( target, false ) ) {
         // No attacking up or down - lunging requires contact
         // There could be a lunge down attack, though
         return false;
@@ -4413,7 +4394,7 @@ bool mattack::longswipe( monster *z )
         }
     }
 
-    if( !is_adjacent( z, target, true ) ) {
+    if( !z->is_adjacent( target, true ) ) {
         if( one_in( 5 ) ) {
 
             z->moves -= 150;
@@ -4645,7 +4626,7 @@ bool mattack::thrown_by_judo( monster *z )
 {
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        !is_adjacent( z, target, false ) ||
+        !z->is_adjacent( target, false ) ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -4743,7 +4724,7 @@ bool mattack::riotbot( monster *z )
                        z->type->id.str() );
 
         //we need to come closer and arrest
-        if( !is_adjacent( z, foe, false ) ) {
+        if( !z->is_adjacent( foe, false ) ) {
             return true;
         }
 
@@ -4896,7 +4877,7 @@ bool mattack::evolve_kill_strike( monster *z )
 {
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        !is_adjacent( z, target, false ) ||
+        !z->is_adjacent( target, false ) ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -5120,7 +5101,7 @@ bool mattack::bio_op_random_biojutsu( monster *z )
 
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        !is_adjacent( z, target, false ) ||
+        !z->is_adjacent( target, false ) ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -5162,7 +5143,7 @@ bool mattack::bio_op_takedown( monster *z )
     Creature *target = z->attack_target();
     // TODO: Allow drop-takedown form above
     if( target == nullptr ||
-        !is_adjacent( z, target, false ) ||
+        !z->is_adjacent( target, false ) ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -5256,7 +5237,7 @@ bool mattack::bio_op_impale( monster *z )
 
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        !is_adjacent( z, target, false ) ||
+        !z->is_adjacent( target, false ) ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -5337,7 +5318,7 @@ bool mattack::bio_op_disarm( monster *z )
 
     Creature *target = z->attack_target();
     if( target == nullptr ||
-        !is_adjacent( z, target, false ) ||
+        !z->is_adjacent( target, false ) ||
         !z->sees( *target ) ) {
         return false;
     }
@@ -5763,6 +5744,7 @@ bool mattack::zombie_fuse( monster *z )
             && critter != z && critter->get_size() <= z->get_size() ) {
             break;
         }
+        critter = nullptr;
     }
 
     if( critter == nullptr || ( z->has_effect( effect_grown_of_fuse ) &&
@@ -5776,7 +5758,16 @@ bool mattack::zombie_fuse( monster *z )
     z->add_effect( effect_grown_of_fuse, 10_days, true,
                    critter->get_hp_max() + z->get_effect( effect_grown_of_fuse ).get_intensity() );
     z->heal( critter->get_hp(), true );
+    if( mission::on_creature_fusion( *z, *critter ) ) {
+        z->mission_fused.emplace_back( critter->name() );
+        z->mission_fused.insert( z->mission_fused.end(),
+                                 critter->mission_fused.begin(), critter->mission_fused.end() );
+        // let the player know that they still need to kill the fusing monster
+        add_msg_if_player_sees( *z, _( "%1$s still seems to be moving inside %2$s…" ),
+                                critter->name(), z->name() );
+    }
     critter->death_drops = false;
+    critter->quiet_death = true;
     critter->die( z );
     return true;
 }

@@ -9,7 +9,6 @@
 #include <map>
 #include <memory>
 #include <set>
-#include <sstream>
 #include <stdexcept>
 #include <unordered_map>
 
@@ -318,7 +317,7 @@ class mapgen_factory
             for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
                 omw.second.setup();
             }
-            // Dummy entry, overmap terrain null should never appear and is therefor never generated.
+            // Dummy entry, overmap terrain null should never appear and is therefore never generated.
             mapgens_.erase( "null" );
         }
         void check_consistency() {
@@ -443,9 +442,11 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
             jio.throw_error( "function does not exist", "name" );
         }
     } else if( mgtype == "json" ) {
-        const std::string jstr = jio.get_object( "object" ).str();
+        JsonObject jo = jio.get_object( "object" );
+        const json_source_location jsrc = jo.get_source_location();
+        jo.allow_omitted_members();
         ret = std::make_shared<mapgen_function_json>(
-                  jstr, mgweight, "mapgen " + id_base, offset );
+                  jsrc, mgweight, "mapgen " + id_base, offset );
         oter_mapgen.add( id_base, ret );
     } else {
         jio.throw_error( R"(invalid value: must be "builtin" or "json")", "method" );
@@ -460,9 +461,10 @@ static void load_nested_mapgen( const JsonObject &jio, const std::string &id_bas
         if( jio.has_object( "object" ) ) {
             int weight = jio.get_int( "weight", 1000 );
             JsonObject jo = jio.get_object( "object" );
-            std::string jstr = jo.str();
+            const json_source_location jsrc = jo.get_source_location();
+            jo.allow_omitted_members();
             nested_mapgen[id_base].add(
-                std::make_shared<mapgen_function_json_nested>( jstr, "nested mapgen " + id_base ),
+                std::make_shared<mapgen_function_json_nested>( jsrc, "nested mapgen " + id_base ),
                 weight );
         } else {
             debugmsg( "Nested mapgen: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
@@ -479,10 +481,11 @@ static void load_update_mapgen( const JsonObject &jio, const std::string &id_bas
     if( mgtype == "json" ) {
         if( jio.has_object( "object" ) ) {
             JsonObject jo = jio.get_object( "object" );
-            std::string jstr = jo.str();
+            const json_source_location jsrc = jo.get_source_location();
+            jo.allow_omitted_members();
             update_mapgen[id_base].push_back(
                 std::make_unique<update_mapgen_function_json>(
-                    jstr, "update mapgen " + id_base ) );
+                    jsrc, "update mapgen " + id_base ) );
         } else {
             debugmsg( "Update mapgen: Invalid mapgen function (missing \"object\" object)",
                       id_base.c_str() );
@@ -588,8 +591,8 @@ bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmap
 }
 
 mapgen_function_json_base::mapgen_function_json_base(
-    const std::string &s, const std::string &context )
-    : jdata( s )
+    const json_source_location &jsrcloc, const std::string &context )
+    : jsrcloc( jsrcloc )
     , context_( context )
     , do_format( false )
     , is_ready( false )
@@ -600,10 +603,10 @@ mapgen_function_json_base::mapgen_function_json_base(
 
 mapgen_function_json_base::~mapgen_function_json_base() = default;
 
-mapgen_function_json::mapgen_function_json( const std::string &s, const int w,
+mapgen_function_json::mapgen_function_json( const json_source_location &jsrcloc, const int w,
         const std::string &context, const point &grid_offset )
     : mapgen_function( w )
-    , mapgen_function_json_base( s, context )
+    , mapgen_function_json_base( jsrcloc, context )
     , fill_ter( t_null )
     , rotation( 0 )
 {
@@ -613,8 +616,8 @@ mapgen_function_json::mapgen_function_json( const std::string &s, const int w,
 }
 
 mapgen_function_json_nested::mapgen_function_json_nested(
-    const std::string &s, const std::string &context )
-    : mapgen_function_json_base( s, context )
+    const json_source_location &jsrcloc, const std::string &context )
+    : mapgen_function_json_base( jsrcloc, context )
     , rotation( 0 )
 {
 }
@@ -639,8 +642,8 @@ jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag )
     }
 }
 
-jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag, const short def_val,
-                          const short def_valmax )
+jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag, const int &def_val,
+                          const int &def_valmax )
     : val( def_val )
     , valmax( def_valmax )
 {
@@ -819,13 +822,13 @@ map_key::map_key( const JsonMember &member ) : str( member.name() )
  * it at random.
  */
 template<typename PieceType>
-class jmapgen_alternativly : public jmapgen_piece
+class jmapgen_alternatively : public jmapgen_piece
 {
     public:
         // Note: this bypasses virtual function system, all items in this vector are of type
         // PieceType, they *can not* be of any other type.
         std::vector<PieceType> alternatives;
-        jmapgen_alternativly() = default;
+        jmapgen_alternatively() = default;
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             if( const auto chosen = random_entry_opt( alternatives ) ) {
@@ -1176,7 +1179,7 @@ class jmapgen_loot : public jmapgen_piece
         friend jmapgen_objects;
 
     public:
-        jmapgen_loot( const JsonObject &jsi ) :
+        explicit jmapgen_loot( const JsonObject &jsi ) :
             result_group( Item_group::Type::G_COLLECTION, 100, jsi.get_int( "ammo", 0 ),
                           jsi.get_int( "magazine", 0 ), "mapgen loot entry" )
             , chance( jsi.get_int( "chance", 100 ) ) {
@@ -1325,7 +1328,7 @@ class jmapgen_monster : public jmapgen_piece
             int raw_odds = chance.get();
 
             // Handle spawn density: Increase odds, but don't let the odds of absence go below half the odds at density 1.
-            // Instead, apply a multipler to the number of monsters for really high densities.
+            // Instead, apply a multiplier to the number of monsters for really high densities.
             // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
             int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" );
             int max_odds = ( 100 + raw_odds ) / 2;
@@ -1469,7 +1472,7 @@ class jmapgen_trap : public jmapgen_piece
             id = sid.id();
         }
 
-        jmapgen_trap( const std::string &tid ) :
+        explicit jmapgen_trap( const std::string &tid ) :
             id( 0 ) {
             const trap_str_id sid( tid );
             if( !sid.is_valid() ) {
@@ -1496,7 +1499,7 @@ class jmapgen_furniture : public jmapgen_piece
         furn_id id;
         jmapgen_furniture( const JsonObject &jsi, const std::string &/*context*/ ) :
             jmapgen_furniture( jsi.get_string( "furn" ) ) {}
-        jmapgen_furniture( const std::string &fid ) : id( furn_id( fid ) ) {}
+        explicit jmapgen_furniture( const std::string &fid ) : id( furn_id( fid ) ) {}
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             dat.m.furn_set( point( x.get(), y.get() ), id );
@@ -1515,7 +1518,7 @@ class jmapgen_terrain : public jmapgen_piece
         ter_id id;
         jmapgen_terrain( const JsonObject &jsi, const std::string &/*context*/ ) :
             jmapgen_terrain( jsi.get_string( "ter" ) ) {}
-        jmapgen_terrain( const std::string &tid ) : id( ter_id( tid ) ) {}
+        explicit jmapgen_terrain( const std::string &tid ) : id( ter_id( tid ) ) {}
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             dat.m.ter_set( point( x.get(), y.get() ), id );
@@ -1542,7 +1545,8 @@ class jmapgen_ter_furn_transform: public jmapgen_piece
         ter_furn_transform_id id;
         jmapgen_ter_furn_transform( const JsonObject &jsi, const std::string &/*context*/ ) :
             jmapgen_ter_furn_transform( jsi.get_string( "transform" ) ) {}
-        jmapgen_ter_furn_transform( const std::string &rid ) : id( ter_furn_transform_id( rid ) ) {}
+        explicit jmapgen_ter_furn_transform( const std::string &rid ) : id( ter_furn_transform_id(
+                        rid ) ) {}
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             id->transform( dat.m, tripoint( x.get(), y.get(), dat.m.get_abs_sub().z ) );
@@ -1838,7 +1842,7 @@ class jmapgen_nested : public jmapgen_piece
                 std::array<std::set<oter_str_id>, om_direction::size> neighbors;
                 std::set<oter_str_id> above;
             public:
-                neighborhood_check( const JsonObject &jsi ) {
+                explicit neighborhood_check( const JsonObject &jsi ) {
                     for( om_direction::type dir : om_direction::all ) {
                         int index = static_cast<int>( dir );
                         neighbors[index] = jsi.get_tags<oter_str_id>( om_direction::id( dir ) );
@@ -2074,7 +2078,7 @@ void load_place_mapings_string(
 }
 /*
 This function is like load_place_mapings_string, except if the input is an array it will create an
-instance of jmapgen_alternativly which will chose the mapgen piece to apply to the map randomly.
+instance of jmapgen_alternatively which will chose the mapgen piece to apply to the map randomly.
 Use this with terrain or traps or other things that can not be applied twice to the same place.
 */
 template<typename PieceType>
@@ -2085,7 +2089,7 @@ void load_place_mapings_alternatively(
     if( !value.test_array() ) {
         load_place_mapings_string<PieceType>( value, vect, context );
     } else {
-        auto alter = make_shared_fast< jmapgen_alternativly<PieceType> >();
+        auto alter = make_shared_fast< jmapgen_alternatively<PieceType> >();
         for( const JsonValue entry : value.get_array() ) {
             if( entry.test_string() ) {
                 try {
@@ -2255,6 +2259,11 @@ void mapgen_palette::check_definitions()
     for( auto &p : palettes ) {
         p.second.check();
     }
+}
+
+void mapgen_palette::reset()
+{
+    palettes.clear();
 }
 
 void mapgen_palette::add( const palette_id &rh )
@@ -2431,8 +2440,13 @@ void mapgen_function_json_base::setup_common()
     if( is_ready ) {
         return;
     }
-    std::istringstream iss( jdata );
-    JsonIn jsin( iss );
+    if( !jsrcloc.path ) {
+        debugmsg( "null json source location path" );
+        return;
+    }
+    shared_ptr_fast<std::istream> stream = DynamicDataLoader::get_instance().get_cached_stream(
+            *jsrcloc.path );
+    JsonIn jsin( *stream, jsrcloc );
     JsonObject jo = jsin.get_object();
     mapgen_defer::defer = false;
     if( !setup_common( jo ) ) {
@@ -2499,21 +2513,21 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                 const bool has_placing = fpi != format_placings.end();
 
                 if( !has_terrain && !fallback_terrain_exists ) {
-                    parray.throw_error(
+                    parray.string_error(
                         string_format( "format: rows: row %d column %d: "
                                        "'%s' is not in 'terrain', and no 'fill_ter' is set!",
-                                       c + 1, i + 1, key.str ) );
+                                       c + 1, i + 1, key.str ), c, i + 1 );
                 }
-                if( test_mode && !has_terrain && !has_furn && !has_placing &&
+                if( !has_terrain && !has_furn && !has_placing &&
                     key.str != " " && key.str != "." ) {
-                    // TODO: Once all the in-tree mods don't report this error,
-                    // it should be changed to happen in regular games (not
-                    // just test_mode) and be non-fatal, so that mappers find
-                    // out about their issues before they PR their changes.
-                    parray.throw_error(
-                        string_format( "format: rows: row %d column %d: "
-                                       "'%s' has no terrain, furniture, or other definition",
-                                       c + 1, i + 1, key.str ) );
+                    try {
+                        parray.string_error(
+                            string_format( "format: rows: row %d column %d: "
+                                           "'%s' has no terrain, furniture, or other definition",
+                                           c + 1, i + 1, key.str ), c, i + 1 );
+                    } catch( const JsonError &e ) {
+                        debugmsg( "(json-error)\n%s", e.what() );
+                    }
                 }
                 if( has_terrain ) {
                     format[ calc_index( p ) ].ter = iter_ter->second;
@@ -5622,7 +5636,7 @@ void map::rotate( int turns, const bool setpos_safe )
         }
     }
 
-    clear_all_vehicle_caches( abs_sub.z );
+    clear_vehicle_level_caches();
     clear_vehicle_list( abs_sub.z );
 
     submap *pz = get_submap_at_grid( point_zero );
@@ -5676,7 +5690,7 @@ void map::rotate( int turns, const bool setpos_safe )
             update_vehicle_list( sm, abs_sub.z );
         }
     }
-    build_all_vehicle_caches( abs_sub.z );
+    rebuild_vehicle_level_caches();
 
     // rotate zones
     zone_manager &mgr = zone_manager::get_manager();
@@ -6484,8 +6498,8 @@ void add_corpse( map *m, const point &p )
 
 //////////////////// mapgen update
 update_mapgen_function_json::update_mapgen_function_json(
-    const std::string &s, const std::string &context ) :
-    mapgen_function_json_base( s, context )
+    const json_source_location &jsrcloc, const std::string &context ) :
+    mapgen_function_json_base( jsrcloc, context )
 {
 }
 
@@ -6528,7 +6542,7 @@ bool update_mapgen_function_json::update_map( const mapgendata &md, const point 
     class rotation_guard
     {
         public:
-            rotation_guard( const mapgendata &md )
+            explicit rotation_guard( const mapgendata &md )
                 : md( md ), rotation( oter_get_rotation( md.terrain_type() ) ) {
                 // If the existing map is rotated, we need to rotate it back to the north
                 // orientation before applying our updates.
@@ -6578,7 +6592,8 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
         return update_function;
     }
 
-    update_mapgen_function_json json_data( "", "unknown object in add_mapgen_update_func" );
+    update_mapgen_function_json json_data( json_source_location {},
+                                           "unknown object in add_mapgen_update_func" );
     mapgen_defer::defer = defer;
     if( !json_data.setup_update( jo ) ) {
         const auto null_function = []( const tripoint_abs_omt &, mission * ) {

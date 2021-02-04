@@ -67,7 +67,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_millyficent_food",
-    "dynamic_line": "No, no, no!  No food without succesfully completed experiments.  We mustn't break the contract!",
+    "dynamic_line": "No, no, no!  No food without successfully completed experiments.  We mustn't break the contract!",
     "responses": [
       { "text": "What do I have to do?", "topic": "TALK_MISSION_LIST" },
       { "text": "I don't think you are well.", "topic": "TALK_DONE" }

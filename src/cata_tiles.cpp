@@ -596,6 +596,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
 
     JsonIn config_json( config_file );
     JsonObject config = config_json.get_object();
+    config.allow_omitted_members();
 
     // "tile_info" section must exist.
     if( !config.has_member( "tile_info" ) ) {
@@ -644,6 +645,10 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck )
             for( const JsonObject mod_config : mod_config_json.get_array() ) {
                 if( mod_config.get_string( "type" ) == "mod_tileset" ) {
                     if( num_in_file == mts.num_in_file() ) {
+                        // visit this if it exists, it's used elsewhere
+                        if( mod_config.has_member( "compatibility" ) ) {
+                            mod_config.get_member( "compatibility" );
+                        }
                         load_internal( mod_config, tileset_root, img_path );
                         break;
                     }
@@ -928,6 +933,8 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
                     curr_subtile.height_3d = t_h3d;
                     curr_tile.available_subtiles.push_back( s_id );
                 }
+            } else if( entry.has_array( "additional_tiles" ) ) {
+                entry.throw_error( "Additional tiles defined, but 'multitile' is not true." );
             }
             // write the information of the base tile to curr_tile
             curr_tile.multitile = t_multi;
@@ -1378,6 +1385,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                              formatted_text( text, catacurses::red,
                                                      direction::NORTH ) );
                 }
+            }
+            if( !p.invisible[0] ) {
+                here.check_and_set_seen_cache( p.pos );
             }
         }
     }
@@ -2518,7 +2528,9 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation );
         }
         const std::string &fname = f.id().str();
-        if( here.check_seen_cache( p ) ) {
+        if( !( you.get_grab_type() == object_type::FURNITURE
+               && p == you.pos() + you.grab_point )
+            && here.check_seen_cache( p ) ) {
             you.memorize_tile( here.getabs( p ), fname, subtile, rotation );
         }
         // draw the actual furniture if there's no override
@@ -2770,8 +2782,10 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         const int rotation = std::round( to_degrees( veh.face.dir() ) );
         const std::string vpname = "vp_" + vp_id;
         avatar &you = get_avatar();
-        if( !veh.forward_velocity() && !veh.player_in_control( you ) &&
-            here.check_seen_cache( p ) ) {
+        if( !veh.forward_velocity() && !veh.player_in_control( you )
+            && !( you.get_grab_type() == object_type::VEHICLE
+                  && veh.get_points().count( you.pos() + you.grab_point ) )
+            && here.check_seen_cache( p ) ) {
             you.memorize_tile( here.getabs( p ), vpname, subtile, rotation );
         }
         if( !overridden ) {
@@ -3494,7 +3508,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
                                            iter->getStep() >= SCT.iMaxSteps / 2 );
 
             if( use_font ) {
-                const direction direction = iter->getDirecton();
+                const direction direction = iter->getDirection();
                 // Compensate for string length offset added at SCT creation
                 // (it will be readded using font size and proper encoding later).
                 const int direction_offset = ( -direction_XY( direction ).x + 1 ) *

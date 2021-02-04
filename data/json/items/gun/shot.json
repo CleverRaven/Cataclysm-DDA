@@ -177,6 +177,7 @@
     "volume": "4495 ml",
     "longest_side": "971 mm",
     "price": 140000,
+    "price_postapoc": 4000,
     "to_hit": -1,
     "bashing": 9,
     "material": [ "steel", "plastic" ],
@@ -289,6 +290,7 @@
     "looks_like": "mossberg_500",
     "default_mods": [ "sights_mount", "underbarrel_mount" ],
     "price": 70000,
+    "price_postapoc": 2400,
     "barrel_volume": "0 ml",
     "clip_size": 9,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 9 } } ]
@@ -466,13 +468,14 @@
     "clip_size": 7,
     "barrel_volume": "20 ml",
     "price": 33800,
+    "price_postapoc": 2750,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 7 } } ]
   },
   {
     "id": "remington_1100",
     "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": { "str": "Remington 1100 competiton" },
+    "name": { "str": "Remington 1100 competition" },
     "description": "This semi-automatic shotgun features a self compensating gas system that will feed a wide array of shells while also reducing recoil.  Introduced in 1963, it is favored by law enforcement, hunters and competition shooters, and has been the best-selling autoloading shotgun in U.S. history.  This is the nickel finished, teflon coated competition model, with a full length magazine tube and 30 inch barrel.",
     "ascii_picture": "remington1100",
     "weight": "3742 g",

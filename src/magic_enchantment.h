@@ -68,6 +68,7 @@ enum class mod : int {
     ARMOR_ACID,
     ARMOR_BIO,
     // effects for the item that has the enchantment
+    ITEM_DAMAGE_PURE,
     ITEM_DAMAGE_BASH,
     ITEM_DAMAGE_CUT,
     ITEM_DAMAGE_STAB,
@@ -172,8 +173,7 @@ class enchantment
             return mutations;
         }
 
-        friend bool operator==( const enchantment &source_enchantement,
-                                const enchantment &target_enchantment );
+        bool operator==( const enchantment &rhs ) const;
     private:
         std::set<trait_id> mutations;
         cata::optional<emit_id> emitter;

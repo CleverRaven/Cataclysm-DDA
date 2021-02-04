@@ -90,12 +90,12 @@ weather_type_id get_bad_weather()
 /**
  * Glare.
  * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
- * @param intensity Level of sun brighthess
+ * @param intensity Level of sun brightness
  */
 void glare( const weather_type_id &w )
 {
     Character &player_character = get_player_character();//todo npcs, also
-    //General prepequisites for glare
+    //General prerequisites for glare
     if( !is_creature_outside( player_character ) ||
         !g->is_in_sunlight( player_character.pos() ) ||
         player_character.in_sleep_state() ||
@@ -550,7 +550,7 @@ void handle_weather_effects( const weather_type_id &w )
                 }
                 target_monster = *dynamic_cast<monster *>( copy );
             } else {
-                target_monster = spawn.target;
+                target_monster = monster( spawn.target );
             }
 
             for( int i = 0; i < spawn.hallucination_count; i++ ) {

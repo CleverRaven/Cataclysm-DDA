@@ -97,7 +97,7 @@ struct computer_failure {
     computer_failure_type type;
 
     computer_failure();
-    computer_failure( computer_failure_type t ) : type( t ) {
+    explicit computer_failure( computer_failure_type t ) : type( t ) {
     }
     // Save to/load from saves
     void serialize( JsonOut &jout ) const;

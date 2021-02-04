@@ -879,7 +879,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zosmoceratops",
-    "name": { "str": "Undead Kosmoceratops" },
+    "name": { "str_sp": "Undead Kosmoceratops" },
     "copy-from": "mon_zriceratops",
     "looks_like": "mon_zriceratops",
     "volume": "1000 L",
@@ -899,7 +899,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zamargasaurus",
-    "name": { "str": "Undead Amargasaurus" },
+    "name": { "str_sp": "Undead Amargasaurus" },
     "copy-from": "mon_zapatosaurus",
     "looks_like": "mon_zapatosaurus",
     "volume": "1000 L",

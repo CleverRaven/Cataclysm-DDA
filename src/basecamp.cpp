@@ -559,17 +559,15 @@ void basecamp::query_new_name()
 {
     std::string camp_name;
     string_input_popup popup;
-    popup.title( _( "Name this camp" ) )
-    .width( 40 )
-    .text( "" )
-    .max_length( 25 )
-    .query();
-    if( popup.canceled() || popup.text().empty() ) {
-        camp_name = "faction_camp";
-    } else {
-        camp_name = popup.text();
-    }
-    name = camp_name;
+    do {
+        popup.title( _( "Name this camp" ) )
+        .width( 40 )
+        .text( "" )
+        .max_length( 25 )
+        .query();
+    } while( popup.canceled() || popup.text().empty() );
+
+    name = popup.text();;
 }
 
 void basecamp::set_name( const std::string &new_name )
@@ -691,6 +689,13 @@ std::string basecamp::expansion_tab( const point &dir ) const
         }
     }
     return _( "Empty Expansion" );
+}
+
+bool basecamp::point_within_camp( const tripoint_abs_omt &p ) const
+{
+    return std::any_of( expansions.begin(), expansions.end(), [ p ]( auto & e ) {
+        return p == e.second.pos;
+    } );
 }
 
 // legacy load and save

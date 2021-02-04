@@ -22,7 +22,7 @@ class stats_tracker_state;
 
 using event_fields_type = std::unordered_map<std::string, cata_variant_type>;
 
-// event_tansformations and event_statistics are both functions of events.
+// event_transformations and event_statistics are both functions of events.
 // They are intended to be calculated via a stats_tracker object.
 // They can be defined in json, and are useful therein for the creation of
 // scores and achievements.

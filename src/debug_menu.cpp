@@ -184,6 +184,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
+        case debug_menu::debug_menu_index::GENERATE_EFFECT_LIST: return "GENERATE_EFFECT_LIST";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -266,6 +267,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
+            { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
                                    debug_only_options.end() );
@@ -1317,7 +1319,11 @@ void debug()
     };
     bool should_disable_achievements = action && !non_cheaty_options.count( *action );
     if( should_disable_achievements && achievements.is_enabled() ) {
-        if( query_yn( _( "Using this will disable achievements.  Proceed?" ) ) ) {
+        static const std::string query(
+            translate_marker(
+                "Using this will disable achievements.  Proceed?"
+                "\nThey can be reenabled in the 'game' section of the menu." ) );
+        if( query_yn( _( query ) ) ) {
             achievements.set_enabled( false );
         } else {
             action = cata::nullopt;
@@ -1575,7 +1581,7 @@ void debug()
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( size_t i = 0; i < weather_types::get_all().size(); i++ ) {
                 weather_menu.addentry( i, true, MENU_AUTOASSIGN,
-                                       weather_types::get_all()[i].name );
+                                       weather_types::get_all()[i].name.translated() );
             }
 
             weather_menu.query();
@@ -1813,7 +1819,7 @@ void debug()
             g->display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
             break;
         case debug_menu_index::DISPLAY_REACHABILITY_ZONES:
-            g->display_reahability_zones();
+            g->display_reachability_zones();
             break;
         case debug_menu_index::HOUR_TIMER:
             g->toggle_debug_hour_timer();
@@ -2090,7 +2096,6 @@ void debug()
                                            //~ translation should not exceed 4 console cells
                                            right_justify( _( "MAX" ), 4 ) );
                 uile.enabled = false;
-                uile.force_color = c_light_blue;
                 uiles.emplace_back( uile );
             }
             int retval = 0;
@@ -2118,6 +2123,22 @@ void debug()
         }
         case debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION:
             MapExtras::debug_spawn_test();
+            break;
+
+        case debug_menu_index::GENERATE_EFFECT_LIST:
+            write_to_file( "effect_list.output", [&]( std::ostream & testfile ) {
+                testfile << "|;id;duration;intensity;perm;bp" << std::endl;
+
+                for( const effect &eff :  get_player_character().get_effects() ) {
+                    testfile << "|;" << eff.get_id().str() << ";" << to_string( eff.get_duration() ) << ";" <<
+                             eff.get_intensity() << ";" << ( eff.is_permanent() ? "true" : "false" ) << ";" <<
+                             eff.get_bp().id().str()
+                             << std::endl;
+                }
+
+            }, "effect_list" );
+
+            popup( _( "Effect list written to effect_list.output" ) );
             break;
 
         case debug_menu_index::VEHICLE_BATTERY_CHARGE: {

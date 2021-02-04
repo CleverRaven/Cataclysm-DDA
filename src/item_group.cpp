@@ -181,6 +181,8 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         int qty = tmp.charges;
         if( modifier ) {
             qty = rng( modifier->charges.first, modifier->charges.second );
+        } else if( tmp.made_of_from_type( phase_id::LIQUID ) ) {
+            qty = item::INFINITE_CHARGES;
         }
         // TODO: change the spawn lists to contain proper references to containers
         tmp = tmp.in_its_container( qty );
@@ -521,6 +523,10 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
 
     for( const flag_id &flag : custom_flags ) {
         new_item.set_flag( flag );
+    }
+
+    if( !snippets.empty() ) {
+        new_item.snip_id = random_entry( snippets );
     }
 }
 

@@ -89,6 +89,7 @@ namespace io
             case enchant_vals::mod::ARMOR_HEAT: return "ARMOR_HEAT";
             case enchant_vals::mod::ARMOR_STAB: return "ARMOR_STAB";
             case enchant_vals::mod::ARMOR_BULLET: return "ARMOR_BULLET";
+            case enchant_vals::mod::ITEM_DAMAGE_PURE: return "ITEM_DAMAGE_PURE";
             case enchant_vals::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
             case enchant_vals::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
             case enchant_vals::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";
@@ -507,21 +508,10 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature *tar
     }
 }
 
-bool operator==( const enchantment &source_enchantement, const enchantment &target_enchantment )
+bool enchantment::operator==( const enchantment &rhs ) const
 {
-    bool is_the_same = true;
-    is_the_same &= source_enchantement.id == target_enchantment.id;
-    is_the_same &= source_enchantement.get_mutations() == target_enchantment.get_mutations();
-    is_the_same &= source_enchantement.values_multiply.size() ==
-                   target_enchantment.values_multiply.size();
-    is_the_same &= source_enchantement.values_add.size() == target_enchantment.values_add.size();
-    if( is_the_same ) {
-        for( auto mod : source_enchantement.values_multiply ) {
-            is_the_same &= mod.second == target_enchantment.values_multiply.at( mod.first );
-        }
-        for( auto mod : source_enchantement.values_add ) {
-            is_the_same &= mod.second == target_enchantment.values_add.at( mod.first );
-        }
-    }
-    return is_the_same;
+    return this->id == rhs.id &&
+           this->get_mutations() == rhs.get_mutations() &&
+           this->values_multiply == rhs.values_multiply &&
+           this->values_add == rhs.values_add;
 }

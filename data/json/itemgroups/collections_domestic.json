@@ -570,6 +570,7 @@
       { "item": "flatbread", "prob": 7 },
       { "item": "crackers", "prob": 20 },
       { "item": "grahmcrackers", "prob": 20 },
+      { "item": "oyster_crackers", "prob": 15 },
       { "item": "marshmallow", "prob": 20 },
       { "item": "biscuit", "prob": 12 },
       { "item": "hardtack", "prob": 2 },
@@ -638,7 +639,7 @@
       { "item": "colamdew", "prob": 15, "container-item": "bottle_twoliter" },
       { "item": "rootbeer", "prob": 15, "container-item": "bottle_twoliter" },
       { "item": "milk", "prob": 50 },
-      { "item": "milk_UHT", "prob": 5 },
+      { "item": "milk_UHT", "prob": 5, "charges": [ 1, 6 ], "sealed": false },
       { "item": "milk_raw", "prob": 2 },
       { "item": "almond_milk", "prob": 50 },
       { "item": "soy_milk", "prob": 50 },
@@ -652,7 +653,7 @@
         "container-item": "jar_glass_sealed",
         "sealed": false
       },
-      { "item": "egg_bird_unfert", "prob": 65, "count-min": 1, "count-max": 12 },
+      { "item": "egg_bird_unfert", "prob": 65, "charges-min": 1, "charges-max": 12, "container-item": "carton_egg" },
       { "item": "yoghurt", "prob": 50 },
       { "item": "pudding", "prob": 60 },
       { "item": "veggy_salad", "prob": 25 },
@@ -786,8 +787,10 @@
       { "item": "milkshake", "prob": 4 },
       { "item": "milkshake_fastfood", "prob": 8 },
       { "item": "milkshake_deluxe", "prob": 2 },
+      { "item": "frozen_lemonade", "prob": 3 },
       { "item": "icecream_artificial", "prob": 3 },
-      { "item": "icecream_candy", "prob": 3 }
+      { "item": "icecream_candy", "prob": 3 },
+      { "item": "sundae_cup", "prob": 5 }
     ]
   },
   {
@@ -1040,7 +1043,8 @@
       { "item": "chem_hydrogen_peroxide", "prob": 20 },
       { "item": "plunger_toilet", "prob": 30 },
       { "item": "plunger_futuristic", "prob": 15 },
-      { "item": "toilet_paper", "prob": 10 }
+      { "item": "toilet_paper", "prob": 10 },
+      { "item": "dish_towel", "prob": 20 }
     ]
   },
   {

@@ -813,6 +813,7 @@ class npc : public player
         std::string opinion_text() const;
         int faction_display( const catacurses::window &fac_w, int width ) const;
         std::string describe_mission() const;
+        std::string name_and_activity() const;
 
         // Interaction with the player
         void form_opinion( const player &u );
@@ -1373,10 +1374,10 @@ class npc : public player
 class standard_npc : public npc
 {
     public:
-        standard_npc( const std::string &name = "",
-                      const tripoint &pos = tripoint( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 ),
-                      const std::vector<std::string> &clothing = {},
-                      int sk_lvl = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
+        explicit standard_npc( const std::string &name = "",
+                               const tripoint &pos = tripoint( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 ),
+                               const std::vector<std::string> &clothing = {},
+                               int sk_lvl = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
 };
 
 // instances of this can be accessed via string_id<npc_template>.

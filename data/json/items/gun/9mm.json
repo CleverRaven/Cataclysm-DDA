@@ -11,6 +11,7 @@
     "volume": "554 ml",
     "longest_side": "250 mm",
     "price": 65000,
+    "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
@@ -469,6 +470,7 @@
     "weight": "1070 g",
     "volume": "615 ml",
     "price": 90000,
+    "price_postapoc": 500,
     "pocket_data": [
       {
         "magazine_well": "60 ml",
@@ -537,6 +539,7 @@
     "weight": "3722 g",
     "volume": "2020 ml",
     "price": 90000,
+    "price_postapoc": 1000,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -648,6 +651,7 @@
     "volume": "520 ml",
     "longest_side": "231 mm",
     "price": 65000,
+    "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel" ],

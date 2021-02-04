@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "advanced_inv_listitem.h"
 #include "advanced_inv_pagination.h"
@@ -442,7 +443,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
 
 struct advanced_inv_sorter {
     advanced_inv_sortby sortby;
-    advanced_inv_sorter( advanced_inv_sortby sort ) {
+    explicit advanced_inv_sorter( advanced_inv_sortby sort ) {
         sortby = sort;
     }
     bool operator()( const advanced_inv_listitem &d1, const advanced_inv_listitem &d2 ) {
@@ -869,7 +870,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
         if( spane.get_area() == AIM_INVENTORY ) {
             //add all solid top level items
             for( item &cloth :  player_character.worn ) {
-                for( item *it : cloth.contents.all_items_top() ) {
+                for( item *it : cloth.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                     if( !it->made_of_from_type( phase_id::SOLID ) ) {
                         continue;
                     }
@@ -1710,7 +1711,7 @@ class query_destination_callback : public uilist_callback
         // Render a fancy ASCII grid at the left of the menu.
         void draw_squares( const uilist *menu );
     public:
-        query_destination_callback( advanced_inventory &adv_inv ) : _adv_inv( adv_inv ) {}
+        explicit query_destination_callback( advanced_inventory &adv_inv ) : _adv_inv( adv_inv ) {}
         void refresh( uilist *menu ) override {
             draw_squares( menu );
         }

@@ -108,7 +108,7 @@ Below is a table of currently implemented effects, along with special rules for 
 | `vomit` | any creature within its area of effect will instantly vomit, if it's able to do so.
 | `timed_event` | adds a timed event to the player only. valid timed events: "help", "wanted", "robot_attack", "spawn_wyrms", "amigara", "roots_die", "temple_open", "temple_flood", "temple_spawn", "dim", "artifact_light" NOTE: This was added only for artifact active effects. support is limited, use at your own risk.
 | `explosion` | an explosion is centered on the target, with power damage() and factor aoe()/10
-| `flashbang` | a flashbang effect is centered on the target, with poewr damage() and factor aoe()/10
+| `flashbang` | a flashbang effect is centered on the target, with power damage() and factor aoe()/10
 | `mod_moves` | adds damage() moves to the target. can be negative to "freeze" the target for that amount of time
 | `map` | maps the overmap centered on the player out to a radius of aoe()
 | `morale` | gives a morale effect to all npcs or avatar within aoe, with value damage(). decay_start is duration() / 10.
@@ -504,6 +504,7 @@ Effects for the character that has the enchantment:
 
 Effects for the item that has the enchantment:
 
+* ITEM_DAMAGE_PURE
 * ITEM_DAMAGE_BASH
 * ITEM_DAMAGE_CUT
 * ITEM_DAMAGE_STAB
@@ -516,6 +517,7 @@ Effects for the item that has the enchantment:
 The damage enchantment values are for melee only.
 
 * ITEM_DAMAGE_AP
+* ITEM_DAMAGE_PURE
 * ITEM_ARMOR_BASH
 * ITEM_ARMOR_CUT
 * ITEM_ARMOR_STAB

@@ -32,7 +32,7 @@ class InvalidEnumString : public std::runtime_error
 {
     public:
         InvalidEnumString() : std::runtime_error( "invalid enum string" ) { }
-        InvalidEnumString( const std::string &msg ) : std::runtime_error( msg ) { }
+        explicit InvalidEnumString( const std::string &msg ) : std::runtime_error( msg ) { }
 };
 
 template<typename E>

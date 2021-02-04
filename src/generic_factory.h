@@ -179,6 +179,7 @@ class generic_factory
         const T dummy_obj;
 
     public:
+        const bool initialized;
         /**
          * @param type_name A string used in debug messages as the name of `T`,
          * for example "vehicle type".
@@ -187,12 +188,13 @@ class generic_factory
          * @param alias_member_name Alternate names of the JSON member that contains the id(s) of the
          * loaded object alias(es).
          */
-        generic_factory( const std::string &type_name, const std::string &id_member_name = "id",
-                         const std::string &alias_member_name = "alias" )
+        explicit generic_factory( const std::string &type_name, const std::string &id_member_name = "id",
+                                  const std::string &alias_member_name = "alias" )
             : type_name( type_name ),
               id_member_name( id_member_name ),
               alias_member_name( alias_member_name ),
-              dummy_obj() {
+              dummy_obj(),
+              initialized( true ) {
         }
 
         /**
@@ -221,7 +223,8 @@ class generic_factory
                         def = ab->second;
                     } else {
                         def.was_loaded = false;
-                        deferred.emplace_back( jo.str(), src );
+                        deferred.emplace_back( jo.get_source_location(), src );
+                        jo.allow_omitted_members();
                         return false;
                     }
                 }
@@ -484,7 +487,7 @@ class generic_factory
             public:
                 Version() = default;
             private:
-                Version( int64_t version ) : version( version ) {}
+                explicit Version( int64_t version ) : version( version ) {}
                 int64_t  version = -1;
             public:
                 bool operator==( const Version &rhs ) const {
@@ -1036,7 +1039,7 @@ class enum_flags_reader : public generic_typed_reader<enum_flags_reader<E>>
         const std::string flag_type;
 
     public:
-        enum_flags_reader( const std::string &flag_type ) : flag_type( flag_type ) {
+        explicit enum_flags_reader( const std::string &flag_type ) : flag_type( flag_type ) {
         }
 
         E get_next( JsonIn &jin ) const {
@@ -1091,7 +1094,7 @@ class text_style_check_reader : public generic_typed_reader<text_style_check_rea
             yes,
         };
 
-        text_style_check_reader( allow_object object_allowed = allow_object::yes );
+        explicit text_style_check_reader( allow_object object_allowed = allow_object::yes );
 
         std::string get_next( JsonIn &jsin ) const;
 

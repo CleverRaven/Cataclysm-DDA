@@ -76,11 +76,12 @@ class advanced_inv_area
         int max_size = 0;
         // appears as part of the legend at the top right
         const std::string minimapname;
-        // user commant that corresponds to this location
+        // user command that corresponds to this location
         const std::string actionname;
         // used for isometric view
         const aim_location relative_location;
 
+        // NOLINTNEXTLINE(google-explicit-constructor)
         advanced_inv_area( aim_location id ) : id( id ), relative_location( id ) {}
         advanced_inv_area(
             aim_location id, const point &hscreen, tripoint off, const std::string &name,

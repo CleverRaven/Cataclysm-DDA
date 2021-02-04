@@ -39,7 +39,7 @@
     "coverage": 70,
     "encumbrance": 4,
     "warmth": 7,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -60,7 +60,7 @@
     "coverage": 85,
     "encumbrance": 10,
     "warmth": 30,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "environmental_protection": 2,
     "flags": [ "OVERSIZE", "HOOD", "ALLOWS_NATURAL_ATTACKS" ]
   },

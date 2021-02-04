@@ -262,6 +262,34 @@
   },
   {
     "type": "furniture",
+    "id": "f_cooling_pylon",
+    "name": "cryo pylon",
+    "symbol": "#",
+    "description": "This super chilled pylon is so cold it seems to pull in warmth towards itself and create a light breeze of freezing air.",
+    "color": "light_cyan",
+    "move_cost_mod": 15,
+    "coverage": 80,
+    "required_str": -1,
+    "looks_like": "t_column",
+    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "emissions": [ "emit_glimmer", "emit_cold_air2_stream" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "clang!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "afs_energy_storage_2", "count": [ 2, 4 ] },
+        { "item": "afs_energy_storage_3", "count": [ 1, 2 ] },
+        { "item": "afs_material_1", "count": [ 40, 55 ] },
+        { "item": "afs_material_2", "count": [ 10, 20 ] },
+        { "item": "afs_magnet_2", "count": [ 1, 3 ] },
+        { "item": "afs_circuitry_3", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_crispr",
     "name": "CRISPR Biolab",
     "symbol": "&",
@@ -303,6 +331,29 @@
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
         { "item": "afs_material_1", "count": [ 2, 6 ], "prob": 50 }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_nano_forge",
+    "name": "nano forge",
+    "looks_like": "f_forge",
+    "description": "Matrioshka Fabritechnics created this portable nanotech forge for when expeditions are setting up a basecamp far from population centers.  Once deployed it can be used to craft ultratech marvels that otherwise are too minute for human crafting.  Often used in combination with a diamond press.",
+    "symbol": "*",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "crafting_pseudo_item": "nano_pseudo_forge",
+    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "nano_forge", "count": 1 } ] },
+    "examine_action": "reload_furniture",
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "nano_forge", "count": 1 } ]
     }
   },
   {

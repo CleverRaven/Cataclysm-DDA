@@ -338,8 +338,8 @@
       [ "esbit_stove", 10 ],
       [ "bottle_folding", 10 ],
       { "item": "mess_tin", "prob": 10, "charges": [ 0, 500 ] },
-      [ "survival_kit", 30 ],
-      [ "premium_survival_kit", 3 ]
+      { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 30 },
+      { "group": "premium_contents", "prob": 3 }
     ]
   },
   {

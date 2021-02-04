@@ -99,7 +99,7 @@
     "type": "item_group",
     "//": "A typical toolbox filled with tools.",
     "subtype": "collection",
-    "container-item": "toolbox_empty",
+    "container-item": "toolbox_workshop_empty",
     "on_overflow": "discard",
     "items": [
       [ "hammer", 80 ],
@@ -133,6 +133,7 @@
       { "group": "tools_mechanic", "prob": 20 },
       { "group": "tools_plumbing", "prob": 20 },
       [ "jumper_cable_heavy", 2 ],
+      [ "tire_iron", 20 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 10 ],
       { "item": "char_smoker", "prob": 5, "charges": [ 0, 300 ] },
@@ -282,6 +283,7 @@
     "ammo": 100,
     "items": [
       [ "jack", 80 ],
+      [ "tire_iron", 80 ],
       [ "jack_small", 80 ],
       {
         "collection": [
@@ -300,6 +302,36 @@
       { "item": "angle_grinder", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },
       [ "clamp", 10 ]
+    ]
+  },
+  {
+    "id": "full_survival_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "survival_kit_box",
+    "items": [
+      { "item": "knife_folding" },
+      { "item": "flint_steel" },
+      { "item": "whistle_multitool" },
+      { "item": "glowstick", "charges": 1400 },
+      { "item": "handflare", "count": 4, "charges": 300 },
+      { "item": "pur_tablets", "charges": 15 },
+      { "item": "pocket_survival" }
+    ]
+  },
+  {
+    "id": "used_survival_kit",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "survival_kit_box",
+    "items": [
+      { "item": "knife_folding", "prob": 40 },
+      { "item": "flint_steel", "prob": 50 },
+      { "item": "whistle_multitool", "prob": 70 },
+      { "item": "glowstick", "charges": 1400, "prob": 60 },
+      { "item": "handflare", "count": [ 0, 4 ], "charges": 300 },
+      { "item": "pur_tablets", "charges": [ 0, 15 ] },
+      { "item": "pocket_survival", "prob": 40 }
     ]
   },
   {

@@ -44,7 +44,7 @@ TEST_CASE( "vehicle_split_section" )
             CHECK( vehs[ 3 ].v->part_count() == 3 );
             std::vector<std::set<tripoint>> all_points;
             for( int i = 0; i < 4; i++ ) {
-                std::set<tripoint> &veh_points = vehs[ i ].v->get_points( true );
+                const std::set<tripoint> &veh_points = vehs[ i ].v->get_points( true );
                 all_points.push_back( veh_points );
             }
             for( int i = 0; i < 4; i++ ) {

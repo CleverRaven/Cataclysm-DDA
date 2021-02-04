@@ -157,6 +157,11 @@ SRC_DIR = src
 LOCALIZE = 1
 ASTYLE_BINARY = astyle
 
+# Enable debug by default
+ifndef RELEASE
+  RELEASE = 0
+endif
+
 # Enable astyle by default
 ifndef ASTYLE
   ASTYLE = 1
@@ -179,6 +184,10 @@ endif
 # Auto-detect MSYS2
 ifdef MSYSTEM
   MSYS2 = 1
+endif
+
+ifneq (,$(findstring clang,$(COMPILER)))
+  CLANG = $(COMPILER)
 endif
 
 # Default to disabling clang
@@ -257,6 +266,10 @@ ifneq ($(CLANG), 0)
   ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
     LDFLAGS += -stdlib=libc++
+  else
+    # clang with glibc 2.31+ will cause linking error on math functions
+    # this is a workaround (see https://github.com/google/filament/issues/2146)
+    CXXFLAGS += -fno-builtin
   endif
   ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
@@ -273,9 +286,14 @@ else
   endif
 
   # Expand at reference time to avoid recursive reference
-  OS_COMPILER := $(CXX)
+  ifneq ($(COMPILER),)
+    OS_COMPILER := $(COMPILER)
+    OS_LINKER := $(COMPILER)
+  else
+    OS_COMPILER := $(CXX)
+    OS_LINKER := $(CXX)
+  endif
   # Appears that the default value of $LD is unsuitable on most systems
-  OS_LINKER := $(CXX)
   ifeq ($(CCACHE), 1)
     CXX = $(CCACHEBIN) $(CROSS)$(OS_COMPILER)
     LD  = $(CCACHEBIN) $(CROSS)$(OS_LINKER)
@@ -294,7 +312,7 @@ CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
 
 ifneq ($(SANITIZE),)
-  SANITIZE_FLAGS := -fsanitize=$(SANITIZE) -fno-sanitize-recover=all
+  SANITIZE_FLAGS := -fsanitize=$(SANITIZE) -fno-sanitize-recover=all -fno-omit-frame-pointer
   CXXFLAGS += $(SANITIZE_FLAGS)
   LDFLAGS += $(SANITIZE_FLAGS)
 endif
@@ -302,16 +320,10 @@ endif
 # enable optimizations. slow to build
 ifeq ($(RELEASE), 1)
   ifeq ($(NATIVE), osx)
-    ifdef OSXCROSS
-      OPTLEVEL = -O0
-    else ifeq ($(shell expr $(OSX_MIN) \<= 10.11), 1)
-      OPTLEVEL = -O0
+    ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
+      OPTLEVEL = -Os
     else
-      ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
-        OPTLEVEL = -Os
-      else
-        OPTLEVEL = -O3
-      endif
+      OPTLEVEL = -O3
     endif
   else
     # MXE ICE Workaround
@@ -366,9 +378,7 @@ ifeq ($(RELEASE), 1)
   ifeq ($(LINTJSON), 1)
     CHECKS += style-json
   endif
-endif
-
-ifndef RELEASE
+else
   ifeq ($(NOOPT), 1)
     # While gcc claims to include all information required for
     # debugging at -Og, at least with gcc 8.3, control flow
@@ -470,10 +480,12 @@ endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  ifneq ($(CLANG), 0)
-    OSX_MIN = 10.7
-  else
-    OSX_MIN = 10.5
+  ifeq ($(OSX_MIN),)
+    ifneq ($(CLANG), 0)
+      OSX_MIN = 10.7
+    else
+      OSX_MIN = 10.5
+    endif
   endif
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
@@ -498,10 +510,16 @@ ifeq ($(NATIVE), osx)
       LDFLAGS += -L$(LIBSDIR)/gettext/lib
       CXXFLAGS += -I$(LIBSDIR)/gettext/include
     endif
+    # recent versions of brew will not allow you to link
     ifeq ($(BREWGETTEXT), 1)
-      # recent versions of brew will not allow you to link
-      LDFLAGS += -L/usr/local/opt/gettext/lib
-      CXXFLAGS += -I/usr/local/opt/gettext/include
+      # native ARM Homebrew is installed to /opt/homebrew
+      ifneq ("$(wildcard /opt/homebrew)", "")
+        LDFLAGS += -L/opt/homebrew/lib
+        CXXFLAGS += -I/opt/homebrew/include
+      else
+        LDFLAGS += -L/usr/local/opt/gettext/lib
+        CXXFLAGS += -I/usr/local/opt/gettext/include
+      endif
     endif
     ifeq ($(MACPORTS), 1)
       ifneq ($(TILES), 1)

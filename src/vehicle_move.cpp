@@ -433,7 +433,11 @@ void vehicle::thrust( int thd, int z )
     }
     if( thrusting && accel == 0 ) {
         if( pl_ctrl ) {
-            add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
+            if( has_engine_type( fuel_type_muscle, true ) ) {
+                add_msg( _( "The %s is too heavy to move!" ), name );
+            } else {
+                add_msg( _( "The %s is too heavy for its engine(s)!" ), name );
+            }
         }
         return;
     }
@@ -547,7 +551,7 @@ void vehicle::thrust( int thd, int z )
     for( size_t e = 0; e < parts.size(); e++ ) {
         const vehicle_part &vp = parts[ e ];
         if( vp.info().fuel_type == fuel_type_animal && engines.size() != 1 ) {
-            monster *mon = get_pet( e );
+            monster *mon = get_monster( e );
             if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
                 if( velocity > mon->get_speed() * 12 ) {
                     add_msg( m_bad, _( "Your %s is not fast enough to keep up with the %s" ), mon->get_name(), name );
@@ -565,7 +569,7 @@ void vehicle::cruise_thrust( int amount )
         return;
     }
     int safe_vel = safe_velocity();
-    int max_vel = max_velocity();
+    int max_vel = is_autodriving ? safe_velocity() : max_velocity();
     int max_rev_vel = max_reverse_velocity();
 
     //if the safe velocity is between the cruise velocity and its next value, set to safe velocity
@@ -812,7 +816,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
     if( is_body_collision ) {
         // critters on a BOARDABLE part in this vehicle aren't colliding
-        if( ovp && ( &ovp->vehicle() == this ) && get_pet( ovp->part_index() ) ) {
+        if( ovp && ( &ovp->vehicle() == this ) && get_monster( ovp->part_index() ) ) {
             return ret;
         }
         // we just ran into a fish, so move it out of the way
@@ -821,7 +825,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             tripoint start_pos;
             const units::angle angle =
                 move.dir() + 45_degrees * ( parts[part].mount.x > pivot_point().x ? -1 : 1 );
-            std::set<tripoint> &cur_points = get_points( true );
+            const std::set<tripoint> &cur_points = get_points( true );
             // push the animal out of way until it's no longer in our vehicle and not in
             // anyone else's position
             while( g->critter_at( end_pos, true ) ||
@@ -1212,7 +1216,7 @@ bool vehicle::has_harnessed_animal() const
     for( size_t e = 0; e < parts.size(); e++ ) {
         const vehicle_part &vp = parts[ e ];
         if( vp.info().fuel_type == fuel_type_animal ) {
-            monster *mon = get_pet( e );
+            monster *mon = get_monster( e );
             if( mon && mon->has_effect( effect_harnessed ) && mon->has_effect( effect_pet ) ) {
                 return true;
             }
@@ -1227,7 +1231,7 @@ void vehicle::autodrive( const point &p )
         for( size_t e = 0; e < parts.size(); e++ ) {
             const vehicle_part &vp = parts[ e ];
             if( vp.info().fuel_type == fuel_type_animal ) {
-                monster *mon = get_pet( e );
+                monster *mon = get_monster( e );
                 if( !mon || !mon->has_effect( effect_harnessed ) || !mon->has_effect( effect_pet ) ) {
                     is_following = false;
                     return;

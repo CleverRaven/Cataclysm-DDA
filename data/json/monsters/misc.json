@@ -144,7 +144,7 @@
   {
     "id": "mon_halloween_dragon",
     "type": "MONSTER",
-    "name": "inflatable dragon",
+    "name": { "str": "inflatable dragon" },
     "description": "A giant inflatable dragon for Halloween decorations.",
     "looks_like": "mon_dragon_dummy",
     "default_faction": "factionless",
@@ -168,7 +168,7 @@
   {
     "id": "mon_halloween_ghost",
     "type": "MONSTER",
-    "name": "inflatable ghost",
+    "name": { "str": "inflatable ghost" },
     "description": "A human sized inflatable for Halloween decorations.",
     "looks_like": "mon_darkman",
     "default_faction": "factionless",

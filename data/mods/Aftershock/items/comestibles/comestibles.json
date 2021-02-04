@@ -41,5 +41,41 @@
       ]
     },
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
+  },
+  {
+    "id": "cream_prot_cold",
+    "name": { "str": "heat retention cream" },
+    "description": "Rub this on your skin when you are expecting exposure extreme cold temperatures.  Cannot protect from instant frostbite.  Smells like the inside of a sheep.",
+    "use_action": { "type": "cast_spell", "spell_id": "cream_prot_cold", "no_fail": true, "level": 0 },
+    "type": "COMESTIBLE",
+    "weight": "265 g",
+    "volume": "250ml",
+    "charges": 1,
+    "fun": -1,
+    "symbol": "q",
+    "container": "bottle_plastic_small",
+    "color": "light_blue",
+    "comestible_type": "MED",
+    "flags": [ "EATEN_COLD" ],
+    "phase": "solid",
+    "price": 2500
+  },
+  {
+    "id": "cream_greater_prot_cold",
+    "name": { "str": "heat retention cream xtreme" },
+    "description": "This product was advertized before the Cataclysm for extreme cold environment protection.  You remember a demonstration involving a woman coating her hand in this and plunging it in liquid nitrogen for a second.  You're pretty sure that was staged.",
+    "use_action": { "type": "cast_spell", "spell_id": "cream_greater_prot_cold", "no_fail": true, "level": 0 },
+    "type": "COMESTIBLE",
+    "weight": "265 g",
+    "volume": "250ml",
+    "charges": 1,
+    "fun": -3,
+    "symbol": "q",
+    "container": "bottle_plastic_small",
+    "color": "light_blue",
+    "comestible_type": "MED",
+    "flags": [ "EATEN_COLD" ],
+    "phase": "solid",
+    "price": 5000
   }
 ]

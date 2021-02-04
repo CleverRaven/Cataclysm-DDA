@@ -35,7 +35,7 @@ class ofstream_wrapper
         std::ostream &stream() {
             return file_stream;
         }
-        operator std::ostream &() {
+        explicit operator std::ostream &() {
             return file_stream;
         }
 

@@ -81,7 +81,6 @@ struct MonsterGroupResult;
 struct mongroup;
 struct projectile;
 struct veh_collision;
-template<typename T>
 class visitable;
 
 struct wrapped_vehicle {
@@ -183,12 +182,13 @@ struct bash_params {
 class map
 {
         friend class editmap;
-        friend class visitable<map_cursor>;
+        friend std::list<item> map_cursor::remove_items_with( const std::function<bool( const item & )> &,
+                int );
 
     public:
         // Constructors & Initialization
-        map( int mapsize = MAPSIZE, bool zlev = true );
-        map( bool zlev ) : map( MAPSIZE, zlev ) { }
+        explicit map( int mapsize = MAPSIZE, bool zlev = true );
+        explicit map( bool zlev ) : map( MAPSIZE, zlev ) { }
         virtual ~map();
 
         map &operator=( map && ) = default;
@@ -328,7 +328,7 @@ class map
             bool obstructed;
             float apparent_light;
         };
-        /** Helper function for light claculation; exposed here for map editor
+        /** Helper function for light calculation; exposed here for map editor
          */
         static apparent_light_info apparent_light_helper( const level_cache &map_cache,
                 const tripoint &p );
@@ -586,8 +586,10 @@ class map
         VehicleList get_vehicles();
         void add_vehicle_to_cache( vehicle * );
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
-        void build_all_vehicle_caches( int zlev );
-        void clear_all_vehicle_caches( int zlev );
+        // clears all vehicle level caches
+        void clear_vehicle_level_caches();
+        // clears and build vehicle level caches
+        void rebuild_vehicle_level_caches();
         void clear_vehicle_list( int zlev );
         void update_vehicle_list( const submap *to, int zlev );
         //Returns true if vehicle zones are dirty and need to be recached
@@ -1730,7 +1732,7 @@ class map
         /**
          * Conditionally invalidates max_pupulated_zlev cache if the submap uniformity change occurs above current
          *  max_pupulated_zlev value
-         * @param zlev zlevel where uniformity change occured
+         * @param zlev zlevel where uniformity change occurred
          */
         void invalidate_max_populated_zlev( int zlev );
 
@@ -1828,7 +1830,7 @@ class map
          */
         std::vector<submap *> grid;
         /**
-         * This vector contains an entry for each trap type, it has therefor the same size
+         * This vector contains an entry for each trap type, it has therefore the same size
          * as the traplist vector. Each entry contains a list of all point on the map that
          * contain a trap of that type. The first entry however is always empty as it denotes the
          * tr_null trap.
@@ -1930,7 +1932,7 @@ class tinymap : public map
 {
         friend class editmap;
     public:
-        tinymap( int mapsize = 2, bool zlevels = false );
+        explicit tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
 };
 

@@ -31,6 +31,7 @@ struct ter_t;
 struct tripoint;
 
 using iexamine_function = void ( * )( player &, const tripoint & );
+using iexamine_function_ref = void( & )( player &, const tripoint & );
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
@@ -251,6 +252,9 @@ struct map_data_common_t {
         // The (untranslated) plaintext name of the terrain type the user would see (i.e. dirt)
         translation name_;
 
+        // Hardcoded examination function
+        iexamine_function examine_func; // What happens when the terrain/furniture is examined
+
     private:
         std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
         std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certain- string flags which are heavily checked
@@ -273,6 +277,11 @@ struct map_data_common_t {
         */
         std::array<int, NUM_SEASONS> symbol_;
 
+        bool can_examine() const;
+        bool has_examine( iexamine_function_ref func ) const;
+        void set_examine( iexamine_function_ref func );
+        void examine( player &, const tripoint & ) const;
+
         int light_emitted = 0;
         // The amount of movement points required to pass this terrain by default.
         int movecost = 0;
@@ -289,8 +298,6 @@ struct map_data_common_t {
         void load_symbol( const JsonObject &jo );
 
         std::string looks_like;
-
-        iexamine_function examine; // What happens when the terrain/furniture is examined
 
         /**
          * When will this terrain/furniture get harvested and what will drop?
@@ -342,8 +349,8 @@ struct map_data_common_t {
         bool was_loaded = false;
 
         bool is_flammable() const {
-            return flags.count( "FLAMMABLE" ) > 0 || flags.count( "FLAMMABLE_ASH" ) > 0 ||
-                   flags.count( "FLAMMABLE_HARD" ) > 0;
+            return has_flag( TFLAG_FLAMMABLE ) || has_flag( TFLAG_FLAMMABLE_ASH ) ||
+                   has_flag( TFLAG_FLAMMABLE_HARD );
         }
 
         virtual void load( const JsonObject &jo, const std::string &src );
@@ -366,6 +373,7 @@ struct ter_t : map_data_common_t {
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
     std::set<emit_id> emissions;
+    std::set<itype_id> allowed_template_id;
 
     ter_t();
 

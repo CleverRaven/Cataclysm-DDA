@@ -237,7 +237,7 @@
     "type": "MONSTER",
     "name": { "str": "prototype robot" },
     "description": "The single glowing eye of this robot surveys the landscape periodically, as it performs the endless slaughter dictated by a misinterpreted and cruel routine.  Between half-built plates, you can see the machinery and cables that animate it, and yet it moves deftly as it switches between one target and the next.",
-    "default_faction": "defense_bot",
+    "default_faction": "berserk_bot",
     "bodytype": "human",
     "species": [ "ROBOT" ],
     "diff": 100,

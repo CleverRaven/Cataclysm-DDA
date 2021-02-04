@@ -412,13 +412,12 @@ void overmap_specials::finalize()
 
 void overmap_specials::check_consistency()
 {
-    const size_t max_count = ( OMAPX / OMSPEC_FREQ ) * ( OMAPY / OMSPEC_FREQ ) / 2;
+    const size_t max_count = ( OMAPX / OMSPEC_FREQ ) * ( OMAPY / OMSPEC_FREQ );
     const size_t actual_count = std::accumulate( specials.get_all().begin(), specials.get_all().end(),
                                 static_cast< size_t >( 0 ),
     []( size_t sum, const overmap_special & elem ) {
-        return sum + ( elem.flags.count( "UNIQUE" ) == static_cast<size_t>( 0 ) ? static_cast<size_t>
-                       ( std::max(
-                             elem.occurrences.min, 0 ) ) : static_cast<size_t>( 1 ) );
+        return sum + ( elem.flags.count( "UNIQUE" ) ? static_cast<size_t>( 0 )  : static_cast<size_t>( (
+                           std::max( elem.occurrences.min, 0 ) ) ) ) ;
     } );
 
     if( actual_count > max_count ) {
@@ -1670,12 +1669,6 @@ bool overmap::generate_sub( const int z )
     subway_points.insert( subway_points.end(), subway_lab_train_points.begin(),
                           subway_lab_train_points.end() );
     connect_closest_points( subway_points, z, *subway_tunnel );
-    // If on z = 4 and central lab is present, be sure to connect normal labs and central labs (just in case).
-    if( z == -4 && !central_lab_points.empty() ) {
-        std::vector<point_om_omt> extra_route;
-        extra_route.push_back( subway_lab_train_points.back() );
-        connect_closest_points( extra_route, z, *subway_tunnel );
-    }
 
     for( auto &i : subway_points ) {
         if( is_ot_match( "sub_station", ter( tripoint_om_omt( i, z + 2 ) ), ot_match_type::type ) ) {
@@ -2047,7 +2040,7 @@ void overmap::move_hordes()
                 type.id == mtype_id( "mon_jabberwock" ) || // Jabberwockies are an exception.
                 this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
                 !this_monster.will_join_horde( INT_MAX ) || // So are zombies who won't join a horde of any size.
-                this_monster.mission_id != -1 // We mustn't delete monsters that are related to missions.
+                !this_monster.mission_ids.empty() // We mustn't delete monsters that are related to missions.
             ) {
                 // Don't delete the monster, just increment the iterator.
                 monster_map_it++;
@@ -2941,14 +2934,14 @@ void overmap::place_cities()
     const string_id<overmap_connection> local_road_id( "local_road" );
     const overmap_connection &local_road( *local_road_id );
 
-    // if there is only a single free tile, the probability of NOT finding it after MAX_PLACEMENT_ATTEMTPS attempts
-    // is (1 - 1/(OMAPX * OMAPY))^MAX_PLACEMENT_ATTEMTPS ≈ 36% for the OMAPX=OMAPY=180 and MAX_PLACEMENT_ATTEMTPS=OMAPX * OMAPY
-    const int MAX_PLACEMENT_ATTEMTPS = OMAPX * OMAPY;
+    // if there is only a single free tile, the probability of NOT finding it after MAX_PLACEMENT_ATTEMPTS attempts
+    // is (1 - 1/(OMAPX * OMAPY))^MAX_PLACEMENT_ATTEMPTS ≈ 36% for the OMAPX=OMAPY=180 and MAX_PLACEMENT_ATTEMPTS=OMAPX * OMAPY
+    const int MAX_PLACEMENT_ATTEMPTS = OMAPX * OMAPY;
     int placement_attempts = 0;
 
     // place a seed for NUM_CITIES cities, and maybe one more
     while( cities.size() < static_cast<size_t>( NUM_CITIES ) &&
-           placement_attempts < MAX_PLACEMENT_ATTEMTPS ) {
+           placement_attempts < MAX_PLACEMENT_ATTEMPTS ) {
         placement_attempts++;
 
         // randomly make some cities smaller or larger
@@ -3481,7 +3474,7 @@ void overmap::place_ravines()
         }
     }
     // We look at the 8 adjacent locations of each ravine point and see if they are also part of a
-    // ravine, if at least one of them isn't, the location is part of the ravine's edge. Whathever the
+    // ravine, if at least one of them isn't, the location is part of the ravine's edge. Whatever the
     // case, the chosen ravine terrain is then propagated downwards until the ravine_depth specified
     // by the region settings.
     for( const point_om_omt &p : rift_points ) {
@@ -4280,7 +4273,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     overmap_special_batch custom_overmap_specials = overmap_special_batch( enabled_specials );
 
     // Check for any unplaced mandatory specials, and if there are any, attempt to
-    // place them on adajacent uncreated overmaps.
+    // place them on adjacent uncreated overmaps.
     if( std::any_of( custom_overmap_specials.begin(), custom_overmap_specials.end(),
     []( overmap_special_placement placement ) {
     return placement.instances_placed <

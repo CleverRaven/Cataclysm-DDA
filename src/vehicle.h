@@ -55,7 +55,7 @@ class zone_data;
 struct itype;
 struct uilist_entry;
 template <typename E> struct enum_traits;
-template <typename T> class visitable;
+class visitable;
 
 enum vpart_bitflags : int;
 enum ter_bitflags : int;
@@ -171,7 +171,7 @@ class towing_data
         vehicle *towing;
         vehicle *towed_by;
     public:
-        towing_data( vehicle *towed_veh = nullptr, vehicle *tower_veh = nullptr ) :
+        explicit towing_data( vehicle *towed_veh = nullptr, vehicle *tower_veh = nullptr ) :
             towing( towed_veh ), towed_by( tower_veh ) {}
         vehicle *get_towed_by() const {
             return towed_by;
@@ -206,7 +206,7 @@ static constexpr float accel_g = 9.81f;
 struct vehicle_part {
         friend vehicle;
         friend class veh_interact;
-        friend visitable<vehicle_cursor>;
+        friend class vehicle_cursor;
         friend item_location;
         friend class turret_data;
 
@@ -764,7 +764,7 @@ class vehicle
         template <typename Func, typename Vehicle>
         static int traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action );
     public:
-        vehicle( const vproto_id &type_id, int init_veh_fuel = -1, int init_veh_status = -1 );
+        explicit vehicle( const vproto_id &type_id, int init_veh_fuel = -1, int init_veh_status = -1 );
         vehicle();
         ~vehicle();
 
@@ -1113,6 +1113,15 @@ class vehicle
             bool fullsize = false, bool verbose = false, bool desc = false,
             bool isHorizontal = false );
 
+        /**
+         * Vehicle speed gauge
+         *
+         * Prints: `target speed` `<` `current speed` `speed unit`
+         * @param spacing Sets size of space between components
+         * @warning if spacing is negative it is changed to 0
+         */
+        void print_speed_gauge( const catacurses::window &win, const point &, int spacing = 0 );
+
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
         void precalc_mounts( int idir, const units::angle &dir, const point &pivot );
 
@@ -1125,7 +1134,7 @@ class vehicle
         // get passenger at part p
         player *get_passenger( int p ) const;
         // get monster on a boardable part at p
-        monster *get_pet( int p ) const;
+        monster *get_monster( int p ) const;
 
         bool enclosed_at( const tripoint &pos ); // not const because it calls refresh_insides
         /**
@@ -1628,7 +1637,7 @@ class vehicle
         bool assign_seat( vehicle_part &pt, const npc &who );
 
         // Update the set of occupied points and return a reference to it
-        std::set<tripoint> &get_points( bool force_refresh = false );
+        const std::set<tripoint> &get_points( bool force_refresh = false ) const;
 
         /**
         * Consumes specified charges (or fewer) from the vehicle part
@@ -1645,6 +1654,8 @@ class vehicle
         void close( int part_index );
         // returns whether the door is open or not
         bool is_open( int part_index ) const;
+
+        bool can_close( int part_index, Character &who );
 
         // Consists only of parts with the FOLDABLE tag.
         bool is_foldable() const;
@@ -1796,8 +1807,12 @@ class vehicle
         mutable double draft_m = 1;
         mutable double hull_height = 0.3;
 
+        // Global location when cache was last refreshed.
+        mutable tripoint occupied_cache_pos = { -1, -1, -1 };
+        // Vehicle facing when cache was last refreshed.
+        mutable units::angle occupied_cache_direction = 0_degrees;
         // Cached points occupied by the vehicle
-        std::set<tripoint> occupied_points;
+        mutable std::set<tripoint> occupied_points;
 
         std::vector<vehicle_part> parts;   // Parts which occupy different tiles
     public:
@@ -1898,16 +1913,12 @@ class vehicle
          * When the vehicle is really moved (by map::displace_vehicle), set_submap_moved
          * is called and updates these values, when the map is only shifted or when a submap
          * is loaded into the map the values are directly set. The vehicles position does
-         * not change therefor no call to set_submap_moved is required.
+         * not change therefore no call to set_submap_moved is required.
          */
         tripoint sm_pos;
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load = 0;
-        // Global location when cache was last refreshed.
-        tripoint occupied_cache_pos = { -1, -1, -1 };
-        // Vehicle facing when cache was last refreshed.
-        units::angle occupied_cache_direction = 0_degrees;
         // Turn the vehicle was last processed
         time_point last_update = calendar::before_time_starts;
         // save values

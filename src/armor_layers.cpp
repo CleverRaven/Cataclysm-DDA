@@ -376,7 +376,7 @@ struct layering_item_info {
     bool operator ==( const layering_item_info &o ) const {
         // This is used to merge e.g. both arms into one entry when their items
         // are equivalent.  For that purpose we don't care about the exact
-        // penalities because they will list different body parts; we just
+        // penalties because they will list different body parts; we just
         // check that the badness is the same (which is all that matters for
         // rendering the right-hand list).
         return this->penalties.badness() == o.penalties.badness() &&

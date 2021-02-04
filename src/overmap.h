@@ -52,9 +52,9 @@ struct city {
     point_om_omt pos;
     int size;
     std::string name;
-    city( const point_om_omt &P = point_om_omt(), int S = -1 );
+    explicit city( const point_om_omt &P = point_om_omt(), int S = -1 );
 
-    operator bool() const {
+    explicit operator bool() const {
         return size >= 0;
     }
 
@@ -95,8 +95,8 @@ struct radio_tower {
     radio_type type;
     std::string message;
     int frequency;
-    radio_tower( const point_om_sm &p, int S = -1, const std::string &M = "",
-                 radio_type T = radio_type::MESSAGE_BROADCAST ) :
+    explicit radio_tower( const point_om_sm &p, int S = -1, const std::string &M = "",
+                          radio_type T = radio_type::MESSAGE_BROADCAST ) :
         pos( p ), strength( S ), type( T ), message( M ) {
         frequency = rng( 0, INT_MAX );
     }
@@ -125,7 +125,7 @@ struct overmap_special_placement {
 class overmap_special_batch
 {
     public:
-        overmap_special_batch( const point_abs_om &origin ) : origin_overmap( origin ) {}
+        explicit overmap_special_batch( const point_abs_om &origin ) : origin_overmap( origin ) {}
         overmap_special_batch( const point_abs_om &origin,
                                const std::vector<const overmap_special *> &specials ) :
             origin_overmap( origin ) {
@@ -204,7 +204,7 @@ class overmap
     public:
         overmap( const overmap & ) = default;
         overmap( overmap && ) = default;
-        overmap( const point_abs_om &p );
+        explicit overmap( const point_abs_om &p );
         ~overmap();
 
         overmap &operator=( const overmap & ) = default;

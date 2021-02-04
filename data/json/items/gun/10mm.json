@@ -23,7 +23,14 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 6,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "10mm": 6, "40": 6 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "holster": true,
+        "ammo_restriction": { "10mm": 6, "40": 6 },
+        "allowed_speedloaders": [ "40_speedloader6" ]
+      }
+    ]
   },
   {
     "id": "glock_29",

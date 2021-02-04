@@ -37,6 +37,13 @@ struct projectile {
         void set_custom_explosion( const explosion_data &ex );
         void unset_custom_explosion();
 
+        // applies proj_effects to a damaged creature
+        void apply_effects_damage( Creature &target, Creature *source,
+                                   const dealt_damage_instance &dealt_dam,
+                                   bool critical ) const;
+        // pplies proj_effects to a creature that was hit but not damaged
+        void apply_effects_nodamage( Creature &target, Creature *source ) const;
+
         projectile();
         projectile( const projectile & );
         projectile( projectile && );

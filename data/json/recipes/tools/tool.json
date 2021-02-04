@@ -302,6 +302,20 @@
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
   {
+    "result": "awl_steel",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_OTHER",
+    "id_suffix": "using_file",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "50 m",
+    "autolearn": true,
+    "qualities": [ { "id": "FILE", "level": 1 } ],
+    "components": [ [ [ "screwdriver", 1 ] ] ]
+  },
+  {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "sewing_kit",
@@ -523,7 +537,7 @@
     "autolearn": true,
     "book_learn": [ [ "atomic_survival", 0 ], [ "textbook_survival", 0 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "proficiencies": [ { "proficiency": "prof_knapping" } ],
     "components": [
       [ [ "rock", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],

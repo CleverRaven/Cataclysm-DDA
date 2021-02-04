@@ -1081,7 +1081,7 @@ double effect::get_percentage( const std::string &arg, int val, bool reduced ) c
 
     double ret = 0;
     // If both bot values are zero the formula is one_in(top), else the formula is x_in_y(top, bot)
-    if( bot_base != 0 && bot_scale != 0 ) {
+    if( bot_base != 0 || bot_scale != 0 ) {
         if( bot_base + bot_scale == 0 ) {
             // Special crash avoidance case, in most effect fields 0 = "nothing happens"
             // so assume false here for consistency
@@ -1447,7 +1447,9 @@ std::string texitify_base_healing_power( const int power )
 
 std::string texitify_healing_power( const int power )
 {
-    if( power >= 1 && power <= 2 ) {
+    if( power == 0 ) {
+        return colorize( _( "none" ), c_dark_gray );
+    } else if( power >= 1 && power <= 2 ) {
         return colorize( _( "very poor" ), c_red );
     } else if( power >= 3 && power <= 4 ) {
         return colorize( _( "poor" ), c_light_red );
@@ -1464,7 +1466,7 @@ std::string texitify_healing_power( const int power )
     } else if( power >= 15 ) {
         return colorize( _( "perfect" ), c_green );
     }
-    if( power < 1 ) {
+    if( power < 0 ) {
         debugmsg( "Converted value out of bounds." );
     }
     return "";
@@ -1472,7 +1474,7 @@ std::string texitify_healing_power( const int power )
 std::string texitify_bandage_power( const int power )
 {
     if( power < 5 ) {
-        return colorize( _( "miniscule" ), c_red );
+        return colorize( _( "minuscule" ), c_red );
     } else if( power < 10 ) {
         return colorize( _( "small" ), c_light_red );
     } else if( power < 15 ) {
@@ -1487,5 +1489,17 @@ std::string texitify_bandage_power( const int power )
         debugmsg( "Converted value out of bounds." );
     }
     return "";
+}
+nc_color colorize_bleeding_intensity( const int intensity )
+{
+    if( intensity == 0 ) {
+        return c_unset;
+    } else if( intensity < 11 ) {
+        return c_light_red;
+    } else if( intensity < 21 ) {
+        return c_red;
+    } else {
+        return c_red_red;
+    }
 }
 

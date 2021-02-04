@@ -4,9 +4,13 @@ on:
   push:
     branches:
     - master
+    paths:
+    - '**.py'
   pull_request:
     branches:
     - master
+    paths:
+    - '**.py'
 
 jobs:
   check:
@@ -16,7 +20,7 @@ jobs:
     - name: checkout repository
       uses: actions/checkout@v1
       with:
-        fetch-depth: 10
+        fetch-depth: 1
     - name: install dependencies
       run: sudo apt-get install flake8
     - name: Enable flake8 problem matcher

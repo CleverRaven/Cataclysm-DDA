@@ -19,7 +19,7 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
-    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_60" ]
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ]
   },
   {
     "type": "GENERIC",

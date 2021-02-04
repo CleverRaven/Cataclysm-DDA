@@ -227,7 +227,7 @@ bool Character::can_power_mutation( const trait_id &mut )
 
 void Character::mutation_reflex_trigger( const trait_id &mut )
 {
-    if( mut->triger_list.empty() || !can_power_mutation( mut ) ) {
+    if( mut->trigger_list.empty() || !can_power_mutation( mut ) ) {
         return;
     }
 
@@ -236,7 +236,7 @@ void Character::mutation_reflex_trigger( const trait_id &mut )
     std::pair<translation, game_message_type> msg_on;
     std::pair<translation, game_message_type> msg_off;
 
-    for( const std::vector<reflex_activation_data> &vect_rdata : mut->triger_list ) {
+    for( const std::vector<reflex_activation_data> &vect_rdata : mut->trigger_list ) {
         activate = false;
         // OR conditions: if any trigger is true then this condition is true
         for( const reflex_activation_data &rdata : vect_rdata ) {
@@ -341,6 +341,12 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
 {
     if( allow_soft_gear && it.is_soft() ) {
         return false;
+    }
+
+    for( const flag_id &allowed : allowed_items ) {
+        if( it.has_flag( allowed ) ) {
+            return false;
+        }
     }
 
     for( const bodypart_str_id &bp : restricts_gear ) {

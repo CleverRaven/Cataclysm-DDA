@@ -212,15 +212,14 @@ VehicleList map::get_vehicles()
                          tripoint( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, OVERMAP_HEIGHT ) );
 }
 
-void map::build_all_vehicle_caches( const int zlev )
+void map::rebuild_vehicle_level_caches()
 {
-    int minz = zlevels ? -OVERMAP_DEPTH : zlev;
-    int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
+    clear_vehicle_level_caches();
 
-    for( int gridz = minz; gridz <= maxz; gridz++ ) {
+    for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
         // Cache all vehicles
         level_cache &ch = get_cache( gridz );
-        //ch.set_veh_in_active_range( false );
+
         for( const auto &elem : ch.vehicle_list ) {
             add_vehicle_to_cache( elem );
         }
@@ -241,7 +240,6 @@ void map::add_vehicle_to_cache( vehicle *veh )
         }
         const tripoint p = veh->global_part_pos3( vpr.part() );
         level_cache &ch = get_cache( p.z );
-        ch.set_veh_in_active_range( true );
         ch.set_veh_cached_parts( p, *veh, static_cast<int>( vpr.part_index() ) );
         if( inbounds( p ) ) {
             ch.set_veh_exists_at( p, true );
@@ -263,11 +261,9 @@ void map::clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt )
     ch.clear_veh_from_veh_cached_parts( pt, veh );
 }
 
-void map::clear_all_vehicle_caches( const int zlev )
+void map::clear_vehicle_level_caches( )
 {
-    int minz = zlevels ? -OVERMAP_DEPTH : zlev;
-    int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
-    for( int gridz = minz; gridz <= maxz; gridz++ ) {
+    for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
         level_cache &ch = get_cache( gridz );
         ch.clear_vehicle_cache();
     }
@@ -333,8 +329,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
                 overmap_buffer.remove_vehicle( veh );
             }
             dirty_vehicle_list.erase( veh );
-            clear_all_vehicle_caches( z );
-            build_all_vehicle_caches( z );
+            rebuild_vehicle_level_caches();
             return result;
         }
     }
@@ -440,16 +435,6 @@ bool map::vehproceed( VehicleList &vehicle_list )
     cur_veh->v = cur_veh->v->act_on_map();
     if( cur_veh->v == nullptr ) {
         vehicle_list = get_vehicles();
-    }
-
-    // confirm that veh_in_active_range is still correct for each z-level
-    int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
-    int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    for( int zlev = minz; zlev <= maxz; ++zlev ) {
-        level_cache &cache = get_cache( zlev );
-
-        // Check if any vehicles exist in the active range for this z-level
-        cache.verify_vehicle_cache();
     }
 
     return true;
@@ -1594,7 +1579,7 @@ uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
 const harvest_id &map::get_harvest( const tripoint &pos ) const
 {
     const auto furn_here = furn( pos );
-    if( furn_here->examine != iexamine::none ) {
+    if( furn_here->can_examine() ) {
         // Note: if furniture can be examined, the terrain can NOT (until furniture is removed)
         if( furn_here->has_flag( TFLAG_HARVESTED ) ) {
             return harvest_id::NULL_ID();
@@ -1615,7 +1600,7 @@ const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 {
     static const std::set<std::string> null_harvest_names = {};
     const auto furn_here = furn( pos );
-    if( furn_here->examine != iexamine::none ) {
+    if( furn_here->can_examine() ) {
         if( furn_here->has_flag( TFLAG_HARVESTED ) ) {
             return null_harvest_names;
         }
@@ -1646,7 +1631,7 @@ ter_id map::get_ter_transforms_into( const tripoint &p ) const
 void map::examine( Character &p, const tripoint &pos )
 {
     const furn_t furn_here = furn( pos ).obj();
-    if( furn_here.examine != iexamine::none ) {
+    if( furn_here.can_examine() ) {
         furn_here.examine( dynamic_cast<player &>( p ), pos );
     } else {
         ter( pos ).obj().examine( dynamic_cast<player &>( p ), pos );
@@ -2052,7 +2037,7 @@ bool map::has_floor( const tripoint &p ) const
         return true;
     }
 
-    return get_cache_ref( p.z ).floor_cache[p.x][p.y];
+    return !ter( p )->has_flag( TFLAG_NO_FLOOR );
 }
 
 bool map::supports_above( const tripoint &p ) const
@@ -2689,19 +2674,20 @@ bool map::flammable_items_at( const tripoint &p, int threshold )
 
 bool map::is_flammable( const tripoint &p )
 {
-    if( flammable_items_at( p ) ) {
+
+    if( has_flag( TFLAG_FLAMMABLE, p ) ) {
         return true;
     }
 
-    if( has_flag( "FLAMMABLE", p ) ) {
-        return true;
-    }
-
-    if( has_flag( "FLAMMABLE_ASH", p ) ) {
+    if( has_flag( TFLAG_FLAMMABLE_ASH, p ) ) {
         return true;
     }
 
     if( get_field_intensity( p, fd_web ) > 0 ) {
+        return true;
+    }
+
+    if( flammable_items_at( p ) ) {
         return true;
     }
 
@@ -4515,6 +4501,13 @@ item map::water_from( const tripoint &p )
         return ret;
     }
 
+    if( has_flag( "CHOCOLATE", p ) ) {
+        item ret( "liquid_cacao", calendar::turn, item::INFINITE_CHARGES );
+        ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+                                  temperatures::cold ) ) );
+        return ret;
+    }
+
     const ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
         item ret( "water_sewage", calendar::turn, item::INFINITE_CHARGES );
@@ -4528,7 +4521,7 @@ item map::water_from( const tripoint &p )
     ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
                               temperatures::cold ) ) );
     // iexamine::water_source requires a valid liquid from this function.
-    if( terrain_id.obj().examine == &iexamine::water_source ) {
+    if( terrain_id->has_examine( iexamine::water_source ) ) {
         int poison_chance = 0;
         if( terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) ) {
             if( terrain_id.obj().has_flag( TFLAG_CURRENT ) ) {
@@ -4548,7 +4541,7 @@ item map::water_from( const tripoint &p )
         }
         return ret;
     }
-    if( furn( p ).obj().examine == &iexamine::water_source ) {
+    if( furn( p )->has_examine( iexamine::water_source ) ) {
         return ret;
     }
     return item();
@@ -4602,9 +4595,10 @@ void map::update_lum( item_location &loc, bool add )
 }
 
 static bool process_map_items( item_stack &items, safe_reference<item> &item_ref,
-                               const tripoint &location, const float insulation, const temperature_flag flag )
+                               const tripoint &location, const float insulation, const temperature_flag flag,
+                               const float spoil_multiplier )
 {
-    if( item_ref->process( nullptr, location, insulation, flag ) ) {
+    if( item_ref->process( nullptr, location, insulation, flag, spoil_multiplier ) ) {
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
         if( item_ref ) {
@@ -4796,8 +4790,16 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         if( ter( map_location ) == t_rootcellar ) {
             flag = temperature_flag::ROOT_CELLAR;
         }
+
+        float spoil_multiplier = 1.0f;
+
+        if( has_flag( "NO_SPOIL", map_location ) ) {
+            spoil_multiplier = 0.0f;
+        }
+
         map_stack items = i_at( map_location );
-        process_map_items( items, active_item_ref.item_ref, map_location, 1, flag );
+
+        process_map_items( items, active_item_ref.item_ref, map_location, 1, flag, spoil_multiplier );
     }
 }
 
@@ -4872,7 +4874,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
                 flag = temperature_flag::FREEZER;
             }
         }
-        if( !process_map_items( items, active_item_ref.item_ref, item_loc, it_insulation, flag ) ) {
+        if( !process_map_items( items, active_item_ref.item_ref, item_loc, it_insulation, flag, 1.0f ) ) {
             // If the item was NOT destroyed, we can skip the remainder,
             // which handles fallout from the vehicle being damaged.
             continue;
@@ -5567,7 +5569,7 @@ bool map::point_within_camp( const tripoint &point_check ) const
     for( int x2 = -2; x2 < 2; x2++ ) {
         for( int y2 = -2; y2 < 2; y2++ ) {
             if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p + point( x2, y2 ) ) ) {
-                return ( *bcp )->camp_omt_pos().z() == point_check.z;
+                return ( *bcp )->point_within_camp( omt_check );
             }
         }
     }
@@ -5900,52 +5902,55 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
     const trap &curr_trap = curr_maptile.get_trap().obj();
     const field &curr_field = curr_maptile.get_field();
     int sym;
+    int memory_sym;
     bool hi = false;
     bool graf = false;
     bool draw_item_sym = false;
 
-    int terrain_sym;
     if( curr_ter.has_flag( TFLAG_AUTO_WALL_SYMBOL ) ) {
-        terrain_sym = determine_wall_corner( p );
+        memory_sym = sym = determine_wall_corner( p );
+        tercol = curr_ter.color();
     } else {
-        terrain_sym = curr_ter.symbol();
+        memory_sym = sym = curr_ter.symbol();
+        tercol = curr_ter.color();
     }
 
+    avatar &player_character = get_avatar();
     if( curr_furn.id ) {
         sym = curr_furn.symbol();
         tercol = curr_furn.color();
-    } else {
-        sym = terrain_sym;
-        tercol = curr_ter.color();
+        if( !( player_character.get_grab_type() == object_type::FURNITURE
+               && p == player_character.pos() + player_character.grab_point ) ) {
+            memory_sym = sym;
+        }
     }
     if( curr_ter.has_flag( TFLAG_SWIMMABLE ) && curr_ter.has_flag( TFLAG_DEEP_WATER ) &&
         !u.is_underwater() ) {
         show_items = false; // Can only see underwater items if WE are underwater
     }
-    avatar &player_character = get_avatar();
     // If there's a trap here, and we have sufficient perception, draw that instead
     if( curr_trap.can_see( p, player_character ) ) {
         tercol = curr_trap.color;
         if( curr_trap.sym == '%' ) {
             switch( rng( 1, 5 ) ) {
                 case 1:
-                    sym = '*';
+                    memory_sym = sym = '*';
                     break;
                 case 2:
-                    sym = '0';
+                    memory_sym = sym = '0';
                     break;
                 case 3:
-                    sym = '8';
+                    memory_sym = sym = '8';
                     break;
                 case 4:
-                    sym = '&';
+                    memory_sym = sym = '&';
                     break;
                 case 5:
-                    sym = '+';
+                    memory_sym = sym = '+';
                     break;
             }
         } else {
-            sym = curr_trap.sym;
+            memory_sym = sym = curr_trap.sym;
         }
     }
     if( curr_field.field_count() > 0 ) {
@@ -5958,19 +5963,19 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
             // A random symbol.
             switch( rng( 1, 5 ) ) {
                 case 1:
-                    sym = '*';
+                    memory_sym = sym = '*';
                     break;
                 case 2:
-                    sym = '0';
+                    memory_sym = sym = '0';
                     break;
                 case 3:
-                    sym = '8';
+                    memory_sym = sym = '8';
                     break;
                 case 4:
-                    sym = '&';
+                    memory_sym = sym = '&';
                     break;
                 case 5:
-                    sym = '+';
+                    memory_sym = sym = '+';
                     break;
             }
         } else {
@@ -5991,7 +5996,7 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
                     sym == '.' ) )  {
                 // default terrain '.' and
                 // non-default field symbol -> field symbol overrides terrain
-                sym = field_symbol[0];
+                memory_sym = sym = field_symbol[0];
             }
             tercol = fe->color();
         }
@@ -6021,7 +6026,6 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
         }
     }
 
-    int memory_sym = sym;
     int veh_part = 0;
     const vehicle *veh = veh_at_internal( p, veh_part );
     if( veh != nullptr ) {
@@ -6029,7 +6033,9 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
         tercol = veh->part_color( veh_part );
         item_sym.clear(); // clear the item symbol so `sym` is used instead.
 
-        if( !veh->forward_velocity() && !veh->player_in_control( player_character ) ) {
+        if( !veh->forward_velocity() && !veh->player_in_control( player_character )
+            && !( player_character.get_grab_type() == object_type::VEHICLE
+                  && veh->get_points().count( player_character.pos() + player_character.grab_point ) ) ) {
             memory_sym = sym;
         }
     }
@@ -6569,13 +6575,13 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
     submaps_with_active_items.clear();
     // TODO: fix point types
     set_abs_sub( w.raw() );
-    clear_all_vehicle_caches( 0 );
+    clear_vehicle_level_caches();
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             loadn( point( gridx, gridy ), update_vehicle, false );
         }
     }
-    build_all_vehicle_caches( 0 );
+    rebuild_vehicle_level_caches();
 
     // actualize after loading all submaps to prevent errors
     // with entities at the edges
@@ -6695,7 +6701,7 @@ void map::shift( const point &sp )
     // Shift the map sx submaps to the right and sy submaps down.
     // sx and sy should never be bigger than +/-1.
     // absx and absy are our position in the world, for saving/loading purposes.
-    clear_all_vehicle_caches( abs.z );
+    clear_vehicle_level_caches();
     for( int gridz = zmin; gridz <= zmax; gridz++ ) {
         // Clear vehicle list and rebuild after shift
         // mlangsdorf 2020 - this is kind of insane, building the cache is not free, why are
@@ -6790,7 +6796,7 @@ void map::shift( const point &sp )
         }
 
     }
-    build_all_vehicle_caches( abs.z );
+    rebuild_vehicle_level_caches();
 
     g->setremoteveh( remoteveh );
 
@@ -7571,7 +7577,9 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
 
         for( int j = 0; j < i.count; j++ ) {
             monster tmp( i.type );
-            tmp.mission_id = i.mission_id;
+            if( i.mission_id > 0 ) {
+                tmp.mission_ids = { i.mission_id };
+            }
             if( i.name != "NONE" ) {
                 tmp.unique_name = i.name;
             }
@@ -8014,7 +8022,7 @@ bool map::build_floor_cache( const int zlev )
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     point sp( sx, sy );
                     const ter_t &terrain = cur_submap->get_ter( sp ).obj();
-                    if( terrain.has_flag( TFLAG_NO_FLOOR ) ) {
+                    if( terrain.has_flag( TFLAG_NO_FLOOR ) || terrain.has_flag( TFLAG_GOES_DOWN ) ) {
                         if( below_submap && ( below_submap->get_furn( sp ).obj().has_flag( TFLAG_SUN_ROOF_ABOVE ) ) ) {
                             continue;
                         }
