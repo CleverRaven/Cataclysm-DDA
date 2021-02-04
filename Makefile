@@ -359,6 +359,7 @@ ifeq ($(RELEASE), 1)
       LTOFLAGS += -flto=jobserver -flto-odr-type-merging
     endif
   endif
+  LTOFLAGS += -Wodr
   CXXFLAGS += $(LTOFLAGS)
 
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
@@ -463,7 +464,7 @@ ifeq ($(NATIVE), linux64)
   TARGETSYSTEM=LINUX
   ifdef GOLD
     CXXFLAGS += -fuse-ld=gold
-    LDFLAGS += -fuse-ld=gold
+    LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
   endif
 else
   # Linux 32-bit
@@ -473,7 +474,7 @@ else
     TARGETSYSTEM=LINUX
     ifdef GOLD
       CXXFLAGS += -fuse-ld=gold
-      LDFLAGS += -fuse-ld=gold
+      LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
     endif
   endif
 endif
