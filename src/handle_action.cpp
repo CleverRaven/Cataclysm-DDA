@@ -626,7 +626,7 @@ static void haul()
             add_msg( m_info, _( "You cannot haul while in deep water." ) );
         } else if( !here.can_put_items( player_character.pos() ) ) {
             add_msg( m_info, _( "You cannot haul items here." ) );
-        } else if( !here.has_items( player_character.pos() ) ) {
+        } else if( !here.has_haulable_items( player_character.pos() ) ) {
             add_msg( m_info, _( "There are no items to haul here." ) );
         } else {
             player_character.start_hauling();

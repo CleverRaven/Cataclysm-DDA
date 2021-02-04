@@ -11211,19 +11211,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
 void game::start_hauling( const tripoint &pos )
 {
     // Find target items and quantities thereof for the new activity
-    std::vector<item_location> target_items;
-    std::vector<int> quantities;
-
-    map_stack items = m.i_at( pos );
-    for( item &it : items ) {
-        // Liquid cannot be picked up
-        if( it.made_of_from_type( phase_id::LIQUID ) ) {
-            continue;
-        }
-        target_items.emplace_back( map_cursor( pos ), &it );
-        // Quantity of 0 means move all
-        quantities.push_back( 0 );
-    }
+    const std::vector<item_location> target_items = m.get_haulable_items( pos );
+    // Quantity of 0 means move all
+    const std::vector<int> quantities( target_items.size(), 0 );
 
     if( target_items.empty() ) {
         // Nothing to haul
