@@ -2383,6 +2383,7 @@
     "difficulty": 5,
     "charges": 4,
     "time": "45 m",
+    "batch_time_factors": [ 80, 1 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
