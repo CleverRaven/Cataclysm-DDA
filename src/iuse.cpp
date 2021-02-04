@@ -3434,9 +3434,6 @@ int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
         player_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
                          item_location( you, it ),
                          get_map().getabs( *target ) ) ) );
-    you.practice_proficiency( proficiency_prof_lockpicking, duration / duration_proficiency_factor );
-    you.practice_proficiency( proficiency_prof_lockpicking_expert,
-                              duration / duration_proficiency_factor );
     return it->type->charges_to_use();
 }
 

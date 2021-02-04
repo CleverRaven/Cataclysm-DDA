@@ -203,6 +203,10 @@ class time_duration
             return time_duration( t );
         }
         template<typename T>
+        static constexpr time_duration from_moves( const T t ) {
+            return time_duration( t / 100 );
+        }
+        template<typename T>
         static constexpr time_duration from_seconds( const T t ) {
             return time_duration( t );
         }

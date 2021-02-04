@@ -1169,13 +1169,16 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
     // Without at least a basic lockpick proficiency, your skill level is effectively 6 levels lower.
     int proficiency_effect = -3;
+    int duration_proficiency_factor = 10;
     if( who.has_proficiency( proficiency_prof_lockpicking ) ) {
         // If you have the basic lockpick prof, negate the above penalty
         proficiency_effect = 0;
+        duration_proficiency_factor = 5;
     }
     if( who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
         // If you have the locksmith proficiency, your skill level is effectively 4 levels higher.
         proficiency_effect = 3;
+        duration_proficiency_factor = 1;
     }
 
     // We get our average roll by adding the above factors together. For a person with no skill, average stats, no proficiencies, and an improvised lockpick, mean_roll will be 2.
@@ -1242,6 +1245,11 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     if( destroy && lockpick.has_value() ) {
         ( *lockpick ).remove_item();
     }
+
+    who.practice_proficiency( proficiency_prof_lockpicking,
+                              time_duration::from_moves( act.moves_total ) / duration_proficiency_factor );
+    who.practice_proficiency( proficiency_prof_lockpicking_expert,
+                              time_duration::from_moves( act.moves_total ) / duration_proficiency_factor );
 }
 
 cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
