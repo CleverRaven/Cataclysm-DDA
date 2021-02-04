@@ -1173,7 +1173,7 @@ void veh_interact::do_repair()
 
                 nmsg += _( "<color_white>Additional requirements:</color>\n" );
                 std::pair<bool, std::string> res = calc_lift_requirements( pt.info() );
-                if (!res.first) {
+                if( !res.first ) {
                     ok = false;
                 }
                 nmsg += res.second;
