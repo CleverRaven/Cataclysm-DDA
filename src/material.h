@@ -41,6 +41,7 @@ class material_type
         int _fire_resist = 0;
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
         int _density = 1;                             // relative to "powder", which is 1
+        float _warmth_when_wet = 0.2f;                // Percentage of warmth kept when fully drenched
         float _specific_heat_liquid = 4.186;
         float _specific_heat_solid = 2.108;
         float _latent_heat = 334;
@@ -90,6 +91,9 @@ class material_type
         int elec_resist() const;
         int fire_resist() const;
         int chip_resist() const;
+        float warmth_when_wet() const {
+            return _warmth_when_wet;
+        }
         float specific_heat_liquid() const;
         float specific_heat_solid() const;
         float latent_heat() const;

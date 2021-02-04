@@ -668,10 +668,10 @@ std::string print_temperature( double fahrenheit, int decimals )
 
     if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
         return string_format( pgettext( "temperature in Celsius", "%sC" ),
-                              text( temp_to_celsius( fahrenheit ) ) );
+                              text( fahrenheit_to_celsius( fahrenheit ) ) );
     } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
         return string_format( pgettext( "temperature in Kelvin", "%sK" ),
-                              text( temp_to_kelvin( fahrenheit ) ) );
+                              text( fahrenheit_to_kelvin( fahrenheit ) ) );
     } else {
         return string_format( pgettext( "temperature in Fahrenheit", "%sF" ), text( fahrenheit ) );
     }
@@ -717,7 +717,7 @@ int get_local_windchill( double temperature_f, double humidity, double wind_mph 
         // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
         // Convert to meters per second.
         double wind_meters_per_sec = wind_mph * 0.44704;
-        double temperature_c = temp_to_celsius( temperature_f );
+        double temperature_c = fahrenheit_to_celsius( temperature_f );
 
         // Cap the vapor pressure term to 50C of extra heat, as this term
         // otherwise grows logistically to an asymptotic value of about 2e7
@@ -1008,6 +1008,9 @@ void weather_manager::update_weather()
                 g->m.set_transparency_cache_dirty( i );
             }
         }
+
+        water_temperature = weather_gen.get_water_temperature( g->u.global_square_location(),
+                            calendar::turn, g->get_seed() );
     }
 }
 
@@ -1037,6 +1040,11 @@ int weather_manager::get_temperature( const tripoint &location )
 
     temperature_cache.emplace( std::make_pair( location, temp ) );
     return temp;
+}
+
+int weather_manager::get_water_temperature( const tripoint & )
+{
+    return water_temperature;
 }
 
 void weather_manager::clear_temp_cache()
