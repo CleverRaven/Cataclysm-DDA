@@ -1635,7 +1635,7 @@ bool npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) co
     }
 
     // TODO: Base on inventory
-    return at_price > 0;
+    return at_price >= 0;
 }
 
 bool npc::wants_to_buy( const item &it ) const
