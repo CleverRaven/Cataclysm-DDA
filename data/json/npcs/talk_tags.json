@@ -44,6 +44,7 @@
       "I'm sorry <name_g>. I'm afraid I can't do that.",
       "Wish I could, <name_g>.",
       "Nothing to trade, sorry <name_g>.",
+      "I don't want to trade right now.",
       "Maybe next time?"
     ]
   },
@@ -60,6 +61,7 @@
       "Great idea!  Call me when you find SOMEONE ELSE to do it.",
       "I'm afraid I can't help you there.",
       "Not exactly the settlin' type.",
+      "I can't help you with that right now.",
       "I'm more of a free spirit, can't settle, sorry."
     ]
   },
@@ -426,6 +428,7 @@
       "Time for bed!  See you in the morning.",
       "There's a bed calling my name, and I'm going to it.",
       "Good night!  Wake me if you need me.",
+      "Well, I'm going to bed now.",
       "Calling it a night for now.  You get some rest too, okay?"
     ]
   },
@@ -589,6 +592,7 @@
       "Drop your <swear> weapon, <name_b>!",
       "Put down your <yrwp>!",
       "Alright, drop the <yrwp>!",
+      "Hey, put that weapon down!",
       "Please put down your weapon.  I'll give you to the count of three.  One…",
       "Let's take it easy now, okay?  Put the weapon down."
     ]
@@ -927,6 +931,8 @@
       "I can <swear> take on",
       "Time to die,",
       "Prepare to die,",
+      "See you in hell,",
+      "Rot in hell,",
       "Say your prayers,"
     ]
   },
@@ -963,6 +969,7 @@
       "Hold up, gotta plug this hole in me.",
       "Watch my back while I stitch my arm back on <name_g>.",
       "Gotta bandage this or I'll bleed out.  Give me a sec.",
+      "Let me fix myself up here for a second.",
       "I ain't got time to ble-wait, that's a lot of blood.  Give me a second while I patch this."
     ]
   },
@@ -1013,6 +1020,7 @@
       "I could swear I heard",
       "Huh?  I think I just heard",
       "Huh?  That sounded like",
+      "I think that was the sound of",
       "I could have sworn I just heard"
     ]
   },
@@ -1056,6 +1064,7 @@
       "Mmm, that weed smells good.",
       "Man, I can smell the weed, can I have some?",
       "Are you sure it's a good idea to smoke that now?",
+      "Are you getting stoned right now?",
       "Is that the devil's lettuce I smell?"
     ]
   },
@@ -1298,6 +1307,7 @@
       "Retreat!  Retreat!",
       "Book it!",
       "Leg it!",
+      "I'm getting the hell out of here!",
       "Thank fuck for all the cardio!"
     ]
   },
@@ -1327,6 +1337,7 @@
       "Somebody get some water!",
       "Fire, fire, FIRE!",
       "Get an extinguisher!",
+      "Somebody get some water or something!",
       "Danger hot!"
     ]
   },
@@ -1384,6 +1395,7 @@
       "Hey, <name_g>, we're out of food.",
       "Hey, the larder is empty!  We're going to starve.",
       "There's no food in the larder!",
+      "We need more food in the basecamp larder; it's empty.",
       "Uhm, <name_g>, I don't meant to criticize, but we should focus on distributing some food into the basecamp larder."
     ]
   },

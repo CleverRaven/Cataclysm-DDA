@@ -20,6 +20,7 @@
       "Yeah, this summer heat is hitting me hard, you know?",
       "Enjoying the summer.",
       "Not quite like the summers from before, huh?",
+      "Can't wait for this summer to be over.",
       "Kinda wishing it would cool off a bit, to be honest."
     ]
   },
@@ -31,6 +32,7 @@
       "OK, maybe it'll stop me from freezing in this weather.",
       "Gotta say, I'm not minding the snow.",
       "Not quite like the winters from before, huh?",
+      "Can't wait for this winter to be over.",
       "It's weird the zombies don't freeze."
     ]
   },
@@ -42,6 +44,7 @@
       "A nice chat might improve my health somewhat.",
       "Alright, but I'm feeling a bit under the weather.",
       "I'm not feeling too well, but I can still talk for a bit.",
+      "We can talk, even though I'm not feeling too well.",
       "Well, I'm feeling pretty sick… but sure."
 	]
   },
