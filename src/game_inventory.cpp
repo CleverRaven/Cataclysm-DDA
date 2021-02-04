@@ -439,8 +439,8 @@ item_location game_menus::inv::container_for( Character &you, const item &liquid
 
     units::volume vol = liquid.volume();
     return inv_internal( you, liquid_inventory_filter_preset( filter ),
-                         string_format( _( "Container for %s | %.2f L" ), liquid.display_name( liquid.charges ),
-                                        units::to_liter( vol ) ), radius,
+                         string_format( _( "Container for %s | %s %s" ), liquid.display_name( liquid.charges ),
+                                        format_volume( liquid.volume() ), volume_units_abbr() ), radius,
                          string_format( _( "You don't have a suitable container for carrying %s." ),
                                         liquid.tname() ) );
 }
