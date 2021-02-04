@@ -18,7 +18,6 @@
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
-#include "global_vars.h"
 #include "input.h"
 #include "json.h"
 #include "line.h"

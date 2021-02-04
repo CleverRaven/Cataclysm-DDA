@@ -15,6 +15,7 @@
 
 #include "action.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
@@ -30,7 +31,6 @@
 #include "faction.h"
 #include "game.h"
 #include "game_constants.h"
-#include "global_vars.h"
 #include "help.h"
 #include "inventory.h"
 #include "item.h"

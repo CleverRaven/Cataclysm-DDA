@@ -16,6 +16,8 @@ extern bool tile_iso;
 extern bool use_tiles;
 extern bool pixel_minimap_option;
 
+extern int memorized_tile_count;
+
 // test_mode is not a regular game option; it's true when we are running unit
 // tests.
 extern bool test_mode;
