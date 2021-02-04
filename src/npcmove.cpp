@@ -372,8 +372,8 @@ static bool too_close( const tripoint &critter_pos, const tripoint &ally_pos, co
 int npc_short_term_cache::closest_enemy_to_friendly_distance() const
 {
     int distance = INT_MAX;
-    for( const weak_ptr_fast<Creature> buddy : friends ) {
-        for( const weak_ptr_fast<Creature> enemy : hostile_guys ) {
+    for( const weak_ptr_fast<Creature> &buddy : friends ) {
+        for( const weak_ptr_fast<Creature> &enemy : hostile_guys ) {
             if( buddy.expired() || enemy.expired() ) {
                 continue;
             }
