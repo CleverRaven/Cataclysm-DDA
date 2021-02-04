@@ -11227,6 +11227,7 @@ void game::start_hauling( const tripoint &pos )
 
     if( target_items.empty() ) {
         // Nothing to haul
+        u.stop_hauling();
         return;
     }
 
