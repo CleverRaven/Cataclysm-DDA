@@ -303,7 +303,7 @@ static void check_npc_movement( const tripoint &origin )
 
 TEST_CASE( "npc-movement" )
 {
-    const ter_id t_reinforced_glass( "t_reinforced_glass" );
+    const ter_id t_wall_metal( "t_wall_metal" );
     const ter_id t_floor( "t_floor" );
     const furn_id f_rubble( "f_rubble" );
     const furn_id f_null( "f_null" );
@@ -322,7 +322,7 @@ TEST_CASE( "npc-movement" )
             const tripoint p = player_character.pos() + point( x, y );
             // create walls
             if( type == '#' ) {
-                here.ter_set( p, t_reinforced_glass );
+                here.ter_set( p, t_wall_metal );
             } else {
                 here.ter_set( p, t_floor );
             }
