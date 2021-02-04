@@ -686,6 +686,34 @@ bool avatar::read( item &it, const bool continuous )
 
 void avatar::grab( object_type grab_type, const tripoint &grab_point )
 {
+    const auto update_memory =
+    [this]( const object_type gtype, const tripoint & gpoint, const bool erase ) {
+        map &m = get_map();
+        if( gtype == object_type::VEHICLE ) {
+            const optional_vpart_position vp = m.veh_at( pos() + gpoint );
+            if( vp ) {
+                const vehicle &veh = vp->vehicle();
+                for( const tripoint &target : veh.get_points() ) {
+                    if( erase ) {
+                        clear_memorized_tile( m.getabs( target ) );
+                    }
+                    m.set_memory_seen_cache_dirty( target );
+                }
+            }
+        } else if( gtype != object_type::NONE ) {
+            if( erase ) {
+                clear_memorized_tile( m.getabs( pos() + gpoint ) );
+            }
+            m.set_memory_seen_cache_dirty( pos() + gpoint );
+        }
+    };
+    // Mark the area covered by the previous vehicle/furniture/etc for re-memorizing.
+    update_memory( this->grab_type, this->grab_point, false );
+    // Clear the map memory for the area covered by the vehicle/furniture/etc to
+    // eliminate ghost vehicles/furnitures/etc.
+    // FIXME: change map memory to memorize all memorizable objects and only erase vehicle part memory.
+    update_memory( grab_type, grab_point, true );
+
     this->grab_type = grab_type;
     this->grab_point = grab_point;
 

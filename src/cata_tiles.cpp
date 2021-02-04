@@ -1386,6 +1386,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                                      direction::NORTH ) );
                 }
             }
+            if( !p.invisible[0] ) {
+                here.check_and_set_seen_cache( p.pos );
+            }
         }
     }
     // tile overrides are already drawn in the previous code
@@ -2525,7 +2528,9 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation );
         }
         const std::string &fname = f.id().str();
-        if( here.check_seen_cache( p ) ) {
+        if( !( you.get_grab_type() == object_type::FURNITURE
+               && p == you.pos() + you.grab_point )
+            && here.check_seen_cache( p ) ) {
             you.memorize_tile( here.getabs( p ), fname, subtile, rotation );
         }
         // draw the actual furniture if there's no override
@@ -2777,8 +2782,10 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         const int rotation = std::round( to_degrees( veh.face.dir() ) );
         const std::string vpname = "vp_" + vp_id;
         avatar &you = get_avatar();
-        if( !veh.forward_velocity() && !veh.player_in_control( you ) &&
-            here.check_seen_cache( p ) ) {
+        if( !veh.forward_velocity() && !veh.player_in_control( you )
+            && !( you.get_grab_type() == object_type::VEHICLE
+                  && veh.get_points().count( you.pos() + you.grab_point ) )
+            && here.check_seen_cache( p ) ) {
             you.memorize_tile( here.getabs( p ), vpname, subtile, rotation );
         }
         if( !overridden ) {

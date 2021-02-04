@@ -1637,7 +1637,7 @@ class vehicle
         bool assign_seat( vehicle_part &pt, const npc &who );
 
         // Update the set of occupied points and return a reference to it
-        std::set<tripoint> &get_points( bool force_refresh = false );
+        const std::set<tripoint> &get_points( bool force_refresh = false ) const;
 
         /**
         * Consumes specified charges (or fewer) from the vehicle part
@@ -1807,8 +1807,12 @@ class vehicle
         mutable double draft_m = 1;
         mutable double hull_height = 0.3;
 
+        // Global location when cache was last refreshed.
+        mutable tripoint occupied_cache_pos = { -1, -1, -1 };
+        // Vehicle facing when cache was last refreshed.
+        mutable units::angle occupied_cache_direction = 0_degrees;
         // Cached points occupied by the vehicle
-        std::set<tripoint> occupied_points;
+        mutable std::set<tripoint> occupied_points;
 
         std::vector<vehicle_part> parts;   // Parts which occupy different tiles
     public:
@@ -1915,10 +1919,6 @@ class vehicle
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
         int alternator_load = 0;
-        // Global location when cache was last refreshed.
-        tripoint occupied_cache_pos = { -1, -1, -1 };
-        // Vehicle facing when cache was last refreshed.
-        units::angle occupied_cache_direction = 0_degrees;
         // Turn the vehicle was last processed
         time_point last_update = calendar::before_time_starts;
         // save values
