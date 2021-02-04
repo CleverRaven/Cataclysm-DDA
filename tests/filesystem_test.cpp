@@ -151,14 +151,29 @@ TEST_CASE( "filesystem_ascii", "[filesystem]" )
 
 TEST_CASE( "filesystem_utf8", "[filesystem]" )
 {
-    // French
-    filesystem_test_group( 2, u8R"(crème brûlée)", u8R"(rèm)", u8R"(rûlé)" );
     // Russian
-    filesystem_test_group( 3, u8R"(МамаМылаРаму)", u8R"(амаМ)", u8R"(ылаР)" );
+    filesystem_test_group( 2, u8R"(МамаМылаРаму)", u8R"(амаМ)", u8R"(ылаР)" );
     // Chinese
-    filesystem_test_group( 4, u8R"(你好)", u8R"(你)", u8R"(好)" );
-    // Hindi (with diacritics)
-    filesystem_test_group( 5, u8R"(नमस्ते)", u8R"(स्ते)", u8R"(मस्)" );
-    // Let's spice it up a bit
+    filesystem_test_group( 3, u8R"(你好)", u8R"(你)", u8R"(好)" );
+}
+
+// Older Macs with HFS+ filesystem apply NFD unicode normalization to file names.
+// This is done to avoid having composite chars be treated differently from decomposed
+// (e.g. "è" vs "e\u0300"), but it also means that paths written with composed chars
+// will have them decomposed when read back from the filesystem.
+// Hence, the 'mayfail' flag.
+TEST_CASE( "filesystem_utf8_comp", "[filesystem][!mayfail]" )
+{
+    // Hindi (should be unaffected)
+    filesystem_test_group( 4, u8R"(नमस्ते)", u8R"(स्ते)", u8R"(मस्)" );
+    // French (should not decompose into char + combining char)
+    filesystem_test_group( 5, u8R"(crème brûlée)", u8R"(rèm)", u8R"(rûlé)" );
+    // Spice it up a bit
     filesystem_test_group( 6, u8R"(Dw你ы)", u8R"(лаस्तेlé)", u8R"(मябस्or好)" );
+}
+
+TEST_CASE( "filesystem_utf8_decomp", "[filesystem]" )
+{
+    // French (should stay decomposed)
+    filesystem_test_group( 7, "cre\u0300me bru\u0302le\u0301e", "re\u0300m", "ru\u0302le\u0301" );
 }
