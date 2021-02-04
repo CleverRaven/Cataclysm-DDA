@@ -303,7 +303,7 @@ void monster::poly( const mtype_id &id )
     biosignatures = type->biosignatures;
 }
 
-bool monster::can_upgrade()
+bool monster::can_upgrade() const
 {
     return upgrades && get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0.0;
 }
@@ -641,7 +641,46 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
         col = c_red;
     }
 
+    if( debug_mode ) {
+        damage_info += "  ";
+        damage_info += string_format( _( "%1$d/%2$d HP" ), cur_hp, max_hp );
+    }
+
     return std::make_pair( damage_info, col );
+}
+
+
+static std::pair<std::string, nc_color> speed_description( float mon_speed_rating,
+        bool immobile = false )
+{
+    if( immobile ) {
+        return std::make_pair( _( "It is immobile." ), c_green );
+    }
+
+    const std::array<std::tuple<float, nc_color, std::string>, 8> cases = {{
+            std::make_tuple( 1.30f, c_red, _( "It is much faster than you." ) ),
+            std::make_tuple( 1.00f, c_yellow, _( "It is faster than you." ) ),
+            std::make_tuple( 0.70f, c_white_yellow, _( "It is a bit faster than you." ) ),
+            std::make_tuple( 0.55f, c_white, _( "It is about as fast as you." ) ),
+            std::make_tuple( 0.50f, c_white_cyan, _( "It is a bit slower than you." ) ),
+            std::make_tuple( 0.40f, c_cyan, _( "It is slower than you." ) ),
+            std::make_tuple( 0.20f, c_green, _( "It is much slower than you." ) ),
+            std::make_tuple( 0.00f, c_green, _( "It is practically immobile." ) )
+        }
+    };
+
+    const float player_speed_rating = get_player_character().speed_rating();
+    const float ratio = player_speed_rating == 0 ?
+                        2.00f : mon_speed_rating / player_speed_rating;
+
+    for( const std::tuple<float, nc_color, std::string> &speed_case : cases ) {
+        if( ratio >= std::get<0>( speed_case ) ) {
+            return std::make_pair( std::get<2>( speed_case ), std::get<1>( speed_case ) );
+        }
+    }
+
+    debugmsg( "speed_description: no ratio value matched" );
+    return std::make_pair( _( "Unknown" ), c_white );
 }
 
 int monster::print_info( const catacurses::window &w, int vStart, int vLines, int column ) const
@@ -714,7 +753,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 std::string monster::extended_description() const
 {
     std::string ss;
-    const auto att = get_attitude();
+    const std::pair<std::string, nc_color> att = get_attitude();
     std::string att_colored = colorize( att.first, att.second );
     std::string difficulty_str;
     if( debug_mode ) {
@@ -742,8 +781,13 @@ std::string monster::extended_description() const
     }
 
     ss += "--\n";
-    auto hp_bar = hp_description( hp, type->hp );
+    const std::pair<std::string, nc_color> hp_bar = hp_description( hp, type->hp );
     ss += colorize( hp_bar.first, hp_bar.second ) + "\n";
+
+    const std::pair<std::string, nc_color> speed_desc = speed_description(
+                speed_rating(),
+                has_flag( MF_IMMOBILE ) );
+    ss += colorize( speed_desc.first, speed_desc.second ) + "\n";
 
     ss += "--\n";
     ss += string_format( "<dark>%s</dark>", type->get_description() ) + "\n";
@@ -821,6 +865,39 @@ std::string monster::extended_description() const
 
     if( !type->has_flag( m_flag::MF_NOHEAD ) ) {
         ss += std::string( _( "It has a head." ) ) + "\n";
+    }
+
+    if( debug_mode ) {
+        ss += "--\n";
+
+        ss += string_format( _( "Current Speed: %1$d" ), get_speed() ) + "\n";
+        ss += string_format( _( "Anger: %1$d" ), anger ) + "\n";
+        ss += string_format( _( "Friendly: %1$d" ), friendly ) + "\n";
+        ss += string_format( _( "Morale: %1$d" ), morale ) + "\n";
+
+        const time_duration current_time = calendar::turn - calendar::turn_zero;
+        ss += string_format( _( "Current Time: Turn %1$d  |  Day: %2$d" ),
+                             to_turns<int>( current_time ),
+                             to_days<int>( current_time ) ) + "\n";
+
+        ss += string_format( _( "Upgrade time: %1$d (turns left %2$d) %3$s" ),
+                             upgrade_time,
+                             to_turns<int>( time_duration::from_days( upgrade_time ) - current_time ),
+                             can_upgrade() ? "" : _( "<color_red>(can't upgrade)</color>" ) ) + "\n";
+
+        if( baby_timer.has_value() ) {
+            ss += string_format( _( "Reproduce time: %1$d (turns left %2$d) %3$s" ),
+                                 to_turn<int>( baby_timer.value() ),
+                                 to_turn<int>( baby_timer.value() - current_time ),
+                                 reproduces ? "" : _( "<color_red>(can't reproduce)</color>" ) ) + "\n";
+        }
+
+        if( biosig_timer.has_value() ) {
+            ss += string_format( _( "Biosignature time: %1$d (turns left %2$d) %3$s" ),
+                                 to_turn<int>( biosig_timer.value() ),
+                                 to_turn<int>( biosig_timer.value()  - current_time ),
+                                 biosignatures ? "" : _( "<color_red>(no biosignature)</color>" ) ) + "\n";
+        }
     }
 
     return replace_colors( ss );
