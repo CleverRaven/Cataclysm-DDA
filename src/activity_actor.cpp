@@ -1756,8 +1756,8 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
 
     // This nominal craft time is also how many practice ticks to perform
     // spread out evenly across the actual duration.
-    const float total_practice_ticks = rec.time_to_craft_moves( crafter,
-                                       recipe_time_flag::ignore_proficiencies ) / 100.0;
+    const double total_practice_ticks = rec.time_to_craft_moves( crafter,
+                                        recipe_time_flag::ignore_proficiencies ) / 100.0;
 
     const int ticks_per_practice = 10'000'000.0 / total_practice_ticks;
     int num_practice_ticks = craft.item_counter / ticks_per_practice -
