@@ -146,7 +146,7 @@
     "default_time_multiplier": 2,
     "default_fail_multiplier": 3,
     "time_to_learn": "16 h",
-    "required_proficiencies": [ "prof_leatherworking" ]
+    "required_proficiencies": [ "prof_leatherworking_basic" ]
   },
   {
     "type": "proficiency",
