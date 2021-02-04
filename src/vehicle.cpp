@@ -1806,6 +1806,12 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 if( carry_veh->tracking_on ) {
                     carried_part.set_flag( vehicle_part::tracked_flag );
                 }
+
+                if( carried_part.has_flag( vehicle_part::passenger_flag ) ) {
+                    carried_part.remove_flag( vehicle_part::passenger_flag );
+                    carried_part.passenger_id = character_id();
+                }
+
                 parts[ carry_map.rack_part ].set_flag( vehicle_part::carrying_flag );
             }
 
