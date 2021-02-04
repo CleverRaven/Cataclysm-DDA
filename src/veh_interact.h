@@ -166,6 +166,13 @@ class veh_interact
         void do_relabel();
         /*@}*/
 
+        /**
+        * Calculates the lift requirements for a given vehicle_part
+        * @return bool true if lift requirements are fullfilled
+        * @return string msg for the ui to show the lift requirements
+        */
+        std::pair<bool, std::string> calc_lift_requirements( const vpart_info &sel_vpart_info );
+
         void display_grid();
         void display_veh();
         void display_stats() const;
