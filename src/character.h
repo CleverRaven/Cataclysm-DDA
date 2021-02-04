@@ -2657,6 +2657,7 @@ class Character : public Creature, public visitable
         /** Handles mitigation and application of radiation */
         bool irradiate( float rads, bool bypass = false );
         /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
+        double mend_healing_factor();
         void mend( int rate_multiplier );
 
         /** Creates an auditory hallucination */

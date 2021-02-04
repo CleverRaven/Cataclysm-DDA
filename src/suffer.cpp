@@ -1638,21 +1638,8 @@ bool Character::irradiate( float rads, bool bypass )
     return false;
 }
 
-void Character::mend( int rate_multiplier )
+double Character::mend_healing_factor()
 {
-    // Wearing splints can slowly mend a broken limb back to 1 hp.
-    bool any_broken = false;
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( is_limb_broken( bp ) ) {
-            any_broken = true;
-            break;
-        }
-    }
-
-    if( !any_broken ) {
-        return;
-    }
-
     double healing_factor = 1.0;
     // Studies have shown that alcohol and tobacco use delay fracture healing time
     // Being under effect is 50% slowdown
@@ -1695,18 +1682,38 @@ void Character::mend( int rate_multiplier )
     // Similar for thirst - starts at very thirsty, drops to 0 ~halfway between two last statuses
     healing_factor *= 1.0f - clamp( ( get_thirst() - 80.0f ) / 300.0f, 0.0f, 1.0f );
 
-    // Mutagenic healing factor!
-    bool needs_splint = true;
-
     healing_factor *= mutation_value( "mending_modifier" );
 
+    add_msg_debug( "Limb mend healing factor: %.2f", healing_factor );
+    return healing_factor;
+}
+
+void Character::mend( int rate_multiplier )
+{
+    // Wearing splints can slowly mend a broken limb back to 1 hp.
+
+    // Check whether any body parts are broken
+    // TODO: Get a list of broken bones for later use
+    bool any_broken = false;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( is_limb_broken( bp ) ) {
+            any_broken = true;
+            break;
+        }
+    }
+    if( !any_broken ) {
+        return;
+    }
+
+    // Mutagenic healing factor!
+    bool needs_splint = true;
     if( has_trait( trait_REGEN_LIZ ) ) {
         needs_splint = false;
     }
 
-    add_msg_debug( "Limb mend healing factor: %.2f", healing_factor );
+    double healing_factor = mend_healing_factor();
     if( healing_factor <= 0.0f ) {
-        // The section below assumes positive healing rate
+        // Quit if there is no chance to heal
         return;
     }
 
