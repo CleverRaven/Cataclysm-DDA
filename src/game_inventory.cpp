@@ -408,15 +408,12 @@ class liquid_inventory_filter_preset : public inventory_filter_preset
             inventory_filter_preset( filter ) {
             append_cell( []( const item_location & loc ) {
                 if( loc.get_item() ) {
-                    units::volume vol = loc.get_item()->max_containable_volume();
-                    return string_format( "%.2f L", units::to_liter( vol ) );
+                    return string_format( "%s %s", format_volume( loc.get_item()->max_containable_volume() ),
+                                          volume_units_abbr() );
                 }
                 return std::string( "" );
             }, _( "Storage (L)" ) );
         }
-
-    private:
-        item_location_filter filter;
 };
 
 item_location game_menus::inv::container_for( Character &you, const item &liquid, int radius,
