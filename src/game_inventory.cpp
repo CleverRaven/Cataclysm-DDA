@@ -437,7 +437,6 @@ item_location game_menus::inv::container_for( Character &you, const item &liquid
         return location->get_remaining_capacity_for_liquid( liquid, allow_buckets ) > 0;
     };
 
-    units::volume vol = liquid.volume();
     return inv_internal( you, liquid_inventory_filter_preset( filter ),
                          string_format( _( "Container for %s | %s %s" ), liquid.display_name( liquid.charges ),
                                         format_volume( liquid.volume() ), volume_units_abbr() ), radius,
