@@ -264,7 +264,7 @@ struct oter_t {
         oter_str_id id;         // definitive identifier.
 
         oter_t();
-        oter_t( const oter_type_t &type );
+        explicit oter_t( const oter_type_t &type );
         oter_t( const oter_type_t &type, om_direction::type dir );
         oter_t( const oter_type_t &type, size_t line );
 

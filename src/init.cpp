@@ -535,6 +535,7 @@ void DynamicDataLoader::unload_data()
     harvest_list::reset();
     item_controller->reset();
     json_flag::reset();
+    mapgen_palette::reset();
     materials::reset();
     mission_type::reset();
     move_mode::reset();

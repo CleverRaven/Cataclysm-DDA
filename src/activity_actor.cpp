@@ -355,7 +355,7 @@ void autodrive_activity_actor::start( player_activity &act, Character &who )
 
 void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    if( who.in_vehicle && who.controlling_vehicle && player_vehicle->is_autodriving &&
+    if( who.in_vehicle && who.controlling_vehicle && player_vehicle && player_vehicle->is_autodriving &&
         !who.omt_path.empty() && !player_vehicle->omt_path.empty() ) {
         player_vehicle->do_autodrive();
         if( who.global_omt_location() == who.omt_path.back() ) {
@@ -374,13 +374,15 @@ void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
 void autodrive_activity_actor::canceled( player_activity &act, Character &who )
 {
     who.add_msg_if_player( m_info, _( "Auto-drive canceled." ) );
-    if( !player_vehicle->omt_path.empty() ) {
+    if( player_vehicle && !player_vehicle->omt_path.empty() ) {
         player_vehicle->omt_path.clear();
     }
     if( !who.omt_path.empty() ) {
         who.omt_path.clear();
     }
-    player_vehicle->is_autodriving = false;
+    if( player_vehicle ) {
+        player_vehicle->is_autodriving = false;
+    }
     act.set_to_null();
 }
 
@@ -1002,19 +1004,27 @@ std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonIn &
     return actor.clone();
 }
 
+static void cancel_pickup( Character &who )
+{
+    who.cancel_activity();
+    if( who.is_hauling() && !get_map().has_items( who.pos() ) ) {
+        who.stop_hauling();
+    }
+}
+
 void pickup_activity_actor::do_turn( player_activity &, Character &who )
 {
     // If we don't have target items bail out
     if( target_items.empty() ) {
-        who.cancel_activity();
+        cancel_pickup( who );
         return;
     }
 
     // If the player moves while picking up (i.e.: in a moving vehicle) cancel
     // the activity, only populate starting_pos when grabbing from the ground
     if( starting_pos && *starting_pos != who.pos() ) {
-        who.cancel_activity();
         who.add_msg_if_player( _( "Moving canceled auto-pickup." ) );
+        cancel_pickup( who );
         return;
     }
 
@@ -1027,7 +1037,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     // If there are items left we ran out of moves, so continue the activity
     // Otherwise, we are done.
     if( !keep_going || target_items.empty() ) {
-        who.cancel_activity();
+        cancel_pickup( who );
 
         if( who.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
             who.set_value( "THIEF_MODE", "THIEF_ASK" );
@@ -1123,6 +1133,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     std::string open_message;
     if( ter_type == t_chaingate_l ) {
         new_ter_type = t_chaingate_c;
+        open_message = _( "With a satisfying click, the lock on the gate opens." );
     } else if( ter_type == t_door_locked || ter_type == t_door_locked_alarm ||
                ter_type == t_door_locked_interior ) {
         new_ter_type = t_door_c;
@@ -1577,17 +1588,14 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     bool actually_unloaded = false;
 
     if( it.is_container() ) {
-
+        contents_change_handler handler;
         bool changed = false;
         for( item *contained : it.contents.all_items_top() ) {
             int old_charges = contained->charges;
             const bool consumed = who.add_or_drop_with_msg( *contained, true, &it );
             if( consumed || contained->charges != old_charges ) {
                 changed = true;
-                item_pocket *const parent_pocket = it.contained_where( *contained );
-                if( parent_pocket ) {
-                    parent_pocket->unseal();
-                }
+                handler.unseal_pocket_containing( item_location( target, contained ) );
             }
             if( consumed ) {
                 it.remove_item( *contained );
@@ -1597,6 +1605,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         if( changed ) {
             it.on_contents_changed();
             who.invalidate_weight_carried_cache();
+            handler.handle_by( who );
         }
         return;
     }
@@ -1662,7 +1671,7 @@ craft_activity_actor::craft_activity_actor( item_location &it, const bool is_lon
 {
 }
 
-static bool check_if_craft_okay( item_location &craft_item, Character &crafter )
+bool craft_activity_actor::check_if_craft_okay( item_location &craft_item, Character &crafter )
 {
     item *craft = craft_item.get_item();
 
@@ -1682,7 +1691,10 @@ static bool check_if_craft_okay( item_location &craft_item, Character &crafter )
         return false;
     }
 
-    return crafter.can_continue_craft( *craft );
+    if( !cached_continuation_requirements ) {
+        cached_continuation_requirements = craft->get_continue_reqs();
+    }
+    return crafter.can_continue_craft( *craft, *cached_continuation_requirements );
 }
 
 void craft_activity_actor::start( player_activity &act, Character &crafter )
@@ -1721,9 +1733,11 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
 
     // Base moves for batch size with no speed modifier or assistants
     // Must ensure >= 1 so we don't divide by 0;
-    const double base_total_moves = std::max( 1, rec.batch_time( crafter, craft.charges, 1.0f, 0 ) );
+    const double base_total_moves = std::max( static_cast<int64_t>( 1 ), rec.batch_time( crafter,
+                                    craft.charges, 1.0f, 0 ) );
     // Current expected total moves, includes crafting speed modifiers and assistants
-    const double cur_total_moves = std::max( 1, rec.batch_time( crafter, craft.charges, crafting_speed,
+    const double cur_total_moves = std::max( static_cast<int64_t>( 1 ), rec.batch_time( crafter,
+                                   craft.charges, crafting_speed,
                                    assistants ) );
     // Delta progress in moves adjusted for current crafting speed /
     //crafter.exertion_adjusted_move_multiplier( exertion_level() )
@@ -2087,7 +2101,7 @@ static void debug_drop_list( const std::vector<drop_or_stash_item_info> &items )
 // Return a list of items to be dropped by the given item-dropping activity in the current turn.
 static std::list<item> obtain_activity_items(
     std::vector<drop_or_stash_item_info> &items,
-    std::vector<item_location> &unhandled_containers,
+    contents_change_handler &handler,
     Character &who )
 {
     std::list<item> res;
@@ -2109,6 +2123,19 @@ static std::list<item> obtain_activity_items(
 
         who.mod_moves( -consumed_moves );
 
+        // If item is inside another (container/pocket), unseal it, and update encumbrance
+        if( loc.has_parent() ) {
+            // Save parent items to be handled when finishing or canceling activity,
+            // in case there are still other items to drop from the same container.
+            // This assumes that an item and any of its parents/ancestors are not
+            // dropped at the same time.
+            handler.unseal_pocket_containing( loc );
+        } else {
+            // when parent's encumbrance cannot be marked as dirty,
+            // mark character's encumbrance as dirty instead (correctness over performance)
+            who.set_check_encumbrance( true );
+        }
+
         // Take off the item or remove it from the player's inventory
         if( who.is_worn( *loc ) ) {
             who.as_player()->takeoff( *loc, &res );
@@ -2117,55 +2144,11 @@ static std::list<item> obtain_activity_items(
         } else {
             res.push_back( who.i_rem( &*loc ) );
         }
-
-        // If item is inside another (container/pocket), unseal it, and update encumbrance
-        if( loc.has_parent() ) {
-            item_location parent = loc.parent_item();
-            item_pocket *const parent_pocket = parent->contained_where( *loc );
-            if( parent_pocket ) {
-                parent_pocket->on_contents_changed();
-            }
-            // Update encumbrance on the parent item
-            parent->on_contents_changed();
-            // Save parent items to be handled when finishing or canceling activity,
-            // in case there are still other items to drop from the same container.
-            // This assumes that an item and any of its parents/ancestors are not
-            // dropped at the same time.
-            if( std::find( unhandled_containers.begin(), unhandled_containers.end(),
-                           parent ) == unhandled_containers.end() ) {
-                unhandled_containers.emplace_back( parent );
-            }
-        } else {
-            // when parent's encumbrance cannot be marked as dirty,
-            // mark character's encumbrance as dirty instead (correctness over performance)
-            who.set_check_encumbrance( true );
-        }
     }
 
     // Remove handled items from activity
     items.erase( items.begin(), it );
-    // And cancel if its empty. If its not, we modified in place and we will continue
-    // to resolve the drop next turn. This is different from the pickup logic which
-    // creates a brand new activity every turn and cancels the old activity
-    if( items.empty() ) {
-        who.cancel_activity();
-    }
-
     return res;
-}
-
-static void handle_containers(
-    std::vector<item_location> &unhandled_containers,
-    Character &who )
-{
-    // some containers could have been destroyed by e.g. monster attack
-    auto it = std::remove_if( unhandled_containers.begin(), unhandled_containers.end(),
-    []( const item_location & loc ) -> bool {
-        return !loc;
-    } );
-    unhandled_containers.erase( it, unhandled_containers.end() );
-    who.handle_contents_changed( unhandled_containers );
-    unhandled_containers.clear();
 }
 
 void drop_or_stash_item_info::serialize( JsonOut &jsout ) const
@@ -2188,20 +2171,26 @@ void drop_activity_actor::do_turn( player_activity &, Character &who )
     const tripoint pos = placement + who.pos();
     who.invalidate_weight_carried_cache();
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
-                              obtain_activity_items( items, unhandled_containers, who ),
+                              obtain_activity_items( items, handler, who ),
                               pos, force_ground );
+    // Cancel activity if items is empty. Otherwise, we modified in place and we will continue
+    // to resolve the drop next turn. This is different from the pickup logic which creates
+    // a brand new activity every turn and cancels the old activity
+    if( items.empty() ) {
+        who.cancel_activity();
+    }
 }
 
 void drop_activity_actor::canceled( player_activity &, Character &who )
 {
-    handle_containers( unhandled_containers, who );
+    handler.handle_by( who );
 }
 
 void drop_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "items", items );
-    jsout.member( "unhandled_containers", unhandled_containers );
+    jsout.member( "unhandled_containers", handler );
     jsout.member( "placement", placement );
     jsout.member( "force_ground", force_ground );
     jsout.end_object();
@@ -2213,7 +2202,7 @@ std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
 
     JsonObject jsobj = jsin.get_object();
     jsobj.read( "items", actor.items );
-    jsobj.read( "unhandled_containers", actor.unhandled_containers );
+    jsobj.read( "unhandled_containers", actor.handler );
     jsobj.read( "placement", actor.placement );
     jsobj.read( "force_ground", actor.force_ground );
 
@@ -2251,8 +2240,11 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 
     monster *pet = g->critter_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-        stash_on_pet( obtain_activity_items( items, unhandled_containers, who ),
+        stash_on_pet( obtain_activity_items( items, handler, who ),
                       *pet, who );
+        if( items.empty() ) {
+            who.cancel_activity();
+        }
     } else {
         who.add_msg_if_player( _( "The pet has moved somewhere else." ) );
         who.cancel_activity();
@@ -2261,14 +2253,14 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 
 void stash_activity_actor::canceled( player_activity &, Character &who )
 {
-    handle_containers( unhandled_containers, who );
+    handler.handle_by( who );
 }
 
 void stash_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "items", items );
-    jsout.member( "unhandled_containers", unhandled_containers );
+    jsout.member( "unhandled_containers", handler );
     jsout.member( "placement", placement );
     jsout.end_object();
 }
@@ -2279,7 +2271,7 @@ std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin 
 
     JsonObject jsobj = jsin.get_object();
     jsobj.read( "items", actor.items );
-    jsobj.read( "unhandled_containers", actor.unhandled_containers );
+    jsobj.read( "unhandled_containers", actor.handler );
     jsobj.read( "placement", actor.placement );
 
     return actor.clone();

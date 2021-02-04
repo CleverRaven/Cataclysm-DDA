@@ -601,7 +601,11 @@ void avatar_action::autoattack( avatar &you, map &m )
 {
     int reach = you.weapon.reach_range( you );
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
-    critters.erase( std::remove_if( critters.begin(), critters.end(), []( const Creature * c ) {
+    critters.erase( std::remove_if( critters.begin(), critters.end(), [&you,
+    reach]( const Creature * c ) {
+        if( reach == 1 && !you.is_adjacent( c, true ) ) {
+            return true;
+        }
         if( !c->is_npc() ) {
             return false;
         }
@@ -736,18 +740,19 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     }
 
-    you.assign_activity( aim_activity_actor::use_wielded(), false );
+    you.assign_activity( player_activity( aim_activity_actor::use_wielded() ), false );
 }
 
 void avatar_action::fire_ranged_mutation( Character &you, const item &fake_gun )
 {
-    you.assign_activity( aim_activity_actor::use_mutation( fake_gun ), false );
+    you.assign_activity( player_activity( aim_activity_actor::use_mutation( fake_gun ) ), false );
 }
 
 void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun,
                                         const units::energy &cost_per_shot )
 {
-    you.assign_activity( aim_activity_actor::use_bionic( fake_gun, cost_per_shot ), false );
+    you.assign_activity(
+        player_activity( aim_activity_actor::use_bionic( fake_gun, cost_per_shot ) ), false );
 }
 
 void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
@@ -929,7 +934,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         }
     }
     // if you're wearing the item you need to be able to take it off
-    if( you.is_wearing( orig->typeId() ) ) {
+    if( you.is_worn( *orig ) ) {
         ret_val<bool> ret = you.can_takeoff( *orig );
         if( !ret.success() ) {
             add_msg( m_info, "%s", ret.c_str() );

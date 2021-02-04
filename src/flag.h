@@ -37,6 +37,7 @@ extern const flag_id flag_BELT_CLIP;
 extern const flag_id flag_BIO_IMMUNE;
 extern const flag_id flag_BIPOD;
 extern const flag_id flag_BIRD;
+extern const flag_id flag_BLED;
 extern const flag_id flag_BLIND;
 extern const flag_id flag_BLOCK_WHILE_WORN;
 extern const flag_id flag_BOMB;
@@ -382,7 +383,7 @@ class json_flag
         }
 
         /** Is this a valid (non-null) flag */
-        operator bool() const;
+        explicit operator bool() const;
 
         void check() const;
 

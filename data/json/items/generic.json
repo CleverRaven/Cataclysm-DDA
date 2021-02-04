@@ -453,6 +453,22 @@
     "color": "brown"
   },
   {
+    "id": "bundle_rebar",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "bundle of rebars", "str_pl": "bundles of rebars" },
+    "description": "Ten pieces of rebar securely tied together for easier transport.  Disassemble to untie them.",
+    "//": "total volume is equal to 10 rebars, assuming uniformity and tight stacking",
+    "volume": "1600 ml",
+    "weight": "12500 g",
+    "longest_side": "80 cm",
+    "price": 75000,
+    "price_postapoc": 250,
+    "material": [ "steel" ],
+    "symbol": "H",
+    "color": "light_gray"
+  },
+  {
     "id": "bundle_branch",
     "type": "GENERIC",
     "category": "spare_parts",
@@ -590,6 +606,20 @@
     "weight": "18 g",
     "volume": "1 ml",
     "pocket_data": [ { "pocket_type": "SOFTWARE", "max_contains_volume": "1 L", "max_contains_weight": "1 kg" } ],
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "fema_data",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str_sp": "FEMA data" },
+    "description": "Evacuation plans, disaster risk projections, personnel lists and last minute communications from just before the end, all scrubbed from FEMA servers and stored in an external hdd.",
+    "price": 10000,
+    "price_postapoc": 50,
+    "material": [ "plastic" ],
+    "weight": "30 g",
+    "volume": "250 ml",
     "to_hit": -3
   },
   {
@@ -948,7 +978,7 @@
     "id": "delay_fuze",
     "symbol": ",",
     "color": "light_gray",
-    "name": "delayed fuze",
+    "name": { "str": "delayed fuze" },
     "category": "spare_parts",
     "description": "A complex mechanical fuze.  It seems it can be used to detonate stable explosives after a short time by triggering it.",
     "price": 1000,
@@ -962,7 +992,7 @@
     "id": "impact_fuze",
     "symbol": ",",
     "color": "light_gray",
-    "name": "impact fuze",
+    "name": { "str": "impact fuze" },
     "category": "spare_parts",
     "description": "A complex mechanical fuze.  It seems it can be used to detonate stable explosives upon a solid impact.",
     "price": 1000,
@@ -1605,10 +1635,21 @@
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
     "nanofab_template_group": "nanofab_recipes",
+    "template_requirements": "nanofabricator",
     "weight": "317 g",
     "volume": "250 ml",
     "to_hit": -1,
     "flags": [ "NANOFAB_TEMPLATE", "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "debug_template",
+    "copy-from": "standard_template_construct",
+    "color": "yellow",
+    "name": { "str": "nanofabricator template" },
+    "description": "A state-of-the-art optical storage system, containing the instruction set to replicate itself.",
+    "nanofab_template_group": "debug_template_item",
+    "template_requirements": "copper_scrap_equivalent"
   },
   {
     "type": "GENERIC",
@@ -3216,7 +3257,8 @@
           "fp_loyalty_card",
           "scorecard",
           "robofac_test_data",
-          "icon"
+          "icon",
+          "labmap"
         ]
       },
       {

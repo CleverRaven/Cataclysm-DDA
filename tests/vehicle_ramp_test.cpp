@@ -273,6 +273,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     REQUIRE( z_span.size() > 1 );
 
     monster *dmon_p = g->place_critter_at( mtype_id( "debug_mon" ), map_starting_point );
+    REQUIRE( dmon_p );
     monster &dmon = *dmon_p;
 
     for( int y = 0; y < SEEY * MAPSIZE; y++ ) {

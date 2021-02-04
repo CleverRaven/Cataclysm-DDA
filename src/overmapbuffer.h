@@ -51,7 +51,7 @@ struct radio_tower_reference {
     point_abs_sm abs_sm_pos;
     /** Perceived signal strength (tower output strength minus distance) */
     int signal_strength;
-    operator bool() const {
+    explicit operator bool() const {
         return tower != nullptr;
     }
 };
@@ -65,7 +65,7 @@ struct city_reference {
     /** Distance to center of the search */
     int distance;
 
-    operator bool() const {
+    explicit operator bool() const {
         return city != nullptr;
     }
 
@@ -81,7 +81,7 @@ struct camp_reference {
     /** Distance to center of the search */
     int distance;
 
-    operator bool() const {
+    explicit operator bool() const {
         return camp != nullptr;
     }
 

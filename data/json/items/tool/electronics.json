@@ -340,7 +340,7 @@
     "id": "laptop",
     "type": "TOOL",
     "category": "tools",
-    "name": "laptop computer",
+    "name": { "str": "laptop computer" },
     "description": "A laptop computer with replaceable batteries.",
     "symbol": ",",
     "color": "dark_gray",

@@ -92,6 +92,7 @@ bool monexamine::pet_menu( monster &z )
         remove_bat,
         insert_bat,
         check_bat,
+        attack
     };
 
     uilist amenu;
@@ -106,6 +107,7 @@ bool monexamine::pet_menu( monster &z )
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
+    amenu.addentry( attack, true, 'A', _( "Attack" ) );
     Character &player_character = get_player_character();
     if( z.has_effect( effect_has_bag ) ) {
         amenu.addentry( give_items, true, 'g', _( "Place items into bag" ) );
@@ -289,6 +291,12 @@ bool monexamine::pet_menu( monster &z )
             insert_battery( z );
             break;
         case check_bat:
+            break;
+        case attack:
+            if( query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
+                get_player_character().melee_attack( z, true );
+            }
+            break;
         default:
             break;
     }
@@ -444,6 +452,50 @@ bool monexamine::pay_bot( monster &z )
     }
 
     return false;
+}
+
+bool monexamine::mfriend_menu( monster &z )
+{
+    enum choices {
+        swap_pos = 0,
+        push_monster,
+        rename,
+        attack
+    };
+
+    uilist amenu;
+    const std::string pet_name = z.get_name();
+
+    amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
+
+    amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
+    amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
+    amenu.addentry( rename, true, 'e', _( "Rename" ) );
+    amenu.addentry( attack, true, 'a', _( "Attack" ) );
+
+    amenu.query();
+    const int choice = amenu.ret;
+
+    switch( choice ) {
+        case swap_pos:
+            swap( z );
+            break;
+        case push_monster:
+            push( z );
+            break;
+        case rename:
+            rename_pet( z );
+            break;
+        case attack:
+            if( query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
+                get_player_character().melee_attack( z, true );
+            }
+            break;
+        default:
+            break;
+    }
+
+    return true;
 }
 
 void monexamine::attach_or_remove_saddle( monster &z )

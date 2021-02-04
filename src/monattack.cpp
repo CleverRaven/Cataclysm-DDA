@@ -809,9 +809,9 @@ bool mattack::pull_metal_weapon( monster *z )
             }
             game_message_type m_type = foe->is_avatar() ? m_bad : m_neutral;
             if( rng( 1, 100 ) <= success ) {
-                target->add_msg_player_or_npc( m_type, _( "%s is pulled away from your hands!" ),
-                                               _( "%s is pulled away from <npcname>'s hands!" ), foe->weapon.tname() );
-                z->add_item( foe->remove_weapon() );
+                target->add_msg_player_or_npc( m_type, _( "The %s is pulled away from your hands!" ),
+                                               _( "The %s is pulled away from <npcname>'s hands!" ), foe->weapon.tname() );
+                get_map().add_item( z->pos(), foe->remove_weapon() );
                 if( foe->has_activity( ACT_RELOAD ) ) {
                     foe->cancel_activity();
                 }
@@ -5749,10 +5749,10 @@ bool mattack::zombie_fuse( monster *z )
     z->add_effect( effect_grown_of_fuse, 10_days, true,
                    critter->get_hp_max() + z->get_effect( effect_grown_of_fuse ).get_intensity() );
     z->heal( critter->get_hp(), true );
-    z->mission_fused.emplace_back( critter->name() );
-    z->mission_fused.insert( z->mission_fused.end(),
-                             critter->mission_fused.begin(), critter->mission_fused.end() );
     if( mission::on_creature_fusion( *z, *critter ) ) {
+        z->mission_fused.emplace_back( critter->name() );
+        z->mission_fused.insert( z->mission_fused.end(),
+                                 critter->mission_fused.begin(), critter->mission_fused.end() );
         // let the player know that they still need to kill the fusing monster
         add_msg_if_player_sees( *z, _( "%1$s still seems to be moving inside %2$s…" ),
                                 critter->name(), z->name() );

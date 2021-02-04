@@ -60,7 +60,7 @@ class veh_interact
         static void complete_vehicle( player &p );
 
     private:
-        veh_interact( vehicle &veh, const point &p = point_zero );
+        explicit veh_interact( vehicle &veh, const point &p = point_zero );
         ~veh_interact();
 
         item_location target;

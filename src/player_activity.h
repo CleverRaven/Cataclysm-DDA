@@ -36,6 +36,8 @@ class player_activity
 
         std::set<distraction_type> ignored_distractions;
 
+        bool ignoreQuery = false;
+
     public:
         /** Total number of moves required to complete the activity */
         int moves_total = 0;
@@ -69,16 +71,20 @@ class player_activity
          *  an identical activity. This value is set dynamically.
          */
         bool auto_resume = false;
+        /** Flag that will suppress the relatively expensive fire refueling search process.
+         *  Initially assume there is a fire unless the activity proves not to have one.
+         */
+        bool have_fire = true;
 
         player_activity();
         // This constructor does not work with activities using the new activity_actor system
         // TODO: delete this constructor once migration to the activity_actor system is complete
-        player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
-                         const std::string &name_in = "" );
+        explicit player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
+                                  const std::string &name_in = "" );
         /**
          * Create a new activity with the given actor
          */
-        player_activity( const activity_actor &actor );
+        explicit player_activity( const activity_actor &actor );
 
         player_activity( player_activity && ) noexcept = default;
         player_activity( const player_activity & ) = default;

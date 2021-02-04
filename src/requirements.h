@@ -236,7 +236,7 @@ struct requirement_data {
                     typename Container::value_type, std::pair<const requirement_id, int >>::value
                 >
             >
-        requirement_data( const Container &cont ) :
+        explicit requirement_data( const Container &cont ) :
             requirement_data(
                 std::accumulate(
                     cont.begin(), cont.end(), requirement_data() ) )

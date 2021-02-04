@@ -441,7 +441,10 @@ void map_data_common_t::load_symbol( const JsonObject &jo )
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
-        load_season_array( jo, "color", color_, color_from_string );
+        load_season_array( jo, "color", color_, []( const std::string & str ) {
+            // has to use a lambda because of default params
+            return color_from_string( str );
+        } );
     } else if( has_bgcolor ) {
         load_season_array( jo, "bgcolor", color_, bgcolor_from_string );
     } else {
@@ -1222,6 +1225,8 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "connects_to" ) ) {
         set_connects( jo.get_string( "connects_to" ) );
     }
+
+    optional( jo, was_loaded, "allowed_template_ids", allowed_template_id );
 
     optional( jo, was_loaded, "open", open, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, ter_str_id::NULL_ID() );

@@ -29,7 +29,7 @@ class dependency_node
         bool on_stack;
 
         dependency_node();
-        dependency_node( const mod_id &key );
+        explicit dependency_node( const mod_id &key );
 
         void add_parent( dependency_node *parent );
         void add_child( dependency_node *child );

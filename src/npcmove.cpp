@@ -388,7 +388,8 @@ void npc::assess_danger()
                                    rules.engagement == combat_engagement::NONE;
     const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
     const bool must_retreat = rules.has_flag( ally_rule::follow_close ) &&
-                              !too_close( pos(), player_character.pos(), follow_distance() );
+                              !too_close( pos(), player_character.pos(), follow_distance() ) &&
+                              !is_guarding();
 
     if( is_player_ally() ) {
         if( rules.engagement == combat_engagement::FREE_FIRE ) {
@@ -3331,7 +3332,7 @@ bool npc::do_player_activity()
             current_activity_id = activity.id();
         } else {
             if( is_player_ally() ) {
-                add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
+                add_msg( m_info, string_format( _( "%s completed the assigned task." ), disp_name() ) );
             }
             current_activity_id = activity_id::NULL_ID();
             revert_after_activity();

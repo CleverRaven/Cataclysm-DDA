@@ -50,6 +50,7 @@ class wish_mutate_callback: public uilist_callback
         // Feedback message
         std::string msg;
         bool started = false;
+        bool only_active = false;
         std::vector<trait_id> vTraits;
         std::map<trait_id, bool> pTraits;
         player *p;
@@ -64,16 +65,25 @@ class wish_mutate_callback: public uilist_callback
         wish_mutate_callback() = default;
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override {
             if( event.get_first_input() == 't' && p->has_trait( vTraits[ entnum ] ) ) {
-                if( p->has_base_trait( vTraits[ entnum ] ) ) {
-                    p->toggle_trait( vTraits[ entnum ] );
+                if( !p->has_base_trait( vTraits[ entnum ] ) ) {
                     p->unset_mutation( vTraits[ entnum ] );
-
-                } else {
-                    p->set_mutation( vTraits[ entnum ] );
-                    p->toggle_trait( vTraits[ entnum ] );
                 }
+
+                p->toggle_trait( vTraits[ entnum ] );
+                p->set_mutation( vTraits[ entnum ] );
+
                 menu->entries[ entnum ].text_color = p->has_trait( vTraits[ entnum ] ) ? c_green : menu->text_color;
                 menu->entries[ entnum ].extratxt.txt = p->has_base_trait( vTraits[ entnum ] ) ? "T" : "";
+                return true;
+            } else if( event.get_first_input() == 'a' ) {
+                only_active = !only_active;
+
+                for( size_t i = 0; i < vTraits.size(); i++ ) {
+                    if( !p->has_trait( vTraits[ i ] ) ) {
+                        menu->entries[ i ].enabled = !only_active;
+                    }
+                }
+
                 return true;
             }
             return false;
@@ -200,12 +210,20 @@ class wish_mutate_callback: public uilist_callback
 
             lastlen = line2 + 1;
 
-            mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
+            mvwprintz( menu->window, point( startx, menu->w_height - 4 ), c_green, msg );
             msg.clear();
             input_context ctxt( menu->input_category, keyboard_mode::keycode );
-            mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
+            mvwprintw( menu->window, point( startx, menu->w_height - 3 ),
                        _( "[%s] find, [%s] quit, [t] toggle base trait" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
+
+            if( only_active ) {
+                mvwprintz( menu->window, point( startx, menu->w_height - 2 ), c_green,
+                           _( "[a] show active traits (active)" ) );
+            } else {
+                mvwprintz( menu->window, point( startx, menu->w_height - 2 ), c_white,
+                           _( "[a] show active traits" ) );
+            }
 
             wnoutrefresh( menu->window );
         }
@@ -224,10 +242,13 @@ void debug_menu::wishmutate( player *p )
         wmenu.entries[ c ].extratxt.txt.clear();
         wmenu.entries[ c ].extratxt.color = c_light_green;
         if( p->has_trait( traits_iter.id ) ) {
+            wmenu.entries[ c ].txt = string_format( _( "%s (active)" ), traits_iter.name() );
             wmenu.entries[ c ].text_color = c_green;
             if( p->has_base_trait( traits_iter.id ) ) {
                 wmenu.entries[ c ].extratxt.txt = "T";
             }
+        } else {
+            wmenu.entries[ c ].txt = traits_iter.name();
         }
         c++;
     }
@@ -281,17 +302,22 @@ void debug_menu::wishmutate( player *p )
                     uilist_entry &entry = wmenu.entries[ i ];
                     entry.extratxt.txt.clear();
                     if( p->has_trait( cb.vTraits[ i ] ) ) {
+                        entry.txt = string_format( _( "%s (active)" ), cb.vTraits[ i ].obj().name() );
+                        entry.enabled = true;
                         entry.text_color = c_green;
                         cb.pTraits[ cb.vTraits[ i ] ] = true;
                         if( p->has_base_trait( cb.vTraits[ i ] ) ) {
                             entry.extratxt.txt = "T";
                         }
                     } else {
+                        entry.txt = cb.vTraits[ i ].obj().name();
+                        entry.enabled = entry.enabled ? true : !cb.only_active;
                         entry.text_color = wmenu.text_color;
                         cb.pTraits[ cb.vTraits[ i ] ] = false;
                     }
                 }
             }
+            wmenu.filterlist();
         }
     } while( wmenu.ret >= 0 );
 }
@@ -312,7 +338,7 @@ class wish_monster_callback: public uilist_callback
         monster tmp;
         const std::vector<const mtype *> &mtypes;
 
-        wish_monster_callback( const std::vector<const mtype *> &mtypes )
+        explicit wish_monster_callback( const std::vector<const mtype *> &mtypes )
             : mtypes( mtypes ) {
             friendly = false;
             hallucination = false;
@@ -470,7 +496,7 @@ class wish_item_callback: public uilist_callback
         std::string flags;
         std::string itype_flags;
         const std::vector<const itype *> &standard_itype_ids;
-        wish_item_callback( const std::vector<const itype *> &ids ) :
+        explicit wish_item_callback( const std::vector<const itype *> &ids ) :
             incontainer( false ), spawn_everything( false ), standard_itype_ids( ids ) {
         }
 

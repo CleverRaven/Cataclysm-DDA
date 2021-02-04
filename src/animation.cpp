@@ -49,7 +49,7 @@ namespace
 class basic_animation
 {
     public:
-        basic_animation( const int scale ) :
+        explicit basic_animation( const int scale ) :
             delay{ 0, get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000L } {
         }
 

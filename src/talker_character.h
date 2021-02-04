@@ -29,7 +29,7 @@ struct tripoint;
 class talker_character: public talker
 {
     public:
-        talker_character( player *new_me ): me_chr( new_me ) {
+        explicit talker_character( player *new_me ): me_chr( new_me ) {
         }
         ~talker_character() override = default;
 

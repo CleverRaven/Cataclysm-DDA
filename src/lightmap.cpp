@@ -825,7 +825,7 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                 const point &offset, int offsetDistance,
                 T numerator = VISIBILITY_FULL,
                 int row = 1, float start = 1.0f, float end = 0.0f,
-                T cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
+                T cumulative_transparency = T( LIGHT_TRANSPARENCY_OPEN_AIR ) );
 
 template<int xx, int xy, int yx, int yy, typename T, typename Out,
          T( *calc )( const T &, const T &, const int & ),
@@ -843,12 +843,12 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
     if( start < end ) {
         return;
     }
-    T last_intensity = 0.0;
+    T last_intensity( 0.0 );
     tripoint delta;
     for( int distance = row; distance <= radius; distance++ ) {
         delta.y = -distance;
         bool started_row = false;
-        T current_transparency = 0.0;
+        T current_transparency( 0.0 );
         float away = start - ( -distance + 0.5f ) / ( -distance -
                      0.5f ); //The distance between our first leadingEdge and start
 

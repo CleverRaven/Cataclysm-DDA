@@ -40,7 +40,7 @@ enum class affected_stat : int {
 // We'll be indexing bonuses with this
 struct affected_type {
     public:
-        affected_type( affected_stat s );
+        explicit affected_type( affected_stat s );
         affected_type( affected_stat s, damage_type t );
         bool operator<( const affected_type & ) const;
         bool operator==( const affected_type & ) const;
@@ -65,7 +65,7 @@ struct effect_scaling {
 
     float get( const Character &u ) const;
 
-    effect_scaling( const JsonObject &obj );
+    explicit effect_scaling( const JsonObject &obj );
 };
 
 class bonus_container

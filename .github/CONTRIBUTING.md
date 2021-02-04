@@ -1,6 +1,6 @@
 # Contribute
 
-**Opening new issue?** Please read [ISSUES.md](../ISSUES.md) first.
+**Opening a new issue?** Please read [ISSUES.md](../ISSUES.md) first.
 
 Contributing to Cataclysm: Dark Days Ahead is easy â€” simply fork the repository here on GitHub, make your changes, and then send us a pull request.
 
@@ -141,7 +141,6 @@ For further details about commit message guidelines please visit:
         $ git push origin new_feature
         # origin was automatically set to point to your fork when you cloned it
 
-
 3. Once you're finished working on your branch, and have committed and pushed all your changes, submit a pull request from your `new_feature` branch to this repository's `master` branch.
 
  * Note: any new commits to the `new_feature` branch on GitHub will automatically be included in the pull request, so make sure to only commit related changes to the same branch.
@@ -166,16 +165,27 @@ If you are also looking for suggestions then add a [CR] before the title text â€
 
 It is not required to solve or reference an open issue to file a PR, however, if you do so, you need to explain the problem your PR is solving in full detail.
 
-### All PRs should have a "Summary" line
+### All PRs should have a "Summary" section with one line
 Summary is a one-line description of your change that will be extracted and added to [the project changelog](../data/changelog.txt).
 
-The format is: ```SUMMARY: Category "description"```
+The format is:
+```
+#### Summary
+Category "description"
+```
 
 The categories to choose from are: Features, Content, Interface, Mods, Balance, Bugfixes, Performance, Infrastructure, Build, I18N.
 
-Example: ```SUMMARY: Content "Adds new mutation category 'Mouse'"```
+Example:
+```
+#### Summary
+Content "Adds new mutation category 'Mouse'"
+```
 Or, if you want it treated as a minor tweak that doesn't appear in the changelog:
-```SUMMARY: None```
+```
+#### Summary
+None
+```
 
 See [the Changelog Guidelines](../doc/CHANGELOG_GUIDELINES.md) for explanations of the categories.
 
@@ -196,7 +206,7 @@ The "???" is the issue number. This automatically closes the issue when the PR i
 
 See https://help.github.com/articles/closing-issues-using-keywords/ for more.
 
-## Keep you PR description relevant
+## Keep your PR description relevant
 
 Make sure your PR description is still relevant every time you change your branch after discussion or additional thought.
 
@@ -266,6 +276,8 @@ Running `test/cata_test` with no arguments will run the entire test suite; runni
 I recommend habitually invoking make like ``make YOUR BUILD OPTIONS && make check``.
 
 If you're working with Visual Studio (and don't have `make`), see [Visual Studio-specific advice](../doc/COMPILING/COMPILING-VS-VCPKG.md#running-unit-tests).
+
+If you want/need to add a test, see [TESTING.md](../doc/TESTING.md)
 
 ## In-game testing, test environment and the debug menu
 

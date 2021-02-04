@@ -22,5 +22,15 @@
     "id": "GOBLIN",
     "description": "a short and cruel humanoid",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "ORC",
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "OGRE",
+    "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK" ]
   }
 ]

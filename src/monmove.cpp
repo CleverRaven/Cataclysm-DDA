@@ -1479,15 +1479,10 @@ bool monster::attack_at( const tripoint &p )
     if( has_flag( MF_PACIFIST ) ) {
         return false;
     }
-    if( p.z != posz() ) {
-        // TODO: Remove this
-        return false;
-    }
 
     Character &player_character = get_player_character();
     if( p == player_character.pos() ) {
-        melee_attack( player_character );
-        return true;
+        return melee_attack( player_character );
     }
 
     if( monster *mon_ = g->critter_at<monster>( p, is_hallucination() ) ) {
@@ -1507,8 +1502,7 @@ bool monster::attack_at( const tripoint &p )
         Creature::Attitude attitude = attitude_to( mon );
         // MF_ATTACKMON == hulk behavior, whack everything in your way
         if( attitude == Attitude::HOSTILE || has_flag( MF_ATTACKMON ) ) {
-            melee_attack( mon );
-            return true;
+            return melee_attack( mon );
         }
 
         return false;
@@ -1520,8 +1514,7 @@ bool monster::attack_at( const tripoint &p )
         // way. This is consistent with how it worked previously, but
         // later on not hitting allied NPCs would be cool.
         guy->on_attacked( *this ); // allow NPC hallucination to be one shot by monsters
-        melee_attack( *guy );
-        return true;
+        return melee_attack( *guy );
     }
 
     // Nothing to attack.

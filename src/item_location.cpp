@@ -68,8 +68,8 @@ class item_location::impl
         class nowhere;
 
         impl() = default;
-        impl( item *i ) : what( i->get_safe_reference() ) {}
-        impl( int idx ) : idx( idx ), needs_unpacking( true ) {}
+        explicit impl( item *i ) : what( i->get_safe_reference() ) {}
+        explicit impl( int idx ) : idx( idx ), needs_unpacking( true ) {}
 
         virtual ~impl() = default;
 
@@ -199,13 +199,13 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         tripoint position() const override {
-            return cur;
+            return cur.pos();
         }
 
         std::string describe( const Character *ch ) const override {
-            std::string res = get_map().name( cur );
+            std::string res = get_map().name( cur.pos() );
             if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur );
+                res += std::string( " " ) += direction_suffix( ch->pos(), cur.pos() );
             }
             return res;
         }
@@ -236,7 +236,7 @@ class item_location::impl::item_on_map : public item_location::impl
             }
 
             int mv = ch.item_handling_cost( obj, true, MAP_HANDLING_PENALTY );
-            mv += 100 * rl_dist( ch.pos(), cur );
+            mv += 100 * rl_dist( ch.pos(), cur.pos() );
 
             // TODO: handle unpacking costs
 
@@ -253,7 +253,7 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         units::volume volume_capacity() const override {
-            map_stack stack = get_map().i_at( cur );
+            map_stack stack = get_map().i_at( cur.pos() );
             return stack.free_volume();
         }
 
@@ -598,20 +598,25 @@ class item_location::impl::item_in_container : public item_location::impl
             container->on_contents_changed();
         }
 
-        item_location obtain( Character &ch, int qty ) override {
+        item_location obtain( Character &ch, const int qty ) override {
             ch.mod_moves( -obtain_cost( ch, qty ) );
 
             on_contents_changed();
-            item obj = target()->split( qty );
-            if( !obj.is_null() ) {
-                return item_location( ch, &ch.i_add( obj, should_stack ) );
-            } else if( container.held_by( ch ) ) {
+            if( container.held_by( ch ) ) {
                 // we don't need to move it in this case, it's in a pocket
                 // we just charge the obtain cost and leave it in place. otherwise
                 // it's liable to end up back in the same pocket, where shenanigans ensue
                 return item_location( container, target() );
+            }
+            const item obj = target()->split( qty );
+            if( !obj.is_null() ) {
+                return item_location( ch, &ch.i_add( obj, should_stack,
+                                                     /*avoid=*/nullptr,
+                                                     /*allow_drop=*/false ) );
             } else {
-                item *inv = &ch.i_add( *target(), should_stack );
+                item *const inv = &ch.i_add( *target(), should_stack,
+                                             /*avoid=*/nullptr,
+                                             /*allow_drop=*/false );
                 if( inv->is_null() ) {
                     debugmsg( "failed to add item to character inventory while obtaining from container" );
                 }
@@ -744,7 +749,7 @@ void item_location::deserialize( JsonIn &js )
         ptr.reset( new impl::item_on_person( who_id, idx ) );
 
     } else if( type == "map" ) {
-        ptr.reset( new impl::item_on_map( pos, idx ) );
+        ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) );
 
     } else if( type == "vehicle" ) {
         vehicle *const veh = veh_pointer_or_null( get_map().veh_at( pos ) );
@@ -757,7 +762,7 @@ void item_location::deserialize( JsonIn &js )
         obj.read( "parent", parent );
         if( !parent.ptr->valid() ) {
             debugmsg( "parent location does not point to valid item" );
-            ptr.reset( new impl::item_on_map( pos, idx ) ); // drop on ground
+            ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) ); // drop on ground
             return;
         }
         const std::list<item *> parent_contents = parent->contents.all_items_top();
@@ -818,6 +823,16 @@ int item_location::max_charges_by_parent_recursive( const item &it ) const
                        it.charges_per_weight( pocket->remaining_weight() ),
                        pocket->rigid() ? item::INFINITE_CHARGES : parent.max_charges_by_parent_recursive( it )
                      } );
+}
+
+bool item_location::eventually_contains( item_location loc ) const
+{
+    while( loc.has_parent() ) {
+        if( ( loc = loc.parent_item() ) == *this ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 item_location::type item_location::where() const

@@ -135,7 +135,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         }
     } else {
         u.moves -= 100;
-        add_msg( m_bad, _( "You lack the strength to move the %s" ), grabbed_vehicle->name );
+        add_msg( m_bad, _( "You lack the strength to move the %s." ), grabbed_vehicle->name );
         return true;
     }
 
@@ -145,7 +145,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
         mdir.init( dir.xy() );
         grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
-        grabbed_vehicle->face = grabbed_vehicle->turn_dir;
+        grabbed_vehicle->face = tileray( grabbed_vehicle->turn_dir );
         grabbed_vehicle->precalc_mounts( 1, mdir.dir(), grabbed_vehicle->pivot_point() );
 
         // Grabbed part has to stay at distance 1 to the player

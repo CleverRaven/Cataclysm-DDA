@@ -27,9 +27,9 @@ static int test_suffer_focus_lost( Character &dummy, const time_duration &dur )
     int focus_lost = 0;
     const int num_turns = to_turns<int>( dur );
     for( int turn = 0; turn < num_turns; ++turn ) {
-        dummy.focus_pool = 100;
+        dummy.set_focus( 100 );
         dummy.suffer();
-        focus_lost += 100 - dummy.focus_pool;
+        focus_lost += 100 - dummy.get_focus();
     }
     return focus_lost;
 }

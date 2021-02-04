@@ -43,7 +43,8 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "RANGED_ATTACKER"
     ]
   },
   {
@@ -155,7 +156,8 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "RANGED_ATTACKER"
     ]
   },
   {
@@ -203,7 +205,8 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "RANGED_ATTACKER"
     ]
   },
   {
@@ -248,7 +251,8 @@
       "REVIVES",
       "FILTHY",
       "ACIDPROOF",
-      "ACID_BLOOD"
+      "ACID_BLOOD",
+      "RANGED_ATTACKER"
     ]
   },
   {

@@ -280,5 +280,15 @@
     "rating": "bad",
     "max_duration": "10 s",
     "base_mods": { "speed_mod": [ 20 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "vault_atmosphere",
+    "name": [ "Vault Air" ],
+    "desc": [ "You feel at home." ],
+    "apply_message": "This smells like home.",
+    "remove_message": "Time to go.",
+    "rating": "bad",
+    "flags": [ "DIMENSIONAL_ANCHOR" ]
   }
 ]

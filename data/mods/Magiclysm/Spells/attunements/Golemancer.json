@@ -11,7 +11,7 @@
     "spell_class": "GOLEMANCER",
     "min_damage": 5,
     "max_damage": 16,
-    "damage_increment": 0.26,
+    "damage_increment": 0.32,
     "min_range": 1,
     "max_range": 1,
     "base_energy_cost": 4,

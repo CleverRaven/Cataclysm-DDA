@@ -342,7 +342,8 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
         if( !cur.known && cur.id->can_learn() ) {
             static_assert( grid_width == 26, "Reminder to update formatting"
                            "for this string when grid width changes" );
-            name = string_format( "%-21s %2.0f%%", trim_by_length( cur.id->name(), width - 4 ),
+            name = string_format( "%s %2.0f%%",
+                                  left_justify( trim_by_length( cur.id->name(), width - 4 ), 21 ),
                                   std::floor( cur.practice * 100 ) );
         } else {
             name = trim_by_length( cur.id->name(), width );
@@ -489,7 +490,7 @@ static void draw_stats_info( const catacurses::window &w_info,
                            "electronics crafting.  It also affects how much skill you can pick up from reading a book." ) );
         if( you.rust_rate() ) {
             print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                                string_format( _( "Skill rust: <color_white>%d%%</color>" ), you.rust_rate() ) );
+                                string_format( _( "Skill rust delay: <color_white>%d%%</color>" ), you.rust_rate() ) );
         }
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Read times: <color_white>%d%%</color>" ), you.read_speed( false ) ) );
@@ -632,11 +633,23 @@ static void draw_bionics_tab( const catacurses::window &w_bionics,
     const bool is_current_tab = curtab == player_display_tab::bionics;
     const nc_color title_col = is_current_tab ? h_light_gray : c_light_gray;
     center_print( w_bionics, 0, title_col, _( title_BIONICS ) );
+    int power_amount;
+    std::string power_unit;
+    if( you.get_power_level() < 1_J ) {
+        power_amount = units::to_millijoule( you.get_power_level() );
+        power_unit = pgettext( "energy unit: millijoule", "mJ" );
+    } else if( you.get_power_level() < 1_kJ ) {
+        power_amount = units::to_joule( you.get_power_level() );
+        power_unit = pgettext( "energy unit: joule", "J" );
+    } else {
+        power_amount = units::to_kilojoule( you.get_power_level() );
+        power_unit = pgettext( "energy unit: kilojoule", "kJ" );
+    }
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>"
-                                      " / <color_light_blue>%2$d</color>" ),
-                                   units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
+                    string_format( _( "Power: <color_light_blue>%1$d %2$s</color>"
+                                      " / <color_light_blue>%3$d kJ</color>" ),
+                                   power_amount, power_unit, units::to_kilojoule( you.get_max_power_level() ) ) );
 
     const size_t useful_y = bionics_win_size_y - 2;
     const size_t half_y = useful_y / 2;

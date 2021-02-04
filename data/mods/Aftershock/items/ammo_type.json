@@ -16,5 +16,11 @@
     "id": "afs_foam",
     "name": "industrial foam",
     "default": "afs_foamcrete"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "afs_shydrogen",
+    "name": "solid hydrogen",
+    "default": "afs_shydrogen"
   }
 ]

@@ -171,7 +171,7 @@ class towing_data
         vehicle *towing;
         vehicle *towed_by;
     public:
-        towing_data( vehicle *towed_veh = nullptr, vehicle *tower_veh = nullptr ) :
+        explicit towing_data( vehicle *towed_veh = nullptr, vehicle *tower_veh = nullptr ) :
             towing( towed_veh ), towed_by( tower_veh ) {}
         vehicle *get_towed_by() const {
             return towed_by;
@@ -764,7 +764,7 @@ class vehicle
         template <typename Func, typename Vehicle>
         static int traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action );
     public:
-        vehicle( const vproto_id &type_id, int init_veh_fuel = -1, int init_veh_status = -1 );
+        explicit vehicle( const vproto_id &type_id, int init_veh_fuel = -1, int init_veh_status = -1 );
         vehicle();
         ~vehicle();
 
@@ -1112,6 +1112,15 @@ class vehicle
             const catacurses::window &win, const point &, int start_index = 0,
             bool fullsize = false, bool verbose = false, bool desc = false,
             bool isHorizontal = false );
+
+        /**
+         * Vehicle speed gauge
+         *
+         * Prints: `target speed` `<` `current speed` `speed unit`
+         * @param spacing Sets size of space between components
+         * @warning if spacing is negative it is changed to 0
+         */
+        void print_speed_gauge( const catacurses::window &win, const point &, int spacing = 0 );
 
         // Pre-calculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
         void precalc_mounts( int idir, const units::angle &dir, const point &pivot );
@@ -1645,6 +1654,8 @@ class vehicle
         void close( int part_index );
         // returns whether the door is open or not
         bool is_open( int part_index ) const;
+
+        bool can_close( int part_index, Character &who );
 
         // Consists only of parts with the FOLDABLE tag.
         bool is_foldable() const;

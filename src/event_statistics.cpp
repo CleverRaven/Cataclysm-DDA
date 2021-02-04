@@ -321,7 +321,7 @@ struct event_source {
 };
 
 struct event_type_event_source : event_source {
-    event_type_event_source( event_type t ) : type( t ) {}
+    explicit event_type_event_source( event_type t ) : type( t ) {}
 
     event_type type;
 
@@ -355,7 +355,7 @@ struct event_type_event_source : event_source {
 };
 
 struct event_transformation_event_source : event_source {
-    event_transformation_event_source( const string_id<event_transformation> &t ) :
+    explicit event_transformation_event_source( const string_id<event_transformation> &t ) :
         transformation( t ) {}
 
     string_id<event_transformation> transformation;
@@ -509,13 +509,16 @@ struct event_transformation_impl : public event_transformation::impl {
         }
     }
 
-    struct state : stats_tracker_state, event_multiset_watcher, stat_watcher {
+    struct state : stats_tracker_multiset_state, event_multiset_watcher, stat_watcher {
         state( const event_transformation_impl *trans, stats_tracker &stats ) :
             transformation_( trans ),
             data_( trans->initialize( stats ) ) {
             trans->source_->add_watcher( stats, this );
             for( const auto &p : trans->constraints_ ) {
                 if( p.second.equals_statistic_ ) {
+                    // TODO: we need a version of value_constraint that is
+                    // itself a watcher so that it can cache the statistic
+                    // value it cares about and not constantly recompute it.
                     stats.add_watcher( *p.second.equals_statistic_, this );
                 }
             }
@@ -632,25 +635,33 @@ struct event_statistic_count : event_statistic::impl {
         return cata_variant::make<cata_variant_type::int_>( count );
     }
 
-    struct state : stats_tracker_state, event_multiset_watcher {
+    struct state : stats_tracker_value_state, event_multiset_watcher {
         state( const event_statistic_count *s, stats_tracker &stats ) :
             stat( s ),
-            value( s->value( stats ).get<int>() ) {
+            value( s->value( stats ) ),
+            value_int( value.get<int>() ) {
             stat->source->add_watcher( stats, this );
         }
 
         void event_added( const cata::event &, stats_tracker &stats ) override {
-            ++value;
-            stats.stat_value_changed( stat->id, cata_variant( value ) );
+            ++value_int;
+            value = cata_variant( value_int );
+            stats.stat_value_changed( stat->id, value );
         }
 
         void events_reset( const event_multiset &new_set, stats_tracker &stats ) override {
-            value = new_set.count();
-            stats.stat_value_changed( stat->id, cata_variant( value ) );
+            value_int = new_set.count();
+            value = cata_variant( value_int );
+            stats.stat_value_changed( stat->id, value );
+        }
+
+        const cata_variant &get_value() const override {
+            return value;
         }
 
         const event_statistic_count *stat;
-        int value;
+        cata_variant value;
+        int value_int;
     };
 
     std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
@@ -727,25 +738,33 @@ struct event_statistic_total : event_statistic_field_summary<true> {
         return cata_variant::make<cata_variant_type::int_>( total );
     }
 
-    struct state : stats_tracker_state, event_multiset_watcher {
+    struct state : stats_tracker_value_state, event_multiset_watcher {
         state( const event_statistic_total *s, stats_tracker &stats ) :
             stat( s ),
-            value( s->value( stats ).get<int>() ) {
+            value( s->value( stats ) ),
+            value_int( value.get<int>() ) {
             stat->source->add_watcher( stats, this );
         }
 
         void event_added( const cata::event &e, stats_tracker &stats ) override {
-            value += e.get<int>( stat->field );
+            value_int += e.get<int>( stat->field );
+            value = cata_variant( value_int );
             stats.stat_value_changed( stat->id, cata_variant( value ) );
         }
 
         void events_reset( const event_multiset &new_set, stats_tracker &stats ) override {
-            value = new_set.total( stat->field );
+            value_int = new_set.total( stat->field );
+            value = cata_variant( value_int );
             stats.stat_value_changed( stat->id, cata_variant( value ) );
         }
 
+        const cata_variant &get_value() const override {
+            return value;
+        }
+
         const event_statistic_total *stat;
-        int value;
+        cata_variant value;
+        int value_int;
     };
 
     std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
@@ -769,28 +788,36 @@ struct event_statistic_maximum : event_statistic_field_summary<true> {
         return cata_variant::make<cata_variant_type::int_>( maximum );
     }
 
-    struct state : stats_tracker_state, event_multiset_watcher {
+    struct state : stats_tracker_value_state, event_multiset_watcher {
         state( const event_statistic_maximum *s, stats_tracker &stats ) :
             stat( s ),
-            value( s->value( stats ).get<int>() ) {
+            value( s->value( stats ) ),
+            value_int( value.get<int>() ) {
             stat->source->add_watcher( stats, this );
         }
 
         void event_added( const cata::event &e, stats_tracker &stats ) override {
-            const int new_value = std::max( e.get<int>( stat->field ), value );
-            if( new_value != value ) {
-                value = new_value;
+            const int new_value = std::max( e.get<int>( stat->field ), value_int );
+            if( new_value != value_int ) {
+                value_int = new_value;
+                value = cata_variant( value_int );
                 stats.stat_value_changed( stat->id, cata_variant( value ) );
             }
         }
 
         void events_reset( const event_multiset &new_set, stats_tracker &stats ) override {
-            value = new_set.maximum( stat->field );
+            value_int = new_set.maximum( stat->field );
+            value = cata_variant( value_int );
             stats.stat_value_changed( stat->id, cata_variant( value ) );
         }
 
+        const cata_variant &get_value() const override {
+            return value;
+        }
+
         const event_statistic_maximum *stat;
-        int value;
+        cata_variant value;
+        int value_int;
     };
 
     std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
@@ -814,28 +841,36 @@ struct event_statistic_minimum : event_statistic_field_summary<true> {
         return cata_variant::make<cata_variant_type::int_>( minimum );
     }
 
-    struct state : stats_tracker_state, event_multiset_watcher {
+    struct state : stats_tracker_value_state, event_multiset_watcher {
         state( const event_statistic_minimum *s, stats_tracker &stats ) :
             stat( s ),
-            value( s->value( stats ).get<int>() ) {
+            value( s->value( stats ) ),
+            value_int( value.get<int>() ) {
             stat->source->add_watcher( stats, this );
         }
 
         void event_added( const cata::event &e, stats_tracker &stats ) override {
-            const int new_value = std::min( e.get<int>( stat->field ), value );
-            if( new_value != value ) {
-                value = new_value;
+            const int new_value = std::min( e.get<int>( stat->field ), value_int );
+            if( new_value != value_int ) {
+                value_int = new_value;
+                value = cata_variant( value_int );
                 stats.stat_value_changed( stat->id, cata_variant( value ) );
             }
         }
 
         void events_reset( const event_multiset &new_set, stats_tracker &stats ) override {
-            value = new_set.minimum( stat->field );
+            value_int = new_set.minimum( stat->field );
+            value = cata_variant( value_int );
             stats.stat_value_changed( stat->id, cata_variant( value ) );
         }
 
+        const cata_variant &get_value() const override {
+            return value;
+        }
+
         const event_statistic_minimum *stat;
-        int value;
+        cata_variant value;
+        int value_int;
     };
 
     std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
@@ -874,7 +909,7 @@ struct event_statistic_unique_value : event_statistic_field_summary<false> {
         return it->second;
     }
 
-    struct state : stats_tracker_state, event_multiset_watcher {
+    struct state : stats_tracker_value_state, event_multiset_watcher {
         state( const event_statistic_unique_value *s, stats_tracker &stats ) :
             stat( s ) {
             init( stats );
@@ -901,6 +936,10 @@ struct event_statistic_unique_value : event_statistic_field_summary<false> {
         void events_reset( const event_multiset &, stats_tracker &stats ) override {
             init( stats );
             stats.stat_value_changed( stat->id, value );
+        }
+
+        const cata_variant &get_value() const override {
+            return value;
         }
 
         const event_statistic_unique_value *stat;
@@ -941,7 +980,7 @@ struct event_statistic_first_value : event_statistic_field_summary<false> {
         return cata_variant();
     }
 
-    struct state : stats_tracker_state, event_multiset_watcher {
+    struct state : stats_tracker_value_state, event_multiset_watcher {
         state( const event_statistic_first_value *s, stats_tracker &stats ) :
             stat( s ) {
             init( stats );
@@ -966,6 +1005,10 @@ struct event_statistic_first_value : event_statistic_field_summary<false> {
         void events_reset( const event_multiset &, stats_tracker &stats ) override {
             init( stats );
             stats.stat_value_changed( stat->id, value );
+        }
+
+        const cata_variant &get_value() const override {
+            return value;
         }
 
         const event_statistic_first_value *stat;
@@ -1006,7 +1049,7 @@ struct event_statistic_last_value : event_statistic_field_summary<false> {
         return cata_variant();
     }
 
-    struct state : stats_tracker_state, event_multiset_watcher {
+    struct state : stats_tracker_value_state, event_multiset_watcher {
         state( const event_statistic_last_value *s, stats_tracker &stats ) :
             stat( s ) {
             init( stats );
@@ -1025,6 +1068,10 @@ struct event_statistic_last_value : event_statistic_field_summary<false> {
         void events_reset( const event_multiset &, stats_tracker &stats ) override {
             init( stats );
             stats.stat_value_changed( stat->id, value );
+        }
+
+        const cata_variant &get_value() const override {
+            return value;
         }
 
         const event_statistic_last_value *stat;

@@ -74,7 +74,8 @@
         "      dddddddddddd      ",
         "      dddddddddddd      "
       ],
-      "palettes": [ "dock_small" ]
+      "palettes": [ "dock_small" ],
+      "place_nested": [ { "chunks": [ [ "NPC_lighthouse_man_spawn", 25 ], [ "null", 75 ] ], "x": 12, "y": 21 } ]
     }
   },
   {

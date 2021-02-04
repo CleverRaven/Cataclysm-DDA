@@ -228,7 +228,8 @@ std::vector<std::string> foldstring( const std::string &str, int width, char spl
  * @param base_color Base color that is used outside of any color tag.
  **/
 void print_colored_text( const catacurses::window &w, const point &p, nc_color &cur_color,
-                         const nc_color &base_color, const std::string &text );
+                         const nc_color &base_color, const std::string &text,
+                         report_color_error color_error = report_color_error::yes );
 /**
  * Print word wrapped text (with @ref color_tags) into the window.
  *
@@ -312,14 +313,26 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
  * @param text Actual message to print
  */
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
-                     nc_color base_color, const std::string &text );
+                     const nc_color &base_color, const std::string &text,
+                     report_color_error color_error = report_color_error::yes );
 std::string trim_by_length( const std::string &text, int width );
 template<typename ...Args>
 inline void trim_and_print( const catacurses::window &w, const point &begin,
-                            const int width, const nc_color base_color, const char *const mes, Args &&... args )
+                            const int width, const nc_color &base_color,
+                            const char *const mes, Args &&... args )
 {
-    return trim_and_print( w, begin, width, base_color, string_format( mes,
-                           std::forward<Args>( args )... ) );
+    return trim_and_print( w, begin, width, base_color,
+                           string_format( mes, std::forward<Args>( args )... ) );
+}
+template<typename ...Args>
+inline void trim_and_print( const catacurses::window &w, const point &begin,
+                            const int width, const nc_color &base_color,
+                            const report_color_error color_error,
+                            const char *const mes, Args &&... args )
+{
+    return trim_and_print( w, begin, width, base_color,
+                           string_format( mes, std::forward<Args>( args )... ),
+                           color_error );
 }
 void center_print( const catacurses::window &w, int y, const nc_color &FG,
                    const std::string &text );
@@ -388,7 +401,7 @@ class border_helper
 
                 friend class border_helper;
             private:
-                border_info( border_helper &helper );
+                explicit border_info( border_helper &helper );
 
                 point pos;
                 point size;
@@ -853,7 +866,7 @@ class scrollbar
 class scrolling_text_view
 {
     public:
-        scrolling_text_view( catacurses::window &w ) : w_( w ) {}
+        explicit scrolling_text_view( catacurses::window &w ) : w_( w ) {}
 
         void set_text( const std::string & );
         void scroll_up();

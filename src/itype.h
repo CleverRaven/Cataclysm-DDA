@@ -78,7 +78,7 @@ class gunmod_location
 
     public:
         gunmod_location() = default;
-        gunmod_location( const std::string &id ) : _id( id ) { }
+        explicit gunmod_location( const std::string &id ) : _id( id ) { }
 
         /// Returns the translated name.
         std::string name() const;
@@ -181,11 +181,11 @@ struct islot_comestible {
         static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 
         bool has_calories() const {
-            return default_nutrition.kcal > 0;
+            return default_nutrition.calories > 0;
         }
 
         int get_default_nutr() const {
-            return default_nutrition.kcal / kcal_per_nutr;
+            return default_nutrition.kcal() / kcal_per_nutr;
         }
 
         /** The monster group that is drawn from when the item rots away */
@@ -238,9 +238,10 @@ struct islot_armor {
     */
     bool sided = false;
     /**
-     * TODO: document me.
+     * Material protection stats are multiplied by this number
+     * to determine armor protection values.
      */
-    int thickness = 0;
+    float thickness = 0.0f;
     /**
      * Resistance to environmental effects.
      */
@@ -545,6 +546,8 @@ struct islot_gun : common_ranged_data {
      *  @note useful for adding recoil effect to guns which otherwise consume no ammo
      */
     int recoil = 0;
+
+    int ammo_to_fire = 1;
 };
 
 /// The type of gun. The second "_type" suffix is only to distinguish it from `item::gun_type`.
@@ -556,7 +559,7 @@ class gun_type_type
     public:
         /// @param name The untranslated name of the gun type. Must have been extracted
         /// for translation with the context "gun_type_type".
-        gun_type_type( const std::string &name ) : name_( name ) {}
+        explicit gun_type_type( const std::string &name ) : name_( name ) {}
         /// Translated name.
         std::string name() const;
 
@@ -729,7 +732,7 @@ struct islot_ammo : common_ranged_data {
      * Some combat ammo might not have a damage value
      * Set this to make it show as combat ammo anyway
      */
-    cata::optional<bool> force_stat_display;
+    bool force_stat_display;
 
     bool was_loaded = false;
 
@@ -999,6 +1002,8 @@ struct itype {
 
         // itemgroup used to generate the recipes within nanofabricator templates.
         item_group_id nanofab_template_group;
+
+        requirement_id template_requirements;
 
     private:
         /** Can item be combined with other identical items? */
