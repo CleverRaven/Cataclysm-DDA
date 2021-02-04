@@ -78,6 +78,10 @@ struct bionic_data {
     emit_id power_gen_emission = emit_id::NULL_ID();
     /**Amount of environmental protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> env_protec;
+    /**Amount of fire protection offered by this bionic*/
+    std::map<bodypart_str_id, size_t> fire_protec;
+    /**Amount of acid protection offered by this bionic*/
+    std::map<bodypart_str_id, size_t> acid_protec;
 
     /**Amount of bash protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> bash_protec;
@@ -85,6 +89,14 @@ struct bionic_data {
     std::map<bodypart_str_id, size_t> cut_protec;
     /**Amount of bullet protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> bullet_protec;
+
+    std::map<bodypart_str_id, tripoint> protection; // Bionic wet effects
+
+    /**Chance to avoid bleeding offered by this bionic*/
+    double no_bleed_chance = 0.0f;
+    /**Chance to avoid bites offered by this bionic*/
+    double no_bite_chance = 0.0f;
+
 
     float vitamin_absorb_mod = 1.0f;
 
@@ -140,6 +152,12 @@ struct bionic_data {
 
     /**Requirement to bionic installation*/
     requirement_id installation_requirement;
+
+    /**Message shown when bionic cannot be uninstalled*/
+    std::string cant_uninstall_msg;
+
+    /**Covered bodyparts, which resist bites and bleeding but are unable to be compressed*/
+    std::vector<bodypart_str_id> covered_bodyparts;
 
     cata::flat_set<std::string> flags;
     bool has_flag( const std::string &flag ) const;

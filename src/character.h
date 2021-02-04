@@ -1038,6 +1038,15 @@ class Character : public Creature, public visitable
         bool is_limb_broken( const bodypart_id &limb ) const;
         /** source of truth of whether a Character can run */
         bool can_run() const;
+
+        /** Return true if bionics hamper compression on bodypart to stop bleeding */
+        bool is_bp_armored( const bodypart_id &bp ) const;
+
+        /** Return bodypart's bite chance modifier */
+        double bp_bite_chance( const bodypart_id &bp ) const;
+        /** Return bodypart's bleed chance modifier */
+        double bp_bleed_chance( const bodypart_id &bp ) const;
+
         /** Hurts all body parts for dam, no armor reduction */
         void hurtall( int dam, Creature *source, bool disturb = true );
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
@@ -1219,7 +1228,7 @@ class Character : public Creature, public visitable
         /** Returns the highest mutation category */
         mutation_category_id get_highest_category() const;
         /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
-        void drench_mut_calc();
+        void drench_mod_calc();
         /** Recursively traverses the mutation's prerequisites and replacements, building up a map */
         void build_mut_dependency_map( const trait_id &mut,
                                        std::unordered_map<trait_id, int> &dependency_map, int distance );
@@ -2165,8 +2174,12 @@ class Character : public Creature, public visitable
         int get_armor_bash_base( bodypart_id bp ) const override;
         /** Returns cutting resistance from the creature and armor only */
         int get_armor_cut_base( bodypart_id bp ) const override;
-        /** Returns cutting resistance from the creature and armor only */
+        /** Returns bullet resistance from the creature and armor only */
         int get_armor_bullet_base( bodypart_id bp ) const override;
+        /** Returns fire resistance from the creature and armor only */
+        int get_armor_fire_base( const bodypart_id &bp ) const;
+        /** Returns acid resistance from the creature and armor only */
+        int get_armor_acid_base( const bodypart_id &bp ) const;
         /** Returns overall env_resist on a body_part */
         int get_env_resist( bodypart_id bp ) const override;
         /** Returns overall acid resistance for the body part */

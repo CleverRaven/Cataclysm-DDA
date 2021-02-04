@@ -392,6 +392,7 @@ static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string flag_BIO_CANT_COMPRESS( "BIONIC_CANT_COMPRESS" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -1516,6 +1517,41 @@ bool Character::is_limb_broken( const bodypart_id &limb ) const
 bool Character::can_run() const
 {
     return get_stamina() > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
+}
+
+bool Character::is_bp_armored( const bodypart_id &bp ) const
+{
+    for( const bionic_id &bid : get_bionics() ) {
+        if( find( bid->covered_bodyparts.begin(), bid->covered_bodyparts.end(),
+                  bp.id() ) != bid->covered_bodyparts.end() && bid->has_flag( flag_BIO_CANT_COMPRESS ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+double Character::bp_bite_chance( const bodypart_id &bp ) const
+{
+    double modifier = 1.0f;
+    for( const bionic_id &bid : get_bionics() ) {
+        if( find( bid->covered_bodyparts.begin(), bid->covered_bodyparts.end(),
+                  bp.id() ) != bid->covered_bodyparts.end() ) {
+            modifier *= ( 1.0f - bid->no_bite_chance );
+        }
+    }
+    return modifier;
+}
+
+double Character::bp_bleed_chance( const bodypart_id &bp ) const
+{
+    double modifier = 1.0f;
+    for( const bionic_id &bid : get_bionics() ) {
+        if( find( bid->covered_bodyparts.begin(), bid->covered_bodyparts.end(),
+                  bp.id() ) != bid->covered_bodyparts.end() ) {
+            modifier *= ( 1.0f - bid->no_bleed_chance );
+        }
+    }
+    return modifier;
 }
 
 void Character::try_remove_downed()
@@ -8429,7 +8465,9 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
         case damage_type::BULLET:
             return get_armor_bullet( bp );
         case damage_type::ACID:
+            return get_armor_acid_base( bp );
         case damage_type::HEAT:
+            return get_armor_fire_base( bp );
         case damage_type::COLD:
         case damage_type::ELECTRIC: {
             int ret = 0;
@@ -8530,6 +8568,46 @@ int Character::get_env_resist( bodypart_id bp ) const
     if( bp == body_part_eyes && has_trait( trait_SEESLEEP ) ) {
         ret += 8;
     }
+    return ret;
+}
+
+int Character::get_armor_fire_base( const bodypart_id &bp ) const
+{
+    int ret = 0;
+    for( const item &i : worn ) {
+        if( i.covers( bp ) ) {
+            ret += i.fire_resist();
+        }
+    }
+
+    for( const bionic_id &bid : get_bionics() ) {
+        const auto fire_prot = bid->fire_protec.find( bp.id() );
+        if( fire_prot != bid->fire_protec.end() ) {
+            ret += fire_prot->second;
+        }
+    }
+
+    ret += mutation_armor( bp, damage_type::HEAT );
+    return ret;
+}
+
+int Character::get_armor_acid_base( const bodypart_id &bp ) const
+{
+    int ret = 0;
+    for( const item &i : worn ) {
+        if( i.covers( bp ) ) {
+            ret += i.acid_resist();
+        }
+    }
+
+    for( const bionic_id &bid : get_bionics() ) {
+        const auto acid_prot = bid->acid_protec.find( bp.id() );
+        if( acid_prot != bid->acid_protec.end() ) {
+            ret += acid_prot->second;
+        }
+    }
+
+    ret += mutation_armor( bp, damage_type::ACID );
     return ret;
 }
 
@@ -9331,7 +9409,7 @@ void Character::set_highest_cat_level()
     }
 }
 
-void Character::drench_mut_calc()
+void Character::drench_mod_calc()
 {
     for( const bodypart_id &bp : get_all_body_parts() ) {
         int ignored = 0;
@@ -9347,6 +9425,16 @@ void Character::drench_mut_calc()
                 good += wp_iter->second.z;
             }
         }
+
+        for( const bionic_id &iter : get_bionics() ) {
+            const auto wp_iter = iter->protection.find( bp.id() );
+            if( wp_iter != iter->protection.end() ) {
+                ignored += wp_iter->second.x;
+                neutral += wp_iter->second.y;
+                good += wp_iter->second.z;
+            }
+        }
+
         set_part_mut_drench( bp, { WT_GOOD, good } );
         set_part_mut_drench( bp, { WT_NEUTRAL, neutral } );
         set_part_mut_drench( bp, { WT_IGNORED, ignored } );
@@ -9718,6 +9806,20 @@ float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) con
             const auto bullet_prot = bid->bullet_protec.find( bp.id() );
             if( bullet_prot != bid->bullet_protec.end() ) {
                 result += bullet_prot->second;
+            }
+        }
+    } else if( dt == damage_type::ACID ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            const auto acid_prot = bid->acid_protec.find( bp.id() );
+            if( acid_prot != bid->acid_protec.end() ) {
+                result += acid_prot->second;
+            }
+        }
+    } else if( dt == damage_type::HEAT ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            const auto fire_prot = bid->fire_protec.find( bp.id() );
+            if( fire_prot != bid->fire_protec.end() ) {
+                result += fire_prot->second;
             }
         }
     }

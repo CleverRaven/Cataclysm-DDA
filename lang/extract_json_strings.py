@@ -1232,6 +1232,8 @@ def extract(item, infilename):
             extract_use_action_msgs(outfile, item["use_action"],
                                     singular_name, kwargs)
             wrote = True
+        if "cant_uninstal_msg" in item:
+            writestr(outfile, item["cant_uninstal_msg"], **kwargs)
         if "conditional_names" in item:
             for cname in item["conditional_names"]:
                 c = "Conditional name for {} when {} matches {}".format(

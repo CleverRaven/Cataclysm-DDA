@@ -195,6 +195,7 @@ static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
 static const std::string flag_BIO_GUN( "BIONIC_GUN" );
 static const std::string flag_BIO_WEAPON( "BIONIC_WEAPON" );
 static const std::string flag_BIO_TOGGLED( "BIONIC_TOGGLED" );
+static const std::string flag_BIO_CANT_UNINSTALL( "BIONIC_CANT_UNINSTALL" );
 static const std::string flag_SEALED( "SEALED" );
 
 struct Character::auto_toggle_bionic_result {
@@ -308,6 +309,14 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
 
     optional( jsobj, was_loaded, "vitamin_absorb_mod", vitamin_absorb_mod, 1.0f );
 
+    optional( jsobj, was_loaded, "no_bleed_chance", no_bleed_chance, 0.0f );
+    optional( jsobj, was_loaded, "no_bite_chance", no_bite_chance, 0.0f );
+
+    optional( jsobj, was_loaded, "cant_uninstall_msg", cant_uninstall_msg );
+
+    optional( jsobj, was_loaded, "covered_bodyparts", covered_bodyparts );
+
+
     if( jsobj.has_array( "stat_bonus" ) ) {
         // clear data first so that copy-from can override it
         stat_bonus.clear();
@@ -339,6 +348,20 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
             env_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
         }
     }
+    if( jsobj.has_array( "fire_protec" ) ) {
+        // clear data first so that copy-from can override it
+        fire_protec.clear();
+        for( JsonArray ja : jsobj.get_array( "fire_protec" ) ) {
+            fire_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
+        }
+    }
+    if( jsobj.has_array( "acid_protec" ) ) {
+        // clear data first so that copy-from can override it
+        acid_protec.clear();
+        for( JsonArray ja : jsobj.get_array( "acid_protec" ) ) {
+            acid_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
+        }
+    }
     if( jsobj.has_array( "bash_protec" ) ) {
         // clear data first so that copy-from can override it
         bash_protec.clear();
@@ -362,6 +385,14 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
             bullet_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
                                    ja.get_int( 1 ) );
         }
+    }
+
+    for( JsonObject wp : jsobj.get_array( "wet_protection" ) ) {
+        int ignored = wp.get_int( "ignored", 0 );
+        int neutral = wp.get_int( "neutral", 0 );
+        int good = wp.get_int( "good", 0 );
+        tripoint protect = tripoint( ignored, neutral, good );
+        protection[bodypart_str_id( wp.get_string( "part" ) )] = protect;
     }
 
     activated = has_flag( flag_BIO_TOGGLED ) ||
@@ -2090,12 +2121,6 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         return false;
     }
 
-    if( b_id == bio_blaster ) {
-        popup( _( "Removing %s Fusion Blaster Arm would leave %s with a useless stump." ),
-               disp_name( true ), disp_name() );
-        return false;
-    }
-
     Character &player_character = get_player_character();
 
     for( const bionic_id &bid : get_bionics() ) {
@@ -2106,8 +2131,8 @@ bool Character::can_uninstall_bionic( const bionic_id &b_id, player &installer, 
         }
     }
 
-    if( b_id == bio_eye_optic ) {
-        popup( _( "The Telescopic Lenses are part of %s eyes now.  Removing them would leave %s blind." ),
+    if( b_id->has_flag( flag_BIO_CANT_UNINSTALL ) ) {
+        popup( _( b_id->cant_uninstall_msg.c_str() ),
                disp_name( true ), disp_name() );
         return false;
     }
@@ -2218,6 +2243,7 @@ void Character::perform_uninstall( const bionic_id &bid, int difficulty, int suc
 
     }
     here.invalidate_map_cache( here.get_abs_sub().z );
+    drench_mod_calc();
 }
 
 bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
@@ -2464,6 +2490,7 @@ void Character::perform_install( const bionic_id &bid, const bionic_id &upbid, i
     }
     map &here = get_map();
     here.invalidate_map_cache( here.get_abs_sub().z );
+    drench_mod_calc();
 }
 
 void Character::bionics_install_failure( const bionic_id &bid, const std::string &installer,

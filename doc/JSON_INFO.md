@@ -660,6 +660,8 @@ For information about tools with option to export ASCII art in format ready to b
 | included_bionics            | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 | included                    | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
 | env_protec                  | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
+| fire_protec                 | (_optional_) How much fire protection does this bionic provide on the specified body parts.
+| acid_protec                 | (_optional_) How much acid protection does this bionic provide on the specified body parts.
 | bash_protec                 | (_optional_) How much bash protection does this bionic provide on the specified body parts.
 | cut_protec                  | (_optional_) How much cut protection does this bionic provide on the specified body parts.
 | bullet_protect              | (_optional_) How much bullet protect does this bionic provide on the specified body parts.
@@ -676,9 +678,15 @@ For information about tools with option to export ASCII art in format ready to b
 | stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
 | enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.)
 | learned_spells              | (_optional_) Map of {spell:level} you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
-| learned_proficiencies       | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when uninstalling
-| installation_requirement    | (_optional_) Requirement id pointing to a requirement defining the tools and components necessary to install this CBM.
-| vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorption, affects all vitamins. (default: `1.0`)
+| learned_proficiencies       | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when unintalling
+| installation_requirement    | (_optional_) Requirment id pointing to a requirment defining the tools and componentsnt necessary to install this CBM.
+| vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorbtion, affects all vitamins. (default: `1.0`)
+| cant_uninstall_msg           | (_optional_) The text shown when trying to uninstall a bionic which cannot be uninstalled. The first %s in the string will be replaced with a possessive pronoun & the second a nominative one.
+| covered_bodyparts           | (_optional_) A list of covered bodyparts, which resist bites and bleeding but are unable to be compressed.
+| no_bite_chance              | (_optional_) Chance to avoid bites offered by this bionic.
+| no_bleed_chance             | (_optional_) Chance to avoid bleeding offered by this bionic.
+| wet_protection              | (_optional_) Wet Protection on specific bodyparts offered by this bionic. Good increases pos and cancels neg, neut cancels neg, ignored cancels both.
+
 
 ```C++
 {
@@ -708,6 +716,26 @@ For information about tools with option to export ASCII art in format ready to b
     "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "bullet_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
+},
+{
+    "id": "bio_armor_legs",
+    "type": "bionic",
+    "name": { "str": "Alloy Plating - Legs" },
+    "description": "The skin and flesh on your legs has been surgically replaced by alloy plating.  Provides passive physical and chemical protection and can be used in conjunction with bionic martial arts at the cost of flexibility.",
+    "occupied_bodyparts": [ [ "leg_l", 7 ], [ "leg_r", 7 ] ],
+    "bash_protec": [ [ "leg_l", 7 ], [ "leg_r", 7 ] ],
+    "cut_protec": [ [ "leg_l", 5 ], [ "leg_r", 5 ] ],
+    "bullet_protec": [ [ "leg_l", 5 ], [ "leg_r", 5 ] ],
+    "fire_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "acid_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "env_protec": [ [ "leg_l", 2 ], [ "leg_r", 2 ] ],
+    "encumbrance": [ [ "leg_l", 4 ], [ "leg_r", 4 ] ],
+    "wet_protection": [ { "part": "leg_l", "ignored": 4 }, { "part": "leg_r", "ignored": 4 } ],
+    "covered_bodyparts": [ "leg_l", "leg_r" ],
+    "no_bleed_chance": 0.25,
+    "no_bite_chance": 0.33,
+    "cant_uninstall_msg": "The Alloy Plating is part of %s body now.  Removing it would leave %s disabled.",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_CANT_UNINSTALL", "BIONIC_CANT_COMPRESS" ]
 }
 ```
 
