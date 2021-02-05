@@ -415,6 +415,10 @@ static void pldrive( const tripoint &p )
         player_character.in_vehicle = false;
         return;
     }
+    if( veh->is_on_ramp && p.y != 0 ) {
+        add_msg( m_bad, _( "You can't turn the vehicle while on a ramp." ) );
+        return;
+    }
     if( !remote ) {
         static const itype_id fuel_type_animal( "animal" );
         const bool has_animal_controls = veh->part_with_feature( part, "CONTROL_ANIMAL", true ) >= 0;

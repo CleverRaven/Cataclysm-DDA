@@ -1998,6 +1998,7 @@ class vehicle
         int requested_z_change = 0;
 
     public:
+        bool is_on_ramp = false;
         bool is_autodriving = false;
         bool is_following = false;
         bool is_patrolling = false;
