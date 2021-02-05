@@ -737,6 +737,7 @@ static bool has_console( const tripoint_abs_omt &location, const int mission_id 
     tmpcomp->add_option( _( "Download Routing Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
 
     compmap.save();
+    return true;
 }
 
 void mission_start::reveal_lab_train_depot( mission *miss )
