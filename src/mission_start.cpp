@@ -763,6 +763,7 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     for( const std::pair<int, tripoint_abs_omt> &location : omts_by_range ) {
         if( has_console( location.second, mission_id ) ) {
             place = location.second;
+            break;
         }
     }
 
