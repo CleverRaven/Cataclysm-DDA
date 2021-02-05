@@ -3710,12 +3710,19 @@ void cata_tiles::get_tile_values( const int t, const int *tn, int &subtile, int 
 void cata_tiles::get_tile_values_with_ter( const tripoint &p, const int t, const int *tn,
         int &subtile, int &rotation )
 {
-    get_tile_values( t, tn, subtile, rotation );
+    map &here = get_map();
+    //check if furniture should connect to itself
+    if( here.has_flag( "NO_SELF_CONNECT", p ) || here.has_flag( "ALIGN_WORKBENCH", p ) ) {
+        //if we don't ever connect to ourself just return unconnected to be used further
+        get_rotation_and_subtile( 0, rotation, subtile );
+    } else {
+        //if we do connect to ourself (tables, counters etc.) calculate based on neighbours
+        get_tile_values( t, tn, subtile, rotation );
+    }
     // calculate rotation for unconnected tiles based on surrounding walls
     if( subtile == unconnected ) {
         int val = 0;
         bool use_furniture = false;
-        map &here = get_map();
 
         if( here.has_flag( "ALIGN_WORKBENCH", p ) ) {
             for( int i = 0; i < 4; ++i ) {
