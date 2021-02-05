@@ -15,6 +15,6 @@
     "type": "vehicle_part",
     "description": "A combustion engine disconnected from the drive system.  Burns gasoline fuel from a tank in the vehicle.",
     "extend": { "flags": [ "GENERATOR" ] },
-    "delete": { "flags": [ "E_HIGHER_SKILL" ] }
+    "delete": { "flags": [ "E_HIGHER_SKILL", "ENGINE" ] }
   }
 ]

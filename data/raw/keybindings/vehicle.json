@@ -18,7 +18,7 @@
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Control individual generators",
-    "bindings": [ { "input_method": "keyboard_any", "key": "-" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "j" } ]
   },
   {
     "id": "FOLD_VEHICLE",

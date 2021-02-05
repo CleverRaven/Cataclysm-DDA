@@ -1136,15 +1136,17 @@ bool vehicle::is_part_on( const int p ) const
 
 bool vehicle::is_alternator_on( const int a ) const
 {
-    const bool engine_mounted = vehicle::is_alternator_on( a, engines );
-    const bool generator_mounted = vehicle::is_alternator_on( a, generators );
+    const bool engine_mounted = vehicle::is_alternator_on( a, false );
+    const bool generator_mounted = vehicle::is_alternator_on( a, true );
 
     return engine_mounted || generator_mounted;
 
 }
 
-bool vehicle::is_alternator_on( const int a, const std::vector<int> motors ) const
+bool vehicle::is_alternator_on( const int a, bool for_generators ) const
 {
+    const std::vector<int> motors = for_generators ? generators : engines;
+
     vehicle_part alt = parts[ alternators [ a ] ];
     if( alt.is_unavailable() ) {
         return false;
@@ -3491,7 +3493,7 @@ int vehicle::consumption_per_hour( const itype_id &ftype, fuel_consumption_data 
 {
     item fuel = item( ftype );
     if( fcd.total_fuel == 0 || fcd.fuel_per_sec.empty() || fuel.has_flag( flag_PERPETUAL ) ||
-        !engine_on ) {
+        ( !engine_on && !generator_on ) ) {
         return 0;
     }
 
@@ -3500,16 +3502,18 @@ int vehicle::consumption_per_hour( const itype_id &ftype, fuel_consumption_data 
     return -36 * average / fuel.fuel_energy() / 10 ;
 }
 
-int vehicle::total_power_w( const bool fueled, const bool safe ) const
+int vehicle::total_power_w( const bool fueled, const bool safe, bool for_generators ) const
 {
+    const std::vector<int> motors = for_generators ? generators : engines;
+
     int pwr = 0;
     int cnt = 0;
 
-    for( size_t e = 0; e < engines.size(); e++ ) {
-        int p = engines[e];
-        if( is_engine_on( e ) && ( !fueled || engine_fuel_left( e ) ) ) {
-            int m2c = safe ? part_info( engines[e] ).engine_m2c() : 100;
-            if( parts[ engines[e] ].has_fault_flag( "REDUCE_ENG_POWER" ) ) {
+    for( size_t e = 0; e < motors.size(); e++ ) {
+        int p = motors[e];
+        if( is_engine_on( e, for_generators ) && ( !fueled || engine_fuel_left( e, for_generators ) ) ) {
+            int m2c = safe ? part_info( motors[e] ).engine_m2c() : 100;
+            if( parts[ motors[e] ].has_fault_flag( "REDUCE_ENG_POWER" ) ) {
                 m2c *= 0.6;
             }
             pwr += part_vpower_w( p ) * m2c / 100;
@@ -3519,13 +3523,15 @@ int vehicle::total_power_w( const bool fueled, const bool safe ) const
 
     for( size_t a = 0; a < alternators.size(); a++ ) {
         int p = alternators[a];
-        if( is_alternator_on( a ) ) {
+
+        if( is_alternator_on( a, for_generators ) ) {
             pwr += part_vpower_w( p ); // alternators have negative power
         }
     }
     pwr = std::max( 0, pwr );
 
-    if( cnt > 1 ) {
+    if( cnt > 1 &&
+        !for_generators ) {     //generators have no power loss for multiple engines todo Calculate for generators on per_generator basis
         pwr = pwr * 4 / ( 4 + cnt - 1 );
     }
     return pwr;
@@ -4645,14 +4651,11 @@ double vehicle::drain_energy( const itype_id &ftype, double energy_j )
     return drained;
 }
 
-void vehicle::consume_fuel( int load, bool idling )
+void vehicle::consume_fuel( int load, bool idling, bool for_generators )
 {
     double st = strain();
     std::map<itype_id, fuel_consumption_data> fuel_used_tmp;
-    for( const auto &fuel_pr : fuel_usage() ) {
-    std::map<itype_id, int> fuel_use = fuel_usage( true );
-    std::map<itype_id, int> fuel_use_engines = fuel_usage( false );
-    fuel_use.insert( fuel_use_engines.begin(), fuel_use_engines.end() );
+    std::map<itype_id, int> fuel_use = fuel_usage( for_generators );
 
     for( const auto &fuel_pr : fuel_use ) {
         const itype_id &ft = fuel_pr.first;
@@ -4698,7 +4701,8 @@ void vehicle::consume_fuel( int load, bool idling )
         }
     }
     // we want this to update the activity level whenever we're using muscle power to move
-    if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
+    //note remove generator, or move to separate function
+    if( load > 0 && fuel_left( fuel_type_muscle ) > 0 && !for_generators ) {
         player_character.set_activity_level( ACTIVE_EXERCISE );
         //do this as a function of current load
         // But only if the player is actually there!
@@ -4830,7 +4834,7 @@ int vehicle::total_engine_epower_w( const bool generators_only ) const
     // Engines: can both produce (plasma) or consume (gas, diesel) epower.
     // Gas engines require epower to run for ignition system, ECU, etc.
     // Electric motor consumption not included, see @ref vpart_info::energy_consumption
-    if( engine_on || ( generator_on && generators_only ) ) {
+    if( ( engine_on && !generators_only ) || ( generator_on && generators_only ) ) {
         for( size_t e = 0; e < motors.size(); ++e ) {
             if( is_engine_on( e, generators_only ) ) {
                 epower += part_epower_w( motors[e] );
@@ -4928,7 +4932,8 @@ int vehicle::max_reactor_epower_w() const
 
 void vehicle::update_alternator_load()
 {
-    alternator_load = get_alternator_load( true ) + get_alternator_load( false );
+    alternator_load_engines = get_alternator_load( false );
+    alternator_load_generators = get_alternator_load( true );
 }
 
 
@@ -4937,7 +4942,7 @@ int vehicle::get_alternator_load( const bool generators_only ) const
     const std::vector<int> motors = generators_only ? generators : engines;
 
     // Update alternator load
-    if( engine_on || ( generator_on && generators_only ) ) {
+    if( ( engine_on && !generators_only ) || ( generator_on && generators_only ) ) {
         int engine_vpower = 0;
         for( size_t e = 0; e < motors.size(); ++e ) {
             if( is_engine_on( e, generators_only ) && parts[motors[e]].info().has_flag( "E_ALTERNATOR" ) ) {
@@ -4946,7 +4951,7 @@ int vehicle::get_alternator_load( const bool generators_only ) const
         }
         int alternators_power = 0;
         for( size_t p = 0; p < alternators.size(); ++p ) {
-            if( is_alternator_on( p ) ) {
+            if( is_alternator_on( p, generators_only ) ) {
                 alternators_power += part_vpower_w( alternators[p] );
             }
         }
@@ -5258,33 +5263,11 @@ void vehicle::idle( bool on_map )
     avg_velocity = ( velocity + avg_velocity ) / 2;
 
     power_parts();
-    Character &player_character  = get_player_character();
-    if( engine_on && total_power_w() > 0 || generator_on ) {
-        int idle_rate = alternator_load;
-        if( idle_rate < 10 ) {
-            idle_rate = 10;    // minimum idle is 1% of full throttle
-        }
-        // helicopters use basically nearly all of their power just to hover.
-        // it becomes more efficient the closer they reach their safe cruise speed.
-        if( is_rotorcraft() && is_flying_in_air() ) {
-            idle_rate = 1000;
-        }
-        if( has_engine_type_not( fuel_type_muscle, true, false ) ||
-            has_engine_type_not( fuel_type_muscle, true, true ) ) {
-            consume_fuel( idle_rate, true );
-        }
 
-        if( on_map ) {
-            noise_and_smoke( idle_rate, 1_turns );
-        }
-    } else {
-        if( ( engine_on || generator_on ) &&
-            ( has_engine_type_not( fuel_type_muscle, true ) && has_engine_type_not( fuel_type_animal, true ) &&
-              has_engine_type_not( fuel_type_wind, true ) && has_engine_type_not( fuel_type_mana, true ) ) ) {
-            add_msg_if_player_sees( global_pos3(), _( "The %s's engine dies!" ), name );
-        }
-        engine_on = generator_on = false;
-    }
+    idle_fuel_consumption( on_map, false );
+    idle_fuel_consumption( on_map, true );
+
+    Character &player_character  = get_player_character();
 
     if( !warm_enough_to_plant( player_character.pos() ) ) {
         for( int i : planters ) {
@@ -5319,6 +5302,37 @@ void vehicle::idle( bool on_map )
 
     if( is_alarm_on ) {
         alarm();
+    }
+}
+
+void vehicle::idle_fuel_consumption( bool on_map, bool for_generators )
+{
+    if( ( for_generators ? generator_on : engine_on ) &&
+        total_power_w( true, false, for_generators ) > 0 ) {
+        int idle_rate = std::max( 10, ( for_generators ? alternator_load_generators :
+                                        alternator_load_engines ) ); // minimum idle is 1% of full throttle
+
+        // helicopters use basically nearly all of their power just to hover.
+        // it becomes more efficient the closer they reach their safe cruise speed.
+        if( is_rotorcraft() && is_flying_in_air() && !for_generators ) {
+            idle_rate = 1000;
+        }
+        if( has_engine_type_not( fuel_type_muscle, true, for_generators ) ) {
+            consume_fuel( idle_rate, true, for_generators );
+        }
+
+        if( on_map ) {
+            noise_and_smoke( idle_rate, for_generators, 1_turns );
+        }
+    } else {
+        if( ( for_generators ? generator_on : engine_on ) &&
+            ( has_engine_type_not( fuel_type_muscle, true, for_generators ) &&
+              has_engine_type_not( fuel_type_animal, true, for_generators ) &&
+              has_engine_type_not( fuel_type_wind, true, for_generators ) &&
+              has_engine_type_not( fuel_type_mana, true, for_generators ) ) ) {
+            add_msg_if_player_sees( global_pos3(), _( "The %s's engine dies!" ), name );
+        }
+        ( for_generators ? generator_on : engine_on ) = false;
     }
 }
 
@@ -5743,7 +5757,8 @@ void vehicle::refresh()
     planters.clear();
     accessories.clear();
 
-    alternator_load = 0;
+    alternator_load_engines = 0;
+    alternator_load_generators = 0;
     extra_drag = 0;
     all_wheels_on_one_axis = true;
     int first_wheel_y_mount = INT_MAX;

@@ -427,6 +427,7 @@ void vehicle::control_engines( bool generators_only )
     }
 
     bool engines_were_on = generators_only ? generator_on : engine_on;
+    generator_on = 0;
     int new_active_mask = 0;
     i = 0;
     for( int e : motors ) {
@@ -2089,7 +2090,7 @@ void vehicle::interact_with( const vpart_position &vp )
                              vp.avail_part_with_feature( "ADVANCED_PLANTER" );
 
     enum {
-        EXAMINE, TRACK, HANDBRAKE, CONTROL, CONTROL_ELECTRONICS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET,
+        EXAMINE, TRACK, HANDBRAKE, CONTROL, CONTROL_ELECTRONICS, CONTROL_GENERATORS, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET,
         RELOAD_TURRET, FILL_CONTAINER, DRINK, PURIFY_TANK, USE_AUTOCLAVE, USE_WASHMACHINE,
         USE_DISHWASHER, USE_MONSTER_CAPTURE, USE_BIKE_RACK, USE_HARNESS, RELOAD_PLANTER, WORKBENCH, PEEK_CURTAIN, TOOLS_OFFSET
     };
@@ -2100,6 +2101,9 @@ void vehicle::interact_with( const vpart_position &vp )
     if( vp_controls ) {
         selectmenu.addentry( HANDBRAKE, true, 'h', _( "Pull handbrake" ) );
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
+    }
+    if( vp_controls && has_part( "GENERATOR" ) ) {
+        selectmenu.addentry( CONTROL_GENERATORS, true, 'j', _( "Control individual generators" ) );
     }
     if( vp_electronics ) {
         selectmenu.addentry( CONTROL_ELECTRONICS, true, keybind( "CONTROL_MANY_ELECTRONICS" ),
@@ -2334,6 +2338,10 @@ void vehicle::interact_with( const vpart_position &vp )
         }
         case CONTROL_ELECTRONICS: {
             control_electronics();
+            return;
+        }
+        case CONTROL_GENERATORS: {
+            control_engines( true );
             return;
         }
         case EXAMINE: {

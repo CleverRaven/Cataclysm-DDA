@@ -1203,7 +1203,7 @@ class vehicle
 
         int consumption_per_hour( const itype_id &ftype, fuel_consumption_data &fcd ) const;
 
-        void consume_fuel( int load, bool idling );
+        void consume_fuel( int load, bool idling, bool for_generators = false );
 
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
@@ -1283,7 +1283,7 @@ class vehicle
         // Get combined power of all engines. If fueled == true, then only engines which
         // vehicle have fuel for are accounted.  If safe == true, then limit engine power to
         // their safe power.
-        int total_power_w( bool fueled = true, bool safe = false ) const;
+        int total_power_w( bool fueled = true, bool safe = false, bool for_generators = false ) const;
 
         // Get ground acceleration gained by combined power of all engines. If fueled == true,
         // then only engines which the vehicle has fuel for are included
@@ -1451,8 +1451,10 @@ class vehicle
          */
         static void enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
                                         std::set<vehicle *> &vehicle_list );
-        // idle fuel consumption
+        // idle operations, planting, power calculations
         void idle( bool on_map = true );
+        // idle fuel consumption
+        void idle_fuel_consumption( bool on_map, bool for_generators = false );
         // continuous processing for running vehicle alarms
         void alarm();
         // leak from broken tanks
@@ -1737,7 +1739,7 @@ class vehicle
         //returns whether the alternator on vehicle is operational
         bool is_alternator_on( int a ) const;
         //returns whether the alternator mounted on collection of parts is operational
-        bool is_alternator_on( int a, std::vector<int> motors ) const;
+        bool is_alternator_on( int a, bool for_generators ) const;
         //turn engine as on or off (note: doesn't perform checks if engine can start)
         void toggle_specific_engine( int e, bool on, bool generators_only = false );
         // try to turn engine on or off
@@ -1950,8 +1952,10 @@ class vehicle
          */
         tripoint sm_pos;
 
-        // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
-        int alternator_load = 0;
+        // alternator load of engines as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
+        int alternator_load_engines = 0;
+        // alternator load of generators as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
+        int alternator_load_generators = 0;
         // Turn the vehicle was last processed
         time_point last_update = calendar::before_time_starts;
         // save values

@@ -1413,6 +1413,12 @@ void veh_interact::calc_overview()
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, _( "Seats" ) );
         right_print( w, y, 1, c_light_gray, _( "Who" ) );
     };
+    overview_headers["7_GENERATOR"] = [this]( const catacurses::window & w, int y ) {
+        trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
+                        string_format( _( "Generators: %sEngine go brrrr</color>" ),
+                                       health_color( true ), veh->total_power_w( true, true ) / 1000 ) );
+        right_print( w, y, 1, c_light_gray, _( "Fuel     Use" ) );
+    };
 
     input_event hotkey = main_context.first_unassigned_hotkey( hotkeys );
 
@@ -1554,6 +1560,29 @@ void veh_interact::calc_overview()
                 }
             };
             overview_opts.emplace_back( "6_SEAT", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details );
+        }
+        if( vpr.part().is_generator() ) {
+            // if tank contains something then display the contents in milliliters
+            auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
+                right_print(
+                    w, y, 1, item::find_type( pt.ammo_current() )->color,
+                    string_format(
+                        "%s     <color_light_gray>%s</color>",
+                        !pt.fuel_current().is_null() ? item::nname( pt.fuel_current() ) : "",
+                        //~ translation should not exceed 3 console cells
+                        right_justify( pt.enabled ? _( "Yes" ) : _( "No" ), 3 ) ) );
+            };
+
+            // display engine faults (if any)
+            auto msg_cb = [&]( const vehicle_part & pt ) {
+                msg = std::string();
+                for( const auto &e : pt.faults() ) {
+                    msg = msg.value() + string_format( "%s\n  %s\n\n", colorize( e->name(), c_red ),
+                                                       colorize( e->description(), c_light_gray ) );
+                }
+            };
+            overview_opts.emplace_back( "7_GENERATOR", &vpr.part(), next_hotkey( vpr.part(), hotkey ), details,
+                                        msg_cb );
         }
     }
 

@@ -996,7 +996,8 @@ int vpart_info::engine_noise_factor() const
 
 int vpart_info::engine_m2c() const
 {
-    return has_flag( VPFLAG_ENGINE ) ? engine_info->m2c : 0;
+    return ( has_flag( VPFLAG_ENGINE ) ||
+             has_flag( VPFLAG_GENERATOR ) ) ? engine_info->m2c : 0;
 }
 
 std::vector<std::string> vpart_info::engine_excludes() const
