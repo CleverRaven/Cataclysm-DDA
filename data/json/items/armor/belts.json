@@ -118,7 +118,7 @@
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 5,
-    "material_thickness": 1,
+    "material_thickness": 1.5,
     "pocket_data": [
       {
         "holster": true,

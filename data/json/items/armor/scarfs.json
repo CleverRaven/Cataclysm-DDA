@@ -17,7 +17,7 @@
     "coverage": 70,
     "encumbrance": 20,
     "warmth": 40,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "flags": [ "OVERSIZE", "HOOD", "FANCY", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {

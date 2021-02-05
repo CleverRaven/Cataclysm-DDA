@@ -285,7 +285,7 @@ struct islot_pet_armor {
     /**
      * TODO: document me.
      */
-    int thickness = 0;
+    float thickness = 0;
     /**
      * Resistance to environmental effects.
      */

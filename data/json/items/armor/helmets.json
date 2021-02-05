@@ -474,7 +474,7 @@
     "covers": [ "head" ],
     "coverage": 100,
     "warmth": 30,
-    "material_thickness": 2,
+    "material_thickness": 0.5,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {

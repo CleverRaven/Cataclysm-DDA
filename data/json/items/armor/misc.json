@@ -17,7 +17,7 @@
     "coverage": 60,
     "encumbrance": 5,
     "warmth": 20,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "FANCY" ]
   },
