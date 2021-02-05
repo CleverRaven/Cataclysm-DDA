@@ -3,15 +3,16 @@
 #include <algorithm>
 #include <array>
 #include <cstdlib>
-#include <memory>
 #include <tuple>
 #include <utility>
 
 #include "cata_assert.h"
 #include "enums.h"
+#include "math_defines.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "units.h"
 #include "units_fwd.h"
 
 bool trigdist;

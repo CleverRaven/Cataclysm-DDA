@@ -1,16 +1,17 @@
 #include "json.h"
 
+#include <clocale>
 #include <algorithm>
 #include <bitset>
 #include <cmath> // IWYU pragma: keep
 #include <cstdint>
 #include <cstdio>
-#include <cstdlib> // strtoul: keep
 #include <cstring> // strcmp
 #include <exception>
+#include <functional>
 #include <iterator>
 #include <limits>
-#include <locale> // ensure user's locale doesn't interfere with output
+#include <memory>
 #include <set>
 #include <sstream> // IWYU pragma: keep
 #include <string>

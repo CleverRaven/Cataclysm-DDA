@@ -1,8 +1,8 @@
 #include "map_selector.h"
 
-#include <algorithm>
 #include <functional>
 #include <memory>
+#include <new>
 #include <vector>
 
 #include "game.h"

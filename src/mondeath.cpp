@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <functional>
+#include <iosfwd>
+#include <list>
 #include <map>
 #include <memory>
 #include <set>
@@ -10,18 +13,17 @@
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "colony.h"
 #include "creature.h"
+#include "debug.h"
 #include "enums.h"
 #include "explosion.h"
 #include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_stack.h"
 #include "itype.h"
@@ -40,12 +42,10 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "viewer.h"
 

@@ -1,6 +1,7 @@
+#include "avatar.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <climits>
-#include <cmath>
 #include <cstdlib>
 #include <functional>
 #include <iosfwd>
@@ -8,6 +9,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <tuple>
 #include <unordered_map>
@@ -15,9 +17,7 @@
 #include <vector>
 
 #include "addiction.h"
-#include "avatar.h" // IWYU pragma: associated
 #include "bionics.h"
-#include "bodypart.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -27,7 +27,6 @@
 #include "enum_conversions.h"
 #include "game_constants.h"
 #include "input.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "json.h"
@@ -54,7 +53,6 @@
 #include "skill.h"
 #include "start_location.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"

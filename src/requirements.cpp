@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <climits>
-#include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <limits>
@@ -19,7 +18,6 @@
 #include "debug.h"
 #include "debug_menu.h"
 #include "enum_traits.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "inventory.h"
 #include "item.h"
@@ -30,8 +28,8 @@
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
+#include "value_ptr.h"
 #include "visitable.h"
 
 static const itype_id itype_char_forge( "char_forge" );

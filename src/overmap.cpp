@@ -1,10 +1,16 @@
+#include "omdata.h" // IWYU pragma: associated
+#include "overmap.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cmath>
 #include <cstring>
+#include <exception>
+#include <istream>
 #include <memory>
 #include <numeric>
 #include <ostream>
 #include <set>
+#include <type_traits>
 #include <unordered_set>
 #include <vector>
 
@@ -25,17 +31,16 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapgen.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "name.h"
 #include "npc.h"
-#include "omdata.h" // IWYU pragma: associated
 #include "optional.h"
 #include "options.h"
 #include "output.h"
-#include "overmap.h" // IWYU pragma: associated
 #include "overmap_connection.h"
 #include "overmap_location.h"
 #include "overmap_noise.h"

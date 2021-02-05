@@ -1,10 +1,10 @@
 #include "translations.h"
 
-#include <array>
 #include <clocale>
-#include <cstdlib>
+#include <array>
 #include <functional>
-#include <locale>
+#include <iterator>
+#include <new>
 
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that
@@ -16,7 +16,6 @@
 #include <map>
 #include <memory>
 #include <ostream>
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -24,6 +23,7 @@
 #include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "name.h"
@@ -312,9 +312,6 @@ std::string getOSXSystemLang()
 #endif
 
 #else // !LOCALIZE
-
-#include <cstring> // strcmp
-#include <map>
 
 std::string locale_dir()
 {

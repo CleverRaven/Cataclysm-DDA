@@ -3,13 +3,11 @@
 #define CATA_SRC_ADVANCED_INV_AREA_H
 
 #include <array>
-#include <list>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
 #include "point.h"
-#include "units.h"
-#include "units_fwd.h"
+#include "units.h" // IWYU pragma: keep
 
 enum aim_location : char {
     AIM_INVENTORY = 0,

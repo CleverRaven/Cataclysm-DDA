@@ -2,13 +2,16 @@
 #ifndef CATA_SRC_FLAG_H
 #define CATA_SRC_FLAG_H
 
+#include <iosfwd>
 #include <set>
 #include <string>
+#include <vector>
 
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
+template <typename T> class generic_factory;
 
 extern const flag_id flag_NULL;
 extern const flag_id flag_ACID;

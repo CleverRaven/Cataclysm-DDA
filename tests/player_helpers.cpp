@@ -1,13 +1,13 @@
-#include "catch/catch.hpp"
-#include "player_helpers.h"
-
 #include <cstddef>
+#include <functional>
 #include <list>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
 #include "bionics.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
@@ -22,6 +22,7 @@
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "ret_val.h"
 #include "stomach.h"

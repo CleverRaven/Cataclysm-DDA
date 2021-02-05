@@ -13,7 +13,6 @@
 #include "json.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "text_snippets.h"
 
 namespace

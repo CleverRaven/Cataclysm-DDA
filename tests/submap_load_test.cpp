@@ -1,11 +1,27 @@
+#include <algorithm>
+#include <list>
+#include <map>
+#include <memory>
+#include <sstream>
+#include <string>
+#include <vector>
+
+#include "calendar.h"
 #include "catch/catch.hpp"
-#include "submap.h"
-
-#include <istream>
-
+#include "colony.h"
+#include "construction.h"
+#include "field.h"
 #include "game.h"
+#include "game_constants.h"
+#include "item.h"
+#include "json.h"
 #include "make_static.h"
+#include "mapdata.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "submap.h"
 #include "trap.h"
+#include "type_id.h"
 #include "vehicle.h"
 
 static const point &corner_ne = point_zero;

@@ -1,17 +1,22 @@
 #include "item_group.h"
 
 #include <algorithm>
+#include <cstdlib>
+#include <new>
 #include <set>
+#include <string>
+#include <type_traits>
 
 #include "calendar.h"
 #include "cata_assert.h"
 #include "compatibility.h"
 #include "debug.h"
+#include "enum_traits.h"
 #include "enums.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -22,6 +27,7 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "type_id.h"
+#include "units.h"
 
 static const std::string null_item_id( "null" );
 

@@ -2,14 +2,11 @@
 
 #include <cstdlib>
 
-#include "bodypart.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "json.h"
-#include "string_id.h"
 
 const field_type_str_id fd_null = field_type_str_id::NULL_ID();
 const field_type_str_id fd_fire( "fd_fire" );

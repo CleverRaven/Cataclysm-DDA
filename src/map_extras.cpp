@@ -2,10 +2,11 @@
 
 #include <algorithm>
 #include <array>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <unordered_map>
 #include <utility>
@@ -27,7 +28,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_group.h"
 #include "json.h"

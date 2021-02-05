@@ -2,11 +2,7 @@
 #ifndef CATA_SRC_SDLTILES_H
 #define CATA_SRC_SDLTILES_H
 
-#include <array>
-
-#include "point.h"
-
-struct point;
+#include "point.h" // IWYU pragma: keep
 
 namespace catacurses
 {

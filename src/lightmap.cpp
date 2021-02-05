@@ -1,39 +1,45 @@
 #include "lightmap.h" // IWYU pragma: associated
+#include "shadowcasting.h" // IWYU pragma: associated
 
+#include <bitset>
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
+#include <map>
 #include <memory>
+#include <tuple>
 #include <utility>
 #include <vector>
 
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
+#include "coordinate_conversions.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "field.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_stack.h"
+#include "level_cache.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "math_defines.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
 #include "point.h"
-#include "shadowcasting.h" // IWYU pragma: associated
 #include "string_formatter.h"
-#include "string_id.h"
 #include "submap.h"
 #include "tileray.h"
 #include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"

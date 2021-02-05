@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_SUBMAP_H
 #define CATA_SRC_SUBMAP_H
 
-#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iosfwd>
 #include <iterator>
 #include <map>
 #include <memory>

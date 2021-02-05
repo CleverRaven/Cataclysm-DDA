@@ -1,3 +1,5 @@
+#include "vehicle.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -5,22 +7,23 @@
 #include <list>
 #include <memory>
 #include <sstream>
+#include <string>
 #include <tuple>
 
 #include "action.h"
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "activity_type.h"
 #include "avatar.h"
 #include "character.h"
 #include "clzones.h"
 #include "color.h"
+#include "creature.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
 #include "iexamine.h"
 #include "input.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -45,7 +48,6 @@
 #include "smart_controller_ui.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
@@ -53,7 +55,6 @@
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
-#include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"

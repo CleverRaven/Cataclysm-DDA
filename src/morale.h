@@ -4,14 +4,12 @@
 
 #include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "morale_types.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;

@@ -1,5 +1,6 @@
 #include <memory>
 
+#include "character_id.h"
 #include "item.h"
 #include "magic.h"
 #include "npc.h"

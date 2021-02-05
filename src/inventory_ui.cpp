@@ -1,16 +1,20 @@
 #include "inventory_ui.h"
 
+#include <cstdint>
+
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
+#include "compatibility.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
@@ -23,9 +27,9 @@
 #include "options.h"
 #include "output.h"
 #include "point.h"
+#include "ret_val.h"
 #include "sdltiles.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
@@ -49,6 +53,7 @@
 #include <set>
 #include <string>
 #include <type_traits>
+#include <unordered_map>
 #include <vector>
 
 /** The maximum distance from the screen edge, to snap a window to it */

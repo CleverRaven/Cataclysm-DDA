@@ -1,11 +1,14 @@
 #include "shadowcasting.h"
 
-#include "cached_options.h"
+#include <cstdint>
+#include <cstdlib>
+#include <iterator>
+
 #include "cuboid_rectangle.h"
-#include "enums.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "line.h"
 #include "list.h"
+#include "point.h"
 
 struct slope {
     slope( int_least8_t rise, int_least8_t run ) {

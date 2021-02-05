@@ -1,9 +1,8 @@
+#include <functional>
+
 #include "catch/catch.hpp"
-#include "item_contents.h"
-
-#include <string>
-
 #include "item.h"
+#include "item_contents.h"
 #include "item_pocket.h"
 #include "point.h"
 #include "ret_val.h"

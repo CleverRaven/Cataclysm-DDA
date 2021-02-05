@@ -1,6 +1,5 @@
 #include "flag.h"
 
-#include <unordered_map>
 
 #include "debug.h"
 #include "generic_factory.h"

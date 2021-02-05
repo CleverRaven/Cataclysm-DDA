@@ -2,13 +2,15 @@
 #ifndef CATA_SRC_OUTPUT_H
 #define CATA_SRC_OUTPUT_H
 
+#include <functional>
+#include <clocale>
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
 #include <forward_list>
 #include <functional>
+#include <iosfwd>
 #include <iterator>
-#include <locale>
 #include <map>
 #include <string>
 #include <type_traits>

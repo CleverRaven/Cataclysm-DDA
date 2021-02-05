@@ -2,10 +2,11 @@
 #ifndef CATA_SRC_IUSE_ACTOR_H
 #define CATA_SRC_IUSE_ACTOR_H
 
-#include <algorithm>
 #include <climits>
+#include <iosfwd>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -17,27 +18,22 @@
 #include "damage.h"
 #include "enums.h"
 #include "explosion.h"
-#include "game_constants.h"
 #include "iuse.h"
 #include "optional.h"
 #include "ret_val.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 
 class Character;
+class JsonObject;
 class item;
+class item_location;
 class npc_template;
 class player;
+struct furn_t;
 struct iteminfo;
 struct tripoint;
-
-class JsonObject;
-class item_location;
-struct furn_t;
-struct itype;
 
 /**
  * Transform an item into a specific type.

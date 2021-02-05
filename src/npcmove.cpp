@@ -1,3 +1,5 @@
+#include "npc.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cfloat>
 #include <climits>
@@ -19,6 +21,7 @@
 #include "character.h"
 #include "character_id.h"
 #include "clzones.h"
+#include "colony.h"
 #include "damage.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
@@ -29,6 +32,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "gates.h"
@@ -43,12 +47,13 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "material.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
-#include "npc.h" // IWYU pragma: associated
 #include "npctalk.h"
+#include "omdata.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmap_location.h"

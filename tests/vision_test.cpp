@@ -1,22 +1,27 @@
-#include "catch/catch.hpp"
-
-#include <iomanip>
+#include <functional>
+#include <list>
 #include <memory>
-#include <utility>
+#include <new>
+#include <sstream>
+#include <string>
 #include <vector>
 
 #include "cached_options.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
-#include "field.h"
 #include "game.h"
-#include "game_constants.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_test_case.h"
+#include "mapdata.h"
+#include "optional.h"
 #include "point.h"
 #include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 #include "vpart_range.h"
 
 static int get_actual_light_level( const map_test_case::tile &t )

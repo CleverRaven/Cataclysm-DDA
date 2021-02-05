@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <string>
@@ -19,7 +20,6 @@
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
-#include "units.h"
 #include "units_fwd.h"
 
 class player;

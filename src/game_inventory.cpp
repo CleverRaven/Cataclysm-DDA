@@ -4,18 +4,20 @@
 #include <bitset>
 #include <cstddef>
 #include <functional>
+#include <iterator>
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <vector>
 
 #include "activity_type.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "character.h"
 #include "color.h"
 #include "compatibility.h"
@@ -29,6 +31,7 @@
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -48,12 +51,10 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 

@@ -1,10 +1,6 @@
-#include "catch/catch.hpp"
-
-#include <cmath>
-#include <string>
-
 #include "calendar.h"
 #include "cata_utility.h"
+#include "catch/catch.hpp"
 #include "enums.h"
 #include "flag.h"
 #include "game_constants.h"

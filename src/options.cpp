@@ -3,9 +3,10 @@
 #include <clocale>
 #include <cfloat>
 #include <climits>
+#include <clocale>
 #include <iterator>
+#include <new>
 #include <stdexcept>
-#include <type_traits>
 
 #include "cached_options.h"
 #include "calendar.h"
@@ -13,7 +14,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "cursesport.h"
+#include "cursesport.h" // IWYU pragma: keep
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -26,8 +27,8 @@
 #include "path_info.h"
 #include "point.h"
 #include "popup.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "sdlsound.h"
-#include "sdltiles.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -45,7 +46,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <locale>
 #include <memory>
 #include <sstream>
 #include <string>

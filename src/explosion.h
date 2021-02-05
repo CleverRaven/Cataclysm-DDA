@@ -3,15 +3,14 @@
 #define CATA_SRC_EXPLOSION_H
 
 #include <map>
-#include <string>
+#include <utility>
 #include <vector>
 
-#include "string_id.h"
+#include "point.h"
 #include "type_id.h"
 
 class JsonObject;
 class nc_color;
-struct tripoint;
 
 struct shrapnel_data {
     int casing_mass = 0;

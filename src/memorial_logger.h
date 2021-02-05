@@ -3,7 +3,7 @@
 #define CATA_SRC_MEMORIAL_LOGGER_H
 
 #include <iosfwd>
-#include <string>
+#include <new>
 #include <vector>
 
 #include "calendar.h"

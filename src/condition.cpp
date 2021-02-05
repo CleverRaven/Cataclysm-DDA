@@ -5,6 +5,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -22,6 +23,7 @@
 #include "item.h"
 #include "item_category.h"
 #include "json.h"
+#include "line.h"
 #include "map.h"
 #include "mapdata.h"
 #include "mission.h"
@@ -31,7 +33,6 @@
 #include "overmapbuffer.h"
 #include "point.h"
 #include "recipe_groups.h"
-#include "string_id.h"
 #include "talker.h"
 #include "type_id.h"
 #include "units.h"
@@ -40,7 +41,6 @@
 
 class basecamp;
 class recipe;
-struct dialogue;
 
 static const efftype_id effect_currently_busy( "currently_busy" );
 

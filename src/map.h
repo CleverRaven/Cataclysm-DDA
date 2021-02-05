@@ -8,19 +8,21 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
-#include <string>
 #include <tuple>
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "colony.h"
+#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -30,18 +32,17 @@
 #include "lightmap.h"
 #include "line.h"
 #include "lru_cache.h"
+#include "map_selector.h"
 #include "mapdata.h"
+#include "optional.h"
 #include "point.h"
-#include "rng.h"
-#include "shadowcasting.h"
-#include "string_id.h"
-#include "type_id.h"
-#include "units_fwd.h"
 #include "reachability_cache.h"
+#include "rng.h"
+#include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
 
 struct scent_block;
-template <typename T> class safe_reference;
-template <typename T> class string_id;
 
 namespace catacurses
 {
@@ -55,7 +56,6 @@ class computer;
 class field;
 class field_entry;
 class item_location;
-class map_cursor;
 class mapgendata;
 class monster;
 class optional_vpart_position;
@@ -67,7 +67,6 @@ class zone_data;
 struct fragment_cloud;
 struct maptile;
 struct partial_con;
-struct rl_vec2d;
 struct spawn_data;
 struct trap;
 template<typename Tripoint>
@@ -81,7 +80,6 @@ struct MonsterGroupResult;
 struct mongroup;
 struct projectile;
 struct veh_collision;
-class visitable;
 
 struct wrapped_vehicle {
     tripoint pos;

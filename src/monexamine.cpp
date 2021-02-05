@@ -1,6 +1,8 @@
 #include "monexamine.h"
 
-#include <algorithm>
+#include <functional>
+#include <iosfwd>
+#include <list>
 #include <map>
 #include <memory>
 #include <string>
@@ -37,7 +39,6 @@
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
 static const quality_id qual_SHEAR( "SHEAR" );

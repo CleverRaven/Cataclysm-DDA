@@ -1,7 +1,5 @@
 #include "animation.h"
 
-#include <ctime>
-
 #include "avatar.h"
 #include "cached_options.h"
 #include "character.h"
@@ -17,13 +15,13 @@
 #include "mtype.h"
 #include "options.h"
 #include "output.h"
-#include "player.h"
 #include "point.h"
 #include "popup.h"
 #include "posix_time.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#include "units_fwd.h"
 #include "viewer.h"
 #include "weather.h"
 
@@ -35,11 +33,13 @@
 #endif
 
 #include <algorithm>
+#include <functional>
+#include <iosfwd>
 #include <iterator>
 #include <list>
 #include <map>
 #include <memory>
-#include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
 

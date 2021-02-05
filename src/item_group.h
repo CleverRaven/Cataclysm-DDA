@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_ITEM_GROUP_H
 #define CATA_SRC_ITEM_GROUP_H
 
+#include <iosfwd>
 #include <memory>
 #include <set>
-#include <string>
 #include <utility>
 #include <vector>
 
@@ -14,11 +14,11 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-struct itype;
-
 class JsonObject;
 class JsonValue;
 class time_point;
+struct itype;
+template <typename E> struct enum_traits;
 
 enum class spawn_flags {
     none = 0,

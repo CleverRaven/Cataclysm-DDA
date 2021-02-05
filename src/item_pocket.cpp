@@ -1,15 +1,16 @@
 #include "item_pocket.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <string>
 #include <utility>
 
 #include "ammo.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "color.h"
 #include "crafting.h"
 #include "debug.h"
 #include "enums.h"
@@ -24,9 +25,9 @@
 #include "itype.h"
 #include "json.h"
 #include "map.h"
+#include "math_defines.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"

@@ -2,8 +2,8 @@
 
 #include <cstddef>
 #include <fstream>
-#include <iterator>
 #include <memory>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -19,6 +19,7 @@
 #include "bodypart.h"
 #include "butchery_requirements.h"
 #include "cata_assert.h"
+#include "cata_utility.h"
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"
@@ -42,6 +43,7 @@
 #include "item_action.h"
 #include "item_category.h"
 #include "item_factory.h"
+#include "itype.h"
 #include "json.h"
 #include "loading_ui.h"
 #include "lru_cache.h"
@@ -78,7 +80,7 @@
 #include "rotatable_symbols.h"
 #include "scenario.h"
 #include "scent_map.h"
-#include "sdltiles.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"

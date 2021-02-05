@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <tuple>
@@ -12,16 +13,14 @@
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
 #include "effect.h"
+#include "effect_source.h"
 #include "enums.h"
-#include "map_field.h"
-#include "int_id.h"
 #include "mapdata.h"
-#include "string_id.h"
+#include "map_field.h"
 #include "translations.h"
 #include "type_id.h"
 

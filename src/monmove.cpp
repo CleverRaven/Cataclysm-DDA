@@ -1,12 +1,16 @@
 // Monster movement code; essentially, the AI
+#include "monster.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cfloat>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <list>
 #include <memory>
 #include <ostream>
+#include <string>
 #include <unordered_map>
 
 #include "behavior.h"
@@ -14,22 +18,22 @@
 #include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "colony.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "field.h"
 #include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mattack_common.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monfaction.h"
-#include "monster.h" // IWYU pragma: associated
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
@@ -40,7 +44,6 @@
 #include "scent_map.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "tileray.h"
 #include "translations.h"
 #include "trap.h"

@@ -1,14 +1,14 @@
+#include <cctype>
 #include <algorithm>
 #include <array>
-#include <cctype>
 #include <cmath>
 #include <cstdlib>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
 #include <string>
 #include <tuple>
-#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -18,6 +18,8 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "creature.h"
+#include "debug.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -26,11 +28,12 @@
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "magic_enchantment.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
@@ -42,6 +45,7 @@
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
+#include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
 #include "rng.h"
@@ -49,13 +53,10 @@
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
-#include "teleport.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "weather.h"
 #include "weather_type.h"
 

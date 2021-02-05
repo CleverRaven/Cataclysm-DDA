@@ -1,15 +1,18 @@
 #include "iuse_actor.h"
 
+#include <cctype>
 #include <algorithm>
 #include <array>
-#include <cctype>
 #include <cmath>
 #include <cstddef>
 #include <functional>
 #include <iterator>
+#include <limits>
 #include <list>
 #include <memory>
+#include <numeric>
 #include <sstream>
+#include <type_traits>
 
 #include "action.h"
 #include "activity_actor_definitions.h"
@@ -23,6 +26,8 @@
 #include "character.h"
 #include "character_id.h"
 #include "clothing_mod.h"
+#include "clzones.h"
+#include "colony.h"
 #include "crafting.h"
 #include "creature.h"
 #include "damage.h"
@@ -33,12 +38,10 @@
 #include "explosion.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"

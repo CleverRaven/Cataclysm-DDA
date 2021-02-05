@@ -2,17 +2,15 @@
 #ifndef CATA_SRC_CONDITION_H
 #define CATA_SRC_CONDITION_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <string>
 #include <unordered_set>
 
 #include "dialogue.h"
-#include "json.h"
 #include "mission.h"
 
-struct dialogue;
-struct mission_goal_condition_context;
+class JsonObject;
 
 namespace dialogue_data
 {

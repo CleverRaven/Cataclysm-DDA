@@ -1,19 +1,21 @@
 #include "editmap.h"
 
-#include <algorithm>
 #include <cstdlib>
-#include <cstring>
+#include <exception>
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <new>
+#include <ostream>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <typeinfo>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
-#include "cached_options.h"
+#include "cached_options.h" // IWYU pragma: keep
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -30,8 +32,8 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
-#include "int_id.h"
 #include "item.h"
+#include "level_cache.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -45,7 +47,6 @@
 #include "scent_map.h"
 #include "shadowcasting.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "submap.h"
 #include "translations.h"

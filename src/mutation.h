@@ -2,17 +2,16 @@
 #ifndef CATA_SRC_MUTATION_H
 #define CATA_SRC_MUTATION_H
 
-#include <algorithm>
 #include <climits>
+#include <iosfwd>
 #include <map>
-#include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
@@ -20,7 +19,6 @@
 #include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -31,13 +29,11 @@ class JsonObject;
 class Trait_group;
 class item;
 class nc_color;
-class player;
 struct dream;
 
 enum game_message_type : int;
 
 template <typename E> struct enum_traits;
-template <typename T> class string_id;
 
 extern std::vector<dream> dreams;
 extern std::map<mutation_category_id, std::vector<trait_id> > mutations_category;

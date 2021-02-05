@@ -1,11 +1,11 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <set>
 #include <string>
 
+#include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "player_helpers.h"

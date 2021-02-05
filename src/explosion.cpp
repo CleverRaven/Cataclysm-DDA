@@ -1,9 +1,11 @@
 #include "explosion.h" // IWYU pragma: associated
+#include "fragment_cloud.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <iosfwd>
 #include <limits>
 #include <map>
 #include <memory>
@@ -18,17 +20,15 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "colony.h"
 #include "color.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
 #include "field_type.h"
-#include "flat_set.h"
-#include "fragment_cloud.h" // IWYU pragma: associated
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
@@ -38,6 +38,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"

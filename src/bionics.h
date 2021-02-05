@@ -2,32 +2,26 @@
 #ifndef CATA_SRC_BIONICS_H
 #define CATA_SRC_BIONICS_H
 
-#include <algorithm>
 #include <cstddef>
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
-#include <string>
-#include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "flat_set.h"
 #include "magic.h"
 #include "optional.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
-class avatar;
 class Character;
 class JsonIn;
 class JsonObject;
 class JsonOut;
-class player;
 
 enum class character_stat : char;
 

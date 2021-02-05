@@ -3,13 +3,14 @@
 #include <algorithm>
 #include <iterator>
 #include <map>
-#include <memory>
+#include <string>
 #include <type_traits>
 
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "input.h"
@@ -25,7 +26,6 @@
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"

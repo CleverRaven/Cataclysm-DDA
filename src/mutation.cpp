@@ -2,9 +2,11 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <functional>
 #include <memory>
 #include <unordered_set>
 
+#include "activity_type.h"
 #include "avatar_action.h"
 #include "bionics.h"
 #include "character.h"
@@ -16,10 +18,10 @@
 #include "event_bus.h"
 #include "field_type.h"
 #include "game.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -29,9 +31,9 @@
 #include "omdata.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "player_activity.h"
 #include "rng.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 

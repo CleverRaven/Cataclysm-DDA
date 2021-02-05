@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <functional>
 #include <memory>
 #include <set>
 #include <string>
@@ -17,7 +18,6 @@
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
-#include "damage.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
@@ -28,6 +28,7 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -39,11 +40,9 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "weather_gen.h"
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );

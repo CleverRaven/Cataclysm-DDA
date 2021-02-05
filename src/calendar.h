@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_CALENDAR_H
 #define CATA_SRC_CALENDAR_H
 
-#include <string>
+#include <iosfwd>
 #include <utility>
 #include <vector>
 

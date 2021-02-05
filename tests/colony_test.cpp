@@ -1,11 +1,10 @@
-#include "catch/catch.hpp"
-
-#include <cstddef>
 #include <algorithm> // std::find
+#include <cstddef>
 #include <functional> // std::greater
-#include <utility> // std::move
+#include <type_traits>
 #include <vector> // range-insert testing
 
+#include "catch/catch.hpp"
 #include "colony.h"
 #include "colony_list_test_helpers.h"
 

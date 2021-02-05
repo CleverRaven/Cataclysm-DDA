@@ -6,10 +6,10 @@
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
-#include <iterator>
-#include <limits>
 #include <ostream>
 #include <queue>
+#include <string>
+#include <type_traits>
 #include <unordered_map>
 
 #include "active_item_cache.h"
@@ -17,6 +17,7 @@
 #include "ammo_effect.h"
 #include "avatar.h"
 #include "basecamp.h"
+#include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
@@ -40,13 +41,11 @@
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "fragment_cloud.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_factory.h"
@@ -58,10 +57,12 @@
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "location.h"
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapbuffer.h"
 #include "mapgen.h"
+#include "math_defines.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -79,9 +80,9 @@
 #include "rng.h"
 #include "safe_reference.h"
 #include "scent_map.h"
+#include "shadowcasting.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "submap.h"
 #include "tileray.h"
 #include "timed_event.h"

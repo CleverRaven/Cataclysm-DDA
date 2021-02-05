@@ -1,12 +1,17 @@
-#include "catch/catch.hpp"
-
 #include <algorithm>
+#include <cmath>
 #include <cstdio>
+#include <iosfwd>
+#include <map>
+#include <memory>
+#include <string>
 #include <utility>
 #include <vector>
 
+#include "catch/catch.hpp"
 #include "character.h"
 #include "item.h"
+#include "item_contents.h"
 #include "itype.h"
 #include "make_static.h"
 #include "output.h"
@@ -16,6 +21,7 @@
 #include "stomach.h"
 #include "test_statistics.h"
 #include "type_id.h"
+#include "units.h"
 #include "value_ptr.h"
 
 struct all_stats {

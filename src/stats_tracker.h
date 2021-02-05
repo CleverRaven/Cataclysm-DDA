@@ -1,9 +1,9 @@
 #ifndef CATA_SRC_STATS_TRACKER_H
 #define CATA_SRC_STATS_TRACKER_H
 
+#include <iosfwd>
 #include <memory>
 #include <set>
-#include <string>
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
@@ -12,9 +12,7 @@
 #include "calendar.h"
 #include "cata_variant.h"
 #include "event.h"
-#include "event_bus.h"
 #include "event_subscriber.h"
-#include "hash_utils.h"
 #include "optional.h"
 #include "string_id.h"
 
@@ -22,6 +20,10 @@ class JsonIn;
 class JsonOut;
 class event_statistic;
 class event_transformation;
+namespace cata
+{
+struct range_hash;
+}  // namespace cata
 
 enum class monotonically : int;
 class score;

@@ -1,21 +1,23 @@
+#include "mutation.h" // IWYU pragma: associated
+
 #include <cstdlib>
 #include <map>
 #include <memory>
 #include <set>
 #include <stdexcept>
+#include <type_traits>
 #include <vector>
 
 #include "assign.h"
 #include "color.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "enums.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "make_static.h"
 #include "memory_fast.h"
-#include "mutation.h" // IWYU pragma: associated
 #include "string_formatter.h"
-#include "string_id.h"
 #include "trait_group.h"
 #include "translations.h"
 
