@@ -428,11 +428,11 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
     for( auto &files_i : files ) {
         const std::string &file = files_i;
         // open the file as a stream
-        std::ifstream infile( file.c_str(), std::ifstream::in | std::ifstream::binary );
+        cata_ifstream infile = std::move( cata_ifstream().binary( true ).open( file ) );
         // and stuff it into ram
         std::istringstream iss(
             std::string(
-                ( std::istreambuf_iterator<char>( infile ) ),
+                ( std::istreambuf_iterator<char>( *infile ) ),
                 std::istreambuf_iterator<char>()
             )
         );

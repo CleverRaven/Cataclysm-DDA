@@ -3010,8 +3010,8 @@ std::vector<std::string> game::list_active_characters()
 void game::write_memorial_file( std::string sLastWords )
 {
     const std::string &memorial_dir = PATH_INFO::memorialdir();
-    const std::string &memorial_active_world_dir = memorial_dir + utf8_to_native(
-                world_generator->active_world->world_name ) + "/";
+    const std::string &memorial_active_world_dir = memorial_dir +
+            world_generator->active_world->world_name + "/";
 
     //Check if both dirs exist. Nested assure_dir_exist fails if the first dir of the nested dir does not exist.
     if( !assure_dir_exist( memorial_dir ) ) {
@@ -3039,17 +3039,7 @@ void game::write_memorial_file( std::string sLastWords )
     std::ostringstream memorial_file_path;
     memorial_file_path << memorial_active_world_dir;
 
-    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
-        // Use the default locale to replace non-printable characters with _ in the player name.
-        std::locale locale {"C"};
-        std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
-                              std::ostream_iterator<char>( memorial_file_path ),
-        [&]( const char c ) {
-            return !std::isgraph( c, locale );
-        }, '_' );
-    } else {
-        memorial_file_path << utf8_to_native( u.name );
-    }
+    memorial_file_path << ensure_valid_file_name( u.name );
 
     // Add a ~ if the player name was actually truncated.
     memorial_file_path << ( ( truncated_name_len != name_len ) ? "~-" : "-" );

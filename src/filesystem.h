@@ -5,17 +5,48 @@
 #include <string>
 #include <vector>
 
+/**
+ * Create directory if it does not exist.
+ * @return true if directory exists or was successfully created.
+ */
 bool assure_dir_exist( const std::string &path );
+/**
+ * Check if directory exists.
+ * @return false if directory does not exist or if unable to check.
+ */
 bool dir_exist( const std::string &path );
+/**
+ * Check if file exists.
+ * @return false if file does not exist or if unable to check.
+ */
 bool file_exist( const std::string &path );
-// Remove a file, does not remove folders,
-// returns true on success
+/**
+ * Remove a file. Does not remove directories.
+ * @return true on success.
+ */
 bool remove_file( const std::string &path );
+/**
+ * Remove an empty directory.
+ * @return true on success, false on failure (e.g. directory is not empty).
+ */
 bool remove_directory( const std::string &path );
-// Rename a file, overriding the target!
+/**
+ * Rename a file, overwriting the target. Does not overwrite directories.
+ * @return true on success, false on failure.
+ */
 bool rename_file( const std::string &old_path, const std::string &new_path );
-// Check if can write to the given directory
+/**
+ * Check if can write to the given directory (write permission, disk space).
+ * @return false if cannot write or if unable to check.
+ */
 bool can_write_to_dir( const std::string &dir_path );
+/**
+ * Copy file, overwriting the target. Does not overwrite directories.
+ * @return true on success, false on failure.
+ */
+bool copy_file( const std::string &source_path, const std::string &dest_path );
+/** Get process id string. Used for temporary file paths. */
+std::string get_pid_string();
 
 namespace cata_files
 {
@@ -51,8 +82,6 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
 
 std::vector<std::string> get_directories_with( const std::string &pattern,
         const std::string &root_path = "", bool recursive_search = false );
-
-bool copy_file( const std::string &source_path, const std::string &dest_path );
 
 /**
  *  Replace invalid characters in a string with a default character; can be used to ensure that a file name is compliant with most file systems.

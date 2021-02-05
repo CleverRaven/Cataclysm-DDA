@@ -33,7 +33,7 @@ class imm_wrapper
     public:
         imm_wrapper() {
             // Check if East Asian support is available
-            hImm = LoadLibrary( "imm32.dll" );
+            hImm = LoadLibraryW( L"imm32.dll" );
             if( hImm ) {
                 pImmGetContext = fun_ptr_cast<pImmGetContext_t>(
                                      GetProcAddress( hImm, "ImmGetContext" ) );

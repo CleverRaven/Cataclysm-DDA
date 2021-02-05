@@ -10,6 +10,10 @@
 #include <algorithm>
 #include <type_traits>
 
+#if defined (_WIN32) && !defined (_MSC_VER)
+#include <ext/stdio_filebuf.h>
+#endif
+
 #include "units.h"
 
 class JsonIn;
@@ -109,6 +113,9 @@ bool isBetween( int test, int down, int up );
  */
 bool lcmatch( const std::string &str, const std::string &qry );
 bool lcmatch( const translation &str, const std::string &qry );
+
+/** Perform case insensitive comparison of 2 strings. */
+bool lcequal( const std::string &str1, const std::string &str2 );
 
 /**
  * Matches text case insensitive with the include/exclude rules of the filter
@@ -365,6 +372,107 @@ class list_circularizer
 };
 
 /**
+ * Wrapper around std::ofstream that provides cross-platform support for UTF-8 paths.
+ */
+struct cata_ofstream {
+    public:
+        cata_ofstream() {};
+        cata_ofstream( cata_ofstream &&x ) {
+            *this = std::move( x );
+        };
+        ~cata_ofstream() {
+            close();
+        }
+        cata_ofstream &operator=( cata_ofstream && );
+
+        inline cata_ofstream &binary( bool value ) {
+            _binary = value;
+            return *this;
+        }
+        inline cata_ofstream &append( bool value ) {
+            _append = value;
+            return *this;
+        }
+        cata_ofstream &open( const std::string &path );
+        bool is_open();
+        bool fail() {
+            return !_stream || _stream->fail();
+        }
+        bool bad() {
+            return !_stream || _stream->bad();
+        }
+        void flush() {
+            _stream->flush();
+        }
+        void close();
+
+        std::ostream &operator*() {
+            return *_stream;
+        }
+        std::ostream *operator->() {
+            return &*_stream;
+        }
+
+    private:
+        bool _binary = false;
+        bool _append = false;
+#if defined (_WIN32) && !defined (_MSC_VER)
+        std::unique_ptr<std::ostream> _stream;
+        std::unique_ptr<__gnu_cxx::stdio_filebuf<char>> _buffer;
+        FILE *_file = nullptr;
+#else
+        std::unique_ptr<std::ofstream> _stream;
+#endif
+};
+
+/**
+ * Wrapper around std::ifstream that provides cross-platform support for UTF-8 paths.
+ */
+struct cata_ifstream {
+    public:
+        cata_ifstream() {};
+        cata_ifstream( cata_ifstream &&x ) {
+            *this = std::move( x );
+        };
+        ~cata_ifstream() {
+            close();
+        }
+
+        cata_ifstream &operator=( cata_ifstream && );
+
+        inline cata_ifstream &binary( bool value ) {
+            _binary = value;
+            return *this;
+        }
+        cata_ifstream &open( const std::string &path );
+        bool is_open();
+        bool fail() {
+            return !_stream || _stream->fail();
+        }
+        bool bad() {
+            return !_stream || _stream->bad();
+        }
+        void close();
+
+        std::istream &operator*() {
+            return *_stream;
+        }
+        std::istream *operator->() {
+            return &*_stream;
+        }
+
+    private:
+        bool _binary = false;
+#if defined (_WIN32) && !defined (_MSC_VER)
+        std::unique_ptr<std::istream> _stream;
+        std::unique_ptr<__gnu_cxx::stdio_filebuf<char>> _buffer;
+        FILE *_file = nullptr;
+#else
+        std::unique_ptr<std::ifstream> _stream;
+#endif
+};
+
+/**
  * Open a file for writing, calls the writer on that stream.
  *
  * If the writer throws, or if the file could not be opened or if any I/O error
@@ -431,7 +539,7 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
 class ofstream_wrapper
 {
     private:
-        std::ofstream file_stream;
+        cata_ofstream file_stream;
         std::string path;
         std::string temp_path;
 
@@ -442,10 +550,10 @@ class ofstream_wrapper
         ~ofstream_wrapper();
 
         std::ostream &stream() {
-            return file_stream;
+            return *file_stream;
         }
         operator std::ostream &() {
-            return file_stream;
+            return *file_stream;
         }
 
         void close();

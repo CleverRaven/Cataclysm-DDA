@@ -86,6 +86,11 @@ bool lcmatch( const translation &str, const std::string &qry )
     return lcmatch( str.translated(), qry );
 }
 
+bool lcequal( const std::string &str1, const std::string &str2 )
+{
+    return to_lower_case( str1 ) == to_lower_case( str2 );
+}
+
 bool match_include_exclude( const std::string &text, std::string filter )
 {
     size_t iPos;
@@ -336,6 +341,214 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
     return ( t * points[i].second ) + ( ( 1 - t ) * points[i - 1].second );
 }
 
+#if defined (_WIN32) && !defined (_MSC_VER)
+// On Linux/MacOS, UTF-8 paths work out of the box, and we pass the string as is.
+// On Windows, narrow API does not recognize paths encoded with UTF-8,
+// so we have to jump through hoops to use wide API:
+// * with Visual Studio, there's a non-standard fstream constructor that
+//   accepts wstring for path; we just need to convert UTF-8 to UTF-16.
+// * when cross-compiling with mingw64, there's a non-standard __gnu_cxx::stdio_filebuf
+//   that allows creating fstream from FILE, and _wfopen that allows opening FILE
+//   using wide string for path.
+// Although Windows 10 insider build 17035 (November 2017) enables narrow API to use UTF-8
+// paths, we can't rely on it here for backwards compatibility.
+
+cata_ofstream &cata_ofstream::operator=( cata_ofstream &&x )
+{
+    _stream = std::move( x._stream );
+    _buffer = std::move( x._buffer );
+    _file = x._file;
+    x._file = nullptr;
+    _binary = x._binary;
+    _append = x._append;
+    return *this;
+}
+
+cata_ofstream &cata_ofstream::open( const std::string &path )
+{
+    std::wstring mode;
+    if( _append ) {
+        mode = L"a";
+    } else {
+        mode = L"w";
+    }
+    if( _binary ) {
+        mode += L"b";
+    }
+
+    _file = _wfopen( utf8_to_wstr( path ).c_str(), mode.c_str() );
+    if( !_file ) {
+        // failed
+        return *this;
+    }
+
+    std::ios_base::openmode smode = std::ios_base::out;
+    if( _binary ) {
+        smode |= std::ios_base::binary;
+    }
+    if( _append ) {
+        smode |= std::ios_base::app;
+    }
+
+    _buffer = std::make_unique<__gnu_cxx::stdio_filebuf<char>>( _file, smode );
+    _stream = std::make_unique<std::ostream>( &*_buffer );
+
+    return *this;
+}
+
+bool cata_ofstream::is_open()
+{
+    return _file;
+}
+
+void cata_ofstream::close()
+{
+    if( _stream ) {
+        _stream->flush();
+        _stream.reset();
+    }
+    _buffer.reset();
+    if( _file ) {
+        fclose( _file );
+        _file = nullptr;
+    }
+}
+
+#else // defined (_WIN32) && !defined (_MSC_VER)
+
+cata_ofstream &cata_ofstream::operator=( cata_ofstream &&x )
+{
+    _stream = std::move( x._stream );
+    _binary = x._binary;
+    _append = x._append;
+    return *this;
+}
+
+cata_ofstream &cata_ofstream::open( const std::string &path )
+{
+    std::ios_base::openmode mode = std::ios_base::out;
+    if( _binary ) {
+        mode |= std::ios_base::binary;
+    }
+    if( _append ) {
+        mode |= std::ios_base::app;
+    }
+
+#if defined (_MSC_VER)
+    _stream = std::make_unique<std::ofstream>( utf8_to_wstr( path ), mode );
+#else
+    _stream = std::make_unique<std::ofstream>( path, mode );
+#endif
+    return *this;
+}
+
+bool cata_ofstream::is_open()
+{
+    return _stream && _stream->is_open();
+}
+
+void cata_ofstream::close()
+{
+    if( _stream ) {
+        _stream->close();
+        _stream.reset();
+    }
+}
+
+#endif // defined (_WIN32) && !defined (_MSC_VER)
+
+#if defined (_WIN32) && !defined (_MSC_VER)
+
+cata_ifstream &cata_ifstream::operator=( cata_ifstream &&x )
+{
+    _stream = std::move( x._stream );
+    _buffer = std::move( x._buffer );
+    _file = x._file;
+    x._file = nullptr;
+    _binary = x._binary;
+    return *this;
+}
+
+cata_ifstream &cata_ifstream::open( const std::string &path )
+{
+    std::wstring mode = L"r";
+    if( _binary ) {
+        mode += L"b";
+    }
+
+    _file = _wfopen( utf8_to_wstr( path ).c_str(), mode.c_str() );
+    if( !_file ) {
+        // failed
+        return *this;
+    }
+
+    std::ios_base::openmode smode = std::ios_base::in;
+    if( _binary ) {
+        smode |= std::ios_base::binary;
+    }
+
+    _buffer = std::make_unique<__gnu_cxx::stdio_filebuf<char>>( _file, smode );
+    _stream = std::make_unique<std::istream>( &*_buffer );
+
+    return *this;
+}
+
+bool cata_ifstream::is_open()
+{
+    return _file;
+}
+
+void cata_ifstream::close()
+{
+    if( _stream ) {
+        _stream.reset();
+    }
+    _buffer.reset();
+    if( _file ) {
+        fclose( _file );
+        _file = nullptr;
+    }
+}
+
+#else // defined (_WIN32) && !defined (_MSC_VER)
+
+cata_ifstream &cata_ifstream::operator=( cata_ifstream &&x )
+{
+    _stream = std::move( x._stream );
+    _binary = x._binary;
+    return *this;
+}
+
+cata_ifstream &cata_ifstream::open( const std::string &path )
+{
+    std::ios_base::openmode mode = std::ios_base::in;
+    if( _binary ) {
+        mode |= std::ios_base::binary;
+    }
+
+#if defined (_MSC_VER)
+    _stream = std::make_unique<std::ifstream>( utf8_to_wstr( path ), mode );
+#else
+    _stream = std::make_unique<std::ifstream>( path, mode );
+#endif
+    return *this;
+}
+
+bool cata_ifstream::is_open()
+{
+    return _stream && _stream->is_open();
+}
+
+void cata_ifstream::close()
+{
+    if( _stream ) {
+        _stream->close();
+        _stream.reset();
+    }
+}
+
+#endif // defined (_WIN32) && !defined (_MSC_VER)
+
 void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer )
 {
     // Any of the below may throw. ofstream_wrapper will clean up the temporary path on its own.
@@ -405,11 +618,11 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader )
 {
     try {
-        std::ifstream fin( path, std::ios::binary );
-        if( !fin ) {
+        cata_ifstream fin = std::move( cata_ifstream().binary( true ).open( path ) );
+        if( !fin.is_open() ) {
             throw std::runtime_error( "opening file failed" );
         }
-        reader( fin );
+        reader( *fin );
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );
         }
@@ -459,6 +672,49 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
     return read_from_file_optional_json( path, [&reader]( JsonIn & jsin ) {
         reader.deserialize( jsin );
     } );
+}
+
+void ofstream_wrapper::open( const std::ios::openmode mode )
+{
+    if( dir_exist( path ) ) {
+        throw std::runtime_error( "target path is a directory" );
+    }
+
+    // Create a *unique* temporary path. No other running program should
+    // use this path. If the file exists, it must be of a *former* program
+    // instance and can savely be deleted.
+    temp_path = path + "." + get_pid_string() + ".temp";
+
+    if( file_exist( temp_path ) ) {
+        remove_file( temp_path );
+    }
+
+    file_stream = std::move( cata_ofstream().binary( mode & std::ios_base::binary ).append(
+                                 mode & std::ios_base::app ).open( temp_path ) );
+    if( !file_stream.is_open() ) {
+        throw std::runtime_error( "opening file failed" );
+    }
+}
+
+void ofstream_wrapper::close()
+{
+    if( !file_stream.is_open() ) {
+        return;
+    }
+
+    file_stream.flush();
+    bool failed = file_stream.fail();
+    file_stream.close();
+    if( failed ) {
+        // Remove the incomplete or otherwise faulty file (if possible).
+        // Failures from it are ignored as we can't really do anything about them.
+        remove_file( temp_path );
+        throw std::runtime_error( "writing to file failed" );
+    }
+    if( !rename_file( temp_path, path ) ) {
+        // Leave the temp path, so the user can move it if possible.
+        throw std::runtime_error( "moving temporary file \"" + temp_path + "\" failed" );
+    }
 }
 
 std::string obscure_message( const std::string &str, std::function<char()> f )

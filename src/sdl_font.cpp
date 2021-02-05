@@ -1,18 +1,7 @@
 #if defined(TILES)
 #include "sdl_font.h"
 #include "output.h"
-
-#if defined(_WIN32)
-#   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
-#       include "platform_win.h"
-#   endif
-#   include <shlwapi.h>
-#   if !defined(strcasecmp)
-#       define strcasecmp StrCmpI
-#   endif
-#else
-#   include <strings.h> // for strcasecmp
-#endif
+#include "platform_win.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -30,7 +19,7 @@ static int test_face_size( const std::string &f, int size, int faceIndex )
                 char *ts = nullptr;
                 if( tf ) {
                     if( nullptr != ( ts = TTF_FontFaceStyleName( tf.get() ) ) ) {
-                        if( 0 == strcasecmp( ts, style ) && TTF_FontHeight( tf.get() ) <= size ) {
+                        if( lcequal( ts, style ) && TTF_FontHeight( tf.get() ) <= size ) {
                             return i;
                         }
                     }
@@ -204,15 +193,16 @@ CachedTTFFont::CachedTTFFont(
     };
 
 #if defined(_WIN32)
-    constexpr UINT max_dir_len = 256;
-    char buf[max_dir_len];
-    const UINT dir_len = GetSystemWindowsDirectory( buf, max_dir_len );
-    if( dir_len == 0 ) {
-        throw std::runtime_error( "GetSystemWindowsDirectory failed" );
-    } else if( dir_len >= max_dir_len ) {
-        throw std::length_error( "GetSystemWindowsDirectory failed due to insufficient buffer" );
+    const UINT buf_len = GetSystemWindowsDirectoryW( nullptr, 0 ) + 1;
+    if( buf_len == 0 ) {
+        throw std::runtime_error( "GetSystemWindowsDirectory failed: " + to_string( GetLastError() ) );
     }
-    known_prefixes.emplace_back( buf + std::string( "\\fonts\\" ) );
+    std::wstring buf( buf_len, '\0' );
+    const UINT buf_fin = GetSystemWindowsDirectoryW( &buf[0], buf_len );
+    if( buf_fin == 0 ) {
+        throw std::runtime_error( "GetSystemWindowsDirectory failed: " + to_string( GetLastError() ) );
+    }
+    known_prefixes.emplace_back( wstr_to_utf8( buf ) + std::string( "\\fonts\\" ) );
 #elif defined(_APPLE_) && defined(_MACH_)
     /*
     // Well I don't know how osx actually works ....
@@ -268,8 +258,7 @@ CachedTTFFont::CachedTTFFont(
         fontsize = height - 1;
     }
     // SDL_ttf handles bitmap fonts size incorrectly
-    if( typeface.length() > 4 &&
-        strcasecmp( typeface.substr( typeface.length() - 4 ).c_str(), ".fon" ) == 0 ) {
+    if( typeface.length() > 4 && lcequal( typeface.substr( typeface.length() - 4 ), ".fon" ) ) {
         faceIndex = test_face_size( typeface, fontsize, faceIndex );
     }
     font.reset( TTF_OpenFontIndex( typeface.c_str(), fontsize, faceIndex ) );

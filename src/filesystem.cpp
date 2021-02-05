@@ -16,44 +16,38 @@
 
 #include "debug.h"
 #include "cata_utility.h"
+#include "catacharset.h"
 
-#if defined(_MSC_VER)
-#   include <direct.h>
-
+#if defined(_WIN32)
+#   include "platform_win.h"
+#   pragma GCC diagnostic push
+#   pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 #   include "wdirent.h"
+#   pragma GCC diagnostic pop
+#   include <direct.h>
 #else
 #   include <dirent.h>
 #   include <unistd.h>
 #endif
 
-#if defined(_WIN32)
-#   include "platform_win.h"
-#endif
-
-namespace
+#if defined _WIN32
+static bool do_mkdir( const std::string &path )
 {
-
-#if defined(_WIN32)
-bool do_mkdir( const std::string &path, const int /*mode*/ )
-{
-#if defined(_MSC_VER)
-    return _mkdir( path.c_str() ) == 0;
-#else
-    return mkdir( path.c_str() ) == 0;
-#endif
+    return CreateDirectoryW( utf8_to_wstr( path ).c_str(), nullptr ) != 0;
 }
 #else
-bool do_mkdir( const std::string &path, const int mode )
+static bool do_mkdir( const std::string &path )
 {
-    return mkdir( path.c_str(), mode ) == 0;
+    return mkdir( path.c_str(), 0777 ) == 0;
 }
 #endif
-
-} //anonymous namespace
 
 bool assure_dir_exist( const std::string &path )
 {
-    return do_mkdir( path, 0777 ) || ( errno == EEXIST && dir_exist( path ) );
+    if( dir_exist( path ) ) {
+        return true;
+    }
+    return do_mkdir( path );
 }
 
 bool dir_exist( const std::string &path )
@@ -66,16 +60,27 @@ bool dir_exist( const std::string &path )
     return false;
 }
 
+#if defined(_WIN32)
+bool file_exist( const std::string &path )
+{
+    DWORD dwAttrib = GetFileAttributesW( utf8_to_wstr( path ).c_str() );
+
+    return ( dwAttrib != INVALID_FILE_ATTRIBUTES &&
+             !( dwAttrib & FILE_ATTRIBUTE_DIRECTORY ) );
+}
+#else
 bool file_exist( const std::string &path )
 {
     struct stat buffer;
-    return ( stat( path.c_str(), &buffer ) == 0 );
+    bool success = stat( path.c_str(), &buffer ) == 0;
+    return success && S_ISREG( buffer.st_mode );
 }
+#endif
 
 #if defined(_WIN32)
 bool remove_file( const std::string &path )
 {
-    return DeleteFile( path.c_str() ) != 0;
+    return DeleteFileW( utf8_to_wstr( path ).c_str() ) != 0;
 }
 #else
 bool remove_file( const std::string &path )
@@ -87,15 +92,11 @@ bool remove_file( const std::string &path )
 #if defined(_WIN32)
 bool rename_file( const std::string &old_path, const std::string &new_path )
 {
-    // Windows rename function does not override existing targets, so we
-    // have to remove the target to make it compatible with the Linux rename
-    if( file_exist( new_path ) ) {
-        if( !remove_file( new_path ) ) {
-            return false;
-        }
-    }
-
-    return rename( old_path.c_str(), new_path.c_str() ) == 0;
+    return MoveFileExW(
+               utf8_to_wstr( old_path ).c_str(),
+               utf8_to_wstr( new_path ).c_str(),
+               MOVEFILE_REPLACE_EXISTING
+           ) != 0;
 }
 #else
 bool rename_file( const std::string &old_path, const std::string &new_path )
@@ -107,7 +108,7 @@ bool rename_file( const std::string &old_path, const std::string &new_path )
 bool remove_directory( const std::string &path )
 {
 #if defined(_WIN32)
-    return RemoveDirectory( path.c_str() );
+    return RemoveDirectoryW( utf8_to_wstr( path ).c_str() ) != 0;
 #else
     return remove( path.c_str() ) == 0;
 #endif
@@ -183,8 +184,14 @@ bool is_directory_stat( const std::string &full_path )
         return false;
     }
 
+#if defined(_WIN32)
+    struct _stat result;
+    int stat_ret = _wstat( utf8_to_wstr( full_path ).c_str(), &result );
+#else
     struct stat result;
-    if( stat( full_path.c_str(), &result ) != 0 ) {
+    int stat_ret = stat( full_path.c_str(), &result );
+#endif
+    if( stat_ret != 0 ) {
         const auto e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "stat [" << full_path << "] failed with \"" << e_str << "\".";
         return false;
@@ -276,7 +283,14 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
         const bool recursive_search,
         Predicate predicate )
 {
-    std::deque<std::string>  directories {!root_path.empty() ? root_path : "."};
+    std::deque<std::string>  directories;
+    if( root_path.empty() ) {
+        directories.emplace_back( "./" );
+    } else if( string_ends_with( root_path, "/" ) ) {
+        directories.emplace_back( root_path );
+    } else {
+        directories.emplace_back( root_path + "/" );
+    }
     std::vector<std::string> results;
 
     while( !directories.empty() ) {
@@ -292,7 +306,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
                 return;
             }
 
-            const auto full_path = path + "/" + entry.d_name;
+            const auto full_path = path + entry.d_name;
 
             // don't add files ending in '~'.
             if( full_path.back() == '~' ) {
@@ -302,7 +316,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
             // add sub directories to recursive_search if requested
             const auto is_dir = is_directory( entry, full_path );
             if( recursive_search && is_dir ) {
-                directories.emplace_back( full_path );
+                directories.emplace_back( full_path + "/" );
             }
 
             // check the file
@@ -399,13 +413,14 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
 
 bool copy_file( const std::string &source_path, const std::string &dest_path )
 {
-    std::ifstream source_stream( source_path.c_str(), std::ifstream::in | std::ifstream::binary );
-    if( !source_stream ) {
+    cata_ifstream source_stream = std::move( cata_ifstream().binary( true ).open( source_path ) );
+    if( !source_stream.is_open() ) {
         return false;
     }
-    return write_to_file( dest_path, [&]( std::ostream & dest_stream ) {
-        dest_stream << source_stream.rdbuf();
-    }, nullptr ) &&source_stream;
+    bool res = write_to_file( dest_path, [&]( std::ostream & dest_stream ) {
+        dest_stream << source_stream->rdbuf();
+    }, nullptr );
+    return res && !source_stream.fail();
 }
 
 std::string ensure_valid_file_name( const std::string &file_name )
@@ -431,9 +446,13 @@ const char *CBN = "Q2F0YWNseXNtQnJpZ2h0TmlnaHRz";
 
 bool can_write_to_dir( const std::string &dir_path )
 {
-    // TODO: remove this hack once c++17 is a thing
+    std::string dummy_file;
+    if( string_ends_with( dir_path, "/" ) ) {
+        dummy_file = dir_path + CBN;
+    } else {
+        dummy_file = dir_path + "/" + CBN;
+    }
 
-    std::string dummy_file = dir_path + CBN;
     if( file_exist( dummy_file ) ) {
         if( !remove_file( dummy_file ) ) {
             return false;
@@ -450,4 +469,13 @@ bool can_write_to_dir( const std::string &dir_path )
     }
 
     return remove_file( dummy_file );
+}
+
+std::string get_pid_string()
+{
+#if defined _WIN32
+    return to_string( GetCurrentProcessId() );
+#else
+    return to_string( getpid() );
+#endif
 }
