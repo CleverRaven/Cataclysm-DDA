@@ -139,6 +139,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NO_FAIL: return "NO_FAIL";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::MUST_HAVE_CLASS_TO_LEARN: return "MUST_HAVE_CLASS_TO_LEARN";
+        case spell_flag::NO_VISUAL: return "NO_VISUAL";
         case spell_flag::LAST: break;
     }
     debugmsg( "Invalid spell_flag" );

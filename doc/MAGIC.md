@@ -165,6 +165,7 @@ Spells may have any number of flags, for example:
 | `UNSAFE_TELEPORT` | teleport spell risks killing the caster or others
 | `SPAWN_GROUP` | spawn or summon from an item or monster group, instead of individual item/monster ID
 | `NO_PROJECTILE` | the "projectile" portion of the spell phases through walls. the epicenter of the spell effect is exactly where you target it with no regards to obstacles
+| `NO_VISUAL`  | the spell doesn't draw an explosion for the whole AoE, instead only lighting up the target
 
 
 ### Damage Types

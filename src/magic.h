@@ -73,6 +73,7 @@ enum class spell_flag : int {
     SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
     IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced
     MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
+    NO_VISUAL, // spell does not draw a visible explosion, the target will still be lit up
     LAST
 };
 
