@@ -193,7 +193,8 @@ struct vehicle_part {
                      animal_flag = 2,
                      carried_flag = 4,
                      carrying_flag = 8,
-                     tracked_flag = 16 //carried vehicle part with tracking enabled
+                     tracked_flag = 16, //carried vehicle part with tracking enabled
+                     targets_grid = 32, // Jumper cable is to grid, not vehicle
                    };
 
         vehicle_part(); /** DefaultConstructible */
@@ -203,6 +204,7 @@ struct vehicle_part {
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
 
+        // TODO: Make all of those use the above enum
         bool has_flag( const int flag ) const noexcept {
             return flag & flags;
         }
@@ -716,6 +718,7 @@ class vehicle
         /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
         void leak_fuel( vehicle_part &pt );
 
+    public:
         /**
          * Find a possibly off-map vehicle. If necessary, loads up its submap through
          * the global MAPBUFFER and pulls it from there. For this reason, you should only
@@ -724,6 +727,7 @@ class vehicle
          */
         static vehicle *find_vehicle( const tripoint &where );
 
+    private:
         /**
          * Traverses the graph of connected vehicles, starting from start_veh, and continuing
          * along all vehicles connected by some kind of POWER_TRANSFER part.
@@ -1371,7 +1375,7 @@ class vehicle
          * @param vehicle_list is a set of pointers to vehicles present in the reality bubble.
          */
         static void enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
-                                        std::set<vehicle *> &vehicle_list );
+                                        const std::set<vehicle *> &vehicle_list );
         // idle fuel consumption
         void idle( bool on_map = true );
         // continuous processing for running vehicle alarms

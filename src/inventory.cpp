@@ -448,7 +448,9 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                 item furn_item( type, calendar::turn, 0 );
                 furn_item.item_tags.insert( "PSEUDO" );
                 if( furn_item.has_flag( "USES_GRID_POWER" ) ) {
-                    furn_item.charges = m.distribution_grid_at( p ).get_resource();
+                    // TODO: The grid tracker should correspond to map!
+                    auto &grid = get_distribution_grid_tracker().grid_at( m.getabs( p ) );
+                    furn_item.charges = grid.get_resource();
                 } else {
                     furn_item.charges = ammo ? count_charges_in_list( ammo, m.i_at( p ) ) : 0;
                 }

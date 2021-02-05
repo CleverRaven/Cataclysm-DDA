@@ -68,18 +68,29 @@ item vehicle_part::properties_to_item() const
 
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
+    // Except grid-connected ones, for now.
     if( tmp.has_flag( "CABLE_SPOOL" ) && !tmp.has_flag( "TOW_CABLE" ) ) {
-        const tripoint local_pos = g->m.getlocal( target.first );
-        if( !g->m.veh_at( local_pos ) ) {
-            // That vehicle ain't there no more.
-            tmp.item_tags.insert( "NO_DROP" );
-        }
+        if( has_flag( targets_grid ) ) {
+            // Ideally, we'd drop the cable on the charger instead
+            tmp.erase_var( "source_x" );
+            tmp.erase_var( "source_y" );
+            tmp.erase_var( "source_z" );
+            tmp.erase_var( "state" );
+            tmp.active = false;
+            tmp.charges = tmp.type->maximum_charges();
+        } else {
+            const tripoint local_pos = g->m.getlocal( target.first );
+            if( !g->m.veh_at( local_pos ) ) {
+                // That vehicle ain't there no more.
+                tmp.item_tags.insert( "NO_DROP" );
+            }
 
-        tmp.set_var( "source_x", target.first.x );
-        tmp.set_var( "source_y", target.first.y );
-        tmp.set_var( "source_z", target.first.z );
-        tmp.set_var( "state", "pay_out_cable" );
-        tmp.active = true;
+            tmp.set_var( "source_x", target.first.x );
+            tmp.set_var( "source_y", target.first.y );
+            tmp.set_var( "source_z", target.first.z );
+            tmp.set_var( "state", "pay_out_cable" );
+            tmp.active = true;
+        }
     }
 
     // force rationalization of damage values to the middle value of each damage level so

@@ -26,6 +26,7 @@
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "distribution_grid.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -3211,22 +3212,22 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
 {
     int fl = std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs,
     const vehicle_part & rhs ) {
-        // don't count frozen liquid
-        if( rhs.is_tank() && rhs.base.contents_made_of( SOLID ) ) {
-            return lhs;
-        }
         return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_remaining() : 0 );
     } );
 
     if( recurse && ftype == fuel_type_battery ) {
-        auto fuel_counting_visitor = [&]( vehicle const * veh, int amount, int ) {
+        auto fuel_counting_visitor = [&]( vehicle const * veh, int amount ) {
             return amount + veh->fuel_left( ftype, false );
+        };
+        auto power_counting_visitor = [&]( distribution_grid const * grid, int amount ) {
+            return amount + grid->get_resource( false );
         };
 
         // HAX: add 1 to the initial amount so traversal doesn't immediately stop just
         // 'cause we have 0 fuel left in the current vehicle. Subtract the 1 immediately
         // after traversal.
-        fl = traverse_vehicle_graph( this, fl + 1, fuel_counting_visitor ) - 1;
+        fl = distribution_graph::traverse( this, fl + 1,
+                                           fuel_counting_visitor, power_counting_visitor ) - 1;
     }
 
     //muscle engines have infinite fuel
@@ -4792,9 +4793,9 @@ vehicle *vehicle::find_vehicle( const tripoint &where )
 }
 
 void vehicle::enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
-                                  std::set<vehicle *> &vehicle_list )
+                                  const std::set<vehicle *> &vehicle_list )
 {
-    auto enumerate_visitor = [&connected_vehicles]( vehicle * veh, int amount, int ) {
+    auto enumerate_visitor = [&connected_vehicles]( vehicle * veh, int amount ) {
         // Only emplaces if element is not present already.
         connected_vehicles.emplace( veh, false );
         return amount;
@@ -4809,55 +4810,155 @@ void vehicle::enumerate_vehicles( std::map<vehicle *, bool> &connected_vehicles,
 template <typename Func, typename Vehicle>
 int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action )
 {
-    // Breadth-first search! Initialize the queue with a pointer to ourselves and go!
-    std::queue< std::pair<Vehicle *, int> > connected_vehs;
-    std::set<Vehicle *> visited_vehs;
-    connected_vehs.push( std::make_pair( start_veh, 0 ) );
+    const auto do_nothing = []( const distribution_grid *, int amt ) {
+        return amt;
+    };
+    return distribution_graph::traverse( start_veh, amount, action, do_nothing );
+}
 
-    while( amount > 0 && !connected_vehs.empty() ) {
-        auto current_node = connected_vehs.front();
-        Vehicle *current_veh = current_node.first;
-        int current_loss = current_node.second;
+// TODO: It looks out of place in vehicle.cpp
+namespace distribution_graph
+{
 
-        visited_vehs.insert( current_veh );
-        connected_vehs.pop();
+template <bool IsConst,
+          typename Vehicle = typename std::conditional<IsConst, const vehicle, vehicle>::type,
+          typename Grid = typename std::conditional<IsConst, const distribution_grid, distribution_grid>::type>
+struct vehicle_or_grid {
+    enum class type_t : char {
+        vehicle,
+        grid
+    } type;
 
-        g->u.add_msg_if_player( m_debug, "Traversing graph with %d power", amount );
+    Vehicle *veh = nullptr;
+    Grid *grid = nullptr;
 
-        for( auto &p : current_veh->loose_parts ) {
-            if( !current_veh->part_info( p ).has_flag( "POWER_TRANSFER" ) ) {
-                continue; // ignore loose parts that aren't power transfer cables
+    vehicle_or_grid( Vehicle *veh )
+        : type( type_t::vehicle )
+        , veh( veh )
+    {}
+
+    vehicle_or_grid( Grid *grid )
+        : type( type_t::grid )
+        , grid( grid )
+    {}
+
+    bool operator==( const vehicle_or_grid &other ) const {
+        return veh == other.veh && grid == other.grid;
+    }
+
+    bool operator==( const vehicle *veh ) const {
+        return this->veh == veh;
+    }
+
+    bool operator==( const distribution_grid *grid ) const {
+        return this->grid == grid;
+    }
+};
+
+template <typename VehFunc, typename GridFunc, typename StartPoint>
+int traverse( StartPoint *start, int amount,
+              VehFunc veh_action, GridFunc grid_action )
+{
+    constexpr bool IsConst = std::is_const<StartPoint>::value;
+    struct hash {
+        const std::hash<char> char_hash = std::hash<char>();
+        const std::hash<size_t> ptr_hash = std::hash<size_t>();
+        auto operator()( const vehicle_or_grid<IsConst> &elem ) const {
+            return char_hash( static_cast<char>( elem.type ) ) ^
+                   ( ptr_hash( reinterpret_cast<size_t>( elem.veh ) | reinterpret_cast<size_t>( elem.grid ) ) );
+        }
+    };
+
+    std::queue<vehicle_or_grid<IsConst>> connected_elements;
+    std::unordered_set<vehicle_or_grid<IsConst>, hash> visited_elements;
+    connected_elements.emplace( start );
+    visited_elements.insert( start );
+    auto &grid_tracker = get_distribution_grid_tracker();
+
+    auto process_vehicle = [&]( const tripoint & target_pos ) {
+        auto *veh = vehicle::find_vehicle( target_pos );
+        if( veh == nullptr ) {
+            debugmsg( "lost vehicle at %d,%d,%d", target_pos.x, target_pos.y, target_pos.z );
+        }
+        // Add this connected vehicle to the queue of vehicles to search next,
+        // but only if we haven't seen this one before.
+        if( veh != nullptr && visited_elements.count( veh ) == 0 ) {
+            connected_elements.emplace( veh );
+            visited_elements.insert( veh );
+
+            amount = veh_action( veh, amount );
+            g->u.add_msg_if_player( m_debug, "After remote veh %p, %d power",
+                                    static_cast<void *>( veh ), amount );
+
+            return amount < 1;
+        }
+
+        return false;
+    };
+
+    auto process_grid = [&]( const tripoint & target_pos ) {
+        auto *grid = &grid_tracker.grid_at( target_pos );
+        if( !*grid ) {
+            debugmsg( "lost grid at %d,%d,%d", target_pos.x, target_pos.y, target_pos.z );
+        }
+        if( *grid && visited_elements.count( grid ) == 0 ) {
+            connected_elements.emplace( grid );
+            visited_elements.insert( grid );
+
+            amount = grid_action( grid, amount );
+            g->u.add_msg_if_player( m_debug, "After remote grid %p, %d power",
+                                    static_cast<void *>( grid ), amount );
+
+            return amount < 1;
+        }
+
+        return false;
+    };
+
+    while( amount > 0 && !connected_elements.empty() ) {
+        auto current = connected_elements.front();
+        connected_elements.pop();
+
+        if( current.type == vehicle_or_grid<IsConst>::type_t::vehicle ) {
+            auto &current_veh = *current.veh;
+            for( auto &p : current_veh.loose_parts ) {
+                if( !current_veh.part_info( p ).has_flag( "POWER_TRANSFER" ) ) {
+                    // Ignore loose parts that aren't power transfer cables
+                    continue;
+                }
+
+                const tripoint target_pos = current_veh.parts[p].target.second;
+                if( current_veh.parts[p].has_flag( vehicle_part::targets_grid ) ) {
+                    if( process_grid( target_pos ) ) {
+                        break;
+                    }
+                } else {
+                    if( process_vehicle( target_pos ) ) {
+                        break;
+                    }
+                }
             }
+        } else {
+            // Grids can only be connected to vehicles at the moment
+            auto &current_grid = *current.grid;
+            for( auto &p : current_grid.get_contents() ) {
+                const vehicle_connector_tile *connector = active_tiles::furn_at<vehicle_connector_tile>( p );
+                if( connector == nullptr ) {
+                    continue;
+                }
 
-            auto target_veh = vehicle::find_vehicle( current_veh->parts[p].target.second );
-            if( target_veh == nullptr || visited_vehs.count( target_veh ) > 0 ) {
-                // Either no destination here (that vehicle's rolled away or off-map) or
-                // we've already looked at that vehicle.
-                continue;
-            }
-
-            // Add this connected vehicle to the queue of vehicles to search next,
-            // but only if we haven't seen this one before.
-            if( visited_vehs.count( target_veh ) < 1 ) {
-                int target_loss = current_loss + current_veh->part_info( p ).epower;
-                connected_vehs.push( std::make_pair( target_veh, target_loss ) );
-
-                float loss_amount = ( static_cast<float>( amount ) * static_cast<float>( target_loss ) ) / 100;
-                g->u.add_msg_if_player( m_debug, "Visiting remote %p with %d power (loss %f, which is %d percent)",
-                                        static_cast<void *>( target_veh ), amount, loss_amount, target_loss );
-
-                amount = action( target_veh, amount, static_cast<int>( loss_amount ) );
-                g->u.add_msg_if_player( m_debug, "After remote %p, %d power", static_cast<void *>( target_veh ),
-                                        amount );
-
-                if( amount < 1 ) {
-                    break; // No more charge to donate away.
+                for( const tripoint &target_pos : connector->connected_vehicles ) {
+                    if( process_vehicle( target_pos ) ) {
+                        break;
+                    }
                 }
             }
         }
     }
     return amount;
 }
+
+} // namespace distribution_graph
 
 int vehicle::charge_battery( int amount, bool include_other_vehicles )
 {
@@ -4886,14 +4987,20 @@ int vehicle::charge_battery( int amount, bool include_other_vehicles )
         }
     }
 
-    auto charge_visitor = []( vehicle * veh, int amount, int lost ) {
-        g->u.add_msg_if_player( m_debug, "CH: %d", amount - lost );
-        return veh->charge_battery( amount - lost, false );
+    auto charge_veh = []( vehicle * veh, int amount ) {
+        g->u.add_msg_if_player( m_debug, "CHv: %d", amount );
+        return veh->charge_battery( amount, false );
+    };
+    auto charge_grid = []( distribution_grid * grid, int amount ) {
+        g->u.add_msg_if_player( m_debug, "CHg: %d", amount );
+        return grid->mod_resource( amount, false );
     };
 
-    if( amount > 0 && include_other_vehicles ) { // still a bit of charge we could send out...
-        amount = traverse_vehicle_graph( this, amount, charge_visitor );
+    if( amount > 0 && include_other_vehicles ) {
+        // still a bit of charge we could send out...
+        amount = distribution_graph::traverse( this, amount, charge_veh, charge_grid );
     }
+
 
     return amount;
 }
@@ -4923,12 +5030,17 @@ int vehicle::discharge_battery( int amount, bool recurse )
         }
     }
 
-    auto discharge_visitor = []( vehicle * veh, int amount, int lost ) {
-        g->u.add_msg_if_player( m_debug, "CH: %d", amount + lost );
-        return veh->discharge_battery( amount + lost, false );
+    auto discharge_vehicle = []( vehicle * veh, int amount ) {
+        g->u.add_msg_if_player( m_debug, "CHv: %d", amount );
+        return veh->discharge_battery( amount, false );
     };
-    if( amount > 0 && recurse ) { // need more power!
-        amount = traverse_vehicle_graph( this, amount, discharge_visitor );
+    auto discharge_grid = []( distribution_grid * grid, int amount ) {
+        g->u.add_msg_if_player( m_debug, "CHg: %d", amount );
+        return -grid->mod_resource( -amount, false );
+    };
+    if( amount > 0 && recurse ) {
+        // need more power!
+        amount = distribution_graph::traverse( this, amount, discharge_vehicle, discharge_grid );
     }
 
     return amount; // non-zero if we weren't able to fulfill demand.
@@ -5304,7 +5416,7 @@ void vehicle::gain_moves()
     // Force off-map vehicles to load by visiting them every time we gain moves.
     // Shouldn't be too expensive if there aren't fifty trillion vehicles in the graph...
     // ...and if there are, it's the player's fault for putting them there.
-    auto nil_visitor = []( vehicle *, int amount, int ) {
+    auto nil_visitor = []( vehicle *, int amount ) {
         return amount;
     };
     traverse_vehicle_graph( this, 1, nil_visitor );
@@ -5961,6 +6073,18 @@ bool vehicle::no_towing_slack() const
 
 void vehicle::remove_remote_part( int part_num )
 {
+    if( parts[part_num].has_flag( vehicle_part::targets_grid ) ) {
+        vehicle_connector_tile *connector =
+            active_tiles::furn_at<vehicle_connector_tile>( parts[part_num].target.second );
+        if( connector != nullptr ) {
+            auto &vehs = connector->connected_vehicles;
+            auto iter = std::find( vehs.begin(), vehs.end(), g->m.getabs( global_pos3() ) );
+            if( iter != vehs.end() ) {
+                vehs.erase( iter );
+            }
+        }
+        return;
+    }
     auto veh = find_vehicle( parts[part_num].target.second );
 
     // If the target vehicle is still there, ask it to remove its part

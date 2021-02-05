@@ -8816,7 +8816,7 @@ cata::optional<tripoint> item::get_cable_target( Character *p, const tripoint &p
 bool item::process_cable( player *carrier, const tripoint &pos )
 {
     if( carrier == nullptr ) {
-        reset_cable( carrier );
+        //reset_cable( carrier );
         return false;
     }
     std::string state = get_var( "state" );

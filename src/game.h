@@ -116,6 +116,8 @@ class timed_event_manager;
 class ui_adaptor;
 struct visibility_variables;
 
+class distribution_grid_tracker;
+
 using item_filter = std::function<bool ( const item & )>;
 
 enum peek_act : int {
@@ -146,6 +148,7 @@ class game
         friend class advanced_inventory;
         friend class main_menu;
         friend class target_handler;
+        friend distribution_grid_tracker &get_distribution_grid_tracker();
     public:
         game();
         ~game();
@@ -968,6 +971,7 @@ class game
         pimpl<kill_tracker> kill_tracker_ptr;
         pimpl<memorial_logger> memorial_logger_ptr;
         pimpl<spell_events> spell_events_ptr;
+        pimpl<distribution_grid_tracker> grid_tracker_ptr;
 
     public:
         /** Make map a reference here, to avoid map.h in game.h */

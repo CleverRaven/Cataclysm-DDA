@@ -4099,5 +4099,19 @@
     "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
     "pre_special": "check_empty",
     "post_terrain": "f_oven"
+  },
+  {
+    "type": "construction",
+    "id": "constr_cable_connector",
+    "description": "Build Jumper Cable Connector",
+    "category": "FURN",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "45 m",
+    "qualities": [ [ { "id": "SCREW", "level": 1 } ] ],
+    "tools": [ [ [ "soldering_iron", 20 ] ] ],
+    "components": [ [ [ "power_supply", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_cable_connector"
   }
 ]

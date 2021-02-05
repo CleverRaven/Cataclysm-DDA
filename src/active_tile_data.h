@@ -4,6 +4,7 @@
 
 #include <string>
 #include "calendar.h"
+#include "point.h"
 
 class JsonObject;
 class JsonOut;
@@ -20,6 +21,11 @@ class active_tile_data
         time_point last_updated;
 
     protected:
+        /**
+         * @param to the time to update to
+         * @param p absolute map coordinates (@ref map::getabs) of the tile being updated
+         * @param grid distribution grid being updated, containing the tile being updated
+         */
         virtual void update_internal( time_point to, const tripoint &p, distribution_grid &grid ) = 0;
 
     public:
@@ -34,14 +40,6 @@ class active_tile_data
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
-
-        virtual int get_resource() const {
-            return 0;
-        }
-
-        virtual int mod_resource( int amt ) {
-            return amt;
-        }
 
         virtual ~active_tile_data();
         virtual active_tile_data *clone() const = 0;
@@ -77,8 +75,8 @@ class battery_tile : public active_tile_data
         void store( JsonOut &jsout ) const override;
         void load( JsonObject &jo ) override;
 
-        int get_resource() const override;
-        int mod_resource( int amt ) override;
+        int get_resource() const;
+        int mod_resource( int amt );
 };
 
 class charger_tile : public active_tile_data
@@ -93,5 +91,28 @@ class charger_tile : public active_tile_data
         void store( JsonOut &jsout ) const override;
         void load( JsonObject &jo ) override;
 };
+
+class vehicle_connector_tile : public active_tile_data
+{
+    public:
+        /* In absolute map square coordinates */
+        std::vector<tripoint> connected_vehicles;
+
+        void update_internal( time_point to, const tripoint &p, distribution_grid &grid ) override;
+        active_tile_data *clone() const override;
+        const std::string &get_type() const override;
+        void store( JsonOut &jsout ) const override;
+        void load( JsonObject &jo ) override;
+};
+
+// TODO: Better place for this
+namespace active_tiles
+{
+
+// TODO: Don't return a raw pointer
+template <typename T = active_tile_data>
+T * furn_at( const tripoint &pos );
+
+} // namespace active_tiles
 
 #endif // CATA_SRC_ACTIVE_TILE_DATA_H

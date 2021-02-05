@@ -11,6 +11,7 @@
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "distribution_grid.h"
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
@@ -160,7 +161,7 @@ void mapbuffer::save( bool delete_after_save )
         remove_submap( elem );
     }
 
-    g->m.on_saved();
+    get_distribution_grid_tracker().on_saved();
 }
 
 void mapbuffer::save_quad( const std::string &dirname, const std::string &filename,
