@@ -10217,10 +10217,14 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
             wake_up();
         }
         if( !is_npc() && !has_effect( effect_narcosis ) ) {
-            if( source != nullptr && sees( *source ) ) {
-                g->cancel_activity_or_ignore_query( distraction_type::attacked,
-                                                    string_format( _( "You were attacked by %s!" ),
-                                                            source->disp_name() ) );
+            if( source != nullptr ) {
+                if( sees( *source ) ) {
+                    g->cancel_activity_or_ignore_query( distraction_type::attacked,
+                                                        string_format( _( "You were attacked by %s!" ), source->disp_name() ) );
+                } else {
+                    g->cancel_activity_or_ignore_query( distraction_type::attacked,
+                                                        _( "You were attacked by something you can't see!" ) );
+                }
             } else {
                 g->cancel_activity_or_ignore_query( distraction_type::attacked, _( "You were hurt!" ) );
             }
