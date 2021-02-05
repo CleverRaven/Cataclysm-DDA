@@ -420,8 +420,9 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
     for( const tripoint &pt : targets ) {
         explosion_colors[pt] = sp.damage_type_color();
     }
-
-    explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors );
+    if( !sp.has_flag( spell_flag::NO_VISUAL ) ) {
+        explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors );
+    }
     return targets;
 }
 
