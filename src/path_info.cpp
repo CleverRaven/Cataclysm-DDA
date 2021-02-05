@@ -32,7 +32,6 @@ static std::string datadir_value;
 static std::string base_path_value;
 static std::string savedir_value;
 static std::string autopickup_value;
-static std::string keymap_value;
 static std::string options_value;
 static std::string memorialdir_value;
 
@@ -113,7 +112,6 @@ void PATH_INFO::set_standard_filenames()
     config_dir_value = user_dir_value + "config/";
 #endif
     options_value = config_dir_value + "options.json";
-    keymap_value = config_dir_value + "keymap.txt";
     autopickup_value = config_dir_value + "auto_pickup.json";
 }
 
@@ -244,41 +242,9 @@ std::string PATH_INFO::keybindings_vehicle()
 {
     return datadir_value + "raw/" + "keybindings/vehicle.json";
 }
-std::string PATH_INFO::keymap()
-{
-    return keymap_value;
-}
 std::string PATH_INFO::lastworld()
 {
     return config_dir_value + "lastworld.json";
-}
-std::string PATH_INFO::legacy_autopickup()
-{
-    return "data/auto_pickup.txt";
-}
-std::string PATH_INFO::legacy_autopickup2()
-{
-    return config_dir_value + "auto_pickup.txt";
-}
-std::string PATH_INFO::legacy_fontdata()
-{
-    return datadir_value + "fontdata.json";
-}
-std::string PATH_INFO::legacy_keymap()
-{
-    return "data/keymap.txt";
-}
-std::string PATH_INFO::legacy_options()
-{
-    return "data/options.txt";
-}
-std::string PATH_INFO::legacy_options2()
-{
-    return config_dir_value + "options.txt";
-}
-std::string PATH_INFO::legacy_worldoptions()
-{
-    return "worldoptions.txt";
 }
 std::string PATH_INFO::memorialdir()
 {
@@ -412,7 +378,6 @@ void PATH_INFO::set_config_dir( const std::string &config_dir )
 {
     config_dir_value = config_dir;
     options_value = config_dir_value + "options.json";
-    keymap_value = config_dir_value + "keymap.txt";
     autopickup_value = config_dir_value + "auto_pickup.json";
 }
 
@@ -429,11 +394,6 @@ void PATH_INFO::set_memorialdir( const std::string &memorialdir )
 void PATH_INFO::set_options( const std::string &options )
 {
     options_value = options;
-}
-
-void PATH_INFO::set_keymap( const std::string &keymap )
-{
-    keymap_value = keymap;
 }
 
 void PATH_INFO::set_autopickup( const std::string &autopickup )

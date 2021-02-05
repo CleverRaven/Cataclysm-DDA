@@ -484,19 +484,6 @@ int main( int argc, char *argv[] )
                     }
                 },
                 {
-                    "--keymapfile", "<filename>",
-                    "Name of the keymap file within the configdir",
-                    section_user_directory,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        PATH_INFO::set_keymap( params[0] );
-                        return 1;
-                    }
-                },
-                {
                     "--autopickupfile", "<filename>",
                     "Name of the autopickup options file within the configdir",
                     nullptr,

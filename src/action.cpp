@@ -49,68 +49,6 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 class inventory;
 
-void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
-                   std::set<action_id> &unbound_keymap );
-
-void load_keyboard_settings( std::map<char, action_id> &keymap,
-                             std::string &keymap_file_loaded_from,
-                             std::set<action_id> &unbound_keymap )
-{
-    const auto parser = [&]( std::istream & fin ) {
-        parse_keymap( fin, keymap, unbound_keymap );
-    };
-    if( read_from_file_optional( PATH_INFO::keymap(), parser ) ) {
-        keymap_file_loaded_from = PATH_INFO::keymap();
-    } else if( read_from_file_optional( PATH_INFO::legacy_keymap(), parser ) ) {
-        keymap_file_loaded_from = PATH_INFO::legacy_keymap();
-    }
-}
-
-void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
-                   std::set<action_id> &unbound_keymap )
-{
-    while( !keymap_txt.eof() ) {
-        std::string id;
-        keymap_txt >> id;
-        if( id.empty() ) {
-            // Empty line, chomp it
-            getline( keymap_txt, id );
-        } else if( id == "unbind" ) {
-            keymap_txt >> id;
-            const action_id act = look_up_action( id );
-            if( act != ACTION_NULL ) {
-                unbound_keymap.insert( act );
-            }
-            break;
-        } else if( id[0] != '#' ) {
-            const action_id act = look_up_action( id );
-            if( act == ACTION_NULL ) {
-                debugmsg( "Warning!  keymap.txt contains an unknown action, \"%s\"\n"
-                          "Fix \"%s\" at your next chance!", id, PATH_INFO::keymap() );
-            } else {
-                while( !keymap_txt.eof() ) {
-                    char ch;
-                    keymap_txt >> std::noskipws >> ch >> std::skipws;
-                    if( ch == '\n' ) {
-                        break;
-                    } else if( ch != ' ' || keymap_txt.peek() == '\n' ) {
-                        if( kmap.find( ch ) != kmap.end() ) {
-                            debugmsg( "Warning!  '%c' assigned twice in the keymap!\n"
-                                      "%s is being ignored.\n"
-                                      "Fix \"%s\" at your next chance!", ch, id, PATH_INFO::keymap() );
-                        } else {
-                            kmap[ ch ] = act;
-                        }
-                    }
-                }
-            }
-        } else {
-            // Clear the whole line
-            getline( keymap_txt, id );
-        }
-    }
-}
-
 std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable )
 {
     input_context ctxt = get_default_mode_input_context();

@@ -325,35 +325,6 @@ enum action_id : int {
 };
 
 /**
- *  Load keymap from disk
- *
- *  Sets the state of a keymap in memory to the state of a keymap state saved to disk.
- *  The actual filename we read the keymap from is returned by reference, not specified in this
- *  function call.  The filename used is set elsewhere (in a variety of places).  Take a look at
- *  @ref path_info to see where this happens.  The returned file name is used to detect errors, such
- *  as a non-existent file or a file that didn't actually contain a keymap.
- *
- *  Output is returned as two separate maps:
- *  1. The keymap parameter is used to store the set of keys that were mapped by the file.  This
- *  is not a complete map of all available action IDs, rather it contains only those IDs explicitly
- *  set by the file.
- *
- *  2. The unbound_keymap parameter contains keys that the file specifically unmaps.
- *
- *  The caller of this function is intended to set those keys explicitly set in parameter keymap, and
- *  unset those keys explicitly unbound in parameter unbound_keymap.  Actions and/or keys that are not
- *  mentioned in either output are left in place.  See @ref input_manager::init() for the current way
- *  that this is done.
- *
- *  @param[out] keymap Place in which to store the keys explicitly bound by the file
- *  @param[out] keymap_file_loaded_from Name of file that keymap was loaded from
- *  @param[out] unbound_keymap Place to store the keys explicitly unbound by the file
- */
-void load_keyboard_settings( std::map<char, action_id> &keymap,
-                             std::string &keymap_file_loaded_from,
-                             std::set<action_id> &unbound_keymap );
-
-/**
  * Get list of keys bound to an action ID.
  *
  * Returns a vector of all keys currently bound to the given action.  If not keys are bound to the

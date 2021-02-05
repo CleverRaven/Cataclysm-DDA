@@ -112,7 +112,6 @@ void input_manager::init()
     std::map<char, action_id> keymap;
     std::string keymap_file_loaded_from;
     std::set<action_id> unbound_keymap;
-    load_keyboard_settings( keymap, keymap_file_loaded_from, unbound_keymap );
     init_keycode_mapping();
     reset_timeout();
 
