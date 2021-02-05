@@ -243,7 +243,7 @@ static std::string moves_to_string( const int moves )
     if( moves < to_moves<int>( 2_seconds ) ) {
         return string_format( _( "%d moves" ), moves );
     } else {
-        return to_string( time_duration::from_turns( moves / 100 ) );
+        return to_string( time_duration::from_moves( moves ) );
     }
 }
 
@@ -713,7 +713,7 @@ std::string spell::duration_string() const
 
 time_duration spell::duration_turns() const
 {
-    return 1_turns * duration() / 100;
+    return 1_turns * to_turns<int>( time_duration::from_moves( duration() ) );
 }
 
 void spell::gain_level()
