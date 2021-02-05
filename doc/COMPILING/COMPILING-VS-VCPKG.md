@@ -24,6 +24,8 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 
 3. Install and configure `vcpkg`:
 
+***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` is not.***
+
 ```cmd
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
