@@ -975,6 +975,9 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
     if( target_items.empty() ) {
         // Nuke the current activity, leaving the backlog alone.
         act.set_to_null();
+        if( who.is_hauling() && !get_map().has_haulable_items( who.pos() ) ) {
+            who.stop_hauling();
+        }
     }
 }
 
@@ -1007,7 +1010,7 @@ std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonIn &
 static void cancel_pickup( Character &who )
 {
     who.cancel_activity();
-    if( who.is_hauling() && !get_map().has_items( who.pos() ) ) {
+    if( who.is_hauling() && !get_map().has_haulable_items( who.pos() ) ) {
         who.stop_hauling();
     }
 }
