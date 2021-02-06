@@ -75,6 +75,8 @@ static const std::string type_facial_hair( "facial_hair" );
 static const flag_id json_flag_no_auto_equip( "no_auto_equip" );
 static const flag_id json_flag_auto_wield( "auto_wield" );
 
+static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
+
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
@@ -1615,7 +1617,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             } else {
                 for( const auto &b : prof_CBMs ) {
                     const auto &cbm = b.obj();
-                    if( cbm.activated && cbm.has_flag( "BIONIC_TOGGLED" ) ) {
+                    if( cbm.activated && cbm.has_flag( json_flag_BIONIC_TOGGLED ) ) {
                         buffer += string_format( _( "%s (toggled)" ), cbm.name ) + "\n";
                     } else if( cbm.activated ) {
                         buffer += string_format( _( "%s (activated)" ), cbm.name ) + "\n";
@@ -2816,7 +2818,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 for( const auto &b : prof_CBMs ) {
                     const auto &cbm = b.obj();
 
-                    if( cbm.activated && cbm.has_flag( "BIONIC_TOGGLED" ) ) {
+                    if( cbm.activated && cbm.has_flag( json_flag_BIONIC_TOGGLED ) ) {
                         wprintz( w_bionics, c_light_gray, string_format( _( "\n%s (toggled)" ), cbm.name ) );
                     } else if( cbm.activated ) {
                         wprintz( w_bionics, c_light_gray, string_format( _( "\n%s (activated)" ), cbm.name ) );

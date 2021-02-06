@@ -48,8 +48,6 @@
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
-static const bionic_id bio_sunglasses( "bio_sunglasses" );
-
 static const efftype_id effect_glare( "glare" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_snow_glare( "snow_glare" );
@@ -58,6 +56,8 @@ static const itype_id itype_water( "water" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
+
+static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 static const flag_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
 static const flag_id json_flag_RAINPROOF( "RAINPROOF" );
@@ -100,7 +100,7 @@ void glare( const weather_type_id &w )
         !g->is_in_sunlight( player_character.pos() ) ||
         player_character.in_sleep_state() ||
         player_character.worn_with_flag( json_flag_SUN_GLASSES ) ||
-        player_character.has_bionic( bio_sunglasses ) ||
+        player_character.has_flag( json_flag_GLARE_RESIST ) ||
         player_character.is_blind() ) {
         return;
     }

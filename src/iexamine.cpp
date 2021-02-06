@@ -58,6 +58,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "make_static.h"
 #include "magic_teleporter_list.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -128,6 +129,8 @@ static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_vis
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+
+static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
@@ -206,7 +209,6 @@ static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
 static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 
-static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
@@ -400,7 +402,7 @@ void iexamine::attunement_altar( player &p, const tripoint & )
 {
     std::set<trait_id> attunements;
     for( const mutation_branch &mut : mutation_branch::get_all() ) {
-        if( mut.flags.count( "ATTUNEMENT" ) ) {
+        if( mut.flags.count( json_flag_ATTUNEMENT ) ) {
             attunements.emplace( mut.id );
         }
     }
@@ -1501,7 +1503,8 @@ void iexamine::safe( player &guy, const tripoint &examp )
         return temporary_item.has_flag( flag_SAFECRACK );
     } );
 
-    if( !( !cracking_tool.empty() || guy.has_bionic( bio_ears ) ) ) {
+    if( !( !cracking_tool.empty() ||
+           guy.has_flag( STATIC( json_character_flag( "IMMUNE_HEARING_DAMAGE" ) ) ) ) ) {
         guy.moves -= to_turns<int>( 10_seconds );
         // Assume a 3 digit 100-number code. Many safes allow adjacent + 1 dial locations to match,
         // so 1/20^3, or 1/8,000 odds.
