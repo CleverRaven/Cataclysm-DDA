@@ -1,10 +1,11 @@
-#include "activity_scheduling_helper.h"
-#include "player_helpers.h"
-#include "map_helpers.h"
-
 #include "activity_actor_definitions.h"
+#include "activity_scheduling_helper.h"
 #include "avatar.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
+#include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 // Set up our scenarios ahead of time
 static const int moves_for_25h = to_seconds<int>( 25_hours ) * 100;

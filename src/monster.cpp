@@ -1,28 +1,32 @@
 #include "monster.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <memory>
+#include <sstream>
+#include <string>
 #include <tuple>
-#include <unordered_map>
 
+#include "ascii_art.h"
 #include "bodypart.h"
 #include "catacharset.h"
 #include "character.h"
+#include "colony.h"
 #include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "effect_source.h"
 #include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
+#include "faction.h"
 #include "field_type.h"
-#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
@@ -53,7 +57,6 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"

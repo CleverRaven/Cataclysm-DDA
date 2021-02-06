@@ -2,18 +2,18 @@
 #ifndef CATA_SRC_REQUIREMENTS_H
 #define CATA_SRC_REQUIREMENTS_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <numeric>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
 #include "crafting.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -23,10 +23,9 @@ class JsonIn;
 class JsonObject;
 class JsonOut;
 class JsonValue;
-class read_only_visitable;
 class item;
 class nc_color;
-class player;
+class read_only_visitable;
 template <typename E> struct enum_traits;
 
 enum class available_status : int {

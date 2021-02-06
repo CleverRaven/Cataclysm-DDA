@@ -2,24 +2,26 @@
 #ifndef CATA_SRC_CHARACTER_H
 #define CATA_SRC_CHARACTER_H
 
+#include <functional>
 #include <algorithm>
-#include <array>
 #include <bitset>
 #include <climits>
-#include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <limits>
 #include <list>
 #include <map>
-#include <memory>
+#include <new>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "activity_type.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -28,11 +30,12 @@
 #include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
-#include "enums.h"
 #include "flat_set.h"
 #include "game_constants.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "magic_enchantment.h"
 #include "memory_fast.h"
 #include "optional.h"
@@ -44,14 +47,12 @@
 #include "ret_val.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "type_id.h"
-#include "units.h"
 #include "units_fwd.h"
 #include "visitable.h"
 #include "weighted_list.h"
 
-class dispersion_sources;
+class Character;
 class JsonIn;
 class JsonObject;
 class JsonOut;
@@ -60,10 +61,11 @@ class SkillLevelMap;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
+class dispersion_sources;
+class effect;
+class effect_source;
 class faction;
 class inventory;
-class item_contents;
-class item_pocket;
 class known_magic;
 class ma_technique;
 class map;
@@ -74,7 +76,7 @@ class player;
 class player_morale;
 class proficiency_set;
 class recipe_subset;
-class vehicle;
+class spell;
 class vpart_reference;
 struct bionic;
 struct construction;
@@ -2916,6 +2918,7 @@ class Character : public Creature, public visitable
         bool is_visible_in_range( const Creature &critter, int range ) const;
 
         struct auto_toggle_bionic_result;
+
         /**
          * Automatically turn bionic on or off according to remaining fuel and
          * user settings, and return info of the first burnable fuel.

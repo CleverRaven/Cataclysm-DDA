@@ -1,9 +1,18 @@
-#include "catch/catch.hpp"
+#include <algorithm>
+#include <cstddef>
+#include <iosfwd>
+#include <map>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "assertion_helpers.h"
 #include "cata_utility.h"
+#include "catch/catch.hpp"
+#include "debug_menu.h"
 #include "units.h"
 #include "units_utility.h"
-#include "debug_menu.h"
 
 // tests both variants of string_starts_with
 template <std::size_t N>

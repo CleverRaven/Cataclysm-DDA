@@ -1,7 +1,9 @@
-#include "catch/catch.hpp"
-
 #include <fstream>
+#include <vector>
+
+#include "catch/catch.hpp"
 #include "monfaction.h"
+#include "type_id.h"
 
 // generates a file in current directory that contains dump of all inter-faction attitude
 TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )

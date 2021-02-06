@@ -3,7 +3,7 @@
 #define CATA_SRC_ITYPE_H
 
 #include <array>
-#include <functional>
+#include <cstddef>
 #include <iosfwd>
 #include <map>
 #include <memory>
@@ -19,7 +19,6 @@
 #include "enums.h" // point
 #include "explosion.h"
 #include "game_constants.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "iuse.h" // use_function
 #include "optional.h"
@@ -35,7 +34,6 @@
 class Item_factory;
 class JsonIn;
 class JsonObject;
-class body_part_set;
 class item;
 class player;
 struct tripoint;

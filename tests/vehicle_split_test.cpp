@@ -1,14 +1,13 @@
-#include "catch/catch.hpp"
-
-#include <memory>
 #include <set>
 #include <vector>
 
+#include "catch/catch.hpp"
 #include "character.h"
 #include "map.h"
-#include "vehicle.h"
-#include "type_id.h"
 #include "point.h"
+#include "type_id.h"
+#include "units.h"
+#include "vehicle.h"
 
 TEST_CASE( "vehicle_split_section" )
 {

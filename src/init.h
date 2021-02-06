@@ -3,18 +3,20 @@
 #define CATA_SRC_INIT_H
 
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
-#include <string>
-#include <vector>
+#include <memory>
+#include <string> // IWYU pragma: keep
 #include <utility>
+#include <vector>
 
-#include "json.h"
 #include "memory_fast.h"
 
-class loading_ui;
-class JsonObject;
 class JsonIn;
+class JsonObject;
+class loading_ui;
+struct json_source_location;
 
 /**
  * This class is used to load (and unload) the dynamic
@@ -70,6 +72,7 @@ class DynamicDataLoader
         bool finalized = false;
 
         struct cached_streams;
+
         std::unique_ptr<cached_streams> stream_cache;
 
     protected:

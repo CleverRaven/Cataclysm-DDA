@@ -9,8 +9,10 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <new>
 #include <numeric>
 #include <set>
+#include <sstream>
 #include <string>
 #include <type_traits>
 #include <unordered_set>
@@ -24,13 +26,13 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
+#include "clzones.h"
 #include "colony.h"
 #include "debug.h"
 #include "enums.h"
 #include "faction.h"
 #include "fault.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "handle_liquid.h"
@@ -38,6 +40,7 @@
 #include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
+#include "line.h"
 #include "map.h"
 #include "map_selector.h"
 #include "memory_fast.h"
@@ -53,7 +56,6 @@
 #include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "tileray.h"
 #include "translations.h"

@@ -24,12 +24,14 @@
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
-#include "options.h"
-
 #include <algorithm>
 #include <deque>
+#include <functional>
 #include <iterator>
 #include <memory>
+#include <string>
+
+#include "options.h"
 
 namespace
 {

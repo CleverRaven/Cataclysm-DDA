@@ -2,7 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
-#include <iterator>
+#include <limits>
 #include <memory>
 #include <numeric>
 #include <sstream>
@@ -13,13 +13,12 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
-#include "construction.h"
 #include "debug.h"
 #include "enum_traits.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "game_constants.h"
 #include "generic_factory.h"
+#include "inventory.h"
 #include "item.h"
 #include "itype.h"
 #include "json.h"
@@ -30,7 +29,6 @@
 #include "proficiency.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_id_utils.h"
 #include "translations.h"
 #include "type_id.h"

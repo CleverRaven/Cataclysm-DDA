@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_HARVEST_H
 #define CATA_SRC_HARVEST_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <set>
@@ -10,12 +10,11 @@
 #include <utility>
 #include <vector>
 
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
-class butchery_requirements;
 class JsonObject;
+class butchery_requirements;
 
 using butchery_requirements_id = string_id<butchery_requirements>;
 

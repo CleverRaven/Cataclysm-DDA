@@ -1,10 +1,14 @@
 #include "item_factory.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <iterator>
+#include <limits>
 #include <memory>
+#include <new>
 #include <stdexcept>
 #include <type_traits>
 #include <unordered_set>
@@ -20,7 +24,6 @@
 #include "color.h"
 #include "damage.h"
 #include "debug.h"
-#include "debug_menu.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "explosion.h"
@@ -38,23 +41,25 @@
 #include "material.h"
 #include "optional.h"
 #include "options.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "relic.h"
 #include "requirements.h"
+#include "ret_val.h"
+#include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vitamin.h"
 
 class player;
 struct tripoint;
+template <typename T> struct enum_traits;
 
 static item_blacklist_t item_blacklist;
 

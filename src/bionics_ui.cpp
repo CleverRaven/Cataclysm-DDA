@@ -1,32 +1,36 @@
+#include "player.h" // IWYU pragma: associated
+
 #include <algorithm> //std::min
 #include <cstddef>
+#include <functional>
 #include <memory>
+#include <string>
 
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "compatibility.h"
+#include "cursesdef.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "game.h"
 #include "input.h"
 #include "inventory.h"
+#include "material.h"
 #include "options.h"
 #include "output.h"
 #include "make_static.h"
 #include "pimpl.h"
-#include "player.h" // IWYU pragma: associated
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
-#include "units_fwd.h"
 
 // '!', '-' and '=' are uses as default bindings in the menu
 static const invlet_wrapper

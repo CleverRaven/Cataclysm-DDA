@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <memory>
 #include <set>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
@@ -12,7 +13,6 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
-#include "enums.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "item.h"
@@ -35,12 +35,10 @@
 #include "ret_val.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "talker.h"
 #include "talker_npc.h"
 #include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 

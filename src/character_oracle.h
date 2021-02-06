@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_CHARACTER_ORACLE_H
 #define CATA_SRC_CHARACTER_ORACLE_H
 
-#include <string>
+#include <iosfwd>
 
 #include "behavior_oracle.h"
 

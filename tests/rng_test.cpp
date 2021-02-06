@@ -1,11 +1,10 @@
-#include "catch/catch.hpp"
-
 #include <functional>
 #include <vector>
 
-#include "test_statistics.h"
-#include "rng.h"
+#include "catch/catch.hpp"
 #include "optional.h"
+#include "rng.h"
+#include "test_statistics.h"
 
 static void check_remainder( float proportion )
 {

@@ -1,10 +1,11 @@
 #include "field.h"
 
 #include <algorithm>
+#include <cmath>
+#include <random>
 #include <utility>
 
 #include "calendar.h"
-#include "int_id.h"
 #include "make_static.h"
 #include "rng.h"
 

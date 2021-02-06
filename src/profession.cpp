@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -11,7 +12,6 @@
 #include "calendar.h"
 #include "debug.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_contents.h"

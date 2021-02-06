@@ -1,13 +1,17 @@
+#include <iosfwd>
+#include <vector>
+
+#include "calendar.h"
 #include "catch/catch.hpp"
-
 #include "field.h"
+#include "field_type.h"
+#include "item.h"
 #include "map.h"
-#include "map_iterator.h"
-#include "type_id.h"
-
 #include "map_helpers.h"
-
-#include <algorithm>
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "point.h"
+#include "type_id.h"
 
 static int count_fields( const field_type_str_id &field_type )
 {

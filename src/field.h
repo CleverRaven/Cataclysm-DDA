@@ -2,15 +2,14 @@
 #ifndef CATA_SRC_FIELD_H
 #define CATA_SRC_FIELD_H
 
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "color.h"
 #include "enums.h"
 #include "field_type.h"
-#include "int_id.h"
 #include "type_id.h"
 
 /**

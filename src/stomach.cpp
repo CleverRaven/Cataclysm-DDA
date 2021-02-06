@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <iosfwd>
 #include <string>
 #include <utility>
 
@@ -9,7 +10,6 @@
 #include "game.h"
 #include "json.h"
 #include "player.h"
-#include "rng.h"
 #include "stomach.h"
 #include "units.h"
 #include "vitamin.h"

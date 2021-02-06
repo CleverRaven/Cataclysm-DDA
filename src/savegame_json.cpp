@@ -2,22 +2,30 @@
 // functions are serialization functions.  This allows IWYU to check the
 // includes in such headers.
 
+#include "enums.h" // IWYU pragma: associated
+#include "npc_favor.h" // IWYU pragma: associated
+#include "pldata.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <array>
 #include <bitset>
 #include <climits>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
+#include <functional>
 #include <iterator>
 #include <limits>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
 #include <numeric>
 #include <set>
 #include <sstream>
 #include <stack>
 #include <string>
+#include <tuple>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -25,6 +33,7 @@
 
 #include "active_item_cache.h"
 #include "activity_actor.h"
+#include "activity_type.h"
 #include "assign.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -53,7 +62,6 @@
 #include "dialogue_chatbin.h"
 #include "effect.h"
 #include "effect_source.h"
-#include "enums.h" // IWYU pragma: associated
 #include "event.h"
 #include "faction.h"
 #include "field.h"
@@ -62,7 +70,6 @@
 #include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -79,6 +86,7 @@
 #include "map_memory.h"
 #include "mapdata.h"
 #include "mattack_common.h"
+#include "memory_fast.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
@@ -86,14 +94,12 @@
 #include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
-#include "npc_favor.h" // IWYU pragma: associated
 #include "optional.h"
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
-#include "pldata.h" // IWYU pragma: associated
 #include "point.h"
 #include "profession.h"
 #include "proficiency.h"
@@ -107,12 +113,10 @@
 #include "skill.h"
 #include "stats_tracker.h"
 #include "stomach.h"
-#include "string_id.h"
 #include "submap.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -120,7 +124,6 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
-#include "flag.h"
 
 struct mutation_branch;
 struct oter_type_t;

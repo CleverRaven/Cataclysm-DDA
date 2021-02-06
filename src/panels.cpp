@@ -9,6 +9,7 @@
 #include <list>
 #include <memory>
 #include <string>
+#include <type_traits>
 #include <utility>
 
 #include "action.h"
@@ -23,14 +24,15 @@
 #include "character_oracle.h"
 #include "color.h"
 #include "compatibility.h"
+#include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "enum_traits.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
 #include "input.h"
-#include "int_id.h"
 #include "item.h"
 #include "json.h"
 #include "magic.h"
@@ -47,12 +49,10 @@
 #include "player.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "tileray.h"
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"

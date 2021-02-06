@@ -1,21 +1,22 @@
 #include "item.h"
 
+#include <clocale>
+#include <cctype>
 #include <algorithm>
 #include <array>
-#include <cctype>
 #include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <iomanip>
 #include <iterator>
 #include <limits>
-#include <locale>
 #include <memory>
 #include <set>
 #include <sstream>
+#include <string>
 #include <tuple>
 #include <unordered_set>
 
-#include "advanced_inv.h"
 #include "ammo.h"
 #include "ascii_art.h"
 #include "avatar.h"
@@ -28,13 +29,16 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "clothing_mod.h"
+#include "clzones.h"
 #include "color.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "creature.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
 #include "effect.h" // for weed_msg
+#include "effect_source.h"
 #include "enum_traits.h"
 #include "enums.h"
 #include "explosion.h"
@@ -47,7 +51,6 @@
 #include "game_constants.h"
 #include "gun_mode.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item_category.h"
 #include "item_factory.h"
@@ -88,10 +91,12 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_id_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"

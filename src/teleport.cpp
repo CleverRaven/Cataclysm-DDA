@@ -1,6 +1,8 @@
 #include "teleport.h"
 
+#include <cmath>
 #include <memory>
+#include <string>
 
 #include "calendar.h"
 #include "character.h"

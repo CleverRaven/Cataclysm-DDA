@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_CURSESDEF_H
 #define CATA_SRC_CURSESDEF_H
 
+#include <iosfwd>
 #include <memory>
-#include <string>
-#include <utility>
+#include <type_traits>
 
 #include "string_formatter.h"
 

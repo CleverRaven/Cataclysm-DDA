@@ -5,12 +5,14 @@
 #include <cmath>
 #include <cstdlib>
 #include <forward_list>
+#include <functional>
 #include <iterator>
 #include <list>
 #include <memory>
+#include <string>
+#include <utility>
 
 #include "action.h"
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "assign.h"
@@ -25,7 +27,6 @@
 #include "colony.h"
 #include "color.h"
 #include "compatibility.h"
-#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
@@ -40,8 +41,7 @@
 #include "game.h"
 #include "generic_factory.h"
 #include "handle_liquid.h"
-#include "input.h"
-#include "int_id.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -51,6 +51,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "material.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "monster.h"
@@ -71,11 +72,9 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "teleport.h"
 #include "translations.h"
 #include "ui.h"
-#include "ui_manager.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "vehicle.h"

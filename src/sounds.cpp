@@ -5,9 +5,11 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <type_traits>
 #include <unordered_map>
 
-#include "cached_options.h"
+#include "activity_type.h"
+#include "cached_options.h" // IWYU pragma: keep
 #include "calendar.h"
 #include "character.h"
 #include "coordinate_conversions.h"
@@ -17,8 +19,7 @@
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
-#include "itype.h"
-#include "json.h"
+#include "itype.h" // IWYU pragma: keep
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
@@ -33,10 +34,10 @@
 #include "rng.h"
 #include "safemode_ui.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "veh_type.h"
+#include "units.h"
+#include "veh_type.h" // IWYU pragma: keep
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"

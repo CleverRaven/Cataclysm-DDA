@@ -3,9 +3,9 @@
 #define CATA_SRC_MATTACK_ACTORS_H
 
 #include <climits>
+#include <iosfwd>
 #include <map>
 #include <memory>
-#include <string>
 #include <utility>
 #include <vector>
 

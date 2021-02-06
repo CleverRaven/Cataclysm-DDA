@@ -1,13 +1,20 @@
 #include "input.h"
 
+#include <cctype>
+#include <clocale>
 #include <algorithm>
 #include <array>
-#include <cctype>
+#include <cstddef>
+#include <exception>
 #include <fstream>
-#include <locale>
+#include <iterator>
 #include <memory>
+#include <new>
 #include <set>
+#include <sstream>
 #include <stdexcept>
+#include <tuple>
+#include <type_traits>
 #include <utility>
 
 #include "action.h"
@@ -29,11 +36,11 @@
 #include "path_info.h"
 #include "point.h"
 #include "popup.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "sdltiles.h"
 
 using std::min; // from <algorithm>
 using std::max;

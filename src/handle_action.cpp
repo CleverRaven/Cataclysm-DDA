@@ -1,14 +1,17 @@
+#include "game.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <chrono>
 #include <cmath>
-#include <cstdlib>
 #include <initializer_list>
+#include <map>
 #include <sstream>
+#include <string>
 #include <utility>
 
 #include "action.h"
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
+#include "activity_type.h"
 #include "advanced_inv.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
@@ -22,18 +25,19 @@
 #include "character.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
+#include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "event.h"
 #include "event_bus.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
-#include "game.h" // IWYU pragma: associated
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "gamemode.h"
@@ -41,11 +45,11 @@
 #include "gun_mode.h"
 #include "help.h"
 #include "input.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
 #include "iuse.h"
+#include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
 #include "magic.h"
@@ -70,12 +74,10 @@
 #include "scores_ui.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"

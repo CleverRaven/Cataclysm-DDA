@@ -3,16 +3,22 @@
 #define CATCH_CONFIG_IMPL_ONLY
 #endif
 #define CATCH_CONFIG_RUNNER
-#include "catch/catch.hpp"
-
+#include <algorithm>
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <ctime>
-#include <string>
+#include <exception>
+#include <memory>
+#include <ostream>
 #include <string>
 #include <utility>
-#include <utility>
+#include <vector>
+
+#include "calendar.h"
+#include "catch/catch.hpp"
+#include "coordinates.h"
 #ifndef _WIN32
 #include <unistd.h>
 #endif
@@ -35,13 +41,10 @@
 #include "overmapbuffer.h"
 #include "path_info.h"
 #include "pldata.h"
-#include "point.h"
 #include "rng.h"
 #include "type_id.h"
 #include "weather.h"
 #include "worldfactory.h"
-
-class map;
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;

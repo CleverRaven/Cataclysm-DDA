@@ -5,19 +5,21 @@
 #include <climits>
 #include <cmath>
 #include <cstdlib>
+#include <exception>
 #include <functional>
 #include <iterator>
 #include <list>
 #include <map>
+#include <new>
 #include <set>
 #include <sstream>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "action.h"
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
@@ -41,14 +43,12 @@
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -67,7 +67,6 @@
 #include "memorial_logger.h"
 #include "memory_fast.h"
 #include "messages.h"
-#include "monattack.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "morale_types.h"
@@ -94,7 +93,6 @@
 #include "speech.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "teleport.h"
 #include "text_snippets.h"

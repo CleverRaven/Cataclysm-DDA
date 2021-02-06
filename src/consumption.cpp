@@ -1,7 +1,10 @@
+#include "player.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <memory>
 #include <string>
 #include <tuple>
@@ -15,9 +18,10 @@
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
+#include "event.h"
 #include "event_bus.h"
-#include "flat_set.h"
 #include "flag.h"
+#include "flat_set.h"
 #include "game.h"
 #include "item.h"
 #include "item_category.h"
@@ -36,7 +40,6 @@
 #include "npc.h"
 #include "options.h"
 #include "pickup.h"
-#include "player.h" // IWYU pragma: associated
 #include "pldata.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -46,7 +49,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
+#include "value_ptr.h"
 #include "visitable.h"
 #include "vitamin.h"
 

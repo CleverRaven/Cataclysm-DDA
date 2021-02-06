@@ -1,8 +1,6 @@
-#include <algorithm>
 #include <cstddef>
 #include <iterator>
 #include <list>
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -14,13 +12,14 @@
 #include "flag.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_pocket.h"
 #include "item_search.h"
 #include "make_static.h"
 #include "map.h"
 #include "options.h"
+#include "type_id.h"
 #include "uistate.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "vehicle.h"
 
 class item_category;

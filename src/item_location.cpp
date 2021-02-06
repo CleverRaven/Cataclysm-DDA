@@ -1,9 +1,12 @@
 #include "item_location.h"
 
+#include <algorithm>
 #include <cstddef>
+#include <functional>
 #include <iosfwd>
 #include <iterator>
 #include <list>
+#include <string>
 #include <vector>
 
 #include "character.h"
@@ -25,6 +28,7 @@
 #include "safe_reference.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"

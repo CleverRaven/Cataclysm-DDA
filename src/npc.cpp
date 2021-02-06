@@ -7,7 +7,9 @@
 #include <functional>
 #include <limits>
 #include <memory>
+#include <ostream>
 
+#include "activity_type.h"
 #include "auto_pickup.h"
 #include "basecamp.h"
 #include "bodypart.h"
@@ -18,6 +20,7 @@
 #include "clzones.h"
 #include "compatibility.h"
 #include "coordinate_conversions.h"
+#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
@@ -27,14 +30,11 @@
 #include "event_bus.h"
 #include "faction.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_group.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"

@@ -1,16 +1,14 @@
-#include "catch/catch.hpp"
-#include "overmap.h"
-
 #include <memory>
-#include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "common_types.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "omdata.h"
+#include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "type_id.h"

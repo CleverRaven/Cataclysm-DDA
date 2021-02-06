@@ -3,10 +3,11 @@
 #define CATA_SRC_STRING_FORMATTER_H
 
 #include <cstddef>
+#include <iosfwd>
+#include <new>
 #include <string>
 #include <type_traits>
 #include <typeinfo>
-#include <utility>
 
 // needed for the workaround for the std::to_string bug in some compilers
 #include "compatibility.h" // IWYU pragma: keep

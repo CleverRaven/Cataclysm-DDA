@@ -1,13 +1,12 @@
 #include "martialarts.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
 #include <string>
-#include <unordered_map>
 #include <utility>
 
 #include "bodypart.h"
@@ -19,6 +18,7 @@
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
+#include "game_constants.h"
 #include "generic_factory.h"
 #include "input.h"
 #include "item.h"
@@ -27,11 +27,9 @@
 #include "map.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
 #include "value_ptr.h"

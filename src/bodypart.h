@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_BODYPART_H
 #define CATA_SRC_BODYPART_H
 
-#include <algorithm>
 #include <array>
-#include <bitset>
 #include <cstddef>
 #include <initializer_list>
+#include <iosfwd>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "enums.h"
@@ -19,9 +19,8 @@
 class JsonIn;
 class JsonObject;
 class JsonOut;
-template <typename E> struct enum_traits;
-
 struct body_part_type;
+template <typename E> struct enum_traits;
 
 using bodypart_str_id = string_id<body_part_type>;
 using bodypart_id = int_id<body_part_type>;

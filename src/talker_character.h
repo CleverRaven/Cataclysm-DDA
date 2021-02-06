@@ -3,19 +3,18 @@
 #define CATA_SRC_TALKER_CHARACTER_H
 
 #include <functional>
+#include <iosfwd>
 #include <list>
-#include <string>
 #include <vector>
 
 #include "coordinates.h"
+#include "npc.h"
 #include "talker.h"
 #include "type_id.h"
 
 class character_id;
 class faction;
 class item;
-class mission;
-class npc;
 class player;
 class time_duration;
 class vehicle;

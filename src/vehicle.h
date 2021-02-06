@@ -2,15 +2,18 @@
 #ifndef CATA_SRC_VEHICLE_H
 #define CATA_SRC_VEHICLE_H
 
-#include <algorithm>
 #include <array>
 #include <climits>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
+#include <list>
 #include <map>
+#include <new>
 #include <set>
 #include <stack>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -30,32 +33,28 @@
 #include "line.h"
 #include "optional.h"
 #include "point.h"
-#include "string_id.h"
 #include "tileray.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 
 class Character;
 class Creature;
 class JsonIn;
 class JsonOut;
-struct input_event;
 class map;
 class monster;
 class nc_color;
 class npc;
 class player;
 class vehicle;
-class vehicle_cursor;
 class vehicle_part_range;
 class vpart_info;
 class vpart_position;
 class zone_data;
+struct input_event;
 struct itype;
 struct uilist_entry;
 template <typename E> struct enum_traits;
-class visitable;
 
 enum vpart_bitflags : int;
 enum ter_bitflags : int;

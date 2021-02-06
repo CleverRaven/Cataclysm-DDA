@@ -1,19 +1,29 @@
 #include "map_helpers.h"
 
+#include <functional>
+#include <list>
+#include <map>
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include "cata_assert.h"
+#include "character.h"
+#include "clzones.h"
+#include "faction.h"
+#include "field.h"
 #include "game.h"
 #include "game_constants.h"
+#include "item.h"
+#include "item_pocket.h"
 #include "location.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "npc.h"
 #include "point.h"
+#include "ret_val.h"
 #include "type_id.h"
-#include "clzones.h"
 
 // Remove all vehicles from the map
 void clear_vehicles()

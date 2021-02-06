@@ -2,15 +2,18 @@
 
 #include <bitset>
 #include <cstdlib>
+#include <functional>
 #include <limits>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "basecamp.h"
+#include "catacharset.h"
 #include "character.h"
 #include "coordinates.h"
 #include "cursesdef.h"
@@ -22,6 +25,7 @@
 #include "item.h"
 #include "json.h"
 #include "line.h"
+#include "memory_fast.h"
 #include "npc.h"
 #include "optional.h"
 #include "output.h"

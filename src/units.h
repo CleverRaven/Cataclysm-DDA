@@ -2,14 +2,12 @@
 #ifndef CATA_SRC_UNITS_H
 #define CATA_SRC_UNITS_H
 
-#include <algorithm>
 #include <cctype>
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
-#include <cstdint>
 #include <limits>
 #include <map>
-#include <ostream>
 #include <sstream>
 #include <string>
 #include <type_traits>

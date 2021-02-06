@@ -8,15 +8,13 @@
 #include <functional>
 #include <iosfwd>
 #include <list>
-#include <map>
 #include <memory>
+#include <new>
 #include <set>
-#include <string>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
-#include "action.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "coordinates.h"
@@ -31,6 +29,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
+#include "units_fwd.h"
 #include "weather.h"
 
 class Character;

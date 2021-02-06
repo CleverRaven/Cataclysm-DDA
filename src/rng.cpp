@@ -1,8 +1,8 @@
 #include "rng.h"
 
-#include <cmath>
+#include <algorithm>
 #include <chrono>
-#include <utility>
+#include <cmath>
 
 #include "calendar.h"
 #include "cata_utility.h"

@@ -16,12 +16,10 @@
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "item_group.h"
 #include "json.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
 

@@ -3,15 +3,17 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
-#include <cstdlib>
+#include <cstdio>
+#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
+#include <string>
 #include <type_traits>
 #include <utility>
 
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "ammo.h"
@@ -41,7 +43,6 @@
 #include "event_bus.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
@@ -49,7 +50,6 @@
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "input.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -58,8 +58,9 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
-#include "make_static.h"
+#include "magic.h"
 #include "magic_teleporter_list.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -68,7 +69,6 @@
 #include "messages.h"
 #include "mission_companion.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -86,7 +86,6 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "talker.h"
 #include "timed_event.h"
@@ -96,7 +95,6 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"

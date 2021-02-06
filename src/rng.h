@@ -2,21 +2,22 @@
 #ifndef CATA_SRC_RNG_H
 #define CATA_SRC_RNG_H
 
-#include <array>
 #include <functional>
-#include <iosfwd>
+#include <array>
+#include <cstddef>
+#include <functional>
 #include <iterator>
 #include <random>
 #include <type_traits>
 
 #include "optional.h"
-#include "units_fwd.h"
+#include "units.h"
 
 class map;
 class time_duration;
+struct tripoint;
 template<typename Tripoint>
 class tripoint_range;
-struct tripoint;
 
 // All PRNG functions use an engine, see the C++11 <random> header
 // By default, that engine is seeded by time on first call to such a function.

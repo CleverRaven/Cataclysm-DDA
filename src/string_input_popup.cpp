@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <memory>
+#include <string>
 #include <vector>
 
 string_input_popup::string_input_popup() = default;

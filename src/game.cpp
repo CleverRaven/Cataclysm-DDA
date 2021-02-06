@@ -1,22 +1,29 @@
 #include "game.h"
 
+#include <functional>
+#include <clocale>
 #include <algorithm>
 #include <bitset>
 #include <chrono>
 #include <climits>
 #include <cmath>
+#include <cstddef>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
+#include <cwctype>
+#include <exception>
 #include <iostream>
 #include <iterator>
 #include <limits>
-#include <locale>
 #include <map>
 #include <memory>
 #include <numeric>
 #include <queue>
+#include <ratio>
 #include <set>
+#include <sstream>
 #include <string>
 #include <tuple>
 #include <type_traits>
@@ -27,7 +34,6 @@
 
 #include "achievement.h"
 #include "action.h"
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
@@ -55,8 +61,8 @@
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
-#include "cursesport.h"
 #include "cuboid_rectangle.h"
+#include "cursesport.h" // IWYU pragma: keep
 #include "damage.h"
 #include "debug.h"
 #include "dependency_tree.h"
@@ -82,7 +88,7 @@
 #include "iexamine.h"
 #include "init.h"
 #include "input.h"
-#include "int_id.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_contents.h"
@@ -94,6 +100,7 @@
 #include "iuse_actor.h"
 #include "json.h"
 #include "kill_tracker.h"
+#include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
 #include "live_view.h"
@@ -129,6 +136,7 @@
 #include "panels.h"
 #include "past_games_info.h"
 #include "path_info.h"
+#include "pathfinding.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
@@ -142,12 +150,11 @@
 #include "scenario.h"
 #include "scent_map.h"
 #include "scores_ui.h"
-#include "sdltiles.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "sounds.h"
 #include "start_location.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "submap.h"
 #include "talker.h"
@@ -159,7 +166,6 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
@@ -173,16 +179,10 @@
 #include "worldfactory.h"
 
 class computer;
-class inventory;
 
 #if defined(TILES)
 #include "cata_tiles.h"
 #endif // TILES
-
-#if !(defined(_WIN32) || defined(TILES))
-#include <langinfo.h>
-#include <cstring>
-#endif
 
 #if defined(_WIN32)
 #if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU

@@ -1,7 +1,9 @@
 #include "basecamp.h"
 
 #include <algorithm>
+#include <functional>
 #include <map>
+#include <new>
 #include <sstream>
 #include <string>
 #include <unordered_set>
@@ -13,11 +15,11 @@
 #include "character.h"
 #include "character_id.h"
 #include "clzones.h"
+#include "colony.h"
 #include "color.h"
 #include "compatibility.h"
 #include "debug.h"
 #include "faction_camp.h"
-#include "flat_set.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
@@ -34,7 +36,6 @@
 #include "recipe_groups.h"
 #include "requirements.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"

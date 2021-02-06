@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <numeric>
 #include <set>
+#include <string>
 #include <utility>
 
 #include "bodypart.h"
@@ -16,7 +17,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "input.h"
-#include "int_id.h"
 #include "item.h"
 #include "make_static.h"
 #include "morale_types.h"
