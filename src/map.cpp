@@ -1747,6 +1747,8 @@ std::string map::features( const tripoint &p )
     add_if( has_flag( "FLAT", p ), _( "Flat." ) );
     add_if( has_flag( "EASY_DECONSTRUCT", p ), _( "Simple." ) );
     add_if( has_flag( "MOUNTABLE", p ), _( "Mountable." ) );
+    add_if( has_flag( "FLAMMABLE", p ) || has_flag( "FLAMMABLE_ASH", p ) ||
+            has_flag( "FLAMMABLE_HARD", p ), _( "Flammable." ) );
     return result;
 }
 
