@@ -1,7 +1,6 @@
 [
   {
     "abstract": "AID_abstract",
-    "//": "All bionics that would inherit from this abstract should have IDs like 'AID_foo', where 'foo' is the name of corresponding bionic ID.",
     "type": "GENERIC",
     "name": { "str": "abstract autodoc installation data" },
     "symbol": "#",
