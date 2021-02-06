@@ -61,7 +61,7 @@ static bool helpers_have_proficiencies( const Character &guy, const proficiency_
 
 time_duration recipe::time_to_craft( const Character &guy, recipe_time_flag flags ) const
 {
-    return time_duration::from_seconds( time_to_craft_moves( guy, flags ) / 100 );
+    return time_duration::from_moves( time_to_craft_moves( guy, flags ) );
 }
 
 int64_t recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flags ) const

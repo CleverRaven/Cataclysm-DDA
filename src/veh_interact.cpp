@@ -312,8 +312,7 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
     bool ok = reqs.can_make_with_inventory( inv, is_crafting_component );
 
     msg += _( "<color_white>Time required:</color>\n" );
-    // TODO: better have a from_moves function
-    msg += "> " + to_string_approx( time_duration::from_turns( moves / 100 ) ) + "\n";
+    msg += "> " + to_string_approx( time_duration::from_moves( moves ) ) + "\n";
 
     msg += _( "<color_white>Skills required:</color>\n" );
     for( const auto &e : skills ) {

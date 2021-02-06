@@ -3219,7 +3219,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 
     const time_duration half_op_duration = difficulty * 10_minutes;
     const time_duration message_freq = difficulty * 2_minutes;
-    time_duration time_left = time_duration::from_turns( act->moves_left / 100 );
+    time_duration time_left = time_duration::from_moves( act->moves_left );
 
     map &here = get_map();
     if( autodoc && here.inbounds( p->pos() ) ) {

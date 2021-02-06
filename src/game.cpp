@@ -8615,7 +8615,7 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                 time_to_cut += butcher_time_to_cut( player_character, *it, bt ) * factor;
             }
         }
-        return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
+        return to_string_clipped( time_duration::from_moves( time_to_cut ) );
     };
     const bool enough_light = player_character.fine_detail_vision_mod() <= 4;
 
@@ -8942,9 +8942,9 @@ void game::butcher()
             }
 
             kmenu.addentry_col( MULTIDISASSEMBLE_ONE, true, 'D', _( "Disassemble everything once" ),
-                                to_string_clipped( time_duration::from_turns( time_to_disassemble_once / 100 ) ) );
+                                to_string_clipped( time_duration::from_moves( time_to_disassemble_once ) ) );
             kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything recursively" ),
-                                to_string_clipped( time_duration::from_turns( time_to_disassemble_recursive / 100 ) ) );
+                                to_string_clipped( time_duration::from_moves( time_to_disassemble_recursive ) ) );
         }
         if( salvage_iuse && salvageables.size() > 1 ) {
             int time_to_salvage = 0;
@@ -8953,7 +8953,7 @@ void game::butcher()
             }
 
             kmenu.addentry_col( MULTISALVAGE, true, 'z', _( "Cut up everything" ),
-                                to_string_clipped( time_duration::from_turns( time_to_salvage / 100 ) ) );
+                                to_string_clipped( time_duration::from_moves( time_to_salvage ) ) );
         }
 
         kmenu.query();

@@ -1762,7 +1762,7 @@ int construction::adjusted_time() const
 
 std::string construction::get_time_string() const
 {
-    const time_duration turns = time_duration::from_turns( adjusted_time() / 100 );
+    const time_duration turns = time_duration::from_moves( adjusted_time() );
     return _( "Time to complete: " ) + colorize( to_string( turns ), color_data );
 }
 

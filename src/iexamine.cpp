@@ -4904,7 +4904,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
     } else if( patient.activity.id() == ACT_OPERATION ) {
         popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
-               to_string( time_duration::from_turns( patient.activity.moves_left / 100 ) ) );
+               to_string( time_duration::from_moves( patient.activity.moves_left ) ) );
         p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
         return;
     }
