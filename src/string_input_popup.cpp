@@ -11,6 +11,11 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
+#include "wcwidth.h"
+
+#if defined(TILES)
+#include "sdl_wrappers.h"
+#endif
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -441,22 +446,51 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             if( _position < static_cast<int>( ret.size() ) ) {
                 ret.erase( _position, 1 );
             }
-        } else if( ch == KEY_F( 2 ) ) {
-            std::string tmp = get_input_string_from_file();
-            int tmplen = utf8_width( tmp );
-            if( tmplen > 0 && ( tmplen + utf8_width( ret ) <= _max_length || _max_length == 0 ) ) {
-                ret.append( utf8_wrapper( tmp ) );
+        } else if( ch == 0x16 || ch == KEY_F( 2 ) || !ev.text.empty() ) {
+            // ctrl-v, f2, or text input
+            // bail out early if already at length limit
+            if( _max_length <= 0 || ret.display_width() < static_cast<size_t>( _max_length ) ) {
+                std::string entered;
+                if( ch == 0x16 ) {
+#if defined(TILES)
+                    if( edit.empty() ) {
+                        char *const clip = SDL_GetClipboardText();
+                        if( clip ) {
+                            entered = clip;
+                            SDL_free( clip );
+                        }
+                    }
+#endif
+                } else if( ch == KEY_F( 2 ) ) {
+                    if( edit.empty() ) {
+                        entered = get_input_string_from_file();
+                    }
+                } else {
+                    entered = ev.text;
+                }
+                if( !entered.empty() ) {
+                    utf8_wrapper insertion;
+                    const char *str = entered.c_str();
+                    int len = entered.length();
+                    int width = ret.display_width();
+                    while( len > 0 ) {
+                        const uint32_t ch = UTF8_getch( &str, &len );
+                        if( _only_digits ? ch == '-' || isdigit( ch ) : ch != '\n' && ch != '\r' ) {
+                            const int newwidth = mk_wcwidth( ch );
+                            if( _max_length <= 0 || width + newwidth <= _max_length ) {
+                                insertion.append( utf8_wrapper( utf32_to_utf8( ch ) ) );
+                                width += newwidth;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                    ret.insert( _position, insertion );
+                    _position += insertion.length();
+                    edit = utf8_wrapper();
+                    ctxt->set_edittext( std::string() );
+                }
             }
-        } else if( !ev.text.empty() && _only_digits && !( isdigit( ev.text[0] ) || ev.text[0] == '-' ) ) {
-            // ignore non-digit (and '-' is a digit as well)
-        } else if( _max_length > 0 && static_cast<int>( ret.length() ) >= _max_length ) {
-            // no further input possible, ignore key
-        } else if( !ev.text.empty() ) {
-            const utf8_wrapper t( ev.text );
-            ret.insert( _position, t );
-            _position += t.length();
-            edit = utf8_wrapper();
-            ctxt->set_edittext( std::string() );
         } else if( ev.edit_refresh ) {
             edit = utf8_wrapper( ev.edit );
             ctxt->set_edittext( ev.edit );
