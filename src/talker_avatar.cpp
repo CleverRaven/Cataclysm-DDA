@@ -54,7 +54,7 @@ int talker_avatar::parse_mod( const std::string &attribute, const int factor ) c
 int talker_avatar::trial_chance_mod( const std::string &trial_type ) const
 {
     int chance = 0;
-    const social_modifiers &me_mods = me_chr->get_mutation_bionic_social_mods();    
+    const social_modifiers &me_mods = me_chr->get_mutation_bionic_social_mods();
     if( trial_type == "lie" ) {
         chance += me_chr->talk_skill() + me_mods.lie;
     } else if( trial_type == "persuade" ) {
