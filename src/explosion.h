@@ -6,6 +6,7 @@
 #include <utility>
 #include <vector>
 
+#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -86,7 +87,8 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
                 bool ignore_player );
 
 void draw_explosion( const tripoint &p, int radius, const nc_color &col );
-void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
+void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area,
+                            const cata::optional<std::string> &tile_id = cata::nullopt );
 
 void process_explosions();
 } // namespace explosion_handler

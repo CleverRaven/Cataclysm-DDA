@@ -298,7 +298,7 @@ void explosion_handler::draw_explosion( const tripoint &p, const int r, const nc
 #endif
 
 void explosion_handler::draw_custom_explosion( const tripoint &,
-        const std::map<tripoint, nc_color> &all_area )
+        const std::map<tripoint, nc_color> &all_area, const cata::optional<std::string> &tile_id )
 {
     if( test_mode ) {
         // avoid segfault from null tilecontext in tests
@@ -319,7 +319,7 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
         for( const auto &pr : all_area ) {
             const tripoint relative_point = relative_view_pos( player_character, pr.first );
             if( relative_point.z == 0 ) {
-                neighbors[pr.first] = explosion_tile{ N_NO_NEIGHBORS, pr.second };
+                neighbors[pr.first] = explosion_tile{ N_NO_NEIGHBORS, pr.second, tile_id };
             }
         }
     } else {
@@ -329,7 +329,7 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
             // Relative point is only used for z level check
             const tripoint relative_point = relative_view_pos( player_character, pr.first );
             if( relative_point.z == view_center.z ) {
-                neighbors[pr.first] = explosion_tile{ N_NO_NEIGHBORS, pr.second };
+                neighbors[pr.first] = explosion_tile{ N_NO_NEIGHBORS, pr.second, tile_id };
             }
         }
     }
@@ -337,7 +337,7 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
     for( const auto &pr : all_area ) {
         const tripoint relative_point = relative_view_pos( player_character, pr.first );
         if( relative_point.z == 0 ) {
-            neighbors[pr.first] = explosion_tile{ N_NO_NEIGHBORS, pr.second };
+            neighbors[pr.first] = explosion_tile{ N_NO_NEIGHBORS, pr.second, tile_id };
         }
     }
 #endif
