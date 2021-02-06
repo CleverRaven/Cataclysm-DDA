@@ -9143,7 +9143,9 @@ void Character::wake_up()
     if( has_effect( effect_alarm_clock ) ) {
         get_effect( effect_alarm_clock ).set_duration( 0_turns );
     }
-    recalc_sight_limits();
+    if ( is_player() ) {
+        recalc_sight_limits();
+    }
 
     if( has_effect( effect_nightmares ) ) {
         add_msg_if_player( m_bad, "%s",
