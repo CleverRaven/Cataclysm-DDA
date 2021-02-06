@@ -2611,6 +2611,26 @@ void veh_interact::display_name()
     wnoutrefresh( w_name );
 }
 
+static std::string veh_act_desc( const input_context &ctxt, const std::string &id,
+                                 const std::string &desc, const task_reason reason )
+{
+    static const translation inline_fmt_enabled = to_translation(
+                "keybinding", "<color_light_gray>%1$s<color_light_green>%2$s</color>%3$s</color>" );
+    static const translation inline_fmt_disabled = to_translation(
+                "keybinding", "<color_dark_gray>%1$s<color_green>%2$s</color>%3$s</color>" );
+    static const translation separate_fmt_enabled = to_translation(
+                "keybinding", "<color_light_gray><color_light_green>%1$s</color>-%2$s</color>" );
+    static const translation separate_fmt_disabled = to_translation(
+                "keybinding", "<color_dark_gray><color_green>%1$s</color>-%2$s</color>" );
+    if( reason == task_reason::CAN_DO ) {
+        return ctxt.get_desc( id, desc, input_context::allow_all_keys,
+                              inline_fmt_enabled, separate_fmt_enabled );
+    } else {
+        return ctxt.get_desc( id, desc, input_context::allow_all_keys,
+                              inline_fmt_disabled, separate_fmt_disabled );
+    }
+}
+
 /**
  * Prints the list of usable commands, and highlights the hotkeys used to activate them.
  */
@@ -2623,61 +2643,57 @@ void veh_interact::display_mode()
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         print_colored_text( w_mode, point( 1, 0 ), title_col, title_col, title.value() );
     } else {
-        size_t esc_pos = display_esc( w_mode );
-
-        // broken indentation preserved to avoid breaking git history for large number of lines
-        const std::array<std::string, 10> actions = { {
-                { _( "<i>nstall" ) },
-                { _( "<r>epair" ) },
-                { _( "<m>end" ) },
-                { _( "re<f>ill" ) },
-                { _( "rem<o>ve" ) },
-                { _( "<s>iphon" ) },
-                { _( "unloa<d>" ) },
-                { _( "cre<w>" ) },
-                { _( "r<e>name" ) },
-                { _( "l<a>bel" ) },
+        constexpr size_t action_cnt = 11;
+        const std::array<std::string, action_cnt> actions = { {
+                veh_act_desc( main_context, "INSTALL",
+                              pgettext( "veh_interact", "install" ),
+                              cant_do( 'i' ) ),
+                veh_act_desc( main_context, "REPAIR",
+                              pgettext( "veh_interact", "repair" ),
+                              cant_do( 'r' ) ),
+                veh_act_desc( main_context, "MEND",
+                              pgettext( "veh_interact", "mend" ),
+                              cant_do( 'm' ) ),
+                veh_act_desc( main_context, "REFILL",
+                              pgettext( "veh_interact", "refill" ),
+                              cant_do( 'f' ) ),
+                veh_act_desc( main_context, "REMOVE",
+                              pgettext( "veh_interact", "remove" ),
+                              cant_do( 'o' ) ),
+                veh_act_desc( main_context, "SIPHON",
+                              pgettext( "veh_interact", "siphon" ),
+                              cant_do( 's' ) ),
+                veh_act_desc( main_context, "UNLOAD",
+                              pgettext( "veh_interact", "unload" ),
+                              cant_do( 'd' ) ),
+                veh_act_desc( main_context, "ASSIGN_CREW",
+                              pgettext( "veh_interact", "crew" ),
+                              cant_do( 'w' ) ),
+                veh_act_desc( main_context, "RENAME",
+                              pgettext( "veh_interact", "rename" ),
+                              task_reason::CAN_DO ),
+                veh_act_desc( main_context, "RELABEL",
+                              pgettext( "veh_interact", "label" ),
+                              cant_do( 'a' ) ),
+                veh_act_desc( main_context, "QUIT",
+                              pgettext( "veh_interact", "back" ),
+                              task_reason::CAN_DO ),
             }
         };
 
-        const std::array<bool, std::tuple_size<decltype( actions )>::value> enabled = { {
-                cant_do( 'i' ) == task_reason::CAN_DO,
-                cant_do( 'r' ) == task_reason::CAN_DO,
-                cant_do( 'm' ) == task_reason::CAN_DO,
-                cant_do( 'f' ) == task_reason::CAN_DO,
-                cant_do( 'o' ) == task_reason::CAN_DO,
-                cant_do( 's' ) == task_reason::CAN_DO,
-                cant_do( 'd' ) == task_reason::CAN_DO,
-                cant_do( 'w' ) == task_reason::CAN_DO,
-                true,          // 'rename' is always available
-                cant_do( 'a' ) == task_reason::CAN_DO,
-            }
-        };
-
-        int pos[std::tuple_size<decltype( actions )>::value + 1];
-        pos[0] = 1;
-        for( size_t i = 0; i < actions.size(); i++ ) {
-            pos[i + 1] = pos[i] + utf8_width( actions[i] ) - 2;
+        std::array < int, action_cnt + 1 > pos;
+        pos[0] = 0;
+        for( size_t i = 0; i < action_cnt; i++ ) {
+            pos[i + 1] = pos[i] + utf8_width( actions[i], true );
         }
-        int spacing = static_cast<int>( ( esc_pos - 1 - pos[actions.size()] ) / actions.size() );
-        int shift = static_cast<int>( ( esc_pos - pos[actions.size()] - spacing *
-                                        ( actions.size() - 1 ) ) / 2 ) - 1;
-        for( size_t i = 0; i < actions.size(); i++ ) {
-            shortcut_print( w_mode, point( pos[i] + spacing * i + shift, 0 ),
-                            enabled[i] ? c_light_gray : c_dark_gray, enabled[i] ? c_light_green : c_green,
-                            actions[i] );
+        const int space = std::max<int>( getmaxx( w_mode ) - pos.back(), action_cnt + 1 );
+        for( size_t i = 0; i < action_cnt; i++ ) {
+            nc_color dummy = c_white;
+            print_colored_text( w_mode, point( pos[i] + space * ( i + 1 ) / ( action_cnt + 1 ), 0 ),
+                                dummy, c_white, actions[i] );
         }
     }
     wnoutrefresh( w_mode );
-}
-
-size_t veh_interact::display_esc( const catacurses::window &win )
-{
-    std::string backstr = _( "<ESC>-back" );
-    // right text align
-    size_t pos = getmaxx( win ) - utf8_width( backstr ) + 2;
-    shortcut_print( win, point( pos, 0 ), c_light_gray, c_light_green, backstr );
-    return pos;
 }
 
 /**

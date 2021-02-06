@@ -173,7 +173,6 @@ class veh_interact
         void display_mode();
         void display_list( size_t pos, const std::vector<const vpart_info *> &list, int header = 0 );
         void display_details( const vpart_info *part );
-        size_t display_esc( const catacurses::window &win );
 
         struct part_option {
             part_option( const std::string &key, vehicle_part *part, const input_event &hotkey,
