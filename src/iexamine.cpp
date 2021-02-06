@@ -4973,9 +4973,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
             if( !install_programs.empty() ) {
                 has_install_program = true;
-                for( const item *prog_item : install_programs ) {
-                    progs.push_back( item_comp( prog_item->typeId(), 1 ) );
-                }
+                progs.push_back( item_comp( install_programs[0]->typeId(), 1 ) );
             }
 
             const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
