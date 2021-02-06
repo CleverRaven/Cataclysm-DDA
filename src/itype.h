@@ -611,6 +611,12 @@ struct islot_gunmod : common_ranged_data {
     /** Increases base gun UPS consumption by this value per shot */
     int ups_charges_modifier = 0;
 
+    /** Increases base gun ammo to fire by this many times per shot */
+    float ammo_to_fire_multiplier = 1.0f;
+
+    /** Increases base gun ammo to fire by this value per shot */
+    int ammo_to_fire_modifier = 0;
+
     /** Increases gun weight by this many times */
     float weight_multiplier = 1.0f;
 
