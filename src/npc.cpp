@@ -2387,77 +2387,79 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
 std::string npc::opinion_text() const
 {
     std::string ret;
+    std::string desc;
+
     if( op_of_u.trust <= -10 ) {
-        ret += _( "Completely untrusting" );
+        desc = _( "Completely untrusting" );
     } else if( op_of_u.trust <= -6 ) {
-        ret += _( "Very untrusting" );
+        desc = _( "Very untrusting" );
     } else if( op_of_u.trust <= -3 ) {
-        ret += _( "Untrusting" );
+        desc = _( "Untrusting" );
     } else if( op_of_u.trust <= 2 ) {
-        ret += _( "Uneasy" );
+        desc = _( "Uneasy" );
     } else if( op_of_u.trust <= 4 ) {
-        ret += _( "Trusting" );
+        desc = _( "Trusting" );
     } else if( op_of_u.trust < 10 ) {
-        ret += _( "Very trusting" );
+        desc = _( "Very trusting" );
     } else {
-        ret += _( "Completely trusting" );
+        desc = _( "Completely trusting" );
     }
 
-    ret += string_format( _( " (Trust: %d); " ), op_of_u.trust );
+    ret += string_format( _( "Trust: %d (%s);\n" ), op_of_u.trust, desc );
 
     if( op_of_u.fear <= -10 ) {
-        ret += _( "Thinks you're laughably harmless" );
+        desc = _( "Thinks you're laughably harmless" );
     } else if( op_of_u.fear <= -6 ) {
-        ret += _( "Thinks you're harmless" );
+        desc = _( "Thinks you're harmless" );
     } else if( op_of_u.fear <= -3 ) {
-        ret += _( "Unafraid" );
+        desc = _( "Unafraid" );
     } else if( op_of_u.fear <= 2 ) {
-        ret += _( "Wary" );
+        desc = _( "Wary" );
     } else if( op_of_u.fear <= 5 ) {
-        ret += _( "Afraid" );
+        desc = _( "Afraid" );
     } else if( op_of_u.fear < 10 ) {
-        ret += _( "Very afraid" );
+        desc = _( "Very afraid" );
     } else {
-        ret += _( "Terrified" );
+        desc = _( "Terrified" );
     }
 
-    ret += string_format( _( " (Fear: %d); " ), op_of_u.fear );
+    ret += string_format( _( "Fear: %d (%s);\n" ), op_of_u.fear, desc );
 
     if( op_of_u.value <= -10 ) {
-        ret += _( "Considers you a major liability" );
+        desc = _( "Considers you a major liability" );
     } else if( op_of_u.value <= -6 ) {
-        ret += _( "Considers you a burden" );
+        desc = _( "Considers you a burden" );
     } else if( op_of_u.value <= -3 ) {
-        ret += _( "Considers you an annoyance" );
+        desc = _( "Considers you an annoyance" );
     } else if( op_of_u.value <= 2 ) {
-        ret += _( "Doesn't care about you" );
+        desc = _( "Doesn't care about you" );
     } else if( op_of_u.value <= 5 ) {
-        ret += _( "Values your presence" );
+        desc = _( "Values your presence" );
     } else if( op_of_u.value < 10 ) {
-        ret += _( "Treasures you" );
+        desc = _( "Treasures you" );
     } else {
-        ret += _( "Best Friends Forever!" );
+        desc = _( "Best Friends Forever!" );
     }
 
-    ret += string_format( _( " (Value: %d); " ), op_of_u.value );
+    ret += string_format( _( "Value: %d (%s);\n" ), op_of_u.value, desc );
 
     if( op_of_u.anger <= -10 ) {
-        ret += _( "You can do no wrong!" );
+        desc = _( "You can do no wrong!" );
     } else if( op_of_u.anger <= -6 ) {
-        ret += _( "You're good people" );
+        desc = _( "You're good people" );
     } else if( op_of_u.anger <= -3 ) {
-        ret += _( "Thinks well of you" );
+        desc = _( "Thinks well of you" );
     } else if( op_of_u.anger <= 2 ) {
-        ret += _( "Ambivalent" );
+        desc = _( "Ambivalent" );
     } else if( op_of_u.anger <= 5 ) {
-        ret += _( "Pissed off" );
+        desc = _( "Pissed off" );
     } else if( op_of_u.anger < 10 ) {
-        ret += _( "Angry" );
+        desc = _( "Angry" );
     } else {
-        ret += _( "About to kill you" );
+        desc = _( "About to kill you" );
     }
 
-    ret += string_format( _( " (Anger: %d)" ), op_of_u.anger );
+    ret += string_format( _( "Anger: %d (%s)." ), op_of_u.anger, desc );
 
     return ret;
 }
