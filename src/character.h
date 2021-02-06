@@ -30,6 +30,7 @@
 #include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
+#include "enums.h"
 #include "flat_set.h"
 #include "game_constants.h"
 #include "item.h"
@@ -277,22 +278,6 @@ struct aim_type {
 struct special_attack {
     std::string text;
     damage_instance damage;
-};
-
-struct social_modifiers {
-    int lie = 0;
-    int persuade = 0;
-    int intimidate = 0;
-
-    social_modifiers &operator+=( const social_modifiers &other ) {
-        this->lie += other.lie;
-        this->persuade += other.persuade;
-        this->intimidate += other.intimidate;
-        return *this;
-    }
-    bool empty() const {
-        return this->lie != 0 || this->persuade != 0 || this->intimidate != 0;
-    }
 };
 
 struct consumption_event {
@@ -1934,9 +1919,9 @@ class Character : public Creature, public visitable
         float mutation_value( const std::string &val ) const;
 
         /**
-         * Goes over all mutations, returning the sum of the social modifiers
+         * Goes over all mutations/bionics, returning the sum of the social modifiers
          */
-        social_modifiers get_mutation_social_mods() const;
+        social_modifiers get_mutation_bionic_social_mods() const;
 
         // Display
         nc_color symbol_color() const override;

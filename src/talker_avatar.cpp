@@ -54,44 +54,13 @@ int talker_avatar::parse_mod( const std::string &attribute, const int factor ) c
 int talker_avatar::trial_chance_mod( const std::string &trial_type ) const
 {
     int chance = 0;
-    const social_modifiers &me_mods = me_chr->get_mutation_social_mods();
+    const social_modifiers &me_mods = me_chr->get_mutation_bionic_social_mods();    
     if( trial_type == "lie" ) {
         chance += me_chr->talk_skill() + me_mods.lie;
-
-        //come on, who would suspect a robot of lying?
-        if( me_chr->has_bionic( bio_voice ) ) {
-            chance += 10;
-        }
-        if( me_chr->has_bionic( bio_face_mask ) ) {
-            chance += 20;
-        }
     } else if( trial_type == "persuade" ) {
         chance += me_chr->talk_skill() + me_mods.persuade;
-
-        if( me_chr->has_bionic( bio_face_mask ) ) {
-            chance += 10;
-        }
-        if( me_chr->has_bionic( bio_deformity ) ) {
-            chance -= 50;
-        }
-        if( me_chr->has_bionic( bio_voice ) ) {
-            chance -= 20;
-        }
     } else if( trial_type == "intimidate" ) {
         chance += me_chr->intimidation() + me_mods.intimidate;
-
-        if( me_chr->has_bionic( bio_face_mask ) ) {
-            chance += 10;
-        }
-        if( me_chr->has_bionic( bio_armor_eyes ) ) {
-            chance += 10;
-        }
-        if( me_chr->has_bionic( bio_deformity ) ) {
-            chance += 20;
-        }
-        if( me_chr->has_bionic( bio_voice ) ) {
-            chance += 20;
-        }
     }
     return chance;
 }

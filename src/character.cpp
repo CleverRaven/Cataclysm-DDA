@@ -8023,13 +8023,15 @@ std::string Character::extended_description() const
     return replace_colors( ss );
 }
 
-social_modifiers Character::get_mutation_social_mods() const
+social_modifiers Character::get_mutation_bionic_social_mods() const
 {
     social_modifiers mods;
     for( const mutation_branch *mut : cached_mutations ) {
         mods += mut->social_mods;
     }
-
+    for( const bionic &bio : *my_bionics ) {
+        mods += bio.info().social_mods;
+    }
     return mods;
 }
 

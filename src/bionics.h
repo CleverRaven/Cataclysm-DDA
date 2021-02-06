@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "enums.h"
 #include "flat_set.h"
 #include "magic.h"
 #include "optional.h"
@@ -81,6 +82,9 @@ struct bionic_data {
     std::map<bodypart_str_id, size_t> bullet_protec;
 
     float vitamin_absorb_mod = 1.0f;
+
+    // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
+    social_modifiers social_mods;
 
     /** bionic enchantments */
     std::vector<enchantment_id> enchantments;
