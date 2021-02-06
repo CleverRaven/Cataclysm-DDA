@@ -3903,7 +3903,9 @@
     "description": "You were about to make your biggest sale yet, but when you met the buyer he tried to bite you.  To top it off, it seems that this wasn't some sort of bad high for the user, as the whole town tried going for your throat too.",
     "points": 2,
     "skills": [ { "level": 1, "name": "melee" }, { "level": 2, "name": "stabbing" } ],
-    "items": { "both": [ "hoodie", "jeans", "mbag", "socks", "sneakers", "bandana", "gloves_medical", "crack", "crack", "crack", "switchblade" ], "male": [ "briefs" ], "female": [ "sports_bra", "boy_shorts" ] },
+    "items": { "both": [ "hoodie", "jeans", "mbag", "socks", "sneakers", "bandana", "gloves_medical", "switchblade" ], "male": [ "briefs" ], "female": [ "sports_bra", "boy_shorts" ] },
+    "entries": [ { "item": "crack", "charges": 25, "container-item": "bag_zipper" } ],
     "traits": [ "LIAR" ]
   }
 ]
+
