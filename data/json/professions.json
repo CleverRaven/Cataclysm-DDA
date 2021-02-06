@@ -1403,7 +1403,8 @@
         "items": [ "jeans", "longshirt", "socks", "coat_winter", "boots_winter", "knit_scarf", "pockknife", "water_clean", "wristwatch" ],
         "entries": [ { "group": "charged_matches" } ]
       },
-      "male": [ "boxer_shorts" ],  { "female": [ "bra", "panties" ]
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
     }
   },
   {
