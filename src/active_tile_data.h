@@ -37,6 +37,9 @@ class active_tile_data
         time_point get_last_updated() {
             return last_updated;
         }
+        void set_last_updated( time_point t ) {
+            last_updated = t;
+        }
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
