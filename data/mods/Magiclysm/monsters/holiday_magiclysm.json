@@ -7,7 +7,7 @@
     "bodytype": "lion",
     "default_faction": "magical_beast",
     "species": [ "MAGICAL_BEAST" ],
-    "volume": "200000 ml",
+    "volume": "200 L",
     "weight": "780 kg",
     "hp": 245,
     "speed": 167,
