@@ -428,7 +428,7 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
 static void add_effect_to_target( const tripoint &target, const spell &sp )
 {
     const int dur_moves = sp.duration();
-    const time_duration dur_td = 1_turns * to_turns<int>( time_duration::from_moves( dur_moves ) );
+    const time_duration dur_td = time_duration::from_moves( dur_moves );
 
     Creature *const critter = g->critter_at<Creature>( target );
     Character *const guy = g->critter_at<Character>( target );

@@ -713,7 +713,7 @@ std::string spell::duration_string() const
 
 time_duration spell::duration_turns() const
 {
-    return 1_turns * to_turns<int>( time_duration::from_moves( duration() ) );
+    return time_duration::from_moves( duration() );
 }
 
 void spell::gain_level()
