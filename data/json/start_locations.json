@@ -348,8 +348,14 @@
   {
     "type": "start_location",
     "id": "sloc_prison_alcatraz",
-    "name": "Island prison",
+    "name": "Island prison type A",
     "terrain": [ "prison_alcatraz_3" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_prison_island",
+    "name": "Island prison type B",
+    "terrain": [ "prison_island_1_1" ]
   },
   {
     "type": "start_location",

@@ -156,6 +156,7 @@ static const itype_id itype_mycus_fruit( "mycus_fruit" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_petrified_eye( "petrified_eye" );
 static const itype_id itype_sheet( "sheet" );
+static const itype_id itype_software_autodoc_install_basic( "software_autodoc_install_basic" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_tree_spile( "tree_spile" );
@@ -4955,10 +4956,27 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             const itype *itemtype = bionic.get_item()->type;
+            const std::string bionic_name = bionic.get_item()->typeId().c_str();
 
             player &installer = best_installer( p, null_player, itemtype->bionic->difficulty );
             if( &installer == &null_player ) {
                 return;
+            }
+
+            bool has_install_program = false;
+            std::vector<item_comp> progs;
+            std::vector<const item *> filter = p.crafting_inventory().items_with(
+            []( const item & it ) {
+                return it.has_flag( flag_BIONIC_INSTALLATION_DATA );
+            } );
+
+            if( !filter.empty() ) {
+                for( const item *prog_item : filter ) {
+                    const std::string AID_name = prog_item->typeId().c_str();
+                    has_install_program = AID_name.substr( 4 ) == bionic_name;
+                    progs.push_back( item_comp( prog_item->typeId(), 1 ) );
+                    break;
+                }
             }
 
             const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
@@ -4966,7 +4984,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                                 surgery_duration * weight;
 
-            if( patient.can_install_bionics( ( *itemtype ), installer, true ) ) {
+            if( patient.can_install_bionics( ( *itemtype ), installer, true, has_install_program ? 10 : -1 ) ) {
                 const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 bionic.remove_item();
@@ -4980,7 +4998,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     p.invalidate_crafting_inventory();
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
-                patient.install_bionics( ( *itemtype ), installer, true );
+
+                patient.install_bionics( ( *itemtype ), installer, true, has_install_program ? 10 : -1 );
+
+                if( has_install_program ) {
+                    patient.consume_items( progs );
+                }
             }
             break;
         }

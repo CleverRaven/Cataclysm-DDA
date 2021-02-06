@@ -419,10 +419,7 @@ void DynamicDataLoader::initialize()
         mission_type::load_mission_type( jo, src );
     } );
     add( "butchery_requirement", &butchery_requirements::load_butchery_req );
-    add( "harvest", []( const JsonObject & jo, const std::string & src ) {
-        harvest_list::load( jo, src );
-    } );
-
+    add( "harvest", &harvest_list::load_harvest_list );
     add( "monster_attack", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster_attack( jo, src );
     } );
@@ -532,7 +529,6 @@ void DynamicDataLoader::unload_data()
     fault::reset();
     field_types::reset();
     gates::reset();
-    harvest_list::reset();
     item_controller->reset();
     json_flag::reset();
     mapgen_palette::reset();

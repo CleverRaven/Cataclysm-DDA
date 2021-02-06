@@ -1089,7 +1089,7 @@ class jmapgen_gaspump : public jmapgen_piece
                 fuel = jsi.get_string( "fuel" );
 
                 // may want to not force this, if we want to support other fuels for some reason
-                if( fuel != "gasoline" && fuel != "diesel" ) {
+                if( fuel != "gasoline" && fuel != "diesel" && fuel != "jp8" ) {
                     jsi.throw_error( "invalid fuel", "fuel" );
                 }
             }
@@ -1211,7 +1211,8 @@ class jmapgen_loot : public jmapgen_piece
                   ) const override {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
-                const std::vector<item> spawn = isd->create( calendar::start_of_cataclysm );
+                const std::vector<item> spawn = isd->create( calendar::start_of_cataclysm,
+                                                spawn_flags::use_spawn_rate );
                 dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ),
                                              dat.m.get_abs_sub().z ), spawn );
             }
@@ -1989,7 +1990,8 @@ void jmapgen_objects::load_objects<jmapgen_loot>(
         }
 
         auto loot = make_shared_fast<jmapgen_loot>( jsi );
-        float rate = get_option<float>( "ITEM_SPAWNRATE" );
+        // spawn rates < 1 are handled in item_group
+        const float rate = std::max( get_option<float>( "ITEM_SPAWNRATE" ), 1.0f );
 
         if( where.repeat.valmax != 1 ) {
             // if loot can repeat scale according to rate
@@ -5271,7 +5273,6 @@ std::vector<item *> map::place_items(
     const item_group_id &group_id, const int chance, const tripoint &p1, const tripoint &p2,
     const bool ongrass, const time_point &turn, const int magazine, const int ammo )
 {
-    // TODO: implement for 3D
     std::vector<item *> res;
 
     if( chance > 100 || chance <= 0 ) {
@@ -5287,12 +5288,13 @@ std::vector<item *> map::place_items(
         return res;
     }
 
-    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-    int spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
+    // spawn rates < 1 are handled in item_group
+    const float spawn_rate = std::max( get_option<float>( "ITEM_SPAWNRATE" ), 1.0f ) ;
+    const int spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
     for( int i = 0; i < spawn_count; i++ ) {
         // Might contain one item or several that belong together like guns & their ammo
         int tries = 0;
-        auto is_valid_terrain = [this, ongrass]( const point & p ) {
+        auto is_valid_terrain = [this, ongrass]( const tripoint & p ) {
             const ter_t &terrain = ter( p ).obj();
             return terrain.movecost == 0           &&
                    !terrain.has_flag( "PLACE_ITEM" ) &&
@@ -5300,14 +5302,15 @@ std::vector<item *> map::place_items(
                    !terrain.has_flag( "FLAT" );
         };
 
-        point p;
+        tripoint p;
         do {
             p.x = rng( p1.x, p2.x );
             p.y = rng( p1.y, p2.y );
+            p.z = rng( p1.z, p2.z );
             tries++;
         } while( is_valid_terrain( p ) && tries < 20 );
         if( tries < 20 ) {
-            auto put = put_items_from_loc( group_id, tripoint( p, abs_sub.z ), turn );
+            auto put = put_items_from_loc( group_id, p, turn );
             res.insert( res.end(), put.begin(), put.end() );
         }
     }
@@ -5328,7 +5331,7 @@ std::vector<item *> map::place_items(
 std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, const tripoint &p,
         const time_point &turn )
 {
-    const auto items = item_group::items_from( group_id, turn );
+    const auto items = item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
     return spawn_items( p, items );
 }
 
