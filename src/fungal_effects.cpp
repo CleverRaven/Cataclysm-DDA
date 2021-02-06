@@ -3,11 +3,9 @@
 #include <algorithm>
 #include <memory>
 #include <ostream>
-#include <string>
 
 #include "calendar.h"
 #include "character.h"
-#include "colony.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"

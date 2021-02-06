@@ -3,15 +3,14 @@
 #define CATA_SRC_EXPLOSION_H
 
 #include <map>
-#include <string>
+#include <utility>
 #include <vector>
 
-#include "string_id.h"
+#include "point.h"
 #include "type_id.h"
 
 class JsonObject;
 class nc_color;
-struct tripoint;
 
 struct shrapnel_data {
     int casing_mass = 0;
@@ -21,8 +20,8 @@ struct shrapnel_data {
     itype_id drop       = itype_id::NULL_ID();
 
     shrapnel_data() = default;
-    shrapnel_data( int casing_mass, float fragment_mass = 0.005f, int recovery = 0,
-                   itype_id drop = itype_id::NULL_ID() )
+    explicit shrapnel_data( int casing_mass, float fragment_mass = 0.005f, int recovery = 0,
+                            itype_id drop = itype_id::NULL_ID() )
         : casing_mass( casing_mass )
         , fragment_mass( fragment_mass )
         , recovery( recovery )
@@ -45,8 +44,8 @@ struct explosion_data {
     int safe_range() const;
 
     explosion_data() = default;
-    explosion_data( float power, float distance_factor = 0.8f, bool fire = false,
-                    shrapnel_data shrapnel = {} )
+    explicit explosion_data( float power, float distance_factor = 0.8f, bool fire = false,
+                             shrapnel_data shrapnel = {} )
         : power( power )
         , distance_factor( distance_factor )
         , fire( fire )

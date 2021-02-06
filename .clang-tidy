@@ -13,6 +13,7 @@ cert-*,\
 -cert-err58-cpp,\
 clang-diagnostic-*,\
 cppcoreguidelines-slicing,\
+google-explicit-constructor,\
 llvm-namespace-comment,\
 misc-*,\
 modernize-*,\

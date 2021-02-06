@@ -1,10 +1,12 @@
 #include "computer_session.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <memory>
+#include <new>
 #include <string>
+#include <type_traits>
 #include <utility>
 
 #include "avatar.h"
@@ -26,7 +28,6 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "input.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_factory.h"
@@ -51,7 +52,6 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "text_snippets.h"
 #include "timed_event.h"
 #include "translations.h"

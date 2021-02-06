@@ -2,9 +2,10 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <string>
 
+#include "compatibility.h"
 #include "line.h"
-#include "math_defines.h"
 #include "units.h"
 #include "units_utility.h"
 

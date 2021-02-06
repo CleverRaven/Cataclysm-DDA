@@ -1,18 +1,23 @@
 #include "debug_menu.h"
 
+#include <cstdint>
+// IWYU pragma: no_include <sys/signal.h>
 // IWYU pragma: no_include <cxxabi.h>
 
 #include <algorithm>
+#include <array>
 #include <chrono>
 #include <csignal>
 #include <cstdlib>
-#include <iomanip>
+#include <iomanip> // IWYU pragma: keep
 #include <iostream>
 #include <iterator>
 #include <limits>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
+#include <sstream>
 #include <string>
 #include <type_traits>
 #include <unordered_map>
@@ -30,22 +35,25 @@
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "clzones.h"
 #include "color.h"
 #include "compatibility.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
+#include "effect.h"
+#include "effect_source.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
-#include "filesystem.h"
+#include "filesystem.h" // IWYU pragma: keep
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "int_id.h"
+#include "input.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
@@ -74,16 +82,16 @@
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
-#include "path_info.h"
+#include "path_info.h" // IWYU pragma: keep
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
+#include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "trait_group.h"
 #include "translations.h"
@@ -184,6 +192,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
+        case debug_menu::debug_menu_index::GENERATE_EFFECT_LIST: return "GENERATE_EFFECT_LIST";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -266,6 +275,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
+            { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
                                    debug_only_options.end() );
@@ -2094,7 +2104,6 @@ void debug()
                                            //~ translation should not exceed 4 console cells
                                            right_justify( _( "MAX" ), 4 ) );
                 uile.enabled = false;
-                uile.force_color = c_light_blue;
                 uiles.emplace_back( uile );
             }
             int retval = 0;
@@ -2122,6 +2131,22 @@ void debug()
         }
         case debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION:
             MapExtras::debug_spawn_test();
+            break;
+
+        case debug_menu_index::GENERATE_EFFECT_LIST:
+            write_to_file( "effect_list.output", [&]( std::ostream & testfile ) {
+                testfile << "|;id;duration;intensity;perm;bp" << std::endl;
+
+                for( const effect &eff :  get_player_character().get_effects() ) {
+                    testfile << "|;" << eff.get_id().str() << ";" << to_string( eff.get_duration() ) << ";" <<
+                             eff.get_intensity() << ";" << ( eff.is_permanent() ? "true" : "false" ) << ";" <<
+                             eff.get_bp().id().str()
+                             << std::endl;
+                }
+
+            }, "effect_list" );
+
+            popup( _( "Effect list written to effect_list.output" ) );
             break;
 
         case debug_menu_index::VEHICLE_BATTERY_CHARGE: {

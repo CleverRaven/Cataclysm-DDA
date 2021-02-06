@@ -8,6 +8,7 @@
 #include <iterator>
 #include <memory>
 #include <set>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
@@ -78,6 +79,15 @@ WORLD::WORLD()
     active_mod_order = world_generator->get_mod_manager().get_default_mods();
 }
 
+WORLD::WORLD( const std::string &name )
+{
+    world_name = name;
+    WORLD_OPTIONS = get_options().get_world_defaults();
+
+    world_saves.clear();
+    active_mod_order = world_generator->get_mod_manager().get_default_mods();
+}
+
 void WORLD::COPY_WORLD( const WORLD *world_to_copy )
 {
     world_name = world_to_copy->world_name + "_copy";
@@ -125,6 +135,13 @@ WORLDPTR worldfactory::add_world( std::unique_ptr<WORLD> retworld )
 WORLDPTR worldfactory::make_new_world( const std::vector<mod_id> &mods )
 {
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>();
+    retworld->active_mod_order = mods;
+    return add_world( std::move( retworld ) );
+}
+
+WORLDPTR worldfactory::make_new_world( const std::string &name, const std::vector<mod_id> &mods )
+{
+    std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>( name );
     retworld->active_mod_order = mods;
     return add_world( std::move( retworld ) );
 }

@@ -1,7 +1,8 @@
-#include "catch/catch.hpp"
-#include "calendar.h"
-
+#include <iosfwd>
 #include <string>
+
+#include "calendar.h"
+#include "catch/catch.hpp"
 
 TEST_CASE( "time_duration_to_string", "[calendar]" )
 {

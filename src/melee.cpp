@@ -5,8 +5,11 @@
 #include <climits>
 #include <cmath>
 #include <cstdlib>
+#include <iosfwd>
 #include <limits>
+#include <list>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <utility>
@@ -21,13 +24,16 @@
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "enum_bitset.h"
 #include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
 #include "line.h"
@@ -36,6 +42,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monattack.h"
 #include "monster.h"
@@ -44,19 +51,19 @@
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
+#include "pimpl.h"
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weighted_list.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -91,6 +98,9 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_stunned( "stunned" );
+
+static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
+static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
 static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
 static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
@@ -398,7 +408,6 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
 
     enum_bitset<damage_type> types_used;
     // ignore the damage types that are not modified by enchantments
-    types_used.set( damage_type::PURE, true );
     types_used.set( damage_type::NONE, true );
 
     auto dt_to_ench_dt = []( damage_type dt ) {
@@ -421,6 +430,8 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
                 return enchant_vals::mod::ITEM_DAMAGE_HEAT;
             case damage_type::STAB:
                 return enchant_vals::mod::ITEM_DAMAGE_STAB;
+            case damage_type::PURE:
+                return enchant_vals::mod::ITEM_DAMAGE_PURE;
             default:
                 return enchant_vals::mod::NUM_MOD;
         }
@@ -1029,12 +1040,12 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             for( const trait_id &mut : get_mutations() ) {
-                if( mut->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut ) ) {
+                if( mut->flags.count( json_flag_NEED_ACTIVE_TO_MELEE ) > 0 && !has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
                 const int bash_bonus = mut->bash_dmg_bonus;
-                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && bash_bonus > 0 ) {
+                if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && bash_bonus > 0 ) {
                     unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += bash_bonus + unarmed_bonus;
@@ -1121,12 +1132,12 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
             }
 
             for( const trait_id &mut : get_mutations() ) {
-                if( mut->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut ) ) {
+                if( mut->flags.count( json_flag_NEED_ACTIVE_TO_MELEE ) > 0 && !has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
                 const int cut_bonus = mut->cut_dmg_bonus;
-                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && cut_bonus > 0 ) {
+                if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && cut_bonus > 0 ) {
                     unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += cut_bonus + unarmed_bonus;
@@ -1191,7 +1202,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
             for( const trait_id &mut : get_mutations() ) {
                 per_hand += mut->pierce_dmg_bonus;
 
-                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && cut_bonus > 0 ) {
+                if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && cut_bonus > 0 ) {
                     per_hand += std::min( skill / 2, 4 );
                 }
             }

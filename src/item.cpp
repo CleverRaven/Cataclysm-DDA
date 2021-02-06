@@ -1,21 +1,22 @@
 #include "item.h"
 
+#include <clocale>
+#include <cctype>
 #include <algorithm>
 #include <array>
-#include <cctype>
 #include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <iomanip>
 #include <iterator>
 #include <limits>
-#include <locale>
 #include <memory>
 #include <set>
 #include <sstream>
+#include <string>
 #include <tuple>
 #include <unordered_set>
 
-#include "advanced_inv.h"
 #include "ammo.h"
 #include "ascii_art.h"
 #include "avatar.h"
@@ -28,13 +29,16 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "clothing_mod.h"
+#include "clzones.h"
 #include "color.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "creature.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
 #include "effect.h" // for weed_msg
+#include "effect_source.h"
 #include "enum_traits.h"
 #include "enums.h"
 #include "explosion.h"
@@ -47,7 +51,6 @@
 #include "game_constants.h"
 #include "gun_mode.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item_category.h"
 #include "item_factory.h"
@@ -88,10 +91,12 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "string_id_utils.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
@@ -148,7 +153,7 @@ static const quality_id qual_JACK( "JACK" );
 static const quality_id qual_LIFT( "LIFT" );
 static const species_id species_ROBOT( "ROBOT" );
 
-static const std::string trait_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
 
@@ -243,7 +248,7 @@ inline bool goes_bad_cache_is_for( const item *i )
 }
 
 struct scoped_goes_bad_cache {
-    scoped_goes_bad_cache( item *i ) {
+    explicit scoped_goes_bad_cache( item *i ) {
         goes_bad_cache_set( i );
     }
     ~scoped_goes_bad_cache() {
@@ -1943,7 +1948,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
 
     if( food_item->has_flag( flag_CANNIBALISM ) &&
         parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
-        if( !player_character.has_trait_flag( trait_flag_CANNIBAL ) ) {
+        if( !player_character.has_trait_flag( json_flag_CANNIBAL ) ) {
             info.emplace_back( "DESCRIPTION",
                                _( "* This food contains <bad>human flesh</bad>." ) );
         } else {
@@ -2380,6 +2385,11 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            mod->ammo_data()->nname( mod->ammo_remaining() ) ) );
     }
 
+    if( mod->ammo_required() > 1  && parts->test( iteminfo_parts::AMMO_TO_FIRE ) ) {
+        info.emplace_back( "AMMO",  _( "Ammunition consumed per shot: " ), "",
+                           iteminfo::lower_is_better, mod->ammo_required() );
+    }
+
     if( mod->get_gun_ups_drain() && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
         info.emplace_back( "AMMO",
                            string_format( ngettext( "Uses <stat>%i</stat> charge of UPS per shot",
@@ -2619,23 +2629,25 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
     if( parts->test( iteminfo_parts::ARMOR_PROTECTION ) ) {
         const std::string space = "  ";
         info.push_back( iteminfo( "ARMOR", _( "<bold>Protection</bold>: Bash: " ), "",
-                                  iteminfo::no_newline, bash_resist() ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ), "", iteminfo::no_newline, cut_resist() ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Ballistic: " ), bullet_resist() ) );
+                                  iteminfo::no_newline | iteminfo::is_decimal, bash_resist() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ), "",
+                                  iteminfo::no_newline | iteminfo::is_decimal, cut_resist() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Ballistic: " ), "", iteminfo::is_decimal,
+                                  bullet_resist() ) );
         info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
-                                  iteminfo::no_newline, acid_resist() ) );
+                                  iteminfo::no_newline | iteminfo::is_decimal, acid_resist() ) );
         info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
-                                  iteminfo::no_newline, fire_resist() ) );
+                                  iteminfo::no_newline | iteminfo::is_decimal, fire_resist() ) );
         info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
                                   get_base_env_resist( *this ) ) );
         if( type->can_use( "GASMASK" ) || type->can_use( "DIVE_TANK" ) ) {
             info.push_back( iteminfo( "ARMOR",
                                       _( "<bold>Protection when active</bold>: " ) ) );
             info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "",
-                                      iteminfo::no_newline,
+                                      iteminfo::no_newline | iteminfo::is_decimal,
                                       acid_resist( false, get_base_env_resist_w_filter() ) ) );
             info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "",
-                                      iteminfo::no_newline,
+                                      iteminfo::no_newline | iteminfo::is_decimal,
                                       fire_resist( false, get_base_env_resist_w_filter() ) ) );
             info.push_back( iteminfo( "ARMOR", space + _( "Environmental: " ),
                                       get_env_resist( get_base_env_resist_w_filter() ) ) );
@@ -4496,25 +4508,15 @@ int item::on_wield_cost( const player &p ) const
     return mv;
 }
 
-void item::on_wield( player &p, int mv )
+void item::on_wield( player &p )
 {
     int wield_cost = on_wield_cost( p );
-    mv += wield_cost;
     p.moves -= wield_cost;
 
     std::string msg;
 
-    if( mv > 500 ) {
-        msg = _( "It takes you an extremely long time to wield your %s." );
-    } else if( mv > 250 ) {
-        msg = _( "It takes you a very long time to wield your %s." );
-    } else if( mv > 100 ) {
-        msg = _( "It takes you a long time to wield your %s." );
-    } else if( mv > 50 ) {
-        msg = _( "It takes you several seconds to wield your %s." );
-    } else {
-        msg = _( "You wield your %s." );
-    }
+    msg = _( "You wield your %s." );
+
     // if game is loaded - don't want ownership assigned during char creation
     if( get_player_character().getID().is_valid() ) {
         handle_pickup_ownership( p );
@@ -6050,11 +6052,11 @@ const armor_portion_data *item::portion_for_bodypart( const bodypart_id &bodypar
     return nullptr;
 }
 
-int item::get_thickness() const
+float item::get_thickness() const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
-        return is_pet_armor() ? type->pet_armor->thickness : 0;
+        return is_pet_armor() ? type->pet_armor->thickness : 0.0f;
     }
     return t->thickness;
 }
@@ -6185,10 +6187,10 @@ bool item::craft_has_charges()
 #pragma optimize( "", off )
 #endif
 
-int item::bash_resist( bool to_self ) const
+float item::bash_resist( bool to_self ) const
 {
     if( is_null() ) {
-        return 0;
+        return 0.0f;
     }
 
     float resist = 0.0f;
@@ -6197,8 +6199,8 @@ int item::bash_resist( bool to_self ) const
     // base resistance
     // Don't give reinforced items +armor, just more resistance to ripping
     const int dmg = damage_level();
-    const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
-    const int eff_thickness = std::max( 1, get_thickness() - eff_damage );
+    const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
+    const float eff_thickness = std::max( 0.1f, get_thickness() - eff_damage );
 
     const std::vector<const material_type *> mat_types = made_of_types();
     if( !mat_types.empty() ) {
@@ -6209,24 +6211,24 @@ int item::bash_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return std::lround( ( resist * eff_thickness ) + mod );
+    return ( resist * eff_thickness ) + mod;
 }
 
-int item::cut_resist( bool to_self ) const
+float item::cut_resist( bool to_self ) const
 {
     if( is_null() ) {
-        return 0;
+        return 0.0f;
     }
 
-    const int base_thickness = get_thickness();
+    const float base_thickness = get_thickness();
     float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_cut );
 
     // base resistance
     // Don't give reinforced items +armor, just more resistance to ripping
     const int dmg = damage_level();
-    const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
-    const int eff_thickness = std::max( 1, base_thickness - eff_damage );
+    const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
+    const float eff_thickness = std::max( 0.1f, base_thickness - eff_damage );
 
     const std::vector<const material_type *> mat_types = made_of_types();
     if( !mat_types.empty() ) {
@@ -6237,34 +6239,34 @@ int item::cut_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return std::lround( ( resist * eff_thickness ) + mod );
+    return ( resist * eff_thickness ) + mod;
 }
 
 #if defined(_MSC_VER)
 #pragma optimize( "", on )
 #endif
 
-int item::stab_resist( bool to_self ) const
+float item::stab_resist( bool to_self ) const
 {
     // Better than hardcoding it in multiple places
-    return static_cast<int>( 0.8f * cut_resist( to_self ) );
+    return 0.8f * cut_resist( to_self );
 }
 
-int item::bullet_resist( bool to_self ) const
+float item::bullet_resist( bool to_self ) const
 {
     if( is_null() ) {
-        return 0;
+        return 0.0f;
     }
 
-    const int base_thickness = get_thickness();
+    const float base_thickness = get_thickness();
     float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_bullet );
 
     // base resistance
     // Don't give reinforced items +armor, just more resistance to ripping
     const int dmg = damage_level();
-    const int eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
-    const int eff_thickness = std::max( 1, base_thickness - eff_damage );
+    const float eff_damage = to_self ? std::min( dmg, 0 ) : std::max( dmg, 0 );
+    const float eff_thickness = std::max( 0.1f, base_thickness - eff_damage );
 
     const std::vector<const material_type *> mat_types = made_of_types();
     if( !mat_types.empty() ) {
@@ -6275,14 +6277,14 @@ int item::bullet_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return std::lround( ( resist * eff_thickness ) + mod );
+    return ( resist * eff_thickness ) + mod;
 }
 
-int item::acid_resist( bool to_self, int base_env_resist ) const
+float item::acid_resist( bool to_self, int base_env_resist ) const
 {
     if( to_self ) {
         // Currently no items are damaged by acid
-        return INT_MAX;
+        return std::numeric_limits<float>::max();
     }
 
     float resist = 0.0f;
@@ -6309,14 +6311,14 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
-    return std::lround( resist + mod );
+    return resist + mod;
 }
 
-int item::fire_resist( bool to_self, int base_env_resist ) const
+float item::fire_resist( bool to_self, int base_env_resist ) const
 {
     if( to_self ) {
         // Fire damages items in a different way
-        return INT_MAX;
+        return std::numeric_limits<float>::max();
     }
 
     float resist = 0.0f;
@@ -6340,7 +6342,7 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
         resist *= env / 10.0f;
     }
 
-    return std::lround( resist + mod );
+    return resist + mod;
 }
 
 int item::chip_resistance( bool worst ) const
@@ -6522,12 +6524,12 @@ void item::mitigate_damage( damage_unit &du ) const
     du.amount = std::max( 0.0f, du.amount );
 }
 
-int item::damage_resist( damage_type dt, bool to_self ) const
+float item::damage_resist( damage_type dt, bool to_self ) const
 {
     switch( dt ) {
         case damage_type::NONE:
         case damage_type::NUM:
-            return 0;
+            return 0.0f;
         case damage_type::PURE:
         case damage_type::BIOLOGICAL:
         case damage_type::ELECTRIC:
@@ -6535,7 +6537,7 @@ int item::damage_resist( damage_type dt, bool to_self ) const
             // Currently hardcoded:
             // Items can never be damaged by those types
             // But they provide 0 protection from them
-            return to_self ? INT_MAX : 0;
+            return to_self ? std::numeric_limits<float>::max() : 0.0f;
         case damage_type::BASH:
             return bash_resist( to_self );
         case damage_type::CUT:
@@ -6552,7 +6554,7 @@ int item::damage_resist( damage_type dt, bool to_self ) const
             debugmsg( "Invalid damage type: %d", dt );
     }
 
-    return 0;
+    return 0.0f;
 }
 
 bool item::is_two_handed( const Character &guy ) const
@@ -7692,12 +7694,20 @@ int item::ammo_required() const
         if( type->gun->ammo.empty() ) {
             return 0;
         } else {
-            return type->gun->ammo_to_fire;
+            int modifier = 0;
+            float multiplier = 1.0f;
+            for( const item *mod : gunmods() ) {
+                modifier += mod->type->gunmod->ammo_to_fire_modifier;
+                multiplier *= mod->type->gunmod->ammo_to_fire_multiplier;
+            }
+            return ( type->gun->ammo_to_fire * multiplier ) + modifier;
         }
     }
 
     return 0;
 }
+
+
 
 bool item::ammo_sufficient( int qty ) const
 {
@@ -7980,7 +7990,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
                                             mod.type->gunmod->location.name() );
 
     } else if( !mod.type->gunmod->usable.count( gun_type() ) &&
-               !mod.type->gunmod->usable.count( typeId().str() ) ) {
+               !mod.type->gunmod->usable.count( gun_type_type( typeId().str() ) ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a %s" ), mod.tname() );
 
     } else if( typeId() == itype_hand_crossbow &&
@@ -8011,8 +8021,8 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
     } else if( mod.typeId() == itype_brass_catcher && has_flag( flag_RELOAD_EJECT ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a brass catcher" ) );
 
-    } else if( ( mod.type->mod->ammo_modifier.empty() || !mod.type->mod->magazine_adaptor.empty() )
-               && ( ammo_remaining() > 0 || magazine_current() ) ) {
+    } else if( mod.type->gunmod->location.name() == "magazine" ||
+               mod.type->gunmod->location.name() == "mechanism" ) {
         return ret_val<bool>::make_failure( _( "must be unloaded before installing this mod" ) );
     }
 

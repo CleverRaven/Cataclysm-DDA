@@ -1,8 +1,11 @@
 #include "debug.h"
 
-#include <algorithm>
 #include <cctype>
-#include <cerrno>
+// IWYU pragma: no_include <sys/errno.h>
+#include <sys/stat.h>
+// IWYU pragma: no_include <sys/unistd.h>
+#include <clocale>
+#include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <cstdio>
@@ -12,12 +15,12 @@
 #include <fstream>
 #include <iomanip>
 #include <iterator>
-#include <locale>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <sstream>
-#include <sys/stat.h> // IWYU pragma
+#include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>

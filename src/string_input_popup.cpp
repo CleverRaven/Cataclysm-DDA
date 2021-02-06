@@ -21,6 +21,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <memory>
+#include <string>
 #include <vector>
 
 string_input_popup::string_input_popup() = default;
@@ -445,7 +446,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             std::string tmp = get_input_string_from_file();
             int tmplen = utf8_width( tmp );
             if( tmplen > 0 && ( tmplen + utf8_width( ret ) <= _max_length || _max_length == 0 ) ) {
-                ret.append( tmp );
+                ret.append( utf8_wrapper( tmp ) );
             }
         } else if( !ev.text.empty() && _only_digits && !( isdigit( ev.text[0] ) || ev.text[0] == '-' ) ) {
             // ignore non-digit (and '-' is a digit as well)

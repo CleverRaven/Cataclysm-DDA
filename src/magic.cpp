@@ -23,6 +23,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "field.h"
+#include "flat_set.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "input.h"
@@ -30,6 +31,7 @@
 #include "item.h"
 #include "json.h"
 #include "line.h"
+#include "make_static.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "messages.h"
@@ -44,7 +46,6 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
@@ -243,7 +244,7 @@ static std::string moves_to_string( const int moves )
     if( moves < to_moves<int>( 2_seconds ) ) {
         return string_format( _( "%d moves" ), moves );
     } else {
-        return to_string( time_duration::from_turns( moves / 100 ) );
+        return to_string( time_duration::from_moves( moves ) );
     }
 }
 
@@ -713,7 +714,7 @@ std::string spell::duration_string() const
 
 time_duration spell::duration_turns() const
 {
-    return 1_turns * duration() / 100;
+    return time_duration::from_moves( duration() );
 }
 
 void spell::gain_level()
@@ -793,7 +794,7 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( Character &guy ) const
 {
-    if( guy.has_trait_flag( "NO_SPELLCASTING" ) ) {
+    if( guy.has_trait_flag( STATIC( json_character_flag( "NO_SPELLCASTING" ) ) ) ) {
         return false;
     }
 
@@ -924,14 +925,16 @@ float spell::spell_fail( const Character &guy ) const
         return 1.0f;
     }
     float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
-    if( has_flag( spell_flag::SOMATIC ) && !guy.has_trait_flag( "SUBTLE_SPELL" ) ) {
+    if( has_flag( spell_flag::SOMATIC ) &&
+        !guy.has_trait_flag( STATIC( json_character_flag( "SUBTLE_SPELL" ) ) ) ) {
         // the first 20 points of encumbrance combined is ignored
         const int arms_encumb = std::max( 0,
                                           guy.encumb( bodypart_id( "arm_l" ) ) + guy.encumb( bodypart_id( "arm_r" ) ) - 20 );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
         fail_chance += arms_encumb / 200.0f;
     }
-    if( has_flag( spell_flag::VERBAL ) && !guy.has_trait_flag( "SILENT_SPELL" ) ) {
+    if( has_flag( spell_flag::VERBAL ) &&
+        !guy.has_trait_flag( STATIC( json_character_flag( "SILENT_SPELL" ) ) ) ) {
         // a little bit of mouth encumbrance is allowed, but not much
         const int mouth_encumb = std::max( 0, guy.encumb( bodypart_id( "mouth" ) ) - 5 );
         fail_chance += mouth_encumb / 100.0f;

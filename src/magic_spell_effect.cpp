@@ -2,11 +2,13 @@
 #include <array>
 #include <climits>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
-#include <functional>
+#include <iosfwd>
 #include <iterator>
 #include <map>
 #include <memory>
+#include <new>
 #include <queue>
 #include <set>
 #include <string>
@@ -14,10 +16,10 @@
 #include <vector>
 
 #include "avatar.h"
-#include "avatar_action.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "colony.h"
 #include "color.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -50,7 +52,7 @@
 #include "projectile.h"
 #include "ret_val.h"
 #include "rng.h"
-#include "string_id.h"
+#include "string_formatter.h"
 #include "teleport.h"
 #include "timed_event.h"
 #include "translations.h"
@@ -428,7 +430,7 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
 static void add_effect_to_target( const tripoint &target, const spell &sp )
 {
     const int dur_moves = sp.duration();
-    const time_duration dur_td = 1_turns * dur_moves / 100;
+    const time_duration dur_td = time_duration::from_moves( dur_moves );
 
     Creature *const critter = g->critter_at<Creature>( target );
     Character *const guy = g->critter_at<Character>( target );

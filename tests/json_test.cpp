@@ -1,7 +1,7 @@
-#include "catch/catch.hpp"
-#include "json.h"
-
+#include <algorithm>
 #include <array>
+#include <functional>
+#include <iterator>
 #include <list>
 #include <map>
 #include <set>
@@ -10,12 +10,22 @@
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "cached_options.h"
 #include "cata_utility.h"
+#include "catch/catch.hpp"
 #include "colony.h"
+#include "damage.h"
+#include "debug.h"
+#include "enum_bitset.h"
 #include "item.h"
+#include "json.h"
+#include "magic.h"
 #include "mutation.h"
+#include "optional.h"
+#include "sounds.h"
 #include "string_formatter.h"
+#include "translations.h"
 #include "type_id.h"
 
 template<typename T>

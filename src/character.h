@@ -2,24 +2,26 @@
 #ifndef CATA_SRC_CHARACTER_H
 #define CATA_SRC_CHARACTER_H
 
+#include <functional>
 #include <algorithm>
-#include <array>
 #include <bitset>
 #include <climits>
-#include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <limits>
 #include <list>
 #include <map>
-#include <memory>
+#include <new>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "activity_type.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -28,11 +30,12 @@
 #include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
-#include "enums.h"
 #include "flat_set.h"
 #include "game_constants.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "magic_enchantment.h"
 #include "memory_fast.h"
 #include "optional.h"
@@ -44,14 +47,12 @@
 #include "ret_val.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "type_id.h"
-#include "units.h"
 #include "units_fwd.h"
 #include "visitable.h"
 #include "weighted_list.h"
 
-class dispersion_sources;
+class Character;
 class JsonIn;
 class JsonObject;
 class JsonOut;
@@ -60,10 +61,11 @@ class SkillLevelMap;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
+class dispersion_sources;
+class effect;
+class effect_source;
 class faction;
 class inventory;
-class item_contents;
-class item_pocket;
 class known_magic;
 class ma_technique;
 class map;
@@ -74,7 +76,7 @@ class player;
 class player_morale;
 class proficiency_set;
 class recipe_subset;
-class vehicle;
+class spell;
 class vpart_reference;
 struct bionic;
 struct construction;
@@ -299,7 +301,7 @@ struct consumption_event {
     uint64_t component_hash;
 
     consumption_event() = default;
-    consumption_event( const item &food ) : time( calendar::turn ) {
+    explicit consumption_event( const item &food ) : time( calendar::turn ) {
         type_id = food.typeId();
         component_hash = food.make_component_hash();
     }
@@ -985,7 +987,13 @@ class Character : public Creature, public visitable
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
-        bool has_trait_flag( const std::string &b ) const;
+        bool has_trait_flag( const json_character_flag &b ) const;
+        /** Returns true if player has a bionic with a flag */
+        bool has_bionic_with_flag( const json_character_flag &flag ) const;
+        /** This is to prevent clang complaining about overloading a virtual function, the creature version uses monster flags so confusion is unlikely. */
+        using Creature::has_flag;
+        /** Returns true if player has a trait or bionic with a flag */
+        bool has_flag( const json_character_flag &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
 
@@ -1686,10 +1694,10 @@ class Character : public Creature, public visitable
         /// counts to remove, or an entire replacement inventory.
         struct item_tweaks {
             item_tweaks() = default;
-            item_tweaks( const std::map<const item *, int> &w ) :
+            explicit item_tweaks( const std::map<const item *, int> &w ) :
                 without_items( std::cref( w ) )
             {}
-            item_tweaks( const inventory &r ) :
+            explicit item_tweaks( const inventory &r ) :
                 replace_inv( std::cref( r ) )
             {}
             const cata::optional<std::reference_wrapper<const std::map<const item *, int>>> without_items;
@@ -1999,6 +2007,7 @@ class Character : public Creature, public visitable
         }
         void mod_focus( int amount ) {
             focus_pool += amount * 1000;
+            focus_pool = std::max( focus_pool, 0 );
         }
         // Set the focus pool directly, only use for debugging.
         void set_focus( int amount ) {
@@ -2153,6 +2162,14 @@ class Character : public Creature, public visitable
         void reset_activity_level();
         // outputs player activity level to a printable string
         std::string activity_level_str() const;
+        // NOT SUITABLE FOR USE OTHER THAN DISPLAY
+        // The activity level this turn
+        float instantaneous_activity_level() const;
+        // Basically, advance this display one turn
+        void reset_activity_cursor();
+        // When we log an activity for metabolic purposes
+        // log it in our cursor too
+        void log_instant_activity( float );
 
         /** Returns overall bashing resistance for the body_part */
         int get_armor_bash( bodypart_id bp ) const override;
@@ -2710,6 +2727,8 @@ class Character : public Creature, public visitable
         bool defer_move( const tripoint &next );
         time_duration get_consume_time( const item &it );
 
+        // For display purposes mainly, how far we are from the next level of weariness
+        std::pair<int, int> weariness_transition_progress() const;
         int weariness_level() const;
         int weary_threshold() const;
         int weariness() const;
@@ -2790,6 +2809,10 @@ class Character : public Creature, public visitable
 
         // the player's activity level for metabolism calculations
         float attempted_activity_level = NO_EXERCISE;
+        // Display purposes only - the highest activity this turn and last
+        float act_cursor = NO_EXERCISE;
+        float last_act = NO_EXERCISE;
+        time_point act_turn = calendar::turn_zero;
 
         trap_map known_traps;
         mutable std::map<std::string, double> cached_info;
@@ -2895,6 +2918,7 @@ class Character : public Creature, public visitable
         bool is_visible_in_range( const Creature &critter, int range ) const;
 
         struct auto_toggle_bionic_result;
+
         /**
          * Automatically turn bionic on or off according to remaining fuel and
          * user settings, and return info of the first burnable fuel.

@@ -1,8 +1,10 @@
+#include "vehicle.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
-#include <memory>
 #include <set>
+#include <string>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -15,12 +17,10 @@
 #include "options.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"
 #include "veh_type.h"
-#include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
 
 static const std::string part_location_structure( "structure" );
@@ -328,7 +328,8 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 {
     std::set<itype_id> opts;
     for( const auto &pt : parts ) {
-        if( pt.is_fuel_store() && !pt.ammo_current().is_null() ) {
+        if( !pt.has_flag( vehicle_part::carried_flag ) && pt.is_fuel_store() &&
+            !pt.ammo_current().is_null() ) {
             opts.emplace( pt.ammo_current() );
         }
     }

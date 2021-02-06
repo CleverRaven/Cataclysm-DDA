@@ -2295,7 +2295,7 @@
   {
     "type": "vehicle_part",
     "id": "hd_tow_cable",
-    "name": "heavy duty tow cable",
+    "name": { "str": "heavy duty tow cable" },
     "symbol": "{",
     "categories": [ "other" ],
     "color": "light_blue",
@@ -2374,6 +2374,15 @@
     "flags": [ "SEAT", "BOARDABLE", "BELTABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "damage_reduction": { "all": 8 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "seat_wood_bench",
+    "name": { "str": "wooden bench" },
+    "copy-from": "seat_wood",
+    "looks_like": "seat_wood",
+    "durability": 150,
+    "description": "A benchlike place to sit."
   },
   {
     "type": "vehicle_part",

@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "broth",
-    "name": "broth",
+    "name": { "str": "broth" },
     "weight": "253 g",
     "color": "yellow",
     "spoils_in": "6 days 16 hours",
@@ -25,7 +25,7 @@
   {
     "type": "COMESTIBLE",
     "id": "broth_bone",
-    "name": "bone broth",
+    "name": { "str": "bone broth" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "human %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "demihuman %s" } }
@@ -53,7 +53,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_veggy",
-    "name": "vegetable soup",
+    "name": { "str": "vegetable soup" },
     "weight": "254 g",
     "color": "red",
     "spoils_in": "5 days",
@@ -77,7 +77,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_meat",
-    "name": "meat soup",
+    "name": { "str": "meat soup" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "sap soup" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "goblin soup" } },
@@ -106,7 +106,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_fish",
-    "name": "fish soup",
+    "name": { "str": "fish soup" },
     "weight": "265 g",
     "color": "light_gray",
     "spoils_in": "5 days",
@@ -179,7 +179,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_woods",
-    "name": "woods soup",
+    "name": { "str": "woods soup" },
     "conditional_names": [ { "type": "COMPONENT_ID", "condition": "mutant", "name": "Mirkwood soup" } ],
     "weight": "250 g",
     "color": "red",
@@ -204,7 +204,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_chicken",
-    "name": "chicken noodle soup",
+    "name": { "str": "chicken noodle soup" },
     "weight": "261 g",
     "color": "light_gray",
     "spoils_in": "5 days",
@@ -229,7 +229,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_mushroom",
-    "name": "mushroom soup",
+    "name": { "str": "mushroom soup" },
     "weight": "266 g",
     "color": "light_gray",
     "spoils_in": "5 days",
@@ -253,7 +253,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_tomato",
-    "name": "tomato soup",
+    "name": { "str": "tomato soup" },
     "weight": "257 g",
     "color": "red",
     "spoils_in": "6 days 16 hours",
@@ -301,7 +301,7 @@
   {
     "type": "COMESTIBLE",
     "id": "soup_cullenskink",
-    "name": "cullen skink",
+    "name": { "str": "cullen skink" },
     "weight": "261 g",
     "color": "white",
     "spoils_in": "5 days",

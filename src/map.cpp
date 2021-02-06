@@ -6,10 +6,10 @@
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
-#include <iterator>
-#include <limits>
 #include <ostream>
 #include <queue>
+#include <string>
+#include <type_traits>
 #include <unordered_map>
 
 #include "active_item_cache.h"
@@ -17,6 +17,7 @@
 #include "ammo_effect.h"
 #include "avatar.h"
 #include "basecamp.h"
+#include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
@@ -40,13 +41,11 @@
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "fragment_cloud.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_factory.h"
@@ -58,10 +57,12 @@
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "location.h"
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapbuffer.h"
 #include "mapgen.h"
+#include "math_defines.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -79,9 +80,9 @@
 #include "rng.h"
 #include "safe_reference.h"
 #include "scent_map.h"
+#include "shadowcasting.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "submap.h"
 #include "tileray.h"
 #include "timed_event.h"
@@ -1056,8 +1057,10 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
     if( adjust_pos ) {
         if( has_flag( TFLAG_RAMP_UP, src + dp ) ) {
             ramp_offset += 1;
+            veh.is_on_ramp = true;
         } else if( has_flag( TFLAG_RAMP_DOWN, src + dp ) ) {
             ramp_offset -= 1;
+            veh.is_on_ramp = true;
         }
     }
 
@@ -1745,6 +1748,8 @@ std::string map::features( const tripoint &p )
     add_if( has_flag( "FLAT", p ), _( "Flat." ) );
     add_if( has_flag( "EASY_DECONSTRUCT", p ), _( "Simple." ) );
     add_if( has_flag( "MOUNTABLE", p ), _( "Mountable." ) );
+    add_if( has_flag( "FLAMMABLE", p ) || has_flag( "FLAMMABLE_ASH", p ) ||
+            has_flag( "FLAMMABLE_HARD", p ), _( "Flammable." ) );
     return result;
 }
 
@@ -2278,7 +2283,7 @@ void map::drop_fields( const tripoint &p )
         const field_entry &entry = iter.second;
         // For now only drop cosmetic fields, which don't warrant per-turn check
         // Active fields "drop themselves"
-        if( entry.decays_on_actualize() ) {
+        if( entry.get_field_type()->accelerated_decay ) {
             add_field( below, entry.get_field_type(), entry.get_field_intensity(), entry.get_field_age() );
             dropped.push_back( entry.get_field_type() );
         }
@@ -5347,6 +5352,7 @@ int map::set_field_intensity( const tripoint &p, const field_type_id &type,
     if( field_ptr != nullptr ) {
         int adj = ( isoffset ? field_ptr->get_field_intensity() : 0 ) + new_intensity;
         if( adj > 0 ) {
+            on_field_modified( p, *type );
             field_ptr->set_field_intensity( adj );
             return adj;
         } else {
@@ -5447,20 +5453,7 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
         }
     }
 
-    // Dirty the transparency cache now that field processing doesn't always do it
-    if( fd_type.dirty_transparency_cache || !fd_type.is_transparent() ) {
-        set_transparency_cache_dirty( p, true );
-        set_seen_cache_dirty( p );
-    }
-
-    if( fd_type.is_dangerous() ) {
-        set_pathfinding_cache_dirty( p.z );
-    }
-
-    // Ensure blood type fields don't hang in the air
-    if( zlevels && fd_type.accelerated_decay ) {
-        support_dirty( p );
-    }
+    on_field_modified( p, fd_type );
 
     return true;
 }
@@ -5479,19 +5472,31 @@ void map::remove_field( const tripoint &p, const field_type_id &field_to_remove 
     }
 
     if( current_submap->get_field( l ).remove_field( field_to_remove ) ) {
-        // Only adjust the count if the field actually existed.
-        if( !--current_submap->field_count ) {
-            get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
-                                                  p.y / SEEX ) * MAPSIZE ) ) );
-        }
-        const auto &fdata = field_to_remove.obj();
-        if( fdata.dirty_transparency_cache || !fdata.is_transparent() ) {
-            set_transparency_cache_dirty( p, true );
-            set_seen_cache_dirty( p );
-        }
-        if( fdata.is_dangerous() ) {
-            set_pathfinding_cache_dirty( p.z );
-        }
+        --current_submap->field_count;
+        on_field_modified( p, *field_to_remove );
+    }
+}
+
+void map::on_field_modified( const tripoint &p, const field_type &fd_type )
+{
+    invalidate_max_populated_zlev( p.z );
+
+    get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
+                                          p.y / SEEX ) * MAPSIZE ) ) );
+
+    // Dirty the transparency cache now that field processing doesn't always do it
+    if( fd_type.dirty_transparency_cache || !fd_type.is_transparent() ) {
+        set_transparency_cache_dirty( p, true );
+        set_seen_cache_dirty( p );
+    }
+
+    if( fd_type.is_dangerous() ) {
+        set_pathfinding_cache_dirty( p.z );
+    }
+
+    // Ensure blood type fields don't hang in the air
+    if( zlevels && fd_type.accelerated_decay ) {
+        support_dirty( p );
     }
 }
 
@@ -5902,52 +5907,55 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
     const trap &curr_trap = curr_maptile.get_trap().obj();
     const field &curr_field = curr_maptile.get_field();
     int sym;
+    int memory_sym;
     bool hi = false;
     bool graf = false;
     bool draw_item_sym = false;
 
-    int terrain_sym;
     if( curr_ter.has_flag( TFLAG_AUTO_WALL_SYMBOL ) ) {
-        terrain_sym = determine_wall_corner( p );
+        memory_sym = sym = determine_wall_corner( p );
+        tercol = curr_ter.color();
     } else {
-        terrain_sym = curr_ter.symbol();
+        memory_sym = sym = curr_ter.symbol();
+        tercol = curr_ter.color();
     }
 
+    avatar &player_character = get_avatar();
     if( curr_furn.id ) {
         sym = curr_furn.symbol();
         tercol = curr_furn.color();
-    } else {
-        sym = terrain_sym;
-        tercol = curr_ter.color();
+        if( !( player_character.get_grab_type() == object_type::FURNITURE
+               && p == player_character.pos() + player_character.grab_point ) ) {
+            memory_sym = sym;
+        }
     }
     if( curr_ter.has_flag( TFLAG_SWIMMABLE ) && curr_ter.has_flag( TFLAG_DEEP_WATER ) &&
         !u.is_underwater() ) {
         show_items = false; // Can only see underwater items if WE are underwater
     }
-    avatar &player_character = get_avatar();
     // If there's a trap here, and we have sufficient perception, draw that instead
     if( curr_trap.can_see( p, player_character ) ) {
         tercol = curr_trap.color;
         if( curr_trap.sym == '%' ) {
             switch( rng( 1, 5 ) ) {
                 case 1:
-                    sym = '*';
+                    memory_sym = sym = '*';
                     break;
                 case 2:
-                    sym = '0';
+                    memory_sym = sym = '0';
                     break;
                 case 3:
-                    sym = '8';
+                    memory_sym = sym = '8';
                     break;
                 case 4:
-                    sym = '&';
+                    memory_sym = sym = '&';
                     break;
                 case 5:
-                    sym = '+';
+                    memory_sym = sym = '+';
                     break;
             }
         } else {
-            sym = curr_trap.sym;
+            memory_sym = sym = curr_trap.sym;
         }
     }
     if( curr_field.field_count() > 0 ) {
@@ -5960,19 +5968,19 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
             // A random symbol.
             switch( rng( 1, 5 ) ) {
                 case 1:
-                    sym = '*';
+                    memory_sym = sym = '*';
                     break;
                 case 2:
-                    sym = '0';
+                    memory_sym = sym = '0';
                     break;
                 case 3:
-                    sym = '8';
+                    memory_sym = sym = '8';
                     break;
                 case 4:
-                    sym = '&';
+                    memory_sym = sym = '&';
                     break;
                 case 5:
-                    sym = '+';
+                    memory_sym = sym = '+';
                     break;
             }
         } else {
@@ -5993,7 +6001,7 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
                     sym == '.' ) )  {
                 // default terrain '.' and
                 // non-default field symbol -> field symbol overrides terrain
-                sym = field_symbol[0];
+                memory_sym = sym = field_symbol[0];
             }
             tercol = fe->color();
         }
@@ -6023,7 +6031,6 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
         }
     }
 
-    int memory_sym = sym;
     int veh_part = 0;
     const vehicle *veh = veh_at_internal( p, veh_part );
     if( veh != nullptr ) {
@@ -6031,7 +6038,9 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
         tercol = veh->part_color( veh_part );
         item_sym.clear(); // clear the item symbol so `sym` is used instead.
 
-        if( !veh->forward_velocity() && !veh->player_in_control( player_character ) ) {
+        if( !veh->forward_velocity() && !veh->player_in_control( player_character )
+            && !( player_character.get_grab_type() == object_type::VEHICLE
+                  && veh->get_points().count( player_character.pos() + player_character.grab_point ) ) ) {
             memory_sym = sym;
         }
     }
@@ -7275,7 +7284,7 @@ void map::decay_cosmetic_fields( const tripoint &p,
     for( auto &pr : field_at( p ) ) {
         auto &fd = pr.second;
         const time_duration hl = fd.get_field_type().obj().half_life;
-        if( !fd.decays_on_actualize() || hl <= 0_turns ) {
+        if( !fd.get_field_type()->accelerated_decay || hl <= 0_turns ) {
             continue;
         }
 
@@ -8726,9 +8735,7 @@ void map::update_pathfinding_cache( int zlev ) const
 
                     for( const auto &fld : tile.get_field() ) {
                         const field_entry &cur = fld.second;
-                        const field_type_id type = cur.get_field_type();
-                        const int field_intensity = cur.get_field_intensity();
-                        if( type.obj().get_dangerous( field_intensity - 1 ) ) {
+                        if( cur.is_dangerous() ) {
                             cur_value |= PF_FIELD;
                         }
                     }
@@ -8879,4 +8886,34 @@ int map::reachability_cache_value( const tripoint &p, bool vertical_cache,
     } else {
         return lc.r_hor_cache->get_value( quadrant, p.xy() );
     }
+}
+
+static bool is_haulable( const item &it )
+{
+    // Liquid cannot be picked up
+    return !it.made_of_from_type( phase_id::LIQUID );
+}
+
+bool map::has_haulable_items( const tripoint &pos )
+{
+    const map_stack items = i_at( pos );
+    for( const item &it : items ) {
+        if( is_haulable( it ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::vector<item_location> map::get_haulable_items( const tripoint &pos )
+{
+    std::vector<item_location> target_items;
+    map_stack items = i_at( pos );
+    target_items.reserve( items.size() );
+    for( item &it : items ) {
+        if( is_haulable( it ) ) {
+            target_items.emplace_back( map_cursor( pos ), &it );
+        }
+    }
+    return target_items;
 }

@@ -1,7 +1,7 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <string>
 
+#include "catch/catch.hpp"
 #include "output.h"
 
 static void test_remove_color_tags( const std::string &original, const std::string &expected )

@@ -42,7 +42,7 @@
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
-    "phase": "solid",
+    "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_blood"
@@ -61,7 +61,7 @@
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
-    "phase": "solid",
+    "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_blood_veggy"
@@ -647,7 +647,11 @@
     "id": "fd_flame_burst",
     "type": "field_type",
     "legacy_enum_id": 18,
-    "intensity_levels": [ { "name": { "ctxt": "noun", "str": "fire" }, "sym": "5", "color": "red", "dangerous": true, "light_emitted": 20 } ],
+    "intensity_levels": [
+      { "name": { "ctxt": "noun", "str": "fire" }, "sym": "5", "color": "red", "dangerous": true, "light_emitted": 20 },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
     "description_affix": "on",
     "has_fire": true,
     "priority": 4,
@@ -909,7 +913,7 @@
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
-    "phase": "solid",
+    "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_blood_insect"
@@ -928,7 +932,7 @@
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
-    "phase": "solid",
+    "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_blood_invertebrate"

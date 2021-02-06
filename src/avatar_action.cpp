@@ -2,8 +2,8 @@
 
 #include <algorithm>
 #include <climits>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <map>
 #include <memory>
 #include <ostream>
@@ -13,7 +13,6 @@
 #include <vector>
 
 #include "action.h"
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "bodypart.h"
@@ -27,8 +26,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "gun_mode.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -37,6 +34,8 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "math_defines.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
 #include "move_mode.h"
@@ -50,16 +49,14 @@
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
-#include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
+class gun_mode;
 class player;
 
 static const efftype_id effect_amigara( "amigara" );
@@ -740,18 +737,19 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     }
 
-    you.assign_activity( aim_activity_actor::use_wielded(), false );
+    you.assign_activity( player_activity( aim_activity_actor::use_wielded() ), false );
 }
 
 void avatar_action::fire_ranged_mutation( Character &you, const item &fake_gun )
 {
-    you.assign_activity( aim_activity_actor::use_mutation( fake_gun ), false );
+    you.assign_activity( player_activity( aim_activity_actor::use_mutation( fake_gun ) ), false );
 }
 
 void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun,
                                         const units::energy &cost_per_shot )
 {
-    you.assign_activity( aim_activity_actor::use_bionic( fake_gun, cost_per_shot ), false );
+    you.assign_activity(
+        player_activity( aim_activity_actor::use_bionic( fake_gun, cost_per_shot ) ), false );
 }
 
 void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
@@ -933,7 +931,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         }
     }
     // if you're wearing the item you need to be able to take it off
-    if( you.is_wearing( orig->typeId() ) ) {
+    if( you.is_worn( *orig ) ) {
         ret_val<bool> ret = you.can_takeoff( *orig );
         if( !ret.success() ) {
             add_msg( m_info, "%s", ret.c_str() );

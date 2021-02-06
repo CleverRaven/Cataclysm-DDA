@@ -1,16 +1,17 @@
-#include "catch/catch.hpp"
-
 #include <cstdio>
+#include <iosfwd>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
 #include "test_statistics.h"
 #include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"

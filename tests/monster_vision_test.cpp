@@ -1,8 +1,6 @@
-#include "catch/catch.hpp"
-
 #include "cached_options.h"
 #include "calendar.h"
-#include "game.h"
+#include "catch/catch.hpp"
 #include "map.h"
 #include "map_helpers.h"
 #include "mapdata.h"

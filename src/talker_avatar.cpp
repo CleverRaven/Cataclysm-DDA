@@ -1,10 +1,9 @@
-#include <algorithm>
 #include <memory>
+#include <string>
 
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
-#include "enums.h"
 #include "game.h"
 #include "messages.h"
 #include "monster.h"
@@ -15,6 +14,7 @@
 #include "player.h"
 #include "talker.h"
 #include "talker_avatar.h"
+#include "translations.h"
 
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pet( "pet" );

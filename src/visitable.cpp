@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <climits>
+#include <iosfwd>
 #include <limits>
 #include <map>
 #include <memory>
@@ -21,13 +22,13 @@
 #include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
+#include "memory_fast.h"
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
-#include "string_id.h"
 #include "submap.h"
 #include "temp_crafting_inventory.h"
 #include "units.h"
@@ -430,11 +431,11 @@ VisitResponse map_cursor::visit_items(
 {
     map &here = get_map();
     // skip inaccessible items
-    if( here.has_flag( "SEALED", *this ) && !here.has_flag( "LIQUIDCONT", *this ) ) {
+    if( here.has_flag( "SEALED", pos() ) && !here.has_flag( "LIQUIDCONT", pos() ) ) {
         return VisitResponse::NEXT;
     }
 
-    for( item &e : here.i_at( *this ) ) {
+    for( item &e : here.i_at( pos() ) ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
@@ -615,14 +616,14 @@ std::list<item> map_cursor::remove_items_with( const
     }
 
     map &here = get_map();
-    if( !here.inbounds( *this ) ) {
+    if( !here.inbounds( pos() ) ) {
         debugmsg( "cannot remove items from map: cursor out-of-bounds" );
         return res;
     }
 
     // fetch the appropriate item stack
     point offset;
-    submap *sub = here.get_submap_at( *this, offset );
+    submap *sub = here.get_submap_at( pos(), offset );
     cata::colony<item> &stack = sub->get_items( offset );
 
     for( auto iter = stack.begin(); iter != stack.end(); ) {
@@ -648,7 +649,7 @@ std::list<item> map_cursor::remove_items_with( const
             ++iter;
         }
     }
-    here.update_submap_active_item_status( *this );
+    here.update_submap_active_item_status( pos() );
     return res;
 }
 

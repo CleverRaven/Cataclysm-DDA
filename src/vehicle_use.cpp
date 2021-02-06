@@ -1,3 +1,5 @@
+#include "vehicle.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -5,22 +7,23 @@
 #include <list>
 #include <memory>
 #include <sstream>
+#include <string>
 #include <tuple>
 
 #include "action.h"
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "activity_type.h"
 #include "avatar.h"
 #include "character.h"
 #include "clzones.h"
 #include "color.h"
+#include "creature.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
 #include "iexamine.h"
 #include "input.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -45,7 +48,6 @@
 #include "smart_controller_ui.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
@@ -53,7 +55,6 @@
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
-#include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -483,7 +484,8 @@ bool vehicle::interact_vehicle_locked()
             int skill = player_character.get_skill_level( skill_mechanics );
             const int moves = to_moves<int>( 6000_seconds / ( ( skill > 0 ) ? skill : 1 ) );
             tripoint target = get_map().getabs( global_pos3() ) + coord_translate( parts[0].mount );
-            player_character.assign_activity( hotwire_car_activity_actor( moves, target ) );
+            player_character.assign_activity(
+                player_activity( hotwire_car_activity_actor( moves, target ) ) );
         } else if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name ) ) {
             is_alarm_on = true;
         } else {
@@ -1031,10 +1033,9 @@ bool vehicle::start_engine( const int e )
                            "engine_single_click_fail" );
             return false;
         }
-        // TODO: start_moves is in moves, but it's an integer, convert it to some time class
+
         const int start_draw_bat = power_to_energy_bat( engine_power *
-                                   ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10,
-                                   1_turns * start_moves / 100 );
+                                   ( 1.0 + dmg / 2 + cold_factor / 5 ) * 10, time_duration::from_moves( start_moves ) );
         if( discharge_battery( start_draw_bat, true ) != 0 ) {
             sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::alarm,
                            string_format( _( "the %s rapidly clicking." ), eng.name() ), true, "vehicle",

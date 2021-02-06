@@ -1,12 +1,14 @@
+#include "vehicle.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <memory>
+#include <string>
 
 #include "avatar.h"
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "gun_mode.h"
 #include "item.h"
 #include "itype.h"
@@ -20,7 +22,6 @@
 #include "ui.h"
 #include "value_ptr.h"
 #include "veh_type.h"
-#include "vehicle.h" // IWYU pragma: associated
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"

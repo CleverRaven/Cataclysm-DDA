@@ -1,11 +1,16 @@
-#include "catch/catch.hpp"
+#include <iosfwd>
+#include <vector>
 
+#include "catch/catch.hpp"
 #include "clzones.h"
-#include "game_constants.h"
 #include "item.h"
 #include "item_category.h"
-#include "map.h"
+#include "item_contents.h"
+#include "item_pocket.h"
 #include "map_helpers.h"
+#include "point.h"
+#include "ret_val.h"
+#include "type_id.h"
 
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );

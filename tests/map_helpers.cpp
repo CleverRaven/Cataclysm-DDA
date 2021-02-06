@@ -1,19 +1,29 @@
 #include "map_helpers.h"
 
+#include <functional>
+#include <list>
+#include <map>
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include "cata_assert.h"
+#include "character.h"
+#include "clzones.h"
+#include "faction.h"
+#include "field.h"
 #include "game.h"
 #include "game_constants.h"
+#include "item.h"
+#include "item_pocket.h"
 #include "location.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "npc.h"
 #include "point.h"
+#include "ret_val.h"
 #include "type_id.h"
-#include "clzones.h"
 
 // Remove all vehicles from the map
 void clear_vehicles()
@@ -21,6 +31,19 @@ void clear_vehicles()
     map &here = get_map();
     for( wrapped_vehicle &veh : here.get_vehicles() ) {
         here.destroy_vehicle( veh.v );
+    }
+}
+
+void clear_radiation()
+{
+    map &here = get_map();
+    const int mapsize = here.getmapsize() * SEEX;
+    for( int z = -1; z <= OVERMAP_HEIGHT; ++z ) {
+        for( int x = 0; x < mapsize; ++x ) {
+            for( int y = 0; y < mapsize; ++y ) {
+                here.set_radiation( { x, y, z}, 0 );
+            }
+        }
     }
 }
 

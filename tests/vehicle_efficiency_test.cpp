@@ -1,8 +1,7 @@
-#include "catch/catch.hpp"
-
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
+#include <cstdlib>
 #include <map>
 #include <memory>
 #include <set>
@@ -12,9 +11,9 @@
 #include <vector>
 
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "enums.h"
-#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "line.h"

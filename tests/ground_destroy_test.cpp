@@ -1,10 +1,8 @@
-#include "catch/catch.hpp"
-
 #include <set>
-#include <string>
 #include <vector>
 
 #include "avatar.h"
+#include "catch/catch.hpp"
 #include "item.h"
 #include "itype.h"
 #include "map.h"

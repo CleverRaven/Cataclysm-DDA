@@ -3,6 +3,7 @@
 #define CATA_SRC_MOD_MANAGER_H
 
 #include <cstddef>
+#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -10,7 +11,6 @@
 #include <vector>
 
 #include "pimpl.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -169,7 +169,7 @@ class mod_manager
 class mod_ui
 {
     public:
-        mod_ui( mod_manager &mman );
+        explicit mod_ui( mod_manager &mman );
 
         std::string get_information( const MOD_INFORMATION *mod );
         mod_manager &active_manager;

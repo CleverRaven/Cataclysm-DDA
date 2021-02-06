@@ -82,9 +82,7 @@
     "coverage": 20,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE" ],
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [
-      { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "yum_lichen", "base_num": [ 1, 4 ] } ] }
-    ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "yum_lichen_harv" } ],
     "transforms_into": "t_lichen_harvested",
     "bash": {
       "str_min": 2,

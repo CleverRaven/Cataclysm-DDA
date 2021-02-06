@@ -1,5 +1,7 @@
 #include "trap.h"
 
+#include <algorithm>
+#include <cmath>
 #include <set>
 #include <vector>
 
@@ -10,7 +12,6 @@
 #include "event.h"
 #include "event_bus.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "item.h"
 #include "json.h"
 #include "line.h"
@@ -19,7 +20,6 @@
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "string_id.h"
 
 static const skill_id skill_traps( "traps" );
 

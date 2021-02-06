@@ -1,15 +1,18 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
+#include <list>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "flag.h"
-#include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "options_helpers.h"
@@ -19,6 +22,7 @@
 #include "recipe_dictionary.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 // ITEM INFO
 // =========
@@ -1042,6 +1046,27 @@ TEST_CASE( "armor fit and sizing", "[iteminfo][armor][fit]" )
            "* This gear is a part of power armor.\n" );
 }
 
+static void expected_armor_values( const item &armor, float bash, float cut, float stab,
+                                   float bullet,
+                                   float acid = 0.0f, float fire = 0.0f, float env = 0.0f )
+{
+    CAPTURE( armor.typeId().str() );
+    REQUIRE( armor.bash_resist() == Approx( bash ) );
+    REQUIRE( armor.cut_resist() == Approx( cut ) );
+    REQUIRE( armor.stab_resist() == Approx( stab ) );
+    REQUIRE( armor.bullet_resist() == Approx( bullet ) );
+    REQUIRE( armor.acid_resist() == Approx( acid ) );
+    REQUIRE( armor.fire_resist() == Approx( fire ) );
+    REQUIRE( armor.get_env_resist() == Approx( env ) );
+}
+
+TEST_CASE( "armor_stats", "[armor][protection]" )
+{
+    expected_armor_values( item( itype_id( "zentai" ) ), 0.2f, 0.2f, 0.16f, 0.2f );
+    expected_armor_values( item( itype_id( "tshirt" ) ), 0.1f, 0.1f, 0.08f, 0.1f );
+    expected_armor_values( item( itype_id( "dress_shirt" ) ), 0.1f, 0.1f, 0.08f, 0.1f );
+}
+
 // Armor protction is based on materials, thickness, and/or environmental protection rating.
 // For armor defined in JSON:
 //
@@ -1064,28 +1089,23 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
     // - Air filtration or gas mask (inactive/active)
     // - Damaged armor reduces protection
 
-    SECTION( "minimal protection from physical, no protection from environmental" ) {
-        // Long-sleeved shirt, material:cotton, thickness:1
+    SECTION( "no protection from physical, no protection from environmental" ) {
+        // Long-sleeved shirt, material:cotton, thickness:0.2
         // 1/1/1 bash/cut/bullet x 1 thickness
         // 0/0/0 acid/fire/env
         item longshirt( "test_longshirt" );
+        expected_armor_values( longshirt, 0.2f, 0.2f, 0.16f, 0.2f );
         REQUIRE( longshirt.get_covered_body_parts().any() );
-        REQUIRE( longshirt.bash_resist() == 1 );
-        REQUIRE( longshirt.cut_resist() == 1 );
-        REQUIRE( longshirt.bullet_resist() == 1 );
-        REQUIRE( longshirt.acid_resist() == 0 );
-        REQUIRE( longshirt.fire_resist() == 0 );
-        REQUIRE( longshirt.get_env_resist() == 0 );
 
         // Protection info displayed on two lines
         CHECK( item_info_str( longshirt, protection ) ==
                "--\n"
                "<color_c_white>Protection</color>:"
-               " Bash: <color_c_yellow>1</color>"
-               "  Cut: <color_c_yellow>1</color>"
-               "  Ballistic: <color_c_yellow>1</color>\n"
-               "  Acid: <color_c_yellow>0</color>"
-               "  Fire: <color_c_yellow>0</color>"
+               " Bash: <color_c_yellow>0.20</color>"
+               "  Cut: <color_c_yellow>0.20</color>"
+               "  Ballistic: <color_c_yellow>0.20</color>\n"
+               "  Acid: <color_c_yellow>0.00</color>"
+               "  Fire: <color_c_yellow>0.00</color>"
                "  Environmental: <color_c_yellow>0</color>\n" );
     }
 
@@ -1095,22 +1115,17 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
         // 9/1/20 acid/fire/env
         item hazmat( "test_hazmat_suit" );
         REQUIRE( hazmat.get_covered_body_parts().any() );
-        REQUIRE( hazmat.bash_resist() == 4 );
-        REQUIRE( hazmat.cut_resist() == 4 );
-        REQUIRE( hazmat.bullet_resist() == 4 );
-        REQUIRE( hazmat.acid_resist() == 9 );
-        REQUIRE( hazmat.fire_resist() == 1 );
-        REQUIRE( hazmat.get_env_resist() == 20 );
+        expected_armor_values( hazmat, 4, 4, 3.2, 4, 9, 1, 20 );
 
         // Protection info displayed on two lines
         CHECK( item_info_str( hazmat, protection ) ==
                "--\n"
                "<color_c_white>Protection</color>:"
-               " Bash: <color_c_yellow>4</color>"
-               "  Cut: <color_c_yellow>4</color>"
-               "  Ballistic: <color_c_yellow>4</color>\n"
-               "  Acid: <color_c_yellow>9</color>"
-               "  Fire: <color_c_yellow>1</color>"
+               " Bash: <color_c_yellow>4.00</color>"
+               "  Cut: <color_c_yellow>4.00</color>"
+               "  Ballistic: <color_c_yellow>4.00</color>\n"
+               "  Acid: <color_c_yellow>9.00</color>"
+               "  Fire: <color_c_yellow>1.00</color>"
                "  Environmental: <color_c_yellow>20</color>\n" );
     }
 
@@ -1120,21 +1135,16 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
         // 2/3/5 bash/cut/bullet x 2 thickness
         // 5/3/10 acid/fire/env
         item meower_armor( "test_meower_armor" );
-        REQUIRE( meower_armor.bash_resist() == 4 );
-        REQUIRE( meower_armor.cut_resist() == 6 );
-        REQUIRE( meower_armor.bullet_resist() == 10 );
-        REQUIRE( meower_armor.acid_resist() == 5 );
-        REQUIRE( meower_armor.fire_resist() == 3 );
-        REQUIRE( meower_armor.get_env_resist() == 10 );
+        expected_armor_values( meower_armor, 4, 6, 4.8, 10, 5, 3, 10 );
 
         CHECK( item_info_str( meower_armor, protection ) ==
                "--\n"
                "<color_c_white>Protection</color>:"
-               " Bash: <color_c_yellow>4</color>"
-               "  Cut: <color_c_yellow>6</color>"
-               "  Ballistic: <color_c_yellow>10</color>\n"
-               "  Acid: <color_c_yellow>5</color>"
-               "  Fire: <color_c_yellow>3</color>"
+               " Bash: <color_c_yellow>4.00</color>"
+               "  Cut: <color_c_yellow>6.00</color>"
+               "  Ballistic: <color_c_yellow>10.00</color>\n"
+               "  Acid: <color_c_yellow>5.00</color>"
+               "  Fire: <color_c_yellow>3.00</color>"
                "  Environmental: <color_c_yellow>10</color>\n" );
     }
 }

@@ -1,25 +1,33 @@
 #include "item_group.h"
 
 #include <algorithm>
+#include <cstdlib>
+#include <new>
 #include <set>
+#include <string>
+#include <type_traits>
 
 #include "calendar.h"
 #include "cata_assert.h"
 #include "compatibility.h"
 #include "debug.h"
+#include "enum_traits.h"
 #include "enums.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "generic_factory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "make_static.h"
+#include "options.h"
 #include "relic.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "type_id.h"
+#include "units.h"
 
 static const std::string null_item_id( "null" );
 
@@ -181,6 +189,8 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         int qty = tmp.charges;
         if( modifier ) {
             qty = rng( modifier->charges.first, modifier->charges.second );
+        } else if( tmp.made_of_from_type( phase_id::LIQUID ) ) {
+            qty = item::INFINITE_CHARGES;
         }
         // TODO: change the spawn lists to contain proper references to containers
         tmp = tmp.in_its_container( qty );
@@ -208,9 +218,14 @@ Item_spawn_data::ItemList Single_item_creator::create(
                       modifier_count.first, modifier_count.second );
         }
     }
+    float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
             const item itm = create_single( birthday, rec );
+            if( flags & spawn_flags::use_spawn_rate && !itm.has_flag( STATIC( flag_id( "MISSION_ITEM" ) ) ) &&
+                rng_float( 0, 1 ) > spawn_rate ) {
+                continue;
+            }
             if( !itm.is_null() ) {
                 result.push_back( itm );
             }
@@ -732,13 +747,13 @@ std::set<const itype *> Item_group::every_item() const
 }
 
 item_group::ItemList item_group::items_from( const item_group_id &group_id,
-        const time_point &birthday )
+        const time_point &birthday, spawn_flags flags )
 {
     const Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return ItemList();
     }
-    return group->create( birthday );
+    return group->create( birthday, flags );
 }
 
 item_group::ItemList item_group::items_from( const item_group_id &group_id )

@@ -1,22 +1,29 @@
 #include "game.h"
 
+#include <functional>
+#include <clocale>
 #include <algorithm>
 #include <bitset>
 #include <chrono>
 #include <climits>
 #include <cmath>
+#include <cstddef>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
+#include <cwctype>
+#include <exception>
 #include <iostream>
 #include <iterator>
 #include <limits>
-#include <locale>
 #include <map>
 #include <memory>
 #include <numeric>
 #include <queue>
+#include <ratio>
 #include <set>
+#include <sstream>
 #include <string>
 #include <tuple>
 #include <type_traits>
@@ -27,7 +34,6 @@
 
 #include "achievement.h"
 #include "action.h"
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
@@ -55,8 +61,8 @@
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
-#include "cursesport.h"
 #include "cuboid_rectangle.h"
+#include "cursesport.h" // IWYU pragma: keep
 #include "damage.h"
 #include "debug.h"
 #include "dependency_tree.h"
@@ -82,7 +88,7 @@
 #include "iexamine.h"
 #include "init.h"
 #include "input.h"
-#include "int_id.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_contents.h"
@@ -94,12 +100,14 @@
 #include "iuse_actor.h"
 #include "json.h"
 #include "kill_tracker.h"
+#include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
 #include "location.h"
 #include "magic.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
@@ -128,6 +136,7 @@
 #include "panels.h"
 #include "past_games_info.h"
 #include "path_info.h"
+#include "pathfinding.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
@@ -141,12 +150,11 @@
 #include "scenario.h"
 #include "scent_map.h"
 #include "scores_ui.h"
-#include "sdltiles.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "sounds.h"
 #include "start_location.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "submap.h"
 #include "talker.h"
@@ -158,7 +166,6 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_interact.h"
 #include "veh_type.h"
@@ -172,16 +179,10 @@
 #include "worldfactory.h"
 
 class computer;
-class inventory;
 
 #if defined(TILES)
 #include "cata_tiles.h"
 #endif // TILES
-
-#if !(defined(_WIN32) || defined(TILES))
-#include <langinfo.h>
-#include <cstring>
-#endif
 
 #if defined(_WIN32)
 #if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
@@ -1561,8 +1562,7 @@ bool game::do_turn()
     }
 
     // No-scent debug mutation has to be processed here or else it takes time to start working
-    if( !u.has_active_bionic( bionic_id( "bio_scent_mask" ) ) &&
-        !u.has_trait( trait_id( "DEBUG_NOSCENT" ) ) ) {
+    if( !u.has_flag( STATIC( json_character_flag( "NO_SCENT" ) ) ) ) {
         scent.set( u.pos(), u.scent, u.get_type_of_scent() );
         overmap_buffer.set_scent( u.global_omt_location(),  u.scent );
     }
@@ -1673,6 +1673,12 @@ bool game::do_turn()
     // reset player noise
     u.volume = 0;
 
+    // This is a hack! Remove this when we have per-turn activity tracking
+    // This prevents the display from erroneously updating when we use more
+    // than our allotted moves in a single turn
+    if( u.moves < 0 ) {
+        u.increase_activity_level( NO_EXERCISE );
+    }
     return false;
 }
 
@@ -1869,14 +1875,15 @@ int get_convection_temperature( const tripoint &location )
     int temp_mod = 0;
     map &here = get_map();
     // Directly on lava tiles
-    int lava_mod = here.tr_at( location ) == tr_lava ? fd_fire->get_convection_temperature_mod() : 0;
+    int lava_mod = here.tr_at( location ) == tr_lava ?
+                   fd_fire->get_intensity_level().convection_temperature_mod : 0;
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
         if( fd.first.obj().has_fire ) {
             lava_mod = 0;
         }
-        temp_mod += fd.second.convection_temperature_mod();
+        temp_mod += fd.second.get_intensity_level().convection_temperature_mod;
     }
     return temp_mod + lava_mod;
 }
@@ -4978,7 +4985,8 @@ void game::use_computer( const tripoint &p )
         return;
     }
     if( u.has_trait( trait_id( "HYPEROPIC" ) ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !u.has_effect( effect_contacts ) && !u.has_bionic( bionic_id( "bio_eye_optic" ) ) ) {
+        !u.has_effect( effect_contacts ) &&
+        !u.has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
         return;
     }
@@ -5212,7 +5220,7 @@ bool game::find_nearby_spawn_point( const Character &target, const mtype_id &mt,
     for( int attempts = 0; attempts < 15; attempts++ ) {
         target_point = target.pos() + tripoint( rng( -max_radius, max_radius ),
                                                 rng( -max_radius, max_radius ), 0 );
-        if( can_place_monster( mt->id, target_point ) &&
+        if( can_place_monster( monster( mt->id ), target_point ) &&
             get_map().is_outside( target_point ) &&
             rl_dist( target_point, get_player_character().pos() ) > min_radius ) {
             point = target_point;
@@ -5723,8 +5731,10 @@ void game::control_vehicle()
     if( veh ) {
         // If we reached here, we gained control of a vehicle.
         // Clear the map memory for the area covered by the vehicle to eliminate ghost vehicles.
+        // FIXME: change map memory to memorize all memorizable objects and only erase vehicle part memory.
         for( const tripoint &target : veh->get_points() ) {
             u.clear_memorized_tile( m.getabs( target ) );
+            m.set_memory_seen_cache_dirty( target );
         }
         veh->is_following = false;
         veh->is_patrolling = false;
@@ -8605,7 +8615,7 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                 time_to_cut += butcher_time_to_cut( player_character, *it, bt ) * factor;
             }
         }
-        return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
+        return to_string_clipped( time_duration::from_moves( time_to_cut ) );
     };
     const bool enough_light = player_character.fine_detail_vision_mod() <= 4;
 
@@ -8932,9 +8942,9 @@ void game::butcher()
             }
 
             kmenu.addentry_col( MULTIDISASSEMBLE_ONE, true, 'D', _( "Disassemble everything once" ),
-                                to_string_clipped( time_duration::from_turns( time_to_disassemble_once / 100 ) ) );
+                                to_string_clipped( time_duration::from_moves( time_to_disassemble_once ) ) );
             kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything recursively" ),
-                                to_string_clipped( time_duration::from_turns( time_to_disassemble_recursive / 100 ) ) );
+                                to_string_clipped( time_duration::from_moves( time_to_disassemble_recursive ) ) );
         }
         if( salvage_iuse && salvageables.size() > 1 ) {
             int time_to_salvage = 0;
@@ -8943,7 +8953,7 @@ void game::butcher()
             }
 
             kmenu.addentry_col( MULTISALVAGE, true, 'z', _( "Cut up everything" ),
-                                to_string_clipped( time_duration::from_turns( time_to_salvage / 100 ) ) );
+                                to_string_clipped( time_duration::from_moves( time_to_salvage ) ) );
         }
 
         kmenu.query();
@@ -10865,7 +10875,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
 
         const int cost = u.climbing_cost( u.pos(), stairs );
-        const bool can_climb_here = cost > 0 || u.has_trait_flag( "CLIMB_NO_LADDER" );
+        const bool can_climb_here = cost > 0 ||
+                                    u.has_trait_flag( STATIC( json_character_flag( "CLIMB_NO_LADDER" ) ) );
         if( !can_climb_here ) {
             add_msg( m_info, _( "You can't climb here - you need walls and/or furniture to brace against." ) );
             return;
@@ -11209,22 +11220,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
 void game::start_hauling( const tripoint &pos )
 {
     // Find target items and quantities thereof for the new activity
-    std::vector<item_location> target_items;
-    std::vector<int> quantities;
-
-    map_stack items = m.i_at( pos );
-    for( item &it : items ) {
-        // Liquid cannot be picked up
-        if( it.made_of_from_type( phase_id::LIQUID ) ) {
-            continue;
-        }
-        target_items.emplace_back( map_cursor( pos ), &it );
-        // Quantity of 0 means move all
-        quantities.push_back( 0 );
-    }
+    const std::vector<item_location> target_items = m.get_haulable_items( pos );
+    // Quantity of 0 means move all
+    const std::vector<int> quantities( target_items.size(), 0 );
 
     if( target_items.empty() ) {
         // Nothing to haul
+        u.stop_hauling();
         return;
     }
 

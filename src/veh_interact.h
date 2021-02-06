@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <string>
@@ -19,7 +20,6 @@
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
-#include "units.h"
 #include "units_fwd.h"
 
 class player;
@@ -60,7 +60,7 @@ class veh_interact
         static void complete_vehicle( player &p );
 
     private:
-        veh_interact( vehicle &veh, const point &p = point_zero );
+        explicit veh_interact( vehicle &veh, const point &p = point_zero );
         ~veh_interact();
 
         item_location target;
@@ -173,7 +173,6 @@ class veh_interact
         void display_mode();
         void display_list( size_t pos, const std::vector<const vpart_info *> &list, int header = 0 );
         void display_details( const vpart_info *part );
-        size_t display_esc( const catacurses::window &win );
 
         struct part_option {
             part_option( const std::string &key, vehicle_part *part, const input_event &hotkey,

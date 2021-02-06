@@ -1,19 +1,22 @@
+#include "activity_handlers.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
+#include <iosfwd>
 #include <list>
 #include <memory>
 #include <set>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
-#include "activity_handlers.h" // IWYU pragma: associated
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "cata_assert.h"
 #include "character.h"
 #include "clzones.h"
 #include "colony.h"
@@ -25,15 +28,13 @@
 #include "field_type.h"
 #include "fire.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "line.h"
@@ -42,11 +43,9 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
-#include "output.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
@@ -55,13 +54,10 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "stomach.h"
-#include "string_formatter.h"
-#include "string_id.h"
 #include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -1645,7 +1641,7 @@ static bool construction_activity( player &p, const zone_data * /*zone*/, const 
     for( const std::vector<tool_comp> &it : built_chosen.requirements->get_tools() ) {
         p.consume_tools( it );
     }
-    p.backlog.push_front( activity_to_restore );
+    p.backlog.push_front( player_activity( activity_to_restore ) );
     p.assign_activity( ACT_BUILD );
     p.activity.placement = here.getabs( src_loc );
     return true;
@@ -2515,7 +2511,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
             return requirement_check_result::SKIP_LOCATION;
         } else {
             if( !check_only ) {
-                p.backlog.push_front( act_id );
+                p.backlog.push_front( player_activity( act_id ) );
                 p.assign_activity( ACT_FETCH_REQUIRED );
                 player_activity &act_prev = p.backlog.front();
                 act_prev.str_values.push_back( what_we_need.str() );
@@ -2573,7 +2569,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
     } else if( reason == do_activity_reason::NEEDS_TILLING && here.has_flag( flag_PLOWABLE, src_loc ) &&
                p.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
         p.assign_activity( ACT_CHURN, 18000, -1 );
-        p.backlog.push_front( act_id );
+        p.backlog.push_front( player_activity( act_id ) );
         p.activity.placement = src;
         return false;
     } else if( reason == do_activity_reason::NEEDS_PLANTING &&
@@ -2592,24 +2588,24 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
                 continue;
             }
             iexamine::plant_seed( p, src_loc, itype_id( seed ) );
-            p.backlog.push_front( act_id );
+            p.backlog.push_front( player_activity( act_id ) );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_CHOPPING && p.has_quality( qual_AXE, 1 ) ) {
         if( chop_plank_activity( p, src_loc ) ) {
-            p.backlog.push_front( act_id );
+            p.backlog.push_front( player_activity( act_id ) );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_BUTCHERING ||
                reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
         if( butcher_corpse_activity( p, src_loc, reason ) ) {
-            p.backlog.push_front( act_id );
+            p.backlog.push_front( player_activity( act_id ) );
             return false;
         }
     } else if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ||
                reason == do_activity_reason::CAN_DO_PREREQ ) {
         if( here.partial_con_at( src_loc ) ) {
-            p.backlog.push_front( act_id );
+            p.backlog.push_front( player_activity( act_id ) );
             p.assign_activity( ACT_BUILD );
             p.activity.placement = src;
             return false;
@@ -2632,11 +2628,11 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         }
     } else if( reason == do_activity_reason::NEEDS_TREE_CHOPPING && p.has_quality( qual_AXE, 1 ) ) {
         if( chop_tree_activity( p, src_loc ) ) {
-            p.backlog.push_front( act_id );
+            p.backlog.push_front( player_activity( act_id ) );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_FISHING && p.has_quality( qual_FISHING, 1 ) ) {
-        p.backlog.push_front( act_id );
+        p.backlog.push_front( player_activity( act_id ) );
         // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         p.activity = player_activity();
         item *best_rod = p.best_quality_item( qual_FISHING );
@@ -2647,19 +2643,19 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         return false;
     } else if( reason == do_activity_reason::NEEDS_MINING ) {
         // if have enough batteries to continue etc.
-        p.backlog.push_front( act_id );
+        p.backlog.push_front( player_activity( act_id ) );
         if( mine_activity( p, src_loc ) ) {
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
         if( vehicle_activity( p, src_loc, p.activity_vehicle_part_index, 'o' ) ) {
-            p.backlog.push_front( act_id );
+            p.backlog.push_front( player_activity( act_id ) );
             return false;
         }
         p.activity_vehicle_part_index = -1;
     } else if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
         if( vehicle_activity( p, src_loc, p.activity_vehicle_part_index, 'r' ) ) {
-            p.backlog.push_front( act_id );
+            p.backlog.push_front( player_activity( act_id ) );
             return false;
         }
         p.activity_vehicle_part_index = -1;
@@ -2947,6 +2943,7 @@ int get_auto_consume_moves( player &p, const bool food )
     return 0;
 }
 
+// Try to add fuel to a fire. Return true if there is both fire and fuel; return false otherwise.
 bool try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();

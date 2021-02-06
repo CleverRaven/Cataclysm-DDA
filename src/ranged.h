@@ -1,6 +1,7 @@
 #ifndef CATA_SRC_RANGED_H
 #define CATA_SRC_RANGED_H
 
+#include <iosfwd>
 #include <vector>
 
 #include "point.h"
@@ -14,8 +15,6 @@ class player;
 class spell;
 class turret_data;
 class vehicle;
-struct itype;
-struct tripoint;
 struct vehicle_part;
 
 namespace target_handler

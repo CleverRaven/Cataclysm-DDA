@@ -44,7 +44,7 @@
     "covers": [ "torso" ],
     "coverage": 5,
     "encumbrance": 2,
-    "material_thickness": 5,
+    "material_thickness": 2,
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -118,7 +118,7 @@
     "color": "brown",
     "covers": [ "torso" ],
     "coverage": 5,
-    "material_thickness": 1,
+    "material_thickness": 1.5,
     "pocket_data": [
       {
         "holster": true,

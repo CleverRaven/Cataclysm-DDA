@@ -1,10 +1,14 @@
 #include "item_factory.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
+#include <cstdio>
 #include <cstdlib>
 #include <iterator>
+#include <limits>
 #include <memory>
+#include <new>
 #include <stdexcept>
 #include <type_traits>
 #include <unordered_set>
@@ -20,7 +24,6 @@
 #include "color.h"
 #include "damage.h"
 #include "debug.h"
-#include "debug_menu.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "explosion.h"
@@ -38,23 +41,25 @@
 #include "material.h"
 #include "optional.h"
 #include "options.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "relic.h"
 #include "requirements.h"
+#include "ret_val.h"
+#include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vitamin.h"
 
 class player;
 struct tripoint;
+template <typename T> struct enum_traits;
 
 static item_blacklist_t item_blacklist;
 
@@ -1799,7 +1804,8 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
         for( JsonArray curr : jo.get_array( "valid_mod_locations" ) ) {
-            slot.valid_mod_locations.emplace( curr.get_string( 0 ), curr.get_int( 1 ) );
+            slot.valid_mod_locations.emplace( gunmod_location( curr.get_string( 0 ) ),
+                                              curr.get_int( 1 ) );
         }
     }
 
@@ -1998,7 +2004,7 @@ void islot_armor::load( const JsonObject &jo )
         }
     }
 
-    optional( jo, was_loaded, "material_thickness", thickness, 0 );
+    optional( jo, was_loaded, "material_thickness", thickness, 0.0f );
     optional( jo, was_loaded, "environmental_protection", env_resist, 0 );
     optional( jo, was_loaded, "environmental_protection_with_filter", env_resist_w_filter, 0 );
     optional( jo, was_loaded, "warmth", warmth, 0 );
@@ -2365,6 +2371,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ups_charges_multiplier", slot.ups_charges_multiplier );
     assign( jo, "ups_charges_modifier", slot.ups_charges_modifier );
+    assign( jo, "ammo_to_fire_multiplier", slot.ammo_to_fire_multiplier );
+    assign( jo, "ammo_to_fire_modifier", slot.ammo_to_fire_modifier );
     assign( jo, "weight_multiplier", slot.weight_multiplier );
     if( jo.has_int( "install_time" ) ) {
         slot.install_time = jo.get_int( "install_time" );
@@ -2387,7 +2395,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     if( jo.has_array( "add_mod" ) ) {
         slot.add_mod.clear();
         for( JsonArray curr : jo.get_array( "add_mod" ) ) {
-            slot.add_mod.emplace( curr.get_string( 0 ), curr.get_int( 1 ) );
+            slot.add_mod.emplace( gunmod_location( curr.get_string( 0 ) ), curr.get_int( 1 ) );
         }
     }
     assign( jo, "blacklist_mod", slot.blacklist_mod );
@@ -2800,13 +2808,13 @@ struct acc_data {
         return acc_offset + static_cast<int>( grip ) + static_cast<int>( length ) +
                static_cast<int>( surface ) + static_cast<int>( balance );
     }
-    void deserialize( const JsonObject &jo );
+    void deserialize( JsonIn &ji );
     void load( const JsonObject &jo );
 };
 
-void acc_data::deserialize( const JsonObject &jo )
+void acc_data::deserialize( JsonIn &ji )
 {
-    load( jo );
+    load( ji.get_object() );
 }
 
 void acc_data::load( const JsonObject &jo )

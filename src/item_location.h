@@ -2,18 +2,18 @@
 #ifndef CATA_SRC_ITEM_LOCATION_H
 #define CATA_SRC_ITEM_LOCATION_H
 
+#include <iosfwd>
 #include <memory>
-#include <string>
 
-#include "map_selector.h"
 #include "units_fwd.h"
 
-struct tripoint;
-class item;
 class Character;
-class vehicle_cursor;
 class JsonIn;
 class JsonOut;
+class item;
+class map_cursor;
+class vehicle_cursor;
+struct tripoint;
 
 /**
  * A lightweight handle to an item independent of it's location
@@ -116,6 +116,11 @@ class item_location
 
         bool parents_can_contain_recursive( item *it ) const;
         int max_charges_by_parent_recursive( const item &it ) const;
+
+        /**
+         * Returns whether another item is eventually contained by this item
+         */
+        bool eventually_contains( item_location loc ) const;
 
     private:
         class impl;

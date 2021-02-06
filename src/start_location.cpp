@@ -6,11 +6,15 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "colony.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "debug.h"
+#include "effect_source.h"
+#include "enum_conversions.h"
+#include "field_type.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "json.h"
 #include "map.h"
 #include "map_extras.h"
@@ -22,7 +26,6 @@
 #include "player.h"
 #include "point.h"
 #include "rng.h"
-#include "string_id.h"
 
 class item;
 

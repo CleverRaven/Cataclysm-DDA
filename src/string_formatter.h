@@ -3,10 +3,11 @@
 #define CATA_SRC_STRING_FORMATTER_H
 
 #include <cstddef>
+#include <iosfwd>
+#include <new>
 #include <string>
 #include <type_traits>
 #include <typeinfo>
-#include <utility>
 
 // needed for the workaround for the std::to_string bug in some compilers
 #include "compatibility.h" // IWYU pragma: keep
@@ -318,7 +319,7 @@ class string_formatter
 
     public:
         /// @param format The format string as required by `sprintf`.
-        string_formatter( std::string format ) : format( std::move( format ) ) { }
+        explicit string_formatter( std::string format ) : format( std::move( format ) ) { }
         /// Does the actual `sprintf`. It uses @ref format and puts the formatted
         /// string into @ref output.
         /// Note: use @ref get_output to get the formatted string after a successful

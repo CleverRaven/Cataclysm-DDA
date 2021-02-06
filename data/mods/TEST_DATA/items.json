@@ -530,7 +530,7 @@
     "coverage": 90,
     "encumbrance": 3,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "flags": [ "VARSIZE" ]
   },
   {

@@ -1,7 +1,10 @@
+#include "player.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <memory>
 #include <string>
 #include <tuple>
@@ -15,9 +18,10 @@
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
+#include "event.h"
 #include "event_bus.h"
-#include "flat_set.h"
 #include "flag.h"
+#include "flat_set.h"
 #include "game.h"
 #include "item.h"
 #include "item_category.h"
@@ -26,6 +30,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "material.h"
 #include "messages.h"
@@ -35,7 +40,6 @@
 #include "npc.h"
 #include "options.h"
 #include "pickup.h"
-#include "player.h" // IWYU pragma: associated
 #include "pldata.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -45,7 +49,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
+#include "value_ptr.h"
 #include "visitable.h"
 #include "vitamin.h"
 
@@ -75,6 +79,12 @@ static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_visuals( "visuals" );
+
+static const json_character_flag json_flag_PRED1( "PRED1" );
+static const json_character_flag json_flag_PRED2( "PRED2" );
+static const json_character_flag json_flag_PRED3( "PRED3" );
+static const json_character_flag json_flag_PRED4( "PRED4" );
+static const json_character_flag json_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
 
 static const item_category_id item_category_chems( "chems" );
 
@@ -510,8 +520,11 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 
 void Character::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool capped )
 {
-    for( const std::pair<const vitamin_id, int> &vit : vitamins ) {
-        vitamin_mod( vit.first, vit.second, capped );
+    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
+    if( !npc_no_food ) {
+        for( const std::pair<const vitamin_id, int> &vit : vitamins ) {
+            vitamin_mod( vit.first, vit.second, capped );
+        }
     }
 }
 
@@ -733,12 +746,14 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         }
     }
 
-    if( food.has_flag( flag_STRICT_HUMANITARIANISM ) && !has_trait_flag( "STRICT_HUMANITARIAN" ) ) {
+    if( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
+        !has_trait_flag( json_flag_STRICT_HUMANITARIAN ) ) {
         add_consequence( _( "The thought of eating demihuman flesh makes you feel sick." ), CANNIBALISM );
     }
 
     const bool carnivore = has_trait( trait_CARNIVORE );
-    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( "CANNIBAL" ) ) {
+    if( food.has_flag( flag_CANNIBALISM ) &&
+        !has_trait_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
@@ -1149,10 +1164,10 @@ void Character::modify_morale( item &food, const int nutr )
     // The PREDATOR_FUN flag shouldn't be on human flesh, to not interfere with sapiovores/cannibalism.
     if( food.has_flag( flag_PREDATOR_FUN ) ) {
         const bool carnivore = has_trait( trait_CARNIVORE );
-        const bool culler = has_trait_flag( "PRED1" );
-        const bool hunter = has_trait_flag( "PRED2" );
-        const bool predator = has_trait_flag( "PRED3" );
-        const bool apex_predator = has_trait_flag( "PRED4" );
+        const bool culler = has_trait_flag( json_flag_PRED1 );
+        const bool hunter = has_trait_flag( json_flag_PRED2 );
+        const bool predator = has_trait_flag( json_flag_PRED3 );
+        const bool apex_predator = has_trait_flag( json_flag_PRED4 );
         if( apex_predator ) {
             // Largest bonus, balances out to around +5 or +10. Some organs may still be negative.
             add_morale( MORALE_MEATARIAN, 20, 10 );
