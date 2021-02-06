@@ -3419,10 +3419,6 @@ For example the terrain `t_pit` has the built-in trap `tr_pit`. Every tile in th
 
 A built-in trap prevents adding any other trap explicitly (by the player and through mapgen).
 
-#### `harvestable`
-
-(Optional) If defined, the terrain is harvestable. This entry defines the item type of the harvested fruits (or similar). To make this work, you also have to set one of the `harvest_*` `examine_action` functions.
-
 #### `transforms_into`
 
 (Optional) Used for various transformation of the terrain. If defined, it must be a valid terrain id. Used for example:
@@ -3430,9 +3426,14 @@ A built-in trap prevents adding any other trap explicitly (by the player and thr
 - When harvesting fruits (to change into the harvested form of the terrain).
 - In combination with the `HARVESTED` flag and `harvest_season` to change the harvested terrain back into a terrain with fruits.
 
-#### `harvest_season`
+#### `harvest_by_season`
 
-(Optional) On of "SUMMER", "AUTUMN", "WINTER", "SPRING", used in combination with the "HARVESTED" flag to revert the terrain back into a terrain that can be harvested.
+(Optional) Array of objects containing the seasons in which to harvest and the id of the harvest entry used.
+
+Exemple:
+```json
+"harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "blackjack_harv" } ],
+```
 
 #### `roof`
 

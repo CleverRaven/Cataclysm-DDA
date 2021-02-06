@@ -353,7 +353,7 @@ struct map_data_common_t {
                    has_flag( TFLAG_FLAMMABLE_HARD );
         }
 
-        virtual void load( const JsonObject &jo, const std::string &src );
+        virtual void load( const JsonObject &jo, const std::string & );
         virtual void check() const;
 };
 
