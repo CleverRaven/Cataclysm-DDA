@@ -846,27 +846,31 @@ item item::in_its_container( int qty ) const
 
 item item::in_container( const itype_id &cont, const int qty, const bool sealed ) const
 {
-    if( !cont.is_null() ) {
-        item ret( cont, birthday() );
-        if( ret.has_pockets() ) {
-            if( count_by_charges() ) {
-                ret.fill_with( *this, qty );
-            } else {
-                ret.put_in( *this, item_pocket::pocket_type::CONTAINER );
-            }
-
-            ret.invlet = invlet;
-            if( sealed ) {
-                ret.seal();
-            }
-            if( !ret.has_item_with( [&cont]( const item & it ) {
-            return it.typeId() == cont;
-            } ) ) {
-                debugmsg( "ERROR: failed to put %s in its container %s", typeId().c_str(), cont.c_str() );
-                return *this;
-            }
-            return ret;
+    if( cont.is_null() ) {
+        return *this;
+    }
+    item container( cont, birthday() );
+    if( container.has_pockets() ) {
+        if( count_by_charges() ) {
+            container.fill_with( *this, qty );
+        } else {
+            container.put_in( *this, item_pocket::pocket_type::CONTAINER );
         }
+        container.invlet = invlet;
+        if( sealed ) {
+            container.seal();
+        }
+        if( !container.has_item_with( [&cont]( const item & it ) {
+        return it.typeId() == cont;
+        } ) ) {
+            debugmsg( "ERROR: failed to put %s in its container %s", typeId().c_str(), cont.c_str() );
+            return *this;
+        }
+        return container;
+    } else if( is_software() && container.is_software_storage() ) {
+        container.put_in( *this, item_pocket::pocket_type::SOFTWARE );
+        container.invlet = invlet;
+        return container;
     }
     return *this;
 }
