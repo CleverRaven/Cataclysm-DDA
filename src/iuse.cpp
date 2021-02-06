@@ -319,7 +319,6 @@ static const trait_id trait_ALCMET( "ALCMET" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
-static const trait_id trait_EATPOISON( "EATPOISON" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
@@ -369,6 +368,7 @@ static const mtype_id mon_wasp( "mon_wasp" );
 static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_tools( "bio_tools" );
 
+static const json_character_flag json_flag_IMMUNE_POISON( "IMMUNE_POISON" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 
 // terrain/furn flags
@@ -928,7 +928,7 @@ int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
 
 int iuse::poison( player *p, item *it, bool, const tripoint & )
 {
-    if( ( p->has_trait( trait_EATDEAD ) ) ) {
+    if( ( p->has_flag( json_flag_IMMUNE_POISON ) ) ) {
         return it->type->charges_to_use();
     }
 
@@ -939,10 +939,7 @@ int iuse::poison( player *p, item *it, bool, const tripoint & )
           !p->query_yn( _( "Are you sure you want to eat this?  It looks poisonous…" ) ) ) ) {
         return 0;
     }
-    /** @EFFECT_STR increases EATPOISON trait effectiveness (50-90%) */
-    if( ( p->has_trait( trait_EATPOISON ) ) && ( !( one_in( p->str_cur / 2 ) ) ) ) {
-        return it->type->charges_to_use();
-    }
+
     p->add_effect( effect_poison, 1_hours );
     p->add_effect( effect_foodpoison, 3_hours );
     return it->type->charges_to_use();
