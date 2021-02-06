@@ -154,6 +154,7 @@ static const quality_id qual_LIFT( "LIFT" );
 static const species_id species_ROBOT( "ROBOT" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
 
@@ -2014,7 +2015,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                                           _( "This food has started to <neutral>rot</neutral>, "
                                              "but <info>your bionic digestion can tolerate "
                                              "it</info>." ) ) );
-            } else if( player_character.has_trait( trait_SAPROVORE ) ) {
+            } else if( player_character.has_flag( json_flag_IMMUNE_SPOIL ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "This food has started to <neutral>rot</neutral>, "
                                              "but <info>you can tolerate it</info>." ) ) );
