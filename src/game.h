@@ -579,7 +579,7 @@ class game
 
         // Look at nearby terrain ';', or select zone points
         cata::optional<tripoint> look_around();
-        look_around_result look_around( const bool show_window, tripoint &center,
+        look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
         look_around_result look_around( look_around_params );
 
