@@ -1775,9 +1775,9 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             }
         } else if( category == C_FIELD ) {
             const field_type_id fid = field_type_id( found_id );
-            sym = fid.obj().get_codepoint();
+            sym = fid->get_intensity_level().symbol;
             // TODO: field intensity?
-            col = fid.obj().get_color();
+            col = fid->get_intensity_level().color;
         } else if( category == C_TRAP ) {
             const trap_str_id tmp( found_id );
             if( tmp.is_valid() ) {

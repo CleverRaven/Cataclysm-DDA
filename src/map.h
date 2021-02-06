@@ -96,6 +96,7 @@ struct pathfinding_cache;
 struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
+struct field_proc_data;
 
 using relic_procgen_id = string_id<relic_procgen_data>;
 
@@ -184,6 +185,18 @@ class map
         friend class editmap;
         friend std::list<item> map_cursor::remove_items_with( const std::function<bool( const item & )> &,
                 int );
+
+        //FIXME some field processor use private methods
+        friend void field_processor_fd_fire( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_spread_gas( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_wandering_field( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_fd_fire_vent( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_fd_flame_burst( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_fd_bees( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_fd_incendiary( const tripoint &, field_entry &, field_proc_data & );
+
+        // for testing
+        friend void clear_fields( int zlevel );
 
     public:
         // Constructors & Initialization
@@ -1231,8 +1244,6 @@ class map
         // See fields.cpp
         void process_fields();
         void process_fields_in_submap( submap *current_submap, const tripoint &submap_pos );
-        bool process_fire_field_in_submap( maptile &map_tile, const tripoint &p, field_entry &cur,
-                                           const oter_id &om_ter );
         /**
          * Apply field effects to the creature when it's on a square with fields.
          */
@@ -1323,6 +1334,13 @@ class map
          * Remove field entry at xy, ignored if the field entry is not present.
          */
         void remove_field( const tripoint &p, const field_type_id &field_to_remove );
+
+    private:
+        // Is called when field intensity is changed.
+        // Invalidates relevan map caches, such as transparency cache.
+        void on_field_modified( const tripoint &p, const field_type &fd_type );
+
+    public:
 
         // Splatters of various kind
         void add_splatter( const field_type_id &type, const tripoint &where, int intensity = 1 );

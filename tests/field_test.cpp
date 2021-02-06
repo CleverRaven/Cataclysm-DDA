@@ -178,7 +178,8 @@ TEST_CASE( "fd_acid falls down", "[field]" )
 
     {
         INFO( "acid field is dropped by exactly one point" );
-        CHECK_FALSE( m.get_field( p, fd_acid ) );
+        field_entry *acid_here = m.get_field( p, fd_acid );
+        CHECK( ( !acid_here || !acid_here->is_field_alive() ) );
         CHECK( m.get_field( p + tripoint_below, fd_acid ) );
     }
 
@@ -280,7 +281,8 @@ TEST_CASE( "fd_fire and fd_fire_vent test", "[field]" )
         field_entry *flame_burst = m.get_field( p, fd_flame_burst );
         INFO( "Flame burst intensity should drop" );
         CAPTURE( i );
-        CHECK( ( flame_burst ? flame_burst->get_field_intensity() : 0 ) == i );
+        CHECK( ( flame_burst &&
+                 flame_burst->is_field_alive() ? flame_burst->get_field_intensity() : 0 ) == i );
     }
 
     {
@@ -334,7 +336,7 @@ TEST_CASE( "radioactive field", "[field]" )
     const tripoint p{ 33, 33, 0 };
     map &m = get_map();
 
-    REQUIRE( fd_nuke_gas->get_extra_radiation_max() > 0 );
+    REQUIRE( fd_nuke_gas->get_intensity_level().extra_radiation_max > 0 );
     REQUIRE( m.get_radiation( p ) == 0 );
 
     m.add_field( p, fd_nuke_gas, 1 );
