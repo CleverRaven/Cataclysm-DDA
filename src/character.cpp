@@ -5596,6 +5596,24 @@ int Character::weariness() const
     return weary.tracker - weary.intake * 0.5;
 }
 
+std::pair<int, int> Character::weariness_transition_progress() const
+{
+    // Mostly a duplicate of the below function. No real way to clean this up
+    int amount = weariness();
+    int threshold = weary_threshold();
+    amount -= threshold * get_option<float>( "WEARY_INITIAL_STEP" );
+    while( amount >= 0 ) {
+        amount -= threshold;
+        if( threshold > 20 ) {
+            threshold *= get_option<float>( "WEARY_THRESH_SCALING" );
+        }
+    }
+
+    // If we return the absolute value of the amount, it will work better
+    // Because as it decreases, we will approach a transition
+    return {std::abs( amount ), threshold};
+}
+
 int Character::weariness_level() const
 {
     int amount = weariness();
@@ -5685,6 +5703,41 @@ void Character::try_reduce_weariness( const float exertion )
     weary.tracker = std::max( weary.tracker, 0 );
     weary.tick_counter = std::max( weary.tick_counter, 0 );
     weary.low_activity_ticks = std::max( weary.low_activity_ticks, 0 );
+}
+
+// Remove all this instantaneous stuff when activity tracking moves to per turn
+float Character::instantaneous_activity_level() const
+{
+    // As this is for display purposes, we want to show last turn's activity.
+    if( calendar::turn > act_turn ) {
+        return act_cursor;
+    } else {
+        return last_act;
+    }
+}
+
+// Basically, advance one turn
+void Character::reset_activity_cursor()
+{
+
+    if( calendar::turn > act_turn ) {
+        last_act = act_cursor;
+        act_cursor = NO_EXERCISE;
+        act_turn = calendar::turn;
+    } else {
+        act_cursor = NO_EXERCISE;
+    }
+}
+
+// Log the highest activity level for this turn, and advance one turn if needed
+void Character::log_instant_activity( float level )
+{
+    if( calendar::turn > act_turn ) {
+        reset_activity_cursor();
+        act_cursor = level;
+    } else if( level > act_cursor ) {
+        act_cursor = level;
+    }
 }
 
 float Character::activity_level() const
@@ -8369,6 +8422,7 @@ void Character::increase_activity_level( float new_level )
     if( attempted_activity_level < new_level ) {
         attempted_activity_level = new_level;
     }
+    log_instant_activity( new_level );
 }
 
 void Character::decrease_activity_level( float new_level )
@@ -8376,10 +8430,12 @@ void Character::decrease_activity_level( float new_level )
     if( attempted_activity_level > new_level ) {
         attempted_activity_level = new_level;
     }
+    log_instant_activity( new_level );
 }
 void Character::reset_activity_level()
 {
     attempted_activity_level = NO_EXERCISE;
+    reset_activity_cursor();
 }
 
 std::string Character::activity_level_str() const
