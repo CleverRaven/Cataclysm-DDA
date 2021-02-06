@@ -79,7 +79,7 @@
     "armor_bash": 6,
     "armor_cut": 2,
     "armor_bullet": 3,
-    "harvest": "human",
+    "harvest": "demihuman",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_2", "WARM" ]
   },
