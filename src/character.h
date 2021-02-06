@@ -2013,13 +2013,15 @@ class Character : public Creature, public visitable
         time_point cached_time;
 
         std::vector <addiction> addictions;
-        /** Adds an addiction to the player */
+        /** Acquires a new addiction unconditionally */
+        void acquire_addiction( add_type type, int intensity );
+        /** Adds a chance to gain an addiction, or intensifies an existing addiction */
         void add_addiction( add_type type, int strength );
-        /** Removes an addition from the player */
+        /** Removes an addiction from the character */
         void rem_addiction( add_type type );
-        /** Returns true if the player has an addiction of the specified type */
+        /** Returns true if character has a given addiction type at minimum level or greater */
         bool has_addiction( add_type type ) const;
-        /** Returns the intensity of the specified addiction */
+        /** Returns intensity level of an addiction type for this character or 0 if not addicted */
         int addiction_level( add_type type ) const;
 
         shared_ptr_fast<monster> mounted_creature;

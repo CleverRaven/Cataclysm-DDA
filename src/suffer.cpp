@@ -166,6 +166,9 @@ static const std::string flag_PLOWABLE( "PLOWABLE" );
 
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
+/**
+ * Return addiction intensity level scaled to to the range [at_min, at_max].
+ */
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
 {
     // Not addicted
@@ -1963,11 +1966,18 @@ void Character::add_addiction( add_type type, int strength )
     const int roll = rng( 0, 100 );
     add_msg_debug( "Addiction: roll %d vs strength %d", roll, strength );
     if( roll < strength ) {
-        const std::string &type_name = addiction_type_name( type );
-        add_msg_debug( "%s got addicted to %s", disp_name(), type_name );
-        addictions.emplace_back( type, 1 );
-        get_event_bus().send<event_type::gains_addiction>( getID(), type );
+        acquire_addiction( type, 1 );
     }
+}
+
+void Character::acquire_addiction( add_type type, int intensity )
+{
+    // Notify player of new addiction
+    const std::string &type_name = addiction_type_name( type );
+    add_msg_debug( "%s got addicted to %s", disp_name(), type_name );
+    // Become addicted and deal with the consequences
+    addictions.emplace_back( type, intensity );
+    get_event_bus().send<event_type::gains_addiction>( getID(), type );
 }
 
 bool Character::has_addiction( add_type type ) const
