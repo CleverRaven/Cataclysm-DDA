@@ -72,6 +72,8 @@ void clear_character( player &dummy )
     // This sets HP to max, clears addictions and morale,
     // and sets hunger, thirst, fatigue and such to zero
     dummy.environmental_revert_effect();
+    // However, the above does not set stored kcal
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
 
     dummy.empty_skills();
     dummy.martial_arts_data->clear_styles();
