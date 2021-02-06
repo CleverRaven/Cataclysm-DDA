@@ -749,12 +749,7 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     tripoint_abs_omt place;
     const int mission_id = miss->get_id();
 
-    omt_find_params params;
-    std::pair<std::string, ot_match_type> temp_pair;
-    temp_pair.first = "lab_train_depot";
-    temp_pair.second = ot_match_type::type;
-    params.types.push_back( temp_pair );
-
+    omt_find_params params = {{ {{ std::make_pair( "lab_train_depot", ot_match_type::type ) }} }};
     const std::vector<tripoint_abs_omt> all_omts_near = overmap_buffer.find_all( loc, params );
     // sort it by range
     std::multimap<int, tripoint_abs_omt> omts_by_range;
