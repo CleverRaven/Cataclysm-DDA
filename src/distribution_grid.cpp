@@ -190,10 +190,14 @@ distribution_grid &distribution_grid_tracker::make_distribution_grid_at( const t
     return *dist_grid;
 }
 
+// TODO: Ugly, there should be a cleaner way
+#include "worldfactory.h"
+
 void distribution_grid_tracker::on_saved()
 {
     parent_distribution_grids.clear();
-    if( !get_option<bool>( "ELECTRIC_GRID" ) ) {
+    if( !get_option<bool>( "ELECTRIC_GRID" ) ||
+        world_generator->active_world == nullptr ) {
         return;
     }
     tripoint min_bounds = tripoint( bounds.p_min, -OVERMAP_DEPTH );
