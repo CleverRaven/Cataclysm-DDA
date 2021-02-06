@@ -127,6 +127,11 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
         REQUIRE( !info.empty() );
         CHECK( info.transition_minutes( 4, 3, 520_minutes ) == Approx( 520 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 2, 670_minutes ) == Approx( 670 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 8 * 60 ) ); // should be INT_MAX
+        CHECK( info.transition_minutes( 2, 1, 0_minutes ) > ( 8 * 60 ) );
+        CHECK( info.transition_minutes( 1, 2, 16_hours ) <= ( 8 * 60 ) );
+        CHECK( info.transition_minutes( 2, 3, 16_hours ) <= ( 8 * 60 ) );
+        CHECK( info.transition_minutes( 3, 4, 16_hours ) <= ( 8 * 60 ) );
         CHECK( guy.weariness_level() == 1 );
     }
 
