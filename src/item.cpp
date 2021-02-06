@@ -2380,6 +2380,11 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            mod->ammo_data()->nname( mod->ammo_remaining() ) ) );
     }
 
+    if( mod->ammo_required() > 1  && parts->test( iteminfo_parts::AMMO_TO_FIRE ) ) {
+        info.emplace_back( "AMMO",  _( "Ammunition consumed per shot: " ), "",
+                           iteminfo::lower_is_better, mod->ammo_required() );
+    }
+
     if( mod->get_gun_ups_drain() && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
         info.emplace_back( "AMMO",
                            string_format( ngettext( "Uses <stat>%i</stat> charge of UPS per shot",
