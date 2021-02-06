@@ -136,6 +136,17 @@
   },
   {
     "type": "item_group",
+    "id": "magic_shop_beginner_books",
+    "subtype": "collection",
+    "items": [
+      { "group": "spellbook_tier_0", "prob": 100 },
+      { "group": "spellbook_tier_0", "prob": 80 },
+      { "group": "spellbook_tier_0", "prob": 60 },
+      { "group": "spellbook_tier_0", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "magic_shop_wands",
     "items": [
       { "item": "wand_magic_missile_minor", "prob": 35, "charges-min": 12, "charges-max": 34 },
