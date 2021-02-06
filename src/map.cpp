@@ -1356,7 +1356,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
     avatar &player_character = get_avatar();
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
     if( player_character.get_grab_type() == object_type::FURNITURE &&
-        player_character.grab_point == p && !new_t.is_movable() ) {
+        player_character.pos() + player_character.grab_point == p && !new_t.is_movable() ) {
         add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name() );
         player_character.grab( object_type::NONE );
     }
