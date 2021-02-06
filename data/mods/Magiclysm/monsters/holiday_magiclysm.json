@@ -103,7 +103,7 @@
     "melee_dice": 7,
     "melee_dice_sides": 7,
     "dodge": 6,
-    "harvest": "human",
+    "harvest": "demihuman",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_2", "WARM" ]
   }
