@@ -1056,8 +1056,10 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
     if( adjust_pos ) {
         if( has_flag( TFLAG_RAMP_UP, src + dp ) ) {
             ramp_offset += 1;
+            veh.is_on_ramp = true;
         } else if( has_flag( TFLAG_RAMP_DOWN, src + dp ) ) {
             ramp_offset -= 1;
+            veh.is_on_ramp = true;
         }
     }
 
