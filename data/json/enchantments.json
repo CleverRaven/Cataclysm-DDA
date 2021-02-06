@@ -11,5 +11,17 @@
     "condition": "ACTIVE",
     "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
     "emitter": "emit_shadow_field"
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_JOINT_SERVOS_ACTIVE",
+    "condition": "ACTIVE",
+    "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_JOINT_SERVOS_INACTIVE",
+    "condition": "INACTIVE",
+    "values": [ { "value": "MOVE_COST", "multiply": 0.1 } ]
   }
 ]
