@@ -90,7 +90,7 @@ void _append_stacks( Character *guy, item *i, aim_container_t *ret )
     aim_container_t temp =
         get_stacks( i->contents.all_items_top( item_pocket::pocket_type::CONTAINER ),
     [guy]( item * it ) {
-        return iloc_character( guy, it );
+        return item_location( *guy, it );
     } );
     ret->insert( ret->end(), std::make_move_iterator( temp.begin() ),
                  std::make_move_iterator( temp.end() ) );
@@ -104,26 +104,6 @@ namespace advuilist_helpers
 cata::optional<vpart_reference> veh_cargo_at( tripoint const &loc )
 {
     return get_map().veh_at( loc ).part_with_feature( "CARGO", false );
-}
-
-item_location iloc_map_cursor( map_cursor const &cursor, item *it )
-{
-    return item_location( cursor, it );
-}
-
-item_location iloc_tripoint( tripoint const &loc, item *it )
-{
-    return iloc_map_cursor( map_cursor( loc ), it );
-}
-
-item_location iloc_character( Character *guy, item *it )
-{
-    return item_location( *guy, it );
-}
-
-item_location iloc_vehicle( vehicle_cursor const &cursor, item *it )
-{
-    return item_location( cursor, it );
 }
 
 template <class Iterable>
@@ -276,7 +256,7 @@ aim_container_t source_ground( tripoint const &loc )
 {
     return get_stacks<>( get_map().i_at( loc ),
     [&]( item * it ) {
-        return iloc_tripoint( loc, it );
+        return item_location( map_cursor( loc ), it );
     } );
 }
 
@@ -285,7 +265,7 @@ aim_container_t source_vehicle( tripoint const &loc )
     cata::optional<vpart_reference> vp = veh_cargo_at( loc );
 
     return get_stacks<>( vp->vehicle().get_items( vp->part_index() ), [&]( item * it ) {
-        return iloc_vehicle( vehicle_cursor( vp->vehicle(), vp->part_index() ), it );
+        return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), it );
     } );
 }
 

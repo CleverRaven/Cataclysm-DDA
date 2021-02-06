@@ -42,10 +42,6 @@ using aim_transaction_ui_t = transaction_ui<aim_container_t, iloc_entry>;
 using aim_stats_t = std::pair<units::mass, units::volume>;
 
 using filoc_t = std::function<item_location( item * )>;
-item_location iloc_map_cursor( map_cursor const &cursor, item *it );
-item_location iloc_tripoint( tripoint const &loc, item *it );
-item_location iloc_character( Character *guy, item *it );
-item_location iloc_vehicle( vehicle_cursor const &cursor, item *it );
 template <class Iterable>
 iloc_stack_t get_stacks( Iterable items, filoc_t const &iloc_helper );
 iloc_stack_t get_stacks( std::list<item *> const &items, filoc_t const &iloc_helper );
