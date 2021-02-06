@@ -24,12 +24,13 @@ namespace active_tiles
 template<typename T>
 T *furn_at( const tripoint &p )
 {
-    point offset( p.x % SEEX, p.y % SEEY );
-    submap *sm = MAPBUFFER.lookup_submap( ms_to_sm_copy( p ) );
+    tripoint xy_offset = p;
+    // TODO: A "ms_to_sm" with explicit offset result
+    submap *sm = MAPBUFFER.lookup_submap( ms_to_sm_remain( xy_offset ) );
     if( sm == nullptr ) {
         return nullptr;
     }
-    auto iter = sm->active_furniture.find( offset );
+    auto iter = sm->active_furniture.find( xy_offset.xy() );
     if( iter == sm->active_furniture.end() ) {
         return nullptr;
     }

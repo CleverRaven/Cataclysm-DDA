@@ -124,7 +124,7 @@ static grid_setup set_up_grid( map &m )
     return grid_setup{grid, *veh, *battery};
 }
 
-TEST_CASE( "grid_and_vehicle_in_bubble", "[grids][vehicle][!mayfail]" )
+TEST_CASE( "grid_and_vehicle_in_bubble", "[grids][vehicle]" )
 {
     clear_map_and_put_player_underground();
     GIVEN( "vehicle and battery are on one grid" ) {
@@ -133,7 +133,7 @@ TEST_CASE( "grid_and_vehicle_in_bubble", "[grids][vehicle][!mayfail]" )
     }
 }
 
-TEST_CASE( "grid_and_vehicle_outside_bubble", "[grids][vehicle][!mayfail]" )
+TEST_CASE( "grid_and_vehicle_outside_bubble", "[grids][vehicle]" )
 {
     clear_map_and_put_player_underground();
     const tripoint old_abs_sub = g->m.get_abs_sub();
