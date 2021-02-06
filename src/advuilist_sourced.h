@@ -40,8 +40,8 @@ class advuilist_sourced : public advuilist<Container, T>
         using fctxt_t = typename advuilist<Container, T>::fctxt_t;
         using select_t = typename advuilist<Container, T>::select_t;
 
-        explicit advuilist_sourced( point const &srclayout, point size = { -9, -9 },
-                                    point origin = { -9, -9 },
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        explicit advuilist_sourced( point const &srclayout, point size = { -1, -1 }, point origin = { -1, -1 },
                                     std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT,
                                     point reserved_rows = { 2, 1 } );
 
@@ -62,7 +62,7 @@ class advuilist_sourced : public advuilist<Container, T>
         void rebuild();
         void initui();
         void hide();
-        void resize( point size, point origin, point reserved_rows = {-9, -9} );
+        void resize( point size, point origin, point reserved_rows = {-1, -1} ); // NOLINT(cata-use-named-point-constants)
         void on_resize( fdraw_t const &func );
 
         void setctxthandler( fctxt_t const &func );

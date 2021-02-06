@@ -65,7 +65,8 @@ class advuilist
         using selection_t = std::pair<count_t, ptr_t>;
         using select_t = std::vector<selection_t>;
 
-        explicit advuilist( Container *list, point size = { -9, -9 }, point origin = { -9, -9 },
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        explicit advuilist( Container *list, point size = { -1, -1 }, point origin = { -1, -1 },
                             std::string const &ctxtname = advuilist_literals::CTXT_DEFAULT,
                             point reserved_rows = { 2, 1 } );
 
@@ -109,7 +110,7 @@ class advuilist
         /// pre-initialize or reset the internal ui_adaptor;
         void initui();
         void hide();
-        void resize( point size, point origin, point reserved_rows = {-9, -9} );
+        void resize( point size, point origin, point reserved_rows = {-1, -1} ); // NOLINT(cata-use-named-point-constants)
 
         input_context *get_ctxt();
         catacurses::window *get_window();
