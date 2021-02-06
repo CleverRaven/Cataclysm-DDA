@@ -19,11 +19,6 @@
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pet( "pet" );
 
-static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
-static const bionic_id bio_deformity( "bio_deformity" );
-static const bionic_id bio_face_mask( "bio_face_mask" );
-static const bionic_id bio_voice( "bio_voice" );
-
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
 talker_avatar::talker_avatar( avatar *new_me )
