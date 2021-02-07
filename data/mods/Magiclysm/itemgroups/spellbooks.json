@@ -31,7 +31,8 @@
       [ "spell_scroll_biomancer_paralytic_dart", 40 ],
       [ "spell_scroll_biomancer_visceral_projection", 40 ],
       [ "spell_scroll_summon_wisps", 30 ],
-      [ "spell_scroll_stormshaper_wall_of_fog", 35 ]
+      [ "spell_scroll_stormshaper_wall_of_fog", 35 ],
+      [ "spell_scroll_shadow_field", 20 ]
     ]
   },
   {
