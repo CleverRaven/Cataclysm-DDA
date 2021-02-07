@@ -10,6 +10,7 @@
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
+#include "event.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "messages.h"
@@ -414,6 +415,27 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
         return true;
     } else {
         return false;
+    }
+}
+
+void effect_type::check_consistency()
+{
+    for( const std::pair<efftype_id, effect_type> check : effect_types ) {
+        check.second.verify();
+    }
+}
+
+void effect_type::verify() const
+{
+    if( death_event.has_value() ) {
+        const std::unordered_map<std::string, cata_variant_type> &fields = cata::event::get_fields(
+                    *death_event );
+        // Only allow events inheriting from event_spec_character at the moment.
+        if( fields.size() != 1 || fields.count( "character" ) != 1 ) {
+            debugmsg( "Invalid death event type %s in effect_type %s", "lol",
+                      io::enum_to_string( *death_event ),
+                      id.str() );
+        }
     }
 }
 
@@ -1414,6 +1436,11 @@ void load_effect_type( const JsonObject &jo )
     }
 
     optional( jo, false, "vitamins", new_etype.vitamin_data );
+    optional( jo, false, "chance_kill", new_etype.kill_chance );
+    optional( jo, false, "chance_kill_resist", new_etype.red_kill_chance );
+    optional( jo, false, "death_msg", new_etype.death_msg, to_translation( "You died." ) );
+    optional( jo, false, "death_event", new_etype.death_event,
+              enum_flags_reader<event_type>( "event_type" ), cata::nullopt );
 
     new_etype.max_intensity = jo.get_int( "max_intensity", 1 );
     new_etype.dur_add_perc = jo.get_int( "dur_add_perc", 100 );
@@ -1448,6 +1475,34 @@ void load_effect_type( const JsonObject &jo )
 bool effect::has_flag( const flag_id &flag ) const
 {
     return eff_type->has_flag( flag );
+}
+
+bool effect::kill_roll( bool reduced ) const
+{
+    const std::vector<std::pair<int, int>> &chances = reduced ? eff_type->red_kill_chance :
+                                        eff_type->kill_chance;
+    if( chances.empty() ) {
+        return false;
+    }
+
+    const int idx = cap_to_size( chances.size(), intensity );
+    const std::pair<int, int> &chance = chances[idx];
+    return x_in_y( chance.first, chance.second );
+}
+
+std::string effect::get_death_message() const
+{
+    return eff_type->death_msg.translated();
+}
+
+event_type effect::death_event() const
+{
+    if( eff_type->death_event.has_value() ) {
+        return *eff_type->death_event;
+    }
+
+    debugmsg( "Asked for death event from effect of type %s, but it lacks one!", eff_type->id.str() );
+    return event_type::num_event_types;
 }
 
 void reset_effect_types()

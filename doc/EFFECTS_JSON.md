@@ -329,6 +329,22 @@ All of these members are arrays, with each successive entry corresponding to the
 
 As defined, this will cause non-resistant characters to gain between 1 and 2 of the vitamin foo every 2 minutes, and half their absorbtion rate of it, and resistant character to gain between 0 and 1 of this vitamin every second, and not absorb any of it from their food.
 
+### Death
+
+```json
+    "chance_kill": [ [ 1, 25 ] ],
+    "chance_kill_resist": [ [ 1, 250 ] ],
+    "death_msg": "You died.",
+    "death_event": "throws_up"
+```
+
+- `chance_kill` A first value in second value chance to kill the creature with this effect each turn.
+- `chance_kill_resist` A first value in second value chance to kill the creature with this effect each turn, if the creature resists this effect.
+- `death_msg` A message added to the log when the player dies from this effect.
+- `death_event` An event that is sent when the player dies from this effect.
+
+For `chance_kill` and `chance_kill_resist`, it accepts an array of arrays in the format described. Each entry in the array will be applied for a successive intensity level of the field. If the intensity level of the field is greater than the number of entries in the array, the last entry will be used.
+
 ### Effect effects
 ```C++
     "base_mods" : {

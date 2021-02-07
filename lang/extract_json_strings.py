@@ -440,6 +440,15 @@ def extract_effect_type(item):
             comment = "Speed name of effect(s) '{}'.".format(', '.join(name))
             writestr(outfile, item.get("speed_name"), comment=comment)
 
+    # death_msg
+    if "death_msg" in item:
+        if not name:
+            writestr(outfile, item.get("death_msg"))
+        else:
+            comment = "Death message of effect(s) '{}'."
+            comment.format(', '.json(name))
+            writestr(outfile, item.get("death_msg"), comment=comment)
+
     # apply and remove memorial messages.
     msg = item.get("apply_memorial_log")
     if not name:

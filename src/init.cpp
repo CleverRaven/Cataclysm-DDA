@@ -703,6 +703,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Field types" ), &field_types::check_consistency },
             { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
+            { _( "Effect Types" ), &effect_type::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
             {
                 _( "Items" ), []()

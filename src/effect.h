@@ -22,6 +22,7 @@ class effect_type;
 class player;
 
 enum game_message_type : int;
+enum class event_type : int;
 class JsonIn;
 class JsonObject;
 class JsonOut;
@@ -114,6 +115,11 @@ class effect_type
         bool load_miss_msgs( const JsonObject &jo, const std::string &member );
         bool load_decay_msgs( const JsonObject &jo, const std::string &member );
 
+        /** Verifies data is accurate */
+        static void check_consistency();
+        void verify() const;
+
+
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
 
@@ -176,10 +182,15 @@ class effect_type
 
         translation blood_analysis_description;
 
+        translation death_msg;
+        cata::optional<event_type> death_event;
+
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
         std::unordered_map <
         std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash > mod_data;
         std::vector<vitamin_rate_effect> vitamin_data;
+        std::vector<std::pair<int, int>> kill_chance;
+        std::vector<std::pair<int, int>> red_kill_chance;
 };
 
 class effect
@@ -305,6 +316,10 @@ class effect
 
         /** Check if the effect has the specified flag */
         bool has_flag( const flag_id &flag ) const;
+
+        bool kill_roll( bool reduced ) const;
+        std::string get_death_message() const;
+        event_type death_event() const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
         double get_addict_mod( const std::string &arg, int addict_level ) const;
