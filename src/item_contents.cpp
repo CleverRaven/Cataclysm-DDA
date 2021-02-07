@@ -349,9 +349,7 @@ void item_contents::combine( const item_contents &read_input, const bool convert
     }
 
     for( const item &uninserted_item : uninserted_items ) {
-        if( !insert_item( uninserted_item, item_pocket::pocket_type::MOD ).success() ) {
-            insert_item( uninserted_item, item_pocket::pocket_type::MIGRATION );
-        }
+        insert_item( uninserted_item, item_pocket::pocket_type::MIGRATION );
     }
 }
 
