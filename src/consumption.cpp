@@ -876,7 +876,7 @@ static bool eat( item &food, player &you, bool force )
     const bool saprophage = you.has_trait( trait_SAPROPHAGE );
     if( spoiled && !saprophage ) {
         you.add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good…" ), food.tname() );
-        if( !you.has_flag( json_flag_IMMUNE_SPOIL ) || one_in( 3 ) ) {
+        if( !you.has_flag( json_flag_IMMUNE_SPOIL ) ) {
             you.add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
         }
     } else if( spoiled && saprophage ) {
