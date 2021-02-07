@@ -5331,6 +5331,18 @@ int map::mod_field_intensity( const tripoint &p, const field_type_id &type, cons
     return set_field_intensity( p, type, offset, true );
 }
 
+int map::safe_sub_field_intensity( const tripoint &p, const field_type_id &type, const int offset )
+{
+    field_entry *field_ptr = get_field( p, type );
+    if( field_ptr ) {
+        const int new_intensity = field_ptr->get_field_intensity() - offset;
+        on_field_modified( p, *type );
+        field_ptr->set_field_intensity( new_intensity );
+        return new_intensity;
+    }
+    return 0;
+}
+
 time_duration map::set_field_age( const tripoint &p, const field_type_id &type,
                                   const time_duration &age, const bool isoffset )
 {

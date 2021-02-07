@@ -1414,8 +1414,6 @@ void map::player_in_field( player &u )
     // Iterate through all field effects on this tile.
     // Do not remove the field with remove_field, instead set it's intensity to 0. It will be removed
     // later by the field processing, which will also adjust field_count accordingly.
-    // Also use field_entry::mod_field_intensity instead of map::mod_field_intensity
-    // as the latter may remove the field
     for( auto &field_list_it : curfield ) {
         field_entry &cur = field_list_it.second;
         if( !cur.is_field_alive() ) {
@@ -1466,7 +1464,7 @@ void map::player_in_field( player &u )
             // Sap does nothing to cars.
             if( !u.in_vehicle ) {
                 // Use up sap.
-                cur.mod_field_intensity( -1 );
+                safe_sub_field_intensity( u.pos(), ft, 1 );
             }
         }
         if( ft == fd_sludge ) {
@@ -1754,9 +1752,6 @@ void map::creature_in_field( Creature &critter )
     }
 
     field &curfield = get_field( critter.pos() );
-
-    // like with monster_in_field, don't use remove_field or map::mod_field_intensity,
-    // opting for field_entry::mod_field_intensity instead
     for( auto &field_entry_it : curfield ) {
         field_entry &cur_field_entry = field_entry_it.second;
         if( !cur_field_entry.is_field_alive() ) {
@@ -1800,7 +1795,7 @@ void map::creature_in_field( Creature &critter )
                 critter.add_msg_player_or_npc( fe.env_message_type, fe.get_message(), fe.get_message_npc() );
             }
             if( cur_field_id->decrease_intensity_on_contact ) {
-                cur_field_entry.mod_field_intensity( -1 );
+                safe_sub_field_intensity( critter.pos(), cur_field_id, 1 );
             }
         }
     }
@@ -1822,8 +1817,6 @@ void map::monster_in_field( monster &z )
     // Iterate through all field effects on this tile.
     // Do not remove the field with remove_field, instead set it's intensity to 0. It will be removed
     // later by the field processing, which will also adjust field_count accordingly.
-    // Also use field_entry::mod_field_intensity instead of map::mod_field_intensity
-    // as the latter may remove the field
     for( auto &field_list_it : curfield ) {
         field_entry &cur = field_list_it.second;
         if( !cur.is_field_alive() ) {
@@ -1846,7 +1839,7 @@ void map::monster_in_field( monster &z )
         }
         if( cur_field_type == fd_sap ) {
             z.moves -= cur.get_field_intensity() * 5;
-            cur.mod_field_intensity( -1 );
+            safe_sub_field_intensity( z.pos(), cur.get_field_type(), 1 );
         }
         if( cur_field_type == fd_sludge ) {
             if( !z.digs() && !z.flies() &&

@@ -1290,6 +1290,14 @@ class map
          */
         int mod_field_intensity( const tripoint &p, const field_type_id &type, int offset );
         /**
+         * Decrement intensity of field entry at point, not removing if intensity becomes 0
+         * to allow safe removals while iterating through a field, as 0 intensity fields will
+         * later be removed in process_fields.
+         * Expects a positive value for offset as it will be subtracted.
+         * @return resulting intensity, or 0 for not present.
+         */
+        int safe_sub_field_intensity( const tripoint &p, const field_type_id &type, int offset );
+        /**
          * Set age of field entry at point.
          * @param p Location of field
          * @param type ID of field
