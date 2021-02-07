@@ -1242,8 +1242,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
 
         // PICKUP_RANGE -1 because we will be adjacent to the spot when arriving.
         const inventory pre_inv = p.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
-        for( const zone_data &zone : zones ) {
-            const blueprint_options &options = dynamic_cast<const blueprint_options &>( zone.get_options() );
+        if( !zones.empty() ) {
+            const blueprint_options &options = dynamic_cast<const blueprint_options &>
+                                               ( zones.front().get_options() );
             const construction_id index = options.get_index();
             if( !stuff_there.empty() ) {
                 return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, index );

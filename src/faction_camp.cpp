@@ -636,9 +636,8 @@ void talk_function::basecamp_mission( npc &p )
             const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
             const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
-            for( const tripoint &src : src_sorted ) {
-                src_loc = here.getlocal( src );
-                break;
+            if( !src_sorted.empty() ) {
+                src_loc = here.getlocal( src_sorted.front() );
             }
         }
         bcp->set_dumping_spot( here.getabs( src_loc ) );
@@ -3514,9 +3513,8 @@ bool basecamp::validate_sort_points()
         const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
         const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
         // Find the nearest unsorted zone to dump objects at
-        for( const tripoint &src : src_sorted ) {
-            src_loc = here.getlocal( src );
-            break;
+        if( !src_sorted.empty() ) {
+            src_loc = here.getlocal( src_sorted.front() );
         }
     }
     set_dumping_spot( here.getabs( src_loc ) );

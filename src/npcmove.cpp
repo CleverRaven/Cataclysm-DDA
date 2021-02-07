@@ -1719,11 +1719,11 @@ bool npc::recharge_cbm()
             return true;
         } else {
             const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
-                for( const material_id &fid : bid->fuel_opts ) {
-                    return ( it.get_base_material().id == fid ) || ( it.is_magazine() &&
-                            item( it.ammo_current() ).get_base_material().id == fid );
+                if( bid->fuel_opts.empty() ) {
+                    return false;
                 }
-                return false;
+                return ( it.get_base_material().id == bid->fuel_opts.front() ) || ( it.is_magazine() &&
+                        item( it.ammo_current() ).get_base_material().id == bid->fuel_opts.front() );
             };
 
             if( consume_cbm_items( fuel_filter ) ) {
