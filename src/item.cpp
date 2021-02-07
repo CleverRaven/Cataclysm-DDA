@@ -2879,7 +2879,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                         bp_id = body_part_torso.id();
                     } else {
                         //in case no location specific flag is set (like with belt clips)
-                        bp_name = "Torso";
+                        bp_name = _( "Torso" );
                         bp_id = body_part_torso.id();
                     }
                 }
