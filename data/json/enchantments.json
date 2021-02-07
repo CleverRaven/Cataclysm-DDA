@@ -11,5 +11,11 @@
     "condition": "ACTIVE",
     "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
     "emitter": "emit_shadow_field"
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_TARGETING_SYSTEM",
+    "condition": "ALWAYS",
+    "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ]
   }
 ]

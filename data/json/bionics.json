@@ -1051,7 +1051,7 @@
     "description": "Your eyes are surgically equipped with range finders, and their movement is synced with that of your arms, to a degree.  Shots you fire will be much more accurate, particularly at long range.",
     "occupied_bodyparts": [ [ "eyes", 1 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ],
-    "dispersion": 0.75
+    "enchantments": [ "ENCH_TARGETING_SYSTEM" ]
   },
   {
     "id": "bio_teleport",

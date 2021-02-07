@@ -1777,11 +1777,10 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
 
     dispersion.add_range( dispersion_from_skill( avgSkill, weapon_dispersion ) );
 
-    for( const bionic &bio : *my_bionics ) {
-        cata::optional<float> dis = bio.info().dispersion_mod;
-        if( dis.has_value() ) {
-            dispersion.add_multiplier( dis.value() );
-        }
+    float disperation_mod = enchantment_cache->modify_value( enchant_vals::mod::WEAPON_DISPERSION,
+                            1.0f );
+    if( disperation_mod != 1.0f ) {
+        dispersion.add_multiplier( disperation_mod );
     }
 
     // Range is effectively four times longer when shooting unflagged/flagged guns underwater/out of water.
