@@ -1345,7 +1345,8 @@ void Character::dismount()
         remove_effect( effect_riding );
         monster *critter = mounted_creature.get();
         critter->mounted_player_id = character_id();
-        if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() ) {
+        if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() &&
+            weapon.typeId() == critter->type->mech_weapon ) {
             remove_item( weapon );
         }
         avatar &player_character = get_avatar();
@@ -9827,8 +9828,10 @@ ret_val<bool> Character::can_wield( const item &it ) const
         return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
                                             weapname(), it.tname() );
     }
-
-    if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( flag_RESTRICT_HANDS ) ) ) {
+    monster *mount = mounted_creature.get();
+    if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( flag_RESTRICT_HANDS ) ) &&
+        !( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
+           mount->type->mech_weapon && it.typeId() == mounted_creature.get()->type->mech_weapon ) ) {
         if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
             return ret_val<bool>::make_failure(
                        _( "Something you are wearing hinders the use of both hands." ) );
@@ -9839,6 +9842,10 @@ ret_val<bool> Character::can_wield( const item &it ) const
             return ret_val<bool>::make_failure( _( "You are too weak to wield %s with only one arm." ),
                                                 it.tname() );
         }
+    }
+    if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
+        mount->type->mech_weapon && it.typeId() != mounted_creature.get()->type->mech_weapon ) {
+        return ret_val<bool>::make_failure( _( "You cannot wield anything while piloting a mech." ) );
     }
 
     return ret_val<bool>::make_success();
