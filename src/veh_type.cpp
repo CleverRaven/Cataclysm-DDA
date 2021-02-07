@@ -778,7 +778,7 @@ void vpart_info::check()
         }
         // Parts with non-zero epower must have a flag that affects epower usage
         static const std::vector<std::string> handled = {{
-                "ENABLED_DRAINS_EPOWER", "SECURITY", "ENGINE",
+                "ENABLED_DRAINS_EPOWER", "SECURITY", "ENGINE", "GENERATOR",
                 "ALTERNATOR", "SOLAR_PANEL", "POWER_TRANSFER",
                 "REACTOR", "WIND_TURBINE", "WATER_WHEEL"
             }

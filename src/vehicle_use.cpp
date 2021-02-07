@@ -427,7 +427,7 @@ void vehicle::control_engines( bool generators_only )
     }
 
     bool engines_were_on = generators_only ? generator_on : engine_on;
-    generator_on = 0;
+    generator_on = false;
     int new_active_mask = 0;
     i = 0;
     for( int e : motors ) {
@@ -469,7 +469,7 @@ int vehicle::select_engine( const bool generators_only )
         for( const itype_id &fuel_id : part_info( e ).engine_fuel_opts() ) {
             bool is_active = parts[ e ].enabled && parts[ e ].fuel_current() == fuel_id;
             bool is_available = parts[ e ].is_available() &&
-                                ( is_perpetual_type( x ) || fuel_id == fuel_type_muscle ||
+                                ( is_perpetual_type( x, generators_only ) || fuel_id == fuel_type_muscle ||
                                   fuel_left( fuel_id ) );
             tmenu.addentry( i++, is_available, -1, "[%s] %s %s",
                             is_active ? "x" : " ", parts[ e ].name(),
@@ -1078,7 +1078,7 @@ bool vehicle::start_engine( const int e, const bool generators_only )
     }
 
     // Damaged non-electric engines have a chance of failing to start
-    if( !is_engine_type( e, fuel_type_battery ) && einfo.fuel_type != fuel_type_muscle &&
+    if( !is_engine_type( e, fuel_type_battery, generators_only ) && einfo.fuel_type != fuel_type_muscle &&
         x_in_y( dmg * 100, 120 ) ) {
         sounds::sound( pos, eng.info().engine_noise_factor(), sounds::sound_t::movement,
                        string_format( _( "the %s clanking and grinding." ), eng.name() ), true, "vehicle",
@@ -1153,7 +1153,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive, bool
             has_starting_engine_position = true;
         }
         has_engine = has_engine || is_engine_on( e, generators_only );
-        start_time = std::max( start_time, engine_start_time( e ) );
+        start_time = std::max( start_time, engine_start_time( e, generators_only ) );
     }
 
     if( !has_starting_engine_position ) {
