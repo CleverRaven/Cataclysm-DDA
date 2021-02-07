@@ -17,6 +17,19 @@
     ]
   },
   {
+    "id": "immolate_transform",
+    "name": "Immolate Transform",
+    "description": "The part of the Immolate spell that causes the transform.",
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "type": "SPELL",
+    "effect": "ter_transform",
+    "effect_str": "immolate_transform",
+    "shape": "blast",
+    "min_aoe": 3,
+    "max_aoe": 5,
+    "aoe_increment": 0.07
+  },
+  {
     "id": "immolate",
     "type": "SPELL",
     "name": "Immolate",
@@ -61,7 +74,6 @@
     "aoe_increment": 0.07,
     "min_range": 4,
     "max_range": 8,
-    "range_increment": 0.12,
-    "spell_class": "CLEANSING_FLAME"
+    "range_increment": 0.12
   }
 ]

@@ -69,7 +69,7 @@
     "max_range": 24,
     "range_increment": 0.5,
     "base_casting_time": 230,
-    "base_energy_cost": 460,
+    "base_energy_cost": 285,
     "spell_class": "GLACIER_MAGE",
     "energy_source": "MANA",
     "difficulty": 3,
