@@ -1945,6 +1945,8 @@ class Character : public Creature, public visitable
         std::string name;
         bool male = false;
 
+        bool is_dead = false;
+
         std::list<item> worn;
         bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now

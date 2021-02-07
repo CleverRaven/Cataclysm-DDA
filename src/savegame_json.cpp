@@ -1089,6 +1089,7 @@ void player::store( JsonOut &json ) const
 
     // gender
     json.member( "male", male );
+    json.member( "is_dead", is_dead );
 
     json.member( "cash", cash );
     json.member( "recoil", recoil );
@@ -1159,6 +1160,7 @@ void player::load( const JsonObject &data )
     data.read( "slow_rad", slow_rad );
     data.read( "scent", scent );
     data.read( "male", male );
+    data.read( "is_dead", is_dead );
     data.read( "cash", cash );
     data.read( "recoil", recoil );
     data.read( "in_vehicle", in_vehicle );

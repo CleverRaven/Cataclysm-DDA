@@ -1379,7 +1379,8 @@ float Character::stability_roll() const
 bool Character::is_dead_state() const
 {
     return get_part_hp_cur( body_part_head ) <= 0 ||
-           get_part_hp_cur( body_part_torso ) <= 0;
+           get_part_hp_cur( body_part_torso ) <= 0 ||
+           is_dead;
 }
 
 void Character::on_dodge( Creature *source, float difficulty )
@@ -4250,6 +4251,7 @@ void Character::normalize()
 void Character::die( Creature *nkiller )
 {
     g->set_critter_died();
+    is_dead = true;
     set_killer( nkiller );
     set_time_died( calendar::turn );
     if( has_effect( effect_lightsnare ) ) {
