@@ -58,6 +58,10 @@ class item_location
         /** Returns the type of location where the item is found */
         type where() const;
 
+        /** Returns the type of location where the topmost container of the item is found.
+         *  Therefore can not return item_location::type::container */
+        type where_recursive() const;
+
         /** Returns the position where the item is found */
         tripoint position() const;
 
