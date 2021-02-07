@@ -2873,15 +2873,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             bodypart_id bp_id;
             for( const item *mod : gunmods() ) {
                 if( has_flag( flag_IS_ARMOR ) ) {
-                    //todo: add further checks for specific location flags whenever they get added
-                    if( mod->has_flag( flag_BELTED ) ) {
-                        bp_name = _( "Torso" );
-                        bp_id = body_part_torso.id();
-                    } else {
-                        //in case no location specific flag is set (like with belt clips)
-                        bp_name = _( "Torso" );
-                        bp_id = body_part_torso.id();
-                    }
+                    //right now all eligible gunmods (shoulder_strap, belt_clip use the torso)
+                    bp_name = _( "Torso" );
+                    bp_id = body_part_torso.id();
                 }
             }
             if( !bp_name.empty() ) {
