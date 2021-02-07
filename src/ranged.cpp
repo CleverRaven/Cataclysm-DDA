@@ -18,7 +18,6 @@
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "ballistics.h"
-#include "bionics.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
