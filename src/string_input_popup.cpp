@@ -244,7 +244,8 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
         const size_t left_over = ret.substr( 0, a ).display_width() - shift;
         mvwprintz( w, point( _startx + left_over, _starty ), _cursor_color, "%s", cursor.c_str() );
         start_x_edit += left_over;
-    } else if( _position == _max_length && _max_length > 0 ) {
+    } else if( _max_length > 0
+               && ret.display_width() >= static_cast<size_t>( _max_length ) ) {
         mvwprintz( w, point( _startx + sx, _starty ), _cursor_color, " " );
         start_x_edit += sx;
         sx++; // don't override trailing ' '
@@ -257,13 +258,13 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
         // could be scrolled out of view when the cursor is at the start of the input
         size_t l = scrmax - sx;
         if( _max_length > 0 ) {
-            if( static_cast<int>( ret.length() ) >= _max_length ) {
+            if( ret.display_width() >= static_cast<size_t>( _max_length ) ) {
                 l = 0; // no more input possible!
             } else if( _position == static_cast<int>( ret.length() ) ) {
                 // one '_' is already printed, formatted as cursor
-                l = std::min<size_t>( l, _max_length - ret.length() - 1 );
+                l = std::min<size_t>( l, _max_length - ret.display_width() - 1 );
             } else {
-                l = std::min<size_t>( l, _max_length - ret.length() );
+                l = std::min<size_t>( l, _max_length - ret.display_width() );
             }
         }
         if( l > 0 ) {
