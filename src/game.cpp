@@ -265,6 +265,8 @@ static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction
 
 static const faction_id faction_your_followers( "your_followers" );
 
+static const flag_id json_flag_SPLINT( "SPLINT" );
+
 #if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
@@ -5808,7 +5810,10 @@ bool game::npc_menu( npc &who )
                          0.0f, 0.0f );
     } else if( choice == use_item ) {
         static const std::string heal_string( "heal" );
-        const auto will_accept = []( const item & it ) {
+        const auto will_accept = [&who]( const item & it ) {
+            if( it.has_flag( json_flag_SPLINT ) && who.can_wear( it ).success() ) {
+                return true;
+            }
             const use_function *use_fun = it.get_use( heal_string );
             if( use_fun == nullptr ) {
                 return false;
@@ -5828,10 +5833,15 @@ bool game::npc_menu( npc &who )
             return false;
         }
         item &used = *loc;
-        bool did_use = u.invoke_item( &used, heal_string, who.pos() );
-        if( did_use ) {
-            // Note: exiting a body part selection menu counts as use here
-            u.mod_moves( -300 );
+        if( used.has_flag( json_flag_SPLINT ) ) {
+            std::string reason = _( "Nope." );
+            who.wear_if_wanted( used, reason );
+        } else {
+            bool did_use = u.invoke_item( &used, heal_string, who.pos() );
+            if( did_use ) {
+                // Note: exiting a body part selection menu counts as use here
+                u.mod_moves( -300 );
+            }
         }
     } else if( choice == sort_armor ) {
         who.sort_armor();
