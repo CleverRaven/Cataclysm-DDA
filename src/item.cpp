@@ -2867,6 +2867,33 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     }
                 }
             }
+        } else if( is_gun() ) {
+
+            std::string bp_name;
+            bodypart_id bp_id;
+            for( const item *mod : gunmods() ) {
+                if( has_flag( flag_IS_ARMOR ) ) {
+                    //todo: add further checks for specific location flags whenever they get added
+                    if( mod->has_flag( flag_BELTED ) ) {
+                        bp_name = "Torso";
+                        bp_id = body_part_torso.id();
+                    } else {
+                        //in case no location specific flag is set (like with belt clips)
+                        bp_name = "Torso";
+                        bp_id = body_part_torso.id();
+                    }
+                }
+            }
+            if( !bp_name.empty() ) {
+                info.push_back( iteminfo( "ARMOR",
+                                          string_format( _( "%s:" ), bp_name ) + space, "",
+                                          iteminfo::no_newline | iteminfo::lower_is_better,
+                                          get_avg_encumber( get_avatar() ) ) );
+
+                info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
+                                          iteminfo::no_flags,
+                                          get_coverage( bp_id ) ) );
+            }
         }
     }
 
