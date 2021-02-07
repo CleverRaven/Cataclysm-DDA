@@ -72,5 +72,11 @@
     "type": "requirement",
     "//": "Fire starting items suitable for the Nova Flare spell",
     "components": [ [ [ "coal_lump", 30 ], [ "lamp_oil", 5 ] ] ]
+  },
+  {
+    "id": "spell_components_freezing_touch",
+    "type": "requirement",
+    "//": "Empower your chilling touch spell with the power of ice cream!",
+    "components": [ [ [ "icecream_choc", 1 ], [ "icecream", 1 ], [ "icecream_fruit", 1 ], [ "icecream_candy", 1 ] ] ]
   }
 ]
