@@ -2868,16 +2868,14 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 }
             }
         } else if( is_gun() ) {
-
             std::string bp_name;
             bodypart_id bp_id;
-            for( const item *mod : gunmods() ) {
-                if( has_flag( flag_IS_ARMOR ) ) {
-                    //right now all eligible gunmods (shoulder_strap, belt_clip use the torso)
-                    bp_name = _( "Torso" );
-                    bp_id = body_part_torso.id();
-                }
+            if( has_flag( flag_IS_ARMOR ) ) {
+                //right now all eligible gunmods (shoulder_strap, belt_clip use the torso)
+                bp_name = _( "Torso" );
+                bp_id = body_part_torso.id();
             }
+
             if( !bp_name.empty() ) {
                 info.push_back( iteminfo( "ARMOR",
                                           string_format( _( "%s:" ), bp_name ) + space, "",
