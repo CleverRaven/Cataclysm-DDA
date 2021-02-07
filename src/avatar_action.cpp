@@ -1031,8 +1031,8 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         // Adjustment because in player::wield_contents this amount is refunded.
         you.mod_moves( -loc.obtain_cost( you ) );
     } else {
-        item_location::type loc_where = loc.where();
-        if( loc_where != item_location::type::character && loc_where != item_location::type::container ) {
+        item_location::type loc_where = loc.where_recursive();
+        if( loc_where != item_location::type::character ) {
             you.add_msg_if_player( _( "You pick up the %s." ), loc.get_item()->display_name() );
             pre_obtain_moves = -1;
 
