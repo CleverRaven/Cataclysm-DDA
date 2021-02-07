@@ -662,12 +662,12 @@ static std::pair<std::string, nc_color> speed_description( float mon_speed_ratin
 
     const std::array<std::tuple<float, nc_color, std::string>, 8> cases = {{
             std::make_tuple( 1.30f, c_red, _( "It is much faster than you." ) ),
-            std::make_tuple( 1.00f, c_yellow, _( "It is faster than you." ) ),
-            std::make_tuple( 0.70f, c_white_yellow, _( "It is a bit faster than you." ) ),
+            std::make_tuple( 1.00f, c_light_red, _( "It is faster than you." ) ),
+            std::make_tuple( 0.70f, c_yellow, _( "It is a bit faster than you." ) ),
             std::make_tuple( 0.55f, c_white, _( "It is about as fast as you." ) ),
-            std::make_tuple( 0.50f, c_white_cyan, _( "It is a bit slower than you." ) ),
+            std::make_tuple( 0.50f, c_light_cyan, _( "It is a bit slower than you." ) ),
             std::make_tuple( 0.40f, c_cyan, _( "It is slower than you." ) ),
-            std::make_tuple( 0.20f, c_green, _( "It is much slower than you." ) ),
+            std::make_tuple( 0.20f, c_light_green, _( "It is much slower than you." ) ),
             std::make_tuple( 0.00f, c_green, _( "It is practically immobile." ) )
         }
     };
