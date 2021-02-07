@@ -5976,10 +5976,12 @@ void vehicle::do_towing_move()
     }
     if( towed_veh->global_pos3().z != global_pos3().z ) {
         // how the hellicopter did this happen?
+        // yes, this can happen when towing over a bridge (see #47293)
         invalidate = true;
+        add_msg( m_info, _( "A towing cable snaps off of %s." ), tow_data.get_towed()->disp_name() );
     }
     if( invalidate ) {
-        invalidate_towing();
+        invalidate_towing( true );
         return;
     }
     map &here = get_map();
