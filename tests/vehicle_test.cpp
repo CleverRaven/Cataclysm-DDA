@@ -41,9 +41,9 @@ TEST_CASE( "destroy_grabbed_vehicle_section" )
                                              0, 0 );
         REQUIRE( veh_ptr != nullptr );
         tripoint grab_point = test_origin + tripoint_east;
-        player_character.grab( object_type::VEHICLE, grab_point );
-        REQUIRE( player_character.get_grab_type() != object_type::NONE );
-        REQUIRE( player_character.grab_point == grab_point );
+        player_character.grab( object_type::VEHICLE, tripoint_east );
+        REQUIRE( player_character.get_grab_type() == object_type::VEHICLE );
+        REQUIRE( player_character.grab_point == tripoint_east );
         WHEN( "The vehicle section grabbed by the player is destroyed" ) {
             here.destroy( grab_point );
             REQUIRE( veh_ptr->get_parts_at( grab_point, "", part_status_flag::available ).empty() );
