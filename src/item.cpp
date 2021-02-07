@@ -2867,6 +2867,13 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     }
                 }
             }
+        } else if( is_gun() && has_flag( flag_IS_ARMOR ) ) {
+            //right now all eligible gunmods (shoulder_strap, belt_clip) have the is_armor flag and use the torso
+            info.push_back( iteminfo( "ARMOR", _( "Torso:" ) + space, "",
+                                      iteminfo::no_newline | iteminfo::lower_is_better, get_avg_encumber( get_avatar() ) ) );
+
+            info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
+                                      iteminfo::no_flags, get_coverage( body_part_torso.id() ) ) );
         }
     }
 
