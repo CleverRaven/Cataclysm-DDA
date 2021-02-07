@@ -495,9 +495,6 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( ev.edit_refresh ) {
             edit = utf8_wrapper( ev.edit );
             ctxt->set_edittext( ev.edit );
-        } else if( ev.edit.empty() ) {
-            edit = utf8_wrapper();
-            ctxt->set_edittext( std::string() );
         } else {
             _handled = false;
         }
