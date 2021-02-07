@@ -9490,38 +9490,46 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
     const field fields_here = m.field_at( u.pos() );
     const auto veh_here = m.veh_at( u.pos() ).part_with_feature( "BOARDABLE", true );
     const auto veh_dest = m.veh_at( dest_loc ).part_with_feature( "BOARDABLE", true );
-    const bool exiting_vehicle = veh_here && !veh_dest;
-    const bool entering_veh = !veh_here && veh_dest;
-    const bool entering_veh_inside = entering_veh && veh_dest->is_inside();
+    const bool veh_here_inside = veh_here && veh_here->is_inside();
+    const bool veh_dest_inside = veh_dest && veh_dest->is_inside();
 
     for( const std::pair<const field_type_id, field_entry> &e : m.field_at( dest_loc ) ) {
         if( !u.is_dangerous_field( e.second ) ) {
             continue;
         }
 
+        const bool has_field_here = fields_here.find_field( e.first ) != nullptr;
+        const bool empty_effects = e.second.field_effects().empty();
+
         // if the field is dangerous but has no effects apparently this
         // means effects are hardcoded in map_field.cpp so we should...
-        bool warn = e.second.field_effects().empty(); // ... warn if effects are empty
+        bool danger_dest = empty_effects; // ... warn if effects are empty
+        bool danger_here = has_field_here && empty_effects;
         for( const field_effect &fe : e.second.field_effects() ) {
-            if( entering_veh && fe.immune_in_vehicle ) {
-                continue;
+            if( !danger_dest ) {
+                danger_dest = true;
+                if( fe.immune_in_vehicle && veh_dest ) {
+                    danger_dest = false;
+                } else if( fe.immune_inside_vehicle && veh_dest_inside ) {
+                    danger_dest = false;
+                } else if( fe.immune_outside_vehicle && !veh_dest_inside ) {
+                    danger_dest = false;
+                }
             }
-            if( entering_veh_inside && fe.immune_inside_vehicle ) {
-                continue;
+            if( has_field_here && !danger_here ) {
+                danger_here = true;
+                if( fe.immune_in_vehicle && veh_here ) {
+                    danger_here = false;
+                } else if( fe.immune_inside_vehicle && veh_here_inside ) {
+                    danger_here = false;
+                } else if( fe.immune_outside_vehicle && !veh_here_inside ) {
+                    danger_here = false;
+                }
             }
-            if( !entering_veh_inside && fe.immune_outside_vehicle ) {
-                continue;
-            }
-            warn = true;
-            break;
         }
 
-        if( !warn ) {
-            continue;
-        }
-
-        // if not exiting a vehicle don't warn if already within similar field
-        if( !exiting_vehicle && fields_here.find_field( e.first ) != nullptr ) {
+        // don't warn if already in a field of the same type
+        if( !danger_dest || danger_here ) {
             continue;
         }
 
