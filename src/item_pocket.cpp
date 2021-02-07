@@ -661,8 +661,8 @@ void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
             }
         } else {
             item i_copy( *iter );
-            iter = contents.erase( iter );
             guy.i_add_or_drop( i_copy, 1, avoid );
+            iter = contents.erase( iter );
         }
     }
 }
