@@ -157,7 +157,6 @@ static const itype_id itype_mycus_fruit( "mycus_fruit" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_petrified_eye( "petrified_eye" );
 static const itype_id itype_sheet( "sheet" );
-static const itype_id itype_software_autodoc_install_basic( "software_autodoc_install_basic" );
 static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_tree_spile( "tree_spile" );
@@ -4964,20 +4963,15 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-            bool has_install_program = false;
             std::vector<item_comp> progs;
-            std::vector<const item *> filter = p.crafting_inventory().items_with(
-            []( const item & it ) {
-                return it.has_flag( flag_BIONIC_INSTALLATION_DATA );
-            } );
+            bool has_install_program = false;
 
-            if( !filter.empty() ) {
-                for( const item *prog_item : filter ) {
-                    const std::string AID_name = prog_item->typeId().c_str();
-                    has_install_program = AID_name.substr( 4 ) == bionic_name;
-                    progs.push_back( item_comp( prog_item->typeId(), 1 ) );
-                    break;
-                }
+            std::vector<const item *> install_programs = p.crafting_inventory().items_with( [itemtype](
+                        const item & it ) -> bool { return it.typeId() == itemtype->bionic->installation_data; } );
+
+            if( !install_programs.empty() ) {
+                has_install_program = true;
+                progs.push_back( item_comp( install_programs[0]->typeId(), 1 ) );
             }
 
             const int weight = units::to_kilogram( patient.bodyweight() ) / 10;

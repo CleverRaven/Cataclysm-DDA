@@ -1876,20 +1876,10 @@ class bionic_install_preset: public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
-            const std::string bionic_name = loc.get_item()->typeId().c_str();
+            std::vector<const item *> install_programs = p.crafting_inventory().items_with( [loc](
+                        const item & it ) -> bool { return it.typeId() == loc.get_item()->type->bionic->installation_data; } );
 
-            std::vector<const item *> install_programs = p.crafting_inventory().items_with( [](
-                        const item & it ) -> bool { return it.has_flag( flag_BIONIC_INSTALLATION_DATA ); } );
-
-            bool has_install_program = false;
-
-            if( !install_programs.empty() ) {
-                for( const item *progs : install_programs ) {
-                    const std::string AID_name = progs->typeId().c_str();
-                    has_install_program = AID_name.substr( 4 ) == bionic_name;
-                    break;
-                }
-            }
+            const bool has_install_program = !install_programs.empty();
 
             if( get_player_character().has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;

@@ -2553,7 +2553,8 @@ CBMs can be defined like this:
                                 // additional some CBM specific entries:
 "bionic_id" : "bio_advreactor", // ID of the installed bionic if not equivalent to "id"
 "difficulty" : 11,              // Difficulty of installing CBM
-"is_upgrade" : true             // Whether the CBM is an upgrade of another bionic.
+"is_upgrade" : true,            // Whether the CBM is an upgrade of another bionic.
+"installation_data" : "AID_bio_advreactor" // ID of the item which allows for almost guaranteed installation of corresponding bionic.
 ```
 
 ### Comestibles
