@@ -304,6 +304,31 @@ and hurt effects triggering. "harmful_cough" means that the coughs caused by thi
 "EFFECT_INVISIBLE" Character affected by an effect with this flag are invisible.
 "EFFECT_IMPEDING" Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( get_str(), 6 * get_effect_int( eff_id )`
 
+### Vitamin Mods
+
+```json
+    "vitamins": [
+      {
+        "vitamin": "foo",
+        "rate": [ [ 1, 2 ] ],
+        "resist_rate": [ [ 0, 1 ] ],
+        "absorb_mult": [ 0.5 ],
+        "resist_absorb_mult": [ 0.0 ],
+        "tick": [ "2 m" ],
+        "resist_tick": [ "1 s" ],
+      }
+    ],
+```
+- `vitamin` corresponds to the vitamin id that the following effects will be applied to
+- `rate` A randomly generated number between the bounds specified (here, 1 and 2) will added to the vitamin counter of a character with this effect every `tick`.
+- `absorb_mult` metabolically absorbed vitamins will be multiplied by this quantity before being added to the character.
+
+The `resist_` variants of the above keys are the values chosen when the character is resistant to this effect.
+
+All of these members are arrays, with each successive entry corresponding to the intensity level of an effect. If there are more intensity levels to the effect than entries in the array, the last entry in the array will be used.
+
+As defined, this will cause non-resistant characters to gain between 1 and 2 of the vitamin foo every 2 minutes, and half their absorbtion rate of it, and resistant character to gain between 0 and 1 of this vitamin every second, and not absorb any of it from their food.
+
 ### Effect effects
 ```C++
     "base_mods" : {

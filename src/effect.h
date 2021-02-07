@@ -40,6 +40,28 @@ enum effect_rating {
 template<>
 const effect_type &string_id<effect_type>::obj() const;
 
+struct vitamin_rate_effect {
+    std::vector<std::pair<int, int>> rate;
+    std::vector<float> absorb_mult;
+    std::vector<time_duration> tick;
+
+    std::vector<std::pair<int, int>> red_rate;
+    std::vector<float> red_absorb_mult;
+    std::vector<time_duration> red_tick;
+
+    vitamin_id vitamin;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+};
+
+struct vitamin_applied_effect {
+    cata::optional<std::pair<int, int>> rate = cata::nullopt;
+    cata::optional<time_duration> tick = cata::nullopt;
+    cata::optional<float> absorb_mult = cata::nullopt;
+    vitamin_id vitamin;
+};
+
 class effect_type
 {
         friend void load_effect_type( const JsonObject &jo );
@@ -157,6 +179,7 @@ class effect_type
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
         std::unordered_map <
         std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash > mod_data;
+        std::vector<vitamin_rate_effect> vitamin_data;
 };
 
 class effect
@@ -209,6 +232,8 @@ class effect
         void mod_duration( const time_duration &dur, bool alert = false );
         /** Multiplies the duration, capping at max_duration if it exists. */
         void mult_duration( double dur, bool alert = false );
+
+        std::vector<vitamin_applied_effect> vit_effects( bool reduced ) const;
 
         /** Returns the turn the effect was applied. */
         time_point get_start_time() const;

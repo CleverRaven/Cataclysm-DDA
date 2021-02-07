@@ -45,6 +45,25 @@ namespace
 std::map<efftype_id, effect_type> effect_types;
 } // namespace
 
+void vitamin_rate_effect::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "vitamin", vitamin );
+
+    optional( jo, false, "rate", rate );
+    optional( jo, false, "resist_rate", red_rate, rate );
+
+    optional( jo, false, "absorb_mult", absorb_mult );
+    optional( jo, false, "resist_absorb_mult", red_absorb_mult, absorb_mult );
+
+    optional( jo, false, "tick", tick );
+    optional( jo, false, "resist_tick", red_tick, tick );
+}
+
+void vitamin_rate_effect::deserialize( JsonIn &jsin )
+{
+    load( jsin.get_object() );
+}
+
 /** @relates string_id */
 template<>
 const effect_type &string_id<effect_type>::obj() const
@@ -805,6 +824,64 @@ void effect::mult_duration( double dur, bool alert )
     set_duration( duration * dur, alert );
 }
 
+static int cap_to_size( const int max, int attempt )
+{
+    // Intensities start at 1, indexes at 0
+    attempt -= 1;
+    if( attempt >= max ) {
+        return max - 1;
+    } else {
+        return attempt;
+    }
+}
+
+static vitamin_applied_effect applied_from_rate( const bool reduced, const int intensity,
+        const vitamin_rate_effect &vreff )
+{
+    vitamin_applied_effect added;
+    added.vitamin = vreff.vitamin;
+
+    if( reduced ) {
+        if( !vreff.red_rate.empty() ) {
+            const int idx = cap_to_size( vreff.red_rate.size(), intensity );
+            added.rate = vreff.red_rate[idx];
+        }
+        if( !vreff.red_absorb_mult.empty() ) {
+            const int idx = cap_to_size( vreff.red_absorb_mult.size(), intensity );
+            added.absorb_mult = vreff.red_absorb_mult[idx];
+        }
+        if( !vreff.red_tick.empty() ) {
+            const int idx = cap_to_size( vreff.red_tick.size(), intensity );
+            added.tick = vreff.red_tick[idx];
+        }
+    } else {
+        if( !vreff.rate.empty() ) {
+            const int idx = cap_to_size( vreff.rate.size(), intensity );
+            added.rate = vreff.rate[idx];
+        }
+        if( !vreff.absorb_mult.empty() ) {
+            const int idx = cap_to_size( vreff.absorb_mult.size(), intensity );
+            added.absorb_mult = vreff.absorb_mult[idx];
+        }
+        if( !vreff.tick.empty() ) {
+            const int idx = cap_to_size( vreff.tick.size(), intensity );
+            added.tick = vreff.tick[idx];
+        }
+    }
+
+    return added;
+}
+
+std::vector<vitamin_applied_effect> effect::vit_effects( const bool reduced ) const
+{
+    std::vector<vitamin_applied_effect> ret;
+    for( const vitamin_rate_effect &vreff : eff_type->vitamin_data ) {
+        ret.push_back( applied_from_rate( reduced, intensity, vreff ) );
+    }
+
+    return ret;
+}
+
 time_point effect::get_start_time() const
 {
     return start_time;
@@ -1335,6 +1412,8 @@ void load_effect_type( const JsonObject &jo )
     } else {
         new_etype.int_dur_factor = time_duration::from_turns( jo.get_int( "int_dur_factor", 0 ) );
     }
+
+    optional( jo, false, "vitamins", new_etype.vitamin_data );
 
     new_etype.max_intensity = jo.get_int( "max_intensity", 1 );
     new_etype.dur_add_perc = jo.get_int( "dur_add_perc", 100 );

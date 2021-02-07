@@ -17,6 +17,7 @@
 #include "character.h"
 #include "color.h"
 #include "debug.h"
+#include "effect.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -484,6 +485,35 @@ time_duration Character::vitamin_rate( const vitamin_id &vit ) const
     }
 
     return res;
+}
+
+std::map<vitamin_id, int> Character::effect_vitamin_mod( const std::map<vitamin_id, int> &vits )
+{
+    std::vector<std::pair<vitamin_id, float>> mods;
+    // Yuck!
+    // Construct mods, for easy iteration over to modify vitamins
+    for( const std::pair<const efftype_id, std::map<bodypart_id, effect>> &elem : *effects ) {
+        for( const std::pair<const bodypart_id, effect> &veffect : elem.second ) {
+            const bool reduced = resists_effect( veffect.second );
+            for( const vitamin_applied_effect &rate_mod : veffect.second.vit_effects( reduced ) ) {
+                if( !rate_mod.absorb_mult ) {
+                    continue;
+                }
+                mods.emplace_back( rate_mod.vitamin, *rate_mod.absorb_mult );
+            }
+        }
+    }
+
+    std::map<vitamin_id, int> ret = vits;
+    for( std::pair<const vitamin_id, int> &value : ret ) {
+        for( const std::pair<vitamin_id, float> &mod : mods ) {
+            if( value.first == mod.first ) {
+                value.second *= mod.second;
+            }
+        }
+    }
+
+    return ret;
 }
 
 int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
