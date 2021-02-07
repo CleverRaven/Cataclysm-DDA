@@ -80,6 +80,8 @@ struct bionic_data {
     std::map<bodypart_str_id, size_t> cut_protec;
     /**Amount of bullet protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> bullet_protec;
+    /**Amount this modifies dispersion.*/
+    cata::optional<float> dispersion_mod;
 
     float vitamin_absorb_mod = 1.0f;
 

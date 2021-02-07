@@ -18,6 +18,7 @@
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "ballistics.h"
+#include "bionics.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -106,7 +107,6 @@ static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_throw( "throw" );
 
 static const bionic_id bio_railgun( "bio_railgun" );
-static const bionic_id bio_targeting( "bio_targeting" );
 static const bionic_id bio_ups( "bio_ups" );
 
 static const std::string flag_MOUNTABLE( "MOUNTABLE" );
@@ -1777,8 +1777,11 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
 
     dispersion.add_range( dispersion_from_skill( avgSkill, weapon_dispersion ) );
 
-    if( has_bionic( bio_targeting ) ) {
-        dispersion.add_multiplier( 0.75 );
+    for( const bionic &bio : *my_bionics ) {
+        cata::optional<float> dis = bio.info().dispersion_mod;
+        if( dis.has_value() ) {
+            dispersion.add_multiplier( dis.value() );
+        }
     }
 
     // Range is effectively four times longer when shooting unflagged/flagged guns underwater/out of water.

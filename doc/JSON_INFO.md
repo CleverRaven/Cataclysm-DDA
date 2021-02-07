@@ -678,6 +678,8 @@ For information about tools with option to export ASCII art in format ready to b
 | installation_requirement    | (_optional_) Requirement id pointing to a requirement defining the tools and components necessary to install this CBM.
 | vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorption, affects all vitamins. (default: `1.0`)
 | social_modifiers			  | (_optional_) Json object with optional members: persuade, lie, and intimidate which add or subtract that amount from those types of social checks
+| dispersion_mod              | (_optional_) Modifier to change firearm disperation.
+
 ```C++
 {
     "id"           : "bio_batteries",
