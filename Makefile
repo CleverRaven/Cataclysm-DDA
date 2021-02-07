@@ -55,6 +55,8 @@
 #  make SANITIZE=address
 # Change mapsize (reality bubble size)
 #  make MAPSIZE=<size>
+# Enable the string id debugging helper
+#  make STRING_ID_DEBUG=1
 # Adjust names of build artifacts (for example to allow easily toggling between build types).
 #  make BUILD_PREFIX="release-"
 # Generate a build artifact prefix from the other build flags.
@@ -250,6 +252,10 @@ ifeq ($(PCH), 1)
 	CCACHEBIN = CCACHE_SLOPPINESS=pch_defines,time_macros ccache
 else
 	CCACHEBIN = ccache
+endif
+
+ifeq ($(STRING_ID_DEBUG), 1)
+	DEFINES += -DCATA_STRING_ID_DEBUGGING
 endif
 
 # This sets CXX and so must be up here
