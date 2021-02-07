@@ -349,7 +349,26 @@
       {
         "text": "I don't know if I'll take your advice, but thanks nevertheless.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "completed", "value": "yes" }
+        "condition": {
+          "and": [
+            { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "completed", "value": "yes" },
+            {
+              "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "military_id", "value": "yes" }
+            }
+          ]
+        }
+      },
+      {
+        "text": "Wait, what?  A <swear> can of beans?!  I went through hell to get this <swear> thing for you, and all you give me as reward is a <swear> can of beans?!  I demand something more substantial.",
+        "topic": "TALK_PRISONER_LEADER_DEMANDED_SUBSTANTIAL_REWARD",
+        "condition": {
+          "and": [
+            { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "completed", "value": "yes" },
+            {
+              "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "military_id", "value": "yes" }
+            }
+          ]
+        }
       },
       {
         "text": "Nice talking to ya.  Farewell.",
@@ -571,6 +590,16 @@
       "Okay.  It was convincing.  I'll still get what I want, one way or another.  You better watch your back from now on."
     ],
     "responses": [ { "text": "Noted.  Bye.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_PRISONER_LEADER_DEMANDED_SUBSTANTIAL_REWARD",
+    "type": "talk_topic",
+    "speaker_effect": { "effect": { "u_add_var": "prisoner_leader_mission", "type": "mission", "context": "military_id", "value": "yes" } },
+    "dynamic_line": [ "I'm afraid you're not in the position to demand anything from me, <name_b>.  <get_lost>" ],
+    "responses": [
+      { "text": "Hey, <fuck_you>!  You'll regret that!", "topic": "TALK_DONE", "effect": "hostile" },
+      { "text": "Okay, fine.  Cheapskate!", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "MISSION_PRISONER_LEADER_GET_ID_CARD",
