@@ -5276,8 +5276,7 @@ units::volume item::volume( bool integral ) const
     }
 
     if( count_by_charges() || made_of( phase_id::LIQUID ) ) {
-        units::quantity<int64_t, units::volume_in_milliliter_tag> num = ret * static_cast<int64_t>
-                ( charges );
+        units::volume num = ret * static_cast<int64_t>( charges );
         if( type->stack_size <= 0 ) {
             debugmsg( "Item type %s has invalid stack_size %d", typeId().str(), type->stack_size );
             ret = num;
