@@ -25,6 +25,22 @@
     "colors": [ "c_blue", "c_cyan", "c_light_blue", "c_white", "c_green", "c_yellow", "c_light_red", "c_red" ]
   },
   {
+    "id": "wetness_num",
+    "type": "widget",
+    "style": "number",
+    "var_max": 100
+  },
+  {
+    "id": "wetness_graph",
+    "type": "widget",
+    "style": "graph",
+    "var_max": 50,
+    "width": 5,
+    "symbols": ".oO",
+    "fill": "bucket",
+    "colors": [ "c_blue", "c_light_blue", "c_cyan", "c_white" ]
+  },
+  {
     "id": "hp_head_graph",
     "type": "widget",
     "label": "HEAD",
@@ -75,7 +91,7 @@
   {
     "id": "warmth_head_num",
     "type": "widget",
-    "label": "w:H",
+    "label": "w:HE",
     "var": "bp_warmth",
     "bodypart": "head",
     "copy-from": "warmth_num"
@@ -83,7 +99,7 @@
   {
     "id": "warmth_torso_num",
     "type": "widget",
-    "label": "w:T",
+    "label": "w:TO",
     "var": "bp_warmth",
     "bodypart": "torso",
     "copy-from": "warmth_num"
@@ -119,6 +135,54 @@
     "var": "bp_warmth",
     "bodypart": "leg_r",
     "copy-from": "warmth_num"
+  },
+  {
+    "id": "wetness_head_num",
+    "type": "widget",
+    "label": "wet:HE",
+    "var": "bp_wetness",
+    "bodypart": "head",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_torso_num",
+    "type": "widget",
+    "label": "wet:TO",
+    "var": "bp_wetness",
+    "bodypart": "torso",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_left_arm_num",
+    "type": "widget",
+    "label": "wet:LA",
+    "var": "bp_wetness",
+    "bodypart": "arm_l",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_right_arm_num",
+    "type": "widget",
+    "label": "wet:RA",
+    "var": "bp_wetness",
+    "bodypart": "arm_r",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_left_leg_num",
+    "type": "widget",
+    "label": "wet:LL",
+    "var": "bp_wetness",
+    "bodypart": "leg_l",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_right_leg_num",
+    "type": "widget",
+    "label": "wet:RL",
+    "var": "bp_wetness",
+    "bodypart": "leg_r",
+    "copy-from": "wetness_num"
   },
   {
     "id": "encumbrance_head_graph",
@@ -387,6 +451,20 @@
     "widgets": [ "warmth_left_leg_num", "warmth_torso_num", "warmth_right_leg_num" ]
   },
   {
+    "id": "wetness_top_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "wetness_left_arm_num", "wetness_head_num", "wetness_right_arm_num" ]
+  },
+  {
+    "id": "wetness_bottom_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "wetness_left_leg_num", "wetness_torso_num", "wetness_right_leg_num" ]
+  },
+  {
     "id": "stamina_focus_layout",
     "type": "widget",
     "style": "layout",
@@ -471,15 +549,14 @@
     "widgets": [
       "hitpoints_top_layout",
       "hitpoints_bottom_layout",
+      "wetness_top_layout",
+      "wetness_bottom_layout",
       "sound_speed_move_layout",
-      "speed_move_graph_layout",
       "stats_layout",
       "stamina_focus_layout",
       "weariness_fatigue_layout",
       "pain_thirst_layout",
-      "rest_hunger_layout",
-      "warmth_top_layout",
-      "warmth_bottom_layout"
+      "rest_hunger_layout"
     ]
   },
   {
