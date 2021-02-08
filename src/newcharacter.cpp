@@ -2442,18 +2442,18 @@ tab_direction set_scenario( avatar &u, points_left &points,
             wprintz( w_initial_date, c_light_gray, ( "\n" ) );
             if( sorted_scens[cur_id]->custom_initial_date() ) {
                 wprintz( w_initial_date, c_light_gray,
-                         _( sorted_scens[cur_id]->is_random_year() ? "Year:   Random" : "Year:   %s" ),
+                         sorted_scens[cur_id]->is_random_year() ? _( "Year:   Random" ) : _( "Year:   %s" ),
                          sorted_scens[cur_id]->initial_year() );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
                 wprintz( w_initial_date, c_light_gray, _( "Season: %s" ),
                          calendar::name_season( sorted_scens[cur_id]->initial_season() ) );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
                 wprintz( w_initial_date, c_light_gray,
-                         _( sorted_scens[cur_id]->is_random_day() ? "Day:    Random" : "Day:    %d" ),
+                         sorted_scens[cur_id]->is_random_day() ? _( "Day:    Random" ) : _( "Day:    %d" ),
                          sorted_scens[cur_id]->initial_day() );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
                 wprintz( w_initial_date, c_light_gray,
-                         _( sorted_scens[cur_id]->is_random_hour() ? "Hour:   Random" : "Hour:   %d" ),
+                         sorted_scens[cur_id]->is_random_hour() ? _( "Hour:   Random" ) : _( "Hour:   %d" ),
                          sorted_scens[cur_id]->initial_hour() );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
             } else {
