@@ -4302,8 +4302,6 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                                       spell_being_cast.xp() );
             }
             if( spell_being_cast.get_level() != old_level ) {
-                get_event_bus().send<event_type::player_levels_spell>( p->getID(),
-                        spell_being_cast.id(), spell_being_cast.get_level() );
                 // Level 0-1 message is printed above - notify player when leveling up further
                 if( old_level > 0 ) {
                     p->add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );

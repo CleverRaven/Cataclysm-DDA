@@ -984,7 +984,13 @@ int spell::xp() const
 
 void spell::gain_exp( int nxp )
 {
+    int oldLevel = get_level();
     experience += nxp;
+    if( oldLevel != get_level() ) {
+        character_id player_id = get_player_character().getID();
+        get_event_bus().send<event_type::player_levels_spell>( player_id, 
+                                                               id(), get_level() );
+    }
 }
 
 void spell::set_exp( int nxp )
@@ -2337,8 +2343,8 @@ void spell_events::notify( const cata::event &e )
             for( std::map<std::string, int>::iterator it = spell_cast.learn_spells.begin();
                  it != spell_cast.learn_spells.end(); ++it ) {
                 int learn_at_level = it->second;
-                if( learn_at_level == slvl ) {
-                    std::string learn_spell_id = it->first;
+                std::string learn_spell_id = it->first;
+                if( learn_at_level <= slvl && !get_player_character().magic->knows_spell( learn_spell_id ) ) {
                     get_player_character().magic->learn_spell( learn_spell_id, get_player_character() );
                     spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(
