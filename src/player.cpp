@@ -2290,6 +2290,7 @@ item::reload_option player::select_ammo( const item &base,
         menu.text += _( "| Damage  | Pierce  " );
     }
 
+    const damage_instance &base_damage = base.is_gun() ? base.type->gun->damage : damage_instance();
     auto draw_row = [&]( int idx ) {
         const auto &sel = opts[ idx ];
         std::string row = string_format( "%s| %s |", names[ idx ], where[ idx ] );
@@ -2302,7 +2303,14 @@ item::reload_option player::select_ammo( const item &base,
                                 sel.ammo->ammo_data();
             if( ammo ) {
                 const damage_instance &dam = ammo->ammo->damage;
-                row += string_format( "| %-7d | %-7d", static_cast<int>( dam.total_damage() ),
+                float dam_amt = dam.total_damage();
+                if( dam.damage_units.front().damage_multiplier != 1.0f ) {
+                    // Ugly and not really true, but informative anyway
+                    damage_instance summed = base_damage;
+                    summed.add( dam );
+                    dam_amt = summed.total_damage() - base_damage.total_damage();
+                }
+                row += string_format( "| %+7d | %-7d", static_cast<int>( dam_amt ),
                                       static_cast<int>( dam.empty() ? 0.0f : ( *dam.begin() ).res_pen ) );
             } else {
                 row += "|         |         ";
