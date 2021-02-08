@@ -2561,7 +2561,9 @@ void item::migrate_content_item( const item &contained )
         put_in( contained, item_pocket::pocket_type::MOD );
     } else if( !contained.made_of( phase_id::LIQUID )
                && ( contained.is_magazine() || contained.is_ammo() ) ) {
-        put_in( contained, item_pocket::pocket_type::MAGAZINE );
+        if( !contents.insert_item( contained, item_pocket::pocket_type::MAGAZINE ).success() ) {
+            put_in( contained, item_pocket::pocket_type::MAGAZINE_WELL );
+        }
     } else if( typeId() == itype_usb_drive ) {
         // as of this migration, only usb_drive has any software in it.
         put_in( contained, item_pocket::pocket_type::SOFTWARE );
