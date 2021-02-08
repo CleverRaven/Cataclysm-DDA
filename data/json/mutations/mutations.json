@@ -2961,6 +2961,7 @@
     "description": "Your body is unusually inhospitable to parasitic lifeforms.  You will never become infested with internal parasites.",
     "prereqs": [ "DISRESISTANT" ],
     "prereqs2": [ "INFRESIST" ],
+    "flags": [ "PARAIMMUNE" ],
     "category": [ "ELFA", "CHIMERA", "MEDICAL", "SLIME" ]
   },
   {
@@ -3150,7 +3151,8 @@
     "name": { "str": "Saprovore" },
     "points": 2,
     "description": "Your digestive system is specialized to allow you to consume decaying material.  You can eat rotten food, albeit for less nutrition than usual.",
-    "category": [ "TROGLOBITE", "CHIMERA" ]
+    "category": [ "TROGLOBITE", "CHIMERA" ],
+    "flags": [ "IMMUNE_SPOIL" ]
   },
   {
     "type": "mutation",
@@ -3165,7 +3167,8 @@
     "threshreq": [ "THRESH_PLANT" ],
     "cancels": [ "GRAZER" ],
     "leads_to": [ "CHLOROMORPH" ],
-    "category": [ "PLANT" ]
+    "category": [ "PLANT" ],
+    "flags": [ "IMMUNE_SPOIL" ]
   },
   {
     "type": "mutation",
@@ -3244,6 +3247,7 @@
     "threshreq": [ "THRESH_CHIMERA", "THRESH_RAT", "THRESH_MOUSE" ],
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "category": [ "RAT", "CHIMERA", "MOUSE" ],
+    "flags": [ "IMMUNE_SPOIL" ],
     "valid": false
   },
   {

@@ -1534,3 +1534,5 @@ Gun fault flags:
 - ```BULLET_IMMUNE``` You are immune to bullet damage.
 - ```WATCH``` You always know what time it is.
 - ```ALARMCLOCK``` You always can set alarms.
+- ```PARAIMMUNE``` You are immune to parasites.
+- ```IMMUNE_SPOIL``` You are immune to negative outcomes from spoiled food.

@@ -80,6 +80,8 @@ static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_visuals( "visuals" );
 
+static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
+static const json_character_flag json_flag_PARAIMMUNE( "PARAIMMUNE" );
 static const json_character_flag json_flag_PRED1( "PRED1" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
@@ -112,7 +114,6 @@ static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_MEATARIAN( "MEATARIAN" );
-static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_PROJUNK( "PROJUNK" );
 static const trait_id trait_PROJUNK2( "PROJUNK2" );
@@ -758,7 +759,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     }
 
     if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
-        !( has_bionic( bio_digestion ) || has_trait( trait_PARAIMMUNE ) ) ) {
+        !has_flag( json_flag_PARAIMMUNE ) ) {
         add_consequence( _( "Eating this raw meat probably isn't very healthy." ), PARASITES );
     }
 
@@ -875,8 +876,7 @@ static bool eat( item &food, player &you, bool force )
     const bool saprophage = you.has_trait( trait_SAPROPHAGE );
     if( spoiled && !saprophage ) {
         you.add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good…" ), food.tname() );
-        if( !you.has_trait( trait_SAPROVORE ) && !you.has_trait( trait_EATDEAD ) &&
-            ( !you.has_bionic( bio_digestion ) || one_in( 3 ) ) ) {
+        if( !you.has_flag( json_flag_IMMUNE_SPOIL ) ) {
             you.add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
         }
     } else if( spoiled && saprophage ) {
@@ -963,7 +963,7 @@ static bool eat( item &food, player &you, bool force )
     }
 
     // Chance to become parasitised
-    if( !will_vomit && !( you.has_bionic( bio_digestion ) || you.has_trait( trait_PARAIMMUNE ) ) ) {
+    if( !will_vomit && !you.has_flag( json_flag_PARAIMMUNE ) ) {
         if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
             one_in( food.get_comestible()->parasites ) ) {
             switch( rng( 0, 3 ) ) {
@@ -1312,8 +1312,7 @@ bool Character::consume_effects( item &food )
 
     // Rotten food causes health loss
     const float relative_rot = food.get_relative_rot();
-    if( relative_rot > 1.0f && !has_trait( trait_SAPROPHAGE ) &&
-        !has_trait( trait_SAPROVORE ) && !has_bionic( bio_digestion ) ) {
+    if( relative_rot > 1.0f && !has_flag( json_flag_IMMUNE_SPOIL ) ) {
         const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
         // ~-1 health per 1 nutrition at halfway-rotten-away, ~0 at "just got rotten"
         // But always round down
