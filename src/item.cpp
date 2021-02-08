@@ -5174,15 +5174,47 @@ units::length item::length() const
     if( made_of( phase_id::LIQUID ) || ( is_soft() && is_container_empty() ) ) {
         return 0_mm;
     }
+
     if( is_corpse() ) {
         return units::default_length_from_volume<int>( corpse->volume );
+    }
+
+    if( is_gun() ) {
+        units::length length_adjusted = type->longest_side;
+
+        if( gunmod_find( itype_barrel_small ) ) {
+            int barrel_percentage = type->gun->barrel_volume / ( type->volume / 100 );
+            units::length reduce_by = ( type->longest_side / 100 ) * barrel_percentage;
+            length_adjusted = type->longest_side - reduce_by;
+        }
+
+        std::vector<const item *> mods = gunmods();
+        for( const item *mod : mods ) {
+            itype_id itype_location( "location" );
+            if( mod->type->gunmod ) {
+                if( mod->type->gunmod->location.str() == "muzzle" ) {
+                    length_adjusted += mod->length();
+                }
+
+                if( mod->type->gunmod->location.str() == "underbarrel" ) {
+                    //checks for melee gunmods (like bayonets)
+                    for( const std::pair<const gun_mode_id, gun_modifier_data> &m : mod->type->gunmod->mode_modifier ) {
+                        if( m.first == gun_mode_REACH ) {
+                            length_adjusted += mod->length();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return length_adjusted;
     }
 
     units::length max = is_soft() ? 0_mm : type->longest_side;
     for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         max = std::max( it->length(), max );
     }
-
     return max;
 }
 
