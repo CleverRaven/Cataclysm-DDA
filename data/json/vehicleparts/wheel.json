@@ -487,6 +487,8 @@
     "abstract": "wheel_small_abstract",
     "type": "vehicle_part",
     "name": { "str": "small wheel" },
+    "looks_like": "wheel",
+    "symbol": "o",
     "item": "wheel_small",
     "location": "under",
     "symbol": "o",
@@ -511,22 +513,16 @@
   {
     "copy-from": "wheel_small_abstract",
     "id": "wheel_small",
-    "looks_like": "wheel",
-    "symbol": "o",
     "type": "vehicle_part"
   },
   {
     "copy-from": "wheel_small_abstract",
     "id": "wheel_small_scooter",
-    "looks_like": "wheel",
-    "symbol": "o",
     "type": "vehicle_part"
   },
   {
     "copy-from": "wheel_small_abstract",
     "id": "wheel_small_scooter_rear",
-    "looks_like": "wheel",
-    "symbol": "o",
     "type": "vehicle_part"
   },
   {
