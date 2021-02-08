@@ -67,7 +67,6 @@ static const trap_str_id tr_nailboard( "tr_nailboard" );
 static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_FLOWER( "FLOWER" );
-static const std::string flag_FUNGUS( "FUNGUS" );
 static const std::string flag_LIQUID( "LIQUID" );
 static const std::string flag_ORGANIC( "ORGANIC" );
 static const std::string flag_PLANT( "PLANT" );
@@ -2195,12 +2194,12 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     }
 
     // fungus cannot be destroyed by map::destroy so ths method is employed
-    if( fid.has_flag( flag_FUNGUS ) ) {
+    if( fid.has_flag( TFLAG_FUNGUS ) ) {
         if( one_in( 5 ) ) {
             m.furn_set( loc, f_ash );
         }
     }
-    if( tr.has_flag( flag_FUNGUS ) ) {
+    if( tr.has_flag( TFLAG_FUNGUS ) ) {
         m.ter_set( loc, t_dirt );
         if( one_in( 5 ) ) {
             m.spawn_item( loc, itype_ash, 1, rng( 1, 5 ) );
