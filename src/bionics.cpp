@@ -272,6 +272,15 @@ bool bionic_data::is_included( const bionic_id &id ) const
     return std::find( included_bionics.begin(), included_bionics.end(), id ) != included_bionics.end();
 }
 
+static social_modifiers load_bionic_social_mods( const JsonObject &jo )
+{
+    social_modifiers ret;
+    jo.read( "lie", ret.lie );
+    jo.read( "persuade", ret.persuade );
+    jo.read( "intimidate", ret.intimidate );
+    return ret;
+}
+
 void bionic_data::load( const JsonObject &jsobj, const std::string & )
 {
 
@@ -375,6 +384,10 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
             bullet_protec.emplace( bodypart_str_id( ja.get_string( 0 ) ),
                                    ja.get_int( 1 ) );
         }
+    }
+    if( jsobj.has_object( "social_modifiers" ) ) {
+        JsonObject sm = jsobj.get_object( "social_modifiers" );
+        social_mods = load_bionic_social_mods( sm );
     }
 
     activated = has_flag( STATIC( json_character_flag( json_flag_BIONIC_TOGGLED ) ) ) ||

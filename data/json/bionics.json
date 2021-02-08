@@ -58,7 +58,8 @@
     "bash_protec": [ [ "eyes", 3 ] ],
     "cut_protec": [ [ "eyes", 3 ] ],
     "bullet_protec": [ [ "eyes", 3 ] ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "social_modifiers": { "intimidate": 10 }
   },
   {
     "id": "bio_armor_head",
@@ -299,7 +300,8 @@
     "name": { "str": "Bionic-Induced Deformity" },
     "description": "A combination of poor surgical installation and unpleasant scarring has lead to the malfunctioning bionic catastrophe you call your face.  People who mind that you look like a dime-store Frankenstein will react poorly to your appearance.",
     "occupied_bodyparts": [ [ "head", 4 ], [ "mouth", 1 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "social_modifiers": { "persuade": -50, "intimidate": 20 }
   },
   {
     "id": "bio_dex_enhancer",
@@ -446,7 +448,8 @@
     "type": "bionic",
     "name": { "str": "Facial Distortion" },
     "description": "Through controlled application of electrochemical impulses, you are capable of altering your facial structure so as to subtly affect the reactions of others.  This grants a bonus to all social interactions.",
-    "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ]
+    "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
+    "social_modifiers": { "persuade": 10, "lie": 20, "intimidate": 10 }
   },
   {
     "id": "bio_faraday",
@@ -1155,7 +1158,8 @@
     "name": { "str": "Voice Remodulator" },
     "description": "You will likely spend the rest of your days serving as a walking testament to why you don't opt for the Autodoc's 'Cyborg Identity Package'.  A remodulator unit jammed down your throat has given you a creepy robot voice.",
     "occupied_bodyparts": [ [ "torso", 2 ], [ "mouth", 1 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "social_modifiers": { "persuade": -20, "lie": 10, "intimidate": 20 }
   },
   {
     "id": "bio_watch",
