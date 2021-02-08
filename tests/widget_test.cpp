@@ -322,6 +322,17 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( weariness_w.layout( ava ) == "WEARINESS: 0" );
         // TODO: Check weariness set to other levels
     }
+
+    SECTION( "wetness" ) {
+        widget head_wetness_w = widget_id( "test_bp_wetness_head_num" ).obj();
+        widget torso_wetness_w = widget_id( "test_bp_wetness_torso_num" ).obj();
+
+        CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 0" );
+        CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 0" );
+        ava.drench( 100, { bodypart_str_id( "head" ), bodypart_str_id( "torso" ) }, false );
+        CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 2" );
+        CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 2" );
+    }
 }
 
 TEST_CASE( "layout widgets", "[widget][layout]" )

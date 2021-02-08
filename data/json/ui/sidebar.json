@@ -25,6 +25,22 @@
     "colors": [ "c_blue", "c_cyan", "c_light_blue", "c_green", "c_yellow", "c_light_red", "c_red" ]
   },
   {
+    "id": "wetness_num",
+    "type": "widget",
+    "style": "number",
+    "var_max": 100
+  },
+  {
+    "id": "wetness_graph",
+    "type": "widget",
+    "style": "graph",
+    "var_max": 50,
+    "width": 5,
+    "symbols": ".oO",
+    "fill": "bucket",
+    "colors": [ "c_blue", "c_light_blue", "c_cyan", "c_white" ]
+  },
+  {
     "id": "hp_head_graph",
     "type": "widget",
     "label": "HEAD",
@@ -119,6 +135,54 @@
     "var": "bp_warmth",
     "bodypart": "leg_r",
     "copy-from": "warmth_num"
+  },
+  {
+    "id": "wetness_head_num",
+    "type": "widget",
+    "label": "wet:HE",
+    "var": "bp_wetness",
+    "bodypart": "head",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_torso_num",
+    "type": "widget",
+    "label": "wet:TO",
+    "var": "bp_wetness",
+    "bodypart": "torso",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_left_arm_num",
+    "type": "widget",
+    "label": "wet:LA",
+    "var": "bp_wetness",
+    "bodypart": "arm_l",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_right_arm_num",
+    "type": "widget",
+    "label": "wet:RA",
+    "var": "bp_wetness",
+    "bodypart": "arm_r",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_left_leg_num",
+    "type": "widget",
+    "label": "wet:LL",
+    "var": "bp_wetness",
+    "bodypart": "leg_l",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_right_leg_num",
+    "type": "widget",
+    "label": "wet:RL",
+    "var": "bp_wetness",
+    "bodypart": "leg_r",
+    "copy-from": "wetness_num"
   },
   {
     "id": "encumbrance_head_graph",
@@ -374,6 +438,20 @@
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "stamina_graph", "fatigue_graph" ]
+  },
+  {
+    "id": "wetness_top_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "wetness_left_arm_num", "wetness_head_num", "wetness_right_arm_num" ]
+  },
+  {
+    "id": "wetness_bottom_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "wetness_left_leg_num", "wetness_torso_num", "wetness_right_leg_num" ]
   },
   {
     "id": "stamina_speed_layout",

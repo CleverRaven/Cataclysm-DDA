@@ -172,6 +172,22 @@
     "style": "number"
   },
   {
+    "id": "test_bp_wetness_head_num",
+    "type": "widget",
+    "label": "HEAD WET",
+    "var": "bp_wetness",
+    "bodypart": "head",
+    "style": "number"
+  },
+  {
+    "id": "test_bp_wetness_torso_num",
+    "type": "widget",
+    "label": "TORSO WET",
+    "var": "bp_wetness",
+    "bodypart": "torso",
+    "style": "number"
+  },
+  {
     "id": "test_stat_panel",
     "type": "widget",
     "style": "layout",

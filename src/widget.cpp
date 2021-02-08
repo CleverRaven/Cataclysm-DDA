@@ -81,6 +81,9 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "bp_encumb";
         case widget_var::bp_warmth:
             return "bp_warmth";
+        case widget_var::bp_wetness:
+            return "bp_wetness";
+        // Fall-through - invalid
         case widget_var::last:
             break;
     }
@@ -150,6 +153,9 @@ int widget::get_var_max( const avatar &ava )
             // where 10u = 0.02C and 5000u is 37C
             max_val = 10000;
             break;
+        case widget_var::bp_wetness:
+            max_val = 100; // ???
+            break;
         default:
             break;
     }
@@ -185,6 +191,10 @@ int widget::get_var_value( const avatar &ava )
         case widget_var::bp_warmth:
             // Body part warmth/temperature
             value = ava.get_part_temp_cur( _bp_id );
+            break;
+        case widget_var::bp_wetness:
+            // Body part wetness
+            value = ava.get_part_wetness( _bp_id );
             break;
         case widget_var::focus:
             value = ava.get_focus();

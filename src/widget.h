@@ -32,7 +32,8 @@ enum class widget_var : int {
     stat_per,       // Base PER (perception) stat, integer
     bp_hp,          // Current hit points of given "bodypart", integer
     bp_encumb,      // Current encumbrance of given "bodypart", integer
-    bp_warmth,      // Current warmth of give "bodypart", integer
+    bp_warmth,      // Current warmth of given "bodypart", integer
+    bp_wetness,     // Current wetness of given "bodypart", integer
     hunger,         // TODO
     thirst,         // TODO
     mood,           // TODO
