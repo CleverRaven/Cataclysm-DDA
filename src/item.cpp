@@ -1730,6 +1730,8 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 {
     if( debug && parts->test( iteminfo_parts::BASE_DEBUG ) ) {
         if( g != nullptr ) {
+            info.push_back( iteminfo( "BASE", string_format( "itype_id: %s",
+                                      typeId().str() ) ) );
             if( !old_owner.is_null() ) {
                 info.push_back( iteminfo( "BASE", string_format( _( "Old owner: %s" ),
                                           _( get_old_owner_name() ) ) ) );
@@ -1777,11 +1779,11 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           iteminfo::lower_is_better,
                                           specific_energy ) );
                 info.push_back( iteminfo( "BASE", _( "Spec heat lq: " ), "",
-                                          iteminfo::lower_is_better,
-                                          1000 * get_specific_heat_liquid() ) );
+                                          iteminfo::lower_is_better | iteminfo::is_decimal,
+                                          get_specific_heat_liquid() ) );
                 info.push_back( iteminfo( "BASE", _( "Spec heat sld: " ), "",
-                                          iteminfo::lower_is_better,
-                                          1000 * get_specific_heat_solid() ) );
+                                          iteminfo::lower_is_better | iteminfo::is_decimal,
+                                          get_specific_heat_solid() ) );
                 info.push_back( iteminfo( "BASE", _( "latent heat: " ), "",
                                           iteminfo::lower_is_better,
                                           get_latent_heat() ) );
