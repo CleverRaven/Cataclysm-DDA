@@ -2449,8 +2449,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
                          calendar::name_season( sorted_scens[cur_id]->initial_season() ) );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
                 wprintz( w_initial_date, c_light_gray,
-                         sorted_scens[cur_id]->is_random_day() ? _( "Day:    Random" ) : _( "Day:    %d" ),
-                         sorted_scens[cur_id]->initial_day() );
+                         _( "Day:    %d" ), sorted_scens[cur_id]->day_of_season() );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
                 wprintz( w_initial_date, c_light_gray,
                          sorted_scens[cur_id]->is_random_hour() ? _( "Hour:   Random" ) : _( "Hour:   %d" ),

@@ -112,7 +112,7 @@ void scenario::load( const JsonObject &jo, const std::string & )
             }
         } else {
             _initial_hour = get_option<int>( "INITIAL_TIME" );
-            _initial_day = get_option<int>( "INITIAL_DAY" );
+            _initial_day = 0;
             _initial_season = SPRING;
             _initial_year = 1;
         }
@@ -446,11 +446,6 @@ bool scenario::is_random_hour() const
     return _initial_hour == -1;
 }
 
-bool scenario::is_random_day() const
-{
-    return _initial_day == -1;
-}
-
 bool scenario::is_random_year() const
 {
     return _initial_year == -1;
@@ -461,16 +456,15 @@ int scenario::initial_hour() const
     return _initial_hour == -1 ? rng( 0, 23 ) : _initial_hour;
 }
 
+int scenario::day_of_season() const
+{
+    return _initial_day;
+}
+
 int scenario::initial_day() const
 {
-    if( _initial_day == -1 ) {
-        // with custom initial date day is only rolled for the season instead of the year
-        return _custom_initial_date
-               ? rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 )
-               : rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
-    } else {
-        return _initial_day;
-    }
+    return _initial_day + get_option<int>( "SEASON_LENGTH" ) * ( _initial_season + 4 *
+            ( _initial_year - 1 ) );
 }
 
 season_type scenario::initial_season() const

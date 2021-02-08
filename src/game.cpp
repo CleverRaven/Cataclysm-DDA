@@ -12209,19 +12209,29 @@ void game::autosave()
 
 void game::start_calendar()
 {
-    int initial_days = get_option<int>( "INITIAL_DAY" );
-    if( initial_days == -1 ) {
+    time_duration initial_days;
+    if( get_option<int>( "INITIAL_DAY" )  == -1 ) {
         // 0 - 363 for a 91 day season
-        initial_days = rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
+        initial_days = 1_days * rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
+    } else {
+        initial_days = 1_days * get_option<int>( "INITIAL_DAY" );
     }
-    calendar::start_of_cataclysm = calendar::turn_zero + 1_days * initial_days;
-    // Configured starting date overridden by scenario, calendar::start is left as Spring 1
-    calendar::start_of_game = calendar::turn_zero
-                              + 1_hours * scen->initial_hour()
-                              + 1_days * scen->initial_day()
-                              + get_option<int>( "SEASON_LENGTH" ) * 1_days * scen->initial_season()
-                              + 4 * get_option<int>( "SEASON_LENGTH" ) * 1_days * ( scen->initial_year() - 1 )
-                              + 1_days * get_option<int>( "SPAWN_DELAY" );
+    calendar::start_of_cataclysm = calendar::turn_zero + initial_days;
+
+    if( scen->custom_initial_date() ) {
+        calendar::start_of_game = calendar::turn_zero
+                                  + 1_hours * scen->initial_hour()
+                                  + 1_days * scen->initial_day();
+        if( calendar::start_of_game < calendar::start_of_cataclysm ) {
+            // If the cataclysm has been set to happen late it may happen after the game start defined by scenario.
+            // That is unacceptable. So lets just jump to same day on next year.
+            calendar::start_of_game = calendar::start_of_game + 1_days * 4 * get_option<int>( "SEASON_LENGTH" );
+        }
+    } else {
+        calendar::start_of_game = calendar::start_of_cataclysm
+                                  + 1_days * get_option<int>( "SPAWN_DELAY" );
+    }
+
     calendar::turn = calendar::start_of_game;
 }
 

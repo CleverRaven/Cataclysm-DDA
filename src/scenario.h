@@ -10,6 +10,7 @@
 #include "calendar.h"
 #include "translations.h"
 #include "type_id.h"
+#include "units.h"
 
 class JsonObject;
 class profession;
@@ -88,9 +89,11 @@ class scenario
 
         bool custom_initial_date() const;
         bool is_random_hour() const;
-        bool is_random_day() const;
         bool is_random_year() const;
         int initial_hour() const;
+		// Returns day of the season this scenario starts on
+		int day_of_season() const;
+		// Returns the day of the year this scenario starts on
         int initial_day() const;
         season_type initial_season() const;
         int initial_year() const;
