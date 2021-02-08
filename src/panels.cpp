@@ -2641,9 +2641,10 @@ void panel_manager::show_adm()
 
     catacurses::window w;
 
+    const int popup_height = 24;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        w = catacurses::newwin( 21, 75,
+        w = catacurses::newwin( popup_height, 75,
                                 point( ( TERMX / 2 ) - 38, ( TERMY / 2 ) - 10 ) );
 
         ui.position_from_window( w );
@@ -2686,8 +2687,9 @@ void panel_manager::show_adm()
             col_offset += column_widths[i];
         }
         mvwprintz( w, point( 1 + ( col_offset ), current_row + 1 ), c_yellow, ">>" );
-        mvwvline( w, point( column_widths[0], 1 ), 0, 19 );
-        mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, 19 );
+        // Draw vertical separators
+        mvwvline( w, point( column_widths[0], 1 ), 0, popup_height - 2 );
+        mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, popup_height - 2 );
 
         col_offset = column_widths[0] + 2;
         int col_width = column_widths[1] - 4;
