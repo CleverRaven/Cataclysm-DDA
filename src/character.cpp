@@ -8910,7 +8910,9 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
                        e.prompt, e.moves ) );
     }
 
-    menu.query();
+    do {
+        menu.query();
+    } while( menu.ret == UILIST_CANCEL );
     if( menu.ret >= 0 ) {
         return opts[menu.ret].action();
     }
