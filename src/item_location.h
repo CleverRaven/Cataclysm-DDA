@@ -70,6 +70,7 @@ class item_location
         std::string describe( const Character *ch = nullptr ) const;
 
         /** Move an item from the location to the character inventory
+         *  If the player fails to obtain the item (likely due to a menu) returns item_location{}
          *  @param ch Character who's inventory gets the item
          *  @param qty if specified limits maximum obtained charges
          *  @warning caller should restack inventory if item is to remain in it
