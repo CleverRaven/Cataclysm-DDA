@@ -23,6 +23,7 @@
 #include "npc.h"
 #include "point.h"
 #include "ret_val.h"
+#include "submap.h"
 #include "type_id.h"
 
 // Remove all vehicles from the map
@@ -87,12 +88,12 @@ void clear_fields( const int zlevel )
     for( int x = 0; x < mapsize; ++x ) {
         for( int y = 0; y < mapsize; ++y ) {
             const tripoint p( x, y, zlevel );
-            std::vector<field_type_id> fields;
-            for( auto &pr : here.field_at( p ) ) {
-                fields.push_back( pr.second.get_field_type() );
-            }
-            for( field_type_id f : fields ) {
-                here.remove_field( p, f );
+            point offset;
+
+            submap *sm = here.get_submap_at( p, offset );
+            if( sm ) {
+                sm->field_count = 0;
+                sm->get_field( offset ).clear();
             }
         }
     }

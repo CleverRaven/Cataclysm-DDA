@@ -144,6 +144,12 @@ class field
          */
         void remove_field( std::map<field_type_id, field_entry>::iterator );
 
+        /**
+         * Removes all fields.
+         * Don't forget to update field count in submap!
+         */
+        void clear();
+
         // Returns the number of fields existing on the current tile.
         unsigned int field_count() const;
 
