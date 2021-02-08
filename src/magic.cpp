@@ -988,8 +988,8 @@ void spell::gain_exp( int nxp )
     experience += nxp;
     if( oldLevel != get_level() ) {
         character_id player_id = get_player_character().getID();
-        get_event_bus().send<event_type::player_levels_spell>( player_id, 
-                                                               id(), get_level() );
+        get_event_bus().send<event_type::player_levels_spell>( player_id,
+                id(), get_level() );
     }
 }
 
