@@ -74,6 +74,8 @@ Special prefixes that are used include:
 
 `vp_` for vehicle parts (see also [`symbols` and `standard_symbols` JSON keys](JSON_INFO.md#symbols-and-variants) that are used as suffixes).
 
+`explosion_` for spell explosion effects.  Multitile is required; only supports "center", "edge" and "corner".
+
 #### Optional gendered variants
 
 Are defined by adding `_female` or `_male` part to the `overlay_` part of a prefix: `overlay_female_` or `overlay_male_`.

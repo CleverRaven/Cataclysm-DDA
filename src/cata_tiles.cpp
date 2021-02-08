@@ -3425,16 +3425,19 @@ void cata_tiles::draw_custom_explosion_frame()
         }
 
         const tripoint &p = pr.first;
-        if( col == c_red ) {
-            draw_from_id_string( exp_strong, p, subtile, rotation, lit_level::LIT,
-                                 nv_goggles_activated );
+        std::string explosion_tile_id;
+        if( pr.second.tile_name && find_tile_looks_like( *pr.second.tile_name, TILE_CATEGORY::C_NONE ) ) {
+            explosion_tile_id = *pr.second.tile_name;
+        } else if( col == c_red ) {
+            explosion_tile_id = exp_strong;
         } else if( col == c_yellow ) {
-            draw_from_id_string( exp_medium, p, subtile, rotation, lit_level::LIT,
-                                 nv_goggles_activated );
+            explosion_tile_id = exp_medium;
         } else {
-            draw_from_id_string( exp_weak, p, subtile, rotation, lit_level::LIT,
-                                 nv_goggles_activated );
+            explosion_tile_id = exp_weak;
         }
+
+        draw_from_id_string( explosion_tile_id, p, subtile, rotation, lit_level::LIT,
+                             nv_goggles_activated );
     }
 }
 void cata_tiles::draw_bullet_frame()

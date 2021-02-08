@@ -3,6 +3,7 @@
 #define CATA_SRC_ANIMATION_H
 
 #include "color.h"
+#include "optional.h"
 
 enum explosion_neighbors {
     N_NO_NEIGHBORS = 0,
@@ -29,6 +30,8 @@ enum explosion_neighbors {
 struct explosion_tile {
     explosion_neighbors neighborhood;
     nc_color color;
+    // we use this if we don't want to use a color
+    cata::optional<std::string> tile_name;
 };
 
 #endif // CATA_SRC_ANIMATION_H
