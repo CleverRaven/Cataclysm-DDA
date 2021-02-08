@@ -222,7 +222,7 @@ class item_location::impl::item_on_map : public item_location::impl
 
             on_contents_changed();
             item obj = target()->split( qty );
-            auto get_local_location = []( Character & ch, item * it ) {
+            const auto get_local_location = []( Character & ch, item * it ) {
                 if( ch.has_item( *it ) ) {
                     return item_location( ch, it );
                 } else {
