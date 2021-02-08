@@ -249,3 +249,40 @@ TEST_CASE( "corpse length sanity check", "[item]" )
         assert_minimum_length_to_volume_ratio( sample );
     }
 }
+
+static void check_spawning_in_container( const std::string &item_type )
+{
+    item test_item{ itype_id( item_type ) };
+    REQUIRE( test_item.type->default_container );
+    item container_item = test_item.in_its_container( 1 );
+    CHECK( container_item.typeId() == *test_item.type->default_container );
+    if( container_item.is_container() ) {
+        CHECK( container_item.has_item_with( [&test_item]( const item & it ) {
+            return it.typeId() == test_item.typeId();
+        } ) );
+    } else if( test_item.is_software() ) {
+        REQUIRE( container_item.is_software_storage() );
+        const std::vector<const item *> softwares = container_item.softwares();
+        CHECK( !softwares.empty() );
+        for( const item *itm : softwares ) {
+            CHECK( itm->typeId() == test_item.typeId() );
+        }
+    } else {
+        FAIL( "Not container or software storage." );
+    }
+}
+
+TEST_CASE( "items spawn in their default containers", "[item]" )
+{
+    check_spawning_in_container( "water" );
+    check_spawning_in_container( "gunpowder" );
+    check_spawning_in_container( "nitrox" );
+    check_spawning_in_container( "ammonia" );
+    check_spawning_in_container( "detergent" );
+    check_spawning_in_container( "pale_ale" );
+    check_spawning_in_container( "single_malt_whiskey" );
+    check_spawning_in_container( "rocuronium" );
+    check_spawning_in_container( "chem_muriatic_acid" );
+    check_spawning_in_container( "chem_black_powder" );
+    check_spawning_in_container( "software_useless" );
+}
