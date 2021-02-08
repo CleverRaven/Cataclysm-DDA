@@ -75,6 +75,14 @@
     ]
   },
   {
+    "name": "GROUP_WASP_PUPA",
+    "type": "monstergroup",
+    "default": "mon_wasp",
+    "monsters": [
+      { "monster": "mon_wasp", "freq": 1000, "cost_multiplier": 1 }
+    ]
+  },
+  {
     "type": "monstergroup",
     "name": "GROUP_WORM",
     "default": "mon_worm_small",
