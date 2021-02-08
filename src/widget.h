@@ -38,6 +38,7 @@ enum class widget_var : int {
     bp_hp,
     bp_encumb,
     bp_warmth,
+    bp_wetness,
     pain_description,
     hunger_description,
     thirst_description,
