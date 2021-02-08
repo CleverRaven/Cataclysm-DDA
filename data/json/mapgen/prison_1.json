@@ -1152,6 +1152,10 @@
         { "class": "prisoner_generic", "x": 9, "y": 53 },
         { "class": "prisoner_generic", "x": 17, "y": 47 }
       ],
+      "place_zones": [
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "prisoners", "x": [ 5, 18 ], "y": [ 33, 47 ] },
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "prisoners", "x": [ 5, 18 ], "y": [ 48, 56 ] }
+      ],
       "nested": {
         "^": { "chunks": [ [ "corpse_blood_3x3", 5 ], [ "null", 95 ] ] },
         ".": { "chunks": [ [ "corpse_blood_3x3", 5 ], [ "null", 95 ] ] },
