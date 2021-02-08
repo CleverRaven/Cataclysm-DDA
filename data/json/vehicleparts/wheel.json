@@ -488,7 +488,6 @@
     "type": "vehicle_part",
     "name": { "str": "small wheel" },
     "looks_like": "wheel",
-    "symbol": "o",
     "item": "wheel_small",
     "location": "under",
     "symbol": "o",
