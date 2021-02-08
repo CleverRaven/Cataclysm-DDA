@@ -311,15 +311,15 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
     const std::string space = "  ";
     prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
     prot.push_back( name_and_value( space + _( "Bash:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.bash_resist() ) ), width ) );
+                                    string_format( "%.2f", worn_item.bash_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Cut:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.cut_resist() ) ), width ) );
+                                    string_format( "%.2f", worn_item.cut_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Ballistic:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.bullet_resist() ) ), width ) );
+                                    string_format( "%.2f", worn_item.bullet_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Acid:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.acid_resist() ) ), width ) );
+                                    string_format( "%.2f", worn_item.acid_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Fire:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.fire_resist() ) ), width ) );
+                                    string_format( "%.2f", worn_item.fire_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Environmental:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.get_env_resist() ) ), width ) );
     return prot;
