@@ -1623,7 +1623,7 @@ bool npc::wants_to_sell( const item &it ) const
     return wants_to_sell( it, value( it, market_price ), market_price );
 }
 
-bool npc::wants_to_sell( const item &it, int at_price, int market_price ) const
+bool npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) const
 {
     if( will_exchange_items_freely() ) {
         return true;
@@ -1636,7 +1636,7 @@ bool npc::wants_to_sell( const item &it, int at_price, int market_price ) const
     }
 
     // TODO: Base on inventory
-    return at_price - market_price <= 50;
+    return at_price >= 0;
 }
 
 bool npc::wants_to_buy( const item &it ) const
@@ -1656,7 +1656,7 @@ bool npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) con
     }
 
     // TODO: Base on inventory
-    return at_price >= 80;
+    return at_price > 0;
 }
 
 // Will the NPC freely exchange items with the player?
