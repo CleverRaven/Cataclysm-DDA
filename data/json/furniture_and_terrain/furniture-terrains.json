@@ -147,7 +147,11 @@
     "flags": [ "NOITEM", "DOOR", "PERMEABLE", "FLAMMABLE_ASH", "MOUNTABLE" ],
     "open": "f_beaded_door_o",
     "deconstruct": {
-      "items": [ { "item": "stick_long", "count": 1 }, { "item": "string_36", "count": 20 }, { "item": "wooden_bead", "charges": 2000 } ]
+      "items": [
+        { "item": "stick_long", "count": 1 },
+        { "item": "string_36", "count": 20 },
+        { "item": "wooden_bead", "charges": 2000 }
+      ]
     },
     "bash": {
       "str_min": 1,
@@ -175,7 +179,11 @@
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT" ],
     "close": "f_beaded_door",
     "deconstruct": {
-      "items": [ { "item": "stick_long", "count": 1 }, { "item": "string_36", "count": 20 }, { "item": "wooden_bead", "charges": 2000 } ]
+      "items": [
+        { "item": "stick_long", "count": 1 },
+        { "item": "string_36", "count": 20 },
+        { "item": "wooden_bead", "charges": 2000 }
+      ]
     },
     "bash": {
       "str_min": 1,
