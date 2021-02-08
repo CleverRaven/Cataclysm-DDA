@@ -404,29 +404,48 @@ item_location game::inv_map_splice( const item_filter &filter, const std::string
                          title, radius, none_message );
 }
 
+class liquid_inventory_selector_preset : public inventory_selector_preset
+{
+    public:
+        explicit liquid_inventory_selector_preset( const item &liquid,
+                const item *const avoid ) : liquid( liquid ), avoid( avoid ) {
+
+            append_cell( []( const item_location & loc ) {
+                if( loc.get_item() ) {
+                    return string_format( "%s %s", format_volume( loc.get_item()->max_containable_volume() ),
+                                          volume_units_abbr() );
+                }
+                return std::string( "" );
+            }, _( "Storage (L)" ) );
+        }
+
+        bool is_shown( const item_location &location ) const override {
+            if( location.get_item() == avoid ) {
+                return false;
+            }
+            if( location.where() == item_location::type::character ) {
+                Character *character = g->critter_at<Character>( location.position() );
+                if( character == nullptr ) {
+                    debugmsg( "Invalid location supplied to the liquid filter: no character found." );
+                    return false;
+                }
+                return location->get_remaining_capacity_for_liquid( liquid, *character ) > 0;
+            }
+            const bool allow_buckets = location.where() == item_location::type::map;
+            return location->get_remaining_capacity_for_liquid( liquid, allow_buckets ) > 0;
+        }
+
+    private:
+        const item &liquid;
+        const item *const avoid;
+};
+
 item_location game_menus::inv::container_for( Character &you, const item &liquid, int radius,
         const item *const avoid )
 {
-    const auto filter = [ &liquid, avoid ]( const item_location & location ) {
-        if( location.get_item() == avoid ) {
-            return false;
-        }
-
-        if( location.where() == item_location::type::character ) {
-            Character *character = g->critter_at<Character>( location.position() );
-            if( character == nullptr ) {
-                debugmsg( "Invalid location supplied to the liquid filter: no character found." );
-                return false;
-            }
-            return location->get_remaining_capacity_for_liquid( liquid, *character ) > 0;
-        }
-
-        const bool allow_buckets = location.where() == item_location::type::map;
-        return location->get_remaining_capacity_for_liquid( liquid, allow_buckets ) > 0;
-    };
-
-    return inv_internal( you, inventory_filter_preset( filter ),
-                         string_format( _( "Container for %s" ), liquid.display_name( liquid.charges ) ), radius,
+    return inv_internal( you, liquid_inventory_selector_preset( liquid, avoid ),
+                         string_format( _( "Container for %s | %s %s" ), liquid.display_name( liquid.charges ),
+                                        format_volume( liquid.volume() ), volume_units_abbr() ), radius,
                          string_format( _( "You don't have a suitable container for carrying %s." ),
                                         liquid.tname() ) );
 }
