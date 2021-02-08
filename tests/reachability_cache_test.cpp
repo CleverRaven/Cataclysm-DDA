@@ -1,14 +1,16 @@
-#include "catch/catch.hpp"
-
-#include <iomanip>
-#include <memory>
-#include <utility>
+#include <functional>
+#include <new>
+#include <ostream>
 #include <vector>
 
 #include "cached_options.h"
+#include "catch/catch.hpp"
+#include "map.h"
+#include "map_helpers.h"
 #include "map_iterator.h"
 #include "map_test_case.h"
-#include "map_helpers.h"
+#include "mapdata.h"
+#include "optional.h"
 #include "point.h"
 
 using namespace map_test_case_common;

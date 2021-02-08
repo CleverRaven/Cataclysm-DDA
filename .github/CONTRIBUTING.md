@@ -165,16 +165,27 @@ If you are also looking for suggestions then add a [CR] before the title text â€
 
 It is not required to solve or reference an open issue to file a PR, however, if you do so, you need to explain the problem your PR is solving in full detail.
 
-### All PRs should have a "Summary" line
+### All PRs should have a "Summary" section with one line
 Summary is a one-line description of your change that will be extracted and added to [the project changelog](../data/changelog.txt).
 
-The format is: ```SUMMARY: Category "description"```
+The format is:
+```
+#### Summary
+Category "description"
+```
 
 The categories to choose from are: Features, Content, Interface, Mods, Balance, Bugfixes, Performance, Infrastructure, Build, I18N.
 
-Example: ```SUMMARY: Content "Adds new mutation category 'Mouse'"```
+Example:
+```
+#### Summary
+Content "Adds new mutation category 'Mouse'"
+```
 Or, if you want it treated as a minor tweak that doesn't appear in the changelog:
-```SUMMARY: None```
+```
+#### Summary
+None
+```
 
 See [the Changelog Guidelines](../doc/CHANGELOG_GUIDELINES.md) for explanations of the categories.
 

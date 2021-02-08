@@ -5,8 +5,8 @@
 #include <iterator>
 #include <list>
 #include <map>
+#include <string>
 #include <tuple>
-#include <type_traits>
 
 #include "basecamp.h"
 #include "calendar.h"
@@ -22,7 +22,6 @@
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "line.h"
 #include "map.h"
 #include "memory_fast.h"
@@ -38,7 +37,6 @@
 #include "rng.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "vehicle.h"
 

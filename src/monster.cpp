@@ -1,28 +1,32 @@
 #include "monster.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <memory>
+#include <sstream>
+#include <string>
 #include <tuple>
-#include <unordered_map>
 
+#include "ascii_art.h"
 #include "bodypart.h"
 #include "catacharset.h"
 #include "character.h"
+#include "colony.h"
 #include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "effect_source.h"
 #include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
+#include "faction.h"
 #include "field_type.h"
-#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
@@ -53,7 +57,6 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
@@ -303,7 +306,7 @@ void monster::poly( const mtype_id &id )
     biosignatures = type->biosignatures;
 }
 
-bool monster::can_upgrade()
+bool monster::can_upgrade() const
 {
     return upgrades && get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0.0;
 }
@@ -641,7 +644,46 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
         col = c_red;
     }
 
+    if( debug_mode ) {
+        damage_info += "  ";
+        damage_info += string_format( _( "%1$d/%2$d HP" ), cur_hp, max_hp );
+    }
+
     return std::make_pair( damage_info, col );
+}
+
+
+static std::pair<std::string, nc_color> speed_description( float mon_speed_rating,
+        bool immobile = false )
+{
+    if( immobile ) {
+        return std::make_pair( _( "It is immobile." ), c_green );
+    }
+
+    const std::array<std::tuple<float, nc_color, std::string>, 8> cases = {{
+            std::make_tuple( 1.30f, c_red, _( "It is much faster than you." ) ),
+            std::make_tuple( 1.00f, c_light_red, _( "It is faster than you." ) ),
+            std::make_tuple( 0.70f, c_yellow, _( "It is a bit faster than you." ) ),
+            std::make_tuple( 0.55f, c_white, _( "It is about as fast as you." ) ),
+            std::make_tuple( 0.50f, c_light_cyan, _( "It is a bit slower than you." ) ),
+            std::make_tuple( 0.40f, c_cyan, _( "It is slower than you." ) ),
+            std::make_tuple( 0.20f, c_light_green, _( "It is much slower than you." ) ),
+            std::make_tuple( 0.00f, c_green, _( "It is practically immobile." ) )
+        }
+    };
+
+    const float player_speed_rating = get_player_character().speed_rating();
+    const float ratio = player_speed_rating == 0 ?
+                        2.00f : mon_speed_rating / player_speed_rating;
+
+    for( const std::tuple<float, nc_color, std::string> &speed_case : cases ) {
+        if( ratio >= std::get<0>( speed_case ) ) {
+            return std::make_pair( std::get<2>( speed_case ), std::get<1>( speed_case ) );
+        }
+    }
+
+    debugmsg( "speed_description: no ratio value matched" );
+    return std::make_pair( _( "Unknown" ), c_white );
 }
 
 int monster::print_info( const catacurses::window &w, int vStart, int vLines, int column ) const
@@ -680,7 +722,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     if( !mission_fused.empty() ) {
         // Mission monsters fused into this monster
-        const std::string fused_desc = string_format( _( "Parts of %s extrude from its body." ),
+        const std::string fused_desc = string_format( _( "Parts of %s protrude from its body." ),
                                        enumerate_as_string( mission_fused ) );
         lines = foldstring( fused_desc, max_width );
         numlines = lines.size();
@@ -714,7 +756,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 std::string monster::extended_description() const
 {
     std::string ss;
-    const auto att = get_attitude();
+    const std::pair<std::string, nc_color> att = get_attitude();
     std::string att_colored = colorize( att.first, att.second );
     std::string difficulty_str;
     if( debug_mode ) {
@@ -742,15 +784,20 @@ std::string monster::extended_description() const
     }
 
     ss += "--\n";
-    auto hp_bar = hp_description( hp, type->hp );
+    const std::pair<std::string, nc_color> hp_bar = hp_description( hp, type->hp );
     ss += colorize( hp_bar.first, hp_bar.second ) + "\n";
+
+    const std::pair<std::string, nc_color> speed_desc = speed_description(
+                speed_rating(),
+                has_flag( MF_IMMOBILE ) );
+    ss += colorize( speed_desc.first, speed_desc.second ) + "\n";
 
     ss += "--\n";
     ss += string_format( "<dark>%s</dark>", type->get_description() ) + "\n";
     ss += "--\n";
     if( !mission_fused.empty() ) {
         // Mission monsters fused into this monster
-        const std::string fused_desc = string_format( _( "Parts of %s extrude from its body." ),
+        const std::string fused_desc = string_format( _( "Parts of %s protrude from its body." ),
                                        enumerate_as_string( mission_fused ) );
         ss += string_format( "<dark>%s</dark>", fused_desc ) + "\n";
         ss += "--\n";
@@ -821,6 +868,39 @@ std::string monster::extended_description() const
 
     if( !type->has_flag( m_flag::MF_NOHEAD ) ) {
         ss += std::string( _( "It has a head." ) ) + "\n";
+    }
+
+    if( debug_mode ) {
+        ss += "--\n";
+
+        ss += string_format( _( "Current Speed: %1$d" ), get_speed() ) + "\n";
+        ss += string_format( _( "Anger: %1$d" ), anger ) + "\n";
+        ss += string_format( _( "Friendly: %1$d" ), friendly ) + "\n";
+        ss += string_format( _( "Morale: %1$d" ), morale ) + "\n";
+
+        const time_duration current_time = calendar::turn - calendar::turn_zero;
+        ss += string_format( _( "Current Time: Turn %1$d  |  Day: %2$d" ),
+                             to_turns<int>( current_time ),
+                             to_days<int>( current_time ) ) + "\n";
+
+        ss += string_format( _( "Upgrade time: %1$d (turns left %2$d) %3$s" ),
+                             upgrade_time,
+                             to_turns<int>( time_duration::from_days( upgrade_time ) - current_time ),
+                             can_upgrade() ? "" : _( "<color_red>(can't upgrade)</color>" ) ) + "\n";
+
+        if( baby_timer.has_value() ) {
+            ss += string_format( _( "Reproduce time: %1$d (turns left %2$d) %3$s" ),
+                                 to_turn<int>( baby_timer.value() ),
+                                 to_turn<int>( baby_timer.value() - current_time ),
+                                 reproduces ? "" : _( "<color_red>(can't reproduce)</color>" ) ) + "\n";
+        }
+
+        if( biosig_timer.has_value() ) {
+            ss += string_format( _( "Biosignature time: %1$d (turns left %2$d) %3$s" ),
+                                 to_turn<int>( biosig_timer.value() ),
+                                 to_turn<int>( biosig_timer.value()  - current_time ),
+                                 biosignatures ? "" : _( "<color_red>(no biosignature)</color>" ) ) + "\n";
+        }
     }
 
     return replace_colors( ss );
@@ -1217,8 +1297,13 @@ void monster::process_triggers()
     process_trigger( mon_trigger::FIRE, [this]() {
         int ret = 0;
         map &here = get_map();
+        const field_type_id fd_fire = ::fd_fire; // convert to int_id once
         for( const auto &p : here.points_in_radius( pos(), 3 ) ) {
-            ret += 5 * here.get_field_intensity( p, fd_fire );
+            // note using `has_field_at` without bound checks,
+            // as points that come from `points_in_radius` are guaranteed to be in bounds
+            const int fire_intensity =
+                here.has_field_at( p, false ) ? 5 * here.get_field_intensity( p, fd_fire ) : 0;
+            ret += fire_intensity;
         }
         return ret;
     } );
@@ -1992,7 +2077,7 @@ float monster::get_melee() const
     return type->melee_skill;
 }
 
-float monster::dodge_roll()
+float monster::dodge_roll() const
 {
     return get_dodge() * 5;
 }
@@ -2396,27 +2481,8 @@ void monster::drop_items_on_death()
         return;
     }
 
-    std::vector<item> items = item_group::items_from( type->death_drops, calendar::start_of_cataclysm );
-
-    // This block removes some items, according to item spawn scaling factor
-    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-    if( spawn_rate < 1 ) {
-        // Temporary vector, to remember which items will be dropped
-        std::vector<item> remaining;
-        for( const item &it : items ) {
-            // Mission items are not affected by item spawn rate
-            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( STATIC( flag_id( "MISSION_ITEM" ) ) ) ) {
-                remaining.push_back( it );
-            }
-        }
-        // If there aren't any items left, there's nothing left to do
-        if( remaining.empty() ) {
-            return;
-        }
-        items = remaining;
-    }
-
-    const auto dropped = get_map().spawn_items( pos(), items );
+    std::vector<item *> dropped = get_map().place_items( type->death_drops, 100, pos(), pos(), true,
+                                  calendar::start_of_cataclysm );
 
     if( has_flag( MF_FILTHY ) ) {
         for( const auto &it : dropped ) {

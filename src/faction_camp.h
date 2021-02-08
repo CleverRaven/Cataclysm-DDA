@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_FACTION_CAMP_H
 #define CATA_SRC_FACTION_CAMP_H
 
-#include <string>
+#include <iosfwd>
 #include <utility>
 #include <vector>
 
@@ -18,7 +18,6 @@ class window;
 class npc;
 struct mission_entry;
 struct point;
-struct tripoint;
 
 enum class farm_ops : int {
     plow = 1,

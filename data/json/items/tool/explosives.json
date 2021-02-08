@@ -597,7 +597,7 @@
     "id": "gasbomb_makeshift_act",
     "type": "TOOL",
     "category": "weapons",
-    "name": { "str": "active makeshift gas grenade" },
+    "name": { "str": "active makeshift gas canister" },
     "description": "This homemade canister of poison gas has been unsealed, and is (or will shortly be) expelling highly toxic gas.  You should consider getting rid of it soon.",
     "weight": "1264 g",
     "volume": "250 ml",
@@ -620,7 +620,7 @@
       "fields_max_intensity": 3,
       "sound_volume": 0,
       "sound_msg": "Hiss.",
-      "no_deactivate_msg": "You've already armed the %s, try throwing it instead."
+      "no_deactivate_msg": "You've already armed the %s; try throwing it instead."
     },
     "flags": [ "TRADER_AVOID" ]
   },

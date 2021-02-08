@@ -63,6 +63,12 @@
     "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
   },
   {
+    "id": "BIONIC_INSTALLATION_DATA",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "This item <info>provides</info> instructions and other required data for several bionics, allowing installation of them with <good>minimal failure chance</good>."
+  },
+  {
     "id": "BIONIC_NPC_USABLE",
     "type": "json_flag",
     "context": [ "BIONIC_ITEM" ],
@@ -148,6 +154,11 @@
   },
   {
     "id": "SKINNED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
+    "id": "BLED",
     "type": "json_flag",
     "context": [ "GENERIC" ]
   },

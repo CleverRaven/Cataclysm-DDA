@@ -2,32 +2,27 @@
 #ifndef CATA_SRC_BIONICS_H
 #define CATA_SRC_BIONICS_H
 
-#include <algorithm>
 #include <cstddef>
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
-#include <string>
-#include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
+#include "enums.h"
 #include "flat_set.h"
 #include "magic.h"
 #include "optional.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
-class avatar;
 class Character;
 class JsonIn;
 class JsonObject;
 class JsonOut;
-class player;
 
 enum class character_stat : char;
 
@@ -88,6 +83,9 @@ struct bionic_data {
 
     float vitamin_absorb_mod = 1.0f;
 
+    // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
+    social_modifiers social_mods;
+
     /** bionic enchantments */
     std::vector<enchantment_id> enchantments;
 
@@ -141,8 +139,12 @@ struct bionic_data {
     /**Requirement to bionic installation*/
     requirement_id installation_requirement;
 
-    cata::flat_set<std::string> flags;
-    bool has_flag( const std::string &flag ) const;
+    cata::flat_set<json_character_flag> flags;
+    cata::flat_set<json_character_flag> active_flags;
+    cata::flat_set<json_character_flag> inactive_flags;
+    bool has_flag( const json_character_flag &flag ) const;
+    bool has_active_flag( const json_character_flag &flag ) const;
+    bool has_inactive_flag( const json_character_flag &flag ) const;
 
     itype_id itype() const;
 

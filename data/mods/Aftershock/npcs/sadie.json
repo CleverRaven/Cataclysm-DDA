@@ -194,7 +194,7 @@
     "count": 1,
     "start": {
       "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 18, "min_distance": 5, "z": 0 },
-      "update_mapgen": { "place_monster": [ { "monster": "mon_flesh_golem", "x": 11, "y": 11, "target": true, "name": "Billy" } ] }
+      "update_mapgen": { "place_monster": [ { "monster": "mon_flesh_golem_afs", "x": 11, "y": 11, "target": true, "name": "Billy" } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

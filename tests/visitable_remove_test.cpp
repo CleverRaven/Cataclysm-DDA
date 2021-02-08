@@ -1,12 +1,13 @@
-#include "catch/catch.hpp"
-
 #include <algorithm>
+#include <functional>
 #include <list>
 #include <memory>
+#include <new>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_utility.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "inventory.h"
 #include "item.h"
@@ -19,6 +20,7 @@
 #include "point.h"
 #include "rng.h"
 #include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"

@@ -291,6 +291,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_wolf",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Summon Wolf", "str_pl": "Scrolls of Summon Wolf" },
+    "description": "Call to the wild for aid from some wolves.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_wolf_druid" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_stonefist",
     "//": "Earthshaper spell",
     "name": { "str": "Scroll of Stonefist", "str_pl": "Scrolls of Stonefist" },
@@ -458,6 +467,15 @@
     "name": { "str": "Scroll of Frost Armor", "str_pl": "Scrolls of Frost Armor" },
     "description": "Covers you in a thin layer of magical ice to protect you from harm.",
     "use_action": { "type": "learn_spell", "spells": [ "frost_armor" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_shadow_field",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Shadow Field", "str_pl": "Scrolls of Shadow Field" },
+    "description": "Cast a field of shadows.",
+    "use_action": { "type": "learn_spell", "spells": [ "shadow_field" ] }
   },
   {
     "type": "BOOK",
@@ -972,5 +990,23 @@
     "name": { "str": "MICE(R) blueprint" },
     "description": "Manafied Infernal Combustion Engine (Rideable)\nDetailed schematics for a motorcycle, that are somehow simultaneously obviously impossible and yet intriguingly intuitive.\nIn one margin, the word 'Mojocycle' has been scrawled in a flowing hand.",
     "use_action": { "type": "learn_spell", "spells": [ "summon_magic_motorcycle" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_nova_flare",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Nova Flare", "str_pl": "Scrolls of Nova Flare" },
+    "description": "Causes an intense heat at the location, greatly damaging the target.",
+    "use_action": { "type": "learn_spell", "spells": [ "nova_flare" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_freezing_touch",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of freezing touch", "str_pl": "Scrolls of freezing touch" },
+    "description": "Your hands freeze anything they touch at temperatures so cold it slows down your foes.",
+    "use_action": { "type": "learn_spell", "spells": [ "freezing_touch" ] }
   }
 ]

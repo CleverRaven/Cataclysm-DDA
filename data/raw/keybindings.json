@@ -3428,5 +3428,19 @@
     "id": "CHECK_OPINION",
     "name": "Check opinion",
     "bindings": [ { "input_method": "keyboard_char", "key": "O" }, { "input_method": "keyboard_code", "key": "o", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "FACTION_MANAGER",
+    "id": "INSPECT_NPC",
+    "name": "Inspect NPC",
+    "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SORT",
+    "category": "NEW_CHAR_TRAITS",
+    "name": "Sort traits list",
+    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
   }
 ]

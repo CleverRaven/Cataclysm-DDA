@@ -3,15 +3,17 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
-#include <cstdlib>
+#include <cstdio>
+#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
+#include <string>
 #include <type_traits>
 #include <utility>
 
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "ammo.h"
@@ -41,7 +43,6 @@
 #include "event_bus.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
@@ -49,7 +50,6 @@
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "input.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -58,7 +58,9 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "magic.h"
 #include "magic_teleporter_list.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -67,7 +69,6 @@
 #include "messages.h"
 #include "mission_companion.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -85,7 +86,6 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "talker.h"
 #include "timed_event.h"
@@ -95,7 +95,6 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
@@ -128,6 +127,8 @@ static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_vis
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+
+static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
@@ -205,7 +206,6 @@ static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
 static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 
-static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
@@ -399,7 +399,7 @@ void iexamine::attunement_altar( player &p, const tripoint & )
 {
     std::set<trait_id> attunements;
     for( const mutation_branch &mut : mutation_branch::get_all() ) {
-        if( mut.flags.count( "ATTUNEMENT" ) ) {
+        if( mut.flags.count( json_flag_ATTUNEMENT ) ) {
             attunements.emplace( mut.id );
         }
     }
@@ -1500,7 +1500,8 @@ void iexamine::safe( player &guy, const tripoint &examp )
         return temporary_item.has_flag( flag_SAFECRACK );
     } );
 
-    if( !( !cracking_tool.empty() || guy.has_bionic( bio_ears ) ) ) {
+    if( !( !cracking_tool.empty() ||
+           guy.has_flag( STATIC( json_character_flag( "IMMUNE_HEARING_DAMAGE" ) ) ) ) ) {
         guy.moves -= to_turns<int>( 10_seconds );
         // Assume a 3 digit 100-number code. Many safes allow adjacent + 1 dial locations to match,
         // so 1/20^3, or 1/8,000 odds.
@@ -1603,7 +1604,8 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
         if( p.get_power_level() >= bio_lockpick->power_activate ) {
             p.mod_power_level( -bio_lockpick->power_activate );
             p.add_msg_if_player( m_info, _( "You activate your %s." ), bio_lockpick->name );
-            p.assign_activity( lockpick_activity_actor::use_bionic( here.getabs( examp ) ) );
+            p.assign_activity(
+                player_activity( lockpick_activity_actor::use_bionic( here.getabs( examp ) ) ) );
             return;
         } else {
             p.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
@@ -1631,8 +1633,12 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
     } );
 
     for( item *it : picklocks ) {
+        if( !query_yn( _( "Pick lock the lock of %1$s using your %2$s?" ),
+                       here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() ) ) {
+            return;
+        }
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
-        p.add_msg_if_player( _( "You attempt to pick lock of %1$s using your %2$s…" ),
+        p.add_msg_if_player( _( "You attempt to pick the lock of %1$s using your %2$s…" ),
                              here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
         const ret_val<bool> can_use = iuse_fn->can_call( p, *it, false, examp );
         if( can_use.success() ) {
@@ -4895,7 +4901,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
     } else if( patient.activity.id() == ACT_OPERATION ) {
         popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
-               to_string( time_duration::from_turns( patient.activity.moves_left / 100 ) ) );
+               to_string( time_duration::from_moves( patient.activity.moves_left ) ) );
         p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
         return;
     }
@@ -4950,10 +4956,22 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             const itype *itemtype = bionic.get_item()->type;
+            const std::string bionic_name = bionic.get_item()->typeId().c_str();
 
             player &installer = best_installer( p, null_player, itemtype->bionic->difficulty );
             if( &installer == &null_player ) {
                 return;
+            }
+
+            std::vector<item_comp> progs;
+            bool has_install_program = false;
+
+            std::vector<const item *> install_programs = p.crafting_inventory().items_with( [itemtype](
+                        const item & it ) -> bool { return it.typeId() == itemtype->bionic->installation_data; } );
+
+            if( !install_programs.empty() ) {
+                has_install_program = true;
+                progs.push_back( item_comp( install_programs[0]->typeId(), 1 ) );
             }
 
             const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
@@ -4961,7 +4979,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                                 surgery_duration * weight;
 
-            if( patient.can_install_bionics( ( *itemtype ), installer, true ) ) {
+            if( patient.can_install_bionics( ( *itemtype ), installer, true, has_install_program ? 10 : -1 ) ) {
                 const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 bionic.remove_item();
@@ -4975,7 +4993,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     p.invalidate_crafting_inventory();
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
-                patient.install_bionics( ( *itemtype ), installer, true );
+
+                patient.install_bionics( ( *itemtype ), installer, true, has_install_program ? 10 : -1 );
+
+                if( has_install_program ) {
+                    patient.consume_items( progs );
+                }
             }
             break;
         }

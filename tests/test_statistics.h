@@ -2,12 +2,12 @@
 #ifndef CATA_TESTS_TEST_STATISTICS_H
 #define CATA_TESTS_TEST_STATISTICS_H
 
-#include <cmath>
-#include <limits>
-#include <vector>
 #include <algorithm>
-#include <string>
+#include <cmath>
+#include <iosfwd>
+#include <limits>
 #include <type_traits>
+#include <vector>
 
 #include "catch/catch.hpp"
 
@@ -50,7 +50,8 @@ class statistics
         T _min;
         std::vector< T > samples;
     public:
-        statistics( const double Z = Z99_9 ) : _types( 0 ), _n( 0 ), _sum( 0 ), _error( invalid_err ),
+        explicit statistics( const double Z = Z99_9 ) :
+            _types( 0 ), _n( 0 ), _sum( 0 ), _error( invalid_err ),
             _Z( Z ),  _Zsq( Z * Z ), _max( std::numeric_limits<T>::min() ),
             _min( std::numeric_limits<T>::max() ) {}
 

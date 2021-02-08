@@ -3,14 +3,16 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "auto_pickup.h"
 #include "cata_utility.h"
@@ -23,9 +25,7 @@
 #include "enums.h"
 #include "game.h"
 #include "input.h"
-#include "int_id.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_search.h"
 #include "item_stack.h"
@@ -44,14 +44,12 @@
 #include "ret_val.h"
 #include "sdltiles.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "units_utility.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"

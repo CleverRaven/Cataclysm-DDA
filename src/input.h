@@ -2,9 +2,8 @@
 #ifndef CATA_SRC_INPUT_H
 #define CATA_SRC_INPUT_H
 
-#include <algorithm>
-#include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -485,8 +484,8 @@ class input_context
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
-        input_context( const std::string &category,
-                       const keyboard_mode preferred_keyboard_mode = keyboard_mode::keycode )
+        explicit input_context( const std::string &category,
+                                const keyboard_mode preferred_keyboard_mode = keyboard_mode::keycode )
             : registered_any_input( false ), category( category ),
               coordinate_input_received( false ), handling_coordinate_input( false ),
               preferred_keyboard_mode( preferred_keyboard_mode ) {
@@ -664,7 +663,16 @@ class input_context
          * @param text The base text for action description
          *
          * @param evt_filter Only keys satisfying this function will be considered
+         * @param inline_fmt Action description format when a key is found in the
+         *                   text (for example "(a)ctive")
+         * @param separate_fmt Action description format when a key is not found
+         *                     in the text (for example "[X] active" or "[N/A] active")
          */
+        std::string get_desc( const std::string &action_descriptor,
+                              const std::string &text,
+                              const input_event_filter &evt_filter,
+                              const translation &inline_fmt,
+                              const translation &separate_fmt ) const;
         std::string get_desc( const std::string &action_descriptor,
                               const std::string &text,
                               const input_event_filter &evt_filter = allow_all_keys ) const;

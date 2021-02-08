@@ -1,15 +1,18 @@
+#include "game.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cmath>
+#include <exception>
 #include <iostream>
 #include <iterator>
+#include <map>
 #include <set>
+#include <string>
 #include <utility>
 
 #include "character.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "damage.h"
-#include "flat_set.h"
-#include "game.h" // IWYU pragma: associated
 #include "init.h"
 #include "item.h"
 #include "item_factory.h"
@@ -21,9 +24,12 @@
 #include "output.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
+#include "ret_val.h"
 #include "skill.h"
+#include "stomach.h"
 #include "translations.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
@@ -141,7 +147,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.type->stack_size ) );
-            r.push_back( to_string( obj.get_comestible()->default_nutrition.kcal ) );
+            r.push_back( to_string( obj.get_comestible()->default_nutrition.kcal() ) );
             r.push_back( to_string( obj.get_comestible()->quench ) );
             r.push_back( to_string( obj.get_comestible()->healthy ) );
             auto vits = obj.get_comestible()->default_nutrition.vitamins;
@@ -166,19 +172,19 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             "Aim time", "Effective range", "Snapshot range", "Max range"
         };
 
-        std::set<std::string> locations;
+        std::set<gunmod_location> locations;
         for( const itype *e : item_controller->all() ) {
             if( e->gun ) {
                 std::transform( e->gun->valid_mod_locations.begin(),
                                 e->gun->valid_mod_locations.end(),
                                 std::inserter( locations, locations.begin() ),
                 []( const std::pair<gunmod_location, int> &q ) {
-                    return q.first.name();
+                    return q.first;
                 } );
             }
         }
         for( const auto &e : locations ) {
-            header.push_back( e );
+            header.push_back( e.name() );
         }
 
         auto dump = [&rows, &locations]( const standard_npc & who, const item & obj ) {

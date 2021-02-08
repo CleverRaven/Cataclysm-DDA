@@ -2,13 +2,11 @@
 #ifndef CATA_SRC_NPC_CLASS_H
 #define CATA_SRC_NPC_CLASS_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <vector>
 
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -27,7 +25,7 @@ class distribution
 {
     private:
         std::function<float()> generator_function;
-        distribution( const std::function<float()> &gen );
+        explicit distribution( const std::function<float()> &gen );
 
     public:
         distribution();

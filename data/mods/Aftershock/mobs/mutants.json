@@ -54,5 +54,13 @@
         "monster_message": "A burst of frozen air explodes from their lungs!"
       }
     ]
+  },
+  {
+    "id": "mon_flesh_golem_afs",
+    "type": "MONSTER",
+    "copy-from": "mon_flesh_golem",
+    "upgrades": { "half_life": 15, "into": "mon_flesh_golem_afs" },
+    "special_attacks": [ [ "FLESH_GOLEM", 8 ], [ "ABSORB_MEAT", 1 ], [ "hypo_pkill", 1 ] ],
+    "death_drops": "mon_zombie_scientist_death_drops"
   }
 ]

@@ -2,15 +2,18 @@
 #ifndef CATA_SRC_EFFECT_SOURCE_H
 #define CATA_SRC_EFFECT_SOURCE_H
 
-#include "optional.h"
-#include "cata_utility.h"
+#include <new>
+
 #include "character_id.h"
+#include "optional.h"
 #include "type_id.h"
 
-class faction;
-class monster;
 class Character;
 class Creature;
+class JsonIn;
+class JsonOut;
+class faction;
+class monster;
 
 // This class stores the source of an effect; e.g. if something
 // has bleed effect on it then this can try and tell you who/what caused it
@@ -18,10 +21,10 @@ class effect_source
 {
     public:
         effect_source() = default;
-        effect_source( const monster *mon );
-        effect_source( const faction *fac );
-        effect_source( const Character *character );
-        effect_source( const Creature *creature );
+        explicit effect_source( const monster *mon );
+        explicit effect_source( const faction *fac );
+        explicit effect_source( const Character *character );
+        explicit effect_source( const Creature *creature );
 
         // const static member provided for empty sources so
         // unassigned sources can more easily be found

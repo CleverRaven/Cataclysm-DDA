@@ -1,8 +1,9 @@
-#include "catch/catch.hpp"
-
 #include <list>
+#include <new>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "catch/catch.hpp"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"

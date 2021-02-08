@@ -78,9 +78,9 @@
   {
     "type": "overmap_terrain",
     "id": "standing_stones",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
+    "name": "standing stones",
+    "sym": "O",
+    "color": "dark_gray",
     "see_cost": 3,
     "spawns": { "group": "GROUP_STANDING_STONES", "population": [ 1, 4 ], "chance": 100 },
     "flags": [ "NO_ROTATE" ]
@@ -214,9 +214,9 @@
   {
     "type": "overmap_terrain",
     "id": "spider_pit",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
+    "name": "spider pit",
+    "sym": "S",
+    "color": "white",
     "see_cost": 3,
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },

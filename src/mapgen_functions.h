@@ -3,8 +3,8 @@
 #define CATA_SRC_MAPGEN_FUNCTIONS_H
 
 #include <functional>
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <utility>
 
 #include "coordinates.h"

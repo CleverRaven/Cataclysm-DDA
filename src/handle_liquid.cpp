@@ -5,19 +5,19 @@
 #include <functional>
 #include <iterator>
 #include <list>
+#include <new>
 #include <ostream>
 #include <set>
-#include <string>
 #include <vector>
 
 #include "action.h"
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
+#include "color.h"
 #include "debug.h"
 #include "enums.h"
 #include "game_inventory.h"
@@ -35,8 +35,9 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
-#include "vehicle.h"
+#include "units.h"
 #include "veh_interact.h"
+#include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 

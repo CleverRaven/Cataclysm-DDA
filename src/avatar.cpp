@@ -10,18 +10,22 @@
 #include <map>
 #include <memory>
 #include <set>
-#include <unordered_map>
+#include <string>
 #include <utility>
 
 #include "action.h"
+#include "activity_type.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "clzones.h"
 #include "color.h"
 #include "compatibility.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
@@ -33,7 +37,6 @@
 #include "help.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
@@ -43,11 +46,9 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
-#include "monster.h"
 #include "morale.h"
 #include "morale_types.h"
 #include "move_mode.h"
-#include "mtype.h"
 #include "npc.h"
 #include "optional.h"
 #include "options.h"
@@ -62,14 +63,12 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "talker.h"
 #include "talker_avatar.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -77,9 +76,7 @@
 static const activity_id ACT_READ( "ACT_READ" );
 
 static const bionic_id bio_cloak( "bio_cloak" );
-static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
-static const bionic_id bio_watch( "bio_watch" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_boomered( "boomered" );
@@ -119,6 +116,8 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
+
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
 avatar::avatar()
 {
@@ -302,7 +301,8 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
         reasons.emplace_back( _( "You're illiterate!" ) );
     } else if( has_trait( trait_HYPEROPIC ) &&
                !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
-               !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
+               !has_effect( effect_contacts ) &&
+               !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
         reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
         // Too dark to read only applies if the player can read to himself
@@ -686,6 +686,34 @@ bool avatar::read( item &it, const bool continuous )
 
 void avatar::grab( object_type grab_type, const tripoint &grab_point )
 {
+    const auto update_memory =
+    [this]( const object_type gtype, const tripoint & gpoint, const bool erase ) {
+        map &m = get_map();
+        if( gtype == object_type::VEHICLE ) {
+            const optional_vpart_position vp = m.veh_at( pos() + gpoint );
+            if( vp ) {
+                const vehicle &veh = vp->vehicle();
+                for( const tripoint &target : veh.get_points() ) {
+                    if( erase ) {
+                        clear_memorized_tile( m.getabs( target ) );
+                    }
+                    m.set_memory_seen_cache_dirty( target );
+                }
+            }
+        } else if( gtype != object_type::NONE ) {
+            if( erase ) {
+                clear_memorized_tile( m.getabs( pos() + gpoint ) );
+            }
+            m.set_memory_seen_cache_dirty( pos() + gpoint );
+        }
+    };
+    // Mark the area covered by the previous vehicle/furniture/etc for re-memorizing.
+    update_memory( this->grab_type, this->grab_point, false );
+    // Clear the map memory for the area covered by the vehicle/furniture/etc to
+    // eliminate ghost vehicles/furnitures/etc.
+    // FIXME: change map memory to memorize all memorizable objects and only erase vehicle part memory.
+    update_memory( grab_type, grab_point, true );
+
     this->grab_type = grab_type;
     this->grab_point = grab_point;
 
@@ -756,8 +784,8 @@ void avatar::do_read( item &book )
                 min_ex += 2;
             }
 
-            min_ex = adjust_for_focus( min_ex );
-            max_ex = adjust_for_focus( max_ex );
+            min_ex = adjust_for_focus( min_ex ) / 100;
+            max_ex = adjust_for_focus( max_ex ) / 100;
 
             if( max_ex < 2 ) {
                 max_ex = 2;
@@ -982,7 +1010,7 @@ void avatar::wake_up()
             add_msg( _( "It looks like you woke up before your alarm." ) );
             remove_effect( effect_alarm_clock );
         } else if( has_effect( effect_slept_through_alarm ) ) {
-            if( has_bionic( bio_watch ) ) {
+            if( has_flag( json_flag_ALARMCLOCK ) ) {
                 add_msg( m_warning, _( "It looks like you've slept through your internal alarm…" ) );
             } else {
                 add_msg( m_warning, _( "It looks like you've slept through the alarm…" ) );
@@ -1142,7 +1170,7 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
 
 int avatar::calc_focus_change() const
 {
-    int focus_gap = calc_focus_equilibrium() - focus_pool;
+    int focus_gap = calc_focus_equilibrium() - get_focus();
 
     // handle negative gain rates in a symmetric manner
     int base_change = 1;
@@ -1151,20 +1179,13 @@ int avatar::calc_focus_change() const
         focus_gap = -focus_gap;
     }
 
-    // for every 100 points, we have a flat gain of 1 focus.
-    // for every n points left over, we have an n% chance of 1 focus
-    int gain = focus_gap / 100;
-    if( rng( 1, 100 ) <= focus_gap % 100 ) {
-        gain++;
-    }
-
-    gain *= base_change;
+    int gain = focus_gap * base_change;
 
     // Fatigue will incrementally decrease any focus above related cap
-    if( ( get_fatigue() >= fatigue_levels::TIRED && focus_pool > 80 ) ||
-        ( get_fatigue() >= fatigue_levels::DEAD_TIRED && focus_pool > 60 ) ||
-        ( get_fatigue() >= fatigue_levels::EXHAUSTED && focus_pool > 40 ) ||
-        ( get_fatigue() >= fatigue_levels::MASSIVE_FATIGUE && focus_pool > 20 ) ) {
+    if( ( get_fatigue() >= fatigue_levels::TIRED && get_focus() > 80 ) ||
+        ( get_fatigue() >= fatigue_levels::DEAD_TIRED && get_focus() > 60 ) ||
+        ( get_fatigue() >= fatigue_levels::EXHAUSTED && get_focus() > 40 ) ||
+        ( get_fatigue() >= fatigue_levels::MASSIVE_FATIGUE && get_focus() > 20 ) ) {
 
         //it can fall faster then 1
         if( gain > -1 ) {
@@ -1176,8 +1197,9 @@ int avatar::calc_focus_change() const
 
 void avatar::update_mental_focus()
 {
-
-    focus_pool += calc_focus_change();
+    // calc_focus_change() returns percentile focus, applying it directly
+    // to focus pool is an implicit / 100.
+    focus_pool += 10 * calc_focus_change();
 
     // Moved from calc_focus_equilibrium, because it is now const
     if( activity.id() == ACT_READ ) {
@@ -1593,7 +1615,7 @@ bool avatar::wield( item &target, const int obtain_cost )
     last_item = weapon.typeId();
     recoil = MAX_RECOIL;
 
-    weapon.on_wield( *this, mv );
+    weapon.on_wield( *this );
 
     get_event_bus().send<event_type::character_wields_item>( getID(), last_item );
 

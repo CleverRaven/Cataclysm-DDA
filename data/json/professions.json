@@ -1288,7 +1288,10 @@
     "description": "Cocaine.  It is, indeed, a helluva drug.  You blew your money on some dust, and before you knew it you were turning tricks behind the local CVS just to score one more line.  Where are you going to get your next fix now?",
     "points": -1,
     "items": {
-      "both": { "items": [ "crackpipe", "crack", "crack", "tank_top" ], "entries": [ { "group": "charged_ref_lighter" } ] },
+      "both": {
+        "items": [ "crackpipe", "tank_top" ],
+        "entries": [ { "group": "charged_ref_lighter" }, { "item": "crack", "charges": 8, "container-item": "bag_zipper" } ]
+      },
       "male": [ "jeans", "flip_flops" ],
       "female": [ "jeans", "heels" ]
     },
@@ -2891,10 +2894,10 @@
   {
     "type": "profession",
     "id": "reenactor",
-    "name": "Historical Reenactor",
+    "name": { "male": "Historical Reenactor", "female": "Ahistorical Reenactor" },
     "description": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world permanently derailed your plans.",
     "points": 3,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_gunsmithing_antique" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_metalworking", "prof_gunsmithing_antique" ],
     "skills": [
       { "level": 2, "name": "tailor" },
       { "level": 2, "name": "gun" },
@@ -2903,11 +2906,12 @@
     ],
     "items": {
       "both": {
-        "items": [ "stockings", "pockknife", "pipe_tobacco", "tobacco", "backpack" ],
-        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_matches" } ]
-      },
-      "male": {
         "items": [
+          "stockings",
+          "pockknife",
+          "pipe_tobacco",
+          "tobacco",
+          "backpack",
           "knee_high_boots",
           "breeches",
           "waistcoat",
@@ -2924,32 +2928,20 @@
           { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
           { "item": "flintlock_ammo", "charges": 15 },
           { "item": "vinegar", "container-item": "bottle_plastic_small" },
-          { "item": "lamp_oil", "container-item": "bottle_plastic_small" }
+          { "item": "lamp_oil", "container-item": "bottle_plastic_small" },
+          { "group": "charged_cell_phone" },
+          { "group": "charged_matches" }
         ]
-      },
-      "female": {
-        "items": [
-          "dress",
-          "apron_leather",
-          "boots",
-          "gloves_leather",
-          "long_knit_scarf",
-          "hat_fur",
-          "purse",
-          "pot",
-          "cornmeal",
-          "salt"
-        ],
-        "entries": [ { "item": "needle_wood", "ammo-item": "thread", "charges": 200 }, { "item": "oil_lamp", "charges": 750 } ]
       }
     }
   },
   {
     "type": "profession",
     "id": "reenactor2",
-    "name": "Ahistorical Reenactor",
+    "name": { "male": "Ahistorical Reenactor", "female": "Historical Reenactor" },
     "description": "You were on your way to the Annual All New England Revolutionary War Living History exhibition when the end of the world made traditional gender roles obsolete.",
     "points": 3,
+    "proficiencies": [ "prof_spinning", "prof_closures", "prof_knitting" ],
     "skills": [
       { "level": 2, "name": "tailor" },
       { "level": 2, "name": "gun" },
@@ -2958,11 +2950,12 @@
     ],
     "items": {
       "both": {
-        "items": [ "stockings", "pockknife", "pipe_tobacco", "tobacco", "backpack" ],
-        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_matches" } ]
-      },
-      "male": {
         "items": [
+          "stockings",
+          "pockknife",
+          "pipe_tobacco",
+          "tobacco",
+          "backpack",
           "dress",
           "apron_leather",
           "boots",
@@ -2974,27 +2967,11 @@
           "cornmeal",
           "salt"
         ],
-        "entries": [ { "item": "needle_wood", "ammo-item": "thread", "charges": 200 }, { "item": "oil_lamp", "charges": 750 } ]
-      },
-      "female": {
-        "items": [
-          "knee_high_boots",
-          "breeches",
-          "waistcoat",
-          "peacoat",
-          "leather_belt",
-          "knit_scarf",
-          "tricorne",
-          "hatchet",
-          "hardtack",
-          "pipe_cleaner"
-        ],
         "entries": [
-          { "item": "rifle_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "contents-item": "shoulder_strap" },
-          { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
-          { "item": "flintlock_ammo", "charges": 15 },
-          { "item": "vinegar", "container-item": "bottle_plastic_small" },
-          { "item": "lamp_oil", "container-item": "bottle_plastic_small" }
+          { "item": "needle_wood", "ammo-item": "thread", "charges": 200 },
+          { "item": "oil_lamp", "charges": 750 },
+          { "group": "charged_cell_phone" },
+          { "group": "charged_matches" }
         ]
       }
     }
@@ -3348,10 +3325,12 @@
           "sneakers",
           "roadmap",
           "touristmap",
-          "wristwatch",
-          "camera"
+          "wristwatch"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -3802,7 +3781,11 @@
     "name": "Heroin Addict",
     "description": "The last thing you remember was meeting God behind the local Foodplace.  Then people started eating each other.  This doesn't feel like a fever dream.",
     "points": -3,
-    "items": { "both": [ "shorts", "heroin", "syringe" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] },
+    "items": {
+      "both": { "items": [ "shorts", "syringe" ], "entries": [ { "item": "heroin", "charges": 9, "container-item": "bag_zipper" } ] },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
     "addictions": [ { "intensity": 40, "type": "opiate" } ]
   },
   {

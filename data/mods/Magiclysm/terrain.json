@@ -105,5 +105,30 @@
       "ter_set": "t_thconc_floor",
       "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_vault_vent",
+    "name": "vault vent",
+    "description": "This concrete flooring has a vent pouring fresh, clean air into the vault.",
+    "looks_like": "t_strconc_floor",
+    "symbol": ".",
+    "color": "cyan",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 150,
+      "str_max": 400,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "rock", "count": [ 10, 22 ] },
+        { "item": "scrap", "count": [ 10, 12 ] },
+        { "item": "rebar", "count": [ 0, 4 ] }
+      ]
+    },
+    "emissions": [ "emit_vault_atmosphere" ]
   }
 ]

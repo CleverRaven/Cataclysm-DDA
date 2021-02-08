@@ -1,16 +1,17 @@
 #include "json.h"
 
+#include <clocale>
 #include <algorithm>
 #include <bitset>
 #include <cmath> // IWYU pragma: keep
 #include <cstdint>
 #include <cstdio>
-#include <cstdlib> // strtoul: keep
 #include <cstring> // strcmp
 #include <exception>
+#include <functional>
 #include <iterator>
 #include <limits>
-#include <locale> // ensure user's locale doesn't interfere with output
+#include <memory>
 #include <set>
 #include <sstream> // IWYU pragma: keep
 #include <string>
@@ -167,7 +168,7 @@ int JsonObject::verify_position( const std::string &name,
         if( throw_exception ) {
             throw JsonError( std::string( "member lookup on empty object: " ) + name );
         }
-        // 0 is always the opening brace,
+        // 0 is always before the opening brace,
         // so it will never indicate a valid member position
         return 0;
     }
@@ -177,7 +178,7 @@ int JsonObject::verify_position( const std::string &name,
             jsin->seek( start );
             jsin->error( "member not found: " + name );
         }
-        // 0 is always the opening brace,
+        // 0 is always before the opening brace,
         // so it will never indicate a valid member position
         return 0;
     }
@@ -214,7 +215,10 @@ void JsonObject::throw_error( const std::string &err, const std::string &name ) 
     if( !jsin ) {
         throw JsonError( err );
     }
-    jsin->seek( verify_position( name, false ) );
+    const int pos = verify_position( name, false );
+    if( pos ) {
+        jsin->seek( pos );
+    }
     jsin->error( err );
 }
 

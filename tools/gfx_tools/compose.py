@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-
-# compose.py
-
 '''
 Merge all tile entries and PNGs in a compositing tileset directory into
 a tile_config.json and tilesheet .png file(s) ready for use in CDDA.
@@ -28,7 +25,7 @@ try:
     Vips = pyvips
 except ImportError:
     import gi
-    gi.require_version('Vips', '8.0')
+    gi.require_version('Vips', '8.0')  # NoQA
     from gi.repository import Vips
 
 PROPERTIES_FILENAME = 'tileset.txt'
@@ -56,12 +53,13 @@ FALLBACK = {
     ]
 }
 
-ERROR_LOGGED = False
-
 
 def write_to_json(pathname: str, data: Union[dict, list]) -> None:
-    with open(pathname, 'w') as fp:
-        json.dump(data, fp)
+    '''
+    Write data to a JSON file
+    '''
+    with open(pathname, 'w') as file:
+        json.dump(data, file)
 
     json_formatter = './tools/format/json_formatter.cgi'
     if os.path.isfile(json_formatter):
@@ -70,6 +68,10 @@ def write_to_json(pathname: str, data: Union[dict, list]) -> None:
 
 
 def find_or_make_dir(pathname: str) -> None:
+    '''
+    Autocreate needed directory if it doesn't exist
+    TODO: just use pathlib
+    '''
     try:
         os.stat(pathname)
     except OSError:
@@ -87,9 +89,9 @@ def read_properties(filepath: str) -> dict:
     '''
     tileset.txt reader
     '''
-    with open(filepath, 'r') as fp:
+    with open(filepath, 'r') as file:
         pairs = {}
-        for line in fp.readlines():
+        for line in file.readlines():
             line = line.strip()
             if line and not line.startswith('#'):
                 key, value = line.split(':')
@@ -97,13 +99,27 @@ def read_properties(filepath: str) -> dict:
     return pairs
 
 
+class ComposingException(Exception):
+    '''
+    Base class for all composing exceptions
+    '''
+
+
 class Tileset:
     '''
     Referenced sprites memory and handling, tile entries conversion
     '''
-    def __init__(self, source_dir: str, output_dir: str) -> None:
+    def __init__(
+            self,
+            source_dir: str,
+            output_dir: str,
+            use_all: bool = False,
+            obsolete_fillers: bool = False) -> None:
         self.source_dir = source_dir
         self.output_dir = output_dir
+        self.use_all = use_all
+        self.obsolete_fillers = obsolete_fillers
+        self.output_conf_file = None
 
         self.pngnum = 1
         self.referenced_pngnames = []
@@ -115,19 +131,25 @@ class Tileset:
 
         if not os.access(self.source_dir, os.R_OK) \
                 or not os.path.isdir(self.source_dir):
-            sys.exit(f'Error: cannot open directory {self.source_dir}')
+            raise ComposingException(
+                f'Error: cannot open directory {self.source_dir}')
 
         self.processed_ids = []
         info_path = os.path.join(self.source_dir, 'tile_info.json')
         self.sprite_width = 16
         self.sprite_height = 16
         self.info = [{}]
+
         if not os.access(info_path, os.R_OK):
-            sys.exit(f'Error: cannot open {info_path}')
-        with open(info_path, 'r') as fp:
-            self.info = json.load(fp)
+            raise ComposingException(f'Error: cannot open {info_path}')
+
+        with open(info_path, 'r') as file:
+            self.info = json.load(file)
             self.sprite_width = self.info[0].get('width')
             self.sprite_height = self.info[0].get('height')
+
+        # TODO: self.errors
+        self.error_logged = False
 
     def determine_conffile(self) -> str:
         '''
@@ -143,24 +165,131 @@ class Tileset:
                     break
 
         if not properties:
-            sys.exit(f'No valid {PROPERTIES_FILENAME} found')
+            raise ComposingException(f'No valid {PROPERTIES_FILENAME} found')
 
         conf_filename = properties.get('JSON', None)
 
         if not conf_filename:
-            sys.exit(f'No JSON key found in {PROPERTIES_FILENAME}')
+            raise ComposingException(
+                f'No JSON key found in {PROPERTIES_FILENAME}')
 
         self.output_conf_file = conf_filename
         return self.output_conf_file
 
-    def find_unused(self, use_all: bool = False) -> dict:
+    def compose(self) -> None:
+        '''
+        Convert a composing tileset into a package readable by the game
+        '''
+        tileset_confpath = os.path.join(
+            self.output_dir, self.determine_conffile())
+        typed_sheets = {
+            'main': [],
+            'filler': [],
+            'fallback': [],
+        }
+        fallback_name = 'fallback.png'
+
+        # loop through tilesheets and parse all configs in subdirectories,
+        # create sheet images
+        for config_index in range(1, len(self.info)):
+            sheet = Tilesheet(self, config_index)
+
+            if sheet.is_filler:
+                sheet_type = 'filler'
+            elif sheet.is_fallback:
+                sheet_type = 'fallback'
+            else:
+                sheet_type = 'main'
+
+            print(f'Info: parsing {sheet_type} tilesheet {sheet.name}')
+            if sheet_type != 'fallback':
+                sheet.walk_dirs()
+
+                # write output PNGs
+                if not sheet.write_composite_png():
+                    continue
+
+                sheet.max_index = self.pngnum
+
+            typed_sheets[sheet_type].append(sheet)
+
+        # combine config data in the correct order
+        sheet_configs = typed_sheets['main'] + typed_sheets['filler'] \
+            + typed_sheets['fallback']
+
+        # prepare "tiles-new", but remember max index of each sheet in keys
+        tiles_new_dict = dict()
+
+        for sheet in sheet_configs:
+            if sheet.is_fallback:
+                fallback_name = sheet.name
+                continue
+            sheet_entries = []
+
+            for tile_entry in sheet.tile_entries:
+                # TODO: pop?
+                converted_tile_entry = tile_entry.convert(
+                    is_filler=sheet.is_filler)
+                if converted_tile_entry:
+                    sheet_entries.append(converted_tile_entry)
+
+            sheet_conf = {
+                'file': sheet.name,
+                'tiles': sheet_entries,
+                '//': f'range {sheet.first_index} to {sheet.max_index}'
+            }
+
+            if not sheet.is_standard():
+                sheet_conf['sprite_width'] = sheet.sprite_width
+                sheet_conf['sprite_height'] = sheet.sprite_height
+                sheet_conf['sprite_offset_x'] = sheet.offset_x
+                sheet_conf['sprite_offset_y'] = sheet.offset_y
+
+            tiles_new_dict[sheet.max_index] = sheet_conf
+
+        # find unused images
+        unused = self.find_unused()
+
+        # unused list must be empty without use_all
+        for unused_png in unused:
+            unused_num = self.pngname_to_pngnum[unused_png]
+            sheet_min_index = 0
+            for sheet_max_index in tiles_new_dict:
+                if sheet_min_index < unused_num <= sheet_max_index:
+                    tiles_new_dict[sheet_max_index]['tiles'].append(
+                        {'id': unused_png.split('.png')[0],
+                         'fg': unused_num})
+                    break
+                sheet_min_index = sheet_max_index
+
+        # finalize "tiles-new" config
+        tiles_new = list(tiles_new_dict.values())
+
+        FALLBACK['file'] = fallback_name
+        tiles_new.append(FALLBACK)
+        output_conf = {
+            'tile_info': [{
+                'width': self.sprite_width,
+                'height': self.sprite_height
+            }],
+            'tiles-new': tiles_new
+        }
+
+        # save the config
+        write_to_json(tileset_confpath, output_conf)
+
+    def find_unused(self) -> dict:
         '''
         Find unused images and either warn about them or return the list
         '''
         unused = dict()
         for pngname, pngnum in self.pngname_to_pngnum.items():
             if pngnum and pngname not in self.referenced_pngnames:
-                if use_all:
+                if pngname in self.processed_ids:
+                    print(f'Error: {pngname}.png not used when {pngname} ID '
+                          'is mentioned in a tile entry')
+                    self.error_logged = True
+                if self.use_all:
                     unused[pngname] = pngnum
                 else:
                     print(
@@ -177,14 +306,12 @@ class Tilesheet:
             self,
             tileset: Tileset,
             config_index: int,
-            obsolete_fillers: bool = False,
             sheet_width: int = 16) -> None:
         self.sheet_width = sheet_width  # sprites across, could be anything
         tilesheet_config_obj = tileset.info[config_index]
         self.name = next(iter(tilesheet_config_obj))
         self.specs = tilesheet_config_obj[self.name] or {}
         self.tileset = tileset
-        self.obsolete_fillers = obsolete_fillers
 
         self.sprite_width = self.specs.get(
             'sprite_width', tileset.sprite_width)
@@ -209,10 +336,6 @@ class Tilesheet:
             Vips.Image.grey(self.sprite_width, self.sprite_height)
         self.sprites = [self.null_image] if config_index == 1 else []
 
-    def set_first_index(self) -> None:
-        '''
-        Set initial indexes.
-        '''
         self.first_index = self.tileset.pngnum
         self.max_index = self.tileset.pngnum
 
@@ -232,8 +355,9 @@ class Tilesheet:
         '''
         Find and process all JSON and PNG files within sheet directory
         '''
-        for subdir_fpath, dirnames, filenames in os.walk(self.subdir_path):
-            for filename in filenames:
+        for subdir_fpath, _, filenames in sorted(
+                os.walk(self.subdir_path), key=lambda d: d[0]):
+            for filename in sorted(filenames):
                 filepath = os.path.join(subdir_fpath, filename)
                 if filename.endswith('.png'):
                     self.process_png(filepath, filename)
@@ -245,14 +369,15 @@ class Tilesheet:
         Verify image root name is unique, load it and register
         '''
         pngname = filename.split('.png')[0]
-        if (pngname in self.tileset.pngname_to_pngnum):
-            print(f'skipping {pngname}')
-            return
-        if self.is_filler and pngname in self.tileset.pngname_to_pngnum:
-            if self.obsolete_fillers:
-                print(f'filler for {pngname} is obsolete')
-                global ERROR_LOGGED
-                ERROR_LOGGED = True
+        if pngname in self.tileset.pngname_to_pngnum:
+            if not self.is_filler:
+                print(f'Error: duplicate {pngname}.png')
+                self.tileset.error_logged = True
+
+            if self.is_filler and self.tileset.obsolete_fillers:
+                print(f'Warning: {pngname}.png is already present in a '
+                      'non-filler sheet')
+
             return
 
         self.sprites.append(self.load_image(filepath))
@@ -264,7 +389,16 @@ class Tilesheet:
         '''
         Load and verify an image using pyvips
         '''
-        image = Vips.Image.pngload(png_path)
+        try:
+            image = Vips.Image.pngload(png_path)
+        except pyvips.error.Error as exception:
+            raise ComposingException(
+                f'Cannot load {png_path}: {exception.message}') from None
+        except UnicodeDecodeError as exception:
+            raise ComposingException(
+                f'Cannot load {png_path} with UnicodeDecodeError, '
+                'please report your setup at '
+                'https://github.com/libvips/pyvips/issues/80') from None
         if image.interpretation != 'srgb':
             image = image.colourspace('srgb')
 
@@ -286,8 +420,7 @@ class Tilesheet:
                 f'Error: {png_path} is {image.width}x{image.height}, but '
                 f'{self.name} sheet sprites have to be '
                 f'{self.sprite_width}x{self.sprite_height}.')
-            global ERROR_LOGGED
-            ERROR_LOGGED = True
+            self.tileset.error_logged = True
 
         return image
 
@@ -295,9 +428,9 @@ class Tilesheet:
         '''
         Load and store tile entries from the file
         '''
-        with open(filepath, 'r') as fp:
+        with open(filepath, 'r') as file:
             try:
-                tile_entries = json.load(fp)
+                tile_entries = json.load(file)
             except Exception:
                 print(f'error loading {filepath}')
                 raise
@@ -327,17 +460,28 @@ class Tilesheet:
 
 
 class TileEntry:
+    '''
+    Tile entry handling
+    '''
     def __init__(self, tileset: Tileset, data) -> None:
         self.tileset = tileset
         self.data = data
 
-    def convert(self, entry: dict, is_filler: bool = False, prefix: str = '')\
+    def convert(
+            self,
+            entry: Union[dict, None] = None,
+            is_filler: bool = False,
+            prefix: str = '')\
             -> Optional[dict]:
         '''
         Recursively compile input into game-compatible objects in-place
         '''
+        if entry is None:
+            entry = self.data
         tile_id = entry.get('id')
         id_as_prefix = None
+        skipping_filler = False
+
         if tile_id:
             if not isinstance(tile_id, list):
                 tile_id = [tile_id]
@@ -347,26 +491,22 @@ class TileEntry:
             for an_id in tile_id:
                 full_id = f'{prefix}{an_id}'
                 if full_id in self.tileset.processed_ids:
-                    print(f'Info: skipping filler for {full_id}')
-                    return None
-        fg_layer = entry.get('fg')
+                    if self.tileset.obsolete_fillers:
+                        print(f'Warning: skipping filler for {full_id}')
+                    skipping_filler = True
+        fg_layer = entry.get('fg', None)
         if fg_layer:
             entry['fg'] = list_or_first(
                 self.convert_entry_layer(fg_layer))
         else:
-            del entry['fg']
+            entry.pop('fg', None)
 
-        bg_layer = entry.get('bg')
+        bg_layer = entry.get('bg', None)
         if bg_layer:
             entry['bg'] = list_or_first(
                 self.convert_entry_layer(bg_layer))
         else:
-            try:
-                del entry['bg']
-            except Exception:
-                print(f'Error: Cannot find bg for tile with id {tile_id}')
-                global ERROR_LOGGED
-                ERROR_LOGGED = True
+            entry.pop('bg', None)
 
         additional_entries = entry.get('additional_tiles', [])
         for additional_entry in additional_entries:
@@ -378,6 +518,12 @@ class TileEntry:
                 full_id = f'{prefix}{an_id}'
                 if full_id not in self.tileset.processed_ids:
                     self.tileset.processed_ids.append(full_id)
+                else:
+                    if not skipping_filler:
+                        print(f'Error: {full_id} encountered more than once')
+                        self.tileset.error_logged = True
+            if skipping_filler:
+                return None
             return entry
         print(f'skipping empty entry for {prefix}{tile_id}')
         return None
@@ -439,12 +585,11 @@ class TileEntry:
                 if sprite_name not in self.tileset.referenced_pngnames:
                     self.tileset.referenced_pngnames.append(sprite_name)
                 return True
-            else:
-                print(f'Error: sprite {sprite_name} has no matching PNG file.'
-                      ' It will not be added to '
-                      f'{self.tileset.output_conf_file}')
-                global ERROR_LOGGED
-                ERROR_LOGGED = True
+
+            print(f'Error: sprite {sprite_name} has no matching PNG file.'
+                  ' It will not be added to '
+                  f'{self.tileset.output_conf_file}')
+            self.tileset.error_logged = True
         return False
 
 
@@ -467,114 +612,17 @@ if __name__ == '__main__':
         help='Warn about obsoleted fillers')
     args_dict = vars(arg_parser.parse_args())
 
-    source_dir = args_dict.get('source_dir')
-    output_dir = args_dict.get('output_dir') or source_dir
-    use_all = args_dict.get('use_all', False)
-    obsolete_fillers = args_dict.get('obsolete_fillers', False)
+    # compose the tileset
+    try:
+        tileset_worker = Tileset(
+            args_dict.get('source_dir'),
+            args_dict.get('output_dir') or args_dict.get('source_dir'),
+            args_dict.get('use_all', False),
+            args_dict.get('obsolete_fillers', False)
+        )
+        tileset_worker.compose()
+    except ComposingException as exception:
+        sys.exit(exception)
 
-    # init tileset
-    tileset = Tileset(source_dir, output_dir)
-    tileset_confpath = os.path.join(
-        output_dir, tileset.determine_conffile())
-
-    typed_sheets = {
-        'main': [],
-        'filler': [],
-        'fallback': [],
-    }
-    fallback_name = 'fallback.png'
-
-    # loop through tilesheets and parse all configs in subdirectories,
-    # create sheet images
-    # TODO: move into Tileset
-    for config_index in range(1, len(tileset.info)):
-        sheet = Tilesheet(tileset, config_index, obsolete_fillers)
-        sheet.set_first_index()
-
-        if sheet.is_filler:
-            sheet_type = 'filler'
-        elif sheet.is_fallback:
-            sheet_type = 'fallback'
-        else:
-            sheet_type = 'main'
-
-        print(f'Info: parsing {sheet_type} tilesheet {sheet.name}')
-        if sheet_type != 'fallback':
-            sheet.walk_dirs()
-
-            # write output PNGs
-            if not sheet.write_composite_png():
-                continue
-
-            sheet.max_index = tileset.pngnum
-
-        typed_sheets[sheet_type].append(sheet)
-
-    # combine config data in correct order
-    sheet_configs = typed_sheets['main'] + typed_sheets['filler'] \
-        + typed_sheets['fallback']
-
-    # preparing "tiles-new", but remembering max index of each sheet in keys
-    tiles_new_dict = dict()
-
-    for sheet in sheet_configs:
-        if sheet.is_fallback:
-            fallback_name = sheet.name
-            continue
-        sheet_entries = []
-
-        for tile_entry in sheet.tile_entries:
-            # TODO: pop?
-            converted_tile_entry = tile_entry.convert(
-                tile_entry.data,  # FIXME
-                sheet.is_filler)
-            if converted_tile_entry:
-                sheet_entries.append(converted_tile_entry)
-
-        sheet_conf = {
-            'file': sheet.name,
-            'tiles': sheet_entries,
-            '//': f'range {sheet.first_index} to {sheet.max_index}'
-        }
-
-        if not sheet.is_standard():
-            sheet_conf['sprite_width'] = sheet.sprite_width
-            sheet_conf['sprite_height'] = sheet.sprite_height
-            sheet_conf['sprite_offset_x'] = sheet.offset_x
-            sheet_conf['sprite_offset_y'] = sheet.offset_y
-
-        tiles_new_dict[sheet.max_index] = sheet_conf
-
-    # find unused images
-    unused = tileset.find_unused(use_all)
-
-    # unused list must be empty without use_all
-    for unused_png in unused:
-        unused_num = tileset.pngname_to_pngnum[unused_png]
-        sheet_min_index = 0
-        for sheet_max_index in tiles_new_dict.keys():
-            if sheet_min_index < unused_num <= sheet_max_index:
-                tiles_new_dict[sheet_max_index]['tiles'].append(
-                    {'id': unused_png.split('.png')[0],
-                     'fg': unused_num})
-                break
-            sheet_min_index = sheet_max_index
-
-    # finalizing "tiles-new" config
-    tiles_new = [v for v in tiles_new_dict.values()]
-
-    FALLBACK['file'] = fallback_name
-    tiles_new.append(FALLBACK)
-    output_conf = {
-        'tile_info': [{
-            'width': tileset.sprite_width,
-            'height': tileset.sprite_height
-        }],
-        'tiles-new': tiles_new
-    }
-
-    # save the config
-    write_to_json(tileset_confpath, output_conf)
-
-    if ERROR_LOGGED:
+    if tileset_worker.error_logged:
         sys.exit(1)

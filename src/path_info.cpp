@@ -1,10 +1,10 @@
 #include "path_info.h"
 
-#include <clocale>
 #include <cstdlib>
+#include <string>
 
 #include "enums.h"
-#include "filesystem.h"
+#include "filesystem.h" // IWYU pragma: keep
 #include "options.h"
 #include "rng.h"
 

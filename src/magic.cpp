@@ -23,6 +23,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "field.h"
+#include "flat_set.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "input.h"
@@ -30,6 +31,7 @@
 #include "item.h"
 #include "json.h"
 #include "line.h"
+#include "make_static.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "messages.h"
@@ -44,7 +46,6 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
@@ -243,7 +244,7 @@ static std::string moves_to_string( const int moves )
     if( moves < to_moves<int>( 2_seconds ) ) {
         return string_format( _( "%d moves" ), moves );
     } else {
-        return to_string( time_duration::from_turns( moves / 100 ) );
+        return to_string( time_duration::from_moves( moves ) );
     }
 }
 
@@ -713,7 +714,7 @@ std::string spell::duration_string() const
 
 time_duration spell::duration_turns() const
 {
-    return 1_turns * duration() / 100;
+    return time_duration::from_moves( duration() );
 }
 
 void spell::gain_level()
@@ -793,7 +794,7 @@ bool spell::is_spell_class( const trait_id &mid ) const
 
 bool spell::can_cast( Character &guy ) const
 {
-    if( guy.has_trait_flag( "NO_SPELLCASTING" ) ) {
+    if( guy.has_trait_flag( STATIC( json_character_flag( "NO_SPELLCASTING" ) ) ) ) {
         return false;
     }
 
@@ -924,24 +925,26 @@ float spell::spell_fail( const Character &guy ) const
         return 1.0f;
     }
     float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
-    if( has_flag( spell_flag::SOMATIC ) && !guy.has_trait_flag( "SUBTLE_SPELL" ) ) {
+    if( has_flag( spell_flag::SOMATIC ) &&
+        !guy.has_trait_flag( STATIC( json_character_flag( "SUBTLE_SPELL" ) ) ) ) {
         // the first 20 points of encumbrance combined is ignored
         const int arms_encumb = std::max( 0,
                                           guy.encumb( bodypart_id( "arm_l" ) ) + guy.encumb( bodypart_id( "arm_r" ) ) - 20 );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
         fail_chance += arms_encumb / 200.0f;
     }
-    if( has_flag( spell_flag::VERBAL ) && !guy.has_trait_flag( "SILENT_SPELL" ) ) {
+    if( has_flag( spell_flag::VERBAL ) &&
+        !guy.has_trait_flag( STATIC( json_character_flag( "SILENT_SPELL" ) ) ) ) {
         // a little bit of mouth encumbrance is allowed, but not much
         const int mouth_encumb = std::max( 0, guy.encumb( bodypart_id( "mouth" ) ) - 5 );
         fail_chance += mouth_encumb / 100.0f;
     }
     // concentration spells work better than you'd expect with a higher focus pool
     if( has_flag( spell_flag::CONCENTRATE ) ) {
-        if( guy.focus_pool <= 0 ) {
+        if( guy.get_focus() <= 0 ) {
             return 0.0f;
         }
-        fail_chance /= guy.focus_pool / 100.0f;
+        fail_chance /= guy.get_focus() / 100.0f;
     }
     return clamp( fail_chance, 0.0f, 1.0f );
 }
@@ -981,7 +984,13 @@ int spell::xp() const
 
 void spell::gain_exp( int nxp )
 {
+    int oldLevel = get_level();
     experience += nxp;
+    if( oldLevel != get_level() ) {
+        character_id player_id = get_player_character().getID();
+        get_event_bus().send<event_type::player_levels_spell>( player_id,
+                id(), get_level() );
+    }
 }
 
 void spell::set_exp( int nxp )
@@ -1253,7 +1262,7 @@ int spell::casting_exp( const Character &guy ) const
     // the amount of xp you would get with no modifiers
     const int base_casting_xp = 75;
 
-    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) );
+    return std::round( guy.adjust_for_focus( base_casting_xp * exp_modifier( guy ) ) / 100.0 );
 }
 
 std::string spell::enumerate_targets() const
@@ -2334,8 +2343,8 @@ void spell_events::notify( const cata::event &e )
             for( std::map<std::string, int>::iterator it = spell_cast.learn_spells.begin();
                  it != spell_cast.learn_spells.end(); ++it ) {
                 int learn_at_level = it->second;
-                if( learn_at_level == slvl ) {
-                    std::string learn_spell_id = it->first;
+                const std::string learn_spell_id = it->first;
+                if( learn_at_level <= slvl && !get_player_character().magic->knows_spell( learn_spell_id ) ) {
                     get_player_character().magic->learn_spell( learn_spell_id, get_player_character() );
                     spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(

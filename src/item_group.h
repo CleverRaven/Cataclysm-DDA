@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_ITEM_GROUP_H
 #define CATA_SRC_ITEM_GROUP_H
 
+#include <iosfwd>
 #include <memory>
 #include <set>
 #include <string>
@@ -15,11 +16,22 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-struct itype;
-
 class JsonObject;
 class JsonValue;
 class time_point;
+struct itype;
+template <typename E> struct enum_traits;
+
+enum class spawn_flags {
+    none = 0,
+    maximized = 1,
+    use_spawn_rate = 2,
+};
+
+template<>
+struct enum_traits<spawn_flags> {
+    static constexpr bool is_flag_enum = true;
+};
 
 namespace item_group
 {
@@ -49,8 +61,10 @@ using ItemList = std::vector<item>;
  * @param group_id The identifier of the item group. You may check its validity
  * with @ref group_is_defined.
  * @param birthday The birthday (@ref item::bday) of the items created by this function.
+ * @param flags The spawn flags used in spawning the items.
  */
-ItemList items_from( const item_group_id &group_id, const time_point &birthday );
+ItemList items_from( const item_group_id &group_id, const time_point &birthday,
+                     spawn_flags flags = spawn_flags::none );
 /**
  * Same as above but with implicit birthday at turn 0.
  */
@@ -114,11 +128,6 @@ class Item_spawn_data
         using ItemList = std::vector<item>;
         using RecursionList = std::vector<item_group_id>;
 
-        enum class spawn_flags {
-            none = 0,
-            maximized = 1,
-        };
-
         enum class overflow_behaviour {
             none,
             spill,
@@ -133,7 +142,8 @@ class Item_spawn_data
          * Create a list of items. The create list might be empty.
          * No item of it will be the null item.
          * @param[in] birthday All items have that value as birthday.
-         * @param[out] rec Recursion list, output goes here
+         * @param[out] rec Recursion list, output goes here.
+         * @param[in] spawn_flags Extra information to change how items are spawned.
          */
         virtual ItemList create( const time_point &birthday, RecursionList &rec,
                                  spawn_flags = spawn_flags::none ) const = 0;
@@ -189,11 +199,6 @@ class Item_spawn_data
         // A description of where this group was defined, for use in error
         // messages
         std::string context_;
-};
-
-template<>
-struct enum_traits<Item_spawn_data::spawn_flags> {
-    static constexpr bool is_flag_enum = true;
 };
 
 template<>

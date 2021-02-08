@@ -516,7 +516,6 @@
     "description": "A plastic spoon designed for use by children.",
     "looks_like": "spoon",
     "copy-from": "base_plastic_silverware",
-    "qualities": [ [ "CONTAIN", 1 ] ],
     "snippet_category": [
       { "id": "kspoon1", "text": "This spoon is striped in bright primary colors." },
       { "id": "kspoon2", "text": "This spoon is styled to look like a bulldozer." },

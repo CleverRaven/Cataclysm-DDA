@@ -87,7 +87,7 @@
     "id": "knuckle_steel",
     "symbol": "3",
     "color": "dark_gray",
-    "name": { "str": "pair of steel knuckles", "str_pl": "pairs of steel knuckles" },
+    "name": { "str": "pair of scrap knuckles", "str_pl": "pairs of scrap knuckles" },
     "description": "A mass of scrap metal crudely beat into shape, with folded rags underneath to protect the wearers knuckles.  A good, quick weapon - but you have to get within punching range to use it.",
     "category": "weapons",
     "material": [ "steel" ],

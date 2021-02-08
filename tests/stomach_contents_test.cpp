@@ -1,13 +1,11 @@
-#include "catch/catch.hpp"
-
 #include <cstdio>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
-#include "creature.h"
 #include "item.h"
 #include "player.h"
 #include "player_helpers.h"

@@ -1,9 +1,6 @@
-#include "catch/catch.hpp"
-
-#include <string>
-
 #include "avatar.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "monster.h"
 #include "mtype.h"
 #include "type_id.h"

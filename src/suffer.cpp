@@ -1,14 +1,14 @@
+#include <cctype>
 #include <algorithm>
 #include <array>
-#include <cctype>
 #include <cmath>
 #include <cstdlib>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
 #include <string>
 #include <tuple>
-#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -18,6 +18,8 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "creature.h"
+#include "debug.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -26,11 +28,12 @@
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "magic_enchantment.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
@@ -42,6 +45,7 @@
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
+#include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
 #include "rng.h"
@@ -49,13 +53,10 @@
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
-#include "teleport.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "weather.h"
 #include "weather_type.h"
 
@@ -72,7 +73,6 @@ static const bionic_id bio_power_weakness( "bio_power_weakness" );
 static const bionic_id bio_shakes( "bio_shakes" );
 static const bionic_id bio_sleepy( "bio_sleepy" );
 static const bionic_id bio_spasm( "bio_spasm" );
-static const bionic_id bio_sunglasses( "bio_sunglasses" );
 static const bionic_id bio_trip( "bio_trip" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
@@ -163,6 +163,8 @@ static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
 static const std::string flag_PLOWABLE( "PLOWABLE" );
+
+static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
 {
@@ -823,7 +825,7 @@ void Character::suffer_from_sunburn()
     }
 
     // Sunglasses can keep the sun off the eyes.
-    if( !has_bionic( bio_sunglasses ) &&
+    if( !has_flag( json_flag_GLARE_RESIST ) &&
         !( wearing_something_on( bodypart_id( "eyes" ) ) &&
            ( worn_with_flag( flag_SUN_GLASSES ) || worn_with_flag( flag_BLIND ) ) ) ) {
         add_msg_if_player( m_bad, _( "%s your eyes." ), sunlight_effect );
@@ -831,7 +833,7 @@ void Character::suffer_from_sunburn()
         if( one_turn_in( 1_minutes ) ) {
             mod_pain( 1 );
         } else {
-            focus_pool --;
+            mod_focus( -1 );
         }
     }
     // Umbrellas can keep the sun off the skin
@@ -930,7 +932,7 @@ void Character::suffer_from_sunburn()
         if( one_turn_in( 1_minutes ) ) {
             mod_pain( 1 );
         } else {
-            focus_pool --;
+            mod_focus( -1 );
         }
     }
 }
@@ -1122,11 +1124,17 @@ void Character::suffer_from_radiation()
         } else if( get_rad() > 2000 ) {
             set_rad( 2000 );
         }
+        // Linear increase in chance to mutate with irriadation level.
+        // 100 rads = 1 / 10000
+        // 110 rads = 10 / 10000 = 1 / 1000
+        // 200 rads = 100 / 10000 = 1 / 100
+        // 1000 rads = 900 / 10000 = 9 / 100 = 10% !!!
+        // 2000 rads = 2000 / 10000 = 1 / 5 = 20% !!!
         if( get_option<bool>( "RAD_MUTATION" ) && rng( 100, 10000 ) < get_rad() ) {
             mutate();
-            mod_rad( -50 );
-        } else if( get_rad() > 50 && rng( 1, 3000 ) < get_rad() && ( stomach.contains() > 0_ml ||
-                   radiation_increasing || !in_sleep_state() ) ) {
+        }
+        if( get_rad() > 50 && rng( 1, 3000 ) < get_rad() &&
+            ( stomach.contains() > 0_ml || radiation_increasing || !in_sleep_state() ) ) {
             vomit();
             mod_rad( -1 );
         }
@@ -1148,8 +1156,9 @@ void Character::suffer_from_radiation()
     if( !radiogenic && get_rad() > 0 ) {
         // Even if you heal the radiation itself, the damage is done.
         const int hmod = get_healthy_mod();
-        if( hmod > 200 - get_rad() ) {
-            set_healthy_mod( std::max( -200, 200 - get_rad() ) );
+        const int health_mod_cap = std::max( -200, 200 - get_rad() );
+        if( hmod > health_mod_cap ) {
+            set_healthy_mod( health_mod_cap );
         }
     }
 

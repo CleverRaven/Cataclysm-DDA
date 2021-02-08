@@ -1,7 +1,12 @@
-#include "catch/catch.hpp"
+#include <list>
+#include <map>
+#include <utility>
 
-#include "avatar.h"
+#include "catch/catch.hpp"
+#include "character.h"
+#include "item.h"
 #include "player_helpers.h"
+#include "type_id.h"
 
 // Tests for Character bodypart exposure
 //

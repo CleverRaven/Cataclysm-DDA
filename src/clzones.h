@@ -2,8 +2,9 @@
 #ifndef CATA_SRC_CLZONES_H
 #define CATA_SRC_CLZONES_H
 
-#include <cstddef>
 #include <functional>
+#include <cstddef>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <set>
@@ -16,7 +17,6 @@
 #include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
