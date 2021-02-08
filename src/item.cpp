@@ -1798,7 +1798,7 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             if( parts->test( iteminfo_parts::AMMO_DAMAGE_PROPORTIONAL ) ) {
                 info.emplace_back( "AMMO", _( "Damage multiplier: " ), "",
                                    iteminfo::no_newline | iteminfo::is_decimal,
-                                   ammo.damage.damage_units.front().unconditional_damage_mult );
+                                   ammo.damage.damage_units.front().damage_multiplier );
             }
         }
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_AP ) ) {
@@ -1886,7 +1886,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         // ammo_damage, sum_of_damage, and ammo_mult not shown so don't need to translate.
         float dmg_mult = 1.0f;
         for( const damage_unit &dmg : curammo->ammo->damage.damage_units ) {
-            dmg_mult *= dmg.unconditional_damage_mult;
+            dmg_mult *= dmg.damage_multiplier;
         }
         if( dmg_mult != 1.0f ) {
             if( parts->test( iteminfo_parts::GUN_DAMAGE_AMMOPROP ) ) {
@@ -1916,7 +1916,6 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
 
     // TODO: This doesn't cover multiple damage types
-
     if( parts->test( iteminfo_parts::GUN_ARMORPIERCE ) ) {
         info.push_back( iteminfo( "GUN", _( "Armor-pierce: " ), "",
                                   iteminfo::no_newline, get_ranged_pierce( gun ) ) );
@@ -1934,6 +1933,16 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                       iteminfo::no_name,
                                       get_ranged_pierce( gun ) + ammo_pierce ) );
         }
+    }
+    info.back().bNewLine = true;
+    damage_instance dmg = gun_damage( true );
+    // TODO: Many damage types
+    if( parts->test( iteminfo_parts::GUN_ARMORPIERCE ) &&
+        !dmg.damage_units.empty() &&
+        abs( ( dmg.damage_units.front().res_mult ) - 1.0f ) > 0.01f ) {
+        const auto &dmg_unit = dmg.damage_units.front();
+        info.push_back( iteminfo( "GUN", _( "Armor multiplier" ), "",
+                                  iteminfo::no_newline, dmg_unit.res_mult ) );
     }
     info.back().bNewLine = true;
 

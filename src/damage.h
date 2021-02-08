@@ -38,13 +38,9 @@ struct damage_unit {
     float res_mult;
     float damage_multiplier;
 
-    float unconditional_res_mult;
-    float unconditional_damage_mult;
-
-    damage_unit( damage_type dt, float amt, float arpen = 0.0f, float arpen_mult = 1.0f,
-                 float dmg_mult = 1.0f, float unc_arpen_mult = 1.0f, float unc_dmg_mult = 1.0f ) :
-        type( dt ), amount( amt ), res_pen( arpen ), res_mult( arpen_mult ), damage_multiplier( dmg_mult ),
-        unconditional_res_mult( unc_arpen_mult ), unconditional_damage_mult( unc_dmg_mult ) { }
+    damage_unit( damage_type dt, float amt, float arpen = 0.0f,
+                 float armor_mult = 1.0f, float dmg_mult = 1.0f ) :
+        type( dt ), amount( amt ), res_pen( arpen ), res_mult( armor_mult ), damage_multiplier( dmg_mult ) { }
 
     bool operator==( const damage_unit &other ) const;
 };
@@ -55,8 +51,8 @@ struct damage_instance {
     std::vector<damage_unit> damage_units;
     damage_instance();
     static damage_instance physical( float bash, float cut, float stab, float arpen = 0.0f );
-    damage_instance( damage_type dt, float amt, float arpen = 0.0f, float arpen_mult = 1.0f,
-                     float dmg_mult = 1.0f, float unc_arpen_mult = 1.0f, float unc_dmg_mult = 1.0f );
+    damage_instance( damage_type dt, float amt, float arpen = 0.0f,
+                     float armor_mult = 1.0f, float dmg_mult = 1.0f );
     void mult_damage( double multiplier, bool pre_armor = false );
     float type_damage( damage_type dt ) const;
     float total_damage() const;
@@ -76,8 +72,8 @@ struct damage_instance {
      * The normalization means that the effective damage can actually decrease (depending on target's armor).
      */
     /*@{*/
-    void add_damage( damage_type dt, float amt, float arpen = 0.0f, float arpen_mult = 1.0f,
-                     float dmg_mult = 1.0f, float unc_arpen_mult = 1.0f, float unc_dmg_mult = 1.0f );
+    void add_damage( damage_type dt, float amt, float arpen = 0.0f,
+                     float armor_mult = 1.0f, float dmg_mult = 1.0f );
     void add( const damage_instance &added_di );
     void add( const damage_unit &added_du );
     /*@}*/

@@ -285,10 +285,10 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged][gun]" )
                                     iteminfo_parts::GUN_DAMAGE_TOTAL, iteminfo_parts::GUN_ARMORPIERCE
                                   } );
         test_info_equals(
-            item( "test_compbow" ), q,
+            item( "test_compbow" ).ammo_set( "test_arrow" ), q,
             "--\n"
             "<color_c_white>Ranged damage</color>:"
-            " <color_c_yellow>18</color>*<color_c_yellow>1.50</color> = <color_c_yellow>27</color>\n"
+            " <color_c_yellow>18</color>*<color_c_yellow>0.75</color> = <color_c_yellow>14</color>\n"
             "Armor-pierce: <color_c_yellow>0</color>\n" );
     }
 
