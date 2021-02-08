@@ -830,61 +830,11 @@ bool veh_interact::update_part_requirements()
                                skill_mechanics.obj().name(), dif_steering ) + "\n";
     }
 
-    int lvl = 0;
-    int str = 0;
-    quality_id qual;
-    bool use_aid = false;
-    bool use_str = false;
-    if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
-        qual = qual_JACK;
-        lvl = jack_quality( *veh );
-        str = veh->lift_strength();
-        use_aid = ( max_jack >= lifting_quality_to_mass( lvl ) ) || can_self_jack();
-        use_str = player_character.can_lift( *veh );
-    } else {
-        item base( sel_vpart_info->base_item );
-        qual = qual_LIFT;
-        lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
-                         lifting_quality_to_mass( 1 ) );
-        str = base.lift_strength();
-        use_aid = max_lift >= base.weight();
-        use_str = player_character.can_lift( base );
+    std::pair<bool, std::string> res = calc_lift_requirements( *sel_vpart_info );
+    if( !res.first ) {
+        ok = res.first;
     }
-
-    if( !( use_aid || use_str ) ) {
-        ok = false;
-    }
-
-    std::string str_suffix;
-    int lift_strength = player_character.get_lift_str();
-    int total_lift_strength = lift_strength + player_character.get_lift_assist();
-    int total_base_strength = player_character.get_str() + player_character.get_lift_assist();
-
-    if( player_character.has_trait( trait_id( "STRONGBACK" ) ) && total_lift_strength >= str &&
-        total_base_strength < str ) {
-        str_suffix = string_format( _( "(Strong Back helped, giving +%d strength)" ),
-                                    lift_strength - player_character.get_str() );
-    } else if( player_character.has_trait( trait_id( "BADBACK" ) ) && total_base_strength >= str &&
-               total_lift_strength < str ) {
-        str_suffix = string_format( _( "(Bad Back reduced usable strength by %d)" ),
-                                    lift_strength - player_character.get_str() );
-    }
-
-    nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
-    nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
-    const auto helpers = player_character.get_crafting_helpers();
-    std::string str_string;
-    if( !helpers.empty() ) {
-        str_string = string_format( _( "strength ( assisted ) %d %s" ), str, str_suffix );
-    } else {
-        str_string = string_format( _( "strength %d %s" ), str, str_suffix );
-    }
-    //~ %1$s is quality name, %2$d is quality level
-    std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
-                                            qual.obj().name, lvl );
-    nmsg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
-                           colorize( aid_string, aid_color ),
-                           colorize( str_string, str_color ) ) + "\n";
+    nmsg += res.second;
 
     sel_vpart_info->format_description( nmsg, c_light_gray, getmaxx( w_msg ) - 4 );
 
@@ -1219,6 +1169,18 @@ void veh_interact::do_repair()
         if( pt.is_broken() ) {
             ok = format_reqs( nmsg, vp.install_requirements(), vp.install_skills,
                               vp.install_time( player_character ) );
+
+            if( pt.info().has_flag( "NEEDS_JACKING" ) ) {
+
+                nmsg += _( "<color_white>Additional requirements:</color>\n" );
+                std::pair<bool, std::string> res = calc_lift_requirements( pt.info() );
+                if( !res.first ) {
+                    ok = false;
+                }
+                nmsg += res.second;
+            }
+
+
         } else {
             if( vp.has_flag( "NO_REPAIR" ) || vp.repair_requirements().is_empty() ||
                 pt.base.max_damage() <= 0 ) {
@@ -1803,64 +1765,12 @@ bool veh_interact::can_remove_part( int idx, const player &p )
 
     nmsg += _( "<color_white>Additional requirements:</color>\n" );
 
-    int lvl = 0;
-    int str = 0;
-    quality_id qual;
-    bool use_aid = false;
-    bool use_str = false;
-    avatar &player_character = get_avatar();
-    if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
-        qual = qual_JACK;
-        lvl = jack_quality( *veh );
-        str = veh->lift_strength();
-        use_aid = ( max_jack >= lifting_quality_to_mass( lvl ) ) || can_self_jack();
-        use_str = player_character.can_lift( *veh );
-    } else {
-        item base( sel_vpart_info->base_item );
-        qual = qual_LIFT;
-        lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
-                         lifting_quality_to_mass( 1 ) );
-        str = base.lift_strength();
-        use_aid = max_lift >= base.weight();
-        use_str = player_character.can_lift( base );
+    std::pair<bool, std::string> res = calc_lift_requirements( *sel_vpart_info );
+    if( !res.first ) {
+        ok = res.first;
     }
+    nmsg += res.second;
 
-    if( !( use_aid || use_str ) ) {
-        ok = false;
-    }
-
-    std::string str_suffix;
-    int lift_strength = player_character.get_lift_str();
-    int total_lift_strength = lift_strength + player_character.get_lift_assist();
-    int total_base_strength = player_character.get_str() + player_character.get_lift_assist();
-
-    if( player_character.has_trait( trait_id( "STRONGBACK" ) ) && total_lift_strength >= str &&
-        total_base_strength < str ) {
-        str_suffix = string_format( _( "(Strong Back helped, giving +%d strength)" ),
-                                    lift_strength - player_character.get_str() );
-    } else if( player_character.has_trait( trait_id( "BADBACK" ) ) && total_base_strength >= str &&
-               total_lift_strength < str ) {
-        str_suffix = string_format( _( "(Bad Back reduced usable strength by %d)" ),
-                                    lift_strength - player_character.get_str() );
-    }
-
-    nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
-    nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
-    const auto helpers = player_character.get_crafting_helpers();
-    //~ %1$s is quality name, %2$d is quality level
-    std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
-                                            qual.obj().name, lvl );
-
-    std::string str_string;
-    if( !helpers.empty() ) {
-        str_string = string_format( _( "strength ( assisted ) %d %s" ), str, str_suffix );
-    } else {
-        str_string = string_format( _( "strength %d %s" ), str, str_suffix );
-    }
-
-    nmsg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
-                           colorize( aid_string, aid_color ),
-                           colorize( str_string, str_color ) ) + "\n";
     std::string reason;
     if( !veh->can_unmount( idx, reason ) ) {
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is pre-translated reason
@@ -1871,7 +1781,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     sel_vehicle_part->info().format_description( nmsg, desc_color, getmaxx( w_msg ) - 4 );
 
     msg = colorize( nmsg, c_light_gray );
-    return ok || player_character.has_trait( trait_DEBUG_HS );
+    return ok || get_avatar().has_trait( trait_DEBUG_HS );
 }
 
 void veh_interact::do_remove()
@@ -2093,6 +2003,76 @@ void veh_interact::do_relabel()
                        .query_string();
     // empty input removes the label
     vp.set_label( text );
+}
+
+
+std::pair<bool, std::string> veh_interact::calc_lift_requirements( const vpart_info
+        &sel_vpart_info )
+{
+    int lvl = 0;
+    int str = 0;
+    quality_id qual;
+    bool use_aid = false;
+    bool use_str = false;
+    bool ok = true;
+    std::string nmsg;
+    avatar &player_character = get_avatar();
+
+    if( sel_vpart_info.has_flag( "NEEDS_JACKING" ) ) {
+        qual = qual_JACK;
+        lvl = jack_quality( *veh );
+        str = veh->lift_strength();
+        use_aid = ( max_jack >= lifting_quality_to_mass( lvl ) ) || can_self_jack();
+        use_str = player_character.can_lift( *veh );
+    } else {
+        item base( sel_vpart_info.base_item );
+        qual = qual_LIFT;
+        lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
+                         lifting_quality_to_mass( 1 ) );
+        str = base.lift_strength();
+        use_aid = max_lift >= base.weight();
+        use_str = player_character.can_lift( base );
+    }
+
+    if( !( use_aid || use_str ) ) {
+        ok = false;
+    }
+
+    std::string str_suffix;
+    int lift_strength = player_character.get_lift_str();
+    int total_lift_strength = lift_strength + player_character.get_lift_assist();
+    int total_base_strength = player_character.get_str() + player_character.get_lift_assist();
+
+    if( player_character.has_trait( trait_id( "STRONGBACK" ) ) && total_lift_strength >= str &&
+        total_base_strength < str ) {
+        str_suffix = string_format( _( "(Strong Back helped, giving +%d strength)" ),
+                                    lift_strength - player_character.get_str() );
+    } else if( player_character.has_trait( trait_id( "BADBACK" ) ) && total_base_strength >= str &&
+               total_lift_strength < str ) {
+        str_suffix = string_format( _( "(Bad Back reduced usable strength by %d)" ),
+                                    lift_strength - player_character.get_str() );
+    }
+
+    nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
+    nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
+    const auto helpers = player_character.get_crafting_helpers();
+    //~ %1$s is quality name, %2$d is quality level
+    std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
+                                            qual.obj().name, lvl );
+
+    std::string str_string;
+    if( !helpers.empty() ) {
+        str_string = string_format( _( "strength ( assisted ) %d %s" ), str, str_suffix );
+    } else {
+        str_string = string_format( _( "strength %d %s" ), str, str_suffix );
+    }
+
+    nmsg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
+                           colorize( aid_string, aid_color ),
+                           colorize( str_string, str_color ) ) + "\n";
+
+    std::pair<bool, std::string> result( ok, nmsg );
+    return result;
 }
 
 /**
