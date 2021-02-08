@@ -1730,6 +1730,8 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 {
     if( debug && parts->test( iteminfo_parts::BASE_DEBUG ) ) {
         if( g != nullptr ) {
+            info.push_back( iteminfo( "BASE", string_format( "itype_id: %s",
+                                      typeId().str() ) ) );
             if( !old_owner.is_null() ) {
                 info.push_back( iteminfo( "BASE", string_format( _( "Old owner: %s" ),
                                           _( get_old_owner_name() ) ) ) );
