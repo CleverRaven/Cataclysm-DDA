@@ -1,6 +1,7 @@
 #include <iosfwd>
 #include <vector>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "catch/catch.hpp"
 #include "field.h"
@@ -10,6 +11,7 @@
 #include "map_helpers.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -385,5 +387,43 @@ TEST_CASE( "fungal haze test", "[field]" )
         CHECK( fields_test_duration() < time_limit );
     }
 
+    fields_test_cleanup();
+}
+
+TEST_CASE( "player_in_field test", "[field][player]" )
+{
+    fields_test_setup();
+    clear_avatar();
+    const tripoint p{ 33, 33, 0 };
+
+    Character &dummy = get_avatar();
+    const tripoint prev_char_pos = dummy.pos();
+    dummy.setpos( p );
+
+    map &m = get_map();
+
+    m.add_field( p, fd_sap, 3 );
+
+    // Also add bunch of unrelated fields
+    m.add_field( p, fd_blood, 3 );
+    m.add_field( p, fd_blood_insect, 3 );
+    m.add_field( p, fd_blood_veggy, 3 );
+    m.add_field( p, fd_blood_invertebrate, 3 );
+
+    const time_duration time_limit = 5_minutes;
+    bool is_field_alive = true;
+    while( is_field_alive && fields_test_duration() < time_limit ) {
+        calendar::turn += 1_turns;
+        m.creature_in_field( dummy );
+        const field_entry *sap_field = m.get_field( p, fd_sap );
+        is_field_alive = sap_field && sap_field->is_field_alive();
+    }
+    {
+        INFO( "Sap should disappear in " << to_string( time_limit ) );
+        CHECK( fields_test_duration() < time_limit );
+    }
+
+    clear_avatar();
+    dummy.setpos( prev_char_pos );
     fields_test_cleanup();
 }

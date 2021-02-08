@@ -2286,12 +2286,8 @@ void map::drop_fields( const tripoint &p )
         // Active fields "drop themselves"
         if( entry.get_field_type()->accelerated_decay ) {
             add_field( below, entry.get_field_type(), entry.get_field_intensity(), entry.get_field_age() );
-            dropped.push_back( entry.get_field_type() );
+            remove_field( p, entry.get_field_type() );
         }
-    }
-
-    for( const auto &entry : dropped ) {
-        fld.remove_field( entry );
     }
 }
 
@@ -2861,11 +2857,10 @@ bool map::mop_spills( const tripoint &p )
     }
 
     field &fld = field_at( p );
-    for( auto it = fld.begin(); it != fld.end(); ) {
-        if( it->second.get_field_type().obj().phase == phase_id::LIQUID ) {
-            retval |= fld.remove_field( ( *it++ ).first );
-        } else {
-            ++it;
+    for( const auto &it : fld ) {
+        if( it.first->phase == phase_id::LIQUID ) {
+            remove_field( p, it.first );
+            retval = true;
         }
     }
 
@@ -5351,16 +5346,12 @@ int map::set_field_intensity( const tripoint &p, const field_type_id &type,
 {
     field_entry *field_ptr = get_field( p, type );
     if( field_ptr != nullptr ) {
-        int adj = ( isoffset ? field_ptr->get_field_intensity() : 0 ) + new_intensity;
-        if( adj > 0 ) {
-            on_field_modified( p, *type );
-            field_ptr->set_field_intensity( adj );
-            return adj;
-        } else {
-            remove_field( p, type );
-            return 0;
-        }
-    } else if( 0 + new_intensity > 0 ) {
+        int adj = ( isoffset && field_ptr->is_field_alive() ?
+                    field_ptr->get_field_intensity() : 0 ) + new_intensity;
+        on_field_modified( p, *type );
+        field_ptr->set_field_intensity( adj );
+        return adj;
+    } else if( new_intensity > 0 ) {
         return add_field( p, type, new_intensity ) ? new_intensity : 0;
     }
 
@@ -5461,21 +5452,7 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
 
 void map::remove_field( const tripoint &p, const field_type_id &field_to_remove )
 {
-    if( !inbounds( p ) ) {
-        return;
-    }
-
-    point l;
-    submap *const current_submap = unsafe_get_submap_at( p, l );
-    if( current_submap == nullptr ) {
-        debugmsg( "Tried to remove field at (%d,%d) but the submap is not loaded", l.x, l.y );
-        return;
-    }
-
-    if( current_submap->get_field( l ).remove_field( field_to_remove ) ) {
-        --current_submap->field_count;
-        on_field_modified( p, *field_to_remove );
-    }
+    set_field_intensity( p, field_to_remove, 0 );
 }
 
 void map::on_field_modified( const tripoint &p, const field_type &fd_type )

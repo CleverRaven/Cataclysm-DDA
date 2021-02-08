@@ -156,7 +156,12 @@ bool field::add_field( const field_type_id &field_type_to_add, const int new_int
     auto it = _field_type_list.find( field_type_to_add );
     if( it != _field_type_list.end() ) {
         //Already exists, but lets update it. This is tentative.
-        it->second.set_field_intensity( it->second.get_field_intensity() + new_intensity );
+        int prev_intensity = it->second.get_field_intensity();
+        if( !it->second.is_field_alive() ) {
+            it->second.set_field_age( new_age );
+            prev_intensity = 0;
+        }
+        it->second.set_field_intensity( prev_intensity + new_intensity );
         return false;
     }
     if( !_displayed_field_type ||
@@ -188,6 +193,12 @@ void field::remove_field( std::map<field_type_id, field_entry>::iterator const i
             }
         }
     }
+}
+
+void field::clear()
+{
+    _field_type_list.clear();
+    _displayed_field_type = fd_null;
 }
 
 /*
