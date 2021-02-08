@@ -99,6 +99,7 @@
     "vision_night": 8,
     "luminance": 200,
     "special_when_hit": [ "ZAPBACK", 100 ],
+    "harvest": "flesh_plant",
     "death_drops": {  },
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ]
