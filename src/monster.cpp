@@ -1297,8 +1297,13 @@ void monster::process_triggers()
     process_trigger( mon_trigger::FIRE, [this]() {
         int ret = 0;
         map &here = get_map();
+        const field_type_id fd_fire = ::fd_fire; // convert to int_id once
         for( const auto &p : here.points_in_radius( pos(), 3 ) ) {
-            ret += 5 * here.get_field_intensity( p, fd_fire );
+            // note using `has_field_at` without bound checks,
+            // as points that come from `points_in_radius` are guaranteed to be in bounds
+            const int fire_intensity =
+                here.has_field_at( p, false ) ? 5 * here.get_field_intensity( p, fd_fire ) : 0;
+            ret += fire_intensity;
         }
         return ret;
     } );

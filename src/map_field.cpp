@@ -88,8 +88,6 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );
 static const efftype_id effect_webbed( "webbed" );
 
-static const std::string flag_FUNGUS( "FUNGUS" );
-
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
@@ -903,10 +901,10 @@ static void field_processor_fd_fungicidal_gas( const tripoint &p, field_entry &c
     const ter_t &ter = pd.map_tile.get_ter_t();
     const furn_t &frn = pd.map_tile.get_furn_t();
     const int intensity = cur.get_field_intensity();
-    if( ter.has_flag( flag_FUNGUS ) && one_in( 10 / intensity ) ) {
+    if( ter.has_flag( TFLAG_FUNGUS ) && one_in( 10 / intensity ) ) {
         pd.here.ter_set( p, t_dirt );
     }
-    if( frn.has_flag( flag_FUNGUS ) && one_in( 10 / intensity ) ) {
+    if( frn.has_flag( TFLAG_FUNGUS ) && one_in( 10 / intensity ) ) {
         pd.here.furn_set( p, f_null );
     }
 }
