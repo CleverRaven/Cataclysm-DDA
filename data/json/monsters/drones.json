@@ -191,7 +191,7 @@
     "copy-from": "base_drone",
     "type": "MONSTER",
     "name": { "str": "tazer hack" },
-    "description": "An automated drone, this small quadcopter robot appears to have a tazer strapped to the front. While extremely fast, it is very fragile.",
+    "description": "An automated drone, this small quadcopter robot appears to have a tazer strapped to the front.  While extremely fast, it is very fragile.",
     "diff": 10,
     "speed": 350,
     "color": "cyan",
