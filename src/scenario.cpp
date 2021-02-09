@@ -474,7 +474,8 @@ int scenario::start_day() const
 
 season_type scenario::start_season() const
 {
-    return _start_season == -1 ? static_cast<season_type>( rng( 0, 3 ) ) : static_cast<season_type>( _start_season );
+    return _start_season == -1 ? static_cast<season_type>( rng( 0,
+            3 ) ) : static_cast<season_type>( _start_season );
 }
 
 int scenario::start_year() const
