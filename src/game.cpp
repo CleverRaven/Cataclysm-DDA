@@ -12214,8 +12214,8 @@ void game::start_calendar()
     if( get_option<int>( "INITIAL_DAY" )  == -1 ) {
         initial_days = 1_days * rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
     } else {
-initial_days = 1_days * std:
-                       min( get_option<int>( "INITIAL_DAY" ), get_option<int>( "SEASON_LENGTH" ) * 4 );
+        initial_days = 1_days * std::min( get_option<int>( "INITIAL_DAY" ),
+                                          get_option<int>( "SEASON_LENGTH" ) * 4 );
     }
     calendar::start_of_cataclysm = calendar::turn_zero + initial_days;
 

@@ -10,7 +10,6 @@
 #include "calendar.h"
 #include "translations.h"
 #include "type_id.h"
-#include "units.h"
 
 class JsonObject;
 class profession;
