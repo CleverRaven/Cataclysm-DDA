@@ -2443,10 +2443,10 @@ tab_direction set_scenario( avatar &u, points_left &points,
             if( sorted_scens[cur_id]->custom_start_date() ) {
                 wprintz( w_initial_date, c_light_gray,
                          sorted_scens[cur_id]->is_random_year() ? _( "Year:   Random" ) : _( "Year:   %s" ),
-                         sorted_scens[cur_id]->initial_year() );
+                         sorted_scens[cur_id]->start_year() );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
                 wprintz( w_initial_date, c_light_gray, _( "Season: %s" ),
-                         calendar::name_season( sorted_scens[cur_id]->initial_season() ) );
+                         calendar::name_season( sorted_scens[cur_id]->start_season() ) );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
                 wprintz( w_initial_date, c_light_gray,
                          _( "Day:    %d" ), sorted_scens[cur_id]->day_of_season() );

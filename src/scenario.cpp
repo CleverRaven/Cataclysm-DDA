@@ -462,12 +462,12 @@ int scenario::start_day() const
             ( _start_year - 1 ) );
 }
 
-season_type scenario::initial_season() const
+season_type scenario::start_season() const
 {
     return _start_season;
 }
 
-int scenario::initial_year() const
+int scenario::start_year() const
 {
     return _start_year == -1 ? rng( 1, 11 ) : _start_year;
 }

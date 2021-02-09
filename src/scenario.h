@@ -94,8 +94,8 @@ class scenario
         int day_of_season() const;
         // Returns the day of the year this scenario starts on
         int start_day() const;
-        season_type initial_season() const;
-        int initial_year() const;
+        season_type start_season() const;
+        int start_year() const;
 
         vproto_id vehicle() const;
 
