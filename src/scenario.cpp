@@ -446,7 +446,7 @@ bool scenario::is_random_year() const
     return _start_year == -1;
 }
 
-int scenario::initial_hour() const
+int scenario::start_hour() const
 {
     return _start_hour == -1 ? rng( 0, 23 ) : _start_hour;
 }

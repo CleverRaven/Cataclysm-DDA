@@ -89,7 +89,7 @@ class scenario
         bool custom_start_date() const;
         bool is_random_hour() const;
         bool is_random_year() const;
-        int initial_hour() const;
+        int start_hour() const;
         // Returns day of the season this scenario starts on
         int day_of_season() const;
         // Returns the day of the year this scenario starts on

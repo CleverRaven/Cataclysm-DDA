@@ -2453,7 +2453,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
                 wprintz( w_initial_date, c_light_gray,
                          sorted_scens[cur_id]->is_random_hour() ? _( "Hour:   Random" ) : _( "Hour:   %d" ),
-                         sorted_scens[cur_id]->initial_hour() );
+                         sorted_scens[cur_id]->start_hour() );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
             } else {
                 wprintz( w_initial_date, c_light_gray, _( "Default" ) );
