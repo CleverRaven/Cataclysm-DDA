@@ -112,6 +112,8 @@ static grid_setup set_up_grid( map &m )
         active_tiles::furn_at<vehicle_connector_tile>( connector_abs_pos );
     battery_tile *battery = active_tiles::furn_at<battery_tile>( battery_abs_pos );
 
+    CAPTURE( connector_abs_pos );
+    CAPTURE( battery_abs_pos );
     REQUIRE( veh );
     REQUIRE( grid_connector );
     REQUIRE( battery );
