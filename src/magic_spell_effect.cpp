@@ -151,8 +151,8 @@ static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int 
 
 void spell_effect::short_range_teleport( const spell &sp, Creature &caster, const tripoint &target )
 {
-    bool safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );
-    bool target_teleport = sp.has_flag( spell_flag::TARGET_TELEPORT );
+    const bool safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );
+    const bool target_teleport = sp.has_flag( spell_flag::TARGET_TELEPORT );
     if( target_teleport ) {
         if( sp.aoe() == 0 ) {
             teleport::teleport_to_point( caster, target, safe, false );
