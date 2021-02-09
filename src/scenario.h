@@ -51,7 +51,7 @@ class scenario
         bool _custom_start_date = false;
         int _start_hour = 8;
         int _start_day = 0;
-        season_type _start_season = SPRING;
+        int _start_season = SPRING;
         int _start_year = 1;
 
         vproto_id _starting_vehicle = vproto_id::NULL_ID();

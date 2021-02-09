@@ -463,7 +463,7 @@ int scenario::start_hour() const
 
 int scenario::day_of_season() const
 {
-    return _start_day == -1 ? rng( 0, get_option<int>( "SEASON_LENGTH" ) ) : _start_day;
+    return _start_day == -1 ? rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 ) : _start_day;
 }
 
 int scenario::start_day() const
@@ -474,7 +474,7 @@ int scenario::start_day() const
 
 season_type scenario::start_season() const
 {
-    return _start_season == -1 ? static_cast<season_type>( rng( 0, 3 ) ) : _start_season;
+    return _start_season == -1 ? static_cast<season_type>( rng( 0, 3 ) ) : static_cast<season_type>( _start_season );
 }
 
 int scenario::start_year() const
