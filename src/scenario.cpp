@@ -99,16 +99,16 @@ void scenario::load( const JsonObject &jo, const std::string & )
 
             JsonObject jocid = jo.get_member( "custom_start_date" );
             if( jocid.has_member( "hour" ) ) {
-                optional( jocid, was_loaded, "hour", _initial_hour );
+                optional( jocid, was_loaded, "hour", _start_hour );
             }
             if( jocid.has_member( "day" ) ) {
-                optional( jocid, was_loaded, "day", _initial_day );
+                optional( jocid, was_loaded, "day", _start_day );
             }
             if( jocid.has_member( "season" ) ) {
-                optional( jocid, was_loaded, "season", _initial_season );
+                optional( jocid, was_loaded, "season", _start_season );
             }
             if( jocid.has_member( "year" ) ) {
-                optional( jocid, was_loaded, "year", _initial_year );
+                optional( jocid, was_loaded, "year", _start_year );
             }
         }
     }
@@ -438,38 +438,38 @@ bool scenario::custom_start_date() const
 
 bool scenario::is_random_hour() const
 {
-    return _initial_hour == -1;
+    return _start_hour == -1;
 }
 
 bool scenario::is_random_year() const
 {
-    return _initial_year == -1;
+    return _start_year == -1;
 }
 
 int scenario::initial_hour() const
 {
-    return _initial_hour == -1 ? rng( 0, 23 ) : _initial_hour;
+    return _start_hour == -1 ? rng( 0, 23 ) : _start_hour;
 }
 
 int scenario::day_of_season() const
 {
-    return _initial_day;
+    return _start_day;
 }
 
-int scenario::initial_day() const
+int scenario::start_day() const
 {
-    return _initial_day + get_option<int>( "SEASON_LENGTH" ) * ( _initial_season + 4 *
-            ( _initial_year - 1 ) );
+    return _start_day + get_option<int>( "SEASON_LENGTH" ) * ( _start_season + 4 *
+            ( _start_year - 1 ) );
 }
 
 season_type scenario::initial_season() const
 {
-    return _initial_season;
+    return _start_season;
 }
 
 int scenario::initial_year() const
 {
-    return _initial_year == -1 ? rng( 1, 11 ) : _initial_year;
+    return _start_year == -1 ? rng( 1, 11 ) : _start_year;
 }
 
 vproto_id scenario::vehicle() const

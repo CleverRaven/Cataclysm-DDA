@@ -49,10 +49,10 @@ class scenario
         std::vector<mission_type_id> _missions;
 
         bool _custom_start_date = false;
-        int _initial_hour = 8;
-        int _initial_day = 0;
-        season_type _initial_season = SPRING;
-        int _initial_year = 1;
+        int _start_hour = 8;
+        int _start_day = 0;
+        season_type _start_season = SPRING;
+        int _start_year = 1;
 
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
 
@@ -93,7 +93,7 @@ class scenario
         // Returns day of the season this scenario starts on
         int day_of_season() const;
         // Returns the day of the year this scenario starts on
-        int initial_day() const;
+        int start_day() const;
         season_type initial_season() const;
         int initial_year() const;
 

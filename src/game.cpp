@@ -12222,7 +12222,7 @@ void game::start_calendar()
     if( scen->custom_start_date() ) {
         calendar::start_of_game = calendar::turn_zero
                                   + 1_hours * scen->initial_hour()
-                                  + 1_days * scen->initial_day();
+                                  + 1_days * scen->start_day();
         if( calendar::start_of_game < calendar::start_of_cataclysm ) {
             // If the cataclysm has been set to happen late it may happen after the game start defined by scenario.
             // That is unacceptable. So lets just jump to same day on next year.
