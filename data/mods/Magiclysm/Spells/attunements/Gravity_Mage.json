@@ -44,7 +44,7 @@
     "min_range": 5,
     "max_range": 17,
     "range_increment": 0.5,
-    "extra_effects":[ { "id": "gravitymage_graviton_damage" } ],
+    "extra_effects": [ { "id": "gravitymage_graviton_damage" } ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "NO_PROJECTILE", "IGNORE_WALLS", "LOUD" ],
     "sound_description": "a crack"
   }
