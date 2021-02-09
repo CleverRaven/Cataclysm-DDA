@@ -25,7 +25,7 @@
     "type": "SPELL",
     "spell_class": "GRAVITY_MAGE",
     "name": "Graviton Polarization",
-    "description": "Changes and amplifies gravitational pull towards a point you choose even through walls. Pulls in items and deals bashing damage in its center.",
+    "description": "Changes and amplifies gravitational pull towards a point you choose even through walls.  Pulls in items and deals bashing damage in its center.",
     "valid_targets": [ "self", "ally", "hostile", "ground", "item", "field" ],
     "effect": "area_pull",
     "shape": "blast",
