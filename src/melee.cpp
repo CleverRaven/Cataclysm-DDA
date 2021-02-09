@@ -625,6 +625,10 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             d.mult_damage( 0.1 );
         }
         // polearms and pikes (but not spears) do less damage to adjacent targets
+        // In the case of a weapon like a glaive or a naginata, the wielder
+        // lacks the room to build up momentum on a slash.
+        // In the case of a pike, the mass of the pole behind the wielder
+        // should they choose to employ it up close will unbalance them.
         if( cur_weapon->reach_range( *this ) > 1 && !reach_attacking &&
             cur_weapon->has_flag( flag_POLEARM ) ) {
             d.mult_damage( 0.7 );
