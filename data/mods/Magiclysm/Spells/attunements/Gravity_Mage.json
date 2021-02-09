@@ -44,8 +44,29 @@
     "min_range": 5,
     "max_range": 17,
     "range_increment": 0.5,
-    "extra_effects": [ { "id": "gravitymage_graviton_damage" } ],
+    "extra_effects": [ { "id": "gravitymage_graviton_damage" }, { "id": "gravitymage_graviton_centerdamage" } ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "NO_PROJECTILE", "IGNORE_WALLS", "LOUD" ],
     "sound_description": "a crack"
+  },
+  {
+    "id": "gravitymage_graviton_centerdamage",
+    "type": "SPELL",
+    "name": "Graviton Polarization centerdamage",
+    "description": "handles damage in the extreme center of the Graviton",
+    "valid_targets": [ "self", "ally", "hostile", "ground" ],
+    "effect": "attack",
+    "shape": "blast",
+    "max_level": 35,
+    "min_damage": 35,
+    "max_damage": 105,
+    "damage_increment": 2,
+    "damage_type": "bash",
+    "min_aoe": 0,
+    "max_aoe": 2,
+    "aoe_increment": 0.06,
+    "min_range": 5,
+    "max_range": 17,
+    "range_increment": 0.5,
+    "flags": [ "LOUD" ]
   }
 ]
