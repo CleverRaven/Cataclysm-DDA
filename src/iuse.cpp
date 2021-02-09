@@ -6336,10 +6336,14 @@ static std::string photo_quality_name( const int index )
 
 int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 {
+    //meep
     if( t ) {
-        if( !it->get_var( "EIPC_MUSIC_ON" ).empty() && ( it->ammo_remaining() > 0 ) ) {
+        if( !it->get_var( "EIPC_MUSIC_ON" ).empty() &&
+            ( it->ammo_remaining() > 0  || ( it->has_flag( flag_USE_UPS ) &&
+                                             p->has_enough_charges( *it, false ) ) ) ) {
             if( calendar::once_every( 5_minutes ) ) {
-                it->ammo_consume( 1, p->pos() );
+                //it->ammo_consume( 1, p->pos() );
+                p->consume_charges( *it, 1 );
             }
 
             //the more varied music, the better max mood.
