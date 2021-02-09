@@ -745,7 +745,7 @@
     "id": "bot_tazer_hack",
     "type": "TOOL",
     "name": { "str": "inactive tazer hack" },
-    "description": "This is an inactive tazer hack.  Tazer hacks are fist-sized robots that fly through the air.  This one has a tazer and attacks by flying at its target and delivering an electric shock.  Use this item to reprogram and release the tazer hack.  Electronics and computer skills determine if the targeting matrix is reprogrammed successfully.",
+    "description": "This is an inactive tazer hack.  Hacks are fist-sized robots that fly through the air.  This one has a tazer and attacks by flying at its target and delivering an electric shock.  Use this item to reprogram and release the tazer hack.  Electronics and computer skills determine if the targeting matrix is reprogrammed successfully.",
     "weight": "4700 g",
     "volume": "750 ml",
     "price": 64500,
