@@ -6,7 +6,6 @@
 
 #include "character.h"
 #include "enums.h"
-#include "game.h"
 #include "handle_liquid.h"
 #include "item.h"
 #include "itype.h"
@@ -33,7 +32,7 @@ size_t item_contents::num_item_stacks() const
 bool item_contents::spill_contents( const tripoint &pos )
 {
     for( item &it : items ) {
-        g->m.add_item_or_charges( pos, it );
+        get_map().add_item_or_charges( pos, it );
     }
 
     items.clear();

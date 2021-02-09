@@ -12292,6 +12292,11 @@ void avatar_moves( const avatar &u, const map &m, const tripoint &p )
 }
 } // namespace cata_event_dispatch
 
+event_bus &get_event_bus()
+{
+    return g->events();
+}
+
 distribution_grid_tracker &get_distribution_grid_tracker()
 {
     return *g->grid_tracker_ptr;

@@ -21,6 +21,7 @@
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class Character;
 class player;
 
 using itype_id = std::string;
@@ -84,7 +85,7 @@ struct bionic_data {
     /**Bonus to weight capacity*/
     units::mass weight_capacity_bonus = 0_gram;
     /**Map of stats and their corresponding bonuses passively granted by a bionic*/
-    std::map<Character::stat, int> stat_bonus;
+    std::map<character_stat, int> stat_bonus;
     /**This bionic draws power through a cable*/
     bool is_remote_fueled = false;
     /**Fuel types that can be used by this bionic*/

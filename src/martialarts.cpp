@@ -18,7 +18,6 @@
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "input.h"
 #include "item.h"
@@ -470,7 +469,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         return false;
     }
 
-    if( wall_adjacent && !g->m.is_wall_adjacent( u.pos() ) ) {
+    if( wall_adjacent && !get_map().is_wall_adjacent( u.pos() ) ) {
         return false;
     }
 
@@ -511,8 +510,8 @@ std::string ma_requirements::get_description( bool buff ) const
 
         dump += enumerate_as_string( min_skill.begin(),
         min_skill.end(), []( const std::pair<skill_id, int>  &pr ) {
-            int player_skill = g->u.get_skill_level( skill_id( pr.first ) );
-            if( g->u.has_active_bionic( bio_cqb ) ) {
+            int player_skill = get_player_character().get_skill_level( skill_id( pr.first ) );
+            if( get_player_character().has_active_bionic( bio_cqb ) ) {
                 player_skill = BIO_CQB_LEVEL;
             }
             return string_format( "%s: <stat>%d</stat>/<stat>%d</stat>", pr.first->name(), player_skill,
@@ -1425,8 +1424,8 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
             ma.leg_block_with_bio_armor_legs || ma.leg_block != 99 ) {
-            int unarmed_skill =  g->u.get_skill_level( skill_unarmed );
-            if( g->u.has_active_bionic( bio_cqb ) ) {
+            int unarmed_skill =  get_player_character().get_skill_level( skill_unarmed );
+            if( get_player_character().has_active_bionic( bio_cqb ) ) {
                 unarmed_skill = BIO_CQB_LEVEL;
             }
             if( ma.arm_block_with_bio_armor_arms ) {
@@ -1483,7 +1482,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             std::vector<std::string> weapons;
             std::transform( ma.weapons.begin(), ma.weapons.end(),
             std::back_inserter( weapons ), []( const itype_id & wid )-> std::string {
-                if( item::nname( wid ) == g->u.weapon.display_name() )
+                if( item::nname( wid ) == get_player_character().weapon.display_name() )
                 {
                     return colorize( item::nname( wid ) + _( " (wielded)" ), c_light_cyan );
                 } else

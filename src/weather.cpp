@@ -53,6 +53,11 @@ static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
  * @{
  */
 
+weather_manager &get_weather()
+{
+    return g->weather;
+}
+
 static bool is_player_outside()
 {
     return g->m.is_outside( point( g->u.posx(), g->u.posy() ) ) && g->get_levz() >= 0;
@@ -1002,11 +1007,13 @@ void weather_manager::update_weather()
             g->u.assign_activity( ACT_WAIT_WEATHER, 0, 0 );
         }
 
+        map &here = get_map();
         if( wdata.sight_penalty !=
             weather::sight_penalty( old_weather ) ) {
             for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
-                g->m.set_transparency_cache_dirty( i );
+                here.set_transparency_cache_dirty( i );
             }
+            here.set_seen_cache_dirty( tripoint_zero );
         }
 
         water_temperature = weather_gen.get_water_temperature( g->u.global_square_location(),

@@ -1,7 +1,6 @@
 #include <memory>
 
 #include "behavior.h"
-#include "game.h"
 #include "map.h"
 #include "mapdata.h"
 #include "monster.h"
@@ -25,7 +24,7 @@ status_t monster_oracle_t::not_hallucination() const
 
 status_t monster_oracle_t::items_available() const
 {
-    if( !g->m.has_flag( TFLAG_SEALED, subject->pos() ) && g->m.has_items( subject->pos() ) ) {
+    if( !get_map().has_flag( TFLAG_SEALED, subject->pos() ) && get_map().has_items( subject->pos() ) ) {
         return running;
     }
     return failure;

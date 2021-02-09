@@ -3,7 +3,6 @@
 #include "calendar.h"
 #include "catch/catch.hpp"
 #include "enums.h"
-#include "game.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -12,8 +11,8 @@
 
 static void set_map_temperature( int new_temperature )
 {
-    g->weather.temperature = new_temperature;
-    g->weather.clear_temp_cache();
+    get_weather().temperature = new_temperature;
+    get_weather().clear_temp_cache();
 }
 
 TEST_CASE( "Rate of rotting" )
@@ -105,14 +104,15 @@ TEST_CASE( "Items rot away" )
 
         item test_item( "meat_cooked" );
         test_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::TEMP_HEATER );
-        g->m.add_item_or_charges( loc, test_item, false );
+        map &m = get_map();
+        m.add_item_or_charges( loc, test_item, false );
 
-        REQUIRE( g->m.i_at( loc ).size() == 1 );
+        REQUIRE( m.i_at( loc ).size() == 1 );
 
         calendar::turn += 20_minutes;
-        g->m.i_at( loc ).only_item().mod_rot( 7_days );
-        g->m.process_items();
+        m.i_at( loc ).only_item().mod_rot( 7_days );
+        m.process_items();
 
-        CHECK( g->m.i_at( loc ).empty() );
+        CHECK( m.i_at( loc ).empty() );
     }
 }
