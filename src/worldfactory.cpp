@@ -263,7 +263,6 @@ void worldfactory::init()
 
     std::vector<std::string> qualifiers;
     qualifiers.push_back( PATH_INFO::worldoptions() );
-    qualifiers.push_back( PATH_INFO::legacy_worldoptions() );
     qualifiers.push_back( SAVE_MASTER );
 
     all_worlds.clear();
@@ -1368,10 +1367,6 @@ void WORLD::load_options( JsonIn &jsin )
             WORLD_OPTIONS[ name ].setValue( value );
         }
     }
-    // for legacy saves, try to simulate old city_size based density
-    if( WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 ) {
-        WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_option<int>( "CITY_SIZE" ) / 3 );
-    }
 
     WORLD_OPTIONS[ "CORE_VERSION" ].setValue( version );
 }
@@ -1405,22 +1400,9 @@ bool WORLD::load_options()
 
     using namespace std::placeholders;
     const auto path = folder_path() + "/" + PATH_INFO::worldoptions();
-    if( read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
-    load_options( jsin );
-    } ) ) {
-        return true;
-    }
-
-    const auto legacy_path = folder_path() + "/" + PATH_INFO::legacy_worldoptions();
-    if( read_from_file_optional( legacy_path, std::bind( &WORLD::load_legacy_options, this, _1 ) ) ) {
-        if( save() ) {
-            // Remove old file as the options have been saved to the new file.
-            remove_file( legacy_path );
-        }
-        return true;
-    }
-
-    return false;
+    return read_from_file_optional_json( path, [&]( JsonIn & jsin ) {
+        load_options( jsin );
+    } );
 }
 
 void load_world_option( const JsonObject &jo )

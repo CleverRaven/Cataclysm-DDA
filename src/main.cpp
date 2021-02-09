@@ -408,7 +408,7 @@ int main( int argc, char *argv[] )
 
         // The following arguments are dependent on one or more of the previous flags and are run
         // in a second pass.
-        const std::array<arg_handler, 9> second_pass_arguments = {{
+        const std::array<arg_handler, 8> second_pass_arguments = {{
                 {
                     "--worldmenu", nullptr,
                     "Enables the world menu in the map-sharing code",
@@ -480,19 +480,6 @@ int main( int argc, char *argv[] )
                             return -1;
                         }
                         PATH_INFO::set_options( params[0] );
-                        return 1;
-                    }
-                },
-                {
-                    "--keymapfile", "<filename>",
-                    "Name of the keymap file within the configdir",
-                    section_user_directory,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        PATH_INFO::set_keymap( params[0] );
                         return 1;
                     }
                 },
