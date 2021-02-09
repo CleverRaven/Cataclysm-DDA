@@ -3764,8 +3764,8 @@ Allows customizing initial date. If `custom_start_date` is not set the correspon
 
  Identifier            | Description
 ---                    | ---
-`hour`                 | (optional, integer) Hour of the day for initial date. If not set the world option is used.
-`day`                  | (optional, integer) Day of the season for initial date. Default 1.
+`hour`                 | (optional, integer) Hour of the day for initial date. Default 8.
+`day`                  | (optional, integer) Day of the season for initial date. Default 0.
 `season`               | (optional, integer) Season for initial date. Default `SPRING`.
 `year`                 | (optional, integer) Year for initial date. Default 1.
 

@@ -110,11 +110,6 @@ void scenario::load( const JsonObject &jo, const std::string & )
             if( jocid.has_member( "year" ) ) {
                 optional( jocid, was_loaded, "year", _initial_year );
             }
-        } else {
-            _initial_hour = get_option<int>( "INITIAL_TIME" );
-            _initial_day = 1;
-            _initial_season = SPRING;
-            _initial_year = 1;
         }
     }
 
