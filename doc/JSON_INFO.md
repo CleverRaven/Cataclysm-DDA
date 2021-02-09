@@ -3756,7 +3756,7 @@ A list of mission ids that will be started and assigned to the player at the sta
 ## `custom_start_date`
 (optional, object with optional members "hour", "day", "season" and "year")
 
-Allows customizing initial date.
+Allows customizing initial date. If `custom_start_date` is not set the corresponding values from world options are used instead.
 
 ```C++
 "custom_start_date": { "hour": 3, "day": 10, "season": "winter", "year": 1 }
