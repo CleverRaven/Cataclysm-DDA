@@ -12210,11 +12210,11 @@ void game::autosave()
 void game::start_calendar()
 {
     time_duration initial_days;
+	// Initial day is the time of cataclysm. Limit it to occur on the first year.
     if( get_option<int>( "INITIAL_DAY" )  == -1 ) {
-        // 0 - 363 for a 91 day season
         initial_days = 1_days * rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
     } else {
-        initial_days = 1_days * get_option<int>( "INITIAL_DAY" );
+        initial_days = 1_days * std:min( get_option<int>( "INITIAL_DAY" ), get_option<int>( "SEASON_LENGTH" ) * 4 );
     }
     calendar::start_of_cataclysm = calendar::turn_zero + initial_days;
 

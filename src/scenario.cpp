@@ -112,7 +112,7 @@ void scenario::load( const JsonObject &jo, const std::string & )
             }
         } else {
             _initial_hour = get_option<int>( "INITIAL_TIME" );
-            _initial_day = 0;
+            _initial_day = 1;
             _initial_season = SPRING;
             _initial_year = 1;
         }
