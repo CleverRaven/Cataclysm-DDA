@@ -51,7 +51,7 @@ class scenario
         bool _custom_start_date = false;
         int _start_hour = 8;
         int _start_day = 0;
-        int _start_season = SPRING;
+        season_type _start_season = SPRING;
         int _start_year = 1;
 
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
@@ -89,7 +89,6 @@ class scenario
         bool custom_start_date() const;
         bool is_random_hour() const;
         bool is_random_day() const;
-        bool is_random_season() const;
         bool is_random_year() const;
         int start_hour() const;
         // Returns day of the season this scenario starts on
