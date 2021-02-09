@@ -1412,8 +1412,11 @@ cata::optional<tripoint> spell::random_valid_target( const Creature &caster,
 {
     const bool ignore_ground = has_flag( spell_flag::RANDOM_CRITTER );
     std::set<tripoint> valid_area;
+    spell_effect::override_parameters blast_params( *this );
+    // we want to pick a random target within range, not aoe
+    blast_params.aoe_radius = range();
     for( const tripoint &target : spell_effect::spell_effect_blast(
-             spell_effect::override_parameters( *this ), caster_pos, caster_pos ) ) {
+             blast_params, caster_pos, caster_pos ) ) {
         if( target != caster_pos && is_valid_target( caster, target ) &&
             ( !ignore_ground || g->critter_at<Creature>( target ) ) ) {
             valid_area.emplace( target );
