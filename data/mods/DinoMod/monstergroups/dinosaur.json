@@ -190,11 +190,11 @@
     "name": "GROUP_DINOSAUR_MEGA_CARNIVORE",
     "default": "mon_tyrannosaurus",
     "monsters": [
-      { "monster": "mon_spinosaurus", "freq": 100, "cost_multiplier": 40 },
-      { "monster": "mon_acrocanthosaurus", "freq": 800, "cost_multiplier": 40 },
-      { "monster": "mon_siats", "freq": 800, "cost_multiplier": 40 },
-      { "monster": "mon_tyrannosaurus", "freq": 800, "cost_multiplier": 40 },
-      { "monster": "mon_albertosaurus", "freq": 400, "cost_multiplier": 35 }
+      { "monster": "mon_spinosaurus", "freq": 50, "cost_multiplier": 40 },
+      { "monster": "mon_acrocanthosaurus", "freq": 250, "cost_multiplier": 40 },
+      { "monster": "mon_siats", "freq": 250, "cost_multiplier": 40 },
+      { "monster": "mon_tyrannosaurus", "freq": 250, "cost_multiplier": 40 },
+      { "monster": "mon_albertosaurus", "freq": 200, "cost_multiplier": 35 }
     ]
   },
   {
