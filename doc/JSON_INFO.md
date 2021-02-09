@@ -3766,7 +3766,7 @@ Allows customizing initial date. If `custom_start_date` is not set the correspon
 ---                    | ---
 `hour`                 | (optional, integer) Hour of the day for initial date. Default 8. -1 randomizes 0-23.
 `day`                  | (optional, integer) Day of the season for initial date. Default 0. -1 randomizes 0-season lenght.
-`season`               | (optional, integer) Season for initial date. Default `SPRING`. -1 randomizes spring-winter.
+`season`               | (optional, integer) Season for initial date. Default `SPRING`.
 `year`                 | (optional, integer) Year for initial date. Default 1. -1 randomizes 1-11.
 
 # Starting locations

@@ -469,7 +469,7 @@ int scenario::start_day() const
 
 season_type scenario::start_season() const
 {
-    return _start_season
+    return _start_season;
 }
 
 int scenario::start_year() const
