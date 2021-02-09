@@ -263,7 +263,6 @@ if (MINGW AND NOT RELEASE)
                     ${RuntimeLib_mpeg})
         endif ()
     endif ()
-
     install(FILES ${RuntimeLib_GCC_ALL}
             ${RuntimeLib_LOCALIZE}
             ${RuntimeLib_SDL}
