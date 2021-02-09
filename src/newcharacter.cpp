@@ -2445,11 +2445,12 @@ tab_direction set_scenario( avatar &u, points_left &points,
                          sorted_scens[cur_id]->is_random_year() ? _( "Year:   Random" ) : _( "Year:   %s" ),
                          sorted_scens[cur_id]->start_year() );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
-                wprintz( w_initial_date, c_light_gray, _( "Season: %s" ),
-                         calendar::name_season( sorted_scens[cur_id]->start_season() ) );
+                wprintz( w_initial_date, c_light_gray, 
+				sorted_scens[cur_id]->is_random_season() ? _( "Season:    Random" ) : _( "Season: %s" ), calendar::name_season( sorted_scens[cur_id]->start_season() ) );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
                 wprintz( w_initial_date, c_light_gray,
-                         _( "Day:    %d" ), sorted_scens[cur_id]->day_of_season() );
+                         sorted_scens[cur_id]->is_random_day() ? _( "Day:    Random" ) : _( "Day:    %d" ),
+                         sorted_scens[cur_id]->day_of_season() );
                 wprintz( w_initial_date, c_light_gray, ( "\n" ) );
                 wprintz( w_initial_date, c_light_gray,
                          sorted_scens[cur_id]->is_random_hour() ? _( "Hour:   Random" ) : _( "Hour:   %d" ),
