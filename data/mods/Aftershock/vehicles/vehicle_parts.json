@@ -15,7 +15,7 @@
     "breaks_into": [ { "item": "steel_lump", "count": [ 4, 6 ] }, { "item": "scrap", "count": [ 4, 6 ] } ]
   },
   {
-    "id": "mounted_emp_gun",
+    "id": "afs_mounted_emp_gun",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted XM34 EMP projector" },
@@ -29,7 +29,7 @@
     }
   },
   {
-    "id": "laser_rifle",
+    "id": "afs_laser_rifle",
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted A7 laser rifle" },
