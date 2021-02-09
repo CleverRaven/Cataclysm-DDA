@@ -2313,7 +2313,8 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
         }
     } else { // Activated
         int ch = 1;
-        if( it->ammo_remaining() > 0 ) {
+        if( it->ammo_remaining() > 0 || ( it->has_flag( flag_USE_UPS ) &&
+                                          p->has_enough_charges( *it, false ) ) ) {
             ch = uilist( _( "Radio:" ), {
                 _( "Scan" ), _( "Turn off" )
             } );
@@ -4242,7 +4243,8 @@ int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
 int iuse::mp3( player *p, item *it, bool, const tripoint & )
 {
     // TODO: avoid item id hardcoding to make this function usable for pure json-defined devices.
-    if( !it->units_sufficient( *p ) ) {
+    if( !it->units_sufficient( *p ) || !( it->has_flag( flag_USE_UPS ) &&
+                                          p->has_enough_charges( *it, false ) ) ) {
         p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
     } else if( p->has_active_item( itype_mp3_on ) || p->has_active_item( itype_smartphone_music ) ||
                p->has_active_item( itype_afs_atomic_smartphone_music ) ||
