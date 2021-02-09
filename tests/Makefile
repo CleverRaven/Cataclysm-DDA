@@ -13,7 +13,10 @@ CATA_LIB=../$(BUILD_PREFIX)cataclysm.a
 # built with BUILD_PREFIX set, you must set it for this invocation as well.
 ODIR ?= obj
 
-LDFLAGS += -L.
+LDFLAGS += -lpthread -L.
+
+# Enabling benchmarks
+DEFINES += -DCATCH_CONFIG_ENABLE_BENCHMARKING
 
 # Allow use of any header files from cataclysm.
 # Catch sections throw unused variable warnings.
@@ -56,8 +59,14 @@ $(TEST_TARGET): $(OBJS) $(CATA_LIB)
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
 
-# Iterate over all the individual tests.
-check: $(TEST_TARGET)
+TEST_BATCHES = "crafting_skill_gain" "[slow]\ ~crafting_skill_gain" "~[slow]\ ~[.]"
+
+$(TEST_BATCHES): $(TEST_TARGET)
+	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time $@
+
+check: $(TEST_TARGET) $(TEST_BATCHES)
+
+check-single: $(TEST_TARGET)
 	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time
 
 clean:
@@ -70,10 +79,11 @@ clean:
 #Unconditionally create object directory on invocation.
 $(shell mkdir -p $(ODIR))
 
+# Adding ../tests/ so that the directory appears in __FILE__ for log messages
 $(ODIR)/%.o: %.cpp $(PCH_P)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
 
-.PHONY: clean check tests precompile_header
+.PHONY: clean check check-single tests precompile_header
 
 .SECONDARY: $(OBJS)
 

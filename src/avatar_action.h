@@ -2,15 +2,15 @@
 #ifndef CATA_SRC_AVATAR_ACTION_H
 #define CATA_SRC_AVATAR_ACTION_H
 
-#include <string>
+#include <iosfwd>
 #include <vector>
 
+#include "activity_type.h"
 #include "optional.h"
 #include "point.h"
 #include "units_fwd.h"
 
 class Character;
-class aim_activity_actor;
 class avatar;
 class item;
 class item_location;
@@ -21,11 +21,11 @@ namespace avatar_action
 {
 
 /** Eat food or fuel  'E' (or 'a') */
-void eat( avatar &you );
 void eat( avatar &you, const item_location &loc );
-void eat( avatar &you, const item_location &loc, std::vector<int> consume_menu_selections,
+void eat( avatar &you, const item_location &loc,
+          const std::vector<int> &consume_menu_selections,
           const std::vector<item_location> &consume_menu_selected_items,
-          const std::string &consume_menu_filter );
+          const std::string &consume_menu_filter, activity_id type );
 // special rules for eating: grazing etc
 // returns false if no rules are needed
 bool eat_here( avatar &you );

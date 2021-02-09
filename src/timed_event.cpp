@@ -2,6 +2,8 @@
 
 #include <array>
 #include <memory>
+#include <new>
+#include <string>
 
 #include "avatar.h"
 #include "avatar_action.h"
@@ -12,7 +14,6 @@
 #include "event_bus.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -58,7 +59,7 @@ void timed_event::actualize()
             break;
 
         case timed_event_type::ROBOT_ATTACK: {
-            const auto u_pos = player_character.global_sm_location();
+            const tripoint u_pos = player_character.global_sm_location();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 

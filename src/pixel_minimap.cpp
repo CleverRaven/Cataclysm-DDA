@@ -15,6 +15,7 @@
 
 #include "cata_assert.h"
 #include "cata_utility.h"
+#include "cata_tiles.h"
 #include "character.h"
 #include "color.h"
 #include "coordinate_conversions.h"
@@ -33,8 +34,6 @@
 #include "sdl_utils.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-extern void set_displaybuffer_rendertarget();
 
 namespace
 {
@@ -83,7 +82,7 @@ SDL_Texture_Ptr create_cache_texture( const SDL_Renderer_Ptr &renderer, int tile
 SDL_Color get_map_color_at( const tripoint &p )
 {
     const map &here = get_map();
-    if( const auto vp = here.veh_at( p ) ) {
+    if( const optional_vpart_position vp = here.veh_at( p ) ) {
         return curses_color_to_SDL( vp->vehicle().part_color( vp->part_index() ) );
     }
 
@@ -121,7 +120,7 @@ SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
 class pixel_minimap::shared_texture_pool
 {
     public:
-        shared_texture_pool( const std::function<SDL_Texture_Ptr()> &generator ) {
+        explicit shared_texture_pool( const std::function<SDL_Texture_Ptr()> &generator ) {
             const size_t pool_size = ( MAPSIZE + 1 ) * ( MAPSIZE + 1 );
 
             texture_pool.reserve( pool_size );
@@ -148,8 +147,10 @@ class pixel_minimap::shared_texture_pool
         //releases the provided texture back into the inactive pool to be used again
         //called automatically in the submap cache destructor
         void release_tex( size_t index, SDL_Texture_Ptr &&ptr ) {
-            inactive_index.push_back( index );
-            texture_pool[index] = std::move( ptr );
+            if( ptr ) {
+                inactive_index.push_back( index );
+                texture_pool[index] = std::move( ptr );
+            }
         }
 
     private:
@@ -174,7 +175,7 @@ struct pixel_minimap::submap_cache {
     shared_texture_pool &pool;
 
     //reserve the SEEX * SEEY submap tiles
-    submap_cache( shared_texture_pool &pool ) :
+    explicit submap_cache( shared_texture_pool &pool ) :
         pool( pool ) {
         chunk_tex = pool.request_tex( texture_index );
     }
@@ -184,6 +185,7 @@ struct pixel_minimap::submap_cache {
         pool.release_tex( texture_index, std::move( chunk_tex ) );
     }
 
+    submap_cache( const submap_cache & ) = delete;
     submap_cache( submap_cache && ) = default;
 
     SDL_Color &color_at( const point &p ) {
@@ -343,7 +345,7 @@ pixel_minimap::submap_cache &pixel_minimap::get_cache_at( const tripoint &abs_sm
     auto it = cache.find( abs_sm_pos );
 
     if( it == cache.end() ) {
-        it = cache.emplace( abs_sm_pos, *tex_pool ).first;
+        it = cache.emplace( abs_sm_pos, submap_cache( *tex_pool ) ).first;
     }
 
     return it->second;

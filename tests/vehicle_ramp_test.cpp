@@ -1,12 +1,13 @@
-#include "catch/catch.hpp"
-
 #include <array>
+#include <iosfwd>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "game.h"
 #include "game_constants.h"
@@ -15,7 +16,9 @@
 #include "monster.h"
 #include "optional.h"
 #include "point.h"
+#include "tileray.h"
 #include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -24,15 +27,13 @@
 static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up )
 {
     // Set to turn 0 to prevent solars from producing power
-    calendar::turn = 0;
+    calendar::turn = calendar::turn_zero;
     clear_map();
     clear_vehicles();
 
     Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE_FALSE( player_character.in_vehicle );
-    // Blind the player to avoid needless drawing-related overhead
-    //player_character.add_effect( effect_blind, 1_turns, num_bp, true );
 
     map &here = get_map();
     build_test_map( ter_id( "t_pavement" ) );
@@ -79,7 +80,7 @@ static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up
 // Clear map and create a ramp
 // Spawn a vehicle
 // Drive it over the ramp, and confirm that the vehicle changes z-levels
-static void ramp_transition_angled( const vproto_id &veh_id, const int angle,
+static void ramp_transition_angled( const vproto_id &veh_id, const units::angle angle,
                                     const int transition_x, bool use_ramp, bool up )
 {
     map &here = get_map();
@@ -134,6 +135,9 @@ static void ramp_transition_angled( const vproto_id &veh_id, const int angle,
         for( const tripoint &checkpt : vpts ) {
             int partnum = 0;
             vehicle *check_veh = here.veh_at_internal( checkpt, partnum );
+            CAPTURE( veh_ptr->global_pos3() );
+            CAPTURE( veh_ptr->face.dir() );
+            CAPTURE( checkpt );
             CHECK( check_veh == veh_ptr );
         }
         vpts.clear();
@@ -182,22 +186,22 @@ static void test_ramp( const std::string &type, const int transition_x )
 {
     CAPTURE( type );
     SECTION( "no ramp" ) {
-        ramp_transition_angled( vproto_id( type ), 180, transition_x, false, false );
+        ramp_transition_angled( vproto_id( type ), 180_degrees, transition_x, false, false );
     }
     SECTION( "ramp up" ) {
-        ramp_transition_angled( vproto_id( type ), 180, transition_x, true, true );
+        ramp_transition_angled( vproto_id( type ), 180_degrees, transition_x, true, true );
     }
     SECTION( "ramp down" ) {
-        ramp_transition_angled( vproto_id( type ), 180, transition_x, true, false );
+        ramp_transition_angled( vproto_id( type ), 180_degrees, transition_x, true, false );
     }
     SECTION( "angled no ramp" ) {
-        ramp_transition_angled( vproto_id( type ), 225, transition_x, false, false );
+        ramp_transition_angled( vproto_id( type ), 225_degrees, transition_x, false, false );
     }
     SECTION( "angled ramp down" ) {
-        ramp_transition_angled( vproto_id( type ), 225, transition_x, true, false );
+        ramp_transition_angled( vproto_id( type ), 225_degrees, transition_x, true, false );
     }
     SECTION( "angled ramp up" ) {
-        ramp_transition_angled( vproto_id( type ), 225, transition_x, true, true );
+        ramp_transition_angled( vproto_id( type ), 225_degrees, transition_x, true, true );
     }
 }
 
@@ -233,7 +237,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     const int start_z = drop_pos ? 1 : 0;
 
     const tripoint map_starting_point( 60, 60, start_z );
-    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, 180, 1, 0 );
+    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, 180_degrees, 1, 0 );
 
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {
@@ -272,6 +276,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     REQUIRE( z_span.size() > 1 );
 
     monster *dmon_p = g->place_critter_at( mtype_id( "debug_mon" ), map_starting_point );
+    REQUIRE( dmon_p );
     monster &dmon = *dmon_p;
 
     for( int y = 0; y < SEEY * MAPSIZE; y++ ) {

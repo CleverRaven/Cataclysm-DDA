@@ -30,6 +30,7 @@
 #include "Utils.h"
 #include "clang/AST/OperationKinds.h"
 #include "clang/Basic/OperatorKinds.h"
+#include "../../src/cata_assert.h"
 
 using namespace clang::ast_matchers;
 
@@ -170,7 +171,7 @@ static std::vector<ExpressionComponent> decomposeExpr( const Expr *E, const std:
         };
         return std::any_of( Components.begin(), Components.end(), isMember );
     };
-    assert( E );
+    cata_assert( E );
     switch( E->getStmtClass() ) {
         case Stmt::BinaryOperatorClass: {
             const BinaryOperator *Binary = cast<BinaryOperator>( E );
@@ -407,7 +408,7 @@ static void appendComponent( std::string &Result, const ExpressionComponent &Com
             if( Accessor.empty() ) {
                 Prefix = "*";
             } else {
-                assert( Accessor[0] == '.' );
+                cata_assert( Accessor[0] == '.' );
                 Accessor.erase( Accessor.begin() );
                 Accessor = "->" + Accessor;
             }
@@ -541,7 +542,7 @@ static void CheckConstructor( UsePointArithmeticCheck &Check,
             const std::string &Key = Position.first;
             bool AtEnd = Position.second == Components.at( Key ).end();
             if( !AtEnd && *Position.second < *CurrentMin ) {
-                assert( false );
+                cata_assert( false ); // NOLINT(misc-static-assert,cert-dcl03-c)
             } else if( AtEnd || *Position.second > *CurrentMin ) {
                 AllEqual = false;
                 if( Key != "z" ) {

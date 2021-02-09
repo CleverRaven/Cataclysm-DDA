@@ -1,13 +1,17 @@
+#include "game.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <chrono>
 #include <cmath>
-#include <cstdlib>
 #include <initializer_list>
+#include <map>
 #include <sstream>
+#include <string>
 #include <utility>
 
 #include "action.h"
-#include "activity_actor.h"
+#include "activity_actor_definitions.h"
+#include "activity_type.h"
 #include "advanced_inv.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
@@ -15,21 +19,25 @@
 #include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
+#include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "event.h"
+#include "event_bus.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
-#include "game.h" // IWYU pragma: associated
+#include "flag.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "gamemode.h"
@@ -37,14 +45,15 @@
 #include "gun_mode.h"
 #include "help.h"
 #include "input.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
 #include "iuse.h"
+#include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
 #include "magic.h"
+#include "make_static.h"
 #include "map.h"
 #include "mapdata.h"
 #include "mapsharing.h"
@@ -65,12 +74,10 @@
 #include "scores_ui.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -117,14 +124,9 @@ static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_pilot" );
 
-static const std::string flag_LITCIG( "LITCIG" );
 static const std::string flag_LOCKED( "LOCKED" );
-static const std::string flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
-static const std::string flag_NO_QUICKDRAW( "NO_QUICKDRAW" );
-static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
-static const std::string flag_RELOAD_ONE( "RELOAD_ONE" );
 
-static const std::string flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -224,7 +226,7 @@ input_context game::get_player_input( std::string &action )
         }
 
         //x% of the Viewport, only shown on visible areas
-        const auto weather_info = weather.weather_id->weather_animation;
+        const weather_animation_t weather_info = weather.weather_id->weather_animation;
         point offset( u.view_offset.xy() + point( -getmaxx( w_terrain ) / 2 + u.posx(),
                       -getmaxy( w_terrain ) / 2 + u.posy() ) );
 
@@ -240,12 +242,12 @@ input_context game::get_player_input( std::string &action )
 #endif //TILES
 
         // TODO: Move the weather calculations out of here.
-        const bool bWeatherEffect = ( weather_info.glyph != '?' );
+        const bool bWeatherEffect = weather_info.symbol != NULL_UNICODE;
         const int dropCount = static_cast<int>( iEnd.x * iEnd.y * weather_info.factor );
 
         weather_printable wPrint;
         wPrint.colGlyph = weather_info.color;
-        wPrint.cGlyph = weather_info.glyph;
+        wPrint.cGlyph = weather_info.symbol;
         wPrint.wtype = weather.weather_id;
         wPrint.vdrops.clear();
 
@@ -290,14 +292,14 @@ input_context game::get_player_input( std::string &action )
                 }
             }
             // don't bother calculating SCT if we won't show it
-            if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) ) {
+            if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) && !SCT.vSCT.empty() ) {
                 invalidate_main_ui_adaptor();
 
                 SCT.advanceAllSteps();
 
                 //Check for creatures on all drawing positions and offset if necessary
                 for( auto iter = SCT.vSCT.rbegin(); iter != SCT.vSCT.rend(); ++iter ) {
-                    const direction oCurDir = iter->getDirecton();
+                    const direction oCurDir = iter->getDirection();
                     const int width = utf8_width( iter->getText() );
                     for( int i = 0; i < width; ++i ) {
                         tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_map().get_abs_sub().z );
@@ -307,7 +309,7 @@ input_context game::get_player_input( std::string &action )
                             i = -1;
                             int iPos = iter->getStep() + iter->getStepOffset();
                             for( auto iter2 = iter; iter2 != SCT.vSCT.rend(); ++iter2 ) {
-                                if( iter2->getDirecton() == oCurDir &&
+                                if( iter2->getDirection() == oCurDir &&
                                     iter2->getStep() + iter2->getStepOffset() <= iPos ) {
                                     if( iter2->getType() == "hp" ) {
                                         iter2->advanceStepOffset();
@@ -364,7 +366,7 @@ inline static void rcdrive( const point &d )
     auto rc_pairs = here.get_rc_items( c );
     auto rc_pair = rc_pairs.begin();
     for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
-        if( rc_pair->second->has_flag( "RADIOCAR" ) && rc_pair->second->active ) {
+        if( rc_pair->second->has_flag( flag_RADIOCAR ) && rc_pair->second->active ) {
             break;
         }
     }
@@ -415,6 +417,10 @@ static void pldrive( const tripoint &p )
         dbg( D_ERROR ) << "game::pldrive: can't find vehicle!  Drive mode is now off.";
         debugmsg( "game::pldrive error: can't find vehicle!  Drive mode is now off." );
         player_character.in_vehicle = false;
+        return;
+    }
+    if( veh->is_on_ramp && p.y != 0 ) {
+        add_msg( m_bad, _( "You can't turn the vehicle while on a ramp." ) );
         return;
     }
     if( !remote ) {
@@ -488,19 +494,25 @@ static void open()
 
     player_character.moves -= 100;
 
+    // Is a vehicle part here?
     if( const optional_vpart_position vp = here.veh_at( openp ) ) {
         vehicle *const veh = &vp->vehicle();
+        // Check for potential thievery, and restore moves if action is canceled
+        if( !veh->handle_potential_theft( player_character ) ) {
+            player_character.moves += 100;
+            return;
+        }
+        // Check if vehicle has a part here that can be opened
         int openable = veh->next_part_to_open( vp->part_index() );
         if( openable >= 0 ) {
+            // If player is inside vehicle, open the door/window/curtain
             const vehicle *player_veh = veh_pointer_or_null( here.veh_at( player_character.pos() ) );
+            const std::string part_name = veh->part( openable ).name();
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
-                if( !veh->handle_potential_theft( player_character ) ) {
-                    player_character.moves += 100;
-                    return;
-                } else {
-                    veh->open( openable );
-                }
+                veh->open( openable );
+                //~ %1$s - vehicle name, %2$s - part name
+                player_character.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh->name, part_name );
             } else {
                 // Outside means we check if there's anything in that tile outside-openable.
                 // If there is, we open everything on tile. This means opening a closed,
@@ -508,16 +520,12 @@ static void open()
                 // curtains as well.
                 int outside_openable = veh->next_part_to_open( vp->part_index(), true );
                 if( outside_openable == -1 ) {
-                    const std::string name = veh->part_info( openable ).name();
-                    add_msg( m_info, _( "That %s can only opened from the inside." ), name );
+                    add_msg( m_info, _( "That %s can only be opened from the inside." ), part_name );
                     player_character.moves += 100;
                 } else {
-                    if( !veh->handle_potential_theft( player_character ) ) {
-                        player_character.moves += 100;
-                        return;
-                    } else {
-                        veh->open_all_at( openable );
-                    }
+                    veh->open_all_at( openable );
+                    //~ %1$s - vehicle name, %2$s - part name
+                    player_character.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh->name, part_name );
                 }
             }
         } else {
@@ -531,10 +539,11 @@ static void open()
         }
         return;
     }
-
+    // Not a vehicle part, just a regular door
     bool didit = here.open_door( openp, !here.is_outside( player_character.pos() ) );
-
-    if( !didit ) {
+    if( didit ) {
+        player_character.add_msg_if_player( _( "You open the %s." ), here.name( openp ) );
+    } else {
         const ter_str_id tid = here.ter( openp ).id();
 
         if( here.has_flag( flag_LOCKED, openp ) ) {
@@ -558,32 +567,6 @@ static void close()
             ACTION_CLOSE, false ) ) {
         doors::close_door( get_map(), get_player_character(), *pnt );
     }
-}
-
-static void handbrake()
-{
-    Character &player_character = get_player_character();
-    const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
-    if( !vp ) {
-        return;
-    }
-    vehicle *const veh = &vp->vehicle();
-    add_msg( _( "You pull a handbrake." ) );
-    veh->cruise_velocity = 0;
-    if( veh->last_turn != 0 && rng( 15, 60 ) * 100 < std::abs( veh->velocity ) ) {
-        veh->skidding = true;
-        add_msg( m_warning, _( "You lose control of %s." ), veh->name );
-        veh->turn( veh->last_turn > 0 ? 60 : -60 );
-    } else {
-        int braking_power = std::abs( veh->velocity ) / 2 + 10 * 100;
-        if( std::abs( veh->velocity ) < braking_power ) {
-            veh->stop();
-        } else {
-            int sgn = veh->velocity > 0 ? 1 : -1;
-            veh->velocity = sgn * ( std::abs( veh->velocity ) - braking_power );
-        }
-    }
-    player_character.moves = 0;
 }
 
 // Establish or release a grab on a vehicle
@@ -651,7 +634,7 @@ static void haul()
             add_msg( m_info, _( "You cannot haul while in deep water." ) );
         } else if( !here.can_put_items( player_character.pos() ) ) {
             add_msg( m_info, _( "You cannot haul items here." ) );
-        } else if( !here.has_items( player_character.pos() ) ) {
+        } else if( !here.has_haulable_items( player_character.pos() ) ) {
             add_msg( m_info, _( "There are no items to haul here." ) );
         } else {
             player_character.start_hauling();
@@ -705,6 +688,8 @@ static void smash()
         smashp.z = player_character.posz();
         smash_floor = true;
     }
+    get_event_bus().send<event_type::character_smashes_tile>(
+        player_character.getID(), here.ter( smashp ).id(), here.furn( smashp ).id() );
     if( player_character.is_mounted() ) {
         monster *crit = player_character.mounted_creature.get();
         if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -735,20 +720,26 @@ static void smash()
         }
     }
 
+    bool should_pulp = false;
     for( const item &maybe_corpse : here.i_at( smashp ) ) {
         if( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
             maybe_corpse.can_revive() ) {
-            // do activity forever. ACT_PULP stops itself
             if( maybe_corpse.get_mtype()->bloodType()->has_acid ) {
                 if( !query_yn( _( "Are you sure you want to pulp an acid filled corpse?" ) ) ) {
                     return; // Player doesn't want an acid bath
                 }
             }
-            player_character.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-            player_character.activity.placement = here.getabs( smashp );
-            return; // don't smash terrain if we've smashed a corpse
+            should_pulp = true; // There is at least one corpse to pulp
         }
     }
+
+    if( should_pulp ) {
+        // do activity forever. ACT_PULP stops itself
+        player_character.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
+        player_character.activity.placement = here.getabs( smashp );
+        return; // don't smash terrain if we've smashed a corpse
+    }
+
     vehicle *veh = veh_pointer_or_null( here.veh_at( smashp ) );
     if( veh != nullptr ) {
         if( !veh->handle_potential_theft( player_character ) ) {
@@ -756,14 +747,53 @@ static void smash()
         }
     }
 
-    const int bash_furn = here.furn( smashp )->bash.str_min;
-    const int bash_ter = here.ter( smashp )->bash.str_min;
-
+    if( !player_character.has_weapon() ) {
+        const bodypart_id bp_null( "bp_null" );
+        std::pair<bodypart_id, int> best_part_to_smash = {bp_null, 0};
+        int tmp_bash_armor = 0;
+        for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
+            for( const item &i : player_character.worn ) {
+                if( i.covers( bp ) ) {
+                    tmp_bash_armor += i.bash_resist();
+                }
+            }
+            for( const trait_id &mut : player_character.get_mutations() ) {
+                for( const std::pair<const bodypart_str_id, resistances> &res : mut->armor ) {
+                    if( res.first == bp.id() ) {
+                        tmp_bash_armor += std::floor( res.second.type_resist( damage_type::BASH ) );
+                    }
+                }
+            }
+            if( tmp_bash_armor > best_part_to_smash.second ) {
+                best_part_to_smash = {bp, tmp_bash_armor};
+            }
+        }
+        if( best_part_to_smash.first != bp_null && here.is_bashable( smashp ) ) {
+            std::string name_to_bash = _( "thing" );
+            if( here.is_bashable_furn( smashp ) ) {
+                name_to_bash = here.furnname( smashp );
+            } else if( here.is_bashable_ter( smashp ) ) {
+                name_to_bash = here.tername( smashp );
+            }
+            if( !best_part_to_smash.first->smash_message.empty() ) {
+                add_msg( best_part_to_smash.first->smash_message, name_to_bash );
+            } else {
+                add_msg( _( "You use your %s to smash the %s." ),
+                         body_part_name_accusative( best_part_to_smash.first ), name_to_bash );
+            }
+        }
+        const int min_smashskill = smashskill * best_part_to_smash.first->smash_efficiency;
+        const int max_smashskill = smashskill * ( 1.0f + best_part_to_smash.first->smash_efficiency );
+        smashskill = std::min( best_part_to_smash.second + min_smashskill, max_smashskill );
+    }
     didit = here.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
+    // Weariness scaling
+    float weary_mult = 1.0f;
     if( didit ) {
         if( !mech_smash ) {
             player_character.increase_activity_level( MODERATE_EXERCISE );
             player_character.handle_melee_wear( player_character.weapon );
+            weary_mult = 1.0f / player_character.exertion_adjusted_move_multiplier( MODERATE_EXERCISE );
 
             const int mod_sta = 2 * player_character.get_standard_stamina_cost();
             player_character.mod_stamina( mod_sta );
@@ -790,35 +820,8 @@ static void smash()
                 player_character.remove_weapon();
                 player_character.check_dead_state();
             }
-
-            // It hurts if you smash things with your hands.
-            const bool hard_target = ( ( bash_furn > 2 ) || ( bash_furn == -1 && bash_ter > 2 ) );
-
-            int glove_coverage = 0;
-            for( const item &i : player_character.worn ) {
-                if( ( i.covers( bodypart_id( "hand_l" ) ) || i.covers( bodypart_id( "hand_r" ) ) ) ) {
-                    int l_coverage = i.get_coverage( bodypart_id( "hand_l" ) );
-                    int r_coverage = i.get_coverage( bodypart_id( "hand_r" ) );
-                    glove_coverage = std::max( l_coverage, r_coverage );
-                }
-            }
-
-            if( !player_character.has_weapon() && hard_target ) {
-                int dam = roll_remainder( 5.0 * ( 1 - glove_coverage / 100.0 ) );
-                if( player_character.get_part_hp_cur( bodypart_id( "arm_r" ) ) > player_character.get_part_hp_cur(
-                        bodypart_id( "arm_l" ) ) ) {
-                    player_character.deal_damage( nullptr, bodypart_id( "hand_r" ), damage_instance( damage_type::BASH,
-                                                  dam ) );
-                } else {
-                    player_character.deal_damage( nullptr, bodypart_id( "hand_l" ), damage_instance( damage_type::BASH,
-                                                  dam ) );
-                }
-                if( dam > 0 ) {
-                    add_msg( m_bad, _( "You hurt your hands trying to smash the %s." ), here.furnname( smashp ) );
-                }
-            }
         }
-        player_character.moves -= move_cost;
+        player_character.moves -= move_cost * weary_mult;
 
         if( smashskill < here.bash_resistance( smashp ) && one_in( 10 ) ) {
             if( here.has_furn( smashp ) && here.furn( smashp ).obj().bash.str_min != -1 ) {
@@ -929,16 +932,16 @@ static void wait()
 
         add_menu_item( 7,  'd',
                        setting_alarm ? _( "Set alarm for dawn" ) : _( "Wait till daylight" ),
-                       diurnal_time_before( to_turns<int>( daylight_time( calendar::turn ) - calendar::turn_zero ) ) );
+                       diurnal_time_before( daylight_time( calendar::turn ) ) );
         add_menu_item( 8,  'n',
                        setting_alarm ? _( "Set alarm for noon" ) : _( "Wait till noon" ),
                        diurnal_time_before( last_midnight + 12_hours ) );
         add_menu_item( 9,  'k',
                        setting_alarm ? _( "Set alarm for dusk" ) : _( "Wait till night" ),
-                       diurnal_time_before( to_turns<int>( night_time( calendar::turn ) - calendar::turn_zero ) ) );
+                       diurnal_time_before( night_time( calendar::turn ) ) );
         add_menu_item( 10, 'm',
                        setting_alarm ? _( "Set alarm for midnight" ) : _( "Wait till midnight" ),
-                       diurnal_time_before( last_midnight + 0_hours ) );
+                       diurnal_time_before( last_midnight ) );
         if( setting_alarm ) {
             if( player_character.has_effect( effect_alarm_clock ) ) {
                 add_menu_item( 11, 'x', _( "Cancel the currently set alarm." ),
@@ -949,7 +952,8 @@ static void wait()
         }
     }
 
-    as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ),
+    // NOLINTNEXTLINE(cata-text-style): spaces required for concatenation
+    as_m.text = ( has_watch ) ? string_format( _( "It's %s now.  " ),
                 to_string_time_of_day( calendar::turn ) ) : "";
     as_m.text += setting_alarm ? _( "Set alarm for when?" ) : _( "Wait for how long?" );
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
@@ -981,7 +985,7 @@ static void wait()
             actType = ACT_WAIT;
         }
 
-        player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) - 1 ), 0 );
+        player_activity new_act( actType, 100 * ( to_turns<int>( time_to_wait ) ), 0 );
 
         player_character.assign_activity( new_act, false );
     }
@@ -1026,7 +1030,7 @@ static void sleep()
         // some bionics
         // bio_alarm is useful for waking up during sleeping
         // turning off bio_leukocyte has 'unpleasant side effects'
-        if( bio.info().has_flag( "BIONIC_SLEEP_FRIENDLY" ) ) {
+        if( bio.info().has_flag( STATIC( json_character_flag( "BIONIC_SLEEP_FRIENDLY" ) ) ) ) {
             continue;
         }
 
@@ -1077,7 +1081,7 @@ static void sleep()
 
     time_duration try_sleep_dur = 24_hours;
     std::string deaf_text;
-    if( player_character.is_deaf() ) {
+    if( player_character.is_deaf() && !player_character.has_flag( json_flag_ALARMCLOCK ) ) {
         deaf_text = _( "<color_c_red> (DEAF!)</color>" );
     }
     if( player_character.has_alarm_clock() ) {
@@ -1133,7 +1137,7 @@ static void loot()
     Character &player_character = get_player_character();
     int flags = 0;
     auto &mgr = zone_manager::get_manager();
-    const bool has_fertilizer = player_character.has_item_with_flag( "FERTILIZER" );
+    const bool has_fertilizer = player_character.has_item_with_flag( flag_FERTILIZER );
 
     // Manually update vehicle cache.
     // In theory this would be handled by the related activity (activity_on_turn_move_loot())
@@ -1265,7 +1269,7 @@ static void wear()
     item_location loc = game_menus::inv::wear( player_character );
 
     if( loc ) {
-        player_character.wear( *loc.obtain( player_character ) );
+        player_character.wear( loc );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -2055,7 +2059,7 @@ bool game::handle_action()
 
             case ACTION_EAT:
                 if( !avatar_action::eat_here( player_character ) ) {
-                    avatar_action::eat( player_character );
+                    avatar_action::eat( player_character, game_menus::inv::consume( player_character ) );
                 }
                 break;
 
@@ -2264,7 +2268,7 @@ bool game::handle_action()
                     mostseen = 0;
                     add_msg( m_info, _( "Safe mode ON!" ) );
                 } else {
-                    turnssincelastmon = 0;
+                    turnssincelastmon = 0_turns;
                     set_safe_mode( SAFE_MODE_OFF );
                     add_msg( m_info, get_option<bool>( "AUTOSAFEMODE" )
                              ? _( "Safe mode OFF!  (Auto safe mode still enabled!)" ) : _( "Safe mode OFF!" ) );
@@ -2548,6 +2552,24 @@ bool game::handle_action()
                     break;    //don't do anything when sharing and not debugger
                 }
                 display_radiation();
+                break;
+
+            case ACTION_TOGGLE_HOUR_TIMER:
+                toggle_debug_hour_timer();
+                break;
+
+            case ACTION_DISPLAY_TRANSPARENCY:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_transparency();
+                break;
+
+            case ACTION_DISPLAY_REACHABILITY_ZONES:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_reachability_zones();
                 break;
 
             case ACTION_TOGGLE_DEBUG_MODE:

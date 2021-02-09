@@ -1,7 +1,7 @@
 [
   {
     "type": "mutation",
-    "id": "TEST_INK_GLANDS",
+    "id": "TEST_ENCH_MUTATION",
     "name": "Ink glands",
     "points": 1,
     "visibility": 1,

@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_livestock_coop_migo_resin_northeast",
     "description": "We could use a coop to contain our chickens and other birds, so build a mi-go resin shack with a roof on the northeast side of the livestock field.",
     "category": "CC_BUILDING",
@@ -24,6 +25,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_livestock_shack_migo_resin_southeast",
     "description": "We could use a storage room for feed, animal gear and tools, so build a mi-go resin shack with a roof on the southeast side of the livestock field.",
     "category": "CC_BUILDING",
@@ -52,6 +54,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_livestock_stable0_migo_resin_southwest",
     "description": "We could use a stable for larger livestock, so build a mi-go resin shack with a roof on the southwest side of the livestock field.",
     "category": "CC_BUILDING",
@@ -81,6 +84,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_livestock_stable1_migo_resin_west",
     "description": "We could use an expansion for the stable, so build 2 more stalls on the west side of the livestock field.",
     "category": "CC_BUILDING",
@@ -110,6 +114,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_livestock_stable2_migo_resin_northwest",
     "description": "We could use an expansion for the stable, so build 2 more stalls on the northwest side of the livestock field.",
     "category": "CC_BUILDING",

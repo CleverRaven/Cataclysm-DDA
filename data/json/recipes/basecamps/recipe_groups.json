@@ -5,16 +5,25 @@
     "building_type": "NONE",
     "recipes": [
       { "id": "faction_base_modular_hub_field_0", "description": "Field Camp", "om_terrains": [ "field" ] },
-      { "id": "faction_base_firestation_0", "description": "Firestation Base", "om_terrains": [ "fire_station" ] },
+      {
+        "id": "faction_base_firestation_0",
+        "description": "Side Bunkroom Firestation Base",
+        "om_terrains": [ "fire_station" ]
+      },
       {
         "id": "faction_base_shelter_0",
-        "description": "Evac Shelter Base",
+        "description": "Open Center Evac Shelter Base",
         "om_terrains": [ "shelter", "shelter_vandal" ]
       },
       {
         "id": "faction_base_shelter_1_0",
-        "description": "Evac Shelter Base",
+        "description": "Corner Stairs Evac Shelter Base",
         "om_terrains": [ "shelter_1", "shelter_1_vandal" ]
+      },
+      {
+        "id": "faction_base_shelter_2_0",
+        "description": "Central Stairs Evac Shelter Base",
+        "om_terrains": [ "shelter_2", "shelter_2_vandal" ]
       }
     ]
   },
@@ -43,6 +52,7 @@
       { "id": "veggy_cooked", "description": " Cook: Veggy, Cooked" },
       { "id": "boiled_egg", "description": " Cook: Egg, Boiled" },
       { "id": "starch", "description": " Cook: Starch" },
+      { "id": "starch_from_fibrous_stuff", "description": " Cook: Cattail Starch" },
       { "id": "flatbread", "description": " Cook: Flatbread" },
       { "id": "veggy_wild_cooked", "description": " Cook: Veggy, Cooked Wild" }
     ]
@@ -88,11 +98,47 @@
   },
   {
     "type": "recipe_group",
+    "id": "saltworks_recipes_1",
+    "building_type": "COOK",
+    "recipes": [
+      { "id": "salt_from_salt_water", "description": " Craft: Salt from salt water" },
+      { "id": "salted_fish", "description": " Cook: Fish, Salted" }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "saltworks_recipes_2",
+    "building_type": "COOK",
+    "recipes": [
+      { "id": "brew_fruit_wine", "description": " Brew: Fruit Wine Must" },
+      { "id": "brew_mead", "description": " Brew: Spiced Wine Must" },
+      { "id": "brew_dandelion_wine", "description": " Brew: Dandelion Wine Must" },
+      { "id": "brew_burdock_wine", "description": " Brew: Burdock Wine Must" },
+      { "id": "brew_pine_wine", "description": " Brew: Pine Wine Must" },
+      { "id": "brew_hb_beer", "description": " Brew: Beer" }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "saltworks_recipes_3",
+    "building_type": "COOK",
+    "recipes": [
+      { "id": "brandy", "description": " Distill: Brandy" },
+      { "id": "gin_from_mash", "description": " Distill: Gin" },
+      { "id": "vodka_from_wash", "description": " Distill: Vodka" },
+      { "id": "rum", "description": " Distill: Rum" }
+    ]
+  },
+  {
+    "type": "recipe_group",
     "id": "primitive_camp_recipes_1",
     "building_type": "BASE",
     "recipes": [
       { "id": "tinder", "description": " Craft: Tinder" },
-      { "id": "pointy_stick", "description": " Craft: Pointy Sticks" }
+      { "id": "pointy_stick", "description": " Craft: Pointy Sticks" },
+      { "id": "wood_panel_from nailed planks", "description": " Craft: Wooden Panel, Nailed Planks" },
+      { "id": "wood_panel_from wooden beams", "description": " Craft: Wooden Panel, Wooden Beams" },
+      { "id": "wood_beam_from logs", "description": " Craft: Wooden Beam" }
     ]
   },
   {

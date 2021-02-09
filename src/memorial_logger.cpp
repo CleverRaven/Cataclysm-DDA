@@ -1,10 +1,10 @@
 #include "memorial_logger.h"
 
-#include <algorithm>
 #include <istream>
 #include <list>
 #include <map>
 #include <memory>
+#include <string>
 #include <tuple>
 #include <utility>
 
@@ -27,7 +27,6 @@
 #include "filesystem.h"
 #include "game.h"
 #include "get_version.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_factory.h"
@@ -49,7 +48,6 @@
 #include "profession.h"
 #include "skill.h"
 #include "stats_tracker.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -578,10 +576,12 @@ void memorial_logger::notify( const cata::event &e )
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
                 const effect_type &type = e.get<efftype_id>( "effect" ).obj();
-                const std::string message = type.get_apply_memorial_log();
-                if( !message.empty() ) {
-                    add( pgettext( "memorial_male", message.c_str() ),
-                         pgettext( "memorial_female", message.c_str() ) );
+                const std::string male_message = type.get_apply_memorial_log(
+                                                     effect_type::memorial_gender::male );
+                const std::string female_message = type.get_apply_memorial_log(
+                                                       effect_type::memorial_gender::female );
+                if( !male_message.empty() || !female_message.empty() ) {
+                    add( male_message, female_message );
                 }
             }
             break;
@@ -641,10 +641,12 @@ void memorial_logger::notify( const cata::event &e )
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
                 const effect_type &type = e.get<efftype_id>( "effect" ).obj();
-                const std::string message = type.get_remove_memorial_log();
-                if( !message.empty() ) {
-                    add( pgettext( "memorial_male", message.c_str() ),
-                         pgettext( "memorial_female", message.c_str() ) );
+                const std::string male_message = type.get_remove_memorial_log(
+                                                     effect_type::memorial_gender::male );
+                const std::string female_message = type.get_remove_memorial_log(
+                                                       effect_type::memorial_gender::female );
+                if( !male_message.empty() || !female_message.empty() ) {
+                    add( male_message, female_message );
                 }
             }
             break;
@@ -760,7 +762,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::crosses_mutation_threshold: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == avatar_id ) {
-                std::string category_id =
+                mutation_category_id category_id =
                     e.get<cata_variant_type::mutation_category_id>( "category" );
                 const mutation_category_trait &category =
                     mutation_category_trait::get_category( category_id );
@@ -1190,8 +1192,15 @@ void memorial_logger::notify( const cata::event &e )
         // All the events for which we have no memorial log are here
         case event_type::avatar_enters_omt:
         case event_type::avatar_moves:
+        case event_type::character_consumes_item:
+        case event_type::character_eats_item:
         case event_type::character_gets_headshot:
         case event_type::character_heals_damage:
+        case event_type::character_melee_attacks_character:
+        case event_type::character_melee_attacks_monster:
+        case event_type::character_ranged_attacks_character:
+        case event_type::character_ranged_attacks_monster:
+        case event_type::character_smashes_tile:
         case event_type::character_takes_damage:
         case event_type::character_wakes_up:
         case event_type::character_wears_item:

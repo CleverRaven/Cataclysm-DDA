@@ -1,6 +1,7 @@
 [
   {
     "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "grenade",
     "skill_used": "fabrication",
     "difficulty": 3,
@@ -10,6 +11,7 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "grenade_inc",
     "skill_used": "fabrication",
     "difficulty": 3,
@@ -19,6 +21,7 @@
   },
   {
     "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "landmine",
     "skill_used": "fabrication",
     "difficulty": 4,

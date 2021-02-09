@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <cstddef>
 #include <map>
+#include <string>
+#include <type_traits>
 #include <utility>
 
 #include "cata_assert.h"

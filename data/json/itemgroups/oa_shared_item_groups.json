@@ -55,7 +55,7 @@
       { "group": "newspaper", "prob": 60 },
       [ "news_regional", 15 ],
       [ "paper", 20 ],
-      [ "rag_bloody", 35 ],
+      { "item": "rag", "prob": 35, "custom-flags": [ "FILTHY" ] },
       [ "mask_dust", 10 ],
       [ "gum", 6 ],
       [ "caff_gum", 6 ],

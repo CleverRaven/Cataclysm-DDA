@@ -75,5 +75,43 @@
       { "skill": "spellcraft", "bonus": { "rng": [ 1, 3 ] } }
     ],
     "spells": [ { "id": "light_healing", "level": 3 }, { "id": "bio_bonespear", "level": 6 } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_MANATOUCHED",
+    "name": "Manatouched Mutant",
+    "job_description": "I'm becoming something more than mortal.  I need to find a way off this plane.",
+    "skills": [
+      { "skill": "spellcraft", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "chemistry", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } }
+    ],
+    "bonus_int": 4,
+    "bonus_per": 2,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "trait_group_manatouched" },
+      {
+        "distribution": [ { "group": "trait_group_manatouched_nonthres" }, { "group": "trait_group_manatouched_postthres" } ]
+      }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_BDRAGON",
+    "name": "Black Dragon Mutant",
+    "job_description": "I've got the blood of dragons in my veins.  I need more.",
+    "skills": [ { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } }, { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } } ],
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "trait_group_bdragon" },
+      {
+        "distribution": [ { "group": "trait_group_bdragon_nonthres" }, { "group": "trait_group_bdragon_postthres" } ]
+      }
+    ]
   }
 ]

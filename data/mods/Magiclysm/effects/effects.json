@@ -209,7 +209,8 @@
     "apply_message": "You are afraid!",
     "remove_message": "Your fear dissipates.",
     "rating": "bad",
-    "base_mods": { "stim_amount": [ 12, 20, 45 ], "vomit_chance": [ 2, 5, 20 ], "speed_mod": [ -2, -5, -10 ] }
+    "base_mods": { "stim_amount": [ 12, 6 ], "vomit_chance": [ 50, 100 ], "speed_mod": [ -2, -1 ], "stim_max_val": [ 30 ] },
+    "scaling_mods": { "stim_amount": [ 12, 6 ], "vomit_chance": [ -15, -5 ], "speed_mod": [ -4, -1 ] }
   },
   {
     "type": "effect_type",
@@ -270,5 +271,34 @@
     "rating": "bad",
     "max_duration": "12 s",
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 6 ], "speed_mod": [ -1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "neuro_boost",
+    "name": [ "Mental Boost" ],
+    "desc": [ "Your mind is working incredibly fast, but your body cannot keep up" ],
+    "rating": "bad",
+    "max_duration": "10 s",
+    "base_mods": { "speed_mod": [ 20 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "vault_atmosphere",
+    "name": [ "Vault Air" ],
+    "desc": [ "You feel at home." ],
+    "apply_message": "This smells like home.",
+    "remove_message": "Time to go.",
+    "rating": "bad",
+    "flags": [ "DIMENSIONAL_ANCHOR" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "slow_freeze_effect",
+    "name": [ "Slow Freeze" ],
+    "desc": [ "The cold slows down your foes." ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "base_mods": { "speed_mod": [ -25 ] },
+    "scaling_mods": { "speed_mod": [ -5 ] }
   }
 ]

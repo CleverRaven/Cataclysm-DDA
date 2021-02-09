@@ -2,11 +2,7 @@
 #ifndef CATA_SRC_SDLTILES_H
 #define CATA_SRC_SDLTILES_H
 
-#include <array>
-
-#include "point.h"
-
-struct point;
+#include "point.h" // IWYU pragma: keep
 
 namespace catacurses
 {
@@ -30,6 +26,8 @@ class window;
 
 extern std::unique_ptr<cata_tiles> tilecontext;
 extern std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
+extern int fontheight;
+extern int fontwidth;
 
 void load_tileset();
 void rescale_tileset( int size );

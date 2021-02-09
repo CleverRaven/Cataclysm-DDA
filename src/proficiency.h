@@ -2,19 +2,21 @@
 #ifndef CATA_SRC_PROFICIENCY_H
 #define CATA_SRC_PROFICIENCY_H
 
+#include <iosfwd>
 #include <set>
-#include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "color.h"
 #include "flat_set.h"
-#include "json.h"
 #include "optional.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
+class JsonArray;
+class JsonIn;
+class JsonObject;
+class JsonOut;
 struct display_proficiency;
 struct learning_proficiency;
 template<typename T>
@@ -27,10 +29,13 @@ class proficiency
         proficiency_id id;
         bool was_loaded = false;
 
-        bool _can_learn;
+        bool _can_learn = false;
 
         translation _name;
         translation _description;
+
+        float _default_time_multiplier = 2.0f;
+        float _default_fail_multiplier = 2.0f;
 
         time_duration _time_to_learn = 9999_hours;
         std::set<proficiency_id> _required;
@@ -39,10 +44,16 @@ class proficiency
         static void load_proficiencies( const JsonObject &jo, const std::string &src );
         static void reset();
         void load( const JsonObject &jo, const std::string &src );
+        static const std::vector<proficiency> &get_all();
 
         bool can_learn() const;
+        proficiency_id prof_id() const;
         std::string name() const;
         std::string description() const;
+
+        float default_time_multiplier() const;
+        float default_fail_multiplier() const;
+
         time_duration time_to_learn() const;
         std::set<proficiency_id> required_proficiencies() const;
 };
@@ -65,6 +76,10 @@ class proficiency_set
                        const cata::optional<time_duration> &max );
         void learn( const proficiency_id &learned );
         void remove( const proficiency_id &lost );
+
+        // Ignore requirements, made for debugging
+        void direct_learn( const proficiency_id &learned );
+        void direct_remove( const proficiency_id &lost );
 
         // Do we know this proficiency?
         bool has_learned( const proficiency_id &query ) const;
@@ -103,13 +118,45 @@ struct display_proficiency {
     nc_color color;
 
     // What percentage we are towards knowing it
-    float practice;
+    float practice = 0.0f;
 
     // How much time we've spent practicing it
-    time_duration spent;
+    time_duration spent = 0_turns;
 
     // If we already know it
-    bool known;
+    bool known = false;
+};
+
+// a class for having bonuses from books instead of proficiencies you know
+struct book_proficiency_bonus {
+        proficiency_id id;
+        float time_factor = default_time_factor;
+        float fail_factor = default_fail_factor;
+        bool include_prereqs = default_include_prereqs;
+
+        bool was_loaded = false;
+        void deserialize( JsonIn &jsin );
+
+        book_proficiency_bonus &operator+=( const book_proficiency_bonus &rhs );
+
+    private:
+        static const float default_time_factor;
+        static const float default_fail_factor;
+        static const float default_include_prereqs;
+};
+
+// a container class for book_proficiency_bonus to make it easy to calculate and compartmentalize
+class book_proficiency_bonuses
+{
+    private:
+        std::vector<book_proficiency_bonus> bonuses;
+        // the inner part of the add function for recursion
+        void add( const book_proficiency_bonus &bonus, std::set<proficiency_id> &already_included );
+    public:
+        void add( const book_proficiency_bonus &bonus );
+        book_proficiency_bonuses &operator+=( const book_proficiency_bonuses &rhs );
+        float fail_factor( const proficiency_id &id ) const;
+        float time_factor( const proficiency_id &id ) const;
 };
 
 #endif // CATA_SRC_PROFICIENCY_H

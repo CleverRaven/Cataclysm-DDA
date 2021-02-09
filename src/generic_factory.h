@@ -17,7 +17,6 @@
 #include "json.h"
 #include "output.h"
 #include "string_id.h"
-#include "translations.h"
 #include "units.h"
 #include "wcwidth.h"
 
@@ -121,6 +120,17 @@ class generic_factory
 
     private:
         DynamicDataLoader::deferred_json deferred;
+        // generation or "modification count" of this factory
+        // it's incremented when any changes to the inner id containers occur
+        // version value corresponds to the string_id::_version,
+        // so incrementing the version here effectively invalidates all cached string_id::_cid
+        int64_t  version = 0;
+
+        void inc_version() {
+            do {
+                version++;
+            } while( version == INVALID_VERSION );
+        }
 
     protected:
         std::vector<T> list;
@@ -134,16 +144,19 @@ class generic_factory
         const std::string legacy_id_member_name = "ident";
 
         bool find_id( const string_id<T> &id, int_id<T> &result ) const {
-            result = id.get_cid();
-            if( is_valid( result ) && list[result.to_i()].id == id ) {
-                return true;
+            if( id._version == version ) {
+                result = int_id<T>( id._cid );
+                return is_valid( result );
             }
             const auto iter = map.find( id );
+            // map lookup happens at most once per string_id instance per generic_factory::version
+            // id was not found, explicitly marking it as "invalid"
             if( iter == map.end() ) {
+                id.set_cid_version( INVALID_CID, version );
                 return false;
             }
             result = iter->second;
-            id.set_cid( result );
+            id.set_cid_version( result.to_i(), version );
             return true;
         }
 
@@ -154,7 +167,7 @@ class generic_factory
             }
             auto iter = map.begin();
             const auto end = map.end();
-            for( ; iter != end; ) {
+            while( iter != end ) {
                 if( iter->second == i_id && iter->first != id ) {
                     map.erase( iter++ );
                 } else {
@@ -166,6 +179,7 @@ class generic_factory
         const T dummy_obj;
 
     public:
+        const bool initialized;
         /**
          * @param type_name A string used in debug messages as the name of `T`,
          * for example "vehicle type".
@@ -174,12 +188,13 @@ class generic_factory
          * @param alias_member_name Alternate names of the JSON member that contains the id(s) of the
          * loaded object alias(es).
          */
-        generic_factory( const std::string &type_name, const std::string &id_member_name = "id",
-                         const std::string &alias_member_name = "alias" )
+        explicit generic_factory( const std::string &type_name, const std::string &id_member_name = "id",
+                                  const std::string &alias_member_name = "alias" )
             : type_name( type_name ),
               id_member_name( id_member_name ),
               alias_member_name( alias_member_name ),
-              dummy_obj() {
+              dummy_obj(),
+              initialized( true ) {
         }
 
         /**
@@ -208,7 +223,8 @@ class generic_factory
                         def = ab->second;
                     } else {
                         def.was_loaded = false;
-                        deferred.emplace_back( jo.str(), src );
+                        deferred.emplace_back( jo.get_source_location(), src );
+                        jo.allow_omitted_members();
                         return false;
                     }
                 }
@@ -261,7 +277,7 @@ class generic_factory
                 }
 
             } else if( jo.has_array( id_member_name ) ) {
-                for( const auto &e : jo.get_array( id_member_name ) ) {
+                for( JsonValue e : jo.get_array( id_member_name ) ) {
                     T def;
                     if( !handle_inheritance( def, jo, src ) ) {
                         break;
@@ -291,7 +307,7 @@ class generic_factory
                 }
 
             } else if( jo.has_array( legacy_id_member_name ) ) {
-                for( const auto &e : jo.get_array( legacy_id_member_name ) ) {
+                for( const JsonValue e : jo.get_array( legacy_id_member_name ) ) {
                     T def;
                     if( !handle_inheritance( def, jo, src ) ) {
                         break;
@@ -316,11 +332,17 @@ class generic_factory
          * The function returns the actual object reference.
          */
         T &insert( const T &obj ) {
+            // this invalidates `_cid` cache for all previously added string_ids,
+            // but! it's necessary to invalidate cache for all possibly cached "missed" lookups
+            // (lookups for not-yet-inserted elements)
+            // in the common scenario there is no loss of performance, as `finalize` will make cache
+            // for all ids valid again
+            inc_version();
             const auto iter = map.find( obj.id );
             if( iter != map.end() ) {
                 T &result = list[iter->second.to_i()];
                 result = obj;
-                result.id.set_cid( iter->second );
+                result.id.set_cid_version( iter->second.to_i(), version );
                 return result;
             }
 
@@ -328,7 +350,7 @@ class generic_factory
             list.push_back( obj );
 
             T &result = list.back();
-            result.id.set_cid( cid );
+            result.id.set_cid_version( cid.to_i(), version );
             map[result.id] = cid;
             return result;
         }
@@ -337,6 +359,11 @@ class generic_factory
         virtual void finalize() {
             DynamicDataLoader::get_instance().load_deferred( deferred );
             abstracts.clear();
+
+            inc_version();
+            for( size_t i = 0; i < list.size(); i++ ) {
+                list[i].id.set_cid_version( static_cast<int>( i ), version );
+            }
         }
 
         /**
@@ -366,6 +393,7 @@ class generic_factory
         void reset() {
             list.clear();
             map.clear();
+            inc_version();
         }
         /**
          * Returns all the loaded objects. It can be used to iterate over them.
@@ -415,7 +443,7 @@ class generic_factory
          * This function can be used to implement @ref int_id::is_valid().
          */
         bool is_valid( const int_id<T> &id ) const {
-            return static_cast<size_t>( id.to_i() ) < list.size();
+            return id.to_i() >= 0 && static_cast<size_t>( id.to_i() ) < list.size();
         }
         /**
          * Checks whether the factory contains an object with the given id.
@@ -427,13 +455,17 @@ class generic_factory
         }
         /**
          * Converts string_id<T> to int_id<T>. Returns null_id on failure.
+         * When optional flag warn is true, issues a warning if `id` is not found and null_id was returned.
          */
-        int_id<T> convert( const string_id<T> &id, const int_id<T> &null_id ) const {
+        int_id<T> convert( const string_id<T> &id, const int_id<T> &null_id,
+                           const bool warn = true ) const {
             int_id<T> result;
             if( find_id( id, result ) ) {
                 return result;
             }
-            debugmsg( "invalid %s id \"%s\"", type_name, id.c_str() );
+            if( warn ) {
+                debugmsg( "invalid %s id \"%s\"", type_name, id.c_str() );
+            }
             return null_id;
         }
         /**
@@ -443,6 +475,38 @@ class generic_factory
             return obj( id ).id;
         }
         /**@}*/
+
+        /**
+         * Wrapper around generic_factory::version.
+         * Allows to have local caches that invalidate when corresponding generic factory invalidates.
+         * Note: when created using it's default constructor, Version is guaranteed to be invalid.
+        */
+        class Version
+        {
+                friend generic_factory<T>;
+            public:
+                Version() = default;
+            private:
+                explicit Version( int64_t version ) : version( version ) {}
+                int64_t  version = -1;
+            public:
+                bool operator==( const Version &rhs ) const {
+                    return version == rhs.version;
+                }
+                bool operator!=( const Version &rhs ) const {
+                    return !( rhs == *this );
+                }
+        };
+
+        // current version of this generic_factory
+        Version get_version() {
+            return Version( version );
+        }
+
+        // checks whether given version is the same as current version of this generic_factory
+        bool is_valid( const Version &v ) {
+            return v.version == version;
+        }
 };
 
 /**
@@ -457,8 +521,8 @@ Loading (inside a `T::load(JsonObject &jo)` function) can be done with two funct
   value that will be used if the JSON data does not contain the requested data. It may
   throw an error if the existing data is not valid (e.g. string instead of requested int).
 
-The functions are designed to work with the `generic_factory` and therefor support the
-`was_loaded` parameter (set be `generic_factory::load`). If that parameter is `true`, it
+The functions are designed to work with the `generic_factory` and therefore support the
+`was_loaded` parameter (set by `generic_factory::load`). If that parameter is `true`, it
 is assumed the object has already been loaded and missing JSON data is simply ignored
 (the default value is not applied and no error is thrown upon missing mandatory data).
 
@@ -975,11 +1039,11 @@ class enum_flags_reader : public generic_typed_reader<enum_flags_reader<E>>
         const std::string flag_type;
 
     public:
-        enum_flags_reader( const std::string &flag_type ) : flag_type( flag_type ) {
+        explicit enum_flags_reader( const std::string &flag_type ) : flag_type( flag_type ) {
         }
 
         E get_next( JsonIn &jin ) const {
-            const auto position = jin.tell();
+            const int position = jin.tell();
             const std::string flag = jin.get_string();
             try {
                 return io::string_to_enum<E>( flag );
@@ -1017,5 +1081,25 @@ inline bool legacy_volume_reader( const JsonObject &jo, const std::string &membe
     value = legacy_value * units::legacy_volume_factor;
     return true;
 }
+
+/**
+ * Only for external use in legacy code where migrating to `class translation`
+ * is impractical. For new code load with `class translation` instead.
+ */
+class text_style_check_reader : public generic_typed_reader<text_style_check_reader>
+{
+    public:
+        enum class allow_object : int {
+            no,
+            yes,
+        };
+
+        explicit text_style_check_reader( allow_object object_allowed = allow_object::yes );
+
+        std::string get_next( JsonIn &jsin ) const;
+
+    private:
+        allow_object object_allowed;
+};
 
 #endif // CATA_SRC_GENERIC_FACTORY_H

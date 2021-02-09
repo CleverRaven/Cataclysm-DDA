@@ -1,16 +1,17 @@
-#include "catch/catch.hpp"
-
 #include <cstdio>
+#include <iosfwd>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
 #include "test_statistics.h"
 #include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -22,7 +23,7 @@ static const efftype_id effect_blind( "blind" );
 static void clear_game_drag( const ter_id &terrain )
 {
     // Set to turn 0 to prevent solars from producing power
-    calendar::turn = 0;
+    calendar::turn = calendar::turn_zero;
     clear_creatures();
     clear_npcs();
 
@@ -47,7 +48,7 @@ static vehicle *setup_drag_test( const vproto_id &veh_id )
 {
     clear_vehicles();
     const tripoint map_starting_point( 60, 60, 0 );
-    vehicle *veh_ptr = get_map().add_vehicle( veh_id, map_starting_point, -90, 0, 0 );
+    vehicle *veh_ptr = get_map().add_vehicle( veh_id, map_starting_point, -90_degrees, 0, 0 );
 
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {
@@ -56,13 +57,13 @@ static vehicle *setup_drag_test( const vproto_id &veh_id )
 
     // Remove all items from cargo to normalize weight.
     // turn everything on
-    for( const vpart_reference vp : veh_ptr->get_all_parts() ) {
+    for( const vpart_reference &vp : veh_ptr->get_all_parts() ) {
         veh_ptr->get_items( vp.part_index() ).clear();
         veh_ptr->toggle_specific_part( vp.part_index(), true );
     }
     // close the doors
     const auto doors = veh_ptr->get_avail_parts( "OPENABLE" );
-    for( const vpart_reference vp :  doors ) {
+    for( const vpart_reference &vp :  doors ) {
         const size_t door = vp.part_index();
         veh_ptr->close( door );
     }
@@ -138,7 +139,7 @@ static void test_vehicle_drag(
                expected_safe, expected_max, true );
 }
 
-std::vector<std::string> vehs_to_test_drag = {
+static std::vector<std::string> vehs_to_test_drag = {
     {
         "bicycle",
         "bicycle_electric",
@@ -228,16 +229,16 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
 {
     clear_game_drag( ter_id( "t_pavement" ) );
 
-    test_vehicle_drag( "bicycle", 0.609525, 0.008953, 22.535417, 2360, 3082 );
-    test_vehicle_drag( "bicycle_electric", 0.609525, 0.019330, 48.652083, 2756, 3271 );
+    test_vehicle_drag( "bicycle", 0.609525, 0.008953, 22.535417, 1431, 1871 );
+    test_vehicle_drag( "bicycle_electric", 0.609525, 0.019330, 48.652083, 2314, 2519 );
     test_vehicle_drag( "motorcycle", 0.609525, 0.569952, 254.820312, 7296, 8687 );
     test_vehicle_drag( "motorcycle_sidecart", 0.880425, 0.859065, 455.206250, 6423, 7657 );
     test_vehicle_drag( "quad_bike", 0.537285, 1.112797, 710.745536, 7457, 8918 );
     test_vehicle_drag( "scooter", 0.609525, 0.154345, 116.543750, 4279, 5088 );
     test_vehicle_drag( "scooter_electric", 0.609525, 0.164796, 124.435417, 4831, 5006 );
     test_vehicle_drag( "superbike", 0.609525, 0.846042, 378.257812, 9912, 11797 );
-    test_vehicle_drag( "tandem", 0.609525, 0.010590, 19.990625, 2359, 3081 );
-    test_vehicle_drag( "unicycle", 0.690795, 0.002493, 25.100000, 2266, 2958 );
+    test_vehicle_drag( "tandem", 0.609525, 0.010590, 19.990625, 1430, 1870 );
+    test_vehicle_drag( "unicycle", 0.690795, 0.002493, 25.100000, 1377, 1798 );
     test_vehicle_drag( "beetle", 0.785610, 1.802151, 1275.732812, 8969, 10710 );
     test_vehicle_drag( "bubble_car", 0.823988, 1.764712, 1189.742560, 9304, 9651 );
     test_vehicle_drag( "car", 0.294604, 2.473484, 1167.310417, 11916, 14350 );

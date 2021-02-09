@@ -1,11 +1,10 @@
-﻿#include "catch/catch.hpp"
-
-#include <algorithm>
+﻿#include <algorithm>
 #include <array>
-#include <string>
+#include <iosfwd>
 #include <utility>
 #include <vector>
 
+#include "catch/catch.hpp"
 #include "coordinates.h"
 #include "enums.h"
 #include "map.h"
@@ -16,7 +15,7 @@
 #include "point.h"
 #include "type_id.h"
 
-TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap]" )
+TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap][!mayfail]" )
 {
     // Pick a point in the middle of the overmap so we don't generate quite so
     // many overmaps when searching.

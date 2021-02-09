@@ -42,8 +42,8 @@
           { "item": "power_armor_helmet_basic", "chance": 20 },
           { "item": "power_armor_frame", "chance": 20 }
         ],
-        "y": { "item": "adv_UPS_off", "count": [ 0, 1 ] },
-        "H": { "item": "laser_rifle", "count": [ 0, 1 ] }
+        "y": { "item": "adv_UPS_off", "amount": [ 0, 1 ] },
+        "H": { "item": "laser_rifle", "amount": [ 0, 1 ] }
       },
       "monster": { "z": { "monster": "mon_zombie_armored" } }
     }

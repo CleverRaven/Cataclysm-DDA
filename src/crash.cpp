@@ -1,5 +1,7 @@
 #include "crash.h"
 
+// IWYU pragma: no_include <sys/signal.h>
+
 #if defined(BACKTRACE)
 
 #include <csignal>
@@ -160,7 +162,7 @@ extern "C" {
 
 void init_crash_handlers()
 {
-    for( auto sig : {
+    for( int sig : {
              SIGSEGV, SIGILL, SIGABRT, SIGFPE
          } ) {
 

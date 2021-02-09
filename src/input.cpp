@@ -1,16 +1,24 @@
 #include "input.h"
 
+#include <cctype>
+#include <clocale>
 #include <algorithm>
 #include <array>
-#include <cctype>
+#include <cstddef>
+#include <exception>
 #include <fstream>
-#include <locale>
+#include <iterator>
 #include <memory>
+#include <new>
 #include <set>
+#include <sstream>
 #include <stdexcept>
+#include <tuple>
+#include <type_traits>
 #include <utility>
 
 #include "action.h"
+#include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
@@ -28,11 +36,11 @@
 #include "path_info.h"
 #include "point.h"
 #include "popup.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "sdltiles.h"
 
 using std::min; // from <algorithm>
 using std::max;
@@ -43,7 +51,7 @@ template <class T1, class T2>
 struct ContainsPredicate {
     const T1 &container;
 
-    ContainsPredicate( const T1 &container ) : container( container ) { }
+    explicit ContainsPredicate( const T1 &container ) : container( container ) { }
 
     // Operator overload required to leverage std functional interface.
     bool operator()( T2 c ) {
@@ -78,8 +86,6 @@ bool is_mouse_enabled()
     return true;
 #endif
 }
-
-extern bool keycode_mode;
 
 bool is_keycode_mode_supported()
 {
@@ -193,17 +199,17 @@ void input_manager::init()
     try {
         load( PATH_INFO::keybindings(), false );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( PATH_INFO::keybindings() + ": " + err.what() );
+        throw std::runtime_error( err.what() );
     }
     try {
         load( PATH_INFO::keybindings_vehicle(), false );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( PATH_INFO::keybindings_vehicle() + ": " + err.what() );
+        throw std::runtime_error( err.what() );
     }
     try {
         load( PATH_INFO::user_keybindings(), true );
     } catch( const JsonError &err ) {
-        throw std::runtime_error( PATH_INFO::user_keybindings() + ": " + err.what() );
+        throw std::runtime_error( err.what() );
     }
 
     if( keymap_file_loaded_from.empty() || ( keymap.empty() && unbound_keymap.empty() ) ) {
@@ -268,7 +274,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         return;
     }
 
-    JsonIn jsin( data_file );
+    JsonIn jsin( data_file, file_name );
 
     //Crawl through once and create an entry for every definition
     jsin.start_array();
@@ -318,7 +324,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             }
 
             if( keybinding.has_member( "mod" ) ) {
-                for( const JsonValue &val : keybinding.get_array( "mod" ) ) {
+                for( const JsonValue val : keybinding.get_array( "mod" ) ) {
                     const std::string str = val;
                     keymod_t mod = keymod_t::ctrl;
                     if( str == "ctrl" ) {
@@ -475,8 +481,8 @@ void input_manager::add_mouse_keycode_pair( const int ch, const std::string &nam
     mouse_keyname_to_keycode[name] = ch;
 }
 
-constexpr int char_key_beg = ' ';
-constexpr int char_key_end = '~';
+static constexpr int char_key_beg = ' ';
+static constexpr int char_key_end = '~';
 
 void input_manager::init_keycode_mapping()
 {
@@ -846,11 +852,11 @@ void input_context::clear_conflicting_keybindings( const input_event &event )
     }
 }
 
-const std::string CATA_ERROR = "ERROR";
-const std::string ANY_INPUT = "ANY_INPUT";
-const std::string HELP_KEYBINDINGS = "HELP_KEYBINDINGS";
-const std::string COORDINATE = "COORDINATE";
-const std::string TIMEOUT = "TIMEOUT";
+static const std::string CATA_ERROR = "ERROR";
+static const std::string ANY_INPUT = "ANY_INPUT";
+static const std::string HELP_KEYBINDINGS = "HELP_KEYBINDINGS";
+static const std::string COORDINATE = "COORDINATE";
+static const std::string TIMEOUT = "TIMEOUT";
 
 const std::string &input_context::input_to_action( const input_event &inp ) const
 {
@@ -1011,13 +1017,14 @@ std::string input_context::get_desc( const std::string &action_descriptor,
         return pgettext( "keybinding", "Disabled" );
     }
 
+    const std::string separator = _( " or " );
     std::string rval;
     for( size_t i = 0; i < inputs_to_show.size(); ++i ) {
         rval += inputs_to_show[i].long_description();
 
         // We're generating a list separated by "," and "or"
         if( i + 2 == inputs_to_show.size() ) {
-            rval += _( " or " );
+            rval += separator;
         } else if( i + 1 < inputs_to_show.size() ) {
             rval += ", ";
         }
@@ -1025,14 +1032,16 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     return rval;
 }
 
-std::string input_context::get_desc( const std::string &action_descriptor,
-                                     const std::string &text,
-                                     const input_context::input_event_filter &evt_filter ) const
+std::string input_context::get_desc(
+    const std::string &action_descriptor,
+    const std::string &text,
+    const input_context::input_event_filter &evt_filter,
+    const translation &inline_fmt,
+    const translation &separate_fmt ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
-        // \u00A0 is the non-breaking space
         //~ keybinding description for anykey
-        return string_format( pgettext( "keybinding", "[any]\u00A0%s" ), text );
+        return string_format( separate_fmt, pgettext( "keybinding", "any" ), text );
     }
 
     const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
@@ -1046,9 +1055,10 @@ std::string input_context::get_desc( const std::string &action_descriptor,
                 const int ch = evt.get_first_input();
                 if( ch > ' ' && ch <= '~' ) {
                     const std::string key = utf32_to_utf8( ch );
-                    const auto pos = ci_find_substr( text, key );
+                    const int pos = ci_find_substr( text, key );
                     if( pos >= 0 ) {
-                        return text.substr( 0, pos ) + "(" + key + ")" + text.substr( pos + key.size() );
+                        return string_format( inline_fmt, text.substr( 0, pos ),
+                                              key, text.substr( pos + key.size() ) );
                     }
                 }
             }
@@ -1057,12 +1067,28 @@ std::string input_context::get_desc( const std::string &action_descriptor,
 
     if( na ) {
         //~ keybinding description for unbound or disabled keys
-        return string_format( pgettext( "keybinding", "[n/a]\u00A0%s" ), text );
+        return string_format( separate_fmt, pgettext( "keybinding", "n/a" ), text );
     } else {
-        //~ keybinding description for bound keys
-        return string_format( pgettext( "keybinding", "[%s]\u00A0%s" ),
-                              get_desc( action_descriptor, 1, evt_filter ), text );
+        return string_format( separate_fmt, get_desc( action_descriptor, 1, evt_filter ), text );
     }
+}
+
+std::string input_context::get_desc(
+    const std::string &action_descriptor,
+    const std::string &text,
+    const input_event_filter &evt_filter ) const
+{
+    return get_desc( action_descriptor, text, evt_filter,
+                     to_translation(
+                         //~ %1$s: action description text before key,
+                         //~ %2$s: key description,
+                         //~ %3$s: action description text after key.
+                         "keybinding", "%1$s(%2$s)%3$s" ),
+                     to_translation(
+                         // \u00A0 is the non-breaking space
+                         //~ %1$s: key description,
+                         //~ %2$s: action description.
+                         "keybinding", "[%1$s]\u00A0%2$s" ) );
 }
 
 std::string input_context::describe_key_and_name( const std::string &action_descriptor,
@@ -1078,7 +1104,7 @@ const std::string &input_context::handle_input()
 
 const std::string &input_context::handle_input( const int timeout )
 {
-    const auto old_timeout = inp_mngr.get_timeout();
+    const int old_timeout = inp_mngr.get_timeout();
     if( timeout >= 0 ) {
         inp_mngr.set_timeout( timeout );
     }
@@ -1213,7 +1239,7 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
 // Custom set of hotkeys that explicitly don't include the hardcoded
 // alternative hotkeys, which mustn't be included so that the hardcoded
 // hotkeys do not show up beside entries within the window.
-const std::string display_help_hotkeys =
+static const std::string display_help_hotkeys =
     "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;'\",/<>?!@#$%^&*()_[]\\{}|`~";
 
 action_id input_context::display_menu( const bool permit_execute_action )
@@ -1668,12 +1694,13 @@ std::string input_context::press_x( const std::string &action_id, const std::str
     if( events.empty() ) {
         return key_unbound;
     }
+    const std::string separator = _( " or " );
     std::string keyed = key_bound_pre;
     for( size_t j = 0; j < events.size(); j++ ) {
         keyed += events[j].long_description();
 
         if( j + 1 < events.size() ) {
-            keyed += _( " or " );
+            keyed += separator;
         }
     }
     keyed += key_bound_suf;

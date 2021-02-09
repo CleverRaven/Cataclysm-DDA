@@ -10,8 +10,8 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "material": [ "animal" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
     "type": "GENERIC",
@@ -36,8 +36,8 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "material": [ "muscle" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
     "type": "GENERIC",
@@ -50,8 +50,8 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "material": [ "wind" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
     "type": "GENERIC",
@@ -64,8 +64,8 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "material": [ "sunlight" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
     "type": "GENERIC",
@@ -78,8 +78,8 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "PERPETUAL" ],
-    "fuel": { "energy": 1 }
+    "material": [ "metabolism" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ]
   },
   {
     "type": "GENERIC",
@@ -140,6 +140,20 @@
     "copy-from": "log_immersion27",
     "name": { "str": "HAADF MICROGRAPH: T-SUBSTRATE" },
     "snippet_category": "HAADF_t-substrate"
+  },
+  {
+    "type": "GENERIC",
+    "id": "monitoring_equipment_doc",
+    "copy-from": "log_immersion27",
+    "name": { "str": "XEDRA document" },
+    "snippet_category": "monitoring_equipment"
+  },
+  {
+    "type": "GENERIC",
+    "id": "artifact_scp_doc",
+    "copy-from": "log_immersion27",
+    "name": { "str": "ANOMALOUS ARTIFACT REPORT" },
+    "snippet_category": "artifact_scp"
   },
   {
     "type": "GENERIC",
@@ -345,7 +359,7 @@
     "symbol": "o",
     "color": "light_gray",
     "name": { "str": "cluster of gas sacs", "str_pl": "clusters of gas sacs" },
-    "description": "This is a cluster of membranous bubbles, each about the size of a grape, retrieved from inside a mutant insect.  They float like tiny helium balloons, and are likely full of a lighter-than-air gas helping the bug to fly.",
+    "description": "This is a cluster of membranous bubbles, each about the size of a grape, retrieved from inside a mutant insect.  They float like tiny helium balloons - perhaps they are full of a lighter-than-air gas.",
     "price": 0,
     "material": [ "flesh" ],
     "flags": [ "NO_SALVAGE" ],
@@ -437,6 +451,22 @@
     "material": [ "wood" ],
     "symbol": "H",
     "color": "brown"
+  },
+  {
+    "id": "bundle_rebar",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "bundle of rebars", "str_pl": "bundles of rebars" },
+    "description": "Ten pieces of rebar securely tied together for easier transport.  Disassemble to untie them.",
+    "//": "total volume is equal to 10 rebars, assuming uniformity and tight stacking",
+    "volume": "1600 ml",
+    "weight": "12500 g",
+    "longest_side": "80 cm",
+    "price": 75000,
+    "price_postapoc": 250,
+    "material": [ "steel" ],
+    "symbol": "H",
+    "color": "light_gray"
   },
   {
     "id": "bundle_branch",
@@ -580,6 +610,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "fema_data",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str_sp": "FEMA data" },
+    "description": "Evacuation plans, disaster risk projections, personnel lists and last minute communications from just before the end, all scrubbed from FEMA servers and stored in an external hdd.",
+    "price": 10000,
+    "price_postapoc": 50,
+    "material": [ "plastic" ],
+    "weight": "30 g",
+    "volume": "250 ml",
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
     "id": "candlestick",
     "symbol": "/",
     "color": "yellow",
@@ -709,17 +753,17 @@
     "type": "GENERIC",
     "id": "rebar",
     "symbol": "/",
-    "color": "dark_gray",
+    "color": "light_gray",
     "name": { "str": "rebar" },
     "description": "A length of rebar, makes a nice melee weapon, and could be handy in constructing tougher walls and such.",
     "category": "spare_parts",
     "price": 7500,
     "price_postapoc": 25,
     "material": [ "steel" ],
-    "weight": "908 g",
-    "volume": "1500 ml",
+    "weight": "1245 g",
+    "volume": "159 ml",
     "longest_side": "80 cm",
-    "bashing": 12,
+    "bashing": 10,
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ]
   },
@@ -865,10 +909,24 @@
     "color": "light_gray",
     "name": { "str": "heating element" },
     "category": "spare_parts",
-    "description": "A heating element, like the ones used in hotplates or kettles.",
+    "description": "A heating element, like the ones used in hotplates or kettles.  Consists of nichrome wire surrounded by electrical insulator and placed inside a steel casing.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "iron" ],
+    "material": [ "steel" ],
+    "weight": "226 g",
+    "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "crude_heating_element",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "crude heating element" },
+    "category": "spare_parts",
+    "description": "A primitive heating element made from thin coiled steel wire.  It will degrade much quicker with use than normal heating elements, but it'll do for some applications.",
+    "price": 100,
+    "price_postapoc": 50,
+    "material": [ "steel" ],
     "weight": "226 g",
     "volume": "250 ml"
   },
@@ -920,7 +978,7 @@
     "id": "delay_fuze",
     "symbol": ",",
     "color": "light_gray",
-    "name": "delayed fuze",
+    "name": { "str": "delayed fuze" },
     "category": "spare_parts",
     "description": "A complex mechanical fuze.  It seems it can be used to detonate stable explosives after a short time by triggering it.",
     "price": 1000,
@@ -934,7 +992,7 @@
     "id": "impact_fuze",
     "symbol": ",",
     "color": "light_gray",
-    "name": "impact fuze",
+    "name": { "str": "impact fuze" },
     "category": "spare_parts",
     "description": "A complex mechanical fuze.  It seems it can be used to detonate stable explosives upon a solid impact.",
     "price": 1000,
@@ -949,7 +1007,7 @@
     "symbol": ",",
     "color": "light_gray",
     "name": { "str": "toaster" },
-    "description": "A small two slice toaster, not much use as anything but spare parts",
+    "description": "A small two slice toaster, not much use as anything but spare parts.",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
@@ -1576,10 +1634,22 @@
     "price": 150000,
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
+    "nanofab_template_group": "nanofab_recipes",
+    "template_requirements": "nanofabricator",
     "weight": "317 g",
     "volume": "250 ml",
     "to_hit": -1,
     "flags": [ "NANOFAB_TEMPLATE", "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "debug_template",
+    "copy-from": "standard_template_construct",
+    "color": "yellow",
+    "name": { "str": "nanofabricator template" },
+    "description": "A state-of-the-art optical storage system, containing the instruction set to replicate itself.",
+    "nanofab_template_group": "debug_template_item",
+    "template_requirements": "copper_scrap_equivalent"
   },
   {
     "type": "GENERIC",
@@ -1707,18 +1777,6 @@
     "weight": "7042 g",
     "volume": "1 L",
     "to_hit": -6
-  },
-  {
-    "type": "GENERIC",
-    "id": "rag_bloody",
-    "symbol": ",",
-    "color": "red",
-    "name": { "str": "blood soaked rag" },
-    "description": "A large rag, drenched in blood.  It could be cleaned with boiling water.",
-    "material": [ "cotton" ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
-    "weight": "80 g",
-    "volume": "250 ml"
   },
   {
     "id": "pipe_cleaner",
@@ -1911,11 +1969,11 @@
     "id": "chamomile",
     "name": { "str_sp": "chamomile flowers" },
     "description": "White chamomile flowers, used as a herbal remedy since the ancient times.",
-    "weight": "50 g",
+    "weight": "10 g",
     "color": "white",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": "250 ml",
+    "volume": "20 ml",
     "price": 0,
     "price_postapoc": 0
   },
@@ -1924,7 +1982,7 @@
     "id": "lotus",
     "name": { "str": "lotus flower" },
     "description": "A lovely flower that grows on the surface of bodies of freshwater.  Traditionally connected with many Eastern cultures.",
-    "weight": "50 g",
+    "weight": "20 g",
     "color": "white",
     "symbol": ",",
     "material": [ "veggy" ],
@@ -2219,7 +2277,7 @@
     "id": "blue_topaz",
     "copy-from": "garnet",
     "color": "light_blue",
-    "name": { "str": "topaz" },
+    "name": { "str": "topaz", "str_pl": "topazes" },
     "description": "A sparkling blue topaz."
   },
   {
@@ -2322,6 +2380,7 @@
     "price_postapoc": 10,
     "material": [ "cotton" ],
     "weight": "514 g",
+    "container": "pillowcase",
     "volume": "1 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
@@ -2352,6 +2411,7 @@
     "price_postapoc": 10,
     "material": [ "cotton" ],
     "weight": "514 g",
+    "container": "pillowcase",
     "volume": "1 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
@@ -2396,6 +2456,37 @@
     "material": [ "paper" ],
     "volume": "250 ml",
     "price": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "money_one",
+    "name": { "str": "one dollar bill" },
+    "description": "A one dollar bill, pretty useless now though.",
+    "weight": "1 g",
+    "to_hit": -3,
+    "color": "green",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "1 ml",
+    "price": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "money_ten",
+    "name": { "str": "ten dollar bill" },
+    "description": "A ten dollar bill, pretty useless now though.",
+    "copy-from": "money_one",
+    "color": "green",
+    "symbol": ","
+  },
+  {
+    "type": "GENERIC",
+    "id": "money_twenty",
+    "name": { "str": "twenty dollar bill" },
+    "description": "A twenty dollar bill, pretty useless now though.",
+    "copy-from": "money_one",
+    "color": "green",
+    "symbol": ","
   },
   {
     "id": "pouch_autoclave",
@@ -2744,7 +2835,7 @@
   {
     "id": "shrapnel",
     "type": "AMMO",
-    "name": { "str": "shrapnel" },
+    "name": { "str_sp": "shrapnel" },
     "description": "A twisted shard of jagged metal.",
     "weight": "5 g",
     "volume": "250 ml",
@@ -2907,6 +2998,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "disassembly",
+    "symbol": "%",
+    "color": "white",
+    "name": { "str": "in progress disassembly" },
+    "description": "This is an in progress disassembly.",
+    "price": 0,
+    "price_postapoc": 0,
+    "weight": "1 g",
+    "volume": "250 ml",
+    "use_action": [ "DISASSEMBLE" ],
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "CAN_HAVE_CHARGES" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "spare_tire_carrier",
     "category": "spare_parts",
     "symbol": "t",
@@ -3065,37 +3170,6 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "id": "survival_kit",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "survival kit" },
-    "description": "A small box filled with tools and items to help you survive in case of an emergency.  Disassemble to get its content.",
-    "weight": "1612 g",
-    "volume": "1 L",
-    "price": 5000,
-    "price_postapoc": 250,
-    "material": [ "aluminum" ],
-    "symbol": "!",
-    "color": "green",
-    "use_action": [ "DISASSEMBLE" ],
-    "flags": [ "NO_REPAIR" ]
-  },
-  {
-    "id": "premium_survival_kit",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "survival kit" },
-    "description": "The ultimate survival kit purchased either by the wealthy or the dedicated urban survivalist.  It contains tools and items to help you survive in case of an emergency.  Disassemble to get its contents.",
-    "weight": "1612 g",
-    "volume": "1 L",
-    "price": 15000,
-    "material": [ "aluminum" ],
-    "symbol": "!",
-    "color": "green",
-    "use_action": { "type": "unpack", "group": "premium_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
-    "flags": [ "NO_REPAIR" ]
-  },
-  {
     "id": "plastic_six_dice",
     "type": "GENERIC",
     "category": "other",
@@ -3125,5 +3199,152 @@
     "symbol": ".",
     "color": "white",
     "flags": [ "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "alder_bark",
+    "symbol": ",",
+    "color": "brown",
+    "name": { "str_sp": "alder bark" },
+    "description": "A strip of bark pulled from an alder tree.  Used in the production of topical hemostatics.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "wood" ],
+    "weight": "323 g",
+    "volume": "250 ml",
+    "bashing": 4,
+    "to_hit": 1
+  },
+  {
+    "id": "wallet",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "wallet" },
+    "looks_like": "bag_plastic",
+    "description": "A small, flat case used to carry items such as currency, identification documents, and laminated cards.",
+    "volume": "250 ml",
+    "weight": "60 g",
+    "price": 1,
+    "price_postapoc": 10,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "//": "Folded Sleeve",
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_weight": "60 g",
+        "max_contains_volume": "150 ml",
+        "moves": 100,
+        "item_restriction": [ "FMCNote", "signed_chit", "family_photo", "money_one", "money_ten", "money_twenty", "condom" ]
+      },
+      {
+        "//": "Card Sleeves",
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_weight": "60 g",
+        "max_contains_volume": "150 ml",
+        "moves": 100,
+        "item_restriction": [
+          "cash_card",
+          "gasdiscount_silver",
+          "gasdiscount_gold",
+          "gasdiscount_platinum",
+          "id_science",
+          "id_military",
+          "id_industrial",
+          "fp_loyalty_card",
+          "scorecard",
+          "robofac_test_data",
+          "icon",
+          "labmap"
+        ]
+      },
+      {
+        "//": "Coin Purse",
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_weight": "600 g",
+        "max_contains_volume": "150 ml",
+        "moves": 200,
+        "item_restriction": [ "FMCNote", "RobofacCoin", "FlatCoin", "coin_quarter", "coin_nickel" ]
+      }
+    ]
+  },
+  {
+    "id": "wallet_duct_tape",
+    "type": "GENERIC",
+    "copy-from": "wallet",
+    "name": { "str": "duct tape wallet" },
+    "description": "This wallet is made entirely out of duct tape.",
+    "material": [ "plastic" ]
+  },
+  {
+    "id": "wallet_leather",
+    "type": "GENERIC",
+    "copy-from": "wallet",
+    "name": { "str": "leather wallet" },
+    "description": "This wallet is made from leather.",
+    "material": [ "leather" ]
+  },
+  {
+    "id": "wallet_large",
+    "type": "GENERIC",
+    "copy-from": "wallet",
+    "name": { "str": "large wallet" },
+    "description": "A flat case used to carry items such as currency, identification documents, laminated cards, and other small items.",
+    "material": [ "leather" ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "wallet_stylish",
+    "type": "GENERIC",
+    "copy-from": "wallet",
+    "name": { "str": "stylish wallet" },
+    "description": "A stylish flat case used to carry items such as currency, identification documents, laminated cards, and other small items.",
+    "material": [ "leather" ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "wallet_travel",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": { "str": "travel wallet" },
+    "description": "A flat case with neck strap used to carry items such as currency, identification documents, laminated cards, and other small items.",
+    "price": 15000,
+    "price_postapoc": 250,
+    "material": [ "plastic", "leather" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS" ],
+    "weight": "708 g",
+    "volume": "500 ml",
+    "bashing": 1,
+    "to_hit": -1,
+    "covers": [ "torso" ],
+    "encumbrance": 2,
+    "coverage": 10,
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_weight": "600 g",
+        "max_contains_volume": "500 ml",
+        "moves": 400,
+        "item_restriction": [
+          "cash_card",
+          "gasdiscount_silver",
+          "gasdiscount_gold",
+          "gasdiscount_platinum",
+          "id_science",
+          "id_military",
+          "id_industrial",
+          "fp_loyalty_card",
+          "robofac_test_data"
+        ]
+      }
+    ]
   }
 ]

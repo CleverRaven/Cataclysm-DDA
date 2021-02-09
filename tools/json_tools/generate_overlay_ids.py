@@ -22,9 +22,21 @@ from util import import_data
 
 
 CPP_IDS = (
-    'footstep', 'cursor', 'highlight', 'highlight_item', 'line_target',
-    'line_trail', 'animation_line', 'animation_hit', 'zombie_revival_indicator'
+    'cursor', 'highlight', 'highlight_item', 'footstep', 'graffiti',
+    'zombie_revival_indicator',
+    'weather_rain_drop', 'weather_acid_drop', 'weather_snowflake',
+    'animation_bullet_normal', 'animation_bullet_shrapnel',
+    'animation_bullet_flame',
+    'explosion', 'explosion_weak', 'explosion_medium',
+    'animation_hit', 'player_male', 'player_female', 'npc_male', 'npc_female',
+    'animation_line', 'line_target', 'line_trail',
+    'infrared_creature',
 )
+VP_STANDARD_SYMBOLS = {
+    "cover": "^", "cross": "c", "horizontal": "h", "horizontal_2": "=",
+    "vertical": "j",
+    "vertical_2": "H", "ne": "u", "nw": "y", "se": "n", "sw": "b"
+}  # vpart_variants_standard in src/veh_type.h
 ATTITUDES = ('hostile', 'neutral', 'friendly', 'other')
 
 TILESET_OVERLAY_TYPES = {
@@ -69,7 +81,10 @@ TILESET_OVERLAY_TYPES = {
     },
     'movement_mode': {
         'prefix': 'overlay_'
-    }
+    },
+    'vehicle_part': {
+        'prefix': 'vp_'
+    },
 }
 
 
@@ -95,14 +110,21 @@ if __name__ == '__main__':
             continue
 
         variable_prefix = ('',)
+        variable_suffix = ('',)
         if 'BIONIC_TOGGLED' in flags:
             variable_prefix = ('', 'active_')
         if datum_type == 'MONSTER':
             variable_prefix = ('corpse_', 'overlay_wielded_corpse_')
+        if datum_type == 'vehicle_part':
+            variable_suffix = datum.get('symbols', {}).keys()
+            if datum.get('standard_symbols', False):
+                variable_suffix = ['', ] + list(VP_STANDARD_SYMBOLS.keys())
+            if variable_suffix:
+                variable_suffix = ['', ] + [f'_{s}' for s in variable_suffix]
+            else:
+                variable_suffix = ('',)
 
-        for p in product(
-                variable_prefix,
-                (game_id,)):
+        for p in product(variable_prefix, (game_id,), variable_suffix):
             output = [overlay_data['prefix']]
             output.extend(p)
             # print(output)

@@ -1,5 +1,6 @@
 #include <memory>
 
+#include "character_id.h"
 #include "item.h"
 #include "magic.h"
 #include "npc.h"
@@ -87,6 +88,11 @@ bool talker_character::is_deaf() const
     return me_chr->is_deaf();
 }
 
+bool talker_character::is_mute() const
+{
+    return me_chr->is_mute();
+}
+
 void talker_character::set_mutation( const trait_id &new_trait )
 {
     me_chr->set_mutation( new_trait );
@@ -97,7 +103,7 @@ void talker_character::unset_mutation( const trait_id &old_trait )
     me_chr->unset_mutation( old_trait );
 }
 
-bool talker_character::has_trait_flag( const std::string &trait_flag_to_check ) const
+bool talker_character::has_trait_flag( const json_character_flag &trait_flag_to_check ) const
 {
     return me_chr->has_trait_flag( trait_flag_to_check );
 }

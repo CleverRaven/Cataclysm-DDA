@@ -18,10 +18,5 @@
     "type": "skill_display_type",
     "id": "display_interaction",
     "display_string": "Interaction skills"
-  },
-  {
-    "type": "skill_display_type",
-    "id": "display_social",
-    "display_string": "Social skills"
   }
 ]

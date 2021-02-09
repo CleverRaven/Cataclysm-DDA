@@ -20,7 +20,7 @@
     ]
   },
   {
-    "id": "BGSS_GANGEER_3_STORY3",
+    "id": "BGSS_GANGER_3_STORY3",
     "type": "talk_topic",
     "dynamic_line": "I'm going to kill my way back into the city so I can get out from under this sky.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]

@@ -96,7 +96,7 @@
     "name": { "str": "zombie cop" },
     "description": "A human body covered by a weather-beaten and badly damaged set of riot gear.",
     "bodytype": "human",
-    "default_faction": "cop_zombie",
+    "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "volume": "62500 ml",
@@ -166,7 +166,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 8, "into": "mon_zombie_crawler_pupa" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_CRAWLER_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
@@ -233,7 +233,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 10, "into_group": "GROUP_ZOMBIE_FAT" },
+    "upgrades": { "half_life": 12, "into_group": "GROUP_ZOMBIE_FAT" },
     "flags": [
       "SEES",
       "HEARS",
@@ -390,11 +390,11 @@
   {
     "id": "mon_zombie_swat",
     "type": "MONSTER",
-    "name": "SWAT zombie",
+    "name": { "str": "SWAT zombie" },
     "description": "This zombie was part of a specialized unit of law enforcement.  It still wears a battered armor with the SWAT logo emblazoned on the front.",
     "looks_like": "mon_zombie_cop",
     "bodytype": "human",
-    "default_faction": "cop_zombie",
+    "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
     "species": [ "ZOMBIE", "HUMAN" ],
     "volume": "62500 ml",

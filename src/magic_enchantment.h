@@ -2,24 +2,23 @@
 #ifndef CATA_SRC_MAGIC_ENCHANTMENT_H
 #define CATA_SRC_MAGIC_ENCHANTMENT_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
-#include <string>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
-#include "enum_traits.h"
-#include "json.h"
 #include "magic.h"
 #include "optional.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "units_fwd.h"
 
 class Character;
 class Creature;
+class JsonObject;
+class JsonOut;
 class item;
 
 namespace enchant_vals
@@ -68,6 +67,7 @@ enum class mod : int {
     ARMOR_ACID,
     ARMOR_BIO,
     // effects for the item that has the enchantment
+    ITEM_DAMAGE_PURE,
     ITEM_DAMAGE_BASH,
     ITEM_DAMAGE_CUT,
     ITEM_DAMAGE_STAB,
@@ -114,6 +114,7 @@ class enchantment
             ALWAYS,
             UNDERGROUND,
             UNDERWATER,
+            ACTIVE, // the item, mutation, etc. is active
             NUM_CONDITION
         };
 
@@ -146,7 +147,8 @@ class enchantment
         bool is_active( const Character &guy, const item &parent ) const;
 
         // this enchantment has a valid item independent conditions
-        bool is_active( const Character &guy ) const;
+        // @active means the container for the enchantment is active, for comparison to active flag.
+        bool is_active( const Character &guy, bool active ) const;
 
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available
@@ -166,9 +168,11 @@ class enchantment
         // casts all the hit_me_effects on self or a target depending on the enchantment definition
         void cast_hit_me( Character &caster, const Creature *target ) const;
 
-        std::set<trait_id> get_mutations() const {
+        const std::set<trait_id> &get_mutations() const {
             return mutations;
         }
+
+        bool operator==( const enchantment &rhs ) const;
     private:
         std::set<trait_id> mutations;
         cata::optional<emit_id> emitter;

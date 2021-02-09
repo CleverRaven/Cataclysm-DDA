@@ -1,17 +1,16 @@
-#include "catch/catch.hpp"
-
 #include "avatar.h"
-#include "bionics.h"
-#include "character.h"
+#include "catch/catch.hpp"
 #include "field.h"
+#include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
-#include "mutation.h"
+#include "npc.h"
 #include "player_helpers.h"
-#include "item.h"
-
-
+#include "point.h"
+#include "type_id.h"
+#include "units.h"
 
 static void test_generic_ench( avatar &p, int str_before )
 {
@@ -44,7 +43,7 @@ TEST_CASE( "worn enchantments", "[enchantments][worn][items]" )
 
     // put on the ring
     item &equiped_ring_strplus_one = p.i_add( item( "test_ring_strength_1" ) );
-    p.wear( equiped_ring_strplus_one, false );
+    p.wear( item_location( *p.as_character(), &equiped_ring_strplus_one ), false );
 
     // wait a turn for the effect to kick in
     p.recalculate_enchantment_cache();
@@ -64,7 +63,7 @@ TEST_CASE( "bionic enchantments", "[enchantments][bionics]" )
     p.set_max_power_level( 100_kJ );
     p.set_power_level( 100_kJ );
 
-    give_and_activate_bionic( p, bionic_id( "test_bio_night" ) );
+    give_and_activate_bionic( p, bionic_id( "test_bio_ench" ) );
 
     test_generic_ench( p, str_before );
 }
@@ -74,7 +73,7 @@ TEST_CASE( "mutation enchantments", "[enchantments][mutations]" )
     avatar p;
     clear_character( p );
 
-    const trait_id test_ink( "TEST_INK_GLANDS" );
+    const trait_id test_ink( "TEST_ENCH_MUTATION" );
     int str_before = p.get_str();
 
     p.toggle_trait( test_ink );

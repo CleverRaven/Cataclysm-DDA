@@ -36,6 +36,7 @@
       "rotation": 2,
       "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
       "terrain": { "5": "t_pavement", "j": "t_door_bar_locked", "y": "t_window_bars" },
+      "furniture": { "k": "f_wardrobe" },
       "traps": { "_": { "trap": "tr_cot" } },
       "npcs": { "@": { "class": "captive" } }
     }

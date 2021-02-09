@@ -8,10 +8,9 @@
 #include "item_category.h"
 #include "material.h"
 #include "requirements.h"
-#include "string_id.h"
 #include "type_id.h"
 
-std::pair<std::string, std::string> get_both( const std::string &a );
+static std::pair<std::string, std::string> get_both( const std::string &a );
 
 std::function<bool( const item & )> basic_item_filter( std::string filter )
 {
@@ -27,7 +26,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         // category
         case 'c':
             return [filter]( const item & i ) {
-                return lcmatch( i.get_category().name(), filter );
+                return lcmatch( i.get_category_of_contents().name(), filter );
             };
         // material
         case 'm':

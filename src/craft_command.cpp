@@ -2,10 +2,11 @@
 
 #include <algorithm>
 #include <climits>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <limits>
 #include <list>
+#include <string>
 
 #include "character.h"
 #include "crafting.h"
@@ -21,6 +22,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
+#include "visitable.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -95,14 +97,17 @@ template void comp_selection<item_comp>::serialize( JsonOut &jsout ) const;
 template void comp_selection<tool_comp>::deserialize( JsonIn &jsin );
 template void comp_selection<item_comp>::deserialize( JsonIn &jsin );
 
-void craft_command::execute( const tripoint &new_loc )
+void craft_command::execute( const cata::optional<tripoint> &new_loc )
+{
+    loc = new_loc;
+
+    execute();
+}
+
+void craft_command::execute()
 {
     if( empty() ) {
         return;
-    }
-
-    if( new_loc != tripoint_zero ) {
-        loc = new_loc;
     }
 
     bool need_selections = true;
@@ -287,7 +292,7 @@ skill_id craft_command::get_skill_id()
 }
 
 std::vector<comp_selection<item_comp>> craft_command::check_item_components_missing(
-                                        const inventory &map_inv ) const
+                                        const read_only_visitable &map_inv ) const
 {
     std::vector<comp_selection<item_comp>> missing;
 
@@ -352,7 +357,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
 }
 
 std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_missing(
-                                        const inventory &map_inv ) const
+                                        const read_only_visitable &map_inv ) const
 {
     std::vector<comp_selection<tool_comp>> missing;
 

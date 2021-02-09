@@ -1,9 +1,6 @@
-#include "catch/catch.hpp"
-
-#include <string>
-
 #include "avatar.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "monster.h"
 #include "mtype.h"
 #include "type_id.h"
@@ -33,7 +30,7 @@
 // - If already have same effect, modify duration and intensity
 // - Otherwise, add effect, and check if it is blocked by another effect
 
-// Characters have effects on separate body parts, or no particular part (indicated by `num_bp`)
+// Characters have effects on separate body parts, or no particular part (indicated by `bp_null`)
 TEST_CASE( "character add_effect", "[creature][character][effect][add]" )
 {
     avatar dummy;
@@ -80,7 +77,7 @@ TEST_CASE( "character add_effect", "[creature][character][effect][add]" )
 // Monsters may have effects added to them, but they don't have separate body parts.
 TEST_CASE( "monster add_effect", "[creature][monster][effect][add]" )
 {
-    monster mummy( mtype_id( "debug_mon" ) );
+    monster mummy( mtype_id( "mon_hallu_mom" ) );
     const efftype_id effect_bleed( "bleed" );
     const efftype_id effect_grabbed( "grabbed" );
 
@@ -96,7 +93,7 @@ TEST_CASE( "monster add_effect", "[creature][monster][effect][add]" )
         }
     }
 
-    // Debug monster is "flesh", but doesn't have the "WARM" flag, so is immune to bleeding.
+    // "Your mother" monster is of 'HALLUCINATION' species, which doesn't have any bleeding type set for it, so it is immune to bleeding.
     GIVEN( "monster is immune to effect" ) {
         REQUIRE( mummy.is_immune_effect( effect_bleed ) );
 
@@ -220,7 +217,7 @@ TEST_CASE( "has_effect", "[creature][effect][has]" )
     const efftype_id effect_grabbed( "grabbed" );
     const efftype_id effect_invisibility( "invisibility" );
 
-    // For monster, has_effect is not body-part-specific (uses num_bp)
+    // For monster, has_effect is not body-part-specific (uses bp_null)
     SECTION( "monster has_effect" ) {
         monster mummy( mtype_id( "debug_mon" ) );
 
@@ -286,7 +283,6 @@ TEST_CASE( "has_effect", "[creature][effect][has]" )
                 CHECK_FALSE( dummy.has_effect( effect_grabbed, right_arm.id() ) );
             }
             THEN( "has_effect is true when body part is not specified" ) {
-                // num_bp (default) is any/all body parts
                 CHECK( dummy.has_effect( effect_grabbed ) );
                 CHECK( dummy.has_effect( effect_grabbed ) );
             }
@@ -315,7 +311,7 @@ TEST_CASE( "has_effect_with_flag", "[creature][effect][has][flag]" )
 {
     const efftype_id effect_downed( "downed" );
     const efftype_id effect_invisibility( "invisibility" );
-    const std::string invisibility_flag = "EFFECT_INVISIBLE";
+    const flag_id invisibility_flag( "EFFECT_INVISIBLE" );
 
     monster mummy( mtype_id( "debug_mon" ) );
 
@@ -354,6 +350,8 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
     const efftype_id effect_badpoison( "badpoison" );
     const efftype_id effect_paralyzepoison( "paralyzepoison" );
 
+    static const species_id species_WORM( "WORM" );
+
     // TODO: Monster may be immune to:
     // - onfire (if is_immune_damage DT_HEAT, made_of LIQUID, has_flag MF_FIREY)
     // - stunned (if has_flag MF_STUN_IMMUNE)
@@ -369,49 +367,50 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
             CHECK_FALSE( zed.is_immune_effect( effect_bleed ) );
         }
         THEN( "they can be poisoned" ) {
-            CHECK_FALSE( zed.is_immune_effect( effect_bleed ) );
             CHECK_FALSE( zed.is_immune_effect( effect_poison ) );
             CHECK_FALSE( zed.is_immune_effect( effect_badpoison ) );
             CHECK_FALSE( zed.is_immune_effect( effect_paralyzepoison ) );
         }
     }
 
-    WHEN( "monster is not not made of flesh and not warm-blooded" ) {
-        // Skeleton - no flesh, not warm-blooded
-        monster skelly( mtype_id( "mon_skeleton" ) );
-        skelly.clear_effects();
-        REQUIRE_FALSE( skelly.made_of( material_id( "flesh" ) ) );
-        REQUIRE_FALSE( skelly.made_of( material_id( "iflesh" ) ) );
-        REQUIRE_FALSE( skelly.has_flag( MF_WARM ) );
+    WHEN( "monster species has bleeding type set" ) {
+        // Graboid is of `WORM` species which has `fd_blood_insect` bleeding type set
+        monster graboid( mtype_id( "mon_graboid" ) );
+        graboid.clear_effects();
+        REQUIRE( graboid.type->in_species( species_WORM ) );
 
-        THEN( "they are immune to the bleed effect" ) {
-            CHECK( skelly.is_immune_effect( effect_bleed ) );
-        }
-
-        THEN( "they are immune to all poison effects" ) {
-            CHECK( skelly.is_immune_effect( effect_bleed ) );
-            CHECK( skelly.is_immune_effect( effect_poison ) );
-            CHECK( skelly.is_immune_effect( effect_badpoison ) );
-            CHECK( skelly.is_immune_effect( effect_paralyzepoison ) );
+        THEN( "they can bleed" ) {
+            CHECK_FALSE( graboid.is_immune_effect( effect_bleed ) );
         }
     }
 
-    WHEN( "monster is made of flesh, but not warm-blooded" ) {
-        // Razorclaw - fleshy, with arthropod blood
+    WHEN( "monster species doesn't have bleeding type set, but it has flag describing its bleeding type" ) {
+        // Razorclaw - has `MUTANT` species which doesn't have any bleeding type set, but has arthropod blood
         monster razorclaw( mtype_id( "mon_razorclaw" ) );
         razorclaw.clear_effects();
-        REQUIRE( razorclaw.made_of( material_id( "flesh" ) ) );
-        REQUIRE_FALSE( razorclaw.has_flag( MF_WARM ) );
+        REQUIRE( razorclaw.has_flag( MF_ARTHROPOD_BLOOD ) );
+
+        THEN( "they can bleed" ) {
+            CHECK_FALSE( razorclaw.is_immune_effect( effect_bleed ) );
+        }
+    }
+
+    WHEN( "monster is not made of flesh and not warm-blooded" ) {
+        // Generator - no flesh, not warm-blooded
+        monster genny( mtype_id( "mon_generator" ) );
+        genny.clear_effects();
+        REQUIRE_FALSE( genny.made_of( material_id( "flesh" ) ) );
+        REQUIRE_FALSE( genny.made_of( material_id( "iflesh" ) ) );
+        REQUIRE_FALSE( genny.has_flag( MF_WARM ) );
 
         THEN( "they are immune to the bleed effect" ) {
-            CHECK( razorclaw.is_immune_effect( effect_bleed ) );
+            CHECK( genny.is_immune_effect( effect_bleed ) );
         }
 
         THEN( "they are immune to all poison effects" ) {
-            CHECK( razorclaw.is_immune_effect( effect_bleed ) );
-            CHECK( razorclaw.is_immune_effect( effect_poison ) );
-            CHECK( razorclaw.is_immune_effect( effect_badpoison ) );
-            CHECK( razorclaw.is_immune_effect( effect_paralyzepoison ) );
+            CHECK( genny.is_immune_effect( effect_poison ) );
+            CHECK( genny.is_immune_effect( effect_badpoison ) );
+            CHECK( genny.is_immune_effect( effect_paralyzepoison ) );
         }
     }
 }

@@ -1,8 +1,8 @@
 #include "activity_type.h"
 
-#include <algorithm>
 #include <functional>
 #include <map>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
@@ -12,7 +12,6 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "json.h"
-#include "player.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -105,7 +104,6 @@ void activity_type::check_consistency()
 
 void activity_type::call_do_turn( player_activity *act, player *p ) const
 {
-    p->increase_activity_level( activity_level );
     const auto &pair = activity_handlers::do_turn_functions.find( id_ );
     if( pair != activity_handlers::do_turn_functions.end() ) {
         pair->second( act, p );

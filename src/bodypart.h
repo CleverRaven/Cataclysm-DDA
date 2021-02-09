@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_BODYPART_H
 #define CATA_SRC_BODYPART_H
 
-#include <algorithm>
 #include <array>
-#include <bitset>
 #include <cstddef>
 #include <initializer_list>
+#include <iosfwd>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "enums.h"
@@ -19,7 +19,24 @@
 class JsonIn;
 class JsonObject;
 class JsonOut;
+struct body_part_type;
 template <typename E> struct enum_traits;
+
+using bodypart_str_id = string_id<body_part_type>;
+using bodypart_id = int_id<body_part_type>;
+
+extern const bodypart_str_id body_part_head;
+extern const bodypart_str_id body_part_eyes;
+extern const bodypart_str_id body_part_mouth;
+extern const bodypart_str_id body_part_torso;
+extern const bodypart_str_id body_part_arm_l;
+extern const bodypart_str_id body_part_arm_r;
+extern const bodypart_str_id body_part_hand_l;
+extern const bodypart_str_id body_part_hand_r;
+extern const bodypart_str_id body_part_leg_l;
+extern const bodypart_str_id body_part_foot_l;
+extern const bodypart_str_id body_part_leg_r;
+extern const bodypart_str_id body_part_foot_r;
 
 // The order is important ; pldata.h has to be in the same order
 enum body_part : int {
@@ -40,7 +57,7 @@ enum body_part : int {
 
 template<>
 struct enum_traits<body_part> {
-    static constexpr auto last = body_part::num_bp;
+    static constexpr body_part last = body_part::num_bp;
 };
 
 enum class side : int {
@@ -52,7 +69,15 @@ enum class side : int {
 
 template<>
 struct enum_traits<side> {
-    static constexpr auto last = side::num_sides;
+    static constexpr side last = side::num_sides;
+};
+
+// Drench cache
+enum water_tolerance {
+    WT_IGNORED = 0,
+    WT_NEUTRAL,
+    WT_GOOD,
+    NUM_WATER_TOLERANCE
 };
 
 /**
@@ -65,11 +90,6 @@ constexpr std::array<body_part, 12> all_body_parts = {{
         bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r
     }
 };
-
-struct body_part_type;
-
-using bodypart_str_id = string_id<body_part_type>;
-using bodypart_id = int_id<body_part_type>;
 
 struct stat_hp_mods {
 
@@ -97,8 +117,9 @@ struct body_part_type {
         translation accusative_multiple;
         translation name_as_heading;
         translation name_as_heading_multiple;
-        std::string hp_bar_ui_text;
-        std::string encumb_text;
+        translation smash_message;
+        translation hp_bar_ui_text;
+        translation encumb_text;
         // Legacy "string id"
         std::string legacy_id;
         // Legacy enum "int id"
@@ -124,6 +145,8 @@ struct body_part_type {
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
 
+        float smash_efficiency = 0.5f;
+
         //Morale parameters
         float hot_morale_mod = 0.0f;
         float cold_morale_mod = 0.0f;
@@ -137,7 +160,7 @@ struct body_part_type {
 
         bool is_limb = false;
 
-        int drench_max;
+        int drench_max = 0;
 
         cata::flat_set<std::string> flags;
         bool has_flag( const std::string &flag ) const;
@@ -147,6 +170,7 @@ struct body_part_type {
         void check() const;
 
         static void load_bp( const JsonObject &jo, const std::string &src );
+        static const std::vector<body_part_type> &get_all();
 
         // Clears all bps
         static void reset();
@@ -207,8 +231,8 @@ class bodypart
     private:
         bodypart_str_id id;
 
-        int hp_cur;
-        int hp_max;
+        int hp_cur = 0;
+        int hp_max = 0;
 
         int wetness = 0;
         int temp_cur = 5000; // BODYTEMP_NORM = 5000
@@ -221,9 +245,12 @@ class bodypart
 
         encumbrance_data encumb_data;
 
+        std::array<int, NUM_WATER_TOLERANCE> mut_drench;
+
     public:
-        bodypart(): id( bodypart_str_id( "bp_null" ) ), hp_cur( 0 ), hp_max( 0 ) {}
-        bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ) {}
+        bodypart(): id( bodypart_str_id::NULL_ID() ), hp_cur( 0 ), hp_max( 0 ), mut_drench() {}
+        explicit bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ),
+            mut_drench() {}
 
         bodypart_id get_id() const;
 
@@ -239,9 +266,11 @@ class bodypart
         int get_damage_disinfected() const;
         int get_drench_capacity() const;
         int get_wetness() const;
-        int get_frotbite_timer() const;
+        int get_frostbite_timer() const;
         int get_temp_cur() const;
         int get_temp_conv() const;
+
+        std::array<int, NUM_WATER_TOLERANCE> get_mut_drench() const;
 
         const encumbrance_data &get_encumbrance_data() const;
 
@@ -256,6 +285,8 @@ class bodypart
         void set_frostbite_timer( int set );
 
         void set_encumbrance_data( const encumbrance_data &set );
+
+        void set_mut_drench( std::pair<water_tolerance, int> set );
 
         void mod_hp_cur( int mod );
         void mod_hp_max( int mod );

@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MTYPE_H
 #define CATA_SRC_MTYPE_H
 
+#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -18,13 +19,11 @@
 #include "pathfinding.h"
 #include "translations.h"
 #include "type_id.h"
-#include "units.h"
-#include "units_fwd.h"
+#include "units.h" // IWYU pragma: keep
 
 class Creature;
 class monster;
 struct dealt_projectile_attack;
-struct species_type;
 template <typename E> struct enum_traits;
 
 enum class creature_size : int;
@@ -56,7 +55,7 @@ enum class mon_trigger : int {
 
 template<>
 struct enum_traits<mon_trigger> {
-    static constexpr auto last = mon_trigger::_LAST;
+    static constexpr mon_trigger last = mon_trigger::_LAST;
 };
 
 // Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!
@@ -68,7 +67,7 @@ enum m_flag : int {
     MF_HEARS,               // It can hear you
     MF_GOODHEARING,         // Pursues sounds more than most monsters
     MF_SMELLS,              // It can smell you
-    MF_KEENNOSE,            //Keen sense of smell
+    MF_KEENNOSE,            // Keen sense of smell
     MF_STUMBLES,            // Stumbles in its movement
     MF_WARM,                // Warm blooded
     MF_NOHEAD,              // Headshots not allowed!
@@ -94,7 +93,7 @@ enum m_flag : int {
     MF_ELECTRIC,            // Shocks unarmed attackers
     MF_ACIDPROOF,           // Immune to acid
     MF_ACIDTRAIL,           // Leaves a trail of acid
-    MF_SHORTACIDTRAIL,       // Leaves an intermittent trail of acid
+    MF_SHORTACIDTRAIL,      // Leaves an intermittent trail of acid
     MF_FIREPROOF,           // Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
@@ -105,14 +104,13 @@ enum m_flag : int {
     MF_FUR,                 // May produce fur when butchered
     MF_LEATHER,             // May produce leather when butchered
     MF_WOOL,                // May produce wool when butchered
-    MF_FEATHER,             // May produce feather when butchered
     MF_BONES,               // May produce bones and sinews when butchered; if combined with POISON flag, tainted bones, if combined with HUMAN, human bones
     MF_FAT,                 // May produce fat when butchered; if combined with POISON flag, tainted fat
     MF_CONSOLE_DESPAWN,     // Despawns when a nearby console is properly hacked
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
-    MF_ID_CARD_DESPAWN,      // Despawns when a science ID card is used on a nearby console
+    MF_ID_CARD_DESPAWN,     // Despawns when a science ID card is used on a nearby console
     MF_RIDEABLE_MECH,       // A rideable mech that is immobile until ridden.
-    MF_MILITARY_MECH,        // A rideable mech that was designed for military work.
+    MF_MILITARY_MECH,       // A rideable mech that was designed for military work.
     MF_MECH_RECON_VISION,   // This mech gives you IR night-vision.
     MF_MECH_DEFENSIVE,      // This mech gives you thorough protection.
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack
@@ -167,13 +165,15 @@ enum m_flag : int {
     MF_SHEARABLE,           // This monster is shearable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
     MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
-    MF_DRIPS_NAPALM,        // This monster ocassionally drips napalm on move
+    MF_DRIPS_NAPALM,        // This monster occasionally drips napalm on move
     MF_DRIPS_GASOLINE,      // This monster occasionally drips gasoline on move
     MF_ELECTRIC_FIELD,      // This monster is surrounded by an electrical field that ignites flammable liquids near it
     MF_LOUDMOVES,           // This monster makes move noises as if ~2 sizes louder, even if flying.
     MF_CAN_OPEN_DOORS,      // This monster can open doors.
     MF_STUN_IMMUNE,         // This monster is immune to the stun effect
     MF_DROPS_AMMO,          // This monster drops ammo. Should not be set for monsters that use pseudo ammo.
+    MF_INSECTICIDEPROOF,    // This monster is immune to insecticide, even though it's made of bug flesh
+    MF_RANGED_ATTACKER,     // This monster has any sort of ranged attack
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -203,7 +203,7 @@ struct mtype {
         translation name;
         translation description;
 
-        std::set< const species_type * > species_ptrs;
+        ascii_art_id picture_id;
 
         enum_bitset<m_flag> flags;
 
@@ -226,7 +226,7 @@ struct mtype {
 
         std::map<itype_id, int> starting_ammo; // Amount of ammo the monster spawns with.
         // Name of item group that is used to create item dropped upon death, or empty.
-        std::string death_drops;
+        item_group_id death_drops;
 
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
@@ -238,7 +238,7 @@ struct mtype {
         std::string sym;
         /** hint for tilesets that don't have a tile for this monster */
         std::string looks_like;
-        mfaction_id default_faction;
+        mfaction_str_id default_faction;
         bodytype_id bodytype;
         nc_color color = c_white;
         creature_size size;
@@ -377,8 +377,8 @@ struct mtype {
         bool has_placate_trigger( mon_trigger trigger ) const;
         bool in_category( const std::string &category ) const;
         bool in_species( const species_id &spec ) const;
-        bool in_species( const species_type &spec ) const;
         std::vector<std::string> species_descriptions() const;
+        field_type_id get_bleed_type() const;
         //Used for corpses.
         field_type_id bloodType() const;
         field_type_id gibType() const;
@@ -387,6 +387,7 @@ struct mtype {
         itype_id get_meat_itype() const;
         int get_meat_chunks_count() const;
         std::string get_description() const;
+        ascii_art_id get_picture_id() const;
         std::string get_footsteps() const;
         void set_strategy();
         void add_goal( const std::string &goal_id );

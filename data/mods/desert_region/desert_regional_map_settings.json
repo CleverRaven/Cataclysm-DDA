@@ -127,6 +127,7 @@
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
       "shore_extendable_overmap_terrain_aliases": [  ]
     },
+    "overmap_ravine_settings": { "num_ravines": 5, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.5,
       "noise_threshold_forest_thick": 0.55,

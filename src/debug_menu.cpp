@@ -1,18 +1,23 @@
 #include "debug_menu.h"
 
+#include <cstdint>
+// IWYU pragma: no_include <sys/signal.h>
 // IWYU pragma: no_include <cxxabi.h>
 
 #include <algorithm>
+#include <array>
 #include <chrono>
 #include <csignal>
 #include <cstdlib>
-#include <iomanip>
+#include <iomanip> // IWYU pragma: keep
 #include <iostream>
 #include <iterator>
 #include <limits>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
+#include <sstream>
 #include <string>
 #include <type_traits>
 #include <unordered_map>
@@ -30,22 +35,25 @@
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "clzones.h"
 #include "color.h"
 #include "compatibility.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
+#include "effect.h"
+#include "effect_source.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
-#include "filesystem.h"
+#include "filesystem.h" // IWYU pragma: keep
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "int_id.h"
+#include "input.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
@@ -74,16 +82,16 @@
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
-#include "path_info.h"
+#include "path_info.h" // IWYU pragma: keep
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
+#include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "trait_group.h"
 #include "translations.h"
@@ -106,9 +114,6 @@ static const efftype_id effect_flu( "flu" );
 static const mtype_id mon_generator( "mon_generator" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
-
-extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
-        nested_mapgen;
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
@@ -144,6 +149,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::CHANGE_WEATHER: return "CHANGE_WEATHER";
         case debug_menu::debug_menu_index::WIND_DIRECTION: return "WIND_DIRECTION";
         case debug_menu::debug_menu_index::WIND_SPEED: return "WIND_SPEED";
+        case debug_menu::debug_menu_index::GEN_SOUND: return "GEN_SOUND";
         case debug_menu::debug_menu_index::KILL_MONS: return "KILL_MONS";
         case debug_menu::debug_menu_index::DISPLAY_HORDES: return "DISPLAY_HORDES";
         case debug_menu::debug_menu_index::TEST_IT_GROUP: return "TEST_IT_GROUP";
@@ -158,6 +164,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::OM_EDITOR: return "OM_EDITOR";
         case debug_menu::debug_menu_index::BENCHMARK: return "BENCHMARK";
         case debug_menu::debug_menu_index::OM_TELEPORT: return "OM_TELEPORT";
+        case debug_menu::debug_menu_index::OM_TELEPORT_COORDINATES: return "OM_TELEPORT_COORDINATES";
         case debug_menu::debug_menu_index::TRAIT_GROUP: return "TRAIT_GROUP";
         case debug_menu::debug_menu_index::ENABLE_ACHIEVEMENTS: return "ENABLE_ACHIEVEMENTS";
         case debug_menu::debug_menu_index::SHOW_MSG: return "SHOW_MSG";
@@ -176,12 +183,16 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_VEHICLE_AI: return "DISPLAY_VEHICLE_AI";
         case debug_menu::debug_menu_index::DISPLAY_VISIBILITY: return "DISPLAY_VISIBILITY";
         case debug_menu::debug_menu_index::DISPLAY_LIGHTING: return "DISPLAY_LIGHTING";
+        case debug_menu::debug_menu_index::DISPLAY_TRANSPARENCY: return "DISPLAY_TRANSPARENCY";
+        case debug_menu::debug_menu_index::DISPLAY_REACHABILITY_ZONES: return "DISPLAY_REACHABILITY_ZONES";
         case debug_menu::debug_menu_index::DISPLAY_RADIATION: return "DISPLAY_RADIATION";
+        case debug_menu::debug_menu_index::HOUR_TIMER: return "HOUR_TIMER";
         case debug_menu::debug_menu_index::LEARN_SPELLS: return "LEARN_SPELLS";
         case debug_menu::debug_menu_index::LEVEL_SPELLS: return "LEVEL_SPELLS";
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
+        case debug_menu::debug_menu_index::GENERATE_EFFECT_LIST: return "GENERATE_EFFECT_LIST";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -252,15 +263,19 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::DISPLAY_VEHICLE_AI, true, 'V', _( "Toggle display vehicle autopilot overlay" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
+            { uilist_entry( debug_menu_index::DISPLAY_TRANSPARENCY, true, 'p', _( "Toggle display transparency" ) ) },
+            { uilist_entry( debug_menu_index::DISPLAY_REACHABILITY_ZONES, true, 'z', _( "Toggle display reachability zones" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
             { uilist_entry( debug_menu_index::SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( debug_menu_index::BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
+            { uilist_entry( debug_menu_index::HOUR_TIMER, true, 'E', _( "Toggle hour timer" ) ) },
             { uilist_entry( debug_menu_index::TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ) },
             { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
             { uilist_entry( debug_menu_index::PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
+            { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
                                    debug_only_options.end() );
@@ -296,6 +311,7 @@ static int teleport_uilist()
         { uilist_entry( debug_menu_index::SHORT_TELEPORT, true, 's', _( "Teleport - short range" ) ) },
         { uilist_entry( debug_menu_index::LONG_TELEPORT, true, 'l', _( "Teleport - long range" ) ) },
         { uilist_entry( debug_menu_index::OM_TELEPORT, true, 'o', _( "Teleport - adjacent overmap" ) ) },
+        { uilist_entry( debug_menu_index::OM_TELEPORT_COORDINATES, true, 'p', _( "Teleport - specific overmap coordinates" ) ) },
     };
 
     return uilist( _( "Teleport…" ), uilist_initializer );
@@ -324,6 +340,7 @@ static int map_uilist()
         { uilist_entry( debug_menu_index::CHANGE_WEATHER, true, 'w', _( "Change weather" ) ) },
         { uilist_entry( debug_menu_index::WIND_DIRECTION, true, 'd', _( "Change wind direction" ) ) },
         { uilist_entry( debug_menu_index::WIND_SPEED, true, 's', _( "Change wind speed" ) ) },
+        { uilist_entry( debug_menu_index::GEN_SOUND, true, 'S', _( "Generate sound" ) ) },
         { uilist_entry( debug_menu_index::KILL_MONS, true, 'K', _( "Kill all monsters" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_TIME, true, 't', _( "Change time" ) ) },
         { uilist_entry( debug_menu_index::OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
@@ -428,17 +445,32 @@ void teleport_long()
     add_msg( _( "You teleport to submap (%s)." ), where.to_string() );
 }
 
-void teleport_overmap()
+void teleport_overmap( bool specific_coordinates )
 {
-    const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
-    if( !dir_ ) {
-        return;
-    }
-
     Character &player_character = get_player_character();
-    const tripoint offset( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
-    const tripoint_abs_omt where = player_character.global_omt_location() + offset;
-
+    tripoint_abs_omt where;
+    if( specific_coordinates ) {
+        const std::string text = string_input_popup()
+                                 .title( "Teleport where?" )
+                                 .width( 20 )
+                                 .query_string();
+        if( text.empty() ) {
+            return;
+        }
+        const std::vector<std::string> coord_strings = string_split( text, ',' );
+        tripoint coord;
+        coord.x = !coord_strings.empty() ? std::atoi( coord_strings[0].c_str() ) : 0;
+        coord.y = coord_strings.size() >= 2 ? std::atoi( coord_strings[1].c_str() ) : 0;
+        coord.z = coord_strings.size() >= 3 ? std::atoi( coord_strings[2].c_str() ) : 0;
+        where = tripoint_abs_omt( OMAPX * coord.x, OMAPY * coord.y, coord.z );
+    } else {
+        const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
+        if( !dir_ ) {
+            return;
+        }
+        const tripoint offset = tripoint( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
+        where = player_character.global_omt_location() + offset;
+    }
     g->place_player_overmap( where );
 
     const tripoint_abs_om new_pos =
@@ -549,12 +581,14 @@ void character_edit_menu()
     }
 
     enum {
-        D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+        D_DESC, D_SKILLS, D_PROF, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA
     };
-    nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
+    nmenu.addentry( D_DESC, true, 'D', "%s",
+                    _( "Edit [D]escription - Name, Age, Height or Blood type" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
+    nmenu.addentry( D_PROF, true, 'P', "%s", _( "Edit [P]roficiencies" ) );
     nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
     nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant [i]tems" ) );
     nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _( "[d]elete (all) items" ) );
@@ -571,7 +605,7 @@ void character_edit_menu()
                     hotkey_for_action( ACTION_PL_INFO, /*maximum_modifier_count=*/1 ),
                     "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
-    nmenu.addentry( D_ADD_EFFECT, true, 't', "%s", _( "Add an effec[t]" ) );
+    nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an [E]ffect" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     if( p.is_npc() ) {
@@ -619,6 +653,9 @@ void character_edit_menu()
             }
         }
         break;
+        case D_PROF:
+            wishproficiency( &p );
+            break;
         case D_ITEMS:
             wishitem( &p );
             break;
@@ -670,27 +707,27 @@ void character_edit_menu()
 
             switch( smenu.ret ) {
                 case 0:
-                    bp = bodypart_str_id( "torso" );
+                    bp = body_part_torso;
                     bp_ptr = torso_hp;
                     break;
                 case 1:
-                    bp = bodypart_str_id( "head" );
+                    bp = body_part_head;
                     bp_ptr = head_hp;
                     break;
                 case 2:
-                    bp = bodypart_str_id( "arm_l" );
+                    bp = body_part_arm_l;
                     bp_ptr = arm_l_hp;
                     break;
                 case 3:
-                    bp = bodypart_str_id( "arm_r" );
+                    bp = body_part_arm_r;
                     bp_ptr = arm_r_hp;
                     break;
                 case 4:
-                    bp = bodypart_str_id( "leg_l" );
+                    bp = body_part_leg_l;
                     bp_ptr = leg_l_hp;
                     break;
                 case 5:
-                    bp = bodypart_str_id( "leg_r" );
+                    bp = body_part_leg_r;
                     bp_ptr = leg_r_hp;
                     break;
                 case 6:
@@ -710,7 +747,9 @@ void character_edit_menu()
                 int value;
                 if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), p.get_lowest_hp() ) &&
                     value >= 0 ) {
-                    p.set_all_parts_hp_cur( value );
+                    for( bodypart_id part_id : p.get_all_body_parts( get_body_part_flags::only_main ) ) {
+                        p.set_part_hp_cur( part_id, value );
+                    }
                     p.reset_stats();
                 }
             }
@@ -779,16 +818,74 @@ void character_edit_menu()
             }
         }
         break;
-        case D_NAME: {
-            std::string filterstring = p.name;
-            string_input_popup popup;
-            popup
-            .title( _( "Rename:" ) )
-            .width( 85 )
-            .description( string_format( _( "NPC:\n%s\n" ), p.name ) )
-            .edit( filterstring );
-            if( popup.confirmed() ) {
-                p.name = filterstring;
+        case D_DESC: {
+            uilist smenu;
+            std::string current_bloodt = io::enum_to_string( p.my_blood_type ) + ( p.blood_rh_factor ? "+" :
+                                         "-" );
+            smenu.text = _( "Select a value and press enter to change it." );
+            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current name" ), p.get_name() );
+            smenu.addentry( 1, true, 'a', "%s: %d", _( "Current age" ), p.base_age() );
+            smenu.addentry( 2, true, 'h', "%s: %d", _( "Current height in cm" ), p.base_height() );
+            smenu.addentry( 3, true, 'b', "%s: %s", _( "Current blood type:" ), current_bloodt );
+            smenu.query();
+            switch( smenu.ret ) {
+                case 0: {
+                    std::string filterstring = p.name;
+                    string_input_popup popup;
+                    popup
+                    .title( _( "Rename:" ) )
+                    .width( 85 )
+                    .edit( filterstring );
+                    if( popup.confirmed() ) {
+                        p.name = filterstring;
+                    }
+                }
+                break;
+                case 1: {
+                    string_input_popup popup;
+                    popup.title( _( "Enter age in years.  Minimum 16, maximum 55" ) )
+                    .text( string_format( "%d", p.base_age() ) )
+                    .only_digits( true );
+                    const int result = popup.query_int();
+                    if( result != 0 ) {
+                        p.set_base_age( clamp( result, 16, 55 ) );
+                    }
+                }
+                break;
+                case 2: {
+                    string_input_popup popup;
+                    popup.title( _( "Enter height in centimeters.  Minimum 145, maximum 200" ) )
+                    .text( string_format( "%d", p.base_height() ) )
+                    .only_digits( true );
+                    const int result = popup.query_int();
+                    if( result != 0 ) {
+                        p.set_base_height( clamp( result, 145, 200 ) );
+                    }
+                }
+                break;
+                case 3: {
+                    uilist btype;
+                    btype.text = _( "Select blood type" );
+                    btype.addentry( static_cast<int>( blood_type::blood_O ), true, '1', "O" );
+                    btype.addentry( static_cast<int>( blood_type::blood_A ), true, '2', "A" );
+                    btype.addentry( static_cast<int>( blood_type::blood_B ), true, '3', "B" );
+                    btype.addentry( static_cast<int>( blood_type::blood_AB ), true, '4', "AB" );
+                    btype.query();
+                    if( btype.ret < 0 ) {
+                        break;
+                    }
+                    uilist bfac;
+                    bfac.text = _( "Select Rh factor" );
+                    bfac.addentry( 0, true, '-', _( "negative" ) );
+                    bfac.addentry( 1, true, '+', _( "positive" ) );
+                    bfac.query();
+                    if( bfac.ret < 0 ) {
+                        break;
+                    }
+                    p.my_blood_type = static_cast<blood_type>( btype.ret );
+                    p.blood_rh_factor = static_cast<bool>( bfac.ret );
+                    break;
+                }
             }
         }
         break;
@@ -1230,7 +1327,11 @@ void debug()
     };
     bool should_disable_achievements = action && !non_cheaty_options.count( *action );
     if( should_disable_achievements && achievements.is_enabled() ) {
-        if( query_yn( _( "Using this will disable achievements.  Proceed?" ) ) ) {
+        static const std::string query(
+            translate_marker(
+                "Using this will disable achievements.  Proceed?"
+                "\nThey can be reenabled in the 'game' section of the menu." ) );
+        if( query_yn( _( query ) ) ) {
             achievements.set_enabled( false );
         } else {
             action = cata::nullopt;
@@ -1298,9 +1399,10 @@ void debug()
 
         case debug_menu_index::GAME_STATE: {
             std::string mfus;
-            std::vector<std::pair<m_flag, int>> sorted(
-                                                 MonsterGenerator::generator().m_flag_usage_stats.begin(),
-                                                 MonsterGenerator::generator().m_flag_usage_stats.end() );
+            std::vector<std::pair<m_flag, int>> sorted;
+            for( int f = 0; f < m_flag::MF_MAX; f++ ) {
+                sorted.push_back( {static_cast<m_flag>( f ), MonsterGenerator::generator().m_flag_usage_stats[f]} );
+            }
             std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
                 return a.second != b.second ? a.second > b.second : a.first < b.first;
             } );
@@ -1310,7 +1412,8 @@ void debug()
                                        m_flag_stat.second );
             }
             DebugLog( D_INFO, DC_ALL ) << "Monster flag usage statistics:\nFLAG;COUNT\n" << mfus;
-            MonsterGenerator::generator().m_flag_usage_stats.clear();
+            std::fill( MonsterGenerator::generator().m_flag_usage_stats.begin(),
+                       MonsterGenerator::generator().m_flag_usage_stats.end(), 0 );
             popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
 
             std::string s = _( "Location %d:%d in %d:%d, %s\n" );
@@ -1396,7 +1499,7 @@ void debug()
                     if( elem == vproto_id( "custom" ) ) {
                         continue;
                     }
-                    veh_strings.emplace_back( _( elem->name ), elem );
+                    veh_strings.emplace_back( elem->name.translated(), elem );
                 }
                 std::sort( veh_strings.begin(), veh_strings.end(), localized_compare );
                 uilist veh_menu;
@@ -1422,7 +1525,8 @@ void debug()
 
                     if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 3 ) {
                         // TODO: Allow picking this when add_vehicle has 3d argument
-                        vehicle *veh = here.add_vehicle( selected_opt, dest, -90, 100, veh_cond_menu.ret - 1 );
+                        vehicle *veh = here.add_vehicle(
+                                           selected_opt, dest, -90_degrees, 100, veh_cond_menu.ret - 1 );
                         if( veh != nullptr ) {
                             here.board_vehicle( dest, &player_character );
                         }
@@ -1485,7 +1589,7 @@ void debug()
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( size_t i = 0; i < weather_types::get_all().size(); i++ ) {
                 weather_menu.addentry( i, true, MENU_AUTOASSIGN,
-                                       weather_types::get_all()[i].name );
+                                       weather_types::get_all()[i].name.translated() );
             }
 
             weather_menu.query();
@@ -1538,6 +1642,26 @@ void debug()
                 g->weather.windspeed_override = selected_wind_speed;
                 g->weather.set_nextweather( calendar::turn );
             }
+        }
+        break;
+
+        case debug_menu_index::GEN_SOUND: {
+            const cata::optional<tripoint> where = g->look_around();
+            if( !where ) {
+                return;
+            }
+
+            int volume;
+            if( !query_int( volume, _( "Volume of sound: " ) ) ) {
+                return;
+            }
+
+            if( volume < 0 ) {
+                return;
+            }
+
+            sounds::sound( *where, volume, sounds::sound_t::order, string_format( _( "DEBUG SOUND ( %d )" ),
+                           volume ) );
         }
         break;
 
@@ -1642,7 +1766,7 @@ void debug()
                     break;
             }
             if( query_int( intensity, _( "Add bleeding duration in minutes, equal to intensity:" ) ) ) {
-                player_character.make_bleed( part, 1_minutes * intensity );
+                player_character.make_bleed( effect_source::empty(), part, 1_minutes * intensity );
             }
         }
         break;
@@ -1698,6 +1822,15 @@ void debug()
             break;
         case debug_menu_index::DISPLAY_RADIATION:
             g->display_toggle_overlay( ACTION_DISPLAY_RADIATION );
+            break;
+        case debug_menu_index::DISPLAY_TRANSPARENCY:
+            g->display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
+            break;
+        case debug_menu_index::DISPLAY_REACHABILITY_ZONES:
+            g->display_reachability_zones();
+            break;
+        case debug_menu_index::HOUR_TIMER:
+            g->toggle_debug_hour_timer();
             break;
         case debug_menu_index::CHANGE_TIME: {
             auto set_turn = [&]( const int initial, const time_duration & factor, const char *const msg ) {
@@ -1800,6 +1933,9 @@ void debug()
 
         case debug_menu_index::OM_TELEPORT:
             debug_menu::teleport_overmap();
+            break;
+        case debug_menu_index::OM_TELEPORT_COORDINATES:
+            debug_menu::teleport_overmap( true );
             break;
         case debug_menu_index::TRAIT_GROUP:
             trait_group::debug_spawn();
@@ -1968,7 +2104,6 @@ void debug()
                                            //~ translation should not exceed 4 console cells
                                            right_justify( _( "MAX" ), 4 ) );
                 uile.enabled = false;
-                uile.force_color = c_light_blue;
                 uiles.emplace_back( uile );
             }
             int retval = 0;
@@ -1996,6 +2131,22 @@ void debug()
         }
         case debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION:
             MapExtras::debug_spawn_test();
+            break;
+
+        case debug_menu_index::GENERATE_EFFECT_LIST:
+            write_to_file( "effect_list.output", [&]( std::ostream & testfile ) {
+                testfile << "|;id;duration;intensity;perm;bp" << std::endl;
+
+                for( const effect &eff :  get_player_character().get_effects() ) {
+                    testfile << "|;" << eff.get_id().str() << ";" << to_string( eff.get_duration() ) << ";" <<
+                             eff.get_intensity() << ";" << ( eff.is_permanent() ? "true" : "false" ) << ";" <<
+                             eff.get_bp().id().str()
+                             << std::endl;
+                }
+
+            }, "effect_list" );
+
+            popup( _( "Effect list written to effect_list.output" ) );
             break;
 
         case debug_menu_index::VEHICLE_BATTERY_CHARGE: {

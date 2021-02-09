@@ -1,37 +1,39 @@
+#include "mattack_common.h" // IWYU pragma: associated
+#include "monstergenerator.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cstdlib>
+#include <limits>
+#include <new>
 #include <set>
+#include <string>
 #include <utility>
 
 #include "assign.h"
 #include "bodypart.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "game.h"
+#include "field_type.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
 #include "json.h"
 #include "mattack_actors.h"
-#include "mattack_common.h" // IWYU pragma: associated
 #include "monattack.h"
 #include "mondeath.h"
 #include "mondefense.h"
-#include "monfaction.h"
 #include "mongroup.h"
-#include "monstergenerator.h" // IWYU pragma: associated
 #include "optional.h"
 #include "options.h"
 #include "pathfinding.h"
 #include "rng.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
 
 namespace behavior
 {
@@ -115,7 +117,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_FUR: return "FUR";
         case MF_LEATHER: return "LEATHER";
         case MF_WOOL: return "WOOL";
-        case MF_FEATHER: return "FEATHER";
         case MF_CBM_CIV: return "CBM_CIV";
         case MF_BONES: return "BONES";
         case MF_FAT: return "FAT";
@@ -181,6 +182,8 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_STUN_IMMUNE: return "STUN_IMMUNE";
         case MF_LOUDMOVES: return "LOUDMOVES";
         case MF_DROPS_AMMO: return "DROPS_AMMO";
+        case MF_INSECTICIDEPROOF: return "INSECTICIDEPROOF";
+        case MF_RANGED_ATTACKER: return "RANGED_ATTACKER";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -217,6 +220,15 @@ template<>
 bool string_id<species_type>::is_valid() const
 {
     return MonsterGenerator::generator().mon_species->is_valid( *this );
+}
+
+cata::optional<mon_action_death> MonsterGenerator::get_death_function( const std::string &f ) const
+{
+    const auto it = death_map.find( f );
+
+    return it != death_map.cend()
+           ? cata::optional<mon_action_death>( it->second )
+           : cata::optional<mon_action_death>();
 }
 
 MonsterGenerator::MonsterGenerator()
@@ -356,8 +368,15 @@ void MonsterGenerator::finalize_mtypes()
     mon_templates->finalize();
     for( const mtype &elem : mon_templates->get_all() ) {
         mtype &mon = const_cast<mtype &>( elem );
+
+        if( !mon.default_faction.is_valid() ) {
+            debugmsg( "Monster type '%s' has invalid default_faction: '%s'. "
+                      "Add this faction to json as MONSTER_FACTION type.",
+                      mon.id.str(), mon.default_faction.str() );
+        }
+
         apply_species_attributes( mon );
-        set_species_ids( mon );
+        validate_species_ids( mon );
         mon.size = volume_to_size( mon.volume );
 
         // adjust for worldgen difficulty parameters
@@ -645,12 +664,10 @@ void MonsterGenerator::init_defense()
     defense_map["RETURN_FIRE"] = &mdefense::return_fire;
 }
 
-void MonsterGenerator::set_species_ids( mtype &mon )
+void MonsterGenerator::validate_species_ids( mtype &mon )
 {
     for( const auto &s : mon.species ) {
-        if( s.is_valid() ) {
-            mon.species_ptrs.insert( &s.obj() );
-        } else {
+        if( !s.is_valid() ) {
             debugmsg( "Tried to assign species %s to monster %s, but no entry for the species exists",
                       s.c_str(), mon.id.c_str() );
         }
@@ -698,14 +715,15 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "description", description );
 
+    assign( jo, "ascii_picture", picture_id );
+
     optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
     optional( jo, was_loaded, "species", species, auto_flags_reader<species_id> {} );
     optional( jo, was_loaded, "categories", categories, auto_flags_reader<> {} );
 
     // See monfaction.cpp
     if( !was_loaded || jo.has_member( "default_faction" ) ) {
-        const auto faction = mfaction_str_id( jo.get_string( "default_faction" ) );
-        default_faction = monfactions::get_or_add_faction( faction );
+        default_faction = mfaction_str_id( jo.get_string( "default_faction" ) );
     }
 
     if( !was_loaded || jo.has_member( "symbol" ) ) {
@@ -794,7 +812,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     if( jo.has_member( "death_drops" ) ) {
-        death_drops = item_group::load_item_group( jo.get_member( "death_drops" ), "distribution" );
+        death_drops =
+            item_group::load_item_group( jo.get_member( "death_drops" ), "distribution",
+                                         "death_drops for mtype " + id.str() );
     }
 
     assign( jo, "harvest", harvest );
@@ -923,7 +943,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
 
     if( jo.has_member( "path_settings" ) ) {
-        auto jop = jo.get_object( "path_settings" );
+        JsonObject jop = jo.get_object( "path_settings" );
         // Here rather than in pathfinding.cpp because we want monster-specific defaults and was_loaded
         optional( jop, was_loaded, "max_dist", path_settings.max_dist, 0 );
         optional( jop, was_loaded, "max_length", path_settings.max_length, -1 );
@@ -956,6 +976,8 @@ void species_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "anger_triggers", anger, trigger_reader );
     optional( jo, was_loaded, "placate_triggers", placate, trigger_reader );
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
+
+    optional( jo, was_loaded, "bleeds", bleeds, auto_flags_reader<field_type_str_id> {}, fd_null );
 }
 
 const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const
@@ -1119,7 +1141,7 @@ void mtype::add_special_attack( JsonArray inner, const std::string & )
                       id.c_str(), name );
         }
     }
-    auto new_attack = mtype_special_attack( iter->second );
+    mtype_special_attack new_attack = mtype_special_attack( iter->second );
     new_attack.actor->cooldown = inner.get_int( 1 );
     special_attacks.emplace( name, new_attack );
     special_attacks_names.push_back( name );
@@ -1178,7 +1200,7 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "monster %s has invalid species %s", mon.id.c_str(), spec.c_str() );
             }
         }
-        if( !mon.death_drops.empty() && !item_group::group_is_defined( mon.death_drops ) ) {
+        if( !mon.death_drops.is_empty() && !item_group::group_is_defined( mon.death_drops ) ) {
             debugmsg( "monster %s has unknown death drop item group: %s", mon.id.c_str(),
                       mon.death_drops.c_str() );
         }
@@ -1195,6 +1217,10 @@ void MonsterGenerator::check_monster_definitions() const
             debugmsg( "monster %s has unknown zombify_into: %s", mon.id.c_str(),
                       mon.zombify_into.c_str() );
         }
+        if( !mon.picture_id.is_empty() && !mon.picture_id.is_valid() ) {
+            debugmsg( "monster %s has unknown ascii_picture: %s", mon.id.c_str(),
+                      mon.picture_id.c_str() );
+        }
         if( !mon.mech_weapon.is_empty() && !item::type_is_defined( mon.mech_weapon ) ) {
             debugmsg( "monster %s has unknown mech_weapon: %s", mon.id.c_str(),
                       mon.mech_weapon.c_str() );
@@ -1202,6 +1228,9 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.mech_battery.is_empty() && !item::type_is_defined( mon.mech_battery ) ) {
             debugmsg( "monster %s has unknown mech_battery: %s", mon.id.c_str(),
                       mon.mech_battery.c_str() );
+        }
+        if( !mon.harvest.is_valid() ) {
+            debugmsg( "monster %s has invalid harvest_entry: %s", mon.id.c_str(), mon.harvest.c_str() );
         }
         for( const scenttype_id &s_id : mon.scents_tracked ) {
             if( !s_id.is_empty() && !s_id.is_valid() ) {
@@ -1213,7 +1242,7 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "monster %s has unknown scents_ignored %s", mon.id.c_str(), s_id.c_str() );
             }
         }
-        for( const auto &s : mon.starting_ammo ) {
+        for( const std::pair<const itype_id, int> &s : mon.starting_ammo ) {
             if( !item::type_is_defined( s.first ) ) {
                 debugmsg( "starting ammo %s of monster %s is unknown", s.first.c_str(), mon.id.c_str() );
             }

@@ -4,15 +4,13 @@
 #include <iterator>
 #include <map>
 #include <set>
-#include <string>
 
 #include "assign.h"
+#include "calendar.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
-#include "string_id.h"
-#include "translations.h"
 
 namespace
 {
@@ -37,10 +35,10 @@ const material_type &string_id<material_type>::obj() const
 
 material_type::material_type() :
     id( material_id::NULL_ID() ),
-    _bash_dmg_verb( translate_marker( "damages" ) ),
-    _cut_dmg_verb( translate_marker( "damages" ) )
+    _bash_dmg_verb( to_translation( "damages" ) ),
+    _cut_dmg_verb( to_translation( "damages" ) )
 {
-    _dmg_adj = { translate_marker( "lightly damaged" ), translate_marker( "damaged" ), translate_marker( "very damaged" ), translate_marker( "thoroughly damaged" ) };
+    _dmg_adj = { to_translation( "lightly damaged" ), to_translation( "damaged" ), to_translation( "very damaged" ), to_translation( "thoroughly damaged" ) };
 }
 
 static mat_burn_data load_mat_burn_data( const JsonObject &jsobj )
@@ -86,7 +84,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     mandatory( jsobj, was_loaded, "bash_dmg_verb", _bash_dmg_verb );
     mandatory( jsobj, was_loaded, "cut_dmg_verb", _cut_dmg_verb );
 
-    mandatory( jsobj, was_loaded, "dmg_adj", _dmg_adj, string_reader() );
+    mandatory( jsobj, was_loaded, "dmg_adj", _dmg_adj );
 
     if( jsobj.has_array( "burn_data" ) ) {
         for( JsonObject brn : jsobj.get_array( "burn_data" ) ) {
@@ -101,6 +99,8 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
         }
         _burn_data.emplace_back( mbd );
     }
+
+    optional( jsobj, was_loaded, "fuel_data", fuel );
 
     jsobj.read( "burn_products", _burn_products, true );
 
@@ -129,7 +129,8 @@ void material_type::check() const
         }
     }
     for( const itype_id &ci : _compacts_into ) {
-        if( !item::type_is_defined( ci ) || !item( ci, 0 ).only_made_of( std::set<material_id> { id } ) ) {
+        if( !item::type_is_defined( ci ) ||
+            !item( ci, calendar::turn_zero ).only_made_of( std::set<material_id> { id } ) ) {
             debugmsg( "invalid \"compacts_into\" %s for %s.", ci.c_str(), id.c_str() );
         }
     }
@@ -142,7 +143,7 @@ material_id material_type::ident() const
 
 std::string material_type::name() const
 {
-    return _( _name );
+    return _name.translated();
 }
 
 cata::optional<itype_id> material_type::salvaged_into() const
@@ -172,12 +173,12 @@ int material_type::bullet_resist() const
 
 std::string material_type::bash_dmg_verb() const
 {
-    return _( _bash_dmg_verb );
+    return _bash_dmg_verb.translated();
 }
 
 std::string material_type::cut_dmg_verb() const
 {
-    return _( _cut_dmg_verb );
+    return _cut_dmg_verb.translated();
 }
 
 std::string material_type::dmg_adj( int damage ) const
@@ -188,7 +189,7 @@ std::string material_type::dmg_adj( int damage ) const
     }
 
     // apply bounds checking
-    return _( _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1] );
+    return _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1].translated();
 }
 
 int material_type::acid_resist() const
@@ -256,6 +257,11 @@ bool material_type::reinforces() const
     return _reinforces;
 }
 
+fuel_data material_type::get_fuel_data() const
+{
+    return fuel;
+}
+
 const mat_burn_data &material_type::burn_data( size_t intensity ) const
 {
     return _burn_data[ std::min<size_t>( intensity, _burn_data.size() ) - 1 ];
@@ -309,12 +315,55 @@ material_list materials::get_compactable()
 
 std::set<material_id> materials::get_rotting()
 {
-    material_list all = get_all();
-    std::set<material_id> rotting;
-    for( const material_type &m : all ) {
-        if( m.rotting() ) {
-            rotting.emplace( m.ident() );
+    static generic_factory<material_type>::Version version;
+    static std::set<material_id> rotting;
+
+    // freshly created version is guaranteed to be invalid
+    if( !material_data.is_valid( version ) ) {
+        material_list all = get_all();
+        rotting.clear();
+        for( const material_type &m : all ) {
+            if( m.rotting() ) {
+                rotting.emplace( m.ident() );
+            }
         }
+        version = material_data.get_version();
     }
+
     return rotting;
+}
+
+void fuel_data::load( const JsonObject &jsobj )
+{
+    mandatory( jsobj, was_loaded, "energy", energy );
+    optional( jsobj, was_loaded, "pump_terrain", pump_terrain );
+    optional( jsobj, was_loaded, "explosion_data", explosion_data );
+    optional( jsobj, was_loaded, "perpetual", is_perpetual_fuel );
+}
+
+void fuel_data::deserialize( JsonIn &jsin )
+{
+    const JsonObject &jo = jsin.get_object();
+    load( jo );
+}
+
+bool fuel_explosion_data::is_empty()
+{
+    return explosion_chance_cold == 0 && explosion_chance_hot == 0 && explosion_factor == 0.0f &&
+           !fiery_explosion && fuel_size_factor == 0.0f;
+}
+
+void fuel_explosion_data::load( const JsonObject &jsobj )
+{
+    optional( jsobj, was_loaded, "chance_hot", explosion_chance_hot );
+    optional( jsobj, was_loaded, "chance_cold", explosion_chance_cold );
+    optional( jsobj, was_loaded, "factor", explosion_factor );
+    optional( jsobj, was_loaded, "size_factor", fuel_size_factor );
+    optional( jsobj, was_loaded, "fiery", fiery_explosion );
+}
+
+void fuel_explosion_data::deserialize( JsonIn &jsin )
+{
+    const JsonObject &jo = jsin.get_object();
+    load( jo );
 }

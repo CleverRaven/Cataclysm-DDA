@@ -1,9 +1,6 @@
-#include "catch/catch.hpp"
-
 #include <algorithm>
 #include <chrono>
 #include <iterator>
-#include <memory>
 #include <numeric>
 #include <sstream>
 #include <string>
@@ -12,6 +9,7 @@
 #include "achievement.h"
 #include "avatar.h"
 #include "bodypart.h"
+#include "catch/catch.hpp"
 #include "character_id.h"
 #include "debug_menu.h"
 #include "event.h"
@@ -19,6 +17,7 @@
 #include "filesystem.h"
 #include "memorial_logger.h"
 #include "mutation.h"
+#include "npc.h"
 #include "output.h"
 #include "player_helpers.h"
 #include "pldata.h"
@@ -136,7 +135,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Opened the Marloss Gateway.", ch );
 
     check_memorial<event_type::crosses_mutation_threshold>(
-        m, b, "Became one with the bears.", ch, "URSINE" );
+        m, b, "Became one with the bears.", ch, mutation_category_id( "URSINE" ) );
 
     check_memorial<event_type::crosses_mycus_threshold>(
         m, b, "Became one with the Mycus.", ch );
@@ -208,7 +207,7 @@ TEST_CASE( "memorials", "[memorial]" )
         m, b, "Gained the mutation 'Carnivore'.", ch, mut );
 
     check_memorial<event_type::gains_skill_level>(
-        m, b, "Reached skill level 8 in driving.", ch, skill_id( "driving" ), 8 );
+        m, b, "Reached skill level 8 in vehicles.", ch, skill_id( "driving" ), 8 );
 
     check_memorial<event_type::game_over>(
         m, b, u_name + " was killed.\nLast words: last_words", false, "last_words",

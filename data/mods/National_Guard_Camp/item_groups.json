@@ -7,7 +7,7 @@
       [ "weeks_old_newspaper", 25 ],
       [ "newest_newspaper", 25 ],
       [ "survnote", 5 ],
-      [ "rag_bloody", 20 ],
+      { "item": "rag", "prob": 20, "custom-flags": [ "FILTHY" ] },
       [ "rag", 20 ],
       [ "bag_plastic", 30 ],
       [ "necropolis_leaflet", 1 ]

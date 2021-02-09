@@ -7,6 +7,7 @@
     "valid_targets": [ "ground" ],
     "effect": "summon",
     "effect_str": "mon_vortex",
+    "shape": "blast",
     "base_casting_time": 100,
     "message": "Space twists and deforms around you.",
     "min_damage": 1,
@@ -25,6 +26,7 @@
     "valid_targets": [ "ground" ],
     "effect": "summon",
     "effect_str": "mon_hound_tindalos",
+    "shape": "blast",
     "base_casting_time": 100,
     "message": "The world unravels into geometric shapes, and between the chaos you spot a horrid prowling beast.",
     "min_damage": 1,
@@ -38,11 +40,11 @@
   {
     "id": "AO_FORCE_PULL",
     "type": "SPELL",
-    "name": "Artifact Force Pull",
+    "name": { "str": "Artifact Force Pull" },
     "description": "Pull objects.",
     "effect": "area_pull",
-    "effect_filter": [ "ally", "hostile", "item", "fd_fire", "fd_blood" ],
-    "valid_targets": [ "self", "ally", "hostile", "ground" ],
+    "shape": "blast",
+    "valid_targets": [ "self", "ally", "hostile", "ground", "item", "field" ],
     "message": "An unnatural implosion sends objects flying.",
     "min_range": 15,
     "max_range": 15,
@@ -53,12 +55,13 @@
   {
     "id": "AO_TELEPORTITIS",
     "type": "SPELL",
-    "name": "Artifact Teleportitis",
+    "name": { "str": "Artifact Teleportitis" },
     "description": "Causes you to teleport uncontrollably.",
     "message": "The world loses coherence, with images of nearby places forming and disappearing around you.",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
     "effect_str": "artifact_teleportitis_aura",
+    "shape": "blast",
     "base_casting_time": 100,
     "min_duration": 4000,
     "max_duration": 4000
@@ -66,12 +69,13 @@
   {
     "id": "AO_SLOW",
     "type": "SPELL",
-    "name": "Artifact Slow",
+    "name": { "str": "Artifact Slow" },
     "description": "Slows you for a few turns.",
     "message": "The world shifts blue, and reality accelerates around you.",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
-    "effect_str": "artifact_time_slow_aura",
+    "effect_str": "artifact_slow_aura",
+    "shape": "blast",
     "base_casting_time": 100,
     "min_duration": 900,
     "max_duration": 900
@@ -79,11 +83,12 @@
   {
     "id": "AO_TIME_STOP",
     "type": "SPELL",
-    "name": "Artifact Time Stop",
+    "name": { "str": "Artifact Time Stop" },
     "description": "Grants you a few turns of super speed.",
     "message": "Stale golden light floods the world, and reality stands still.",
     "valid_targets": [ "self" ],
     "effect": "mod_moves",
+    "shape": "blast",
     "min_damage": 500,
     "max_damage": 500,
     "base_casting_time": 100
@@ -95,8 +100,10 @@
     "description": "Grants you the Darkness effect",
     "message": "Persistent shadows invade your field of view.",
     "valid_targets": [ "self" ],
-    "effect": "target_attack",
+    "flags": [ "NO_PROJECTILE" ],
+    "effect": "attack",
     "effect_str": "darkness",
+    "shape": "blast",
     "min_duration": 2400,
     "max_duration": 2400
   },
@@ -109,7 +116,8 @@
     "min_damage": 0,
     "max_damage": 10,
     "valid_targets": [ "self" ],
-    "flags": [ "RANDOM_DAMAGE" ],
-    "effect": "target_attack"
+    "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE" ],
+    "shape": "blast",
+    "effect": "attack"
   }
 ]

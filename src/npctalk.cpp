@@ -1,7 +1,10 @@
+#include "dialogue.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <iterator>
 #include <list>
 #include <map>
 #include <memory>
@@ -16,6 +19,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
 // needed for the workaround for the std::to_string bug in some compilers
@@ -25,12 +29,12 @@
 #include "condition.h"
 #include "coordinates.h"
 #include "debug.h"
-#include "dialogue.h" // IWYU pragma: associated
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
 #include "game.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "help.h"
 #include "input.h"
 #include "item.h"
@@ -54,12 +58,12 @@
 #include "player_activity.h"
 #include "point.h"
 #include "recipe.h"
+#include "recipe_groups.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "talker.h"
 #include "text_snippets.h"
@@ -94,11 +98,9 @@ static std::map<std::string, json_talk_topic> json_talk_topics;
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-int topic_category( const talk_topic &the_topic );
+static int topic_category( const talk_topic &the_topic );
 
-const talk_topic &special_talk( const std::string &action );
-
-std::string give_item_to( npc &p, bool allow_use );
+static const talk_topic &special_talk( const std::string &action );
 
 std::string talk_trial::name() const
 {
@@ -224,7 +226,7 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
         uilist nmenu;
         nmenu.text = prompt;
         for( const npc *elem : npc_list ) {
-            nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->name );
+            nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->name_and_activity() );
         }
         if( npc_count > 1 && everyone ) {
             nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
@@ -447,8 +449,9 @@ void game::chat()
     nmenu.text = std::string( _( "What do you want to do?" ) );
 
     if( !available.empty() ) {
+        const npc *guy = available.front();
         nmenu.addentry( NPC_CHAT_TALK, true, 't', available_count == 1 ?
-                        string_format( _( "Talk to %s" ), available.front()->name ) :
+                        string_format( _( "Talk to %s" ), guy->name_and_activity() ) :
                         _( "Talk to…" )
                       );
     }
@@ -746,7 +749,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool text_only, bool ra
     d_win.open_dialogue( text_only );
     // Main dialogue loop
     do {
-        d.beta->update_missions( d.missions_assigned, getID() );
+        d.beta->update_missions( d.missions_assigned );
         const talk_topic next = d.opt( d_win, name, d.topic_stack.back() );
         if( next.id == "TALK_NONE" ) {
             int cat = topic_category( d.topic_stack.back() );
@@ -805,6 +808,13 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_DEAF_ANGRY" ) {
         return string_format(
                    _( "&You are deaf and can't talk.  When you don't respond, %s becomes angry!" ),
+                   beta->disp_name() );
+    } else if( topic == "TALK_MUTE" ) {
+        return _( "&You are mute and can't talk." );
+
+    } else if( topic == "TALK_MUTE_ANGRY" ) {
+        return string_format(
+                   _( "&You are mute and can't talk.  When you don't respond, %s becomes angry!" ),
                    beta->disp_name() );
     }
     avatar &player_character = get_avatar();
@@ -875,7 +885,11 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         if( alpha->is_deaf() ) {
             return _( "&You yell, but can't hear yourself." );
         } else {
-            return _( "&You yell." );
+            if( alpha->is_mute() ) {
+                return _( "&You yell, but can't form words." );
+            } else {
+                return _( "&You yell." );
+            }
         }
     } else if( topic == "TALK_SIZE_UP" ) {
         return beta->evaluation_by( *alpha );
@@ -1439,6 +1453,13 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
 
     d_win.add_history_separator();
 
+    ui_adaptor ui;
+    const auto resize_cb = [&]( ui_adaptor & ui ) {
+        d_win.resize_dialogue( ui );
+    };
+    ui.on_screen_resize( resize_cb );
+    resize_cb( ui );
+
     // Number of lines to highlight
     const size_t hilight_lines = d_win.add_to_history( challenge );
 
@@ -1470,21 +1491,16 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
         response_hotkeys.clear();
         input_event evt = ctxt.first_unassigned_hotkey( queue );
         for( talk_response &response : responses ) {
-            response_lines.emplace_back( response.create_option_line( *this, evt ) );
+            const talk_data &td = response.create_option_line( *this, evt );
+            response_lines.emplace_back( td );
             response_hotkeys.emplace_back( evt );
 #if defined(__ANDROID__)
-            ctxt.register_manual_key( evt.get_first_input() );
+            ctxt.register_manual_key( evt.get_first_input(), td.text );
 #endif
             evt = ctxt.next_unassigned_hotkey( queue, evt );
         }
     };
     generate_response_lines();
-
-    ui_adaptor ui;
-    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        d_win.resize_dialogue( ui );
-    } );
-    ui.mark_resize();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         d_win.print_header( npc_name );
@@ -1507,7 +1523,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
                 evt = response_hotkeys.empty() ? input_event() : response_hotkeys.back();
             }
             d_win.handle_scrolling( action );
-            auto st = special_talk( action );
+            talk_topic st = special_talk( action );
             if( st.id != "TALK_NONE" ) {
                 return st;
             }
@@ -1668,7 +1684,8 @@ void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::strin
     };
 }
 
-void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &member, bool is_npc )
+void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
 {
     const std::string var_name = get_talk_varname( jo, member );
     const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
@@ -1936,21 +1953,31 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
     };
 }
 
-void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
+void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, int quantity, bool is_npc )
 {
-    function = [is_trade, is_npc]( const dialogue & d ) {
+    function = [is_trade, is_npc, quantity]( const dialogue & d ) {
         const std::unique_ptr<talker> &seller = is_npc ? d.beta : d.alpha;
         const std::unique_ptr<talker> &buyer = is_npc ? d.alpha : d.beta;
-        int seller_has = seller->charges_of( d.cur_item );
         item tmp( d.cur_item );
+        int seller_has = 0;
+        if( tmp.count_by_charges() ) {
+            seller_has = seller->charges_of( d.cur_item );
+        } else {
+            seller_has = seller->items_with( [&tmp]( const item & e ) {
+                return tmp.type == e.type;
+            } ).size();
+        }
+        seller_has = ( quantity == -1 ) ? seller_has : std::min( seller_has, quantity );
         tmp.charges = seller_has;
         if( is_trade ) {
-            int price = tmp.price( true ) * ( is_npc ? -1 : 1 ) + d.beta->debt();
+            const int npc_debt = d.beta->debt();
+            int price = tmp.price( true ) * ( is_npc ? -1 : 1 ) + npc_debt;
             if( d.beta->get_faction() && !d.beta->get_faction()->currency.is_empty() ) {
                 const itype_id &pay_in = d.beta->get_faction()->currency;
                 item pay( pay_in );
-                if( d.beta->value( pay ) > 0 ) {
-                    int required = price / d.beta->value( pay );
+                const int value = d.beta->value( pay );
+                if( value > 0 ) {
+                    int required = price / value;
                     int buyer_has = required;
                     if( is_npc ) {
                         buyer_has = std::min( buyer_has, buyer->charges_of( pay_in ) );
@@ -1968,13 +1995,24 @@ void talk_effect_fun_t::set_bulk_trade_accept( bool is_trade, bool is_npc )
                     }
                     for( int i = 0; i < buyer_has; i++ ) {
                         seller->i_add( pay );
-                        price -= d.beta->value( pay );
+                        price -= value;
                     }
+                } else {
+                    debugmsg( "%s pays in bulk_trade_accept with faction currency worth 0!",
+                              d.beta->disp_name() );
                 }
-                d.beta->add_debt( price );
+            } else {
+                debugmsg( "%s has no faction currency to pay with in bulk_trade_accept!",
+                          d.beta->disp_name() );
             }
+            d.beta->add_debt( -npc_debt );
+            d.beta->add_debt( price );
         }
-        seller->use_charges( d.cur_item, seller_has );
+        if( tmp.count_by_charges() ) {
+            seller->use_charges( d.cur_item, seller_has );
+        } else {
+            seller->use_amount( d.cur_item, seller_has );
+        }
         buyer->i_add( tmp );
     };
 }
@@ -2024,7 +2062,8 @@ void talk_effect_fun_t::set_npc_first_topic( const std::string &chat_topic )
     };
 }
 
-void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con )
+void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
+        dialogue_consequence con )
 {
     effects.push_back( fun );
     guaranteed_consequence = std::max( guaranteed_consequence, con );
@@ -2176,6 +2215,32 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         } else if( jo.has_string( "npc_remove_item_with" ) ) {
             subeffect_fun.set_remove_item_with( jo, "npc_remove_item_with", is_npc );
         }
+    } else if( jo.has_int( "u_bulk_trade_accept" ) || jo.has_int( "npc_bulk_trade_accept" ) ||
+               jo.has_int( "u_bulk_donate" ) || jo.has_int( "npc_bulk_donate" ) ) {
+        talk_effect_fun_t subeffect_fun;
+        int quantity = -1;
+        bool is_npc = false;
+        bool is_trade = false;
+        if( jo.has_int( "npc_bulk_trade_accept" ) ) {
+            is_npc = true;
+            is_trade = true;
+            quantity = jo.get_int( "npc_bulk_trade_accept" );
+        } else if( jo.has_int( "npc_bulk_donate" ) ) {
+            is_npc = true;
+            is_trade = false;
+            quantity = jo.get_int( "npc_bulk_donate" );
+        } else if( jo.has_int( "u_bulk_trade_accept" ) ) {
+            is_npc = false;
+            is_trade = true;
+            quantity = jo.get_int( "u_bulk_trade_accept" );
+        } else if( jo.has_int( "u_bulk_donate" ) ) {
+            is_npc = false;
+            is_trade = false;
+            quantity = jo.get_int( "u_bulk_donate" );
+        }
+        subeffect_fun.set_bulk_trade_accept( is_trade, quantity, is_npc );
+        set_effect( subeffect_fun );
+        return;
     } else if( jo.has_string( "npc_change_class" ) ) {
         std::string class_name = jo.get_string( "npc_change_class" );
         subeffect_fun.set_npc_change_class( class_name );
@@ -2335,7 +2400,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
         effect_id == "u_bulk_donate" || effect_id == "npc_bulk_donate" ) {
         bool is_npc = effect_id == "npc_bulk_trade_accept" || effect_id == "npc_bulk_donate";
         bool is_trade = effect_id == "u_bulk_trade_accept" || effect_id == "npc_bulk_trade_accept";
-        subeffect_fun.set_bulk_trade_accept( is_trade, is_npc );
+        subeffect_fun.set_bulk_trade_accept( is_trade, -1, is_npc );
         set_effect( subeffect_fun );
         return;
     }
@@ -2545,7 +2610,8 @@ static std::string translate_gendered_line(
     return gettext_gendered( gender_map, line );
 }
 
-dynamic_line_t dynamic_line_t::from_member( const JsonObject &jo, const std::string &member_name )
+dynamic_line_t dynamic_line_t::from_member( const JsonObject &jo,
+        const std::string &member_name )
 {
     if( jo.has_array( member_name ) ) {
         return dynamic_line_t( jo.get_array( member_name ) );
@@ -2601,13 +2667,23 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
             d.reason.clear();
             return tmp;
         };
+    } else if( jo.get_bool( "list_faction_camp_sites", false ) ) {
+        function = [&]( const dialogue & ) {
+            const auto &sites = recipe_group::get_recipes_by_id( "all_faction_base_types", "ANY" );
+            if( sites.empty() ) {
+                return std::string( _( "I can't think of a single place I can build a camp." ) );
+            }
+            std::string tmp = "I can start a new camp as a ";
+            tmp += enumerate_as_string( sites.begin(), sites.end(),
+            []( const std::pair<recipe_id, translation> site ) {
+                return site.second.translated();
+            },
+            enumeration_conjunction::or_ );
+            return tmp;
+        };
     } else if( jo.has_string( "gendered_line" ) ) {
-        const std::string line = jo.get_string( "gendered_line" );
-        if( test_mode ) {
-            // HACK: check text style by reading it as a translation object
-            translation dummy;
-            jo.read( "gendered_line", dummy );
-        }
+        std::string line;
+        mandatory( jo, false, "gendered_line", line, text_style_check_reader() );
         if( !jo.has_array( "relevant_genders" ) ) {
             jo.throw_error(
                 R"(dynamic line with "gendered_line" must also have "relevant_genders")" );
@@ -2681,7 +2757,8 @@ dynamic_line_t::dynamic_line_t( const JsonArray &ja )
     };
 }
 
-json_dynamic_line_effect::json_dynamic_line_effect( const JsonObject &jo, const std::string &id )
+json_dynamic_line_effect::json_dynamic_line_effect( const JsonObject &jo,
+        const std::string &id )
 {
     std::function<bool( const dialogue & )> tmp_condition;
     read_condition<dialogue>( jo, "condition", tmp_condition, true );
@@ -2774,7 +2851,7 @@ bool json_talk_topic::gen_responses( dialogue &d ) const
             const auto items_with = actor->items_with( [category_id,
             include_containers]( const item & it ) {
                 if( include_containers ) {
-                    return it.get_category().get_id() == category_id;
+                    return it.get_category_of_contents().get_id() == category_id;
                 }
                 return it.type && it.type->category_force == category_id;
             } );
@@ -2862,7 +2939,7 @@ bool npc::item_name_whitelisted( const std::string &to_match )
     }
 
     auto &wlist = *rules.pickup_whitelist;
-    const auto rule = wlist.check_item( to_match );
+    const rule_state rule = wlist.check_item( to_match );
     if( rule == rule_state::WHITELISTED ) {
         return true;
     }

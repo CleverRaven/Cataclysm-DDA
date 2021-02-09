@@ -1,11 +1,11 @@
-#include "catch/catch.hpp"
-#include "cata_variant.h"
-
 #include <sstream>
 #include <string>
-#include <utility>
+#include <type_traits>
 
+#include "cata_variant.h"
+#include "catch/catch.hpp"
 #include "character_id.h"
+#include "debug_menu.h"
 #include "enum_conversions.h"
 #include "json.h"
 #include "point.h"
@@ -115,4 +115,20 @@ TEST_CASE( "variant_type_for", "[variant]" )
     CHECK( cata_variant_type_for<point>() == cata_variant_type::point );
     CHECK( cata_variant_type_for<trait_id>() == cata_variant_type::trait_id );
     CHECK( cata_variant_type_for<ter_id>() == cata_variant_type::ter_id );
+}
+
+TEST_CASE( "variant_is_valid", "[variant]" )
+{
+    // A string_id
+    CHECK( cata_variant( mtype_id( "mon_zombie" ) ).is_valid() );
+    CHECK_FALSE( cata_variant( mtype_id( "This is not a valid id" ) ).is_valid() );
+
+    // An int_id
+    CHECK( cata_variant( ter_id( "t_grass" ) ).is_valid() );
+    CHECK_FALSE( cata_variant::from_string( cata_variant_type::ter_id, "invalid id" ).is_valid() );
+
+    // An enum
+    CHECK( cata_variant( debug_menu::debug_menu_index::WISH ).is_valid() );
+    CHECK_FALSE( cata_variant::from_string(
+                     cata_variant_type::debug_menu_index, "invalid enum" ).is_valid() );
 }

@@ -2,8 +2,8 @@
   {
     "id": "armor_acidchitin",
     "type": "requirement",
-    "//": "Shaping and attaching a biosillicified chitin plate to something, per 112 g of biosillicified chitin.  Time needed is 10 minutes per unit.",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "//": "Shaping and attaching a biosillicified chitin plate to something, per 112 g of biosillicified chitin.  Time needed is 10 minutes per unit.  In the future when we have some bases, we should also add the requirement for a weak base to neutralize the chitin before crafting with it.",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
     "components": [ [ [ "acidchitin_piece", 1 ] ], [ [ "filament", 1, "LIST" ] ] ]
   },
   {
@@ -17,7 +17,7 @@
     "id": "armor_chitin",
     "type": "requirement",
     "//": "Shaping and attaching a chitin plate to something, per 90 g of chitin.  Time needed is 10 minutes per unit.",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
     "components": [ [ [ "chitin_piece", 1 ] ], [ [ "filament", 1, "LIST" ] ] ]
   },
   {
@@ -66,6 +66,20 @@
     "type": "requirement",
     "//": "All kinds of clothing buttons.",
     "components": [ [ [ "button_plastic", 1 ], [ "button_wood", 1 ], [ "button_steel", 1 ] ] ]
+  },
+  {
+    "id": "strap_small",
+    "type": "requirement",
+    "//": "A small piece of fabric or leather to strap something firmly to the body.  Stronger than a bit of string.",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 1 ], [ "leather", 1 ], [ "fur", 1 ] ] ]
+  },
+  {
+    "id": "strap_large",
+    "type": "requirement",
+    "//": "A long piece of fabric or leather to strap something firmly to the body.  Stronger than a bit of string.",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cordage_short", 1, "LIST" ], [ "leather", 2 ], [ "fur", 2 ] ] ]
   },
   {
     "id": "dye_cloth",
@@ -137,10 +151,10 @@
     "//": "All kinds of fasteners for jacket-sized soft objects.",
     "components": [
       [
-        [ "button", 9, "LIST" ],
-        [ "snapfastener_steel", 9 ],
         [ "zipper_long_plastic", 1 ],
+        [ "button", 9, "LIST" ],
         [ "touch_fastener", 6 ],
+        [ "snapfastener_steel", 9 ],
         [ "string_6", 6 ]
       ]
     ]
@@ -152,19 +166,25 @@
     "components": [
       [
         [ "button", 3, "LIST" ],
-        [ "snapfastener_steel", 3 ],
         [ "zipper_short_plastic", 1 ],
+        [ "snapfastener_steel", 3 ],
         [ "touch_fastener", 2 ],
         [ "string_6", 2 ]
       ]
     ]
   },
   {
+    "id": "clasps",
+    "type": "requirement",
+    "//": "All kinds of fasteners for strapped-on objects like belts, per single strap.",
+    "components": [ [ [ "button", 1, "LIST" ], [ "snapfastener_steel", 2 ], [ "touch_fastener", 2 ], [ "string_6", 2 ] ] ]
+  },
+  {
     "id": "plastic_molding",
     "type": "requirement",
     "//": "Melting and reshaping plastic items, per 70 g of plastic. Usually takes 30 minutes per unit.",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
   },
   {

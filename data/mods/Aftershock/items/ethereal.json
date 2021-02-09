@@ -1,0 +1,32 @@
+[
+  {
+    "id": "cold_res_cream",
+    "type": "ARMOR",
+    "name": { "str": "cold resistance cream" },
+    "description": "A thick layer of something that smells worse than walrus fat.  But it keeps you warm.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "green",
+    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
+    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "AFS_CRYOADAPTATION" ] } ] }
+  },
+  {
+    "id": "cold_res_cream_greater",
+    "type": "ARMOR",
+    "name": "heat retention xtreme cream",
+    "description": "The last word in cold snap protection designed to give short term protection in the event of a suit breach in vacuum.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "green",
+    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
+    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_COLD", "multiply": -0.25 } ] } ]
+    }
+  }
+]

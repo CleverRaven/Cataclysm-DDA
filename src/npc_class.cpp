@@ -1,21 +1,22 @@
 #include "npc_class.h"
 
-#include <cstddef>
-#include <list>
 #include <algorithm>
 #include <array>
+#include <cstddef>
 #include <iterator>
+#include <list>
 #include <set>
+#include <string>
 #include <utility>
 
 #include "debug.h"
 #include "generic_factory.h"
 #include "item_group.h"
+#include "json.h"
 #include "mutation.h"
 #include "rng.h"
 #include "skill.h"
 #include "trait_group.h"
-#include "json.h"
 
 static const std::array<npc_class_id, 19> legacy_ids = {{
         npc_class_id( "NC_NONE" ),
@@ -60,7 +61,7 @@ const npc_class_id NC_BARTENDER( "NC_BARTENDER" );
 const npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
 const npc_class_id NC_HALLU( "NC_HALLU" );
 
-generic_factory<npc_class> npc_class_factory( "npc_class" );
+static generic_factory<npc_class> npc_class_factory( "npc_class" );
 
 /** @relates string_id */
 template<>
@@ -140,15 +141,15 @@ void npc_class::check_consistency()
             debugmsg( "Missing shopkeeper item group %s", cl.shopkeeper_item_group.c_str() );
         }
 
-        if( !cl.worn_override.empty() && !item_group::group_is_defined( cl.worn_override ) ) {
+        if( !cl.worn_override.is_empty() && !item_group::group_is_defined( cl.worn_override ) ) {
             debugmsg( "Missing worn override item group %s", cl.worn_override.c_str() );
         }
 
-        if( !cl.carry_override.empty() && !item_group::group_is_defined( cl.carry_override ) ) {
+        if( !cl.carry_override.is_empty() && !item_group::group_is_defined( cl.carry_override ) ) {
             debugmsg( "Missing carry override item group %s", cl.carry_override.c_str() );
         }
 
-        if( !cl.weapon_override.empty() && !item_group::group_is_defined( cl.weapon_override ) ) {
+        if( !cl.weapon_override.is_empty() && !item_group::group_is_defined( cl.weapon_override ) ) {
             debugmsg( "Missing weapon override item group %s", cl.weapon_override.c_str() );
         }
 
@@ -240,7 +241,8 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     bonus_int = load_distribution( jo, "bonus_int" );
     bonus_per = load_distribution( jo, "bonus_per" );
 
-    optional( jo, was_loaded, "shopkeeper_item_group", shopkeeper_item_group, "EMPTY_GROUP" );
+    optional( jo, was_loaded, "shopkeeper_item_group", shopkeeper_item_group,
+              item_group_id( "EMPTY_GROUP" ) );
     optional( jo, was_loaded, "worn_override", worn_override );
     optional( jo, was_loaded, "carry_override", carry_override );
     optional( jo, was_loaded, "weapon_override", weapon_override );
@@ -265,20 +267,21 @@ void npc_class::load( const JsonObject &jo, const std::string & )
      *   }
      */
     if( jo.has_object( "mutation_rounds" ) ) {
-        const std::map<std::string, mutation_category_trait> &mutation_categories =
+        const std::map<mutation_category_id, mutation_category_trait> &mutation_categories =
             mutation_category_trait::get_all();
         for( const JsonMember member : jo.get_object( "mutation_rounds" ) ) {
-            const std::string &mutation = member.name();
-            const auto category_match = [&mutation]( const std::pair<const std::string, mutation_category_trait>
+            const mutation_category_id mutation( member.name() );
+            const auto category_match = [&mutation]( const
+                                        std::pair<const mutation_category_id, mutation_category_trait>
             &p ) {
                 return p.second.id == mutation;
             };
             if( std::find_if( mutation_categories.begin(), mutation_categories.end(),
                               category_match ) == mutation_categories.end() ) {
-                debugmsg( "Unrecognized mutation category %s", mutation );
+                debugmsg( "Unrecognized mutation category %s", mutation.str() );
                 continue;
             }
-            auto distrib = member.get_object();
+            JsonObject distrib = member.get_object();
             mutation_rounds[mutation] = load_distribution( distrib );
         }
     }
@@ -352,7 +355,7 @@ std::string npc_class::get_job_description() const
     return job_description.translated();
 }
 
-const Group_tag &npc_class::get_shopkeeper_items() const
+const item_group_id &npc_class::get_shopkeeper_items() const
 {
     return shopkeeper_item_group;
 }

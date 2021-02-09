@@ -48,7 +48,7 @@
         "Y": {
           "terrain": "t_elevator",
           "furniture": "f_dumpster",
-          "fields": { "field": "fd_blood", "chance": 50 },
+          "fields": { "field": "fd_blood" },
           "items": [
             { "item": "trash_cart", "chance": 95 },
             { "item": "monparts", "chance": 50 },

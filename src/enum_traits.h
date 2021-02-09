@@ -10,7 +10,7 @@
 //   by various generic code to iterate over all the enumerators.  Most notably
 //   it enables io::string_to_enum and thereby string-based json serialization.
 // * Specifying that your enum is a flag enum, and therefore that you want
-//   bitwise operators to work for it.  This saves everyone from implemetning
+//   bitwise operators to work for it.  This saves everyone from implementing
 //   those operators independently.
 //
 // Usage examples:
@@ -72,6 +72,7 @@ template<typename E>
 struct enum_test_result {
     E value;
 
+    // NOLINTNEXTLINE(google-explicit-constructor)
     operator E() const {
         return value;
     }

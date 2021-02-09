@@ -110,8 +110,29 @@
     "material": [ "fruit", "wheat" ],
     "primary_material": "wheat",
     "volume": "250 ml",
-    "fun": 15,
+    "fun": 6,
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sandwich_jam_butter",
+    "name": { "str": "jam and butter sandwich", "str_pl": "jam and butter sandwiches" },
+    "weight": "154 g",
+    "color": "brown",
+    "spoils_in": "1 day 13 hours",
+    "container": "wrapper",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 1,
+    "calories": 363,
+    "description": "A delicious jam and butter sandwich.",
+    "price": 200,
+    "price_postapoc": 200,
+    "material": [ "milk", "fruit", "wheat" ],
+    "primary_material": "wheat",
+    "volume": "250 ml",
+    "fun": 15,
+    "vitamins": [ [ "vitA", 7 ], [ "vitB", 3 ], [ "vitC", 6 ], [ "calcium", 7 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -151,7 +172,7 @@
     "material": [ "honey", "wheat" ],
     "primary_material": "wheat",
     "volume": "250 ml",
-    "fun": 10,
+    "fun": 6,
     "vitamins": [ [ "calcium", 10 ], [ "iron", 24 ] ]
   },
   {
@@ -258,7 +279,7 @@
     "material": [ "fruit", "wheat" ],
     "primary_material": "wheat",
     "volume": "250 ml",
-    "fun": 6,
+    "fun": 15,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 7 ], [ "iron", 14 ] ]
   },
   {
@@ -279,7 +300,7 @@
     "material": [ "wheat", "honey" ],
     "primary_material": "wheat",
     "volume": "250 ml",
-    "fun": 6,
+    "fun": 10,
     "vitamins": [ [ "calcium", 8 ], [ "iron", 16 ] ]
   },
   {

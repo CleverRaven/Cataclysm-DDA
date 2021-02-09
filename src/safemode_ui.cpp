@@ -3,9 +3,10 @@
 #include <algorithm>
 #include <cstdlib>
 #include <fstream>
+#include <functional>
 #include <map>
-#include <memory>
 #include <string>
+#include <type_traits>
 #include <utility>
 
 #include "cata_utility.h"
@@ -100,6 +101,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     bool changes_made = false;
     input_context ctxt( "SAFEMODE" );
     ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_TAB" );
@@ -220,7 +223,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             if( i >= start_pos &&
                 i < start_pos + std::min( content_height, static_cast<int>( current_tab.size() ) ) ) {
 
-                auto rule = current_tab[i];
+                safemode::rules_class rule = current_tab[i];
 
                 nc_color line_color = ( rule.active ) ? c_white : c_light_gray;
 
@@ -254,6 +257,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
+        const int recmax = static_cast<int>( current_tab.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "NEXT_TAB" ) {
             tab++;
@@ -273,13 +278,29 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             //Only allow loaded games to use the char sheet
         } else if( action == "DOWN" ) {
             line++;
-            if( line >= static_cast<int>( current_tab.size() ) ) {
+            if( line >= recmax ) {
                 line = 0;
             }
         } else if( action == "UP" ) {
             line--;
             if( line < 0 ) {
-                line = current_tab.size() - 1;
+                line = recmax - 1;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( line == recmax - 1 ) {
+                line = 0;
+            } else if( line + scroll_rate >= recmax ) {
+                line = recmax - 1;
+            } else {
+                line += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( line == 0 ) {
+                line = recmax - 1;
+            } else if( line <= scroll_rate ) {
+                line = 0;
+            } else {
+                line += -scroll_rate;
             }
         } else if( action == "ADD_DEFAULT_RULESET" ) {
             changes_made = true;
@@ -417,7 +438,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                     current_tab[line].proximity = get_option<int>( "SAFEMODEPROXIMITY" );
                 } else {
                     //Let the options class handle the validity of the new value
-                    auto temp_option = get_options().get_option( "SAFEMODEPROXIMITY" );
+                    options_manager::cOpt temp_option = get_options().get_option( "SAFEMODEPROXIMITY" );
                     temp_option.setValue( text );
                     current_tab[line].proximity = atoi( temp_option.getValue().c_str() );
                 }
@@ -538,6 +559,8 @@ void safemode::test_pattern( const int tab_in, const int row_in )
 
     input_context ctxt( "SAFEMODE_TEST" );
     ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
@@ -579,16 +602,34 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     while( true ) {
         ui_manager::redraw();
 
+        const int recmax = static_cast<int>( creature_list.size() );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
             line++;
-            if( line >= static_cast<int>( creature_list.size() ) ) {
+            if( line >= recmax ) {
                 line = 0;
             }
         } else if( action == "UP" ) {
             line--;
             if( line < 0 ) {
-                line = creature_list.size() - 1;
+                line = recmax - 1;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( line == recmax - 1 ) {
+                line = 0;
+            } else if( line + scroll_rate >= recmax ) {
+                line = recmax - 1;
+            } else {
+                line += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( line == 0 ) {
+                line = recmax - 1;
+            } else if( line <= scroll_rate ) {
+                line = 0;
+            } else {
+                line += -scroll_rate;
             }
         } else if( action == "QUIT" ) {
             break;

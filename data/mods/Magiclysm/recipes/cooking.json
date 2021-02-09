@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "purified_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -16,6 +17,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "impure_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -32,6 +34,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "fake",
     "result": "flu_shot",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",

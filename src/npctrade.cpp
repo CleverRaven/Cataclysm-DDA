@@ -1,14 +1,15 @@
 #include "npctrade.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
+#include <iterator>
 #include <list>
-#include <memory>
 #include <ostream>
 #include <set>
 #include <string>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
@@ -16,8 +17,8 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "enums.h"
 #include "faction.h"
-#include "game.h"
 #include "game_constants.h"
 #include "input.h"
 #include "item.h"
@@ -38,12 +39,17 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 
-static const skill_id skill_barter( "barter" );
+static const skill_id skill_speech( "speech" );
 
-void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
-                                  player &receiver, std::list<item_location *> &from_map,
-                                  bool npc_gives )
+static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
+
+std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
+        player &receiver, std::list<item_location *> &from_map, bool npc_gives )
 {
+    // escrow is used only when the npc is the destination. Item transfer to the npc is deferred.
+    const bool use_escrow = !npc_gives;
+    std::list<item> escrow = std::list<item>();
+
     for( item_pricing &ip : stuff ) {
         if( !ip.selected ) {
             continue;
@@ -59,8 +65,13 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
         int charges = npc_gives ? ip.u_charges : ip.npc_charges;
         int count = npc_gives ? ip.u_has : ip.npc_has;
 
-        if( ip.charges ) {
-            gift.charges = charges;
+        // Items are moving to escrow.
+        if( use_escrow && ip.charges ) {
+            escrow.emplace_back( gift );
+        } else if( use_escrow ) {
+            std::fill_n( std::back_inserter( escrow ), count, gift );
+            // No escrow in use. Items moving from giver to receiver.
+        } else if( ip.charges ) {
             receiver.i_add( gift );
         } else {
             for( int i = 0; i < count; i++ ) {
@@ -85,13 +96,14 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
             from_map.push_back( &ip.loc );
         }
     }
+    return escrow;
 }
 
 std::vector<item_pricing> npc_trading::init_selling( npc &np )
 {
     std::vector<item_pricing> result;
-    const auto inv_all = np.items_with( []( const item & ) {
-        return true;
+    const std::vector<item *> inv_all = np.items_with( []( const item & it ) {
+        return !it.made_of( phase_id::LIQUID );
     } );
     for( item *i : inv_all ) {
         item &it = *i;
@@ -106,7 +118,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
     if(
         np.will_exchange_items_freely() &&
         !np.weapon.is_null() &&
-        !np.weapon.has_flag( "NO_UNWIELD" )
+        !np.weapon.has_flag( json_flag_NO_UNWIELD )
     ) {
         result.emplace_back( np, np.weapon, np.value( np.weapon ), false );
     }
@@ -116,7 +128,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
 
 double npc_trading::net_price_adjustment( const player &buyer, const player &seller )
 {
-    // Adjust the prices based on your barter skill.
+    // Adjust the prices based on your social skill.
     // cap adjustment so nothing is ever sold below value
     ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
 
@@ -126,15 +138,15 @@ double npc_trading::net_price_adjustment( const player &buyer, const player &sel
 
     ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
     double adjust = 0.05 * ( seller.int_cur - buyer.int_cur ) +
-                    price_adjustment( seller.get_skill_level( skill_barter ) -
-                                      buyer.get_skill_level( skill_barter ) );
+                    price_adjustment( seller.get_skill_level( skill_speech ) -
+                                      buyer.get_skill_level( skill_speech ) );
     return( std::max( adjust, 1.0 ) );
 }
 
 template <typename T, typename Callback>
 void buy_helper( T &src, Callback cb )
 {
-    src.visit_items( [&src, &cb]( item * node ) {
+    src.visit_items( [&src, &cb]( item * node, item * ) {
         cb( std::move( item_location( src, node ) ), 1 );
 
         return VisitResponse::SKIP;
@@ -160,6 +172,11 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         }
         item &it = *loc;
 
+        // Don't sell items that are loose liquid
+        if( it.made_of( phase_id::LIQUID ) ) {
+            return;
+        }
+
         // Don't sell items we don't own.
         if( !it.is_owned_by( seller ) ) {
             return;
@@ -173,14 +190,14 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         const int market_price = it.price( true );
         int val = np.value( it, market_price );
         if( ( is_npc && np.wants_to_sell( it, val, market_price ) ) ||
-            np.wants_to_buy( it, val, market_price ) ) {
+            ( !is_npc && np.wants_to_buy( it, val, market_price ) ) ) {
             result.emplace_back( std::move( loc ), val, count );
             result.back().adjust_values( adjust, fac );
         }
     };
 
     for( item_location loc : seller.all_items_loc() ) {
-        if( seller.is_wielding( *loc ) && loc->has_flag( "NO_UNWIELD" ) ) {
+        if( seller.is_wielding( *loc ) && loc->has_flag( json_flag_NO_UNWIELD ) ) {
             continue;
         }
         check_item( loc, loc->count() );
@@ -200,8 +217,9 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
 
     const auto cmp = []( const item_pricing & a, const item_pricing & b ) {
         // Sort items by category first, then name.
-        return localized_compare( std::make_pair( a.loc->get_category(), a.loc->display_name() ),
-                                  std::make_pair( b.loc->get_category(), b.loc->display_name() ) );
+        return localized_compare(
+                   std::make_pair( a.loc->get_category_of_contents(), a.loc->display_name() ),
+                   std::make_pair( b.loc->get_category_of_contents(), b.loc->display_name() ) );
     };
 
     std::sort( result.begin(), result.end(), cmp );
@@ -253,7 +271,7 @@ void trading_window::setup_trade( int cost, npc &np )
 {
     avatar &player_character = get_avatar();
     // Populate the list of what the NPC is willing to buy, and the prices they pay
-    // Note that the NPC's barter skill is factored into these prices.
+    // Note that the NPC's social skill is factored into these prices.
     // TODO: Recalc item values every time a new item is selected
     // Trading is not linear - starving NPC may pay $100 for 3 jerky, but not $100000 for 300 jerky
     theirs = npc_trading::init_buying( player_character, np, true );
@@ -354,7 +372,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
         for( size_t i = offset; i < list.size() && i < entries_per_page + offset; i++ ) {
             const item_pricing &ip = list[i];
             const item *it = ip.loc.get_item();
-            auto color = it == &person.weapon ? c_yellow : c_light_gray;
+            nc_color color = it == &person.weapon ? c_yellow : c_light_gray;
             const int &owner_sells = they ? ip.u_has : ip.npc_has;
             const int &owner_sells_charge = they ? ip.u_charges : ip.npc_charges;
             std::string itname = it->display_name();
@@ -688,9 +706,15 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 
         std::list<item_location *> from_map;
 
+        std::list<item> escrow;
         avatar &player_character = get_avatar();
-        npc_trading::transfer_items( trade_win.yours, player_character, np, from_map, false );
+        // Movement of items in 3 steps: player to escrow - npc to player - escrow to npc.
+        escrow = npc_trading::transfer_items( trade_win.yours, player_character, np, from_map, false );
         npc_trading::transfer_items( trade_win.theirs, np, player_character, from_map, true );
+        // Now move items from escrow to the npc. Keep the weapon wielded.
+        for( const item &i : escrow ) {
+            np.i_add( i, true, nullptr, true, false );
+        }
 
         for( item_location *loc_ptr : from_map ) {
             if( !loc_ptr ) {
@@ -715,7 +739,7 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         // NPCs will remember debts, to the limit that they'll extend credit or previous debts
         if( !np.will_exchange_items_freely() ) {
             trade_win.update_npc_owed( np );
-            player_character.practice( skill_barter, practice / 10000 );
+            player_character.practice( skill_speech, practice / 10000 );
         }
     }
     return traded;

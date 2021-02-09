@@ -37,7 +37,7 @@ You have three major choices here: GCC, Clang and MXE.
 
 (Note that your distro may have separate packages e.g. `gcc` only includes the C compiler and for C++ you'll need to install `g++`.)
 
-Cataclysm is targeting C++14 standard and that means you'll need a compiler that supports it. You can easily check if your version of `g++` supports C++14 by running:
+Cataclysm is targeting the C++14 standard and that means you'll need a compiler that supports it. You can easily check if your version of `g++` supports C++14 by running:
 
     $ g++ --std=c++14
     g++: fatal error: no input files
@@ -61,7 +61,7 @@ If you plan on keeping up with experimentals you should also install `ccache`, w
 
 ## Dependencies
 
-There are some general dependencies, optional dependencies and then specific dependencies for either curses or tiles builds. The exact package names again depend on the distro you're using, and whether your distro packages libraries and their development files separately (e.g. Debian and derivatives).
+There are some general dependencies, optional dependencies, and then specific dependencies for either curses or tiles builds. The exact package names again depend on the distro you're using, and whether your distro packages libraries and their development files separately (e.g. Debian and derivatives).
 
 Rough list based on building on Arch:
 
@@ -109,11 +109,11 @@ The above will build a debug-enabled curses version for the architecture you are
 You should probably always build with `RELEASE=1` unless you experience segfaults and are willing to provide stack traces.
 
 **Note on PREFIX**:
-PREFIX specifies a directory which will be the prefix for binaries, resources, and documentation files. Compiling with PREFIX means cataclysm will read files from PREFIX directory. This can be overridden with --datadir (e.g. if you used PREFIX=DIR in earlier build, then specify --datadir DIR/share/cataclysm-dda).
+PREFIX specifies a directory which will be the prefix for binaries, resources, and documentation files. Compiling with PREFIX means cataclysm will read files from PREFIX directory. This can be overridden with `--datadir` (e.g. if you used `PREFIX=DIR` in earlier build, then specify `--datadir DIR/share/cataclysm-dda`).
 
 ## Compiling localization files
 
-If you want to compile localization files for specific languages, you can add `LANGUAGES="<lang_id_1> [lang_id_2] [...]"` option to make command:
+If you want to compile localization files for specific languages, you can add the `LANGUAGES="<lang_id_1> [lang_id_2] [...]"` option to the `make` command:
 
     make LANGUAGES="zh_CN zh_TW"
 
@@ -125,7 +125,7 @@ Special note for MinGW: due to a [libintl bug](https://savannah.gnu.org/bugs/ind
 
 Instructions for compiling on a Debian-based system. The package names here are valid for Ubuntu 12.10 and may or may not work on your system.
 
-Building instructions, below, always assume you are running them from the Cataclysm:DDA source directory.
+The building instructions below always assume you are running them from the Cataclysm:DDA source directory.
 
 ## Linux (native) ncurses builds
 
@@ -168,7 +168,7 @@ A more comprehensive alternative is:
 
     make -j2 TILES=1 SOUND=1 RELEASE=1 USE_HOME_DIR=1
 
-The -j2 flag means it will compile with two parallel processes. It can be omitted or changed to -j4 in a more modern processor. If there is no desire to have sound, those flags can also be omitted. The USE_HOME_DIR flag places the user files, like configurations and saves into the home folder, making It easier for backups, and can also be omitted.
+The -j2 flag means it will compile with two parallel processes. It can be omitted or changed to -j4 in a more modern processor. If there is no desire to have sound, those flags can also be omitted. The USE_HOME_DIR flag places the user files, like configurations and saves, into the home folder, making it easier for backups, and can also be omitted.
 
 
 
@@ -191,50 +191,55 @@ Run:
 
 ## Cross-compile to Windows from Linux
 
-To cross-compile to Windows from Linux, you will need MXE. The main difference between the native build process and this one, is the use of the CROSS flag for make. The other make flags are still applicable.
-
-  * `CROSS=` - should be the full path to MXE g++ without the *g++* part at the end
+To cross-compile to Windows from Linux, you will need MXE, which changes your `make` command slightly. These instructions were written from Ubuntu 20.04, but should be applicable to any Debian-based environment. Please adjust all package manager instructions to match your environment.
 
 Dependencies:
 
   * [MXE](http://mxe.cc)
   * [MXE Requirements](http://mxe.cc/#requirements)
 
-Install:
+Installation
 
-    sudo apt-get install autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl make openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
+<!-- astyle and lzip added to initial sudo apt install string to forestall complaints from MinGW and make -->
+<!-- ncurses removed from make MXE_TARGETS because we're not gonna be cross-compiling ncurses -->
+
+    sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
+    mkdir -p ~/src/Cataclysm-DDA
     mkdir -p ~/src/mxe
-    git clone https://github.com/mxe/mxe.git ~/src/mxe
-    cd ~/src/mxe
-    make MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext ncurses
+    cd ~/src
+    git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
+    git clone https://github.com/mxe/mxe.git ./mxe
+    make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
 
-If you are not on a Debian derivative (Linux Mint, Ubuntu, etc), you will have to use a different command than apt-get to install [the MXE requirements](http://mxe.cc/#requirements). Building all these packages from MXE might take a while even on a fast computer. Be patient. If you are not planning on building for both 32-bit and 64-bit, you might want to adjust your MXE_TARGETS.
+Building all these packages from MXE might take a while, even on a fast computer. Be patient; the `-j` flag will take advantage of all your processor cores. If you are not planning on building for both 32-bit and 64-bit, you might want to adjust your MXE_TARGETS.
+
+Edit your `~/.profile` as follows:
+
+    export PLATFORM_32="~/src/mxe/usr/bin/i686-w64-mingw32.static-"
+    export PLATFORM_64="~/src/mxe/usr/bin/x86_64-w64-mingw32.static-"
+
+This is to ensure that the variables for the `make` command will not get reset after a power cycle.
 
 ### Building (SDL)
 
-Run:
+    cd ~/src/Cataclysm-DDA
 
-    PLATFORM="i686-w64-mingw32.static"
-    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1
+***IMPORTANT:***
 
-Change PLATFORM to x86_64-w64-mingw32.static for a 64-bit Windows build.
+The first time you set up your build environment, you must `touch VERSION.txt` to create a dummy file to avoid `make` complaining about not having a rule. You will need to add "VERSION.txt" to /.git/info/exclude in order to prevent your system from trying to `git push` this dummy file. Subsequent builds should not require `touch` again.
 
-To create nice zip file with all the required resources for a trouble free copy on Windows use the bindist target like this:
+Run one of the following commands based on your targeted environment:
 
-    PLATFORM="i686-w64-mingw32.static"
-    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 bindist
+    make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 BACKTRACE=0 PCH=0 bindist
+    make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 BACKTRACE=0 PCH=0 bindist
 
-### Building (ncurses)
 
-Run:
-
-    PLATFORM="i686-w64-mingw32.static"
-    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" RELEASE=1 LOCALIZE=1
+<!-- Building ncurses for Windows is a nonstarter, so the directions were removed. -->
 
 ## Cross-compile to Mac OS X from Linux
 
-The procedure is very much similar to cross-compilation to Windows from Linux.
-Tested on ubuntu 14.04 LTS but should work on other distros as well.
+This procedure is very much similar to cross-compilation to Windows from Linux.
+It has ben tested on Ubuntu 14.04 LTS but it should work on other distros as well.
 
 Please note that due to historical difficulties with cross-compilation errors, run-time optimizations are disabled for cross-compilation to Mac OS X targets. (`-O0` is specified as a compilation flag.) See [Pull Request #26564](https://github.com/CleverRaven/Cataclysm-DDA/pull/26564) for details.
 ### Dependencies
@@ -247,14 +252,14 @@ Make sure that all dependency tools are in search `PATH` before compiling.
 
 ### Setup
 
-To set up the compiling environment execute the following commands
+To set up the compiling environment execute the following commands:
 `git clone https://github.com/tpoechtrager/osxcross.git` to clone the toolchain
 `cd osxcross`
-`cp ~/MacOSX10.11.sdk.tar.bz2 ./tarballs/` copy prepared MacOSX SDK tarball on place. [Read more about it](https://github.com/tpoechtrager/osxcross/blob/master/README.md#packaging-the-sdk)
+`cp ~/MacOSX10.11.sdk.tar.bz2 ./tarballs/` to copy prepared MacOSX SDK tarball on place. [Read more about it](https://github.com/tpoechtrager/osxcross/blob/master/README.md#packaging-the-sdk)
 `OSX_VERSION_MIN=10.7 ./build.sh to build everything`
 Note the targeted minimum supported version of OSX.
 
-Have a prepackaged set of libs and frameworks in place, since compiling with `osxcross` built-in MacPorts is rather difficult and not supported at the moment.
+Have a prepackaged set of libs and frameworks in place since compiling with `osxcross` built-in MacPorts is rather difficult and not supported at the moment.
 Your directory tree should look like:
 
     ~/
@@ -272,13 +277,13 @@ Your directory tree should look like:
             └── lib
 
 Populated with respective frameworks, dylibs and headers.
-Tested lib versions are libintl.8.dylib for gettext, libncurses.5.4.dylib for ncurses.
-These libs were obtained from `homebrew` binary distribution at OS X 10.11
-Frameworks were obtained from SDL official website as described in the next [section](#sdl)
+Tested lib versions are libintl.8.dylib for gettext and libncurses.5.4.dylib for ncurses.
+These libs were obtained from `homebrew` binary distribution at OS X 10.11.
+Frameworks were obtained from the SDL official website as described in the next [section](#sdl).
 
 ### Building (SDL)
 
-To build full feature tiles and sound enabled version with localizations enabled:
+To build the full feature tiles and sound enabled version with localizations enabled:
 
     make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
       RELEASE=1 LOCALIZE=1 LANGUAGES=all TILES=1 SOUND=1 FRAMEWORK=1
@@ -288,7 +293,7 @@ Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable
 
 ### Building (ncurses)
 
-To build full curses version with localizations enabled:
+To build the full curses version with localizations enabled:
 
     make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
       RELEASE=1 LOCALIZE=1 LANGUAGES=all OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
@@ -336,7 +341,7 @@ Export Android environment variables (you can add these to the end of `~/.bashrc
     export PATH=$PATH:$ANDROID_SDK_ROOT/tools
     export PATH=$PATH:$ANDROID_NDK_ROOT
 
-You can also use this additional variables if you want to use `ccache` to speed up subsequnt builds:
+You can also use these additional variables if you want to use `ccache` to speed up subsequnt builds:
 
     export USE_CCACHE=1
     export NDK_CCACHE=/usr/local/bin/ccache
@@ -372,7 +377,7 @@ The app stores data files on the device in `/sdcard/Android/data/com.cleverraven
 
 ## Linux Troubleshooting
 
-If you get an error stating `make: build-scripts/validate_pr_in_jenkins: Command not found` clone a separate copy of the upstream source to a new git repository as your git setup has become corrupted by the Blob.
+If you get an error stating `make: build-scripts/validate_pr_in_jenkins: Command not found`, clone a separate copy of the upstream source to a new git repository as your git setup has become corrupted by the Blob.
 
 # Mac OS X
 
@@ -380,7 +385,7 @@ To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://dev
 
 ## Simple build using Homebrew
 
-Homebrew installation will come with tiles and sound support enabled.
+A homebrew installation will come with tiles and sound support enabled.
 
 Once you have Homebrew installed, open Terminal and run one of the following commands.
 
@@ -411,7 +416,7 @@ For most people, the simple Homebrew installation is enough. For developers, her
 
 ### SDL
 
-SDL2, SDL2_image, and SDL2_ttf are needed for the tiles build. Optionally, you can add SDL2_mixer for sound support. Cataclysm can be built using either the SDL framework, or shared libraries built from source.
+SDL2, SDL2_image, and SDL2_ttf are needed for the tiles build. Optionally, you can add SDL2_mixer for sound support. Cataclysm can be built using either the SDL framework or shared libraries built from source.
 
 The SDL framework files can be downloaded here:
 
@@ -576,11 +581,9 @@ Open Terminal's preferences, turn on "Use bright colors for bold text" in "Prefe
 
 # Windows
 
-## Building with Visual Studio
-
 See [COMPILING-VS-VCPKG.md](COMPILING-VS-VCPKG.md) for instructions on how to set up and use a build environment using Visual Studio on windows.
 
-This is probably the easiest solution for someone used to working with Visual Studio and similar IDEs.
+This is probably the easiest solution for someone used to working with Visual Studio and similar IDEs. -->
 
 ## Building with MSYS2
 

@@ -21,6 +21,7 @@
 
 #include "Utils.h"
 #include "clang/AST/OperationKinds.h"
+#include "../../src/cata_assert.h"
 
 using namespace clang::ast_matchers;
 
@@ -128,7 +129,7 @@ static void CheckConstructor( UseNamedPointConstantsCheck &Check,
                 Value = -Value;
             }
         } else {
-            assert( false );
+            cata_assert( false ); // NOLINT(misc-static-assert,cert-dcl03-c)
         }
         Args.insert( { Key, Value } );
     };

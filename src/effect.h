@@ -2,7 +2,8 @@
 #ifndef CATA_SRC_EFFECT_H
 #define CATA_SRC_EFFECT_H
 
-#include <algorithm>
+#include <iosfwd>
+#include <map>
 #include <set>
 #include <string>
 #include <tuple>
@@ -10,10 +11,10 @@
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
+#include "color.h"
+#include "effect_source.h"
 #include "hash_utils.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -44,6 +45,11 @@ class effect_type
         friend void load_effect_type( const JsonObject &jo );
         friend class effect;
     public:
+        enum class memorial_gender : int {
+            male,
+            female,
+        };
+
         effect_type() = default;
 
         efftype_id id;
@@ -68,11 +74,11 @@ class effect_type
         /** Returns the message displayed when a new effect is obtained. */
         std::string get_apply_message() const;
         /** Returns the memorial log added when a new effect is obtained. */
-        std::string get_apply_memorial_log() const;
+        std::string get_apply_memorial_log( memorial_gender gender ) const;
         /** Returns the message displayed when an effect is removed. */
         std::string get_remove_message() const;
         /** Returns the memorial log added when an effect is removed. */
-        std::string get_remove_memorial_log() const;
+        std::string get_remove_memorial_log( memorial_gender gender ) const;
         /** Returns the effect's description displayed when character conducts blood analysis. */
         std::string get_blood_analysis_description() const;
 
@@ -89,6 +95,9 @@ class effect_type
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
 
+        /** Check if the effect type has the specified flag */
+        bool has_flag( const flag_id &flag ) const;
+
     protected:
         int max_intensity = 0;
         int max_effective_intensity = 0;
@@ -101,7 +110,7 @@ class effect_type
         int int_decay_tick = 0 ;
         time_duration int_dur_factor = 0_turns;
 
-        std::set<std::string> flags;
+        std::set<flag_id> flags;
 
         bool main_parts_only = false;
 
@@ -116,7 +125,7 @@ class effect_type
         std::vector<efftype_id> removes_effects;
         std::vector<efftype_id> blocks_effects;
 
-        std::vector<std::pair<std::string, int>> miss_msgs;
+        std::vector<std::pair<translation, int>> miss_msgs;
 
         bool pain_sizing = false;
         bool hurt_sizing = false;
@@ -129,21 +138,21 @@ class effect_type
         bool impairs_movement = false;
 
         std::vector<translation> name;
-        std::string speed_mod_name;
-        std::vector<std::string> desc;
-        std::vector<std::string> reduced_desc;
+        translation speed_mod_name;
+        std::vector<translation> desc;
+        std::vector<translation> reduced_desc;
         bool part_descs = false;
 
-        std::vector<std::pair<std::string, game_message_type>> decay_msgs;
+        std::vector<std::pair<translation, game_message_type>> decay_msgs;
 
         effect_rating rating = effect_rating::e_neutral;
 
-        std::string apply_message;
+        translation apply_message;
         std::string apply_memorial_log;
-        std::string remove_message;
+        translation remove_message;
         std::string remove_memorial_log;
 
-        std::string blood_analysis_description;
+        translation blood_analysis_description;
 
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
         std::unordered_map <
@@ -153,13 +162,15 @@ class effect_type
 class effect
 {
     public:
-        effect() : eff_type( nullptr ), duration( 0_turns ), bp( bodypart_str_id( "bp_null" ) ),
-            permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ) {
+        effect() : eff_type( nullptr ), duration( 0_turns ), bp( bodypart_str_id::NULL_ID() ),
+            permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ),
+            source( effect_source::empty() ) {
         }
-        effect( const effect_type *peff_type, const time_duration &dur, bodypart_str_id part,
-                bool perm, int nintensity, const time_point &nstart_time ) :
+        effect( const effect_source &source, const effect_type *peff_type, const time_duration &dur,
+                bodypart_str_id part, bool perm, int nintensity, const time_point &nstart_time ) :
             eff_type( peff_type ), duration( dur ), bp( part ),
-            permanent( perm ), intensity( nintensity ), start_time( nstart_time ) {
+            permanent( perm ), intensity( nintensity ), start_time( nstart_time ),
+            source( source ) {
         }
         effect( const effect & ) = default;
         effect &operator=( const effect & ) = default;
@@ -202,10 +213,10 @@ class effect
         /** Returns the turn the effect was applied. */
         time_point get_start_time() const;
 
-        /** Returns the targeted body_part of the effect. This is num_bp for untargeted effects. */
+        /** Returns the targeted body_part of the effect. This is bp_null for untargeted effects. */
         bodypart_id get_bp() const;
         /** Sets the targeted body_part of an effect. */
-        void set_bp( bodypart_str_id part );
+        void set_bp( const bodypart_str_id &part );
 
         /** Returns true if an effect is permanent, i.e. it's duration does not decrease over time. */
         bool is_permanent() const;
@@ -218,6 +229,10 @@ class effect
         int get_intensity() const;
         /** Returns the maximum intensity of an effect. */
         int get_max_intensity() const;
+        /** Returns the maximum effective intensity of an effect. */
+        int get_max_effective_intensity() const;
+        /** Returns the current effect intensity, capped to max_effective_intensity. */
+        int get_effective_intensity() const;
 
         /**
          * Sets intensity of effect capped by range [1..max_intensity]
@@ -264,7 +279,7 @@ class effect
                         bool reduced = false, double mod = 1 ) const;
 
         /** Check if the effect has the specified flag */
-        bool has_flag( const std::string &flag ) const;
+        bool has_flag( const flag_id &flag ) const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
         double get_addict_mod( const std::string &arg, int addict_level ) const;
@@ -278,7 +293,7 @@ class effect
         int get_int_add_val() const;
 
         /** Returns a vector of the miss message messages and chances for use in add_miss_reason() while the effect is in effect. */
-        std::vector<std::pair<std::string, int>> get_miss_msgs() const;
+        const std::vector<std::pair<translation, int>> &get_miss_msgs() const;
 
         /** Returns the value used for display on the speed modifier window in the player status menu. */
         std::string get_speed_name() const;
@@ -291,6 +306,8 @@ class effect
             return eff_type->id;
         }
 
+        const effect_source &get_source() const;
+
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
@@ -301,6 +318,7 @@ class effect
         bool permanent;
         int intensity;
         time_point start_time;
+        effect_source source;
 
 };
 
@@ -310,11 +328,12 @@ void reset_effect_types();
 std::string texitify_base_healing_power( int power );
 std::string texitify_healing_power( int power );
 std::string texitify_bandage_power( int power );
+nc_color colorize_bleeding_intensity( int intensity );
 
 // Inheritance here allows forward declaration of the map in class Creature.
-// Storing body_part as an int to make things easier for hash and JSON
+// Storing body_part as an int_id to make things easier for hash and JSON
 class effects_map : public
-    std::unordered_map<efftype_id, std::unordered_map<bodypart_str_id, effect, std::hash<bodypart_str_id>>>
+    std::map<efftype_id, std::map<bodypart_id, effect>>
 {
 };
 

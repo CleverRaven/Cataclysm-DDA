@@ -1,6 +1,7 @@
 #include "mongroup.h"
 
 #include <algorithm>
+#include <string>
 #include <utility>
 
 #include "assign.h"
@@ -10,7 +11,6 @@
 #include "mtype.h"
 #include "options.h"
 #include "rng.h"
-#include "string_id.h"
 
 //  Frequency: If you don't use the whole 1000 points of frequency for each of
 //     the monsters, the remaining points will go to the defaultMonster.
@@ -25,7 +25,7 @@ MonsterGroupManager::t_string_set MonsterGroupManager::monster_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_whitelist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_whitelist;
-bool monster_whitelist_is_exclusive = false;
+static bool monster_whitelist_is_exclusive = false;
 
 /** @relates string_id */
 template<>
@@ -373,7 +373,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
                 const JsonObject &sd = mon.get_object( "spawn_data" );
                 if( sd.has_array( "ammo" ) ) {
                     const JsonArray &ammos = sd.get_array( "ammo" );
-                    for( const JsonObject &adata : ammos ) {
+                    for( const JsonObject adata : ammos ) {
                         data.ammo.emplace( itype_id( adata.get_string( "ammo_id" ) ), jmapgen_int( adata, "qty" ) );
                     }
                 }

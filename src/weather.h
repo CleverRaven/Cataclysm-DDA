@@ -3,6 +3,7 @@
 #define CATA_SRC_WEATHER_H
 
 #include "calendar.h"
+#include "catacharset.h"
 #include "color.h"
 #include "coordinates.h"
 #include "optional.h"
@@ -41,8 +42,9 @@ static constexpr int BODYTEMP_VERY_HOT = 8000;
 static constexpr int BODYTEMP_SCORCHING = 9500;
 ///@}
 
+#include <cstdint>
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -68,7 +70,10 @@ struct weather_printable {
     //!< Color to draw glyph this animation frame.
     nc_color colGlyph;
     //!< Glyph to draw this animation frame.
-    char cGlyph;
+    uint32_t cGlyph;
+    std::string get_symbol() const {
+        return utf32_to_utf8( cGlyph );
+    }
 };
 
 struct weather_sum {

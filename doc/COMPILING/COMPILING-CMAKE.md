@@ -70,9 +70,9 @@ Obtain packages specified above with your system package manager.
 		  gettext-devel
  ```
 
- This should get your environment set up to build console and tiles version of windows.
+ This should get your environment set up to build both the console and tiles versions for Windows.
 
- **NOTE**: This is only for 32bit builds. 64bit requires the x86_64 instead of the i686
+ **NOTE**: This is only for 32bit builds. 64bit builds require the x86_64 instead of the i686
        packages listed above:
 
  ```
@@ -83,8 +83,8 @@ Obtain packages specified above with your system package manager.
 		  gettext-devel
  ```
 
- **NOTE**: If you're trying to test with Jetbrains CLion, point to the cmake version in the
-       msys32/mingw32 path instead of using the built in. This will let cmake detect the
+ **NOTE**: If you're trying to test with Jetbrains CLion, point to the CMake version in the
+       msys32/mingw32 path instead of using the built in. This will let CMake detect the
        installed packages.
 
 
@@ -94,7 +94,7 @@ Obtain packages specified above with your system package manager.
  is done using CMake itself, and the actual build is done using either `make`
  (for Makefiles generator) or build-system agnostic `cmake --build . ` .
 
- There are two ways to build CataclysmDDA with CMake: inside the source tree or
+ There are two ways to build Cataclysm: DDA with CMake: inside the source tree or
  outside of it. Out-of-source builds have the advantage that you can have
  multiple builds with different options from one source directory.
 
@@ -123,7 +123,7 @@ The above example creates a build directory inside the source directory, but tha
  ```
 
  Or use either the `ccmake` or `cmake-gui` front-ends, which display all options
- and their cached values on a console and graphical UI, respectively.
+ and their cached values on a console UI or a graphical UI, respectively.
 
  ```
 	$ ccmake ..
@@ -133,10 +133,10 @@ The above example creates a build directory inside the source directory, but tha
 
 ## CMake Build for MSYS2 (MinGW)
 
- **NOTE**: For development purposes it is preferred to use `MinGW Win64 Shell` or `MinGW Win32 Shell` instead of `MSYS2 Shell`. In other case, you will need to set `PATH` variable manually.
+ **NOTE**: For development purposes it is preferred to use `MinGW Win64 Shell` or `MinGW Win32 Shell` instead of `MSYS2 Shell`. In the other case, you will need to set `PATH` variable manually.
 
- For Mingw,MSYS,MSYS2 you should set [Makefiles generator](https://cmake.org/cmake/help/v3.0/manual/cmake-generators.7.html) to "MSYS Makefiles".
- Setting it to "MinGW Makefiles" might work as well, but might also require additional hackery.
+ For MinGW, MSYS, or MSYS2 you should set [Makefiles generator](https://cmake.org/cmake/help/v3.0/manual/cmake-generators.7.html) to "MSYS Makefiles".
+ Setting it to "MinGW Makefiles" might work as well, but might also require some additional hackery.
 
   Example:
 
@@ -152,18 +152,18 @@ The above example creates a build directory inside the source directory, but tha
 
  Shared libraries:
 
- If you got `libgcc_s_dw2-1.dll not found` error you need to copy shared libraries
- to directory with CataclysmDDA executables.
+ If you got a `libgcc_s_dw2-1.dll not found` error you need to copy shared libraries
+ to the directory with the CataclysmDDA executables.
 
- **NOTE**: For `-DRELEASE=OFF` development builds, You can automate copy process with:
+ **NOTE**: For `-DRELEASE=OFF` development builds, you can automate the copy process with:
 
  ```
 	$ make install
  ```
 
- However, it likely will fail b/c you have different build environment setup :)
+ However, it will likely fail because you have a different build environment setup :)
 
- Currently known depends (Maybe outdated use ldd.exe to correct it for Your system)
+ Currently known depends (maybe outdated; use `ldd.exe` to correct it for your system):
 
  * MINGW deps:
    * `libwinpthread-1.dll`
@@ -206,15 +206,15 @@ The above example creates a build directory inside the source directory, but tha
 
 ## CMake Build for Visual Studio / MSBuild
 
-CMake can generate  `.sln` and `.vcxproj` files used either by Visual Studio itself or by MSBuild command line compiler (if you don't want
+CMake can generate  `.sln` and `.vcxproj` files used either by Visual Studio itself or by the MSBuild command line compiler (if you don't want
 a full fledged IDE) and have more "native" binaries than what MSYS/Cygwin can provide.
 
 At the moment only a limited combination of options is supported (tiles only, no localizations, no backtrace).
 
 Get the tools:
   * CMake from the official site - https://cmake.org/download/.
-  * Microsoft compiler - https://visualstudio.microsoft.com/downloads/?q=build+tools , choose "Build Tools for Visual Studio 2017". When installing chose "Visual C++ Build Tools" options.
-    * alternatively, you can get download and install the complete Visual Studio, but that's not required.
+  * [Microsoft compiler](https://visualstudio.microsoft.com/downloads/?q=build+tools), choose "Build Tools for Visual Studio 2017". When installing, choose the "Visual C++ Build Tools" options.
+    * Alternatively, you can download and install the complete Visual Studio, but that's not required.
 
 Get the required libraries:
   * `SDL2` - https://www.libsdl.org/download-2.0.php (you need the "(Visual C++ 32/64-bit)" version. Same below)
@@ -227,7 +227,7 @@ Get the required libraries:
 
 Unpack the archives with the libraries.
 
-Open windows command line (or powershell), set the environment variables to point to the libs above as follows (adjusting the paths as appropriate):
+Open the Windows command line (or powershell) and set the environment variables to point to the libs above as follows (adjusting the paths as appropriate):
 ```
   > set SDL2DIR=C:\path\to\SDL2-devel-2.0.9-VC
   > set SDL2TTFDIR=C:\path\to\SDL2_ttf-devel-2.0.15-VC
@@ -236,7 +236,7 @@ Open windows command line (or powershell), set the environment variables to poin
 ```
 (for powershell the syntax is `$env:SDL2DIR="C:\path\to\SDL2-devel-2.0.9-VC"`).
 
-Make a build directory and run cmake configuration step
+Make a build directory and run CMake's configuration step:
 ```
   > cd <path to cdda sources>
   > mkdir build
@@ -256,7 +256,7 @@ The resulting files will be put into a `Release` directory inside your source Ca
 source Cataclysm-DDA directory itself (so that the binary has access to the game data), and second put the required `.dll`s into the same folder -
 you can find those inside the directories for dev libraries under `lib/x86/` or `lib/x64/` (you likely need the `x86` ones even if you're on 64-bit machine).
 
-The copying of dlls is a one-time task, but you'd need to move the binary out of `Release/` each time it's built. To automate it a bit, you can configure cmake and set the desired binaries destination directory with `-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE=`  option (and similar for `CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG`).
+The copying of dlls is a one-time task, but you'd need to move the binary out of `Release/` each time it's built. To automate it a bit, you can configure cmake and set the desired binary's destination directory with `-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE=`  option (and similar for `CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG`).
 
 Run the game. Should work.
 
@@ -264,7 +264,7 @@ Run the game. Should work.
 # Build Options
 
  A full list of options supported by CMake, you may either run the `ccmake`
- or `cmake-gui` front-ends, or run `cmake` and open the generated CMakeCache.txt
+ or `cmake-gui` front-ends, or run `cmake` and open the generated `CMakeCache.txt`
  from the build directory in a text editor.
 
  ```
@@ -277,8 +277,8 @@ Run the game. Should work.
  * CMAKE_BUILD_TYPE=`<build type>`
 
  Selects a specific build configuration when compiling. `release` produces
- the default, optimized (-Os) build for regular use. `debug` produces a
- slower and larger unoptimized (-O0) build with full debug symbols, which is
+ the default, optimized (`-Os`) build for regular use. `debug` produces a
+ slower and larger unoptimized (`-O0`) build with full debug symbols, which is
  often needed for obtaining detailed backtraces when reporting bugs.
 
  **NOTE**: By default, CMake will produce `debug` builds unless a different
@@ -342,9 +342,9 @@ Run the game. Should work.
 
  * GIT_BINARY=`<str>`
 
- Override default Git binary name or path.
+ Override the default Git binary name or path.
 
- So a CMake command for building Cataclysm-DDA in release mode with tiles and sound support will look as follows, provided it is run in build directory located in the project.
+ So a CMake command for building Cataclysm-DDA in release mode with tiles and sound support will look as follows, provided it is run in the build directory located in the project.
 ```
 cmake ../ -DCMAKE_BUILD_TYPE=Release -DTILES=ON -DSOUND=ON
 ```

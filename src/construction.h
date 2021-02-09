@@ -2,23 +2,23 @@
 #ifndef CATA_SRC_CONSTRUCTION_H
 #define CATA_SRC_CONSTRUCTION_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "int_id.h"
 #include "item.h"
 #include "optional.h"
-#include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
-class inventory;
 class player;
+class read_only_visitable;
 struct construction;
 struct point;
 
@@ -44,17 +44,17 @@ bool construction_id::is_valid() const;
 struct construction {
         // Construction type category
         construction_category_id category;
-        // How the action is displayed to the player
-        std::string description;
+        // Which group does this construction belong to.
+        construction_group_str_id group;
         // Additional note displayed along with construction requirements.
-        std::string pre_note;
+        translation pre_note;
         // Beginning terrain for construction
         std::string pre_terrain;
         // Final terrain after construction
         std::string post_terrain;
 
         // Item group of byproducts created by the construction on success.
-        cata::optional<std::string> byproduct_item_group;
+        cata::optional<item_group_id> byproduct_item_group;
 
         // Flags beginning terrain must have
         std::set<std::string> pre_flags;
@@ -115,8 +115,7 @@ void reset_constructions();
 construction_id construction_menu( bool blueprint );
 void complete_construction( player *p );
 bool can_construct( const construction &con, const tripoint &p );
-bool player_can_build( player &p, const inventory &inv, const construction &con );
-bool player_can_see_to_build( player &p, const std::string &desc );
+bool player_can_build( player &p, const read_only_visitable &inv, const construction &con );
 void check_constructions();
 void finalize_constructions();
 

@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room0_metal_northeast",
     "description": "We need some shelter, so build half of a metal shack with a metal roof on the northeast side of the camp",
     "category": "CC_BUILDING",
@@ -24,6 +25,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room1_metal_northeast",
     "description": "We should use metal to expand the shelter so we have space for another bed.",
     "category": "CC_BUILDING",
@@ -47,6 +49,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room2_metal_northeast",
     "description": "We should use metal to finish the northeast shack.",
     "category": "CC_BUILDING",
@@ -70,6 +73,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_shack4_metal_east",
     "description": "We should expand our housing by putting up a metal building on the east side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -101,6 +105,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room4_metal_east",
     "description": "We should expand our housing by adding a metal room on the east side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -132,6 +137,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_shack4_metal_southeast",
     "description": "We should expand our housing by putting up a metal building on the southeast side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -163,6 +169,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room4_metal_southeast",
     "description": "We should expand our housing by adding a metal room on the southeast side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -194,6 +201,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room4_metal_northwest",
     "description": "We should expand our housing by putting up a metal building on the northwest side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -225,6 +233,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_shack4_metal_west",
     "description": "We should expand our housing by putting up a metal building on the west side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -256,6 +265,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room4_metal_west",
     "description": "We should expand our housing by adding a metal room on the west side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -287,6 +297,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_shack4_metal_soutwest",
     "description": "We should expand our housing by putting up a metal building on the southwest side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -318,6 +329,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room4_metal_southwest",
     "description": "We should expand our housing by adding a metal room on the southwest side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -349,6 +361,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_shack_ne_metal_center",
     "description": "A central building can act as a kitchen and dining hall.  We should build the northeast quarter of one from metal.",
     "category": "CC_BUILDING",
@@ -372,6 +385,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_ne_metal_center",
     "description": "A central building can act as a core and dining hall.  We should build out from the east room with metal.",
     "category": "CC_BUILDING",
@@ -395,6 +409,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_shack_nw_metal_center",
     "description": "A central building can act as a core and dining hall.  We should build the northwest quarter of one from metal.",
     "category": "CC_BUILDING",
@@ -418,6 +433,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_nw_metal_center",
     "description": "A central building can act as a core and dining hall.  We should build out from the west room with metal.",
     "category": "CC_BUILDING",
@@ -441,6 +457,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_metal_center",
     "description": "A central building can act as a core and dining hall.  We should build between the east and west rooms with metal.",
     "category": "CC_BUILDING",
@@ -464,6 +481,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_shack_se_metal_south",
     "description": "A central building can act as a core and dining hall.  We should build the southeast quarter of one from metal.",
     "category": "CC_BUILDING",
@@ -487,6 +505,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_se_metal_south",
     "description": "A central building can act as a core and dining hall.  We should build out from the southeast room with metal.",
     "category": "CC_BUILDING",
@@ -510,6 +529,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_shack_sw_metal_south",
     "description": "A central building can act as a core and dining hall.  We should build the southwest quarter of one from metal.",
     "category": "CC_BUILDING",
@@ -533,6 +553,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_sw_metal_south",
     "description": "A central building can act as a core and dining hall.  We should build out from the southwest room with metal.",
     "category": "CC_BUILDING",
@@ -556,6 +577,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_metal_south",
     "description": "A central building can act as a core and dining hall.  We should build between the southeast and southwest rooms with metal.",
     "category": "CC_BUILDING",

@@ -1,5 +1,8 @@
+#include "trap.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
@@ -8,6 +11,7 @@
 #include "calendar.h"
 #include "cata_assert.h"
 #include "character.h"
+#include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
@@ -16,7 +20,6 @@
 #include "explosion.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -34,7 +37,6 @@
 #include "teleport.h"
 #include "timed_event.h"
 #include "translations.h"
-#include "trap.h" // IWYU pragma: associated
 #include "units.h"
 #include "viewer.h"
 
@@ -368,7 +370,7 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
         if( n != nullptr ) {
             ///\EFFECT_DODGE reduces chance of being hit by crossbow trap
             if( !one_in( 4 ) && rng( 8, 20 ) > n->get_dodge() ) {
-                bodypart_id hit = bodypart_id( " num_bp" );
+                bodypart_id hit( "bp_null" );
                 switch( rng( 1, 10 ) ) {
                     case  1:
                         if( one_in( 2 ) ) {
@@ -945,7 +947,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
         } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
             n->add_msg_if_player( _( "You avoid the glass shards within." ) );
         } else {
-            bodypart_id hit( " num_bp" );
+            bodypart_id hit( "bp_null" );
             switch( rng( 1, 10 ) ) {
                 case  1:
                     hit = bodypart_id( "leg_l" );
@@ -1429,6 +1431,7 @@ bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
                 popup( _( "Failed to generate the new map" ) );
                 return false;
             }
+            here.set_seen_cache_dirty( p );
             here.set_transparency_cache_dirty( p.z );
             return true;
         }

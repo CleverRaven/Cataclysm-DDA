@@ -42,7 +42,7 @@
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
-    "phase": "solid",
+    "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_blood"
@@ -61,7 +61,7 @@
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
-    "phase": "solid",
+    "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_blood_veggy"
@@ -218,9 +218,22 @@
     "type": "field_type",
     "legacy_enum_id": 9,
     "intensity_levels": [
-      { "name": "thin sludge trail", "sym": "5", "color": "light_gray", "dangerous": true },
-      { "name": "sludge trail", "color": "dark_gray" },
-      { "name": "thick sludge trail" }
+      {
+        "name": "thin sludge trail",
+        "sym": "5",
+        "color": "light_gray",
+        "dangerous": true,
+        "effects": [ { "effect_id": "sludged", "intensity": 1, "immune_in_vehicle": true, "is_environmental": false } ]
+      },
+      {
+        "name": "sludge trail",
+        "color": "dark_gray",
+        "effects": [ { "effect_id": "sludged", "intensity": 2, "immune_in_vehicle": true, "is_environmental": false } ]
+      },
+      {
+        "name": "thick sludge trail",
+        "effects": [ { "effect_id": "sludged", "intensity": 3, "immune_in_vehicle": true, "is_environmental": false } ]
+      }
     ],
     "description_affix": "covered_in",
     "is_splattering": true,
@@ -275,7 +288,7 @@
             "min_duration": "2 minutes",
             "max_duration": "2 minutes",
             "immune_inside_vehicle": true,
-            "message": "You feel sick from inhaling the extinguisher mist",
+            "message": "You feel sick from inhaling the extinguisher mist.",
             "message_type": "bad"
           }
         ]
@@ -293,7 +306,7 @@
             "min_duration": "2 minutes",
             "max_duration": "2 minutes",
             "immune_inside_vehicle": true,
-            "message": "You feel sick from inhaling the extinguisher cloud",
+            "message": "You feel sick from inhaling the extinguisher cloud.",
             "message_type": "bad"
           }
         ]
@@ -312,7 +325,7 @@
             "max_duration": "3 minutes",
             "//": "won't be applied outside of vehicles, so it could apply harsher effect",
             "immune_outside_vehicle": true,
-            "message": "You feel sick from inhaling the thick extinguisher cloud",
+            "message": "You feel sick from inhaling the thick extinguisher cloud.",
             "message_type": "bad"
           },
           {
@@ -323,7 +336,7 @@
             "max_duration": "3 minutes",
             "//": "won't be applied inside of vehicles, so it could apply lesser effect",
             "immune_inside_vehicle": true,
-            "message": "You feel sick from inhaling the thick extinguisher cloud",
+            "message": "You feel sick from inhaling the thick extinguisher cloud.",
             "message_type": "bad"
           }
         ]
@@ -443,7 +456,7 @@
             "min_duration": "2 minutes",
             "max_duration": "2 minutes",
             "immune_inside_vehicle": true,
-            "message": "You feel sick from inhaling the hazy cloud",
+            "message": "You feel sick from inhaling the hazy cloud.",
             "message_type": "bad"
           }
         ]
@@ -461,7 +474,7 @@
             "min_duration": "3 minutes",
             "max_duration": "3 minutes",
             "immune_inside_vehicle": true,
-            "message": "You feel sick from inhaling the toxic gas",
+            "message": "You feel sick from inhaling the toxic gas.",
             "message_type": "bad"
           }
         ]
@@ -479,7 +492,7 @@
             "max_duration": "3 minutes",
             "//": "won't be applied outside of vehicles, so it could apply harsher effect",
             "immune_outside_vehicle": true,
-            "message": "You feel sick from inhaling the thick toxic gas",
+            "message": "You feel sick from inhaling the thick toxic gas.",
             "message_type": "bad"
           },
           {
@@ -490,7 +503,7 @@
             "max_duration": "3 minutes",
             "//": "won't be applied inside of vehicles, so it could apply lesser effect",
             "immune_inside_vehicle": true,
-            "message": "You feel sick from inhaling the thick toxic gas",
+            "message": "You feel sick from inhaling the thick toxic gas.",
             "message_type": "bad"
           }
         ]
@@ -634,7 +647,11 @@
     "id": "fd_flame_burst",
     "type": "field_type",
     "legacy_enum_id": 18,
-    "intensity_levels": [ { "name": { "ctxt": "noun", "str": "fire" }, "sym": "5", "color": "red", "dangerous": true, "light_emitted": 20 } ],
+    "intensity_levels": [
+      { "name": { "ctxt": "noun", "str": "fire" }, "sym": "5", "color": "red", "dangerous": true, "light_emitted": 20 },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
     "description_affix": "on",
     "has_fire": true,
     "priority": 4,
@@ -896,7 +913,7 @@
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
-    "phase": "solid",
+    "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_blood_insect"
@@ -915,7 +932,7 @@
     "decay_amount_factor": 2,
     "is_splattering": true,
     "half_life": "2 days",
-    "phase": "solid",
+    "phase": "liquid",
     "accelerated_decay": true,
     "display_field": true,
     "looks_like": "fd_blood_invertebrate"
@@ -1161,12 +1178,12 @@
     ],
     "decay_amount_factor": 15,
     "gas_absorption_factor": 5,
-    "percent_spread": 55,
-    "outdoor_age_speedup": "5 minutes",
+    "percent_spread": 30,
+    "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
     "has_fume": true,
     "priority": 8,
-    "half_life": "50 minutes",
+    "half_life": "7 minutes",
     "phase": "gas",
     "display_items": false,
     "display_field": true,
@@ -1205,12 +1222,11 @@
       { "color": "cyan", "convection_temperature_mod": -6 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
+    "percent_spread": 10,
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_cold_air2",
@@ -1222,12 +1238,11 @@
       { "color": "cyan", "convection_temperature_mod": -20 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
+    "percent_spread": 10,
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_cold_air3",
@@ -1239,12 +1254,11 @@
       { "color": "cyan", "convection_temperature_mod": -70 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
+    "percent_spread": 10,
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_cold_air4",
@@ -1256,12 +1270,11 @@
       { "color": "cyan", "convection_temperature_mod": -160 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
+    "percent_spread": 10,
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_hot_air1",
@@ -1273,12 +1286,11 @@
       { "color": "red", "convection_temperature_mod": 10 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
+    "percent_spread": 10,
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_hot_air2",
@@ -1290,12 +1302,11 @@
       { "color": "red", "convection_temperature_mod": 20 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
+    "percent_spread": 10,
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_hot_air3",
@@ -1307,12 +1318,11 @@
       { "color": "red", "convection_temperature_mod": 70 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
+    "percent_spread": 10,
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_hot_air4",
@@ -1324,12 +1334,11 @@
       { "color": "red", "convection_temperature_mod": 160 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
+    "percent_spread": 10,
     "outdoor_age_speedup": "100 minutes",
     "priority": -1,
     "half_life": "50 minutes",
-    "phase": "gas",
-    "display_field": true
+    "phase": "gas"
   },
   {
     "id": "fd_hot_air_sauna",
@@ -1462,5 +1471,20 @@
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_smoke"
+  },
+  {
+    "id": "fd_mechanical_fluid",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "mechanical fluid splatter", "color": "light_gray" },
+      { "name": "mechanical fluid stain" },
+      { "name": "puddle of mechanical fluid", "color": "dark_gray" }
+    ],
+    "description_affix": "covered_in",
+    "is_splattering": true,
+    "half_life": "10 days",
+    "phase": "liquid",
+    "display_field": true,
+    "looks_like": "fd_sludge"
   }
 ]

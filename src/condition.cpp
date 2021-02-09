@@ -5,6 +5,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -22,6 +23,7 @@
 #include "item.h"
 #include "item_category.h"
 #include "json.h"
+#include "line.h"
 #include "map.h"
 #include "mapdata.h"
 #include "mission.h"
@@ -31,7 +33,6 @@
 #include "overmapbuffer.h"
 #include "point.h"
 #include "recipe_groups.h"
-#include "string_id.h"
 #include "talker.h"
 #include "type_id.h"
 #include "units.h"
@@ -40,7 +41,6 @@
 
 class basecamp;
 class recipe;
-struct dialogue;
 
 static const efftype_id effect_currently_busy( "currently_busy" );
 
@@ -116,10 +116,11 @@ template<class T>
 void conditional_t<T>::set_has_trait_flag( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const std::string &trait_flag_to_check = jo.get_string( member );
+    const json_character_flag &trait_flag_to_check = json_character_flag( jo.get_string( member ) );
     condition = [trait_flag_to_check, is_npc]( const T & d ) {
         const talker *actor = d.actor( is_npc );
-        if( trait_flag_to_check == "MUTATION_THRESHOLD" ) {
+        static const json_character_flag thresh( "MUTATION_THRESHOLD" );
+        if( trait_flag_to_check == thresh ) {
             return actor->crossed_threshold();
         }
         return actor->has_trait_flag( trait_flag_to_check );
@@ -260,7 +261,7 @@ void conditional_t<T>::set_has_item_category( const JsonObject &jo, const std::s
     condition = [category_id, count, is_npc]( const T & d ) {
         const talker *actor = d.actor( is_npc );
         const auto items_with = actor->items_with( [category_id]( const item & it ) {
-            return it.get_category().get_id() == category_id;
+            return it.get_category_shallow().get_id() == category_id;
         } );
         return items_with.size() >= count;
     };
@@ -319,7 +320,8 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
     const std::string &location = jo.get_string( member );
     condition = [location, is_npc]( const T & d ) {
         const tripoint_abs_omt omt_pos = d.actor( is_npc )->global_omt_location();
-        const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
+        const oter_id &omt_ter = overmap_buffer.ter( omt_pos );
+        const std::string &omt_str = omt_ter.id().c_str();
 
         if( location == "FACTION_CAMP_ANY" ) {
             cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
@@ -327,13 +329,11 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
                 return true;
             }
             // legacy check
-            const std::string &omt_str = omt_ref.id().c_str();
             return omt_str.find( "faction_base_camp" ) != std::string::npos;
         } else if( location == "FACTION_CAMP_START" ) {
-            return !recipe_group::get_recipes_by_id( "all_faction_base_types",
-                    omt_ref.id().c_str() ).empty();
+            return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty();
         } else {
-            return omt_ref == oter_id( oter_no_dir( oter_id( location ) ) );
+            return oter_no_dir( omt_ter ) == location;
         }
     };
 }
@@ -531,7 +531,7 @@ void conditional_t<T>::set_days_since( const JsonObject &jo )
 {
     const unsigned int days = jo.get_int( "days_since_cataclysm" );
     condition = [days]( const T & ) {
-        return to_turn<int>( calendar::turn ) >= calendar::start_of_cataclysm + 1_days * days;
+        return calendar::turn >= calendar::start_of_cataclysm + 1_days * days;
     };
 }
 
@@ -696,7 +696,7 @@ template<class T>
 void conditional_t<T>::set_at_safe_space()
 {
     condition = []( const T & d ) {
-        return overmap_buffer.is_safe( d.beta->global_omt_location() );
+        return overmap_buffer.is_safe( d.beta->global_omt_location() ) && d.beta->is_safe();
     };
 }
 

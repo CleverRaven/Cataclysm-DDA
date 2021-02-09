@@ -2,10 +2,9 @@
 #ifndef CATA_SRC_RELIC_H
 #define CATA_SRC_RELIC_H
 
-#include <algorithm>
 #include <climits>
 #include <cmath>
-#include <string>
+#include <iosfwd>
 #include <utility>
 #include <vector>
 
@@ -13,11 +12,11 @@
 #include "item.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
+class Character;
 class Creature;
 class JsonIn;
 class JsonObject;
@@ -146,7 +145,7 @@ struct relic_charge_template {
     std::pair<int, int> init_charges;
     std::pair<int, int> charges_per_use;
     std::pair<time_duration, time_duration> time;
-    relic_recharge type;
+    relic_recharge type = relic_recharge::none;
 
     int power_level = 0;
 
@@ -223,6 +222,8 @@ class relic
 
         // what is the power level of this artifact, given a specific ruleset
         int power_level( const relic_procgen_id &ruleset ) const;
+
+        friend bool operator==( const relic &source_relic, const relic &target_relic );
 };
 
 template <typename E> struct enum_traits;

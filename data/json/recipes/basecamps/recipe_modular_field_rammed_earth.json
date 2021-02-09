@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room0_rammed_earth_northeast",
     "description": "We need some shelter, so build half of a rammed earth shack with a sod roof on the northeast side of the camp",
     "category": "CC_BUILDING",
@@ -32,6 +33,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room1_rammed_earth_northeast",
     "description": "We should use rammed earth to expand the shelter so we have space for another bed.",
     "category": "CC_BUILDING",
@@ -64,6 +66,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room2_rammed_earth_northeast",
     "description": "We should use rammed earth to finish the northeast shack.",
     "category": "CC_BUILDING",
@@ -96,6 +99,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_shack4_rammed_earth_east",
     "description": "We should expand our housing by putting up a rammed earth building on the east side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -129,6 +133,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room4_rammed_earth_east",
     "description": "We should expand our housing by adding a rammed earth room on the east side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -163,6 +168,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_shack4_rammed_earth_southeast",
     "description": "We should expand our housing by putting up a rammed earth building on the southeast side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -196,6 +202,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room4_rammed_earth_southeast",
     "description": "We should expand our housing by adding a rammed earth room on the southeast side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -230,6 +237,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room4_rammed_earth_northwest",
     "description": "We should expand our housing by putting up a rammed earth building on the northwest side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -263,6 +271,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_shack4_rammed_earth_west",
     "description": "We should expand our housing by putting up a rammed earth building on the west side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -296,6 +305,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room4_rammed_earth_west",
     "description": "We should expand our housing by adding a rammed earth room on the west side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -329,6 +339,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_shack4_rammed_earth_southwest",
     "description": "We should expand our housing by putting up a rammed earth building on the southwest side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -362,6 +373,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room4_rammed_earth_southwest",
     "description": "We should expand our housing by adding a rammed earth room on the southwest side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -395,6 +407,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_shack_ne_rammed_earth_center",
     "description": "A central building can act as a kitchen and dining hall.  We should build the northeast quarter of one from rammed earth.",
     "category": "CC_BUILDING",
@@ -428,6 +441,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_ne_rammed_earth_center",
     "description": "A central building can act as a core and dining hall.  We should build out from the east room with rammed earth.",
     "category": "CC_BUILDING",
@@ -459,6 +473,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_shack_nw_rammed_earth_center",
     "description": "A central building can act as a core and dining hall.  We should build the northwest quarter of one from rammed earth.",
     "category": "CC_BUILDING",
@@ -492,6 +507,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_nw_rammed_earth_center",
     "description": "A central building can act as a core and dining hall.  We should build out from the west room with rammed earth.",
     "category": "CC_BUILDING",
@@ -525,6 +541,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_rammed_earth_center",
     "description": "A central building can act as a core and dining hall.  We should build between the east and west rooms with rammed earth.",
     "category": "CC_BUILDING",
@@ -558,6 +575,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_shack_se_rammed_earth_south",
     "description": "A central building can act as a core and dining hall.  We should build the southeast quarter of one from rammed earth.",
     "category": "CC_BUILDING",
@@ -591,6 +609,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_se_rammed_earth_south",
     "description": "A central building can act as a core and dining hall.  We should build out from the southeast room with rammed earth.",
     "category": "CC_BUILDING",
@@ -625,6 +644,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_shack_sw_rammed_earth_south",
     "description": "A central building can act as a core and dining hall.  We should build the southwest quarter of one from rammed earth.",
     "category": "CC_BUILDING",
@@ -658,6 +678,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_sw_rammed_earth_south",
     "description": "A central building can act as a core and dining hall.  We should build out from the southwest room with rammed earth.",
     "category": "CC_BUILDING",
@@ -689,6 +710,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_rammed_earth_south",
     "description": "A central building can act as a core and dining hall.  We should build between the southeast and southwest rooms with rammed earth.",
     "category": "CC_BUILDING",

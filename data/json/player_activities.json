@@ -67,7 +67,7 @@
   {
     "id": "ACT_VEHICLE_REPAIR",
     "type": "activity_type",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "verb": "repairing a vehicle",
     "based_on": "neither",
     "suspendable": false,
@@ -163,6 +163,13 @@
     "auto_needs": true
   },
   {
+    "id": "ACT_BLEED",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "bleeding",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_BUTCHER",
     "type": "activity_type",
     "activity_level": "BRISK_EXERCISE",
@@ -207,7 +214,7 @@
   {
     "id": "ACT_DISSECT",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "verb": "dissecting",
     "based_on": "speed"
   },
@@ -240,7 +247,7 @@
   {
     "id": "ACT_VEHICLE",
     "type": "activity_type",
-    "activity_level": "BRISK_EXERCISE",
+    "activity_level": "MODERATE_EXERCISE",
     "verb": "interacting with the vehicle",
     "based_on": "speed"
   },
@@ -571,6 +578,14 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_GUNMOD_REMOVE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "modifying gun",
+    "suspendable": false,
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_TOOLMOD_ADD",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -739,7 +754,7 @@
     "suspendable": false
   },
   {
-    "id": "ACT_UNLOAD_MAG",
+    "id": "ACT_UNLOAD",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "unloading",
@@ -894,5 +909,14 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": { "ctxt": "training", "str": "working out" },
     "based_on": "time"
+  },
+  {
+    "id": "ACT_FURNITURE_MOVE",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "moving",
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
   }
 ]

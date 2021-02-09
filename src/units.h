@@ -2,14 +2,12 @@
 #ifndef CATA_SRC_UNITS_H
 #define CATA_SRC_UNITS_H
 
-#include <algorithm>
 #include <cctype>
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
-#include <cstdint>
 #include <limits>
 #include <map>
-#include <ostream>
 #include <sstream>
 #include <string>
 #include <type_traits>
@@ -18,6 +16,7 @@
 
 #include "compatibility.h"
 #include "json.h"
+#include "math_defines.h"
 #include "translations.h"
 #include "units_fwd.h" // IWYU pragma: export
 
@@ -49,7 +48,9 @@ class quantity
          * `quantity<float, foo>`. The unit type stays the same!
          */
         template<typename other_value_type>
-        constexpr quantity( const quantity<other_value_type, unit_type> &other ) : value_( other.value() ) {
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        constexpr quantity( const quantity<other_value_type, unit_type> &other ) :
+            value_( other.value() ) {
         }
 
         /**
@@ -140,6 +141,18 @@ class quantity
     private:
         value_type value_;
 };
+
+template<typename V, typename U>
+inline quantity<V, U> fabs( quantity<V, U> q )
+{
+    return quantity<V, U>( std::fabs( q.value() ), U{} );
+}
+
+template<typename V, typename U>
+inline quantity<V, U> fmod( quantity<V, U> num, quantity<V, U> den )
+{
+    return quantity<V, U>( std::fmod( num.value(), den.value() ), U{} );
+}
 
 /**
  * Multiplication and division with scalars. Result is a quantity with the same unit
@@ -510,6 +523,39 @@ inline constexpr value_type to_kilometer( const quantity<value_type, length_in_m
     return to_millimeter( v ) / 1'000'000.0;
 }
 
+template<typename value_type>
+inline constexpr quantity<value_type, angle_in_radians_tag> from_radians( const value_type v )
+{
+    return quantity<value_type, angle_in_radians_tag>( v, angle_in_radians_tag{} );
+}
+
+inline constexpr double to_radians( const units::angle v )
+{
+    return v.value();
+}
+
+template<typename value_type>
+inline constexpr quantity<double, angle_in_radians_tag> from_degrees( const value_type v )
+{
+    return from_radians( v * M_PI / 180 );
+}
+
+inline constexpr double to_degrees( const units::angle v )
+{
+    return to_radians( v ) * 180 / M_PI;
+}
+
+template<typename value_type>
+inline constexpr quantity<double, angle_in_radians_tag> from_arcmin( const value_type v )
+{
+    return from_degrees( v / 60.0 );
+}
+
+inline constexpr double to_arcmin( const units::angle v )
+{
+    return to_degrees( v ) * 60;
+}
+
 // converts a volume as if it were a cube to the length of one side
 template<typename value_type>
 inline constexpr quantity<value_type, length_in_millimeter_tag> default_length_from_volume(
@@ -546,6 +592,11 @@ inline std::ostream &operator<<( std::ostream &o, money_in_cent_tag )
 inline std::ostream &operator<<( std::ostream &o, length_in_millimeter_tag )
 {
     return o << "mm";
+}
+
+inline std::ostream &operator<<( std::ostream &o, angle_in_radians_tag )
+{
+    return o << "rad";
 }
 
 template<typename value_type, typename tag_type>
@@ -747,8 +798,69 @@ inline constexpr units::length operator"" _km( const unsigned long long v )
     return units::from_kilometer( v );
 }
 
+inline constexpr units::angle operator"" _radians( const long double v )
+{
+    return units::from_radians( v );
+}
+
+inline constexpr units::angle operator"" _radians( const unsigned long long v )
+{
+    return units::from_radians( v );
+}
+
+inline constexpr units::angle operator"" _pi_radians( const long double v )
+{
+    return units::from_radians( v * M_PI );
+}
+
+inline constexpr units::angle operator"" _pi_radians( const unsigned long long v )
+{
+    return units::from_radians( v * M_PI );
+}
+
+inline constexpr units::angle operator"" _degrees( const long double v )
+{
+    return units::from_degrees( v );
+}
+
+inline constexpr units::angle operator"" _degrees( const unsigned long long v )
+{
+    return units::from_degrees( v );
+}
+
+inline constexpr units::angle operator"" _arcmin( const long double v )
+{
+    return units::from_arcmin( v );
+}
+
+inline constexpr units::angle operator"" _arcmin( const unsigned long long v )
+{
+    return units::from_arcmin( v );
+}
+
 namespace units
 {
+
+inline double sin( angle a )
+{
+    return std::sin( to_radians( a ) );
+}
+
+inline double cos( angle a )
+{
+    return std::cos( to_radians( a ) );
+}
+
+inline double tan( angle a )
+{
+    return std::tan( to_radians( a ) );
+}
+
+inline units::angle atan2( double y, double x )
+{
+    return from_radians( std::atan2( y, x ) );
+}
+
 static const std::vector<std::pair<std::string, energy>> energy_units = { {
         { "mJ", 1_mJ },
         { "J", 1_J },
@@ -777,6 +889,12 @@ static const std::vector<std::pair<std::string, length>> length_units = { {
         { "cm", 1_cm },
         { "meter", 1_meter },
         { "km", 1_km }
+    }
+};
+static const std::vector<std::pair<std::string, angle>> angle_units = { {
+        { "arcmin", 1_arcmin },
+        { "°", 1_degrees },
+        { "rad", 1_radians },
     }
 };
 } // namespace units

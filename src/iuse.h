@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_IUSE_H
 #define CATA_SRC_IUSE_H
 
+#include <iosfwd>
 #include <memory>
-#include <string>
-#include <utility>
+#include <type_traits>
 #include <vector>
 
 #include "clone_ptr.h"
@@ -17,8 +17,8 @@ class item;
 class monster;
 class player;
 struct iteminfo;
-template<typename T> class ret_val;
 struct tripoint;
+template<typename T> class ret_val;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
 namespace iuse
@@ -28,7 +28,6 @@ namespace iuse
 int alcohol_medium( player *, item *, bool, const tripoint & );
 int alcohol_strong( player *, item *, bool, const tripoint & );
 int alcohol_weak( player *, item *, bool, const tripoint & );
-int antiasthmatic( player *, item *, bool, const tripoint & );
 int antibiotic( player *, item *, bool, const tripoint & );
 int anticonvulsant( player *, item *, bool, const tripoint & );
 int antifungal( player *, item *, bool, const tripoint & );
@@ -172,7 +171,7 @@ int radio_on( player *, item *, bool, const tripoint & );
 int remove_all_mods( player *, item *, bool, const tripoint & );
 int rm13armor_off( player *, item *, bool, const tripoint & );
 int rm13armor_on( player *, item *, bool, const tripoint & );
-int robotcontrol( player *, item *, bool, const tripoint & );
+int robotcontrol( player *, item *, bool active, const tripoint & );
 int rpgdie( player *, item *, bool, const tripoint & );
 int seed( player *, item *, bool, const tripoint & );
 int shavekit( player *, item *, bool, const tripoint & );
@@ -250,7 +249,7 @@ using use_function_pointer = int ( * )( player *, item *, bool, const tripoint &
 class iuse_actor
 {
     protected:
-        iuse_actor( const std::string &type, int cost = -1 ) : type( type ), cost( cost ) {}
+        explicit iuse_actor( const std::string &type, int cost = -1 ) : type( type ), cost( cost ) {}
 
     public:
         /**
@@ -300,7 +299,7 @@ struct use_function {
     public:
         use_function() = default;
         use_function( const std::string &type, use_function_pointer f );
-        use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
+        explicit use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
         int call( player &, item &, bool, const tripoint & ) const;
         ret_val<bool> can_call( const Character &, const item &, bool t, const tripoint &pos ) const;

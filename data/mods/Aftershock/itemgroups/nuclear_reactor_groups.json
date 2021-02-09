@@ -24,7 +24,7 @@
       { "item": "rad_monitor", "prob": 33 },
       { "item": "iodine", "prob": 33 },
       { "item": "flashlight", "prob": 33 },
-      { "item": "1st_aid", "prob": 15 },
+      { "group": "full_1st_aid", "prob": 15 },
       { "item": "geiger_off", "prob": 15 }
     ]
   }

@@ -5,11 +5,12 @@
     "name": "Blade Rush",
     "description": "Heals some light damage to the character.",
     "valid_targets": [ "self" ],
-    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_FAIL" ],
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_FAIL", "NO_PROJECTILE" ],
     "min_damage": -3,
     "max_damage": -8,
     "damage_increment": -1.0,
-    "effect": "target_attack",
+    "effect": "attack",
+    "shape": "blast",
     "message": "You feel a rush of vitality from your target into your body.",
     "damage_type": "biological"
   }

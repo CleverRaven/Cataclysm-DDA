@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <functional>
 #include <memory>
 #include <set>
 #include <string>
@@ -17,7 +18,6 @@
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
-#include "damage.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
@@ -28,6 +28,7 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -39,16 +40,12 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "weather_gen.h"
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
-
-static const bionic_id bio_sunglasses( "bio_sunglasses" );
 
 static const efftype_id effect_glare( "glare" );
 static const efftype_id effect_sleep( "sleep" );
@@ -59,7 +56,11 @@ static const itype_id itype_water( "water" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
 
-static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
+static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
+
+static const flag_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
+static const flag_id json_flag_RAINPROOF( "RAINPROOF" );
+static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -88,17 +89,17 @@ weather_type_id get_bad_weather()
 /**
  * Glare.
  * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
- * @param intensity Level of sun brighthess
+ * @param intensity Level of sun brightness
  */
 void glare( const weather_type_id &w )
 {
     Character &player_character = get_player_character();//todo npcs, also
-    //General prepequisites for glare
+    //General prerequisites for glare
     if( !is_creature_outside( player_character ) ||
         !g->is_in_sunlight( player_character.pos() ) ||
         player_character.in_sleep_state() ||
-        player_character.worn_with_flag( flag_SUN_GLASSES ) ||
-        player_character.has_bionic( bio_sunglasses ) ||
+        player_character.worn_with_flag( json_flag_SUN_GLASSES ) ||
+        player_character.has_flag( json_flag_GLARE_RESIST ) ||
         player_character.is_blind() ) {
         return;
     }
@@ -121,7 +122,7 @@ void glare( const weather_type_id &w )
         if( player_character.has_trait( trait_CEPH_VISION ) ) {
             dur = dur * 2;
         }
-        player_character.add_env_effect( *effect, bodypart_id( "eyes" ), 2, dur );
+        player_character.add_env_effect( *effect, body_part_eyes, 2, dur );
     }
 }
 
@@ -132,8 +133,8 @@ int incident_sunlight( const weather_type_id &wtype, const time_point &t )
     return std::max<float>( 0.0f, sunlight( t, false ) + wtype->light_modifier );
 }
 
-inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
-                              const time_point &t, const time_duration &tick_size )
+static inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
+                                     const time_point &t, const time_duration &tick_size )
 {
     int amount = 0;
     if( wtype->rains ) {
@@ -164,7 +165,7 @@ inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
 
 weather_type_id current_weather( const tripoint &location, const time_point &t )
 {
-    const auto wgen = g->weather.get_cur_weather_gen();
+    const weather_generator wgen = g->weather.get_cur_weather_gen();
     if( g->weather.weather_override != WEATHER_NULL ) {
         return g->weather.weather_override;
     }
@@ -307,7 +308,7 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
     }
 
     // Calculate once, because that part is expensive
-    static const item water( "water", 0 );
+    static const item water( "water", calendar::turn_zero );
     // 250ml
     static const double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
                                     water.charges;
@@ -405,26 +406,26 @@ void wet( Character &target, int amount )
     if( !is_creature_outside( target ) ||
         amount <= 0 ||
         target.has_trait( trait_FEATHERS ) ||
-        target.weapon.has_flag( "RAIN_PROTECT" ) ||
-        ( !one_in( 50 ) && target.worn_with_flag( "RAINPROOF" ) ) ) {
+        target.weapon.has_flag( json_flag_RAIN_PROTECT ) ||
+        ( !one_in( 50 ) && target.worn_with_flag( json_flag_RAINPROOF ) ) ) {
         return;
     }
     // Coarse correction to get us back to previously intended soaking rate.
     if( !calendar::once_every( 6_seconds ) ) {
         return;
     }
-    const int warmth_delay = target.warmth( bodypart_id( "torso" ) ) * 4 / 5 + target.warmth(
-                                 bodypart_id( "head" ) ) / 5;
+    const int warmth_delay = target.warmth( body_part_torso ) * 4 / 5 + target.warmth(
+                                 body_part_head ) / 5;
     if( rng( 0, 100 - amount + warmth_delay ) > 10 ) {
         // Thick clothing slows down (but doesn't cap) soaking
         return;
     }
 
-    body_part_set drenched_parts{ { bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ) } };
-    if( get_player_character().get_part_wetness( bodypart_id( "torso" ) ) * 100 >=
-        get_player_character().get_part_drench_capacity( bodypart_id( "torso" ) ) * 50 ) {
+    body_part_set drenched_parts{ { body_part_torso, body_part_arm_l, body_part_arm_r, body_part_head } };
+    if( get_player_character().get_part_wetness( body_part_torso ) * 100 >=
+        get_player_character().get_part_drench_capacity( body_part_torso ) * 50 ) {
         // Once upper body is 50%+ drenched, start soaking the legs too
-        drenched_parts.unify_set( { { bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } } );
+        drenched_parts.unify_set( { { body_part_leg_l, body_part_leg_r } } );
     }
 
     target.drench( amount, drenched_parts, false );
@@ -438,14 +439,16 @@ void weather_sound( const translation &sound_message, const std::string &sound_e
         if( here.get_abs_sub().z >= 0 ) {
             add_msg( sound_message );
             if( !sound_effect.empty() ) {
-                sfx::play_variant_sound( "environment", sound_effect, 80, rng( 0, 359 ) );
+                sfx::play_variant_sound( "environment", sound_effect, 80, random_direction() );
             }
         } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
                                      player_character.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
             add_msg( sound_message );
             if( !sound_effect.empty() ) {
-                sfx::play_variant_sound( "environment", sound_effect,
-                                         ( 80 * player_character.mutation_value( "hearing_modifier" ) ), rng( 0, 359 ) );
+                sfx::play_variant_sound(
+                    "environment", sound_effect,
+                    ( 80 * player_character.mutation_value( "hearing_modifier" ) ),
+                    random_direction() );
             }
         }
     }
@@ -509,11 +512,11 @@ void handle_weather_effects( const weather_type_id &w )
             } else if( w->precip >= precip_class::heavy ) {
                 chance = 4;
             }
-            if( player_character.weapon.has_flag( "RAIN_PROTECT" ) && one_in( chance ) ) {
+            if( player_character.weapon.has_flag( json_flag_RAIN_PROTECT ) && one_in( chance ) ) {
                 add_msg( _( "Your %s protects you from the weather." ), player_character.weapon.tname() );
                 continue;
             } else {
-                if( player_character.worn_with_flag( "RAINPROOF" ) && one_in( chance * 2 ) ) {
+                if( player_character.worn_with_flag( json_flag_RAINPROOF ) && one_in( chance * 2 ) ) {
                     add_msg( _( "Your clothing protects you from the weather." ) );
                     continue;
                 } else {
@@ -546,7 +549,7 @@ void handle_weather_effects( const weather_type_id &w )
                 }
                 target_monster = *dynamic_cast<monster *>( copy );
             } else {
-                target_monster = spawn.target;
+                target_monster = monster( spawn.target );
             }
 
             for( int i = 0; i < spawn.hallucination_count; i++ ) {
@@ -663,7 +666,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
 {
     std::string weather_report;
     // Local conditions
-    const auto cref = overmap_buffer.closest_city( tripoint_abs_sm( abs_sm_pos, 0 ) );
+    const city_reference cref = overmap_buffer.closest_city( tripoint_abs_sm( abs_sm_pos, 0 ) );
     const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
     // Current time
     weather_report += string_format(
@@ -698,7 +701,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
                                  1_hours;
     for( int d = 0; d < 6; d++ ) {
         weather_type_id forecast = WEATHER_NULL;
-        const auto wgen = get_weather().get_cur_weather_gen();
+        const weather_generator wgen = get_weather().get_cur_weather_gen();
         for( time_point i = last_hour + d * 12_hours; i < last_hour + ( d + 1 ) * 12_hours; i += 1_hours ) {
             w_point w = wgen.get_weather( abs_ms_pos, i, g->get_seed() );
             forecast = std::max( forecast, wgen.get_weather_conditions( w, g->weather.next_instance_allowed ) );
@@ -1075,11 +1078,11 @@ void weather_manager::update_weather()
             player_character.assign_activity( ACT_WAIT_WEATHER, 0, 0 );
         }
 
-        if( weather_id->sight_penalty !=
-            old_weather->sight_penalty ) {
+        if( weather_id->sight_penalty != old_weather->sight_penalty ) {
             for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
                 here.set_transparency_cache_dirty( i );
             }
+            here.set_seen_cache_dirty( tripoint_zero );
         }
     }
 }

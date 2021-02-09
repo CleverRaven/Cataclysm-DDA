@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pumpkin_muffins",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",

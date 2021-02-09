@@ -6,13 +6,15 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "colony.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "debug.h"
+#include "effect_source.h"
 #include "enum_conversions.h"
 #include "field_type.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "json.h"
 #include "map.h"
 #include "map_extras.h"
@@ -24,7 +26,6 @@
 #include "player.h"
 #include "point.h"
 #include "rng.h"
-#include "string_id.h"
 
 class item;
 
@@ -38,6 +39,13 @@ template<>
 const start_location &string_id<start_location>::obj() const
 {
     return all_start_locations.obj( *this );
+}
+
+/** @relates int_id */
+template<>
+int_id<start_location> string_id<start_location>::id() const
+{
+    return all_start_locations.convert( *this, int_id<start_location>( -1 ) );
 }
 
 /** @relates string_id */
@@ -235,6 +243,7 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.impassable( p ) ||
+        m.is_divable( p ) ||
         checked[p.x][p.y] > 0 ) {
         return 0;
     }
@@ -400,7 +409,7 @@ void start_location::handle_heli_crash( player &u ) const
             // Damage + Bleed
             case 1:
             case 2:
-                u.make_bleed( bp, 6_minutes );
+                u.make_bleed( effect_source::empty(), bp, 6_minutes );
             /* fallthrough */
             case 3:
             case 4:

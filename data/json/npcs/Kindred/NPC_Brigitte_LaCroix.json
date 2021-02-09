@@ -399,7 +399,7 @@
   {
     "id": "TALK_MISSION_OFFER_SEER",
     "type": "talk_topic",
-    "dynamic_line": "If you wish to be set on the path to enlightenment, first you must learn to listen and hear the song.  Go out, butcher an untainted creature and feel the power between your fingertips.  Then bring me the bones and I shall carve them for you.  ",
+    "dynamic_line": "If you wish to be set on the path to enlightenment, first you must learn to listen and hear the song.  Go out, butcher an untainted creature and feel the power between your fingertips.  Then bring me the bones and I shall carve them for you.",
     "responses": [
       {
         "text": "Well, I guess I oughta see where this goes.  I'm in.",

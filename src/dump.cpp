@@ -1,23 +1,25 @@
+#include "game.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cmath>
+#include <exception>
 #include <iostream>
 #include <iterator>
+#include <map>
 #include <set>
+#include <string>
 #include <utility>
 
-#include "bodypart.h"
 #include "character.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "damage.h"
-#include "flat_set.h"
-#include "game.h" // IWYU pragma: associated
 #include "init.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "loading_ui.h"
+#include "make_static.h"
 #include "npc.h"
 #include "output.h"
 #include "recipe.h"
@@ -27,13 +29,10 @@
 #include "stomach.h"
 #include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
-
-static const std::string flag_VARSIZE( "VARSIZE" );
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
@@ -127,8 +126,8 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             if( e->armor ) {
                 item obj( e );
                 if( bp == bp_null || obj.covers( bp ) ) {
-                    if( obj.has_flag( flag_VARSIZE ) ) {
-                        obj.item_tags.insert( "FIT" );
+                    if( obj.has_flag( STATIC( flag_id( "VARSIZE" ) ) ) ) {
+                        obj.set_flag( STATIC( flag_id( "FIT" ) ) );
                     }
                     dump( obj );
                 }
@@ -148,7 +147,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.type->stack_size ) );
-            r.push_back( to_string( obj.get_comestible()->default_nutrition.kcal ) );
+            r.push_back( to_string( obj.get_comestible()->default_nutrition.kcal() ) );
             r.push_back( to_string( obj.get_comestible()->quench ) );
             r.push_back( to_string( obj.get_comestible()->healthy ) );
             auto vits = obj.get_comestible()->default_nutrition.vitamins;
@@ -173,19 +172,19 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             "Aim time", "Effective range", "Snapshot range", "Max range"
         };
 
-        std::set<std::string> locations;
+        std::set<gunmod_location> locations;
         for( const itype *e : item_controller->all() ) {
             if( e->gun ) {
                 std::transform( e->gun->valid_mod_locations.begin(),
                                 e->gun->valid_mod_locations.end(),
                                 std::inserter( locations, locations.begin() ),
                 []( const std::pair<gunmod_location, int> &q ) {
-                    return q.first.name();
+                    return q.first;
                 } );
             }
         }
         for( const auto &e : locations ) {
-            header.push_back( e );
+            header.push_back( e.name() );
         }
 
         auto dump = [&rows, &locations]( const standard_npc & who, const item & obj ) {
@@ -283,8 +282,8 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             "Aerodynamics coeff", "Rolling coeff", "Static Drag", "Offroad %"
         };
         auto dump = [&rows]( const vproto_id & obj ) {
-            auto veh_empty = vehicle( obj, 0, 0 );
-            auto veh_fueled = vehicle( obj, 100, 0 );
+            vehicle veh_empty = vehicle( obj, 0, 0 );
+            vehicle veh_fueled = vehicle( obj, 100, 0 );
 
             std::vector<std::string> r;
             r.push_back( veh_empty.name );
@@ -312,7 +311,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             std::vector<std::string> r;
             r.push_back( obj.name() );
             r.push_back( obj.location );
-            r.push_back( to_string( static_cast<int>( std::ceil( to_gram( item( obj.item ).weight() ) /
+            r.push_back( to_string( static_cast<int>( std::ceil( to_gram( item( obj.base_item ).weight() ) /
                                     1000.0 ) ) ) );
             r.push_back( to_string( obj.size / units::legacy_volume_factor ) );
             rows.push_back( r );

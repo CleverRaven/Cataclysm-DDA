@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_PATH_INFO_H
 #define CATA_SRC_PATH_INFO_H
 
-#include <string>
+#include <iosfwd>
 
 enum class holiday : int;
 
@@ -27,7 +27,6 @@ std::string defaulttilepng();
 std::string fontdata();
 std::string fontdir();
 std::string user_font();
-std::string fontlist();
 std::string graveyarddir();
 std::string help();
 std::string keybindings();

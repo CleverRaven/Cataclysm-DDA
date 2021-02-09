@@ -62,7 +62,7 @@
       "type": "explosion",
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "explosion": { "power": 50, "shrapnel": { "casing_mass": 40, "fragment_mass": 1 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
@@ -158,7 +158,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 938 }
     },
@@ -216,7 +216,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 1 } }
     },
@@ -334,7 +334,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 1500 }
     },
@@ -392,7 +392,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 1500 }
     },
@@ -530,7 +530,7 @@
     "price": 3600,
     "price_postapoc": 750,
     "description": "This is a canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
-    "countdown_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_act" }
+    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_act" }
   },
   {
     "id": "fungicidalbomb_act",
@@ -553,7 +553,7 @@
     "price": 3600,
     "price_postapoc": 500,
     "description": "This is a makeshift canister grenade filled with fungicidal solution.  Use this item to pull the pin and light the fuse, turning it into an active fungicidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to fungal life forms.",
-    "countdown_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_makeshift_act" }
+    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "fungicidalbomb_makeshift_act" }
   },
   {
     "id": "fungicidalbomb_makeshift_act",
@@ -597,7 +597,7 @@
     "id": "gasbomb_makeshift_act",
     "type": "TOOL",
     "category": "weapons",
-    "name": { "str": "active makeshift gas grenade" },
+    "name": { "str": "active makeshift gas canister" },
     "description": "This homemade canister of poison gas has been unsealed, and is (or will shortly be) expelling highly toxic gas.  You should consider getting rid of it soon.",
     "weight": "1264 g",
     "volume": "250 ml",
@@ -620,7 +620,7 @@
       "fields_max_intensity": 3,
       "sound_volume": 0,
       "sound_msg": "Hiss.",
-      "no_deactivate_msg": "You've already armed the %s, try throwing it instead."
+      "no_deactivate_msg": "You've already armed the %s; try throwing it instead."
     },
     "flags": [ "TRADER_AVOID" ]
   },
@@ -806,7 +806,7 @@
     "price": 3600,
     "price_postapoc": 250,
     "description": "This is a canister grenade filled with noxious irritant.  Use this item to pull the pin and light the fuse, turning it into an active tear gas grenade.  In five seconds it will begin to expel a highly toxic gas for some time.  This gas damages and slows those who enter it, as well as obscuring vision and scent.",
-    "countdown_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "gasbomb_act" }
+    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "gasbomb_act" }
   },
   {
     "id": "gasbomb_act",
@@ -829,7 +829,7 @@
     "price": 3600,
     "price_postapoc": 750,
     "description": "This is a canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to insect life forms.",
-    "countdown_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_act" }
+    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_act" }
   },
   {
     "id": "insecticidalbomb_act",
@@ -853,7 +853,7 @@
     "price": 3600,
     "price_postapoc": 500,
     "description": "This is a makeshift canister grenade filled with insecticidal solution.  Use this item to pull the pin and light the fuse, turning it into an active insecticidal grenade.  In five seconds it will begin to expel a volatile spray that is highly toxic to insect life forms.",
-    "countdown_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_makeshift_act" }
+    "use_action": { "need_wielding": true, "menu_text": "Pull pin", "type": "transform", "target": "insecticidalbomb_makeshift_act" }
   },
   {
     "id": "insecticidalbomb_makeshift_act",
@@ -1230,7 +1230,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } }
     },
@@ -1290,7 +1290,7 @@
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
-      "sound_msg": "ssss...",
+      "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
       "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } }
     },
@@ -1361,7 +1361,7 @@
     "price": 1800,
     "price_postapoc": 0,
     "weight": "569 g",
-    "countdown_action": { "need_wielding": true, "type": "transform", "target": "smokebomb_act" }
+    "use_action": { "need_wielding": true, "type": "transform", "target": "smokebomb_act" }
   },
   {
     "id": "smokebomb_act",
@@ -1380,7 +1380,7 @@
     "category": "weapons",
     "name": { "str": "small bootleg frag device" },
     "looks_like": "tool_black_powder_charge",
-    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with military explosives and scrap metal, equipped with a delayed fuse.  Use this item to pull the pin.  Once you do it should explode in about 20 seconds. ",
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with military explosives and scrap metal, equipped with a delayed fuse.  Use this item to pull the pin.  Once you do it should explode in about 20 seconds.",
     "weight": "6500 g",
     "volume": "4 L",
     "price": 20000,
@@ -1429,7 +1429,7 @@
     "category": "weapons",
     "name": { "str": "small improvised frag device" },
     "looks_like": "tool_black_powder_charge",
-    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with stable explosives and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Once you do it should explode in about 20 seconds. ",
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with stable explosives and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Once you do it should explode in about 20 seconds.",
     "weight": "6500 g",
     "volume": "4 L",
     "price": 20000,
@@ -1484,7 +1484,7 @@
     "category": "weapons",
     "name": { "str": "small primitive frag device" },
     "looks_like": "tool_black_powder_charge",
-    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with volatile explosives and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Once you do it should explode in about 20 seconds. ",
+    "description": "This is a home-made explosive device, consisting of a large plastic jug filled with volatile explosives and scrap metal, equipped with a long fuse.  Use this item to light the fuse.  Once you do it should explode in about 20 seconds.",
     "weight": "6500 g",
     "volume": "4 L",
     "price": 20000,

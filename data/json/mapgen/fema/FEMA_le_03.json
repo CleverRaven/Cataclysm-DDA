@@ -42,7 +42,7 @@
         "L": { "item": "surgery", "chance": 30 },
         "X": { "item": "hospital_lab", "chance": 80 }
       },
-      "item": { "B": { "item": "rag_bloody", "amount": [ 0, 5 ] } },
+      "item": { "B": { "item": "rag", "amount": [ 0, 5 ], "custom-flags": [ "FILTHY" ] } },
       "monster": { "Z": { "monster": "mon_zombie_brute" }, "z": { "monster": "mon_zombie_scientist" } }
     }
   }

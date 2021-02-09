@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room0_wad_northeast",
     "description": "We need some shelter, so build half of a wattle-and-daub shack with a sod roof on the northeast side of the camp",
     "category": "CC_BUILDING",
@@ -33,6 +34,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room1_wad_northeast",
     "description": "We should use wattle-and-daub to expand the shelter so we have space for another bed.",
     "category": "CC_BUILDING",
@@ -65,6 +67,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room2_wad_northeast",
     "description": "We should use wattle-and-daub to finish the northeast shack.",
     "category": "CC_BUILDING",
@@ -97,6 +100,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_shack4_wad_east",
     "description": "We should expand our housing by putting up a wattle-and-daub building on the east side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -131,6 +135,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room4_wad_east",
     "description": "We should expand our housing by adding a wattle-and-daub room on the east side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -166,6 +171,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_shack4_wad_southeast",
     "description": "We should expand our housing by putting up a wattle-and-daub building on the southeast side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -200,6 +206,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room4_wad_southeast",
     "description": "We should expand our housing by adding a wattle-and-daub room on the southeast side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -235,6 +242,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room4_wad_northwest",
     "description": "We should expand our housing by putting up a wattle-and-daub building on the northwest side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -269,6 +277,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_shack4_wad_west",
     "description": "We should expand our housing by putting up a wattle-and-daub building on the west side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -303,6 +312,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room4_wad_west",
     "description": "We should expand our housing by adding a wattle-and-daub room on the west side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -337,6 +347,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_shack4_wad_southwest",
     "description": "We should expand our housing by putting up a wattle-and-daub building on the southwest side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -371,6 +382,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_room4_wad_southwest",
     "description": "We should expand our housing by adding a wattle-and-daub room on the southwest side, which we can also use as part of the central building.",
     "category": "CC_BUILDING",
@@ -405,6 +417,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_shack_ne_wad_center",
     "description": "A central building can act as a kitchen and dining hall.  We should build the northeast quarter of one from wattle-and-daub.",
     "category": "CC_BUILDING",
@@ -439,6 +452,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_ne_wad_center",
     "description": "A central building can act as a core and dining hall.  We should build out from the east room with wattle-and-daub.",
     "category": "CC_BUILDING",
@@ -471,6 +485,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_shack_nw_wad_center",
     "description": "A central building can act as a core and dining hall.  We should build the northwest quarter of one from wattle-and-daub.",
     "category": "CC_BUILDING",
@@ -505,6 +520,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_nw_wad_center",
     "description": "A central building can act as a core and dining hall.  We should build out from the west room with wattle-and-daub.",
     "category": "CC_BUILDING",
@@ -539,6 +555,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_wad_center",
     "description": "A central building can act as a core and dining hall.  We should build between the east and west rooms with wattle-and-daub.",
     "category": "CC_BUILDING",
@@ -573,6 +590,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_shack_se_wad_south",
     "description": "A central building can act as a core and dining hall.  We should build the southeast quarter of one from wattle-and-daub.",
     "category": "CC_BUILDING",
@@ -607,6 +625,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_se_wad_south",
     "description": "A central building can act as a core and dining hall.  We should build out from the southeast room with wattle-and-daub.",
     "category": "CC_BUILDING",
@@ -642,6 +661,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_shack_sw_wad_south",
     "description": "A central building can act as a core and dining hall.  We should build the southwest quarter of one from wattle-and-daub.",
     "category": "CC_BUILDING",
@@ -676,6 +696,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_sw_wad_south",
     "description": "A central building can act as a core and dining hall.  We should build out from the southwest room with wattle-and-daub.",
     "category": "CC_BUILDING",
@@ -708,6 +729,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_core_wad_south",
     "description": "A central building can act as a core and dining hall.  We should build between the southeast and southwest rooms with wattle-and-daub.",
     "category": "CC_BUILDING",

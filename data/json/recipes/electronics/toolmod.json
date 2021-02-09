@@ -2,6 +2,7 @@
   {
     "result": "battery_ups",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
@@ -24,6 +25,7 @@
   {
     "result": "magazine_battery_mod",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
@@ -40,6 +42,7 @@
   {
     "result": "magazine_battery_light_mod",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "fabrication",
@@ -57,6 +60,7 @@
   {
     "result": "magazine_battery_medium_mod",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "fabrication",
@@ -74,6 +78,7 @@
   {
     "result": "magazine_battery_heavy_mod",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "fabrication",
@@ -90,6 +95,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "medium_battery_cell",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -106,6 +112,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "heavy_battery_cell",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -122,6 +129,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "medium_plus_battery_cell",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -138,6 +146,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "heavy_plus_battery_cell",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",

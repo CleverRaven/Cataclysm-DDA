@@ -121,7 +121,7 @@
   {
     "type": "overmap_terrain",
     "id": "cabin_isherwood",
-    "name": "forest",
+    "name": "cabin",
     "sym": "C",
     "color": "i_green",
     "see_cost": 5
@@ -140,18 +140,18 @@
   {
     "type": "overmap_terrain",
     "id": [ "cabin_lake", "lake_cabin_boathouse", "cabin_strange" ],
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
+    "name": "cabin",
+    "sym": "C",
+    "color": "i_green",
     "see_cost": 5,
     "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "cabin_lake_roof", "lake_cabin_boathouse_roof" ],
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
+    "name": "cabin roof",
+    "sym": "C",
+    "color": "i_green",
     "see_cost": 5
   },
   {
@@ -166,14 +166,14 @@
   {
     "type": "overmap_terrain",
     "id": "cabin_strange_roof",
-    "name": "forest",
-    "sym": ".",
-    "color": "blue",
+    "name": "cabin roof",
+    "sym": "C",
+    "color": "i_green",
     "see_cost": 5
   },
   {
     "type": "overmap_terrain",
-    "id": [ "cabin", "cabin_1", "cabin_2", "cabin_3", "cabin_4", "cabin_5", "cabin_6", "cabin_7", "cabin_lapin" ],
+    "id": [ "cabin", "cabin_1", "cabin_2", "cabin_3", "cabin_4", "cabin_5", "cabin_6", "cabin_7", "cabin_lapin", "bandit_cabin" ],
     "name": "cabin",
     "sym": "C",
     "color": "i_green",
@@ -269,10 +269,10 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "bandit_cabin", "bandit_camp_1", "bandit_camp_2", "bandit_camp_3", "bandit_camp_4" ],
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
+    "id": [ "bandit_camp_1", "bandit_camp_2", "bandit_camp_3", "bandit_camp_4" ],
+    "name": "wooden fort",
+    "sym": "+",
+    "color": "brown",
     "see_cost": 5,
     "//": "RISK_LOW due to risk and safety being based on NPCs perception of what the area may contain",
     "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
@@ -334,6 +334,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "hot_springs",
+    "name": "hot spring",
+    "sym": ".",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
     "id": "pond_forest",
     "name": "basin",
     "sym": "F",
@@ -354,8 +363,8 @@
     "type": "overmap_terrain",
     "id": [ "hunter_shack", "hunter_shack_1" ],
     "name": "swamp shack",
-    "sym": "F",
-    "color": "cyan",
+    "sym": "+",
+    "color": "i_cyan",
     "see_cost": 5,
     "flags": [ "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
@@ -363,8 +372,8 @@
     "type": "overmap_terrain",
     "id": [ "hunter_shack_roof", "hunter_shack_roof_1" ],
     "name": "swamp shack roof",
-    "sym": "F",
-    "color": "cyan",
+    "sym": "+",
+    "color": "i_cyan",
     "see_cost": 5
   },
   {
@@ -407,9 +416,9 @@
   {
     "type": "overmap_terrain",
     "id": [ "bandit_garage_1", "bandit_garage_2" ],
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
+    "name": "garage",
+    "sym": "O",
+    "color": "white",
     "see_cost": 5,
     "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
   },
@@ -615,5 +624,46 @@
     "color": "green",
     "see_cost": 5,
     "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "fort_1a",
+      "fort_2a",
+      "fort_3a",
+      "fort_4a",
+      "fort_1b",
+      "fort_2b",
+      "fort_3b",
+      "fort_4b",
+      "fort_1c",
+      "fort_2c",
+      "fort_3c",
+      "fort_4c",
+      "fort_1a_1",
+      "fort_2a_1",
+      "fort_3a_1",
+      "fort_4a_1",
+      "fort_1b_1",
+      "fort_2b_1",
+      "fort_3b_1",
+      "fort_4b_1",
+      "fort_1c_1",
+      "fort_2c_1",
+      "fort_3c_1",
+      "fort_4c_1"
+    ],
+    "name": "bastion fort",
+    "sym": "F",
+    "color": "red",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nest_dermatik", "nest_dermatik_roof" ],
+    "name": "mound of dirt",
+    "sym": "O",
+    "color": "brown",
+    "see_cost": 2
   }
 ]

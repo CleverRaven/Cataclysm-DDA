@@ -34,6 +34,7 @@
     "copy-from": "mbelt_leather",
     "id": "mbelt_thor",
     "name": { "str_sp": "Megingjörð" },
+    "price_postapoc": "9500 USD",
     "description": "The mythical belt of Thor, god of thunder.  Or at least so it appears.  It doubles the wearer's base strength.",
     "material": [ "superalloy" ],
     "material_thickness": 10,
@@ -147,8 +148,16 @@
     "description": "A wide girdle that fits around your waist, you can sheath or holster any weapon into it in the blink of an eye, and it seemingly stores them somewhere else.",
     "coverage": 10,
     "encumbrance": 3,
+    "max_encumbrance": 3,
     "pocket_data": [
-      { "holster": true, "moves": 5, "max_contains_volume": "4 L", "max_contains_weight": "2500 g", "weight_multiplier": 0.0 },
+      {
+        "holster": true,
+        "moves": 5,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "125 cm",
+        "weight_multiplier": 0.0
+      },
       {
         "holster": true,
         "moves": 5,

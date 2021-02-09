@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -12,7 +13,6 @@
 #include <vector>
 
 #include "recipe.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;
@@ -128,13 +128,15 @@ class recipe_subset
 
         enum class search_type : int {
             name,
+            exclude_name,
             skill,
             primary_skill,
             component,
             tool,
             quality,
             quality_result,
-            description_result
+            description_result,
+            proficiency,
         };
 
         /** Find marked favorite recipes */
@@ -147,10 +149,13 @@ class recipe_subset
         std::vector<const recipe *> hidden() const;
 
         /** Find recipes matching query (left anchored partial matches are supported) */
-        std::vector<const recipe *> search( const std::string &txt,
-                                            search_type key = search_type::name ) const;
+        std::vector<const recipe *> search(
+            const std::string &txt, search_type key = search_type::name,
+            const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Find recipes matching query and return a new recipe_subset */
-        recipe_subset reduce( const std::string &txt, search_type key = search_type::name ) const;
+        recipe_subset reduce(
+            const std::string &txt, search_type key = search_type::name,
+            const std::function<void( size_t, size_t )> &progress_callback = {} ) const;
         /** Set intersection between recipe_subsets */
         recipe_subset intersection( const recipe_subset &subset ) const;
         /** Set difference between recipe_subsets */

@@ -2,6 +2,7 @@
   {
     "result": "steam_watts_small",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -28,6 +29,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "fuel_bunker",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -42,6 +44,7 @@
   {
     "result": "reins_tackle",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "tailor",
@@ -49,6 +52,7 @@
     "autolearn": true,
     "time": "120 m",
     "using": [ [ "sewing_standard", 100 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [
       [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
       [ [ "cordage_superior", 2, "LIST" ] ]
@@ -57,6 +61,7 @@
   {
     "result": "yoke_harness",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -65,6 +70,7 @@
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_carpentry", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "sewing_standard", 100 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
       [ [ "2x4", 4 ] ],
@@ -74,6 +80,7 @@
   {
     "result": "hd_tow_cable",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -87,6 +94,7 @@
   {
     "result": "bike_rack",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -105,6 +113,7 @@
   {
     "result": "rebar_plate",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "//": "sawing it down doesn't teach anything useful",
@@ -120,6 +129,7 @@
   {
     "result": "spring_plate",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -133,6 +143,7 @@
   {
     "result": "tearer",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -152,16 +163,18 @@
   {
     "result": "minifreezer",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
     "skills_required": [ "fabrication", 5 ],
     "difficulty": 5,
-    "time": "180 m",
+    "time": "5 h",
     "reversible": true,
     "autolearn": false,
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "welding_standard", 50 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 } ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -182,6 +195,7 @@
   {
     "result": "programmable_autopilot",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "computer",
@@ -197,6 +211,7 @@
       [ "textbook_anarch", 3 ]
     ],
     "using": [ [ "soldering_standard", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -224,8 +239,10 @@
   {
     "result": "minifridge",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "copy-from": "minifreezer",
     "skills_required": [ "fabrication", 4 ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 } ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -246,6 +263,7 @@
   {
     "result": "mountable_heater",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -260,6 +278,7 @@
   {
     "result": "mountable_cooler",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "mechanics",
@@ -269,6 +288,7 @@
     "autolearn": false,
     "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "welding_standard", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "sheet_metal", 2 ] ],
@@ -285,6 +305,7 @@
   {
     "result": "vh_autoclave",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -294,11 +315,13 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "soldering_standard", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "components": [ [ [ "autoclave", 1 ] ], [ [ "cable", 2 ] ], [ [ "power_supply", 2 ] ] ]
   },
   {
     "result": "washing_machine",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -324,6 +347,7 @@
   {
     "result": "dishwasher",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -349,6 +373,7 @@
   {
     "result": "wheel_caster",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -356,6 +381,7 @@
     "time": "90 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 4 ], [ "steel_tiny", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 4 ] ] ]
@@ -363,6 +389,7 @@
   {
     "result": "mounted_spare_tire",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
@@ -378,6 +405,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "boat_board",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -391,6 +419,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "raft_board",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -403,18 +432,21 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "plastic_boat_hull",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "5 m",
+    "time": "1 h",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [ [ [ "plastic_chunk", 50 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sail",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -428,6 +460,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "hand_paddles",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -441,6 +474,7 @@
   {
     "result": "cargo_aisle",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "fabrication",
@@ -454,6 +488,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "towel_hanger",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -466,6 +501,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_mount_wood",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -483,6 +519,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_mount_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -496,6 +533,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "turret_mount",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -505,6 +543,7 @@
     "time": "1 h",
     "autolearn": true,
     "using": [ [ "welding_standard", 3 ], [ "steel_standard", 2 ], [ "soldering_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -515,6 +554,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "turret_controls",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -524,6 +564,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "soldering_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "laptop", -1 ] ] ],
     "components": [
@@ -538,6 +579,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "basket",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -551,6 +593,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "folding_basket",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -564,6 +607,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "bike_basket",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -577,6 +621,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "foldframe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -590,6 +635,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "foldwoodframe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -603,6 +649,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_wheelchair",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -617,6 +664,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_rail_small_pair",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -631,6 +679,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "hand_rims",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -645,6 +694,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "frame",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -663,6 +713,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "hdframe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -681,6 +732,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "frame_wood",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -694,6 +746,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "frame_wood_light",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -706,6 +759,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_wood",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -719,6 +773,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_wood_b",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -732,6 +787,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "wood_plate",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -745,6 +801,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "wheel_metal",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -758,6 +815,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "steel_plate",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -773,6 +831,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "steel_armor",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -788,6 +847,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "spiked_plate",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -802,6 +862,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "hard_plate",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -818,6 +879,7 @@
   {
     "result": "fridgetank",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "copy-from": "minifreezer",
     "skills_required": [ "fabrication", 4 ],
     "qualities": [
@@ -839,6 +901,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "alternator_bicycle",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -850,11 +913,13 @@
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
     "using": [ [ "soldering_standard", 4 ], [ "steel_tiny", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "cable", 4 ] ], [ [ "e_scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "alternator_motorbike",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -866,6 +931,7 @@
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
     "using": [ [ "soldering_standard", 8 ], [ "steel_standard", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "e_scrap", 4 ] ], [ [ "cable", 30 ] ] ]
   }

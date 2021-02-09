@@ -92,7 +92,6 @@
     "color": "dark_gray",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "9 L", "max_contains_weight": "27 kg", "moves": 200 } ],
     "encumbrance": 3,
-    "max_encumbrance": 7,
     "material_thickness": 3,
     "material": [ "leather", "kevlar" ],
     "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW", "STURDY", "WATERPROOF" ]
@@ -120,7 +119,7 @@
     "price": 20000,
     "warmth": 17,
     "symbol": ":",
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "ALLOWS_TAIL" ]
   },
   {
     "id": "crt_armguard",
@@ -186,7 +185,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "CRIT Armored Anomaly Suit",
-    "description": "A relatively simple suit of armor.  A suit of woven composite fibers combined with a cleansuit core and strategically placed segmented Kevlar plates keep the suit light-weight and the one wearing it alive while offering superb resistance to the elements and ambient radiation.  ",
+    "description": "A relatively simple suit of armor.  A suit of woven composite fibers combined with a cleansuit core and strategically placed segmented Kevlar plates keep the suit light-weight and the one wearing it alive while offering superb resistance to the elements and ambient radiation.",
     "weight": "11460 g",
     "volume": "11250 ml",
     "price": 900000000,
@@ -228,7 +227,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
     ],
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED", "RAINPROOF", "ALLOWS_TAIL" ]
   },
   {
     "id": "crt_earmor",

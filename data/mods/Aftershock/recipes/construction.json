@@ -2,7 +2,7 @@
   {
     "type": "construction",
     "id": "constr_afs_fridge_vehicle",
-    "description": "Convert Fridge Power Supply",
+    "group": "convert_fridge_power_supply",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ], [ "electronics", 4 ], [ "mechanics", 3 ] ],
     "time": 30,
@@ -15,7 +15,7 @@
   {
     "type": "construction",
     "id": "constr_afs_freezer_vehicle",
-    "description": "Convert Vehicle Fridge to Freezer",
+    "group": "convert_vehicle_fridge_to_freezer",
     "category": "FURN",
     "required_skills": [ [ "electronics", 3 ], [ "mechanics", 3 ] ],
     "time": 20,

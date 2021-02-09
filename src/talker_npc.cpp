@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <memory>
 #include <set>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
@@ -12,13 +13,13 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
-#include "enums.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
 #include "magic.h"
+#include "make_static.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
@@ -34,12 +35,10 @@
 #include "ret_val.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "talker.h"
 #include "talker_npc.h"
 #include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 
@@ -50,6 +49,7 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
 std::string talker_npc::distance_to_goal() const
 {
@@ -168,6 +168,15 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
             add_topics.push_back( "TALK_DEAF" );
         }
     }
+    if( player_character.is_mute() ) {
+        if( add_topics.back() == "TALK_MUG" ||
+            add_topics.back() == "TALK_STRANGER_AGGRESSIVE" ) {
+            me_npc->make_angry();
+            add_topics.push_back( "TALK_MUTE_ANGRY" );
+        } else {
+            add_topics.push_back( "TALK_MUTE" );
+        }
+    }
 
     if( me_npc->has_trait( trait_PROF_FOODP ) &&
         !( me_npc->is_wearing( itype_id( "foodperson_mask_on" ) ) ||
@@ -184,15 +193,8 @@ void talker_npc::check_missions()
     me_npc->chatbin.check_missions();
 }
 
-void talker_npc::update_missions( const std::vector<mission *> &missions_assigned,
-                                  const character_id &charID )
+void talker_npc::update_missions( const std::vector<mission *> &missions_assigned )
 {
-    if( me_npc->chatbin.mission_selected != nullptr ) {
-        if( me_npc->chatbin.mission_selected->get_assigned_player_id() != charID ) {
-            // Don't talk about a mission that is assigned to someone else.
-            me_npc->chatbin.mission_selected = nullptr;
-        }
-    }
     if( me_npc->chatbin.mission_selected == nullptr ) {
         // if possible, select a mission to talk about
         if( !me_npc->chatbin.missions.empty() ) {
@@ -277,7 +279,7 @@ std::string talker_npc::skill_training_text( const talker &student,
     SkillLevel skill_level_obj = pupil->get_skill_level_object( skill );
     const int cur_level = skill_level_obj.level();
     const int cur_level_exercise = skill_level_obj.exercise();
-    skill_level_obj.train( 100 );
+    skill_level_obj.train( 10000 );
     const int next_level = skill_level_obj.level();
     const int next_level_exercise = skill_level_obj.exercise();
 
@@ -393,6 +395,11 @@ int talker_npc::cash_to_favor( const int value ) const
     return npc_trading::cash_to_favor( *me_npc, value );
 }
 
+int talker_npc::value( const item &it ) const
+{
+    return me_npc->value( it );
+}
+
 enum consumption_result {
     REFUSED = 0,
     CONSUMED_SOME, // Consumption didn't fail, but don't delete the item
@@ -427,12 +434,18 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = _( "It doesn't look like a good idea to consume this…" );
             return REFUSED;
         } else {
+            if( to_eat.rotten() && !p.as_character()->has_trait( trait_SAPROVORE ) ) {
+                //TODO: once npc needs are operational again check npc hunger state and allow eating if desperate
+                reason = _( "This is rotten!  I won't eat that." );
+                return REFUSED;
+            }
+
             const time_duration &consume_time = p.get_consume_time( to_eat );
             p.moves -= to_moves<int>( consume_time );
             p.consume( to_eat );
             reason = _( "Thanks, that hit the spot." );
-
         }
+
     } else if( to_eat.is_medication() ) {
         if( !comest->tool.is_null() ) {
             bool has = p.has_amount( comest->tool, 1 );
@@ -484,8 +497,10 @@ std::string talker_npc::give_item_to( const bool to_use )
     }
     item &given = *loc;
 
-    if( ( &given == &player_character.weapon && given.has_flag( "NO_UNWIELD" ) ) ||
-        ( player_character.is_worn( given ) && given.has_flag( "NO_TAKEOFF" ) ) ) {
+    if( ( &given == &player_character.weapon &&
+          given.has_flag( STATIC( flag_id( "NO_UNWIELD" ) ) ) ) ||
+        ( player_character.is_worn( given ) &&
+          given.has_flag( STATIC( flag_id( "NO_TAKEOFF" ) ) ) ) ) {
         // Bionic weapon or shackles
         return _( "How?" );
     }
@@ -537,9 +552,9 @@ std::string talker_npc::give_item_to( const bool to_use )
                 }
             }
         } else {
-            reason += string_format( _( "My current weapon is better than this.\n"
-                                        "(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
-                                     cur_weapon_value );
+            reason += " " + string_format( _( "My current weapon is better than this.\n"
+                                              "(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
+                                           cur_weapon_value );
         }
     } else {//allow_use is false so try to carry instead
         if( me_npc->can_pickVolume( given ) && me_npc->can_pickWeight( given ) ) {
@@ -550,7 +565,7 @@ std::string talker_npc::give_item_to( const bool to_use )
             if( !me_npc->can_pickVolume( given ) ) {
                 const units::volume free_space = me_npc->volume_capacity() -
                                                  me_npc->volume_carried();
-                reason += "\n" + std::string( _( "I have no space to store it." ) ) + "\n";
+                reason += " " + std::string( _( "I have no space to store it." ) ) + " ";
                 if( free_space > 0_ml ) {
                     reason += string_format( _( "I can only store %s %s more." ),
                                              format_volume( free_space ), volume_units_long() );
@@ -559,7 +574,7 @@ std::string talker_npc::give_item_to( const bool to_use )
                 }
             }
             if( !me_npc->can_pickWeight( given ) ) {
-                reason += std::string( "\n" ) + _( "It is too heavy for me to carry." );
+                reason += std::string( " " ) + _( "It is too heavy for me to carry." );
             }
         }
     }
@@ -878,4 +893,9 @@ bool talker_npc::enslave_mind()
 void talker_npc::set_first_topic( const std::string &chat_topic )
 {
     me_npc->chatbin.first_topic = chat_topic;
+}
+
+bool talker_npc::is_safe() const
+{
+    return me_npc->is_safe();
 }

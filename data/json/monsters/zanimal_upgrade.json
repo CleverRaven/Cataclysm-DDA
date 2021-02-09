@@ -40,7 +40,7 @@
     "description": "Huge swollen zombie dog, smeared black with slime.  Its teeth are longer and its broad back is rippling with muscles and oozing wounds.",
     "diff": 2,
     "color": "red",
-    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "proportional": { "hp": 1.5, "speed": 1.5, "attack_cost": 1.5 },
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 5,
@@ -51,7 +51,7 @@
       "vision_night": 1
     },
     "upgrades": { "half_life": 21, "into": "mon_dog_zombie_hulk" },
-    "special_attacks": [ [ "SMASH", 30 ], { "type": "bite", "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
+    "special_attacks": [ [ "SMASH", 30 ], { "type": "bite", "move_cost": 150, "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH" ] }
   },
   {
@@ -64,13 +64,13 @@
     "volume": "440 L",
     "weight": "100 kg",
     "color": "white_magenta",
-    "proportional": { "hp": 4, "speed": 1.25 },
+    "proportional": { "hp": 4, "speed": 1.25, "attack_cost": 1.25 },
     "relative": { "melee_skill": 1, "melee_dice": 1, "melee_cut": -2 },
     "armor_bash": 8,
     "armor_cut": 12,
     "armor_bullet": 10,
     "upgrades": {  },
-    "special_attacks": [ [ "SMASH", 20 ], { "type": "bite", "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
+    "special_attacks": [ [ "SMASH", 20 ], { "type": "bite", "move_cost": 188, "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
     "extend": { "flags": [ "DESTROYS" ] }
   },
   {
@@ -135,17 +135,19 @@
     "description": "This cougar's eyes ooze with dark, oily fluid, and its fur is torn, revealing deep festering wounds.  Its claws and teeth are unnaturally long and sharpened into dangerous looking spikes",
     "hp": 200,
     "speed": 190,
+    "attack_cost": 190,
     "color": "brown",
     "melee_dice": 6,
     "melee_cut": 8,
     "dodge": 5,
     "vision_night": 12,
     "special_attacks": [
-      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12 } ] },
+      { "id": "scratch", "move_cost": 190, "damage_max_instance": [ { "damage_type": "cut", "amount": 12 } ] },
       { "type": "leap", "cooldown": 5, "max_range": 5 },
       {
         "type": "bite",
         "cooldown": 10,
+        "move_cost": 190,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ]
       }
     ],
@@ -240,6 +242,7 @@
     "diff": 2,
     "hp": 315,
     "speed": 210,
+    "attack_cost": 210,
     "color": "red",
     "aggression": 100,
     "melee_dice": 4,

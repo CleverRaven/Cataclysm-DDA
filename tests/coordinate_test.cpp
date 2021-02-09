@@ -1,14 +1,15 @@
-#include "catch/catch.hpp"
-
+#include <functional>
+#include <iosfwd>
 #include <string>
 #include <tuple>
 
 #include "cata_generators.h"
+#include "catch/catch.hpp"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "point.h"
 
-constexpr int num_trials = 5;
+static constexpr int num_trials = 5;
 
 static_assert( point::dimension == 2, "" );
 static_assert( tripoint::dimension == 3, "" );

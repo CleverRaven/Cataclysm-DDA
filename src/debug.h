@@ -44,13 +44,11 @@
  * As dbg calls DebugLog, it returns the stream, its usage is the same.
  */
 
+#include <functional>
 // Includes                                                         {{{1
 // ---------------------------------------------------------------------
 #include <iostream>
-#include <string>
 #include <type_traits>
-#include <utility>
-#include <vector>
 
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
@@ -196,6 +194,19 @@ void limitDebugClass( int );
  * @return true if any error has been logged in this run.
  */
 bool debug_has_error_been_observed();
+
+/**
+ * Capturing debug messages during func execution,
+ * used to test debugmsg calls in the unit tests
+ * @return std::string debugmsg
+ */
+std::string capture_debugmsg_during( const std::function<void()> &func );
+
+/**
+ * Should be called after catacurses::stdscr is initialized.
+ * If catacurses::stdscr is available, shows all buffered debugmsg prompts.
+ */
+void replay_buffered_debugmsg_prompts();
 
 // Debug Only                                                       {{{1
 // ---------------------------------------------------------------------

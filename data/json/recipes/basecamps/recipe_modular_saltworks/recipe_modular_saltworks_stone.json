@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_saltpan_rock_northeast",
     "description": "We could divert saltwater from the swamp nearby to create a steady supply of salt for our needs in a stone building.",
     "category": "CC_BUILDING",
@@ -10,7 +11,7 @@
     "construction_blueprint": "fbmsw_saltpan_rock_northeast",
     "blueprint_name": "NE stone wall saltpan",
     "blueprint_requires": [ { "id": "fbmsw_0" } ],
-    "blueprint_provides": [ { "id": "fbmsw_northeast" }, { "id": "Salt_Pan" } ],
+    "blueprint_provides": [ { "id": "fbmsw_northeast" }, { "id": "Salt_Pan" }, { "id": "saltworks_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmsw_northeast" } ],
     "blueprint_needs": {
       "time": "5 d 8 h 40 m",
@@ -33,6 +34,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shack_rock_southeast",
     "description": "We could use a storage room for chemicals and tools, so build a stone wall shack with a roof on the southeast side of the saltworks field.",
     "category": "CC_BUILDING",
@@ -72,6 +74,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_brewery0_rock_southwest",
     "description": "We could take advantage of the designation of this area to build a stone brewery.",
     "category": "CC_BUILDING",

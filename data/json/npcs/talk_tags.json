@@ -1,6 +1,25 @@
 [
   {
     "type": "snippet",
+    "category": "<get_lost>",
+    "//": "A rude way of telling player to get lost.",
+    "text": [
+      "Fuck off.",
+      "Fuck off, <name_b>.",
+      "Fuck off, you <dumb> <name_b>.",
+      "Get outta my sight.",
+      "Get lost.",
+      "Get off.",
+      "Get the fuck out of here.",
+      "Get the fuck outta here.",
+      "Go bug someone else.",
+      "Begone!",
+      "Begone from my sight!",
+      "Scat!"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<no_to_thorazine>",
     "//": "Hallucinatory NPCs say these things to discourage the avatar from taking thorazine and ending the hallucination.",
     "text": [
@@ -18,7 +37,7 @@
   {
     "type": "snippet",
     "category": "<yes_to_lsd>",
-    "//": "Hallucinatry NPCs say these things to encourage the avatar to extend the hallucination",
+    "//": "Hallucinatory NPCs say these things to encourage the avatar to extend the hallucination",
     "text": [
       "Pink tablets!  I love those!",
       "Hey there's some pink tablets, take some!",
@@ -702,10 +721,10 @@
       "<name_b>",
       "<swear> <name_b>",
       "you can fuck right off, you <name_b>",
-      "I've had enough of you, begone.",
+      "I've had enough of you, begone",
       "you're a poster child for abortions",
       "how the fuck you've survived this far is beyond me, you <swear> <swear> <name_b>",
-      "you're the reason the gene pool needs a lifeguard"
+      "you're why the gene pool needs a lifeguard"
     ]
   },
   {
@@ -1427,17 +1446,17 @@
   {
     "type": "snippet",
     "category": "<ally_rule_allow_pick_up_true_text>",
-    "text": "* will pick up items."
+    "text": "<mypronoun> will pick up items."
   },
   {
     "type": "snippet",
     "category": "<ally_rule_allow_pick_up_true_list_text>",
-    "text": "* will only pick up items from the whitelist."
+    "text": "<mypronoun> will only pick up items from the whitelist."
   },
   {
     "type": "snippet",
     "category": "<ally_rule_allow_pick_up_false_text>",
-    "text": "* will not pick up items."
+    "text": "<mypronoun> will not pick up items."
   },
   {
     "type": "snippet",
@@ -1508,6 +1527,16 @@
     "type": "snippet",
     "category": "<ally_rule_follow_distance_2_false_text>",
     "text": "<mypronoun> will follow you at about four paces."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_follow_distance_request_2_text>",
+    "text": "Follow me at about two paces."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_follow_distance_request_4_text>",
+    "text": "Follow me at about four paces."
   },
   {
     "type": "snippet",

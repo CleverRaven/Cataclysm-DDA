@@ -3,21 +3,22 @@
 #include <algorithm>
 #include <cstddef>
 #include <map>
-#include <memory>
 #include <unordered_set>
 
 #include "bodypart.h"
 #include "color.h"
 #include "debug.h"
+#include "effect_source.h"
 #include "enums.h"
-#include "int_id.h"
+#include "generic_factory.h"
 #include "json.h"
 #include "messages.h"
+#include "optional.h"
 #include "output.h"
 #include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "string_id.h"
+#include "text_snippets.h"
 #include "units.h"
 
 static const efftype_id effect_bandaged( "bandaged" );
@@ -73,58 +74,58 @@ void weed_msg( player &p )
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0:
-                // Freakazoid
-                p.add_msg_if_player(
-                    _( "The scariest thing in the world would be… if all the air in the world turned to WOOD!" ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Freakazoid_1" ).value_or(
+                                         translation() ) );
                 return;
             case 1:
-                // Simpsons
-                p.add_msg_if_player(
-                    _( "Could Jesus microwave a burrito so hot, that he himself couldn't eat it?" ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Simpsons_1" ).value_or(
+                                         translation() ) );
                 p.mod_hunger( 2 );
                 return;
             case 2:
                 if( smarts > 8 ) {
-                    // Timothy Leary
-                    p.add_msg_if_player( _( "Science is all metaphor." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Timothy_Leary" ).value_or(
+                                             translation() ) );
                 } else if( smarts < 3 ) {
-                    // It's Always Sunny in Philadelphia
-                    p.add_msg_if_player( _( "Science is a liar sometimes." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_IASIF" ).value_or( translation() ) );
                 } else {
-                    // Durr
-                    p.add_msg_if_player( _( "Science is… wait, what was I talking about again?" ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Durr" ).value_or( translation() ) );
                 }
                 return;
             case 3:
-                // Dazed and Confused
-                p.add_msg_if_player(
-                    _( "Behind every good man there is a woman, and that woman was Martha Washington, man." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Dazed_and_Confused_1" ).value_or(
+                                         translation() ) );
                 if( one_in( 2 ) ) {
-                    p.add_msg_if_player(
-                        _( "Every day, George would come home, and she would have a big fat bowl waiting for him when he came in the door, man." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Dazed_and_Confused_2" ).value_or(
+                                             translation() ) );
                     if( one_in( 2 ) ) {
-                        p.add_msg_if_player( _( "She was a hip, hip, hip lady, man." ) );
+                        p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Dazed_and_Confused_3" ).value_or(
+                                                 translation() ) );
                     }
                 }
                 return;
             case 4:
                 if( p.has_amount( itype_money_bundle, 1 ) ) { // Half Baked
-                    p.add_msg_if_player( _( "You ever see the back of a twenty dollar bill… on weed?" ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Half_Baked_1" ).value_or(
+                                             translation() ) );
                     if( one_in( 2 ) ) {
-                        p.add_msg_if_player(
-                            _( "Oh, there's some crazy shit, man.  There's a dude in the bushes.  Has he got a gun?  I dunno!" ) );
+                        p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Half_Baked_2" ).value_or(
+                                                 translation() ) );
                         if( one_in( 3 ) ) {
-                            p.add_msg_if_player( _( "RED TEAM GO, RED TEAM GO!" ) );
+                            p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Half_Baked_3" ).value_or(
+                                                     translation() ) );
                         }
                     }
                 } else if( p.has_amount( itype_holybook_bible, 1 ) ) {
-                    p.add_msg_if_player( _( "You have a sudden urge to flip your bible open to Genesis 1:29…" ) );
-                } else { // Big Lebowski
-                    p.add_msg_if_player( _( "That rug really tied the room together…" ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Bible" ).value_or( translation() ) );
+                } else {
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Big_Lebowski" ).value_or(
+                                             translation() ) );
                 }
                 return;
             case 5:
-                p.add_msg_if_player( _( "I used to do drugs…  I still do, but I used to, too." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Mitch_Hedberg" ).value_or(
+                                         translation() ) );
             default:
                 return;
         }
@@ -132,45 +133,47 @@ void weed_msg( player &p )
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0:
-                // Bob Marley
-                p.add_msg_if_player( _( "The herb reveals you to yourself." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Bob_Marley" ).value_or(
+                                         translation() ) );
                 return;
             case 1:
-                // Freakazoid
-                p.add_msg_if_player(
-                    _( "Okay, like, the scariest thing in the world would be… if like you went to grab something and it wasn't there!" ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Freakazoid_2" ).value_or(
+                                         translation() ) );
                 return;
             case 2:
-                // Simpsons
-                p.add_msg_if_player( _( "They call them fingers, but I never see them fing." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Simpsons_2" ).value_or(
+                                         translation() ) );
                 if( smarts > 2 && one_in( 2 ) ) {
-                    p.add_msg_if_player( _( "…oh, there they go." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Simpsons_3" ).value_or(
+                                             translation() ) );
                 }
                 return;
             case 3:
-                // Bill Hicks
-                p.add_msg_if_player(
-                    _( "You suddenly realize that all matter is merely energy condensed to a slow vibration, and we are all one consciousness experiencing itself subjectively." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Bill_Hicks" ).value_or(
+                                         translation() ) );
                 return;
             case 4:
-                // Steve Martin
-                p.add_msg_if_player( _( "I usually only smoke in the late evening." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Steve_Martin_1" ).value_or(
+                                         translation() ) );
                 if( one_in( 4 ) ) {
-                    p.add_msg_if_player(
-                        _( "Oh, occasionally the early evening, but usually the late evening, or the mid-evening." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Steve_Martin_2" ).value_or(
+                                             translation() ) );
                 }
                 if( one_in( 4 ) ) {
-                    p.add_msg_if_player( _( "Just the early evening, mid-evening and late evening." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Steve_Martin_3" ).value_or(
+                                             translation() ) );
                 }
                 if( one_in( 4 ) ) {
-                    p.add_msg_if_player(
-                        _( "Occasionally, early afternoon, early mid-afternoon, or perhaps the late mid-afternoon." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Steve_Martin_4" ).value_or(
+                                             translation() ) );
                 }
                 if( one_in( 4 ) ) {
-                    p.add_msg_if_player( _( "Oh, sometimes the early-mid-late-early-morning." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Steve_Martin_5" ).value_or(
+                                             translation() ) );
                 }
                 if( smarts > 2 ) {
-                    p.add_msg_if_player( _( "…But never at dusk." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Steve_Martin_6" ).value_or(
+                                             translation() ) );
                 }
                 return;
             case 5:
@@ -181,26 +184,28 @@ void weed_msg( player &p )
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0:
-                // Cheech and Chong
-                p.add_msg_if_player( _( "Dave's not here, man." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Cheech_and_Chong" ).value_or(
+                                         translation() ) );
                 return;
             case 1:
-                // Real Life
-                p.add_msg_if_player( _( "Man, a cheeseburger sounds SO awesome right now." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Real_Life_1" ).value_or(
+                                         translation() ) );
                 p.mod_hunger( 4 );
                 if( p.has_trait( trait_VEGETARIAN ) ) {
-                    p.add_msg_if_player( _( "Eh… maybe not." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Real_Life_2" ).value_or(
+                                             translation() ) );
                 } else if( p.has_trait( trait_LACTOSE ) ) {
-                    p.add_msg_if_player( _( "I guess, maybe, without the cheese… yeah." ) );
+                    p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Real_Life_3" ).value_or(
+                                             translation() ) );
                 }
                 return;
             case 2:
-                // Dazed and Confused
-                p.add_msg_if_player( _( "Walkin' down the hall, by myself, smokin' a j with fifty elves." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Dazed_and_Confused_4" ).value_or(
+                                         translation() ) );
                 return;
             case 3:
-                // Half Baked
-                p.add_msg_if_player( _( "That weed was the shiz-nittlebam snip-snap-sack." ) );
+                p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Half_Baked_4" ).value_or(
+                                         translation() ) );
                 return;
             case 4:
                 // re-roll
@@ -393,6 +398,11 @@ bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member
     }
 }
 
+bool effect_type::has_flag( const flag_id &flag ) const
+{
+    return flags.count( flag );
+}
+
 effect_rating effect_type::get_rating() const
 {
     return rating;
@@ -446,23 +456,35 @@ game_message_type effect_type::lose_game_message_type() const
 }
 std::string effect_type::get_apply_message() const
 {
-    return apply_message;
+    return apply_message.translated();
 }
-std::string effect_type::get_apply_memorial_log() const
+std::string effect_type::get_apply_memorial_log( const memorial_gender gender ) const
 {
-    return apply_memorial_log;
+    switch( gender ) {
+        case memorial_gender::male:
+            return pgettext( "memorial_male", apply_memorial_log.c_str() );
+        case memorial_gender::female:
+            return pgettext( "memorial_female", apply_memorial_log.c_str() );
+    }
+    return std::string();
 }
 std::string effect_type::get_remove_message() const
 {
-    return remove_message;
+    return remove_message.translated();
 }
-std::string effect_type::get_remove_memorial_log() const
+std::string effect_type::get_remove_memorial_log( const memorial_gender gender ) const
 {
-    return remove_memorial_log;
+    switch( gender ) {
+        case memorial_gender::male:
+            return pgettext( "memorial_male", remove_memorial_log.c_str() );
+        case memorial_gender::female:
+            return pgettext( "memorial_female", remove_memorial_log.c_str() );
+    }
+    return std::string();
 }
 std::string effect_type::get_blood_analysis_description() const
 {
-    return blood_analysis_description;
+    return blood_analysis_description.translated();
 }
 bool effect_type::get_main_parts() const
 {
@@ -474,19 +496,14 @@ bool effect_type::is_show_in_info() const
 }
 bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &member )
 {
-    if( jo.has_array( member ) ) {
-        for( JsonArray inner : jo.get_array( member ) ) {
-            miss_msgs.push_back( std::make_pair( inner.get_string( 0 ), inner.get_int( 1 ) ) );
-        }
-        return true;
-    }
-    return false;
+    return jo.read( member, miss_msgs );
 }
 bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &member )
 {
     if( jo.has_array( member ) ) {
         for( JsonArray inner : jo.get_array( member ) ) {
-            std::string msg = inner.get_string( 0 );
+            translation msg;
+            inner.read( 0, msg );
             std::string r = inner.get_string( 1 );
             game_message_type rate = m_neutral;
             if( r == "good" ) {
@@ -543,7 +560,7 @@ std::string effect::disp_name() const
             }
         }
     }
-    if( bp != bodypart_str_id( "bp_null" ) ) {
+    if( bp != bodypart_str_id::NULL_ID() ) {
         ret += string_format( " (%s)", body_part_name( bp.id() ) );
     }
 
@@ -689,23 +706,23 @@ std::string effect::disp_desc( bool reduced ) const
     std::string tmp_str;
     if( eff_type->use_desc_ints( reduced ) ) {
         if( reduced ) {
-            tmp_str = eff_type->reduced_desc[intensity - 1];
+            tmp_str = eff_type->reduced_desc[intensity - 1].translated();
         } else {
-            tmp_str = eff_type->desc[intensity - 1];
+            tmp_str = eff_type->desc[intensity - 1].translated();
         }
     } else {
         if( reduced ) {
-            tmp_str = eff_type->reduced_desc[0];
+            tmp_str = eff_type->reduced_desc[0].translated();
         } else {
-            tmp_str = eff_type->desc[0];
+            tmp_str = eff_type->desc[0].translated();
         }
     }
     // Then print the effect description
     if( use_part_descs() ) {
-        ret += string_format( _( tmp_str ), body_part_name( bp.id() ) );
+        ret += string_format( tmp_str, body_part_name( bp.id() ) );
     } else {
         if( !tmp_str.empty() ) {
-            ret += _( tmp_str );
+            ret += tmp_str;
         }
     }
 
@@ -716,15 +733,15 @@ std::string effect::disp_short_desc( bool reduced ) const
 {
     if( eff_type->use_desc_ints( reduced ) ) {
         if( reduced ) {
-            return eff_type->reduced_desc[intensity - 1];
+            return eff_type->reduced_desc[intensity - 1].translated();
         } else {
-            return eff_type->desc[intensity - 1];
+            return eff_type->desc[intensity - 1].translated();
         }
     } else {
         if( reduced ) {
-            return eff_type->reduced_desc[0];
+            return eff_type->reduced_desc[0].translated();
         } else {
-            return eff_type->desc[0];
+            return eff_type->desc[0].translated();
         }
     }
 }
@@ -797,7 +814,7 @@ bodypart_id effect::get_bp() const
 {
     return bp.id();
 }
-void effect::set_bp( bodypart_str_id part )
+void effect::set_bp( const bodypart_str_id &part )
 {
     bp = part;
 }
@@ -823,6 +840,18 @@ int effect::get_max_intensity() const
 {
     return eff_type->max_intensity;
 }
+int effect::get_max_effective_intensity() const
+{
+    return eff_type->max_effective_intensity;
+}
+int effect::get_effective_intensity() const
+{
+    if( eff_type->max_effective_intensity > 0 ) {
+        return std::min( eff_type->max_effective_intensity, intensity );
+    } else {
+        return intensity;
+    }
+}
 
 int effect::set_intensity( int val, bool alert )
 {
@@ -840,7 +869,7 @@ int effect::set_intensity( int val, bool alert )
 
     if( alert && val < intensity && val - 1 < static_cast<int>( eff_type->decay_msgs.size() ) ) {
         add_msg( eff_type->decay_msgs[ val - 1 ].second,
-                 eff_type->decay_msgs[ val - 1 ].first.c_str() );
+                 eff_type->decay_msgs[ val - 1 ].first.translated() );
     }
 
     int old_intensity = intensity;
@@ -888,7 +917,7 @@ int effect::get_mod( const std::string &arg, bool reduced ) const
     }
     found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "min" ) );
     if( found != mod_data.end() ) {
-        min += found->second * ( intensity - 1 );
+        min += found->second * ( get_effective_intensity() - 1 );
     }
     // Get the maximum total
     found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "max" ) );
@@ -897,7 +926,7 @@ int effect::get_mod( const std::string &arg, bool reduced ) const
     }
     found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "max" ) );
     if( found != mod_data.end() ) {
-        max += found->second * ( intensity - 1 );
+        max += found->second * ( get_effective_intensity() - 1 );
     }
     if( static_cast<int>( max ) != 0 ) {
         // Return a random value between [min, max]
@@ -920,7 +949,7 @@ int effect::get_avg_mod( const std::string &arg, bool reduced ) const
     }
     found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "min" ) );
     if( found != mod_data.end() ) {
-        min += found->second * ( intensity - 1 );
+        min += found->second * ( get_effective_intensity() - 1 );
     }
     // Get the maximum total
     found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "max" ) );
@@ -929,7 +958,7 @@ int effect::get_avg_mod( const std::string &arg, bool reduced ) const
     }
     found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "max" ) );
     if( found != mod_data.end() ) {
-        max += found->second * ( intensity - 1 );
+        max += found->second * ( get_effective_intensity() - 1 );
     }
     if( static_cast<int>( max ) != 0 ) {
         // Return an average of min and max
@@ -942,8 +971,6 @@ int effect::get_avg_mod( const std::string &arg, bool reduced ) const
 
 int effect::get_amount( const std::string &arg, bool reduced ) const
 {
-    int intensity_capped = eff_type->max_effective_intensity > 0 ? std::min(
-                               eff_type->max_effective_intensity, intensity ) : intensity;
     const auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "amount" ) );
@@ -952,7 +979,7 @@ int effect::get_amount( const std::string &arg, bool reduced ) const
     }
     found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "amount" ) );
     if( found != mod_data.end() ) {
-        ret += found->second * ( intensity_capped - 1 );
+        ret += found->second * ( get_effective_intensity() - 1 );
     }
     return static_cast<int>( ret );
 }
@@ -1053,7 +1080,7 @@ double effect::get_percentage( const std::string &arg, int val, bool reduced ) c
 
     double ret = 0;
     // If both bot values are zero the formula is one_in(top), else the formula is x_in_y(top, bot)
-    if( bot_base != 0 && bot_scale != 0 ) {
+    if( bot_base != 0 || bot_scale != 0 ) {
         if( bot_base + bot_scale == 0 ) {
             // Special crash avoidance case, in most effect fields 0 = "nothing happens"
             // so assume false here for consistency
@@ -1182,7 +1209,7 @@ int effect::get_int_add_val() const
     return eff_type->int_add_val;
 }
 
-std::vector<std::pair<std::string, int>> effect::get_miss_msgs() const
+const std::vector<std::pair<translation, int>> &effect::get_miss_msgs() const
 {
     return eff_type->miss_msgs;
 }
@@ -1191,7 +1218,7 @@ std::string effect::get_speed_name() const
     // USes the speed_mod_name if one exists, else defaults to the first entry in "name".
     // But make sure the name for this intensity actually exists!
     if( !eff_type->speed_mod_name.empty() ) {
-        return _( eff_type->speed_mod_name );
+        return eff_type->speed_mod_name.translated();
     } else if( eff_type->use_name_ints() ) {
         return eff_type->name[ std::min<size_t>( intensity, eff_type->name.size() ) - 1 ].translated();
     } else if( !eff_type->name.empty() ) {
@@ -1242,19 +1269,15 @@ void load_effect_type( const JsonObject &jo )
     } else {
         new_etype.name.emplace_back();
     }
-    new_etype.speed_mod_name = jo.get_string( "speed_name", "" );
+    jo.read( "speed_name", new_etype.speed_mod_name );
 
     if( jo.has_member( "desc" ) ) {
-        for( const std::string line : jo.get_array( "desc" ) ) {
-            new_etype.desc.push_back( line );
-        }
+        jo.read( "desc", new_etype.desc );
     } else {
-        new_etype.desc.push_back( "" );
+        new_etype.desc.emplace_back();
     }
     if( jo.has_member( "reduced_desc" ) ) {
-        for( const std::string line : jo.get_array( "reduced_desc" ) ) {
-            new_etype.reduced_desc.push_back( line );
-        }
+        jo.read( "reduced_desc", new_etype.reduced_desc );
     } else {
         new_etype.reduced_desc = new_etype.desc;
     }
@@ -1277,12 +1300,14 @@ void load_effect_type( const JsonObject &jo )
     } else {
         new_etype.rating = e_neutral;
     }
-    new_etype.apply_message = jo.get_string( "apply_message", "" );
-    new_etype.remove_message = jo.get_string( "remove_message", "" );
-    new_etype.apply_memorial_log = jo.get_string( "apply_memorial_log", "" );
-    new_etype.remove_memorial_log = jo.get_string( "remove_memorial_log", "" );
+    jo.read( "apply_message", new_etype.apply_message );
+    jo.read( "remove_message", new_etype.remove_message );
+    optional( jo, false, "apply_memorial_log", new_etype.apply_memorial_log,
+              text_style_check_reader() );
+    optional( jo, false, "remove_memorial_log", new_etype.remove_memorial_log,
+              text_style_check_reader() );
 
-    new_etype.blood_analysis_description = jo.get_string( "blood_analysis_description", "" );
+    jo.read( "blood_analysis_description", new_etype.blood_analysis_description );
 
     for( auto &&f : jo.get_string_array( "resist_traits" ) ) { // *NOPAD*
         new_etype.resist_traits.push_back( trait_id( f ) );
@@ -1336,14 +1361,14 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
-    new_etype.flags = jo.get_tags( "flags" );
+    new_etype.flags = jo.get_tags<flag_id>( "flags" );
 
     effect_types[new_etype.id] = new_etype;
 }
 
-bool effect::has_flag( const std::string &flag ) const
+bool effect::has_flag( const flag_id &flag ) const
 {
-    return eff_type->flags.count( flag ) > 0;
+    return eff_type->has_flag( flag );
 }
 
 void reset_effect_types()
@@ -1361,6 +1386,11 @@ void effect_type::register_ma_buff_effect( const effect_type &eff )
     effect_types.insert( std::make_pair( eff.id, eff ) );
 }
 
+const effect_source &effect::get_source() const
+{
+    return this->source;
+}
+
 void effect::serialize( JsonOut &json ) const
 {
     json.start_object();
@@ -1370,6 +1400,7 @@ void effect::serialize( JsonOut &json ) const
     json.member( "permanent", permanent );
     json.member( "intensity", intensity );
     json.member( "start_turn", start_time );
+    json.member( "source", source );
     json.end_object();
 }
 void effect::deserialize( JsonIn &jsin )
@@ -1391,6 +1422,7 @@ void effect::deserialize( JsonIn &jsin )
     jo.read( "intensity", intensity );
     start_time = calendar::turn_zero;
     jo.read( "start_turn", start_time );
+    jo.read( "source", source );
 }
 
 std::string texitify_base_healing_power( const int power )
@@ -1414,7 +1446,9 @@ std::string texitify_base_healing_power( const int power )
 
 std::string texitify_healing_power( const int power )
 {
-    if( power >= 1 && power <= 2 ) {
+    if( power == 0 ) {
+        return colorize( _( "none" ), c_dark_gray );
+    } else if( power >= 1 && power <= 2 ) {
         return colorize( _( "very poor" ), c_red );
     } else if( power >= 3 && power <= 4 ) {
         return colorize( _( "poor" ), c_light_red );
@@ -1431,7 +1465,7 @@ std::string texitify_healing_power( const int power )
     } else if( power >= 15 ) {
         return colorize( _( "perfect" ), c_green );
     }
-    if( power < 1 ) {
+    if( power < 0 ) {
         debugmsg( "Converted value out of bounds." );
     }
     return "";
@@ -1439,7 +1473,7 @@ std::string texitify_healing_power( const int power )
 std::string texitify_bandage_power( const int power )
 {
     if( power < 5 ) {
-        return colorize( _( "miniscule" ), c_red );
+        return colorize( _( "minuscule" ), c_red );
     } else if( power < 10 ) {
         return colorize( _( "small" ), c_light_red );
     } else if( power < 15 ) {
@@ -1454,5 +1488,17 @@ std::string texitify_bandage_power( const int power )
         debugmsg( "Converted value out of bounds." );
     }
     return "";
+}
+nc_color colorize_bleeding_intensity( const int intensity )
+{
+    if( intensity == 0 ) {
+        return c_unset;
+    } else if( intensity < 11 ) {
+        return c_light_red;
+    } else if( intensity < 21 ) {
+        return c_red;
+    } else {
+        return c_red_red;
+    }
 }
 

@@ -505,7 +505,12 @@
     "id": "ammo_casings_bulk",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "group": "ammo_casings", "charges-min": 10, "charges-max": 20 } ]
+    "entries": [
+      { "group": "ammo_casings", "prob": 25, "charges-min": 50, "charges-max": 50 },
+      { "group": "ammo_casings", "prob": 10, "charges-min": 100, "charges-max": 100 },
+      { "group": "ammo_casings", "prob": 2, "charges-min": 250, "charges-max": 250 },
+      { "group": "ammo_casings", "prob": 1, "charges-min": 500, "charges-max": 500 }
+    ]
   },
   {
     "type": "item_group",
@@ -599,5 +604,11 @@
     "id": "ammo_pocket_batteries_full",
     "subtype": "distribution",
     "entries": [ { "group": "ammo_light_batteries_full", "prob": 5 }, { "group": "ammo_medium_batteries_full", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_cannon",
+    "subtype": "distribution",
+    "entries": [ { "item": "cannon_shot", "prob": 100 } ]
   }
 ]

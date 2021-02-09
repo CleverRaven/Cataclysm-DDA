@@ -15,7 +15,6 @@
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "skill.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -30,7 +29,7 @@ int Character::has_recipe( const recipe *r, const inventory &crafting_inv,
         return r->difficulty;
     }
 
-    const auto available = get_available_recipes( crafting_inv, &helpers );
+    const recipe_subset available = get_available_recipes( crafting_inv, &helpers );
     return available.contains( r ) ? available.get_custom_difficulty( r ) : -1;
 }
 

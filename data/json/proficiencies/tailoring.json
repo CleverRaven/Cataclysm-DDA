@@ -1,0 +1,171 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_articulation",
+    "name": { "str": "Joint Articulation" },
+    "description": "Making flexible items out of hard materials is tricky.  You've done enough of it to understand how to make smoothly articulated joints out of rigid or semi-rigid materials.",
+    "//": "while specifically made for tailoring, I think this could also apply to things like making robot legs.  For tailoring this is mostly a speed boost skill.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 1.5,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_closures",
+    "name": { "str": "Garment Closures" },
+    "description": "You are familiar with the adjustments and tricks needed to make properly functional buttons, zippers, and other closures on garments.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 5,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_closures_waterproofing",
+    "name": { "str": "Fabric Waterproofing" },
+    "description": "You know how to making garments and fabric containers sealed against water.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 2.5,
+    "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_elastics",
+    "name": { "str": "Stretch Fabric" },
+    "description": "Making elastic bands is easy enough, but making a whole garment from stretchy cloth takes a bit of finesse.  You're good at it.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 2.5,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_cobbling",
+    "name": { "str": "Cobbling" },
+    "description": "Like a magical elf, you've learned how to construct footwear by hand.",
+    "can_learn": true,
+    "time_to_learn": "10 h",
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 2.5,
+    "required_proficiencies": [ "prof_closures", "prof_leatherworking_basic" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_spinning",
+    "name": { "str": "Spinning" },
+    "description": "The art of spinning fiber into thread.",
+    "//": "In the future, having this proficiency could give a boost to learning rope making and vice versa",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 4,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_weaving",
+    "name": { "str": "Weaving" },
+    "description": "You've learned how to use a loom to produce sheets of fabric from thread.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 4,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_millinery",
+    "name": { "str": "Millinery" },
+    "description": "Like a solitary mouse, you've learned how to construct hats by hand.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 2.5,
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_leatherworking_basic" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_knitting",
+    "name": { "str": "Knitting" },
+    "description": "Knitting, one of the oldest ways of tying knots in fiber until it is fabric.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 5,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_knitting_speed",
+    "name": { "str": "Speed Knitting" },
+    "description": "You have knitted and knitted and knitted some more, and have the consistent string tension to show for it.  When you get going, the clicking of your needles is like a metronome.",
+    "can_learn": true,
+    "default_time_multiplier": 5,
+    "default_fail_multiplier": 1,
+    "time_to_learn": "20 h",
+    "required_proficiencies": [ "prof_knitting" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_leatherworking_basic",
+    "name": { "str": "Principles of Leatherworking" },
+    "description": "You've got a basic familiarity with how to work with leather, furs, hides, and similar materials.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 5,
+    "time_to_learn": "4 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_leatherworking",
+    "name": { "str": "Leatherworking" },
+    "description": "Working with leather requires a specific set of skills and tools… a set you are familiar with.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 2.5,
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_leatherworking_basic" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_furriery",
+    "name": { "str": "Furriery" },
+    "description": "Working with fur and faux fur is a skill all its own.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 2.5,
+    "time_to_learn": "8 h",
+    "required_proficiencies": [ "prof_leatherworking_basic" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_chitinworking",
+    "name": { "str": "Chitinworking" },
+    "description": "It seems unlikely that anyone prior to the cataclysm knew how to work with the shells of giant bugs as well as you do now.",
+    "//": "Given that nobody has ever written a guide for this, it should be particularly tough to master.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 3,
+    "time_to_learn": "16 h",
+    "required_proficiencies": [ "prof_leatherworking_basic" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_chain_armour",
+    "name": { "str": "Chain Garments" },
+    "description": "Turning sheets of chain links into effective, wearable clothing that doesn't bind up.",
+    "can_learn": true,
+    "default_time_multiplier": 3,
+    "default_fail_multiplier": 1.5,
+    "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_polymerworking",
+    "name": { "str": "Advanced polymer sewing" },
+    "description": "You know the tricks for working with kevlar, nomex, and other advanced polymer cloth.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 2.5,
+    "time_to_learn": "10 h"
+  }
+]

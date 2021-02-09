@@ -9,7 +9,6 @@
 
 #include "debug.h"
 #include "enum_conversions.h"
-#include "int_id.h"
 #include "json.h"
 #include "options.h"
 #include "rng.h"
@@ -89,7 +88,7 @@ static void load_forest_biome( const JsonObject &jo, forest_biome &forest_biome,
 {
     read_and_set_or_throw<int>( jo, "sparseness_adjacency_factor",
                                 forest_biome.sparseness_adjacency_factor, !overlay );
-    read_and_set_or_throw<std::string>( jo, "item_group", forest_biome.item_group, !overlay );
+    read_and_set_or_throw( jo, "item_group", forest_biome.item_group, !overlay );
     read_and_set_or_throw<int>( jo, "item_group_chance", forest_biome.item_group_chance, !overlay );
     read_and_set_or_throw<int>( jo, "item_spawn_iterations", forest_biome.item_spawn_iterations,
                                 !overlay );
@@ -305,6 +304,27 @@ static void load_overmap_forest_settings(
                                     overmap_forest_settings.river_floodplain_buffer_distance_min, !overlay );
         read_and_set_or_throw<int>( overmap_forest_settings_jo, "river_floodplain_buffer_distance_max",
                                     overmap_forest_settings.river_floodplain_buffer_distance_max, !overlay );
+    }
+}
+
+static void load_overmap_ravine_settings(
+    const JsonObject &jo, overmap_ravine_settings &overmap_ravine_settings, const bool strict,
+    const bool overlay )
+{
+    if( !jo.has_object( "overmap_ravine_settings" ) ) {
+        if( strict ) {
+            jo.throw_error( "\"overmap_ravine_settings\": { … } required for default" );
+        }
+    } else {
+        JsonObject overmap_ravine_settings_jo = jo.get_object( "overmap_ravine_settings" );
+        read_and_set_or_throw<int>( overmap_ravine_settings_jo, "num_ravines",
+                                    overmap_ravine_settings.num_ravines, !overlay );
+        read_and_set_or_throw<int>( overmap_ravine_settings_jo, "ravine_range",
+                                    overmap_ravine_settings.ravine_range, !overlay );
+        read_and_set_or_throw<int>( overmap_ravine_settings_jo, "ravine_width",
+                                    overmap_ravine_settings.ravine_width, !overlay );
+        read_and_set_or_throw<int>( overmap_ravine_settings_jo, "ravine_depth",
+                                    overmap_ravine_settings.ravine_depth, !overlay );
     }
 }
 
@@ -567,6 +587,8 @@ void load_region_settings( const JsonObject &jo )
 
     load_overmap_lake_settings( jo, new_region.overmap_lake, strict, false );
 
+    load_overmap_ravine_settings( jo, new_region.overmap_ravine, strict, false );
+
     load_region_terrain_and_furniture_settings( jo, new_region.region_terrain_and_furniture, strict,
             false );
 
@@ -716,6 +738,8 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
     load_overmap_forest_settings( jo, region.overmap_forest, false, true );
 
     load_overmap_lake_settings( jo, region.overmap_lake, false, true );
+
+    load_overmap_ravine_settings( jo, region.overmap_ravine, false, true );
 
     load_region_terrain_and_furniture_settings( jo, region.region_terrain_and_furniture, false, true );
 }
@@ -925,7 +949,7 @@ void overmap_lake_settings::finalize()
     for( shore_extendable_overmap_terrain_alias &alias : shore_extendable_overmap_terrain_aliases ) {
         if( std::find( shore_extendable_overmap_terrain.begin(), shore_extendable_overmap_terrain.end(),
                        alias.alias ) == shore_extendable_overmap_terrain.end() ) {
-            debugmsg( " %s was referenced as an alias in overmap_lake_settings shore_extendable_overmap_terrain_alises, but the value is not present in the shore_extendable_overmap_terrain.",
+            debugmsg( " %s was referenced as an alias in overmap_lake_settings shore_extendable_overmap_terrain_aliases, but the value is not present in the shore_extendable_overmap_terrain.",
                       alias.alias.c_str() );
             continue;
         }

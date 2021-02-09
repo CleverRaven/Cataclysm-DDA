@@ -1,0 +1,29 @@
+name: Flake8 Python linting
+
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - '**.py'
+  pull_request:
+    branches:
+    - master
+    paths:
+    - '**.py'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: install dependencies
+      run: sudo apt-get install flake8
+    - name: Enable flake8 problem matcher
+      run: echo "::add-matcher::build-scripts/problem-matchers/flake8.json"
+    - name: run Flake8
+      run: make python-check

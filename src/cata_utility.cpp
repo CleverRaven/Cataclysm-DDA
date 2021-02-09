@@ -1,12 +1,13 @@
 #include "cata_utility.h"
 
-#include <algorithm>
 #include <cctype>
+#include <clocale>
+#include <algorithm>
 #include <cmath>
 #include <cstdio>
+#include <exception>
+#include <fstream>
 #include <iterator>
-#include <locale>
-#include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -380,8 +381,8 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
 
 bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader )
 {
-    return read_from_file( path, [&reader]( std::istream & fin ) {
-        JsonIn jsin( fin );
+    return read_from_file( path, [&]( std::istream & fin ) {
+        JsonIn jsin( fin, path );
         reader( jsin );
     } );
 }
@@ -405,8 +406,8 @@ bool read_from_file_optional( const std::string &path,
 bool read_from_file_optional_json( const std::string &path,
                                    const std::function<void( JsonIn & )> &reader )
 {
-    return read_from_file_optional( path, [&reader]( std::istream & fin ) {
-        JsonIn jsin( fin );
+    return read_from_file_optional( path, [&]( std::istream & fin ) {
+        JsonIn jsin( fin, path );
         reader( jsin );
     } );
 }

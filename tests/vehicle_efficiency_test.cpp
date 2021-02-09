@@ -1,8 +1,7 @@
-#include "catch/catch.hpp"
-
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
+#include <cstdlib>
 #include <map>
 #include <memory>
 #include <set>
@@ -12,9 +11,9 @@
 #include <vector>
 
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "enums.h"
-#include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "line.h"
@@ -37,7 +36,7 @@ static const efftype_id effect_blind( "blind" );
 static void clear_game( const ter_id &terrain )
 {
     // Set to turn 0 to prevent solars from producing power
-    calendar::turn = 0;
+    calendar::turn = calendar::turn_zero;
     clear_creatures();
     clear_npcs();
     clear_vehicles();
@@ -59,7 +58,7 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
     // First we need to find the fuels to set
     // That is, fuels actually used by some engine
     std::set<itype_id> actually_used;
-    for( const vpart_reference vp : v.get_all_parts() ) {
+    for( const vpart_reference &vp : v.get_all_parts() ) {
         vehicle_part &pt = vp.part();
         if( pt.is_engine() ) {
             actually_used.insert( pt.info().fuel_type );
@@ -88,7 +87,7 @@ static std::map<itype_id, int> set_vehicle_fuel( vehicle &v, const float veh_fue
     std::map<itype_id, int> ret;
     const itype_id itype_battery( "battery" );
     const ammotype ammo_battery( "battery" );
-    for( const vpart_reference vp : v.get_all_parts() ) {
+    for( const vpart_reference &vp : v.get_all_parts() ) {
         vehicle_part &pt = vp.part();
 
         if( pt.is_battery() ) {
@@ -123,7 +122,7 @@ static float fuel_percentage_left( vehicle &v, const std::map<itype_id, int> &st
 {
     std::map<itype_id, int> fuel_amount;
     std::set<itype_id> consumed_fuels;
-    for( const vpart_reference vp : v.get_all_parts() ) {
+    for( const vpart_reference &vp : v.get_all_parts() ) {
         vehicle_part &pt = vp.part();
 
         if( ( pt.is_battery() || pt.is_reactor() || pt.is_tank() ) &&
@@ -148,8 +147,8 @@ static float fuel_percentage_left( vehicle &v, const std::map<itype_id, int> &st
     return left;
 }
 
-const float fuel_level = 0.1f;
-const int cycle_limit = 100;
+static const float fuel_level = 0.1f;
+static const int cycle_limit = 100;
 
 // Algorithm goes as follows:
 // Clear map
@@ -174,7 +173,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
 
     const tripoint map_starting_point( 60, 60, 0 );
     map &here = get_map();
-    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90, 0, 0 );
+    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 0, 0 );
 
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {
@@ -184,11 +183,11 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     vehicle &veh = *veh_ptr;
 
     // Remove all items from cargo to normalize weight.
-    for( const vpart_reference vp : veh.get_all_parts() ) {
+    for( const vpart_reference &vp : veh.get_all_parts() ) {
         veh_ptr->get_items( vp.part_index() ).clear();
         vp.part().ammo_consume( vp.part().ammo_remaining(), vp.pos() );
     }
-    for( const vpart_reference vp : veh.get_avail_parts( "OPENABLE" ) ) {
+    for( const vpart_reference &vp : veh.get_avail_parts( "OPENABLE" ) ) {
         veh.close( vp.part_index() );
     }
 
@@ -248,7 +247,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
                 veh.cruise_velocity = accelerating ? target_velocity : 0;
             } else {
                 veh.velocity = 0;
-                veh.last_turn = 0;
+                veh.last_turn = 0_degrees;
                 veh.of_turn_carry = 0;
             }
             reset_counter = 0;
@@ -380,7 +379,7 @@ static void test_vehicle(
     }
 }
 
-std::vector<std::string> vehs_to_test = {{
+static std::vector<std::string> vehs_to_test = {{
         "beetle",
         "car",
         "car_sports",
@@ -439,10 +438,10 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "car_sports", 1155014, 352600, 267600, 36820, 22360 );
     test_vehicle( "electric_car", 1047135, 355300, 201600, 22400, 10780 );
     test_vehicle( "suv", 1320286, 1163000, 630000, 85540, 31840 );
-    test_vehicle( "motorcycle", 163085, 120300, 100900, 63320, 50810 );
-    test_vehicle( "quad_bike", 265345, 116100, 116100, 46770, 46770 );
-    test_vehicle( "scooter", 55941, 235900, 235900, 174700, 174700 );
-    test_vehicle( "superbike", 242085, 109800, 65300, 41780, 24070 );
+    test_vehicle( "motorcycle", 162585, 120300, 100900, 63320, 50810 );
+    test_vehicle( "quad_bike", 264845, 116100, 116100, 46770, 46770 );
+    test_vehicle( "scooter", 55441, 235900, 235900, 174700, 174700 );
+    test_vehicle( "superbike", 241585, 109800, 65300, 41780, 24070 );
     test_vehicle( "ambulance", 1850228, 623000, 511100, 77700, 57910 );
     test_vehicle( "fire_engine", 2606611, 1895000, 1585000, 337800, 261900 );
     test_vehicle( "fire_truck", 6441903, 420800, 79990, 19080, 4063 );
@@ -458,10 +457,10 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "car_sports", 1155014, 353200, 268000, 35220, 19540, 0, 0, true );
     test_vehicle( "electric_car", 1047135, 356400, 202300, 22450, 10810, 0, 0, true );
     test_vehicle( "suv", 1320286, 112000, 111700, 66880, 31640, 0, 0, true );
-    test_vehicle( "motorcycle", 163085, 19980, 19030, 15490, 14890, 0, 0, true );
-    test_vehicle( "quad_bike", 265345, 19650, 19650, 15440, 15440, 0, 0, true );
-    test_vehicle( "scooter", 55941, 58790, 58790, 46320, 46320, 0, 0, true );
-    test_vehicle( "superbike", 242085, 18320, 10570, 13100, 8497, 0, 0, true );
+    test_vehicle( "motorcycle", 162585, 19980, 19030, 15490, 14890, 0, 0, true );
+    test_vehicle( "quad_bike", 264845, 19650, 19650, 15440, 15440, 0, 0, true );
+    test_vehicle( "scooter", 55441, 58790, 58790, 46320, 46320, 0, 0, true );
+    test_vehicle( "superbike", 241585, 18320, 10570, 13100, 8497, 0, 0, true );
     test_vehicle( "ambulance", 1850228, 58460, 57740, 42480, 39100, 0, 0, true );
     test_vehicle( "fire_engine", 2606611, 258000, 257800, 185600, 179400, 0, 0, true );
     test_vehicle( "fire_truck", 6441903, 58760, 59170, 18580, 3447, 0, 0, true );

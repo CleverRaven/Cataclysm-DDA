@@ -2,7 +2,7 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <cmath>
+#include <new>
 
 #include "assign.h"
 #include "calendar.h"
@@ -12,10 +12,10 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "json.h"
 #include "map.h"
 #include "output.h"
 #include "point.h"
-#include "string_id.h"
 
 static constexpr int SCENT_RADIUS = 40;
 
@@ -117,6 +117,11 @@ void scent_map::set_unsafe( const tripoint &p, int value, const scenttype_id &ty
 int scent_map::get_unsafe( const tripoint &p ) const
 {
     return grscent[p.x][p.y] - std::abs( get_map().get_abs_sub().z - p.z );
+}
+
+scenttype_id scent_map::get_type() const
+{
+    return typescent;
 }
 
 scenttype_id scent_map::get_type( const tripoint &p ) const

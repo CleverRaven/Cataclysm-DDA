@@ -6,6 +6,7 @@
 #include "assign.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "json.h"
 
 namespace
 {
@@ -162,13 +163,8 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     assign( jo, "color", color );
     assign( jo, "map_color", map_color );
 
-    std::string glyph;
-    mandatory( jo, was_loaded, "glyph", glyph );
-    if( glyph.size() != 1 ) {
-        jo.throw_error( "glyph must be only one character" );
-    } else {
-        glyph = glyph[0];
-    }
+    mandatory( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader );
+
     mandatory( jo, was_loaded, "ranged_penalty", ranged_penalty );
     mandatory( jo, was_loaded, "sight_penalty", sight_penalty );
     mandatory( jo, was_loaded, "light_modifier", light_modifier );
@@ -241,21 +237,14 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         }
         effects.emplace_back( effect );
     }
-    weather_animation = { 0.0f, c_white, '?' };
     if( jo.has_member( "weather_animation" ) ) {
         JsonObject weather_animation_jo = jo.get_object( "weather_animation" );
-        weather_animation_t animation;
-        mandatory( weather_animation_jo, was_loaded, "factor", animation.factor );
-        if( !assign( weather_animation_jo, "color", animation.color ) ) {
+        mandatory( weather_animation_jo, was_loaded, "factor", weather_animation.factor );
+        if( !assign( weather_animation_jo, "color", weather_animation.color ) ) {
             weather_animation_jo.throw_error( "missing mandatory member \"color\"" );
         }
-        mandatory( weather_animation_jo, was_loaded, "glyph", glyph );
-        if( glyph.size() != 1 ) {
-            weather_animation_jo.throw_error( "glyph must be only one character" );
-        } else {
-            animation.glyph = glyph[0];
-        }
-        weather_animation = animation;
+        mandatory( weather_animation_jo, was_loaded, "sym", weather_animation.symbol,
+                   unicode_codepoint_from_symbol_reader );
     }
 
     requirements = {};

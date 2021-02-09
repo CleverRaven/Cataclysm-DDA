@@ -151,7 +151,8 @@
       { "monster": "mon_sewer_snake", "freq": 240, "cost_multiplier": 0 },
       { "monster": "mon_sewer_rat", "freq": 100, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
       { "monster": "mon_albino_penguin", "freq": 5, "cost_multiplier": 5, "pack_size": [ 3, 9 ] },
-      { "monster": "mon_gator", "freq": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_gator", "freq": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_frog_mother", "freq": 5, "cost_multiplier": 3 }
     ]
   },
   {
@@ -599,7 +600,7 @@
       { "item": "hstomach_large", "prob": 60 },
       { "item": "hstomach", "prob": 60 },
       { "item": "bone_human", "prob": 90, "count-min": 1, "count-max": 5 },
-      { "item": "rag_bloody", "prob": 90, "count-min": 1, "count-max": 4 }
+      { "item": "rag", "prob": 90, "count-min": 1, "count-max": 4, "custom-flags": [ "FILTHY" ] }
     ]
   }
 ]

@@ -186,17 +186,159 @@
       { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical" ] },
       { "x": 0, "y": -1, "parts": [ "frame_wood_vertical_left", "wood box" ] },
       { "x": 0, "y": 1, "parts": [ "frame_wood_vertical_right", "wood box" ] },
-      { "x": 1, "y": -1, "parts": [ "frame_wood_nw", "seat_wood", "wheel_wood_b" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_wood_nw", "seat_wood", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
       { "x": 1, "y": 0, "parts": [ "frame_wood_cross", "seat_wood", "controls" ] },
-      { "x": 1, "y": 1, "parts": [ "frame_wood_ne", "seat_wood", "wheel_wood_b" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_wood_ne", "seat_wood", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
       { "x": 2, "y": -1, "part": "yoke_harness" },
       { "x": 2, "y": 1, "part": "yoke_harness" },
       { "x": -1, "y": -1, "parts": [ "frame_wood_vertical_left", "wood box" ] },
       { "x": -1, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical" ] },
       { "x": -1, "y": 1, "parts": [ "frame_wood_vertical_right", "wood box" ] },
-      { "x": -2, "y": -1, "parts": [ "frame_wood_sw", "wood box", "wheel_wood_b" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_wood_sw", "wood box", "wheel_mount_wood", "wheel_wood_b" ] },
       { "x": -2, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical" ] },
-      { "x": -2, "y": 1, "parts": [ "frame_wood_se", "wood box", "wheel_wood_b" ] }
+      { "x": -2, "y": 1, "parts": [ "frame_wood_se", "wood box", "wheel_mount_wood", "wheel_wood_b" ] }
+    ]
+  },
+  {
+    "id": "covered_wagon",
+    "type": "vehicle",
+    "name": "Covered Wagon",
+    "blueprint": [
+      [ " H H" ],
+      [ "|###|" ],
+      [ "|oHo|" ],
+      [ "|oHo|" ],
+      [ "|oHo|" ],
+      [ "|oHo|" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical", "roof_cloth" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      { "x": 0, "y": -2, "parts": [ "frame_wood_vertical_left", "clothboard_vertical_left", "roof_cloth" ] },
+      { "x": 0, "y": 2, "parts": [ "frame_wood_vertical_right", "clothboard_vertical_right", "roof_cloth" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical", "roof_cloth" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_wood_cross", "clothboard", "roof_cloth" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_wood_cross", "clothboard", "roof_cloth" ] },
+      { "x": 1, "y": -2, "parts": [ "frame_wood_vertical_left", "clothboard_nw", "roof_cloth" ] },
+      { "x": 1, "y": 2, "parts": [ "frame_wood_vertical_right", "clothboard_ne", "roof_cloth" ] },
+      { "x": 2, "y": -1, "parts": [ "frame_wood_horizontal_front", "seat_wood" ] },
+      { "x": 2, "y": 0, "parts": [ "frame_wood_horizontal_front", "seat_wood", "controls" ] },
+      { "x": 2, "y": 1, "parts": [ "frame_wood_horizontal_front", "seat_wood" ] },
+      {
+        "x": 2,
+        "y": -2,
+        "parts": [ "frame_wood_nw", "wooden_aisle_horizontal", "wheel_mount_wood_steerable", "wheel_wood_b" ]
+      },
+      {
+        "x": 2,
+        "y": 2,
+        "parts": [ "frame_wood_ne", "wooden_aisle_horizontal", "wheel_mount_wood_steerable", "wheel_wood_b" ]
+      },
+      { "x": 3, "y": -1, "part": "yoke_harness" },
+      { "x": 3, "y": 1, "part": "yoke_harness" },
+      { "x": -1, "y": -1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical", "roof_cloth" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      { "x": -1, "y": -2, "parts": [ "frame_wood_vertical_left", "clothboard_vertical_left", "roof_cloth" ] },
+      { "x": -1, "y": 2, "parts": [ "frame_wood_vertical_right", "clothboard_vertical_right", "roof_cloth" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      { "x": -2, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical", "roof_cloth" ] },
+      { "x": -2, "y": 1, "parts": [ "frame_wood_cross", "wood box", "roof_cloth" ] },
+      {
+        "x": -2,
+        "y": -2,
+        "parts": [ "frame_wood_vertical_left", "clothboard_vertical_left", "wheel_mount_wood", "wheel_wood_b", "roof_cloth" ]
+      },
+      {
+        "x": -2,
+        "y": 2,
+        "parts": [ "frame_wood_vertical_right", "clothboard_vertical_right", "roof_cloth", "wheel_mount_wood", "wheel_wood_b" ]
+      },
+      { "x": -3, "y": 0, "parts": [ "frame_wood_horizontal_rear", "wooden_aisle_vertical", "roof_cloth" ] },
+      { "x": -3, "y": -1, "parts": [ "frame_wood_horizontal_rear", "clothboard", "roof_cloth" ] },
+      { "x": -3, "y": 1, "parts": [ "frame_wood_horizontal_rear", "clothboard", "roof_cloth" ] },
+      { "x": -3, "y": -2, "parts": [ "frame_wood_sw", "clothboard_sw", "roof_cloth" ] },
+      { "x": -3, "y": 2, "parts": [ "frame_wood_se", "clothboard_se", "roof_cloth" ] }
+    ]
+  },
+  {
+    "id": "stagecoach",
+    "type": "vehicle",
+    "name": "Stagecoach",
+    "blueprint": [
+      [ " HH " ],
+      [ " HH " ],
+      [ " ## " ],
+      [ "||||" ],
+      [ "|##|" ],
+      [ "+==+" ],
+      [ "|##|" ],
+      [ "||||" ],
+      [ " ## " ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_wood_nw", "seat_wood", "controls" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_wood_ne", "seat_wood" ] },
+      { "x": 1, "y": 0, "part": "yoke_harness" },
+      { "x": 1, "y": 1, "part": "yoke_harness" },
+      { "x": 2, "y": 0, "part": "yoke_harness" },
+      { "x": 2, "y": 1, "part": "yoke_harness" },
+      { "x": -1, "y": 0, "parts": [ "frame_wood_horizontal", "woodboard_horizontal_front", "roof_wood" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_wood_horizontal", "woodboard_horizontal_front", "roof_wood" ] },
+      {
+        "x": -1,
+        "y": -1,
+        "parts": [ "frame_wood_nw", "woodboard_nw", "roof_wood", "wheel_mount_wood_steerable", "wheel_wood_b" ]
+      },
+      {
+        "x": -1,
+        "y": 2,
+        "parts": [ "frame_wood_ne", "woodboard_ne", "roof_wood", "wheel_mount_wood_steerable", "wheel_wood_b" ]
+      },
+      { "x": -2, "y": 0, "parts": [ "frame_wood_cross", "seat_wood", "roof_wood" ] },
+      { "x": -2, "y": 1, "parts": [ "frame_wood_cross", "seat_wood", "roof_wood" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_wood_vertical_left", "woodboard_vertical_left", "roof_wood" ] },
+      { "x": -2, "y": 2, "parts": [ "frame_wood_vertical_right", "woodboard_vertical_right", "roof_wood" ] },
+      { "x": -3, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_horizontal", "roof_wood" ] },
+      { "x": -3, "y": 1, "parts": [ "frame_wood_cross", "wooden_aisle_horizontal", "roof_wood" ] },
+      { "x": -3, "y": -1, "parts": [ "frame_wood_vertical_left", "door_wood_nw", "roof_wood" ] },
+      { "x": -3, "y": 2, "parts": [ "frame_wood_vertical_right", "door_wood_ne", "roof_wood" ] },
+      { "x": -4, "y": 0, "parts": [ "frame_wood_cross", "seat_wood", "roof_wood" ] },
+      { "x": -4, "y": 1, "parts": [ "frame_wood_cross", "seat_wood", "roof_wood" ] },
+      { "x": -4, "y": -1, "parts": [ "frame_wood_vertical_left", "woodboard_vertical_left", "roof_wood" ] },
+      { "x": -4, "y": 2, "parts": [ "frame_wood_vertical_right", "woodboard_vertical_right", "roof_wood" ] },
+      { "x": -5, "y": 0, "parts": [ "frame_wood_horizontal", "woodboard_horizontal_rear", "roof_wood" ] },
+      { "x": -5, "y": 1, "parts": [ "frame_wood_horizontal", "woodboard_horizontal_rear", "roof_wood" ] },
+      {
+        "x": -5,
+        "y": -1,
+        "parts": [ "frame_wood_sw", "woodboard_sw", "roof_wood", "wheel_mount_wood", "wheel_wood_b" ]
+      },
+      {
+        "x": -5,
+        "y": 2,
+        "parts": [ "frame_wood_se", "woodboard_se", "roof_wood", "wheel_mount_wood", "wheel_wood_b" ]
+      },
+      { "x": -6, "y": 0, "parts": [ "frame_wood_sw", "seat_wood" ] },
+      { "x": -6, "y": 1, "parts": [ "frame_wood_se", "wood box" ] }
+    ]
+  },
+  {
+    "id": "gig_carriage",
+    "type": "vehicle",
+    "name": "Gig Carriage",
+    "blueprint": [
+      [ " TT " ],
+      [ "+##+" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "seat_wood", "controls" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_wood_cross", "seat_wood" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_wood_cross", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
+      { "x": 0, "y": 2, "parts": [ "frame_wood_cross", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
+      { "x": 1, "y": 0, "part": "yoke_harness" },
+      { "x": 1, "y": 1, "part": "yoke_harness" }
     ]
   }
 ]

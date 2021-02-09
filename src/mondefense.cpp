@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <set>
@@ -28,7 +29,6 @@
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "viewer.h"
@@ -76,7 +76,7 @@ void mdefense::zapback( monster &m, Creature *const source,
     }
 
     if( get_player_view().sees( source->pos() ) ) {
-        const auto msg_type = source->is_avatar() ? m_bad : m_info;
+        const game_message_type msg_type = source->is_avatar() ? m_bad : m_info;
         add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
                  m.name(), source->disp_name() );
     }

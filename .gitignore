@@ -41,9 +41,11 @@ cataclysmdda-*
 chkjson*
 debug.log
 logg.txt
+json_formatter
 
 # Visual Studio files
 *.code-workspace
+*.exp
 *.ilk
 *.opensdf
 *.pdb
@@ -71,6 +73,7 @@ Cataclysm.exe.lastcodeanalysissucceeded
 
 #vcpkg
 /msvc-full-features/vcpkg_installed
+/msvc-object_creator/vcpkg_installed
 
 # PVS Studio
 /msvc-full-features/*PVS-Studio*
@@ -91,6 +94,7 @@ cscope.*
 tags
 
 # Generated translation source
+/lang/po/cataclysm-dda.pot
 /lang/po/en.po
 
 # Compiled binary translations
@@ -130,6 +134,7 @@ Cataclysm.dmg
 .idea/
 
 # test executables and generated data
+/tests/obj
 /tests/cata_test
 /tests/line_test
 /tests/map_iterator_test
@@ -166,9 +171,6 @@ Cataclysm.id*
 Cataclysm.til
 Cataclysm.nam
 
-# Transifex Client
-.tx/
-
 # Snapcraft build directories
 prime
 snap
@@ -193,8 +195,10 @@ Xcode/
 /build-dir/
 
 # precompiled headers
+/pch/pch.hpp.pch
 /pch/main-pch.hpp.gch
 /pch/main-pch.hpp.pch
+/tests/pch/pch.hpp.pch
 /tests/pch/tests-pch.hpp.gch
 /tests/pch/tests-pch.hpp.pch
 /tests/catch/catch.hpp.gch

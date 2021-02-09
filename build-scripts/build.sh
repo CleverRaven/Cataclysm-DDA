@@ -1,16 +1,10 @@
 #!/bin/bash
 
-# Build script intended for use in Travis CI
+# Build script intended for use in Travis CI and Github workflow
 
 set -exo pipefail
 
 num_jobs=3
-
-function run_tests
-{
-    # --min-duration shows timing lines for tests with a duration of at least that many seconds.
-    $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS
-}
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
 export PATH=$HOME/.local/bin:$PATH
@@ -21,10 +15,14 @@ then
     make -j "$num_jobs" style-json
 
     tools/dialogue_validator.py data/json/npcs/* data/json/npcs/*/* data/json/npcs/*/*/*
+
+    tools/json_tools/generic_guns_validator.py
+
     # Also build chkjson (even though we're not using it), to catch any
     # compile errors there
     make -j "$num_jobs" chkjson
-elif [ -n "$JUST_JSON" ]
+# Skip the rest of the run if this change is pure json and this job doesn't test any extra mods
+elif [ -n "$JUST_JSON" -a -z "$MODS" ]
 then
     echo "Early exit on just-json change"
     exit 0
@@ -32,7 +30,7 @@ fi
 
 ccache --zero-stats
 # Increase cache size because debug builds generate large object files
-ccache -M 2G
+ccache -M 5G
 ccache --show-stats
 
 if [ "$CMAKE" = "1" ]
@@ -147,8 +145,8 @@ then
         make -j$num_jobs
         cd ..
         # Run regular tests
-        [ -f "${bin_path}cata_test" ] && run_tests "${bin_path}cata_test"
-        [ -f "${bin_path}cata_test-tiles" ] && run_tests "${bin_path}cata_test-tiles"
+        [ -f "${bin_path}cata_test" ] && parallel --verbose --tagstring "({})=>" --linebuffer $WINE ${bin_path}/cata_test --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --tagstring "({})=>" --linebuffer $WINE ${bin_path}/cata_test-tiles --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     fi
 elif [ "$NATIVE" == "android" ]
 then
@@ -165,19 +163,23 @@ then
     # fills the log with nonsense.
     TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
 else
-    make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
-
-    if [ "$TRAVIS_OS_NAME" == "osx" ]
+    if [ "$OS" == "macos-10.15" ]
     then
-        run_tests ./tests/cata_test
+        # if OSX_MIN we specify here is lower than 10.15 then linker is going
+        # to throw warnings because SDL and gettext libraries installed from 
+        # Homebrew are built with minimum target osx version 10.15
+        export OSX_MIN=10.15
     else
-        run_tests ./tests/cata_test &
-        if [ -n "$MODS" ]
-        then
-            run_tests ./tests/cata_test --user-dir=modded $MODS 2>&1 | sed 's/^/MOD> /' &
-            wait -n
-        fi
-        wait -n
+        export BACKTRACE=1
+    fi
+    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
+
+    export ASAN_OPTIONS=detect_odr_violation=1
+    export UBSAN_OPTIONS=print_stacktrace=1
+    parallel --verbose --tagstring "({})=>" --linebuffer $WINE ./tests/cata_test --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+    if [ -n "$MODS" ]
+    then
+        parallel --verbose --tagstring "(Mods-{})=>" --linebuffer $WINE ./tests/cata_test --user-dir=modded $MODS --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     fi
 
     if [ -n "$TEST_STAGE" ]
@@ -185,13 +187,13 @@ else
         # Run the tests one more time, without actually running any tests, just to verify that all
         # the mod data can be successfully loaded
 
-        # Use a blacklist of mods that currently fail to load cleanly.  Hopefully this list will
-        # shrink over time.
-        blacklist=build-scripts/mod_test_blacklist
-        mods="$(./build-scripts/get_all_mods.py $blacklist)"
-        run_tests ./tests/cata_test --user-dir=all_modded --mods="$mods" '~*'
+        mods="$(./build-scripts/get_all_mods.py)"
+        $WINE ./tests/cata_test --user-dir=all_modded --mods="$mods" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS "~*"
     fi
 fi
 ccache --show-stats
+# Shrink the ccache back down to 2GB in preperation for pushing to shared storage.
+ccache -M 2G
+ccache -c
 
 # vim:tw=0

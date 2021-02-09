@@ -68,7 +68,6 @@
     "items": {
       "B": { "item": "bed", "chance": 60 },
       "b": { "item": "shower", "chance": 70 },
-      "D": { "item": "hydro", "chance": 5 },
       "d": [ { "item": "dresser", "chance": 80, "repeat": [ 1, 6 ] }, { "item": "homeguns", "chance": 20 } ],
       "e": { "item": "fridge", "chance": 65, "repeat": [ 1, 15 ] },
       "o": { "item": "oven", "chance": 65, "repeat": [ 1, 3 ] },

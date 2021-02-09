@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_trench_north",
     "description": "Digging a trench along the north edge of the camp would provide some defense and generate building materials.",
     "category": "CC_BUILDING",
@@ -20,6 +21,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_trench_south",
     "description": "Digging a trench along the south edge of the camp would provide some defense and generate building materials.",
     "category": "CC_BUILDING",
@@ -39,6 +41,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_trench_northeast",
     "description": "Digging a trench along the northeast corner of the camp would provide some defense and generate building materials.  If we have solid buildings all along the east side of the camp, we would only need to dig the trench long enough to reach the buildings.",
     "category": "CC_BUILDING",
@@ -58,6 +61,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_trench_northwest",
     "description": "Digging a trench along the northwest corner of the camp would provide some defense and generate building materials.  If we have solid buildings all along the west side of the camp, we would only need to dig the trench long enough to reach the buildings.",
     "category": "CC_BUILDING",
@@ -77,6 +81,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_trench_southeast",
     "description": "Digging a trench along the southeast corner of the camp would provide some defense and generate building materials.  If we have solid buildings all along the east side of the camp, we would only need to dig the trench long enough to reach the buildings.",
     "category": "CC_BUILDING",
@@ -96,6 +101,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_trench_southwest",
     "description": "Digging a trench along the southwest corner of the camp would provide some defense and generate building materials.  If we have solid buildings all along the west side of the camp, we would only need to dig the trench long enough to reach the buildings.",
     "category": "CC_BUILDING",
@@ -115,6 +121,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_trench_east",
     "description": "Digging a trench along the east edge of the camp would provide some defense and generate building materials.  We'll need to run the trench the length of the camp if we don't have solid buildings all along the east side.",
     "category": "CC_BUILDING",
@@ -134,6 +141,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_trench_west",
     "description": "Digging a trench along the west edge of the camp would provide some defense and generate building materials.  We'll need to run the trench the length of the camp if we don't have solid buildings all along the west side.",
     "category": "CC_BUILDING",

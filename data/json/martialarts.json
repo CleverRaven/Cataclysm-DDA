@@ -103,7 +103,7 @@
       {
         "id": "buff_boxing_ondodge",
         "name": "Counter Chance",
-        "description": "You've seen your chance. Now strike back!\n\n+25% Bash damage.\nLasts for 1 turn.",
+        "description": "You've seen your chance.  Now strike back!\n\n+25% Bash damage.\nLasts for 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
@@ -520,6 +520,7 @@
       "lucern_hammerfake",
       "makeshift_halberd",
       "pickaxe",
+      "poleaxe",
       "primitive_axe"
     ]
   },
@@ -853,7 +854,7 @@
     "id": "style_ninjutsu",
     "name": { "str": "Ninjutsu" },
     "description": "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.  It focuses on rapid, precise, silent strikes.  Ninjutsu is almost entirely silent and does extra damage on the first attack.  It also provides small combat bonuses every time you move.",
-    "initiate": [ "You perform a kuji-in mantra with your hands. Rin, Kai, Jin!", "%s performs a series of intricate hand signs." ],
+    "initiate": [ "You perform a kuji-in mantra with your hands.  Rin, Kai, Jin!", "%s performs a series of intricate hand signs." ],
     "learn_difficulty": 6,
     "arm_block": 3,
     "static_buffs": [
@@ -1032,7 +1033,7 @@
       {
         "id": "buff_niten_onattack",
         "name": "Falling Leaf",
-        "description": "A sharp sword cuts true.\nAlthough, all things fade with time.\nRestraint hones your skills.\n\n-1.0 Dodge skill, -1 bash damage, -1 cut damage.\nLasts 1 turn. Stacks 5 times.",
+        "description": "A sharp sword cuts true.\nAlthough, all things fade with time.\nRestraint hones your skills.\n\n-1.0 Dodge skill, -1 bash damage, -1 cut damage.\nLasts 1 turn.  Stacks 5 times.",
         "melee_allowed": true,
         "buff_duration": 1,
         "max_stacks": 5,
@@ -1233,7 +1234,10 @@
       "knife_rm42",
       "switchblade",
       "l-stick",
-      "l-stick_on"
+      "l-stick_on",
+      "wakizashi",
+      "wakizashi_inferior",
+      "wakizashi_fake"
     ]
   },
   {

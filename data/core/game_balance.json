@@ -9,7 +9,7 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "GUN_DISPERSION_DIVIDER",
-    "info": "Value that divides total weapon dispersion. 15 means that weapons became 15 times more accurate than default.",
+    "info": "Value that divides total weapon dispersion.  15 means that weapons became 15 times more accurate than default.",
     "stype": "float",
     "value": 18
   },
@@ -23,7 +23,7 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_BASE_STAMINA_REGEN_RATE",
-    "info": "Sets base stamina regeneration per turn of the player. May be used as an offset in stamina draining effects.",
+    "info": "Sets base stamina regeneration per turn of the player.  May be used as an offset in stamina draining effects.",
     "stype": "float",
     "value": 20
   },
@@ -37,35 +37,35 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_HUNGER_RATE",
-    "info": "Set base hunger rate per 5 minutes. Default: 1.0",
+    "info": "Set base hunger rate per 5 minutes.  Default: 1.0",
     "stype": "float",
     "value": 1.0
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_THIRST_RATE",
-    "info": "Set base thirst rate per 5 minutes. Default: 1.0",
+    "info": "Set base thirst rate per 5 minutes.  Default: 1.0",
     "stype": "float",
     "value": 1.0
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_FATIGUE_RATE",
-    "info": "Set base fatigue rate per 5 minutes. Default: 1.0",
+    "info": "Set base fatigue rate per 5 minutes.  Default: 1.0",
     "stype": "float",
     "value": 1.0
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_HEALING_RATE",
-    "info": "Set base player healing rate per turn. Default: 0.0001",
+    "info": "Set base player healing rate per turn.  Default: 0.0001",
     "stype": "float",
     "value": 0.0001
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "NPC_HEALING_RATE",
-    "info": "Set base NPC healing rate per turn. Default: 0.0001",
+    "info": "Set base NPC healing rate per turn.  Default: 0.0001",
     "stype": "float",
     "value": 0.0001
   },
@@ -79,7 +79,7 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "NO_NPC_FOOD",
-    "info": "Disables tracking food, thirst and ( partially ) fatigue for NPCs. If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties.",
+    "info": "Disables tracking food, thirst and ( partially ) fatigue for NPCs.  If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties.",
     "stype": "bool",
     "value": false
   },
@@ -93,7 +93,7 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "CBM_SLOTS_ENABLED",
-    "info": "Enables CBM slots mechanics. If true CBM slots are enabled.",
+    "info": "Enables CBM slots mechanics.  If true CBM slots are enabled.",
     "stype": "bool",
     "value": false
   },
@@ -148,6 +148,34 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "WEARY_BMR_MULT",
+    "info": "What portion of BMR is used as the base for determining weariness threshold.",
+    "stype": "float",
+    "value": 0.54
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "WEARY_THRESH_SCALING",
+    "info": "What the weariness threshold is multiplied by to gain each successive level.",
+    "stype": "float",
+    "value": 0.75
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "WEARY_INITIAL_STEP",
+    "info": "What the weariness threshold is multiplied by for the first level of weariness.",
+    "stype": "float",
+    "value": 1.0
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "WEARY_RECOVERY_MULT",
+    "info": "What percentage of calorie intake and expenditure is reduced during each reduction tick.",
+    "stype": "float",
+    "value": 0.05
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "INT_BASED_LEARNING_BASE_VALUE",
     "info": "The amount of INT which is used as base point for focus adjustments",
     "stype": "int",
@@ -159,5 +187,12 @@
     "info": "The amount of focus gained per each INT point above INT_BASED_LEARNING_BASE_VALUE",
     "stype": "int",
     "value": 5
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "WORKBENCH_ALL_OPTIONS",
+    "info": "If false, examining workbench-type furniture will auto-execute pickup and undeploy (where applicable) actions, no crafting-related options will be listed.",
+    "stype": "bool",
+    "value": true
   }
 ]

@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_northeast",
     "description": "We need some shelter, so set up a tent on the northeast side of the camp.",
     "category": "CC_BUILDING",
@@ -19,6 +20,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_east",
     "description": "We should expand our housing by putting up a tent on the east side, though doing so will mean we need more materials to build the central building.",
     "category": "CC_BUILDING",
@@ -37,6 +39,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_southeast",
     "description": "We should expand our housing by putting up a tent on the southeast side, though doing so will mean we need more materials to build the central building.",
     "category": "CC_BUILDING",
@@ -55,6 +58,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_northwest",
     "description": "We should expand our housing by putting up a tent on the northwest side, though doing so will mean we need more materials to build the central building.",
     "category": "CC_BUILDING",
@@ -73,6 +77,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_west",
     "description": "We should expand our housing by putting up a tent on the west side, though doing so will mean we need more materials to build the central building.",
     "category": "CC_BUILDING",
@@ -91,6 +96,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_tent_southwest",
     "description": "We should expand our housing by putting up a tent on the southwest side, though doing so will mean we need more materials to build the central building.",
     "category": "CC_BUILDING",

@@ -1,8 +1,8 @@
 #include "mission_companion.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
@@ -31,7 +31,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
@@ -54,7 +53,6 @@
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -348,9 +346,10 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
         if( !npc_list_aux.empty() ) {
             std::string entry_aux = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n\n"
                                        "\nRoster:\n" );
+            const std::string entry_suffix = _( " [READY]\n" );
             for( auto &elem : npc_list_aux ) {
                 if( elem->companion_mission_time == calendar::before_time_starts ) {
-                    entry_aux = entry_aux + "  " + elem->name + _( " [READY]\n" );
+                    entry_aux = entry_aux + "  " + elem->name + entry_suffix;
                 }
             }
             entry_aux = entry_aux + _( "\n\n"
@@ -475,10 +474,36 @@ bool talk_function::display_and_choose_opts(
         }
 
         int name_offset = 0;
-        calcStartPos( name_offset, sel, info_height, folded_names_lines );
+        size_t sel_pos = 0;
+        // Translate from entry index to line index
+        for( size_t i = 0; i < sel; i++ ) {
+            sel_pos += folded_names[i].size();
+        }
+
+        calcStartPos( name_offset, sel_pos, info_height, folded_names_lines );
+
+        int name_index = 0;
+        // Are we so far down the list that we bump into the end?
+        bool last_section = folded_names_lines < info_height ||
+                            folded_names_lines - info_height <= size_t( name_offset );
+
+        // Translate back from desired line index to the corresponding entry, making sure to round up
+        // near the end to ensure the last line gets included.
+        if( name_offset > 0 ) {
+            for( size_t i = 0; i < cur_key_list.size(); i++ ) {
+                name_offset -= folded_names[i].size();
+                if( name_offset <= 0 ) {
+                    if( name_offset == 0 || last_section ) {
+                        name_index++;
+                    }
+                    break;
+                }
+                name_index++;
+            }
+        }
 
         size_t list_line = 2;
-        for( size_t current = name_offset; list_line < info_height &&
+        for( size_t current = name_index; list_line < info_height + 2 &&
              current < cur_key_list.size(); current++ ) {
             nc_color col = ( current == sel ? h_white : c_white );
             //highlight important missions
@@ -496,6 +521,9 @@ bool talk_function::display_and_choose_opts(
                 }
             }
             std::vector<std::string> &name_text = folded_names[current];
+            if( list_line + name_text.size() > info_height + 2 ) {
+                break;  //  Skip last entry that would spill over into the bar.
+            }
             for( size_t name_line = 0; name_line < name_text.size(); name_line++ ) {
                 print_colored_text( w_list, point( name_line ? 5 : 1, list_line ),
                                     col, col, name_text[name_line] );
@@ -503,13 +531,13 @@ bool talk_function::display_and_choose_opts(
             }
         }
 
-        if( cur_key_list.size() > info_height + 1 ) {
+        if( folded_names_lines > info_height ) {
             scrollbar()
             .offset_x( 0 )
             .offset_y( 1 )
             .content_size( folded_names_lines )
-            .viewport_pos( sel )
-            .viewport_size( info_height + 1 )
+            .viewport_pos( sel_pos )
+            .viewport_size( info_height )
             .apply( w_list );
         }
         wnoutrefresh( w_list );
@@ -833,7 +861,7 @@ void talk_function::attack_random( const std::vector<npc_ptr> &attacker,
     }
     const auto att = random_entry( attacker );
     monster *def = random_entry( group );
-    att->melee_attack( *def, false );
+    att->melee_attack_abstract( *def, false, matec_id( "" ) );
     if( def->get_hp() <= 0 ) {
         popup( _( "%s is wasted by %s!" ), def->type->nname(), att->name );
     }
@@ -1310,11 +1338,11 @@ bool talk_function::scavenging_raid_return( npc &p )
         player_character.cash += 10000;
     }
     if( one_in( 2 ) ) {
-        std::string itemlist = "npc_misc";
+        item_group_id itemlist( "npc_misc" );
         if( one_in( 8 ) ) {
-            itemlist = "npc_weapon_random";
+            itemlist = item_group_id( "npc_weapon_random" );
         }
-        auto result = item_group::item_from( itemlist );
+        item result = item_group::item_from( itemlist );
         if( !result.is_null() ) {
             popup( _( "%s returned with a %s for you!" ), comp->name, result.tname() );
             player_character.i_add( result );
@@ -1466,26 +1494,26 @@ bool talk_function::forage_return( npc &p )
     ///\EFFECT_SURVIVAL_NPC affects forage mission results
     int skill = comp->get_skill_level( skill_survival );
     if( skill > rng_float( -.5, 8 ) ) {
-        std::string itemlist = "farming_seeds";
+        item_group_id itemlist = item_group_id( "farming_seeds" );
         if( one_in( 2 ) ) {
             switch( season_of_year( calendar::turn ) ) {
                 case SPRING:
-                    itemlist = "forage_spring";
+                    itemlist = item_group_id( "forage_spring" );
                     break;
                 case SUMMER:
-                    itemlist = "forage_summer";
+                    itemlist = item_group_id( "forage_summer" );
                     break;
                 case AUTUMN:
-                    itemlist = "forage_autumn";
+                    itemlist = item_group_id( "forage_autumn" );
                     break;
                 case WINTER:
-                    itemlist = "forage_winter";
+                    itemlist = item_group_id( "forage_winter" );
                     break;
                 default:
                     debugmsg( "Invalid season" );
             }
         }
-        auto result = item_group::item_from( itemlist );
+        item result = item_group::item_from( itemlist );
         if( !result.is_null() ) {
             popup( _( "%s returned with a %s for you!" ), comp->name, result.tname() );
             player_character.i_add( result );
@@ -1822,7 +1850,7 @@ comp_list talk_function::companion_sort( comp_list available,
     }
 
     struct companion_sort_skill {
-        companion_sort_skill( const skill_id  &skill_tested ) {
+        explicit companion_sort_skill( const skill_id  &skill_tested ) {
             req_skill = skill_tested;
         }
 

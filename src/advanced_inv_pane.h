@@ -3,8 +3,8 @@
 #define CATA_SRC_ADVANCED_INV_PANE_H
 
 #include <array>
-#include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <string>
 #include <vector>

@@ -62,21 +62,9 @@
     "color": "cyan",
     "see_cost": 4,
     "extras": "forest_water",
-    "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 16 },
+    "spawns": { "group": "GROUP_SWAMP", "population": [ 2, 6 ], "chance": 50 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "s_lot",
-    "name": "parking lot",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 1,
-    "extras": "build",
-    "mondensity": 2,
-    "mapgen": [ { "method": "builtin", "name": "parking_lot" } ],
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
@@ -90,9 +78,9 @@
   {
     "type": "overmap_terrain",
     "id": "standing_stones",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
+    "name": "standing stones",
+    "sym": "O",
+    "color": "dark_gray",
     "see_cost": 3,
     "spawns": { "group": "GROUP_STANDING_STONES", "population": [ 1, 4 ], "chance": 100 },
     "flags": [ "NO_ROTATE" ]
@@ -226,9 +214,9 @@
   {
     "type": "overmap_terrain",
     "id": "spider_pit",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
+    "name": "spider pit",
+    "sym": "S",
+    "color": "white",
     "see_cost": 3,
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },

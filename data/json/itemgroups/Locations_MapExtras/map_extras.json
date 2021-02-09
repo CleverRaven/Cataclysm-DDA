@@ -4,7 +4,7 @@
     "subtype": "collection",
     "id": "map_extra_science",
     "entries": [
-      { "item": "id_science", "prob": 50, "//": "half the time an id card" },
+      { "group": "wallets_science", "prob": 50, "//": "half the time a wallet with an id card" },
       { "item": "coat_lab", "damage-min": 1, "damage-max": 3, "//": "all the time a lab coat" },
       { "group": "science" },
       { "group": "lab_pants", "damage-min": 1, "damage-max": 3 },
@@ -107,6 +107,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "map_extra_casings",
-    "entries": [ { "item": "rag_bloody" }, { "item": "cigar_butt" }, { "item": "cig_butt" }, { "item": "can_drink" } ]
+    "entries": [
+      { "item": "rag", "custom-flags": [ "FILTHY" ] },
+      { "item": "cigar_butt" },
+      { "item": "cig_butt" },
+      { "item": "can_drink" }
+    ]
   }
 ]

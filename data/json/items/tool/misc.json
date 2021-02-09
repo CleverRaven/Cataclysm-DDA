@@ -61,7 +61,7 @@
     "max_charges": 30,
     "charges_per_use": 1,
     "material": [ "steel" ],
-    "flags": [ "EXPLOSIVE", "EXPLODES" ],
+    "flags": [  ],
     "explosion": {
       "power": 4503,
       "distance_factor": 0.1,
@@ -195,8 +195,9 @@
     "category": "ammo",
     "name": { "str": "flammable arrow" },
     "description": "This arrow has a rag soaked in a flammable liquid wrapped around the shaft near the head.  You need to light it before shooting.",
-    "weight": "150 g",
-    "volume": "250 ml",
+    "weight": "30 g",
+    "volume": "100 ml",
+    "longest_side": "78 cm",
     "price": 3500,
     "price_postapoc": 10,
     "bashing": 2,
@@ -441,9 +442,9 @@
     "longest_side": "180 cm",
     "price": 5000,
     "price_postapoc": 250,
-    "to_hit": 2,
+    "to_hit": -1,
     "bashing": 13,
-    "cutting": 36,
+    "cutting": 31,
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
@@ -498,8 +499,9 @@
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "permanent_ink": 500 }, "watertight": true, "rigid": true } ],
     "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false },
-    "flags": [ "WRITE_MESSAGE" ]
+    "flags": [ "WRITE_MESSAGE", "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
     "id": "pheromone",
@@ -652,8 +654,9 @@
     "initial_charges": 10,
     "max_charges": 10,
     "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aerosol_paint": 10 }, "watertight": true, "rigid": true } ],
     "use_action": [ "SPRAY_CAN" ],
-    "flags": [ "WRITE_MESSAGE" ]
+    "flags": [ "WRITE_MESSAGE", "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
     "id": "stepladder",
@@ -850,6 +853,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "watertight": true,
         "open_container": true,
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg"
