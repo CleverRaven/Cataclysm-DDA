@@ -3,13 +3,11 @@
 #define CATA_SRC_ADVANCED_INV_AREA_H
 
 #include <array>
-#include <list>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
 #include "point.h"
-#include "units.h"
-#include "units_fwd.h"
+#include "units.h" // IWYU pragma: keep
 
 enum aim_location : char {
     AIM_INVENTORY = 0,
@@ -81,6 +79,7 @@ class advanced_inv_area
         // used for isometric view
         const aim_location relative_location;
 
+        // NOLINTNEXTLINE(google-explicit-constructor)
         advanced_inv_area( aim_location id ) : id( id ), relative_location( id ) {}
         advanced_inv_area(
             aim_location id, const point &hscreen, tripoint off, const std::string &name,

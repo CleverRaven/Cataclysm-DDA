@@ -2,14 +2,15 @@
 #ifndef CATA_SRC_COMPUTER_H
 #define CATA_SRC_COMPUTER_H
 
+#include <iosfwd>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
 
 class JsonIn;
-class JsonOut;
 class JsonObject;
+class JsonOut;
 
 enum computer_action {
     COMPACT_NULL = 0,
@@ -97,7 +98,7 @@ struct computer_failure {
     computer_failure_type type;
 
     computer_failure();
-    computer_failure( computer_failure_type t ) : type( t ) {
+    explicit computer_failure( computer_failure_type t ) : type( t ) {
     }
     // Save to/load from saves
     void serialize( JsonOut &jout ) const;

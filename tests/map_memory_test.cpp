@@ -1,16 +1,14 @@
-#include "catch/catch.hpp"
-#include "map_memory.h"
-
 #include <bitset>
 #include <cstdio>
 #include <sstream>
-#include <string>
 #include <type_traits>
 
+#include "catch/catch.hpp"
 #include "game_constants.h"
 #include "json.h"
 #include "lru_cache.h"
 #include "map.h"
+#include "map_memory.h"
 #include "point.h"
 
 static constexpr tripoint p1{ tripoint_above };

@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_TALKER_AVATAR_H
 #define CATA_SRC_TALKER_AVATAR_H
 
-#include <string>
+#include <iosfwd>
 #include <vector>
 
 #include "talker_character.h"
@@ -18,7 +18,7 @@ class translation;
 class talker_avatar: public talker_character
 {
     public:
-        talker_avatar( avatar *new_me );
+        explicit talker_avatar( avatar *new_me );
         ~talker_avatar() override = default;
 
         // mandatory functions for starting a dialogue

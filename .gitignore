@@ -94,6 +94,7 @@ cscope.*
 tags
 
 # Generated translation source
+/lang/po/cataclysm-dda.pot
 /lang/po/en.po
 
 # Compiled binary translations
@@ -133,6 +134,7 @@ Cataclysm.dmg
 .idea/
 
 # test executables and generated data
+/tests/obj
 /tests/cata_test
 /tests/line_test
 /tests/map_iterator_test
@@ -168,9 +170,6 @@ Cataclysm.i64
 Cataclysm.id*
 Cataclysm.til
 Cataclysm.nam
-
-# Transifex Client
-.tx/
 
 # Snapcraft build directories
 prime

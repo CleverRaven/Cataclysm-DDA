@@ -60,6 +60,22 @@
     ]
   },
   {
+    "id": "eggs_insect",
+    "type": "requirement",
+    "//": "All of the different insect eggs",
+    "components": [
+      [
+        [ "ant_egg", 1 ],
+        [ "spider_egg", 4 ],
+        [ "egg_roach", 4 ],
+        [ "egg_locust", 4 ],
+        [ "egg_dragonfly", 4 ],
+        [ "egg_firefly", 4 ],
+        [ "egg_centipede", 2 ]
+      ]
+    ]
+  },
+  {
     "id": "milk_standard",
     "type": "requirement",
     "//": "Pasteurized milk, including reconstituted",

@@ -6,10 +6,11 @@
 #include <climits>
 #include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
+#include <new>
 #include <set>
-#include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -18,7 +19,6 @@
 #include "cata_utility.h"
 #include "craft_command.h"
 #include "enums.h"
-#include "flat_set.h"
 #include "gun_mode.h"
 #include "io_tags.h"
 #include "item_contents.h"
@@ -28,10 +28,8 @@
 #include "optional.h"
 #include "requirements.h"
 #include "safe_reference.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "visitable.h"
 
@@ -39,13 +37,13 @@ class Character;
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class book_proficiency_bonuses;
 class enchantment;
 class faction;
 class gun_type_type;
 class gunmod_location;
 class item;
 class iteminfo_query;
-class material_type;
 class monster;
 class nc_color;
 class player;
@@ -173,7 +171,7 @@ iteminfo weight_to_info( const std::string &type, const std::string &left,
 
 inline bool is_crafting_component( const item &component );
 
-class item : public visitable<item>
+class item : public visitable
 {
     public:
         using FlagsSetType = std::set<flag_id>;
@@ -201,14 +199,17 @@ class item : public visitable<item>
         /** For constructing in-progress crafts */
         item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
 
+        /** For constructing in-progress disassemblies */
+        item( const recipe *rec, item &component );
+
         // Legacy constructor for constructing from string rather than itype_id
         // TODO: remove this and migrate code using it.
         template<typename... Args>
-        item( const std::string &itype, Args &&... args ) :
+        explicit item( const std::string &itype, Args &&... args ) :
             item( itype_id( itype ), std::forward<Args>( args )... )
         {}
 
-        ~item();
+        ~item() override;
 
         /** Return a pointer-like type that's automatically invalidated if this
          * item is destroyed or assigned-to */
@@ -541,6 +542,14 @@ class item : public visitable<item>
         bool display_stacked_with( const item &rhs, bool check_components = false ) const;
         bool stacks_with( const item &rhs, bool check_components = false,
                           bool combine_liquid = false ) const;
+        /**
+         * Whether item is the same as `rhs` for RLE compression purposes.
+         * Essentially a stricter version of `stacks_with`.
+         * @return true if items are same, i.e. *this is "equal" to `item(rhs)`
+         * @note false negative results are OK
+         * @note must be transitive
+         */
+        bool same_for_rle( const item &rhs ) const;
         /** combines two items together if possible. returns false if it fails. */
         bool combine( const item &rhs );
         bool can_combine( const item &rhs ) const;
@@ -738,7 +747,9 @@ class item : public visitable<item>
          * @param amount Amount to fill item with, capped by remaining capacity
          * @returns amount of contained that was put into it
          */
-        int fill_with( const item &contained, int amount = INFINITE_CHARGES );
+        int fill_with( const item &contained, int amount = INFINITE_CHARGES,
+                       bool unseal_pockets = false,
+                       bool allow_sealed = false );
 
         /**
          * How much more of this liquid (in charges) can be put in this container.
@@ -771,7 +782,8 @@ class item : public visitable<item>
         /**
          * Puts the given item into this one.
          */
-        ret_val<bool> put_in( const item &payload, item_pocket::pocket_type pk_type );
+        ret_val<bool> put_in( const item &payload, item_pocket::pocket_type pk_type,
+                              bool unseal_pockets = false );
 
         /**
          * Returns this item into its default container. If it does not have a default container,
@@ -1024,12 +1036,12 @@ class item : public visitable<item>
          * resistance (to allow hypothetical calculations for gas masks).
          */
         /*@{*/
-        int acid_resist( bool to_self = false, int base_env_resist = 0 ) const;
-        int fire_resist( bool to_self = false, int base_env_resist = 0 ) const;
-        int bash_resist( bool to_self = false ) const;
-        int cut_resist( bool to_self = false )  const;
-        int stab_resist( bool to_self = false ) const;
-        int bullet_resist( bool to_self = false ) const;
+        float acid_resist( bool to_self = false, int base_env_resist = 0 ) const;
+        float fire_resist( bool to_self = false, int base_env_resist = 0 ) const;
+        float bash_resist( bool to_self = false ) const;
+        float cut_resist( bool to_self = false )  const;
+        float stab_resist( bool to_self = false ) const;
+        float bullet_resist( bool to_self = false ) const;
         /*@}*/
 
         /**
@@ -1040,7 +1052,7 @@ class item : public visitable<item>
         /**
          * Resistance provided by this item against damage type given by an enum.
          */
-        int damage_resist( damage_type dt, bool to_self = false ) const;
+        float damage_resist( damage_type dt, bool to_self = false ) const;
 
         /**
          * Returns resistance to being damaged by attack against the item itself.
@@ -1258,7 +1270,8 @@ class item : public visitable<item>
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
-        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent );
+        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
+                bool allow_sealed = false );
 
         units::length max_containable_length() const;
         units::volume max_containable_volume() const;
@@ -1309,6 +1322,7 @@ class item : public visitable<item>
           * if the item will spill if placed into a container
           */
         bool will_spill() const;
+        bool will_spill_if_unsealed() const;
         /**
          * Unloads the item's contents.
          * @param c Character who receives the contents.
@@ -1351,7 +1365,7 @@ class item : public visitable<item>
          * @param p player that has started wielding item
          * @param mv number of moves *already* spent wielding the weapon
          */
-        void on_wield( player &p, int mv = 0 );
+        void on_wield( player &p );
         /**
          * Callback when a player starts carrying the item. The item is already in the inventory
          * and is called from there. This is not called when the item is added to the inventory
@@ -1613,7 +1627,7 @@ class item : public visitable<item>
          * Returns the @ref islot_armor::thickness value, or 0 for non-armor. Thickness is are
          * relative value that affects the items resistance against bash / cutting / bullet damage.
          */
-        int get_thickness() const;
+        float get_thickness() const;
         /**
          * Returns clothing layer for item.
          */
@@ -1712,6 +1726,10 @@ class item : public visitable<item>
          * Book specific functions, apply to items that are books.
          */
         /*@{*/
+        /**
+         * translates the vector of proficiency bonuses into the container. returns an empty object if it's not a book
+         */
+        book_proficiency_bonuses get_book_proficiency_bonuses() const;
         /**
          * How many chapters the book has (if any). Will be 0 if the item is not a book, or if it
          * has no chapters at all.
@@ -2112,6 +2130,7 @@ class item : public visitable<item>
         faction_id get_old_owner() const;
         bool is_owned_by( const Character &c, bool available_to_take = false ) const;
         bool is_old_owner( const Character &c, bool available_to_take = false ) const;
+        std::string get_old_owner_name() const;
         std::string get_owner_name() const;
         int get_min_str() const;
 
@@ -2187,6 +2206,12 @@ class item : public visitable<item>
          * @return The number of moves to recursively disassemble this item
          */
         int get_recursive_disassemble_moves( const Character &guy ) const;
+
+        // inherited from visitable
+        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
+        override;
+        std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
+                                           int count = INT_MAX ) override;
 
     private:
         /** migrates an item into this item. */
@@ -2284,7 +2309,11 @@ class item : public visitable<item>
                 // If the crafter has insufficient tools to continue to the next 5% progress step
                 bool tools_to_continue = false;
                 std::vector<comp_selection<tool_comp>> cached_tool_selections;
+                cata::optional<units::mass> cached_weight;
+                cata::optional<units::volume> cached_volume;
 
+                // if this is an in progress disassembly as opposed to craft
+                bool disassembly = false;
                 void serialize( JsonOut &jsout ) const;
                 void deserialize( JsonIn &jsin );
                 void deserialize( const JsonObject &obj );

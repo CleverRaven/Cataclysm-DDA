@@ -120,7 +120,7 @@ SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
 class pixel_minimap::shared_texture_pool
 {
     public:
-        shared_texture_pool( const std::function<SDL_Texture_Ptr()> &generator ) {
+        explicit shared_texture_pool( const std::function<SDL_Texture_Ptr()> &generator ) {
             const size_t pool_size = ( MAPSIZE + 1 ) * ( MAPSIZE + 1 );
 
             texture_pool.reserve( pool_size );
@@ -147,8 +147,10 @@ class pixel_minimap::shared_texture_pool
         //releases the provided texture back into the inactive pool to be used again
         //called automatically in the submap cache destructor
         void release_tex( size_t index, SDL_Texture_Ptr &&ptr ) {
-            inactive_index.push_back( index );
-            texture_pool[index] = std::move( ptr );
+            if( ptr ) {
+                inactive_index.push_back( index );
+                texture_pool[index] = std::move( ptr );
+            }
         }
 
     private:
@@ -173,7 +175,7 @@ struct pixel_minimap::submap_cache {
     shared_texture_pool &pool;
 
     //reserve the SEEX * SEEY submap tiles
-    submap_cache( shared_texture_pool &pool ) :
+    explicit submap_cache( shared_texture_pool &pool ) :
         pool( pool ) {
         chunk_tex = pool.request_tex( texture_index );
     }
@@ -183,6 +185,7 @@ struct pixel_minimap::submap_cache {
         pool.release_tex( texture_index, std::move( chunk_tex ) );
     }
 
+    submap_cache( const submap_cache & ) = delete;
     submap_cache( submap_cache && ) = default;
 
     SDL_Color &color_at( const point &p ) {
@@ -342,7 +345,7 @@ pixel_minimap::submap_cache &pixel_minimap::get_cache_at( const tripoint &abs_sm
     auto it = cache.find( abs_sm_pos );
 
     if( it == cache.end() ) {
-        it = cache.emplace( abs_sm_pos, *tex_pool ).first;
+        it = cache.emplace( abs_sm_pos, submap_cache( *tex_pool ) ).first;
     }
 
     return it->second;

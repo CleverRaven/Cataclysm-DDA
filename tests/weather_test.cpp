@@ -1,14 +1,13 @@
-#include "catch/catch.hpp"
-#include "weather.h"
-
 #include <algorithm>
-#include <cmath>
+#include <cstdlib>
 #include <map>
 #include <vector>
 
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "point.h"
 #include "type_id.h"
+#include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"
 

@@ -1,3 +1,5 @@
+#include "npc.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cfloat>
 #include <climits>
@@ -19,6 +21,7 @@
 #include "character.h"
 #include "character_id.h"
 #include "clzones.h"
+#include "colony.h"
 #include "damage.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
@@ -29,6 +32,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "gates.h"
@@ -43,12 +47,13 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "material.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
-#include "npc.h" // IWYU pragma: associated
 #include "npctalk.h"
+#include "omdata.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmap_location.h"
@@ -388,7 +393,8 @@ void npc::assess_danger()
                                    rules.engagement == combat_engagement::NONE;
     const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
     const bool must_retreat = rules.has_flag( ally_rule::follow_close ) &&
-                              !too_close( pos(), player_character.pos(), follow_distance() );
+                              !too_close( pos(), player_character.pos(), follow_distance() ) &&
+                              !is_guarding();
 
     if( is_player_ally() ) {
         if( rules.engagement == combat_engagement::FREE_FIRE ) {
@@ -1533,7 +1539,7 @@ item &npc::find_reloadable()
     // TODO: Cache items checked for reloading to avoid re-checking same items every turn
     // TODO: Make it understand smaller and bigger magazines
     item *reloadable = nullptr;
-    visit_items( [this, &reloadable]( item * node ) {
+    visit_items( [this, &reloadable]( item * node, item * ) {
         if( !wants_to_reload( *this, *node ) ) {
             return VisitResponse::NEXT;
         }
@@ -1713,11 +1719,11 @@ bool npc::recharge_cbm()
             return true;
         } else {
             const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
-                for( const material_id &fid : bid->fuel_opts ) {
-                    return ( it.get_base_material().id == fid ) || ( it.is_magazine() &&
-                            item( it.ammo_current() ).get_base_material().id == fid );
+                if( bid->fuel_opts.empty() ) {
+                    return false;
                 }
-                return false;
+                return ( it.get_base_material().id == bid->fuel_opts.front() ) || ( it.is_magazine() &&
+                        item( it.ammo_current() ).get_base_material().id == bid->fuel_opts.front() );
             };
 
             if( consume_cbm_items( fuel_filter ) ) {
@@ -2732,7 +2738,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
     map &here = get_map();
     std::copy_if( range.begin(), range.end(), std::back_inserter( escape_points ),
     [&here]( const tripoint & elem ) {
-        return here.passable( elem );
+        return here.passable( elem ) && here.has_floor( elem );
     } );
 
     cata::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint & elem ) {
@@ -3331,7 +3337,7 @@ bool npc::do_player_activity()
             current_activity_id = activity.id();
         } else {
             if( is_player_ally() ) {
-                add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
+                add_msg( m_info, string_format( _( "%s completed the assigned task." ), disp_name() ) );
             }
             current_activity_id = activity_id::NULL_ID();
             revert_after_activity();
@@ -3384,7 +3390,7 @@ bool npc::wield_better_weapon()
     // Fists aren't checked below
     compare_weapon( null_item_reference() );
 
-    visit_items( [&compare_weapon]( item * node ) {
+    visit_items( [&compare_weapon]( item * node, item * ) {
         // Only compare melee weapons, guns, or holstered items
         if( node->is_melee() || node->is_gun() ) {
             compare_weapon( *node );

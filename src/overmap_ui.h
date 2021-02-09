@@ -3,7 +3,6 @@
 #define CATA_SRC_OVERMAP_UI_H
 
 #include "coordinates.h"
-#include "point.h"
 
 namespace catacurses
 {

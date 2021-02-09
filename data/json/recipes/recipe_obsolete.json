@@ -16,7 +16,47 @@
   },
   {
     "type": "recipe",
+    "result": "radio_car_box",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "1st_aid",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ifak",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "toolbox",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_belt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survivor_belt",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survival_kit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "arrow_metal_target",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "toolbox_workshop",
     "obsolete": true
   },
   {
@@ -2679,6 +2719,16 @@
   {
     "type": "recipe",
     "result": "foot_crank",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mp3",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "towel",
     "obsolete": true
   }
 ]

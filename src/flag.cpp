@@ -1,6 +1,5 @@
 #include "flag.h"
 
-#include <unordered_map>
 
 #include "debug.h"
 #include "generic_factory.h"
@@ -33,8 +32,10 @@ const flag_id flag_BASH_IMMUNE( "BASH_IMMUNE" );
 const flag_id flag_BELTED( "BELTED" );
 const flag_id flag_BELT_CLIP( "BELT_CLIP" );
 const flag_id flag_BIO_IMMUNE( "BIO_IMMUNE" );
+const flag_id flag_BIONIC_INSTALLATION_DATA( "BIONIC_INSTALLATION_DATA" );
 const flag_id flag_BIPOD( "BIPOD" );
 const flag_id flag_BIRD( "BIRD" );
+const flag_id flag_BLED( "BLED" );
 const flag_id flag_BLIND( "BLIND" );
 const flag_id flag_BLOCK_WHILE_WORN( "BLOCK_WHILE_WORN" );
 const flag_id flag_BOMB( "BOMB" );
@@ -257,6 +258,7 @@ const flag_id flag_SHRUB( "SHRUB" );
 const flag_id flag_SKINNED( "SKINNED" );
 const flag_id flag_SKINTIGHT( "SKINTIGHT" );
 const flag_id flag_SLEEP_AID( "SLEEP_AID" );
+const flag_id flag_SLEEP_AID_CONTAINER( "SLEEP_AID_CONTAINER" );
 const flag_id flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
 const flag_id flag_SLOWS_MOVEMENT( "SLOWS_MOVEMENT" );
 const flag_id flag_SLOWS_THIRST( "SLOWS_THIRST" );

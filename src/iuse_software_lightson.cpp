@@ -1,6 +1,9 @@
 #include "iuse_software_lightson.h"
 
 #include <algorithm>
+#include <functional>
+#include <iosfwd>
+#include <new>
 #include <string>
 #include <vector>
 

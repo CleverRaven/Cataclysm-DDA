@@ -3,9 +3,9 @@
 #define CATA_SRC_ACTION_H
 
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <set>
-#include <string>
 #include <vector>
 
 namespace cata
@@ -13,9 +13,9 @@ namespace cata
 template<typename T>
 class optional;
 } // namespace cata
-struct tripoint;
-struct point;
 struct input_event;
+struct point;
+struct tripoint;
 
 /**
  * Enumerates all discrete actions that can be performed by player

@@ -2,24 +2,17 @@
 #ifndef CATA_SRC_PLAYER_H
 #define CATA_SRC_PLAYER_H
 
-#include <climits>
-#include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
-#include <memory>
 #include <set>
-#include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
-#include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
 #include "creature.h"
-#include "cursesdef.h"
-#include "damage.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
@@ -27,43 +20,26 @@
 #include "item_pocket.h"
 #include "memory_fast.h"
 #include "optional.h"
-#include "pimpl.h"
-#include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "ret_val.h"
-#include "string_id.h"
 #include "type_id.h"
-#include "weighted_list.h"
 
 class JsonIn;
 class JsonObject;
 class JsonOut;
-class basecamp;
-class dispersion_sources;
-class effect;
-class faction;
-class inventory;
-class ma_technique;
-class map;
-class monster;
 class nc_color;
-class npc;
 class profession;
-class recipe;
-class recipe_subset;
 class time_duration;
+class time_point;
 class vehicle;
-struct bionic;
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 struct damage_unit;
 struct dealt_projectile_attack;
-struct item_comp;
-struct itype;
-struct pathfinding_settings;
-struct requirement_data;
-struct tool_comp;
 struct trap;
-struct w_point;
 
 enum action_id : int;
 enum game_message_type : int;
@@ -259,6 +235,9 @@ class player : public Character
 
         /** Select ammo from the provided options */
         item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
+
+        /** returns players strength adjusted by any traits that affect strength during lifting jobs */
+        int get_lift_str() const;
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T> bool can_lift( const T &obj ) const;

@@ -2,176 +2,203 @@
 
 Use the `Home` key to return to the top.
 
+<!-- XXX: REMOVE ME. Touch JSON_INFO.md to see if it triggers the bot -->
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
 - [Introduction](#introduction)
-  * [Overall structure](#overall-structure)
-  * [Common properties](#common-properties)
-    + ["copy-from" and "abstract"](#copy-from-and-abstract)
+  - [Overall structure](#overall-structure)
+  - [Common properties](#common-properties)
+    - [`"copy-from"` and `"abstract"`](#copy-from-and-abstract)
 - [Navigating the JSON](#navigating-the-json)
-- [Common field types](#navigating-the-json)
-  * [Units](#units)
-    + [Time duration](#time-duration)
-  * [Translatable strings](#translatable-strings)
-  * [Comments](#comments)
+- [Common field types](#common-field-types)
+  - [Units](#units)
+    - [Time duration](#time-duration)
+  - [Translatable strings](#translatable-strings)
+  - [Comments](#comments)
 - [File descriptions](#file-descriptions)
-  * [`data/json/`](#datajson)
-  * [`data/json/items/`](#datajsonitems)
-    + [`data/json/items/comestibles`](#datajsonitemscomestibles)
-  * [`data/json/requirements/`](#datajsonrequirements)
-  * [`data/json/vehicles/`](#datajsonvehicles)
+  - [`data/json/`](#datajson)
+  - [`data/json/items/`](#datajsonitems)
+    - [`data/json/items/comestibles/`](#datajsonitemscomestibles)
+  - [`data/json/requirements/`](#datajsonrequirements)
+  - [`data/json/vehicles/`](#datajsonvehicles)
 - [Description and content of each JSON file](#description-and-content-of-each-json-file)
-  * [`data/json/` JSONs](#datajson-jsons)
-    + [Ascii_arts](#ascii_arts)
-    + [Body_parts](#body_parts)
-    + [Bionics](#bionics)
-    + [Dreams](#dreams)
-    + [Disease](#disease_type)
-    + [Item Groups](#item-groups)
-    + [Item Category](#item-category)
-    + [Materials](#materials)
-    + [Monster Groups](#monster-groups)
+  - [`data/json/` JSONs](#datajson-jsons)
+    - [Ascii_arts](#ascii_arts)
+    - [Body_parts](#body_parts)
+    - [Bionics](#bionics)
+    - [Dreams](#dreams)
+    - [Disease](#disease)
+    - [Item Groups](#item-groups)
+    - [Item Category](#item-category)
+    - [Materials](#materials)
+      - [Fuel data](#fuel-data)
+    - [Monster Groups](#monster-groups)
       - [Group definition](#group-definition)
       - [Monster definition](#monster-definition)
-    + [Monster Factions](#monster-factions)
-    + [Monsters](#monsters)
-    + [Mutation Categories](#mutation-categories)
-    + [Names](#names)
-    + [Profession item substitution](#profession-item-substitution)
-      - [`description`](#-description-)
-      - [`name`](#-name-)
-      - [`points`](#-points-)
-      - [`addictions`](#-addictions-)
-      - [`skills`](#-skills-)
-      - [`items`](#-items-)
-      - [`pet`](#-pet-)
-      - [`flags`](#-flags-)
-      - [`cbms`](#-cbms-)
-      - [`traits`](#-traits-)
-    + [Recipes](#recipes)
+    - [Monster Factions](#monster-factions)
+    - [Monsters](#monsters)
+    - [Mutation Categories](#mutation-categories)
+    - [Names](#names)
+    - [Profession item substitution](#profession-item-substitution)
+    - [Professions](#professions)
+      - [`description`](#description)
+      - [`name`](#name)
+      - [`points`](#points)
+      - [`addictions`](#addictions)
+      - [`skills`](#skills)
+      - [`proficiencies`](#proficiencies)
+      - [`items`](#items)
+      - [`pets`](#pets)
+      - [`vehicle`](#vehicle)
+      - [`flags`](#flags)
+      - [`cbms`](#cbms)
+      - [`traits`](#traits)
+    - [Recipes](#recipes)
       - [Recipe requirements](#recipe-requirements)
+      - [Defining common requirements](#defining-common-requirements)
       - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
-    + [Constructions](#constructions)
-    + [Scent Types](#scent_types)
-    + [Scores, Achievements, and Conducts](#scores-achievements-and-conducts)
+    - [Constructions](#constructions)
+    - [Scent_types](#scent_types)
+    - [Scores, Achievements, and Conducts](#scores-achievements-and-conducts)
       - [`event_transformation`](#event_transformation)
       - [`event_statistic`](#event_statistic)
       - [`score`](#score)
       - [`achievement`](#achievement)
       - [`conduct`](#conduct)
-    + [Skills](#skills)
-    + [Traits/Mutations](#traits-mutations)
-    + [Traps](#traps)
-    + [Vehicle Groups](#vehicle-groups)
-    + [Vehicle Parts](#vehicle-parts)
-    + [Part Resistance](#part-resistance)
-    + [Vehicle Placement](#vehicle-placement)
-    + [Vehicle Spawn](#vehicle-spawn)
-    + [Vehicles](#vehicles)
+    - [Skills](#skills-1)
+    - [Traits/Mutations](#traitsmutations)
+    - [Traps](#traps)
+    - [Vehicle Groups](#vehicle-groups)
+    - [Vehicle Parts](#vehicle-parts)
+      - [Symbols and Variants](#symbols-and-variants)
+      - [The following optional fields are specific to CARGO or FLUIDTANK parts.](#the-following-optional-fields-are-specific-to-cargo-or-fluidtank-parts)
+      - [The following optional fields are specific to ENGINEs.](#the-following-optional-fields-are-specific-to-engines)
+      - [The following optional fields are specific to WHEELs.](#the-following-optional-fields-are-specific-to-wheels)
+      - [The following optional fields are specific to ROTORs.](#the-following-optional-fields-are-specific-to-rotors)
+      - [The following optional fields are specific to WORKBENCHes.](#the-following-optional-fields-are-specific-to-workbenches)
+      - [The following optional fields are specific to SEATs.](#the-following-optional-fields-are-specific-to-seats)
+      - [The following optional field describes pseudo tools for any part.](#the-following-optional-field-describes-pseudo-tools-for-any-part)
+    - [Part Resistance](#part-resistance)
+    - [Vehicle Placement](#vehicle-placement)
+    - [Vehicle Spawn](#vehicle-spawn)
+    - [Vehicles](#vehicles)
 - [`data/json/items/` JSONs](#datajsonitems-jsons)
-    + [Generic Items](#generic-items)
-    + [Ammo](#ammo)
-    + [Magazine](#magazine)
-    + [Armor](#armor)
-    + [Pet Armor](#pet-armor)
-    + [Books](#books)
+    - [Generic Items](#generic-items)
+      - [To hit object](#to-hit-object)
+    - [Ammo](#ammo)
+    - [Magazine](#magazine)
+    - [Armor](#armor)
+    - [Pet Armor](#pet-armor)
+    - [Books](#books)
+      - [Conditional Naming](#conditional-naming)
       - [Color Key](#color-key)
-    + [Comestibles](#comestibles)
-    + [Containers](#containers)
-    + [Melee](#melee)
-    + [Gun](#gun)
-    + [Gunmod](#gunmod)
-    + [Batteries](#batteries)
-    + [Tools](#tools)
-    + [Seed Data](#seed-data)
-    + [Artifact Data](#artifact-data)
-    + [Brewing Data](#brewing-data)
-      - [`Charge_type`](#charge-type)
-      - [`Effects_carried`](#effects-carried)
-      - [`effects_worn`](#effects-worn)
-      - [`effects_wielded`](#effects-wielded)
-      - [`effects_activated`](#effects-activated)
-    + [Software Data](#software-data)
-    + [Fuel data](#fuel-data)
-    + [Use Actions](#use-actions)
+      - [CBMs](#cbms-1)
+    - [Comestibles](#comestibles)
+    - [Containers](#containers)
+    - [Melee](#melee)
+    - [Gun](#gun)
+    - [Gunmod](#gunmod)
+    - [Batteries](#batteries)
+    - [Tools](#tools)
+    - [Seed Data](#seed-data)
+    - [Brewing Data](#brewing-data)
+      - [`Effects_carried`](#effects_carried)
+      - [`effects_worn`](#effects_worn)
+      - [`effects_wielded`](#effects_wielded)
+      - [`effects_activated`](#effects_activated)
+    - [Software Data](#software-data)
+    - [Use Actions](#use-actions)
 - [`json/` JSONs](#json-jsons)
-    + [Harvest](#harvest)
-      - [`id`](#-id-)
-      - [`type`](#-type-)
-      - [`message`](#-message-)
-      - [`entries`](#-entries-)
-    + [Furniture](#furniture)
-      - [`type`](#-type--1)
-      - [`move_cost_mod`](#-move-cost-mod-)
-      - [`light_emitted`](#-light-emitted-)
-      - [`required_str`](#-required-str-)
-      - [`crafting_pseudo_item`](#-crafting-pseudo-item-)
-      - [`workbench`](#-workbench-)
-      - [`plant_data`](#-plant-data-)
-    + [Terrain](#terrain)
-      - [`type`](#-type--2)
-      - [`move_cost`](#-move-cost-)
-      - [`heat_radiation`](#-heat_radiation-)
-      - [`light_emitted`](#-light-emitted--1)
-      - [`trap`](#-trap-)
-      - [`harvestable`](#-harvestable-)
-      - [`transforms_into`](#-transforms-into-)
-      - [`harvest_season`](#-harvest-season-)
-      - [`roof`](#-roof-)
-    + [Common To Furniture And Terrain](#common-to-furniture-and-terrain)
-      - [`id`](#-id--1)
-      - [`name`](#-name--1)
-      - [`flags`](#-flags--1)
-      - [`connects_to`](#-connects-to-)
-      - [`symbol`](#-symbol-)
-      - [`looks_like`](#-looks-like-)
-      - [`color` or `bgcolor`](#-color--or--bgcolor-)
-      - [`max_volume`](#-max-volume-)
-      - [`examine_action`](#-examine-action-)
-      - [`close" And "open`](#-close--and--open-)
-      - [`bash`](#-bash-)
-      - [`deconstruct`](#-deconstruct-)
-      - [`map_bash_info`](#-map-bash-info-)
-      - [`str_min`, `str_max`, `str_min_blocked`, `str_max_blocked`, `str_min_supported`, `str_max_supported`](#-str-min----str-max----str-min-blocked----str-max-blocked----str-min-supported----str-max-supported-)
-      - [`sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`](#-sound----sound-fail----sound-vol----sound-fail-vol-)
-      - [`furn_set`, `ter_set`](#-furn-set----ter-set-)
-      - [`explosive`](#-explosive-)
-      - [`destroy_only`](#-destroy-only-)
-      - [`bash_below`](#-bash-below-)
-      - [`tent_centers`, `collapse_radius`](#-tent-centers----collapse-radius-)
-      - [`items`](#-items--1)
-      - [`map_deconstruct_info`](#-map-deconstruct-info-)
-      - [`furn_set`, `ter_set`](#-furn-set----ter-set--1)
-    + [`items`](#-items-2)
-    + [`plant_data`](#plant_data-1)
-      - [`transform`](#-transform-)
-      - [`base`](#-base-)
-      - [`growth_multiplier`](#-growth-multiplier-)
-      - [`harvest_multiplier`](#-harvest-multiplier-)
-    + [clothing_mod](#clothing_mod)
+    - [Harvest](#harvest)
+      - [`id`](#id)
+      - [`type`](#type)
+      - [`message`](#message)
+      - [`entries`](#entries)
+    - [leftovers](#leftovers)
+    - [Furniture](#furniture)
+      - [`type`](#type-1)
+      - [`move_cost_mod`](#move_cost_mod)
+      - [`light_emitted`](#light_emitted)
+      - [`required_str`](#required_str)
+      - [`crafting_pseudo_item`](#crafting_pseudo_item)
+      - [`workbench`](#workbench)
+      - [`plant_data`](#plant_data)
+      - [`surgery_skill_multiplier`](#surgery_skill_multiplier)
+    - [Terrain](#terrain)
+      - [`type`](#type-2)
+      - [`move_cost`](#move_cost)
+      - [`heat_radiation`](#heat_radiation)
+      - [`light_emitted`](#light_emitted-1)
+      - [`trap`](#trap)
+      - [`harvestable`](#harvestable)
+      - [`transforms_into`](#transforms_into)
+      - [`harvest_season`](#harvest_season)
+      - [`roof`](#roof)
+    - [Common To Furniture And Terrain](#common-to-furniture-and-terrain)
+      - [`id`](#id-1)
+      - [`name`](#name-1)
+      - [`flags`](#flags-1)
+      - [`connects_to`](#connects_to)
+      - [`symbol`](#symbol)
+      - [`comfort`](#comfort)
+      - [`floor_bedding_warmth`](#floor_bedding_warmth)
+      - [`bonus_fire_warmth_feet`](#bonus_fire_warmth_feet)
+      - [`looks_like`](#looks_like)
+      - [`color` or `bgcolor`](#color-or-bgcolor)
+      - [`max_volume`](#max_volume)
+      - [`examine_action`](#examine_action)
+      - [`close" And "open`](#close-and-open)
+      - [`bash`](#bash)
+      - [`deconstruct`](#deconstruct)
+      - [`map_bash_info`](#map_bash_info)
+      - [`str_min`, `str_max`, `str_min_blocked`, `str_max_blocked`, `str_min_supported`, `str_max_supported`](#str_min-str_max-str_min_blocked-str_max_blocked-str_min_supported-str_max_supported)
+      - [`sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`](#sound-sound_fail-sound_vol-sound_fail_vol)
+      - [`furn_set`, `ter_set`](#furn_set-ter_set)
+      - [`explosive`](#explosive)
+      - [`destroy_only`](#destroy_only)
+      - [`bash_below`](#bash_below)
+      - [`tent_centers`, `collapse_radius`](#tent_centers-collapse_radius)
+      - [`items`](#items-1)
+      - [`map_deconstruct_info`](#map_deconstruct_info)
+      - [`furn_set`, `ter_set`](#furn_set-ter_set-1)
+    - [`items`](#items-2)
+    - [`plant_data`](#plant_data-1)
+      - [`transform`](#transform)
+      - [`emissions`](#emissions)
+      - [`base`](#base)
+      - [`growth_multiplier`](#growth_multiplier)
+      - [`harvest_multiplier`](#harvest_multiplier)
+    - [clothing_mod](#clothing_mod)
 - [Scenarios](#scenarios)
-  * [`description`](#-description--1)
-  * [`name`](#-name--2)
-  * [`points`](#-points--1)
-  * [`items`](#-items--3)
-  * [`flags`](#-flags--2)
-  * [`cbms`](#-cbms--1)
-  * [`traits", "forced_traits", "forbidden_traits`](#-traits----forced-traits----forbidden-traits-)
-  * [`allowed_locs`](#-allowed-locs-)
-  * [`start_name`](#-start-name-)
-  * [`professions`](#-professions-)
-  * [`map_special`](#-map-special-)
-  * [`missions`](#-missions-)
-  * [`custom_initial_date`](#-custom-initial-date-)
+  - [`description`](#description-1)
+  - [`name`](#name-2)
+  - [`points`](#points-1)
+  - [`items`](#items-3)
+  - [`flags`](#flags-2)
+  - [`cbms`](#cbms-2)
+  - [`traits", "forced_traits", "forbidden_traits`](#traits-forced_traits-forbidden_traits)
+  - [`allowed_locs`](#allowed_locs)
+  - [`start_name`](#start_name)
+  - [`professions`](#professions-1)
+  - [`map_special`](#map_special)
+  - [`missions`](#missions)
+  - [`custom_initial_date`](#custom_initial_date)
 - [Starting locations](#starting-locations)
-  * [`name`](#-name--3)
-  * [`terrain`](#-terrain-)
-  * [`flags`](#-flags--3)
+  - [`name`](#name-3)
+  - [`terrain`](#terrain-1)
+  - [`flags`](#flags-3)
 - [Mutation overlay ordering](#mutation-overlay-ordering)
-  * [`id`](#-id--2)
-  * [`order`](#-order-)
+  - [`id`](#id-2)
+  - [`order`](#order)
 - [MOD tileset](#mod-tileset)
-  * [`compatibility`](#-compatibility-)
-  * [`tiles-new`](#-tiles-new-)
-- [Field types](#-field-types-)
+  - [`compatibility`](#compatibility)
+  - [`tiles-new`](#tiles-new)
+- [Field types](#field-types)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Introduction
 This document describes the contents of the json files used in Cataclysm: Dark Days Ahead. You are probably reading this if you want to add or change content of Cataclysm: Dark Days Ahead and need to learn more about what to find where and what each file and property does.
@@ -652,7 +679,7 @@ For information about tools with option to export ASCII art in format ready to b
 | learned_proficiencies       | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when uninstalling
 | installation_requirement    | (_optional_) Requirement id pointing to a requirement defining the tools and components necessary to install this CBM.
 | vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorption, affects all vitamins. (default: `1.0`)
-
+| social_modifiers			  | (_optional_) Json object with optional members: persuade, lie, and intimidate which add or subtract that amount from those types of social checks
 ```C++
 {
     "id"           : "bio_batteries",
@@ -799,7 +826,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `cut_dmg_verb`   | Verb used when material takes cutting damage.
 | `dmg_adj`        | Description added to damaged item in ascending severity.
 | `dmg_adj`        | Adjectives used to describe damage states of a material.
-| `density`        | Density of a material.
+| `density`        | Affects vehicle collision damage, with denser parts having the advantage over less-dense parts.
 | `vitamins`       | Vitamins in a material. Usually overridden by item specific values.  An integer percentage of ideal daily value.
 | `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186.
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108.
@@ -1007,10 +1034,35 @@ If the JSON objects contains a "trait" member, it defines a replacement for mult
     { "item": "hat_hunting", "new": [ { "item": "hat_cotton", "ratio": 2 } ] }
   ]
 }
-```C++
+```
 This defines characters with the WOOLALLERGY trait get some items replaced:
 - "blazer" is converted into "jacket_leather_red",
 - each "hat_hunting" is converted into *two* "hat_cotton" items.
+
+If the JSON objects contains a "bonus" member, it defines which items will be received, like this:
+```C++
+{
+  "type": "profession_item_substitutions",
+  "group": {
+    "items": [ "winter_pants_army", "undershirt", "socks", "sweatshirt", "boots_hiking", "knife_folding", "wristwatch" ],
+    "entries": [
+      { "group": "charged_two_way_radio" },
+      { "group": "charged_matches" },
+      { "item": "ear_plugs" },
+      { "item": "water_clean", "container-item": "canteen" },
+      { "item": "m1911", "ammo-item": "45_acp", "charges": 7, "container-item": "holster" },
+      { "item": "45_acp", "charges": 23 },
+      { "item": "garand", "ammo-item": "3006", "charges": 8, "contents-item": "shoulder_strap" },
+      { "item": "3006", "charges": 8, "container-item": "garandclip" },
+      { "item": "3006", "charges": 4 }
+    ]
+  },
+  "bonus": {
+    "present": [ "ALBINO" ],
+    "absent": [ "HYPEROPIC" ]
+  }
+}
+```
 
 ### Professions
 
@@ -1774,8 +1826,11 @@ it is present to help catch errors.
 "debug": false,     //Trait is for debug purposes (default: false)
 "player_display": true, //Trait is displayed in the `@` player display menu
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
-"prereqs": ["SKIN_ROUGH"], // Needs these mutations before you can mutate toward this mutation
-"prereqs2": ["LEAVES"], //Also need these mutations before you can mutate towards this mutation. When both set creates 2 different mutation paths, random from one is picked. Only use together with "prereqs"
+// prereqs and prereqs2 specify prerequisites of the current mutation
+// Both are optional, but if prereqs2 is specified prereqs must also be specified
+// The example below means: ( "SLOWREADER" OR "ILLITERATE") AND ("CEPH_EYES" OR "LIZ_EYE")
+"prereqs": [ "SLOWREADER", "ILLITERATE"],
+"prereqs2": [ "CEPH_EYES", "LIZ_EYE" ],
 "threshreq": ["THRESH_SPIDER"], //Required threshold for this mutation to be possible
 "cancels": ["ROT1", "ROT2", "ROT3"], // Cancels these mutations when mutating
 "changes_to": ["FASTHEALER2"], // Can change into these mutations when mutating further
@@ -2240,6 +2295,7 @@ See also VEHICLE_JSON.md
 "explosion": {                               // Physical explosion data
     "power": 10,                             // Measure of explosion power in grams of TNT equivalent explosive, affects damage and range.
     "distance_factor": 0.9,                  // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
+    "max_noise": 25,                         // Maximum amount of (auditory) noise the explosion might produce.
     "fire": true,                            // Should the explosion leave fire
     "shrapnel": 200,                         // Total mass of casing, rest of fragmentation variables set to reasonable defaults.
     "shrapnel": {
@@ -2314,7 +2370,7 @@ Armor can be defined like this:
 "weight_capacity_bonus": "20 kg",    // (Optional, default = 0) Bonus to weight carrying capacity, can be negative. Strings must be used - "5000 g" or "5 kg"
 "weight_capacity_modifier": 1.5, // (Optional, default = 1) Factor modifying base weight carrying capacity.
 "coverage" : 80,      // What percentage of body part
-"material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
+"material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Ordinary clothes range from 0.1 to 0.5. Particularly rugged cloth may reach as high as 1-2mm, and armor or protective equipment can range as high as 10 or rarely more.
 "power_armor" : false, // If this is a power armor item (those are special).
 "valid_mods" : ["steel_padded"] // List of valid clothing mods. Note that if the clothing mod doesn't have "restricted" listed, this isn't needed.
 ```
@@ -2332,6 +2388,35 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
     "power_armor" : false
 }
 ```
+#### Guidelines for thickness: ####
+According to <https://propercloth.com/reference/fabric-thickness-weight/>, dress shirts and similar fine clothing range from 0.15mm to 0.35mm.
+According to <https://leathersupreme.com/leather-hide-thickness-in-leather-jackets/>:
+* Fashion leather clothes such as thin leather jackets, skirts, and thin vests are 1.0mm or less.
+* Heavy leather clothes such as motorcycle suits average 1.5mm.
+
+From [this site](http://cci.one/site/marine/design-tips-fabrication-overview/tables-of-weights-and-measures/?doing_wp_cron=1611725817.5850219726562500000000), an equivalency guideline for fabric weight to mm:
+
+| Cloth | oz/yd2 | g/m2 | Inches | mm |
+| ----- | ------- | ----- | ------- | ---- |
+|  Fiberglass (plain weave)  | 2.3 |  78  | 0.004 | 0.10 |
+|  Fiberglass (plain weave)  | 6.0 | 203 | 0.007 | 0.17 |
+| Kevlar (TM) (plain weave) | 5.0 | 170 | 0.010 | 0.25 |
+| Carbon Fiber (plain weave) | 5.8 | 197 | 0.009 | 0.23 |
+| Carbon Fiber (unidirectional) | 9.0 | 305 | 0.011 | 0.28 |
+
+Chart cobbled together from several sources for more general materials:
+
+|  Fabric  | oz/yd2 | Max g/m2 | Inches | mm to use |
+| ------- | --------| ---------- | ------- | ---------- |
+| Very light | 0-4 | 136 | 0.006-0.007 | 0.15 |
+|   Light   | 4-7 | 237 |    0.008    |  0.2  |
+|  Medium  | 7-11 | 373 | 0.009-0.011 | 0.25 |
+|   Heavy   | 11-14 | 475 | 0.012-0.014 | 0.3 |
+
+Shoe thicknesses are outlined at <https://secretcobbler.com/choosing-leather/>; TL;DR: upper 1.2 - 2.0mm, lining 0.8 - 1.2mm, for a total of 2.0 - 3.2mm.
+
+For turnout gear, see <http://bolivar.mo.us/media/uploads/2014/09/2014-06-bid-fire-gear-packet.pdf>.
+
 
 ### Pet Armor
 Pet armor can be defined like this:
@@ -2468,7 +2553,8 @@ CBMs can be defined like this:
                                 // additional some CBM specific entries:
 "bionic_id" : "bio_advreactor", // ID of the installed bionic if not equivalent to "id"
 "difficulty" : 11,              // Difficulty of installing CBM
-"is_upgrade" : true             // Whether the CBM is an upgrade of another bionic.
+"is_upgrade" : true,            // Whether the CBM is an upgrade of another bionic.
+"installation_data" : "AID_bio_advreactor" // ID of the item which allows for almost guaranteed installation of corresponding bionic.
 ```
 
 ### Comestibles
@@ -2582,6 +2668,7 @@ Guns can be defined like this:
 "burst": 5,                // Number of shots fired in burst mode
 "clip_size": 100,          // Maximum amount of ammo that can be loaded
 "ups_charges": 0,          // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
+"ammo_to_fire" 1,          // Amount of ammo used
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
@@ -3333,10 +3420,6 @@ For example the terrain `t_pit` has the built-in trap `tr_pit`. Every tile in th
 
 A built-in trap prevents adding any other trap explicitly (by the player and through mapgen).
 
-#### `harvestable`
-
-(Optional) If defined, the terrain is harvestable. This entry defines the item type of the harvested fruits (or similar). To make this work, you also have to set one of the `harvest_*` `examine_action` functions.
-
 #### `transforms_into`
 
 (Optional) Used for various transformation of the terrain. If defined, it must be a valid terrain id. Used for example:
@@ -3344,9 +3427,14 @@ A built-in trap prevents adding any other trap explicitly (by the player and thr
 - When harvesting fruits (to change into the harvested form of the terrain).
 - In combination with the `HARVESTED` flag and `harvest_season` to change the harvested terrain back into a terrain with fruits.
 
-#### `harvest_season`
+#### `harvest_by_season`
 
-(Optional) On of "SUMMER", "AUTUMN", "WINTER", "SPRING", used in combination with the "HARVESTED" flag to revert the terrain back into a terrain that can be harvested.
+(Optional) Array of objects containing the seasons in which to harvest and the id of the harvest entry used.
+
+Exemple:
+```json
+"harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "blackjack_harv" } ],
+```
 
 #### `roof`
 

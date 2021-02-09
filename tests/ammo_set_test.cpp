@@ -1,8 +1,17 @@
-#include "catch/catch.hpp"
+#include <functional>
+#include <iosfwd>
+#include <memory>
+#include <set>
+#include <string>
 
-#include "item.h"
-#include "itype.h"
+#include "catch/catch.hpp"
 #include "debug.h"
+#include "item.h"
+#include "item_pocket.h"
+#include "itype.h"
+#include "ret_val.h"
+#include "type_id.h"
+#include "value_ptr.h"
 
 TEST_CASE( "ammo_set", "[ammo_set][magazine][ammo]" )
 {
@@ -293,7 +302,7 @@ TEST_CASE( "ammo_set", "[ammo_set][magazine][ammo]" )
             REQUIRE( cz75.magazine_default().str() == cz75mag_12rd_id.str() );
             const ammotype &amtype = ammo9mm_id->ammo->type;
             REQUIRE( cz75.ammo_capacity( amtype ) == 0 );
-            REQUIRE( cz75.ammo_default().is_null() );
+            REQUIRE( !cz75.ammo_default().is_null() );
             REQUIRE( cz75.magazine_default()->magazine->default_ammo.str() == ammo9mm_id.str() );
             WHEN( "set 9mm ammo in the gun w/o magazine w/o quantity" ) {
                 cz75.ammo_set( ammo9mm_id );

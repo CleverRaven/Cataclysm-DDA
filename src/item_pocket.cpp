@@ -1,15 +1,16 @@
 #include "item_pocket.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <string>
 #include <utility>
 
 #include "ammo.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "color.h"
 #include "crafting.h"
 #include "debug.h"
 #include "enums.h"
@@ -24,9 +25,9 @@
 #include "itype.h"
 #include "json.h"
 #include "map.h"
+#include "math_defines.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"
@@ -457,20 +458,22 @@ units::volume item_pocket::remaining_volume() const
 
 int item_pocket::remaining_capacity_for_item( const item &it ) const
 {
-    item item_copy( it );
-    if( item_copy.count_by_charges() ) {
-        item_copy.charges = 1;
-    }
-    if( !can_contain( item_copy ).success() ) {
-        return 0;
-    }
-    if( item_copy.count_by_charges() ) {
-        return std::min( { it.charges,
-                           item_copy.charges_per_volume( remaining_volume() ),
-                           item_copy.charges_per_weight( remaining_weight() )
-                         } );
-    } else {
+    if( it.count_by_charges() ) {
+        item it_copy = it;
+        it_copy.charges = 1;
+        if( can_contain( it_copy ).success() ) {
+            return std::min( {
+                it.charges,
+                charges_per_remaining_volume( it ),
+                charges_per_remaining_weight( it )
+            } );
+        } else {
+            return 0;
+        }
+    } else if( can_contain( it ).success() ) {
         return 1;
+    } else {
+        return 0;
     }
 }
 
@@ -658,8 +661,8 @@ void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
             }
         } else {
             item i_copy( *iter );
-            iter = contents.erase( iter );
             guy.i_add_or_drop( i_copy, 1, avoid );
+            iter = contents.erase( iter );
         }
     }
 }
@@ -696,6 +699,11 @@ bool item_pocket::will_spill() const
     } else {
         return data->open_container;
     }
+}
+
+bool item_pocket::will_spill_if_unsealed() const
+{
+    return data->open_container;
 }
 
 bool item_pocket::seal()
@@ -889,7 +897,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
                                string_format( _( "Contained items spoil at <neutral>%.0f%%</neutral> their original rate." ),
                                               spoil_multiplier() * 100 ) );
         } else {
-            info.emplace_back( "DESCRIPTION", "Contained items <info>won't spoil</info>." );
+            info.emplace_back( "DESCRIPTION", _( "Contained items <info>won't spoil</info>." ) );
         }
     }
     if( data->weight_multiplier != 1.0f ) {
@@ -965,20 +973,17 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
         if( !contents_header ) {
             info.emplace_back( "DESCRIPTION", _( "<bold>Contents of this pocket</bold>:" ) );
             contents_header = true;
-        } else {
-            // Separate items with a blank line
-            info.emplace_back( "DESCRIPTION", space );
         }
 
         const translation &description = contents_item.type->description;
 
         if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
-            info.emplace_back( "DESCRIPTION", colorize( contents_item.display_name(),
+            info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
                                contents_item.color_in_inventory() ) );
             info.emplace_back( vol_to_info( "CONTAINER", description + space,
                                             contents_item.volume() ) );
         } else {
-            info.emplace_back( "DESCRIPTION", colorize( contents_item.display_name(),
+            info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
                                contents_item.color_in_inventory() ) );
         }
     }
@@ -1107,7 +1112,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_HEAVY, _( "item is too heavy" ) );
     }
-    if( it.weight() > remaining_weight() ) {
+    if( it.weight() > 0_gram && charges_per_remaining_weight( it ) < it.count() ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_CANNOT_SUPPORT, _( "pocket is holding too much weight" ) );
     }
@@ -1115,7 +1120,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_TOO_BIG, _( "item too big" ) );
     }
-    if( it.volume() > remaining_volume() ) {
+    if( it.volume() > 0_ml && charges_per_remaining_volume( it ) < it.count() ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_NO_SPACE, _( "not enough space" ) );
     }
@@ -1329,6 +1334,11 @@ void item_pocket::process( player *carrier, const tripoint &pos, float insulatio
     }
 }
 
+bool item_pocket::is_default_state() const
+{
+    return empty() && settings.is_null() && !sealable();
+}
+
 bool item_pocket::empty() const
 {
     return contents.empty();
@@ -1386,17 +1396,6 @@ void item_pocket::add( const item &it, item **ret )
     } else {
         *ret = restack( &contents.back() );
     }
-}
-
-void item_pocket::fill_with( item contained )
-{
-    if( contained.count_by_charges() ) {
-        contained.charges = 1;
-    }
-    while( can_contain( contained ).success() ) {
-        add( contained );
-    }
-    restack();
 }
 
 bool item_pocket::can_unload_liquid() const
@@ -1474,6 +1473,42 @@ units::mass item_pocket::contains_weight() const
 units::mass item_pocket::remaining_weight() const
 {
     return weight_capacity() - contains_weight();
+}
+
+int item_pocket::charges_per_remaining_volume( const item &it ) const
+{
+    if( it.count_by_charges() ) {
+        units::volume non_it_volume = volume_capacity();
+        int contained_charges = 0;
+        for( const item &contained : contents ) {
+            if( contained.stacks_with( it ) ) {
+                contained_charges += contained.charges;
+            } else {
+                non_it_volume -= contained.volume();
+            }
+        }
+        return it.charges_per_volume( non_it_volume ) - contained_charges;
+    } else {
+        return it.charges_per_volume( remaining_volume() );
+    }
+}
+
+int item_pocket::charges_per_remaining_weight( const item &it ) const
+{
+    if( it.count_by_charges() ) {
+        units::mass non_it_weight = weight_capacity();
+        int contained_charges = 0;
+        for( const item &contained : contents ) {
+            if( contained.stacks_with( it ) ) {
+                contained_charges += contained.charges;
+            } else {
+                non_it_weight -= contained.weight();
+            }
+        }
+        return it.charges_per_weight( non_it_weight ) - contained_charges;
+    } else {
+        return it.charges_per_weight( remaining_weight() );
+    }
 }
 
 int item_pocket::best_quality( const quality_id &id ) const
@@ -1594,15 +1629,33 @@ bool item_pocket::favorite_settings::accepts_item( const item &it ) const
     const itype_id &id = it.typeId();
     const item_category_id &cat = it.get_category_of_contents().id;
 
-    bool accept_category = ( category_whitelist.empty() || category_whitelist.count( cat ) ) &&
-                           !category_blacklist.count( cat );
-    if( accept_category ) {
-        // Allowed unless explicitly disallowed by the item filters.
-        return ( item_whitelist.empty() || item_whitelist.count( id ) ) && !item_blacklist.count( id );
-    } else {
-        // Disallowed unless explicitly whitelisted
-        return item_whitelist.count( id );
+    // If the item is explicitly listed in either of the lists, then it's clear what to do with it
+    if( item_blacklist.count( id ) ) {
+        return false;
     }
+    if( item_whitelist.count( id ) ) {
+        return true;
+    }
+
+    // otherwise check the category, the same way
+    if( category_blacklist.count( cat ) ) {
+        return false;
+    }
+    if( category_whitelist.count( cat ) ) {
+        return true;
+    }
+
+    // Finally, if no match was found, see if there were any filters at all,
+    // and either allow or deny everything that's fallen through to here.
+    if( !category_whitelist.empty() ) {
+        return false;  // we've whitelisted only some categories, and this item is not out of those.
+    }
+    if( !item_whitelist.empty() && category_blacklist.empty() ) {
+        // Whitelisting only certain items, and not as a means to tweak blacklist.
+        return false;
+    }
+    // No whitelist - everything goes.
+    return true;
 }
 
 template<typename T>

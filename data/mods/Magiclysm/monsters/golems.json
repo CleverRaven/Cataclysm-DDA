@@ -6,7 +6,7 @@
     "description": "A large, humanoid golem made from clay.  Its proportions are off and it seems fragile.",
     "default_faction": "robot",
     "bodytype": "human",
-    "species": [ "ROBOT" ],
+    "species": [ "GOLEM" ],
     "diff": 2,
     "volume": "120 L",
     "weight": "122 kg",
@@ -27,7 +27,6 @@
     "dodge": 0,
     "vision_day": 40,
     "vision_night": 40,
-    "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
   },
@@ -36,7 +35,8 @@
     "type": "MONSTER",
     "name": { "str": "plastic golem" },
     "description": "Traditionally, making a golem is a months-long process involving hand tools and precision craftsmanship.  A stone golem is as much a work of art as it is a magical device.  The advent of 3D printing made it easy to get into the golem-making hobby, and plastic golems have soared in popularity.",
-    "default_faction": "factionless",
+    "default_faction": "robot",
+    "species": [ "GOLEM" ],
     "volume": "150 L",
     "weight": "70 kg",
     "hp": 120,
@@ -55,7 +55,6 @@
     "melee_cut": 3,
     "vision_day": 30,
     "vision_night": 30,
-    "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "regenerates": 10,
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "LOUDMOVES" ]
@@ -67,7 +66,7 @@
     "description": "A large, humanoid golem made from stone.  Its fists look similar to rockets.",
     "default_faction": "robot",
     "bodytype": "human",
-    "species": [ "ROBOT" ],
+    "species": [ "GOLEM" ],
     "diff": 2,
     "volume": "120 L",
     "weight": "162 kg",
@@ -89,7 +88,6 @@
     "vision_day": 40,
     "vision_night": 40,
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "rocket_punch", "min_level": 5 }, "cooldown": 10 } ],
-    "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
   },
@@ -100,7 +98,7 @@
     "description": "A large, humanoid golem made from iron.  Some sort of noxious gas seems to be seeping from its mouth.",
     "default_faction": "robot",
     "bodytype": "human",
-    "species": [ "ROBOT" ],
+    "species": [ "GOLEM" ],
     "diff": 2,
     "volume": "120 L",
     "weight": "945 kg",
@@ -122,7 +120,6 @@
     "vision_day": 40,
     "vision_night": 40,
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "gas_attack", "min_level": 5 }, "cooldown": 60 } ],
-    "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
   }

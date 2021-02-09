@@ -2133,6 +2133,14 @@
     "components": [ [ [ "neoprene", 1 ] ], [ [ "scrap_neoprene", 20 ] ] ]
   },
   {
+    "result": "sheet_nomex_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "nomex", 1 ] ], [ [ "scrap_nomex", 20 ] ] ]
+  },
+  {
     "result": "tanned_hide",
     "type": "uncraft",
     "time": "2 m",
@@ -3169,18 +3177,6 @@
     ]
   },
   {
-    "result": "radio_car_box",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "2 m",
-    "components": [
-      [ [ "radio_car", 1 ] ],
-      [ [ "radiocontrol", 1 ] ],
-      [ [ "light_minus_battery_cell", 1 ] ],
-      [ [ "light_battery_cell", 1 ] ]
-    ]
-  },
-  {
     "result": "radiocontrol",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -4205,6 +4201,16 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "nomex",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "fabrication",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "time": "1 h",
+    "components": [ [ [ "thread_nomex", 50 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "1st_aid",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
@@ -4238,24 +4244,6 @@
       [ [ "scissors", 1 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "survival_kit",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "15 s",
-    "components": [
-      [ [ "knife_folding", 1 ] ],
-      [ [ "flint_steel", 1 ] ],
-      [ [ "whistle_multitool", 1 ] ],
-      [ [ "bottle_folding", 1 ] ],
-      [ [ "glowstick", 1 ] ],
-      [ [ "handflare", 4 ] ],
-      [ [ "pur_tablets", 15 ] ],
-      [ [ "pocket_survival", 1 ] ],
-      [ [ "survival_kit_box", 1 ] ]
-    ],
-    "flags": [ "BLIND_EASY", "FULL_MAGAZINE" ]
   },
   {
     "result": "garlic",

@@ -11,6 +11,7 @@
 #include "action.h"
 #include "activity_type.h"
 #include "avatar.h"
+#include "build_reqs.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -27,7 +28,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
-#include "int_id.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_stack.h"
@@ -50,7 +51,6 @@
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "trap.h"
 #include "ui_manager.h"
@@ -59,6 +59,8 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+class read_only_visitable;
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
@@ -90,8 +92,6 @@ static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
 static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
-
-class inventory;
 
 static bool finalized = false;
 
@@ -141,7 +141,7 @@ static std::map<construction_str_id, construction_id> construction_id_map;
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const construction_group_str_id &group );
 static bool can_construct( const construction &con );
-static bool player_can_build( player &p, const inventory &inv,
+static bool player_can_build( player &p, const read_only_visitable &inv,
                               const construction_group_str_id &group );
 static bool player_can_see_to_build( player &p, const construction_group_str_id &group );
 static void place_construction( const construction_group_str_id &group );
@@ -837,7 +837,8 @@ construction_id construction_menu( const bool blueprint )
     return ret;
 }
 
-bool player_can_build( player &p, const inventory &inv, const construction_group_str_id &group )
+bool player_can_build( player &p, const read_only_visitable &inv,
+                       const construction_group_str_id &group )
 {
     // check all with the same group to see if player can build any
     std::vector<construction *> cons = constructions_by_group( group );
@@ -849,7 +850,7 @@ bool player_can_build( player &p, const inventory &inv, const construction_group
     return false;
 }
 
-bool player_can_build( player &p, const inventory &inv, const construction &con )
+bool player_can_build( player &p, const read_only_visitable &inv, const construction &con )
 {
     if( p.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -1078,7 +1079,8 @@ void complete_construction( player *p )
         here.spawn_items( p->pos(), item_group::items_from( *built.byproduct_item_group, calendar::turn ) );
     }
 
-    add_msg( m_info, _( "%s finished construction: %s." ), p->disp_name(), built.group->name() );
+    add_msg( m_info, _( "%s finished construction: %s." ), p->disp_name( false, true ),
+             built.group->name() );
     // clear the activity
     p->activity.set_to_null();
 
@@ -1760,7 +1762,7 @@ int construction::adjusted_time() const
 
 std::string construction::get_time_string() const
 {
-    const time_duration turns = time_duration::from_turns( adjusted_time() / 100 );
+    const time_duration turns = time_duration::from_moves( adjusted_time() );
     return _( "Time to complete: " ) + colorize( to_string( turns ), color_data );
 }
 

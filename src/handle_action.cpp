@@ -1,14 +1,17 @@
+#include "game.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <chrono>
 #include <cmath>
-#include <cstdlib>
 #include <initializer_list>
+#include <map>
 #include <sstream>
+#include <string>
 #include <utility>
 
 #include "action.h"
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
+#include "activity_type.h"
 #include "advanced_inv.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
@@ -22,18 +25,19 @@
 #include "character.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
+#include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "event.h"
 #include "event_bus.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
-#include "game.h" // IWYU pragma: associated
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "gamemode.h"
@@ -41,14 +45,15 @@
 #include "gun_mode.h"
 #include "help.h"
 #include "input.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
 #include "iuse.h"
+#include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
 #include "magic.h"
+#include "make_static.h"
 #include "map.h"
 #include "mapdata.h"
 #include "mapsharing.h"
@@ -69,12 +74,10 @@
 #include "scores_ui.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -122,6 +125,8 @@ static const trait_id trait_WAYFARER( "WAYFARER" );
 static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_pilot" );
 
 static const std::string flag_LOCKED( "LOCKED" );
+
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -287,7 +292,7 @@ input_context game::get_player_input( std::string &action )
                 }
             }
             // don't bother calculating SCT if we won't show it
-            if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) ) {
+            if( uquit != QUIT_WATCH && get_option<bool>( "ANIMATION_SCT" ) && !SCT.vSCT.empty() ) {
                 invalidate_main_ui_adaptor();
 
                 SCT.advanceAllSteps();
@@ -414,6 +419,10 @@ static void pldrive( const tripoint &p )
         player_character.in_vehicle = false;
         return;
     }
+    if( veh->is_on_ramp && p.y != 0 ) {
+        add_msg( m_bad, _( "You can't turn the vehicle while on a ramp." ) );
+        return;
+    }
     if( !remote ) {
         static const itype_id fuel_type_animal( "animal" );
         const bool has_animal_controls = veh->part_with_feature( part, "CONTROL_ANIMAL", true ) >= 0;
@@ -485,19 +494,25 @@ static void open()
 
     player_character.moves -= 100;
 
+    // Is a vehicle part here?
     if( const optional_vpart_position vp = here.veh_at( openp ) ) {
         vehicle *const veh = &vp->vehicle();
+        // Check for potential thievery, and restore moves if action is canceled
+        if( !veh->handle_potential_theft( player_character ) ) {
+            player_character.moves += 100;
+            return;
+        }
+        // Check if vehicle has a part here that can be opened
         int openable = veh->next_part_to_open( vp->part_index() );
         if( openable >= 0 ) {
+            // If player is inside vehicle, open the door/window/curtain
             const vehicle *player_veh = veh_pointer_or_null( here.veh_at( player_character.pos() ) );
+            const std::string part_name = veh->part( openable ).name();
             bool outside = !player_veh || player_veh != veh;
             if( !outside ) {
-                if( !veh->handle_potential_theft( player_character ) ) {
-                    player_character.moves += 100;
-                    return;
-                } else {
-                    veh->open( openable );
-                }
+                veh->open( openable );
+                //~ %1$s - vehicle name, %2$s - part name
+                player_character.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh->name, part_name );
             } else {
                 // Outside means we check if there's anything in that tile outside-openable.
                 // If there is, we open everything on tile. This means opening a closed,
@@ -505,16 +520,12 @@ static void open()
                 // curtains as well.
                 int outside_openable = veh->next_part_to_open( vp->part_index(), true );
                 if( outside_openable == -1 ) {
-                    const std::string name = veh->part_info( openable ).name();
-                    add_msg( m_info, _( "That %s can only opened from the inside." ), name );
+                    add_msg( m_info, _( "That %s can only be opened from the inside." ), part_name );
                     player_character.moves += 100;
                 } else {
-                    if( !veh->handle_potential_theft( player_character ) ) {
-                        player_character.moves += 100;
-                        return;
-                    } else {
-                        veh->open_all_at( openable );
-                    }
+                    veh->open_all_at( openable );
+                    //~ %1$s - vehicle name, %2$s - part name
+                    player_character.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh->name, part_name );
                 }
             }
         } else {
@@ -528,10 +539,11 @@ static void open()
         }
         return;
     }
-
+    // Not a vehicle part, just a regular door
     bool didit = here.open_door( openp, !here.is_outside( player_character.pos() ) );
-
-    if( !didit ) {
+    if( didit ) {
+        player_character.add_msg_if_player( _( "You open the %s." ), here.name( openp ) );
+    } else {
         const ter_str_id tid = here.ter( openp ).id();
 
         if( here.has_flag( flag_LOCKED, openp ) ) {
@@ -622,7 +634,7 @@ static void haul()
             add_msg( m_info, _( "You cannot haul while in deep water." ) );
         } else if( !here.can_put_items( player_character.pos() ) ) {
             add_msg( m_info, _( "You cannot haul items here." ) );
-        } else if( !here.has_items( player_character.pos() ) ) {
+        } else if( !here.has_haulable_items( player_character.pos() ) ) {
             add_msg( m_info, _( "There are no items to haul here." ) );
         } else {
             player_character.start_hauling();
@@ -1018,7 +1030,7 @@ static void sleep()
         // some bionics
         // bio_alarm is useful for waking up during sleeping
         // turning off bio_leukocyte has 'unpleasant side effects'
-        if( bio.info().has_flag( "BIONIC_SLEEP_FRIENDLY" ) ) {
+        if( bio.info().has_flag( STATIC( json_character_flag( "BIONIC_SLEEP_FRIENDLY" ) ) ) ) {
             continue;
         }
 
@@ -1069,7 +1081,7 @@ static void sleep()
 
     time_duration try_sleep_dur = 24_hours;
     std::string deaf_text;
-    if( player_character.is_deaf() ) {
+    if( player_character.is_deaf() && !player_character.has_flag( json_flag_ALARMCLOCK ) ) {
         deaf_text = _( "<color_c_red> (DEAF!)</color>" );
     }
     if( player_character.has_alarm_clock() ) {

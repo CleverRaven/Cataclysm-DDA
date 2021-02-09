@@ -35,7 +35,9 @@
       { "item": "down_blanket", "prob": 13 },
       { "item": "pillow", "prob": 30 },
       { "item": "down_pillow", "prob": 15 },
-      { "item": "electric_blanket", "prob": 4 }
+      { "item": "electric_blanket", "prob": 4 },
+      { "item": "quilt", "prob": 10 },
+      { "item": "quilt_patchwork", "prob": 8 }
     ]
   },
   {

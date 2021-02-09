@@ -5,8 +5,11 @@
 #include <climits>
 #include <cmath>
 #include <cstdlib>
+#include <iosfwd>
 #include <limits>
+#include <list>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <utility>
@@ -21,13 +24,16 @@
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "enum_bitset.h"
 #include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
 #include "line.h"
@@ -36,6 +42,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monattack.h"
 #include "monster.h"
@@ -44,19 +51,19 @@
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
+#include "pimpl.h"
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weighted_list.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -91,6 +98,9 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_stunned( "stunned" );
+
+static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
+static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
 static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
 static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
@@ -381,10 +391,10 @@ static void melee_train( Character &p, int lo, int hi, const item &weap )
     }
 }
 
-void Character::melee_attack( Creature &t, bool allow_special )
+bool Character::melee_attack( Creature &t, bool allow_special )
 {
     static const matec_id no_technique_id( "" );
-    melee_attack( t, allow_special, no_technique_id );
+    return melee_attack( t, allow_special, no_technique_id );
 }
 
 damage_instance Creature::modify_damage_dealt_with_enchantments( const damage_instance &dam ) const
@@ -398,7 +408,6 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
 
     enum_bitset<damage_type> types_used;
     // ignore the damage types that are not modified by enchantments
-    types_used.set( damage_type::PURE, true );
     types_used.set( damage_type::NONE, true );
 
     auto dt_to_ench_dt = []( damage_type dt ) {
@@ -421,6 +430,8 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
                 return enchant_vals::mod::ITEM_DAMAGE_HEAT;
             case damage_type::STAB:
                 return enchant_vals::mod::ITEM_DAMAGE_STAB;
+            case damage_type::PURE:
+                return enchant_vals::mod::ITEM_DAMAGE_PURE;
             default:
                 return enchant_vals::mod::NUM_MOD;
         }
@@ -454,12 +465,23 @@ damage_instance Character::modify_damage_dealt_with_enchantments( const damage_i
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-void Character::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
+bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
                               bool allow_unarmed )
 {
     if( has_effect( effect_incorporeal ) ) {
         add_msg_if_player( m_info, _( "You lack the substance to affect anything." ) );
+        return false;
     }
+    if( !is_adjacent( &t, true ) ) {
+        return false;
+    }
+    return melee_attack_abstract( t, allow_special, force_technique, allow_unarmed );
+}
+
+bool Character::melee_attack_abstract( Creature &t, bool allow_special,
+                                       const matec_id &force_technique,
+                                       bool allow_unarmed )
+{
     melee::melee_stats.attack_count += 1;
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( !t.is_player() ) {
@@ -472,7 +494,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "The %s has dead batteries and will not move its arms." ),
                          mons->get_name() );
-                return;
+                return false;
             }
             if( mons->type->has_special_attack( "SMASH" ) && one_in( 3 ) ) {
                 add_msg( m_info, _( "The %s hisses as its hydraulic arm pumps forward!" ),
@@ -483,15 +505,15 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
                 mons->melee_attack( t );
             }
             mod_moves( -mons->type->attack_cost );
-            return;
+            return true;
         }
     }
 
     // Fighting is hard work
     increase_activity_level( EXTRA_EXERCISE );
 
-    safe_reference<item> cur_weapon = allow_unarmed ? used_weapon().get_safe_reference() :
-                                      weapon.get_safe_reference();
+    item *cur_weapon = allow_unarmed ? &used_weapon() : &weapon;
+
     // If no weapon is selected, use highest layer of gloves instead.
     bool unarmed_flag_set = false;
     if( cur_weapon->is_null() ) {
@@ -500,7 +522,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             if( ( worn_item.covers( bodypart_id( "hand_l" ) ) &&
                   worn_item.covers( bodypart_id( "hand_r" ) ) ) ) {
                 if( cur_weapon->is_null() || ( worn_item.get_layer() >= cur_weapon->get_layer() ) ) {
-                    cur_weapon = worn_item.get_safe_reference();
+                    cur_weapon = &worn_item;
                     cur_weapon->set_flag( flag_UNARMED_WEAPON );
                     unarmed_flag_set = true;
                 }
@@ -511,7 +533,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
 
     if( cur_weapon->attack_time() > attack_speed( *cur_weapon ) * 20 ) {
         add_msg( m_bad, _( "This weapon is too unwieldy to attack with!" ) );
-        return;
+        return false;
     }
 
     int move_cost = attack_speed( *cur_weapon );
@@ -700,8 +722,12 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         }
     }
 
-    if( cur_weapon && unarmed_flag_set ) {
+    if( unarmed_flag_set ) {
         cur_weapon->unset_flag( flag_UNARMED_WEAPON );
+    }
+
+    if( !t.is_hallucination() ) {
+        handle_melee_wear( *cur_weapon );
     }
 
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
@@ -724,6 +750,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         dealt_projectile_attack dp = dealt_projectile_attack();
         t.as_character()->on_hit( this, bodypart_id( "bp_null" ), 0.0f, &dp );
     }
+    return true;
 }
 
 void Character::reach_attack( const tripoint &p )
@@ -789,7 +816,7 @@ void Character::reach_attack( const tripoint &p )
     }
 
     reach_attacking = true;
-    melee_attack( *critter, false, force_technique, false );
+    melee_attack_abstract( *critter, false, force_technique, false );
     reach_attacking = false;
 }
 
@@ -953,7 +980,7 @@ float Character::get_dodge() const
     return std::max( 0.0f, ret );
 }
 
-float Character::dodge_roll()
+float Character::dodge_roll() const
 {
     return get_dodge() * 5;
 }
@@ -1013,12 +1040,12 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             for( const trait_id &mut : get_mutations() ) {
-                if( mut->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut ) ) {
+                if( mut->flags.count( json_flag_NEED_ACTIVE_TO_MELEE ) > 0 && !has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
                 const int bash_bonus = mut->bash_dmg_bonus;
-                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && bash_bonus > 0 ) {
+                if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && bash_bonus > 0 ) {
                     unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += bash_bonus + unarmed_bonus;
@@ -1105,12 +1132,12 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
             }
 
             for( const trait_id &mut : get_mutations() ) {
-                if( mut->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut ) ) {
+                if( mut->flags.count( json_flag_NEED_ACTIVE_TO_MELEE ) > 0 && !has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
                 const int cut_bonus = mut->cut_dmg_bonus;
-                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && cut_bonus > 0 ) {
+                if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && cut_bonus > 0 ) {
                     unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += cut_bonus + unarmed_bonus;
@@ -1175,7 +1202,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
             for( const trait_id &mut : get_mutations() ) {
                 per_hand += mut->pierce_dmg_bonus;
 
-                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && cut_bonus > 0 ) {
+                if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && cut_bonus > 0 ) {
                     per_hand += std::min( skill / 2, 4 );
                 }
             }
@@ -2010,10 +2037,6 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         d.add_damage( damage_type::CUT, rng( 0,
                                              5 + static_cast<int>( vol * 1.5 ) ) ); // Hurt the monster extra
         remove_weapon();
-    }
-
-    if( !t.is_hallucination() ) {
-        handle_melee_wear( weap );
     }
 
     // on-hit effects for martial arts

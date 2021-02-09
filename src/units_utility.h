@@ -1,12 +1,11 @@
 #pragma once
+#include <cmath>
+#include <iosfwd>
 #include <type_traits>
 #ifndef CATA_SRC_UNITS_UTILITY_H
 #define CATA_SRC_UNITS_UTILITY_H
 
-#include <string>
-
 #include "units.h"
-#include "units_fwd.h"
 
 /** Divide @p num by @p den, rounding up
  *

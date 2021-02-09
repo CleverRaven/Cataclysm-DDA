@@ -47,7 +47,7 @@
     "id": "xl_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "chainmail_hood",
-    "name": { "str": "oversize chainmail coif" },
+    "name": { "str": "XL chainmail coif" },
     "description": "A customized chainmail hood.  Can be worn comfortably under helmets.  Comes in size XL.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
@@ -80,7 +80,7 @@
     "id": "xl_hood_fsurvivor",
     "type": "ARMOR",
     "copy-from": "hood_fsurvivor",
-    "name": { "str": "oversize survivor firehood" },
+    "name": { "str": "XL survivor firehood" },
     "description": "A customized armored Nomex and Kevlar hood, very strong and durable.  Made in Muspelheim.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT", "OUTER", "WATERPROOF" ]
@@ -113,7 +113,7 @@
     "id": "xl_hood_lsurvivor",
     "type": "ARMOR",
     "copy-from": "hood_lsurvivor",
-    "name": { "str": "oversize light survivor hood" },
+    "name": { "str": "XL light survivor hood" },
     "description": "A customized and oversized armored cloth and Kevlar hood, very light and durable.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT", "OUTER", "WATERPROOF" ]
@@ -134,7 +134,7 @@
     "covers": [ "head" ],
     "coverage": 100,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "WATERPROOF", "OUTER", "HELMET_COMPAT" ]
   },
@@ -191,7 +191,7 @@
     "id": "xl_hood_wsurvivor",
     "type": "ARMOR",
     "copy-from": "hood_wsurvivor",
-    "name": { "str": "oversize winter survivor hood" },
+    "name": { "str": "XL winter survivor hood" },
     "description": "A customized and oversized armored fur and Kevlar hood, very warm and durable.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT", "OUTER", "WATERPROOF" ]
@@ -259,7 +259,7 @@
     "covers": [ "head" ],
     "coverage": 95,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "WATERPROOF", "RAINPROOF", "OUTER", "HELMET_COMPAT" ]
   }

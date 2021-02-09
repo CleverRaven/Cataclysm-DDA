@@ -1,10 +1,10 @@
-#include "catch/catch.hpp"
-
 #include <algorithm>
 #include <cstddef>
+#include <functional>
 #include <iterator>
 #include <vector>
 
+#include "catch/catch.hpp"
 #include "point.h"
 
 // A larger number for this would be GREAT, but the test isn't efficient enough to make it larger.

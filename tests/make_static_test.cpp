@@ -1,5 +1,8 @@
-#include "catch/catch.hpp"
+#include <iosfwd>
+#include <string>
+#include <type_traits>
 
+#include "catch/catch.hpp"
 #include "make_static.h"
 #include "string_id.h"
 

@@ -778,7 +778,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "skills_required": [ "fabrication", 6 ],
     "difficulty": 6,
     "time": "2 h 30 m",
     "autolearn": true,

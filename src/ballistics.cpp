@@ -3,9 +3,10 @@
 #include <algorithm>
 #include <cmath>
 #include <cstddef>
+#include <functional>
+#include <iosfwd>
 #include <memory>
 #include <set>
-#include <string>
 #include <vector>
 
 #include "calendar.h"
@@ -31,7 +32,6 @@
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "visitable.h"
 #include "vpart_position.h"
 
@@ -53,7 +53,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     if( effects.count( "SHATTER_SELF" ) ) {
         // Drop the contents, not the thrown item
         add_msg_if_player_sees( pt, _( "The %s shatters!" ), drop_item.tname() );
-        drop_item.visit_items( [&pt]( const item * it ) {
+        drop_item.visit_items( [&pt]( const item * it, item * ) {
             get_map().add_item_or_charges( pt, *it );
             return VisitResponse::NEXT;
         } );
@@ -130,10 +130,11 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             } else {
                 sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );
             }
-            const trap &tr = here.tr_at( pt );
-            if( tr.triggered_by_item( dropped_item ) ) {
-                tr.trigger( pt, dropped_item );
-            }
+        }
+
+        const trap &tr = here.tr_at( pt );
+        if( tr.triggered_by_item( dropped_item ) ) {
+            tr.trigger( pt, dropped_item );
         }
     }
 }

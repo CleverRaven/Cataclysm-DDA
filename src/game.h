@@ -8,15 +8,13 @@
 #include <functional>
 #include <iosfwd>
 #include <list>
-#include <map>
 #include <memory>
+#include <new>
 #include <set>
-#include <string>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
-#include "action.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "coordinates.h"
@@ -31,6 +29,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
+#include "units_fwd.h"
 #include "weather.h"
 
 class Character;
@@ -198,8 +197,6 @@ class game
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
     public:
-        /** Initializes the UI. */
-        void init_ui( bool resized = false );
         void setup();
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
@@ -229,7 +226,7 @@ class game
         class draw_callback_t
         {
             public:
-                draw_callback_t( const std::function<void()> &cb );
+                explicit draw_callback_t( const std::function<void()> &cb );
                 ~draw_callback_t();
                 void operator()();
                 friend class game;
@@ -333,7 +330,7 @@ class game
         monster *place_critter_at( const shared_ptr_fast<monster> &mon, const tripoint &p );
         monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
         monster *place_critter_around( const shared_ptr_fast<monster> &mon, const tripoint &center,
-                                       int radius );
+                                       int radius, bool forced = false );
         monster *place_critter_within( const mtype_id &id, const tripoint_range<tripoint> &range );
         monster *place_critter_within( const shared_ptr_fast<monster> &mon,
                                        const tripoint_range<tripoint> &range );
@@ -414,13 +411,13 @@ class game
         class monster_range : public non_dead_range<monster>
         {
             public:
-                monster_range( game &game_ref );
+                explicit monster_range( game &game_ref );
         };
 
         class npc_range : public non_dead_range<npc>
         {
             public:
-                npc_range( game &game_ref );
+                explicit npc_range( game &game_ref );
         };
 
         class Creature_range : public non_dead_range<Creature>
@@ -429,7 +426,7 @@ class game
                 shared_ptr_fast<player> u;
 
             public:
-                Creature_range( game &game_ref );
+                explicit Creature_range( game &game_ref );
         };
 
     public:
@@ -554,7 +551,7 @@ class game
         void reset_light_level();
         character_id assign_npc_id();
         Creature *is_hostile_nearby();
-        Creature *is_hostile_very_close();
+        Creature *is_hostile_very_close( bool dangerous = false );
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
         point update_map( Character &p );
@@ -735,8 +732,9 @@ class game
 
         // Handle phasing through walls, returns true if it handled the move
         bool phasing_move( const tripoint &dest, bool via_ramp = false );
+        bool can_move_furniture( tripoint fdest, const tripoint &dp );
         // Regular movement. Returns false if it failed for any reason
-        bool walk_move( const tripoint &dest, bool via_ramp = false );
+        bool walk_move( const tripoint &dest, bool via_ramp = false, bool furniture_move = false );
         void on_move_effects();
     private:
         // Game-start procedures
@@ -782,9 +780,8 @@ class game
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
         // Handle pushing during move, returns true if it handled the move
-        bool grabbed_move( const tripoint &dp );
+        bool grabbed_move( const tripoint &dp, bool via_ramp );
         bool grabbed_veh_move( const tripoint &dp );
-        bool grabbed_furn_move( const tripoint &dp );
 
         void control_vehicle(); // Use vehicle controls  '^'
         void examine( const tripoint &p ); // Examine nearby terrain  'e'
@@ -801,6 +798,9 @@ class game
 
         void reload( item_location &loc, bool prompt = false, bool empty = true );
     public:
+        int grabbed_furn_move_time( const tripoint &dp );
+        bool grabbed_furn_move( const tripoint &dp );
+
         void reload_item(); // Reload an item
         void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
@@ -939,7 +939,13 @@ class game
                 cata::optional<IRLTimeMs> start_time = cata::nullopt;
         } debug_hour_timer;
 
-        Creature *is_hostile_within( int distance );
+        /**
+         * Checks if there's a hostile creature within given distance.
+         * @param dangerous If true, makes additional checks for monsters with ranged attack capabilities within distance OR
+         * if there's a route from monster to player, and returns this particular monster.
+         * @return Hostile creature within given distance.
+         */
+        Creature *is_hostile_within( int distance, bool dangerous = false );
 
         void move_save_to_graveyard();
         bool save_player_data();
@@ -1026,7 +1032,6 @@ class game
         safe_mode_type safe_mode;
 
         //pixel minimap management
-        int pixel_minimap_option = 0;
         time_duration turnssincelastmon = 0_turns; // needed for auto run mode
 
         weather_manager weather;

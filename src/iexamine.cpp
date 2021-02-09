@@ -3,15 +3,17 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
-#include <cstdlib>
+#include <cstdio>
+#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
+#include <string>
 #include <type_traits>
 #include <utility>
 
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "ammo.h"
@@ -41,7 +43,6 @@
 #include "event_bus.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
@@ -49,7 +50,6 @@
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "input.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -58,7 +58,9 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "magic.h"
 #include "magic_teleporter_list.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -67,7 +69,6 @@
 #include "messages.h"
 #include "mission_companion.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -85,7 +86,6 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "talker.h"
 #include "timed_event.h"
@@ -95,7 +95,6 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
@@ -129,6 +128,8 @@ static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
+static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
+
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
 static const itype_id itype_bot_prototype_cyborg( "bot_prototype_cyborg" );
@@ -136,6 +137,7 @@ static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_charcoal( "charcoal" );
 static const itype_id itype_chem_carbide( "chem_carbide" );
 static const itype_id itype_corpse( "corpse" );
+static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_hickory_root( "hickory_root" );
 static const itype_id itype_fake_milling_item( "fake_milling_item" );
@@ -204,7 +206,6 @@ static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
 static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 
-static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
@@ -218,6 +219,7 @@ static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
 static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
 static const std::string flag_PICKABLE( "PICKABLE" );
+static const std::string flag_NANOFAB_TABLE( "NANOFAB_TABLE" );
 static const std::string flag_WALL( "WALL" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
@@ -273,15 +275,17 @@ void iexamine::cvdmachine( player &p, const tripoint & )
 }
 
 /**
- * UI FOR LAB_FINALE NANO FABRICATOR.
+ * TEMPLATE FABRICATORS
+ * Generate items from found blueprints.
  */
 void iexamine::nanofab( player &p, const tripoint &examp )
 {
     bool table_exists = false;
     tripoint spawn_point;
     map &here = get_map();
+    std::set<itype_id> allowed_template = here.ter( examp )->allowed_template_id;
     for( const auto &valid_location : here.points_in_radius( examp, 1 ) ) {
-        if( here.ter( valid_location ) == ter_str_id( "t_nanofab_body" ) ) {
+        if( here.has_flag( flag_NANOFAB_TABLE, valid_location ) ) {
             spawn_point = valid_location;
             table_exists = true;
             break;
@@ -290,11 +294,21 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     if( !table_exists ) {
         return;
     }
+    //Create a list of the names of all acceptable templates.
+    std::set<std::string> templatenames;
+    for( const itype_id &id : allowed_template ) {
+        templatenames.insert( id->nname( 1 ) );
+    }
+    std::string name_list =  enumerate_as_string( templatenames );
 
-    item_location nanofab_template = g->inv_map_splice( []( const item & e ) {
-        return e.has_var( "NANOFAB_ITEM_ID" );
-    }, _( "Introduce Nanofabricator template" ), PICKUP_RANGE,
-    _( "You don't have any usable templates." ) );
+    //Template selection
+    item_location nanofab_template = g->inv_map_splice( [&]( const item & e ) {
+        return  std::any_of( allowed_template.begin(), allowed_template.end(),
+        [&e]( const itype_id itid ) {
+            return e.typeId() == itid;
+        } );
+    }, _( "Introduce a compatible template." ), PICKUP_RANGE,
+    _( "You don't have any usable templates.\n\nCompatible templates are: " ) + name_list );
 
     if( !nanofab_template ) {
         return;
@@ -303,8 +317,7 @@ void iexamine::nanofab( player &p, const tripoint &examp )
     item new_item( nanofab_template->get_var( "NANOFAB_ITEM_ID" ), calendar::turn );
 
     int qty = std::max( 1, new_item.volume() / 250_ml );
-    requirement_data reqs = *requirement_id( "nanofabricator" ) * qty;
-
+    requirement_data reqs = *nanofab_template->type->template_requirements * qty;
     if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
         popup( "%s", reqs.list_missing() );
         return;
@@ -386,7 +399,7 @@ void iexamine::attunement_altar( player &p, const tripoint & )
 {
     std::set<trait_id> attunements;
     for( const mutation_branch &mut : mutation_branch::get_all() ) {
-        if( mut.flags.count( "ATTUNEMENT" ) ) {
+        if( mut.flags.count( json_flag_ATTUNEMENT ) ) {
             attunements.emplace( mut.id );
         }
     }
@@ -1282,15 +1295,13 @@ void iexamine::bars( player &p, const tripoint &examp )
         return;
     }
     map &here = get_map();
-    if( ( ( p.encumb( bodypart_id( "torso" ) ) ) >= 10 ) &&
-        ( ( p.encumb( bodypart_id( "head" ) ) ) >= 10 ) &&
-        ( p.encumb( bodypart_id( "foot_l" ) ) >= 10 ||
-          p.encumb( bodypart_id( "foot_r" ) ) >=
-          10 ) ) { // Most likely places for rigid gear that would catch on the bars.
-        add_msg( m_info,
-                 _( "Your amorphous body could slip though the %s, but your cumbersome gear can't." ),
-                 here.tername( examp ) );
-        return;
+    for( const bodypart_id &bp : p.get_all_body_parts() ) {
+        if( p.encumb( bp ) >= 10 ) {
+            add_msg( m_info,
+                     _( "Your amorphous body could slip though the %s, but your cumbersome gear can't." ),
+                     here.tername( examp ) );
+            return;
+        }
     }
     if( !query_yn( _( "Slip through the %s?" ), here.tername( examp ) ) ) {
         none( p, examp );
@@ -1489,7 +1500,8 @@ void iexamine::safe( player &guy, const tripoint &examp )
         return temporary_item.has_flag( flag_SAFECRACK );
     } );
 
-    if( !( !cracking_tool.empty() || guy.has_bionic( bio_ears ) ) ) {
+    if( !( !cracking_tool.empty() ||
+           guy.has_flag( STATIC( json_character_flag( "IMMUNE_HEARING_DAMAGE" ) ) ) ) ) {
         guy.moves -= to_turns<int>( 10_seconds );
         // Assume a 3 digit 100-number code. Many safes allow adjacent + 1 dial locations to match,
         // so 1/20^3, or 1/8,000 odds.
@@ -1592,7 +1604,8 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
         if( p.get_power_level() >= bio_lockpick->power_activate ) {
             p.mod_power_level( -bio_lockpick->power_activate );
             p.add_msg_if_player( m_info, _( "You activate your %s." ), bio_lockpick->name );
-            p.assign_activity( lockpick_activity_actor::use_bionic( here.getabs( examp ) ) );
+            p.assign_activity(
+                player_activity( lockpick_activity_actor::use_bionic( here.getabs( examp ) ) ) );
             return;
         } else {
             p.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
@@ -1620,8 +1633,12 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
     } );
 
     for( item *it : picklocks ) {
+        if( !query_yn( _( "Pick lock the lock of %1$s using your %2$s?" ),
+                       here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() ) ) {
+            return;
+        }
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
-        p.add_msg_if_player( _( "You attempt to pick lock of %1$s using your %2$s…" ),
+        p.add_msg_if_player( _( "You attempt to pick the lock of %1$s using your %2$s…" ),
                              here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
         const ret_val<bool> can_use = iuse_fn->can_call( p, *it, false, examp );
         if( can_use.success() ) {
@@ -3602,7 +3619,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         if( it.will_spill() || it.is_watertight_container() ) {
             container = &it;
 
-            it.visit_items( [&charges, &has_sap]( const item * it ) {
+            it.visit_items( [&charges, &has_sap]( const item * it, item * ) {
                 if( it->typeId() == itype_maple_syrup ) {
                     has_sap = true;
                     charges = it->charges;
@@ -4884,7 +4901,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
     } else if( patient.activity.id() == ACT_OPERATION ) {
         popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
-               to_string( time_duration::from_turns( patient.activity.moves_left / 100 ) ) );
+               to_string( time_duration::from_moves( patient.activity.moves_left ) ) );
         p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
         return;
     }
@@ -4939,10 +4956,22 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             const itype *itemtype = bionic.get_item()->type;
+            const std::string bionic_name = bionic.get_item()->typeId().c_str();
 
             player &installer = best_installer( p, null_player, itemtype->bionic->difficulty );
             if( &installer == &null_player ) {
                 return;
+            }
+
+            std::vector<item_comp> progs;
+            bool has_install_program = false;
+
+            std::vector<const item *> install_programs = p.crafting_inventory().items_with( [itemtype](
+                        const item & it ) -> bool { return it.typeId() == itemtype->bionic->installation_data; } );
+
+            if( !install_programs.empty() ) {
+                has_install_program = true;
+                progs.push_back( item_comp( install_programs[0]->typeId(), 1 ) );
             }
 
             const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
@@ -4950,7 +4979,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                                 surgery_duration * weight;
 
-            if( patient.can_install_bionics( ( *itemtype ), installer, true ) ) {
+            if( patient.can_install_bionics( ( *itemtype ), installer, true, has_install_program ? 10 : -1 ) ) {
                 const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 bionic.remove_item();
@@ -4964,7 +4993,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     p.invalidate_crafting_inventory();
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
-                patient.install_bionics( ( *itemtype ), installer, true );
+
+                patient.install_bionics( ( *itemtype ), installer, true, has_install_program ? 10 : -1 );
+
+                if( has_install_program ) {
+                    patient.consume_items( progs );
+                }
             }
             break;
         }
@@ -6090,7 +6124,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         vehicle_stack items_at_part = part->vehicle().get_items( part->part_index() );
 
         for( item &it : items_at_part ) {
-            if( it.is_craft() ) {
+            if( it.is_craft() && it.typeId() != itype_disassembly ) {
                 crafts.emplace_back( item_location( vehicle_cursor( part->vehicle(), part->part_index() ), &it ) );
             }
         }
@@ -6104,7 +6138,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         items_at_loc = !items_at_furn.empty();
 
         for( item &it : items_at_furn ) {
-            if( it.is_craft() ) {
+            if( it.is_craft() && it.typeId() != itype_disassembly ) {
                 crafts.emplace_back( item_location( map_cursor( examp ), &it ) );
             }
         }

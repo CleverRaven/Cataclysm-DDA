@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_ACTIVITY_ACTOR_H
 #define CATA_SRC_ACTIVITY_ACTOR_H
 
+#include <iosfwd>
 #include <memory>
-#include <string>
 #include <unordered_map>
 
 #include "activity_type.h"
@@ -82,9 +82,7 @@ class activity_actor
         /**
          * Used to generate the progress display at the top of the screen
          */
-        virtual std::string get_progress_message( const player_activity & ) const {
-            return std::string();
-        }
+        virtual std::string get_progress_message( const player_activity &act ) const;
 
         /**
          * Called every turn, in player_activity::do_turn

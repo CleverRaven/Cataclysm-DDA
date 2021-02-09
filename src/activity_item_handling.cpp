@@ -1,19 +1,22 @@
+#include "activity_handlers.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
+#include <iosfwd>
 #include <list>
 #include <memory>
 #include <set>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
-#include "activity_handlers.h" // IWYU pragma: associated
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "cata_assert.h"
 #include "character.h"
 #include "clzones.h"
 #include "colony.h"
@@ -25,15 +28,13 @@
 #include "field_type.h"
 #include "fire.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "line.h"
@@ -42,11 +43,9 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
-#include "output.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
@@ -55,12 +54,10 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "stomach.h"
-#include "string_formatter.h"
-#include "string_id.h"
+#include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -166,8 +163,8 @@ static bool same_type( const std::list<item> &items )
     } );
 }
 
-// See also handle_contents_changed_helper and Character::handle_contents_changed
-// for contents handling of item_location.
+// Deprecated. See `contents_change_handler` and `Character::handle_contents_changed`
+// for contents handling with item_location.
 static bool handle_spillable_contents( Character &c, item &it, map &m )
 {
     if( it.is_bucket_nonempty() ) {
@@ -899,7 +896,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                                      const bool in_loot_zones, const tripoint &src_loc )
 {
     zone_manager &mgr = zone_manager::get_manager();
-    inventory temp_inv;
+    temp_crafting_inventory temp_inv;
     units::volume volume_allowed = p.volume_capacity() - p.volume_carried();
     units::mass weight_allowed = p.weight_capacity() - p.weight_carried();
     static const auto check_weight_if = []( const activity_id & id ) {
@@ -919,7 +916,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
         if( elem->has_quality( qual_WELD ) ) {
             found_welder = true;
         }
-        temp_inv += *elem;
+        temp_inv.add_item_ref( *elem );
     }
     map &here = get_map();
     for( const tripoint &elem : loot_spots ) {
@@ -935,7 +932,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 continue;
             }
         }
-        for( const item &elem2 : here.i_at( elem ) ) {
+        for( item &elem2 : here.i_at( elem ) ) {
             if( in_loot_zones && elem2.made_of_from_type( phase_id::LIQUID ) ) {
                 continue;
             }
@@ -946,7 +943,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                     continue;
                 }
             }
-            temp_inv += elem2;
+            temp_inv.add_item_ref( elem2 );
         }
         if( !in_loot_zones ) {
             if( const cata::optional<vpart_reference> vp = here.veh_at( elem ).part_with_feature( "CARGO",
@@ -954,7 +951,7 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 vehicle &src_veh = vp->vehicle();
                 int src_part = vp->part_index();
                 for( item &it : src_veh.get_items( src_part ) ) {
-                    temp_inv += it;
+                    temp_inv.add_item_ref( it );
                 }
             }
         }
@@ -970,11 +967,11 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                 item welder( itype_welder, calendar::turn_zero );
                 welder.charges = veh_battery;
                 welder.set_flag( flag_PSEUDO );
-                temp_inv.add_item( welder );
+                temp_inv.add_item_copy( welder );
                 item soldering_iron( itype_soldering_iron, calendar::turn_zero );
                 soldering_iron.charges = veh_battery;
                 soldering_iron.set_flag( flag_PSEUDO );
-                temp_inv.add_item( soldering_iron );
+                temp_inv.add_item_copy( soldering_iron );
             }
         }
     }
@@ -1245,8 +1242,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
 
         // PICKUP_RANGE -1 because we will be adjacent to the spot when arriving.
         const inventory pre_inv = p.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
-        for( const zone_data &zone : zones ) {
-            const blueprint_options &options = dynamic_cast<const blueprint_options &>( zone.get_options() );
+        if( !zones.empty() ) {
+            const blueprint_options &options = dynamic_cast<const blueprint_options &>
+                                               ( zones.front().get_options() );
             const construction_id index = options.get_index();
             if( !stuff_there.empty() ) {
                 return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, index );
@@ -1644,7 +1642,7 @@ static bool construction_activity( player &p, const zone_data * /*zone*/, const 
     for( const std::vector<tool_comp> &it : built_chosen.requirements->get_tools() ) {
         p.consume_tools( it );
     }
-    p.backlog.push_front( activity_to_restore );
+    p.backlog.push_front( player_activity( activity_to_restore ) );
     p.assign_activity( ACT_BUILD );
     p.activity.placement = here.getabs( src_loc );
     return true;
@@ -2031,7 +2029,11 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
             // checks whether the item is already on correct loot zone or not
             // if it is, we can skip such item, if not we move the item to correct pile
             // think empty bag on food pile, after you ate the content
-            if( mgr.has( id, src ) ) {
+            if( id != zone_type_id( "LOOT_CUSTOM" ) && mgr.has( id, src ) ) {
+                continue;
+            }
+
+            if( id == zone_type_id( "LOOT_CUSTOM" ) && mgr.custom_loot_has( src, &thisitem ) ) {
                 continue;
             }
 
@@ -2103,7 +2105,7 @@ static int chop_moves( player &p, item *it )
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = p.get_num_crafting_helpers( 3 );
-    moves = moves * ( 1 - ( helpersize / 10 ) );
+    moves *= ( 1.0f - ( helpersize / 10.0f ) );
     return moves;
 }
 
@@ -2510,7 +2512,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
             return requirement_check_result::SKIP_LOCATION;
         } else {
             if( !check_only ) {
-                p.backlog.push_front( act_id );
+                p.backlog.push_front( player_activity( act_id ) );
                 p.assign_activity( ACT_FETCH_REQUIRED );
                 player_activity &act_prev = p.backlog.front();
                 act_prev.str_values.push_back( what_we_need.str() );
@@ -2568,7 +2570,7 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
     } else if( reason == do_activity_reason::NEEDS_TILLING && here.has_flag( flag_PLOWABLE, src_loc ) &&
                p.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
         p.assign_activity( ACT_CHURN, 18000, -1 );
-        p.backlog.push_front( act_id );
+        p.backlog.push_front( player_activity( act_id ) );
         p.activity.placement = src;
         return false;
     } else if( reason == do_activity_reason::NEEDS_PLANTING &&
@@ -2587,24 +2589,24 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
                 continue;
             }
             iexamine::plant_seed( p, src_loc, itype_id( seed ) );
-            p.backlog.push_front( act_id );
+            p.backlog.push_front( player_activity( act_id ) );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_CHOPPING && p.has_quality( qual_AXE, 1 ) ) {
         if( chop_plank_activity( p, src_loc ) ) {
-            p.backlog.push_front( act_id );
+            p.backlog.push_front( player_activity( act_id ) );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_BUTCHERING ||
                reason == do_activity_reason::NEEDS_BIG_BUTCHERING ) {
         if( butcher_corpse_activity( p, src_loc, reason ) ) {
-            p.backlog.push_front( act_id );
+            p.backlog.push_front( player_activity( act_id ) );
             return false;
         }
     } else if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ||
                reason == do_activity_reason::CAN_DO_PREREQ ) {
         if( here.partial_con_at( src_loc ) ) {
-            p.backlog.push_front( act_id );
+            p.backlog.push_front( player_activity( act_id ) );
             p.assign_activity( ACT_BUILD );
             p.activity.placement = src;
             return false;
@@ -2627,11 +2629,11 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         }
     } else if( reason == do_activity_reason::NEEDS_TREE_CHOPPING && p.has_quality( qual_AXE, 1 ) ) {
         if( chop_tree_activity( p, src_loc ) ) {
-            p.backlog.push_front( act_id );
+            p.backlog.push_front( player_activity( act_id ) );
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_FISHING && p.has_quality( qual_FISHING, 1 ) ) {
-        p.backlog.push_front( act_id );
+        p.backlog.push_front( player_activity( act_id ) );
         // we don't want to keep repeating the fishing activity, just piggybacking on this functions structure to find requirements.
         p.activity = player_activity();
         item *best_rod = p.best_quality_item( qual_FISHING );
@@ -2642,19 +2644,19 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         return false;
     } else if( reason == do_activity_reason::NEEDS_MINING ) {
         // if have enough batteries to continue etc.
-        p.backlog.push_front( act_id );
+        p.backlog.push_front( player_activity( act_id ) );
         if( mine_activity( p, src_loc ) ) {
             return false;
         }
     } else if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
         if( vehicle_activity( p, src_loc, p.activity_vehicle_part_index, 'o' ) ) {
-            p.backlog.push_front( act_id );
+            p.backlog.push_front( player_activity( act_id ) );
             return false;
         }
         p.activity_vehicle_part_index = -1;
     } else if( reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
         if( vehicle_activity( p, src_loc, p.activity_vehicle_part_index, 'r' ) ) {
-            p.backlog.push_front( act_id );
+            p.backlog.push_front( player_activity( act_id ) );
             return false;
         }
         p.activity_vehicle_part_index = -1;
@@ -2739,6 +2741,7 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
         // but now we are here, we check
         if( activity_to_restore != ACT_TIDY_UP &&
             activity_to_restore != ACT_MOVE_LOOT &&
+            activity_to_restore != ACT_FETCH_REQUIRED &&
             p.fine_detail_vision_mod( p.pos() ) > 4.0 ) {
             p.add_msg_if_player( m_info, _( "It is too dark to work here." ) );
             return false;
@@ -2875,10 +2878,13 @@ int get_auto_consume_moves( player &p, const bool food )
         const optional_vpart_position vp = here.veh_at( here.getlocal( loc ) );
         std::vector<item *> items_here;
         if( vp ) {
-            vehicle_stack vehitems = vp->vehicle().get_items( vp->vehicle().part_with_feature( vp->part_index(),
-                                     "CARGO", false ) );
-            for( item &it : vehitems ) {
-                items_here.push_back( &it );
+            vehicle &veh = vp->vehicle();
+            int index = veh.part_with_feature( vp->part_index(), "CARGO", false );
+            if( index >= 0 ) {
+                vehicle_stack vehitems = veh.get_items( index );
+                for( item &it : vehitems ) {
+                    items_here.push_back( &it );
+                }
             }
         } else {
             map_stack mapitems = here.i_at( here.getlocal( loc ) );
@@ -2896,7 +2902,7 @@ int get_auto_consume_moves( player &p, const bool food )
             if( !p.can_consume( comest ) ) {
                 continue;
             }
-            if( food && p.compute_effective_nutrients( comest ).kcal < 50 ) {
+            if( food && p.compute_effective_nutrients( comest ).kcal() < 50 ) {
                 // not filling enough
                 continue;
             }
@@ -2938,7 +2944,8 @@ int get_auto_consume_moves( player &p, const bool food )
     return 0;
 }
 
-void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
+// Try to add fuel to a fire. Return true if there is both fire and fuel; return false otherwise.
+bool try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();
     std::vector<tripoint> adjacent = closest_points_first( pos, PICKUP_RANGE );
@@ -2949,14 +2956,14 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 
     map &here = get_map();
     if( !best_fire || !here.accessible_items( *best_fire ) ) {
-        return;
+        return false;
     }
 
     cata::optional<tripoint> refuel_spot = find_refuel_spot_zone( pos );
     if( !refuel_spot ) {
         refuel_spot = find_refuel_spot_trap( adjacent, pos );
         if( !refuel_spot ) {
-            return;
+            return false;
         }
     }
 
@@ -2977,14 +2984,14 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
             // Move item back to refueling pile
             // Note: move_item() handles messages (they're the generic "you drop x")
             move_item( p, it, 0, *best_fire, *refuel_spot, nullptr, -1 );
-            return;
+            return true;
         }
     }
 
     // Enough to sustain the fire
     // TODO: It's not enough in the rain
     if( !starting_fire && ( fd.fuel_produced >= 1.0f || fire_age < 10_minutes ) ) {
-        return;
+        return true;
     }
 
     // We need to move fuel from stash to fire
@@ -3000,7 +3007,8 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
             int quantity = std::max( 1, std::min( it.charges, it.charges_per_volume( 250_ml ) ) );
             // Note: move_item() handles messages (they're the generic "you drop x")
             move_item( p, it, quantity, *refuel_spot, *best_fire, nullptr, -1 );
-            return;
+            return true;
         }
     }
+    return true;
 }

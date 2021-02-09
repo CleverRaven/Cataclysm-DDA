@@ -1,8 +1,7 @@
 #include "computer.h"
 
-#include <algorithm>
+#include <clocale>
 #include <cstdlib>
-#include <locale>
 #include <sstream>
 
 #include "debug.h"

@@ -1,9 +1,12 @@
 #include "vehicle.h" // IWYU pragma: associated
+#include "vpart_position.h" // IWYU pragma: associated
+#include "vpart_range.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <complex>
+#include <cstdint>
 #include <cstdlib>
 #include <list>
 #include <memory>
@@ -47,6 +50,8 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
+#include "material.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
 #include "move_mode.h"
@@ -61,15 +66,12 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "submap.h"
 #include "translations.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"
-#include "vpart_position.h" // IWYU pragma: associated
-#include "vpart_range.h" // IWYU pragma: associated
 #include "weather.h"
 #include "weather_gen.h"
 #include "weather_type.h"
@@ -167,7 +169,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
             // TODO: maybe do this for all the nearby NPCs as well?
 
             if( player_character.get_grab_type() == object_type::VEHICLE &&
-                player_character.grab_point == veh.global_part_pos3( part ) ) {
+                player_character.pos() + player_character.grab_point == veh.global_part_pos3( part ) ) {
                 if( veh.parts_at_relative( veh.part( part ).mount, false ).empty() ) {
                     add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
                     player_character.grab( object_type::NONE );
@@ -187,7 +189,7 @@ class MapgenRemovePartHandler : public RemovePartHandler
         map &m;
 
     public:
-        MapgenRemovePartHandler( map &m ) : m( m ) { }
+        explicit MapgenRemovePartHandler( map &m ) : m( m ) { }
 
         ~MapgenRemovePartHandler() override = default;
 
@@ -631,7 +633,7 @@ void vehicle::activate_animal_follow()
     for( size_t e = 0; e < parts.size(); e++ ) {
         vehicle_part &vp = parts[ e ];
         if( vp.info().fuel_type == fuel_type_animal ) {
-            monster *mon = get_pet( e );
+            monster *mon = get_monster( e );
             if( mon && mon->has_effect( effect_harnessed ) ) {
                 vp.enabled = true;
                 is_following = true;
@@ -823,7 +825,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
                 break;
             }
             for( const vehicle_part &p : parts ) {
-                monster *mon = get_pet( index_of_part( &p ) );
+                monster *mon = get_monster( index_of_part( &p ) );
                 if( mon && mon->pos().xy() == elem ) {
                     its_a_pet = true;
                     break;
@@ -1183,7 +1185,7 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
             pwr = vhp_to_watts( vp.base.engine_displacement() );
         }
         if( vp.info().fuel_type == fuel_type_animal ) {
-            monster *mon = get_pet( index );
+            monster *mon = get_monster( index );
             if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
                 // An animal that can carry twice as much weight, can pull a cart twice as hard.
                 pwr = mon->get_speed() * ( mon->get_size() - 1 ) * 3
@@ -1652,17 +1654,24 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
     return parts.size() - 1;
 }
 
-bool vehicle::try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &list_of_racks )
+bool vehicle::try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of_racks )
 {
     map &here = get_map();
-    for( const std::vector<int> &this_bike_rack : list_of_racks ) {
+    for( std::vector<int> &this_bike_rack : list_of_racks ) {
         std::vector<vehicle *> carry_vehs;
         carry_vehs.assign( 4, nullptr );
         vehicle *test_veh = nullptr;
         std::set<tripoint> veh_partial_match;
         std::vector<std::set<tripoint>> partial_matches;
         partial_matches.assign( 4, veh_partial_match );
-        for( const int &rack_part : this_bike_rack ) {
+
+        //do not attempt to rack onto already filled bike racks
+        this_bike_rack.erase( std::remove_if( this_bike_rack.begin(),
+        this_bike_rack.end(), [this]( const int &rack ) {
+            return parts[rack].has_flag( vehicle_part::carrying_flag );
+        } ), this_bike_rack.end() );
+
+        for( int &rack_part : this_bike_rack ) {
             tripoint rack_pos = global_part_pos3( rack_part );
             int i = 0;
             for( const point &offset : four_cardinal_directions ) {
@@ -1806,6 +1815,12 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 if( carry_veh->tracking_on ) {
                     carried_part.set_flag( vehicle_part::tracked_flag );
                 }
+
+                if( carried_part.has_flag( vehicle_part::passenger_flag ) ) {
+                    carried_part.remove_flag( vehicle_part::passenger_flag );
+                    carried_part.passenger_id = character_id();
+                }
+
                 parts[ carry_map.rack_part ].set_flag( vehicle_part::carrying_flag );
             }
 
@@ -1828,7 +1843,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
 
         map &here = get_map();
         //~ %1$s is the vehicle being loaded onto the bicycle rack
-        add_msg( _( "You load the %1$s on the rack" ), carry_veh->name );
+        add_msg( _( "You load the %1$s on the rack." ), carry_veh->name );
         here.destroy_vehicle( carry_veh );
         here.dirty_vehicle_list.insert( this );
         here.set_transparency_cache_dirty( sm_pos.z );
@@ -1836,7 +1851,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         refresh();
     } else {
         //~ %1$s is the vehicle being loaded onto the bicycle rack
-        add_msg( m_bad, _( "You can't get the %1$s on the rack" ), carry_veh->name );
+        add_msg( m_bad, _( "You can't get the %1$s on the rack." ), carry_veh->name );
     }
     return found_all_parts;
 }
@@ -2141,6 +2156,12 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
         }
         here.dirty_vehicle_list.insert( this );
         part_removal_cleanup();
+        new_vehicle->enable_refresh();
+        for( int idx : new_vehicle->engines ) {
+            if( !new_vehicle->parts[idx].is_broken() ) {
+                new_vehicle->parts[idx].enabled = true;
+            }
+        }
     } else {
         //~ %s is the vehicle being loaded onto the bicycle rack
         add_msg( m_bad, _( "You can't unload the %s from the bike rack." ), new_vehicle->name );
@@ -3184,7 +3205,7 @@ player *vehicle::get_passenger( int p ) const
     return nullptr;
 }
 
-monster *vehicle::get_pet( int p ) const
+monster *vehicle::get_monster( int p ) const
 {
     p = part_with_feature( p, VPFLAG_BOARDABLE, false );
     if( p >= 0 ) {
@@ -3342,8 +3363,9 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
 {
     return std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs,
     const vehicle_part & rhs ) {
-        return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_capacity( item::find_type(
-                           ftype )->ammo->type ) : 0 );
+        return lhs + ( ( rhs.is_available() &&
+                         rhs.ammo_current() == ftype ) ? rhs.ammo_capacity( item::find_type(
+                                     ftype )->ammo->type ) : 0 );
     } );
 }
 
@@ -4305,7 +4327,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
 
 int vehicle::static_drag( bool actual ) const
 {
-    return extra_drag + ( actual && !engine_on ? -1500 : 0 );
+    return extra_drag + ( actual && !engine_on && !is_towed() ? -1500 : 0 );
 }
 
 float vehicle::strain() const
@@ -4491,7 +4513,7 @@ float vehicle::steering_effectiveness() const
     // is not steerable.
     const vehicle_part &vp = parts[ steering[0] ];
     if( steering.size() == 1 && vp.info().fuel_type == fuel_type_animal ) {
-        monster *mon = get_pet( steering[0] );
+        monster *mon = get_monster( steering[0] );
         if( mon == nullptr || !mon->has_effect( effect_harnessed ) ) {
             return -2.0f;
         }
@@ -5438,55 +5460,56 @@ void vehicle::place_spawn_items()
         }
     }
 
+    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
     for( const vehicle_item_spawn &spawn : type.obj().item_spawns ) {
-        if( rng( 1, 100 ) <= spawn.chance ) {
-            int part = part_with_feature( spawn.pos, "CARGO", false );
-            if( part < 0 ) {
-                debugmsg( "No CARGO parts at (%d, %d) of %s!", spawn.pos.x, spawn.pos.y, name );
+        int part = part_with_feature( spawn.pos, "CARGO", false );
+        if( part < 0 ) {
+            debugmsg( "No CARGO parts at (%d, %d) of %s!", spawn.pos.x, spawn.pos.y, name );
+        } else {
+            bool broken = parts[ part ].is_broken();
 
-            } else {
+            std::vector<item> created;
+            const int spawn_count = roll_remainder( spawn.chance * std::max( spawn_rate, 1.0f ) / 100.0f );
+            for( int i = 0; i < spawn_count; ++i ) {
                 // if vehicle part is broken only 50% of items spawn and they will be variably damaged
-                bool broken = parts[ part ].is_broken();
                 if( broken && one_in( 2 ) ) {
                     continue;
                 }
 
-                std::vector<item> created;
                 for( const itype_id &e : spawn.item_ids ) {
-                    created.emplace_back( item( e ).in_its_container() );
+                    if( rng_float( 0, 1 ) < spawn_rate ) {
+                        created.emplace_back( item( e ).in_its_container() );
+                    }
                 }
                 for( const item_group_id &e : spawn.item_groups ) {
-                    item_group::ItemList group_items =
-                        item_group::items_from( e, calendar::start_of_cataclysm );
-                    for( const auto &spawn_item : group_items ) {
-                        created.emplace_back( spawn_item );
-                    }
+                    item_group::ItemList group_items = item_group::items_from( e, calendar::start_of_cataclysm,
+                                                       spawn_flags::use_spawn_rate );
+                    created.insert( created.end(), group_items.begin(), group_items.end() );
                 }
+            }
+            for( item &e : created ) {
+                if( e.is_null() ) {
+                    continue;
+                }
+                if( broken && e.mod_damage( rng( 1, e.max_damage() ) ) ) {
+                    continue; // we destroyed the item
+                }
+                if( e.is_tool() || e.is_gun() || e.is_magazine() ) {
+                    bool spawn_ammo = rng( 0, 99 ) < spawn.with_ammo && e.ammo_remaining() == 0;
+                    bool spawn_mag  = rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral() &&
+                                      !e.magazine_current();
 
-                for( item &e : created ) {
-                    if( e.is_null() ) {
-                        continue;
-                    }
-                    if( broken && e.mod_damage( rng( 1, e.max_damage() ) ) ) {
-                        continue; // we destroyed the item
-                    }
-                    if( e.is_tool() || e.is_gun() || e.is_magazine() ) {
-                        bool spawn_ammo = rng( 0, 99 ) < spawn.with_ammo && e.ammo_remaining() == 0;
-                        bool spawn_mag  = rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral() &&
-                                          !e.magazine_current();
-
-                        if( spawn_mag ) {
-                            item mag( e.magazine_default(), e.birthday() );
-                            if( spawn_ammo ) {
-                                mag.ammo_set( mag.ammo_default() );
-                            }
-                            e.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
-                        } else if( spawn_ammo && e.is_magazine() ) {
-                            e.ammo_set( e.ammo_default() );
+                    if( spawn_mag ) {
+                        item mag( e.magazine_default(), e.birthday() );
+                        if( spawn_ammo ) {
+                            mag.ammo_set( mag.ammo_default() );
                         }
+                        e.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+                    } else if( spawn_ammo && e.is_magazine() ) {
+                        e.ammo_set( e.ammo_default() );
                     }
-                    add_item( part, e );
                 }
+                add_item( part, e );
             }
         }
     }
@@ -5514,6 +5537,7 @@ void vehicle::gain_moves()
         } else {
             velocity -= vslowdown;
         }
+        is_on_ramp = false;
     } else {
         of_turn = .001;
     }
@@ -5952,10 +5976,12 @@ void vehicle::do_towing_move()
     }
     if( towed_veh->global_pos3().z != global_pos3().z ) {
         // how the hellicopter did this happen?
+        // yes, this can happen when towing over a bridge (see #47293)
         invalidate = true;
+        add_msg( m_info, _( "A towing cable snaps off of %s." ), tow_data.get_towed()->disp_name() );
     }
     if( invalidate ) {
-        invalidate_towing();
+        invalidate_towing( true );
         return;
     }
     map &here = get_map();
@@ -6690,12 +6716,12 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
         explode_fuel( p, type );
     } else if( parts[ p ].is_broken() && part_flag( p, "UNMOUNT_ON_DAMAGE" ) ) {
         here.spawn_item( global_part_pos3( p ), part_info( p ).base_item, 1, 0, calendar::turn );
-        monster *mon = get_pet( p );
+        monster *mon = get_monster( p );
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             mon->remove_effect( effect_harnessed );
         }
         if( part_flag( p, "TOW_CABLE" ) ) {
-            invalidate_towing();
+            invalidate_towing( true );
         } else {
             remove_part( p );
         }
@@ -6773,7 +6799,7 @@ bool vehicle::restore( const std::string &data )
     return true;
 }
 
-std::set<tripoint> &vehicle::get_points( const bool force_refresh )
+const std::set<tripoint> &vehicle::get_points( const bool force_refresh ) const
 {
     if( force_refresh || occupied_cache_pos != global_pos3() ||
         occupied_cache_direction != face.dir() ) {
@@ -6788,7 +6814,8 @@ std::set<tripoint> &vehicle::get_points( const bool force_refresh )
     return occupied_points;
 }
 
-std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &type, int &quantity,
+std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &type,
+                                      int &quantity,
                                       const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;

@@ -1,16 +1,14 @@
 #include "ui_manager.h"
 
-#include <algorithm>
+#include <functional>
 #include <iterator>
-#include <memory>
 #include <vector>
 
 #include "cached_options.h"
 #include "cursesdef.h"
-#include "game.h"
 #include "game_ui.h"
 #include "point.h"
-#include "sdltiles.h"
+#include "sdltiles.h" // IWYU pragma: keep
 
 using ui_stack_t = std::vector<std::reference_wrapper<ui_adaptor>>;
 

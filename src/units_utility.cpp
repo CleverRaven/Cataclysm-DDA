@@ -1,5 +1,7 @@
 #include "units_utility.h"
 
+#include <string>
+
 #include "cata_utility.h"
 #include "options.h"
 #include "string_formatter.h"

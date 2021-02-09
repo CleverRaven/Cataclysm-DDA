@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{58A6F7EE-219C-4B24-B8A4-14C9950A0F61}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
+		..\msvc-full-features\Cataclysm-common.props = ..\msvc-full-features\Cataclysm-common.props
 		vcpkg.json = vcpkg.json
 	EndProjectSection
 EndProject
@@ -39,14 +40,6 @@ Global
 		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Release|x64.Build.0 = Release|x64
 		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Release|x86.ActiveCfg = Release|Win32
 		{0009BB11-11AD-4C14-A5FC-D882A942C00B}.Release|x86.Build.0 = Release|Win32
-		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|x64.ActiveCfg = Debug|x64
-		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|x64.Build.0 = Debug|x64
-		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|x86.ActiveCfg = Debug|Win32
-		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Debug|x86.Build.0 = Debug|Win32
-		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x64.ActiveCfg = Release|x64
-		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x64.Build.0 = Release|x64
-		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x86.ActiveCfg = Release|Win32
-		{35D74C75-FC4A-442F-AF44-43BC9D845BAF}.Release|x86.Build.0 = Release|Win32
 		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Debug|x64.ActiveCfg = Debug|x64
 		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Debug|x64.Build.0 = Debug|x64
 		{534A4E38-96A1-40E4-BDA7-8D17607F0270}.Debug|x86.ActiveCfg = Debug|Win32

@@ -1,33 +1,48 @@
 # Design Document
-Aftershock is a set of parallel dimensions to Cataclysm Prime that have until this point existed in a relatively Blob free constellation of planes.  These planes have had additional decades to expand upon the advances that dimensional travel and nether exposure can bring even if it's been mostly hidden behind corporate/military shells.  These worlds are cresting between cyberpunk and post-cyberpunk.  Uplifted intelligent animals and solar colonization are relatively recent occurrences in the last few decades but for many in this world it is a dystopia even before the Cataclysm reaches here.  Mega/Hive cities cover large parts of human habitation where the poor live on the lower levels and rarely if ever see large amounts of vegetation that grows on the upper levels outside of hydroponics farms.  Outside of the largest cities much of the planet has been declared nature preserves where decaying and dying towns eke out an existence that is both richer and poorer than what is experienced by city dwellers.  
+* As it becomes a total conversion mod, it will look very different from the base game of Cataclysm: Dark Days Ahead and may not interact kindly with other mods.  If you've been away for a while, you may wonder where some parts of Aftershock have gone.  In the process of becoming a total conversion mod, we are eliminating items that no longer fit the theme.  For example, all the Mad Max aesthetics have been removed.  Any additions must either fit the general theme or have story driven reasons for the divergence, such as NPC quests to special locations.
+
+* Aftershock is being developed into a full conversion mod set in a mostly-abandoned extrasolar colony named Salus IV.  The player has arrived on Salus for various reasons (depending on their profession).  Eventually, we hope to have multiple potential end game situations, ranging from finding what you came here for and leaving the planet with enough money to retire to more-secret endings.  There will no longer be zombies; instead, there are a variety of alien and human-based enemies.  Toe-to-toe combat will likely be more deadly in Aftershock, with more emphasis on picking your battles and only fighting when absolutely necessary.  Special locations may have a different combat aesthetic; for example, you may enter a dungeon-like zone with hordes of small weak enemies that can't be avoided.  As part of this concept, in which different situations require different solutions, we have implemented bionic slots but made the process of changing out CBMs much easier with less chance of failure.  This is to encourage players to change their loadout based on where they are going and what they are doing.
 
 ### Areas seeking contributors
-Faction interactions and new factions.  Currently there are two new factions in Aftershock. PrepNet and Whately Clan.  PrepNet is at war with the Mycus and the Whately's are mad scientists.  
-Uplifted animal mobs and mutation lines are always wanted.  I'd love to see someone make a Rabbit or Jackelope line.  
-Hi-tech item recipes.  Aftershock has it's own special crafting for ultratech and we'd love to see what you come up with.
-Missions, locations, and lore snippets we want this to feel like a world just as real as Cataclysm Prime.
+1. Faction interactions and new factions.  Currently there are two new factions in Aftershock. PrepNet and the Whately Clan.  PrepNet is seeking to build an independent colony and the Whatelys are mad scientists.  
+2. Uplifted animal mobs and mutation lines are always wanted.  I'd love to see someone make a Snow Hare or Yeti line.  Currently we have Mi-Go, Mastodon, and Cecaelian mutation trees.
+3. Hi-tech item recipes.  Aftershock has its own special crafting for ultratech and we'd love to see what you come up with.
+4. Missions, locations, and lore snippets.  We want this to feel like a world just as real as Cataclysm Prime.
 Please feel free to reach out to us about ideas and implementations.
+5. Alien world basics would be especially desirable at this time.  Flora, fauna, terrain and furniture that make it clear we are no longer on earth.
 
 
 # Here be dragons!
 
 These are the files for Aftershock. Whatever you're looking for has been sorted into subfolders for ease of access:
 
+### itemsgroups
+
+Contains json data for itemgroups.
+
 ### items
 
-Contains json data for food, weapons, tools, and materials.
+Contains json data for all item types.
 
 ### maps
 
-Contains json data for map generation, item groups, and furniture.
+Contains json data for map generation, chunks, terrain, map specials and furniture.
 
 ### mobs
 
 Contains json data for new monsters and monster spawn groups.
 
+### monsterdrops
+
+Contains the json which controls what monsters drop on death.
+
+### mutations
+
+Contains json for mutations and threshold dreams.
+
 ### player
 
-Contains json data for things that affect the player; bionics, mutations, professions, techniques, status effects, etc.
+Contains json data for things that affect the player; bionics, professions, techniques, status effects, etc.
 
 ### recipes
 
@@ -39,4 +54,8 @@ Contains json data for vehicles, vehicle parts, and vehicle spawn groups.
 
 ### npcs
 
-Contains json data for npcs, factions, and design document for any new factions, specific new faction PrepPhyle.  Bionic Preppers living simple farming life with bionic upgrades, prefer to upgrade animals instead of relying on robots.
+Contains json data for npcs, factions, and design document for any new factions, specific new factions PrepPhyle and Whately Clan.  The PrepPhyle are a group of frontier squatters taking advantage of decaying colony infrastructure to set up an independent colonoy separate from Corporate and Earthgov influences.  The Whately Clan are a possibly-exiled branch of a corporate executive family.  They are mad, bad, and dangerous to know. Mutant NPCs are also located in this folder.
+
+### spells
+
+Contains json data for all spells that are used to create unique effects in game.

@@ -6,11 +6,14 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <new>
 #include <numeric>
+#include <set>
 #include <unordered_map>
 #include <utility>
 
 #include "avatar.h"
+#include "colony.h"
 #include "creature.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
@@ -20,7 +23,9 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_group.h"
+#include "item_stack.h"
 #include "kill_tracker.h"
+#include "map.h"
 #include "map_iterator.h"
 #include "monster.h"
 #include "npc.h"
@@ -142,16 +147,22 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
     monster *mon = dynamic_cast<monster *>( &poor_dead_dude );
     if( mon != nullptr ) {
-        if( mon->mission_id == -1 ) {
+        if( mon->mission_ids.empty() ) {
             return;
         }
-        mission *found_mission = mission::find( mon->mission_id );
-        const mission_type *type = found_mission->type;
-        if( type->goal == MGOAL_FIND_MONSTER ) {
-            found_mission->fail();
-        }
-        if( type->goal == MGOAL_KILL_MONSTER ) {
-            found_mission->step_complete( 1 );
+        for( const int mission_id : mon->mission_ids ) {
+            mission *found_mission = mission::find( mission_id );
+            if( !found_mission ) {
+                debugmsg( "invalid mission id %d", mission_id );
+                continue;
+            }
+            const mission_type *type = found_mission->type;
+            if( type->goal == MGOAL_FIND_MONSTER ) {
+                found_mission->fail();
+            }
+            if( type->goal == MGOAL_KILL_MONSTER ) {
+                found_mission->step_complete( 1 );
+            }
         }
         return;
     }
@@ -186,6 +197,39 @@ void mission::on_creature_death( Creature &poor_dead_dude )
             i.fail();
         }
     }
+}
+
+bool mission::on_creature_fusion( Creature &fuser, Creature &fused )
+{
+    if( fuser.is_hallucination() || fused.is_hallucination() ) {
+        return false;
+    }
+    monster *mon_fuser = dynamic_cast<monster *>( &fuser );
+    if( mon_fuser == nullptr ) {
+        debugmsg( "Unimplemented: fuser is not a monster" );
+        return false;
+    }
+    monster *mon_fused = dynamic_cast<monster *>( &fused );
+    if( mon_fused == nullptr ) {
+        debugmsg( "Unimplemented: fused is not a monster" );
+        return false;
+    }
+    bool mission_transfered = false;
+    for( const int mission_id : mon_fused->mission_ids ) {
+        const mission *const found_mission = mission::find( mission_id );
+        if( !found_mission ) {
+            debugmsg( "invalid mission id %d", mission_id );
+            continue;
+        }
+        const mission_type *const type = found_mission->type;
+        if( type->goal == MGOAL_KILL_MONSTER ) {
+            // the fuser has to be killed now!
+            mon_fuser->mission_ids.emplace( mission_id );
+            mon_fused->mission_ids.erase( mission_id );
+            mission_transfered = true;
+        }
+    }
+    return mission_transfered;
 }
 
 void mission::on_talk_with_npc( const character_id &npc_id )
@@ -468,7 +512,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
             }
             return g->get_creature_if( [&]( const Creature & critter ) {
                 const monster *const mon_ptr = dynamic_cast<const monster *>( &critter );
-                return mon_ptr && mon_ptr->mission_id == uid;
+                return mon_ptr && mon_ptr->mission_ids.count( uid );
             } );
 
         case MGOAL_RECRUIT_NPC: {

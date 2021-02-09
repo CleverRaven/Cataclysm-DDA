@@ -182,7 +182,8 @@
         "create_atomic_light",
         "mirror_image",
         "invisibility",
-        "holographic_transposition"
+        "holographic_transposition",
+        "shadow_field"
       ]
     }
   },

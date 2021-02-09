@@ -6,6 +6,11 @@
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
   },
   {
+    "id": "ALLOWS_TAIL",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "EFFECT_INVISIBLE",
     "context": [  ],
     "type": "json_flag"
@@ -26,7 +31,7 @@
     "id": "ALLOWS_REMOTE_USE",
     "type": "json_flag",
     "context": [ "TOOL" ],
-    "info": "This item can be activated or reloaded from adjacent tile without picking it up."
+    "info": "This item can be activated or reloaded from an adjacent tile without picking it up."
   },
   {
     "id": "AURA",
@@ -56,6 +61,12 @@
     "//": "Layer for backpacks and things worn over outerwear.",
     "info": "This gear is <info>strapped</info> onto you.",
     "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
+  },
+  {
+    "id": "BIONIC_INSTALLATION_DATA",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "This item <info>provides</info> instructions and other required data for several bionics, allowing installation of them with <good>minimal failure chance</good>."
   },
   {
     "id": "BIONIC_NPC_USABLE",
@@ -143,6 +154,11 @@
   },
   {
     "id": "SKINNED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
+    "id": "BLED",
     "type": "json_flag",
     "context": [ "GENERIC" ]
   },
@@ -701,6 +717,11 @@
     "type": "json_flag",
     "context": [ "GENERIC" ],
     "info": "This item provides comfort during sleep."
+  },
+  {
+    "id": "SLEEP_AID_CONTAINER",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
   },
   {
     "id": "REVIVE_SPECIAL",
@@ -1883,21 +1904,6 @@
   },
   {
     "id": "DETERGENT",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_100",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_50",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_20",
     "type": "json_flag",
     "context": [  ]
   },

@@ -16,12 +16,10 @@
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "item_group.h"
 #include "json.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
 
@@ -182,7 +180,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "THIN_OBSTACLE",            TFLAG_THIN_OBSTACLE },  // Passable by players and monsters. Vehicles destroy it.
         { "Z_TRANSPARENT",            TFLAG_Z_TRANSPARENT },  // Doesn't block vision passing through the z-level
         { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE },   // A small passage, that large or huge things cannot pass through
-        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE }   // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
+        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE },   // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
+        { "FUNGUS",                   TFLAG_FUNGUS }            // Fungal covered.
     }
 };
 
@@ -441,7 +440,10 @@ void map_data_common_t::load_symbol( const JsonObject &jo )
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
-        load_season_array( jo, "color", color_, color_from_string );
+        load_season_array( jo, "color", color_, []( const std::string & str ) {
+            // has to use a lambda because of default params
+            return color_from_string( str );
+        } );
     } else if( has_bgcolor ) {
         load_season_array( jo, "bgcolor", color_, bgcolor_from_string );
     } else {
@@ -1157,7 +1159,7 @@ std::string enum_to_string<season_type>( season_type data )
 }
 } // namespace io
 
-void map_data_common_t::load( const JsonObject &jo, const std::string &src )
+void map_data_common_t::load( const JsonObject &jo, const std::string & )
 {
     if( jo.has_member( "examine_action" ) ) {
         examine_func = iexamine_function_from_string( jo.get_string( "examine_action" ) );
@@ -1173,17 +1175,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
                             seasons.begin() ), io::string_to_enum<season_type> );
 
             harvest_id hl;
-            if( harvest_jo.has_array( "entries" ) ) {
-                // TODO: A better inline name - can't use id or name here because it's not set yet
-                const size_t num = harvest_list::all().size() + 1;
-                hl = harvest_list::load( harvest_jo, src,
-                                         string_format( "harvest_inline_%d", static_cast<int>( num ) ) );
-            } else if( harvest_jo.has_string( "id" ) ) {
-                hl = harvest_id( harvest_jo.get_string( "id" ) );
-            } else {
-                jo.throw_error( R"(Each harvest entry must specify either "entries" or "id")",
-                                "harvest_by_season" );
-            }
+            harvest_jo.read( "id", hl );
 
             for( season_type s : seasons ) {
                 harvest_by_season[ s ] = hl;
@@ -1222,6 +1214,8 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "connects_to" ) ) {
         set_connects( jo.get_string( "connects_to" ) );
     }
+
+    optional( jo, was_loaded, "allowed_template_ids", allowed_template_id );
 
     optional( jo, was_loaded, "open", open, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, ter_str_id::NULL_ID() );

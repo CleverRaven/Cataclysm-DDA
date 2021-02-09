@@ -2,24 +2,27 @@
 
 #include <algorithm>
 #include <climits>
+#include <functional>
 #include <iosfwd>
 #include <iterator>
+#include <new>
 #include <string>
 #include <tuple>
+#include <type_traits>
 
 #include "cata_utility.h"
 #include "character.h"
+#include "colony.h"
 #include "construction.h"
 #include "construction_group.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "faction.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_pocket.h"
 #include "item_search.h"
 #include "itype.h"
 #include "json.h"
@@ -36,6 +39,7 @@
 #include "ui.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 
 static const item_category_id item_category_food( "food" );
@@ -454,12 +458,22 @@ cata::optional<std::string> zone_manager::query_name( const std::string &default
 cata::optional<zone_type_id> zone_manager::query_type() const
 {
     const auto &types = get_manager().get_types();
+
+    // Copy zone types into an array and sort by name
+    std::vector<std::pair<zone_type_id, zone_type>> types_vec;
+    std::copy( types.begin(), types.end(),
+               std::back_inserter<std::vector<std::pair<zone_type_id, zone_type>>>( types_vec ) );
+    std::sort( types_vec.begin(), types_vec.end(),
+    []( const std::pair<zone_type_id, zone_type> &lhs, const std::pair<zone_type_id, zone_type> &rhs ) {
+        return localized_compare( lhs.second.name(), rhs.second.name() );
+    } );
+
     uilist as_m;
     as_m.desc_enabled = true;
     as_m.text = _( "Select zone type:" );
 
     size_t i = 0;
-    for( const auto &pair : types ) {
+    for( const auto &pair : types_vec ) {
         const auto &type = pair.second;
 
         as_m.addentry_desc( i++, true, MENU_AUTOASSIGN, type.name(), type.desc() );
@@ -471,7 +485,7 @@ cata::optional<zone_type_id> zone_manager::query_type() const
     }
     size_t index = as_m.ret;
 
-    auto iter = types.begin();
+    auto iter = types_vec.begin();
     std::advance( iter, index );
 
     return iter->first;
@@ -1149,6 +1163,7 @@ void zone_data::serialize( JsonOut &json ) const
 void zone_data::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
     data.read( "name", name );
     data.read( "type", type );
     if( data.has_member( "faction" ) ) {

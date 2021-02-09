@@ -19,6 +19,37 @@
     "obsolete": true
   },
   {
+    "id": "survival_kit",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "survival kit" },
+    "description": "A small box filled with tools and items to help you survive in case of an emergency.  Disassemble to get its content.",
+    "weight": "1612 g",
+    "volume": "1 L",
+    "price": 5000,
+    "price_postapoc": 250,
+    "material": [ "aluminum" ],
+    "symbol": "!",
+    "color": "green",
+    "use_action": [ "DISASSEMBLE" ],
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
+    "id": "premium_survival_kit",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "survival kit" },
+    "description": "The ultimate survival kit purchased either by the wealthy or the dedicated urban survivalist.  It contains tools and items to help you survive in case of an emergency.  Disassemble to get its contents.",
+    "weight": "1612 g",
+    "volume": "1 L",
+    "price": 15000,
+    "material": [ "aluminum" ],
+    "symbol": "!",
+    "color": "green",
+    "use_action": { "type": "unpack", "group": "premium_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
     "id": "radio_car_box",
     "type": "GENERIC",
     "category": "other",
@@ -1847,7 +1878,7 @@
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
     "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 300, "durability": 10 },
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
-    "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE", "NON_FOULING" ],
+    "flags": [ "PUMP_RAIL_COMPATIBLE", "NON_FOULING" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1939,7 +1970,7 @@
   {
     "type": "GENERIC",
     "id": "solar_panel_v3",
-    "name": "quantum solar panel",
+    "name": { "str": "quantum solar panel" },
     "description": "This solar panel is obviously cutting-edge technology and given where you found it, should probably provide a LOT of power.  It's covered in strange-looking material, but the covering looks rather fragile; it doesn't look like it could support a reinforcing sheet, either.",
     "to_hit": -5,
     "material": [ "glass", "steel" ],
@@ -2228,7 +2259,8 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "relative": { "weight": "1 kg", "volume": "1500 ml", "range": 3, "ranged_damage": { "damage_type": "stab", "amount": 4 } },
+    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "relative": { "weight": "1 kg", "volume": "1500 ml", "range": 3 },
     "proportional": { "price": 3, "dispersion": 0.5 },
     "pocket_data": [
       {
@@ -2285,7 +2317,7 @@
   {
     "type": "COMESTIBLE",
     "id": "taint_tornado",
-    "name": "tainted tornado",
+    "name": { "str": "tainted tornado" },
     "category": "mutagen",
     "weight": "100 g",
     "color": "red",
@@ -2312,7 +2344,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_sewerbrew",
-    "name": "sewer brew",
+    "name": { "str": "sewer brew" },
     "weight": "250 g",
     "color": "yellow",
     "addiction_type": "alcohol",

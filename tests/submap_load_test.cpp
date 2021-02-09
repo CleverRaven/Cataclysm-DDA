@@ -1,11 +1,27 @@
+#include <algorithm>
+#include <list>
+#include <map>
+#include <memory>
+#include <sstream>
+#include <string>
+#include <vector>
+
+#include "calendar.h"
 #include "catch/catch.hpp"
-#include "submap.h"
-
-#include <istream>
-
+#include "colony.h"
+#include "construction.h"
+#include "field.h"
 #include "game.h"
+#include "game_constants.h"
+#include "item.h"
+#include "json.h"
 #include "make_static.h"
+#include "mapdata.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "submap.h"
 #include "trap.h"
+#include "type_id.h"
 #include "vehicle.h"
 
 static const point &corner_ne = point_zero;
@@ -16,7 +32,7 @@ static const point random_pt( 4, 7 );
 
 static std::istringstream submap_empty_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -35,7 +51,7 @@ static std::istringstream submap_empty_ss(
 );
 static std::istringstream submap_terrain_rle_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -63,7 +79,7 @@ static std::istringstream submap_terrain_rle_ss(
 );
 static std::istringstream submap_furniture_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -88,7 +104,7 @@ static std::istringstream submap_furniture_ss(
 );
 static std::istringstream submap_trap_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -113,7 +129,7 @@ static std::istringstream submap_trap_ss(
 );
 static std::istringstream submap_rad_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -142,7 +158,7 @@ static std::istringstream submap_rad_ss(
 );
 static std::istringstream submap_item_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -274,7 +290,7 @@ static std::istringstream submap_item_ss(
 );
 static std::istringstream submap_field_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -300,7 +316,7 @@ static std::istringstream submap_field_ss(
 );
 static std::istringstream submap_graffiti_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -326,7 +342,7 @@ static std::istringstream submap_graffiti_ss(
 );
 static std::istringstream submap_spawns_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -351,7 +367,7 @@ static std::istringstream submap_spawns_ss(
 );
 static std::istringstream submap_vehicle_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -554,7 +570,7 @@ static std::istringstream submap_vehicle_ss(
 );
 static std::istringstream submap_construction_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -650,7 +666,7 @@ static std::istringstream submap_construction_ss(
 );
 static std::istringstream submap_computer_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -698,7 +714,7 @@ static std::istringstream submap_computer_ss(
 );
 static std::istringstream submap_cosmetic_ss(
     "{\n"
-    "  \"version\": 31,\n"
+    "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
@@ -745,7 +761,7 @@ static JsonIn submap_cosmetic( submap_cosmetic_ss );
 static void load_from_jsin( submap &sm, JsonIn &jsin )
 {
     // Ensure that the JSON is up to date for our savegame version
-    cata_assert( savegame_version == 31 );
+    REQUIRE( savegame_version == 32 );
     jsin.start_object();
     int version = 0;
     while( !jsin.end_object() ) {

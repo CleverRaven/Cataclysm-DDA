@@ -2,9 +2,10 @@
 #ifndef CATA_SRC_MATERIAL_H
 #define CATA_SRC_MATERIAL_H
 
-#include <algorithm>
 #include <cstddef>
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -12,10 +13,10 @@
 
 #include "fire.h"
 #include "optional.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
+class JsonIn;
 class material_type;
 
 enum class damage_type : int;

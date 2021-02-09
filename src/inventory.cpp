@@ -1,10 +1,11 @@
 #include "inventory.h"
 
 #include <algorithm>
-#include <climits>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
-#include <memory>
+#include <string>
+#include <type_traits>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -14,13 +15,11 @@
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
-#include "flat_set.h"
-#include "game.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "inventory_ui.h" // auto inventory blocking
 #include "item_contents.h"
 #include "item_pocket.h"
+#include "item_stack.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -29,12 +28,12 @@
 #include "optional.h"
 #include "options.h"
 #include "point.h"
+#include "proficiency.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "vehicle.h"
 #include "vpart_position.h"
 
 static const itype_id itype_aspirin( "aspirin" );
@@ -355,6 +354,17 @@ item *inventory::provide_pseudo_item( const itype_id &id, int battery )
     it.put_in( it_batt, item_pocket::pocket_type::MAGAZINE_WELL );
 
     return &it;
+}
+
+book_proficiency_bonuses inventory::get_book_proficiency_bonuses() const
+{
+    book_proficiency_bonuses ret;
+    std::set<itype_id> ids_used;
+    for( const std::list<item> &it : this->items ) {
+        ret += it.front().get_book_proficiency_bonuses();
+        ids_used.emplace( it.front().typeId() );
+    }
+    return ret;
 }
 
 void inventory::restack( Character &p )
@@ -725,24 +735,6 @@ std::list<item> inventory::use_amount( const itype_id &it, int quantity,
     return ret;
 }
 
-bool inventory::has_tools( const itype_id &it, int quantity,
-                           const std::function<bool( const item & )> &filter ) const
-{
-    return has_amount( it, quantity, true, filter );
-}
-
-bool inventory::has_components( const itype_id &it, int quantity,
-                                const std::function<bool( const item & )> &filter ) const
-{
-    return has_amount( it, quantity, false, filter );
-}
-
-bool inventory::has_charges( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter ) const
-{
-    return ( charges_of( it, INT_MAX, filter ) >= quantity );
-}
-
 int inventory::leak_level( const flag_id &flag ) const
 {
     int ret = 0;
@@ -1100,7 +1092,7 @@ const itype_bin &inventory::get_binned_items() const
 
     // HACK: Hack warning
     inventory *this_nonconst = const_cast<inventory *>( this );
-    this_nonconst->visit_items( [ this ]( item * e ) {
+    this_nonconst->visit_items( [ this ]( item * e, item * ) {
         binned_items[ e->typeId() ].push_back( e );
         for( const item *it : e->softwares() ) {
             binned_items[it->typeId()].push_back( it );

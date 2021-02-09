@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <memory>
+#include <new>
 
 #include "activity_handlers.h"
 #include "activity_type.h"
@@ -18,10 +19,9 @@
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
+#include "ui.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );
@@ -159,7 +159,6 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             type == activity_id( "ACT_HACKSAW" ) ||
             type == activity_id( "ACT_JACKHAMMER" ) ||
             type == activity_id( "ACT_PICKAXE" ) ||
-            type == activity_id( "ACT_DISASSEMBLE" ) ||
             type == activity_id( "ACT_VEHICLE" ) ||
             type == activity_id( "ACT_FILL_PIT" ) ||
             type == activity_id( "ACT_CHOP_TREE" ) ||
@@ -213,9 +212,9 @@ void player_activity::do_turn( player &p )
     }
     // first to ensure sync with actor
     synchronize_type_with_actor();
-    // Should happen before activity or it may fail du to 0 moves
-    if( *this && type->will_refuel_fires() ) {
-        try_fuel_fire( *this, p );
+    // Should happen before activity or it may fail due to 0 moves
+    if( *this && type->will_refuel_fires() && have_fire ) {
+        have_fire = try_fuel_fire( *this, p );
     }
     if( calendar::once_every( 30_minutes ) ) {
         no_food_nearby_for_auto_consume = false;
@@ -295,9 +294,29 @@ void player_activity::do_turn( player &p )
         if( one_in( 50 ) ) {
             p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
         }
+
         auto_resume = true;
-        player_activity new_act( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 1_minutes ) );
-        new_act.values.push_back( 200 + p.get_stamina_max() / 3 );
+        player_activity new_act( activity_id( "ACT_WAIT_STAMINA" ), to_moves<int>( 5_minutes ) );
+        new_act.values.push_back( p.get_stamina_max() );
+        if( p.is_avatar() && !ignoreQuery ) {
+            uilist tired_query;
+            tired_query.text = _( "You struggle to continue.  Keep trying?" );
+            tired_query.addentry( 1, true, 'c', _( "Continue after a break." ) );
+            tired_query.addentry( 2, true, 'm', _( "Maybe later." ) );
+            tired_query.addentry( 3, true, 'f', _( "Finish it." ) );
+            tired_query.query();
+            switch( tired_query.ret ) {
+                case UILIST_CANCEL:
+                case 2:
+                    auto_resume = false;
+                    break;
+                case 3:
+                    ignoreQuery = true;
+                    break;
+                default:
+                    break;
+            }
+        }
         p.assign_activity( new_act );
         return;
     }

@@ -9,7 +9,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include "int_id.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"

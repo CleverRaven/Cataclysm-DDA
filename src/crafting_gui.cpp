@@ -4,9 +4,10 @@
 #include <chrono>
 #include <cstddef>
 #include <cstring>
+#include <functional>
 #include <iterator>
 #include <map>
-#include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -42,7 +43,6 @@
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 
-class inventory;
 class npc;
 
 enum TAB_MODE {
@@ -84,7 +84,8 @@ void load_recipe_category( const JsonObject &jsobj )
         jsobj.throw_error( "Crafting category id has to be prefixed with 'CC_'" );
     }
 
-    if( !is_hidden ) {
+    if( !is_hidden &&
+        std::find( craft_cat_list.begin(), craft_cat_list.end(), category ) == craft_cat_list.end() ) {
         craft_cat_list.push_back( category );
     }
 
@@ -95,7 +96,10 @@ void load_recipe_category( const JsonObject &jsobj )
         if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" ) {
             jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
         }
-        craft_subcat_list[category].push_back( subcat_id );
+        if( find( craft_subcat_list[category].begin(), craft_subcat_list[category].end(),
+                  subcat_id ) == craft_subcat_list[category].end() ) {
+            craft_subcat_list[category].push_back( subcat_id );
+        }
     }
 }
 
@@ -237,7 +241,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
     std::vector<const recipe *> current;
     struct availability {
-        availability( const recipe *r, int batch_size = 1 ) {
+        explicit availability( const recipe *r, int batch_size = 1 ) {
             Character &player = get_player_character();
             const inventory &inv = player.crafting_inventory();
             auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
@@ -560,7 +564,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
-                    string_format( _( "Dark craftable?  <color_cyan>%s</color>" ),
+                    string_format( _( "Craftable in the dark?  <color_cyan>%s</color>" ),
                                    current[line]->has_flag( flag_BLIND_EASY ) ? _( "Easy" ) :
                                    current[line]->has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
                                    _( "Impossible" ) ) );
@@ -769,6 +773,9 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 default:
                                     current.clear();
                             }
+                        } else if( qry_filter_str.size() > 1 && qry_filter_str[0] == '-' ) {
+                            filtered_recipes = filtered_recipes.reduce( qry_filter_str.substr( 1 ),
+                                               recipe_subset::search_type::exclude_name, progress_callback );
                         } else {
                             filtered_recipes = filtered_recipes.reduce( qry_filter_str );
                         }
@@ -956,6 +963,13 @@ const recipe *select_crafting_recipe( int &batch_size )
                                    _( "  <color_white>%s</color>%.*s    %s\n" ),
                                    example_name, padding, spaces,
                                    _( "<color_cyan>name</color> of resulting item" ) );
+
+                std::string example_exclude = _( "clean" );
+                padding = max_example_length - utf8_width( example_exclude );
+                description += string_format(
+                                   _( "  <color_yellow>-</color><color_white>%s</color>%.*s   %s\n" ),
+                                   example_exclude, padding, spaces,
+                                   _( "<color_cyan>names</color> to exclude" ) );
             }
 
             for( const auto &prefix : prefixes ) {
@@ -969,7 +983,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 _( "\nUse <color_red>up/down arrow</color> to go through your search history." );
             description += "\n\n\n";
 
-            string_input_popup()
+            string_input_popup popup;
+            popup
             .title( _( "Search:" ) )
             .width( 85 )
             .description( description )
@@ -977,7 +992,15 @@ const recipe *select_crafting_recipe( int &batch_size )
             .identifier( "craft_recipe_filter" )
             .hist_use_uilist( false )
             .edit( filterstring );
-            recalc = true;
+
+            if( popup.confirmed() ) {
+                recalc = true;
+                if( batch ) {
+                    // exit from batch selection
+                    batch = false;
+                    line = batch_line;
+                }
+            }
         } else if( action == "QUIT" ) {
             chosen = nullptr;
             done = true;
