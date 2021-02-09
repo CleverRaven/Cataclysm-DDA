@@ -48,7 +48,7 @@ class scenario
         std::string _map_extra;
         std::vector<mission_type_id> _missions;
 
-        bool _custom_initial_date = false;
+        bool _custom_start_date = false;
         int _initial_hour = 8;
         int _initial_day = 0;
         season_type _initial_season = SPRING;
@@ -86,7 +86,7 @@ class scenario
         int start_location_count() const;
         int start_location_targets_count() const;
 
-        bool custom_initial_date() const;
+        bool custom_start_date() const;
         bool is_random_hour() const;
         bool is_random_year() const;
         int initial_hour() const;

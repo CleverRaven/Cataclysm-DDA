@@ -94,10 +94,10 @@ void scenario::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
 
     if( !was_loaded ) {
-        if( jo.has_member( "custom_initial_date" ) ) {
-            _custom_initial_date = true;
+        if( jo.has_member( "custom_start_date" ) ) {
+            _custom_start_date = true;
 
-            JsonObject jocid = jo.get_member( "custom_initial_date" );
+            JsonObject jocid = jo.get_member( "custom_start_date" );
             if( jocid.has_member( "hour" ) ) {
                 optional( jocid, was_loaded, "hour", _initial_hour );
             }
@@ -436,9 +436,9 @@ int scenario::start_location_targets_count() const
     return cnt;
 }
 
-bool scenario::custom_initial_date() const
+bool scenario::custom_start_date() const
 {
-    return _custom_initial_date;
+    return _custom_start_date;
 }
 
 bool scenario::is_random_hour() const

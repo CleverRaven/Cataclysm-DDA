@@ -12219,7 +12219,7 @@ void game::start_calendar()
     }
     calendar::start_of_cataclysm = calendar::turn_zero + initial_days;
 
-    if( scen->custom_initial_date() ) {
+    if( scen->custom_start_date() ) {
         calendar::start_of_game = calendar::turn_zero
                                   + 1_hours * scen->initial_hour()
                                   + 1_days * scen->initial_day();

@@ -185,7 +185,7 @@ Use the `Home` key to return to the top.
   - [`professions`](#professions-1)
   - [`map_special`](#map_special)
   - [`missions`](#missions)
-  - [`custom_initial_date`](#custom_initial_date)
+  - [`custom_start_date`](#custom_start_date)
 - [Starting locations](#starting-locations)
   - [`name`](#name-3)
   - [`terrain`](#terrain-1)
@@ -3753,21 +3753,21 @@ Add a map special to the starting location, see JSON_FLAGS for the possible spec
 
 A list of mission ids that will be started and assigned to the player at the start of the game. Only missions with the ORIGIN_GAME_START origin are allowed. The last mission in the list will be the active mission, if multiple missions are assigned.
 
-## `custom_initial_date`
+## `custom_start_date`
 (optional, object with optional members "hour", "day", "season" and "year")
 
-Allows customizing initial date. If not set - corresponding values from world options are used. Random value is used for each parameter that is not explicitly.
+Allows customizing initial date. If `custom_start_date` is not set the corresponding values from world options are used.
 
 ```C++
-"custom_initial_date": { "hour": 3, "day": 10, "season": "winter", "year": 1 }
+"custom_start_date": { "hour": 3, "day": 10, "season": "winter", "year": 1 }
 ```
 
  Identifier            | Description
 ---                    | ---
-`hour`                 | (optional, integer) Hour of the day for initial date
-`day`                  | (optional, integer) Day of the season for initial date
-`season`               | (optional, integer) Season for initial date
-`year`                 | (optional, integer) Year for initial date
+`hour`                 | (optional, integer) Hour of the day for initial date. If not set the world option is used.
+`day`                  | (optional, integer) Day of the season for initial date. Default 1.
+`season`               | (optional, integer) Season for initial date. Default `SPRING`.
+`year`                 | (optional, integer) Year for initial date. Default 1.
 
 # Starting locations
 

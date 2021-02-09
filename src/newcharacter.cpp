@@ -2440,7 +2440,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
 
             mvwprintz( w_initial_date, point_zero, COL_HEADER, _( "Scenario calendar:" ) );
             wprintz( w_initial_date, c_light_gray, ( "\n" ) );
-            if( sorted_scens[cur_id]->custom_initial_date() ) {
+            if( sorted_scens[cur_id]->custom_start_date() ) {
                 wprintz( w_initial_date, c_light_gray,
                          sorted_scens[cur_id]->is_random_year() ? _( "Year:   Random" ) : _( "Year:   %s" ),
                          sorted_scens[cur_id]->initial_year() );
