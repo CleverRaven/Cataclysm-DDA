@@ -4629,9 +4629,9 @@ void vehicle::consume_fuel( int load, bool idling )
             }
         } else {
             fcd.total_fuel -= fcd.fuel_per_sec[ fcd.tail ];
-            fcd.tail = ++fcd.tail % 60;
+            fcd.tail = ( fcd.tail + 1 ) % 60;
         }
-        fcd.head = ++fcd.head % 60;
+        fcd.head = ( fcd.head + 1 ) % 60;
         fcd.total_fuel += amnt_precise_j;
         fcd.fuel_per_sec[ fcd.head ] = amnt_precise_j;
 
