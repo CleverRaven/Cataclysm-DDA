@@ -51,6 +51,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 
     SECTION( "Moderate tasks" ) {
         INFO( "\nPlanting 8 hours:" );
+        clear_avatar();
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( moderate_8h );
         INFO( info.summarize() );
@@ -61,8 +62,8 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         CHECK( guy.weariness_level() == 1 );
     }
 
-    SECTION( "Heavy tasks" ) {
-        INFO( "\nDigging Pits 8 hours:" );
+    SECTION( "Heavy tasks - Digging Pits 8 hours:" ) {
+        clear_avatar();
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( soldier_8h );
         INFO( info.summarize() );
@@ -74,8 +75,11 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         CHECK( info.transition_minutes( 3, 4, 470_minutes ) == Approx( 470 ).margin( 5 ) );
         CHECK( !info.have_weary_decrease() );
         CHECK( guy.weariness_level() == 4 );
+    }
 
-        INFO( "\nDigging Pits 12 hours:" );
+    SECTION( "Heavy tasks - Digging Pits 12 hours:" ) {
+        clear_avatar();
+        INFO( guy.debug_weary_info() );
         info = do_activity( soldier_12h );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
@@ -140,6 +144,7 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
 
     SECTION( "1 day vehicle work" ) {
         INFO( "\n3 meals, 10h vehicle work, 4h reading, 10h sleep, 16h waiting" );
+        clear_avatar();
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( mechanic_day );
         INFO( info.summarize() );
@@ -173,6 +178,7 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
     }
 
     SECTION( "Digging 24 hours" ) {
+        clear_avatar();
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( digging_24h );
         INFO( info.summarize() );
