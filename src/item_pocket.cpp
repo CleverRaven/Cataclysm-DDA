@@ -835,8 +835,8 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 
     // Show volume/weight for normal containers, or ammo capacity if ammo_restriction is defined
     if( data->ammo_restriction.empty() ) {
-        info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity() ) );
-        info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity() ) );
+        info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity(), 2, false ) );
+        info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity(), 2, false ) );
         info.back().bNewLine = true;
     } else {
         for( const ammotype &at : ammo_types() ) {
@@ -852,20 +852,18 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.back().bNewLine = true;
         info.push_back( iteminfo( "BASE", _( "Maximum item length: " ),
                                   string_format( "<num> %s", length_units( data->max_item_length ) ),
-                                  iteminfo::lower_is_better,
+                                  iteminfo::no_flags,
                                   convert_length( data->max_item_length ) ) );
     }
 
     if( data->min_item_volume > 0_ml ) {
-        info.emplace_back( "DESCRIPTION",
-                           string_format( _( "Minimum item volume: <neutral>%s</neutral>" ),
-                                          vol_to_string( data->min_item_volume ) ) );
+        info.emplace_back( vol_to_info( "DESCRIPTION", _( "Minimum item volume: " ), data->min_item_volume,
+                                        2, false ) );
     }
 
     if( data->max_item_volume ) {
-        info.emplace_back( "DESCRIPTION",
-                           string_format( _( "Maximum item volume: <neutral>%s</neutral>" ),
-                                          vol_to_string( *data->max_item_volume ) ) );
+        info.emplace_back( vol_to_info( "DESCRIPTION", _( "Maximum item volume: " ), data->min_item_volume,
+                                        2, false ) );
     }
 
     info.emplace_back( "DESCRIPTION",
