@@ -5075,7 +5075,7 @@
     "threshreq": [ "THRESH_MOUSE" ],
     "category": [ "MOUSE" ],
     "cancels": [ "THIRST", "THIRST2", "THIRST3" ],
-    "flags":  [ "NO_THIRST" ],
+    "flags": [ "NO_THIRST" ],
     "purifiable": false
   },
   {
