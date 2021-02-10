@@ -1973,7 +1973,7 @@ void vehicle::use_bike_rack( int part )
 
         const activity_id ACT_BIKERACK( "ACT_BIKERACK" );
         activity_id actType = ACT_BIKERACK;
-        player_activity new_act( actType, 100 * ( to_turns<int>( 5_minutes ) ), 0 );
+        player_activity new_act( actType, to_moves<int>( 5_minutes ), 0 );
         get_player_character().assign_activity( new_act, false );
     }
 }
