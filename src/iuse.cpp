@@ -9516,9 +9516,8 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
                               const std::map<const item_location *, int> &locs
     ) {
         units::volume total_volume = 0_ml;
-        for( const auto &p : locs ) {
-            total_volume += ( *p.first )->base_volume() * p.second /
-                            ( ( *p.first )->count_by_charges() ? ( *p.first )->charges : 1 );
+        for( const auto &pair : locs ) {
+            total_volume += ( *pair.first )->volume( false, true );
         }
         washing_requirements required = washing_requirements_for_volume( total_volume );
         auto to_string = []( int val ) -> std::string {
@@ -9554,8 +9553,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
             p->add_msg_if_player( m_info, _( "Never mind." ) );
             return 0;
         }
-        item &i = *pair.first;
-        total_volume += i.base_volume() * pair.second / ( i.count_by_charges() ? i.charges : 1 );
+        total_volume += pair.first->volume( false, true );
     }
 
     washing_requirements required = washing_requirements_for_volume( total_volume );

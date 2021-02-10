@@ -568,8 +568,9 @@ class item : public visitable
          * NOTE: Result is rounded up to next nearest milliliter when working with stackable (@ref count_by_charges) items that have fractional volume per charge.
          * If trying to determine how many of an item can fit in a given space, @ref charges_per_volume should be used instead.
          * @param integral if true return effective volume if this item was integrated into another
+         * @param ignore_contents if true return effective volume for the item alone, ignoring its contents
          */
-        units::volume volume( bool integral = false ) const;
+        units::volume volume( bool integral = false, bool ignore_contents = false ) const;
 
         units::length length() const;
 

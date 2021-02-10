@@ -5300,7 +5300,7 @@ units::volume item::base_volume() const
     return type->volume;
 }
 
-units::volume item::volume( bool integral ) const
+units::volume item::volume( bool integral, bool ignore_contents ) const
 {
     if( is_null() ) {
         return 0_ml;
@@ -5345,7 +5345,9 @@ units::volume item::volume( bool integral ) const
         }
     }
 
-    ret += contents.item_size_modifier();
+    if( !ignore_contents ) {
+        ret += contents.item_size_modifier();
+    }
 
     // TODO: do a check if the item is collapsed or not
     ret -= collapsed_volume_delta();
