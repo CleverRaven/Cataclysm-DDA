@@ -583,7 +583,7 @@
     "description": "You decided that the safety of the open road would be a better prospect than the zombie-filled cities.  Driving out of town, you swerved off the road and crashed.  The situation is looking grim",
     "allowed_locs": [ "sloc_road_ew", "sloc_road_ns" ],
     "start_name": "Crash Site",
-    "vehicle": "wreckage_scenario",
+    "vehicle": "car",
     "flags": [ "LONE_START", "HELI_CRASH" ]
   },
 ]
