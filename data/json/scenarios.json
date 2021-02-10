@@ -585,5 +585,5 @@
     "start_name": "Crash Site",    
     "map_extra": "mx_mayhem",
     "flags": [ "LONE_START", "HELI_CRASH" ]
-  },
+  }
 ]
