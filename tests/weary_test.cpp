@@ -80,7 +80,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
     SECTION( "Heavy tasks - Digging Pits 12 hours:" ) {
         clear_avatar();
         INFO( guy.debug_weary_info() );
-        info = do_activity( soldier_12h );
+        weariness_events info = do_activity( soldier_12h );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
