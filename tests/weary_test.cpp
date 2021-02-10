@@ -57,6 +57,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
         CHECK( info.transition_minutes( 0, 1, 370_minutes ) == Approx( 370 ).margin( 5 ) );
+        CHECK( !info.have_weary_decrease() );
         CHECK( guy.weariness_level() == 1 );
     }
 
@@ -71,6 +72,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         CHECK( info.transition_minutes( 1, 2, 255_minutes ) == Approx( 255 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 470_minutes ) == Approx( 470 ).margin( 5 ) );
+        CHECK( !info.have_weary_decrease() );
         CHECK( guy.weariness_level() == 4 );
 
         INFO( "\nDigging Pits 12 hours:" );
@@ -83,6 +85,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         CHECK( info.transition_minutes( 2, 3, 355_minutes ) == Approx( 355 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
         CHECK( info.transition_minutes( 4, 5, 595_minutes ) == Approx( 595 ).margin( 5 ) );
+        CHECK( !info.have_weary_decrease() );
         CHECK( guy.weariness_level() == 5 );
     }
 }
@@ -183,6 +186,7 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
         CHECK( info.transition_minutes( 5, 6, 730_minutes ) == Approx( 730 ).margin( 5 ) );
         CHECK( info.transition_minutes( 6, 7, 835_minutes ) == Approx( 835 ).margin( 5 ) );
         CHECK( info.transition_minutes( 7, 8, 915_minutes ) == Approx( 915 ).margin( 10 ) );
+        CHECK( !info.have_weary_decrease() );
         // TODO: You should collapse from this - currently we
         // just get really high levels of weariness
         CHECK( guy.weariness_level() > 8 );
