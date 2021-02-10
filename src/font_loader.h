@@ -70,29 +70,34 @@ class font_loader
                                           err.what() );
             }
         }
-        void save( const std::string &path ) const {
-            try {
-                write_to_file( path, [&]( std::ostream & stream ) {
-                    JsonOut json( stream, true ); // pretty-print
-                    json.start_object();
-                    json.member( "typeface", typeface );
-                    json.member( "map_typeface", map_typeface );
-                    json.member( "overmap_typeface", overmap_typeface );
-                    json.end_object();
-                    stream << "\n";
-                } );
-            } catch( const std::exception &err ) {
-                DebugLog( D_ERROR, D_SDL ) << "saving font settings to " << path << " failed: " << err.what();
-            }
-        }
 
     public:
-        /// @throws std::exception upon any kind of error.
         void load() {
-            if( file_exist( PATH_INFO::user_fontdata() ) ) {
-                load_throws( PATH_INFO::user_fontdata() );
-            } else {
-                load_throws( PATH_INFO::fontdata() );
+            const std::string user_fontconfig = PATH_INFO::user_fontconfig();
+            const std::string fontconfig = PATH_INFO::fontconfig();
+            bool try_user = true;
+            if( !file_exist( user_fontconfig ) ) {
+                if( !copy_file( fontconfig, user_fontconfig ) ) {
+                    try_user = false;
+                    DebugLog( D_ERROR, D_SDL ) << "failed to create user font config file "
+                                               << user_fontconfig;
+                }
+            }
+            if( try_user ) {
+                font_loader copy = *this;
+                try {
+                    load_throws( user_fontconfig );
+                    return;
+                } catch( const std::exception &e ) {
+                    DebugLog( D_ERROR, D_SDL ) << e.what();
+                }
+                *this = copy;
+            }
+            try {
+                load_throws( fontconfig );
+            } catch( const std::exception &e ) {
+                DebugLog( D_ERROR, D_SDL ) << e.what();
+                abort();
             }
         }
 };

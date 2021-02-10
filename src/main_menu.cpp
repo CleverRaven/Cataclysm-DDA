@@ -470,7 +470,7 @@ bool main_menu::opening_screen()
         return false;
     }
 
-    if( !assure_dir_exist( PATH_INFO::user_font() ) ) {
+    if( !assure_dir_exist( PATH_INFO::user_fontdir() ) ) {
         popup( _( "Unable to make fonts directory.  Check permissions." ) );
         return false;
     }
