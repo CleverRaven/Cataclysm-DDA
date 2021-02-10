@@ -857,13 +857,15 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
     }
 
     if( data->min_item_volume > 0_ml ) {
-        info.emplace_back( vol_to_info( "DESCRIPTION", _( "Minimum item volume: " ), data->min_item_volume,
-                                        2, false ) );
+        info.emplace_back( "DESCRIPTION",
+                           string_format( _( "Minimum item volume: <neutral>%s</neutral>" ),
+                                          vol_to_string( data->min_item_volume ) ) );
     }
 
     if( data->max_item_volume ) {
-        info.emplace_back( vol_to_info( "DESCRIPTION", _( "Maximum item volume: " ), data->min_item_volume,
-                                        2, false ) );
+        info.emplace_back( "DESCRIPTION",
+                           string_format( _( "Maximum item volume: <neutral>%s</neutral>" ),
+                                          vol_to_string( *data->max_item_volume ) ) );
     }
 
     info.emplace_back( "DESCRIPTION",
