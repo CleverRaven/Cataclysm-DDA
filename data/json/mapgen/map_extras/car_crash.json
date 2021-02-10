@@ -7,7 +7,7 @@
     "object": {
       "place_vehicles": [ { "vehicle": "road_straight_wrecks", "x": 17, "y": 6, "chance": 100, "rotation": 270 } ],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 5 ], "density": 0.1 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 5 ], "density": 0.1 }
       ]
     }
   },
