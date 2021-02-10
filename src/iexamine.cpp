@@ -5066,7 +5066,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
 
         case BONESETTING: {
-            if( arm_splints.size() == 0 && leg_splints.size() == 0 ) {
+            if( !arm_splints.empty() && !leg_splints.empty() ) {
                 popup( _( "Internal supply of splints exhausted.  Operation impossible.  Exiting." ) );
                 return;
             }
@@ -5087,7 +5087,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
                 int quantity = 1;
                 if( part == bodypart_id( "arm_l" ) || part == bodypart_id( "arm_r" ) ) {
-                    if( arm_splints.size() > 0 ) {
+                    if( arm_splints.empty() ) {
                         for( const item &it : get_map().use_amount( examp, 1, itype_arm_splint, quantity ) ) {
                             patient.wear_item( it, false );
                         }
@@ -5096,7 +5096,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                         continue;
                     }
                 } else if( part == bodypart_id( "leg_l" ) || part == bodypart_id( "leg_r" ) ) {
-                    if( leg_splints.size() > 0 ) {
+                    if( leg_splints.empty() ) {
                         for( const item &it : get_map().use_amount( examp, 1, itype_leg_splint, quantity ) ) {
                             patient.wear_item( it, false );
                         }
