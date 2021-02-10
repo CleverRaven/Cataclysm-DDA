@@ -216,6 +216,10 @@ std::string PATH_INFO::defaulttilepng()
 }
 std::string PATH_INFO::fontdata()
 {
+    return datadir_value + "raw/" + "fonts.json";
+}
+std::string PATH_INFO::user_fontdata()
+{
     return config_dir_value + "fonts.json";
 }
 std::string PATH_INFO::fontdir()

@@ -89,8 +89,11 @@ class font_loader
     public:
         /// @throws std::exception upon any kind of error.
         void load() {
-            const std::string fontdata = PATH_INFO::fontdata();
-            load_throws( fontdata );
+            if( file_exist( PATH_INFO::user_fontdata() ) ) {
+                load_throws( PATH_INFO::user_fontdata() );
+            } else {
+                load_throws( PATH_INFO::fontdata() );
+            }
         }
 };
 
