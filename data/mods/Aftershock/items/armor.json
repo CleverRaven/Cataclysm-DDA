@@ -282,7 +282,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "pair of Killophant gloves" },
-    "description": "A pair of reinforced Kevlar tactical gloves, specifically designed to accommodate three fingered Killophants.  Thinner than regular oversized tactical gloves.",
+    "description": "A pair of reinforced Kevlar tactical gloves, specifically designed to accommodate three-fingered Killophants.  Thinner than regular oversized tactical gloves.",
     "weight": "320 g",
     "volume": "750 ml",
     "price": 5200,
