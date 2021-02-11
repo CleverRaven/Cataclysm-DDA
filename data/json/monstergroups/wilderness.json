@@ -155,7 +155,7 @@
         "conditions": [ "DAWN", "DUSK", "DAY" ]
       },
       { "monster": "mon_deer", "freq": 4, "cost_multiplier": 2, "pack_size": [ 1, 5 ] },
-      { 
+      {
         "monster": "mon_reindeer",
         "freq": 3,
         "cost_multiplier": 3,
@@ -167,7 +167,7 @@
         "monster": "mon_zeindeer",
         "freq": 4,
         "cost_multiplier": 10,
-        "pack_size":[ 3, 5 ],
+        "pack_size": [ 3, 5 ],
         "starts": 180,
         "conditions": [ "AUTUMN", "WINTER" ]
       },
