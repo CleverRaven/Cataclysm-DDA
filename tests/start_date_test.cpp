@@ -108,7 +108,6 @@ TEST_CASE( "Random dates", "[!mayfail]" )
         g->start_calendar();
 
         time_point start_of_cataclysm_1 = calendar::start_of_cataclysm;
-        time_point start_of_game_1 = calendar::start_of_game;
 
         // Even with random time of cataclysm the game starts set amount of time later
         CHECK( calendar::start_of_game == calendar::start_of_cataclysm + 1_hours * default_initial_time +
@@ -119,7 +118,6 @@ TEST_CASE( "Random dates", "[!mayfail]" )
         g->start_calendar();
 
         time_point start_of_cataclysm_2 = calendar::start_of_cataclysm;
-        time_point start_of_game_2 = calendar::start_of_game;
 
         // There is about 1/364 chance for this to fail when everything is working fine
         // Don't worry about it unless it starts failing often.
