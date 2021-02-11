@@ -13,7 +13,7 @@
     "method": "json",
     "update_mapgen_id": "mx_car_crash",
     "object": {
-      "place_vehicles": [ { "vehicle": "road_straight_wrecks", "x": 12, "y": 12, "chance": 100, "rotation": 270 } ],
+      "place_vehicles": [ { "vehicle": "wreckage_scenario", "x": 12, "y": 12, "chance": 100, "rotation": 270 } ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE_ANIMAL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 5 ], "density": 0.1 } ]
     }
   }
