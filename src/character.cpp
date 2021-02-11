@@ -6523,8 +6523,8 @@ void Character::update_bodytemp()
     const int metabolism_warmth = static_cast<int>( std::max( 0.0f, met_rate - 1.0f ) * 1000 );
     // Fatigue
     // ~-900 when exhausted
-    const int fatigue_warmth = has_sleep ? 0 : static_cast<int>( std::min( 0.0f,
-                               -1.5f * get_fatigue() ) );
+    const int fatigue_warmth = has_sleep ? 0 : static_cast<int>( clamp( -1.5f * get_fatigue(), -1350.0f,
+                               0.0f ) );
 
     // Sunlight
     const int sunlight_warmth = g->is_in_sunlight( pos() ) ?
