@@ -91,10 +91,7 @@ TEST_CASE( "Test start dates" )
 
 TEST_CASE( "Random dates", "[!mayfail]" )
 {
-    //int default_initial_day = 60;
     int default_initial_time = 8;
-    //int default_spawn_delay = 0;
-    //int default_season_length = 91;
 
     SECTION( "Random start date" ) {
         override_option initial_day( "INITIAL_DAY", "-1" );
@@ -113,12 +110,12 @@ TEST_CASE( "Random dates", "[!mayfail]" )
         CHECK( calendar::start_of_game == calendar::start_of_cataclysm + 1_hours * default_initial_time +
                1_days * 1 );
 
-        // Two random starts should result in different dates
-        // This has about 1/364 chance to fail.
+
         g->start_calendar();
 
         time_point start_of_cataclysm_2 = calendar::start_of_cataclysm;
 
+        // Two random starts should result in different dates
         // There is about 1/364 chance for this to fail when everything is working fine
         // Don't worry about it unless it starts failing often.
         CHECK( start_of_cataclysm_1 != start_of_cataclysm_2 );
