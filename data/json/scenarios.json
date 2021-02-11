@@ -575,14 +575,14 @@
     "professions": [ "frat", "gangster", "lost_sub", "lawyer", "politician", "dancer" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
-    {
+  {
     "type": "scenario",
     "id": "road_accident",
     "name": "Road Accident",
     "points": -3,
     "description": "You decided that the safety of the open road would be a better prospect than the zombie-filled cities.  Driving out of town, you swerved off the road and crashed.  The situation is looking grim.",
     "allowed_locs": [ "sloc_road_ew", "sloc_road_ns" ],
-    "start_name": "Crash Site",    
+    "start_name": "Crash Site",
     "map_extra": "mx_mayhem",
     "flags": [ "LONE_START", "HELI_CRASH" ]
   }
