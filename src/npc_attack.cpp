@@ -112,7 +112,7 @@ tripoint_range<tripoint> npc_attack_melee::targetable_points( const npc &source 
 npc_attack_rating npc_attack_melee::evaluate( const npc &source,
         const Creature *target ) const
 {
-    npc_attack_rating effectiveness;
+    npc_attack_rating effectiveness( cata::nullopt, source.pos() );
     if( !can_use( source ) ) {
         return effectiveness;
     }
@@ -245,7 +245,7 @@ tripoint_range<tripoint> npc_attack_gun::targetable_points( const npc &source ) 
 npc_attack_rating npc_attack_gun::evaluate(
     const npc &source, const Creature *target ) const
 {
-    npc_attack_rating effectiveness;
+    npc_attack_rating effectiveness( cata::nullopt, source.pos() );
     if( !can_use( source ) ) {
         return effectiveness;
     }
@@ -338,9 +338,8 @@ bool npc_attack_activate_item::can_use( const npc &source ) const
 npc_attack_rating npc_attack_activate_item::evaluate(
     const npc &source, const Creature * /*target*/ ) const
 {
-    npc_attack_rating effectiveness( cata::nullopt, source.pos() );
     if( !can_use( source ) ) {
-        return effectiveness;
+        return npc_attack_rating( cata::nullopt, source.pos() );
     }
     // until we have better logic for grenades it's better to keep this as a last resort...
     const int emergency = source.emergency() ? 1 : 0;
@@ -356,7 +355,7 @@ std::vector<npc_attack_rating> npc_attack_activate_item::all_evaluations( const 
     }
     // until we have better logic for grenades it's better to keep this as a last resort...
     const int emergency = source.emergency() ? 1 : 0;
-    effectiveness.push_back( npc_attack_rating( emergency, source.pos() ) );
+    effectiveness.emplace_back( npc_attack_rating( emergency, source.pos() ) );
     return effectiveness;
 }
 
