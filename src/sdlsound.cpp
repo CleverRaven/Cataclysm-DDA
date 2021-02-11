@@ -493,7 +493,10 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
                                        effect_to_play ) == 0 );
     }
     if( !failed ) {
-        failed = ( Mix_SetPosition( channel, static_cast<Sint16>( angle ), 1 ) == 0 );
+        if( Mix_SetPosition( channel, static_cast<Sint16>( angle ), 1 ) == 0 ) {
+            // Not critical
+            dbg( D_INFO ) << "Mix_SetPosition failed: " << Mix_GetError();
+        }
     }
     if( failed ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
