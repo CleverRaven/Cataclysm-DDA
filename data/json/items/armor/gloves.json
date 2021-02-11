@@ -351,7 +351,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of winter survivor gloves", "str_pl": "pairs of winter survivor gloves" },
-    "description": "A pair of customized, Kevlar armored faux fur gloves, modified to be easy to wear while providing maximum protection under extreme conditions. While not quite as warm as real fur it's pretty good.",
+    "description": "A pair of customized, Kevlar armored faux fur gloves, modified to be easy to wear while providing maximum protection under extreme conditions.  While not quite as warm as real fur it's pretty good.",
     "weight": "300 g",
     "volume": "1250 ml",
     "price": 18000,
@@ -375,7 +375,7 @@
     "name": { "str": "pair of XL winter survivor gloves", "str_pl": "pairs of XL winter survivor gloves" },
     "copy-from": "gloves_wsurvivor",
     "material": [ "kevlar_layered", "faux_fur" ],
-    "description": "A pair of customized and oversized Kevlar armored faux fur gloves, modified to be easy to wear while providing maximum protection under extreme conditions. While not quite as warm as real fur it's pretty good.",
+    "description": "A pair of customized and oversized Kevlar armored faux fur gloves, modified to be easy to wear while providing maximum protection under extreme conditions.  While not quite as warm as real fur it's pretty good.",
     "color": "pink",
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OVERSIZE" ]
