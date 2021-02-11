@@ -62,8 +62,8 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         CHECK( guy.weariness_level() == 1 );
     }
 
-    SECTION( "Heavy tasks" ) {
-        INFO( "\nDigging Pits 8 hours:" );
+    SECTION( "Heavy tasks - Digging Pits 8 hours" ) {
+        clear_avatar();
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( soldier_8h );
         INFO( info.summarize() );
@@ -76,8 +76,10 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         CHECK( !info.have_weary_decrease() );
         CHECK( guy.weariness_level() == 4 );
 
-        INFO( "\nDigging Pits 12 hours:" );
-        info = do_activity( soldier_12h );
+    SECTION( "Heavy tasks - Digging Pits 12 hours" ) {
+        clear_avatar();
+        INFO( guy.debug_weary_info() );
+        weariness_events info = do_activity( soldier_12h );
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
@@ -130,7 +132,7 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
         CHECK( info.transition_minutes( 4, 3, 520_minutes ) == Approx( 520 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 3, 2, 670_minutes ) == Approx( 670 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 3, 2, 640_minutes ) == Approx( 640 ).margin( 5 ) );
         CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 8 * 60 ) ); // should be INT_MAX
         CHECK( info.transition_minutes( 2, 1, 0_minutes ) > ( 8 * 60 ) );
         CHECK( info.transition_minutes( 1, 2, 16_hours ) <= ( 8 * 60 ) );
@@ -184,8 +186,8 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
         CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 470_minutes ) == Approx( 470 ).margin( 5 ) );
         CHECK( info.transition_minutes( 4, 5, 595_minutes ) == Approx( 595 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 5, 6, 730_minutes ) == Approx( 730 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 6, 7, 835_minutes ) == Approx( 835 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 5, 6, 740_minutes ) == Approx( 740 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 6, 7, 845_minutes ) == Approx( 845 ).margin( 5 ) );
         CHECK( info.transition_minutes( 7, 8, 915_minutes ) == Approx( 915 ).margin( 10 ) );
         CHECK( !info.have_weary_decrease() );
         // TODO: You should collapse from this - currently we
