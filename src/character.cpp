@@ -5690,24 +5690,24 @@ void Character::try_reduce_weariness( const float exertion )
     }
 
     const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
+    const int bmr = base_bmr();
 
-    if( weary.low_activity_ticks >= 6 ) {
+    while( weary.low_activity_ticks >= 6 ) {
         int reduction = weary.tracker;
-        const int bmr = base_bmr();
         // 1/20 of whichever's bigger
         if( bmr > reduction ) {
             reduction = bmr * recovery_mult;
         } else {
             reduction *= recovery_mult;
         }
-        weary.low_activity_ticks = 0;
+        weary.low_activity_ticks -= 6;
 
         weary.tracker -= reduction;
     }
 
-    if( weary.tick_counter >= 12 ) {
-        weary.intake *= 1 - recovery_mult;
-        weary.tick_counter = 0;
+    if( weary.tick_counter >= 6 ) {
+        weary.intake *= std::sqrt( 1 - recovery_mult );
+        weary.tick_counter -= 6;
     }
 
     // Normalize values, make sure we stay above 0
