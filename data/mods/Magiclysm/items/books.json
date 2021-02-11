@@ -30,6 +30,7 @@
     "volume": "1450 ml",
     "price": 5200,
     "price_postapoc": 550,
+    "required_level": 0,
     "max_level": 2,
     "intelligence": 9,
     "time": "45 m",
