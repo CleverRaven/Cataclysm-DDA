@@ -3295,7 +3295,51 @@
     "name": { "str": "large wallet" },
     "description": "A flat case used to carry items such as currency, identification documents, laminated cards, and other small items.",
     "material": [ "leather" ],
-    "extend": { "flags": [ "FANCY" ] }
+    "volume": "285 ml",
+    "weight": "80 g",
+    "extend": { "flags": [ "FANCY" ] },
+    "pocket_data": [
+      {
+        "//": "Folded Sleeve",
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_weight": "80 g",
+        "max_contains_volume": "175 ml",
+        "moves": 100,
+        "item_restriction": [ "FMCNote", "signed_chit", "family_photo", "money_one", "money_ten", "money_twenty", "condom" ]
+      },
+      {
+        "//": "Card Sleeves",
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_weight": "80 g",
+        "max_contains_volume": "175 ml",
+        "moves": 100,
+        "item_restriction": [
+          "cash_card",
+          "gasdiscount_silver",
+          "gasdiscount_gold",
+          "gasdiscount_platinum",
+          "id_science",
+          "id_military",
+          "id_industrial",
+          "fp_loyalty_card",
+          "scorecard",
+          "robofac_test_data",
+          "icon",
+          "labmap"
+        ]
+      },
+      {
+        "//": "Coin Purse",
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_weight": "600 g",
+        "max_contains_volume": "175 ml",
+        "moves": 200,
+        "item_restriction": [ "FMCNote", "RobofacCoin", "FlatCoin", "coin_quarter", "coin_nickel" ]
+      }
+    ]
   },
   {
     "id": "wallet_stylish",
