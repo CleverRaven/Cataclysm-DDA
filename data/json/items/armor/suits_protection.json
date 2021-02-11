@@ -695,6 +695,50 @@
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "POCKETS", "STURDY", "OVERSIZE" ]
   },
   {
+    "id": "wsurvivor_suit_nofur",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "winter survivor suit" },
+    "description": "A warm and heavy hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "weight": "7800 g",
+    "volume": "14 L",
+    "price": 200000,
+    "price_postapoc": 4150,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "symbol": "[",
+    "looks_like": "survivor_suit",
+    "color": "pink",
+    "armor_portion_data": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 20, 28 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 20, 25 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 20, 20 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+    ],
+    "warmth": 65,
+    "material_thickness": 5,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 4,
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "xl_wsurvivor_suit_nofur",
+    "type": "ARMOR",
+    "name": { "str": "XL winter survivor suit" },
+    "copy-from": "wsurvivor_suit",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "description": "A warm, heavy and oversized hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "color": "pink",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
+  },
+  {
     "id": "gambeson",
     "type": "ARMOR",
     "name": { "str": "gambeson" },
