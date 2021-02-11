@@ -10,7 +10,7 @@
 TEST_CASE( "Test start dates" )
 {
     int default_initial_day = 60;
-    int default_initial_time = 8;
+    int default_initial_time = 8;  // Note that the default for scenario time is same
     int default_spawn_delay = 0;
     int default_season_length = 91;
 
@@ -48,11 +48,11 @@ TEST_CASE( "Test start dates" )
         set_scenario( &ambushed_scenario.obj() );
         // Ambushed scenario starts on winter day 1 (day 273 with default season length)
 
-        // User settings should have no effect
-        override_option initial_day( "INITIAL_DAY", "42" );
+        // Initial time and spawn delay should not affect scenario dates
         override_option initial_time( "INITIAL_TIME", "13" );
         override_option spawn_delay( "SPAWN_DELAY", "10" );
 
+        REQUIRE( get_option<int>( "INITIAL_DAY" ) == default_initial_day );
         REQUIRE( get_option<int>( "SEASON_LENGTH" ) == default_season_length );
 
         g->start_calendar();
