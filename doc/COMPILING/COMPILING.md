@@ -11,7 +11,6 @@
   * [Cross-compile to Windows from Linux](#cross-compile-to-windows-from-linux)
   * [Cross-compile to Mac OS X from Linux](#cross-compile-to-mac-os-x-from-linux)
   * [Cross-compile to Android from Linux](#cross-compile-to-android-from-linux)
-  * [Troubleshooting](#linux-troubleshooting)
 * [Mac OS X](#mac-os-x)
   * [Simple build using Homebrew](#simple-build-using-homebrew)
   * [Advanced info for Developers](#advanced-info-for-developers)
@@ -374,10 +373,6 @@ To build a signed release APK (ie. one that can be installed on a device), [buil
 ### Additional notes
 
 The app stores data files on the device in `/sdcard/Android/data/com.cleverraven/cataclysmdda/files`. The data is backwards compatible with the desktop version.
-
-## Linux Troubleshooting
-
-If you get an error stating `make: build-scripts/validate_pr_in_jenkins: Command not found`, clone a separate copy of the upstream source to a new git repository as your git setup has become corrupted by the Blob.
 
 # Mac OS X
 
