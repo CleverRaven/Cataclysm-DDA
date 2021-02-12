@@ -2606,7 +2606,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
     const int iWorldOffset = world_options_only ? 2 : 0;
     int iMinScreenWidth = 0;
-    const int iTooltipHeight = 5;
+    const int iTooltipHeight = 6;
     int iContentHeight = 0;
 
     catacurses::window w_options_border;
@@ -2800,7 +2800,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         }
 
         if( ingame && iCurrentPage == iWorldOptPage ) {
-            mvwprintz( w_options_tooltip, point( 3, 3 ), c_light_red, "%s", _( "Note: " ) );
+            mvwprintz( w_options_tooltip, point( 3, 5 ), c_light_red, "%s", _( "Note: " ) );
             wprintz( w_options_tooltip, c_white, "%s",
                      _( "Some of these options may produce unexpected results if changed." ) );
         }

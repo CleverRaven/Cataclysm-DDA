@@ -588,6 +588,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_shocking_lash",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Shocking Lash", "str_pl": "Scrolls of Shocking Lash" },
+    "description": "A quick burst of electricity strikes a target and possibly one other nearby.",
+    "use_action": { "type": "learn_spell", "spells": [ "shocking_lash" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_jolt",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Jolt", "str_pl": "Scrolls of Jolt" },
