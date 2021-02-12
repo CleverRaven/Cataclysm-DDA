@@ -16,6 +16,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "valentine_card",
+    "category": "books",
+    "symbol": ",",
+    "color": "red",
+    "name": { "str": "valentine card" },
+    "snippet_category": "valentine",
+    "description": "A creased holiday card.  It appears to be a valentine's day card from the last year.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "weight": "3 g",
+    "volume": "5 ml"
+  },
+  {
+    "type": "GENERIC",
     "id": "survnote",
     "category": "books",
     "symbol": ",",
