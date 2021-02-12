@@ -3200,7 +3200,7 @@ void cata_tiles::init_draw_item_override( const tripoint &p, const itype_id &id,
     item_override.emplace( p, std::make_tuple( id, mid, hilite ) );
 }
 void cata_tiles::init_draw_vpart_override( const tripoint &p, const vpart_id &id,
-        const int part_mod, const units::angle veh_dir, const bool hilite, const point &mount )
+        const int part_mod, const units::angle &veh_dir, const bool hilite, const point &mount )
 {
     vpart_override.emplace( p, std::make_tuple( id, part_mod, veh_dir, hilite, mount ) );
 }

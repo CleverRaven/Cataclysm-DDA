@@ -1136,8 +1136,6 @@ class Creature : public location, public viewer
 
     private:
         int pain;
-
-
         // calculate how well the projectile hits
         double accuracy_projectile_attack( dealt_projectile_attack &attack ) const;
         // what bodypart does the projectile hit

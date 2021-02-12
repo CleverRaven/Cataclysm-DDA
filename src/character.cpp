@@ -333,7 +333,6 @@ static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
-static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
@@ -7302,7 +7301,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
                 int percent = static_cast<int>( bleed * 100 / get_effect_int( effect_bleed, bp ) );
                 percent = std::min( percent, 100 );
                 desc += " -> " + colorize( string_format( _( "%d %% improvement" ), percent ), c_green );
-            };
+            }
             desc += "\n";
         }
 
@@ -13142,7 +13141,6 @@ static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
-
 
 bool Character::fun_to_read( const item &book ) const
 {

@@ -7755,8 +7755,6 @@ int item::ammo_required() const
     return 0;
 }
 
-
-
 bool item::ammo_sufficient( int qty ) const
 {
     return ammo_remaining() >= ammo_required() * qty;

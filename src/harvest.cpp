@@ -46,7 +46,7 @@ bool harvest_list::is_null() const
     return id == harvest_id::NULL_ID();
 }
 
-bool harvest_list::has_entry_type( std::string type ) const
+bool harvest_list::has_entry_type( const std::string &type ) const
 {
     for( const harvest_entry &entry : entries() ) {
         if( entry.type == type ) {

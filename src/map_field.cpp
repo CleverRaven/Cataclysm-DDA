@@ -71,8 +71,6 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rock( "rock" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
-static const species_id species_INSECT( "INSECT" );
-static const species_id species_SPIDER( "SPIDER" );
 
 static const bionic_id bio_heatsink( "bio_heatsink" );
 
@@ -1721,7 +1719,7 @@ void map::player_in_field( player &u )
                 ( static_cast<npc *>( &u ) )->complain_about( std::get<1>( npc_complain_data ),
                         std::get<2>( npc_complain_data ),
                         std::get<3>( npc_complain_data ) );
-            };
+            }
         }
     }
 }

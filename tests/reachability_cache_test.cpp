@@ -69,7 +69,6 @@ static void test_reachability( std::vector<std::string> setup, bool up )
     CHECK( rejected_cnt > 100 );
 }
 
-
 TEST_CASE( "reachability_horizontal", "[map][cache][vision][los][reachability]" )
 {
     test_reachability( {{
