@@ -454,7 +454,8 @@ class Tilesheet:
         if self.sprites:
             sheet_image = Vips.Image.arrayjoin(
                 self.sprites, across=self.sheet_width)
-            sheet_image.pngsave(self.output)
+            sheet_image.pngsave(
+                self.output, compression=9, palette=True, strip=True))
             return True
         return False
 
