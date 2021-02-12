@@ -79,6 +79,10 @@
 #include <sys/system_properties.h>
 #endif
 
+#if (defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)) && !defined(BSD)
+#define BSD
+#endif
+
 // Static defines                                                   {{{1
 // ---------------------------------------------------------------------
 
@@ -1092,7 +1096,7 @@ std::string game_info::operating_system()
     /* OSX */
     return "MacOs";
 #endif // TARGET_IPHONE_SIMULATOR
-#elif defined(BSD) // defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+#elif defined(BSD)
     return "BSD";
 #else
     return "Unix";
