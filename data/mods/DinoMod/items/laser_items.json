@@ -16,8 +16,7 @@
     "ammo_type": [ "battery" ],
     "capacity": 50,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50 } } ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
   },
   {
     "id": "laser_rifle_dino2",
@@ -34,22 +33,13 @@
     "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 6,
-    "ranged_damage": { "damage_type": "bullet", "amount": 24, "armor_penetration": 6 },
+    "ranged_damage": { "damage_type": "stab", "amount": 24, "armor_penetration": 6 },
     "range": 30,
     "clip_size": 1,
     "dispersion": 1200,
     "durability": 6,
     "ammo_effects": [ "LASER" ],
     "volume": "2500 ml",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "1 kg",
-        "item_restriction": [ "light_minus_battery_cell" ]
-      }
-    ],
     "ammo": [ "battery" ],
     "ammo_to_fire": 1
   }
