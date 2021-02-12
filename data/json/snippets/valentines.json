@@ -16,7 +16,10 @@
         "id": "valentine_4",
         "text": "A rustic campground at night lit by a campfire.  \"We should go away together.  Where no one can find us.\""
       },
-      { "id": "valentine_5", "text": "A girl with a giant spoon stirs a cauldron with a boy inside and a fire below.  \"You suit my taste just right, Valentine\"" },
+      {
+        "id": "valentine_5",
+        "text": "A girl with a giant spoon stirs a cauldron with a boy inside and a fire below.  \"You suit my taste just right, Valentine\""
+      },
       {
         "id": "valentine_6",
         "text": "A person stepping out from the forest.  \"Don't be afraid, it's me, your valentine!\""
@@ -25,7 +28,7 @@
         "id": "valentine_7",
         "text": "A building that says 'Crematorium' on it.  \"Ashes to ashes, dust to dust, show me a Valentine, that I can trust\""
       },
-      { 
+      {
         "id": "valentine_8",
         "text": "A popular RPG character.  \"We should adventure together.\"  In the background, a village in flames."
       },
