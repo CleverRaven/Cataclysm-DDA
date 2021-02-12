@@ -4385,7 +4385,7 @@ int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
             if( one_in( 15 ) ) {
                 p->add_msg_if_player( m_bad, _( "You take a deep breath from your %s." ), it->tname() );
             }
-            if( it->charges == 0 ) {
+            if( it->ammo_remaining() == 0 ) {
                 p->add_msg_if_player( m_bad, _( "Air in your %s runs out." ), it->tname() );
                 it->set_var( "overwrite_env_resist", 0 );
                 it->convert( itype_id( it->typeId().str().substr( 0,
@@ -4398,7 +4398,7 @@ int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
         }
 
     } else { // Turning it on/off
-        if( it->charges == 0 ) {
+        if( it->ammo_remaining() == 0 ) {
             p->add_msg_if_player( _( "Your %s is empty." ), it->tname() );
         } else if( it->active ) { //off
             p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
@@ -4414,11 +4414,6 @@ int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
                 it->convert( itype_id( it->typeId().str() + "_on" ) ).active = true;
             }
         }
-    }
-    if( it->charges == 0 ) {
-        it->set_var( "overwrite_env_resist", 0 );
-        it->convert( itype_id( it->typeId().str().substr( 0,
-                               it->typeId().str().size() - 3 ) ) ).active = false; // 3 = "_on"
     }
     return it->type->charges_to_use();
 }
