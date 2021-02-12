@@ -48,7 +48,7 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
             try {
                 return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, width, height,
                                               palette,
-                                              PATH_INFO::user_font() + typeface ) );
+                                              PATH_INFO::user_fontdir() + typeface ) );
             } catch( std::exception & ) {
                 try {
                     return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, width, height,
@@ -189,7 +189,7 @@ CachedTTFFont::CachedTTFFont(
     }
     bool add_prefix = true;
     std::vector<std::string> known_prefixes = {
-        PATH_INFO::user_font(), PATH_INFO::fontdir()
+        PATH_INFO::user_fontdir(), PATH_INFO::fontdir()
     };
 
 #if defined(_WIN32)

@@ -214,11 +214,11 @@ std::string PATH_INFO::defaulttilepng()
 {
     return "tinytile.png";
 }
-std::string PATH_INFO::fontdata()
+std::string PATH_INFO::fontconfig()
 {
     return datadir_value + "raw/" + "fonts.json";
 }
-std::string PATH_INFO::user_fontdata()
+std::string PATH_INFO::user_fontconfig()
 {
     return config_dir_value + "fonts.json";
 }
@@ -226,7 +226,7 @@ std::string PATH_INFO::fontdir()
 {
     return datadir_value + "font/";
 }
-std::string PATH_INFO::user_font()
+std::string PATH_INFO::user_fontdir()
 {
     return user_dir_value + "font/";
 }
