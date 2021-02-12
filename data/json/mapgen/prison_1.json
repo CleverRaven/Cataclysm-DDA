@@ -1468,8 +1468,8 @@
         "d": { "item": "magazines", "chance": 50 }
       },
       "monster": {
-        "~": [ { "monster": "mon_sewer_fish", "chance": 1 }, { "monster": "mon_sewer_snake", "chance": 1 } ],
-        "'": [ { "monster": "mon_sewer_fish", "chance": 5 }, { "monster": "mon_sewer_snake", "chance": 5 } ]
+        "~": { "monster": "mon_sewer_fish", "chance": 2 },
+        "'": { "monster": "mon_sewer_snake", "chance": 10 }
       },
       "place_npcs": [
         { "class": "prisoner_leader", "x": 9, "y": 54 },
