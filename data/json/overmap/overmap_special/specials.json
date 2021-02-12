@@ -6653,7 +6653,7 @@
       { "point": [ 28, 29, 0 ], "overmap": "forest" },
       { "point": [ 29, 29, 0 ], "overmap": "forest_thick" }
     ],
-    "locations": [ "land" ],
+    "locations": [ "land", "lake_shore", "lake_surface", "road" ],
     "city_distance": [ 5, -1 ],
     "occurrences": [ 95, 100 ],
     "//": "Inflated chance, effective rate ~ 30%",
