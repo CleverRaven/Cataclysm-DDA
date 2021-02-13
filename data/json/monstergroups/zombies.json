@@ -363,8 +363,10 @@
     "name": "GROUP_ZOMBIE_PRISON",
     "default": "mon_zombie_prisoner",
     "monsters": [
-      { "monster": "mon_zombie_prisoner", "freq": 350, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_static", "freq": 10, "cost_multiplier": 0 }
+      { "monster": "mon_zombie_prisoner", "freq": 350, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_prisoner_fat", "freq": 350, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_prisoner_tough", "freq": 350, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_static", "freq": 10, "cost_multiplier": 3 }
     ]
   },
   {
