@@ -1820,7 +1820,7 @@ class vehicle
         * @param carried_vehicles is a set of either vehicle_parts or bike_racks that need duplicate entries accross the vector<vector>s rows removed
         */
         std::vector<std::vector<int>> validate_carried_vehicles( std::vector<std::vector<int>>
-                                   carried_vehicles );
+                                   &carried_vehicles );
     public:
         // Number of parts contained in this vehicle
         int part_count() const;

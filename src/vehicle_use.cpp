@@ -1978,7 +1978,7 @@ void vehicle::use_bike_rack( int part )
 * Todo: find a way to split and rewrite use_bikerack so that this check is no longer necessary
 */
 std::vector<std::vector<int>> vehicle::validate_carried_vehicles( std::vector<std::vector<int>>
-                           carried_vehicles )
+                           &carried_vehicles )
 {
     std::sort( carried_vehicles.begin(), carried_vehicles.end(), []( const std::vector<int> &a,
     const std::vector<int> &b ) {
@@ -1990,8 +1990,7 @@ std::vector<std::vector<int>> vehicle::validate_carried_vehicles( std::vector<st
         for( std::vector<std::vector<int>>::iterator it2 = it + 1; it2 < carried_vehicles.end(); it2++ ) {
             if( std::search( ( *it2 ).begin(), ( *it2 ).end(), ( *it ).begin(),
                              ( *it ).end() ) != ( *it2 ).end() ) {
-                carried_vehicles.erase( it );
-                return validate_carried_vehicles( carried_vehicles );
+                it = carried_vehicles.erase( it );
             }
         }
         it++;
