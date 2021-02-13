@@ -795,6 +795,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_bleed",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Bleed", "str_pl": "Scrolls of Bleed" },
+    "description": "With a shout and a gesture, the target starts bleeding from old wounds.",
+    "use_action": { "type": "learn_spell", "spells": [ "bleed" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_acid_resistance",
     "//": "Classless spell, black dragon books",
     "name": { "str": "Scroll of Acid Resistance", "str_pl": "Scrolls of Acid Resistance" },
