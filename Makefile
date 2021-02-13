@@ -192,6 +192,14 @@ ifneq (,$(findstring clang,$(COMPILER)))
   CLANG = $(COMPILER)
 endif
 
+OS = $(shell uname -s)
+
+ifneq ($(findstring Darwin,$(OS)),)
+  ifndef NATIVE
+    NATIVE = osx
+  endif
+endif
+
 # Default to disabling clang
 ifndef CLANG
   CLANG = 0
@@ -240,8 +248,6 @@ ifdef AUTO_BUILD_PREFIX
   BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-$(if $(LIBBACKTRACE),libbacktrace-))$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
   export BUILD_PREFIX
 endif
-
-OS  = $(shell uname -s)
 
 # if $(OS) contains 'BSD'
 ifneq ($(findstring BSD,$(OS)),)
