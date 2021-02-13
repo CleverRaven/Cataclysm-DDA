@@ -174,7 +174,6 @@
     "melee_cut": 6,
     "armor_bash": 5,
     "armor_cut": 5,
-    "armor_bullet": 3,
     "hp": 230,
     "description": "An undead Qianzhousaurus, looking at you with a furious rage in its eyes and seeming intent on eating you.",
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
@@ -269,7 +268,6 @@
     "melee_dice_sides": 4,
     "armor_bash": 4,
     "armor_cut": 4,
-    "armor_bullet": 2,
     "hp": 650,
     "special_attacks": [ [ "LONGSWIPE", 30 ] ],
     "description": "The shuffling corpse of a large-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Sharp curved claws protrude from its hands.",
@@ -346,7 +344,6 @@
     "melee_cut": 4,
     "armor_bash": 8,
     "armor_cut": 8,
-    "armor_bullet": 6,
     "hp": 720,
     "description": "A zombie amargasaurus, it has begun using its spikes for hunting.",
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
@@ -705,7 +702,6 @@
     "melee_cut": 10,
     "armor_bash": 6,
     "armor_cut": 7,
-    "armor_bullet": 4,
     "hp": 630,
     "description": "An undead Kosmoceratops, it seems to have forgotten it's herbivore diet, and seems hungry for your flesh.",
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
@@ -836,7 +832,7 @@
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ]
     ],
-    "description": "A small four-legged plant-eating dinosaur juvenile corpse, it could be from a number of different species.",
+    "description": "A four-legged plant-eating dinosaur juvenile corpse, it could be from a number of different species.",
     "upgrades": { "half_life": 14, "into": "mon_zapatosaurus" }
   },
   {
@@ -883,7 +879,7 @@
     "looks_like": "mon_apatosaurus",
     "armor_bash": 7,
     "armor_cut": 9,
-    "description": "A small four-legged plant-eating dinosaur juvenile corpse with natural bone armor plates.",
+    "description": "A four-legged plant-eating dinosaur juvenile corpse with natural bone armor plates.",
     "upgrades": { "half_life": 14, "into": "mon_zalamosaurus" }
   }
 ]
