@@ -935,9 +935,9 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
                 }
             } else if( entry.has_array( "additional_tiles" ) ) {
                 try {
-                        entry.throw_error( "Additional tiles defined, but 'multitile' is not true." );
-                } catch ( const JsonError &err ) {
-                        debugmsg( "(json-error)\n%s", err.what() );
+                    entry.throw_error( "Additional tiles defined, but 'multitile' is not true." );
+                } catch( const JsonError &err ) {
+                    debugmsg( "(json-error)\n%s", err.what() );
                 }
             }
             // write the information of the base tile to curr_tile
