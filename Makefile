@@ -785,6 +785,10 @@ ifeq ($(BSD), 1)
   ifeq ($(LOCALIZE),1)
     LDFLAGS += -lintl -liconv
   endif
+
+  # libexecinfo, libintl and libiconv may be located in /usr/local on BSD
+  CXXFLAGS += -I/usr/local/include
+  LDFLAGS += -L/usr/local/lib
 endif
 
 # Global settings for Windows targets (at end)
