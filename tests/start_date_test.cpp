@@ -135,6 +135,7 @@ TEST_CASE( "Random scenario dates" )
     // Days counted from start of year
     time_duration first_day_of_summer = calendar::season_length();
     time_duration last_day_of_summer = 2 * calendar::season_length() - 1_days;
+    time_duration default_start_hour = 1_hours * 8
 
     SECTION( "Random hour" ) {
         static const string_id<scenario> random_hour_scenario( "test_random_hour" );
@@ -167,10 +168,11 @@ TEST_CASE( "Random scenario dates" )
 
         g->start_calendar();
 
-        // Random day should result in something between day first_day_of_summer hour 0 - day last_day_of_summer hour 0
+        // Random day should result in something between day first_day_of_summer hour 8 - day last_day_of_summer hour 8
         INFO( "Game started on turn " << to_turn<int>( calendar::start_of_game ) );
-        REQUIRE( calendar::start_of_game >= calendar::turn_zero + first_day_of_summer );
-        REQUIRE( calendar::start_of_game <= calendar::turn_zero + last_day_of_summer );
+        REQUIRE( calendar::start_of_game >= calendar::turn_zero + first_day_of_summer +
+                 default_start_hour );
+        REQUIRE( calendar::start_of_game <= calendar::turn_zero + last_day_of_summer + default_start_hour );
 
         time_point start_of_game_1 = calendar::start_of_game;
 
@@ -192,11 +194,12 @@ TEST_CASE( "Random scenario dates" )
 
         g->start_calendar();
 
-        // Random year should result in something between year 0 day first_day_of_summer hour 0 - year 11 day first_day_of_summer hour 0
+        // Random year should result in something between year 0 day first_day_of_summer hour 8 - year 11 day first_day_of_summer hour 8
         INFO( "Game started on turn " << to_turn<int>( calendar::start_of_game ) );
-        REQUIRE( calendar::start_of_game >= calendar::turn_zero + first_day_of_summer );
+        REQUIRE( calendar::start_of_game >= calendar::turn_zero + first_day_of_summer +
+                 default_start_hour );
         REQUIRE( calendar::start_of_game <= calendar::turn_zero + first_day_of_summer +
-                 calendar::year_length() * 11 );
+                 calendar::year_length() * 11 + default_start_hour );
 
         time_point start_of_game_1 = calendar::start_of_game;
 
