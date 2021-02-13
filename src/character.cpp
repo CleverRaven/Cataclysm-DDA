@@ -9830,8 +9830,8 @@ ret_val<bool> Character::can_wield( const item &it ) const
     }
     monster *mount = mounted_creature.get();
     if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( flag_RESTRICT_HANDS ) ) &&
-        !( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
-           mount->type->mech_weapon && it.typeId() == mounted_creature.get()->type->mech_weapon ) ) {
+        !( is_mounted() && mount->has_flag( MF_RIDEABLE_MECH ) &&
+           mount->type->mech_weapon && it.typeId() == mount->type->mech_weapon ) ) {
         if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
             return ret_val<bool>::make_failure(
                        _( "Something you are wearing hinders the use of both hands." ) );
@@ -9843,8 +9843,8 @@ ret_val<bool> Character::can_wield( const item &it ) const
                                                 it.tname() );
         }
     }
-    if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
-        mount->type->mech_weapon && it.typeId() != mounted_creature.get()->type->mech_weapon ) {
+    if( is_mounted() && mount->has_flag( MF_RIDEABLE_MECH ) &&
+        mount->type->mech_weapon && it.typeId() != mount->type->mech_weapon ) {
         return ret_val<bool>::make_failure( _( "You cannot wield anything while piloting a mech." ) );
     }
 
