@@ -198,6 +198,9 @@ ifneq ($(findstring Darwin,$(OS)),)
   ifndef NATIVE
     NATIVE = osx
   endif
+  ifndef CLANG
+    CLANG = 1
+  endif
 endif
 
 # Default to disabling clang
