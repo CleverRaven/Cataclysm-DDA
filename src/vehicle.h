@@ -725,9 +725,7 @@ class vehicle
         units::volume total_folded_volume() const;
 
         struct fuel_consumption_data {
-            int head = -1;
-            int tail = -1;
-            std::array<int, 60> fuel_per_sec;
+            std::list<int> fuel_per_sec;
             int total_fuel = 0;
         };
         std::map<itype_id, fuel_consumption_data> fuel_used;

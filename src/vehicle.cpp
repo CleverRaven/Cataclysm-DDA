@@ -3465,14 +3465,13 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
 int vehicle::consumption_per_hour( const itype_id &ftype, fuel_consumption_data &fcd ) const
 {
     item fuel = item( ftype );
-    if( fcd.total_fuel == 0 || fuel.has_flag( flag_PERPETUAL ) || !engine_on ) {
+    if( fcd.total_fuel == 0 || fcd.fuel_per_sec.empty() || fuel.has_flag( flag_PERPETUAL ) ||
+        !engine_on ) {
         return 0;
     }
 
     int energy_j_per_mL = fuel.fuel_energy() * 1000;
-    //If worked for less than 60s, head + 1 is a total amount of stored values
-    int average = fcd.total_fuel / ( ( fcd.tail != -1 ) ? 60 :
-                                     ( fcd.head + 1 ) );
+    int average = fcd.total_fuel / fcd.fuel_per_sec.size();
 
     return -1 * average * 3600 / energy_j_per_mL;
 }
@@ -4622,18 +4621,13 @@ void vehicle::consume_fuel( int load, bool idling )
         double amnt_precise_j = static_cast<double>( fuel_pr.second );
         amnt_precise_j *= load / 1000.0 * ( 1.0 + st * st * 100.0 );
 
-        //FIFO queue stores fuel consumption in order to calculate average over a minute
-        if( fcd.tail == -1 ) {
-            if( fcd.head == 58 ) {
-                fcd.tail = 0;
-            }
-        } else {
-            fcd.total_fuel -= fcd.fuel_per_sec[ fcd.tail ];
-            fcd.tail = ( fcd.tail + 1 ) % 60;
-        }
-        fcd.head = ( fcd.head + 1 ) % 60;
+        fcd.fuel_per_sec.push_front( amnt_precise_j );
         fcd.total_fuel += amnt_precise_j;
-        fcd.fuel_per_sec[ fcd.head ] = amnt_precise_j;
+
+        if( fcd.fuel_per_sec.size() > 60 ) {
+            fcd.total_fuel -= fcd.fuel_per_sec.back();
+            fcd.fuel_per_sec.pop_back();
+        }
 
         double remainder = fuel_remainder[ ft ];
         amnt_precise_j -= remainder;
