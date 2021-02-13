@@ -1467,10 +1467,7 @@
         "D": { "item": "butcher_raw_meat", "chance": 95, "repeat": [ 1, 20 ] },
         "d": { "item": "magazines", "chance": 50 }
       },
-      "monster": {
-        "~": { "monster": "mon_sewer_fish", "chance": 2 },
-        "'": { "monster": "mon_sewer_snake", "chance": 10 }
-      },
+      "monster": { "~": { "monster": "mon_sewer_fish", "chance": 2 }, "'": { "monster": "mon_sewer_snake", "chance": 10 } },
       "place_npcs": [
         { "class": "prisoner_leader", "x": 9, "y": 54 },
         { "class": "prisoner_generic", "x": 14, "y": 53 },
