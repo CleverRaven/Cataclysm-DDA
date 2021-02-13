@@ -2,8 +2,6 @@
 
 Use the `Home` key to return to the top.
 
-<!-- XXX: REMOVE ME. Touch JSON_INFO.md to see if it triggers the bot -->
-
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
