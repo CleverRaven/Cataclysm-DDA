@@ -12226,7 +12226,7 @@ void game::start_calendar()
         if( calendar::start_of_game < calendar::start_of_cataclysm ) {
             // If the cataclysm has been set to happen late or the scenario has random start it may try to start before cataclysm happens.
             // That is unacceptable. So lets just jump to same day on next year.
-            calendar::start_of_game = calendar::start_of_game + 1_days * 4 * get_option<int>( "SEASON_LENGTH" );
+            calendar::start_of_game += calendar::year_length();
         }
     } else {
         calendar::start_of_game = calendar::start_of_cataclysm

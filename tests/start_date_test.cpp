@@ -111,14 +111,18 @@ TEST_CASE( "Random dates" )
                1_days * 1 );
 
 
+        time_point start_of_game_1 = calendar::start_of_game;
+
+        // Second and third random starts should have different time
         g->start_calendar();
+		time_point start_of_cataclysm_2 = calendar::start_of_cataclysm;
+		g->start_calendar();
+		time_point start_of_cataclysm_3 = calendar::start_of_cataclysm;
 
-        time_point start_of_cataclysm_2 = calendar::start_of_cataclysm;
-
-        // Two random starts should result in different dates
-        // There is about 1/364 chance for this to fail when everything is working fine
-        // Don't worry about it unless it starts failing often.
-        CHECK( start_of_cataclysm_1 != start_of_cataclysm_2 );
+        // There is decent chance that two of the three are on same date. It is enough that even one of them is different.
+		// There is still small chance that all three dates are same so this test can fail even when everything is fine
+		bool all_same = start_of_cataclysm_1 == start_of_cataclysm_2  && start_of_cataclysm_1 == start_of_cataclysm_3;
+        CHECK_FALSE( all_same );
     }
 
     // Reset dates so other tests won't fail
@@ -145,11 +149,16 @@ TEST_CASE( "Random scenario dates" )
 
         time_point start_of_game_1 = calendar::start_of_game;
 
-        // Second random start should have different time
+        // Second and third random starts should have different time
         g->start_calendar();
+		time_point start_of_game_2 = calendar::start_of_game;
+		g->start_calendar();
+		time_point start_of_game_3 = calendar::start_of_game;
 
-        // This test has about 1/24 chance to fail when everything is working fine.
-        CHECK( start_of_game_1 != calendar::start_of_game );
+        // There is decent chance that two of the three are on same date. It is enough that even one of them is different.
+		// There is still small chance that all three dates are same so this test can fail even when everything is fine
+		bool all_same = start_of_game_1 == start_of_game_2  && start_of_game_1 == start_of_game_3;
+        CHECK_FALSE( all_same );
     }
 
     SECTION( "Random day" ) {
@@ -164,11 +173,16 @@ TEST_CASE( "Random scenario dates" )
 
         time_point start_of_game_1 = calendar::start_of_game;
 
-        // Second random start should have different time
+        // Second and third random starts should have different time
         g->start_calendar();
+		time_point start_of_game_2 = calendar::start_of_game;
+		g->start_calendar();
+		time_point start_of_game_3 = calendar::start_of_game;
 
-        // This test has about 1/91 chance to fail when everything is working fine.
-        CHECK( start_of_game_1 != calendar::start_of_game );
+        // There is decent chance that two of the three are on same date. It is enough that even one of them is different.
+		// There is still small chance that all three dates are same so this test can fail even when everything is fine
+		bool all_same = start_of_game_1 == start_of_game_2  && start_of_game_1 == start_of_game_3;
+        CHECK_FALSE( all_same );
     }
 
     SECTION( "Random year" ) {
@@ -184,11 +198,15 @@ TEST_CASE( "Random scenario dates" )
 
         time_point start_of_game_1 = calendar::start_of_game;
 
-        // Second random start should have different time
+        // Second and third random starts should have different time
         g->start_calendar();
+		time_point start_of_game_2 = calendar::start_of_game;
+		g->start_calendar();
+		time_point start_of_game_3 = calendar::start_of_game;
 
-        // This test has about 1/11 chance to fail when everything is working fine.
-        CHECK( start_of_game_1 != calendar::start_of_game );
+        // There is decent chance that two of the three are on same date. It is enough that even one of them is different.
+		bool all_same = start_of_game_1 == start_of_game_2  && start_of_game_1 == start_of_game_3;
+        CHECK_FALSE( all_same );
     }
 
     SECTION( "Fully random date" ) {
@@ -204,11 +222,16 @@ TEST_CASE( "Random scenario dates" )
 
         time_point start_of_game_1 = calendar::start_of_game;
 
-        // Second random start should have different time
+        // Second and third random starts should have different time
         g->start_calendar();
+		time_point start_of_game_2 = calendar::start_of_game;
+		g->start_calendar();
+		time_point start_of_game_3 = calendar::start_of_game;
 
-        // This test has about 1/364 chance to fail when everything is working fine.
-        CHECK( start_of_game_1 != calendar::start_of_game );
+        // There is decent chance that two of the three are on same date. It is enough that even one of them is different.
+		// There is still small chance that all three dates are same so this test can fail even when everything is fine
+		bool all_same = start_of_game_1 == start_of_game_2  && start_of_game_1 == start_of_game_3;
+        CHECK_FALSE( all_same );
     }
 
     // Reset dates so other tests won't fail
