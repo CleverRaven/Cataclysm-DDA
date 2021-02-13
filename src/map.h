@@ -692,7 +692,7 @@ class map
         * furn_reset should be true if new_furniture is being set to f_null
         * when the player is grab-moving furniture
         */
-        void furn_set( const tripoint &p, const furn_id &new_furniture, const bool furn_reset = false );
+        void furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false );
         void furn_set( const point &p, const furn_id &new_furniture ) {
             furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
