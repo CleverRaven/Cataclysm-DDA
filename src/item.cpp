@@ -2789,7 +2789,6 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         return;
     }
 
-    Character &player_character = get_player_character();
     const std::string space = "  ";
     body_part_set covered_parts = get_covered_body_parts();
     bool covers_anything = covered_parts.any();
