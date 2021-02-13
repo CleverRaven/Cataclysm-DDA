@@ -5071,10 +5071,11 @@
     "id": "NO_THIRST",
     "name": { "str": "Metabolic Rehydration" },
     "points": 6,
-    "description": "Your body gets everything it needs from the food that you eat!  You no longer gain hydration from fluids - instead, your thirst will be equal to, and change with, your hunger.",
+    "description": "Your body gets everything it needs from the food that you eat!  You no longer need hydration from fluids.",
     "threshreq": [ "THRESH_MOUSE" ],
     "category": [ "MOUSE" ],
     "cancels": [ "THIRST", "THIRST2", "THIRST3" ],
+    "flags": [ "NO_THIRST" ],
     "purifiable": false
   },
   {
