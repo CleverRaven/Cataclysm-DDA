@@ -3758,6 +3758,8 @@ A list of mission ids that will be started and assigned to the player at the sta
 
 Allows customizing initial date. If `custom_start_date` is not set the corresponding values from world options are used instead.
 
+If the start date of the scenario is before the date of cataclysm defined by map settings then the scenario date is moved forwards by one year.
+
 ```C++
 "custom_start_date": { "hour": 3, "day": 10, "season": "winter", "year": 1 }
 ```
