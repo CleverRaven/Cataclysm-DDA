@@ -824,7 +824,7 @@
     "id": "bio_gills",
     "type": "bionic",
     "name": { "str": "Respirator" },
-    "description": "A complex respiration augmentation system.  Improves respiration ability in air and allows breathing water.  Will automatically turn on when drowning.  Turn on to recharge stamina faster, at moderate power cost.  Asthmatics may also use it to stop asthma attacks.",
+    "description": "A complex respiration augmentation system.  Improves respiration ability in air and allows breathing water.  Turn on to recharge stamina faster, at moderate power cost.  Asthmatics may also use it to stop asthma attacks.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "head", 2 ], [ "mouth", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "trigger_cost": "25 kJ"
