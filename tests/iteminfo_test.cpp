@@ -1043,6 +1043,8 @@ TEST_CASE( "armor fit and sizing", "[iteminfo][armor][fit]" )
     item power_armor( "test_power_armor" );
     CHECK( item_info_str( power_armor, powerarmor ) ==
            "--\n"
+           "<color_c_white>When active</color>:"
+           "--\n"
            "* This gear is a part of power armor.\n" );
 }
 
