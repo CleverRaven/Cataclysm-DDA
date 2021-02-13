@@ -16,15 +16,15 @@ TEST_CASE( "Test start dates" )
 
     SECTION( "Default start date with no scenario" ) {
         set_scenario( scenario::generic() );
-        REQUIRE( get_option<int>( "INITIAL_DAY" ) == default_initial_day );
-        REQUIRE( get_option<int>( "INITIAL_TIME" ) == default_initial_time );
-        REQUIRE( get_option<int>( "SPAWN_DELAY" ) == default_spawn_delay );
+        CHECK( get_option<int>( "INITIAL_DAY" ) == default_initial_day );
+        CHECK( get_option<int>( "INITIAL_TIME" ) == default_initial_time );
+        CHECK( get_option<int>( "SPAWN_DELAY" ) == default_spawn_delay );
 
         g->start_calendar();
 
-        CHECK( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * default_initial_day );
-        CHECK( calendar::start_of_game == calendar::turn_zero + 1_days * default_initial_day + 1_hours *
-               default_initial_time );
+        REQUIRE( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * default_initial_day );
+        REQUIRE( calendar::start_of_game == calendar::turn_zero + 1_days * default_initial_day + 1_hours *
+                 default_initial_time );
     }
 
     SECTION( "Customized start date" ) {
@@ -33,14 +33,14 @@ TEST_CASE( "Test start dates" )
         override_option spawn_delay( "SPAWN_DELAY", "10" );
 
         set_scenario( scenario::generic() );
-        REQUIRE( get_option<int>( "INITIAL_DAY" ) == 100 );
-        REQUIRE( get_option<int>( "INITIAL_TIME" ) == 13 );
-        REQUIRE( get_option<int>( "SPAWN_DELAY" ) == 10 );
+        CHECK( get_option<int>( "INITIAL_DAY" ) == 100 );
+        CHECK( get_option<int>( "INITIAL_TIME" ) == 13 );
+        CHECK( get_option<int>( "SPAWN_DELAY" ) == 10 );
 
         g->start_calendar();
 
-        CHECK( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * 100 );
-        CHECK( calendar::start_of_game == calendar::turn_zero + 1_days * ( 100 + 10 ) + 1_hours * 13 );
+        REQUIRE( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * 100 );
+        REQUIRE( calendar::start_of_game == calendar::turn_zero + 1_days * ( 100 + 10 ) + 1_hours * 13 );
     }
 
     SECTION( "Scenario with start date" ) {
@@ -52,14 +52,14 @@ TEST_CASE( "Test start dates" )
         override_option initial_time( "INITIAL_TIME", "13" );
         override_option spawn_delay( "SPAWN_DELAY", "10" );
 
-        REQUIRE( get_option<int>( "INITIAL_DAY" ) == default_initial_day );
-        REQUIRE( get_option<int>( "SEASON_LENGTH" ) == default_season_length );
+        CHECK( get_option<int>( "INITIAL_DAY" ) == default_initial_day );
+        CHECK( get_option<int>( "SEASON_LENGTH" ) == default_season_length );
 
         g->start_calendar();
 
-        CHECK( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * default_initial_day );
-        CHECK( calendar::start_of_game == calendar::turn_zero + 1_days * 273 + 1_hours *
-               default_initial_time );
+        REQUIRE( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * default_initial_day );
+        REQUIRE( calendar::start_of_game == calendar::turn_zero + 1_days * 273 + 1_hours *
+                 default_initial_time );
     }
 
     SECTION( "Scenario with start date tries to start before cataclysm" ) {
@@ -69,18 +69,18 @@ TEST_CASE( "Test start dates" )
 
         override_option initial_day( "INITIAL_DAY", "350" );
 
-        REQUIRE( get_option<int>( "INITIAL_DAY" ) == 350 );
-        REQUIRE( get_option<int>( "INITIAL_TIME" ) == default_initial_time );
-        REQUIRE( get_option<int>( "SPAWN_DELAY" ) == default_spawn_delay );
-        REQUIRE( get_option<int>( "SEASON_LENGTH" ) == default_season_length );
+        CHECK( get_option<int>( "INITIAL_DAY" ) == 350 );
+        CHECK( get_option<int>( "INITIAL_TIME" ) == default_initial_time );
+        CHECK( get_option<int>( "SPAWN_DELAY" ) == default_spawn_delay );
+        CHECK( get_option<int>( "SEASON_LENGTH" ) == default_season_length );
 
         g->start_calendar();
 
-        CHECK( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * 350 );
+        REQUIRE( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * 350 );
 
         // Start should be moved forwards by one year from normal to avoid too early start
-        CHECK( calendar::start_of_game == calendar::turn_zero + 1_days * 273 + 1_hours *
-               default_initial_time + calendar::year_length() );
+        REQUIRE( calendar::start_of_game == calendar::turn_zero + 1_days * 273 + 1_hours *
+                 default_initial_time + calendar::year_length() );
     }
 
     // Reset dates so other tests won't fail
@@ -98,20 +98,18 @@ TEST_CASE( "Random dates" )
         override_option spawn_delay( "SPAWN_DELAY", "1" );
 
         set_scenario( scenario::generic() );
-        REQUIRE( get_option<int>( "INITIAL_DAY" ) == -1 );
-        REQUIRE( get_option<int>( "INITIAL_TIME" ) == default_initial_time );
-        REQUIRE( get_option<int>( "SPAWN_DELAY" ) == 1 );
+        CHECK( get_option<int>( "INITIAL_DAY" ) == -1 );
+        CHECK( get_option<int>( "INITIAL_TIME" ) == default_initial_time );
+        CHECK( get_option<int>( "SPAWN_DELAY" ) == 1 );
 
         g->start_calendar();
 
         time_point start_of_cataclysm_1 = calendar::start_of_cataclysm;
 
         // Even with random time of cataclysm the game starts set amount of time later
-        CHECK( calendar::start_of_game == calendar::start_of_cataclysm + 1_hours * default_initial_time +
-               1_days * 1 );
+        REQUIRE( calendar::start_of_game == calendar::start_of_cataclysm + 1_hours * default_initial_time +
+                 1_days );
 
-
-        time_point start_of_game_1 = calendar::start_of_game;
 
         // Second and third random starts should have different time
         g->start_calendar();
@@ -123,7 +121,7 @@ TEST_CASE( "Random dates" )
         // There is still small chance that all three dates are same so this test can fail even when everything is fine
         bool all_same = start_of_cataclysm_1 == start_of_cataclysm_2  &&
                         start_of_cataclysm_1 == start_of_cataclysm_3;
-        CHECK_FALSE( all_same );
+        REQUIRE_FALSE( all_same );
     }
 
     // Reset dates so other tests won't fail
@@ -145,8 +143,9 @@ TEST_CASE( "Random scenario dates" )
         g->start_calendar();
 
         // Random hour should result in something between day default_first_day_of_summer hour 0 - day first_day_of_summer hour 23
-        CHECK( calendar::start_of_game >= calendar::turn_zero + first_day_of_summer );
-        CHECK( calendar::start_of_game <= calendar::turn_zero + first_day_of_summer + 1_hours * 24 );
+        INFO( "Game started on turn " << to_turn<int>( calendar::start_of_game ) );
+        REQUIRE( calendar::start_of_game >= calendar::turn_zero + first_day_of_summer );
+        REQUIRE( calendar::start_of_game <= calendar::turn_zero + first_day_of_summer + 1_hours * 23 );
 
         time_point start_of_game_1 = calendar::start_of_game;
 
@@ -159,7 +158,7 @@ TEST_CASE( "Random scenario dates" )
         // There is decent chance that two of the three are on same date. It is enough that even one of them is different.
         // There is still small chance that all three dates are same so this test can fail even when everything is fine
         bool all_same = start_of_game_1 == start_of_game_2  && start_of_game_1 == start_of_game_3;
-        CHECK_FALSE( all_same );
+        REQUIRE_FALSE( all_same );
     }
 
     SECTION( "Random day" ) {
@@ -169,8 +168,9 @@ TEST_CASE( "Random scenario dates" )
         g->start_calendar();
 
         // Random day should result in something between day first_day_of_summer hour 0 - day last_day_of_summer hour 0
-        CHECK( calendar::start_of_game >= calendar::turn_zero + first_day_of_summer );
-        CHECK( calendar::start_of_game <= calendar::turn_zero + last_day_of_summer );
+        INFO( "Game started on turn " << to_turn<int>( calendar::start_of_game ) );
+        REQUIRE( calendar::start_of_game >= calendar::turn_zero + first_day_of_summer );
+        REQUIRE( calendar::start_of_game <= calendar::turn_zero + last_day_of_summer );
 
         time_point start_of_game_1 = calendar::start_of_game;
 
@@ -183,7 +183,7 @@ TEST_CASE( "Random scenario dates" )
         // There is decent chance that two of the three are on same date. It is enough that even one of them is different.
         // There is still small chance that all three dates are same so this test can fail even when everything is fine
         bool all_same = start_of_game_1 == start_of_game_2  && start_of_game_1 == start_of_game_3;
-        CHECK_FALSE( all_same );
+        REQUIRE_FALSE( all_same );
     }
 
     SECTION( "Random year" ) {
@@ -193,9 +193,10 @@ TEST_CASE( "Random scenario dates" )
         g->start_calendar();
 
         // Random year should result in something between year 0 day first_day_of_summer hour 0 - year 11 day first_day_of_summer hour 0
-        CHECK( calendar::start_of_game >= calendar::turn_zero + first_day_of_summer );
-        CHECK( calendar::start_of_game <= calendar::turn_zero + first_day_of_summer +
-               calendar::year_length() * 11 );
+        INFO( "Game started on turn " << to_turn<int>( calendar::start_of_game ) );
+        REQUIRE( calendar::start_of_game >= calendar::turn_zero + first_day_of_summer );
+        REQUIRE( calendar::start_of_game <= calendar::turn_zero + first_day_of_summer +
+                 calendar::year_length() * 11 );
 
         time_point start_of_game_1 = calendar::start_of_game;
 
@@ -207,7 +208,7 @@ TEST_CASE( "Random scenario dates" )
 
         // There is decent chance that two of the three are on same date. It is enough that even one of them is different.
         bool all_same = start_of_game_1 == start_of_game_2  && start_of_game_1 == start_of_game_3;
-        CHECK_FALSE( all_same );
+        REQUIRE_FALSE( all_same );
     }
 
     // Reset dates so other tests won't fail
