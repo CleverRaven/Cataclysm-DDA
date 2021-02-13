@@ -10461,8 +10461,8 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     const bool dst_item_ok = !m.has_flag( "NOITEM", fdest ) &&
                              !m.has_flag( "SWIMMABLE", fdest ) &&
-                             !m.has_flag( "DESTROY_ITEM", fdest ) &&
-                             only_liquid_items;
+                             !m.has_flag( "DESTROY_ITEM", fdest );
+
     const bool src_item_ok = m.furn( fpos ).obj().has_flag( "CONTAINER" ) ||
                              m.furn( fpos ).obj().has_flag( "FIRE_CONTAINER" ) ||
                              m.furn( fpos ).obj().has_flag( "SEALED" );
@@ -10489,7 +10489,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
                  furntype.name() );
         u.mod_pain( 1 ); // Hurt ourselves.
         return true; // furniture and or obstacle wins.
-    } else if( !src_item_ok && !dst_item_ok && dst_items > 0 ) {
+    } else if( !src_item_ok && !only_liquid_items && dst_items > 0 ) {
         add_msg( _( "There's stuff in the way." ) );
         return true;
     }
