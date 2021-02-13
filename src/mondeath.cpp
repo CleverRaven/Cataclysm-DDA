@@ -414,9 +414,9 @@ void mdeath::disappear( monster &z )
     // this bool is now true if the enemy's name begins with 'your'
 
     std::string msg = ( begins_with_your ) ?
-        "%s disappears." : "The %s disappears.";
+        _("%s disappears.") : _("The %s disappears.");
 
-    add_msg_if_player_sees( z, m_good, _( msg ), z.disp_name( false, begins_with_your ) );
+    add_msg_if_player_sees( z, m_good, msg, z.disp_name( false, begins_with_your ) );
 }
 
 void mdeath::guilt( monster &z )
