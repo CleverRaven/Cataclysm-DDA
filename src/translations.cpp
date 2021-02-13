@@ -224,6 +224,15 @@ void set_language()
             DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
         }
 #else
+        // LANGUAGE is ignored if LANG is set to C or unset
+        // in this case we need to set LANG to something other than C to activate localization
+        // Reference: https://www.gnu.org/software/gettext/manual/html_node/The-LANGUAGE-variable.html#The-LANGUAGE-variable
+        const char *env_lang = getenv( "LANG" );
+        if( env_lang == nullptr || strcmp( env_lang, "C" ) == 0 ) {
+            if( setenv( "LANG", lang_opt.c_str(), true ) != 0 ) {
+                DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANG' environment variable";
+            }
+        }
         if( setenv( "LANGUAGE", lang_opt.c_str(), true ) != 0 ) {
             DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
         }
