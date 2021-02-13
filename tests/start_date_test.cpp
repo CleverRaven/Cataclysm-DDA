@@ -205,9 +205,12 @@ TEST_CASE( "Random scenario dates" )
         time_point start_of_game_2 = calendar::start_of_game;
         g->start_calendar();
         time_point start_of_game_3 = calendar::start_of_game;
+        g->start_calendar();
+        time_point start_of_game_4 = calendar::start_of_game;
 
         // There is decent chance that two of the three are on same date. It is enough that even one of them is different.
-        bool all_same = start_of_game_1 == start_of_game_2  && start_of_game_1 == start_of_game_3;
+        bool all_same = start_of_game_1 == start_of_game_2  && start_of_game_1 == start_of_game_3 &&
+                        start_of_game_1 == start_of_game_4;
         REQUIRE_FALSE( all_same );
     }
 
