@@ -31,16 +31,5 @@
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ],
     "custom_start_date": { "year": -1, "season": "summer" }
-  },
-  {
-    "type": "scenario",
-    "id": "test_random",
-    "name": "Test random",
-    "points": 0,
-    "description": "Test starting on random hour, day and year.",
-    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
-    "start_name": "Evac Shelter",
-    "flags": [ "CITY_START" ],
-    "custom_start_date": { "hour": -1, "day": -1, "season": "summer", "year": -1 }
   }
 ]
