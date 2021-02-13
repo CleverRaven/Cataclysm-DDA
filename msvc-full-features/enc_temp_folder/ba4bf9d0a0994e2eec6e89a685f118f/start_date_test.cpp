@@ -179,8 +179,7 @@ TEST_CASE( "Random scenario dates", "[!mayfail]" )
 
         // Random year should result in something between year 0 day first_day_of_summer hour 0 - year 11 day first_day_of_summer hour 0
         CHECK( calendar::start_of_game >= calendar::turn_zero + first_day_of_summer );
-        CHECK( calendar::start_of_game <= calendar::turn_zero + first_day_of_summer +
-               calendar::year_length() * 11 );
+        CHECK( calendar::start_of_game <= calendar::turn_zero + first_day_of_summer + calendar::year_length() * 11 );
 
         time_point start_of_game_1 = calendar::start_of_game;
 
@@ -199,8 +198,7 @@ TEST_CASE( "Random scenario dates", "[!mayfail]" )
 
         // Random year should result in something between year 0 day first_day_of_summer hour 0 - year 11 day last_day_of_summer hour 23
         CHECK( calendar::start_of_game >= calendar::turn_zero );
-        CHECK( calendar::start_of_game <= calendar::turn_zero + last_day_of_summer + calendar::year_length()
-               * 11 + 1_hours
+        CHECK( calendar::start_of_game <= calendar::turn_zero + last_day_of_summer + calendar::year_length() * 11 + 1_hours
                * 23 );
 
         time_point start_of_game_1 = calendar::start_of_game;
