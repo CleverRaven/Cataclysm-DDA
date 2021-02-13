@@ -135,7 +135,7 @@ TEST_CASE( "Random scenario dates" )
     // Days counted from start of year
     time_duration first_day_of_summer = calendar::season_length();
     time_duration last_day_of_summer = 2 * calendar::season_length() - 1_days;
-    time_duration default_start_hour = 1_hours * 8
+    time_duration default_start_hour = 1_hours * 8;
 
     SECTION( "Random hour" ) {
         static const string_id<scenario> random_hour_scenario( "test_random_hour" );
@@ -222,6 +222,5 @@ TEST_CASE( "Random scenario dates" )
     calendar::start_of_cataclysm = calendar::turn_zero;
     calendar::turn = calendar::turn_zero;
 }
-
 
 
