@@ -80,7 +80,7 @@ TEST_CASE( "Test start dates" )
 
         // Start should be moved forwards by one year from normal to avoid too early start
         CHECK( calendar::start_of_game == calendar::turn_zero + 1_days * 273 + 1_hours *
-               default_initial_time + 1_days * default_season_length * 4 );
+               default_initial_time + calendar::year_length() );
     }
 
     // Reset dates so other tests won't fail
@@ -89,7 +89,7 @@ TEST_CASE( "Test start dates" )
     calendar::turn = calendar::turn_zero;
 }
 
-TEST_CASE( "Random dates", "[!mayfail]" )
+TEST_CASE( "Random dates" )
 {
     int default_initial_time = 8;
 
@@ -127,7 +127,7 @@ TEST_CASE( "Random dates", "[!mayfail]" )
     calendar::turn = calendar::turn_zero;
 }
 
-TEST_CASE( "Random scenario dates", "[!mayfail]" )
+TEST_CASE( "Random scenario dates" )
 {
     // Days counted from start of year
     time_duration first_day_of_summer = calendar::season_length();
@@ -200,8 +200,7 @@ TEST_CASE( "Random scenario dates", "[!mayfail]" )
         // Random year should result in something between year 0 day first_day_of_summer hour 0 - year 11 day last_day_of_summer hour 23
         CHECK( calendar::start_of_game >= calendar::turn_zero );
         CHECK( calendar::start_of_game <= calendar::turn_zero + last_day_of_summer + calendar::year_length()
-               * 11 + 1_hours
-               * 23 );
+               * 11 + 1_hours * 23 );
 
         time_point start_of_game_1 = calendar::start_of_game;
 
