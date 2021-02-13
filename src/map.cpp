@@ -1712,6 +1712,15 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     set_pathfinding_cache_dirty( p.z );
 
     tripoint above( p.xy(), p.z + 1 );
+
+    // Process roof construction or replacement if the old one was provided by the old terrain
+    if( new_t.roof.id() != t_null ) {
+        const ter_id ter_above = ter( above );
+        if( ter_above == t_open_air || ter_above == old_t.roof.id() ) {
+            ter_set( above, new_t.roof.id() );
+        }
+    }
+
     // Make sure that if we supported something and no longer do so, it falls down
     support_dirty( above );
 
