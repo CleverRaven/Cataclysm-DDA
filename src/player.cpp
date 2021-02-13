@@ -2303,15 +2303,23 @@ item::reload_option player::select_ammo( const item &base,
                                 sel.ammo->ammo_data();
             if( ammo ) {
                 const damage_instance &dam = ammo->ammo->damage;
-                float dam_amt = dam.total_damage();
-                if( dam.damage_units.front().damage_multiplier != 1.0f ) {
+                const damage_unit &du = dam.damage_units.front();
+                if( du.damage_multiplier != 1.0f ) {
                     // Ugly and not really true, but informative anyway
                     damage_instance summed = base_damage;
                     summed.add( dam );
-                    dam_amt = summed.total_damage() - base_damage.total_damage();
+                    float dam_amt = summed.total_damage() - base_damage.total_damage();
+                    row += string_format( "| %+6d* ", static_cast<int>( dam_amt ) );
+                } else {
+                    float dam_amt = dam.total_damage();
+                    row += string_format( "| %+7d ", static_cast<int>( dam_amt ) );
                 }
-                row += string_format( "| %+7d | %-7d", static_cast<int>( dam_amt ),
-                                      static_cast<int>( dam.empty() ? 0.0f : ( *dam.begin() ).res_pen ) );
+                if( du.res_mult != 1.0f ) {
+                    row += string_format( "| %-3d/%3d%%",
+                                          static_cast<int>( du.res_pen ), static_cast<int>( 100 * du.res_mult ) );
+                } else {
+                    row += string_format( "| %-7d", static_cast<int>( du.res_pen ) );
+                }
             } else {
                 row += "|         |         ";
             }
@@ -2608,7 +2616,7 @@ static const std::vector<matype_id> bio_cqb_styles{ {
         matype_id{ "style_zui_quan" }
     }};
 
-bool character_martial_arts::pick_style( const avatar &you ) // Style selection menu
+bool character_martial_arts::pick_style( const avatar &you )    // Style selection menu
 {
     enum style_selection {
         KEEP_HANDS_FREE = 0,
@@ -4233,7 +4241,8 @@ std::string player::weapname() const
     }
 }
 
-bool player::wield_contents( item &container, item *internal_item, bool penalties, int base_cost )
+bool player::wield_contents( item &container, item *internal_item, bool penalties,
+                             int base_cost )
 {
     // if index not specified and container has multiple items then ask the player to choose one
     if( internal_item == nullptr ) {
@@ -4409,7 +4418,8 @@ void player::add_msg_player_or_npc( const std::string &player_msg,
     Messages::add_msg( player_msg );
 }
 
-void player::add_msg_if_player( const game_message_params &params, const std::string &msg ) const
+void player::add_msg_if_player( const game_message_params &params,
+                                const std::string &msg ) const
 {
     Messages::add_msg( params, msg );
 }
