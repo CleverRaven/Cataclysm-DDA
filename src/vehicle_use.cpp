@@ -1942,8 +1942,8 @@ void vehicle::use_bike_rack( int part )
     int unload_carried = full_rack ? 0 : -1;
     bool success = false;
 
-    carried_vehicles = validate_carried_vehicles( carried_vehicles );
-    carrying_racks = validate_carried_vehicles( carrying_racks );
+    validate_carried_vehicles( carried_vehicles );
+    validate_carried_vehicles( carrying_racks );
 
     if( found_vehicle && !full_rack ) {
         uilist rack_menu;
@@ -1977,8 +1977,8 @@ void vehicle::use_bike_rack( int part )
 /*
 * Todo: find a way to split and rewrite use_bikerack so that this check is no longer necessary
 */
-std::vector<std::vector<int>> vehicle::validate_carried_vehicles( std::vector<std::vector<int>>
-                           &carried_vehicles )
+void vehicle::validate_carried_vehicles( std::vector<std::vector<int>>
+        &carried_vehicles )
 {
     std::sort( carried_vehicles.begin(), carried_vehicles.end(), []( const std::vector<int> &a,
     const std::vector<int> &b ) {
@@ -1995,7 +1995,6 @@ std::vector<std::vector<int>> vehicle::validate_carried_vehicles( std::vector<st
         }
         it++;
     }
-    return carried_vehicles;
 }
 
 
