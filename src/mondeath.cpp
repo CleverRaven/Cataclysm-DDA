@@ -417,7 +417,6 @@ void mdeath::disappear( monster &z )
         "%s disappears." : "The %s disappears.";
 
     add_msg_if_player_sees( z, m_good, _( msg ), z.disp_name( false, begins_with_your ) );
-
 }
 
 void mdeath::guilt( monster &z )
@@ -433,7 +432,6 @@ void mdeath::guilt( monster &z )
         // otherwise, use it for grammatical correctness
         _( "You feel guilty for killing %s." ) : _( "You feel guilty for killing the %s." ); // default guilt message
 
-    std::string msg = _( "You feel guilty for killing %s." ); // default guilt message
     game_message_type msgtype = m_bad; // default guilt message type
     std::map<int, std::string> guilt_thresholds;
     // different message as we kill more of the same monster
