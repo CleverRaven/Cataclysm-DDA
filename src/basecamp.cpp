@@ -558,7 +558,6 @@ comp_list basecamp::get_mission_workers( const std::string &mission_id, bool con
 
 void basecamp::query_new_name()
 {
-    std::string camp_name;
     string_input_popup popup;
     do {
         popup.title( _( "Name this camp" ) )
@@ -568,7 +567,7 @@ void basecamp::query_new_name()
         .query();
     } while( popup.canceled() || popup.text().empty() );
 
-    name = popup.text();;
+    name = popup.text();
 }
 
 void basecamp::set_name( const std::string &new_name )

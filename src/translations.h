@@ -158,7 +158,6 @@ const char *npgettext( const char *context, const char *msgid, const char *msgid
 
 #else // !LOCALIZE
 
-
 #define _(STRING) (STRING)
 
 namespace detail

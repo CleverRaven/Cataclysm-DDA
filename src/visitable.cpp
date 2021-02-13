@@ -290,7 +290,6 @@ int vehicle_selector::max_quality( const quality_id &qual ) const
     return res;
 }
 
-
 template<typename T, typename V>
 static inline std::vector<T> items_with_internal( V &self, const std::function<bool( const item & )>
         &filter )
