@@ -405,7 +405,19 @@ void mdeath::worm( monster &z )
 
 void mdeath::disappear( monster &z )
 {
-    add_msg_if_player_sees( z, m_good, _( "The %s disappears." ), z.name() );
+
+    // The .compare() method returns 0 if equal
+    // Any other value is implicitly true
+    // so we need to reverse it
+    // substring(x,y) returns the y-character string starting at index x
+    bool begins_with_your = !( z.name().substr(0,4).compare("your") );
+    // this bool is now true if the enemy's name begins with 'your'
+
+    std::string msg = ( begins_with_your ) ?
+        "%s disappears." : "The %s disappears.";
+
+    add_msg_if_player_sees( z, m_good, _( msg ), z.disp_name( false, begins_with_your ) );
+
 }
 
 void mdeath::guilt( monster &z )
@@ -414,13 +426,25 @@ void mdeath::guilt( monster &z )
     int kill_count = g->get_kill_tracker().kill_count( z.type->id );
     int maxKills = 100; // this is when the player stop caring altogether.
 
-    // different message as we kill more of the same monster
+    bool begins_with_your = !( z.name().substr(0,4).compare("your") );
+    
+    std::string msg = ( begins_with_your ) ? 
+        // If the enemy's name begins with 'your,' omit the article 'the'
+        // otherwise, use it for grammatical correctness
+        _( "You feel guilty for killing %s." ) : _( "You feel guilty for killing the %s." ); // default guilt message
+
     std::string msg = _( "You feel guilty for killing %s." ); // default guilt message
     game_message_type msgtype = m_bad; // default guilt message type
-    std::map<int, std::string> guilt_tresholds;
-    guilt_tresholds[75] = _( "You feel ashamed for killing %s." );
-    guilt_tresholds[50] = _( "You regret killing %s." );
-    guilt_tresholds[25] = _( "You feel remorse for killing %s." );
+    std::map<int, std::string> guilt_thresholds;
+    // different message as we kill more of the same monster
+    guilt_thresholds[75] = ( begins_with_your ) ?
+        _( "You feel ashamed for killing %s." ) : _( "You feel guilty for killing the %s." );
+    guilt_thresholds[50] = ( begins_with_your ) ? 
+        _( "You regret killing %s." ) : _( "You feel guilty for killing the %s." );
+    guilt_thresholds[25] = ( begins_with_your ) ?
+        _( "You feel remorse for killing %s." ) : _( "You feel guilty for killing the %s." );
+
+    // now we won't see 'You feel guilty for killing shriekling'
 
     Character &player_character = get_player_character();
     if( player_character.has_trait( trait_PSYCHOPATH ) ||
@@ -449,9 +473,9 @@ void mdeath::guilt( monster &z )
         msg = ( _( "Culling the weak is distasteful, but necessary." ) );
         msgtype = m_neutral;
     } else {
-        for( auto &guilt_treshold : guilt_tresholds ) {
-            if( kill_count >= guilt_treshold.first ) {
-                msg = guilt_treshold.second;
+        for( auto &guilt_threshold : guilt_thresholds ) {
+            if( kill_count >= guilt_threshold.first ) {
+                msg = guilt_threshold.second;
                 break;
             }
         }
