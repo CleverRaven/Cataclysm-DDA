@@ -1990,7 +1990,7 @@ void vehicle::validate_carried_vehicles( std::vector<std::vector<int>>
         for( std::vector<std::vector<int>>::iterator it2 = it + 1; it2 < carried_vehicles.end(); it2++ ) {
             if( std::search( ( *it2 ).begin(), ( *it2 ).end(), ( *it ).begin(),
                              ( *it ).end() ) != ( *it2 ).end() ) {
-                it = carried_vehicles.erase( it );
+                it = carried_vehicles.erase( it-- );
             }
         }
         it++;
