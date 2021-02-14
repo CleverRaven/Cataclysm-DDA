@@ -4140,7 +4140,8 @@ om_special_sectors get_sectors( const int sector_width )
 {
     std::vector<point_om_omt> res;
 
-    res.reserve( ( OMAPX / sector_width ) * ( OMAPY / sector_width ) );
+    res.reserve( static_cast<size_t>( OMAPX / sector_width ) * static_cast<size_t>
+                 ( OMAPY / sector_width ) );
     for( int x = 0; x < OMAPX; x += sector_width ) {
         for( int y = 0; y < OMAPY; y += sector_width ) {
             res.emplace_back( x, y );

@@ -9181,7 +9181,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         }
         if( type->ammo->cookoff ) {
             // If ammo type can burn, then create an explosion proportional to quantity.
-            float power = 3.0f * sqrtf( sqrtf( rounds_exploded / 25.0f ) );
+            float power = 3.0f * std::pow( rounds_exploded / 25.0f, 0.25f );
             explosion_handler::explosion( p, power, 0.0f, false, 0 );
         }
         charges_remaining -= rounds_exploded;
