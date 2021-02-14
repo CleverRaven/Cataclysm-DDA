@@ -46,7 +46,7 @@
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_leatherworking_dragon" }
     ],
-    "components": [ [ [ "black_dragon_tanned_hide", 40 ] ], [ [ "dragon_essence", 15 ] ] ]
+    "components": [ [ [ "black_dragon_tanned_hide", 22 ] ], [ [ "dragon_essence", 11 ] ] ]
   },
   {
     "result": "suit_black_dragon_scale",
@@ -67,7 +67,7 @@
       { "proficiency": "prof_scaleworking_dragon" }
     ],
     "using": [ [ "sewing_standard", 250 ], [ "welding_standard", 50 ] ],
-    "components": [ [ [ "black_dragon_tanned_hide", 40 ] ], [ [ "dragon_black_scale", 1500 ] ], [ [ "dragon_essence", 15 ] ] ]
+    "components": [ [ [ "black_dragon_tanned_hide", 22 ] ], [ [ "dragon_black_scale", 1100 ] ], [ [ "dragon_essence", 11 ] ] ]
   },
   {
     "result": "boots_black_dragon_hide",
@@ -214,7 +214,7 @@
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_leatherworking_dragon" }
     ],
-    "components": [ [ [ "black_dragon_tanned_hide", 60 ] ], [ [ "dragon_essence", 20 ] ] ]
+    "components": [ [ [ "black_dragon_tanned_hide", 35 ] ], [ [ "dragon_essence", 18 ] ] ]
   },
   {
     "result": "suit_xlblack_dragon_scale",
@@ -235,7 +235,7 @@
       { "proficiency": "prof_leatherworking_dragon" },
       { "proficiency": "prof_scaleworking_dragon" }
     ],
-    "components": [ [ [ "black_dragon_tanned_hide", 60 ] ], [ [ "dragon_black_scale", 2250 ] ], [ [ "dragon_essence", 25 ] ] ]
+    "components": [ [ [ "black_dragon_tanned_hide", 35 ] ], [ [ "dragon_black_scale", 1800 ] ], [ [ "dragon_essence", 20 ] ] ]
   },
   {
     "result": "boots_xlblack_dragon_hide",

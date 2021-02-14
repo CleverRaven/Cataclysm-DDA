@@ -89,7 +89,7 @@
     "encumbrance": 30,
     "warmth": 25,
     "material_thickness": 5,
-    "environmental_protection": 5,
+    "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
@@ -108,9 +108,9 @@
     "color": "black_white",
     "covers": [ "foot_l", "foot_r" ],
     "coverage": 100,
-    "encumbrance": 16,
+    "encumbrance": 20,
     "warmth": 20,
-    "material_thickness": 2,
+    "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
@@ -134,7 +134,7 @@
       { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 20 }
     ],
     "warmth": 25,
-    "material_thickness": 6,
+    "material_thickness": 5,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "GLARE", 1 ] ],
@@ -168,9 +168,9 @@
     "color": "black_white",
     "covers": [ "head" ],
     "coverage": 100,
-    "encumbrance": 16,
+    "encumbrance": 20,
     "warmth": 15,
-    "material_thickness": 2,
+    "material_thickness": 3,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
@@ -213,9 +213,9 @@
     "color": "black_white",
     "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
     "coverage": 100,
-    "encumbrance": 16,
+    "encumbrance": 18,
     "warmth": 15,
-    "material_thickness": 2,
+    "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
   },
@@ -394,7 +394,7 @@
       }
     ],
     "warmth": 8,
-    "material_thickness": 2,
+    "material_thickness": 3,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "WATERPROOF" ]
   }
 ]
