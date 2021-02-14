@@ -967,16 +967,13 @@ $(CHKJSON_BIN): $(CHKJSON_SOURCES)
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
-clean: clean-tests clean-object_creator
+clean: clean-tests clean-object_creator clean-pch
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
 	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
 	rm -f $(SRC_DIR)/version.h
 	rm -f $(CHKJSON_BIN)
-	rm -f pch/*pch.hpp.gch
-	rm -f pch/*pch.hpp.pch
-	rm -f pch/*pch.hpp.d
 
 distclean:
 	rm -rf *$(BINDIST_DIR)
@@ -1220,7 +1217,12 @@ object_creator: version $(BUILD_PREFIX)cataclysm.a
 clean-object_creator:
 	$(MAKE) -C object_creator clean
 
-.PHONY: tests check ctags etags clean-tests install lint
+clean-pch:
+	rm -f pch/*pch.hpp.gch
+	rm -f pch/*pch.hpp.pch
+	rm -f pch/*pch.hpp.d
+
+.PHONY: tests check ctags etags clean-tests clean-object_creator clean-pch install lint
 
 -include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}
