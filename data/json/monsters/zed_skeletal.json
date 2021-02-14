@@ -2,7 +2,7 @@
   {
     "id": "mon_skeleton",
     "type": "MONSTER",
-    "name": { "str": "skeleton" },
+    "name": { "str": "skeletal zombie" },
     "description": "A monstrous overgrowth of ossified tissue has replaced this zombie's rotting skin with an organic armor of dense bone.  Large clumps of black goo seep from its joints as it shambles aimlessly, with sickening crackling sounds filling the surrounding air.",
     "default_faction": "zombie",
     "bodytype": "human",
