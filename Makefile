@@ -278,6 +278,11 @@ ifneq ($(CLANG), 0)
   ifeq ($(NATIVE), osx)
     USE_LIBCXX = 1
   endif
+  ifeq ($(BSD), 1)
+    ifndef USE_LIBCXX
+      USE_LIBCXX = 1
+    endif
+  endif
   ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
     LDFLAGS += -stdlib=libc++
