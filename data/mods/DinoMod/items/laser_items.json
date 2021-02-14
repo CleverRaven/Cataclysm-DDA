@@ -40,7 +40,6 @@
     "durability": 6,
     "ammo_effects": [ "LASER" ],
     "volume": "2500 ml",
-    "ammo": [ "battery" ],
-    "ammo_to_fire": 1
+    "ammo": [ "battery" ]
   }
 ]
