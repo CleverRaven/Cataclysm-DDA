@@ -1875,36 +1875,31 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
 
     const itype *curammo = loaded_mod->ammo_data();
+    const damage_unit &gun_du = gun.damage.damage_units.front();
+    const damage_unit &ammo_du = curammo != nullptr
+                                 ? curammo->ammo->damage.damage_units.front()
+                                 : damage_unit( DT_STAB, 0 );
 
     if( parts->test( iteminfo_parts::GUN_DAMAGE ) ) {
         insert_separation_line( info );
         info.push_back( iteminfo( "GUN", _( "<bold>Ranged damage</bold>: " ), "", iteminfo::no_newline,
-                                  mod->gun_damage( false ).total_damage() ) );
+                                  gun_du.amount ) );
     }
 
     if( mod->ammo_required() ) {
         // ammo_damage, sum_of_damage, and ammo_mult not shown so don't need to translate.
-        float dmg_mult = 1.0f;
-        for( const damage_unit &dmg : curammo->ammo->damage.damage_units ) {
-            dmg_mult *= dmg.damage_multiplier;
+        if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) ) {
+            damage_instance ammo_dam = curammo->ammo->damage;
+            info.push_back( iteminfo( "GUN", "ammo_damage", "",
+                                      iteminfo::no_newline | iteminfo::no_name |
+                                      iteminfo::show_plus, ammo_du.amount ) );
         }
-        if( dmg_mult != 1.0f ) {
-            if( parts->test( iteminfo_parts::GUN_DAMAGE_AMMOPROP ) ) {
-                info.push_back( iteminfo( "GUN", "ammo_mult", "*",
-                                          iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal, dmg_mult ) );
-            }
-        } else {
-            if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) ) {
-                damage_instance ammo_dam = curammo->ammo->damage;
-                info.push_back( iteminfo( "GUN", "ammo_damage", "",
-                                          iteminfo::no_newline | iteminfo::no_name |
-                                          iteminfo::show_plus, ammo_dam.total_damage() ) );
-            }
-        }
+
         if( parts->test( iteminfo_parts::GUN_DAMAGE_TOTAL ) ) {
+            // Intentionally not using total_damage() as it applies multipliers
             info.push_back( iteminfo( "GUN", "sum_of_damage", _( " = <num>" ),
                                       iteminfo::no_newline | iteminfo::no_name,
-                                      loaded_mod->gun_damage( true ).total_damage() ) );
+                                      gun_du.amount + ammo_du.amount ) );
         }
     }
     info.back().bNewLine = true;
@@ -1935,14 +1930,46 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         }
     }
     info.back().bNewLine = true;
-    damage_instance dmg = gun_damage( true );
-    // TODO: Many damage types
-    if( parts->test( iteminfo_parts::GUN_ARMORPIERCE ) &&
-        !dmg.damage_units.empty() &&
-        abs( ( dmg.damage_units.front().res_mult ) - 1.0f ) > 0.01f ) {
-        const auto &dmg_unit = dmg.damage_units.front();
-        info.push_back( iteminfo( "GUN", _( "Armor multiplier" ), "",
-                                  iteminfo::no_newline, dmg_unit.res_mult ) );
+
+    if( parts->test( iteminfo_parts::GUN_DAMAGEMULT ) ) {
+        info.push_back( iteminfo( "GUN", _( "Damage multiplier: " ), "",
+                                  iteminfo::no_newline | iteminfo::is_decimal,
+                                  gun_du.damage_multiplier ) );
+    }
+
+    if( mod->ammo_required() ) {
+        if( parts->test( iteminfo_parts::GUN_DAMAGEMULT_AMMO ) ) {
+            info.push_back( iteminfo( "GUN", "ammo_mult", "*",
+                                      iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal,
+                                      ammo_du.damage_multiplier ) );
+        }
+
+        if( parts->test( iteminfo_parts::GUN_DAMAGEMULT_TOTAL ) ) {
+            info.push_back( iteminfo( "GUN", "sum_of_damage", _( " = <num>" ),
+                                      iteminfo::no_newline | iteminfo::no_name | iteminfo::is_decimal,
+                                      gun_du.damage_multiplier * ammo_du.damage_multiplier ) );
+        }
+    }
+    info.back().bNewLine = true;
+
+    if( parts->test( iteminfo_parts::GUN_ARMORMULT ) ) {
+        info.push_back( iteminfo( "GUN", _( "Armor multiplier: " ), "",
+                                  iteminfo::no_newline | iteminfo::lower_is_better | iteminfo::is_decimal,
+                                  gun_du.res_mult ) );
+    }
+    if( mod->ammo_required() ) {
+        damage_unit ammo_du = curammo->ammo->damage.damage_units.front();
+        if( parts->test( iteminfo_parts::GUN_ARMORMULT_LOADEDAMMO ) ) {
+            info.push_back( iteminfo( "GUN", "ammo_armor_mult", _( "*<num>" ),
+                                      iteminfo::no_newline | iteminfo::no_name |
+                                      iteminfo::lower_is_better | iteminfo::is_decimal,
+                                      ammo_du.res_mult ) );
+        }
+        if( parts->test( iteminfo_parts::GUN_ARMORMULT_TOTAL ) ) {
+            info.push_back( iteminfo( "GUN", "final_armor_mult", _( " = <num>" ),
+                                      iteminfo::no_name | iteminfo::lower_is_better | iteminfo::is_decimal,
+                                      gun_du.res_mult * ammo_du.res_mult ) );
+        }
     }
     info.back().bNewLine = true;
 

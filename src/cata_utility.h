@@ -337,6 +337,15 @@ constexpr T lerp_clamped( const T &min, const T &max, float t )
 float multi_lerp( const std::vector<std::pair<float, float>> &points, float x );
 
 /**
+ * Compares the two arguments with @arg eps tolerance.
+ * @returns if two first arguments are approximately equal
+ */
+inline bool approx_eq( float l, float r, float eps = 0.001f )
+{
+    return std::abs( l - r ) < eps;
+}
+
+/**
  * @brief Class used to access a list as if it were circular.
  *
  * Some times you just want to have a list loop around on itself.
