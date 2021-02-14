@@ -6,7 +6,6 @@
     "components": [
       [
         [ "egg_bird", 1 ],
-        [ "egg_bird_unfert", 1 ],
         [ "egg_chicken", 1 ],
         [ "egg_grouse", 1 ],
         [ "egg_crow", 1 ],
