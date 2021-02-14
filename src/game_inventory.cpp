@@ -1311,6 +1311,10 @@ class weapon_inventory_preset: public inventory_selector_preset
             }, _( "WIELD COST" ) );
         }
 
+        bool is_shown( const item_location &loc ) const override {
+            return loc->made_of( phase_id::SOLID );
+        }
+
         std::string get_denial( const item_location &loc ) const override {
             const auto ret = p.can_wield( *loc );
 
