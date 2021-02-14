@@ -45,4 +45,4 @@ As much as possible, there should be content and feature parity between both (al
 * mutagen recipes - "activity_level" is removed in BN.
 * cooking ingredients - "egg_bird_unfert"is removed in BN
 * lab locations - lots of content missing or different in BN, science basements still need to be reconstructed from BN originals
-* laser items - BN port removes pocket_data lines and changes damage_type bullet to stab
+* laser items - BN port removes pocket_data and amm0_to_fire lines and changes damage_type bullet to stab
