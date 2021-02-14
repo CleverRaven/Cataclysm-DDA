@@ -3705,7 +3705,6 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     }
 
     here.ter_set( pos, t_stump );
-    const int helpersize = p->get_num_crafting_helpers( 3 );
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
     sfx::play_variant_sound( "misc", "timber",
@@ -3751,7 +3750,6 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
         here.add_item_or_charges( pos, obj );
     }
     here.ter_set( pos, t_dirt );
-    const int helpersize = p->get_num_crafting_helpers( 3 );
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
@@ -3841,7 +3839,6 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         here.ter_set( pos, t_dirt );
     }
-    const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
 
     act->set_to_null();
