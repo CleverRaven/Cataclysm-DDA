@@ -18,6 +18,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <regex>
 #include <set>
 #include <sstream>
 #include <string>
@@ -61,6 +62,7 @@
 #           include <backtrace.h>
 #       endif
 #   else
+#       include <cxxabi.h>
 #       include <execinfo.h>
 #       include <unistd.h>
 #   endif
@@ -791,6 +793,34 @@ static constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
 
+#if !defined(_WIN32)
+static void write_demangled_frame( std::ostream &out, const char *frame )
+{
+#if defined(MACOSX)
+    //1   cataclysm-tiles                     0x0000000102ba2244 _ZL9log_crashPKcS0_ + 608
+    static const std::regex symbol_regex( R"(^(.*)(0x[a-f0-9]{16})\s(.*)\s\+\s([0-9]+)$)" );
+    std::cmatch match_result;
+    if( std::regex_search( frame, match_result, symbol_regex ) && match_result.size() == 5 ) {
+        std::csub_match prefix = match_result[1];
+        std::csub_match address = match_result[2];
+        std::csub_match raw_symbol_name = match_result[3];
+        std::csub_match offset = match_result[4];
+        int status = -1;
+        char *demangled = abi::__cxa_demangle( raw_symbol_name.str().c_str(), nullptr, nullptr, &status );
+        if( status == 0 ) {
+            out << "\n    " << prefix.str() << address.str() << ' ' << demangled << " + " << offset.str();
+        } else {
+            out << "\n    " << frame;
+        }
+    } else {
+        out << "\n    " << frame;
+    }
+#else
+    out << "\n    " << frame;
+#endif
+}
+#endif // !defined(_WIN32)
+
 void debug_write_backtrace( std::ostream &out )
 {
 #if defined(_WIN32)
@@ -899,7 +929,7 @@ void debug_write_backtrace( std::ostream &out )
     int count = backtrace( bt, bt_cnt );
     char **funcNames = backtrace_symbols( bt, count );
     for( int i = 0; i < count; ++i ) {
-        out << "\n    " << funcNames[i];
+        write_demangled_frame( out, funcNames[i] );
     }
     out << "\n\n    Attempting to repeat stack trace using debug symbols…\n";
     // Try to print the backtrace again, but this time using addr2line
