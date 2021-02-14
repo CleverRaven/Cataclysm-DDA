@@ -1102,11 +1102,9 @@ struct itype {
         }
 
         int maximum_charges() const {
-            if( tool ) {
-                return tool->max_charges;
-            }
-            return 1;
+            return tool ? tool->max_charges : 1;
         }
+
         bool can_have_charges() const;
 
         /**

@@ -2629,7 +2629,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         // If tool has no ammo type it needs no magazine.
         return;
     }
-    if( def.tool && def.tool->max_charges == 0 && def.magazines.empty() ) {
+    if( def.tool && def.tool->charges_per_use == 0 && def.magazines.empty() ) {
         // If tool has no charges nor magazines, it needs no magazine.
         return;
     }
@@ -2674,7 +2674,7 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
                 mag_data.ammo_restriction.emplace( amtype, def.gun->clip );
             }
         }
-        if( def.tool ) {
+        if( def.tool && def.tool->max_charges != 0 ) {
             for( const ammotype &amtype : def.tool->ammo_id ) {
                 mag_data.ammo_restriction.emplace( amtype, def.tool->max_charges );
             }
