@@ -2747,7 +2747,7 @@ void basecamp::recruit_return( const std::string &task, int score )
     int rec_m = 0;
     int appeal = rng( -5, 3 ) + std::min( skill / 3, 3 );
     int food_desire = rng( 0, 5 );
-    while( rec_m >= 0 ) {
+    while( true ) {
         std::string description = _( "NPC Overview:\n\n" );
         description += string_format( _( "Name:  %s\n\n" ), right_justify( recruit->name, 20 ) );
         description += string_format( _( "Strength:        %10d\n" ), recruit->str_max );
