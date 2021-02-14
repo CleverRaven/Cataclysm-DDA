@@ -664,14 +664,14 @@ bool translation::operator!=( const translation &that ) const
     return !operator==( that );
 }
 
-cata::optional<int> translation::legacy_hash() const
+std::pair<bool, int> translation::legacy_hash() const
 {
     if( needs_translation && !ctxt && !raw_pl ) {
-        return djb2_hash( reinterpret_cast<const unsigned char *>( raw.c_str() ) );
+        return {true, djb2_hash( reinterpret_cast<const unsigned char *>( raw.c_str() ) )};
     }
     // Otherwise the translation must have been added after snippets were changed
     // to use string ids only, so the translation doesn't have a legacy hash value.
-    return cata::nullopt;
+    return {false, 0};
 }
 
 translation to_translation( const std::string &raw )

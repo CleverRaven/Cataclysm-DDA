@@ -9,7 +9,6 @@
 #include <utility>
 #include <vector>
 
-#include "optional.h"
 #include "value_ptr.h"
 
 constexpr int INVALID_LANGUAGE_VERSION = 0;
@@ -301,7 +300,8 @@ class translation
         /**
          * Only used for migrating old snippet hashes into snippet ids.
          */
-        cata::optional<int> legacy_hash() const;
+        std::pair<bool, int> legacy_hash() const;
+
     private:
         translation( const std::string &ctxt, const std::string &raw );
         translation( const std::string &raw );
