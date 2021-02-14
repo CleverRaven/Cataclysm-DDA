@@ -144,12 +144,13 @@
     "id": "helmet_black_dragon_scale_raised",
     "type": "ARMOR",
     "category": "armor",
+    "copy-from": "helmet_black_dragon_scale",
     "name": { "str": "black dragonscale helmet (raised visor)", "str_pl": "black dragonscale helmets (raised visor)" },
     "description": "A helmet made from black dragonscale, held together with black dragonhide.  The visor is raised.",
     "use_action": { "type": "transform", "target": "helmet_black_dragon_scale", "msg": "You put down your visor." },
     "symbol": "[",
     "armor_portion_data": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 32 } ],
-    "delete": { "qualities": [ "GLARE" ], "flags": [ "SUN_GLASSES" ] }
+    "delete": { "qualities": [ [ "GLARE", 1 ] ], "flags": [ "SUN_GLASSES" ] }
   },
   {
     "id": "helmet_black_dragon_hide",

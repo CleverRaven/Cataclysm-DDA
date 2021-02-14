@@ -19,7 +19,12 @@
       { "id": "MANA_INFUSE", "level": 1 }
     ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_leatherworking_dragon" },
+      { "proficiency": "prof_alchemy" }
+    ],
     "book_learn": [ [ "black_dragons", 2 ] ],
     "components": [ [ [ "dragon_essence", 1 ] ], [ [ "black_dragon_hide_raw", 1 ] ] ]
   },
@@ -36,7 +41,11 @@
     "book_learn": [ [ "black_dragons", 5 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "CHISEL", "level": 1 } ],
     "using": [ [ "sewing_standard", 250 ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_leatherworking_dragon" }
+    ],
     "components": [ [ [ "black_dragon_tanned_hide", 40 ] ], [ [ "dragon_essence", 15 ] ] ]
   },
   {
@@ -390,7 +399,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ENCHANTED",
-    "subcategory": "CSC_ARMOR_STORAGE",
+    "subcategory": "CSC_ENCHANTED_ARMOR",
     "skill_used": "tailor",
     "difficulty": 5,
     "skills_required": [ [ "spellcraft", 2 ], [ "fabrication", 3 ] ],

@@ -25,6 +25,7 @@
     "type": "recipe",
     "activity_level": "fake",
     "result": "dragon_essence",
+    "id_suffix": "with_blood",
     "charges": 2,
     "batch_time_factors": [ 40, 3 ],
     "qualities": [
@@ -36,7 +37,7 @@
       { "id": "MAGIC_CAULDRON", "level": 1 }
     ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [ [ [ "dragon_scale", 6, "LIST" ], [ "meat_dragon", 60 ] ], [ "dragon_blood", 500 ] ],
+    "components": [ [ [ "dragon_scale", 6, "LIST" ], [ "meat_dragon", 60 ] ], [ [ "dragon_blood", 500 ] ] ],
     "proficiencies": [ { "proficiency": "prof_alchemy", "required": true } ],
     "time": "2 h",
     "skill_used": "chemistry",
