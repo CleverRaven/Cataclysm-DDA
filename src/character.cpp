@@ -11269,8 +11269,10 @@ bool Character::in_sleep_state() const
 bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) const
 {
     return has_item_with( [&flag, &need_charges]( const item & it ) {
-        if( it.is_tool() && need_charges ) {
-            return it.has_flag( flag ) && it.type->tool->max_charges ? it.charges > 0 : it.has_flag( flag );
+        if( need_charges && it.is_tool() ) {
+            if( it.charges < it.type->tool->charges_per_use ) {
+                return false;
+            }
         }
         return it.has_flag( flag );
     } );
