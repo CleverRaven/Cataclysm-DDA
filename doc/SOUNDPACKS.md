@@ -1,6 +1,6 @@
 # Soundpacks
 
-A soundpack can be installed in the `data/sound` directory. It has to be a subdirectory that contains at least a file named `soundpack.txt`. It can include any number of json files which add any number of `sound_effect` or playlist.
+A soundpack can be installed in the `data/sound` directory. It has to be a subdirectory that contains at least a file named `soundpack.txt`. It can include any number of json files which add any number of `sound_effect` or playlists.
 
 ## soundpack.txt format
 
@@ -24,18 +24,18 @@ Sound effects can be included with a format like this:
 [
   {
     "type": "sound_effect",
-    "id" : "menu_move",
-    "volume" : 100,
-    "files" : [
+    "id": "menu_move",
+    "volume": 100,
+    "files": [
       "nenadsimic_menu_selection_click.wav"
     ]
   },
   {
     "type": "sound_effect",
-    "id" : "fire_gun",
-    "volume" : 90,
-    "variant" : "bio_laser_gun",
-    "files" : [
+    "id": "fire_gun",
+    "volume": 90,
+    "variant": "bio_laser_gun",
+    "files": [
       "guns/energy_generic/weapon_fire_laser.ogg"
     ]
   }
@@ -202,7 +202,7 @@ Example: if `plmove|t_grass_long` is defined it will be played before default `p
 * `bionic elec_discharge|elec_crackle_low|elec_crackle_med|elec_crackle_high|elec_blast|elec_blast_muffled|acid_discharge|pixelated`
 * `bionic bio_resonator|bio_hydraulics|`
 
-### Various tools/traps
+### Various tools/traps being used
 
 Includes some associated terrain/furniture.
 

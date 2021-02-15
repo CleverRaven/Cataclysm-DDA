@@ -2,7 +2,7 @@
 
 **WARNING**: CMake build is **NOT** official and should be used for *dev purposes ONLY*.
 
-For official way to build CataclysmDDA, see:
+For the official way to build CataclysmDDA, see:
   * [COMPILING.md](COMPILING.md)
 
 
@@ -87,7 +87,7 @@ Obtain packages specified above with your system package manager.
 
 # CMake Build
 
-CMake has separate configuration and build steps. Configuration is done using CMake itself, and the actual build is done using either `make` (for Makefiles generator) or build-system agnostic `cmake --build . `.
+CMake has separate configuration and build steps. Configuration is done using CMake itself, and the actual build is done using either `make` (for Makefiles generator) or the build-system agnostic `cmake --build . `.
 
 There are two ways to build Cataclysm: DDA with CMake: inside the source tree or outside of it. Out-of-source builds have the advantage that you can have multiple builds with different options from one source directory.
 
@@ -125,7 +125,7 @@ $ cmake-gui ..
 
 ## CMake Build for MSYS2 (MinGW)
 
-**NOTE**: For development purposes it is preferred to use `MinGW Win64 Shell` or `MinGW Win32 Shell` instead of `MSYS2 Shell`. In the other case, you will need to set `PATH` variable manually.
+**NOTE**: For development purposes it is preferred to use `MinGW Win64 Shell` or `MinGW Win32 Shell` instead of `MSYS2 Shell`. In the other case, you will need to set the `PATH` variable manually.
 
 For MinGW, MSYS, or MSYS2 you should set [Makefiles generator](https://cmake.org/cmake/help/v3.0/manual/cmake-generators.7.html) to "MSYS Makefiles". Setting it to "MinGW Makefiles" might work as well, but might also require some additional hackery.
 
@@ -143,10 +143,9 @@ The resulting binary will be placed inside the source code directory.
 
 Shared libraries:
 
-If you got a `libgcc_s_dw2-1.dll not found` error you need to copy shared libraries to the directory with the CataclysmDDA executables.
+If you got a `libgcc_s_dw2-1.dll not found` error, you need to copy shared libraries to the directory with the CataclysmDDA executables.
 
-**NOTE**: For `-DRELEASE=OFF` development builds, you can automate the copy
-process with:
+**NOTE**: For `-DRELEASE=OFF` development builds, you can automate the copy process with:
 
 ```
 $ make install
@@ -154,7 +153,7 @@ $ make install
 
 However, it will likely fail because you have a different build environment setup :)
 
-Currently known dependencies (maybe outdated; use `ldd.exe` to correct it for your system):
+Currently known dependencies (may be outdated; use `ldd.exe` to correct it for your system):
 
 * MINGW deps:
   * `libwinpthread-1.dll`
@@ -257,7 +256,7 @@ Run the game. Should work.
 
 # Build Options
 
-A full list of options supported by CMake, you may either run the `ccmake` or `cmake-gui` front-ends, or run `cmake` and open the generated `CMakeCache.txt` from the build directory in a text editor.
+For a full list of options supported by CMake, you may either run the `ccmake` or `cmake-gui` front-ends, or run `cmake` and open the generated `CMakeCache.txt` from the build directory in a text editor.
 
 ```
 $ cmake -DOPTION_NAME1=option_value1 [-DOPTION_NAME2=option_value2 [...]]
@@ -291,9 +290,9 @@ $ cmake -DOPTION_NAME1=option_value1 [-DOPTION_NAME2=option_value2 [...]]
    -DLANGUAGES="cs;de;el;es_AR;es_ES"
    ```
 
-   Note that language files are only compiled automatically when building the `RELEASE` build type. For other build types, you need to add the `translations_compile` target to the `make` command, for example `make all translations_compile`.
+   Note that language files are only compiled automatically when building the `RELEASE` build type. For other build types, you need to add the `translations_compile` target to the `make` command: for example `make all translations_compile`.
 
-   Special note for MinGW: due to a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006), using English without a `.mo` file would cause significant slow down on MinGW targets.  In such case you can compile a `.mo` file for English by adding `en` to `-DLANGUAGES`.  If `-DLANGUAGES` is not specified, it also compiles a `.mo` file for English in addition to other languages.
+   Special note for MinGW: Due to a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006), using English without a `.mo` file causes significant slowdown on MinGW targets.  In such cases, you can compile a `.mo` file for English by adding `en` to `-DLANGUAGES`.  If `-DLANGUAGES` is not specified, it also compiles a `.mo` file for English in addition to other languages.
  * `DYNAMIC_LINKING=<boolean>`: Use dynamic linking. Or use static to remove MinGW dependency instead.
  * `GIT_BINARY=<str>` Override the default Git binary name or path.
 
