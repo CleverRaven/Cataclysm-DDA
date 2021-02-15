@@ -472,10 +472,11 @@ class Tilesheet:
                 pngsave_args['palette'] = True
 
             sheet_image.pngsave(self.output, **pngsave_args)
-            if self.tileset.palette_copies:
-                pngsave_args.pop('palette', None)
+
+            if self.tileset.palette_copies and not self.tileset.palette:
                 sheet_image.pngsave(
                     self.output + '8', palette=True, **pngsave_args)
+
             return True
         return False
 
