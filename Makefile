@@ -531,15 +531,15 @@ ifeq ($(NATIVE), osx)
       LDFLAGS += -L$(LIBSDIR)/gettext/lib
       CXXFLAGS += -I$(LIBSDIR)/gettext/include
     endif
-    # recent versions of brew will not allow you to link
-    ifeq ($(BREWGETTEXT), 1)
-      # native ARM Homebrew is installed to /opt/homebrew
-      ifneq ("$(wildcard /opt/homebrew)", "")
-        LDFLAGS += -L/opt/homebrew/lib
-        CXXFLAGS += -I/opt/homebrew/include
-      else
-        LDFLAGS += -L/usr/local/opt/gettext/lib
-        CXXFLAGS += -I/usr/local/opt/gettext/include
+    # link to gettext from Homebrew if it exists
+    # Homebrew may be installed in /usr/local or /opt/homebrew
+    ifneq ("$(wildcard /usr/local/opt/gettext)", "")
+      LDFLAGS += -L/usr/local/opt/gettext/lib
+      CXXFLAGS += -I/usr/local/opt/gettext/include
+    else
+      ifneq ("$(wildcard /opt/homebrew/opt/gettext)", "")
+        LDFLAGS += -L/opt/homebrew/opt/gettext/lib
+        CXXFLAGS += -I/opt/homebrew/opt/gettext/include
       endif
     endif
     ifeq ($(MACPORTS), 1)
