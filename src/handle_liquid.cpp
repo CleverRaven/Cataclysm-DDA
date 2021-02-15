@@ -23,7 +23,6 @@
 #include "game_inventory.h"
 #include "iexamine.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
@@ -147,7 +146,7 @@ bool handle_liquid_from_container( item &container, int radius )
 {
     std::vector<item *> remove;
     bool handled = false;
-    for( item *contained : container.contents.all_items_top() ) {
+    for( item *contained : container.all_items_top() ) {
         if( handle_liquid_from_container( contained, container, radius ) ) {
             remove.push_back( contained );
             handled = true;
@@ -229,7 +228,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         }
         // Sometimes the cont parameter is omitted, but the liquid is still within a container that counts
         // as valid target for the liquid. So check for that.
-        if( cont == source || ( !cont->contents.empty() && cont->has_item( liquid ) ) ) {
+        if( cont == source || ( !cont->contents_empty() && cont->has_item( liquid ) ) ) {
             add_msg( m_info, _( "That's the same container!" ) );
             return; // The user has intended to do something, but mistyped.
         }

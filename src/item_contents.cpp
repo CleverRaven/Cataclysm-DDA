@@ -508,7 +508,7 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             // check all pockets within to see if they are better
             for( item *contained : all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                 std::pair<item_location, item_pocket *> internal_pocket =
-                    contained->contents.best_pocket( it, parent, true );
+                    contained->best_pocket( it, parent, true );
                 if( internal_pocket.second != nullptr && ret.second->better_pocket( pocket, it ) ) {
                     ret = internal_pocket;
                 }
@@ -737,7 +737,7 @@ item &item_contents::first_ammo()
 {
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
-            return pocket.front().contents.first_ammo();
+            return pocket.front().first_ammo();
         }
         if( !pocket.is_type( item_pocket::pocket_type::MAGAZINE ) || pocket.empty() ) {
             continue;
@@ -756,7 +756,7 @@ const item &item_contents::first_ammo() const
     }
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
-            return pocket.front().contents.first_ammo();
+            return pocket.front().first_ammo();
         }
         if( !pocket.is_type( item_pocket::pocket_type::MAGAZINE ) || pocket.empty() ) {
             continue;
@@ -1099,7 +1099,7 @@ const
                                        contained_items.end() );
             std::list<const item *> recursion_items;
             for( const item *it : contained_items ) {
-                recursion_items = it->contents.all_items_top_recursive( pk_type );
+                recursion_items = it->all_items_top_recursive( pk_type );
                 all_items_internal.insert( all_items_internal.end(), recursion_items.begin(),
                                            recursion_items.end() );
             }
@@ -1119,7 +1119,7 @@ std::list<item *> item_contents::all_items_top_recursive( item_pocket::pocket_ty
                                        contained_items.end() );
             std::list< item *> recursion_items;
             for( item *it : contained_items ) {
-                recursion_items = it->contents.all_items_top_recursive( pk_type );
+                recursion_items = it->all_items_top_recursive( pk_type );
                 all_items_internal.insert( all_items_internal.end(), recursion_items.begin(),
                                            recursion_items.end() );
             }
@@ -1403,7 +1403,7 @@ units::volume item_contents::get_contents_volume_with_tweaks( const std::map<con
                     ret += i->volume() - i->get_selected_stack_volume( without );
                 } else if( !without.count( i ) ) {
                     ret += i->volume();
-                    ret -= i->contents.get_nested_content_volume_recursive( without );
+                    ret -= i->get_nested_content_volume_recursive( without );
                 }
             }
         }
@@ -1431,7 +1431,7 @@ units::volume item_contents::get_nested_content_volume_recursive( const
                 } else if( without.count( i ) ) {
                     ret += i->volume();
                 } else {
-                    ret += i->contents.get_nested_content_volume_recursive( without );
+                    ret += i->get_nested_content_volume_recursive( without );
                 }
             }
 

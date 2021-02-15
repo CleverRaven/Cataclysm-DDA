@@ -11,7 +11,6 @@
 #include "cata_assert.h"
 #include "flag.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "make_static.h"
@@ -109,11 +108,11 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
     size_t item_index = 0;
 
     for( item &worn_item : worn ) {
-        if( worn_item.contents.empty() || worn_item.has_flag( flag_NO_UNLOAD ) ) {
+        if( worn_item.contents_empty() || worn_item.has_flag( flag_NO_UNLOAD ) ) {
             continue;
         }
         for( const std::vector<item *> &it_stack : item_list_to_stack(
-                 worn_item.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) ) {
+                 worn_item.all_items_top( item_pocket::pocket_type::CONTAINER ) ) ) {
             advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
             if( !pane.is_filtered( *adv_it.items.front() ) ) {
                 square.volume += adv_it.volume;
@@ -125,7 +124,7 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
 
     if( weapon.is_container() ) {
         for( const std::vector<item *> &it_stack : item_list_to_stack(
-                 weapon.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) ) {
+                 weapon.all_items_top( item_pocket::pocket_type::CONTAINER ) ) ) {
             advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
             if( !pane.is_filtered( *adv_it.items.front() ) ) {
                 square.volume += adv_it.volume;
@@ -182,7 +181,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         if( cont != nullptr ) {
             if( !cont->is_container_empty() ) {
                 // filtering does not make sense for liquid in container
-                item *it = &square.get_container( in_vehicle() )->contents.legacy_front();
+                item *it = &square.get_container( in_vehicle() )->legacy_front();
                 advanced_inv_listitem ait( it, 0, 1, square.id, in_vehicle() );
                 square.volume += ait.volume;
                 square.weight += ait.weight;

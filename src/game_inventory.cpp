@@ -31,7 +31,6 @@
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -1396,7 +1395,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
         return;
     }
     drop_locations holstered_list = game_menus::inv::holster( you, holster );
-    bool all_pockets_rigid = holster->contents.all_pockets_rigid();
+    bool all_pockets_rigid = holster->all_pockets_rigid();
     contents_change_handler handler;
     for( drop_location holstered_item : holstered_list ) {
         if( !holstered_item.first ) {
@@ -1405,8 +1404,8 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
         item &it = *holstered_item.first;
         bool success = false;
         if( !it.count_by_charges() ) {
-            if( holster->can_contain( it ) && ( all_pockets_rigid ||
-                                                holster.parents_can_contain_recursive( &it ) ) ) {
+            if( holster->can_contain( it ).success() && ( all_pockets_rigid ||
+                    holster.parents_can_contain_recursive( &it ) ) ) {
 
                 success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
                                            /*unseal_pockets=*/true ).success();

@@ -47,7 +47,6 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
@@ -3068,7 +3067,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         // Remove them if they were damaged too much
         if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
             // But save the contents, except for irremovable gunmods
-            for( item *elem : i->contents.all_items_top() ) {
+            for( item *elem : i->all_items_top() ) {
                 if( !elem->is_irremovable() ) {
                     contents.push_back( item( *elem ) );
                 }
@@ -3482,7 +3481,7 @@ void map::bash_items( const tripoint &p, bash_params &params )
         if( bashed_item->made_of( material_id( "glass" ) ) && !bashed_item->active && one_in( 2 ) ) {
             params.did_bash = true;
             smashed_glass = true;
-            for( const item *bashed_content : bashed_item->contents.all_items_top() ) {
+            for( const item *bashed_content : bashed_item->all_items_top() ) {
                 smashed_contents.push_back( item( *bashed_content ) );
             }
             bashed_item = bashed_items.erase( bashed_item );

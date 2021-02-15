@@ -7270,29 +7270,29 @@ units::volume item::max_containable_volume() const
     return contents.max_containable_volume();
 }
 
-bool item::can_contain( const item &it ) const
+ret_val<bool> item::can_contain( const item &it ) const
 {
     if( this == &it ) {
         // does the set of all sets contain itself?
-        return false;
+        return ret_val<bool>::make_failure();
     }
     // disallow putting portable holes into bags of holding
     if( contents.bigger_on_the_inside( volume() ) &&
         it.contents.bigger_on_the_inside( it.volume() ) ) {
-        return false;
+        return ret_val<bool>::make_failure();
     }
     for( const item *internal_it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         if( internal_it->contents.can_contain_rigid( it ).success() ) {
-            return true;
+            return ret_val<bool>::make_success();
         }
     }
 
-    return contents.can_contain( it ).success();
+    return contents.can_contain( it );
 }
 
 bool item::can_contain( const itype &tp ) const
 {
-    return can_contain( item( &tp ) );
+    return can_contain( item( &tp ) ).success();
 }
 
 bool item::can_contain_partial( const item &it ) const
@@ -7301,7 +7301,7 @@ bool item::can_contain_partial( const item &it ) const
     if( i_copy.count_by_charges() ) {
         i_copy.charges = 1;
     }
-    return can_contain( i_copy );
+    return can_contain( i_copy ).success();
 }
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent,
@@ -9207,12 +9207,12 @@ bool item::has_rotten_away() const
 
 bool item_ptr_compare_by_charges( const item *left, const item *right )
 {
-    if( left->contents.empty() ) {
+    if( left->contents_empty() ) {
         return false;
-    } else if( right->contents.empty() ) {
+    } else if( right->contents_empty() ) {
         return true;
     } else {
-        return right->contents.only_item().charges < left->contents.only_item().charges;
+        return right->only_item().charges < left->only_item().charges;
     }
 }
 
@@ -10759,4 +10759,225 @@ int item::get_recursive_disassemble_moves( const Character &guy ) const
         }
     }
     return moves;
+}
+
+bool item::has_any_with( const std::function<bool( const item &it )> &filter,
+                         item_pocket::pocket_type pk_type ) const
+{
+    return contents.has_any_with( filter, pk_type );
+}
+
+std::list<item *> item::all_items_top()
+{
+    return contents.all_items_top();
+}
+
+std::list<const item *> item::all_items_top() const
+{
+    return contents.all_items_top();
+}
+
+std::list<item *> item::all_items_top( item_pocket::pocket_type pk_type )
+{
+    return contents.all_items_top( pk_type );
+}
+
+std::list<const item *> item::all_items_top( item_pocket::pocket_type pk_type ) const
+{
+    return contents.all_items_top( pk_type );
+}
+
+std::list<item *> item::all_items_top_recursive( item_pocket::pocket_type pk_type )
+{
+    return contents.all_items_top_recursive( pk_type );
+}
+
+std::list<const item *> item::all_items_top_recursive( item_pocket::pocket_type pk_type ) const
+{
+    return contents.all_items_top_recursive( pk_type );
+}
+
+bool item::spill_open_pockets( Character &guy, const item *avoid )
+{
+    return contents.spill_open_pockets( guy, avoid );
+}
+
+bool item::contents_empty()
+{
+    return contents.empty();
+}
+
+bool item::contents_empty() const
+{
+    return contents.empty();
+}
+
+bool item::empty_container() const
+{
+    return contents.empty_container();
+}
+
+size_t item::contents_size() const
+{
+    return contents.size();
+}
+
+size_t item::num_item_stacks() const
+{
+    return contents.num_item_stacks();
+}
+
+void item::clear_items()
+{
+    contents.clear_items();
+}
+
+item &item::legacy_front()
+{
+    return contents.legacy_front();
+}
+
+item &item::only_item()
+{
+    return contents.only_item();
+}
+
+const item &item::only_item() const
+{
+    return contents.only_item();
+}
+
+item &item::first_ammo()
+{
+    return contents.first_ammo();
+}
+
+const item &item::first_ammo() const
+{
+    return contents.first_ammo();
+}
+
+const item &item::legacy_front() const
+{
+    return contents.legacy_front();
+}
+
+ret_val<std::vector<item_pocket *>> item::get_all_contained_pockets()
+{
+    return contents.get_all_contained_pockets();
+}
+
+std::list<const item *> item::all_items_ptr() const
+{
+    return contents.all_items_ptr();
+}
+
+std::list<item *> item::all_items_ptr( item_pocket::pocket_type pk_type )
+{
+    return contents.all_items_ptr( pk_type );
+}
+
+std::list<const item *> item::all_items_ptr( item_pocket::pocket_type pk_type ) const
+{
+    return contents.all_items_ptr( pk_type );
+}
+
+units::volume item::get_contents_volume_with_tweaks( const std::map<const item *, int> &without )
+const
+{
+    return contents.get_contents_volume_with_tweaks( without );
+}
+
+units::volume item::get_nested_content_volume_recursive( const std::map<const item *, int>
+        &without )
+const
+{
+    return contents.get_nested_content_volume_recursive( without );
+}
+
+void item::overflow( const tripoint &pos )
+{
+    contents.overflow( pos );
+}
+
+int item::insert_cost( const item &it ) const
+{
+    return contents.insert_cost( it );
+}
+
+ret_val<std::vector<const item_pocket *>> item::get_all_contained_pockets() const
+{
+    return contents.get_all_contained_pockets();
+}
+
+units::volume item::total_container_capacity() const
+{
+    return contents.total_container_capacity();
+}
+
+int item::obtain_cost( const item &it ) const
+{
+    return contents.obtain_cost( it );
+}
+
+bool item::has_pocket_type( item_pocket::pocket_type pk_type ) const
+{
+    return contents.has_pocket_type( pk_type );
+}
+
+bool item::all_pockets_rigid() const
+{
+    return contents.all_pockets_rigid();
+}
+
+void item::favorite_settings_menu( const std::string &item_name )
+{
+    return contents.favorite_settings_menu( item_name );
+}
+
+void item::remove_internal( const std::function<bool( item & )> &filter,
+                            int &count, std::list<item> &res )
+{
+    contents.remove_internal( filter, count, res );
+}
+
+item *item::get_item_with( const std::function<bool( const item & )> &filter )
+{
+    return contents.get_item_with( filter );
+}
+
+units::volume item::total_contained_volume() const
+{
+    return contents.total_contained_volume();
+}
+
+void item::force_insert_item( const item &it, item_pocket::pocket_type pk_type )
+{
+    contents.force_insert_item( it, pk_type );
+}
+
+VisitResponse item::visit_contents( const std::function<VisitResponse( item *, item * )> &func,
+                                    item *parent )
+{
+    return contents.visit_contents( func, parent );
+}
+
+item_contents::sealed_summary item::get_sealed_summary() const
+{
+    return contents.get_sealed_summary();
+}
+
+void item::remove_items_if( const std::function<bool( item & )> &filter )
+{
+    contents.remove_items_if( filter );
+}
+
+void item::combine_contents( const item_contents &read_input, bool convert )
+{
+    contents.combine( read_input, convert );
+}
+
+units::volume item::remaining_container_capacity() const
+{
+    return contents.remaining_container_capacity();
 }

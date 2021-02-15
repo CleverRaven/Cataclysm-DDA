@@ -48,7 +48,6 @@
 #include "handle_liquid.h"
 #include "input.h"
 #include "inventory.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -2916,7 +2915,7 @@ std::list<item> Character::remove_worn_items_with( const std::function<bool( ite
 
 static void recur_internal_locations( item_location parent, std::vector<item_location> &list )
 {
-    for( item *it : parent->contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( item *it : parent->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         item_location child( parent, it );
         recur_internal_locations( child, list );
     }
@@ -3106,7 +3105,7 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
         loc->on_contents_changed();
         const bool handle_drop = loc.where() != item_location::type::map && !is_wielding( *loc );
         bool drop_unhandled = false;
-        for( item_pocket *const pocket : loc->contents.get_all_contained_pockets().value() ) {
+        for( item_pocket *const pocket : loc->get_all_contained_pockets().value() ) {
             if( pocket && !pocket->sealed() ) {
                 // pockets are unsealed but on_contents_changed is not called
                 // in contents_change_handler::unseal_pocket_containing
@@ -3542,7 +3541,7 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     units::mass ret = 0_gram;
     for( const item &i : worn ) {
         if( !without.count( &i ) ) {
-            for( const item *j : i.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+            for( const item *j : i.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
                 if( j->count_by_charges() ) {
                     ret -= get_selected_stack_weight( j, without );
                 } else if( without.count( j ) ) {
@@ -3557,7 +3556,7 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     units::mass weaponweight = 0_gram;
     if( !without.count( &weapon ) ) {
         weaponweight += weapon.weight();
-        for( const item *i : weapon.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+        for( const item *i : weapon.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
             if( i->count_by_charges() ) {
                 weaponweight -= get_selected_stack_weight( i, without );
             } else if( without.count( i ) ) {
@@ -3612,13 +3611,13 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
     units::volume ret = 0_ml;
     for( const item &i : worn ) {
         if( !without.count( &i ) ) {
-            ret += i.contents.get_contents_volume_with_tweaks( without );
+            ret += i.get_contents_volume_with_tweaks( without );
         }
     }
 
     // Wielded item
     if( !without.count( &weapon ) ) {
-        ret += weapon.contents.get_contents_volume_with_tweaks( without );
+        ret += weapon.get_contents_volume_with_tweaks( without );
     }
 
     return ret;
@@ -3664,11 +3663,11 @@ units::mass Character::weight_capacity() const
 
 bool Character::can_pickVolume( const item &it, bool ) const
 {
-    if( weapon.can_contain( it ) ) {
+    if( weapon.can_contain( it ).success() ) {
         return true;
     }
     for( const item &w : worn ) {
-        if( w.can_contain( it ) ) {
+        if( w.can_contain( it ).success() ) {
             return true;
         }
     }
@@ -3949,9 +3948,9 @@ void Character::drop_invalid_inventory()
         add_msg_if_player( m_bad, _( "Liquid from your inventory has leaked onto the ground." ) );
     }
 
-    weapon.contents.overflow( pos() );
+    weapon.overflow( pos() );
     for( item &w : worn ) {
-        w.contents.overflow( pos() );
+        w.overflow( pos() );
     }
 
     cache_inventory_is_valid = true;
@@ -7014,11 +7013,11 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                     }
                     if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
                         bool found = false;
-                        if( items_it.contents.size() > 1 ) {
+                        if( items_it.contents_size() > 1 ) {
                             // Only one item is allowed, so we don't fill our pillowcase with nails
                             continue;
                         }
-                        for( const item *it : items_it.contents.all_items_top() ) {
+                        for( const item *it : items_it.all_items_top() ) {
                             if( it->has_flag( flag_SLEEP_AID ) ) {
                                 // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                                 comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
@@ -7071,11 +7070,11 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                 }
                 if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
                     bool found = false;
-                    if( items_it.contents.size() > 1 ) {
+                    if( items_it.contents_size() > 1 ) {
                         // Only one item is allowed, so we don't fill our pillowcase with nails
                         continue;
                     }
-                    for( const item *it : items_it.contents.all_items_top() ) {
+                    for( const item *it : items_it.all_items_top() ) {
                         if( it->has_flag( flag_SLEEP_AID ) ) {
                             // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
@@ -7935,7 +7934,7 @@ hint_rating Character::rate_action_reload( const item &it ) const
 
 hint_rating Character::rate_action_unload( const item &it ) const
 {
-    if( it.is_container() && !it.contents.empty() &&
+    if( it.is_container() && !it.contents_empty() &&
         it.can_unload_liquid() ) {
         return hint_rating::good;
     }
@@ -8852,7 +8851,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
         can_stash( *obj ), '1',
         item_handling_cost( *obj ),
         [this, bucket, &obj] {
-            if( bucket && !obj->contents.spill_open_pockets( *this, obj.get_item() ) )
+            if( bucket && !obj->spill_open_pockets( *this, obj.get_item() ) )
             {
                 return false;
             }
@@ -8893,7 +8892,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
                                        ( e.type->get_use( "holster" )->get_actor_ptr() );
             opts.emplace_back( dispose_option{
                 string_format( _( "Store in %s" ), e.tname() ), true, e.invlet,
-                item_store_cost( *obj, e, false, e.contents.insert_cost( *obj ) ),
+                item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
                 [this, ptr, &e, &obj] {
                     return ptr->store( *this->as_player(), e, *obj );
                 }
@@ -9681,7 +9680,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
                 destroyed_armor_msg( *this, pre_damage_name );
                 armor_destroyed = true;
                 armor.on_takeoff( *this );
-                for( const item *it : armor.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                for( const item *it : armor.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                     worn_remains.push_back( *it );
                 }
                 // decltype is the type name of the iterator, note that reverse_iterator::base returns the
@@ -10620,7 +10619,7 @@ units::volume Character::free_space() const
 {
     units::volume volume_capacity = 0_ml;
     volume_capacity += weapon.get_total_capacity();
-    for( const item_pocket *pocket : weapon.contents.get_all_contained_pockets().value() ) {
+    for( const item_pocket *pocket : weapon.get_all_contained_pockets().value() ) {
         if( pocket->contains_phase( phase_id::SOLID ) ) {
             for( const item *it : pocket->all_items_top() ) {
                 volume_capacity -= it->volume();
@@ -10632,7 +10631,7 @@ units::volume Character::free_space() const
     volume_capacity += weapon.check_for_free_space();
     for( const item &w : worn ) {
         volume_capacity += w.get_total_capacity();
-        for( const item_pocket *pocket : w.contents.get_all_contained_pockets().value() ) {
+        for( const item_pocket *pocket : w.get_all_contained_pockets().value() ) {
             if( pocket->contains_phase( phase_id::SOLID ) ) {
                 for( const item *it : pocket->all_items_top() ) {
                     volume_capacity -= it->volume();
@@ -10649,9 +10648,9 @@ units::volume Character::free_space() const
 units::volume Character::volume_capacity() const
 {
     units::volume volume_capacity = 0_ml;
-    volume_capacity += weapon.contents.total_container_capacity();
+    volume_capacity += weapon.total_container_capacity();
     for( const item &w : worn ) {
-        volume_capacity += w.contents.total_container_capacity();
+        volume_capacity += w.total_container_capacity();
     }
     return volume_capacity;
 }
@@ -12896,7 +12895,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
     item &it = *loc;
     // Unload a container consuming moves per item successfully removed
     if( it.is_container() ) {
-        if( it.contents.empty() ) {
+        if( it.contents_empty() ) {
             add_msg( m_info, _( "The %s is already empty!" ), it.tname() );
             return false;
         }
@@ -12906,7 +12905,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
         }
 
         int moves = 0;
-        for( item *contained : it.contents.all_items_top() ) {
+        for( item *contained : it.all_items_top() ) {
             moves += this->item_handling_cost( *contained );
         }
         assign_activity( player_activity( unload_activity_actor( moves, loc ) ) );
@@ -12979,7 +12978,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
             unload_activity_actor::unload( *this, targloc );
         } else {
             int mv = 0;
-            for( const item *content : target->contents.all_items_top() ) {
+            for( const item *content : target->all_items_top() ) {
                 // We use the same cost for both reloading and unloading
                 mv += this->item_reload_cost( it, *content, content->charges );
             }
@@ -13099,7 +13098,7 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
     } else if( it.type->magazine ) {
         cost = it.type->magazine->reload_time * qty;
     } else {
-        cost = it.contents.obtain_cost( ammo );
+        cost = it.obtain_cost( ammo );
     }
 
     skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;

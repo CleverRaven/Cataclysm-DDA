@@ -44,7 +44,6 @@
 #include "generic_factory.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -393,7 +392,7 @@ int unpack_actor::use( player &p, item &it, bool, const tripoint & ) const
             last_armor = content;
         }
 
-        if( content.contents.total_container_capacity() >= filthy_vol_threshold &&
+        if( content.total_container_capacity() >= filthy_vol_threshold &&
             it.has_flag( flag_FILTHY ) ) {
             content.set_flag( flag_FILTHY );
         }
@@ -1412,7 +1411,7 @@ bool salvage_actor::valid_to_cut_up( const item &it ) const
     if( !it.only_made_of( material_whitelist ) ) {
         return false;
     }
-    if( !it.contents.empty() ) {
+    if( !it.contents_empty() ) {
         return false;
     }
     if( it.weight() < minimal_weight_to_cut( it ) ) {
@@ -1445,7 +1444,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
         add_msg( m_info, _( "The %s is made of material that cannot be cut up." ), it.tname() );
         return false;
     }
-    if( !it.contents.empty() ) {
+    if( !it.contents_empty() ) {
         add_msg( m_info, _( "Please empty the %s before cutting it up." ), it.tname() );
         return false;
     }
@@ -1488,7 +1487,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         add_msg( m_info, _( "You can not cut the %s with itself." ), it.tname() );
         return 0;
     }
-    if( !cut.get_item()->contents.empty() ) {
+    if( !cut.get_item()->contents_empty() ) {
         // Should have been ensured by try_to_cut_up
         debugmsg( "tried to cut a non-empty item %s", cut.get_item()->tname() );
         return 0;
@@ -2339,13 +2338,13 @@ void holster_actor::load( const JsonObject &obj )
 
 bool holster_actor::can_holster( const item &holster, const item &obj ) const
 {
-    if( !holster.contents.can_contain( obj ).success() ) {
+    if( !holster.can_contain( obj ).success() ) {
         return false;
     }
     if( obj.active ) {
         return false;
     }
-    return holster.contents.can_contain( obj ).success();
+    return holster.can_contain( obj ).success();
 }
 
 bool holster_actor::store( player &p, item &holster, item &obj ) const
@@ -2355,7 +2354,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
         return false;
     }
 
-    const ret_val<bool> contain = holster.contents.can_contain( obj );
+    const ret_val<bool> contain = holster.can_contain( obj );
     if( !contain.success() ) {
         p.add_msg_if_player( m_bad, contain.str(), holster.tname(), obj.tname() );
     }
@@ -2368,7 +2367,7 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
                          obj.tname(), holster.tname() );
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
-    p.store( holster, obj, false, holster.contents.obtain_cost( obj ),
+    p.store( holster, obj, false, holster.obtain_cost( obj ),
              item_pocket::pocket_type::CONTAINER );
     return true;
 }
@@ -2386,7 +2385,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : holster_prompt.translated();
     opts.push_back( prompt );
     pos = -1;
-    std::list<item *> all_items = it.contents.all_items_top(
+    std::list<item *> all_items = it.all_items_top(
                                       item_pocket::pocket_type::CONTAINER );
     std::transform( all_items.begin(), all_items.end(), std::back_inserter( opts ),
     []( const item * elem ) {
@@ -2400,7 +2399,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
             pos = -2;
         } else {
             pos += ret;
-            if( opts.size() != it.contents.num_item_stacks() ) {
+            if( opts.size() != it.num_item_stacks() ) {
                 ret--;
             }
             auto iter = std::next( all_items.begin(), ret );
@@ -2418,7 +2417,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( pos >= 0 ) {
         // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
         if( p.is_worn( it ) ) {
-            p.wield_contents( it, internal_item, false, it.contents.obtain_cost( *internal_item ) );
+            p.wield_contents( it, internal_item, false, it.obtain_cost( *internal_item ) );
         } else {
             p.wield_contents( it, internal_item );
         }
@@ -2910,7 +2909,7 @@ static bool damage_item( player &pl, item_location &fix )
         if( fix.where() == item_location::type::character ) {
             pl.i_rem_keep_contents( fix.get_item() );
         } else {
-            for( const item *it : fix->contents.all_items_top() ) {
+            for( const item *it : fix->all_items_top() ) {
                 if( it->has_flag( flag_NO_DROP ) ) {
                     continue;
                 }

@@ -14,7 +14,6 @@
 #include "flag.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
@@ -672,7 +671,7 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
     auto iter = substitutions.find( it.typeId() );
     std::vector<item> ret;
     if( iter == substitutions.end() ) {
-        for( const item *con : it.contents.all_items_top() ) {
+        for( const item *con : it.all_items_top() ) {
             const auto sub = get_substitution( *con, traits );
             ret.insert( ret.end(), sub.begin(), sub.end() );
         }

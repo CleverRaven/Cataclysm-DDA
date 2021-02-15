@@ -36,7 +36,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "level_cache.h"
 #include "line.h"
@@ -977,7 +976,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             if( destroyed ) {
                 // If we decided the item was destroyed by fire, remove it.
                 // But remember its contents, except for irremovable mods, if any
-                const std::list<item *> content_list = fuel->contents.all_items_top();
+                const std::list<item *> content_list = fuel->all_items_top();
                 for( item *it : content_list ) {
                     if( !it->is_irremovable() ) {
                         new_content.push_back( item( *it ) );

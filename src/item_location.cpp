@@ -16,7 +16,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "json.h"
 #include "line.h"
@@ -546,13 +545,13 @@ class item_location::impl::item_in_container : public item_location::impl
         // note: could be a better way of handling this?
         int calc_index() const {
             int idx = 0;
-            for( const item *it : container->contents.all_items_top() ) {
+            for( const item *it : container->all_items_top() ) {
                 if( target() == it ) {
                     return idx;
                 }
                 idx++;
             }
-            if( container->contents.empty() ) {
+            if( container->contents_empty() ) {
                 return -1;
             }
             return idx;
@@ -574,10 +573,10 @@ class item_location::impl::item_in_container : public item_location::impl
         }
 
         item *unpack( int idx ) const override {
-            if( idx < 0 || static_cast<size_t>( idx ) >= target()->contents.num_item_stacks() ) {
+            if( idx < 0 || static_cast<size_t>( idx ) >= target()->num_item_stacks() ) {
                 return nullptr;
             }
-            std::list<const item *> all_items = container->contents.all_items_ptr();
+            std::list<const item *> all_items = container->all_items_ptr();
             auto iter = all_items.begin();
             std::advance( iter, idx );
             if( iter != all_items.end() ) {
@@ -654,7 +653,7 @@ class item_location::impl::item_in_container : public item_location::impl
                 obj = *target();
             }
 
-            const int container_mv = container->contents.obtain_cost( *target() );
+            const int container_mv = container->obtain_cost( *target() );
             if( container_mv == 0 ) {
                 debugmsg( "ERROR: %s does not contain %s", container->tname(), target()->tname() );
                 return 0;
@@ -783,7 +782,7 @@ void item_location::deserialize( JsonIn &js )
             ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) ); // drop on ground
             return;
         }
-        const std::list<item *> parent_contents = parent->contents.all_items_top();
+        const std::list<item *> parent_contents = parent->all_items_top();
         if( idx > -1 && idx < static_cast<int>( parent_contents.size() ) ) {
             auto iter = parent_contents.begin();
             std::advance( iter, idx );
@@ -819,7 +818,7 @@ bool item_location::parents_can_contain_recursive( item *it ) const
     }
 
     item_location parent = parent_item();
-    item_pocket *pocket = parent->contents.contained_where( *get_item() );
+    item_pocket *pocket = parent->contained_where( *get_item() );
 
     if( pocket->can_contain( *it ).success() ) {
         return parent.parents_can_contain_recursive( it );
@@ -835,7 +834,7 @@ int item_location::max_charges_by_parent_recursive( const item &it ) const
     }
 
     item_location parent = parent_item();
-    item_pocket *pocket = parent->contents.contained_where( *get_item() );
+    item_pocket *pocket = parent->contained_where( *get_item() );
 
     return std::min( { it.charges_per_volume( pocket->remaining_volume() ),
                        it.charges_per_weight( pocket->remaining_weight() ),

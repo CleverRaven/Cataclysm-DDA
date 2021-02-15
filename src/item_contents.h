@@ -282,12 +282,12 @@ class item_contents
 
         ret_val<const item_pocket *> find_pocket_for( const item &it,
                 item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER ) const;
-
+    public:
         //called by all_items_ptr to recursively get all items without duplicating items in nested pockets
         std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
         //called by all_items_ptr to recursively get all items without duplicating items in nested pockets
         std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
-
+    private:
         std::list<item_pocket> contents;
 
         struct item_contents_helper;

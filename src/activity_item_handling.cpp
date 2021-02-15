@@ -33,7 +33,6 @@
 #include "iexamine.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
@@ -168,11 +167,11 @@ static bool same_type( const std::list<item> &items )
 static bool handle_spillable_contents( Character &c, item &it, map &m )
 {
     if( it.is_bucket_nonempty() ) {
-        it.contents.spill_open_pockets( c, /*avoid=*/&it );
+        it.spill_open_pockets( c, /*avoid=*/&it );
 
         // If bucket is still not empty then player opted not to handle the
         // rest of the contents
-        if( !it.contents.empty() ) {
+        if( !it.contents_empty() ) {
             c.add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),

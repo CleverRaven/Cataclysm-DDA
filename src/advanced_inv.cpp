@@ -33,7 +33,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -872,7 +871,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
         if( spane.get_area() == AIM_INVENTORY ) {
             //add all solid top level items
             for( item &cloth :  player_character.worn ) {
-                for( item *it : cloth.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                for( item *it : cloth.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                     if( !it->made_of_from_type( phase_id::SOLID ) ) {
                         continue;
                     }
@@ -1809,7 +1808,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         return false;
     }
 
-    item &src_contents = src_container.contents.legacy_front();
+    item &src_contents = src_container.legacy_front();
 
     if( !src_contents.made_of( phase_id::LIQUID ) ) {
         popup( _( "You can unload only liquids into target container." ) );
@@ -1829,9 +1828,9 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     src_container.on_contents_changed();
     get_avatar().flag_encumbrance();
 
-    uistate.adv_inv_container_content_type = dest_container.contents.legacy_front().typeId();
+    uistate.adv_inv_container_content_type = dest_container.legacy_front().typeId();
     if( src_contents.charges <= 0 ) {
-        src_container.contents.clear_items();
+        src_container.clear_items();
     }
 
     return true;

@@ -17,7 +17,6 @@
 #include "debug.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "make_static.h"
 #include "map.h"
@@ -328,7 +327,7 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
-            if( m_node->contents.visit_contents( func, m_node ) == VisitResponse::ABORT ) {
+            if( m_node->visit_contents( func, m_node ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
         /* intentional fallthrough */
@@ -539,7 +538,7 @@ std::list<item> inventory::remove_items_with( const
                 }
 
             } else {
-                istack_iter->contents.remove_internal( filter, count, res );
+                istack_iter->remove_internal( filter, count, res );
                 ++istack_iter;
             }
         }
@@ -584,7 +583,7 @@ std::list<item> Character::remove_items_with( const
                 return res;
             }
         } else {
-            iter->contents.remove_internal( filter, count, res );
+            iter->remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -597,7 +596,7 @@ std::list<item> Character::remove_items_with( const
         res.push_back( remove_weapon() );
         count--;
     } else {
-        weapon.contents.remove_internal( filter, count, res );
+        weapon.remove_internal( filter, count, res );
     }
 
     return res;
@@ -641,7 +640,7 @@ std::list<item> map_cursor::remove_items_with( const
                 return res;
             }
         } else {
-            iter->contents.remove_internal( filter, count, res );
+            iter->remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -696,7 +695,7 @@ std::list<item> vehicle_cursor::remove_items_with( const
                 return res;
             }
         } else {
-            iter->contents.remove_internal( filter, count, res );
+            iter->remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }

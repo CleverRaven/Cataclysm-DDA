@@ -33,7 +33,6 @@
 #include "generic_factory.h"
 #include "init.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "item_pocket.h"
 #include "iuse_actor.h"

@@ -12,7 +12,6 @@
 #include "character.h"
 #include "flag.h"
 #include "item.h"
-#include "item_contents.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "options_helpers.h"
@@ -382,7 +381,7 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
 
     SECTION( "items with rigid pockets have a single encumbrance value" ) {
         item briefcase( "test_briefcase" );
-        REQUIRE( briefcase.contents.all_pockets_rigid() );
+        REQUIRE( briefcase.all_pockets_rigid() );
         CHECK( item_info_str( briefcase, encumbrance ) ==
                "--\n"
                "<color_c_white>Encumbrance</color>:\n"
@@ -402,9 +401,9 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
         item quiver( "test_quiver" );
 
         SECTION( "rigidity indicator" ) {
-            REQUIRE_FALSE( waterskin.contents.all_pockets_rigid() );
-            REQUIRE_FALSE( backpack.contents.all_pockets_rigid() );
-            REQUIRE_FALSE( quiver.contents.all_pockets_rigid() );
+            REQUIRE_FALSE( waterskin.all_pockets_rigid() );
+            REQUIRE_FALSE( backpack.all_pockets_rigid() );
+            REQUIRE_FALSE( quiver.all_pockets_rigid() );
 
             CHECK( item_info_str( waterskin, rigidity ) ==
                    "--\n"

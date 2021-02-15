@@ -780,6 +780,8 @@ class item : public visitable
             // what has it gots in them, precious
             return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
         }
+        bool has_any_with( const std::function<bool( const item & )> &filter,
+                           item_pocket::pocket_type pk_type ) const;
         /**
          * Puts the given item into this one.
          */
@@ -1267,7 +1269,7 @@ class item : public visitable
          * For example, airtight for gas, acidproof for acid etc.
          */
         /*@{*/
-        bool can_contain( const item &it ) const;
+        ret_val<bool> can_contain( const item &it ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
@@ -1324,6 +1326,7 @@ class item : public visitable
           */
         bool will_spill() const;
         bool will_spill_if_unsealed() const;
+        bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
         /**
          * Unloads the item's contents.
          * @param c Character who receives the contents.
@@ -2214,6 +2217,51 @@ class item : public visitable
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;
 
+        std::list<item *> all_items_top();
+        std::list<const item *> all_items_top() const;
+        std::list<const item *> all_items_ptr() const;
+        std::list<item *> all_items_top( item_pocket::pocket_type pk_type );
+        std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
+        std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
+        std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
+        std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
+        std::list<const item *> all_items_ptr( item_pocket::pocket_type pk_type ) const;
+        bool contents_empty();
+        bool contents_empty() const;
+        bool empty_container() const;
+        size_t contents_size() const;
+        size_t num_item_stacks() const;
+        void clear_items();
+        item &legacy_front();
+        item &only_item();
+        const item &only_item() const;
+        item &first_ammo();
+        const item &first_ammo() const;
+        const item &legacy_front() const;
+        ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
+        units::volume remaining_container_capacity() const;
+        units::volume total_contained_volume() const;
+        units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
+        units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
+        const;
+        void overflow( const tripoint &pos );
+        int insert_cost( const item &it ) const;
+        ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
+        units::volume total_container_capacity() const;
+        int obtain_cost( const item &it ) const;
+        bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
+        bool all_pockets_rigid() const;
+        void favorite_settings_menu( const std::string &item_name );
+        void remove_internal( const std::function<bool( item & )> &filter, int &count,
+                              std::list<item> &res );
+        item *get_item_with( const std::function<bool( const item & )> &filter );
+        void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
+        VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
+                                      item *parent = nullptr );
+        item_contents::sealed_summary get_sealed_summary() const;
+        void remove_items_if( const std::function<bool( item & )> &filter );
+        void combine_contents( const item_contents &read_input, bool convert = false );
+
     private:
         /** migrates an item into this item. */
         void migrate_content_item( const item &contained );
@@ -2280,12 +2328,12 @@ class item : public visitable
         static const int INFINITE_CHARGES;
 
         const itype *type;
-        item_contents contents;
         std::list<item> components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
 
     private:
+        item_contents contents;
         /** `true` if item has any of the flags that require processing in item::process_internal.
          * This flag is reset to `true` if item tags are changed.
          */

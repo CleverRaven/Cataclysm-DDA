@@ -14,7 +14,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
@@ -350,7 +349,7 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     }
     item item_copy( *contained );
     item_copy.charges = 1;
-    if( !holster->contents.can_contain( item_copy ).success() ) {
+    if( !holster->can_contain( item_copy ).success() ) {
         return false;
     }
     if( holster->has_item( *contained ) ) {
@@ -359,7 +358,7 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     if( contained->is_bucket_nonempty() ) {
         return false;
     }
-    if( !holster->contents.all_pockets_rigid() &&
+    if( !holster->all_pockets_rigid() &&
         !holster.parents_can_contain_recursive( &item_copy ) ) {
         return false;
     }
@@ -1345,7 +1344,7 @@ void inventory_selector::add_item( inventory_column &target_column,
     add_entry( target_column,
                std::vector<item_location>( 1, location ),
                custom_category );
-    for( item *it : location->contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( item *it : location->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         add_item( target_column, item_location( location, it ), custom_category );
     }
 }
@@ -1384,7 +1383,7 @@ void inventory_selector::add_contained_items( item_location &container, inventor
         return;
     }
 
-    for( item *it : container->contents.all_items_top() ) {
+    for( item *it : container->all_items_top() ) {
         item_location child( container, it );
         add_contained_items( child, column, custom_category );
         const item_category *nat_category = nullptr;

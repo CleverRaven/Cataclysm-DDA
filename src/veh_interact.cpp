@@ -37,7 +37,6 @@
 #include "game_constants.h"
 #include "handle_liquid.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"
@@ -1309,9 +1308,9 @@ void veh_interact::do_refill()
     auto act = [&]( const vehicle_part & pt ) {
         auto validate = [&]( const item & obj ) {
             if( pt.is_tank() ) {
-                if( obj.is_watertight_container() && obj.contents.num_item_stacks() == 1 ) {
+                if( obj.is_watertight_container() && obj.num_item_stacks() == 1 ) {
                     // we are assuming only one pocket here, and it's a liquid so only one item
-                    return pt.can_reload( obj.contents.only_item() );
+                    return pt.can_reload( obj.only_item() );
                 }
             } else if( pt.is_fuel_store() ) {
                 bool can_reload = pt.can_reload( obj );
@@ -1441,7 +1440,7 @@ void veh_interact::calc_overview()
                     std::string specials;
                     // vehicle parts can only have one pocket, and we are showing a liquid,
                     // which can only be one.
-                    const item &it = pt.base.contents.legacy_front();
+                    const item &it = pt.base.legacy_front();
                     // a space isn't actually needed in front of the tags here,
                     // but item::display_name tags use a space so this prevents
                     // needing *second* translation for the same thing with a
@@ -1897,14 +1896,14 @@ void veh_interact::do_siphon()
     title = _( "Select part to siphon:" );
 
     auto sel = [&]( const vehicle_part & pt ) {
-        return( pt.is_tank() && !pt.base.contents.empty() &&
-                pt.base.contents.only_item().made_of( phase_id::LIQUID ) );
+        return( pt.is_tank() && !pt.base.contents_empty() &&
+                pt.base.only_item().made_of( phase_id::LIQUID ) );
     };
 
     auto act = [&]( const vehicle_part & pt ) {
         const item &base = pt.get_base();
         const int idx = veh->find_part( base );
-        item liquid( base.contents.legacy_front() );
+        item liquid( base.legacy_front() );
         const int liq_charges = liquid.charges;
         if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid.charges );
@@ -2908,7 +2907,7 @@ void act_vehicle_siphon( vehicle *veh )
     std::vector<itype_id> fuels;
     bool has_liquid = false;
     for( const vpart_reference &vp : veh->get_any_parts( VPFLAG_FLUIDTANK ) ) {
-        if( vp.part().get_base().contents.legacy_front().made_of( phase_id::LIQUID ) ) {
+        if( vp.part().get_base().legacy_front().made_of( phase_id::LIQUID ) ) {
             has_liquid = true;
             break;
         }
@@ -2920,13 +2919,13 @@ void act_vehicle_siphon( vehicle *veh )
 
     std::string title = _( "Select tank to siphon:" );
     auto sel = []( const vehicle_part & pt ) {
-        return pt.is_tank() && pt.get_base().contents.legacy_front().made_of( phase_id::LIQUID );
+        return pt.is_tank() && pt.get_base().legacy_front().made_of( phase_id::LIQUID );
     };
     vehicle_part &tank = veh_interact::select_part( *veh, sel, title );
     if( tank ) {
         const item &base = tank.get_base();
         const int idx = veh->find_part( base );
-        item liquid( base.contents.legacy_front() );
+        item liquid( base.legacy_front() );
         const int liq_charges = liquid.charges;
         if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid.charges );
@@ -3138,8 +3137,8 @@ void veh_interact::complete_vehicle( player &p )
 
             item_location &src = p.activity.targets.front();
             struct vehicle_part &pt = veh->part( vehicle_part );
-            if( pt.is_tank() && src->is_container() && !src->contents.empty() ) {
-                item_location contained( src, &src->contents.only_item() );
+            if( pt.is_tank() && src->is_container() && !src->contents_empty() ) {
+                item_location contained( src, &src->only_item() );
                 contained->charges -= pt.base.fill_with( *contained, contained->charges );
 
                 contents_change_handler handler;

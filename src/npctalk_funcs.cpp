@@ -33,7 +33,6 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "line.h"
 #include "magic.h"
@@ -854,7 +853,7 @@ bool talk_function::drop_stolen_item( item &cur_item, npc &p )
         dropped = true;
     } else if( cur_item.is_container() ) {
         bool changed = false;
-        for( item *contained : cur_item.contents.all_items_top() ) {
+        for( item *contained : cur_item.all_items_top() ) {
             changed |= drop_stolen_item( *contained, p );
         }
         if( changed ) {

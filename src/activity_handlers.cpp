@@ -49,7 +49,6 @@
 #include "iexamine.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -1255,7 +1254,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // reveal hidden items / hidden content
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
         action != butcher_type::BLEED ) {
-        for( item *content : corpse_item.contents.all_items_top() ) {
+        for( item *content : corpse_item.all_items_top() ) {
             if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
                 p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content->tname(),
@@ -4371,6 +4370,6 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
     item &data_card = *act->targets[0];
     p->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
     p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
-    data_card.contents.clear_items();
+    data_card.clear_items();
     data_card.put_in( item( itype_mind_scan_robofac ), item_pocket::pocket_type::SOFTWARE );
 }
