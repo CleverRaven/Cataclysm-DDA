@@ -1824,8 +1824,6 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
             // Tunneling through solid rock is sweaty, backbreaking work
             // Betcha wish you'd opted for the J-Hammer
             p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
-        } else if( here.move_cost( pos ) == 2 && here.get_abs_sub().z == 0 &&
-                   here.ter( pos ) != t_dirt && here.ter( pos ) != t_grass ) {
         }
     }
     p->add_msg_player_or_npc( m_good,
