@@ -72,7 +72,7 @@ std::string base_camps::faction_encode_short( const std::string &type )
 
 std::string base_camps::faction_encode_abs( const expansion_data &e, int number )
 {
-    return faction_encode_short( e.type ) + to_string( number );
+    return faction_encode_short( e.type ) + std::to_string( number );
 }
 
 std::string base_camps::faction_decode( const std::string &full_type )
@@ -102,7 +102,7 @@ int base_camps::max_upgrade_by_type( const std::string &type )
     if( max_upgrade_cache.find( type ) == max_upgrade_cache.end() ) {
         int max = -1;
         const std::string faction_base = faction_encode_short( type );
-        while( recipe_id( faction_base + to_string( max + 1 ) ).is_valid() ) {
+        while( recipe_id( faction_base + std::to_string( max + 1 ) ).is_valid() ) {
             max += 1;
         }
         max_upgrade_cache[type] = max;

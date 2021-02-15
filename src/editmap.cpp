@@ -1487,7 +1487,7 @@ void editmap::edit_itm()
                         retval = popup
                                  .title( "set:" )
                                  .width( 20 )
-                                 .text( to_string( intval ) )
+                                 .text( std::to_string( intval ) )
                                  .query_int();
                     } else if( imenu.ret == imenu_tags ) {
                         strval = popup

@@ -540,7 +540,7 @@ void string_input_popup::edit( std::string &value )
 void string_input_popup::edit( long &value )
 {
     only_digits( true );
-    text( to_string( value ) );
+    text( std::to_string( value ) );
     query();
     if( !canceled() ) {
         value = std::atol( text().c_str() );
@@ -550,7 +550,7 @@ void string_input_popup::edit( long &value )
 void string_input_popup::edit( int &value )
 {
     only_digits( true );
-    text( to_string( value ) );
+    text( std::to_string( value ) );
     query();
     if( !canceled() ) {
         value = std::atoi( text().c_str() );

@@ -1837,7 +1837,7 @@ void debug()
                 const auto text = string_input_popup()
                                   .title( msg )
                                   .width( 20 )
-                                  .text( to_string( initial ) )
+                                  .text( std::to_string( initial ) )
                                   .only_digits( true )
                                   .query_string();
                 if( text.empty() ) {

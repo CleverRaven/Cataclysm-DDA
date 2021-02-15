@@ -406,7 +406,7 @@ static int prompt_for_amount( const char *const msg, const int max )
     const int amount = string_input_popup()
                        .title( formatted )
                        .width( 20 )
-                       .text( to_string( max ) )
+                       .text( std::to_string( max ) )
                        .only_digits( true )
                        .query_int();
 
