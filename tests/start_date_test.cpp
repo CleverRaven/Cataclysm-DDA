@@ -33,14 +33,14 @@ TEST_CASE( "Test start dates" )
         override_option spawn_delay( "SPAWN_DELAY", "10" );
 
         set_scenario( scenario::generic() );
-        CHECK( get_option<int>( "INITIAL_DAY" ) == 100 );
-        CHECK( get_option<int>( "INITIAL_TIME" ) == 13 );
-        CHECK( get_option<int>( "SPAWN_DELAY" ) == 10 );
+        REQUIRE( get_option<int>( "INITIAL_DAY" ) == 100 );
+        REQUIRE( get_option<int>( "INITIAL_TIME" ) == 13 );
+        REQUIRE( get_option<int>( "SPAWN_DELAY" ) == 10 );
 
         g->start_calendar();
 
-        REQUIRE( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * 100 );
-        REQUIRE( calendar::start_of_game == calendar::turn_zero + 1_days * ( 100 + 10 ) + 1_hours * 13 );
+        CHECK( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * 100 );
+        CHECK( calendar::start_of_game == calendar::turn_zero + 1_days * ( 100 + 10 ) + 1_hours * 13 );
     }
 
     SECTION( "Scenario with start date" ) {
