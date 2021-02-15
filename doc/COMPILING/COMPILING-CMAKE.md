@@ -15,8 +15,8 @@ For the official way to build CataclysmDDA, see:
 1. CMake Build
    * MinGW,MSYS,MSYS2
 1. Build Options
-   * CMake specific options
-   * CataclysmDDA specific options
+   * CMake-specific options
+   * CataclysmDDA-specific options
 
 
 # Prerequisites
@@ -49,12 +49,12 @@ You'll need to have these libraries and their development headers installed in o
 
 # Build Environment
 
-You can obtain the source code tarball for the latest version from [git](https://github.com/CleverRaven/Cataclysm-DDA).
+You can obtain the source code tarball for the latest version from [Github](https://github.com/CleverRaven/Cataclysm-DDA).
 
 
 ## UNIX Environment
 
-Obtain packages specified above with your system package manager.
+Obtain the packages listed above with your system package manager.
 
 
 ## Windows Environment (MSYS2)
@@ -87,9 +87,9 @@ Obtain packages specified above with your system package manager.
 
 # CMake Build
 
-CMake has separate configuration and build steps. Configuration is done using CMake itself, and the actual build is done using either `make` (for Makefiles generator) or the build-system agnostic `cmake --build . `.
+CMake has separate configuration and build steps. Configuration is done using CMake itself, and the actual build is done using either `make` (for Makefiles generator) or the build-system-agnostic `cmake --build . `.
 
-There are two ways to build Cataclysm: DDA with CMake: inside the source tree or outside of it. Out-of-source builds have the advantage that you can have multiple builds with different options from one source directory.
+There are two ways to build CataclysmDDA with CMake: inside the source tree or outside of it. Out-of-source builds have the advantage that you can have multiple builds with different options from one source directory.
 
 **WARNING**: Inside the source tree build is **NOT** supported.
 
@@ -101,7 +101,7 @@ $ cmake .. -DCMAKE_BUILD_TYPE=Release
 $ make
 ```
 
-The above example creates a build directory inside the source directory, but that's not required—you can just as easily create it in a completely different location.
+The above example creates a build directory inside the source directory, but that's not required - you can just as easily create it in a completely different location.
 
 To install CataclysmDDA after building (as root using su or sudo if necessary):
 
@@ -151,7 +151,7 @@ If you got a `libgcc_s_dw2-1.dll not found` error, you need to copy shared libra
 $ make install
 ```
 
-However, it will likely fail because you have a different build environment setup :)
+However, it will likely fail because you have a different build environment setup. :)
 
 Currently known dependencies (may be outdated; use `ldd.exe` to correct it for your system):
 
@@ -200,16 +200,15 @@ CMake can generate  `.sln` and `.vcxproj` files used either by Visual Studio its
 
 At the moment only a limited combination of options is supported (tiles only, no localizations, no backtrace).
 
-Get the tools:
+### Get the tools
 
 * CMake from the official site - https://cmake.org/download/.
 * [Microsoft compiler](https://visualstudio.microsoft.com/downloads/?q=build+tools), choose "Build Tools for Visual Studio 2017". When installing, choose the "Visual C++ Build Tools" options.
   * Alternatively, you can download and install the complete Visual Studio, but that's not required.
 
-Get the required libraries:
+### Get the required libraries
 
-* `SDL2` - <https://www.libsdl.org/download-2.0.php> (you need the "(Visual
-  C++ 32/64-bit)" version. Same below)
+* `SDL2` - <https://www.libsdl.org/download-2.0.php> (you need the "(Visual C++ 32/64-bit)" version; same below)
 * `SDL2_ttf` - <https://www.libsdl.org/projects/SDL_ttf/>
 * `SDL2_image` - <https://www.libsdl.org/projects/SDL_image/>
 * `SDL2_mixer` (optional, for sound support) - <https://www.libsdl.org/projects/SDL_mixer/>
@@ -217,7 +216,7 @@ Get the required libraries:
   *  `gettext`/`libintl` - <http://gnuwin32.sourceforge.net/packages/gettext.htm>
   * `ncurses` - ???
 
-Unpack the archives with the libraries.
+### Unpack the archives with the libraries
 
 Open the Windows command line (or powershell) and set the environment variables to point to the libs above as follows (adjusting the paths as appropriate):
 
@@ -230,7 +229,7 @@ Open the Windows command line (or powershell) and set the environment variables 
 
 (for powershell the syntax is `$env:SDL2DIR="C:\path\to\SDL2-devel-2.0.9-VC"`).
 
-Make a build directory and run CMake's configuration step:
+### Make a build directory and run CMake's configuration step
 
 ```
 > cd <path to cdda sources>
@@ -239,7 +238,7 @@ Make a build directory and run CMake's configuration step:
 > cmake .. -DTILES=ON -DLOCALIZE=OFF -DBACKTRACE=OFF -DSOUND=ON
 ```
 
-Build!
+### Build!
 
 ```
 > cmake --build . -j 2 -- /p:Configuration=Release
@@ -263,7 +262,7 @@ $ cmake -DOPTION_NAME1=option_value1 [-DOPTION_NAME2=option_value2 [...]]
 ```
 
 
-## CMake specific options
+## CMake-specific options
 
 * `CMAKE_BUILD_TYPE=<build type>`
 
@@ -277,7 +276,7 @@ $ cmake -DOPTION_NAME1=option_value1 [-DOPTION_NAME2=option_value2 [...]]
   Installation prefix for binaries, resources, and documentation files.
 
 
-## CataclysmDDA specific options
+## CataclysmDDA-specific options
 
  * `CURSES=<boolean>`: Build curses version.
  * `TILES=<boolean>`: Build graphical tileset version.

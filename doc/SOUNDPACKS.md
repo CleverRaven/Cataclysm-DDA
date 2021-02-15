@@ -26,26 +26,23 @@ Sound effects can be included with a format like this:
     "type": "sound_effect",
     "id": "menu_move",
     "volume": 100,
-    "files": [
-      "nenadsimic_menu_selection_click.wav"
-    ]
+    "files": [ "nenadsimic_menu_selection_click.wav" ]
   },
   {
     "type": "sound_effect",
     "id": "fire_gun",
     "volume": 90,
     "variant": "bio_laser_gun",
-    "files": [
-      "guns/energy_generic/weapon_fire_laser.ogg"
-    ]
+    "files": [ "guns/energy_generic/weapon_fire_laser.ogg" ]
   }
 ]
 ```
+
 Adding variety: If for a certain `id`'s `variant` multiple `files` are defined, they will be chosen at random when `variant` is played.
 
 The volume key may range from 0-100.
 
-Cataclysm has its own set of user-controllable volumes that will additionally affect the sound.  These range from 0-128, and the default is 100.  This means that at default volume, any sound that Cataclysm plays will default to playing at about 78% of the maximum; if you are working on sounds in an external audio editor, expect Cataclysm at default volume settings to play that sound file back more-quietly than your editor does.
+Cataclysm has its own set of user-controllable volumes that will additionally affect the sound. These range from 0-128, and the default is 100. This means that at default volume, any sound that Cataclysm plays will default to playing at about 78% of the maximum; if you are working on sounds in an external audio editor, expect Cataclysm at default volume settings to play that sound file back more-quietly than your editor does.
 
 ### Preloading SFX
 
@@ -55,10 +52,7 @@ Sound effects can be included for preloading with a format like this:
 [
   {
     "type": "sound_effect_preload",
-    "preload": [
-      { "id": "environment", "variant": "daytime" },
-      { "id": "environment" }
-    ]
+    "preload": [ { "id": "environment", "variant": "daytime" }, { "id": "environment" } ]
   }
 ]
 ```
@@ -71,21 +65,11 @@ A playlist can be included with a format like this:
 [
   {
     "type": "playlist",
-    "playlists":
-    [
+    "playlists": [
       {
-        "id" : "title",
-        "shuffle" : false,
-        "files" : [
-          {
-            "file": "Dark_Days_Ahead_demo_2.wav",
-            "volume": 100
-          },
-          {
-            "file": "cataclysmthemeREV6.wav",
-            "volume": 90
-          }
-        ]
+        "id": "title",
+        "shuffle": false,
+        "files": [ { "file": "Dark_Days_Ahead_demo_2.wav", "volume": 100 }, { "file": "cataclysmthemeREV6.wav", "volume": 90 } ]
       }
     ]
   }
@@ -96,11 +80,11 @@ Each sound effect is identified by an id and a variant. If a sound effect is pla
 
 ## JSON Format Sound Effects List
 
-A full list of sound effect id's and variants is given in the following. Each line in the list has the following format:
+A full list of sound effect IDs and variants is given in the following. Each line in the list has the following format:
 
 `id variant1|variant2`
 
-Where id describes the id of the sound effect, and a list of variants separated by | follows. When the variants are omitted, the variant "default" is assumed. Where the variants do not represent literal strings, but variables, they will be enclosed in `<` `>`. For instance, `<furniture>` is a placeholder for any valid furniture ID (as in the furniture definition JSON).
+Where `id` describes the ID of the sound effect, and a list of variants separated by | follows. When the variants are omitted, the variant "default" is assumed. Where the variants do not represent literal strings, but variables, they will be enclosed in `<` `>`. For instance, `<furniture>` is a placeholder for any valid furniture ID (as in the furniture definition JSON).
 
 ### Open/close doors
 
@@ -130,7 +114,7 @@ Includes special ones that are furniture/terrain specific.
 * `reload <weapon>`
 * `bullet_hit hit_flesh|hit_wall|hit_metal|hit_glass|hit_water`
 
-### Environmental sfx
+### Environmental SFX
 
 Divided by sections for clarity.
 
@@ -229,7 +213,7 @@ This is currently linked with either item or monster id, with the exception of N
 
 TODO: full vocalization of speech.json
 
-* `speech <item_id>` # examples: talking_doll, creepy_doll, Granade, 
+* `speech <item_id>` # examples: `talking_doll`, `creepy_doll`, `granade` (sic),
 * `speech <monster_id>` # examples: eyebot, minitank, mi-go, many robots
 * `speech NPC_m|NPC_f|NPC_m_loud|NPC_f_loud` # special for NPCs
 * `speech robot` # special for robotic voice from a machine etc.
@@ -238,7 +222,7 @@ TODO: full vocalization of speech.json
 
 * `radio static|inaudible_chatter`
 
-### Humming sounds of various origin
+### Humming sounds of various origins
 
 * `humming electric|machinery`
 
@@ -248,27 +232,27 @@ TODO: full vocalization of speech.json
 
 ### Vehicle
 
-Engine and other parts in action. Defaults are executed when specific option is not defined.
+Engines and other parts in action. The defaults are executed when a specific option is not defined.
 
 * `engine_start <vehicle_part>`: specific engine start (ID of any `engine`/`motor`/`steam_engine`/`paddle`/`oar`/`sail`/etc.)
 * `engine_start combustion|electric|muscle|wind`: default engine starts groups
-* `engine_stop <vehicle_part>`: specific engine stop (ID of any `engine`/`motor`/`steam_engine`/`paddle`/`oar`/`sail`/etc. )
+* `engine_stop <vehicle_part>`: specific engine stop (ID of any `engine`/`motor`/`steam_engine`/`paddle`/`oar`/`sail`/etc.)
 * `engine_stop combustion|electric|muscle|wind`: default engine stop groups
 
   Internal engine sound is dynamically pitch shifted depending on vehicle speed. It is an ambient looped sound with a dedicated channel.
 * `engine_working_internal <vehicle_part>`: sound of engine working heard inside vehicle
 * `engine_working_internal combustion|electric|muscle|wind`: default engine working (inside) groups
 
-  External engine sound volume and pan is dynamically shifted depending on distance and angle to vehicle. Volume heard at given distance is linked to engine's `noise_factor` and stress to the engine (see `vehicle::noise_and_smoke()`). It is an ambient looped sound with dedicated channel. This is a single-channel solution (TODO: multi-channel for every heard vehicle); it picks loudest heard vehicle. There is no pitch shift here (may be introduced when need for it emerges).
+  External engine sound volume and pan is dynamically shifted depending on distance and angle to vehicle. Volume heard at given distance is linked to engine's `noise_factor` and stress to the engine (see `vehicle::noise_and_smoke()`). It is an ambient looped sound with its own dedicated channel. This is a single-channel solution that picks loudest heard vehicle (TODO: multi-channel for every heard vehicle). There is no pitch shift here (may be introduced when need for it emerges).
 * `engine_working_external <vehicle_part>`: sound of engine working heard outside vehicle
 * `engine_working_external combustion|electric|muscle|wind`: default engine working (outside) groups
 
-  `gear_up`/`gear_down` is done automatically by pitch manipulation. Gear shift is dependent on max safe speed, and works on the assumption that there are 6 forward gears, and that gear 0 is neutral, and gear -1 is reverse.
+  `gear_up`/`gear_down` is done automatically by pitch manipulation. Gear shift is dependent on max safe speed, and works on the assumption that there are 6 forward gears, gear 0 is neutral, and gear -1 is reverse.
 * `vehicle gear_shift`
 * `vehicle engine_backfire|engine_bangs_start|fault_immobiliser_beep|engine_single_click_fail|engine_multi_click_fail|engine_stutter_fail|engine_clanking_fail`
 * `vehicle horn_loud|horn_medium|horn_low|rear_beeper|chimes|car_alarm`
 * `vehicle reaper|scoop|scoop_thump`
-* `vehicle_open <vehicle_part>` # note: id of: doors, trunks, hatches, etc.
+* `vehicle_open <vehicle_part>` # id of: doors, trunks, hatches, etc.
 * `vehicle_close <vehicle part>`
 
 ### Miscellaneous
