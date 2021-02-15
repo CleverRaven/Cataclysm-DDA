@@ -94,10 +94,10 @@ void scenario::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
 
     if( !was_loaded ) {
-        if( jo.has_member( "custom_start_date" ) ) {
+        if( jo.has_member( "custom_initial_date" ) ) {
             _custom_start_date = true;
 
-            JsonObject jocid = jo.get_member( "custom_start_date" );
+            JsonObject jocid = jo.get_member( "custom_initial_date" );
             if( jocid.has_member( "hour" ) ) {
                 optional( jocid, was_loaded, "hour", _start_hour );
             }

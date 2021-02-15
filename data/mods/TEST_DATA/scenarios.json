@@ -8,7 +8,7 @@
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ],
-    "custom_start_date": { "hour": -1, "season": "summer" }
+    "custom_initial_date": { "hour": -1, "season": "summer" }
   },
   {
     "type": "scenario",
@@ -19,7 +19,7 @@
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ],
-    "custom_start_date": { "day": -1, "season": "summer" }
+    "custom_initial_date": { "day": -1, "season": "summer" }
   },
   {
     "type": "scenario",
@@ -30,6 +30,6 @@
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ],
-    "custom_start_date": { "year": -1, "season": "summer" }
+    "custom_initial_date": { "year": -1, "season": "summer" }
   }
 ]

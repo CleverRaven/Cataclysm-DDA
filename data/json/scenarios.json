@@ -300,7 +300,7 @@
     ],
     "start_name": "Outside Town",
     "flags": [ "SUR_START", "LONE_START" ],
-    "custom_start_date": { "season": "winter" },
+    "custom_initial_date": { "season": "winter" },
     "add_professions": true,
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
   },
@@ -323,7 +323,7 @@
     ],
     "start_name": "Outside Town",
     "flags": [ "LONE_START" ],
-    "custom_start_date": { "season": "summer", "year": 2 },
+    "custom_initial_date": { "season": "summer", "year": 2 },
     "add_professions": true,
     "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
   },
@@ -336,7 +336,7 @@
     "allowed_locs": [ "sloc_lmoe_empty", "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Enclosed Shelter",
     "flags": [ "LONE_START" ],
-    "custom_start_date": { "season": "winter" },
+    "custom_initial_date": { "season": "winter" },
     "professions": [ "sheltered_militia", "sheltered_survivor", "unemployed" ]
   },
   {
@@ -402,7 +402,7 @@
     "start_name": "Mi-Go Camp",
     "professions": [ "captive", "rescuer" ],
     "flags": [ "LONE_START", "CHALLENGE" ],
-    "custom_start_date": { "season": "winter" }
+    "custom_initial_date": { "season": "winter" }
   },
   {
     "type": "scenario",
