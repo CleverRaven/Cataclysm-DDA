@@ -397,6 +397,7 @@
   },
   {
     "id": "backpack_xl_black_dragon_hide",
+    "copy-from": "backpack_black_dragon_hide",
     "type": "ARMOR",
     "name": { "str": "XL dragonhide backpack" },
     "weight": "1200 g",
