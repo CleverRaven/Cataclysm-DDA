@@ -291,7 +291,7 @@ $ cmake -DOPTION_NAME1=option_value1 [-DOPTION_NAME2=option_value2 [...]]
 
    Note that language files are only compiled automatically when building the `RELEASE` build type. For other build types, you need to add the `translations_compile` target to the `make` command: for example `make all translations_compile`.
 
-   Special note for MinGW: Due to a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006), using English without a `.mo` file causes significant slowdown on MinGW targets.  In such cases, you can compile a `.mo` file for English by adding `en` to `-DLANGUAGES`.  If `-DLANGUAGES` is not specified, it also compiles a `.mo` file for English in addition to other languages.
+   Special note for MinGW: Due to a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006), using English without a `.mo` file causes significant slowdown on MinGW targets.  Make sure `en` is in the list provided to `-DLANGUAGES` (it is by default), in order to generate a `.mo` file for English.
  * `DYNAMIC_LINKING=<boolean>`: Use dynamic linking. Or use static to remove MinGW dependency instead.
  * `GIT_BINARY=<str>` Override the default Git binary name or path.
 
