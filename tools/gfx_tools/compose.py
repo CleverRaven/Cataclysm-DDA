@@ -114,11 +114,14 @@ class Tileset:
             source_dir: str,
             output_dir: str,
             use_all: bool = False,
-            obsolete_fillers: bool = False) -> None:
+            obsolete_fillers: bool = False,
+            palette: bool = False)\
+            -> None:
         self.source_dir = source_dir
         self.output_dir = output_dir
         self.use_all = use_all
         self.obsolete_fillers = obsolete_fillers
+        self.palette = palette
         self.output_conf_file = None
 
         self.pngnum = 1
@@ -394,7 +397,7 @@ class Tilesheet:
         except pyvips.error.Error as exception:
             raise ComposingException(
                 f'Cannot load {png_path}: {exception.message}') from None
-        except UnicodeDecodeError as exception:
+        except UnicodeDecodeError:
             raise ComposingException(
                 f'Cannot load {png_path} with UnicodeDecodeError, '
                 'please report your setup at '
@@ -456,6 +459,10 @@ class Tilesheet:
                 self.sprites, across=self.sheet_width)
             sheet_image.pngsave(
                 self.output, compression=9, strip=True, filter=8)
+            if self.tileset.palette:
+                sheet_image.pngsave(
+                    self.output + '8', compression=9, strip=True, filter=8,
+                    palette=True)
             return True
         return False
 
@@ -611,6 +618,10 @@ if __name__ == '__main__':
     arg_parser.add_argument(
         '--obsolete-fillers', dest='obsolete_fillers', action='store_true',
         help='Warn about obsoleted fillers')
+    arg_parser.add_argument(
+        '--palette', dest='palette', action='store_true',
+        help='Produce copies of tilesheets quantized to 8bpp colormaps.'
+        'Detection of lossy conversion not included yet.')
     args_dict = vars(arg_parser.parse_args())
 
     # compose the tileset
@@ -619,7 +630,8 @@ if __name__ == '__main__':
             args_dict.get('source_dir'),
             args_dict.get('output_dir') or args_dict.get('source_dir'),
             args_dict.get('use_all', False),
-            args_dict.get('obsolete_fillers', False)
+            args_dict.get('obsolete_fillers', False),
+            args_dict.get('palette', False)
         )
         tileset_worker.compose()
     except ComposingException as exception:
