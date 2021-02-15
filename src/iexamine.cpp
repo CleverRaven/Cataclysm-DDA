@@ -271,7 +271,7 @@ void iexamine::cvdmachine( player &p, const tripoint & )
     // Apply flag to item
     loc->set_flag( flag_DIAMOND );
     add_msg( m_good, _( "You apply a diamond coating to your %s" ), loc->type_name() );
-    p.mod_moves( -to_turns<int>( 10_seconds ) );
+    p.mod_moves( -to_moves<int>( 10_seconds ) );
 }
 
 /**
@@ -603,7 +603,7 @@ class atm_menu
                 }
             }
 
-            u.moves -= to_turns<int>( 5_seconds );
+            u.moves -= to_moves<int>( 5_seconds );
         }
 
         //! Prompt for an integral value clamped to [0, max].
@@ -632,7 +632,7 @@ class atm_menu
             card.ammo_set( card.ammo_default(), 0 );
             u.i_add( card );
             u.cash -= 1000;
-            u.moves -= to_turns<int>( 5_seconds );
+            u.moves -= to_moves<int>( 5_seconds );
             finish_interaction();
 
             return true;
@@ -658,7 +658,7 @@ class atm_menu
             add_msg( m_info, "amount: %d", amount );
             u.use_charges( itype_cash_card, amount );
             u.cash += amount;
-            u.moves -= to_turns<int>( 10_seconds );
+            u.moves -= to_moves<int>( 10_seconds );
             finish_interaction();
 
             return true;
@@ -712,7 +712,7 @@ class atm_menu
 
             //dst->charges += amount;
             u.cash -= amount - remaining;
-            u.moves -= to_turns<int>( 10_seconds );
+            u.moves -= to_moves<int>( 10_seconds );
             finish_interaction();
 
             return true;
@@ -777,7 +777,7 @@ void iexamine::atm( player &p, const tripoint & )
  */
 void iexamine::vending( player &p, const tripoint &examp )
 {
-    constexpr int moves_cost = to_turns<int>( 5_seconds );
+    constexpr int moves_cost = to_moves<int>( 5_seconds );
     int money = p.charges_of( itype_cash_card );
     map_stack vend_items = get_map().i_at( examp );
 
@@ -1102,7 +1102,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
                            here.ter( examp ) == t_card_military ? itype_id_military :
                            itype_id_industrial );
     if( p.has_amount( card_type, 1 ) && query_yn( _( "Swipe your ID card?" ) ) ) {
-        p.mod_moves( -to_turns<int>( 1_seconds ) );
+        p.mod_moves( -to_moves<int>( 1_seconds ) );
         for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
             if( here.ter( tmp ) == t_door_metal_locked ) {
                 here.ter_set( tmp, t_door_metal_c );
@@ -1307,7 +1307,7 @@ void iexamine::bars( player &p, const tripoint &examp )
         none( p, examp );
         return;
     }
-    p.moves -= to_turns<int>( 2_seconds );
+    p.moves -= to_moves<int>( 2_seconds );
     add_msg( _( "You slide right between the bars." ) );
     p.setpos( examp );
 }
@@ -1384,7 +1384,7 @@ void iexamine::portable_structure( player &p, const tripoint &examp )
         return;
     }
 
-    p.moves -= to_turns<int>( 2_seconds );
+    p.moves -= to_moves<int>( 2_seconds );
     for( const tripoint &pt : here.points_in_radius( examp, radius ) ) {
         here.furn_set( pt, f_null );
     }
@@ -1416,7 +1416,7 @@ void iexamine::pit( player &p, const tripoint &examp )
             here.ter_set( examp, t_pit_glass_covered );
         }
         add_msg( _( "You place a plank of wood over the pit." ) );
-        p.mod_moves( -to_turns<int>( 1_seconds ) );
+        p.mod_moves( -to_moves<int>( 1_seconds ) );
     }
 }
 
@@ -1442,7 +1442,7 @@ void iexamine::pit_covered( player &p, const tripoint &examp )
     } else if( here.ter( examp ) == t_pit_glass_covered ) {
         here.ter_set( examp, t_pit_glass );
     }
-    p.mod_moves( -to_turns<int>( 1_seconds ) );
+    p.mod_moves( -to_moves<int>( 1_seconds ) );
 }
 
 /**
@@ -1502,7 +1502,7 @@ void iexamine::safe( player &guy, const tripoint &examp )
 
     if( !( !cracking_tool.empty() ||
            guy.has_flag( STATIC( json_character_flag( "IMMUNE_HEARING_DAMAGE" ) ) ) ) ) {
-        guy.moves -= to_turns<int>( 10_seconds );
+        guy.moves -= to_moves<int>( 10_seconds );
         // Assume a 3 digit 100-number code. Many safes allow adjacent + 1 dial locations to match,
         // so 1/20^3, or 1/8,000 odds.
         // Additionally, safes can be left-handed or right-handed, doubling the problem space.

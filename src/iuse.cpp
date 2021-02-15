@@ -9247,7 +9247,7 @@ int iuse::directional_hologram( player *p, item *it, bool, const tripoint &pos )
     hologram->wandf = -30;
     hologram->set_summon_time( 60_seconds );
     hologram->set_dest( target );
-    p->mod_moves( -to_turns<int>( 1_seconds ) );
+    p->mod_moves( -to_moves<int>( 1_seconds ) );
     return it->type->charges_to_use();
 }
 
