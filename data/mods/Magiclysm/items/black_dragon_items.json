@@ -314,9 +314,7 @@
     "use_action": { "type": "transform", "target": "helmet_xlblack_dragon_scale_raised", "msg": "You raise your visor." },
     "weight": "1256 g",
     "volume": "4500 ml",
-    "armor_portion_data": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 42 }
-    ],
+    "armor_portion_data": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 42 } ],
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES" ]
   },
   {
