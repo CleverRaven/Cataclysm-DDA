@@ -903,6 +903,12 @@ int Character::amount_of( const itype_id &what, bool pseudo, int limit,
         return 1;
     }
 
+    for( const auto &bio : *this->my_bionics ) {
+        if( bio.info().fake_item == what ) {
+            return 1;
+        }
+    }
+
     if( what == itype_apparatus && pseudo ) {
         int qty = 0;
         visit_items( [&qty, &limit, &filter]( const item * e, item * ) {

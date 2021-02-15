@@ -113,8 +113,6 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
-static const bionic_id bio_syringe( "bio_syringe" );
-
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_brazier( "brazier" );
 static const itype_id itype_char_smoker( "char_smoker" );
@@ -755,9 +753,7 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
     auto need_these = tools_needed;
-    if( need_these.count( itype_syringe ) && p.has_bionic( bio_syringe ) ) {
-        need_these.erase( itype_syringe ); // no need for a syringe with bionics like these!
-    }
+
     // Check prerequisites first.
     for( const auto &tool : need_these ) {
         // Amount == -1 means need one, but don't consume it.
