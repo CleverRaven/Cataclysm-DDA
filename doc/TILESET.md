@@ -162,7 +162,7 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 
 ### Usage
 
-`compose.py [-h] [--use-all] [--obsolete-fillers] source_dir [output_dir]`
+`compose.py [-h] [--use-all] [--obsolete-fillers] [--palette] source_dir [output_dir]`
 
 `source_dir` - the compositing tileset directory.
 
@@ -177,6 +177,8 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 ```
 
 `--obsolete-fillers`: print which fillers were skipped and are thus ready to be removed.
+
+`--palette`: Output copies of tilesheet files quantized to 8bpp palette with `.png8` extension. Intended for external detection if conversion was lossless. Should be obsoleted once a way to count number of colors with `pyvips` is found.
 
 Requires `pyvips` module.
 
