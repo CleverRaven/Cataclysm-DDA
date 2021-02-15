@@ -157,7 +157,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "black dragonhide helmet",
-    "description": "A helmet made from black dragonhide.  It protects your head well, and doesn't cover your face.",
+    "description": "A helmet made from black dragonhide.  It protects your head well, but doesn't cover your face.",
     "weight": "585 g",
     "volume": "2000 ml",
     "price": 58000,
