@@ -49,9 +49,8 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "fabrication",
-    "difficulty": 1,
+    "difficulty": 0,
     "time": "3 m",
-    "reversible": true,
     "autolearn": true,
     "components": [ [ [ "duct_tape", 50 ] ] ],
     "flags": [ "BLIND_EASY" ]
