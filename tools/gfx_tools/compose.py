@@ -30,6 +30,12 @@ except ImportError:
 
 PROPERTIES_FILENAME = 'tileset.txt'
 
+PNGSAVE_ARGS = {
+    'compression': 9,
+    'strip': True,
+    'filter': 8,
+}
+
 FALLBACK = {
     "file": "fallback.png",
     "tiles": [],
@@ -115,12 +121,14 @@ class Tileset:
             output_dir: str,
             use_all: bool = False,
             obsolete_fillers: bool = False,
+            palette_copies: bool = False,
             palette: bool = False)\
             -> None:
         self.source_dir = source_dir
         self.output_dir = output_dir
         self.use_all = use_all
         self.obsolete_fillers = obsolete_fillers
+        self.palette_copies = palette_copies
         self.palette = palette
         self.output_conf_file = None
 
@@ -457,12 +465,17 @@ class Tilesheet:
         if self.sprites:
             sheet_image = Vips.Image.arrayjoin(
                 self.sprites, across=self.sheet_width)
-            sheet_image.pngsave(
-                self.output, compression=9, strip=True, filter=8)
+
+            pngsave_args = PNGSAVE_ARGS
+
             if self.tileset.palette:
+                pngsave_args['palette'] = True
+
+            sheet_image.pngsave(self.output, **pngsave_args)
+            if self.tileset.palette_copies:
+                pngsave_args.pop('palette', None)
                 sheet_image.pngsave(
-                    self.output + '8', compression=9, strip=True, filter=8,
-                    palette=True)
+                    self.output + '8', palette=True, **pngsave_args)
             return True
         return False
 
@@ -619,9 +632,11 @@ if __name__ == '__main__':
         '--obsolete-fillers', dest='obsolete_fillers', action='store_true',
         help='Warn about obsoleted fillers')
     arg_parser.add_argument(
+        '--palette-copies', dest='palette_copies', action='store_true',
+        help='Produce copies of tilesheets quantized to 8bpp colormaps.')
+    arg_parser.add_argument(
         '--palette', dest='palette', action='store_true',
-        help='Produce copies of tilesheets quantized to 8bpp colormaps.'
-        'Detection of lossy conversion not included yet.')
+        help='Quantize all tilesheets to 8bpp colormaps.')
     args_dict = vars(arg_parser.parse_args())
 
     # compose the tileset
@@ -631,6 +646,7 @@ if __name__ == '__main__':
             args_dict.get('output_dir') or args_dict.get('source_dir'),
             args_dict.get('use_all', False),
             args_dict.get('obsolete_fillers', False),
+            args_dict.get('palette_copies', False),
             args_dict.get('palette', False)
         )
         tileset_worker.compose()
