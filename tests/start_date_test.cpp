@@ -52,13 +52,13 @@ TEST_CASE( "Test start dates" )
         override_option initial_time( "INITIAL_TIME", "13" );
         override_option spawn_delay( "SPAWN_DELAY", "10" );
 
-        CHECK( get_option<int>( "INITIAL_DAY" ) == default_initial_day );
-        CHECK( get_option<int>( "SEASON_LENGTH" ) == default_season_length );
+        REQUIRE( get_option<int>( "INITIAL_DAY" ) == default_initial_day );
+        REQUIRE( get_option<int>( "SEASON_LENGTH" ) == default_season_length );
 
         g->start_calendar();
 
-        REQUIRE( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * default_initial_day );
-        REQUIRE( calendar::start_of_game == calendar::turn_zero + 1_days * 273 + 1_hours *
+        CHECK( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * default_initial_day );
+        CHECK( calendar::start_of_game == calendar::turn_zero + 1_days * 273 + 1_hours *
                  default_initial_time );
     }
 
@@ -222,4 +222,3 @@ TEST_CASE( "Random scenario dates" )
     calendar::start_of_cataclysm = calendar::turn_zero;
     calendar::turn = calendar::turn_zero;
 }
-
