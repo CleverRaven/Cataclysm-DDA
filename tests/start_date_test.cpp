@@ -16,14 +16,14 @@ TEST_CASE( "Test start dates" )
 
     SECTION( "Default start date with no scenario" ) {
         set_scenario( scenario::generic() );
-        CHECK( get_option<int>( "INITIAL_DAY" ) == default_initial_day );
-        CHECK( get_option<int>( "INITIAL_TIME" ) == default_initial_time );
-        CHECK( get_option<int>( "SPAWN_DELAY" ) == default_spawn_delay );
+        REQUIRE( get_option<int>( "INITIAL_DAY" ) == default_initial_day );
+        REQUIRE( get_option<int>( "INITIAL_TIME" ) == default_initial_time );
+        REQUIRE( get_option<int>( "SPAWN_DELAY" ) == default_spawn_delay );
 
         g->start_calendar();
 
-        REQUIRE( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * default_initial_day );
-        REQUIRE( calendar::start_of_game == calendar::turn_zero + 1_days * default_initial_day + 1_hours *
+        CHECK( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * default_initial_day );
+        CHECK( calendar::start_of_game == calendar::turn_zero + 1_days * default_initial_day + 1_hours *
                  default_initial_time );
     }
 
@@ -222,5 +222,4 @@ TEST_CASE( "Random scenario dates" )
     calendar::start_of_cataclysm = calendar::turn_zero;
     calendar::turn = calendar::turn_zero;
 }
-
 
