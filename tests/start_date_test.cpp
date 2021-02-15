@@ -24,7 +24,7 @@ TEST_CASE( "Test start dates" )
 
         CHECK( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * default_initial_day );
         CHECK( calendar::start_of_game == calendar::turn_zero + 1_days * default_initial_day + 1_hours *
-                 default_initial_time );
+               default_initial_time );
     }
 
     SECTION( "Customized start date" ) {
@@ -59,7 +59,7 @@ TEST_CASE( "Test start dates" )
 
         CHECK( calendar::start_of_cataclysm == calendar::turn_zero + 1_days * default_initial_day );
         CHECK( calendar::start_of_game == calendar::turn_zero + 1_days * 273 + 1_hours *
-                 default_initial_time );
+               default_initial_time );
     }
 
     SECTION( "Scenario with start date tries to start before cataclysm" ) {
@@ -80,7 +80,7 @@ TEST_CASE( "Test start dates" )
 
         // Start should be moved forwards by one year from normal to avoid too early start
         CHECK( calendar::start_of_game == calendar::turn_zero + 1_days * 273 + 1_hours *
-                 default_initial_time + calendar::year_length() );
+               default_initial_time + calendar::year_length() );
     }
 
     // Reset dates so other tests won't fail
@@ -108,7 +108,7 @@ TEST_CASE( "Random dates" )
 
         // Even with random time of cataclysm the game starts set amount of time later
         CHECK( calendar::start_of_game == calendar::start_of_cataclysm + 1_hours * default_initial_time +
-                 1_days );
+               1_days );
 
 
         // Second and third random starts should have different time
@@ -171,7 +171,7 @@ TEST_CASE( "Random scenario dates" )
         // Random day should result in something between day first_day_of_summer hour 8 - day last_day_of_summer hour 8
         INFO( "Game started on turn " << to_turn<int>( calendar::start_of_game ) );
         CHECK( calendar::start_of_game >= calendar::turn_zero + first_day_of_summer +
-                 default_start_hour );
+               default_start_hour );
         CHECK( calendar::start_of_game <= calendar::turn_zero + last_day_of_summer + default_start_hour );
 
         time_point start_of_game_1 = calendar::start_of_game;
@@ -197,9 +197,9 @@ TEST_CASE( "Random scenario dates" )
         // Random year should result in something between year 0 day first_day_of_summer hour 8 - year 11 day first_day_of_summer hour 8
         INFO( "Game started on turn " << to_turn<int>( calendar::start_of_game ) );
         CHECK( calendar::start_of_game >= calendar::turn_zero + first_day_of_summer +
-                 default_start_hour );
+               default_start_hour );
         CHECK( calendar::start_of_game <= calendar::turn_zero + first_day_of_summer +
-                 calendar::year_length() * 11 + default_start_hour );
+               calendar::year_length() * 11 + default_start_hour );
 
         time_point start_of_game_1 = calendar::start_of_game;
 
