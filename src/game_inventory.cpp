@@ -293,23 +293,23 @@ class armor_inventory_preset: public inventory_selector_preset
             }, _( "WARMTH" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_number_string( loc->bash_resist() );
+                return get_decimal_string( loc->bash_resist() );
             }, _( "BASH" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_number_string( loc->cut_resist() );
+                return get_decimal_string( loc->cut_resist() );
             }, _( "CUT" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_number_string( loc->bullet_resist() );
+                return get_decimal_string( loc->bullet_resist() );
             }, _( "BULLET" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_number_string( loc->acid_resist() );
+                return get_decimal_string( loc->acid_resist() );
             }, _( "ACID" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_number_string( loc->fire_resist() );
+                return get_decimal_string( loc->fire_resist() );
             }, _( "FIRE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -915,7 +915,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
             const item &it = *loc;
             const auto &uses = it.type->use_methods;
 
-            auto &comest = it.get_comestible();
+            const auto &comest = it.get_comestible();
             if( comest && !comest->tool.is_null() ) {
                 const bool has = item::count_by_charges( comest->tool )
                                  ? p.has_charges( comest->tool, 1 )
@@ -1311,6 +1311,10 @@ class weapon_inventory_preset: public inventory_selector_preset
             }, _( "WIELD COST" ) );
         }
 
+        bool is_shown( const item_location &loc ) const override {
+            return loc->made_of( phase_id::SOLID );
+        }
+
         std::string get_denial( const item_location &loc ) const override {
             const auto ret = p.can_wield( *loc );
 
@@ -1328,8 +1332,8 @@ class weapon_inventory_preset: public inventory_selector_preset
         }
 
         std::string get_damage_string( float damage, bool display_zeroes = false ) const {
-            return damage ||
-                   display_zeroes ? string_format( "<color_yellow>%g</color>", damage ) : std::string();
+            return ( damage || display_zeroes ) ?
+                   string_format( "<color_yellow>%g</color>", damage ) : std::string();
         }
 
         const player &p;

@@ -3835,13 +3835,14 @@
     "time": "12 m",
     "charges": 5,
     "autolearn": true,
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ], [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ] ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
       [ [ "flour", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "chocolate", 1 ], [ "choc_drink", 2 ] ]
     ]

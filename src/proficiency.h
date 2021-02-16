@@ -142,7 +142,7 @@ struct book_proficiency_bonus {
     private:
         static const float default_time_factor;
         static const float default_fail_factor;
-        static const float default_include_prereqs;
+        static const bool default_include_prereqs;
 };
 
 // a container class for book_proficiency_bonus to make it easy to calculate and compartmentalize

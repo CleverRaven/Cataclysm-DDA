@@ -99,7 +99,6 @@ static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_gun( "gun" );
-static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_speech( "speech" );
 static const skill_id skill_stabbing( "stabbing" );
@@ -478,7 +477,7 @@ static bool update_time_left( std::string &entry, const comp_list &npc_list )
     bool avail = false;
     Character &player_character = get_player_character();
     for( const auto &comp : npc_list ) {
-        if( comp->companion_mission_time_ret < calendar:: turn ) {
+        if( comp->companion_mission_time_ret < calendar::turn ) {
             entry = entry +  _( " [DONE]\n" );
             avail = true;
         } else {
@@ -2748,7 +2747,7 @@ void basecamp::recruit_return( const std::string &task, int score )
     int rec_m = 0;
     int appeal = rng( -5, 3 ) + std::min( skill / 3, 3 );
     int food_desire = rng( 0, 5 );
-    while( rec_m >= 0 ) {
+    while( true ) {
         std::string description = _( "NPC Overview:\n\n" );
         description += string_format( _( "Name:  %s\n\n" ), right_justify( recruit->name, 20 ) );
         description += string_format( _( "Strength:        %10d\n" ), recruit->str_max );

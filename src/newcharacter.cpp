@@ -3633,6 +3633,12 @@ bool avatar::load_template( const std::string &template_name, points_left &point
 
         deserialize( jsin );
 
+        // If stored_calories the template is under a million (kcals < 1000), assume it predates the
+        // kilocalorie-to-literal-calorie conversion and is off by a factor of 1000.
+        if( get_stored_kcal() < 1000 ) {
+            set_stored_kcal( 1000 * get_stored_kcal() );
+        }
+
         if( MAP_SHARING::isSharing() ) {
             // just to make sure we have the right name
             name = MAP_SHARING::getUsername();

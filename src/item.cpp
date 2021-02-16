@@ -5300,7 +5300,7 @@ units::volume item::base_volume() const
     return type->volume;
 }
 
-units::volume item::volume( bool integral ) const
+units::volume item::volume( bool integral, bool ignore_contents ) const
 {
     if( is_null() ) {
         return 0_ml;
@@ -5345,7 +5345,9 @@ units::volume item::volume( bool integral ) const
         }
     }
 
-    ret += contents.item_size_modifier();
+    if( !ignore_contents ) {
+        ret += contents.item_size_modifier();
+    }
 
     // TODO: do a check if the item is collapsed or not
     ret -= collapsed_volume_delta();
@@ -7753,8 +7755,6 @@ int item::ammo_required() const
     return 0;
 }
 
-
-
 bool item::ammo_sufficient( int qty ) const
 {
     return ammo_remaining() >= ammo_required() * qty;
@@ -9181,7 +9181,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         }
         if( type->ammo->cookoff ) {
             // If ammo type can burn, then create an explosion proportional to quantity.
-            float power = 3.0f * sqrtf( sqrtf( rounds_exploded / 25.0f ) );
+            float power = 3.0f * std::pow( rounds_exploded / 25.0f, 0.25f );
             explosion_handler::explosion( p, power, 0.0f, false, 0 );
         }
         charges_remaining -= rounds_exploded;

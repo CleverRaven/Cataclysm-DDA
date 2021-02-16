@@ -682,7 +682,7 @@
       },
       {
         "distribution": [
-          { "item": "antifungal", "prob": 60, "charges-min": 1, "charges-max": 10, "container-item": "bottle_plastic_small" },
+          { "item": "antifungal", "prob": 5, "charges-min": 1, "charges-max": 10, "container-item": "bottle_plastic_small" },
           {
             "item": "antiparasitic",
             "prob": 20,

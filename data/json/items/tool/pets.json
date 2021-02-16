@@ -45,7 +45,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "SHEAR", 1 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
     "flags": [ "STAB" ]
   },
   {

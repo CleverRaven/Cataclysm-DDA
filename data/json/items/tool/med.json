@@ -115,7 +115,7 @@
     "symbol": ",",
     "color": "light_gray",
     "techniques": [ "PRECISE" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 3 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 3 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SPEAR" ]
   },
   {

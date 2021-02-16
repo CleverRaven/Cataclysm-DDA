@@ -11,7 +11,6 @@
   * [Cross-compile to Windows from Linux](#cross-compile-to-windows-from-linux)
   * [Cross-compile to Mac OS X from Linux](#cross-compile-to-mac-os-x-from-linux)
   * [Cross-compile to Android from Linux](#cross-compile-to-android-from-linux)
-  * [Troubleshooting](#linux-troubleshooting)
 * [Mac OS X](#mac-os-x)
   * [Simple build using Homebrew](#simple-build-using-homebrew)
   * [Advanced info for Developers](#advanced-info-for-developers)
@@ -375,10 +374,6 @@ To build a signed release APK (ie. one that can be installed on a device), [buil
 
 The app stores data files on the device in `/sdcard/Android/data/com.cleverraven/cataclysmdda/files`. The data is backwards compatible with the desktop version.
 
-## Linux Troubleshooting
-
-If you get an error stating `make: build-scripts/validate_pr_in_jenkins: Command not found`, clone a separate copy of the upstream source to a new git repository as your git setup has become corrupted by the Blob.
-
 # Mac OS X
 
 To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the [cataclysm](https://formulae.brew.sh/formula/cataclysm) forumla.
@@ -497,7 +492,6 @@ The Cataclysm source is compiled using `make`.
 * `SOUND=1` - if you want sound; this requires `TILES=1` and the additional dependencies mentioned above.
 * `FRAMEWORK=1` (tiles only) link to SDL libraries under the OS X Frameworks folders; omit to use SDL shared libraries from Homebrew or Macports.
 * `LOCALIZE=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`.
-* `BREWGETTEXT=1` set this if you don't set LOCALIZE=0 and have installed `gettext` from homebrew--homebrew will refuse to link gettext in recent versions.
 * `LANGUAGES="<lang_id_1>[lang_id_2][...]"` compile localization files for specified languages. e.g. `LANGUAGES="zh_CN zh_TW"`. You can also use `LANGUAGES=all` to compile all localization files.
 * `RELEASE=1` build an optimized release version; omit for debug build.
 * `CLANG=1` build with [Clang](http://clang.llvm.org/), the compiler that's included with the latest Command Line Tools for Xcode; omit to build using gcc/g++.

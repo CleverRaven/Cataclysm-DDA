@@ -478,7 +478,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     units::volume total_volume = 0_ml;
 
     for( const act_item &filthy_item : items ) {
-        total_volume += filthy_item.loc->volume();
+        total_volume += filthy_item.loc->volume( false, true );
     }
     washing_requirements required = washing_requirements_for_volume( total_volume );
 

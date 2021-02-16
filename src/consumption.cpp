@@ -147,13 +147,6 @@ static const std::array<flag_id, 2> herbivore_blacklist {{
         flag_id( "ALLERGEN_MEAT" ), flag_id( "ALLERGEN_EGG" )
     }};
 
-// TODO: JSONize.
-static const std::map<itype_id, int> plut_charges = {
-    { itype_id( "plut_cell" ),         PLUTONIUM_CHARGES * 10 },
-    { itype_id( "plut_slurry_dense" ), PLUTONIUM_CHARGES },
-    { itype_id( "plut_slurry" ),       PLUTONIUM_CHARGES / 2 }
-};
-
 // TODO: Move pizza scraping here.
 static int compute_default_effective_kcal( const item &comest, const Character &you,
         const cata::flat_set<flag_id> &extra_flags = {} )

@@ -9,6 +9,7 @@
 #include <memory>
 #include <set>
 #include <stack>
+#include <unordered_map>
 #include <unordered_set>
 
 #include "cata_assert.h"
@@ -963,39 +964,35 @@ void requirement_data::blacklist_item( const itype_id &id )
 }
 
 template <typename T>
-static void apply_replacement( std::vector<std::vector<T>> &vec, const itype_id &id,
-                               const itype_id &replacement )
+static void apply_replacements( std::vector<std::vector<T>> &vec,
+                                const std::unordered_map<itype_id, itype_id> &replacements )
 {
-    // If the target and replacement are both present, remove the target.
-    // If only the target is present, replace it.
-    for( auto &opts : vec ) {
-        typename std::vector<T>::iterator target = opts.end();
-        typename std::vector<T>::iterator replacement_target = opts.end();
-        for( typename std::vector<T>::iterator iter = opts.begin(); iter != opts.end(); ++iter ) {
-            if( iter->type == id ) {
-                target = iter;
-            } else if( iter->type == replacement ) {
-                replacement_target = iter;
+    for( std::vector<T> &opts : vec ) {
+        for( typename std::vector<T>::iterator iiter = opts.begin(); iiter != opts.end(); ) {
+            auto riter = replacements.find( iiter->type );
+            if( riter != replacements.end() ) {
+                itype_id to_id = riter->second;
+                // Replace an item or outright remove it if its replacement
+                // is already present in the vector, to prevent duplicates
+                bool has_duplicates = std::count_if( opts.cbegin(), opts.cend(), [&to_id]( const T & item ) {
+                    return item.type == to_id;
+                } ) != 0;
+                if( has_duplicates ) {
+                    iiter = opts.erase( iiter );
+                    continue;
+                } else {
+                    iiter->type = to_id;
+                }
             }
+            ++iiter;
         }
-        // No target to replace, do nothing.
-        if( target == opts.end() ) {
-            continue;
-        }
-        // Target but no replacement, replace.
-        if( replacement_target == opts.end() ) {
-            target->type = replacement;
-            continue;
-        }
-        // Both target and replacement, remove the target entry and leave the existing replacement.
-        opts.erase( target );
     }
 }
 
-void requirement_data::replace_item( const itype_id &id, const itype_id &replacement )
+void requirement_data::replace_items( const std::unordered_map<itype_id, itype_id> &replacements )
 {
-    apply_replacement( tools, id, replacement );
-    apply_replacement( components, id, replacement );
+    apply_replacements( tools, replacements );
+    apply_replacements( components, replacements );
 }
 
 const requirement_data::alter_tool_comp_vector &requirement_data::get_tools() const

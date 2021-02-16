@@ -1121,7 +1121,7 @@
     "symbol": ";",
     "color": "light_gray",
     "techniques": [ "PRECISE" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ], [ "BUTCHER", 7 ] ],
     "flags": [ "SPEAR" ]
   },
   {
