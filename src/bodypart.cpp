@@ -94,6 +94,20 @@ static body_part legacy_id_to_enum( const std::string &legacy_id )
         { "FOOT_L", bp_foot_l },
         { "FOOT_R", bp_foot_r },
         { "NUM_BP", num_bp },
+        // Also try the new ones, just in case
+        { "torso", bp_torso },
+        { "head", bp_head },
+        { "eyes", bp_eyes },
+        { "mouth", bp_mouth },
+        { "arm_l", bp_arm_l },
+        { "arm_r", bp_arm_r },
+        { "hand_l", bp_hand_l },
+        { "hand_r", bp_hand_r },
+        { "leg_l", bp_leg_l },
+        { "leg_r", bp_leg_r },
+        { "foot_l", bp_foot_l },
+        { "foot_r", bp_foot_r },
+        { "num_bp", num_bp },
     };
     const auto &iter = body_parts.find( legacy_id );
     if( iter == body_parts.end() ) {
