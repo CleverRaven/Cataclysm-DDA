@@ -247,6 +247,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "fungicide",
+    "id_suffix": "from_normal_chemicals",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
@@ -268,31 +269,21 @@
     "components": [ [ [ "disinfectant", 20 ], [ "oxy_powder", 100 ] ], [ [ "bleach", 5 ] ] ]
   },
   {
-  "type": "recipe",
-  "activity_level": "LIGHT_EXERCISE",
-  "result": "fungicide",
-  "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_CHEMICALS",
-  "skill_used": "chemistry",
-  "skills_required": [
-    [ "survival", 6 ],
-    [ "firstaid", 6 ]
-  ],
-  "difficulty": 7,
-  "time": "1 h",
-  "autolearn": true,
-  "qualities": [
-    { "id": "CHEM", "level": 3 }
-  ],
-  "tools": [
-    [ [ "surface_heat", 10, "LIST" ] ]
-  ],
-  "components": [
-    [ [ "triffid_fungicide", 8 ] ],
-    [ [ "charcoal", 20 ] ],
-    [ [ "bleach", 1 ] ]
-  ]
-},
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "fungicide",
+    "id_suffix": "from_triffids",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "skills_required": [ [ "survival", 6 ], [ "firstaid", 6 ] ],
+    "difficulty": 7,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "triffid_fungicide", 8 ] ], [ [ "charcoal", 20 ] ], [ [ "bleach", 1 ] ] ]
+  },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
