@@ -951,7 +951,7 @@ void bikerack_racking_activity_actor::finish( player_activity &act, Character & 
         here.invalidate_map_cache( here.get_abs_sub().z );
         here.rebuild_vehicle_level_caches();
     } else {
-        debugmsg( "Racking task failed. Parent-Vehicle:" + parent_vehicle.name +
+        debugmsg( "Racking task failed.  Parent-Vehicle:" + parent_vehicle.name +
                   "; Found parts size:" + to_string( parts[0].size() ) );
     }
     act.set_to_null();
@@ -992,7 +992,7 @@ void bikerack_unracking_activity_actor::finish( player_activity &act, Character 
         here.invalidate_map_cache( here.get_abs_sub().z );
         here.rebuild_vehicle_level_caches();
     } else {
-        debugmsg( "Unacking task failed. Parent-Vehicle:" + parent_vehicle.name +
+        debugmsg( "Unracking task failed.  Parent-Vehicle:" + parent_vehicle.name +
                   "; Found parts size:" + to_string( parts.size() ) );
     }
     act.set_to_null();
