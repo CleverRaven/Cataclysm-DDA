@@ -1940,7 +1940,6 @@ void vehicle::use_bike_rack( int part )
         full_rack &= carry_size == rack_parts.size();
     }
     int unload_carried = full_rack ? 0 : -1;
-    bool success = false;
     bool found_rackable_vehicle = try_to_rack_nearby_vehicle( racks_parts, true );
     if( found_vehicle && !full_rack ) {
         uilist rack_menu;
