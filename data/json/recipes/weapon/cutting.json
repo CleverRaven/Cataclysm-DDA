@@ -314,30 +314,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "cs_lajatang_off",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "time": "15 m",
-    "autolearn": true,
-    "components": [ [ [ "q_staff", 1 ] ], [ [ "duct_tape", 200 ] ], [ [ "chainsaw_off", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "ecs_lajatang_off",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "time": "15 m",
-    "autolearn": true,
-    "components": [ [ [ "q_staff", 1 ] ], [ [ "duct_tape", 200 ] ], [ [ "elec_chainsaw_off", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "glass_shiv",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
