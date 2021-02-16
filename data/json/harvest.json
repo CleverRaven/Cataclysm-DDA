@@ -1481,7 +1481,7 @@
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 },
       { "drop": "stick", "type": "bone", "mass_ratio": 0.05 },
       { "drop": "venom_paralytic", "type": "offal", "mass_ratio": 0.0075 },
-      { "drop": "triffid_fungicide", "type": "offal", "mass_ratio": 0.0075 },
+      { "drop": "triffid_fungicide", "type": "offal", "mass_ratio": 0.0075 }
     ]
   },
   {
