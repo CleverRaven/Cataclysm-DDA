@@ -108,14 +108,14 @@ time_point sun_at_angle( const units::angle &angle, const time_point &p, const b
     const units::angle latitude = units::from_degrees( 42 );
 
     units::angle hour_angle = units::acos( units::sin( angle ) - units::sin(
-                                        latitude ) * units::sin( solar_declination( p ) ) / units::cos( latitude ) / units::cos(
-                                        solar_declination( p ) ) );
+            latitude ) * units::sin( solar_declination( p ) ) / units::cos( latitude ) / units::cos(
+                    solar_declination( p ) ) );
     if( !evening ) {
         hour_angle = - hour_angle;
     }
-	
-	int seconds = ( to_degrees( hour_angle ) + 180 ) * 240;
-	return p - time_past_midnight( p ) + seconds * 1_seconds;
+
+    int seconds = ( to_degrees( hour_angle ) + 180 ) * 240;
+    return p - time_past_midnight( p ) + seconds * 1_seconds;
 }
 
 time_point sunrise( const time_point &p )
@@ -123,8 +123,9 @@ time_point sunrise( const time_point &p )
     // Assumes we are in boston
     const units::angle latitude = units::from_degrees( 42 );
 
-    const units::angle hour_angle = - units::acos( - units::tan( latitude ) * units::tan( solar_declination(
-                                        p ) ) );
+    const units::angle hour_angle = - units::acos( - units::tan( latitude ) * units::tan(
+                                        solar_declination(
+                                            p ) ) );
     int seconds = ( to_degrees( hour_angle ) + 180 ) * 240;
     return p - time_past_midnight( p ) + seconds * 1_seconds;
 }
@@ -134,10 +135,11 @@ time_point sunset( const time_point &p )
     // Assumes we are in boston
     const units::angle latitude = units::from_degrees( 42 );
 
-    const units::angle hour_angle = units::acos( - units::tan( latitude ) * units::tan( solar_declination(
-                                        p ) ) );
-    
-	int seconds = ( to_degrees( hour_angle ) + 180 ) * 240;
+    const units::angle hour_angle = units::acos( - units::tan( latitude ) * units::tan(
+                                        solar_declination(
+                                            p ) ) );
+
+    int seconds = ( to_degrees( hour_angle ) + 180 ) * 240;
     return p - time_past_midnight( p ) + seconds * 1_seconds;
 }
 

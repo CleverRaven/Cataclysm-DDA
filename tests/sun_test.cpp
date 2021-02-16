@@ -7,107 +7,107 @@
 
 TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
 {
-	
-	// The 24-hour solar cycle is divided into four parts, as returned by four calendar.cpp functions:
-	//
-	// is_night : From -12 degrees to -12 degrees
-	// is_dawn  : From -18 degrees to 1 degrees
-	// is_day   : From 0 degrees to 0 degrees
-	// is_dusk  : From 1 degrees to -18 degrees
-	//
-	// These are inclusive at their endpoints; in other words, each overlaps with the next:
-	//
-	// This test covers is_night, is_dawn, is_day, is_dusk, and their behavior in relation to time of day.
+
+    // The 24-hour solar cycle is divided into four parts, as returned by four calendar.cpp functions:
+    //
+    // is_night : From -12 degrees to -12 degrees
+    // is_dawn  : From -18 degrees to 1 degrees
+    // is_day   : From 0 degrees to 0 degrees
+    // is_dusk  : From 1 degrees to -18 degrees
+    //
+    // These are inclusive at their endpoints; in other words, each overlaps with the next:
+    //
+    // This test covers is_night, is_dawn, is_day, is_dusk, and their behavior in relation to time of day.
 
     // Use sunrise/sunset on the first day (spring equinox)
     static const time_point midnight = calendar::turn_zero;
     static const time_point noon = midnight + 12_hours;
     static const time_point today_sunrise = sunrise( midnight );
     static const time_point today_sunset = sunset( midnight );
-	
-	static const time_point dawn_start = sun_at_angle( units::from_degrees( -18 ), midnight, false );
-	static const time_point dusk_end = sun_at_angle( units::from_degrees( -18 ), midnight, true );
-	
-	SECTION( "dawn and sunset time" ) {
-		CHECK( "Year 1, Spring, day 1 7:29:58 AM" == to_string( today_sunrise ) );
-		CHECK( "Year 1, Spring, day 1 4:30:01 PM" == to_string( today_sunset ) );
-    }
-	
-	SECTION( "Night" ) {
-		// First, at the risk of stating the obvious
-		CHECK( is_night( midnight ) );
-		// And while we're at it
-		CHECK_FALSE( is_day( midnight ) );
-		CHECK_FALSE( is_dawn( midnight ) );
-		CHECK_FALSE( is_dusk( midnight ) );
 
-		// Yep, still dark
-		CHECK( is_night( midnight + 1_seconds ) );
-		CHECK( is_night( midnight + 2_hours ) );
-		CHECK( is_night( midnight + 3_hours ) );
-		CHECK( is_night( midnight + 4_hours ) );
+    static const time_point dawn_start = sun_at_angle( units::from_degrees( -18 ), midnight, false );
+    static const time_point dusk_end = sun_at_angle( units::from_degrees( -18 ), midnight, true );
 
-		// At -18 degrees it is both dawn and night
-		CHECK( is_night( dawn_start ) );
-		CHECK( is_dawn( dawn_start ) );
+    SECTION( "dawn and sunset time" ) {
+        CHECK( "Year 1, Spring, day 1 7:29:58 AM" == to_string( today_sunrise ) );
+        CHECK( "Year 1, Spring, day 1 4:30:01 PM" == to_string( today_sunset ) );
     }
-	
-	SECTION( "Dawn" ) {
-		CHECK_FALSE( is_night( today_sunrise ) );
-		CHECK( is_dawn( today_sunrise - 1_seconds ) );
-		CHECK( is_dawn( today_sunrise - 30_minutes ) );
-		
-		// Dawn stops at 1 degrees
-		CHECK_FALSE( is_dawn( today_sunrise + 7_minutes ) );
-    }
-	
-	SECTION( "Day" ) {
-		// Due to roundings the day may start few seconds later than expected
-		CHECK( is_day( today_sunrise + 2_seconds ) );
-		CHECK( is_day( today_sunrise + 2_hours ) );
-		// Second breakfast
-		CHECK( is_day( today_sunrise + 3_hours ) );
-		CHECK( is_day( today_sunrise + 4_hours ) );
-		// Luncheon
-		CHECK( is_day( noon - 3_hours ) );
-		CHECK( is_day( noon - 2_hours ) );
-		// Elevenses
-		CHECK( is_day( noon - 1_hours ) );
-		// Noon
-		CHECK( is_day( noon ) );
-		CHECK_FALSE( is_dawn( noon ) );
-		CHECK_FALSE( is_dusk( noon ) );
-		CHECK_FALSE( is_night( noon ) );
-		// Afternoon tea
-		CHECK( is_day( noon + 1_hours ) );
-		CHECK( is_day( noon + 2_hours ) );
-		// Dinner
-		CHECK( is_day( noon + 3_hours ) );
-		CHECK( is_day( today_sunset - 2_hours ) );
-		// Supper
-		CHECK( is_day( today_sunset - 1_hours ) );
-		CHECK( is_day( today_sunset - 1_seconds ) );
-    }
-	
-	SECTION( "Dusk" ) {
-		// Sun setting down is both "day" and "dusk"
-		CHECK( is_day( today_sunset ) );
-		CHECK( is_dusk( today_sunset ) );
 
-		// Dusk
-		CHECK_FALSE( is_day( today_sunset + 1_seconds ) );
-		CHECK( is_dusk( today_sunset + 1_seconds ) );
-		CHECK( is_dusk( today_sunset + 30_minutes ) );
-		CHECK( is_dusk( today_sunset + 1_hours - 1_seconds ) );
+    SECTION( "Night" ) {
+        // First, at the risk of stating the obvious
+        CHECK( is_night( midnight ) );
+        // And while we're at it
+        CHECK_FALSE( is_day( midnight ) );
+        CHECK_FALSE( is_dawn( midnight ) );
+        CHECK_FALSE( is_dusk( midnight ) );
+
+        // Yep, still dark
+        CHECK( is_night( midnight + 1_seconds ) );
+        CHECK( is_night( midnight + 2_hours ) );
+        CHECK( is_night( midnight + 3_hours ) );
+        CHECK( is_night( midnight + 4_hours ) );
+
+        // At -18 degrees it is both dawn and night
+        CHECK( is_night( dawn_start ) );
+        CHECK( is_dawn( dawn_start ) );
     }
-	
-	SECTION( "Night again" ) {
-		CHECK( is_dusk( dusk_end ) );
-		CHECK( is_night( dusk_end ) );
-		
-		CHECK( is_night( dusk_end + 2_hours ) );
-		CHECK( is_night( dusk_end + 3_hours ) );
-		CHECK( is_night( dusk_end + 4_hours ) );
+
+    SECTION( "Dawn" ) {
+        CHECK_FALSE( is_night( today_sunrise ) );
+        CHECK( is_dawn( today_sunrise - 1_seconds ) );
+        CHECK( is_dawn( today_sunrise - 30_minutes ) );
+
+        // Dawn stops at 1 degrees
+        CHECK_FALSE( is_dawn( today_sunrise + 7_minutes ) );
+    }
+
+    SECTION( "Day" ) {
+        // Due to roundings the day may start few seconds later than expected
+        CHECK( is_day( today_sunrise + 2_seconds ) );
+        CHECK( is_day( today_sunrise + 2_hours ) );
+        // Second breakfast
+        CHECK( is_day( today_sunrise + 3_hours ) );
+        CHECK( is_day( today_sunrise + 4_hours ) );
+        // Luncheon
+        CHECK( is_day( noon - 3_hours ) );
+        CHECK( is_day( noon - 2_hours ) );
+        // Elevenses
+        CHECK( is_day( noon - 1_hours ) );
+        // Noon
+        CHECK( is_day( noon ) );
+        CHECK_FALSE( is_dawn( noon ) );
+        CHECK_FALSE( is_dusk( noon ) );
+        CHECK_FALSE( is_night( noon ) );
+        // Afternoon tea
+        CHECK( is_day( noon + 1_hours ) );
+        CHECK( is_day( noon + 2_hours ) );
+        // Dinner
+        CHECK( is_day( noon + 3_hours ) );
+        CHECK( is_day( today_sunset - 2_hours ) );
+        // Supper
+        CHECK( is_day( today_sunset - 1_hours ) );
+        CHECK( is_day( today_sunset - 1_seconds ) );
+    }
+
+    SECTION( "Dusk" ) {
+        // Sun setting down is both "day" and "dusk"
+        CHECK( is_day( today_sunset ) );
+        CHECK( is_dusk( today_sunset ) );
+
+        // Dusk
+        CHECK_FALSE( is_day( today_sunset + 1_seconds ) );
+        CHECK( is_dusk( today_sunset + 1_seconds ) );
+        CHECK( is_dusk( today_sunset + 30_minutes ) );
+        CHECK( is_dusk( today_sunset + 1_hours - 1_seconds ) );
+    }
+
+    SECTION( "Night again" ) {
+        CHECK( is_dusk( dusk_end ) );
+        CHECK( is_night( dusk_end ) );
+
+        CHECK( is_night( dusk_end + 2_hours ) );
+        CHECK( is_night( dusk_end + 3_hours ) );
+        CHECK( is_night( dusk_end + 4_hours ) );
     }
 }
 

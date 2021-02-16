@@ -562,7 +562,7 @@ time_point night_time( const time_point &p );
 bool is_night( const time_point &p );
 /** Returns true if it's currently day time (above 0 degrees) */
 bool is_day( const time_point &p );
-/** Returns true if it's currently twilight (between 0 and -18 degrees) */
+/** Returns true if it's currently twilight (between 1 and -18 degrees) */
 bool is_twilight( const time_point &p );
 /** Returns true if it's currently dusk - Twilight during evening. */
 bool is_dusk( const time_point &p );
