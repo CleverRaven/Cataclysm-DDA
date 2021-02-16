@@ -65,6 +65,7 @@
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
+    "flags": [ "STAB" ],
     "use_action": {
       "type": "place_trap",
       "allow_underwater": true,
