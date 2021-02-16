@@ -2290,7 +2290,6 @@ item::reload_option player::select_ammo( const item &base,
         menu.text += _( "| Damage   | Pierce   " );
     }
 
-    const damage_instance &base_damage = base.is_gun() ? base.type->gun->damage : damage_instance();
     auto draw_row = [&]( int idx ) {
         const auto &sel = opts[ idx ];
         std::string row = string_format( "%s| %s |", names[ idx ], where[ idx ] );
