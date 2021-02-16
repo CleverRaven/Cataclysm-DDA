@@ -2414,7 +2414,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
         if( !success ) {
             who.add_msg_if_player(
                 string_format(
-                    _( "Could not put %s into %s, aborting." ),
+                    _( "Could not put %1$s into %2$s, aborting." ),
                     it.tname(), holster->tname() ) );
         }
     } else {
