@@ -679,7 +679,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
             const bool has = item::count_by_charges( tool.first )
                              ? has_charges( tool.first, tool.second )
                              : has_amount( tool.first, tool.second );
-            if( !has && !( comest->tool == itype_syringe && has_bionic( bio_syringe ) ) ) {
+            if( !has ) {
                 return ret_val<edible_rating>::make_failure( NO_TOOL,
                         string_format( _( "You need a %s to consume that!" ),
                                        item::nname( tool.first ) ) );
