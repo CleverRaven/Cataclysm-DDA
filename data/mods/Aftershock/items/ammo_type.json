@@ -22,5 +22,23 @@
     "id": "afs_shydrogen",
     "name": "solid hydrogen",
     "default": "afs_shydrogen"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "afs_25mm",
+    "name": "25x40mm",
+    "default": "afs_25mm_caseless"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "afs_10mm",
+    "name": "10mm",
+    "default": "afs_10mm_caseless"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "afs_6.5mm",
+    "name": "6.5mm",
+    "default": "afs_6.5mm_caseless"
   }
 ]
