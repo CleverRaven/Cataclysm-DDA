@@ -121,7 +121,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": "afs_10mm_caseless",
+    "ammo": "afs_10mm",
     "ranged_damage": { "damage_type": "bullet", "amount": -6 },
     "dispersion": 480,
     "durability": 8,
@@ -165,7 +165,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "UICASTA30" ]
+        "item_restriction": [ "afs_UICASTA30" ]
       }
     ]
   },
@@ -212,7 +212,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "UICASTA30", "UICASTA100drum" ]
+        "item_restriction": [ "afs_UICASTA30", "afs_UICASTA100drum" ]
       }
     ]
   }

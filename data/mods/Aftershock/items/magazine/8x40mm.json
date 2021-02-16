@@ -72,7 +72,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_6.5mm": 30 } } ]
   },
   {
-    "id": "UICASTA100drum",
+    "id": "afs_UICASTA100drum",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "UICASTA 100-round double drum magazine" },
