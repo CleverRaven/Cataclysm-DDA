@@ -194,36 +194,6 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
     }
 }
 
-// current_daylight_level returns seasonally-adjusted maximum daylight level
-TEST_CASE( "current daylight level", "[sun][daylight][equinox][solstice]" )
-{
-    static const time_duration one_season = calendar::season_length();
-    static const time_point spring = calendar::turn_zero;
-    static const time_point summer = spring + one_season;
-    static const time_point autumn = summer + one_season;
-    static const time_point winter = autumn + one_season;
-
-    SECTION( "baseline 100 daylight on the spring and autumn equinoxes" ) {
-        CHECK( 100.0f == current_daylight_level( spring ) );
-        CHECK( 100.0f == current_daylight_level( autumn ) );
-    }
-
-    SECTION( "25 percent more daylight on the summer solstice" ) {
-        CHECK( 125.0f == current_daylight_level( summer ) );
-    }
-
-    SECTION( "25 percent less daylight on the winter solstice" ) {
-        CHECK( 75.0f == current_daylight_level( winter ) );
-    }
-
-    // Many other times of day have peak daylight level, but noon is for sure
-    SECTION( "noon is peak daylight level" ) {
-        CHECK( 100.0f == sunlight( spring + 12_hours ) );
-        CHECK( 125.0f == sunlight( summer + 12_hours ) );
-        CHECK( 100.0f == sunlight( autumn + 12_hours ) );
-        CHECK( 75.0f == sunlight( winter + 12_hours ) );
-    }
-}
 
 // The times of sunrise and sunset vary throughout the year. For simplicity, equinoxes occur on the
 // first day of spring and autumn, and solstices occur on the first day of summer and winter.
@@ -349,11 +319,11 @@ TEST_CASE( "sun angles" )
     }
 
     SECTION( "sun declination" ) {
-        CHECK( to_degrees( sun_declination( january_date ) ) ==  Approx( -23.02 ).margin( 0.01 ) );
-        CHECK( to_degrees( sun_declination( september_date ) ) ==  Approx( 0.70 ).margin( 0.01 ) );
-        CHECK( to_degrees( sun_declination( september_date_2 ) ) ==  Approx( 1.10 ).margin( 0.01 ) );
-        CHECK( to_degrees( sun_declination( june_date ) ) ==  Approx( 23.05 ).margin( 0.01 ) );
-        CHECK( to_degrees( sun_declination( june_date_year3 ) ) ==  Approx( 23.05 ).margin( 0.01 ) );
+        CHECK( to_degrees( solar_declination( january_date ) ) ==  Approx( -23.02 ).margin( 0.01 ) );
+        CHECK( to_degrees( solar_declination( september_date ) ) ==  Approx( 0.70 ).margin( 0.01 ) );
+        CHECK( to_degrees( solar_declination( september_date_2 ) ) ==  Approx( 1.10 ).margin( 0.01 ) );
+        CHECK( to_degrees( solar_declination( june_date ) ) ==  Approx( 23.05 ).margin( 0.01 ) );
+        CHECK( to_degrees( solar_declination( june_date_year3 ) ) ==  Approx( 23.05 ).margin( 0.01 ) );
     }
 
     SECTION( "sun altitude" ) {

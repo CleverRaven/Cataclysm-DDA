@@ -108,8 +108,8 @@ time_point sun_at_angle( const units::angle &angle, const time_point &p, const b
     const units::angle latitude = units::from_degrees( 42 );
 
     const units::angle hour_angle = units::acos( units::sin( angle ) - units::sin(
-                                        latitude ) * units::sin( sun_declination( p ) ) / units::cos( latitude ) / units::cos(
-                                        sun_declination( p ) ) );
+                                        latitude ) * units::sin( solar_declination( p ) ) / units::cos( latitude ) / units::cos(
+                                        solar_declination( p ) ) );
     int minutes = ( to_degrees( hour_angle ) + 180 ) / 0.25;
 
     time_point time;
@@ -133,7 +133,7 @@ time_point sunrise( const time_point &p )
     // Assumes we are in boston
     const units::angle latitude = units::from_degrees( 42 );
 
-    const units::angle hour_angle = units::acos( units::tan( latitude ) * units::tan( sun_declination(
+    const units::angle hour_angle = units::acos( units::tan( latitude ) * units::tan( solar_declination(
                                         p ) ) );
     int minutes = ( to_degrees( hour_angle ) + 180 ) / 0.25;
 
@@ -145,7 +145,7 @@ time_point sunset( const time_point &p )
     // Assumes we are in boston
     const units::angle latitude = units::from_degrees( 42 );
 
-    const units::angle hour_angle = units::acos( units::tan( latitude ) * units::tan( sun_declination(
+    const units::angle hour_angle = units::acos( units::tan( latitude ) * units::tan( solar_declination(
                                         p ) ) );
     int minutes = ( to_degrees( hour_angle ) + 180 ) / 0.25;
 
@@ -203,7 +203,7 @@ units::angle solar_hour_angle( const time_point &p )
                                 360 ) - units::from_degrees( 180 );
 }
 
-units::angle sun_declination( const time_point &p )
+units::angle solar_declination( const time_point &p )
 {
     // See wikipedia for more details https://en.wikipedia.org/wiki/Position_of_the_Sun#Calculations
     // n is day so that n=1 is january 1st 00:00 UTC
@@ -220,23 +220,10 @@ units::angle solar_altitude( const time_point &p )
     const units::angle latitude = units::from_degrees( 42 );
 
     const units::angle hour_angle = solar_hour_angle( p );
-    const units::angle declination = sun_declination( p );
+    const units::angle declination = solar_declination( p );
 
     return units::asin( units::sin( latitude ) * units::sin( declination ) + units::cos(
                             latitude ) * units::cos( declination ) * units::cos( hour_angle ) );
-}
-
-float sun_irradiance( const time_point &p )
-{
-    float max_irradiance = 1000;  // Irradiance when sun is straight up on a clear day
-
-    const units::angle sun_zenit = units::from_degrees( 90 ) - solar_altitude( p );
-
-    if( sun_zenit > units::from_degrees( 90 ) ) {
-        return 0;
-    } else {
-        return max_irradiance * units::cos( sun_zenit ) * units::cos( sun_zenit );
-    }
 }
 
 float sunlight( const time_point &p, const bool vision )
@@ -249,19 +236,24 @@ float sunlight( const time_point &p, const bool vision )
     const double moonlight = vision ? 1. + moonlight_per_quarter * current_phase : 0.;
 
     // sunlight at sunrise (sun at 0 degree)
-    float sunrise_light = 75;
+    const float sunrise_light = 75;
 
-    units::angle solar_alt = solar_altitude( p );
+    const float max_light = default_daylight_level() * 1.25;
 
-    if( is_night( p ) ) {
+    const units::angle solar_alt = solar_altitude( p );
+
+    if( solar_alt < units::from_degrees( -18 ) ) {
         return moonlight;
     } else if( solar_alt < units::from_degrees( 0 ) ) {
         // Sunlight increases/decreases linearly during twilights.
         // 0 at -18 degrees and 75 at 0 degrees.
         float sunlight = 25.0 / 6 * to_degrees( solar_alt ) + sunrise_light;
         return moonlight + sunlight;
+    } else if( solar_alt < units::from_degrees( 50 ) ) {
+        // Linear increase from 75 at 0 degrees to 125 (max_light) at 50 degrees
+        return  to_degrees( solar_alt ) + 75;
     } else {
-        return default_daylight_level();
+        return max_light;
     }
 }
 
