@@ -2287,7 +2287,7 @@ item::reload_option player::select_ammo( const item &base,
 
     // We only show ammo statistics for guns and magazines
     if( base.is_gun() || base.is_magazine() ) {
-        menu.text += _( "| Damage  | Pierce  " );
+        menu.text += _( "| Damage   | Pierce   " );
     }
 
     const damage_instance &base_damage = base.is_gun() ? base.type->gun->damage : damage_instance();
@@ -2305,23 +2305,21 @@ item::reload_option player::select_ammo( const item &base,
                 const damage_instance &dam = ammo->ammo->damage;
                 const damage_unit &du = dam.damage_units.front();
                 if( du.damage_multiplier != 1.0f ) {
-                    // Ugly and not really true, but informative anyway
-                    damage_instance summed = base_damage;
-                    summed.add( dam );
-                    float dam_amt = summed.total_damage() - base_damage.total_damage();
-                    row += string_format( "| %+6d* ", static_cast<int>( dam_amt ) );
+                    float dam_amt = du.amount;
+                    row += string_format( "| %-3d*%3d%% ", static_cast<int>( dam_amt ),
+                                          clamp( static_cast<int>( du.damage_multiplier * 100 ), 0, 999 ) );
                 } else {
                     float dam_amt = dam.total_damage();
-                    row += string_format( "| %+7d ", static_cast<int>( dam_amt ) );
+                    row += string_format( "| %-8d ", static_cast<int>( dam_amt ) );
                 }
                 if( du.res_mult != 1.0f ) {
                     row += string_format( "| %-3d/%3d%%",
                                           static_cast<int>( du.res_pen ), static_cast<int>( 100 * du.res_mult ) );
                 } else {
-                    row += string_format( "| %-7d", static_cast<int>( du.res_pen ) );
+                    row += string_format( "| %-8d", static_cast<int>( du.res_pen ) );
                 }
             } else {
-                row += "|         |         ";
+                row += "|          |          ";
             }
         }
         return row;
