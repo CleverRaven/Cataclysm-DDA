@@ -42,7 +42,7 @@ Adding variety: If for a certain `id`'s `variant` multiple `files` are defined, 
 
 The volume key may range from 0-100.
 
-Cataclysm has its own set of user-controllable volumes that will additionally affect the sound. These range from 0-128, and the default is 100. This means that at default volume, any sound that Cataclysm plays will default to playing at about 78% of the maximum; if you are working on sounds in an external audio editor, expect Cataclysm at default volume settings to play that sound file back more-quietly than your editor does.
+Cataclysm has its own set of user-controllable volumes that will additionally affect the sound. These range from 0-128, and the default is 100. This means that at default volume, any sound that Cataclysm plays will default to playing at about 78% of the maximum; if you are working on sounds in an external audio editor, expect Cataclysm at default volume settings to play that sound file back quieter than your editor does.
 
 ### Preloading SFX
 
