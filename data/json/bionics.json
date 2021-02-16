@@ -1122,7 +1122,8 @@
     "name": { "str": "Internal Unified Power System" },
     "description": "You have a Unified Power System wired into your power banks.  Objects that run on a UPS can now draw directly from your bionic power supply.",
     "occupied_bodyparts": [ [ "TORSO", 5 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "fake_item": "UPS_off"
   },
   {
     "id": "bio_voice",
