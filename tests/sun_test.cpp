@@ -338,7 +338,7 @@ TEST_CASE( "sun angles" )
     static const time_point june_date = calendar::turn_zero + 160_days + 23_hours;
 
     // Somewhere in June at 23:00 on year 3
-    static const time_point june_date_year3 = june_date + 364_days;
+    static const time_point june_date_year3 = june_date + 2 * 364_days;
 
     SECTION( "solar hour angle" ) {
         CHECK( to_degrees( solar_hour_angle( january_date ) ) ==  Approx( 0 ).margin( 0.01 ) );

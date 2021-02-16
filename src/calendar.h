@@ -531,7 +531,6 @@ inline T day_of_season( const time_point &p )
     return to_days<T>( ( p - calendar::turn_zero ) % calendar::season_length() );
 }
 
-
 /// @returns The season of the of the given time point. Returns the same season for
 /// any input if the calendar::eternal_season yields true.
 season_type season_of_year( const time_point &p );
