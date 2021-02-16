@@ -256,7 +256,6 @@
       { "id": "paralyzepoison", "duration": 33 }
     ],
     "special_attacks": [ [ "PARA_STING", 10 ] ],
-    "death_drops": { "subtype": "collection", "groups": [ [ "fungal_sting", 80 ] ], "//": "80% chance of an item from group fungal_sting" },
     "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "SMELLS", "NOHEAD", "CAN_DIG" ]
   },
