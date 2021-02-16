@@ -944,7 +944,7 @@ void bikerack_racking_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves_total;
 }
 
-void bikerack_racking_activity_actor::finish( player_activity &act, Character &who )
+void bikerack_racking_activity_actor::finish( player_activity &act, Character & )
 {
     if( parent_vehicle.try_to_rack_nearby_vehicle( parts ) ) {
         map &here = get_map();
@@ -959,12 +959,22 @@ void bikerack_racking_activity_actor::finish( player_activity &act, Character &w
 
 void bikerack_racking_activity_actor::serialize( JsonOut &jsout ) const
 {
-    jsout.write_null();
+    jsout.start_object();
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "parent_vehicle", parent_vehicle );
+    jsout.member( "parts", parts );
+    jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( JsonIn &jsin )
 {
-    bikerack_racking_activity_actor actor( 0, * &vehicle(), * &std::vector<std::vector<int>>() );
+    vehicle veh;
+    bikerack_racking_activity_actor actor( 0, veh, std::vector<std::vector<int>>() );
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "parent_vehicle", actor.parent_vehicle );
+    data.read( "parts", actor.parts );
+
     return actor.clone();
 }
 
@@ -974,7 +984,7 @@ void bikerack_unracking_activity_actor::start( player_activity &act, Character &
     act.moves_left = moves_total;
 }
 
-void bikerack_unracking_activity_actor::finish( player_activity &act, Character &who )
+void bikerack_unracking_activity_actor::finish( player_activity &act, Character & )
 {
     if( parent_vehicle.remove_carried_vehicle( parts ) ) {
         parent_vehicle.clear_bike_racks( racks );
@@ -990,13 +1000,24 @@ void bikerack_unracking_activity_actor::finish( player_activity &act, Character 
 
 void bikerack_unracking_activity_actor::serialize( JsonOut &jsout ) const
 {
-    jsout.write_null();
+    jsout.start_object();
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "parent_vehicle", parent_vehicle );
+    jsout.member( "parts", parts );
+    jsout.member( "racks", racks );
+    jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> bikerack_unracking_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> bikerack_unracking_activity_actor::deserialize( JsonIn &jsin )
 {
-    bikerack_unracking_activity_actor actor( 0, * &vehicle(), * &std::vector<int>(),
-            * &std::vector<int>() );
+    vehicle veh;
+    bikerack_unracking_activity_actor actor( 0, veh, std::vector<int>(), std::vector<int>() );
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "parent_vehicle", actor.parent_vehicle );
+    data.read( "parts", actor.parts );
+    data.read( "racks", actor.racks );
+
     return actor.clone();
 }
 
