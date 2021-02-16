@@ -102,119 +102,93 @@ moon_phase get_moon_phase( const time_point &p )
     return static_cast<moon_phase>( current_phase );
 }
 
-// TODO: Refactor sunrise / sunset
-// The only difference between them is the start_hours array
+time_point sun_at_angle( const units::angle &angle, const time_point &p, const bool &evening )
+{
+	// Assumes we are in boston
+    const units::angle latitude = units::from_degrees( 42 );
+	
+	const units::angle hour_angle = units::acos( units::sin( angle ) - units::sin( latitude ) * units::sin( sun_declination( p ) ) / units::cos( latitude ) / units::cos( sun_declination( p ) ) );
+	int minutes = ( to_degrees(hour_angle) + 180 ) / 0.25;
+	
+	time_point time;
+	
+	if( evening ){
+		time = p - time_past_midnight( p ) + minutes * 1_minutes; 
+	} else {
+		time = p - time_past_midnight( p ) + 24_hours - minutes * 1_minutes;
+	}
+	
+	if( time < p ){
+		return time + 24_hours;
+	} else {
+		return time;
+	}
+	
+}
+
 time_point sunrise( const time_point &p )
 {
-    static_assert( static_cast<int>( SPRING ) == 0,
-                   "Expected spring to be the first season.  If not, code below will use wrong index into array" );
-
-    static const std::array<int, 4> start_hours = { { sunrise_equinox, sunrise_summer, sunrise_equinox, sunrise_winter, } };
-    const size_t season = static_cast<size_t>( season_of_year( p ) );
-    cata_assert( season < start_hours.size() );
-
-    const double start_hour = start_hours[season];
-    const double end_hour = start_hours[( season + 1 ) % 4];
-
-    const double into_month = static_cast<double>( day_of_season<int>( p ) ) / to_days<int>
-                              ( calendar::season_length() );
-    const double time = start_hour * ( 1.0 - into_month ) + end_hour * into_month;
-
-    const time_point midnight = p - time_past_midnight( p );
-    return midnight + time_duration::from_minutes( static_cast<int>( time * 60 ) );
+	// Assumes we are in boston
+    const units::angle latitude = units::from_degrees( 42 );
+	
+	const units::angle hour_angle = units::acos( units::tan( latitude ) * units::tan( sun_declination( p ) ) );
+	int minutes = ( to_degrees(hour_angle) + 180 ) / 0.25;
+	
+	return p - time_past_midnight( p ) + minutes * 1_minutes;
 }
 
 time_point sunset( const time_point &p )
 {
-    static_assert( static_cast<int>( SPRING ) == 0,
-                   "Expected spring to be the first season.  If not, code below will use wrong index into array" );
-
-    static const std::array<int, 4> start_hours = { { sunset_equinox, sunset_summer, sunset_equinox, sunset_winter, } };
-    const size_t season = static_cast<size_t>( season_of_year( p ) );
-    cata_assert( season < start_hours.size() );
-
-    const double start_hour = start_hours[season];
-    const double end_hour = start_hours[( season + 1 ) % 4];
-
-    const double into_month = static_cast<double>( day_of_season<int>( p ) ) / to_days<int>
-                              ( calendar::season_length() );
-    const double time = start_hour * ( 1.0 - into_month ) + end_hour * into_month;
-
-    const time_point midnight = p - time_past_midnight( p );
-    return midnight + time_duration::from_minutes( static_cast<int>( time * 60 ) );
+	// Assumes we are in boston
+    const units::angle latitude = units::from_degrees( 42 );
+	
+	const units::angle hour_angle = units::acos( units::tan( latitude ) * units::tan( sun_declination( p ) ) );
+	int minutes = ( to_degrees(hour_angle) + 180 ) / 0.25;
+	
+	time_point time = p - time_past_midnight( p ) + 24_hours - minutes * 1_minutes;
+	
+	if( time < p ){
+		return time + 24_hours;
+	} else {
+		return time;
+	}
 }
 
 time_point night_time( const time_point &p )
 {
-    return sunset( p ) + twilight_duration;
+    return sun_at_angle( units::from_degrees( -12 ), p, true );
 }
 
 time_point daylight_time( const time_point &p )
 {
-    // TODO: Actual daylight should start 18 degrees before sunrise
-    return sunrise( p ) + 15_minutes;
+    return sun_at_angle( units::from_degrees( -12 ), p, false );
 }
 
 bool is_night( const time_point &p )
 {
-    const time_duration now = time_past_midnight( p );
-    const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
-    const time_duration sunset = time_past_midnight( ::sunset( p ) );
-
-    return now >= sunset + twilight_duration || now <= sunrise;
+	return solar_altitude( p ) < units::from_degrees( -12 );
 }
 
 bool is_day( const time_point &p )
 {
-    const time_duration now = time_past_midnight( p );
-    const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
-    const time_duration sunset = time_past_midnight( ::sunset( p ) );
+    return solar_altitude( p ) > units::from_degrees( 0 );
+}
 
-    return now >= sunrise + twilight_duration && now <= sunset;
+bool is_twilight( const time_point &p )
+{
+	return solar_altitude( p ) < units::from_degrees( 0 ) && solar_altitude( p ) > units::from_degrees( -18 );
 }
 
 bool is_dusk( const time_point &p )
 {
-    const time_duration now = time_past_midnight( p );
-    const time_duration sunset = time_past_midnight( ::sunset( p ) );
-
-    return now >= sunset && now <= sunset + twilight_duration;
+	const time_duration now = time_past_midnight( p );
+    return is_twilight( p ) && now > 12_hours;
 }
 
 bool is_dawn( const time_point &p )
 {
-    const time_duration now = time_past_midnight( p );
-    const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
-
-    return now >= sunrise && now <= sunrise + twilight_duration;
-}
-
-double current_daylight_level( const time_point &p )
-{
-    const double percent = static_cast<double>( day_of_season<int>( p ) ) / to_days<int>
-                           ( calendar::season_length() );
-    double modifier = 1.0;
-    // For ~Boston: solstices are +/- 25% sunlight intensity from equinoxes
-    static double deviation = 0.25;
-
-    switch( season_of_year( p ) ) {
-        case SPRING:
-            modifier = 1. + ( percent * deviation );
-            break;
-        case SUMMER:
-            modifier = ( 1. + deviation ) - ( percent * deviation );
-            break;
-        case AUTUMN:
-            modifier = 1. - ( percent * deviation );
-            break;
-        case WINTER:
-            modifier = ( 1. - deviation ) + ( percent * deviation );
-            break;
-        default:
-            debugmsg( "Invalid season" );
-    }
-
-    return modifier * default_daylight_level();
+	const time_duration now = time_past_midnight( p );
+    return is_twilight( p ) && now < 12_hours;
 }
 
 units::angle solar_hour_angle( const time_point &p )
@@ -247,31 +221,42 @@ units::angle solar_altitude( const time_point &p )
                             latitude ) * units::cos( declination ) * units::cos( hour_angle ) );
 }
 
+float sun_irradiance( const time_point &p )
+{
+	float max_irradiance = 1000;  // Irradiance when sun is straight up on a clear day
+	
+	const units::angle sun_zenit = units::from_degrees( 90 ) - solar_altitude( p );
+	
+	if( sun_zenit > units::from_degrees( 90 ) ){
+		return 0;
+	} else {
+		return max_irradiance * units::cos( sun_zenit ) * units::cos( sun_zenit );
+	}
+}
+
 float sunlight( const time_point &p, const bool vision )
 {
-    const time_duration now = time_past_midnight( p );
-
-    const double daylight = current_daylight_level( p );
-
     int current_phase = static_cast<int>( get_moon_phase( p ) );
     if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 2 ) {
         current_phase = static_cast<int>( MOON_PHASE_MAX ) - current_phase;
     }
 
     const double moonlight = vision ? 1. + moonlight_per_quarter * current_phase : 0.;
-
+	
+	// sunlight at sunrise (sun at 0 degree)
+	float sunrise_light = 75;
+	
+	units::angle solar_alt = solar_altitude( p );
+	
     if( is_night( p ) ) {
         return moonlight;
-    } else if( is_dawn( p ) ) {
-        const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
-        const double percent = ( now - sunrise ) / twilight_duration;
-        return moonlight * ( 1. - percent ) + daylight * percent;
-    } else if( is_dusk( p ) ) {
-        const time_duration sunset = time_past_midnight( ::sunset( p ) );
-        const double percent = ( now - sunset ) / twilight_duration;
-        return daylight * ( 1. - percent ) + moonlight * percent;
+    } else if( solar_alt < units::from_degrees( 0 ) ) {
+		// Sunlight increases/decreases linearly during twilights.
+		// 0 at -18 degrees and 75 at 0 degrees.
+        float sunlight = 25.0 / 6 * to_degrees( solar_alt ) + sunrise_light;
+        return moonlight + sunlight;
     } else {
-        return daylight;
+        return default_daylight_level();
     }
 }
 

@@ -7618,7 +7618,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
 
 void game::list_items_monsters()
 {
-    std::vector<Creature *> mons = u.get_visible_creatures( current_daylight_level( calendar::turn ) );
+    std::vector<Creature *> mons = u.get_visible_creatures( default_daylight_level() );
     // whole reality bubble
     const std::vector<map_item_stack> items = find_nearby_items( 60 );
 

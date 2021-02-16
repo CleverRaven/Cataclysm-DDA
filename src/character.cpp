@@ -12023,10 +12023,10 @@ bool Character::sees_with_infrared( const Creature &critter ) const
         // Players should not use map::sees
         // Likewise, players should not be "looked at" with map::sees, not to break symmetry
         return here.pl_line_of_sight( critter.pos(),
-                                      sight_range( current_daylight_level( calendar::turn ) ) );
+                                      sight_range( default_daylight_level() ) );
     }
 
-    return here.sees( pos(), critter.pos(), sight_range( current_daylight_level( calendar::turn ) ) );
+    return here.sees( pos(), critter.pos(), sight_range( default_daylight_level() ) );
 }
 
 bool Character::is_visible_in_range( const Creature &critter, const int range ) const
