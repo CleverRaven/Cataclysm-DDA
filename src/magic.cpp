@@ -13,7 +13,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
-#include "compatibility.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"

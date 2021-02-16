@@ -8,8 +8,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "color.h"
-// needed for the workaround for the std::to_string bug in some compilers
-#include "compatibility.h" // IWYU pragma: keep
 #include "debug.h"
 #include "input.h"
 #include "mission.h"

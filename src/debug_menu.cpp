@@ -37,7 +37,6 @@
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"

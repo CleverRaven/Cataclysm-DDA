@@ -4,7 +4,6 @@
 #include <cstdlib>
 #include <string>
 
-#include "compatibility.h"
 #include "line.h"
 #include "units.h"
 #include "units_utility.h"

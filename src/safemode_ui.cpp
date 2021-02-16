@@ -12,7 +12,6 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
-#include "compatibility.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"

@@ -20,7 +20,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
-#include "compatibility.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"

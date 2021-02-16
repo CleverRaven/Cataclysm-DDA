@@ -8,7 +8,6 @@
 #include <utility>
 
 #include "cata_assert.h"
-#include "compatibility.h"
 #include "debug.h"
 #include "json.h"
 #include "mutation.h"

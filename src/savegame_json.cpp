@@ -50,7 +50,6 @@
 #include "clone_ptr.h"
 #include "clzones.h"
 #include "colony.h"
-#include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
 #include "coordinates.h"

@@ -13,7 +13,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
-#include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cursesdef.h"

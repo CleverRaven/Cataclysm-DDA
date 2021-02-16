@@ -18,7 +18,6 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
-#include "compatibility.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "damage.h"

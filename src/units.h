@@ -14,7 +14,6 @@
 #include <utility>
 #include <vector>
 
-#include "compatibility.h"
 #include "json.h"
 #include "math_defines.h"
 #include "translations.h"

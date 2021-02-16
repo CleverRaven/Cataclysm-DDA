@@ -28,7 +28,6 @@
 #include "character.h"
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h"
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"

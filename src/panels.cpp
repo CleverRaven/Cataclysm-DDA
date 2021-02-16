@@ -23,7 +23,6 @@
 #include "character_martial_arts.h"
 #include "character_oracle.h"
 #include "color.h"
-#include "compatibility.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"

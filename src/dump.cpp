@@ -11,7 +11,6 @@
 #include <utility>
 
 #include "character.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "damage.h"
 #include "init.h"
 #include "item.h"

@@ -7,7 +7,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
-#include "compatibility.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"

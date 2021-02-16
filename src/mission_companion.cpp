@@ -20,7 +20,6 @@
 #include "character.h"
 #include "colony.h"
 #include "color.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"

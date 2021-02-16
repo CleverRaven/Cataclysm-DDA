@@ -26,7 +26,6 @@
 #include "character_martial_arts.h"
 #include "colony.h"
 #include "color.h"
-#include "compatibility.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"

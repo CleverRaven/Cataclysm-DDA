@@ -6,7 +6,6 @@
 
 #include "cata_utility.h"
 #include "character.h"
-#include "compatibility.h"
 #include "game.h"
 #include "json.h"
 #include "player.h"

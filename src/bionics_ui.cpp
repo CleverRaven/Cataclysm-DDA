@@ -13,7 +13,6 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
-#include "compatibility.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "flat_set.h"

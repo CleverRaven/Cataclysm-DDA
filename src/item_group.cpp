@@ -10,7 +10,6 @@
 
 #include "calendar.h"
 #include "cata_assert.h"
-#include "compatibility.h"
 #include "debug.h"
 #include "enum_traits.h"
 #include "enums.h"
