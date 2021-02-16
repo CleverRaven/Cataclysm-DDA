@@ -107,25 +107,15 @@ time_point sun_at_angle( const units::angle &angle, const time_point &p, const b
     // Assumes we are in boston
     const units::angle latitude = units::from_degrees( 42 );
 
-    const units::angle hour_angle = units::acos( units::sin( angle ) - units::sin(
+    units::angle hour_angle = units::acos( units::sin( angle ) - units::sin(
                                         latitude ) * units::sin( solar_declination( p ) ) / units::cos( latitude ) / units::cos(
                                         solar_declination( p ) ) );
-    int minutes = ( to_degrees( hour_angle ) + 180 ) / 0.25;
-
-    time_point time;
-
-    if( evening ) {
-        time = p - time_past_midnight( p ) + minutes * 1_minutes;
-    } else {
-        time = p - time_past_midnight( p ) + 24_hours - minutes * 1_minutes;
+    if( !evening ) {
+        hour_angle = - hour_angle;
     }
-
-    if( time < p ) {
-        return time + 24_hours;
-    } else {
-        return time;
-    }
-
+	
+	int seconds = ( to_degrees( hour_angle ) + 180 ) * 240;
+	return p - time_past_midnight( p ) + seconds * 1_seconds;
 }
 
 time_point sunrise( const time_point &p )
@@ -133,11 +123,10 @@ time_point sunrise( const time_point &p )
     // Assumes we are in boston
     const units::angle latitude = units::from_degrees( 42 );
 
-    const units::angle hour_angle = units::acos( units::tan( latitude ) * units::tan( solar_declination(
+    const units::angle hour_angle = - units::acos( - units::tan( latitude ) * units::tan( solar_declination(
                                         p ) ) );
-    int minutes = ( to_degrees( hour_angle ) + 180 ) / 0.25;
-
-    return p - time_past_midnight( p ) + minutes * 1_minutes;
+    int seconds = ( to_degrees( hour_angle ) + 180 ) * 240;
+    return p - time_past_midnight( p ) + seconds * 1_seconds;
 }
 
 time_point sunset( const time_point &p )
@@ -145,17 +134,11 @@ time_point sunset( const time_point &p )
     // Assumes we are in boston
     const units::angle latitude = units::from_degrees( 42 );
 
-    const units::angle hour_angle = units::acos( units::tan( latitude ) * units::tan( solar_declination(
+    const units::angle hour_angle = units::acos( - units::tan( latitude ) * units::tan( solar_declination(
                                         p ) ) );
-    int minutes = ( to_degrees( hour_angle ) + 180 ) / 0.25;
-
-    time_point time = p - time_past_midnight( p ) + 24_hours - minutes * 1_minutes;
-
-    if( time < p ) {
-        return time + 24_hours;
-    } else {
-        return time;
-    }
+    
+	int seconds = ( to_degrees( hour_angle ) + 180 ) * 240;
+    return p - time_past_midnight( p ) + seconds * 1_seconds;
 }
 
 time_point night_time( const time_point &p )
@@ -170,18 +153,18 @@ time_point daylight_time( const time_point &p )
 
 bool is_night( const time_point &p )
 {
-    return solar_altitude( p ) < units::from_degrees( -12 );
+    return solar_altitude( p ) <= units::from_degrees( -12 );
 }
 
 bool is_day( const time_point &p )
 {
-    return solar_altitude( p ) > units::from_degrees( 0 );
+    return solar_altitude( p ) >= units::from_degrees( 0 );
 }
 
 bool is_twilight( const time_point &p )
 {
-    return solar_altitude( p ) < units::from_degrees( 0 ) &&
-           solar_altitude( p ) > units::from_degrees( -18 );
+    return solar_altitude( p ) <= units::from_degrees( 1 ) &&
+           solar_altitude( p ) >= units::from_degrees( -18 );
 }
 
 bool is_dusk( const time_point &p )

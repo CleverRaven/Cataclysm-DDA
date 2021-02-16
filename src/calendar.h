@@ -550,9 +550,9 @@ moon_phase get_moon_phase( const time_point &p );
 *  @return time point at which the specified angle occurs **/
 time_point sun_at_angle( const units::angle &angle, const time_point &p, const bool &evening );
 
-/** Returns the time of next sunrise (0 degrees). Special case of sun_at_angle() */
+/** Returns the time of sunrise (0 degrees). Special case of sun_at_angle() */
 time_point sunrise( const time_point &p );
-/** Returns the time of next sunset (0 degrees). Special case of sun_at_angle() */
+/** Returns the time of sunset (0 degrees). Special case of sun_at_angle() */
 time_point sunset( const time_point &p );
 /** Returns the start of nautical dawn (-12 degrees). Special case of sun_at_angle() */
 time_point daylight_time( const time_point &p );
@@ -573,6 +573,7 @@ double default_daylight_level();
 
 // Returns solar hour angle at time_point.
 // 0 degrees at noon (12:00)
+// negative before noon, positive after noon
 units::angle solar_hour_angle( const time_point &p );
 
 // Returns latitude of sun on time_poit
