@@ -104,54 +104,58 @@ moon_phase get_moon_phase( const time_point &p )
 
 time_point sun_at_angle( const units::angle &angle, const time_point &p, const bool &evening )
 {
-	// Assumes we are in boston
+    // Assumes we are in boston
     const units::angle latitude = units::from_degrees( 42 );
-	
-	const units::angle hour_angle = units::acos( units::sin( angle ) - units::sin( latitude ) * units::sin( sun_declination( p ) ) / units::cos( latitude ) / units::cos( sun_declination( p ) ) );
-	int minutes = ( to_degrees(hour_angle) + 180 ) / 0.25;
-	
-	time_point time;
-	
-	if( evening ){
-		time = p - time_past_midnight( p ) + minutes * 1_minutes; 
-	} else {
-		time = p - time_past_midnight( p ) + 24_hours - minutes * 1_minutes;
-	}
-	
-	if( time < p ){
-		return time + 24_hours;
-	} else {
-		return time;
-	}
-	
+
+    const units::angle hour_angle = units::acos( units::sin( angle ) - units::sin(
+                                        latitude ) * units::sin( sun_declination( p ) ) / units::cos( latitude ) / units::cos(
+                                        sun_declination( p ) ) );
+    int minutes = ( to_degrees( hour_angle ) + 180 ) / 0.25;
+
+    time_point time;
+
+    if( evening ) {
+        time = p - time_past_midnight( p ) + minutes * 1_minutes;
+    } else {
+        time = p - time_past_midnight( p ) + 24_hours - minutes * 1_minutes;
+    }
+
+    if( time < p ) {
+        return time + 24_hours;
+    } else {
+        return time;
+    }
+
 }
 
 time_point sunrise( const time_point &p )
 {
-	// Assumes we are in boston
+    // Assumes we are in boston
     const units::angle latitude = units::from_degrees( 42 );
-	
-	const units::angle hour_angle = units::acos( units::tan( latitude ) * units::tan( sun_declination( p ) ) );
-	int minutes = ( to_degrees(hour_angle) + 180 ) / 0.25;
-	
-	return p - time_past_midnight( p ) + minutes * 1_minutes;
+
+    const units::angle hour_angle = units::acos( units::tan( latitude ) * units::tan( sun_declination(
+                                        p ) ) );
+    int minutes = ( to_degrees( hour_angle ) + 180 ) / 0.25;
+
+    return p - time_past_midnight( p ) + minutes * 1_minutes;
 }
 
 time_point sunset( const time_point &p )
 {
-	// Assumes we are in boston
+    // Assumes we are in boston
     const units::angle latitude = units::from_degrees( 42 );
-	
-	const units::angle hour_angle = units::acos( units::tan( latitude ) * units::tan( sun_declination( p ) ) );
-	int minutes = ( to_degrees(hour_angle) + 180 ) / 0.25;
-	
-	time_point time = p - time_past_midnight( p ) + 24_hours - minutes * 1_minutes;
-	
-	if( time < p ){
-		return time + 24_hours;
-	} else {
-		return time;
-	}
+
+    const units::angle hour_angle = units::acos( units::tan( latitude ) * units::tan( sun_declination(
+                                        p ) ) );
+    int minutes = ( to_degrees( hour_angle ) + 180 ) / 0.25;
+
+    time_point time = p - time_past_midnight( p ) + 24_hours - minutes * 1_minutes;
+
+    if( time < p ) {
+        return time + 24_hours;
+    } else {
+        return time;
+    }
 }
 
 time_point night_time( const time_point &p )
@@ -166,7 +170,7 @@ time_point daylight_time( const time_point &p )
 
 bool is_night( const time_point &p )
 {
-	return solar_altitude( p ) < units::from_degrees( -12 );
+    return solar_altitude( p ) < units::from_degrees( -12 );
 }
 
 bool is_day( const time_point &p )
@@ -176,18 +180,19 @@ bool is_day( const time_point &p )
 
 bool is_twilight( const time_point &p )
 {
-	return solar_altitude( p ) < units::from_degrees( 0 ) && solar_altitude( p ) > units::from_degrees( -18 );
+    return solar_altitude( p ) < units::from_degrees( 0 ) &&
+           solar_altitude( p ) > units::from_degrees( -18 );
 }
 
 bool is_dusk( const time_point &p )
 {
-	const time_duration now = time_past_midnight( p );
+    const time_duration now = time_past_midnight( p );
     return is_twilight( p ) && now > 12_hours;
 }
 
 bool is_dawn( const time_point &p )
 {
-	const time_duration now = time_past_midnight( p );
+    const time_duration now = time_past_midnight( p );
     return is_twilight( p ) && now < 12_hours;
 }
 
@@ -223,15 +228,15 @@ units::angle solar_altitude( const time_point &p )
 
 float sun_irradiance( const time_point &p )
 {
-	float max_irradiance = 1000;  // Irradiance when sun is straight up on a clear day
-	
-	const units::angle sun_zenit = units::from_degrees( 90 ) - solar_altitude( p );
-	
-	if( sun_zenit > units::from_degrees( 90 ) ){
-		return 0;
-	} else {
-		return max_irradiance * units::cos( sun_zenit ) * units::cos( sun_zenit );
-	}
+    float max_irradiance = 1000;  // Irradiance when sun is straight up on a clear day
+
+    const units::angle sun_zenit = units::from_degrees( 90 ) - solar_altitude( p );
+
+    if( sun_zenit > units::from_degrees( 90 ) ) {
+        return 0;
+    } else {
+        return max_irradiance * units::cos( sun_zenit ) * units::cos( sun_zenit );
+    }
 }
 
 float sunlight( const time_point &p, const bool vision )
@@ -242,17 +247,17 @@ float sunlight( const time_point &p, const bool vision )
     }
 
     const double moonlight = vision ? 1. + moonlight_per_quarter * current_phase : 0.;
-	
-	// sunlight at sunrise (sun at 0 degree)
-	float sunrise_light = 75;
-	
-	units::angle solar_alt = solar_altitude( p );
-	
+
+    // sunlight at sunrise (sun at 0 degree)
+    float sunrise_light = 75;
+
+    units::angle solar_alt = solar_altitude( p );
+
     if( is_night( p ) ) {
         return moonlight;
     } else if( solar_alt < units::from_degrees( 0 ) ) {
-		// Sunlight increases/decreases linearly during twilights.
-		// 0 at -18 degrees and 75 at 0 degrees.
+        // Sunlight increases/decreases linearly during twilights.
+        // 0 at -18 degrees and 75 at 0 degrees.
         float sunlight = 25.0 / 6 * to_degrees( solar_alt ) + sunrise_light;
         return moonlight + sunlight;
     } else {
