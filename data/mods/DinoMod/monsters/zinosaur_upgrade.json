@@ -122,7 +122,6 @@
       "melee_cut": 2,
       "armor_bash": 4,
       "armor_cut": 6,
-      "armor_bullet": 5,
       "vision_night": 1
     },
     "upgrades": {  },
@@ -614,7 +613,6 @@
       "melee_dice_sides": 5,
       "melee_cut": 7,
       "armor_cut": 22,
-      "armor_bullet": 30,
       "armor_stab": 30,
       "armor_acid": 3,
       "vision_day": -20
