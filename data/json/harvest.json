@@ -1480,7 +1480,8 @@
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 },
       { "drop": "stick", "type": "bone", "mass_ratio": 0.05 },
-      { "drop": "fighter_sting", "type": "offal", "max": 1 }
+      { "drop": "venom_paralytic", "type": "offal", "mass_ratio": 0.0075 },
+      { "drop": "triffid_fungicide", "type": "offal", "mass_ratio": 0.0075 },
     ]
   },
   {
