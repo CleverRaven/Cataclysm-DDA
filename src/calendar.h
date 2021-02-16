@@ -566,13 +566,16 @@ double default_daylight_level();
 
 // Returns solar hour angle at time_point.
 // 0 degrees at noon (12:00)
-units::angle solar_hour_angle(const time_point& p);
+units::angle solar_hour_angle( const time_point &p );
 
 // Returns latitude of sun on time_poit
-units::angle sun_declination(const time_point& p);
+units::angle sun_declination( const time_point &p );
+
+// Returns sun altitude at time_point
+units::angle solar_altitude( const time_point &p );
 
 // Returns angle of sun at time_poit
-units::angle sun_angle(const time_point& p);
+units::angle sun_angle( const time_point &p );
 
 /** Returns the current sunlight or moonlight level through the preceding functions.
  *  By default, returns sunlight level for vision, with moonlight providing a measurable amount

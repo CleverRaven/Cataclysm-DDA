@@ -861,6 +861,11 @@ inline units::angle acos( double a )
     return from_radians( std::acos( a ) );
 }
 
+inline units::angle asin( double a )
+{
+    return from_radians( std::asin( a ) );
+}
+
 inline units::angle atan2( double y, double x )
 {
     return from_radians( std::atan2( y, x ) );

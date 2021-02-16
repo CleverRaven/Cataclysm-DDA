@@ -219,25 +219,32 @@ double current_daylight_level( const time_point &p )
 
 units::angle solar_hour_angle( const time_point &p )
 {
-	return units::from_degrees( to_minutes<float>( ( p - calendar::turn_zero ) % 1_days ) / 24 / 60 * 360 ) - units::from_degrees( 180 );
+    // See wikipedia for more details https://en.wikipedia.org/wiki/Hour_angle
+    return units::from_degrees( to_minutes<float>( ( p - calendar::turn_zero ) % 1_days ) / 24 / 60 *
+                                360 ) - units::from_degrees( 180 );
 }
 
 units::angle sun_declination( const time_point &p )
 {
-	// n is day so that n=1 is january 1st 00:00 UTC
-	int n = normalized_day_of_year( p );
-	return units::from_degrees( 23.44 * units::cos( units::from_degrees( ( n + 10 ) * 360 / 365.0 ) ) );
+    // See wikipedia for more details https://en.wikipedia.org/wiki/Position_of_the_Sun#Calculations
+    // n is day so that n=1 is january 1st 00:00 UTC
+    int n = normalized_day_of_year( p );
+    return units::from_degrees( -23.44 * units::cos( units::from_degrees( (
+                                    n + 10 ) * 360 / 365.0 ) ) );
 }
 
-units::angle sun_zenith( const time_point &p )
+units::angle solar_altitude( const time_point &p )
 {
-	// Assumes we are in boston
-	const units::angle latitude = units::from_degrees(42);
-	
-	const units::angle hour_angle = solar_hour_angle( p );
-	const units::angle declination = sun_declination( p );
-	
-	return units::acos( units::sin(latitude) * units::sin(declination) + units::cos(latitude) * units::cos(declination) * units::cos(hour_angle)  );
+    // See wikipedia for more details https://en.wikipedia.org/wiki/Solar_zenith_angle
+
+    // Assumes we are in boston
+    const units::angle latitude = units::from_degrees( 42 );
+
+    const units::angle hour_angle = solar_hour_angle( p );
+    const units::angle declination = sun_declination( p );
+
+    return units::asin( units::sin( latitude ) * units::sin( declination ) + units::cos(
+                            latitude ) * units::cos( declination ) * units::cos( hour_angle ) );
 }
 
 float sunlight( const time_point &p, const bool vision )
@@ -497,7 +504,7 @@ std::string to_string_time_of_day( const time_point &p )
 // returns the day of year normalized to 365 day year.
 int normalized_day_of_year( const time_point &p )
 {
-	const float day_of_year = to_days<float>( ( p - calendar::turn_zero ) % calendar::year_length() );
+    const float day_of_year = to_days<float>( ( p - calendar::turn_zero ) % calendar::year_length() );
     return 365 * day_of_year / to_days<float>( calendar::year_length() ) + 1;
 }
 

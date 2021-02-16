@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 #include "calendar.h" // IWYU pragma: associated
+#include "units.h"
 
 #include <string>
 
@@ -320,3 +321,46 @@ TEST_CASE( "sunrise and sunset", "[sun][sunrise][sunset][equinox][solstice]" )
     }
 }
 
+TEST_CASE( "sun angles" )
+{
+    // CDDA year is 364 days long but the math is for IRL 365 days. Causes some rounding errors as dates don't map exactly right.
+
+    // January 1st 12:00
+    static const time_point january_date = calendar::turn_zero + 12_hours;
+
+    // Somewhere in September at 19:00
+    static const time_point september_date = calendar::turn_zero + 260_days + 19_hours;
+
+    // Somewhere in September at 03:17
+    static const time_point september_date_2 = calendar::turn_zero + 260_days + 3_hours + 17_minutes;
+
+    // Somewhere in June at 23:00
+    static const time_point june_date = calendar::turn_zero + 160_days + 23_hours;
+
+    // Somewhere in June at 23:00 on year 3
+    static const time_point june_date_year3 = june_date + 364_days;
+
+    SECTION( "solar hour angle" ) {
+        CHECK( to_degrees( solar_hour_angle( january_date ) ) ==  Approx( 0 ).margin( 0.01 ) );
+        CHECK( to_degrees( solar_hour_angle( september_date ) ) ==  Approx( 105 ).margin( 0.01 ) );
+        CHECK( to_degrees( solar_hour_angle( september_date_2 ) ) ==  Approx( -130.75 ).margin( 0.01 ) );
+        CHECK( to_degrees( solar_hour_angle( june_date ) ) ==  Approx( 165 ).margin( 0.01 ) );
+        CHECK( to_degrees( solar_hour_angle( june_date_year3 ) ) ==  Approx( 165 ).margin( 0.01 ) );
+    }
+
+    SECTION( "sun declination" ) {
+        CHECK( to_degrees( sun_declination( january_date ) ) ==  Approx( -23.02 ).margin( 0.01 ) );
+        CHECK( to_degrees( sun_declination( september_date ) ) ==  Approx( 0.70 ).margin( 0.01 ) );
+        CHECK( to_degrees( sun_declination( september_date_2 ) ) ==  Approx( 1.10 ).margin( 0.01 ) );
+        CHECK( to_degrees( sun_declination( june_date ) ) ==  Approx( 23.05 ).margin( 0.01 ) );
+        CHECK( to_degrees( sun_declination( june_date_year3 ) ) ==  Approx( 23.05 ).margin( 0.01 ) );
+    }
+
+    SECTION( "sun altitude" ) {
+        CHECK( to_degrees( solar_altitude( january_date ) ) ==  Approx( 24.97 ).margin( 0.01 ) );
+        CHECK( to_degrees( solar_altitude( september_date ) ) ==  Approx( -10.60 ).margin( 0.01 ) );
+        CHECK( to_degrees( solar_altitude( september_date_2 ) ) ==  Approx( -28.16 ).margin( 0.01 ) );
+        CHECK( to_degrees( solar_altitude( june_date ) ) ==  Approx( -23.47 ).margin( 0.01 ) );
+        CHECK( to_degrees( solar_altitude( june_date_year3 ) ) ==  Approx( -23.47 ).margin( 0.01 ) );
+    }
+}
