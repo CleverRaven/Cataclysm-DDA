@@ -276,7 +276,7 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
-    "skills_required": [ [ "survival", 6 ], [ "firstaid", 6 ] ],
+    "skills_required": [ [ "survival", 6 ], [ "firstaid", 2 ] ],
     "difficulty": 7,
     "time": "1 h",
     "autolearn": true,
