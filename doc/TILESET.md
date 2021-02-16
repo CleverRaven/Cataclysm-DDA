@@ -180,8 +180,7 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 
 `--palette`: Quantize all tilesheets to 8bpp colormaps. May severely reduce quality as there is only 256 possible colors but reduces file size.
 
-`--palette-copies`: Output copies of tilesheet files quantized to 8bpp palette with `.png8` extension. Intended for external detection if conversion was lossless. Should be obsoleted once a way to count number of colors with `pyvips` is found.
-
+`--palette-copies`: Output copies of tilesheet files quantized to 8bpp palette with `.png8` extension. Intended for external detection if conversion was lossless.
 
 Requires `pyvips` module.
 
