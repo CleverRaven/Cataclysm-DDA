@@ -116,14 +116,7 @@
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
-    "relative": {
-      "melee_dice": 1,
-      "melee_dice_sides": 5,
-      "melee_cut": 2,
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "vision_night": 1
-    },
+    "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_cut": 2, "armor_bash": 4, "armor_cut": 6, "vision_night": 1 },
     "upgrades": {  },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
