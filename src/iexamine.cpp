@@ -27,7 +27,6 @@
 #include "character.h"
 #include "colony.h"
 #include "color.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "construction_group.h"
 #include "coordinate_conversions.h"
@@ -612,7 +611,7 @@ class atm_menu
             const int amount = string_input_popup()
                                .title( formatted )
                                .width( 20 )
-                               .text( to_string( max ) )
+                               .text( std::to_string( max ) )
                                .only_digits( true )
                                .query_int();
 
@@ -4067,7 +4066,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
-                 .text( to_string( max_amount ) )
+                 .text( std::to_string( max_amount ) )
                  .only_digits( true )
                  .query_int();
     if( amount <= 0 || amount > max_amount ) {
@@ -4470,8 +4469,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     amenu.addentry( refund, true, 'r', str_to_illiterate_str( _( "Refund cash." ) ) );
 
     std::string gaspumpselected = str_to_illiterate_str( string_format( _( "Current %s pump: " ),
-                                  fuelType ) +
-                                  to_string( uistate.ags_pay_gas_selected_pump + 1 ) );
+                                  fuelType ) + std::to_string( uistate.ags_pay_gas_selected_pump + 1 ) );
     amenu.addentry( 0, false, -1, gaspumpselected );
     amenu.addentry( choose_pump, true, 'p',
                     str_to_illiterate_str( string_format( _( "Choose a %s pump." ), fuelType ) ) );
@@ -4496,7 +4494,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
         for( int i = 0; i < pumpCount; i++ ) {
             amenu.addentry( i, true, -1,
-                            str_to_illiterate_str( _( "Pump " ) ) + to_string( i + 1 ) );
+                            str_to_illiterate_str( _( "Pump " ) ) + std::to_string( i + 1 ) );
         }
         amenu.query();
         choice = amenu.ret;
@@ -4529,7 +4527,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         int liters = string_input_popup()
                      .title( popupmsg )
                      .width( 20 )
-                     .text( to_string( maximum_liters ) )
+                     .text( std::to_string( maximum_liters ) )
                      .only_digits( true )
                      .query_int();
         if( liters <= 0 ) {
@@ -5544,7 +5542,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
-                 .text( to_string( max_count ) )
+                 .text( std::to_string( max_count ) )
                  .only_digits( true )
                  .query_int();
 
@@ -5653,7 +5651,7 @@ static void mill_load_food( player &p, const tripoint &examp,
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
-                 .text( to_string( max_count ) )
+                 .text( std::to_string( max_count ) )
                  .only_digits( true )
                  .query_int();
 

@@ -28,7 +28,6 @@
 #include "character.h"
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h"
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
@@ -403,7 +402,7 @@ class map_notes_callback : public uilist_callback
                         int amount = string_input_popup()
                                      .title( popupmsg )
                                      .width( 20 )
-                                     .text( to_string( 0 ) )
+                                     .text( "0" )
                                      .only_digits( true )
                                      .query_int();
                         if( amount > -1 && amount <= max_amount ) {

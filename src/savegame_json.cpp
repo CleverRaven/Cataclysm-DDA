@@ -50,7 +50,6 @@
 #include "clone_ptr.h"
 #include "clzones.h"
 #include "colony.h"
-#include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
 #include "coordinates.h"
@@ -1004,9 +1003,9 @@ void Character::store( JsonOut &json ) const
 
     // npc; unimplemented
     if( power_level < 1_J ) {
-        json.member( "power_level", to_string( units::to_millijoule( power_level ) ) + " mJ" );
+        json.member( "power_level", std::to_string( units::to_millijoule( power_level ) ) + " mJ" );
     } else if( power_level < 1_kJ ) {
-        json.member( "power_level", to_string( units::to_joule( power_level ) ) + " J" );
+        json.member( "power_level", std::to_string( units::to_joule( power_level ) ) + " J" );
     } else {
         json.member( "power_level", units::to_kilojoule( power_level ) );
     }
