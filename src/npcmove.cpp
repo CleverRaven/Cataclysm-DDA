@@ -79,9 +79,6 @@
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 
-static const ammotype ammo_reactor_slurry( "reactor_slurry" );
-static const ammotype ammo_plutonium( "plutonium" );
-
 static const skill_id skill_firstaid( "firstaid" );
 
 static const bionic_id bio_ads( "bio_ads" );
@@ -600,7 +597,8 @@ void npc::assess_danger()
     for( const weak_ptr_fast<Creature> &guy : hostile_guys ) {
         player *foe = dynamic_cast<player *>( guy.lock().get() );
         if( foe && foe->is_npc() ) {
-            assessment += handle_hostile( *foe, evaluate_enemy( *foe ), "bandit", "kill_npc" );
+            assessment += handle_hostile( *foe, evaluate_enemy( *foe ), translate_marker( "bandit" ),
+                                          "kill_npc" );
         }
     }
 
@@ -619,7 +617,8 @@ void npc::assess_danger()
         // cap player difficulty at 150
         float player_diff = evaluate_enemy( player_character );
         if( is_enemy() ) {
-            assessment += handle_hostile( player_character, player_diff, "maniac", "kill_player" );
+            assessment += handle_hostile( player_character, player_diff, translate_marker( "maniac" ),
+                                          "kill_player" );
         } else if( is_friendly( player_character ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             assessment = std::max( min_danger, assessment - player_diff * 0.5f );
@@ -3631,7 +3630,7 @@ void npc::heal_player( player &patient )
 
 }
 
-void npc:: pretend_heal( player &patient, item used )
+void npc::pretend_heal( player &patient, item used )
 {
     // you can tell that it's not real by looking at your HP though
     add_msg_if_player_sees( *this, _( "%1$s heals %2$s." ), disp_name(),
@@ -4394,7 +4393,7 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
                                       string_format( _( " %s, %s" ),
                                               direction_name( direction_from( pos(), danger_pos ) ),
                                               distance_string( range ) );
-        const std::string speech = string_format( _( "%s %s%s" ), snip, name, range_str );
+        const std::string speech = string_format( _( "%s %s%s" ), snip, _( name ), range_str );
         complain_about( warning_name, d, speech, is_enemy(), spriority );
     }
 }

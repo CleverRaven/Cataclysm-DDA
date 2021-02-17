@@ -8,7 +8,7 @@
   {
     "type": "item_group",
     "id": "religious_books",
-    "items": [ [ "priest_beginner", 1 ], [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ], [ "summon_undead_spellbook", 1 ] ]
+    "items": [ [ "priest_beginner", 1 ], [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ] ]
   },
   {
     "type": "item_group",
@@ -132,6 +132,17 @@
       { "group": "spell_scroll_tier_2", "prob": 30 },
       { "group": "magic_recipe_basic", "prob": 50 },
       { "group": "magic_recipe_advanced", "prob": 16 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_shop_beginner_books",
+    "subtype": "collection",
+    "items": [
+      { "group": "spellbook_tier_0", "prob": 100 },
+      { "group": "spellbook_tier_0", "prob": 80 },
+      { "group": "spellbook_tier_0", "prob": 60 },
+      { "group": "spellbook_tier_0", "prob": 20 }
     ]
   },
   {

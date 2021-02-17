@@ -588,6 +588,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_shocking_lash",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Shocking Lash", "str_pl": "Scrolls of Shocking Lash" },
+    "description": "A quick burst of electricity strikes a target and possibly one other nearby.",
+    "use_action": { "type": "learn_spell", "spells": [ "shocking_lash" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_jolt",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Jolt", "str_pl": "Scrolls of Jolt" },
@@ -782,6 +791,15 @@
     "name": { "str": "Scroll of Clairvoyance", "str_pl": "Scrolls of Clairvoyance" },
     "description": "You close your eyes and the earth surrenders its secrets to you.",
     "use_action": { "type": "learn_spell", "spells": [ "clairvoyance" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_bleed",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Bleed", "str_pl": "Scrolls of Bleed" },
+    "description": "With a shout and a gesture, the target starts bleeding from old wounds.",
+    "use_action": { "type": "learn_spell", "spells": [ "bleed" ] }
   },
   {
     "type": "BOOK",

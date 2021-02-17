@@ -1097,7 +1097,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         for( const skill_id &trained : trainable ) {
             const std::string &text = beta->skill_training_text( *alpha, trained );
-            if( !text.empty() ) {
+            if( !text.empty() && !trained->obsolete() ) {
                 add_response( text, "TALK_TRAIN_START", trained );
             }
         }

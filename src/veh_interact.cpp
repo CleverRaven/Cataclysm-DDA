@@ -1546,7 +1546,6 @@ void veh_interact::calc_overview()
         }
     }
 
-
     auto compare = []( veh_interact::part_option & s1,
     veh_interact::part_option & s2 ) {
         // NOLINTNEXTLINE cata-use-localized-sorting

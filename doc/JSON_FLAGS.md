@@ -970,6 +970,7 @@ Other monster flags.
 - ```MILITARY_MECH``` Is a military-grade mech.
 - ```MILKABLE``` Produces milk when milked.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
+- ```NOT_HALLUCINATION``` This monster does not appear while the player is hallucinating.
 - ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
 - ```NOHEAD``` Headshots not allowed!
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.

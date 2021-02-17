@@ -1331,7 +1331,7 @@ furn_id map::furn( const tripoint &p ) const
     return current_submap->get_furn( l );
 }
 
-void map::furn_set( const tripoint &p, const furn_id &new_furniture )
+void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool furn_reset )
 {
     if( !inbounds( p ) ) {
         return;
@@ -1358,6 +1358,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
     avatar &player_character = get_avatar();
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
     if( player_character.get_grab_type() == object_type::FURNITURE &&
+        !furn_reset &&
         player_character.pos() + player_character.grab_point == p && !new_t.is_movable() ) {
         add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name() );
         player_character.grab( object_type::NONE );
@@ -2981,7 +2982,7 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
 
 void map::smash_items( const tripoint &p, const int power, const std::string &cause_message )
 {
-    if( !has_items( p ) ) {
+    if( !has_items( p ) || has_flag_ter_or_furn( "PLANT", p ) ) {
         return;
     }
 
@@ -3470,7 +3471,7 @@ bash_params map::bash( const tripoint &p, const int str,
 
 void map::bash_items( const tripoint &p, bash_params &params )
 {
-    if( !has_items( p ) ) {
+    if( !has_items( p ) || has_flag_ter_or_furn( "PLANT", p ) ) {
         return;
     }
 

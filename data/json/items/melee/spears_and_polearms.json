@@ -117,7 +117,7 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -42 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE", "SHEATH_SPEAR" ]
   },
   {
@@ -138,7 +138,7 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -28 ] ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ]
   },
   {

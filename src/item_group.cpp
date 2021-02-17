@@ -6,6 +6,7 @@
 #include <set>
 #include <string>
 #include <type_traits>
+#include <unordered_map>
 
 #include "calendar.h"
 #include "cata_assert.h"
@@ -104,7 +105,7 @@ static item_pocket::pocket_type guess_pocket_for( const item &container, const i
 }
 
 static void put_into_container(
-    Item_spawn_data::ItemList &items, const cata::optional<itype_id> container_type,
+    Item_spawn_data::ItemList &items, const cata::optional<itype_id> &container_type,
     time_point birthday, Item_spawn_data::overflow_behaviour on_overflow,
     const std::string &context )
 {
@@ -303,19 +304,21 @@ bool Single_item_creator::remove_item( const itype_id &itemid )
     return type == S_NONE;
 }
 
-void Single_item_creator::replace_item( const itype_id &itemid, const itype_id &replacementid )
+void Single_item_creator::replace_items( const std::unordered_map<itype_id, itype_id>
+        &replacements )
 {
     if( modifier ) {
-        modifier->replace_item( itemid, replacementid );
+        modifier->replace_items( replacements );
     }
     if( type == S_ITEM ) {
-        if( itemid.str() == id ) {
-            id = replacementid.str();
+        auto it = replacements.find( itype_id( id ) );
+        if( it != replacements.end() ) {
+            id = it->second.str();
         }
     } else if( type == S_ITEM_GROUP ) {
         Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
         if( isd != nullptr ) {
-            isd->replace_item( itemid, replacementid );
+            isd->replace_items( replacements );
         }
     }
 }
@@ -576,16 +579,16 @@ bool Item_modifier::remove_item( const itype_id &itemid )
     return false;
 }
 
-void Item_modifier::replace_item( const itype_id &itemid, const itype_id &replacementid )
+void Item_modifier::replace_items( const std::unordered_map<itype_id, itype_id> &replacements )
 {
     if( ammo ) {
-        ammo->replace_item( itemid, replacementid );
+        ammo->replace_items( replacements );
     }
     if( container ) {
-        container->replace_item( itemid, replacementid );
+        container->replace_items( replacements );
     }
     if( contents ) {
-        contents->replace_item( itemid, replacementid );
+        contents->replace_items( replacements );
     }
 }
 
@@ -719,10 +722,10 @@ bool Item_group::remove_item( const itype_id &itemid )
     return items.empty();
 }
 
-void Item_group::replace_item( const itype_id &itemid, const itype_id &replacementid )
+void Item_group::replace_items( const std::unordered_map<itype_id, itype_id> &replacements )
 {
     for( const std::unique_ptr<Item_spawn_data> &elem : items ) {
-        ( elem )->replace_item( itemid, replacementid );
+        ( elem )->replace_items( replacements );
     }
 }
 

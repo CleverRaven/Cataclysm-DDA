@@ -652,7 +652,6 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
     return std::make_pair( damage_info, col );
 }
 
-
 static std::pair<std::string, nc_color> speed_description( float mon_speed_rating,
         bool immobile = false )
 {
@@ -693,7 +692,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     // Print health bar, monster name, then statuses on the first line.
     nc_color bar_color = c_white;
-    std::string bar_str, dot_str;
+    std::string bar_str;
     get_HP_Bar( bar_color, bar_str );
     std::ostringstream oss;
     oss << get_tag_from_color( bar_color ) << bar_str << "</color>";

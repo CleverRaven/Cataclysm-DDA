@@ -293,7 +293,7 @@
     "id": "f_crispr",
     "name": "CRISPR Biolab",
     "symbol": "&",
-    "description": "A boxy looking device of arms, droppers and pipettes.  It was used pre-Cataclysm to do expirements in gene editing.",
+    "description": "A boxy looking device of arms, droppers, and pipettes.  It was used pre-Cataclysm to do gene-editing experiments.",
     "color": "light_cyan",
     "looks_like": "f_robotic_arm",
     "move_cost_mod": -1,

@@ -333,7 +333,6 @@ static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
-static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
@@ -6523,8 +6522,8 @@ void Character::update_bodytemp()
     const int metabolism_warmth = static_cast<int>( std::max( 0.0f, met_rate - 1.0f ) * 1000 );
     // Fatigue
     // ~-900 when exhausted
-    const int fatigue_warmth = has_sleep ? 0 : static_cast<int>( std::min( 0.0f,
-                               -1.5f * get_fatigue() ) );
+    const int fatigue_warmth = has_sleep ? 0 : static_cast<int>( clamp( -1.5f * get_fatigue(), -1350.0f,
+                               0.0f ) );
 
     // Sunlight
     const int sunlight_warmth = g->is_in_sunlight( pos() ) ?
@@ -6786,113 +6785,9 @@ void Character::update_bodytemp()
             remove_effect( effect_hot, bp );
             remove_effect( effect_hot_speed, bp );
         }
-        // FROSTBITE - only occurs to hands, feet, face
-        /**
 
-        Source : http://www.atc.army.mil/weather/windchill.pdf
+        update_frostbite( bp, bp_windpower );
 
-        Temperature and wind chill are main factors, mitigated by clothing warmth. Each 10 warmth protects against 2C of cold.
-
-        1200 turns in low risk, + 3 tics
-        450 turns in moderate risk, + 8 tics
-        50 turns in high risk, +72 tics
-
-        Let's say frostnip @ 1800 tics, frostbite @ 3600 tics
-
-        >> Chunked into 8 parts (http://imgur.com/xlTPmJF)
-        -- 2 hour risk --
-        Between 30F and 10F
-        Between 10F and -5F, less than 20mph, -4x + 3y - 20 > 0, x : F, y : mph
-        -- 45 minute risk --
-        Between 10F and -5F, less than 20mph, -4x + 3y - 20 < 0, x : F, y : mph
-        Between 10F and -5F, greater than 20mph
-        Less than -5F, less than 10 mph
-        Less than -5F, more than 10 mph, -4x + 3y - 170 > 0, x : F, y : mph
-        -- 5 minute risk --
-        Less than -5F, more than 10 mph, -4x + 3y - 170 < 0, x : F, y : mph
-        Less than -35F, more than 10 mp
-        **/
-
-        if( bp == body_part_mouth || bp == body_part_foot_r ||
-            bp == body_part_foot_l || bp == body_part_hand_r || bp == body_part_hand_l ) {
-            // Handle the frostbite timer
-            // Need temps in F, windPower already in mph
-            int wetness_percentage = 100 * get_part_wetness_percentage( bp ); // 0 - 100
-            // Warmth gives a slight buff to temperature resistance
-            // Wetness gives a heavy nerf to temperature resistance
-            double adjusted_warmth = warmth( bp ) - wetness_percentage;
-            int Ftemperature = static_cast<int>( player_local_temp + 0.2 * adjusted_warmth );
-            // Windchill reduced by your armor
-            int FBwindPower = static_cast<int>(
-                                  total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
-
-            int intense = get_effect_int( effect_frostbite, bp );
-
-            // This has been broken down into 8 zones
-            // Low risk zones (stops at frostnip)
-            if( temp_after < BODYTEMP_COLD && ( ( Ftemperature < 30 && Ftemperature >= 10 ) ||
-                                                ( Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 &&
-                                                  -4 * Ftemperature + 3 * FBwindPower - 20 >= 0 ) ) ) {
-                if( get_part_frostbite_timer( bp ) < 2000 ) {
-                    mod_part_frostbite_timer( bp, 3 );
-                }
-                if( one_in( 100 ) && !has_effect( effect_frostbite, bp.id() ) ) {
-                    add_msg( m_warning, _( "Your %s will be frostnipped in the next few hours." ),
-                             body_part_name( bp ) );
-                }
-                // Medium risk zones
-            } else if( temp_after < BODYTEMP_COLD &&
-                       ( ( Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 &&
-                           -4 * Ftemperature + 3 * FBwindPower - 20 < 0 ) ||
-                         ( Ftemperature < 10 && Ftemperature >= -5 && FBwindPower >= 20 ) ||
-                         ( Ftemperature < -5 && FBwindPower < 10 ) ||
-                         ( Ftemperature < -5 && FBwindPower >= 10 &&
-                           -4 * Ftemperature + 3 * FBwindPower - 170 >= 0 ) ) ) {
-                mod_part_frostbite_timer( bp, 8 );
-                if( one_in( 100 ) && intense < 2 ) {
-                    add_msg( m_warning, _( "Your %s will be frostbitten within the hour!" ),
-                             body_part_name( bp ) );
-                }
-                // High risk zones
-            } else if( temp_after < BODYTEMP_COLD &&
-                       ( ( Ftemperature < -5 && FBwindPower >= 10 &&
-                           -4 * Ftemperature + 3 * FBwindPower - 170 < 0 ) ||
-                         ( Ftemperature < -35 && FBwindPower >= 10 ) ) ) {
-                mod_part_frostbite_timer( bp, 72 );
-                if( one_in( 100 ) && intense < 2 ) {
-                    add_msg( m_warning, _( "Your %s will be frostbitten any minute now!" ),
-                             body_part_name( bp ) );
-                }
-                // Risk free, so reduce frostbite timer
-            } else {
-                mod_part_frostbite_timer( bp, - 3 );
-            }
-
-            int frostbite_timer = get_part_frostbite_timer( bp );
-            // Handle the bestowing of frostbite
-            if( frostbite_timer < 0 ) {
-                set_part_frostbite_timer( bp, 0 );
-            } else if( frostbite_timer > 4200 ) {
-                // This ensures that the player will recover in at most 3 hours.
-                set_part_frostbite_timer( bp, 4200 );
-            }
-            frostbite_timer = get_part_frostbite_timer( bp );
-            // Frostbite, no recovery possible
-            if( frostbite_timer >= 3600 ) {
-                add_effect( effect_frostbite, 1_turns, bp, true, 2 );
-                remove_effect( effect_frostbite_recovery, bp );
-                // Else frostnip, add recovery if we were frostbitten
-            } else if( frostbite_timer >= 1800 ) {
-                if( intense == 2 ) {
-                    add_effect( effect_frostbite_recovery, 1_turns, bp, true );
-                }
-                add_effect( effect_frostbite, 1_turns, bp, true, 1 );
-                // Else fully recovered
-            } else if( frostbite_timer == 0 ) {
-                remove_effect( effect_frostbite, bp );
-                remove_effect( effect_frostbite_recovery, bp );
-            }
-        }
         // Warn the player if condition worsens
         if( temp_before > BODYTEMP_FREEZING && temp_after < BODYTEMP_FREEZING ) {
             //~ %s is bodypart
@@ -6949,6 +6844,117 @@ void Character::update_bodytemp()
         } else if( conv_temp <= BODYTEMP_COLD && windchill < -30 && one_in( 50 ) ) {
             add_msg( m_bad, _( "Your clothing is not providing enough protection from the wind for your %s!" ),
                      body_part_name( bp ) );
+        }
+    }
+}
+
+void Character::update_frostbite( const bodypart_id &bp, const int FBwindPower )
+{
+    // FROSTBITE - only occurs to hands, feet, face
+    /**
+
+    Source : http://www.atc.army.mil/weather/windchill.pdf
+
+    Temperature and wind chill are main factors, mitigated by clothing warmth. Each 10 warmth protects against 2C of cold.
+
+    1200 turns in low risk, + 3 tics
+    450 turns in moderate risk, + 8 tics
+    50 turns in high risk, +72 tics
+
+    Let's say frostnip @ 1800 tics, frostbite @ 3600 tics
+
+    >> Chunked into 8 parts (http://imgur.com/xlTPmJF)
+    -- 2 hour risk --
+    Between 30F and 10F
+    Between 10F and -5F, less than 20mph, -4x + 3y - 20 > 0, x : F, y : mph
+    -- 45 minute risk --
+    Between 10F and -5F, less than 20mph, -4x + 3y - 20 < 0, x : F, y : mph
+    Between 10F and -5F, greater than 20mph
+    Less than -5F, less than 10 mph
+    Less than -5F, more than 10 mph, -4x + 3y - 170 > 0, x : F, y : mph
+    -- 5 minute risk --
+    Less than -5F, more than 10 mph, -4x + 3y - 170 < 0, x : F, y : mph
+    Less than -35F, more than 10 mp
+    **/
+
+    const int player_local_temp = g->weather.get_temperature( pos() );
+    const int temp_after = get_part_temp_cur( bp );
+
+    if( bp == body_part_mouth || bp == body_part_foot_r ||
+        bp == body_part_foot_l || bp == body_part_hand_r || bp == body_part_hand_l ) {
+        // Handle the frostbite timer
+        // Need temps in F, windPower already in mph
+        int wetness_percentage = 100 * get_part_wetness_percentage( bp ); // 0 - 100
+        // Warmth gives a slight buff to temperature resistance
+        // Wetness gives a heavy nerf to temperature resistance
+        double adjusted_warmth = warmth( bp ) - wetness_percentage;
+        int Ftemperature = static_cast<int>( player_local_temp + 0.2 * adjusted_warmth );
+
+        int intense = get_effect_int( effect_frostbite, bp );
+
+        // This has been broken down into 8 zones
+        // Low risk zones (stops at frostnip)
+        if( temp_after < BODYTEMP_COLD && ( ( Ftemperature < 30 && Ftemperature >= 10 ) ||
+                                            ( Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 &&
+                                              -4 * Ftemperature + 3 * FBwindPower - 20 >= 0 ) ) ) {
+            if( get_part_frostbite_timer( bp ) < 2000 ) {
+                mod_part_frostbite_timer( bp, 3 );
+            }
+            if( one_in( 100 ) && !has_effect( effect_frostbite, bp.id() ) ) {
+                add_msg( m_warning, _( "Your %s will be frostnipped in the next few hours." ),
+                         body_part_name( bp ) );
+            }
+            // Medium risk zones
+        } else if( temp_after < BODYTEMP_COLD &&
+                   ( ( Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 &&
+                       -4 * Ftemperature + 3 * FBwindPower - 20 < 0 ) ||
+                     ( Ftemperature < 10 && Ftemperature >= -5 && FBwindPower >= 20 ) ||
+                     ( Ftemperature < -5 && FBwindPower < 10 ) ||
+                     ( Ftemperature < -5 && FBwindPower >= 10 &&
+                       -4 * Ftemperature + 3 * FBwindPower - 170 >= 0 ) ) ) {
+            mod_part_frostbite_timer( bp, 8 );
+            if( one_in( 100 ) && intense < 2 ) {
+                add_msg( m_warning, _( "Your %s will be frostbitten within the hour!" ),
+                         body_part_name( bp ) );
+            }
+            // High risk zones
+        } else if( temp_after < BODYTEMP_COLD &&
+                   ( ( Ftemperature < -5 && FBwindPower >= 10 &&
+                       -4 * Ftemperature + 3 * FBwindPower - 170 < 0 ) ||
+                     ( Ftemperature < -35 && FBwindPower >= 10 ) ) ) {
+            mod_part_frostbite_timer( bp, 72 );
+            if( one_in( 100 ) && intense < 2 ) {
+                add_msg( m_warning, _( "Your %s will be frostbitten any minute now!" ),
+                         body_part_name( bp ) );
+            }
+            // Risk free, so reduce frostbite timer
+        } else {
+            mod_part_frostbite_timer( bp, -3 );
+        }
+
+        int frostbite_timer = get_part_frostbite_timer( bp );
+        // Handle the bestowing of frostbite
+        if( frostbite_timer < 0 ) {
+            set_part_frostbite_timer( bp, 0 );
+        } else if( frostbite_timer > 4200 ) {
+            // This ensures that the player will recover in at most 3 hours.
+            set_part_frostbite_timer( bp, 4200 );
+        }
+        frostbite_timer = get_part_frostbite_timer( bp );
+        // Frostbite, no recovery possible
+        if( frostbite_timer >= 3600 ) {
+            add_effect( effect_frostbite, 1_turns, bp, true, 2 );
+            remove_effect( effect_frostbite_recovery, bp );
+            // Else frostnip, add recovery if we were frostbitten
+        } else if( frostbite_timer >= 1800 ) {
+            if( intense == 2 ) {
+                add_effect( effect_frostbite_recovery, 1_turns, bp, true );
+            }
+            add_effect( effect_frostbite, 1_turns, bp, true, 1 );
+            // Else fully recovered
+        } else if( frostbite_timer == 0 ) {
+            remove_effect( effect_frostbite, bp );
+            remove_effect( effect_frostbite_recovery, bp );
         }
     }
 }
@@ -7302,7 +7308,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
                 int percent = static_cast<int>( bleed * 100 / get_effect_int( effect_bleed, bp ) );
                 percent = std::min( percent, 100 );
                 desc += " -> " + colorize( string_format( _( "%d %% improvement" ), percent ), c_green );
-            };
+            }
             desc += "\n";
         }
 
@@ -13142,7 +13148,6 @@ static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
-
 
 bool Character::fun_to_read( const item &book ) const
 {

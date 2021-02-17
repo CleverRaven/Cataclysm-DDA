@@ -265,6 +265,8 @@ static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction
 
 static const faction_id faction_your_followers( "your_followers" );
 
+static const flag_id json_flag_SPLINT( "SPLINT" );
+
 #if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
@@ -5808,7 +5810,10 @@ bool game::npc_menu( npc &who )
                          0.0f, 0.0f );
     } else if( choice == use_item ) {
         static const std::string heal_string( "heal" );
-        const auto will_accept = []( const item & it ) {
+        const auto will_accept = [&who]( const item & it ) {
+            if( it.has_flag( json_flag_SPLINT ) && who.can_wear( it ).success() ) {
+                return true;
+            }
             const use_function *use_fun = it.get_use( heal_string );
             if( use_fun == nullptr ) {
                 return false;
@@ -5828,10 +5833,15 @@ bool game::npc_menu( npc &who )
             return false;
         }
         item &used = *loc;
-        bool did_use = u.invoke_item( &used, heal_string, who.pos() );
-        if( did_use ) {
-            // Note: exiting a body part selection menu counts as use here
-            u.mod_moves( -300 );
+        if( used.has_flag( json_flag_SPLINT ) ) {
+            std::string reason = _( "Nope." );
+            who.wear_if_wanted( used, reason );
+        } else {
+            bool did_use = u.invoke_item( &used, heal_string, who.pos() );
+            if( did_use ) {
+                // Note: exiting a body part selection menu counts as use here
+                u.mod_moves( -300 );
+            }
         }
     } else if( choice == sort_armor ) {
         who.sort_armor();
@@ -9093,6 +9103,10 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     bool use_loc = true;
     if( !it->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
         it = loc.obtain( u ).get_item();
+        if( !it ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
         use_loc = false;
     }
 
@@ -10374,7 +10388,6 @@ int game::grabbed_furn_move_time( const tripoint &dp )
                              m.furn( fpos ).obj().has_flag( "FIRE_CONTAINER" ) ||
                              m.furn( fpos ).obj().has_flag( "SEALED" );
 
-
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
     units::mass furniture_contents_weight = 0_gram;
@@ -10511,7 +10524,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     // Actually move the furniture.
     m.furn_set( fdest, m.furn( fpos ) );
-    m.furn_set( fpos, f_null );
+    m.furn_set( fpos, f_null, true );
 
     if( fire_intensity == 1 && !pulling_furniture ) {
         m.remove_field( fpos, fd_fire );
@@ -11536,8 +11549,8 @@ point game::update_map( int &x, int &y )
     // Shift NPCs
     for( auto it = active_npc.begin(); it != active_npc.end(); ) {
         ( *it )->shift( shift );
-        if( ( *it )->posx() < 0 - SEEX * 2 || ( *it )->posy() < 0 - SEEX * 2 ||
-            ( *it )->posx() > SEEX * ( MAPSIZE + 2 ) || ( *it )->posy() > SEEY * ( MAPSIZE + 2 ) ) {
+        if( ( *it )->posx() < 0 || ( *it )->posx() >= MAPSIZE_X ||
+            ( *it )->posy() < 0 || ( *it )->posy() >= MAPSIZE_Y ) {
             //Remove the npc from the active list. It remains in the overmap list.
             ( *it )->on_unload();
             it = active_npc.erase( it );
