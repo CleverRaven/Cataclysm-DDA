@@ -1,0 +1,23 @@
+[
+  {
+    "id": "afs_25mm_caseless",
+    "type": "AMMO",
+    "name": { "str_sp": "25x40mm shot, caseless" },
+    "description": "25x40mm caseless rounds.  The most common type of ammo used for high-gauge shotguns and light grenade launchers.  Being caseless, these cannot be disassembled or reloaded.",
+    "weight": "130 g",
+    "volume": "230 ml",
+    "price": 225,
+    "price_postapoc": 8000,
+    "material": [ "plastic", "powder" ],
+    "symbol": "=",
+    "color": "pink",
+    "count": 6,
+    "stack_size": 1,
+    "ammo_type": "afs_25mm",
+    "range": 24,
+    "damage": { "damage_type": "bullet", "amount": 60, "armor_penetration": 15 },
+    "dispersion": 75,
+    "recoil": 2200,
+    "effects": [ "NEVER_MISFIRES" ]
+  }
+]
