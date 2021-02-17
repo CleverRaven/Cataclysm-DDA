@@ -34,17 +34,6 @@
 static time_point midnight = calendar::turn_zero + 0_hours;
 static time_point midday = calendar::turn_zero + 12_hours;
 
-static void set_time( const time_point &time )
-{
-    calendar::turn = time;
-    g->reset_light_level();
-    int z = get_player_character().posz();
-    map &here = get_map();
-    here.update_visibility_cache( z );
-    here.invalidate_map_cache( z );
-    here.build_map_cache( z );
-}
-
 TEST_CASE( "verify_copy_from_gets_damage_reduction", "[vehicle]" )
 {
     // Picking halfboard_horizontal as a vpart which is likely to remain
