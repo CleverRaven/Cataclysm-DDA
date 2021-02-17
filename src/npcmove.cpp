@@ -914,7 +914,7 @@ void npc::move()
         // like random NPCs
         if( attitude == NPCATT_ACTIVITY && !activity ) {
             revert_after_activity();
-            if( is_ally( player_character ) ) {
+            if( is_ally( player_character ) && !assigned_camp ) {
                 attitude = NPCATT_FOLLOW;
                 mission = NPC_MISSION_NULL;
             }
