@@ -902,7 +902,7 @@
   },
   {
     "id": "toolbox_empty",
-    "type": "TOOL",
+    "type": "GENERIC",
     "name": { "str": "toolbox", "str_pl": "toolboxes" },
     "description": "This is a stout metal box for containing tools.  It has a handle on the top and a latch on the front.",
     "weight": "3522 g",
@@ -918,7 +918,7 @@
   },
   {
     "id": "toolbox_workshop_empty",
-    "type": "TOOL",
+    "type": "GENERIC",
     "name": { "str": "workshop toolbox", "str_pl": "workshop toolboxes" },
     "description": "This is a stout metal box for containing tools.  It is much bigger than a regular tool box and could be used to store more tools than usual.",
     "looks_like": "toolbox_empty",
