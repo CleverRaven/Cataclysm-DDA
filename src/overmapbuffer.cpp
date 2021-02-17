@@ -1596,7 +1596,7 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
 
         // Attempt to place the specials using our batch and sectors. We
         // require they be placed in unexplored terrain right now.
-        om->place_specials_pass( batch, sectors_in_range, false, true );
+        om->place_specials_pass( batch, sectors_in_range, true, true );
 
         // The place special pass will erase specials that have reached their
         // maximum number of instances so first check if its been erased.
