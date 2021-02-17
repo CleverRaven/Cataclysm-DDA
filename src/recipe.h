@@ -183,6 +183,10 @@ class recipe
         bool character_has_required_proficiencies( const Character &c ) const;
         // Helpful proficiencies
         std::set<proficiency_id> assist_proficiencies() const;
+        // Maximum time malus due to proficiencies
+        float max_time_malus() const;
+        // Maximum failure malus due to proficiencies
+        float max_fail_malus() const;
         // The time malus due to proficiencies lacking
         float proficiency_time_maluses( Character &guy ) const;
         // The failure malus due to proficiencies lacking
