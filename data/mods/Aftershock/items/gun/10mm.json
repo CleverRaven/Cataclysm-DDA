@@ -1,0 +1,36 @@
+[
+  {
+    "id": "afs_orion_84K",
+    "copy-from": "pistol_base",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "name": { "str": "Orion 84K" },
+    "description": "Commonly carried by commercial spacers who can afford it, the Orion 84K manufactured by Orion Armistice doesn't particulary shine or show anything special but it keeps you safe on long journeys in the vast dark of Orion's Arm.",
+    "weight": "780 g",
+    "volume": "480 ml",
+    "longest_side": "205 mm",
+    "price": 59200,
+    "price_postapoc": 2500,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "afs_10mm",
+    "ranged_damage": { "damage_type": "bullet", "amount": -10 },
+    "dispersion": 480,
+    "durability": 8,
+    "blackpowder_tolerance": 48,
+    "min_cycle_recoil": 570,
+    "pocket_data": [
+      {
+        "magazine_well": "103 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "afs_84k_20mag" ]
+      }
+    ]
+  }
+]
