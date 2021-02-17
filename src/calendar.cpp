@@ -33,30 +33,6 @@ time_point calendar::start_of_game = calendar::turn_zero;
 time_point calendar::turn = calendar::turn_zero;
 season_type calendar::initial_season = SPRING;
 
-// Internal constants, not part of the calendar interface.
-// Times for sunrise, sunset at equinoxes
-
-/** Hour of sunrise at winter solstice */
-static constexpr int sunrise_winter = 7;
-
-/** Hour of sunrise at summer solstice */
-static constexpr int sunrise_summer = 5;
-
-/** Hour of sunrise at fall and spring equinox */
-static constexpr int sunrise_equinox = ( sunrise_summer + sunrise_winter ) / 2;
-
-/** Hour of sunset at winter solstice */
-static constexpr int sunset_winter = 17;
-
-/** Hour of sunset at summer solstice */
-static constexpr int sunset_summer = 21;
-
-/** Hour of sunset at fall and spring equinox */
-static constexpr int sunset_equinox = ( sunset_summer + sunset_winter ) / 2;
-
-// How long, does sunrise/sunset last?
-static const time_duration twilight_duration = 1_hours;
-
 double default_daylight_level()
 {
     return 100.0;
@@ -192,7 +168,7 @@ units::angle solar_declination( const time_point &p )
 {
     // See wikipedia for more details https://en.wikipedia.org/wiki/Position_of_the_Sun#Calculations
     // n is day so that n=1 is january 1st 00:00 UTC
-    int n = normalized_day_of_year( p );
+    const int n = normalized_day_of_year( p );
     return units::from_degrees( -23.44 * units::cos( units::from_degrees( (
                                     n + 10 ) * 360 / 365.0 ) ) );
 }
@@ -230,12 +206,12 @@ float sunlight( const time_point &p, const bool vision )
     if( solar_alt < units::from_degrees( -18 ) ) {
         return moonlight;
     } else if( solar_alt < units::from_degrees( 0 ) ) {
-        // Sunlight increases/decreases linearly during twilights.
-        // 0 at -18 degrees and 75 at 0 degrees.
+        // Sunlight increases/decreases linearly with sun angle during twilights.
+        // From -18 to 0 degrees light increases from 0 to 75 brightness.
         float sunlight = 25.0 / 6 * to_degrees( solar_alt ) + sunrise_light;
         return moonlight + sunlight;
     } else if( solar_alt < units::from_degrees( 50 ) ) {
-        // Linear increase from 75 at 0 degrees to 125 (max_light) at 50 degrees
+        // Linear increase from 0 to 50 degrees light increases from 75 to 125 brightness.
         return  to_degrees( solar_alt ) + 75;
     } else {
         return max_light;
