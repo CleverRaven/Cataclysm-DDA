@@ -4206,10 +4206,9 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                 } else {
                     ft = field_types::get_field_type_by_legacy_enum( type_int ).id;
                 }
-                if( fld[i][j].find_field( ft ) == nullptr ) {
+                if( fld[i][j].add_field( ft, intensity, time_duration::from_turns( age ) ) ) {
                     field_count++;
                 }
-                fld[i][j].add_field( ft, intensity, time_duration::from_turns( age ) );
             }
         }
     } else if( member_name == "graffiti" ) {
