@@ -80,8 +80,7 @@ moon_phase get_moon_phase( const time_point &p )
 
 time_point sun_at_angle( const units::angle &angle, const time_point &p, const bool &evening )
 {
-    // Assumes we are in boston
-    const units::angle latitude = units::from_degrees( 42 );
+    const units::angle latitude = units::from_degrees( get_option<int>( "LATITUDE" ) );
 
     units::angle hour_angle = units::acos( units::sin( angle ) - units::sin(
             latitude ) * units::sin( solar_declination( p ) ) / units::cos( latitude ) / units::cos(
@@ -96,8 +95,7 @@ time_point sun_at_angle( const units::angle &angle, const time_point &p, const b
 
 time_point sunrise( const time_point &p )
 {
-    // Assumes we are in boston
-    const units::angle latitude = units::from_degrees( 42 );
+    const units::angle latitude = units::from_degrees( get_option<int>( "LATITUDE" ) );
 
     const units::angle hour_angle = - units::acos( - units::tan( latitude ) * units::tan(
                                         solar_declination(
@@ -109,7 +107,7 @@ time_point sunrise( const time_point &p )
 time_point sunset( const time_point &p )
 {
     // Assumes we are in boston
-    const units::angle latitude = units::from_degrees( 42 );
+    const units::angle latitude = units::from_degrees( get_option<int>( "LATITUDE" ) );
 
     const units::angle hour_angle = units::acos( - units::tan( latitude ) * units::tan(
                                         solar_declination(
@@ -177,8 +175,7 @@ units::angle solar_altitude( const time_point &p )
 {
     // See wikipedia for more details https://en.wikipedia.org/wiki/Solar_zenith_angle
 
-    // Assumes we are in boston
-    const units::angle latitude = units::from_degrees( 42 );
+    const units::angle latitude = units::from_degrees( get_option<int>( "LATITUDE" ) );
 
     const units::angle hour_angle = solar_hour_angle( p );
     const units::angle declination = solar_declination( p );

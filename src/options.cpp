@@ -2113,6 +2113,10 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
+    add( "LATITUDE", "world_default", to_translation( "Latitude" ),
+         to_translation( "Latitude of the gameplay region." ),
+         0, 90, 42
+       );
     add( "DEFAULT_REGION", "world_default", to_translation( "Default region type" ),
          to_translation( "( WIP feature ) Determines terrain, shops, plants, and more." ),
     { { "default", to_translation( "default" ) } }, "default"
