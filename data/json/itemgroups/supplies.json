@@ -572,6 +572,10 @@
     "id": "autodoc_supplies",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "anesthetic_kit", "charges": [ 0, 6000 ] } ]
+    "entries": [
+      { "item": "anesthetic_kit", "charges": [ 0, 6000 ] },
+      { "item": "arm_splint", "count": [ 1, 3 ] },
+      { "item": "leg_splint", "count": [ 1, 3 ] }
+    ]
   }
 ]
