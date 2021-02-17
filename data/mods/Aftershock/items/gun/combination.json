@@ -4,7 +4,7 @@
     "type": "GUN",
     "copy-from": "rifle_22",
     "name": { "str": "landfall survival gun" },
-    "description": "A lightweight, bolt-action gun that is barely more than a .22 barrel mounted within a flimsy metal assembly.  Cheaply made and outdated in all respects, it's only useful in the most extenuating of circumstances.",
+    "description": "A lightweight, bolt-action gun that is barely more than a 6.55mm barrel mounted within a flimsy metal assembly.  Cheaply made and outdated in all respects, it's only useful in the most extenuating of circumstances.",
     "price": 5000,
     "price_postapoc": 5000,
     "material": [ "steel", "plastic" ],
@@ -14,6 +14,8 @@
     "reload": 100,
     "durability": 5,
     "blackpowder_tolerance": 60,
+    "ammo": [ "afs_6.5mm" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_6.5mm": 1 } } ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   }
 ]
