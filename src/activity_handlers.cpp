@@ -1823,7 +1823,11 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
             here.ter( pos ) != t_tree ) {
             // Tunneling through solid rock is sweaty, backbreaking work
             // Betcha wish you'd opted for the J-Hammer
-            p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
+            if( p->has_trait( trait_STOCKY_TROGLO ) ) {
+                p->mod_pain( std::max( 0, ( 1 * static_cast<int>( rng( 0, 3 ) ) ) - helpersize ) );
+            } else {
+                p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
+            }
         }
     }
     p->add_msg_player_or_npc( m_good,
