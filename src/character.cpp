@@ -5690,7 +5690,7 @@ void Character::try_reduce_weariness( const float exertion )
     weary.tick_counter++;
     if( exertion == NO_EXERCISE ) {
         weary.low_activity_ticks++;
-        // Recover twice as fast if asleep
+        // Recover twice as fast if asleep/similar
         if( in_sleep_state() ) {
             weary.low_activity_ticks++;
         }
@@ -5698,23 +5698,24 @@ void Character::try_reduce_weariness( const float exertion )
 
     const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
 
-    if( weary.low_activity_ticks >= 6 ) {
+    if( weary.low_activity_ticks >= 3 ) {
         int reduction = weary.tracker;
         const int bmr = base_bmr();
-        // 1/20 of whichever's bigger
+        // 1/40 of whichever's bigger
         if( bmr > reduction ) {
-            reduction = bmr * recovery_mult;
+            reduction = std::floor( bmr * recovery_mult * 0.5f );
         } else {
-            reduction *= recovery_mult;
+            reduction = std::ceil( reduction * recovery_mult * 0.5f );
         }
-        weary.low_activity_ticks -= 6;
+        weary.low_activity_ticks -= 3;
 
-        weary.tracker -= reduction;
+        weary.tracker -= std::max( reduction, 1 );
     }
 
-    if( weary.tick_counter >= 6 ) {
-        weary.intake *= std::sqrt( 1 - recovery_mult );
-        weary.tick_counter -= 6;
+    // If happens to be no reduction, character is not (as) hypoglycemic
+    if( weary.tick_counter >= 3 ) {
+        weary.intake *= std::pow( 1 - recovery_mult, 0.25f );
+        weary.tick_counter -= 3;
     }
 
     // Normalize values, make sure we stay above 0
