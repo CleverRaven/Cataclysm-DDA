@@ -1047,7 +1047,7 @@
     "warmth": 8,
     "material_thickness": 2,
     "properties": [ [ "creature_size_capacity", "SMALL" ] ],
-    "use_action": "CAPTURE_MONSTER_ACT",
+    "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "BELTED", "WATERPROOF" ]
   },
   {
