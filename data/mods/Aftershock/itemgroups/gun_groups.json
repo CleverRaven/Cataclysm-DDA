@@ -121,13 +121,13 @@
     "id": "ammo_rifle_rare",
     "//": "Less common rifle ammo including that only used by police/paramilitary forces.",
     "subtype": "distribution",
-    "entries": [ { "item": "afs_6.5mm_caseless", "prob": 40 }, { "item": "afs_6.5mm_lr", "prob": 50 } ]
+    "entries": [ { "item": "afs_7.50mm_caseless", "prob": 40 }, { "item": "afs_7.50mm_rp", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_rifle_milspec",
     "subtype": "distribution",
-    "entries": [ { "item": "afs_6.5mm_caseless", "prob": 40 }, { "item": "afs_6.5mm_lr", "prob": 50 } ]
+    "entries": [ { "item": "afs_7.50mm_caseless", "prob": 40 }, { "item": "afs_7.50mm_rp", "prob": 50 } ]
   },
   {
     "type": "item_group",

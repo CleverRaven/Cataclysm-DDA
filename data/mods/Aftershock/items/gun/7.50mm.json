@@ -14,8 +14,8 @@
     "reload": 100,
     "durability": 5,
     "blackpowder_tolerance": 60,
-    "ammo": [ "afs_6.5mm" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_6.5mm": 1 } } ],
+    "ammo": [ "afs_7.50mm" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_7.50mm": 1 } } ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
@@ -35,7 +35,7 @@
     "material": [ "superalloy", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": [ "afs_6.5mm" ],
+    "ammo": [ "afs_7.50mm" ],
     "dispersion": 200,
     "durability": 7,
     "min_cycle_recoil": 1350,
@@ -84,7 +84,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -7 },
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": [ "afs_6.5mm" ],
+    "ammo": [ "afs_7.50mm" ],
     "dispersion": 150,
     "durability": 7,
     "min_cycle_recoil": 1350,

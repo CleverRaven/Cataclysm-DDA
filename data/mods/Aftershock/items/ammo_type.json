@@ -26,7 +26,7 @@
   {
     "type": "ammunition_type",
     "id": "afs_25mm",
-    "name": "25x40mm",
+    "name": "25mm",
     "default": "afs_25mm_shot"
   },
   {
@@ -37,8 +37,8 @@
   },
   {
     "type": "ammunition_type",
-    "id": "afs_6.5mm",
-    "name": "6.5mm",
-    "default": "afs_6.5mm_caseless"
+    "id": "afs_7.50mm",
+    "name": "7.50mm",
+    "default": "afs_7.50mm_caseless"
   }
 ]
