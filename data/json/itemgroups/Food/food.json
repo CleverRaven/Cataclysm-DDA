@@ -46,7 +46,10 @@
       { "item": "dry_beans", "prob": 40 },
       { "item": "dry_lentils", "prob": 30 },
       { "item": "dry_rice", "prob": 40 },
-      { "item": "freeze_dried_meal", "prob": 10 }
+      { "item": "freeze_dried_meal", "prob": 10 },
+      { "item": "gelatin_powder", "prob": 40 },
+      { "item": "chem_agar", "prob": 15 },
+      { "item": "gelatin_dessert_powder", "prob": 40 }
     ]
   },
   {
@@ -426,6 +429,7 @@
       { "item": "candy", "prob": 70 },
       { "item": "candy2", "prob": 70 },
       { "item": "candy3", "prob": 70 },
+      { "item": "candy4", "prob": 70 },
       { "item": "cow_candy", "prob": 20 },
       { "item": "maltballs", "prob": 60 },
       { "item": "mintpatties", "prob": 60 },
@@ -553,7 +557,8 @@
       { "item": "pie", "prob": 20 },
       { "item": "pie_veggy", "prob": 18 },
       { "item": "pie_meat", "prob": 18 },
-      { "item": "pie_maple", "prob": 9 }
+      { "item": "pie_maple", "prob": 9 },
+      { "item": "gelatin_dessert_processed", "prob": 40 }
     ]
   },
   {
