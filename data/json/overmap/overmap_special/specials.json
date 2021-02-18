@@ -803,8 +803,8 @@
     "connections": [ { "point": [ 0, -1, 0 ], "from": [ 0, 0, 0 ] } ],
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "MILITARY" ]
+    "occurrences": [ 50, 100 ],
+    "flags": [ "MILITARY", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -6959,8 +6959,8 @@
     "locations": [ "land" ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "city_distance": [ 10, -1 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "MILITARY" ]
+    "occurrences": [ 80, 100 ],
+    "flags": [ "CLASSIC", "MILITARY", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
