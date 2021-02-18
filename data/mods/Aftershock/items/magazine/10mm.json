@@ -10,7 +10,7 @@
     "longest_side": "114 mm",
     "price": 2400,
     "price_postapoc": 100,
-    "material": [ "plastic", "steel" ],
+    "material": [ "plastic", "superalloy" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "afs_10mm" ],
