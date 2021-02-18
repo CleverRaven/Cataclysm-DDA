@@ -489,6 +489,19 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "result": "rehydrated_corn_kernels",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "3 m",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "components": [ [ [ "dry_corn", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "rehydrated_fruit",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -678,7 +691,9 @@
         [ "irradiated_celery", 3 ],
         [ "veggy_wild", 3 ],
         [ "veggy", 3 ],
-        [ "rehydrated_veggy", 3 ]
+        [ "rehydrated_veggy", 3 ],
+        [ "rehydrated_corn_kernels", 3 ],
+        [ "corn_kernels", 3 ]
       ],
       [
         [ "lettuce", 2 ],
@@ -833,7 +848,9 @@
         [ "irradiated_celery", 3 ],
         [ "veggy_wild", 3 ],
         [ "veggy", 3 ],
-        [ "rehydrated_veggy", 3 ]
+        [ "rehydrated_veggy", 3 ],
+        [ "rehydrated_corn_kernels", 3 ],
+        [ "corn_kernels", 3 ]
       ],
       [ [ "soysauce", 1 ], [ "horseradish", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
     ]
@@ -2404,6 +2421,7 @@
       ],
       [
         [ "dry_veggy", 2 ],
+        [ "dry_corn", 2 ],
         [ "dry_fruit", 2 ],
         [ "dry_mushroom", 2 ],
         [ "juice_pulp", 4 ],
@@ -3991,8 +4009,11 @@
         [ "mustard_powder", 20 ],
         [ "garlic_clove", 6 ],
         [ "rehydrated_veggy", 1 ],
+        [ "rehydrated_corn_kernels", 1 ],
+        [ "corn_kernels", 1 ],
         [ "dry_mushroom", 1 ],
-        [ "dry_veggy", 1 ]
+        [ "dry_veggy", 1 ],
+        [ "dry_corn", 1 ]
       ]
     ]
   },
@@ -4113,6 +4134,9 @@
         [ "veggy_salted", 2 ],
         [ "rehydrated_veggy", 2 ],
         [ "dry_veggy", 2 ],
+        [ "rehydrated_corn_kernels", 2 ],
+        [ "dry_corn", 2 ],
+        [ "corn_kernels", 2 ],
         [ "mushroom", 2 ],
         [ "dry_mushroom", 2 ],
         [ "morel_cooked", 2 ],
@@ -4149,6 +4173,9 @@
         [ "veggy_salted", 2 ],
         [ "rehydrated_veggy", 2 ],
         [ "dry_veggy", 2 ],
+        [ "rehydrated_corn_kernels", 2 ],
+        [ "dry_corn", 2 ],
+        [ "corn_kernels", 2 ],
         [ "mushroom", 2 ],
         [ "dry_mushroom", 2 ],
         [ "morel_cooked", 2 ],
@@ -4186,11 +4213,14 @@
         [ "veggy_wild", 2 ],
         [ "veggy_salted", 2 ],
         [ "rehydrated_veggy", 2 ],
+        [ "rehydrated_corn_kernels", 2 ],
+        [ "corn_kernels", 2 ],
         [ "mushroom", 2 ],
         [ "dry_mushroom", 2 ],
         [ "morel_cooked", 2 ],
         [ "mushroom_cooked", 2 ],
-        [ "dry_veggy", 2 ]
+        [ "dry_veggy", 2 ],
+        [ "dry_corn", 2 ]
       ],
       [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
       [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
@@ -4220,7 +4250,8 @@
         [ "tofu", 2 ],
         [ "dry_tofu", 2 ],
         [ "mushroom_cooked", 2 ],
-        [ "dry_veggy", 2 ]
+        [ "dry_veggy", 2 ],
+        [ "dry_corn", 2 ]
       ],
       [
         [ "sauce_pesto", 1 ],
@@ -4268,7 +4299,8 @@
         [ "dry_mushroom", 2 ],
         [ "morel_cooked", 2 ],
         [ "mushroom_cooked", 2 ],
-        [ "dry_veggy", 2 ]
+        [ "dry_veggy", 2 ],
+        [ "dry_corn", 2 ]
       ],
       [ [ "cheese", 2 ], [ "can_cheese", 2 ], [ "cheese_hard", 2 ] ],
       [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "seasoning_italian", 5 ], [ "wild_herbs", 10 ] ],
@@ -4409,7 +4441,8 @@
         [ "coffee_syrup", 5 ],
         [ "cola", 6 ],
         [ "con_milk", 1 ],
-        [ "corn", 3 ],
+        [ "corn_kernels", 3 ],
+        [ "rehydrated_corn_kernels", 3 ],
         [ "honey_bottled", 1 ],
         [ "honey_glassed", 1 ],
         [ "honeycomb", 1 ],
@@ -4630,7 +4663,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "corn", 1 ], [ "irradiated_corn", 1 ], [ "kernels", 1 ] ] ]
+    "components": [ [ [ "dry_corn", 1 ], [ "kernels", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4913,6 +4946,8 @@
         [ "irradiated_tomato", 1 ],
         [ "irradiated_broccoli", 1 ],
         [ "rehydrated_veggy", 1 ],
+        [ "rehydrated_corn_kernels", 1 ],
+        [ "corn_kernels", 1 ],
         [ "morel_cooked", 1 ],
         [ "mushroom_cooked", 1 ],
         [ "sauerkraut_onions", 1 ],
@@ -5833,6 +5868,8 @@
         [ "irradiated_tomato", 1 ],
         [ "irradiated_broccoli", 1 ],
         [ "rehydrated_veggy", 1 ],
+        [ "rehydrated_corn_kernels", 1 ],
+        [ "corn_kernels", 1 ],
         [ "morel_cooked", 1 ],
         [ "mushroom_cooked", 1 ],
         [ "sauerkraut_onions", 1 ],
@@ -6419,7 +6456,20 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "corn", 1 ], [ "irradiated_corn", 1 ], [ "kernels", 1 ] ] ]
+    "components": [ [ [ "dry_corn", 1 ] ] ]
+  },
+  {
+    "result": "corn_kernels",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "byproducts": [ [ "empty_corn_cob", 1 ] ],
+    "skill_used": "cooking",
+    "time": "20 s",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "corn", 1 ], [ "irradiated_corn", 1 ] ] ]
   },
   {
     "result": "flour",
@@ -6517,7 +6567,7 @@
     "components": [
       [
         [ "can_corn", 1 ],
-        [ "corn", 1 ],
+        [ "corn_kernels", 1 ],
         [ "oats", 1 ],
         [ "buckwheat", 1 ],
         [ "wheat", 1 ],
@@ -6755,7 +6805,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "mortar_pestle", -1 ] ] ],
-    "components": [ [ [ "corn", 1 ], [ "irradiated_corn", 1 ], [ "kernels", 1 ] ] ]
+    "components": [ [ [ "dry_corn", 1 ] ] ]
   },
   {
     "type": "recipe",
