@@ -920,7 +920,19 @@ class activatable_inventory_preset : public pickup_inventory_preset
                     return string_format( _( "You need a %s to consume that!" ), item::nname( comest->tool ) );
                 }
             }
-
+            const use_function *consume_drug = it.type->get_use( "consume_drug" );
+            if( consume_drug != nullptr ) { //its a drug)
+                const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
+                        ( consume_drug->get_actor_ptr() );
+                for( auto &tool : consume_drug_use->tools_needed ) {
+                    const bool has = item::count_by_charges( tool.first )
+                                     ? p.has_charges( tool.first, tool.second )
+                                     : p.has_amount( tool.first, tool.second );
+                    if( !has ) {
+                        return string_format( _( "You need a %s to consume that!" ), item::nname( tool.first ) );
+                    }
+                }
+            }
             if( uses.size() == 1 ) {
                 const auto ret = uses.begin()->second.can_call( p, it, false, p.pos() );
                 if( !ret.success() ) {

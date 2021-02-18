@@ -671,6 +671,21 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         }
     }
 
+    const use_function *consume_drug = food.type->get_use( "consume_drug" );
+    if( consume_drug != nullptr ) { //its a drug)
+        const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
+                ( consume_drug->get_actor_ptr() );
+        for( auto &tool : consume_drug_use->tools_needed ) {
+            const bool has = item::count_by_charges( tool.first )
+                             ? has_charges( tool.first, tool.second )
+                             : has_amount( tool.first, tool.second );
+            if( !has ) {
+                return ret_val<edible_rating>::make_failure( NO_TOOL,
+                        string_format( _( "You need a %s to consume that!" ),
+                                       item::nname( tool.first ) ) );
+            }
+        }
+    }
     if( !comest->tool.is_null() ) {
         const bool has = item::count_by_charges( comest->tool )
                          ? has_charges( comest->tool, 1 )
