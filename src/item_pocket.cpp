@@ -1213,6 +1213,11 @@ void item_pocket::overflow( const tripoint &pos )
         }
     }
 
+    if( empty() ) {
+        // we've removed the migration pockets and items that didn't fit
+        return;
+    }
+
     if( !data->ammo_restriction.empty() ) {
         const ammotype contained_ammotype = contents.front().ammo_type();
         const auto ammo_iter = data->ammo_restriction.find( contained_ammotype );

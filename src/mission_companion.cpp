@@ -20,7 +20,6 @@
 #include "character.h"
 #include "colony.h"
 #include "color.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -155,7 +154,7 @@ void talk_function::scavenger_patrol( mission_data &mission_key, npc &p )
     if( !npc_list.empty() ) {
         entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n\nPatrol Roster:\n" );
         for( auto &elem : npc_list ) {
-            entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
+            entry = entry + "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
                     elem->companion_mission_time ) ) + _( " hours]\n" );
         }
         entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
@@ -177,7 +176,7 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
         entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n\n"
                    "Raid Roster:\n" );
         for( auto &elem : npc_list ) {
-            entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
+            entry = entry + "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
                     elem->companion_mission_time ) ) + _( " hours]\n" );
         }
         entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
@@ -195,7 +194,7 @@ void talk_function::commune_menial( mission_data &mission_key, npc &p )
                                "them basic skills and build reputation with the outpost.  Don't expect "
                                "much of a reward though.\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
-            entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
+            entry = entry + "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
                     elem->companion_mission_time ) ) + _( " hours]\n" );
         }
         entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
@@ -215,7 +214,7 @@ void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
     if( !npc_list.empty() ) {
         entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
-            entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
+            entry = entry + "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
                     elem->companion_mission_time ) ) + _( " hours]\n" );
         }
         entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
@@ -307,7 +306,7 @@ void talk_function::commune_forage( mission_data &mission_key, npc &p )
     if( !npc_list.empty() ) {
         entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
-            entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
+            entry = entry + "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
                     elem->companion_mission_time ) ) + _( " hours]\n" );
         }
         entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
@@ -339,7 +338,7 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
             } else if( calendar::turn >= elem->companion_mission_time ) {
                 entry = entry + "  " + elem->name + _( " [COMPLETE]\n" );
             } else {
-                entry = entry + "  " + elem->name + " [" + to_string( std::abs( to_hours<int>
+                entry = entry + "  " + elem->name + " [" + std::to_string( std::abs( to_hours<int>
                         ( calendar::turn - elem->companion_mission_time ) ) ) + _( " Hours]\n" );
             }
         }
