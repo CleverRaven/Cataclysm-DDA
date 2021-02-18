@@ -24,7 +24,7 @@
     "id": "afs_6.5mm_lr",
     "type": "AMMO",
     "name": { "str_sp": "6.5mm LR" },
-    "description": "6.5mm Long Rifle ammunition with unjacketed bullets.  The 6.5mm LR round is extremely weak with very low stopping power, short range, and negligible recoil.  It is extremely cheap to manufacture, and is only useful for rifle training, and hunting small animals. These rounds being caseless cannot be disassembled or reloaded.",
+    "description": "6.5mm Long Rifle ammunition with unjacketed bullets.  The 6.5mm LR round is extremely weak with very low stopping power, short range, and negligible recoil.  It is extremely cheap to manufacture, and is only useful for rifle training, and hunting small animals.  These rounds being caseless cannot be disassembled or reloaded.",
     "weight": "3 g",
     "volume": "65 ml",
     "price": 150,
