@@ -1,11 +1,21 @@
-#include "catch/catch.hpp"
+#include <iosfwd>
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "catch/catch.hpp"
+#include "character.h"
+#include "creature.h"
 #include "flag.h"
 #include "game.h"
-#include "map.h"
+#include "item.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
+#include "type_id.h"
 
 // Tests for Character suffering
 //

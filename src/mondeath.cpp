@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <functional>
+#include <iosfwd>
+#include <list>
 #include <map>
 #include <memory>
 #include <set>
@@ -10,18 +13,17 @@
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "colony.h"
 #include "creature.h"
+#include "debug.h"
 #include "enums.h"
 #include "explosion.h"
 #include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_stack.h"
 #include "itype.h"
@@ -40,12 +42,10 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "viewer.h"
 
@@ -56,6 +56,11 @@ static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_no_ammo( "no_ammo" );
 static const efftype_id effect_rat( "rat" );
+
+static const json_character_flag json_flag_PRED1( "PRED1" );
+static const json_character_flag json_flag_PRED2( "PRED2" );
+static const json_character_flag json_flag_PRED3( "PRED3" );
+static const json_character_flag json_flag_PRED4( "PRED4" );
 
 static const itype_id itype_processor( "processor" );
 
@@ -418,8 +423,9 @@ void mdeath::guilt( monster &z )
     guilt_tresholds[25] = _( "You feel remorse for killing %s." );
 
     Character &player_character = get_player_character();
-    if( player_character.has_trait( trait_PSYCHOPATH ) || player_character.has_trait_flag( "PRED3" ) ||
-        player_character.has_trait_flag( "PRED4" ) || player_character.has_trait( trait_KILLER ) ) {
+    if( player_character.has_trait( trait_PSYCHOPATH ) ||
+        player_character.has_trait_flag( json_flag_PRED3 ) ||
+        player_character.has_trait_flag( json_flag_PRED4 ) || player_character.has_trait( trait_KILLER ) ) {
         return;
     }
     if( rl_dist( z.pos(), player_character.pos() ) > MAX_GUILT_DISTANCE ) {
@@ -438,8 +444,8 @@ void mdeath::guilt( monster &z )
                                 "about their deaths anymore." ), z.name( maxKills ) );
         }
         return;
-    } else if( ( player_character.has_trait_flag( "PRED1" ) ) ||
-               ( player_character.has_trait_flag( "PRED2" ) ) ) {
+    } else if( ( player_character.has_trait_flag( json_flag_PRED1 ) ) ||
+               ( player_character.has_trait_flag( json_flag_PRED2 ) ) ) {
         msg = ( _( "Culling the weak is distasteful, but necessary." ) );
         msgtype = m_neutral;
     } else {
@@ -461,9 +467,9 @@ void mdeath::guilt( monster &z )
         moraleMalus /= 10;
         if( player_character.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
-        } else if( player_character.has_trait_flag( "PRED1" ) ) {
+        } else if( player_character.has_trait_flag( json_flag_PRED1 ) ) {
             moraleMalus /= 4;
-        } else if( player_character.has_trait_flag( "PRED2" ) ) {
+        } else if( player_character.has_trait_flag( json_flag_PRED2 ) ) {
             moraleMalus /= 5;
         }
     }

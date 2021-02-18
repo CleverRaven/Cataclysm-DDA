@@ -4,9 +4,10 @@
 #include <chrono>
 #include <cstddef>
 #include <cstring>
+#include <functional>
 #include <iterator>
 #include <map>
-#include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -42,7 +43,6 @@
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 
-class inventory;
 class npc;
 
 enum TAB_MODE {

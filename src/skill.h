@@ -3,6 +3,7 @@
 #define CATA_SRC_SKILL_H
 
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -10,7 +11,6 @@
 #include <vector>
 
 #include "calendar.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -19,7 +19,6 @@ class JsonObject;
 class JsonOut;
 class item;
 class recipe;
-template <typename T> class string_id;
 
 struct time_info_t {
     // Absolute floor on the time taken to attack.

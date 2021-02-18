@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
+#include <new>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
@@ -17,15 +19,12 @@
 #include "json.h"
 #include "make_static.h"
 #include "mapgen.h"
-#include "optional.h"
 #include "output.h"
 #include "requirements.h"
 #include "skill.h"
-#include "string_id.h"
 #include "translations.h"
 #include "uistate.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
 recipe_dictionary recipe_dict;

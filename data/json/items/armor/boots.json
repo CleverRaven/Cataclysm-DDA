@@ -492,7 +492,7 @@
     "covers": [ "foot_l", "foot_r" ],
     "coverage": 80,
     "encumbrance": 20,
-    "warmth": 20,
+    "warmth": 10,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },

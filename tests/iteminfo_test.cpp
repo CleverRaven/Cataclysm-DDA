@@ -1,15 +1,18 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
+#include <list>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "flag.h"
-#include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "options_helpers.h"
@@ -19,6 +22,7 @@
 #include "recipe_dictionary.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 // ITEM INFO
 // =========

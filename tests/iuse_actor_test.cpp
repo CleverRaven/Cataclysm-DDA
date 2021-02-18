@@ -1,23 +1,36 @@
-#include "catch/catch.hpp"
-
-#include <list>
+#include <algorithm>
+#include <functional>
+#include <iosfwd>
 #include <memory>
+#include <new>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "catch/catch.hpp"
+#include "colony.h"
 #include "game.h"
-#include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
+#include "material.h"
 #include "monster.h"
 #include "mtype.h"
-#include "pimpl.h"
+#include "optional.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "ret_val.h"
 #include "type_id.h"
+#include "units.h"
 
 static monster *find_adjacent_monster( const tripoint &pos )
 {

@@ -1,9 +1,9 @@
-#include "catch/catch.hpp"
-
 #include <cstddef>
 #include <sstream>
 #include <string>
 
+#include "calendar.h"
+#include "catch/catch.hpp"
 #include "creature.h"
 #include "game_constants.h"
 #include "item.h"

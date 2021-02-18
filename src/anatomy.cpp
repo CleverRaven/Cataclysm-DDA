@@ -1,17 +1,19 @@
 #include "anatomy.h"
 
 #include <array>
+#include <cmath>
 #include <cstddef>
 #include <numeric>
+#include <set>
+#include <string>
 #include <unordered_set>
 
 #include "cata_utility.h"
 #include "debug.h"
-#include "enums.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "json.h"
 #include "messages.h"
+#include "output.h"
 #include "rng.h"
 #include "type_id.h"
 #include "weighted_list.h"

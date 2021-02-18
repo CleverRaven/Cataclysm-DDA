@@ -684,7 +684,7 @@
       { "covers": [ "head" ], "coverage": 80, "encumbrance": 35 },
       { "covers": [ "eyes", "mouth" ], "coverage": 80, "encumbrance": 10 }
     ],
-    "warmth": 20,
+    "warmth": 10,
     "material_thickness": 2,
     "flags": [ "OUTER" ]
   },

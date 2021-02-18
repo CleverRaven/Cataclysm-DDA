@@ -16,6 +16,9 @@
       { "monster": "mon_troll", "freq": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
       { "monster": "mon_claygolem", "freq": 8, "cost_multiplier": 3 },
       { "monster": "mon_stonegolem", "freq": 4, "cost_multiplier": 5 },
+      { "monster": "mon_yulecat", "freq": 2, "cost_multiplier": 7 },
+      { "monster": "mon_yulecat_cub", "freq": 1, "cost_multiplier": 4 },
+      { "monster": "mon_leprechaun", "freq": 5, "cost_multiplier": 7 },
       {
         "monster": "mon_loup_garou",
         "freq": 4,
@@ -158,7 +161,8 @@
       { "monster": "mon_forgemaster1", "freq": 3, "cost_multiplier": 10 },
       { "monster": "mon_forgemaster2", "freq": 3, "cost_multiplier": 10 },
       { "monster": "mon_forgemaster3", "freq": 3, "cost_multiplier": 10 },
-      { "monster": "mon_forgedwarves", "freq": 3, "cost_multiplier": 10 }
+      { "monster": "mon_forgedwarves", "freq": 3, "cost_multiplier": 10 },
+      { "monster": "mon_workshop_elf", "freq": 4, "cost_multiplier": 5 }
     ]
   },
   {

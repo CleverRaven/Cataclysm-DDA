@@ -37,7 +37,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 	"min_dot": 0,                                             // damage over time (currently not implemented)
 	"max_dot": 2,
 	"dot_increment": 0.1,
-	"min_duration": 0,                                        // duration of spell effect (if the spell has a special effect)
+	"min_duration": 0,                                        // duration of spell effect in moves (if the spell has a special effect)
 	"max_duration": 1000,
 	"duration_increment": 4,
 	"min_pierce": 0,                                          // how much of the spell pierces armor (currently not implemented)
@@ -265,7 +265,7 @@ Spell types:
     "max_aoe": 3,
     "effect": "summon",                                        // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "effect_str": "mon_test_monster",                          // varies, see table of implemented effects in this document
-    "min_duration": 6250,                                      // duration of spell effect (if the spell has a special effect)
+    "min_duration": 6250,                                      // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 6250
   }
   ```
@@ -285,7 +285,7 @@ Spell types:
     "min_range": 4,                                          // range of the spell
     "max_range": 4,
     "base_casting_time": 500,                                // this is the casting time (in moves)
-    "min_duration": 200,                                     // duration of spell effect (if the spell has a special effect)
+    "min_duration": 200,                                     // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 300,
     "duration_increment": 10,                              // How much longer the spell lasts per spell level
     "damage_type": "stab"                                    // type of damage
@@ -315,7 +315,7 @@ Spell types:
     "min_range": 10,                                         // range of the spell
     "max_range": 10,
     "base_casting_time": 750,                                // this is the casting time (in moves)
-    "min_duration": 325,                                     // duration of spell effect (if the spell has a special effect)
+    "min_duration": 325,                                     // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 325,
     "damage_type": "stab"                                    // type of damage
   } ;
@@ -366,7 +366,7 @@ Spell types:
     "damage_increment": 0.2                        // damage increase per spell level
     "min_range": 10,                                    // range of the spell
     "max_range": 10,
-    "min_duration": 1,                                  // duration of spell effect (if the spell has a special effect)
+    "min_duration": 1,                                  // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 1
   }
   ```
@@ -386,7 +386,7 @@ Spell types:
     "effect_str": "eff_test_note",                       // varies, see table of implemented effects in this document
 	  "min_aoe": 6,                                       // area of effect (currently not implemented)
     "max_aoe": 6,
-    "min_duration": 1,                                   // duration of spell effect (if the spell has a special effect)
+    "min_duration": 1,                                   // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 1
   }
   ```

@@ -878,7 +878,7 @@
     "id": "still",
     "type": "TOOL",
     "name": { "str": "still" },
-    "description": "This is a still.  It's useful for creating distillation of alcohol and other, more curious substances.",
+    "description": "This is a still.  It's useful for creating distillations of alcohol and other, more curious substances.  Features a slot for a thermometer.",
     "weight": "10000 g",
     "volume": "10 L",
     "price": 30000,

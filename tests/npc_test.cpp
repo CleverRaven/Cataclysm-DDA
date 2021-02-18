@@ -1,6 +1,4 @@
-#include "catch/catch.hpp"
-#include "npc.h"
-
+#include <map>
 #include <memory>
 #include <set>
 #include <sstream>
@@ -9,6 +7,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "common_types.h"
 #include "faction.h"
@@ -19,6 +18,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "memory_fast.h"
+#include "npc.h"
 #include "npc_class.h"
 #include "optional.h"
 #include "overmapbuffer.h"
@@ -27,6 +27,7 @@
 #include "point.h"
 #include "text_snippets.h"
 #include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"

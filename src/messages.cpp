@@ -4,8 +4,6 @@
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
-// needed for the workaround for the std::to_string bug in some compilers
-#include "compatibility.h" // IWYU pragma: keep
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
@@ -24,12 +22,14 @@
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
-#include "options.h"
-
 #include <algorithm>
 #include <deque>
+#include <functional>
 #include <iterator>
 #include <memory>
+#include <string>
+
+#include "options.h"
 
 namespace
 {

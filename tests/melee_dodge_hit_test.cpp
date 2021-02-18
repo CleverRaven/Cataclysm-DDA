@@ -1,16 +1,17 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <list>
 #include <memory>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "creature.h"
 #include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "map_helpers.h"
 #include "monster.h"
+#include "mtype.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"

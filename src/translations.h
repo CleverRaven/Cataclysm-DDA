@@ -5,9 +5,7 @@
 #include <cstddef>
 #include <map>
 #include <ostream>
-#include <string>
 #include <tuple>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -159,10 +157,6 @@ const char *npgettext( const char *context, const char *msgid, const char *msgid
                        unsigned long long n ) ATTRIBUTE_FORMAT_ARG( 2 );
 
 #else // !LOCALIZE
-
-// on some systems <locale> pulls in libintl.h anyway,
-// so preemptively include it before the gettext overrides.
-#include <locale>
 
 #define _(STRING) (STRING)
 

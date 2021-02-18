@@ -3,12 +3,13 @@
 #define CATA_SRC_GAME_INVENTORY_H
 
 #include <functional>
+#include <iosfwd>
 #include <list>
-#include <string>
 #include <utility>
 
 #include "inventory_ui.h"
 #include "item_location.h"
+#include "type_id.h"
 
 class Character;
 struct tripoint;

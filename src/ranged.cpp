@@ -5,18 +5,19 @@
 #include <cstdio>
 #include <functional>
 #include <iterator>
+#include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "ballistics.h"
-#include "bodypart.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -44,6 +45,7 @@
 #include "line.h"
 #include "magic.h"
 #include "map.h"
+#include "math_defines.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
@@ -54,7 +56,6 @@
 #include "options.h"
 #include "output.h"
 #include "panels.h"
-#include "pimpl.h"
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
@@ -63,10 +64,10 @@
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
+#include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"

@@ -10,7 +10,6 @@
 #include <iosfwd>
 #include <iterator>
 #include <map>
-#include <memory>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -29,7 +28,6 @@
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;
@@ -37,7 +35,6 @@ class JsonObject;
 class JsonOut;
 class character_id;
 class map_extra;
-class monster;
 class npc;
 class overmap_connection;
 

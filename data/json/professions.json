@@ -139,6 +139,15 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "m1911_10_magazines_reloaded",
+    "entries": [
+      { "item": "m1911_10mag", "ammo-item": "reloaded_10mm_fmj", "charges": 8 },
+      { "item": "m1911_10mag", "ammo-item": "reloaded_10mm_fmj", "charges": 8 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "quiver_bow_hunter",
     "entries": [ { "item": "arrow_cf", "charges": 8 } ]
   },
@@ -1288,7 +1297,10 @@
     "description": "Cocaine.  It is, indeed, a helluva drug.  You blew your money on some dust, and before you knew it you were turning tricks behind the local CVS just to score one more line.  Where are you going to get your next fix now?",
     "points": -1,
     "items": {
-      "both": { "items": [ "crackpipe", "crack", "crack", "tank_top" ], "entries": [ { "group": "charged_ref_lighter" } ] },
+      "both": {
+        "items": [ "crackpipe", "tank_top" ],
+        "entries": [ { "group": "charged_ref_lighter" }, { "item": "crack", "charges": 8, "container-item": "bag_zipper" } ]
+      },
       "male": [ "jeans", "flip_flops" ],
       "female": [ "jeans", "heels" ]
     },
@@ -3778,7 +3790,11 @@
     "name": "Heroin Addict",
     "description": "The last thing you remember was meeting God behind the local Foodplace.  Then people started eating each other.  This doesn't feel like a fever dream.",
     "points": -3,
-    "items": { "both": [ "shorts", "heroin", "syringe" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] },
+    "items": {
+      "both": { "items": [ "shorts", "syringe" ], "entries": [ { "item": "heroin", "charges": 9, "container-item": "bag_zipper" } ] },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
     "addictions": [ { "intensity": 40, "type": "opiate" } ]
   },
   {
@@ -3912,5 +3928,39 @@
       "female": [ "sports_bra", "boy_shorts" ]
     },
     "traits": [ "LIAR" ]
+  },
+  {
+    "type": "profession",
+    "id": "handloader",
+    "name": "Hobby Handloader",
+    "description": "Out of financial concerns and an appreciation for power, you took up handloading for your mighty handgun.  Now that the gunstores are closed, your skills ensure you won't be running out of ammo anytime soon.",
+    "points": 5,
+    "proficiencies": [ "prof_handloading" ],
+    "items": {
+      "both": {
+        "items": [
+          "pants",
+          "dress_shirt",
+          "wristwatch",
+          "socks",
+          "boots",
+          "jacket_light",
+          "gloves_fingerless",
+          "press",
+          "puller",
+          "slingpack",
+          "hat_ball"
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "m1911_10_magazines_reloaded" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "m1911_10", "ammo-item": "reloaded_10mm_fmj", "charges": 8, "container-item": "holster" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "skills": [ { "level": 3, "name": "fabrication" }, { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" } ]
   }
 ]

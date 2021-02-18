@@ -8,7 +8,6 @@
 #include "item_category.h"
 #include "material.h"
 #include "requirements.h"
-#include "string_id.h"
 #include "type_id.h"
 
 static std::pair<std::string, std::string> get_both( const std::string &a );

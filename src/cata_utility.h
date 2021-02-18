@@ -3,9 +3,10 @@
 #define CATA_SRC_CATA_UTILITY_H
 
 #include <algorithm>
+#include <cstddef>
 #include <functional>
 #include <iosfwd>
-#include <string>
+#include <string> // IWYU pragma: keep
 #include <type_traits>
 #include <utility>
 #include <vector>

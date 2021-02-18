@@ -518,11 +518,18 @@
         "collection": [
           { "item": "toaster" },
           {
-            "distribution": [ { "item": "bread", "prob": 70 }, { "item": "sourdough_bread", "prob": 30 } ],
+            "distribution": [
+              { "item": "bread", "charges": [ 2, 12 ], "prob": 70 },
+              { "item": "sourdough_bread", "charges": [ 2, 12 ], "prob": 30 }
+            ],
             "prob": 80
           },
           {
-            "distribution": [ { "item": "toastem", "prob": 40 }, { "item": "toastem2", "prob": 30 }, { "item": "toastem3", "prob": 30 } ],
+            "distribution": [
+              { "item": "toastem", "charges": [ 1, 8 ], "prob": 40 },
+              { "item": "toastem2", "charges": [ 1, 8 ], "prob": 30 },
+              { "item": "toastem3", "charges": [ 1, 8 ], "prob": 30 }
+            ],
             "prob": 60
           }
         ],
@@ -675,7 +682,7 @@
       },
       {
         "distribution": [
-          { "item": "antifungal", "prob": 60, "charges-min": 1, "charges-max": 10, "container-item": "bottle_plastic_small" },
+          { "item": "antifungal", "prob": 5, "charges-min": 1, "charges-max": 10, "container-item": "bottle_plastic_small" },
           {
             "item": "antiparasitic",
             "prob": 20,

@@ -203,12 +203,12 @@
       {
         "x": 0,
         "y": 0,
-        "parts": [ "frame_handle", "motorcycle_headlight", "saddle_motor", "controls", "controls_electronic" ]
+        "parts": [ "frame_handle", "motorcycle_headlight", "saddle_scooter", "controls", "controls_electronic" ]
       },
       { "x": 0, "y": 0, "parts": [ "horn_car", "motorcycle_kickstand", "engine_1cyl", "alternator_motorbike" ] },
       { "x": 0, "y": 0, "parts": [ "battery_motorbike", { "part": "tank_small", "fuel": "gasoline" } ] },
-      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_small" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_small" ] },
+      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_small_scooter" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_small_scooter_rear" ] },
       { "x": -1, "y": 0, "part": "muffler" }
     ]
   },
@@ -218,11 +218,11 @@
     "name": "Electric Scooter",
     "blueprint": [ "o>o" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_handle", "motorcycle_headlight", "saddle_motor", "controls" ] },
+      { "x": 0, "y": 0, "parts": [ "frame_handle", "motorcycle_headlight", "saddle_scooter", "controls" ] },
       { "x": 0, "y": 0, "parts": [ "controls_electronic", "horn_car", "motorcycle_kickstand" ] },
       { "x": 0, "y": 0, "parts": [ "medium_storage_battery", "engine_electric_small" ] },
-      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_small" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_small" ] }
+      { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_small_scooter" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_small_scooter_rear" ] }
     ]
   },
   {

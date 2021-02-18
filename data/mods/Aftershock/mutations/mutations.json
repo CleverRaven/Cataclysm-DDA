@@ -629,7 +629,7 @@
     "name": "Trumpeting Voice",
     "points": -1,
     "mixed_effect": true,
-    "description": "You have a trumpeting elephantine voice.  threatening NPCs will be easier, but lying will very hard.",
+    "description": "You have a trumpeting, elephantine voice.  Threatening NPCs will be easier, but lying will very hard.",
     "changes_to": [ "SNARL" ],
     "category": [ "MASTODON" ],
     "social_modifiers": { "lie": -30, "intimidate": 10 }

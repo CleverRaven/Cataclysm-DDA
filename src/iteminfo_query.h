@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_ITEMINFO_QUERY_H
 #define CATA_SRC_ITEMINFO_QUERY_H
 
-#include <cstddef>
 #include <bitset>
-#include <string>
+#include <cstddef>
+#include <iosfwd>
 #include <vector>
 
 enum class iteminfo_parts : size_t {
@@ -74,6 +74,7 @@ enum class iteminfo_parts : size_t {
 
     AMMO_REMAINING,
     AMMO_UPSCOST,
+    AMMO_TO_FIRE,
 
     GUN_DEFAULT_AMMO,
     GUN_MAX_RANGE,

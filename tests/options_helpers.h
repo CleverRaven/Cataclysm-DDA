@@ -2,7 +2,7 @@
 #ifndef CATA_TESTS_OPTIONS_HELPERS_H
 #define CATA_TESTS_OPTIONS_HELPERS_H
 
-#include <string>
+#include <string> // IWYU pragma: keep
 
 // RAII class to temporarily override a particular option value
 // The previous value will be restored in the destructor

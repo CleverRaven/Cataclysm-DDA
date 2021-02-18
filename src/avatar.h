@@ -3,6 +3,7 @@
 #define CATA_SRC_AVATAR_H
 
 #include <cstddef>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -15,17 +16,14 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "json.h"
 #include "magic_teleporter_list.h"
 #include "map_memory.h"
 #include "memory_fast.h"
 #include "player.h"
 #include "point.h"
-#include "string_id.h"
 #include "type_id.h"
 
-class JsonIn;
-class JsonObject;
-class JsonOut;
 class advanced_inv_area;
 class advanced_inv_listitem;
 class advanced_inventory_pane;
@@ -37,6 +35,8 @@ class monster;
 class nc_color;
 class npc;
 class talker;
+struct bionic;
+
 namespace catacurses
 {
 class window;

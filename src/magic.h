@@ -2,10 +2,10 @@
 #ifndef CATA_SRC_MAGIC_H
 #define CATA_SRC_MAGIC_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <map>
-#include <memory>
+#include <new>
 #include <queue>
 #include <set>
 #include <string>
@@ -18,7 +18,6 @@
 #include "optional.h"
 #include "point.h"
 #include "sounds.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"

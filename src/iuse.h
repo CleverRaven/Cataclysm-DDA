@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_IUSE_H
 #define CATA_SRC_IUSE_H
 
+#include <iosfwd>
 #include <memory>
-#include <string>
-#include <utility>
+#include <type_traits>
 #include <vector>
 
 #include "clone_ptr.h"
@@ -17,8 +17,8 @@ class item;
 class monster;
 class player;
 struct iteminfo;
-template<typename T> class ret_val;
 struct tripoint;
+template<typename T> class ret_val;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
 namespace iuse
