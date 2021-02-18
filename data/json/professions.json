@@ -3924,6 +3924,23 @@
   },
   {
     "type": "profession",
+    "id": "local_drug_dealer",
+    "name": "Drug Dealer",
+    "description": "You were about to make your biggest sale yet, but when you met the buyer he tried to bite you.  To top it off, it seems that this wasn't some sort of bad high for the user, as the whole town tried going for your throat too.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "melee" }, { "level": 2, "name": "stabbing" }, { "level": 2, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [ "hoodie", "jeans", "mbag", "socks", "sneakers", "bandana", "gloves_medical", "switchblade" ],
+        "entries": [ { "item": "crack", "charges": 25, "container-item": "bag_zipper" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "sports_bra", "boy_shorts" ]
+    },
+    "traits": [ "LIAR" ]
+  },
+  {
+    "type": "profession",
     "id": "handloader",
     "name": "Hobby Handloader",
     "description": "Out of financial concerns and an appreciation for power, you took up handloading for your mighty handgun.  Now that the gunstores are closed, your skills ensure you won't be running out of ammo anytime soon.",
