@@ -180,11 +180,13 @@ units::angle solar_altitude( const time_point &p )
 
 bool sun_reaches_angle( const units::angle &angle, const time_point &p )
 {
-	const units::angle solar_decl = solar_declination( p );
-	const units::angle max_angle = units::from_degrees( 90 - get_option<int>( "LATITUDE" ) ) + solar_decl;
-	const units::angle min_angle = units::from_degrees( get_option<int>( "LATITUDE" ) - 90 ) + solar_decl;
-	
-	return angle > min_angle && angle < max_angle;
+    const units::angle solar_decl = solar_declination( p );
+    const units::angle max_angle = units::from_degrees( 90 - get_option<int>( "LATITUDE" ) ) +
+                                   solar_decl;
+    const units::angle min_angle = units::from_degrees( get_option<int>( "LATITUDE" ) - 90 ) +
+                                   solar_decl;
+
+    return angle > min_angle && angle < max_angle;
 }
 
 float sunlight( const time_point &p, const bool vision )

@@ -257,7 +257,6 @@ TEST_CASE( "sun math", "[sun]" )
         CHECK( to_string( sun_at_angle( angle, june_date_year3,
                                         true ) ) ==  "Year 3, Summer, day 70 6:56:30 PM" );
     }
-    }
 
     SECTION( "sunrise" ) {
         CHECK( to_string( sunrise( january_date ) ) ==  "Year 1, Spring, day 1 7:29:58 AM" );
@@ -311,8 +310,6 @@ TEST_CASE( "sun angles at different latitudes", "[sun]" )
     // "Year 1, Winter, day 81 12:00:00AM"
     static const time_point winter_solstice = calendar::turn_zero + 354_days + 12_hours;
 
-
-
     SECTION( "90 degrees pole" ) {
         override_option latitude( "LATITUDE", "90" );
 
@@ -337,40 +334,6 @@ TEST_CASE( "sun angles at different latitudes", "[sun]" )
 
         CHECK( to_string( daylight_time( summer_solstice ) ) ==  "Year 1, Summer, day 81 12:00:00AM" );
         CHECK( to_string( night_time( summer_solstice ) ) ==  "Year 1, Summer, day 82 12:00:00AM" );
-
-        // Sunrise and dawn on equoinx at 6:00
-        CHECK( to_string( sunset( northward_equinox ) ) ==  "Year 1, Summer, day 21 12:00:00AM" );
-        CHECK( to_string( sunset( southward_equinox ) ) ==  "Year 1, Autumn, day 82 12:00:00AM" );
-
-    }
-
-    SECTION( "65 degrees below artic cirle" ) {
-        override_option latitude( "LATITUDE", "90" );
-
-        // Sunrise and sunset should happen normally
-
-
-        CHECK( to_degrees( solar_altitude( winter_solstice ) ) ==  Approx( -23.43 ).margin( 0.01 ) );
-        CHECK( to_degrees( solar_altitude( summer_solstice ) ) ==  Approx( 23.43 ).margin( 0.01 ) );
-
-        // No sunsets during polar night or midnight sun
-        // These functions instead return either previous or next midnight
-        CHECK( to_string( sunset( winter_solstice ) ) ==  "Year 1, Winter, day 83 12:00:00AM" );
-        CHECK( to_string( sunrise( winter_solstice ) ) ==  "Year 1, Winter, day 82 12:00:00AM" );
-
-        CHECK( to_string( sunrise( summer_solstice ) ) ==  "Year 1, Summer, day 81 12:00:00AM" );
-        CHECK( to_string( sunset( summer_solstice ) ) ==  "Year 1, Summer, day 82 12:00:00AM" );
-
-        CHECK( to_string( night_time( winter_solstice ) ) ==  "Year 1, Winter, day 83 12:00:00AM" );
-        CHECK( to_string( daylight_time( winter_solstice ) ) ==  "Year 1, Winter, day 82 12:00:00AM" );
-
-        CHECK( to_string( daylight_time( summer_solstice ) ) ==  "Year 1, Summer, day 81 12:00:00AM" );
-        CHECK( to_string( night_time( summer_solstice ) ) ==  "Year 1, Summer, day 82 12:00:00AM" );
-
-        // Sunrise and dawn on equoinx at 6:00
-        CHECK( to_string( sunset( northward_equinox ) ) ==  "Year 1, Summer, day 21 12:00:00AM" );
-        CHECK( to_string( sunset( southward_equinox ) ) ==  "Year 1, Autumn, day 82 12:00:00AM" );
-
     }
 
     SECTION( "0 degrees equator" ) {
