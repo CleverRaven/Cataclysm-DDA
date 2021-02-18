@@ -661,7 +661,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "bread", "prob": 65 },
-      { "item": "brown_bread", "prob": 50 },
+      { "item": "brown_bread", "prob": 50, "container-item": "bag_plastic" },
       { "item": "cake2", "prob": 10 },
       { "item": "cake3", "prob": 10 },
       { "item": "cornbread", "prob": 35 },
