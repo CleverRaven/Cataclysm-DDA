@@ -5079,6 +5079,16 @@ int Character::weary_intake() const
     return weary.intake;
 }
 
+int Character::weary_low_activity_ticks() const
+{
+    return weary.low_activity_ticks;
+}
+
+int Character::weary_tick_counter() const
+{
+    return weary.tick_counter;
+}
+
 void weariness_tracker::clear()
 {
     tracker = 0;
