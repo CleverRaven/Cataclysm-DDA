@@ -2732,6 +2732,8 @@ class Character : public Creature, public visitable
         int weariness() const;
         int weary_tracker() const;
         int weary_intake() const;
+        int weary_low_activity_ticks() const;
+        int weary_tick_counter() const;
         float activity_level() const;
         float exertion_adjusted_move_multiplier( float level = -1.0f ) const;
         void try_reduce_weariness( float exertion );
