@@ -556,6 +556,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
       [
@@ -584,6 +585,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
       [ [ "scrap", 1 ], [ "nail", 8 ], [ "copper", 16 ], [ "lead", 16 ] ],
@@ -603,6 +605,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
       [ [ "rebar", 1 ], [ "spear_rebar", 1 ], [ "rebar_rail", 1 ], [ "steel_rail", 1 ], [ "scrap", 1 ] ],
@@ -624,6 +627,7 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "surface_heat", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ], [ [ "lead", 24 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   },
   {
@@ -639,6 +643,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
       [ [ "nail", 8 ], [ "combatnail", 8 ] ],

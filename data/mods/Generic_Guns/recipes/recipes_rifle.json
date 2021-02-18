@@ -14,6 +14,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_bullet", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "paper", 1 ] ] ]
   },
@@ -32,6 +33,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "ammo_bullet", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "paper", 1 ] ] ]
   },
@@ -50,6 +52,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "req_rifle", 1 ], [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 12 ], [ "gunpowder_magnum_pistol", 12 ], [ "gunpowder_rifle", 12 ], [ "gunpowder_large_rifle", 12 ] ]
     ]
@@ -94,6 +97,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "req_rifle_huge", 1 ], [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "gunpowder", 30 ], [ "gunpowder_large_rifle", 30 ] ] ]
   },
   {
