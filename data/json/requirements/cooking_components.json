@@ -831,5 +831,38 @@
         [ "mixed_alcohol_weak", 1 ]
       ]
     ]
+  },
+  {
+    "id": "soda_pop",
+    "type": "requirement",
+    "//": "Soda's and such. Anything carbonated that isn't alcholic or an energy drink.",
+    "components": [
+      [
+        [ "cola", 1 ],
+        [ "creamsoda", 1 ],
+        [ "crispycran", 1 ],
+        [ "lemonlime", 1 ],
+        [ "orangesoda", 1 ],
+        [ "purple_drink", 1 ],
+        [ "rootbeer", 1 ],
+        [ "spezi", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "sweet_juice",
+    "type": "requirement",
+    "//": "Non-carbonated, sweet fruit based drinks.",
+    "components": [
+      [
+        [ "oj", 1 ],
+        [ "lemonade", 1 ],
+        [ "apple_cider", 1 ],
+        [ "cranberry_juice", 1 ],
+        [ "juice", 1 ],
+        [ "juice_pasteurized", 1 ],
+        [ "kompot", 1 ]
+      ]
+    ]
   }
 ]
