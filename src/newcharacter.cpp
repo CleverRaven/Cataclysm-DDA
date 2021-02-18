@@ -1892,6 +1892,18 @@ tab_direction set_profession( avatar &u, points_left &points,
             }
             const int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
             u.prof = &sorted_profs[cur_id].obj();
+            // Remove pre-selected traits that conflict
+            // with the new profession's traits
+            for (const trait_id& new_trait : u.prof->get_locked_traits()) {
+                if (u.has_conflicting_trait(new_trait)) {
+                    for (const trait_id& suspect_trait : u.get_mutations()) {
+                        if (are_conflicting_traits(new_trait, suspect_trait)) {
+                            u.toggle_trait(suspect_trait);
+                            points.trait_points += suspect_trait->points;
+                        }
+                    }
+                }
+            }
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
             u.add_traits( points );
