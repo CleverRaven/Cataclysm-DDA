@@ -134,13 +134,13 @@
     "id": "ammo_shotgun_rare",
     "//": "Less common shotgun ammo including that only used by police/paramilitary forces.",
     "subtype": "distribution",
-    "entries": [ { "item": "afs_25mm_caseless", "prob": 10 } ]
+    "entries": [ { "item": "afs_25mm_shot", "prob": 10 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_shotgun_milspec",
     "//": "Military specification shotgun ammo found at military sites.",
     "subtype": "distribution",
-    "entries": [ { "item": "afs_25mm_caseless", "prob": 10 } ]
+    "entries": [ { "item": "afs_25mm_shot", "prob": 10 } ]
   }
 ]
