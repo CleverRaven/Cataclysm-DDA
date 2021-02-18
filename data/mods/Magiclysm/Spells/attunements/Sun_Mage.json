@@ -5,7 +5,7 @@
     "name": "Solar Beam",
     "description": "Fire a blast of sunlight in a wide beam, blinding everything in its path and leaving it bright enough for you to see for a few seconds.",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "SOMATIC" ],
+    "flags": [ "SOMATIC", "MUST_HAVE_CLASS_TO_LEARN" ],
     "effect": "attack",
     "shape": "line",
     "effect_str": "blind",
