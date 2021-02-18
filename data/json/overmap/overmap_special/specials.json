@@ -812,8 +812,8 @@
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "outpost_north" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 15, -1 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "MILITARY" ]
+    "occurrences": [ 50, 100 ],
+    "flags": [ "MILITARY", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -4448,6 +4448,7 @@
       { "point": [ 4, 4, -2 ], "overmap": "microlab_rock_border" }
     ],
     "locations": [ "land" ],
+    "city_distance": [ 5, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "LAB" ]
   },
@@ -4657,6 +4658,7 @@
       { "point": [ -1, 1, -5 ], "overmap": "microlab_reactor_b_west" }
     ],
     "locations": [ "land" ],
+    "city_distance": [ 5, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "LAB" ]
   },
@@ -6656,7 +6658,7 @@
     "locations": [ "land", "lake_shore", "lake_surface", "road" ],
     "occurrences": [ 95, 100 ],
     "//": "Inflated chance, effective rate ~ 30%",
-	"connections": [ { "point": [ -1, 15, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ -1, 15, 0 ], "terrain": "road" } ],
     "flags": [ "CLASSIC", "FARM", "UNIQUE" ]
   },
   {
