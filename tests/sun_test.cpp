@@ -257,19 +257,6 @@ TEST_CASE( "sun math", "[sun]" )
         CHECK( to_string( sun_at_angle( angle, june_date_year3,
                                         true ) ) ==  "Year 3, Summer, day 70 6:56:30 PM" );
     }
-
-    SECTION( "angle and sunrise match" ) {
-        const units::angle angle = units::from_degrees( 0 );
-        CHECK( to_string( sun_at_angle( angle, january_date,
-                                        false ) ) ==  "Year 1, Spring, day 1 7:29:58 AM" );
-        CHECK( to_string( sun_at_angle( angle, september_date,
-                                        false ) ) ==  "Year 1, Autumn, day 79 5:57:27 AM" );
-        CHECK( to_string( sun_at_angle( angle, september_date_2,
-                                        false ) ) ==  "Year 1, Autumn, day 79 5:56:00 AM" );
-        CHECK( to_string( sun_at_angle( angle, june_date,
-                                        false ) ) ==  "Year 1, Summer, day 70 4:29:51 AM" );
-        CHECK( to_string( sun_at_angle( angle, june_date_year3,
-                                        false ) ) ==  "Year 3, Summer, day 70 4:29:51 AM" );
     }
 
     SECTION( "sunrise" ) {
