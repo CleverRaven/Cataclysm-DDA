@@ -80,6 +80,14 @@ moon_phase get_moon_phase( const time_point &p )
 
 time_point sun_at_angle( const units::angle &angle, const time_point &p, const bool &evening )
 {
+    // It is possible that sun never reaches this angle on this day.
+
+    if( minimum_solar_altitude( p ) > angle || maximum_solar_altitude( p ) < angle ) {
+        // Sun never reaches that angle at this date.
+        // Return previous midnight for morning and next midnight for evening.
+        return evening ? p - time_past_midnight( p ) + 24_hours : p - time_past_midnight( p );
+    }
+
     const units::angle latitude = units::from_degrees( get_option<int>( "LATITUDE" ) );
 
     units::angle hour_angle = units::acos( units::sin( angle ) - units::sin(
@@ -96,10 +104,15 @@ time_point sun_at_angle( const units::angle &angle, const time_point &p, const b
 time_point sunrise( const time_point &p )
 {
     const units::angle latitude = units::from_degrees( get_option<int>( "LATITUDE" ) );
+    const units::angle sun_decl = solar_declination( p );
 
-    const units::angle hour_angle = - units::acos( - units::tan( latitude ) * units::tan(
-                                        solar_declination(
-                                            p ) ) );
+    if( sun_decl > units::from_degrees( 90 ) - latitude ||
+        sun_decl < latitude - units::from_degrees( 90 ) ) {
+        // Either day or nigh does not exist here.
+        return  p - time_past_midnight( p );
+    }
+
+    const units::angle hour_angle = - units::acos( - units::tan( latitude ) * units::tan( sun_decl ) );
     int seconds = ( to_degrees( hour_angle ) + 180 ) * 240;
     return p - time_past_midnight( p ) + seconds * 1_seconds;
 }
@@ -108,10 +121,15 @@ time_point sunset( const time_point &p )
 {
     // Assumes we are in boston
     const units::angle latitude = units::from_degrees( get_option<int>( "LATITUDE" ) );
+    const units::angle sun_decl = solar_declination( p );
 
-    const units::angle hour_angle = units::acos( - units::tan( latitude ) * units::tan(
-                                        solar_declination(
-                                            p ) ) );
+    if( sun_decl > units::from_degrees( 90 ) - latitude ||
+        sun_decl < latitude - units::from_degrees( 90 ) ) {
+        // Either day or nigh does not exist here.
+        return  p - time_past_midnight( p ) + 24_hours;
+    }
+
+    const units::angle hour_angle = units::acos( - units::tan( latitude ) * units::tan( sun_decl ) );
 
     int seconds = ( to_degrees( hour_angle ) + 180 ) * 240;
     return p - time_past_midnight( p ) + seconds * 1_seconds;
@@ -184,6 +202,18 @@ units::angle solar_altitude( const time_point &p )
                             latitude ) * units::cos( declination ) * units::cos( hour_angle ) );
 }
 
+units::angle maximum_solar_altitude( const time_point &p )
+{
+    return units::from_degrees( 90 ) - units::from_degrees( get_option<int>( "LATITUDE" ) ) +
+           solar_declination( p );
+}
+
+units::angle minimum_solar_altitude( const time_point &p )
+{
+    return units::from_degrees( get_option<int>( "LATITUDE" ) ) + solar_declination(
+               p ) - units::from_degrees( 90 );
+}
+
 float sunlight( const time_point &p, const bool vision )
 {
     int current_phase = static_cast<int>( get_moon_phase( p ) );
@@ -202,9 +232,9 @@ float sunlight( const time_point &p, const bool vision )
 
     if( solar_alt < units::from_degrees( -18 ) ) {
         return moonlight;
-    } else if( solar_alt < units::from_degrees( 0 ) ) {
+    } else if( solar_alt < units::from_degrees( 4 ) ) {
         // Sunlight increases/decreases linearly with sun angle during twilights.
-        // From -18 to 0 degrees light increases from 0 to 75 brightness.
+        // From -18 to 4 degrees light increases from 0 to 75 brightness.
         float sunlight = 25.0 / 6 * to_degrees( solar_alt ) + sunrise_light;
         return moonlight + sunlight;
     } else if( solar_alt < units::from_degrees( 50 ) ) {

@@ -1,6 +1,8 @@
 #include "catch/catch.hpp"
 #include "calendar.h" // IWYU pragma: associated
 #include "units.h"
+#include "options.h"
+#include "options_helpers.h"
 
 #include <string>
 
@@ -182,8 +184,11 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
     }
 }
 
-TEST_CASE( "sun angles", "[sun]" )
+TEST_CASE( "sun math", "[sun]" )
 {
+
+    REQUIRE( get_option<int>( "LATITUDE" ) == 42 );
+
     // CDDA year is 364 days long but the math is for IRL 365 days. Causes some rounding errors as dates don't map exactly right.
 
     // January 1st 12:00
@@ -224,4 +229,172 @@ TEST_CASE( "sun angles", "[sun]" )
         CHECK( to_degrees( solar_altitude( june_date ) ) ==  Approx( -23.47 ).margin( 0.01 ) );
         CHECK( to_degrees( solar_altitude( june_date_year3 ) ) ==  Approx( -23.47 ).margin( 0.01 ) );
     }
+
+    SECTION( "angle at 8 morning" ) {
+        const units::angle angle = units::from_degrees( 8 );
+        CHECK( to_string( sun_at_angle( angle, january_date,
+                                        false ) ) ==  "Year 1, Spring, day 1 8:05:48 AM" );
+        CHECK( to_string( sun_at_angle( angle, september_date,
+                                        false ) ) ==  "Year 1, Autumn, day 79 6:29:26 AM" );
+        CHECK( to_string( sun_at_angle( angle, september_date_2,
+                                        false ) ) ==  "Year 1, Autumn, day 79 6:27:58 AM" );
+        CHECK( to_string( sun_at_angle( angle, june_date,
+                                        false ) ) ==  "Year 1, Summer, day 70 5:03:29 AM" );
+        CHECK( to_string( sun_at_angle( angle, june_date_year3,
+                                        false ) ) ==  "Year 3, Summer, day 70 5:03:29 AM" );
+    }
+
+    SECTION( "angle at 8 evening" ) {
+        const units::angle angle = units::from_degrees( 8 );
+        CHECK( to_string( sun_at_angle( angle, january_date,
+                                        true ) ) ==  "Year 1, Spring, day 1 3:54:11 PM" );
+        CHECK( to_string( sun_at_angle( angle, september_date,
+                                        true ) ) ==  "Year 1, Autumn, day 79 5:30:33 PM" );
+        CHECK( to_string( sun_at_angle( angle, september_date_2,
+                                        true ) ) ==  "Year 1, Autumn, day 79 5:32:01 PM" );
+        CHECK( to_string( sun_at_angle( angle, june_date,
+                                        true ) ) ==  "Year 1, Summer, day 70 6:56:30 PM" );
+        CHECK( to_string( sun_at_angle( angle, june_date_year3,
+                                        true ) ) ==  "Year 3, Summer, day 70 6:56:30 PM" );
+    }
+
+    SECTION( "angle and sunrise match" ) {
+        const units::angle angle = units::from_degrees( 0 );
+        CHECK( to_string( sun_at_angle( angle, january_date,
+                                        false ) ) ==  "Year 1, Spring, day 1 7:29:58 AM" );
+        CHECK( to_string( sun_at_angle( angle, september_date,
+                                        false ) ) ==  "Year 1, Autumn, day 79 5:57:27 AM" );
+        CHECK( to_string( sun_at_angle( angle, september_date_2,
+                                        false ) ) ==  "Year 1, Autumn, day 79 5:56:00 AM" );
+        CHECK( to_string( sun_at_angle( angle, june_date,
+                                        false ) ) ==  "Year 1, Summer, day 70 4:29:51 AM" );
+        CHECK( to_string( sun_at_angle( angle, june_date_year3,
+                                        false ) ) ==  "Year 3, Summer, day 70 4:29:51 AM" );
+    }
+
+    SECTION( "sunrise" ) {
+        CHECK( to_string( sunrise( january_date ) ) ==  "Year 1, Spring, day 1 7:29:58 AM" );
+        CHECK( to_string( sunrise( september_date ) ) ==  "Year 1, Autumn, day 79 5:57:27 AM" );
+        CHECK( to_string( sunrise( september_date_2 ) ) ==  "Year 1, Autumn, day 79 5:56:00 AM" );
+        CHECK( to_string( sunrise( june_date ) ) ==  "Year 1, Summer, day 70 4:29:51 AM" );
+        CHECK( to_string( sunrise( june_date_year3 ) ) ==  "Year 3, Summer, day 70 4:29:51 AM" );
+    }
+
+    SECTION( "sunset" ) {
+        CHECK( to_string( sunset( january_date ) ) ==  "Year 1, Spring, day 1 4:30:01 PM" );
+        CHECK( to_string( sunset( september_date ) ) ==  "Year 1, Autumn, day 79 6:02:32 PM" );
+        CHECK( to_string( sunset( september_date_2 ) ) ==  "Year 1, Autumn, day 79 6:03:59 PM" );
+        CHECK( to_string( sunset( june_date ) ) ==  "Year 1, Summer, day 70 7:30:08 PM" );
+        CHECK( to_string( sunset( june_date_year3 ) ) ==  "Year 3, Summer, day 70 7:30:08 PM" );
+    }
+
+    SECTION( "daylight" ) {
+        // Starts at -12 degrees
+        CHECK( to_string( daylight_time( january_date ) ) ==  "Year 1, Spring, day 1 6:40:14 AM" );
+        CHECK( to_string( daylight_time( september_date ) ) ==  "Year 1, Autumn, day 79 5:09:23 AM" );
+        CHECK( to_string( daylight_time( september_date_2 ) ) ==  "Year 1, Autumn, day 79 5:07:54 AM" );
+        CHECK( to_string( daylight_time( june_date ) ) ==  "Year 1, Summer, day 70 3:35:02 AM" );
+        CHECK( to_string( daylight_time( june_date_year3 ) ) ==  "Year 3, Summer, day 70 3:35:02 AM" );
+    }
+
+    SECTION( "night start" ) {
+        // Starts at -12 degrees
+        CHECK( to_string( night_time( january_date ) ) ==  "Year 1, Spring, day 1 5:19:45 PM" );
+        CHECK( to_string( night_time( september_date ) ) ==  "Year 1, Autumn, day 79 6:50:36 PM" );
+        CHECK( to_string( night_time( september_date_2 ) ) ==  "Year 1, Autumn, day 79 6:52:05 PM" );
+        CHECK( to_string( night_time( june_date ) ) ==  "Year 1, Summer, day 70 8:24:57 PM" );
+        CHECK( to_string( night_time( june_date_year3 ) ) ==  "Year 3, Summer, day 70 8:24:57 PM" );
+    }
+}
+
+TEST_CASE( "sun angles at different latitudes", "[sun]" )
+{
+    // CDDA year is 364 days long but the math is for IRL 365 days. Causes some rounding errors as dates don't map exactly right.
+
+    // Northward equinox March 20 12:00 approximately
+    static const time_point northward_equinox = calendar::turn_zero + 110_days + 12_hours;
+
+    // Summer solstice  June 21 12:00 approximately
+    static const time_point summer_solstice = calendar::turn_zero + 171_days + 12_hours;
+
+    // Shouthward equinox  september 22 12:00 approximately
+    static const time_point southward_equinox = calendar::turn_zero + 262_days + 12_hours;
+
+    // Winter solstice  December 21 12:00 approximately
+    // "Year 1, Winter, day 81 12:00:00AM"
+    static const time_point winter_solstice = calendar::turn_zero + 354_days + 12_hours;
+
+
+
+    SECTION( "90 degrees pole" ) {
+        override_option latitude( "LATITUDE", "90" );
+
+        // Sun below horizont during midday on winter solistice
+        // Sun above horizont durin midnight on summer solistice
+        // Returns something valid for day/night/dawn/dusk times even if they don't happen
+
+
+        CHECK( to_degrees( solar_altitude( winter_solstice ) ) ==  Approx( -23.43 ).margin( 0.01 ) );
+        CHECK( to_degrees( solar_altitude( summer_solstice ) ) ==  Approx( 23.43 ).margin( 0.01 ) );
+
+        // No sunsets during polar night or midnight sun
+        // These functions instead return either previous or next midnight
+        CHECK( to_string( sunset( winter_solstice ) ) ==  "Year 1, Winter, day 83 12:00:00AM" );
+        CHECK( to_string( sunrise( winter_solstice ) ) ==  "Year 1, Winter, day 82 12:00:00AM" );
+
+        CHECK( to_string( sunrise( summer_solstice ) ) ==  "Year 1, Summer, day 81 12:00:00AM" );
+        CHECK( to_string( sunset( summer_solstice ) ) ==  "Year 1, Summer, day 82 12:00:00AM" );
+
+        CHECK( to_string( night_time( winter_solstice ) ) ==  "Year 1, Winter, day 83 12:00:00AM" );
+        CHECK( to_string( daylight_time( winter_solstice ) ) ==  "Year 1, Winter, day 82 12:00:00AM" );
+
+        CHECK( to_string( daylight_time( summer_solstice ) ) ==  "Year 1, Summer, day 81 12:00:00AM" );
+        CHECK( to_string( night_time( summer_solstice ) ) ==  "Year 1, Summer, day 82 12:00:00AM" );
+
+        // Sunrise and dawn on equoinx at 6:00
+        CHECK( to_string( sunset( northward_equinox ) ) ==  "Year 1, Summer, day 21 12:00:00AM" );
+        CHECK( to_string( sunset( southward_equinox ) ) ==  "Year 1, Autumn, day 82 12:00:00AM" );
+
+    }
+
+    SECTION( "65 degrees below artic cirle" ) {
+        override_option latitude( "LATITUDE", "90" );
+
+        // Sunrise and sunset should happen normally
+
+
+        CHECK( to_degrees( solar_altitude( winter_solstice ) ) ==  Approx( -23.43 ).margin( 0.01 ) );
+        CHECK( to_degrees( solar_altitude( summer_solstice ) ) ==  Approx( 23.43 ).margin( 0.01 ) );
+
+        // No sunsets during polar night or midnight sun
+        // These functions instead return either previous or next midnight
+        CHECK( to_string( sunset( winter_solstice ) ) ==  "Year 1, Winter, day 83 12:00:00AM" );
+        CHECK( to_string( sunrise( winter_solstice ) ) ==  "Year 1, Winter, day 82 12:00:00AM" );
+
+        CHECK( to_string( sunrise( summer_solstice ) ) ==  "Year 1, Summer, day 81 12:00:00AM" );
+        CHECK( to_string( sunset( summer_solstice ) ) ==  "Year 1, Summer, day 82 12:00:00AM" );
+
+        CHECK( to_string( night_time( winter_solstice ) ) ==  "Year 1, Winter, day 83 12:00:00AM" );
+        CHECK( to_string( daylight_time( winter_solstice ) ) ==  "Year 1, Winter, day 82 12:00:00AM" );
+
+        CHECK( to_string( daylight_time( summer_solstice ) ) ==  "Year 1, Summer, day 81 12:00:00AM" );
+        CHECK( to_string( night_time( summer_solstice ) ) ==  "Year 1, Summer, day 82 12:00:00AM" );
+
+        // Sunrise and dawn on equoinx at 6:00
+        CHECK( to_string( sunset( northward_equinox ) ) ==  "Year 1, Summer, day 21 12:00:00AM" );
+        CHECK( to_string( sunset( southward_equinox ) ) ==  "Year 1, Autumn, day 82 12:00:00AM" );
+
+    }
+
+    SECTION( "0 degrees equator" ) {
+        override_option latitude( "LATITUDE", "0" );
+        // Sunrise and dawn on equoinx at 6:00
+
+        CHECK( to_string( sunrise( northward_equinox ) ) ==  "Year 1, Summer, day 20 6:00:00 AM" );
+        CHECK( to_string( sunset( northward_equinox ) ) ==  "Year 1, Summer, day 20 6:00:00 PM" );
+
+        CHECK( to_string( sunrise( southward_equinox ) ) ==  "Year 1, Autumn, day 81 6:00:00 AM" );
+        CHECK( to_string( sunset( southward_equinox ) ) ==  "Year 1, Autumn, day 81 6:00:00 PM" );
+    }
+
 }

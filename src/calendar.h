@@ -571,6 +571,7 @@ bool is_dawn( const time_point &p );
 /** How much light is provided in full daylight */
 double default_daylight_level();
 
+
 // Returns solar hour angle at time_point.
 // 0 degrees at noon (12:00)
 // negative before noon, positive after noon
@@ -582,6 +583,11 @@ units::angle solar_declination( const time_point &p );
 // Returns sun altitude at time_point
 units::angle solar_altitude( const time_point &p );
 
+// Returns maximum solar altitude for this day.
+units::angle maximum_solar_altitude( const time_point &p );
+
+// Returns minimum solar altitude for this day.
+units::angle minimum_solar_altitude( const time_point &p );
 
 /** Returns the current sunlight or moonlight level through the preceding functions.
  *  By default, returns sunlight level for vision, with moonlight providing a measurable amount
