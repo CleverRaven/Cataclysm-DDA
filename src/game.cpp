@@ -10485,7 +10485,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     } else if( str_req > u.get_str() && u.get_perceived_pain() / 10.f > 4 ) {
         add_msg( m_bad, _( "You are in too much pain to force yourself trying to move the heavy %s!" ),
                  furntype.name() );
-        return true;
+        return false;
         ///\EFFECT_STR determines ability to drag furniture
     } else if( str_req > u.get_str() &&
                one_in( std::max( 20 - str_req - u.get_str(), 2 ) ) ) {
