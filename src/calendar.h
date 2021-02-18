@@ -583,11 +583,8 @@ units::angle solar_declination( const time_point &p );
 // Returns sun altitude at time_point
 units::angle solar_altitude( const time_point &p );
 
-// Returns maximum solar altitude for this day.
-units::angle maximum_solar_altitude( const time_point &p );
-
-// Returns minimum solar altitude for this day.
-units::angle minimum_solar_altitude( const time_point &p );
+// Returns true if sun reaches this angle during the day.
+bool sun_reaches_angle( const units::angle &angle, const time_point &p );
 
 /** Returns the current sunlight or moonlight level through the preceding functions.
  *  By default, returns sunlight level for vision, with moonlight providing a measurable amount

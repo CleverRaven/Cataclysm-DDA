@@ -82,7 +82,7 @@ time_point sun_at_angle( const units::angle &angle, const time_point &p, const b
 {
     // It is possible that sun never reaches this angle on this day.
 
-    if( minimum_solar_altitude( p ) > angle || maximum_solar_altitude( p ) < angle ) {
+    if( !sun_reaches_angle( angle, p ) ) {
         // Sun never reaches that angle at this date.
         // Return previous midnight for morning and next midnight for evening.
         return evening ? p - time_past_midnight( p ) + 24_hours : p - time_past_midnight( p );
@@ -103,36 +103,12 @@ time_point sun_at_angle( const units::angle &angle, const time_point &p, const b
 
 time_point sunrise( const time_point &p )
 {
-    const units::angle latitude = units::from_degrees( get_option<int>( "LATITUDE" ) );
-    const units::angle sun_decl = solar_declination( p );
-
-    if( sun_decl > units::from_degrees( 90 ) - latitude ||
-        sun_decl < latitude - units::from_degrees( 90 ) ) {
-        // Either day or nigh does not exist here.
-        return  p - time_past_midnight( p );
-    }
-
-    const units::angle hour_angle = - units::acos( - units::tan( latitude ) * units::tan( sun_decl ) );
-    int seconds = ( to_degrees( hour_angle ) + 180 ) * 240;
-    return p - time_past_midnight( p ) + seconds * 1_seconds;
+    return sun_at_angle( units::from_degrees( 0 ), p, false );
 }
 
 time_point sunset( const time_point &p )
 {
-    // Assumes we are in boston
-    const units::angle latitude = units::from_degrees( get_option<int>( "LATITUDE" ) );
-    const units::angle sun_decl = solar_declination( p );
-
-    if( sun_decl > units::from_degrees( 90 ) - latitude ||
-        sun_decl < latitude - units::from_degrees( 90 ) ) {
-        // Either day or nigh does not exist here.
-        return  p - time_past_midnight( p ) + 24_hours;
-    }
-
-    const units::angle hour_angle = units::acos( - units::tan( latitude ) * units::tan( sun_decl ) );
-
-    int seconds = ( to_degrees( hour_angle ) + 180 ) * 240;
-    return p - time_past_midnight( p ) + seconds * 1_seconds;
+    return sun_at_angle( units::from_degrees( 0 ), p, true );
 }
 
 time_point night_time( const time_point &p )
@@ -202,16 +178,13 @@ units::angle solar_altitude( const time_point &p )
                             latitude ) * units::cos( declination ) * units::cos( hour_angle ) );
 }
 
-units::angle maximum_solar_altitude( const time_point &p )
+bool sun_reaches_angle( const units::angle &angle, const time_point &p )
 {
-    return units::from_degrees( 90 ) - units::from_degrees( get_option<int>( "LATITUDE" ) ) +
-           solar_declination( p );
-}
-
-units::angle minimum_solar_altitude( const time_point &p )
-{
-    return units::from_degrees( get_option<int>( "LATITUDE" ) ) + solar_declination(
-               p ) - units::from_degrees( 90 );
+	const units::angle solar_decl = solar_declination( p );
+	const units::angle max_angle = units::from_degrees( 90 - get_option<int>( "LATITUDE" ) ) + solar_decl;
+	const units::angle min_angle = units::from_degrees( get_option<int>( "LATITUDE" ) - 90 ) + solar_decl;
+	
+	return angle > min_angle && angle < max_angle;
 }
 
 float sunlight( const time_point &p, const bool vision )
