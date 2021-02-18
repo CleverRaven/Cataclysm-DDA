@@ -15,6 +15,7 @@
     "reversible": true,
     "using": [ [ "ammo_bullet", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "chem_black_powder", 30 ] ], [ [ "paper", 1 ] ] ]
   },
   {
@@ -33,6 +34,7 @@
     "reversible": true,
     "using": [ [ "ammo_bullet", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "chem_black_powder", 30 ] ], [ [ "paper", 1 ] ] ]
   },
   {
@@ -51,6 +53,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 1 ] ],
     "//": "65 mg gunpowder rounded to 1 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "22_casing_new", 1 ] ], [ [ "gunpowder", 1 ], [ "gunpowder_pistol", 1 ] ], [ [ "copper", 1 ] ] ]
   },
   {
@@ -69,6 +72,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 1 ] ],
     "//": "65 mg gunpowder rounded to 1 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "22_casing_new", 1 ] ], [ [ "gunpowder", 1 ], [ "gunpowder_pistol", 1 ] ] ]
   },
   {
@@ -86,6 +90,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "22_casing_new", 1 ] ], [ [ "chem_black_powder", 1 ] ], [ [ "copper", 1 ] ] ]
   },
   {
@@ -103,6 +108,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "22_casing_new", 1 ] ], [ [ "chem_black_powder", 1 ] ] ]
   },
   {
@@ -121,6 +127,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
     "//": "1500 mg gunpowder rounded to 15 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
@@ -143,6 +150,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "223_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 15 ] ], [ [ "copper", 1 ] ] ]
   },
   {
@@ -161,6 +169,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 8 ], [ "ammo_bullet", 3 ], [ "ammo_270win", 1 ] ],
     "//": "2974 mg gunpowder rounded to 30 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "gunpowder", 30 ], [ "gunpowder_magnum_pistol", 30 ], [ "gunpowder_rifle", 30 ] ], [ [ "copper", 1 ] ] ]
   },
   {
@@ -178,6 +187,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 8 ], [ "ammo_bullet", 3 ], [ "ammo_270win", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "chem_black_powder", 30 ] ], [ [ "copper", 1 ] ] ]
   },
   {
@@ -196,6 +206,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
     "//": "4327 mg gunpowder rounded to 43 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "300_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -218,6 +229,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "300_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 43 ] ], [ [ "copper", 2 ] ] ]
   },
   {
@@ -236,6 +248,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 3 ] ],
     "//": "3200 mg gunpowder rounded to 32 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "3006_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -259,6 +272,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
     "//": "3300 mg gunpowder rounded to 33 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "3006_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -282,6 +296,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
     "//": "3300 mg gunpowder rounded to 33 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "3006_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -310,6 +325,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "3006_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 32 ] ], [ [ "copper", 2 ] ] ]
   },
   {
@@ -327,6 +343,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "3006_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 33 ] ], [ [ "copper", 2 ] ] ]
   },
   {
@@ -344,6 +361,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "3006_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -368,6 +386,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 3 ] ],
     "//": "2800 mg gunpowder rounded to 28 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "308_casing", 1 ], [ "762_51_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -395,6 +414,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "308_casing", 1 ], [ "762_51_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -418,6 +438,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 5 ] ],
     "//": "2844 mg gunpowder rounded to 28 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "4570_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -442,6 +463,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 3 ] ],
     "//": "3000 mg gunpowder rounded to 30 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "4570_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -465,6 +487,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 8 ] ],
     "//": "1944 mg gunpowder rounded to 19 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "4570_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -487,6 +510,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 8 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 19 ] ], [ [ "copper", 3 ] ] ]
   },
   {
@@ -503,7 +527,7 @@
     "book_learn": [ [ "recipe_caseless", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" }, { "proficiency": "prof_handloading" } ],
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "plastic_molding", 1 ] ],
     "//": "3000 mg gunpowder rounded to 30 100 mg 'pieces'",
     "components": [
@@ -529,6 +553,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
     "//": "15800 mg gunpowder rounded to 158 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -551,6 +576,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "50_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 158 ] ], [ [ "copper", 6 ] ] ]
   },
   {
@@ -569,6 +595,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 21 ], [ "ammo_bullet", 12 ] ],
     "//": "15800 mg gunpowder rounded to 158 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -592,6 +619,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 21 ], [ "ammo_bullet", 12 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -616,6 +644,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 21 ] ],
     "//": "15800 mg gunpowder rounded to 158 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -639,6 +668,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 21 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -663,6 +693,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
     "//": "1295 mg gunpowder rounded to 13 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "545_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
@@ -685,6 +716,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "545_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 13 ] ], [ [ "copper", 1 ] ] ]
   },
   {
@@ -703,6 +735,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
     "//": "1295 mg gunpowder rounded to 13 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "545_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
@@ -725,6 +758,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "545_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "chem_black_powder", 13 ] ], [ [ "copper", 1 ] ] ]
   },
   {
@@ -742,6 +776,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ], [ "ammo_300blk", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "//": "1133 mg gunpowder rounded to 11 100 mg 'pieces'",
     "components": [ [ [ "gunpowder", 11 ] ], [ [ "copper", 1 ] ] ]
   },
@@ -760,6 +795,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ], [ "ammo_300blk", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "chem_black_powder", 11 ] ], [ [ "copper", 1 ] ] ]
   },
   {
@@ -778,6 +814,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 20 ] ],
     "//": "1717 mg gunpowder rounded to 17 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
@@ -802,6 +839,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
     "//": "1717 mg gunpowder rounded to 17 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
@@ -825,6 +863,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
@@ -848,6 +887,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
@@ -872,6 +912,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 20 ], [ "ammo_bullet", 18 ] ],
     "//": "16523 mg gunpowder rounded to 165 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "700nx_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -894,6 +935,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 20 ], [ "ammo_bullet", 18 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "700nx_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 165 ] ], [ [ "copper", 10 ] ] ]
   },
   {
@@ -912,6 +954,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 3 ] ],
     "//": "2462 mg gunpowder rounded to 25 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "308_casing", 1 ], [ "762_51_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -935,6 +978,7 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 3 ] ],
     "//": "2462 mg gunpowder rounded to 25 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "308_casing", 1 ], [ "762_51_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -963,6 +1007,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "308_casing", 1 ], [ "762_51_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -985,6 +1030,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "308_casing", 1 ], [ "762_51_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -1008,6 +1054,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 10 ], [ "ammo_bullet", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "//": "2851 mg gunpowder rounded to 29 100 mg 'pieces'",
     "components": [
       [ [ "762R_casing", 1 ] ],
@@ -1036,6 +1083,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 10 ], [ "ammo_bullet", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "762R_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 29 ] ], [ [ "copper", 2 ] ] ]
   },
   {
@@ -1053,6 +1101,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "//": "1535 mg gunpowder rounded to 15 100 mg 'pieces'",
     "components": [
       [ [ "762_casing", 1 ] ],
@@ -1077,6 +1126,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "762_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
@@ -1100,6 +1150,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "//": "1535 mg gunpowder rounded to 15 100 mg 'pieces'",
     "components": [
       [ [ "762_casing", 1 ] ],
@@ -1123,6 +1174,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "762_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "chem_black_powder", 15 ] ], [ [ "copper", 2 ] ] ]
   }
 ]
