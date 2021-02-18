@@ -766,7 +766,7 @@ static void assign_dmg_proportional( const JsonObject &jo, const std::string &na
 
             // If it's 1, it wasn't loaded (or was loaded as 1)
             if( scalar.damage_multiplier <= 0 ) {
-                jo.throw_error( "Proportional damage multipler is not a valid scalar", name );
+                jo.throw_error( "Proportional damage multiplier is not a valid scalar", name );
             }
 
             // If it's 1, it wasn't loaded (or was loaded as 1)
@@ -852,10 +852,14 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         id_err = jo.get_string( "id" );
     }
 
+    bool assigned = false;
+
     if( jo.has_array( name ) ) {
         out = load_damage_instance_inherit( jo.get_array( name ), val );
+        assigned = true;
     } else if( jo.has_object( name ) ) {
         out = load_damage_instance_inherit( jo.get_object( name ), val );
+        assigned = true;
     } else {
         // Legacy: remove after 0.F
         float amount = 0.0f;
@@ -882,6 +886,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
             // is a gun, and as such is using the wrong damage type
             debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
             out.add_damage( damage_type::STAB, amount, arpen, 1.0f, 1.0f, 1.0f, unc_dmg_mult );
+            assigned = true;
         }
     }
 
@@ -896,16 +901,20 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
     // There's no good reason for this, but it's simple for now
     if( relative.has_object( name ) ) {
         assign_dmg_relative( out, val, load_damage_instance( relative.get_object( name ) ), strict );
+        assigned = true;
     } else if( relative.has_array( name ) ) {
         assign_dmg_relative( out, val, load_damage_instance( relative.get_array( name ) ), strict );
+        assigned = true;
     } else if( proportional.has_object( name ) ) {
         assign_dmg_proportional( proportional, name, out, val,
                                  load_damage_instance( proportional.get_object( name ) ),
                                  strict );
+        assigned = true;
     } else if( proportional.has_array( name ) ) {
         assign_dmg_proportional( proportional, name, out, val,
                                  load_damage_instance( proportional.get_array( name ) ),
                                  strict );
+        assigned = true;
     } else if( relative.has_member( name ) || relative.has_member( "pierce" ) ||
                relative.has_member( "prop_damage" ) ) {
         // Legacy: Remove after 0.F
@@ -931,6 +940,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
 
         assign_dmg_relative( out, val, damage_instance( damage_type::STAB, amt, arpen, 1.0f, 1.0f, 1.0f,
                              unc_dmg_mul ), strict );
+        assigned = true;
     } else if( proportional.has_member( name ) || proportional.has_member( "pierce" ) ||
                proportional.has_member( "prop_damage" ) ) {
         // Legacy: Remove after 0.F
@@ -957,20 +967,17 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         assign_dmg_proportional( proportional, name, out, val, damage_instance( damage_type::STAB, amt,
                                  arpen, 1.0f,
                                  1.0f, 1.0f, unc_dmg_mul ), strict );
-    } else if( !jo.has_member( name ) && !jo.has_member( "prop_damage" ) ) {
+        assigned = true;
+    }
+    if( !assigned ) {
         // Straight copy-from, not modified by proportional or relative
         out = val;
-        strict = false;
     }
 
     check_assigned_dmg( err, name, out, lo, hi );
 
-    if( strict && out == val ) {
+    if( assigned && strict && out == val ) {
         report_strict_violation( err, "Assigned damage does not update value", name );
-    }
-
-    if( out.damage_units.empty() ) {
-        out = damage_instance( damage_type::BULLET, 0.0f );
     }
 
     // Now that we've verified everything in out is all good, set val to it

@@ -5,8 +5,10 @@
 #include <algorithm>
 #include <array>
 #include <bitset>
+#include <iosfwd>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -18,11 +20,9 @@
 #include "optional.h"
 #include "point.h"
 #include "requirements.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 
 class JsonObject;
 class player;
@@ -438,9 +438,6 @@ class vpart_info
          */
         int power = 0;
 
-        /** Mechanics skill required to install item */
-        int difficulty = 0;
-
         /** Installation time (in moves) for component (@see install_time), default 1 hour */
         int install_moves = to_moves<int>( 1_hours );
         /** Repair time (in moves) to fully repair a component (@see repair_time) */
@@ -449,7 +446,7 @@ class vpart_info
          *  default is half @ref install_moves */
         int removal_moves = -1;
 
-        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharing (power) */
+        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharging (power) */
         int bonus = 0;
 
         /** cargo weight modifier (percentage) */

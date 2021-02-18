@@ -3,7 +3,7 @@ In the end, it's up to the author to decide where *they* want their change to be
 
 
 #### None
-Please consider a summary of "SUMMARY: None" for minor additions and fixes. There are far too many changes made to the game to feature anything approaching all of them in the changelog.
+Please consider a summary of "SUMMARY: None" for minor additions, fixes, and documentation changes. There are far too many changes made to the game to feature anything approaching all of them in the changelog. (Do not add any description in quotes - e.g., SUMMARY: None "whatever" - after a summary of "None".)
 #### Features
 If it adds something new that the player can do, or that can happen to the player, it's a feature.
 These will generally be edits to the C++ code in the game, though new json entities may be involved as well.
@@ -20,7 +20,7 @@ Sometimes a change doesn't add or remove anything, but it makes everything work 
 These are probably evenly split between JSON and C++.
 #### Bugfixes
 If it was broken before, and it isn't anymore, that's a bugfix.
-This applies equally C++ and JSON changes.
+This applies equally to C++ and JSON changes.
 #### Performance
 When there's no change at all except for less waiting, it's performance.
 These will almost always happen in C++.

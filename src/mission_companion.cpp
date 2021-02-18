@@ -1,8 +1,8 @@
 #include "mission_companion.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
@@ -20,7 +20,6 @@
 #include "character.h"
 #include "colony.h"
 #include "color.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -31,7 +30,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
@@ -54,7 +52,6 @@
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -157,7 +154,7 @@ void talk_function::scavenger_patrol( mission_data &mission_key, npc &p )
     if( !npc_list.empty() ) {
         entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n\nPatrol Roster:\n" );
         for( auto &elem : npc_list ) {
-            entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
+            entry = entry + "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
                     elem->companion_mission_time ) ) + _( " hours]\n" );
         }
         entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
@@ -179,7 +176,7 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
         entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n\n"
                    "Raid Roster:\n" );
         for( auto &elem : npc_list ) {
-            entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
+            entry = entry + "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
                     elem->companion_mission_time ) ) + _( " hours]\n" );
         }
         entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
@@ -197,7 +194,7 @@ void talk_function::commune_menial( mission_data &mission_key, npc &p )
                                "them basic skills and build reputation with the outpost.  Don't expect "
                                "much of a reward though.\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
-            entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
+            entry = entry + "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
                     elem->companion_mission_time ) ) + _( " hours]\n" );
         }
         entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
@@ -217,7 +214,7 @@ void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
     if( !npc_list.empty() ) {
         entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
-            entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
+            entry = entry + "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
                     elem->companion_mission_time ) ) + _( " hours]\n" );
         }
         entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
@@ -309,7 +306,7 @@ void talk_function::commune_forage( mission_data &mission_key, npc &p )
     if( !npc_list.empty() ) {
         entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
-            entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
+            entry = entry + "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
                     elem->companion_mission_time ) ) + _( " hours]\n" );
         }
         entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
@@ -341,7 +338,7 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
             } else if( calendar::turn >= elem->companion_mission_time ) {
                 entry = entry + "  " + elem->name + _( " [COMPLETE]\n" );
             } else {
-                entry = entry + "  " + elem->name + " [" + to_string( std::abs( to_hours<int>
+                entry = entry + "  " + elem->name + " [" + std::to_string( std::abs( to_hours<int>
                         ( calendar::turn - elem->companion_mission_time ) ) ) + _( " Hours]\n" );
             }
         }
@@ -487,7 +484,7 @@ bool talk_function::display_and_choose_opts(
         int name_index = 0;
         // Are we so far down the list that we bump into the end?
         bool last_section = folded_names_lines < info_height ||
-                            folded_names_lines - info_height <= size_t( name_offset );
+                            folded_names_lines - info_height <= static_cast<size_t>( name_offset );
 
         // Translate back from desired line index to the corresponding entry, making sure to round up
         // near the end to ensure the last line gets included.
@@ -495,7 +492,7 @@ bool talk_function::display_and_choose_opts(
             for( size_t i = 0; i < cur_key_list.size(); i++ ) {
                 name_offset -= folded_names[i].size();
                 if( name_offset <= 0 ) {
-                    if( last_section && name_offset < 0 ) {
+                    if( name_offset == 0 || last_section ) {
                         name_index++;
                     }
                     break;
@@ -505,7 +502,7 @@ bool talk_function::display_and_choose_opts(
         }
 
         size_t list_line = 2;
-        for( size_t current = name_index; list_line < info_height &&
+        for( size_t current = name_index; list_line < info_height + 2 &&
              current < cur_key_list.size(); current++ ) {
             nc_color col = ( current == sel ? h_white : c_white );
             //highlight important missions
@@ -523,6 +520,9 @@ bool talk_function::display_and_choose_opts(
                 }
             }
             std::vector<std::string> &name_text = folded_names[current];
+            if( list_line + name_text.size() > info_height + 2 ) {
+                break;  //  Skip last entry that would spill over into the bar.
+            }
             for( size_t name_line = 0; name_line < name_text.size(); name_line++ ) {
                 print_colored_text( w_list, point( name_line ? 5 : 1, list_line ),
                                     col, col, name_text[name_line] );
@@ -530,13 +530,13 @@ bool talk_function::display_and_choose_opts(
             }
         }
 
-        if( folded_names_lines > info_height + 1 ) {
+        if( folded_names_lines > info_height ) {
             scrollbar()
             .offset_x( 0 )
             .offset_y( 1 )
             .content_size( folded_names_lines )
             .viewport_pos( sel_pos )
-            .viewport_size( info_height + 1 )
+            .viewport_size( info_height )
             .apply( w_list );
         }
         wnoutrefresh( w_list );
@@ -860,7 +860,7 @@ void talk_function::attack_random( const std::vector<npc_ptr> &attacker,
     }
     const auto att = random_entry( attacker );
     monster *def = random_entry( group );
-    att->melee_attack( *def, false );
+    att->melee_attack_abstract( *def, false, matec_id( "" ) );
     if( def->get_hp() <= 0 ) {
         popup( _( "%s is wasted by %s!" ), def->type->nname(), att->name );
     }
@@ -1849,7 +1849,7 @@ comp_list talk_function::companion_sort( comp_list available,
     }
 
     struct companion_sort_skill {
-        companion_sort_skill( const skill_id  &skill_tested ) {
+        explicit companion_sort_skill( const skill_id  &skill_tested ) {
             req_skill = skill_tested;
         }
 

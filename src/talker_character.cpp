@@ -1,5 +1,6 @@
 #include <memory>
 
+#include "character_id.h"
 #include "item.h"
 #include "magic.h"
 #include "npc.h"
@@ -102,7 +103,7 @@ void talker_character::unset_mutation( const trait_id &old_trait )
     me_chr->unset_mutation( old_trait );
 }
 
-bool talker_character::has_trait_flag( const std::string &trait_flag_to_check ) const
+bool talker_character::has_trait_flag( const json_character_flag &trait_flag_to_check ) const
 {
     return me_chr->has_trait_flag( trait_flag_to_check );
 }
@@ -158,7 +159,7 @@ void talker_character::remove_effect( const efftype_id &old_effect )
     me_chr->remove_effect( old_effect );
 }
 
-std::string talker_character:: get_value( const std::string &var_name ) const
+std::string talker_character::get_value( const std::string &var_name ) const
 {
     return me_chr->get_value( var_name );
 }

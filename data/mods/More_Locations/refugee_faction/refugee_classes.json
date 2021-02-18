@@ -36,7 +36,7 @@
     "type": "npc_class",
     "id": "NC_TALENTED_REFUGEE",
     "name": "Refugee",
-    "job_description": "I'm just trying to stay alive....  and it ain't as easy as it looks.",
+    "job_description": "I'm just trying to stay alive…  and it ain't as easy as it looks.",
     "//": "OK skills and good traits.  Good potential for followers.  Not sure which muts really work for NPCs though.",
     "bonus_str": { "rng": [ 0, 2 ] },
     "bonus_dex": { "rng": [ 0, 2 ] },

@@ -1,5 +1,4 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <list>
 #include <memory>
 #include <string>
@@ -7,6 +6,8 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
+#include "character.h"
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"
@@ -14,11 +15,30 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
+class player;
+
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
+
+TEST_CASE( "clearing identified books", "[reading][book][identify][clear]" )
+{
+    item book( "child_book" );
+    SECTION( "using local avatar" ) {
+        avatar dummy;
+        dummy.identify( book );
+        dummy.clear_identified();
+        REQUIRE_FALSE( dummy.has_identified( book.typeId() ) );
+    }
+    SECTION( "test helper clear_avatar() also clears items identified" ) {
+        avatar &dummy = get_avatar();
+        dummy.identify( book );
+        clear_avatar();
+        REQUIRE_FALSE( dummy.has_identified( book.typeId() ) );
+    }
+}
 
 TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 {
@@ -340,3 +360,57 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
     }
 }
 
+TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
+{
+    static const auto book_has_skill = []( const item & book ) -> bool {
+        REQUIRE( book.is_book() );
+        return bool( book.type->book->skill );
+    };
+
+    avatar dummy;
+    dummy.set_body();
+    dummy.worn.push_back( item( "backpack" ) );
+
+    item &child = dummy.i_add( item( "child_book" ) );
+    item &alpha = dummy.i_add( item( "recipe_alpha" ) );
+
+    SECTION( "you cannot determine mastery for non-book items" ) {
+        item &rag = dummy.i_add( item( "rag" ) );
+        REQUIRE_FALSE( rag.is_book() );
+        CHECK( dummy.get_book_mastery( rag ) == book_mastery::CANT_DETERMINE );
+    }
+    SECTION( "you cannot determine mastery for unidentified books" ) {
+        REQUIRE( alpha.is_book() );
+        REQUIRE_FALSE( dummy.has_identified( alpha.typeId() ) );
+        CHECK( dummy.get_book_mastery( child ) == book_mastery::CANT_DETERMINE );
+    }
+    GIVEN( "some identified books" ) {
+        dummy.do_read( child );
+        dummy.do_read( alpha );
+        REQUIRE( dummy.has_identified( child.typeId() ) );
+        REQUIRE( dummy.has_identified( alpha.typeId() ) );
+
+        WHEN( "it gives/requires no skill" ) {
+            REQUIRE_FALSE( book_has_skill( child ) );
+            THEN( "you've already mastered it" ) {
+                CHECK( dummy.get_book_mastery( child ) == book_mastery::MASTERED );
+            }
+        }
+        WHEN( "it gives/requires skills" ) {
+            REQUIRE( book_has_skill( alpha ) );
+
+            THEN( "you won't understand it if your skills are too low" ) {
+                dummy.set_skill_level( skill_id( "chemistry" ), 5 );
+                CHECK( dummy.get_book_mastery( alpha ) == book_mastery::CANT_UNDERSTAND );
+            }
+            THEN( "you can learn from it with enough skill" ) {
+                dummy.set_skill_level( skill_id( "chemistry" ), 6 );
+                CHECK( dummy.get_book_mastery( alpha ) == book_mastery::LEARNING );
+            }
+            THEN( "you already mastered it if you have too much skill" ) {
+                dummy.set_skill_level( skill_id( "chemistry" ), 7 );
+                CHECK( dummy.get_book_mastery( alpha ) == book_mastery::MASTERED );
+            }
+        }
+    }
+}

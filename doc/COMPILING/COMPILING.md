@@ -11,7 +11,6 @@
   * [Cross-compile to Windows from Linux](#cross-compile-to-windows-from-linux)
   * [Cross-compile to Mac OS X from Linux](#cross-compile-to-mac-os-x-from-linux)
   * [Cross-compile to Android from Linux](#cross-compile-to-android-from-linux)
-  * [Troubleshooting](#linux-troubleshooting)
 * [Mac OS X](#mac-os-x)
   * [Simple build using Homebrew](#simple-build-using-homebrew)
   * [Advanced info for Developers](#advanced-info-for-developers)
@@ -191,45 +190,50 @@ Run:
 
 ## Cross-compile to Windows from Linux
 
-To cross-compile to Windows from Linux, you will need MXE. The main difference between the native build process and this one is the use of the CROSS flag for make. The other make flags are still applicable.
-
-  * `CROSS=` - should be the full path to MXE g++ without the *g++* part at the end
+To cross-compile to Windows from Linux, you will need MXE, which changes your `make` command slightly. These instructions were written from Ubuntu 20.04, but should be applicable to any Debian-based environment. Please adjust all package manager instructions to match your environment.
 
 Dependencies:
 
   * [MXE](http://mxe.cc)
   * [MXE Requirements](http://mxe.cc/#requirements)
 
-Install:
+Installation
 
-    sudo apt-get install autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl make openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
+<!-- astyle and lzip added to initial sudo apt install string to forestall complaints from MinGW and make -->
+<!-- ncurses removed from make MXE_TARGETS because we're not gonna be cross-compiling ncurses -->
+
+    sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
+    mkdir -p ~/src/Cataclysm-DDA
     mkdir -p ~/src/mxe
-    git clone https://github.com/mxe/mxe.git ~/src/mxe
-    cd ~/src/mxe
-    make MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext ncurses
+    cd ~/src
+    git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
+    git clone https://github.com/mxe/mxe.git ./mxe
+    make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
 
-If you are not on a Debian derivative (Linux Mint, Ubuntu, etc), you will have to use a different command than apt-get to install [the MXE requirements](http://mxe.cc/#requirements). Building all these packages from MXE might take a while even on a fast computer. Be patient. If you are not planning on building for both 32-bit and 64-bit, you might want to adjust your MXE_TARGETS.
+Building all these packages from MXE might take a while, even on a fast computer. Be patient; the `-j` flag will take advantage of all your processor cores. If you are not planning on building for both 32-bit and 64-bit, you might want to adjust your MXE_TARGETS.
+
+Edit your `~/.profile` as follows:
+
+    export PLATFORM_32="~/src/mxe/usr/bin/i686-w64-mingw32.static-"
+    export PLATFORM_64="~/src/mxe/usr/bin/x86_64-w64-mingw32.static-"
+
+This is to ensure that the variables for the `make` command will not get reset after a power cycle.
 
 ### Building (SDL)
 
-Run:
+    cd ~/src/Cataclysm-DDA
 
-    PLATFORM="i686-w64-mingw32.static"
-    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1
+***IMPORTANT:***
 
-Change PLATFORM to `x86_64-w64-mingw32.static` for a 64-bit Windows build.
+The first time you set up your build environment, you must `touch VERSION.txt` to create a dummy file to avoid `make` complaining about not having a rule. You will need to add "VERSION.txt" to /.git/info/exclude in order to prevent your system from trying to `git push` this dummy file. Subsequent builds should not require `touch` again.
 
-To create a nice zip file with all the required resources for a trouble free copy on Windows use the bindist target like this:
+Run one of the following commands based on your targeted environment:
 
-    PLATFORM="i686-w64-mingw32.static"
-    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 bindist
+    make -j$((`nproc`+0)) CROSS="${PLATFORM_32}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 BACKTRACE=0 PCH=0 bindist
+    make -j$((`nproc`+0)) CROSS="${PLATFORM_64}" TILES=1 SOUND=1 RELEASE=1 LOCALIZE=1 BACKTRACE=0 PCH=0 bindist
 
-### Building (ncurses)
 
-Run:
-
-    PLATFORM="i686-w64-mingw32.static"
-    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" RELEASE=1 LOCALIZE=1
+<!-- Building ncurses for Windows is a nonstarter, so the directions were removed. -->
 
 ## Cross-compile to Mac OS X from Linux
 
@@ -370,10 +374,6 @@ To build a signed release APK (ie. one that can be installed on a device), [buil
 
 The app stores data files on the device in `/sdcard/Android/data/com.cleverraven/cataclysmdda/files`. The data is backwards compatible with the desktop version.
 
-## Linux Troubleshooting
-
-If you get an error stating `make: build-scripts/validate_pr_in_jenkins: Command not found`, clone a separate copy of the upstream source to a new git repository as your git setup has become corrupted by the Blob.
-
 # Mac OS X
 
 To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the [cataclysm](https://formulae.brew.sh/formula/cataclysm) forumla.
@@ -492,7 +492,6 @@ The Cataclysm source is compiled using `make`.
 * `SOUND=1` - if you want sound; this requires `TILES=1` and the additional dependencies mentioned above.
 * `FRAMEWORK=1` (tiles only) link to SDL libraries under the OS X Frameworks folders; omit to use SDL shared libraries from Homebrew or Macports.
 * `LOCALIZE=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`.
-* `BREWGETTEXT=1` set this if you don't set LOCALIZE=0 and have installed `gettext` from homebrew--homebrew will refuse to link gettext in recent versions.
 * `LANGUAGES="<lang_id_1>[lang_id_2][...]"` compile localization files for specified languages. e.g. `LANGUAGES="zh_CN zh_TW"`. You can also use `LANGUAGES=all` to compile all localization files.
 * `RELEASE=1` build an optimized release version; omit for debug build.
 * `CLANG=1` build with [Clang](http://clang.llvm.org/), the compiler that's included with the latest Command Line Tools for Xcode; omit to build using gcc/g++.
@@ -576,11 +575,9 @@ Open Terminal's preferences, turn on "Use bright colors for bold text" in "Prefe
 
 # Windows
 
-## Building with Visual Studio
-
 See [COMPILING-VS-VCPKG.md](COMPILING-VS-VCPKG.md) for instructions on how to set up and use a build environment using Visual Studio on windows.
 
-This is probably the easiest solution for someone used to working with Visual Studio and similar IDEs.
+This is probably the easiest solution for someone used to working with Visual Studio and similar IDEs. -->
 
 ## Building with MSYS2
 

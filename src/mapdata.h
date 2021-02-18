@@ -2,35 +2,33 @@
 #ifndef CATA_SRC_MAPDATA_H
 #define CATA_SRC_MAPDATA_H
 
-#include <algorithm>
 #include <array>
 #include <bitset>
 #include <cstddef>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "color.h"
-#include "int_id.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
 struct ter_t;
+
 using ter_str_id = string_id<ter_t>;
 
 class JsonObject;
 class player;
 struct furn_t;
 struct itype;
-struct ter_t;
 struct tripoint;
 
 using iexamine_function = void ( * )( player &, const tripoint & );
+using iexamine_function_ref = void( & )( player &, const tripoint & );
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
@@ -194,6 +192,7 @@ enum ter_bitflags : int {
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
     TFLAG_SHALLOW_WATER,
+    TFLAG_NO_SHOOT,
     TFLAG_CURRENT,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
@@ -215,6 +214,7 @@ enum ter_bitflags : int {
     TFLAG_SMALL_PASSAGE,
     TFLAG_Z_TRANSPARENT,
     TFLAG_SUN_ROOF_ABOVE,
+    TFLAG_FUNGUS,
 
     NUM_TERFLAGS
 };
@@ -250,6 +250,9 @@ struct map_data_common_t {
         // The (untranslated) plaintext name of the terrain type the user would see (i.e. dirt)
         translation name_;
 
+        // Hardcoded examination function
+        iexamine_function examine_func; // What happens when the terrain/furniture is examined
+
     private:
         std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
         std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certain- string flags which are heavily checked
@@ -272,9 +275,15 @@ struct map_data_common_t {
         */
         std::array<int, NUM_SEASONS> symbol_;
 
+        bool can_examine() const;
+        bool has_examine( iexamine_function_ref func ) const;
+        void set_examine( iexamine_function_ref func );
+        void examine( player &, const tripoint & ) const;
+
         int light_emitted = 0;
         // The amount of movement points required to pass this terrain by default.
         int movecost = 0;
+        int heat_radiation = 0;
         // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         int coverage = 0;
         // Maximal volume of items that can be stored in/on this furniture
@@ -287,8 +296,6 @@ struct map_data_common_t {
         void load_symbol( const JsonObject &jo );
 
         std::string looks_like;
-
-        iexamine_function examine; // What happens when the terrain/furniture is examined
 
         /**
          * When will this terrain/furniture get harvested and what will drop?
@@ -340,11 +347,11 @@ struct map_data_common_t {
         bool was_loaded = false;
 
         bool is_flammable() const {
-            return flags.count( "FLAMMABLE" ) > 0 || flags.count( "FLAMMABLE_ASH" ) > 0 ||
-                   flags.count( "FLAMMABLE_HARD" ) > 0;
+            return has_flag( TFLAG_FLAMMABLE ) || has_flag( TFLAG_FLAMMABLE_ASH ) ||
+                   has_flag( TFLAG_FLAMMABLE_HARD );
         }
 
-        virtual void load( const JsonObject &jo, const std::string &src );
+        virtual void load( const JsonObject &jo, const std::string & );
         virtual void check() const;
 };
 
@@ -362,6 +369,9 @@ struct ter_t : map_data_common_t {
     ter_str_id roof;            // What will be the floor above this terrain
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
+
+    std::set<emit_id> emissions;
+    std::set<itype_id> allowed_template_id;
 
     ter_t();
 

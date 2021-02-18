@@ -16,12 +16,10 @@
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "item_group.h"
 #include "json.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
 
@@ -158,6 +156,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "NO_SIGHT",                 TFLAG_NO_SIGHT },       // Sight reduced to 1 on this tile
         { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.
         { "WALL",                     TFLAG_WALL },           // connects to other walls
+        { "NO_SHOOT",                 TFLAG_NO_SHOOT },       // terrain cannot be damaged by ranged attacks
         { "NO_SCENT",                 TFLAG_NO_SCENT },       // cannot have scent values, which prevents scent diffusion through this tile
         { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
         { "SHALLOW_WATER",            TFLAG_SHALLOW_WATER },  // Water, but not deep enough to submerge the player
@@ -181,7 +180,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "THIN_OBSTACLE",            TFLAG_THIN_OBSTACLE },  // Passable by players and monsters. Vehicles destroy it.
         { "Z_TRANSPARENT",            TFLAG_Z_TRANSPARENT },  // Doesn't block vision passing through the z-level
         { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE },   // A small passage, that large or huge things cannot pass through
-        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE }   // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
+        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE },   // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
+        { "FUNGUS",                   TFLAG_FUNGUS }            // Fungal covered.
     }
 };
 
@@ -340,7 +340,7 @@ furn_t null_furniture_t()
     new_furniture.move_str_req = -1;
     new_furniture.transparent = true;
     new_furniture.set_flag( flag_TRANSPARENT );
-    new_furniture.examine = iexamine_function_from_string( "none" );
+    new_furniture.examine_func = iexamine_function_from_string( "none" );
     new_furniture.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
     return new_furniture;
 }
@@ -362,7 +362,7 @@ ter_t null_terrain_t()
     new_terrain.transparent = true;
     new_terrain.set_flag( flag_TRANSPARENT );
     new_terrain.set_flag( flag_DIGGABLE );
-    new_terrain.examine = iexamine_function_from_string( "none" );
+    new_terrain.examine_func = iexamine_function_from_string( "none" );
     new_terrain.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
     return new_terrain;
 }
@@ -397,6 +397,26 @@ std::string map_data_common_t::name() const
     return name_.translated();
 }
 
+bool map_data_common_t::can_examine() const
+{
+    return !has_examine( iexamine::none );
+}
+
+bool map_data_common_t::has_examine( iexamine_function_ref func ) const
+{
+    return examine_func == &func;
+}
+
+void map_data_common_t::set_examine( iexamine_function_ref func )
+{
+    examine_func = &func;
+}
+
+void map_data_common_t::examine( player &guy, const tripoint &examp ) const
+{
+    examine_func( guy, examp );
+}
+
 void map_data_common_t::load_symbol( const JsonObject &jo )
 {
     if( jo.has_member( "copy-from" ) && looks_like.empty() ) {
@@ -420,7 +440,10 @@ void map_data_common_t::load_symbol( const JsonObject &jo )
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
-        load_season_array( jo, "color", color_, color_from_string );
+        load_season_array( jo, "color", color_, []( const std::string & str ) {
+            // has to use a lambda because of default params
+            return color_from_string( str );
+        } );
     } else if( has_bgcolor ) {
         load_season_array( jo, "bgcolor", color_, bgcolor_from_string );
     } else {
@@ -1136,12 +1159,12 @@ std::string enum_to_string<season_type>( season_type data )
 }
 } // namespace io
 
-void map_data_common_t::load( const JsonObject &jo, const std::string &src )
+void map_data_common_t::load( const JsonObject &jo, const std::string & )
 {
     if( jo.has_member( "examine_action" ) ) {
-        examine = iexamine_function_from_string( jo.get_string( "examine_action" ) );
+        examine_func = iexamine_function_from_string( jo.get_string( "examine_action" ) );
     } else {
-        examine = iexamine_function_from_string( "none" );
+        examine_func = iexamine_function_from_string( "none" );
     }
 
     if( jo.has_array( "harvest_by_season" ) ) {
@@ -1152,17 +1175,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
                             seasons.begin() ), io::string_to_enum<season_type> );
 
             harvest_id hl;
-            if( harvest_jo.has_array( "entries" ) ) {
-                // TODO: A better inline name - can't use id or name here because it's not set yet
-                const size_t num = harvest_list::all().size() + 1;
-                hl = harvest_list::load( harvest_jo, src,
-                                         string_format( "harvest_inline_%d", static_cast<int>( num ) ) );
-            } else if( harvest_jo.has_string( "id" ) ) {
-                hl = harvest_id( harvest_jo.get_string( "id" ) );
-            } else {
-                jo.throw_error( R"(Each harvest entry must specify either "entries" or "id")",
-                                "harvest_by_season" );
-            }
+            harvest_jo.read( "id", hl );
 
             for( season_type s : seasons ) {
                 harvest_by_season[ s ] = hl;
@@ -1182,6 +1195,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "coverage", coverage );
     assign( jo, "max_volume", max_volume, src == "dda" );
     optional( jo, was_loaded, "trap", trap_id_str );
+    optional( jo, was_loaded, "heat_radiation", heat_radiation );
 
     optional( jo, was_loaded, "light_emitted", light_emitted );
 
@@ -1201,10 +1215,14 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
         set_connects( jo.get_string( "connects_to" ) );
     }
 
+    optional( jo, was_loaded, "allowed_template_ids", allowed_template_id );
+
     optional( jo, was_loaded, "open", open, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
+
+    optional( jo, was_loaded, "emissions", emissions );
 
     bash.load( jo, "bash", map_bash_info::terrain, "terrain " + id.str() );
     deconstruct.load( jo, "deconstruct", false, "terrain " + id.str() );
@@ -1267,6 +1285,11 @@ void ter_t::check() const
     }
     if( transforms_into && transforms_into == id ) {
         debugmsg( "%s transforms_into itself", id.c_str() );
+    }
+    for( const emit_id &e : emissions ) {
+        if( !e.is_valid() ) {
+            debugmsg( "ter %s has invalid emission %s set", id.c_str(), e.str().c_str() );
+        }
     }
 }
 
@@ -1334,7 +1357,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 void map_data_common_t::check() const
 {
     for( const string_id<harvest_list> &harvest : harvest_by_season ) {
-        if( !harvest.is_null() && examine == iexamine::none ) {
+        if( !harvest.is_null() && !can_examine() ) {
             debugmsg( "Harvest data defined without examine function for %s", name_ );
         }
     }
@@ -1352,16 +1375,10 @@ void furn_t::check() const
     if( !close.is_valid() ) {
         debugmsg( "invalid furniture %s for closing %s", close.c_str(), id.c_str() );
     }
-    if( has_flag( "EMITTER" ) ) {
-        if( emissions.empty() ) {
-            debugmsg( "furn %s has the EMITTER flag, but no emissions were set", id.c_str() );
-        } else {
-            for( const emit_id &e : emissions ) {
-                if( !e.is_valid() ) {
-                    debugmsg( "furn %s has the EMITTER flag, but invalid emission %s was set", id.c_str(),
-                              e.str().c_str() );
-                }
-            }
+    for( const emit_id &e : emissions ) {
+        if( !e.is_valid() ) {
+            debugmsg( "furn %s has invalid emission %s set", id.c_str(),
+                      e.str().c_str() );
         }
     }
 }

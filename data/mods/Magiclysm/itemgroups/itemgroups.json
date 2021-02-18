@@ -8,7 +8,7 @@
   {
     "type": "item_group",
     "id": "religious_books",
-    "items": [ [ "priest_beginner", 1 ], [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ], [ "summon_undead_spellbook", 1 ] ]
+    "items": [ [ "priest_beginner", 1 ], [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ] ]
   },
   {
     "type": "item_group",
@@ -136,6 +136,17 @@
   },
   {
     "type": "item_group",
+    "id": "magic_shop_beginner_books",
+    "subtype": "collection",
+    "items": [
+      { "group": "spellbook_tier_0", "prob": 100 },
+      { "group": "spellbook_tier_0", "prob": 80 },
+      { "group": "spellbook_tier_0", "prob": 60 },
+      { "group": "spellbook_tier_0", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "magic_shop_wands",
     "items": [
       { "item": "wand_magic_missile_minor", "prob": 35, "charges-min": 12, "charges-max": 34 },
@@ -177,6 +188,7 @@
       [ "glow_light_off", 1 ],
       [ "bulette_plate", 10 ],
       [ "cauldron_orichalcum", 7 ],
+      [ "mithril_ingot", 2 ],
       { "item": "bulette_pearl", "prob": 8, "count-min": 1, "count-max": 2 }
     ]
   },
@@ -315,8 +327,8 @@
       { "item": "mkey_opening", "prob": 100 },
       { "item": "mtorch_everburning", "prob": 100 },
       { "item": "mflask_hip_whiskey", "prob": 100 },
-      { "item": "mtailors_kit", "prob": 100 },
-      { "item": "mspider_box", "prob": 100 },
+      { "item": "mtailors_kit", "prob": 100, "charges-min": 3, "charges-max": 24 },
+      { "item": "mspider_box", "prob": 100, "charges-min": 3, "charges-max": 24 },
       { "item": "cauldron_demon_chitin", "prob": 20 },
       { "item": "fridge_holding_1", "prob": 12 },
       { "item": "bag_holding_1", "prob": 8 },
@@ -345,7 +357,6 @@
     "//": "all the tool tokens",
     "subtype": "collection",
     "items": [
-      { "item": "mtoken_toolbox", "prob": 5 },
       { "item": "mtoken_hammer", "prob": 20 },
       { "item": "mtoken_screwdriver_set", "prob": 30 },
       { "item": "mtoken_crowbar", "prob": 20 }
@@ -722,7 +733,8 @@
           { "item": "wizard_beginner", "prob": 30 },
           { "item": "wizard_utility", "prob": 20 },
           { "item": "spell_scroll_magic_missile", "prob": 70 },
-          { "item": "spell_scroll_phase_door", "prob": 50 }
+          { "item": "spell_scroll_phase_door", "prob": 50 },
+          { "item": "spell_scroll_shadow_field", "prob": 40 }
         ],
         "prob": 45
       },

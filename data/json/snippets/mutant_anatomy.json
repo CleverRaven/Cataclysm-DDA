@@ -5,7 +5,7 @@
     "text": [
       {
         "id": "mutant_meat_1",
-        "text": "Meat from a heavily mutated animal.  It has an unsettling loose and spongy texture, but smells… mostly normal.  There are strange tangles and formations in it that don't appear natural at all: bits of bone and hair crusted up inside the muscle, as if trying to form another organism.  Still, seems digestible at least, if you cook it and remove the worst parts."
+        "text": "Meat from a heavily mutated animal.  It has an unsettling loose and spongy texture, but smells… mostly normal.  There are strange tangles and formations in it that don't appear natural at all: bits of bone and hair crusted up inside the muscle, as if trying to form another organism.  Still, it seems digestible at least, if you cook it and remove the worst parts."
       },
       {
         "id": "mutant_meat_2",
@@ -13,7 +13,7 @@
       },
       {
         "id": "mutant_meat_3",
-        "text": "Meat from a heavily mutated animal.  This is from muscle, but in the fascial tissue between the muscles, thick spiny hairs have grown.  Foul smelling, cream-colored fluid gushes out whenever a hair pulls loose."
+        "text": "Meat from a heavily mutated animal.  This is from muscle, but in the fascial tissue between the muscles, thick spiny hairs have grown.  Foul-smelling, cream-colored fluid gushes out whenever a hair pulls loose."
       },
       {
         "id": "mutant_meat_4",
@@ -35,7 +35,7 @@
       },
       {
         "id": "cooked_mutant_meat_3",
-        "text": "This is a cooked chunk of meat from a mutated animal.  The surface is peppered with divets from the pieces you had to dig out to make it seem edible."
+        "text": "This is a cooked chunk of meat from a mutated animal.  The surface is peppered with divots from the pieces you had to dig out to make it seem edible."
       },
       {
         "id": "cooked_mutant_meat_4",
@@ -49,7 +49,7 @@
     "text": [
       {
         "id": "bug_organs_1",
-        "text": "These organs came from a giant mutant bug, and you really aren't sure what to make of them.  There are things you've never seen in any anatomy book, with spines and hair and other unidentified parts protruding off seemingly at random."
+        "text": "These organs came from a giant mutant bug, and you really aren't sure what to make of them.  There are things you've never seen in any anatomy book, with spines and hair and other unidentified parts protruding seemingly at random."
       },
       {
         "id": "bug_organs_2",
@@ -93,7 +93,7 @@
     "text": [
       {
         "id": "chitin_1",
-        "text": "A piece of a bug's exoskeleton, but mutated.  The inner side is lined with veins and strange hooked protuberances."
+        "text": "A piece of a bug's exoskeleton, but mutated.  The inner side is lined with veins and strange, hooked protuberances."
       },
       {
         "id": "chitin_2",
@@ -126,7 +126,7 @@
       "The anatomy concealed beneath seems almost like a small mammal given a shell and twisted into the shape of an arthropod",
       "You crack the beast open like a horrific lobster",
       "The chitin holds tight to the creature, and you need to snap and tear it away, sawing at tough fibers beneath",
-      "The moment you start cutting into the corpse a few of what you thought were extra legs detach and scurry off into the undergrowth",
+      "The moment you start cutting into the corpse, a few of what you thought were extra legs detach and scurry off into the undergrowth",
       "For your first cut you connect the dozen openings on the creature's sides, only to reveal a finger-sized wriggling grub in each",
       "Your work disturbs the parasites still clinging to the joints of the creature, and a few size you up as a potential new home before scurrying away"
     ]
@@ -135,11 +135,13 @@
     "type": "snippet",
     "category": "<bug_harvest_general_deeper>",
     "text": [
+      "Spaced evenly across the entire body you find small sacs of eggs in different stages of growth",
+      "Its intestines grew into a labyrinthine tangle, like so many worms devouring each other",
       "Inside, half-formed organs press against spongy meat that doesn't look anything like raw arthropod meat from normal creatures",
-      "You find a collection of hooked spines beneath that seem to have been clasping it on somehow",
+      "Beneath, you find a collection of hooked spines that seem to have been clasping it on somehow",
       "Inside is a complex, still-squirming mess of strange appendages and organs that bear only a passing resemblance to any natural creature",
       "Beneath the chitin, the meat is covered in thick, bristly hair hiding a chaotic bramble of half-formed, mutated organs",
-      "Inside is a tangled mess of organs and tissues that do not appear to entirely natural",
+      "Inside is a tangled mess of organs and tissues that do not appear entirely natural",
       "Inside the creature you find lungs, hearts, and intestines more like a mammal than a giant bug"
     ]
   },
@@ -160,6 +162,54 @@
   },
   {
     "type": "snippet",
+    "category": "<bug_harvest_centipede_chitin>",
+    "text": [
+      "Its legs contain no muscles, just sinews hanging in yellow-green ichor",
+      "The legs fall off easily, leaving the main body looking like an armored worm",
+      "Each pair of legs is slightly different.  These end in hooks, the next in talons like a bird's, there's a pair of chitinous tentacles",
+      "The mandibles keep snapping, and acrid-smelling venom wets the soil.  You decide to begin your work at its tail",
+      "You're startled as its antenna whips out and briefly coils around your arm",
+      "Underneath the surface, there are small plates of chitin dotted about, much harder than the rest",
+      "On its tail end the segments get smaller and smaller, until they terminate in a small copy of the head, looking backwards",
+      "The chitin of the head is caked in old blood and lymph of its previous victims"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_centipede_descriptive>",
+    "text": [
+      "You find vacuoles filled with its venom in the most unexpected nooks, forcing you to work carefully",
+      "The indescribable stench of the remains of its last meal make you question your decision to butcher it",
+      "On some organs you see the same swollen ulcers as around your own wounds.  It seems not all of it is venom-proof",
+      "This one's very blood stinks like its venom, and even the slightest drop makes your skin itch",
+      "There is order to the chaos in this one.  Each segment's insides is a perfect copy of the last, down to each sinew",
+      "This one smells disturbingly appetizing, like a memory of a childhood meal whose details you forgot"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_centipede_mom>",
+    "text": [
+      "By the time you reach the rear of the matriarch, most of its offspring have disappeared into the grass.  Some stuck around feeding on their unhatched siblings, unwilling to give up the easy meal until the last moment",
+      "The moment the matriarch grows still, the last third of its body flops to the ground, letting go of dozens of eggs and small centipedes",
+      "After cleaning away the rotten meat and mess of eggs shrouding the matriarch's hind segments, you find its carapace chewed open, and much of its flesh already eaten by its ever-hungry young",
+      "As if they noticed the death of their mother, the dozens of centipedes still clinging to it attack each other with a sudden frenzy.  You decide to give them time to disperse before continuing"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_centipede_mega>",
+    "text": [
+      "Since your tools barely have purchase on its carapace you decide to dig the meat and viscera out from your first cut.  At times, you disappear up to your waist in its armored insides",
+      "As you cut more and more meat away, some of the resilient chitin plates fall away with a loud squelch",
+      "To bypass the armor you had to start your work by its mandibles, inches away from its venom-coated fangs and the remains of chitin, bones, and strands of Kevlar stuck between their points",
+      "This feels more like scrapping a car than butchering an animal.  Instead of veins and legs you find yourself thinking about joints, panels, and cabling",
+      "On closer inspection, the head's armor is pocked by finger-sized holes with jagged edges, reminiscent of the creature's fangs",
+      "In a hidden organ without an obvious connection to the outside world, you find a seemingly forgotten handful of glistening eggs"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<bug_harvest_flying_chitin>",
     "text": [
       "The wings of this creature break apart upon the slightest touch into myriad identical rainbow crystals",
@@ -168,15 +218,13 @@
       "Where you came to expect smooth chitin you find exposed flesh, shot with a web of hardened strands",
       "You cough as you inhale the fine, colorful dust shedded from the wings",
       "The carapace of this one still feels hot to the touch, especially around the wings",
-      "What you thought was shuddering chitinous fuzz on the creature's back is in reality thousands of miniature copies of its main wings, flapping in unison"
+      "What you thought was shuddering chitinous fuzz on the creature's back is, in reality, thousands of miniature copies of its main wings, flapping in unison"
     ]
   },
   {
     "type": "snippet",
     "category": "<bug_harvest_flying_deeper>",
     "text": [
-      "Spaced evenly across the entire body you find small sacs of eggs in different stages of growth",
-      "Its intestines grew into a labyrinthe tangle, like so many worms devouring each other",
       "The wings are held in place by stiff muscles, reaching into the deep",
       "Underneath the chitin you find bundles of small, floating pearls, each held in place by a single strand of sinew",
       "Near its wings you find a black, bubbling organ still periodically emitting a bundle of floating bubbles",
@@ -228,12 +276,43 @@
   },
   {
     "type": "snippet",
+    "category": "<incubator_mammal>",
+    "text": [
+      "The skin is so riddled with wounds that you barely need to cut to pull it away.",
+      "The poor creature has stopped breathing, but there's still a lot of movement in the corpse.",
+      "The larvae seem to have taken care to leave enough intact not to kill their host, but the rest is practically hollow.",
+      "You have to pause often to stomp on the slower grubs, who only now realized that their home is growing cold.",
+      "Its stomach is full of grubs even more malformed than the rest.  The runt of the litter got recycled, it seems.",
+      "In the beginning you take care to separate parasite and host, but after a while you give up and start cutting through."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<arachnid_harvest>",
     "text": [
       "<bug_harvest_general_chitin>.",
       "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.",
       "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.  <bug_harvest_general_descriptive>."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "<centipede_harvest>",
+    "text": [
+      "<bug_harvest_centipede_chitin>.",
+      "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.",
+      "<bug_harvest_centipede_chitin>.  <bug_harvest_general_deeper>.  <bug_harvest_centipede_descriptive>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<centipede_mom_harvest>",
+    "text": [ "<centipede_harvest>", "<centipede_harvest>  <bug_harvest_centipede_mom>." ]
+  },
+  {
+    "type": "snippet",
+    "category": "<centipede_mega_harvest>",
+    "text": [ "<centipede_harvest>", "<centipede_harvest>  <bug_harvest_centipede_mega>." ]
   },
   {
     "type": "snippet",

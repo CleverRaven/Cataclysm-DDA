@@ -1,12 +1,16 @@
 // Monster movement code; essentially, the AI
+#include "monster.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cfloat>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <list>
 #include <memory>
 #include <ostream>
+#include <string>
 #include <unordered_map>
 
 #include "behavior.h"
@@ -14,22 +18,22 @@
 #include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "colony.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "field.h"
 #include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mattack_common.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monfaction.h"
-#include "monster.h" // IWYU pragma: associated
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
@@ -40,7 +44,6 @@
 #include "scent_map.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "tileray.h"
 #include "translations.h"
 #include "trap.h"
@@ -65,8 +68,6 @@ static const efftype_id effect_stunned( "stunned" );
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
-static const species_id species_INSECT( "INSECT" );
-static const species_id species_SPIDER( "SPIDER" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
@@ -88,7 +89,7 @@ bool monster::is_immune_field( const field_type_id &fid ) const
         return !type->in_species( species_FUNGUS );
     }
     if( fid == fd_insecticidal_gas ) {
-        return !type->in_species( species_INSECT ) && !type->in_species( species_SPIDER );
+        return !made_of( material_id( "iflesh" ) ) || has_flag( MF_INSECTICIDEPROOF );
     }
     const field_type &ft = fid.obj();
     if( ft.has_fume ) {
@@ -136,7 +137,11 @@ bool monster::will_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( has_flag( MF_AQUATIC ) && !here.has_flag( "SWIMMABLE", p ) ) {
+    if( has_flag( MF_AQUATIC ) && (
+            !here.has_flag( "SWIMMABLE", p ) ||
+            // AQUATIC (confined to water) monster avoid vehicles, unless they are already underneath one
+            ( here.veh_at( p ) && !here.veh_at( pos() ) )
+        ) ) {
         return false;
     }
 
@@ -390,7 +395,7 @@ void monster::plan()
         return;
     }
 
-    int valid_targets = ( target == nullptr ) ? 1 : 0;
+    int valid_targets = ( target == nullptr ) ? 0 : 1;
     for( npc &who : g->all_npcs() ) {
         mf_attitude faction_att = faction.obj().attitude( who.get_monster_faction() );
         if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
@@ -787,7 +792,8 @@ void monster::move()
     optional_vpart_position vp = here.veh_at( pos() );
     bool harness_part = static_cast<bool>( here.veh_at( pos() ).part_with_feature( "ANIMAL_CTRL",
                                            true ) );
-    if( vp && vp->vehicle().is_moving() && vp->vehicle().get_pet( vp->part_index() ) ) {
+    if( friendly != 0 && vp && vp->vehicle().is_moving() &&
+        vp->vehicle().get_monster( vp->part_index() ) ) {
         moves = 0;
         return;
         // Don't move if harnessed, even if vehicle is stationary
@@ -1474,15 +1480,10 @@ bool monster::attack_at( const tripoint &p )
     if( has_flag( MF_PACIFIST ) ) {
         return false;
     }
-    if( p.z != posz() ) {
-        // TODO: Remove this
-        return false;
-    }
 
     Character &player_character = get_player_character();
     if( p == player_character.pos() ) {
-        melee_attack( player_character );
-        return true;
+        return melee_attack( player_character );
     }
 
     if( monster *mon_ = g->critter_at<monster>( p, is_hallucination() ) ) {
@@ -1502,8 +1503,7 @@ bool monster::attack_at( const tripoint &p )
         Creature::Attitude attitude = attitude_to( mon );
         // MF_ATTACKMON == hulk behavior, whack everything in your way
         if( attitude == Attitude::HOSTILE || has_flag( MF_ATTACKMON ) ) {
-            melee_attack( mon );
-            return true;
+            return melee_attack( mon );
         }
 
         return false;
@@ -1515,8 +1515,7 @@ bool monster::attack_at( const tripoint &p )
         // way. This is consistent with how it worked previously, but
         // later on not hitting allied NPCs would be cool.
         guy->on_attacked( *this ); // allow NPC hallucination to be one shot by monsters
-        melee_attack( *guy );
-        return true;
+        return melee_attack( *guy );
     }
 
     // Nothing to attack.
@@ -1560,19 +1559,19 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
 
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = g->critter_at( destination, is_hallucination() );
-    if( here.has_flag( "CLIMBABLE", destination ) ) {
+    if( here.has_flag( TFLAG_CLIMBABLE, destination ) ) {
         if( here.impassable( destination ) && critter == nullptr ) {
             if( flies() ) {
                 moves -= 100;
                 force = true;
                 add_msg_if_player_sees( *this, _( "The %1$s flies over the %2$s." ), name(),
-                                        here.has_flag_furn( "CLIMBABLE", p ) ? here.furnname( p ) :
+                                        here.has_flag_furn( TFLAG_CLIMBABLE, p ) ? here.furnname( p ) :
                                         here.tername( p ) );
             } else if( climbs() ) {
                 moves -= 150;
                 force = true;
                 add_msg_if_player_sees( *this, _( "The %1$s climbs over the %2$s." ), name(),
-                                        here.has_flag_furn( "CLIMBABLE", p ) ? here.furnname( p ) :
+                                        here.has_flag_furn( TFLAG_CLIMBABLE, p ) ? here.furnname( p ) :
                                         here.tername( p ) );
             }
         }
@@ -1604,8 +1603,12 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     }
 
     //Check for moving into/out of water
-    bool was_water = here.is_divable( pos() );
-    bool will_be_water = on_ground && can_submerge() && here.is_divable( destination );
+    bool was_water = underwater;
+    bool will_be_water =
+        on_ground && (
+            // AQUATIC monsters always "swim under" the vehicles, while other swimming monsters are forced to surface
+            has_flag( MF_AQUATIC ) || ( can_submerge() && !here.veh_at( destination ) )
+        ) && here.is_divable( destination );
 
     //Birds and other flying creatures flying over the deep water terrain
     if( was_water && flies() ) {
@@ -1640,17 +1643,17 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     if( type->size != creature_size::tiny && on_ground ) {
         const int sharp_damage = rng( 1, 10 );
         const int rough_damage = rng( 1, 2 );
-        if( here.has_flag( "SHARP", pos() ) && !one_in( 4 ) &&
+        if( here.has_flag( TFLAG_SHARP, pos() ) && !one_in( 4 ) &&
             get_armor_cut( bodypart_id( "torso" ) ) < sharp_damage ) {
             apply_damage( nullptr, bodypart_id( "torso" ), sharp_damage );
         }
-        if( here.has_flag( "ROUGH", pos() ) && one_in( 6 ) &&
+        if( here.has_flag( TFLAG_ROUGH, pos() ) && one_in( 6 ) &&
             get_armor_cut( bodypart_id( "torso" ) ) < rough_damage ) {
             apply_damage( nullptr, bodypart_id( "torso" ), rough_damage );
         }
     }
 
-    if( here.has_flag( "UNSTABLE", destination ) && on_ground ) {
+    if( here.has_flag( TFLAG_UNSTABLE, destination ) && on_ground ) {
         add_effect( effect_bouldering, 1_turns, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
@@ -1667,10 +1670,10 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         return true;
     }
     if( !will_be_water && ( digs() || can_dig() ) ) {
-        underwater = here.has_flag( "DIGGABLE", pos() );
+        underwater = here.has_flag( TFLAG_DIGGABLE, pos() );
     }
     // Diggers turn the dirt into dirtmound
-    if( digging() && here.has_flag( "DIGGABLE", pos() ) ) {
+    if( digging() && here.has_flag( TFLAG_DIGGABLE, pos() ) ) {
         int factor = 0;
         switch( type->size ) {
             case creature_size::tiny:

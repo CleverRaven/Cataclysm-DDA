@@ -37,7 +37,7 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 	"min_dot": 0,                                             // damage over time (currently not implemented)
 	"max_dot": 2,
 	"dot_increment": 0.1,
-	"min_duration": 0,                                        // duration of spell effect (if the spell has a special effect)
+	"min_duration": 0,                                        // duration of spell effect in moves (if the spell has a special effect)
 	"max_duration": 1000,
 	"duration_increment": 4,
 	"min_pierce": 0,                                          // how much of the spell pierces armor (currently not implemented)
@@ -108,7 +108,7 @@ Below is a table of currently implemented effects, along with special rules for 
 | `vomit` | any creature within its area of effect will instantly vomit, if it's able to do so.
 | `timed_event` | adds a timed event to the player only. valid timed events: "help", "wanted", "robot_attack", "spawn_wyrms", "amigara", "roots_die", "temple_open", "temple_flood", "temple_spawn", "dim", "artifact_light" NOTE: This was added only for artifact active effects. support is limited, use at your own risk.
 | `explosion` | an explosion is centered on the target, with power damage() and factor aoe()/10
-| `flashbang` | a flashbang effect is centered on the target, with poewr damage() and factor aoe()/10
+| `flashbang` | a flashbang effect is centered on the target, with power damage() and factor aoe()/10
 | `mod_moves` | adds damage() moves to the target. can be negative to "freeze" the target for that amount of time
 | `map` | maps the overmap centered on the player out to a radius of aoe()
 | `morale` | gives a morale effect to all npcs or avatar within aoe, with value damage(). decay_start is duration() / 10.
@@ -265,7 +265,7 @@ Spell types:
     "max_aoe": 3,
     "effect": "summon",                                        // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "effect_str": "mon_test_monster",                          // varies, see table of implemented effects in this document
-    "min_duration": 6250,                                      // duration of spell effect (if the spell has a special effect)
+    "min_duration": 6250,                                      // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 6250
   }
   ```
@@ -285,7 +285,7 @@ Spell types:
     "min_range": 4,                                          // range of the spell
     "max_range": 4,
     "base_casting_time": 500,                                // this is the casting time (in moves)
-    "min_duration": 200,                                     // duration of spell effect (if the spell has a special effect)
+    "min_duration": 200,                                     // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 300,
     "duration_increment": 10,                              // How much longer the spell lasts per spell level
     "damage_type": "stab"                                    // type of damage
@@ -315,7 +315,7 @@ Spell types:
     "min_range": 10,                                         // range of the spell
     "max_range": 10,
     "base_casting_time": 750,                                // this is the casting time (in moves)
-    "min_duration": 325,                                     // duration of spell effect (if the spell has a special effect)
+    "min_duration": 325,                                     // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 325,
     "damage_type": "stab"                                    // type of damage
   } ;
@@ -366,7 +366,7 @@ Spell types:
     "damage_increment": 0.2                        // damage increase per spell level
     "min_range": 10,                                    // range of the spell
     "max_range": 10,
-    "min_duration": 1,                                  // duration of spell effect (if the spell has a special effect)
+    "min_duration": 1,                                  // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 1
   }
   ```
@@ -386,7 +386,7 @@ Spell types:
     "effect_str": "eff_test_note",                       // varies, see table of implemented effects in this document
 	  "min_aoe": 6,                                       // area of effect (currently not implemented)
     "max_aoe": 6,
-    "min_duration": 1,                                   // duration of spell effect (if the spell has a special effect)
+    "min_duration": 1,                                   // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 1
   }
   ```
@@ -504,6 +504,7 @@ Effects for the character that has the enchantment:
 
 Effects for the item that has the enchantment:
 
+* ITEM_DAMAGE_PURE
 * ITEM_DAMAGE_BASH
 * ITEM_DAMAGE_CUT
 * ITEM_DAMAGE_STAB
@@ -516,6 +517,7 @@ Effects for the item that has the enchantment:
 The damage enchantment values are for melee only.
 
 * ITEM_DAMAGE_AP
+* ITEM_DAMAGE_PURE
 * ITEM_ARMOR_BASH
 * ITEM_ARMOR_CUT
 * ITEM_ARMOR_STAB
@@ -530,3 +532,12 @@ The damage enchantment values are for melee only.
 * ITEM_COVERAGE
 * ITEM_ATTACK_SPEED
 * ITEM_WET_PROTECTION
+
+Examples
+    { "value": "ARMOR_ELEC", "add": -20 } subtracts 20 points of electrical damage
+    { "value": "ATTACK_SPEED", "add": -60 } subtracts 60 moves from attacking making the attack faster
+    { "value": "ARMOR_COLD", "multiply": -0.4 } subtracts 40 percent of the any cold damage
+    { "value": "ARMOR_HEAT", "multiply": 0.4 } increases damage taken from fire by 40 percent
+    { "value": "ARMOR_CUT", "add": 2 } increases cut damage taken by 2
+    { "value": "ARMOR_BIO", "multiply": -1.4 } subtracts 140 percent of the any bio damage giving 40% of damage dealt as increased health
+    { "value": "ARMOR_ACID", "multiply": 1.4 } increases damage taken from acid by 140 percent

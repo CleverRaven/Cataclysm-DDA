@@ -1,9 +1,11 @@
 #include "explosion.h" // IWYU pragma: associated
+#include "fragment_cloud.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <iosfwd>
 #include <limits>
 #include <map>
 #include <memory>
@@ -18,17 +20,15 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "colony.h"
 #include "color.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
 #include "field_type.h"
-#include "flat_set.h"
-#include "fragment_cloud.h" // IWYU pragma: associated
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
@@ -38,6 +38,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -77,8 +78,7 @@ static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
-static const bionic_id bio_ears( "bio_ears" );
-static const bionic_id bio_sunglasses( "bio_sunglasses" );
+static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
@@ -97,6 +97,7 @@ explosion_data load_explosion_data( const JsonObject &jo )
     jo.read( "power", ret.power );
     // Rest isn't
     ret.distance_factor = jo.get_float( "distance_factor", 0.8f );
+    ret.max_noise = jo.get_int( "max_noise", 90000000 );
     ret.fire = jo.get_bool( "fire", false );
     if( jo.has_int( "shrapnel" ) ) {
         ret.shrapnel.casing_mass = jo.get_int( "shrapnel" );
@@ -420,7 +421,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
             frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
             // dealt_dam.total_damage() == 0 means armor block
             // dealt_dam.total_damage() > 0 means took damage
-            // Need to diffentiate target among player, npc, and monster
+            // Need to differentiate target among player, npc, and monster
             // Do we even print monster damage?
             int damage_taken = 0;
             int damaging_hits = 0;
@@ -502,7 +503,13 @@ void explosion( const tripoint &p, float power, float factor, bool fire,
 
 void explosion( const tripoint &p, const explosion_data &ex )
 {
-    const int noise = ex.power * ( ex.fire ? 2 : 10 );
+    _explosions.emplace_back( p, ex );
+}
+
+void _make_explosion( const tripoint &p, const explosion_data &ex )
+{
+    int noise = ex.power * ( ex.fire ? 2 : 10 );
+    noise = ( noise > ex.max_noise ) ? ex.max_noise : noise;
     if( noise >= 30 ) {
         sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ), false, "explosion",
                        "huge" );
@@ -557,7 +564,7 @@ void flashbang( const tripoint &p, bool player_immune )
     int dist = rl_dist( player_character.pos(), p );
     map &here = get_map();
     if( dist <= 8 && !player_immune ) {
-        if( !player_character.has_bionic( bio_ears ) &&
+        if( !player_character.has_flag( STATIC( json_character_flag( "IMMUNE_HEARING_DAMAGE" ) ) ) &&
             !player_character.is_wearing( itype_rm13_armor_on ) ) {
             player_character.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }
@@ -569,7 +576,7 @@ void flashbang( const tripoint &p, bool player_immune )
                 }
             } else if( player_character.has_trait( trait_PER_SLIME_OK ) ) {
                 flash_mod = 8; // Just retract those and extrude fresh eyes
-            } else if( player_character.has_bionic( bio_sunglasses ) ||
+            } else if( player_character.has_flag( json_flag_GLARE_RESIST ) ||
                        player_character.is_wearing( itype_rm13_armor_on ) ) {
                 flash_mod = 6;
             } else if( player_character.worn_with_flag( STATIC( flag_id( "BLIND" ) ) ) ||
@@ -859,6 +866,14 @@ void resonance_cascade( const tripoint &p )
     }
 }
 
+void process_explosions()
+{
+    for( const queued_explosion &ex : _explosions ) {
+        _make_explosion( ex.first, ex.second );
+    }
+    _explosions.clear();
+}
+
 } // namespace explosion_handler
 
 // This is only ever used to zero the cloud values, which is what makes it work.
@@ -912,8 +927,8 @@ fragment_cloud accumulate_fragment_cloud( const fragment_cloud &cumulative_cloud
         const fragment_cloud &current_cloud, const int &distance )
 {
     // Velocity is the cumulative and continuous decay of speed,
-    // so it is accumulated the same way as light attentuation.
-    // Density is the accumulation of discrete attenuaton events encountered in the traversed squares,
+    // so it is accumulated the same way as light attenuation.
+    // Density is the accumulation of discrete attenuation events encountered in the traversed squares,
     // so each term is added to the series via multiplication.
     return fragment_cloud( ( ( distance - 1 ) * cumulative_cloud.velocity + current_cloud.velocity ) /
                            distance,

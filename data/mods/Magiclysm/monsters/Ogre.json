@@ -1,0 +1,30 @@
+[
+  {
+    "id": "mon_ogre",
+    "type": "MONSTER",
+    "name": { "str": "Ogre" },
+    "description": "A green beast known for living in swamps and eating humans; it will kill anything it gets its hands on.",
+    "default_faction": "ogre",
+    "bodytype": "human",
+    "species": [ "OGRE" ],
+    "volume": "100 L",
+    "weight": "130 kg",
+    "hp": 140,
+    "speed": 123,
+    "material": [ "flesh" ],
+    "symbol": "O",
+    "color": "green",
+    "aggression": 75,
+    "morale": 100,
+    "melee_skill": 7,
+    "melee_dice": 5,
+    "melee_dice_sides": 8,
+    "dodge": 5,
+    "harvest": "ogre",
+    "anger_triggers": [ "HURT", "FIRE", "PLAYER_WEAK" ],
+    "vision_day": 10,
+    "vision_night": 3,
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_2", "FIREPROOF" ]
+  }
+]

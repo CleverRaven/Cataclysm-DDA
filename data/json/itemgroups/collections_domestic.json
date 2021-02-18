@@ -418,6 +418,7 @@
       { "item": "camera", "prob": 3, "charges": [ 0, 150 ] },
       { "item": "gum", "prob": 30 },
       { "item": "caff_gum", "prob": 3 },
+      { "item": "licorice", "prob": 3 },
       { "item": "flask_hip", "prob": 5 },
       { "item": "atomic_light", "prob": 1 },
       { "item": "atomic_lamp", "prob": 1 },
@@ -563,12 +564,14 @@
       { "item": "noodles_fast", "prob": 30 },
       { "item": "ravioli", "prob": 25 },
       { "item": "sauce_red", "prob": 20 },
+      { "item": "gelatin_dessert_powder", "prob": 20 },
       { "item": "sauce_pesto", "prob": 15 },
       { "item": "bread", "prob": 14 },
       { "item": "cornbread", "prob": 7 },
       { "item": "flatbread", "prob": 7 },
       { "item": "crackers", "prob": 20 },
       { "item": "grahmcrackers", "prob": 20 },
+      { "item": "oyster_crackers", "prob": 15 },
       { "item": "marshmallow", "prob": 20 },
       { "item": "biscuit", "prob": 12 },
       { "item": "hardtack", "prob": 2 },
@@ -577,6 +580,7 @@
       { "item": "can_cheese", "prob": 8 },
       { "item": "yoghurt", "prob": 8 },
       { "item": "pudding", "prob": 10 },
+      { "item": "gelatin_dessert_processed", "prob": 10 },
       { "item": "veggy_pickled", "prob": 8, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "sauerkraut", "prob": 5, "charges": 4, "container-item": "jar_glass_sealed" },
       { "item": "meat_pickled", "prob": 4, "charges": 2, "container-item": "jar_glass_sealed" },
@@ -637,7 +641,7 @@
       { "item": "colamdew", "prob": 15, "container-item": "bottle_twoliter" },
       { "item": "rootbeer", "prob": 15, "container-item": "bottle_twoliter" },
       { "item": "milk", "prob": 50 },
-      { "item": "milk_UHT", "prob": 5 },
+      { "item": "milk_UHT", "prob": 5, "charges": [ 1, 6 ], "sealed": false },
       { "item": "milk_raw", "prob": 2 },
       { "item": "almond_milk", "prob": 50 },
       { "item": "soy_milk", "prob": 50 },
@@ -651,7 +655,7 @@
         "container-item": "jar_glass_sealed",
         "sealed": false
       },
-      { "item": "egg_bird_unfert", "prob": 65, "count-min": 1, "count-max": 12 },
+      { "item": "egg_bird_unfert", "prob": 65, "charges-min": 1, "charges-max": 12, "container-item": "carton_egg" },
       { "item": "yoghurt", "prob": 50 },
       { "item": "pudding", "prob": 60 },
       { "item": "veggy_salad", "prob": 25 },
@@ -785,8 +789,10 @@
       { "item": "milkshake", "prob": 4 },
       { "item": "milkshake_fastfood", "prob": 8 },
       { "item": "milkshake_deluxe", "prob": 2 },
+      { "item": "frozen_lemonade", "prob": 3 },
       { "item": "icecream_artificial", "prob": 3 },
-      { "item": "icecream_candy", "prob": 3 }
+      { "item": "icecream_candy", "prob": 3 },
+      { "item": "sundae_cup", "prob": 5 }
     ]
   },
   {
@@ -1039,7 +1045,8 @@
       { "item": "chem_hydrogen_peroxide", "prob": 20 },
       { "item": "plunger_toilet", "prob": 30 },
       { "item": "plunger_futuristic", "prob": 15 },
-      { "item": "toilet_paper", "prob": 10 }
+      { "item": "toilet_paper", "prob": 10 },
+      { "item": "dish_towel", "prob": 20 }
     ]
   },
   {

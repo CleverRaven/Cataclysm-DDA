@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <ostream>
-#include <string>
 #include <utility>
 
 #include "cata_assert.h"

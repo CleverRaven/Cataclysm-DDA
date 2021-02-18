@@ -1,3 +1,5 @@
+#include "npc.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cfloat>
 #include <climits>
@@ -19,6 +21,7 @@
 #include "character.h"
 #include "character_id.h"
 #include "clzones.h"
+#include "colony.h"
 #include "damage.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
@@ -29,6 +32,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "gates.h"
@@ -43,12 +47,13 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "material.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
-#include "npc.h" // IWYU pragma: associated
 #include "npctalk.h"
+#include "omdata.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmap_location.h"
@@ -73,9 +78,6 @@
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PULP( "ACT_PULP" );
-
-static const ammotype ammo_reactor_slurry( "reactor_slurry" );
-static const ammotype ammo_plutonium( "plutonium" );
 
 static const skill_id skill_firstaid( "firstaid" );
 
@@ -388,7 +390,8 @@ void npc::assess_danger()
                                    rules.engagement == combat_engagement::NONE;
     const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
     const bool must_retreat = rules.has_flag( ally_rule::follow_close ) &&
-                              !too_close( pos(), player_character.pos(), follow_distance() );
+                              !too_close( pos(), player_character.pos(), follow_distance() ) &&
+                              !is_guarding();
 
     if( is_player_ally() ) {
         if( rules.engagement == combat_engagement::FREE_FIRE ) {
@@ -594,7 +597,8 @@ void npc::assess_danger()
     for( const weak_ptr_fast<Creature> &guy : hostile_guys ) {
         player *foe = dynamic_cast<player *>( guy.lock().get() );
         if( foe && foe->is_npc() ) {
-            assessment += handle_hostile( *foe, evaluate_enemy( *foe ), "bandit", "kill_npc" );
+            assessment += handle_hostile( *foe, evaluate_enemy( *foe ), translate_marker( "bandit" ),
+                                          "kill_npc" );
         }
     }
 
@@ -613,7 +617,8 @@ void npc::assess_danger()
         // cap player difficulty at 150
         float player_diff = evaluate_enemy( player_character );
         if( is_enemy() ) {
-            assessment += handle_hostile( player_character, player_diff, "maniac", "kill_player" );
+            assessment += handle_hostile( player_character, player_diff, translate_marker( "maniac" ),
+                                          "kill_player" );
         } else if( is_friendly( player_character ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             assessment = std::max( min_danger, assessment - player_diff * 0.5f );
@@ -1533,7 +1538,7 @@ item &npc::find_reloadable()
     // TODO: Cache items checked for reloading to avoid re-checking same items every turn
     // TODO: Make it understand smaller and bigger magazines
     item *reloadable = nullptr;
-    visit_items( [this, &reloadable]( item * node ) {
+    visit_items( [this, &reloadable]( item * node, item * ) {
         if( !wants_to_reload( *this, *node ) ) {
             return VisitResponse::NEXT;
         }
@@ -1713,11 +1718,11 @@ bool npc::recharge_cbm()
             return true;
         } else {
             const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
-                for( const material_id &fid : bid->fuel_opts ) {
-                    return ( it.get_base_material().id == fid ) || ( it.is_magazine() &&
-                            item( it.ammo_current() ).get_base_material().id == fid );
+                if( bid->fuel_opts.empty() ) {
+                    return false;
                 }
-                return false;
+                return ( it.get_base_material().id == bid->fuel_opts.front() ) || ( it.is_magazine() &&
+                        item( it.ammo_current() ).get_base_material().id == bid->fuel_opts.front() );
             };
 
             if( consume_cbm_items( fuel_filter ) ) {
@@ -2732,7 +2737,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
     map &here = get_map();
     std::copy_if( range.begin(), range.end(), std::back_inserter( escape_points ),
     [&here]( const tripoint & elem ) {
-        return here.passable( elem );
+        return here.passable( elem ) && here.has_floor( elem );
     } );
 
     cata::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint & elem ) {
@@ -3331,7 +3336,7 @@ bool npc::do_player_activity()
             current_activity_id = activity.id();
         } else {
             if( is_player_ally() ) {
-                add_msg( m_info, string_format( "%s completed the assigned task.", disp_name() ) );
+                add_msg( m_info, string_format( _( "%s completed the assigned task." ), disp_name() ) );
             }
             current_activity_id = activity_id::NULL_ID();
             revert_after_activity();
@@ -3384,7 +3389,7 @@ bool npc::wield_better_weapon()
     // Fists aren't checked below
     compare_weapon( null_item_reference() );
 
-    visit_items( [&compare_weapon]( item * node ) {
+    visit_items( [&compare_weapon]( item * node, item * ) {
         // Only compare melee weapons, guns, or holstered items
         if( node->is_melee() || node->is_gun() ) {
             compare_weapon( *node );
@@ -3625,7 +3630,7 @@ void npc::heal_player( player &patient )
 
 }
 
-void npc:: pretend_heal( player &patient, item used )
+void npc::pretend_heal( player &patient, item used )
 {
     // you can tell that it's not real by looking at your HP though
     add_msg_if_player_sees( *this, _( "%1$s heals %2$s." ), disp_name(),
@@ -4084,40 +4089,40 @@ void npc::set_omt_destination()
     // We need that, otherwise find_closest won't work properly
     surface_omt_loc.z() = 0;
 
-    // also, don't bother looking if the CITY_SIZE is 0, just go somewhere at random
-    const int city_size = get_option<int>( "CITY_SIZE" );
-    if( city_size == 0 ) {
-        goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
-        return;
-    }
-
     decide_needs();
     if( needs.empty() ) { // We don't need anything in particular.
         needs.push_back( need_none );
+
+        // also, don't bother looking if the CITY_SIZE is 0, just go somewhere at random
+        const int city_size = get_option<int>( "CITY_SIZE" );
+        if( city_size == 0 ) {
+            goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
+            return;
+        }
     }
 
     std::string dest_type;
     for( const auto &fulfill : needs ) {
-        // look for the closest occurence of any of that locations terrain types
-        std::vector<oter_type_id> loc_list = get_location_for( fulfill )->get_all_terrains();
-        std::shuffle( loc_list.begin(), loc_list.end(), rng_get_engine() );
+        // look for the closest occurrence of any of that locations terrain types
         omt_find_params find_params;
-        std::vector<std::pair<std::string, ot_match_type>> temp_types;
-        for( const oter_type_id &elem : loc_list ) {
+        for( const oter_type_str_id &elem : get_location_for( fulfill )->get_all_terrains() ) {
             std::pair<std::string, ot_match_type> temp_pair;
-            temp_pair.first = elem.id().str();
+            temp_pair.first = elem.str();
             temp_pair.second = ot_match_type::type;
-            temp_types.push_back( temp_pair );
+            find_params.types.push_back( temp_pair );
         }
+        // note: no shuffle of `find_params.types` is needed, because `find_closest`
+        // disregards `types` order anyway, and already returns random result among
+        // those having equal minimal distance
         find_params.search_range = 75;
-        find_params.types = temp_types;
         find_params.existing_only = false;
         goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
-        omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+        omt_path.clear();
         if( goal != overmap::invalid_tripoint ) {
             omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
         }
         if( !omt_path.empty() ) {
+            dest_type = overmap_buffer.ter( goal )->get_type_id().str();
             break;
         }
     }
@@ -4388,7 +4393,7 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
                                       string_format( _( " %s, %s" ),
                                               direction_name( direction_from( pos(), danger_pos ) ),
                                               distance_string( range ) );
-        const std::string speech = string_format( _( "%s %s%s" ), snip, name, range_str );
+        const std::string speech = string_format( _( "%s %s%s" ), snip, _( name ), range_str );
         complain_about( warning_name, d, speech, is_enemy(), spriority );
     }
 }

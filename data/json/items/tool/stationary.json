@@ -62,7 +62,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "light_red",
-    "qualities": [ [ "CUT", 1 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 3 ] ],
     "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ]
   },
   {

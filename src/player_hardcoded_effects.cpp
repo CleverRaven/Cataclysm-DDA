@@ -1,11 +1,14 @@
+#include "player.h" // IWYU pragma: associated
+
 #include <array>
-#include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <string>
 
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "character.h"
 #include "damage.h"
 #include "effect.h"
@@ -15,7 +18,6 @@
 #include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
-#include "int_id.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -24,13 +26,11 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
-#include "player.h" // IWYU pragma: associated
 #include "player_activity.h"
 #include "rng.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "teleport.h"
 #include "translations.h"
 #include "units.h"
@@ -113,8 +113,6 @@ static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
 static const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
-static const bionic_id bio_watch( "bio_watch" );
-
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
@@ -127,6 +125,8 @@ static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
+
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
 static void eff_fun_onfire( Character &u, effect &it )
 {
@@ -832,14 +832,14 @@ void Character::hardcoded_effects( effect &it )
             }
         }
     } else if( id == effect_datura ) {
-        if( dur > 100_minutes && focus_pool >= 1 && one_in( 24 ) ) {
-            focus_pool--;
+        if( dur > 100_minutes && get_focus() >= 1 && one_in( 24 ) ) {
+            mod_focus( -1 );
         }
         if( dur > 200_minutes && one_in( 48 ) && get_stim() < 20 ) {
             mod_stim( 1 );
         }
-        if( dur > 300_minutes && focus_pool >= 1 && one_in( 12 ) ) {
-            focus_pool--;
+        if( dur > 300_minutes && get_focus() >= 1 && one_in( 12 ) ) {
+            mod_focus( -1 );
         }
         if( dur > 400_minutes && one_in( 384 ) ) {
             mod_pain( rng( -1, -8 ) );
@@ -859,8 +859,8 @@ void Character::hardcoded_effects( effect &it )
                 }
             }
         }
-        if( dur > 700_minutes && focus_pool >= 1 ) {
-            focus_pool--;
+        if( dur > 700_minutes && get_focus() >= 1 ) {
+            mod_focus( -1 );
         }
         if( dur > 800_minutes && one_in( 1536 ) ) {
             add_effect( effect_visuals, rng( 4_minutes, 20_minutes ) );
@@ -947,11 +947,11 @@ void Character::hardcoded_effects( effect &it )
                 if( intense == 1 ) {
                     warning = _( "Your skin looks pale and you feel anxious and thirsty.  Blood loss?" );
                 } else if( intense == 2 ) {
-                    warning = _( "Your pale skin is sweating, your heart beats fast and you feel restless.  Maybe you lost too much blood?" );
+                    warning = _( "Your pale skin is sweating, your heart is beating fast, and you feel restless.  Maybe you lost too much blood?" );
                 } else if( intense == 3 ) {
                     warning = _( "You're unsettlingly white, but your fingertips are bluish.  You are agitated and your heart is racing.  Your blood loss must be serious." );
                 } else { //intense == 4
-                    warning = _( "You are pale as a ghost, dripping wet from the sweat, and sluggish despite your heart racing like a train.  You are on a brink of collapse from effects of a blood loss." );
+                    warning = _( "You are pale as a ghost, dripping wet from the sweat, and sluggish - despite your heart racing like a train.  You are on the brink of collapse from the effects of blood loss." );
                 }
                 add_msg_if_player( m_bad, warning );
             } else {
@@ -968,7 +968,7 @@ void Character::hardcoded_effects( effect &it )
                         break;
                     case 3:
                         warning = _( "You are anxious and cannot collect your thoughts." );
-                        focus_pool -= rng( 1, focus_pool * intense / it.get_max_intensity() );
+                        mod_focus( -rng( 1, get_focus() * intense / it.get_max_intensity() ) );
                         break;
                     case 4:
                         warning = _( "You are sweating profusely, but you feel cold." );
@@ -1008,10 +1008,10 @@ void Character::hardcoded_effects( effect &it )
         }
     } else if( id == effect_redcells_anemia ) {
         // Lack of iron impairs production of hemoglobin and therefore ability to carry
-        // oxygen by red blood cells. Alternatively hemorrage causes physical loss of red blood cells.
-        // This triggers veriety of symptoms, focusing on weakness,
-        // fatigue, cold limbs, later in dizzyness, soreness, breathlessness,
-        // and severe maiaise and lethargy.
+        // oxygen by red blood cells. Alternatively hemorrhage causes physical loss of red blood cells.
+        // This triggers variety of symptoms, focusing on weakness,
+        // fatigue, cold limbs, later in dizziness, soreness, breathlessness,
+        // and severe malaise and lethargy.
         // Base anemia symptoms: fatigue, loss of stamina, loss of strength, impact on health
         // are placed in effect JSON
 
@@ -1056,7 +1056,7 @@ void Character::hardcoded_effects( effect &it )
                 case 9:
                     break;
             }
-            // level 2 anemia introduces dizzynes, shakes, headaches, cravings for non-comestibles,
+            // level 2 anemia introduces dizziness, shakes, headaches, cravings for non-comestibles,
             // mouth and tongue soreness
             if( intense > 1 ) {
                 switch( dice( 1, 9 ) ) {
@@ -1064,7 +1064,7 @@ void Character::hardcoded_effects( effect &it )
                         add_msg_if_player( m_bad, _( "Rest is what you want.  Rest is what you need." ) );
                         break;
                     case 2:
-                        add_msg_if_player( m_bad, _( "You feel dizzy and can't coordinate movement of your feet." ) );
+                        add_msg_if_player( m_bad, _( "You feel dizzy and can't coordinate the movement of your feet." ) );
                         add_effect( effect_stunned, rng( 1_minutes, 2_minutes ) );
                         break;
                     case 3:
@@ -1072,13 +1072,13 @@ void Character::hardcoded_effects( effect &it )
                         add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
                         break;
                     case 4:
-                        add_msg_if_player( m_bad, _( "You crave for ice.  Dirt under your feet looks tasty too." ) );
+                        add_msg_if_player( m_bad, _( "You crave for ice.  The dirt under your feet looks tasty too." ) );
                         break;
                     case 5:
                         add_msg_if_player( m_bad, _( "Your whole mouth is sore, and your tongue is swollen." ) );
                         break;
                     case 6:
-                        add_msg_if_player( m_bad, _( "You feel lightheaded.  And a migraine follows." ) );
+                        add_msg_if_player( m_bad, _( "You feel lightheaded.  A migraine follows." ) );
                         mod_pain( intense * 9 );
                         break;
                     case 7: // 7-9 empty for variability, as messages stack on higher intensity
@@ -1093,10 +1093,10 @@ void Character::hardcoded_effects( effect &it )
             if( intense > 2 ) {
                 switch( dice( 1, 9 ) ) {
                     case 1:
-                        add_msg_if_player( m_bad, _( "Your legs are restless.  Urge to move them is so strong." ) );
+                        add_msg_if_player( m_bad, _( "Your legs are restless.  The urge to move them is so strong." ) );
                         break;
                     case 2:
-                        add_msg_if_player( m_bad, _( "You feel like you'd sleep on a rock." ) );
+                        add_msg_if_player( m_bad, _( "You feel like you could sleep on a rock." ) );
                         mod_fatigue( intense * 3 );
                         break;
                     case 3:
@@ -1109,7 +1109,7 @@ void Character::hardcoded_effects( effect &it )
                         set_stamina( 0 );
                         break;
                     case 5:
-                        add_msg_if_player( m_bad, _( "You can't take it any more.  Rest first, everything else later." ) );
+                        add_msg_if_player( m_bad, _( "You can't take it any more.  Rest first; everything else later." ) );
                         add_effect( effect_lying_down, rng( 2_minutes, 5_minutes ) );
                         break;
                     case 6:
@@ -1483,7 +1483,7 @@ void Character::hardcoded_effects( effect &it )
     } else if( id == effect_alarm_clock ) {
         if( in_sleep_state() ) {
             const bool asleep = has_effect( effect_sleep );
-            if( has_bionic( bio_watch ) ) {
+            if( has_flag( json_flag_ALARMCLOCK ) ) {
                 if( dur == 1_turns ) {
                     // Normal alarm is volume 12, tested against (2/3/6)d15 for
                     // normal/HEAVYSLEEPER/HEAVYSLEEPER2.
@@ -1590,6 +1590,7 @@ void Character::hardcoded_effects( effect &it )
                     } else if( limb == "hand" ) {
                         if( is_armed() && can_drop( weapon ).success() ) {
                             if( dice( 4, 4 ) > get_dex() ) {
+                                cancel_activity();  //Prevent segfaults from activities trying to access missing item
                                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { remove_weapon() } );
                             } else {
                                 add_msg_if_player( m_neutral, _( "However, you manage to keep hold of your weapon." ) );

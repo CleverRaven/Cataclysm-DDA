@@ -2,20 +2,16 @@
 #ifndef CATA_SRC_NPCTRADE_H
 #define CATA_SRC_NPCTRADE_H
 
-#include <algorithm>
 #include <cstddef>
+#include <iosfwd>
 #include <list>
-#include <string>
-#include <utility>
+#include <type_traits>
 #include <vector>
 
 #include "cursesdef.h"
 #include "inventory.h"
 #include "item_location.h"
-#include "output.h"
-#include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
 
 class Character;
 class faction;
@@ -92,8 +88,8 @@ bool pay_npc( npc &np, int cost );
 
 int cash_to_favor( const npc &, int cash );
 
-void transfer_items( std::vector<item_pricing> &stuff, player &giver, player &receiver,
-                     std::list<item_location *> &from_map, bool npc_gives );
+std::list<item> transfer_items( std::vector<item_pricing> &stuff, player &giver, player &receiver,
+                                std::list<item_location *> &from_map, bool npc_gives );
 double net_price_adjustment( const player &buyer, const player &seller );
 bool trade( npc &p, int cost, const std::string &deal );
 std::vector<item_pricing> init_selling( npc &p );

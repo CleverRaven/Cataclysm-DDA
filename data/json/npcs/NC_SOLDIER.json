@@ -54,7 +54,11 @@
     "type": "item_group",
     "id": "NC_SOLDIER_masks",
     "subtype": "distribution",
-    "entries": [ { "item": "null", "prob": 50 }, { "item": "mask_gas", "prob": 20 }, { "item": "mask_bal", "prob": 10 } ]
+    "entries": [
+      { "item": "null", "prob": 50 },
+      { "item": "mask_gas", "prob": 20, "charges-min": 10 },
+      { "item": "mask_bal", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",

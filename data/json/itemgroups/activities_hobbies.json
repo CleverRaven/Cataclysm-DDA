@@ -143,6 +143,7 @@
       { "item": "multitool", "prob": 12 },
       { "item": "throwing_knife", "prob": 7 },
       { "item": "slingpack", "prob": 18 },
+      { "item": "armrig", "prob": 3 },
       { "item": "manual_cutting", "prob": 12 },
       { "item": "manual_launcher", "prob": 1 },
       { "item": "recipe_bullets", "prob": 8 },
@@ -207,6 +208,7 @@
       [ "backpack_hiking", 12 ],
       [ "bigback", 3 ],
       [ "travelpack", 6 ],
+      [ "armrig", 3 ],
       [ "cowboy_hat", 4 ],
       [ "10gal_hat", 4 ],
       [ "bb", 8 ],
@@ -338,8 +340,8 @@
       [ "esbit_stove", 10 ],
       [ "bottle_folding", 10 ],
       { "item": "mess_tin", "prob": 10, "charges": [ 0, 500 ] },
-      [ "survival_kit", 30 ],
-      [ "premium_survival_kit", 3 ]
+      { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 30 },
+      { "group": "premium_contents", "prob": 3 }
     ]
   },
   {

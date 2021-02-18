@@ -129,7 +129,10 @@
         { "item": "straw_pile", "x": [ 1, 3 ], "y": 3, "chance": 75, "repeat": [ 1, 3 ] },
         { "item": "straw_pile", "x": 3, "y": [ 1, 3 ], "chance": 75, "repeat": [ 1, 3 ] }
       ],
-      "place_monster": [ { "monster": "mon_chicken", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 80, "pack_size": [ 2, 4 ] } ]
+      "place_monster": [
+        { "monster": "mon_pigeon", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 60, "pack_size": [ 2, 4 ] },
+        { "monster": "mon_chicken", "x": [ 1, 3 ], "y": [ 1, 3 ], "chance": 20, "pack_size": [ 1, 2 ] }
+      ]
     }
   },
   {

@@ -1,10 +1,16 @@
+#include "omdata.h" // IWYU pragma: associated
+#include "overmap.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cmath>
 #include <cstring>
+#include <exception>
+#include <istream>
 #include <memory>
 #include <numeric>
 #include <ostream>
 #include <set>
+#include <type_traits>
 #include <unordered_set>
 #include <vector>
 
@@ -25,17 +31,16 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapgen.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "name.h"
 #include "npc.h"
-#include "omdata.h" // IWYU pragma: associated
 #include "optional.h"
 #include "options.h"
 #include "output.h"
-#include "overmap.h" // IWYU pragma: associated
 #include "overmap_connection.h"
 #include "overmap_location.h"
 #include "overmap_noise.h"
@@ -412,13 +417,12 @@ void overmap_specials::finalize()
 
 void overmap_specials::check_consistency()
 {
-    const size_t max_count = ( OMAPX / OMSPEC_FREQ ) * ( OMAPY / OMSPEC_FREQ ) / 2;
+    const size_t max_count = ( OMAPX / OMSPEC_FREQ ) * ( OMAPY / OMSPEC_FREQ );
     const size_t actual_count = std::accumulate( specials.get_all().begin(), specials.get_all().end(),
                                 static_cast< size_t >( 0 ),
     []( size_t sum, const overmap_special & elem ) {
-        return sum + ( elem.flags.count( "UNIQUE" ) == static_cast<size_t>( 0 ) ? static_cast<size_t>
-                       ( std::max(
-                             elem.occurrences.min, 0 ) ) : static_cast<size_t>( 1 ) );
+        return sum + ( elem.flags.count( "UNIQUE" ) ? static_cast<size_t>( 0 )  : static_cast<size_t>( (
+                           std::max( elem.occurrences.min, 0 ) ) ) ) ;
     } );
 
     if( actual_count > max_count ) {
@@ -950,17 +954,25 @@ void overmap_special::finalize()
 
 void overmap_special::check() const
 {
-    std::set<oter_id> invalid_terrains;
+    std::set<oter_str_id> invalid_terrains;
     std::set<tripoint> points;
 
-    for( const auto &elem : terrains ) {
-        const auto &oter = elem.terrain;
+    for( const overmap_special_terrain &elem : terrains ) {
+        const oter_str_id &oter = elem.terrain;
 
         if( !oter.is_valid() ) {
-            if( invalid_terrains.count( oter.id() ) == 0 ) {
-                invalid_terrains.insert( oter.id() );
-                debugmsg( "In overmap special \"%s\", terrain \"%s\" is invalid.",
-                          id.c_str(), oter.c_str() );
+            if( invalid_terrains.count( oter ) == 0 ) {
+                // Not a huge fan of the the direct id manipulation here, but I don't know
+                // how else to do this
+                oter_str_id invalid( oter.str() + "_north" );
+                if( invalid.is_valid() ) {
+                    debugmsg( "In overmap special \"%s\", terrain \"%s\" rotates, but is specified without a rotation.",
+                              id.str(), oter.str() );
+                } else  {
+                    debugmsg( "In overmap special \"%s\", terrain \"%s\" is invalid.",
+                              id.c_str(), oter.c_str() );
+                }
+                invalid_terrains.insert( oter );
             }
         }
 
@@ -1670,12 +1682,6 @@ bool overmap::generate_sub( const int z )
     subway_points.insert( subway_points.end(), subway_lab_train_points.begin(),
                           subway_lab_train_points.end() );
     connect_closest_points( subway_points, z, *subway_tunnel );
-    // If on z = 4 and central lab is present, be sure to connect normal labs and central labs (just in case).
-    if( z == -4 && !central_lab_points.empty() ) {
-        std::vector<point_om_omt> extra_route;
-        extra_route.push_back( subway_lab_train_points.back() );
-        connect_closest_points( extra_route, z, *subway_tunnel );
-    }
 
     for( auto &i : subway_points ) {
         if( is_ot_match( "sub_station", ter( tripoint_om_omt( i, z + 2 ) ), ot_match_type::type ) ) {
@@ -2047,7 +2053,7 @@ void overmap::move_hordes()
                 type.id == mtype_id( "mon_jabberwock" ) || // Jabberwockies are an exception.
                 this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
                 !this_monster.will_join_horde( INT_MAX ) || // So are zombies who won't join a horde of any size.
-                this_monster.mission_id != -1 // We mustn't delete monsters that are related to missions.
+                !this_monster.mission_ids.empty() // We mustn't delete monsters that are related to missions.
             ) {
                 // Don't delete the monster, just increment the iterator.
                 monster_map_it++;
@@ -2941,8 +2947,16 @@ void overmap::place_cities()
     const string_id<overmap_connection> local_road_id( "local_road" );
     const overmap_connection &local_road( *local_road_id );
 
+    // if there is only a single free tile, the probability of NOT finding it after MAX_PLACEMENT_ATTEMPTS attempts
+    // is (1 - 1/(OMAPX * OMAPY))^MAX_PLACEMENT_ATTEMPTS ≈ 36% for the OMAPX=OMAPY=180 and MAX_PLACEMENT_ATTEMPTS=OMAPX * OMAPY
+    const int MAX_PLACEMENT_ATTEMPTS = OMAPX * OMAPY;
+    int placement_attempts = 0;
+
     // place a seed for NUM_CITIES cities, and maybe one more
-    while( cities.size() < static_cast<size_t>( NUM_CITIES ) ) {
+    while( cities.size() < static_cast<size_t>( NUM_CITIES ) &&
+           placement_attempts < MAX_PLACEMENT_ATTEMPTS ) {
+        placement_attempts++;
+
         // randomly make some cities smaller or larger
         int size = rng( op_city_size - 1, op_city_size + 1 );
         if( one_in( 3 ) ) {      // 33% tiny
@@ -2962,6 +2976,7 @@ void overmap::place_cities()
         const tripoint_om_omt p( c, 0 );
 
         if( ter( p ) == settings.default_oter ) {
+            placement_attempts = 0;
             ter_set( p, oter_id( "road_nesw" ) ); // every city starts with an intersection
             city tmp;
             tmp.pos = p.xy();
@@ -3472,7 +3487,7 @@ void overmap::place_ravines()
         }
     }
     // We look at the 8 adjacent locations of each ravine point and see if they are also part of a
-    // ravine, if at least one of them isn't, the location is part of the ravine's edge. Whathever the
+    // ravine, if at least one of them isn't, the location is part of the ravine's edge. Whatever the
     // case, the chosen ravine terrain is then propagated downwards until the ravine_depth specified
     // by the region settings.
     for( const point_om_omt &p : rift_points ) {
@@ -4067,11 +4082,7 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
 
         const oter_id &tid = ter( rp );
 
-        if( rp.z() == 0 ) {
-            return elem.can_be_placed_on( tid );
-        } else {
-            return tid == get_default_terrain( rp.z() );
-        }
+        return elem.can_be_placed_on( tid ) || ( rp.z() != 0 && tid == get_default_terrain( rp.z() ) );
     } );
 }
 
@@ -4137,7 +4148,8 @@ om_special_sectors get_sectors( const int sector_width )
 {
     std::vector<point_om_omt> res;
 
-    res.reserve( ( OMAPX / sector_width ) * ( OMAPY / sector_width ) );
+    res.reserve( static_cast<size_t>( OMAPX / sector_width ) * static_cast<size_t>
+                 ( OMAPY / sector_width ) );
     for( int x = 0; x < OMAPX; x += sector_width ) {
         for( int y = 0; y < OMAPY; y += sector_width ) {
             res.emplace_back( x, y );
@@ -4275,7 +4287,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     overmap_special_batch custom_overmap_specials = overmap_special_batch( enabled_specials );
 
     // Check for any unplaced mandatory specials, and if there are any, attempt to
-    // place them on adajacent uncreated overmaps.
+    // place them on adjacent uncreated overmaps.
     if( std::any_of( custom_overmap_specials.begin(), custom_overmap_specials.end(),
     []( overmap_special_placement placement ) {
     return placement.instances_placed <

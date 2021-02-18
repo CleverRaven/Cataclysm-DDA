@@ -1,11 +1,21 @@
-#include "catch/catch.hpp"
+#include <iosfwd>
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "catch/catch.hpp"
+#include "character.h"
+#include "creature.h"
 #include "flag.h"
 #include "game.h"
-#include "map.h"
+#include "item.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
+#include "type_id.h"
 
 // Tests for Character suffering
 //
@@ -27,9 +37,9 @@ static int test_suffer_focus_lost( Character &dummy, const time_duration &dur )
     int focus_lost = 0;
     const int num_turns = to_turns<int>( dur );
     for( int turn = 0; turn < num_turns; ++turn ) {
-        dummy.focus_pool = 100;
+        dummy.set_focus( 100 );
         dummy.suffer();
-        focus_lost += 100 - dummy.focus_pool;
+        focus_lost += 100 - dummy.get_focus();
     }
     return focus_lost;
 }

@@ -718,7 +718,7 @@
     "difficulty": 8,
     "time": "1 h",
     "book_learn": [ [ "manual_pistol", 4 ] ],
-    "tools": [ [ [ "large_repairkit", 250 ] ] ],
+    "tools": [ [ [ "small_repairkit", 150 ], [ "large_repairkit", 150 ] ] ],
     "components": [ [ [ "scrap", 1 ] ], [ [ "pipe", 2 ] ] ]
   },
   {
@@ -795,7 +795,7 @@
       [ "manual_smg", 4 ],
       [ "manual_rifle", 4 ]
     ],
-    "tools": [ [ [ "large_repairkit", 75 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "small_repairkit", 75 ], [ "large_repairkit", 75 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "pipe", 1 ] ] ]
   },
   {
@@ -854,7 +854,7 @@
     "difficulty": 8,
     "time": "1 h",
     "book_learn": [ [ "textbook_mechanics", 4 ], [ "manual_shotgun", 5 ], [ "manual_rifle", 5 ] ],
-    "tools": [ [ [ "large_repairkit", 150 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "small_repairkit", 150 ], [ "large_repairkit", 150 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "pipe", 1 ] ] ]
   },
   {

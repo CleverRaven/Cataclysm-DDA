@@ -2,12 +2,11 @@
 #ifndef CATA_SRC_ADVANCED_INV_LISTITEM_H
 #define CATA_SRC_ADVANCED_INV_LISTITEM_H
 
-#include <string>
+#include <iosfwd>
 #include <vector>
 
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 
 // see item_factory.h
 class item;

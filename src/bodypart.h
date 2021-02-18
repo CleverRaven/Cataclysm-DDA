@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_BODYPART_H
 #define CATA_SRC_BODYPART_H
 
-#include <algorithm>
 #include <array>
-#include <bitset>
 #include <cstddef>
 #include <initializer_list>
+#include <iosfwd>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "enums.h"
@@ -19,9 +19,8 @@
 class JsonIn;
 class JsonObject;
 class JsonOut;
-template <typename E> struct enum_traits;
-
 struct body_part_type;
+template <typename E> struct enum_traits;
 
 using bodypart_str_id = string_id<body_part_type>;
 using bodypart_id = int_id<body_part_type>;
@@ -71,6 +70,14 @@ enum class side : int {
 template<>
 struct enum_traits<side> {
     static constexpr side last = side::num_sides;
+};
+
+// Drench cache
+enum water_tolerance {
+    WT_IGNORED = 0,
+    WT_NEUTRAL,
+    WT_GOOD,
+    NUM_WATER_TOLERANCE
 };
 
 /**
@@ -238,9 +245,12 @@ class bodypart
 
         encumbrance_data encumb_data;
 
+        std::array<int, NUM_WATER_TOLERANCE> mut_drench;
+
     public:
-        bodypart(): id( bodypart_str_id::NULL_ID() ), hp_cur( 0 ), hp_max( 0 ) {}
-        bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ) {}
+        bodypart(): id( bodypart_str_id::NULL_ID() ), mut_drench() {}
+        explicit bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ),
+            mut_drench() {}
 
         bodypart_id get_id() const;
 
@@ -256,9 +266,11 @@ class bodypart
         int get_damage_disinfected() const;
         int get_drench_capacity() const;
         int get_wetness() const;
-        int get_frotbite_timer() const;
+        int get_frostbite_timer() const;
         int get_temp_cur() const;
         int get_temp_conv() const;
+
+        std::array<int, NUM_WATER_TOLERANCE> get_mut_drench() const;
 
         const encumbrance_data &get_encumbrance_data() const;
 
@@ -273,6 +285,8 @@ class bodypart
         void set_frostbite_timer( int set );
 
         void set_encumbrance_data( const encumbrance_data &set );
+
+        void set_mut_drench( const std::pair<water_tolerance, int> &set );
 
         void mod_hp_cur( int mod );
         void mod_hp_max( int mod );

@@ -1,20 +1,28 @@
+#include "npctalk.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cstddef>
+#include <iosfwd>
+#include <list>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <vector>
 
+#include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "enums.h"
@@ -25,17 +33,18 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "line.h"
 #include "magic.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
-#include "npctalk.h" // IWYU pragma: associated
 #include "npctrade.h"
 #include "optional.h"
 #include "output.h"
@@ -45,7 +54,6 @@
 #include "player_activity.h"
 #include "point.h"
 #include "rng.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui.h"
 #include "viewer.h"
@@ -833,17 +841,41 @@ void talk_function::stranger_neutral( npc &p )
     p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
 }
 
-void talk_function::drop_stolen_item( npc &p )
+bool talk_function::drop_stolen_item( item &cur_item, npc &p )
 {
     Character &player_character = get_player_character();
     map &here = get_map();
-    for( auto &elem : player_character.inv_dump() ) {
-        if( elem->is_old_owner( p ) ) {
-            item to_drop = player_character.i_rem( elem );
-            to_drop.remove_old_owner();
-            to_drop.set_owner( p );
-            here.add_item_or_charges( player_character.pos(), to_drop );
+    bool dropped = false;
+    if( cur_item.is_old_owner( p ) ) {
+        item to_drop = player_character.i_rem( &cur_item );
+        to_drop.remove_old_owner();
+        to_drop.set_owner( p );
+        here.add_item_or_charges( player_character.pos(), to_drop );
+        dropped = true;
+    } else if( cur_item.is_container() ) {
+        bool changed = false;
+        for( item *contained : cur_item.contents.all_items_top() ) {
+            changed |= drop_stolen_item( *contained, p );
         }
+        if( changed ) {
+            dropped = true;
+            cur_item.on_contents_changed();
+        }
+    }
+    return dropped;
+}
+
+void talk_function::drop_stolen_item( npc &p )
+{
+    bool dropped = false;
+    Character &player_character = get_player_character();
+    for( item *&elem : player_character.inv_dump() ) {
+        dropped |= drop_stolen_item( *elem, p );
+    }
+    if( dropped ) {
+        player_character.invalidate_weight_carried_cache();
+    } else {
+        debugmsg( "Failed to drop any stolen items." );
     }
     if( p.known_stolen_item ) {
         p.known_stolen_item = nullptr;

@@ -55,6 +55,8 @@
 #  make SANITIZE=address
 # Change mapsize (reality bubble size)
 #  make MAPSIZE=<size>
+# Enable the string id debugging helper
+#  make STRING_ID_DEBUG=1
 # Adjust names of build artifacts (for example to allow easily toggling between build types).
 #  make BUILD_PREFIX="release-"
 # Generate a build artifact prefix from the other build flags.
@@ -157,6 +159,11 @@ SRC_DIR = src
 LOCALIZE = 1
 ASTYLE_BINARY = astyle
 
+# Enable debug by default
+ifndef RELEASE
+  RELEASE = 0
+endif
+
 # Enable astyle by default
 ifndef ASTYLE
   ASTYLE = 1
@@ -179,6 +186,21 @@ endif
 # Auto-detect MSYS2
 ifdef MSYSTEM
   MSYS2 = 1
+endif
+
+ifneq (,$(findstring clang,$(COMPILER)))
+  CLANG = $(COMPILER)
+endif
+
+OS = $(shell uname -s)
+
+ifneq ($(findstring Darwin,$(OS)),)
+  ifndef NATIVE
+    NATIVE = osx
+  endif
+  ifndef CLANG
+    CLANG = 1
+  endif
 endif
 
 # Default to disabling clang
@@ -230,8 +252,6 @@ ifdef AUTO_BUILD_PREFIX
   export BUILD_PREFIX
 endif
 
-OS  = $(shell uname -s)
-
 # if $(OS) contains 'BSD'
 ifneq ($(findstring BSD,$(OS)),)
   BSD = 1
@@ -241,6 +261,10 @@ ifeq ($(PCH), 1)
 	CCACHEBIN = CCACHE_SLOPPINESS=pch_defines,time_macros ccache
 else
 	CCACHEBIN = ccache
+endif
+
+ifeq ($(STRING_ID_DEBUG), 1)
+	DEFINES += -DCATA_STRING_ID_DEBUGGING
 endif
 
 # This sets CXX and so must be up here
@@ -254,9 +278,18 @@ ifneq ($(CLANG), 0)
   ifeq ($(NATIVE), osx)
     USE_LIBCXX = 1
   endif
+  ifeq ($(BSD), 1)
+    ifndef USE_LIBCXX
+      USE_LIBCXX = 1
+    endif
+  endif
   ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
     LDFLAGS += -stdlib=libc++
+  else
+    # clang with glibc 2.31+ will cause linking error on math functions
+    # this is a workaround (see https://github.com/google/filament/issues/2146)
+    CXXFLAGS += -fno-builtin
   endif
   ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
@@ -273,9 +306,14 @@ else
   endif
 
   # Expand at reference time to avoid recursive reference
-  OS_COMPILER := $(CXX)
+  ifneq ($(COMPILER),)
+    OS_COMPILER := $(COMPILER)
+    OS_LINKER := $(COMPILER)
+  else
+    OS_COMPILER := $(CXX)
+    OS_LINKER := $(CXX)
+  endif
   # Appears that the default value of $LD is unsuitable on most systems
-  OS_LINKER := $(CXX)
   ifeq ($(CCACHE), 1)
     CXX = $(CCACHEBIN) $(CROSS)$(OS_COMPILER)
     LD  = $(CCACHEBIN) $(CROSS)$(OS_LINKER)
@@ -294,7 +332,7 @@ CXXFLAGS += -ffast-math
 LDFLAGS += $(PROFILE)
 
 ifneq ($(SANITIZE),)
-  SANITIZE_FLAGS := -fsanitize=$(SANITIZE) -fno-sanitize-recover=all
+  SANITIZE_FLAGS := -fsanitize=$(SANITIZE) -fno-sanitize-recover=all -fno-omit-frame-pointer
   CXXFLAGS += $(SANITIZE_FLAGS)
   LDFLAGS += $(SANITIZE_FLAGS)
 endif
@@ -302,16 +340,10 @@ endif
 # enable optimizations. slow to build
 ifeq ($(RELEASE), 1)
   ifeq ($(NATIVE), osx)
-    ifdef OSXCROSS
-      OPTLEVEL = -O0
-    else ifeq ($(shell expr $(OSX_MIN) \<= 10.11), 1)
-      OPTLEVEL = -O0
+    ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
+      OPTLEVEL = -Os
     else
-      ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
-        OPTLEVEL = -Os
-      else
-        OPTLEVEL = -O3
-      endif
+      OPTLEVEL = -O3
     endif
   else
     # MXE ICE Workaround
@@ -347,6 +379,7 @@ ifeq ($(RELEASE), 1)
       LTOFLAGS += -flto=jobserver -flto-odr-type-merging
     endif
   endif
+  LTOFLAGS += -Wodr
   CXXFLAGS += $(LTOFLAGS)
 
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
@@ -366,9 +399,7 @@ ifeq ($(RELEASE), 1)
   ifeq ($(LINTJSON), 1)
     CHECKS += style-json
   endif
-endif
-
-ifndef RELEASE
+else
   ifeq ($(NOOPT), 1)
     # While gcc claims to include all information required for
     # debugging at -Og, at least with gcc 8.3, control flow
@@ -453,7 +484,7 @@ ifeq ($(NATIVE), linux64)
   TARGETSYSTEM=LINUX
   ifdef GOLD
     CXXFLAGS += -fuse-ld=gold
-    LDFLAGS += -fuse-ld=gold
+    LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
   endif
 else
   # Linux 32-bit
@@ -463,17 +494,19 @@ else
     TARGETSYSTEM=LINUX
     ifdef GOLD
       CXXFLAGS += -fuse-ld=gold
-      LDFLAGS += -fuse-ld=gold
+      LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
     endif
   endif
 endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  ifneq ($(CLANG), 0)
-    OSX_MIN = 10.7
-  else
-    OSX_MIN = 10.5
+  ifeq ($(OSX_MIN),)
+    ifneq ($(CLANG), 0)
+      OSX_MIN = 10.7
+    else
+      OSX_MIN = 10.5
+    endif
   endif
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
@@ -498,10 +531,16 @@ ifeq ($(NATIVE), osx)
       LDFLAGS += -L$(LIBSDIR)/gettext/lib
       CXXFLAGS += -I$(LIBSDIR)/gettext/include
     endif
-    ifeq ($(BREWGETTEXT), 1)
-      # recent versions of brew will not allow you to link
+    # link to gettext from Homebrew if it exists
+    # Homebrew may be installed in /usr/local or /opt/homebrew
+    ifneq ("$(wildcard /usr/local/opt/gettext)", "")
       LDFLAGS += -L/usr/local/opt/gettext/lib
       CXXFLAGS += -I/usr/local/opt/gettext/include
+    else
+      ifneq ("$(wildcard /opt/homebrew/opt/gettext)", "")
+        LDFLAGS += -L/opt/homebrew/opt/gettext/lib
+        CXXFLAGS += -I/opt/homebrew/opt/gettext/include
+      endif
     endif
     ifeq ($(MACPORTS), 1)
       ifneq ($(TILES), 1)
@@ -751,6 +790,10 @@ ifeq ($(BSD), 1)
   ifeq ($(LOCALIZE),1)
     LDFLAGS += -lintl -liconv
   endif
+
+  # libexecinfo, libintl and libiconv may be located in /usr/local on BSD
+  CXXFLAGS += -I/usr/local/include
+  LDFLAGS += -L/usr/local/lib
 endif
 
 # Global settings for Windows targets (at end)
@@ -875,7 +918,7 @@ ifeq ($(LTO), 1)
   endif
 endif
 
-all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS) validate-pr
+all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS)
 	@
 
 $(TARGET): $(OBJS)
@@ -897,7 +940,7 @@ $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 .PHONY: version
 version:
 	@( VERSION_STRING=$(VERSION) ; \
-            [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty --match "[0-9A-Z]*.[0-9A-Z]*" ) && VERSION_STRING=$$GITVERSION ; \
+            [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --match "[0-9A-Z]*.[0-9A-Z]*" ) && DIRTYFLAG=$$( [ -z "$$(git diff --numstat | grep -v lang/po/)" ] || echo "-dirty") && VERSION_STRING=$$GITVERSION$$DIRTYFLAG ; \
             [ -e "$(SRC_DIR)/version.h" ] && OLDVERSION=$$(grep VERSION $(SRC_DIR)/version.h|cut -d '"' -f2) ; \
             if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then printf '// NOLINT(cata-header-guard)\n#define VERSION "%s"\n' "$$VERSION_STRING" | tee $(SRC_DIR)/version.h ; fi \
          )
@@ -924,16 +967,13 @@ $(CHKJSON_BIN): $(CHKJSON_SOURCES)
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
-clean: clean-tests clean-object_creator
+clean: clean-tests clean-object_creator clean-pch
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
 	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
 	rm -f $(SRC_DIR)/version.h
 	rm -f $(CHKJSON_BIN)
-	rm -f pch/*pch.hpp.gch
-	rm -f pch/*pch.hpp.pch
-	rm -f pch/*pch.hpp.d
 
 distclean:
 	rm -rf *$(BINDIST_DIR)
@@ -1177,12 +1217,12 @@ object_creator: version $(BUILD_PREFIX)cataclysm.a
 clean-object_creator:
 	$(MAKE) -C object_creator clean
 
-validate-pr:
-ifneq ($(CYGWIN),1)
-	@build-scripts/validate_pr_in_jenkins
-endif
+clean-pch:
+	rm -f pch/*pch.hpp.gch
+	rm -f pch/*pch.hpp.pch
+	rm -f pch/*pch.hpp.d
 
-.PHONY: tests check ctags etags clean-tests install lint validate-pr
+.PHONY: tests check ctags etags clean-tests clean-object_creator clean-pch install lint
 
 -include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}

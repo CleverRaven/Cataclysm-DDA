@@ -156,7 +156,7 @@
     "color": "red",
     "name": "bulette pearl",
     "description": "As a bulette burrows through the earth its gills collect minute amounts of precious metals and gems which slowly aggregate into lustrous gemstones prized for their beauty and power.",
-    "material": [ "stone" ],
+    "material": [ "gemstone" ],
     "weight": "120 g",
     "volume": "250 ml"
   },
@@ -263,5 +263,33 @@
     "material": [ "powder" ],
     "volume": "100 ml",
     "flags": [ "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "mana_pearl",
+    "type": "GENERIC",
+    "symbol": "*",
+    "color": "blue",
+    "name": "mana pearl",
+    "description": "A gemstone created by alchemy.  You can feel it attract surrounding mana.",
+    "material": [ "gemstone" ],
+    "weight": "120 g",
+    "volume": "60 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "enchanted_wood",
+    "symbol": "/",
+    "color": "blue",
+    "name": { "str_sp": "enchanted wood" },
+    "description": "Wood that has been infused with mana.",
+    "material": [ "wood" ],
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "FIREWOOD" ],
+    "weight": "1500 g",
+    "volume": "2500 ml",
+    "longest_side": "130 cm",
+    "bashing": 10,
+    "to_hit": 1,
+    "category": "spare_parts"
   }
 ]

@@ -35,7 +35,7 @@
     "material": [ "acidchitin", "steel" ],
     "weight": "35 kg",
     "volume": "150 L",
-    "material_thickness": 6,
+    "material_thickness": 4,
     "environmental_protection": 7
   },
   {

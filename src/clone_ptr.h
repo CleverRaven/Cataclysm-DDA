@@ -11,6 +11,7 @@ class clone_ptr
 {
     public:
         clone_ptr() = default;
+        // NOLINTNEXTLINE(google-explicit-constructor)
         clone_ptr( std::nullptr_t ) {}
         clone_ptr( const clone_ptr &other ) : p_( other.p_ ? other.p_->clone() : nullptr ) {}
         clone_ptr( clone_ptr && ) = default;
@@ -22,6 +23,7 @@ class clone_ptr
 
         // implicit conversion from unique_ptr
         template<typename U>
+        // NOLINTNEXTLINE(google-explicit-constructor)
         clone_ptr( std::unique_ptr<U> p ) : p_( std::move( p ) ) {}
 
         T &operator*() {

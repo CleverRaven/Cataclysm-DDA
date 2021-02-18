@@ -678,7 +678,7 @@
     "primary_material": "dried_vegetable",
     "volume": "250 ml",
     "flags": [ "SMOKED" ],
-    "freezing_point": -490,
+    "freezing_point": -459,
     "charges": 4,
     "fun": 3
   },

@@ -3,6 +3,7 @@
 #define CATA_SRC_AVATAR_H
 
 #include <cstddef>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -15,17 +16,14 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "json.h"
 #include "magic_teleporter_list.h"
 #include "map_memory.h"
 #include "memory_fast.h"
 #include "player.h"
 #include "point.h"
-#include "string_id.h"
 #include "type_id.h"
 
-class JsonIn;
-class JsonObject;
-class JsonOut;
 class advanced_inv_area;
 class advanced_inv_listitem;
 class advanced_inventory_pane;
@@ -37,6 +35,8 @@ class monster;
 class nc_color;
 class npc;
 class talker;
+struct bionic;
+
 namespace catacurses
 {
 class window;
@@ -62,7 +62,7 @@ struct monster_visible_info {
     std::vector<npc *> unique_types[9];
     std::vector<const mtype *> unique_mons[9];
 
-    // If the moster visible in this direction is dangerous
+    // If the monster visible in this direction is dangerous
     bool dangerous[8] = {};
 };
 
@@ -124,7 +124,7 @@ class avatar : public player
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
         /** Resets all missions before saving character to template */
-        void reset_all_misions();
+        void reset_all_missions();
 
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;
@@ -157,7 +157,7 @@ class avatar : public player
                       bool radio_contact = false );
 
         /**
-         * Try to disarm the NPC. May result in fail attempt, you receiving the wepon and instantly wielding it,
+         * Try to disarm the NPC. May result in fail attempt, you receiving the weapon and instantly wielding it,
          * or the weapon falling down on the floor nearby. NPC is always getting angry with you.
          * @param target Target NPC to disarm
          */
@@ -188,6 +188,7 @@ class avatar : public player
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const override;
         void identify( const item &item ) override;
+        void clear_identified();
 
         void wake_up();
         // Grab furniture / vehicle
@@ -329,7 +330,7 @@ class avatar : public player
          */
         mission *active_mission;
         /**
-         * The amont of calories spent and gained per day for the last 30 days.
+         * The amount of calories spent and gained per day for the last 30 days.
          * the back is popped off and a new one added to the front at midnight each day
          */
         std::list<daily_calories> calorie_diary;

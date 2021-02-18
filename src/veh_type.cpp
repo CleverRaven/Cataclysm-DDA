@@ -2,8 +2,11 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <limits>
 #include <memory>
 #include <numeric>
+#include <tuple>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -16,14 +19,16 @@
 #include "game_constants.h"
 #include "init.h"
 #include "item.h"
+#include "item_factory.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "output.h"
 #include "player.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"
@@ -357,7 +362,8 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
             }
             def.categories = ab->second.categories;
         } else {
-            deferred.emplace_back( jo.str(), src );
+            deferred.emplace_back( jo.get_source_location(), src );
+            jo.allow_omitted_members();
             return;
         }
     }
@@ -391,7 +397,6 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "default_ammo", def.default_ammo );
     assign( jo, "folded_volume", def.folded_volume );
     assign( jo, "size", def.size );
-    assign( jo, "difficulty", def.difficulty );
     assign( jo, "bonus", def.bonus );
     assign( jo, "cargo_weight_modifier", def.cargo_weight_modifier );
     assign( jo, "categories", def.categories );
@@ -730,31 +735,20 @@ void vpart_info::check()
         if( part.has_flag( "TURRET" ) && !base_item_type.gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
         }
-        if( !part.emissions.empty() && !part.has_flag( "EMITTER" ) ) {
-            debugmsg( "vehicle part %s has emissions set, but the EMITTER flag is not set", part.id.c_str() );
-        }
-        if( !part.exhaust.empty() && !part.has_flag( "EMITTER" ) ) {
-            debugmsg( "vehicle part %s has exhaust set, but the EMITTER flag is not set", part.id.c_str() );
-        }
-        if( part.has_flag( "EMITTER" ) ) {
-            if( part.emissions.empty() && part.exhaust.empty() ) {
-                debugmsg( "vehicle part %s has the EMITTER flag, but no emissions or exhaust were set",
-                          part.id.c_str() );
-            } else {
-                for( const emit_id &e : part.emissions ) {
-                    if( !e.is_valid() ) {
-                        debugmsg( "vehicle part %s has the EMITTER flag, but invalid emission %s was set",
-                                  part.id.c_str(), e.str().c_str() );
-                    }
-                }
-                for( const emit_id &e : part.exhaust ) {
-                    if( !e.is_valid() ) {
-                        debugmsg( "vehicle part %s has the EMITTER flag, but invalid exhaust %s was set",
-                                  part.id.c_str(), e.str().c_str() );
-                    }
-                }
+
+        for( const emit_id &e : part.emissions ) {
+            if( !e.is_valid() ) {
+                debugmsg( "vehicle part %s has invalid emission %s was set",
+                          part.id.c_str(), e.str().c_str() );
             }
         }
+        for( const emit_id &e : part.exhaust ) {
+            if( !e.is_valid() ) {
+                debugmsg( "vehicle part %s has invalid exhaust %s was set",
+                          part.id.c_str(), e.str().c_str() );
+            }
+        }
+
         if( part.has_flag( "WHEEL" ) && !base_item_type.wheel ) {
             debugmsg( "vehicle part %s has the WHEEL flag, but base item %s is not a wheel.  "
                       "THIS WILL CRASH!", part.id.str(), part.base_item.str() );
@@ -1239,6 +1233,20 @@ void vehicle_prototype::finalize()
                         pt.ammo_types.insert( ammotype( *base->gun->ammo.begin() )->default_ammotype() );
                     }
                 }
+            }
+
+            std::vector<itype_id> migrated;
+            for( auto it = pt.ammo_types.begin(); it != pt.ammo_types.end(); ) {
+                if( item_controller->migrate_id( *it ) != *it ) {
+                    migrated.push_back( item_controller->migrate_id( *it ) );
+                    it = pt.ammo_types.erase( it );
+                } else {
+                    ++it;
+                }
+            }
+
+            for( const itype_id &migrant : migrated ) {
+                pt.ammo_types.insert( migrant );
             }
 
             if( type_can_contain( *base, pt.fuel ) || base->magazine ) {

@@ -8,6 +8,7 @@
 #include <iterator>
 #include <memory>
 #include <set>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
@@ -78,6 +79,15 @@ WORLD::WORLD()
     active_mod_order = world_generator->get_mod_manager().get_default_mods();
 }
 
+WORLD::WORLD( const std::string &name )
+{
+    world_name = name;
+    WORLD_OPTIONS = get_options().get_world_defaults();
+
+    world_saves.clear();
+    active_mod_order = world_generator->get_mod_manager().get_default_mods();
+}
+
 void WORLD::COPY_WORLD( const WORLD *world_to_copy )
 {
     world_name = world_to_copy->world_name + "_copy";
@@ -125,6 +135,13 @@ WORLDPTR worldfactory::add_world( std::unique_ptr<WORLD> retworld )
 WORLDPTR worldfactory::make_new_world( const std::vector<mod_id> &mods )
 {
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>();
+    retworld->active_mod_order = mods;
+    return add_world( std::move( retworld ) );
+}
+
+WORLDPTR worldfactory::make_new_world( const std::string &name, const std::vector<mod_id> &mods )
+{
+    std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>( name );
     retworld->active_mod_order = mods;
     return add_world( std::move( retworld ) );
 }
@@ -302,7 +319,7 @@ void worldfactory::init()
         }
     };
 
-    // This returns files as well, but they are going to be discared later as
+    // This returns files as well, but they are going to be discarded later as
     // we look for files *within* these dirs. If it's a file, there won't be
     // be any of those inside it and is_save_dir will return false.
     for( const std::string &dir : get_files_from_path( "", PATH_INFO::savedir(), false ) ) {
@@ -808,6 +825,8 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
 
     input_context ctxt( "DEFAULT" );
     ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -825,21 +844,37 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
         ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
+        const int recmax = static_cast<int>( num_mods );
+        const int scroll_rate = recmax > 20 ? 10 : 3;
 
         if( action == "UP" ) {
             cursor--;
             // If it went under 0, loop back to the end of the list.
             if( cursor < 0 ) {
-                cursor = static_cast<int>( num_mods - 1 );
+                cursor = recmax - 1;
             }
-
         } else if( action == "DOWN" ) {
             cursor++;
             // If it went over the end of the list, loop back to the start of the list.
-            if( cursor > static_cast<int>( num_mods - 1 ) ) {
+            if( cursor > recmax - 1 ) {
                 cursor = 0;
             }
-
+        } else if( action == "PAGE_DOWN" ) {
+            if( cursor == recmax - 1 ) {
+                cursor = 0;
+            } else if( cursor + scroll_rate >= recmax ) {
+                cursor = recmax - 1;
+            } else {
+                cursor += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( cursor == 0 ) {
+                cursor = recmax - 1;
+            } else if( cursor <= scroll_rate ) {
+                cursor = 0;
+            } else {
+                cursor += -scroll_rate;
+            }
         } else if( action == "QUIT" || action == "CONFIRM" ) {
             break;
         }
@@ -1578,6 +1613,10 @@ void load_external_option( const JsonObject &jo )
         opt.setValue( jo.get_string( "value" ) );
     } else {
         jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
+    }
+    // Just visit this member if it exists
+    if( jo.has_member( "info" ) ) {
+        jo.get_string( "info" );
     }
 }
 

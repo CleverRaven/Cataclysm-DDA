@@ -1,17 +1,21 @@
 #include "iuse_actor.h"
 
+#include <cctype>
 #include <algorithm>
 #include <array>
-#include <cctype>
 #include <cmath>
 #include <cstddef>
 #include <functional>
 #include <iterator>
+#include <limits>
 #include <list>
 #include <memory>
+#include <numeric>
 #include <sstream>
+#include <type_traits>
 
 #include "action.h"
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "assign.h"
@@ -22,6 +26,8 @@
 #include "character.h"
 #include "character_id.h"
 #include "clothing_mod.h"
+#include "clzones.h"
+#include "colony.h"
 #include "crafting.h"
 #include "creature.h"
 #include "damage.h"
@@ -32,12 +38,10 @@
 #include "explosion.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -108,8 +112,6 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
-
-static const bionic_id bio_syringe( "bio_syringe" );
 
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_brazier( "brazier" );
@@ -751,9 +753,7 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
 int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
     auto need_these = tools_needed;
-    if( need_these.count( itype_syringe ) && p.has_bionic( bio_syringe ) ) {
-        need_these.erase( itype_syringe ); // no need for a syringe with bionics like these!
-    }
+
     // Check prerequisites first.
     for( const auto &tool : need_these ) {
         // Amount == -1 means need one, but don't consume it.
@@ -1085,7 +1085,7 @@ int deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) con
 
     here.furn_set( pnt, furn_type );
     it.spill_contents( pnt );
-    p.mod_moves( to_turns<int>( 2_seconds ) );
+    p.mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
 }
 
@@ -1359,11 +1359,40 @@ int salvage_actor::use( player &p, item &it, bool t, const tripoint & ) const
     return cut_up( p, it, item_loc );
 }
 
-static const units::volume minimal_volume_to_cut = 250_ml;
+// Helper to visit instances of all the sub-materials of an item.
+static void visit_salvage_products( const item &it, std::function<void( const item & )> func )
+{
+    for( const material_id &material : it.made_of() ) {
+        if( const cata::optional<itype_id> id = material->salvaged_into() ) {
+            item exemplar( *id );
+            func( exemplar );
+        }
+    }
+}
+
+// Helper to find smallest sub-component of an item.
+static units::mass minimal_weight_to_cut( const item &it )
+{
+    units::mass min_weight = units::mass_max;
+    visit_salvage_products( it, [&min_weight]( const item & exemplar ) {
+        min_weight = std::min( min_weight, exemplar.weight() );
+    } );
+    return min_weight;
+}
 
 int salvage_actor::time_to_cut_up( const item &it ) const
 {
-    int count = it.volume() / minimal_volume_to_cut;
+    units::mass total_material_weight;
+    int num_materials = 0;
+    visit_salvage_products( it, [&total_material_weight, &num_materials]( const item & exemplar ) {
+        total_material_weight += exemplar.weight();
+        num_materials += 1;
+    } );
+    if( num_materials == 0 ) {
+        return 0;
+    }
+    units::mass average_material_weight = total_material_weight / num_materials;
+    int count = it.weight() / average_material_weight;
     return moves_per_part * count;
 }
 
@@ -1382,7 +1411,7 @@ bool salvage_actor::valid_to_cut_up( const item &it ) const
     if( !it.contents.empty() ) {
         return false;
     }
-    if( it.volume() < minimal_volume_to_cut ) {
+    if( it.weight() < minimal_weight_to_cut( it ) ) {
         return false;
     }
 
@@ -1416,7 +1445,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
         add_msg( m_info, _( "Please empty the %s before cutting it up." ), it.tname() );
         return false;
     }
-    if( it.volume() < minimal_volume_to_cut ) {
+    if( it.weight() < minimal_weight_to_cut( it ) ) {
         add_msg( m_info, _( "The %s is too small to salvage material from." ), it.tname() );
         return false;
     }
@@ -1440,9 +1469,8 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
 int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
 {
     const bool filthy = cut.get_item()->is_filthy();
-    // total number of raw components == total volume of item.
-    // This can go awry if there is a volume / recipe mismatch.
-    int count = cut.get_item()->volume() / minimal_volume_to_cut;
+    // This is the value that tracks progress, as we cut pieces off, we reduce this number.
+    units::mass remaining_weight = cut.get_item()->weight();
     // Chance of us losing a material component to entropy.
     /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
     int entropy_threshold = std::max( 5, 10 - p.get_skill_level( skill_fabrication ) );
@@ -1462,39 +1490,49 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         return 0;
     }
 
-    // Time based on number of components.
-    p.moves -= moves_per_part * count;
     // Not much practice, and you won't get very far ripping things up.
     p.practice( skill_fabrication, rng( 0, 5 ), 1 );
 
     // Higher fabrication, less chance of entropy, but still a chance.
     if( rng( 1, 10 ) <= entropy_threshold ) {
-        count -= 1;
+        remaining_weight *= 0.99;
     }
     // Fail dex roll, potentially lose more parts.
     /** @EFFECT_DEX randomly reduces component loss when cutting items up */
     if( dice( 3, 4 ) > p.dex_cur ) {
-        count -= rng( 0, 2 );
+        remaining_weight *= 0.95;
     }
     // If more than 1 material component can still be salvaged,
     // chance of losing more components if the item is damaged.
     // If the item being cut is not damaged, no additional losses will be incurred.
-    if( count > 0 && cut.get_item()->damage() > 0 ) {
+    if( cut.get_item()->damage() > 0 ) {
         float component_success_chance = std::min( std::pow( 0.8, cut.get_item()->damage_level() ),
                                          1.0 );
-        for( int i = count; i > 0; i-- ) {
-            if( component_success_chance < rng_float( 0, 1 ) ) {
-                count--;
-            }
-        }
+        remaining_weight *= component_success_chance;
     }
 
-    // Decided to split components evenly. Since salvage will likely change
-    // soon after I write this, I'll go with the one that is cleaner.
+    // Essentially we round-robbin through the components subtracting mass as we go.
+    std::map<units::mass, itype_id> weight_to_item_map;
     for( const material_id &material : cut_material_components ) {
-        if( const auto id = material->salvaged_into() ) {
-            materials_salvaged[*id] = std::max( 0, count / static_cast<int>( cut_material_components.size() ) );
+        if( const cata::optional<itype_id> id = material->salvaged_into() ) {
+            materials_salvaged[*id] = 0;
+            weight_to_item_map[ item( *id, calendar::turn_zero, item::solitary_tag{} ).weight() ] = *id;
         }
+    }
+    while( remaining_weight > 0_gram && !weight_to_item_map.empty() ) {
+        units::mass components_weight = std::accumulate( weight_to_item_map.begin(),
+                                        weight_to_item_map.end(), 0_gram, []( const units::mass & a,
+        const std::pair<units::mass, itype_id> &b ) {
+            return a + b.first;
+        } );
+        if( components_weight > 0_gram && components_weight <= remaining_weight ) {
+            int count = remaining_weight / components_weight;
+            for( std::pair<units::mass, itype_id> mat_pair : weight_to_item_map ) {
+                materials_salvaged[mat_pair.second] += count;
+            }
+            remaining_weight -= components_weight * count;
+        }
+        weight_to_item_map.erase( std::prev( weight_to_item_map.end() ) );
     }
 
     add_msg( m_info, _( "You try to salvage materials from the %s." ),
@@ -1516,6 +1554,8 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         int amount = salvaged.second;
         item result( mat_name, calendar::turn );
         if( amount > 0 ) {
+            // Time based on number of components.
+            p.moves -= moves_per_part;
             if( result.count_by_charges() ) {
                 result.charges = amount;
                 amount = 1;
@@ -2506,7 +2546,7 @@ static item_location get_item_location( player &p, item &it, const tripoint &pos
     if( const optional_vpart_position &vp = get_map().veh_at( pos ) ) {
         vehicle_cursor vc( vp->vehicle(), vp->part_index() );
         bool found_in_vehicle = false;
-        vc.visit_items( [&]( const item * e ) {
+        vc.visit_items( [&]( const item * e, item * ) {
             if( e == &it ) {
                 found_in_vehicle = true;
                 return VisitResponse::ABORT;
@@ -2519,7 +2559,7 @@ static item_location get_item_location( player &p, item &it, const tripoint &pos
     }
 
     // Item on the map
-    return item_location( pos, &it );
+    return item_location( map_cursor( pos ), &it );
 }
 
 int repair_item_actor::use( player &p, item &it, bool, const tripoint &position ) const
@@ -2542,16 +2582,28 @@ std::unique_ptr<iuse_actor> repair_item_actor::clone() const
     return std::make_unique<repair_item_actor>( *this );
 }
 
+std::set<itype_id> repair_item_actor::get_valid_repair_materials( const item &fix ) const
+{
+    std::set<itype_id> valid_entries;
+    for( const auto &mat : materials ) {
+        if( fix.made_of( mat ) ) {
+            const itype_id &component_id = mat.obj().repaired_with();
+            // Certain (different!) materials are repaired with the same components (steel, iron, hard steel use scrap metal).
+            // This checks avoids adding the same component twice, which is annoying to the user.
+            if( valid_entries.find( component_id ) != valid_entries.end() ) {
+                continue;
+            }
+            valid_entries.insert( component_id );
+        }
+    }
+    return valid_entries;
+}
+
 bool repair_item_actor::handle_components( player &pl, const item &fix,
         bool print_msg, bool just_check ) const
 {
     // Entries valid for repaired items
-    std::set<material_id> valid_entries;
-    for( const auto &mat : materials ) {
-        if( fix.made_of( mat ) ) {
-            valid_entries.insert( mat );
-        }
-    }
+    std::set<itype_id> valid_entries = get_valid_repair_materials( fix );
 
     if( valid_entries.empty() ) {
         if( print_msg ) {
@@ -2588,15 +2640,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
 
     // Go through all discovered repair items and see if we have any of them available
     std::vector<item_comp> comps;
-    for( const auto &entry : valid_entries ) {
-        const itype_id &component_id = entry.obj().repaired_with();
-        // Certain (different!) materials are repaired with the same components (steel, iron, hard steel use scrap metal).
-        // This checks avoids adding the same component twice, which is annoying to the user.
-        if( std::find_if( comps.begin(), comps.end(), [&]( const item_comp & ic ) {
-        return ic.type == component_id;
-    } ) != comps.end() ) {
-            continue;
-        }
+    for( const auto &component_id : valid_entries ) {
         if( item::count_by_charges( component_id ) ) {
             if( crafting_inv.has_charges( component_id, items_needed ) ) {
                 comps.emplace_back( component_id, items_needed );
@@ -2608,8 +2652,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
 
     if( comps.empty() ) {
         if( print_msg ) {
-            for( const auto &entry : valid_entries ) {
-                const auto &mat_comp = entry.obj().repaired_with();
+            for( const auto &mat_comp : valid_entries ) {
                 pl.add_msg_if_player( m_info,
                                       _( "You don't have enough %s to do that.  Have: %d, need: %d" ),
                                       item::nname( mat_comp, 2 ),
@@ -2919,6 +2962,11 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     pl.practice( used_skill, practice_amount, trains_skill_to );
 
     if( roll == FAILURE ) {
+        if( chance.first <= 0.0f ) {
+            pl.add_msg_if_player( m_bad,
+                                  _( "It seems working on your %s is just beyond your current level of expertise." ),
+                                  fix->tname() );
+        }
         return damage_item( pl, fix ) ? AS_DESTROYED : AS_FAILURE;
     }
 
@@ -3784,8 +3832,8 @@ int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) con
 {
     if( p.can_install_bionics( *it.type, p, false ) ) {
         if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
-            p.consume_installation_requirment( it.type->bionic->id );
-            p.consume_anesth_requirment( *it.type, p );
+            p.consume_installation_requirement( it.type->bionic->id );
+            p.consume_anesth_requirement( *it.type, p );
         }
         return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
     } else {
@@ -4264,16 +4312,10 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     const auto valid_mods = mod.find_armor_data()->valid_mods;
 
-    const auto get_compare_color = [&]( const int before, const int after,
+    const auto get_compare_color = [&]( const float before, const float after,
     const bool higher_is_better ) {
         return before == after ? c_unset : ( ( after > before ) == higher_is_better ? c_light_green :
                                              c_red );
-    };
-
-    const auto format_desc_string = [&]( const std::string & label, const int before, const int after,
-    const bool higher_is_better ) {
-        return colorize( string_format( "%s: %d->%d\n", label, before, after ), get_compare_color( before,
-                         after, higher_is_better ) );
     };
 
     uilist tmenu;
@@ -4327,15 +4369,22 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
             prompt = obj.destroy_prompt.translated();
         }
         std::string desc;
-        desc += format_desc_string( _( "Bash" ), mod.bash_resist(), temp_item.bash_resist(), true );
-        desc += format_desc_string( _( "Cut" ), mod.cut_resist(), temp_item.cut_resist(), true );
-        desc += format_desc_string( _( "Ballistic" ), mod.bullet_resist(), temp_item.bullet_resist(),
-                                    true );
-        desc += format_desc_string( _( "Acid" ), mod.acid_resist(), temp_item.acid_resist(), true );
-        desc += format_desc_string( _( "Fire" ), mod.fire_resist(), temp_item.fire_resist(), true );
-        desc += format_desc_string( _( "Warmth" ), mod.get_warmth(), temp_item.get_warmth(), true );
-        desc += format_desc_string( _( "Encumbrance" ), mod.get_avg_encumber( p ),
-                                    temp_item.get_avg_encumber( p ), false );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Bash" ), mod.bash_resist(),
+                                         temp_item.bash_resist() ), get_compare_color( mod.bash_resist(), temp_item.bash_resist(), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Cut" ), mod.cut_resist(),
+                                         temp_item.cut_resist() ), get_compare_color( mod.cut_resist(), temp_item.cut_resist(), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Ballistic" ), mod.bullet_resist(),
+                                         temp_item.bullet_resist() ), get_compare_color( mod.bullet_resist(), temp_item.bullet_resist(),
+                                                 true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Acid" ), mod.acid_resist(),
+                                         temp_item.acid_resist() ), get_compare_color( mod.acid_resist(), temp_item.acid_resist(), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Fire" ), mod.fire_resist(),
+                                         temp_item.fire_resist() ), get_compare_color( mod.fire_resist(), temp_item.fire_resist(), true ) );
+        desc += colorize( string_format( "%s: %d->%d\n", _( "Warmth" ), mod.get_warmth(),
+                                         temp_item.get_warmth() ), get_compare_color( mod.get_warmth(), temp_item.get_warmth(), true ) );
+        desc += colorize( string_format( "%s: %d->%d\n", _( "Encumbrance" ), mod.get_avg_encumber( p ),
+                                         temp_item.get_avg_encumber( p ) ), get_compare_color( mod.get_avg_encumber( p ),
+                                                 temp_item.get_avg_encumber( p ), false ) );
 
         tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc );
     }
