@@ -2,7 +2,7 @@
   {
     "id": "afs_25mm_shot",
     "type": "AMMO",
-    "name": { "str_sp": "25x40mm canister shot" },
+    "name": { "str_sp": "25mm canister shot" },
     "description": "25x40mm caseless rounds.  The most common type of ammo used for high-gauge shotguns and light grenade launchers.",
     "weight": "130 g",
     "volume": "230 ml",
