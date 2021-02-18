@@ -382,6 +382,8 @@
         [ "can_corn", 1 ],
         [ "hominy", 1 ],
         [ "dry_veggy", 1 ],
+        [ "dry_corn", 1 ],
+        [ "corn_kernels", 1 ],
         [ "con_milk", 1 ],
         [ "flatbread", 1 ],
         [ "tortilla_corn", 1 ],
@@ -447,8 +449,11 @@
       [
         [ "veggy_wild", 2 ],
         [ "veggy", 2 ],
+        [ "corn_kernels", 2 ],
         [ "rehydrated_veggy", 2 ],
+        [ "rehydrated_corn_kernels", 2 ],
         [ "dry_veggy", 2 ],
+        [ "dry_corn", 2 ],
         [ "dry_beans", 2 ],
         [ "can_beans", 2 ],
         [ "raw_beans", 2 ],
@@ -665,6 +670,8 @@
         [ "raw_dandelion", 1 ],
         [ "raw_burdock", 1 ],
         [ "rehydrated_veggy", 1 ],
+        [ "rehydrated_corn_kernels", 1 ],
+        [ "corn_kernels", 1 ],
         [ "veggy", 1 ],
         [ "veggy_wild", 1 ],
         [ "veggy_salted", 1 ],
@@ -675,7 +682,7 @@
   {
     "id": "veggy_any_uncooked",
     "type": "requirement",
-    "components": [ [ [ "rehydrated_veggy", 1 ], [ "veggy_any_fresh_uncooked", 1, "LIST" ] ] ]
+    "components": [ [ [ "rehydrated_veggy", 1 ], [ "rehydrated_corn_kernels", 1 ], [ "veggy_any_fresh_uncooked", 1, "LIST" ] ] ]
   },
   {
     "id": "veggy_any_fresh_uncooked",
@@ -691,8 +698,7 @@
         [ "cattail_stalk", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
-        [ "corn", 1 ],
-        [ "irradiated_corn", 1 ],
+        [ "corn_kernels", 1 ],
         [ "cucumber", 1 ],
         [ "irradiated_cucumber", 1 ],
         [ "lettuce", 1 ],
@@ -750,6 +756,8 @@
     "components": [
       [
         [ "veggy_any", 1, "LIST" ],
+        [ "empty_corn_cob", 1 ],
+        [ "corn", 1 ],
         [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],
         [ "egg_reptile", 1 ],
