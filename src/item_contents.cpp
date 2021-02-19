@@ -1009,12 +1009,33 @@ void item_contents::remove_items_if( const std::function<bool( item & )> &filter
     }
 }
 
-std::list<item *> item_contents::all_items_top( item_pocket::pocket_type pk_type )
+std::list<item *> item_contents::all_items_top( const std::function<bool( item_pocket & )> &filter )
 {
     std::list<item *> all_items_internal;
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pk_type ) ) {
+        if( filter( pocket ) ) {
             std::list<item *> contained_items = pocket.all_items_top();
+            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
+                                       contained_items.end() );
+        }
+    }
+    return all_items_internal;
+}
+
+std::list<item *> item_contents::all_items_top( item_pocket::pocket_type pk_type )
+{
+    return all_items_top( [pk_type]( item_pocket & pocket ) {
+        return pocket.is_type( pk_type );
+    } );
+}
+
+std::list<const item *> item_contents::all_items_top( const
+        std::function<bool( const item_pocket & )> &filter ) const
+{
+    std::list<const item *> all_items_internal;
+    for( const item_pocket &pocket : contents ) {
+        if( filter( pocket ) ) {
+            std::list<const item *> contained_items = pocket.all_items_top();
             all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
                                        contained_items.end() );
         }
@@ -1024,28 +1045,16 @@ std::list<item *> item_contents::all_items_top( item_pocket::pocket_type pk_type
 
 std::list<const item *> item_contents::all_items_top( item_pocket::pocket_type pk_type ) const
 {
-    std::list<const item *> all_items_internal;
-    for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pk_type ) ) {
-            std::list<const item *> contained_items = pocket.all_items_top();
-            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
-                                       contained_items.end() );
-        }
-    }
-    return all_items_internal;
+    return all_items_top( [pk_type]( const item_pocket & pocket ) {
+        return pocket.is_type( pk_type );
+    } );
 }
 
 std::list<const item *> item_contents::all_standard_items_top() const
 {
-    std::list<const item *> all_items_internal;
-    for( const item_pocket &pocket : contents ) {
-        if( pocket.is_standard_type() ) {
-            std::list<const item *> contained_items = pocket.all_items_top();
-            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
-                                       contained_items.end() );
-        }
-    }
-    return all_items_internal;
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_standard_type();
+    } );
 }
 
 std::list<item *> item_contents::all_items_top()

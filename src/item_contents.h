@@ -65,6 +65,14 @@ class item_contents
         // number of pockets
         size_t size() const;
 
+    private:
+        /** returns a list of pointers to all top-level items from pockets that match the predicate */
+        std::list<item *> all_items_top( const std::function<bool( item_pocket & )> &filter );
+        /** returns a list of pointers to all top-level items from pockets that match the predicate */
+        std::list<const item *> all_items_top( const std::function<bool( const item_pocket & )> &filter )
+        const;
+
+    public:
         /** returns a list of pointers to all top-level items */
         std::list<item *> all_items_top( item_pocket::pocket_type pk_type );
         /** returns a list of pointers to all top-level items */
