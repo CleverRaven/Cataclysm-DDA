@@ -137,6 +137,7 @@ enum class relic_recharge : int {
     none,
     periodic,
     solar_sunny,
+    worn,
     num
 };
 

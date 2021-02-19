@@ -61,6 +61,8 @@ The various ways this artifact can charge and use charges.
 
 - **none** This artifact does not recharge
 - **periodic** This artifact takes 'time' amount of time to recharge
+- **solar_sunny** This artifact takes 'time' amount of time to recharge, only recharges if weather is sunny and character is outside
+- **worn** This artifact takes 'time' amount of time to recharge, only recharges if item is worn or wielded
 
 ### passive_add_procgen_values and passive_mult_procgen_values
 
