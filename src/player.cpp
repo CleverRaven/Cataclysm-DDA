@@ -2396,7 +2396,7 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     // if index not specified and container has multiple items then ask the player to choose one
     if( internal_item == nullptr ) {
         std::vector<std::string> opts;
-        std::list<item *> container_contents = container.contents.all_items_top();
+        std::list<item *> container_contents = container.all_items_top();
         std::transform( container_contents.begin(), container_contents.end(),
         std::back_inserter( opts ), []( const item * elem ) {
             return elem->display_name();

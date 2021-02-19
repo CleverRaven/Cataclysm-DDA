@@ -453,7 +453,7 @@ static std::vector<const item *> get_eligible_containers_recursive( const item &
     if( is_container_eligible_for_crafting( cont, allow_bucket ) ) {
         ret.push_back( &cont );
     }
-    for( const item *it : cont.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( const item *it : cont.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         //buckets are never allowed when inside another container
         std::vector<const item *> inside = get_eligible_containers_recursive( *it, false );
         ret.insert( ret.end(), inside.begin(), inside.end() );
@@ -1656,7 +1656,7 @@ static void empty_buckets( Character &p )
         return it.is_bucket_nonempty() && &it != &p.weapon;
     }, INT_MAX );
     for( auto &it : buckets ) {
-        for( const item *in : it.contents.all_items_top() ) {
+        for( const item *in : it.all_items_top() ) {
             drop_or_handle( *in, p );
         }
 

@@ -1058,68 +1058,6 @@ std::list<const item *> item_contents::all_items_top() const
     } );
 }
 
-std::list<item *> item_contents::all_items_ptr( item_pocket::pocket_type pk_type )
-{
-    return all_items_top_recursive( pk_type );
-}
-
-std::list<const item *> item_contents::all_items_ptr( item_pocket::pocket_type pk_type ) const
-{
-    return all_items_top_recursive( pk_type );
-}
-
-std::list<const item *> item_contents::all_items_ptr() const
-{
-    std::list<const item *> all_items_internal;
-    for( int i = static_cast<int>( item_pocket::pocket_type::CONTAINER );
-         i < static_cast<int>( item_pocket::pocket_type::LAST ); i++ ) {
-        std::list<const item *> inserted{ all_items_top_recursive( static_cast<item_pocket::pocket_type>( i ) ) };
-        all_items_internal.insert( all_items_internal.end(), inserted.begin(), inserted.end() );
-    }
-    return all_items_internal;
-}
-
-std::list<const item *> item_contents::all_items_top_recursive( item_pocket::pocket_type pk_type )
-const
-{
-    std::list<const item *> all_items_internal;
-    for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pk_type ) ) {
-            std::list<const item *> contained_items = pocket.all_items_top();
-            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
-                                       contained_items.end() );
-            std::list<const item *> recursion_items;
-            for( const item *it : contained_items ) {
-                recursion_items = it->contents.all_items_top_recursive( pk_type );
-                all_items_internal.insert( all_items_internal.end(), recursion_items.begin(),
-                                           recursion_items.end() );
-            }
-        }
-    }
-
-    return all_items_internal;
-}
-
-std::list<item *> item_contents::all_items_top_recursive( item_pocket::pocket_type pk_type )
-{
-    std::list< item *> all_items_internal;
-    for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pk_type ) ) {
-            std::list< item *> contained_items = pocket.all_items_top();
-            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
-                                       contained_items.end() );
-            std::list< item *> recursion_items;
-            for( item *it : contained_items ) {
-                recursion_items = it->contents.all_items_top_recursive( pk_type );
-                all_items_internal.insert( all_items_internal.end(), recursion_items.begin(),
-                                           recursion_items.end() );
-            }
-        }
-    }
-
-    return all_items_internal;
-}
-
 item &item_contents::legacy_front()
 {
     if( empty() ) {

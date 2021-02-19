@@ -546,7 +546,7 @@ class item_location::impl::item_in_container : public item_location::impl
         // note: could be a better way of handling this?
         int calc_index() const {
             int idx = 0;
-            for( const item *it : container->contents.all_items_top() ) {
+            for( const item *it : container->all_items_top() ) {
                 if( target() == it ) {
                     return idx;
                 }
@@ -577,7 +577,7 @@ class item_location::impl::item_in_container : public item_location::impl
             if( idx < 0 || static_cast<size_t>( idx ) >= target()->contents.num_item_stacks() ) {
                 return nullptr;
             }
-            std::list<const item *> all_items = container->contents.all_items_ptr();
+            std::list<const item *> all_items = container->all_items_ptr();
             auto iter = all_items.begin();
             std::advance( iter, idx );
             if( iter != all_items.end() ) {
@@ -783,7 +783,7 @@ void item_location::deserialize( JsonIn &js )
             ptr.reset( new impl::item_on_map( map_cursor( pos ), idx ) ); // drop on ground
             return;
         }
-        const std::list<item *> parent_contents = parent->contents.all_items_top();
+        const std::list<item *> parent_contents = parent->all_items_top();
         if( idx > -1 && idx < static_cast<int>( parent_contents.size() ) ) {
             auto iter = parent_contents.begin();
             std::advance( iter, idx );

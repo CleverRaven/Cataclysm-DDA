@@ -1254,7 +1254,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // reveal hidden items / hidden content
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
         action != butcher_type::BLEED ) {
-        for( item *content : corpse_item.contents.all_items_top() ) {
+        for( item *content : corpse_item.all_items_top() ) {
             if( ( roll_butchery() + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
                 p->add_msg_if_player( m_good, _( "You discover a %1$s in the %2$s!" ), content->tname(),
