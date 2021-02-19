@@ -325,6 +325,15 @@
   },
   {
     "type": "snippet",
+    "category": "<wasp_harvest>",
+    "text": [
+      "<bug_harvest_flying_chitin>.",
+      "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>.",
+      "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>. <bug_harvest_flying_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<firefly_harvest>",
     "text": [
       "<bug_harvest_flying_chitin>.",

@@ -1092,7 +1092,7 @@
   {
     "id": "arachnid_wasp",
     "type": "harvest",
-    "message": "There's a faintly hairy, skin-like membrane, covered in blood vessels, beneath the chitin of this creature.  Inside it is a bundle of bubble-like tissue sacs that appear to be floating, which doesn't fit with what you know about pre-Cataclysm wasps.",
+    "message": "<wasp_harvest>",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
