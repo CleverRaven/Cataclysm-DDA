@@ -192,7 +192,7 @@
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "weight": "3100 g",
-    "volume": "3250 ml",
+    "volume": "1250 ml",
     "longest_side": "160 cm",
     "bashing": 20,
     "cutting": 6,
