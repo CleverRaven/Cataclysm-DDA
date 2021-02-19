@@ -924,5 +924,17 @@
       { "type": "firestarter", "moves": 10, "moves_slow": 100 }
     ],
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "magical_throwing_knife",
+    "copy-from": "throwing_knife",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str": "magical throwing knife", "str_pl": "magical throwing knives" },
+    "description": "A thin and flat knife made for throwing.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
+    "material": [ "superalloy" ],
+    "extend": { "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID" ] },
+    "thrown_damage": [ { "damage_type": "stab", "amount": 15 } ]
   }
 ]
