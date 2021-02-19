@@ -29,6 +29,23 @@
     "vitamins": [  ]
   },
   {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "feces_candy",
+    "symbol": "^",
+    "name": { "str_sp": "sticky sludge" },
+    "charges": 10,
+    "volume": "1000 ml",
+    "weight": "100 g",
+    "color": "white",
+    "looks_like": "ruined_candy",
+    "description": "A pile of weird sticky sludge.  It looks absolutly disgusting but smells kind of sweet.",
+    "material": [ "junk" ],
+    "calories": 10,
+    "fun": -12,
+    "vitamins": [  ]
+  },
+  {
     "id": "rock_candy_chunk",
     "type": "TOOL",
     "category": "spare_parts",
