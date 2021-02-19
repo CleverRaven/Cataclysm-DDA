@@ -31,12 +31,6 @@
 #include "ui.h"
 #include "units.h"
 
-static const std::vector<item_pocket::pocket_type> avail_types{
-    item_pocket::pocket_type::CONTAINER,
-    item_pocket::pocket_type::MAGAZINE,
-    item_pocket::pocket_type::MAGAZINE_WELL
-};
-
 class pocket_favorite_callback : public uilist_callback
 {
     private:
@@ -1050,31 +1044,18 @@ std::list<const item *> item_contents::all_items_top( item_pocket::pocket_type p
     } );
 }
 
-std::list<const item *> item_contents::all_standard_items_top() const
+std::list<item *> item_contents::all_items_top()
 {
     return all_items_top( []( const item_pocket & pocket ) {
         return pocket.is_standard_type();
     } );
 }
 
-std::list<item *> item_contents::all_items_top()
-{
-    std::list<item *> ret;
-    for( const item_pocket::pocket_type pk_type : avail_types ) {
-        std::list<item *> top{ all_items_top( pk_type ) };
-        ret.insert( ret.end(), top.begin(), top.end() );
-    }
-    return ret;
-}
-
 std::list<const item *> item_contents::all_items_top() const
 {
-    std::list<const item *> ret;
-    for( const item_pocket::pocket_type pk_type : avail_types ) {
-        std::list<const item *> top{ all_items_top( pk_type ) };
-        ret.insert( ret.end(), top.begin(), top.end() );
-    }
-    return ret;
+    return all_items_top( []( const item_pocket & pocket ) {
+        return pocket.is_standard_type();
+    } );
 }
 
 std::list<item *> item_contents::all_items_ptr( item_pocket::pocket_type pk_type )

@@ -78,9 +78,6 @@ class item_contents
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
 
-        // returns a list of pointers to all top level items that pass is_standard_type
-        std::list<const item *> all_standard_items_top() const;
-
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<item *> all_items_top();
         /** returns a list of pointers to all top-level items that are not mods */
