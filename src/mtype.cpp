@@ -1,6 +1,8 @@
 #include "mtype.h"
 
 #include <algorithm>
+#include <array>
+#include <cmath>
 #include <unordered_map>
 
 #include "behavior_strategy.h"
@@ -10,7 +12,6 @@
 #include "itype.h"
 #include "mondeath.h"
 #include "monstergenerator.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 

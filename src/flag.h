@@ -2,13 +2,16 @@
 #ifndef CATA_SRC_FLAG_H
 #define CATA_SRC_FLAG_H
 
+#include <iosfwd>
 #include <set>
 #include <string>
+#include <vector>
 
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
+template <typename T> class generic_factory;
 
 extern const flag_id flag_NULL;
 extern const flag_id flag_ACID;
@@ -35,6 +38,7 @@ extern const flag_id flag_BASH_IMMUNE;
 extern const flag_id flag_BELTED;
 extern const flag_id flag_BELT_CLIP;
 extern const flag_id flag_BIO_IMMUNE;
+extern const flag_id flag_BIONIC_INSTALLATION_DATA;
 extern const flag_id flag_BIPOD;
 extern const flag_id flag_BIRD;
 extern const flag_id flag_BLED;
@@ -383,7 +387,7 @@ class json_flag
         }
 
         /** Is this a valid (non-null) flag */
-        operator bool() const;
+        explicit operator bool() const;
 
         void check() const;
 

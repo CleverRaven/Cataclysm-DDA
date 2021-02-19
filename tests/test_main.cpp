@@ -3,16 +3,25 @@
 #define CATCH_CONFIG_IMPL_ONLY
 #endif
 #define CATCH_CONFIG_RUNNER
-#include "catch/catch.hpp"
-
+#include <algorithm>
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <ctime>
-#include <string>
+#include <exception>
+#include <memory>
+#include <ostream>
 #include <string>
 #include <utility>
-#include <utility>
+#include <vector>
+
+#include "calendar.h"
+#include "catch/catch.hpp"
+#include "coordinates.h"
+#ifndef _WIN32
+#include <unistd.h>
+#endif
 
 #include "avatar.h"
 #include "cached_options.h"
@@ -32,13 +41,10 @@
 #include "overmapbuffer.h"
 #include "path_info.h"
 #include "pldata.h"
-#include "point.h"
 #include "rng.h"
 #include "type_id.h"
 #include "weather.h"
 #include "worldfactory.h"
-
-class map;
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;
@@ -126,7 +132,12 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     world_generator->set_active_world( nullptr );
     world_generator->init();
-    WORLDPTR test_world = world_generator->make_new_world( mods );
+#ifndef _WIN32
+    const std::string test_world_name = "Test World " + std::to_string( getpid() );
+#else
+    const std::string test_world_name = "Test World";
+#endif
+    WORLDPTR test_world = world_generator->make_new_world( test_world_name, mods );
     cata_assert( test_world != nullptr );
     world_generator->set_active_world( test_world );
     cata_assert( world_generator->active_world != nullptr );

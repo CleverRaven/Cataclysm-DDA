@@ -3,9 +3,9 @@
 #define CATA_SRC_EDITMAP_H
 
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <memory>
-#include <string>
 #include <vector>
 
 #include "color.h"
@@ -23,7 +23,6 @@ class tinymap;
 class ui_adaptor;
 class uilist;
 class vehicle;
-struct real_coords;
 
 enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,

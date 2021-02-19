@@ -1,10 +1,10 @@
-#include <algorithm>
-#include <cstring>
+#include <cstddef>
 #include <iterator>
 #include <list>
+#include <map>
 #include <memory>
+#include <new>
 #include <set>
-#include <string>
 #include <unordered_map>
 #include <utility>
 
@@ -17,7 +17,6 @@
 #include "field.h"
 #include "field_type.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -25,7 +24,6 @@
 #include "mapdata.h"
 #include "optional.h"
 #include "pimpl.h"
-#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"

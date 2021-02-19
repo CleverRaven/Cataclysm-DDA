@@ -1,6 +1,8 @@
 #include "monexamine.h"
 
-#include <algorithm>
+#include <functional>
+#include <iosfwd>
+#include <list>
 #include <map>
 #include <memory>
 #include <string>
@@ -12,7 +14,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "compatibility.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -37,14 +38,12 @@
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
 static const quality_id qual_SHEAR( "SHEAR" );
 
 static const efftype_id effect_sheared( "sheared" );
 
-static const activity_id ACT_MILK( "ACT_MILK" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 
 static const efftype_id effect_controlled( "controlled" );
@@ -406,7 +405,7 @@ static int prompt_for_amount( const char *const msg, const int max )
     const int amount = string_input_popup()
                        .title( formatted )
                        .width( 20 )
-                       .text( to_string( max ) )
+                       .text( std::to_string( max ) )
                        .only_digits( true )
                        .query_int();
 

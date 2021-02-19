@@ -1,16 +1,18 @@
-#include "catch/catch.hpp"
-
 #include <cstdlib>
+#include <memory>
 #include <utility>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "flag.h"
 #include "item.h"
 #include "itype.h"
+#include "npc.h"
 #include "player_helpers.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 

@@ -1,5 +1,4 @@
-#include "catch/catch.hpp"
-
+#include <functional>
 #include <list>
 #include <memory>
 #include <set>
@@ -7,12 +6,12 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "pimpl.h"
-#include "player.h"
 #include "type_id.h"
 #include "visitable.h"
 

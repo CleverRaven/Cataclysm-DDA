@@ -1,18 +1,26 @@
-#include "catch/catch.hpp"
-
+#include <functional>
+#include <iosfwd>
+#include <map>
 #include <memory>
 #include <set>
 #include <string>
+#include <vector>
 
 #include "avatar.h"
+#include "catch/catch.hpp"
+#include "debug.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "make_static.h"
+#include "player.h"
 #include "player_helpers.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 // Includes functions:
 // item::magazine_compatible

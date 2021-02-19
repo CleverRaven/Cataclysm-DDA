@@ -3,20 +3,23 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <functional>
+#include <iosfwd>
 #include <limits>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
-#include "activity_type.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -32,7 +35,6 @@
 #include "enums.h"
 #include "faction.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -41,6 +43,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
@@ -65,17 +68,16 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -90,6 +92,7 @@ static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_tailor( "tailor" );
 
 static const trait_id trait_BURROW( "BURROW" );
+static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 
@@ -442,10 +445,10 @@ bool Character::check_eligible_containers_for_crafting( const recipe &rec, int b
 
 static bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
 {
-    if( cont.is_watertight_container() && ( allow_bucket || !cont.will_spill() ) ) {
+    if( cont.is_watertight_container() && cont.contents.num_item_stacks() <= 1 && ( allow_bucket ||
+            !cont.will_spill() ) ) {
         return !cont.is_container_full( allow_bucket );
     }
-
     return false;
 }
 
@@ -871,11 +874,12 @@ void Character::craft_skill_gain( const item &craft, const int &multiplier )
     std::vector<npc *> helpers = get_crafting_helpers();
 
     if( making.skill_used ) {
-        // Normalize experience gain to crafting time, giving a bonus for longer crafting
-        const double batch_mult = batch_size + base_time_to_craft( making, batch_size ) / 30000.0;
-        // This is called after every 5% crafting progress, so divide by 20
-        const int base_practice = roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult /
-                                  20.0 ) * multiplier;
+        // Logically speaking, we practice by one point per turn of crafting.
+        // However we don't count turns of crafting added by missing proficiencies,
+        const double nominal_craft_time = making.time_to_craft_moves( *this,
+                                          recipe_time_flag::ignore_proficiencies ) / 100.0;
+        // One tick is 5% of the total, hence / 20.
+        const int base_practice = std::max( 1.0, multiplier * nominal_craft_time / 20.0 );
         const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
         practice( making.skill_used, base_practice, skill_cap, true );
 
@@ -949,6 +953,9 @@ void Character::craft_proficiency_gain( const item &craft, const time_duration &
 
 double Character::crafting_success_roll( const recipe &making ) const
 {
+    if( has_trait( trait_DEBUG_CNF ) ) {
+        return 1.0;
+    }
     int secondary_dice = 0;
     int secondary_difficulty = 0;
     for( const auto &pr : making.required_skills ) {
@@ -1335,10 +1342,12 @@ bool Character::can_continue_craft( item &craft )
         return false;
     }
 
+    return can_continue_craft( craft, craft.get_continue_reqs() );
+}
+
+bool Character::can_continue_craft( item &craft, const requirement_data &continue_reqs )
+{
     const recipe &rec = craft.get_making();
-
-    const requirement_data continue_reqs = craft.get_continue_reqs();
-
     if( !rec.character_has_required_proficiencies( *this ) ) {
         return false;
     }
@@ -2313,7 +2322,10 @@ void Character::disassemble_all( bool one_pass )
 
     bool found_any = false;
     for( item &it : get_map().i_at( pos() ) ) {
-        if( disassemble( item_location( map_cursor( pos() ), &it ), false ) ) {
+        // Prevent disassembling an in process disassembly because it could have been created by a previous iteration of this loop
+        // and choosing to place it on the ground
+        if( it.typeId() != itype_disassembly &&
+            disassemble( item_location( map_cursor( pos() ), &it ), false ) ) {
             found_any = true;
         }
     }
@@ -2356,11 +2368,15 @@ void Character::complete_disassemble( item_location target )
             return;
         }
     }
-    item next_item = *activity.targets.back().get_item();
-
+    item *next_item = activity.targets.back().get_item();
+    if( !next_item || next_item->is_null() ) {
+        debugmsg( "bad item" );
+        activity.set_to_null();
+        return;
+    }
     // Set get and set duration of next uncraft
-    const recipe &next_recipe = recipe_dictionary::get_uncraft( ( next_item.typeId() ==
-                                itype_disassembly ) ? next_item.components.front().typeId() : next_item.typeId() );
+    const recipe &next_recipe = recipe_dictionary::get_uncraft( ( next_item->typeId() ==
+                                itype_disassembly ) ? next_item->components.front().typeId() : next_item->typeId() );
 
     if( !next_recipe ) {
         debugmsg( "bad disassembly recipe" );

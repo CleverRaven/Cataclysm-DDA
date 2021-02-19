@@ -1,29 +1,28 @@
 #include "output.h"
 
+#include <cctype>
+// IWYU pragma: no_include <sys/errno.h>
 #include <algorithm>
 #include <array>
-#include <cctype>
-#include <cerrno>
 #include <cmath>
 #include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <map>
-#include <memory>
+#include <new>
 #include <sstream>
 #include <stack>
 #include <stdexcept>
 #include <string>
-#include <type_traits>
 #include <vector>
 
-#include "cached_options.h"
+#include "cached_options.h" // IWYU pragma: keep
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
+#include "cursesport.h" // IWYU pragma: keep
 #include "cursesdef.h"
-#include "cursesport.h"
 #include "input.h"
 #include "item.h"
 #include "line.h"
@@ -32,6 +31,7 @@
 #include "point.h"
 #include "popup.h"
 #include "rng.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "ui_manager.h"
@@ -1847,14 +1847,13 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
 }
 
 std::pair<std::string, nc_color>
-get_bar( float cur, float max, int width, bool extra_resolution,
+get_bar( const float cur, const float max,
+         const int width, const bool extra_resolution,
          const std::vector<nc_color> &colors )
 {
     std::string result;
-    float status = cur / max;
-    status = status > 1 ? 1 : status;
-    status = status < 0 ? 0 : status;
-    float sw = status * width;
+    const float status = clamp( cur / max, 0.0f, 1.0f );
+    const float sw = status * width;
 
     nc_color col;
     if( !std::isfinite( status ) || colors.empty() ) {
@@ -1866,12 +1865,15 @@ get_bar( float cur, float max, int width, bool extra_resolution,
     }
     if( !std::isfinite( sw ) || sw <= 0 ) {
         result.clear();
-    } else if( sw < 0.5 ) {
-        result = ":";
     } else {
-        result += std::string( sw, '|' );
-        if( extra_resolution && ( sw - static_cast<int>( sw ) >= 0.5 ) ) {
+        const int pipes = static_cast<int>( sw );
+        if( pipes > 0 ) {
+            result += std::string( pipes, '|' );
+        }
+        if( extra_resolution && sw - pipes >= 0.5 ) {
             result += "\\";
+        } else if( pipes == 0 ) {
+            result = ":";
         }
     }
 

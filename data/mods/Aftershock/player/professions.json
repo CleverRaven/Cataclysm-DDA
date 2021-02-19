@@ -31,7 +31,7 @@
     "type": "profession",
     "id": "afs_rating",
     "name": "Rating",
-    "description": "You were a junior crewmember within a freight spaceship.  Without any exceptionably valuable abilities, you spent your workshifts performing miscellaneous maintenance tasks within the ship.  As such, you are moderately skilled at performing all sorts of minor electrical and mechanical repairs, a skillset you hope remains useful planetside…",
+    "description": "You were a junior crewmember on a freight spaceship.  Without any exceptionally valuable abilities, you spent your workshifts performing miscellaneous maintenance tasks within the ship.  As such, you are moderately skilled at performing all sorts of minor electrical and mechanical repairs, a skillset you hope remains useful planetside…",
     "points": 0,
     "copy-from": "mechanic",
     "flags": [ "SCEN_ONLY" ],
@@ -377,7 +377,7 @@
     "type": "profession",
     "id": "afs_cecaelia_scientist",
     "name": "Engineered Deep Sea Explorer",
-    "description": "Created with the exploration of the deep sea in mind Cecaelia are hybridized from cephalopod and fish dna.  While you were mostly spared from the corporate wars by your scientific proclivities, the polite niceties of the surface are mostly forgotten underwater.  You were on dry land when the Cataclysm occurred and you have no idea if it's safer here or beneath the seas.",
+    "description": "Created with the exploration of the deep sea in mind, Cecaelia are hybridized from cephalopod and fish DNA.  While you were mostly spared from the corporate wars by your scientific proclivities, the polite niceties of the surface are mostly forgotten underwater.  You were on dry land when the Cataclysm occurred and you have no idea if it's safer here or beneath the seas.",
     "points": 7,
     "skills": [
       { "level": 4, "name": "chemistry" },

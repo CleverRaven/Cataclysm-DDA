@@ -1,10 +1,10 @@
+#include "game.h" // IWYU pragma: associated
+
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
 
 #include "avatar.h"
 #include "debug.h"
-#include "game.h" // IWYU pragma: associated
 #include "map.h"
 #include "messages.h"
 #include "rng.h"
@@ -12,7 +12,6 @@
 #include "tileray.h"
 #include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -145,7 +144,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
         mdir.init( dir.xy() );
         grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
-        grabbed_vehicle->face = grabbed_vehicle->turn_dir;
+        grabbed_vehicle->face = tileray( grabbed_vehicle->turn_dir );
         grabbed_vehicle->precalc_mounts( 1, mdir.dir(), grabbed_vehicle->pivot_point() );
 
         // Grabbed part has to stay at distance 1 to the player

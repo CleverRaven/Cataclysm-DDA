@@ -525,6 +525,12 @@
     ]
   },
   {
+    "id": "charged_inhaler",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "inhaler", "charges": 100 } ]
+  },
+  {
     "id": "fuel_barrel",
     "type": "item_group",
     "//": "barrel with gasoline, diesel or motor oil like you would find at fuel depot",
@@ -566,6 +572,10 @@
     "id": "autodoc_supplies",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "anesthetic_kit", "charges": [ 0, 6000 ] } ]
+    "entries": [
+      { "item": "anesthetic_kit", "charges": [ 0, 6000 ] },
+      { "item": "arm_splint", "count": [ 1, 3 ] },
+      { "item": "leg_splint", "count": [ 1, 3 ] }
+    ]
   }
 ]

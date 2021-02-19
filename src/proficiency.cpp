@@ -1,15 +1,18 @@
 #include "proficiency.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstddef>
+#include <string>
 #include <utility>
 
 #include "debug.h"
 #include "generic_factory.h"
+#include "json.h"
 
 const float book_proficiency_bonus::default_time_factor = 0.5f;
 const float book_proficiency_bonus::default_fail_factor = 0.5f;
-const float book_proficiency_bonus::default_include_prereqs = true;
+const bool book_proficiency_bonus::default_include_prereqs = true;
 
 namespace
 {

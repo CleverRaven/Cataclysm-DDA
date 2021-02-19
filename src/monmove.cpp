@@ -1,12 +1,16 @@
 // Monster movement code; essentially, the AI
+#include "monster.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cfloat>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <list>
 #include <memory>
 #include <ostream>
+#include <string>
 #include <unordered_map>
 
 #include "behavior.h"
@@ -14,22 +18,22 @@
 #include "cached_options.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "colony.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "field.h"
 #include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mattack_common.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monfaction.h"
-#include "monster.h" // IWYU pragma: associated
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"
@@ -40,7 +44,6 @@
 #include "scent_map.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "tileray.h"
 #include "translations.h"
 #include "trap.h"
@@ -65,8 +68,6 @@ static const efftype_id effect_stunned( "stunned" );
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
-static const species_id species_INSECT( "INSECT" );
-static const species_id species_SPIDER( "SPIDER" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
@@ -1558,19 +1559,19 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
 
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = g->critter_at( destination, is_hallucination() );
-    if( here.has_flag( "CLIMBABLE", destination ) ) {
+    if( here.has_flag( TFLAG_CLIMBABLE, destination ) ) {
         if( here.impassable( destination ) && critter == nullptr ) {
             if( flies() ) {
                 moves -= 100;
                 force = true;
                 add_msg_if_player_sees( *this, _( "The %1$s flies over the %2$s." ), name(),
-                                        here.has_flag_furn( "CLIMBABLE", p ) ? here.furnname( p ) :
+                                        here.has_flag_furn( TFLAG_CLIMBABLE, p ) ? here.furnname( p ) :
                                         here.tername( p ) );
             } else if( climbs() ) {
                 moves -= 150;
                 force = true;
                 add_msg_if_player_sees( *this, _( "The %1$s climbs over the %2$s." ), name(),
-                                        here.has_flag_furn( "CLIMBABLE", p ) ? here.furnname( p ) :
+                                        here.has_flag_furn( TFLAG_CLIMBABLE, p ) ? here.furnname( p ) :
                                         here.tername( p ) );
             }
         }
@@ -1642,17 +1643,17 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     if( type->size != creature_size::tiny && on_ground ) {
         const int sharp_damage = rng( 1, 10 );
         const int rough_damage = rng( 1, 2 );
-        if( here.has_flag( "SHARP", pos() ) && !one_in( 4 ) &&
+        if( here.has_flag( TFLAG_SHARP, pos() ) && !one_in( 4 ) &&
             get_armor_cut( bodypart_id( "torso" ) ) < sharp_damage ) {
             apply_damage( nullptr, bodypart_id( "torso" ), sharp_damage );
         }
-        if( here.has_flag( "ROUGH", pos() ) && one_in( 6 ) &&
+        if( here.has_flag( TFLAG_ROUGH, pos() ) && one_in( 6 ) &&
             get_armor_cut( bodypart_id( "torso" ) ) < rough_damage ) {
             apply_damage( nullptr, bodypart_id( "torso" ), rough_damage );
         }
     }
 
-    if( here.has_flag( "UNSTABLE", destination ) && on_ground ) {
+    if( here.has_flag( TFLAG_UNSTABLE, destination ) && on_ground ) {
         add_effect( effect_bouldering, 1_turns, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
@@ -1669,10 +1670,10 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         return true;
     }
     if( !will_be_water && ( digs() || can_dig() ) ) {
-        underwater = here.has_flag( "DIGGABLE", pos() );
+        underwater = here.has_flag( TFLAG_DIGGABLE, pos() );
     }
     // Diggers turn the dirt into dirtmound
-    if( digging() && here.has_flag( "DIGGABLE", pos() ) ) {
+    if( digging() && here.has_flag( TFLAG_DIGGABLE, pos() ) ) {
         int factor = 0;
         switch( type->size ) {
             case creature_size::tiny:

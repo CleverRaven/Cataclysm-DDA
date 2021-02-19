@@ -1,28 +1,32 @@
+#include "player.h" // IWYU pragma: associated
+
 #include <algorithm>
-#include <array>
+#include <climits>
 #include <cstddef>
+#include <functional>
 #include <iterator>
 #include <memory>
+#include <new>
 #include <string>
 #include <vector>
 
+#include "activity_type.h"
 #include "bodypart.h"
 #include "catacharset.h" // used for utf8_width()
 #include "character.h"
 #include "color.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
 #include "flat_set.h"
 #include "game_inventory.h"
 #include "input.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "line.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player.h" // IWYU pragma: associated
 #include "player_activity.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -307,15 +311,15 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
     const std::string space = "  ";
     prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
     prot.push_back( name_and_value( space + _( "Bash:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.bash_resist() ) ), width ) );
+                                    string_format( "%.2f", worn_item.bash_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Cut:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.cut_resist() ) ), width ) );
+                                    string_format( "%.2f", worn_item.cut_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Ballistic:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.bullet_resist() ) ), width ) );
+                                    string_format( "%.2f", worn_item.bullet_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Acid:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.acid_resist() ) ), width ) );
+                                    string_format( "%.2f", worn_item.acid_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Fire:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.fire_resist() ) ), width ) );
+                                    string_format( "%.2f", worn_item.fire_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Environmental:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.get_env_resist() ) ), width ) );
     return prot;
@@ -818,28 +822,34 @@ void player::sort_armor()
         } else if( action == "EQUIP_ARMOR" ) {
             // filter inventory for all items that are armor/clothing
             item_location loc = game_menus::inv::wear( *this );
-
             // only equip if something valid selected!
             if( loc ) {
-                // wear the item
-                cata::optional<std::list<item>::iterator> new_equip_it =
-                    wear( loc.obtain( *this ) );
-                if( new_equip_it ) {
-                    const bodypart_id &bp = armor_cat[ tabindex ];
-                    if( tabindex == num_of_parts || ( **new_equip_it ).covers( bp ) ) {
-                        // Set ourselves up to be pointing at the new item
-                        // TODO: This doesn't work yet because we don't save our
-                        // state through other activities, but that's a thing
-                        // that would be nice to do.
-                        leftListIndex =
-                            std::count_if( worn.begin(), *new_equip_it,
-                        [&]( const item & i ) {
-                            return tabindex == num_of_parts || i.covers( bp );
-                        } );
+                // store the item name just in case obtain() fails
+                const std::string item_name = loc->display_name();
+                item_location obtained = loc.obtain( *this );
+                if( obtained ) {
+                    // wear the item
+                    cata::optional<std::list<item>::iterator> new_equip_it =
+                        wear( obtained );
+                    if( new_equip_it ) {
+                        const bodypart_id &bp = armor_cat[tabindex];
+                        if( tabindex == num_of_parts || ( **new_equip_it ).covers( bp ) ) {
+                            // Set ourselves up to be pointing at the new item
+                            // TODO: This doesn't work yet because we don't save our
+                            // state through other activities, but that's a thing
+                            // that would be nice to do.
+                            leftListIndex =
+                                std::count_if( worn.begin(), *new_equip_it,
+                            [&]( const item & i ) {
+                                return tabindex == num_of_parts || i.covers( bp );
+                            } );
+                        }
+                    } else if( is_npc() ) {
+                        // TODO: Pass the reason here
+                        popup( _( "Can't put this on!" ) );
                     }
-                } else if( is_npc() ) {
-                    // TODO: Pass the reason here
-                    popup( _( "Can't put this on!" ) );
+                } else {
+                    add_msg_if_player( "You chose not to wear the %s.", item_name );
                 }
             }
         } else if( action == "EQUIP_ARMOR_HERE" ) {

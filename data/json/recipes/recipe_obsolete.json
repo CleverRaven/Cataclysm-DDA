@@ -2725,5 +2725,20 @@
     "type": "recipe",
     "result": "mp3",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "towel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cs_lajatang_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ecs_lajatang_off",
+    "obsolete": true
   }
 ]

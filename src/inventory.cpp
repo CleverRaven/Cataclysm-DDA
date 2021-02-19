@@ -1,10 +1,11 @@
 #include "inventory.h"
 
 #include <algorithm>
-#include <climits>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
-#include <memory>
+#include <string>
+#include <type_traits>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -14,13 +15,11 @@
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
-#include "flat_set.h"
-#include "game.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "inventory_ui.h" // auto inventory blocking
 #include "item_contents.h"
 #include "item_pocket.h"
+#include "item_stack.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -35,7 +34,6 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "vehicle.h"
 #include "vpart_position.h"
 
 static const itype_id itype_aspirin( "aspirin" );

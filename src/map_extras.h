@@ -3,6 +3,7 @@
 #define CATA_SRC_MAP_EXTRAS_H
 
 #include <cstdint>
+#include <iosfwd>
 #include <string>
 #include <unordered_map>
 

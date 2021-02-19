@@ -183,7 +183,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "UPS_off",
     "name": { "str": "UPS", "str_pl": "UPS's" },
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn around to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has it's own custom battery, with higher capacity and rechargeable, but not removeable",
+    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable",
     "coverage": 5,
     "ammo": [ "battery" ],
     "encumbrance": 2,
@@ -409,24 +409,5 @@
     "symbol": "H",
     "color": "light_gray",
     "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "alien_battery",
-    "type": "MAGAZINE",
-    "category": "spare_parts",
-    "name": { "str": "alien cell" },
-    "description": "A conical device salvaged from an alien artifact.  Grooves etched on its circular face slowly pulse with purple light.",
-    "weight": "1000 g",
-    "volume": "1225ml",
-    "price": 100000,
-    "price_postapoc": 5000,
-    "material": [ "iron", "plastic" ],
-    "symbol": "=",
-    "color": "yellow",
-    "ammo_type": [ "battery" ],
-    "capacity": 4500,
-    "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4500 } } ]
   }
 ]

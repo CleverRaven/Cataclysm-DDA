@@ -3,13 +3,14 @@
 #include <algorithm>
 #include <iterator>
 #include <map>
-#include <memory>
+#include <string>
 #include <type_traits>
 
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "input.h"
@@ -25,7 +26,6 @@
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
@@ -44,7 +44,7 @@ class pocket_favorite_callback : public uilist_callback
         // whitelist or blacklist, for interactions
         bool whitelist = true;
     public:
-        pocket_favorite_callback( std::list<item_pocket> *pockets ) : pockets( pockets ) {}
+        explicit pocket_favorite_callback( std::list<item_pocket> *pockets ) : pockets( pockets ) {}
         void refresh( uilist *menu ) override;
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
 };
@@ -349,9 +349,7 @@ void item_contents::combine( const item_contents &read_input, const bool convert
     }
 
     for( const item &uninserted_item : uninserted_items ) {
-        if( !insert_item( uninserted_item, item_pocket::pocket_type::MOD ).success() ) {
-            insert_item( uninserted_item, item_pocket::pocket_type::MIGRATION );
-        }
+        insert_item( uninserted_item, item_pocket::pocket_type::MIGRATION );
     }
 }
 

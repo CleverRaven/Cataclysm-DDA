@@ -58,7 +58,8 @@
     "bash_protec": [ [ "eyes", 3 ] ],
     "cut_protec": [ [ "eyes", 3 ] ],
     "bullet_protec": [ [ "eyes", 3 ] ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "social_modifiers": { "intimidate": 10 }
   },
   {
     "id": "bio_armor_head",
@@ -132,7 +133,8 @@
     "name": { "str": "Optical Dampers" },
     "description": "The lenses surgically installed over your eyes can be tinted to block out incoming light.",
     "included": true,
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "BLIND" ]
   },
   {
     "id": "bio_blood_anal",
@@ -298,7 +300,8 @@
     "name": { "str": "Bionic-Induced Deformity" },
     "description": "A combination of poor surgical installation and unpleasant scarring has lead to the malfunctioning bionic catastrophe you call your face.  People who mind that you look like a dime-store Frankenstein will react poorly to your appearance.",
     "occupied_bodyparts": [ [ "head", 4 ], [ "mouth", 1 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "social_modifiers": { "persuade": -50, "intimidate": 20 }
   },
   {
     "id": "bio_dex_enhancer",
@@ -316,7 +319,7 @@
     "description": "You have been outfitted with three synthetic stomachs and industrial-grade intestines.  Not only can you extract much more nutrition from food, but you are highly resistant to foodborne illness, and can sometimes eat rotten food.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "vitamin_absorb_mod": 1.5,
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "PARAIMMUNE", "IMMUNE_SPOIL" ]
   },
   {
     "id": "bio_dis_acid",
@@ -346,9 +349,10 @@
     "id": "bio_earplugs",
     "type": "bionic",
     "name": { "str": "Sound Dampeners" },
-    "description": "When this bionic is active, you can block hearing completely (with Enhanced Hearing deactivated) or dampen sound slightly (with Enhanced Hearing activated).",
+    "description": "When this bionic is active, you can block hearing completely.",
     "included": true,
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "DEAF" ]
   },
   {
     "id": "bio_ears",
@@ -356,7 +360,7 @@
     "name": { "str": "Enhanced Hearing" },
     "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing.",
     "occupied_bodyparts": [ [ "head", 3 ] ],
-    "flags": [ "BIONIC_TOGGLED" ],
+    "flags": [ "BIONIC_TOGGLED", "IMMUNE_HEARING_DAMAGE", "SUPER_HEARING" ],
     "included_bionics": [ "bio_earplugs" ]
   },
   {
@@ -415,6 +419,7 @@
     "name": { "str": "Telescopic Eyes" },
     "description": "Much of the material in your inner eye has been surgically removed and replaced with an array of high-powered, auto-focusing lenses.  They function as integrated binoculars, letting you see much farther than before, and any vision problems you might have had are now gone.",
     "occupied_bodyparts": [ [ "eyes", 2 ] ],
+    "flags": [ "ENHANCED_VISION" ],
     "canceled_mutations": [
       "HYPEROPIC",
       "MYOPIC",
@@ -443,7 +448,8 @@
     "type": "bionic",
     "name": { "str": "Facial Distortion" },
     "description": "Through controlled application of electrochemical impulses, you are capable of altering your facial structure so as to subtly affect the reactions of others.  This grants a bonus to all social interactions.",
-    "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ]
+    "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
+    "social_modifiers": { "persuade": 10, "lie": 20, "intimidate": 10 }
   },
   {
     "id": "bio_faraday",
@@ -463,6 +469,7 @@
       [ "foot_r", 1 ]
     ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "active_flags": [ "ELECTRIC_IMMUNE" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
     "time": 1
@@ -596,6 +603,7 @@
     "description": "Your range of vision extends into the infrared, allowing you to see warm-blooded creatures in the dark or through smoke.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "INFRARED" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
     "time": 1
@@ -677,7 +685,7 @@
     "name": { "str": "Nictating Membrane" },
     "description": "Your eyes have a thin membrane that closes over your eyes while underwater, negating any vision penalties.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE", "EYE_MEMBRANE" ]
   },
   {
     "id": "bio_memory",
@@ -739,6 +747,7 @@
     "description": "When active, this bionic will amplify existing light, allowing you to see in the dark.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "NIGHT_VISION" ],
     "act_cost": "10 J",
     "react_cost": "10 J",
     "time": 1
@@ -914,6 +923,7 @@
     "description": "While this system is powered, your body will produce very little odor, making it nearly impossible for creatures to track you by scent.",
     "occupied_bodyparts": [ [ "torso", 3 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "NO_SCENT" ],
     "act_cost": 1,
     "react_cost": 1,
     "time": 60
@@ -932,6 +942,7 @@
     "name": { "str": "Synaptic Regeneration System" },
     "description": "An electromagnetic stimulator has been surgically implanted on the back of your head and along your spine, continually draining power.  As long as it's active, you won't become sleep deprived; and if you're sleep deprived already, it will boost the rate of recovery while you sleep.",
     "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "STOP_SLEEP_DEPRIVATION" ],
     "occupied_bodyparts": [ [ "head", 1 ], [ "torso", 1 ] ],
     "act_cost": 0,
     "react_cost": "1 kJ",
@@ -1029,7 +1040,7 @@
     "description": "Your eyes have quick-reacting transition lenses surgically installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "included_bionics": [ "bio_blindfold" ],
-    "flags": [ "BIONIC_NPC_USABLE" ],
+    "flags": [ "BIONIC_NPC_USABLE", "GLARE_RESIST" ],
     "fake_item": "fake_goggles"
   },
   {
@@ -1147,14 +1158,16 @@
     "name": { "str": "Voice Remodulator" },
     "description": "You will likely spend the rest of your days serving as a walking testament to why you don't opt for the Autodoc's 'Cyborg Identity Package'.  A remodulator unit jammed down your throat has given you a creepy robot voice.",
     "occupied_bodyparts": [ [ "torso", 2 ], [ "mouth", 1 ] ],
-    "flags": [ "BIONIC_FAULTY" ]
+    "flags": [ "BIONIC_FAULTY" ],
+    "social_modifiers": { "persuade": -20, "lie": 10, "intimidate": 20 }
   },
   {
     "id": "bio_watch",
     "type": "bionic",
     "name": { "str": "Internal Chronometer" },
     "description": "You have been equipped with an internal atomic clock, ensuring that you will always know the current time.  Additionally, it includes a silent alarm clock function.",
-    "occupied_bodyparts": [ [ "head", 1 ] ]
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "WATCH", "ALARMCLOCK" ]
   },
   {
     "id": "bio_water_extractor",
@@ -1183,7 +1196,8 @@
     "type": "bionic",
     "name": { "str": "Intravenous Needletip" },
     "description": "The flesh of the inside of your middle finger has been replaced with a tube leading into your arteries, with a retractable needle extending out of the tip of the finger when clenched.  This lets you pump intravenous drugs like morphine directly into your bloodstream without needing to carry a syringe.",
-    "occupied_bodyparts": [ [ "hand_l", 1 ] ]
+    "occupied_bodyparts": [ [ "hand_l", 1 ] ],
+    "fake_item": "syringe"
   },
   {
     "id": "bio_weight",

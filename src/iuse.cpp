@@ -5,19 +5,21 @@
 #include <climits>
 #include <cmath>
 #include <cstdlib>
+#include <exception>
 #include <functional>
 #include <iterator>
 #include <list>
 #include <map>
+#include <new>
 #include <set>
 #include <sstream>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "action.h"
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
@@ -41,14 +43,12 @@
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
@@ -67,7 +67,6 @@
 #include "memorial_logger.h"
 #include "memory_fast.h"
 #include "messages.h"
-#include "monattack.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "morale_types.h"
@@ -94,7 +93,6 @@
 #include "speech.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "teleport.h"
 #include "text_snippets.h"
@@ -296,14 +294,12 @@ static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_thermometer( "thermometer" );
 static const itype_id itype_towel( "towel" );
-static const itype_id itype_towel_soiled( "towel_soiled" );
 static const itype_id itype_towel_wet( "towel_wet" );
 static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_wax( "wax" );
 static const itype_id itype_weather_reader( "weather_reader" );
-
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_electronics( "electronics" );
@@ -370,9 +366,10 @@ static const mtype_id mon_spore( "mon_spore" );
 static const mtype_id mon_vortex( "mon_vortex" );
 static const mtype_id mon_wasp( "mon_wasp" );
 
-static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_tools( "bio_tools" );
+
+static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 
 // terrain/furn flags
 static const std::string flag_CURRENT( "CURRENT" );
@@ -2316,7 +2313,8 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
         }
     } else { // Activated
         int ch = 1;
-        if( it->ammo_remaining() > 0 ) {
+        if( it->ammo_remaining() > 0 || ( it->has_flag( flag_USE_UPS ) &&
+                                          p->has_enough_charges( *it, false ) ) ) {
             ch = uilist( _( "Radio:" ), {
                 _( "Scan" ), _( "Turn off" )
             } );
@@ -3432,12 +3430,10 @@ int iuse::pick_lock( player *p, item *it, bool, const tripoint &pos )
                                      you.get_skill_level( skill_traps ) ) ) * duration_proficiency_factor );
     }
 
-    you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
+    you.assign_activity(
+        player_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
                          item_location( you, it ),
-                         get_map().getabs( *target ) ) );
-    you.practice_proficiency( proficiency_prof_lockpicking, duration / duration_proficiency_factor );
-    you.practice_proficiency( proficiency_prof_lockpicking_expert,
-                              duration / duration_proficiency_factor );
+                         get_map().getabs( *target ) ) ) );
     return it->type->charges_to_use();
 }
 
@@ -4247,7 +4243,8 @@ int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
 int iuse::mp3( player *p, item *it, bool, const tripoint & )
 {
     // TODO: avoid item id hardcoding to make this function usable for pure json-defined devices.
-    if( !it->units_sufficient( *p ) ) {
+    if( !it->units_sufficient( *p ) && !( it->has_flag( flag_USE_UPS ) &&
+                                          p->has_enough_charges( *it, false ) ) ) {
         p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
     } else if( p->has_active_item( itype_mp3_on ) || p->has_active_item( itype_smartphone_music ) ||
                p->has_active_item( itype_afs_atomic_smartphone_music ) ||
@@ -4390,7 +4387,7 @@ int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
             if( one_in( 15 ) ) {
                 p->add_msg_if_player( m_bad, _( "You take a deep breath from your %s." ), it->tname() );
             }
-            if( it->charges == 0 ) {
+            if( it->ammo_remaining() == 0 ) {
                 p->add_msg_if_player( m_bad, _( "Air in your %s runs out." ), it->tname() );
                 it->set_var( "overwrite_env_resist", 0 );
                 it->convert( itype_id( it->typeId().str().substr( 0,
@@ -4403,7 +4400,7 @@ int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
         }
 
     } else { // Turning it on/off
-        if( it->charges == 0 ) {
+        if( it->ammo_remaining() == 0 ) {
             p->add_msg_if_player( _( "Your %s is empty." ), it->tname() );
         } else if( it->active ) { //off
             p->add_msg_if_player( _( "You turn off the regulator and close the air valve." ) );
@@ -4419,11 +4416,6 @@ int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
                 it->convert( itype_id( it->typeId().str() + "_on" ) ).active = true;
             }
         }
-    }
-    if( it->charges == 0 ) {
-        it->set_var( "overwrite_env_resist", 0 );
-        it->convert( itype_id( it->typeId().str().substr( 0,
-                               it->typeId().str().size() - 3 ) ) ).active = false; // 3 = "_on"
     }
     return it->type->charges_to_use();
 }
@@ -4479,8 +4471,9 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
             const field &gasfield = get_map().field_at( pos );
             for( const auto &dfield : gasfield ) {
                 const field_entry &entry = dfield.second;
-                if( entry.get_gas_absorption_factor() > 0 ) {
-                    it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + entry.get_gas_absorption_factor() );
+                const int gas_abs_factor = entry.get_field_type()->gas_absorption_factor;
+                if( gas_abs_factor > 0 ) {
+                    it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + gas_abs_factor );
                 }
             }
             if( it->get_var( "gas_absorbed", 0 ) >= 100 ) {
@@ -5525,7 +5518,10 @@ int iuse::towel_common( Character *p, item *it, bool t )
     const std::string name = it ? it->tname() : _( "towel" );
 
     // can't use an already wet towel!
-    if( it && it->has_flag( flag_WET ) ) {
+    if( it && it->is_filthy() ) {
+        p->add_msg_if_player( m_info, _( "That %s is too filthy to clean anything!" ),
+                              it->tname() );
+    } else if( it && it->has_flag( flag_WET ) ) {
         p->add_msg_if_player( m_info, _( "That %s is too wet to soak up any more liquid!" ),
                               it->tname() );
         // clean off the messes first, more important
@@ -5538,7 +5534,7 @@ int iuse::towel_common( Character *p, item *it, bool t )
 
         towelUsed = true;
         if( it && it->typeId() == itype_towel ) {
-            it->convert( itype_towel_soiled );
+            it->set_flag( flag_FILTHY );
         }
 
         // dry off from being wet
@@ -5549,8 +5545,10 @@ int iuse::towel_common( Character *p, item *it, bool t )
                               name );
 
         towelUsed = true;
-        if( it ) {
+        if( it && it->typeId() == itype_towel ) {
             it->item_counter = to_turns<int>( 30_minutes );
+            // change "towel" to a "towel_wet" (different flavor text/color)
+            it->convert( itype_towel_wet );
         }
 
         // default message
@@ -5565,11 +5563,6 @@ int iuse::towel_common( Character *p, item *it, bool t )
         }
         p->moves -= 50 * mult;
         if( it ) {
-            // change "towel" to a "towel_wet" (different flavor text/color)
-            if( it->typeId() == itype_towel ) {
-                it->convert( itype_towel_wet );
-            }
-
             // WET, active items have their timer decremented every turn
             it->set_flag( flag_WET );
             it->active = true;
@@ -5998,7 +5991,7 @@ int iuse::robotcontrol( player *p, item *it, bool active, const tripoint & )
     }
 
     if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !p->has_effect( effect_contacts ) && !p->has_bionic( bio_eye_optic ) ) {
+        !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
         p->add_msg_if_player( m_info,
                               _( "You'll need to put on reading glasses before you can see the screen." ) );
         return 0;
@@ -6338,10 +6331,14 @@ static std::string photo_quality_name( const int index )
 
 int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 {
+    //meep
     if( t ) {
-        if( !it->get_var( "EIPC_MUSIC_ON" ).empty() && ( it->ammo_remaining() > 0 ) ) {
+        if( !it->get_var( "EIPC_MUSIC_ON" ).empty() &&
+            ( it->ammo_remaining() > 0  || ( it->has_flag( flag_USE_UPS ) &&
+                                             p->has_enough_charges( *it, false ) ) ) ) {
             if( calendar::once_every( 5_minutes ) ) {
-                it->ammo_consume( 1, p->pos() );
+                //it->ammo_consume( 1, p->pos() );
+                p->consume_charges( *it, 1 );
             }
 
             //the more varied music, the better max mood.
@@ -6372,7 +6369,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
         if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
-            !p->has_effect( effect_contacts ) && !p->has_bionic( bio_eye_optic ) ) {
+            !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
             p->add_msg_if_player( m_info,
                                   _( "You'll need to put on reading glasses before you can see the screen." ) );
             return 0;
@@ -6844,7 +6841,7 @@ static std::string effects_description_for_creature( Creature *const creature, s
             status( status ), pose( pose ), intensity_lower_limit( 0 ) {}
         ef_con( const translation &status, int intensity_lower_limit ) :
             status( status ), intensity_lower_limit( intensity_lower_limit ) {}
-        ef_con( const translation &status ) :
+        explicit ef_con( const translation &status ) :
             status( status ), intensity_lower_limit( 0 ) {}
     };
     static const std::unordered_map<efftype_id, ef_con> vec_effect_status = {
@@ -9250,7 +9247,7 @@ int iuse::directional_hologram( player *p, item *it, bool, const tripoint &pos )
     hologram->wandf = -30;
     hologram->set_summon_time( 60_seconds );
     hologram->set_dest( target );
-    p->mod_moves( -to_turns<int>( 1_seconds ) );
+    p->mod_moves( -to_moves<int>( 1_seconds ) );
     return it->type->charges_to_use();
 }
 
@@ -9520,9 +9517,8 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
                               const std::map<const item_location *, int> &locs
     ) {
         units::volume total_volume = 0_ml;
-        for( const auto &p : locs ) {
-            total_volume += ( *p.first )->base_volume() * p.second /
-                            ( ( *p.first )->count_by_charges() ? ( *p.first )->charges : 1 );
+        for( const auto &pair : locs ) {
+            total_volume += ( *pair.first )->volume( false, true );
         }
         washing_requirements required = washing_requirements_for_volume( total_volume );
         auto to_string = []( int val ) -> std::string {
@@ -9558,8 +9554,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
             p->add_msg_if_player( m_info, _( "Never mind." ) );
             return 0;
         }
-        item &i = *pair.first;
-        total_volume += i.base_volume() * pair.second / ( i.count_by_charges() ? i.charges : 1 );
+        total_volume += pair.first->volume( false, true );
     }
 
     washing_requirements required = washing_requirements_for_volume( total_volume );

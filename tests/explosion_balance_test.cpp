@@ -1,22 +1,24 @@
-#include "catch/catch.hpp"
-
 #include <cstddef>
+#include <functional>
 #include <memory>
 #include <sstream>
-#include <string>
 #include <vector>
 
 #include "avatar.h"
+#include "catch/catch.hpp"
 #include "creature.h"
+#include "explosion.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "monster.h"
 #include "point.h"
 #include "test_statistics.h"
 #include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"

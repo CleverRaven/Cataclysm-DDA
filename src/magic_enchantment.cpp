@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <set>
+#include <string>
 
 #include "character.h"
 #include "creature.h"
@@ -9,11 +10,11 @@
 #include "enum_conversions.h"
 #include "enums.h"
 #include "generic_factory.h"
+#include "item.h"
 #include "json.h"
 #include "map.h"
 #include "point.h"
 #include "rng.h"
-#include "string_id.h"
 #include "units.h"
 
 namespace io
@@ -89,6 +90,7 @@ namespace io
             case enchant_vals::mod::ARMOR_HEAT: return "ARMOR_HEAT";
             case enchant_vals::mod::ARMOR_STAB: return "ARMOR_STAB";
             case enchant_vals::mod::ARMOR_BULLET: return "ARMOR_BULLET";
+            case enchant_vals::mod::ITEM_DAMAGE_PURE: return "ITEM_DAMAGE_PURE";
             case enchant_vals::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
             case enchant_vals::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
             case enchant_vals::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";

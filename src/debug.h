@@ -44,14 +44,11 @@
  * As dbg calls DebugLog, it returns the stream, its usage is the same.
  */
 
+#include <functional>
 // Includes                                                         {{{1
 // ---------------------------------------------------------------------
 #include <iostream>
-#include <string>
 #include <type_traits>
-#include <utility>
-#include <vector>
-#include <functional>
 
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)

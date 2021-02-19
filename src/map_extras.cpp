@@ -2,10 +2,11 @@
 
 #include <algorithm>
 #include <array>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <unordered_map>
 #include <utility>
@@ -27,7 +28,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_group.h"
 #include "json.h"
@@ -61,10 +61,12 @@
 #include "vpart_range.h"
 #include "weighted_list.h"
 
+static const trap_str_id tr_caltrops( "tr_caltrops" );
+static const trap_str_id tr_nailboard( "tr_nailboard" );
+
 static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_FLOWER( "FLOWER" );
-static const std::string flag_FUNGUS( "FUNGUS" );
 static const std::string flag_LIQUID( "LIQUID" );
 static const std::string flag_ORGANIC( "ORGANIC" );
 static const std::string flag_PLANT( "PLANT" );
@@ -842,32 +844,70 @@ static bool mx_bandits_block( map &m, const tripoint &abs_sub )
 
     if( forest_at_north && forest_at_south &&
         road_at_west && road_at_east ) {
-        line( &m, t_trunk, point( 1, 3 ), point( 1, 6 ) );
-        line( &m, t_trunk, point( 1, 8 ), point( 1, 13 ) );
-        line( &m, t_trunk, point( 2, 14 ), point( 2, 17 ) );
-        line( &m, t_trunk, point( 1, 18 ), point( 2, 22 ) );
-        m.ter_set( point( 1, 2 ), t_stump );
-        m.ter_set( point( 1, 20 ), t_stump );
-        m.ter_set( point_south_east, t_improvised_shelter );
-        m.place_npc( point( 2, 19 ), string_id<npc_template>( "bandit" ) );
         if( one_in( 2 ) ) {
-            m.place_npc( point_south_east, string_id<npc_template>( "bandit" ) );
+            line( &m, t_trunk, point( 1, 3 ), point( 1, 6 ) );
+            line( &m, t_trunk, point( 1, 8 ), point( 1, 13 ) );
+            line( &m, t_trunk, point( 2, 14 ), point( 2, 17 ) );
+            line( &m, t_trunk, point( 1, 18 ), point( 2, 22 ) );
+            m.ter_set( point( 1, 2 ), t_stump );
+            m.ter_set( point( 1, 20 ), t_stump );
+            m.ter_set( point_south_east, t_improvised_shelter );
+            m.place_npc( point( 2, 19 ), string_id<npc_template>( "bandit" ) );
+            if( one_in( 2 ) ) {
+                m.place_npc( point_south_east, string_id<npc_template>( "bandit" ) );
+            }
+        } else {
+            trap_str_id trap_type = one_in( 2 ) ? tr_nailboard : tr_caltrops;
+            for( int x = SEEX - 1; x < SEEX + 1; x++ ) {
+                for( int y = 0; y < SEEY * 2 - 1; y += 2 ) {
+                    if( x_in_y( 8, 10 ) ) {
+                        m.trap_set( { x, y, abs_sub.z }, trap_type );
+                    }
+                }
+            }
+
+            rough_circle( &m, t_underbrush, point( 8, 2 ), 2 );
+            m.ter_set( point( 8, 2 ), t_dirt );
+            m.place_npc( point( 8, 2 ), string_id<npc_template>( "bandit" ) );
+
+            rough_circle( &m, t_underbrush, point( 16, 22 ), 2 );
+            m.ter_set( point( 16, 22 ), t_dirt );
+            m.place_npc( point( 16, 22 ), string_id<npc_template>( "bandit" ) );
         }
 
         return true;
     }
 
     if( forest_at_west && forest_at_east && road_at_north && road_at_south ) {
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        line( &m, t_trunk, point( 1, 1 ), point( 3, 1 ) );
-        line( &m, t_trunk, point( 5, 1 ), point( 10, 1 ) );
-        line( &m, t_trunk, point( 11, 3 ), point( 16, 3 ) );
-        line( &m, t_trunk, point( 17, 2 ), point( 21, 2 ) );
-        m.ter_set( point( 22, 2 ), t_stump );
-        m.ter_set( point_south, t_improvised_shelter );
-        m.place_npc( point( 20, 3 ), string_id<npc_template>( "bandit" ) );
         if( one_in( 2 ) ) {
-            m.place_npc( point_south, string_id<npc_template>( "bandit" ) );
+            // NOLINTNEXTLINE(cata-use-named-point-constants)
+            line( &m, t_trunk, point( 1, 1 ), point( 3, 1 ) );
+            line( &m, t_trunk, point( 5, 1 ), point( 10, 1 ) );
+            line( &m, t_trunk, point( 11, 3 ), point( 16, 3 ) );
+            line( &m, t_trunk, point( 17, 2 ), point( 21, 2 ) );
+            m.ter_set( point( 22, 2 ), t_stump );
+            m.ter_set( point_south, t_improvised_shelter );
+            m.place_npc( point( 20, 3 ), string_id<npc_template>( "bandit" ) );
+            if( one_in( 2 ) ) {
+                m.place_npc( point_south, string_id<npc_template>( "bandit" ) );
+            }
+        } else {
+            trap_str_id trap_type = one_in( 2 ) ? tr_nailboard : tr_caltrops;
+            for( int x = 0; x < SEEX * 2 - 1; x += 2 ) {
+                for( int y = SEEY - 1; y < SEEY + 1; y++ ) {
+                    if( x_in_y( 8, 10 ) ) {
+                        m.trap_set( { x, y, abs_sub.z }, trap_type );
+                    }
+                }
+            }
+
+            rough_circle( &m, t_underbrush, point( 1, 8 ), 2 );
+            m.ter_set( point( 1, 8 ), t_dirt );
+            m.place_npc( point( 1, 8 ), string_id<npc_template>( "bandit" ) );
+
+            rough_circle( &m, t_underbrush, point( 22, 15 ), 2 );
+            m.ter_set( point( 22, 15 ), t_dirt );
+            m.place_npc( point( 22, 15 ), string_id<npc_template>( "bandit" ) );
         }
 
         return true;
@@ -2154,12 +2194,12 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     }
 
     // fungus cannot be destroyed by map::destroy so ths method is employed
-    if( fid.has_flag( flag_FUNGUS ) ) {
+    if( fid.has_flag( TFLAG_FUNGUS ) ) {
         if( one_in( 5 ) ) {
             m.furn_set( loc, f_ash );
         }
     }
-    if( tr.has_flag( flag_FUNGUS ) ) {
+    if( tr.has_flag( TFLAG_FUNGUS ) ) {
         m.ter_set( loc, t_dirt );
         if( one_in( 5 ) ) {
             m.spawn_item( loc, itype_ash, 1, rng( 1, 5 ) );

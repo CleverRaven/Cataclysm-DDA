@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <memory>
+#include <new>
 
 #include "activity_handlers.h"
 #include "activity_type.h"
@@ -18,10 +19,9 @@
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
+#include "ui.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );
@@ -212,9 +212,9 @@ void player_activity::do_turn( player &p )
     }
     // first to ensure sync with actor
     synchronize_type_with_actor();
-    // Should happen before activity or it may fail du to 0 moves
-    if( *this && type->will_refuel_fires() ) {
-        try_fuel_fire( *this, p );
+    // Should happen before activity or it may fail due to 0 moves
+    if( *this && type->will_refuel_fires() && have_fire ) {
+        have_fire = try_fuel_fire( *this, p );
     }
     if( calendar::once_every( 30_minutes ) ) {
         no_food_nearby_for_auto_consume = false;

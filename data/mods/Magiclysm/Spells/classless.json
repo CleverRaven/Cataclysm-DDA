@@ -100,10 +100,10 @@
     "difficulty": 1,
     "max_level": 20,
     "base_casting_time": 1000,
-    "base_energy_cost": 500,
+    "base_energy_cost": 200,
     "min_duration": 100000,
     "max_duration": 1000000,
-    "duration_increment": 2000
+    "duration_increment": 45000
   },
   {
     "id": "blinding_flash",

@@ -1,8 +1,6 @@
-#include <algorithm>
 #include <cstddef>
 #include <iterator>
 #include <list>
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -14,13 +12,14 @@
 #include "flag.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_pocket.h"
 #include "item_search.h"
 #include "make_static.h"
 #include "map.h"
 #include "options.h"
+#include "type_id.h"
 #include "uistate.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "vehicle.h"
 
 class item_category;
@@ -109,7 +108,6 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
     std::vector<advanced_inv_listitem> items;
     size_t item_index = 0;
 
-    int worn_index = -2;
     for( item &worn_item : worn ) {
         if( worn_item.contents.empty() || worn_item.has_flag( flag_NO_UNLOAD ) ) {
             continue;
@@ -123,9 +121,19 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
                 items.push_back( adv_it );
             }
         }
-        worn_index--;
     }
 
+    if( weapon.is_container() ) {
+        for( const std::vector<item *> &it_stack : item_list_to_stack(
+                 weapon.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) ) {
+            advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
+            if( !pane.is_filtered( *adv_it.items.front() ) ) {
+                square.volume += adv_it.volume;
+                square.weight += adv_it.weight;
+                items.push_back( adv_it );
+            }
+        }
+    }
     return items;
 }
 
@@ -147,9 +155,19 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
     } else if( square.id == AIM_WORN ) {
         square.volume = 0_ml;
         square.weight = 0_gram;
+
+        if( u.weapon.is_container() ) {
+            advanced_inv_listitem it( &u.weapon, 0, 1, square.id, false );
+            if( !is_filtered( *it.items.front() ) ) {
+                square.volume += it.volume;
+                square.weight += it.weight;
+                items.push_back( it );
+            }
+        }
+
         auto iter = u.worn.begin();
         for( size_t i = 0; i < u.worn.size(); ++i, ++iter ) {
-            advanced_inv_listitem it( &*iter, i, 1, square.id, false );
+            advanced_inv_listitem it( &*iter, i + 1, 1, square.id, false );
             if( is_filtered( *it.items.front() ) ) {
                 continue;
             }

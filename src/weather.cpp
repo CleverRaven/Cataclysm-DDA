@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <functional>
 #include <memory>
 #include <set>
 #include <string>
@@ -17,7 +18,6 @@
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
-#include "damage.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
@@ -28,6 +28,7 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -39,16 +40,12 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "weather_gen.h"
 
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
-
-static const bionic_id bio_sunglasses( "bio_sunglasses" );
 
 static const efftype_id effect_glare( "glare" );
 static const efftype_id effect_sleep( "sleep" );
@@ -58,6 +55,8 @@ static const itype_id itype_water( "water" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
+
+static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 static const flag_id json_flag_RAIN_PROTECT( "RAIN_PROTECT" );
 static const flag_id json_flag_RAINPROOF( "RAINPROOF" );
@@ -100,7 +99,7 @@ void glare( const weather_type_id &w )
         !g->is_in_sunlight( player_character.pos() ) ||
         player_character.in_sleep_state() ||
         player_character.worn_with_flag( json_flag_SUN_GLASSES ) ||
-        player_character.has_bionic( bio_sunglasses ) ||
+        player_character.has_flag( json_flag_GLARE_RESIST ) ||
         player_character.is_blind() ) {
         return;
     }
@@ -550,7 +549,7 @@ void handle_weather_effects( const weather_type_id &w )
                 }
                 target_monster = *dynamic_cast<monster *>( copy );
             } else {
-                target_monster = spawn.target;
+                target_monster = monster( spawn.target );
             }
 
             for( int i = 0; i < spawn.hallucination_count; i++ ) {

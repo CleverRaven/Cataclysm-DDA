@@ -1,7 +1,6 @@
 #include "cata_variant.h"
-
-#include "debug_menu.h"
-#include "mutation.h"
+#include "debug_menu.h" // IWYU pragma: keep
+#include "mutation.h" // IWYU pragma: keep
 
 template<size_t I>
 static bool is_valid_impl_2( const std::string &s )

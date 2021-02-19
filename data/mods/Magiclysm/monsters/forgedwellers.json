@@ -127,5 +127,13 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ] },
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "PATH_AVOID_DANGER_2" ]
+  },
+  {
+    "id": "mon_forgehounds",
+    "type": "MONSTER",
+    "name": { "str": "forge hounds" },
+    "description": "A metallic hound steps out of a nearby angle and growls at you.  Run!!!",
+    "default_faction": "wonder_forge",
+    "copy-from": "mon_hound_tindalos"
   }
 ]

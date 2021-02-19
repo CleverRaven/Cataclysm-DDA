@@ -2,8 +2,10 @@
 
 #include <algorithm>
 #include <functional>
-#include <memory>
+#include <istream>
+#include <new>
 #include <stdexcept>
+#include <string>
 
 #include "cata_utility.h"
 #include "catacharset.h"

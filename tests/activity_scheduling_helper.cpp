@@ -1,7 +1,17 @@
 #include "activity_scheduling_helper.h"
 
-#include "player_helpers.h"
+#include <climits>
+#include <cstdlib>
+#include <list>
+
+#include "avatar.h"
+#include "debug.h"
+#include "item.h"
 #include "map_helpers.h"
+#include "player_activity.h"
+#include "player_helpers.h"
+#include "stomach.h"
+#include "string_formatter.h"
 
 void activity_schedule::setup( avatar &guy ) const
 {
@@ -9,7 +19,7 @@ void activity_schedule::setup( avatar &guy ) const
     // This may be longer than the interval, which means that we
     // never finish this task
     if( actor ) {
-        guy.assign_activity( *actor, false );
+        guy.assign_activity( player_activity( *actor ), false );
     } else {
         guy.assign_activity( player_activity( act, calendar::INDEFINITELY_LONG, -1, INT_MIN,
                                               "" ), false );
