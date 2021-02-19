@@ -1900,7 +1900,7 @@ tab_direction set_profession( avatar &u, points_left &points,
                         if( are_conflicting_traits( new_trait, suspect_trait ) ) {
                             u.toggle_trait( suspect_trait );
                             points.trait_points += suspect_trait->points;
-                            popup( _( "Your trait %s has been removed since it conflicts with the %s's %s trait." ),
+                            popup( _( "Your trait %1$s has been removed since it conflicts with the %2$s's %3$s trait." ),
                                    suspect_trait->name(), u.prof->gender_appropriate_name( u.male ), new_trait->name() );
                         }
                     }
