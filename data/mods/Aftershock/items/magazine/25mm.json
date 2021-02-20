@@ -8,7 +8,6 @@
     "weight": "340 g",
     "volume": "2 L",
     "price": 70000,
-    "price_postapoc": 1000,
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
     "color": "dark_gray",
