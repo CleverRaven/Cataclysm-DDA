@@ -138,6 +138,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::IGNITE_FLAMMABLE: return "IGNITE_FLAMMABLE";
         case spell_flag::NO_FAIL: return "NO_FAIL";
         case spell_flag::WONDER: return "WONDER";
+        case spell_flag::MUST_HAVE_CLASS_TO_LEARN: return "MUST_HAVE_CLASS_TO_LEARN";
         case spell_flag::LAST: break;
     }
     debugmsg( "Invalid spell_flag" );
@@ -1575,7 +1576,11 @@ bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp ) co
     if( sp_t.spell_class == trait_NONE ) {
         return true;
     }
-    return !guy.has_opposite_trait( sp_t.spell_class );
+    if( sp_t.spell_tags[spell_flag::MUST_HAVE_CLASS_TO_LEARN] ) {
+        return guy.has_trait( sp_t.spell_class );
+    } else {
+        return !guy.has_opposite_trait( sp_t.spell_class );
+    }
 }
 
 spell &known_magic::get_spell( const spell_id &sp )
