@@ -72,7 +72,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities][!mayfail]" )
         CHECK( info.transition_minutes( 0, 1, 120_minutes ) == Approx( 120 ).margin( 5 ) );
         CHECK( info.transition_minutes( 1, 2, 255_minutes ) == Approx( 255 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 3, 4, 470_minutes ) == Approx( 470 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
         CHECK( !info.have_weary_decrease() );
         CHECK( guy.weariness_level() == 4 );
     }
@@ -132,8 +132,8 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
         INFO( info.summarize() );
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
-        CHECK( info.transition_minutes( 4, 3, 520_minutes ) == Approx( 520 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 3, 2, 640_minutes ) == Approx( 640 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 4, 3, 505_minutes ) == Approx( 505 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 3, 2, 630_minutes ) == Approx( 630 ).margin( 5 ) );
         CHECK( info.transition_minutes( 1, 0, 0_minutes ) > ( 8 * 60 ) ); // should be INT_MAX
         CHECK( info.transition_minutes( 2, 1, 0_minutes ) > ( 8 * 60 ) );
         CHECK( info.transition_minutes( 1, 2, 16_hours ) <= ( 8 * 60 ) );
@@ -153,7 +153,7 @@ TEST_CASE( "weary_recovery", "[weary][activities]" )
         CHECK( info.transition_minutes( 0, 1, 325_minutes ) == Approx( 325 ).margin( 5 ) );
         CHECK( info.transition_minutes( 1, 2, 625_minutes ) == Approx( 625 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 1, 740_minutes ) == Approx( 740 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 1, 0, 995_minutes ) == Approx( 995 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 1, 0, 985_minutes ) == Approx( 985 ).margin( 5 ) );
     }
 }
 
