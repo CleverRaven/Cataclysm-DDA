@@ -1686,7 +1686,7 @@
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
-    "occurrences": [ 33, 100 ],
+    "occurrences": [ 20, 100 ],
     "flags": [ "UNIQUE" ]
   },
   {
@@ -6372,8 +6372,8 @@
       { "point": [ 22, 20, 0 ], "overmap": "special_field" },
       { "point": [ 23, 20, 0 ], "overmap": "rural_road_north" },
       { "point": [ 24, 20, 0 ], "overmap": "special_field" },
-      { "point": [ 25, 20, 0 ], "overmap": "dairy_farm_NW_north" },
-      { "point": [ 26, 20, 0 ], "overmap": "dairy_farm_NE_north" },
+      { "point": [ 25, 20, 0 ], "overmap": "dairy_farm_isherwood_NW_north" },
+      { "point": [ 26, 20, 0 ], "overmap": "dairy_farm_isherwood_NE_north" },
       { "point": [ 27, 20, 0 ], "overmap": "special_field" },
       { "point": [ 28, 20, 0 ], "overmap": "special_forest_thick" },
       { "point": [ 29, 20, 0 ], "overmap": "special_forest_thick" },
