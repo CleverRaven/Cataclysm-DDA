@@ -927,7 +927,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": -1,
+    "fun": 1,
     "vitamins": [ [ "vitC", 1 ] ]
   },
   {
