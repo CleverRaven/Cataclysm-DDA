@@ -1538,3 +1538,5 @@ Gun fault flags:
 - ```ALARMCLOCK``` You always can set alarms.
 - ```PARAIMMUNE``` You are immune to parasites.
 - ```IMMUNE_SPOIL``` You are immune to negative outcomes from spoiled food.
+- ```NO_BAD_TASTE``` You are immune to negative enjoyment from food.
+- ```NO_GOOD_TASTE``` You are immune to positive enjoyment from food.

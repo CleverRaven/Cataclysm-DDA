@@ -413,31 +413,11 @@ TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
         REQUIRE( garlic_fun < 0 );
 
         AND_GIVEN( "character has a taste modifier CBM" ) {
-            dummy.set_max_power_level( 1000_kJ );
-            give_and_activate_bionic( dummy, bionic_id( "bio_taste_blocker" ) );
-            REQUIRE( dummy.has_active_bionic( bio_taste_blocker ) );
-
-            WHEN( "it does not have enough power" ) {
-                // Needs 1 kJ per negative fun unit to nullify bad taste
-                dummy.set_power_level( 10_kJ );
-                REQUIRE( garlic_fun < -10 );
-                REQUIRE_FALSE( dummy.get_power_level() > units::from_kilojoule( std::abs( garlic_fun ) ) );
-
-                THEN( "the bad taste remains" ) {
-                    actual_fun = dummy.fun_for( garlic );
-                    CHECK( actual_fun.first == garlic_fun );
-                }
-            }
-
-            WHEN( "it has enough power" ) {
-                REQUIRE( garlic_fun >= -20 );
-                dummy.set_power_level( 20_kJ );
-                REQUIRE( dummy.get_power_level() > units::from_kilojoule( std::abs( garlic_fun ) ) );
-
-                THEN( "the bad taste is nullified" ) {
-                    actual_fun = dummy.fun_for( garlic );
-                    CHECK( actual_fun.first == 0 );
-                }
+            dummy.add_bionic( bionic_id( "bio_taste_blocker" ) );
+            REQUIRE( dummy.has_bionic( bio_taste_blocker ) );
+            THEN( "the bad taste is nullified" ) {
+                actual_fun = dummy.fun_for( garlic );
+                CHECK( actual_fun.first == 0 );
             }
         }
     }

@@ -62,7 +62,6 @@ static const skill_id skill_survival( "survival" );
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
-static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_brainworms( "brainworms" );
@@ -80,6 +79,8 @@ static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_visuals( "visuals" );
 
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
+static const json_character_flag json_flag_NO_BAD_TASTE( "NO_BAD_TASTE" );
+static const json_character_flag json_flag_NO_GOOD_TASTE( "NO_GOOD_TASTE" );
 static const json_character_flag json_flag_PARAIMMUNE( "PARAIMMUNE" );
 static const json_character_flag json_flag_PRED1( "PRED1" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
@@ -462,9 +463,8 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
         }
     }
 
-    if( has_active_bionic( bio_taste_blocker ) &&
-        get_power_level() > units::from_kilojoule( std::abs( comest.get_comestible_fun() ) ) &&
-        fun < 0 ) {
+    if( ( has_flag( json_flag_NO_BAD_TASTE ) && fun < 0 ) ||
+        ( has_flag( json_flag_NO_GOOD_TASTE ) && fun > 0 ) ) {
         fun = 0;
     }
 
@@ -945,10 +945,6 @@ static bool eat( item &food, player &you, bool force )
     if( item::find_type( food.get_comestible()->tool )->tool ) {
         // Tools like lighters get used
         you.use_charges( food.get_comestible()->tool, 1 );
-    }
-
-    if( you.has_active_bionic( bio_taste_blocker ) ) {
-        you.mod_power_level( units::from_kilojoule( -std::abs( food.get_comestible_fun() ) ) );
     }
 
     if( food.has_flag( flag_FUNGAL_VECTOR ) && !you.has_trait( trait_M_IMMUNE ) ) {
