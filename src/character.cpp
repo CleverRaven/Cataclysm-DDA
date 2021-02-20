@@ -5691,7 +5691,7 @@ void Character::try_reduce_weariness( const float exertion )
 
     const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
 
-    if( weary.low_activity_ticks > 0 ) {
+    if( weary.low_activity_ticks >= 1 ) {
         int reduction = weary.tracker;
         const int bmr = base_bmr();
         // 1/120 of whichever's bigger
