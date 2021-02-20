@@ -2384,6 +2384,8 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
                 success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
                                            /*unseal_pockets=*/true ).success();
                 if( success ) {
+                    add_msg( string_format( _( "You insert your %s into the %s." ),
+                                            holstered_item.first->display_name(), holster->type->nname( 1 ) ) );
                     handler.add_unsealed( holster );
                     handler.unseal_pocket_containing( holstered_item.first );
                     holstered_item.first.remove_item();
@@ -2401,6 +2403,8 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
                 success = result > 0;
 
                 if( success ) {
+                    add_msg( string_format( _( "You insert your %s into the1 %s." ),
+                                            holstered_item.first->display_name( result ), holster->type->nname( 1 ) ) );
                     handler.add_unsealed( holster );
                     handler.unseal_pocket_containing( holstered_item.first );
                     it.charges -= result;
