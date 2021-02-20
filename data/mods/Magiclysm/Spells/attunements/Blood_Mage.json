@@ -54,7 +54,7 @@
     "id": "demonic_possession",
     "type": "SPELL",
     "name": "Demonic Possession",
-    "description": "You allow a demon to possess your body for a short time, giving you great combat abilities.  You still retain control, though lose your spellcasting abilities temporariliy.",
+    "description": "You allow a demon to possess your body for a short time, giving you great combat abilities.  You still retain control, though lose your spellcasting abilities temporarily.",
     "valid_targets": [ "none" ],
     "flags": [ "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "effect": "spawn_item",
