@@ -1288,10 +1288,10 @@ void ter_t::check() const
     }
     // Check transition consistency for opening/closing terrain. Has an obvious
     // exception for locked terrains - those aren't expected to be locked again
-    if( !has_flag( flag_LOCKED ) && open->close && open->close != id ) {
+    if( open && open->close && open->close != id && !has_flag( flag_LOCKED ) ) {
         debugmsg( "opening terrain %s for %s doesn't reciprocate", open.c_str(), id.c_str() );
     }
-    if( !has_flag( flag_LOCKED ) && close && close->open && close->open != id ) {
+    if( close && close->open && close->open != id && !has_flag( flag_LOCKED ) ) {
         debugmsg( "closing terrain %s for %s doesn't reciprocate", close.c_str(), id.c_str() );
     }
 
