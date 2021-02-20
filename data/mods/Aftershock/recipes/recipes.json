@@ -246,23 +246,6 @@
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "smart_phone", 1 ] ], [ [ "plut_cell", 1 ] ] ]
   },
   {
-    "type": "recipe",
-    "activity_level": "fake",
-    "result": "purifier_smart_shot",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_MUTAGEN",
-    "skill_used": "chemistry",
-    "skills_required": [ "firstaid", 6 ],
-    "difficulty": 10,
-    "time": 120000,
-    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
-    "book_learn": [ [ "recipe_alpha", 9 ], [ "recipe_serum", 9 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
-    "components": [ [ [ "iv_purifier", 3 ] ], [ [ "afs_biomaterial_4", 2 ] ], [ [ "syringe", 1 ] ] ],
-    "//": "Biomaterial 4 was chosen for balance purposes, given the utility of this shot.",
-    "//2": "slimes are unlikely to make it into aftershock so might be a good idea to not have that in there -- MomBun"
-  },
-  {
     "result": "laser_rifle_cheap",
     "type": "recipe",
     "activity_level": "fake",

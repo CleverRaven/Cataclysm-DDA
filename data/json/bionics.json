@@ -1196,7 +1196,8 @@
     "type": "bionic",
     "name": { "str": "Intravenous Needletip" },
     "description": "The flesh of the inside of your middle finger has been replaced with a tube leading into your arteries, with a retractable needle extending out of the tip of the finger when clenched.  This lets you pump intravenous drugs like morphine directly into your bloodstream without needing to carry a syringe.",
-    "occupied_bodyparts": [ [ "hand_l", 1 ] ]
+    "occupied_bodyparts": [ [ "hand_l", 1 ] ],
+    "fake_item": "syringe"
   },
   {
     "id": "bio_weight",

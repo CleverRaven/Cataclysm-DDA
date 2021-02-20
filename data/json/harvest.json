@@ -871,7 +871,8 @@
     "entries": [
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.01 }
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.01 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.005 }
     ]
   },
   {
@@ -882,7 +883,8 @@
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.01 }
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.01 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.005 }
     ]
   },
   {
@@ -894,6 +896,7 @@
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.18 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.01 },
       { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
     ]
   },

@@ -48,6 +48,8 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
 
+static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
+
 /** @relates visitable */
 item *read_only_visitable::find_parent( const item &it ) const
 {
@@ -899,8 +901,13 @@ int inventory::amount_of( const itype_id &what, bool pseudo, int limit,
 int Character::amount_of( const itype_id &what, bool pseudo, int limit,
                           const std::function<bool( const item & )> &filter ) const
 {
-    if( what == itype_toolset && pseudo && has_active_bionic( bio_tools ) ) {
-        return 1;
+    if( pseudo ) {
+        for( const auto &bio : *this->my_bionics ) {
+            const bionic_data &bid = bio.info();
+            if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
+                return 1;
+            }
+        }
     }
 
     if( what == itype_apparatus && pseudo ) {

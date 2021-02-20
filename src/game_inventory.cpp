@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "activity_type.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -20,7 +21,6 @@
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
-#include "compatibility.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -68,9 +68,6 @@ static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
-static const bionic_id bio_syringe( "bio_syringe" );
-
-static const itype_id itype_syringe( "syringe" );
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
@@ -920,11 +917,23 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 const bool has = item::count_by_charges( comest->tool )
                                  ? p.has_charges( comest->tool, 1 )
                                  : p.has_amount( comest->tool, 1 );
-                if( !has && !( comest->tool == itype_syringe && p.has_bionic( bio_syringe ) ) ) {
+                if( !has ) {
                     return string_format( _( "You need a %s to consume that!" ), item::nname( comest->tool ) );
                 }
             }
-
+            const use_function *consume_drug = it.type->get_use( "consume_drug" );
+            if( consume_drug != nullptr ) { //its a drug)
+                const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
+                        ( consume_drug->get_actor_ptr() );
+                for( auto &tool : consume_drug_use->tools_needed ) {
+                    const bool has = item::count_by_charges( tool.first )
+                                     ? p.has_charges( tool.first, tool.second )
+                                     : p.has_amount( tool.first, tool.second );
+                    if( !has ) {
+                        return string_format( _( "You need a %s to consume that!" ), item::nname( tool.first ) );
+                    }
+                }
+            }
             if( uses.size() == 1 ) {
                 const auto ret = uses.begin()->second.can_call( p, it, false, p.pos() );
                 if( !ret.success() ) {
@@ -1077,7 +1086,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 const auto &book = get_book( loc );
                 const int unlearned = book.recipes.size() - get_known_recipes( book );
 
-                return unlearned > 0 ? to_string( unlearned ) : std::string();
+                return unlearned > 0 ? std::to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
             append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
@@ -1400,54 +1409,12 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
         return;
     }
     drop_locations holstered_list = game_menus::inv::holster( you, holster );
-    bool all_pockets_rigid = holster->contents.all_pockets_rigid();
-    contents_change_handler handler;
-    for( drop_location holstered_item : holstered_list ) {
-        if( !holstered_item.first ) {
-            continue;
-        }
-        item &it = *holstered_item.first;
-        bool success = false;
-        if( !it.count_by_charges() ) {
-            if( holster->can_contain( it ) && ( all_pockets_rigid ||
-                                                holster.parents_can_contain_recursive( &it ) ) ) {
 
-                success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
-                                           /*unseal_pockets=*/true ).success();
-                if( success ) {
-                    handler.add_unsealed( holster );
-                    handler.unseal_pocket_containing( holstered_item.first );
-                    holstered_item.first.remove_item();
-                }
-
-            }
-        } else {
-            int charges = all_pockets_rigid ? holstered_item.second : std::min( holstered_item.second,
-                          holster.max_charges_by_parent_recursive( it ) );
-
-            if( charges > 0 && holster->can_contain_partial( it ) ) {
-                int result = holster->fill_with( it, charges,
-                                                 /*unseal_pockets=*/true,
-                                                 /*allow_sealed=*/true );
-                success = result > 0;
-
-                if( success ) {
-                    handler.add_unsealed( holster );
-                    handler.unseal_pocket_containing( holstered_item.first );
-                    it.charges -= result;
-                    if( it.charges == 0 ) {
-                        holstered_item.first.remove_item();
-                    }
-                }
-            }
-        }
-
-        if( !success ) {
-            you.add_msg_if_player( string_format(
-                                       _( "Could not put %s into %s, aborting." ), it.tname(), holster->tname() ) );
-        }
+    if( !holstered_list.empty() ) {
+        you.assign_activity(
+            player_activity(
+                insert_item_activity_actor( holster, holstered_list ) ) );
     }
-    handler.handle_by( you );
 }
 
 class saw_barrel_inventory_preset: public weapon_inventory_preset

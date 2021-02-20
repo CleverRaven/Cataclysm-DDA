@@ -23,7 +23,6 @@
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cursesdef.h"
@@ -3478,7 +3477,7 @@ std::vector<item *> basecamp::give_equipment( std::vector<item *> equipment,
         std::vector<std::string> names;
         names.reserve( equipment.size() );
         for( auto &i : equipment ) {
-            names.push_back( i->tname() + " [" + to_string( i->charges ) + "]" );
+            names.push_back( i->tname() + " [" + std::to_string( i->charges ) + "]" );
         }
 
         // Choose item if applicable
@@ -3716,13 +3715,13 @@ std::string basecamp::farm_description( const tripoint_abs_omt &farm_pos, size_t
     plots_count = farm_data.first;
     switch( operation ) {
         case farm_ops::harvest:
-            entry += _( "Harvestable: " ) + to_string( plots_count ) + "\n" + farm_data.second;
+            entry += _( "Harvestable: " ) + std::to_string( plots_count ) + "\n" + farm_data.second;
             break;
         case farm_ops::plant:
-            entry += _( "Ready for Planting: " ) + to_string( plots_count ) + "\n";
+            entry += _( "Ready for Planting: " ) + std::to_string( plots_count ) + "\n";
             break;
         case farm_ops::plow:
-            entry += _( "Needs Plowing: " ) + to_string( plots_count ) + "\n";
+            entry += _( "Needs Plowing: " ) + std::to_string( plots_count ) + "\n";
             break;
         default:
             debugmsg( "Farm operations called with no operation" );
