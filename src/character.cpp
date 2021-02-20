@@ -13204,6 +13204,6 @@ bool Character::has_bionic_with_flag( const json_character_flag &flag ) const
 
 bool Character::has_flag( const json_character_flag &flag ) const
 {
-    // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate, efefct gain/loss
+    // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate, effect gain/loss
     return has_trait_flag( flag ) || has_bionic_with_flag( flag ) || has_effect_with_flag( flag );
 }
