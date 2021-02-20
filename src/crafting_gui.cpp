@@ -198,10 +198,33 @@ const recipe *select_crafting_recipe( int &batch_size )
     int dataHeight = 0;
     int componentPrintHeight = 0;
     int item_info_width = 0;
+
+    input_context ctxt( "CRAFTING" );
+    ctxt.register_cardinal();
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "CYCLE_MODE" );
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
+    ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
+    ctxt.register_action( "TOGGLE_FAVORITE" );
+    ctxt.register_action( "HELP_RECIPE" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "CYCLE_BATCH" );
+    ctxt.register_action( "RELATED_RECIPES" );
+    ctxt.register_action( "HIDE_SHOW_RECIPE" );
+
     catacurses::window w_head;
     catacurses::window w_subhead;
     catacurses::window w_data;
     catacurses::window w_iteminfo;
+    std::vector<std::string> keybinding_tips;
+    int keybinding_x = 0;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
@@ -210,7 +233,37 @@ const recipe *select_crafting_recipe( int &batch_size )
         width = isWide ? ( freeWidth > FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH * 2 : TERMX ) :
                 FULL_SCREEN_WIDTH;
         const int wStart = ( TERMX - width ) / 2;
-        const int tailHeight = isWide ? 3 : 4;
+
+        // Keybinding tips
+        static const translation inline_fmt = to_translation(
+                //~ %1$s: action description text before key,
+                //~ %2$s: key description,
+                //~ %3$s: action description text after key.
+                "keybinding", "%1$s[<color_yellow>%2$s</color>]%3$s" );
+        static const translation separate_fmt = to_translation(
+                //~ %1$s: key description,
+                //~ %2$s: action description.
+                "keybinding", "[<color_yellow>%1$s</color>]%2$s" );
+        std::vector<std::string> act_descs;
+        const auto add_action_desc = [&]( const std::string & act, const std::string & txt ) {
+            act_descs.emplace_back( ctxt.get_desc( act, txt, input_context::allow_all_keys,
+                                                   inline_fmt, separate_fmt ) );
+        };
+        add_action_desc( "CONFIRM", pgettext( "crafting gui", "Craft" ) );
+        add_action_desc( "HELP_RECIPE", pgettext( "crafting gui", "Describe" ) );
+        add_action_desc( "FILTER", pgettext( "crafting gui", "Filter" ) );
+        add_action_desc( "RESET_FILTER", pgettext( "crafting gui", "Reset filter" ) );
+        add_action_desc( "CYCLE_MODE", pgettext( "crafting gui", "Mode" ) );
+        add_action_desc( "HIDE_SHOW_RECIPE", pgettext( "crafting gui", "Show/hide" ) );
+        add_action_desc( "RELATED_RECIPES", pgettext( "crafting gui", "Related" ) );
+        add_action_desc( "TOGGLE_FAVORITE", pgettext( "crafting gui", "Favorite" ) );
+        add_action_desc( "CYCLE_BATCH", pgettext( "crafting gui", "Batch" ) );
+        add_action_desc( "HELP_KEYBINDINGS", pgettext( "crafting gui", "Keybindings" ) );
+        keybinding_x = isWide ? 5 : 2;
+        keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::none ),
+                                      width - keybinding_x * 2 );
+
+        const int tailHeight = keybinding_tips.size() + 2;
         dataLines = TERMY - ( headHeight + subHeadHeight ) - tailHeight;
         dataHalfLines = dataLines / 2;
         dataHeight = TERMY - ( headHeight + subHeadHeight );
@@ -223,7 +276,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
         if( isWide ) {
             item_info_width = width - FULL_SCREEN_WIDTH - 2;
-            const int item_info_height = dataHeight - 3;
+            const int item_info_height = dataHeight - tailHeight;
             const point item_info( wStart + width - item_info_width, headHeight + subHeadHeight );
 
             w_iteminfo = catacurses::newwin( item_info_height, item_info_width,
@@ -312,26 +365,6 @@ const recipe *select_crafting_recipe( int &batch_size )
     int display_mode = 0;
     const recipe *chosen = nullptr;
 
-    input_context ctxt( "CRAFTING" );
-    ctxt.register_cardinal();
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "CYCLE_MODE" );
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
-    ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
-    ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
-    ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "FILTER" );
-    ctxt.register_action( "RESET_FILTER" );
-    ctxt.register_action( "TOGGLE_FAVORITE" );
-    ctxt.register_action( "HELP_RECIPE" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "CYCLE_BATCH" );
-    ctxt.register_action( "RELATED_RECIPES" );
-    ctxt.register_action( "HIDE_SHOW_RECIPE" );
-
     Character &player_character = get_player_character();
     const inventory &crafting_inv = player_character.crafting_inventory();
     const std::vector<npc *> helpers = player_character.get_crafting_helpers();
@@ -352,37 +385,12 @@ const recipe *select_crafting_recipe( int &batch_size )
         // Clear the screen of recipe data, and draw it anew
         werase( w_data );
 
-        if( isWide ) {
-            if( !filterstring.empty() ) {
-                fold_and_print( w_data, point( 5, dataLines + 1 ), 0, c_white,
-                                _( "Press [<color_yellow>ENTER</color>] to attempt to craft object.  "
-                                   "D[<color_yellow>e</color>]scribe, [<color_yellow>F</color>]ind, "
-                                   "[<color_red>R</color>]eset, [<color_yellow>m</color>]ode, "
-                                   "[<color_yellow>s</color>]how/hide, Re[<color_yellow>L</color>]ated, "
-                                   "[<color_yellow>*</color>]Favorite, %s, [<color_yellow>?</color>]keybindings" ),
-                                ( batch ) ? _( "<color_red>cancel</color> "
-                                               "[<color_yellow>b</color>]atch" ) : _( "[<color_yellow>b</color>]atch" ) );
-            } else {
-                fold_and_print( w_data, point( 5, dataLines + 1 ), 0, c_white,
-                                _( "Press [<color_yellow>ENTER</color>] to attempt to craft object.  "
-                                   "D[<color_yellow>e</color>]scribe, [<color_yellow>F</color>]ind, "
-                                   "[<color_yellow>m</color>]ode, [<color_yellow>s</color>]how/hide, "
-                                   "Re[<color_yellow>L</color>]ated, [<color_yellow>*</color>]Favorite, "
-                                   "%s, [<color_yellow>?</color>]keybindings" ),
-                                ( batch ) ? _( "<color_red>cancel</color> "
-                                               "[<color_yellow>b</color>]atch" ) : _( "[<color_yellow>b</color>]atch" ) );
-            }
-        } else {
-            if( !filterstring.empty() ) {
-                mvwprintz( w_data, point( 2, dataLines + 2 ), c_white,
-                           _( "[F]ind, [R]eset, [m]ode, [s]how/hide, Re[L]ated, [*]Fav, [b]atch." ) );
-            } else {
-                mvwprintz( w_data, point( 2, dataLines + 2 ), c_white,
-                           _( "[F]ind, [m]ode, [s]how/hide, Re[L]ated, [*]Fav, [b]atch." ) );
-            }
-            mvwprintz( w_data, point( 2, dataLines + 1 ), c_white,
-                       _( "Press [ENTER] to attempt to craft object.  D[e]scribe, [?]keybindings," ) );
+        for( size_t i = 0; i < keybinding_tips.size(); ++i ) {
+            nc_color dummy = c_white;
+            print_colored_text( w_data, point( keybinding_x, dataLines + 1 + i ),
+                                dummy, c_white, keybinding_tips[i] );
         }
+
         // Draw borders
         for( int i = 1; i < width - 1; ++i ) { // -
             mvwputch( w_data, point( i, dataHeight - 1 ), BORDER_COLOR, LINE_OXOX );
@@ -1061,6 +1069,9 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             recalc = true;
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            // Regenerate keybinding tips
+            ui.mark_resize();
         }
         if( line < 0 ) {
             line = current.size() - 1;
