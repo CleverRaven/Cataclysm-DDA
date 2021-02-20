@@ -206,6 +206,7 @@
     "copy-from": "liver_cooked",
     "name": { "str": "canned liver" },
     "description": "Livers preserved in a can.  Chock-full of B vitamins!",
+    "sealed": true,
     "container": "can_food"
   },
   {

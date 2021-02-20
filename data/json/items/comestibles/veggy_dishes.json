@@ -465,6 +465,7 @@
     "description": "This is a simple dish made by cooking the pumpkin pulp and then mashing.",
     "price": 50,
     "price_postapoc": 50,
+    "sealed": true,
     "material": [ "veggy" ],
     "volume": "250 ml",
     "delete": { "flags": [ "RAW" ] },
@@ -551,6 +552,7 @@
     "description": "This mushy pile of vegetable matter was boiled and canned in an earlier life.  Better eat it before it oozes through your fingers.",
     "price": 250,
     "price_postapoc": 150,
+    "sealed": true,
     "material": [ "veggy" ],
     "volume": "250 ml",
     "vitamins": [ [ "vitA", 73 ], [ "vitC", 11 ], [ "calcium", 5 ], [ "iron", 9 ] ]
