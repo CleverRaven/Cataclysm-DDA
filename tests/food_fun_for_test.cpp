@@ -414,7 +414,7 @@ TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
 
         AND_GIVEN( "character has a taste modifier CBM" ) {
             give_and_activate_bionic( dummy, bionic_id( "bio_taste_blocker" ) );
-            REQUIRE( dummy.has_active_bionic( bio_taste_blocker ) );            
+            REQUIRE( dummy.has_active_bionic( bio_taste_blocker ) );
             WHEN( "it is active" ) {
                 THEN( "the bad taste is nullified" ) {
                     actual_fun = dummy.fun_for( garlic );
