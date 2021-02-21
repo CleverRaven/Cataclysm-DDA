@@ -4639,6 +4639,7 @@ void vehicle::consume_fuel( int load, bool idling )
             fuel_remainder[ ft ] = -amnt_precise_j;
         }
     }
+    fuel_used = fuel_used_tmp;
     // Only process muscle power things when moving.
     if( idling ) {
         return;
