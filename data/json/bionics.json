@@ -1222,7 +1222,10 @@
     "name": { "str": "Taste Modifier" },
     "description": "A set of highly sensitive sensors is installed in your mouth, and a small yet sophisticated analyzer is installed in the cavity of your skull.  The active bionic will nullify the taste of all comestibles with negative enjoyment value.",
     "occupied_bodyparts": [ [ "head", 1 ], [ "mouth", 1 ] ],
-    "flags": [ "BIONIC_TOGGLED", "NO_BAD_TASTE" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "NO_BAD_TASTE" ],
+    "react_cost": "1 kJ",
+    "time": 60
   },
   {
     "id": "bio_soporific",
