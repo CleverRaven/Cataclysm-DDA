@@ -104,7 +104,7 @@
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 4,
         "bash": 4,
-        "bullet": 1
+        "stab": 1
       }
     ],
     "passive_mods": { "dex_mod": -1 }
@@ -124,7 +124,7 @@
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
         "cut": 6,
         "bash": 6,
-        "bullet": 6
+        "stab": 6
       }
     ],
     "speed_modifier": 0.95
