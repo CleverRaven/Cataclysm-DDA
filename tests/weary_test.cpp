@@ -177,6 +177,7 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
     }
 
     SECTION( "Digging 24 hours" ) {
+        clear_avatar();
         INFO( guy.debug_weary_info() );
         weariness_events info = do_activity( digging_24h );
         INFO( info.summarize() );
