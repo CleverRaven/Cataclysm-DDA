@@ -160,7 +160,7 @@ const char *npgettext( const char *context, const char *msgid, const char *msgid
 
 // on some systems <locale> pulls in libintl.h anyway,
 // so preemptively include it before the gettext overrides.
-#include <locale>
+#include <locale> // IWYU pragma: keep
 
 #define _(STRING) (STRING)
 
