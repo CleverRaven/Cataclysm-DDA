@@ -1,0 +1,50 @@
+[
+  {
+    "type": "enchantment",
+    "id": "ENCH_INVISIBILITY",
+    "condition": "ACTIVE",
+    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_SHADOW_CLOUD",
+    "condition": "ACTIVE",
+    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+    "emitter": "emit_shadow_field"
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_BIO_MEMORY",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "MAP_MEMORY", "add": 49 },
+      { "value": "READING_EXP", "add": 2 },
+      { "value": "SKILL_RUST_RESIST", "add": 20 },
+      { "value": "LEARNING_FOCUS", "add": 10 }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_FAST_LEARNER",
+    "condition": "ALWAYS",
+    "values": [ { "value": "LEARNING_FOCUS", "add": 15 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_SLOW_LEARNER",
+    "condition": "ALWAYS",
+    "values": [ { "value": "LEARNING_FOCUS", "add": -15 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_GOOD_MEMORY",
+    "condition": "ALWAYS",
+    "values": [ { "value": "MAP_MEMORY", "multiply": 1 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_FORGETFUL",
+    "condition": "ALWAYS",
+    "values": [ { "value": "MAP_MEMORY", "multiply": -0.5 } ]
+  }
+]

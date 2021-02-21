@@ -41,6 +41,7 @@
 #include "iuse.h"
 #include "kill_tracker.h"
 #include "make_static.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_memory.h"
 #include "martialarts.h"
@@ -76,7 +77,6 @@
 static const activity_id ACT_READ( "ACT_READ" );
 
 static const bionic_id bio_cloak( "bio_cloak" );
-static const bionic_id bio_memory( "bio_memory" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_boomered( "boomered" );
@@ -649,9 +649,7 @@ void avatar::do_read( item &book )
             // Enhanced Memory Banks modestly boosts experience
             int min_ex = std::max( 1, reading->time / 10 + learner->get_int() / 4 );
             int max_ex = reading->time /  5 + learner->get_int() / 2 - originalSkillLevel;
-            if( has_active_bionic( bio_memory ) ) {
-                min_ex += 2;
-            }
+            min_ex = enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, min_ex );
 
             min_ex = adjust_for_focus( min_ex ) / 100;
             max_ex = adjust_for_focus( max_ex ) / 100;

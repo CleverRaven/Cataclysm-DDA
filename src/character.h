@@ -2965,6 +2965,9 @@ class Character : public Creature, public visitable
 
         time_point melee_warning_turn = calendar::turn_zero;
     protected:
+        // a cache of all active enchantment values.
+        // is recalculated every turn in Character::recalculate_enchantment_cache
+        pimpl<enchantment> enchantment_cache;
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
         mutable pimpl<recipe_subset> learned_recipes;
 
