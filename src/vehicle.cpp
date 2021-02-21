@@ -4610,13 +4610,15 @@ double vehicle::drain_energy( const itype_id &ftype, double energy_j )
 void vehicle::consume_fuel( int load, bool idling )
 {
     double st = strain();
+    std::map<itype_id, fuel_consumption_data> fuel_used_tmp;
     for( const auto &fuel_pr : fuel_usage() ) {
         const itype_id &ft = fuel_pr.first;
         if( idling && ft == fuel_type_battery ) {
             continue;
         }
 
-        fuel_consumption_data &fcd = fuel_used[ ft ];
+        fuel_used_tmp[ft] = fuel_used[ ft ];
+        fuel_consumption_data &fcd = fuel_used_tmp[ ft ];
 
         double amnt_precise_j = static_cast<double>( fuel_pr.second );
         amnt_precise_j *= load / 1000.0 * ( 1.0 + st * st * 100.0 );
@@ -4642,6 +4644,7 @@ void vehicle::consume_fuel( int load, bool idling )
     if( idling ) {
         return;
     }
+    fuel_used = fuel_used_tmp;
     Character &player_character = get_player_character();
     if( load > 0 && fuel_left( fuel_type_muscle ) > 0 &&
         player_character.has_effect( effect_winded ) ) {
