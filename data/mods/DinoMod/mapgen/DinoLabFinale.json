@@ -188,7 +188,14 @@
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "furniture": { "R": "f_rack", "D": "f_desk" },
       "fields": { "Q": { "field": "fd_fatigue", "intensity": 3 } },
-      "terrain": { "C": "t_machinery_electronic", "r": "t_metal_floor", "Y": "t_thconc_floor_olight", "p": "t_metal_floor", "~": "t_water_sh", "z": "t_water_sh" },
+      "terrain": {
+        "C": "t_machinery_electronic",
+        "r": "t_metal_floor",
+        "Y": "t_thconc_floor_olight",
+        "p": "t_metal_floor",
+        "~": "t_water_sh",
+        "z": "t_water_sh"
+      },
       "mapping": {
         "R": { "item": [ { "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" } ] },
         "z": {
