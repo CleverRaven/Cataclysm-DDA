@@ -5028,22 +5028,5 @@
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "material_rocksalt", 10 ] ] ]
-  },
-  {
-    "result": "cargo_rack",
-    "type": "uncraft",
-    "time": "30 m",
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "frame", 4  ] ], [ [ "rope_natural", 4 ] ], [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ] ]
-  },
-  {
-    "result": "cargo_aisle",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used":  "fabrication",
-    "difficulty": 2,
-    "time": "15 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } , { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "sheet_metal", 3 ] ], [ [ "hinge", 2 ] ] ]
   }
 ]
