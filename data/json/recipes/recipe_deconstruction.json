@@ -5028,5 +5028,12 @@
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "material_rocksalt", 10 ] ] ]
+  },
+  {
+    "result": "cargo_rack",
+    "type": "uncraft",
+    "time": "30 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "frame", 4  ] ], [ [ "rope_natural", 4 ] ], [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ] ]
   }
 ]
