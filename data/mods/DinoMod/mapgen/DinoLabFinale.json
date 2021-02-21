@@ -120,9 +120,9 @@
         ".......................-"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "C": "f_machinery_electronic", "R": "f_rack", "D": "f_desk" },
+      "furniture": { "R": "f_rack", "D": "f_desk" },
       "fields": { "Q": { "field": "fd_fatigue", "intensity": 3 } },
-      "terrain": { "r": "t_metal_floor", "Y": "t_thconc_floor_olight", "p": "t_metal_floor", "z": "t_strconc_floor" },
+      "terrain": { "C": "t_machinery_electronic", "r": "t_metal_floor", "Y": "t_thconc_floor_olight", "p": "t_metal_floor" },
       "mapping": {
         "R": { "item": [ { "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" } ] },
         "z": {
@@ -186,9 +186,9 @@
         ".......................-"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "C": "f_machinery_electronic", "R": "f_rack", "D": "f_desk" },
+      "furniture": { "R": "f_rack", "D": "f_desk" },
       "fields": { "Q": { "field": "fd_fatigue", "intensity": 3 } },
-      "terrain": { "r": "t_metal_floor", "Y": "t_thconc_floor_olight", "p": "t_metal_floor", "~": "t_water_sh", "z": "t_water_sh" },
+      "terrain": { "C": "t_machinery_electronic", "r": "t_metal_floor", "Y": "t_thconc_floor_olight", "p": "t_metal_floor" },
       "mapping": {
         "R": { "item": [ { "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" } ] },
         "z": {
