@@ -3511,7 +3511,8 @@ int vehicle::total_power_w( const bool fueled, const bool safe, bool for_generat
 
     for( size_t e = 0; e < motors.size(); e++ ) {
         int p = motors[e];
-        if( is_engine_on( e, for_generators ) && ( !fueled || engine_fuel_left( e, for_generators ) ) ) {
+        if( is_engine_on( e, for_generators ) && ( !fueled ||
+                engine_fuel_left( e, false, for_generators ) ) ) {
             int m2c = safe ? part_info( motors[e] ).engine_m2c() : 100;
             if( parts[ motors[e] ].has_fault_flag( "REDUCE_ENG_POWER" ) ) {
                 m2c *= 0.6;
