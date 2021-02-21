@@ -5915,7 +5915,11 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "jam_fruit", 1 ] ], [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ] ]
+    "components": [
+      [ [ "bread_sandwich", 2, "LIST" ] ],
+      [ [ "jam_fruit", 1 ] ],
+      [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
