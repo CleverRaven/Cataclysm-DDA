@@ -87,7 +87,7 @@
     "type": "GENERIC",
     "name": { "str": "floor trunk" },
     "description": "A section of flooring with a cargo-space beneath, and a hinged door for access.",
-    "weight": "18000 g",
+    "weight": "19200 g",
     "color": "cyan",
     "symbol": "]",
     "volume": "50 L",
