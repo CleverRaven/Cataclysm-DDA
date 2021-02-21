@@ -1644,7 +1644,10 @@ void sfx::do_footstep() { }
 void sfx::do_danger_music() { }
 void sfx::do_vehicle_engine_sfx() { }
 void sfx::do_vehicle_exterior_engine_sfx() { }
-std::pair<std::string, std::string> sfx::get_engine_sound( std::string, vehicle *, bool ) { return { std::string(), std::string() }; }
+std::pair<std::string, std::string> sfx::get_engine_sound( std::string, vehicle *, bool )
+{
+    return { std::string(), std::string() };
+}
 void sfx::do_ambient() { }
 void sfx::fade_audio_group( group, int ) { }
 void sfx::fade_audio_channel( channel, int ) { }
