@@ -80,7 +80,6 @@ static const efftype_id effect_visuals( "visuals" );
 
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
 static const json_character_flag json_flag_NO_BAD_TASTE( "NO_BAD_TASTE" );
-static const json_character_flag json_flag_NO_GOOD_TASTE( "NO_GOOD_TASTE" );
 static const json_character_flag json_flag_PARAIMMUNE( "PARAIMMUNE" );
 static const json_character_flag json_flag_PRED1( "PRED1" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
@@ -463,8 +462,7 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
         }
     }
 
-    if( ( has_flag( json_flag_NO_BAD_TASTE ) && fun < 0 ) ||
-        ( has_flag( json_flag_NO_GOOD_TASTE ) && fun > 0 ) ) {
+    if( has_flag( json_flag_NO_BAD_TASTE ) && fun < 0 ) {
         fun = 0;
     }
 
