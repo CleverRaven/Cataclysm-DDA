@@ -248,13 +248,19 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
     }
     for( vehicle *veh : opts ) {
         if( veh == source_veh ) {
-            continue;
+            //&& veh->has_part( "FLUIDTANK", false )
+            menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill avaliable tank" ) );
+            actions.emplace_back( [ &, veh]() {
+                target.veh = veh;
+                target.dest_opt = LD_VEH;
+            } );
+        } else {
+            menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill nearby vehicle %s" ), veh->name );
+            actions.emplace_back( [ &, veh]() {
+                target.veh = veh;
+                target.dest_opt = LD_VEH;
+            } );
         }
-        menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill nearby vehicle %s" ), veh->name );
-        actions.emplace_back( [ &, veh]() {
-            target.veh = veh;
-            target.dest_opt = LD_VEH;
-        } );
     }
 
     for( const tripoint &target_pos : here.points_in_radius( player_character.pos(), 1 ) ) {
