@@ -270,11 +270,14 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 ###Adjustment Criteria
 If the resulting base damage is below specific thresholds, apply one of three multipliers. If the base damage is less than 20, the multiplier is 1.333. Else, if the base damage less than 30, the multiplier is 1.222. Else, if the base damage is less than 40, the multiplier is 1.111. Ammunition with damage of 40 or higher will generally have no arbitrary multiplier given to its basic variant.
 
-As for terminal ballistics, hollowpoints variant should be at least 25% more effective against a completely unarmored target, in order for the difference to be considered relevant. Conversely, the base FMJ variation should ideally be at least 25% more effective against a reasonable level of armor for that ammunition to encounter. This recommendation will inform how much armor penetration the two variants should have.
+For liminal cases where the base damage is 20, 30, or 40 there is room for discretion regarding which balance increase to apply, if any. Discretion should be exercised based on which solution makes that ammunition distinct from other ammunition of similar power, as having two different ammotypes with identical power should be avoided. 
 
-For ammunition that would not be expected to defeat soft body armor (i.e. kevlar), test the difference in damage against both 8 and 16 armor. For reference, 16 is the current cut protection a kevlar vest offers. In at least one of these contexts, preferably both, the standard FMJ should have 25% or higher damage than the hollowpoint version.
+As for terminal ballistics, hollowpoints variant should be at least 25% more effective against a completely unarmored target, in order for the difference to be considered relevant. Conversely, the base FMJ variation should have a combined damage and armor penetration whose total is at least 25% greater than the damage of the hollowpoint variant. This recommendation will inform how much armor penetration the two variants should have. Armor-piercing variants have seven-eigths the damage of the standard FMJ variant, and a level of penetration identical to its damage.
 
-For ammunition expected to defeat soft body armor but not hard body armor (i.e. ballistic vest with ceramic plates), perform the same tests against armor values of 23 and 45. For reference, the latter number is the current cut protection of a ceramic-plated MBR vest, and the latter is half that (rounded up). Again, at least one of those scenarios, preferably both, should involve a high enough difference in armor penetration for the FMJ variant to perform at least 25% better than the JHP variant.
+The relative combined damage plus armor penetration for each variant can likewise be summarized as follows:
+1. Hollowpoints are considered to have 100% combined damage (example: 100 damage, 0 arpen)
+2. Standard/FMJ variants are considered to have 125% combined damage, 80% damage and 45% arpen (example: 80 damage, 45 arpen)
+3. AP vairants are considered to have 140% combined damage, 70% damage and 70% arpen (example: 70 damage, 70 arpen)
 
 # LIQUIDS:
 Multi-charge items are weighed by the charge/use.  If you have an item that contains 40 uses, it'll weigh 40x as much (when found in-game) as you entered in the JSON. Liquids are priced by the 250mL unit, but handled in containers.  This can cause problems if you create something that comes in (say) a gallon jug (15 charges) and price it at the cost of a jug's worth: it'll be 15x as expensive as intended.

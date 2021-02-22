@@ -44,7 +44,7 @@
     "description": "9x18mm Makarov RG028 ammunition.  The RG028 round uses bullets with a hardened steel core to improve armor penetration.",
     "price": 200,
     "price_postapoc": 3100,
-    "//": "80% damage, 150% armor penetration relative to FMJ variant.",
+    "//": "AP variant, 7/8 damage relative to FMJ variant, armor penetration matches damage.",
     "relative": { "damage": { "damage_type": "stab", "amount": -3, "armor_penetration": 6 } }
   },
   {
