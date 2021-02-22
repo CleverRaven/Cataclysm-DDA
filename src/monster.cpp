@@ -2805,10 +2805,22 @@ void monster::add_msg_if_npc( const game_message_params &params, const std::stri
     add_msg_if_player_sees( *this, params, replace_with_npc_name( msg ) );
 }
 
+void monster::add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg ) const
+{
+    add_msg_debug_if_player_sees( *this, type, replace_with_npc_name( msg ) );
+}
+
 void monster::add_msg_player_or_npc( const game_message_params &params,
                                      const std::string &/*player_msg*/, const std::string &npc_msg ) const
 {
     add_msg_if_player_sees( *this, params, replace_with_npc_name( npc_msg ) );
+}
+
+void monster::add_msg_debug_player_or_npc( debugmode::debug_filter type,
+        const std::string &/*player_msg*/,
+        const std::string &npc_msg ) const
+{
+    add_msg_debug_if_player_sees( *this, type, replace_with_npc_name( npc_msg ) );
 }
 
 units::mass monster::get_carried_weight()

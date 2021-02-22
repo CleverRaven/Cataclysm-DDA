@@ -2502,6 +2502,11 @@ void Creature::add_msg_if_player( const game_message_params &params, const trans
     return add_msg_if_player( params, msg.translated() );
 }
 
+void Creature::add_msg_debug_if_player( debugmode::debug_filter type, const translation &msg ) const
+{
+    return add_msg_debug_if_player( type, msg.translated() );
+}
+
 void Creature::add_msg_if_npc( const translation &msg ) const
 {
     return add_msg_if_npc( msg.translated() );
@@ -2510,6 +2515,11 @@ void Creature::add_msg_if_npc( const translation &msg ) const
 void Creature::add_msg_if_npc( const game_message_params &params, const translation &msg ) const
 {
     return add_msg_if_npc( params, msg.translated() );
+}
+
+void Creature::add_msg_debug_if_npc( debugmode::debug_filter type, const translation &msg ) const
+{
+    return add_msg_debug_if_npc( type, msg.translated() );
 }
 
 void Creature::add_msg_player_or_npc( const translation &pc, const translation &npc ) const
@@ -2521,6 +2531,12 @@ void Creature::add_msg_player_or_npc( const game_message_params &params, const t
                                       const translation &npc ) const
 {
     return add_msg_player_or_npc( params, pc.translated(), npc.translated() );
+}
+
+void Creature::add_msg_debug_player_or_npc( debugmode::debug_filter type, const translation &pc,
+        const translation &npc ) const
+{
+    return add_msg_debug_player_or_npc( type, pc.translated(), npc.translated() );
 }
 
 void Creature::add_msg_player_or_say( const translation &pc, const translation &npc ) const
