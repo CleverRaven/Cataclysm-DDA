@@ -1137,5 +1137,23 @@
     "cutting": 23,
     "price": 16000,
     "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "battery_sock",
+    "symbol": ";",
+    "color": "white",
+    "looks_like": "rock_sock",
+    "name": { "str": "sock full o' batteries", "str_pl": "a sock full of old batteries" },
+    "description": "A pair of socks full of old disposable batteries--the poor man's nunchaku.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "cotton", "iron", "plastic" ],
+    "weight": "1007 g",
+    "volume": "500 ml",
+    "longest_side": "10 cm",
+    "bashing": 8,
+    "to_hit": -1,
+    "qualities": [ [ "HAMMER", 1 ] ]
   }
 ]
