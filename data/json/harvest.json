@@ -240,9 +240,7 @@
   {
     "id": "coffee_harv",
     "type": "harvest",
-    "entries": [
-      { "drop": "coffee_pod", "base_num": [ 4, 10 ], "scale_num": [ 0, 0.5 ] }
-    ]
+    "entries": [ { "drop": "coffee_pod", "base_num": [ 4, 10 ], "scale_num": [ 0, 0.5 ] } ]
   },
   {
     "id": "pear_harv",
