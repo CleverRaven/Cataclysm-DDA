@@ -16,6 +16,10 @@
     "type": "enchantment",
     "id": "ENCH_BIO_LEUKOCYTE",
     "condition": "ACTIVE",
-    "values": [ { "value": "EFFECTIVE_HEALTH_MOD", "add": 100 },{ "value": "MOD_HEALTH", "add": -50 },{ "value": "MOD_HEALTH_CAP", "add": -200 } ]
+    "values": [
+      { "value": "EFFECTIVE_HEALTH_MOD", "add": 100 },
+      { "value": "MOD_HEALTH", "add": -50 },
+      { "value": "MOD_HEALTH_CAP", "add": -200 }
+    ]
   }
 ]
