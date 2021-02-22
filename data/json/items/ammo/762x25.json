@@ -45,7 +45,7 @@
     "relative": {
       "price": 2000,
       "range": -1,
-      "damage": { "damage_type": "stab", "amount": -7, "armor_penetration": 8 },
+      "damage": { "damage_type": "stab", "amount": -5, "armor_penetration": 16 },
       "recoil": -270
     }
   },

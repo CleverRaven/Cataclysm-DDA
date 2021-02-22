@@ -18,7 +18,7 @@
     "casing": "46mm_casing",
     "range": 14,
     "//": "Base damage of 20, balance increase of one third.",
-    "damage": { "damage_type": "stab", "amount": 24, "armor_penetration": 25 },
+    "damage": { "damage_type": "stab", "amount": 24, "armor_penetration": 24 },
     "dispersion": 40,
     "recoil": 90,
     "effects": [ "COOKOFF" ]
