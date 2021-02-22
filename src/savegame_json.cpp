@@ -2622,6 +2622,8 @@ void item::deserialize( JsonIn &jsin )
         contents = item_contents( type->pockets );
     }
 
+    data.read( "corpse_tag", corpse_tag, false );
+
     // Remove after 0.F: artifact migration code
     if( typeId().str().substr( 0, 9 ) == "artifact_" ) {
         static const relic_procgen_id proc_cult( "cult" );
@@ -2654,6 +2656,10 @@ void item::serialize( JsonOut &json ) const
 
         proc_cult->create_item( rules ).serialize( json );
         return;
+    }
+
+    if( corpse_tag != 0 ) {
+        json.member( "corpse_tag", corpse_tag );
     }
 
     io::JsonObjectOutputArchive archive( json );

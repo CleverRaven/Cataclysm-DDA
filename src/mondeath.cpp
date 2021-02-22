@@ -792,6 +792,7 @@ void make_mon_corpse( monster &z, int damageLvl )
     if( z.has_effect( effect_no_ammo ) ) {
         corpse.set_var( "no_ammo", "no_ammo" );
     }
+    corpse.corpse_tag = z.get_corpse_tag();
     get_map().add_item_or_charges( z.pos(), corpse );
 }
 

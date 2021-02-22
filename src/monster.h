@@ -408,7 +408,9 @@ class monster : public Creature
         void reset_stats() override;
 
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
-        void drop_items_on_death();
+
+        /** Generate extra loot based on monster's type and put it into monster's inventory */
+        void generate_extra_death_drops();
 
         // Other
         /**

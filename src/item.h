@@ -2284,6 +2284,8 @@ class item : public visitable
         std::list<item> components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
+        /** A random number to match a corpse to its belongings, zero for non-corpse loot */
+        int corpse_tag;
 
     private:
         /** `true` if item has any of the flags that require processing in item::process_internal.

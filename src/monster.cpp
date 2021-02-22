@@ -2334,9 +2334,7 @@ void monster::die( Creature *nkiller )
     g->set_critter_died();
     dead = true;
     set_killer( nkiller );
-    if( death_drops && !no_extra_death_drops ) {
-        drop_items_on_death();
-    }
+
     // TODO: should actually be class Character
     player *ch = dynamic_cast<player *>( get_killer() );
     if( !is_hallucination() && ch != nullptr ) {
@@ -2373,6 +2371,10 @@ void monster::die( Creature *nkiller )
         if( has_effect( effect_beartrap ) ) {
             add_item( item( "beartrap", calendar::turn_zero ) );
         }
+
+        if( !no_extra_death_drops ) {
+            generate_extra_death_drops();
+        }
     }
     map &here = get_map();
     if( has_effect( effect_grabbing ) ) {
@@ -2397,8 +2399,12 @@ void monster::die( Creature *nkiller )
             }
         }
     }
+
+    generate_corpse_tag();
+
     if( death_drops && !is_hallucination() ) {
-        for( const auto &it : inv ) {
+        for( auto &it : inv ) {
+            it.corpse_tag = get_corpse_tag();
             here.add_item_or_charges( pos(), it );
         }
     }
@@ -2490,7 +2496,7 @@ bool monster::check_mech_powered() const
     return true;
 }
 
-void monster::drop_items_on_death()
+void monster::generate_extra_death_drops()
 {
     if( is_hallucination() ) {
         return;
@@ -2499,17 +2505,19 @@ void monster::drop_items_on_death()
         return;
     }
 
-    std::vector<item *> dropped = get_map().place_items( type->death_drops, 100, pos(), pos(), true,
-                                  calendar::start_of_cataclysm );
+    std::vector<item> dropped = item_group::items_from( type->death_drops,
+                                calendar::start_of_cataclysm );
 
     if( has_flag( MF_FILTHY ) ) {
-        for( const auto &it : dropped ) {
-            if( ( it->is_armor() || it->is_pet_armor() ) && !it->is_gun() ) {
+        for( auto &it : dropped ) {
+            if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
                 // handle wearable guns as a special case
-                it->set_flag( STATIC( flag_id( "FILTHY" ) ) );
+                it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
             }
         }
     }
+
+    inv.insert( inv.end(), dropped.begin(), dropped.end() );
 }
 
 void monster::process_one_effect( effect &it, bool is_new )

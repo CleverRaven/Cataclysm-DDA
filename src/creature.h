@@ -1030,7 +1030,17 @@ class Creature : public location, public viewer
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
 
+    public:
+        int get_corpse_tag() const;
+
     protected:
+        /** A random number to tie the creature's corpse to its loot. Will be
+         * generated and passed along to both the corpse's and loot's @ref item
+         * at the moment of death. Will remain zero otherwise.
+         */
+        mutable int corpse_tag;
+        void generate_corpse_tag();
+
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *killer );
 

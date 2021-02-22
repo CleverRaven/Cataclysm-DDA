@@ -109,6 +109,7 @@ Creature::Creature()
     killer = nullptr;
     speed_base = 100;
     underwater = false;
+    corpse_tag = 0;
 
     Creature::reset_bonuses();
 
@@ -2374,6 +2375,16 @@ void Creature::draw( const catacurses::window &w, const tripoint &origin, bool i
 bool Creature::is_symbol_highlighted() const
 {
     return false;
+}
+
+int Creature::get_corpse_tag() const
+{
+    return corpse_tag;
+}
+
+void Creature::generate_corpse_tag()
+{
+    corpse_tag = rng( 1, INT32_MAX );
 }
 
 bodypart_id Creature::select_body_part( Creature *source, int hit_roll ) const

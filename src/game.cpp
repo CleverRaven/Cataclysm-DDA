@@ -5367,9 +5367,9 @@ bool game::is_sheltered( const tripoint &p )
              ( vp && vp->is_inside() ) );
 }
 
-bool game::revive_corpse( const tripoint &p, item &it )
+bool game::revive_corpse( const tripoint &p, item &corpse )
 {
-    if( !it.is_corpse() ) {
+    if( !corpse.is_corpse() ) {
         debugmsg( "Tried to revive a non-corpse." );
         return false;
     }
@@ -5378,33 +5378,50 @@ bool game::revive_corpse( const tripoint &p, item &it )
     if( g->new_game ) {
         return false;
     }
-    shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
-                                          ( it.get_mtype()->id );
-    if( it.has_var( "zombie_form" ) ) { // if the monster can reanimate has a zombie
-        newmon_ptr = make_shared_fast<monster>( mtype_id( it.get_var( "zombie_form" ) ) );
+    shared_ptr_fast<monster> revived_mon_ptr = make_shared_fast<monster>
+            ( corpse.get_mtype()->id );
+    if( corpse.has_var( "zombie_form" ) ) { // if the monster can reanimate has a zombie
+        revived_mon_ptr = make_shared_fast<monster>( mtype_id( corpse.get_var( "zombie_form" ) ) );
     }
-    monster &critter = *newmon_ptr;
-    critter.init_from_item( it );
-    if( critter.get_hp() < 1 ) {
+    monster &revived_mon = *revived_mon_ptr;
+    revived_mon.init_from_item( corpse );
+    if( revived_mon.get_hp() < 1 ) {
         // Failed reanimation due to corpse being too burned
         return false;
     }
-    if( it.has_flag( flag_FIELD_DRESS ) || it.has_flag( flag_FIELD_DRESS_FAILED ) ||
-        it.has_flag( flag_QUARTERED ) ) {
+    if( corpse.has_flag( flag_FIELD_DRESS ) || corpse.has_flag( flag_FIELD_DRESS_FAILED ) ||
+        corpse.has_flag( flag_QUARTERED ) ) {
         // Failed reanimation due to corpse being butchered
         return false;
     }
 
-    critter.no_extra_death_drops = true;
-    critter.add_effect( effect_downed, 5_turns, true );
+    // Prevent additional loot generation after first death
+    revived_mon.no_extra_death_drops = true;
 
-    if( it.get_var( "no_ammo" ) == "no_ammo" ) {
-        for( auto &ammo : critter.ammo ) {
+    // Pick up previously dropped loot, if any
+    if( corpse.corpse_tag != 0 ) {
+        for( const item &it : get_map().i_at( p ) ) {
+            debugmsg( "Corpse tag %i, item ""%s"" tag %i", corpse.corpse_tag,
+                      it.tname().c_str(), it.corpse_tag );
+            if( it.corpse_tag == corpse.corpse_tag && !it.is_corpse() ) {
+                // NEED HALP: how do I remove items from the map anyway?
+                revived_mon.add_item( it );
+            }
+        }
+    }
+
+    // HACK: delete all items on revival to prevent item duplication. Very wrong!
+    get_map().i_clear( p );
+
+    revived_mon.add_effect( effect_downed, 5_turns, true );
+
+    if( corpse.get_var( "no_ammo" ) == "no_ammo" ) {
+        for( auto &ammo : revived_mon.ammo ) {
             ammo.second = 0;
         }
     }
 
-    return place_critter_at( newmon_ptr, p );
+    return place_critter_at( revived_mon_ptr, p );
 }
 
 void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer )

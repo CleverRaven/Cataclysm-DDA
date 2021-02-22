@@ -264,12 +264,14 @@ item::item() : bday( calendar::start_of_cataclysm )
 {
     type = nullitem();
     charges = 0;
+    corpse_tag = 0;
     contents = item_contents( type->pockets );
 }
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
 {
     corpse = has_flag( flag_CORPSE ) ? &mtype_id::NULL_ID().obj() : nullptr;
+    corpse_tag = 0;
     contents = item_contents( type->pockets );
     item_counter = type->countdown_interval;
 
