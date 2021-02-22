@@ -18,7 +18,7 @@
     "casing": "38super_casing",
     "range": 14,
     "//": "Base damage of 26, balance increase of two-nineths.",
-    "damage": { "damage_type": "stab", "amount": 32, "armor_penetration": 14 },
+    "damage": { "damage_type": "stab", "amount": 32, "armor_penetration": 18 },
     "dispersion": 30,
     "recoil": 250,
     "effects": [ "COOKOFF" ]
