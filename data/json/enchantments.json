@@ -1,0 +1,21 @@
+[
+  {
+    "type": "enchantment",
+    "id": "ENCH_INVISIBILITY",
+    "condition": "ACTIVE",
+    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_SHADOW_CLOUD",
+    "condition": "ACTIVE",
+    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+    "emitter": "emit_shadow_field"
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_BIO_LEUKOCYTE",
+    "condition": "ACTIVE",
+    "values": [ { "value": "EFFECTIVE_HEALTH_MOD", "add": 100 },{ "value": "MOD_HEALTH", "add": -50 },{ "value": "MOD_HEALTH_CAP", "add": -200 } ]
+  }
+]

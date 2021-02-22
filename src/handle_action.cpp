@@ -1034,7 +1034,6 @@ static void sleep()
 
         // some bionics
         // bio_alarm is useful for waking up during sleeping
-        // turning off bio_leukocyte has 'unpleasant side effects'
         if( bio.info().has_flag( STATIC( json_character_flag( "BIONIC_SLEEP_FRIENDLY" ) ) ) ) {
             continue;
         }

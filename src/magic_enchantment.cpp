@@ -86,6 +86,9 @@ namespace io
             case enchant_vals::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
             case enchant_vals::mod::SLEEPY: return "SLEEPY";
             case enchant_vals::mod::LUMINATION: return "LUMINATION";
+            case enchant_vals::mod::EFFECTIVE_HEALTH_MOD: return "EFFECTIVE_HEALTH_MOD";
+            case enchant_vals::mod::MOD_HEALTH: return "MOD_HEALTH";
+            case enchant_vals::mod::MOD_HEALTH_CAP: return "MOD_HEALTH_CAP";
             case enchant_vals::mod::ARMOR_ACID: return "ARMOR_ACID";
             case enchant_vals::mod::ARMOR_BASH: return "ARMOR_BASH";
             case enchant_vals::mod::ARMOR_BIO: return "ARMOR_BIO";

@@ -497,6 +497,9 @@ Effects for the character that has the enchantment:
 * SOCIAL_INTIMIDATE
 * SLEEPY : The higher this is the more easily you fall asleep.
 * LUMINATION : The character produces light
+* EFFECTIVE_HEALTH_MOD : If this is anything other than zero(which it defaults to) you will use it instead of your actual health mod
+* MOD_HEALTH : If this is anything other than zero(which it defaults to) you will to mod your health to a max/min of MOD_HEALTH_CAP every half hour
+* MOD_HEALTH_CAP : If this is anything other than zero(which it defaults to) you will cap your MOD_HEALTH gain/loss at this every half hour
 * ARMOR_BASH
 * ARMOR_CUT
 * ARMOR_STAB
