@@ -1936,7 +1936,7 @@
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
-    "id": "bookstrap_belt",
+    "id": "bookstrap",
     "type": "ARMOR",
     "name": { "str": "bookstrap" },
     "description": "An old-fashioned book strap carrier.  Guaranteed to make you feel like a proper scholar.",
