@@ -200,18 +200,7 @@ void quality_requirement::load( const JsonValue &value )
     count = quality_data.get_int( "amount", 1 );
     if( count <= 0 ) {
         quality_data.throw_error( "quality amount must be a positive number", "amount" );
-      } else {
-          if( jo.has_object( "extend" ) ) {
-              JsonObject tmp = jo.get_object( "extend" );
-              tmp.allow_omitted_members();
-              extend_qualities_from_json( tmp, "qualities", def );
-          }
-          if( jo.has_object( "delete" ) ) {
-              JsonObject tmp = jo.get_object( "delete" );
-              tmp.allow_omitted_members();
-              delete_qualities_from_json( tmp, "qualities", def );
-          }
-      }
+    }
     // Note: level is not checked, negative values and 0 are allow, see butchering quality.
 }
 
@@ -242,18 +231,7 @@ void tool_comp::load( const JsonValue &value )
     }
     if( count == 0 ) {
         value.throw_error( "tool count must not be 0" );
-      } else {
-          if( jo.has_object( "extend" ) ) {
-              JsonObject tmp = jo.get_object( "extend" );
-              tmp.allow_omitted_members();
-              extend_qualities_from_json( tmp, "qualities", def );
-          }
-          if( jo.has_object( "delete" ) ) {
-              JsonObject tmp = jo.get_object( "delete" );
-              tmp.allow_omitted_members();
-              delete_qualities_from_json( tmp, "qualities", def );
-          }
-      }
+    }
     // Note: negative count means charges (of the tool) should be consumed
 }
 
@@ -310,18 +288,7 @@ void requirement_data::load_obj_list( const JsonArray &jsarr, std::vector< std::
             for( const JsonValue subentry : entry.get_array() ) {
                 choices.push_back( T() );
                 choices.back().load( subentry );
-              } else {
-                  if( jo.has_object( "extend" ) ) {
-                      JsonObject tmp = jo.get_object( "extend" );
-                      tmp.allow_omitted_members();
-                      extend_qualities_from_json( tmp, "qualities", def );
-                  }
-                  if( jo.has_object( "delete" ) ) {
-                      JsonObject tmp = jo.get_object( "delete" );
-                      tmp.allow_omitted_members();
-                      delete_qualities_from_json( tmp, "qualities", def );
-                  }
-              }
+            }
             if( !choices.empty() ) {
                 objs.push_back( choices );
             }
