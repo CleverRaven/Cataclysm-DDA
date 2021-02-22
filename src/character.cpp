@@ -10453,19 +10453,24 @@ void Character::rooted_message() const
 }
 
 void Character::rooted()
-// Should average a point every two minutes or so; ground isn't uniformly fertile
+// This assumes that daily Iron, Calcium, and Thirst needs should fill at the same rate
+// TODO: The chances for vitamin and thirst, plus the time_to_full, should maybe be pulled from nutrition rate definitions rather than just hard-coded here so that future balance changes don't break this.
+// Baseline human needs are 96 Iron and Calcium per day
+// Thirst at -40 is right in the middle of the 'Hydrated' zone
 {
     double shoe_factor = footwear_factor();
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         get_map().has_flag( flag_PLOWABLE, pos() ) && shoe_factor != 1.0 ) {
-        if( one_in( 96 ) ) {
+	int time_to_full = 43200; // 12 Hours
+	if( has_trait( trait_ROOTS3 ) ) time_to_full += -14400; // -4 Hours
+        if( x_in_y( 96, time_to_full ) ) {
             vitamin_mod( vitamin_id( "iron" ), 1, true );
             vitamin_mod( vitamin_id( "calcium" ), 1, true );
+	    mod_healthy_mod( 5, 50 );
         }
-        if( get_thirst() <= -2000 && x_in_y( 75, 425 ) ) {
+        if( get_thirst() > -40 && x_in_y( 288, time_to_full ) ) {
             mod_thirst( -1 );
         }
-        mod_healthy_mod( 5, 50 );
     }
 }
 
