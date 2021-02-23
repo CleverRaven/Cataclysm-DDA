@@ -5534,7 +5534,7 @@ void Character::update_health( int external_modifiers )
     int effective_healthy_mod = enchantment_cache->modify_value(
                                     enchant_vals::mod::EFFECTIVE_HEALTH_MOD, 0 );
     if( effective_healthy_mod == 0 ) {
-        effective_healthy_mod = get_healthy();
+        effective_healthy_mod = get_healthy_mod();
     }
     int healthy_mod = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH, 0 );
     int healthy_mod_cap = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH_CAP, 0 );
