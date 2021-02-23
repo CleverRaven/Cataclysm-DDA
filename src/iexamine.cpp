@@ -4494,10 +4494,15 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         amenu.selected = uistate.ags_pay_gas_selected_pump;
         amenu.text = str_to_illiterate_str( string_format( _( "Please choose %s pump:" ), fuelType ) );
 
+        std::vector<tripoint> pumps;
         for( int i = 0; i < pumpCount; i++ ) {
             amenu.addentry( i, true, -1,
                             str_to_illiterate_str( _( "Pump " ) ) + std::to_string( i + 1 ) );
+            pumps.emplace_back( getGasPumpByNumber( examp, i ).value_or( examp ) );
         }
+        pointmenu_cb callback( pumps );
+        amenu.callback = &callback;
+        amenu.w_y_setup = 0;
         amenu.query();
         choice = amenu.ret;
 
