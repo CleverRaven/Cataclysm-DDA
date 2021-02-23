@@ -21,4 +21,8 @@ void give_and_activate_bionic( player &, bionic_id const & );
 
 item tool_with_ammo( const std::string &tool, int qty );
 
+void arm_shooter( npc &shooter, const std::string &gun_type,
+                  const std::vector<std::string> &mods = {},
+                  const std::string &ammo_type = "" );
+
 #endif // CATA_TESTS_PLAYER_HELPERS_H
