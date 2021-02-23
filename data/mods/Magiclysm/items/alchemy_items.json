@@ -173,7 +173,7 @@
     "container": "flask_glass",
     "charges": 1,
     "phase": "liquid",
-    "freezing_point": -100
+    "freezing_point": -73
   },
   {
     "id": "stirge_proboscis",
