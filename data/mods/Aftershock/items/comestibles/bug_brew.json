@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "afs_mealgrub_medium",
-    "name": { "str": "mealgurb growth medium" },
+    "name": { "str": "mealgrub growth medium" },
     "description": "All sort of organic substances rendered into a nutritious goop that can be used as a growth medium in grub aquaculture.  Urban myth claims that its original formula was just bottled industrial runoff.  Whatever the case, mealgrubs thrive within it.",
     "weight": "100 g",
     "container": "jug_plastic",
@@ -25,7 +25,7 @@
   {
     "type": "COMESTIBLE",
     "id": "afs_mealgrub_spores",
-    "name": { "str_sp": "mealgurb spores" },
+    "name": { "str_sp": "mealgrub spores" },
     "description": "Mealgrubs are a staple aquacultural product, treasured for their ability to process nearly any organic substance into safe for consumption animal protein.  As the result of very heavy handed gene-modding these are propietary organism, and strictly speaking, its illegal to grow them without a licence.",
     "weight": "100 g",
     "container": "bottle_plastic_small",
