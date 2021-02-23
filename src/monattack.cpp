@@ -2522,7 +2522,10 @@ bool mattack::tentacle( monster *z )
         return false;
     }
     Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
+
+    // Can't see/reach target, no attack
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ||
+        !get_map().clear_path( z->pos(), target->pos(), 3, 1, 100 ) ) {
         return false;
     }
     game_message_type msg_type = target->is_avatar() ? m_bad : m_info;
