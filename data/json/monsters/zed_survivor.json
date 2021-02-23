@@ -28,6 +28,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "zombie",
+    "fungalized": "mon_zombie_fungus",
     "path_settings": { "max_dist": 3 },
     "special_attacks": [
       [ "SHRIEK", 20 ],

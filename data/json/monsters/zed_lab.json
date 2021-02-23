@@ -26,6 +26,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "CBM_SCI",
+    "fungalized": "mon_zombie_fungus",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_scientist_death_drops",

@@ -140,6 +140,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 4,
     "harvest": "triffid_paralytic",
+    "fungalized": "mon_fungaloid",
     "upgrades": { "age_grow": 14, "into": "mon_triffid" },
     "special_attacks": [ [ "TRIFFID_GROWTH", 28800 ] ],
     "death_function": [ "NORMAL" ],
@@ -169,6 +170,7 @@
     "armor_cut": 4,
     "armor_bullet": 3,
     "harvest": "triffid_paralytic",
+    "fungalized": "mon_fungaloid",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ]
   },
@@ -196,6 +198,7 @@
     "armor_cut": 8,
     "armor_bullet": 6,
     "harvest": "triffid_queen",
+    "fungalized": "mon_fungaloid",
     "special_attacks": [ [ "GROWPLANTS", 20 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "SMELLS", "BASHES", "NOHEAD", "PARALYZEVENOM" ]

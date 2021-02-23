@@ -64,6 +64,7 @@
     "vision_day": 35,
     "vision_night": 3,
     "harvest": "mr_bones",
+    "fungalized": "mon_zombie_fungus",
     "special_attacks": [
       [ "SMASH", 45 ],
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
@@ -137,6 +138,7 @@
     "vision_day": 50,
     "vision_night": 4,
     "harvest": "mr_bones",
+    "fungalized": "mon_skeleton_hulk_fungus",
     "special_attacks": [
       [ "SMASH", 20 ],
       [ "STRETCH_ATTACK", 20 ],

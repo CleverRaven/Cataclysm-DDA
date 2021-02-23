@@ -137,6 +137,7 @@
     "dodge": 1,
     "vision_night": 3,
     "harvest": "zombie",
+    "fungalized": "mon_zombie_fungus",
     "special_attacks": [ [ "ACID", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "ACID", "NORMAL" ],
