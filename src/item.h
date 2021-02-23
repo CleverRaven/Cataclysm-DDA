@@ -1240,7 +1240,7 @@ class item : public visitable
         float get_specific_heat_liquid() const;
         float get_specific_heat_solid() const;
         float get_latent_heat() const;
-        float get_freeze_point() const; // Fahrenheit
+        float get_freeze_point() const; // Celsius
 
         // If this is food, returns itself.  If it contains food, return that
         // contents.  Otherwise, returns nullptr.
