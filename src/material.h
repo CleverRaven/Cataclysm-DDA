@@ -78,6 +78,7 @@ class material_type
         int _freeze_point = 32; // Fahrenheit
         bool _edible = false;
         bool _rotting = false;
+        bool _fungalizeable = false;
         bool _soft = false;
         bool _reinforces = false;
 
@@ -131,6 +132,7 @@ class material_type
         int density() const;
         bool edible() const;
         bool rotting() const;
+        bool fungalizeable() const;
         bool soft() const;
         bool reinforces() const;
 

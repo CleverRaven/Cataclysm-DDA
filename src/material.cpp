@@ -74,6 +74,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, itype_id::NULL_ID() );
     optional( jsobj, was_loaded, "edible", _edible, false );
     optional( jsobj, was_loaded, "rotting", _rotting, false );
+    optional( jsobj, was_loaded, "fungalizeable", _fungalizeable, false );
     optional( jsobj, was_loaded, "soft", _soft, false );
     optional( jsobj, was_loaded, "reinforces", _reinforces, false );
 
@@ -245,6 +246,11 @@ bool material_type::edible() const
 bool material_type::rotting() const
 {
     return _rotting;
+}
+
+bool material_type::fungalizeable() const
+{
+    return _fungalizeable;
 }
 
 bool material_type::soft() const
