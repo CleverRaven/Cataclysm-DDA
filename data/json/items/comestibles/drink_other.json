@@ -46,7 +46,7 @@
     "flags": [ "EATEN_COLD", "RAW" ],
     "phase": "liquid",
     "vitamins": [  ],
-    "freezing_point": 30
+    "freezing_point": -1
   },
   {
     "id": "mayonnaise",
@@ -69,7 +69,7 @@
     "fun": -1,
     "flags": [ "FREEZERBURN" ],
     "phase": "liquid",
-    "freezing_point": 25
+    "freezing_point": -4
   },
   {
     "id": "ketchup",
@@ -155,7 +155,7 @@
     "phase": "liquid",
     "charges": 16,
     "fun": -4,
-    "freezing_point": 28
+    "freezing_point": -2
   },
   {
     "type": "COMESTIBLE",
@@ -179,7 +179,7 @@
     "fun": -25,
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "vitamins": [  ],
-    "freezing_point": 14
+    "freezing_point": -26
   },
   {
     "type": "COMESTIBLE",
@@ -213,7 +213,7 @@
     "fun": 2,
     "flags": [ "USE_EAT_VERB" ],
     "vitamins": [ [ "calcium", 18 ], [ "iron", 23 ] ],
-    "freezing_point": -20
+    "freezing_point": -29
   },
   {
     "id": "horseradish",
