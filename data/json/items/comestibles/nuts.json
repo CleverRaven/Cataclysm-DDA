@@ -428,7 +428,7 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "freezing_point": -80
+    "freezing_point": -62
   },
   {
     "id": "peanutbutter",
