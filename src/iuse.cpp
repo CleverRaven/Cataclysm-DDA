@@ -5064,6 +5064,8 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         t_bars,
         t_window_bars_alarm,
         t_window_bars,
+        t_window_bars_curtains,
+        t_window_bars_domestic,
         t_reb_cage,
         t_door_metal_locked,
         t_door_metal_c,
@@ -5117,7 +5119,8 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
         turns = to_turns<int>( 5_seconds );
     } else if( ter == t_chainfence || ter == t_chaingate_c ||
                ter == t_chaingate_l  || ter == t_bars || ter == t_window_bars_alarm ||
-               ter == t_window_bars || ter == t_reb_cage ) {
+               ter == t_window_bars || ter == t_window_bars_curtains || ter == t_window_domestic ||
+               ter == t_reb_cage ) {
         turns = to_turns<int>( 10_seconds );
     } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
                ter == t_door_bar_locked || ter == t_door_metal_pickable || furn == f_safe_l ||
@@ -5163,6 +5166,8 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
         t_chaingate_l,
         t_window_bars_alarm,
         t_window_bars,
+        t_window_bars_curtains,
+        t_window_bars_domestic,
         t_reb_cage,
         t_door_bar_c,
         t_door_bar_locked,
@@ -5207,8 +5212,9 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
         moves = to_moves<int>( 2_minutes );
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         moves = to_moves<int>( 5_minutes );
-    } else if( ter == t_chainfence || ter == t_chaingate_c ||
-               ter == t_chaingate_l || ter == t_window_bars_alarm || ter == t_window_bars || ter == t_reb_cage ) {
+    } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ||
+               ter == t_window_bars_alarm || ter == t_window_bars || ter == t_window_bars_curtains ||
+               ter == t_window_bars_domestic || ter == t_reb_cage ) {
         moves = to_moves<int>( 10_minutes );
     } else if( ter == t_door_bar_c || ter == t_door_bar_locked || ter == t_bars ) {
         moves = to_moves<int>( 15_minutes );

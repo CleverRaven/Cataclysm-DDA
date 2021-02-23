@@ -203,6 +203,7 @@ static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_pipe( "pipe" );
+static const itype_id itype_rebar( "rebar" );
 static const itype_id itype_scrap( "scrap" );
 static const itype_id itype_sheet_metal( "sheet_metal" );
 static const itype_id itype_spike( "spike" );
@@ -2333,10 +2334,13 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         }
     } else if( ter == t_window_bars_alarm ) {
         here.ter_set( pos, t_window_alarm );
-        here.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 2 ) );
     } else if( ter == t_window_bars ) {
         here.ter_set( pos, t_window_empty );
-        here.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 2 ) );
+    } else if( ter == t_window_bars_curtains || ter == t_window_bars_domestic ) {
+        here.ter_set( pos, t_window_domestic );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 2 ) );
     } else if( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_mj ||
                furn == f_gun_safe_el ) {
         here.furn_set( pos, f_safe_o );
@@ -3575,10 +3579,13 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
         here.spawn_item( p->pos(), itype_pipe, 6 );
     } else if( ter == t_window_bars_alarm ) {
         here.ter_set( pos, t_window_alarm );
-        here.spawn_item( p->pos(), itype_pipe, 6 );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 6 ) );
+    } else if( ter == t_window_bars_curtains || ter == t_window_bars_domestic ) {
+        here.ter_set( pos, t_window_domestic );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 6 ) );
     } else if( ter == t_window_bars ) {
         here.ter_set( pos, t_window_empty );
-        here.spawn_item( p->pos(), itype_pipe, 6 );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 6 ) );
     } else if( ter == t_window_enhanced ) {
         here.ter_set( pos, t_window_reinforced );
         here.spawn_item( p->pos(), itype_spike, rng( 1, 4 ) );
