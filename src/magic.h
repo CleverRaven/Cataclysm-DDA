@@ -30,6 +30,7 @@ class JsonOut;
 class nc_color;
 class spell;
 class time_duration;
+struct dealt_projectile_attack;
 struct requirement_data;
 
 namespace spell_effect
@@ -441,7 +442,11 @@ class spell
         int damage_dot() const;
         damage_over_time_data damage_over_time( const std::vector<bodypart_str_id> &bps ) const;
         dealt_damage_instance get_dealt_damage_instance() const;
+        dealt_projectile_attack get_projectile_attack( const tripoint &target,
+                Creature &hit_critter ) const;
         damage_instance get_damage_instance() const;
+        // calculate damage per second against a target
+        float dps( const Character &caster, const Creature &target ) const;
         // how big is the spell's radius
         int aoe() const;
         std::set<tripoint> effect_area( const spell_effect::override_parameters &params,
@@ -449,6 +454,12 @@ class spell
         std::set<tripoint> effect_area( const tripoint &source, const tripoint &target ) const;
         // distance spell can be cast
         int range() const;
+        /**
+         *  all of the tripoints the spell can be cast at.
+         *  if the spell can't be cast through walls, does not return anything behind walls
+         *  if the spell can't target the ground, can't target unseen locations, etc.
+         */
+        std::vector<tripoint> targetable_locations( const Character &source ) const;
         // how much energy does the spell cost
         int energy_cost( const Character &guy ) const;
         // how long does this spell's effect last
@@ -464,7 +475,7 @@ class spell
         const requirement_data &components() const;
         bool has_components() const;
         // can the Character cast this spell?
-        bool can_cast( Character &guy ) const;
+        bool can_cast( const Character &guy ) const;
         // can the Character learn this spell?
         bool can_learn( const Character &guy ) const;
         // is this spell valid
@@ -525,6 +536,7 @@ class spell
         // tries to create a field at the location specified
         void create_field( const tripoint &at ) const;
 
+        int sound_volume() const;
         // makes a spell sound at the location
         void make_sound( const tripoint &target ) const;
         void make_sound( const tripoint &target, int loudness ) const;
