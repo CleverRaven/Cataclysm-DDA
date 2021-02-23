@@ -311,6 +311,7 @@ struct mtype {
         mtype_id burn_into;
 
         mtype_id zombify_into; // mtype_id this monster zombifies into
+        mtype_id fungalized; // mtype_id this monster is turns into when fungalized
 
         // Monster reproduction variables
         cata::optional<time_duration> baby_timer;

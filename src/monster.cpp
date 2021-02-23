@@ -2644,87 +2644,29 @@ void monster::process_effects()
 
 bool monster::make_fungus()
 {
-    if( is_hallucination() ) {
+    if( is_hallucination() || type->in_species( species_FUNGUS ) ) {
         return true;
     }
-    char polypick = 0;
-    const mtype_id &tid = type->id;
-    if( type->in_species( species_FUNGUS ) ) { // No friendly-fungalizing ;-)
-        return true;
+
+    // if one of its materials is immune
+    // monster is immune
+    bool mat_immune = false;
+    for( const material_id &monmat : type->mat ) {
+        if( !monmat->fungalizeable() ) {
+            mat_immune = true;
+            break;
+        }
     }
-    if( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "hflesh" ) ) &&
-        !made_of( material_id( "veggy" ) ) && !made_of( material_id( "iflesh" ) ) &&
-        !made_of( material_id( "bone" ) ) ) {
-        // No fungalizing robots or weird stuff (mi-gos are technically fungi, blobs are goo)
+
+    const bool has_fungalized = !type->fungalized.is_empty();
+    if( mat_immune && !has_fungalized ) {
         return true;
-    }
-    if( tid == mon_ant || tid == mon_ant_soldier || tid == mon_ant_queen ) {
-        polypick = 1;
-    } else if( tid == mon_zombie || tid == mon_zombie_shrieker || tid == mon_zombie_electric ||
-               tid == mon_zombie_spitter || tid == mon_zombie_brute ||
-               tid == mon_zombie_hulk || tid == mon_zombie_soldier || tid == mon_zombie_tough ||
-               tid == mon_zombie_scientist || tid == mon_zombie_hunter || tid == mon_skeleton_brute ||
-               tid == mon_zombie_bio_op || tid == mon_zombie_survivor || tid == mon_zombie_fireman ||
-               tid == mon_zombie_cop || tid == mon_zombie_fat || tid == mon_zombie_rot ||
-               tid == mon_zombie_swimmer || tid == mon_zombie_grabber || tid == mon_zombie_technician ||
-               tid == mon_zombie_brute_shocker ) {
-        polypick = 2;
-    } else if( tid == mon_zombie_necro || tid == mon_zombie_master || tid == mon_zombie_fireman ||
-               tid == mon_zombie_hazmat || tid == mon_beekeeper ) {
-        // Necro and Master have enough Goo to resist conversion.
-        // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
-        return true;
-    } else if( tid == mon_boomer || tid == mon_boomer_huge ) {
-        polypick = 3;
-    } else if( tid == mon_triffid || tid == mon_triffid_young || tid == mon_triffid_queen ) {
-        polypick = 4;
-    } else if( tid == mon_zombie_anklebiter || tid == mon_zombie_child || tid == mon_zombie_creepy ||
-               tid == mon_zombie_shriekling || tid == mon_zombie_snotgobbler || tid == mon_zombie_sproglodyte ||
-               tid == mon_zombie_waif ) {
-        polypick = 5;
-    } else if( tid == mon_skeleton_hulk ) {
-        polypick = 6;
-    } else if( tid == mon_zombie_smoker ) {
-        polypick = 7;
-    } else if( tid == mon_zombie_gasbag ) {
-        polypick = 8;
-    } else if( type->in_species( species_SPIDER ) && get_size() > creature_size::tiny ) {
-        polypick = 9;
+    } else if( !mat_immune && !has_fungalized ) {
+        return false;
     }
 
     const std::string old_name = name();
-    switch( polypick ) {
-        case 1:
-            poly( mon_ant_fungus );
-            break;
-        case 2:
-            // zombies, non-boomer
-            poly( mon_zombie_fungus );
-            break;
-        case 3:
-            poly( mon_boomer_fungus );
-            break;
-        case 4:
-            poly( mon_fungaloid );
-            break;
-        case 5:
-            poly( mon_zombie_child_fungus );
-            break;
-        case 6:
-            poly( mon_skeleton_hulk_fungus );
-            break;
-        case 7:
-            poly( mon_zombie_smoker_fungus );
-            break;
-        case 8:
-            poly( mon_zombie_gasbag_fungus );
-            break;
-        case 9:
-            poly( mon_spider_fungus );
-            break;
-        default:
-            return false;
-    }
+    poly( type->fungalized );
 
     add_msg_if_player_sees( pos(), m_info, _( "The spores transform %1$s into a %2$s!" ),
                             old_name, name() );

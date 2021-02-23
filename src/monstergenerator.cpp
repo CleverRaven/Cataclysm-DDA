@@ -786,6 +786,14 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "zombify_into", zombify_into, auto_flags_reader<mtype_id> {},
               mtype_id() );
 
+    // Disable upgrading when JSON contains `"fungalized": false`, but fallback to the
+    // normal behavior if "fungalized" is not boolean or not `false`.
+    if( jo.has_bool( "fungalized" ) && !jo.get_bool( "fungalized" ) ) {
+        fungalized = mtype_id();
+    } else if( jo.has_member( "fungalized" ) ) {
+        fungalized = mtype_id( jo.get_string( "fungalized" ) );
+    }
+
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {
         melee_damage = load_damage_instance( jo.get_array( "melee_damage" ) );

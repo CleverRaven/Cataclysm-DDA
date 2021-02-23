@@ -413,7 +413,8 @@ class monster : public Creature
         // Other
         /**
          * Makes this monster into a fungus version
-         * Returns false if no such monster exists
+         *
+         * @return true if fungalized or material immune to spores, otherwise false
          */
         bool make_fungus();
         void make_friendly();
