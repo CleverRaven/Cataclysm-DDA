@@ -6136,10 +6136,20 @@ void game::peek( const tripoint &p )
     u.moves -= 200;
     tripoint prev = u.pos();
     u.setpos( p );
+    const bool is_same_pos = u.pos() == prev;
+    const bool is_standup_peek = is_same_pos && u.is_crouching();
     tripoint center = p;
-    const look_around_result result = look_around( /*show_window=*/true, center, center, false, false,
-                                      true );
-    u.setpos( prev );
+
+    look_around_result result;
+    const look_around_params looka_params = { true, center, center, false, false, true };
+    if( is_standup_peek ) {   // Non moving peek from crouch is a standup peek
+        u.reset_move_mode();
+        result = look_around( looka_params );
+        u.activate_crouch_mode();
+    } else {                // Else is normal peek
+        result = look_around( looka_params );
+        u.setpos( prev );
+    }
 
     if( result.peek_action && *result.peek_action == PA_BLIND_THROW ) {
         item_location loc;
@@ -6147,6 +6157,7 @@ void game::peek( const tripoint &p )
     }
     m.invalidate_map_cache( p.z );
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 cata::optional<tripoint> game::look_debug()
 {
@@ -7057,6 +7068,8 @@ cata::optional<tripoint> game::look_around()
     return result.position;
 }
 
+//look_around_result game::look_around( const bool show_window, tripoint &center,
+//                                      const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking )
 look_around_result game::look_around( const bool show_window, tripoint &center,
                                       const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking )
 {
@@ -7373,6 +7386,13 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
     }
 
     return result;
+}
+
+look_around_result game::look_around( look_around_params looka_params )
+{
+    return look_around( looka_params.show_window, looka_params.center, looka_params.start_point,
+                        looka_params.has_first_point,
+                        looka_params.select_zone, looka_params.peeking );
 }
 
 std::vector<map_item_stack> game::find_nearby_items( int iRadius )
