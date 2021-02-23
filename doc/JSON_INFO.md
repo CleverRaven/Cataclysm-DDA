@@ -832,6 +832,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `freeze_point`   | Freezing point of this material (F). Default 32 F ( 0 C ).
 | `edible`   | Optional boolean. Default is false.
 | `rotting`   | Optional boolean. Default is false.
+| `fungalizeable`   | Optional boolean. Default is false.
 | `soft`   | Optional boolean. Default is false.
 | `reinforces`   | Optional boolean. Default is false.
 
