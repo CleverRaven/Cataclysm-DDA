@@ -80,8 +80,8 @@ Monsters may also have any of these optional properties:
 | `revert_to_itype`        | (string) Item monster can be converted to when friendly (ex. to deconstruct turrets)
 | `starting_ammo`          | (object) Ammo that newly spawned monsters start with
 | `upgrades`               | (boolean or object) False if monster does not upgrade, or an object do define an upgrade
-| `zombify_into`           | (boolean or string) False if monster does not get zombified, or a string to define which monster it turns into when resurrected, by default its false
-| `fungalized`             | (boolean or string) False if monster does not get fungalized, or a string to define which monster it turns into, by default its false
+| `zombify_into`           | (boolean or string) False if monster does not get zombified, or a string to define which monster it turns into when resurrected, by default it's false
+| `fungalized`             | (boolean or string) False if monster does not get fungalized, or a string to define which monster it turns into, by default it's false
 | `reproduction`           | (object) The monster's reproductive cycle and timing
 | `baby_flags`             | (array of strings) Seasons during which this monster is capable of reproduction
 | `special_when_hit`       | (array) Special defense triggered when the monster is attacked
