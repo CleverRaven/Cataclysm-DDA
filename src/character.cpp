@@ -2675,7 +2675,7 @@ int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
     return ret;
 }
 
-int Character::get_standard_stamina_cost( item *thrown_item )
+int Character::get_standard_stamina_cost( const item *thrown_item ) const
 {
     // Previously calculated as 2_gram * std::max( 1, str_cur )
     // using 16_gram normalizes it to 8 str. Same effort expenditure
