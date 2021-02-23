@@ -356,6 +356,7 @@
     "description": "Low-sodium preserved fish.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked fish.",
     "price": 250,
     "price_postapoc": 250,
+    "sealed": true,
     "fun": 2
   },
   {
@@ -985,6 +986,7 @@
     "price": 250,
     "price_postapoc": 250,
     "flags": [ "EATEN_HOT" ],
+    "sealed": true,
     "fun": 2
   },
   {

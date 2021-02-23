@@ -91,6 +91,10 @@ static const efftype_id effect_run( "run" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_venom_dmg( "venom_dmg" );
+static const efftype_id effect_venom_player1( "venom_player1" );
+static const efftype_id effect_venom_player2( "venom_player2" );
+static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_webbed( "webbed" );
 
 static const itype_id itype_corpse( "corpse" );
@@ -99,8 +103,10 @@ static const itype_id itype_milk_raw( "milk_raw" );
 
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
+static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MOLLUSK( "MOLLUSK" );
+static const species_id species_NETHER( "NETHER" );
 static const species_id species_ROBOT( "ROBOT" );
 static const species_id species_SPIDER( "SPIDER" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -1401,17 +1407,31 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         return type->bloodType() == fd_null;
     }
 
+    if( effect == effect_venom_dmg ||
+        effect == effect_venom_player1 ||
+        effect == effect_venom_player2 ) {
+        return ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) ) ||
+               type->in_species( species_NETHER ) || type->in_species( species_LEECH_PLANT );
+    }
+
     if( effect == effect_paralyzepoison ||
         effect == effect_badpoison ||
+        effect == effect_venom_weaken ||
         effect == effect_poison ) {
-        return !has_flag( MF_WARM ) ||
-               ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) );
+        return type->in_species( species_ZOMBIE ) || type->in_species( species_NETHER ) ||
+               !made_of_any( Creature::cmat_flesh ) || type->in_species( species_LEECH_PLANT );
     }
 
     if( effect == effect_stunned ) {
         return has_flag( MF_STUN_IMMUNE );
     }
 
+    if( effect == effect_downed ) {
+        if( type->bodytype == "insect" || type->bodytype == "spider" || type->bodytype == "crab" ) {
+            return x_in_y( 3, 4 );
+        } else return type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
+                          has_flag( MF_FLIES );
+    }
     return false;
 }
 

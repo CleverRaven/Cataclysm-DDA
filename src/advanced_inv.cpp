@@ -716,7 +716,7 @@ void advanced_inventory::redraw_pane( side p )
     wnoutrefresh( w );
 }
 
-bool advanced_inventory::move_all_items( bool nested_call )
+bool advanced_inventory::move_all_items()
 {
     advanced_inventory_pane &spane = panes[src];
     advanced_inventory_pane &dpane = panes[dest];
@@ -744,8 +744,6 @@ bool advanced_inventory::move_all_items( bool nested_call )
             return false;
         }
 
-        // make sure that there are items to be moved
-        bool done = false;
         // copy the current pane, to be restored after the move is queued
         advanced_inventory_pane shadow = panes[src];
         // here we recursively call this function with each area in order to
@@ -753,35 +751,42 @@ bool advanced_inventory::move_all_items( bool nested_call )
         int &loc = save_state->aim_all_location;
         // re-entry nonsense
         aim_entry &entry = save_state->re_enter_move_all;
-        // if we are just starting out, set entry to initial value
-        entry = entry + 1;
         switch( entry ) {
             case aim_entry::START:
-                ++entry;
+                entry = aim_entry::VEHICLE;
             /* fallthrough */
             case aim_entry::VEHICLE:
                 if( squares[loc].can_store_in_vehicle() ) {
-                    // either do the inverse of the pane (if it is the one we are transferring to),
-                    // or just transfer the contents (if it is not the one we are transferring to)
-                    spane.set_area( squares[loc], dpane.get_area() == loc ? !dpane.in_vehicle() : true );
+                    spane.set_area( squares[loc], true );
                     // add items, calculate weights and volumes... the fun stuff
                     recalc_pane( src );
                     // then move the items to the destination area
-                    move_all_items( true );
+                    if( !move_all_items() ) {
+                        do_return_entry();
+                    }
+                } else {
+                    do_return_entry();
                 }
+                entry = aim_entry::MAP;
                 break;
             case aim_entry::MAP:
                 spane.set_area( squares[loc++], false );
                 recalc_pane( src );
-                move_all_items( true );
+                if( !move_all_items() ) {
+                    do_return_entry();
+                }
+                entry = aim_entry::RESET;
                 break;
             case aim_entry::RESET:
                 if( loc > AIM_AROUND_END ) {
                     loc = AIM_AROUND_BEGIN;
                     entry = aim_entry::START;
-                    done = true;
+                    if( !get_option<bool>( "CLOSE_ADV_INV" ) ) {
+                        do_return_entry();
+                    }
                 } else {
                     entry = aim_entry::VEHICLE;
+                    do_return_entry();
                 }
                 break;
             default:
@@ -792,10 +797,6 @@ bool advanced_inventory::move_all_items( bool nested_call )
         }
         // restore the pane to its former glory
         panes[src] = shadow;
-        // make it auto loop back, if not already doing so
-        if( !done && !player_character.activity ) {
-            do_return_entry();
-        }
         return true;
     }
 
@@ -811,14 +812,16 @@ bool advanced_inventory::move_all_items( bool nested_call )
     if( spane.items.empty() || liquid_items == spane.items.size() ) {
         return false;
     }
-    bool restore_area = false;
+    std::unique_ptr<on_out_of_scope> restore_area;
     if( dpane.get_area() == AIM_ALL ) {
         aim_location loc = dpane.get_area();
         // ask where we want to store the item via the menu
         if( !query_destination( loc ) ) {
             return false;
         }
-        restore_area = true;
+        restore_area = std::make_unique<on_out_of_scope>( [&]() {
+            dpane.restore_area();
+        } );
     }
     if( !squares[dpane.get_area()].canputitems() ) {
         popup( _( "You can't put items there!" ) );
@@ -836,20 +839,6 @@ bool advanced_inventory::move_all_items( bool nested_call )
         return false;
     }
 
-    if( nested_call || !get_option<bool>( "CLOSE_ADV_INV" ) ) {
-        // Why is this here? It's because the activity backlog can act
-        // like a stack instead of a single deferred activity in order to
-        // accomplish some UI shenanigans. The inventory menu activity is
-        // added, then an activity to drop is pushed on the stack, then
-        // the drop activity is repeatedly popped and pushed on the stack
-        // until all its items are processed. When the drop activity runs out,
-        // the inventory menu activity is there waiting and seamlessly returns
-        // the player to the menu. If the activity is interrupted instead of
-        // completing, both activities are canceled.
-        // Thanks to kevingranade for the explanation.
-        do_return_entry();
-    }
-
     map &here = get_map();
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         if( dpane.get_area() == AIM_INVENTORY ) {
@@ -862,6 +851,13 @@ bool advanced_inventory::move_all_items( bool nested_call )
         } else if( dpane.get_area() == AIM_CONTAINER ) {
             // TODO: implement this
             popup( _( "Putting everything into the container would be tricky." ) );
+            return false;
+        }
+
+        // Check first if the destination area still have enough room for moving all.
+        const units::volume &src_volume = spane.in_vehicle() ? sarea.volume_veh : sarea.volume;
+        if( !is_processing() && src_volume > darea.free_volume( dpane.in_vehicle() ) &&
+            !query_yn( _( "There isn't enough room, do you really want to move all?" ) ) ) {
             return false;
         }
 
@@ -910,9 +906,6 @@ bool advanced_inventory::move_all_items( bool nested_call )
             dropped = dropped_favorite;
         }
 
-        // make sure advanced inventory is reopened after activity completion.
-        do_return_entry();
-
         const tripoint placement = darea.off;
         // in case there is vehicle cargo space at dest but the player wants to drop to ground
         const bool force_ground = !dpane.in_vehicle();
@@ -922,14 +915,16 @@ bool advanced_inventory::move_all_items( bool nested_call )
             to_drop.emplace_back( it.first, it.second );
         }
 
+        do_return_entry();
+
         player_character.assign_activity( player_activity( drop_activity_actor(
                                               to_drop, placement, force_ground
                                           ) ) );
-
-        // exit so that the activity can be carried out
-        exit = true;
     } else {
-        if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
+        if( dpane.get_area() == AIM_WORN ) {
+            popup( _( "You look at the items, then your clothes, and scratch your head…" ) );
+            return false;
+        } else if( dpane.get_area() == AIM_INVENTORY ) {
             player_character.activity.coords.push_back( player_character.pos() );
             std::vector<item_location> target_items;
             std::vector<item_location> target_items_favorites;
@@ -947,8 +942,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
 
             // If moving to inventory or worn, silently filter buckets
             // Moving them would cause tons of annoying prompts or spills
-            const bool filter_buckets = dpane.get_area() == AIM_INVENTORY ||
-                                        dpane.get_area() == AIM_WORN;
+            const bool filter_buckets = dpane.get_area() == AIM_INVENTORY;
             bool filtered_any_bucket = false;
             // Push item_locations and item counts for all items at placement
             for( item_stack::iterator it = stack_begin; it != stack_end; ++it ) {
@@ -984,6 +978,8 @@ bool advanced_inventory::move_all_items( bool nested_call )
             if( target_items.empty() ) {
                 target_items = target_items_favorites;
             }
+
+            do_return_entry();
 
             player_character.assign_activity( player_activity( pickup_activity_actor(
                                                   target_items,
@@ -1059,6 +1055,8 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 target_items = target_items_favorites;
             }
 
+            do_return_entry();
+
             player_character.assign_activity( player_activity( move_items_activity_actor(
                                                   target_items,
                                                   quantities,
@@ -1067,10 +1065,6 @@ bool advanced_inventory::move_all_items( bool nested_call )
                                               ) ) );
         }
 
-    }
-    // if dest was AIM_ALL then we used query_destination and should undo that
-    if( restore_area ) {
-        dpane.restore_area();
     }
     return true;
 }

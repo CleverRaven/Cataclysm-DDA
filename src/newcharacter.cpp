@@ -1892,6 +1892,20 @@ tab_direction set_profession( avatar &u, points_left &points,
             }
             const int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
             u.prof = &sorted_profs[cur_id].obj();
+            // Remove pre-selected traits that conflict
+            // with the new profession's traits
+            for( const trait_id &new_trait : u.prof->get_locked_traits() ) {
+                if( u.has_conflicting_trait( new_trait ) ) {
+                    for( const trait_id &suspect_trait : u.get_mutations() ) {
+                        if( are_conflicting_traits( new_trait, suspect_trait ) ) {
+                            u.toggle_trait( suspect_trait );
+                            points.trait_points += suspect_trait->points;
+                            popup( _( "Your trait %1$s has been removed since it conflicts with the %2$s's %3$s trait." ),
+                                   suspect_trait->name(), u.prof->gender_appropriate_name( u.male ), new_trait->name() );
+                        }
+                    }
+                }
+            }
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
             u.add_traits( points );
@@ -2234,7 +2248,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
         iContentHeight = TERMY - 10;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_description = catacurses::newwin( 4, TERMX - 2, point( 1, TERMY - 5 ) );
-        const int second_column_w =  TERMX / 2 - 1;
+        const int second_column_w = TERMX / 2 - 1;
         point origin = point( second_column_w + 1, 5 );
         const int w_sorting_h = 2;
         const int w_profession_h = 4;
