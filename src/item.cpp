@@ -1788,7 +1788,7 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                           iteminfo::lower_is_better,
                                           get_latent_heat() ) );
                 info.push_back( iteminfo( "BASE", _( "Freeze point: " ), "",
-                                          iteminfo::lower_is_better,
+                                          iteminfo::lower_is_better | iteminfo::is_decimal,
                                           get_freeze_point() ) );
             }
         }
@@ -8791,7 +8791,7 @@ void item::set_item_specific_energy( const float new_specific_energy )
     const float specific_heat_liquid = get_specific_heat_liquid(); // J/g K
     const float specific_heat_solid = get_specific_heat_solid(); // J/g K
     const float latent_heat = get_latent_heat(); // J/kg
-    const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
+    const float freezing_temperature = celsius_to_kelvin( get_freeze_point() );  // K
     const float completely_frozen_specific_energy = specific_heat_solid *
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_specific_energy = completely_frozen_specific_energy +
@@ -8854,7 +8854,7 @@ float item::get_specific_energy_from_temperature( const float new_temperature )
     const float specific_heat_liquid = get_specific_heat_liquid(); // J/g K
     const float specific_heat_solid = get_specific_heat_solid(); // J/g K
     const float latent_heat = get_latent_heat(); // J/kg
-    const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
+    const float freezing_temperature = celsius_to_kelvin( get_freeze_point() );  // K
     const float completely_frozen_energy = specific_heat_solid *
                                            freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_energy = completely_frozen_energy +
@@ -8872,7 +8872,7 @@ float item::get_specific_energy_from_temperature( const float new_temperature )
 
 void item::set_item_temperature( float new_temperature )
 {
-    const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
+    const float freezing_temperature = celsius_to_kelvin( get_freeze_point() );  // K
     const float specific_heat_solid = get_specific_heat_solid(); // J/g K
     const float latent_heat = get_latent_heat(); // J/kg
 
@@ -9514,7 +9514,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
     const float specific_heat_liquid = get_specific_heat_liquid();
     const float specific_heat_solid = get_specific_heat_solid();
     const float latent_heat = get_latent_heat();
-    const float freezing_temperature = temp_to_kelvin( get_freeze_point() );  // K
+    const float freezing_temperature = celsius_to_kelvin( get_freeze_point() );  // K
     const float completely_frozen_specific_energy = specific_heat_solid *
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_specific_energy = completely_frozen_specific_energy +

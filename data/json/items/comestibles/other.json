@@ -284,7 +284,7 @@
     "price_postapoc": 0,
     "material": [ "paper" ],
     "volume": "250 ml",
-    "freezing_point": -459,
+    "freezing_point": -274,
     "charges": 50,
     "fun": -20
   },
@@ -303,7 +303,7 @@
     "price_postapoc": 0,
     "material": [ "cardboard" ],
     "volume": "250 ml",
-    "freezing_point": -459,
+    "freezing_point": -274,
     "charges": 10,
     "fun": -20
   },
@@ -570,7 +570,7 @@
     "calories": 2,
     "charges": 20,
     "fun": -5,
-    "freezing_point": -459
+    "freezing_point": -274
   },
   {
     "type": "COMESTIBLE",
@@ -667,7 +667,7 @@
     "calories": 170,
     "vitamins": [ [ "vitA", 20 ], [ "vitC", 45 ], [ "calcium", 5 ], [ "iron", 5 ] ],
     "fun": 5,
-    "freezing_point": -459,
+    "freezing_point": -274,
     "color": "brown",
     "flags": [ "INEDIBLE", "CATTLE" ],
     "use_action": [ "CATTLEFODDER" ]
@@ -689,7 +689,7 @@
     "calories": 400,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
     "fun": 5,
-    "freezing_point": -459,
+    "freezing_point": -274,
     "color": "brown",
     "flags": [ "INEDIBLE", "BIRD", "NUTRIENT_OVERRIDE" ],
     "use_action": [ "BIRDFOOD" ]
@@ -738,7 +738,7 @@
     "calories": 380,
     "vitamins": [ [ "vitA", 25 ], [ "iron", 25 ], [ "vitB", 20 ], [ "calcium", 30 ] ],
     "fun": -15,
-    "freezing_point": -459,
+    "freezing_point": -274,
     "color": "brown",
     "flags": [ "LUPINE" ],
     "use_action": [ "DOGFOOD" ]
@@ -787,7 +787,7 @@
     "calories": 380,
     "vitamins": [ [ "vitA", 25 ], [ "iron", 25 ], [ "vitB", 20 ], [ "calcium", 30 ] ],
     "fun": -15,
-    "freezing_point": -459,
+    "freezing_point": -274,
     "color": "brown",
     "flags": [ "FELINE" ],
     "use_action": [ "CATFOOD" ]
@@ -856,7 +856,7 @@
     "material": [ "paper" ],
     "price": 50,
     "price_postapoc": 200,
-    "freezing_point": -459,
+    "freezing_point": -274,
     "description": "A paper sachet with tea leaves inside.  Put it into boiling water to make a cup of black tea."
   },
   {
@@ -910,7 +910,7 @@
     "material": [ "plastic" ],
     "price": 50,
     "price_postapoc": 200,
-    "freezing_point": -459,
+    "freezing_point": -274,
     "description": "A small packet of commercial instant coffee powder.  No creamer or sweetener added."
   },
   {
