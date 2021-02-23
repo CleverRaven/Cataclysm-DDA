@@ -1551,3 +1551,5 @@ Gun fault flags:
 - ```ALARMCLOCK``` You always can set alarms.
 - ```PARAIMMUNE``` You are immune to parasites.
 - ```IMMUNE_SPOIL``` You are immune to negative outcomes from spoiled food.
+- ```CLIMATE_CONTROL``` You are resistant to extreme temperatures.
+- ```HEATSINK``` You are resistant to extreme heat.
