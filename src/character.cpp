@@ -10461,12 +10461,14 @@ void Character::rooted()
     double shoe_factor = footwear_factor();
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         get_map().has_flag( flag_PLOWABLE, pos() ) && shoe_factor != 1.0 ) {
-	int time_to_full = 43200; // 12 Hours
-	if( has_trait( trait_ROOTS3 ) ) time_to_full += -14400; // -4 Hours
+        int time_to_full = 43200; // 12 Hours
+        if( has_trait( trait_ROOTS3 ) ) {
+            time_to_full += -14400;    // -4 Hours
+        }
         if( x_in_y( 96, time_to_full ) ) {
             vitamin_mod( vitamin_id( "iron" ), 1, true );
             vitamin_mod( vitamin_id( "calcium" ), 1, true );
-	    mod_healthy_mod( 5, 50 );
+            mod_healthy_mod( 5, 50 );
         }
         if( get_thirst() > -40 && x_in_y( 288, time_to_full ) ) {
             mod_thirst( -1 );
