@@ -37,7 +37,7 @@
     "type": "GENERIC",
     "id": "wood_plate",
     "name": { "str": "wooden armor kit" },
-    "description": "A bundle of two-by-fours prepared to be used as vehicle armor.",
+    "description": "A bundle of planks prepared to be used as vehicle armor.",
     "weight": "5600 g",
     "to_hit": -8,
     "color": "brown",

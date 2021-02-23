@@ -126,7 +126,7 @@ Relative value should put the weapon into one of those categories:
 
 <2 - Not weapons. Those items may be pressed into service, but are unlikely to be better than fists. Plastic bottles, rocks, boots.
 
-2-5 - Tools not meant to strike and improvised weapons. Two-by-fours, pointy sticks, pipes, hammers.
+2-5 - Tools not meant to strike and improvised weapons. Planks, pointy sticks, pipes, hammers.
 
 6-11 - Dangerous tools or crude dedicated weapons. Golf clubs, two-by-swords, wooden spears, knife spears, hatchets, switchblades, tonfas, quarterstaves.
 
