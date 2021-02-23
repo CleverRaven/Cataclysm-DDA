@@ -2353,7 +2353,8 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         here.ter_set( pos, t_window_reinforced );
         here.spawn_item( p->pos(), itype_rebar, rng( 1, 12 ) );
         here.spawn_item( p->pos(), itype_sheet_metal, 4 );
-    } else if( ter == t_metal_grate_window_noglass || ter == t_metal_grate_window_with_curtain_noglass ||
+    } else if( ter == t_metal_grate_window_noglass ||
+               ter == t_metal_grate_window_with_curtain_noglass ||
                ter == t_metal_grate_window_with_curtain_open_noglass ) {
         here.ter_set( pos, t_window_reinforced_noglass );
         here.spawn_item( p->pos(), itype_rebar, rng( 1, 12 ) );
@@ -3625,7 +3626,8 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
         here.ter_set( pos, t_window_reinforced );
         here.spawn_item( p->pos(), itype_rebar, rng( 1, 12 ) );
         here.spawn_item( p->pos(), itype_sheet_metal, 4 );
-    } else if( ter == t_metal_grate_window_noglass || ter == t_metal_grate_window_with_curtain_noglass ||
+    } else if( ter == t_metal_grate_window_noglass ||
+               ter == t_metal_grate_window_with_curtain_noglass ||
                ter == t_metal_grate_window_with_curtain_open_noglass ) {
         here.ter_set( pos, t_window_reinforced_noglass );
         here.spawn_item( p->pos(), itype_rebar, rng( 1, 12 ) );
