@@ -677,8 +677,8 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
                 ( consume_drug->get_actor_ptr() );
         for( auto &tool : consume_drug_use->tools_needed ) {
             const bool has = item::count_by_charges( tool.first )
-                             ? has_charges( tool.first, tool.second )
-                             : has_amount( tool.first, tool.second );
+                             ? has_charges( tool.first, ( tool.second == -1 ) ? 1 : tool.second )
+                             : has_amount( tool.first, 1 );
             if( !has ) {
                 return ret_val<edible_rating>::make_failure( NO_TOOL,
                         string_format( _( "You need a %s to consume that!" ),

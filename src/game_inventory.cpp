@@ -927,8 +927,8 @@ class activatable_inventory_preset : public pickup_inventory_preset
                         ( consume_drug->get_actor_ptr() );
                 for( auto &tool : consume_drug_use->tools_needed ) {
                     const bool has = item::count_by_charges( tool.first )
-                                     ? p.has_charges( tool.first, tool.second )
-                                     : p.has_amount( tool.first, tool.second );
+                                     ? p.has_charges( tool.first, ( tool.second == -1 ) ? 1 : tool.second )
+                                     : p.has_amount( tool.first, 1 );
                     if( !has ) {
                         return string_format( _( "You need a %s to consume that!" ), item::nname( tool.first ) );
                     }
