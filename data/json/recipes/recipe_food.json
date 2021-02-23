@@ -5323,10 +5323,10 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
-    "time": "2 m 30 s",
-    "charges": 1,
+    "difficulty": 1,
+    "time": "6 m 30 s",
     "autolearn": true,
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
     "components": [ [ [ "milk_cream", 1 ] ], [ [ "butter", 32 ] ], [ [ "sugar_standard", 3, "LIST" ] ] ]
   },
   {
