@@ -518,7 +518,7 @@
     "charges": 16,
     "fun": 5,
     "vitamins": [ [ "calcium", 2 ] ],
-    "freezing_point": -70
+    "freezing_point": -57
   },
   {
     "type": "COMESTIBLE",
