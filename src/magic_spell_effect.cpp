@@ -471,16 +471,7 @@ static void damage_targets( const spell &sp, Creature &caster,
             continue;
         }
 
-        projectile bolt;
-        bolt.speed = 10000;
-        bolt.impact = sp.get_damage_instance();
-        bolt.proj_effects.emplace( "magic" );
-
-        dealt_projectile_attack atk;
-        atk.end_point = target;
-        atk.hit_critter = cr;
-        atk.proj = bolt;
-        atk.missed_by = 0.0;
+        dealt_projectile_attack atk = sp.get_projectile_attack( target, *cr );
         if( !sp.effect_data().empty() ) {
             add_effect_to_target( target, sp );
         }
