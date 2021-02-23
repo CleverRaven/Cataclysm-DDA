@@ -223,7 +223,6 @@ static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
 static const itype_id itype_string_36( "string_36" );
-static const itype_id itype_toolset( "toolset" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
@@ -11359,14 +11358,18 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     std::list<item> res;
     inventory inv = crafting_inventory( pos(), radius, true );
 
-    if( qty <= 0 ) {
+    if (qty <= 0) {
         return res;
+    }
+    for( const auto &bio : *this->my_bionics ) {
+        const bionic_data &bid = bio.info();
+        if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
+            mod_power_level( units::from_kilojoule( -qty ) );
+            return res;   
+        }
+    }
 
-    } else if( what == itype_toolset ) {
-        mod_power_level( units::from_kilojoule( -qty ) );
-        return res;
-
-    } else if( what == itype_fire ) {
+    if( what == itype_fire ) {
         use_fire( qty );
         return res;
 
