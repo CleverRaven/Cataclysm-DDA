@@ -371,6 +371,23 @@ static bool too_close( const tripoint &critter_pos, const tripoint &ally_pos, co
     return rl_dist( critter_pos, ally_pos ) <= def_radius;
 }
 
+int npc_short_term_cache::closest_enemy_to_friendly_distance() const
+{
+    int distance = INT_MAX;
+    for( const weak_ptr_fast<Creature> &buddy : friends ) {
+        if( buddy.expired() ) {
+            continue;
+        }
+        for( const weak_ptr_fast<Creature> &enemy : hostile_guys ) {
+            if( enemy.expired() ) {
+                continue;
+            }
+            distance = std::min( distance, rl_dist( buddy.lock()->pos(), enemy.lock()->pos() ) );
+        }
+    }
+    return distance;
+}
+
 void npc::assess_danger()
 {
     float assessment = 0.0f;
@@ -454,7 +471,6 @@ void npc::assess_danger()
     }
 
     // find our Character friends and enemies
-    std::vector<weak_ptr_fast<Creature>> hostile_guys;
     const bool clairvoyant = clairvoyance();
     for( const npc &guy : g->all_npcs() ) {
         if( &guy == this ) {
@@ -467,12 +483,12 @@ void npc::assess_danger()
         if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
             ai_cache.friends.emplace_back( g->shared_from( guy ) );
         } else if( attitude_to( guy ) != Attitude::NEUTRAL && sees( guy.pos() ) ) {
-            hostile_guys.emplace_back( g->shared_from( guy ) );
+            ai_cache.hostile_guys.emplace_back( g->shared_from( guy ) );
         }
     }
     if( sees( player_character.pos() ) ) {
         if( is_enemy() ) {
-            hostile_guys.emplace_back( g->shared_from( player_character ) );
+            ai_cache.hostile_guys.emplace_back( g->shared_from( player_character ) );
         } else if( is_friendly( player_character ) ) {
             ai_cache.friends.emplace_back( g->shared_from( player_character ) );
         }
@@ -488,11 +504,14 @@ void npc::assess_danger()
             continue;
         }
         if( att != Attitude::HOSTILE && ( critter.friendly || !is_enemy() ) ) {
+            ai_cache.neutral_guys.emplace_back( g->shared_from( critter ) );
             continue;
         }
         if( !sees( critter ) ) {
             continue;
         }
+
+        ai_cache.hostile_guys.emplace_back( g->shared_from( critter ) );
         float critter_threat = evaluate_enemy( critter );
         // warn and consider the odds for distant enemies
         int dist = rl_dist( pos(), critter.pos() );
@@ -548,7 +567,7 @@ void npc::assess_danger()
         }
     }
 
-    if( assessment == 0.0 && hostile_guys.empty() ) {
+    if( assessment == 0.0 && ai_cache.hostile_guys.empty() ) {
         ai_cache.danger_assessment = assessment;
         return;
     }
@@ -594,7 +613,7 @@ void npc::assess_danger()
         return foe_threat;
     };
 
-    for( const weak_ptr_fast<Creature> &guy : hostile_guys ) {
+    for( const weak_ptr_fast<Creature> &guy : ai_cache.hostile_guys ) {
         player *foe = dynamic_cast<player *>( guy.lock().get() );
         if( foe && foe->is_npc() ) {
             assessment += handle_hostile( *foe, evaluate_enemy( *foe ), translate_marker( "bandit" ),
@@ -603,11 +622,10 @@ void npc::assess_danger()
     }
 
     for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
-        player *ally = dynamic_cast<player *>( guy.lock().get() );
-        if( !( ally && ally->is_npc() ) ) {
+        if( !( guy.lock() && guy.lock()->is_npc() ) ) {
             continue;
         }
-        float guy_threat = evaluate_enemy( *ally );
+        float guy_threat = evaluate_enemy( *guy.lock() );
         float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
         assessment = std::max( min_danger, assessment - guy_threat * 0.5f );
     }
@@ -702,6 +720,8 @@ void npc::regen_ai_cache()
     }
     float old_assessment = ai_cache.danger_assessment;
     ai_cache.friends.clear();
+    ai_cache.hostile_guys.clear();
+    ai_cache.neutral_guys.clear();
     ai_cache.target = shared_ptr_fast<Creature>();
     ai_cache.ally = shared_ptr_fast<Creature>();
     ai_cache.can_heal.clear_all();
