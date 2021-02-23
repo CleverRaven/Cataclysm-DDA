@@ -42,7 +42,7 @@
     "components": [ [ [ "felt_patch", 4 ] ] ]
   },
   {
-    "result": "blindfold_duct",
+    "result": "blindfold",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "id_suffix": "from_tape",
