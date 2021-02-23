@@ -44,7 +44,7 @@
   {
     "id": "cannibal_weapons",
     "type": "item_group",
-    "//": "items found in a shotgun hunting space",
+    "//": "items found in a most dangerous game space",
     "subtype": "distribution",
     "entries": [
       { "group": "guns_shotgun_common", "prob": 30 },
