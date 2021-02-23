@@ -115,6 +115,28 @@
     "flags": [ "BLIND" ]
   },
   {
+    "id": "blindfold_duct",
+    "type": "ARMOR",
+    "name": { "str": "duct tape blindfold" },
+    "//": "A folded bandana still takes up some space on the head.",
+    "description": "A simple covering tied over the eyes to block sight, made out of duct tape.  Useful for sleeping in bright areas.",
+    "weight": "20 g",
+    "volume": "60 ml",
+    "price": 10,
+    "price_postapoc": 5,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "looks_like": "blindfold",
+    "color": "dark_gray",
+    "covers": [ "eyes" ],
+    "coverage": 95,
+    "encumbrance": 10,
+    "warmth": 0,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "BLIND" ]
+  },
+  {
     "id": "ear_plugs",
     "type": "ARMOR",
     "name": { "str": "pair of ear plugs", "str_pl": "pairs of ear plugs" },
