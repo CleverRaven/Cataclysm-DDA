@@ -410,6 +410,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     PickupMap mapPickup;
 
     bool problem = false;
+    int items_disappeared = 0;
     while( !problem && player_character.moves >= 0 && !targets.empty() ) {
         item_location target = std::move( targets.back() );
         int quantity = quantities.back();
@@ -419,11 +420,17 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
         quantities.pop_back();
 
         if( !target ) {
-            debugmsg( "lost target item of ACT_PICKUP" );
+            items_disappeared++;
             continue;
         }
 
         problem = !pick_one_up( target, quantity, got_water, offered_swap, mapPickup, autopickup );
+    }
+
+    if( items_disappeared == 1 ) {
+        add_msg( m_info, _( "An item you've tried to pick up has disappeared!" ) );
+    } else if( items_disappeared > 1 ) {
+        add_msg( m_info, _( "Some items you've tried to pick up have disappeared!" ) );
     }
 
     if( !mapPickup.empty() ) {
