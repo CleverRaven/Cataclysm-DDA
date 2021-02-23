@@ -72,8 +72,6 @@ static const itype_id itype_rock( "rock" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
 
-static const bionic_id bio_heatsink( "bio_heatsink" );
-
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_corroding( "corroding" );
@@ -92,6 +90,8 @@ static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+
+static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 
 using namespace map_field_processing;
 
@@ -1472,7 +1472,7 @@ void map::player_in_field( player &u )
         }
         if( ft == fd_fire ) {
             // Heatsink or suit prevents ALL fire damage.
-            if( !u.has_active_bionic( bio_heatsink ) && !u.is_wearing( itype_rm13_armor_on ) ) {
+            if( !u.has_flag( json_flag_HEATSINK ) && !u.is_wearing( itype_rm13_armor_on ) ) {
 
                 // To modify power of a field based on... whatever is relevant for the effect.
                 int adjusted_intensity = cur.get_field_intensity();
@@ -1587,7 +1587,7 @@ void map::player_in_field( player &u )
             if( !inside ) {
                 // Fireballs can't touch you inside a car.
                 // Heatsink or suit stops fire.
-                if( !u.has_active_bionic( bio_heatsink ) &&
+                if( !u.has_flag( json_flag_HEATSINK ) &&
                     !u.is_wearing( itype_rm13_armor_on ) ) {
                     u.add_msg_player_or_npc( m_bad, _( "You're torched by flames!" ),
                                              _( "<npcname> is torched by flames!" ) );
