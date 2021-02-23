@@ -334,7 +334,7 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
     SECTION( "two-handed clubs/hammers" ) { // expected value ideally around 28
         calc_expected_dps( test_guy, "warhammer", 28.0 );
         calc_expected_dps( test_guy, "hammer_sledge", 20.0 );
-        calc_expected_dps( test_guy, "halligan", 15.25 );
+        calc_expected_dps( test_guy, "halligan", 16.5 );
         calc_expected_dps( test_guy, "stick_long", 6.0 );
     }
     SECTION( "two-handed flails" ) { // expected value ideally around 20
