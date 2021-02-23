@@ -1013,7 +1013,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "fun": 2,
-    "freezing_point": 22
+    "freezing_point": -5
   },
   {
     "type": "COMESTIBLE",

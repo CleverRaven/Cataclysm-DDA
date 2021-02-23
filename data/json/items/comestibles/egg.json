@@ -303,7 +303,7 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 16,
     "fun": -4,
-    "freezing_point": -459,
+    "freezing_point": -274,
     "vitamins": [ [ "vitB", 2 ] ]
   },
   {
