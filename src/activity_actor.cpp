@@ -826,9 +826,9 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
-void hacking_activity_actor::serialize( JsonOut &jsout ) const {}
+void hacking_activity_actor::serialize( JsonOut & ) const {}
 
-std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn & )
 {
     hacking_activity_actor actor;
     return actor.clone();
