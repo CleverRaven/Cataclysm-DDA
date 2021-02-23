@@ -11358,14 +11358,14 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     std::list<item> res;
     inventory inv = crafting_inventory( pos(), radius, true );
 
-    if (qty <= 0) {
+    if( qty <= 0 ) {
         return res;
     }
     for( const auto &bio : *this->my_bionics ) {
         const bionic_data &bid = bio.info();
         if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
             mod_power_level( units::from_kilojoule( -qty ) );
-            return res;   
+            return res;
         }
     }
 

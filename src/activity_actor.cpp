@@ -736,7 +736,7 @@ static hack_result hack_attempt( Character &who )
     if( success < 0 ) {
         who.add_msg_if_player( _( "You cause a short circuit!" ) );
         who.use_charges( itype_electrohack, 25 );
-        
+
         if( success <= -5 ) {
             who.use_charges( itype_electrohack, 50 );
         }
@@ -826,7 +826,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
-void hacking_activity_actor::serialize( JsonOut &jsout ) const{}
+void hacking_activity_actor::serialize( JsonOut &jsout ) const {}
 
 std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn &jsin )
 {
