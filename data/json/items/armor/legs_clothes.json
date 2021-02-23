@@ -818,6 +818,7 @@
   },
   {
     "id": "winter_pants_army",
+    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "army winter pants" },
     "description": "A tough pair of pants lined with pockets, thickly padded for warmth.  Favored by the military.",
