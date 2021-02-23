@@ -1484,7 +1484,7 @@ static const double hits_by_accuracy[41] = {
     9993, 9997, 9998, 9999, 10000 // 16 to 20
 };
 
-double item::effective_dps( const Character &guy, monster &mon ) const
+double item::effective_dps( const Character &guy, Creature &mon ) const
 {
     const float mon_dodge = mon.get_dodge();
     float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this );
@@ -1519,19 +1519,19 @@ double item::effective_dps( const Character &guy, monster &mon ) const
     // sum average damage past armor and return the number of moves required to achieve
     // that damage
     const auto calc_effective_damage = [ &, moves_per_attack]( const double num_strikes,
-    const bool crit, const Character & guy, monster & mon ) {
-        monster temp_mon = mon;
+    const bool crit, const Character & guy, Creature & mon ) {
+        Creature *temp_mon = &mon;
         double subtotal_damage = 0;
         damage_instance base_damage;
         guy.roll_all_damage( crit, base_damage, true, *this );
         damage_instance dealt_damage = base_damage;
-        temp_mon.absorb_hit( bodypart_id( "torso" ), dealt_damage );
+        temp_mon->absorb_hit( bodypart_id( "torso" ), dealt_damage );
         dealt_damage_instance dealt_dams;
         for( const damage_unit &dmg_unit : dealt_damage.damage_units ) {
             int cur_damage = 0;
             int total_pain = 0;
-            temp_mon.deal_damage_handle_type( effect_source::empty(), dmg_unit, bodypart_id( "torso" ),
-                                              cur_damage, total_pain );
+            temp_mon->deal_damage_handle_type( effect_source::empty(), dmg_unit, bodypart_id( "torso" ),
+                                               cur_damage, total_pain );
             if( cur_damage > 0 ) {
                 dealt_dams.dealt_dams[ static_cast<int>( dmg_unit.type )] += cur_damage;
             }
@@ -1541,20 +1541,20 @@ double item::effective_dps( const Character &guy, monster &mon ) const
         double subtotal_moves = moves_per_attack * num_strikes;
 
         if( has_technique( RAPID ) ) {
-            monster temp_rs_mon = mon;
+            Creature *temp_rs_mon = &mon;
             damage_instance rs_base_damage;
             guy.roll_all_damage( crit, rs_base_damage, true, *this );
             damage_instance dealt_rs_damage = rs_base_damage;
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
             }
-            temp_rs_mon.absorb_hit( bodypart_id( "torso" ), dealt_rs_damage );
+            temp_rs_mon->absorb_hit( bodypart_id( "torso" ), dealt_rs_damage );
             dealt_damage_instance rs_dealt_dams;
             for( const damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 int cur_damage = 0;
                 int total_pain = 0;
-                temp_rs_mon.deal_damage_handle_type( effect_source::empty(), dmg_unit, bodypart_id( "torso" ),
-                                                     cur_damage, total_pain );
+                temp_rs_mon->deal_damage_handle_type( effect_source::empty(), dmg_unit, bodypart_id( "torso" ),
+                                                      cur_damage, total_pain );
                 if( cur_damage > 0 ) {
                     rs_dealt_dams.dealt_dams[ static_cast<int>( dmg_unit.type ) ] += cur_damage;
                 }
