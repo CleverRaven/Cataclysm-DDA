@@ -258,7 +258,8 @@
     "act_cost": "100 J",
     "react_cost": "100 J",
     "time": 1,
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "active_flags": [ "CLIMATE_CONTROL" ]
   },
   {
     "id": "bio_cloak",
@@ -581,6 +582,7 @@
       [ "foot_r", 1 ]
     ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "active_flags": [ "HEATSINK" ],
     "act_cost": "1 kJ",
     "react_cost": "1 kJ",
     "time": 1
