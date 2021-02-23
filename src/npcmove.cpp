@@ -3814,16 +3814,19 @@ bool npc::consume_food_from_camp()
         return true;
     }
     faction *yours = player_character.get_faction();
-    int camp_kcals = std::min( std::max( 0, 19 * get_healthy_kcal() / 20 - get_stored_kcal() -
-                                         stomach.get_calories() ), yours->food_supply );
-    if( camp_kcals > 0 ) {
+
+    int kcals_to_eat = std::min( std::max( 0, 19 * get_healthy_kcal() / 20 - get_stored_kcal() -
+                                           stomach.get_calories() ), yours->food_supply );
+    if( kcals_to_eat > 0 ) {
         complain_about( "camp_food_thanks", 1_hours, "<camp_food_thanks>", false );
-        mod_hunger( -camp_kcals );
-        mod_stored_kcal( camp_kcals );
-        yours->food_supply -= camp_kcals;
+        mod_hunger( -kcals_to_eat );
+        mod_stored_kcal( kcals_to_eat );
+        yours->food_supply -= kcals_to_eat;
         return true;
     }
-    complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty>", false );
+    if( yours->food_supply <= 0 ) {
+        complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty>", false );
+    }
     return false;
 }
 
