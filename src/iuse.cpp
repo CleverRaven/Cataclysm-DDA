@@ -3357,7 +3357,9 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
     }
 
     map &here = get_map();
-    if( !here.has_flag( "MINEABLE", pnt ) ) {
+    bool mineable_furn = here.has_flag_furn( "MINEABLE", pnt );
+    bool mineable_ter = here.has_flag_ter( "MINEABLE", pnt );
+    if( !mineable_furn && !mineable_ter ) {
         p->add_msg_if_player( m_info, _( "You can't drill there." ) );
         return 0;
     }
@@ -3382,8 +3384,12 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
     p->assign_activity( ACT_JACKHAMMER, moves );
     p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.placement = here.getabs( pnt );
+
+    // You can mine either furniture or terrain, and furniture goes first,
+    // according to @ref map::bash_ter_furn()
+    std::string mining_what = mineable_furn ? here.furnname( pnt ) : here.tername( pnt );
     p->add_msg_if_player( _( "You start drilling into the %1$s with your %2$s." ),
-                          here.tername( pnt ), it->tname() );
+                          mining_what, it->tname() );
 
     return 0; // handled when the activity finishes
 }
@@ -3462,7 +3468,9 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
     }
 
     map &here = get_map();
-    if( !here.has_flag( "MINEABLE", pnt ) ) {
+    bool mineable_furn = here.has_flag_furn( "MINEABLE", pnt );
+    bool mineable_ter = here.has_flag_ter( "MINEABLE", pnt );
+    if( !mineable_furn && !mineable_ter ) {
         p->add_msg_if_player( m_info, _( "You can't mine there." ) );
         return 0;
     }
@@ -3488,8 +3496,13 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
     p->assign_activity( ACT_PICKAXE, moves, -1 );
     p->activity.targets.push_back( item_location( *p, it ) );
     p->activity.placement = here.getabs( pnt );
+
+    // You can mine either furniture or terrain, and furniture goes first,
+    // according to @ref map::bash_ter_furn()
+    std::string mining_what = mineable_furn ? here.furnname( pnt ) : here.tername( pnt );
     p->add_msg_if_player( _( "You strike the %1$s with your %2$s." ),
-                          here.tername( pnt ), it->tname() );
+                          mining_what, it->tname() );
+
     return 0; // handled when the activity finishes
 }
 
