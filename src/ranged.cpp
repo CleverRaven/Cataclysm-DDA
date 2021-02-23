@@ -113,6 +113,8 @@ static const std::string flag_MOUNTABLE( "MOUNTABLE" );
 
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
+static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
+
 // Maximum duration of aim-and-fire loop, in turns
 static constexpr int AIF_DURATION_LIMIT = 10;
 
@@ -962,6 +964,83 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     return std::max( 0, dispersion );
 }
 
+static cata::optional<int> character_throw_assist( const Character &guy )
+{
+    cata::optional<int> throw_assist = cata::nullopt;
+    if( guy.is_mounted() ) {
+        auto *mons = guy.mounted_creature.get();
+        if( mons->mech_str_addition() != 0 ) {
+            throw_assist = mons->mech_str_addition();
+            mons->use_mech_power( -3 );
+        }
+    }
+    return throw_assist;
+}
+
+static int throwing_skill_adjusted( const Character &guy )
+{
+    int skill_level = std::min( MAX_SKILL, guy.get_skill_level( skill_throw ) );
+    // if you are lying on the floor, you can't really throw that well
+    if( guy.has_effect( effect_downed ) ) {
+        skill_level = std::max( 0, skill_level - 5 );
+    }
+    return skill_level;
+}
+
+int Character::thrown_item_adjusted_damage( const item &thrown ) const
+{
+    const cata::optional<int> throw_assist = character_throw_assist( *this );
+    const bool do_railgun = has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
+                            !throw_assist;
+
+    // The damage dealt due to item's weight, player's strength, and skill level
+    // Up to str/2 or weight/100g (lower), so 10 str is 5 damage before multipliers
+    // Railgun doubles the effective strength
+    ///\EFFECT_STR increases throwing damage
+    double stats_mod = do_railgun ? get_str() : ( get_str() / 2.0 );
+    stats_mod = throw_assist ? *throw_assist / 2.0 : stats_mod;
+    // modify strength impact based on skill level, clamped to [0.15 - 1]
+    // mod = mod * [ ( ( skill / max_skill ) * 0.85 ) + 0.15 ]
+    stats_mod *= ( std::min( MAX_SKILL,
+                             get_skill_level( skill_throw ) ) /
+                   static_cast<double>( MAX_SKILL ) ) * 0.85 + 0.15;
+    return stats_mod;
+}
+
+projectile Character::thrown_item_projectile( const item &thrown ) const
+{
+    // We'll be constructing a projectile
+    projectile proj;
+    proj.impact = thrown.base_damage_thrown();
+    proj.speed = 10 + throwing_skill_adjusted( *this );
+    return proj;
+}
+
+int Character::thrown_item_total_damage_raw( const item &thrown ) const
+{
+    projectile proj = thrown_item_projectile( thrown );
+    const units::volume volume = thrown.volume();
+    proj.impact.add_damage( damage_type::BASH, std::min( thrown.weight() / 100.0_gram,
+                            static_cast<double>( thrown_item_adjusted_damage( thrown ) ) ) );
+    // Item will shatter upon landing, destroying the item, dealing damage, and making noise
+    if( !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
+        rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_str() * 100 ) {
+        proj.impact.add_damage( damage_type::CUT, units::to_milliliter( volume ) / 500.0f );
+    }
+    // Some minor (skill/2) armor piercing for skillful throws
+    // Not as much as in melee, though
+    const int skill_level = throwing_skill_adjusted( *this );
+    for( damage_unit &du : proj.impact.damage_units ) {
+        du.res_pen += skill_level / 2.0f;
+    }
+
+    int total_damage = 0;
+    for( damage_unit &du : proj.impact.damage_units ) {
+        total_damage += du.amount * du.damage_multiplier;
+    }
+    return total_damage;
+}
+
 dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw,
         const cata::optional<tripoint> &blind_throw_from_pos )
 {
@@ -972,54 +1051,25 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     mod_moves( -move_cost );
 
     const int throwing_skill = get_skill_level( skill_throw );
-    units::volume volume = to_throw.volume();
-    units::mass weight = to_throw.weight();
+    const units::volume volume = to_throw.volume();
+    const units::mass weight = to_throw.weight();
+    const cata::optional<int> throw_assist = character_throw_assist( *this );
 
-    bool throw_assist = false;
-    int throw_assist_str = 0;
-    if( is_mounted() ) {
-        auto *mons = mounted_creature.get();
-        if( mons->mech_str_addition() != 0 ) {
-            throw_assist = true;
-            throw_assist_str = mons->mech_str_addition();
-            mons->use_mech_power( -3 );
-        }
-    }
     if( !throw_assist ) {
         const int stamina_cost = get_standard_stamina_cost( &thrown );
         mod_stamina( stamina_cost + throwing_skill );
     }
 
-    const skill_id &skill_used = skill_throw;
-    int skill_level = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
-    // if you are lying on the floor, you can't really throw that well
-    if( has_effect( effect_downed ) ) {
-        skill_level = std::max( 0, skill_level - 5 );
-    }
-    // We'll be constructing a projectile
-    projectile proj;
-    proj.impact = thrown.base_damage_thrown();
-    proj.speed = 10 + skill_level;
-    auto &impact = proj.impact;
-    auto &proj_effects = proj.proj_effects;
+    const int skill_level = throwing_skill_adjusted( *this );
+    projectile proj = thrown_item_projectile( thrown );
+    damage_instance &impact = proj.impact;
+    std::set<std::string> &proj_effects = proj.proj_effects;
 
-    static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
+    const bool do_railgun = has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
+                            !throw_assist;
 
-    bool do_railgun = has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
-                      !throw_assist;
-
-    // The damage dealt due to item's weight, player's strength, and skill level
-    // Up to str/2 or weight/100g (lower), so 10 str is 5 damage before multipliers
-    // Railgun doubles the effective strength
-    ///\EFFECT_STR increases throwing damage
-    double stats_mod = do_railgun ? get_str() : ( get_str() / 2.0 );
-    stats_mod = throw_assist ? throw_assist_str / 2.0 : stats_mod;
-    // modify strength impact based on skill level, clamped to [0.15 - 1]
-    // mod = mod * [ ( ( skill / max_skill ) * 0.85 ) + 0.15 ]
-    stats_mod *= ( std::min( MAX_SKILL,
-                             get_skill_level( skill_throw ) ) /
-                   static_cast<double>( MAX_SKILL ) ) * 0.85 + 0.15;
-    impact.add_damage( damage_type::BASH, std::min( weight / 100.0_gram, stats_mod ) );
+    impact.add_damage( damage_type::BASH, std::min( weight / 100.0_gram,
+                       static_cast<double>( thrown_item_adjusted_damage( thrown ) ) ) );
 
     if( thrown.has_flag( flag_ACT_ON_RANGED_HIT ) ) {
         proj_effects.insert( "ACT_ON_RANGED_HIT" );
@@ -1096,7 +1146,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     float range = rl_dist( throw_from, target );
     proj.range = range;
-    int skill_lvl = get_skill_level( skill_used );
+    int skill_lvl = get_skill_level( skill_throw );
     // Avoid awarding tons of xp for lucky throws against hard to hit targets
     const float range_factor = std::min<float>( range, skill_lvl + 3 );
     // We're aiming to get a damaging hit, not just an accurate one - reward proper weapons
@@ -1109,14 +1159,14 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     const double missed_by = dealt_attack.missed_by;
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
-        practice( skill_used, final_xp_mult, MAX_SKILL );
+        practice( skill_throw, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
         get_event_bus().send<event_type::character_gets_headshot>( getID() );
     } else if( dealt_attack.hit_critter != nullptr && missed_by > 0.0f ) {
-        practice( skill_used, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
+        practice( skill_throw, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
         // Pure grindy practice - cap gain at lvl 2
-        practice( skill_used, 5, 2 );
+        practice( skill_throw, 5, 2 );
     }
     // Reset last target pos
     last_target_pos = cata::nullopt;
