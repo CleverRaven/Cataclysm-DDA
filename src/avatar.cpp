@@ -1526,6 +1526,13 @@ void avatar::toggle_crouch_mode()
     }
 }
 
+void avatar::activate_crouch_mode()
+{
+    if( !is_crouching() ) {
+        set_movement_mode( move_mode_id( "crouch" ) );
+    }
+}
+
 void avatar::reset_move_mode()
 {
     if( !is_walking() ) {
