@@ -1087,7 +1087,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You shoot up.",
-      "tools_needed": { "syringe": 1 },
+      "tools_needed": { "syringe": -1 },
       "effects": [
         { "id": "pkill3", "duration": 480 },
         { "id": "pkill2", "duration": 1200 },
@@ -1224,7 +1224,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You shoot up.",
-      "tools_needed": { "syringe": 1 },
+      "tools_needed": { "syringe": -1 },
       "effects": [ { "id": "pkill3", "duration": 120 }, { "id": "pkill2", "duration": 1200 } ]
     }
   },
@@ -1420,7 +1420,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You inject a vial of prophylactic antivenom into your arm.  You feel a bit queasy.",
-      "tools_needed": { "syringe": 1 },
+      "tools_needed": { "syringe": -1 },
       "effects": [ { "id": "prophylactic_antivenom", "duration": "120 m" }, { "id": "nausea", "duration": "5 m" } ]
     },
     "flags": [ "NO_INGEST", "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
@@ -1762,7 +1762,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You inject some vitamin B.",
-      "tools_needed": { "syringe": 1 },
+      "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "vitB", 100 ] ]
     }
   },
@@ -1784,7 +1784,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You inject some iron.",
-      "tools_needed": { "syringe": 1 },
+      "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "iron", 100 ] ]
     }
   },
