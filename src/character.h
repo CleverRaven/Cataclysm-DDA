@@ -514,7 +514,7 @@ class Character : public Creature, public visitable
 
         void mod_stat( const std::string &stat, float modifier ) override;
 
-        int get_standard_stamina_cost( item *thrown_item = nullptr );
+        int get_standard_stamina_cost( const item *thrown_item = nullptr ) const;
 
         /**Get bonus to max_hp from excess stored fat*/
         int get_fat_to_hp() const;
@@ -1648,6 +1648,10 @@ class Character : public Creature, public visitable
          */
         int item_reload_cost( const item &it, const item &ammo, int qty ) const;
 
+        projectile thrown_item_projectile( const item &thrown ) const;
+        int thrown_item_adjusted_damage( const item &thrown ) const;
+        // calculates the total damage possible from a thrown item, without resistances and such.
+        int thrown_item_total_damage_raw( const item &thrown ) const;
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
         /** Dispersion of a thrown item, against a given target, taking into account whether or not the throw was blind. */
@@ -1860,6 +1864,7 @@ class Character : public Creature, public visitable
         // gets all the spells known by this character that have this spell class
         // spells returned are a copy, do not try to edit them from here, instead use known_magic::get_spell
         std::vector<spell> spells_known_of_class( const trait_id &spell_class ) const;
+        bool cast_spell( spell &sp, bool fake_spell, cata::optional<tripoint> target );
 
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
