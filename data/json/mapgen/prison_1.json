@@ -1115,8 +1115,8 @@
       ],
       "item": { "н": { "item": "cassock", "chance": 95 } },
       "place_items": [
-        { "item": "table_desctruction", "x": 16, "y": 40, "chance": 100 },
-        { "item": "table_desctruction", "x": 17, "y": 40, "chance": 100 }
+        { "item": "table_destruction", "x": 16, "y": 40, "chance": 100 },
+        { "item": "table_destruction", "x": 17, "y": 40, "chance": 100 }
       ],
       "items": {
         "²": { "item": "SUS_knife_drawer", "chance": 80 },
@@ -1509,7 +1509,7 @@
     }
   },
   {
-    "id": "table_desctruction",
+    "id": "table_destruction",
     "type": "item_group",
     "subtype": "collection",
     "items": [
