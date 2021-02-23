@@ -42,18 +42,15 @@
     "components": [ [ [ "felt_patch", 4 ] ] ]
   },
   {
-    "result": "blindfold",
+    "result": "blindfold_duct",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "id_suffix": "from_tape",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "fabrication",
-    "difficulty": 1,
     "time": "3 m",
-    "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "duct_tape", 10 ] ] ],
+    "components": [ [ [ "duct_tape", 50 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
