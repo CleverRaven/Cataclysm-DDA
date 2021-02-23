@@ -58,7 +58,7 @@
     "type": "GENERIC",
     "id": "cu_pipe",
     "name": { "str": "copper tubing" },
-    "description": "A copper tube; too thin to be much use as a melee weapon, but will do if nothing else is available.  Useful in a few crafting recipes.",
+    "description": "A copper tube, too thin to be much use as a melee weapon, but will do if nothing else is available.  Useful in a few crafting recipes.",
     "category": "spare_parts",
     "weight": "482 g",
     "to_hit": -1,
