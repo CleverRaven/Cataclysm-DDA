@@ -322,6 +322,12 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
     level_cache &ch = get_cache( z );
     for( size_t i = 0; i < current_submap->vehicles.size(); i++ ) {
         if( current_submap->vehicles[i].get() == veh ) {
+            for( const tripoint &pt : veh->get_points() ) {
+                // FIXME: allow memorizing all objects in a tile and only clear
+                // vehicle memory here.
+                get_avatar().clear_memorized_tile( getabs( pt ) );
+                set_memory_seen_cache_dirty( pt );
+            }
             ch.vehicle_list.erase( veh );
             ch.zone_vehicles.erase( veh );
             std::unique_ptr<vehicle> result = std::move( current_submap->vehicles[i] );
