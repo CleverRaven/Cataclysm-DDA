@@ -8530,7 +8530,7 @@
           "fg": 3832,
           "rotates": false
         },
-        { "id": [ "overlay_female_wielded_an94", "overlay_female_wielded_USAS_12" ], "fg": 3833, "rotates": false },
+        { "id": [ "overlay_female_wielded_an94" ], "fg": 3833, "rotates": false },
         { "id": "overlay_female_wielded_ar15", "fg": 3784, "rotates": false },
         { "id": "overlay_female_wielded_bio_shotgun_gun", "fg": 3841, "rotates": false },
         { "id": "overlay_female_wielded_bolas", "fg": 3866, "rotates": false },
@@ -8831,7 +8831,7 @@
           "fg": 3744,
           "rotates": false
         },
-        { "id": [ "overlay_male_wielded_an94", "overlay_male_wielded_USAS_12" ], "fg": 3745, "rotates": false },
+        { "id": [ "overlay_male_wielded_an94" ], "fg": 3745, "rotates": false },
         { "id": "overlay_male_wielded_ar15", "fg": 3696, "rotates": false },
         { "id": "overlay_male_wielded_bio_shotgun_gun", "fg": 3753, "rotates": false },
         { "id": "overlay_male_wielded_bolas", "fg": 3778, "rotates": false },

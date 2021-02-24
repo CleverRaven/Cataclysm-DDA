@@ -575,7 +575,6 @@
     "items": [
       { "item": "saiga_12", "prob": 50, "charges-min": 0, "charges-max": 10 },
       { "item": "streetsweeper", "prob": 4, "charges-min": 0, "charges-max": 12 },
-      { "item": "USAS_12", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "saiga_410", "prob": 40, "charges-min": 0, "charges-max": 10 }
     ]
   },
@@ -784,7 +783,6 @@
       { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
       { "item": "m4a1", "prob": 35, "charges-min": 0, "charges-max": 30 },
       { "item": "as50", "prob": 5, "charges-min": 0, "charges-max": 10 },
-      { "item": "USAS_12", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "hk417_13", "prob": 30, "charges-min": 0, "charges-max": 20 }
     ]
   },
