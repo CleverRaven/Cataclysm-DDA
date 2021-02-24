@@ -1869,7 +1869,7 @@
     "reversible": true,
     "time": "1 s",
     "autolearn": true,
-    "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ], [ "rag", 1 ], [ "brush", 1 ] ] ]
+    "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ], [ "rag", 1 ], [ "brush", 1 ], [ "dish_towel", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1906,8 +1906,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "skills_required": [ "tailor", 1 ],
-    "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
     "using": [ [ "filament", 8 ] ],
@@ -1922,8 +1920,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "skills_required": [ "tailor", 1 ],
-    "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
     "using": [ [ "filament", 8 ] ],
@@ -1938,8 +1934,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "skills_required": [ "tailor", 1 ],
-    "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
     "using": [ [ "filament", 8 ] ],

@@ -631,7 +631,7 @@
     "value": 50000,
     "item": "commune_prospectus",
     "start": {
-      "assign_mission_target": { "om_terrain": "ranch_camp_67", "reveal_radius": 1, "search_range": 360 },
+      "assign_mission_target": { "om_terrain": "ranch_camp_67", "om_special": "ranch_camp", "reveal_radius": 1, "search_range": 200 },
       "update_mapgen": {
         "place_npcs": [
           { "class": "ranch_foreman", "x": 16, "y": 15, "target": true, "add_trait": "NPC_MISSION_LEV_1" },
@@ -740,7 +740,7 @@
         "om_special": "hub_01",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 280
+        "search_range": 240
       }
     },
     "goal_condition": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },

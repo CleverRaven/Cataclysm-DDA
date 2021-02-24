@@ -49,9 +49,14 @@ void advanced_inventory_pane::load_settings( int saved_area_idx,
                          !square.veh->get_items( square.vstor ).empty() : false;
     bool has_map_items = !get_map().i_at( square.pos ).empty();
     // determine based on map items and settings to show cargo
-    bool show_vehicle = is_re_enter ?
-                        save_state->in_vehicle : has_veh_items ? true :
-                        has_map_items ? false : square.can_store_in_vehicle();
+    bool show_vehicle = false;
+    if( is_re_enter ) {
+        show_vehicle = save_state->in_vehicle;
+    } else if( has_veh_items == has_map_items ) {
+        show_vehicle = save_state->in_vehicle && square.can_store_in_vehicle();
+    } else {
+        show_vehicle = has_veh_items;
+    }
     set_area( square, show_vehicle );
     sortby = static_cast<advanced_inv_sortby>( save_state->sort_idx );
     index = save_state->selected_idx;

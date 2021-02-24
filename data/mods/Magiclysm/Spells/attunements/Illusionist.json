@@ -5,7 +5,7 @@
     "name": "Spear of Light",
     "description": "Shoot directed light from your fingertips that is so bright you can see through the skin of the targets for an instant.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SOMATIC", "VERBAL", "SILENT" ],
+    "flags": [ "SOMATIC", "VERBAL", "SILENT", "MUST_HAVE_CLASS_TO_LEARN" ],
     "effect": "attack",
     "effect_str": "blind",
     "shape": "line",

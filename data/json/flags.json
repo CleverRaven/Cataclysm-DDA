@@ -580,14 +580,12 @@
   {
     "id": "MUSHY",
     "type": "json_flag",
-    "context": [ "COMESTIBLE" ],
-    "info": "This food was frozen and is now <bad>mushy</bad> and tasteless and <bad>will go bad</bad> after freezing again."
+    "context": [ "COMESTIBLE" ]
   },
   {
     "id": "FREEZERBURN",
     "type": "json_flag",
-    "context": [ "COMESTIBLE" ],
-    "info": "This food was frozen and is now <bad>mushy</bad> and tasteless and <bad>will go bad</bad> after freezing again."
+    "context": [ "COMESTIBLE" ]
   },
   {
     "id": "PSYSHIELD_PARTIAL",

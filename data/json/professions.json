@@ -1155,7 +1155,17 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [ "pants", "socks", "boots_combat", "longshirt", "jacket_light", "knife_folding", "hat_ball", "wristwatch" ],
+        "items": [
+          "pants",
+          "socks",
+          "boots_combat",
+          "longshirt",
+          "jacket_light",
+          "knife_folding",
+          "hat_ball",
+          "wristwatch",
+          "leather_belt"
+        ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_flashlight" },
@@ -2797,7 +2807,7 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "pants", "socks", "boots", "longshirt", "jacket_light", "holster", "pockknife", "wristwatch" ],
+        "items": [ "pants", "socks", "boots", "longshirt", "jacket_light", "holster", "pockknife", "wristwatch", "leather_belt" ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_flashlight" },

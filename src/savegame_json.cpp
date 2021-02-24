@@ -516,6 +516,16 @@ void weariness_tracker::deserialize( JsonIn &jsin )
     jo.read( "tick_counter", tick_counter );
 }
 
+// migration handling of items that used to have charges instead of real items.
+// remove this migration funciton after 0.F
+static void migrate_item_charges( item &it )
+{
+    if( it.charges != 0 && it.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+        it.ammo_set( it.ammo_default(), it.charges );
+        it.charges = 0;
+    }
+}
+
 /**
  * Gather variables for saving. These variables are common to both the avatar and NPCs.
  */
@@ -896,6 +906,12 @@ void Character::load( const JsonObject &data )
         const std::string t = pmap.get_string( "trap" );
         known_traps.insert( trap_map::value_type( p, t ) );
     }
+
+    // remove after 0.F
+    visit_items( []( item * it, item * ) {
+        migrate_item_charges( *it );
+        return VisitResponse::NEXT;
+    } );
 }
 
 /**
@@ -2543,14 +2559,6 @@ void item::io( Archive &archive )
         active = true;
     }
 
-
-    // migration handling of items that used to have charges instead of real items.
-    // remove after 0.F
-    if( charges != 0 && contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
-        ammo_set( ammo_default(), charges );
-        charges = 0;
-    }
-
     if( charges != 0 && !type->can_have_charges() ) {
         // Types that are known to have charges, but should not have them.
         // We fix it here, but it's expected from bugged saves and does not require a message.
@@ -2961,6 +2969,8 @@ void vehicle::deserialize( JsonIn &jsin )
             if( it->needs_processing() ) {
                 active_items.add( *it, vp.mount() );
             }
+            // remove after 0.F
+            migrate_item_charges( *it );
         }
     }
 
@@ -4177,6 +4187,10 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
                 }
                 if( it.needs_processing() ) {
                     active_items.add( it, p );
+                }
+                if( savegame_loading_version < 33 ) {
+                    // remove after 0.F
+                    migrate_item_charges( it );
                 }
             }
         }

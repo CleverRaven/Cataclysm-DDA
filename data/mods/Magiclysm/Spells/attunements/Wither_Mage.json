@@ -33,6 +33,7 @@
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile" ],
+    "flags": [ "MUST_HAVE_CLASS_TO_LEARN" ],
     "min_damage": 35,
     "max_damage": 490,
     "damage_increment": 13,
