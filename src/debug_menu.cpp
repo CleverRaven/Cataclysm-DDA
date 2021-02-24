@@ -98,6 +98,7 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_utility.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
@@ -896,7 +897,30 @@ void character_edit_menu()
         }
         break;
         case D_NEEDS: {
+            std::pair<std::string, nc_color> hunger_pair = p.get_hunger_description();
+            std::pair<std::string, nc_color> thirst_pair = p.get_thirst_description();
+            std::pair<std::string, nc_color> fatigue_pair = p.get_fatigue_description();
+
+            std::stringstream data;
+            data << string_format( _( "Hunger: %d  %s" ), p.get_hunger(), colorize( hunger_pair.first,
+                                   hunger_pair.second ) ) << std::endl;
+            data << string_format( _( "Thirst: %d  %s" ), p.get_thirst(), colorize( thirst_pair.first,
+                                   thirst_pair.second ) ) << std::endl;
+            data << string_format( _( "Fatigue: %d  %s" ), p.get_fatigue(), colorize( fatigue_pair.first,
+                                   fatigue_pair.second ) ) << std::endl;
+            data << std::endl;
+            data << _( "Stomach contents" ) << std::endl;
+            data << _( "  Total volume: " ) << vol_to_string( p.stomach.contains() ) << std::endl;
+            data << _( "  Water volume: " ) << vol_to_string( p.stomach.get_water() ) << std::endl;
+            data << string_format( _( "  kCal: %d" ), p.stomach.get_calories() ) << std::endl;
+            data << std::endl;
+            data << _( "Gut contents" ) << std::endl;
+            data << _( "  Total volume: " ) << vol_to_string( p.guts.contains() ) << std::endl;
+            data << _( "  Water volume: " ) << vol_to_string( p.guts.get_water() ) << std::endl;
+            data << string_format( _( "  kCal: %d" ), p.guts.get_calories() ) << std::endl;
+
             uilist smenu;
+            smenu.text = data.str();
             smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
             smenu.addentry( 1, true, 's', "%s: %d", _( "Stored kCal" ), p.get_stored_kcal() );
             smenu.addentry( 2, true, 'S', "%s: %d", _( "Stomach kCal" ), p.stomach.get_calories() );
