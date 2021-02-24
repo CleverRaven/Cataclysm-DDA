@@ -214,23 +214,26 @@ class uilist // NOLINT(cata-xy)
         // In add_entry/add_entry_desc/add_entry_col, int k only support letters
         // (a-z, A-Z) and digits (0-9), MENU_AUTOASSIGN, and 0 or ' ' (disable
         // hotkey). Other values may not work under keycode mode.
-        void addentry( const std::string &str );
-        void addentry( int r, bool e, int k, const std::string &str );
-        void addentry( int r, bool e, const cata::optional<input_event> &k,
-                       const std::string &str );
+        void addentry( const std::string &txt );
+        void addentry( int retval, bool enabled, int key, const std::string &txt );
+        void addentry( int retval, bool enabled, const cata::optional<input_event> &key,
+                       const std::string &txt );
         template<typename K, typename ...Args>
-        void addentry( const int r, const bool e, K &&k, const char *const format, Args &&... args ) {
-            return addentry( r, e, std::forward<K>( k ),
+        void addentry( const int retval, const bool enabled, K &&key, const char *const format,
+                       Args &&... args ) {
+            return addentry( retval, enabled, std::forward<K>( key ),
                              string_format( format, std::forward<Args>( args )... ) );
         }
-        void addentry_desc( const std::string &str, const std::string &desc );
-        void addentry_desc( int r, bool e, int k, const std::string &str, const std::string &desc );
-        void addentry_col( int r, bool e, int k, const std::string &str, const std::string &column,
+        void addentry_desc( const std::string &txt, const std::string &desc );
+        void addentry_desc( int retval, bool enabled, int key, const std::string &txt,
+                            const std::string &desc );
+        void addentry_col( int retval, bool enabled, int key, const std::string &txt,
+                           const std::string &column,
                            const std::string &desc = "" );
-        void addentry_col( int r, bool e, const cata::optional<input_event> &k,
-                           const std::string &str, const std::string &column,
+        void addentry_col( int retval, bool enabled, const cata::optional<input_event> &key,
+                           const std::string &txt, const std::string &column,
                            const std::string &desc = std::string() );
-        void settext( const std::string &str );
+        void settext( const std::string &txt );
 
         void reset();
 
