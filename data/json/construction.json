@@ -4271,5 +4271,36 @@
     "byproducts": [ { "item": "pebble", "count": [ 70, 100 ] } ],
     "pre_terrain": "t_railroad_rubble",
     "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_glass_wall",
+    "group": "build_glass_wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER_SOFT", "level": 1 } ] ],
+    "components": [
+      [ [ "frame_wood", 1 ] ],
+      [ [ "chunk_rubber", 16 ] ],
+      [ [ "glass_sheet", 2 ] ],
+      [ [ "superglue", 2 ], [ "duct_tape", 10 ] ]
+    ],
+    "pre_note": "Must be supported on at least two sides.",
+    "pre_special": "check_support",
+    "post_terrain": "t_wall_glass"
+  },
+  {
+    "type": "construction",
+    "id": "constr_glass_wall_door",
+    "group": "build_glass_door",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER_SOFT", "level": 1 } ] ],
+    "components": [ [ [ "frame_wood", 1 ] ], [ [ "chunk_rubber", 16 ] ], [ [ "glass_sheet", 2 ] ], [ [ "rag", 8 ] ] ],
+    "pre_note": "Must be supported on at least two sides.",
+    "pre_special": "check_support",
+    "post_terrain": "t_door_glass_c"
   }
 ]
