@@ -931,6 +931,7 @@ void character_edit_menu()
             smenu.addentry( 5, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
             smenu.addentry( 6, true, 'd', "%s: %d", _( "Sleep Deprivation" ), p.get_sleep_deprivation() );
             smenu.addentry( 7, true, 'a', _( "Reset all basic needs" ) );
+            smenu.addentry( 8, true, 'e', _( "Empty stomach and guts" ) );
 
             const auto &vits = vitamin::all();
             for( const auto &v : vits ) {
@@ -990,9 +991,13 @@ void character_edit_menu()
                     p.set_sleep_deprivation( 0 );
                     p.set_stored_kcal( p.get_healthy_kcal() );
                     break;
+                case 8:
+                    p.stomach.empty();
+                    p.guts.empty();
+                    break;
                 default:
-                    if( smenu.ret >= 8 && smenu.ret < static_cast<int>( vits.size() + 8 ) ) {
-                        auto iter = std::next( vits.begin(), smenu.ret - 8 );
+                    if( smenu.ret >= 9 && smenu.ret < static_cast<int>( vits.size() + 9 ) ) {
+                        auto iter = std::next( vits.begin(), smenu.ret - 9 );
                         if( query_int( value, _( "Set %s to?  Currently: %d" ),
                                        iter->second.name(), p.vitamin_get( iter->first ) ) ) {
                             p.vitamin_set( iter->first, value );
