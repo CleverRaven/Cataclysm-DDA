@@ -8,7 +8,6 @@
     "weight": "1000 g",
     "volume": "1225ml",
     "price": 100000,
-    "price_postapoc": 5000,
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",

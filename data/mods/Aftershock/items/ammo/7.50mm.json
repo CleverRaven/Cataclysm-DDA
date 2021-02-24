@@ -1,0 +1,42 @@
+[
+  {
+    "id": "afs_7.50mm_caseless",
+    "type": "AMMO",
+    "name": { "str_sp": "7.50mm caseless" },
+    "description": "An intermediate bullet with an acceptable all-round performance.  Due to their role as UICA's standard issue rifle cartridge, these are ubiquitous wherever Earth makes its presence be known.  Being caseless, these cannot be disassembled or reloaded.",
+    "weight": "12 g",
+    "volume": "194 ml",
+    "price": 280,
+    "material": [ "lead" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 30,
+    "stack_size": 47,
+    "ammo_type": "afs_7.50mm",
+    "range": 36,
+    "damage": { "damage_type": "bullet", "amount": 44, "armor_penetration": 2 },
+    "dispersion": 30,
+    "recoil": 1500,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "afs_7.50mm_rp",
+    "type": "AMMO",
+    "name": { "str_sp": "7.50mm RP" },
+    "description": "Civilian-legal 7.50mm ammunition featuring a reduced propellant case and unjacketed projectiles.  The 7.50mm RP round is extremely weak with very low stopping power, short range, and negligible recoil.  While cheaper than military grade rounds, its only really useful for rifle training, and for hunting small animals.  Being caseless, these cannot be disassembled or reloaded.",
+    "weight": "3 g",
+    "volume": "65 ml",
+    "price": 150,
+    "material": [ "lead" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 80,
+    "stack_size": 100,
+    "ammo_type": "afs_7.50mm",
+    "range": 13,
+    "damage": { "damage_type": "bullet", "amount": 12 },
+    "dispersion": 60,
+    "recoil": 150,
+    "effects": [ "COOKOFF" ]
+  }
+]
