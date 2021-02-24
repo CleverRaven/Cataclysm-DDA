@@ -29,6 +29,34 @@
     }
   },
   {
+    "id": "afs_mounted_gibs_shotgun",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted Gibson S86" },
+    "item": "afs_gibs_shotgun",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "afs_mounted_Accipitermg",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted Accipiter Hawk-00" },
+    "item": "afs_Accipitermg",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
     "id": "afs_laser_rifle",
     "copy-from": "turret",
     "type": "vehicle_part",
