@@ -495,6 +495,7 @@ Effects for the character that has the enchantment:
 * SOCIAL_PERSUADE
 * SOCIAL_INTIMIDATE
 * SLEEPY : The higher this is the more easily you fall asleep.
+* LUMINATION : The character produces light
 * ARMOR_BASH
 * ARMOR_CUT
 * ARMOR_STAB

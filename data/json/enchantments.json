@@ -1,0 +1,27 @@
+[
+  {
+    "type": "enchantment",
+    "id": "ENCH_INVISIBILITY",
+    "condition": "ACTIVE",
+    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_SHADOW_CLOUD",
+    "condition": "ACTIVE",
+    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+    "emitter": "emit_shadow_field"
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_BIO_FLASHLIGHT",
+    "condition": "ACTIVE",
+    "values": [ { "value": "LUMINATION", "add": 60 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_BIO_LED_TATTOO",
+    "condition": "ACTIVE",
+    "values": [ { "value": "LUMINATION", "add": 5 } ]
+  }
+]

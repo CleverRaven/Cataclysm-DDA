@@ -790,7 +790,8 @@
     "act_cost": "3 J",
     "react_cost": "3 J",
     "time": 1,
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ "ENCH_BIO_FLASHLIGHT" ]
   },
   {
     "id": "bio_tattoo_led",
@@ -800,7 +801,8 @@
     "act_cost": "1 J",
     "react_cost": "1 J",
     "time": 1,
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ "ENCH_BIO_LED_TATTOO" ]
   },
   {
     "id": "bio_glowy",
