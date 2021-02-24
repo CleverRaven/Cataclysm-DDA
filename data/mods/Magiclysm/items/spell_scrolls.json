@@ -276,7 +276,7 @@
     "id": "spell_scroll_recover_fatigue",
     "//": "Druid spell",
     "name": { "str": "Scroll of Nature's Trance", "str_pl": "Scrolls of Nature's Trance" },
-    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover fatige quickly in exchange for mana.",
+    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover fatigue quickly in exchange for mana.",
     "use_action": { "type": "learn_spell", "spells": [ "recover_fatigue" ] }
   },
   {
@@ -990,7 +990,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_impactsling",
     "name": { "str": "Scroll of Impact Sling", "str_pl": "Scrolls of Impact Sling" },
-    "description": "Infuse a sling with excess energy, delivering devasting throws before it tears itself apart.",
+    "description": "Infuse a sling with excess energy, delivering devastating throws before it tears itself apart.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_summon_impact_sling" ] }
   },
   {

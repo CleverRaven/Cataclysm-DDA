@@ -555,7 +555,7 @@
     "species": [ "ZOMBIE" ],
     "volume": "79 L",
     "weight": "85 kg",
-    "hp": 200,
+    "hp": 160,
     "speed": 253,
     "material": [ "flesh" ],
     "symbol": "R",
@@ -568,7 +568,7 @@
     "melee_cut": 0,
     "armor_bash": 5,
     "armor_cut": 4,
-    "vision_night": 16,
+    "vision_night": 10,
     "death_function": [ "NORMAL" ],
     "harvest": "zombie_leather",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]

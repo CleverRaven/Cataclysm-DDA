@@ -1105,12 +1105,18 @@
         { "item": "holybook_bible1", "x": 75, "y": 29, "chance": 90 },
         { "item": "icon", "x": 76, "y": 29, "chance": 90 },
         { "item": "pliers", "x": 81, "y": 54, "chance": 100 },
-        { "item": "hammer", "x": 59, "y": 32, "chance": 100 }
+        { "item": "hammer", "x": 59, "y": 32, "chance": 100 },
+        { "item": "id_industrial", "x": 42, "y": 61, "chance": 100 },
+        { "item": "id_military", "x": 79, "y": 50, "chance": 100 },
+        { "item": "holster", "x": 79, "y": 50, "chance": 100 },
+        { "item": "m9", "x": 79, "y": 50, "chance": 100 },
+        { "item": "m9mag", "x": 79, "y": 50, "chance": 100 },
+        { "item": "9mm", "x": 79, "y": 50, "chance": 100 }
       ],
       "item": { "н": { "item": "cassock", "chance": 95 } },
       "place_items": [
-        { "item": "table_desctruction", "x": 16, "y": 40, "chance": 100 },
-        { "item": "table_desctruction", "x": 17, "y": 40, "chance": 100 }
+        { "item": "table_destruction", "x": 16, "y": 40, "chance": 100 },
+        { "item": "table_destruction", "x": 17, "y": 40, "chance": 100 }
       ],
       "items": {
         "²": { "item": "SUS_knife_drawer", "chance": 80 },
@@ -1142,8 +1148,7 @@
         "1": { "item": "SUS_office_filing_cabinet", "chance": 50 },
         "2": { "item": "SUS_utensils", "chance": 80 },
         "4": [ { "item": "softdrugs", "chance": 50 }, { "item": "harddrugs", "chance": 50 } ],
-        "5": [ { "item": "alcohol_bottled_canned", "chance": 95, "repeat": [ 1, 3 ] }, { "item": "warden_safe", "chance": 100 } ],
-        "Ƽ": { "item": "chief_safe", "chance": 100 },
+        "5": { "item": "alcohol_bottled_canned", "chance": 95, "repeat": [ 1, 3 ] },
         "9": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] },
         "а": { "item": "SUS_fridge_breakroom", "chance": 65 },
         "Ж": { "item": "SUS_janitors_closet", "chance": 95 },
@@ -1504,7 +1509,7 @@
     }
   },
   {
-    "id": "table_desctruction",
+    "id": "table_destruction",
     "type": "item_group",
     "subtype": "collection",
     "items": [
@@ -1538,18 +1543,6 @@
       [ "jerky", 40 ],
       [ "rope_6", 15 ]
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "chief_safe",
-    "subtype": "collection",
-    "items": [ { "item": "holster", "contents-group": "military_standard_pistols", "prob": 100 }, [ "id_military", 100 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "warden_safe",
-    "subtype": "collection",
-    "items": [ [ "id_industrial", 100 ] ]
   },
   {
     "type": "item_group",

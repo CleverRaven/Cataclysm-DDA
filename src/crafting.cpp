@@ -1214,10 +1214,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
             }
         }
 
-        //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
-        if( newit.has_flag( flag_VARSIZE ) ) {
-            newit.set_flag( flag_FIT );
-        }
+        // Newly-crafted items are perfect by default. Inspect their materials to see if they shouldn't be
         food_contained.inherit_flags( used, making );
 
         for( const flag_id &flag : making.flags_to_delete ) {

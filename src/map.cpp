@@ -5232,7 +5232,7 @@ void map::trap_set( const tripoint &p, const trap_id &type )
     }
     const ter_t &ter = current_submap->get_ter( l ).obj();
     if( ter.trap != tr_null ) {
-        debugmsg( "set trap %s on top of terrain %s which already has a builit-in trap",
+        debugmsg( "set trap %s on top of terrain %s which already has a built-in trap",
                   type.obj().name(), ter.name() );
         return;
     }

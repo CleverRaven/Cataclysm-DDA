@@ -957,4 +957,35 @@ class move_furniture_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class insert_item_activity_actor : public activity_actor
+{
+    private:
+        item_location holster;
+        drop_locations items;
+        contents_change_handler handler;
+        bool all_pockets_rigid;
+
+    public:
+
+        insert_item_activity_actor() = default;
+        insert_item_activity_actor( const item_location &holster, const drop_locations &holstered_list ) :
+            holster( holster ), items( holstered_list ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_INSERT_ITEM" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {};
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &/*act*/, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<insert_item_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
