@@ -70,24 +70,24 @@ struct uilist_entry {
     nc_color text_color;
     mvwzstr extratxt;
 
-    // In the following constructors, int K only support letters (a-z, A-Z) and
+    // In the following constructors, int key only support letters (a-z, A-Z) and
     // digits (0-9), MENU_AUTOASSIGN, and 0 or ' ' (disable hotkey). Other
     // values may not work under keycode mode.
-    explicit uilist_entry( const std::string &T );
-    uilist_entry( const std::string &T, const std::string &D );
-    uilist_entry( const std::string &T, int K );
-    uilist_entry( const std::string &T, const cata::optional<input_event> &K );
-    uilist_entry( int R, bool E, int K, const std::string &T );
-    uilist_entry( int R, bool E, const cata::optional<input_event> &K,
-                  const std::string &T );
-    uilist_entry( int R, bool E, int K, const std::string &T, const std::string &D );
-    uilist_entry( int R, bool E, int K, const std::string &T, const std::string &D,
-                  const std::string &C );
-    uilist_entry( int R, bool E, const cata::optional<input_event> &K,
-                  const std::string &T, const std::string &D,
-                  const std::string &C );
-    uilist_entry( int R, bool E, int K, const std::string &T,
-                  const nc_color &H, const nc_color &C );
+    explicit uilist_entry( const std::string &txt );
+    uilist_entry( const std::string &txt, const std::string &desc );
+    uilist_entry( const std::string &txt, int key );
+    uilist_entry( const std::string &txt, const cata::optional<input_event> &key );
+    uilist_entry( int retval, bool enabled, int key, const std::string &txt );
+    uilist_entry( int retval, bool enabled, const cata::optional<input_event> &key,
+                  const std::string &txt );
+    uilist_entry( int retval, bool enabled, int key, const std::string &txt, const std::string &desc );
+    uilist_entry( int retval, bool enabled, int key, const std::string &txt, const std::string &desc,
+                  const std::string &ctxt );
+    uilist_entry( int retval, bool enabled, const cata::optional<input_event> &key,
+                  const std::string &txt, const std::string &desc,
+                  const std::string &ctxt );
+    uilist_entry( int retval, bool enabled, int key, const std::string &txt,
+                  const nc_color &keycolor, const nc_color &txtcolor );
     template<typename Enum, typename... Args,
              typename = std::enable_if_t<std::is_enum<Enum>::value>>
     explicit uilist_entry( Enum e, Args && ... args ) :
