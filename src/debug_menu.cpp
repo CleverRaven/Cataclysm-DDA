@@ -191,6 +191,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::LEVEL_SPELLS: return "LEVEL_SPELLS";
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
+        case debug_menu::debug_menu_index::EDIT_CAMP_LARDER: return "EDIT_CAMP_LARDER";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
         case debug_menu::debug_menu_index::GENERATE_EFFECT_LIST: return "GENERATE_EFFECT_LIST";
         // *INDENT-ON*
@@ -346,6 +347,7 @@ static int map_uilist()
         { uilist_entry( debug_menu_index::OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
         { uilist_entry( debug_menu_index::MAP_EXTRA, true, 'm', _( "Spawn map extra" ) ) },
         { uilist_entry( debug_menu_index::NESTED_MAPGEN, true, 'n', _( "Spawn nested mapgen" ) ) },
+        { uilist_entry( debug_menu_index::EDIT_CAMP_LARDER, true, 'l', _( "Edit the faction camp larder" ) ) },
     };
 
     return uilist( _( "Map…" ), uilist_initializer );
@@ -2207,6 +2209,16 @@ void debug()
                 } else {
                     veh.discharge_battery( -amount, false );
                 }
+            }
+            break;
+        }
+
+        case debug_menu_index::EDIT_CAMP_LARDER: {
+            faction *your_faction = get_player_character().get_faction();
+            int larder;
+            if( query_int( larder, _( "Set camp larder kCals to?  Currently: %d" ),
+                           your_faction->food_supply ) ) {
+                your_faction->food_supply = larder;
             }
             break;
         }
