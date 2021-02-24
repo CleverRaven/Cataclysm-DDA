@@ -286,6 +286,16 @@
   },
   {
     "type": "construction_group",
+    "id": "build_glass_door",
+    "name": "Build Glass Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_glass_wall",
+    "name": "Build Glass Wall"
+  },
+  {
+    "type": "construction_group",
     "id": "build_high_end_of_a_concrete_ramp",
     "name": "Build High End of a Concrete Ramp"
   },
