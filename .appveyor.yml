@@ -21,3 +21,7 @@ only_commits:
     - '.appveyor.yml'
     - 'msvc-full-features/**'
     - 'src/**'
+branches:
+  only:
+    - master
+    
