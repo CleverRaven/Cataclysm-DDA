@@ -5951,6 +5951,21 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "sandwich_jam_cheese",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "autolearn": true,
+    "components": [
+      [ [ "bread_sandwich", 2, "LIST" ] ],
+      [ [ "jam_fruit", 1 ] ],
+      [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "sandwich_jam_butter",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
