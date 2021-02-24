@@ -16,9 +16,8 @@ build:
   project: /msvc-full-features/Cataclysm-vcpkg-static.sln
   parallel: true
   verbosity: minimal
-skip_commits:
+only_commits:
   files:
-    - 'doc/**'
-    - 'lgtm/**'
-    - 'tools/**'
-    - '.github/**'
+    - '.appveyor.yml'
+    - 'msvc-full-features/**'
+    - 'src/**'
