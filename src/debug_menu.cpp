@@ -911,6 +911,10 @@ void character_edit_menu()
             data << string_format( _( "Fatigue: %d  %s" ), p.get_fatigue(), colorize( fatigue_pair.first,
                                    fatigue_pair.second ) ) << std::endl;
             data << std::endl;
+            data << _( "Stored kCal: " ) << p.get_stored_kcal() << std::endl;
+            data << _( "Total kCal: " ) << p.get_stored_kcal() + p.stomach.get_calories() +
+                 p.guts.get_calories() << std::endl;
+            data << std::endl;
             data << _( "Stomach contents" ) << std::endl;
             data << _( "  Total volume: " ) << vol_to_string( p.stomach.contains() ) << std::endl;
             data << _( "  Water volume: " ) << vol_to_string( p.stomach.get_water() ) << std::endl;
