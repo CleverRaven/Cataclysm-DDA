@@ -2351,13 +2351,13 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     } else if( ter == t_metal_grate_window || ter == t_metal_grate_window_with_curtain ||
                ter == t_metal_grate_window_with_curtain_open ) {
         here.ter_set( pos, t_window_reinforced );
-        here.spawn_item( p->pos(), itype_rebar, rng( 1, 12 ) );
+        here.spawn_item( p->pos(), itype_pipe, rng( 1, 12 ) );
         here.spawn_item( p->pos(), itype_sheet_metal, 4 );
     } else if( ter == t_metal_grate_window_noglass ||
                ter == t_metal_grate_window_with_curtain_noglass ||
                ter == t_metal_grate_window_with_curtain_open_noglass ) {
         here.ter_set( pos, t_window_reinforced_noglass );
-        here.spawn_item( p->pos(), itype_rebar, rng( 1, 12 ) );
+        here.spawn_item( p->pos(), itype_pipe, rng( 1, 12 ) );
         here.spawn_item( p->pos(), itype_sheet_metal, 4 );
     }
 }
@@ -3590,13 +3590,13 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
         here.spawn_item( p->pos(), itype_pipe, 6 );
     } else if( ter == t_window_bars_alarm ) {
         here.ter_set( pos, t_window_alarm );
-        here.spawn_item( p->pos(), itype_rebar, rng( 1, 6 ) );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 8 ) );
     } else if( ter == t_window_bars_curtains || ter == t_window_bars_domestic ) {
         here.ter_set( pos, t_window_domestic );
-        here.spawn_item( p->pos(), itype_rebar, rng( 1, 6 ) );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 8 ) );
     } else if( ter == t_window_bars ) {
         here.ter_set( pos, t_window_empty );
-        here.spawn_item( p->pos(), itype_rebar, rng( 1, 6 ) );
+        here.spawn_item( p->pos(), itype_rebar, rng( 1, 8 ) );
     } else if( ter == t_window_enhanced ) {
         here.ter_set( pos, t_window_reinforced );
         here.spawn_item( p->pos(), itype_spike, rng( 1, 4 ) );
@@ -3624,13 +3624,13 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
     } else if( ter == t_metal_grate_window || ter == t_metal_grate_window_with_curtain ||
                ter == t_metal_grate_window_with_curtain_open ) {
         here.ter_set( pos, t_window_reinforced );
-        here.spawn_item( p->pos(), itype_rebar, rng( 1, 12 ) );
+        here.spawn_item( p->pos(), itype_pipe, rng( 1, 12 ) );
         here.spawn_item( p->pos(), itype_sheet_metal, 4 );
     } else if( ter == t_metal_grate_window_noglass ||
                ter == t_metal_grate_window_with_curtain_noglass ||
                ter == t_metal_grate_window_with_curtain_open_noglass ) {
         here.ter_set( pos, t_window_reinforced_noglass );
-        here.spawn_item( p->pos(), itype_rebar, rng( 1, 12 ) );
+        here.spawn_item( p->pos(), itype_pipe, rng( 1, 12 ) );
         here.spawn_item( p->pos(), itype_sheet_metal, 4 );
     }
 
