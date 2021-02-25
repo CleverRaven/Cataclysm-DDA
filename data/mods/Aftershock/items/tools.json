@@ -30,7 +30,7 @@
     "copy-from": "rock",
     "name": { "str": "clearcrete chunk" },
     "category": "other",
-    "description": "A broken chunk of clreacrete.  Basically a clear rock.",
+    "description": "A broken chunk of clearcrete.  Basically a clear rock.",
     "material": [ "clearcrete" ]
   },
   {
