@@ -233,7 +233,7 @@ class uilist // NOLINT(cata-xy)
         void addentry_col( int retval, bool enabled, const cata::optional<input_event> &key,
                            const std::string &txt, const std::string &column,
                            const std::string &desc = std::string() );
-        void settext( const std::string &txt );
+        void settext( const std::string &str );
 
         void reset();
 
