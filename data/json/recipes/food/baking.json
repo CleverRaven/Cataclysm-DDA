@@ -10,7 +10,7 @@
     "time": "45 m",
     "charges": 12,
     "autolearn": true,
-    "batch_time_factors": [ 83, 3 ],
+    "batch_time_factors": [ 80, 5 ],
     "flags": [ "BLIND_HARD" ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
