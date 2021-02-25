@@ -1844,7 +1844,16 @@
     "components": [
       [ [ "2x4", 4 ] ],
       [ [ "nail", 6 ] ],
-      [ [ "sheet", 2 ], [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ]
+      [
+        [ "sheet", 2 ],
+        [ "blanket", 1 ],
+        [ "down_blanket", 1 ],
+        [ "fur_blanket", 1 ],
+        [ "quilt", 1 ],
+        [ "quilt_patchwork", 1 ],
+        [ "sleeping_bag", 1 ],
+        [ "sleeping_bag_fur", 1 ]
+      ]
     ],
     "pre_special": "check_empty",
     "post_terrain": "f_makeshift_bed"
