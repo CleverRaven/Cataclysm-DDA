@@ -82,10 +82,10 @@ struct uilist_entry {
                   const std::string &txt );
     uilist_entry( int retval, bool enabled, int key, const std::string &txt, const std::string &desc );
     uilist_entry( int retval, bool enabled, int key, const std::string &txt, const std::string &desc,
-                  const std::string &ctxt );
+                  const std::string &column );
     uilist_entry( int retval, bool enabled, const cata::optional<input_event> &key,
                   const std::string &txt, const std::string &desc,
-                  const std::string &ctxt );
+                  const std::string &column );
     uilist_entry( int retval, bool enabled, int key, const std::string &txt,
                   const nc_color &keycolor, const nc_color &txtcolor );
     template<typename Enum, typename... Args,
