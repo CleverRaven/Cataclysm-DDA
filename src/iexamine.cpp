@@ -4640,7 +4640,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             } else {
                 add_msg( m_info, _( "You jump over an obstacle." ) );
                 p.increase_activity_level( LIGHT_EXERCISE );
-                p.setpos( dest );
+                g->place_player( dest );
             }
             break;
         }
