@@ -5,6 +5,7 @@
 
 #include "enums.h"
 #include "filesystem.h"
+#include "language.h"
 #include "options.h"
 
 #if defined(_WIN32)

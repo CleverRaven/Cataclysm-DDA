@@ -29,6 +29,7 @@
 #include "game.h"
 #include "game_ui.h"
 #include "input.h"
+#include "language.h"
 #include "loading_ui.h"
 #include "runtime_handlers.h"
 #include "string_formatter.h"

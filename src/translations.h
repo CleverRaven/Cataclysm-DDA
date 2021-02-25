@@ -19,6 +19,8 @@ namespace detail
 int get_current_language_version();
 } // namespace detail
 
+void invalidate_translations();
+
 #if !defined(translate_marker)
 /**
  * Marks a string literal to be extracted for translation. This is only for running `xgettext` via
@@ -195,11 +197,6 @@ using GenderMap = std::map<std::string, std::vector<std::string>>;
  * common).
  */
 std::string gettext_gendered( const GenderMap &genders, const std::string &msg );
-
-bool isValidLanguage( const std::string &lang );
-std::string getLangFromLCID( const int &lcid );
-void select_language();
-void set_language();
 
 class JsonIn;
 
