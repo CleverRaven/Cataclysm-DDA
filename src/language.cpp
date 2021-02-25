@@ -31,6 +31,44 @@
 #  include "ui_manager.h"
 #endif
 
+std::vector<language_info> lang_options = {
+    // Note: language names are in their own language and are *not* translated at all.
+    // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
+    // http://en.wikipedia.org/wiki/List_of_language_names
+    { "en", R"(English)", "en_US.UTF-8" },
+#if defined(LOCALIZE)
+    { "de", R"(Deutsch)", "de_DE.UTF-8" },
+    { "es_AR", R"(Español (Argentina))", "es_AR.UTF-8" },
+    { "es_ES", R"(Español (España))", "es_ES.UTF-8" },
+    { "fr", R"(Français)", "fr_FR.UTF-8" },
+    { "hu", R"(Magyar)", "hu_HU.UTF-8" },
+    { "ja", R"(日本語)", "ja_JP.UTF-8" },
+    { "ko", R"(한국어)", "ko_KR.UTF-8" },
+    { "pl", R"(Polski)", "pl_PL.UTF-8" },
+    { "pt_BR", R"(Português (Brasil))", "pt_BR.UTF-8" },
+    { "ru", R"(Русский)", "ru_RU.UTF-8" },
+    { "zh_CN", R"(中文 (天朝))", "zh_CN.UTF-8" },
+    { "zh_TW", R"(中文 (台灣))", "zh_TW.UTF-8" },
+#endif // LOCALIZE
+};
+
+static language_info const *get_lang_info( const std::string &lang )
+{
+    for( const language_info &li : lang_options ) {
+        if( li.id == lang ) {
+            return &li;
+        }
+    }
+    // Should never happen
+    debugmsg( "'%s' is not a valid language", lang );
+    return &lang_options[0];
+}
+
+const std::vector<language_info> &list_available_languages()
+{
+    return lang_options;
+}
+
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the
 // names.
@@ -245,6 +283,23 @@ void set_language()
 }
 
 #endif // LOCALIZE
+
+void update_global_locale()
+{
+    std::string lang = ::get_option<std::string>( "USE_LANG" );
+
+    // TODO: reset to system locale when selecting 'System language'
+    if( !lang.empty() ) {
+        try {
+            std::locale::global( std::locale( get_lang_info( lang )->locale ) );
+        } catch( std::runtime_error &e ) {
+            std::locale::global( std::locale() );
+        }
+    }
+
+    DebugLog( D_INFO, DC_ALL ) << "[lang] C locale set to " << setlocale( LC_ALL, nullptr );
+    DebugLog( D_INFO, DC_ALL ) << "[lang] C++ locale set to " << std::locale().name();
+}
 
 bool localized_comparator::operator()( const std::string &l, const std::string &r ) const
 {

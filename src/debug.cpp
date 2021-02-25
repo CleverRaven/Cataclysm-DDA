@@ -30,6 +30,7 @@
 #include "filesystem.h"
 #include "get_version.h"
 #include "input.h"
+#include "language.h"
 #include "mod_manager.h"
 #include "optional.h"
 #include "options.h"
@@ -1349,9 +1350,10 @@ std::string game_info::game_report()
 
     std::string lang = get_option<std::string>( "USE_LANG" );
     std::string lang_translated;
-    for( const options_manager::id_and_option &vItem : options_manager::lang_options ) {
-        if( vItem.first == lang ) {
-            lang_translated = vItem.second.translated();
+    for( const language_info &info : list_available_languages() ) {
+        if( lang == info.id ) {
+            lang_translated = info.name;
+            break;
         }
     }
 
