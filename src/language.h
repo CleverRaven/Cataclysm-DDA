@@ -18,6 +18,7 @@ bool isValidLanguage( const std::string &lang );
 std::string getLangFromLCID( const int &lcid );
 void select_language();
 void set_language();
+const language_info &get_language();
 void update_global_locale();
 
 #endif // CATA_SRC_LANGUAGE_H

@@ -122,13 +122,32 @@ std::string getOSXSystemLang()
 }
 #endif // MACOSX
 
+static const std::string &to_valid_language( const std::string &lang )
+{
+    if( lang.empty() ) {
+        return lang;
+    }
+    for( const language_info &info : lang_options ) {
+        if( string_starts_with( lang, info.id ) ) {
+            return info.id;
+        }
+    }
+    const size_t p = lang.find( '_' );
+    if( p != std::string::npos ) {
+        std::string lang2 = lang.substr( 0, p );
+        for( const language_info &info : lang_options ) {
+            if( string_starts_with( lang2, info.id ) ) {
+                return info.id;
+            }
+        }
+    }
+    static std::string invalid_lang;
+    return invalid_lang;
+}
+
 bool isValidLanguage( const std::string &lang )
 {
-    const auto languages = get_options().get_option( "USE_LANG" ).getItems();
-    return std::find_if( languages.begin(),
-    languages.end(), [&lang]( const options_manager::id_and_option & pair ) {
-        return pair.first == lang || pair.first == lang.substr( 0, pair.first.length() );
-    } ) != languages.end();
+    return !to_valid_language( lang ).empty();
 }
 
 /* "Useful" links:
@@ -340,6 +359,34 @@ void prompt_select_lang_on_startup()
         set_language();
     }
 #endif
+}
+
+const language_info &get_language()
+{
+    // TODO: proper tracking of current language
+#if defined(LOCALIZE) && !defined(__CYGWIN__)
+    std::string loc_name = get_option<std::string>( "USE_LANG" );
+    if( loc_name.empty() ) {
+#if defined(_WIN32)
+        loc_name = getLangFromLCID( GetUserDefaultLCID() );
+#endif // _WIN32
+        const char *v = setlocale( LC_ALL, nullptr );
+        if( v != nullptr ) {
+            loc_name = v;
+        }
+    }
+    if( loc_name == "C" ) {
+        loc_name = "en";
+    }
+    std::string valid = to_valid_language( loc_name );
+    if( valid.empty() ) {
+        return lang_options[0];
+    } else {
+        return *get_lang_info( valid );
+    }
+#else // LOCALIZE
+    return lang_options[0];
+#endif // LOCALIZE
 }
 
 void update_global_locale()
