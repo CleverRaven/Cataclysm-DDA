@@ -1054,10 +1054,14 @@ bool vehicle::is_engine_type_on( int e, const itype_id &ft ) const
     return is_engine_on( e ) && is_engine_type( e, ft );
 }
 
-bool vehicle::has_engine_type( const itype_id &ft, const bool enabled ) const
+bool vehicle::has_engine_type( const itype_id &ft, const bool enabled,
+                               const bool generators_only ) const
 {
-    for( size_t e = 0; e < engines.size(); ++e ) {
-        if( is_engine_type( e, ft ) && ( !enabled || is_engine_on( e ) ) ) {
+    std::vector<int> motors = generators_only ? generators : engines;
+
+    for( size_t e = 0; e < motors.size(); ++e ) {
+        if( is_engine_type( e, ft, generators_only ) && ( !enabled ||
+                is_engine_on( e, generators_only ) ) ) {
             return true;
         }
     }
@@ -3489,6 +3493,18 @@ int vehicle::basic_consumption( const itype_id &ftype ) const
     return fcon;
 }
 
+std::map<itype_id, vehicle::fuel_consumption_data> vehicle::get_fuel_used()
+{
+    std::map<itype_id, vehicle::fuel_consumption_data>::const_iterator iter;
+    for( iter = fuel_used.begin(); iter != fuel_used.end(); ++iter ) {
+        if( !( ( engine_on && has_engine_type( iter->first, true, false ) ) ||
+               ( generator_on && has_engine_type( iter->first, true, true ) ) ) ) {
+            fuel_used.erase( iter );
+        }
+    }
+    return fuel_used;
+}
+
 int vehicle::consumption_per_hour( const itype_id &ftype, fuel_consumption_data &fcd ) const
 {
     item fuel = item( ftype );
@@ -4655,7 +4671,6 @@ double vehicle::drain_energy( const itype_id &ftype, double energy_j )
 void vehicle::consume_fuel( int load, bool idling, bool for_generators )
 {
     double st = strain();
-    std::map<itype_id, fuel_consumption_data> fuel_used_tmp;
     std::map<itype_id, int> fuel_use = fuel_usage( for_generators );
 
     for( const auto &fuel_pr : fuel_use ) {
@@ -4664,8 +4679,7 @@ void vehicle::consume_fuel( int load, bool idling, bool for_generators )
             continue;
         }
 
-        fuel_used_tmp[ft] = fuel_used[ ft ];
-        fuel_consumption_data &fcd = fuel_used_tmp[ ft ];
+        fuel_consumption_data &fcd = fuel_used[ ft ];
 
         double amnt_precise_j = static_cast<double>( fuel_pr.second );
         amnt_precise_j *= load / 1000.0 * ( 1.0 + st * st * 100.0 );
@@ -4687,7 +4701,6 @@ void vehicle::consume_fuel( int load, bool idling, bool for_generators )
             fuel_remainder[ ft ] = -amnt_precise_j;
         }
     }
-    fuel_used = fuel_used_tmp;
     // Only process muscle power things when moving.
     if( idling ) {
         return;

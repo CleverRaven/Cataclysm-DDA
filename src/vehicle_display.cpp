@@ -381,7 +381,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, const point 
 
     for( int i = start_index; i < max_size; i++ ) {
         const itype_id &f = fuels[i];
-        print_fuel_indicator( win, p + point( 0, yofs ), f, fuel_used, verbose, desc );
+        print_fuel_indicator( win, p + point( 0, yofs ), f, verbose, desc );
         yofs++;
     }
 
@@ -399,19 +399,9 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, const point 
  * @param fuel_type ID of the fuel type to draw
  * @param verbose true if there should be anything after the gauge (either the %, or number)
  * @param desc true if the name of the fuel should be at the end
- * @param fuel_usages map of fuel types to consumption for verbose
  */
 void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
                                     const itype_id &fuel_type, bool verbose, bool desc )
-{
-    std::map<itype_id, fuel_consumption_data> fuel_usages;
-    print_fuel_indicator( win, p, fuel_type, fuel_usages, verbose, desc );
-}
-
-void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
-                                    const itype_id &fuel_type,
-                                    std::map<itype_id, fuel_consumption_data> &fuel_usages,
-                                    bool verbose, bool desc )
 {
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
     nc_color col_indf1 = c_light_gray;
@@ -435,10 +425,11 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
         wprintz( win, c_light_gray, " - %s", item::nname( fuel_type ) );
     }
     if( verbose ) {
-        auto fuel_data = fuel_usages.find( fuel_type );
+        std::map<itype_id, fuel_consumption_data> fuel_use = get_fuel_used();
+        auto fuel_data = fuel_use.find( fuel_type );
         int rate = 0;
         std::string units;
-        if( fuel_data != fuel_usages.end() ) {
+        if( fuel_data != fuel_use.end() ) {
             rate = consumption_per_hour( fuel_type, fuel_data->second );
             units = _( "mL" );
         }

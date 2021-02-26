@@ -733,13 +733,12 @@ class vehicle
         };
         std::map<itype_id, fuel_consumption_data> fuel_used;
 
+        // Trim the map, leave only values for fuel types being currently used by any engine
+        std::map<itype_id, fuel_consumption_data> get_fuel_used();
+
         // Vehicle fuel indicator (by fuel)
         void print_fuel_indicator( const catacurses::window &w, const point &p,
                                    const itype_id &fuel_type,
-                                   bool verbose = false, bool desc = false );
-        void print_fuel_indicator( const catacurses::window &w, const point &p,
-                                   const itype_id &fuel_type,
-                                   std::map<itype_id, fuel_consumption_data> &fuel_usages,
                                    bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
@@ -1749,7 +1748,7 @@ class vehicle
         void toggle_specific_part( int p, bool on );
         //true if an engine exists with specified type
         //If enabled true, this engine must be enabled to return true
-        bool has_engine_type( const itype_id &ft, bool enabled ) const;
+        bool has_engine_type( const itype_id &ft, bool enabled, bool generators_only = false ) const;
         bool has_harnessed_animal() const;
         //true if an engine exists without the specified type
         //If enabled true, this engine must be enabled to return true
