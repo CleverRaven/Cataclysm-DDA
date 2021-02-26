@@ -38,6 +38,9 @@ void update_global_locale();
 static std::string sys_c_locale;
 static std::string sys_cpp_locale;
 
+// System user preferred UI language (nullptr if failed to detect)
+static language_info const *system_language = nullptr;
+
 static language_info fallback_language = { "en", R"(English)", "en_US.UTF-8", "", { 1033 } };
 
 std::vector<language_info> lang_options = {
@@ -93,7 +96,7 @@ static void reload_names()
 
 #if defined(LOCALIZE)
 #if defined(MACOSX)
-const std::string &getOSXSystemLang()
+const std::string &getSystemUILang()
 {
     // Get the user's language list (in order of preference)
     CFArrayRef langs = CFLocaleCopyPreferredLanguages();
@@ -177,11 +180,33 @@ static const std::string &getLangFromLCID( const int &lcid )
     return unknown;
 }
 
-static const std::string &getWinSystemLang()
+static const std::string &getSystemUILang()
 {
     return getLangFromLCID( GetUserDefaultUILanguage() );
 }
-#endif // _WIN32
+#elif !defined(MACOSX)
+// Linux / Android
+static const std::string &getSystemUILang()
+{
+    std::string ret;
+
+    const char *language = getenv( "LANGUAGE" );
+    if( language && language[0] != '\0' ) {
+        ret = language;
+    } else {
+        const char *loc = setlocale( LC_MESSAGES, nullptr );
+        if( loc != nullptr ) {
+            ret = loc;
+        }
+    }
+
+    if( ret == "C" || string_starts_with( ret, "C." ) ) {
+        ret = "en";
+    }
+
+    return to_valid_language( ret );
+}
+#endif // _WIN32 / !MACOSX
 
 static void select_language()
 {
@@ -216,36 +241,33 @@ static bool cata_setenv( const std::string &name, const std::string &value )
 
 void set_language()
 {
-    std::string win_or_mac_lang;
-#if defined(_WIN32)
-    win_or_mac_lang = getWinSystemLang();
-#endif
-#if defined(MACOSX)
-    win_or_mac_lang = getOSXSystemLang();
-#endif
-    // Step 1. Setup locale & environment variables.
-    // TODO: reset to system values when selecting 'System language'
-    std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_or_mac_lang :
-                           get_option<std::string>( "USE_LANG" );
-    if( !lang_opt.empty() ) {
-        // By default, gettext uses current locale to determine which language to use.
-        // Since locale for desired language may be missing from user system,
-        // we need to explicitly specify it.
-        if( !cata_setenv( "LANGUAGE", lang_opt ) ) {
-            DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
+    // Step 1. Choose language id
+    std::string lang_opt = get_option<std::string>( "USE_LANG" );
+    if( lang_opt.empty() ) {
+        if( system_language ) {
+            lang_opt = system_language->id;
         } else {
-            const auto env = getenv( "LANGUAGE" );
-            if( env != nullptr ) {
-                DebugLog( D_INFO, D_MAIN ) << "[lang] Language is set to: '" << env << '\'';
-            } else {
-                DebugLog( D_WARNING, D_MAIN ) << "Can't get 'LANGUAGE' environment variable";
-            }
+            lang_opt = fallback_language.id;
         }
     }
 
+    // Step 2. Setup locale & environment variables.
+    // By default, gettext uses current locale to determine which language to use.
+    // Since locale for desired language may be missing from user system,
+    // we need to explicitly specify it.
+    if( !cata_setenv( "LANGUAGE", lang_opt ) ) {
+        DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
+    } else {
+        const auto env = getenv( "LANGUAGE" );
+        if( env != nullptr ) {
+            DebugLog( D_INFO, D_MAIN ) << "[lang] Language is set to: '" << env << '\'';
+        } else {
+            DebugLog( D_WARNING, D_MAIN ) << "Can't get 'LANGUAGE' environment variable";
+        }
+    }
     update_global_locale();
 
-    // Step 2. Bind to gettext domain.
+    // Step 3. Bind to gettext domain.
     std::string locale_dir;
 #if defined(__ANDROID__)
     // HACK: Since we're using libintl-lite instead of libintl on Android, we hack the locale_dir to point directly to the .mo file.
@@ -268,7 +290,7 @@ void set_language()
     bind_textdomain_codeset( "cataclysm-bn", "UTF-8" );
     textdomain( "cataclysm-bn" );
 
-    // Step 3. Finalize
+    // Step 4. Finalize
     invalidate_translations();
     reload_names();
 }
@@ -317,59 +339,44 @@ bool init_language_system()
 
     // TODO: scan for languages like we do for tilesets.
 
+#if defined(LOCALIZE)
+    std::string lang = getSystemUILang();
+    if( lang.empty() ) {
+        system_language = nullptr;
+        DebugLog( D_WARNING, DC_ALL ) << "[lang] Failed to detect system UI language.";
+    } else {
+        system_language = get_lang_info( lang );
+        DebugLog( D_INFO, DC_ALL ) << "[lang] Detected system UI language as '" << lang << "'";
+    }
+#else // LOCALIZE
+    system_language = &fallback_language;
+#endif // LOCALIZE
+
     return true;
 }
 
 void prompt_select_lang_on_startup()
 {
-#if defined(LOCALIZE)
-    std::string lang;
-#if defined(_WIN32)
-    lang = getWinSystemLang();
-#else
-    const char *v = setlocale( LC_ALL, nullptr );
-    if( v != nullptr ) {
-        lang = v;
-
-        if( lang == "C" ) {
-            lang = "en";
-        }
-    }
-#endif
-    if( get_option<std::string>( "USE_LANG" ).empty() && ( lang.empty() ||
-            !isValidLanguage( lang ) ) ) {
+    if( get_option<std::string>( "USE_LANG" ).empty() && !system_language ) {
         select_language();
         set_language();
     }
-#endif
 }
 
 const language_info &get_language()
 {
     // TODO: proper tracking of current language
-#if defined(LOCALIZE) && !defined(__CYGWIN__)
-    std::string loc_name = get_option<std::string>( "USE_LANG" );
-    if( loc_name.empty() ) {
-#if defined(_WIN32)
-        loc_name = getWinSystemLang();
-#endif // _WIN32
-        const char *v = setlocale( LC_ALL, nullptr );
-        if( v != nullptr ) {
-            loc_name = v;
+    std::string lang = get_option<std::string>( "USE_LANG" );
+    if( lang.empty() ) {
+        // Using system language
+        if( system_language ) {
+            return *system_language;
+        } else {
+            return fallback_language;
         }
-    }
-    if( loc_name == "C" ) {
-        loc_name = "en";
-    }
-    std::string valid = to_valid_language( loc_name );
-    if( valid.empty() ) {
-        return fallback_language;
     } else {
-        return *get_lang_info( valid );
+        return *get_lang_info( lang );
     }
-#else // LOCALIZE
-    return fallback_language;
-#endif // LOCALIZE
 }
 
 void update_global_locale()
