@@ -63,7 +63,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "UICAS Point of Impact helmet" },
-    "description": "A lightweight black helmet that provides excellent protection from all sorts of damage, unless it's airborne.",
+    "description": "A lightweight black helmet that provides excellent protection from all sorts of damage, unless it's airborne.  UICAS makes the point of designing all headgear whenever possible with clear faceplates, in order to provide a human touch to all interactions.",
     "weight": "980 g",
     "volume": "2 L",
     "price": 37000,
