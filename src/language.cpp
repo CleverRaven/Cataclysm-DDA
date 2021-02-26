@@ -41,6 +41,12 @@ static std::string sys_cpp_locale;
 // System user preferred UI language (nullptr if failed to detect)
 static language_info const *system_language = nullptr;
 
+// Cached current game language.
+// Unlike USE_LANG option value, it's synchronized with whatever language
+// gettext should be using.
+// May be nullptr if language hasn't been set yet.
+static language_info const *current_language = nullptr;
+
 static language_info fallback_language = { "en", R"(English)", "en_US.UTF-8", "", { 1033 } };
 
 std::vector<language_info> lang_options = {
@@ -75,8 +81,6 @@ static language_info const *get_lang_info( const std::string &lang )
             return &li;
         }
     }
-    // Should never happen
-    debugmsg( "'%s' is not a valid language", lang );
     return &fallback_language;
 }
 
@@ -246,9 +250,13 @@ void set_language()
     if( lang_opt.empty() ) {
         if( system_language ) {
             lang_opt = system_language->id;
+            current_language = system_language;
         } else {
             lang_opt = fallback_language.id;
+            current_language = &fallback_language;
         }
+    } else {
+        current_language = get_lang_info( lang_opt );
     }
 
     // Step 2. Setup locale & environment variables.
@@ -260,7 +268,8 @@ void set_language()
     } else {
         const auto env = getenv( "LANGUAGE" );
         if( env != nullptr ) {
-            DebugLog( D_INFO, D_MAIN ) << "[lang] Language is set to: '" << env << '\'';
+            DebugLog( D_INFO, D_MAIN ) << "[lang] Language is set to: '" <<
+                                       lang_opt << "'/'" << env << '\'';
         } else {
             DebugLog( D_WARNING, D_MAIN ) << "Can't get 'LANGUAGE' environment variable";
         }
@@ -299,6 +308,7 @@ void set_language()
 
 void set_language()
 {
+    current_language = &fallback_language;
     update_global_locale();
     reload_names();
     return;
@@ -365,17 +375,10 @@ void prompt_select_lang_on_startup()
 
 const language_info &get_language()
 {
-    // TODO: proper tracking of current language
-    std::string lang = get_option<std::string>( "USE_LANG" );
-    if( lang.empty() ) {
-        // Using system language
-        if( system_language ) {
-            return *system_language;
-        } else {
-            return fallback_language;
-        }
+    if( current_language ) {
+        return *current_language;
     } else {
-        return *get_lang_info( lang );
+        return fallback_language;
     }
 }
 
