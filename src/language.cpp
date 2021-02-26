@@ -35,6 +35,9 @@ const std::string &to_valid_language( const std::string &lang );
 bool isValidLanguage( const std::string &lang );
 void update_global_locale();
 
+static std::string sys_c_locale;
+static std::string sys_cpp_locale;
+
 std::vector<language_info> lang_options = {
     // Note: language names are in their own language and are *not* translated at all.
     // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
@@ -305,8 +308,10 @@ bool init_language_system()
     }
 #endif
 
-    DebugLog( D_INFO, DC_ALL ) << "[lang] C locale on startup: " << setlocale( LC_ALL, nullptr );
-    DebugLog( D_INFO, DC_ALL ) << "[lang] C++ locale on startup: " << std::locale().name();
+    sys_c_locale = setlocale( LC_ALL, nullptr );
+    sys_cpp_locale = std::locale().name();
+    DebugLog( D_INFO, DC_ALL ) << "[lang] C locale on startup: " << sys_c_locale;
+    DebugLog( D_INFO, DC_ALL ) << "[lang] C++ locale on startup: " << sys_cpp_locale;
 
     // TODO: scan for languages like we do for tilesets.
 
@@ -375,8 +380,16 @@ void update_global_locale()
 #else // _WIN32
     std::string lang = ::get_option<std::string>( "USE_LANG" );
 
-    // TODO: reset to system locale when selecting 'System language'
-    if( !lang.empty() ) {
+    if( lang.empty() ) {
+        // Restore user locale
+        setlocale( LC_ALL, sys_c_locale.c_str() );
+        try {
+            std::locale::global( std::locale( sys_cpp_locale ) );
+        } catch( std::runtime_error &e ) {
+            std::locale::global( std::locale() );
+        }
+    } else {
+        // Overwrite user locale
         try {
             std::locale::global( std::locale( get_lang_info( lang )->locale ) );
         } catch( std::runtime_error &e ) {
