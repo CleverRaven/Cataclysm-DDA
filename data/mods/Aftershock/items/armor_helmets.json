@@ -31,7 +31,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "UICAS Tip of the Spear helmet" },
-    "description": "An all environment combat helmet issued to UICA espatiers.  Commonly known as "the jar"  due to its unusual, clear polymer canopy that leaves its wearers face visible.",
+    "description": "An all environment combat helmet issued to UICA espatiers.  Commonly known as 'the jar'  due to its unusual, clear polymer canopy that leaves its wearers face visible.",
     "weight": "1324 g",
     "volume": "2 L",
     "price": 50000,
