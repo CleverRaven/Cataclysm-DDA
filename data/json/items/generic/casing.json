@@ -17,7 +17,8 @@
     "name": { "str": ".223 casing" },
     "description": "An empty casing from a .223 round.",
     "weight": "5 g",
-    "volume": "5ml"
+    "volume": "27ml",
+	"longest_side": "44 mm"
   },
   {
     "id": "22_casing",
@@ -81,8 +82,9 @@
     "type": "GENERIC",
     "name": { "str": ".308 casing" },
     "description": "An empty casing from a .308 round.",
-    "weight": "6 g",
-    "volume": "9ml"
+    "weight": "9 g",
+    "volume": "52ml",
+	"longest_side": "51 mm"
   },
   {
     "id": "762_51_casing",
@@ -91,8 +93,9 @@
     "type": "GENERIC",
     "name": { "str": "7.62x51mm casing" },
     "description": "An empty casing from a 7.62x51mm M80 round.",
-    "weight": "6 g",
-    "volume": "9ml"
+    "weight": "8 g",
+    "volume": "52ml",
+	"longest_side": "51 mm"
   },
   {
     "id": "32_casing",
@@ -308,8 +311,9 @@
     "type": "GENERIC",
     "name": { "str": ".50 BMG casing" },
     "description": "An empty casing from a .50 BMG round.  These are rare, so you might want to hold onto these.",
-    "weight": "18 g",
-    "volume": "12ml"
+    "weight": "46 g",
+    "volume": "280ml",
+	"longest_side": "99 mm"
   },
   {
     "id": "545_casing",
