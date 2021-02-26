@@ -39,20 +39,24 @@ std::vector<language_info> lang_options = {
     // Note: language names are in their own language and are *not* translated at all.
     // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
     // http://en.wikipedia.org/wiki/List_of_language_names
-    { "en", R"(English)", "en_US.UTF-8" },
+    // "Useful" links for LCID numbers:
+    // https://www.science.co.il/language/Locale-codes.php
+    // https://support.microsoft.com/de-de/help/193080/how-to-use-the-getuserdefaultlcid-windows-api-function-to-determine-op
+    // https://msdn.microsoft.com/en-us/library/cc233965.aspx
+    { "en", R"(English)", "en_US.UTF-8", {{ 1033, 2057, 3081, 4105, 5129, 6153, 7177, 8201, 9225, 10249, 11273 }} },
 #if defined(LOCALIZE)
-    { "de", R"(Deutsch)", "de_DE.UTF-8" },
-    { "es_AR", R"(Español (Argentina))", "es_AR.UTF-8" },
-    { "es_ES", R"(Español (España))", "es_ES.UTF-8" },
-    { "fr", R"(Français)", "fr_FR.UTF-8" },
-    { "hu", R"(Magyar)", "hu_HU.UTF-8" },
-    { "ja", R"(日本語)", "ja_JP.UTF-8" },
-    { "ko", R"(한국어)", "ko_KR.UTF-8" },
-    { "pl", R"(Polski)", "pl_PL.UTF-8" },
-    { "pt_BR", R"(Português (Brasil))", "pt_BR.UTF-8" },
-    { "ru", R"(Русский)", "ru_RU.UTF-8" },
-    { "zh_CN", R"(中文 (天朝))", "zh_CN.UTF-8" },
-    { "zh_TW", R"(中文 (台灣))", "zh_TW.UTF-8" },
+    { "de", R"(Deutsch)", "de_DE.UTF-8", {{ 1031, 2055, 3079, 4103, 5127 }} },
+    { "es_AR", R"(Español (Argentina))", "es_AR.UTF-8", { 11274 } },
+    { "es_ES", R"(Español (España))", "es_ES.UTF-8", {{ 1034, 2058, 3082, 4106, 5130, 6154, 7178, 8202, 9226, 10250, 12298, 13322, 14346, 15370, 16394, 17418, 18442, 19466, 20490 }} },
+    { "fr", R"(Français)", "fr_FR.UTF-8", {{ 1036, 2060, 3084, 4108, 5132 }} },
+    { "hu", R"(Magyar)", "hu_HU.UTF-8", { 1038 } },
+    { "ja", R"(日本語)", "ja_JP.UTF-8", { 1041 } },
+    { "ko", R"(한국어)", "ko_KR.UTF-8", { 1042 } },
+    { "pl", R"(Polski)", "pl_PL.UTF-8", { 1045 } },
+    { "pt_BR", R"(Português (Brasil))", "pt_BR.UTF-8", {{ 1046, 2070 }} },
+    { "ru", R"(Русский)", "ru_RU.UTF-8", { 1049 } },
+    { "zh_CN", R"(中文 (天朝))", "zh_CN.UTF-8", {{ 2052, 3076, 4100 }} },
+    { "zh_TW", R"(中文 (台灣))", "zh_TW.UTF-8", { 1028 } },
 #endif // LOCALIZE
 };
 
@@ -155,36 +159,22 @@ bool isValidLanguage( const std::string &lang )
 }
 
 #if defined(_WIN32)
-/* "Useful" links:
- *  https://www.science.co.il/language/Locale-codes.php
- *  https://support.microsoft.com/de-de/help/193080/how-to-use-the-getuserdefaultlcid-windows-api-function-to-determine-op
- *  https://msdn.microsoft.com/en-us/library/cc233965.aspx
- */
-static std::string getLangFromLCID( const int &lcid )
+static const std::string &getLangFromLCID( const int &lcid )
 {
-    static std::map<std::string, std::set<int>> lang_lcid;
-    if( lang_lcid.empty() ) {
-        lang_lcid["en"] = {{ 1033, 2057, 3081, 4105, 5129, 6153, 7177, 8201, 9225, 10249, 11273 }};
-        lang_lcid["fr"] = {{ 1036, 2060, 3084, 4108, 5132 }};
-        lang_lcid["de"] = {{ 1031, 2055, 3079, 4103, 5127 }};
-        lang_lcid["it_IT"] = {{ 1040, 2064 }};
-        lang_lcid["es_AR"] = { 11274 };
-        lang_lcid["es_ES"] = {{ 1034, 2058, 3082, 4106, 5130, 6154, 7178, 8202, 9226, 10250, 12298, 13322, 14346, 15370, 16394, 17418, 18442, 19466, 20490 }};
-        lang_lcid["ja"] = { 1041 };
-        lang_lcid["ko"] = { 1042 };
-        lang_lcid["pl"] = { 1045 };
-        lang_lcid["pt_BR"] = {{ 1046, 2070 }};
-        lang_lcid["ru"] = { 1049 };
-        lang_lcid["zh_CN"] = {{ 2052, 3076, 4100 }};
-        lang_lcid["zh_TW"] = { 1028 };
-    }
-
-    for( auto &lang : lang_lcid ) {
-        if( lang.second.find( lcid ) != lang.second.end() ) {
-            return lang.first;
+    for( const language_info &info : lang_options ) {
+        for( int lang_lcid : info.lcids ) {
+            if( lang_lcid == lcid ) {
+                return info.id;
+            }
         }
     }
-    return "";
+    static std::string unknown;
+    return unknown;
+}
+
+static const std::string &getWinSystemLang()
+{
+    return getLangFromLCID( GetUserDefaultUILanguage() );
 }
 #endif // _WIN32
 
@@ -213,7 +203,7 @@ void set_language()
 {
     std::string win_or_mac_lang;
 #if defined(_WIN32)
-    win_or_mac_lang = getLangFromLCID( GetUserDefaultLCID() );
+    win_or_mac_lang = getWinSystemLang();
 #endif
 #if defined(MACOSX)
     win_or_mac_lang = getOSXSystemLang();
@@ -324,7 +314,7 @@ void prompt_select_lang_on_startup()
 #if defined(LOCALIZE)
     std::string lang;
 #if defined(_WIN32)
-    lang = getLangFromLCID( GetUserDefaultLCID() );
+    lang = getWinSystemLang();
 #else
     const char *v = setlocale( LC_ALL, nullptr );
     if( v != nullptr ) {
@@ -350,7 +340,7 @@ const language_info &get_language()
     std::string loc_name = get_option<std::string>( "USE_LANG" );
     if( loc_name.empty() ) {
 #if defined(_WIN32)
-        loc_name = getLangFromLCID( GetUserDefaultLCID() );
+        loc_name = getWinSystemLang();
 #endif // _WIN32
         const char *v = setlocale( LC_ALL, nullptr );
         if( v != nullptr ) {

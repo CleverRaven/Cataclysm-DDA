@@ -9,6 +9,7 @@ struct language_info {
     std::string id;
     std::string name;
     std::string locale;
+    std::vector<int> lcids;
 };
 
 bool init_language_system();
