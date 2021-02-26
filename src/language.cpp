@@ -284,6 +284,64 @@ void set_language()
 
 #endif // LOCALIZE
 
+bool init_language_system()
+{
+    // OS X does not populate locale env vars correctly
+    // (they usually default to "C") so don't bother
+    // trying to set the locale based on them.
+#if !defined(MACOSX)
+    if( setlocale( LC_ALL, "" ) == nullptr ) {
+        DebugLog( D_WARNING, D_MAIN ) << "[lang] Error while setlocale(LC_ALL, '').";
+    } else {
+#endif
+        try {
+            std::locale::global( std::locale( "" ) );
+        } catch( const std::exception & ) {
+            // if user default locale retrieval isn't implemented by system
+            try {
+                // default to basic C locale
+                std::locale::global( std::locale::classic() );
+            } catch( const std::exception &err ) {
+                DebugLog( D_ERROR, D_MAIN ) << err.what();
+                return false;
+            }
+        }
+#if !defined(MACOSX)
+    }
+#endif
+
+    DebugLog( D_INFO, DC_ALL ) << "[lang] C locale on startup: " << setlocale( LC_ALL, nullptr );
+    DebugLog( D_INFO, DC_ALL ) << "[lang] C++ locale on startup: " << std::locale().name();
+
+    // TODO: scan for languages like we do for tilesets.
+
+    return true;
+}
+
+void prompt_select_lang_on_startup()
+{
+#if defined(LOCALIZE)
+    std::string lang;
+#if defined(_WIN32)
+    lang = getLangFromLCID( GetUserDefaultLCID() );
+#else
+    const char *v = setlocale( LC_ALL, nullptr );
+    if( v != nullptr ) {
+        lang = v;
+
+        if( lang == "C" ) {
+            lang = "en";
+        }
+    }
+#endif
+    if( get_option<std::string>( "USE_LANG" ).empty() && ( lang.empty() ||
+            !isValidLanguage( lang ) ) ) {
+        select_language();
+        set_language();
+    }
+#endif
+}
+
 void update_global_locale()
 {
     std::string lang = ::get_option<std::string>( "USE_LANG" );

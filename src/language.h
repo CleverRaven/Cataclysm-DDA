@@ -11,6 +11,8 @@ struct language_info {
     std::string locale;
 };
 
+bool init_language_system();
+void prompt_select_lang_on_startup();
 const std::vector<language_info> &list_available_languages();
 bool isValidLanguage( const std::string &lang );
 std::string getLangFromLCID( const int &lcid );
