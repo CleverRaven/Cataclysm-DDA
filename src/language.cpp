@@ -43,20 +43,20 @@ std::vector<language_info> lang_options = {
     // https://www.science.co.il/language/Locale-codes.php
     // https://support.microsoft.com/de-de/help/193080/how-to-use-the-getuserdefaultlcid-windows-api-function-to-determine-op
     // https://msdn.microsoft.com/en-us/library/cc233965.aspx
-    { "en", R"(English)", "en_US.UTF-8", {{ 1033, 2057, 3081, 4105, 5129, 6153, 7177, 8201, 9225, 10249, 11273 }} },
+    { "en", R"(English)", "en_US.UTF-8", "", {{ 1033, 2057, 3081, 4105, 5129, 6153, 7177, 8201, 9225, 10249, 11273 }} },
 #if defined(LOCALIZE)
-    { "de", R"(Deutsch)", "de_DE.UTF-8", {{ 1031, 2055, 3079, 4103, 5127 }} },
-    { "es_AR", R"(Español (Argentina))", "es_AR.UTF-8", { 11274 } },
-    { "es_ES", R"(Español (España))", "es_ES.UTF-8", {{ 1034, 2058, 3082, 4106, 5130, 6154, 7178, 8202, 9226, 10250, 12298, 13322, 14346, 15370, 16394, 17418, 18442, 19466, 20490 }} },
-    { "fr", R"(Français)", "fr_FR.UTF-8", {{ 1036, 2060, 3084, 4108, 5132 }} },
-    { "hu", R"(Magyar)", "hu_HU.UTF-8", { 1038 } },
-    { "ja", R"(日本語)", "ja_JP.UTF-8", { 1041 } },
-    { "ko", R"(한국어)", "ko_KR.UTF-8", { 1042 } },
-    { "pl", R"(Polski)", "pl_PL.UTF-8", { 1045 } },
-    { "pt_BR", R"(Português (Brasil))", "pt_BR.UTF-8", {{ 1046, 2070 }} },
-    { "ru", R"(Русский)", "ru_RU.UTF-8", { 1049 } },
-    { "zh_CN", R"(中文 (天朝))", "zh_CN.UTF-8", {{ 2052, 3076, 4100 }} },
-    { "zh_TW", R"(中文 (台灣))", "zh_TW.UTF-8", { 1028 } },
+    { "de", R"(Deutsch)", "de_DE.UTF-8", "", {{ 1031, 2055, 3079, 4103, 5127 }} },
+    { "es_AR", R"(Español (Argentina))", "es_AR.UTF-8", "", { 11274 } },
+    { "es_ES", R"(Español (España))", "es_ES.UTF-8", "", {{ 1034, 2058, 3082, 4106, 5130, 6154, 7178, 8202, 9226, 10250, 12298, 13322, 14346, 15370, 16394, 17418, 18442, 19466, 20490 }} },
+    { "fr", R"(Français)", "fr_FR.UTF-8", "", {{ 1036, 2060, 3084, 4108, 5132 }} },
+    { "hu", R"(Magyar)", "hu_HU.UTF-8", "", { 1038 } },
+    { "ja", R"(日本語)", "ja_JP.UTF-8", "", { 1041 } },
+    { "ko", R"(한국어)", "ko_KR.UTF-8", "", { 1042 } },
+    { "pl", R"(Polski)", "pl_PL.UTF-8", "", { 1045 } },
+    { "pt_BR", R"(Português (Brasil))", "pt_BR.UTF-8", "", {{ 1046, 2070 }} },
+    { "ru", R"(Русский)", "ru_RU.UTF-8", "", { 1049 } },
+    { "zh_CN", R"(中文 (天朝))", "zh_CN.UTF-8", "zh_Hans", {{ 2052, 3076, 4100 }} },
+    { "zh_TW", R"(中文 (台灣))", "zh_TW.UTF-8", "zh_Hant", { 1028 } },
 #endif // LOCALIZE
 };
 
@@ -88,12 +88,12 @@ static void reload_names()
 
 #if defined(LOCALIZE)
 #if defined(MACOSX)
-std::string getOSXSystemLang()
+const std::string &getOSXSystemLang()
 {
     // Get the user's language list (in order of preference)
     CFArrayRef langs = CFLocaleCopyPreferredLanguages();
     if( CFArrayGetCount( langs ) == 0 ) {
-        return "en_US";
+        return "";
     }
 
     CFStringRef lang = static_cast<CFStringRef>( CFArrayGetValueAtIndex( langs, 0 ) );
@@ -106,7 +106,7 @@ std::string getOSXSystemLang()
         std::vector<char> lang_code_raw_slow( length, '\0' );
         bool success = CFStringGetCString( lang, lang_code_raw_slow.data(), length, kCFStringEncodingUTF8 );
         if( !success ) {
-            return "en_US";
+            return "";
         }
         lang_code = lang_code_raw_slow.data();
     }
@@ -120,13 +120,13 @@ std::string getOSXSystemLang()
      * language codes, whereas now (at least on OS X) region is distinct.
      * That is, CDDA expects 'zh_CN' but OS X might give 'zh-Hans-CN'.
      */
-    if( string_starts_with( lang_code, "zh_Hans" ) ) {
-        return "zh_CN";
-    } else if( string_starts_with( lang_code, "zh_Hant" ) ) {
-        return "zh_TW";
+    for( const language_info &info : lang_options ) {
+        if( !info.osx.empty() && string_starts_with( lang_code, info.osx ) ) {
+            return info.id;
+        }
     }
 
-    return isValidLanguage( lang_code ) ? lang_code : "en_US";
+    return to_valid_language( lang_code );
 }
 #endif // MACOSX
 
