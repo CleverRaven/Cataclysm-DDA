@@ -14,6 +14,9 @@ This mod is about adding content. In general it should have as light a touch on 
 # How to contribute
 This mod is distributed with the base game, so any content contributed will have to be submitted to the Github site. You can talk with the mod maintainers about your ideas on Discord.
 
+# Where should new dinosaurs spawn?
+North American dinos should be added to dinosaur and wilderness monster groups. Zombie variants should be added to the zinosaur monster groups. Dinos from other parts of the world should be added to the labs monster group and/or get a new dedicated lab finale variant just for them, especially good for finales if they're very dangerous. Small dinos that can't zombify are good options for CBM dinos. Fungal zombie variants get added to fungal spawn lists.
+
 # How to add a dinosaur
 As of this writing, each dinosaur touches at least ten different JSON files, listed here by folder. Please put the new dino in the same order in all files, near similar dinos, organized by real world taxonomy. 
 
@@ -37,8 +40,9 @@ monsters folder:
 * zed-dinosaur.json is where new zombified dinos go. copy-from can be very helpful here.
 
 # DDA and BN
-As much as possible, there should be content and feature parity between both (all?) Cataclysm variants for the best player experience and easiest mod maintenance. As of October 2020 the known code differences between the two for DinoMod are:
-* Monsters folder - DDA supports bullet armor and biosignature and zombify_into and not the BLEEDS flag while BN supports BLEEDS and not bullet armor, biosignature, or zombify_into. These hit the monster folder. 
-* raptor mutagen recipe - "activity_level" is removed in BN.
+As much as possible, there should be content and feature parity between both (all?) Cataclysm variants for the best player experience and easiest mod maintenance. As of February 2021 the known code differences between the two for DinoMod are:
+* Monsters folder - DDA supports bullet armor and biosignature and not the BLEEDS flag while BN supports BLEEDS and not bullet armor or biosignature. These hit the monster folder. 
+* mutagen recipes - "activity_level" is removed in BN.
 * cooking ingredients - "egg_bird_unfert"is removed in BN
-* lab locations - lots of content missing or different in BN, DDA DinoLabFinale is not yet compatible
+* lab locations - lots of content missing or different in BN, science basements still need to be reconstructed from BN originals
+* laser items - BN port removes pocket_data and amm0_to_fire lines and changes damage_type bullet to stab

@@ -56,20 +56,28 @@
     "upgrades": { "age_grow": 30, "into": "mon_siats_juvenile" }
   },
   {
-    "id": "mon_tyrannosaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "light red and white hatchling",
-    "default_faction": "tyrannosaurus",
-    "upgrades": { "age_grow": 30, "into": "mon_tyrannosaurus_juvenile" }
-  },
-  {
     "id": "mon_albertosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light red and white hatchling",
     "default_faction": "albertosaurus",
     "upgrades": { "age_grow": 30, "into": "mon_albertosaurus_juvenile" }
+  },
+  {
+    "id": "mon_qianzhousaurus_hatchling",
+    "type": "MONSTER",
+    "name": "light red and white hatchling",
+    "copy-from": "mon_compsognathus_hatchling",
+    "default_faction": "qianzhousaurus",
+    "upgrades": { "age_grow": 40, "into": "mon_qianzhousaurus_juvenile" }
+  },
+  {
+    "id": "mon_tyrannosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light red and white hatchling",
+    "default_faction": "tyrannosaurus",
+    "upgrades": { "age_grow": 30, "into": "mon_tyrannosaurus_juvenile" }
   },
   {
     "id": "mon_compsognathus_hatchling",
@@ -142,6 +150,14 @@
     "upgrades": { "age_grow": 20, "into": "mon_velociraptor" }
   },
   {
+    "id": "mon_nothronychus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "green and magenta hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 40, "into": "mon_nothronychus_juvenile" }
+  },
+  {
     "id": "mon_deinonychus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -164,6 +180,27 @@
     "name": "dark gray and yellow hatchling",
     "default_faction": "eoraptor",
     "upgrades": { "age_grow": 14, "into": "mon_eoraptor" }
+  },
+  {
+    "id": "mon_amargasaurus_hatchling",
+    "type": "MONSTER",
+    "name": "brown and magenta hatchling",
+    "copy-from": "mon_compsognathus_hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 56, "into": "mon_amargasaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
   },
   {
     "id": "mon_apatosaurus_hatchling",
@@ -571,6 +608,27 @@
     "name": "light green and magenta hatchling",
     "default_faction": "herbivore_dino",
     "upgrades": { "age_grow": 30, "into": "mon_pentaceratops_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
+  },
+  {
+    "id": "mon_kosmoceratops_hatchling",
+    "type": "MONSTER",
+    "name": "light green and magenta hatchling",
+    "copy-from": "mon_compsognathus_hatchling",
+    "default_faction": "herbivore_dino",
+    "upgrades": { "age_grow": 56, "into": "mon_kosmoceratops_juvenile" },
     "flags": [
       "SEES",
       "HEARS",
