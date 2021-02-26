@@ -17,7 +17,8 @@
     "ammo_type": "9x18",
     "casing": "9x18mm_casing",
     "range": 13,
-    "damage": { "damage_type": "stab", "amount": 16, "armor_penetration": 2 },
+    "//": "Base damage of 16, balance increase of one-third.",
+    "damage": { "damage_type": "stab", "amount": 21, "armor_penetration": 12 },
     "dispersion": 60,
     "recoil": 300,
     "effects": [ "COOKOFF" ]
@@ -43,7 +44,8 @@
     "description": "9x18mm Makarov RG028 ammunition.  The RG028 round uses bullets with a hardened steel core to improve armor penetration.",
     "price": 200,
     "price_postapoc": 3100,
-    "relative": { "damage": { "damage_type": "stab", "amount": -2, "armor_penetration": 8 } }
+    "//": "AP variant, 7/8 damage relative to FMJ variant, armor penetration matches damage.",
+    "relative": { "damage": { "damage_type": "stab", "amount": -3, "armor_penetration": 6 } }
   },
   {
     "id": "bp_9x18mm",

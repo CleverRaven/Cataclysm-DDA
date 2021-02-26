@@ -17,7 +17,8 @@
     "ammo_type": "9mm",
     "casing": "9mm_casing",
     "range": 14,
-    "damage": { "damage_type": "stab", "amount": 26 },
+    "//": "Hollowpoint bonus of 25%",
+    "damage": { "damage_type": "stab", "amount": 34 },
     "dispersion": 60,
     "recoil": 500,
     "effects": [ "COOKOFF" ]
@@ -28,7 +29,8 @@
     "type": "AMMO",
     "name": { "str": "9x19mm FMJ" },
     "description": "9x19mm ammunition with a brass jacketed 115gr bullet.  It is a popular round for military, law enforcement, and civilian use even after almost 150 years.",
-    "relative": { "damage": { "damage_type": "stab", "amount": -4, "armor_penetration": 8 } }
+    "//": "Base damage of 22, balance increase of two-nineths.",
+    "relative": { "damage": { "damage_type": "stab", "amount": -7, "armor_penetration": 15 } }
   },
   {
     "id": "9mmP",
@@ -40,12 +42,12 @@
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 25,
-    "relative": { "damage": { "damage_type": "stab", "amount": 2, "armor_penetration": 2 }, "dispersion": -15 },
-    "proportional": { "recoil": 1.5 }
+    "relative": { "damage": { "damage_type": "stab", "armor_penetration": 15 }, "dispersion": -15 },
+    "proportional": { "recoil": 2 }
   },
   {
     "id": "9mmP2",
-    "copy-from": "9mm",
+    "copy-from": "9mmP",
     "type": "AMMO",
     "name": { "str": "9x19mm +P+" },
     "description": "A step beyond the high-pressure 9x19mm +P round, the +P+ has even higher internal pressure offering superior damage, accuracy, and penetration.",
@@ -53,8 +55,8 @@
     "price_postapoc": 400,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
-    "relative": { "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 4 }, "dispersion": -30 },
-    "proportional": { "recoil": 2 }
+    "relative": { "damage": { "damage_type": "stab", "amount": 2, "armor_penetration": 2 }, "dispersion": -15 },
+    "proportional": { "recoil": 1.5 }
   },
   {
     "id": "bp_9mm",
