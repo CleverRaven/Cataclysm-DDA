@@ -212,27 +212,6 @@ static const std::string &getSystemUILang()
 }
 #endif // _WIN32 / !MACOSX
 
-static void select_language()
-{
-    auto languages = get_options().get_option( "USE_LANG" ).getItems();
-
-    languages.erase( std::remove_if( languages.begin(),
-    languages.end(), []( const options_manager::id_and_option & lang ) {
-        return lang.first.empty() || lang.second.empty();
-    } ), languages.end() );
-
-    uilist sm;
-    sm.allow_cancel = false;
-    sm.text = _( "Select your language" );
-    for( size_t i = 0; i < languages.size(); i++ ) {
-        sm.addentry( i, true, MENU_AUTOASSIGN, languages[i].second.translated() );
-    }
-    sm.query();
-
-    get_options().get_option( "USE_LANG" ).setValue( languages[sm.ret].first );
-    get_options().save();
-}
-
 static bool cata_setenv( const std::string &name, const std::string &value )
 {
 #if defined(_WIN32)
@@ -367,10 +346,31 @@ bool init_language_system()
 
 void prompt_select_lang_on_startup()
 {
-    if( get_option<std::string>( "USE_LANG" ).empty() && !system_language ) {
-        select_language();
-        set_language();
+    if( !get_option<std::string>( "USE_LANG" ).empty() || system_language ) {
+        return;
     }
+
+    std::string res;
+
+    if( lang_options.empty() ) {
+        res = fallback_language.id;
+    } else if( lang_options.size() == 1 ) {
+        res = lang_options[0].id;
+    } else {
+        uilist sm;
+        sm.allow_cancel = false;
+        sm.text = _( "Select your language" );
+        for( size_t i = 0; i < lang_options.size(); i++ ) {
+            sm.addentry( i, true, MENU_AUTOASSIGN, lang_options[i].name );
+        }
+        sm.query();
+        res = lang_options[sm.ret].id;
+    }
+
+    get_options().get_option( "USE_LANG" ).setValue( res );
+    get_options().save();
+
+    set_language();
 }
 
 const language_info &get_language()
