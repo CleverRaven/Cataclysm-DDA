@@ -38,6 +38,8 @@ void update_global_locale();
 static std::string sys_c_locale;
 static std::string sys_cpp_locale;
 
+static language_info fallback_language = { "en", R"(English)", "en_US.UTF-8", "", { 1033 } };
+
 std::vector<language_info> lang_options = {
     // Note: language names are in their own language and are *not* translated at all.
     // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
@@ -72,7 +74,7 @@ static language_info const *get_lang_info( const std::string &lang )
     }
     // Should never happen
     debugmsg( "'%s' is not a valid language", lang );
-    return &lang_options[0];
+    return &fallback_language;
 }
 
 const std::vector<language_info> &list_available_languages()
@@ -361,12 +363,12 @@ const language_info &get_language()
     }
     std::string valid = to_valid_language( loc_name );
     if( valid.empty() ) {
-        return lang_options[0];
+        return fallback_language;
     } else {
         return *get_lang_info( valid );
     }
 #else // LOCALIZE
-    return lang_options[0];
+    return fallback_language;
 #endif // LOCALIZE
 }
 
