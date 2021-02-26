@@ -465,7 +465,7 @@
     "volume": "2500 ml",
     "weight": "183 g",
     "ammo_type": "plasma",
-    "damage": { "damage_type": "stab", "amount": 35, "armor_penetration": 14 },
+    "damage": { "damage_type": "heat", "amount": 35, "armor_penetration": 8 },
     "range": 12,
     "count": 25,
     "effects": [ "INCENDIARY" ],
