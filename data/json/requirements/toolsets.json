@@ -112,5 +112,11 @@
     "//": "Tools for casting and work hardening items made from bronze",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 2 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
+  },
+  {
+    "id": "ink_standard",
+    "type": "requirement",
+    "//": "should contain all the ink pens",
+    "tools": [ [ [ "pen", 1 ], [ "black_pen", 1 ], [ "blue_pen", 1 ], [ "green_pen", 1 ], [ "red_pen", 1 ] ] ]
   }
 ]

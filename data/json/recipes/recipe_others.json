@@ -55,6 +55,19 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "bodypillow",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "time": "20 m",
+    "difficulty": 2,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ], [ "ink_standard", 20 ] ],
+    "components": [ [ [ "sheet", 1 ] ], [ [ "cotton_ball", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "wind_mill",
     "category": "CC_OTHER",

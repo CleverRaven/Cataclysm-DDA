@@ -2311,6 +2311,9 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
 
     //farm_json is what the area should look like according to jsons
     tinymap farm_json;
+    // We're probably going to rotate this tinymap to match the actual map.
+    // Let's make sure we don't move NPCs around when doing this.
+    farm_json.no_rotate_npcs = true;
     // TODO: fix point types
     farm_json.generate( project_to<coords::sm>( omt_tgt ).raw(), calendar::turn );
     //farm_map is what the area actually looks like
