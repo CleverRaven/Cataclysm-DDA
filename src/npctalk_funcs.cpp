@@ -92,9 +92,6 @@ static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_cow( "mon_cow" );
 static const mtype_id mon_horse( "mon_horse" );
 
-static const bionic_id bio_power_storage( "bio_power_storage" );
-static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
-
 struct itype;
 
 static void spawn_animal( npc &p, const mtype_id &mon );
@@ -493,15 +490,12 @@ void talk_function::bionic_remove( npc &p )
     for( const bionic &bio : all_bio ) {
         if( std::find( bionic_types.begin(), bionic_types.end(),
                        bio.info().itype() ) == bionic_types.end() ) {
-            if( bio.id != bio_power_storage ||
-                bio.id != bio_power_storage_mkII ) {
-                bionic_types.push_back( bio.info().itype() );
-                if( item::type_is_defined( bio.info().itype() ) ) {
-                    item tmp = item( bio.id.str(), calendar::turn_zero );
-                    bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
-                } else {
-                    bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
-                }
+            bionic_types.push_back( bio.info().itype() );
+            if( item::type_is_defined( bio.info().itype() ) ) {
+                item tmp = item( bio.id.str(), calendar::turn_zero );
+                bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
+            } else {
+                bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
             }
         }
     }

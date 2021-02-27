@@ -11972,14 +11972,6 @@ void Character::place_corpse()
         }
     }
 
-    // Restore amount of installed pseudo-modules of Power Storage Units
-    std::pair<int, int> storage_modules = amount_of_storage_bionics();
-    for( int i = 0; i < storage_modules.first; ++i ) {
-        body.put_in( item( "bio_power_storage" ), item_pocket::pocket_type::CORPSE );
-    }
-    for( int i = 0; i < storage_modules.second; ++i ) {
-        body.put_in( item( "bio_power_storage_mkII" ), item_pocket::pocket_type::CORPSE );
-    }
     here.add_item_or_charges( pos(), body );
 }
 
@@ -12015,14 +12007,6 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
         }
     }
 
-    // Restore amount of installed pseudo-modules of Power Storage Units
-    std::pair<int, int> storage_modules = amount_of_storage_bionics();
-    for( int i = 0; i < storage_modules.first; ++i ) {
-        body.put_in( item( "bio_power_storage" ), item_pocket::pocket_type::CORPSE );
-    }
-    for( int i = 0; i < storage_modules.second; ++i ) {
-        body.put_in( item( "bio_power_storage_mkII" ), item_pocket::pocket_type::CORPSE );
-    }
     bay.add_item_or_charges( fin, body );
 }
 

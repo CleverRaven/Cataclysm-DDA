@@ -1819,7 +1819,7 @@ class bionic_install_preset: public inventory_selector_preset
                 return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." );
             } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
                 return _( "CBM already deployed.  Please reset to factory state." );
-            } else if( pa.has_bionic( bid ) ) {
+            } else if( pa.has_bionic( bid ) && !bid->dupes_allowed ) {
                 return _( "CBM already installed." );
             } else if( !pa.can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
                 return _( "CBM not compatible with patient's body." );
