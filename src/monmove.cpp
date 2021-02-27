@@ -326,11 +326,13 @@ void monster::plan()
 
     const bool angers_hostile_weak = type->has_anger_trigger( mon_trigger::HOSTILE_WEAK );
     const int angers_hostile_near = type->has_anger_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
-    const int angers_hostile_seen = type->has_anger_trigger( mon_trigger::HOSTILE_SEEN ) ? rng(0,4) : 0;
+    const int angers_hostile_seen = type->has_anger_trigger( mon_trigger::HOSTILE_SEEN ) ? rng( 0,
+                                    2 ) : 0;
     const int angers_mating_season = type->has_anger_trigger( mon_trigger::MATING_SEASON ) ? 3 : 0;
     const int angers_cub_threatened = type->has_anger_trigger( mon_trigger::PLAYER_NEAR_BABY ) ? 8 : 0;
     const int fears_hostile_near = type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
-    const int fears_hostile_seen = type->has_fear_trigger( mon_trigger::HOSTILE_SEEN ) ? rng(0, 4) : 0;
+    const int fears_hostile_seen = type->has_fear_trigger( mon_trigger::HOSTILE_SEEN ) ? rng( 0,
+                                   2 ) : 0;
 
     map &here = get_map();
     std::bitset<OVERMAP_LAYERS> seen_levels = here.get_inter_level_visibility( pos().z );
@@ -344,13 +346,11 @@ void monster::plan()
         dist = rate_target( player_character, dist, smart_planning );
         fleeing = fleeing || is_fleeing( player_character );
         target = &player_character;
-        if( !fleeing && anger <= 15 ) {
+        if( !fleeing && anger <= 20 ) {
             anger += angers_hostile_seen;
-            if (angers_hostile_seen) { debugmsg("I am angry at you, father"); }
         }
         if( !fleeing ) {
             morale -= fears_hostile_seen;
-            if (fears_hostile_seen) { debugmsg("I am afraid of you, father"); }
         }
         if( dist <= 5 ) {
             anger += angers_hostile_near;
@@ -417,7 +417,8 @@ void monster::plan()
 
         float rating = rate_target( who, dist, smart_planning );
         bool fleeing_from = is_fleeing( who );
-        if( rating == dist && ( fleeing || attitude( &who ) == MATT_ATTACK ) ) {
+        if( rating == dist && ( fleeing || attitude( &who ) == MATT_ATTACK ||
+                                attitude( &who ) == MATT_FOLLOW ) ) {
             ++valid_targets;
             if( one_in( valid_targets ) ) {
                 target = &who;
@@ -453,13 +454,11 @@ void monster::plan()
                 }
             }
         }
-        if (!fleeing && anger <= 15 && target != nullptr ) {
+        if( !fleeing && anger <= 20 && valid_targets != 0 ) {
             anger += angers_hostile_seen;
-            if (angers_hostile_seen) { debugmsg("I am angry at him father"); }
         }
-        if (!fleeing && target != nullptr ) {
+        if( !fleeing && valid_targets != 0 ) {
             morale -= fears_hostile_seen;
-            if (fears_hostile_seen) { debugmsg("I am afraid of him, father"); }
         }
     }
 
@@ -504,13 +503,11 @@ void monster::plan()
                         anger += angers_hostile_near;
                         morale -= fears_hostile_near;
                     }
-                    if (!fleeing && anger <= 15 && valid_targets != 0 ) {
+                    if( !fleeing && anger <= 20 && valid_targets != 0 ) {
                         anger += angers_hostile_seen;
-                        if (angers_hostile_seen) { debugmsg("I am angry at it, father"); }
                     }
-                    if (!fleeing && valid_targets != 0 ) {
+                    if( !fleeing && valid_targets != 0 ) {
                         morale -= fears_hostile_seen;
-                        if (fears_hostile_seen) { debugmsg("I am afraid of it, father"); }
                     }
                 }
             }
