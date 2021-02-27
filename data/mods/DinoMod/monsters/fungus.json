@@ -56,7 +56,7 @@
   {
     "id": "mon_zallosaurus_fungus",
     "type": "MONSTER",
-    "name": { "str": "fungal Allosaurus zombie", "str_pl": "fungal Z-Rexes" },
+    "name": { "str": "fungal Allosaurus zombie" },
     "description": "Once a large predatory bipedal dinosaur with a broad scaly back, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
     "copy-from": "mon_zallosaurus",
     "default_faction": "fungus",
@@ -70,6 +70,60 @@
     "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": {  },
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
+  },
+  {
+    "id": "mon_zacrocanthosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal Acrocanthosaurus zombie" },
+    "description": "Once a huge predatory bipedal dinosaur, with a tall ridge running down the length of its back covered with heavy muscles and showing teeth curved and serrated like sawblades, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zacrocanthosaurus",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "GRAB", 10 ], [ "LUNGE", 20 ] ],
+    "upgrades": {  },
+    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
+  },
+  {
+    "id": "mon_ziats_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal Siats zombie" },
+    "description": "Once a huge predatory bipedal dinosaur with long claws and strong arms for grappling, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "copy-from": "mon_ziats",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ] ],
+    "upgrades": {  },
+    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "FILTHY", "WARM" ]
+  },
+  {
+    "id": "mon_zalbertosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal Albertosaurus zombie" },
+    "description": "Once a huge predatory bipedal dinosaur with long claws and massive jaws, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zalbertosaurus",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "LUNGE", 5 ] ],
+    "upgrades": {  },
+    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
     "id": "mon_zyrannosaurus_fungus",
@@ -90,11 +144,11 @@
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
-    "id": "mon_zankylosaurus_fungus",
+    "id": "mon_zallimimus_fungus",
     "type": "MONSTER",
-    "name": { "str": "fungal Ankylosaurus zombie" },
-    "description": "Once something like a giant armadillo dinosaur hybrid with a spiked tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
-    "copy-from": "mon_zankylosaurus",
+    "name": { "str": "fungal Gallimimus zombie" },
+    "description": "Once a featherd bipedal plant eating dinosaur, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered feathers.",
+    "copy-from": "mon_zallimimus",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 2,
@@ -103,15 +157,33 @@
     "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
     "vision_day": 5,
     "vision_night": 5,
-    "special_attacks": [ [ "FUNGUS", 200 ] ],
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": {  },
-    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
+  },
+  {
+    "id": "mon_zothronychus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal Nothronychus zombie" },
+    "description": "Once a large feathered bipedal plant eating dinosaur with sharp curved claws, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered feathers.",
+    "copy-from": "mon_zothronychus",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "LONGSWIPE", 30 ] ],
+    "upgrades": {  },
+    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
   {
     "id": "mon_zeinonychus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal Deinonychus zombie" },
-    "description": "Once a medium-sized feathered carnivorous dinosaur, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
+    "description": "Once a feathered meat eating dinosaur with a large, sickle-shaped talon on each foot, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
     "copy-from": "mon_zeinonychus",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
@@ -121,8 +193,168 @@
     "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
     "vision_day": 5,
     "vision_night": 5,
-    "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [
+      [ "FUNGUS", 200 ],
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      [ "scratch", 10 ],
+      { "type": "bite", "cooldown": 5 }
+    ],
     "upgrades": {  },
     "flags": [ "SEES", "SMELLS", "KEENNOSE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
+  },
+  {
+    "id": "mon_zutahraptor_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal Utahraptor zombie" },
+    "description": "Once a large feathered meat eating dinosaur with a sickle-shaped talon on each foot, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zutahraptor",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [
+      [ "FUNGUS", 200 ],
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      [ "scratch", 10 ],
+      { "type": "bite", "cooldown": 5 }
+    ],
+    "upgrades": {  },
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
+  },
+  {
+    "id": "mon_zapatosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal Apatosaurus zombie" },
+    "description": "Once a massive, long-necked, four-legged plant eating dinosaur with a long, whip-like tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zapatosaurus",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [
+      [ "FUNGUS", 200 ],
+      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "SMASH", 30 ]
+    ],
+    "upgrades": {  },
+    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
+  },
+  {
+    "id": "mon_zrontosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal Brontosaurus zombie" },
+    "description": "Once a massive, long-necked, four-legged plant eating dinosaur with a bulky torso and long, whip-like tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zapatosaurus_fungus"
+  },
+  {
+    "id": "mon_ziplodocus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal Diplodocus zombie" },
+    "description": "Once a huge, long-necked, four-legged plant eating dinosaur with a tiny head and long, whip-like tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zapatosaurus_fungus"
+  },
+  {
+    "id": "mon_zamarasaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal Camarasaurus zombie" },
+    "description": "Once a huge, long-necked, four-legged plant eating dinosaur with a long, whip-like tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zapatosaurus_fungus"
+  },
+  {
+    "id": "mon_zrachiosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal Brachiosaurus zombie" },
+    "description": "Once a gigantic, long-necked, four-legged plant eating dinosaur with longer forelegs and a long, whip-like tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zapatosaurus_fungus",
+    "proportional": { "hp": 2, "speed": 0.65 }
+  },
+  {
+    "id": "mon_zalamosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal Alamosaurus zombie" },
+    "description": "Once a gigantic, long-necked, four-legged plant eating dinosaur with longer forelegs and spiked tail protected by natural bone armor, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zapatosaurus_fungus",
+    "proportional": { "hp": 1.5, "speed": 0.8, "armor_bash": 2, "armor_cut": 2 }
+  },
+  {
+    "id": "mon_ztegosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal Stegosaurus zombie" },
+    "description": "Once a large four legged plant eating dinosaur with heavy bone plates jutting from its back and spiked tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "copy-from": "mon_ztegosaurus",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [
+      [ "FUNGUS", 200 ],
+      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "SMASH", 30 ]
+    ],
+    "upgrades": {  },
+    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
+  },
+  {
+    "id": "mon_zyoplosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal Dyoplosaurus zombie" },
+    "description": "Once something like a giant armadillo dinosaur hybrid with a spiked club tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zankylosaurus_fungus",
+    "proportional": { "hp": 0.35, "speed": 1.2 }
+  },
+  {
+    "id": "mon_zankylosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal Ankylosaurus zombie" },
+    "description": "Once something like a giant armadillo dinosaur hybrid with a spiked tail, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zankylosaurus",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [
+      [ "FUNGUS", 200 ],
+      [ "scratch", 10 ],
+      { "type": "bite", "cooldown": 5 },
+      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "SMASH", 30 ]
+    ],
+    "upgrades": {  },
+    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
+  },
+  {
+    "id": "mon_zodosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal Nodosaurus zombie" },
+    "description": "Once something like a giant armadillo dinosaur hybrid, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zankylosaurus_fungus",
+    "proportional": { "hp": 0.6 },
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ]
+  },
+  {
+    "id": "mon_zedmontonia_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal Edmontonia zombie" },
+    "description": "Once something like a giant armadillo dinosaur hybrid with long bony spikes, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh and bone.",
+    "copy-from": "mon_zankylosaurus_fungus",
+    "melee_cut": 10,
+    "proportional": { "hp": 0.65 },
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ]
   }
 ]
