@@ -85,7 +85,7 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
     ],
     "warmth": 30,
-    "material_thickness": 4,
+    "material_thickness": 1,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 6,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "OUTER" ]
@@ -150,7 +150,7 @@
     "copy-from": "chaps_leather",
     "price": 7800,
     "material": [ "kevlar_layered" ],
-    "material_thickness": 2
+    "material_thickness": 1
   },
   {
     "id": "fencing_pants",
@@ -355,7 +355,7 @@
     "covers": [ "leg_l", "leg_r" ],
     "coverage": 80,
     "encumbrance": 18,
-    "warmth": 20,
+    "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "ALLOWS_TAIL" ]
   },
@@ -426,7 +426,7 @@
     "coverage": 100,
     "encumbrance": 20,
     "warmth": 35,
-    "material_thickness": 3,
+    "material_thickness": 1.5,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },

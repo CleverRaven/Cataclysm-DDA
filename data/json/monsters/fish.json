@@ -154,7 +154,7 @@
     "luminance": 0,
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "SPRING", "SUMMER" ],
-    "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "harvest": "fish_large",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC" ]
@@ -426,10 +426,6 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "ctxt": "fish", "str": "pike" },
-    "aggression": 10,
-    "melee_skill": 3,
-    "melee_dice_sides": 6,
-    "melee_cut": 4,
     "description": "A northern pike.  Pike can be a pretty aggressive fish, careful around those teeth."
   },
   {
@@ -444,10 +440,6 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str": "muskellunge" },
-    "aggression": 10,
-    "melee_skill": 3,
-    "melee_dice_sides": 6,
-    "melee_cut": 3,
     "looks_like": "mon_fish_pike",
     "description": "A muskellunge.  Closely related to pike, it shares the same aggression and sharp teeth."
   },
@@ -700,7 +692,7 @@
     "type": "MONSTER",
     "name": { "str": "giant carp" },
     "description": "This thing seems like a carp, only swollen and very very angry.  Death is the gift of the carp god.",
-    "default_faction": "carp",
+    "default_faction": "mutant",
     "bodytype": "fish",
     "species": [ "FISH" ],
     "volume": "62500 ml",
@@ -729,7 +721,7 @@
     "type": "MONSTER",
     "name": { "str": "giant salmon" },
     "description": "A mutated salmon, the same size as a large dog and quite dangerous to the inexperienced angler.",
-    "default_faction": "salmon",
+    "default_faction": "mutant",
     "bodytype": "fish",
     "species": [ "FISH" ],
     "volume": "62500 ml",

@@ -1,12 +1,16 @@
-#include "catch/catch.hpp"
-#include "item_group.h"
-
 #include <algorithm>
+#include <iosfwd>
+#include <list>
+#include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
+#include "catch/catch.hpp"
 #include "flag.h"
 #include "item.h"
+#include "item_contents.h"
+#include "item_group.h"
 #include "type_id.h"
 
 TEST_CASE( "truncate_spawn_when_items_dont_fit", "[item_group]" )

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <climits>
+#include <iosfwd>
 #include <limits>
 #include <map>
 #include <memory>
@@ -21,13 +22,13 @@
 #include "make_static.h"
 #include "map.h"
 #include "map_selector.h"
+#include "memory_fast.h"
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"
-#include "string_id.h"
 #include "submap.h"
 #include "temp_crafting_inventory.h"
 #include "units.h"
@@ -46,6 +47,8 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 
 static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_ups( "bio_ups" );
+
+static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
 /** @relates visitable */
 item *read_only_visitable::find_parent( const item &it ) const
@@ -289,7 +292,6 @@ int vehicle_selector::max_quality( const quality_id &qual ) const
     return res;
 }
 
-
 template<typename T, typename V>
 static inline std::vector<T> items_with_internal( V &self, const std::function<bool( const item & )>
         &filter )
@@ -430,11 +432,11 @@ VisitResponse map_cursor::visit_items(
 {
     map &here = get_map();
     // skip inaccessible items
-    if( here.has_flag( "SEALED", *this ) && !here.has_flag( "LIQUIDCONT", *this ) ) {
+    if( here.has_flag( "SEALED", pos() ) && !here.has_flag( "LIQUIDCONT", pos() ) ) {
         return VisitResponse::NEXT;
     }
 
-    for( item &e : here.i_at( *this ) ) {
+    for( item &e : here.i_at( pos() ) ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
@@ -615,14 +617,14 @@ std::list<item> map_cursor::remove_items_with( const
     }
 
     map &here = get_map();
-    if( !here.inbounds( *this ) ) {
+    if( !here.inbounds( pos() ) ) {
         debugmsg( "cannot remove items from map: cursor out-of-bounds" );
         return res;
     }
 
     // fetch the appropriate item stack
     point offset;
-    submap *sub = here.get_submap_at( *this, offset );
+    submap *sub = here.get_submap_at( pos(), offset );
     cata::colony<item> &stack = sub->get_items( offset );
 
     for( auto iter = stack.begin(); iter != stack.end(); ) {
@@ -648,7 +650,7 @@ std::list<item> map_cursor::remove_items_with( const
             ++iter;
         }
     }
-    here.update_submap_active_item_status( *this );
+    here.update_submap_active_item_status( pos() );
     return res;
 }
 
@@ -899,8 +901,13 @@ int inventory::amount_of( const itype_id &what, bool pseudo, int limit,
 int Character::amount_of( const itype_id &what, bool pseudo, int limit,
                           const std::function<bool( const item & )> &filter ) const
 {
-    if( what == itype_toolset && pseudo && has_active_bionic( bio_tools ) ) {
-        return 1;
+    if( pseudo ) {
+        for( const auto &bio : *this->my_bionics ) {
+            const bionic_data &bid = bio.info();
+            if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
+                return 1;
+            }
+        }
     }
 
     if( what == itype_apparatus && pseudo ) {

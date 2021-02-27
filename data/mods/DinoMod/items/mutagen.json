@@ -1,0 +1,44 @@
+[
+  {
+    "id": "iv_mutagen_tyrant",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "tyrant serum",
+    "description": "A super-concentrated mutagen strongly resembling children's toy slime.  You need a syringe to inject it… if you really want to?",
+    "price": 1000000,
+    "color": "light_green",
+    "healthy": -4,
+    "use_action": { "type": "mutagen_iv", "mutation_category": "TYRANT" }
+  },
+  {
+    "id": "mutagen_tyrant",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "tyrant mutagen",
+    "description": "An extremely rare mutagen cocktail, it smells like blood and is a green goop with blood-red streaks",
+    "color": "light_green",
+    "price": 500000,
+    "use_action": { "type": "mutagen", "mutation_category": "TYRANT" }
+  },
+  {
+    "id": "iv_mutagen_stego",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "stego serum" },
+    "description": "A super-concentrated mutagen not for those frightened of this thing they have become.  You need a syringe to inject it… if you really want to?",
+    "price": 1000000,
+    "color": "light_green",
+    "healthy": -4,
+    "use_action": { "type": "mutagen_iv", "mutation_category": "STEGO" }
+  },
+  {
+    "id": "mutagen_stego",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str": "stego mutagen" },
+    "description": "An extremely rare mutagen cocktail, it seeks to cure what's deep inside.",
+    "color": "light_green",
+    "price": 500000,
+    "use_action": { "type": "mutagen", "mutation_category": "STEGO" }
+  }
+]

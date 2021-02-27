@@ -1,12 +1,12 @@
-#include "catch/catch.hpp"
-#include "mutation.h"
-
 #include <map>
 #include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "catch/catch.hpp"
+#include "character.h"
+#include "mutation.h"
 #include "npc.h"
 #include "player.h"
 #include "player_helpers.h"

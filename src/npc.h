@@ -10,24 +10,25 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "activity_type.h"
 #include "auto_pickup.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
 #include "coordinates.h"
 #include "creature.h"
-#include "cursesdef.h"
 #include "dialogue_chatbin.h"
 #include "enums.h"
 #include "faction.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -40,7 +41,6 @@
 #include "point.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -54,6 +54,11 @@ class monster;
 class npc_class;
 class talker;
 class vehicle;
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 struct bionic_data;
 struct mission_type;
 struct overmap_location;
@@ -1374,10 +1379,10 @@ class npc : public player
 class standard_npc : public npc
 {
     public:
-        standard_npc( const std::string &name = "",
-                      const tripoint &pos = tripoint( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 ),
-                      const std::vector<std::string> &clothing = {},
-                      int sk_lvl = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
+        explicit standard_npc( const std::string &name = "",
+                               const tripoint &pos = tripoint( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 ),
+                               const std::vector<std::string> &clothing = {},
+                               int sk_lvl = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
 };
 
 // instances of this can be accessed via string_id<npc_template>.

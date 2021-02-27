@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_AVATAR_ACTION_H
 #define CATA_SRC_AVATAR_ACTION_H
 
-#include <string>
+#include <iosfwd>
 #include <vector>
 
 #include "activity_type.h"
@@ -11,7 +11,6 @@
 #include "units_fwd.h"
 
 class Character;
-class aim_activity_actor;
 class avatar;
 class item;
 class item_location;

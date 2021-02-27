@@ -5,7 +5,7 @@
     "copy-from": "cudgel",
     "looks_like": "cudgel",
     "name": "cudgel +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -14,7 +14,7 @@
     "copy-from": "cudgel",
     "looks_like": "cudgel",
     "name": "cudgel +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -23,7 +23,7 @@
     "copy-from": "q_staff",
     "looks_like": "q_staff",
     "name": "quarterstaff +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -32,7 +32,7 @@
     "copy-from": "q_staff",
     "looks_like": "q_staff",
     "name": "quarterstaff +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -41,7 +41,7 @@
     "copy-from": "i_staff",
     "looks_like": "i_staff",
     "name": "ironshod quarterstaff +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -50,7 +50,7 @@
     "copy-from": "i_staff",
     "looks_like": "i_staff",
     "name": "ironshod quarterstaff +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -59,7 +59,7 @@
     "copy-from": "longsword",
     "looks_like": "longsword",
     "name": "longsword +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -68,7 +68,7 @@
     "copy-from": "longsword",
     "looks_like": "longsword",
     "name": "longsword +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -77,7 +77,7 @@
     "copy-from": "hammer_sledge",
     "looks_like": "hammer_sledge",
     "name": "sledge hammer +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -86,7 +86,7 @@
     "copy-from": "hammer_sledge",
     "looks_like": "hammer_sledge",
     "name": "sledge hammer +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -95,7 +95,7 @@
     "copy-from": "warhammer",
     "looks_like": "warhammer",
     "name": "warhammer +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -104,7 +104,7 @@
     "copy-from": "warhammer",
     "looks_like": "warhammer",
     "name": "warhammer +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -113,7 +113,7 @@
     "copy-from": "bat",
     "looks_like": "bat",
     "name": { "str": "bat +1" },
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -122,7 +122,7 @@
     "copy-from": "bat",
     "looks_like": "bat",
     "name": { "str": "bat +2" },
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -131,7 +131,7 @@
     "copy-from": "bat_metal",
     "looks_like": "bat_metal",
     "name": { "str": "aluminum bat +1" },
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -140,7 +140,7 @@
     "copy-from": "bat_metal",
     "looks_like": "bat_metal",
     "name": { "str": "aluminum bat +2" },
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -149,7 +149,7 @@
     "copy-from": "spear_steel",
     "looks_like": "spear_steel",
     "name": "steel spear +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -158,7 +158,7 @@
     "copy-from": "spear_steel",
     "looks_like": "spear_steel",
     "name": "steel spear +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -167,7 +167,7 @@
     "copy-from": "qiang",
     "looks_like": "qiang",
     "name": "qiang +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -176,7 +176,7 @@
     "copy-from": "qiang",
     "looks_like": "qiang",
     "name": "qiang +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -185,7 +185,7 @@
     "copy-from": "halberd",
     "looks_like": "halberd",
     "name": "halberd +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -194,7 +194,7 @@
     "copy-from": "halberd",
     "looks_like": "halberd",
     "name": "halberd +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -203,7 +203,7 @@
     "copy-from": "glaive",
     "looks_like": "glaive",
     "name": "glaive +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -212,7 +212,7 @@
     "copy-from": "glaive",
     "looks_like": "glaive",
     "name": "glaive +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -221,7 +221,7 @@
     "copy-from": "naginata",
     "looks_like": "naginata",
     "name": "naginata +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -230,7 +230,7 @@
     "copy-from": "naginata",
     "looks_like": "naginata",
     "name": "naginata +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -239,7 +239,7 @@
     "copy-from": "mace",
     "looks_like": "mace",
     "name": "mace +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -248,7 +248,7 @@
     "copy-from": "mace",
     "looks_like": "mace",
     "name": "mace +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -257,7 +257,7 @@
     "copy-from": "morningstar",
     "looks_like": "morningstar",
     "name": "morningstar +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -266,7 +266,7 @@
     "copy-from": "morningstar",
     "looks_like": "morningstar",
     "name": "morningstar +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -275,7 +275,7 @@
     "copy-from": "jian",
     "looks_like": "jian",
     "name": "jian +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -284,7 +284,7 @@
     "copy-from": "jian",
     "looks_like": "jian",
     "name": "jian +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -293,7 +293,7 @@
     "copy-from": "scimitar",
     "looks_like": "scimitar",
     "name": "scimitar +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -302,7 +302,7 @@
     "copy-from": "scimitar",
     "looks_like": "scimitar",
     "name": "scimitar +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -311,7 +311,7 @@
     "copy-from": "estoc",
     "looks_like": "estoc",
     "name": "estoc +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -320,7 +320,7 @@
     "copy-from": "estoc",
     "looks_like": "estoc",
     "name": "estoc +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -329,7 +329,7 @@
     "copy-from": "arming_sword",
     "looks_like": "arming_sword",
     "name": { "str": "arming sword +1" },
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -338,7 +338,7 @@
     "copy-from": "arming_sword",
     "looks_like": "arming_sword",
     "name": { "str": "arming sword +2" },
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -347,7 +347,7 @@
     "copy-from": "broadsword",
     "looks_like": "broadsword",
     "name": "broadsword +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -356,7 +356,7 @@
     "copy-from": "broadsword",
     "looks_like": "broadsword",
     "name": "broadsword +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -365,7 +365,7 @@
     "copy-from": "battleaxe",
     "looks_like": "battleaxe",
     "name": { "str": "battle axe +1" },
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -374,7 +374,7 @@
     "copy-from": "battleaxe",
     "looks_like": "battleaxe",
     "name": { "str": "battle axe +2" },
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -383,7 +383,7 @@
     "copy-from": "cavalry_sabre",
     "looks_like": "cavalry_sabre",
     "name": "cavalry sabre +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -392,7 +392,7 @@
     "copy-from": "cavalry_sabre",
     "looks_like": "cavalry_sabre",
     "name": "cavalry sabre +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -401,7 +401,7 @@
     "copy-from": "crowbar",
     "looks_like": "crowbar",
     "name": "crowbar +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -410,7 +410,7 @@
     "copy-from": "crowbar",
     "looks_like": "crowbar",
     "name": "crowbar +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -419,7 +419,7 @@
     "copy-from": "cutlass",
     "looks_like": "cutlass",
     "name": "cutlass +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -428,7 +428,7 @@
     "copy-from": "cutlass",
     "looks_like": "cutlass",
     "name": "cutlass +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -437,7 +437,7 @@
     "copy-from": "fire_ax",
     "looks_like": "fire_ax",
     "name": "fire axe +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -446,7 +446,7 @@
     "copy-from": "fire_ax",
     "looks_like": "fire_ax",
     "name": "fire axe +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -455,7 +455,7 @@
     "copy-from": "katana",
     "looks_like": "katana",
     "name": "katana +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -464,7 +464,7 @@
     "copy-from": "katana",
     "looks_like": "katana",
     "name": "katana +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -473,7 +473,7 @@
     "copy-from": "knife_combat",
     "looks_like": "knife_combat",
     "name": "combat knife +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -482,7 +482,7 @@
     "copy-from": "knife_combat",
     "looks_like": "knife_combat",
     "name": "combat knife +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -491,7 +491,7 @@
     "copy-from": "knife_hunting",
     "looks_like": "knife_hunting",
     "name": "hunting knife +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -500,7 +500,7 @@
     "copy-from": "knife_hunting",
     "looks_like": "knife_hunting",
     "name": "hunting knife +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -509,7 +509,7 @@
     "copy-from": "knife_rambo",
     "looks_like": "knife_rambo",
     "name": "survival knife +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -518,7 +518,7 @@
     "copy-from": "knife_rambo",
     "looks_like": "knife_rambo",
     "name": "survival knife +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -527,7 +527,7 @@
     "copy-from": "knife_trench",
     "looks_like": "knife_trench",
     "name": "trench knife +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -536,7 +536,7 @@
     "copy-from": "knife_trench",
     "looks_like": "knife_trench",
     "name": "trench knife +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -545,7 +545,7 @@
     "copy-from": "kris",
     "looks_like": "kris",
     "name": "kris +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -554,7 +554,7 @@
     "copy-from": "kris",
     "looks_like": "kris",
     "name": "kris +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -563,7 +563,7 @@
     "copy-from": "kukri",
     "looks_like": "kukri",
     "name": "kukri +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -572,7 +572,7 @@
     "copy-from": "kukri",
     "looks_like": "kukri",
     "name": "kukri +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -581,7 +581,7 @@
     "copy-from": "nodachi",
     "looks_like": "nodachi",
     "name": "nodachi +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -590,7 +590,7 @@
     "copy-from": "nodachi",
     "looks_like": "nodachi",
     "name": "nodachi +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -599,7 +599,7 @@
     "copy-from": "pickaxe",
     "looks_like": "pickaxe",
     "name": "pickaxe +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -608,7 +608,7 @@
     "copy-from": "pickaxe",
     "looks_like": "pickaxe",
     "name": "pickaxe +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -617,7 +617,7 @@
     "copy-from": "pike",
     "looks_like": "pike",
     "name": "pike +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -626,7 +626,7 @@
     "copy-from": "pike",
     "looks_like": "pike",
     "name": "pike +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -635,7 +635,7 @@
     "copy-from": "rapier",
     "looks_like": "rapier",
     "name": "rapier +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -644,7 +644,7 @@
     "copy-from": "rapier",
     "looks_like": "rapier",
     "name": "rapier +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -653,7 +653,7 @@
     "copy-from": "tanto",
     "looks_like": "tanto",
     "name": "tanto +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -662,7 +662,7 @@
     "copy-from": "tanto",
     "looks_like": "tanto",
     "name": "tanto +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -671,7 +671,7 @@
     "copy-from": "wakizashi",
     "looks_like": "wakizashi",
     "name": "wakizashi +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -680,7 +680,7 @@
     "copy-from": "wakizashi",
     "looks_like": "wakizashi",
     "name": "wakizashi +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -689,7 +689,7 @@
     "copy-from": "zweihander",
     "looks_like": "zweihander",
     "name": "zweihänder +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -698,7 +698,7 @@
     "copy-from": "zweihander",
     "looks_like": "zweihander",
     "name": "zweihänder +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -707,7 +707,7 @@
     "copy-from": "khopesh",
     "looks_like": "khopesh",
     "name": "khopesh +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -716,7 +716,7 @@
     "copy-from": "khopesh",
     "looks_like": "khopesh",
     "name": "khopesh +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -725,7 +725,7 @@
     "copy-from": "sword_xiphos",
     "looks_like": "sword_xiphos",
     "name": "xiphos +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -734,7 +734,7 @@
     "copy-from": "sword_xiphos",
     "looks_like": "sword_xiphos",
     "name": "xiphos +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -743,7 +743,7 @@
     "copy-from": "dao",
     "looks_like": "dao",
     "name": "dao +1",
-    "proportional": { "price": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
     "relative": { "to_hit": 1 }
   },
   {
@@ -752,7 +752,7 @@
     "copy-from": "dao",
     "looks_like": "dao",
     "name": "dao +2",
-    "proportional": { "price": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
   {
@@ -780,7 +780,7 @@
     "type": "GENERIC",
     "name": { "str": "Technomancer toolbar" },
     "//": "Combat stats based off crowbar +1, techniques off Halligan bar(closest non-magical substitute), weight based on 75% of hammer & wrench(since their handles aren't included) + 100% crowbar with benefit from +1 enchantment",
-    "description": "This staff incorporates a sturdy cresent wrench on top of a prybar and a hammer on the other in a convienent package.  There is a Technomancer rune embedded in the hammerhead.",
+    "description": "This staff incorporates a sturdy cresent wrench on top of a prybar and a hammer on the other in a convenient package.  There is a Technomancer rune embedded in the hammerhead.",
     "weight": "995 g",
     "volume": "1750 ml",
     "longest_side": "65 cm",

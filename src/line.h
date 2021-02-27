@@ -5,10 +5,9 @@
 #include <algorithm>
 #include <cmath>
 #include <functional>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
-#include "math_defines.h"
 #include "point.h"
 #include "units_fwd.h"
 
@@ -179,7 +178,7 @@ struct FastDistanceApproximation {
     private:
         int value;
     public:
-        inline FastDistanceApproximation( int value ) : value( value ) { }
+        explicit inline FastDistanceApproximation( int value ) : value( value ) { }
         template<typename T>
         inline bool operator<=( const T &rhs ) const {
             if( trigdist ) {
@@ -194,7 +193,7 @@ struct FastDistanceApproximation {
             }
             return value >= rhs;
         }
-        inline operator int() const {
+        inline explicit operator int() const {
             if( trigdist ) {
                 return std::sqrt( value );
             }
@@ -204,14 +203,15 @@ struct FastDistanceApproximation {
 
 inline FastDistanceApproximation trig_dist_fast( const tripoint &loc1, const tripoint &loc2 )
 {
-    return ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) +
-           ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) +
-           ( loc1.z - loc2.z ) * ( loc1.z - loc2.z );
+    return FastDistanceApproximation(
+               ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) +
+               ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) +
+               ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) );
 }
 inline FastDistanceApproximation square_dist_fast( const tripoint &loc1, const tripoint &loc2 )
 {
     const tripoint d = ( loc1 - loc2 ).abs();
-    return std::max( { d.x, d.y, d.z } );
+    return FastDistanceApproximation( std::max( { d.x, d.y, d.z } ) );
 }
 inline FastDistanceApproximation rl_dist_fast( const tripoint &loc1, const tripoint &loc2 )
 {

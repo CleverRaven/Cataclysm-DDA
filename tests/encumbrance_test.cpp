@@ -1,11 +1,11 @@
-#include "catch/catch.hpp"
-
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <string>
 #include <vector>
 
 #include "bodypart.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "item.h"
 #include "npc.h"
@@ -68,8 +68,8 @@ static void test_encumbrance(
 }
 
 struct add_trait {
-    add_trait( const std::string &t ) : trait( t ) {}
-    add_trait( const trait_id &t ) : trait( t ) {}
+    explicit add_trait( const std::string &t ) : trait( t ) {}
+    explicit add_trait( const trait_id &t ) : trait( t ) {}
 
     void operator()( Character &p ) {
         p.toggle_trait( trait );

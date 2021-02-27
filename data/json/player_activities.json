@@ -373,6 +373,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_INSERT_ITEM",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "inserting",
+    "suspendable": false,
+    "based_on": "speed",
+    "no_resume": true
+  },
+  {
     "id": "ACT_AUTODRIVE",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

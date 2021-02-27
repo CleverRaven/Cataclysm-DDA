@@ -2,32 +2,29 @@
 #ifndef CATA_SRC_MAPDATA_H
 #define CATA_SRC_MAPDATA_H
 
-#include <algorithm>
 #include <array>
 #include <bitset>
 #include <cstddef>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "color.h"
-#include "int_id.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
 struct ter_t;
+
 using ter_str_id = string_id<ter_t>;
 
 class JsonObject;
 class player;
 struct furn_t;
 struct itype;
-struct ter_t;
 struct tripoint;
 
 using iexamine_function = void ( * )( player &, const tripoint & );
@@ -217,6 +214,7 @@ enum ter_bitflags : int {
     TFLAG_SMALL_PASSAGE,
     TFLAG_Z_TRANSPARENT,
     TFLAG_SUN_ROOF_ABOVE,
+    TFLAG_FUNGUS,
 
     NUM_TERFLAGS
 };
@@ -353,7 +351,7 @@ struct map_data_common_t {
                    has_flag( TFLAG_FLAMMABLE_HARD );
         }
 
-        virtual void load( const JsonObject &jo, const std::string &src );
+        virtual void load( const JsonObject &jo, const std::string & );
         virtual void check() const;
 };
 

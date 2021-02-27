@@ -1,10 +1,10 @@
 #include "translations.h"
 
-#include <array>
 #include <clocale>
-#include <cstdlib>
+#include <array>
 #include <functional>
-#include <locale>
+#include <iterator>
+#include <new>
 
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that
@@ -16,7 +16,6 @@
 #include <map>
 #include <memory>
 #include <ostream>
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -24,6 +23,7 @@
 #include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "name.h"
@@ -185,10 +185,13 @@ void select_language()
     get_options().save();
 }
 
+#if (defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)) && !defined(BSD)
+#define BSD
+#endif
 std::string locale_dir()
 {
     std::string loc_dir;
-#if !defined(__ANDROID__) && ((defined(__linux__) || (defined(MACOSX) && !defined(TILES))))
+#if !defined(__ANDROID__) && ((defined(__linux__) || defined(BSD) || (defined(MACOSX) && !defined(TILES))))
     if( !PATH_INFO::base_path().empty() ) {
         loc_dir = PATH_INFO::base_path() + "share/locale";
     } else {
@@ -221,6 +224,15 @@ void set_language()
             DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
         }
 #else
+        // LANGUAGE is ignored if LANG is set to C or unset
+        // in this case we need to set LANG to something other than C to activate localization
+        // Reference: https://www.gnu.org/software/gettext/manual/html_node/The-LANGUAGE-variable.html#The-LANGUAGE-variable
+        const char *env_lang = getenv( "LANG" );
+        if( env_lang == nullptr || strcmp( env_lang, "C" ) == 0 ) {
+            if( setenv( "LANG", lang_opt.c_str(), true ) != 0 ) {
+                DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANG' environment variable";
+            }
+        }
         if( setenv( "LANGUAGE", lang_opt.c_str(), true ) != 0 ) {
             DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
         }
@@ -312,9 +324,6 @@ std::string getOSXSystemLang()
 #endif
 
 #else // !LOCALIZE
-
-#include <cstring> // strcmp
-#include <map>
 
 std::string locale_dir()
 {
@@ -429,7 +438,7 @@ translation::translation( const std::string &str, const no_translation_tag ) : r
 
 translation translation::to_translation( const std::string &raw )
 {
-    return { raw };
+    return translation{ raw };
 }
 
 translation translation::to_translation( const std::string &ctxt, const std::string &raw )

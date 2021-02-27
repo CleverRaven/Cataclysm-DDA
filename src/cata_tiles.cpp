@@ -1386,6 +1386,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                                      direction::NORTH ) );
                 }
             }
+            if( !p.invisible[0] ) {
+                here.check_and_set_seen_cache( p.pos );
+            }
         }
     }
     // tile overrides are already drawn in the previous code
@@ -1616,6 +1619,7 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
             return find_tile_looks_like_by_string_id<mtype>( id, category, looks_like_jumps_limit );
 
         case C_VEHICLE_PART: {
+            cata::optional<tile_lookup_res> ret;
             // vehicle parts start with vp_ for their tiles, but not their IDs
             const vpart_id new_vpid( id.substr( 3 ) );
             // check the base id for a vehicle with variant parts
@@ -1623,14 +1627,15 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
             std::string variant_id;
             std::tie( base_vpid, variant_id ) = get_vpart_id_variant( new_vpid );
             if( base_vpid.is_valid() ) {
-                return find_tile_looks_like( "vp_" + base_vpid.str(), category, looks_like_jumps_limit - 1 );
-            } else {
-                if( !new_vpid.is_valid() ) {
-                    return cata::nullopt;
-                }
-                const vpart_info &new_vpi = new_vpid.obj();
-                return find_tile_looks_like( "vp_" + new_vpi.looks_like, category, looks_like_jumps_limit - 1 );
+                ret = find_tile_looks_like( "vp_" + base_vpid.str(), category, looks_like_jumps_limit - 1 );
             }
+            if( !ret.has_value() ) {
+                if( new_vpid.is_valid() ) {
+                    const vpart_info &new_vpi = new_vpid.obj();
+                    ret = find_tile_looks_like( "vp_" + new_vpi.looks_like, category, looks_like_jumps_limit - 1 );
+                }
+            }
+            return ret;
         }
 
         case C_ITEM: {
@@ -1772,9 +1777,9 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             }
         } else if( category == C_FIELD ) {
             const field_type_id fid = field_type_id( found_id );
-            sym = fid.obj().get_codepoint();
+            sym = fid->get_intensity_level().symbol;
             // TODO: field intensity?
-            col = fid.obj().get_color();
+            col = fid->get_intensity_level().color;
         } else if( category == C_TRAP ) {
             const trap_str_id tmp( found_id );
             if( tmp.is_valid() ) {
@@ -2525,7 +2530,9 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation );
         }
         const std::string &fname = f.id().str();
-        if( here.check_seen_cache( p ) ) {
+        if( !( you.get_grab_type() == object_type::FURNITURE
+               && p == you.pos() + you.grab_point )
+            && here.check_seen_cache( p ) ) {
             you.memorize_tile( here.getabs( p ), fname, subtile, rotation );
         }
         // draw the actual furniture if there's no override
@@ -2777,8 +2784,10 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         const int rotation = std::round( to_degrees( veh.face.dir() ) );
         const std::string vpname = "vp_" + vp_id;
         avatar &you = get_avatar();
-        if( !veh.forward_velocity() && !veh.player_in_control( you ) &&
-            here.check_seen_cache( p ) ) {
+        if( !veh.forward_velocity() && !veh.player_in_control( you )
+            && !( you.get_grab_type() == object_type::VEHICLE
+                  && veh.get_points().count( you.pos() + you.grab_point ) )
+            && here.check_seen_cache( p ) ) {
             you.memorize_tile( here.getabs( p ), vpname, subtile, rotation );
         }
         if( !overridden ) {
@@ -3193,7 +3202,7 @@ void cata_tiles::init_draw_item_override( const tripoint &p, const itype_id &id,
     item_override.emplace( p, std::make_tuple( id, mid, hilite ) );
 }
 void cata_tiles::init_draw_vpart_override( const tripoint &p, const vpart_id &id,
-        const int part_mod, const units::angle veh_dir, const bool hilite, const point &mount )
+        const int part_mod, const units::angle &veh_dir, const bool hilite, const point &mount )
 {
     vpart_override.emplace( p, std::make_tuple( id, part_mod, veh_dir, hilite, mount ) );
 }
@@ -3418,16 +3427,19 @@ void cata_tiles::draw_custom_explosion_frame()
         }
 
         const tripoint &p = pr.first;
-        if( col == c_red ) {
-            draw_from_id_string( exp_strong, p, subtile, rotation, lit_level::LIT,
-                                 nv_goggles_activated );
+        std::string explosion_tile_id;
+        if( pr.second.tile_name && find_tile_looks_like( *pr.second.tile_name, TILE_CATEGORY::C_NONE ) ) {
+            explosion_tile_id = *pr.second.tile_name;
+        } else if( col == c_red ) {
+            explosion_tile_id = exp_strong;
         } else if( col == c_yellow ) {
-            draw_from_id_string( exp_medium, p, subtile, rotation, lit_level::LIT,
-                                 nv_goggles_activated );
+            explosion_tile_id = exp_medium;
         } else {
-            draw_from_id_string( exp_weak, p, subtile, rotation, lit_level::LIT,
-                                 nv_goggles_activated );
+            explosion_tile_id = exp_weak;
         }
+
+        draw_from_id_string( explosion_tile_id, p, subtile, rotation, lit_level::LIT,
+                             nv_goggles_activated );
     }
 }
 void cata_tiles::draw_bullet_frame()
@@ -3703,12 +3715,19 @@ void cata_tiles::get_tile_values( const int t, const int *tn, int &subtile, int 
 void cata_tiles::get_tile_values_with_ter( const tripoint &p, const int t, const int *tn,
         int &subtile, int &rotation )
 {
-    get_tile_values( t, tn, subtile, rotation );
+    map &here = get_map();
+    //check if furniture should connect to itself
+    if( here.has_flag( "NO_SELF_CONNECT", p ) || here.has_flag( "ALIGN_WORKBENCH", p ) ) {
+        //if we don't ever connect to ourself just return unconnected to be used further
+        get_rotation_and_subtile( 0, rotation, subtile );
+    } else {
+        //if we do connect to ourself (tables, counters etc.) calculate based on neighbours
+        get_tile_values( t, tn, subtile, rotation );
+    }
     // calculate rotation for unconnected tiles based on surrounding walls
     if( subtile == unconnected ) {
         int val = 0;
         bool use_furniture = false;
-        map &here = get_map();
 
         if( here.has_flag( "ALIGN_WORKBENCH", p ) ) {
             for( int i = 0; i < 4; ++i ) {

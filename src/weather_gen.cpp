@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <functional>
 #include <ostream>
 #include <random>
 #include <string>
@@ -14,7 +15,7 @@
 #include "point.h"
 #include "rng.h"
 #include "simplexnoise.h"
-#include "string_id.h"
+#include "translations.h"
 #include "weather.h"
 #include "weather_type.h"
 

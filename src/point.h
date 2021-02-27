@@ -8,11 +8,11 @@
 
 #include <array>
 #include <climits>
+#include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
 #include <ostream>
-#include <string>
 #include <vector>
 
 #include "cata_assert.h"

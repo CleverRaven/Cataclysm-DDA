@@ -3,11 +3,10 @@
 #define CATA_SRC_MAPGENFORMAT_H
 
 #include <cstddef>
-#include <string>
-#include <utility>
+#include <iosfwd>
+#include <type_traits>
 #include <vector>
 
-#include "int_id.h"
 #include "type_id.h"
 
 class map;

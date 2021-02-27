@@ -1,7 +1,10 @@
+#include "player.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <memory>
 #include <string>
 #include <tuple>
@@ -15,9 +18,10 @@
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
+#include "event.h"
 #include "event_bus.h"
-#include "flat_set.h"
 #include "flag.h"
+#include "flat_set.h"
 #include "game.h"
 #include "item.h"
 #include "item_category.h"
@@ -26,6 +30,7 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "make_static.h"
 #include "map.h"
 #include "material.h"
 #include "messages.h"
@@ -35,7 +40,6 @@
 #include "npc.h"
 #include "options.h"
 #include "pickup.h"
-#include "player.h" // IWYU pragma: associated
 #include "pldata.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -45,7 +49,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
+#include "value_ptr.h"
 #include "visitable.h"
 #include "vitamin.h"
 
@@ -58,7 +62,6 @@ static const skill_id skill_survival( "survival" );
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
-static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 static const efftype_id effect_bloodworms( "bloodworms" );
@@ -75,6 +78,14 @@ static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_visuals( "visuals" );
+
+static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
+static const json_character_flag json_flag_PARAIMMUNE( "PARAIMMUNE" );
+static const json_character_flag json_flag_PRED1( "PRED1" );
+static const json_character_flag json_flag_PRED2( "PRED2" );
+static const json_character_flag json_flag_PRED3( "PRED3" );
+static const json_character_flag json_flag_PRED4( "PRED4" );
+static const json_character_flag json_flag_STRICT_HUMANITARIAN( "STRICT_HUMANITARIAN" );
 
 static const item_category_id item_category_chems( "chems" );
 
@@ -102,7 +113,6 @@ static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_MEATARIAN( "MEATARIAN" );
-static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_PROJUNK( "PROJUNK" );
 static const trait_id trait_PROJUNK2( "PROJUNK2" );
@@ -135,13 +145,6 @@ static const std::array<flag_id, 4> carnivore_blacklist {{
 static const std::array<flag_id, 2> herbivore_blacklist {{
         flag_id( "ALLERGEN_MEAT" ), flag_id( "ALLERGEN_EGG" )
     }};
-
-// TODO: JSONize.
-static const std::map<itype_id, int> plut_charges = {
-    { itype_id( "plut_cell" ),         PLUTONIUM_CHARGES * 10 },
-    { itype_id( "plut_slurry_dense" ), PLUTONIUM_CHARGES },
-    { itype_id( "plut_slurry" ),       PLUTONIUM_CHARGES / 2 }
-};
 
 // TODO: Move pizza scraping here.
 static int compute_default_effective_kcal( const item &comest, const Character &you,
@@ -510,8 +513,11 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 
 void Character::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool capped )
 {
-    for( const std::pair<const vitamin_id, int> &vit : vitamins ) {
-        vitamin_mod( vit.first, vit.second, capped );
+    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
+    if( !npc_no_food ) {
+        for( const std::pair<const vitamin_id, int> &vit : vitamins ) {
+            vitamin_mod( vit.first, vit.second, capped );
+        }
     }
 }
 
@@ -665,11 +671,26 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         }
     }
 
+    const use_function *consume_drug = food.type->get_use( "consume_drug" );
+    if( consume_drug != nullptr ) { //its a drug)
+        const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
+                ( consume_drug->get_actor_ptr() );
+        for( auto &tool : consume_drug_use->tools_needed ) {
+            const bool has = item::count_by_charges( tool.first )
+                             ? has_charges( tool.first, ( tool.second == -1 ) ? 1 : tool.second )
+                             : has_amount( tool.first, 1 );
+            if( !has ) {
+                return ret_val<edible_rating>::make_failure( NO_TOOL,
+                        string_format( _( "You need a %s to consume that!" ),
+                                       item::nname( tool.first ) ) );
+            }
+        }
+    }
     if( !comest->tool.is_null() ) {
         const bool has = item::count_by_charges( comest->tool )
                          ? has_charges( comest->tool, 1 )
                          : has_amount( comest->tool, 1 );
-        if( !has && !( comest->tool == itype_syringe && has_bionic( bio_syringe ) ) ) {
+        if( !has ) {
             return ret_val<edible_rating>::make_failure( NO_TOOL,
                     string_format( _( "You need a %s to consume that!" ),
                                    item::nname( comest->tool ) ) );
@@ -733,17 +754,19 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         }
     }
 
-    if( food.has_flag( flag_STRICT_HUMANITARIANISM ) && !has_trait_flag( "STRICT_HUMANITARIAN" ) ) {
+    if( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
+        !has_trait_flag( json_flag_STRICT_HUMANITARIAN ) ) {
         add_consequence( _( "The thought of eating demihuman flesh makes you feel sick." ), CANNIBALISM );
     }
 
     const bool carnivore = has_trait( trait_CARNIVORE );
-    if( food.has_flag( flag_CANNIBALISM ) && !has_trait_flag( "CANNIBAL" ) ) {
+    if( food.has_flag( flag_CANNIBALISM ) &&
+        !has_trait_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
     if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
-        !( has_bionic( bio_digestion ) || has_trait( trait_PARAIMMUNE ) ) ) {
+        !has_flag( json_flag_PARAIMMUNE ) ) {
         add_consequence( _( "Eating this raw meat probably isn't very healthy." ), PARASITES );
     }
 
@@ -860,8 +883,7 @@ static bool eat( item &food, player &you, bool force )
     const bool saprophage = you.has_trait( trait_SAPROPHAGE );
     if( spoiled && !saprophage ) {
         you.add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good…" ), food.tname() );
-        if( !you.has_trait( trait_SAPROVORE ) && !you.has_trait( trait_EATDEAD ) &&
-            ( !you.has_bionic( bio_digestion ) || one_in( 3 ) ) ) {
+        if( !you.has_flag( json_flag_IMMUNE_SPOIL ) ) {
             you.add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
         }
     } else if( spoiled && saprophage ) {
@@ -948,7 +970,7 @@ static bool eat( item &food, player &you, bool force )
     }
 
     // Chance to become parasitised
-    if( !will_vomit && !( you.has_bionic( bio_digestion ) || you.has_trait( trait_PARAIMMUNE ) ) ) {
+    if( !will_vomit && !you.has_flag( json_flag_PARAIMMUNE ) ) {
         if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
             one_in( food.get_comestible()->parasites ) ) {
             switch( rng( 0, 3 ) ) {
@@ -1149,10 +1171,10 @@ void Character::modify_morale( item &food, const int nutr )
     // The PREDATOR_FUN flag shouldn't be on human flesh, to not interfere with sapiovores/cannibalism.
     if( food.has_flag( flag_PREDATOR_FUN ) ) {
         const bool carnivore = has_trait( trait_CARNIVORE );
-        const bool culler = has_trait_flag( "PRED1" );
-        const bool hunter = has_trait_flag( "PRED2" );
-        const bool predator = has_trait_flag( "PRED3" );
-        const bool apex_predator = has_trait_flag( "PRED4" );
+        const bool culler = has_trait_flag( json_flag_PRED1 );
+        const bool hunter = has_trait_flag( json_flag_PRED2 );
+        const bool predator = has_trait_flag( json_flag_PRED3 );
+        const bool apex_predator = has_trait_flag( json_flag_PRED4 );
         if( apex_predator ) {
             // Largest bonus, balances out to around +5 or +10. Some organs may still be negative.
             add_morale( MORALE_MEATARIAN, 20, 10 );
@@ -1273,6 +1295,9 @@ int Character::compute_calories_per_effective_volume( const item &food,
     double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
     const double energy_density_ratio = compute_effective_food_volume_ratio( food );
     const double effective_volume = food_vol * energy_density_ratio;
+    if( kcalories == 0 && effective_volume == 0.0 ) {
+        return 0;
+    }
     return std::round( kcalories / effective_volume );
 }
 
@@ -1297,8 +1322,7 @@ bool Character::consume_effects( item &food )
 
     // Rotten food causes health loss
     const float relative_rot = food.get_relative_rot();
-    if( relative_rot > 1.0f && !has_trait( trait_SAPROPHAGE ) &&
-        !has_trait( trait_SAPROVORE ) && !has_bionic( bio_digestion ) ) {
+    if( relative_rot > 1.0f && !has_flag( json_flag_IMMUNE_SPOIL ) ) {
         const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
         // ~-1 health per 1 nutrition at halfway-rotten-away, ~0 at "just got rotten"
         // But always round down
@@ -1618,14 +1642,10 @@ static bool consume_med( item &target, player &you )
 
     const itype_id tool_type = target.get_comestible()->tool;
     const itype *req_tool = item::find_type( tool_type );
-    bool tool_override = false;
-    if( tool_type == itype_syringe && you.has_bionic( bio_syringe ) ) {
-        tool_override = true;
-    }
+
     if( req_tool->tool ) {
         if( !( you.has_amount( tool_type, 1 ) &&
-               you.has_charges( tool_type, req_tool->tool->charges_per_use ) ) &&
-            !tool_override ) {
+               you.has_charges( tool_type, req_tool->tool->charges_per_use ) ) ) {
             you.add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname( 1 ) );
             return false;
         }

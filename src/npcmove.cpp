@@ -1,3 +1,5 @@
+#include "npc.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cfloat>
 #include <climits>
@@ -19,6 +21,7 @@
 #include "character.h"
 #include "character_id.h"
 #include "clzones.h"
+#include "colony.h"
 #include "damage.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
@@ -29,6 +32,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "gates.h"
@@ -43,12 +47,13 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "material.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
-#include "npc.h" // IWYU pragma: associated
 #include "npctalk.h"
+#include "omdata.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmap_location.h"
@@ -73,9 +78,6 @@
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PULP( "ACT_PULP" );
-
-static const ammotype ammo_reactor_slurry( "reactor_slurry" );
-static const ammotype ammo_plutonium( "plutonium" );
 
 static const skill_id skill_firstaid( "firstaid" );
 
@@ -388,7 +390,8 @@ void npc::assess_danger()
                                    rules.engagement == combat_engagement::NONE;
     const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
     const bool must_retreat = rules.has_flag( ally_rule::follow_close ) &&
-                              !too_close( pos(), player_character.pos(), follow_distance() );
+                              !too_close( pos(), player_character.pos(), follow_distance() ) &&
+                              !is_guarding();
 
     if( is_player_ally() ) {
         if( rules.engagement == combat_engagement::FREE_FIRE ) {
@@ -594,7 +597,8 @@ void npc::assess_danger()
     for( const weak_ptr_fast<Creature> &guy : hostile_guys ) {
         player *foe = dynamic_cast<player *>( guy.lock().get() );
         if( foe && foe->is_npc() ) {
-            assessment += handle_hostile( *foe, evaluate_enemy( *foe ), "bandit", "kill_npc" );
+            assessment += handle_hostile( *foe, evaluate_enemy( *foe ), translate_marker( "bandit" ),
+                                          "kill_npc" );
         }
     }
 
@@ -613,7 +617,8 @@ void npc::assess_danger()
         // cap player difficulty at 150
         float player_diff = evaluate_enemy( player_character );
         if( is_enemy() ) {
-            assessment += handle_hostile( player_character, player_diff, "maniac", "kill_player" );
+            assessment += handle_hostile( player_character, player_diff, translate_marker( "maniac" ),
+                                          "kill_player" );
         } else if( is_friendly( player_character ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             assessment = std::max( min_danger, assessment - player_diff * 0.5f );
@@ -909,7 +914,7 @@ void npc::move()
         // like random NPCs
         if( attitude == NPCATT_ACTIVITY && !activity ) {
             revert_after_activity();
-            if( is_ally( player_character ) ) {
+            if( is_ally( player_character ) && !assigned_camp ) {
                 attitude = NPCATT_FOLLOW;
                 mission = NPC_MISSION_NULL;
             }
@@ -1713,11 +1718,11 @@ bool npc::recharge_cbm()
             return true;
         } else {
             const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
-                for( const material_id &fid : bid->fuel_opts ) {
-                    return ( it.get_base_material().id == fid ) || ( it.is_magazine() &&
-                            item( it.ammo_current() ).get_base_material().id == fid );
+                if( bid->fuel_opts.empty() ) {
+                    return false;
                 }
-                return false;
+                return ( it.get_base_material().id == bid->fuel_opts.front() ) || ( it.is_magazine() &&
+                        item( it.ammo_current() ).get_base_material().id == bid->fuel_opts.front() );
             };
 
             if( consume_cbm_items( fuel_filter ) ) {
@@ -2732,7 +2737,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
     map &here = get_map();
     std::copy_if( range.begin(), range.end(), std::back_inserter( escape_points ),
     [&here]( const tripoint & elem ) {
-        return here.passable( elem );
+        return here.passable( elem ) && here.has_floor( elem );
     } );
 
     cata::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint & elem ) {
@@ -3625,7 +3630,7 @@ void npc::heal_player( player &patient )
 
 }
 
-void npc:: pretend_heal( player &patient, item used )
+void npc::pretend_heal( player &patient, item used )
 {
     // you can tell that it's not real by looking at your HP though
     add_msg_if_player_sees( *this, _( "%1$s heals %2$s." ), disp_name(),
@@ -3809,16 +3814,19 @@ bool npc::consume_food_from_camp()
         return true;
     }
     faction *yours = player_character.get_faction();
-    int camp_kcals = std::min( std::max( 0, 19 * get_healthy_kcal() / 20 - get_stored_kcal() -
-                                         stomach.get_calories() ), yours->food_supply );
-    if( camp_kcals > 0 ) {
+
+    int kcals_to_eat = std::min( std::max( 0, 19 * get_healthy_kcal() / 20 - get_stored_kcal() -
+                                           stomach.get_calories() ), yours->food_supply );
+    if( kcals_to_eat > 0 ) {
         complain_about( "camp_food_thanks", 1_hours, "<camp_food_thanks>", false );
-        mod_hunger( -camp_kcals );
-        mod_stored_kcal( camp_kcals );
-        yours->food_supply -= camp_kcals;
+        mod_hunger( -kcals_to_eat );
+        mod_stored_kcal( kcals_to_eat );
+        yours->food_supply -= kcals_to_eat;
         return true;
     }
-    complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty>", false );
+    if( yours->food_supply <= 0 ) {
+        complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty>", false );
+    }
     return false;
 }
 
@@ -4388,7 +4396,7 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
                                       string_format( _( " %s, %s" ),
                                               direction_name( direction_from( pos(), danger_pos ) ),
                                               distance_string( range ) );
-        const std::string speech = string_format( _( "%s %s%s" ), snip, name, range_str );
+        const std::string speech = string_format( _( "%s %s%s" ), snip, _( name ), range_str );
         complain_about( warning_name, d, speech, is_enemy(), spriority );
     }
 }

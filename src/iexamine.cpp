@@ -3,15 +3,17 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
-#include <cstdlib>
+#include <cstdio>
+#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
+#include <string>
 #include <type_traits>
 #include <utility>
 
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "ammo.h"
@@ -25,7 +27,6 @@
 #include "character.h"
 #include "colony.h"
 #include "color.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "construction_group.h"
 #include "coordinate_conversions.h"
@@ -41,7 +42,6 @@
 #include "event_bus.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
@@ -49,7 +49,6 @@
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "input.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -58,7 +57,9 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "magic.h"
 #include "magic_teleporter_list.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -67,7 +68,6 @@
 #include "messages.h"
 #include "mission_companion.h"
 #include "monster.h"
-#include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -85,7 +85,6 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "talker.h"
 #include "timed_event.h"
@@ -95,7 +94,6 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
@@ -129,7 +127,10 @@ static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
+static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
+
 static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
 static const itype_id itype_bot_prototype_cyborg( "bot_prototype_cyborg" );
 static const itype_id itype_cash_card( "cash_card" );
@@ -148,6 +149,7 @@ static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_id_industrial( "id_industrial" );
 static const itype_id itype_id_military( "id_military" );
 static const itype_id itype_id_science( "id_science" );
+static const itype_id itype_leg_splint( "leg_splint" );
 static const itype_id itype_maple_sap( "maple_sap" );
 static const itype_id itype_maple_syrup( "maple_syrup" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
@@ -205,7 +207,6 @@ static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
 static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 
-static const bionic_id bio_ears( "bio_ears" );
 static const bionic_id bio_fingerhack( "bio_fingerhack" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
@@ -271,7 +272,7 @@ void iexamine::cvdmachine( player &p, const tripoint & )
     // Apply flag to item
     loc->set_flag( flag_DIAMOND );
     add_msg( m_good, _( "You apply a diamond coating to your %s" ), loc->type_name() );
-    p.mod_moves( -to_turns<int>( 10_seconds ) );
+    p.mod_moves( -to_moves<int>( 10_seconds ) );
 }
 
 /**
@@ -399,7 +400,7 @@ void iexamine::attunement_altar( player &p, const tripoint & )
 {
     std::set<trait_id> attunements;
     for( const mutation_branch &mut : mutation_branch::get_all() ) {
-        if( mut.flags.count( "ATTUNEMENT" ) ) {
+        if( mut.flags.count( json_flag_ATTUNEMENT ) ) {
             attunements.emplace( mut.id );
         }
     }
@@ -603,7 +604,7 @@ class atm_menu
                 }
             }
 
-            u.moves -= to_turns<int>( 5_seconds );
+            u.moves -= to_moves<int>( 5_seconds );
         }
 
         //! Prompt for an integral value clamped to [0, max].
@@ -612,7 +613,7 @@ class atm_menu
             const int amount = string_input_popup()
                                .title( formatted )
                                .width( 20 )
-                               .text( to_string( max ) )
+                               .text( std::to_string( max ) )
                                .only_digits( true )
                                .query_int();
 
@@ -632,7 +633,7 @@ class atm_menu
             card.ammo_set( card.ammo_default(), 0 );
             u.i_add( card );
             u.cash -= 1000;
-            u.moves -= to_turns<int>( 5_seconds );
+            u.moves -= to_moves<int>( 5_seconds );
             finish_interaction();
 
             return true;
@@ -658,7 +659,7 @@ class atm_menu
             add_msg( m_info, "amount: %d", amount );
             u.use_charges( itype_cash_card, amount );
             u.cash += amount;
-            u.moves -= to_turns<int>( 10_seconds );
+            u.moves -= to_moves<int>( 10_seconds );
             finish_interaction();
 
             return true;
@@ -712,7 +713,7 @@ class atm_menu
 
             //dst->charges += amount;
             u.cash -= amount - remaining;
-            u.moves -= to_turns<int>( 10_seconds );
+            u.moves -= to_moves<int>( 10_seconds );
             finish_interaction();
 
             return true;
@@ -777,7 +778,7 @@ void iexamine::atm( player &p, const tripoint & )
  */
 void iexamine::vending( player &p, const tripoint &examp )
 {
-    constexpr int moves_cost = to_turns<int>( 5_seconds );
+    constexpr int moves_cost = to_moves<int>( 5_seconds );
     int money = p.charges_of( itype_cash_card );
     map_stack vend_items = get_map().i_at( examp );
 
@@ -1102,7 +1103,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
                            here.ter( examp ) == t_card_military ? itype_id_military :
                            itype_id_industrial );
     if( p.has_amount( card_type, 1 ) && query_yn( _( "Swipe your ID card?" ) ) ) {
-        p.mod_moves( -to_turns<int>( 1_seconds ) );
+        p.mod_moves( -to_moves<int>( 1_seconds ) );
         for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
             if( here.ter( tmp ) == t_door_metal_locked ) {
                 here.ter_set( tmp, t_door_metal_c );
@@ -1307,7 +1308,7 @@ void iexamine::bars( player &p, const tripoint &examp )
         none( p, examp );
         return;
     }
-    p.moves -= to_turns<int>( 2_seconds );
+    p.moves -= to_moves<int>( 2_seconds );
     add_msg( _( "You slide right between the bars." ) );
     p.setpos( examp );
 }
@@ -1384,7 +1385,7 @@ void iexamine::portable_structure( player &p, const tripoint &examp )
         return;
     }
 
-    p.moves -= to_turns<int>( 2_seconds );
+    p.moves -= to_moves<int>( 2_seconds );
     for( const tripoint &pt : here.points_in_radius( examp, radius ) ) {
         here.furn_set( pt, f_null );
     }
@@ -1416,7 +1417,7 @@ void iexamine::pit( player &p, const tripoint &examp )
             here.ter_set( examp, t_pit_glass_covered );
         }
         add_msg( _( "You place a plank of wood over the pit." ) );
-        p.mod_moves( -to_turns<int>( 1_seconds ) );
+        p.mod_moves( -to_moves<int>( 1_seconds ) );
     }
 }
 
@@ -1442,7 +1443,7 @@ void iexamine::pit_covered( player &p, const tripoint &examp )
     } else if( here.ter( examp ) == t_pit_glass_covered ) {
         here.ter_set( examp, t_pit_glass );
     }
-    p.mod_moves( -to_turns<int>( 1_seconds ) );
+    p.mod_moves( -to_moves<int>( 1_seconds ) );
 }
 
 /**
@@ -1500,8 +1501,9 @@ void iexamine::safe( player &guy, const tripoint &examp )
         return temporary_item.has_flag( flag_SAFECRACK );
     } );
 
-    if( !( !cracking_tool.empty() || guy.has_bionic( bio_ears ) ) ) {
-        guy.moves -= to_turns<int>( 10_seconds );
+    if( !( !cracking_tool.empty() ||
+           guy.has_flag( STATIC( json_character_flag( "IMMUNE_HEARING_DAMAGE" ) ) ) ) ) {
+        guy.moves -= to_moves<int>( 10_seconds );
         // Assume a 3 digit 100-number code. Many safes allow adjacent + 1 dial locations to match,
         // so 1/20^3, or 1/8,000 odds.
         // Additionally, safes can be left-handed or right-handed, doubling the problem space.
@@ -1603,7 +1605,8 @@ void iexamine::locked_object_pickable( player &p, const tripoint &examp )
         if( p.get_power_level() >= bio_lockpick->power_activate ) {
             p.mod_power_level( -bio_lockpick->power_activate );
             p.add_msg_if_player( m_info, _( "You activate your %s." ), bio_lockpick->name );
-            p.assign_activity( lockpick_activity_actor::use_bionic( here.getabs( examp ) ) );
+            p.assign_activity(
+                player_activity( lockpick_activity_actor::use_bionic( here.getabs( examp ) ) ) );
             return;
         } else {
             p.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
@@ -4065,7 +4068,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
-                 .text( to_string( max_amount ) )
+                 .text( std::to_string( max_amount ) )
                  .only_digits( true )
                  .query_int();
     if( amount <= 0 || amount > max_amount ) {
@@ -4146,7 +4149,7 @@ void iexamine::sign( player &p, const tripoint &examp )
     if( p.has_trait( trait_ILLITERATE ) ) {
         popup( _( "You're illiterate, and can't read the message on the sign." ) );
     } else if( previous_signage_exists ) {
-        popup( existing_signage.c_str() );
+        popup( existing_signage );
     } else {
         p.add_msg_if_player( m_neutral, _( "Nothing legible on the sign." ) );
     }
@@ -4468,8 +4471,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     amenu.addentry( refund, true, 'r', str_to_illiterate_str( _( "Refund cash." ) ) );
 
     std::string gaspumpselected = str_to_illiterate_str( string_format( _( "Current %s pump: " ),
-                                  fuelType ) +
-                                  to_string( uistate.ags_pay_gas_selected_pump + 1 ) );
+                                  fuelType ) + std::to_string( uistate.ags_pay_gas_selected_pump + 1 ) );
     amenu.addentry( 0, false, -1, gaspumpselected );
     amenu.addentry( choose_pump, true, 'p',
                     str_to_illiterate_str( string_format( _( "Choose a %s pump." ), fuelType ) ) );
@@ -4492,10 +4494,15 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         amenu.selected = uistate.ags_pay_gas_selected_pump;
         amenu.text = str_to_illiterate_str( string_format( _( "Please choose %s pump:" ), fuelType ) );
 
+        std::vector<tripoint> pumps;
         for( int i = 0; i < pumpCount; i++ ) {
             amenu.addentry( i, true, -1,
-                            str_to_illiterate_str( _( "Pump " ) ) + to_string( i + 1 ) );
+                            str_to_illiterate_str( _( "Pump " ) ) + std::to_string( i + 1 ) );
+            pumps.emplace_back( getGasPumpByNumber( examp, i ).value_or( examp ) );
         }
+        pointmenu_cb callback( pumps );
+        amenu.callback = &callback;
+        amenu.w_y_setup = 0;
         amenu.query();
         choice = amenu.ret;
 
@@ -4527,7 +4534,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         int liters = string_input_popup()
                      .title( popupmsg )
                      .width( 20 )
-                     .text( to_string( maximum_liters ) )
+                     .text( std::to_string( maximum_liters ) )
                      .only_digits( true )
                      .query_int();
         if( liters <= 0 ) {
@@ -4633,7 +4640,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
             } else {
                 add_msg( m_info, _( "You jump over an obstacle." ) );
                 p.increase_activity_level( LIGHT_EXERCISE );
-                p.setpos( dest );
+                g->place_player( dest );
             }
             break;
         }
@@ -4899,7 +4906,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
     } else if( patient.activity.id() == ACT_OPERATION ) {
         popup( _( "Operation underway.  Please wait until the end of the current procedure.  Estimated time remaining: %s." ),
-               to_string( time_duration::from_turns( patient.activity.moves_left / 100 ) ) );
+               to_string( time_duration::from_moves( patient.activity.moves_left ) ) );
         p.add_msg_if_player( m_info, _( "The autodoc is working on %s." ), patient.disp_name() );
         return;
     }
@@ -4914,6 +4921,23 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         autodoc_header = warning +
                          _( "\n Using the Autodoc without an operator can lead to <color_light_cyan>serious injuries</color> or <color_light_cyan>death</color>.\n By continuing with the operation you accept the risks and acknowledge that you will not take any legal actions against this facility in case of an accident. " );
     }
+
+    std::vector<item> arm_splints;
+    std::vector<item> leg_splints;
+
+    for( const item &supplies : get_map().i_at( examp ) ) {
+        if( supplies.typeId() == itype_arm_splint ) {
+            arm_splints.push_back( supplies );
+        }
+        if( supplies.typeId() == itype_leg_splint ) {
+            leg_splints.push_back( supplies );
+        }
+    }
+
+    autodoc_header +=
+        string_format( "\n\n<color_white>Internal supplies:</color>\n Arm splints: %d\n Leg splints: %d",
+                       arm_splints.size(), leg_splints.size() );
+
     uilist amenu;
     amenu.text = autodoc_header;
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install" ) );
@@ -4954,10 +4978,22 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             const itype *itemtype = bionic.get_item()->type;
+            const std::string bionic_name = bionic.get_item()->typeId().c_str();
 
             player &installer = best_installer( p, null_player, itemtype->bionic->difficulty );
             if( &installer == &null_player ) {
                 return;
+            }
+
+            std::vector<item_comp> progs;
+            bool has_install_program = false;
+
+            std::vector<const item *> install_programs = p.crafting_inventory().items_with( [itemtype](
+                        const item & it ) -> bool { return it.typeId() == itemtype->bionic->installation_data; } );
+
+            if( !install_programs.empty() ) {
+                has_install_program = true;
+                progs.push_back( item_comp( install_programs[0]->typeId(), 1 ) );
             }
 
             const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
@@ -4965,7 +5001,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                                 surgery_duration * weight;
 
-            if( patient.can_install_bionics( ( *itemtype ), installer, true ) ) {
+            if( patient.can_install_bionics( ( *itemtype ), installer, true, has_install_program ? 10 : -1 ) ) {
                 const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 bionic.remove_item();
@@ -4979,7 +5015,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     p.invalidate_crafting_inventory();
                 }
                 installer.mod_moves( -to_moves<int>( 1_minutes ) );
-                patient.install_bionics( ( *itemtype ), installer, true );
+
+                patient.install_bionics( ( *itemtype ), installer, true, has_install_program ? 10 : -1 );
+
+                if( has_install_program ) {
+                    patient.consume_items( progs );
+                }
             }
             break;
         }
@@ -5028,6 +5069,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
 
         case BONESETTING: {
+            if( !arm_splints.empty() && !leg_splints.empty() ) {
+                popup( _( "Internal supply of splints exhausted.  Operation impossible.  Exiting." ) );
+                return;
+            }
+
             int broken_limbs_count = 0;
             for( const bodypart_id &part :
                  patient.get_all_body_parts( get_body_part_flags::only_main ) ) {
@@ -5041,22 +5087,36 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
                 broken_limbs_count++;
                 patient.moves -= 500;
-                patient.add_msg_player_or_npc( m_good, _( "The machine rapidly sets and splints your broken %s." ),
-                                               _( "The machine rapidly sets and splints <npcname>'s broken %s." ),
-                                               body_part_name( part ) );
                 // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
-                if( !patient.worn_with_flag( flag_SPLINT, part ) ) {
-                    item splint;
-                    if( part == bodypart_id( "arm_l" ) || part == bodypart_id( "arm_r" ) ) {
-                        splint = item( "arm_splint", calendar::turn_zero );
-                    } else if( part == bodypart_id( "leg_l" ) || part == bodypart_id( "leg_r" ) ) {
-                        splint = item( "leg_splint", calendar::turn_zero );
+                int quantity = 1;
+                if( part == bodypart_id( "arm_l" ) || part == bodypart_id( "arm_r" ) ) {
+                    if( arm_splints.empty() ) {
+                        for( const item &it : get_map().use_amount( examp, 1, itype_arm_splint, quantity ) ) {
+                            patient.wear_item( it, false );
+                        }
+                    } else {
+                        popup( _( "Internal supply of arm splints exhausted.  Splinting broken arms impossible.  Exiting." ) );
+                        continue;
                     }
-                    patient.wear_item( splint, false );
+                } else if( part == bodypart_id( "leg_l" ) || part == bodypart_id( "leg_r" ) ) {
+                    if( leg_splints.empty() ) {
+                        for( const item &it : get_map().use_amount( examp, 1, itype_leg_splint, quantity ) ) {
+                            patient.wear_item( it, false );
+                        }
+                    } else {
+                        popup( _( "Internal supply of leg splints exhausted.  Splinting broken legs impossible.  Exiting." ) );
+                        continue;
+                    }
                 }
-                patient.add_effect( effect_mending, 0_turns, part, true );
-                effect &mending_effect = patient.get_effect( effect_mending, part );
-                mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
+
+                if( patient.worn_with_flag( flag_SPLINT, part ) ) {
+                    patient.add_msg_player_or_npc( m_good, _( "The machine rapidly sets and splints your broken %s." ),
+                                                   _( "The machine rapidly sets and splints <npcname>'s broken %s." ),
+                                                   body_part_name( part ) );
+                    patient.add_effect( effect_mending, 0_turns, part, true );
+                    effect &mending_effect = patient.get_effect( effect_mending, part );
+                    mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
+                }
             }
             if( broken_limbs_count == 0 ) {
                 popup_player_or_npc( patient, _( "You have no limbs that require splinting." ),
@@ -5525,7 +5585,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
-                 .text( to_string( max_count ) )
+                 .text( std::to_string( max_count ) )
                  .only_digits( true )
                  .query_int();
 
@@ -5634,7 +5694,7 @@ static void mill_load_food( player &p, const tripoint &examp,
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
-                 .text( to_string( max_count ) )
+                 .text( std::to_string( max_count ) )
                  .only_digits( true )
                  .query_int();
 

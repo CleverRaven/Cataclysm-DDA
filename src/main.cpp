@@ -1,6 +1,8 @@
 /* Entry point and main loop for Cataclysm
  */
 
+// IWYU pragma: no_include <sys/signal.h>
+#include <clocale>
 #include <algorithm>
 #include <array>
 #include <clocale>
@@ -8,9 +10,9 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <exception>
 #include <functional>
 #include <iostream>
-#include <locale>
 #include <map>
 #include <memory>
 #include <string>
@@ -33,6 +35,7 @@
 #include "loading_ui.h"
 #include "main_menu.h"
 #include "mapsharing.h"
+#include "memory_fast.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"

@@ -91,7 +91,7 @@
     "description": "This is a cheap laser rifle made from common components.  Weak, but can be powered with rechargeable batteries.",
     "weight": "8 kg",
     "volume": "2500 ml",
-    "price": 40000,
+    "price": "75 USD",
     "to_hit": -1,
     "bashing": 8,
     "material": [ "plastic", "copper" ],
@@ -107,8 +107,8 @@
     "loudness": 8,
     "reload": 500,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "ammo_effects": [ "LASER", "DRAW_AS_LINE" ],
-    "flags": [ "NEVER_JAMS", "NON_FOULING" ],
+    "ammo_effects": [ "LASER" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
     "ammo_to_fire": 20,
     "pocket_data": [
       {
@@ -116,7 +116,166 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_cartridge", "afs_bootleg_cartridge" ]
+      }
+    ]
+  },
+  {
+    "id": "afs_av22",
+    "type": "GUN",
+    "name": { "str": "Av-22" },
+    "copy-from": "v29",
+    "description": "A common pulse-laser pistol cleared for civilian use.  Recoiless, energy-efficient, and easy to use, the av-22 is often carried as a defense weapon by those who lack the practice required to effectively use ballistic weaponry.  Due to its low power, it must be fired in sequence mode to stand a chance against hardened foes.",
+    "price": "500 USD",
+    "price_postapoc": "500 USD",
+    "ammo": [ "battery" ],
+    "ranged_damage": { "damage_type": "heat", "amount": 5 },
+    "range": 15,
+    "modes": [ [ "DEFAULT", "Pulse ", 1 ], [ "BURST", "2s Sequence ", 2 ], [ "AUTO", "3s Sequence ", 3 ] ],
+    "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
+    "ammo_to_fire": 10,
+    "ups_charges": 0,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "emitter", 1 ],
+      [ "grip", 1 ],
+      [ "lens", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "default_mods": [ "red_dot_sight" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge" ]
+      }
+    ]
+  },
+  {
+    "id": "afs_archeotech_laspistol",
+    "type": "GUN",
+    "name": { "str": "E-150b" },
+    "copy-from": "v29",
+    "description": "A silver, elegantly-wrought laser pistol that fires armor-piercing bolts of golden light.  A now-irreplaceable historical artifact built by the engineering AIs of the late Hyperspace Era, it is as precious as it is deadly.",
+    "price": "500 kUSD",
+    "price_postapoc": "500 kUSD",
+    "ammo": [ "battery" ],
+    "weight": "380 g",
+    "volume": "750 ml",
+    "ranged_damage": [ { "damage_type": "pure", "amount": 5 }, { "damage_type": "heat", "amount": 20 } ],
+    "range": 20,
+    "modes": [ [ "DEFAULT", "Pulse ", 1 ], [ "BURST", "2s Sequence ", 2 ] ],
+    "ammo_to_fire": 30,
+    "ammo_effects": [ "INCENDIARY", "DAZZLE_BEAM", "PLASMA_BUBBLE" ],
+    "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
+    "ups_charges": 0,
+    "built_in_mods": [ "afs_holo_aim_assist" ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "emitter", 1 ],
+      [ "grip", 1 ],
+      [ "lens", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge" ]
+      }
+    ]
+  },
+  {
+    "id": "afs_v29",
+    "type": "GUN",
+    "name": { "str": "V14 laser pistol" },
+    "copy-from": "v29",
+    "description": "An incredibly ancient and outdated laser pistol design with origins traceable to Earth's early Space Age.  One of the few 'open-hardware' guns, its leaked and widely-circulated design specifications allow this weapon to retain some popularity within backwater worlds.",
+    "price": "150 USD",
+    "price_postapoc": "150 USD",
+    "ammo": [ "battery" ],
+    "ranged_damage": { "damage_type": "heat", "amount": 4 },
+    "range": 15,
+    "ammo_to_fire": 5,
+    "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
+    "ups_charges": 0,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "emitter", 1 ],
+      [ "grip", 1 ],
+      [ "lens", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge" ]
+      }
+    ]
+  },
+  {
+    "id": "afs_a7",
+    "type": "GUN",
+    "copy-from": "laser_rifle",
+    "name": { "str": "A7 laser rifle" },
+    "price": "1 kUSD",
+    "price_postapoc": "1 kUSD",
+    "ammo": [ "battery" ],
+    "ammo_to_fire": 35,
+    "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
+    "ups_charges": 0,
+    "modes": [ [ "DEFAULT", "Pulse ", 1 ], [ "BURST", "2s Sequence ", 2 ] ],
+    "ranged_damage": { "damage_type": "heat", "amount": 25, "armor_penetration": 4 },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge" ]
+      }
+    ]
+  },
+  {
+    "id": "afs_xm34",
+    "type": "GUN",
+    "copy-from": "emp_gun",
+    "name": { "str": "xm34 EMP projector" },
+    "price": "1500 USD",
+    "price_postapoc": "1500 USD",
+    "ammo": [ "battery" ],
+    "ammo_to_fire": 75,
+    "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
+    "ups_charges": 0,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge" ]
       }
     ]
   }

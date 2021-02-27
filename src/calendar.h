@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_CALENDAR_H
 #define CATA_SRC_CALENDAR_H
 
-#include <string>
+#include <iosfwd>
 #include <utility>
 #include <vector>
 
@@ -201,6 +201,10 @@ class time_duration
         template<typename T>
         static constexpr time_duration from_turns( const T t ) {
             return time_duration( t );
+        }
+        template<typename T>
+        static constexpr time_duration from_moves( const T t ) {
+            return time_duration( t / 100 );
         }
         template<typename T>
         static constexpr time_duration from_seconds( const T t ) {

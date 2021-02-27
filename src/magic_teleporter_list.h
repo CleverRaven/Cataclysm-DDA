@@ -2,13 +2,12 @@
 #ifndef CATA_SRC_MAGIC_TELEPORTER_LIST_H
 #define CATA_SRC_MAGIC_TELEPORTER_LIST_H
 
+#include <iosfwd>
 #include <map>
 #include <set>
-#include <string>
 
 #include "coordinates.h"
 #include "optional.h"
-#include "point.h"
 
 class Character;
 class JsonIn;

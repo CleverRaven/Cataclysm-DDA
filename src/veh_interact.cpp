@@ -9,8 +9,10 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <new>
 #include <numeric>
 #include <set>
+#include <sstream>
 #include <string>
 #include <type_traits>
 #include <unordered_set>
@@ -24,13 +26,13 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
+#include "clzones.h"
 #include "colony.h"
 #include "debug.h"
 #include "enums.h"
 #include "faction.h"
 #include "fault.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "handle_liquid.h"
@@ -38,6 +40,7 @@
 #include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
+#include "line.h"
 #include "map.h"
 #include "map_selector.h"
 #include "memory_fast.h"
@@ -53,7 +56,6 @@
 #include "requirements.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "tileray.h"
 #include "translations.h"
@@ -312,8 +314,7 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
     bool ok = reqs.can_make_with_inventory( inv, is_crafting_component );
 
     msg += _( "<color_white>Time required:</color>\n" );
-    // TODO: better have a from_moves function
-    msg += "> " + to_string_approx( time_duration::from_turns( moves / 100 ) ) + "\n";
+    msg += "> " + to_string_approx( time_duration::from_moves( moves ) ) + "\n";
 
     msg += _( "<color_white>Skills required:</color>\n" );
     for( const auto &e : skills ) {
@@ -381,6 +382,7 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
                 veh->print_vparts_descs( w_msg, getmaxy( w_msg ), getmaxx( w_msg ), cpart, start_at, start_limit );
             } else {
                 const int height = catacurses::getmaxy( w_msg );
+                const int width = catacurses::getmaxx( w_msg ) - 2;
 
                 // the following contraption is splitting buffer into separate lines for scrolling
                 // since earlier code relies on msg already being folded
@@ -389,7 +391,12 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
                 while( !msg_stream.eof() ) {
                     std::string line;
                     getline( msg_stream, line );
-                    buffer.push_back( line );
+                    if( utf8_width( line ) <= width ) {
+                        buffer.emplace_back( line );
+                    } else {
+                        std::vector<std::string> folded = foldstring( line, width );
+                        std::copy( folded.begin(), folded.end(), std::back_inserter( buffer ) );
+                    }
                 }
 
                 const int pages = static_cast<int>( buffer.size() / ( height - 2 ) );
@@ -399,7 +406,8 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
                     if( static_cast<size_t>( idx ) >= buffer.size() ) {
                         break;
                     }
-                    fold_and_print( w_msg, point( 1, line ), getmaxx( w_msg ) - 2, c_unset, buffer[idx] );
+                    nc_color dummy = c_unset;
+                    print_colored_text( w_msg, point( 1, line ), dummy, c_unset, buffer[idx] );
                 }
             }
             wnoutrefresh( w_msg );
@@ -822,47 +830,11 @@ bool veh_interact::update_part_requirements()
                                skill_mechanics.obj().name(), dif_steering ) + "\n";
     }
 
-    int lvl = 0;
-    int str = 0;
-    quality_id qual;
-    bool use_aid = false;
-    bool use_str = false;
-    if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
-        qual = qual_JACK;
-        lvl = jack_quality( *veh );
-        str = veh->lift_strength();
-        use_aid = ( max_jack >= lifting_quality_to_mass( lvl ) ) || can_self_jack();
-        use_str = player_character.can_lift( *veh );
-    } else {
-        item base( sel_vpart_info->base_item );
-        qual = qual_LIFT;
-        lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
-                         lifting_quality_to_mass( 1 ) );
-        str = base.lift_strength();
-        use_aid = max_lift >= base.weight();
-        use_str = player_character.can_lift( base );
+    std::pair<bool, std::string> res = calc_lift_requirements( *sel_vpart_info );
+    if( !res.first ) {
+        ok = res.first;
     }
-
-    if( !( use_aid || use_str ) ) {
-        ok = false;
-    }
-
-    nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
-    nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
-
-    const auto helpers = player_character.get_crafting_helpers();
-    std::string str_string;
-    if( !helpers.empty() ) {
-        str_string = string_format( _( "strength ( assisted ) %d" ), str );
-    } else {
-        str_string = string_format( _( "strength %d" ), str );
-    }
-    //~ %1$s is quality name, %2$d is quality level
-    std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
-                                            qual.obj().name, lvl );
-    nmsg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
-                           colorize( aid_string, aid_color ),
-                           colorize( str_string, str_color ) ) + "\n";
+    nmsg += res.second;
 
     sel_vpart_info->format_description( nmsg, c_light_gray, getmaxx( w_msg ) - 4 );
 
@@ -1197,6 +1169,18 @@ void veh_interact::do_repair()
         if( pt.is_broken() ) {
             ok = format_reqs( nmsg, vp.install_requirements(), vp.install_skills,
                               vp.install_time( player_character ) );
+
+            if( pt.info().has_flag( "NEEDS_JACKING" ) ) {
+
+                nmsg += _( "<color_white>Additional requirements:</color>\n" );
+                std::pair<bool, std::string> res = calc_lift_requirements( pt.info() );
+                if( !res.first ) {
+                    ok = false;
+                }
+                nmsg += res.second;
+            }
+
+
         } else {
             if( vp.has_flag( "NO_REPAIR" ) || vp.repair_requirements().is_empty() ||
                 pt.base.max_damage() <= 0 ) {
@@ -1562,7 +1546,6 @@ void veh_interact::calc_overview()
         }
     }
 
-
     auto compare = []( veh_interact::part_option & s1,
     veh_interact::part_option & s2 ) {
         // NOLINTNEXTLINE cata-use-localized-sorting
@@ -1781,48 +1764,12 @@ bool veh_interact::can_remove_part( int idx, const player &p )
 
     nmsg += _( "<color_white>Additional requirements:</color>\n" );
 
-    int lvl = 0;
-    int str = 0;
-    quality_id qual;
-    bool use_aid = false;
-    bool use_str = false;
-    avatar &player_character = get_avatar();
-    if( sel_vpart_info->has_flag( "NEEDS_JACKING" ) ) {
-        qual = qual_JACK;
-        lvl = jack_quality( *veh );
-        str = veh->lift_strength();
-        use_aid = ( max_jack >= lifting_quality_to_mass( lvl ) ) || can_self_jack();
-        use_str = player_character.can_lift( *veh );
-    } else {
-        item base( sel_vpart_info->base_item );
-        qual = qual_LIFT;
-        lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
-                         lifting_quality_to_mass( 1 ) );
-        str = base.lift_strength();
-        use_aid = max_lift >= base.weight();
-        use_str = player_character.can_lift( base );
+    std::pair<bool, std::string> res = calc_lift_requirements( *sel_vpart_info );
+    if( !res.first ) {
+        ok = res.first;
     }
+    nmsg += res.second;
 
-    if( !( use_aid || use_str ) ) {
-        ok = false;
-    }
-    nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
-    nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
-    const auto helpers = player_character.get_crafting_helpers();
-    //~ %1$s is quality name, %2$d is quality level
-    std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
-                                            qual.obj().name, lvl );
-
-    std::string str_string;
-    if( !helpers.empty() ) {
-        str_string = string_format( _( "strength ( assisted ) %d" ), str );
-    } else {
-        str_string = string_format( _( "strength %d" ), str );
-    }
-
-    nmsg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
-                           colorize( aid_string, aid_color ),
-                           colorize( str_string, str_color ) ) + "\n";
     std::string reason;
     if( !veh->can_unmount( idx, reason ) ) {
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is pre-translated reason
@@ -1833,7 +1780,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     sel_vehicle_part->info().format_description( nmsg, desc_color, getmaxx( w_msg ) - 4 );
 
     msg = colorize( nmsg, c_light_gray );
-    return ok || player_character.has_trait( trait_DEBUG_HS );
+    return ok || get_avatar().has_trait( trait_DEBUG_HS );
 }
 
 void veh_interact::do_remove()
@@ -2055,6 +2002,76 @@ void veh_interact::do_relabel()
                        .query_string();
     // empty input removes the label
     vp.set_label( text );
+}
+
+
+std::pair<bool, std::string> veh_interact::calc_lift_requirements( const vpart_info
+        &sel_vpart_info )
+{
+    int lvl = 0;
+    int str = 0;
+    quality_id qual;
+    bool use_aid = false;
+    bool use_str = false;
+    bool ok = true;
+    std::string nmsg;
+    avatar &player_character = get_avatar();
+
+    if( sel_vpart_info.has_flag( "NEEDS_JACKING" ) ) {
+        qual = qual_JACK;
+        lvl = jack_quality( *veh );
+        str = veh->lift_strength();
+        use_aid = ( max_jack >= lifting_quality_to_mass( lvl ) ) || can_self_jack();
+        use_str = player_character.can_lift( *veh );
+    } else {
+        item base( sel_vpart_info.base_item );
+        qual = qual_LIFT;
+        lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
+                         lifting_quality_to_mass( 1 ) );
+        str = base.lift_strength();
+        use_aid = max_lift >= base.weight();
+        use_str = player_character.can_lift( base );
+    }
+
+    if( !( use_aid || use_str ) ) {
+        ok = false;
+    }
+
+    std::string str_suffix;
+    int lift_strength = player_character.get_lift_str();
+    int total_lift_strength = lift_strength + player_character.get_lift_assist();
+    int total_base_strength = player_character.get_str() + player_character.get_lift_assist();
+
+    if( player_character.has_trait( trait_id( "STRONGBACK" ) ) && total_lift_strength >= str &&
+        total_base_strength < str ) {
+        str_suffix = string_format( _( "(Strong Back helped, giving +%d strength)" ),
+                                    lift_strength - player_character.get_str() );
+    } else if( player_character.has_trait( trait_id( "BADBACK" ) ) && total_base_strength >= str &&
+               total_lift_strength < str ) {
+        str_suffix = string_format( _( "(Bad Back reduced usable strength by %d)" ),
+                                    lift_strength - player_character.get_str() );
+    }
+
+    nc_color aid_color = use_aid ? c_green : ( use_str ? c_dark_gray : c_red );
+    nc_color str_color = use_str ? c_green : ( use_aid ? c_dark_gray : c_red );
+    const auto helpers = player_character.get_crafting_helpers();
+    //~ %1$s is quality name, %2$d is quality level
+    std::string aid_string = string_format( _( "1 tool with %1$s %2$d" ),
+                                            qual.obj().name, lvl );
+
+    std::string str_string;
+    if( !helpers.empty() ) {
+        str_string = string_format( _( "strength ( assisted ) %d %s" ), str, str_suffix );
+    } else {
+        str_string = string_format( _( "strength %d %s" ), str, str_suffix );
+    }
+
+    nmsg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
+                           colorize( aid_string, aid_color ),
+                           colorize( str_string, str_color ) ) + "\n";
+
+    std::pair<bool, std::string> result( ok, nmsg );
+    return result;
 }
 
 /**
@@ -2574,6 +2591,26 @@ void veh_interact::display_name()
     wnoutrefresh( w_name );
 }
 
+static std::string veh_act_desc( const input_context &ctxt, const std::string &id,
+                                 const std::string &desc, const task_reason reason )
+{
+    static const translation inline_fmt_enabled = to_translation(
+                "keybinding", "<color_light_gray>%1$s<color_light_green>%2$s</color>%3$s</color>" );
+    static const translation inline_fmt_disabled = to_translation(
+                "keybinding", "<color_dark_gray>%1$s<color_green>%2$s</color>%3$s</color>" );
+    static const translation separate_fmt_enabled = to_translation(
+                "keybinding", "<color_light_gray><color_light_green>%1$s</color>-%2$s</color>" );
+    static const translation separate_fmt_disabled = to_translation(
+                "keybinding", "<color_dark_gray><color_green>%1$s</color>-%2$s</color>" );
+    if( reason == task_reason::CAN_DO ) {
+        return ctxt.get_desc( id, desc, input_context::allow_all_keys,
+                              inline_fmt_enabled, separate_fmt_enabled );
+    } else {
+        return ctxt.get_desc( id, desc, input_context::allow_all_keys,
+                              inline_fmt_disabled, separate_fmt_disabled );
+    }
+}
+
 /**
  * Prints the list of usable commands, and highlights the hotkeys used to activate them.
  */
@@ -2586,61 +2623,57 @@ void veh_interact::display_mode()
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         print_colored_text( w_mode, point( 1, 0 ), title_col, title_col, title.value() );
     } else {
-        size_t esc_pos = display_esc( w_mode );
-
-        // broken indentation preserved to avoid breaking git history for large number of lines
-        const std::array<std::string, 10> actions = { {
-                { _( "<i>nstall" ) },
-                { _( "<r>epair" ) },
-                { _( "<m>end" ) },
-                { _( "re<f>ill" ) },
-                { _( "rem<o>ve" ) },
-                { _( "<s>iphon" ) },
-                { _( "unloa<d>" ) },
-                { _( "cre<w>" ) },
-                { _( "r<e>name" ) },
-                { _( "l<a>bel" ) },
+        constexpr size_t action_cnt = 11;
+        const std::array<std::string, action_cnt> actions = { {
+                veh_act_desc( main_context, "INSTALL",
+                              pgettext( "veh_interact", "install" ),
+                              cant_do( 'i' ) ),
+                veh_act_desc( main_context, "REPAIR",
+                              pgettext( "veh_interact", "repair" ),
+                              cant_do( 'r' ) ),
+                veh_act_desc( main_context, "MEND",
+                              pgettext( "veh_interact", "mend" ),
+                              cant_do( 'm' ) ),
+                veh_act_desc( main_context, "REFILL",
+                              pgettext( "veh_interact", "refill" ),
+                              cant_do( 'f' ) ),
+                veh_act_desc( main_context, "REMOVE",
+                              pgettext( "veh_interact", "remove" ),
+                              cant_do( 'o' ) ),
+                veh_act_desc( main_context, "SIPHON",
+                              pgettext( "veh_interact", "siphon" ),
+                              cant_do( 's' ) ),
+                veh_act_desc( main_context, "UNLOAD",
+                              pgettext( "veh_interact", "unload" ),
+                              cant_do( 'd' ) ),
+                veh_act_desc( main_context, "ASSIGN_CREW",
+                              pgettext( "veh_interact", "crew" ),
+                              cant_do( 'w' ) ),
+                veh_act_desc( main_context, "RENAME",
+                              pgettext( "veh_interact", "rename" ),
+                              task_reason::CAN_DO ),
+                veh_act_desc( main_context, "RELABEL",
+                              pgettext( "veh_interact", "label" ),
+                              cant_do( 'a' ) ),
+                veh_act_desc( main_context, "QUIT",
+                              pgettext( "veh_interact", "back" ),
+                              task_reason::CAN_DO ),
             }
         };
 
-        const std::array<bool, std::tuple_size<decltype( actions )>::value> enabled = { {
-                cant_do( 'i' ) == task_reason::CAN_DO,
-                cant_do( 'r' ) == task_reason::CAN_DO,
-                cant_do( 'm' ) == task_reason::CAN_DO,
-                cant_do( 'f' ) == task_reason::CAN_DO,
-                cant_do( 'o' ) == task_reason::CAN_DO,
-                cant_do( 's' ) == task_reason::CAN_DO,
-                cant_do( 'd' ) == task_reason::CAN_DO,
-                cant_do( 'w' ) == task_reason::CAN_DO,
-                true,          // 'rename' is always available
-                cant_do( 'a' ) == task_reason::CAN_DO,
-            }
-        };
-
-        int pos[std::tuple_size<decltype( actions )>::value + 1];
-        pos[0] = 1;
-        for( size_t i = 0; i < actions.size(); i++ ) {
-            pos[i + 1] = pos[i] + utf8_width( actions[i] ) - 2;
+        std::array < int, action_cnt + 1 > pos;
+        pos[0] = 0;
+        for( size_t i = 0; i < action_cnt; i++ ) {
+            pos[i + 1] = pos[i] + utf8_width( actions[i], true );
         }
-        int spacing = static_cast<int>( ( esc_pos - 1 - pos[actions.size()] ) / actions.size() );
-        int shift = static_cast<int>( ( esc_pos - pos[actions.size()] - spacing *
-                                        ( actions.size() - 1 ) ) / 2 ) - 1;
-        for( size_t i = 0; i < actions.size(); i++ ) {
-            shortcut_print( w_mode, point( pos[i] + spacing * i + shift, 0 ),
-                            enabled[i] ? c_light_gray : c_dark_gray, enabled[i] ? c_light_green : c_green,
-                            actions[i] );
+        const int space = std::max<int>( getmaxx( w_mode ) - pos.back(), action_cnt + 1 );
+        for( size_t i = 0; i < action_cnt; i++ ) {
+            nc_color dummy = c_white;
+            print_colored_text( w_mode, point( pos[i] + space * ( i + 1 ) / ( action_cnt + 1 ), 0 ),
+                                dummy, c_white, actions[i] );
         }
     }
     wnoutrefresh( w_mode );
-}
-
-size_t veh_interact::display_esc( const catacurses::window &win )
-{
-    std::string backstr = _( "<ESC>-back" );
-    // right text align
-    size_t pos = getmaxx( win ) - utf8_width( backstr ) + 2;
-    shortcut_print( win, point( pos, 0 ), c_light_gray, c_light_green, backstr );
-    return pos;
 }
 
 /**

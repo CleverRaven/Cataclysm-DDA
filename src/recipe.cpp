@@ -2,7 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
-#include <iterator>
+#include <limits>
 #include <memory>
 #include <numeric>
 #include <sstream>
@@ -13,13 +13,12 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
-#include "construction.h"
 #include "debug.h"
 #include "enum_traits.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "game_constants.h"
 #include "generic_factory.h"
+#include "inventory.h"
 #include "item.h"
 #include "itype.h"
 #include "json.h"
@@ -30,7 +29,6 @@
 #include "proficiency.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_id_utils.h"
 #include "translations.h"
 #include "type_id.h"
@@ -61,7 +59,7 @@ static bool helpers_have_proficiencies( const Character &guy, const proficiency_
 
 time_duration recipe::time_to_craft( const Character &guy, recipe_time_flag flags ) const
 {
-    return time_duration::from_seconds( time_to_craft_moves( guy, flags ) / 100 );
+    return time_duration::from_moves( time_to_craft_moves( guy, flags ) );
 }
 
 int64_t recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flags ) const
@@ -504,6 +502,11 @@ std::string recipe::get_consistency_error() const
 item recipe::create_result() const
 {
     item newit( result_, calendar::turn, item::default_charges_tag{} );
+
+    if( newit.has_flag( flag_VARSIZE ) ) {
+        newit.set_flag( flag_FIT );
+    }
+
     if( charges ) {
         newit.charges = *charges;
     }

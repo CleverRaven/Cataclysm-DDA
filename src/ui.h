@@ -4,8 +4,10 @@
 
 #include <functional>
 #include <initializer_list>
+#include <iosfwd>
 #include <map>
 #include <memory>
+#include <new>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -35,10 +37,8 @@ const int UILIST_TIMEOUT = -1028;
 const int UILIST_ADDITIONAL = -1029;
 const int MENU_AUTOASSIGN = -1;
 
-class input_context;
 class string_input_popup;
 class ui_adaptor;
-struct input_event;
 
 catacurses::window new_centered_win( int nlines, int ncols );
 
@@ -73,7 +73,7 @@ struct uilist_entry {
     // In the following constructors, int K only support letters (a-z, A-Z) and
     // digits (0-9), MENU_AUTOASSIGN, and 0 or ' ' (disable hotkey). Other
     // values may not work under keycode mode.
-    uilist_entry( const std::string &T );
+    explicit uilist_entry( const std::string &T );
     uilist_entry( const std::string &T, const std::string &D );
     uilist_entry( const std::string &T, int K );
     uilist_entry( const std::string &T, const cata::optional<input_event> &K );
@@ -90,7 +90,7 @@ struct uilist_entry {
                   const nc_color &H, const nc_color &C );
     template<typename Enum, typename... Args,
              typename = std::enable_if_t<std::is_enum<Enum>::value>>
-    uilist_entry( Enum e, Args && ... args ) :
+    explicit uilist_entry( Enum e, Args && ... args ) :
         uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
     {}
 
@@ -244,7 +244,7 @@ class uilist // NOLINT(cata-xy)
         //     // before `ui` or `menu` is deconstructed, the menu will always be
         //     // displayed on screen.
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
-
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator int() const;
 
     private:
@@ -368,7 +368,7 @@ class pointmenu_cb : public uilist_callback
 
         pimpl<impl_t> impl;
     public:
-        pointmenu_cb( const std::vector< tripoint > &pts );
+        explicit pointmenu_cb( const std::vector< tripoint > &pts );
         ~pointmenu_cb() override;
         void select( uilist *menu ) override;
 };

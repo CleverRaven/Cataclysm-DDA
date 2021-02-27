@@ -211,4 +211,6 @@ using construction_str_id = string_id<construction>;
 class json_flag;
 using flag_id = string_id<json_flag>;
 
+using json_character_flag = string_id<json_flag>;
+
 #endif // CATA_SRC_TYPE_ID_H

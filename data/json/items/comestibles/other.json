@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "testcomest",
-    "name": "diet pill",
+    "name": { "str": "diet pill" },
     "weight": "100 g",
     "color": "red",
     "spoils_in": "4 days 4 hours",
@@ -34,7 +34,7 @@
   {
     "type": "COMESTIBLE",
     "id": "honeycomb",
-    "name": "honey comb",
+    "name": { "str": "honey comb" },
     "weight": "150 g",
     "color": "yellow",
     "use_action": [ "HONEYCOMB" ],
@@ -229,7 +229,7 @@
   {
     "type": "COMESTIBLE",
     "id": "paper",
-    "name": "paper",
+    "name": { "str": "paper" },
     "category": "spare_parts",
     "weight": "3 g",
     "color": "white",
@@ -247,7 +247,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cardboard",
-    "name": "cardboard",
+    "name": { "str": "cardboard" },
     "looks_like": "paper",
     "category": "spare_parts",
     "weight": "10 g",
@@ -271,6 +271,7 @@
     "color": "brown",
     "spoils_in": "2 days",
     "container": "can_medium",
+    "sealed": true,
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
@@ -410,7 +411,7 @@
   {
     "type": "COMESTIBLE",
     "id": "raw_edamame",
-    "name": "raw edamame",
+    "name": { "str": "raw edamame" },
     "copy-from": "seed",
     "weight": "160 g",
     "symbol": ".",
@@ -567,6 +568,7 @@
     "color": "red",
     "spoils_in": "3 days 18 hours",
     "container": "can_food",
+    "sealed": true,
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 3,

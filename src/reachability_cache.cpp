@@ -1,8 +1,12 @@
-#include <deque>
-#include "point.h"
-#include "map.h"
-#include "reachability_cache.h"
+#include <algorithm>
+#include <array>
+#include <cstdlib>
+#include <tuple>
+
 #include "cuboid_rectangle.h"
+#include "level_cache.h"
+#include "point.h"
+#include "reachability_cache.h"
 
 //helper functions
 static constexpr half_open_rectangle<point> bounding_rect( point_zero, {MAPSIZE_X, MAPSIZE_Y} );

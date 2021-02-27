@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_ITEM_FACTORY_H
 #define CATA_SRC_ITEM_FACTORY_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -16,12 +16,12 @@
 #include "item.h"
 #include "itype.h"
 #include "iuse.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class Item_group;
 class Item_spawn_data;
 class relic;
+class translation;
 
 namespace cata
 {

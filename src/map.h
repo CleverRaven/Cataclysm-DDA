@@ -8,19 +8,21 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
-#include <string>
 #include <tuple>
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "colony.h"
+#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -30,18 +32,17 @@
 #include "lightmap.h"
 #include "line.h"
 #include "lru_cache.h"
+#include "map_selector.h"
 #include "mapdata.h"
+#include "optional.h"
 #include "point.h"
-#include "rng.h"
-#include "shadowcasting.h"
-#include "string_id.h"
-#include "type_id.h"
-#include "units_fwd.h"
 #include "reachability_cache.h"
+#include "rng.h"
+#include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
 
 struct scent_block;
-template <typename T> class safe_reference;
-template <typename T> class string_id;
 
 namespace catacurses
 {
@@ -55,7 +56,6 @@ class computer;
 class field;
 class field_entry;
 class item_location;
-class map_cursor;
 class mapgendata;
 class monster;
 class optional_vpart_position;
@@ -67,7 +67,6 @@ class zone_data;
 struct fragment_cloud;
 struct maptile;
 struct partial_con;
-struct rl_vec2d;
 struct spawn_data;
 struct trap;
 template<typename Tripoint>
@@ -81,7 +80,6 @@ struct MonsterGroupResult;
 struct mongroup;
 struct projectile;
 struct veh_collision;
-class visitable;
 
 struct wrapped_vehicle {
     tripoint pos;
@@ -96,6 +94,7 @@ struct pathfinding_cache;
 struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
+struct field_proc_data;
 
 using relic_procgen_id = string_id<relic_procgen_data>;
 
@@ -185,13 +184,33 @@ class map
         friend std::list<item> map_cursor::remove_items_with( const std::function<bool( const item & )> &,
                 int );
 
+        //FIXME some field processor use private methods
+        friend void field_processor_fd_fire( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_spread_gas( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_wandering_field( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_fd_fire_vent( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_fd_flame_burst( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_fd_bees( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_fd_incendiary( const tripoint &, field_entry &, field_proc_data & );
+
+        // for testing
+        friend void clear_fields( int zlevel );
+
     public:
         // Constructors & Initialization
-        map( int mapsize = MAPSIZE, bool zlev = true );
-        map( bool zlev ) : map( MAPSIZE, zlev ) { }
+        explicit map( int mapsize = MAPSIZE, bool zlev = true );
+        explicit map( bool zlev ) : map( MAPSIZE, zlev ) { }
         virtual ~map();
 
         map &operator=( map && ) = default;
+
+        /**
+         * Tinymaps will ocassionally need to skip npc rotation in map::rotate
+         * Here's a little trigger for them to opt out. We won't be doing that here, though
+         */
+        virtual bool skip_npc_rotation() const {
+            return false;
+        }
 
         /**
          * Sets a dirty flag on the a given cache.
@@ -647,7 +666,7 @@ class map
                                          const std::vector<veh_collision> &collisions );
         // Throws vehicle passengers about the vehicle, possibly out of it
         // Returns change in vehicle orientation due to lost control
-        units::angle shake_vehicle( vehicle &veh, int velocity_before, units::angle direction );
+        units::angle shake_vehicle( vehicle &veh, int velocity_before, const units::angle &direction );
 
         // Actually moves the vehicle
         // Unlike displace_vehicle, this one handles collisions
@@ -677,7 +696,11 @@ class map
         furn_id furn( const point &p ) const {
             return furn( tripoint( p, abs_sub.z ) );
         }
-        void furn_set( const tripoint &p, const furn_id &new_furniture );
+        /**
+        * furn_reset should be true if new_furniture is being set to f_null
+        * when the player is grab-moving furniture
+        */
+        void furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false );
         void furn_set( const point &p, const furn_id &new_furniture ) {
             furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
@@ -1231,8 +1254,6 @@ class map
         // See fields.cpp
         void process_fields();
         void process_fields_in_submap( submap *current_submap, const tripoint &submap_pos );
-        bool process_fire_field_in_submap( maptile &map_tile, const tripoint &p, field_entry &cur,
-                                           const oter_id &om_ter );
         /**
          * Apply field effects to the creature when it's on a square with fields.
          */
@@ -1306,12 +1327,12 @@ class map
 
         // returns true, if there **might** be a field at `p`
         // if false, there's no fields at `p`
-        bool has_field_at( const tripoint &p, bool check_bounds = true );
+        bool has_field_at( const tripoint &p, bool check_bounds = true ) const;
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
          */
-        field_entry *get_field( const tripoint &p, const field_type_id &type );
+        field_entry *get_field( const tripoint &p, const field_type_id &type ) const;
         bool dangerous_field_at( const tripoint &p );
         /**
          * Add field entry at point, or set intensity if present
@@ -1323,6 +1344,13 @@ class map
          * Remove field entry at xy, ignored if the field entry is not present.
          */
         void remove_field( const tripoint &p, const field_type_id &field_to_remove );
+
+    private:
+        // Is called when field intensity is changed.
+        // Invalidates relevan map caches, such as transparency cache.
+        void on_field_modified( const tripoint &p, const field_type &fd_type );
+
+    public:
 
         // Splatters of various kind
         void add_splatter( const field_type_id &type, const tripoint &where, int intensity = 1 );
@@ -1920,6 +1948,9 @@ class map
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
         bool dont_draw_lower_floor( const tripoint &p );
+
+        bool has_haulable_items( const tripoint &pos );
+        std::vector<item_location> get_haulable_items( const tripoint &pos );
 };
 
 map &get_map();
@@ -1932,8 +1963,14 @@ class tinymap : public map
 {
         friend class editmap;
     public:
-        tinymap( int mapsize = 2, bool zlevels = false );
+        explicit tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
+
+        /** Sometimes you need to generate and rotate a tinymap without touching npcs */
+        bool skip_npc_rotation() const override {
+            return no_rotate_npcs;
+        }
+        bool no_rotate_npcs = false;
 };
 
 class fake_map : public tinymap

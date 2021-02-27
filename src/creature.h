@@ -2,10 +2,11 @@
 #ifndef CATA_SRC_CREATURE_H
 #define CATA_SRC_CREATURE_H
 
+#include <array>
 #include <climits>
+#include <iosfwd>
 #include <map>
 #include <set>
-#include <string>
 #include <type_traits>
 #include <unordered_map>
 #include <utility>
@@ -19,13 +20,13 @@
 #include "location.h"
 #include "pimpl.h"
 #include "string_formatter.h"
-#include "string_id.h"
-#include "translations.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "viewer.h"
 
 class monster;
+class translation;
+template <typename T> struct enum_traits;
 
 enum game_message_type : int;
 class effect;
@@ -50,13 +51,10 @@ struct tripoint;
 
 enum class damage_type : int;
 enum m_flag : int;
-struct damage_instance;
-struct damage_unit;
-struct dealt_damage_instance;
 struct dealt_projectile_attack;
+struct pathfinding_settings;
 struct projectile;
 struct projectile_attack_results;
-struct pathfinding_settings;
 struct trap;
 
 using anatomy_id = string_id<anatomy>;
@@ -548,6 +546,8 @@ class Creature : public location, public viewer
         bool has_effect_with_flag( const flag_id &flag, const bodypart_id &bp ) const;
         bool has_effect_with_flag( const flag_id &flag ) const;
         std::vector<effect> get_effects_with_flag( const flag_id &flag ) const;
+        std::vector<effect> get_effects() const;
+
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id,
                                   const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
@@ -1136,8 +1136,6 @@ class Creature : public location, public viewer
 
     private:
         int pain;
-
-
         // calculate how well the projectile hits
         double accuracy_projectile_attack( dealt_projectile_attack &attack ) const;
         // what bodypart does the projectile hit

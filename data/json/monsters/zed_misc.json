@@ -1181,7 +1181,7 @@
     "id": "mon_zombie_swimmer_base",
     "type": "MONSTER",
     "name": { "str": "swimmer zombie" },
-    "description": "A human body, clad in swimwear.",
+    "description": "A human body, clad in swimwear.  Probably not a very graceful swimmer now, owing to its zombified state.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
