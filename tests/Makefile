@@ -59,10 +59,10 @@ $(TEST_TARGET): $(OBJS) $(CATA_LIB)
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
 
-TEST_BATCHES = "crafting_skill_gain" "[slow]\ ~crafting_skill_gain" "~[slow]\ ~[.]"
+TEST_BATCHES = "[weary]" "-f weary_nutrition_tests.txt"
 
 $(TEST_BATCHES): $(TEST_TARGET)
-	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time $@
+	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time --order rand $@
 
 check: $(TEST_TARGET) $(TEST_BATCHES)
 
