@@ -85,9 +85,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "afs_formless_ruins_dynamic"
-    ],
+    "id": [ "afs_formless_ruins_dynamic" ],
     "name": "formless ruins",
     "spawns": { "group": "AFS_GROUP_AUG_CLINIC", "population": [ 4, 10 ], "chance": 80 },
     "sym": "r",

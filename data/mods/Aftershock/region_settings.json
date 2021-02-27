@@ -15,10 +15,7 @@
         "afs_astrobiology_lab": 300,
         "mall": 700
       },
-      "houses": {
-        "afs_city_ruinfield": 1700,
-        "afs_formless_ruins_dynamic": 400
-      }
+      "houses": { "afs_city_ruinfield": 1700, "afs_formless_ruins_dynamic": 400 }
     },
     "overmap_lake_settings": { "noise_threshold_lake": 0.12 }
   }
