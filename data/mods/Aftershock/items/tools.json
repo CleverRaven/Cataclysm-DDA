@@ -134,7 +134,7 @@
     "copy-from": "afs_power_cutter",
     "type": "TOOL",
     "name": { "str": "power cutter (on)", "str_pl": "power cutters (on)" },
-    "description": "A huge, gas-powered saw with a diamond blade, currently a whirling blur.  It's consuming gasoline, but can be used a fantastic tool for cutting metal.  You can also use it as a terrifying weapon, if you're into that sort of thing.",
+    "description": "A huge, gas-powered saw with a diamond blade, currently a whirling blur.  It's consuming gasoline, but can be used as a fantastic tool for cutting metal.  You can also use it as a terrifying weapon, if you're into that sort of thing.",
     "cutting": 80,
     "turns_per_charge": 3,
     "revert_to": "afs_power_cutter",
