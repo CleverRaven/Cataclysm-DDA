@@ -1,0 +1,694 @@
+[
+    {
+      "type": "mapgen",
+      "method": "json",
+      "om_terrain": [ "afs_formless_ruins_dynamic" ],
+      "weight": 500,
+      "object": {
+        "predecessor_mapgen": "field",
+        "rows": [
+          "1          .1           ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "1           1           ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        ",
+          "                        "
+        ],
+        "palettes": [ "afs_formless_ruins" ],       
+        "nested": {
+            "1": { "chunks": [
+                     [ "formless_ruins_ribs1", 20 ], 
+                     [ "formless_ruins_ribs2", 20 ], 
+                     [ "formless_ruins_room1", 20 ], 
+                     [ "formless_ruins_room2", 20 ], 
+                     [ "formless_ruins_room3", 20 ], 
+                     [ "formless_ruins_room4", 20 ], 
+                     [ "formless_ruins_room5", 20 ], 
+                     [ "formless_ruins_room6", 20 ], 
+                     [ "formless_ruins_pillar1", 20 ], 
+                     [ "formless_ruins_pillar2", 20 ], 
+                     [ "formless_ruins_orderly1", 10 ], 
+                     [ "formless_ruins_orderly2", 10 ], 
+                     [ "formless_ruins_orderly3", 10 ], 
+                     [ "formless_ruins_orderly4", 10 ],
+                     [ "formless_ruins_empty1", 10 ], 
+                     [ "formless_ruins_empty2", 10 ], 
+                     [ "formless_ruins_empty3", 10 ], 
+                     [ "formless_ruins_empty4", 10 ]
+          ]
+         } 
+        }
+      }
+    },
+    {
+        "type": "mapgen",
+        "method": "json",
+        "om_terrain": [ "afs_formless_ruins_dynamic" ],
+        "weight": 100,
+        "object": {
+          "predecessor_mapgen": "field",
+          "rows": [
+            "           .1           ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "            1           ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        ",
+            "                        "
+          ],
+          "palettes": [ "afs_formless_ruins" ],       
+          "nested": {
+              "1": { "chunks": [
+                       [ "formless_ruins_ribs1", 20 ], 
+                       [ "formless_ruins_ribs2", 20 ], 
+                       [ "formless_ruins_room1", 20 ], 
+                       [ "formless_ruins_room2", 20 ], 
+                       [ "formless_ruins_room3", 20 ], 
+                       [ "formless_ruins_room4", 20 ], 
+                       [ "formless_ruins_room5", 20 ], 
+                       [ "formless_ruins_room6", 20 ], 
+                       [ "formless_ruins_pillar1", 20 ], 
+                       [ "formless_ruins_pillar2", 20 ], 
+                       [ "formless_ruins_orderly1", 10 ], 
+                       [ "formless_ruins_orderly2", 10 ], 
+                       [ "formless_ruins_orderly3", 10 ], 
+                       [ "formless_ruins_orderly4", 10 ],
+                       [ "formless_ruins_empty1", 10 ], 
+                       [ "formless_ruins_empty2", 10 ], 
+                       [ "formless_ruins_empty3", 10 ], 
+                       [ "formless_ruins_empty4", 10 ],
+                       [ "formless_ruins_cryoroom", 10 ]
+            ]
+           } 
+          }
+        }
+      },
+    {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_ribs1",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "//    .../..",
+            "/..   .../..",
+            "/..     .//.",
+            "/ /   ..   .",
+            "  .   ....//",
+            "  /   ...../",
+            "///   /   /.",
+            "/..   ...///",
+            "///   .  ...",
+            "/..    .  //",
+            "/ //      ./",
+            "/..      ../"
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ]
+        }
+      },
+      {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_ribs2",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "///// .////.",
+            "/..  //..//.",
+            "/..     .//.",
+            "/ /   ..   .",
+            "  .   ....  ",
+            "  /   .   . ",
+            "      /     ",
+            "/..   ..    ",
+            "      .  ...",
+            "/..  / .   /",
+            "  // /..  ./",
+            "////  //////"
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ]
+        }
+      },
+      {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_room1",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "//    .../..",
+            "/..  /ó/////",
+            "/./X//1..../",
+            "///    . . /",
+            " /.    ...//",
+            " //    ..../",
+            " //   ...../",
+            "///.../...//",
+            "///   ./////",
+            "///   .ó...ó",
+            "/.//////////",
+            "/ //      ./"
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ],
+          "nested": {
+            "1": { 
+              "chunks": [
+                     [ "null", 200],
+                     [ "formless_ruins_smallcryoroom", 20 ],
+                     [ "formless_ruins_smallasrg", 20 ]                    ]
+            } 
+          }
+        }
+      },
+      {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_room2",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "//    .../..",
+            "/..   .../..",
+            "/./X//.//.//",
+            "///   1. ../",
+            " 3.   ...../",
+            " //  ....../",
+            "///.../...//",
+            "/ 3   ...  /",
+            "/ /   . ....",
+            " .//3///////",
+            "/ //.. ..../",
+            "/./.  /// ./"
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ],
+          "nested": {
+            "1": { 
+              "chunks": [
+                     [ "null", 200],
+                     [ "formless_ruins_smallcryoroom", 20 ],
+                     [ "formless_ruins_smallasrg", 20 ]                    ]
+            } 
+          }
+        }
+      },
+      {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_room3",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "/////#####..",
+            "/.X  ///./..",
+            "/./      ...",
+            "///   ./ ...",
+            "      1.////",
+            "     ....../",
+            "  /..//...  ",
+            "  o  o...   ",
+            "/ o  o. ....",
+            " .// ///////",
+            "   o..o ... ",
+            "   /#3/     "
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ],
+          "nested": {
+            "1": { 
+              "chunks": [
+                     [ "null", 200],
+                     [ "formless_ruins_smallcryoroom", 20 ],
+                     [ "formless_ruins_smallasrg", 20 ]
+                    ]
+            } 
+          }
+        }
+    },
+    {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_room4",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "//.    ..#..",
+            "/..  ///./..",
+            "/.       ./.",
+            " /    ./////",
+            " o    .... /",
+            " o   ....../",
+            " ////./... /",
+            " ..###3..   ",
+            "  ....3 ....",
+            "  /..///////",
+            "  ...   ... ",
+            "   ..       "
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_room5",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "////....///.",
+            "/..  ///./..",
+            "/..  ..  ./.",
+            "/// / .////.",
+            " /    ....//",
+            " /   ....../",
+            "///.../..../",
+            "  o   o../. ",
+            "/ #   # ./..",
+            "#/// ////3  ",
+            "## 3..  ... ",
+            "#  /  .     "
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_room6",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "//33//..///.",
+            "/... ///./#.",
+            "ó......  .3.",
+            "///.. ./////",
+            "#..   ...../",
+            "#... ......ó",
+            "///../ .ooo/",
+            "     / .. ./",
+            "/    /  ././",
+            "//// ///////",
+            "##  ..  /.. ",
+            "# /// . /   "
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_pillar1",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "////... ///.",
+            "/....     ..",
+            "/..  ..  ./.",
+            "//         .",
+            " / ####.....",
+            " /  #||# ../",
+            "// ##||## ./",
+            "     ###. . ",
+            "/       .  .",
+            "          / ",
+            "## 3..  /   ",
+            "#  /  . /   "
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ]
+        }
+    },
+    {
+      "type": "mapgen",
+      "method": "json",
+      "nested_mapgen_id": "formless_ruins_pillar2",
+      "object": {
+        "mapgensize": [ 12,12],
+        "rows": [
+          "////... ////",
+          "/.... /// ./",
+          "/..  ..  . /",
+          "//         .",
+          "       .....",
+          "    #||./../",
+          "   ##||./ ./",
+          "     #  . . ",
+          "/       .  .",
+          "        ////",
+          "##  ..  3...",
+          "#  /  . /.  "
+      
+        ],
+        "palettes": [ "afs_formless_ruins" ]
+      }
+  },
+    {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_orderly1",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "/   ##     .",
+            "/ .|#| |   .",
+            "  .|#|.|.. .",
+            "           .",
+            "    ##   . /",
+            "   | | | . /",
+            "// |#| |   /",
+            "          . ",
+            "     ## .  .",
+            "   | |#|    ",
+            "#  |.| |   /",
+            "/         //"
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_orderly2",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "//////..   .",
+            "/ .   |||| .",
+            "/ .   |##| .",
+            "     /|||| .",
+            "    #/.... /",
+            " ../.|.| . /",
+            "//./.|.    /",
+            " ../.|.   . ",
+            "  ||||///  .",
+            "  |##|#|    ",
+            "# |||| |   /",
+            "/      /////"
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_orderly3",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "/   ##     .",
+            "/ .|||||   .",
+            "  .|#|.|.. .",
+            "....       .",
+            ".3  ##   . /",
+            "./       . /",
+            "//         /",
+            "    .     . ",
+            "   / .. .  .",
+            "   | |.|    ",
+            "#  |||||   /",
+            "/  /   /////"
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_orderly4",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "/   ##     .",
+            "/ .|       .",
+            "  .|    .. .",
+            "         ///",
+            "    ##   ./ ",
+            "   |     ///",
+            "// |       /",
+            "          . ",
+            "    //  .///",
+            "   |.     / ",
+            "#/ |.   ////",
+            "/..       //"
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_empty1",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "/         ..",
+            "/.        /.",
+            ".. /      /.",
+            "/  //       ",
+            "/           ",
+            "/           ",
+            "   /  .    /",
+            "      /   . ",
+            "           /",
+            "            ",
+            "            ",
+            " //         "
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_empty2",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "/   #    //.",
+            "/   .      .",
+            "   /..  .. .",
+            "   //       ",
+            "            ",
+            "            ",
+            "   ///     /",
+            "   ..     . ",
+            "   ../     /",
+            ".    /     #",
+            "..         #",
+            "/./.        "
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_empty3",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "/   #    //.",
+            "/        ...",
+            "        .. .",
+            "            ",
+            "            ",
+            "            ",
+            "           /",
+            "          ..",
+            ".        ../",
+            "..        .#",
+            "#.         #",
+            "/           "
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_empty4",
+        "object": {
+          "mapgensize": [ 12,12],
+          "rows": [
+            "/.. #      .",
+            "/          .",
+            "  .|    .. .",
+            "         ///",
+            "            ",
+            ".        ///",
+            "//         /",
+            " .        . ",
+            "...         ",
+            "    . /...  ",
+            "#     /.//..",
+            "/         .."
+        
+          ],
+          "palettes": [ "afs_formless_ruins" ]
+        }
+    },
+    {
+      "type": "mapgen",
+      "method": "json",
+      "nested_mapgen_id": "formless_ruins_cryoroom",
+      "object": {
+        "mapgensize": [ 12,12],
+        "rows": [
+          "///33/..///.",
+          "/P.. ///////",
+          "óP.....CCCC/",
+          "///.. ...../",
+          "/C.   .CC.#/",
+          "/C.. ....../",
+          "///../33ooo/",
+          "/W   / ...W/",
+          "/W   /P.C.W/",
+          "///33///////",
+          "##/ ..  /.. ",
+          "/////////   "
+      
+        ],
+        "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
+        "furniture": { "P": "f_cooling_pylon", "C": "f_cryo_pod", "W": "f_workbench" },
+        "items": {
+          "W": [
+            { "item": "tools_science", "chance": 80, "repeat": [ 1, 3 ] },
+            { "item": "afs_biomedical_scrapgroup", "chance":100, "repeat": [ 1, 2 ] },
+            { "item": "supplies_reagents_lab", "chance": 80, "repeat": [ 1, 3 ] }
+          ]
+        },
+        "place_monsters": [ { "monster": "GROUP_CRYO_LAB", "x": [ 1,5 ], "y": [ 1,2 ], "density": 0.1, "repeat": [ 1, 3 ] } ],
+        "palettes": [ "afs_formless_ruins" ]
+      }
+  },
+    {
+        "type": "mapgen",
+        "method": "json",
+        "nested_mapgen_id": "formless_ruins_smallasrg",
+        "object": {
+          "mapgensize": [ 6,6],
+          "rows": [
+            "   ///",
+            "/W.../",
+            "/W.C./",
+            "  .../",
+            "  /66/",
+            "  ////"
+        
+          ],
+          "terrain": { "6": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
+          "furniture": { "6": "f_console_broken", "C": "f_compact_ASRG", "W": "f_workbench" },
+          "items": {
+            "W": [
+              { "item": "tools_robotics", "chance": 80, "repeat": [ 1, 3 ] },
+              { "item": "afs_machinery_maintenance_scrapgroup", "chance":100,  "repeat": [ 1, 3 ] },
+              { "item": "supplies_electronics", "chance": 80, "repeat": [ 1, 3 ] }
+            ]
+          },
+          "palettes": [ "afs_formless_ruins" ]
+        }
+    },
+    {
+      "type": "mapgen",
+      "method": "json",
+      "nested_mapgen_id": "formless_ruins_escapepod",
+      "object": {
+        "mapgensize": [ 6,6],
+        "rows": [
+          " #### ",
+          "/#-+-#",
+          "##q!-#",
+          "##---#",
+          " #####",
+          " ####/"
+      
+        ],
+        "terrain": {
+          "-": "t_afs_space_ship_hull_wall",
+          "+": "t_afs_space_ship_hatch_c",
+          "q": "t_afs_escapepod_g",
+          "!": "t_metal_floor",
+          "#": "t_dirtmound"
+        },
+        "furniture": { "!": "f_afs_escape_pod_seat" },
+        "items": { "!": { "item": "afs_escape_pod_suppliesII", "chance": 100 } },
+        "palettes": [ "afs_formless_ruins" ]
+      }
+  },
+    {
+      "type": "mapgen",
+      "method": "json",
+      "nested_mapgen_id": "formless_ruins_smallcryoroom",
+      "object": {
+        "mapgensize": [ 6,6],
+        "rows": [
+          "   ///",
+          "/P.W./",
+          "/#.../",
+          "  3 C/",
+          "  / C/",
+          "  ////"
+      
+        ],
+        "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
+        "furniture": { "P": "f_cooling_pylon", "C": "f_cryo_pod", "W": "f_workbench" },
+        "items": {
+          "W": [
+            { "item": "tools_science", "chance": 80, "repeat": [ 1, 3 ] },
+            { "item": "afs_biomedical_scrapgroup", "chance":100, "repeat": [ 1, 2 ] },
+            { "item": "supplies_reagents_lab", "chance": 80, "repeat": [ 1, 3 ] }
+          ]
+        },
+        "place_monsters": [ { "monster": "GROUP_CRYO_LAB", "x": [ 1,5 ], "y": [ 1,2 ], "density": 0.01, "repeat": [ 1, 3 ] } ],
+        "palettes": [ "afs_formless_ruins" ]
+      }
+  }
+  ]
