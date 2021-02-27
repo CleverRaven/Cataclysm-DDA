@@ -1946,7 +1946,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
     std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
                              string_format( _( " (%s current)" ), sp.energy_cur_string( player_character ) );
-    if( !sp.can_cast( player_character ) ) {
+    if( !player_character.magic->has_enough_energy( player_character, sp ) ) {
         cost_string = colorize( _( "Not Enough Energy" ), c_red );
         energy_cur.clear();
     }
