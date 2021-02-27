@@ -854,16 +854,17 @@ Flags used to describe monsters and define their properties and abilities.
 
 ### Anger, Fear and Placation Triggers
 
-- ```FIRE``` There's a fire nearby.
+- ```FIRE``` There's a fire within 5 tiles, the strength of the effect depends on the field intensity of the fire.
 - ```FRIEND_ATTACKED``` A monster of the same type was attacked.
 - ```FRIEND_DIED``` A monster of the same type died.
 - ```HURT``` The monster is hurt.
 - ```MEAT``` Meat or a corpse is nearby. - Currently nonfunctional!
 - ```NULL``` Source use only?
-- ```PLAYER_CLOSE``` The player gets within a few tiles distance.
+- ```PLAYER_CLOSE``` Triggers when a potential enemy is within 5 tiles range - Anger/fear trigger only!
 - ```PLAYER_WEAK``` The player is hurt.
 - ```SOUND``` Heard a sound.
-- ```STALK``` Increases if already angry at the player.
+- ```STALK``` Triggers 20% of the time each turn if aggression > 5.
+- ```HOSTILE_SEEN``` Increases aggression/ decreases morale by a random amount between 0-2 for every potential enemy it can see, up to 20 aggression - Anger/fear trigger only!
 
 ### Categories
 
