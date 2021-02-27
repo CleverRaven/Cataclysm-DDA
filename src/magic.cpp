@@ -862,27 +862,7 @@ bool spell::can_cast( const Character &guy ) const
         return false;
     }
 
-    switch( type->energy_source ) {
-        case magic_energy_type::mana:
-            return guy.magic->available_mana() >= energy_cost( guy );
-        case magic_energy_type::stamina:
-            return guy.get_stamina() >= energy_cost( guy );
-        case magic_energy_type::hp: {
-            for( const std::pair<const bodypart_str_id, bodypart> &elem : guy.get_body() ) {
-                if( energy_cost( guy ) < elem.second.get_hp_cur() ) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        case magic_energy_type::bionic:
-            return guy.get_power_level() >= units::from_kilojoule( energy_cost( guy ) );
-        case magic_energy_type::fatigue:
-            return guy.get_fatigue() < fatigue_levels::EXHAUSTED;
-        case magic_energy_type::none:
-        default:
-            return true;
-    }
+    return guy.magic->has_enough_energy( guy, *this );
 }
 
 void spell::use_components( Character &guy ) const
@@ -1732,7 +1712,7 @@ std::vector<spell_id> known_magic::spells() const
 }
 
 // does the Character have enough energy (of the type of the spell) to cast the spell?
-bool known_magic::has_enough_energy( const Character &guy, spell &sp ) const
+bool known_magic::has_enough_energy( const Character &guy, const spell &sp ) const
 {
     int cost = sp.energy_cost( guy );
     switch( sp.energy_source() ) {
