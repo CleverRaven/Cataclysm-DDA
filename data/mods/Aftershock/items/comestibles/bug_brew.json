@@ -26,7 +26,7 @@
     "type": "COMESTIBLE",
     "id": "afs_mealgrub_spores",
     "name": { "str_sp": "mealgurb spores" },
-    "description": "Mealgrubs are a staple aquacultural product, treasured for their ability to process nearly any organic substance into safe for consumption animal protein.  As the result of very heavy handed gene-modding these are proprietary organism, and strictly speaking, its illegal to grow them without a licence.",
+    "description": "Mealgrubs are a staple aquacultural product, treasured for their ability to process nearly any organic substance into safe for consumption animal protein.  As the result of very heavy-handed gene-modding these are proprietary organisms, and strictly speaking, it's illegal to grow them without a license.",
     "weight": "100 g",
     "container": "bottle_plastic_small",
     "comestible_type": "DRINK",
