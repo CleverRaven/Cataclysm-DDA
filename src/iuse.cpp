@@ -230,6 +230,7 @@ static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
 static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_music" );
@@ -4189,7 +4190,8 @@ int iuse::tazer( player *p, item *it, bool, const tripoint &pos )
 
 int iuse::tazer2( player *p, item *it, bool b, const tripoint &pos )
 {
-    if( it->ammo_remaining() >= 100 ) {
+    if( it->ammo_remaining() >= 100 || ( it->has_flag( flag_USE_UPS ) &&
+                                         p->charges_of( itype_UPS ) >= 100 ) ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
         item fake( "tazer", calendar::turn_zero );
@@ -4213,7 +4215,8 @@ int iuse::shocktonfa_off( player *p, item *it, bool t, const tripoint &pos )
             return iuse::tazer2( p, it, t, pos );
         }
         case 1: {
-            if( !it->units_sufficient( *p ) ) {
+            if( !it->units_sufficient( *p ) && !( it->has_flag( flag_USE_UPS ) &&
+                                                  p->has_enough_charges( *it, false ) ) ) {
                 p->add_msg_if_player( m_info, _( "The batteries are dead." ) );
                 return 0;
             } else {
@@ -4231,7 +4234,8 @@ int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
     if( t ) { // Effects while simply on
 
     } else {
-        if( !it->units_sufficient( *p ) ) {
+        if( !it->units_sufficient( *p ) && !( it->has_flag( flag_USE_UPS ) &&
+                                              p->has_enough_charges( *it, false ) ) ) {
             p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
             it->convert( itype_shocktonfa_off ).active = false;
         } else {
@@ -6344,7 +6348,6 @@ static std::string photo_quality_name( const int index )
 
 int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 {
-    //meep
     if( t ) {
         if( !it->get_var( "EIPC_MUSIC_ON" ).empty() &&
             ( it->ammo_remaining() > 0  || ( it->has_flag( flag_USE_UPS ) &&
