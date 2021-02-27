@@ -5072,6 +5072,26 @@ std::string Character::debug_weary_info() const
                           get_healthy_kcal(), fatigue, morale, weight, bmi );
 }
 
+int Character::weary_tracker() const
+{
+    return weary.tracker;
+}
+
+int Character::weary_intake() const
+{
+    return weary.intake;
+}
+
+int Character::weary_low_activity_ticks() const
+{
+    return weary.low_activity_ticks;
+}
+
+int Character::weary_tick_counter() const
+{
+    return weary.tick_counter;
+}
+
 void weariness_tracker::clear()
 {
     tracker = 0;
@@ -5683,7 +5703,7 @@ void Character::try_reduce_weariness( const float exertion )
     weary.tick_counter++;
     if( exertion == NO_EXERCISE ) {
         weary.low_activity_ticks++;
-        // Recover twice as fast at rest
+        // Recover twice as fast if asleep/similar
         if( in_sleep_state() ) {
             weary.low_activity_ticks++;
         }
@@ -5691,23 +5711,24 @@ void Character::try_reduce_weariness( const float exertion )
 
     const float recovery_mult = get_option<float>( "WEARY_RECOVERY_MULT" );
 
-    if( weary.low_activity_ticks >= 6 ) {
+    if( weary.low_activity_ticks >= 1 ) {
         int reduction = weary.tracker;
         const int bmr = base_bmr();
-        // 1/20 of whichever's bigger
+        // 1/120 of whichever's bigger
         if( bmr > reduction ) {
-            reduction = bmr * recovery_mult;
+            reduction = std::floor( bmr * recovery_mult * weary.low_activity_ticks / 6 );
         } else {
-            reduction *= recovery_mult;
+            reduction = std::ceil( reduction * recovery_mult * weary.low_activity_ticks / 6 );
         }
         weary.low_activity_ticks = 0;
 
-        weary.tracker -= reduction;
+        weary.tracker -= std::max( reduction, 1 );
     }
 
-    if( weary.tick_counter >= 12 ) {
-        weary.intake *= 1 - recovery_mult;
-        weary.tick_counter = 0;
+    // If happens to be no reduction, character is not (as) hypoglycemic
+    if( weary.tick_counter >= 3 ) {
+        weary.intake *= std::pow( 1 - recovery_mult, 0.25f );
+        weary.tick_counter -= 3;
     }
 
     // Normalize values, make sure we stay above 0
