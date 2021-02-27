@@ -23,7 +23,7 @@ static const meal_schedule milk( itype_id( "milk" ) );
 
 static const sleep_schedule sched_sleep{};
 
-TEST_CASE( "weary_assorted_tasks", "[weary][activities][!mayfail]" )
+TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
 {
     const avatar &guy = get_avatar();
 
