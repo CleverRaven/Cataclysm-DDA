@@ -614,15 +614,6 @@ static void assign_dmg_relative( damage_instance &out, const damage_instance &va
                 tmp.damage_multiplier = 0;
             }
 
-            // As well as the unconditional versions
-            if( tmp.unconditional_res_mult == 1.0f ) {
-                tmp.unconditional_res_mult = 0;
-            }
-
-            if( tmp.unconditional_damage_mult == 1.0f ) {
-                tmp.unconditional_damage_mult = 0;
-            }
-
             damage_unit out_dmg( tmp.type, 0.0f );
 
             out_dmg.amount = tmp.amount + val_dmg.amount;
@@ -630,10 +621,6 @@ static void assign_dmg_relative( damage_instance &out, const damage_instance &va
 
             out_dmg.res_mult = tmp.res_mult + val_dmg.res_mult;
             out_dmg.damage_multiplier = tmp.damage_multiplier + val_dmg.damage_multiplier;
-
-            out_dmg.unconditional_res_mult = tmp.unconditional_res_mult + val_dmg.unconditional_res_mult;
-            out_dmg.unconditional_damage_mult = tmp.unconditional_damage_mult +
-                                                val_dmg.unconditional_damage_mult;
 
             out.add( out_dmg );
         }
@@ -686,17 +673,6 @@ static void assign_dmg_proportional( const JsonObject &jo, const std::string &na
                 jo.throw_error( "Proportional damage multipler is not a valid scalar", name );
             }
 
-            // If it's 1, it wasn't loaded (or was loaded as 1)
-            if( scalar.unconditional_res_mult <= 0 ) {
-                jo.throw_error( "Proportional unconditional armor penetration multiplier is not a valid scalar",
-                                name );
-            }
-
-            // It's it's 1, it wasn't loaded (or was loaded as 1)
-            if( scalar.unconditional_damage_mult <= 0 ) {
-                jo.throw_error( "Proportional unconditional damage multiplier is not a valid scalar", name );
-            }
-
             damage_unit out_dmg( scalar.type, 0.0f );
 
             out_dmg.amount = val_dmg.amount * scalar.amount;
@@ -704,10 +680,6 @@ static void assign_dmg_proportional( const JsonObject &jo, const std::string &na
 
             out_dmg.res_mult = val_dmg.res_mult * scalar.res_mult;
             out_dmg.damage_multiplier = val_dmg.damage_multiplier * scalar.damage_multiplier;
-
-            out_dmg.unconditional_res_mult = val_dmg.unconditional_res_mult * scalar.unconditional_res_mult;
-            out_dmg.unconditional_damage_mult = val_dmg.unconditional_damage_mult *
-                                                scalar.unconditional_damage_mult;
 
             out.add( out_dmg );
         }
@@ -771,20 +743,20 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         // Legacy: remove after 0.F
         float amount = 0.0f;
         float arpen = 0.0f;
-        float unc_dmg_mult = 1.0f;
+        float dmg_mult = 1.0f;
 
         // There will always be either a prop_damage or damage (name)
         if( jo.has_member( name ) ) {
             amount = jo.get_float( name );
         } else if( jo.has_member( "prop_damage" ) ) {
-            unc_dmg_mult = jo.get_float( "prop_damage" );
+            dmg_mult = jo.get_float( "prop_damage" );
         }
         // And there may or may not be armor penetration
         if( jo.has_member( "pierce" ) ) {
             arpen = jo.get_float( "pierce" );
         }
 
-        out.add_damage( DT_STAB, amount, arpen, 1.0f, 1.0f, 1.0f, unc_dmg_mult );
+        out.add_damage( DT_STAB, amount, arpen, 1.0f, dmg_mult );
     }
 
     // Object via which to report errors which differs for proportional/relative values
@@ -815,7 +787,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         // So check for what it's modifying, and modify that
         float amt = 0.0f;
         float arpen = 0.0f;
-        float unc_dmg_mul = 1.0f;
+        float dmg_mult = 1.0f;
 
         if( relative.has_member( name ) ) {
             amt = relative.get_float( name );
@@ -824,11 +796,10 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
             arpen = relative.get_float( "pierce" );
         }
         if( relative.has_member( "prop_damage" ) ) {
-            unc_dmg_mul = relative.get_float( "prop_damage" );
+            dmg_mult = relative.get_float( "prop_damage" );
         }
 
-        assign_dmg_relative( out, val, damage_instance( DT_STAB, amt, arpen, 1.0f, 1.0f, 1.0f,
-                             unc_dmg_mul ), strict );
+        assign_dmg_relative( out, val, damage_instance( DT_STAB, amt, arpen, 1.0f, dmg_mult ), strict );
     } else if( proportional.has_member( name ) || proportional.has_member( "pierce" ) ||
                proportional.has_member( "prop_damage" ) ) {
         // Legacy: Remove after 0.F
@@ -836,7 +807,7 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
         // So check if it's modifying any of the things before going on to modify it
         float amt = 0.0f;
         float arpen = 0.0f;
-        float unc_dmg_mul = 1.0f;
+        float dmg_mult = 1.0f;
 
         if( proportional.has_member( name ) ) {
             amt = proportional.get_float( name );
@@ -845,11 +816,11 @@ inline bool assign( const JsonObject &jo, const std::string &name, damage_instan
             arpen = proportional.get_float( "pierce" );
         }
         if( proportional.has_member( "prop_damage" ) ) {
-            unc_dmg_mul = proportional.get_float( "prop_damage" );
+            dmg_mult = proportional.get_float( "prop_damage" );
         }
 
         assign_dmg_proportional( proportional, name, out, val, damage_instance( DT_STAB, amt, arpen, 1.0f,
-                                 1.0f, 1.0f, unc_dmg_mul ), strict );
+                                 dmg_mult ), strict );
     } else if( !jo.has_member( name ) && !jo.has_member( "prop_damage" ) ) {
         // Straight copy-from, not modified by proportional or relative
         out = val;

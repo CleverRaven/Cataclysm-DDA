@@ -20,9 +20,7 @@ bool damage_unit::operator==( const damage_unit &other ) const
            amount == other.amount &&
            res_pen == other.res_pen &&
            res_mult == other.res_mult &&
-           damage_multiplier == other.damage_multiplier &&
-           unconditional_res_mult == other.unconditional_res_mult &&
-           unconditional_damage_mult == other.unconditional_res_mult;
+           damage_multiplier == other.damage_multiplier;
 }
 
 damage_instance::damage_instance() = default;
@@ -35,15 +33,15 @@ damage_instance damage_instance::physical( float bash, float cut, float stab, fl
     return d;
 }
 damage_instance::damage_instance( damage_type dt, float amt, float arpen, float arpen_mult,
-                                  float dmg_mult, float unc_arpen_mult, float unc_dmg_mult )
+                                  float dmg_mult )
 {
-    add_damage( dt, amt, arpen, arpen_mult, dmg_mult, unc_arpen_mult, unc_dmg_mult );
+    add_damage( dt, amt, arpen, arpen_mult, dmg_mult );
 }
 
 void damage_instance::add_damage( damage_type dt, float amt, float arpen, float arpen_mult,
-                                  float dmg_mult, float unc_arpen_mult, float unc_dmg_mult )
+                                  float dmg_mult )
 {
-    damage_unit du( dt, amt, arpen, arpen_mult, dmg_mult, unc_arpen_mult, unc_dmg_mult );
+    damage_unit du( dt, amt, arpen, arpen_mult, dmg_mult );
     add( du );
 }
 
@@ -68,7 +66,7 @@ float damage_instance::type_damage( damage_type dt ) const
     float ret = 0;
     for( const auto &elem : damage_units ) {
         if( elem.type == dt ) {
-            ret += elem.amount * elem.damage_multiplier * elem.unconditional_damage_mult;
+            ret += elem.amount * elem.damage_multiplier;
         }
     }
     return ret;
@@ -78,7 +76,7 @@ float damage_instance::total_damage() const
 {
     float ret = 0;
     for( const auto &elem : damage_units ) {
-        ret += elem.amount * elem.damage_multiplier * elem.unconditional_damage_mult;
+        ret += elem.amount * elem.damage_multiplier;
     }
     return ret;
 }
@@ -99,25 +97,23 @@ void damage_instance::add( const damage_instance &added_di )
     }
 }
 
-void damage_instance::add( const damage_unit &added_du )
+void damage_instance::add( const damage_unit &new_du )
 {
     auto iter = std::find_if( damage_units.begin(), damage_units.end(),
-    [&added_du]( const damage_unit & du ) {
-        return du.type == added_du.type;
+    [&new_du]( const damage_unit & du ) {
+        return du.type == new_du.type;
     } );
     if( iter == damage_units.end() ) {
-        damage_units.emplace_back( added_du );
+        damage_units.emplace_back( new_du );
     } else {
         damage_unit &du = *iter;
-        float mult = added_du.damage_multiplier / du.damage_multiplier;
-        du.amount += added_du.amount * mult;
-        du.res_pen += added_du.res_pen * mult;
-        // Linearly interpolate armor multiplier based on damage proportion contributed
-        float t = added_du.damage_multiplier / ( added_du.damage_multiplier + du.damage_multiplier );
-        du.res_mult = lerp( du.res_mult, added_du.damage_multiplier, t );
+        // Actually combining two instances of damage is complex and ambiguous
+        // So let's just add/multiply the values
+        du.amount += new_du.amount;
+        du.res_pen += new_du.res_pen;
 
-        du.unconditional_res_mult *= added_du.unconditional_res_mult;
-        du.unconditional_damage_mult *= added_du.unconditional_damage_mult;
+        du.damage_multiplier *= new_du.damage_multiplier;
+        du.res_mult *= new_du.res_mult;
     }
 }
 
@@ -220,7 +216,7 @@ float resistances::type_resist( damage_type dt ) const
 float resistances::get_effective_resist( const damage_unit &du ) const
 {
     return std::max( type_resist( du.type ) - du.res_pen,
-                     0.0f ) * du.res_mult * du.unconditional_res_mult;
+                     0.0f ) * du.res_mult;
 }
 
 resistances &resistances::operator+=( const resistances &other )
@@ -305,10 +301,11 @@ static damage_unit load_damage_unit( const JsonObject &curr )
     float armor_mul = curr.get_float( "armor_multiplier", 1.0f );
     float damage_mul = curr.get_float( "damage_multiplier", 1.0f );
 
+    // Legacy
     float unc_armor_mul = curr.get_float( "constant_armor_multiplier", 1.0f );
     float unc_damage_mul = curr.get_float( "constant_damage_multiplier", 1.0f );
 
-    return damage_unit( dt, amount, arpen, armor_mul, damage_mul, unc_armor_mul, unc_damage_mul );
+    return damage_unit( dt, amount, arpen, armor_mul * unc_armor_mul, damage_mul * unc_damage_mul );
 }
 
 static damage_unit load_damage_unit_inherit( const JsonObject &curr, const damage_instance &parent )
@@ -338,12 +335,6 @@ static damage_unit load_damage_unit_inherit( const JsonObject &curr, const damag
     }
     if( !curr.has_float( "damage_multiplier" ) ) {
         ret.damage_multiplier = parent_du.damage_multiplier;
-    }
-    if( !curr.has_float( "constant_armor_multiplier" ) ) {
-        ret.unconditional_res_mult = parent_du.unconditional_res_mult;
-    }
-    if( !curr.has_float( "constant_damage_multiplier" ) ) {
-        ret.unconditional_damage_mult = parent_du.unconditional_damage_mult;
     }
 
     return ret;

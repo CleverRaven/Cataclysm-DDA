@@ -834,7 +834,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
     }
 
     // Apply damage multiplier from skill, critical hits or grazes after all other modifications.
-    const int adjusted_damage = du.amount * du.damage_multiplier * du.unconditional_damage_mult;
+    const int adjusted_damage = du.amount * du.damage_multiplier;
     if( adjusted_damage <= 0 ) {
         return;
     }

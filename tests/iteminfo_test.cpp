@@ -281,15 +281,17 @@ TEST_CASE( "ranged weapon attributes", "[item][iteminfo][weapon][ranged][gun]" )
     }
 
     SECTION( "weapon damage including floating-point multiplier" ) {
-        iteminfo_query q = q_vec( { iteminfo_parts::GUN_DAMAGE, iteminfo_parts::GUN_DAMAGE_AMMOPROP,
-                                    iteminfo_parts::GUN_DAMAGE_TOTAL, iteminfo_parts::GUN_ARMORPIERCE
+        iteminfo_query q = q_vec( { iteminfo_parts::GUN_DAMAGE, iteminfo_parts::GUN_DAMAGE_LOADEDAMMO,
+                                    iteminfo_parts::GUN_DAMAGE_TOTAL, iteminfo_parts::GUN_DAMAGEMULT,
+                                    iteminfo_parts::GUN_DAMAGEMULT_AMMO, iteminfo_parts::GUN_DAMAGEMULT_TOTAL
                                   } );
         test_info_equals(
-            item( "test_compbow" ), q,
+            item( "test_compbow" ).ammo_set( "test_arrow" ), q,
             "--\n"
-            "<color_c_white>Ranged damage</color>:"
-            " <color_c_yellow>18</color>*<color_c_yellow>1.50</color> = <color_c_yellow>27</color>\n"
-            "Armor-pierce: <color_c_yellow>0</color>\n" );
+            "<color_c_white>Ranged damage</color>: <color_c_yellow>18</color>"
+            "<color_c_yellow>+0</color> = <color_c_yellow>18</color>\n"
+            "Damage multiplier: <color_c_yellow>1.00</color>*<color_c_yellow>0.75</color> "
+            "= <color_c_yellow>0.75</color>\n" );
     }
 
     SECTION( "time to reload weapon" ) {
