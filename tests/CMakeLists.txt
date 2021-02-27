@@ -12,7 +12,7 @@ if (BUILD_TESTING)
         target_link_libraries(cata_test-tiles cataclysm-tiles-common)
         add_test(NAME test-tiles
                 COMMAND sh -c
-                "$<TARGET_FILE:cata_test-tiles> -r cata --rng-seed `shuf -i 0-1000000000 -n 1`"
+                "$<TARGET_FILE:cata_test-tiles> -r cata --rng-seed `shuf -i 0-1000000000 -n 1` --order rand"
                 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     endif ()
 
@@ -21,7 +21,7 @@ if (BUILD_TESTING)
         target_link_libraries(cata_test cataclysm-common)
         add_test(NAME test
                 COMMAND sh -c
-                "$<TARGET_FILE:cata_test> -r cata --rng-seed `shuf -i 0-1000000000 -n 1`"
+                "$<TARGET_FILE:cata_test> -r cata --rng-seed `shuf -i 0-1000000000 -n 1` --order rand"
                 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     endif ()
 endif ()

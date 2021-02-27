@@ -107,6 +107,7 @@ jobs:
 
     - env: NATIVE=android COMPILER=gcc
       name: "Android build"
+      if: type != pull_request
       language: android
       android:
         components:

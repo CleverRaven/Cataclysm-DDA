@@ -28,6 +28,8 @@ then
     exit 0
 fi
 
+export EXTRA_TEST_OPTS="--order rand $EXTRA_TEST_OPS"
+
 ccache --zero-stats
 # Increase cache size because debug builds generate large object files
 ccache -M 5G
@@ -145,8 +147,8 @@ then
         make -j$num_jobs
         cd ..
         # Run regular tests
-        [ -f "${bin_path}cata_test" ] && parallel --verbose --tagstring "({})=>" --linebuffer $WINE ${bin_path}/cata_test --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
-        [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --tagstring "({})=>" --linebuffer $WINE ${bin_path}/cata_test-tiles --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        [ -f "${bin_path}cata_test" ] && parallel --verbose --tagstring "({})=>" --linebuffer $WINE ${bin_path}/cata_test --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --tagstring "({})=>" --linebuffer $WINE ${bin_path}/cata_test-tiles --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     fi
 elif [ "$NATIVE" == "android" ]
 then
@@ -176,10 +178,10 @@ else
 
     export ASAN_OPTIONS=detect_odr_violation=1
     export UBSAN_OPTIONS=print_stacktrace=1
-    parallel --verbose --tagstring "({})=>" --linebuffer $WINE ./tests/cata_test --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+    parallel --verbose --tagstring "({})=>" --linebuffer $WINE ./tests/cata_test --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     if [ -n "$MODS" ]
     then
-        parallel --verbose --tagstring "(Mods-{})=>" --linebuffer $WINE ./tests/cata_test --user-dir=modded $MODS --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        parallel --verbose --tagstring "(Mods-{})=>" --linebuffer $WINE ./tests/cata_test --user-dir=modded $MODS --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     fi
 
     if [ -n "$TEST_STAGE" ]
