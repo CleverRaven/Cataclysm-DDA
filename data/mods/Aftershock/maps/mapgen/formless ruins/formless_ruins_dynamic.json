@@ -1,5 +1,14 @@
 [
   {
+    "id": "afs_formless_ruins_random_loot",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "afs_machinery_maintenance_scrapgroup", "prob": 50 },
+      { "group": "afs_basic_material_scrapgroup", "prob": 20 }
+    ]
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "afs_formless_ruins_dynamic" ],
@@ -58,11 +67,13 @@
             [ "formless_ruins_empty3", 10 ],
             [ "formless_ruins_empty4", 10 ],
             [ "formless_ruins_cryoroom", 10 ],
-            [ "formless_ruins_armory", 20 ],
-            [ "formless_ruins_sleeping_room", 20 ]
+            [ "formless_ruins_armory", 10 ],
+            [ "formless_ruins_sleeping_room", 10 ]
           ]
         }
-      }
+      },
+      "place_loot": [ { "group": "afs_formless_ruins_random_loot", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_MOXIE_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -124,11 +135,13 @@
             [ "formless_ruins_empty3", 10 ],
             [ "formless_ruins_empty4", 10 ],
             [ "formless_ruins_cryoroom", 10 ],
-            [ "formless_ruins_armory", 20 ],
-            [ "formless_ruins_sleeping_room", 20 ]
+            [ "formless_ruins_armory", 10 ],
+            [ "formless_ruins_sleeping_room", 10 ]
           ]
         }
-      }
+      },
+      "place_loot": [ { "group": "afs_formless_ruins_random_loot", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_MOXIE_LOW_RISK", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 10, "density": 0.1 } ]
     }
   },
   {
@@ -536,7 +549,7 @@
         "/.        /.",
         ".. /      /.",
         "/  //       ",
-        "/           ",
+        "/    1      ",
         "/           ",
         "   /  .    /",
         "      /   . ",
@@ -545,7 +558,8 @@
         "            ",
         " //         "
       ],
-      "palettes": [ "afs_formless_ruins" ]
+      "palettes": [ "afs_formless_ruins" ],
+      "nested": { "1": { "chunks": [ [ "null", 200 ], [ "formless_ruins_escapepod", 1 ] ] } }
     }
   },
   {
@@ -558,7 +572,7 @@
         "/   #    //.",
         "/   .      .",
         "   /..  .. .",
-        "   //       ",
+        "   1/       ",
         "            ",
         "            ",
         "   ///     /",
@@ -568,7 +582,8 @@
         "..         #",
         "/./.        "
       ],
-      "palettes": [ "afs_formless_ruins" ]
+      "palettes": [ "afs_formless_ruins" ],
+      "nested": { "1": { "chunks": [ [ "null", 200 ], [ "formless_ruins_escapepod", 1 ] ] } }
     }
   },
   {
@@ -583,7 +598,7 @@
         "        .. .",
         "            ",
         "            ",
-        "            ",
+        "  1         ",
         "           /",
         "          ..",
         ".        ../",
@@ -591,7 +606,8 @@
         "#.         #",
         "/           "
       ],
-      "palettes": [ "afs_formless_ruins" ]
+      "palettes": [ "afs_formless_ruins" ],
+      "nested": { "1": { "chunks": [ [ "null", 200 ], [ "formless_ruins_escapepod", 1 ] ] } }
     }
   },
   {
@@ -634,8 +650,8 @@
         "/W   / ...W/",
         "/W   /P.C.W/",
         "///33///////",
-        "##/ ..  /.. ",
-        "/////////   "
+        "##/ ..   .. ",
+        "///////ó////"
       ],
       "terrain": { "P": "t_metal_floor", "C": "t_metal_floor", "W": "t_metal_floor" },
       "furniture": { "P": "f_cooling_pylon", "C": "f_cryo_pod", "W": "f_workbench" },
@@ -682,7 +698,8 @@
           { "item": "afs_any_energy_mag", "chance": 10, "repeat": [ 1, 2 ] }
         ]
       },
-      "place_monsters": [ { "monster": "GROUP_CRYO_LAB", "x": [ 1, 5 ], "y": [ 1, 2 ], "density": 0.1, "repeat": [ 1, 3 ] } ],
+      "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 0, 11 ], "y": [ 0, 11 ], "density": 0.1 } ],
+      "monster": { "M": { "monster": "mon_skitterbot" } },
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -708,6 +725,7 @@
       ],
       "terrain": { "C": "t_metal_floor", "s": "t_metal_floor" },
       "furniture": { "P": "f_sleep_pod", "s": "f_sink" },
+      "place_monsters": [ { "monster": "AFS_GROUP_MOXIE_LOW_RISK", "x": [ 0, 11 ], "y": [ 0, 11 ], "density": 0.1 } ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
@@ -734,6 +752,7 @@
           { "item": "supplies_electronics", "chance": 80, "repeat": [ 1, 3 ] }
         ]
       },
+      "place_monsters": [ { "monster": "AFS_GROUP_ROBOT_NEUTRAL_OLD", "x": [ 0, 5 ], "y": [ 0, 5 ], "density": 0.05 } ],
       "palettes": [ "afs_formless_ruins" ]
     }
   },
