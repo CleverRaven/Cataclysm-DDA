@@ -201,6 +201,10 @@ std::string PATH_INFO::user_fontdir()
 {
     return user_dir_value + "font/";
 }
+std::string PATH_INFO::language_defs_file()
+{
+    return datadir_value + "raw/" + "languages.json";
+}
 std::string PATH_INFO::graveyarddir()
 {
     return user_dir_value + "graveyard/";

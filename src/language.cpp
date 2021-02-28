@@ -49,30 +49,7 @@ static language_info const *current_language = nullptr;
 
 static language_info fallback_language = { "en", R"(English)", "en_US.UTF-8", "", { 1033 } };
 
-std::vector<language_info> lang_options = {
-    // Note: language names are in their own language and are *not* translated at all.
-    // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
-    // http://en.wikipedia.org/wiki/List_of_language_names
-    // "Useful" links for LCID numbers:
-    // https://www.science.co.il/language/Locale-codes.php
-    // https://support.microsoft.com/de-de/help/193080/how-to-use-the-getuserdefaultlcid-windows-api-function-to-determine-op
-    // https://msdn.microsoft.com/en-us/library/cc233965.aspx
-    { "en", R"(English)", "en_US.UTF-8", "", {{ 1033, 2057, 3081, 4105, 5129, 6153, 7177, 8201, 9225, 10249, 11273 }} },
-#if defined(LOCALIZE)
-    { "de", R"(Deutsch)", "de_DE.UTF-8", "", {{ 1031, 2055, 3079, 4103, 5127 }} },
-    { "es_AR", R"(Español (Argentina))", "es_AR.UTF-8", "", { 11274 } },
-    { "es_ES", R"(Español (España))", "es_ES.UTF-8", "", {{ 1034, 2058, 3082, 4106, 5130, 6154, 7178, 8202, 9226, 10250, 12298, 13322, 14346, 15370, 16394, 17418, 18442, 19466, 20490 }} },
-    { "fr", R"(Français)", "fr_FR.UTF-8", "", {{ 1036, 2060, 3084, 4108, 5132 }} },
-    { "hu", R"(Magyar)", "hu_HU.UTF-8", "", { 1038 } },
-    { "ja", R"(日本語)", "ja_JP.UTF-8", "", { 1041 } },
-    { "ko", R"(한국어)", "ko_KR.UTF-8", "", { 1042 } },
-    { "pl", R"(Polski)", "pl_PL.UTF-8", "", { 1045 } },
-    { "pt_BR", R"(Português (Brasil))", "pt_BR.UTF-8", "", {{ 1046, 2070 }} },
-    { "ru", R"(Русский)", "ru_RU.UTF-8", "", { 1049 } },
-    { "zh_CN", R"(中文 (天朝))", "zh_CN.UTF-8", "zh_Hans", {{ 2052, 3076, 4100 }} },
-    { "zh_TW", R"(中文 (台灣))", "zh_TW.UTF-8", "zh_Hant", { 1028 } },
-#endif // LOCALIZE
-};
+std::vector<language_info> lang_options;
 
 static language_info const *get_lang_info( const std::string &lang )
 {
@@ -283,6 +260,32 @@ void set_language()
     reload_names();
 }
 
+static std::vector<language_info> load_languages( const std::string &filepath )
+{
+    std::vector<language_info> ret;
+    try {
+        std::ifstream stream( filepath, std::ios_base::binary );
+        if( !stream.is_open() ) {
+            throw std::runtime_error( string_format( "File '%s' not found", filepath ) );
+        }
+        JsonIn json( stream );
+        JsonArray arr = json.get_array();
+        for( const JsonObject &obj : arr ) {
+            language_info info;
+            info.id = obj.get_string( "id" );
+            info.name = obj.get_string( "name" );
+            info.locale = obj.get_string( "locale" );
+            info.osx = obj.get_string( "osx", "" );
+            info.lcids = obj.get_int_array( "lcids" );
+            ret.push_back( info );
+        }
+    } catch( const std::exception &e ) {
+        debugmsg( "[lang] Failed to read language definitions: %s", e.what() );
+        return std::vector<language_info>();
+    }
+
+    return ret;
+}
 #else // !LOCALIZE
 
 void set_language()
@@ -326,9 +329,12 @@ bool init_language_system()
     DebugLog( D_INFO, DC_ALL ) << "[lang] C locale on startup: " << sys_c_locale;
     DebugLog( D_INFO, DC_ALL ) << "[lang] C++ locale on startup: " << sys_cpp_locale;
 
-    // TODO: scan for languages like we do for tilesets.
-
 #if defined(LOCALIZE)
+    lang_options = load_languages( PATH_INFO::language_defs_file() );
+    if( lang_options.empty() ) {
+        lang_options = { fallback_language };
+    }
+
     std::string lang = getSystemUILang();
     if( lang.empty() ) {
         system_language = nullptr;
@@ -339,6 +345,7 @@ bool init_language_system()
     }
 #else // LOCALIZE
     system_language = &fallback_language;
+    lang_options = { fallback_language };
 #endif // LOCALIZE
 
     return true;
