@@ -8486,7 +8486,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             if( it->can_contain( meal ) ) {
                 it->put_in( meal, item_pocket::pocket_type::CONTAINER );
             } else {
-                add_msg( m_info, _( "Obstruction detected. Please remove any items lodged in the multi-cooker." ) );
+                add_msg( m_info, _( "Obstruction detected.  Please remove any items lodged in the multi-cooker." ) );
                 return 0;
             }
 
