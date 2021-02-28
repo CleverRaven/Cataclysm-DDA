@@ -1080,7 +1080,7 @@
     "encumbrance": 2,
     "warmth": 12,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE", "FANCY", "OUTER" ]
   },
   {
     "id": "ski_jacket",
