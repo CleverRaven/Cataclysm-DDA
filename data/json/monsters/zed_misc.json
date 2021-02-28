@@ -1342,6 +1342,7 @@
     "armor_bullet": 2,
     "vision_day": 15,
     "vision_night": 2,
+    "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 20 } ],
     "death_drops": "mon_zombie_miner_death_drops",
     "death_function": [ "NORMAL" ],
