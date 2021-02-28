@@ -744,9 +744,7 @@ bool oter_t::is_hardcoded() const
         "spider_pit_under",
         "temple",
         "temple_finale",
-        "temple_stairs",
-        "triffid_finale",
-        "triffid_roots"
+        "temple_stairs"
     };
 
     return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
