@@ -31,6 +31,10 @@
 #  include "ui_manager.h"
 #endif
 
+const std::string &to_valid_language( const std::string &lang );
+bool isValidLanguage( const std::string &lang );
+void update_global_locale();
+
 std::vector<language_info> lang_options = {
     // Note: language names are in their own language and are *not* translated at all.
     // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
@@ -122,7 +126,7 @@ std::string getOSXSystemLang()
 }
 #endif // MACOSX
 
-static const std::string &to_valid_language( const std::string &lang )
+const std::string &to_valid_language( const std::string &lang )
 {
     if( lang.empty() ) {
         return lang;
@@ -150,12 +154,13 @@ bool isValidLanguage( const std::string &lang )
     return !to_valid_language( lang ).empty();
 }
 
+#if defined(_WIN32)
 /* "Useful" links:
  *  https://www.science.co.il/language/Locale-codes.php
  *  https://support.microsoft.com/de-de/help/193080/how-to-use-the-getuserdefaultlcid-windows-api-function-to-determine-op
  *  https://msdn.microsoft.com/en-us/library/cc233965.aspx
  */
-std::string getLangFromLCID( const int &lcid )
+static std::string getLangFromLCID( const int &lcid )
 {
     static std::map<std::string, std::set<int>> lang_lcid;
     if( lang_lcid.empty() ) {
@@ -181,8 +186,9 @@ std::string getLangFromLCID( const int &lcid )
     }
     return "";
 }
+#endif // _WIN32
 
-void select_language()
+static void select_language()
 {
     auto languages = get_options().get_option( "USE_LANG" ).getItems();
 
@@ -238,14 +244,7 @@ void set_language()
         }
     }
 
-#if defined(_WIN32)
-    // Use the ANSI code page 1252 to work around some language output bugs.
-    if( setlocale( LC_ALL, ".1252" ) == nullptr ) {
-        DebugLog( D_WARNING, D_MAIN ) << "Error while setlocale(LC_ALL, '.1252').";
-    }
-    DebugLog( D_INFO, DC_ALL ) << "[lang] C locale set to " << setlocale( LC_ALL, nullptr );
-    DebugLog( D_INFO, DC_ALL ) << "[lang] C++ locale set to " << std::locale().name();
-#endif
+    update_global_locale();
 
     // Step 2. Bind to gettext domain.
     std::string locale_dir;
@@ -277,26 +276,9 @@ void set_language()
 
 #else // !LOCALIZE
 
-#include <cstring> // strcmp
-#include <map>
-
-bool isValidLanguage( const std::string &/*lang*/ )
-{
-    return true;
-}
-
-std::string getLangFromLCID( const int &/*lcid*/ )
-{
-    return "";
-}
-
-void select_language()
-{
-    return;
-}
-
 void set_language()
 {
+    update_global_locale();
     reload_names();
     return;
 }
@@ -391,6 +373,12 @@ const language_info &get_language()
 
 void update_global_locale()
 {
+#if defined(_WIN32)
+    // Use the ANSI code page 1252 to work around some language output bugs.
+    if( setlocale( LC_ALL, ".1252" ) == nullptr ) {
+        DebugLog( D_WARNING, D_MAIN ) << "[lang] Error while setlocale(LC_ALL, '.1252').";
+    }
+#else // _WIN32
     std::string lang = ::get_option<std::string>( "USE_LANG" );
 
     // TODO: reset to system locale when selecting 'System language'
@@ -401,6 +389,7 @@ void update_global_locale()
             std::locale::global( std::locale() );
         }
     }
+#endif // _WIN32
 
     DebugLog( D_INFO, DC_ALL ) << "[lang] C locale set to " << setlocale( LC_ALL, nullptr );
     DebugLog( D_INFO, DC_ALL ) << "[lang] C++ locale set to " << std::locale().name();

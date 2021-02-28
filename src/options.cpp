@@ -2881,7 +2881,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     }
 
     if( lang_changed ) {
-        update_global_locale();
         set_language();
     }
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
@@ -3005,7 +3004,6 @@ void options_manager::load()
         deserialize( jsin );
     } );
 
-    update_global_locale();
     cache_to_globals();
 }
 

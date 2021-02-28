@@ -635,6 +635,7 @@ int main( int argc, char *argv[] )
 #if !defined(TILES)
     get_options().init();
     get_options().load();
+    set_language(); // Have to set locale before initializing ncurses
 #endif
 
     // in test mode don't initialize curses to avoid escape sequences being inserted into output stream
@@ -652,7 +653,9 @@ int main( int argc, char *argv[] )
         }
     }
 
+#if defined(TILES)
     set_language();
+#endif
 
     rng_set_engine_seed( seed );
 
