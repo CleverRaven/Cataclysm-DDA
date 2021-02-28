@@ -399,22 +399,33 @@ void update_global_locale()
 #else // _WIN32
     std::string lang = ::get_option<std::string>( "USE_LANG" );
 
+    bool set_user = false;
     if( lang.empty() ) {
         // Restore user locale
+        set_user = true;
+    } else {
+        // Try specific locale
+        try {
+            std::locale::global( std::locale( get_lang_info( lang )->locale ) );
+        } catch( std::runtime_error &e ) {
+            // Try fairly neutral UTF-8 locale
+            try {
+                std::locale::global( std::locale( fallback_language.locale ) );
+            } catch( std::runtime_error &e ) {
+                // No choice left
+                set_user = true;
+            }
+        }
+    }
+    if( set_user ) {
         setlocale( LC_ALL, sys_c_locale.c_str() );
         try {
             std::locale::global( std::locale( sys_cpp_locale ) );
         } catch( std::runtime_error &e ) {
-            std::locale::global( std::locale() );
-        }
-    } else {
-        // Overwrite user locale
-        try {
-            std::locale::global( std::locale( get_lang_info( lang )->locale ) );
-        } catch( std::runtime_error &e ) {
-            std::locale::global( std::locale() );
+            std::locale::global( std::locale::classic() );
         }
     }
+
 #endif // _WIN32
 
     DebugLog( D_INFO, DC_ALL ) << "[lang] C locale set to " << setlocale( LC_ALL, nullptr );
