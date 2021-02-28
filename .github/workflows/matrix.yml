@@ -35,6 +35,7 @@ jobs:
   varied_builds:
     strategy:
       fail-fast: false
+      max-parallel: 2
       matrix:
         include:
           - compiler: g++-9
