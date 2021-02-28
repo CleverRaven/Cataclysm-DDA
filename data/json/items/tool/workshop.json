@@ -545,6 +545,7 @@
     "description": "This is a portable toolkit, consisting of a small carving knife for precise carving of replacement parts from raw materials, a wood saw for more heavy-duty wood cutting, and a patch of soft material for cleaning surfaces.  If supplied with duct tape, it can be used to repair certain items.",
     "weight": "386 g",
     "volume": "1500 ml",
+    "longest_side": "46 cm",
     "price": 1000,
     "price_postapoc": 500,
     "to_hit": -1,
