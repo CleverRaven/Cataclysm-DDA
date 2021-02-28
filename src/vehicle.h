@@ -742,10 +742,10 @@ class vehicle
                                    bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
-        int engine_start_time( int e, bool generators_only = false ) const;
+        int engine_start_time( int e, bool for_generators = false ) const;
 
         // How much does the temperature effect the engine starting (0.0 - 1.0)
-        double engine_cold_factor( int e, bool generators_only = false ) const;
+        double engine_cold_factor( int e, bool for_generators = false ) const;
 
         // refresh pivot_cache, clear pivot_dirty
         void refresh_pivot() const;
@@ -887,17 +887,17 @@ class vehicle
         bool fold_up();
 
         // Try select any fuel for engine, returns true if some fuel is available
-        bool auto_select_fuel( int e, bool generators_only = false );
+        bool auto_select_fuel( int e, bool for_generators = false );
         // Attempt to start an engine
-        bool start_engine( int e, bool generators_only = false );
+        bool start_engine( int e, bool for_generators = false );
         // stop all engines
         void stop_engines();
         // Attempt to start the vehicle's active engines or generators
         void start_engines( bool take_control = false, bool autodrive = false,
-                            bool generators_only = false );
+                            bool for_generators = false );
 
         // Engine backfire, making a loud noise
-        void backfire( int e, bool generators_only = false ) const;
+        void backfire( int e, bool for_generators = false ) const;
 
         // get vpart type info for part number (part at given vector index)
         const vpart_info &part_info( int index, bool include_removed = false ) const;
@@ -1179,7 +1179,7 @@ class vehicle
         // Checks how much of the part p's current fuel is left
         int fuel_left( int p, bool recurse = false ) const;
         // Checks how much of an engine's current fuel is left in the tanks.
-        int engine_fuel_left( int e, bool recurse = false, bool generators_only = false ) const;
+        int engine_fuel_left( int e, bool recurse = false, bool for_generators = false ) const;
         int fuel_capacity( const itype_id &ftype ) const;
 
         // Returns the total specific energy of this fuel type. Frozen is ignored.
@@ -1218,11 +1218,11 @@ class vehicle
         std::vector<vehicle_part *> lights( bool active = false );
 
         void update_alternator_load();
-        int get_alternator_load( bool generators_only ) const;
+        int get_alternator_load( bool for_generators ) const;
 
         // Total drain or production of electrical power from engines.
         int total_engine_epower_w() const;
-        int total_engine_epower_w( bool generators_only ) const;
+        int total_engine_epower_w( bool for_generators ) const;
         // Total production of electrical power from alternators.
         int total_alternator_epower_w() const;
         // Total power currently being produced by all solar panels.
@@ -1336,7 +1336,7 @@ class vehicle
         // Loop through engines and generate noise and smoke for each one
         void noise_and_smoke( int load, time_duration time = 1_turns );
         // Loop through provided parts and generate noise and smoke for each one
-        void noise_and_smoke( int load, bool generators_only, time_duration time = 1_turns );
+        void noise_and_smoke( int load, bool for_generators, time_duration time = 1_turns );
 
         /**
          * Calculates the sum of the area under the wheels of the vehicle.
@@ -1722,17 +1722,17 @@ class vehicle
         //main method for the control of multiple electronics
         void control_electronics();
         //main method for the control of individual engines or generators
-        void control_engines( bool generators_only = false );
+        void control_engines( bool for_generators = false );
         // shows ui menu to select an engine or generator
-        int select_engine( bool generators_only = false );
+        int select_engine( bool for_generators = false );
         //returns whether the engine is enabled or not, and has fueltype
         bool is_engine_type_on( int e, const itype_id &ft ) const;
         //returns whether the engine or generator is enabled or not
-        bool is_engine_on( int e, bool generators_only = false ) const;
+        bool is_engine_on( int e, bool for_generators = false ) const;
         //returns whether the part is enabled or not
         bool is_part_on( int p ) const;
         //returns whether the engine or generator uses specified fuel type
-        bool is_engine_type( int e, const itype_id &ft, bool generators_only = false ) const;
+        bool is_engine_type( int e, const itype_id &ft, bool for_generators = false ) const;
         //returns whether the engine uses one of specific "combustion" fuel types (gas, diesel and diesel substitutes)
         bool is_combustion_engine_type( int e ) const;
         //returns whether the alternator on vehicle is operational
@@ -1740,20 +1740,20 @@ class vehicle
         //returns whether the alternator mounted on collection of parts is operational
         bool is_alternator_on( int a, bool for_generators ) const;
         //turn engine as on or off (note: doesn't perform checks if engine can start)
-        void toggle_specific_engine( int e, bool on, bool generators_only = false );
+        void toggle_specific_engine( int e, bool on, bool for_generators = false );
         // try to turn engine on or off
         // (tries to start it and toggles it on if successful, shutdown is always a success)
         // returns true if engine status was changed
-        bool start_engine( int e, bool turn_on, bool generators_only );
+        bool start_engine( int e, bool turn_on, bool for_generators );
         void toggle_specific_part( int p, bool on );
         //true if an engine exists with specified type
         //If enabled true, this engine must be enabled to return true
-        bool has_engine_type( const itype_id &ft, bool enabled, bool generators_only = false ) const;
+        bool has_engine_type( const itype_id &ft, bool enabled, bool for_generators = false ) const;
         bool has_harnessed_animal() const;
         //true if an engine exists without the specified type
         //If enabled true, this engine must be enabled to return true
-        //If generators_only searches for generator instead of engine
-        bool has_engine_type_not( const itype_id &ft, bool enabled, bool generators_only = false ) const;
+        //If for_generators searches for generator instead of engine
+        bool has_engine_type_not( const itype_id &ft, bool enabled, bool for_generators = false ) const;
         //returns true if there's another engine with the same exclusion list; conflict_type holds
         //the exclusion
         bool has_engine_conflict( const vpart_info *possible_conflict, std::string &conflict_type ) const;

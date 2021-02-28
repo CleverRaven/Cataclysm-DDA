@@ -2170,7 +2170,7 @@ void activity_handlers::start_generators_finish( player_activity *act, player *p
 }
 
 void activity_handlers::start_motors_finish( player_activity *act, player *p,
-        const bool generators_only )
+        const bool for_generators )
 {
     act->set_to_null();
     // Find the vehicle by looking for a remote vehicle first, then by player relative coordinates
@@ -2184,7 +2184,7 @@ void activity_handlers::start_motors_finish( player_activity *act, player *p,
         }
     }
 
-    const std::vector<int> motors = generators_only ? veh->generators : veh->engines;
+    const std::vector<int> motors = for_generators ? veh->generators : veh->engines;
 
     int attempted = 0;
     int non_muscle_attempted = 0;
@@ -2194,16 +2194,16 @@ void activity_handlers::start_motors_finish( player_activity *act, player *p,
     const bool take_control = act->values[0];
 
     for( size_t e = 0; e < motors.size(); ++e ) {
-        if( veh->is_engine_on( e, generators_only ) ) {
+        if( veh->is_engine_on( e, for_generators ) ) {
             attempted++;
-            if( !veh->is_engine_type( e, itype_muscle, generators_only ) &&
-                !veh->is_engine_type( e, itype_animal, generators_only ) ) {
+            if( !veh->is_engine_type( e, itype_muscle, for_generators ) &&
+                !veh->is_engine_type( e, itype_animal, for_generators ) ) {
                 non_muscle_attempted++;
             }
-            if( veh->start_engine( e, generators_only ) ) {
+            if( veh->start_engine( e, for_generators ) ) {
                 started++;
-                if( !veh->is_engine_type( e, itype_muscle, generators_only ) &&
-                    !veh->is_engine_type( e, itype_animal, generators_only ) ) {
+                if( !veh->is_engine_type( e, itype_muscle, for_generators ) &&
+                    !veh->is_engine_type( e, itype_animal, for_generators ) ) {
                     non_muscle_started++;
                 } else {
                     non_combustion_started++;
@@ -2213,7 +2213,7 @@ void activity_handlers::start_motors_finish( player_activity *act, player *p,
     }
 
     //Did any engines start?
-    if( generators_only ) {
+    if( for_generators ) {
         veh->generator_on = started;
     } else {
         veh->engine_on = started;
