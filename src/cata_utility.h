@@ -199,6 +199,13 @@ double temp_to_celsius( double fahrenheit );
 double temp_to_kelvin( double fahrenheit );
 
 /**
+ * Convert a temperature from degrees Celsius to Kelvin.
+ *
+ * @return Temperature in degrees K.
+ */
+double celsius_to_kelvin( double celsius );
+
+/**
  * Convert a temperature from Kelvin to degrees Fahrenheit.
  *
  * @return Temperature in degrees C.

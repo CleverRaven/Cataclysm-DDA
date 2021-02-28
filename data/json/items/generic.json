@@ -3390,5 +3390,23 @@
         ]
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_tazer_hack",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken tazer hack" },
+    "category": "other",
+    "description": "A broken tazer hack, with its propellers still and tazer inert.  Could be gutted for parts.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "steel", "plastic" ],
+    "weight": "100 kg",
+    "volume": "65 L",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   }
 ]
