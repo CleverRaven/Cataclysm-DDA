@@ -2183,6 +2183,22 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "fancy_sunglasses_bifocal",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "fancy_sunglasses_reading",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "felt_patch",
     "type": "uncraft",
     "time": "5 m",
@@ -3759,6 +3775,22 @@
   },
   {
     "result": "sunglasses",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "sunglasses_bifocal",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "sunglasses_reading",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "6 s",

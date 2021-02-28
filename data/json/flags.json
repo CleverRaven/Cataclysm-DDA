@@ -460,7 +460,7 @@
     "id": "PREDATOR_FUN",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
-    "info": "Designates a food that is usually undesirable but gives a morale bonus to characters with predator mutations."
+    "//": "Designates a food that is usually undesirable but gives a morale bonus to characters with predator mutations."
   },
   {
     "id": "STAB",

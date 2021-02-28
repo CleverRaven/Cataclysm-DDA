@@ -166,7 +166,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         square.volume = 0_ml;
         square.weight = 0_gram;
 
-        if( u.weapon.is_container() ) {
+        if( !u.weapon.is_null() ) {
             advanced_inv_listitem it( item_location( u, &u.weapon ), 0, 1, square.id, false );
             if( !is_filtered( *it.items.front() ) ) {
                 square.volume += it.volume;
