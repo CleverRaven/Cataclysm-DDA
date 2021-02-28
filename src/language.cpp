@@ -199,6 +199,16 @@ static void select_language()
     get_options().save();
 }
 
+static bool cata_setenv( const std::string &name, const std::string &value )
+{
+#if defined(_WIN32)
+    std::string s = name + "=" + value;
+    return _putenv( s.c_str() ) == 0;
+#else
+    return setenv( name.c_str(), value.c_str(), true ) == 0;
+#endif
+}
+
 void set_language()
 {
     std::string win_or_mac_lang;
@@ -208,23 +218,17 @@ void set_language()
 #if defined(MACOSX)
     win_or_mac_lang = getOSXSystemLang();
 #endif
-    // Step 1. Setup locale settings.
+    // Step 1. Setup locale & environment variables.
+    // TODO: reset to system values when selecting 'System language'
     std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_or_mac_lang :
                            get_option<std::string>( "USE_LANG" );
     if( !lang_opt.empty() ) {
-        // Not 'System Language'
-        // Overwrite all system locale settings. Use CDDA settings. User wants this.
-#if defined(_WIN32)
-        std::string lang_env = "LANGUAGE=" + lang_opt;
-        if( _putenv( lang_env.c_str() ) != 0 ) {
+        // By default, gettext uses current locale to determine which language to use.
+        // Since locale for desired language may be missing from user system,
+        // we need to explicitly specify it.
+        if( !cata_setenv( "LANGUAGE", lang_opt ) ) {
             DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
-        }
-#else
-        if( setenv( "LANGUAGE", lang_opt.c_str(), true ) != 0 ) {
-            DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
-        }
-#endif
-        else {
+        } else {
             const auto env = getenv( "LANGUAGE" );
             if( env != nullptr ) {
                 DebugLog( D_INFO, D_MAIN ) << "[lang] Language is set to: '" << env << '\'';
