@@ -47,7 +47,7 @@ static language_info const *system_language = nullptr;
 // May be nullptr if language hasn't been set yet.
 static language_info const *current_language = nullptr;
 
-static language_info fallback_language = { "en", R"(English)", "en_US.UTF-8", "", { 1033 } };
+static language_info fallback_language = { "en", R"(English)", "en_US.UTF-8", { "n" }, "", { 1033 } };
 
 std::vector<language_info> lang_options;
 
@@ -275,6 +275,7 @@ static std::vector<language_info> load_languages( const std::string &filepath )
             info.id = obj.get_string( "id" );
             info.name = obj.get_string( "name" );
             info.locale = obj.get_string( "locale" );
+            info.genders = obj.get_string_array( "genders" );
             info.osx = obj.get_string( "osx", "" );
             info.lcids = obj.get_int_array( "lcids" );
             ret.push_back( info );
@@ -282,6 +283,21 @@ static std::vector<language_info> load_languages( const std::string &filepath )
     } catch( const std::exception &e ) {
         debugmsg( "[lang] Failed to read language definitions: %s", e.what() );
         return std::vector<language_info>();
+    }
+
+    // Sanity check genders
+    const std::vector<std::string> all_genders = {{"f", "m", "n"}};
+
+    for( language_info &info : ret ) {
+        for( const std::string &g : info.genders ) {
+            if( find( all_genders.begin(), all_genders.end(), g ) == all_genders.end() ) {
+                debugmsg( "Unexpected gender '%s' in grammatical gender list for language '%d'",
+                          g, info.id );
+            }
+        }
+        if( info.genders.empty() ) {
+            info.genders.push_back( "n" );
+        }
     }
 
     return ret;
