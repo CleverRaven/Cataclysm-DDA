@@ -2907,8 +2907,9 @@ void act_vehicle_siphon( vehicle *veh )
 {
     std::vector<itype_id> fuels;
     bool has_liquid = false;
+    // Check all tanks on this vehicle to see if they contain any liquid
     for( const vpart_reference &vp : veh->get_any_parts( VPFLAG_FLUIDTANK ) ) {
-        if( vp.part().get_base().contents.legacy_front().made_of( phase_id::LIQUID ) ) {
+        if( vp.part().contains_liquid() ) {
             has_liquid = true;
             break;
         }
@@ -2920,7 +2921,7 @@ void act_vehicle_siphon( vehicle *veh )
 
     std::string title = _( "Select tank to siphon:" );
     auto sel = []( const vehicle_part & pt ) {
-        return pt.is_tank() && pt.get_base().contents.legacy_front().made_of( phase_id::LIQUID );
+        return pt.contains_liquid();
     };
     vehicle_part &tank = veh_interact::select_part( *veh, sel, title );
     if( tank ) {

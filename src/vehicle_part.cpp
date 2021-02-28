@@ -530,6 +530,12 @@ bool vehicle_part::is_tank() const
     return base.is_watertight_container();
 }
 
+bool vehicle_part::contains_liquid() const
+{
+    return is_tank() && !base.contents.empty() &&
+           base.contents.only_item().made_of( phase_id::LIQUID );
+}
+
 bool vehicle_part::is_battery() const
 {
     return base.is_magazine() && base.ammo_types().count( ammotype( "battery" ) );
