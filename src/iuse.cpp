@@ -8451,8 +8451,9 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 {
     static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
     static const int charges_to_start = 50;
+
     if( t ) {
-        if( !it->units_sufficient( *p ) ) {
+        if( !p->has_enough_charges( *it, false ) ) {
             it->active = false;
             return 0;
         }
@@ -8482,7 +8483,12 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             it->active = false;
             it->erase_var( "DISH" );
             it->erase_var( "COOKTIME" );
-            it->put_in( meal, item_pocket::pocket_type::CONTAINER );
+            if( it->can_contain( meal ) ) {
+                it->put_in( meal, item_pocket::pocket_type::CONTAINER );
+            } else {
+                add_msg( m_info, _( "Obstruction detected. Please remove any items lodged in the multi-cooker." ) );
+                return 0;
+            }
 
             //~ sound of a multi-cooker finishing its cycle!
             sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
@@ -8534,7 +8540,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
         } else {
             if( dish_it == nullptr ) {
-                if( it->ammo_remaining() < charges_to_start ) {
+                if( it->ammo_remaining() < charges_to_start && !( it->has_flag( flag_USE_UPS ) &&
+                        p->charges_of( itype_UPS_off ) >= charges_to_start ) ) {
                     p->add_msg_if_player( _( "Batteries are low." ) );
                     return 0;
                 }
@@ -8658,7 +8665,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
                 const int all_charges = charges_to_start + mealtime / ( it->type->tool->power_draw / 10000 );
 
-                if( it->ammo_remaining() < all_charges ) {
+                if( it->ammo_remaining() < all_charges && !( it->has_flag( flag_USE_UPS ) &&
+                        p->charges_of( itype_UPS_off ) >= all_charges ) ) {
 
                     p->add_msg_if_player( m_warning,
                                           _( "The multi-cooker needs %d charges to cook this dish." ),
