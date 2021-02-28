@@ -278,7 +278,7 @@
     "id": "boots_wsurvivor_nofur",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of winter survivor boots", "str_pl": "pairs of winter survivor boots" },
+    "name": { "str": "pair of faux fur winter survivor boots", "str_pl": "pairs of faux fur winter survivor boots" },
     "description": "A pair of customized, Kevlar armored faux fur boots, modified to provide maximum protection from harm and the elements, even when knee-deep in the dead.  While not quite as warm as real fur it's pretty good.",
     "copy-from": "boots_wsurvivor",
     "material": [ "kevlar", "faux_fur" ],
@@ -289,7 +289,7 @@
   {
     "id": "xl_boots_wsurvivor_nofur",
     "type": "ARMOR",
-    "name": { "str": "pair of XL winter survivor boots", "str_pl": "pairs of XL winter survivor boots" },
+    "name": { "str": "pair of XL faux fur winter survivor boots", "str_pl": "pairs of XL faux fur winter survivor boots" },
     "copy-from": "boots_wsurvivor",
     "material": [ "kevlar", "faux_fur" ],
     "description": "A pair of customized and oversized, Kevlar armored faux fur boots, modified to provide maximum protection from harm and the elements, even when knee-deep in the dead.  While not quite as warm as real fur it's pretty good.",
