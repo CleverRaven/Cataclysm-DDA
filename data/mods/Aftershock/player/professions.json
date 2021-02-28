@@ -107,7 +107,7 @@
     "type": "profession",
     "id": "afs_atomic_pitchman",
     "name": { "male": "Atomic Pitchman", "female": "Atomic Pitchwoman" },
-    "description": "You were hired to market Rivtech's products through TV and were on your way to the studio when the bombs hit.  You enter now the end of the world with nothing but the snazzy clothes on your back and a bunch of plutonium-powered toys.",
+    "description": "You were hired to market Rivtech's products through TV and were on your way to the studio when the bombs hit.  You now enter the end of the world with nothing but the snazzy clothes on your back and a bunch of plutonium-powered toys.",
     "points": 3,
     "skills": [ { "level": 1, "name": "speech" } ],
     "items": {
@@ -192,7 +192,7 @@
     "id": "afs_wraitheon_executive",
     "name": "Wraitheon Executive",
     "description": {
-      "str": "You were one of the chief executives of the Megacorporation Wraitheon Robotics ltd. and consistently ranked among the most powerful and influential persons of the world.  Still, the apocalypse has caught you unprepared, and now after the dissolution of your company and the crumbling of your network of influence, your were left powerless and destitute, and must rely on your two robotic bodyguards to survive.",
+      "str": "You were one of the chief executives of the Megacorporation Wraitheon Robotics ltd. and consistently ranked among the most powerful and influential persons of the world.  Still, the apocalypse has caught you unprepared, and now after the dissolution of your company and the crumbling of your network of influence, you are left powerless and destitute, and must rely on your two robotic bodyguards to survive.",
       "//NOLINT(cata-text-style)": "not a period"
     },
     "points": 8,
