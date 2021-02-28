@@ -4,7 +4,7 @@
     "type": "GUNMOD",
     "copy-from": "electrolaser_conversion",
     "name": { "str": "electrolaser conversion" },
-    "description": "A set of high-tech electronics and optics.  This convert a laser pistol into a less-lethal electrolaser capable of stunning targets, at the cost of decreased damage output and increased power consumption.",
+    "description": "A set of high-tech electronics and optics.  This converts a laser pistol into a less-lethal electrolaser capable of stunning targets, at the cost of decreased damage output and increased power consumption.",
     "damage_modifier": { "damage_type": "heat", "amount": -4 },
     "range_modifier": -10,
     "ammo_to_fire_multiplier": 1.2
