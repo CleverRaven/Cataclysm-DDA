@@ -4293,8 +4293,8 @@ void map::draw_mine( mapgendata &dat )
 
             case 1: { // Toxic gas
                 point gas_vent_location( rng( 9, 14 ), rng( 9, 14 ) );
-                ter_set( point( gas_vent_location.x, gas_vent_location.y ), t_rock );
-                add_field( { gas_vent_location.x, gas_vent_location.y, abs_sub.z}, fd_gas_vent, 2 );
+                ter_set( point( gas_vent_location ), t_rock );
+                add_field( { gas_vent_location, abs_sub.z}, fd_gas_vent, 2 );
             }
             break;
 
@@ -4319,8 +4319,8 @@ void map::draw_mine( mapgendata &dat )
                         }
                     }
                 }
-                place_items( item_group_id( "wreckage" ), 70, point( wreck_location.x - 3, wreck_location.y - 3 ),
-                             point( wreck_location.x + 2, wreck_location.y + 2 ), false, calendar::start_of_cataclysm );
+                place_items( item_group_id( "wreckage" ), 70, wreck_location + point( -3, -3 ),
+                             wreck_location + point( 2, 2 ), false, calendar::start_of_cataclysm );
             }
             break;
 
