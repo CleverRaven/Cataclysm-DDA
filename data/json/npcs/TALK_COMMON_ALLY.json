@@ -181,8 +181,6 @@
         "topic": "TALK_DONE",
         "effect": "dismount"
       },
-      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
-      { "text": "Let's go.", "topic": "TALK_DONE" },
       {
         "text": "Please go to this location.",
         "topic": "TALK_GOTO_LOCATION",
@@ -222,6 +220,8 @@
         "effect": "basecamp_mission",
         "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
       },
+      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
     ]
   },
   {
