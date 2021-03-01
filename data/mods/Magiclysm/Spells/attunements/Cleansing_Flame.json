@@ -130,7 +130,5 @@
     "energy_source": "MANA",
     "flags": [ "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
     "spell_class": "CLEANSING_FLAME",
-    "difficulty": 2,
-    "max_level": 1
   }
 ]
