@@ -164,12 +164,6 @@
         "effect": "assign_guard"
       },
       {
-        "text": "I want to assign you to work at this camp.",
-        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
-        "topic": "TALK_FRIEND_GUARD",
-        "effect": "assign_camp"
-      },
-      {
         "text": "Find a horse and mount up!",
         "condition": { "not": "npc_is_riding" },
         "topic": "TALK_DONE",
@@ -181,6 +175,7 @@
         "topic": "TALK_DONE",
         "effect": "dismount"
       },
+      { "text": "Let's go.", "topic": "TALK_DONE" },
       {
         "text": "Please go to this location.",
         "topic": "TALK_GOTO_LOCATION",
@@ -192,6 +187,12 @@
         "topic": "TALK_HALLU_CAMP",
         "condition": { "npc_has_trait": "HALLUCINATION" },
         "switch": true
+      },
+      {
+        "text": "I want to assign you to work at this camp.",
+        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
+        "topic": "TALK_FRIEND_GUARD",
+        "effect": "assign_camp"
       },
       {
         "text": "I want you to build a camp here.",
@@ -219,9 +220,7 @@
         "topic": "TALK_DONE",
         "effect": "basecamp_mission",
         "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
-      },
-      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
+      }
     ]
   },
   {
@@ -557,7 +556,7 @@
           },
           "yes": "*will recharge power CBMs until <mypronoun> has 90% of total power."
         },
-        "  When should <mypronoun> consume supplies to recharge power CBMs?"
+        "  When should <mypronouxn> consume supplies to recharge power CBMs?"
       ]
     },
     "responses": [
