@@ -114,7 +114,7 @@
     "min_aoe": 3,
     "max_aoe": 5,
     "aoe_increment": 0.05,
-    "spell_class": "CLEANSING_FLAME",
+    "spell_class": "CLEANSING_FLAME"
   },
   {
     "id": "cleansingflame_hermes_split",
