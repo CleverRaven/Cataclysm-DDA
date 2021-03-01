@@ -99,8 +99,8 @@
   {
     "id": "cleansingflame_hermes_burn",
     "type": "SPELL",
-    "name": "Hermes reborn fire",
-    "description": "Give some frost damage for hermes reborn spell. Technical spell, you dont allowed to see it, if youre not in debug mode.",
+    "name": "Hermes Reborn fire",
+    "description": "Give some frost damage for Hermes Reborn spell.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "self", "ally", "hostile", "ground" ],
     "flags": [ "LOUD", "NO_PROJECTILE" ],
     "effect": "attack",
