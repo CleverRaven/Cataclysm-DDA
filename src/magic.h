@@ -598,7 +598,7 @@ class known_magic
         void update_mana( const Character &guy, float turns );
         // does the Character have enough energy to cast this spell?
         // not specific to mana
-        bool has_enough_energy( const Character &guy, spell &sp ) const;
+        bool has_enough_energy( const Character &guy, const spell &sp ) const;
 
         void on_mutation_gain( const trait_id &mid, Character &guy );
         void on_mutation_loss( const trait_id &mid );
