@@ -52,7 +52,7 @@ Contains json data for vehicles, vehicle parts, and vehicle spawn groups.
 
 ### npcs
 
-Contains json data for npcs, factions, and design document for any new factions, specific new factions PrepPhyle and Whately Clan.  The PrepPhyle are a group of frontier squatters taking advantage of decaying colony infrastructure to set up an independent colony separate from Corporate and Earthgov influences.  The Whately Clan are a possibly-exiled branch of a corporate executive family.  They are mad, bad, and dangerous to know.  Mutant NPCs are also located in this folder.
+Contains json data for npcs and factions; the second is about the new factions PrepPhyle and Whately Clan.  (A faction design document is in progress.)  The PrepPhyle are a group of frontier squatters taking advantage of decaying colony infrastructure to set up an independent colony separate from Corporate and Earthgov influences.  The Whately Clan are a possibly-exiled branch of a corporate executive family.  They are mad, bad, and dangerous to know.  Mutant NPCs are also located in this folder.
 
 ### spells
 
