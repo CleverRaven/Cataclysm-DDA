@@ -115,9 +115,6 @@
     "max_aoe": 5,
     "aoe_increment": 0.05,
     "spell_class": "CLEANSING_FLAME",
-    "difficulty": 4,
-    "max_level": 40,
-    "energy_source": "MANA"
   },
   {
     "id": "cleansingflame_hermes_split",
