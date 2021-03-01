@@ -38,7 +38,7 @@
     "color": "green",
     "use_action": {
       "need_wielding": true,
-      "target": "grenade_cryo",
+      "target": "grenade_cryo_act",
       "msg": "You pull the pin on the grenade.",
       "target_charges": 5,
       "active": true,
@@ -53,7 +53,7 @@
     "category": "weapons",
     "name": { "str": "active cryo grenade" },
     "description": "This is an active grenade, and will explode any second now.  Once it explodes it spreads exotic highly thermodynamic shrapnel.  Better throw it!",
-    "weight": "607 g",
+    "weight": "397 g",
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 0,

@@ -804,27 +804,7 @@ bool spell::can_cast( Character &guy ) const
         return false;
     }
 
-    switch( type->energy_source ) {
-        case magic_energy_type::mana:
-            return guy.magic->available_mana() >= energy_cost( guy );
-        case magic_energy_type::stamina:
-            return guy.get_stamina() >= energy_cost( guy );
-        case magic_energy_type::hp: {
-            for( const std::pair<const bodypart_str_id, bodypart> &elem : guy.get_body() ) {
-                if( energy_cost( guy ) < elem.second.get_hp_cur() ) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        case magic_energy_type::bionic:
-            return guy.get_power_level() >= units::from_kilojoule( energy_cost( guy ) );
-        case magic_energy_type::fatigue:
-            return guy.get_fatigue() < fatigue_levels::EXHAUSTED;
-        case magic_energy_type::none:
-        default:
-            return true;
-    }
+    return guy.magic->has_enough_energy( guy, *this );
 }
 
 void spell::use_components( Character &guy ) const
@@ -1648,7 +1628,7 @@ std::vector<spell_id> known_magic::spells() const
 }
 
 // does the Character have enough energy (of the type of the spell) to cast the spell?
-bool known_magic::has_enough_energy( const Character &guy, spell &sp ) const
+bool known_magic::has_enough_energy( const Character &guy, const spell &sp ) const
 {
     int cost = sp.energy_cost( guy );
     switch( sp.energy_source() ) {
@@ -1829,6 +1809,7 @@ static std::string enumerate_spell_data( const spell &sp )
 
 void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu )
 {
+    Character &player_character = get_player_character();
     const int h_offset = menu->w_width - menu->pad_right + 1;
     // includes spaces on either side for readability
     const int info_width = menu->pad_right - 4;
@@ -1863,7 +1844,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                         string_format( "%s: %d", _( "Max Level" ), sp.get_max_level() ) );
 
     print_colored_text( w_menu, point( h_col1, line ), gray, gray,
-                        sp.colorized_fail_percent( get_player_character() ) );
+                        sp.colorized_fail_percent( player_character ) );
     print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
                         string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty() ) );
 
@@ -1877,21 +1858,21 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         line++;
     }
 
-    const bool cost_encumb = energy_cost_encumbered( sp, get_player_character() );
+    const bool cost_encumb = energy_cost_encumbered( sp, player_character );
     std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
     std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
-                             string_format( _( " (%s current)" ), sp.energy_cur_string( get_player_character() ) );
-    if( !sp.can_cast( get_player_character() ) ) {
+                             string_format( _( " (%s current)" ), sp.energy_cur_string( player_character ) );
+    if( !player_character.magic->has_enough_energy( player_character, sp ) ) {
         cost_string = colorize( _( "Not Enough Energy" ), c_red );
         energy_cur.clear();
     }
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s %s%s", cost_string,
-                                       sp.energy_cost_string( get_player_character() ), sp.energy_string(), energy_cur ) );
-    const bool c_t_encumb = casting_time_encumbered( sp, get_player_character() );
+                                       sp.energy_cost_string( player_character ), sp.energy_string(), energy_cur ) );
+    const bool c_t_encumb = casting_time_encumbered( sp, player_character );
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, colorize(
                             string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
-                                           moves_to_string( sp.casting_time( get_player_character() ) ) ),
+                                           moves_to_string( sp.casting_time( player_character ) ) ),
                             c_t_encumb  ? c_red : c_light_gray ) );
 
     if( line <= win_height * 3 / 4 ) {
@@ -2023,11 +2004,11 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     if( sp.has_components() ) {
         if( !sp.components().get_components().empty() ) {
             print_vec_string( sp.components().get_folded_components_list( info_width - 2, gray,
-                              get_player_character().crafting_inventory(), return_true<item> ) );
+                              player_character.crafting_inventory(), return_true<item> ) );
         }
         if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
             print_vec_string( sp.components().get_folded_tools_list( info_width - 2, gray,
-                              get_player_character().crafting_inventory() ) );
+                              player_character.crafting_inventory() ) );
         }
     }
 }
