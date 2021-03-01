@@ -230,6 +230,7 @@ static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
 static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_music" );
@@ -8451,10 +8452,19 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 {
     static const std::set<std::string> multicooked_subcats = { "CSC_FOOD_MEAT", "CSC_FOOD_VEGGI", "CSC_FOOD_PASTA" };
     static const int charges_to_start = 50;
+    const int charge_buffer = 2;
 
     if( t ) {
-        if( !p->has_enough_charges( *it, false ) ) {
+        //stop action before power runs out and iuse deletes the cooker
+        if( !( it->ammo_remaining() >= charge_buffer ) && !( it->has_flag( flag_USE_UPS ) &&
+                p->charges_of( itype_UPS ) >= charge_buffer ) ) {
             it->active = false;
+            it->erase_var( "RECIPE" );
+            it->convert( itype_multi_cooker );
+            //drain the buffer amount given at activation
+            it->ammo_consume( charge_buffer, pos );
+            p->add_msg_if_player( m_info,
+                                  _( "Batteries low, entering standby mode.  With a low buzzing sound the multi-cooker shuts down." ) );
             return 0;
         }
 
@@ -8486,7 +8496,8 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             if( it->can_contain( meal ) ) {
                 it->put_in( meal, item_pocket::pocket_type::CONTAINER );
             } else {
-                add_msg( m_info, _( "Obstruction detected.  Please remove any items lodged in the multi-cooker." ) );
+                add_msg( m_info,
+                         _( "Obstruction detected.  Please remove any items lodged in the multi-cooker." ) );
                 return 0;
             }
 
@@ -8541,7 +8552,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
         } else {
             if( dish_it == nullptr ) {
                 if( it->ammo_remaining() < charges_to_start && !( it->has_flag( flag_USE_UPS ) &&
-                        p->charges_of( itype_UPS_off ) >= charges_to_start ) ) {
+                        p->charges_of( itype_UPS ) >= charges_to_start ) ) {
                     p->add_msg_if_player( _( "Batteries are low." ) );
                     return 0;
                 }
@@ -8666,7 +8677,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 const int all_charges = charges_to_start + mealtime / ( it->type->tool->power_draw / 10000 );
 
                 if( it->ammo_remaining() < all_charges && !( it->has_flag( flag_USE_UPS ) &&
-                        p->charges_of( itype_UPS_off ) >= all_charges ) ) {
+                        p->charges_of( itype_UPS ) >= all_charges ) ) {
 
                     p->add_msg_if_player( m_warning,
                                           _( "The multi-cooker needs %d charges to cook this dish." ),
@@ -8694,7 +8705,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                                       _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
 
                 it->convert( itype_multi_cooker_filled ).active = true;
-                it->ammo_consume( charges_to_start, pos );
+                it->ammo_consume( charges_to_start - charge_buffer, pos );
 
                 p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
 
