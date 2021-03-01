@@ -80,7 +80,7 @@
     "id": "cleansingflame_hermes_heal",
     "type": "SPELL",
     "spell_class": "CLEANSING_FLAME",
-    "name": "Hermes reborn",
+    "name": "Hermes Reborn",
     "description": "In the sea without lees \nStandeth the bird of Hermes \nEating his wings variable \nAnd maketh himself yet full stable",
     "valid_targets": [ "self" ],
     "effect": "attack",
