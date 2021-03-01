@@ -34,7 +34,7 @@ struct bionic_data {
     translation name;
     translation description;
 
-    std::string cant_remove_reason;
+    cata::optional<std::string> cant_remove_reason;
     /** Power cost on activation */
     units::energy power_activate = 0_kJ;
     /** Power cost on deactivation */
