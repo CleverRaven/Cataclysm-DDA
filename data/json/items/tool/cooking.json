@@ -693,7 +693,7 @@
         "max_contains_volume": "2 L",
         "max_contains_weight": "4 kg",
         "max_item_length": "35 cm",
-        "moves": 0
+        "moves": 50
       }
     ]
   },
