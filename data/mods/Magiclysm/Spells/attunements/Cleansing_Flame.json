@@ -102,7 +102,7 @@
     "name": "Hermes reborn fire",
     "description": "Give some frost damage for hermes reborn spell. Technical spell, you dont allowed to see it, if youre not in debug mode.",
     "valid_targets": [ "self", "ally", "hostile", "ground" ],
-    "flags": [ "CONCENTRATE", "SOMATIC", "LOUD", "NO_PROJECTILE" ],
+    "flags": [ "LOUD", "NO_PROJECTILE" ],
     "effect": "attack",
     "shape": "blast",
     "min_damage": 10,
