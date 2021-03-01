@@ -109,6 +109,13 @@ jobs:
         apt:
           packages: ["wine"]
 
+    - env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="x86_64-w64-mingw32.static" WINE="wine" RELEASE=1 TILES=1 SOUND=1 DEPLOY=1 OPTLEVEL="-O3" BUILD_NAME=win64-tiles-o3
+      name: "Mingw-w64 Make cross-compile to Windows 64 bit, with -O3 optimization, with Tiles and Sound"
+      compiler: gcc
+      addons: &gcc
+        apt:
+          packages: ["wine"]
+
     - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" RELEASE=1 TILES=1 SOUND=1 DEPLOY=1 NATIVE=linux64 BUILD_NAME=lin64-tiles
       name: "GCC 8 64 bit Make build with Tiles and Sound"
       dist: bionic
