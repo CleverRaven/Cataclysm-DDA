@@ -517,7 +517,7 @@
       "cough_chance": [ 10 ]
     },
     "show_in_info": true,
-    "blood_analysis_description": "poison"
+    "blood_analysis_description": "unknown organic poison"
   },
   {
     "id": "venom_dmg",
