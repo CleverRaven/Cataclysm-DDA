@@ -1289,6 +1289,9 @@
     "type": "overmap_special",
     "id": "Triffid Grove",
     "overmaps": [
+      { "point": [ 0, 0, 3 ], "overmap": "triffid_grove_roof" },
+      { "point": [ 0, 0, 2 ], "overmap": "triffid_grove_z3" },
+      { "point": [ 0, 0, 1 ], "overmap": "triffid_grove_z2" },
       { "point": [ 0, 0, 0 ], "overmap": "triffid_grove" },
       { "point": [ 0, 0, -1 ], "overmap": "triffid_roots" },
       { "point": [ 0, 0, -2 ], "overmap": "triffid_finale" }

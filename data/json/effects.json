@@ -517,7 +517,7 @@
       "cough_chance": [ 10 ]
     },
     "show_in_info": true,
-    "blood_analysis_description": "Triffid Poison"
+    "blood_analysis_description": "poison"
   },
   {
     "id": "venom_dmg",
