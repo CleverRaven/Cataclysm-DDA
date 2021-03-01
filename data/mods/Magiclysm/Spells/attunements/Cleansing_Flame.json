@@ -124,8 +124,6 @@
     "valid_targets": [ "self" ],
     "effect": "pain_split",
     "shape": "blast",
-    "energy_source": "MANA",
-    "flags": [ "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
     "spell_class": "CLEANSING_FLAME",
   }
 ]
