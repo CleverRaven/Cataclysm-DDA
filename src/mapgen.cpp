@@ -4319,8 +4319,8 @@ void map::draw_mine( mapgendata &dat )
                         }
                     }
                 }
-                place_items( item_group_id( "wreckage" ), 70, point( x - 3, y - 3 ),
-                             point( x + 2, y + 2 ), false, calendar::start_of_cataclysm );
+                place_items( item_group_id( "wreckage" ), 70, point( wreck_location.x - 3, wreck_location.y - 3 ),
+                             point( wreck_location.x + 2, wreck_location.y + 2 ), false, calendar::start_of_cataclysm );
             }
             break;
 
