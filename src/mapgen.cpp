@@ -4292,32 +4292,28 @@ void map::draw_mine( mapgendata &dat )
                 break; // Nothing!  Lucky!
 
             case 1: { // Toxic gas
-                int cx = rng( 9, 14 );
-                int cy = rng( 9, 14 );
-                ter_set( point( cx, cy ), t_rock );
-                add_field( {cx, cy, abs_sub.z}, fd_gas_vent, 2 );
+                point gas_vent_location( rng( 9, 14 ), rng( 9, 14 ) );
+                ter_set( point( gas_vent_location.x, gas_vent_location.y ), t_rock );
+                add_field( { gas_vent_location.x, gas_vent_location.y, abs_sub.z}, fd_gas_vent, 2 );
             }
             break;
 
             case 2: { // Lava
-                int x1 = rng( 6, SEEX );
-                int y1 = rng( 6, SEEY );
-                int x2 = rng( SEEX + 1, SEEX * 2 - 7 );
-                int y2 = rng( SEEY + 1, SEEY * 2 - 7 );
-                int num = rng( 2, 4 );
+                point start_location( rng( 6, SEEX ), rng( 6, SEEY ) );
+                point end_location( rng( SEEX + 1, SEEX * 2 - 7 ), rng( SEEY + 1, SEEY * 2 - 7 ) );
+                const int num = rng( 2, 4 );
                 for( int i = 0; i < num; i++ ) {
-                    int lx1 = x1 + rng( -1, 1 ), lx2 = x2 + rng( -1, 1 ),
-                        ly1 = y1 + rng( -1, 1 ), ly2 = y2 + rng( -1, 1 );
+                    int lx1 = start_location.x + rng( -1, 1 ), lx2 = end_location.x + rng( -1, 1 ),
+                        ly1 = start_location.y + rng( -1, 1 ), ly2 = end_location.y + rng( -1, 1 );
                     line( this, t_lava, point( lx1, ly1 ), point( lx2, ly2 ) );
                 }
             }
             break;
 
             case 3: { // Wrecked equipment
-                int x = rng( 9, 14 );
-                int y = rng( 9, 14 );
-                for( int i = x - 3; i < x + 3; i++ ) {
-                    for( int j = y - 3; j < y + 3; j++ ) {
+                point wreck_location( rng( 9, 14 ), rng( 9, 14 ) );
+                for( int i = wreck_location.x - 3; i < wreck_location.x + 3; i++ ) {
+                    for( int j = wreck_location.y - 3; j < wreck_location.y + 3; j++ ) {
                         if( !one_in( 4 ) ) {
                             make_rubble( tripoint( i,  j, abs_sub.z ), f_wreckage, true );
                         }
@@ -4329,7 +4325,7 @@ void map::draw_mine( mapgendata &dat )
             break;
 
             case 4: { // Dead miners
-                int num_bodies = rng( 4, 8 );
+                const int num_bodies = rng( 4, 8 );
                 for( int i = 0; i < num_bodies; i++ ) {
                     if( const auto body = random_point( *this, [this]( const tripoint & p ) {
                     return move_cost( p ) == 2;
@@ -4343,7 +4339,7 @@ void map::draw_mine( mapgendata &dat )
             break;
 
             case 5: { // Dark worm!
-                int num_worms = rng( 1, 5 );
+                const int num_worms = rng( 1, 5 );
                 for( int i = 0; i < num_worms; i++ ) {
                     std::vector<direction> sides;
                     if( dat.n_fac == 6 ) {
@@ -4387,7 +4383,7 @@ void map::draw_mine( mapgendata &dat )
             break;
 
             case 6: { // Spiral
-                int orx = rng( SEEX - 4, SEEX ), ory = rng( SEEY - 4, SEEY );
+                const int orx = rng( SEEX - 4, SEEX ), ory = rng( SEEY - 4, SEEY );
                 line( this, t_rock, point( orx, ory ), point( orx + 5, ory ) );
                 line( this, t_rock, point( orx + 5, ory ), point( orx + 5, ory + 5 ) );
                 line( this, t_rock, point( orx + 1, ory + 5 ), point( orx + 5, ory + 5 ) );
@@ -4572,14 +4568,14 @@ void map::draw_mine( mapgendata &dat )
         computer *tmpcomp = nullptr;
         switch( rn ) {
             case 1: { // Wyrms
-                int x = rng( SEEX, SEEX + 1 ), y = rng( SEEY, SEEY + 1 );
+                const int x = rng( SEEX, SEEX + 1 ), y = rng( SEEY, SEEY + 1 );
                 ter_set( point( x, y ), t_pedestal_wyrm );
                 spawn_item( point( x, y ), "petrified_eye" );
             }
             break; // That's it!  game::examine handles the pedestal/wyrm spawns
 
             case 2: { // The Thing dog
-                int num_bodies = rng( 4, 8 );
+                const int num_bodies = rng( 4, 8 );
                 for( int i = 0; i < num_bodies; i++ ) {
                     int x = rng( 4, SEEX * 2 - 5 );
                     int y = rng( 4, SEEX * 2 - 5 );
