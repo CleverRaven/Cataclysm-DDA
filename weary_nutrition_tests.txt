@@ -1,9 +1,6 @@
 activity levels and calories in daily diary
-all_nutrition_starve_test
 basal metabolic rate with various size and metabolism
 hunger
-starve_test
-starve_test_hunger3
 weary_assorted_tasks
 weary_recovery
 weary_24h_tasks
