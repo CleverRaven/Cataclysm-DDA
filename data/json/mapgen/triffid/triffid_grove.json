@@ -33,7 +33,7 @@
         "                        "
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_slope_down" }
+      "terrain": { ">": "t_triffid_slope_down" }
     }
   },
   {
@@ -70,7 +70,7 @@
         "                        "
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_slope_down" }
+      "terrain": { ">": "t_triffid_slope_down" }
     }
   },
   {
@@ -107,7 +107,7 @@
         "                        "
       ],
       "palettes": [ "triffid" ],
-      "terrain": { ">": "t_slope_down" }
+      "terrain": { ">": "t_triffid_slope_down" }
     }
   },
   {
