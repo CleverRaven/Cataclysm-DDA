@@ -182,8 +182,8 @@
         "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
         "topic": "TALK_FRIEND_GUARD",
         "effect": "assign_camp"
-      },      
-	  {
+      },
+      {
         "text": "Please go to this location.",
         "topic": "TALK_GOTO_LOCATION",
         "condition": { "or": [ "is_by_radio", "u_has_camp" ] },
