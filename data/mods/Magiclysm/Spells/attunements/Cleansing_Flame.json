@@ -124,6 +124,6 @@
     "valid_targets": [ "self" ],
     "effect": "pain_split",
     "shape": "blast",
-    "spell_class": "CLEANSING_FLAME",
+    "spell_class": "CLEANSING_FLAME"
   }
 ]
