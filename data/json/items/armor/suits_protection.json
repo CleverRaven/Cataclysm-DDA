@@ -697,7 +697,6 @@
   {
     "id": "wsurvivor_suit_nofur",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "winter survivor suit" },
     "description": "A warm and heavy hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
     "copy-from": "wsurvivor_suit",

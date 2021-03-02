@@ -121,7 +121,6 @@
   {
     "id": "hood_wsurvivor_nofur",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "winter faux fur survivor hood" },
     "description": "A customized armored faux fur and Kevlar hood, warm and durable.  If not quite as warm as real fur.",
     "copy-from": "hood_wsurvivor",
