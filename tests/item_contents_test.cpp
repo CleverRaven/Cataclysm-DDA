@@ -54,9 +54,9 @@ TEST_CASE( "item_contents" )
     CHECK( tool_belt.weight() == tool_belt_weight +
            hammer.weight() + tongs.weight() + wrench.weight() + crowbar.weight() );
     // check that the tool belt is "full"
-    CHECK( !tool_belt.contents.can_contain( hammer ).success() );
+    CHECK( !tool_belt.contents.can_contain( wrench ).success() );
 
-    tool_belt.contents.force_insert_item( hammer, item_pocket::pocket_type::CONTAINER );
+    tool_belt.contents.force_insert_item( wrench, item_pocket::pocket_type::CONTAINER );
     CHECK( tool_belt.contents.num_item_stacks() == 5 );
     tool_belt.contents.overflow( tripoint_zero );
     CHECK( tool_belt.contents.num_item_stacks() == 4 );
@@ -65,7 +65,7 @@ TEST_CASE( "item_contents" )
     CHECK( tool_belt.contents.num_item_stacks() == 4 );
 
     tool_belt.contents.remove_items_if( []( item & it ) {
-        return it.typeId() == itype_id( "hammer" );
+        return it.typeId() == itype_id( "wrench" );
     } );
     // check to see that removing an item works
     CHECK( tool_belt.contents.num_item_stacks() == 3 );
