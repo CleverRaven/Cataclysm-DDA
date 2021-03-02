@@ -114,7 +114,6 @@
     "type": "terrain",
     "id": "t_root_floor",
     "name": "root floor",
-    "looks_like": "t_rock",
     "description": "A dirt floor covered with roots.",
     "symbol": "#",
     "color": "brown",
@@ -133,9 +132,9 @@
   {
     "type": "terrain",
     "id": "t_triffid_slope_down",
-    "name": "downward bark slope",
+    "name": "downward root slope",
     "connects_to": "PAVEMENT",
-    "description": "A downward facing slope of bark.",
+    "description": "A downward facing slope of root covered dirt.",
     "symbol": ">",
     "color": "brown",
     "roof": "t_barkfloor",
@@ -145,13 +144,54 @@
   {
     "type": "terrain",
     "id": "t_triffid_slope_up",
-    "name": "upward bark slope",
+    "name": "upward root slope",
     "connects_to": "WALL",
-    "description": "An upward facing slope of bark.",
+    "description": "An upward facing slope of root covered dirt.",
     "symbol": "<",
     "color": "brown",
     "roof": "t_barkfloor",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "SUPPORTS_ROOF" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_bramble_door_c",
+    "name": "closed bramble roots",
+    "description": "A bramble of roots are here, covering a hole.  They could easily be pulled apart.",
+    "symbol": "+",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "open": "t_bramble_door_o",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "splinter", "count": [ 2, 5 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_bramble_door_o",
+    "name": "open bramble roots",
+    "description": "A bramble of roots are here, they are pulled apart revealing a hole.",
+    "symbol": "'",
+    "color": "brown",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
+    "close": "t_bramble_door_c",
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "splinter", "count": [ 2, 5 ] } ]
+    }
   }
 ]

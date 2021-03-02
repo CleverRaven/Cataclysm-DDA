@@ -10,6 +10,7 @@
       ",": "t_triffid_leaves",
       "P": "t_root_wall",
       ".": "t_root_floor",
+      "D": [ "t_bramble_door_c", "t_bramble_door_o" ],
       "*": "t_water_sh",
       "[": "t_water_dp",
       "I": [
