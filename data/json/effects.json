@@ -498,7 +498,7 @@
     "type": "effect_type",
     "id": "tpollen",
     "name": [ "Hard of Breath" ],
-    "desc": [ "The pollen makes it hard to breath!" ],
+    "desc": [ "The pollen makes it hard to breathe!" ],
     "miss_messages": [ [ "You cough out pollen.", 1 ] ],
     "rating": "bad",
     "harmful_cough": true,

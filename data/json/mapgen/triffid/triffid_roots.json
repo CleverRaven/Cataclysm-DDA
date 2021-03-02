@@ -30,7 +30,7 @@
         "PP<.....PPPPPDPPPPPPPPPP",
         "PP<<...PPPPP.PPD.......P",
         "PPP<<PPPPP.....PP......P",
-        "PPPPPPPPPP.....PPPPPPPPPP"
+        "PPPPPPPPPP.....PPPPPPPPP"
       ],
       "palettes": [ "triffid" ],
       "terrain": { ">": "t_triffid_slope_down", "<": "t_triffid_slope_up" }
