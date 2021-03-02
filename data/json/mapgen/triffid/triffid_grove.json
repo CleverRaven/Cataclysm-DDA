@@ -5,7 +5,7 @@
     "om_terrain": [ "triffid_grove" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_barkfloor",
+      "fill_ter": "t_region_groundcover_urban",
       "rows": [
         "                        ",
         "                        ",

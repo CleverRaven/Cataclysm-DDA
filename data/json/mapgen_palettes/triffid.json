@@ -37,14 +37,6 @@
       "^": [ "f_rubble_rock", "f_boulder_small", "f_boulder_medium" ],
       "?": [ "f_dandelion", "f_flower_spurge", "f_burdock", "f_flower_tulip", "f_lily", "f_bluebell", "f_dahlia", "f_datura" ],
       "X": "f_mutpoppy"
-    },
-    "monster": {
-      "B": { "monster": "mon_biollante" },
-      "v": { "monster": "mon_creeper_hub" },
-      "u": { "monster": "mon_triffid" },
-      "Q": { "monster": "mon_triffid_queen" },
-      "q": { "monster": "mon_vinebeast" },
-      "f": { "monster": "mon_triffid_flower" }
     }
   }
 ]

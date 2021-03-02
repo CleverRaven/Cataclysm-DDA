@@ -290,6 +290,7 @@
     "morale": 100,
     "melee_cut": 0,
     "bleed_rate": 60,
+    "emit_fields": [ { "emit_id": "emit_pollen_stream", "delay": "1 s" } ],
     "harvest": "triffid_paralytic",
     "special_attacks": [ [ "SPIT_SAP", 3 ], [ "PARA_STING", 12 ] ],
     "death_function": [ "NORMAL" ],

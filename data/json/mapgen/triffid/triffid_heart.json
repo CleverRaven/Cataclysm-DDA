@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "triffid_roots" ],
+    "om_terrain": [ "triffid_finale" ],
     "weight": 100,
     "object": {
       "fill_ter": "t_root_floor",
@@ -34,7 +34,7 @@
       ],
       "palettes": [ "triffid" ],
       "terrain": { ">": "t_rock", "<": "t_triffid_slope_up" },
-      "monster": { "H": "mon_triffid_heart" }
+      "monster": { "H": { "monster": "mon_triffid_heart" } }
     }
   }
 ]
