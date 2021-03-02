@@ -81,10 +81,7 @@
     "type": "SPELL",
     "spell_class": "CLEANSING_FLAME",
     "name": "Hermes Reborn",
-    "description": {
-      "ctxt": "This spell heals the caster, but then causes area-effect damage including to the caster, then does a 'Pain Split' to distribute the damage among the caster's limbs.",
-      "str": "In the sea without lees\nStandeth the bird of Hermes\nEating his wings variable\nAnd maketh himself yet full stable",
-    },
+    "description": "In the sea without lees \nStandeth the bird of Hermes \nEating his wings variable \nAnd maketh himself yet full stable",
     "valid_targets": [ "self" ],
     "effect": "attack",
     "shape": "blast",
