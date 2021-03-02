@@ -76,7 +76,7 @@ Monsters may also have any of these optional properties:
 | `flags`                  | (array of strings) Any number of attributes like SEES, HEARS, SMELLS, STUMBLES, REVIVES
 | `fear_triggers`          | (array of strings) Triggers that lower monster morale (see JSON_FLAGS.md) 
 | `anger_triggers`         | (array of strings) Triggers that raise monster aggression (same flags as fear)
-| `placate_triggers`       | (array of strings) Triggers that lower monster aggresssion (same flags as fear)
+| `placate_triggers`       | (array of strings) Triggers that lower monster aggression (same flags as fear)
 | `revert_to_itype`        | (string) Item monster can be converted to when friendly (ex. to deconstruct turrets)
 | `starting_ammo`          | (object) Ammo that newly spawned monsters start with
 | `upgrades`               | (boolean or object) False if monster does not upgrade, or an object do define an upgrade
