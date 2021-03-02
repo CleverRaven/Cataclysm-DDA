@@ -987,6 +987,13 @@ class Character : public Creature, public visitable
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
         void set_mutations( const std::vector<trait_id> &traits );
         void set_mutation( const trait_id & );
+    protected:
+        // Set a mutation, but don't do any of the necessary updates
+        // Only call this from one of the above two functions
+        void set_mutation_unsafe( const trait_id & );
+    public:
+        // Do the mutation updates necessary when adding a mutation (nonspecific cache updates)
+        void do_mutation_updates();
         void unset_mutation( const trait_id & );
         /**Unset switched mutation and set target mutation instead*/
         void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered );
