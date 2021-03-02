@@ -2957,6 +2957,7 @@ class Character : public Creature, public visitable
         tripoint cached_position;
         pimpl<inventory> cached_crafting_inventory;
 
+        int melee_warning_turn = 0;
     protected:
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
         mutable pimpl<recipe_subset> learned_recipes;
