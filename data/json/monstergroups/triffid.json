@@ -9,9 +9,8 @@
       { "monster": "mon_triffid", "freq": 100, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
       { "monster": "mon_vinebeast", "freq": 160, "cost_multiplier": 10 },
       { "monster": "mon_triffid_queen", "freq": 60, "cost_multiplier": 20 },
-      { "monster": "mon_biollante", "freq": 200, "cost_multiplier": 2 },
-      { "monster": "mon_triffid_flower", "freq": 100, "cost_multiplier": 4 },
-      { "monster": "mon_biollante", "freq": 50, "cost_multiplier": 2 }
+      { "monster": "mon_biollante", "freq": 100, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_triffid_flower", "freq": 100, "cost_multiplier": 4 }
     ]
   },
   {
