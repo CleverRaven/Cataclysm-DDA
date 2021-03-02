@@ -158,17 +158,19 @@ void Character::toggle_trait( const trait_id &trait_ )
     }
 }
 
-void Character::set_mutations( const std::vector<trait_id> &traits )
+void Character::set_mutation_unsafe( const trait_id &trait )
 {
-    for( const trait_id &trait : traits ) {
-        const auto iter = my_mutations.find( trait );
-        if( iter != my_mutations.end() ) {
-            continue;
-        }
-        my_mutations.emplace( trait, trait_data{} );
-        cached_mutations.push_back( &trait.obj() );
-        mutation_effect( trait, false );
+    const auto iter = my_mutations.find( trait );
+    if( iter != my_mutations.end() ) {
+        return;
     }
+    my_mutations.emplace( trait, trait_data{} );
+    cached_mutations.push_back( &trait.obj() );
+    mutation_effect( trait, false );
+}
+
+void Character::do_mutation_updates()
+{
     recalc_sight_limits();
     calc_encumbrance();
 
@@ -178,22 +180,18 @@ void Character::set_mutations( const std::vector<trait_id> &traits )
     }
 }
 
+void Character::set_mutations( const std::vector<trait_id> &traits )
+{
+    for( const trait_id &trait : traits ) {
+        set_mutation_unsafe( trait );
+    }
+    do_mutation_updates();
+}
+
 void Character::set_mutation( const trait_id &trait )
 {
-    const auto iter = my_mutations.find( trait );
-    if( iter != my_mutations.end() ) {
-        return;
-    }
-    my_mutations.emplace( trait, trait_data{} );
-    cached_mutations.push_back( &trait.obj() );
-    mutation_effect( trait, false );
-    recalc_sight_limits();
-    calc_encumbrance();
-
-    // If the stamina is higher than the max (Languorous), set it back to max
-    if( get_stamina() > get_stamina_max() ) {
-        set_stamina( get_stamina_max() );
-    }
+    set_mutation_unsafe( trait );
+    do_mutation_updates();
 }
 
 void Character::unset_mutation( const trait_id &trait_ )
