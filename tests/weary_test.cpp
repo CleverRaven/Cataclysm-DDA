@@ -88,7 +88,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         CHECK( info.transition_minutes( 1, 2, 250_minutes ) == Approx( 250 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 4, 5, 595_minutes ) == Approx( 595 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 4, 5, 600_minutes ) == Approx( 600 ).margin( 5 ) );
         // CHECK( !info.have_weary_decrease() );
         CHECK( guy.weariness_level() == 5 );
     }
@@ -186,11 +186,11 @@ TEST_CASE( "weary_24h_tasks", "[weary][activities]" )
         CHECK( info.transition_minutes( 0, 1, 120_minutes ) == Approx( 120 ).margin( 5 ) );
         CHECK( info.transition_minutes( 1, 2, 250_minutes ) == Approx( 250 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 3, 4, 470_minutes ) == Approx( 470 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 4, 5, 595_minutes ) == Approx( 595 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
+        CHECK( info.transition_minutes( 4, 5, 600_minutes ) == Approx( 600 ).margin( 5 ) );
         CHECK( info.transition_minutes( 5, 6, 740_minutes ) == Approx( 740 ).margin( 5 ) );
         CHECK( info.transition_minutes( 6, 7, 845_minutes ) == Approx( 845 ).margin( 5 ) );
-        CHECK( info.transition_minutes( 7, 8, 915_minutes ) == Approx( 915 ).margin( 10 ) );
+        CHECK( info.transition_minutes( 7, 8, 925_minutes ) == Approx( 925 ).margin( 10 ) );
         CHECK( !info.have_weary_decrease() );
         // TODO: You should collapse from this - currently we
         // just get really high levels of weariness
