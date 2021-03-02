@@ -318,6 +318,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "learned_spells", learned_spells );
     optional( jsobj, was_loaded, "learned_proficiencies", proficiencies );
     optional( jsobj, was_loaded, "canceled_mutations", canceled_mutations );
+    optional( jsobj, was_loaded, "mutation_conflicts", mutation_conflicts );
     optional( jsobj, was_loaded, "included_bionics", included_bionics );
     optional( jsobj, was_loaded, "included", included );
     optional( jsobj, was_loaded, "upgraded_bionic", upgraded_bionic );
@@ -2324,6 +2325,10 @@ ret_val<bool> Character::is_installable( const item_location &loc, const bool by
     const itype *itemtype = it->type;
     const bionic_id &bid = itemtype->bionic->id;
 
+    const auto has_trait_lambda = [this]( const trait_id & candidate ) {
+        return has_trait( candidate );
+    };
+
     if( it->has_flag( flag_FILTHY ) ) {
         // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
         const std::string msg = by_autodoc ? _( "/!\\ CBM is highly contaminated. /!\\" ) :
@@ -2340,6 +2345,9 @@ ret_val<bool> Character::is_installable( const item_location &loc, const bool by
     } else if( has_bionic( bid ) ) {
         return ret_val<bool>::make_failure( _( "CBM is already installed." ) );
     } else if( !can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
+        return ret_val<bool>::make_failure( _( "CBM not compatible with patient's body." ) );
+    } else if( std::any_of( bid->mutation_conflicts.begin(), bid->mutation_conflicts.end(),
+                            has_trait_lambda ) ) {
         return ret_val<bool>::make_failure( _( "CBM not compatible with patient's body." ) );
     } else if( bid->upgraded_bionic &&
                !has_bionic( bid->upgraded_bionic ) &&
