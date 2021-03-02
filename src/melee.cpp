@@ -542,29 +542,27 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     }
     int move_cost = attack_speed( *cur_weapon );
 
-    int now = to_turn<int>( calendar::turn );
-    if( is_avatar() && move_cost > 1000 && now > melee_warning_turn ) {
-        const auto &action = query_popup()
-                             .preferred_keyboard_mode( keyboard_mode::keycode )
-                             .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
-                             .message( pgettext( "cancel_activity_or_ignore_query", "<color_light_red>%s %s</color>" ),
-                                       string_format(
-                                           _( "Attacking with your %1$s will take a long time." ),
-                                           cur_weapon->display_name() ), "Are you sure you want to continue?" )
-                             .option( "YES", input_context::allow_all_keys )
-                             .option( "NO", input_context::allow_all_keys )
-                             .option( "IGNORE", input_context::allow_all_keys )
-                             .query()
-                             .action;
+    int now = to_turn<int>(calendar::turn);
+    if (is_avatar() && move_cost > 1000 && calendar::turn > melee_warning_turn) {
+        const auto& action = query_popup()
+            .preferred_keyboard_mode(keyboard_mode::keycode)
+            .context("CANCEL_ACTIVITY_OR_IGNORE_QUERY")
+            .message(pgettext("cancel_activity_or_ignore_query", "<color_light_red>%s %s</color>"),
+                string_format(
+                    _("Attacking with your %1$s will take a long time."),
+                    cur_weapon->display_name()), "Are you sure you want to continue?")
+            .option("YES", input_context::allow_all_keys)
+            .option("NO", input_context::allow_all_keys)
+            .option("IGNORE", input_context::allow_all_keys)
+            .query()
+            .action;
 
-        if( action == "NO" ) {
+        if (action == "NO") {
             return false;
         }
-        if( action == "IGNORE" ) {
-            if( !melee_warning_turn || melee_warning_turn <= now ) {
-                melee_warning_turn = now + 50;
-            } else {
-                return false;
+        if (action == "IGNORE") {
+            if (melee_warning_turn == calendar::turn_zero || melee_warning_turn <= calendar::turn) {
+                melee_warning_turn = calendar::turn + 50_turns;
             }
         }
     }
