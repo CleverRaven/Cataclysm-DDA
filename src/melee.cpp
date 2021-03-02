@@ -542,7 +542,6 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     }
     int move_cost = attack_speed( *cur_weapon );
 
-    int now = to_turn<int>( calendar::turn );
     if( is_avatar() && move_cost > 1000 && calendar::turn > melee_warning_turn ) {
         const auto &action = query_popup()
                              .preferred_keyboard_mode( keyboard_mode::keycode )
