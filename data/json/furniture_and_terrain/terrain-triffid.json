@@ -3,7 +3,7 @@
     "type": "terrain",
     "id": "t_triffid_bark_wall",
     "name": "solid bark wall",
-    "description": "A solid wall of bark , enclosing the trunk of a massive tree.  It will probably burn quite well.",
+    "description": "A solid wall of bark, enclosing the trunk of a massive tree.  It will probably burn quite well.",
     "symbol": "LINE_OXOX",
     "color": "brown",
     "move_cost": 0,
