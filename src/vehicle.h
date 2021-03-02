@@ -729,7 +729,7 @@ class vehicle
 
         struct fuel_consumption_data {
             std::list<int> fuel_per_sec;
-            int total_fuel = 0;
+            unsigned int total_fuel = 0;
         };
         std::map<itype_id, fuel_consumption_data> fuel_used;
 
