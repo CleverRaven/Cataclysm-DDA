@@ -36,6 +36,8 @@
     "furniture": {
       "^": [ "f_rubble_rock", "f_boulder_small", "f_boulder_medium" ],
       "?": [ "f_dandelion", "f_flower_spurge", "f_burdock", "f_flower_tulip", "f_lily", "f_bluebell", "f_dahlia", "f_datura" ],
+      "T": "f_glowingbulb",
+      "@": "f_brambles",
       "X": "f_mutpoppy"
     }
   }
