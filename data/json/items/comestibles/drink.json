@@ -102,7 +102,8 @@
     "description": "A healthy beverage made from bee balm steeped in boiling water.  Can be used to reduce negative effects of common cold or flu.",
     "price": 100,
     "price_postapoc": 25,
-    "fun": 1
+    "fun": 1,
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "type": "COMESTIBLE",
@@ -162,10 +163,11 @@
     "spoils_in": "10 days",
     "quench": 34,
     "healthy": 1,
-    "calories": 0,
+    "calories": 1,
     "description": "A healthy beverage made from chamomile flowers steeped in boiling water.  Can be used to treat insomnia.",
     "price": 100,
     "price_postapoc": 25,
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 1
   },
   {
@@ -388,14 +390,14 @@
     "symbol": "~",
     "quench": 48,
     "healthy": 1,
-    "calories": 26,
+    "calories": 1,
     "description": "A healthy beverage made from dandelion roots steeped in boiling water.",
     "price": 50,
     "price_postapoc": 25,
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 2
   },
   {
@@ -496,14 +498,14 @@
     "symbol": "~",
     "quench": 44,
     "healthy": 1,
-    "calories": 9,
+    "calories": 1,
     "description": "A healthy beverage made from herbs steeped in boiling water.",
     "price": 100,
     "price_postapoc": 25,
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 4
   },
   {
@@ -646,11 +648,11 @@
     "spoils_in": "10 days",
     "quench": 34,
     "healthy": 1,
-    "calories": 0,
     "description": "A healthy beverage made from lotus flowers steeped in boiling water.",
     "price": 100,
     "price_postapoc": 25,
-    "fun": 1
+    "fun": 1,
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
     "id": "mex_chocolate",
@@ -769,7 +771,8 @@
     "phase": "liquid",
     "charges": 2,
     "vitamins": [ [ "vitA", 5 ], [ "vitB", 3 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
-    "fun": 10
+    "fun": 10,
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "type": "COMESTIBLE",
@@ -832,6 +835,7 @@
     "price": 0,
     "price_postapoc": 25,
     "volume": "250 ml",
+    "calories": 1,
     "material": [ "water" ],
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
@@ -964,11 +968,12 @@
     "spoils_in": "10 days",
     "quench": 34,
     "healthy": 1,
-    "calories": 0,
+    "calories": 1,
     "description": "A healthy beverage made from spurge flowers steeped in boiling water.  Can be used to prevent asthma attacks.",
     "price": 100,
     "price_postapoc": 25,
     "fun": 1,
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You no longer need to worry about asthma attacks, at least for a while.",
@@ -1027,7 +1032,7 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 40,
-    "calories": 2,
+    "calories": 1,
     "description": "The beverage of gentlemen everywhere, made from applying hot water to oxidized leaves of the tea plant /Camellia sinensis/.",
     "price": 90,
     "price_postapoc": 25,
@@ -1133,7 +1138,6 @@
     "color": "green",
     "fatigue_mod": 7,
     "stim": 2,
-    "calories": 2,
     "description": "Made from applying hot water to leaves of the tea plant /Camellia sinensis/.  Green tea has a lighter, fresher taste than black and is traditionally preferred in Asian cultures."
   },
   {
@@ -1142,7 +1146,6 @@
     "name": { "str": "fruit tea" },
     "copy-from": "tea",
     "color": "red",
-    "calories": 0,
     "fatigue_mod": 0,
     "stim": 0,
     "description": "A tasty beverage made with herbs and dried fruit from plants other than the tea plant.  While colloquially called 'tea', technically it's an infusion.",
