@@ -278,7 +278,8 @@
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
     "show_in_info": true
-  },  {
+  },
+  {
     "type": "effect_type",
     "id": "downed_oil",
     "name": [ "Downed" ],
