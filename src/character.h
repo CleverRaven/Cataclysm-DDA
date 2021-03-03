@@ -590,16 +590,7 @@ class Character : public Creature, public visitable<Character>
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
 
-        void wait_effects( bool attacking = false );
-
-        /** Series of checks to remove effects for waiting or moving */
-        bool try_remove_grab();
-        void try_remove_downed();
-        void try_remove_bear_trap();
-        void try_remove_lightsnare();
-        void try_remove_heavysnare();
-        void try_remove_crushed();
-        void try_remove_webs();
+        void wait_effects();
 
         /** Check against the character's current movement mode */
         bool movement_mode_is( character_movemode mode ) const;
