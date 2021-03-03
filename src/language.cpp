@@ -31,8 +31,7 @@
 #  include "ui_manager.h"
 #endif
 
-const std::string &to_valid_language( const std::string &lang );
-bool isValidLanguage( const std::string &lang );
+std::string to_valid_language( const std::string &lang );
 void update_global_locale();
 
 static std::string sys_c_locale;
@@ -49,7 +48,7 @@ static language_info const *current_language = nullptr;
 
 static language_info fallback_language = { "en", R"(English)", "en_US.UTF-8", { "n" }, "", { 1033 } };
 
-std::vector<language_info> lang_options;
+std::vector<language_info> lang_options = { fallback_language };
 
 static language_info const *get_lang_info( const std::string &lang )
 {
@@ -77,7 +76,7 @@ static void reload_names()
 
 #if defined(LOCALIZE)
 #if defined(MACOSX)
-const std::string &getSystemUILang()
+static std::string getSystemUILang()
 {
     // Get the user's language list (in order of preference)
     CFArrayRef langs = CFLocaleCopyPreferredLanguages();
@@ -103,12 +102,6 @@ const std::string &getSystemUILang()
     // Convert to the underscore format expected by gettext
     std::replace( lang_code.begin(), lang_code.end(), '-', '_' );
 
-    /**
-     * Handle special case for simplified/traditional Chinese. Simplified/Traditional
-     * is actually denoted by the region code in older iterations of the
-     * language codes, whereas now (at least on OS X) region is distinct.
-     * That is, CDDA expects 'zh_CN' but OS X might give 'zh-Hans-CN'.
-     */
     for( const language_info &info : lang_options ) {
         if( !info.osx.empty() && string_starts_with( lang_code, info.osx ) ) {
             return info.id;
@@ -119,7 +112,7 @@ const std::string &getSystemUILang()
 }
 #endif // MACOSX
 
-const std::string &to_valid_language( const std::string &lang )
+std::string to_valid_language( const std::string &lang )
 {
     if( lang.empty() ) {
         return lang;
@@ -138,17 +131,11 @@ const std::string &to_valid_language( const std::string &lang )
             }
         }
     }
-    static std::string invalid_lang;
-    return invalid_lang;
-}
-
-bool isValidLanguage( const std::string &lang )
-{
-    return !to_valid_language( lang ).empty();
+    return "";
 }
 
 #if defined(_WIN32)
-static const std::string &getLangFromLCID( const int &lcid )
+static std::string getLangFromLCID( const int &lcid )
 {
     for( const language_info &info : lang_options ) {
         for( int lang_lcid : info.lcids ) {
@@ -157,17 +144,16 @@ static const std::string &getLangFromLCID( const int &lcid )
             }
         }
     }
-    static std::string unknown;
-    return unknown;
+    return "";
 }
 
-static const std::string &getSystemUILang()
+static std::string getSystemUILang()
 {
     return getLangFromLCID( GetUserDefaultUILanguage() );
 }
 #elif !defined(MACOSX)
 // Linux / Android
-static const std::string &getSystemUILang()
+static std::string getSystemUILang()
 {
     std::string ret;
 

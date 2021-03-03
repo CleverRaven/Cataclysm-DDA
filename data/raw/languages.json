@@ -1,5 +1,6 @@
 [
   {
+    "//": "See language.h for documentation",
     "id": "en",
     "name": "English",
     "locale": "en_US.UTF-8",
