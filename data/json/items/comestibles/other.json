@@ -853,6 +853,7 @@
     "color": "white",
     "symbol": "?",
     "container": "box_tea",
+    "calories": 1,
     "material": [ "paper" ],
     "price": 50,
     "price_postapoc": 200,
@@ -878,7 +879,6 @@
     "type": "COMESTIBLE",
     "name": { "str": "herbal tea bag" },
     "copy-from": "tea_bag",
-    "calories": 9,
     "description": "A paper sachet with dried wild herbs inside.  Put it into boiling water to make a cup of herbal tea."
   },
   {
@@ -886,7 +886,6 @@
     "type": "COMESTIBLE",
     "name": { "str": "dandelion tea bag" },
     "copy-from": "tea_bag",
-    "calories": 26,
     "description": "A paper sachet with dried dandelion roots inside.  Put it into boiling water to make a cup of dandelion tea."
   },
   {
