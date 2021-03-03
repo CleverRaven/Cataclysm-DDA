@@ -13,11 +13,14 @@
     "max_damage": 640,
     "min_range": 6,
     "max_range": 6,
+    "min_aoe": 0,
+    "max_aoe": 2,
+    "aoe_increment": 0.04,
     "base_energy_cost": 400,
     "spell_class": "BLOOD_MAGE",
-    "difficulty": 9,
+    "difficulty": 6,
     "max_level": 35,
-    "base_casting_time": 500,
+    "base_casting_time": 100,
     "energy_source": "MANA"
   },
   {
