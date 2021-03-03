@@ -82,7 +82,6 @@ enum class magic_energy_type : int {
     mana,
     stamina,
     bionic,
-    fatigue,
     none,
     last
 };
