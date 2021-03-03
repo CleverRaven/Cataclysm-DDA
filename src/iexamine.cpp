@@ -4125,7 +4125,11 @@ void iexamine::curtains( player &p, const tripoint &examp )
     } else if( choice == 1 ) {
         // Mr. Gorbachev, tear down those curtains!
         if( here.ter( examp )->has_curtains() ) {
+            bool is_open = here.ter( examp )->open.is_empty() || here.ter( examp )->open.is_null();
             here.ter_set( examp, here.ter( examp )->curtain_transform );
+            if( is_open ) {
+                here.ter_set( examp, here.ter( examp )->open );
+            }
         }
 
         here.spawn_item( p.pos(), itype_nail, 1, 4, calendar::turn );
