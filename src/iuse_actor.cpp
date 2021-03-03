@@ -2657,8 +2657,8 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
                                       _( "You don't have enough %s to do that.  Have: %d, need: %d" ),
                                       item::nname( mat_comp, 2 ),
                                       item::find_type( mat_comp )->count_by_charges() ?
-                                      crafting_inv.amount_of( mat_comp, false ) :
-                                      crafting_inv.charges_of( mat_comp, items_needed ),
+                                      crafting_inv.charges_of( mat_comp, items_needed ) :
+                                      crafting_inv.amount_of( mat_comp, false ),
                                       items_needed );
             }
         }
