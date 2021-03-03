@@ -113,21 +113,6 @@
     "energy_source": "STAMINA"
   },
   {
-    "id": "debug_fatigue",
-    "type": "SPELL",
-    "name": "Debug Fatigue Spell",
-    "description": "Uses a little fatigue",
-    "message": "Debug spell %s cast.",
-    "valid_targets": [ "self" ],
-    "effect": "none",
-    "shape": "blast",
-    "min_range": 1,
-    "max_range": 1,
-    "base_casting_time": 100,
-    "base_energy_cost": 100,
-    "energy_source": "FATIGUE"
-  },
-  {
     "id": "debug_polymorph",
     "type": "SPELL",
     "name": "Debug polymorph",
