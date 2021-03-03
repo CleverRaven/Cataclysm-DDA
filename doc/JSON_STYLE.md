@@ -44,13 +44,13 @@ Line breaks occur after open brackets, close brackets, or entries.
 
 ## Formatting tool
 
-The formatting tool can be found alongside the releases as `json_formatter.exe` or `json_formatter.cgi`, built via `make style-json` or accessed at http://dev.narc.ro/cataclysm/format.html, adding the formatting tool to your `PATH` or to your Cataclysm-DDA root directory is recommended.
+The formatting tool can be found alongside the releases as `json_formatter.exe` or `json_formatter.cgi`, built via `make style-json`, or accessed at <http://dev.narc.ro/cataclysm/format.html>.  It is recommended to add the formatting tool's location to your `PATH` or (if not already present) put it in your Cataclysm-DDA root directory.
 
-Using `make style-json` will also format all JSON files inside the `data` folder, alternatively per folder formatting can be done with this command:
+Using `make style-json` will also format all JSON files inside the `data` folder; alternatively, per-folder formatting can be done with this command:
 ```cmd
 find path/to/desired/folder -name "*.json" -print0 | xargs -0 -L 1 path/to/json_formatter
 ```
-Using git to filter uncommitted changes:
+Using git to filter uncommitted changes (provided there are no spaces in the file or directory names):
 ```cmd
 git diff --name-only '*.json' | xargs -L 1 path/to/json_formmater
 ```
