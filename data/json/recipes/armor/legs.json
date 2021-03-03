@@ -367,10 +367,10 @@
     "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
-    "skill_used": "survival",
-    "time": "5 m",
+    "skill_used": "fabrication",
+    "time": "30 m",
     "autolearn": true,
-    "components": [ [ [ "paper", 60 ] ], [ [ "duct_tape", 10 ] ] ],
+    "using": [ [ "armor_paper", 19 ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
