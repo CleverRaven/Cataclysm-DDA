@@ -545,6 +545,23 @@
     ]
   },
   {
+    "id": "condiment",
+    "type": "requirement",
+    "//": " Should be about a teaspoon, or smallest serving",
+    "components": [
+      [
+        [ "mayonnaise", 1 ],
+        [ "mustard", 1 ],
+        [ "soysauce", 1 ],
+        [ "hot_sauce", 1 ],
+        [ "ketchup", 1 ],
+        [ "horseradish", 1 ],
+        [ "sauerkraut", 1 ],
+        [ "butter", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "salt_preservation",
     "type": "requirement",
     "//": "Salt-like ingredients that can be used to preserve foods",
