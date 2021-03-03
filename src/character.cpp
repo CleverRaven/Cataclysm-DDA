@@ -149,6 +149,7 @@ static const efftype_id effect_mute( "mute" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_disrupted_sleep( "disrupted_sleep" );
 static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_downed_oil( "downed_oil" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_flu( "flu" );
@@ -1549,6 +1550,7 @@ void Character::try_remove_downed()
         add_msg_player_or_npc( m_good, _( "You stand up." ),
                                _( "<npcname> stands up." ) );
         remove_effect( effect_downed );
+        remove_effect( effect_downed_oil );
     }
 }
 
@@ -1769,7 +1771,7 @@ void Character::try_remove_impeding_effect()
 
 bool Character::move_effects( bool attacking )
 {
-    if( has_effect( effect_downed ) ) {
+    if( has_effect( effect_downed ) || has_effect( effect_downed_oil ) ) {
         try_remove_downed();
         return false;
     }
@@ -1821,7 +1823,7 @@ bool Character::move_effects( bool attacking )
 
 void Character::wait_effects( bool attacking )
 {
-    if( has_effect( effect_downed ) ) {
+    if( has_effect( effect_downed ) || has_effect( effect_downed_oil ) ) {
         try_remove_downed();
         return;
     }
@@ -7455,7 +7457,7 @@ nc_color Character::symbol_color() const
 {
     nc_color basic = basic_symbol_color();
 
-    if( has_effect( effect_downed ) ) {
+    if( has_effect( effect_downed ) || has_effect( effect_downed_oil ) ) {
         return hilite( basic );
     } else if( has_effect( effect_grabbed ) ) {
         return cyan_background( basic );
@@ -7540,7 +7542,7 @@ bool Character::is_elec_immune() const
 
 bool Character::is_immune_effect( const efftype_id &eff ) const
 {
-    if( eff == effect_downed ) {
+    if( eff == effect_downed || eff == effect_downed_oil ) {
         return is_throw_immune() || ( has_trait( trait_LEG_TENT_BRACE ) && footwear_factor() == 0 );
     } else if( eff == effect_onfire ) {
         return is_immune_damage( damage_type::HEAT );
@@ -9995,7 +9997,8 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
             source->add_effect( effect_blind, 2_turns );
         }
     }
-    if( worn_with_flag( flag_REQUIRES_BALANCE ) && !has_effect( effect_downed ) ) {
+    if( worn_with_flag( flag_REQUIRES_BALANCE ) && !has_effect( effect_downed ) &&
+        !has_effect( effect_downed_oil ) ) {
         int rolls = 4;
         if( worn_with_flag( flag_ROLLER_ONE ) ) {
             rolls += 2;

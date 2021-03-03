@@ -21,6 +21,7 @@
         { "id": [ "overlay_effect_deaf", "overlay_effect_earphones" ], "fg": 21 },
         { "id": "overlay_effect_docile", "fg": 24 },
         { "id": "overlay_effect_downed", "fg": 6 },
+        { "id": "overlay_effect_downed_oil", "fg": 6 },
         { "id": "overlay_effect_drunk", "fg": 33 },
         { "id": [ "overlay_effect_evil", "overlay_effect_attention", "overlay_effect_teleglow" ], "fg": 3 },
         { "id": [ "overlay_effect_flu", "overlay_effect_Influenza" ], "fg": 17 },

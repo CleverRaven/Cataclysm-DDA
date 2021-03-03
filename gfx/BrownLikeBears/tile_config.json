@@ -8842,6 +8842,7 @@
         { "id": "overlay_effect_cold", "fg": 2692 },
         { "id": "overlay_effect_deaf", "fg": 2693 },
         { "id": "overlay_effect_downed", "fg": 2694 },
+        { "id": "overlay_effect_downed_oil", "fg": 2694 },
         { "id": "overlay_effect_frostbite", "fg": 2695 },
         { "id": "overlay_effect_fungus", "fg": 2696 },
         { "id": "overlay_effect_grabbed", "fg": 2697 },

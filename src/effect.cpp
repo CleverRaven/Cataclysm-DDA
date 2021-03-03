@@ -26,6 +26,7 @@ static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_downed_oil( "downed_oil" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_in_pit( "in_pit" );
@@ -1244,6 +1245,7 @@ static const std::unordered_set<efftype_id> hardcoded_movement_impairing = {{
         effect_beartrap,
         effect_crushed,
         effect_downed,
+        effect_downed_oil,
         effect_grabbed,
         effect_heavysnare,
         effect_in_pit,

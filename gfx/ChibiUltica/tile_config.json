@@ -2287,6 +2287,7 @@
         { "id": "overlay_effect_dazed", "fg": 1532 },
         { "id": [ "overlay_effect_deaf", "overlay_effect_earphones" ], "fg": 1533 },
         { "id": "overlay_effect_downed", "fg": 1534 },
+        { "id": "overlay_effect_downed_oil", "fg": 1534 },
         { "id": "overlay_effect_drunk", "fg": 1535 },
         { "id": [ "overlay_effect_flu", "overlay_effect_Influenza" ], "fg": 1536 },
         { "id": [ "overlay_effect_foodpoison", "overlay_effect_nausea" ], "fg": 1537 },

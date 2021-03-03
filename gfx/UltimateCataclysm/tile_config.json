@@ -1256,6 +1256,7 @@
         { "id": "overlay_effect_bleed", "fg": 1172 },
         { "id": "overlay_effect_deaf", "fg": 1174 },
         { "id": "overlay_effect_downed", "fg": 1175 },
+        { "id": "overlay_effect_downed_oil", "fg": 1175 },
         { "id": "overlay_effect_grabbed", "fg": 1176 },
         { "id": "overlay_effect_winded", "fg": 1178 },
         { "id": "overlay_effect_hot", "fg": 1177 },
