@@ -39,6 +39,14 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "toastem4",
+    "name": { "str": "homemade toast-em" },
+    "copy-from": "toastem",
+    "description": "Homemade toaster pastries, lacking icing but at least fruit filled.",
+    "fun": 10
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "toasterpastryfrozen",
     "name": { "str": "toaster pastry (uncooked)", "str_pl": "toaster pastries (uncooked)" },
     "weight": "52 g",
@@ -67,6 +75,43 @@
     "quench": 4,
     "description": "A delicious fruit-filled pastry that you've cooked.  It even comes with frosting!",
     "fun": 20
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "homemade_toasterpastry",
+    "name": { "str": "toaster pastry", "str_pl": "toaster pastries" },
+    "copy-from": "toasterpastryfrozen",
+    "quench": 4,
+    "description": "A delicious homemade fruit-filled pastry that you've cooked.",
+    "fun": 20
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "homemade_toasterpastry2",
+    "name": { "str": "toaster pastry with buttercream", "str_pl": "toaster pastries with buttercream" },
+    "copy-from": "toasterpastryfrozen",
+    "quench": 4,
+    "description": "A delicious homemade fruit-filled pastry that you've cooked.  It even comes with buttercream!",
+    "fun": 30
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "buttercream",
+    "name": { "str": "buttercream icing", "str_pl": "cups of buttercream icing" },
+    "weight": "32 g",
+    "color": "brown",
+    "container": "bag_plastic",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 288,
+    "description": "Smooth sugary buttercream icing.  Almost good enough to forget the end of everything.",
+    "price": 100,
+    "price_postapoc": 400,
+    "material": [ "junk" ],
+    "volume": "1 L",
+    "charges": 8,
+    "flags": [ "EDIBLE_FROZEN" ],
+    "fun": 6
   },
   {
     "type": "COMESTIBLE",
