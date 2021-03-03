@@ -153,7 +153,6 @@ std::string enum_to_string<magic_energy_type>( magic_energy_type data )
 {
     switch( data ) {
     case magic_energy_type::bionic: return "BIONIC";
-    case magic_energy_type::fatigue: return "FATIGUE";
     case magic_energy_type::hp: return "HP";
     case magic_energy_type::mana: return "MANA";
     case magic_energy_type::none: return "NONE";
@@ -1047,8 +1046,6 @@ std::string spell::energy_string() const
             return _( "stamina" );
         case magic_energy_type::bionic:
             return _( "bionic power" );
-        case magic_energy_type::fatigue:
-            return _( "fatigue" );
         default:
             return "";
     }
@@ -1069,9 +1066,6 @@ std::string spell::energy_cost_string( const Character &guy ) const
     if( energy_source() == magic_energy_type::stamina ) {
         auto pair = get_hp_bar( energy_cost( guy ), guy.get_stamina_max() );
         return colorize( pair.first, pair.second );
-    }
-    if( energy_source() == magic_energy_type::fatigue ) {
-        return colorize( std::to_string( energy_cost( guy ) ), c_cyan );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
@@ -1094,10 +1088,6 @@ std::string spell::energy_cur_string( const Character &guy ) const
     }
     if( energy_source() == magic_energy_type::hp ) {
         return "";
-    }
-    if( energy_source() == magic_energy_type::fatigue ) {
-        const std::pair<std::string, nc_color> pair = guy.get_fatigue_description();
-        return colorize( pair.first, pair.second );
     }
     debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
@@ -1729,8 +1719,6 @@ bool known_magic::has_enough_energy( const Character &guy, const spell &sp ) con
                 }
             }
             return false;
-        case magic_energy_type::fatigue:
-            return guy.get_fatigue() < fatigue_levels::EXHAUSTED;
         case magic_energy_type::none:
             return true;
         default:
