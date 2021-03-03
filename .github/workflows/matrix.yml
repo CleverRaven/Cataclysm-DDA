@@ -93,7 +93,8 @@ jobs:
       if: runner.os == 'Linux'
       run: |
           sudo apt-get update
-          sudo apt-get install libncursesw5-dev libpulse-dev ccache gettext parallel
+          sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
+            libsdl2-mixer-dev libpulse-dev ccache gettext parallel
     - name: install dependencies (mac)
       if: runner.os == 'macOS'
       run: |
