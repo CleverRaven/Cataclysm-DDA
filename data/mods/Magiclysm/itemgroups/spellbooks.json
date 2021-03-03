@@ -134,6 +134,7 @@
       [ "spell_scroll_druidic_healing", 20 ],
       [ "spell_scroll_summon_magic_motorcycle", 5 ],
       [ "bio_sneeze_beam", 50 ],
+      [ "spell_scroll_banishment_lesser", 30 ],
       [ "spell_scroll_nova_flare", 25 ],
       [ "spell_scroll_freezing_touch", 40 ]
     ]
