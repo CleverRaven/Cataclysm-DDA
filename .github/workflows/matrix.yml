@@ -38,6 +38,18 @@ jobs:
       max-parallel: 2
       matrix:
         include:
+          - compiler: clang++
+            os: macos-10.15
+            cmake: 0
+            tiles: 1
+            native: osx
+            title: Clang 12, macOS 10.15, Tiles
+          - compiler: g++-7
+            os: ubuntu-latest
+            cmake: 1
+            tiles: 1
+            native: linux64
+            title: GCC 7, Ubuntu, CMake, Tiles
           - compiler: g++-9
             os: ubuntu-latest
             cmake: 0
@@ -45,24 +57,18 @@ jobs:
             test-stage: 1
             native: linux64
             title: GCC 9, Ubuntu, Curses
-          - compiler: g++-7
-            os: ubuntu-latest
-            cmake: 1
-            tiles: 0
-            native: linux64
-            title: GCC 7, Ubuntu, CMake, Curses
           - compiler: clang++-9
             os: ubuntu-latest
             cmake: 0
             tiles: 0
             native: linux64
             title: Clang 9, Ubuntu, Curses
-          - compiler: clang++
-            os: macos-10.15
+          - compiler: g++-8
+            os: ubuntu-latest
             cmake: 0
-            tiles: 1
-            native: osx
-            title: Clang 12, macOS 10.15, Tiles
+            tiles: 0
+            native: linux64
+            title: GCC 8, Ubuntu, Curses
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
@@ -117,6 +123,8 @@ jobs:
           ccache-mac-${{ matrix.compiler }}-
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
+      env:
+        SEED: ${{ steps.get-date.outputs.date }}
       run: bash ./build-scripts/build.sh
     - name: upload artifacts if failed
       uses: actions/upload-artifact@v1

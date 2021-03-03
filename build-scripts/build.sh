@@ -145,7 +145,16 @@ then
         make -j$num_jobs
         cd ..
         # Run regular tests
-	seed="$(shuf -i 0-1000000000 -n 1)"
+	if [ -n "$SEED" ]
+	then
+	    seed=$(( ${SEED} % 1000000000 ))
+	elif [ -n "$TRAVIS_BUILD_NUMBER"
+	then
+	    # Paranoia
+	    seed=$(( ${TRAVIS_BUILD_NUMBER} % 1000000000 ))
+	else
+	    seed="$(shuf -i 0-1000000000 -n 1)"
+	fi
         [ -f "${bin_path}cata_test" ] && parallel --verbose --tagstring "({1} {2})=>" --linebuffer $WINE ${bin_path}/cata_test --durations yes --use-colour yes --rng-seed $seed $EXTRA_TEST_OPTS {1} {2} ::: "--order decl" "--order rand" ::: "--success [weary]" "-f weary_nutrition_tests.txt"
         [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --tagstring "({})=>" --linebuffer $WINE ${bin_path}/cata_test-tiles --durations yes --use-colour yes --rng-seed $seed $EXTRA_TEST_OPTS {1} {2} ::: "--order decl" "--order rand" ::: "--success [weary]" "-f weary_nutrition_tests.txt"
     fi
@@ -177,7 +186,16 @@ else
 
     export ASAN_OPTIONS=detect_odr_violation=1
     export UBSAN_OPTIONS=print_stacktrace=1
-    seed="$(shuf -i 0-1000000000 -n 1)"
+    if [ -n "$SEED" ]
+    then
+	seed=$(( ${SEED} % 1000000000 ))
+    elif [ -n "$TRAVIS_BUILD_NUMBER"
+    then
+        # Paranoia
+	seed=$(( ${TRAVIS_BUILD_NUMBER} % 1000000000 ))
+    else
+	seed="$(shuf -i 0-1000000000 -n 1)"
+    fi
     parallel --verbose --tagstring "({1} {2})=>" --linebuffer $WINE ./tests/cata_test --durations yes --use-colour yes --rng-seed $seed $EXTRA_TEST_OPTS {1} {2} ::: "--order decl" "--order rand" ::: "--success [weary]" "-f weary_nutrition_tests.txt"
     if [ -n "$MODS" ]
     then
