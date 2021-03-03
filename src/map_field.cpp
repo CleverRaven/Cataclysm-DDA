@@ -77,7 +77,7 @@ static const bionic_id bio_heatsink( "bio_heatsink" );
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_corroding( "corroding" );
-static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_downed_oil( "downed_oil" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_poison( "poison" );
@@ -1708,7 +1708,7 @@ void map::player_in_field( player &u )
         }
         if( ft == fd_mechanical_fluid ) {
             if( !u.in_vehicle && x_in_y( cur.get_field_intensity(), 20 ) ) {
-                u.add_effect( effect_downed, 2_turns );
+                u.add_effect( effect_downed_oil, 2_turns );
             }
         }
 
@@ -2049,7 +2049,7 @@ void map::monster_in_field( monster &z )
             }
         }
         if( cur_field_type == fd_mechanical_fluid && x_in_y( cur.get_field_intensity(), 20 ) ) {
-            z.add_effect( effect_downed, 2_turns );
+            z.add_effect( effect_downed_oil, 2_turns );
         }
     }
 

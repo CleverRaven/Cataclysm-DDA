@@ -278,6 +278,14 @@
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
     "show_in_info": true
+  },  {
+    "type": "effect_type",
+    "id": "downed_oil",
+    "name": [ "Downed" ],
+    "desc": [ "You slip on the oil and are knocked to the ground.  You have to get up before you can move." ],
+    "apply_message": "You slip and are knocked to the floor!",
+    "rating": "bad",
+    "show_in_info": true
   },
   {
     "type": "effect_type",
