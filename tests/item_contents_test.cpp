@@ -58,6 +58,7 @@ TEST_CASE( "item_contents" )
 
     tool_belt.contents.force_insert_item( hammer, item_pocket::pocket_type::CONTAINER );
     CHECK( tool_belt.contents.num_item_stacks() == 5 );
+    tool_belt.contents.force_insert_item( hammer, item_pocket::pocket_type::CONTAINER );
     tool_belt.contents.overflow( tripoint_zero );
     CHECK( tool_belt.contents.num_item_stacks() == 4 );
     tool_belt.contents.overflow( tripoint_zero );
