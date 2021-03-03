@@ -8406,7 +8406,8 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
         //Using power_draw seem to consume random amount of battery so +100 to be safe
         static const int power_need = ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>
                                         ( 90_minutes ) ) / 1000 + 100;
-        if( power_need > it->ammo_remaining() ) {
+        if( power_need > it->ammo_remaining() && !( it->has_flag( flag_USE_UPS ) &&
+                p->charges_of( itype_UPS ) >= power_need ) ) {
             popup( _( "The autoclave doesn't have enough battery for one cycle.  You need at least %s charges." ),
                    power_need );
             return 0;
