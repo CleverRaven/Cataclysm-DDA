@@ -148,7 +148,7 @@ then
 	if [ -n "$SEED" ]
 	then
 	    seed=$(( ${SEED} % 1000000000 ))
-	elif [ -n "$TRAVIS_BUILD_NUMBER"
+	elif [ -n "$TRAVIS_BUILD_NUMBER" ]
 	then
 	    # Paranoia
 	    seed=$(( ${TRAVIS_BUILD_NUMBER} % 1000000000 ))
@@ -189,7 +189,7 @@ else
     if [ -n "$SEED" ]
     then
 	seed=$(( ${SEED} % 1000000000 ))
-    elif [ -n "$TRAVIS_BUILD_NUMBER"
+    elif [ -n "$TRAVIS_BUILD_NUMBER" ]
     then
         # Paranoia
 	seed=$(( ${TRAVIS_BUILD_NUMBER} % 1000000000 ))
