@@ -549,9 +549,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                        string_format(
                                            _( "Attacking with your %1$s will take a long time." ),
                                            cur_weapon->display_name() ), "Are you sure you want to continue?" )
-                             .option( "YES", input_context::allow_all_keys )
-                             .option( "NO", input_context::allow_all_keys )
-                             .option( "IGNORE", input_context::allow_all_keys )
+                             .option( "YES" )
+                             .option( "NO" )
+                             .option( "IGNORE" )
                              .query()
                              .action;
 
