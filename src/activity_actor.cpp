@@ -2796,6 +2796,8 @@ const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( Json
 deserialize_functions = {
     { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
     { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
+    { activity_id( "ACT_BIKERACK_RACKING" ), &bikerack_racking_activity_actor::deserialize },
+    { activity_id( "ACT_BIKERACK_UNRACKING" ), &bikerack_unracking_activity_actor::deserialize },
     { activity_id( "ACT_BURROW" ), &burrow_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
