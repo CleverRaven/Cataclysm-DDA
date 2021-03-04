@@ -10616,10 +10616,10 @@ std::vector<item_comp> item::get_uncraft_components() const
     } else {
         //Make a new vector of components from the registered components
         for( const item &component : components ) {
-            auto iter = std::find_if( ret.begin(), ret.end(), [component]( item_comp &obj ) {
+            auto iter = std::find_if( ret.begin(), ret.end(), [component]( item_comp & obj ) {
                 return obj.type == component.typeId();
             } );
-            
+
             if( iter != ret.end() ) {
                 iter->count += component.count();
             } else {
