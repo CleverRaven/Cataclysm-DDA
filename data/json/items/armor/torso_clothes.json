@@ -205,7 +205,7 @@
       "msg": "You pull the cord.",
       "need_charges": 1,
       "need_worn": true,
-      "need_charges_msg": "There is nothing to inflate th vest with.",
+      "need_charges_msg": "There is nothing to inflate the vest with.",
       "moves": 100
     },
     "pocket_data": [
