@@ -73,8 +73,20 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine_shaft",
-    "copy-from": "mine_shaft",
+    "id": "mine_entrance_roof",
+    "copy-from": "mine_entrance_roof",
+    "sym": "\u00D3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_shaft_middle",
+    "copy-from": "mine_shaft_middle",
+    "sym": "\u00D3"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_shaft_lower",
+    "copy-from": "mine_shaft_lower",
     "sym": "\u00D3"
   },
   {
