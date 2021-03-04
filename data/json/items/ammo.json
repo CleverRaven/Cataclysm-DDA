@@ -1143,6 +1143,23 @@
   },
   {
     "type": "AMMO",
+    "id": "co2",
+    "category": "chems",
+    "price": 300,
+    "price_postapoc": 25,
+    "name": { "str_sp": "carbon dioxide" },
+    "symbol": "=",
+    "color": "white",
+    "container": "bottle_plastic",
+    "sealed": false,
+    "description": "Compressed carbon dioxide used in inflatable devices",
+    "volume": "250 ml",
+    "weight": "1 g",
+    "phase": "gas",
+    "ammo_type": "co2"
+  },
+  {
+    "type": "AMMO",
     "id": "extinguishing_agent",
     "category": "chems",
     "price": 500,
