@@ -111,7 +111,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-   "upgrades": { "half_life": 20, "into_group": "GROUP_ZOMBIE_PIG_UPGRADE" },
+    "upgrades": { "half_life": 20, "into_group": "GROUP_ZOMBIE_PIG_UPGRADE" },
     "special_attacks": [ [ "SMASH", 30 ], { "type": "impale", "move_cost": 150, "cooldown": 15, "accuracy": 4, "no_infection_chance": 12 } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH", "HIT_AND_RUN" ] }
   },
