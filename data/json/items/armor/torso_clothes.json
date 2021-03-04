@@ -179,7 +179,7 @@
     "repairs_like": "flotation_vest_ms",
     "type": "TOOL_ARMOR",
     "name": { "str": "inflatable flotation vest" },
-    "description": "A brightly-colored device designed to keep you upright and floating in water.  Activate to inflate",
+    "description": "A brightly-colored device designed to keep you upright and floating in water.  Activate to inflate.",
     "weight": "501 g",
     "volume": "1 L",
     "longest_side": "30 cm",
