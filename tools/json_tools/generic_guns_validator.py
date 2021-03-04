@@ -15,6 +15,7 @@ AMMO_TYPE_WHITELIST = {
     'atgm',  # Rocket
     'barb',
     'battery',
+    'co2',
     'BB',
     'blunderbuss',
     'bolt',
