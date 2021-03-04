@@ -261,7 +261,6 @@ TEST_CASE( "Scout and Topographagnosia traits affect overmap sight range", "[mut
 
 static void check_test_mutation_is_triggered( const Character &dummy, bool trigger_on )
 {
-
     THEN( "the mutation triggers" ) {
         if( trigger_on ) {
             CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
@@ -270,7 +269,6 @@ static void check_test_mutation_is_triggered( const Character &dummy, bool trigg
             CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
             CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER" ) ) );
         }
-
     }
 }
 
@@ -280,7 +278,7 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
     Character &dummy = get_player_character();
     clear_avatar();
 
-    WHEN( "character has test triggered mutation" ) {
+    WHEN( "character has test OR trigger mutation" ) {
         dummy.toggle_trait( trait_id( "TEST_TRIGGER" ) );
 
         WHEN( "character is happy" ) {
@@ -375,6 +373,44 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
             check_test_mutation_is_triggered( dummy, false );
         }
 
+    }
+
+    clear_avatar();
+
+    WHEN( "character has AND trigger mutation" ) {
+        dummy.toggle_trait( trait_id( "TEST_TRIGGER_2" ) );
+
+        WHEN( "it is the full moon but character is not in pain" ) {
+            static const time_point full_moon = calendar::turn_zero + calendar::season_length() / 6;
+            calendar::turn = full_moon;
+            INFO( "MOON PHASE : " << io::enum_to_string<moon_phase>( get_moon_phase( calendar::turn ) ) );
+            dummy.process_turn();
+
+            THEN( "the mutation is turned off" ) {
+                CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_2_active" ) ) );
+                CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_2" ) ) );
+            }
+        }
+
+        WHEN( "character is in pain and it's the full moon" ) {
+            dummy.set_pain( 120 );
+            dummy.process_turn();
+
+            THEN( "the mutation is turned on" ) {
+                CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_2_active" ) ) );
+                CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_2" ) ) );
+            }
+        }
+
+        WHEN( "character is no longer in pain" ) {
+            dummy.set_pain( 0 );
+            dummy.process_turn();
+
+            THEN( "the mutation is turned off" ) {
+                CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_2_active" ) ) );
+                CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_2" ) ) );
+            }
+        }
     }
 
 }
