@@ -1836,11 +1836,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine_shaft",
-    "copy-from": "mine_shaft",
-    "name": "mine shaft",
-    "sym": "m",
-    "color": "i_black"
+    "id": "mine_entrance_roof",
+    "copy-from": "mine_entrance_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_shaft_middle",
+    "copy-from": "mine_shaft_middle"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_shaft_lower",
+    "copy-from": "mine_shaft_lower"
   },
   {
     "type": "overmap_terrain",
