@@ -43,6 +43,17 @@
           "trigger_type": "THIRST",
           "threshold_low": 110,
           "msg_on": { "text": "You're thirsty and it triggers the trigger.", "rating": "mixed" }
+        },
+        {
+          "trigger_type": "STAMINA",
+          "threshold_high": 1,
+          "msg_on": { "text": "You're low on stamina and it triggers the trigger.", "rating": "mixed" }
+        },
+        {
+          "trigger_type": "TIME",
+          "threshold_low": 1,
+          "threshold_high": 3,
+          "msg_on": { "text": "It's 2 am and it triggers the trigger.", "rating": "mixed" }
         }
       ]
     ],
@@ -82,6 +93,17 @@
           "trigger_type": "THIRST",
           "threshold_high": 110,
           "msg_on": { "text": "You're no longer thirsty and it triggers the trigger.", "rating": "mixed" }
+        },
+        {
+          "trigger_type": "STAMINA",
+          "threshold_low": 1,
+          "msg_on": { "text": "You're no longer low on stamina and it triggers the trigger.", "rating": "mixed" }
+        },
+        {
+          "trigger_type": "TIME",
+          "threshold_low": 2,
+          "threshold_high": 1,
+          "msg_on": { "text": "It's no longer 2 am and it triggers the trigger.", "rating": "mixed" }
         }
       ]
     ],

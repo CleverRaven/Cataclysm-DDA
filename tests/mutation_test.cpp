@@ -347,6 +347,34 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
             check_test_mutation_is_triggered( dummy, false );
         }
 
+        WHEN( "character is low on stamina" ) {
+            dummy.set_stamina( 0 );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, true );
+        }
+
+        WHEN( "character is no longer low on stamina " ) {
+            dummy.set_stamina( dummy.get_stamina_max() );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, false );
+        }
+
+        WHEN( "it's 2 am" ) {
+            calendar::turn = calendar::turn_zero + 2_hours;
+            INFO( "TIME OF DAY : " << to_string_time_of_day( calendar::turn ) );
+            dummy.process_turn();
+
+            check_test_mutation_is_triggered( dummy, true );
+        }
+
+        WHEN( "it's no longer 2 am" ) {
+            calendar::turn = calendar::turn_zero;
+            INFO( "TIME OF DAY : " << to_string_time_of_day( calendar::turn ) );
+            dummy.process_turn();
+
+            check_test_mutation_is_triggered( dummy, false );
+        }
+
     }
 
 }
