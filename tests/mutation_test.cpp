@@ -258,3 +258,48 @@ TEST_CASE( "Scout and Topographagnosia traits affect overmap sight range", "[mut
         }
     }
 }
+
+TEST_CASE( "The various type of triggers work", "[mutations]" )
+{
+    Character &dummy = get_player_character();
+    clear_avatar();
+
+    WHEN( "character has test triggered mutation" ) {
+        dummy.toggle_trait( trait_id( "TEST_TRIGGER" ) );
+
+        WHEN( "character is happy" ) {
+            dummy.add_morale( morale_type( "morale_perm_debug" ), 21 );
+            dummy.apply_persistent_morale();
+
+            dummy.process_turn();
+
+            THEN( "the mutation triggers" ) {
+                CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
+                CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER" ) ) );
+            }
+        }
+
+        WHEN( "mood goes down again" ) {
+            dummy.clear_morale();
+
+            dummy.process_turn();
+
+            THEN( "the mutation triggers again and turns back" ) {
+                CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER" ) ) );
+                CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
+            }
+        }
+
+        WHEN( "it is the full moon" ) {
+            calendar::turn = calendar::turn_zero + 24_days;
+            INFO( "MOON PHASE : " << io::enum_to_string<moon_phase>( get_moon_phase( calendar::turn ) ) );
+
+            THEN( "the mutation triggers" ) {
+                CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
+                CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER" ) ) );
+            }
+
+        }
+    }
+
+}
