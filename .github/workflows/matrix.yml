@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - 0.F-dev
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'
@@ -18,6 +19,7 @@ on:
   pull_request:
     branches:
     - master
+    - 0.F-dev
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'
