@@ -545,10 +545,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     if( is_avatar() && move_cost > 1000 && calendar::turn > melee_warning_turn ) {
         const auto &action = query_popup()
                              .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
-                             .message( pgettext( "cancel_activity_or_ignore_query", "<color_light_red>%s %s</color>" ),
-                                       string_format(
-                                           _( "Attacking with your %1$s will take a long time." ),
-                                           cur_weapon->display_name() ), "Are you sure you want to continue?" )
+                             .message( _( "<color_light_red>Attacking with your %1$s will take a long time.  "
+                                          "Are you sure you want to continue?</color>" ),
+                                       cur_weapon->display_name() )
                              .option( "YES" )
                              .option( "NO" )
                              .option( "IGNORE" )
