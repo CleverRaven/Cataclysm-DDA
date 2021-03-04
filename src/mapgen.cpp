@@ -103,8 +103,6 @@ static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 static constexpr int MON_RADIUS = 3;
 
 static void science_room( map *m, const point &p1, const point &p2, int z, int rotate );
-static void build_mine_room( room_type type, const point &p1, const point &p2,
-                             const mapgendata &dat );
 
 // (x,y,z) are absolute coordinates of a submap
 // x%2 and y%2 must be 0!
@@ -4254,48 +4252,7 @@ void map::draw_temple( const mapgendata &dat )
 void map::draw_mine( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == "mine_entrance" ) {
-        dat.fill_groundcover();
-        int tries = 0;
-        bool build_shaft = true;
-        do {
-            point p1( rng( 1, 2 * SEEX - 10 ), rng( 1, 2 * SEEY - 10 ) );
-            point p2( p1 + point( rng( 4, 9 ), rng( 4, 9 ) ) );
-            if( build_shaft ) {
-                build_mine_room( room_mine_shaft, p1, p2, dat );
-                build_shaft = false;
-            } else {
-                bool okay = true;
-                for( int x = p1.x - 1; x <= p2.x + 1 && okay; x++ ) {
-                    for( int y = p1.y - 1; y <= p2.y + 1 && okay; y++ ) {
-                        okay = dat.is_groundcover( ter( point( x, y ) ) );
-                    }
-                }
-                if( okay ) {
-                    room_type type = static_cast<room_type>( rng( room_mine_office, room_mine_housing ) );
-                    build_mine_room( type, p1, p2, dat );
-                    tries = 0;
-                } else {
-                    tries++;
-                }
-            }
-        } while( tries < 5 );
-        int ladderx = rng( 0, EAST_EDGE ), laddery = rng( 0, SOUTH_EDGE );
-        while( !dat.is_groundcover( ter( point( ladderx, laddery ) ) ) ) {
-            ladderx = rng( 0, EAST_EDGE );
-            laddery = rng( 0, SOUTH_EDGE );
-        }
-        ter_set( point( ladderx, laddery ), t_manhole_cover );
-    } else if( terrain_type == "mine_shaft" ) {
-        // Not intended to actually be inhabited!
-        fill_background( this, t_rock );
-        square( this, t_hole, point( SEEX - 3, SEEY - 3 ), point( SEEX + 2, SEEY + 2 ) );
-        line( this, t_grate, point( SEEX - 3, SEEY - 4 ), point( SEEX + 2, SEEY - 4 ) );
-        ter_set( point( SEEX - 3, SEEY - 5 ), t_ladder_up );
-        ter_set( point( SEEX + 2, SEEY - 5 ), t_ladder_down );
-        rotate( rng( 0, 3 ) );
-    } else if( terrain_type == "mine" ||
-               terrain_type == "mine_down" ) {
+    if( terrain_type == "mine" || terrain_type == "mine_down" ) {
         if( is_ot_match( "mine", dat.north(), ot_match_type::prefix ) ) {
             dat.n_fac = ( one_in( 10 ) ? 0 : -2 );
         } else {
@@ -4329,140 +4286,117 @@ void map::draw_mine( mapgendata &dat )
             }
         }
 
-        if( dat.above() == "mine_shaft" ) { // We need the entrance room
-            square( this, t_floor, point( 10, 10 ), point( 15, 15 ) );
-            line( this, t_wall,  point( 9, 9 ), point( 16, 9 ) );
-            line( this, t_wall,  point( 9, 16 ), point( 16, 16 ) );
-            line( this, t_wall,  point( 9, 10 ),  point( 9, 15 ) );
-            line( this, t_wall, point( 16, 10 ), point( 16, 15 ) );
-            line( this, t_wall, point( 10, 11 ), point( 12, 11 ) );
-            ter_set( point( 10, 10 ), t_elevator_control );
-            ter_set( point( 11, 10 ), t_elevator );
-            ter_set( point( 10, 12 ), t_ladder_up );
-            line_furn( this, f_counter, point( 10, 15 ), point( 15, 15 ) );
-            place_items( item_group_id( "mine_equipment" ), 86, point( 10, 15 ), point( 15, 15 ),
-                         false, calendar::start_of_cataclysm );
-            if( one_in( 2 ) ) {
-                ter_set( point( 9, 12 ), t_door_c );
-            } else {
-                ter_set( point( 16, 12 ), t_door_c );
+        // Not an entrance; maybe some hazards!
+        switch( rng( 0, 6 ) ) {
+            case 0:
+                break; // Nothing!  Lucky!
+
+            case 1: { // Toxic gas
+                point gas_vent_location( rng( 9, 14 ), rng( 9, 14 ) );
+                ter_set( point( gas_vent_location ), t_rock );
+                add_field( { gas_vent_location, abs_sub.z}, fd_gas_vent, 2 );
             }
+            break;
 
-        } else { // Not an entrance; maybe some hazards!
-            switch( rng( 0, 6 ) ) {
-                case 0:
-                    break; // Nothing!  Lucky!
-
-                case 1: { // Toxic gas
-                    int cx = rng( 9, 14 );
-                    int cy = rng( 9, 14 );
-                    ter_set( point( cx, cy ), t_rock );
-                    add_field( {cx, cy, abs_sub.z}, fd_gas_vent, 2 );
+            case 2: { // Lava
+                point start_location( rng( 6, SEEX ), rng( 6, SEEY ) );
+                point end_location( rng( SEEX + 1, SEEX * 2 - 7 ), rng( SEEY + 1, SEEY * 2 - 7 ) );
+                const int num = rng( 2, 4 );
+                for( int i = 0; i < num; i++ ) {
+                    int lx1 = start_location.x + rng( -1, 1 ), lx2 = end_location.x + rng( -1, 1 ),
+                        ly1 = start_location.y + rng( -1, 1 ), ly2 = end_location.y + rng( -1, 1 );
+                    line( this, t_lava, point( lx1, ly1 ), point( lx2, ly2 ) );
                 }
-                break;
-
-                case 2: { // Lava
-                    int x1 = rng( 6, SEEX );
-                    int y1 = rng( 6, SEEY );
-                    int x2 = rng( SEEX + 1, SEEX * 2 - 7 );
-                    int y2 = rng( SEEY + 1, SEEY * 2 - 7 );
-                    int num = rng( 2, 4 );
-                    for( int i = 0; i < num; i++ ) {
-                        int lx1 = x1 + rng( -1, 1 ), lx2 = x2 + rng( -1, 1 ),
-                            ly1 = y1 + rng( -1, 1 ), ly2 = y2 + rng( -1, 1 );
-                        line( this, t_lava, point( lx1, ly1 ), point( lx2, ly2 ) );
-                    }
-                }
-                break;
-
-                case 3: { // Wrecked equipment
-                    int x = rng( 9, 14 );
-                    int y = rng( 9, 14 );
-                    for( int i = x - 3; i < x + 3; i++ ) {
-                        for( int j = y - 3; j < y + 3; j++ ) {
-                            if( !one_in( 4 ) ) {
-                                make_rubble( tripoint( i,  j, abs_sub.z ), f_wreckage, true );
-                            }
-                        }
-                    }
-                    place_items( item_group_id( "wreckage" ), 70, point( x - 3, y - 3 ),
-                                 point( x + 2, y + 2 ), false, calendar::start_of_cataclysm );
-                }
-                break;
-
-                case 4: { // Dead miners
-                    int num_bodies = rng( 4, 8 );
-                    for( int i = 0; i < num_bodies; i++ ) {
-                        if( const auto body = random_point( *this, [this]( const tripoint & p ) {
-                        return move_cost( p ) == 2;
-                        } ) ) {
-                            add_item( *body, item::make_corpse() );
-                            place_items( item_group_id( "mine_equipment" ), 60, *body, *body,
-                                         false, calendar::start_of_cataclysm );
-                        }
-                    }
-                }
-                break;
-
-                case 5: { // Dark worm!
-                    int num_worms = rng( 1, 5 );
-                    for( int i = 0; i < num_worms; i++ ) {
-                        std::vector<direction> sides;
-                        if( dat.n_fac == 6 ) {
-                            sides.push_back( direction::NORTH );
-                        }
-                        if( dat.e_fac == 6 ) {
-                            sides.push_back( direction::EAST );
-                        }
-                        if( dat.s_fac == 6 ) {
-                            sides.push_back( direction::SOUTH );
-                        }
-                        if( dat.w_fac == 6 ) {
-                            sides.push_back( direction::WEST );
-                        }
-                        if( sides.empty() ) {
-                            place_spawns( GROUP_DARK_WYRM, 1, point( SEEX, SEEY ), point( SEEX, SEEY ), 1, true );
-                            i = num_worms;
-                        } else {
-                            point p;
-                            switch( random_entry( sides ) ) {
-                                case direction::NORTH:
-                                    p = point( rng( 1, SEEX * 2 - 2 ), rng( 1, 5 ) );
-                                    break;
-                                case direction::EAST:
-                                    p = point( SEEX * 2 - rng( 2, 6 ), rng( 1, SEEY * 2 - 2 ) );
-                                    break;
-                                case direction::SOUTH:
-                                    p = point( rng( 1, SEEX * 2 - 2 ), SEEY * 2 - rng( 2, 6 ) );
-                                    break;
-                                case direction::WEST:
-                                    p = point( rng( 1, 5 ), rng( 1, SEEY * 2 - 2 ) );
-                                    break;
-                                default:
-                                    break;
-                            }
-                            ter_set( p, t_rock_floor );
-                            place_spawns( GROUP_DARK_WYRM, 1, p, p, 1, true );
-                        }
-                    }
-                }
-                break;
-
-                case 6: { // Spiral
-                    int orx = rng( SEEX - 4, SEEX ), ory = rng( SEEY - 4, SEEY );
-                    line( this, t_rock, point( orx, ory ), point( orx + 5, ory ) );
-                    line( this, t_rock, point( orx + 5, ory ), point( orx + 5, ory + 5 ) );
-                    line( this, t_rock, point( orx + 1, ory + 5 ), point( orx + 5, ory + 5 ) );
-                    line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 1, ory + 4 ) );
-                    line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 3, ory + 2 ) );
-                    ter_set( point( orx + 3, ory + 3 ), t_rock );
-                    add_item( point( orx + 2, ory + 3 ), item::make_corpse() );
-                    place_items( item_group_id( "mine_equipment" ), 60, point( orx + 2, ory + 3 ),
-                                 point( orx + 2, ory + 3 ), false, calendar::start_of_cataclysm );
-                }
-                break;
             }
+            break;
+
+            case 3: { // Wrecked equipment
+                point wreck_location( rng( 9, 14 ), rng( 9, 14 ) );
+                for( int i = wreck_location.x - 3; i < wreck_location.x + 3; i++ ) {
+                    for( int j = wreck_location.y - 3; j < wreck_location.y + 3; j++ ) {
+                        if( !one_in( 4 ) ) {
+                            make_rubble( tripoint( i,  j, abs_sub.z ), f_wreckage, true );
+                        }
+                    }
+                }
+                place_items( item_group_id( "wreckage" ), 70, wreck_location + point( -3, -3 ),
+                             wreck_location + point( 2, 2 ), false, calendar::start_of_cataclysm );
+            }
+            break;
+
+            case 4: { // Dead miners
+                const int num_bodies = rng( 4, 8 );
+                for( int i = 0; i < num_bodies; i++ ) {
+                    if( const auto body = random_point( *this, [this]( const tripoint & p ) {
+                    return move_cost( p ) == 2;
+                    } ) ) {
+                        add_item( *body, item::make_corpse() );
+                        place_items( item_group_id( "mine_equipment" ), 60, *body, *body,
+                                     false, calendar::start_of_cataclysm );
+                    }
+                }
+            }
+            break;
+
+            case 5: { // Dark worm!
+                const int num_worms = rng( 1, 5 );
+                for( int i = 0; i < num_worms; i++ ) {
+                    std::vector<direction> sides;
+                    if( dat.n_fac == 6 ) {
+                        sides.push_back( direction::NORTH );
+                    }
+                    if( dat.e_fac == 6 ) {
+                        sides.push_back( direction::EAST );
+                    }
+                    if( dat.s_fac == 6 ) {
+                        sides.push_back( direction::SOUTH );
+                    }
+                    if( dat.w_fac == 6 ) {
+                        sides.push_back( direction::WEST );
+                    }
+                    if( sides.empty() ) {
+                        place_spawns( GROUP_DARK_WYRM, 1, point( SEEX, SEEY ), point( SEEX, SEEY ), 1, true );
+                        i = num_worms;
+                    } else {
+                        point p;
+                        switch( random_entry( sides ) ) {
+                            case direction::NORTH:
+                                p = point( rng( 1, SEEX * 2 - 2 ), rng( 1, 5 ) );
+                                break;
+                            case direction::EAST:
+                                p = point( SEEX * 2 - rng( 2, 6 ), rng( 1, SEEY * 2 - 2 ) );
+                                break;
+                            case direction::SOUTH:
+                                p = point( rng( 1, SEEX * 2 - 2 ), SEEY * 2 - rng( 2, 6 ) );
+                                break;
+                            case direction::WEST:
+                                p = point( rng( 1, 5 ), rng( 1, SEEY * 2 - 2 ) );
+                                break;
+                            default:
+                                break;
+                        }
+                        ter_set( p, t_rock_floor );
+                        place_spawns( GROUP_DARK_WYRM, 1, p, p, 1, true );
+                    }
+                }
+            }
+            break;
+
+            case 6: { // Spiral
+                const int orx = rng( SEEX - 4, SEEX ), ory = rng( SEEY - 4, SEEY );
+                line( this, t_rock, point( orx, ory ), point( orx + 5, ory ) );
+                line( this, t_rock, point( orx + 5, ory ), point( orx + 5, ory + 5 ) );
+                line( this, t_rock, point( orx + 1, ory + 5 ), point( orx + 5, ory + 5 ) );
+                line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 1, ory + 4 ) );
+                line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 3, ory + 2 ) );
+                ter_set( point( orx + 3, ory + 3 ), t_rock );
+                add_item( point( orx + 2, ory + 3 ), item::make_corpse() );
+                place_items( item_group_id( "mine_equipment" ), 60, point( orx + 2, ory + 3 ),
+                             point( orx + 2, ory + 3 ), false, calendar::start_of_cataclysm );
+            }
+            break;
         }
+
         if( terrain_type == "mine_down" ) { // Don't forget to build a slope down!
             std::vector<direction> open;
             if( dat.n_fac == 4 ) {
@@ -4634,14 +4568,14 @@ void map::draw_mine( mapgendata &dat )
         computer *tmpcomp = nullptr;
         switch( rn ) {
             case 1: { // Wyrms
-                int x = rng( SEEX, SEEX + 1 ), y = rng( SEEY, SEEY + 1 );
+                const int x = rng( SEEX, SEEX + 1 ), y = rng( SEEY, SEEY + 1 );
                 ter_set( point( x, y ), t_pedestal_wyrm );
                 spawn_item( point( x, y ), "petrified_eye" );
             }
             break; // That's it!  game::examine handles the pedestal/wyrm spawns
 
             case 2: { // The Thing dog
-                int num_bodies = rng( 4, 8 );
+                const int num_bodies = rng( 4, 8 );
                 for( int i = 0; i < num_bodies; i++ ) {
                     int x = rng( 4, SEEX * 2 - 5 );
                     int y = rng( 4, SEEX * 2 - 5 );
@@ -6123,191 +6057,6 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
             break;
         default:
             break;
-    }
-}
-
-void build_mine_room( room_type type, const point &p1, const point &p2, const mapgendata &dat )
-{
-    map *const m = &dat.m;
-    std::vector<direction> possibilities;
-    point mid( static_cast<int>( ( p1.x + p2.x ) / 2 ), static_cast<int>( ( p1.y + p2.y ) / 2 ) );
-    if( p2.x < SEEX ) {
-        possibilities.push_back( direction::EAST );
-    }
-    if( p1.x > SEEX + 1 ) {
-        possibilities.push_back( direction::WEST );
-    }
-    if( p1.y > SEEY + 1 ) {
-        possibilities.push_back( direction::NORTH );
-    }
-    if( p2.y < SEEY ) {
-        possibilities.push_back( direction::SOUTH );
-    }
-
-    if( possibilities.empty() ) { // We're in the middle of the map!
-        if( mid.x <= SEEX ) {
-            possibilities.push_back( direction::EAST );
-        } else {
-            possibilities.push_back( direction::WEST );
-        }
-        if( mid.y <= SEEY ) {
-            possibilities.push_back( direction::SOUTH );
-        } else {
-            possibilities.push_back( direction::NORTH );
-        }
-    }
-
-    const direction door_side = random_entry( possibilities );
-    point door_point;
-    switch( door_side ) {
-        case direction::NORTH:
-            door_point.x = mid.x;
-            door_point.y = p1.y;
-            break;
-        case direction::EAST:
-            door_point.x = p2.x;
-            door_point.y = mid.y;
-            break;
-        case direction::SOUTH:
-            door_point.x = mid.x;
-            door_point.y = p2.y;
-            break;
-        case direction::WEST:
-            door_point.x = p1.x;
-            door_point.y = mid.y;
-            break;
-        default:
-            break;
-    }
-    square( m, t_floor, p1, p2 );
-    line( m, t_wall, p1, point( p2.x, p1.y ) );
-    line( m, t_wall, point( p1.x, p2.y ), p2 );
-    line( m, t_wall, p1 + point_south, point( p1.x, p2.y - 1 ) );
-    line( m, t_wall, point( p2.x, p1.y + 1 ), p2 + point_north );
-    // Main build switch!
-    switch( type ) {
-        case room_mine_shaft: {
-            m->furn_set( p1 + point_south_east, furn_str_id( "f_console" ) );
-            line( m, t_wall, point( p2.x - 2, p1.y + 2 ), point( p2.x - 1, p1.y + 2 ) );
-            m->ter_set( point( p2.x - 2, p1.y + 1 ), t_elevator );
-            m->ter_set( point( p2.x - 1, p1.y + 1 ), t_elevator_control_off );
-            computer *tmpcomp = m->add_computer( p1 + tripoint( 1, 1, m->get_abs_sub().z ),
-                                                 _( "NEPowerOS" ), 2 );
-            tmpcomp->add_option( _( "Divert power to elevator" ), COMPACT_ELEVATOR_ON, 0 );
-            tmpcomp->add_failure( COMPFAIL_ALARM );
-        }
-        break;
-
-        case room_mine_office:
-            line_furn( m, f_counter, point( mid.x, p1.y + 2 ), point( mid.x, p2.y - 2 ) );
-            line( m, t_window, point( mid.x - 1, p1.y ), point( mid.x + 1, p1.y ) );
-            line( m, t_window, point( mid.x - 1, p2.y ), point( mid.x + 1, p2.y ) );
-            line( m, t_window, point( p1.x, mid.y - 1 ), point( p1.x, mid.y + 1 ) );
-            line( m, t_window, point( p2.x, mid.y - 1 ), point( p2.x, mid.y + 1 ) );
-            m->place_items( item_group_id( "office" ), 80, p1 + point_south_east,
-                            p2 + point_north_west, false, calendar::start_of_cataclysm );
-            break;
-
-        case room_mine_storage:
-            m->place_items( item_group_id( "mine_storage" ), 85, p1 + point( 2, 2 ),
-                            p2 + point( -2, -2 ), false, calendar::start_of_cataclysm );
-            break;
-
-        case room_mine_fuel: {
-            int spacing = rng( 2, 4 );
-            if( door_side == direction::NORTH || door_side == direction::SOUTH ) {
-                int y = ( door_side == direction::NORTH ? p1.y + 2 : p2.y - 2 );
-                for( int x = p1.x + 1; x <= p2.x - 1; x += spacing ) {
-                    m->place_gas_pump( point( x, y ), rng( 10000, 50000 ) );
-                }
-            } else {
-                int x = ( door_side == direction::EAST ? p2.x - 2 : p1.x + 2 );
-                for( int y = p1.y + 1; y <= p2.y - 1; y += spacing ) {
-                    m->place_gas_pump( point( x, y ), rng( 10000, 50000 ) );
-                }
-            }
-        }
-        break;
-
-        case room_mine_housing:
-            if( door_side == direction::NORTH || door_side == direction::SOUTH ) {
-                for( int y = p1.y + 2; y <= p2.y - 2; y += 2 ) {
-                    m->ter_set( point( p1.x, y ), t_window );
-                    m->furn_set( point( p1.x + 1, y ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( p1.x + 1, y ),
-                                    point( p1.x + 1, y ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( p1.x + 2, y ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( p1.x + 2, y ),
-                                    point( p1.x + 2, y ), false, calendar::start_of_cataclysm );
-                    m->ter_set( point( p2.x, y ), t_window );
-                    m->furn_set( point( p2.x - 1, y ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( p2.x - 1, y ),
-                                    point( p2.x - 1, y ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( p2.x - 2, y ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( p2.x - 2, y ),
-                                    point( p2.x - 2, y ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( p1.x + 1, y + 1 ), f_dresser );
-                    m->place_items( item_group_id( "dresser" ), 78, point( p1.x + 1, y + 1 ),
-                                    point( p1.x + 1, y + 1 ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( p2.x - 1, y + 1 ), f_dresser );
-                    m->place_items( item_group_id( "dresser" ), 78, point( p2.x - 1, y + 1 ),
-                                    point( p2.x - 1, y + 1 ), false, calendar::start_of_cataclysm );
-                }
-            } else {
-                for( int x = p1.x + 2; x <= p2.x - 2; x += 2 ) {
-                    m->ter_set( point( x, p1.y ), t_window );
-                    m->furn_set( point( x, p1.y + 1 ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( x, p1.y + 1 ),
-                                    point( x, p1.y + 1 ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( x, p1.y + 2 ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( x, p1.y + 2 ),
-                                    point( x, p1.y + 2 ), false, calendar::start_of_cataclysm );
-                    m->ter_set( point( x, p2.y ), t_window );
-                    m->furn_set( point( x, p2.y - 1 ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( x, p2.y - 1 ),
-                                    point( x, p2.y - 1 ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( x, p2.y - 2 ), f_bed );
-                    m->place_items( item_group_id( "bed" ), 60, point( x, p2.y - 2 ),
-                                    point( x, p2.y - 2 ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( x + 1, p1.y + 1 ), f_dresser );
-                    m->place_items( item_group_id( "dresser" ), 78, point( x + 1, p1.y + 1 ),
-                                    point( x + 1, p1.y + 1 ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( x + 1, p2.y - 1 ), f_dresser );
-                    m->place_items( item_group_id( "dresser" ), 78, point( x + 1, p2.y - 1 ),
-                                    point( x + 1, p2.y - 1 ), false, calendar::start_of_cataclysm );
-                }
-            }
-            m->place_items( item_group_id( "bedroom" ), 65, p1 + point_south_east,
-                            p2 + point_north_west, false, calendar::start_of_cataclysm );
-            break;
-        default:
-            //Suppress warnings
-            break;
-    }
-
-    if( type == room_mine_fuel ) { // Fuel stations are open on one side
-        switch( door_side ) {
-            case direction::NORTH:
-                line( m, t_floor, p1, point( p2.x, p1.y ) );
-                break;
-            case direction::EAST:
-                line( m, t_floor, point( p2.x, p1.y + 1 ), p2 + point_north );
-                break;
-            case direction::SOUTH:
-                line( m, t_floor, point( p1.x, p2.y ), p2 );
-                break;
-            case direction::WEST:
-                line( m, t_floor, p1 + point_south, point( p1.x, p2.y - 1 ) );
-                break;
-            default:
-                break;
-        }
-    } else {
-        if( type == room_mine_storage ) { // Storage has a locked door
-            m->ter_set( door_point, t_door_locked );
-        } else {
-            m->ter_set( door_point, t_door_c );
-        }
     }
 }
 
