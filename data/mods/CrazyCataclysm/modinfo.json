@@ -4,10 +4,10 @@
     "id": "crazy_cataclysm",
     "name": "Crazy Cataclysm",
     "authors": [ "Kevin" ],
+    "maintainers": [ "Chaosvolt" ],
     "description": "Want a little crazy in your Cataclysm?  Try this one.",
     "category": "misc_additions",
-    "dependencies": [ "dda" ],
-    "obsolete": true
+    "dependencies": [ "dda" ]
   },
   {
     "type": "MONSTER_WHITELIST",

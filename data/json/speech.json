@@ -2464,5 +2464,41 @@
     "speaker": "mon_dog_auscattle",
     "sound": "BARK!",
     "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_shia",
+    "sound": "\"Do it!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_shia",
+    "sound": "\"Just do it!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_shia",
+    "sound": "\"Don't let your dreams be dreams!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_shia",
+    "sound": "\"Yesterday you said tomorrow, so just do it!\"",
+    "volume": 45
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_shia",
+    "sound": "\"Make your dreams come true!\"",
+    "volume": 45
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_shia",
+    "sound": "\"Just, do it.\"",
+    "volume": 25
   }
 ]
