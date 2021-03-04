@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "name": { "str": "frost maddened human" },
     "description": "Sky blue irises cover the entirety of the eye.  What happened to this person during their deep freeze?",
-    "default_faction": "mutant",
+    "default_faction": "cryo",
     "looks_like": "chud",
     "bodytype": "human",
     "species": [ "HUMAN" ],

@@ -37,7 +37,6 @@
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
@@ -1837,7 +1836,7 @@ void debug()
                 const auto text = string_input_popup()
                                   .title( msg )
                                   .width( 20 )
-                                  .text( to_string( initial ) )
+                                  .text( std::to_string( initial ) )
                                   .only_digits( true )
                                   .query_string();
                 if( text.empty() ) {

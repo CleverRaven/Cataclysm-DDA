@@ -528,6 +528,7 @@
     "//": "Non-salt seasonings you might add to a dish to flavor it. Should be about a teaspoon, or smallest serving",
     "components": [
       [
+        [ "hot_sauce", 1 ],
         [ "pepper", 1 ],
         [ "seasoning_salt", 1 ],
         [ "seasoning_italian", 1 ],
@@ -758,6 +759,7 @@
         [ "dry_mushroom", 1 ]
       ],
       [
+        [ "hot_sauce", 2 ],
         [ "seasoning_italian", 4 ],
         [ "wild_herbs", 4 ],
         [ "seasoning_salt", 4 ],

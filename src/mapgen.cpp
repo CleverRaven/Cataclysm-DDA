@@ -5600,6 +5600,11 @@ void map::rotate( int turns, const bool setpos_safe )
             overmap_buffer.get_npcs_near( tripoint_abs_sm( abs_sub ), radius );
     for( const shared_ptr_fast<npc> &i : npcs ) {
         npc &np = *i;
+        // I know we could break out earlier and waste less cycles, this is just easier.
+        // This is here for tinymaps who don't need to rotate NPCs.
+        if( skip_npc_rotation() ) {
+            break;
+        }
         const tripoint sq = np.global_square_location();
         real_coords np_rc;
         np_rc.fromabs( sq.xy() );

@@ -665,7 +665,7 @@
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "flask_glass", 1 ] ],
+      [ [ "flask_glass", 1 ], [ "jar_glass_sealed", 1 ] ],
       [ [ "yeast", 1 ] ],
       [ [ "sugar", 10 ], [ "honey_bottled", 1 ] ]
     ]

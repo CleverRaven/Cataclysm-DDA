@@ -427,3 +427,35 @@ TEST_CASE( "player_in_field test", "[field][player]" )
     dummy.setpos( prev_char_pos );
     fields_test_cleanup();
 }
+
+TEST_CASE( "field API test", "[field]" )
+{
+    fields_test_setup();
+    const tripoint p{ 33, 33, 0 };
+    map &m = get_map();
+    field &f = m.field_at( p );
+
+    REQUIRE_FALSE( f.find_field( fd_fire ) );
+
+    CHECK( m.add_field( p, fd_fire, 1 ) );
+
+    CHECK( f.find_field( fd_fire ) );
+    CHECK( f.find_field( fd_fire, /*alive_only*/ false ) );
+    CHECK( m.get_field( p, fd_fire ) );
+    CHECK( m.get_field_intensity( p, fd_fire ) == 1 );
+
+    m.remove_field( p, fd_fire );
+
+    CHECK_FALSE( f.find_field( fd_fire ) );
+    {
+        INFO( "Field is still there, actually removed only by process_fields" );
+        CHECK( f.find_field( fd_fire, /*alive_only*/ false ) );
+    }
+    CHECK_FALSE( m.get_field( p, fd_fire ) );
+    CHECK( m.get_field_intensity( p, fd_fire ) == 0 );
+
+    CHECK( m.set_field_intensity( p, fd_fire, 1 ) == 1 );
+    CHECK( f.find_field( fd_fire ) );
+
+    fields_test_cleanup();
+}

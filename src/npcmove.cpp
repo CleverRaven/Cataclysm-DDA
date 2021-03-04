@@ -597,7 +597,8 @@ void npc::assess_danger()
     for( const weak_ptr_fast<Creature> &guy : hostile_guys ) {
         player *foe = dynamic_cast<player *>( guy.lock().get() );
         if( foe && foe->is_npc() ) {
-            assessment += handle_hostile( *foe, evaluate_enemy( *foe ), "bandit", "kill_npc" );
+            assessment += handle_hostile( *foe, evaluate_enemy( *foe ), translate_marker( "bandit" ),
+                                          "kill_npc" );
         }
     }
 
@@ -616,7 +617,8 @@ void npc::assess_danger()
         // cap player difficulty at 150
         float player_diff = evaluate_enemy( player_character );
         if( is_enemy() ) {
-            assessment += handle_hostile( player_character, player_diff, "maniac", "kill_player" );
+            assessment += handle_hostile( player_character, player_diff, translate_marker( "maniac" ),
+                                          "kill_player" );
         } else if( is_friendly( player_character ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             assessment = std::max( min_danger, assessment - player_diff * 0.5f );
@@ -912,7 +914,7 @@ void npc::move()
         // like random NPCs
         if( attitude == NPCATT_ACTIVITY && !activity ) {
             revert_after_activity();
-            if( is_ally( player_character ) ) {
+            if( is_ally( player_character ) && !assigned_camp ) {
                 attitude = NPCATT_FOLLOW;
                 mission = NPC_MISSION_NULL;
             }
@@ -3620,7 +3622,7 @@ void npc::heal_player( player &patient )
         return;
     }
     if( !is_hallucination() ) {
-        int charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
+        int charges_used = used.type->invoke( *this, used, patient.pos(), "heal" ).value_or( 0 );
         consume_charges( used, charges_used );
     } else {
         pretend_heal( patient, used );
@@ -3677,7 +3679,7 @@ void npc::heal_self()
     add_msg_if_player_sees( *this, _( "%s applies a %s" ), disp_name(), used.tname() );
     warn_about( "heal_self", 1_turns );
 
-    int charges_used = used.type->invoke( *this, used, pos(), "heal" );
+    int charges_used = used.type->invoke( *this, used, pos(), "heal" ).value_or( 0 );
     if( used.is_medication() ) {
         consume_charges( used, charges_used );
     }
@@ -3812,16 +3814,19 @@ bool npc::consume_food_from_camp()
         return true;
     }
     faction *yours = player_character.get_faction();
-    int camp_kcals = std::min( std::max( 0, 19 * get_healthy_kcal() / 20 - get_stored_kcal() -
-                                         stomach.get_calories() ), yours->food_supply );
-    if( camp_kcals > 0 ) {
+
+    int kcals_to_eat = std::min( std::max( 0, 19 * get_healthy_kcal() / 20 - get_stored_kcal() -
+                                           stomach.get_calories() ), yours->food_supply );
+    if( kcals_to_eat > 0 ) {
         complain_about( "camp_food_thanks", 1_hours, "<camp_food_thanks>", false );
-        mod_hunger( -camp_kcals );
-        mod_stored_kcal( camp_kcals );
-        yours->food_supply -= camp_kcals;
+        mod_hunger( -kcals_to_eat );
+        mod_stored_kcal( kcals_to_eat );
+        yours->food_supply -= kcals_to_eat;
         return true;
     }
-    complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty>", false );
+    if( yours->food_supply <= 0 ) {
+        complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty>", false );
+    }
     return false;
 }
 
@@ -4391,7 +4396,7 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
                                       string_format( _( " %s, %s" ),
                                               direction_name( direction_from( pos(), danger_pos ) ),
                                               distance_string( range ) );
-        const std::string speech = string_format( _( "%s %s%s" ), snip, name, range_str );
+        const std::string speech = string_format( _( "%s %s%s" ), snip, _( name ), range_str );
         complain_about( warning_name, d, speech, is_enemy(), spriority );
     }
 }

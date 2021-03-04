@@ -4,8 +4,6 @@
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
-// needed for the workaround for the std::to_string bug in some compilers
-#include "compatibility.h" // IWYU pragma: keep
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"

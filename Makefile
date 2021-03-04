@@ -278,6 +278,11 @@ ifneq ($(CLANG), 0)
   ifeq ($(NATIVE), osx)
     USE_LIBCXX = 1
   endif
+  ifeq ($(BSD), 1)
+    ifndef USE_LIBCXX
+      USE_LIBCXX = 1
+    endif
+  endif
   ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
     LDFLAGS += -stdlib=libc++
@@ -526,15 +531,15 @@ ifeq ($(NATIVE), osx)
       LDFLAGS += -L$(LIBSDIR)/gettext/lib
       CXXFLAGS += -I$(LIBSDIR)/gettext/include
     endif
-    # recent versions of brew will not allow you to link
-    ifeq ($(BREWGETTEXT), 1)
-      # native ARM Homebrew is installed to /opt/homebrew
-      ifneq ("$(wildcard /opt/homebrew)", "")
-        LDFLAGS += -L/opt/homebrew/lib
-        CXXFLAGS += -I/opt/homebrew/include
-      else
-        LDFLAGS += -L/usr/local/opt/gettext/lib
-        CXXFLAGS += -I/usr/local/opt/gettext/include
+    # link to gettext from Homebrew if it exists
+    # Homebrew may be installed in /usr/local or /opt/homebrew
+    ifneq ("$(wildcard /usr/local/opt/gettext)", "")
+      LDFLAGS += -L/usr/local/opt/gettext/lib
+      CXXFLAGS += -I/usr/local/opt/gettext/include
+    else
+      ifneq ("$(wildcard /opt/homebrew/opt/gettext)", "")
+        LDFLAGS += -L/opt/homebrew/opt/gettext/lib
+        CXXFLAGS += -I/opt/homebrew/opt/gettext/include
       endif
     endif
     ifeq ($(MACPORTS), 1)
@@ -962,16 +967,13 @@ $(CHKJSON_BIN): $(CHKJSON_SOURCES)
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
 
-clean: clean-tests clean-object_creator
+clean: clean-tests clean-object_creator clean-pch
 	rm -rf *$(TARGET_NAME) *$(TILES_TARGET_NAME)
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
 	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
 	rm -f $(SRC_DIR)/version.h
 	rm -f $(CHKJSON_BIN)
-	rm -f pch/*pch.hpp.gch
-	rm -f pch/*pch.hpp.pch
-	rm -f pch/*pch.hpp.d
 
 distclean:
 	rm -rf *$(BINDIST_DIR)
@@ -1215,7 +1217,12 @@ object_creator: version $(BUILD_PREFIX)cataclysm.a
 clean-object_creator:
 	$(MAKE) -C object_creator clean
 
-.PHONY: tests check ctags etags clean-tests install lint
+clean-pch:
+	rm -f pch/*pch.hpp.gch
+	rm -f pch/*pch.hpp.pch
+	rm -f pch/*pch.hpp.d
+
+.PHONY: tests check ctags etags clean-tests clean-object_creator clean-pch install lint
 
 -include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}
