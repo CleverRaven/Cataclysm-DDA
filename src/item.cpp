@@ -843,6 +843,9 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( type != rhs.type ) {
         return false;
     }
+    if( is_relic() && rhs.is_relic() && !( *relic_data == *rhs.relic_data ) ) {
+        return false;
+    }
     if( charges != 0 && rhs.charges != 0 && is_money() ) {
         // Dealing with nonempty cash cards
         return true;

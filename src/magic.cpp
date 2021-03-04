@@ -2050,6 +2050,17 @@ spell fake_spell::get_spell( int min_level_override ) const
     return sp;
 }
 
+bool fake_spell::operator==( const fake_spell &rhs )const
+{
+    return id == rhs.id &&
+           max_level == rhs.max_level &&
+           level == rhs.level &&
+           self == rhs.self &&
+           trigger_once_in == rhs.trigger_once_in &&
+           trigger_message == rhs.trigger_message &&
+           npc_trigger_message == rhs.npc_trigger_message;
+}
+
 void spell_events::notify( const cata::event &e )
 {
     switch( e.type() ) {

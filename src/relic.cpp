@@ -112,6 +112,15 @@ int relic::modify_value( const enchant_vals::mod value_type, const int value ) c
     return modified_value + add_modifier;
 }
 
+bool relic::operator==( const relic &rhs ) const
+{
+    return charges_per_activation == rhs.charges_per_activation &&
+           moves == rhs.moves &&
+           item_name_override == rhs.item_name_override &&
+           active_effects == rhs.active_effects &&
+           passive_effects == rhs.passive_effects;
+}
+
 std::string relic::name() const
 {
     return item_name_override.translated();

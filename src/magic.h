@@ -115,6 +115,8 @@ struct fake_spell {
     // gets the spell with an additional override for minimum level (default 0)
     spell get_spell( int min_level_override = 0 ) const;
 
+    bool operator==( const fake_spell &rhs )const;
+
     void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );

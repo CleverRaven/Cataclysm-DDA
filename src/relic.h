@@ -28,6 +28,8 @@ class relic
         // activating an artifact overrides all spell casting costs
         int moves;
     public:
+        bool operator==( const relic &rhs ) const;
+
         std::string name() const;
         // returns number of charges that should be consumed
         int activate( Creature &caster, const tripoint &target ) const;

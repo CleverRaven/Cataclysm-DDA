@@ -152,6 +152,8 @@ class enchantment
         const std::set<trait_id> &get_mutations() const {
             return mutations;
         }
+
+        bool operator==( const enchantment &rhs )const;
     private:
         std::set<trait_id> mutations;
         cata::optional<emit_id> emitter;

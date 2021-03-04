@@ -482,3 +482,17 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature *tar
         spell_lvl.cast_all_effects( caster, trg_crtr.pos() );
     }
 }
+
+bool enchantment::operator==( const enchantment &rhs ) const
+{
+    return id == rhs.id &&
+           mutations == rhs.mutations &&
+           emitter == rhs.emitter &&
+           ench_effects == rhs.ench_effects &&
+           values_multiply == rhs.values_multiply &&
+           values_add == rhs.values_add &&
+           hit_me_effect == rhs.hit_me_effect &&
+           hit_you_effect == rhs.hit_you_effect &&
+           intermittent_activation == intermittent_activation &&
+           active_conditions == rhs.active_conditions;
+}
