@@ -291,8 +291,12 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
         }
 
         WHEN( "it is the full moon" ) {
-            calendar::turn = calendar::turn_zero + 24_days;
+            static const time_point full_moon = calendar::turn_zero + calendar::season_length() / 6;
+            calendar::turn = full_moon;
+
             INFO( "MOON PHASE : " << io::enum_to_string<moon_phase>( get_moon_phase( calendar::turn ) ) );
+
+            dummy.process_turn();
 
             THEN( "the mutation triggers" ) {
                 CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
