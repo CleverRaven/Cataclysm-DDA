@@ -1152,7 +1152,7 @@
     "color": "white",
     "container": "bottle_plastic",
     "sealed": false,
-    "description": "Compressed carbon dioxide used in inflatable devices",
+    "description": "Compressed carbon dioxide, usually used in inflatable devices",
     "volume": "250 ml",
     "weight": "1 g",
     "phase": "gas",
