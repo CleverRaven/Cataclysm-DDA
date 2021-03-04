@@ -196,6 +196,7 @@
     "default": "mon_workshop_elf",
     "monsters": [
       { "monster": "mon_workshop_elf", "freq": 100, "cost_multiplier": 5 } 
-    ]
+     ]
   }
 ]
+
