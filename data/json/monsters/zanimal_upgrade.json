@@ -94,7 +94,7 @@
     "upgrades": { "half_life": 12, "into": "mon_skeleton_hulk" }
   },
   {
-    "id": "mon_zombie_pig_brute",
+    "id": "mon_zpig_brute",
     "type": "MONSTER",
     "name": { "str": "skull pig" },
     "copy-from": "mon_zombie_pig",
