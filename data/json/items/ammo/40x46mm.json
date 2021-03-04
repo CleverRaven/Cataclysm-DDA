@@ -200,7 +200,7 @@
     "type": "AMMO",
     "name": { "str_sp": "40x46mm .410 hornet's nest" },
     "proportional": { "dispersion": 1.4 },
-    "description": "A set of four .410 shells compressed into a 40mm adapter. Fires all four rounds at once.",
+    "description": "A set of four .410 shells compressed into a 40mm adapter.  Fires all four rounds at once.",
     "weight": "245 g",
     "price": 710,
     "price_postapoc": 3240,
