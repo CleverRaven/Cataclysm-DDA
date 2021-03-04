@@ -1621,7 +1621,6 @@
   {
     "id": "balloon",
     "type": "GENERIC",
-    "category": "other",
     "looks_like": "condom",
     "name": { "str": "balloon" },
     "description": "A child's balloon.  This could be used as a makeshift water container.",
