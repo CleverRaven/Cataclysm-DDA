@@ -120,7 +120,7 @@
     "type": "MONSTER",
     "name": { "str": "trench pig" },
     "copy-from": "mon_zombie_pig",
-    "description": "Billowing clouds of yellow streaked gas precede boar shaped shadows.  Glimpses of a zombie boar are quickly obscured by the gases leaving it's body through open wounds.",
+    "description": "Billowing clouds of yellow-streaked gas precede boar-shaped shadows.  Glimpses of a zombie boar are quickly obscured by the gases leaving its body through open wounds.",
     "diff": 5,
     "color": "red",
     "harvest": "exempt",
