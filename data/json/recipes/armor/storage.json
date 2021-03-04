@@ -1388,5 +1388,18 @@
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_leatherworking_basic" }
     ]
+  },
+  {
+    "result": "bookstrap",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "time": "1 h 30 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "tailoring_leather_small", 4 ], [ "clasps", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   }
 ]
