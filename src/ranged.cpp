@@ -2212,9 +2212,6 @@ void target_ui::init_window_and_input()
             ctxt.register_action( "SWITCH_AMMO" );
         }
     }
-    if( mode == TargetMode::Reach && relevant->is_gun() &&
-        you->get_aim_types( *relevant ).size() > 1 ) {
-    }
     if( mode == TargetMode::Fire ) {
         ctxt.register_action( "AIM" );
 
