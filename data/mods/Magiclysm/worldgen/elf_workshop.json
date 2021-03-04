@@ -10,7 +10,7 @@
     "method": "json",
     "om_terrain": "workshop",
     "object": {
-      "fill_ter": "t_wood",
+      "fill_ter": "t_metal",
       "rows": [
         "1111111111111111111111111111",
         "1a........................a1",
