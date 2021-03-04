@@ -458,11 +458,6 @@ enum room_type {
     room_bedroom,
     room_backyard,
     room_study,
-    room_mine_shaft,
-    room_mine_office,
-    room_mine_storage,
-    room_mine_fuel,
-    room_mine_housing,
     room_split
 };
 
