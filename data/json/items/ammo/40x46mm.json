@@ -185,12 +185,27 @@
     "copy-from": "40x46mm_grenade",
     "type": "AMMO",
     "name": { "str_sp": "40x46mm .22 LR hornet's nest" },
-    "description": "A set of six .22 LR bullets compressed into a 40mm adapter. Fires all six rounds at once.",
-    "weight": "68 g",
-    "price": 900,
+    "proportional": { "dispersion": 1.8 },
+    "description": "A set of ten .22 LR bullets compressed into a 40mm adapter. Fires all ten rounds simultaneously.",
+    "weight": "114 g",
+    "price": 1500,
     "price_postapoc": 2400,
     "material": [ "aluminum", "brass", "lead", "powder" ],
-    "damage": { "damage_type": "bullet", "amount": 60 },
+    "damage": { "damage_type": "bullet", "amount": 100 },
+    "casing": "40x46mm_m212_casing"
+  },
+  {
+    "id": "40x46mm_hornets_nest_410",
+    "copy-from": "40x46mm_grenade",
+    "type": "AMMO",
+    "name": { "str_sp": "40x46mm .410 hornet's nest" },
+    "proportional": { "dispersion": 1.4 },
+    "description": "A set of four .410 shells compressed into a 40mm adapter. Fires all four rounds at once.",
+    "weight": "245 g",
+    "price": 710,
+    "price_postapoc": 3240,
+    "material": [ "aluminum", "brass", "lead", "powder" ],
+    "damage": { "damage_type": "bullet", "amount": 120 },
     "casing": "40x46mm_m212_casing"
   }
 ]
