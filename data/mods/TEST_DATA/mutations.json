@@ -28,6 +28,11 @@
           "threshold_low": 3,
           "threshold_high": 5,
           "msg_on": { "text": "This is the full moon and it triggers the trigger.", "rating": "mixed" }
+        },
+        {
+          "trigger_type": "HUNGER",
+          "threshold_low": 110,
+          "msg_on": { "text": "You're very hungry and it triggers the trigger.", "rating": "mixed" }
         }
       ]
     ],
@@ -52,6 +57,11 @@
           "threshold_low": 5,
           "threshold_high": 3,
           "msg_on": { "text": "This is not the full moon anymore and it triggers the trigger.", "rating": "mixed" }
+        },
+        {
+          "trigger_type": "HUNGER",
+          "threshold_high": 110,
+          "msg_on": { "text": "You're no longer very hungry and it triggers the trigger.", "rating": "mixed" }
         }
       ]
     ],

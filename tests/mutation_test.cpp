@@ -259,6 +259,22 @@ TEST_CASE( "Scout and Topographagnosia traits affect overmap sight range", "[mut
     }
 }
 
+static void check_test_mutation_is_triggered( const Character &dummy, bool trigger_on )
+{
+
+    THEN( "the mutation triggers" ) {
+        if( trigger_on ) {
+            CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
+            CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER" ) ) );
+        } else {
+            CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
+            CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER" ) ) );
+        }
+
+    }
+}
+
+
 TEST_CASE( "The various type of triggers work", "[mutations]" )
 {
     Character &dummy = get_player_character();
@@ -270,40 +286,43 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
         WHEN( "character is happy" ) {
             dummy.add_morale( morale_type( "morale_perm_debug" ), 21 );
             dummy.apply_persistent_morale();
-
             dummy.process_turn();
-
-            THEN( "the mutation triggers" ) {
-                CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
-                CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER" ) ) );
-            }
+            check_test_mutation_is_triggered( dummy, true );
         }
 
         WHEN( "mood goes down again" ) {
             dummy.clear_morale();
-
             dummy.process_turn();
-
-            THEN( "the mutation triggers again and turns back" ) {
-                CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER" ) ) );
-                CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
-            }
+            check_test_mutation_is_triggered( dummy, false );
         }
 
         WHEN( "it is the full moon" ) {
             static const time_point full_moon = calendar::turn_zero + calendar::season_length() / 6;
             calendar::turn = full_moon;
-
             INFO( "MOON PHASE : " << io::enum_to_string<moon_phase>( get_moon_phase( calendar::turn ) ) );
-
             dummy.process_turn();
-
-            THEN( "the mutation triggers" ) {
-                CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
-                CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER" ) ) );
-            }
-
+            check_test_mutation_is_triggered( dummy, true );
         }
+
+        WHEN( "it's no longer the full moon" ) {
+            calendar::turn = calendar::turn_zero;
+            INFO( "MOON PHASE : " << io::enum_to_string<moon_phase>( get_moon_phase( calendar::turn ) ) );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, false );
+        }
+
+        WHEN( "character is very hungry" ) {
+            dummy.set_hunger( 120 );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, true );
+        }
+
+        WHEN( "character is no longer very hungry" ) {
+            dummy.set_hunger( 0 );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, false );
+        }
+
     }
 
 }
