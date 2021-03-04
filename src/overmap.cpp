@@ -744,9 +744,7 @@ bool oter_t::is_hardcoded() const
         "looted_building",  // pseudo-terrain
         "mine",
         "mine_down",
-        "mine_entrance",
         "mine_finale",
-        "mine_shaft",
         "office_tower_1",
         "office_tower_1_entrance",
         "office_tower_b",
@@ -1513,7 +1511,6 @@ bool overmap::generate_sub( const int z )
     std::vector<city> central_lab_points;
     std::vector<point_om_omt> lab_train_points;
     std::vector<point_om_omt> central_lab_train_points;
-    std::vector<point_om_omt> shaft_points;
     std::vector<city> mine_points;
     // These are so common that it's worth checking first as int.
     const oter_id skip_above[5] = {
@@ -1583,10 +1580,10 @@ bool overmap::generate_sub( const int z )
                 ter_set( p, oter_id( "central_lab" ) );
             } else if( is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ) {
                 lab_points.push_back( city( p.xy(), rng( 1, 5 + z ) ) );
-            } else if( oter_above == "mine_entrance" ) {
-                shaft_points.push_back( p.xy() );
-            } else if( oter_above == "mine_shaft" ||
-                       oter_above == "mine_down" ) {
+            } else if( is_ot_match( "mine_entrance", oter_ground, ot_match_type::type ) && z == -2 ) {
+                mine_points.push_back( city( ( p + tripoint_west ).xy(), rng( 6 + z, 10 + z ) ) );
+                requires_sub = true;
+            } else if( oter_above == "mine_down" ) {
                 ter_set( p, oter_id( "mine" ) );
                 mine_points.push_back( city( p.xy(), rng( 6 + z, 10 + z ) ) );
                 // technically not all finales need a sub level,
@@ -1746,10 +1743,6 @@ bool overmap::generate_sub( const int z )
         build_mine( tripoint_om_omt( i.pos, z ), i.size );
     }
 
-    for( auto &i : shaft_points ) {
-        ter_set( tripoint_om_omt( i, z ), oter_id( "mine_shaft" ) );
-        requires_sub = true;
-    }
     for( auto &i : ant_points ) {
         const tripoint_om_omt p_loc( i.pos, z );
         if( ter( p_loc ) != "empty_rock" ) {

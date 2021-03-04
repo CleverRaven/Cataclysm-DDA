@@ -1,0 +1,88 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "mine_shaft_middle",
+    "object": {
+      "fill_ter": "t_rock",
+      "rows": [
+        "             <#         ",
+        "              #         ",
+        "              #         ",
+        "              #         ",
+        "              #         ",
+        "              #         ",
+        "              #         ",
+        "              #         ",
+        "              #         ",
+        "              #         ",
+        "              #         ",
+        "              #         ",
+        "              #         ",
+        "        ....#>#         ",
+        "        ....###         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "<": "t_ladder_up", ">": "t_ladder_down", "#": "t_grate", ".": "t_hole" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "mine_shaft_lower",
+    "object": {
+      "fill_ter": "t_rock_floor",
+      "rows": [
+        "######    ##    ########",
+        "#######       ##########",
+        "########      ##########",
+        "########        ########",
+        "  ######       #########",
+        "     ##       ##########",
+        "#           ##########  ",
+        "  ######    #########   ",
+        "########      ####     #",
+        "######                  ",
+        "######            ######",
+        "#####             ######",
+        "###    |------|   ######",
+        "#      |!@@..<|-|    ###",
+        "       |.@@....S|       ",
+        "###    |---....S|      #",
+        "       +.......S|       ",
+        "       |.......S|   ####",
+        "##     |LLLLLL|-| ######",
+        "####   |------|   ######",
+        "######            ######",
+        "#######     ##   #######",
+        "########   ##    #######",
+        "#########   #   ########"
+      ],
+      "terrain": {
+        "<": "t_ladder_up",
+        "-": "t_wall",
+        "|": "t_wall",
+        ".": "t_thconc_floor",
+        "+": "t_door_metal_c",
+        "!": "t_elevator_control",
+        "@": "t_elevator",
+        "#": [ [ "t_rock", 4 ], [ "t_rock_floor", 1 ] ],
+        "L": "t_thconc_floor",
+        "S": "t_thconc_floor"
+      },
+      "furniture": { "L": "f_locker", "S": "f_utility_shelf" },
+      "items": {
+        "L": [ { "item": "clothing_work_set", "chance": 50 }, { "item": "hardware_clothing", "chance": 50 } ],
+        "S": { "item": "mine_equipment", "chance": 80 }
+      }
+    }
+  }
+]

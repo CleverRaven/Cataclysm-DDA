@@ -1126,7 +1126,13 @@
   {
     "type": "overmap_special",
     "id": "Mine Entrance",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_lot_north" }, { "point": [ 0, 1, 0 ], "overmap": "mine_entrance" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_lot_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "mine_entrance_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "mine_entrance_roof_north" },
+      { "point": [ 0, 1, -1 ], "overmap": "mine_shaft_middle_north" },
+      { "point": [ 0, 1, -2 ], "overmap": "mine_shaft_lower_north" }
+    ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 10, 40 ],
