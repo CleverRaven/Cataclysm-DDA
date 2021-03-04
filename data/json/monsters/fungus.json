@@ -172,7 +172,40 @@
     "harvest": "fungaloid",
     "special_attacks": [ [ "FUNGUS", 30 ] ],
     "death_function": [ "FUNGUS", "NORMAL" ],
+    "upgrades": { "half_life": 14, "into": "mon_fungaloid_shambler" },
     "flags": [ "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD" ]
+  },
+  {
+    "id": "mon_fungaloid_shambler",
+    "type": "MONSTER",
+    "name": { "str": "fungaloid shambler" },
+    "description": "A large white fungus, a bulging gray stalk supporting a bloom at the top.  Spores float from its gills and tendrils extend from the base.  Chunks of rock, metal, bone, and wood are held by tendrils as a kind of armor.",
+    "copy-from": "mon_fungaloid",
+    "volume": "12 L",
+    "weight": "160 kg",
+    "hp": 150,
+    "speed": 20,
+    "armor_cut": 10,
+    "armor_bullet": 20,
+    "armor_stab": 20,
+    "armor_acid": 3,
+    "special_attacks": [
+      [ "FUNGUS", 20 ],
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "feral_human_thrown_rock",
+        "fake_skills": [ [ "gun", 2 ], [ "throw", 2 ] ],
+        "fake_dex": 6,
+        "fake_per": 6,
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 5, "DEFAULT" ] ],
+        "description": "The fungaloid shambler throws a rock!"
+      }
+    ],
+    "death_drops": [ { "group": "wreckage", "count": 5 }, { "group": "trash_forest", "count": 5 } ],
+    "upgrades": {  }
   },
   {
     "id": "mon_fungaloid_queen",
