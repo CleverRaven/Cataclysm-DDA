@@ -1,0 +1,180 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "lodge_ground1", "lodge_ground2" ] ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".%##W###W###W###W###+##W#################%......",
+        ".*#c B#c B#B c#B c#  #h s#             >#*......",
+        ".*Wd B#d B#B d#B d#  #h T#              W*......",
+        ".*##=###=###=###=##  ##=##              #*......",
+        ".*#                                     #*......",
+        ".*W                                     W*......",
+        ".*#    YY   YY  AAAAAAAA  a  OOO       >#*......",
+        ".%########+########################   ###%......",
+        ".*********G~~~~~~~~~~~~~~~~~~~~~~%#   #***......",
+        "~~~~~~~~~~G~~~~~~~~~~~*############   #*........",
+        "oooooooooooooooo~~~~~~*w              #%........",
+        "oooooooooooooooo~~~~~~*#Y             w*........",
+        "ooooooooooooooooGGGGGGG+    ttttt    bw*........",
+        "ooooooooooooooooGGGGGGG+    ttttt    bw*........",
+        "oooooooooooooooo~~~~~G*#Y             w*........",
+        "oooooooooooooooo~~~~~G*w              w*........",
+        "~~~~~~~~~~~~~~~~~~~~~G*#####   ########*........",
+        "~~~~~~~~~~~~~~~~~~~~~G***#<#   #********........",
+        "~~~~~~~~~~~~~~~~%~~~~GGGG+ #   #%****...........",
+        "......*###-###-###-#########   #####*...........",
+        ".....0*#UU URU URU URU #12C     5 F#*...........",
+        ".....0*#R              z      C   uW*...........",
+        ".....0*#UU URU URU URU #3CC&  4CVuF#*...........",
+        "......%###-###-###-##########+######%..........."
+      ],
+      "palettes": [ "lodge_palette" ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 29, "y": 4 } ],
+      "place_nested": [
+        {
+          "chunks": [ [ "lodge_pantry_15x15", 80 ], [ "lodge_cannibal_15x15", 20 ], [ "lodge_hunting_15x15", 50 ] ],
+          "x": 8,
+          "y": 9
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "lodge_2ndfloor1", "lodge_2ndfloor2" ] ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "  ##W###W###W###W###w##W#################       ",
+        "  #                                    <#       ",
+        "  W                                     W       ",
+        "  #                                     #       ",
+        "  #                                     #       ",
+        "  W                                     W       ",
+        "  #                                    <#       ",
+        "  ########w#######wwww#############www###       ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                "
+      ],
+      "palettes": [ "lodge_2ndfloor_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "lodge_basement_residential1", "lodge_basement_residential2" ] ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_rock",
+      "rows": [
+        " %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%       ",
+        " %                                      %       ",
+        " %                                      %       ",
+        " %                                      %       ",
+        " %                                      %       ",
+        " %                                      %       ",
+        " %                                      %       ",
+        " %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %%%       ",
+        "                                    % %         ",
+        "                       %%%%%%%%%%%%%% %         ",
+        "                       %            BB%         ",
+        "                       %              %         ",
+        "                       %              %         ",
+        "                       %              %         ",
+        "                       %              %         ",
+        "                       %              %         ",
+        "                       %%%%%   %%%%%%%%         ",
+        "                         %<|   %                ",
+        "                         % +   %                ",
+        "                         %%%%%%%                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                "
+      ],
+      "palettes": [ "basement_residential" ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": 7, "y": 4 } ],
+      "place_nested": [
+        { "chunks": [ [ "lodge_game_6x6", 80 ], [ "lodge_dungeon_6x6", 20 ], [ "lodge_drug_6x6", 50 ] ], "x": 2, "y": 1 },
+        { "chunks": [ [ "5x5_sauna_W", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_W", 60 ] ], "x": 24, "y": 1 },
+        {
+          "chunks": [ [ "room_6x6_woodworker", 5 ], [ "room_6x6_bike", 15 ], [ "room_6x6_office_E", 5 ] ],
+          "x": 24,
+          "y": 10
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lodge_basement_laboratory_entrance" ],
+    "//": "doesn't work rebuild later",
+    "object": {
+      "fill_ter": "t_rock",
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "##--------------------##",
+        "##|       |>>|       |##",
+        "##|       |MM|       |##",
+        "##|       |..|       |##",
+        "##|       |..|       |##",
+        "##|       |..|       |##",
+        "##|       |..|       |##",
+        "##|       |..|       |##",
+        "##|---+---|..|---+---|##",
+        "##|.......M..M.......|##",
+        "##|.......M..M.......|##",
+        "|----+----|..|----+----|",
+        "|.........|..|d.......d|",
+        "|.ccccccc.|..|xh..h..hx|",
+        "|.........|7.|d..dxd..d|",
+        "|---------|..|---------|",
+        "########--|LL6--########",
+        "########=,,,,,,=########",
+        "########=,,,,,,=########",
+        "########=,,,,,,=########",
+        "########===WW===########",
+        "##########=,,=##########",
+        "##########=<<=##########",
+        "##########====##########"
+      ],
+      "palettes": [ "lab_palette" ],
+      "terrain": {
+        "=": "t_wall",
+        ",": "t_rock_floor",
+        "6": "t_card_science",
+        "7": "t_rock_floor",
+        "<": "t_stairs_up",
+        ">": "t_stairs_down"
+      },
+      "furniture": { "C": "f_centrifuge" },
+      "mapping": { "c": { "items": { "item": "chem_lab", "chance": 30 } }, "d": { "items": { "item": "office", "chance": 30 } } },
+      "monster": { "7": { "monster": "mon_turret_rifle" } },
+      "place_nested": [
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 3, "y": 1 },
+        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 14, "y": 1 }
+      ]
+    }
+  }
+]
