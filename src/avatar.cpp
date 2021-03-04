@@ -1624,7 +1624,7 @@ bool avatar::wield( item &target, const int obtain_cost )
     return true;
 }
 
-bool avatar::invoke_item( item *used, const tripoint &pt )
+bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
 {
     const std::map<std::string, use_function> &use_methods = used->type->use_methods;
     const int num_methods = use_methods.size();
@@ -1633,7 +1633,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
     if( use_methods.empty() && !has_relic ) {
         return false;
     } else if( num_methods == 1 && !has_relic ) {
-        return invoke_item( used, use_methods.begin()->first, pt );
+        return invoke_item( used, use_methods.begin()->first, pt, pre_obtain_moves );
     } else if( num_methods == 0 && has_relic ) {
         return used->use_relic( *this, pt );
     }
@@ -1671,7 +1671,7 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
 
     const std::string &method = std::next( use_methods.begin(), choice )->first;
 
-    return invoke_item( used, method, pt );
+    return invoke_item( used, method, pt, pre_obtain_moves );
 }
 
 bool avatar::invoke_item( item *used )
@@ -1679,9 +1679,13 @@ bool avatar::invoke_item( item *used )
     return Character::invoke_item( used );
 }
 
-bool avatar::invoke_item( item *used, const std::string &method, const tripoint &pt )
+bool avatar::invoke_item( item *used, const std::string &method, const tripoint &pt,
+                          int pre_obtain_moves )
 {
-    return Character::invoke_item( used, method, pt );
+    if( pre_obtain_moves == -1 ) {
+        pre_obtain_moves = moves;
+    }
+    return Character::invoke_item( used, method, pt, pre_obtain_moves );
 }
 
 bool avatar::invoke_item( item *used, const std::string &method )

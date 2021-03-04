@@ -847,7 +847,7 @@ static bool eat( item &food, player &you, bool force )
             !food.type->can_use( "CATFOOD" ) &&
             !food.type->can_use( "BIRDFOOD" ) &&
             !food.type->can_use( "CATTLEFODDER" ) ) {
-            charges_used = food.type->invoke( you, food, you.pos() );
+            charges_used = food.type->invoke( you, food, you.pos() ).value_or( 0 );
             if( charges_used <= 0 ) {
                 return false;
             }
@@ -1654,7 +1654,7 @@ static bool consume_med( item &target, player &you )
 
     int amount_used = 1;
     if( target.type->has_use() ) {
-        amount_used = target.type->invoke( you, target, you.pos() );
+        amount_used = target.type->invoke( you, target, you.pos() ).value_or( 0 );
         if( amount_used <= 0 ) {
             return false;
         }

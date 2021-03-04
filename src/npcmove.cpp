@@ -3622,7 +3622,7 @@ void npc::heal_player( player &patient )
         return;
     }
     if( !is_hallucination() ) {
-        int charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
+        int charges_used = used.type->invoke( *this, used, patient.pos(), "heal" ).value_or( 0 );
         consume_charges( used, charges_used );
     } else {
         pretend_heal( patient, used );
@@ -3679,7 +3679,7 @@ void npc::heal_self()
     add_msg_if_player_sees( *this, _( "%s applies a %s" ), disp_name(), used.tname() );
     warn_about( "heal_self", 1_turns );
 
-    int charges_used = used.type->invoke( *this, used, pos(), "heal" );
+    int charges_used = used.type->invoke( *this, used, pos(), "heal" ).value_or( 0 );
     if( used.is_medication() ) {
         consume_charges( used, charges_used );
     }
