@@ -186,7 +186,7 @@
     "type": "AMMO",
     "name": { "str_sp": "40x46mm .22 LR hornet's nest" },
     "proportional": { "dispersion": 1.8 },
-    "description": "A set of ten .22 LR bullets compressed into a 40mm adapter. Fires all ten rounds simultaneously.",
+    "description": "A set of ten .22 LR bullets compressed into a 40mm adapter.  Fires all ten rounds simultaneously.",
     "weight": "114 g",
     "price": 1500,
     "price_postapoc": 2400,
