@@ -261,11 +261,13 @@ TEST_CASE( "Scout and Topographagnosia traits affect overmap sight range", "[mut
 
 static void check_test_mutation_is_triggered( const Character &dummy, bool trigger_on )
 {
-    THEN( "the mutation triggers" ) {
-        if( trigger_on ) {
+    if( trigger_on ) {
+        THEN( "the mutation turns on" ) {
             CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
             CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER" ) ) );
-        } else {
+        }
+    } else {
+        THEN( "the mutation turns off" ) {
             CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_active" ) ) );
             CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER" ) ) );
         }
@@ -278,7 +280,7 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
     Character &dummy = get_player_character();
     clear_avatar();
 
-    WHEN( "character has test OR trigger mutation" ) {
+    WHEN( "character has OR test trigger mutation" ) {
         dummy.toggle_trait( trait_id( "TEST_TRIGGER" ) );
 
         WHEN( "character is happy" ) {
@@ -288,7 +290,7 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
             check_test_mutation_is_triggered( dummy, true );
         }
 
-        WHEN( "mood goes down again" ) {
+        WHEN( "character is no longer happy" ) {
             dummy.clear_morale();
             dummy.process_turn();
             check_test_mutation_is_triggered( dummy, false );
@@ -361,7 +363,6 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
             calendar::turn = calendar::turn_zero + 2_hours;
             INFO( "TIME OF DAY : " << to_string_time_of_day( calendar::turn ) );
             dummy.process_turn();
-
             check_test_mutation_is_triggered( dummy, true );
         }
 
@@ -369,10 +370,8 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
             calendar::turn = calendar::turn_zero;
             INFO( "TIME OF DAY : " << to_string_time_of_day( calendar::turn ) );
             dummy.process_turn();
-
             check_test_mutation_is_triggered( dummy, false );
         }
-
     }
 
     clear_avatar();
@@ -386,7 +385,7 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
             INFO( "MOON PHASE : " << io::enum_to_string<moon_phase>( get_moon_phase( calendar::turn ) ) );
             dummy.process_turn();
 
-            THEN( "the mutation is turned off" ) {
+            THEN( "the mutation stays turned off" ) {
                 CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_2_active" ) ) );
                 CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_2" ) ) );
             }
@@ -396,7 +395,7 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
             dummy.set_pain( 120 );
             dummy.process_turn();
 
-            THEN( "the mutation is turned on" ) {
+            THEN( "the mutation turns on" ) {
                 CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_2_active" ) ) );
                 CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_2" ) ) );
             }
@@ -406,7 +405,7 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
             dummy.set_pain( 0 );
             dummy.process_turn();
 
-            THEN( "the mutation is turned off" ) {
+            THEN( "the mutation turns off" ) {
                 CHECK( !dummy.has_trait( trait_id( "TEST_TRIGGER_2_active" ) ) );
                 CHECK( dummy.has_trait( trait_id( "TEST_TRIGGER_2" ) ) );
             }
