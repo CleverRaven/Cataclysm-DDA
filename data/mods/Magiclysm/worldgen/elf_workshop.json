@@ -2,7 +2,8 @@
   {
     "type": "palette",
     "id": "elf_palette",
-    "terrain": { "3": "t_rdoor_c", "1": "t_wall_rammed_earth", ".": "t_dirtfloor" }
+    "terrain": { "3": "t_rdoor_c", "1": "t_wall_rammed_earth", ".": "t_dirtfloor", "a": "f_anvil",
+      "t": "f_table"}
   },
   {
     "type": "mapgen",
