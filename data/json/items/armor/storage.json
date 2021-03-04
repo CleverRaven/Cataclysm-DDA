@@ -1964,5 +1964,36 @@
     "warmth": 2,
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "bookstrap",
+    "type": "ARMOR",
+    "name": { "str": "bookstrap" },
+    "description": "An old-fashioned book strap carrier.  Guaranteed to make you feel like a proper scholar.",
+    "weight": "204 g",
+    "volume": "350 ml",
+    "price": 12000,
+    "price_postapoc": 450,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "leather_belt",
+    "color": "brown",
+    "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
+    "coverage": 5,
+    "encumbrance": 0,
+    "max_encumbrance": 11,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "500 ml",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "40 cm",
+        "moves": 400
+      }
+    ],
+    "material_thickness": 1,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   }
 ]
