@@ -237,7 +237,15 @@
   {
     "type": "item_group",
     "id": "magic_shop_clothes",
-    "items": [ [ "cloak", 3 ], [ "cloak_wool", 5 ], [ "jedi_cloak", 3 ], [ "robe", 5 ], [ "tophat", 5 ], [ "leathersandals", 6 ] ]
+    "items": [
+      [ "cloak", 3 ],
+      [ "cloak_wool", 5 ],
+      [ "jedi_cloak", 3 ],
+      [ "robe", 5 ],
+      [ "tophat", 5 ],
+      [ "leathersandals", 6 ],
+      [ "bookstrap", 2 ]
+    ]
   },
   {
     "type": "item_group",
