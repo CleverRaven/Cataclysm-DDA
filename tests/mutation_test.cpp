@@ -323,6 +323,30 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
             check_test_mutation_is_triggered( dummy, false );
         }
 
+        WHEN( "character is in pain" ) {
+            dummy.set_pain( 120 );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, true );
+        }
+
+        WHEN( "character is no longer in pain" ) {
+            dummy.set_pain( 0 );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, false );
+        }
+
+        WHEN( "character is thirsty" ) {
+            dummy.set_thirst( 120 );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, true );
+        }
+
+        WHEN( "character is no longer thirsty" ) {
+            dummy.set_thirst( 0 );
+            dummy.process_turn();
+            check_test_mutation_is_triggered( dummy, false );
+        }
+
     }
 
 }

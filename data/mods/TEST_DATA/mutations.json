@@ -33,6 +33,16 @@
           "trigger_type": "HUNGER",
           "threshold_low": 110,
           "msg_on": { "text": "You're very hungry and it triggers the trigger.", "rating": "mixed" }
+        },
+        {
+          "trigger_type": "PAIN",
+          "threshold_low": 110,
+          "msg_on": { "text": "You're in pain and it triggers the trigger.", "rating": "mixed" }
+        },
+        {
+          "trigger_type": "THIRST",
+          "threshold_low": 110,
+          "msg_on": { "text": "You're thirsty and it triggers the trigger.", "rating": "mixed" }
         }
       ]
     ],
@@ -62,6 +72,16 @@
           "trigger_type": "HUNGER",
           "threshold_high": 110,
           "msg_on": { "text": "You're no longer very hungry and it triggers the trigger.", "rating": "mixed" }
+        },
+        {
+          "trigger_type": "PAIN",
+          "threshold_high": 110,
+          "msg_on": { "text": "You're no longer in pain and it triggers the trigger.", "rating": "mixed" }
+        },
+        {
+          "trigger_type": "THIRST",
+          "threshold_high": 110,
+          "msg_on": { "text": "You're no longer thirsty and it triggers the trigger.", "rating": "mixed" }
         }
       ]
     ],
