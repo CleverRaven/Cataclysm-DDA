@@ -376,7 +376,7 @@ TEST_CASE( "The various type of triggers work", "[mutations]" )
 
     clear_avatar();
 
-    WHEN( "character has AND trigger mutation" ) {
+    WHEN( "character has AND test trigger mutation" ) {
         dummy.toggle_trait( trait_id( "TEST_TRIGGER_2" ) );
 
         WHEN( "it is the full moon but character is not in pain" ) {
