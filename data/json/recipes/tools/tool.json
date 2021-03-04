@@ -29,7 +29,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "20 m",
-    "book_learn": [ [ "plastics_book", 1 ] ],
+    "book_learn": [ [ "plastics_book", 1 ], [ "manual_fabrication", 2 ], [ "textbook_fabrication", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "bowl_plastic", 4 ], [ "plastic_chunk", 12 ] ] ]
