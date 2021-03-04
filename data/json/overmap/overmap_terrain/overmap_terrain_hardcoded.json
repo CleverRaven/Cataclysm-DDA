@@ -105,24 +105,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine_entrance",
-    "name": "mine entrance",
-    "sym": "M",
-    "color": "magenta",
-    "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_shaft",
-    "name": "mine shaft",
-    "sym": "O",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "mine",
     "name": "mine",
     "sym": "M",
