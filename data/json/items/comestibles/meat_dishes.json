@@ -953,7 +953,7 @@
     "name": { "str_sp": "deluxe scrambled eggs" },
     "conditional_names": [ 
      { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "\"deluxe\" scrambled eggs" } },
-     { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "deluxe eggheads" } }                    
+     { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "deluxe scrambled eggheads" } }                    
     ],
     "weight": "198 g",
     "color": "yellow",
