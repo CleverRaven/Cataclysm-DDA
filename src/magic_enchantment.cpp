@@ -208,9 +208,9 @@ bool enchantment::active_wield() const
     return active_conditions.first == has::HELD || active_conditions.first == has::WIELD;
 }
 
-void enchantment::add_activation( const time_duration &dur, const fake_spell &fake )
+void enchantment::add_activation( const time_duration &freq, const fake_spell &fake )
 {
-    intermittent_activation[dur].emplace_back( fake );
+    intermittent_activation[freq].emplace_back( fake );
 }
 
 void enchantment::load( const JsonObject &jo, const std::string & )
@@ -224,19 +224,19 @@ void enchantment::load( const JsonObject &jo, const std::string & )
     if( jo.has_object( "intermittent_activation" ) ) {
         JsonObject jobj = jo.get_object( "intermittent_activation" );
         for( const JsonObject effect_obj : jobj.get_array( "effects" ) ) {
-            time_duration dur = read_from_json_string<time_duration>( *effect_obj.get_raw( "frequency" ),
-                                time_duration::units );
+            time_duration freq = read_from_json_string<time_duration>( *effect_obj.get_raw( "frequency" ),
+                                 time_duration::units );
             if( effect_obj.has_array( "spell_effects" ) ) {
                 for( const JsonObject fake_spell_obj : effect_obj.get_array( "spell_effects" ) ) {
                     fake_spell fake;
                     fake.load( fake_spell_obj );
-                    add_activation( dur, fake );
+                    add_activation( freq, fake );
                 }
             } else if( effect_obj.has_object( "spell_effects" ) ) {
                 fake_spell fake;
                 JsonObject fake_spell_obj = effect_obj.get_object( "spell_effects" );
                 fake.load( fake_spell_obj );
-                add_activation( dur, fake );
+                add_activation( freq, fake );
             }
         }
     }
@@ -295,16 +295,34 @@ void enchantment::serialize( JsonOut &jsout ) const
     if( !intermittent_activation.empty() ) {
         jsout.member( "intermittent_activation" );
         jsout.start_object();
+        jsout.member( "effects" );
+        jsout.start_array();
         for( const std::pair<time_duration, std::vector<fake_spell>> pair : intermittent_activation ) {
-            jsout.member( "duration", pair.first );
+            jsout.start_object();
+            jsout.member( "frequency" );
+            dump_to_json_string<time_duration>( pair.first, jsout, time_duration::units );
             jsout.member( "spell_effects" );
             jsout.start_array();
             for( const fake_spell &sp : pair.second ) {
                 sp.serialize( jsout );
             }
             jsout.end_array();
+            jsout.end_object();
         }
+        jsout.end_array();
         jsout.end_object();
+    }
+
+    if( !ench_effects.empty() ) {
+        jsout.member( "ench_effects" );
+        jsout.start_array();
+        for( const std::pair<const efftype_id, int> &eff : ench_effects ) {
+            jsout.start_object();
+            jsout.member( "effect", eff.first );
+            jsout.member( "intensity", eff.second );
+            jsout.end_object();
+        }
+        jsout.end_array();
     }
 
     jsout.member( "mutations", mutations );

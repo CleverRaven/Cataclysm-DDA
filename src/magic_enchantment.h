@@ -171,7 +171,7 @@ class enchantment
 
         std::pair<has, condition> active_conditions;
 
-        void add_activation( const time_duration &dur, const fake_spell &fake );
+        void add_activation( const time_duration &freq, const fake_spell &fake );
 
         // checks if the enchantments have the same active_conditions
         bool stacks_with( const enchantment &rhs ) const;
