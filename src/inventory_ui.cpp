@@ -352,9 +352,14 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     if( !holster->contents.can_contain( item_copy ).success() ) {
         return false;
     }
-    if( holster->has_item( *contained ) ) {
-        return false;
+
+    //only hide if it is in the toplevel of holster (to allow shuffling of items inside a bag)
+    for( const item *it : holster->contents.all_items_top() ) {
+        if( it == contained.get_item() ) {
+            return false;
+        }
     }
+
     if( contained->is_bucket_nonempty() ) {
         return false;
     }
