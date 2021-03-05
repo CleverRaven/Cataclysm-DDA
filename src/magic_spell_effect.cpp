@@ -704,7 +704,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
     }
 
     if( energy_source == "MANA" ) {
-        p->magic.mod_mana( *p, healing );
+        p->magic->mod_mana( *p, healing );
     } else if( energy_source == "STAMINA" ) {
         p->mod_stamina( healing );
     } else if( energy_source == "FATIGUE" ) {

@@ -36,7 +36,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "magic.h"
 #include "memory_fast.h"
 #include "monster.h"
 #include "mtype.h"
@@ -61,6 +60,7 @@ class SkillLevelMap;
 class bionic_collection;
 class faction;
 class ma_technique;
+class known_magic;
 class player;
 class player_morale;
 class vehicle;
@@ -1502,7 +1502,7 @@ class Character : public Creature, public visitable<Character>
             }
         }
         // magic mod
-        known_magic magic;
+        pimpl<known_magic> magic;
 
         void make_bleed( body_part bp, time_duration duration, int intensity = 1,
                          bool permanent = false,

@@ -1353,7 +1353,7 @@ static void cast_spell()
 {
     player &u = g->u;
 
-    std::vector<spell_id> spells = u.magic.spells();
+    std::vector<spell_id> spells = u.magic->spells();
 
     if( spells.empty() ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
@@ -1363,7 +1363,7 @@ static void cast_spell()
 
     bool can_cast_spells = false;
     for( spell_id sp : spells ) {
-        spell temp_spell = u.magic.get_spell( sp );
+        spell temp_spell = u.magic->get_spell( sp );
         if( temp_spell.can_cast( u ) ) {
             can_cast_spells = true;
         }
@@ -1374,12 +1374,12 @@ static void cast_spell()
                  _( "You can't cast any of the spells you know!" ) );
     }
 
-    const int spell_index = u.magic.select_spell( u );
+    const int spell_index = u.magic->select_spell( u );
     if( spell_index < 0 ) {
         return;
     }
 
-    spell &sp = *u.magic.get_spells()[spell_index];
+    spell &sp = *u.magic->get_spells()[spell_index];
 
     if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
         !u.weapon.has_flag( flag_MAGIC_FOCUS ) ) {
@@ -1388,7 +1388,7 @@ static void cast_spell()
         return;
     }
 
-    if( !u.magic.has_enough_energy( u, sp ) ) {
+    if( !u.magic->has_enough_energy( u, sp ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You don't have enough %s to cast the spell." ),
                  sp.energy_string() );
@@ -1409,7 +1409,7 @@ static void cast_spell()
     // [2] this value overrides the mana cost if set to 0
     cast_spell.values.emplace_back( 1 );
     cast_spell.name = sp.id().c_str();
-    if( u.magic.casting_ignore ) {
+    if( u.magic->casting_ignore ) {
         const std::vector<distraction_type> ignored_distractions = {
             distraction_type::noise,
             distraction_type::pain,
