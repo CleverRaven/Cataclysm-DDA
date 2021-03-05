@@ -879,7 +879,7 @@
     "vision_day": 30,
     "vision_night": 10,
     "harvest": "human",
-    "special_attacks": [ [ "BRANDISH", 10 ], [ "PARROT", 25 ] ],
+    "special_attacks": [ [ "BRANDISH", 10 ] ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "death_drops": { "groups": [ [ "shia_stuff", 1 ] ] },
