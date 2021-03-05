@@ -94,7 +94,7 @@ int relic::activate( Creature &caster, const tripoint &target ) const
     return charges_per_activation;
 }
 
-int relic::modify_value( const enchantment::mod value_type, const int value ) const
+int relic::modify_value( const enchant_vals::mod value_type, const int value ) const
 {
     int add_modifier = 0;
     double multiply_modifier = 0.0;
