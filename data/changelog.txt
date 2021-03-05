@@ -1,4 +1,4 @@
-# 0.F (2020-09-01)
+# 0.F (2020-10-01)
 
 ## Features:
 Added option to randomize INITIAL_DAY.
@@ -40,6 +40,11 @@ Add activation abilities and charges to relics.
 Tiles: improve furniture rotation and connections.
 Show which achievements have been completed in past games.
 Artifacts regenerate ammo option.
+ACTIVE enchantment condition
+Allow recipes to specify individual activity levels
+Add option to batch craft starch from cattails in camp
+Add weariness, a sort of long term stamina which limits the character's ability to be extremely active 24/7
+Create ravines in desert regions
 
 ## Content:
 Gun volume and weight audit.
@@ -62,6 +67,52 @@ Add NPC_class and NPC json templates and instructions.
 Adapts almost all vehicle definitions to use directional parts (most of the work by Curstwist).
 Update UltiCa tileset and make it default.
 Add a number of flying zombies.
+Add log and rock wall types for faction camp central building.
+Adds quest and dialog and service for Alonso NPC
+Fix typos in player effects
+Change sweetbread to be in line with beef nutrition facts
+adds a new alternate needs panel to the label mode
+V6 luxury sedan
+Basic lore snippets and items for artifact containment rooms
+Light up refugee center and add more guards
+Expand sewers with map extras.
+Added more coffee mug flavor text and cleaned up some of the formatting of what was already there.
+Add gut-skin hood
+more dreams for mutants
+Adds maid outfit recipes, accessible through the Boston AnimeCon magazine.
+Add 5 long gun cases to increase storage options.
+More achievements related to kills
+Add achievements for passing mutation thresholds
+Add conducts for not attacking and not smashing
+Include dehydrated meat & fish in fish bait recipe
+Add western style holster
+Added and checked lengths for several guns, bows and arrows
+Adds wallet item for holding cash & id cards.
+Adds ropemaking proficiencies and more convenient ropemaking recipes
+add frog mother monster
+Adds shelter_2 to the faction camp core building list.
+Added conducts for Foodless, Vegan, Vegetarian, and Nudist
+Added alder trees to the game. (Note that I have not _yet_ added it to any map regions; but it tends to thrive in cool, wet areas, usually near water.) I also added a new recipe for hemostatic powder involving crushed alder bark, which is generally harvestable in spring and autumn.
+Updates mansion ground floors.
+adds a handful of new fliers and news reports
+adds knitting proficiencies
+Updates 2nd floor of mansions.
+Fix a fault in a discription text.
+Adds learnable proficiencies for pottery, plastic working, and glassmaking
+Add mansion roofs.
+Applies new proficiencies and timeframes to footwear and handwear recipes.
+Apply armor_portion_data to suits_clothes, making full body suits have variable encumbrance and coverage.
+Updates mansion basements.
+Add proficiency to arm recipes.
+Adds mega mutant monsters
+adds the wakizashi items to silat weapons list
+Adds proficiencies to recipes for containers, mainly worn containers
+Adds proficiencies to recipes for leg garments
+Add proficiency values to torso.json recipes.
+Obsolete rag_bloody, migrate to rag (filthy)
+More Mi-go Mimicking
+Adds proficencies to head.json.  3 new proficencies.
+Add pet armor proficencies.
 
 ## Interface:
 Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
@@ -71,6 +122,33 @@ Display missing and obsolete mods for current world.
 Require grenades and other explosives to be wielded before activation.
 Add bigger mini-maps to all sidebar layouts.
 Add keycode support to uilist.
+Allow disabling robots by 'e'xamining them
+rename wander spawns to wandering hordes
+Show correct duration for permanent spells in spell info
+Warn if friendly creature or non-hostile NPC enters line of fire
+Add page up and page down keybindings to ascend and descend stairs
+Crafting GUI - Show nearby + produced amounts
+Show electric power in vehicle part descriptions
+Warn the player if they're about to set their firewood fuel source ablaze.
+Add sweet cataclysm sprites to BrownLikeBears
+Make item categorisation consistently use contents where appropriate
+Add preview to gun modification
+Add debug menu option to display transparency cache
+Add demon spiders and black wyrms to BLB
+Highlight selection's parent container and contents in the inventory screen
+Highlight selection's parent container and contents in the multidrop menu screen
+Add help for what higher numbers mean in world options
+Make Needs_Alt panel off by default
+Added a CAL/kg bar to the Consume Item menu.
+Changed the description of Strict Humanitarian to clarify its effects.
+Several changes to newcharacter window
+Change action menu names for healing items and contact lenses
+helptext fix and reformat worldfactory window
+Some retrodays fixes
+Add option to edit height, age and blood type to debug menu.
+More newcharacter menu changes
+Add helptext to newcharacter skills tab
+Overmap: Changes to add-a-note help text and format.
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
@@ -80,6 +158,36 @@ Overhaul Blazemod and split into seperate mods.
 Polymorph spells to transform your foes.
 Spells using components system.
 Aftershock: Add autodoc tiers and augmentation clinics.
+Adds location variants with dinosaurs
+Aftershock: Megacity oriented overmap generation adjustments
+Aftershock: New Melee oriented bionics
+Adds Acrocanthosaurus, dino baby overhaul
+Add New Black Dragon Mutation Line
+Adjust fog frequency in black dragon lair, minor map adjustments.
+Add foldable flag to ultralight frames in Aftershock
+Aftershock: Downgrade autodoc version in Augmentatiom Clinics
+Adds wrestling dino Siats
+Adds monsters 'Scutellosaurus', 'Maiasaura', and 'Coelophysis'
+Initial Attunements JSON
+[Magiclysm] attunements - Fire Elemental
+Aftershock Base recruit similar post-thresh dialogue
+[magiclysm] attunements - soulfire
+Add monsters 'Pachyrhinosaurus', 'Pentaceratops', and 'Torosaurus'
+Major revisions to Dark Skies lore
+Organizes dinos into three main factions with defined behavior
+Would-be-Wizard profession cost 0 point instead of 1
+Aftershock: expanding robots and turrets
+[Magiclysm] Attunements - Biotek
+[Magiclysm] Attunements - Artificer
+Made Chickenbot, Tankbot, and Tripod actually spawn in Aftershock
+[Magiclysm] implement a slew of attunement spells and traits
+Rebalance Jurassic spawns and monsters for realism, fix predator in-fighting
+Adds new aliens, revises some existing ones
+[Magiclysm] Attunements: Adds one of the overclockers two spells, overaccelerate
+Adjust monster spawns for Balance
+Cap monsters at 1000 kg so butchering kind of works
+Magiclysm-Subzero Talons
+[magiclysm] implement summonable motorcycle
 
 ## Balance:
 Large item price audit.
@@ -90,6 +198,25 @@ More complex satiety calculations.
 NPCs to use ranged weapons against all enemies, and automatic fire against dangerous enemies.
 Antifungal drugs work over time.
 Don't damage hands when smashing but use your most armored part instead.
+Set length of makeshift knife to 7 cm, volume to 0.260L and weight to 0.550 kg
+Guarantee at least one transversable path in the collapsed tower basement.
+Make Solar Sensitivity mutation respect clothing coverage, precious
+Adjust spawning and performance of flesh-raptors
+Unlock NPC recruiting when you build the faction camp radio console.
+Most recipes in recipe_food.json have LIGHT_EXERCISE activity_level
+audit some rifle itemgroups in guns.json to bring them in line with their prevalence in the US
+Most recipes in dry.json have NO_EXERCISE activity_level
+Audit gun stores for sanity and US law
+Make gun cases belted and oversized
+clean_water recipe with purification tablets or charcoal water purifier
+Bring reloading components close to reality, make brass spawn in packs, make gunpowder units 100 mg
+Item Length Adjustments
+Made gunmod removal take time
+Allow long string disassembly in 30 seconds
+Missed scenario starts without a random NPC
+Update Sheet to match new tailoring
+Fit all bows to bow sling
+Monsters with larger eyes see farther than smaller variants
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -138,12 +265,84 @@ Vehicles: make shock absorbers actually absorb shock damage.
 Fix NPC dying immediately on accepting inhaler mission
 Fix crash when attempting to butcher a corpse.
 Fix gear getting damaged when weather has no damaging effects.
+Fix analyze blood quest at centrifuge
+Don't trigger benign traps.
+Fix Aftershock Solar Panels CBM not charging
+Fix bugs related to picking up item stacks
+Fix liquid ammo reload and container issues
+Fix inconsitent activation times through use menu and inventory
+Eliminate pickaxe-in-pocket exploit
+Gives sunglasses trait to riot helmets
+Allow disassembly of sourdough starter regardless of maturity
+Fix droping NO_DROP items from destroyed container
+Fixed pushing past enemies on stairs in a mech would render the mech inoperable
+Fix incorrectly resuming interrupted vehicle activity when a different vehicle activity is initiated
+Fix turret missing eyes
+Allow canceling spilling when eating from sealed container
+Fixed loading deployable turrets with ammo
+Disallowed the disassembly of gas mask filters
+Air is invisible
+Improve invalidation of max_populated_zlev cache, fixes lighting in some teleportation scenarios.
+fixed a misplaced tile in house_19
+Fix crafting with wielded item and force unarmed style
+Prevent dodging or blocking while insensible.
+Brass catcher catches casings
+Remove extra wristwatch from Bionic assassin
+Fix wizard tower orientation.
+Fix basement nest orientation from #39845.
+prevents map extras from spawning in church steeple.
+Several transparency related issues
+Misc spilling and inventory fixes
+Add Character sight tests, fix Ursine eyes
+Faulty engine could be started by changing fuel selection.
+fix map radiation deserialization
+fix warnings in the log for when monster is on the border of the map and its goal is outside
+Use game start for survival time on tombstone
+Unseal and spill containers in dropping/stashing activity
+Fix encumbrance JSON for jumpsuits, stop travis erroring
+mansion wrong wall terrain
+MBR Vests not being migrated in Fujis Military Professions
+Fix crash and result when grinding chitin in a mill
+Fix speedloader code and related json
+Unseals containers of components used in crafting
+Changes frying to be closer to real world frying substrate absorption
+Added longest_side (82cm) to chainsaw (off) JSON
+Fixes stone adze being able to saw tree trunk into planks through the construction menu.
+Inserting an item stack into a container tries to fill it up instead of put in all charges
+Added installation time to gunmods
+Minor translation fixes
+Inserting full item stacks doesn't leave behind empty stacks
+Check replace add_msg by add_msg_if_player in suffer.cpp
+Fix chance_of_success for saving cyborgs
+Fix empty vehicle symbol causing displaced console output
+Fix apparent light symmetry when sun shines through a single-tile hole in the roof
 
 ## Performance:
 Add option to enable batching when it is available in SDL.
 Skip unnecessary weather calculations for root cellar.
 Cache drop_invalid_inventory and weight_carried.
 Check for safemode emptiness before calling monster check.
+Code optimizations reported by static code analysis
+Don't serialize default pocket settings
+Cache clairvoyance field
+Remove  second (excessive) call to `update_visibility_cache`
+improved performance in several places, such as sunlight casting
+Performance improvements related to map::process_fields
+Increase performance when character is suffering in sunlight
+Improve cache invalidation logic for Field of View.
+Increase performance of character trait check
+Improve performance of the `map::update_visibility_cache`
+Reduce inter-faction hostility overhead with a inter-level visibility cache.
+Improve transparency caching
+Throttle inter-monster aggression checks.
+Improve performance of active_item_cache::empty()
+Optimize scent_move()
+Minor performance optimization for gas spread
+Small performance optimization of monster movement
+Faster creation of use item menu with many items nearby
+Overhaul shadowcasting to be iterative instead of recursive.
+Speed up fields processing by replacing inline ids with global consts
+Use plf linked list impl for shadowcasting.
 
 ## Infrastructure:
 Add basic infrastructure for diseases.
@@ -202,6 +401,34 @@ Unblacklist most remaining blacklisted mods for automated consistency checking.
 Report log messages for failed tests.
 Reinstate blueprint autocalc.
 Add a compiler error problem matcher.
+Fix bio_batteries failing tests
+Add check enforcing almost-never-auto convention
+Move more player functions into Character
+Use string_id for mutation_category_trait ids
+Add --list/-L argument to keys.py/values.py
+Add documentation for mutation, comestible, and gunmod fields
+fixes more windows added a while back, you can now tear curtains and adds new code to base game
+Deprecate mutation and bionic functions from player to character
+rescope npc melee and gun value related functions from player to Character
+Require that definitions local to cpp files are static
+Improve and document mutation tests
+Jsonize stomach size multiplier
+don't write default values in json
+Jsonize vomit mod multiplier
+Add DebugLog error problem matcher
+add static members to spell_type to use as defaults
+Add Catch2 problem matcher
+Add a GitHub workflow running flake8 on the Python scripts
+Document can_contain and insert_into in item_contents class
+Improve performance and correctness of cached/static string ids
+Have more meaningful messages for some pocket errors
+Allow custom flags in mapgen item spawn
+add spell_type::serialize
+Properly handle escape sequence and unicode sequence when generating json text style error message
+Improve string_id comparison performance, add unit test and benchmarks
+When DebugLog is called before initialized: fix crash + add buffering
+Refactor push/pull spell effects to generally use fields
+Add tests for unit-conversion functions
 
 ## Build:
 Create a GitHub workflow for running clang-tidy.
@@ -217,6 +444,9 @@ Improve use of precompiled headers.
 compose.py: allow default sized tilesheets to specify offsets.
 Enable compiling an Android build under Windows.
 Tools: add a Python script to reformat vehicles to use parts arrays.
+Supress Homebrew update for faster OSX builds
+Add a problem matcher to match json errors during unit test
+Update HeaderGuardCheck.cpp and fix-compilation-database.py to support custom build directory
 
 ## I18N and A11Y:
 Fix translation of martial art initate message and computer translation.
@@ -225,6 +455,15 @@ Remove name_plural and replace it with str_pl.
 Add helper for localized sorting.
 Record locales in debug.log to assist with i18n debugging.
 Add translator glossary and explain etymology of Exodii.
+Routine i18n updates on 4 Sep 2020
+Routine i18n updates on 12 Sep 2020
+Avoid saying 'the' twice in vehicle tow cable snap message
+Routine i18n updates on 21 Sep 2020
+Use class translation to load help text
+Use class translation in ammunition type, bodypart, zone type, effect type, and ma_buff
+Use class translation in gun_mode, gun_modifier_data, and iuse actors
+Routine i18n updates on 26 Sep 2020
+Use class translation in more places
 
 # 0.E (Ellison)
 
