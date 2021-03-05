@@ -247,7 +247,6 @@ class Tileset:
             sheet_conf = {
                 'file': sheet.name,
                 '//': f'range {sheet.first_index} to {sheet.max_index}',
-                'tiles': sheet_entries
             }
 
             if not sheet.is_standard():
@@ -255,6 +254,8 @@ class Tileset:
                 sheet_conf['sprite_height'] = sheet.sprite_height
                 sheet_conf['sprite_offset_x'] = sheet.offset_x
                 sheet_conf['sprite_offset_y'] = sheet.offset_y
+
+            sheet_conf['tiles'] = sheet_entries
 
             tiles_new_dict[sheet.max_index] = sheet_conf
 
