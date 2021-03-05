@@ -173,7 +173,7 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [  [ "CUT", 1 ],  [ "DIG", 3 ], [ "BUTCHER", -8 ], [ "COOK", 1 ] ],
+    "qualities": [ [ "CUT", 1 ],  [ "DIG", 3 ], [ "BUTCHER", -8 ], [ "COOK", 1 ] ],
     "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD", "BELT_CLIP" ]
   },
   {
