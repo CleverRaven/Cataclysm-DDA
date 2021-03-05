@@ -112,7 +112,7 @@
       "vision_night": 1
     },
     "upgrades": { "half_life": 20, "into_group": "GROUP_ZOMBIE_PIG_UPGRADE" },
-    "special_attacks": [ [ "SMASH", 30 ], { "type": "impale", "move_cost": 150, "cooldown": 15, "accuracy": 4, "no_infection_chance": 12 } ],
+    "special_attacks": [ [ "SMASH", 30 ], { "id": "impale" } ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH", "HIT_AND_RUN" ] }
   },
   {
@@ -127,7 +127,7 @@
     "upgrades": { "half_life": 20, "into_group": "GROUP_ZOMBIE_PIG_UPGRADE" },
     "emit_fields": [ { "emit_id": "emit_tear_gas_stream", "delay": "1 s" } ],
     "death_function": [ "TEARBURST" ],
-    "special_attacks": [ { "type": "impale", "move_cost": 150, "cooldown": 20, "accuracy": 2, "no_infection_chance": 5 } ],
+    "special_attacks": [ { "id": "impale" } ],
     "extend": { "flags": [ "HIT_AND_RUN" ] }
   },
   {
