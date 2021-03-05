@@ -3,6 +3,7 @@ on:
   pull_request:
     branches:
     - master
+    - 0.F-dev
     types: [opened, edited, synchronize]
 jobs:
   validate:
