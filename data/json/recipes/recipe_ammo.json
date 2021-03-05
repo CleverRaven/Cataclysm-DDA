@@ -665,7 +665,8 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "book_learn": [ [ "plastics_book", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
+    "using": [ [ "plastic_molding", 1 ] ],
+    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
     "components": [
       [ [ "plastic_chunk", 3 ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],

@@ -380,9 +380,8 @@
     "difficulty": 5,
     "time": "90 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 4 ], [ "steel_tiny", 4 ] ],
+    "using": [ [ "welding_standard", 4 ], [ "steel_tiny", 4 ], [ "plastic_molding", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 4 ] ] ]
   },
@@ -442,7 +441,8 @@
     "time": "1 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 50, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
+    "using": [ [ "plastic_molding", 1 ] ],
     "components": [ [ [ "plastic_chunk", 50 ] ] ]
   },
   {

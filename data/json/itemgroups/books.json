@@ -147,7 +147,8 @@
       { "item": "textbook_biodiesel", "prob": 10 },
       { "item": "manual_carpentry", "prob": 10 },
       { "item": "book_icef", "prob": 8 },
-      { "item": "carpentry_book", "prob": 5 }
+      { "item": "carpentry_book", "prob": 5 },
+      { "item": "theater_props", "prob": 2 }
     ]
   },
   {
@@ -288,6 +289,7 @@
       { "item": "cookbook_foodfashions", "prob": 10 },
       { "item": "cookbook_indian", "prob": 10 },
       { "item": "survnote", "prob": 1 },
+      { "item": "theater_props", "prob": 1 },
       { "item": "scots_cookbook", "prob": 8 },
       { "item": "offalcooking", "prob": 2 },
       { "item": "dnd_handbook", "prob": 2 },
@@ -336,7 +338,8 @@
       { "item": "manual_canning", "prob": 18 },
       { "item": "manual_sealing", "prob": 9 },
       { "item": "fermenting_book", "prob": 8 },
-      { "item": "distilling_cookbook", "prob": 8 }
+      { "item": "distilling_cookbook", "prob": 8 },
+      { "item": "theater_props", "prob": 5 }
     ]
   },
   {
@@ -453,7 +456,8 @@
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 8 },
       { "item": "textbook_arthropod", "prob": 5 },
-      { "item": "textbook_botany", "prob": 5 }
+      { "item": "textbook_botany", "prob": 5 },
+      { "item": "theater_props", "prob": 2 }
     ]
   },
   {
