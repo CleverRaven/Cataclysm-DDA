@@ -177,5 +177,14 @@
     "sub": "hotplate",
     "max_charges": 1000,
     "flags": [ "USES_GRID_POWER" ]
+  },
+  {
+    "id": "fake_gridwelder",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "grid welder" },
+    "sub": "welder",
+    "max_charges": 1000,
+    "flags": [ "USES_GRID_POWER" ]
   }
 ]
