@@ -42,6 +42,7 @@
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -7599,12 +7600,12 @@ std::string Character::get_highest_category() const
 void Character::recalculate_enchantment_cache()
 {
     // start by resetting the cache
-    enchantment_cache = enchantment();
+    *enchantment_cache = enchantment();
 
     visit_items( [&]( const item * it ) {
         for( const enchantment &ench : it->get_enchantments() ) {
             if( ench.is_active( *this, *it ) ) {
-                enchantment_cache.force_add( ench );
+                enchantment_cache->force_add( ench );
             }
         }
         return VisitResponse::NEXT;
@@ -7617,7 +7618,7 @@ void Character::recalculate_enchantment_cache()
         for( const enchantment_id &ench_id : mut.enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this, mut.activated && mut_map.second.powered ) ) {
-                enchantment_cache.force_add( ench );
+                enchantment_cache->force_add( ench );
             }
         }
     }
@@ -7628,7 +7629,7 @@ void Character::recalculate_enchantment_cache()
         for( const enchantment_id &ench_id : bid->enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this, bio.powered && bid->toggled ) ) {
-                enchantment_cache.force_add( ench );
+                enchantment_cache->force_add( ench );
             }
         }
     }
@@ -7637,8 +7638,8 @@ void Character::recalculate_enchantment_cache()
 double Character::calculate_by_enchantment( double modify, enchant_vals::mod value,
         bool round_output ) const
 {
-    modify += enchantment_cache.get_value_add( value );
-    modify *= 1.0 + enchantment_cache.get_value_multiply( value );
+    modify += enchantment_cache->get_value_add( value );
+    modify *= 1.0 + enchantment_cache->get_value_multiply( value );
     if( round_output ) {
         modify = std::round( modify );
     }
@@ -7943,13 +7944,13 @@ int Character::get_armor_fire( body_part bp ) const
 
 void Character::did_hit( Creature &target )
 {
-    enchantment_cache.cast_hit_you( *this, target );
+    enchantment_cache->cast_hit_you( *this, target );
 }
 
 void Character::on_hit( Creature *source, bodypart_id /*bp_hit*/,
                         float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ )
 {
-    enchantment_cache.cast_hit_me( *this, source );
+    enchantment_cache->cast_hit_me( *this, source );
 }
 
 /*

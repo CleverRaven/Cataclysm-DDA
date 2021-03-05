@@ -37,7 +37,6 @@
 #include "item.h"
 #include "item_location.h"
 #include "magic.h"
-#include "magic_enchantment.h"
 #include "memory_fast.h"
 #include "monster.h"
 #include "mtype.h"
@@ -2256,7 +2255,7 @@ class Character : public Creature, public visitable<Character>
 
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
-        enchantment enchantment_cache;
+        pimpl<enchantment> enchantment_cache;
         player_activity destination_activity;
         // A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
