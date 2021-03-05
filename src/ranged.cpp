@@ -2206,7 +2206,7 @@ void target_ui::init_window_and_input()
         ctxt.register_action( "LEVEL_DOWN" );
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Reach &&
-            relevant && relevant->is_gun() && you->get_aim_types( *relevant ).size() > 1 ) ) {
+            relevant->is_gun() && you->get_aim_types( *relevant ).size() > 1 ) ) {
         ctxt.register_action( "SWITCH_MODE" );
         if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
             ctxt.register_action( "SWITCH_AMMO" );
@@ -2781,11 +2781,13 @@ bool target_ui::action_switch_mode()
         int skip = menu.ret - firing_modes_range.first;
         for( std::pair<gun_mode_id, gun_mode> it : all_gun_modes ) {
             if( skip-- == 0 ) {
+                if( relevant->gun_current_mode().melee() ) {
+                    refresh = true;
+                }
                 relevant->gun_set_mode( it.first );
                 break;
             }
         }
-        refresh = true;
     } else if( menu.ret >= aim_modes_range.first && menu.ret < aim_modes_range.second ) {
         // aiming mode select
         aim_mode = aim_types.begin();
@@ -2804,7 +2806,7 @@ bool target_ui::action_switch_mode()
         }
     } else {
         if( relevant->gun_current_mode().melee() ) {
-            mode = TargetMode::Reach;
+            refresh = true;
             range = relevant->current_reach_range( *you );
         } else {
             range = relevant->gun_current_mode().target->gun_range( you );
@@ -3124,7 +3126,7 @@ void target_ui::draw_controls_list( int text_y )
         lines.push_back( {4, colored( col_fire, aim_and_fire )} );
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Reach &&
-            relevant && relevant->is_gun() && you->get_aim_types( *relevant ).size() > 1 ) ) {
+            relevant->is_gun() && you->get_aim_types( *relevant ).size() > 1 ) ) {
         lines.push_back( {5, colored( col_enabled, string_format( _( "[%s] to switch firing modes." ),
                                       bound_key( "SWITCH_MODE" ).short_description() ) )
                          } );
