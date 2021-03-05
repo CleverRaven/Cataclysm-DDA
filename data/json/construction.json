@@ -4116,17 +4116,14 @@
   },
   {
     "type": "construction",
-	  "id": "constr_gridwelder",
-	  "description": "Place arc welder",
-	  "category": "OTHER",
-	  "required_skills": [ [ "fabrication", 0 ] ],
-	  "time": "1 m",
-	  "components": [
-      [ [ "welder", 1 ] ],
-      [ [ "jumper_cable", 1 ] ]
-    ],
-	  "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
-	  "pre_special": "check_empty",
-	  "post_terrain": "f_gridwelder"
+    "id": "constr_gridwelder",
+    "description": "Place arc welder",
+    "category": "OTHER",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "welder", 1 ] ], [ [ "jumper_cable", 1 ] ] ],
+    "pre_note": "Will only work if constructed in/on a building that has an electric grid with a mounted battery.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_gridwelder"
   }
 ]
