@@ -1422,7 +1422,7 @@ void debug()
             break;
 
         case DEBUG_SPAWN_CLAIRVOYANCE:
-            u.i_add( item( architects_cube(), calendar::turn ) );
+            u.i_add( item( "architect_cube", calendar::turn ) );
             break;
 
         case DEBUG_MAP_EDITOR:

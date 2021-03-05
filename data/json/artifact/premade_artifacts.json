@@ -1,0 +1,17 @@
+[
+  {
+    "id": "architect_cube",
+    "type": "TOOL",
+    "name": { "str": "The Architect's Cube" },
+    "description": "This is a solid cube that is much heavier than its size suggests.  When you look at it, it pulls your gaze inward until you fall through the sky, showing you a top-down view of your position with the surroundings revealed.",
+    "weight": "2 kg",
+    "volume": "100 ml",
+    "material": [ "iron" ],
+    "symbol": "]",
+    "color": "light_gray",
+    "flags": [ "TRADER_AVOID" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "ench_effects": [ { "effect": "debug_clairvoyance", "intensity": 1 } ] } ]
+    }
+  }
+]
