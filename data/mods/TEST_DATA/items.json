@@ -1770,5 +1770,37 @@
     ],
     "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
     "flags": [ "BELTED" ]
+  },
+  {
+    "id": "test_full_1st_aid",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "1st_aid_box",
+    "items": [
+      { "item": "medical_tape", "charges": 20 },
+      { "item": "aspirin", "charges": 10 },
+      { "item": "disinfectant" },
+      { "item": "saline" },
+      { "item": "adhesive_bandages", "charges": 6 },
+      { "item": "bandages", "charges": 3 },
+      { "item": "medical_gauze", "count": 6 },
+      { "item": "booklet_firstaid" }
+    ]
+  },
+    {
+    "id": "test_used_1st_aid",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "1st_aid_box",
+    "items": [
+      { "item": "medical_tape", "charges": [ 0, 20 ] },
+      { "item": "aspirin", "charges": [ 0, 10 ] },
+      { "item": "disinfectant", "prob": 20 },
+      { "item": "saline", "prob": 60 },
+      { "item": "adhesive_bandages", "charges": [ 0, 6 ] },
+      { "item": "bandages", "charges": [ 0, 3 ] },
+      { "item": "medical_gauze", "count": [ 0, 6 ] },
+      { "item": "booklet_firstaid", "prob": 50 }
+    ]
   }
 ]
