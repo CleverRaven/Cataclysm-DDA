@@ -42,7 +42,7 @@
     "looks_like": "pressurized_tank",
     "type": "MAGAZINE",
     "name": { "str": "carbon dioxide cartridge" },
-    "description": "A small aluminum cartridge designed for holding pressurized carbon dioxide.",
+    "description": "A small aluminum cartridge designed to hold pressurized carbon dioxide.",
     "weight": "100 g",
     "volume": "260 ml",
     "price": 600,
