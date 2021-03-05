@@ -9,7 +9,6 @@
 #include <utility>
 #include <vector>
 
-#include "optional.h"
 #include "value_ptr.h"
 
 constexpr int INVALID_LANGUAGE_VERSION = 0;
@@ -19,6 +18,8 @@ namespace detail
 // returns current language generation/version
 int get_current_language_version();
 } // namespace detail
+
+void invalidate_translations();
 
 #if !defined(translate_marker)
 /**
@@ -177,7 +178,7 @@ inline std::string _translate_internal( const std::string &msg )
 }
 } // namespace detail
 
-#define ngettext(STRING1, STRING2, COUNT) (COUNT < 2 ? _(STRING1) : _(STRING2))
+#define ngettext(STRING1, STRING2, COUNT) (COUNT == 1 ? _(STRING1) : _(STRING2))
 #define pgettext(STRING1, STRING2) _(STRING2)
 #define npgettext(STRING0, STRING1, STRING2, COUNT) ngettext(STRING1, STRING2, COUNT)
 
@@ -196,11 +197,6 @@ using GenderMap = std::map<std::string, std::vector<std::string>>;
  * common).
  */
 std::string gettext_gendered( const GenderMap &genders, const std::string &msg );
-
-bool isValidLanguage( const std::string &lang );
-std::string getLangFromLCID( const int &lcid );
-void select_language();
-void set_language();
 
 class JsonIn;
 
@@ -301,7 +297,8 @@ class translation
         /**
          * Only used for migrating old snippet hashes into snippet ids.
          */
-        cata::optional<int> legacy_hash() const;
+        std::pair<bool, int> legacy_hash() const;
+
     private:
         translation( const std::string &ctxt, const std::string &raw );
         translation( const std::string &raw );

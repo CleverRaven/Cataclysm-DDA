@@ -450,14 +450,14 @@ void explosion( const tripoint &p, const explosion_data &ex )
                                              string_format( _( "taking %d damage" ), pr.second ) :
                                              _( "but takes no damage" );
             if( critter->is_player() ) {
-                add_msg( gettext( "You are hit by %s, %s." ),
+                add_msg( _( "You are hit by %s, %s." ),
                          cause_description, damage_description );
             } else if( critter->is_npc() ) {
                 critter->add_msg_if_npc(
-                    gettext( "<npcname> is hit by %s, %s." ),
+                    _( "<npcname> is hit by %s, %s." ),
                     cause_description, damage_description );
             } else {
-                add_msg( gettext( "%s is hit by %s, %s." ),
+                add_msg( _( "%s is hit by %s, %s." ),
                          critter->disp_name( false, true ), cause_description, damage_description );
             }
 

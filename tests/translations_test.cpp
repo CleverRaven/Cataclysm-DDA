@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 
+#include "language.h"
 #include "translations.h"
 
 // wrapping in another macro to prevent collection of the test string for translation

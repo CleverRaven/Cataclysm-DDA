@@ -18,6 +18,7 @@
 #include "game_constants.h"
 #include "input.h"
 #include "json.h"
+#include "language.h"
 #include "line.h"
 #include "mapsharing.h"
 #include "output.h"
@@ -51,26 +52,6 @@
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
-
-std::vector<options_manager::id_and_option> options_manager::lang_options = {
-    { "", translate_marker( "System language" ) },
-    // Note: language names are in their own language and are *not* translated at all.
-    // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
-    // http://en.wikipedia.org/wiki/List_of_language_names
-    { "en", no_translation( R"(English)" ) },
-    { "de", no_translation( R"(Deutsch)" ) },
-    { "es_AR", no_translation( R"(Español (Argentina))" ) },
-    { "es_ES", no_translation( R"(Español (España))" ) },
-    { "fr", no_translation( R"(Français)" ) },
-    { "hu", no_translation( R"(Magyar)" ) },
-    { "ja", no_translation( R"(日本語)" ) },
-    { "ko", no_translation( R"(한국어)" ) },
-    { "pl", no_translation( R"(Polski)" ) },
-    { "pt_BR", no_translation( R"(Português (Brasil))" )},
-    { "ru", no_translation( R"(Русский)" ) },
-    { "zh_CN", no_translation( R"(中文 (天朝))" ) },
-    { "zh_TW", no_translation( R"(中文 (台灣))" ) },
-};
 
 options_manager &get_options()
 {
@@ -1321,9 +1302,15 @@ void options_manager::add_options_interface()
         interface_page_.items_.emplace_back();
     };
 
-    // TODO: scan for languages like we do for tilesets.
+    std::vector<options_manager::id_and_option> lang_options = {
+        { "", translate_marker( "System language" ) },
+    };
+    for( const language_info &info : list_available_languages() ) {
+        lang_options.push_back( {info.id, no_translation( info.name )} );
+    }
+
     add( "USE_LANG", "interface", translate_marker( "Language" ),
-         translate_marker( "Switch Language." ), options_manager::lang_options, "" );
+         translate_marker( "Switch Language." ), lang_options, "" );
 
     add_empty_line();
 
@@ -2894,7 +2881,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     }
 
     if( lang_changed ) {
-        update_global_locale();
         set_language();
     }
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
@@ -3018,7 +3004,6 @@ void options_manager::load()
         deserialize( jsin );
     } );
 
-    update_global_locale();
     cache_to_globals();
 }
 
@@ -3067,43 +3052,4 @@ void options_manager::set_world_options( options_container *options )
     } else {
         world_options = options;
     }
-}
-
-void options_manager::update_global_locale()
-{
-    std::string lang = ::get_option<std::string>( "USE_LANG" );
-    try {
-        if( lang == "en" ) {
-            std::locale::global( std::locale( "en_US.UTF-8" ) );
-        } else if( lang == "de" ) {
-            std::locale::global( std::locale( "de_DE.UTF-8" ) );
-        } else if( lang == "es_AR" ) {
-            std::locale::global( std::locale( "es_AR.UTF-8" ) );
-        } else if( lang == "es_ES" ) {
-            std::locale::global( std::locale( "es_ES.UTF-8" ) );
-        } else if( lang == "fr" ) {
-            std::locale::global( std::locale( "fr_FR.UTF-8" ) );
-        } else if( lang == "hu" ) {
-            std::locale::global( std::locale( "hu_HU.UTF-8" ) );
-        } else if( lang == "ja" ) {
-            std::locale::global( std::locale( "ja_JP.UTF-8" ) );
-        } else if( lang == "ko" ) {
-            std::locale::global( std::locale( "ko_KR.UTF-8" ) );
-        } else if( lang == "pl" ) {
-            std::locale::global( std::locale( "pl_PL.UTF-8" ) );
-        } else if( lang == "pt_BR" ) {
-            std::locale::global( std::locale( "pt_BR.UTF-8" ) );
-        } else if( lang == "ru" ) {
-            std::locale::global( std::locale( "ru_RU.UTF-8" ) );
-        } else if( lang == "zh_CN" ) {
-            std::locale::global( std::locale( "zh_CN.UTF-8" ) );
-        } else if( lang == "zh_TW" ) {
-            std::locale::global( std::locale( "zh_TW.UTF-8" ) );
-        }
-    } catch( std::runtime_error &e ) {
-        std::locale::global( std::locale() );
-    }
-
-    DebugLog( D_INFO, DC_ALL ) << "[options] C locale set to " << setlocale( LC_ALL, nullptr );
-    DebugLog( D_INFO, DC_ALL ) << "[options] C++ locale set to " << std::locale().name();
 }

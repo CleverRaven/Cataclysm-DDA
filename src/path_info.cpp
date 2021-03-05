@@ -5,6 +5,7 @@
 
 #include "enums.h"
 #include "filesystem.h"
+#include "language.h"
 #include "options.h"
 
 #if defined(_WIN32)
@@ -118,52 +119,22 @@ void PATH_INFO::set_standard_filenames()
 std::string find_translated_file( const std::string &base_path, const std::string &extension,
                                   const std::string &fallback )
 {
-#if defined(LOCALIZE) && !defined(__CYGWIN__)
-    std::string loc_name;
-    if( get_option<std::string>( "USE_LANG" ).empty() ) {
-#if defined(_WIN32)
-        loc_name = getLangFromLCID( GetUserDefaultLCID() );
-        if( !loc_name.empty() ) {
-            const std::string local_path = base_path + loc_name + extension;
-            if( file_exist( local_path ) ) {
-                return local_path;
-            }
-        }
-#endif
+    std::string lang = get_language().id;
 
-        const char *v = setlocale( LC_ALL, nullptr );
-        if( v != nullptr ) {
-            loc_name = v;
-        }
-    } else {
-        loc_name = get_option<std::string>( "USE_LANG" );
+    // complete locale: en_NZ
+    const std::string local_path = base_path + lang + extension;
+    if( file_exist( local_path ) ) {
+        return local_path;
     }
-    if( loc_name == "C" ) {
-        loc_name = "en";
-    }
-    if( !loc_name.empty() ) {
-        const size_t dotpos = loc_name.find( '.' );
-        if( dotpos != std::string::npos ) {
-            loc_name.erase( dotpos );
-        }
-        // complete locale: en_NZ
-        const std::string local_path = base_path + loc_name + extension;
+    const size_t p = lang.find( '_' );
+    if( p != std::string::npos ) {
+        // only the first part: en
+        const std::string local_path = base_path + lang.substr( 0, p ) + extension;
         if( file_exist( local_path ) ) {
             return local_path;
         }
-        const size_t p = loc_name.find( '_' );
-        if( p != std::string::npos ) {
-            // only the first part: en
-            const std::string local_path = base_path + loc_name.substr( 0, p ) + extension;
-            if( file_exist( local_path ) ) {
-                return local_path;
-            }
-        }
     }
-#else
-    ( void ) base_path;
-    ( void ) extension;
-#endif
+
     return fallback;
 }
 std::string PATH_INFO::autopickup()
@@ -229,6 +200,10 @@ std::string PATH_INFO::fontdir()
 std::string PATH_INFO::user_fontdir()
 {
     return user_dir_value + "font/";
+}
+std::string PATH_INFO::language_defs_file()
+{
+    return datadir_value + "raw/" + "languages.json";
 }
 std::string PATH_INFO::graveyarddir()
 {

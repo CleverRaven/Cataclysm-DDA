@@ -178,9 +178,9 @@ snippet_id snippet_library::migrate_hash_to_id( const int old_hash )
     if( !hash_to_id_migration.has_value() ) {
         hash_to_id_migration.emplace();
         for( const auto &id_and_text : snippets_by_id ) {
-            cata::optional<int> hash = id_and_text.second.legacy_hash();
-            if( hash ) {
-                hash_to_id_migration->emplace( hash.value(), id_and_text.first );
+            std::pair<bool, int> hash = id_and_text.second.legacy_hash();
+            if( hash.first ) {
+                hash_to_id_migration->emplace( hash.second, id_and_text.first );
             }
         }
     }

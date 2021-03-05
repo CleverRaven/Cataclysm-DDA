@@ -1,0 +1,116 @@
+[
+  {
+    "//": "See language.h for documentation",
+    "id": "en",
+    "name": "English",
+    "locale": "en_US.UTF-8",
+    "genders": [ "n" ],
+    "lcids": [ 1033, 2057, 3081, 4105, 5129, 6153, 7177, 8201, 9225, 10249, 11273 ]
+  },
+  {
+    "id": "de",
+    "name": "Deutsch",
+    "locale": "de_DE.UTF-8",
+    "genders": [  ],
+    "lcids": [ 1031, 2055, 3079, 4103, 5127 ]
+  },
+  {
+    "id": "es_AR",
+    "name": "Español (Argentina)",
+    "locale": "es_AR.UTF-8",
+    "genders": [  ],
+    "lcids": [ 11274 ]
+  },
+  {
+    "id": "es_ES",
+    "name": "Español (España)",
+    "locale": "es_ES.UTF-8",
+    "genders": [  ],
+    "lcids": [
+      1034,
+      2058,
+      3082,
+      4106,
+      5130,
+      6154,
+      7178,
+      8202,
+      9226,
+      10250,
+      12298,
+      13322,
+      14346,
+      15370,
+      16394,
+      17418,
+      18442,
+      19466,
+      20490
+    ]
+  },
+  {
+    "id": "fr",
+    "name": "Français",
+    "locale": "fr_FR.UTF-8",
+    "genders": [  ],
+    "lcids": [ 1036, 2060, 3084, 4108, 5132 ]
+  },
+  {
+    "id": "hu",
+    "name": "Magyar",
+    "locale": "hu_HU.UTF-8",
+    "genders": [  ],
+    "lcids": [ 1038 ]
+  },
+  {
+    "id": "ja",
+    "name": "日本語",
+    "locale": "ja_JP.UTF-8",
+    "genders": [  ],
+    "lcids": [ 1041 ]
+  },
+  {
+    "id": "ko",
+    "name": "한국어",
+    "locale": "ko_KR.UTF-8",
+    "genders": [  ],
+    "lcids": [ 1042 ]
+  },
+  {
+    "id": "pl",
+    "name": "Polski",
+    "locale": "pl_PL.UTF-8",
+    "genders": [  ],
+    "lcids": [ 1045 ]
+  },
+  {
+    "id": "pt_BR",
+    "name": "Português (Brasil)",
+    "locale": "pt_BR.UTF-8",
+    "genders": [  ],
+    "lcids": [ 1046, 2070 ]
+  },
+  {
+    "id": "ru",
+    "name": "Русский",
+    "locale": "ru_RU.UTF-8",
+    "genders": [  ],
+    "lcids": [ 1049 ]
+  },
+  {
+    "id": "zh_CN",
+    "name": "中文 (天朝)",
+    "locale": "zh_CN.UTF-8",
+    "genders": [  ],
+    "osx": "zh_Hans",
+    "lcids": [ 2052, 3076, 4100 ]
+  },
+  {
+    "id": "zh_TW",
+    "name": "中文 (台灣)",
+    "locale": "zh_TW.UTF-8",
+    "genders": [  ],
+    "osx": "zh_Hant",
+    "lcids": [ 1028 ]
+  }
+]

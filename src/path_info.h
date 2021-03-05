@@ -28,6 +28,7 @@ std::string fontconfig();
 std::string user_fontconfig();
 std::string fontdir();
 std::string user_fontdir();
+std::string language_defs_file();
 std::string graveyarddir();
 std::string help();
 std::string keybindings();

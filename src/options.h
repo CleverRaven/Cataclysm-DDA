@@ -29,7 +29,6 @@ class options_manager
                     : std::pair<std::string, translation>( first, second ) {
                 }
         };
-        static std::vector<id_and_option> lang_options;
     private:
         static std::vector<id_and_option> build_tilesets_list();
         static std::vector<id_and_option> build_soundpacks_list();
@@ -40,8 +39,6 @@ class options_manager
 
         void enable_json( const std::string &var );
         void add_retry( const std::string &var, const std::string &val );
-
-        void update_global_locale();
 
         std::map<std::string, std::string> post_json_verify;
 
