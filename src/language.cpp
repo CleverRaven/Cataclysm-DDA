@@ -26,6 +26,7 @@
 #include "output.h"
 #include "path_info.h"
 #include "translations.h"
+#include "ui.h"
 #if defined(LOCALIZE)
 #  include "json.h"
 #  include "ui_manager.h"
