@@ -1773,7 +1773,7 @@
   },
   {
     "id": "test_full_1st_aid",
-    "type": "item_group",
+    "type": "GENERIC",
     "subtype": "collection",
     "container-item": "1st_aid_box",
     "items": [
@@ -1787,9 +1787,9 @@
       { "item": "booklet_firstaid" }
     ]
   },
-    {
+  {
     "id": "test_used_1st_aid",
-    "type": "item_group",
+    "type": "GENERIC",
     "subtype": "collection",
     "container-item": "1st_aid_box",
     "items": [
