@@ -191,7 +191,6 @@
     "symbol": "[",
     "looks_like": "sleeping_bag_roll",
     "color": "yellow",
-    "ammo": [ "co2" ],
     "covers": [ "torso" ],
     "coverage": 20,
     "encumbrance": 10,
