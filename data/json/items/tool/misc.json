@@ -165,7 +165,7 @@
     "description": "This is a stout collapsible spade.  It's commonly used by military forces and favored by hikers for digging.",
     "weight": "453 g",
     "volume": "1 L",
-    "longest_side": "78 cm",
+    "longest_side": "23 cm",
     "price": 4000,
     "price_postapoc": 500,
     "bashing": 10,
@@ -173,12 +173,7 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "qualities": [
-      [ "CUT", 1 ],
-      [ "DIG", 3 ],
-      [ "BUTCHER", -8 ],
-      [ "COOK", 1 ]
-    ],
+    "qualities": [  [ "CUT", 1 ],  [ "DIG", 3 ], [ "BUTCHER", -8 ], [ "COOK", 1 ] ],
     "flags": [ "DURABLE_MELEE", "NEEDS_UNFOLD", "BELT_CLIP" ]
   },
   {
