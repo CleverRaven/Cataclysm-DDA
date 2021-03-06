@@ -139,6 +139,7 @@ extern bool add_key_to_quick_shortcuts(int key, const std::string& category, boo
 
 class user_turn
 {
+
 private:
     std::chrono::time_point<std::chrono::steady_clock> user_turn_start;
 public:
@@ -165,6 +166,7 @@ public:
             std::chrono::duration_cast<std::chrono::milliseconds>(now - user_turn_start);
         return elapsed_ms.count() / (10.0 * turn_duration);
     }
+
 };
 
 input_context game::get_player_input(std::string& action)
@@ -912,6 +914,7 @@ static void wait()
     const auto add_menu_item = [&as_m, &durations, has_watch]
     (int retval, int hotkey, const std::string& caption = "",
         const time_duration& duration = time_duration::from_turns(calendar::INDEFINITELY_LONG)) {
+
             std::string text(caption);
 
             if (has_watch && duration != time_duration::from_turns(calendar::INDEFINITELY_LONG)) {
@@ -923,11 +926,13 @@ static void wait()
     };
 
     if (setting_alarm) {
+
         add_menu_item(0, '0', "", 30_minutes);
 
         for (int i = 1; i <= 9; ++i) {
             add_menu_item(i, '0' + i, "", i * 1_hours);
         }
+
     }
     else {
         if (player_character.get_stamina() < player_character.get_stamina_max()) {
@@ -1000,6 +1005,7 @@ static void wait()
             player_character.add_effect(effect_alarm_clock, time_to_wait);
             add_msg(_("You set your alarm."));
         }
+
     }
     else {
         // Waiting
@@ -1367,6 +1373,7 @@ static void fire()
 
     // Use vehicle turret or draw a pistol from a holster if unarmed
     if (!player_character.is_armed()) {
+
         const optional_vpart_position vp = here.veh_at(player_character.pos());
 
         turret_data turret;
@@ -1385,6 +1392,7 @@ static void fire()
         std::vector<std::function<void()>> actions;
 
         for (auto& w : player_character.worn) {
+
             std::vector<item*> guns = w.items_with([](const item& it) {
                 return it.is_gun();
                 });
@@ -1398,6 +1406,7 @@ static void fire()
                     guns.front()->ammo_remaining()));
 
                 actions.emplace_back([&] { player_character.invoke_item(&w, "holster"); });
+
             }
             else if (w.is_gun() && w.gunmod_find(itype_shoulder_strap)) {
                 // wield item currently worn using shoulder strap
@@ -1506,10 +1515,10 @@ static void cast_spell()
 // returns if the spell was assigned
 static bool assign_spellcasting(Character& you, spell& sp, bool fake_spell)
 {
-    if( you.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
-        !you.weapon.has_flag( flag_MAGIC_FOCUS ) && sp.check_if_component_in_hand(you)) {
-        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                 _( "You need your hands free to cast this spell!" ) );
+    if (you.is_armed() && !sp.has_flag(spell_flag::NO_HANDS) &&
+        !you.weapon.has_flag(flag_MAGIC_FOCUS) && sp.check_if_component_in_hand(you)) {
+        add_msg(game_message_params{ m_bad, gmf_bypass_cooldown },
+            _("You need your hands free to cast this spell!"));
         return false;
     }
 
@@ -1734,7 +1743,7 @@ bool game::handle_action()
             player_character.clear_destination();
             destination_preview.clear();
         }
-            }
+    }
 
     if (act == ACTION_NULL) {
         const input_event&& evt = ctxt.get_raw_input();
@@ -2734,4 +2743,4 @@ bool game::handle_action()
         to_turn<int>(calendar::turn), before_action_moves, player_character.movecounter,
         player_character.moves);
     return (!player_character.is_dead_state());
-        }
+}
