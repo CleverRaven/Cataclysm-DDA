@@ -68,7 +68,7 @@
     "name": [ "Relaxed with Alonso" ],
     "apply_message": "You spent some pleasant time relaxing with someone.",
     "miss_messages": [ [ "You feel relaxed.", 1 ] ],
-    "rating": "good",
+    "rating": "good"
   },
   {
     "type": "talk_topic",
