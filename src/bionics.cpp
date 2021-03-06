@@ -2717,6 +2717,7 @@ void Character::remove_bionic( const bionic_id &b )
     std::set<spell_id> cbm_spells;
     bool skipped_installed = false;
     for( bionic &i : *my_bionics ) {
+        // if we have multiples of the same bionic only remove one
         if( b == i.id && !skipped_installed ) {
             skipped_installed = true;
             continue;
