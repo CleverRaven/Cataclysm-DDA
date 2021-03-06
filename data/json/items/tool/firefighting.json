@@ -74,7 +74,7 @@
       {
         "max_contains_volume": "1250 ml",
         "max_contains_weight": "5500 g",
-        "max_item_length": "61 cm",
+        "max_item_length": "77 cm",
         "moves": 150,
         "item_restriction": [ "halligan" ],
         "holster": true
