@@ -4142,6 +4142,15 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
+    if( is_armor() ) {
+        const ret_val<bool> can_wear = player_character.can_wear( *this, true );
+        if( ! can_wear.success() ) {
+            insert_separation_line( info );
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      string_format( _( "<bad>%s</bad>" ), can_wear.str() ) ) );
+        }
+    }
+
     contents.info( info, parts );
     contents_info( info, parts, batch, debug );
 
