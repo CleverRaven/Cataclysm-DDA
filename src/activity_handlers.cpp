@@ -161,7 +161,6 @@ static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
-static const activity_id ACT_SHAVE( "ACT_SHAVE" );
 static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
@@ -363,7 +362,6 @@ activity_handlers::finish_functions = {
     { ACT_CHOP_PLANKS, chop_planks_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
     { ACT_FILL_PIT, fill_pit_finish },
-    { ACT_SHAVE, shaving_finish },
     { ACT_HAIRCUT, haircut_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_MIND_SPLICER, mind_splicer_finish },
@@ -3894,13 +3892,6 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
 
-    act->set_to_null();
-}
-
-void activity_handlers::shaving_finish( player_activity *act, player *p )
-{
-    p->add_msg_if_player( _( "You open up your kit and shave." ) );
-    p->add_morale( MORALE_SHAVE, 8, 8, 240_minutes, 3_minutes );
     act->set_to_null();
 }
 

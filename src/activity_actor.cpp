@@ -2881,6 +2881,24 @@ std::unique_ptr<activity_actor> play_with_pet_activity_actor::deserialize( JsonI
     return actor.clone();
 }
 
+void shave_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( 5_minutes );
+    act.moves_left = act.moves_total;
+}
+
+void shave_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( _( "You open up your kit and shave." ) );
+    who.add_morale( MORALE_SHAVE, 8, 8, 240_minutes, 3_minutes );
+    act.set_to_null();
+}
+
+std::unique_ptr<activity_actor> shave_activity_actor::deserialize( JsonIn & )
+{
+    return shave_activity_actor().clone();
+}
+
 namespace activity_actors
 {
 
@@ -2909,6 +2927,7 @@ deserialize_functions = {
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
     { activity_id( "ACT_PLAY_WITH_PET" ), &play_with_pet_activity_actor::deserialize },
     { activity_id( "ACT_RELOAD" ), &reload_activity_actor::deserialize },
+    { activity_id( "ACT_SHAVE" ), &shave_activity_actor::deserialize },
     { activity_id( "ACT_STASH" ), &stash_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
     { activity_id( "ACT_UNLOAD" ), &unload_activity_actor::deserialize },
