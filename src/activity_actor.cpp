@@ -2830,6 +2830,24 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
     return actor.clone();
 }
 
+void meditate_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( 20_minutes );
+    act.moves_left = act.moves_total;
+}
+
+void meditate_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( m_good, _( "You pause to engage in spiritual contemplation." ) );
+    who.add_morale( MORALE_FEELING_GOOD, 5, 10 );
+    act.set_to_null();
+}
+
+std::unique_ptr<activity_actor> meditate_activity_actor::deserialize( JsonIn & )
+{
+    return meditate_activity_actor().clone();
+}
+
 namespace activity_actors
 {
 
@@ -2850,6 +2868,7 @@ deserialize_functions = {
     { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
     { activity_id( "ACT_INSERT_ITEM" ), &insert_item_activity_actor::deserialize },
     { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
+    { activity_id( "ACT_MEDITATE" ), &meditate_activity_actor::deserialize },
     { activity_id( "ACT_MIGRATION_CANCEL" ), &migration_cancel_activity_actor::deserialize },
     { activity_id( "ACT_MILK" ), &milk_activity_actor::deserialize },
     { activity_id( "ACT_MOVE_ITEMS" ), &move_items_activity_actor::deserialize },

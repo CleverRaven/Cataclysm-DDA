@@ -141,7 +141,6 @@ static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_LONGSALVAGE( "ACT_LONGSALVAGE" );
-static const activity_id ACT_MEDITATE( "ACT_MEDITATE" );
 static const activity_id ACT_MEND_ITEM( "ACT_MEND_ITEM" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
@@ -343,7 +342,6 @@ activity_handlers::finish_functions = {
     { ACT_GUNMOD_ADD, gunmod_add_finish },
     { ACT_TOOLMOD_ADD, toolmod_add_finish },
     { ACT_CLEAR_RUBBLE, clear_rubble_finish },
-    { ACT_MEDITATE, meditate_finish },
     { ACT_READ, read_finish },
     { ACT_WAIT, wait_finish },
     { ACT_WAIT_WEATHER, wait_weather_finish },
@@ -2847,13 +2845,6 @@ void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
     act->set_to_null();
 
     here.maybe_trigger_trap( pos, *p, true );
-}
-
-void activity_handlers::meditate_finish( player_activity *act, player *p )
-{
-    p->add_msg_if_player( m_good, _( "You pause to engage in spiritual contemplation." ) );
-    p->add_morale( MORALE_FEELING_GOOD, 5, 10 );
-    act->set_to_null();
 }
 
 void activity_handlers::wear_do_turn( player_activity *act, player *p )
