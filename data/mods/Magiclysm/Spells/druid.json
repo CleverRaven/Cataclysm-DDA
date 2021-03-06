@@ -417,6 +417,7 @@
     "min_damage": 5,
     "max_damage": 80,
     "damage_increment": 4,
+    "//": "The spell can only be permanent without being at maximum level because of how items with charges work",
     "flags": [ "SOMATIC", "NO_LEGS", "PERMANENT" ]
   }
 ]
