@@ -131,9 +131,10 @@
       "update_mapgen": { "place_monster": [ { "group": "GROUP_DINOSAUR_ZOMBIE", "x": 12, "y": 12, "target": true } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_DINO_4",
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [ { "u_buy_monster": "mon_zachycephalosaurus", "count": 1, "name": "Betty" } ]
+      "effect": [ { "u_buy_monster": "mon_zachycephalosaurus_chain", "count": 1, "name": "Betty" } ]
     },
     "dialogue": {
       "describe": "We need help…",
@@ -189,7 +190,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [ "npc_die", { "u_buy_monster": "mon_zyrannosaurus", "count": 1, "name": "Wilma" } ]
+      "effect": [ "npc_die", { "u_buy_monster": "mon_zyrannosaurus_chain", "count": 1, "name": "Wilma" } ]
     },
     "dialogue": {
       "describe": "We need help…",
