@@ -2899,6 +2899,24 @@ std::unique_ptr<activity_actor> shave_activity_actor::deserialize( JsonIn & )
     return shave_activity_actor().clone();
 }
 
+void haircut_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( 30_minutes );
+    act.moves_left = act.moves_total;
+}
+
+void haircut_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( _( "You give your hair a trim." ) );
+    who.add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
+    act.set_to_null();
+}
+
+std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonIn & )
+{
+    return haircut_activity_actor().clone();
+}
+
 namespace activity_actors
 {
 
@@ -2916,6 +2934,7 @@ deserialize_functions = {
     { activity_id( "ACT_DROP" ), &drop_activity_actor::deserialize },
     { activity_id( "ACT_GUNMOD_REMOVE" ), &gunmod_remove_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
+    { activity_id( "ACT_HAIRCUT" ), &haircut_activity_actor::deserialize },
     { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
     { activity_id( "ACT_INSERT_ITEM" ), &insert_item_activity_actor::deserialize },
     { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
