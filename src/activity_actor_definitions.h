@@ -1008,4 +1008,28 @@ public:
     static std::unique_ptr<activity_actor> deserialize( JsonIn & );
 };
 
+class play_with_pet_activity_actor : public activity_actor
+{
+private:
+    std::string pet_name;
+public:
+    play_with_pet_activity_actor() = default;
+    explicit play_with_pet_activity_actor( const std::string &pet_name ) :
+            pet_name( pet_name ) {}
+    activity_id get_type() const override {
+        return activity_id( "ACT_PLAY_WITH_PET" );
+    }
+
+    void start( player_activity &act, Character & ) override;
+    void do_turn( player_activity &, Character & ) override {}
+    void finish( player_activity &act, Character &who ) override;
+
+    std::unique_ptr<activity_actor> clone() const override {
+        return std::make_unique<play_with_pet_activity_actor>( *this );
+    }
+
+    void serialize( JsonOut &jsout ) const override;
+    static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
