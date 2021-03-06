@@ -2857,7 +2857,8 @@ void play_with_pet_activity_actor::start( player_activity &act, Character & )
 void play_with_pet_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_morale( MORALE_PLAY_WITH_PET, rng( 3, 10 ), 10, 5_hours, 25_minutes );
-    who.add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ), pet_name );
+    who.add_msg_if_player( m_good, _( "Playing with your %s has lifted your spirits a bit." ),
+                           pet_name );
     act.set_to_null();
 }
 
