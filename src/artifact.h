@@ -6,6 +6,7 @@
 
 #include "enums.h"
 #include "itype.h"
+#include "relic.h"
 
 class JsonObject;
 class JsonOut;

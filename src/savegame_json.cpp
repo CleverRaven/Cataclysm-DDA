@@ -91,6 +91,7 @@
 #include "ranged.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
+#include "relic.h"
 #include "requirements.h"
 #include "rng.h"
 #include "scenario.h"
