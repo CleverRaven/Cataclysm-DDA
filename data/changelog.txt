@@ -43,8 +43,6 @@ Artifacts regenerate ammo option.
 Added ACTIVE enchantment condition.
 Allow recipes to specify individual activity levels.
 Add weariness, a sort of long term stamina that limits the character's ability to be extremely active 24/7.
-Making Mute a player trait
-Introduce Power & Aircraft Mechanic proficiency and allow interior fuel tank repairs to aircraft
 
 ## Content:
 Gun volume and weight audit.
@@ -71,46 +69,6 @@ Adds a new alternate needs panel to the label mode.
 Added many proficiencies and uses for them.
 Add frog mother monster.
 Adds mega mutant monsters.
-Adds ramp access to the office tower garage
-Expand metalworking and other older proficiencies
-Proficiencies for weapons - piercing.json and bashing.json
-Add ascii art for guns. Graphics are added to ascii_arts.json; references to graphics are added to the respective item's json file in the 'items' folder
-Added salt lick spawns to to dairy farm and horse farm.
-Adds kitchen knives ascii art along with some other items
-Adds vegan and bachelor fridge subtypes
-Add venom glands to bees and wasps
-adjust bridges to have more maneuverability
-Adds proficiencies to ranged, cutting, piercing, and bashing recipes
-Add a number of firearms currently used by the U.S. Military that do not yet exist in the game
-remove zombie flesh -> slime recipe
-Finish standardizing tailoring proficiencies, and add proficiencies to the last files
-Add pottery themed rural cottage.
-Add ASCII art for some melee weapons
-Added one more cave mapgen variation.
-Make Wallets spawn and put stuff in them
-Add paralytic venom glands
-Makes lockpicking and safecracking proficiencies do things and be learnable.
-Add some new hedges and supporting mapgen
-Changed some book intelligence requirements
-Adds special for attunement altar.
-Allow more wall types in the fire station base camp.
-Add some uses to butter
-Add OMTs for pedestrian areas on the campus, begin filling in landscaping.
-Wooden Button Recipe
-update garden plots to use sealed_item.
-Halloween Decorations
-Cocaine HCL topical cream and it's recipes and reagents
-Added bloody mary, hot sauce, tomato juice
-Updates for farm_2side.  Uses sealed_item for crops, add some z levels.
-update garden plots to use sealed_item.
-Added pizza cutters, icecream scoops, and cheese graters. they will spawn in some domestic drawers.
-Jsonify parking lot.
-Adds longest_side to harmonica holder, bagpipes, tuba, saxophone; moves musical instruments from json/items/tool_armor.json to items/tool/musical_instruments.json
-Update 3 farms, farm lots.
-Update Ranch house & add a small cellar
-Added 8 snippet descriptions to sponges
-Adds lengths to crossbows.
-Added two more variants of liquor store.
 
 ## Interface:
 Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
@@ -123,30 +81,12 @@ Add keycode support to uilist.
 Allow disabling robots by 'e'xamining them.
 Warn if friendly creature or non-hostile NPC enters line of fire.
 Replaces the CAL/kg row of the (E)at menu with a more meaningful Satiety row.
-Allow reloading of liquid containers
-Add proficiency search capability to crafting gui
-Newcharacter - Show proficiencies
-Extends the new Satiety row to more item information menus
-3 additions to martial arts style info
-Display correct item info for each item in V menu.
-Add pull handbrake to vehicle action menu
-Show detailed part-info on removal
-Make seasonal screen and optional and revert last title screen change
-Add option to edit proficiencies
-Allow for longer zone names
-Add search progress indicator to crafting search
 Add a Mod to use MSX Characters and monster with the Ultica tileset
-show missing proficiency failure rates for crafting
-Display contained items like 'water (plastic bottle)' instead of 'plastic bottle of water'
-Add ascii_art option to monster description
-Persist preferred aiming mode
-Add debug menu option that prints the IRL time it takes to simulate one in-game hour
-Fix misc HitButton_iso issues
-Displays miss % in numbers aim display
-Colored item names in pocket descriptions
+Show missing proficiency failure rates for crafting.
+Display contained items like 'water (plastic bottle)' instead of 'plastic bottle of water'.
+Persist preferred aiming mode.
 Make Chibi Ultica a Stand-alone tileset
 Bring back MSX+
-MSXotto+ Update 31/10/2020
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
@@ -171,27 +111,11 @@ Cap monsters at 1000 kg so butchering kind of works.
 [Magiclysm] implement summonable motorcycle
 [Magiclysm] Adds a new house with technomancer themed loot.
 Aftershock: Aftershock: Replace Vanilla autodocs with Aftershock Average Autodocs
-Adds proficiencies to magiclysm recipes
 Adds monsters 'Brontosaurus', 'Alamosaurus', and 'Brachiosaurus'
 [magiclysm] rings of wizardry, mojocycle tweaks
 [magiclysm] add bullet armor to magic rings and bracers of protection
-add missing broken robot items
-[Magiclysm] Attunements - Overclocker traits
-[Magiclysm] Attunements - Gamma Burst
-[Magiclysm] Attunements - Railgun spell
-[Magiclysm] Attunements - Rebalance Lava Bomb
 Convert 'dinoexhibit' to use templates, add roof, add baby dino variant
-Add chocolate milk, and recipes from chocolate milk; add Chocolate Cows to My Sweet Cataclysm
-[Magiclysm] Attunements - Golem Push
-Mythical Martial Arts manuals can now spawn in the world
-Obsolete sunesthesia
-updates StatsThroughSkills
-[Magiclysm] Attunements - Ice Clave
-[Magiclysm] Attunements - Add thorn zapback to Gaia's Chosen
 Ankylosaurs Abound: Dyoplosaurus Nodosaurus Edmontonia
-[Magiclysm] Make it possible for players to gain attunements
-Add standard laptop-functionality to control laptop
-Cecaelia Uplifts and underwater stuff
 
 ## Balance:
 Large item price audit.
@@ -209,30 +133,9 @@ Clean_water recipe with purification tablets or charcoal water purifier.
 Bring reloading components close to reality, make brass spawn in packs, make gunpowder units 100 mg
 Missed scenario starts without a random NPC.
 Monsters with larger eyes see farther than smaller variants.
-Rename 'housecoat' to 'bathrobe' and add some description.
-Made getting inside gunstores through the second floor more difficult.
-Ankle storage items don't affect feet-related mutations anymore
-Randomize amount of liquid chemicals spawned in labs
-Adjustments to table morale modifiers
-Removed guaranteed loot spawn from most locations that use mapgen palettes.
-Give the default Survivor profession more weather-appropriate clothes for the default start
-Added fibers proficiency to cordage recipes
-Corrected rebar and rail into steel, and normalized density and volume
-Lower dissection's activity level by one step.
-Update more appliances and furniture to use pipe fittings, where they make sense.
-Adds small chance to spawn intact helicopter at military helipad
-Allow clay extraction from "mound of clay" tile
-Rebalance anesthesia to be more realistic
-Adds vitamins to Mycus Fruit
-Adjust trunk space and cargo space
-Balance anesthetic crafting, more recipe books
-Make trap related proficiencies functional
-Added an external option to make zombies immune to bleeding.
-Review LIGHT_EXERCISE use in recipes, downgrade some instances to NO_EXERCISE
-Review MODERATE_EXERCISE use in recipes, downgrade some instances to LIGHT_ or NO_EXERCISE
-Review BRISK_EXERCISE use in recipes, downgrade some instances to lower levels
-Tweaked trash_forest item group to be more sensible.
-bludgeons: nerf the damage of war flails
+Ankle storage items don't affect feet-related mutations anymore.
+Give the default Survivor profession more weather-appropriate clothes for the default start.
+Rebalance anesthesia to be more realistic.
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -284,88 +187,14 @@ Fix gear getting damaged when weather has no damaging effects.
 Improve invalidation of max_populated_zlev cache, fixes lighting in some teleportation scenarios.
 Prevent dodging or blocking while insensible.
 Fix apparent light asymmetry when sun shines through a single-tile hole in the roof.
-Small typo fix in description of Super Electric Motor
-Made installation time mandatory for gunmods
-Query pulp for every acidic corpse in tile
-Fix #44421 tents and vehicles are not blocking sunlight
-add battery cell to police sniper headgear
-Fix weather animation
-Fix folding stock incorrectly increasing aim speed
-Fix out of bounds access in get_bar and improve satiety_bar
-fix vehicle door (de)serialization
-Drop vehicle part when the part that it requires is destroyed
-You can't mend items if you can't see
-Fixes vehicle parts in BrownLikeBears
-Don't drop undropables upon death
-tacoma commune: re-enable spawning of the ranch doctor
-Fix scent map saved with invalid utf8 sequence
-Fix inventory UI highlight not displayed when opening the UI or resizing the window
-Merge sealed and unsealed versions of plastic bottle and jug
-Containers not updating weight in certain situations
-Fixes some conflicting profession clothes, adds the MD trait where appropriate
-Fix item groups not spawning in containers under certain circumstances
-Fix corrosive zombie and mi-go scout ranged attack penetrating vehicle walls
-Randomize charges for lighters, matches, markers, and inhalers
-Fix Npc opinion based on player hp
-Adds barbed wire fence to bolt cutter use action
+Made installation time mandatory for gunmods.
+Fix #44421 tents and vehicles are not blocking sunlight.
+Fix scent map saved with invalid utf8 sequence.
 Prevent monsters from bashing obstacles based on tracking sounds.
-Adds z-support to EMP explosions
-fix item stacking bug #44529
-Fixes weariness not saving or loading
-Butchery menu disassembly times showing in correctly due to proficiencies calc
-Can insert ammo into quivers and other ammo pouches
-Ammo extended effects - factory loading.
-Ammo casings for weapons that eject on reload
-Fixes segfault in fire_gun function
-Fix segfault when resuming food crafts
-Handle invalid ids in events more gracefully
-Fix typos in item flags, add runtime item flag validation on loading
-Fix zone mining crash
-dialogue conditions: fix at_om_location handling directional OMTs
-fix map-regen traps not being triggered
-Enable ammo on the map for reloading of tools that use non-solid ammo.
-Fix auto eat/drink not working
-Fix multiple issues with "ledge" rays
-Replace obsoleted xxx_attack spell effects
-fixes fuel being spilled on lumbermills
-Fixes consume food, drink, meds menus not reopening after consume.
-Properly handle attempts to wield or throw with two broken arms.
-Fix reloading issue when wielded ammo is replaced with ejected ammo leading to crash
-Fix floor cache behavior for vehicles (driving at night doesn't produce flicker any more)
-Made generic guns magazines rigid
-Picking up an item stack fills up your pockets if it doesn't fit into one pocket
-Wielding combines item stacks if possible
-dialogue conditions: make is_safe work for tiles without monster groups
-Don't destroy items upon wielding if already wielding identical item
-Fixed throw segfault
-Give lighters in evac shelters semi-random charges
-Permit frozen liquids sharing a container
-fix conversion issue introduced by #44805
-Remove possible infinite loop in place_roads
-Fix bionic removal
-Fixes proficiency search in crafting menu
-Fix nothing to consume messages.
-Remove wall that overlaps nested mapgen.
-Fix bio syringe
-Allow whiskers to work with a loosened scarf
-[Make vehicle heater roof-mounted]
-Fix a segfault during crafting when losing in progress craft
-Fix item requirement inlining being dependent on the natural order of requirement ids
-Fix monsters not bashing some furniture and vehicles
-Fix crash while activating funnel
-Fix several laser shooting monsters.
-Updates new quest from NPC text
-Fix Devices XP gain scaling in the wrong direction with lockpicking
-Fix Demon Forge exploit
-Cranial bomb clarification
-Fixed counterattacks stunlocking the character.
-Allow smart lamp to be activated and deactivated remotely
-Adjusted the amount of rags needed to craft blankets(down/regular) and the volume of down blankets.
+Picking up an item stack fills up your pockets if it doesn't fit into one pocket.
+Wielding combines item stacks if possible.
 Robots can no longer be disabled through melee hits.
-Handle more than one active missions in ROBOFAC_MERC_1 dialogue
-Fix crash when npcs want to wield a weapon from a wielded container
-Fix auto consume zones in vehicles
-Fix mycus feeder bandage usage
+Fix auto consume zones in vehicles.
 
 ## Performance:
 Add option to enable batching when it is available in SDL.
@@ -376,13 +205,7 @@ Performance improvements related to map::process_fields.
 Overhaul shadowcasting to be iterative instead of recursive.
 Use plf linked list impl for shadowcasting.
 Improve string_id comparison performance, add unit test and benchmarks.
-Improve performance of materials::get_rotting
-Code optimizations reported by static code analysis
-Minor optimizations
-vehicle: improve performance by removing has_part( "ROTOR" ) calls
 Improve rendering speed by optimizing find_tile_looks_like method (FPS improved ≈15%)
-improve performance of mtype::has_flag
-Improve rendering performance by speeding up display_overlay_state check
 Greatly reduce overhead of processing idle vehicles.
 Optimize Creature::has_effect (performance improved ≈9.5%)
 Add a specialization for static/interned string_ids  (performance improved ≈30%))
@@ -444,30 +267,13 @@ Unblacklist most remaining blacklisted mods for automated consistency checking.
 Report log messages for failed tests.
 Reinstate blueprint autocalc.
 Refactored vision_test. Introduced map_test_case framework to build similar tests easier.
-Add tests for better_pocket and best_pocket
+Add tests for better_pocket and best_pocket.
 Rename skills in preparation of some changes; merge speech & barter.
-Apply fault effects with flags instead of fault id
-Reorganize several recipes in recipe_other and especially recipe_weapons
-Rename RetroDays+ to NeoDays
-move ropes to their own recipe file and remove cloth reversible rope
-simplify item::damage_level()
-refactor spells to use shape as an additional json member
-Move player hardcoded effects to character
-Merge trapping and lockpicking skills into a new 'devices' skill, expand scope somewhat
-Clean up recipe_electronics.json and remove some stuff from recipe_others.json, move to new files
-Refactoring: wrap direct access to item::item_tags and itype::item_tags into methods
-Switch json_flags to generic_factory
-fix clang 3.8 error in travis-ci build
-Add default time and fail multipliers to proficiencies for easier JSON entry
-Change item::item_tags, itype::item_tags, etc. to int/str id (part 4 of #44694)
-introduce STATIC( ) macro that can reduce the verbosity of the static constants definition
-Add typesafe angle type
-Add check for use of srand and similar functions
-Fix incorrect usage of static int_id<body_part_type>
-JSONize non-kitten items for Robot Finds Kitten minigame
-Use string_id for item group ids
-Speed up item processing by changing item flag constants to static string_ids
-Add check that Generic Guns migrates all guns, magazines, and ammo
+Merge trapping and lockpicking skills into a new 'devices' skill, expand scope somewhat.
+Add default time and fail multipliers to proficiencies for easier JSON entry.
+Introduce STATIC( ) macro that can reduce the verbosity of the static constants definition.
+Add typesafe angle type.
+Add check that Generic Guns migrates all guns, magazines, and ammo.
 
 ## Build:
 Create a GitHub workflow for running clang-tidy.
@@ -487,8 +293,6 @@ Suppress Homebrew update for faster OSX builds.
 Add problem matchers for json errors, compiler errors, DebugLog emission and Catch2 errors.
 Add check enforcing almost-never-auto convention.
 Add a GitHub workflow running flake8 on the Python scripts.
-Work around gcc 5 compiling error in cuboid_rectangle.h
-Ignore Window-style line ending in JSON formatter on all Windows builds
 
 ## I18N and A11Y:
 Fix translation of martial art initate message and computer translation.
@@ -498,14 +302,6 @@ Add helper for localized sorting.
 Record locales in debug.log to assist with i18n debugging.
 Add translator glossary and explain etymology of Exodii.
 Use class translation in many more places.
-Fully use class translation in options
-Remove text style check hacks by adding a string reader
-Routine i18n updates on 4 Oct 2020
-Use class translation in construction and group construction by group id instead of description
-Use class translation for faction description and other translation updates
-Routine i18n updates on 11 Oct 2020
-Routine i18n updates on 16 Oct 2020
-Routine i18n updates on 1 Nov 2020
 
 # 0.E (Ellison)
 
