@@ -42,7 +42,7 @@ Show which achievements have been completed in past games.
 Artifacts regenerate ammo option.
 Added ACTIVE enchantment condition.
 Allow recipes to specify individual activity levels.
-Add weariness, a sort of long term stamina which limits the character's ability to be extremely active 24/7.
+Add weariness, a sort of long term stamina that limits the character's ability to be extremely active 24/7.
 
 ## Content:
 Gun volume and weight audit.
@@ -66,6 +66,7 @@ Adapts almost all vehicle definitions to use directional parts (most of the work
 Update UltiCa tileset and make it default.
 Add a number of flying zombies.
 Adds a new alternate needs panel to the label mode.
+Added many proficiencies and uses for them.
 Add frog mother monster.
 Adds mega mutant monsters.
 
@@ -100,7 +101,7 @@ Add monsters 'Pachyrhinosaurus', 'Pentaceratops', and 'Torosaurus'
 Organizes dinos into three main factions with defined behavior
 Rebalance Jurassic spawns and monsters for realism, fix predator in-fighting.
 Cap monsters at 1000 kg so butchering kind of works.
-[magiclysm] implement summonable motorcycle
+[Magiclysm] implement summonable motorcycle
 
 ## Balance:
 Large item price audit.
@@ -168,7 +169,7 @@ Fix crash when attempting to butcher a corpse.
 Fix gear getting damaged when weather has no damaging effects.
 Improve invalidation of max_populated_zlev cache, fixes lighting in some teleportation scenarios.
 Prevent dodging or blocking while insensible.
-Fix apparent light symmetry when sun shines through a single-tile hole in the roof.
+Fix apparent light asymmetry when sun shines through a single-tile hole in the roof.
 
 ## Performance:
 Add option to enable batching when it is available in SDL.
@@ -251,8 +252,8 @@ Improve use of precompiled headers.
 compose.py: allow default sized tilesheets to specify offsets.
 Enable compiling an Android build under Windows.
 Tools: add a Python script to reformat vehicles to use parts arrays.
-Supress Homebrew update for faster OSX builds
-Add a problem matchers for json errors, compiler errors, DebugLog emission and Catch2 errors.
+Suppress Homebrew update for faster OSX builds.
+Add problem matchers for json errors, compiler errors, DebugLog emission and Catch2 errors.
 Add check enforcing almost-never-auto convention.
 Add a GitHub workflow running flake8 on the Python scripts.
 
