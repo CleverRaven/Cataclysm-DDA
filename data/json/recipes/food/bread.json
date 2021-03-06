@@ -44,6 +44,8 @@
       [ [ "flour", 5 ] ],
       [ [ "cornmeal", 5 ] ],
       [ [ "molasses", 2 ] ],
+      [ [ "sugar", 1 ] ],
+      [ [ "molasses", 1 ], [ "sugar", 13 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "salt", 1 ] ]
     ],
