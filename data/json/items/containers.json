@@ -1717,7 +1717,7 @@
     "looks_like": "1st_aid",
     "description": "A plastic box that used to contain a first aid kit.",
     "weight": "50 g",
-    "volume": "2600 ml",
+    "volume": "2650 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -2,
@@ -1725,7 +1725,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "2300 ml",
+        "max_contains_volume": "2450 ml",
         "max_contains_weight": "3 kg",
         "rigid": true,
         "moves": 400
