@@ -111,6 +111,15 @@ void trap::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "avoidance", avoidance );
     mandatory( jo, was_loaded, "difficulty", difficulty );
 
+    optional( jo, was_loaded, "memorial_male", memorial_male );
+    optional( jo, was_loaded, "memorial_female", memorial_female );
+
+    // Require either none, or both
+    if( !!memorial_male != !!memorial_female ) {
+        jo.throw_error( "Only one gender of memorial message specified for trap %s, but none or both required.",
+                        id.str() );
+    }
+
     optional( jo, was_loaded, "flags", _flags );
     optional( jo, was_loaded, "trap_radius", trap_radius, 0 );
     // TODO: Is there a generic_factory version of this?

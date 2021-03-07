@@ -138,6 +138,9 @@ struct trap {
         trap_function act;
         translation name_;
 
+        cata::optional<translation> memorial_male;
+        cata::optional<translation> memorial_female;
+
         cata::flat_set<flag_id> _flags;
 
         /**
@@ -171,6 +174,17 @@ struct trap {
 
         bool has_flag( const flag_id &flag ) const {
             return _flags.count( flag );
+        }
+
+        bool has_memorial_msg() const {
+            return memorial_male && memorial_female;
+        }
+
+        std::string memorial_msg( bool male ) const {
+            if( male ) {
+                return memorial_male->translated();
+            }
+            return memorial_female->translated();
         }
 
         /**
