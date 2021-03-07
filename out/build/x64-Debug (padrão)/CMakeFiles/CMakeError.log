@@ -1,0 +1,11 @@
+Determining if the include file pthread.h exists failed with the following output:
+Change Dir: C:/Users/João/source/repos/Cataclysm-DDA/out/build/x64-Debug (padrão)/CMakeFiles/CMakeTmp
+
+Run Build Command(s):C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe cmTC_f3fc1 && [1/2] Building C object CMakeFiles\cmTC_f3fc1.dir\CheckIncludeFile.c.obj
+FAILED: CMakeFiles/cmTC_f3fc1.dir/CheckIncludeFile.c.obj 
+C:\PROGRA~2\MICROS~3\2019\ENTERP~1\VC\Tools\MSVC\1428~1.293\bin\Hostx64\x64\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\cmTC_f3fc1.dir\CheckIncludeFile.c.obj /FdCMakeFiles\cmTC_f3fc1.dir\ /FS -c CheckIncludeFile.c
+CheckIncludeFile.c(1): fatal error C1083: Não é possível abrir arquivo incluir: 'pthread.h': No such file or directory
+ninja: build stopped: subcommand failed.
+
+
+
