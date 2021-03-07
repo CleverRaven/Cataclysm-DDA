@@ -1004,7 +1004,7 @@ class meditate_activity_actor : public activity_actor
             return std::make_unique<meditate_activity_actor>( *this );
         }
 
-        void serialize( JsonOut & ) const override {}
+        void serialize( JsonOut & ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn & );
 };
 
@@ -1048,7 +1048,7 @@ class shave_activity_actor : public activity_actor
             return std::make_unique<shave_activity_actor>( *this );
         }
 
-        void serialize( JsonOut & ) const override {}
+        void serialize( JsonOut & ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn & );
 };
 
@@ -1068,7 +1068,7 @@ class haircut_activity_actor : public activity_actor
             return std::make_unique<haircut_activity_actor>( *this );
         }
 
-        void serialize( JsonOut & ) const override {}
+        void serialize( JsonOut & ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn & );
 };
 

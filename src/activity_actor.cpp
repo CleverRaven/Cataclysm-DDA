@@ -2843,6 +2843,11 @@ void meditate_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
+void meditate_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.write_null();
+}
+
 std::unique_ptr<activity_actor> meditate_activity_actor::deserialize( JsonIn & )
 {
     return meditate_activity_actor().clone();
@@ -2895,6 +2900,11 @@ void shave_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
+void shave_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.write_null();
+}
+
 std::unique_ptr<activity_actor> shave_activity_actor::deserialize( JsonIn & )
 {
     return shave_activity_actor().clone();
@@ -2911,6 +2921,11 @@ void haircut_activity_actor::finish( player_activity &act, Character &who )
     who.add_msg_if_player( _( "You give your hair a trim." ) );
     who.add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
     act.set_to_null();
+}
+
+void haircut_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.write_null();
 }
 
 std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonIn & )
