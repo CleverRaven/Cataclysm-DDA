@@ -1194,7 +1194,7 @@
     "valid": false,
     "description": "While biomancers focus on both life and death; Wither Mages set their sights on the transitional period between these two stages.  They wield entropy and decay hand and hand, using it to enhance their combat prowess to surgical precision.  This confluence of abilities are what lead to assassin mages gaining this attunement.",
     "prereqs": [ "DRUID", "MAGUS" ],
-    "spells_learned": [ [ "assassin_strike", 5 ] ],
+    "spells_learned": [ [ "assassin_strike", 5 ], [ "life_drain", 5 ] ],
     "cancels": [
       "AURA_MAGE",
       "BIOTEK",
