@@ -222,6 +222,23 @@ void iexamine::none( Character &/*p*/, const tripoint &examp )
     add_msg( _( "That is a %s." ), get_map().name( examp ) );
 }
 
+bool iexamine::always_false( const tripoint &/*examp*/ )
+{
+    return false;
+}
+
+bool iexamine::always_true( const tripoint &/*examp*/ )
+{
+    return true;
+}
+
+bool iexamine::harvestable_now( const tripoint &examp )
+{
+    const auto hid = get_map().get_harvest( examp );
+    return !hid->is_null() && !hid->empty();
+}
+
+
 /**
  * Pick an appropriate item and apply diamond coating if possible.
  */
@@ -6198,9 +6215,9 @@ void iexamine::workout( Character &you, const tripoint &examp )
  * @param function_name The name of the function to get.
  * @return A function pointer to the specified function.
  */
-iexamine_function iexamine_function_from_string( const std::string &function_name )
+iexamine_functions iexamine_functions_from_string( const std::string &function_name )
 {
-    static const std::map<std::string, iexamine_function> function_map = {{
+    static const std::map<std::string, iexamine_examine_function> function_map = {{
             { "none", &iexamine::none },
             { "attunement_altar", &iexamine::attunement_altar },
             { "deployed_furniture", &iexamine::deployed_furniture },
@@ -6281,14 +6298,29 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
         }
     };
 
+    static const std::set<std::string> harvestable_functions = {
+        "harvest_furn_nectar",
+        "harvest_furn",
+        "harvest_ter_nectar",
+        "harvest_ter",
+        "tree_hickory",
+    };
+
     auto iter = function_map.find( function_name );
     if( iter != function_map.end() ) {
-        return iter->second;
+        iexamine_examine_function func = iter->second;
+        if( function_name == "none" ) {
+            return iexamine_functions{&iexamine::always_false, func};
+        } else if( harvestable_functions.find( function_name ) != harvestable_functions.end() ) {
+            return iexamine_functions{&iexamine::harvestable_now, func};
+        } else {
+            return iexamine_functions{&iexamine::always_true, func};
+        }
     }
 
     //No match found
     debugmsg( "Could not find an iexamine function matching '%s'!", function_name );
-    return &iexamine::none;
+    return iexamine_functions{&iexamine::always_false, &iexamine::none};
 }
 
 void iexamine::practice_survival_while_foraging( Character *you )
