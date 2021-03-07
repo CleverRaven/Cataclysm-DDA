@@ -804,6 +804,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_banishment_lesser",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Lesser Banishment", "str_pl": "Scrolls of Lesser Banishment" },
+    "description": "Banish a monster to the lesser-known nether dimension.  If a monster is more powerful than you can handle, the spell drains your life force to make up the difference.",
+    "use_action": { "type": "learn_spell", "spells": [ "banishment_lesser" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_acid_resistance",
     "//": "Classless spell, black dragon books",
     "name": { "str": "Scroll of Acid Resistance", "str_pl": "Scrolls of Acid Resistance" },
