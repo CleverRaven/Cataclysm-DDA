@@ -4138,7 +4138,8 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( ! can_wear.success() ) {
             insert_separation_line( info );
             info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "<bad>%s</bad>" ), can_wear.str() ) ) );
+                                      // can_wear returns a translated string
+                                      string_format( "<bad>%s</bad>", can_wear.str() ) ) );
         }
     }
 
