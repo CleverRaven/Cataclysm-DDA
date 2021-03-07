@@ -3880,15 +3880,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     avatar &player_character = get_avatar();
-    if( parts->test( iteminfo_parts::DESCRIPTION_ALLERGEN ) ) {
-        if( is_armor() && player_character.has_trait( trait_WOOLALLERGY ) &&
-            ( made_of( material_id( "wool" ) ) || has_own_flag( flag_wooled ) ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This clothing will give you an <bad>allergic "
-                                         "reaction</bad>." ) ) );
-        }
-    }
-
     if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS ) ) {
         // concatenate base and acquired flags...
         std::vector<flag_id> flags;
