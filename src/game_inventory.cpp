@@ -934,6 +934,15 @@ class activatable_inventory_preset : public pickup_inventory_preset
                     }
                 }
             }
+
+            const use_function *smoking = it.type->get_use( "SMOKING" );
+            if( smoking != nullptr ) {
+                cata::optional<std::string> litcig = iuse::can_smoke( p );
+                if( litcig.has_value() ) {
+                    return _( litcig.value_or( "" ) );
+                }
+            }
+
             if( uses.size() == 1 ) {
                 const auto ret = uses.begin()->second.can_call( p, it, false, p.pos() );
                 if( !ret.success() ) {

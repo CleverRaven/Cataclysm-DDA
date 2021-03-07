@@ -686,6 +686,15 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
             }
         }
     }
+
+    const use_function *smoking = food.type->get_use( "SMOKING" );
+    if( smoking != nullptr ) {
+        cata::optional<std::string> litcig = iuse::can_smoke( *this->as_player() );
+        if( litcig.has_value() ) {
+            return ret_val<edible_rating>::make_failure( NO_TOOL, _( litcig.value_or( "" ) ) );
+        }
+    }
+
     if( !comest->tool.is_null() ) {
         const bool has = item::count_by_charges( comest->tool )
                          ? has_charges( comest->tool, 1 )
