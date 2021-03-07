@@ -137,6 +137,9 @@ struct trap {
         std::string map_regen;
         trap_function act;
         translation name_;
+
+        cata::flat_set<flag_id> _flags;
+
         /**
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */
@@ -164,6 +167,10 @@ struct trap {
         }
         bool operator!=( const trap_id &id ) const {
             return loadid != id;
+        }
+
+        bool has_flag( const flag_id &flag ) const {
+            return _flags.count( flag );
         }
 
         /**

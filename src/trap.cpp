@@ -110,6 +110,8 @@ void trap::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "visibility", visibility );
     mandatory( jo, was_loaded, "avoidance", avoidance );
     mandatory( jo, was_loaded, "difficulty", difficulty );
+
+    optional( jo, was_loaded, "flags", _flags );
     optional( jo, was_loaded, "trap_radius", trap_radius, 0 );
     // TODO: Is there a generic_factory version of this?
     act = trap_function_from_string( jo.get_string( "action" ) );
@@ -195,8 +197,8 @@ bool trap::is_trivial_to_spot() const
 
 bool trap::detected_by_ground_sonar() const
 {
-    // @TODO make this a property
-    return loadid == tr_beartrap_buried || loadid == tr_landmine_buried || loadid == tr_sinkhole;
+    static const flag_id sonar_detectable = flag_id( "SONAR_DETECTABLE" );
+    return has_flag( sonar_detectable );
 }
 
 bool trap::detect_trap( const tripoint &pos, const Character &p ) const

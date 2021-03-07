@@ -158,6 +158,7 @@
     "difficulty": 4,
     "action": "beartrap",
     "drops": [ "beartrap" ],
+    "flags": [ "SONAR_DETECTABLE" ],
     "vehicle_data": {
       "damage": 300,
       "sound_volume": 8,
@@ -370,6 +371,7 @@
     "difficulty": 10,
     "action": "landmine",
     "drops": [ "landmine" ],
+    "flags": [ "SONAR_DETECTABLE" ],
     "vehicle_data": {
       "do_explosion": true,
       "damage": 1000,
@@ -426,6 +428,7 @@
     "avoidance": 14,
     "difficulty": 99,
     "action": "sinkhole",
+    "flags": [ "SONAR_DETECTABLE" ],
     "vehicle_data": { "damage": 500 }
   },
   {

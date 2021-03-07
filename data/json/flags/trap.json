@@ -1,0 +1,7 @@
+[
+  {
+    "type": "json_flag",
+    "id": "SONAR_DETECTABLE",
+    "context": [  ]
+  }
+]
