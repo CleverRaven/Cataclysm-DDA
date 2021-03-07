@@ -3,20 +3,23 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <functional>
+#include <iosfwd>
 #include <limits>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
-#include "activity_type.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -32,7 +35,6 @@
 #include "enums.h"
 #include "faction.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -41,6 +43,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
@@ -65,17 +68,16 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
 
@@ -443,10 +445,10 @@ bool Character::check_eligible_containers_for_crafting( const recipe &rec, int b
 
 static bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
 {
-    if( cont.is_watertight_container() && ( allow_bucket || !cont.will_spill() ) ) {
+    if( cont.is_watertight_container() && cont.contents.num_item_stacks() <= 1 && ( allow_bucket ||
+            !cont.will_spill() ) ) {
         return !cont.is_container_full( allow_bucket );
     }
-
     return false;
 }
 
@@ -1212,10 +1214,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
             }
         }
 
-        //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
-        if( newit.has_flag( flag_VARSIZE ) ) {
-            newit.set_flag( flag_FIT );
-        }
+        // Newly-crafted items are perfect by default. Inspect their materials to see if they shouldn't be
         food_contained.inherit_flags( used, making );
 
         for( const flag_id &flag : making.flags_to_delete ) {

@@ -1085,7 +1085,7 @@
     "container": "bottle_plastic",
     "sealed": true,
     "color": "light_cyan",
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "use_action": [  ]
   },
   {

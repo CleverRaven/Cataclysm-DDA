@@ -106,7 +106,7 @@
     "coverage": 65,
     "encumbrance": 6,
     "warmth": 40,
-    "material_thickness": 0.5,
+    "material_thickness": 1.5,
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
@@ -245,7 +245,7 @@
     "coverage": 85,
     "encumbrance": 20,
     "warmth": 50,
-    "material_thickness": 1,
+    "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "OUTER" ]
   }

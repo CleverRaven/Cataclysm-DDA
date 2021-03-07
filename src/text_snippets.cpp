@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <new>
 #include <random>
 #include <utility>
 

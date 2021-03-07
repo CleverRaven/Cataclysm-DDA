@@ -5,9 +5,9 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <memory>
-#include <string>
 #include <vector>
 
 #include "color.h"

@@ -225,6 +225,7 @@
     "calories": 168,
     "description": "A handful of squishy, fluffy, puffy, delicious marshmallows.",
     "price": 250,
+    "charges": 5,
     "price_postapoc": 100,
     "material": [ "junk" ],
     "volume": "250 ml",
@@ -348,6 +349,7 @@
     "price": 340,
     "quench": -1,
     "calories": 135,
+    "charges": 4,
     "stim": 1,
     "fun": 7,
     "flags": [ "EDIBLE_FROZEN" ]
@@ -628,6 +630,7 @@
     "price_postapoc": 100,
     "material": [ "junk" ],
     "volume": "40 ml",
+    "charges": 3,
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": 4
   },
@@ -732,6 +735,7 @@
     "price_postapoc": 150,
     "material": [ "junk" ],
     "volume": "250 ml",
+    "charges": 3,
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "calcium", 5 ], [ "iron", 3 ] ],
     "fun": 8
@@ -828,7 +832,6 @@
     "container": "bag_plastic",
     "material": [ "junk", "veggy" ],
     "volume": "750 ml",
-    "charges": 3,
     "flags": [ "EATEN_HOT" ],
     "fun": 16,
     "vitamins": [ [ "calcium", 8 ], [ "iron", 17 ] ]
@@ -843,7 +846,6 @@
     "spoils_in": "20 hours",
     "container": "bag_plastic",
     "symbol": "%",
-    "charges": 3,
     "calories": 654,
     "description": "Salted chips made from corn tortillas with beans and smothered in cheese.  Delicious, even if you're not a vegetarian.",
     "price": 300,

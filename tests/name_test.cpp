@@ -1,10 +1,10 @@
-#include "catch/catch.hpp"
-#include "name.h"
-
+#include <iosfwd>
 #include <set>
 #include <string>
 
+#include "catch/catch.hpp"
 #include "enum_traits.h"
+#include "name.h"
 
 class IsOneOf : public Catch::MatcherBase<std::string>
 {

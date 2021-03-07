@@ -3,9 +3,10 @@
 #define CATA_SRC_CATA_UTILITY_H
 
 #include <algorithm>
+#include <cstddef>
 #include <functional>
 #include <iosfwd>
-#include <string>
+#include <string> // IWYU pragma: keep
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -512,6 +513,11 @@ class on_out_of_scope
         explicit on_out_of_scope( const std::function<void()> &func ) : func( func ) {
         }
 
+        on_out_of_scope( const on_out_of_scope & ) = delete;
+        on_out_of_scope( on_out_of_scope && ) = delete;
+        on_out_of_scope &operator=( const on_out_of_scope & ) = delete;
+        on_out_of_scope &operator=( on_out_of_scope && ) = delete;
+
         ~on_out_of_scope() {
             if( func ) {
                 func();
@@ -540,6 +546,11 @@ class restore_on_out_of_scope
             impl( [this]() { t = std::move( orig_t ); } ) {
         }
         // *INDENT-ON*
+
+        restore_on_out_of_scope( const restore_on_out_of_scope<T> & ) = delete;
+        restore_on_out_of_scope( restore_on_out_of_scope<T> && ) = delete;
+        restore_on_out_of_scope &operator=( const restore_on_out_of_scope<T> & ) = delete;
+        restore_on_out_of_scope &operator=( restore_on_out_of_scope<T> && ) = delete;
 };
 
 #endif // CATA_SRC_CATA_UTILITY_H

@@ -1,7 +1,6 @@
 #include "mapgendata.h"
 
 #include "debug.h"
-#include "int_id.h"
 #include "map.h"
 #include "mapdata.h"
 #include "omdata.h"

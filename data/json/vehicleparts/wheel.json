@@ -484,9 +484,10 @@
     "damage_reduction": { "bash": 10, "cut": 8, "stab": 4 }
   },
   {
-    "id": "wheel_small",
+    "abstract": "wheel_small_abstract",
     "type": "vehicle_part",
     "name": { "str": "small wheel" },
+    "looks_like": "wheel",
     "item": "wheel_small",
     "location": "under",
     "symbol": "o",
@@ -507,6 +508,21 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "plastics", 1 ] ] }
     },
     "flags": [ "WHEEL", "FOLDABLE", "NEEDS_WHEEL_MOUNT_LIGHT" ]
+  },
+  {
+    "copy-from": "wheel_small_abstract",
+    "id": "wheel_small",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "wheel_small_abstract",
+    "id": "wheel_small_scooter",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "wheel_small_abstract",
+    "id": "wheel_small_scooter_rear",
+    "type": "vehicle_part"
   },
   {
     "id": "wheel_tricycle",

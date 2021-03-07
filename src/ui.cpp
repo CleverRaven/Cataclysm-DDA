@@ -1,24 +1,25 @@
 #include "ui.h"
 
-#include <algorithm>
 #include <cctype>
+#include <algorithm>
 #include <climits>
 #include <cstdlib>
 #include <iterator>
 #include <memory>
+#include <set>
 
 #include "avatar.h"
-#include "cached_options.h"
+#include "cached_options.h" // IWYU pragma: keep
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "character.h"
 #include "game.h"
 #include "input.h"
 #include "memory_fast.h"
 #include "output.h"
 #include "sdltiles.h"
 #include "string_input_popup.h"
+#include "translations.h"
 #include "ui_manager.h"
 
 #if defined(__ANDROID__)

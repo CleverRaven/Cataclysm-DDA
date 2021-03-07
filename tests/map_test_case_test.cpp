@@ -1,6 +1,6 @@
-#include <iomanip>
+#include <array>
+#include <iterator>
 
-#include "map.h"
 #include "map_test_case.h"
 
 // test some of the map_test_case helpers

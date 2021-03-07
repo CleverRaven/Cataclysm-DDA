@@ -1155,7 +1155,17 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [ "pants", "socks", "boots_combat", "longshirt", "jacket_light", "knife_folding", "hat_ball", "wristwatch" ],
+        "items": [
+          "pants",
+          "socks",
+          "boots_combat",
+          "longshirt",
+          "jacket_light",
+          "knife_folding",
+          "hat_ball",
+          "wristwatch",
+          "leather_belt"
+        ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_flashlight" },
@@ -1288,7 +1298,10 @@
     "description": "Cocaine.  It is, indeed, a helluva drug.  You blew your money on some dust, and before you knew it you were turning tricks behind the local CVS just to score one more line.  Where are you going to get your next fix now?",
     "points": -1,
     "items": {
-      "both": { "items": [ "crackpipe", "crack", "crack", "tank_top" ], "entries": [ { "group": "charged_ref_lighter" } ] },
+      "both": {
+        "items": [ "crackpipe", "tank_top" ],
+        "entries": [ { "group": "charged_ref_lighter" }, { "item": "crack", "charges": 8, "container-item": "bag_zipper" } ]
+      },
       "male": [ "jeans", "flip_flops" ],
       "female": [ "jeans", "heels" ]
     },
@@ -2794,7 +2807,7 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "pants", "socks", "boots", "longshirt", "jacket_light", "holster", "pockknife", "wristwatch" ],
+        "items": [ "pants", "socks", "boots", "longshirt", "jacket_light", "holster", "pockknife", "wristwatch", "leather_belt" ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_flashlight" },
@@ -3778,7 +3791,11 @@
     "name": "Heroin Addict",
     "description": "The last thing you remember was meeting God behind the local Foodplace.  Then people started eating each other.  This doesn't feel like a fever dream.",
     "points": -3,
-    "items": { "both": [ "shorts", "heroin", "syringe" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] },
+    "items": {
+      "both": { "items": [ "shorts", "syringe" ], "entries": [ { "item": "heroin", "charges": 9, "container-item": "bag_zipper" } ] },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
     "addictions": [ { "intensity": 40, "type": "opiate" } ]
   },
   {

@@ -1,15 +1,18 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
+#include <list>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "flag.h"
-#include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "options_helpers.h"
@@ -19,6 +22,7 @@
 #include "recipe_dictionary.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 // ITEM INFO
 // =========
@@ -1059,8 +1063,8 @@ static void expected_armor_values( const item &armor, float bash, float cut, flo
 TEST_CASE( "armor_stats", "[armor][protection]" )
 {
     expected_armor_values( item( itype_id( "zentai" ) ), 0.2f, 0.2f, 0.16f, 0.2f );
-    expected_armor_values( item( itype_id( "tshirt" ) ), 0.2f, 0.2f, 0.16f, 0.2f );
-    expected_armor_values( item( itype_id( "dress_shirt" ) ), 0.2f, 0.2f, 0.16f, 0.2f );
+    expected_armor_values( item( itype_id( "tshirt" ) ), 0.1f, 0.1f, 0.08f, 0.1f );
+    expected_armor_values( item( itype_id( "dress_shirt" ) ), 0.1f, 0.1f, 0.08f, 0.1f );
 }
 
 // Armor protction is based on materials, thickness, and/or environmental protection rating.
@@ -2461,7 +2465,7 @@ TEST_CASE( "pocket info for a multi-pocket item", "[iteminfo][pocket][multiple]"
            "--\n"
            "<color_c_white>4 Pockets</color> with capacity:\n"
            "Volume: <color_c_yellow>1.50</color> L  Weight: <color_c_yellow>1.00</color> kg\n"
-           "Maximum item length: <color_c_yellow>60</color> cm\n"
+           "Maximum item length: <color_c_yellow>70</color> cm\n"
            "Minimum item volume: <color_c_yellow>0.050 L</color>\n"
            "Base moves to remove item: <color_c_yellow>50</color>\n"
            "<color_c_white>Restrictions</color>:\n"

@@ -10,7 +10,7 @@
     "move_cost_mod": -1,
     "coverage": 35,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER" ],
+    "flags": [ "TRANSPARENT", "AUTODOC", "CONTAINER", "NO_PICKUP_ON_EXAMINE" ],
     "examine_action": "autodoc",
     "surgery_skill_multiplier": 1.0,
     "deconstruct": {

@@ -3,21 +3,18 @@
 #define CATA_SRC_SCENT_MAP_H
 
 #include <array>
+#include <iosfwd>
 #include <set>
-#include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "enums.h" // IWYU pragma: keep
 #include "game_constants.h"
-#include "json.h"
 #include "optional.h"
 #include "point.h"
-#include "string_id.h"
 #include "type_id.h"
 
-struct point;
-struct tripoint;
+class JsonObject;
 
 static constexpr int SCENT_MAP_Z_REACH = 1;
 

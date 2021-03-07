@@ -1,8 +1,9 @@
-#include "catch/catch.hpp"
+#include <array>
 
 #include "avatar.h"
-
+#include "catch/catch.hpp"
 #include "player_helpers.h"
+#include "type_id.h"
 
 TEST_CASE( "focus" )
 {

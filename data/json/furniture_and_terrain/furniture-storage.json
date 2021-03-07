@@ -201,7 +201,7 @@
     "floor_bedding_warmth": 200,
     "required_str": 3,
     "deconstruct": { "items": [ { "item": "box_large", "count": 1 } ] },
-    "max_volume": "1500 L",
+    "max_volume": "324 L",
     "deployed_item": "box_large",
     "examine_action": "deployed_furniture",
     "flags": [

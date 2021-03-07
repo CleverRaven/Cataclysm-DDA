@@ -1,3 +1,5 @@
+#include "npc.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cfloat>
 #include <climits>
@@ -19,6 +21,7 @@
 #include "character.h"
 #include "character_id.h"
 #include "clzones.h"
+#include "colony.h"
 #include "damage.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
@@ -29,6 +32,7 @@
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "gates.h"
@@ -43,12 +47,13 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "material.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
-#include "npc.h" // IWYU pragma: associated
 #include "npctalk.h"
+#include "omdata.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmap_location.h"
@@ -73,9 +78,6 @@
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PULP( "ACT_PULP" );
-
-static const ammotype ammo_reactor_slurry( "reactor_slurry" );
-static const ammotype ammo_plutonium( "plutonium" );
 
 static const skill_id skill_firstaid( "firstaid" );
 
@@ -595,7 +597,8 @@ void npc::assess_danger()
     for( const weak_ptr_fast<Creature> &guy : hostile_guys ) {
         player *foe = dynamic_cast<player *>( guy.lock().get() );
         if( foe && foe->is_npc() ) {
-            assessment += handle_hostile( *foe, evaluate_enemy( *foe ), "bandit", "kill_npc" );
+            assessment += handle_hostile( *foe, evaluate_enemy( *foe ), translate_marker( "bandit" ),
+                                          "kill_npc" );
         }
     }
 
@@ -614,7 +617,8 @@ void npc::assess_danger()
         // cap player difficulty at 150
         float player_diff = evaluate_enemy( player_character );
         if( is_enemy() ) {
-            assessment += handle_hostile( player_character, player_diff, "maniac", "kill_player" );
+            assessment += handle_hostile( player_character, player_diff, translate_marker( "maniac" ),
+                                          "kill_player" );
         } else if( is_friendly( player_character ) ) {
             float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
             assessment = std::max( min_danger, assessment - player_diff * 0.5f );
@@ -910,7 +914,7 @@ void npc::move()
         // like random NPCs
         if( attitude == NPCATT_ACTIVITY && !activity ) {
             revert_after_activity();
-            if( is_ally( player_character ) ) {
+            if( is_ally( player_character ) && !assigned_camp ) {
                 attitude = NPCATT_FOLLOW;
                 mission = NPC_MISSION_NULL;
             }
@@ -1714,11 +1718,11 @@ bool npc::recharge_cbm()
             return true;
         } else {
             const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
-                for( const material_id &fid : bid->fuel_opts ) {
-                    return ( it.get_base_material().id == fid ) || ( it.is_magazine() &&
-                            item( it.ammo_current() ).get_base_material().id == fid );
+                if( bid->fuel_opts.empty() ) {
+                    return false;
                 }
-                return false;
+                return ( it.get_base_material().id == bid->fuel_opts.front() ) || ( it.is_magazine() &&
+                        item( it.ammo_current() ).get_base_material().id == bid->fuel_opts.front() );
             };
 
             if( consume_cbm_items( fuel_filter ) ) {
@@ -2733,7 +2737,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
     map &here = get_map();
     std::copy_if( range.begin(), range.end(), std::back_inserter( escape_points ),
     [&here]( const tripoint & elem ) {
-        return here.passable( elem );
+        return here.passable( elem ) && here.has_floor( elem );
     } );
 
     cata::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint & elem ) {
@@ -3618,7 +3622,7 @@ void npc::heal_player( player &patient )
         return;
     }
     if( !is_hallucination() ) {
-        int charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
+        int charges_used = used.type->invoke( *this, used, patient.pos(), "heal" ).value_or( 0 );
         consume_charges( used, charges_used );
     } else {
         pretend_heal( patient, used );
@@ -3626,7 +3630,7 @@ void npc::heal_player( player &patient )
 
 }
 
-void npc:: pretend_heal( player &patient, item used )
+void npc::pretend_heal( player &patient, item used )
 {
     // you can tell that it's not real by looking at your HP though
     add_msg_if_player_sees( *this, _( "%1$s heals %2$s." ), disp_name(),
@@ -3675,7 +3679,7 @@ void npc::heal_self()
     add_msg_if_player_sees( *this, _( "%s applies a %s" ), disp_name(), used.tname() );
     warn_about( "heal_self", 1_turns );
 
-    int charges_used = used.type->invoke( *this, used, pos(), "heal" );
+    int charges_used = used.type->invoke( *this, used, pos(), "heal" ).value_or( 0 );
     if( used.is_medication() ) {
         consume_charges( used, charges_used );
     }
@@ -3810,16 +3814,48 @@ bool npc::consume_food_from_camp()
         return true;
     }
     faction *yours = player_character.get_faction();
-    int camp_kcals = std::min( std::max( 0, 19 * get_healthy_kcal() / 20 - get_stored_kcal() -
-                                         stomach.get_calories() ), yours->food_supply );
-    if( camp_kcals > 0 ) {
-        complain_about( "camp_food_thanks", 1_hours, "<camp_food_thanks>", false );
-        mod_hunger( -camp_kcals );
-        mod_stored_kcal( camp_kcals );
-        yours->food_supply -= camp_kcals;
-        return true;
+
+    int current_kcals = get_stored_kcal() + stomach.get_calories() + guts.get_calories();
+    int kcal_threshold = get_healthy_kcal() * 19 / 20;
+    if( get_hunger() > 0 && current_kcals < kcal_threshold ) {
+        // Try to eat a bit more than the bare minimum so that we're not eating every 5 minutes
+        // but also don't try to eat a week's worth of food in one sitting
+        int desired_kcals = std::min( 2500, std::max( 0, kcal_threshold + 100 - current_kcals ) );
+        int kcals_to_eat = std::min( desired_kcals, yours->food_supply );
+
+        if( kcals_to_eat > 0 ) {
+            // We need food and there's some available, so let's eat it
+            complain_about( "camp_food_thanks", 1_hours, "<camp_food_thanks>", false );
+
+            // Make a fake food object here to feed the NPC with, since camp calories are abstracted away
+
+            // Fill up the stomach to "full" (half of capacity) but no further, to avoid NPCs vomiting
+            // or becoming engorged
+            units::volume filling_vol = std::max( 0_ml, stomach.capacity( *this ) / 2 - stomach.contains() );
+
+            // TODO: At the moment, vitamins are not tracked by the faction camp, so this does *not* give
+            // the NPC any vitamins. That will need to be added once vitamin deficiencies start mattering
+            nutrients nutr{};
+            nutr.calories = kcals_to_eat * 1000;
+
+            stomach.ingest( food_summary{
+                0_ml,
+                filling_vol,
+                nutr
+            } );
+            // Ensure our hunger is satisfied so we don't try to eat again immediately.
+            // update_stomach() usually takes care of that but it's only called once every 10 seconds for NPCs
+            set_hunger( -1 );
+
+            yours->food_supply -= kcals_to_eat;
+            return true;
+        } else {
+            // We need food but there's none to eat :(
+            complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty>", false );
+            return false;
+        }
     }
-    complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty>", false );
+
     return false;
 }
 
@@ -4389,7 +4425,7 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
                                       string_format( _( " %s, %s" ),
                                               direction_name( direction_from( pos(), danger_pos ) ),
                                               distance_string( range ) );
-        const std::string speech = string_format( _( "%s %s%s" ), snip, name, range_str );
+        const std::string speech = string_format( _( "%s %s%s" ), snip, _( name ), range_str );
         complain_about( warning_name, d, speech, is_enemy(), spriority );
     }
 }

@@ -1,15 +1,14 @@
-#include "catch/catch.hpp"
-
-#include <cmath>
 #include <cstdlib>
 #include <vector>
 
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
 #include "type_id.h"
+#include "units.h"
 #include "vehicle.h"
 #include "weather.h"
 #include "weather_type.h"

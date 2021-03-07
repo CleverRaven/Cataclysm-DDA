@@ -4,7 +4,7 @@
 
 #include <climits>
 #include <cstddef>
-#include <memory>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -17,7 +17,6 @@
 #include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class Character;

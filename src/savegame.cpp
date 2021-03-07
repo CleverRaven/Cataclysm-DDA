@@ -1,5 +1,6 @@
 #include "game.h" // IWYU pragma: associated
 
+#include <clocale>
 #include <algorithm>
 #include <map>
 #include <sstream>
@@ -19,7 +20,6 @@
 #include "debug.h"
 #include "faction.h"
 #include "hash_utils.h"
-#include "int_id.h"
 #include "json.h"
 #include "kill_tracker.h"
 #include "map.h"
@@ -30,16 +30,11 @@
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
-#include "output.h"
 #include "overmap.h"
 #include "overmap_types.h"
-#include "popup.h"
 #include "regional_settings.h"
 #include "scent_map.h"
 #include "stats_tracker.h"
-#include "string_id.h"
-#include "translations.h"
-#include "ui_manager.h"
 
 class overmap_connection;
 
@@ -53,7 +48,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 32;
+const int savegame_version = 33;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.

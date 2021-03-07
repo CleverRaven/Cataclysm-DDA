@@ -96,7 +96,7 @@
     "looks_like": "f_mutcactus_test",
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHARP" ],
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring" ], "entries": [ { "drop": "cholla_bud", "base_num": [ 2, 5 ] } ] } ],
+    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "cactus_harv" } ],
     "bash": {
       "str_min": 4,
       "str_max": 30,
@@ -105,5 +105,10 @@
       "ter_set": "t_sand",
       "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
     }
+  },
+  {
+    "id": "cactus_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "cholla_bud", "base_num": [ 2, 5 ] } ]
   }
 ]

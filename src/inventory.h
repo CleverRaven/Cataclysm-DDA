@@ -4,12 +4,14 @@
 
 #include <array>
 #include <bitset>
+#include <climits>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <limits>
 #include <list>
 #include <map>
-#include <string>
+#include <set>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -17,9 +19,8 @@
 
 #include "cata_utility.h"
 #include "item.h"
-#include "item_stack.h"
 #include "magic_enchantment.h"
-#include "string_id.h"
+#include "proficiency.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "visitable.h"
@@ -27,9 +28,9 @@
 class Character;
 class JsonIn;
 class JsonOut;
+class item_stack;
 class map;
 class npc;
-class player;
 struct tripoint;
 
 using invstack = std::list<std::list<item> >;

@@ -7,10 +7,10 @@
 #include <utility>
 
 #include "basecamp.h"
-#include "int_id.h"
 #include "mapdata.h"
 #include "tileray.h"
 #include "trap.h"
+#include "units.h"
 #include "vehicle.h"
 
 template<int sx, int sy>

@@ -1,23 +1,34 @@
-#include "catch/catch.hpp"
-
 #include <array>
+#include <iosfwd>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
-#include "avatar.h"
-#include "cata_utility.h"
+#include "activity_type.h"
+#include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
-#include "creature.h"
 #include "damage.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "optional.h"
+#include "player_activity.h"
 #include "player_helpers.h"
+#include "point.h"
+#include "recipe.h"
+#include "requirements.h"
 #include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vpart_position.h"
 #include "vpart_range.h"
 
 static time_point midnight = calendar::turn_zero + 0_hours;

@@ -8,16 +8,19 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
+#include <ostream>
 #include <set>
 #include <stdexcept>
+#include <type_traits>
 #include <unordered_map>
 
 #include "calendar.h"
-#include "cached_options.h"
 #include "cata_assert.h"
 #include "catacharset.h"
 #include "character_id.h"
 #include "clzones.h"
+#include "colony.h"
 #include "common_types.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
@@ -26,18 +29,18 @@
 #include "debug.h"
 #include "drawing_primitives.h"
 #include "enums.h"
-#include "faction.h"
 #include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "int_id.h"
+#include "init.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
+#include "level_cache.h"
 #include "line.h"
 #include "magic_ter_furn_transform.h"
 #include "map.h"
@@ -58,16 +61,15 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
-#include "relic.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "submap.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "translations.h"
 #include "trap.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
@@ -85,7 +87,6 @@ static const mongroup_id GROUP_LAB( "GROUP_LAB" );
 static const mongroup_id GROUP_LAB_CYBORG( "GROUP_LAB_CYBORG" );
 static const mongroup_id GROUP_LAB_SECURITY( "GROUP_LAB_SECURITY" );
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
-static const mongroup_id GROUP_PLAIN( "GROUP_PLAIN" );
 static const mongroup_id GROUP_ROBOT_SECUBOT( "GROUP_ROBOT_SECUBOT" );
 static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
 static const mongroup_id GROUP_SLIME( "GROUP_SLIME" );
@@ -94,8 +95,6 @@ static const mongroup_id GROUP_TRIFFID( "GROUP_TRIFFID" );
 static const mongroup_id GROUP_TRIFFID_HEART( "GROUP_TRIFFID_HEART" );
 static const mongroup_id GROUP_TRIFFID_OUTER( "GROUP_TRIFFID_OUTER" );
 static const mongroup_id GROUP_TURRET( "GROUP_TURRET" );
-static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
-static const mongroup_id GROUP_ZOMBIE_COP( "GROUP_ZOMBIE_COP" );
 
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
@@ -1089,7 +1088,7 @@ class jmapgen_gaspump : public jmapgen_piece
                 fuel = jsi.get_string( "fuel" );
 
                 // may want to not force this, if we want to support other fuels for some reason
-                if( fuel != "gasoline" && fuel != "diesel" ) {
+                if( fuel != "gasoline" && fuel != "diesel" && fuel != "jp8" ) {
                     jsi.throw_error( "invalid fuel", "fuel" );
                 }
             }
@@ -1211,7 +1210,8 @@ class jmapgen_loot : public jmapgen_piece
                   ) const override {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
-                const std::vector<item> spawn = isd->create( calendar::start_of_cataclysm );
+                const std::vector<item> spawn = isd->create( calendar::start_of_cataclysm,
+                                                spawn_flags::use_spawn_rate );
                 dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ),
                                              dat.m.get_abs_sub().z ), spawn );
             }
@@ -1792,7 +1792,7 @@ class jmapgen_zone : public jmapgen_piece
     public:
         zone_type_id zone_type;
         faction_id faction;
-        std::string name = "";
+        std::string name;
         jmapgen_zone( const JsonObject &jsi, const std::string &/*context*/ ) {
             if( jsi.has_string( "faction" ) && jsi.has_string( "type" ) ) {
                 std::string fac_id = jsi.get_string( "faction" );
@@ -1989,7 +1989,8 @@ void jmapgen_objects::load_objects<jmapgen_loot>(
         }
 
         auto loot = make_shared_fast<jmapgen_loot>( jsi );
-        float rate = get_option<float>( "ITEM_SPAWNRATE" );
+        // spawn rates < 1 are handled in item_group
+        const float rate = std::max( get_option<float>( "ITEM_SPAWNRATE" ), 1.0f );
 
         if( where.repeat.valmax != 1 ) {
             // if loot can repeat scale according to rate
@@ -5271,7 +5272,6 @@ std::vector<item *> map::place_items(
     const item_group_id &group_id, const int chance, const tripoint &p1, const tripoint &p2,
     const bool ongrass, const time_point &turn, const int magazine, const int ammo )
 {
-    // TODO: implement for 3D
     std::vector<item *> res;
 
     if( chance > 100 || chance <= 0 ) {
@@ -5287,12 +5287,13 @@ std::vector<item *> map::place_items(
         return res;
     }
 
-    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-    int spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
+    // spawn rates < 1 are handled in item_group
+    const float spawn_rate = std::max( get_option<float>( "ITEM_SPAWNRATE" ), 1.0f ) ;
+    const int spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
     for( int i = 0; i < spawn_count; i++ ) {
         // Might contain one item or several that belong together like guns & their ammo
         int tries = 0;
-        auto is_valid_terrain = [this, ongrass]( const point & p ) {
+        auto is_valid_terrain = [this, ongrass]( const tripoint & p ) {
             const ter_t &terrain = ter( p ).obj();
             return terrain.movecost == 0           &&
                    !terrain.has_flag( "PLACE_ITEM" ) &&
@@ -5300,14 +5301,15 @@ std::vector<item *> map::place_items(
                    !terrain.has_flag( "FLAT" );
         };
 
-        point p;
+        tripoint p;
         do {
             p.x = rng( p1.x, p2.x );
             p.y = rng( p1.y, p2.y );
+            p.z = rng( p1.z, p2.z );
             tries++;
         } while( is_valid_terrain( p ) && tries < 20 );
         if( tries < 20 ) {
-            auto put = put_items_from_loc( group_id, tripoint( p, abs_sub.z ), turn );
+            auto put = put_items_from_loc( group_id, p, turn );
             res.insert( res.end(), put.begin(), put.end() );
         }
     }
@@ -5328,7 +5330,7 @@ std::vector<item *> map::place_items(
 std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, const tripoint &p,
         const time_point &turn )
 {
-    const auto items = item_group::items_from( group_id, turn );
+    const auto items = item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
     return spawn_items( p, items );
 }
 
@@ -5598,6 +5600,11 @@ void map::rotate( int turns, const bool setpos_safe )
             overmap_buffer.get_npcs_near( tripoint_abs_sm( abs_sub ), radius );
     for( const shared_ptr_fast<npc> &i : npcs ) {
         npc &np = *i;
+        // I know we could break out earlier and waste less cycles, this is just easier.
+        // This is here for tinymaps who don't need to rotate NPCs.
+        if( skip_npc_rotation() ) {
+            break;
+        }
         const tripoint sq = np.global_square_location();
         real_coords np_rc;
         np_rc.fromabs( sq.xy() );

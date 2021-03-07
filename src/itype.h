@@ -3,7 +3,7 @@
 #define CATA_SRC_ITYPE_H
 
 #include <array>
-#include <functional>
+#include <cstddef>
 #include <iosfwd>
 #include <map>
 #include <memory>
@@ -19,7 +19,6 @@
 #include "enums.h" // point
 #include "explosion.h"
 #include "game_constants.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "iuse.h" // use_function
 #include "optional.h"
@@ -35,7 +34,6 @@
 class Item_factory;
 class JsonIn;
 class JsonObject;
-class body_part_set;
 class item;
 class player;
 struct tripoint;
@@ -285,7 +283,7 @@ struct islot_pet_armor {
     /**
      * TODO: document me.
      */
-    int thickness = 0;
+    float thickness = 0;
     /**
      * Resistance to environmental effects.
      */
@@ -611,6 +609,12 @@ struct islot_gunmod : common_ranged_data {
     /** Increases base gun UPS consumption by this value per shot */
     int ups_charges_modifier = 0;
 
+    /** Increases base gun ammo to fire by this many times per shot */
+    float ammo_to_fire_multiplier = 1.0f;
+
+    /** Increases base gun ammo to fire by this value per shot */
+    int ammo_to_fire_modifier = 0;
+
     /** Increases gun weight by this many times */
     float weight_multiplier = 1.0f;
 
@@ -753,6 +757,11 @@ struct islot_bionic {
      * Whether this CBM is an upgrade of another.
      */
     bool is_upgrade = false;
+
+    /**
+    * Item with installation data that can be used to provide almost guaranteed successful install of corresponding bionic.
+    */
+    itype_id installation_data;
 };
 
 struct islot_seed {
@@ -1117,8 +1126,10 @@ struct itype {
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
-        int invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
-        int invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
+        cata::optional<int> invoke( player &p, item &it,
+                                    const tripoint &pos ) const; // Picks first method or returns 0
+        cata::optional<int> invoke( player &p, item &it, const tripoint &pos,
+                                    const std::string &iuse_name ) const;
         int tick( player &p, item &it, const tripoint &pos ) const;
 
         virtual ~itype() = default;

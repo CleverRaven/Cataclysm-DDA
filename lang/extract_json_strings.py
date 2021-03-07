@@ -106,7 +106,6 @@ ignorable = {
     "overmap_location",
     "overmap_special",
     "profession_item_substitutions",
-    "palette",
     "region_overlay",
     "region_settings",
     "relic_procgen_data",
@@ -599,6 +598,14 @@ def extract_mapgen(item):
                              comment="Computer access denied warning")
 
 
+def extract_palette(item):
+    outfile = get_outfile("palette")
+    if "signs" in item:
+        for (k, v) in items_sorted_by_key(item["signs"]):
+            sign = v.get("signage", None)
+            writestr(outfile, sign, comment="Sign")
+
+
 def extract_monster_attack(item):
     outfile = get_outfile("monster_attack")
     if "hit_dmg_u" in item:
@@ -715,6 +722,14 @@ def extract_talk_topic(item):
     if "responses" in item:
         for r in item["responses"]:
             extract_talk_response(r, outfile)
+    if "repeat_responses" in item:
+        rr = item["repeat_responses"]
+        if type(rr) is dict and "response" in rr:
+            extract_talk_response(rr["response"], outfile)
+        elif type(rr) is list:
+            for r in rr:
+                if "response" in r:
+                    extract_talk_response(r["response"], outfile)
     if "effect" in item:
         extract_talk_effects(item["effect"], outfile)
 
@@ -969,6 +984,7 @@ extract_specials = {
     "movement_mode": extract_move_mode,
     "mutation": extract_mutation,
     "mutation_category": extract_mutation_category,
+    "palette": extract_palette,
     "profession": extract_professions,
     "recipe_category": extract_recipe_category,
     "recipe": extract_recipes,
@@ -1331,6 +1347,14 @@ def extract(item, infilename):
                                 special_attack.get("spell_id")))
                     writestr(outfile, special_attack["monster_message"],
                              format_strings=True, comment=comment, **kwargs)
+                    wrote = True
+                if "targeting_sound" in special_attack:
+                    writestr(outfile, special_attack["targeting_sound"],
+                             **kwargs)
+                    wrote = True
+                if "no_ammo_sound" in special_attack:
+                    writestr(outfile, special_attack["no_ammo_sound"],
+                             **kwargs)
                     wrote = True
         if "footsteps" in item:
             writestr(outfile, item["footsteps"], **kwargs)

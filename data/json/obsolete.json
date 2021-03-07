@@ -11,6 +11,27 @@
     "upgrades": { "half_life": 14, "into": "mon_dragonfly_giant" }
   },
   {
+    "type": "MONSTER_FACTION",
+    "name": "cop_zombie",
+    "base_faction": "zombie"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "carp",
+    "base_faction": "fish"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "salmon",
+    "base_faction": "fish"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "otter",
+    "base_faction": "animal",
+    "by_mood": "fish"
+  },
+  {
     "result": "plastic_shopping_bag",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

@@ -167,7 +167,7 @@
     "encumbrance": 4,
     "coverage": 100,
     "warmth": 15,
-    "material_thickness": 3,
+    "material_thickness": 2.0,
     "environmental_protection": 1,
     "flags": [ "STURDY" ]
   },
@@ -189,7 +189,7 @@
     "encumbrance": 4,
     "coverage": 100,
     "warmth": 15,
-    "material_thickness": 3,
+    "material_thickness": 2.0,
     "environmental_protection": 1,
     "flags": [ "STURDY" ]
   },
@@ -262,7 +262,7 @@
     "covers": [ "hand_l", "hand_r" ],
     "coverage": 50,
     "warmth": 10,
-    "material_thickness": 0.2,
+    "material_thickness": 0.5,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -284,7 +284,7 @@
     "coverage": 50,
     "encumbrance": 3,
     "warmth": 5,
-    "material_thickness": 0.2,
+    "material_thickness": 0.5,
     "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -395,7 +395,7 @@
     "covers": [ "hand_r" ],
     "coverage": 95,
     "warmth": 20,
-    "material_thickness": 0.2,
+    "material_thickness": 0.5,
     "flags": [ "WATER_FRIENDLY", "FANCY" ]
   },
   {
@@ -416,7 +416,7 @@
     "coverage": 95,
     "encumbrance": 10,
     "warmth": 25,
-    "material_thickness": 0.2,
+    "material_thickness": 0.5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
@@ -668,7 +668,7 @@
     "coverage": 100,
     "encumbrance": 13,
     "warmth": 20,
-    "material_thickness": 2,
+    "material_thickness": 1.5,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "STURDY" ]
   },
@@ -762,7 +762,7 @@
     "coverage": 95,
     "encumbrance": 40,
     "warmth": 10,
-    "material_thickness": 4,
+    "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "STURDY" ]
   },
@@ -783,7 +783,7 @@
     "covers": [ "hand_l", "hand_r" ],
     "coverage": 50,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 2,
     "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -804,7 +804,7 @@
     "coverage": 50,
     "encumbrance": 5,
     "warmth": 20,
-    "material_thickness": 1,
+    "material_thickness": 2,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -825,7 +825,7 @@
     "coverage": 50,
     "encumbrance": 5,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 2,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -846,7 +846,7 @@
     "coverage": 50,
     "encumbrance": 2,
     "warmth": 15,
-    "material_thickness": 1,
+    "material_thickness": 2,
     "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
@@ -1046,7 +1046,7 @@
     "coverage": 90,
     "encumbrance": 5,
     "warmth": 20,
-    "material_thickness": 0.2,
+    "material_thickness": 0.5,
     "flags": [ "VARSIZE", "WATERPROOF", "SKINTIGHT" ]
   },
   {

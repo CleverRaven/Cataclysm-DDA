@@ -1,11 +1,11 @@
-#include "catch/catch.hpp"
-
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <string>
 #include <vector>
 
 #include "bodypart.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "item.h"
 #include "npc.h"

@@ -2,9 +2,11 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -21,18 +23,16 @@
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "editmap.h"
 #include "enums.h"
 #include "faction.h"
 #include "game.h"
 #include "game_constants.h"
 #include "iexamine.h"
 #include "input.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -68,20 +68,14 @@
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
-#include "veh_type.h"
-#include "vehicle.h"
 #include "visitable.h"
-#include "vpart_position.h"
-#include "vpart_range.h"
 #include "weather.h"
 #include "weighted_list.h"
 
@@ -104,7 +98,6 @@ static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_gun( "gun" );
-static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_speech( "speech" );
 static const skill_id skill_stabbing( "stabbing" );
@@ -483,7 +476,7 @@ static bool update_time_left( std::string &entry, const comp_list &npc_list )
     bool avail = false;
     Character &player_character = get_player_character();
     for( const auto &comp : npc_list ) {
-        if( comp->companion_mission_time_ret < calendar:: turn ) {
+        if( comp->companion_mission_time_ret < calendar::turn ) {
             entry = entry +  _( " [DONE]\n" );
             avail = true;
         } else {
@@ -641,9 +634,8 @@ void talk_function::basecamp_mission( npc &p )
             const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
             const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
-            for( const tripoint &src : src_sorted ) {
-                src_loc = here.getlocal( src );
-                break;
+            if( !src_sorted.empty() ) {
+                src_loc = here.getlocal( src_sorted.front() );
             }
         }
         bcp->set_dumping_spot( here.getabs( src_loc ) );
@@ -2319,6 +2311,9 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
 
     //farm_json is what the area should look like according to jsons
     tinymap farm_json;
+    // We're probably going to rotate this tinymap to match the actual map.
+    // Let's make sure we don't move NPCs around when doing this.
+    farm_json.no_rotate_npcs = true;
     // TODO: fix point types
     farm_json.generate( project_to<coords::sm>( omt_tgt ).raw(), calendar::turn );
     //farm_map is what the area actually looks like
@@ -2754,7 +2749,7 @@ void basecamp::recruit_return( const std::string &task, int score )
     int rec_m = 0;
     int appeal = rng( -5, 3 ) + std::min( skill / 3, 3 );
     int food_desire = rng( 0, 5 );
-    while( rec_m >= 0 ) {
+    while( true ) {
         std::string description = _( "NPC Overview:\n\n" );
         description += string_format( _( "Name:  %s\n\n" ), right_justify( recruit->name, 20 ) );
         description += string_format( _( "Strength:        %10d\n" ), recruit->str_max );
@@ -3485,7 +3480,7 @@ std::vector<item *> basecamp::give_equipment( std::vector<item *> equipment,
         std::vector<std::string> names;
         names.reserve( equipment.size() );
         for( auto &i : equipment ) {
-            names.push_back( i->tname() + " [" + to_string( i->charges ) + "]" );
+            names.push_back( i->tname() + " [" + std::to_string( i->charges ) + "]" );
         }
 
         // Choose item if applicable
@@ -3519,9 +3514,8 @@ bool basecamp::validate_sort_points()
         const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
         const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
         // Find the nearest unsorted zone to dump objects at
-        for( const tripoint &src : src_sorted ) {
-            src_loc = here.getlocal( src );
-            break;
+        if( !src_sorted.empty() ) {
+            src_loc = here.getlocal( src_sorted.front() );
         }
     }
     set_dumping_spot( here.getabs( src_loc ) );
@@ -3724,13 +3718,13 @@ std::string basecamp::farm_description( const tripoint_abs_omt &farm_pos, size_t
     plots_count = farm_data.first;
     switch( operation ) {
         case farm_ops::harvest:
-            entry += _( "Harvestable: " ) + to_string( plots_count ) + "\n" + farm_data.second;
+            entry += _( "Harvestable: " ) + std::to_string( plots_count ) + "\n" + farm_data.second;
             break;
         case farm_ops::plant:
-            entry += _( "Ready for Planting: " ) + to_string( plots_count ) + "\n";
+            entry += _( "Ready for Planting: " ) + std::to_string( plots_count ) + "\n";
             break;
         case farm_ops::plow:
-            entry += _( "Needs Plowing: " ) + to_string( plots_count ) + "\n";
+            entry += _( "Needs Plowing: " ) + std::to_string( plots_count ) + "\n";
             break;
         default:
             debugmsg( "Farm operations called with no operation" );

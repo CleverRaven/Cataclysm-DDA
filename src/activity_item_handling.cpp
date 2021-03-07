@@ -1,19 +1,22 @@
+#include "activity_handlers.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
+#include <iosfwd>
 #include <list>
 #include <memory>
 #include <set>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
-#include "activity_handlers.h" // IWYU pragma: associated
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "cata_assert.h"
 #include "character.h"
 #include "clzones.h"
 #include "colony.h"
@@ -25,15 +28,13 @@
 #include "field_type.h"
 #include "fire.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "line.h"
@@ -42,11 +43,9 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
-#include "output.h"
 #include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
@@ -55,13 +54,10 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "stomach.h"
-#include "string_formatter.h"
-#include "string_id.h"
 #include "temp_crafting_inventory.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -482,7 +478,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     units::volume total_volume = 0_ml;
 
     for( const act_item &filthy_item : items ) {
-        total_volume += filthy_item.loc->volume();
+        total_volume += filthy_item.loc->volume( false, true );
     }
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
@@ -1246,8 +1242,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
 
         // PICKUP_RANGE -1 because we will be adjacent to the spot when arriving.
         const inventory pre_inv = p.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
-        for( const zone_data &zone : zones ) {
-            const blueprint_options &options = dynamic_cast<const blueprint_options &>( zone.get_options() );
+        if( !zones.empty() ) {
+            const blueprint_options &options = dynamic_cast<const blueprint_options &>
+                                               ( zones.front().get_options() );
             const construction_id index = options.get_index();
             if( !stuff_there.empty() ) {
                 return activity_reason_info::build( do_activity_reason::BLOCKING_TILE, false, index );

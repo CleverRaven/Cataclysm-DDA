@@ -5,8 +5,11 @@
 #include <climits>
 #include <cmath>
 #include <cstdlib>
+#include <iosfwd>
 #include <limits>
+#include <list>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <utility>
@@ -21,13 +24,16 @@
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
+#include "enum_bitset.h"
 #include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
 #include "line.h"
@@ -36,6 +42,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monattack.h"
 #include "monster.h"
@@ -44,19 +51,19 @@
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
+#include "pimpl.h"
 #include "player.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weighted_list.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -91,6 +98,13 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_venom_dmg( "venom_dmg" );
+static const efftype_id effect_venom_weaken( "venom_weaken" );
+static const efftype_id effect_venom_player1( "venom_player1" );
+static const efftype_id effect_venom_player2( "venom_player2" );
+
+static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
+static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
 static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
 static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
@@ -615,6 +629,10 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             d.mult_damage( 0.1 );
         }
         // polearms and pikes (but not spears) do less damage to adjacent targets
+        // In the case of a weapon like a glaive or a naginata, the wielder
+        // lacks the room to build up momentum on a slash.
+        // In the case of a pike, the mass of the pole behind the wielder
+        // should they choose to employ it up close will unbalance them.
         if( cur_weapon->reach_range( *this ) > 1 && !reach_attacking &&
             cur_weapon->has_flag( flag_POLEARM ) ) {
             d.mult_damage( 0.7 );
@@ -654,19 +672,40 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                 ( cur_weapon && cur_weapon->is_null() && ( dealt_dam.type_damage( damage_type::CUT ) > 0 ||
                         dealt_dam.type_damage( damage_type::STAB ) > 0 ) ) ) {
                 if( has_trait( trait_POISONOUS ) ) {
-                    add_msg_if_player( m_good, _( "You poison %s!" ), t.disp_name() );
-                    t.add_effect( effect_poison, 6_turns );
+                    if( t.is_monster() ) {
+                        t.add_effect( effect_venom_player1, 1_minutes );
+                    } else {
+                        t.add_effect( effect_venom_dmg, 10_minutes );
+                    }
+                    if( t.is_immune_effect( effect_venom_player1 ) ) {
+                        add_msg_if_player( m_bad, _( "The %s is not affected by your venom" ), t.disp_name() );
+                    } else {
+                        add_msg_if_player( m_good, _( "You poison %s!" ), t.disp_name() );
+                        if( x_in_y( 1, 10 ) ) {
+                            t.add_effect( effect_stunned, 1_turns );
+                        }
+                    }
                 } else if( has_trait( trait_POISONOUS2 ) ) {
-                    add_msg_if_player( m_good, _( "You inject your venom into %s!" ),
-                                       t.disp_name() );
-                    t.add_effect( effect_badpoison, 6_turns );
+                    if( t.is_monster() ) {
+                        t.add_effect( effect_venom_player2, 1_minutes );
+                    } else {
+                        t.add_effect( effect_venom_dmg, 15_minutes );
+                        t.add_effect( effect_venom_weaken, 5_minutes );
+                    }
+                    if( t.is_immune_effect( effect_venom_player2 ) ) {
+                        add_msg_if_player( m_bad, _( "The %s is not affected by your venom" ), t.disp_name() );
+                    } else {
+                        add_msg_if_player( m_good, _( "You inject your venom into %s!" ), t.disp_name() );
+                        if( x_in_y( 1, 4 ) ) {
+                            t.add_effect( effect_stunned, 1_turns );
+                        }
+                    }
                 }
             }
-
             // Make a rather quiet sound, to alert any nearby monsters
             if( !is_quiet() ) { // check martial arts silence
                 //sound generated later
-                sounds::sound( pos(), 8, sounds::sound_t::combat, "whack!" );
+                sounds::sound( pos(), 8, sounds::sound_t::combat, _( "whack!" ) );
             }
             std::string material = "flesh";
             if( t.is_monster() ) {
@@ -1030,12 +1069,12 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             for( const trait_id &mut : get_mutations() ) {
-                if( mut->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut ) ) {
+                if( mut->flags.count( json_flag_NEED_ACTIVE_TO_MELEE ) > 0 && !has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
                 const int bash_bonus = mut->bash_dmg_bonus;
-                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && bash_bonus > 0 ) {
+                if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && bash_bonus > 0 ) {
                     unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += bash_bonus + unarmed_bonus;
@@ -1122,12 +1161,12 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
             }
 
             for( const trait_id &mut : get_mutations() ) {
-                if( mut->flags.count( "NEED_ACTIVE_TO_MELEE" ) > 0 && !has_active_mutation( mut ) ) {
+                if( mut->flags.count( json_flag_NEED_ACTIVE_TO_MELEE ) > 0 && !has_active_mutation( mut ) ) {
                     continue;
                 }
                 float unarmed_bonus = 0.0f;
                 const int cut_bonus = mut->cut_dmg_bonus;
-                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && cut_bonus > 0 ) {
+                if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && cut_bonus > 0 ) {
                     unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 per_hand += cut_bonus + unarmed_bonus;
@@ -1192,7 +1231,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
             for( const trait_id &mut : get_mutations() ) {
                 per_hand += mut->pierce_dmg_bonus;
 
-                if( mut->flags.count( "UNARMED_BONUS" ) > 0 && cut_bonus > 0 ) {
+                if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && cut_bonus > 0 ) {
                     per_hand += std::min( skill / 2, 4 );
                 }
             }

@@ -2,17 +2,20 @@
 #ifndef CATA_SRC_GAMEMODE_DEFENSE_H
 #define CATA_SRC_GAMEMODE_DEFENSE_H
 
-#include <string>
+#include <iosfwd>
 #include <vector>
 
 #include "calendar.h"
 #include "coordinates.h"
-#include "cursesdef.h"
 #include "enums.h"
 #include "gamemode.h"
 #include "omdata.h"
-#include "point.h"
 #include "type_id.h"
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 
 enum action_id : int;
 

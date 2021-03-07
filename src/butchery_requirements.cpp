@@ -1,10 +1,18 @@
 #include "butchery_requirements.h"
 
+#include <cstddef>
+#include <functional>
+#include <iterator>
+#include <set>
+#include <string>
+
 #include "activity_handlers.h"
 #include "creature.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "generic_factory.h"
-#include "inventory.h"
+#include "item.h"
+#include "json.h"
 #include "requirements.h"
 
 namespace

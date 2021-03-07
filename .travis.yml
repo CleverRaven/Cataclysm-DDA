@@ -118,7 +118,7 @@ jobs:
         directories:
           - $HOME/.ccache
 
-    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1 BREWGETTEXT=1
+    - env: CLANG=clang++ OSX_MIN=10.13 TILES=1 SOUND=1
       name: "Xcode 10.2 Make build with Tiles and sound (macOS)"
       os: osx
       osx_image: xcode10.2

@@ -212,10 +212,10 @@
     "id": "novice_stormshaper",
     "name": "Novice Stormshaper",
     "description": "The son of a weatherman, you were always interested in the weather.  Recently you found it was possible to manipulate the weather yourself through arcane means!  Unfortunately you did not have long to enjoy your power, as events unfolded…",
-    "spells": [ { "id": "lightning_bolt", "level": 1 }, { "id": "windrun", "level": 1 } ],
+    "spells": [ { "id": "shocking_lash", "level": 1 }, { "id": "windrun", "level": 1 } ],
     "points": 0,
     "items": {
-      "both": [ "jeans", "tshirt", "hat_ball", "sneakers", "socks", "hoodie" ],
+      "both": [ "jeans", "tshirt", "hat_ball", "sneakers", "socks", "hoodie", "mbag", "novice_stormshaper_book" ],
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
     },

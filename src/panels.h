@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_PANELS_H
 #define CATA_SRC_PANELS_H
 
-#include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <string>
 #include <vector>
@@ -15,7 +15,6 @@ class JsonIn;
 class JsonOut;
 class avatar;
 struct point;
-struct tripoint;
 
 namespace catacurses
 {

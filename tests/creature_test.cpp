@@ -1,16 +1,17 @@
-#include "catch/catch.hpp"
-
-#include <cstdlib>
 #include <map>
 #include <utility>
+#include <vector>
 
+#include "bodypart.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "creature.h"
+#include "enum_traits.h"
 #include "monster.h"
 #include "mtype.h"
-#include "stringmaker.h"
+#include "rng.h"
 #include "test_statistics.h"
-#include "bodypart.h"
+#include "type_id.h"
 
 static float expected_weights_base[][12] = { { 20, 0,   0,   0, 15, 15, 0, 0, 25, 25, 0, 0 },
     { 33.33, 2.33, 0.33, 0, 20, 20, 0, 0, 12, 12, 0, 0 },

@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_REGIONAL_SETTINGS_H
 #define CATA_SRC_REGIONAL_SETTINGS_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <set>
@@ -11,11 +11,9 @@
 #include <vector>
 
 #include "enums.h"
-#include "int_id.h"
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "omdata.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "weather_gen.h"
 #include "weighted_list.h"

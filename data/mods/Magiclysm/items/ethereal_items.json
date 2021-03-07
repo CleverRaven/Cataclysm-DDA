@@ -66,7 +66,7 @@
     "type": "ARMOR",
     "category": "tools",
     "name": "magic lamp",
-    "description": "a magical light source that will light up a small area.",
+    "description": "A magical light source that will light up a small area.",
     "weight": "1 g",
     "volume": "250 ml",
     "price": 1,
@@ -75,7 +75,7 @@
     "symbol": ",",
     "color": "light_green",
     "covers": [ "head" ],
-    "flags": [ "LIGHT_15", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
+    "flags": [ "LIGHT_300", "AURA", "SEMITANGIBLE" ]
   },
   {
     "id": "magic_light",
@@ -89,7 +89,7 @@
     "symbol": ",",
     "color": "light_green",
     "covers": [ "head" ],
-    "flags": [ "LIGHT_5", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
+    "flags": [ "LIGHT_8", "AURA", "SEMITANGIBLE" ]
   },
   {
     "id": "shield_ice",
@@ -515,7 +515,7 @@
     "id": "aura_feral",
     "type": "ARMOR",
     "name": "feral aura",
-    "description": "The manifestion of your rage.  It won't disappear until you calm down.",
+    "description": "The manifestation of your rage.  It won't disappear until you calm down.",
     "weight": "1 g",
     "volume": "1 ml",
     "price": 3646,

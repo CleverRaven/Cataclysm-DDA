@@ -3,15 +3,12 @@
 #define CATA_SRC_COLOR_H
 
 #include <array>
+#include <cstddef>
 #include <iosfwd>
-#include <list>
 #include <string>
 #include <unordered_map>
-#include <utility>
 
 #include "translations.h"
-
-class nc_color;
 
 #define all_colors get_all_colors()
 

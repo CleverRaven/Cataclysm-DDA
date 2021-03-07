@@ -2,12 +2,12 @@
 #ifndef CATA_TESTS_TEST_STATISTICS_H
 #define CATA_TESTS_TEST_STATISTICS_H
 
-#include <cmath>
-#include <limits>
-#include <vector>
 #include <algorithm>
-#include <string>
+#include <cmath>
+#include <iosfwd>
+#include <limits>
 #include <type_traits>
+#include <vector>
 
 #include "catch/catch.hpp"
 

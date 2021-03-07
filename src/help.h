@@ -2,15 +2,17 @@
 #ifndef CATA_SRC_HELP_H
 #define CATA_SRC_HELP_H
 
+#include <iosfwd>
 #include <map>
-#include <string>
-#include <vector>
 #include <utility>
-
-#include "cursesdef.h"
-#include "input.h"
+#include <vector>
 
 class JsonIn;
+class translation;
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 
 class help
 {

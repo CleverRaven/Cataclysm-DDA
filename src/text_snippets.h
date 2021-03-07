@@ -2,13 +2,13 @@
 #ifndef CATA_SRC_TEXT_SNIPPETS_H
 #define CATA_SRC_TEXT_SNIPPETS_H
 
+#include <iosfwd>
 #include <map>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "optional.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 

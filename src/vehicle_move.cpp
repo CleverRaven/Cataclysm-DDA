@@ -1,3 +1,5 @@
+#include "vehicle.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -8,6 +10,7 @@
 #include <tuple>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -16,7 +19,6 @@
 #include "enums.h"
 #include "explosion.h"
 #include "game.h"
-#include "int_id.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -35,7 +37,6 @@
 #include "units.h"
 #include "units_utility.h"
 #include "veh_type.h"
-#include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
 #include "vpart_range.h"
 
@@ -119,7 +120,7 @@ int vehicle::slowdown( int at_velocity ) const
     return std::max( 1, slowdown );
 }
 
-void vehicle:: smart_controller_handle_turn( bool thrusting,
+void vehicle::smart_controller_handle_turn( bool thrusting,
         const cata::optional<float> &k_traction_cache )
 {
 
@@ -515,7 +516,7 @@ void vehicle::thrust( int thd, int z )
         }
         //make noise and consume fuel
         noise_and_smoke( load );
-        consume_fuel( load, 1 );
+        consume_fuel( load, false );
         if( z != 0 && is_rotorcraft() ) {
             requested_z_change = z;
         }
@@ -825,7 +826,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             tripoint start_pos;
             const units::angle angle =
                 move.dir() + 45_degrees * ( parts[part].mount.x > pivot_point().x ? -1 : 1 );
-            std::set<tripoint> &cur_points = get_points( true );
+            const std::set<tripoint> &cur_points = get_points( true );
             // push the animal out of way until it's no longer in our vehicle and not in
             // anyone else's position
             while( g->critter_at( end_pos, true ) ||
@@ -2057,7 +2058,7 @@ float map::vehicle_wheel_traction( const vehicle &veh,
 }
 
 units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
-                                 const units::angle direction )
+                                 const units::angle &direction )
 {
     const int d_vel = std::abs( veh.velocity - velocity_before ) / 100;
 

@@ -1,4 +1,4 @@
-#Ultimate Cataclysm 21-01-21
+#Ultimate Cataclysm
 
 NAME: UltimateCataclysm
 VIEW: UltiCa

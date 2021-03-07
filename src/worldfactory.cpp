@@ -8,6 +8,7 @@
 #include <iterator>
 #include <memory>
 #include <set>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 

@@ -1,5 +1,8 @@
+#include "trap.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
@@ -8,6 +11,7 @@
 #include "calendar.h"
 #include "cata_assert.h"
 #include "character.h"
+#include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
@@ -16,7 +20,6 @@
 #include "explosion.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -34,7 +37,6 @@
 #include "teleport.h"
 #include "timed_event.h"
 #include "translations.h"
-#include "trap.h" // IWYU pragma: associated
 #include "units.h"
 #include "viewer.h"
 

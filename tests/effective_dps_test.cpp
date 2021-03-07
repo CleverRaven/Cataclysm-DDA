@@ -1,18 +1,17 @@
-#include "catch/catch.hpp"
-
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
 #include <iostream>
-#include <string>
 
 #include "avatar.h"
+#include "catch/catch.hpp"
 #include "item.h"
 #include "melee.h"
 #include "monster.h"
 #include "player_helpers.h"
 #include "ret_val.h"
 #include "type_id.h"
+
+struct itype;
 
 // Run a large number of trials of a player attacking a monster with a given weapon,
 // and return the average damage done per second.
@@ -335,7 +334,7 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
     SECTION( "two-handed clubs/hammers" ) { // expected value ideally around 28
         calc_expected_dps( test_guy, "warhammer", 28.0 );
         calc_expected_dps( test_guy, "hammer_sledge", 20.0 );
-        calc_expected_dps( test_guy, "halligan", 15.25 );
+        calc_expected_dps( test_guy, "halligan", 16.5 );
         calc_expected_dps( test_guy, "stick_long", 6.0 );
     }
     SECTION( "two-handed flails" ) { // expected value ideally around 20
@@ -402,7 +401,7 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "hammer", 7.0 );
         calc_expected_dps( test_guy, "rebar", 7.0 );
         calc_expected_dps( test_guy, "primitive_shovel", 7.0 );
-        calc_expected_dps( test_guy, "heavy_flashlight", 7.0 );
+        calc_expected_dps( test_guy, "heavy_flashlight", 7.5 );
         calc_expected_dps( test_guy, "rock", 6.0 );
     }
     SECTION( "two-handed swords" ) { // expected value around 27, 25 for long swords
