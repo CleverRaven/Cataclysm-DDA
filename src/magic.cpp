@@ -823,17 +823,16 @@ void spell::use_components( Character &guy ) const
     }
 }
 
-bool spell::check_if_component_in_hand(Character& guy) const
+bool spell::check_if_component_in_hand( Character &guy ) const
 {
-    if (type->spell_components.is_empty()) {
+    if( type->spell_components.is_empty() ) {
         return false;
     }
 
-    const requirement_data& spell_components = type->spell_components.obj();
+    const requirement_data &spell_components = type->spell_components.obj();
 
-    if (guy.has_weapon()) {
-        if (spell_components.can_make_with_inventory(guy.weapon, return_true<item>))
-        {
+    if( guy.has_weapon() ) {
+        if( spell_components.can_make_with_inventory( guy.weapon, return_true<item> ) ) {
             return true;
         }
     }
