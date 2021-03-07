@@ -2247,7 +2247,7 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "welding_standard", 20 ] ],
     "components": [ [ [ "frame", 10 ] ] ],
-    "pre_terrain": "t_concrete",
+    "pre_terrain": "t_thconc_floor",
     "post_terrain": "t_support_l"
   },
   {
@@ -2260,7 +2260,7 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "using": [ [ "welding_standard", 10 ] ],
     "components": [ [ [ "pipe", 18 ] ] ],
-    "pre_terrain": "t_concrete",
+    "pre_terrain": "t_thconc_floor",
     "post_terrain": "t_support_s"
   },
   {
