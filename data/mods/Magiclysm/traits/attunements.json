@@ -1152,7 +1152,7 @@
     "purifiable": false,
     "valid": false,
     "description": "One of the most destructive forces on earth, a Volcano Mage takes some aspect of its namesake.  Their spells tend to be a little slow, but their resilience in proximity to a volcano is legendary.",
-    "spells_learned": [ [ "lava_bomb_main", 5 ] ],
+    "spells_learned": [ [ "lava_bomb_main", 5 ], [ "vulcanist_pyroclastic_flow", 5 ] ],
     "prereqs": [ "EARTHSHAPER", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
