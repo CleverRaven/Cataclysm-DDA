@@ -2319,10 +2319,10 @@ void Character::disassemble_all( bool one_pass )
 
     bool found_any = false;
     std::vector<item_location> to_disassemble;
-    for (item& it : get_map().i_at(pos())) {
-        to_disassemble.push_back(item_location(map_cursor(pos()), &it));
+    for( item &it : get_map().i_at( pos() ) ) {
+        to_disassemble.push_back( item_location( map_cursor( pos() ), &it ) );
     }
-    for (item_location& it_loc: to_disassemble){
+    for( item_location &it_loc : to_disassemble ) {
         // Prevent disassembling an in process disassembly because it could have been created by a previous iteration of this loop
         // and choosing to place it on the ground
         if( disassemble( it_loc, false ) ) {
