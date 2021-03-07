@@ -105,7 +105,7 @@
     "type": "SPELL",
     "id": "vulcanist_pyroclastic_flow_smoke",
     "name": "Pyroclastic Flow smoke",
-    "description": "Create some smoke in area. Technical spell, you dont allowed to see it, if youre not in debug mode.",
+    "description": "Create some smoke in area.  Technical spell, you dont allowed to see it, if youre not in debug mode.",
     "effect": "attack",
     "shape": "line",
     "valid_targets": [ "hostile", "ground", "ally" ],

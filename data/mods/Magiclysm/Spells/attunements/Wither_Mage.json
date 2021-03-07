@@ -83,7 +83,7 @@
     "type": "SPELL",
     "id": "life_drain_stamina",
     "name": "life_drain_stamina",
-    "description": "Give you a bit stamina. Technical spell, you dont allowed to see it, if youre not in debug mode.",
+    "description": "Give you a bit stamina.  Technical spell, you dont allowed to see it, if youre not in debug mode.",
     "effect": "recover_energy",
     "effect_str": "STAMINA",
     "valid_targets": [ "self" ],
