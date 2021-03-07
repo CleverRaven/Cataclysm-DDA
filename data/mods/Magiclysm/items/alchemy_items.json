@@ -292,7 +292,7 @@
     "to_hit": 1,
     "category": "spare_parts"
   },
-   {
+  {
     "id": "alchemist_bomb",
     "type": "TOOL",
     "category": "weapons",
@@ -318,7 +318,7 @@
     },
     "flags": [ "BOMB", "GRENADE" ]
   },
-   {
+  {
     "id": "alchemist_bomb_act",
     "type": "TOOL",
     "category": "weapons",
@@ -348,7 +348,7 @@
     },
     "flags": [ "TRADER_AVOID" ]
   },
-    {
+  {
     "id": "alchemist_mine",
     "type": "TOOL",
     "name": { "str": "alchemist_mine" },
@@ -412,5 +412,4 @@
       "sound_variant": "default"
     }
   }
-  
 ]
