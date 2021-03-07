@@ -513,6 +513,7 @@
     "avoidance": 99,
     "difficulty": 99,
     "action": "lava",
+    "flags": [ "CONVECTS_TEMPERATURE" ],
     "vehicle_data": { "damage": 500 }
   },
   {

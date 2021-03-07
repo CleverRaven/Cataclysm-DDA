@@ -209,6 +209,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 ## Traps
 
 - ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
+- ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
 
 ## Armor
 
