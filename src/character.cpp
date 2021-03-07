@@ -4451,7 +4451,7 @@ bool Character::change_side( item &it, bool interactive )
                 const std::string player_msg = string_format(
                                                    _( "Your %s conflicts with %s, so you cannot swap its side." ),
                                                    it.tname(), worn_item.tname() );
-                const std::string npc_msg = _( "<npcname>'s %s conflicts with %s so they cannot swap its side.",
+                const std::string npc_msg = string_format( _( "<npcname>'s %s conflicts with %s so they cannot swap its side." ),
                                                it.tname(), worn_item.tname() );
                 add_msg_player_or_npc( m_info, player_msg, npc_msg );
                 return false;
