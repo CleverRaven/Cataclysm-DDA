@@ -104,8 +104,8 @@ Adds New Black Dragon Mutation Line.
 Adjusts fog frequency in black dragon lair plus other (minor) map adjustments.
 Adds monsters 'Scutellosaurus', 'Maiasaura', and 'Coelophysis'.
 [Magiclysm] Attunements - Special abilities gained by mastering two schools of magic.
-Add monsters 'Pachyrhinosaurus', 'Pentaceratops', and 'Torosaurus'
-Organizes dinos into three main factions with defined behavior
+Adds monsters 'Pachyrhinosaurus', 'Pentaceratops', and 'Torosaurus'.
+Organizes dinos into three main factions with defined inter-faction behavior.
 Rebalance Jurassic spawns and monsters for realism, fix predator in-fighting.
 Cap monsters at 1000 kg so butchering kind of works.
 [Magiclysm] implement summonable motorcycle
