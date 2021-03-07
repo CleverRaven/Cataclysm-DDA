@@ -20,7 +20,7 @@
     "name": { "str": "scourge" },
     "type": "GENERIC",
     "category": "weapons",
-    "description": "The \"cat 'o nine tails\", a handle with nine short leather whips each sporting a razor-sharp metal tip.  This ancient instrument of torture causes massive bleeding but is an ineffecient weapon by design.",
+    "description": "The \"cat 'o nine tails\", a handle with nine short leather whips, each sporting a razor-sharp metal tip.  This ancient instrument of torture causes massive bleeding, but by design is inefficient as a weapon.",
     "symbol": "/",
     "color": "brown",
     "weight": "3496 g",
