@@ -1290,5 +1290,21 @@
     "flags": [ "EATEN_HOT" ],
     "vitamins": [ [ "vitA", 3 ], [ "iron", 10 ] ],
     "fun": 4
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "chocolate_mre",
+    "name": { "str": "military chocolate bar" },
+    "copy_from": "chocolate"
+    "calories": 1800,
+    "weight": "115 g",
+    "description": "A thick, dense bar of military choclate.  While tough to chew and not very appetizing, it wll provide a day's worth of carlories in portable form.",
+    "price": 250,
+    "price_postapoc": 500,
+    "material": [ "junk" ],
+    "volume": "250 ml",
+    "charges": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
+    "fun": -3
   }
 ]
