@@ -2,19 +2,21 @@
 #ifndef CATA_SRC_PROFICIENCY_H
 #define CATA_SRC_PROFICIENCY_H
 
+#include <iosfwd>
 #include <set>
-#include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "color.h"
 #include "flat_set.h"
-#include "json.h"
 #include "optional.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
+class JsonArray;
+class JsonIn;
+class JsonObject;
+class JsonOut;
 struct display_proficiency;
 struct learning_proficiency;
 template<typename T>
@@ -140,7 +142,7 @@ struct book_proficiency_bonus {
     private:
         static const float default_time_factor;
         static const float default_fail_factor;
-        static const float default_include_prereqs;
+        static const bool default_include_prereqs;
 };
 
 // a container class for book_proficiency_bonus to make it easy to calculate and compartmentalize

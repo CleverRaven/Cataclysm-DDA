@@ -41,28 +41,35 @@ jobs:
             cmake: 0
             tiles: 0
             test-stage: 1
-            title: GCC 9, Ubuntu, Curses
+            native: linux64
+            gold: 1
+            lto: 1
+            title: GCC 9, Ubuntu, Curses, LTO
           - compiler: g++-7
             os: ubuntu-latest
             cmake: 1
             tiles: 1
+            native: linux64
             title: GCC 7, Ubuntu, Tiles, CMake
           - compiler: g++-8
             os: ubuntu-latest
             cmake: 0
             tiles: 1
             sanitize: address
+            native: linux64
             title: GCC 8, Ubuntu, Tiles, ASan
           - compiler: clang++-9
             os: ubuntu-latest
             cmake: 0
             tiles: 1
             sanitize: address,undefined
+            native: linux64
             title: Clang 9, Ubuntu, Tiles, ASan, UBSan
           - compiler: clang++
             os: macos-10.15
             cmake: 0
             tiles: 1
+            native: osx
             title: Clang 12, macOS 10.15, Tiles
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
@@ -75,6 +82,9 @@ jobs:
         SANITIZE: ${{ matrix.sanitize }}
         TEST_STAGE: ${{ matrix.test-stage }}
         EXTRA_TEST_OPTS: --error-format=github-action
+        NATIVE: ${{ matrix.native }}
+        GOLD: ${{ matrix.gold }}
+        LTO: ${{ matrix.lto }}
         RELEASE: 1
     steps:
     - name: checkout repository

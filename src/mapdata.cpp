@@ -16,12 +16,10 @@
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "item_group.h"
 #include "json.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
 
@@ -182,7 +180,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "THIN_OBSTACLE",            TFLAG_THIN_OBSTACLE },  // Passable by players and monsters. Vehicles destroy it.
         { "Z_TRANSPARENT",            TFLAG_Z_TRANSPARENT },  // Doesn't block vision passing through the z-level
         { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE },   // A small passage, that large or huge things cannot pass through
-        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE }   // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
+        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE },   // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
+        { "FUNGUS",                   TFLAG_FUNGUS }            // Fungal covered.
     }
 };
 
@@ -573,6 +572,9 @@ ter_id t_null,
        t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
        t_window_boarded_noglass, t_window_reinforced, t_window_reinforced_noglass, t_window_enhanced,
        t_window_enhanced_noglass, t_window_bars_alarm, t_window_bars,
+       t_metal_grate_window, t_metal_grate_window_with_curtain, t_metal_grate_window_with_curtain_open,
+       t_metal_grate_window_noglass, t_metal_grate_window_with_curtain_noglass,
+       t_metal_grate_window_with_curtain_open_noglass,
        t_window_stained_green, t_window_stained_red, t_window_stained_blue,
        t_window_no_curtains, t_window_no_curtains_open, t_window_no_curtains_taped,
        t_rock, t_fault,
@@ -1160,7 +1162,7 @@ std::string enum_to_string<season_type>( season_type data )
 }
 } // namespace io
 
-void map_data_common_t::load( const JsonObject &jo, const std::string &src )
+void map_data_common_t::load( const JsonObject &jo, const std::string & )
 {
     if( jo.has_member( "examine_action" ) ) {
         examine_func = iexamine_function_from_string( jo.get_string( "examine_action" ) );
@@ -1176,17 +1178,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
                             seasons.begin() ), io::string_to_enum<season_type> );
 
             harvest_id hl;
-            if( harvest_jo.has_array( "entries" ) ) {
-                // TODO: A better inline name - can't use id or name here because it's not set yet
-                const size_t num = harvest_list::all().size() + 1;
-                hl = harvest_list::load( harvest_jo, src,
-                                         string_format( "harvest_inline_%d", static_cast<int>( num ) ) );
-            } else if( harvest_jo.has_string( "id" ) ) {
-                hl = harvest_id( harvest_jo.get_string( "id" ) );
-            } else {
-                jo.throw_error( R"(Each harvest entry must specify either "entries" or "id")",
-                                "harvest_by_season" );
-            }
+            harvest_jo.read( "id", hl );
 
             for( season_type s : seasons ) {
                 harvest_by_season[ s ] = hl;

@@ -1,7 +1,7 @@
 #include "auto_note.h"
 
-#include <algorithm>
-#include <iostream>
+#include <functional>
+#include <string>
 
 #include "cata_utility.h"
 #include "color.h"

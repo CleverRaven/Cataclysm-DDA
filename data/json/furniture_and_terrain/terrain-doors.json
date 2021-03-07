@@ -2206,7 +2206,6 @@
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
     "open": "t_door_bar_o",
-    "close": "t_door_bar_locked",
     "bash": {
       "str_min": 30,
       "str_max": 210,

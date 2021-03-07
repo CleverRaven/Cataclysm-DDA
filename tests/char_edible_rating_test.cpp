@@ -1,15 +1,17 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <memory>
 #include <string>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "flag.h"
 #include "item.h"
 #include "itype.h"
+#include "ret_val.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 // Character "edible rating" tests, covering the `can_eat` and `will_eat` functions
 

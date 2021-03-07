@@ -2,15 +2,18 @@
 #ifndef CATA_SRC_VEHICLE_H
 #define CATA_SRC_VEHICLE_H
 
-#include <algorithm>
 #include <array>
 #include <climits>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
+#include <list>
 #include <map>
+#include <new>
 #include <set>
 #include <stack>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -30,32 +33,28 @@
 #include "line.h"
 #include "optional.h"
 #include "point.h"
-#include "string_id.h"
 #include "tileray.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 
 class Character;
 class Creature;
 class JsonIn;
 class JsonOut;
-struct input_event;
 class map;
 class monster;
 class nc_color;
 class npc;
 class player;
 class vehicle;
-class vehicle_cursor;
 class vehicle_part_range;
 class vpart_info;
 class vpart_position;
 class zone_data;
+struct input_event;
 struct itype;
 struct uilist_entry;
 template <typename E> struct enum_traits;
-class visitable;
 
 enum vpart_bitflags : int;
 enum ter_bitflags : int;
@@ -363,6 +362,9 @@ struct vehicle_part {
 
         /** Can this part contain liquid fuels? */
         bool is_tank() const;
+
+        /** Does this part currently contain some liquid? */
+        bool contains_liquid() const;
 
         /** Can this part store electrical charge? */
         bool is_battery() const;
@@ -905,7 +907,7 @@ class vehicle
                           const std::string &variant = "", bool force = false );
 
         // find a single tile wide vehicle adjacent to a list of part indices
-        bool try_to_rack_nearby_vehicle( const std::vector<std::vector<int>> &list_of_racks );
+        bool try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of_racks );
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
 
@@ -1184,7 +1186,7 @@ class vehicle
         int basic_consumption( const itype_id &ftype ) const;
         int consumption_per_hour( const itype_id &ftype, int fuel_rate ) const;
 
-        void consume_fuel( int load, int t_seconds = 6, bool skip_electric = false );
+        void consume_fuel( int load, bool idling );
 
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
@@ -1815,6 +1817,13 @@ class vehicle
         mutable std::set<tripoint> occupied_points;
 
         std::vector<vehicle_part> parts;   // Parts which occupy different tiles
+        /**
+        * checks carried_vehicles param for duplicate entries of bike racks/vehicle parts
+        * this eliminates edge cases caused by overlapping bike_rack lanes
+        * @param carried_vehicles is a set of either vehicle_parts or bike_racks that need duplicate entries accross the vector<vector>s rows removed
+        */
+        void validate_carried_vehicles( std::vector<std::vector<int>>
+                                        &carried_vehicles );
     public:
         // Number of parts contained in this vehicle
         int part_count() const;
@@ -1998,6 +2007,7 @@ class vehicle
         int requested_z_change = 0;
 
     public:
+        bool is_on_ramp = false;
         bool is_autodriving = false;
         bool is_following = false;
         bool is_patrolling = false;

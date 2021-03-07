@@ -1,13 +1,13 @@
-#include "catch/catch.hpp"
-#include "player_helpers.h"
-
 #include <cstddef>
+#include <functional>
 #include <list>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
 #include "bionics.h"
+#include "catch/catch.hpp"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
@@ -16,11 +16,13 @@
 #include "item.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "make_static.h"
 #include "map.h"
 #include "npc.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "ret_val.h"
 #include "stomach.h"
@@ -72,6 +74,8 @@ void clear_character( player &dummy )
     // This sets HP to max, clears addictions and morale,
     // and sets hunger, thirst, fatigue and such to zero
     dummy.environmental_revert_effect();
+    // However, the above does not set stored kcal
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
 
     dummy.empty_skills();
     dummy.martial_arts_data->clear_styles();
@@ -163,7 +167,7 @@ void give_and_activate_bionic( player &p, bionic_id const &bioid )
     REQUIRE( bio.id == bioid );
 
     // turn on if possible
-    if( bio.id->has_flag( "BIONIC_TOGGLED" ) && !bio.powered ) {
+    if( bio.id->has_flag( STATIC( json_character_flag( "BIONIC_TOGGLED" ) ) ) && !bio.powered ) {
         const std::vector<material_id> fuel_opts = bio.info().fuel_opts;
         if( !fuel_opts.empty() ) {
             p.set_value( fuel_opts.front().str(), "2" );

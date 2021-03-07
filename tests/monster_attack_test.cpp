@@ -1,11 +1,13 @@
+#include <array>
+#include <iosfwd>
+
 #include "catch/catch.hpp"
-
 #include "character.h"
-#include "monster.h"
-
 #include "map.h"
-
 #include "map_helpers.h"
+#include "monster.h"
+#include "point.h"
+#include "type_id.h"
 
 static constexpr tripoint attacker_location{ 65, 65, 0 };
 

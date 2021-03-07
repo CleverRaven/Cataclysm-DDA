@@ -246,6 +246,24 @@
   },
   {
     "type": "effect_type",
+    "id": "venom_player1",
+    "name": [ "Weak Player Venom" ],
+    "desc": [ "Don't worry, you shouldn't get this." ],
+    "max_duration": 120,
+    "base_mods": { "hurt_amount": [ 10 ], "hurt_min": [ 1 ], "hurt_chance": [ 2 ] },
+    "//": "10+0,5/s dmg, from max duration avg 70 (range 10-130)"
+  },
+  {
+    "type": "effect_type",
+    "id": "venom_player2",
+    "name": [ "Strong Player Venom" ],
+    "desc": [ "Don't worry, you really shouldn't get this." ],
+    "max_duration": 120,
+    "base_mods": { "hurt_amount": [ 20 ], "hurt_min": [ 4 ], "hurt_chance": [ 2 ], "speed_mod": [ -50 ] },
+    "//": "20+2/s dmg, from max duration avg 260 (range 20-480)"
+  },
+  {
+    "type": "effect_type",
     "id": "dripping_mechanical_fluid",
     "name": [ "Mechanical fluid dripping" ],
     "desc": [ "AI tag used for robot monsters losing mechanical fluid.  This is a bug if you have it." ],
@@ -2386,49 +2404,65 @@
     "type": "effect_type",
     "id": "weary_1",
     "name": [ "Lightly Weary" ],
-    "desc": [ "You've been pretty active for a while; operating at the highest levels of activity will be impaired." ]
+    "desc": [
+      "You've been pretty active for a while; operating at the highest levels of activity will be impaired.\nThe following move penalties are applied for the following activity levels:\nExtreme: 1.25x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_2",
     "name": [ "Moderately Weary" ],
-    "desc": [ "You've been quite active for a while; operating at higher levels of activity will be impaired." ]
+    "desc": [
+      "You've been quite active for a while; operating at higher levels of activity will be impaired.\nThe following move penalties are applied for the following activity levels:\nExtreme: 1.67x, Active: 1.33x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_3",
     "name": [ "Weary" ],
-    "desc": [ "You've been very active for a while, and need to slow down for a bit." ]
+    "desc": [
+      "You've been very active for a while, and need to slow down for a bit.\nThe following move penalties are applied for the following activity levels:\nExtreme: 2.5x, Active: 2x, Brisk: 1.5x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_4",
     "name": [ "Very Weary" ],
-    "desc": [ "You've been extremely active for a while, and need to slow down." ]
+    "desc": [
+      "You've been extremely active for a while, and need to slow down.\nThe following move penalties are applied for the following activity levels:\nExtreme: 5x, Active: 4x, Brisk: 3x, Moderate: 2x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_5",
     "name": [ "Extremely Weary" ],
-    "desc": [ "You've been extremely active for a while, and can't take much more activity." ]
+    "desc": [
+      "You've been extremely active for a while, and can't take much more activity.\nThe following move penalties are applied for the following activity levels:\nExtreme: 10x, Active: 8x, Brisk: 6x, Moderate: 4x, Light: 2x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_6",
     "name": [ "Extremely Weary" ],
-    "desc": [ "You've been extremely active for a while, and really need to get some rest." ]
+    "desc": [
+      "You've been extremely active for a while, and really need to get some rest.\nThe following move penalties are applied for the following activity levels:\nExtreme: 10x, Active: 8x, Brisk: 6x, Moderate: 4x, Light: 2x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_7",
     "name": [ "Extremely Weary" ],
-    "desc": [ "You've been extremely active for a while; it's time to stop." ]
+    "desc": [
+      "You've been extremely active for a while; it's time to stop.\nThe following move penalties are applied for the following activity levels:\nExtreme: 10x, Active: 8x, Brisk: 6x, Moderate: 4x, Light: 2x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_8",
     "name": [ "Extremely Weary" ],
-    "desc": [ "You've been extremely active for a while, and can no longer keep pushing." ]
+    "desc": [
+      "You've been extremely active for a while, and can no longer keep pushing.\nThe following move penalties are applied for the following activity levels:\nExtreme: 10x, Active: 8x, Brisk: 6x, Moderate: 4x, Light: 2x"
+    ]
   },
   {
     "type": "effect_type",

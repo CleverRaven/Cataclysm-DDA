@@ -3,9 +3,10 @@
 #include <clocale>
 #include <cfloat>
 #include <climits>
+#include <clocale>
 #include <iterator>
+#include <new>
 #include <stdexcept>
-#include <type_traits>
 
 #include "cached_options.h"
 #include "calendar.h"
@@ -13,7 +14,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "cursesport.h"
+#include "cursesport.h" // IWYU pragma: keep
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -26,8 +27,8 @@
 #include "path_info.h"
 #include "point.h"
 #include "popup.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "sdlsound.h"
-#include "sdltiles.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -45,7 +46,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <locale>
 #include <memory>
 #include <sstream>
 #include <string>
@@ -2606,7 +2606,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
     const int iWorldOffset = world_options_only ? 2 : 0;
     int iMinScreenWidth = 0;
-    const int iTooltipHeight = 5;
+    const int iTooltipHeight = 6;
     int iContentHeight = 0;
 
     catacurses::window w_options_border;
@@ -2800,7 +2800,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         }
 
         if( ingame && iCurrentPage == iWorldOptPage ) {
-            mvwprintz( w_options_tooltip, point( 3, 3 ), c_light_red, "%s", _( "Note: " ) );
+            mvwprintz( w_options_tooltip, point( 3, 5 ), c_light_red, "%s", _( "Note: " ) );
             wprintz( w_options_tooltip, c_white, "%s",
                      _( "Some of these options may produce unexpected results if changed." ) );
         }

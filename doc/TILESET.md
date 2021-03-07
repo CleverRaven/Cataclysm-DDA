@@ -74,6 +74,8 @@ Special prefixes that are used include:
 
 `vp_` for vehicle parts (see also [`symbols` and `standard_symbols` JSON keys](JSON_INFO.md#symbols-and-variants) that are used as suffixes).
 
+`explosion_` for spell explosion effects.  Multitile is required; only supports "center", "edge" and "corner".
+
 #### Optional gendered variants
 
 Are defined by adding `_female` or `_male` part to the `overlay_` part of a prefix: `overlay_female_` or `overlay_male_`.
@@ -160,7 +162,7 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 
 ### Usage
 
-`compose.py [-h] [--use-all] [--obsolete-fillers] source_dir [output_dir]`
+`compose.py [-h] [--use-all] [--obsolete-fillers] [--palette] [--palette-copies] source_dir [output_dir]`
 
 `source_dir` - the compositing tileset directory.
 
@@ -175,6 +177,10 @@ A tilesheet can be an expansion from a mod.  Each expansion tilesheet is a singl
 ```
 
 `--obsolete-fillers`: print which fillers were skipped and are thus ready to be removed.
+
+`--palette`: Quantize all tilesheets to 8bpp colormaps. May severely reduce quality as there is only 256 possible colors but reduces file size.
+
+`--palette-copies`: Output copies of tilesheet files quantized to 8bpp palette with `.png8` extension. Intended for external detection if conversion was lossless.
 
 Requires `pyvips` module.
 

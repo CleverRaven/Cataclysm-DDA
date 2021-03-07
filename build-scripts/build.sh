@@ -165,7 +165,6 @@ then
 else
     if [ "$OS" == "macos-10.15" ]
     then
-        export NATIVE=osx
         # if OSX_MIN we specify here is lower than 10.15 then linker is going
         # to throw warnings because SDL and gettext libraries installed from 
         # Homebrew are built with minimum target osx version 10.15
@@ -175,6 +174,7 @@ else
     fi
     make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
 
+    export ASAN_OPTIONS=detect_odr_violation=1
     export UBSAN_OPTIONS=print_stacktrace=1
     parallel --verbose --tagstring "({})=>" --linebuffer $WINE ./tests/cata_test --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     if [ -n "$MODS" ]

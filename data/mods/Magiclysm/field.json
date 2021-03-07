@@ -39,5 +39,12 @@
     "priority": 8,
     "half_life": "10 minutes",
     "phase": "gas"
+  },
+  {
+    "id": "fd_darkness",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "darkness", "light_override": 0.0 } ],
+    "half_life": "10 seconds",
+    "percent_spread": 50
   }
 ]

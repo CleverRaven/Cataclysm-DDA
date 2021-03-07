@@ -2,11 +2,11 @@
 
 #include <algorithm>
 #include <array>
-#include <cmath>
 #include <cstdlib>
 #include <initializer_list>
 #include <iterator>
 #include <map>
+#include <string>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -19,7 +19,6 @@
 #include "field_type.h"
 #include "flood_fill.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -32,7 +31,6 @@
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
-#include "string_id.h"
 #include "trap.h"
 #include "vehicle_group.h"
 #include "weighted_list.h"

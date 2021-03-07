@@ -1,6 +1,25 @@
 [
   {
     "type": "snippet",
+    "category": "<get_lost>",
+    "//": "A rude way of telling player to get lost.",
+    "text": [
+      "Fuck off.",
+      "Fuck off, <name_b>.",
+      "Fuck off, you <dumb> <name_b>.",
+      "Get outta my sight.",
+      "Get lost.",
+      "Get off.",
+      "Get the fuck out of here.",
+      "Get the fuck outta here.",
+      "Go bug someone else.",
+      "Begone!",
+      "Begone from my sight!",
+      "Scat!"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<no_to_thorazine>",
     "//": "Hallucinatory NPCs say these things to discourage the avatar from taking thorazine and ending the hallucination.",
     "text": [
@@ -702,10 +721,10 @@
       "<name_b>",
       "<swear> <name_b>",
       "you can fuck right off, you <name_b>",
-      "I've had enough of you, begone.",
+      "I've had enough of you, begone",
       "you're a poster child for abortions",
       "how the fuck you've survived this far is beyond me, you <swear> <swear> <name_b>",
-      "you're the reason the gene pool needs a lifeguard"
+      "you're why the gene pool needs a lifeguard"
     ]
   },
   {

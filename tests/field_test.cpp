@@ -1,13 +1,19 @@
+#include <iosfwd>
+#include <vector>
+
+#include "avatar.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
-
 #include "field.h"
+#include "field_type.h"
+#include "item.h"
 #include "map.h"
-#include "map_iterator.h"
-#include "type_id.h"
-
 #include "map_helpers.h"
-
-#include <algorithm>
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 static int count_fields( const field_type_str_id &field_type )
 {
@@ -178,7 +184,8 @@ TEST_CASE( "fd_acid falls down", "[field]" )
 
     {
         INFO( "acid field is dropped by exactly one point" );
-        CHECK_FALSE( m.get_field( p, fd_acid ) );
+        field_entry *acid_here = m.get_field( p, fd_acid );
+        CHECK( ( !acid_here || !acid_here->is_field_alive() ) );
         CHECK( m.get_field( p + tripoint_below, fd_acid ) );
     }
 
@@ -280,7 +287,8 @@ TEST_CASE( "fd_fire and fd_fire_vent test", "[field]" )
         field_entry *flame_burst = m.get_field( p, fd_flame_burst );
         INFO( "Flame burst intensity should drop" );
         CAPTURE( i );
-        CHECK( ( flame_burst ? flame_burst->get_field_intensity() : 0 ) == i );
+        CHECK( ( flame_burst &&
+                 flame_burst->is_field_alive() ? flame_burst->get_field_intensity() : 0 ) == i );
     }
 
     {
@@ -334,7 +342,7 @@ TEST_CASE( "radioactive field", "[field]" )
     const tripoint p{ 33, 33, 0 };
     map &m = get_map();
 
-    REQUIRE( fd_nuke_gas->get_extra_radiation_max() > 0 );
+    REQUIRE( fd_nuke_gas->get_intensity_level().extra_radiation_max > 0 );
     REQUIRE( m.get_radiation( p ) == 0 );
 
     m.add_field( p, fd_nuke_gas, 1 );
@@ -378,6 +386,76 @@ TEST_CASE( "fungal haze test", "[field]" )
         INFO( "Terrain should be fungalized under " << to_string( time_limit ) );
         CHECK( fields_test_duration() < time_limit );
     }
+
+    fields_test_cleanup();
+}
+
+TEST_CASE( "player_in_field test", "[field][player]" )
+{
+    fields_test_setup();
+    clear_avatar();
+    const tripoint p{ 33, 33, 0 };
+
+    Character &dummy = get_avatar();
+    const tripoint prev_char_pos = dummy.pos();
+    dummy.setpos( p );
+
+    map &m = get_map();
+
+    m.add_field( p, fd_sap, 3 );
+
+    // Also add bunch of unrelated fields
+    m.add_field( p, fd_blood, 3 );
+    m.add_field( p, fd_blood_insect, 3 );
+    m.add_field( p, fd_blood_veggy, 3 );
+    m.add_field( p, fd_blood_invertebrate, 3 );
+
+    const time_duration time_limit = 5_minutes;
+    bool is_field_alive = true;
+    while( is_field_alive && fields_test_duration() < time_limit ) {
+        calendar::turn += 1_turns;
+        m.creature_in_field( dummy );
+        const field_entry *sap_field = m.get_field( p, fd_sap );
+        is_field_alive = sap_field && sap_field->is_field_alive();
+    }
+    {
+        INFO( "Sap should disappear in " << to_string( time_limit ) );
+        CHECK( fields_test_duration() < time_limit );
+    }
+
+    clear_avatar();
+    dummy.setpos( prev_char_pos );
+    fields_test_cleanup();
+}
+
+TEST_CASE( "field API test", "[field]" )
+{
+    fields_test_setup();
+    const tripoint p{ 33, 33, 0 };
+    map &m = get_map();
+    field &f = m.field_at( p );
+
+    REQUIRE_FALSE( f.find_field( fd_fire ) );
+
+    CHECK( m.add_field( p, fd_fire, 1 ) );
+
+    CHECK( f.find_field( fd_fire ) );
+    CHECK( f.find_field( fd_fire, /*alive_only*/ false ) );
+    CHECK( m.get_field( p, fd_fire ) );
+    CHECK( m.get_field_intensity( p, fd_fire ) == 1 );
+
+    m.remove_field( p, fd_fire );
+
+    CHECK_FALSE( f.find_field( fd_fire ) );
+    {
+        INFO( "Field is still there, actually removed only by process_fields" );
+        CHECK( f.find_field( fd_fire, /*alive_only*/ false ) );
+    }
+    CHECK_FALSE( m.get_field( p, fd_fire ) );
+    CHECK( m.get_field_intensity( p, fd_fire ) == 0 );
+
+    CHECK( m.set_field_intensity( p, fd_fire, 1 ) == 1 );
+    CHECK( f.find_field( fd_fire ) );
 
     fields_test_cleanup();
 }

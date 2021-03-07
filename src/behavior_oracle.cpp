@@ -1,6 +1,5 @@
 #include "behavior_oracle.h"
 
-#include <algorithm>
 #include <functional>
 #include <string>
 #include <unordered_map>

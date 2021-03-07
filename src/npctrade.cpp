@@ -1,14 +1,15 @@
 #include "npctrade.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
+#include <iterator>
 #include <list>
-#include <memory>
 #include <ostream>
 #include <set>
 #include <string>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
@@ -16,8 +17,8 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "enums.h"
 #include "faction.h"
-#include "game.h"
 #include "game_constants.h"
 #include "input.h"
 #include "item.h"

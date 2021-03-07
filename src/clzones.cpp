@@ -2,24 +2,27 @@
 
 #include <algorithm>
 #include <climits>
+#include <functional>
 #include <iosfwd>
 #include <iterator>
+#include <new>
 #include <string>
 #include <tuple>
+#include <type_traits>
 
 #include "cata_utility.h"
 #include "character.h"
+#include "colony.h"
 #include "construction.h"
 #include "construction_group.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "faction.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_pocket.h"
 #include "item_search.h"
 #include "itype.h"
 #include "json.h"
@@ -36,6 +39,7 @@
 #include "ui.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 
 static const item_category_id item_category_food( "food" );

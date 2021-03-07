@@ -1,6 +1,8 @@
 #include "scores_ui.h"
 
 #include <algorithm>
+#include <functional>
+#include <iosfwd>
 #include <iterator>
 #include <string>
 #include <tuple>

@@ -1,5 +1,7 @@
 #include "units_utility.h"
 
+#include <string>
+
 #include "cata_utility.h"
 #include "options.h"
 #include "string_formatter.h"
@@ -91,7 +93,6 @@ double convert_length_cm_in( const units::length &length )
     }
     return ret;
 }
-
 
 int convert_length( const units::length &length )
 {

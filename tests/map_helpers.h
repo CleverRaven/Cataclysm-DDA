@@ -2,7 +2,7 @@
 #ifndef CATA_TESTS_MAP_HELPERS_H
 #define CATA_TESTS_MAP_HELPERS_H
 
-#include <string>
+#include <iosfwd>
 
 #include "type_id.h"
 

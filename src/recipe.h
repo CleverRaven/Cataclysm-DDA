@@ -3,8 +3,11 @@
 #define CATA_SRC_RECIPE_H
 
 #include <cstddef>
+#include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -22,7 +25,6 @@ class Character;
 class JsonIn;
 class JsonObject;
 class item;
-class time_duration;
 template <typename E> struct enum_traits;
 
 enum class recipe_filter_flags : int {

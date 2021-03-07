@@ -1,27 +1,30 @@
 #include "player.h"
 
+#include <functional>
 #include <algorithm>
+#include <climits>
 #include <cmath>
 #include <cstdlib>
 #include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
+#include <new>
 #include <string>
 #include <unordered_map>
 
 #include "action.h"
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
-#include "activity_handlers.h"
+#include "activity_type.h"
 #include "ammo.h"
 #include "avatar.h"
 #include "avatar_action.h"
-#include "bionics.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_martial_arts.h"
+#include "clzones.h"
 #include "color.h"
 #include "coordinates.h"
 #include "damage.h"
@@ -46,7 +49,6 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -55,7 +57,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "options.h"
 #include "output.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
@@ -66,19 +67,15 @@
 #include "requirements.h"
 #include "rng.h"
 #include "skill.h"
-#include "stomach.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
 #include "uistate.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
-#include "viewer.h"
 #include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
@@ -96,7 +93,6 @@ static const efftype_id effect_stunned( "stunned" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_battery( "battery" );
-static const itype_id itype_cookbook_human( "cookbook_human" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
 static const itype_id itype_UPS( "UPS" );
@@ -123,7 +119,6 @@ static const trait_id trait_PAINRESIST( "PAINRESIST" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_SHELL2( "SHELL2" );
-static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
@@ -1147,6 +1142,7 @@ void player::on_worn_item_transform( const item &old_it, const item &new_it )
 void player::process_items()
 {
     if( weapon.needs_processing() && weapon.process( this, pos() ) ) {
+        weapon.spill_contents( pos() );
         remove_weapon();
     }
 
@@ -1157,6 +1153,7 @@ void player::process_items()
         }
         if( it->needs_processing() ) {
             if( it->process( this, pos() ) ) {
+                it->spill_contents( pos() );
                 removed_items.push_back( it );
             }
         }
@@ -1964,7 +1961,7 @@ bool player::takeoff( item &it, std::list<item> *res )
     worn.erase( iter );
     takeoff_copy.on_takeoff( *this );
     if( res == nullptr ) {
-        i_add( takeoff_copy, true, &it );
+        i_add( takeoff_copy, true, &it, true, !has_weapon() );
     } else {
         res->push_back( takeoff_copy );
     }
@@ -2000,10 +1997,15 @@ void player::use( int inventory_position )
     use( loc );
 }
 
-void player::use( item_location loc )
+void player::use( item_location loc, int pre_obtain_moves )
 {
+    // if -1 is passed in we don't want to change moves at all
+    if( pre_obtain_moves == -1 ) {
+        pre_obtain_moves = moves;
+    }
     if( !loc ) {
         add_msg( m_info, _( "You do not have that item." ) );
+        moves = pre_obtain_moves;
         return;
     }
 
@@ -2012,21 +2014,23 @@ void player::use( item_location loc )
 
     if( ( *loc ).is_medication() && !can_use_heal_item( *loc ) ) {
         add_msg_if_player( m_bad, _( "Your biology is not compatible with that healing item." ) );
+        moves = pre_obtain_moves;
         return;
     }
 
     if( used.is_tool() ) {
         if( !used.type->has_use() ) {
             add_msg_if_player( _( "You can't do anything interesting with your %s." ), used.tname() );
+            moves = pre_obtain_moves;
             return;
         }
-        invoke_item( &used, loc.position() );
+        invoke_item( &used, loc.position(), pre_obtain_moves );
 
     } else if( used.type->can_use( "DOGFOOD" ) ||
                used.type->can_use( "CATFOOD" ) ||
                used.type->can_use( "BIRDFOOD" ) ||
                used.type->can_use( "CATTLEFODDER" ) ) {
-        invoke_item( &used, loc.position() );
+        invoke_item( &used, loc.position(), pre_obtain_moves );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      used.is_food() ) ) ) {
@@ -2040,10 +2044,12 @@ void player::use( item_location loc )
     } else if( used.is_book() ) {
         // TODO: Handle this with dynamic dispatch.
         if( avatar *u = as_avatar() ) {
-            u->read( used );
+            if( !u->read( used ) ) {
+                moves = pre_obtain_moves;
+            }
         }
     } else if( used.type->has_use() ) {
-        invoke_item( &used, loc.position() );
+        invoke_item( &used, loc.position(), pre_obtain_moves );
     } else if( used.has_flag( flag_SPLINT ) ) {
         ret_val<bool> need_splint = can_wear( *loc );
         if( need_splint.success() ) {
@@ -2053,10 +2059,10 @@ void player::use( item_location loc )
             add_msg( m_info, need_splint.str() );
         }
     } else if( used.is_relic() ) {
-        invoke_item( &used, loc.position() );
+        invoke_item( &used, loc.position(), pre_obtain_moves );
     } else {
-        add_msg( m_info, _( "You can't do anything interesting with your %s." ),
-                 used.tname() );
+        add_msg( m_info, _( "You can't do anything interesting with your %s." ), used.tname() );
+        moves = pre_obtain_moves;
     }
 }
 

@@ -2,12 +2,13 @@
 #ifndef CATA_SRC_OMDATA_H
 #define CATA_SRC_OMDATA_H
 
-#include <algorithm>
 #include <array>
 #include <climits>
 #include <cstddef>
 #include <cstdint>
+#include <iosfwd>
 #include <list>
+#include <new>
 #include <set>
 #include <string>
 #include <vector>
@@ -17,12 +18,9 @@
 #include "color.h"
 #include "common_types.h"
 #include "coordinates.h"
-#include "cuboid_rectangle.h"
 #include "enum_bitset.h"
-#include "int_id.h"
 #include "optional.h"
 #include "point.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 

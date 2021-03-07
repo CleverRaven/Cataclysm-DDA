@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <set>
+#include <string>
 
 #include "assign.h"
 #include "debug.h"

@@ -5,15 +5,18 @@
 #include <climits>
 #include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
 #include <ostream>
 #include <set>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "activity_type.h"
 #include "ballistics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -27,24 +30,24 @@
 #include "debug.h"
 #include "dispersion.h"
 #include "effect.h"
+#include "effect_source.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
 #include "field_type.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
 #include "gun_mode.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "location.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -72,7 +75,6 @@
 #include "sounds.h"
 #include "speech.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "timed_event.h"
@@ -2520,7 +2522,10 @@ bool mattack::tentacle( monster *z )
         return false;
     }
     Creature *target = z->attack_target();
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
+
+    // Can't see/reach target, no attack
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ||
+        !get_map().clear_path( z->pos(), target->pos(), 3, 1, 100 ) ) {
         return false;
     }
     game_message_type msg_type = target->is_avatar() ? m_bad : m_info;

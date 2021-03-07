@@ -17,7 +17,7 @@
     "coverage": 50,
     "encumbrance": 20,
     "warmth": 8,
-    "material_thickness": 2,
+    "material_thickness": 0.3,
     "environmental_protection": 2,
     "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ]
   },
@@ -142,7 +142,7 @@
     "coverage": 50,
     "encumbrance": 10,
     "warmth": 7,
-    "material_thickness": 0.2,
+    "material_thickness": 0.3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "SUN_GLASSES" ]
   },
@@ -156,13 +156,13 @@
     "description": "This is an improvised harness that can be worn over other headgear or bare head, made from two small liquid containers, a rubber hose, a bundle of steel wire, and some cordage.  A convenient and simple device for hands-free drinking, though the liquid inside would spill if you put it into your backpack.",
     "price": 1000,
     "price_postapoc": 50,
-    "material": [ "cotton", "aluminum" ],
+    "material": [ "cotton", "plastic" ],
     "weight": "733 g",
     "volume": "1500 ml",
     "encumbrance": 5,
     "covers": [ "head" ],
     "coverage": 15,
-    "material_thickness": 0.1,
+    "material_thickness": 0.2,
     "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
@@ -184,7 +184,7 @@
     "coverage": 60,
     "encumbrance": 10,
     "warmth": 4,
-    "material_thickness": 0.1
+    "material_thickness": 0.2
   },
   {
     "id": "hat_boonie",
@@ -203,7 +203,7 @@
     "coverage": 65,
     "encumbrance": 10,
     "warmth": 10,
-    "material_thickness": 0.1,
+    "material_thickness": 0.3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "SUN_GLASSES" ]
   },
@@ -383,7 +383,7 @@
     "covers": [ "head" ],
     "coverage": 65,
     "warmth": 40,
-    "material_thickness": 0.2,
+    "material_thickness": 0.5,
     "flags": [ "VARSIZE", "HELMET_COMPAT" ]
   },
   {
@@ -445,7 +445,7 @@
     "coverage": 50,
     "encumbrance": 20,
     "warmth": 2,
-    "material_thickness": 0.1,
+    "material_thickness": 0.2,
     "environmental_protection": 4,
     "flags": [ "FANCY", "OUTER", "SUN_GLASSES" ]
   },
@@ -529,7 +529,7 @@
     "coverage": 50,
     "encumbrance": 15,
     "warmth": 5,
-    "material_thickness": 0.1,
+    "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "FANCY", "VARSIZE" ]
   },
@@ -612,7 +612,7 @@
     "coverage": 50,
     "encumbrance": 20,
     "warmth": 5,
-    "material_thickness": 0.1,
+    "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUPER_FANCY" ]
   },

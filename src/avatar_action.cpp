@@ -2,8 +2,8 @@
 
 #include <algorithm>
 #include <climits>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <map>
 #include <memory>
 #include <ostream>
@@ -13,7 +13,6 @@
 #include <vector>
 
 #include "action.h"
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "bodypart.h"
@@ -27,8 +26,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
-#include "gun_mode.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -37,6 +34,8 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "math_defines.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
 #include "move_mode.h"
@@ -50,16 +49,14 @@
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
-#include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
+class gun_mode;
 class player;
 
 static const efftype_id effect_amigara( "amigara" );
@@ -1025,7 +1022,7 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             return;
         }
     }
-
+    int pre_obtain_moves = you.moves;
     if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
         use_in_place = true;
         // Activate holster on map only if hands are free.
@@ -1034,7 +1031,16 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         // Adjustment because in player::wield_contents this amount is refunded.
         you.mod_moves( -loc.obtain_cost( you ) );
     } else {
+        item_location::type loc_where = loc.where_recursive();
+        if( loc_where != item_location::type::character ) {
+            you.add_msg_if_player( _( "You pick up the %s." ), loc.get_item()->display_name() );
+            pre_obtain_moves = -1;
+
+        }
         loc = loc.obtain( you, 1 );
+        if( pre_obtain_moves == -1 ) {
+            pre_obtain_moves = you.moves;
+        }
         if( !loc ) {
             debugmsg( "Failed to obtain target item" );
             return;
@@ -1043,12 +1049,12 @@ void avatar_action::use_item( avatar &you, item_location &loc )
 
     if( use_in_place ) {
         update_lum( loc, false );
-        you.use( loc );
+        you.use( loc, pre_obtain_moves );
         update_lum( loc, true );
 
         make_active( loc );
     } else {
-        you.use( loc );
+        you.use( loc, pre_obtain_moves );
     }
 
     you.invalidate_crafting_inventory();

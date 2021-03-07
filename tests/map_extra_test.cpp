@@ -1,11 +1,10 @@
-﻿#include "catch/catch.hpp"
-
-#include <algorithm>
+﻿#include <algorithm>
 #include <array>
-#include <string>
+#include <iosfwd>
 #include <utility>
 #include <vector>
 
+#include "catch/catch.hpp"
 #include "coordinates.h"
 #include "enums.h"
 #include "map.h"

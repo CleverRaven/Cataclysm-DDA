@@ -6,11 +6,6 @@
 
 #include "point.h"
 
-namespace catacurses
-{
-class window;
-} // namespace catacurses
-
 class minesweeper_game
 {
     private:

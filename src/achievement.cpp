@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <set>
+#include <string>
 #include <tuple>
 #include <utility>
 

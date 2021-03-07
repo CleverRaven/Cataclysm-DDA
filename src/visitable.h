@@ -5,7 +5,6 @@
 #include <climits>
 #include <functional>
 #include <list>
-#include <string>
 #include <vector>
 
 #include "cata_utility.h"

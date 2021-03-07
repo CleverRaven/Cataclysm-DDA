@@ -3,17 +3,18 @@
 #define CATA_SRC_MONFACTION_H
 
 #include <cstdint>
+#include <iosfwd>
 #include <limits>
 #include <map>
 #include <set>
 #include <vector>
 
-#include "enum_traits.h"
 #include "optional.h"
 #include "type_id.h"
 
 class JsonObject;
-
+class monfaction;
+template <typename E> struct enum_traits;
 template <typename T> class generic_factory;
 
 enum mf_attitude {

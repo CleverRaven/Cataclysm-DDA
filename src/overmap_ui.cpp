@@ -1,16 +1,20 @@
 #include "overmap_ui.h"
 
+#include <functional>
 #include <algorithm>
 #include <array>
 #include <chrono>
 #include <cstddef>
+#include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
+#include <ratio>
 #include <set>
 #include <string>
 #include <tuple>
-#include <type_traits>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -24,7 +28,6 @@
 #include "character.h"
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h"
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
@@ -33,11 +36,11 @@
 #include "game_constants.h"
 #include "game_ui.h"
 #include "input.h"
-#include "int_id.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
+#include "memory_fast.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -48,12 +51,12 @@
 #include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
+#include "player_activity.h"
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
@@ -69,7 +72,6 @@
 
 class character_id;
 
-static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
 static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
@@ -400,7 +402,7 @@ class map_notes_callback : public uilist_callback
                         int amount = string_input_popup()
                                      .title( popupmsg )
                                      .width( 20 )
-                                     .text( to_string( 0 ) )
+                                     .text( "0" )
                                      .only_digits( true )
                                      .query_int();
                         if( amount > -1 && amount <= max_amount ) {

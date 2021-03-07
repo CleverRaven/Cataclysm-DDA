@@ -4,6 +4,7 @@
 
 #include "type_id.h"
 
+class item;
 class npc;
 class time_duration;
 

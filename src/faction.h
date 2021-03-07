@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_FACTION_H
 #define CATA_SRC_FACTION_H
 
-#include <algorithm>
 #include <bitset>
+#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -14,10 +14,13 @@
 
 #include "character_id.h"
 #include "color.h"
-#include "cursesdef.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 
 // TODO: Redefine?
 static constexpr int MAX_FAC_NAME_SIZE = 40;

@@ -1,9 +1,10 @@
 #include "color.h"
 
 #include <algorithm> // for std::count
-#include <cstdlib>
+#include <functional>
 #include <iterator>
 #include <map>
+#include <utility>
 #include <vector>
 
 #include "cata_utility.h"

@@ -1,7 +1,10 @@
+#include "dialogue.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
+#include <iterator>
 #include <list>
 #include <map>
 #include <memory>
@@ -16,16 +19,14 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
-// needed for the workaround for the std::to_string bug in some compilers
 #include "clzones.h"
 #include "color.h"
-#include "compatibility.h" // IWYU pragma: keep
 #include "condition.h"
 #include "coordinates.h"
 #include "debug.h"
-#include "dialogue.h" // IWYU pragma: associated
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
@@ -61,7 +62,6 @@
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "talker.h"
 #include "text_snippets.h"
@@ -1095,7 +1095,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         for( const skill_id &trained : trainable ) {
             const std::string &text = beta->skill_training_text( *alpha, trained );
-            if( !text.empty() ) {
+            if( !text.empty() && !trained->obsolete() ) {
                 add_response( text, "TALK_TRAIN_START", trained );
             }
         }

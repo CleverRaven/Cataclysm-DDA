@@ -1,15 +1,17 @@
-#include "catch/catch.hpp"
-
-#include <string>
+#include <iosfwd>
 #include <regex>
+#include <string>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "catch/catch.hpp"
 #include "creature.h"
 #include "game_constants.h"
 #include "options.h"
 #include "output.h"
 #include "player.h"
 #include "player_helpers.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
 

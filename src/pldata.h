@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_PLDATA_H
 #define CATA_SRC_PLDATA_H
 
-#include <string>
-
 #include "calendar.h"
 
 class JsonIn;

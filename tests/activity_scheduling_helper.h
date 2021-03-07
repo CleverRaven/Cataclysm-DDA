@@ -1,9 +1,17 @@
 #ifndef CATA_TESTS_ACTIVITY_SCHEDULING_HELPER_H
 #define CATA_TESTS_ACTIVITY_SCHEDULING_HELPER_H
 
+#include <cstddef>
+#include <iosfwd>
+#include <utility>
+#include <vector>
+
 #include "activity_actor.h"
-#include "avatar.h"
+#include "calendar.h"
 #include "clone_ptr.h"
+#include "type_id.h"
+
+class avatar;
 
 struct schedule {
     virtual void setup( avatar & ) const = 0;

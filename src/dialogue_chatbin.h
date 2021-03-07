@@ -2,10 +2,9 @@
 #ifndef CATA_SRC_DIALOGUE_CHATBIN_H
 #define CATA_SRC_DIALOGUE_CHATBIN_H
 
-#include <string>
+#include <iosfwd>
 #include <vector>
 
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;

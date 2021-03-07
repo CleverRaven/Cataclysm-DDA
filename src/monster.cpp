@@ -1,28 +1,31 @@
 #include "monster.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <memory>
+#include <sstream>
+#include <string>
 #include <tuple>
-#include <unordered_map>
 
+#include "ascii_art.h"
 #include "bodypart.h"
 #include "catacharset.h"
 #include "character.h"
-#include "compatibility.h"
+#include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "effect_source.h"
 #include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
+#include "faction.h"
 #include "field_type.h"
-#include "flat_set.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
@@ -53,7 +56,6 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
@@ -89,6 +91,10 @@ static const efftype_id effect_run( "run" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_supercharged( "supercharged" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_venom_dmg( "venom_dmg" );
+static const efftype_id effect_venom_player1( "venom_player1" );
+static const efftype_id effect_venom_player2( "venom_player2" );
+static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_webbed( "webbed" );
 
 static const itype_id itype_corpse( "corpse" );
@@ -97,8 +103,10 @@ static const itype_id itype_milk_raw( "milk_raw" );
 
 static const species_id species_FISH( "FISH" );
 static const species_id species_FUNGUS( "FUNGUS" );
+static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MOLLUSK( "MOLLUSK" );
+static const species_id species_NETHER( "NETHER" );
 static const species_id species_ROBOT( "ROBOT" );
 static const species_id species_SPIDER( "SPIDER" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -649,7 +657,6 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
     return std::make_pair( damage_info, col );
 }
 
-
 static std::pair<std::string, nc_color> speed_description( float mon_speed_rating,
         bool immobile = false )
 {
@@ -659,12 +666,12 @@ static std::pair<std::string, nc_color> speed_description( float mon_speed_ratin
 
     const std::array<std::tuple<float, nc_color, std::string>, 8> cases = {{
             std::make_tuple( 1.30f, c_red, _( "It is much faster than you." ) ),
-            std::make_tuple( 1.00f, c_yellow, _( "It is faster than you." ) ),
-            std::make_tuple( 0.70f, c_white_yellow, _( "It is a bit faster than you." ) ),
+            std::make_tuple( 1.00f, c_light_red, _( "It is faster than you." ) ),
+            std::make_tuple( 0.70f, c_yellow, _( "It is a bit faster than you." ) ),
             std::make_tuple( 0.55f, c_white, _( "It is about as fast as you." ) ),
-            std::make_tuple( 0.50f, c_white_cyan, _( "It is a bit slower than you." ) ),
+            std::make_tuple( 0.50f, c_light_cyan, _( "It is a bit slower than you." ) ),
             std::make_tuple( 0.40f, c_cyan, _( "It is slower than you." ) ),
-            std::make_tuple( 0.20f, c_green, _( "It is much slower than you." ) ),
+            std::make_tuple( 0.20f, c_light_green, _( "It is much slower than you." ) ),
             std::make_tuple( 0.00f, c_green, _( "It is practically immobile." ) )
         }
     };
@@ -690,7 +697,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     // Print health bar, monster name, then statuses on the first line.
     nc_color bar_color = c_white;
-    std::string bar_str, dot_str;
+    std::string bar_str;
     get_HP_Bar( bar_color, bar_str );
     std::ostringstream oss;
     oss << get_tag_from_color( bar_color ) << bar_str << "</color>";
@@ -757,7 +764,7 @@ std::string monster::extended_description() const
     std::string att_colored = colorize( att.first, att.second );
     std::string difficulty_str;
     if( debug_mode ) {
-        difficulty_str = _( "Difficulty " ) + to_string( type->difficulty );
+        difficulty_str = _( "Difficulty " ) + std::to_string( type->difficulty );
     } else {
         if( type->difficulty < 3 ) {
             difficulty_str = _( "<color_light_gray>Minimal threat.</color>" );
@@ -1294,8 +1301,13 @@ void monster::process_triggers()
     process_trigger( mon_trigger::FIRE, [this]() {
         int ret = 0;
         map &here = get_map();
+        const field_type_id fd_fire = ::fd_fire; // convert to int_id once
         for( const auto &p : here.points_in_radius( pos(), 3 ) ) {
-            ret += 5 * here.get_field_intensity( p, fd_fire );
+            // note using `has_field_at` without bound checks,
+            // as points that come from `points_in_radius` are guaranteed to be in bounds
+            const int fire_intensity =
+                here.has_field_at( p, false ) ? 5 * here.get_field_intensity( p, fd_fire ) : 0;
+            ret += fire_intensity;
         }
         return ret;
     } );
@@ -1395,17 +1407,31 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         return type->bloodType() == fd_null;
     }
 
+    if( effect == effect_venom_dmg ||
+        effect == effect_venom_player1 ||
+        effect == effect_venom_player2 ) {
+        return ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) ) ||
+               type->in_species( species_NETHER ) || type->in_species( species_LEECH_PLANT );
+    }
+
     if( effect == effect_paralyzepoison ||
         effect == effect_badpoison ||
+        effect == effect_venom_weaken ||
         effect == effect_poison ) {
-        return !has_flag( MF_WARM ) ||
-               ( !made_of( material_id( "flesh" ) ) && !made_of( material_id( "iflesh" ) ) );
+        return type->in_species( species_ZOMBIE ) || type->in_species( species_NETHER ) ||
+               !made_of_any( Creature::cmat_flesh ) || type->in_species( species_LEECH_PLANT );
     }
 
     if( effect == effect_stunned ) {
         return has_flag( MF_STUN_IMMUNE );
     }
 
+    if( effect == effect_downed ) {
+        if( type->bodytype == "insect" || type->bodytype == "spider" || type->bodytype == "crab" ) {
+            return x_in_y( 3, 4 );
+        } else return type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
+                          has_flag( MF_FLIES );
+    }
     return false;
 }
 
@@ -2473,27 +2499,8 @@ void monster::drop_items_on_death()
         return;
     }
 
-    std::vector<item> items = item_group::items_from( type->death_drops, calendar::start_of_cataclysm );
-
-    // This block removes some items, according to item spawn scaling factor
-    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-    if( spawn_rate < 1 ) {
-        // Temporary vector, to remember which items will be dropped
-        std::vector<item> remaining;
-        for( const item &it : items ) {
-            // Mission items are not affected by item spawn rate
-            if( rng_float( 0, 1 ) < spawn_rate || it.has_flag( STATIC( flag_id( "MISSION_ITEM" ) ) ) ) {
-                remaining.push_back( it );
-            }
-        }
-        // If there aren't any items left, there's nothing left to do
-        if( remaining.empty() ) {
-            return;
-        }
-        items = remaining;
-    }
-
-    const auto dropped = get_map().spawn_items( pos(), items );
+    std::vector<item *> dropped = get_map().place_items( type->death_drops, 100, pos(), pos(), true,
+                                  calendar::start_of_cataclysm );
 
     if( has_flag( MF_FILTHY ) ) {
         for( const auto &it : dropped ) {

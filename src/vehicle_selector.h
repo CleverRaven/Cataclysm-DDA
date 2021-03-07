@@ -2,11 +2,16 @@
 #ifndef CATA_SRC_VEHICLE_SELECTOR_H
 #define CATA_SRC_VEHICLE_SELECTOR_H
 
+#include <climits>
+#include <cstddef>
+#include <functional>
+#include <list>
 #include <vector>
-#include <iosfwd>
 
+#include "type_id.h"
 #include "visitable.h"
 
+class item;
 class vehicle;
 struct tripoint;
 

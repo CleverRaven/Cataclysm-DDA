@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_SUBMAP_H
 #define CATA_SRC_SUBMAP_H
 
-#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <iosfwd>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -269,13 +269,14 @@ struct maptile {
         friend submap;
         submap *const sm;
         point pos_;
-        point pos() const {
-            return pos_;
-        }
 
         maptile( submap *sub, const point &p ) :
             sm( sub ), pos_( p ) { }
     public:
+        inline point pos() const {
+            return pos_;
+        }
+
         trap_id get_trap() const {
             return sm->get_trap( pos() );
         }

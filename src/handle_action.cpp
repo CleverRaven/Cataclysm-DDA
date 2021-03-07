@@ -1,14 +1,17 @@
+#include "game.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <chrono>
 #include <cmath>
-#include <cstdlib>
 #include <initializer_list>
+#include <map>
 #include <sstream>
+#include <string>
 #include <utility>
 
 #include "action.h"
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
+#include "activity_type.h"
 #include "advanced_inv.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
@@ -22,18 +25,19 @@
 #include "character.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
+#include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "event.h"
 #include "event_bus.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
 #include "flag.h"
-#include "game.h" // IWYU pragma: associated
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "gamemode.h"
@@ -41,14 +45,15 @@
 #include "gun_mode.h"
 #include "help.h"
 #include "input.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
 #include "iuse.h"
+#include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
 #include "magic.h"
+#include "make_static.h"
 #include "map.h"
 #include "mapdata.h"
 #include "mapsharing.h"
@@ -69,12 +74,10 @@
 #include "scores_ui.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -113,7 +116,6 @@ static const skill_id skill_melee( "melee" );
 static const quality_id qual_CUT( "CUT" );
 
 static const bionic_id bio_remote( "bio_remote" );
-static const bionic_id bio_watch( "bio_watch" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
@@ -123,6 +125,8 @@ static const trait_id trait_WAYFARER( "WAYFARER" );
 static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_pilot" );
 
 static const std::string flag_LOCKED( "LOCKED" );
+
+static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -415,6 +419,10 @@ static void pldrive( const tripoint &p )
         player_character.in_vehicle = false;
         return;
     }
+    if( veh->is_on_ramp && p.y != 0 ) {
+        add_msg( m_bad, _( "You can't turn the vehicle while on a ramp." ) );
+        return;
+    }
     if( !remote ) {
         static const itype_id fuel_type_animal( "animal" );
         const bool has_animal_controls = veh->part_with_feature( part, "CONTROL_ANIMAL", true ) >= 0;
@@ -626,7 +634,7 @@ static void haul()
             add_msg( m_info, _( "You cannot haul while in deep water." ) );
         } else if( !here.can_put_items( player_character.pos() ) ) {
             add_msg( m_info, _( "You cannot haul items here." ) );
-        } else if( !here.has_items( player_character.pos() ) ) {
+        } else if( !here.has_haulable_items( player_character.pos() ) ) {
             add_msg( m_info, _( "There are no items to haul here." ) );
         } else {
             player_character.start_hauling();
@@ -1022,7 +1030,7 @@ static void sleep()
         // some bionics
         // bio_alarm is useful for waking up during sleeping
         // turning off bio_leukocyte has 'unpleasant side effects'
-        if( bio.info().has_flag( "BIONIC_SLEEP_FRIENDLY" ) ) {
+        if( bio.info().has_flag( STATIC( json_character_flag( "BIONIC_SLEEP_FRIENDLY" ) ) ) ) {
             continue;
         }
 
@@ -1073,7 +1081,7 @@ static void sleep()
 
     time_duration try_sleep_dur = 24_hours;
     std::string deaf_text;
-    if( player_character.is_deaf() && !player_character.has_bionic( bio_watch ) ) {
+    if( player_character.is_deaf() && !player_character.has_flag( json_flag_ALARMCLOCK ) ) {
         deaf_text = _( "<color_c_red> (DEAF!)</color>" );
     }
     if( player_character.has_alarm_clock() ) {
@@ -1291,7 +1299,12 @@ static void read()
             spell_book.get_use( "learn_spell" )->call( player_character, spell_book,
                     spell_book.active, player_character.pos() );
         } else {
-            player_character.read( *loc.obtain( player_character ) );
+            item_location obtained = loc.obtain( player_character );
+            if( obtained ) {
+                player_character.read( *obtained );
+            } else {
+                add_msg( _( "You can't pick up the book!" ) );
+            }
         }
     } else {
         add_msg( _( "Never mind." ) );

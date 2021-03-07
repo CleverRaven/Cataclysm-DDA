@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <iostream>
+#include <iterator>
 #include <map>
 #include <set>
 #include <stdexcept>
@@ -17,6 +18,7 @@
 
 #include "colony.h"
 #include "enum_conversions.h"
+#include "int_id.h"
 #include "memory_fast.h"
 #include "string_id.h"
 
@@ -39,7 +41,6 @@ class JsonDeserializer;
 class JsonObject;
 class JsonSerializer;
 class JsonValue;
-
 class item;
 
 namespace cata

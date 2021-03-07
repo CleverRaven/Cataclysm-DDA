@@ -1,6 +1,12 @@
+#include "mattack_common.h" // IWYU pragma: associated
+#include "monstergenerator.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cstdlib>
+#include <limits>
+#include <new>
 #include <set>
+#include <string>
 #include <utility>
 
 #include "assign.h"
@@ -12,27 +18,22 @@
 #include "damage.h"
 #include "debug.h"
 #include "enum_conversions.h"
-#include "game.h"
+#include "field_type.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "item_group.h"
 #include "json.h"
 #include "mattack_actors.h"
-#include "mattack_common.h" // IWYU pragma: associated
 #include "monattack.h"
 #include "mondeath.h"
 #include "mondefense.h"
-#include "monfaction.h"
 #include "mongroup.h"
-#include "monstergenerator.h" // IWYU pragma: associated
 #include "optional.h"
 #include "options.h"
 #include "pathfinding.h"
 #include "rng.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
 
 namespace behavior
 {

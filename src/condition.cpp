@@ -5,6 +5,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -22,6 +23,7 @@
 #include "item.h"
 #include "item_category.h"
 #include "json.h"
+#include "line.h"
 #include "map.h"
 #include "mapdata.h"
 #include "mission.h"
@@ -31,7 +33,6 @@
 #include "overmapbuffer.h"
 #include "point.h"
 #include "recipe_groups.h"
-#include "string_id.h"
 #include "talker.h"
 #include "type_id.h"
 #include "units.h"
@@ -40,7 +41,6 @@
 
 class basecamp;
 class recipe;
-struct dialogue;
 
 static const efftype_id effect_currently_busy( "currently_busy" );
 
@@ -116,10 +116,11 @@ template<class T>
 void conditional_t<T>::set_has_trait_flag( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const std::string &trait_flag_to_check = jo.get_string( member );
+    const json_character_flag &trait_flag_to_check = json_character_flag( jo.get_string( member ) );
     condition = [trait_flag_to_check, is_npc]( const T & d ) {
         const talker *actor = d.actor( is_npc );
-        if( trait_flag_to_check == "MUTATION_THRESHOLD" ) {
+        static const json_character_flag thresh( "MUTATION_THRESHOLD" );
+        if( trait_flag_to_check == thresh ) {
             return actor->crossed_threshold();
         }
         return actor->has_trait_flag( trait_flag_to_check );

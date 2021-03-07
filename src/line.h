@@ -5,10 +5,9 @@
 #include <algorithm>
 #include <cmath>
 #include <functional>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
-#include "math_defines.h"
 #include "point.h"
 #include "units_fwd.h"
 
