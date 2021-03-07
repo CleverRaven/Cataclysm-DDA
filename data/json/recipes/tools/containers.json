@@ -570,7 +570,7 @@
     "difficulty": 4,
     "time": "35 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 4 ] ],
+    "using": [ [ "sewing_standard", 4 ], [ "plastic_molding", 2 ] ],
     "book_learn": [ [ "plastics_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
