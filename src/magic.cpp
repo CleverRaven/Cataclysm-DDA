@@ -1076,6 +1076,16 @@ void spell::create_field( const tripoint &at ) const
     }
 }
 
+std::string spell::get_sound_id() const 
+{
+    return type->sound_id;
+}
+
+std::string spell::get_sound_variant() const 
+{
+    return type->sound_variant;
+}
+
 void spell::make_sound( const tripoint &target ) const
 {
     if( !has_flag( spell_flag::SILENT ) ) {
@@ -1091,6 +1101,7 @@ void spell::make_sound( const tripoint &target, int loudness ) const
 {
     sounds::sound( target, loudness, type->sound_type, type->sound_description.translated(),
                    type->sound_ambient, type->sound_id, type->sound_variant );
+    sfx::play_variant_sound(get_sound_id(), get_sound_variant(), sfx::get_heard_volume(target));
 }
 
 std::string spell::effect() const

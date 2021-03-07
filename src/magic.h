@@ -525,6 +525,9 @@ class spell
         // tries to create a field at the location specified
         void create_field( const tripoint &at ) const;
 
+        std::string get_sound_id() const;
+        std::string get_sound_variant() const;
+
         // makes a spell sound at the location
         void make_sound( const tripoint &target ) const;
         void make_sound( const tripoint &target, int loudness ) const;
