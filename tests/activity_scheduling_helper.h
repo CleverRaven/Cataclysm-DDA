@@ -105,7 +105,8 @@ struct weariness_events {
             int new_threshold = 0;
             int new_tracker = 0;
             int new_intake = 0;
-            int new_low_activity_ticks = 0;
+            int new_stomach_kcal = 0;
+            int new_guts_kcal = 0;
             int new_tick_counter = 0;
         };
 
@@ -114,7 +115,7 @@ struct weariness_events {
     public:
         void log( int old_level, int new_level, const time_duration &when,
                   int new_weariness, int new_threshold, int new_tracker, int new_intake,
-                  int new_low_activity_ticks, int new_tick_counter );
+                  int new_stomach_kcal, int new_guts_kcal, int new_tick_counter );
 
         // Return the first time a transition between `from` and `to` occurs, in minutes
         // if around = 0_seconds or equivalent, otherwise return the time closest to around
