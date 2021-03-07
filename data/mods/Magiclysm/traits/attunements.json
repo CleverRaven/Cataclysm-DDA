@@ -214,7 +214,7 @@
     "purifiable": false,
     "valid": false,
     "description": "The Cleansing Flame is the fire that burns away the chaff, in preparation for the regrowth of new life.",
-    "spells_learned": [ [ "immolate", 5 ], [ "cleansingflame_hermes_heal", 1 ] ],
+    "spells_learned": [ [ "immolate", 5 ], [ "cleansingflame_hermes_heal", 5 ] ],
     "prereqs": [ "DRUID", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
@@ -256,6 +256,7 @@
     "valid": false,
     "description": "The Crusader attunement is a clashing dichotomy of Man and Nature.  Utilizing man's propensity for tools and nature's resilience, the Crusader is a juggernaut in armed combat.",
     "prereqs": [ "DRUID", "TECHNOMANCER" ],
+    "spells_learned": [ [ "crusader_summon_sword", 5 ], [ "crusader_summon_shield", 5 ] ],
     "passive_mods": { "dex_mod": 5 },
     "hp_modifier": 1,
     "cancels": [
@@ -1112,7 +1113,7 @@
     "valid": false,
     "description": "Where there is nothing, there is still power, and the Void Mages embody that power.  The ability to wield emptiness itself is at their fingertips, and no living creature can withstand the call of the void.",
     "prereqs": [ "ANIMIST", "KELVINIST" ],
-	"spells_learned": [ [ "voidmage_final_grasp", 5 ] ],
+    "spells_learned": [ [ "voidmage_final_grasp", 5 ] ],
     "enchantments": [ "VOID_MAGE" ],
     "cancels": [
       "ARTIFICER",
