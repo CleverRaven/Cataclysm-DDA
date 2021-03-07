@@ -343,28 +343,27 @@ struct trap {
 
 const trap_function &trap_function_from_string( const std::string &function_name );
 
-extern trap_id
-tr_null,
-tr_beartrap_buried,
-tr_shotgun_2,
-tr_shotgun_1,
-tr_blade,
-tr_landmine,
-tr_landmine_buried,
-tr_telepad,
-tr_goo,
-tr_dissector,
-tr_sinkhole,
-tr_pit,
-tr_lava,
-tr_portal,
-tr_ledge,
-tr_temple_flood,
-tr_temple_toggle,
-tr_glow,
-tr_hum,
-tr_shadow,
-tr_drain,
-tr_snake;
+extern trap_id tr_null;
+extern const trap_str_id tr_beartrap_buried;
+extern const trap_str_id tr_shotgun_2;
+extern const trap_str_id tr_shotgun_1;
+extern const trap_str_id tr_blade;
+extern const trap_str_id tr_landmine;
+extern const trap_str_id tr_landmine_buried;
+extern const trap_str_id tr_telepad;
+extern const trap_str_id tr_goo;
+extern const trap_str_id tr_dissector;
+extern const trap_str_id tr_sinkhole;
+extern const trap_str_id tr_pit;
+extern const trap_str_id tr_lava;
+extern const trap_str_id tr_portal;
+extern const trap_str_id tr_ledge;
+extern const trap_str_id tr_temple_flood;
+extern const trap_str_id tr_temple_toggle;
+extern const trap_str_id tr_glow;
+extern const trap_str_id tr_hum;
+extern const trap_str_id tr_shadow;
+extern const trap_str_id tr_drain;
+extern const trap_str_id tr_snake;
 
 #endif // CATA_SRC_TRAP_H
