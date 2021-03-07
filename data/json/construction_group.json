@@ -351,6 +351,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_mechanical_winch",
+    "name": "Build Mechanical Winch"
+  },
+  {
+    "type": "construction_group",
     "id": "build_metal_bars",
     "name": "Build Metal Bars"
   },
@@ -363,6 +368,11 @@
     "type": "construction_group",
     "id": "build_metal_door",
     "name": "Build Metal Door"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_metal_gate",
+    "name": "Build Metal Gate"
   },
   {
     "type": "construction_group",
