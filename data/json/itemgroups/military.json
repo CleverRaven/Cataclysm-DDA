@@ -471,7 +471,6 @@
     "subtype": "distribution",
     "entries": [
       { "group": "MRE", "prob": 1035 },
-      { "item": "chocolate_mre", "prob": 50 },
       { "item": "neccowafers", "prob": 30 },
       { "item": "can_beans", "prob": 40 },
       { "item": "pork_beans", "prob": 40 },
