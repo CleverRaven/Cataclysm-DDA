@@ -32,7 +32,7 @@
     "id": "voidmage_final_grasp_slowdown",
     "type": "SPELL",
     "name": "Final Grasp slowdown",
-    "description": "Remove some moves from enemy.  Technical spell, you dont allowed to see it, if youre not in debug mode.",
+    "description": "Removes some moves from enemy.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "hostile" ],
     "effect": "mod_moves",
     "shape": "blast",
