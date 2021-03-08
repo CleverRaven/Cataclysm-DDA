@@ -2,6 +2,7 @@
 
 # Build script intended for use in Travis CI and Github workflow
 
+echo "Using bash version $BASH_VERSION"
 set -exo pipefail
 
 num_jobs=3
@@ -32,6 +33,25 @@ ccache --zero-stats
 # Increase cache size because debug builds generate large object files
 ccache -M 5G
 ccache --show-stats
+
+function run_test
+{
+    set -eo pipefail
+    test_exit_code=0 sed_exit_code=0 exit_code=0
+    $WINE $1 --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS "$2" 2>&1 | sed -E 's/^(::(warning|error|debug)[^:]*::)?/\1'"$3"'/' || test_exit_code="${PIPESTATUS[0]}" sed_exit_code="${PIPESTATUS[1]}"
+    if [ "$test_exit_code" -ne "0" ]
+    then
+        echo "$3test exited with code $test_exit_code"
+        exit_code=1
+    fi
+    if [ "$sed_exit_code" -ne "0" ]
+    then
+        echo "$3sed exited with code $sed_exit_code"
+        exit_code=1
+    fi
+    return $exit_code
+}
+export -f run_test
 
 if [ "$CMAKE" = "1" ]
 then
@@ -145,8 +165,8 @@ then
         make -j$num_jobs
         cd ..
         # Run regular tests
-        [ -f "${bin_path}cata_test" ] && parallel --verbose --tagstring "({})=>" --linebuffer $WINE ${bin_path}/cata_test --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
-        [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --tagstring "({})=>" --linebuffer $WINE ${bin_path}/cata_test-tiles --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        [ -f "${bin_path}cata_test" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test' {} '('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --linebuffer "run_test $(printf %q "${bin_path}")'/cata_test-tiles' {} '('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     fi
 elif [ "$NATIVE" == "android" ]
 then
@@ -176,10 +196,10 @@ else
 
     export ASAN_OPTIONS=detect_odr_violation=1
     export UBSAN_OPTIONS=print_stacktrace=1
-    parallel --verbose --tagstring "({})=>" --linebuffer $WINE ./tests/cata_test --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+    parallel --verbose --linebuffer "run_test './tests/cata_test' {} '('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     if [ -n "$MODS" ]
     then
-        parallel --verbose --tagstring "(Mods-{})=>" --linebuffer $WINE ./tests/cata_test --user-dir=modded $MODS --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        parallel --verbose --linebuffer "run_test './tests/cata_test --user-dir=modded '$(printf %q "${MODS}") {} 'Mods-('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     fi
 
     if [ -n "$TEST_STAGE" ]
@@ -188,7 +208,7 @@ else
         # the mod data can be successfully loaded
 
         mods="$(./build-scripts/get_all_mods.py)"
-        $WINE ./tests/cata_test --user-dir=all_modded --mods="$mods" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS "~*"
+        run_test './tests/cata_test --user-dir=all_modded --mods='"${mods}" '~*' ''
     fi
 fi
 ccache --show-stats
