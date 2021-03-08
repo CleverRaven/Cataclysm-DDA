@@ -343,7 +343,7 @@
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "ssss…",
-      "no_deactivate_msg": "Reaction already started, its dangerous to hold it for too long",
+      "no_deactivate_msg": "The reaction has already started - all you can do is get it away from you!",
       "explosion": { "power": 200 }
     },
     "flags": [ "TRADER_AVOID" ]
