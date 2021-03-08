@@ -72,6 +72,7 @@
 #include "monstergenerator.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
@@ -112,6 +113,7 @@ static const efftype_id effect_flu( "flu" );
 
 static const mtype_id mon_generator( "mon_generator" );
 
+static const trait_id trait_NONE( "NONE" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 
 #if defined(TILES)
@@ -186,8 +188,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_REACHABILITY_ZONES: return "DISPLAY_REACHABILITY_ZONES";
         case debug_menu::debug_menu_index::DISPLAY_RADIATION: return "DISPLAY_RADIATION";
         case debug_menu::debug_menu_index::HOUR_TIMER: return "HOUR_TIMER";
-        case debug_menu::debug_menu_index::LEARN_SPELLS: return "LEARN_SPELLS";
-        case debug_menu::debug_menu_index::LEVEL_SPELLS: return "LEVEL_SPELLS";
+        case debug_menu::debug_menu_index::CHANGE_SPELLS: return "CHANGE_SPELLS";
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
@@ -231,10 +232,8 @@ static int player_uilist()
         { uilist_entry( debug_menu_index::SET_AUTOMOVE, true, 'a', _( "Set automove route" ) ) },
     };
     if( !spell_type::get_all().empty() ) {
-        uilist_initializer.emplace_back( uilist_entry( debug_menu_index::LEARN_SPELLS, true, 'S',
-                                         _( "Learn all spells" ) ) );
-        uilist_initializer.emplace_back( uilist_entry( debug_menu_index::LEVEL_SPELLS, true, 'L',
-                                         _( "Level a spell" ) ) );
+        uilist_initializer.emplace_back( uilist_entry( debug_menu_index::CHANGE_SPELLS, true, 'S',
+                                         _( "Change spells" ) ) );
     }
 
     return uilist( _( "Player…" ), uilist_initializer );
@@ -422,6 +421,550 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
     }
 }
 
+static void spell_description( const std::pair<spell_type, int> &spl_data,
+                               const catacurses::window &window, int width, Character &chrc )
+{
+    const int spl_level = spl_data.second;
+    spell spl( spl_data.first.id );
+    spl.set_level( spl_level );
+
+    int line = 1;
+    width -= 4; // 2 character away from the borders
+    nc_color gray = c_light_gray;
+    nc_color yellow = c_yellow;
+    nc_color light_green = c_light_green;
+
+    // # spell_id
+    mvwprintz( window, point( 2, line++ ), c_cyan, string_format( "# %s", spl.id().str() ) );
+
+    // Name: spell name
+    print_colored_text(
+        window, point( 2, line++ ), gray, gray,
+        string_format( _( "Name: %1$s" ), colorize( spl.name(), c_white ) ) );
+
+    // Class: Spell Class
+    print_colored_text(
+        window, point( 2, line++ ), gray, gray,
+        string_format( _( "Class: %1$s" ),
+                       colorize( spl.spell_class() == trait_NONE ?
+                                 _( "Classless" ) : spl.spell_class()->name(),
+                                 yellow ) )
+    );
+
+    line++;
+
+    // Spell description
+    line += 1 + fold_and_print( window, point( 2, line ), width, gray,
+                                spl.description() );
+
+    // Spell Casting flags
+    line += fold_and_print( window, point( 2, line ), width, gray,
+                            spell_desc::enumerate_spell_data( spl ) );
+
+    line++;
+
+    //~ %1$s - spell current level, %2$s - spell max level
+    // Spell Level: 0 / 0 (MAX)
+    print_colored_text( window, point( 2, line++ ), gray, gray,
+                        string_format(
+                            _( "Spell Level: %1$s / %2$d %3$s" ),
+                            spl_level == -1 ? _( "Unlearned" ) : std::to_string( spl_level ),
+                            spl.get_max_level(),
+                            spl_level == spl.get_max_level() ? _( "(MAX)" ) : "" ) );
+
+    //~ %1$s - difficulty, %2$s - failure chance
+    // Difficulty: 0 ( 0.0 % Failure Chance)
+    print_colored_text( window, point( 2, line++ ), gray, gray,
+                        string_format( _( "Difficulty: %1$d ( %2$s )" ),
+                                       spl.get_difficulty(), spl.colorized_fail_percent( chrc ) ) );
+
+    line++;
+
+    const std::string impeded = _( "(impeded)" );
+
+    //~ %1$s - energy cost, %3$d - current character energy
+    // Casting Cost: 0 (impeded) ( 0 current )
+    print_colored_text( window, point( 2, line++ ), gray, gray,
+                        string_format( _( "Casting Cost: %1$s %2$s ( %3$s current ) " ),
+                                       spl.energy_cost_string( chrc ),
+                                       spell_desc::energy_cost_encumbered( spl, chrc ) ?  impeded : "",
+                                       spl.energy_cur_string( chrc )
+                                     ) );
+
+
+    //~ %1$s - cast time, %3$d - current character energy
+    // Casting Time: 0 (impeded)
+    print_colored_text( window, point( 2, line++ ), gray, gray,
+                        string_format( _( "Casting Time: %1$s %2$s ( %3$s base time ) " ),
+                                       to_string( time_duration::from_moves( spl.casting_time( chrc ) ) ),
+                                       spell_desc::casting_time_encumbered( spl, chrc ) ? impeded : "",
+                                       to_string( time_duration::from_moves( spl_data.first.base_casting_time ) )
+                                     ) );
+
+    line++;
+
+    std::string targets;
+    if( spl.is_valid_target( spell_target::none ) ) {
+        targets = _( "self" );
+    } else {
+        targets = spl.enumerate_targets();
+    }
+    print_colored_text( window, point( 2, line++ ), gray, gray,
+                        string_format( _( "Valid Targets: %1$s" ), targets ) );
+
+    std::string target_ids = spl.list_targeted_monster_names();
+    if( !target_ids.empty() ) {
+        fold_and_print( window, point( 2, line++ ), width, gray,
+                        _( "Only affects the monsters: %1$s" ), target_ids );
+    }
+
+    line++;
+
+    const int damage = spl.damage();
+    const std::string spl_eff = spl.effect();
+    std::string damage_string;
+    std::string range_string;
+    std::string aoe_string;
+    // if it's any type of attack spell, the stats are normal.
+    if( spl_eff == "attack" ) {
+        if( damage > 0 ) {
+            std::string dot_string;
+            if( spl.damage_dot() ) {
+                //~ amount of damage per second, abbreviated
+                dot_string = string_format( _( ", %1$d/sec" ), spl.damage_dot() );
+            }
+            damage_string = string_format( _( "Damage: %1$s %2$s%3$s" ), spl.damage_string(),
+                                           spl.damage_type_string(), dot_string );
+            damage_string = colorize( damage_string, spl.damage_type_color() );
+        } else if( damage < 0 ) {
+            damage_string = string_format( _( "Healing: %1$s" ), colorize( spl.damage_string(),
+                                           light_green ) );
+        }
+
+        if( spl.aoe() > 0 ) {
+            std::string aoe_string_temp = _( "Spell Radius" );
+            std::string degree_string;
+            if( spl.shape() == spell_shape::cone ) {
+                aoe_string_temp = _( "Cone Arc" );
+                degree_string = _( "degrees" );
+            } else if( spl.shape() == spell_shape::line ) {
+                aoe_string_temp = _( "Line Width" );
+            }
+            aoe_string = string_format( _( "%1$s: %2$d %3$s" ), aoe_string_temp, spl.aoe(), degree_string );
+        }
+
+    } else if( spl_eff == "teleport_random" ) {
+        if( spl.aoe() > 0 ) {
+            aoe_string = string_format( _( "Variance: %1$d" ), spl.aoe() );
+        }
+
+    } else if( spl_eff == "spawn_item" ) {
+        damage_string = string_format( _( "Spawn %1$d %2$s" ), spl.damage(),
+                                       item::nname( itype_id( spl.effect_data() ), spl.damage() ) );
+
+    } else if( spl_eff == "summon" ) {
+        std::string monster_name = "FIXME";
+        if( spl.has_flag( spell_flag::SPAWN_GROUP ) ) {
+            // TODO: Get a more user-friendly group name
+            if( MonsterGroupManager::isValidMonsterGroup( mongroup_id( spl.effect_data() ) ) ) {
+                monster_name = string_format( _( "from %1$s" ), spl.effect_data() );
+            } else {
+                debugmsg( "Unknown monster group: %s", spl.effect_data() );
+            }
+        } else {
+            monster_name = monster( mtype_id( spl.effect_data() ) ).get_name();
+        }
+        damage_string = string_format( _( "Summon: %1$d %2$s" ), spl.damage(), monster_name );
+        aoe_string = string_format( _( "Spell Radius: %1$d" ), spl.aoe() );
+
+    } else if( spl_eff == "targeted_polymorph" ) {
+        std::string monster_name = spl.effect_data();
+        if( spl.has_flag( spell_flag::POLYMORPH_GROUP ) ) {
+            // TODO: Get a more user-friendly group name
+            if( MonsterGroupManager::isValidMonsterGroup( mongroup_id( spl.effect_data() ) ) ) {
+                monster_name = _( "random creature" );
+            } else {
+                debugmsg( "Unknown monster group: %s", spl.effect_data() );
+            }
+        } else if( monster_name.empty() ) {
+            monster_name = _( "random creature" );
+        } else {
+            monster_name = mtype_id( spl.effect_data() )->nname();
+        }
+        damage_string = string_format( _( "Targets under: %1$dhp become a %2$s" ), spl.damage(),
+                                       monster_name );
+
+    } else if( spl_eff == "ter_transform" ) {
+        aoe_string = string_format( "Spell Radius: %1$s", spl.aoe_string() );
+
+    } else if( spl_eff == "banishment" ) {
+        damage_string = string_format( _( "Damage: %1$s %2$s" ), spl.damage_string(),
+                                       spl.damage_type_string() );
+        if( spl.aoe() > 0 ) {
+            aoe_string = string_format( _( "Spell Radius: %1$d" ), spl.aoe() );
+        }
+    }
+
+    // Range / AOE in two columns
+    print_colored_text( window, point( 2, line ), gray, gray,
+                        string_format( _( "Range: %1$s" ),
+                                       spl.range() <= 0 ? _( "self" ) : std::to_string( spl.range() ) ) );
+
+    print_colored_text( window, point( 2, line++ ), gray, gray, aoe_string );
+
+    // One line for damage / healing / spawn / summon effect
+    print_colored_text( window, point( 2, line++ ), gray, gray, damage_string );
+
+    // todo: damage over time here, when it gets implemented
+
+    // Show duration for spells that endure
+    if( spl.duration() > 0 || spl.has_flag( spell_flag::PERMANENT ) ) {
+        print_colored_text( window, point( 2, line++ ), gray, gray,
+                            string_format( _( "Duration: %1$s" ), spl.duration_string() ) );
+    }
+
+    line++;
+
+    // helper function for printing tool and item component requirement lists
+    const auto print_vec_string = [&]( const std::vector<std::string> &vec ) {
+        for( const std::string &line_str : vec ) {
+            print_colored_text( window, point( 2, line++ ), gray, gray, line_str );
+        }
+    };
+
+    if( spl.has_components() ) {
+        if( !spl.components().get_components().empty() ) {
+            print_vec_string( spl.components().get_folded_components_list( width - 2, gray,
+                              chrc.crafting_inventory(), return_true<item> ) );
+        }
+        if( !( spl.components().get_tools().empty() && spl.components().get_qualities().empty() ) ) {
+            print_vec_string( spl.components().get_folded_tools_list( width - 2, gray,
+                              chrc.crafting_inventory() ) );
+        }
+    }
+}
+
+void change_spells( Character &character )
+{
+    if( spell_type::get_all().empty() ) {
+        add_msg( m_info, _( "There are no spells to change." ) );
+        return;
+    }
+
+    using spell_pair = std::pair<spell_type, int>;
+    // spell_type, spell level
+    std::vector<spell_pair> spells_all( spell_type::get_all().size() );
+    // maps which spells will show on the list
+    std::vector<spell_pair *> spells_relative( spell_type::get_all().size() );
+
+    int spname_len = 0;
+    const size_t spells_all_size = spells_all.size();
+    for( size_t i = 0; i < spells_all_size; ++i ) {
+        spells_all[i].first = spell_type::get_all()[i];
+        spells_all[i].second = -1;
+
+        spells_relative[i] = &spells_all[i];
+
+        // get max spell name length
+        spname_len = std::max( spname_len, utf8_width( spells_all[i].first.name.translated() ) );
+    }
+    spname_len += 2;
+
+    // fill the levels for spells the character knowns
+    for( const spell *sp : character.magic->get_spells() ) {
+        auto iterator = std::find_if( spells_all.begin(),
+                                      // spell_pair = std::pair<spell_type, int>
+        spells_all.end(), [&sp]( spell_pair & spt ) -> bool {
+            return spt.first.id == sp->id();
+        } );
+        spells_all[iterator - spells_all.begin()].second = sp->get_level();
+    }
+
+    auto set_spell = [&character]( spell_type & splt, int spell_level ) {
+        if( spell_level == -1 ) {
+            character.magic->get_spellbook().erase( splt.id );
+        } else if( character.magic->knows_spell( splt.id ) ) {
+            character.magic->get_spell( splt.id ).set_level( spell_level );
+        } else {
+            spell spl( splt.id );
+            character.magic->get_spellbook().emplace( splt.id, spl );
+            character.magic->get_spell( splt.id ).set_level( spell_level );
+        }
+    };
+
+    ui_adaptor spellsui;
+    catacurses::window spells_name;
+    catacurses::window spells_level;
+    catacurses::window spells_description;
+
+    scrollbar scrllbr;
+    scrllbr.offset_x( 0 ).offset_y( 1 );
+
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        spells_name = catacurses::newwin( TERMY, spname_len, {} );
+        spells_level = catacurses::newwin( TERMY, 11, {spname_len - 1, 0} );
+        spells_description = catacurses::newwin( TERMY, TERMX - ( spname_len + 9 ), {spname_len + 9, 0} );
+        scrllbr.viewport_size( TERMY - 2 );
+        ui.position_from_window( spells_name );
+    };
+
+    input_context ctxt( "DEBUG_SPELLS" );
+    ctxt.register_action( "UNLEARN_SPELL" ); // Quickly unlearn a spell
+    ctxt.register_action( "TOGGLE_ALL_SPELL" ); // Cycle level on all spells in spells_relative
+    ctxt.register_action( "SHOW_ONLY_LEARNED" ); // Removes all unlearned spells in spells_relative
+    ctxt.register_cardinal(); // left and right change spell level
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "CONFIRM" ); // set a spell to a level
+    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    int spells_start = 0;
+    int spell_selected = 0;
+    std::string filterstring;
+    spellsui.on_redraw( [&]( const ui_adaptor & ) {
+        werase( spells_name );
+        werase( spells_level );
+        werase( spells_description );
+
+        draw_border( spells_name, c_magenta, _( "<Spell Name>" ) );
+        draw_border( spells_level, c_magenta, _( "<Level>" ) );
+        draw_border( spells_description, c_magenta, _( "<Description>" ) );
+
+        // Pretty border corners
+        mvwputch( spells_level, point( 0, 0 ), c_magenta, LINE_OXXX );
+        mvwputch( spells_level, point( 10, 0 ), c_magenta, LINE_OXXX );
+        mvwputch( spells_level, point( 0, TERMY - 1 ), c_magenta, LINE_XXOX );
+        mvwputch( spells_level, point( 10, TERMY - 1 ), c_magenta, LINE_XXOX );
+
+        nc_color gray = c_light_gray;
+        const std::string help_keybindings = string_format(
+                _( "<[<color_yellow>%1$s</color>] Keybindings>" ),
+                ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+        print_colored_text( spells_description,
+                            point( TERMX - ( spname_len + 9 ) - 1 - help_keybindings.length() + 22, TERMY - 1 ),
+                            gray, gray, help_keybindings );
+
+        std::string help_filter;
+        if( filterstring.empty() ) {
+            help_filter = string_format( _( "<[<color_yellow>%1$s</color>] Filter>" ),
+                                         ctxt.get_desc( "FILTER" ) );
+        } else {
+            help_filter = string_format( "<%s>", filterstring );
+        }
+
+        print_colored_text( spells_name, point( 1, TERMY - 1 ),
+                            gray, gray, help_filter );
+
+        const int relative_size = spells_relative.size();
+        scrllbr.content_size( relative_size );
+        scrllbr.viewport_pos( spell_selected );
+        scrllbr.apply( spells_name );
+
+        calcStartPos( spells_start, spell_selected, TERMY - 2, relative_size );
+
+        int line_number = 1;
+        for( int i = spells_start; i < relative_size; ++i ) {
+            if( line_number == TERMY - 1 ) {
+                break;
+            }
+
+            const spell_type &splt = spells_relative[i]->first;
+            const int &spell_level = spells_relative[i]->second;
+
+            nc_color spell_color = spell_level > -1 ? c_green : c_light_gray;
+            spell_color = i == spell_selected ? hilite( spell_color ) : spell_color;
+
+            mvwprintz( spells_name, point( 2, line_number ),
+                       spell_color, splt.name.translated() );
+            mvwprintz( spells_level, point( 2, line_number++ ), spell_color,
+                       _( "%1$-3d/%2$3d" ), spell_level, splt.max_level );
+        }
+
+        spell_description( *spells_relative[spell_selected], spells_description,
+                           TERMX - ( spname_len + 9 ),
+                           character );
+
+        wnoutrefresh( spells_name );
+        wnoutrefresh( spells_description );
+        wnoutrefresh( spells_level ); // Draw this last so we can have pretty borders
+    } );
+
+    // keep the same spell selected
+    auto spell_middle_or_id = [&]( const spell_id & spellid ) -> void {
+        if( spellid.is_empty() )
+        {
+            spell_selected = 0;
+            return;
+        }
+
+        // in case we don't find anything, keep selection in the middle of screen
+        const size_t spells_relative_size = spells_relative.size();
+        spell_selected = std::min( ( TERMY - 2 ) / 2, static_cast<int>( spells_relative_size ) / 2 );
+        for( size_t i = 0; i < spells_relative_size; ++i )
+        {
+            if( spells_relative[i]->first.id == spellid ) {
+                spell_selected = i;
+                break;
+            }
+        }
+    };
+
+    // reset spells_relative vector
+    auto reset_spells_relative = [&]() -> void {
+        //spell_pair = std::pair<spell_type, int>
+        for( spell_pair &spl : spells_all )
+        {
+            spells_relative.emplace_back( &spl );
+        }
+    };
+
+    auto filter_spells = [&]( ) -> void {
+        spell_id &spellid = spells_relative[spell_selected]->first.id;
+        spells_relative.clear();
+        if( filterstring.empty() )
+        {
+            reset_spells_relative();
+        } else
+        {
+            // spell_pair = std::pair<spell_type, int>
+            for( spell_pair &spl : spells_all ) {
+                if( lcmatch( spl.first.name.translated(), filterstring ) ||
+                    lcmatch( spl.first.id.str(), filterstring ) ) {
+                    spells_relative.emplace_back( &spl );
+                }
+            }
+
+            // no spell found, reset relative list
+            if( spells_relative.empty() ) {
+                reset_spells_relative();
+                popup( _( "Nothing found." ) );
+            }
+        }
+
+        spell_middle_or_id( spellid );
+    };
+
+    auto toggle_all_spells = [&]( int level ) {
+        // -2 sets it to max level
+        // spell_pair = std::pair<spell_type, int>
+        for( spell_pair *spl : spells_relative ) {
+            spl->second = level > -2 ? level : spl->first.max_level;
+            set_spell( spl->first, spl->second );
+        }
+    };
+
+    init_windows( spellsui );
+    spellsui.on_screen_resize( init_windows );
+
+    static spell_id last_selected_spellid;
+    spell_middle_or_id( last_selected_spellid );
+
+    // 0 -> turn off all spells
+    // 1 -> set all spells to level 0
+    // 2 -> set all spells to their max level
+    int toggle_spells_state = 1;
+
+    bool showing_only_learned = false;
+
+    while( true ) {
+        ui_manager::redraw();
+        const std::string action = ctxt.handle_input();
+
+        if( action == "QUIT" ) {
+            last_selected_spellid = spells_relative[spell_selected]->first.id;
+            break;
+
+        } else if( action == "FILTER" ) {
+            string_input_popup()
+            .title( _( "Filter:" ) )
+            .width( 16 )
+            .description( _( "Filter by spell name or id" ) )
+            .edit( filterstring );
+
+            showing_only_learned = false;
+            filter_spells( );
+
+        } else if( action == "RESET_FILTER" ) {
+            showing_only_learned = false;
+            filterstring.clear();
+            filter_spells();
+
+        } else if( action == "UP" ) {
+            if( !spell_selected ) {
+                spell_selected = spells_relative.size() - 1;
+            } else {
+                spell_selected--;
+            }
+
+        } else if( action == "DOWN" ) {
+            spell_selected++;
+            if( static_cast<size_t>( spell_selected ) == spells_relative.size() ) {
+                spell_selected = 0;
+            }
+
+        } else if( action == "LEFT" ) {
+            int &spell_level = spells_relative[spell_selected]->second;
+            spell_level = std::max( -1, spell_level - 1 );
+            set_spell( spells_relative[spell_selected]->first, spell_level );
+
+        } else if( action == "RIGHT" ) {
+            int &spell_level = spells_relative[spell_selected]->second;
+            spell_level = std::min( spell_level + 1,
+                                    spells_relative[spell_selected]->first.max_level );
+            set_spell( spells_relative[spell_selected]->first, spell_level );
+
+        } else if( action == "CONFIRM" ) {
+            int &spell_level = spells_relative[spell_selected]->second;
+            query_int( spell_level, _( "Set spell level to?  Currently: %1$d" ), spell_level );
+            spell_level = clamp( spell_level, -1, spells_relative[spell_selected]->first.max_level );
+            set_spell( spells_relative[spell_selected]->first, spell_level );
+
+        } else if( action == "UNLEARN_SPELL" ) {
+            int &spell_level = spells_relative[spell_selected]->second;
+            spell_level = -1;
+            set_spell( spells_relative[spell_selected]->first, spell_level );
+
+        } else if( action == "TOGGLE_ALL_SPELL" ) {
+            if( toggle_spells_state == 0 ) {
+                toggle_spells_state = 1;
+                toggle_all_spells( -1 ); // unlearn all spells
+            } else if( toggle_spells_state == 1 ) {
+                toggle_spells_state = 2;
+                toggle_all_spells( 0 ); // sets all spells to the minimum level
+            } else  {
+                toggle_spells_state = 0;
+                toggle_all_spells( -2 ); // max level
+            }
+
+        } else if( action == "SHOW_ONLY_LEARNED" ) {
+            showing_only_learned = !showing_only_learned;
+
+            spell_id &spellid = spells_relative[spell_selected]->first.id;
+            spells_relative.clear();
+            if( showing_only_learned ) {
+                // spell_pair = std::pair<spell_type, int>
+                for( spell_pair &spl : spells_all ) {
+                    if( spl.second > -1 ) {
+                        spells_relative.emplace_back( &spl );
+                    }
+                }
+
+                if( spells_relative.empty() ) {
+                    popup( _( "Nothing found." ) );
+                    showing_only_learned = false;
+                }
+            }
+
+            if( !showing_only_learned ) {
+                reset_spells_relative();
+            }
+
+            spell_middle_or_id( spellid );
+        }
+    }
+}
+
 void teleport_short()
 {
     const cata::optional<tripoint> where = g->look_around();
@@ -580,7 +1123,7 @@ void character_edit_menu()
     }
 
     enum {
-        D_DESC, D_SKILLS, D_PROF, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+        D_DESC, D_SKILLS, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA
     };
@@ -589,6 +1132,7 @@ void character_edit_menu()
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
     nmenu.addentry( D_PROF, true, 'P', "%s", _( "Edit [P]roficiencies" ) );
     nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
+    nmenu.addentry( D_SPELLS, true, 'l', "%s", _( "Edit spe[l]ls" ) );
     nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant [i]tems" ) );
     nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _( "[d]elete (all) items" ) );
     nmenu.addentry( D_ITEM_WORN, true, 'w', "%s",
@@ -652,6 +1196,9 @@ void character_edit_menu()
             }
         }
         break;
+        case D_SPELLS:
+            change_spells( *p.as_character() );
+            break;
         case D_PROF:
             wishproficiency( &p );
             break;
@@ -2077,57 +2624,9 @@ void debug()
             popup( popup_msg );
         }
         break;
-        case debug_menu_index::LEARN_SPELLS:
-            if( spell_type::get_all().empty() ) {
-                add_msg( m_bad, _( "There are no spells to learn.  You must install a mod that adds some." ) );
-            } else {
-                for( const spell_type &learn : spell_type::get_all() ) {
-                    player_character.magic->learn_spell( &learn, player_character, true );
-                }
-                add_msg( m_good,
-                         _( "You have become an Archwizardpriest!  What will you do with your newfound power?" ) );
-            }
+        case debug_menu_index::CHANGE_SPELLS:
+            change_spells( player_character );
             break;
-        case debug_menu_index::LEVEL_SPELLS: {
-            std::vector<spell *> spells = player_character.magic->get_spells();
-            if( spells.empty() ) {
-                add_msg( m_bad, _( "Try learning some spells first." ) );
-                return;
-            }
-            std::vector<uilist_entry> uiles;
-            {
-                uilist_entry uile( _( "Spell" ) );
-                uile.ctxt = string_format( "%s %s",
-                                           //~ translation should not exceed 4 console cells
-                                           right_justify( _( "LVL" ), 4 ),
-                                           //~ translation should not exceed 4 console cells
-                                           right_justify( _( "MAX" ), 4 ) );
-                uile.enabled = false;
-                uiles.emplace_back( uile );
-            }
-            int retval = 0;
-            for( spell *sp : spells ) {
-                uilist_entry uile( sp->name() );
-                uile.ctxt = string_format( "%4d %4d", sp->get_level(), sp->get_max_level() );
-                uile.retval = retval++;
-                uile.enabled = !sp->is_max_level();
-                uiles.emplace_back( uile );
-            }
-            int action = uilist( _( "Debug level spell:" ), uiles );
-            if( action < 0 ) {
-                return;
-            }
-            int desired_level = 0;
-            int cur_level = spells[action]->get_level();
-            query_int( desired_level, _( "Desired Spell Level: (Current %d)" ), cur_level );
-            desired_level = std::min( desired_level, spells[action]->get_max_level() );
-            while( cur_level < desired_level ) {
-                spells[action]->gain_level();
-                cur_level = spells[action]->get_level();
-            }
-            add_msg( m_good, _( "%s is now level %d!" ), spells[action]->name(), spells[action]->get_level() );
-            break;
-        }
         case debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION:
             MapExtras::debug_spawn_test();
             break;
