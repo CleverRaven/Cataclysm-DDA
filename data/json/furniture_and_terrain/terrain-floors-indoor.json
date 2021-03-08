@@ -867,19 +867,5 @@
       "sound_fail_vol": 4,
       "ter_set": "t_dirt"
     }
-  },  
-  {
-    "type": "terrain",
-    "id": "t_floor_brood_fake",
-    "name": "open air",
-    "description": "This is open air.",
-	"//": "Actually, this is a thin membrane of bullshit to keep wasp eggs levitating.",
-    "symbol": " ",
-	"looks_like": "t_open_air",
-    "color": "i_cyan",
-    "move_cost": 2,
-    "trap": "tr_ledge",
-    "flags": [ "TRANSPARENT" ],
-    "examine_action": "ledge"
   }
 ]
