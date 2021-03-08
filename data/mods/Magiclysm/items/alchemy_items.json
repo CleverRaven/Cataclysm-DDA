@@ -310,7 +310,7 @@
     "use_action": {
       "need_wielding": true,
       "target": "alchemist_bomb_act",
-      "msg": "You mix the contents of the bottle, and it start to sizzle.",
+      "msg": "You mix the contents of the bottle, and it starts to sizzle.",
       "target_charges": 8,
       "active": true,
       "menu_text": "Mix liquid",
