@@ -24,7 +24,9 @@
     "base_energy_cost": 250,
     "base_casting_time": 100,
     "difficulty": 1,
-    "flags": [ "NO_LEGS", "SOMATIC", "CONCENTRATE" ]
+    "flags": [ "NO_LEGS", "SOMATIC", "CONCENTRATE" ],
+    "sound_id": "shadow_field",
+    "variant_sound": "field"
   },
   {
     "id": "magic_missile",
@@ -95,7 +97,9 @@
     "spell_class": "MAGUS",
     "base_casting_time": 600,
     "energy_source": "MANA",
-    "base_energy_cost": 350
+    "base_energy_cost": 350,
+    "sound_id": "gravity_well",
+    "variant_sound": "well"
   },
   {
     "id": "magus_mana_blast",
@@ -111,7 +115,7 @@
     "base_casting_time": 150,
     "base_energy_cost": 200,
     "difficulty": 5,
-    "max_level": 20,
+    "max_level": 2,
     "min_damage": 20,
     "max_damage": 80,
     "damage_increment": 3,
@@ -121,7 +125,10 @@
     "aoe_increment": 0.25,
     "min_range": 5,
     "max_range": 20,
-    "range_increment": 1
+    "range_increment": 1,
+    "sound_id": "mana_blast",
+    "variant_sound": "blast"
+
   },
   {
     "id": "magus_mana_bolt",
@@ -144,7 +151,10 @@
     "damage_type": "pure",
     "min_range": 5,
     "max_range": 30,
-    "range_increment": 1.5
+    "range_increment": 1.5,
+    "sound_id": "mana_bolt",
+    "variant_sound": "bolt"
+
   },
   {
     "id": "magus_haste",
@@ -164,7 +174,9 @@
     "max_level": 20,
     "min_duration": 600,
     "max_duration": 12000,
-    "duration_increment": 600
+    "duration_increment": 600,
+    "sound_id": "haste",
+    "variant_sound": "haste"
   },
   {
     "id": "magus_baleful_polymorph",
@@ -188,7 +200,9 @@
     "damage_type": "pure",
     "min_range": 5,
     "max_range": 30,
-    "range_increment": 1.5
+    "range_increment": 1.5,
+    "sound_id": "baleful_polymorph",
+    "variant_sound": "polymorph"
   },
   {
     "id": "magus_mana_beam",
@@ -213,7 +227,9 @@
     "max_aoe": 1,
     "min_range": 5,
     "max_range": 20,
-    "range_increment": 1
+    "range_increment": 1,
+    "sound_id": "mana_beam",
+    "variant_sound": "beam"
   },
   {
     "id": "magus_escape",
@@ -235,7 +251,9 @@
     "spell_class": "MAGUS",
     "base_casting_time": 100,
     "energy_source": "MANA",
-    "base_energy_cost": 250
+    "base_energy_cost": 250,
+    "sound_id": "escape_spell",
+    "variant_sound": "escape"
   },
   {
     "id": "create_rune_magus",
@@ -257,7 +275,9 @@
     "max_level": 0,
     "spell_class": "MAGUS",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ],
+    "sound_id": "create_magus_rune",
+    "variant_sound": "magus_rune"
   },
   {
     "id": "cats_grace",
@@ -277,7 +297,9 @@
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "CONCENTRATE", "NO_PROJECTILE" ],
     "shape": "blast",
     "effect": "attack",
-    "effect_str": "cats_grace"
+    "effect_str": "cats_grace",
+    "sound_id": "cats_grace",
+    "variant_sound": "meow"
   },
   {
     "id": "eagles_sight",
@@ -297,7 +319,9 @@
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "CONCENTRATE", "NO_PROJECTILE" ],
     "shape": "blast",
     "effect": "attack",
-    "effect_str": "eagles_sight"
+    "effect_str": "eagles_sight",
+    "sound_id": "eagles_sight",
+    "variant_sound": "eagle_caw"
   },
   {
     "id": "ogres_strength",
@@ -317,7 +341,9 @@
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "CONCENTRATE", "NO_PROJECTILE" ],
     "shape": "blast",
     "effect": "attack",
-    "effect_str": "ogres_strength"
+    "effect_str": "ogres_strength",
+    "sound_id": "ogres_strength",
+    "variant_sound": "ogres_grown"
   },
   {
     "id": "foxs_cunning",
@@ -337,7 +363,9 @@
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "CONCENTRATE", "NO_PROJECTILE" ],
     "shape": "blast",
     "effect": "attack",
-    "effect_str": "foxs_cunning"
+    "effect_str": "foxs_cunning",
+    "sound_id": "fox_cunning",
+    "variant_sound": "fox_shrill"
   },
   {
     "id": "magus_summon_impact_sling",
@@ -360,6 +388,8 @@
     "base_casting_time": 400,
     "base_energy_cost": 350,
     "energy_source": "MANA",
-    "difficulty": 4
+    "difficulty": 4,
+    "sound_id": "impact_sling",
+    "variant_sound": "enchanted_sling" 
   }
 ]
