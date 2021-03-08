@@ -2404,7 +2404,7 @@
     "type": "GENERIC",
     "id": "bodypillow_makeshift",
     "copy-from": "bodypillow",
-    "name": { "str": "makeshift body pillow", "str_pl": "makeshift body pillows" },
+    "name": { "str": "makeshift body pillow" },
     "description": "A big, body-sized pillow.  Someone drew a vaguely humanoid figure on it.  Its heartwarming smile fills you with joy.",
     "price": 100,
     "price_postapoc": 50
