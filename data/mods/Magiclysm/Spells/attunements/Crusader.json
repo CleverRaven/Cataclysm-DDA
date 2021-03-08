@@ -25,7 +25,7 @@
     "id": "crusader_summon_shield",
     "type": "SPELL",
     "name": "Ancile",
-    "description": "BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_",
+    "description": "Summons the Ancile Shield.",
     "valid_targets": [ "none" ],
     "flags": [ "NO_LEGS", "CONCENTRATE", "VERBAL" ],
     "min_damage": 1,
