@@ -461,7 +461,7 @@ cata::optional<std::string> iuse::can_smoke( const player &u )
     } );
 
     if( !cigs.empty() ) {
-        return _( "You're already smoking a %s!" ), cigs[0]->tname();
+        return string_format( _( "You're already smoking a %s!" ), cigs[0]->tname() );
     }
 
     if( !u.has_charges( itype_fire, 1 ) ) {
