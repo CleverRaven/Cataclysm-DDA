@@ -1296,6 +1296,7 @@
     "id": "chocolate_mre",
     "name": { "str": "military chocolate bar" },
     "copy_from": "chocolate",
+    "symbol": "%",
     "calories": 1800,
     "weight": "115 g",
     "description": "A thick, dense bar of military chocolate.  While tough to chew and not very appetizing, it will provide almost a day's worth of calories in portable form.",
