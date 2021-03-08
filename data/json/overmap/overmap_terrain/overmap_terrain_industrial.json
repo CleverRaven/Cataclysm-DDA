@@ -360,7 +360,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine_entrance",
+    "id": [ "mine_entrance", "mine_entrance_loading_zone" ],
     "name": "mine entrance",
     "sym": "M",
     "color": "magenta",
@@ -369,12 +369,11 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine_entrance_roof",
+    "id": [ "mine_entrance_roof", "mine_entrance_loading_zone_roof" ],
     "name": "mine entrance roof",
     "sym": "M",
     "color": "magenta",
-    "see_cost": 5,
-    "flags": [ "KNOWN_DOWN" ]
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -387,7 +386,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine_shaft_lower",
+    "id": [ "mine_shaft_lower", "mine_shaft_lower_east" ],
     "name": "mine shaft",
     "sym": "O",
     "color": "dark_gray",
