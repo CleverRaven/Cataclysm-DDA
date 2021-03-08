@@ -76,7 +76,7 @@
     "id": "vulcanist_pyroclastic_flow",
     "type": "SPELL",
     "name": "Pyroclastic Flow",
-    "description": "BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_",
+    "description": "Pulls up the heat of the Earth, along with considerable smoke mixed with ashes."
     "effect": "attack",
     "shape": "line",
     "valid_targets": [ "hostile", "ground", "ally" ],
