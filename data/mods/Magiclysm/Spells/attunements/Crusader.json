@@ -3,7 +3,7 @@
     "id": "crusader_summon_sword",
     "type": "SPELL",
     "name": "Azoth",
-    "description": "BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_",
+    "description": "Summons Azoth, the Sword of Judgement.",
     "valid_targets": [ "none" ],
     "flags": [ "NO_LEGS", "CONCENTRATE", "VERBAL" ],
     "effect": "spawn_item",
