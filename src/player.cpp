@@ -2035,6 +2035,11 @@ void player::use( item_location loc, int pre_obtain_moves )
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
                                      used.is_food() ) ) ) {
         if( avatar *u = as_avatar() ) {
+            const ret_val<edible_rating> ret = u->will_eat( used, true );
+            if( !ret.success() ) {
+                moves = pre_obtain_moves;
+                return;
+            }
             u->assign_activity( player_activity( consume_activity_actor( item_location( *u, &used ) ) ) );
         } else  {
             const time_duration &consume_time = get_consume_time( used );
