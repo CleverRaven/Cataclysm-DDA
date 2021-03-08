@@ -1303,7 +1303,6 @@
     "price_postapoc": 500,
     "material": [ "junk" ],
     "volume": "250 ml",
-    "charges": 1,
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": -3
   }
