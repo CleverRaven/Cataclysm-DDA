@@ -323,7 +323,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "mana bomb (lit)", "str_pl": "mana bombs (lit)" },
-    "description": "The liquid in bottle is snizzle.  Throw it to your enemy is a good idea.",
+    "description": "The liquid in the bottle is sizzling. Throwing it away from you, preferably at an enemy, would be a very good idea.",
     "weight": "430 g",
     "volume": "200 ml",
     "price": 0,
