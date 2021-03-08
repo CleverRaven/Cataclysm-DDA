@@ -175,7 +175,7 @@
     "valid": false,
     "description": "Named for the auroras that grace the poles of the earth, the Boreal mage specializes in auras that protect ethereally.  Boreal mages definitely know their way around cold spells, but their real strength is protection.",
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
-    "spells_learned": [ [ "auroral_wave", 5 ] ],
+    "spells_learned": [ [ "auroral_wave", 5 ], [ "borealmage_auroral_guard", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -257,7 +257,7 @@
     "valid": false,
     "description": "The Crusader attunement is a clashing dichotomy of Man and Nature.  Utilizing man's propensity for tools and nature's resilience, the Crusader is a juggernaut in armed combat.",
     "prereqs": [ "DRUID", "TECHNOMANCER" ],
-    "spells_learned": [ [ "crusader_summon_sword", 5 ], [ "crusader_summon_shield", 5 ] ],
+    "spells_learned": [ [ "crusader_summon_sword", 5 ], [ "crusader_summon_armor", 5 ] ],
     "passive_mods": { "dex_mod": 5 },
     "hp_modifier": 1,
     "cancels": [
