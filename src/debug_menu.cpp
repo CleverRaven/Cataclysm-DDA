@@ -463,7 +463,7 @@ static void spell_description( const std::pair<spell_type, int> &spl_data,
 
     line++;
 
-    //~ %1$s - spell current level, %2$s - spell max level
+    //~ %1$s - spell current level, %2$s - spell max level, %3$s - is max level
     // Spell Level: 0 / 0 (MAX)
     print_colored_text( window, point( 2, line++ ), gray, gray,
                         string_format(
@@ -472,7 +472,7 @@ static void spell_description( const std::pair<spell_type, int> &spl_data,
                             spl.get_max_level(),
                             spl_level == spl.get_max_level() ? _( "(MAX)" ) : "" ) );
 
-    //~ %1$s - difficulty, %2$s - failure chance
+    //~ %1$d - difficulty, %2$s - failure chance
     // Difficulty: 0 ( 0.0 % Failure Chance)
     print_colored_text( window, point( 2, line++ ), gray, gray,
                         string_format( _( "Difficulty: %1$d ( %2$s )" ),
@@ -482,7 +482,7 @@ static void spell_description( const std::pair<spell_type, int> &spl_data,
 
     const std::string impeded = _( "(impeded)" );
 
-    //~ %1$s - energy cost, %3$d - current character energy
+    //~ %1$s - energy cost, %2$s - is casting impeded, %3$s - current character energy
     // Casting Cost: 0 (impeded) ( 0 current )
     print_colored_text( window, point( 2, line++ ), gray, gray,
                         string_format( _( "Casting Cost: %1$s %2$s ( %3$s current ) " ),
@@ -492,7 +492,7 @@ static void spell_description( const std::pair<spell_type, int> &spl_data,
                                      ) );
 
 
-    //~ %1$s - cast time, %3$d - current character energy
+    //~ %1$s - cast time, %2$s - is casting impeded, %3$s - casting base time
     // Casting Time: 0 (impeded)
     print_colored_text( window, point( 2, line++ ), gray, gray,
                         string_format( _( "Casting Time: %1$s %2$s ( %3$s base time ) " ),
@@ -732,7 +732,7 @@ void change_spells( Character &character )
         draw_border( spells_description, c_magenta, _( "<Description>" ) );
 
         // Pretty border corners
-        mvwputch( spells_level, point( 0, 0 ), c_magenta, LINE_OXXX );
+        mvwputch( spells_level, point_zero, c_magenta, LINE_OXXX );
         mvwputch( spells_level, point( 10, 0 ), c_magenta, LINE_OXXX );
         mvwputch( spells_level, point( 0, TERMY - 1 ), c_magenta, LINE_XXOX );
         mvwputch( spells_level, point( 10, TERMY - 1 ), c_magenta, LINE_XXOX );
