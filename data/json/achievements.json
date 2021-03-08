@@ -3,8 +3,7 @@
     "id": "achievement_kill_zombie",
     "type": "achievement",
     "name": "One down, billions to go\u2026",
-    "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": ">=", "target": 1 } ],
-    "foo": "bar"
+    "requirements": [ { "event_statistic": "num_avatar_zombie_kills", "is": ">=", "target": 1 } ]
   },
   {
     "id": "achievement_kill_cyborg",
