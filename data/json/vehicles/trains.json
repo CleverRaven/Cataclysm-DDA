@@ -249,5 +249,12 @@
       { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "seat", "rail_wheel_small_pair", "controls" ] },
       { "x": 0, "y": 0, "parts": [ { "part": "fuel_bunker", "fuel": "coal_lump" } ] }
     ]
+  },
+  {
+    "id": "trolley",
+    "type": "vehicle",
+    "name": "Trolley",
+    "blueprint": [ "O" ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "frame_vertical", "cargo_space", "rail_wheel_small_pair" ] } ]
   }
 ]
