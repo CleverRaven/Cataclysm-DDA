@@ -56,8 +56,8 @@
   {
     "type": "SPELL",
     "id": "life_drain",
-    "name": "life_drain",
-    "description": "BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_BLANK_",
+    "name": "Life Drain",
+    "description": "This spell takes some of an enemy's life, and part of it comes to you in a less-potent form.",
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ally" ],
