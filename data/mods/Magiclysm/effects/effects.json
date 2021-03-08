@@ -305,7 +305,7 @@
     "type": "effect_type",
     "id": "cold_heart_effect",
     "name": [ "Cold Heart" ],
-    "desc": [ "Heart of this creacure was shattered, his life slowly slips away." ],
+    "desc": [ "Full of chilled blood, the heart slows as it grows cold." ],
     "apply_message": "You feel yourself slower.",
     "remove_message": "You feel yourself better.",
     "rating": "bad",
