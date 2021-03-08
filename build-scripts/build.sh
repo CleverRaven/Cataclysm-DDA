@@ -49,7 +49,7 @@ function run_test
         echo "$3sed exited with code $sed_exit_code"
         exit_code=1
     fi
-    return 0
+    return $exit_code
 }
 export -f run_test
 
