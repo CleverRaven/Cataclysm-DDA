@@ -1293,17 +1293,17 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "chocolate_mre",
+    "id": "chocolate_military",
     "name": { "str": "military chocolate bar" },
-    "copy_from": "chocolate",
+    "color": "brown",
     "symbol": "%",
-    "calories": 1800,
+    "calories": 600,
     "weight": "115 g",
     "description": "A thick, dense bar of military chocolate.  While tough to chew and not very appetizing, it will provide almost a day's worth of calories in portable form.",
     "price": 250,
     "price_postapoc": 500,
     "material": [ "junk" ],
-    "volume": "250 ml",
+    "volume": "500 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": -3
   }
