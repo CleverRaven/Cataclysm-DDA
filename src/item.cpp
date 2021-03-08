@@ -5479,6 +5479,8 @@ int item::current_reach_range( const Character &guy ) const
 
     if( has_flag( flag_REACH_ATTACK ) ) {
         res = has_flag( flag_REACH3 ) ? 3 : 2;
+    } else if( is_gun() && !is_gunmod() && gun_current_mode().melee() ) {
+        res = gun_current_mode().target->gun_range();
     }
 
     if( is_gun() && !is_gunmod() ) {
