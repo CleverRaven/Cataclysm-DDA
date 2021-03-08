@@ -212,7 +212,7 @@
     "copy-from": "pseudo_fuel",
     "fuel_data": { "energy": 500, "perpetual": true }
   },
-    {
+  {
     "type": "material",
     "id": "concentrated_mana",
     "name": "Concentrated Mana",

@@ -793,7 +793,7 @@
     "environmental_protection": 5,
     "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
   },
-   {
+  {
     "id": "aura_auroral_guard",
     "type": "ARMOR",
     "category": "armor",
@@ -810,5 +810,5 @@
     "material_thickness": 1.7,
     "environmental_protection": 5,
     "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
-  } 
+  }
 ]
