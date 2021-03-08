@@ -380,6 +380,14 @@ class spell_type
         static const float casting_time_increment_default;
 };
 
+// functions for spell description
+namespace spell_desc
+{
+bool casting_time_encumbered( const spell &sp, const Character &guy );
+bool energy_cost_encumbered( const spell &sp, const Character &guy );
+std::string enumerate_spell_data( const spell &sp );
+} // namespace spell_desc
+
 class spell
 {
     private:
@@ -589,6 +597,10 @@ class known_magic
         int select_spell( Character &guy );
         // get all known spells
         std::vector<spell *> get_spells();
+        // directly get the character known spells
+        std::map<spell_id, spell> &get_spellbook() {
+            return spellbook;
+        }
         // how much mana is available to use to cast spells
         int available_mana() const;
         // max mana vailable
