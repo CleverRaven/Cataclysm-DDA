@@ -159,7 +159,6 @@ extern const field_type_str_id fd_fungicidal_gas;
 extern const field_type_str_id fd_insecticidal_gas;
 extern const field_type_str_id fd_smoke_vent;
 extern const field_type_str_id fd_tindalos_rift;
-extern const field_type_str_id fd_mechanical_fluid;
 
 struct field_type;
 

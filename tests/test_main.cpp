@@ -323,6 +323,10 @@ int main( int argc, const char *argv[] )
 
     test_mode = true;
 
+    on_out_of_scope print_newline( []() {
+        printf( "\n" );
+    } );
+
     setupDebug( DebugOutput::std_err );
 
     // Set the seed for mapgen (the seed will also be reset before each test)
@@ -382,8 +386,6 @@ int main( int argc, const char *argv[] )
         DebugLog( D_INFO, DC_ALL ) << "Treating result as failure due to error logged during tests.";
         return 1;
     }
-
-    printf( "\n" );
 
     return result;
 }

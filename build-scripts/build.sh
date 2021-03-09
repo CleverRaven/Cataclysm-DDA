@@ -2,6 +2,7 @@
 
 # Build script intended for use in Travis CI and Github workflow
 
+echo "Using bash version $BASH_VERSION"
 set -exo pipefail
 
 num_jobs=3
@@ -32,6 +33,25 @@ ccache --zero-stats
 # Increase cache size because debug builds generate large object files
 ccache -M 5G
 ccache --show-stats
+
+function run_test
+{
+    set -eo pipefail
+    test_exit_code=0 sed_exit_code=0 exit_code=0
+    $WINE $1 --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS "$2" 2>&1 | sed -E 's/^(::(warning|error|debug)[^:]*::)?/\1'"$3"'/' || test_exit_code="${PIPESTATUS[0]}" sed_exit_code="${PIPESTATUS[1]}"
+    if [ "$test_exit_code" -ne "0" ]
+    then
+        echo "$3test exited with code $test_exit_code"
+        exit_code=1
+    fi
+    if [ "$sed_exit_code" -ne "0" ]
+    then
+        echo "$3sed exited with code $sed_exit_code"
+        exit_code=1
+    fi
+    return $exit_code
+}
+export -f run_test
 
 if [ "$CMAKE" = "1" ]
 then
@@ -208,7 +228,7 @@ else
         # the mod data can be successfully loaded
 
         mods="$(./build-scripts/get_all_mods.py)"
-        $WINE ./tests/cata_test --user-dir=all_modded --mods="$mods" --min-duration 0.2 --use-colour yes --rng-seed $seed $EXTRA_TEST_OPTS "~*"
+        run_test './tests/cata_test --user-dir=all_modded --mods='"${mods}" '~*' ''
     fi
 fi
 ccache --show-stats

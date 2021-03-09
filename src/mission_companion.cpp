@@ -1927,8 +1927,8 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
             std::vector<npc_ptr> camp_npcs = player_camp->get_npcs_assigned();
             if( std::any_of( camp_npcs.begin(), camp_npcs.end(),
             [guy]( const npc_ptr & i ) {
-            return i == guy;
-        } ) ) {
+            return ( ( i == guy ) && ( !guy->has_companion_mission() ) );
+            } ) ) {
                 available.push_back( guy );
             }
         } else {
@@ -1940,8 +1940,8 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
                 std::vector<npc_ptr> assigned_npcs = temp_camp->get_npcs_assigned();
                 if( std::any_of( assigned_npcs.begin(), assigned_npcs.end(),
                 [guy]( const npc_ptr & i ) {
-                return i == guy;
-            } ) ) {
+                return ( ( i == guy ) && ( !guy->has_companion_mission() ) );
+                } ) ) {
                     available.push_back( guy );
                 }
             }
