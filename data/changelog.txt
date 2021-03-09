@@ -1,4 +1,4 @@
-# 0.F (2020-09-01)
+# 0.F (2020-11-01)
 
 ## Features:
 Added option to randomize INITIAL_DAY.
@@ -40,6 +40,9 @@ Add activation abilities and charges to relics.
 Tiles: improve furniture rotation and connections.
 Show which achievements have been completed in past games.
 Artifacts regenerate ammo option.
+Added ACTIVE enchantment condition.
+Allow recipes to specify individual activity levels.
+Add weariness, a sort of long term stamina that limits the character's ability to be extremely active 24/7.
 
 ## Content:
 Gun volume and weight audit.
@@ -62,6 +65,10 @@ Add NPC_class and NPC json templates and instructions.
 Adapts almost all vehicle definitions to use directional parts (most of the work by Curstwist).
 Update UltiCa tileset and make it default.
 Add a number of flying zombies.
+Adds a new alternate needs panel to the label mode.
+Added many proficiencies and uses for them.
+Add frog mother monster.
+Adds mega mutant monsters.
 
 ## Interface:
 Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
@@ -71,6 +78,15 @@ Display missing and obsolete mods for current world.
 Require grenades and other explosives to be wielded before activation.
 Add bigger mini-maps to all sidebar layouts.
 Add keycode support to uilist.
+Allow disabling robots by 'e'xamining them.
+Warn if friendly creature or non-hostile NPC enters line of fire.
+Replaces the CAL/kg column of the (E)at menu with a more meaningful Satiety column.
+Adds a Mod to use MSX characters and monsters with the Ultica tileset.
+Show missing proficiency failure rates for crafting.
+Display contained items like 'water (plastic bottle)' instead of 'plastic bottle of water'.
+Persist preferred aiming mode.
+Makes Chibi Ultica a stand-alone tileset.
+Brings back MSX+.
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
@@ -80,6 +96,26 @@ Overhaul Blazemod and split into seperate mods.
 Polymorph spells to transform your foes.
 Spells using components system.
 Aftershock: Add autodoc tiers and augmentation clinics.
+Adds location variants with dinosaurs.
+Aftershock: Megacity oriented overmap generation adjustments
+Aftershock: Adds new Melee oriented bionics.
+Adds Acrocanthosaurus, dino baby overhaul.
+Adds New Black Dragon Mutation Line.
+Adjusts fog frequency in black dragon lair plus other (minor) map adjustments.
+Adds monsters 'Scutellosaurus', 'Maiasaura', and 'Coelophysis'.
+[Magiclysm] Attunements - Special abilities gained by mastering two schools of magic.
+Adds monsters 'Pachyrhinosaurus', 'Pentaceratops', and 'Torosaurus'.
+Organizes dinos into three main factions with defined inter-faction behavior.
+Rebalance Jurassic spawns and monsters for realism, fix predator in-fighting.
+Cap monsters at 1000 kg so butchering kind of works.
+[Magiclysm] implement summonable motorcycle
+[Magiclysm] Adds a new house with technomancer-themed loot.
+Aftershock: Replaces Vanilla autodocs with Aftershock Average Autodocs.
+DinoMod: Adds monsters 'Brontosaurus', 'Alamosaurus', and 'Brachiosaurus'.
+[Magiclysm] Rings of wizardry and mojocycle tweaks
+[Magiclysm] Adds bullet armor to magic rings and bracers of protection.
+DinoMod: Converts 'dinoexhibit' to use templates, adds a roof, and adds a baby dino variant.
+Ankylosaurs Abound: Dyoplosaurus Nodosaurus Edmontonia
 
 ## Balance:
 Large item price audit.
@@ -90,6 +126,16 @@ More complex satiety calculations.
 NPCs to use ranged weapons against all enemies, and automatic fire against dangerous enemies.
 Antifungal drugs work over time.
 Don't damage hands when smashing but use your most armored part instead.
+Guarantee at least one transversable path in the collapsed tower basement.
+Make Solar Sensitivity mutation respect clothing coverage, precious.
+Unlock NPC recruiting when you build the faction camp radio console.
+Fixed clean_water recipes with purification tablets and charcoal water purifier.
+Brings reloading components closer to reality, make brass casings spawn in packs, and makes gunpowder units 100 mg.
+Missed scenario starts without a random NPC.
+Monsters with larger eyes see farther than smaller variants.
+Ankle storage items don't affect feet-related mutations anymore.
+Give the default Survivor profession more weather-appropriate clothes for the default start.
+Rebalance anesthesia to be more realistic.
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -138,12 +184,31 @@ Vehicles: make shock absorbers actually absorb shock damage.
 Fix NPC dying immediately on accepting inhaler mission
 Fix crash when attempting to butcher a corpse.
 Fix gear getting damaged when weather has no damaging effects.
+Improve invalidation of max_populated_zlev cache, fixes lighting in some teleportation scenarios.
+Prevent dodging or blocking while insensible.
+Fixes apparent light asymmetry when the sun shines through a single-tile hole in the roof.
+Made installation time mandatory for gunmods.
+Makes tents and vehicles block sunlight.
+Fix scent map saved with invalid utf8 sequence.
+Monsters no longer bash obstacles based on sound. This prevents groups of monsters from getting stuck in a loop of bashing based on the sound of other monsters bashing.
+Picking up an item stack fills up your pockets if it doesn't fit into one pocket.
+Wielding combines item stacks if possible.
+Robots can no longer be disabled through melee hits.
+Fixes auto-consume zones in vehicles.
 
 ## Performance:
 Add option to enable batching when it is available in SDL.
 Skip unnecessary weather calculations for root cellar.
 Cache drop_invalid_inventory and weight_carried.
-Check for safemode emptiness before calling monster check.
+Cache clairvoyance field.
+Performance improvements related to map::process_fields.
+Overhaul shadowcasting to be iterative instead of recursive.
+Use plf linked list impl for shadowcasting.
+Improve string_id comparison performance, add unit test and benchmarks.
+Improves rendering speed by optimizing find_tile_looks_like method (FPS improved ~15%)
+Greatly reduce overhead of processing idle vehicles.
+Optimizes Creature::has_effect (performance improved ~9.5%)
+Adds a specialization for static/interned string_ids  (performance improved ~30%))
 
 ## Infrastructure:
 Add basic infrastructure for diseases.
@@ -201,7 +266,14 @@ Add error-checking of recipe (sub)categories.
 Unblacklist most remaining blacklisted mods for automated consistency checking.
 Report log messages for failed tests.
 Reinstate blueprint autocalc.
-Add a compiler error problem matcher.
+Refactored vision_test. Introduced map_test_case framework to build similar tests easier.
+Add tests for better_pocket and best_pocket.
+Renames skills in preparation for some future improvements; merges speech & barter.
+Merges trapping and lockpicking skills into a new 'devices' skill, and expands its scope somewhat.
+Add default time and fail multipliers to proficiencies for easier JSON entry.
+Introduce STATIC( ) macro that can reduce the verbosity of the static constants definition.
+Add typesafe angle type.
+Add check that Generic Guns migrates all guns, magazines, and ammo.
 
 ## Build:
 Create a GitHub workflow for running clang-tidy.
@@ -217,14 +289,19 @@ Improve use of precompiled headers.
 compose.py: allow default sized tilesheets to specify offsets.
 Enable compiling an Android build under Windows.
 Tools: add a Python script to reformat vehicles to use parts arrays.
+Suppress Homebrew update for faster OSX builds.
+Adds problem matchers for json errors, compiler errors, DebugLog emissions, and Catch2 errors.
+Add check enforcing almost-never-auto convention.
+Adds a GitHub workflow running flake8 to check the Python scripts.
 
 ## I18N and A11Y:
-Fix translation of martial art initate message and computer translation.
+Fix translation of martial art initiate message and computer translation.
 Add support for specifying identical singular and plural forms using `str_sp`.
 Remove name_plural and replace it with str_pl.
 Add helper for localized sorting.
 Record locales in debug.log to assist with i18n debugging.
 Add translator glossary and explain etymology of Exodii.
+Use class translation in many more places.
 
 # 0.E (Ellison)
 
