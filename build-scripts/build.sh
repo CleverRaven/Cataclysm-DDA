@@ -155,8 +155,8 @@ then
 	else
 	    seed="$(shuf -i 0-1000000000 -n 1)"
 	fi
-        [ -f "${bin_path}cata_test" ] && parallel --verbose --tagstring "({1} {2})=>" --linebuffer $WINE ${bin_path}/cata_test --durations yes --use-colour yes --rng-seed $seed $EXTRA_TEST_OPTS {1} {2} ::: "--order decl" "--order rand" ::: "--success [weary]" "-f weary_nutrition_tests.txt"
-        [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --tagstring "({})=>" --linebuffer $WINE ${bin_path}/cata_test-tiles --durations yes --use-colour yes --rng-seed $seed $EXTRA_TEST_OPTS {1} {2} ::: "--order decl" "--order rand" ::: "--success [weary]" "-f weary_nutrition_tests.txt"
+        [ -f "${bin_path}cata_test" ] && parallel --verbose --tagstring "({1} {2})=>" --linebuffer $WINE ${bin_path}/cata_test --durations yes --use-colour yes --rng-seed $seed $EXTRA_TEST_OPTS {1} {2} ::: "--order decl" "--order rand" ::: "[weary]" "-f weary_nutrition_tests.txt"
+        [ -f "${bin_path}cata_test-tiles" ] && parallel --verbose --tagstring "({})=>" --linebuffer $WINE ${bin_path}/cata_test-tiles --durations yes --use-colour yes --rng-seed $seed $EXTRA_TEST_OPTS {1} {2} ::: "--order decl" "--order rand" ::: "[weary]" "-f weary_nutrition_tests.txt"
     fi
 elif [ "$NATIVE" == "android" ]
 then
@@ -196,10 +196,10 @@ else
     else
 	seed="$(shuf -i 0-1000000000 -n 1)"
     fi
-    parallel --verbose --tagstring "({1} {2})=>" --linebuffer $WINE ./tests/cata_test --durations yes --use-colour yes --rng-seed $seed $EXTRA_TEST_OPTS {1} {2} ::: "--order decl" "--order rand" ::: "--success [weary]" "-f weary_nutrition_tests.txt"
+    parallel --verbose --tagstring "({1} {2})=>" --linebuffer $WINE ./tests/cata_test --durations yes --use-colour yes --rng-seed $seed $EXTRA_TEST_OPTS {1} {2} ::: "--order decl" "--order rand" ::: "[weary]" "-f weary_nutrition_tests.txt"
     if [ -n "$MODS" ]
     then
-        parallel --verbose --tagstring "(Mods {1} {2})=>" --linebuffer $WINE ./tests/cata_test --user-dir=modded $MODS --durations yes --use-colour yes --rng-seed $seed $EXTRA_TEST_OPTS {1} {2} ::: "--order decl" "--order rand" ::: "--success [weary]" "-f weary_nutrition_tests.txt"
+        parallel --verbose --tagstring "(Mods {1} {2})=>" --linebuffer $WINE ./tests/cata_test --user-dir=modded $MODS --durations yes --use-colour yes --rng-seed $seed $EXTRA_TEST_OPTS {1} {2} ::: "--order decl" "--order rand" ::: "-[weary]" "-f weary_nutrition_tests.txt"
     fi
 
     if [ -n "$TEST_STAGE" ]

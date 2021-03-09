@@ -248,7 +248,7 @@ std::string weariness_events::summarize() const
 {
     std::string buffer;
     for( const weary_transition &change : transitions ) {
-        buffer += string_format( "Chng: Wry lv %d-%d @ %d min (W %d Th %d Tr %d In %d Sk %d Gk %d Tk %d)\n",
+        buffer += string_format( "Chng: Wl %d-%d @ %d min (W %d Th %d Tr %d In %d Sk %d Gk %d Tk %d)\n",
                                  change.from, change.to, change.minutes,
                                  change.new_weariness, change.new_threshold,
                                  change.new_tracker, change.new_intake,

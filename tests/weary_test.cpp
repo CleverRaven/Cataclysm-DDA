@@ -74,7 +74,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         CHECK( info.transition_minutes( 1, 2, 250_minutes ) == Approx( 250 ).margin( 5 ) );
         CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
-        // CHECK( !info.have_weary_decrease() );
+        CHECK( !info.have_weary_decrease() );
         CHECK( guy.weariness_level() == 4 );
     }
 
@@ -90,7 +90,7 @@ TEST_CASE( "weary_assorted_tasks", "[weary][activities]" )
         CHECK( info.transition_minutes( 2, 3, 360_minutes ) == Approx( 360 ).margin( 5 ) );
         CHECK( info.transition_minutes( 3, 4, 465_minutes ) == Approx( 465 ).margin( 5 ) );
         CHECK( info.transition_minutes( 4, 5, 600_minutes ) == Approx( 600 ).margin( 5 ) );
-        // CHECK( !info.have_weary_decrease() );
+        CHECK( !info.have_weary_decrease() );
         CHECK( guy.weariness_level() == 5 );
     }
 }
