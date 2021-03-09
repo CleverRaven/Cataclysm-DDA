@@ -421,86 +421,69 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
     }
 }
 
-static void spell_description( const std::pair<spell_type, int> &spl_data,
-                               const catacurses::window &window, int width, Character &chrc )
+static void spell_description(
+    std::tuple<spell_type, int, std::string> &spl_data, int width, Character &chrc )
 {
-    const int spl_level = spl_data.second;
-    spell spl( spl_data.first.id );
+    std::ostringstream description;
+
+    const int spl_level = std::get<1>( spl_data );
+    spell spl( std::get<0>( spl_data ).id );
     spl.set_level( spl_level );
 
-    int line = 1;
-    width -= 4; // 2 character away from the borders
     nc_color gray = c_light_gray;
     nc_color yellow = c_yellow;
     nc_color light_green = c_light_green;
 
     // # spell_id
-    mvwprintz( window, point( 2, line++ ), c_cyan, "# %s", spl.id().str() );
+    description << colorize( string_format( "# %s", spl.id().str() ), c_cyan ) << '\n';
 
     // Name: spell name
-    print_colored_text(
-        window, point( 2, line++ ), gray, gray,
-        string_format( _( "Name: %1$s" ), colorize( spl.name(), c_white ) ) );
+    description << string_format( _( "Name: %1$s" ), colorize( spl.name(), c_white ) ) << '\n';
+
 
     // Class: Spell Class
-    print_colored_text(
-        window, point( 2, line++ ), gray, gray,
-        string_format( _( "Class: %1$s" ),
-                       colorize( spl.spell_class() == trait_NONE ?
-                                 _( "Classless" ) : spl.spell_class()->name(),
-                                 yellow ) )
-    );
-
-    line++;
+    description << string_format( _( "Class: %1$s" ), colorize( spl.spell_class() == trait_NONE ?
+                                  _( "Classless" ) : spl.spell_class()->name(),
+                                  yellow ) ) << "\n";
 
     // Spell description
-    line += 1 + fold_and_print( window, point( 2, line ), width, gray,
-                                spl.description() );
+    description << spl.description() << '\n';
 
     // Spell Casting flags
-    line += fold_and_print( window, point( 2, line ), width, gray,
-                            spell_desc::enumerate_spell_data( spl ) );
-
-    line++;
+    description << spell_desc::enumerate_spell_data( spl ) << '\n';
 
     // Spell Level: 0 / 0 (MAX)
-    print_colored_text( window, point( 2, line++ ), gray, gray,
-                        string_format(
-                            //~ %1$s - spell current level, %2$s - spell max level, %3$s - is max level
-                            _( "Spell Level: %1$s / %2$d %3$s" ),
-                            spl_level == -1 ? _( "Unlearned" ) : std::to_string( spl_level ),
-                            spl.get_max_level(),
-                            spl_level == spl.get_max_level() ? _( "(MAX)" ) : "" ) );
+    description << string_format(
+                    //~ %1$s - spell current level, %2$s - spell max level, %3$s - is max level
+                    _( "Spell Level: %1$s / %2$d %3$s" ),
+                    spl_level == -1 ? _( "Unlearned" ) : std::to_string( spl_level ),
+                    spl.get_max_level(),
+                    spl_level == spl.get_max_level() ? _( "(MAX)" ) : "" ) << '\n';
 
     // Difficulty: 0 ( 0.0 % Failure Chance)
-    print_colored_text( window, point( 2, line++ ), gray, gray,
-                        //~ %1$d - difficulty, %2$s - failure chance
-                        string_format( _( "Difficulty: %1$d ( %2$s )" ),
-                                       spl.get_difficulty(), spl.colorized_fail_percent( chrc ) ) );
+    description << string_format(
+                    //~ %1$d - difficulty, %2$s - failure chance
+                    _( "Difficulty: %1$d ( %2$s )" ),
+                    spl.get_difficulty(), spl.colorized_fail_percent( chrc ) ) << '\n';
 
-    line++;
 
     const std::string impeded = _( "(impeded)" );
 
     // Casting Cost: 0 (impeded) ( 0 current )
-    print_colored_text( window, point( 2, line++ ), gray, gray,
-                        //~ %1$s - energy cost, %2$s - is casting impeded, %3$s - current character energy
-                        string_format( _( "Casting Cost: %1$s %2$s ( %3$s current ) " ),
-                                       spl.energy_cost_string( chrc ),
-                                       spell_desc::energy_cost_encumbered( spl, chrc ) ?  impeded : "",
-                                       spl.energy_cur_string( chrc )
-                                     ) );
+    description << string_format(
+                    //~ %1$s - energy cost, %2$s - is casting impeded, %3$s - current character energy
+                    _( "Casting Cost: %1$s %2$s ( %3$s current ) " ),
+                    spl.energy_cost_string( chrc ),
+                    spell_desc::energy_cost_encumbered( spl, chrc ) ?  impeded : "",
+                    spl.energy_cur_string( chrc ) ) << '\n';
 
     // Casting Time: 0 (impeded)
-    print_colored_text( window, point( 2, line++ ), gray, gray,
-                        //~ %1$s - cast time, %2$s - is casting impeded, %3$s - casting base time
-                        string_format( _( "Casting Time: %1$s %2$s ( %3$s base time ) " ),
-                                       to_string( time_duration::from_moves( spl.casting_time( chrc ) ) ),
-                                       spell_desc::casting_time_encumbered( spl, chrc ) ? impeded : "",
-                                       to_string( time_duration::from_moves( spl_data.first.base_casting_time ) )
-                                     ) );
-
-    line++;
+    description << string_format(
+                    //~ %1$s - cast time, %2$s - is casting impeded, %3$s - casting base time
+                    _( "Casting Time: %1$s %2$s ( %3$s base time ) " ),
+                    to_string( time_duration::from_moves( spl.casting_time( chrc ) ) ),
+                    spell_desc::casting_time_encumbered( spl, chrc ) ? impeded : "",
+                    to_string( time_duration::from_moves( std::get<0>( spl_data ).base_casting_time ) ) ) << '\n';
 
     std::string targets;
     if( spl.is_valid_target( spell_target::none ) ) {
@@ -508,16 +491,12 @@ static void spell_description( const std::pair<spell_type, int> &spl_data,
     } else {
         targets = spl.enumerate_targets();
     }
-    print_colored_text( window, point( 2, line++ ), gray, gray,
-                        string_format( _( "Valid Targets: %1$s" ), targets ) );
+    description << string_format( _( "Valid Targets: %1$s" ), targets ) << '\n';
 
     std::string target_ids = spl.list_targeted_monster_names();
     if( !target_ids.empty() ) {
-        fold_and_print( window, point( 2, line++ ), width, gray,
-                        _( "Only affects the monsters: %1$s" ), target_ids );
+        description << string_format( _( "Only affects the monsters: %1$s" ), target_ids ) << '\n';
     }
-
-    line++;
 
     const int damage = spl.damage();
     const std::string spl_eff = spl.effect();
@@ -605,29 +584,26 @@ static void spell_description( const std::pair<spell_type, int> &spl_data,
     }
 
     // Range / AOE in two columns
-    print_colored_text( window, point( 2, line ), gray, gray,
-                        string_format( _( "Range: %1$s" ),
-                                       spl.range() <= 0 ? _( "self" ) : std::to_string( spl.range() ) ) );
+    description << string_format( _( "Range: %1$s" ),
+                                  spl.range() <= 0 ? _( "self" ) : std::to_string( spl.range() ) ) << '\n';
 
-    print_colored_text( window, point( 2, line++ ), gray, gray, aoe_string );
+
+    description << aoe_string << '\n';
 
     // One line for damage / healing / spawn / summon effect
-    print_colored_text( window, point( 2, line++ ), gray, gray, damage_string );
+    description << damage_string << '\n';
 
     // todo: damage over time here, when it gets implemented
 
     // Show duration for spells that endure
     if( spl.duration() > 0 || spl.has_flag( spell_flag::PERMANENT ) ) {
-        print_colored_text( window, point( 2, line++ ), gray, gray,
-                            string_format( _( "Duration: %1$s" ), spl.duration_string() ) );
+        description << string_format( _( "Duration: %1$s" ), spl.duration_string() ) << '\n';
     }
-
-    line++;
 
     // helper function for printing tool and item component requirement lists
     const auto print_vec_string = [&]( const std::vector<std::string> &vec ) {
         for( const std::string &line_str : vec ) {
-            print_colored_text( window, point( 2, line++ ), gray, gray, line_str );
+            description << line_str << '\n';
         }
     };
 
@@ -641,6 +617,8 @@ static void spell_description( const std::pair<spell_type, int> &spl_data,
                               chrc.crafting_inventory() ) );
         }
     }
+
+    std::get<2>( spl_data ) = description.str();
 }
 
 void change_spells( Character &character )
@@ -650,33 +628,49 @@ void change_spells( Character &character )
         return;
     }
 
-    using spell_pair = std::pair<spell_type, int>;
-    // spell_type, spell level
-    std::vector<spell_pair> spells_all( spell_type::get_all().size() );
+    using spell_tuple = std::tuple<spell_type, int, std::string>;
+    const size_t spells_all_size = spell_type::get_all().size();
+    // all spells with cached string list
+    // the string is rebuilt every time it's empty or its level changed
+    static std::vector<spell_tuple> spells_all( spells_all_size );
     // maps which spells will show on the list
-    std::vector<spell_pair *> spells_relative( spell_type::get_all().size() );
+    std::vector<spell_tuple *> spells_relative( spells_all_size );
+
+    // number of spells changed, current map is invalid
+    bool rebuild_string_cache = false;
+    if( spells_all.size() != spells_all_size ) {
+        rebuild_string_cache = true;
+        spells_all.clear();
+    }
 
     int spname_len = 0;
-    const size_t spells_all_size = spells_all.size();
     for( size_t i = 0; i < spells_all_size; ++i ) {
-        spells_all[i].first = spell_type::get_all()[i];
-        spells_all[i].second = -1;
+        if( rebuild_string_cache ) {
+            spells_all.emplace_back( spell_type{}, -1, std::string{} );
+            std::get<2>( spells_all[i] ).clear();
+        }
+
+        if( std::get<0>( spells_all[i] ).id != spell_type::get_all()[i].id ) {
+            std::get<0>( spells_all[i] ) = spell_type::get_all()[i];
+            std::get<1>( spells_all[i] ) = -1;
+            std::get<2>( spells_all[i] ).clear();
+        }
 
         spells_relative[i] = &spells_all[i];
 
         // get max spell name length
-        spname_len = std::max( spname_len, utf8_width( spells_all[i].first.name.translated() ) );
+        spname_len = std::max( spname_len, utf8_width( std::get<0>( spells_all[i] ).name.translated() ) );
     }
     spname_len += 2;
 
     // fill the levels for spells the character knowns
     for( const spell *sp : character.magic->get_spells() ) {
         auto iterator = std::find_if( spells_all.begin(),
-                                      // spell_pair = std::pair<spell_type, int>
-        spells_all.end(), [&sp]( spell_pair & spt ) -> bool {
-            return spt.first.id == sp->id();
+        spells_all.end(), [&sp]( spell_tuple & spt ) -> bool {
+            return std::get<0>( spt ).id == sp->id();
         } );
-        spells_all[iterator - spells_all.begin()].second = sp->get_level();
+        std::get<1>( spells_all[iterator - spells_all.begin()] ) = sp->get_level();
+        std::get<2>( spells_all[iterator - spells_all.begin()] ).clear();
     }
 
     auto set_spell = [&character]( spell_type & splt, int spell_level ) {
@@ -692,20 +686,55 @@ void change_spells( Character &character )
     };
 
     ui_adaptor spellsui;
-    catacurses::window spells_name;
-    catacurses::window spells_level;
-    catacurses::window spells_description;
+    border_helper borders;
+
+    struct win_info {
+        catacurses::window window;
+        border_helper::border_info *border = nullptr;
+        int width;
+        point start;
+    };
+
+    struct win_info w_name;
+    w_name.border = &borders.add_border();
+    w_name.width = spname_len + 1;
+    w_name.start = point_zero;
+
+    struct win_info w_level;
+    w_level.border = &borders.add_border();
+    w_level.width = 11;
+    w_level.start = {w_name.width, 0};
+
+    struct win_info w_descborder;
+    w_descborder.border = &borders.add_border();
+
+    // desc is inside descborder with a padding of 2 characters
+    struct win_info w_desc;
 
     scrollbar scrllbr;
     scrllbr.offset_x( 0 ).offset_y( 1 ).border_color( c_magenta );
 
-    const auto init_windows = [&]( ui_adaptor & ui ) {
-        spells_name = catacurses::newwin( TERMY, spname_len, {} );
-        spells_level = catacurses::newwin( TERMY, 11, {spname_len - 1, 0} );
-        spells_description = catacurses::newwin( TERMY, TERMX - ( spname_len + 9 ), {spname_len + 9, 0} );
+    spellsui.on_screen_resize( [&]( ui_adaptor & ui ) {
+
+        w_descborder.start = {w_level.start.x + w_level.width, 0};
+        w_descborder.width = TERMX - w_descborder.start.x;
+
+        w_desc.width = w_descborder.width - 4;
+        w_desc.start = {w_descborder.start.x + 2, 1};
+
+        w_name.window = catacurses::newwin( TERMY, w_name.width, w_name.start );
+        w_level.window = catacurses::newwin( TERMY, w_level.width, w_level.start );
+        w_descborder.window = catacurses::newwin( TERMY, w_descborder.width, w_descborder.start );
+        w_desc.window = catacurses::newwin( TERMY - 2, w_desc.width, w_desc.start );
+
+        w_name.border->set( w_name.start, { w_name.width, TERMY } );
+        w_level.border->set( w_level.start, { w_level.width, TERMY } );
+        w_descborder.border->set( w_descborder.start, { w_descborder.width, TERMY } );
+
         scrllbr.viewport_size( TERMY - 2 );
         ui.position( point_zero, { TERMX, TERMY } );
-    };
+    } );
+    spellsui.mark_resize();
 
     input_context ctxt( "DEBUG_SPELLS" );
     ctxt.register_action( "UNLEARN_SPELL" ); // Quickly unlearn a spell
@@ -722,43 +751,42 @@ void change_spells( Character &character )
     int spell_selected = 0;
     std::string filterstring;
     spellsui.on_redraw( [&]( const ui_adaptor & ) {
-        werase( spells_name );
-        werase( spells_level );
-        werase( spells_description );
+        werase( w_name.window );
+        werase( w_level.window );
+        werase( w_descborder.window );
+        werase( w_desc.window );
 
-        draw_border( spells_name, c_magenta, _( "<Spell Name>" ) );
-        draw_border( spells_level, c_magenta, _( "<Level>" ) );
-        draw_border( spells_description, c_magenta, _( "<Description>" ) );
+        borders.draw_border( w_name.window, c_magenta );
+        borders.draw_border( w_level.window, c_magenta );
+        borders.draw_border( w_descborder.window, c_magenta );
 
-        // Pretty border corners
-        mvwputch( spells_level, point_zero, c_magenta, LINE_OXXX );
-        mvwputch( spells_level, point( 10, 0 ), c_magenta, LINE_OXXX );
-        mvwputch( spells_level, point( 0, TERMY - 1 ), c_magenta, LINE_XXOX );
-        mvwputch( spells_level, point( 10, TERMY - 1 ), c_magenta, LINE_XXOX );
+        center_print( w_name.window, 0, c_magenta, _( "<<color_white>Spell Name</color>>" ) );
+        center_print( w_level.window, 0, c_magenta, _( "<<color_white>Level</color>>" ) );
+        center_print( w_descborder.window, 0, c_magenta, _( "<<color_white>Description</color>>" ) );
 
-        nc_color gray = c_light_gray;
+        nc_color magenta = c_magenta;
         const std::string help_keybindings = string_format(
-                _( "<[<color_yellow>%1$s</color>] Keybindings>" ),
+                _( "<<color_white>[<color_yellow>%1$s</color>] Keybindings</color>>" ),
                 ctxt.get_desc( "HELP_KEYBINDINGS" ) );
-        print_colored_text( spells_description,
-                            point( TERMX - ( spname_len + 9 ) - 1 - help_keybindings.length() + 22, TERMY - 1 ),
-                            gray, gray, help_keybindings );
+        print_colored_text( w_descborder.window,
+                            point( w_descborder.width - help_keybindings.length() + 42, TERMY - 1 ),
+                            magenta, magenta, help_keybindings );
 
         std::string help_filter;
         if( filterstring.empty() ) {
-            help_filter = string_format( _( "<[<color_yellow>%1$s</color>] Filter>" ),
+            help_filter = string_format( _( "<<color_white>[<color_yellow>%1$s</color>] Filter</color>>" ),
                                          ctxt.get_desc( "FILTER" ) );
         } else {
-            help_filter = string_format( "<%s>", filterstring );
+            help_filter = string_format( "<<color_white>%s</color>>", filterstring );
         }
 
-        print_colored_text( spells_name, point( 1, TERMY - 1 ),
-                            gray, gray, help_filter );
+        print_colored_text( w_name.window, point( 1, TERMY - 1 ),
+                            magenta, magenta, help_filter );
 
         const int relative_size = spells_relative.size();
         scrllbr.content_size( relative_size );
         scrllbr.viewport_pos( spell_selected );
-        scrllbr.apply( spells_name );
+        scrllbr.apply( w_name.window );
 
         calcStartPos( spells_start, spell_selected, TERMY - 2, relative_size );
 
@@ -768,26 +796,34 @@ void change_spells( Character &character )
                 break;
             }
 
-            const spell_type &splt = spells_relative[i]->first;
-            const int &spell_level = spells_relative[i]->second;
+            const spell_type &splt = std::get<0>( *spells_relative[i] );
+            const int &spell_level = std::get<1>( *spells_relative[i] );
 
             nc_color spell_color = spell_level > -1 ? c_green : c_light_gray;
             spell_color = i == spell_selected ? hilite( spell_color ) : spell_color;
 
-            mvwprintz( spells_name, point( 2, line_number ),
+            mvwprintz( w_name.window, point( 2, line_number ),
                        spell_color, splt.name.translated() );
-            mvwprintz( spells_level, point( 2, line_number++ ), spell_color,
+            mvwprintz( w_level.window, point( 2, line_number++ ), spell_color,
                        _( "%1$-3d/%2$3d" ), spell_level, splt.max_level );
         }
 
-        spell_description( *spells_relative[spell_selected], spells_description,
-                           TERMX - ( spname_len + 9 ),
-                           character );
+        nc_color gray = c_light_gray;
+        print_colored_text( w_desc.window, point_zero, gray, gray,
+                            std::get<2>( *spells_relative[spell_selected] ) );
 
-        wnoutrefresh( spells_name );
-        wnoutrefresh( spells_description );
-        wnoutrefresh( spells_level ); // Draw this last so we can have pretty borders
+        wnoutrefresh( w_name.window );
+        wnoutrefresh( w_level.window );
+        wnoutrefresh( w_descborder.window );
+        wnoutrefresh( w_desc.window );
     } );
+
+    auto update_description = [&]( bool force ) -> void {
+        if( force || std::get<2>( *spells_relative[spell_selected] ).empty() )
+        {
+            spell_description( *spells_relative[spell_selected], w_desc.width, character );
+        }
+    };
 
     // keep the same spell selected
     auto spell_middle_or_id = [&]( const spell_id & spellid ) -> void {
@@ -802,7 +838,7 @@ void change_spells( Character &character )
         spell_selected = std::min( ( TERMY - 2 ) / 2, static_cast<int>( spells_relative_size ) / 2 );
         for( size_t i = 0; i < spells_relative_size; ++i )
         {
-            if( spells_relative[i]->first.id == spellid ) {
+            if( std::get<0>( *spells_relative[i] ).id == spellid ) {
                 spell_selected = i;
                 break;
             }
@@ -811,26 +847,25 @@ void change_spells( Character &character )
 
     // reset spells_relative vector
     auto reset_spells_relative = [&]() -> void {
-        //spell_pair = std::pair<spell_type, int>
-        for( spell_pair &spl : spells_all )
+        for( spell_tuple &spt : spells_all )
         {
-            spells_relative.emplace_back( &spl );
+            spells_relative.emplace_back( &spt );
         }
     };
 
     auto filter_spells = [&]( ) -> void {
-        spell_id &spellid = spells_relative[spell_selected]->first.id;
+        const spell_id &spellid = std::get<0>( *spells_relative[spell_selected] ).id;
         spells_relative.clear();
         if( filterstring.empty() )
         {
             reset_spells_relative();
         } else
         {
-            // spell_pair = std::pair<spell_type, int>
-            for( spell_pair &spl : spells_all ) {
-                if( lcmatch( spl.first.name.translated(), filterstring ) ||
-                    lcmatch( spl.first.id.str(), filterstring ) ) {
-                    spells_relative.emplace_back( &spl );
+            for( spell_tuple &spt : spells_all ) {
+                const spell_type &spl = std::get<0>( spt );
+                if( lcmatch( spl.name.translated(), filterstring ) ||
+                    lcmatch( spl.id.str(), filterstring ) ) {
+                    spells_relative.emplace_back( &spt );
                 }
             }
 
@@ -846,15 +881,12 @@ void change_spells( Character &character )
 
     auto toggle_all_spells = [&]( int level ) {
         // -2 sets it to max level
-        // spell_pair = std::pair<spell_type, int>
-        for( spell_pair *spl : spells_relative ) {
-            spl->second = level > -2 ? level : spl->first.max_level;
-            set_spell( spl->first, spl->second );
+        for( spell_tuple *spt : spells_relative ) {
+            std::get<1>( *spt ) = level > -2 ? level : std::get<0>( *spt ).max_level;
+            set_spell( std::get<0>( *spt ), std::get<1>( *spt ) );
+            std::get<2>( *spt ).clear();
         }
     };
-
-    init_windows( spellsui );
-    spellsui.on_screen_resize( init_windows );
 
     static spell_id last_selected_spellid;
     spell_middle_or_id( last_selected_spellid );
@@ -866,12 +898,17 @@ void change_spells( Character &character )
 
     bool showing_only_learned = false;
 
+    bool force_update_description = false;
+
     while( true ) {
+        update_description( force_update_description );
+        force_update_description = false;
+
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
 
         if( action == "QUIT" ) {
-            last_selected_spellid = spells_relative[spell_selected]->first.id;
+            last_selected_spellid = std::get<0>( *spells_relative[spell_selected] ).id;
             break;
 
         } else if( action == "FILTER" ) {
@@ -903,26 +940,30 @@ void change_spells( Character &character )
             }
 
         } else if( action == "LEFT" ) {
-            int &spell_level = spells_relative[spell_selected]->second;
+            int &spell_level = std::get<1>( *spells_relative[spell_selected] );
             spell_level = std::max( -1, spell_level - 1 );
-            set_spell( spells_relative[spell_selected]->first, spell_level );
+            set_spell( std::get<0>( *spells_relative[spell_selected] ), spell_level );
+            force_update_description = true;
 
         } else if( action == "RIGHT" ) {
-            int &spell_level = spells_relative[spell_selected]->second;
+            int &spell_level = std::get<1>( *spells_relative[spell_selected] );
             spell_level = std::min( spell_level + 1,
-                                    spells_relative[spell_selected]->first.max_level );
-            set_spell( spells_relative[spell_selected]->first, spell_level );
+                                    std::get<0>( *spells_relative[spell_selected] ).max_level );
+            set_spell( std::get<0>( *spells_relative[spell_selected] ), spell_level );
+            force_update_description = true;
 
         } else if( action == "CONFIRM" ) {
-            int &spell_level = spells_relative[spell_selected]->second;
+            int &spell_level = std::get<1>( *spells_relative[spell_selected] );
             query_int( spell_level, _( "Set spell level to?  Currently: %1$d" ), spell_level );
-            spell_level = clamp( spell_level, -1, spells_relative[spell_selected]->first.max_level );
-            set_spell( spells_relative[spell_selected]->first, spell_level );
+            spell_level = clamp( spell_level, -1, std::get<0>( *spells_relative[spell_selected] ).max_level );
+            set_spell( std::get<0>( *spells_relative[spell_selected] ), spell_level );
+            force_update_description = true;
 
         } else if( action == "UNLEARN_SPELL" ) {
-            int &spell_level = spells_relative[spell_selected]->second;
+            int &spell_level = std::get<1>( *spells_relative[spell_selected] );
             spell_level = -1;
-            set_spell( spells_relative[spell_selected]->first, spell_level );
+            set_spell( std::get<0>( *spells_relative[spell_selected] ), spell_level );
+            force_update_description = true;
 
         } else if( action == "TOGGLE_ALL_SPELL" ) {
             if( toggle_spells_state == 0 ) {
@@ -939,13 +980,12 @@ void change_spells( Character &character )
         } else if( action == "SHOW_ONLY_LEARNED" ) {
             showing_only_learned = !showing_only_learned;
 
-            spell_id &spellid = spells_relative[spell_selected]->first.id;
+            const spell_id &spellid = std::get<0>( *spells_relative[spell_selected] ).id;
             spells_relative.clear();
             if( showing_only_learned ) {
-                // spell_pair = std::pair<spell_type, int>
-                for( spell_pair &spl : spells_all ) {
-                    if( spl.second > -1 ) {
-                        spells_relative.emplace_back( &spl );
+                for( spell_tuple &spt : spells_all ) {
+                    if( std::get<1>( spt ) > -1 ) {
+                        spells_relative.emplace_back( &spt );
                     }
                 }
 
