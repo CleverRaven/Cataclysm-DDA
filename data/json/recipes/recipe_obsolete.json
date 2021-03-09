@@ -2772,5 +2772,10 @@
     "type": "recipe",
     "result": "ecs_lajatang_off",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bodypillow",
+    "obsolete": true
   }
 ]
