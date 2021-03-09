@@ -88,5 +88,10 @@
     "id": "spell_components_manatrap",
     "type": "requirement",
     "components": [ [ [ "potion_starter", 4 ] ], [ [ "rune_technomancer", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_samsara",
+    "type": "requirement",
+    "components": [ [ [ "rune_druid", 1 ] ] ]
   }
 ]
