@@ -168,9 +168,9 @@ then
 	if [ -n "$GITHUB_SHA" ]
 	then
 	    seed=$(( 0x${GITHUB_SHA} % 1000000000 ))
-	elif [ -n "$TRAVIS_PULL_REQUEST_SHA" ]
+	elif [ -n "$TRAVIS_COMMIT" ]
 	then
-	    seed=$(( 0x${TRAVIS_PULL_REQUEST_SHA} % 1000000000 ))
+	    seed=$(( 0x${TRAVIS_COMMIT} % 1000000000 ))
 	else
 	    seed="$(shuf -i 0-1000000000 -n 1)"
 	fi
