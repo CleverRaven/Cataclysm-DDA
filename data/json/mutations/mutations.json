@@ -255,7 +255,7 @@
     "description": "You're just generally quick!  You get a 10% bonus to action points.",
     "starting_trait": true,
     "category": [ "FISH", "BIRD", "INSECT", "TROGLOBITE", "CHIMERA", "RAPTOR", "MOUSE" ],
-    "speed_modifier": 1.1
+    "enchantments": [ "ENCH_TRAIT_SPEED" ]
   },
   {
     "type": "mutation",
@@ -1914,7 +1914,7 @@
         "bash": 3
       }
     ],
-    "speed_modifier": 0.8
+    "enchantments": [ "ENCH_TRAIT_MSKIN" ]
   },
   {
     "type": "mutation",
@@ -1949,7 +1949,7 @@
         "bash": 5
       }
     ],
-    "speed_modifier": 0.8
+    "enchantments": [ "ENCH_TRAIT_MSKIN" ]
   },
   {
     "type": "mutation",
@@ -4595,7 +4595,7 @@
     "threshreq": [ "THRESH_MOUSE" ],
     "category": [ "MOUSE" ],
     "stealth_modifier": 40,
-    "speed_modifier": 1.15,
+    "enchantments": [ "ENCH_TRAIT_CRAFTY" ],
     "movecost_modifier": 0.75
   },
   {

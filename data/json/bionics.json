@@ -996,6 +996,7 @@
       [ "foot_l", 2 ],
       [ "foot_r", 2 ]
     ],
+    "enchantments": [ "ENCH_BIO_SPEED" ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {

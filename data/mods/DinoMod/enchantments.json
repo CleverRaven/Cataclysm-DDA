@@ -1,0 +1,8 @@
+[
+  {
+    "type": "enchantment",
+    "id": "ENCH_TRAIT_THICKSKIN3",
+    "condition": "ALWAYS",
+    "values": [ { "value": "SPEED", "multiply": -0.05 } ]
+  }
+]

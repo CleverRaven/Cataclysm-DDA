@@ -127,7 +127,7 @@
         "bullet": 6
       }
     ],
-    "speed_modifier": 0.95
+    "enchantments": [ "ENCH_TRAIT_THICKSKIN3" ]
   },
   {
     "type": "mutation",
