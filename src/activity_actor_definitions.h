@@ -1003,15 +1003,14 @@ class tent_placement_activity_actor : public activity_actor
     public:
         tent_placement_activity_actor( int moves_total, tripoint target, int radius, item it,
                                        string_id<furn_t> wall, string_id<furn_t> floor, cata::optional<string_id<furn_t>> floor_center,
-                                       string_id<furn_t> door_closed ) :
-            moves_total( moves_total ), target( target ), radius( radius ), it( it ), wall( wall ),
-            floor( floor ), floor_center( floor_center ), door_closed( door_closed ) {}
+                                       string_id<furn_t> door_closed ) : moves_total( moves_total ), target( target ), radius( radius ),
+            it( it ), wall( wall ), floor( floor ), floor_center( floor_center ), door_closed( door_closed ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_TENT_PLACE" );
         }
 
-        void start( player_activity &act, Character &p ) override;
+        void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character & ) override {}
         void finish( player_activity &act, Character &p ) override;
         void canceled( player_activity &, Character &who ) override;
@@ -1040,9 +1039,9 @@ class tent_deconstruct_activity_actor : public activity_actor
             return activity_id( "ACT_TENT_DECONSTRUCT" );
         }
 
-        void start( player_activity &act, Character &p ) override;
+        void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character & ) override {}
-        void finish( player_activity &act, Character &p ) override;
+        void finish( player_activity &act, Character & ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<tent_deconstruct_activity_actor>( *this );

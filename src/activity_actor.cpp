@@ -2829,7 +2829,7 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
     return actor.clone();
 }
 
-void tent_placement_activity_actor::start( player_activity &act, Character &p )
+void tent_placement_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves_total;
     act.moves_left = moves_total;
@@ -2859,7 +2859,7 @@ void tent_placement_activity_actor::finish( player_activity &act, Character &p )
     act.set_to_null();
 }
 
-void tent_placement_activity_actor::canceled( player_activity &act, Character &p )
+void tent_placement_activity_actor::canceled( player_activity &, Character &p )
 {
     map &here = get_map();
     here.add_item_or_charges( p.pos() + target, it, true );
@@ -2896,13 +2896,13 @@ std::unique_ptr<activity_actor> tent_placement_activity_actor::deserialize( Json
     return actor.clone();
 }
 
-void tent_deconstruct_activity_actor::start( player_activity &act, Character &p )
+void tent_deconstruct_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = moves_total;
     act.moves_left = moves_total;
 }
 
-void tent_deconstruct_activity_actor::finish( player_activity &act, Character &p )
+void tent_deconstruct_activity_actor::finish( player_activity &act, Character & )
 {
     map &here = get_map();
     for( const tripoint &pt : here.points_in_radius( target, radius ) ) {
