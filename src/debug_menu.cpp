@@ -435,7 +435,7 @@ static void spell_description( const std::pair<spell_type, int> &spl_data,
     nc_color light_green = c_light_green;
 
     // # spell_id
-    mvwprintz( window, point( 2, line++ ), c_cyan, string_format( "# %s", spl.id().str() ) );
+    mvwprintz( window, point( 2, line++ ), c_cyan, "# %s", spl.id().str() );
 
     // Name: spell name
     print_colored_text(
@@ -467,6 +467,7 @@ static void spell_description( const std::pair<spell_type, int> &spl_data,
     // Spell Level: 0 / 0 (MAX)
     print_colored_text( window, point( 2, line++ ), gray, gray,
                         string_format(
+                            //~ %1$s - spell current level, %2$s - spell max level, %3$s - is max level
                             _( "Spell Level: %1$s / %2$d %3$s" ),
                             spl_level == -1 ? _( "Unlearned" ) : std::to_string( spl_level ),
                             spl.get_max_level(),
@@ -698,14 +699,14 @@ void change_spells( Character &character )
     catacurses::window spells_description;
 
     scrollbar scrllbr;
-    scrllbr.offset_x( 0 ).offset_y( 1 );
+    scrllbr.offset_x( 0 ).offset_y( 1 ).border_color( c_magenta );
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
         spells_name = catacurses::newwin( TERMY, spname_len, {} );
         spells_level = catacurses::newwin( TERMY, 11, {spname_len - 1, 0} );
         spells_description = catacurses::newwin( TERMY, TERMX - ( spname_len + 9 ), {spname_len + 9, 0} );
         scrllbr.viewport_size( TERMY - 2 );
-        ui.position_from_window( spells_name );
+        ui.position( point_zero, { TERMX, TERMY } );
     };
 
     input_context ctxt( "DEBUG_SPELLS" );
