@@ -286,7 +286,7 @@ class spell_type
         // increment of energy cost per spell level
         float energy_increment = 0.0f;
         // max or min energy cost, based on sign of energy_increment
-        int final_energy_cost = 0.0f;
+        int final_energy_cost = 0;
 
         // spell is restricted to being cast by only this class
         // if spell_class is empty, spell is unrestricted
