@@ -1387,6 +1387,7 @@
     "name": { "str": "wasp queen" },
     "description": "A mutated wasp queen grown to the size of a person, laying a single white egg in each empty cell she comes across while scurrying around on the paper walls of her home.  She struggles to fit into some of them, but the newer cells seem to be getting larger…",
     "copy-from": "mon_wasp_guard",
+    "harvest": "arachnid_wasp_queen",
     "reproduction": { "baby_egg": "egg_wasp", "baby_count": 2, "baby_timer": 5 },
     "upgrades": { "half_life": 30, "into": "mon_wasp_mega" }
   },
@@ -1510,6 +1511,7 @@
     "armor_cut": 28,
     "armor_stab": 16,
     "armor_bullet": 18,
+    "harvest": "arachnid_wasp_queen",
     "reproduction": { "baby_egg": "egg_wasp", "baby_count": 5, "baby_timer": 5 },
     "extend": { "flags": [ "PUSH_MON" ] },
 	"delete": { "flags": [ "HARDTOSHOOT" ] }
