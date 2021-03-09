@@ -165,13 +165,12 @@ then
         make -j$num_jobs
         cd ..
         # Run regular tests
-	if [ -n "$SEED" ]
+	if [ -n "$GITHUB_SHA" ]
 	then
-	    seed=$(( ${SEED} % 1000000000 ))
-	elif [ -n "$TRAVIS_BUILD_NUMBER" ]
+	    seed=$(( 0x${GITHUB_SHA} % 1000000000 ))
+	elif [ -n "$TRAVIS_PULL_REQUEST_SHA" ]
 	then
-	    # Paranoia
-	    seed=$(( ${TRAVIS_BUILD_NUMBER} % 1000000000 ))
+	    seed=$(( 0x${TRAVIS_PULL_REQUEST_SHA} % 1000000000 ))
 	else
 	    seed="$(shuf -i 0-1000000000 -n 1)"
 	fi
@@ -206,13 +205,12 @@ else
 
     export ASAN_OPTIONS=detect_odr_violation=1
     export UBSAN_OPTIONS=print_stacktrace=1
-    if [ -n "$SEED" ]
+    if [ -n "$GITHUB_SHA" ]
     then
-	seed=$(( ${SEED} % 1000000000 ))
-    elif [ -n "$TRAVIS_BUILD_NUMBER" ]
+	seed=$(( 0x${GITHUB_SHA} % 1000000000 ))
+    elif [ -n "$TRAVIS_PULL_REQUEST_SHA" ]
     then
-        # Paranoia
-	seed=$(( ${TRAVIS_BUILD_NUMBER} % 1000000000 ))
+	seed=$(( 0x${TRAVIS_PULL_REQUEST_SHA} % 1000000000 ))
     else
 	seed="$(shuf -i 0-1000000000 -n 1)"
     fi

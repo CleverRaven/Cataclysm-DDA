@@ -124,8 +124,6 @@ jobs:
           ccache-mac-${{ matrix.compiler }}-
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build and test
-      env:
-        SEED: ${{ steps.get-date.outputs.date }}
       run: bash ./build-scripts/build.sh
     - name: upload artifacts if failed
       uses: actions/upload-artifact@v1
