@@ -239,7 +239,7 @@ void profession::load( const JsonObject &jo, const std::string & )
 const profession *profession::generic()
 {
     const string_id<profession> generic_profession_id(
-        get_option< std::string >( "GENERIC_PROFESSION_ID" ) );
+        get_option<std::string>( "GENERIC_PROFESSION_ID" ) );
     return &generic_profession_id.obj();
 }
 
@@ -339,7 +339,7 @@ bool profession::has_initialized()
         return false;
     }
     const string_id<profession> generic_profession_id(
-        get_option< std::string >( "GENERIC_PROFESSION_ID" ) );
+        get_option<std::string>( "GENERIC_PROFESSION_ID" ) );
     return generic_profession_id.is_valid();
 }
 

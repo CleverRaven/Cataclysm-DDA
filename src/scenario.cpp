@@ -125,7 +125,7 @@ void scenario::load( const JsonObject &jo, const std::string & )
 const scenario *scenario::generic()
 {
     static const string_id<scenario> generic_scenario_id(
-        get_option< std::string >( "GENERIC_SCENARIO_ID" ) );
+        get_option<std::string>( "GENERIC_SCENARIO_ID" ) );
     return &generic_scenario_id.obj();
 }
 
