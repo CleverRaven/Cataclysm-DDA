@@ -4153,20 +4153,12 @@ int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
             return 0;
         }
     }
-    // Make a square of floor surrounded by wall.
-    for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
-        here.furn_set( dest, wall );
-    }
-    for( const tripoint &dest : here.points_in_radius( center, radius - 1 ) ) {
-        here.furn_set( dest, floor );
-    }
-    // Place the center floor and the door.
-    if( floor_center ) {
-        here.furn_set( center, *floor_center );
-    }
-    here.furn_set( p.pos() + direction, door_closed );
-    add_msg( m_info, _( "You set up the %s on the ground." ), it.tname() );
-    add_msg( m_info, _( "Examine the center square to pack it up again." ) );
+
+    //checks done start activity:
+    player_activity new_act = player_activity( tent_placement_activity_actor( to_moves<int>
+                              ( 20_minutes ), direction, radius, it, wall, floor, floor_center, door_closed ) );
+    get_player_character().assign_activity( new_act, false );
+
     return 1;
 }
 
