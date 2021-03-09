@@ -418,6 +418,7 @@ class spell
         // sets the message to be different than the spell_type specifies
         void set_message( const translation &msg );
 
+        static int exp_for_level( int level );
         // how much exp you need for the spell to gain a level
         int exp_to_next_level() const;
         // progress to the next level, expressed as a percent

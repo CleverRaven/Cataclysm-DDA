@@ -679,13 +679,13 @@ void change_spells( Character &character )
     auto set_spell = [&character]( spell_type & splt, int spell_level ) {
         if( spell_level == -1 ) {
             character.magic->get_spellbook().erase( splt.id );
-        } else if( character.magic->knows_spell( splt.id ) ) {
-            character.magic->get_spell( splt.id ).set_level( spell_level );
-        } else {
+            return;
+        } else if( !character.magic->knows_spell( splt.id ) ) {
             spell spl( splt.id );
             character.magic->get_spellbook().emplace( splt.id, spl );
-            character.magic->get_spell( splt.id ).set_level( spell_level );
         }
+
+        character.magic->get_spell( splt.id ).set_exp( spell::exp_for_level( spell_level ) );
     };
 
     ui_adaptor spellsui;

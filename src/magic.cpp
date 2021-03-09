@@ -1203,7 +1203,7 @@ int spell::get_max_level() const
 // helper function to calculate xp needed to be at a certain level
 // pulled out as a helper function to make it easier to either be used in the future
 // or easier to tweak the formula
-static int exp_for_level( int level )
+int spell::exp_for_level( int level )
 {
     // level 0 never needs xp
     if( level == 0 ) {
