@@ -51,6 +51,30 @@ TEST_CASE( "focus" )
         }
         CHECK( you.get_focus() < 50 );
     }
+    SECTION( "nominal time to drain focus" ) {
+        you.set_focus( 100 );
+        previous_focus = you.get_focus();
+        int current_threshold = 0;
+        std::array<int, 9> drain_thresholds = {{
+                0, 9, 23, 40, 64, 96, 147, 230, 418
+            }
+        };
+        int i = 0;
+        for( ; i < 5000 && previous_focus > 12; ++i ) {
+            you.practice( skill_id( "fabrication" ), 1, 10, true );
+            if( i % 60 == 0 ) {
+                you.update_mental_focus();
+            }
+            previous_focus = you.get_focus();
+            if( previous_focus <= ( 10 - current_threshold ) * 10 ) {
+                CAPTURE( previous_focus );
+                CHECK( i == drain_thresholds[ current_threshold ] );
+                current_threshold++;
+            }
+        }
+        CHECK( previous_focus == 12 );
+        CHECK( i == 1192 );
+    }
     SECTION( "drains rapidly with large practice" ) {
         you.practice( skill_id( "fabrication" ), 1000, 10, true );
         CHECK( you.get_focus() < 10 );
