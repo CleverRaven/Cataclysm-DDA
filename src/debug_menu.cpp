@@ -628,6 +628,8 @@ void change_spells( Character &character )
         return;
     }
 
+    static character_id last_char_id = character.getID();
+
     using spell_tuple = std::tuple<spell_type, int, std::string>;
     const size_t spells_all_size = spell_type::get_all().size();
     // all spells with cached string list
@@ -638,8 +640,9 @@ void change_spells( Character &character )
 
     // number of spells changed, current map is invalid
     bool rebuild_string_cache = false;
-    if( spells_all.size() != spells_all_size ) {
+    if( spells_all.size() != spells_all_size || last_char_id != character.getID() ) {
         rebuild_string_cache = true;
+        last_char_id = character.getID();
         spells_all.clear();
     }
 
