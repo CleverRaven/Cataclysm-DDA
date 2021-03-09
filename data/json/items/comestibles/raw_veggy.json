@@ -223,7 +223,6 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "volume": "750 ml",
-    "milling": { "into": "cornmeal", "conversion_rate": 3 },
     "flags": [ "EATEN_HOT", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitA", 2 ], [ "vitC", 12 ], [ "iron", 4 ] ]
