@@ -252,7 +252,7 @@
     "id": "ds_rivet_gun",
     "type": "GUN",
     "name": "Rivet Driver",
-    "description": "Experimental double purpose tool under development in C.R.I.T R&D.  It takes a regular nail and then enlongates it within a fraction of a second before firing it out, upon reaching a target, the fragile stake explodes into shards inside the target.",
+    "description": "Experimental double purpose tool under development in C.R.I.T R&D.  It takes a regular nail and then elongates it within a fraction of a second before firing it out, upon reaching a target, the fragile stake explodes into shards inside the target.",
     "weight": "1650 g",
     "volume": "750 ml",
     "price": 1000000,
