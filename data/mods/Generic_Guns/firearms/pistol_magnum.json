@@ -6,7 +6,7 @@
     "name": { "str": "hand cannon" },
     "ammo": [ "ammo_pistol", "ammo_pistol_magnum" ],
     "//": "We're just going to prtend that .357 and .44 magnum deagles will run .38's and .44 special just fine",
-    "description": "This large pistol is almost as heavy as a small carbine, and just about as powerful too.  Chambered in hard hitting magnum calibers, it is suitable for hunting medium game, humans, or offsetting any of one's perceived deficiencies.  Though tradtionally such magnums are revolvers, this one is a magazine fed semi-automatic.",
+    "description": "This large pistol is almost as heavy as a small carbine, and just about as powerful too.  Chambered in hard hitting magnum calibers, it is suitable for hunting medium game, humans, or offsetting any of one's perceived deficiencies.  Though traditionally such magnums are revolvers, this one is a magazine fed semi-automatic.",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -34,7 +34,7 @@
     "type": "GUN",
     "name": { "str": "handmade magnum carbine" },
     "ammo": [ "ammo_pistol_magnum", "ammo_pistol" ],
-    "description": "A crudely constructed carbine, chambered for magnum pistol ammo and standard pistol ammo.  It feeds from commerical magnum pistol magazines, and locks with a rudimentary lever action system.  Its powerful cartridge and relative precision should serve well against zombies and medium game.",
+    "description": "A crudely constructed carbine, chambered for magnum pistol ammo and standard pistol ammo.  It feeds from commercial magnum pistol magazines, and locks with a rudimentary lever action system.  Its powerful cartridge and relative precision should serve well against zombies and medium game.",
     "weight": "2114 g",
     "volume": "2 L",
     "price": 10000,
