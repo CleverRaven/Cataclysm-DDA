@@ -59,6 +59,28 @@
   },
   {
     "type": "recipe",
+    "result": "wearable_atomic_light",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "electronics",
+    "skills_required": [ "survival", 3 ],
+    "difficulty": 2,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plut_cell", 4 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "wire", 2 ] ],
+      [ [ "lens", 1 ], [ "lens_small", 1 ] ],
+      [ [ "rag", 4 ], [ "leather", 4 ], [ "duct_tape", 20 ], [ "medical_tape", 40 ], [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "meat_cooked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
