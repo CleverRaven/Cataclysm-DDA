@@ -2050,7 +2050,7 @@ spell fake_spell::get_spell( int min_level_override ) const
     return sp;
 }
 
-bool fake_spell::operator==( const fake_spell &rhs )const
+bool fake_spell::operator==( const fake_spell &rhs ) const
 {
     return id == rhs.id &&
            max_level == rhs.max_level &&
