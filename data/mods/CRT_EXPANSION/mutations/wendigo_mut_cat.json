@@ -28,7 +28,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "wendigo serum",
-    "description": "A super-concentrated peat-brown substance with glittering green flecks that reminds you of a a tree.  You need a syringe to inject it… if you really want to?",
+    "description": "A super-concentrated peat-brown substance with glittering green flecks that reminds you of a tree.  You need a syringe to inject it… if you really want to?",
     "color": "light_gray",
     "healthy": -2,
     "use_action": { "type": "mutagen_iv", "mutation_category": "WENDIGO" }
