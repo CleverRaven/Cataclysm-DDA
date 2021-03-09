@@ -18,8 +18,10 @@
     "difficulty": 8,
     "max_level": 15,
     "damage_type": "pure",
-    "flags": [ "VERBAL", "SOMATIC", "LOUD" ],
-    "energy_source": "MANA"
+    "flags": [ "VERBAL", "SOMATIC", "LOUD" ], 
+    "energy_source": "MANA",
+    "sound_id": "smite",
+    "sound_variant": "smite"
   },
   {
     "id": "recover_mana",
@@ -62,7 +64,9 @@
     "base_energy_cost": 5000,
     "energy_increment": 500.0,
     "flags": [ "SOMATIC", "VERBAL", "PAIN_NORESIST" ],
-    "final_energy_cost": 10000
+    "final_energy_cost": 10000,
+    "sound_id": "recover_pain",
+    "sound_variant": "recover_pain"
   },
   {
     "id": "summon_zombie",
@@ -91,7 +95,9 @@
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
     "min_duration": 30000,
     "max_duration": 150000,
-    "duration_increment": 4000
+    "duration_increment": 4000,
+    "sound_id": "summon_zombie",
+    "sound_variant": "zombie growl"
   },
   {
     "id": "summon_skeleton",
@@ -120,7 +126,9 @@
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
     "min_duration": 30000,
     "max_duration": 150000,
-    "duration_increment": 4000
+    "duration_increment": 4000,
+    "sound_id": "summon_skeleton",
+    "sound_variant": "bones"
   },
   {
     "id": "summon_decayed_pouncer",
@@ -149,7 +157,9 @@
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
     "min_duration": 30000,
     "max_duration": 150000,
-    "duration_increment": 4000
+    "duration_increment": 4000,
+    "sound_id": "decayed_pouncer",
+    "sound_variant": "big cat roar"
   },
   {
     "id": "necrotic_gaze",
@@ -172,7 +182,10 @@
     "difficulty": 3,
     "base_casting_time": 100,
     "base_energy_cost": 2,
-    "damage_type": "biological"
+    "damage_type": "biological",
+    "sound_id": "necrotic_gaze",
+    "sound_variant": "blood flow"
+
   },
   {
     "id": "create_rune_animist",
@@ -194,7 +207,9 @@
     "max_level": 0,
     "spell_class": "ANIMIST",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ],
+    "sound_id": "create_rune_animist",
+    "sound_variant": "create rune"
   },
   {
     "id": "soulrend",
@@ -219,7 +234,9 @@
     "base_energy_cost": 200,
     "min_range": 5,
     "max_range": 30,
-    "range_increment": 1.0
+    "range_increment": 1.0,
+    "sound_id": "soulrend",
+    "sound_variant": "soul escape"
   },
   {
     "id": "summon_wisps",
@@ -247,7 +264,9 @@
     "range_increment": 0.16,
     "min_duration": 6000,
     "max_duration": 60000,
-    "duration_increment": 2160
+    "duration_increment": 2160,
+    "sound_id": "summon_wisp",
+    "sound_variant": "summon wisp"
   },
   {
     "id": "bleed",
@@ -276,7 +295,9 @@
     "duration_increment": 20,
     "min_dot": 2,
     "max_dot": 52,
-    "dot_increment": 2
+    "dot_increment": 2,
+    "sound_id": "bleed",
+    "sound_variant": "blood dripping"
   },
   {
     "id": "animist_summon_decaying_boneclub",
@@ -299,6 +320,8 @@
     "base_casting_time": 400,
     "base_energy_cost": 6,
     "energy_source": "HP",
-    "difficulty": 6
+    "difficulty": 6,
+    "sound_id": "summon_decaying_boneclub",
+    "sound_variant": "summon boneclub"
   }
 ]

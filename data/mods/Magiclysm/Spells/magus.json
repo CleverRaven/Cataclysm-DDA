@@ -26,7 +26,7 @@
     "difficulty": 1,
     "flags": [ "NO_LEGS", "SOMATIC", "CONCENTRATE" ],
     "sound_id": "shadow_field",
-    "variant_sound": "field"
+    "sound_variant": "field"
   },
   {
     "id": "magic_missile",
@@ -99,7 +99,7 @@
     "energy_source": "MANA",
     "base_energy_cost": 350,
     "sound_id": "gravity_well",
-    "variant_sound": "well"
+    "sound_variant": "well"
   },
   {
     "id": "magus_mana_blast",
@@ -127,7 +127,7 @@
     "max_range": 20,
     "range_increment": 1,
     "sound_id": "mana_blast",
-    "variant_sound": "blast"
+    "sound_variant": "blast"
 
   },
   {
@@ -153,7 +153,7 @@
     "max_range": 30,
     "range_increment": 1.5,
     "sound_id": "mana_bolt",
-    "variant_sound": "bolt"
+    "sound_variant": "bolt"
 
   },
   {
@@ -176,7 +176,7 @@
     "max_duration": 12000,
     "duration_increment": 600,
     "sound_id": "haste",
-    "variant_sound": "haste"
+    "sound_variant": "haste"
   },
   {
     "id": "magus_baleful_polymorph",
@@ -202,7 +202,7 @@
     "max_range": 30,
     "range_increment": 1.5,
     "sound_id": "baleful_polymorph",
-    "variant_sound": "polymorph"
+    "sound_variant": "polymorph"
   },
   {
     "id": "magus_mana_beam",
@@ -229,7 +229,7 @@
     "max_range": 20,
     "range_increment": 1,
     "sound_id": "mana_beam",
-    "variant_sound": "beam"
+    "sound_variant": "beam"
   },
   {
     "id": "magus_escape",
@@ -253,7 +253,7 @@
     "energy_source": "MANA",
     "base_energy_cost": 250,
     "sound_id": "escape_spell",
-    "variant_sound": "escape"
+    "sound_variant": "escape"
   },
   {
     "id": "create_rune_magus",
@@ -277,7 +277,7 @@
     "energy_source": "MANA",
     "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ],
     "sound_id": "create_magus_rune",
-    "variant_sound": "magus_rune"
+    "sound_variant": "magus_rune"
   },
   {
     "id": "cats_grace",
@@ -299,7 +299,7 @@
     "effect": "attack",
     "effect_str": "cats_grace",
     "sound_id": "cats_grace",
-    "variant_sound": "meow"
+    "sound_variant": "meow"
   },
   {
     "id": "eagles_sight",
@@ -321,7 +321,7 @@
     "effect": "attack",
     "effect_str": "eagles_sight",
     "sound_id": "eagles_sight",
-    "variant_sound": "eagle_caw"
+    "sound_variant": "eagle_caw"
   },
   {
     "id": "ogres_strength",
@@ -343,7 +343,7 @@
     "effect": "attack",
     "effect_str": "ogres_strength",
     "sound_id": "ogres_strength",
-    "variant_sound": "ogres_grown"
+    "sound_variant": "ogres_grown"
   },
   {
     "id": "foxs_cunning",
@@ -365,7 +365,7 @@
     "effect": "attack",
     "effect_str": "foxs_cunning",
     "sound_id": "fox_cunning",
-    "variant_sound": "fox_shrill"
+    "sound_variant": "fox_shrill"
   },
   {
     "id": "magus_summon_impact_sling",
@@ -390,6 +390,6 @@
     "energy_source": "MANA",
     "difficulty": 4,
     "sound_id": "impact_sling",
-    "variant_sound": "enchanted_sling" 
+    "sound_variant": "enchanted_sling" 
   }
 ]
