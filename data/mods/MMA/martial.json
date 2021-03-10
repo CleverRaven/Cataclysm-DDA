@@ -110,7 +110,7 @@
     "price_postapoc": 12000,
     "use_action": { "type": "countdown", "name": "Unroll", "message": "You unroll the dragon scroll…" },
     "countdown_interval": 1,
-    "countdown_destroy": false,
+    "countdown_destroy": true,
     "countdown_action": { "type": "cast_spell", "spell_id": "learn_ki_strike", "no_fail": true, "level": 0 }
   }
 ]

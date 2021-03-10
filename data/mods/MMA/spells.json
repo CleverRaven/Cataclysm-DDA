@@ -8,8 +8,8 @@
     "effect_str": "KI_STRIKE",
     "description": "This grants a specific mutation.",
     "message": "You study the meditations until you could do them in your sleep…",
-    "min_damage": 1,
-    "max_damage": 1,
+    "min_damage": 1000,
+    "max_damage": 1000,
     "flags": [ "SILENT", "MUTATE_TRAIT" ],
     "valid_targets": [ "self" ]
   }
