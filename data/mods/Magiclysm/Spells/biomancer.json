@@ -19,7 +19,9 @@
     "flags": [ "SOMATIC", "VERBAL", "NO_PROJECTILE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 2,
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "light_healing",
+    "sound_variant": "healing"
   },
   {
     "id": "pain_split",
@@ -35,7 +37,9 @@
     "flags": [ "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 4,
-    "max_level": 1
+    "max_level": 1,
+    "sound_id": "pain_split",
+    "sound_variant": "pain split"
   },
   {
     "id": "vicious_tentacle",
@@ -57,7 +61,9 @@
     "max_level": 20,
     "flags": [ "SOMATIC", "LOUD" ],
     "spell_class": "BIOMANCER",
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "tentacle",
+    "sound_variant": "tentacles"
   },
   {
     "id": "bio_grotesque",
@@ -78,7 +84,9 @@
     "//": "duration is in moves",
     "min_duration": 6000,
     "max_duration": 12000,
-    "duration_increment": 300
+    "duration_increment": 300,
+    "sound_id": "grotesque_enhancement",
+    "sound_variant": "grotesque enhancement"
   },
   {
     "id": "bio_acidicspray",
@@ -105,7 +113,9 @@
     "range_increment": 0.25,
     "min_aoe": 25,
     "max_aoe": 60,
-    "aoe_increment": 5.0
+    "aoe_increment": 5.0, 
+    "sound_id": "acidburn",
+    "sound_variant": "acid"
   },
   {
     "id": "bio_fleshpouch",
@@ -127,7 +137,9 @@
     "max_level": 20,
     "flags": [ "NO_HANDS", "NO_LEGS", "SOMATIC" ],
     "spell_class": "BIOMANCER",
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "fleshpouch",
+    "sound_variant": "flesh"
   },
   {
     "id": "bio_bonespear",
@@ -149,7 +161,9 @@
     "max_level": 20,
     "flags": [ "LOUD", "SOMATIC" ],
     "spell_class": "BIOMANCER",
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "bonespear",
+    "sound_variant": "bones"
   },
   {
     "id": "create_rune_biomancer",
@@ -171,7 +185,9 @@
     "max_level": 0,
     "spell_class": "BIOMANCER",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ],
+    "sound_id": "create_biomancer_rune",
+    "sound_variant": "biomancer rune"
   },
   {
     "id": "biomancer_paralytic_dart",
@@ -198,7 +214,9 @@
     "range_increment": 0.4,
     "min_duration": 1200,
     "max_duration": 12000,
-    "duration_increment": 720
+    "duration_increment": 720, 
+    "sound_id": "paralytic_dart",
+    "sound_variant": "dart"
   },
   {
     "id": "biomancer_visceral_projection",
@@ -228,7 +246,9 @@
     "field_chance": 1,
     "min_field_intensity": 1,
     "max_field_intensity": 3,
-    "field_intensity_increment": 0.1
+    "field_intensity_increment": 0.1,
+    "sound_id": "viseral_projection",
+    "sound_variant": "blood and gore"
   },
   {
     "id": "biomancer_visceral_paralyze",
@@ -251,7 +271,9 @@
     "field_chance": 1,
     "min_field_intensity": 1,
     "max_field_intensity": 3,
-    "field_intensity_increment": 0.1
+    "field_intensity_increment": 0.1,
+    "sound_id": "visceral_paralyze",
+    "sound_variant": "visceral paralyze"
   },
   {
     "id": "biomancer_visceral_backlash",
@@ -264,7 +286,9 @@
     "shape": "blast",
     "flags": [ "VERBAL" ],
     "min_duration": 600,
-    "max_duration": 600
+    "max_duration": 600,
+    "sound_id": "visceral_backlash",
+    "sound_variant": "visceral backlash"
   },
   {
     "id": "biomancer_coagulant_weave",
@@ -284,7 +308,9 @@
     "max_level": 20,
     "min_duration": 6000,
     "max_duration": 12000,
-    "duration_increment": 300
+    "duration_increment": 300,
+    "sound_id": "coagulant_weave",
+    "sound_variant": "flesh weaving"
   },
   {
     "id": "corrosive_aura_spell",
@@ -305,7 +331,9 @@
     "min_dot": 2,
     "max_dot": 2,
     "min_duration": 300,
-    "max_duration": 300
+    "max_duration": 300,
+    "sound_id": "corrosive_aura",
+    "sound_variant": "acid aura"
   },
   {
     "id": "biomancer_caustic_aura",
@@ -332,6 +360,8 @@
     "max_range": 1,
     "min_duration": 6000,
     "max_duration": 30000,
-    "duration_increment": 1600
+    "duration_increment": 1600,
+    "sound_id": "caustic aura",
+    "sound_variant": "acid aura"
   }
 ]
