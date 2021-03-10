@@ -40,10 +40,7 @@
     "stack_size": 20,
     "ammo_type": "shotpaper",
     "range": 12,
-    "damage": {
-      "damage_type": "bullet",
-      "amount": 40
-    },
+    "damage": { "damage_type": "bullet", "amount": 40 },
     "recoil": 2000,
     "loudness": 128,
     "effects": [ "COOKOFF", "SHOT", "BLACKPOWDER", "MUZZLE_SMOKE" ]
