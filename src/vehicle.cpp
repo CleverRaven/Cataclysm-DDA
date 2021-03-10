@@ -3470,10 +3470,9 @@ int vehicle::consumption_per_hour( const itype_id &ftype, fuel_consumption_data 
         return 0;
     }
 
-    int energy_j_per_mL = fuel.fuel_energy() * 1000;
     int average = fcd.total_fuel / fcd.fuel_per_sec.size();
-
-    return -1 * average * 3600 / energy_j_per_mL;
+    //Fuel energy is in 'kJ', consumption is per 's' so multiply by 3600, then divide by 1000
+    return -36 * average / fuel.fuel_energy() / 10 ;
 }
 
 int vehicle::total_power_w( const bool fueled, const bool safe ) const
