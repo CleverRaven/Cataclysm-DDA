@@ -71,7 +71,7 @@
     "id": "cargo_rack",
     "name": { "str": "cargo carrier" },
     "description": "A heavy frame outfitted with tie-downs and attachment points for carrying cargo.",
-    "weight": "80000 g",
+    "weight": "200000 g",
     "to_hit": -4,
     "color": "cyan",
     "symbol": "]",
