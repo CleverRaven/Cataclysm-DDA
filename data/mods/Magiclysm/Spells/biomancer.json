@@ -113,7 +113,7 @@
     "range_increment": 0.25,
     "min_aoe": 25,
     "max_aoe": 60,
-    "aoe_increment": 5.0, 
+    "aoe_increment": 5.0,
     "sound_id": "acidburn",
     "sound_variant": "acid"
   },
@@ -214,7 +214,7 @@
     "range_increment": 0.4,
     "min_duration": 1200,
     "max_duration": 12000,
-    "duration_increment": 720, 
+    "duration_increment": 720,
     "sound_id": "paralytic_dart",
     "sound_variant": "dart"
   },

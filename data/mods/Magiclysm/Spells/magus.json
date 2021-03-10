@@ -128,7 +128,6 @@
     "range_increment": 1,
     "sound_id": "mana_blast",
     "sound_variant": "blast"
-
   },
   {
     "id": "magus_mana_bolt",
@@ -154,7 +153,6 @@
     "range_increment": 1.5,
     "sound_id": "mana_bolt",
     "sound_variant": "bolt"
-
   },
   {
     "id": "magus_haste",
@@ -390,6 +388,6 @@
     "energy_source": "MANA",
     "difficulty": 4,
     "sound_id": "impact_sling",
-    "sound_variant": "enchanted_sling" 
+    "sound_variant": "enchanted_sling"
   }
 ]

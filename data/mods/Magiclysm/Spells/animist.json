@@ -18,7 +18,7 @@
     "difficulty": 8,
     "max_level": 15,
     "damage_type": "pure",
-    "flags": [ "VERBAL", "SOMATIC", "LOUD" ], 
+    "flags": [ "VERBAL", "SOMATIC", "LOUD" ],
     "energy_source": "MANA",
     "sound_id": "smite",
     "sound_variant": "smite"
@@ -185,7 +185,6 @@
     "damage_type": "biological",
     "sound_id": "necrotic_gaze",
     "sound_variant": "blood flow"
-
   },
   {
     "id": "create_rune_animist",

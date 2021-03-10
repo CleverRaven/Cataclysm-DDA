@@ -99,7 +99,7 @@
     "min_pierce": 1,
     "max_pierce": 5,
     "pierce_increment": 0.5,
-    "damage_type": "bash", 
+    "damage_type": "bash",
     "sound_id": "woodshaft",
     "sound_variant": "woodshaft"
   },
@@ -123,7 +123,7 @@
     "difficulty": 6,
     "max_level": 20,
     "spell_class": "DRUID",
-    "energy_source": "MANA", 
+    "energy_source": "MANA",
     "sound_id": "naturebow",
     "sound_variant": "naturebow"
   },
