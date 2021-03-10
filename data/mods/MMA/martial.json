@@ -105,7 +105,7 @@
     "id": "ki_strike_scroll",
     "copy-from": "scroll_martial_base",
     "type": "TOOL",
-    "name": { "str": "dragon hand scroll", "str_pl": "dragon hand scrolls" },
+    "name": { "str": "dragon hand scroll" },
     "description": "write something here",
     "price_postapoc": 12000,
     "use_action": { "type": "countdown", "name": "Unroll", "message": "You unroll the dragon scroll…" },
