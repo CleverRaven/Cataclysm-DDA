@@ -609,7 +609,7 @@
     "name": { "str": "pair of rubber gloves", "str_pl": "pairs of rubber gloves" },
     "description": "A pair of rubber gloves, often used while cleaning with caustic materials.",
     "weight": "20 g",
-    "volume": "1 L",
+    "volume": "250 ml",
     "price": 1300,
     "price_postapoc": 50,
     "to_hit": 2,
