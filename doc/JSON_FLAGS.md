@@ -1318,7 +1318,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 ### Flags
 
 - ```ADVANCED_PLANTER``` This planter doesn't spill seeds and avoids damaging itself on non-diggable surfaces.
-- ```AUTOPILOT``` This part will enable a vehicle to have a simple autopilot.
 - ```AISLE_LIGHT```
 - ```AISLE``` Player can move over this part with less speed penalty than normal.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle. Can only be installed on a part with ```E_ALTERNATOR``` flag.
@@ -1326,6 +1325,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```ANIMAL_CTRL``` Can harness an animal, need HARNESS_bodytype flag to specify bodytype of animal.
 - ```ARMOR``` Protects the other vehicle parts it's installed over during collisions.
 - ```ATOMIC_LIGHT```
+- ```AUTOCLAVE``` Acts as an autoclave.
+- ```AUTOPILOT``` This part will enable a vehicle to have a simple autopilot.
 - ```BATTERY_MOUNT```
 - ```BED``` A bed where the player can sleep.
 - ```BEEPER``` Generates noise when the vehicle moves backward.
@@ -1341,28 +1342,33 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```CHIMES``` Generates continuous noise when used.
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.
 - ```CONE_LIGHT``` Projects a cone of light when turned on.
-- ```CONTROLS``` Can be used to control the vehicle.
 - ```CONTROL_ANIMAL``` These controls can only be used to control a vehicle pulled by an animal (such as reins etc).
+- ```CONTROLS``` Can be used to control the vehicle.
 - ```COOLER``` There is separate command to toggle this part.
 - ```COVERED``` Prevents items in cargo parts from emitting any light.
 - ```CRAFTRIG``` Acts as a dehydrator, vacuum sealer and reloading press for crafting purposes. Potentially to include additional tools in the future.
 - ```CTRL_ELECTRONIC``` Controls electrical and electronic systems of the vehicle.
 - ```CURTAIN``` Can be installed over a part flagged with ```WINDOW```, and functions the same as blinds found on windows in buildings.
 - ```DIFFICULTY_REMOVE```
+- ```DISHWASHER``` Can be used to wash filthy non-soft items en masse.
 - ```DOME_LIGHT```
 - ```DOOR_MOTOR``` Can only be installed on a part with ```OPENABLE``` flag.
-- ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
-- ```EVENTURN``` Only on during even turns.
-- ```EXTRA_DRAG``` tells the vehicle that the part exerts engine power reduction.
 - ```E_ALTERNATOR``` Is an engine that can power an alternator.
 - ```E_COLD_START``` Is an engine that starts much slower in cold weather.
 - ```E_COMBUSTION``` Is an engine that burns its fuel and can backfire or explode when damaged.
 - ```E_HEATER``` Is an engine and has a heater to warm internal vehicle items when on.
 - ```E_HIGHER_SKILL``` Is an engine that is more difficult to install as more engines are installed.
 - ```E_STARTS_INSTANTLY``` Is an engine that starts instantly, like food pedals.
+- ```EMITTER``` Emits while enabled (emissions are defined by ```emissions``` entry).
+- ```ENABLED_DRAINS_EPOWER``` Produces `epower` watts while enabled (use negative numbers to drain power). This is independent from reactor power production.
+- ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
+- ```EVENTURN``` Only on during even turns.
+- ```EXTENDS_VISION``` Extends player vision (cameras, mirrors, etc.)
+- ```EXTRA_DRAG``` tells the vehicle that the part exerts engine power reduction.
 - ```FAUCET```
-- ```EMITTER``` Is a part has emission (defined in ```emissions```).
 - ```FLAT_SURF``` Part with a flat hard surface (e.g. table).
+- ```FLOATS``` Provide buoyancy to boats
+- ```FLUIDTANK``` Is a fluid tank.
 - ```FOLDABLE```
 - ```FORGE``` Acts as a forge for crafting.
 - ```FREEZER``` Can freeze items in below zero degrees Celsius temperature.
@@ -1374,15 +1380,21 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part). The items of parts with this flag are automatically added as component to the vehicle start construction.
 - ```INTERNAL``` Can only be installed on a part with ```CARGO``` flag.
 - ```KITCHEN``` Acts as a kitchen unit and heat source for crafting.
+- ```LIGHT```
 - ```LOCKABLE_CARGO``` Cargo containers that are able to have a lock installed.
+- ```MOUNTABLE``` Player can fire mounted weapons from here.
 - ```MUFFLER``` Muffles the noise a vehicle makes while running.
 - ```MULTISQUARE``` Causes this part and any adjacent parts with the same ID to act as a singular part.
 - ```MUSCLE_ARMS``` Power of the engine with such flag depends on player's strength (it's less effective than ```MUSCLE_LEGS```).
 - ```MUSCLE_LEGS``` Power of the engine with such flag depends on player's strength.
 - ```NAILABLE``` Attached with nails
 - ```NEEDS_BATTERY_MOUNT```
-- ```NOINSTALL``` Cannot be installed.
+- ```NEEDS_WHEEL_MOUNT_HEAVY``` Can only be installed on a part with ```WHEEL_MOUNT_HEAVY``` flag.
+- ```NEEDS_WHEEL_MOUNT_LIGHT``` Can only be installed on a part with ```WHEEL_MOUNT_LIGHT``` flag.
+- ```NEEDS_WHEEL_MOUNT_MEDIUM``` Can only be installed on a part with ```WHEEL_MOUNT_MEDIUM``` flag.
+- ```NEEDS_WINDOW``` Can only be installed on a part with ```WINDOW``` flag.
 - ```NO_JACK```
+- ```NOINSTALL``` Cannot be installed.
 - ```OBSTACLE``` Cannot walk through part, unless the part is also ```OPENABLE```.
 - ```ODDTURN``` Only on during odd turns.
 - ```ON_CONTROLS``` Can only be installed on a part with ```CONTROLS``` flag.
@@ -1396,15 +1408,17 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```PLOW``` Tills the soil underneath the part while active. Takes damage from unsuitable terrain at a level proportional to the speed of the vehicle.
 - ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle).
 - ```PROTRUSION``` Part sticks out so no other parts can be installed over it.
+- ```RAIL``` This wheel allows vehicle to move on rails.
 - ```REACTOR``` When enabled, part consumes fuel to generate epower.
 - ```REAPER``` Cuts down mature crops, depositing them on the square.
 - ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
 - ```REMOTE_CONTROLS```
 - ```REVERSIBLE``` Removal has identical requirements to installation but is twice as quick
 - ```ROOF``` Covers a section of the vehicle. Areas of the vehicle that have a roof and roofs on surrounding sections, are considered inside. Otherwise they're outside.
+- ```ROTOR``` Allows vehicle to generate lift. Actual lift depends on engine power sum of all rotor's diameters.
 - ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part. Also mops up liquids.
-- ```SEATBELT``` Helps prevent the player from being ejected from the vehicle during an accident. Can only be installed on a part with ```BELTABLE``` flag.
 - ```SEAT``` A seat where the player can sit or sleep.
+- ```SEATBELT``` Helps prevent the player from being ejected from the vehicle during an accident. Can only be installed on a part with ```BELTABLE``` flag.
 - ```SECURITY```
 - ```SHARP``` Striking a monster with this part does cutting damage instead of bashing damage, and prevents stunning the monster.
 - ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
@@ -1412,13 +1426,13 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
 - ```STEERABLE``` This wheel is steerable.
 - ```STEREO```
-- ```TRANSFORM_TERRAIN``` Transform terrain (using rules defined in ```transform_terrain```).
 - ```TOOL_NONE``` Can be removed/installed without any tools
 - ```TOOL_SCREWDRIVER``` Attached with screws, can be removed/installed with a screwdriver
 - ```TOOL_WRENCH``` Attached with bolts, can be removed/installed with a wrench
 - ```TOWEL``` Can be used to dry yourself up.
-- ```TRACKED``` Contributes to steering effectiveness but doesn't count as a steering axle for install difficulty and still contributes to drag for the center of steering calculation.
 - ```TRACK``` Allows the vehicle installed on, to be marked and tracked on map.
+- ```TRACKED``` Contributes to steering effectiveness but doesn't count as a steering axle for install difficulty and still contributes to drag for the center of steering calculation.
+- ```TRANSFORM_TERRAIN``` Transform terrain (using rules defined in ```transform_terrain```).
 - ```TURRET_CONTROLS``` If part with this flag is installed over the turret, it allows to set said turret's targeting mode to full auto. Can only be installed on a part with ```TURRET``` flag.
 - ```TURRET_MOUNT``` Parts with this flag are suitable for installing turrets.
 - ```TURRET``` Is a weapon turret. Can only be installed on a part with ```TURRET_MOUNT``` flag.
@@ -1427,20 +1441,14 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```VARIABLE_SIZE``` Has 'bigness' for power, wheel radius, etc.
 - ```VISION```
 - ```WASHING_MACHINE``` Can be used to wash filthy clothes en masse.
-- ```DISHWASHER``` Can be used to wash filthy non-soft items en masse.
 - ```WATER_WHEEL``` Recharges vehicle batteries when in flowing water.
-- ```WATER_WHEEL``` Recharges vehicle batteries when submerged in moving water.
 - ```WELDRIG``` Acts as a welder for crafting.
 - ```WHEEL``` Counts as a wheel in wheel calculations.
 - ```WIDE_CONE_LIGHT``` Projects a wide cone of light when turned on.
-- ```WINDOW``` Can see through this part and can install curtains over it.
 - ```WIND_POWERED``` This engine is powered by wind ( sails etc ).
 - ```WIND_TURBINE``` Recharges vehicle batteries when exposed to wind.
+- ```WINDOW``` Can see through this part and can install curtains over it.
 - ```WORKBENCH``` Can craft at this part, must be paired with a workbench json entry.
-- ```NEEDS_WINDOW``` Can only be installed on a part with ```WINDOW``` flag.
-- ```NEEDS_WHEEL_MOUNT_LIGHT``` Can only be installed on a part with ```WHEEL_MOUNT_LIGHT``` flag.
-- ```NEEDS_WHEEL_MOUNT_MEDIUM``` Can only be installed on a part with ```WHEEL_MOUNT_MEDIUM``` flag.
-- ```NEEDS_WHEEL_MOUNT_HEAVY``` Can only be installed on a part with ```WHEEL_MOUNT_HEAVY``` flag.
 
 ### Vehicle parts requiring other vehicle parts
 
