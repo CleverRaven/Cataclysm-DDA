@@ -1716,6 +1716,8 @@ class vehicle
         // Retroactively pass time spent outside bubble
         // Funnels, solar panels
         void update_time( const time_point &update_to );
+        // Process vehicle emitters
+        void process_emitters();
 
         // The faction that owns this vehicle.
         faction_id owner = faction_id::NULL_ID();
