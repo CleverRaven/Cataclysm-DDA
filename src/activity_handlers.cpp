@@ -654,7 +654,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     const mtype &corpse = *corpse_item.get_mtype();
     const int factor = u.max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE : qual_BUTCHER );
 
-    int time_to_cut = 0;
+    int time_to_cut;
     switch( corpse.size ) {
         // Time (roughly) in turns to cut up the corpse
         case creature_size::tiny:
@@ -672,16 +672,14 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
         case creature_size::huge:
             time_to_cut = 1800;
             break;
-        case creature_size::num_sizes:
+        default:
             debugmsg( "ERROR: Invalid creature_size on %s", corpse.nname() );
+            time_to_cut = 450; // default to medium
             break;
     }
 
     // At factor 0, base 100 time_to_cut remains 100. At factor 50, it's 50 , at factor 75 it's 25
     time_to_cut *= std::max( 25, 100 - factor );
-    if( time_to_cut < 3000 ) {
-        time_to_cut = 3000;
-    }
 
     switch( action ) {
         case butcher_type::QUICK:
