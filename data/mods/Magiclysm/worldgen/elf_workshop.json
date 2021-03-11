@@ -2,8 +2,7 @@
   {
     "type": "palette",
     "id": "elf_palette",
-    "terrain": { "3": "t_rdoor_c", "1": "t_strconc_wall", ".": "t_metal_floor_olight", "a": "f_anvil",
-      "t": "f_table"}
+    "terrain": { "3": "t_rdoor_c", "1": "t_strconc_wall", ".": "t_metal_floor_olight", "a": "f_anvil", "t": "f_table" }
   },
   {
     "type": "mapgen",
@@ -65,7 +64,5 @@
     "color": "red",
     "see_cost": 6,
     "flags": [ "RISK_LOW" ]
-   }
+  }
 ]
-
-
