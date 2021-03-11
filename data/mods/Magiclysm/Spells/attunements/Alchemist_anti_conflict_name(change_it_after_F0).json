@@ -3,7 +3,7 @@
     "id": "alchemist_make_potion_bomb",
     "type": "SPELL",
     "name": "Manafusion bomb",
-    "description": "Oversaturate potion starter with mana to create deadly mana explosion.",
+    "description": "Oversaturates potion starter with mana to create a deadly mana bomb.",
     "valid_targets": [ "none" ],
     "flags": [ "SOMATIC", "WONDER", "MUST_HAVE_CLASS_TO_LEARN" ],
     "effect": "recover_energy",
