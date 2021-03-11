@@ -243,7 +243,7 @@
     "energy_source": "MANA",
     "base_energy_cost": 500,
     "final_energy_cost": 150,
-    "energy_increment": 8.8,
+    "energy_increment": -8.8,
     "extra_effects": [ { "id": "railgun_sparks" } ]
   }
 ]
