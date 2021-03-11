@@ -764,7 +764,7 @@
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "Azoth" },
-    "description": "Clear energy blade, powered by users mana and spitit.",
+    "description": "A glowing energy blade, powered by the user's mana and spirit.",
     "material": [ "concentrated_mana" ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "LIGHT_10", "TRADER_AVOID" ],
     "techniques": [ "WBLOCK_1", "WIDE", "SPIN" ],
