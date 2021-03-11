@@ -1643,6 +1643,9 @@ void unload_activity_actor::unload( Character &who, item_location &target )
 
     std::vector<item *> remove_contained;
     for( item *contained : it.contents.all_items_top() ) {
+        if( contained->ammo_type() == ammotype( "plutonium" ) ) {
+            contained->charges /= PLUTONIUM_CHARGES;
+        }
         if( who.as_player()->add_or_drop_with_msg( *contained, true ) ) {
             qty += contained->charges;
             remove_contained.push_back( contained );
