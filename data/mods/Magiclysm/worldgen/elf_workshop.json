@@ -50,7 +50,7 @@
   {
     "type": "overmap_special",
     "id": "elf_workshop",
-    "overmaps": [ { "point": [ 4, 7, 3 ], "overmap": "elf_workshop" } ],
+    "overmaps": [ { "point": [ 4, 7, 3 ], "overmap": "elf_workshop_north" } ],
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -5 ],
     "city_sizes": [ 0, 13 ],
