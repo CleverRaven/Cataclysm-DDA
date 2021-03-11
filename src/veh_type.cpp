@@ -639,9 +639,16 @@ void vpart_info::check()
                 }
             }
         }
+        if( part.has_flag( "ADVANCED_PLANTER" ) && !part.has_flag( "PLANTER" ) ) {
+            debugmsg( "vehicle part %s has ADVANCED_PLANTER flag, but is missing PLANTER flag.",
+                      part.id.c_str() );
+        }
         if( part.has_flag( "WHEEL" ) && !base_item_type.wheel ) {
             debugmsg( "vehicle part %s has the WHEEL flag, but base item %s is not a wheel.  THIS WILL CRASH!",
                       part.id.c_str(), part.item );
+        }
+        if( part.has_flag( "RAIL" ) && !part.has_flag( "WHEEL" ) ) {
+            debugmsg( "vehicle part %s has RAIL flag, but is missing WHEEL flag.", part.id.c_str() );
         }
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
