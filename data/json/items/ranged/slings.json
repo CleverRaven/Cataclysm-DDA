@@ -35,7 +35,15 @@
     "description": "A forked piece of wood with an elastic band stretched between two of its tips.  Can launch tiny pebbles and similar things at high speeds.",
     "price": 500,
     "material": [ "wood" ],
-    "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP", "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [
+      "FIRE_TWOHAND",
+      "RELOAD_AND_SHOOT",
+      "NEVER_JAMS",
+      "PRIMITIVE_RANGED_WEAPON",
+      "BELT_CLIP",
+      "WATERPROOF_GUN",
+      "NEVER_JAMS"
+    ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "ammo": [ "pebble" ],
@@ -100,7 +108,15 @@
     "description": "A modern slingshot with a wrist brace, allowing it to fire tiny objects slightly more forcefully than a simple wooden slingshot.",
     "price": 3000,
     "material": [ "steel", "plastic" ],
-    "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP", "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [
+      "FIRE_TWOHAND",
+      "RELOAD_AND_SHOOT",
+      "NEVER_JAMS",
+      "PRIMITIVE_RANGED_WEAPON",
+      "BELT_CLIP",
+      "WATERPROOF_GUN",
+      "NEVER_JAMS"
+    ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "ammo": [ "pebble" ],
