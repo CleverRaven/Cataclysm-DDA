@@ -11,6 +11,6 @@
     "min_damage": 10000,
     "max_damage": 10000,
     "flags": [ "SILENT", "MUTATE_TRAIT" ],
-    "valid_targets": [ "self" ]
+    "valid_targets": [ "self", "ally" ]
   }
 ]
