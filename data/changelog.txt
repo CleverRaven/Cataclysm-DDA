@@ -43,9 +43,7 @@ Artifacts regenerate ammo option.
 Added ACTIVE enchantment condition.
 Allow recipes to specify individual activity levels.
 Add weariness, a sort of long term stamina that limits the character's ability to be extremely active 24/7.
-Report faction camp build sites and improve tutorial
-Multiclean selection now also shows nearby items
-Implement damage modification via enchantments
+Report faction camp build sites and improve tutorial.
 
 ## Content:
 Gun volume and weight audit.
@@ -64,58 +62,21 @@ Adds 'What the hell happened' stories to NPCs, keyed off backgrounds.
 Feral Humans with blob psychosis.
 Allow plank and branch bundles to be made from cordage, vines, or wire.
 Microlabs can contain artifacts in containment.
-Add NPC_class and NPC json templates and instructions.
+Adds NPC_class and NPC json templates and instructions.
 Adapts almost all vehicle definitions to use directional parts (most of the work by Curstwist).
 Update UltiCa tileset and make it default.
-Add a number of flying zombies.
+Adds a number of flying zombies.
 Adds a new alternate needs panel to the label mode.
 Added many proficiencies and uses for them.
-Add frog mother monster.
+Adds frog mother monster.
 Adds mega mutant monsters.
-Adds a selection of mutated woodland creatures
-Added real jack o' lanterns
-Add sealed container seedlings to house_garage8
-Add condoms to the wallet itemgroup
-This adds nothronychus to Dinoclysm
-Lapin Updates
-Add fireflies
-Make basic bow craftable with no prior archery skill level
-New 'phase skulker' zombies teleport and haunt between the hallways of microlabs
-Arthropod enhancement: Dragonflies
-Make mutant organs and lungs contain toxins
-Adds three new monster upgrades for flesh-raptors
-Add Samoyed dogs and puppies
-Adds porkbelly from swinelike creature harvest and food items processed from it: bacon & cooked fatty meat.
-Small rework of the Intercom's dialogue
-Add acidic zombie dog and acidic zombie dog brute
-Moves and updates 1 urban development dense urban to vanilla.
-Streetlights are now spawned on sidewalks.
-Added traffic lights spawn on road intersections.
-Add Rust Zombies to the Game
-Added two looted and two boarded up variants for grocery stores
-Toilets now yield wax when bashed
-Expands and improves refugee quests, aim to get them to teach you proficiencies
-Removal of brand names for drugs and use of the active ingredients
-Adds fried eggs and modifies fish bagel recipe accordingly
-Draw stop lines on intersections.
-Added lettuce as an ingredient for hamburger recipe to be consistent with cheeseburger recipe
-Modernize & buff power armor
-Diversify venoms
-Adds a camera bag for holding a camera, added to photojournalist profession & dresser spawn
-Preserving raw fruit in alcohol
-Cheeseburger how requires the same bread ingredients as hamburger
-Adjusts garage_gas layout & spawns
-Looted milsurplus stores.
-Add a star fort with working cannon and zombie reenactors
-Pedestrian crossings.
-Adds Glock 21, chambering .45 ACP Ammo to the Glock family.
-Adds new pens, pencil and a journal
-Adds new sunglasses that correct vision, along with stylish varients
-Add brown bread and bread flour
-Adds homeopathic pills
-Add licorice and chocolate cow candies
-Add some wagons
-Add missing canned_liver ingredient in recipes
+Adds a selection of mutated woodland creatures.
+New 'phase skulker' zombies teleport and haunt between the hallways of microlabs.
+Make mutant organs and lungs contain toxins.
+Adds Streetlights to sidewalks; traffic lights, stop lines and pedestrian crossings to intersections.
+Adds Rust Zombies to the Game.
+Diversify venom sources and effects.
+Adds a star fort with working cannon and zombie reenactors.
 
 ## Interface:
 Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
@@ -134,27 +95,9 @@ Display contained items like 'water (plastic bottle)' instead of 'plastic bottle
 Persist preferred aiming mode.
 Makes Chibi Ultica a stand-alone tileset.
 Brings back MSX+.
-Add Storage column to Wear/Takeoff menus with pocket volume
-Updates Zombie Necromancer + Master special attack strings
-Add Feral Humans to MSX
-Crafting: Increase max. batch number to 50
-Add PAGE_UP/DOWN-fast-scroll to zone-manager + colors-menu
-Add PAGE_UP/DOWN-fast-scroll to WorldCreation + PICK_WORLD_DIALOG
-Ultica Update 06/11/2020
-Add PAGE_UP/DOWN-fast-scroll to options menus
-Add PAGE_UP/DOWN-fast-scroll to pickup-item-menu
-BrownLikeBears: Vehicle part overhaul
-Add Corpses and Wing Mirrors to MSX
-Show individual maximum item length and volume in pickup display
-Removed border from classic minimap to make it bigger
-Sort proficiencies and clean up percentage formatting
-NewCharacter - Add responsive screen behavior for small terminal sizes
-Add PAGE_UP/DOWN-fast-scroll to more menus
-Update Chibi Ultica 23/11/20
-Remove implicit instance flags from wished items
-Move all in AIM now skips favourite items outside of inventory unless no other items can be moved
-Filter wearable items by body part in the armor layers window
-Add PAGE_UP/DOWN-fast-scroll to active world mods menu
+Add item length and pocket volume entries to menus.
+Add PAGE_UP/DOWN-fast-scroll to many menus with long lists.
+NewCharacter - Add responsive screen behavior for small terminal sizes.
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
@@ -184,21 +127,6 @@ DinoMod: Adds monsters 'Brontosaurus', 'Alamosaurus', and 'Brachiosaurus'.
 [Magiclysm] Adds bullet armor to magic rings and bracers of protection.
 DinoMod: Converts 'dinoexhibit' to use templates, adds a roof, and adds a baby dino variant.
 Ankylosaurs Abound: Dyoplosaurus Nodosaurus Edmontonia
-Adds unique NPC 'Sadie', a forgotten experiment
-Aftershock mutagen and related recipes now use chemistry
-Mutant NPCs for Magiclysm
-Fixes Skill ID on Line 87 of classes.json
-Adult sauropods only spawn in forests at night
-More magic professions
-Aftershock: Farmable worms
-Adds T Rex Nest Map Extra
-Aftershock: Fix the energy saber + give it heat damage
-Aftershock: Alien Plants
-Removes spiders
-Aftershock: Stranded Spacer scenario
-Aftershock: Snow features
-Aftershock: Fix rebar rail rifle
-Fix difficulty settings for baby dinos
 
 ## Balance:
 Large item price audit.
@@ -219,19 +147,6 @@ Monsters with larger eyes see farther than smaller variants.
 Ankle storage items don't affect feet-related mutations anymore.
 Give the default Survivor profession more weather-appropriate clothes for the default start.
 Rebalance anesthesia to be more realistic.
-Resize cardboard boxes
-vehicles: reduce motive power of foot pedals and hand rims
-Adjust swamp spawn rates
-Adjusts hunger and stomach contents balance in a few small ways
-Quick draw holsters should fit most glocks and M1911
-Add lengths to non-clutter kitchen items
-reduce the kiltpocalpyse, balance the wardrobes
-increase feral human thrown rock damage
-Removes 'mineable' flag from metal doors
-Sheaths and holsters changes
-Increased log weight and volume
-tools: rebalance the makeshift glaive
-Tweaks to clothing mods
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -291,84 +206,8 @@ Picking up an item stack fills up your pockets if it doesn't fit into one pocket
 Wielding combines item stacks if possible.
 Robots can no longer be disabled through melee hits.
 Fixes auto-consume zones in vehicles.
-Fix crash when npcs want to wield a weapon from a wielded container
-Fix auto consume zones in vehicles
-Fix mycus feeder bandage usage
-Search in player inventory, instead of mugger inventory, during mugging
-Changed item to be identified as soft only if all of it's components are soft
-Fix seed spawns in farm plots
-Reload of magazine when inventory is full
-Plural and punctuation fixes
-Make unloading container into activity
-Correct description for Jittery trait
 Fix monster special attack range limiting code.
-Fix separation funnel recipe being moved due to copy/paste error
-cata_tiles: fix variant vehicle parts to work with ASCIITiles
-Give Compound Eyes +2 perception, per description
-Fix worldfactory crash on page-up
-Fix trim length in pickup window
-Fixed view mods in pockets
-Fix various issues related to item groups and containers
-Fix auto consume while crafting
-Fix ui.cpp scrolling bug
-vehicles: fix for wheeled vehicles always floating
-Fix segfault caused by NPCs trying to heal eyes, hands, or feet
-Replace survivor_belt with survivor_belt_notools
-AIM liquid transfer endless liquid fix
-Dupe item fix when standing on terrain that won't hold items
-fix wrong info on the mag_destroy flag
-Fix gun related crash
-Added missing secondary ammunition tube to the SWAT CQC profession's KSG shotgun.
-Fix certain ammo not displaying armor penetration and damage
-Removing the "classic" tag from pupating zombies.
-fix bad terrain.
-fix 'item description flags' test in Windows builds
-Fixes inaccurate wait duration in the Wait a while menu
-Fix rocks forges not using charcoal and giving an error when used
-Make sure items spawned during mapgen are migrated
-Survival kit disassembly gives full flares
-Musical Instrument Audit
-Artifacts don't stack
-Max wax for crafted candles
-give proper amount of copper wire from industrial and alien furniture disassembly and smashing
-Fix kittens reproducing more kittens
-Made bio_ads behavior match its description
-Remove stimulant value from chamomile tea
-Prevent app restart when USB keyboard is plugged
-Falling vehicles: prevent bouncing after the first collision with the ground
-Make max_effective_intensity field work correctly
-Fix software rendering
-Don't burn comestibles in your CBMs
-Makes it possible to hear about missions other than the default one
-Improved holster activation and handling
-Fixes several bugs with pocket whitelists and blacklists
-Fix encumbrance cache: AIM drop issues and NPC performance
-Edit old mattack::slimespring() to fit it in new blood system
-Corrected wax quantity in Toilets
-Fix vehicle rotated to 225 degrees
-Prevents removal of battery from worn and activated foodperson mask
-Fixed info message not being diplayed when trying to recharge bionics using a cable and a vehicle
-Fix messed up vehicles sprites in Chibi Ultica
-Fixed base camp bb handling of multi line entries
-Fix sigfpe crash in vehicle::thrust
-Fixed ammo satchel crafting time
-item: don't try to use charges if there's no ammo
-Fixes activity zone sorting for comestibles in containers
-Added magazines and bullets weight to total weight of a gun
-Fix items disappear from container when container deployed.
-Fix rotated tiles offset
-Fix segfault in drop activity
-Fix issues with radio-modded explosives inside RC cars.
-npctrade: stop selling things that are marked TRADER_AVOID
-Attempt to get the freshwater research station to spawn
-Fix non-working garage door
-Fixed graffiti not showing full text in mouselook.
-Fixed a typo preventing the Airframe and Powerplant Mechanics proficiency from allowing the player to repair aircraft
-Allow reloading from container pockets of tools
-Street lights and Traffic lights don't block sight
-Fixed unseen sound not showing fully in Mouse View.
-Fix issues with sound (walking on boats, sound triggering twice)
-Ensure that casings are stackable (fixes pickup performance issues)
+Falling vehicles: prevent bouncing after the first collision with the ground.
 
 ## Performance:
 Add option to enable batching when it is available in SDL.
@@ -383,19 +222,10 @@ Improves rendering speed by optimizing find_tile_looks_like method (FPS improved
 Greatly reduce overhead of processing idle vehicles.
 Optimizes Creature::has_effect (performance improved ~9.5%)
 Adds a specialization for static/interned string_ids  (performance improved ~30%))
-Speedup items processing by caching and skipping repeated checks of item tags
 Cache translations and _() macro (LOCALIZE=1 build perf improved ≈20%)
-Major optimization in field processing
-Code optimizations reported by static code analysis
-speedup npc::get_monster_faction
-Minor speedup monster->Character attitude calculation
-Return result of Creature::get_body by const reference
-Speedup `apply_mut_encumbrance` by calculating `exclusive_flag_coverage` on demand
-Speedup `get_clothing_mod_val` by caching `get_var` key
-Speedup `portion_for_bodypart` by avoiding copy of the return value
-Switch monfactions to generic factory (refactoring + minor perf improvement)
-Add reachability cache/filter that can reject bresenham-based LOS checks in O(1) time
-Use `field_cache` in `map::get_field` to speedup fire check in `npc::assess_danger`
+Major optimization in field processing.
+Add reachability cache/filter that can reject bresenham-based LOS checks in O(1) time.
+Use field_cache in map::get_field to speedup fire check in npc::assess_danger.
 Speedup quicksave (mapbuffer::save) by limiting `ui_manager::redraw()` rate
 
 ## Infrastructure:
@@ -462,24 +292,6 @@ Add default time and fail multipliers to proficiencies for easier JSON entry.
 Introduce STATIC( ) macro that can reduce the verbosity of the static constants definition.
 Add typesafe angle type.
 Add check that Generic Guns migrates all guns, magazines, and ammo.
-Change STATIC() macro to support special case of string literal argument
-Add char* to string_id for debugging purposes
-Apply gun fault effects with flags instead of fault id
-Replace int_id<json_flag> with string_id<json_flag> (housekeeping)
-Add collapsed tower monsters to BrownLikeBears
-Remove all mentions to the 'fridge' item group and phase them to the new SUS system whenever possible
-Move fuel data from item to material and use this to jsonize internal furnace CBM
-Rework font loading to use file paths instead of font names
-Replace dynamic instantiation of bodypart ids with constants
-compose.py ignores folders without used images
-Create a new project solution for tooling using Qt
-Refactoring burrow activity to actor system
-Remove obsolete code
-move disarm and reach_attack out of player
-Add submap loading tests
-Add new helper function get_book_mastery
-Terrain can emit fields
-Remove useless EMITTER flag from vehicles
 
 ## Build:
 Create a GitHub workflow for running clang-tidy.
@@ -499,9 +311,6 @@ Suppress Homebrew update for faster OSX builds.
 Adds problem matchers for json errors, compiler errors, DebugLog emissions, and Catch2 errors.
 Add check enforcing almost-never-auto convention.
 Adds a GitHub workflow running flake8 to check the Python scripts.
-Build for windows in CI with standards conformance flag
-Fix Clang Build Analyzer
-Fix VS C4805 warnings
 
 ## I18N and A11Y:
 Fix translation of martial art initiate message and computer translation.
@@ -511,11 +320,6 @@ Add helper for localized sorting.
 Record locales in debug.log to assist with i18n debugging.
 Add translator glossary and explain etymology of Exodii.
 Use class translation in many more places.
-Routine i18n updates on 1 Nov 2020
-Routine i18n updates on 8 Nov 2020
-Routine i18n updates on 15 Nov 2020
-Routine i18n updates on 21 Nov 2020
-Routine i18n updates on 29 Nov 2020
 
 # 0.E (Ellison)
 
