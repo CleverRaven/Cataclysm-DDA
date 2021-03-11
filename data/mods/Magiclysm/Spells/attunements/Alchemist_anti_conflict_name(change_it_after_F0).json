@@ -42,7 +42,7 @@
     "id": "alchemist_make_potion_trap",
     "type": "SPELL",
     "name": "Manafusion trap",
-    "description": "Made manafusion trap, stabilizing reaction and creating mana.",
+    "description": "Make a manafusion trap, stabilizing manafusion bombs and giving you some of the excess mana.",
     "//": "In perfect world there will be another spell that create already buried mine, making very effective trap in realtime. But not today.",
     "valid_targets": [ "none" ],
     "flags": [ "SOMATIC", "WONDER", "MUST_HAVE_CLASS_TO_LEARN" ],
