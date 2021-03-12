@@ -128,7 +128,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         via_ramp = true;
     }
 
-
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
