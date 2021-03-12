@@ -1,6 +1,12 @@
 [
   {
     "type": "snippet",
+    "category": "<spirals>",
+    "//": "Spiral madman's responses.",
+    "text": [ "Spirals.", "Spirals...", "Spirals?", "Spirals!", "Spirals!!!", "SpIrAlS.", "SPIRALS.", "AHAHAHAHA!!!" ]
+  },
+  {
+    "type": "snippet",
     "category": "<get_lost>",
     "//": "A rude way of telling player to get lost.",
     "text": [
