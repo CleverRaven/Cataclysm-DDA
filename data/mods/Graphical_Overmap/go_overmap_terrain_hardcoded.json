@@ -97,18 +97,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "spiral_hub",
-    "copy-from": "spiral_hub",
-    "sym": "\u00EA"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spiral",
-    "copy-from": "spiral",
-    "sym": "\u00EA"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "cave",
     "copy-from": "cave",
     "sym": "\u00EA",
