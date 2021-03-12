@@ -418,7 +418,7 @@ void computer_session::action_toll()
                        //~ the sound of a church bell ringing
                        _( "Bohm…  Bohm…  Bohm…" ), true, "environment", "church_bells" );
 
-        query_any( _( "[Bellsystem 1.2] activated. Have a nice day." ) );
+        query_any( _( "[Bellsystem 1.2] activated.  Have a nice day." ) );
     }
 }
 
