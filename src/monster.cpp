@@ -1503,9 +1503,8 @@ bool monster::melee_attack( Creature &target, float accuracy )
         return false;
     }
 
-    if (!sees(target) && posz() != target.posz()) {
-        debugmsg(string_format("Z-Level view violation: %s tried to attack %s.", disp_name(),
-            target.disp_name()));
+    if( posz() != target.posz() && !sees( target ) ) {
+        debugmsg( "Z-Level view violation: %s tried to attack %s.", disp_name(), target.disp_name() );
     }
 
     int hitspread = target.deal_melee_attack( this, melee::melee_hit_range( accuracy ) );
