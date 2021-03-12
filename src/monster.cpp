@@ -1502,8 +1502,10 @@ bool monster::melee_attack( Creature &target, float accuracy )
     if( /*This happens sometimes*/ this == &target || !is_adjacent( &target, true ) ) {
         return false;
     }
-
-    if( posz() != target.posz() && !sees( target ) ) {
+    map &here = get_map();
+    if( !sees( target ) && !here.has_flag( TFLAG_RAMP_UP, target.pos() ) &&
+        !here.has_flag( TFLAG_RAMP_DOWN, target.pos() ) && !here.has_flag( TFLAG_GOES_UP, target.pos() ) &&
+        !here.has_flag( TFLAG_GOES_DOWN, target.pos() ) ) {
         debugmsg( "Z-Level view violation: %s tried to attack %s.", disp_name(), target.disp_name() );
     }
 
