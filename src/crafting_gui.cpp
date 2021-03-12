@@ -811,7 +811,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                 if( subtab.cur() != "CSC_*_RECENT" ) {
                     std::stable_sort( current.begin(), current.end(),
                     []( const recipe * a, const recipe * b ) {
-                        return b->difficulty < a->difficulty;
+                        return localized_compare( a->result_name(), b->result_name() );
                     } );
 
                     std::stable_sort( current.begin(), current.end(),
