@@ -833,7 +833,7 @@
           { "item": "wizard_advanced", "prob": 5 },
           { "item": "pyro", "prob": 5 },
           { "item": "spell_scroll_fireball", "prob": 10 },
-          { "item": "spell_scroll_recover_bionic_power", "prob": 50 },
+          { "item": "spell_scroll_nova_flare", "prob": 50 },
           { "item": "spell_scroll_cone_cold", "prob": 50 },
           { "item": "spell_scroll_hoary_blast", "prob": 50 }
         ],
