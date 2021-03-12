@@ -1644,7 +1644,6 @@ class map
         void draw_lab( mapgendata &dat );
         void draw_temple( const mapgendata &dat );
         void draw_mine( mapgendata &dat );
-        void draw_spiral( const mapgendata &dat );
         void draw_anthill( const mapgendata &dat );
         void draw_slimepit( const mapgendata &dat );
         void draw_spider_pit( const mapgendata &dat );
