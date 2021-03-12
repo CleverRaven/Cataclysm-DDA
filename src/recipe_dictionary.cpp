@@ -208,9 +208,30 @@ std::vector<const recipe *> recipe_subset::search(
                     }
                 }
 
-                use_range = use_range && !range_end.empty();
-                int start = std::stoi( range_start );
-                int end = use_range ? std::stoi( range_end ) : 0;
+                int start = 0;
+                int end = INT_MAX;
+
+                if( use_range ) {
+                    if( !range_start.empty() ) {
+                        start = std::stoi( range_start );
+                    }
+
+                    if( !range_end.empty() ) {
+                        end = std::stoi( range_end );
+                    }
+
+                    if( range_start.empty() && range_end.empty() ) {
+                        return true;
+                    }
+                } else {
+                    if( !range_start.empty() ) {
+                        start = std::stoi( range_start );
+                    }
+
+                    if( range_start.empty() && range_end.empty() ) {
+                        return true;
+                    }
+                }
 
                 if( use_range && start > end ) {
                     int swap = start;
