@@ -90,7 +90,7 @@
     "price": 1000000,
     "price_postapoc": 20000,
     "material": [ "superalloy", "hardsteel" ],
-    "flags": [ "FIRE_TWOHAND", "STR_DRAW", "SLOW_WIELD", "WATERPROOF_GUN", "NEVER_JAMS", "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "FIRE_TWOHAND", "STR_DRAW", "SLOW_WIELD", "WATERPROOF_GUN", "NEVER_JAMS" ],
     "skill": "archery",
     "min_strength": 4,
     "weight": "500 g",
