@@ -98,7 +98,7 @@
     "melee_dice_sides": 3,
     "melee_cut": 2,
     "dodge": 1,
-    "harvest": "human",
+    "harvest": "CBM_SCI_FERAL",
     "vision_day": 30,
     "vision_night": 3,
     "death_drops": "feral_scientists_death_drops_scalpel",
