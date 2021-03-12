@@ -19,6 +19,9 @@
 // Run update_bodytemp() until core body temperature settles.
 static int converge_temperature( player &p )
 {
+    REQUIRE( get_weather().weather == WEATHER_CLOUDY );
+    REQUIRE( get_weather().windspeed == 0 );
+
     for( int i = 0 ; i < num_bp; i++ ) {
         p.temp_cur[i] = BODYTEMP_NORM;
     }
@@ -51,9 +54,10 @@ static int converge_temperature( player &p )
     return p.temp_cur[0];
 }
 
-static int find_converging_temp( player &p, int expected_ambient, int expected_bodytemp )
+static int find_converging_temp( player &p, int expected_ambient, int min_bodytemp,
+                                 int max_bodytemp )
 {
-    constexpr int tol = 100;
+    REQUIRE( min_bodytemp < max_bodytemp );
     REQUIRE( !get_map().has_flag( TFLAG_SWIMMABLE, p.pos() ) );
     REQUIRE( !get_map().has_flag( TFLAG_DEEP_WATER, p.pos() ) );
     int actual_ambient = expected_ambient;
@@ -66,8 +70,8 @@ static int find_converging_temp( player &p, int expected_ambient, int expected_b
         REQUIRE( actual_temperature == actual_ambient );
 
         int converged_temperature = converge_temperature( p );
-        bool high_enough = expected_bodytemp - tol <= converged_temperature;
-        bool low_enough  = expected_bodytemp + tol >= converged_temperature;
+        bool high_enough = converged_temperature >= min_bodytemp;
+        bool low_enough  = converged_temperature <= max_bodytemp;
         if( high_enough && low_enough ) {
             return actual_ambient;
         }
@@ -75,8 +79,9 @@ static int find_converging_temp( player &p, int expected_ambient, int expected_b
         int direction = high_enough ? -1 : 1;
         actual_ambient += direction * step;
     } while( step > 0 );
-    bool converged = step > 0;
-    CHECK( converged );
+    CAPTURE( min_bodytemp );
+    CAPTURE( max_bodytemp );
+    CHECK( step > 0 );
 
     return actual_ambient;
 }
@@ -87,23 +92,42 @@ static void equip_clothing( player &p, const std::string &clothing )
     p.wear_item( article );
 }
 
+static std::array<int, 8> bodytemp_thresholds()
+{
+    constexpr std::array<int, 7> bodytemps = {{
+            BODYTEMP_FREEZING, BODYTEMP_VERY_COLD, BODYTEMP_COLD,
+            BODYTEMP_NORM,
+            BODYTEMP_HOT, BODYTEMP_VERY_HOT, BODYTEMP_SCORCHING
+        }
+    };
+    std::array<int, 8> midpoints;
+    midpoints[0] = INT_MIN;
+    midpoints[7] = INT_MAX;
+    for( int i = 0; i < 6; i++ ) {
+        midpoints[i + 1] = ( bodytemps[i] + bodytemps[i + 1] ) / 2;
+    }
+
+    return midpoints;
+}
+
 // Run the tests for each of the temperature setpoints.
 static void test_temperature_spread( player &p, const std::array<int, 7> &expected_temps )
 {
+    auto thresholds = bodytemp_thresholds();
     std::array<int, 7> actual_temps;
-    actual_temps[0] = find_converging_temp( p, expected_temps[0], BODYTEMP_FREEZING );
-    actual_temps[1] = find_converging_temp( p, expected_temps[1], BODYTEMP_VERY_COLD );
-    actual_temps[2] = find_converging_temp( p, expected_temps[2], BODYTEMP_COLD );
-    actual_temps[3] = find_converging_temp( p, expected_temps[3], BODYTEMP_NORM );
-    actual_temps[4] = find_converging_temp( p, expected_temps[4], BODYTEMP_HOT );
-    actual_temps[5] = find_converging_temp( p, expected_temps[5], BODYTEMP_VERY_HOT );
-    actual_temps[6] = find_converging_temp( p, expected_temps[6], BODYTEMP_SCORCHING );
+    for( int i = 0; i < 7; i++ ) {
+        actual_temps[i] = find_converging_temp( p, expected_temps[i], thresholds[i], thresholds[i + 1] );
+    }
+    auto sorted_actual_temps = actual_temps;
+    std::sort( sorted_actual_temps.begin(), sorted_actual_temps.end() );
+    CHECK( sorted_actual_temps == actual_temps );
     CHECK( actual_temps == expected_temps );
 }
 
 TEST_CASE( "Player body temperatures converge on expected values.", "[.bodytemp]" )
 {
     clear_map();
+    clear_avatar();
     player &dummy = get_avatar();
 
     const tripoint &pos = dummy.pos();
@@ -112,7 +136,9 @@ TEST_CASE( "Player body temperatures converge on expected values.", "[.bodytemp]
     REQUIRE( !get_map().has_flag( TFLAG_DEEP_WATER, pos ) );
     REQUIRE( !g->is_in_sunlight( pos ) );
     get_weather().weather = WEATHER_CLOUDY;
+    get_weather().weather_override = WEATHER_CLOUDY;
     get_weather().windspeed = 0;
+    get_weather().weather_precise->humidity = 0;
 
     SECTION( "Nude target temperatures." ) {
         test_temperature_spread( dummy, {{ 8, 35, 64, 82, 98, 110, 122 }} );
