@@ -2401,9 +2401,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
             // The latter kicks in when long actions like crafting
             // apply many turns of gains at once.
             int focus_drain = std::max( focus_pool / 100, amount );
-            // The purpose of having this squared is that it makes focus drain dramatically slower
-            // as it approaches zero.
-            focus_pool -= ( focus_drain * focus_drain ) / 1000;
+            focus_pool -= focus_drain;
             add_msg( m_good, _( "practicing %s for %d kind of, focus drain is %d we drained %d of %d" ),
                      skill_name,
                      amount,
