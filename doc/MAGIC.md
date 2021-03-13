@@ -493,6 +493,7 @@ Effects for the character that has the enchantment:
 * SOCIAL_LIE
 * SOCIAL_PERSUADE
 * SOCIAL_INTIMIDATE
+* SLEEPY : The higher this is the more easily you fall asleep.
 * ARMOR_BASH
 * ARMOR_CUT
 * ARMOR_STAB
