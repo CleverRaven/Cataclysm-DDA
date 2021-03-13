@@ -1878,6 +1878,7 @@
         { "id": "mon_zombie_sproglodyte", "fg": 1220, "bg": [  ], "rotates": false },
         { "id": "mon_zombie_static", "fg": 1265, "bg": [  ], "rotates": false },
         { "id": "mon_zombie_swimmer", "fg": 1221, "bg": [  ], "rotates": false },
+        { "id": "mon_zombie_thorny", "fg": 1266, "rotates": false },
         { "id": "mon_zombie_waif", "fg": 1222, "bg": [  ], "rotates": false },
         { "id": "mon_zombie_wretched", "fg": 1267, "bg": [  ], "rotates": false },
         { "id": "mon_zoose", "fg": 1223, "bg": [  ], "rotates": false },
@@ -6561,7 +6562,6 @@
         { "id": "mon_zombie_winged", "fg": 4460, "bg": 4480 },
         { "id": "mon_copbot", "fg": 1242, "bg": 4480 },
         { "id": "mon_zombie_swat", "fg": 4465, "bg": 4480 },
-        { "id": "mon_zombie_thorny", "fg": 1266, "bg": 4480 },
         { "id": "mon_zombie_flamer", "fg": 4470, "bg": 4480 },
         { "id": "corpse_mon_zombie_brainless", "fg": 4420 }
       ]
