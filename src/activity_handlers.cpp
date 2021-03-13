@@ -2313,6 +2313,10 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
         here.ter_set( pos, t_mdoor_frame );
         here.spawn_item( pos, itype_steel_plate, rng( 0, 1 ) );
         here.spawn_item( pos, itype_steel_chunk, rng( 3, 8 ) );
+    } else if( ter == t_wall_metal ) {
+        here.ter_set( pos, t_scrap_wall_halfway );
+        here.spawn_item( pos, itype_steel_plate, rng( 2, 3 ) );
+        here.spawn_item( pos, itype_steel_chunk, rng( 12, 20 ) );
     } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
         here.ter_set( pos, t_window_empty );
         here.spawn_item( pos, itype_steel_plate, rng( 0, 1 ) );
@@ -4305,9 +4309,6 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 break;
             case magic_energy_type::hp:
                 blood_magic( p, cost );
-                break;
-            case magic_energy_type::fatigue:
-                p->mod_fatigue( cost );
                 break;
             case magic_energy_type::none:
             default:
