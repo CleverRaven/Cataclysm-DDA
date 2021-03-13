@@ -97,7 +97,7 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
                      raw_noise_4d( x, y, z, modSEED ) * noise_magnitude_K;
 
     // Convert from Celsius to Fahrenheit
-    return celsius_to_fahrenheit( T );
+    return units::celsius_to_fahrenheit( T );
 }
 
 double weather_generator::get_weather_temperature( const tripoint &location, const time_point &t,
@@ -283,12 +283,12 @@ double weather_generator::get_water_temperature( const tripoint &location, const
     // For avg air temp<-10C, water is 0C
     // For avg air temp> 30C, water is 30C
     // logarithmic_range smoothing for the in-between
-    constexpr double lower_limit = celsius_to_fahrenheit( -10.0 );
-    constexpr double upper_limit = celsius_to_fahrenheit( 30.0 );
+    constexpr double lower_limit = units::celsius_to_fahrenheit( -10.0 );
+    constexpr double upper_limit = units::celsius_to_fahrenheit( 30.0 );
     const double t = logarithmic_range( static_cast<int>( 1000 * lower_limit ),
                                         static_cast<int>( 1000 * upper_limit ),
                                         static_cast<int>( 1000 * weighted_avg ) );
-    return lerp( celsius_to_fahrenheit( 0 ), celsius_to_fahrenheit( 30 ), 1.0 - t );
+    return lerp( units::celsius_to_fahrenheit( 0 ), units::celsius_to_fahrenheit( 30 ), 1.0 - t );
 }
 
 void weather_generator::test_weather( unsigned seed = 1000 ) const
