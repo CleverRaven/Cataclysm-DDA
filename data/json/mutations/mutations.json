@@ -304,7 +304,8 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "INSOMNIA" ],
-    "category": [ "MOUSE", "INSECT" ]
+    "category": [ "MOUSE", "INSECT" ],
+    "enchantments": [ "ENCH_TRAIT_EASYSLEEPER" ]
   },
   {
     "type": "mutation",
@@ -315,7 +316,8 @@
     "prereqs": [ "MET_RAT" ],
     "cancels": [ "INSOMNIA" ],
     "threshreq": [ "THRESH_MOUSE" ],
-    "category": [ "MOUSE" ]
+    "category": [ "MOUSE" ],
+    "enchantments": [ "ENCH_TRAIT_EASYSLEEPER2" ]
   },
   {
     "type": "mutation",
@@ -1060,6 +1062,7 @@
     "starting_trait": true,
     "valid": false,
     "category": [ "MEDICAL" ],
+    "enchantments": [ "ENCH_TRAIT_INSOMNIA" ],
     "cancels": [ "EASYSLEEPER" ]
   },
   {
