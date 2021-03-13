@@ -2324,7 +2324,6 @@ bionic_id Character::get_most_efficient_bionic( const std::vector<bionic_id> &bi
 
 void Character::practice( const skill_id &id, int amount, int cap, bool suppress_warning )
 {
-    add_msg( m_good, _( "practicing %d (capped at %d) for focus %d" ), amount, cap, focus_pool ) ;
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
     if( !level.can_train() && !in_sleep_state() ) {
@@ -2402,15 +2401,8 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
             // apply many turns of gains at once.
             int focus_drain = std::max( focus_pool / 100, amount );
             focus_pool -= focus_drain;
-            add_msg( m_good, _( "practicing %s for %d kind of, focus drain is %d we drained %d of %d" ),
-                     skill_name,
-                     amount,
-                     focus_drain, ( focus_drain * focus_drain ) / 1000, focus_pool );
-
         }
         focus_pool = std::max( focus_pool, 0 );
-
-
     }
 
     get_skill_level_object( id ).practice();
