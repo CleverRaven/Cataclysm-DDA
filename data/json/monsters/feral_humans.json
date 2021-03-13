@@ -178,6 +178,8 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
+      "CLIMBS",
+      "PUSH_MON",
       "PATH_AVOID_DANGER_2",
       "DROPS_AMMO"
     ]
