@@ -83,7 +83,12 @@ static void equip_clothing( player &p, const std::vector<std::string> &clothing 
     }
 }
 
-static std::array<int, 8> bodytemp_thresholds()
+// TODO: Find good name
+/**
+ * Table of temperature ranges closest to given body temperature.
+ * That is, [0] to [1] is the range where FREEZING is the closest.
+ */
+static std::array<int, 8> bodytemp_voronoi()
 {
     std::array<int, 8> midpoints;
     midpoints[0] = INT_MIN;
@@ -99,7 +104,7 @@ static std::array<int, 8> bodytemp_thresholds()
 static void test_temperature_spread( player &p,
                                      const std::array<units::temperature, 7> &air_temperatures )
 {
-    const auto thresholds = bodytemp_thresholds();
+    const auto thresholds = bodytemp_voronoi();
     for( int i = 0; i < 7; i++ ) {
         get_weather().temperature = to_fahrenheit( air_temperatures[i] );
         get_weather().clear_temp_cache();
@@ -157,17 +162,15 @@ const std::vector<std::string> arctic_clothing = {{
     }
 };
 
-static void guarantee_neutral_weather( const player &p, bool also_set = true )
+static void guarantee_neutral_weather( const player &p )
 {
+    get_weather().weather = WEATHER_CLOUDY;
+    get_weather().weather_override = WEATHER_CLOUDY;
+    get_weather().windspeed = 0;
+    get_weather().weather_precise->humidity = 0;
     REQUIRE( !get_map().has_flag( TFLAG_SWIMMABLE, p.pos() ) );
     REQUIRE( !get_map().has_flag( TFLAG_DEEP_WATER, p.pos() ) );
     REQUIRE( !g->is_in_sunlight( p.pos() ) );
-    if( also_set ) {
-        get_weather().weather = WEATHER_CLOUDY;
-        get_weather().weather_override = WEATHER_CLOUDY;
-        get_weather().windspeed = 0;
-        get_weather().weather_precise->humidity = 0;
-    }
 
     const w_point weather = *g->weather.weather_precise;
     const oter_id &cur_om_ter = overmap_buffer.ter( p.global_omt_location() );
@@ -210,9 +213,6 @@ TEST_CASE( "Player body temperatures within expected bounds.", "[bodytemp][slow]
         equip_clothing( dummy, arctic_clothing );
         test_temperature_spread( dummy, {{-83_C, -68_C, -50_C, -24_C, 3_C, 27_C, 43_C,}} );
     }
-
-    // Just to see if it broke.
-    guarantee_neutral_weather( dummy, false );
 }
 
 /**
