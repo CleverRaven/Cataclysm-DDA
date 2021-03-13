@@ -1362,7 +1362,7 @@
       "str_max": 650,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "f_rubble",
+      "ter_set": "t_sidewalk",
       "items": [ { "item": "rock", "count": [ 6, 13 ] }, { "item": "steel_chunk", "count": [ 1, 3 ] } ]
     }
   },
