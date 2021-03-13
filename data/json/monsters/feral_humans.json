@@ -147,7 +147,8 @@
     "dodge": 1,
     "harvest": "human",
     "vision_day": 30,
-    "vision_night": 3,
+    "vision_night": 4,
+    "path_settings": { "max_dist": 10 },
     "diff": 5,
     "starting_ammo": { "9mm": 5 },
     "special_attacks": [
