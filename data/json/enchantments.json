@@ -11,5 +11,29 @@
     "condition": "ACTIVE",
     "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
     "emitter": "emit_shadow_field"
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_TRAIT_INSOMNIA",
+    "condition": "ALWAYS",
+    "values": [ { "value": "SLEEPY", "add": -12 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_TRAIT_EASYSLEEPER",
+    "condition": "ALWAYS",
+    "values": [ { "value": "SLEEPY", "add": 24 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_TRAIT_EASYSLEEPER2",
+    "condition": "ALWAYS",
+    "values": [ { "value": "SLEEPY", "add": 40 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_BIO_SOPORIFIC",
+    "condition": "ACTIVE",
+    "values": [ { "value": "SLEEPY", "add": 30 } ]
   }
 ]
