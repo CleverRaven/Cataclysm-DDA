@@ -1232,6 +1232,7 @@
     "name": { "str": "Soporific Induction" },
     "description": "An electrode has been implanted into your brain's ventrolateral preoptic nucleus.  It turns on whenever you're trying to fall asleep, creating an artificial but effective sensation of fatigue.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_TOGGLED" ],
+    "enchantments": [ "ENCH_BIO_SOPORIFIC" ]
   }
 ]
