@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "spiral_madman",
-    "//": "Former miner, poor fellow succumbed by spiral madness.",
+    "//": "Former miner, poor fellow succumbed to spiral madness.",
     "name_suffix": "miner",
     "class": "NC_SPIRAL_MADMAN",
     "attitude": 0,
@@ -76,7 +76,7 @@
         "condition": { "not": { "u_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
       },
       {
-        "text": "Poor fellow...  Looks like you're out of your mind.  Can't help you.  I'm outta here.  Bye.",
+        "text": "Poor fellow - looks like you're out of your mind.  Can't help you, sorry.  I'm outta here.  Bye.",
         "topic": "TALK_DONE",
         "condition": { "u_has_var": "first_meeting", "type": "dialogue", "context": "first_meeting", "value": "yes" }
       }
@@ -87,7 +87,7 @@
     "type": "talk_topic",
     "dynamic_line": "<spirals>",
     "responses": [
-      { "text": "What are doing here?", "topic": "TALK_SPIRAL_MADMAN_SPIRALS" },
+      { "text": "What are you doing here?", "topic": "TALK_SPIRAL_MADMAN_SPIRALS" },
       { "text": "Sorry, what?", "topic": "TALK_SPIRAL_MADMAN_SPIRALS" },
       { "text": "I'm outta here.  Bye.", "topic": "TALK_DONE" }
     ]
@@ -118,7 +118,7 @@
     "dynamic_line": "<spirals>",
     "responses": [
       {
-        "text": "Poor fellow...  Looks like you're out of your mind.  Can't help you.  I'm outta here.  Bye.",
+        "text": "Poor fellow - looks like you're out of your mind.  Can't help you, sorry.  I'm outta here.  Bye.",
         "topic": "TALK_DONE"
       }
     ]

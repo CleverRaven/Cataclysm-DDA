@@ -1462,7 +1462,7 @@
     "id": "t_pillar",
     "name": "pillar",
     "looks_like": "t_column",
-    "description": "A concrete column that supports the ceiling and walls in the mines from collapsing.",
+    "description": "A concrete column that helps keep the mine's ceiling and walls from collapsing.",
     "symbol": "1",
     "color": "light_gray",
     "move_cost": 0,
