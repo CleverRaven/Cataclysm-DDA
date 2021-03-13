@@ -16,6 +16,10 @@
     "type": "enchantment",
     "id": "ENCH_RECYCLE",
     "condition": "ALWAYS",
-    "values": [ { "value": "HUNGER", "multiply": -0.5 }, { "value": "THIRST", "multiply": -0.5 } ]
+    "values": [
+      { "value": "HUNGER", "multiply": -0.5 },
+      { "value": "THIRST", "multiply": -0.5 },
+      { "value": "METABOLISM", "multiply": -0.5 }
+    ]
   }
 ]
