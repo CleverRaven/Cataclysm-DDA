@@ -123,7 +123,7 @@
     "id": "mon_feral_labsecurity_9mm",
     "type": "MONSTER",
     "name": { "str": "feral security guard" },
-    "description": "This security guard still breathes, but has been lost to some terrible madness. They move among the undead, handgun at the ready and saucer pupils scanning for threats in a mockery of their former duty.",
+    "description": "This security guard still breathes, but has been lost to some terrible madness.  They move among the undead, handgun at the ready and saucer pupils scanning for threats in a mockery of their former duty.",
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",
@@ -193,6 +193,5 @@
     "death_drops": "feral_security_death_drops_flashlight"
   }
 ]
-
 
 
