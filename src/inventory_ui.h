@@ -135,9 +135,9 @@ class inventory_entry
         void update_cache();
         bool highlight_as_parent = false;
         bool highlight_as_child = false;
+        const item_category *custom_category = nullptr;
 
     private:
-        const item_category *custom_category = nullptr;
         bool enabled = true;
     protected:
         // indents the entry if it is contained in an item

@@ -289,7 +289,17 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
     if( !entry ) {
         return std::string();
     } else if( entry.is_item() ) {
-        return cells[cell_index].get_text( entry );
+        std::string text = cells[cell_index].get_text( entry );
+        if( entry.locations.front().where() == item_location::type::container &&
+            entry.custom_category->get_id() == item_category_id( "ITEMS_WORN" ) ) {
+            int max_storage = 0;
+            int actual_storage = 0;
+            int max_length = 0;
+            std::string container_stub = string_format( " > {%dL/%dL:%dm}", actual_storage, max_storage,
+                                         max_length );
+            text = text; /*+ container_stub;*/
+        }
+        return text;
     } else if( cell_index != 0 ) {
         return replace_colors( cells[cell_index].title );
     } else {
