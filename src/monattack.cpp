@@ -2195,7 +2195,7 @@ bool mattack::dermatik( monster *z )
     target->add_msg_if_player( m_bad, _( "The %1$s sinks its ovipositor into your %2$s!" ),
                                z->name(),
                                body_part_name_accusative( targeted ) );
-    if( !foe->has_trait( trait_PARAIMMUNE ) || !foe->has_trait( trait_ACIDBLOOD ) ) {
+    if( !foe->has_trait( trait_PARAIMMUNE ) && !foe->has_trait( trait_ACIDBLOOD ) ) {
         foe->add_effect( effect_dermatik, 1_turns, targeted, true );
         get_event_bus().send<event_type::dermatik_eggs_injected>( foe->getID() );
     }
