@@ -146,7 +146,7 @@
     "armor_stab": 4,
     "dodge": 1,
     "harvest": "human",
-    "vision_day": 30,
+    "vision_day": 50,
     "vision_night": 4,
     "path_settings": { "max_dist": 10 },
     "diff": 5,
