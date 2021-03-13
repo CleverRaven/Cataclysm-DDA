@@ -79,7 +79,7 @@
     "id": "mon_feral_scientist_scalpel",
     "type": "MONSTER",
     "name": { "str": "mad scientist" },
-    "description": "A researcher who has stared too long into the abyss and now shambles about muttering nonsense under their breath. For some reason, the zombies don't seem to mind the fact that this person is obviously still alive. They're clutching a tiny razor-sharp blade in one shaky hand.",
+    "description": "A researcher who has stared too long into the abyss, and now shambles about muttering nonsense under their breath.  For some reason, the zombies don't seem to mind that this person is obviously still alive.  They're clutching a tiny but razor-sharp blade in one shaky hand.",
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",
@@ -193,7 +193,6 @@
     "death_drops": "feral_security_death_drops_flashlight"
   }
 ]
-
 
 
 
