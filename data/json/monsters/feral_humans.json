@@ -99,7 +99,7 @@
     "melee_cut": 2,
     "dodge": 1,
     "harvest": "CBM_SCI_FERAL",
-    "vision_day": 30,
+    "vision_day": 50,
     "vision_night": 3,
     "death_drops": "feral_scientists_death_drops_scalpel",
     "death_function": [ "NORMAL" ],
