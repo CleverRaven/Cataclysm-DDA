@@ -132,7 +132,7 @@
       { "monster": "mon_rattlesnake", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_rattlesnake_giant", "freq": 5, "cost_multiplier": 2 },
       { "monster": "mon_worm", "freq": 20, "cost_multiplier": 1 },
-      { "monster": "mon_wasp", "freq": 10, "cost_multiplier": 1 }
+      { "monster": "mon_wasp_small", "freq": 10, "cost_multiplier": 1 }
     ]
   },
   {
@@ -151,7 +151,7 @@
       { "monster": "mon_spider_widow_giant", "freq": 30, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
       { "monster": "mon_giant_cockroach", "freq": 50, "cost_multiplier": 1, "pack_size": [ 3, 6 ] },
       { "monster": "mon_black_rat", "freq": 30, "cost_multiplier": 1, "pack_size": [ 4, 8 ] },
-      { "monster": "mon_wasp", "freq": 50, "cost_multiplier": 1, "pack_size": [ 3, 6 ] },
+      { "monster": "mon_wasp_small", "freq": 50, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
       { "monster": "mon_zombie_child", "freq": 20, "cost_multiplier": 1, "pack_size": [ 2, 6 ] },
       { "monster": "mon_zombie", "freq": 20, "cost_multiplier": 1, "pack_size": [ 2, 6 ] },
       { "monster": "mon_zombie_rot", "freq": 10, "cost_multiplier": 1, "pack_size": [ 1, 5 ] },
