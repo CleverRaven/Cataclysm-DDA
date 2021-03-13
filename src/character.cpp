@@ -2396,11 +2396,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
         if( !( has_trait_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) ) {
-            // Base reduction on the larger of 1% of total, or practice amount.
-            // The latter kicks in when long actions like crafting
-            // apply many turns of gains at once.
-            int focus_drain = std::max( focus_pool / 100, amount );
-            focus_pool -= focus_drain;
+            focus_pool -= amount;
         }
         focus_pool = std::max( focus_pool, 0 );
     }
