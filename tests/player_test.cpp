@@ -185,7 +185,7 @@ static void guarantee_neutral_weather( const player &p, bool also_set = true )
     REQUIRE( p.body_wetness == decltype( p.body_wetness )() );
 }
 
-TEST_CASE( "Player body temperatures within expected bounds.", "[bodytemp]" )
+TEST_CASE( "Player body temperatures within expected bounds.", "[bodytemp][slow]" )
 {
     clear_map();
     clear_avatar();
