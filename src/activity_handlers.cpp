@@ -4361,9 +4361,7 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
         const int xp = roll_remainder( studying.exp_modifier( *p ) / to_turns<float>( 6_seconds ) );
         act->values[0] += xp;
         studying.gain_exp( xp );
-
-        const spell &sp = p->magic->get_spell( spell_id( act->name ) );
-        p->practice( sp.skill(), xp, sp.get_difficulty() );
+        p->practice( studying.skill(), xp, studying.get_difficulty() );
 
         // Notify player if the spell leveled up
         if( studying.get_level() > old_level ) {
