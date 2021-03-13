@@ -1,7 +1,7 @@
-# 0.F (2020-11-01)
+# 0.F (2020-12-01)
 
 ## Features:
-Added option to randomize INITIAL_DAY.
+Adds option to randomize INITIAL_DAY.
 Allow vehicles with autopilot to follow you.
 Monster factions can unconditionally hate other factions.
 Allows mutations to cast spells via enchantments.
@@ -40,9 +40,10 @@ Add activation abilities and charges to relics.
 Tiles: improve furniture rotation and connections.
 Show which achievements have been completed in past games.
 Artifacts regenerate ammo option.
-Added ACTIVE enchantment condition.
-Allow recipes to specify individual activity levels.
-Add weariness, a sort of long term stamina that limits the character's ability to be extremely active 24/7.
+Adds ACTIVE enchantment condition.
+Allows recipes to specify individual activity levels.
+Adds weariness, a sort of long term stamina that limits characters' ability to be extremely active 24/7.
+Reports faction camp build sites and improves faction camp tutorial.
 
 ## Content:
 Gun volume and weight audit.
@@ -59,16 +60,23 @@ Make bugs much more mutated.
 Reformats the 'chat with a friend' feature in NPCs to be more flexible, and to provide some more lore insights.
 Adds 'What the hell happened' stories to NPCs, keyed off backgrounds.
 Feral Humans with blob psychosis.
-Allow plank and branch bundles to be made from cordage, vines, or wire.
+Allows plank and branch bundles to be made from cordage, vines, or wire.
 Microlabs can contain artifacts in containment.
-Add NPC_class and NPC json templates and instructions.
-Adapts almost all vehicle definitions to use directional parts (most of the work by Curstwist).
+Adds NPC_class and NPC json templates and instructions.
+Adapts almost all vehicle definitions to use directional parts.
 Update UltiCa tileset and make it default.
-Add a number of flying zombies.
+Adds a number of flying zombies.
 Adds a new alternate needs panel to the label mode.
 Added many proficiencies and uses for them.
-Add frog mother monster.
+Adds frog mother monster.
 Adds mega mutant monsters.
+Adds a selection of mutated woodland creatures.
+New 'phase skulker' zombies teleport and haunt between the hallways of microlabs.
+Make mutant organs and lungs contain toxins.
+Adds streetlights to sidewalks; also adds traffic lights, stop lines, and pedestrian crossings to intersections.
+Adds Rust Zombies.
+Diversifies venom sources and effects.
+Adds a star fort with working cannon and zombie reenactors.
 
 ## Interface:
 Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
@@ -87,6 +95,9 @@ Display contained items like 'water (plastic bottle)' instead of 'plastic bottle
 Persist preferred aiming mode.
 Makes Chibi Ultica a stand-alone tileset.
 Brings back MSX+.
+Add item length and pocket volume entries to menus.
+Adds fast scroll to many menus with long lists.
+Adds responsive screen behavior to new character menu for small terminal sizes.
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
@@ -195,9 +206,11 @@ Picking up an item stack fills up your pockets if it doesn't fit into one pocket
 Wielding combines item stacks if possible.
 Robots can no longer be disabled through melee hits.
 Fixes auto-consume zones in vehicles.
+Fixes monster special attack range-limiting code.
+Falling vehicles: prevents bouncing after the first collision with the ground.
 
 ## Performance:
-Add option to enable batching when it is available in SDL.
+Adds an option to enable batching when it is available in SDL.
 Skip unnecessary weather calculations for root cellar.
 Cache drop_invalid_inventory and weight_carried.
 Cache clairvoyance field.
@@ -206,12 +219,17 @@ Overhaul shadowcasting to be iterative instead of recursive.
 Use plf linked list impl for shadowcasting.
 Improve string_id comparison performance, add unit test and benchmarks.
 Improves rendering speed by optimizing find_tile_looks_like method (FPS improved ~15%)
-Greatly reduce overhead of processing idle vehicles.
+Greatly reduces overhead from processing idle vehicles.
 Optimizes Creature::has_effect (performance improved ~9.5%)
 Adds a specialization for static/interned string_ids  (performance improved ~30%))
+Improve performance of builds with enabled localization by ≈20% by caching translations.
+Major optimization of field processing.
+Adds reachability cache/filter that can reject bresenham-based LOS checks in O(1) time.
+Uses field_cache in map::get_field to speedup fire check in npc::assess_danger.
+Speedup quicksave by limiting ui redraw rate
 
 ## Infrastructure:
-Add basic infrastructure for diseases.
+Adds basic infrastructure for diseases.
 Allow for specialization of activity parameters.
 Improved event transformations and statistic tracking.
 Jsonize Autodoc quality.
