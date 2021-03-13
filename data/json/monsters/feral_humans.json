@@ -124,7 +124,7 @@
     "type": "MONSTER",
     "name": { "str": "feral security guard" },
     "description": "This security guard still breathes, but has been lost to some terrible madness.  They move among the undead, handgun at the ready and saucer pupils scanning for threats in a mockery of their former duty.",
-    "default_faction": "zombie",
+    "default_faction": "science",
     "looks_like": "chud",
     "bodytype": "human",
     "species": [ "HUMAN" ],
