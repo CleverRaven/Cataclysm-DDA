@@ -74,8 +74,8 @@
     "description": "Their pupils are dilated and what remains to be seen of the iris and sclera are bloodshot.  This axe-wielding maniac still breathes, but the zombies treat them like one of their own.",
     "copy-from": "mon_feral_human_pipe",
     "melee_dice": 2,
-    "melee_dice_sides": 8,
-    "melee_cut": 8,
+    "melee_dice_sides": 7,
+    "melee_cut": 9,
     "death_drops": "feral_humans_death_drops_axe"
   }
 ]
