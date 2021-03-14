@@ -589,6 +589,9 @@ class Character : public Creature, public visitable<Character>
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
+
+        void wait_effects();
+
         /** Check against the character's current movement mode */
         bool movement_mode_is( character_movemode mode ) const;
         character_movemode get_movement_mode() const;
