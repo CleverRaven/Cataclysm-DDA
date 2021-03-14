@@ -74,8 +74,6 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
-static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
-
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
 
@@ -1816,41 +1814,15 @@ class bionic_install_preset: public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
-            const bionic_id &bid = itemtype->bionic->id;
-
-            if( it->has_flag( flag_FILTHY ) ) {
-                // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
-                return _( "/!\\ CBM is highly contaminated. /!\\" );
-            } else if( it->has_flag( flag_NO_STERILE ) ) {
-                // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
-                return _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." );
-            } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
-                return _( "CBM already deployed.  Please reset to factory state." );
-            } else if( pa.has_bionic( bid ) ) {
-                return _( "CBM already installed." );
-            } else if( !pa.can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
-                return _( "CBM not compatible with patient's body." );
-            } else if( bid->upgraded_bionic &&
-                       !pa.has_bionic( bid->upgraded_bionic ) &&
-                       it->is_upgrade() ) {
-                return _( "No base version installed." );
-            } else if( std::any_of( bid->available_upgrades.begin(),
-                                    bid->available_upgrades.end(),
-                                    std::bind( &player::has_bionic, &pa,
-                                               std::placeholders::_1 ) ) ) {
-                return _( "Superior version installed." );
-            } else if( pa.is_npc() && !bid->has_flag( json_flag_BIONIC_NPC_USABLE ) ) {
-                return _( "CBM not compatible with patient." );
-            } else if( units::energy_max - pa.get_max_power_level() < bid->capacity ) {
-                return _( "Max power capacity already reached." );
-            } else if( !p.has_enough_anesth( *itemtype, pa ) ) {
+            const ret_val<bool> installable = pa.is_installable( loc, true );
+            if( installable.success() && !p.has_enough_anesth( *loc.get_item()->type, pa ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
                 const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                                     duration * weight;
                 return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
+            } else if( !installable.success() ) {
+                return installable.str();
             }
 
             return std::string();
@@ -1929,32 +1901,8 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
-            const bionic_id &bid = itemtype->bionic->id;
-
-            if( it->has_flag( flag_FILTHY ) ) {
-                return _( "CBM is filthy." );
-            } else if( it->has_flag( flag_NO_STERILE ) ) {
-                return _( "CBM is not sterile." );
-            } else if( it->has_fault( fault_bionic_salvaged ) ) {
-                return _( "CBM is already deployed." );
-            } else if( pa.has_bionic( bid ) ) {
-                return _( "CBM is already installed." );
-            } else if( bid->upgraded_bionic &&
-                       !pa.has_bionic( bid->upgraded_bionic ) &&
-                       it->is_upgrade() ) {
-                return _( "No base version installed." );
-            } else if( std::any_of( bid->available_upgrades.begin(),
-                                    bid->available_upgrades.end(),
-                                    std::bind( &player::has_bionic, &pa,
-                                               std::placeholders::_1 ) ) ) {
-                return _( "Superior version installed." );
-            } else if( pa.is_npc() && !bid->has_flag( json_flag_BIONIC_NPC_USABLE ) ) {
-                return _( "CBM is not compatible with patient." );
-            }
-
-            return std::string();
+            const ret_val<bool> installable = pa.is_installable( loc, false );
+            return installable.str();
         }
 
     protected:
