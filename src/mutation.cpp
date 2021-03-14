@@ -854,6 +854,10 @@ bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool for
                 return false;
             }
         }
+
+        if( bid->mutation_conflicts.count( mutation ) != 0 ) {
+            return false;
+        }
     }
 
     const mutation_branch &mdata = mutation.obj();
@@ -1180,6 +1184,14 @@ bool Character::mutate_towards( const trait_id &mut )
     if( profession ) {
         // Profession picks fail silently
         return false;
+    }
+
+    // Just prevent it when it conflicts with a CBM, for now
+    // TODO: Consequences?
+    for( const bionic_id &bid : get_bionics() ) {
+        if( bid->mutation_conflicts.count( mut ) != 0 ) {
+            return false;
+        }
     }
 
     for( size_t i = 0; !has_threshreq && i < threshreq.size(); i++ ) {
