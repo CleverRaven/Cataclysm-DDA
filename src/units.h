@@ -544,8 +544,8 @@ template<typename value_type>
 inline constexpr quantity<value_type, temperature_in_millidegree_celsius_tag> from_fahrenheit(
     const value_type v )
 {
-    const value_type max_temperature_fahrenheit = celsius_to_fahrenheit(
-                std::numeric_limits<value_type>::max() / 1000 );
+    const value_type max_temperature_fahrenheit = static_cast<value_type>( celsius_to_fahrenheit(
+                static_cast<double>( std::numeric_limits<value_type>::max() / 1000 ) ) );
     const value_type temperature = v > max_temperature_fahrenheit ? max_temperature_fahrenheit : v;
     return from_millidegree_celsius<value_type>( fahrenheit_to_celsius( temperature ) * 1000 );
 }
