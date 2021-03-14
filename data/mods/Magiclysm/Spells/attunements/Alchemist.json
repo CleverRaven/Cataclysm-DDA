@@ -7,7 +7,7 @@
     "valid_targets": [ "none" ],
     "flags": [ "SOMATIC", "WONDER", "MUST_HAVE_CLASS_TO_LEARN" ],
     "effect": "recover_energy",
-    "effect_str": "STAMINA",
+    "effect_str": "MANA",
     "components": "spell_components_manabomb",
     "shape": "blast",
     "min_damage": 1,
