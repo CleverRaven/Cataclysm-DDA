@@ -25,7 +25,7 @@
     "type": "item_group",
     "id": "military_standard_lmgs",
     "subtype": "distribution",
-    "entries": [ { "item": "m249", "prob": 100, "charges": [ 0, 200 ] } ]
+    "entries": [ { "item": "m249", "prob": 100, "charges": [ 0, 100 ] } ]
   },
   {
     "type": "item_group",
@@ -70,10 +70,7 @@
     "type": "item_group",
     "id": "infantry_officer_gear",
     "subtype": "collection",
-    "entries": [
-      { "item": "holster", "contents-group": "military_standard_pistols", "prob": 90 },
-      { "item": "id_military", "prob": 90 }
-    ]
+    "entries": [ { "item": "binoculars", "prob": 90 }, { "item": "id_military", "prob": 90 } ]
   },
   {
     "type": "item_group",
