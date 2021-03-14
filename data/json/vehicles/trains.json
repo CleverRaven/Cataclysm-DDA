@@ -261,7 +261,7 @@
       { "x": 0, "y": 1, "parts": [ "frame_cross", "lit_aisle_vertical", "roof" ] },
       { "x": 0, "y": 2, "parts": [ "frame_cross", "aisle_horizontal", "roof" ] },
       { "x": 0, "y": 3, "parts": [ "frame_cross", "rail_wheel_steerable", "aisle_horizontal", "roof" ] },
-      { "x": 0, "y": 4, "parts": [ "frame_vertical_2", "windshield_vertical_right" ,"inboard_mirror" ] },
+      { "x": 0, "y": 4, "parts": [ "frame_vertical_2", "windshield_vertical_right", "inboard_mirror" ] },
       { "x": 1, "y": -2, "parts": [ "frame_vertical_2", "board_vertical_left" ] },
       { "x": 1, "y": -1, "parts": [ "frame_cross", "board_vertical_right", "dashboard", "roof" ] },
       { "x": 1, "y": 0, "parts": [ "frame_cross", "seat", "controls", "dashboard", "roof", "seatbelt" ] },
