@@ -1874,10 +1874,11 @@ int get_heat_radiation( const tripoint &location, bool direct )
 
 int get_convection_temperature( const tripoint &location )
 {
+    static const flag_id trap_convects( "CONVECTS_TEMPERATURE" );
     int temp_mod = 0;
     map &here = get_map();
     // Directly on lava tiles
-    int lava_mod = here.tr_at( location ) == tr_lava ?
+    int lava_mod = here.tr_at( location ).has_flag( trap_convects ) ?
                    fd_fire->get_intensity_level().convection_temperature_mod : 0;
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
