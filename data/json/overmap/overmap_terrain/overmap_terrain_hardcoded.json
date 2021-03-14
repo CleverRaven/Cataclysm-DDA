@@ -132,24 +132,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "spiral_hub",
-    "name": "spiral cavern",
-    "sym": "@",
-    "color": "pink",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spiral",
-    "name": "spiral cavern",
-    "sym": "@",
-    "color": "pink",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "cave",
     "name": "cave",
     "sym": "C",

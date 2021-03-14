@@ -1482,5 +1482,25 @@
       "ter_set": "t_null",
       "items": [ { "item": "rock", "count": [ 3, 8 ] }, { "item": "pebble", "count": [ 20, 38 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_pillar",
+    "name": "pillar",
+    "looks_like": "t_column",
+    "description": "A concrete column that helps keep the mine's ceiling and walls from collapsing.",
+    "symbol": "1",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "WALL", "PERMEABLE", "MINEABLE" ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 200,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
   }
 ]
