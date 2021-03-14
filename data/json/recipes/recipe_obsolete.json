@@ -6,6 +6,27 @@
   },
   {
     "type": "recipe",
+    "result": "jar_3l_glass",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_glass",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "four_winds_shotgun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "four_winds_shotgun",
+    "id_suffix": "without_welding",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "bolt_steel_bodkin",
     "obsolete": true
   },

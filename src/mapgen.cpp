@@ -4379,7 +4379,6 @@ void map::draw_mine( mapgendata &dat )
                 }
             }
             break;
-
         }
 
         if( terrain_type == "mine_down" ) { // Don't forget to build a slope down!
