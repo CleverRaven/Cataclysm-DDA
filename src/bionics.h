@@ -113,6 +113,10 @@ struct bionic_data {
      * E.g. enhanced optic bionic may cancel HYPEROPIC trait.
      */
     std::vector<trait_id> canceled_mutations;
+    /**
+     * Mutations/traits that prevent installing this CBM
+     */
+    std::set<trait_id> mutation_conflicts;
 
     /**
      * The spells you learn when you install this bionic, and what level you learn them at.
