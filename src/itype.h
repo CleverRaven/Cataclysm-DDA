@@ -22,7 +22,6 @@
 #include "json.h"
 #include "optional.h"
 #include "pldata.h" // add_type
-#include "relic.h"
 #include "stomach.h"
 #include "translations.h"
 #include "type_id.h"
@@ -32,6 +31,7 @@
 class Item_factory;
 class item;
 class player;
+class relic;
 struct tripoint;
 template <typename E> struct enum_traits;
 
@@ -868,9 +868,8 @@ struct itype {
         translation name = no_translation( "none" );
 
     public:
-        itype() {
-            melee.fill( 0 );
-        }
+        itype();
+        virtual ~itype();
 
         int damage_min() const {
             return count_by_charges() ? 0 : damage_min_;
@@ -1103,8 +1102,6 @@ struct itype {
         int invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
         int invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
         int tick( player &p, item &it, const tripoint &pos ) const;
-
-        virtual ~itype() = default;
 };
 
 #endif // CATA_SRC_ITYPE_H

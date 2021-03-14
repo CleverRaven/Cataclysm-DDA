@@ -1,6 +1,15 @@
-# How to add magic to a mod
+# Spells, enchantments and other custom effects
+- [Spells](#Spells)
+  * [Currently Implemented Effects and special rules](#Currently-Implemented-Effects-and-special-rules)
+  * [Spells that level up](#Spells-that-level-up)
+  * [Learning spells](#Learning-spells)
+  * [Spells in professions and NPC classes](#Spells-in-professions-and-NPC-classes)
+  * [Spells in monsters](#Spells-in-monsters)
+- [Enchantments](#Enchantments)
+  * [Fields](#Fields)
+  * [Examples](#Examples)
 
-### Spells
+# Spells
 
 In `data/mods/Magiclysm` there is a template spell, copied here for your perusal:
 
@@ -189,7 +198,7 @@ You can add a "spell" member to professions or an NPC class definition like so:
 NOTE: This makes it possible to learn spells that conflict with a class. It also does not give the prompt to gain the class. Be judicious upon adding this to a profession!
 
 
-#### Monsters
+#### Spells in monsters
 
 You can assign a spell as a special attack for a monster.
 ```json
@@ -199,62 +208,159 @@ You can assign a spell as a special attack for a monster.
 * spell_level: the level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
 * cooldown: how often the monster can cast this spell
 
-### Enchantments
-| Identifier                  | Description
-|---                          |---
-| id                          | Unique ID. Must be one continuous word, use underscores if necessary.
-| has                         | How an enchantment determines if it is in the right location in order to qualify for being active. "WIELD" - when wielded in your hand * "WORN" - when worn as armor * "HELD" - when in your inventory
-| condition                   | How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active. * "ALWAYS" - Always and forevermore * "UNDERGROUND" - When the owner of the item is below Z-level 0 * "UNDERWATER" - When the owner is in swimmable terrain * "ACTIVE" - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active.
-| ench_effects                | Grants effects of specified "intensity" as long as this enchantment is applicable. Use intensity of 1 will work for effects that do not actually have intensities.
-| hit_you_effect              | A spell that activates when you melee_attack a creature.  The spell is centered on the location of the creature unless self = true, then it is centered on your location.  Follows the template for defining "fake_spell"
-| hit_me_effect               | A spell that activates when you are hit by a creature.  The spell is centered on your location.  Follows the template for defining "fake_spell"
-| intermittent_activation     | Spells that activate centered on you depending on the duration.  The spells follow the "fake_spell" template.
-| mutations                   | Which mutations are granted by this enchantment, mimicking their effects.
-| values                      | Anything that is a number that can be modified.  The id field is required, and "add" and "multiply" are optional.  A "multiply" value of -1 is -100% and a multiply of 2.5 is +250%.  Add is always before multiply. See allowed id below.
+# Enchantments
+Enchantments make it possible to specify custom effects provided by item, bionic or mutation.
 
+## Fields
+### id
+(string) Unique identifier for this enchantment.
 
+### has
+(string) How an enchantment determines if it is in the right location in order to qualify for being active.
 
+This field is relevant only for items.
+
+Values:
+* `HELD` (default) - when in your inventory
+* `WIELD` - when wielded in your hand
+* `WORN` - when worn as armor
+
+### condition
+(string) How an enchantment determines if you are in the right environments in order for the enchantment to qualify for being active.
+
+Values:
+* `ALWAYS` (default) - Always active
+* `UNDERGROUND` - When the owner of the item is below Z-level 0
+* `UNDERWATER` - When the owner is in swimmable terrain
+* `ACTIVE` - whenever the item, mutation, bionic, or whatever the enchantment is attached to is active.
+
+### emitter
+(string) Identifier of an emitter that's active as long as this enchantment is active. 
+Default: no emitter.
+
+### ench_effects
+(array) Grants effects of specified intensity as long as this enchantment is active.
+
+Syntax for single entry:
 ```C++
-  {
-    "type": "enchantment",
-    "id": "MEP_INK_GLAND_SPRAY",
-    "hit_me_effect": [
-      {
-        "id": "generic_blinding_spray_1",
-        "hit_self": false,
-        "once_in": 15,
-        "message": "Your ink glands spray some ink into %2$s's eyes.",
-        "npc_message": "%1$s's ink glands spay some ink into %2$s's eyes."
-      }
-    ]
-  },
-  {
-    "type": "enchantment",
-    "id": "ENCH_INVISIBILITY",
-    "condition": "ALWAYS",
-    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ]
-    "has": "WIELD",
-    "hit_you_effect": [ { "id": "AEA_FIREBALL" } ],
-    "hit_me_effect": [ { "id": "AEA_HEAL" } ],
-    "mutations": [ "KILLER", "PARKOUR" ],
-    "values": [ { "value": "STRENGTH", "multiply": 1.1, "add": -5 } ],
-    "intermittent_activation": {
-      "effects": [ 
+{
+  // (required) Identifier of the effect 
+  "effect": "effect_identifier",
+  
+  // (required) Intensity. Setting to 1 works for effects that do not actually have intensities.
+  "intensity": 2
+}
+```
+
+### hit_you_effect
+(array) List of spells that may be cast when enchantment is active and character melee attacks a creature.
+
+Syntax for single entry:
+```c++
+{
+  // (required) Identifier of the spell
+  "id": "spell_identifier",
+  
+  // If true, the spell is centered on the character's location.
+  // If false, the spell is centered on the attacking creature.
+  // Default: false
+  "hit_self": false,
+  
+  // Chance to trigger, one in X.
+  // Default: 1
+  "once_in": 1,
+  
+  // Message for when the spell is triggered for you.
+  // %1$s is your name, %2$s is creature's
+  // Default: no message 
+  "message": "You pierce %2$s with Magic Piercing!",
+  
+  // Message for when the spell in triggered for an NPC.
+  // %1$s is their name, %2$s is creature's
+  // Default: no message 
+  "npc_message": "%1$s pierces %2$s with Magic Piercing!",
+  
+  // TODO: broken?
+  "min_level": 1,
+  
+  // TODO: broken?
+  "max_level": 2,
+}
+```
+
+### hit_me_effect
+(array) List of spells that may be cast when enchantment is active and character gets melee attacked by a creature.
+
+Same syntax as for `hit_you_effect`.
+
+### mutations
+(array) List of mutations temporarily granted while enchantment is active.
+
+### intermittent_activation
+(object) Rules that specify random effects which occur while enchantment is active.
+
+Syntax:
+```c++
+{
+  // List of checks to run on every turn while enchantment is active.
+  "effects": [
+    {
+      // Average activation frequency.
+      // The exact chance to pass is "one in (X converted to turns)" per turn.
+      "frequency": "5 minutes",
+      
+      // List of spells to cast if the check passed.
+      "spell_effects": [
         {
-          "frequency": "1 hour",
-          "spell_effects": [
-            { "id": "AEA_ADRENALINE" }
-          ]
+          // (required) Identifier of the spell
+          "id": "nasty_random_effect",
+          
+          // TODO: broken?
+          "min_level": 1,
+          
+          // TODO: broken?
+          "max_level": 5,
+          
+          // TODO: other fields appear to be loaded, but unused
         }
       ]
     }
-  }
-
+  ]
+}
 ```
-	### Allowed id for values
-The allowed values are as follows:
 
-- Effects for the character that has the enchantment:
+### values
+(array) List of miscellaneous values to modify.
+
+Syntax for single entry:
+```c++
+{
+  // (required) Value ID to modify, refer to list below.
+  "value": "VALUE_ID_STRING"
+  
+  // Additive bonus. Optional, default is 0.
+  "add": 13.37,
+  
+  // Multiplicative bonus. Optional, default is 0.
+  "multiply": -0.3,
+}
+```
+
+Additive bonus is applied before multiplicative, like so:
+```c++
+bonus = add + base_value * multiply
+```
+
+Thus, a `multiply` value of -0.8 is -80%, and a `multiply` of 2.5 is +250%.
+
+#### IDs of modifiable values
+
+##### TODO
+
+TODO: docs for each
+
+TODO: some of these are broken/unimplemented
+
 * STRENGTH
 * DEXTERITY
 * PERCEPTION
@@ -296,7 +402,7 @@ The allowed values are as follows:
 * ARMOR_ACID
 * ARMOR_BIO
 
-- Effects for the item that has the enchantment:
+Effects for the item that has the enchantment:
 * ITEM_DAMAGE_BASH
 * ITEM_DAMAGE_CUT
 * ITEM_DAMAGE_STAB
@@ -320,3 +426,45 @@ The allowed values are as follows:
 * ITEM_COVERAGE
 * ITEM_ATTACK_SPEED
 * ITEM_WET_PROTECTION
+
+## Examples
+```json
+[
+  {
+    "//": "On-hit effect for ink glands mutation, implemented via enchantment.",
+    "type": "enchantment",
+    "id": "MEP_INK_GLAND_SPRAY",
+    "hit_me_effect": [
+      {
+        "id": "generic_blinding_spray_1",
+        "hit_self": false,
+        "once_in": 15,
+        "message": "Your ink glands spray some ink into %2$s's eyes.",
+        "npc_message": "%1$s's ink glands spay some ink into %2$s's eyes."
+      }
+    ]
+  },
+  {
+    "//": "This one would look good on a katana for an anime mod.",
+    "type": "enchantment",
+    "id": "ENCH_ULTIMATE_ASSKICK",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
+    "hit_you_effect": [ { "id": "AEA_FIREBALL" } ],
+    "hit_me_effect": [ { "id": "AEA_HEAL" } ],
+    "mutations": [ "KILLER", "PARKOUR" ],
+    "values": [ { "value": "STRENGTH", "multiply": 1.1, "add": -5 } ],
+    "intermittent_activation": {
+      "effects": [ 
+        {
+          "frequency": "1 hour",
+          "spell_effects": [
+            { "id": "AEA_ADRENALINE" }
+          ]
+        }
+      ]
+    }
+  }
+]
+```

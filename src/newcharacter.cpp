@@ -33,6 +33,7 @@
 #include "inventory.h"
 #include "json.h"
 #include "magic.h"
+#include "magic_enchantment.h"
 #include "mapsharing.h"
 #include "martialarts.h"
 #include "monster.h"
@@ -2785,7 +2786,7 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
             result.push_back( t.first );
         }
     }
-    for( const trait_id &ench_trait : enchantment_cache.get_mutations() ) {
+    for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
         if( include_hidden || ench_trait->player_display ) {
             bool found = false;
             for( const trait_id &exist : result ) {

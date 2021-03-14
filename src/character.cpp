@@ -42,6 +42,7 @@
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -4549,7 +4550,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     update_stomach( from, to );
     recalculate_enchantment_cache();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
-        magic.update_mana( *this->as_player(), to_turns<float>( 3_minutes ) );
+        magic->update_mana( *this->as_player(), to_turns<float>( 3_minutes ) );
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
@@ -7665,12 +7666,12 @@ std::string Character::get_highest_category() const
 void Character::recalculate_enchantment_cache()
 {
     // start by resetting the cache
-    enchantment_cache = enchantment();
+    *enchantment_cache = enchantment();
 
     visit_items( [&]( const item * it ) {
         for( const enchantment &ench : it->get_enchantments() ) {
             if( ench.is_active( *this, *it ) ) {
-                enchantment_cache.force_add( ench );
+                enchantment_cache->force_add( ench );
             }
         }
         return VisitResponse::NEXT;
@@ -7683,7 +7684,7 @@ void Character::recalculate_enchantment_cache()
         for( const enchantment_id &ench_id : mut.enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this, mut.activated && mut_map.second.powered ) ) {
-                enchantment_cache.force_add( ench );
+                enchantment_cache->force_add( ench );
             }
         }
     }
@@ -7694,17 +7695,17 @@ void Character::recalculate_enchantment_cache()
         for( const enchantment_id &ench_id : bid->enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this, bio.powered && bid->toggled ) ) {
-                enchantment_cache.force_add( ench );
+                enchantment_cache->force_add( ench );
             }
         }
     }
 }
 
-double Character::calculate_by_enchantment( double modify, enchantment::mod value,
+double Character::calculate_by_enchantment( double modify, enchant_vals::mod value,
         bool round_output ) const
 {
-    modify += enchantment_cache.get_value_add( value );
-    modify *= 1.0 + enchantment_cache.get_value_multiply( value );
+    modify += enchantment_cache->get_value_add( value );
+    modify *= 1.0 + enchantment_cache->get_value_multiply( value );
     if( round_output ) {
         modify = std::round( modify );
     }
@@ -7748,28 +7749,28 @@ static void item_armor_enchantment_adjust( Character &guy, damage_unit &du, item
 {
     switch( du.type ) {
         case DT_ACID:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_ACID );
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ACID );
             break;
         case DT_BASH:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_BASH );
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BASH );
             break;
         case DT_BIOLOGICAL:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_BIO );
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_BIO );
             break;
         case DT_COLD:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_COLD );
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_COLD );
             break;
         case DT_CUT:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_CUT );
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_CUT );
             break;
         case DT_ELECTRIC:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_ELEC );
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ELEC );
             break;
         case DT_HEAT:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_HEAT );
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_HEAT );
             break;
         case DT_STAB:
-            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_STAB );
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_STAB );
             break;
         default:
             return;
@@ -7783,28 +7784,28 @@ static void armor_enchantment_adjust( Character &guy, damage_unit &du )
 {
     switch( du.type ) {
         case DT_ACID:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_ACID );
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ACID );
             break;
         case DT_BASH:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_BASH );
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BASH );
             break;
         case DT_BIOLOGICAL:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_BIO );
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BIO );
             break;
         case DT_COLD:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_COLD );
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_COLD );
             break;
         case DT_CUT:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_CUT );
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_CUT );
             break;
         case DT_ELECTRIC:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_ELEC );
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ELEC );
             break;
         case DT_HEAT:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_HEAT );
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_HEAT );
             break;
         case DT_STAB:
-            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_STAB );
+            du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_STAB );
             break;
         default:
             return;
@@ -8009,13 +8010,13 @@ int Character::get_armor_fire( body_part bp ) const
 
 void Character::did_hit( Creature &target )
 {
-    enchantment_cache.cast_hit_you( *this, target );
+    enchantment_cache->cast_hit_you( *this, target );
 }
 
 void Character::on_hit( Creature *source, bodypart_id /*bp_hit*/,
                         float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ )
 {
-    enchantment_cache.cast_hit_me( *this, source );
+    enchantment_cache->cast_hit_me( *this, source );
 }
 
 /*
@@ -9487,7 +9488,7 @@ void Character::on_effect_int_change( const efftype_id &eid, int intensity, body
 void Character::on_mutation_gain( const trait_id &mid )
 {
     morale->on_mutation_gain( mid );
-    magic.on_mutation_gain( mid, *this );
+    magic->on_mutation_gain( mid, *this );
     update_type_of_scent( mid );
     recalculate_enchantment_cache(); // mutations can have enchantments
 }
@@ -9495,7 +9496,7 @@ void Character::on_mutation_gain( const trait_id &mid )
 void Character::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
-    magic.on_mutation_loss( mid );
+    magic->on_mutation_loss( mid );
     update_type_of_scent( mid, false );
     recalculate_enchantment_cache(); // mutations can have enchantments
 }
@@ -9734,7 +9735,7 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost += 10 * footwear_factor();
         }
 
-        movecost = calculate_by_enchantment( movecost, enchantment::mod::MOVE_COST );
+        movecost = calculate_by_enchantment( movecost, enchant_vals::mod::MOVE_COST );
         movecost /= stamina_move_cost_modifier();
     }
 

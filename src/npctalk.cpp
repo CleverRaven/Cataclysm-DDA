@@ -975,10 +975,10 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         }
         std::vector<skill_id> trainable = p->skills_offered_to( g->u );
         std::vector<matype_id> styles = p->styles_offered_to( g->u );
-        const std::vector<spell_id> spells = p->magic.spells();
+        const std::vector<spell_id> spells = p->magic->spells();
         std::vector<spell_id> teachable_spells;
         for( const spell_id &sp : spells ) {
-            if( g->u.magic.can_learn_spell( g->u, sp ) ) {
+            if( g->u.magic->can_learn_spell( g->u, sp ) ) {
                 teachable_spells.emplace_back( sp );
             }
         }
@@ -1273,7 +1273,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 const matype_id styleid = matype_id( backlog.name );
                 if( !styleid.is_valid() ) {
                     const spell_id &sp_id = spell_id( backlog.name );
-                    if( p->magic.knows_spell( sp_id ) ) {
+                    if( p->magic->knows_spell( sp_id ) ) {
                         add_response( string_format( _( "Yes, let's resume training %s" ), sp_id->name ),
                                       "TALK_TRAIN_START", sp_id );
                     }
@@ -1289,13 +1289,13 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         std::vector<matype_id> styles = p->styles_offered_to( g->u );
         std::vector<skill_id> trainable = p->skills_offered_to( g->u );
-        const std::vector<spell_id> spells = p->magic.spells();
+        const std::vector<spell_id> spells = p->magic->spells();
         std::vector<spell_id> teachable_spells;
         for( const spell_id &sp : spells ) {
-            const spell &temp_spell = p->magic.get_spell( sp );
-            if( g->u.magic.can_learn_spell( g->u, sp ) ) {
-                if( g->u.magic.knows_spell( sp ) ) {
-                    const spell &player_spell = g->u.magic.get_spell( sp );
+            const spell &temp_spell = p->magic->get_spell( sp );
+            if( g->u.magic->can_learn_spell( g->u, sp ) ) {
+                if( g->u.magic->knows_spell( sp ) ) {
+                    const spell &player_spell = g->u.magic->get_spell( sp );
                     if( player_spell.is_max_level() || player_spell.get_level() >= temp_spell.get_level() ) {
                         continue;
                     }
@@ -1308,8 +1308,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             return;
         }
         for( const spell_id &sp : teachable_spells ) {
-            const spell &temp_spell = p->magic.get_spell( sp );
-            const bool knows = g->u.magic.knows_spell( sp );
+            const spell &temp_spell = p->magic->get_spell( sp );
+            const bool knows = g->u.magic->knows_spell( sp );
             const int cost = p->calc_spell_training_cost( knows, temp_spell.get_difficulty(),
                              temp_spell.get_level() );
             std::string text;

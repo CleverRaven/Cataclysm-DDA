@@ -36,8 +36,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "magic.h"
-#include "magic_enchantment.h"
 #include "memory_fast.h"
 #include "monster.h"
 #include "mtype.h"
@@ -62,6 +60,7 @@ class SkillLevelMap;
 class bionic_collection;
 class faction;
 class ma_technique;
+class known_magic;
 class player;
 class player_morale;
 class vehicle;
@@ -932,7 +931,7 @@ class Character : public Creature, public visitable<Character>
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
         // gets add and mult value from enchantment cache
-        double calculate_by_enchantment( double modify, enchantment::mod value,
+        double calculate_by_enchantment( double modify, enchant_vals::mod value,
                                          bool round_output = false ) const;
 
         /** Returns true if the player has any martial arts buffs attached */
@@ -1506,7 +1505,7 @@ class Character : public Creature, public visitable<Character>
             }
         }
         // magic mod
-        known_magic magic;
+        pimpl<known_magic> magic;
 
         void make_bleed( body_part bp, time_duration duration, int intensity = 1,
                          bool permanent = false,
@@ -2259,7 +2258,7 @@ class Character : public Creature, public visitable<Character>
 
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
-        enchantment enchantment_cache;
+        pimpl<enchantment> enchantment_cache;
         player_activity destination_activity;
         // A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;

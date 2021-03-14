@@ -843,6 +843,9 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( type != rhs.type ) {
         return false;
     }
+    if( is_relic() && rhs.is_relic() && !( *relic_data == *rhs.relic_data ) ) {
+        return false;
+    }
     if( charges != 0 && rhs.charges != 0 && is_money() ) {
         // Dealing with nonempty cash cards
         return true;
@@ -3858,10 +3861,10 @@ nc_color item::color_in_inventory() const
             static_cast<const learn_spell_actor *>( iuse->get_actor_ptr() );
         for( const std::string &spell_id_str : actor_ptr->spells ) {
             const spell_id sp_id( spell_id_str );
-            if( u.magic.knows_spell( sp_id ) && !u.magic.get_spell( sp_id ).is_max_level() ) {
+            if( u.magic->knows_spell( sp_id ) && !u.magic->get_spell( sp_id ).is_max_level() ) {
                 ret = c_yellow;
             }
-            if( !u.magic.knows_spell( sp_id ) && u.magic.can_learn_spell( u, sp_id ) ) {
+            if( !u.magic->knows_spell( sp_id ) && u.magic->can_learn_spell( u, sp_id ) ) {
                 return c_light_blue;
             }
         }
@@ -4817,7 +4820,7 @@ int item::lift_strength() const
 int item::attack_time() const
 {
     int ret = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
-    ret = calculate_by_enchantment_wield( ret, enchantment::mod::ITEM_ATTACK_SPEED,
+    ret = calculate_by_enchantment_wield( ret, enchant_vals::mod::ITEM_ATTACK_SPEED,
                                           true );
     return ret;
 }
@@ -6496,7 +6499,7 @@ std::vector<enchantment> item::get_enchantments() const
 }
 
 double item::calculate_by_enchantment( const Character &owner, double modify,
-                                       enchantment::mod value, bool round_value ) const
+                                       enchant_vals::mod value, bool round_value ) const
 {
     double add_value = 0.0;
     double mult_value = 1.0;
@@ -6514,7 +6517,7 @@ double item::calculate_by_enchantment( const Character &owner, double modify,
     return modify;
 }
 
-double item::calculate_by_enchantment_wield( double modify, enchantment::mod value,
+double item::calculate_by_enchantment_wield( double modify, enchant_vals::mod value,
         bool round_value ) const
 {
     double add_value = 0.0;

@@ -2047,7 +2047,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 std::vector<tripoint> target_handler::target_ui( spell_id sp, const bool no_fail,
         const bool no_mana )
 {
-    return target_ui( g->u.magic.get_spell( sp ), no_fail, no_mana );
+    return target_ui( g->u.magic->get_spell( sp ), no_fail, no_mana );
 }
 // does not have a targeting mode because we know this is the spellcasting version of this function
 std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_fail,

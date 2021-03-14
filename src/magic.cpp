@@ -655,7 +655,7 @@ bool spell::can_cast( const Character &guy ) const
 {
     switch( type->energy_source ) {
         case mana_energy:
-            return guy.magic.available_mana() >= energy_cost( guy );
+            return guy.magic->available_mana() >= energy_cost( guy );
         case stamina_energy:
             return guy.get_stamina() >= energy_cost( guy );
         case hp_energy: {
@@ -850,7 +850,7 @@ std::string spell::energy_cur_string( const Character &guy ) const
         return colorize( to_string( units::to_kilojoule( guy.get_power_level() ) ), c_light_blue );
     }
     if( energy_source() == mana_energy ) {
-        return colorize( to_string( guy.magic.available_mana() ), c_light_blue );
+        return colorize( to_string( guy.magic->available_mana() ), c_light_blue );
     }
     if( energy_source() == stamina_energy ) {
         auto pair = get_hp_bar( guy.get_stamina(), guy.get_stamina_max() );
@@ -1302,7 +1302,7 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
         debugmsg( "Tried to learn invalid spell" );
         return;
     }
-    if( guy.magic.knows_spell( sp->id ) ) {
+    if( guy.magic->knows_spell( sp->id ) ) {
         // you already know the spell
         return;
     }
@@ -1412,7 +1412,7 @@ int known_magic::max_mana( const Character &guy ) const
     const float unaugmented_mana = std::max( 0.0f,
                                    ( ( mana_base + int_bonus ) * guy.mutation_value( "mana_multiplier" ) ) +
                                    guy.mutation_value( "mana_modifier" ) - units::to_kilojoule( guy.get_power_level() ) );
-    return guy.calculate_by_enchantment( unaugmented_mana, enchantment::mod::MAX_MANA, true );
+    return guy.calculate_by_enchantment( unaugmented_mana, enchant_vals::mod::MAX_MANA, true );
 }
 
 void known_magic::update_mana( const Character &guy, float turns )
@@ -1421,7 +1421,7 @@ void known_magic::update_mana( const Character &guy, float turns )
     const float full_replenish = to_turns<float>( 8_hours );
     const float ratio = turns / full_replenish;
     mod_mana( guy, std::floor( ratio * guy.calculate_by_enchantment( max_mana( guy ) *
-                               guy.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
+                               guy.mutation_value( "mana_regen_multiplier" ), enchant_vals::mod::REGEN_MANA ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const
@@ -1504,7 +1504,7 @@ class spellcasting_callback : public uilist_callback
                 int invlet = 0;
                 invlet = popup_getkey( _( "Choose a new hotkey for this spell." ) );
                 if( inv_chars.valid( invlet ) ) {
-                    const bool invlet_set = g->u.magic.set_invlet( known_spells[entnum]->id(), invlet,
+                    const bool invlet_set = g->u.magic->set_invlet( known_spells[entnum]->id(), invlet,
                                             reserved_invlets );
                     if( !invlet_set ) {
                         popup( _( "Hotkey already used." ) );
@@ -1514,7 +1514,7 @@ class spellcasting_callback : public uilist_callback
                     }
                 } else {
                     popup( _( "Hotkey removed." ) );
-                    g->u.magic.rem_invlet( known_spells[entnum]->id() );
+                    g->u.magic->rem_invlet( known_spells[entnum]->id() );
                 }
                 return true;
             }
@@ -2050,6 +2050,17 @@ spell fake_spell::get_spell( int min_level_override ) const
     return sp;
 }
 
+bool fake_spell::operator==( const fake_spell &rhs ) const
+{
+    return id == rhs.id &&
+           max_level == rhs.max_level &&
+           level == rhs.level &&
+           self == rhs.self &&
+           trigger_once_in == rhs.trigger_once_in &&
+           trigger_message == rhs.trigger_message &&
+           npc_trigger_message == rhs.npc_trigger_message;
+}
+
 void spell_events::notify( const cata::event &e )
 {
     switch( e.type() ) {
@@ -2062,7 +2073,7 @@ void spell_events::notify( const cata::event &e )
                 std::string learn_spell_id = it->first;
                 int learn_at_level = it->second;
                 if( learn_at_level == slvl ) {
-                    g->u.magic.learn_spell( learn_spell_id, g->u );
+                    g->u.magic->learn_spell( learn_spell_id, g->u );
                     spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(
                         _( "Your experience and knowledge in creating and manipulating magical energies to cast %s have opened your eyes to new possibilities, you can now cast %s." ),

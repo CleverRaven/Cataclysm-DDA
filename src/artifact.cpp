@@ -1047,35 +1047,6 @@ std::string new_natural_artifact( artifact_natural_property prop )
     return def.get_id();
 }
 
-// Make a special debugging artifact.
-std::string architects_cube()
-{
-    it_artifact_tool def;
-
-    const artifact_tool_form_datum &info = artifact_tool_form_data[ARTTOOLFORM_CUBE];
-    def.create_name( _( info.name ) );
-    def.color = info.color;
-    def.sym = std::string( 1, info.sym );
-    def.materials.push_back( info.material );
-    def.volume = rng( info.volume_min, info.volume_max );
-    def.weight = rng( info.weight_min, info.weight_max );
-    // Set up the basic weapon type
-    const artifact_weapon_datum &weapon = artifact_weapon_data[info.base_weapon];
-    def.melee[DT_BASH] = rng( weapon.bash_min, weapon.bash_max );
-    def.melee[DT_CUT] = rng( weapon.cut_min, weapon.cut_max );
-    def.m_to_hit = rng( weapon.to_hit_min, weapon.to_hit_max );
-    if( !weapon.tag.empty() ) {
-        def.item_tags.insert( weapon.tag );
-    }
-    // Add an extra weapon perhaps?
-    // Most artifact descriptions are generated and stored using `no_translation`,
-    // also do it here for consistency
-    def.description = no_translation( _( "The architect's cube." ) );
-    def.artifact->effects_carried.push_back( AEP_SUPER_CLAIRVOYANCE );
-    item_controller->add_item_type( static_cast<itype &>( def ) );
-    return def.get_id();
-}
-
 std::vector<art_effect_passive> fill_good_passive()
 {
     std::vector<art_effect_passive> ret;

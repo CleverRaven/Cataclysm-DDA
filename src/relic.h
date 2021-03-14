@@ -28,6 +28,8 @@ class relic
         // activating an artifact overrides all spell casting costs
         int moves;
     public:
+        bool operator==( const relic &rhs ) const;
+
         std::string name() const;
         // returns number of charges that should be consumed
         int activate( Creature &caster, const tripoint &target ) const;
@@ -42,7 +44,7 @@ class relic
 
         std::vector<enchantment> get_enchantments() const;
 
-        int modify_value( enchantment::mod value_type, int value ) const;
+        int modify_value( enchant_vals::mod value_type, int value ) const;
 };
 
 #endif // CATA_SRC_RELIC_H

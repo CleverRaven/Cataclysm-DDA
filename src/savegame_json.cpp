@@ -91,6 +91,7 @@
 #include "ranged.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
+#include "relic.h"
 #include "requirements.h"
 #include "rng.h"
 #include "scenario.h"
@@ -2199,7 +2200,8 @@ void item::io( Archive &archive )
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
 
-    archive.io( "relic_data", relic_data );
+    static const cata::value_ptr<relic> null_relic_ptr = nullptr;
+    archive.io( "relic_data", relic_data, null_relic_ptr );
 
     item_controller->migrate_item( orig, *this );
 

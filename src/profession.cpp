@@ -504,8 +504,8 @@ std::map<spell_id, int> profession::spells() const
 void profession::learn_spells( avatar &you ) const
 {
     for( const std::pair<spell_id, int> spell_pair : spells() ) {
-        you.magic.learn_spell( spell_pair.first, you, true );
-        spell &sp = you.magic.get_spell( spell_pair.first );
+        you.magic->learn_spell( spell_pair.first, you, true );
+        spell &sp = you.magic->get_spell( spell_pair.first );
         while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
             sp.gain_level();
         }

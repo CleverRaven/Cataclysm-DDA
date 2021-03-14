@@ -7,8 +7,8 @@
 #include <vector>
 
 #include "catch/catch.hpp"
-#include "artifact.h"
 #include "avatar.h"
+#include "calendar.h"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -29,7 +29,6 @@ static void set_up_player_vision()
 {
     g->place_player( shooter_pos );
     g->u.worn.clear();
-    g->u.clear_effects();
     g->reset_light_level();
 
     REQUIRE( !g->u.is_blind() );
@@ -101,7 +100,7 @@ TEST_CASE( "Aiming at a target behind wall", "[ranged][aiming]" )
     clear_map();
     player &shooter = g->u;
     clear_character( shooter, true );
-    shooter.i_add( item( architects_cube(), calendar::turn ) );
+    shooter.add_effect( efftype_id( "debug_clairvoyance" ), time_duration::from_seconds( 1 ) );
     arm_character( shooter, "glock_19" );
     int max_range = shooter.weapon.gun_range( &shooter );
     REQUIRE( max_range >= 5 );

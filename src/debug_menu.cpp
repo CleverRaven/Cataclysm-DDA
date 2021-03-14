@@ -1422,7 +1422,7 @@ void debug()
             break;
 
         case DEBUG_SPAWN_CLAIRVOYANCE:
-            u.i_add( item( architects_cube(), calendar::turn ) );
+            u.i_add( item( "architect_cube", calendar::turn ) );
             break;
 
         case DEBUG_MAP_EDITOR:
@@ -1806,7 +1806,7 @@ void debug()
         }
         case DEBUG_PRINT_NPC_MAGIC: {
             for( npc &guy : g->all_npcs() ) {
-                const std::vector<spell_id> spells = guy.magic.spells();
+                const std::vector<spell_id> spells = guy.magic->spells();
                 if( spells.empty() ) {
                     std::cout << guy.disp_name() << " does not know any spells." << std::endl;
                     continue;
@@ -1888,14 +1888,14 @@ void debug()
                 add_msg( m_bad, _( "There are no spells to learn.  You must install a mod that adds some." ) );
             } else {
                 for( const spell_type &learn : spell_type::get_all() ) {
-                    g->u.magic.learn_spell( &learn, g->u, true );
+                    g->u.magic->learn_spell( &learn, g->u, true );
                 }
                 add_msg( m_good,
                          _( "You have become an Archwizardpriest!  What will you do with your newfound power?" ) );
             }
             break;
         case DEBUG_LEVEL_SPELLS: {
-            std::vector<spell *> spells = g->u.magic.get_spells();
+            std::vector<spell *> spells = g->u.magic->get_spells();
             if( spells.empty() ) {
                 add_msg( m_bad, _( "Try learning some spells first." ) );
                 return;

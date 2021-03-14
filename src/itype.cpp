@@ -8,6 +8,7 @@
 #include "player.h"
 #include "ret_val.h"
 #include "translations.h"
+#include "relic.h"
 #include "skill.h"
 
 struct tripoint;
@@ -35,6 +36,13 @@ std::string enum_to_string<condition_type>( condition_type data )
     abort();
 }
 } // namespace io
+
+itype::itype()
+{
+    melee.fill( 0 );
+}
+
+itype::~itype() = default;
 
 std::string itype::nname( unsigned int quantity ) const
 {
