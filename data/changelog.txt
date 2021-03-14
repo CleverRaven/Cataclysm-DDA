@@ -1,4 +1,4 @@
-# 0.F (2020-12-01)
+# 0.F (2021-01-01)
 
 ## Features:
 Adds option to randomize INITIAL_DAY.
@@ -44,6 +44,11 @@ Adds ACTIVE enchantment condition.
 Allows recipes to specify individual activity levels.
 Adds weariness, a sort of long term stamina that limits characters' ability to be extremely active 24/7.
 Reports faction camp build sites and improves faction camp tutorial.
+Allow customizing initial date in scenarios
+Make removing gravel possible
+Delete unused feather flag
+Allow nanofabricator templates to contain recipes from any item group
+Bleeding type for species.
 
 ## Content:
 Gun volume and weight audit.
@@ -77,6 +82,34 @@ Adds streetlights to sidewalks; also adds traffic lights, stop lines, and pedest
 Adds Rust Zombies.
 Diversifies venom sources and effects.
 Adds a star fort with working cannon and zombie reenactors.
+Add missing canned_liver ingredient in recipes
+Hot Springs
+Add roof to old hospital
+Oversize recipes and clothing
+Add more non-kitten items to Robot Finds Kitten
+Terrain Flag 'NO_SHOOT'
+Jsonify office tower.
+Debug menu option to test sound generation
+Update documentation for terrain and Magic.md
+Adds a River Starting Location
+Add pigeons
+Adds the ability to craft RC cars
+a months old news article added
+Add Buddhist Monk Profession.
+Added recipe for turning salt lick into rock salt.
+Adds Reindeer as well as Zombie and Fawn Variants
+Add plastic button recipe
+Centipede redesign
+Allow to tie items to the worn rope as a temporary carrying solution
+Add roasted cattail rhizome
+Remove stray yellow dots on pedestrian crossings.
+Quilt from AFS to Mainline
+Adds prophylactic antivenom
+Change/Add starting clothes in Bhikkhu profession
+Tweaks for luna park location.
+Add item def. and craftable recipe for a grenade bandolier, add to world
+Fluff changes: change dissector name and adjust text on gas sacs
+Add Baseball Player profession
 
 ## Interface:
 Introduce and migrate most windows to ui_adaptor, which handles redrawing windows when others are closed and the game is resized.
@@ -98,6 +131,41 @@ Brings back MSX+.
 Add item length and pocket volume entries to menus.
 Adds fast scroll to many menus with long lists.
 Adds responsive screen behavior to new character menu for small terminal sizes.
+MshockXotto+ Update 02/12/2020
+Mention computers skill in bionics installation intro
+BrownLikeBears update 04-12-20: Street lights, giant monsters and sleek dancers
+Sorts Expansion list alphabetically
+Improve consistency and readability of the nested items names
+Removed log messages for MDs and autodoc specialists.
+Fix inventory_ui PAGE_UP/DOWN-page-scroll
+Change 'He will follow' to 'Follow me' in NPC engagement menu
+Center terminal cursor on player character after all UIs are drawn
+Added a repair material list to repair menu.
+Ultica Update 10-12-2020
+ChibiUltica Update 10-12-20
+MSX+ Update 10-12-20
+Show avatar weight in sidebar (labels layout)
+Ultica Update 20-12-13
+MshockXotto Update 20-12-13 : Nurse & Monsters
+Chibi Ultica Update 20-12-13
+Improve message feedback when tapping maple trees
+Sort zones by name when viewing and adding zones
+Sort category names in pocket favorite menu
+Show the name of all NPCs who assisted in activities
+Update ChibiUltica: bugfixes and new snow
+Hide encumbrance when full if redundant
+Show perishable items that are consumable as light cyan to distinguish from non-perishable consumables EDIT: And indicate Old items with Yellow as in Stable
+Added option to set message log width fullscreen or sidebar visible.
+Ultica 2020-12-25
+See NPC's current activity before speaking to them
+Add messages when tying or untying pets or adding items to their bag
+Ultica 2020-12-27
+Fixed long terrain name overlapping the borders in Look Around window
+Ultica 2020-12-30
+Show presence of monsters when examining
+Improve messaging when opening and closing doors/windows/curtains
+Show the name of all NPCs who assisted in digging, clearing rubbles and chopping
+Show remaining XP to next level in Stats Through Kills
 
 ## Mods:
 [Magiclysm] Manatouched mutation tree.
@@ -127,6 +195,19 @@ DinoMod: Adds monsters 'Brontosaurus', 'Alamosaurus', and 'Brachiosaurus'.
 [Magiclysm] Adds bullet armor to magic rings and bracers of protection.
 DinoMod: Converts 'dinoexhibit' to use templates, adds a roof, and adds a baby dino variant.
 Ankylosaurs Abound: Dyoplosaurus Nodosaurus Edmontonia
+Add light orichalcum frame
+Aftershock: New astrobiology lab
+Adds Amargasaurus and Kosmoceratops as well as variants
+Add new broken electronic machinery to be disassembled for aftershock E-scrap
+Adding Moxphores
+Adds Alien Fauna to Aftershock
+Aftershock: Wraitheon Irradiant combat robots shoot you with AT plasma railguns.
+Cryopod Lab Rooms for Aftershock
+[ MSC ]Chocolate swamps
+Swamp dino spawn rebalance
+Obsoletes Dark Skies
+Adds new map extra: the Maiasaura Nest
+Add variety to CRIT
 
 ## Balance:
 Large item price audit.
@@ -147,6 +228,26 @@ Monsters with larger eyes see farther than smaller variants.
 Ankle storage items don't affect feet-related mutations anymore.
 Give the default Survivor profession more weather-appropriate clothes for the default start.
 Rebalance anesthesia to be more realistic.
+Adjust loot in the freshwater research station
+Eating raw meat does not hurt your morale as much if you have traits such as Hunter, Predator, etc .
+items: add poleaxe to the effective DPS damage and adjust damage
+Hyper-metabolism burns huge amount of calories in exchange of extreme healing
+Fixes #45845
+Fixing the enjoyment values of PB&J and PB&H compared to just the jam or honey sandwiches.
+Add plant fiber as a byproduct when crafting cattail jelly.
+Very-fast-moving zombie animals only attack once per turn
+Increased yield for butchering quartered corpses
+Give Dory SHEATH_SPEAR and NONCONDUCTIVE
+More realistic birds
+Allow wearing kneecaps/leg guards with tails
+Fixes gun prices for merchants, adds realistic prices for a couple guns (just cause.)
+Remove repair nanobot idle power consumption
+Venom tweaks
+Reduce most instalation times for gunmods
+Make the handheld game system smaller in size
+Change volume of items to more realistic values
+lower occurrences of railroad stations.
+Adjust item spawns in houses.
 
 ## Bugfixes:
 Prevents possible negative damage from explosions.
@@ -208,6 +309,107 @@ Robots can no longer be disabled through melee hits.
 Fixes auto-consume zones in vehicles.
 Fixes monster special attack range-limiting code.
 Falling vehicles: prevents bouncing after the first collision with the ground.
+Fix issues with sound (walking on boats, sound triggering twice)
+Ensure that casings are stackable (fixes pickup performance issues)
+Retrieve softwares for missions
+Add entry to connect mall to subway.
+Fix android localization
+Limit the number of attempts to place a city to avoid infinite loop
+Allow quartering organ-less corpses without field dressing
+Fixed full body armor mutations not covering head, removed eye armor from them
+Trigger explosions only after processing all items
+Fix item with the same relic_data stack
+fix ammo_unset clearing item mods
+Fix Serums can be injected without a syringe
+Account for clairvoyance when checking Character -> Creature visibility
+Fix duplicating deployed item with zero storage
+Prevent Migo portals from freezing the game
+Fix NPC not gaining XP when reading with player
+Increase battery capacity of soldering iron pseudo item (#45785)
+Cracklin byproducts inherit lard properties
+Fixed items extinguishing on boats
+Compare items now uses correct font colours.
+map: clear the entire vehicle cache at once instead of by level
+Fixed typo in boots.json for xl chitin boots
+Avoid fusing with the last critter if no proper critter is found
+Fix crash when gloves are destroyed durring fighting
+Tileset should not use translated strings for movement mode overlay ids
+Fix effect values for black dragon fright aura
+Fix error message upon completing MISSION_GET_INHALER
+Fix unable to rename faction camp
+Fix wrong truncation of armor display in sidebar
+Spawn correct jersey for basketball player profession
+NPCs should not sell or give loose liquids to players
+Remeber panel layout while moving items instead of resetting it
+Fix non-fouling guns getting fouled
+Add rigid to wood-barrel pocket and increase volume
+Fixes scenarios having wildly different start dates and potentially crashing the game
+Allow Constructed Clay Kiln to be used for Clay-related recipes
+Allow fire to spread to adjecent tiles with items
+Fix uninitialized variable causing issues with LTO and -O3
+Fix walking on boat immediately after game is loaded
+Special attacks did not use special attack ammo
+Fix batch availability with charged tool requirements
+Fix crash in relic data comparator
+Fix robots with the DROPS_AMMO flag dropping ammo outside of magazines on death
+Fix broken bone log spam
+Consistent UPS charge consumption when crafting
+Making moving furniture into an activity actor
+Prevent oversized item remaining in pocket after reload
+Fixed base camp bulletin board scrolling
+Fixed various problems with aiming
+Firestarter that could not have charges could not be used to light smoking rack
+Do not ignore items on custom zones when sorting
+Fix monster interaction with boats
+Give workshop toolbox pockets
+Fix crash using unarmed without gloves
+Make reachability cache fully consistent with map::sees, fix mirrors
+Fix NPC assisted time cost calculation
+Fix charcoal water purifier is empty on craft
+compose.py: fixed output_dir not being set correctly in #46114
+Generate pot file before compiling English mo file
+Fix crash when resizing during debug message
+A hacksaw is no longer needed to uninstall a tied mattress.
+Fix inhaler starts empty on asthmatic character creation
+NPCs should pay when performing bulk trades
+The Magiclysm Security Van had an errant Heavy Duty frame that should likely be an Orichalcum frame
+Allow using leg splint with tail mutation
+Make ACT_FETCH_REQUIRED possible in the dark (fixes game freeze)
+Fix auto mining cancelation
+Oxygen tank unload/reload/wield the oxygen bug
+Only show message when actually unloading.
+Fix hostile monster not attacking on moving vehicle
+Removed duplicate reference to tongs in recipe for swage and die set
+Fix items spawning empty on starting npcs
+Acidic type zombie dogs now drop tainted meat
+Fix fungal friendly fire
+Fix json errors in the (hidden) More Locations mod
+Seal only full containers on spawn
+Allow completing monster killing mission by killing the fusing monster when the mission target is fused
+Refactor autodrive activity and not allow unsafe autodrive speed
+Check for items in vehicle for warmth when sleeping
+Improves removing items on bulk trade with npc
+Fix weapon name overflow in the sidebar
+Fix drop stolen items
+Fix monster spawning when they are loaded from monster_map
+Mending CBMs/guns will now yield skill XP in the skills used to mend them.
+Make disassembly resumable, add progress counter to activity actors
+Replacing royal jelly in the Aftershock recipe for Smart Shot purifier
+fixed erroneous 'completely refilled' message
+Prevent segfault while reading
+Remove obselete crashing chop shop
+Fix beggars taking all food
+Fix AIM using items from stack
+Default profession cleanly when loading old profession
+Prevent unnamed camps.
+Zero damage bash no longer stuns
+Fix crash due to dereferencing null carrier pointer in item::process_tool
+Fix npc crossbow wielding
+Prevent seg fault in auto consume
+stats_through_kills str_upgrade boost hp_max
+Fix lab sign overlapping with other fields in look around menu
+Remove duplicated tool display when crafting
+Assorted inventory menu fixes
 
 ## Performance:
 Adds an option to enable batching when it is available in SDL.
@@ -227,6 +429,9 @@ Major optimization of field processing.
 Adds reachability cache/filter that can reject bresenham-based LOS checks in O(1) time.
 Uses field_cache in map::get_field to speedup fire check in npc::assess_danger.
 Speedup quicksave by limiting ui redraw rate
+Fix NPC overmap travel when `goal` is unreachable (caused slowdown)
+Fix the performance bug caused by `verify_vehicle_cache` recalculation
+Add lightweight crafting inventory to improve NPC construction time
 
 ## Infrastructure:
 Adds basic infrastructure for diseases.
@@ -292,6 +497,23 @@ Add default time and fail multipliers to proficiencies for easier JSON entry.
 Introduce STATIC( ) macro that can reduce the verbosity of the static constants definition.
 Add typesafe angle type.
 Add check that Generic Guns migrates all guns, magazines, and ammo.
+generate_overlay_ids.py: more hardcoded ids
+move a few player functions to character
+Fix spelling issues
+Add looks_like to a number of books
+Adds additional looks_like for a few items missing it.
+compose.py: fix wrong indexes after empty sheets, --use-all option for reducing JSON burden on sprite authors
+Move mut_drench to bodypart
+generate_overlay_ids.py now outputs vehicle parts with variations, although without inheritance
+Enable JSON member visitation checks outside of tests
+compose.py: output directory option, partial documentation and refactor
+Avoid setting 0.F Feature/Content Freeze to stale
+Improve speed of extract_json_strings.py by caching output file pointers
+Clarify CHANGELOG_GUIDELINES.md
+Show debug info about rot and temperature on non foods
+Changes in connects_to values of ramps to allow drawing correct rotation in more cases
+Show source location in error messages of deferred json objects
+Ignore more paths for general build matrix
 
 ## Build:
 Create a GitHub workflow for running clang-tidy.
@@ -311,6 +533,8 @@ Suppress Homebrew update for faster OSX builds.
 Adds problem matchers for json errors, compiler errors, DebugLog emissions, and Catch2 errors.
 Add check enforcing almost-never-auto convention.
 Adds a GitHub workflow running flake8 to check the Python scripts.
+Move Object Creator to a separate solution
+add json_formatter binary to .gitignore
 
 ## I18N and A11Y:
 Fix translation of martial art initiate message and computer translation.
@@ -320,6 +544,11 @@ Add helper for localized sorting.
 Record locales in debug.log to assist with i18n debugging.
 Add translator glossary and explain etymology of Exodii.
 Use class translation in many more places.
+Routine i18n updates on 5 Dec 2020
+Routine i18n updates on 12 Dec 2020
+Automate translation template push
+Routine i18n updates on 20 Dec 2020
+Routine i18n updates on 26 Dec 2020
 
 # 0.E (Ellison)
 
