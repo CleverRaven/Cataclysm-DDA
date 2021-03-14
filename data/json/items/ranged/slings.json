@@ -88,6 +88,7 @@
     "ammo": [ "rock" ],
     "weight": "2000 g",
     "volume": "3 L",
+    "longest_side": "180 cm",
     "price_postapoc": 250,
     "to_hit": 1,
     "ranged_damage": { "damage_type": "bullet", "amount": 10 },
