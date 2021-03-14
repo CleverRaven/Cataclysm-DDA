@@ -1,0 +1,63 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "Mine Entrance",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_lot_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "mine_entrance_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "mine_entrance_loading_zone_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "road_end_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "mine_entrance_roof_north" },
+      { "point": [ 0, 1, -1 ], "overmap": "mine_shaft_middle_north" },
+      { "point": [ 0, 1, -2 ], "overmap": "mine_shaft_lower_north" },
+      { "point": [ 1, 1, -2 ], "overmap": "mine_shaft_lower_east_north" }
+    ],
+    "connections": [
+      { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 10, 40 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Spiral mine",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_lot_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "mine_entrance_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "mine_entrance_loading_zone_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "road_end_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "mine_entrance_roof_north" },
+      { "point": [ 0, 1, -1 ], "overmap": "mine_shaft_middle_north" },
+      { "point": [ 0, 1, -2 ], "overmap": "mine_shaft_lower_north" },
+      { "point": [ 1, 1, -2 ], "overmap": "mine_shaft_lower_east_north" },
+      { "point": [ -1, 1, -2 ], "overmap": "mine_spiral_east_north" },
+      { "point": [ -2, 1, -2 ], "overmap": "mine_spiral_central_north" },
+      { "point": [ -3, 1, -2 ], "overmap": "mine_spiral_west_north" },
+      { "point": [ -3, 1, -3 ], "overmap": "mine_spiral_-1_nw_north" },
+      { "point": [ -2, 1, -3 ], "overmap": "mine_spiral_-1_n_north" },
+      { "point": [ -1, 1, -3 ], "overmap": "mine_spiral_-1_ne_north" },
+      { "point": [ -3, 2, -3 ], "overmap": "mine_spiral_-1_sw_north" },
+      { "point": [ -2, 2, -3 ], "overmap": "mine_spiral_-1_s_north" },
+      { "point": [ -1, 2, -3 ], "overmap": "mine_spiral_-1_se_north" },
+      { "point": [ -3, 1, -4 ], "overmap": "mine_spiral_finale_nw_north" },
+      { "point": [ -2, 1, -4 ], "overmap": "mine_spiral_finale_n_north" },
+      { "point": [ -1, 1, -4 ], "overmap": "mine_spiral_finale_ne_north" },
+      { "point": [ -3, 2, -4 ], "overmap": "mine_spiral_finale_sw_north" },
+      { "point": [ -2, 2, -4 ], "overmap": "mine_spiral_finale_s_north" },
+      { "point": [ -1, 2, -4 ], "overmap": "mine_spiral_finale_se_north" }
+    ],
+    "connections": [
+      { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] },
+      { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 10, 40 ],
+    "city_sizes": [ 4, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "WILDERNESS" ]
+  }
+]

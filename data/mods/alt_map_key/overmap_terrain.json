@@ -1875,22 +1875,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "spiral_hub",
-    "copy-from": "spiral_hub",
-    "name": "spiral cavern",
-    "sym": "@",
-    "color": "pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "spiral",
-    "copy-from": "spiral",
-    "name": "spiral cavern",
-    "sym": "@",
-    "color": "pink"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "radio_tower",
     "copy-from": "radio_tower",
     "name": "radio tower",
