@@ -1354,6 +1354,26 @@
   },
   {
     "type": "terrain",
+    "id": "t_bollard",
+    "name": "bollard",
+    "looks_like": "t_fence_post",
+    "description": "A set of concrete and steel bollards designed to harden areas against vehicle ram attacks.  It requires a few more steps to walk in between the bollards sticking up out of the ground.",
+    "symbol": "1",
+    "color": "light_gray",
+    "move_cost": 6,
+    "coverage": 20,
+    "flags": [ "WALL", "PERMEABLE" ],
+    "bash": {
+      "str_min": 350,
+      "str_max": 650,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_sidewalk",
+      "items": [ { "item": "rock", "count": [ 6, 13 ] }, { "item": "steel_chunk", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_support_l",
     "name": "large metal support",
     "looks_like": "t_wall_metal",
