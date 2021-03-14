@@ -59,7 +59,6 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 static const mongroup_id GROUP_CHUD( "GROUP_CHUD" );
 static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
 static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
-static const mongroup_id GROUP_SPIRAL( "GROUP_SPIRAL" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
@@ -752,8 +751,6 @@ bool oter_t::is_hardcoded() const
         "slimepit",
         "slimepit_down",
         "spider_pit_under",
-        "spiral",
-        "spiral_hub",
         "temple",
         "temple_finale",
         "temple_stairs",
@@ -1580,7 +1577,7 @@ bool overmap::generate_sub( const int z )
                 ter_set( p, oter_id( "central_lab" ) );
             } else if( is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ) {
                 lab_points.push_back( city( p.xy(), rng( 1, 5 + z ) ) );
-            } else if( is_ot_match( "mine_entrance", oter_ground, ot_match_type::type ) && z == -2 ) {
+            } else if( is_ot_match( "mine_entrance", oter_ground, ot_match_type::prefix ) && z == -2 ) {
                 mine_points.push_back( city( ( p + tripoint_west ).xy(), rng( 6 + z, 10 + z ) ) );
                 requires_sub = true;
             } else if( oter_above == "mine_down" ) {
@@ -1589,12 +1586,6 @@ bool overmap::generate_sub( const int z )
                 // technically not all finales need a sub level,
                 // but at this point we don't know
                 requires_sub = true;
-            } else if( oter_above == "mine_finale" ) {
-                for( const tripoint_om_omt &q : points_in_radius( p, 1, 0 ) ) {
-                    ter_set( q, oter_id( "spiral" ) );
-                }
-                ter_set( p, oter_id( "spiral_hub" ) );
-                add_mon_group( mongroup( GROUP_SPIRAL, tripoint( i * 2, j * 2, z ), 2, 200 ) );
             }
         }
     }
