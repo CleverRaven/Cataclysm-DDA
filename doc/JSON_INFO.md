@@ -655,6 +655,7 @@ For information about tools with option to export ASCII art in format ready to b
 | weight_capacity_bonus       | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
 | weight_capacity_modifier    | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
 | canceled_mutations          | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
+| mutation_conflicts          | (_optional_) A list of mutations that prevent this bionic from being installed.
 | included_bionics            | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 | included                    | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
 | env_protec                  | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
@@ -692,6 +693,7 @@ For information about tools with option to export ASCII art in format ready to b
     "encumbrance"  : [ [ "torso", 10 ], [ "arm_l", 10 ], [ "arm_r", 10 ], [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
     "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries. Use 'E' to consume batteries.",
     "canceled_mutations": ["HYPEROPIC"],
+    "mutation_conflicts": [ "HUGE" ],
     "installation_requirement": "sewing_standard",
     "included_bionics": ["bio_blindfold"]
 },
