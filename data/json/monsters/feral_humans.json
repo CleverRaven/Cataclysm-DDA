@@ -71,7 +71,7 @@
   {
     "id": "mon_feral_human_axe",
     "type": "MONSTER",
-    "description": "Their pupils are dilated and what remains to be seen of the iris and sclera are bloodshot.  This axe-wielding maniac with clothes covered in dried blood still breathes, but the zombies treat them like one of their own.",
+    "description": "Their pupils are dilated and what remains to be seen of the iris and sclera are bloodshot.  This axe-wielding maniac still breathes, but the zombies treat them like one of their own.",
     "copy-from": "mon_feral_human_pipe",
     "melee_dice": 2,
     "melee_dice_sides": 8,
