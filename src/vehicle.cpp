@@ -5113,6 +5113,8 @@ void vehicle::idle( bool on_map )
         update_time( calendar::turn );
     }
 
+    process_emitters();
+
     if( has_part( "STEREO", true ) ) {
         play_music();
     }
@@ -6705,22 +6707,6 @@ static bool is_sm_tile_outside( const tripoint &real_global_pos )
 
 void vehicle::update_time( const time_point &update_to )
 {
-    // Parts emitting fields
-    for( int idx : emitters ) {
-        const vehicle_part &pt = parts[idx];
-        if( pt.is_unavailable() || !pt.enabled ) {
-            continue;
-        }
-        for( const emit_id &e : pt.info().emissions ) {
-            g->m.emit_field( global_part_pos3( pt ), e );
-        }
-        discharge_battery( pt.info().epower );
-    }
-
-    if( sm_pos.z < 0 ) {
-        return;
-    }
-
     const time_point update_from = last_update;
     if( update_to < update_from ) {
         // Special case going backwards in time - that happens
@@ -6734,6 +6720,10 @@ void vehicle::update_time( const time_point &update_to )
     }
     time_duration elapsed = update_to - last_update;
     last_update = update_to;
+
+    if( sm_pos.z < 0 ) {
+        return;
+    }
 
     // Weather stuff, only for z-levels >= 0
     // TODO: Have it wash cars from blood?
@@ -6817,6 +6807,20 @@ void vehicle::update_time( const time_point &update_to )
         if( energy_bat > 0 ) {
             add_msg( m_debug, "%s got %d kJ energy from water wheels", name, energy_bat );
             charge_battery( energy_bat );
+        }
+    }
+}
+
+void vehicle::process_emitters()
+{
+    // Parts emitting fields
+    for( int idx : emitters ) {
+        const vehicle_part &pt = parts[idx];
+        if( pt.is_unavailable() || !pt.enabled ) {
+            continue;
+        }
+        for( const emit_id &e : pt.info().emissions ) {
+            g->m.emit_field( global_part_pos3( pt ), e );
         }
     }
 }
