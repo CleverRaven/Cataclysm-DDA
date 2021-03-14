@@ -1,6 +1,7 @@
 #include <array>
 #include <iosfwd>
 
+#include "cached_options.h"
 #include "catch/catch.hpp"
 #include "character.h"
 #include "map.h"
