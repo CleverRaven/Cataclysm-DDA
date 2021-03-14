@@ -231,7 +231,7 @@ static std::array<units::temperature, bodytemps.size()> find_temperature_points(
         int converged_temperature = converge_temperature( p, 10000 );
         CHECK( converged_temperature >= last_converged_temperature );
         // 0 - FREEZING, 6 - SCORCHING
-        for( int temperature_index = 0; temperature_index < bodytemps.size(); temperature_index++ ) {
+        for( size_t temperature_index = 0; temperature_index < bodytemps.size(); temperature_index++ ) {
             int distance_to_definition = std::abs( bodytemps[temperature_index].value - converged_temperature );
             if( distance_to_definition < value_distances[temperature_index].second ) {
                 value_distances[temperature_index] = std::make_pair( i, distance_to_definition );
