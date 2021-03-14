@@ -58,7 +58,7 @@ static int converge_temperature( player &p, size_t iters, int start_temperature 
     using temp_array = decltype( p.temp_cur );
     std::unordered_set<temp_array, cata::range_hash> history( iters );
 
-    for( int i = 0; i < iters; i++ ) {
+    for( size_t i = 0; i < iters; i++ ) {
         if( history.count( p.temp_cur ) != 0 ) {
             converged = true;
             break;
