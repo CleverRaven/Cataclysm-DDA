@@ -392,5 +392,30 @@
     "color": "dark_gray",
     "see_cost": 5,
     "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mine_spiral_west",
+      "mine_spiral_central",
+      "mine_spiral_east",
+      "mine_spiral_-1_nw",
+      "mine_spiral_-1_n",
+      "mine_spiral_-1_ne",
+      "mine_spiral_-1_sw",
+      "mine_spiral_-1_s",
+      "mine_spiral_-1_se",
+      "mine_spiral_finale_nw",
+      "mine_spiral_finale_n",
+      "mine_spiral_finale_ne",
+      "mine_spiral_finale_sw",
+      "mine_spiral_finale_s",
+      "mine_spiral_finale_se"
+    ],
+    "name": "mine tunnels",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "KNOWN_UP" ]
   }
 ]
