@@ -1009,7 +1009,7 @@
     "autolearn": true,
     "using": [ [ "rope_natural", 4 ], [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "byproducts": [ [ "scrap", 150 ] ],
+    "byproducts": [ [ "steel_chunk", 200 ] ],
     "components": [ [ [ "hdframe", 3 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ]
   },
   {
