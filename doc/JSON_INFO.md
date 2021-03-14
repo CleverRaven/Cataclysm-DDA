@@ -1960,6 +1960,7 @@ it is present to help catch errors.
     "spell_data": { "id": "bear_trap" },   // data required for trapfunc::spell()
     "trigger_weight": "200 g",  // If an item with this weight or more is thrown onto the trap, it triggers. TODO: what is the default?
     "drops": [ "beartrap" ],  // For disassembly?
+    "flags": [ "EXAMPLE_FLAG" ], // A set of valid flags for this trap
     "vehicle_data": {
       "damage": 300,
       "sound_volume": 8,
