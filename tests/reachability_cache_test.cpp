@@ -11,6 +11,7 @@
 #include "map_test_case.h"
 #include "mapdata.h"
 #include "optional.h"
+#include "options_helpers.h"
 #include "point.h"
 
 using namespace map_test_case_common;
