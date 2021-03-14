@@ -25,7 +25,9 @@
       "office_tower_b_entrance",
       "office_tower_b",
       "mine_entrance",
-      "mine_shaft"
+      "mine_shaft",
+      "spiral",
+      "spiral_hub"
     ]
   }
 ]
