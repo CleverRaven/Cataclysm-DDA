@@ -19,6 +19,7 @@
 #include "lightmap.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "shadowcasting.h"
 #include "type_id.h"
@@ -54,9 +55,9 @@ static void full_map_test( const std::vector<std::string> &setup,
     const ter_id t_open_air( "t_open_air" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
-    g->u.worn.clear(); // Remove any light-emitting clothing
-    g->u.clear_effects();
+    clear_avatar();
     clear_map();
+    get_weather().weather = WEATHER_CLEAR;
     g->reset_light_level();
 
     if( !!( flags & vision_test_flags::crouching ) ) {

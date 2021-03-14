@@ -5062,8 +5062,8 @@ void Character::update_bodytemp()
     /* Cache calls to g->get_temperature( player position ), used in several places in function */
     const auto player_local_temp = g->weather.get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
-    // Converts temperature to Celsius/10
-    int Ctemperature = static_cast<int>( 100 * fahrenheit_to_celsius( player_local_temp ) );
+    // In Celsius / 100
+    int Ctemperature = static_cast<int>( 100 * units::fahrenheit_to_celsius( player_local_temp ) );
     const w_point weather = *g->weather.weather_precise;
     int vehwindspeed = 0;
     const optional_vpart_position vp = g->m.veh_at( pos() );
@@ -5084,8 +5084,8 @@ void Character::update_bodytemp()
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
     const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
-    // Temperature norms
-    const int ambient_norm = 3100 - BODYTEMP_NORM;
+    // In bodytemp units
+    const int ambient_norm = 1900 - BODYTEMP_NORM;
 
     /**
      * Calculations that affect all body parts equally go here, not in the loop
@@ -5098,7 +5098,7 @@ void Character::update_bodytemp()
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
     const int water_temperature_raw =
-        100 * fahrenheit_to_celsius( g->weather.get_water_temperature( pos() ) );
+        100 * units::fahrenheit_to_celsius( g->weather.get_water_temperature( pos() ) );
     // Rescale so that 0C is 0 (FREEZING) and 30C is 5k (NORM).
     const int water_temperature = water_temperature_raw * 5 / 3;
 
@@ -5237,8 +5237,8 @@ void Character::update_bodytemp()
         static const double change_mult_water = std::exp( -0.008 );
         const double change_mult = submerged_bp ? change_mult_water : change_mult_air;
         if( temp_cur[bp] != bp_conv ) {
-            temp_cur[bp] = static_cast<int>( temp_difference * change_mult + bp_conv +
-                                             rounding_error );
+            temp_cur[bp] = static_cast<int>( temp_difference * change_mult )
+                           + bp_conv + rounding_error;
         }
         int temp_after = temp_cur[bp];
         // PENALTIES
