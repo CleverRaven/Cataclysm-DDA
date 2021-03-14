@@ -2968,8 +2968,6 @@ void map::draw_map( mapgendata &dat )
             draw_triffid( dat );
         } else if( is_ot_match( "spider", terrain_type, ot_match_type::prefix ) ) {
             draw_spider_pit( dat );
-        } else if( is_ot_match( "spiral", terrain_type, ot_match_type::prefix ) ) {
-            draw_spiral( dat );
         } else if( is_ot_match( "temple", terrain_type, ot_match_type::prefix ) ) {
             draw_temple( dat );
         } else if( is_ot_match( "mine", terrain_type, ot_match_type::prefix ) ) {
@@ -4381,20 +4379,6 @@ void map::draw_mine( mapgendata &dat )
                 }
             }
             break;
-
-            case 6: { // Spiral
-                const int orx = rng( SEEX - 4, SEEX ), ory = rng( SEEY - 4, SEEY );
-                line( this, t_rock, point( orx, ory ), point( orx + 5, ory ) );
-                line( this, t_rock, point( orx + 5, ory ), point( orx + 5, ory + 5 ) );
-                line( this, t_rock, point( orx + 1, ory + 5 ), point( orx + 5, ory + 5 ) );
-                line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 1, ory + 4 ) );
-                line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 3, ory + 2 ) );
-                ter_set( point( orx + 3, ory + 3 ), t_rock );
-                add_item( point( orx + 2, ory + 3 ), item::make_corpse() );
-                place_items( item_group_id( "mine_equipment" ), 60, point( orx + 2, ory + 3 ),
-                             point( orx + 2, ory + 3 ), false, calendar::start_of_cataclysm );
-            }
-            break;
         }
 
         if( terrain_type == "mine_down" ) { // Don't forget to build a slope down!
@@ -4560,9 +4544,9 @@ void map::draw_mine( mapgendata &dat )
         // Now, pick and generate a type of finale!
         int rn = 0;
         if( face.empty() ) {
-            rn = rng( 1, 3 );  // Amigara fault is not valid
+            rn = rng( 1, 2 );  // Amigara fault is not valid
         } else {
-            rn = rng( 1, 4 );
+            rn = rng( 1, 3 );
         }
 
         computer *tmpcomp = nullptr;
@@ -4589,25 +4573,7 @@ void map::draw_mine( mapgendata &dat )
             }
             break;
 
-            case 3: { // Spiral down
-                line( this, t_rock,  point( 5, 5 ),  point( 5, 18 ) );
-                line( this, t_rock,  point( 5, 5 ), point( 18, 5 ) );
-                line( this, t_rock, point( 18, 5 ), point( 18, 18 ) );
-                line( this, t_rock,  point( 8, 18 ), point( 18, 18 ) );
-                line( this, t_rock,  point( 8, 8 ),  point( 8, 18 ) );
-                line( this, t_rock,  point( 8, 8 ), point( 15, 8 ) );
-                line( this, t_rock, point( 15, 8 ), point( 15, 15 ) );
-                line( this, t_rock, point( 10, 15 ), point( 15, 15 ) );
-                line( this, t_rock, point( 10, 10 ), point( 10, 15 ) );
-                line( this, t_rock, point( 10, 10 ), point( 13, 10 ) );
-                line( this, t_rock, point( 13, 10 ), point( 13, 13 ) );
-                ter_set( point( 12, 13 ), t_rock );
-                ter_set( point( 12, 12 ), t_slope_down );
-                ter_set( point( 12, 11 ), t_slope_down );
-            }
-            break;
-
-            case 4: { // Amigara fault
+            case 3: { // Amigara fault
                 // Construct the fault on the appropriate face
                 switch( random_entry( face ) ) {
                     case direction::NORTH:
@@ -4639,63 +4605,6 @@ void map::draw_mine( mapgendata &dat )
             break;
         }
 
-    }
-}
-
-void map::draw_spiral( const mapgendata &dat )
-{
-    const oter_id &terrain_type = dat.terrain_type();
-    if( terrain_type == "spiral_hub" ) {
-        fill_background( this, t_rock_floor );
-        line( this, t_rock, point( 23, 0 ), point( 23, 23 ) );
-        line( this, t_rock,  point( 2, 23 ), point( 23, 23 ) );
-        line( this, t_rock,  point( 2, 4 ),  point( 2, 23 ) );
-        line( this, t_rock,  point( 2, 4 ), point( 18, 4 ) );
-        line( this, t_rock, point( 18, 4 ), point( 18, 18 ) ); // bad
-        line( this, t_rock,  point( 6, 18 ), point( 18, 18 ) );
-        line( this, t_rock,  point( 6, 7 ),  point( 6, 18 ) );
-        line( this, t_rock,  point( 6, 7 ), point( 15, 7 ) );
-        line( this, t_rock, point( 15, 7 ), point( 15, 15 ) );
-        line( this, t_rock,  point( 8, 15 ), point( 15, 15 ) );
-        line( this, t_rock,  point( 8, 9 ),  point( 8, 15 ) );
-        line( this, t_rock,  point( 8, 9 ), point( 13, 9 ) );
-        line( this, t_rock, point( 13, 9 ), point( 13, 13 ) );
-        line( this, t_rock, point( 10, 13 ), point( 13, 13 ) );
-        line( this, t_rock, point( 10, 11 ), point( 10, 13 ) );
-        square( this, t_slope_up, point( 11, 11 ), point( 12, 12 ) );
-        rotate( rng( 0, 3 ) );
-    } else if( terrain_type == "spiral" ) {
-        fill_background( this, t_rock_floor );
-        const int num_spiral = rng( 1, 4 );
-        std::list<point> offsets;
-        const int spiral_width = 8;
-        // Divide the room into quadrants, and place a spiral origin
-        // at a random offset within each quadrant.
-        for( int x = 0; x < 2; ++x ) {
-            for( int y = 0; y < 2; ++y ) {
-                const int x_jitter = rng( 0, SEEX - spiral_width );
-                const int y_jitter = rng( 0, SEEY - spiral_width );
-                offsets.push_back( point( ( x * SEEX ) + x_jitter,
-                                          ( y * SEEY ) + y_jitter ) );
-            }
-        }
-
-        // Randomly place from 1 - 4 of the spirals at the chosen offsets.
-        for( int i = 0; i < num_spiral; i++ ) {
-            const point chosen_point = random_entry_removed( offsets );
-            const int orx = chosen_point.x;
-            const int ory = chosen_point.y;
-
-            line( this, t_rock, point( orx, ory ), point( orx + 5, ory ) );
-            line( this, t_rock, point( orx + 5, ory ), point( orx + 5, ory + 5 ) );
-            line( this, t_rock, point( orx + 1, ory + 5 ), point( orx + 5, ory + 5 ) );
-            line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 1, ory + 4 ) );
-            line( this, t_rock, point( orx + 1, ory + 2 ), point( orx + 3, ory + 2 ) );
-            ter_set( point( orx + 3, ory + 3 ), t_rock );
-            ter_set( point( orx + 2, ory + 3 ), t_rock_floor );
-            place_items( item_group_id( "spiral" ), 60, point( orx + 2, ory + 3 ),
-                         point( orx + 2, ory + 3 ), false, calendar::turn_zero );
-        }
     }
 }
 
