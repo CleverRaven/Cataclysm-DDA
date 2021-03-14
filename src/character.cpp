@@ -1458,13 +1458,8 @@ bool Character::uncanny_dodge()
     }
 
     //uncanny dodge triggered in car and wasn't secured by seatbelt
-    if( veh_part && veh_part.has_value() ) {
-        vehicle veh = veh_part.value().vehicle();
-        std::vector<int> passenger_parts = veh.boarded_parts();
-
-        if( in_vehicle ) {
-            here.unboard_vehicle( pos() );
-        }
+    if( in_vehicle && veh_part ) {
+        here.unboard_vehicle( pos() );
     }
     if( adjacent.x != posx() || adjacent.y != posy() ) {
         position.x = adjacent.x;
