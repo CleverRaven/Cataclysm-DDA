@@ -47,6 +47,8 @@
     "casting_time_increment": -1.9,
     "energy_source": "MANA",
     "base_energy_cost": 80,
+    "energy_increment": -3,
+    "final_energy_cost": 200,
     "extra_effects": [ { "id": "cold_heart_slow" } ]
   },
   {
