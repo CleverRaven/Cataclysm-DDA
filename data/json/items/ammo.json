@@ -370,7 +370,6 @@
     "flags": [ "TRADER_AVOID" ],
     "weight": "657 g",
     "volume": "250 ml",
-    "bashing": 7,
     "damage": { "damage_type": "bash", "amount": 7 },
     "range": 10,
     "dispersion": 14,
