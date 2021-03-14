@@ -90,6 +90,8 @@ TEST_CASE( "reachability_horizontal", "[map][cache][vision][los][reachability]" 
 TEST_CASE( "reachability_vertical", "[map][cache][vision][los][reachability]" )
 {
     // vertical cache makes sense only for 3d vision
+    restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
+    override_option opt( "FOV_3D", "true" );
     fov_3d = true;
 
     test_reachability( {{
