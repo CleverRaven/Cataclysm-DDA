@@ -41,6 +41,12 @@
 std::string getOSXSystemLang();
 #endif
 
+#if defined(__ANDROID__)
+#include <jni.h>
+#include "sdl_wrappers.h" // for SDL_AndroidGetJNIEnv()
+std::string getAndroidSystemLang();
+#endif
+
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the
 // names.
@@ -205,16 +211,18 @@ std::string locale_dir()
 
 void set_language()
 {
-    std::string win_or_mac_lang;
+    std::string system_lang;
 #if defined(_WIN32)
-    win_or_mac_lang = getLangFromLCID( GetUserDefaultLCID() );
-#endif
-#if defined(MACOSX)
-    win_or_mac_lang = getOSXSystemLang();
+    system_lang = getLangFromLCID( GetUserDefaultLCID() );
+#elif defined(MACOSX)
+    system_lang = getOSXSystemLang();
+#elif defined(__ANDROID__)
+    system_lang = getAndroidSystemLang();
 #endif
     // Step 1. Setup locale settings.
-    std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_or_mac_lang :
+    std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? system_lang :
                            get_option<std::string>( "USE_LANG" );
+    DebugLog( D_INFO, D_MAIN ) << "Setting language to: '" << lang_opt << '\'';
     if( !lang_opt.empty() ) {
         // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
@@ -320,6 +328,41 @@ std::string getOSXSystemLang()
     }
 
     return isValidLanguage( lang_code ) ? lang_code : "en_US";
+}
+#endif
+
+#if defined(__ANDROID__)
+std::string getAndroidSystemLang()
+{
+    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
+    jobject activity = ( jobject )SDL_AndroidGetActivity();
+    jclass clazz( env->GetObjectClass( activity ) );
+    jmethodID method_id = env->GetMethodID( clazz, "getSystemLang", "()Ljava/lang/String;" );
+    jstring ans = ( jstring )env->CallObjectMethod( activity, method_id, 0 );
+    const char *ans_c_str = env->GetStringUTFChars( ans, 0 );
+    if( ans_c_str == nullptr ) {
+        // fail-safe if retrieving Java string failed
+        return std::string();
+    }
+    const std::string lang( ans_c_str );
+    env->ReleaseStringUTFChars( ans, ans_c_str );
+    env->DeleteLocalRef( activity );
+    env->DeleteLocalRef( clazz );
+    DebugLog( D_INFO, D_MAIN ) << "Read Android system language: '" << lang << '\'';
+    if( string_starts_with( lang, "zh_Hans" ) ) {
+        return "zh_CN";
+    } else if( string_starts_with( lang, "zh_Hant" ) ) {
+        return "zh_TW";
+    }
+    const std::vector<options_manager::id_and_option> available_languages =
+        get_options().get_option( "USE_LANG" ).getItems();
+    for( const options_manager::id_and_option &available_language : available_languages ) {
+        if( !available_language.first.empty() && string_starts_with( lang, available_language.first ) ) {
+            return available_language.first;
+        }
+    }
+    DebugLog( D_WARNING, D_MAIN ) << "Unrecognised language: '" << lang << "', fallback to English";
+    return std::string();
 }
 #endif
 
