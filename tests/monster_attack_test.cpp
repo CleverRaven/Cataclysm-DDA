@@ -23,11 +23,13 @@ static void test_monster_attack( const tripoint &target_offset, bool expected )
     // Trigger basic attack.
     CAPTURE( attacker_location );
     CAPTURE( target_location );
+    CHECK( test_monster.sees( target_location ) == expected );
     CHECK( test_monster.attack_at( target_location ) == expected );
     // Then test the reverse.
     clear_creatures();
     you.setpos( attacker_location );
     monster &target_monster = spawn_test_monster( monster_type, target_location );
+    CHECK( you.sees( target_monster ) == expected );
     CHECK( you.melee_attack( target_monster, false ) == expected );
 }
 
