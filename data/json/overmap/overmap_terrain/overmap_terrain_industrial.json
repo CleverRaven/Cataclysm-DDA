@@ -116,6 +116,7 @@
     "name": "lumberyard",
     "sym": "L",
     "color": "i_green",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 3 ], "chance": 10 },
     "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
@@ -133,6 +134,7 @@
     "name": "lumbermill",
     "sym": "L",
     "color": "i_green",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 3 ], "chance": 10 },
     "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
   },
   {
