@@ -32,7 +32,7 @@
 #include "rng.h"
 #include "text_style_check.h"
 
-#if defined(MACOSX)
+#if defined(__APPLE__)
 #include <CoreFoundation/CFLocale.h>
 #include <CoreFoundation/CoreFoundation.h>
 
@@ -824,7 +824,7 @@ bool localized_comparator::operator()( const std::string &l, const std::string &
     // expected on regular strings; no workarounds needed.
     // See https://github.com/CleverRaven/Cataclysm-DDA/pull/40041 for further
     // discussion.
-#if defined(MACOSX)
+#if defined(__APPLE__) // macOS and iOS
     CFStringRef lr = CFStringCreateWithCStringNoCopy( kCFAllocatorDefault, l.c_str(),
                      kCFStringEncodingUTF8, kCFAllocatorNull );
     CFStringRef rr = CFStringCreateWithCStringNoCopy( kCFAllocatorDefault, r.c_str(),
@@ -842,7 +842,7 @@ bool localized_comparator::operator()( const std::string &l, const std::string &
 
 bool localized_comparator::operator()( const std::wstring &l, const std::wstring &r ) const
 {
-#if defined(MACOSX)
+#if defined(__APPLE__) // macOS and iOS
     return ( *this )( wstr_to_utf8( l ), wstr_to_utf8( r ) );
 #else
     return std::locale()( l, r );
