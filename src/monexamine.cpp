@@ -80,7 +80,6 @@ bool monexamine::pet_menu( monster &z )
         mon_harness_remove,
         mon_armor_remove,
         play_with_pet,
-        pheromone,
         milk,
         shear,
         pay,
@@ -141,9 +140,6 @@ bool monexamine::pet_menu( monster &z )
             amenu.addentry( rope, false, 't', _( "You need any type of rope to tie %s in place" ),
                             pet_name );
         }
-    }
-    if( is_zombie ) {
-        amenu.addentry( pheromone, true, 'z', _( "Tear out pheromone ball" ) );
     }
 
     if( z.has_flag( MF_MILKABLE ) ) {
@@ -257,11 +253,6 @@ bool monexamine::pet_menu( monster &z )
         case play_with_pet:
             if( query_yn( _( "Spend a few minutes to play with your %s?" ), pet_name ) ) {
                 play_with( z );
-            }
-            break;
-        case pheromone:
-            if( query_yn( _( "Really kill the zombie slave?" ) ) ) {
-                kill_zslave( z );
             }
             break;
         case rope:
@@ -768,12 +759,6 @@ void monexamine::kill_zslave( monster &z )
     z.die( &player_character ); // and make sure it's really dead
 
     player_character.moves -= 150;
-
-    if( !one_in( 3 ) ) {
-        player_character.add_msg_if_player( _( "You tear out the pheromone ball from the zombie slave." ) );
-        item ball( "pheromone", calendar::turn_zero );
-        iuse::pheromone( &player_character, &ball, true, player_character.pos() );
-    }
 }
 
 void monexamine::tie_or_untie( monster &z )
